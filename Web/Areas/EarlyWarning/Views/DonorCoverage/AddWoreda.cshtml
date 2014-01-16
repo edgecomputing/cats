@@ -46,7 +46,7 @@
                     @Html.LabelFor(m => m.WoredaID,Translator.Translate("Woreda"))
                 </div>
                 <div class="controls" id="div_woreda" >
-                    @*@Html.DropDownList( "Woreda",ViewBag.WoredaID as SelectList, new {@id="WoredaID"})*@
+                    @*@Html.DropDownList( "WoredaID",ViewBag.WoredaID as SelectList, new {@id="WoredaID"})*@
                      @Html.DropDownList("WoredaID",String.Empty)
                     @Html.ValidationMessageFor(m => m.WoredaID)
                 </div>
@@ -61,3 +61,69 @@
     </div>
 
 }
+<script>
+
+    var admin_region_hash = {};
+    var admin_zone_hash = {};
+
+    $(function () {
+        $.getJSON("@Url.Action("GetAdminUnits", "DonorCoverage", new { Area = "EarlyWarning" })", {}, function (data) {
+
+            document.getElementById("ZoneID").disabled = true;
+            document.getElementById("WoredaID").disabled = true;
+
+            var msg = "";
+            for (var i in data) {
+                msg += "\n" + data[i].RegionName;
+                var key = data[i].RegionID;
+                admin_region_hash[key] = data[i];
+
+                var count = data[i].Zones.length;
+
+                for (var j = 0; j < count; j++) {
+                    var keyz = data[i].Zones[j].ZoneID;
+                    admin_zone_hash[keyz] = data[i].Zones[j].Woredas;
+                }
+            }
+        });
+
+        $("#RegionID").change(function () {
+            var regionId = $("#RegionID").val();
+            var region = admin_region_hash[regionId];
+            var zones = region.Zones;
+            document.getElementById("ZoneID").disabled = false;
+
+            //var msg = "";
+            var htm = "<select name='ZoneID' id ='ZoneID' > ";
+            for (var z in zones) {
+                //htm += "<option value='" + zones[z].AdminUnitID + "'>" + zones[z].Name + "</option>";
+                htm += "<option value='" + zones[z].ZoneID + "'>" + zones[z].ZoneName + "</option>";
+                //msg += "\n" + zones[z].ZoneName;
+            }
+
+            htm += "</select>";
+            $("#div_zone").html(htm);
+
+            $("#ZoneID").change(function () {
+                popoulateWoredas();
+            });
+        });
+
+        function popoulateWoredas() {
+            document.getElementById("WoredaID").disabled = false;
+            var zoneId = $("#ZoneID").val();
+            //alert(zoneId);
+            var woredas = admin_zone_hash[zoneId];
+            var s = "<select id ='WoredaID' name='WoredaID' >";
+            for (w in woredas) {
+                s += "<option value='" + woredas[w].WoredaID + "'>" + woredas[w].WoredaName + "</option>";
+            }
+            s += "</select>";
+            $("#div_woreda").html(s);
+        }
+
+        $("#ZoneID").change(function () {
+            popoulateWoredas();
+        });
+    });
+</script>

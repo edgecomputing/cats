@@ -103,6 +103,7 @@
     <Compile Include="ReportFolder.cs" />
     <Compile Include="TransportBidQuotationHeader.cs" />
     <Compile Include="ViewModels\PSNPCommodityAmmountViewModel.cs" />
+    <Compile Include="ViewModels\SmsOutgoingMessage.cs" />
     <Compile Include="ViewModels\TransporterViewModel.cs" />
     <Compile Include="Ledger.cs" />
     <Compile Include="Mapping\NotificationMap.cs" />

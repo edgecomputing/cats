@@ -73,11 +73,21 @@ namespace Cats.Services.Procurement
         public void ActivateBid(int id)
         {
             var bid = _unitOfWork.BidRepository.FindById(id);
-                if (bid!=null)
-                {
+            var oldBid = _unitOfWork.BidRepository.FindBy(m => m.StatusID == (int) BidStatus.Active).FirstOrDefault();
+            try
+            {
                     bid.StatusID = (int)BidStatus.Active;
+                    if (oldBid != null)
+                        oldBid.StatusID = (int) BidStatus.Closed;
                     _unitOfWork.Save();
-                }
+            }
+            catch (Exception e)
+            {
+                
+                throw;
+            }
+                   
+               
        
         }
         public string AutogenerateBidNo()
