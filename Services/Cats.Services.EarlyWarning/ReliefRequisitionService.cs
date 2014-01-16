@@ -159,7 +159,8 @@ namespace Cats.Services.EarlyWarning
             {
                 //TODO:Please Include Regional Request ID in Requisition 
                 RegionalRequestID = regionalRequest.RegionalRequestID,
-                Round = regionalRequest.Month,
+                Round = regionalRequest.Round,
+                Month = regionalRequest.Month,
                 ProgramID = regionalRequest.ProgramId,
                 CommodityID = commodityId,
                 RequestedDate = DateTime.Today
