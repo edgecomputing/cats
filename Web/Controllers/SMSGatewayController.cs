@@ -44,14 +44,14 @@ namespace Cats.Controllers
             
             events.Add(ev);
 
-            var s =(events= (
+            var s = (
                 from evt in events
                              select new SmsEventSend()
                                  {
                                      @event = ev.@event,
-                                     messages = ev.messages;
+                                     messages = ev.messages
                                  }
-                  ) 
+                   
             );
 
             //eventsw.Add(ev);

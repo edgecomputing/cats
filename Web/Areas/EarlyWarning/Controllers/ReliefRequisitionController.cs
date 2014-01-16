@@ -336,7 +336,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                                                                                                   _workflowStatusService
                                                                                                       .GetStatus(
                                                                                                           WORKFLOW.
-                                                                                                              RELIEF_REQUISITION),datePref);
+                                                                                                              RELIEF_REQUISITION),datePref).OrderByDescending(m=>m.RequisitionID);
             return Json(requestViewModels.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
 
