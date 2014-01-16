@@ -8,10 +8,11 @@ using System.Web.Mvc;
 using System.Xml;
 using System.Xml.Serialization;
 using Cats.Models;
-using Cats.Services.EarlyWarning;
+using Cats.Services.Administration;
 using Cats.Services.Common;
 using Cats.Models.ViewModels;
 using Newtonsoft.Json;
+using IFDPService = Cats.Services.EarlyWarning.IFDPService;
 
 namespace Cats.Controllers
 {
@@ -22,11 +23,15 @@ namespace Cats.Controllers
 
         private readonly IFDPService _fdpService;
         private readonly ISMSGatewayService _SmsService;
+        private readonly IContactService _contactService;
 
-        public SMSGatewayController(IFDPService fdpService, ISMSGatewayService smsGatewayService)
+        public SMSGatewayController(IFDPService fdpService, 
+            ISMSGatewayService smsGatewayService,
+            IContactService contactService)
         {
             _fdpService = fdpService;
             _SmsService = smsGatewayService;
+            _contactService = contactService;
         }
 
         public string Index()
@@ -41,6 +46,8 @@ namespace Cats.Controllers
                     message = "Hello this is the first ever message from the original CATS",
                     to = "251911663223",
                 };
+
+            //var contacts = _contactService.FindBy(t => t.FDP.Name == );
 
             messages.Add(messageOne);
 

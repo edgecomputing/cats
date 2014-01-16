@@ -36,6 +36,7 @@ namespace Cats.Web.Hub.Controllers
         private readonly IFDPService _fdpService;
         private readonly IProjectCodeService _projectCodeService;
         private readonly IShippingInstructionService _shippingInstructionService;
+        
 
         public DispatchController(IDispatchAllocationService dispatchAllocationService, IDispatchService dispatchService,
             IUserProfileService userProfileService, IOtherDispatchAllocationService otherDispatchAllocationService,
@@ -43,7 +44,8 @@ namespace Cats.Web.Hub.Controllers
             IProgramService programService, ITransporterService transporterService, IPeriodService periodService, 
             ICommodityService commodityService, ITransactionService transactionService, IStoreService storeService,
             IAdminUnitService adminUnitService, IHubService hubService, IFDPService fdpService,
-            IProjectCodeService projectCodeService, IShippingInstructionService shippingInstructionService)
+            IProjectCodeService projectCodeService, IShippingInstructionService shippingInstructionService
+            )
             : base(userProfileService)
         {
             _dispatchAllocationService = dispatchAllocationService;
@@ -64,6 +66,7 @@ namespace Cats.Web.Hub.Controllers
             _fdpService = fdpService;
             _projectCodeService = projectCodeService;
             _shippingInstructionService = shippingInstructionService;
+            
         }
 
         public ViewResult Index()

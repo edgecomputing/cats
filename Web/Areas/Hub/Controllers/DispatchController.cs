@@ -43,6 +43,7 @@ namespace Cats.Areas.Hub.Controllers
         private readonly IProjectCodeService _projectCodeService;
         private readonly IShippingInstructionService _shippingInstructionService;
         private readonly ISMSGatewayService _smsGatewayService;
+        private readonly IContactService _contactService;
 
         public DispatchController(IDispatchAllocationService dispatchAllocationService, IDispatchService dispatchService,
             IUserProfileService userProfileService, IOtherDispatchAllocationService otherDispatchAllocationService,
@@ -50,7 +51,8 @@ namespace Cats.Areas.Hub.Controllers
             IProgramService programService, ITransporterService transporterService, IPeriodService periodService, 
             ICommodityService commodityService, ITransactionService transactionService, IStoreService storeService,
             IAdminUnitService adminUnitService, IHubService hubService, IFDPService fdpService,
-            IProjectCodeService projectCodeService, IShippingInstructionService shippingInstructionService, ISMSGatewayService smsGatewayService)
+            IProjectCodeService projectCodeService, IShippingInstructionService shippingInstructionService, 
+            ISMSGatewayService smsGatewayService, IContactService contactService)
             : base(userProfileService)
         {
             _dispatchAllocationService = dispatchAllocationService;
@@ -72,6 +74,7 @@ namespace Cats.Areas.Hub.Controllers
             _projectCodeService = projectCodeService;
             _shippingInstructionService = shippingInstructionService;
             _smsGatewayService = smsGatewayService;
+            _contactService = contactService;
         }
 
         public ViewResult Index()
@@ -247,17 +250,22 @@ namespace Cats.Areas.Hub.Controllers
                 dispatch.QuantityInUnit = dispatchviewmodel.QuantityInUnit;
                 dispatch.QuantityPerUnit = dispatchviewmodel.QuantityPerUnit;
 
-                dispatch.Quantity = UserProfile.PreferedWeightMeasurment.ToLower() == "mt" ? dispatchviewmodel.Quantity : dispatchviewmodel.Quantity/10;
-                _transactionService.SaveDispatchTransaction(dispatch);
+                dispatch.Quantity = UserProfile.PreferedWeightMeasurment.ToLower() == "mt" ? dispatchviewmodel.Quantity : dispatchviewmodel.Quantity / 10;
+                //_transactionService.SaveDispatchTransaction(dispatch);
 
-                var message = new SmsOutgoingMessage()
+                var contacts = _contactService.FindBy(c=>c.FDPID == dispatch.FDPID);
+
+                foreach (var contact in contacts)
                 {
-                    id = Guid.NewGuid().ToString(),
-                    message = "Dispatch Event:\n" + "Commodity: " + dispatch.Commodity + "Quantity: " + dispatch.Quantity,
-                    to = "251911474539",
-                };
+                    var message = new SmsOutgoingMessage()
+                    {
+                        id = Guid.NewGuid().ToString(),
+                        message = "New Dispatch Event:\n" + "Commodity: " + dispatch.Commodity + "Quantity: " + dispatch.Quantity + "FDP:" + dispatch.FDP,
+                        to = "251911663223",
+                    };
 
-                var result = _smsGatewayService.SendSMS(message);
+                    var result = _smsGatewayService.SendSMS(message);
+                }
                 
                 return RedirectToAction("Index", "Dispatch");
             }
