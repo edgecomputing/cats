@@ -9,6 +9,7 @@ using System.Xml;
 using System.Xml.Serialization;
 using Cats.Models;
 using Cats.Services.EarlyWarning;
+using Cats.Services.Common;
 using Cats.Models.ViewModels;
 using Newtonsoft.Json;
 
@@ -20,10 +21,12 @@ namespace Cats.Controllers
         // GET: /CatsSmsGateway/
 
         private readonly IFDPService _fdpService;
+        private readonly ISMSGatewayService _SmsService;
 
-        public SMSGatewayController(IFDPService fdpService)
+        public SMSGatewayController(IFDPService fdpService, ISMSGatewayService smsGatewayService)
         {
             _fdpService = fdpService;
+            _SmsService = smsGatewayService;
         }
 
         public string Index()
@@ -118,18 +121,16 @@ namespace Cats.Controllers
         }
 
 
-        public ActionResult Send()
+        public bool Send()
         {
-            var fdps = _fdpService.GetAllFDP().Take(2);
-            var hh = (from fdp in fdps
-                      select new
-                          {
-                              fdp.Name,
-                              fdp.NameAM
-                          }
-                     );
-            return Json(hh, JsonRequestBehavior.AllowGet);
-           // return View();
+            var messageOne = new SmsOutgoingMessage()
+            {
+                id = "4f7c9cea8e17b",
+                message = "Hello this is the first ever message from the original CATS",
+                to = "251911474539",
+            };
+            var result = _SmsService.SendSMS(messageOne);
+            return result;
         }
     }
 }
