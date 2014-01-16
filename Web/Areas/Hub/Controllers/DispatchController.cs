@@ -5,7 +5,9 @@ using System.Linq;
 using System.Web.Mvc;
 using System.Web.Security;
 using Cats.Models.Hubs;
+using Cats.Models.ViewModels;
 using Cats.Services.Hub;
+using Cats.Services.Common;
 using Cats.ViewModelBinder;
 using Cats.Web.Hub;
 using Cats.Web.Hub.Helpers;
@@ -14,6 +16,7 @@ using Newtonsoft.Json;
 using Telerik.Web.Mvc;
 using System;
 using Cats.Models.Hubs.ViewModels.Dispatch;
+
 
 namespace Cats.Areas.Hub.Controllers
 { 
@@ -39,6 +42,7 @@ namespace Cats.Areas.Hub.Controllers
         private readonly IFDPService _fdpService;
         private readonly IProjectCodeService _projectCodeService;
         private readonly IShippingInstructionService _shippingInstructionService;
+        private readonly ISMSGatewayService _smsGatewayService;
 
         public DispatchController(IDispatchAllocationService dispatchAllocationService, IDispatchService dispatchService,
             IUserProfileService userProfileService, IOtherDispatchAllocationService otherDispatchAllocationService,
@@ -46,7 +50,7 @@ namespace Cats.Areas.Hub.Controllers
             IProgramService programService, ITransporterService transporterService, IPeriodService periodService, 
             ICommodityService commodityService, ITransactionService transactionService, IStoreService storeService,
             IAdminUnitService adminUnitService, IHubService hubService, IFDPService fdpService,
-            IProjectCodeService projectCodeService, IShippingInstructionService shippingInstructionService)
+            IProjectCodeService projectCodeService, IShippingInstructionService shippingInstructionService, ISMSGatewayService smsGatewayService)
             : base(userProfileService)
         {
             _dispatchAllocationService = dispatchAllocationService;
@@ -67,6 +71,7 @@ namespace Cats.Areas.Hub.Controllers
             _fdpService = fdpService;
             _projectCodeService = projectCodeService;
             _shippingInstructionService = shippingInstructionService;
+            _smsGatewayService = smsGatewayService;
         }
 
         public ViewResult Index()
@@ -243,7 +248,17 @@ namespace Cats.Areas.Hub.Controllers
                 dispatch.QuantityPerUnit = dispatchviewmodel.QuantityPerUnit;
 
                 dispatch.Quantity = UserProfile.PreferedWeightMeasurment.ToLower() == "mt" ? dispatchviewmodel.Quantity : dispatchviewmodel.Quantity/10;
-             _transactionService.SaveDispatchTransaction(dispatch);
+                _transactionService.SaveDispatchTransaction(dispatch);
+
+                var message = new SmsOutgoingMessage()
+                {
+                    id = Guid.NewGuid().ToString(),
+                    message = "Dispatch Event:\n" + "Commodity: " + dispatch.Commodity + "Quantity: " + dispatch.Quantity,
+                    to = "251911474539",
+                };
+
+                var result = _smsGatewayService.SendSMS(message);
+                
                 return RedirectToAction("Index", "Dispatch");
             }
 

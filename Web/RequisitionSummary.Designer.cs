@@ -725,6 +725,10 @@ namespace Cats {
             
             private global::System.Data.DataColumn columnRound;
             
+            private global::System.Data.DataColumn columnDate;
+            
+            private global::System.Data.DataColumn columnwarehouse;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public RequisitionsHeaderDataTable() {
@@ -840,6 +844,22 @@ namespace Cats {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn DateColumn {
+                get {
+                    return this.columnDate;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn warehouseColumn {
+                get {
+                    return this.columnwarehouse;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -875,7 +895,7 @@ namespace Cats {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public RequisitionsHeaderRow AddRequisitionsHeaderRow(string Remark, string DateRequested, string DateRecieved, string RequestedBy, string CertifiedBy, string TransportRequisitionID, string program, string TransportRequisitionNO, string Month, string Round) {
+            public RequisitionsHeaderRow AddRequisitionsHeaderRow(string Remark, string DateRequested, string DateRecieved, string RequestedBy, string CertifiedBy, string TransportRequisitionID, string program, string TransportRequisitionNO, string Month, string Round, string Date, string warehouse) {
                 RequisitionsHeaderRow rowRequisitionsHeaderRow = ((RequisitionsHeaderRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         Remark,
@@ -887,7 +907,9 @@ namespace Cats {
                         program,
                         TransportRequisitionNO,
                         Month,
-                        Round};
+                        Round,
+                        Date,
+                        warehouse};
                 rowRequisitionsHeaderRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowRequisitionsHeaderRow);
                 return rowRequisitionsHeaderRow;
@@ -927,6 +949,8 @@ namespace Cats {
                 this.columnTransportRequisitionNO = base.Columns["TransportRequisitionNO"];
                 this.columnMonth = base.Columns["Month"];
                 this.columnRound = base.Columns["Round"];
+                this.columnDate = base.Columns["Date"];
+                this.columnwarehouse = base.Columns["warehouse"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -952,6 +976,10 @@ namespace Cats {
                 base.Columns.Add(this.columnMonth);
                 this.columnRound = new global::System.Data.DataColumn("Round", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnRound);
+                this.columnDate = new global::System.Data.DataColumn("Date", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnDate);
+                this.columnwarehouse = new global::System.Data.DataColumn("warehouse", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnwarehouse);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("RequisitionsHeaderKey1", new global::System.Data.DataColumn[] {
                                 this.columnTransportRequisitionID}, true));
                 this.columnTransportRequisitionID.AllowDBNull = false;
@@ -1738,6 +1766,38 @@ namespace Cats {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string Date {
+                get {
+                    try {
+                        return ((string)(this[this.tableRequisitionsHeader.DateColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Date\' in table \'RequisitionsHeader\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableRequisitionsHeader.DateColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string warehouse {
+                get {
+                    try {
+                        return ((string)(this[this.tableRequisitionsHeader.warehouseColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'warehouse\' in table \'RequisitionsHeader\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableRequisitionsHeader.warehouseColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public bool IsRemarkNull() {
                 return this.IsNull(this.tableRequisitionsHeader.RemarkColumn);
             }
@@ -1842,6 +1902,30 @@ namespace Cats {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public void SetRoundNull() {
                 this[this.tableRequisitionsHeader.RoundColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsDateNull() {
+                return this.IsNull(this.tableRequisitionsHeader.DateColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetDateNull() {
+                this[this.tableRequisitionsHeader.DateColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IswarehouseNull() {
+                return this.IsNull(this.tableRequisitionsHeader.warehouseColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetwarehouseNull() {
+                this[this.tableRequisitionsHeader.warehouseColumn] = global::System.Convert.DBNull;
             }
         }
         
