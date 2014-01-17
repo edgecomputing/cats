@@ -249,6 +249,9 @@ namespace Cats.Areas.Hub.Controllers
                 dispatch.UnitID = dispatchviewmodel.UnitID;
                 dispatch.QuantityInUnit = dispatchviewmodel.QuantityInUnit;
                 dispatch.QuantityPerUnit = dispatchviewmodel.QuantityPerUnit;
+                dispatch.FDP = dispatchviewmodel.FDP;
+                dispatch.Transporter = dispatchviewmodel.Transporter;
+                dispatch.HubID = dispatchviewmodel.HubID;
                 
                 dispatch.Quantity = UserProfile.PreferedWeightMeasurment.ToLower() == "mt" ? dispatchviewmodel.Quantity : dispatchviewmodel.Quantity / 10;
                 //_transactionService.SaveDispatchTransaction(dispatch);
@@ -257,11 +260,13 @@ namespace Cats.Areas.Hub.Controllers
 
                 foreach (var contact in contacts)
                 {
+                    var hub = _hubService.FindById(dispatch.HubID).Name;
                     var message = new SmsOutgoingMessage()
                     {
-                        id = Guid.NewGuid().ToString(),
-                        message = "New Dispatch Event:\n" + "Commodity: " + dispatch.Commodity + "Quantity: " + dispatch.Quantity + "FDP:" + dispatch.FDP,
-                        to = "251911663223",
+                        //id = Guid.NewGuid().ToString(),
+                        to = contact.PhoneNo,
+                        message = "Hello," + contact.FirstName + " There is a new dispatch with GIN " +dispatch.GIN+ " from " + hub + " hub. COMMODITY: " + dispatch.Commodity + " QUT: " + dispatch.Quantity + " MT." + "Transporter: '" + dispatch.Transporter + "' Plate No.: "
+                        + dispatch.PlateNo_Prime + "-" + dispatch.PlateNo_Trailer + " Date: " +DateTime.Today.ToShortDateString(),
                     };
 
                     var result = _smsGatewayService.SendSMS(message);

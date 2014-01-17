@@ -42,7 +42,7 @@ namespace Cats.Controllers
 
             var messageOne = new SmsOutgoingMessage()
                 {
-                    id = "4f7c9cea5e11b",
+                    //id = "4f7c9cea5e11b",
                     message = "Hello this is the first ever message from the original CATS",
                     to = "251911663223",
                 };
@@ -99,7 +99,7 @@ namespace Cats.Controllers
 
                             //id="52d7924725bf0" to="251911663223">Hello Yareda CATS wishs you a great lunch!! ENVAYASMS is working now!
 
-                            writer.WriteAttributeString("id", sms.id);
+                           // writer.WriteAttributeString("id", sms.id);
                             writer.WriteAttributeString("to", sms.to);
                             writer.WriteRaw(sms.message);
                             writer.WriteEndElement();
@@ -131,7 +131,7 @@ namespace Cats.Controllers
         {
             var messageOne = new SmsOutgoingMessage()
             {
-                id = "4f7c9cea8e17b",
+                //id = "4f7c9cea8e17b",
                 message = "Hello this is the first ever message from the original CATS",
                 to = "251911474539",
             };
