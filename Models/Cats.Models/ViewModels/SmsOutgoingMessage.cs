@@ -8,7 +8,7 @@ namespace Cats.Models.ViewModels
 {
     public class SmsOutgoingMessage
     {
-        public string id { get; set; }
+        //public string id { get; set; }
         public string to { get; set; }
         public string message { get; set; }
         //public int Priority { get; set; }

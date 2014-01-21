@@ -9,7 +9,7 @@ using Cats.Models.ViewModels;
 
 namespace Cats.Services.Common
 {
-    interface ISMSGatewayService
+    public interface ISMSGatewayService
     {
         bool SendSMS(SmsOutgoingMessage sms);
         bool is_validated(string password);

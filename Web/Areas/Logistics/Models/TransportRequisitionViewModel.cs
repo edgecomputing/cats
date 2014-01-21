@@ -16,6 +16,8 @@ namespace Cats.Areas.Logistics.Models
         
         [Display(Name="Requested By")]
         public string RequestedBy { get; set; }
+
+        public int RequestedByID { get; set; }
         
         public string Status { get; set; }
         
@@ -25,10 +27,14 @@ namespace Cats.Areas.Logistics.Models
         [Display(Name = "Request Date")]
         public string DateRequested { get; set; }
         public string Region { get; set; }
+        public int RegionID { get; set; }
         public string Program { get; set; }
+        public int ProgramID { get; set; }
         
         [Display(Name="Certified By")]
         public string CertifiedBy { get; set; }
+
+        public int CertifiedByID { get; set; }
         
         [Display(Name="Certified Date")]
         public System.DateTime CertifiedDate { get; set; }

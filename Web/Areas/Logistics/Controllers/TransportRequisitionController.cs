@@ -12,6 +12,7 @@ using Cats.Infrastructure;
 using Cats.Models;
 using Cats.Models.Constant;
 using Cats.Models.ViewModels;
+using Cats.Services.Administration;
 using Cats.Services.Common;
 using Cats.Services.EarlyWarning;
 using Cats.Services.Logistics;
@@ -21,6 +22,8 @@ using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
 using Cats.Services.Security;
 using log4net;
+using IAdminUnitService = Cats.Services.EarlyWarning.IAdminUnitService;
+using IProgramService = Cats.Services.EarlyWarning.IProgramService;
 
 namespace Cats.Areas.Logistics.Controllers
 {
@@ -38,6 +41,7 @@ namespace Cats.Areas.Logistics.Controllers
         private readonly IReliefRequisitionDetailService _reliefRequisitionDetailService;
         private readonly IRationService _rationService;
         private readonly INotificationService _notificationService;
+        //private readonly IUserProfileService _userProfileService;
         
         public TransportRequisitionController(
             ITransportRequisitionService transportRequisitionService,
@@ -50,9 +54,9 @@ namespace Cats.Areas.Logistics.Controllers
             IHubAllocationService hubAllocationService,
             IProjectCodeAllocationService projectCodeAllocationService,
             IReliefRequisitionDetailService reliefRequisitionDetailService,
-            IRationService  rationService, INotificationService notificationService)
+            IRationService rationService, INotificationService notificationService)
         
-    {
+            {
             this._transportRequisitionService = transportRequisitionService;
             _workflowStatusService = workflowStatusService;
             _userAccountService = userAccountService;
@@ -66,6 +70,7 @@ namespace Cats.Areas.Logistics.Controllers
             _reliefRequisitionService = reliefRequisitionService;
             _rationService = rationService;
             _notificationService = notificationService;
+            //_userProfileService = userProfileService;
     }
         //
         // GET: /Logistics/TransportRequisition/
@@ -82,7 +87,7 @@ namespace Cats.Areas.Logistics.Controllers
             var statuses = _workflowStatusService.GetStatus(WORKFLOW.TRANSPORT_REQUISITION);
             var users = _userAccountService.GetUsers();
             var transportRequisitonViewModels =
-                (from itm in transportRequisitions orderby itm.TransportRequisitionID descending select BindTransportRequisitionViewModel(itm));
+                (from itm in transportRequisitions select BindTransportRequisitionViewModel(itm));
             return Json(transportRequisitonViewModels.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
 
@@ -90,29 +95,66 @@ namespace Cats.Areas.Logistics.Controllers
         private TransportRequisitionViewModel BindTransportRequisitionViewModel(TransportRequisition transportRequisition)
         {
             string userPreference = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
-
+            
             TransportRequisitionViewModel transportRequisitionViewModel = null;
             if (transportRequisition != null)
             {
+                var transportRequisitionObj =
+                    _transportRequisitionService.FindById(transportRequisition.TransportRequisitionID);
                 transportRequisitionViewModel = new TransportRequisitionViewModel();
-                transportRequisitionViewModel.CertifiedBy = _userAccountService.FindById(transportRequisition.CertifiedBy).FullName;
-                transportRequisitionViewModel.CertifiedDate = transportRequisition.CertifiedDate;
-                transportRequisitionViewModel.DateCertified = transportRequisition.CertifiedDate.ToCTSPreferedDateFormat(userPreference);
+                transportRequisitionViewModel.CertifiedBy = _userAccountService.FindById(transportRequisitionObj.CertifiedBy).FullName;
+                transportRequisitionViewModel.CertifiedDate = transportRequisitionObj.CertifiedDate;
+                transportRequisitionViewModel.DateCertified = transportRequisitionObj.CertifiedDate.ToCTSPreferedDateFormat(userPreference);
                 //EthiopianDate.GregorianToEthiopian(transportRequisition.CertifiedDate);
-                transportRequisitionViewModel.Remark = transportRequisition.Remark;
-                transportRequisitionViewModel.RequestedBy = _userAccountService.FindById(transportRequisition.RequestedBy).FullName;
-                transportRequisitionViewModel.RequestedDate = transportRequisition.RequestedDate;
-                transportRequisitionViewModel.DateRequested = transportRequisition.RequestedDate.ToCTSPreferedDateFormat(userPreference);
+                transportRequisitionViewModel.Remark = transportRequisitionObj.Remark;
+                transportRequisitionViewModel.RequestedBy = _userAccountService.FindById(transportRequisitionObj.RequestedBy).FullName;
+                transportRequisitionViewModel.RequestedDate = transportRequisitionObj.RequestedDate;
+                transportRequisitionViewModel.DateRequested = transportRequisitionObj.RequestedDate.ToCTSPreferedDateFormat(userPreference);
                 //EthiopianDate.GregorianToEthiopian( transportRequisition.RequestedDate);
-                transportRequisitionViewModel.Status = _workflowStatusService.GetStatusName(WORKFLOW.TRANSPORT_REQUISITION, transportRequisition.Status);
-                transportRequisitionViewModel.StatusID = transportRequisition.Status;
-                transportRequisitionViewModel.TransportRequisitionID = transportRequisition.TransportRequisitionID;
-                transportRequisitionViewModel.TransportRequisitionNo = transportRequisition.TransportRequisitionNo;
-                transportRequisitionViewModel.Region = _adminUnitService.FindById(transportRequisition.RegionID).Name;
-                transportRequisitionViewModel.Program = _programService.FindById(transportRequisition.ProgramID).Name;
+                transportRequisitionViewModel.Status = _workflowStatusService.GetStatusName(WORKFLOW.TRANSPORT_REQUISITION, transportRequisitionObj.Status);
+                transportRequisitionViewModel.StatusID = transportRequisitionObj.Status;
+                transportRequisitionViewModel.TransportRequisitionID = transportRequisitionObj.TransportRequisitionID;
+                transportRequisitionViewModel.TransportRequisitionNo = transportRequisitionObj.TransportRequisitionNo;
+                transportRequisitionViewModel.Region = _adminUnitService.FindById(transportRequisitionObj.RegionID).Name;
+                transportRequisitionViewModel.Program = _programService.FindById(transportRequisitionObj.ProgramID).Name;
 
             }
             return transportRequisitionViewModel;
+        }
+
+        private TransportRequisition BindTransportRequisition(TransportRequisitionViewModel transportRequisitionViewModel)
+        {
+            string userPreference = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
+
+            TransportRequisition transportRequisition = null;
+            if (transportRequisitionViewModel != null)
+            {
+                transportRequisition = new TransportRequisition();
+                var firstOrDefault = _userAccountService.FindBy(t => t.UserName == transportRequisitionViewModel.CertifiedBy).FirstOrDefault();
+                if (firstOrDefault != null)
+                    transportRequisition.CertifiedBy = firstOrDefault.UserProfileID;
+                transportRequisition.CertifiedDate = transportRequisitionViewModel.CertifiedDate;
+                transportRequisition.CertifiedDate = transportRequisitionViewModel.CertifiedDate;
+                //EthiopianDate.GregorianToEthiopian(transportRequisition.CertifiedDate);
+                transportRequisition.Remark = transportRequisition.Remark;
+
+                var firstOrDefault1 = _userAccountService.FindBy(t => t.UserName == transportRequisitionViewModel.RequestedBy).FirstOrDefault();
+                if (firstOrDefault1 != null)
+                    transportRequisition.RequestedBy = firstOrDefault1.UserProfileID;
+
+                transportRequisition.RequestedDate = transportRequisitionViewModel.RequestedDate;
+                transportRequisition.RequestedDate = transportRequisitionViewModel.RequestedDate;
+                //EthiopianDate.GregorianToEthiopian( transportRequisition.RequestedDate);
+                transportRequisition.Status = transportRequisitionViewModel.StatusID;
+                transportRequisition.TransportRequisitionID = transportRequisitionViewModel.TransportRequisitionID;
+                transportRequisition.TransportRequisitionNo = transportRequisitionViewModel.TransportRequisitionNo;
+                transportRequisition.RegionID = transportRequisitionViewModel.RegionID;
+                transportRequisition.AdminUnit = _adminUnitService.FindById(transportRequisitionViewModel.RegionID);
+                transportRequisition.ProgramID = transportRequisitionViewModel.ProgramID;
+                transportRequisition.Program = _programService.FindById(transportRequisitionViewModel.ProgramID);
+
+            }
+            return transportRequisition;
         }
 
         
@@ -242,7 +284,6 @@ namespace Cats.Areas.Logistics.Controllers
                 var programs = (from item in requisitions select item.ProgramID).ToList();
                 var requisitionToDispatches = new List<List<int>>();
                 var currentUser = UserAccountHelper.GetUser(User.Identity.Name).UserProfileID;
-                
                 foreach (var program in programs)
                 {
                     var requisitionToDispatche =
@@ -250,7 +291,6 @@ namespace Cats.Areas.Logistics.Controllers
                     requisitionToDispatches.Add(requisitionToDispatche);
 
                 }
-
                 _transportRequisitionService.CreateTransportRequisition(requisitionToDispatches, currentUser);
 
                 return RedirectToAction("Index", "TransportRequisition");//,new {id=(int)TransportRequisitionStatus.Draft});
@@ -261,7 +301,7 @@ namespace Cats.Areas.Logistics.Controllers
                 log.LogAllErrorsMesseges(exception, _log);
                 ModelState.AddModelError("",exception.Message);
 
-                return RedirectToAction("Index", "DispatchAllocation");
+                return RedirectToAction("Main", "DispatchAllocation");
                 throw;
             }
           
@@ -292,28 +332,33 @@ namespace Cats.Areas.Logistics.Controllers
 
         public ActionResult Edit(int id)
         {
-            //var transportRequisition = _transportRequisitionService.FindById(id);
-
-            var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
-            var statuses = _workflowStatusService.GetStatus(WORKFLOW.TRANSPORT_REQUISITION);
-            var users = _userAccountService.GetUsers();
-
             var transportRequisition = _transportRequisitionService.FindById(id);
-            var transportRequisitonViewModel = TransportRequisitionViewModelBinder.BindTransportRequisitionViewModel(transportRequisition, statuses, datePref, users);
-
-            return View(transportRequisitonViewModel);
+            if(transportRequisition ==null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.CertifiedBy = new SelectList(_userAccountService.GetAll(), "UserProfileID", "UserName", transportRequisition.CertifiedBy);
+            ViewBag.RequestedBy = new SelectList(_userAccountService.GetAll(), "UserProfileID", "UserName", transportRequisition.RequestedBy);
+            var transportRequisitionViewModel = BindTransportRequisitionViewModel(transportRequisition);
+            return View(transportRequisitionViewModel);
         }
-
         [HttpPost]
         public ActionResult Edit(TransportRequisitionViewModel transportRequisitionViewModel)
         {
+          
             if (!ModelState.IsValid)
             {
-                var r =   transportRequisitionViewModel.TransportRequisitionID;
-                var transportRequisition = _transportRequisitionService.FindById(r);
-                //transportRequisition.
-                //return View(transportRequisition);
+                return View(transportRequisitionViewModel);
             }
+            //var transportRequisition = BindTransportRequisition(transportRequisitionViewModel);
+            var transportRequisition = _transportRequisitionService.FindById(transportRequisitionViewModel.TransportRequisitionID);
+            transportRequisition.CertifiedBy = int.Parse(transportRequisitionViewModel.CertifiedBy);
+            transportRequisition.CertifiedDate = transportRequisitionViewModel.CertifiedDate;
+            transportRequisition.RequestedBy = int.Parse(transportRequisitionViewModel.RequestedBy);
+            transportRequisition.RequestedDate = transportRequisitionViewModel.RequestedDate;
+            transportRequisition.TransportRequisitionNo = transportRequisitionViewModel.TransportRequisitionNo;
+            transportRequisition.Remark = transportRequisitionViewModel.Remark;
+            _transportRequisitionService.EditTransportRequisition(transportRequisition);
             return RedirectToAction("Index","TransportRequisition");
         }
 
@@ -327,7 +372,6 @@ namespace Cats.Areas.Logistics.Controllers
             var transportRequisitionViewModel = BindTransportRequisitionViewModel(transportRequisition);
             return View(transportRequisitionViewModel);
         }
-        
         public ActionResult ConfirmGenerateTransportOrder(int id)
         {
             ViewBag.RequisistionId = id;
@@ -339,7 +383,6 @@ namespace Cats.Areas.Logistics.Controllers
             var transportRequisitionViewModel = BindTransportRequisitionViewModel(transportRequisition);
             return View(transportRequisitionViewModel);
         }
-        
         [HttpPost]
         public ActionResult ApproveConfirmed(int TransportRequisitionID)
         {
@@ -350,7 +393,7 @@ namespace Cats.Areas.Logistics.Controllers
         }
 
         
-        [HttpGet]
+            [HttpGet]
         //[LogisticsAuthorize(operation = LogisticsCheckAccess.Operation.Edit__transport_order)]
 
         public ActionResult Details(int id)
@@ -360,6 +403,7 @@ namespace Cats.Areas.Logistics.Controllers
             var transportRequisitonViewModel = new TransportRequisitionViewModel();
             try
             {
+            
             var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
             var statuses = _workflowStatusService.GetStatus(WORKFLOW.TRANSPORT_REQUISITION);
             var users = _userAccountService.GetUsers();
@@ -437,16 +481,10 @@ namespace Cats.Areas.Logistics.Controllers
                                 //requisition.CertifiedBy
                                 requisition.TransportRequisitionNo,
                                 requisition.Remark,
-                                DateRequested = transportRequisitonViewModel.DateRequested,
-                                DateRecieved = transportRequisitonViewModel.DateCertified,
+                                DateRequested=requisition.RequestedDate,
+                                DateRecieved = requisition.CertifiedDate,
                                 RequestedBy = requisition.RequestedBy,
-                                CertifiedBy = requisition.CertifiedBy,
-                                program=transportRequisitonViewModel.Program,
-                                TransportRequisitionNO = transportRequisitonViewModel.TransportRequisitionNo,
-                                Month=transportRequisitonViewModel.Month,
-                                Round=transportRequisitonViewModel.Round,
-                                Date=transportRequisitonViewModel.Date,
-                                
+                                CertifiedBy = requisition.CertifiedBy
                             });
 
 
