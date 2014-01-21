@@ -398,7 +398,7 @@ namespace Cats.Areas.Procurement.Controllers
         public ActionResult MakeActive(int id)
         {
              _bidService.ActivateBid(id);
-            _applicationSettingService.SetValue("CurrentBid", ""+id);
+           // _applicationSettingService.SetValue("CurrentBid", ""+id);
             return RedirectToAction("Index","bid",new {id=(int)BidStatus.Active});
         }
         public ActionResult ApproveBid(int id)
