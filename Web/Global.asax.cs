@@ -56,6 +56,7 @@ namespace Cats
             if(Request.IsLocal)
             {
                 MiniProfiler.Start();
+                MiniProfilerEF.InitializeEF42();
             }
         }
 
