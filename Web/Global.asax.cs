@@ -11,6 +11,7 @@ using Cats.Infrastructure;
 using Cats.Services.Security;
 using Cats.Helpers;
 using LanguageHelpers.Localization.DataAnnotations;
+using StackExchange.Profiling;
 using log4net.Core;
 
 namespace Cats
@@ -48,6 +49,20 @@ namespace Cats
                 var principal = new UserPrincipal(identity);
                 HttpContext.Current.User = principal;
             }
+        }
+
+        protected void Application_BeginRequest()
+        {
+            if(Request.IsLocal)
+            {
+                MiniProfiler.Start();
+                MiniProfilerEF.InitializeEF42();
+            }
+        }
+
+        protected void Application_EndRequest()
+        {
+            MiniProfiler.Stop();
         }
        
        

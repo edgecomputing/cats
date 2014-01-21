@@ -270,8 +270,11 @@ namespace Cats.Areas.Procurement.Controllers
 
         public ActionResult Create(int id = 0)
         {
-           
+             var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
             var bid = new Bid();
+            bid.StartDate = DateTime.Now;
+            bid.EndDate = DateTime.Now.AddDays(10);
+            bid.OpeningDate = DateTime.Now.AddDays(11);
             var regions = _adminUnitService.FindBy(t => t.AdminUnitTypeID == 2);
             ViewBag.StatusID = new SelectList(_statusService.GetAllStatus(), "StatusID", "Name", bid.StatusID = 1);
             bid.BidNumber = _bidService.AutogenerateBidNo();
@@ -398,7 +401,7 @@ namespace Cats.Areas.Procurement.Controllers
         public ActionResult MakeActive(int id)
         {
              _bidService.ActivateBid(id);
-            _applicationSettingService.SetValue("CurrentBid", ""+id);
+           // _applicationSettingService.SetValue("CurrentBid", ""+id);
             return RedirectToAction("Index","bid",new {id=(int)BidStatus.Active});
         }
         public ActionResult ApproveBid(int id)

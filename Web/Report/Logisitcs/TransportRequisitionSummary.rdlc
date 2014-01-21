@@ -1091,7 +1091,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=RowNumber("Header")</Value>
+                              <Value>=RowNumber("Header").ToString</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>

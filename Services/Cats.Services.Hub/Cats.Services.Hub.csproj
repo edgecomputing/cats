@@ -109,7 +109,7 @@
     <Compile Include="Interfaces\ILedgerTypeService.cs" />
     <Compile Include="Interfaces\ILetterTemplate.cs" />
     <Compile Include="Interfaces\IMasterService.cs" />
-    <Compile Include="Interfaces\InternalMovementService.cs" />
+    <Compile Include="InternalMovementService.cs" />
     <Compile Include="Interfaces\IOtherDispatchAllocationService.cs" />
     <Compile Include="Interfaces\IPartitionService.cs" />
     <Compile Include="Interfaces\IPeriodService.cs" />
