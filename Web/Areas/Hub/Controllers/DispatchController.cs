@@ -5,7 +5,9 @@ using System.Linq;
 using System.Web.Mvc;
 using System.Web.Security;
 using Cats.Models.Hubs;
+using Cats.Models.ViewModels;
 using Cats.Services.Hub;
+using Cats.Services.Common;
 using Cats.ViewModelBinder;
 using Cats.Web.Hub;
 using Cats.Web.Hub.Helpers;
@@ -14,6 +16,7 @@ using Newtonsoft.Json;
 using Telerik.Web.Mvc;
 using System;
 using Cats.Models.Hubs.ViewModels.Dispatch;
+
 
 namespace Cats.Areas.Hub.Controllers
 { 
@@ -39,6 +42,8 @@ namespace Cats.Areas.Hub.Controllers
         private readonly IFDPService _fdpService;
         private readonly IProjectCodeService _projectCodeService;
         private readonly IShippingInstructionService _shippingInstructionService;
+        private readonly ISMSGatewayService _smsGatewayService;
+        private readonly IContactService _contactService;
 
         public DispatchController(IDispatchAllocationService dispatchAllocationService, IDispatchService dispatchService,
             IUserProfileService userProfileService, IOtherDispatchAllocationService otherDispatchAllocationService,
@@ -46,7 +51,8 @@ namespace Cats.Areas.Hub.Controllers
             IProgramService programService, ITransporterService transporterService, IPeriodService periodService, 
             ICommodityService commodityService, ITransactionService transactionService, IStoreService storeService,
             IAdminUnitService adminUnitService, IHubService hubService, IFDPService fdpService,
-            IProjectCodeService projectCodeService, IShippingInstructionService shippingInstructionService)
+            IProjectCodeService projectCodeService, IShippingInstructionService shippingInstructionService, 
+            ISMSGatewayService smsGatewayService, IContactService contactService)
             : base(userProfileService)
         {
             _dispatchAllocationService = dispatchAllocationService;
@@ -67,6 +73,8 @@ namespace Cats.Areas.Hub.Controllers
             _fdpService = fdpService;
             _projectCodeService = projectCodeService;
             _shippingInstructionService = shippingInstructionService;
+            _smsGatewayService = smsGatewayService;
+            _contactService = contactService;
         }
 
         public ViewResult Index()
@@ -241,9 +249,29 @@ namespace Cats.Areas.Hub.Controllers
                 dispatch.UnitID = dispatchviewmodel.UnitID;
                 dispatch.QuantityInUnit = dispatchviewmodel.QuantityInUnit;
                 dispatch.QuantityPerUnit = dispatchviewmodel.QuantityPerUnit;
+                dispatch.FDP = dispatchviewmodel.FDP;
+                dispatch.Transporter = dispatchviewmodel.Transporter;
+                dispatch.HubID = dispatchviewmodel.HubID;
+                
+                dispatch.Quantity = UserProfile.PreferedWeightMeasurment.ToLower() == "mt" ? dispatchviewmodel.Quantity : dispatchviewmodel.Quantity / 10;
+                //_transactionService.SaveDispatchTransaction(dispatch);
 
-                dispatch.Quantity = UserProfile.PreferedWeightMeasurment.ToLower() == "mt" ? dispatchviewmodel.Quantity : dispatchviewmodel.Quantity/10;
-             _transactionService.SaveDispatchTransaction(dispatch);
+                var contacts = _contactService.FindBy(c=>c.FDPID == dispatch.FDPID);
+
+                foreach (var contact in contacts)
+                {
+                    var hub = _hubService.FindById(dispatch.HubID).Name;
+                    var message = new SmsOutgoingMessage()
+                    {
+                        //id = Guid.NewGuid().ToString(),
+                        to = contact.PhoneNo,
+                        message = "Hello," + contact.FirstName + " There is a new dispatch with GIN " +dispatch.GIN+ " from " + hub + " hub. COMMODITY: " + dispatch.Commodity + " QUT: " + dispatch.Quantity + " MT." + "Transporter: '" + dispatch.Transporter + "' Plate No.: "
+                        + dispatch.PlateNo_Prime + "-" + dispatch.PlateNo_Trailer + " Date: " +DateTime.Today.ToShortDateString(),
+                    };
+
+                    var result = _smsGatewayService.SendSMS(message);
+                }
+                
                 return RedirectToAction("Index", "Dispatch");
             }
 

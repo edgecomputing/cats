@@ -33,7 +33,7 @@ namespace Cats.Helpers
                 html += "<ul class='dropdown-menu'>";
                 foreach (var folder in folders)
                 {
-                    if (folder.TypeName == "Folder" && folder.Name != "Data Sources")
+                    if (folder.TypeName == "Folder" && folder.Name != "Data Sources" && folder.Name != "Datasets")
                     {
                         var reports = rs.ListChildren("/" + folder.Name, false);
 
@@ -42,7 +42,8 @@ namespace Cats.Helpers
                         html += "<ul class='dropdown-menu'>";
                         foreach (var report in reports)
                         {
-                            html += "<li><a href='~/ReportViewer.aspx?path=" + report.Path + "'>" + report.Name + "</a></li>";
+                            var baseUrl = HttpContext.Current.Request.Url.Scheme + "://" + HttpContext.Current.Request.Url.Authority + HttpContext.Current.Request.ApplicationPath.TrimEnd('/') + "/";
+                            html += "<li><a href=' " + baseUrl + "ReportViewer.aspx?path=" + report.Path + "'>" + report.Name + "</a></li>";
                         }
                         html += "</ul>";
                         html += "</li>";
