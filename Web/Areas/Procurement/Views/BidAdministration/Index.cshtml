@@ -35,51 +35,18 @@
 }
 
 <div class="form-horizontal well" style="width: 1178px">
-    <table border="0" style="width: 80px;">
-        <tr>
-            <td style="width: 40%">
-                <div class="control-label">
-                    @Html.LabelFor(model => model.Bidwinners.First().BidMumber)
+    <div class="control-label">
+                    @Html.LabelFor(model => model.BidNumber)
                 </div>
                 <div class="controls">
-                    @Html.TextBoxFor(model=>model.Bidwinners.First().BidMumber,new {disabled=true})
-                    @*<a href="@Url.Action("WarehouseSelection","TransportBidPlan",new{id=Model.Bidwinners.FirstOrDefault().BidPlanID})">View Plan</a></>*@
+                    @Html.DropDownList("BIDID",String.Empty)
+                    
                 </div>
-            </td>
-            <td style="width: 40%">
-                <div class="control-label">
-                    @Html.LabelFor(model => model.Bidwinners.First().BidStartDate)
-                </div>
-                <div class="controls">
-                    @Html.TextBoxFor(model=>model.Bidwinners.First().BidStartDate,new {disabled=true})
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td style="width: 50%">
-                <div class="control-label">
-                    @Html.LabelFor(model => model.Bidwinners.First().BidOpeningDate)
-                </div>
-                <div class="controls">
-                    @Html.TextBoxFor(model=>model.Bidwinners.First().BidOpeningDate,new {disabled=true})
-                </div>
-            </td>
-            <td style="width: 50%">
-                <div class="control-label">
-                    @Html.LabelFor(model => model.Bidwinners.First().BidEndDate)
-                </div>
-                <div class="controls">
-                    @Html.TextBoxFor(model=>model.Bidwinners.First().BidEndDate,new {disabled=true})
-                </div>
-            </td>
-        </tr>
-     
-    </table>
 </div>
 <div>
     <div style="float: left; width:600px; height:250px; border:1px solid #ececec; margin-top:10px;margin-right:20px;margin-bottom:20px;">
         <div style="font-weight: bold;margin:10px;">List of Bid Winners</div>
-        @(Html.Kendo().Grid<BidWinnerViewModel>(Model.Bidwinners)
+        @(Html.Kendo().Grid<BidWinnerViewModel>()
               .Name("grid1")
               .Columns(columns =>
                   {
@@ -93,7 +60,6 @@
                       //columns.Bound(t => t.Status);
                   })
               .Scrollable()
-              .Events(events => events.DataBound("collapseGroupRows"))
               .DataSource(datasource =>
                           datasource
                               .Ajax()
@@ -102,12 +68,12 @@
                               //.Group(group => group.Add(m => m.SourceWarehouse))
                               .Group(group=> group.Add(m=>m.TransporterName))
                               
-              //.Read("BidAdminDraft_Read","BidAdministration",new{id=ViewBag.BidID})
+              .Read(read=>read.Action("BidAdminDraft_Read","BidAdministration").Data("filterData"))))
+              
 
-              ))
-
+             
     </div>
-    <div style="float: right; width:600px; height:541px; border:1px solid #ececec; margin-top:10px;margin-right:85px;margin-bottom:20px;">
+    @*<div style="float: right; width:600px; height:541px; border:1px solid #ececec; margin-top:10px;margin-right:85px;margin-bottom:20px;">
         <div style="font-weight: bold;margin:10px;">Bid Plan Detail</div>
 
         @Html.Partial("_BidPlanDetail", Model)
@@ -116,7 +82,7 @@
         <div style="font-weight: bold;margin:10px;">Woredas With out bid Offer</div>
 
         @Html.Partial("_WoredasWithoutOffer", Model)
-    </div> 
+    </div> *@
    
 </div>
 <script type="text/javascript">
@@ -124,6 +90,22 @@
         var grid = $("#grid1").data("kendoGrid");
         grid.collapseGroup(grid.tbody.find(">tr.k-grouping-row"));
         $('tr[role*="row"]').hide();
+    }
+    
+    $("#BIDID").change(function () {
+        var selected = $("#BIDID").val();
+        $("#BIDID").val(selected);
+        var grid = $("#grid").data("kendoGrid");
+        grid.dataSource.read();
+        alert(selected);
+    });
+    
+    function filterData() {
+
+        return {
+            BIDID: $("#BIDID").val()
+            
+        };
     }
 </script>
 

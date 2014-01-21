@@ -67,6 +67,8 @@ namespace Cats.Areas.Procurement.Models
     public class SelectedBidWinnerViewModel
     {
         public List<BidWinnerViewModel> Bidwinners { get; set; }
+        public int BidID { get; set; }
+        public string BidNumber { get; set; }
     }
     public class BidWinnerViewModel  
     {
