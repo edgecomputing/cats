@@ -35,12 +35,13 @@
 }
 
 
-<div class="row">
-    <h2>@Html.Translate("Manage Final Distribution Points")</h2>
+<div>
+    <h4>@Html.Translate("Manage Final Distribution Points")</h4>
     Select a Woreda from the tree to manage FDPs registered under it.
+
 </div>
 
-
+<div class="container">
 <div id="div_tree_view" class="span3 well">
 
     @(Html.Kendo().TreeView()
@@ -95,41 +96,42 @@
 
 <div class="span7">
     @(Html.Kendo().Grid<FDPViewModel>()
-.Name("grid")
-.Columns(columns =>
-        {
-            columns.Bound(c => c.Name);
-            columns.Bound(c => c.FDPID).Visible(false);
-            columns.Command(command =>
-                {
-                    command.Custom("Delete").Click("OnDelete");
-                    command.Custom("Add Contact").Click("AddContact");
-                }).Width(200);
-            //columns.Command(command => command.Custom("Add Contact").Click("Add contact")).Width(100);
+          .Name("grid")
+          .Columns(columns =>
+              {
+                  columns.Bound(c => c.Name);
+                  columns.Bound(c => c.FDPID).Visible(false);
+                  columns.Command(command =>
+                      {
+                          command.Custom("Delete").Click("OnDelete");
+                          command.Custom("Add Contact").Click("AddContact");
+                      }).Width(200);
+                  //columns.Command(command => command.Custom("Add Contact").Click("Add contact")).Width(100);
 
-        }).ToolBar(toolbar =>
-                         {
-                             toolbar.Save();
-                             toolbar.Create();
-                         })
-             .Editable(edit => edit.Mode(GridEditMode.InCell))
-             .Pageable()
-             .Selectable(t => t.Mode(GridSelectionMode.Single))
-             .Navigatable()
-             .DataSource(datasource =>
-                 datasource
-                    .Ajax()
-            .PageSize(10)
-     .Model(m => m.Id(t => t.FDPID))
-    .Read(read => read.Action("FDP_Read", "FDP").Data("selectedWoredaId"))
-    .Create(create => create.Action("FDP_Create", "FDP").Data("selectedWoredaId"))
-    .Update("FDP_Update", "FDP")
-    .Destroy(update => update.Action("FDP_Destroy", "FDP"))
-            //.Destroy("FDP_Destroy","FDP")
-    )
-    )
+              }).ToolBar(toolbar =>
+                  {
+                      toolbar.Save();
+                      toolbar.Create();
+                  })
+          .Editable(edit => edit.Mode(GridEditMode.InCell))
+          .Pageable()
+          .Selectable(t => t.Mode(GridSelectionMode.Single))
+          .Navigatable()
+          .DataSource(datasource =>
+                      datasource
+                          .Ajax()
+                          .PageSize(10)
+                          .Model(m => m.Id(t => t.FDPID))
+                          .Read(read => read.Action("FDP_Read", "FDP").Data("selectedWoredaId"))
+                          .Create(create => create.Action("FDP_Create", "FDP").Data("selectedWoredaId"))
+                          .Update("FDP_Update", "FDP")
+                          .Destroy(update => update.Action("FDP_Destroy", "FDP"))
+          //.Destroy("FDP_Destroy","FDP")
+          )
+          )
 
 </div>
+    </div>
 <style scoped>
     .demo-section {
         width: 200px;

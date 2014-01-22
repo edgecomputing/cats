@@ -91,14 +91,15 @@ namespace Cats.Web.Adminstration.Controllers
                         };
 
                     _contactService.AddContact(c);
+                    return RedirectToAction("Index","FDP");
                 }
                 catch (Exception ex)
                 {
                     ModelState.AddModelError("Errors","Check");
                 }
             }
-
-            return Json(new[] { contact }.ToDataSourceResult(request, ModelState));
+            return RedirectToAction("Index","FDP");
+            //return Json(new[] { contact }.ToDataSourceResult(request, ModelState));
         }
 
         //public  ActionResult Contact_Create()
