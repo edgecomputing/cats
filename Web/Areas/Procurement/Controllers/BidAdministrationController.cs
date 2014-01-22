@@ -45,27 +45,32 @@ namespace Cats.Areas.Procurement.Controllers
 
         public ActionResult Index(int id=0)
         {
-            var currentBid = _applicationSettingService.FindBy(t => t.SettingName == "CurrentBid").FirstOrDefault();
-            if (currentBid == null)
-            {
-                return HttpNotFound();
-            }
-            ViewBag.BidID=currentBid.SettingValue;
-            ViewBag.BidAdminStatus = id;
-            var bid=_bidService.FindById(int.Parse(currentBid.SettingValue));
-            ViewBag.BidPlanID = bid.TransportBidPlanID;
-            var bidWinnerViewModel = GetListOfBidWinners(int.Parse(currentBid.SettingValue));
-            if (bidWinnerViewModel==null || !bidWinnerViewModel.Bidwinners.Any())
-                return RedirectToAction("WithoutRFQ","BidAdministration");
+            //var currentBid = _applicationSettingService.FindBy(t => t.SettingName == "CurrentBid").FirstOrDefault();
+            //if (currentBid == null)
+            //{
+            //    return HttpNotFound();
+            //}
+            //ViewBag.BidID=currentBid.SettingValue;
+            var bid = _bidService.FindBy(m => m.StatusID == (int) BidStatus.Active);
+            ViewBag.BIDID = new SelectList(bid, "BIDID", "BidNumber");
+            //ViewBag.BidAdminStatus = id;
+            //var bid=_bidService.FindById(int.Parse(currentBid.SettingValue));
+            //ViewBag.BidPlanID = bid.TransportBidPlanID;
+            //var bidWinnerViewModel = GetListOfBidWinners(int.Parse(currentBid.SettingValue));
+            //var bidWinnerViewModel = GetListOfBidWinners(bid.);
+            //if (bidWinnerViewModel==null || !bidWinnerViewModel.Bidwinners.Any())
+            //    return RedirectToAction("WithoutRFQ","BidAdministration");
            
-           return View(bidWinnerViewModel);
-         
-        }
+           //return View(bidWinnerViewModel);
+            return View();
 
-        public ActionResult BidAdminDraft_Read([DataSourceRequest] DataSourceRequest request,int id=0)
+        }
+       
+        public ActionResult BidAdminDraft_Read([DataSourceRequest] DataSourceRequest request,int ? BIDID)
         {
 
-            var bids = _bidWinnerService.FindBy(m => m.BidID == id).Where(m=>m.Status==(int)BidWinnerStatus.Draft);
+            int bidID = BIDID ?? 0;
+            var bids = _bidWinnerService.FindBy(m => m.BidID == BIDID).Where(m=>m.Status==(int)BidWinnerStatus.Draft);
             var bidsToDisplay = GetBidWinners(bids).ToList();
             return Json(bidsToDisplay.ToDataSourceResult(request));
         }

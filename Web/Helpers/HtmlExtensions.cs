@@ -8,8 +8,8 @@ namespace Cats.Helpers
 {
     public static class HtmlExtensions
     {
-        public static MvcHtmlString CustomValidationSummary(this HtmlHelper helper)
-        {
+        public static MvcHtmlString CustomValidationSummary(this HtmlHelper<dynamic> helper)
+        {            
             var html = string.Empty;
             foreach (var item in helper.ViewData.ModelState)
             {                
@@ -50,6 +50,7 @@ namespace Cats.Helpers
             }
             return MvcHtmlString.Create(html);
         }
+
     }
 }
 

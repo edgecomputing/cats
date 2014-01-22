@@ -4,11 +4,13 @@ using System.Security.Principal;
 using System.Web;
 using System.Web.Mvc;
 using Cats.Areas.Procurement.Controllers;
+using Cats.Models.Constant;
 using Cats.Models.Security;
 using Cats.Services.EarlyWarning;
 using Cats.Services.Procurement;
 using Cats.Services.Common;
 using Cats.Services.Security;
+using Kendo.Mvc.UI;
 using Moq;
 using NUnit.Framework;
 using Cats.Models;
@@ -28,7 +30,7 @@ namespace Cats.Tests.ControllersTests
         private ITransportBidPlanDetailService MockTransportBidPlanDetailService;
         private IApplicationSettingService MockApplicationSetting;
         private BidController _bidController;
-        private List<Bid> _bids;
+      
 
       
         [SetUp]
@@ -77,9 +79,9 @@ namespace Cats.Tests.ControllersTests
             Mock<IBidService> mockBidService = new Mock<IBidService>();
             Mock<IBidDetailService> mockBidDetailService=new Mock<IBidDetailService>();
             Mock<IAdminUnitService> mockAdminUnitService=new Mock<IAdminUnitService>();
-            Mock<IStatusService> mockStatusService=new Mock<IStatusService>();
-            Mock<ITransportBidPlanService> mockTransportBidPlanService=new Mock<ITransportBidPlanService>();
-            Mock<ITransportBidPlanDetailService> mockTransportBidPlanDetailService = new Mock<ITransportBidPlanDetailService>();
+            //Mock<IStatusService> mockStatusService=new Mock<IStatusService>();
+            //Mock<ITransportBidPlanService> mockTransportBidPlanService=new Mock<ITransportBidPlanService>();
+            //Mock<ITransportBidPlanDetailService> mockTransportBidPlanDetailService = new Mock<ITransportBidPlanDetailService>();
 
             mockBidService.Setup(m => m.GetAllBid()).Returns(bidTest);
             mockAdminUnitService.Setup(m => m.FindBy(au => au.AdminUnitTypeID==2)).Returns(adminUnitTest);
@@ -189,6 +191,7 @@ namespace Cats.Tests.ControllersTests
                                             MockTransportBidPlanService,MockTransportBidPlanDetailService,MockApplicationSetting,
                                             userAccountService.Object,transportBidQuotationService.Object,bidWinnerService.Object,
                                             transporterService.Object, hubService.Object, workFlowStatusService.Object);
+            _bidController.ControllerContext = controllerContext.Object;
 
           }
         
@@ -200,7 +203,7 @@ namespace Cats.Tests.ControllersTests
                   new Bid() { BidID=1,BidNumber ="PP452",StartDate=new DateTime(2012/10/10),EndDate=new DateTime(2013/12/11),OpeningDate = new DateTime(2013/02/03),StatusID =1};
                   new Bid() { BidID = 2,BidNumber ="AAA123",StartDate = new DateTime(2012 / 10 / 10), EndDate = new DateTime(2013 / 12 / 11),OpeningDate = new DateTime(2012/12/11),StatusID =2};
               }
-            ;
+           
             List<Bid> actual = MockBidService.GetAllBid();
             Assert.AreEqual(actual.Count,expected.Count);
         }
@@ -222,7 +225,7 @@ namespace Cats.Tests.ControllersTests
                 new Bid() { BidID = 1, BidNumber = "PP452", StartDate = new DateTime(2012 / 10 / 10), EndDate = new DateTime(2013 / 12 / 11), OpeningDate = new DateTime(2013 / 02 / 03), StatusID = 1 };
                 new Bid() { BidID = 2, BidNumber = "AAA123", StartDate = new DateTime(2012 / 10 / 10), EndDate = new DateTime(2013 / 12 / 11), OpeningDate = new DateTime(2012 / 12 / 11), StatusID = 2 };
             }
-            ;
+          
             List<Bid> actual = (List<Bid>) MockBidService.Get(m => m.BidID == 1);
             Assert.AreEqual(actual,expected);
 
@@ -232,6 +235,21 @@ namespace Cats.Tests.ControllersTests
             }
             Assert.AreEqual(expected, actual);
 
+        }
+        [Test]
+        public void Can_Activate_BID()
+        {
+            var result = _bidController.MakeActive(1);
+            Assert.IsNotNull(result);
+        }
+        [Test]
+        public void Can_Show_List_Of_Active_Bids()
+        {
+            var dataSourceRequest = new DataSourceRequest();
+           
+            var result = _bidController.Bid_Read(dataSourceRequest,(int)BidStatus.Active);
+          
+            Assert.IsNotNull(result);
         }
     }
 }
