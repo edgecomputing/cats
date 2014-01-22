@@ -7,6 +7,10 @@
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
 
+<div id='dialogDiv' class='modal hide fade in'>
+    <div id='dialogContent'></div>
+</div>
+
 <div id="modalWindow">
     <h4>Are You Sure You Want to Delete this FDP?</h4>
     <button id="yes" class="k-button">Yes</button>
@@ -29,23 +33,26 @@
 @{
     ViewBag.Title = Html.Translate("Final Destination Points");
 }
+
+
 <div class="row">
     <h2>@Html.Translate("Manage Final Distribution Points")</h2>
     Select a Woreda from the tree to manage FDPs registered under it.
 </div>
-    
+
+
 <div id="div_tree_view" class="span3 well">
 
-@(Html.Kendo().TreeView()
+    @(Html.Kendo().TreeView()
         .Name("AdminUnitTreeView")
         .Animation(animation => animation.Expand(open => open.Fade(FadeDirection.In)))
         .Events(events => events
-           
+
             .Select("onSelect")
             )
         .Items(treeview =>
         {
-           
+
             treeview.Add().Text("Regions").Enabled(false)
                 .SpriteCssClasses("folder")
                 .Expanded(true)
@@ -55,13 +62,13 @@
                     {
                         root.Add().Text((string)region.Name)
                             .SpriteCssClasses("folder")
-                           // .Expanded(true)
+                            // .Expanded(true)
                             .Items(zones =>
                             {
-                                foreach( var zone in region.AdminUnit1)
+                                foreach (var zone in region.AdminUnit1)
                                 {
                                     zones.Add().Text((string)zone.Name)
-                                    
+
                                     .SpriteCssClasses("image")
                                     .Items(woredas =>
                                     {
@@ -69,31 +76,37 @@
                                         {
                                             woredas.Add().Text((string)woreda.Name)
                                            .Id(woreda.AdminUnitID + "")
-                                           
+
                                            .SpriteCssClasses("pdf");
-                                           
+
                                         }
-                                    }); 
+                                    });
                                 }
-                                
+
                             });
-                    } 
-                   
-                   
-                    
+                    }
+
+
+
                 });
         })
     )
 </div>
 
 <div class="span7">
-     @(Html.Kendo().Grid<FDPViewModel>()
+    @(Html.Kendo().Grid<FDPViewModel>()
 .Name("grid")
-.Columns(columns=>
+.Columns(columns =>
         {
             columns.Bound(c => c.Name);
             columns.Bound(c => c.FDPID).Visible(false);
-            columns.Command(command => command.Custom("Delete").Click("OnDelete")).Width(100);
+            columns.Command(command =>
+                {
+                    command.Custom("Delete").Click("OnDelete");
+                    command.Custom("Add Contact").Click("AddContact");
+                }).Width(200);
+            //columns.Command(command => command.Custom("Add Contact").Click("Add contact")).Width(100);
+
         }).ToolBar(toolbar =>
                          {
                              toolbar.Save();
@@ -101,18 +114,18 @@
                          })
              .Editable(edit => edit.Mode(GridEditMode.InCell))
              .Pageable()
-            .Selectable(t => t.Mode(GridSelectionMode.Single))
+             .Selectable(t => t.Mode(GridSelectionMode.Single))
              .Navigatable()
-             .DataSource(datasource=>
+             .DataSource(datasource =>
                  datasource
                     .Ajax()
             .PageSize(10)
-     .Model(m=>m.Id(t=>t.FDPID))
-    .Read(read=>read.Action("FDP_Read","FDP").Data("selectedWoredaId"))
-    .Create(create=>create.Action("FDP_Create","FDP").Data("selectedWoredaId"))
-    .Update("FDP_Update","FDP")
+     .Model(m => m.Id(t => t.FDPID))
+    .Read(read => read.Action("FDP_Read", "FDP").Data("selectedWoredaId"))
+    .Create(create => create.Action("FDP_Create", "FDP").Data("selectedWoredaId"))
+    .Update("FDP_Update", "FDP")
     .Destroy(update => update.Action("FDP_Destroy", "FDP"))
-    //.Destroy("FDP_Destroy","FDP")
+            //.Destroy("FDP_Destroy","FDP")
     )
     )
 
@@ -167,10 +180,50 @@
             wnd.close();
         });
     }
+
+
+    function AddContact(e) {
+       
+        e.preventDefault();
+        //Optional: turn the chache off
+        $.ajaxSetup({ cache: false });
+        //alert("Here");
+        //$('#btnAddProposal').click(function () {
+
+        var grid = this;
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var row = $(e.currentTarget).closest("tr");
+
+        var href = "@Url.Action("Create_contact", "ContactPerson")" + "?fdpId=" + dataItem.FDPID;
+        
+        $('#dialogContent').load(href, function () {
+            $('#dialogDiv').modal({
+                backdrop: 'static',
+                keyboard: true
+            }, 'show');
+        });
+        
+        @*e.preventDefault();
+        var grid = this;
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var row = $(e.currentTarget).closest("tr");
+        wnd.center().open();
+
+        $("#yes").click(function () {
+
+            window.location = "@Url.Action("Create_contact", "ContactPerson")" + "/" + dataItem.FDPID;
+            wnd.close();
+        });
+
+        $("#no").click(function () {
+            wnd.close();
+        });*@
+        }
+
     
     $(function () {
-      //  $("a.k-grid-add").removeClass("k-grid-add");
-      //  var treeView = $("#AdminUnitTreeView").data("kendoTreeView");
+        //  $("a.k-grid-add").removeClass("k-grid-add");
+        //  var treeView = $("#AdminUnitTreeView").data("kendoTreeView");
         //treeView.select(".k-item:first");
         //$("#AdminUnitTreeView").data("kendoTreeView").trigger("select");
         //$("#AdminUnitTreeView").data("kendoTreeView").expand(".k-item");
@@ -183,46 +236,46 @@
         //grid.dataSource.read();
     });
     
-    function selectedWoredaId() {
-        //alert($("#AdminUnitTreeView").data("kendoTreeView").dataSource.id);
-        var obj = { adminUnitID: selectedWoreda };
-        return obj;
-    }
-    
-    function CurrentSelectedTreeNode() {
-        return {
-            intEmpky: $("#treeview").current()
-        };
-    }
-    
-    function onSelect(e) {
-        var id = this.dataItem(e.node).id;
-        selectedWoreda = id;
-        if (id != null) {
-            var grid = $("#grid").data("kendoGrid");
-            grid.dataSource.read();
+        function selectedWoredaId() {
+            //alert($("#AdminUnitTreeView").data("kendoTreeView").dataSource.id);
+            var obj = { adminUnitID: selectedWoreda };
+            return obj;
         }
-    }
-    function show_obj(obj, name) {
-        var htm = "<ul>";
-        for (var i in obj) {
-            htm += "<li>" + i + ":" + typeof (obj[i]) + "</li>";
-        }
-        htm += "</ul>";
-        return htm;
-    }
     
-    var timer;
-    function FDPSaveSuccess(request, status, error) {
-        var msg = '<div class="cats_success">Success: FDP Saved.</div>';
-        $(".message-window").html(msg).delay(800).hide().fadeIn();
-        clearTimeout(timer);
-        timer = setTimeout(function () {
-            $(".message-window").fadeOut("normal", function () { $(this).html(''); });
-        }, 5000);
-    }
+        function CurrentSelectedTreeNode() {
+            return {
+                intEmpky: $("#treeview").current()
+            };
+        }
+    
+        function onSelect(e) {
+            var id = this.dataItem(e.node).id;
+            selectedWoreda = id;
+            if (id != null) {
+                var grid = $("#grid").data("kendoGrid");
+                grid.dataSource.read();
+            }
+        }
+        function show_obj(obj, name) {
+            var htm = "<ul>";
+            for (var i in obj) {
+                htm += "<li>" + i + ":" + typeof (obj[i]) + "</li>";
+            }
+            htm += "</ul>";
+            return htm;
+        }
+    
+        var timer;
+        function FDPSaveSuccess(request, status, error) {
+            var msg = '<div class="cats_success">Success: FDP Saved.</div>';
+            $(".message-window").html(msg).delay(800).hide().fadeIn();
+            clearTimeout(timer);
+            timer = setTimeout(function () {
+                $(".message-window").fadeOut("normal", function () { $(this).html(''); });
+            }, 5000);
+        }
 
-    function dataBound() {
-        this.expandRow(this.tbody.find("tr.k-master-row").first());
-    }
+        function dataBound() {
+            this.expandRow(this.tbody.find("tr.k-master-row").first());
+        }
 </script>

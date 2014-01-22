@@ -894,6 +894,7 @@
     <Content Include="Views\Hub\Index.cshtml" />
     <Content Include="Views\DonorWoreda\Index.cshtml" />
     <Content Include="Views\ContactPerson\Index.cshtml" />
+    <Content Include="Views\ContactPerson\Create_contact.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

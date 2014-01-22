@@ -14,32 +14,34 @@ namespace Cats.Web.Adminstration.Controllers
     public class ContactPersonController : Controller
     {
         private readonly IContactService _contactService;
+        private readonly IFDPService _fdpService;
 
-        public ContactPersonController(IContactService contactService)
+        public ContactPersonController(IContactService contactService, IFDPService fdpService)
         {
             _contactService = contactService;
+            _fdpService = fdpService;
         }
         //
         // GET: /ContactPerson/
 
         public ActionResult Index()
         {
-           return View();
+            return View();
         }
 
         public ActionResult Contact_Read([DataSourceRequest] DataSourceRequest request)
         {
             var contacts = _contactService.GetAllContact();
             var r = (from contact in contacts
-             select new ContactViewModel()
-                 {
-                     //ContactID = contact.ContactID,
-                     FDPName = contact.FDP.Name,
-                     FirstName = contact.FirstName,
-                     LastName = contact.LastName,
-                     PhoneNo = contact.PhoneNo
-                 });
-            
+                     select new ContactViewModel()
+                         {
+                             //ContactID = contact.ContactID,
+                             FDPName = contact.FDP.Name,
+                             FirstName = contact.FirstName,
+                             LastName = contact.LastName,
+                             PhoneNo = contact.PhoneNo
+                         });
+
             return Json(r.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
 
@@ -63,24 +65,38 @@ namespace Cats.Web.Adminstration.Controllers
             return RedirectToAction("Index");
         }
 
+        public ActionResult Create_contact(int fdpId)
+        {
+            var fdp = _fdpService.FindById(fdpId);
+            var vm = new ContactViewModel();
+            vm.FDPName = fdp.Name;
+            vm.FDPID = fdpId;
+            return View(vm);
+        }
+
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult Contact_Create([DataSourceRequest] DataSourceRequest request, ContactViewModel contact)
+        public ActionResult Create_contact([DataSourceRequest] DataSourceRequest request, ContactViewModel contact)
         {
             if (contact != null && ModelState.IsValid)
             {
-                var c = new Contact()
-                    {
-                        //ContactID = contact.ContactID,
-                        FDPID = contact.FDPID,
-                        FirstName = contact.FirstName,
-                        LastName = contact.LastName,
-                        PhoneNo = contact.PhoneNo
+                try
+                {
+                    var c = new Contact()
+                        {
 
-                    };
-                
-                _contactService.AddContact(c);
+                            FDPID = contact.FDPID,
+                            FirstName = contact.FirstName,
+                            LastName = contact.LastName,
+                            PhoneNo = contact.PhoneNo,
+                        };
+
+                    _contactService.AddContact(c);
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError("Errors","Check");
+                }
             }
-
 
             return Json(new[] { contact }.ToDataSourceResult(request, ModelState));
         }
