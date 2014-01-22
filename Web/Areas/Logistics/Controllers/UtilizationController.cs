@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
 using Cats.Models.Constant;
+using Cats.Services.Common;
 using Cats.Services.Logistics;
 using Cats.Services.EarlyWarning;
 using Cats.Services.Security;
@@ -18,12 +19,14 @@ namespace Cats.Areas.Logistics.Controllers
         private readonly IReliefRequisitionService _reliefRequisitionService;
         private readonly UserAccountService _userAccountService;
         private readonly IWorkflowStatusService _workflowStatusService;
-        public UtilizationController(IUtilizationHeaderSerivce utilizationService, IUtilizationDetailSerivce utilizationDetailSerivce, UserAccountService userAccountService, IWorkflowStatusService workflowStatusService)
+        private readonly ICommonService _commonService;
+        public UtilizationController(IUtilizationHeaderSerivce utilizationService, IUtilizationDetailSerivce utilizationDetailSerivce, UserAccountService userAccountService, IWorkflowStatusService workflowStatusService, ICommonService commonService)
         {
             _utilizationService = utilizationService;
             _utilizationDetailSerivce = utilizationDetailSerivce;
             _userAccountService = userAccountService;
             _workflowStatusService = workflowStatusService;
+            _commonService = commonService;
         }
 
         //
@@ -31,6 +34,9 @@ namespace Cats.Areas.Logistics.Controllers
 
         public ActionResult Index()
         {
+            ViewBag.RegionID = new SelectList(_commonService.GetAminUnits(t => t.AdminUnitTypeID == 2), "AdminUnitID", "Name");
+            ViewBag.ZoneID = new SelectList(_commonService.GetAminUnits(t => t.AdminUnitTypeID == 3), "AdminUnitID", "Name");
+            ViewBag.WoredaID = new SelectList(_commonService.GetAminUnits(t => t.AdminUnitTypeID == 4), "AdminUnitID", "Name");
             return View();
         }
 
@@ -54,6 +60,45 @@ namespace Cats.Areas.Logistics.Controllers
             var requisitionViewModel = UtilizationViewModelBinder.GetUtilizationDetailViewModel(requisition.ReliefRequisitionDetails.ToList());
             return Json(requisitionViewModel.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
 
+        }
+
+
+
+        public JsonResult GetCasscadeAdminUnits()
+        {
+            var cascadeAdminUnitAllRegions = (from region in _commonService.GetAminUnits(m => m.AdminUnitTypeID == 2)
+
+                                              select new
+                                              {
+                                                  RegionID = region.AdminUnitID,
+                                                  RegionName = region.Name,
+
+                                                  zones = from zone in _commonService.GetAminUnits(z => z.ParentID == region.AdminUnitID)
+                                                          select new
+                                                          {
+                                                              ZoneID = zone.AdminUnitID,
+                                                              ZoneName = zone.Name,
+
+
+                                                              Woredas = from woreda in _commonService.GetAminUnits(m => m.ParentID == zone.AdminUnitID)
+                                                                        select new
+                                                                        {
+                                                                            WoredaID = woreda.AdminUnitID,
+                                                                            WoredaName = woreda.Name,
+                                                                            fdps = from fdp in _commonService.GetFDPs(woreda.AdminUnitID)
+                                                                                   select new
+                                                                                   {
+                                                                                       FDPID = fdp.FDPID,
+                                                                                       FDPName = fdp.Name
+                                                                                   }
+                                                                        }
+
+                                                          }
+                                              }
+
+
+                 );
+            return Json(cascadeAdminUnitAllRegions, JsonRequestBehavior.AllowGet);
         }
     }
 }

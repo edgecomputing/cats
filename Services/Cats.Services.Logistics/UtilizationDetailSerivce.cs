@@ -9,12 +9,12 @@ using Cats.Models;
 
 namespace Cats.Services.Logistics
 {
-   public class DetailDistributionService:IUtilizationDetailSerivce
+   public class UtilizationDetailService:IUtilizationDetailSerivce
     {
        private readonly IUnitOfWork _unitOfWork;
 
 
-        public DetailDistributionService(IUnitOfWork unitOfWork)
+       public UtilizationDetailService(IUnitOfWork unitOfWork)
         {
             this._unitOfWork = unitOfWork;
         }
