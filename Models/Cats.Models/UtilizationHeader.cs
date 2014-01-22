@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace Cats.Models
 {
-    public partial class HeaderDistribution
+    public partial class UtilizationHeader
     {
-        public HeaderDistribution()
+        public UtilizationHeader()
         {
-            this.DetailDistributions = new List<DetailDistribution>();
+            this.DetailDistributions = new List<UtilizationDetail>();
         }
 
         public int DistributionId { get; set; }
@@ -18,7 +18,7 @@ namespace Cats.Models
         public System.DateTime DistributionDate { get; set; }
         public Nullable<int> DistributedBy { get; set; }
         public string Remark { get; set; }
-        public virtual ICollection<DetailDistribution> DetailDistributions { get; set; }
+        public virtual ICollection<UtilizationDetail> DetailDistributions { get; set; }
         public virtual UserProfile UserProfile { get; set; }
     }
 }

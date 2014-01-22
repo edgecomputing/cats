@@ -155,8 +155,8 @@ namespace Cats.Data.UnitWork
         IGenericRepository<Template> TemplateRepository { get; }
         IGenericRepository<TemplateField> TemplateFieldRepository { get; }
 
-        IGenericRepository<HeaderDistribution> HeaderDistributionRepository { get; }
-        IGenericRepository<DetailDistribution> DetailDistributionRepository { get; } 
+        IGenericRepository<UtilizationHeader> UtilizationHeaderRepository { get; }
+        IGenericRepository<UtilizationDetail> UtilizationDetailRepository { get; } 
 
         //IGenericRepository<TransportBidQuotationHeader> TransportbidQuotationHeaderRepository { get; } 
 

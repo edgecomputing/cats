@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Cats.Models.Mapping
 {
-    public class DetailDistributionMap : EntityTypeConfiguration<DetailDistribution>
+    public class UtilizationDetailMap : EntityTypeConfiguration<UtilizationDetail>
     {
-        public DetailDistributionMap()
+        public UtilizationDetailMap()
         {
             // Primary Key
             this.HasKey(t => t.DistributionDetailId);

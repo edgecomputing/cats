@@ -866,17 +866,17 @@ namespace Cats.Data.UnitWork
 
         }
 
-        private IGenericRepository<HeaderDistribution> headerDistributionRepository;
-        public IGenericRepository<HeaderDistribution> HeaderDistributionRepository
+        private IGenericRepository<UtilizationHeader> utilizationHeaderRepository;
+        public IGenericRepository<UtilizationHeader> UtilizationHeaderRepository
         {
-            get { return this.headerDistributionRepository ?? (this.headerDistributionRepository = new GenericRepository<HeaderDistribution>(_context)); }
+            get { return this.utilizationHeaderRepository ?? (this.utilizationHeaderRepository = new GenericRepository<UtilizationHeader>(_context)); }
 
         }
 
-        private IGenericRepository<DetailDistribution> detailDistributionRepository;
-        public IGenericRepository<DetailDistribution> DetailDistributionRepository
+        private IGenericRepository<UtilizationDetail> utilizationDetailRepository;
+        public IGenericRepository<UtilizationDetail> UtilizationDetailRepository
         {
-            get { return this.detailDistributionRepository ?? (this.detailDistributionRepository = new GenericRepository<DetailDistribution>(_context)); }
+            get { return this.utilizationDetailRepository ?? (this.utilizationDetailRepository = new GenericRepository<UtilizationDetail>(_context)); }
 
         }
 
