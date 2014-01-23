@@ -65,12 +65,11 @@ namespace Cats.Areas.Procurement.Controllers
             return View();
 
         }
-       
         public ActionResult BidAdminDraft_Read([DataSourceRequest] DataSourceRequest request,int ? BIDID)
         {
 
             int bidID = BIDID ?? 0;
-            var bids = _bidWinnerService.FindBy(m => m.BidID == BIDID).Where(m=>m.Status==(int)BidWinnerStatus.Draft);
+            var bids = _bidWinnerService.FindBy(m => m.BidID == bidID);
             var bidsToDisplay = GetBidWinners(bids).ToList();
             return Json(bidsToDisplay.ToDataSourceResult(request));
         }
@@ -82,10 +81,10 @@ namespace Cats.Areas.Procurement.Controllers
             var bidsToDisplay = GetBidWinners(bids).ToList();
             return Json(bidsToDisplay.ToDataSourceResult(request));
         }
-        public ActionResult WoredasWithoutOffer_Read([DataSourceRequest] DataSourceRequest request, int id = 0)
+        public ActionResult WoredasWithoutOffer_Read([DataSourceRequest] DataSourceRequest request, int BIDID)
         {
 
-            var bid =_bidService.FindById(id);
+            var bid = _bidService.FindById(BIDID);
             var bidPlanDetail = _bidPlanService.FindById(bid.TransportBidPlanID);
             var planned = (from planDetail in bidPlanDetail.TransportBidPlanDetails
                       group planDetail by new
@@ -102,7 +101,7 @@ namespace Cats.Areas.Procurement.Controllers
             var result = new List<BidWinnerViewModel>();
             foreach (TransportBidPlanDetail pdetail in detailPlans)
             {
-                var detail = _bidWinnerService.FindBy(t => t.BidID == id && t.SourceID == pdetail.SourceID && 
+                var detail = _bidWinnerService.FindBy(t => t.BidID == BIDID && t.SourceID == pdetail.SourceID && 
                                                      t.DestinationID == pdetail.DestinationID).FirstOrDefault();
                 if (detail == null)
                     result.Add(new BidWinnerViewModel()
@@ -111,7 +110,7 @@ namespace Cats.Areas.Procurement.Controllers
                         Zone = pdetail.Destination.AdminUnit2.Name,
                         Region = pdetail.Destination.AdminUnit2.AdminUnit2.Name,
                         Woreda = pdetail.Destination.Name,
-                        BidID = id,
+                        BidID = BIDID,
                         DestinationId = pdetail.DestinationID,
                         SourceId = pdetail.SourceID
                     });
@@ -210,6 +209,17 @@ namespace Cats.Areas.Procurement.Controllers
             }
         return null;
         }
+       
+        public bool WinnerGenerated(int BIDID)
+        {
+            var bidWinner = _bidWinnerService.FindBy(m => m.BidID == BIDID);
+            if (bidWinner.Count >0)
+                return true;
+            return false;
+
+        }
+
+
     
     }
 }

@@ -127,20 +127,23 @@ namespace Cats.Services.EarlyWarning
 
         public void AddHRDPlan(string planName, DateTime startDate, DateTime endDate)
         {
-           
-                var reliefProgram = _unitOfWork.ProgramRepository.FindBy(m => m.Name == "Relief").SingleOrDefault();
-                var plan = new Plan
-                {
-                    PlanName = planName,
-                    StartDate = startDate,
-                    EndDate = endDate,
-                    Program = reliefProgram,
-                    Status = (int)PlanStatus.HRDCreated
+               var oldPlan = _unitOfWork.PlanRepository.FindBy(m => m.PlanName == planName).SingleOrDefault();
+               if (oldPlan == null)
+               {
+                   var reliefProgram = _unitOfWork.ProgramRepository.FindBy(m => m.Name == "Relief").SingleOrDefault();
+                   var plan = new Plan
+                       {
+                           PlanName = planName,
+                           StartDate = startDate,
+                           EndDate = endDate,
+                           Program = reliefProgram,
+                           Status = (int) PlanStatus.HRDCreated
 
-                };
-                _unitOfWork.PlanRepository.Add(plan);
-                _unitOfWork.Save();
-            
+                       };
+                   _unitOfWork.PlanRepository.Add(plan);
+                   _unitOfWork.Save();
+               }
+
         }
 
 
