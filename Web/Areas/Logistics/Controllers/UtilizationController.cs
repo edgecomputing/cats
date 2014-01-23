@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using Cats.Models.Constant;
 using Cats.Services.Common;
@@ -37,13 +39,14 @@ namespace Cats.Areas.Logistics.Controllers
             ViewBag.RegionID = new SelectList(_commonService.GetAminUnits(t => t.AdminUnitTypeID == 2), "AdminUnitID", "Name");
             ViewBag.ZoneID = new SelectList(_commonService.GetAminUnits(t => t.AdminUnitTypeID == 3), "AdminUnitID", "Name");
             ViewBag.WoredaID = new SelectList(_commonService.GetAminUnits(t => t.AdminUnitTypeID == 4), "AdminUnitID", "Name");
+            ViewBag.ProgramID = new SelectList(_commonService.GetPrograms().Take(2),"ProgramId","Name");
             return View();
         }
 
 
-        public  ActionResult ReadRequestionNumbers([DataSourceRequest] DataSourceRequest request,  int regionId = -1, int programId =-1,int year =-1)
+        public  ActionResult ReadRequestionNumbers([DataSourceRequest] DataSourceRequest request,int regionId,  int zoneId = -1, int woredaId = -1,int programId =-1)
         {
-            if (regionId == -1 || programId == -1 || year == -1)
+            if (regionId == -1 || woredaId == -1 || zoneId == -1 || programId ==-1)
                 return null;
             var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
             var requisition = _utilizationService.GetRequisitions(regionId,5);
@@ -57,12 +60,44 @@ namespace Cats.Areas.Logistics.Controllers
                 return null;
             var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
             var requisition = _utilizationService.GetReliefRequisitions(requisitionId);
-            var requisitionViewModel = UtilizationViewModelBinder.GetUtilizationDetailViewModel(requisition.ReliefRequisitionDetails.ToList());
+            var requisitionViewModel = UtilizationViewModelBinder.GetUtilizationDetailViewModel(requisition);
             return Json(requisitionViewModel.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
 
         }
 
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult Update([DataSourceRequest] DataSourceRequest request, IEnumerable<Models.UtilizationDetailViewModel> utilizationDetailViewModels)
+        {
+            var results = new List<Models.UtilizationDetailViewModel>();
+            return Json(results.ToDataSourceResult(request, ModelState));
+        }
 
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult Create([DataSourceRequest] DataSourceRequest request,
+            [Bind(Prefix = "models")]IEnumerable<Models.UtilizationDetailViewModel> utilizationDetailViewModels)
+        {
+            var userProfileId = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).UserProfileID;
+            var results = new List<Models.UtilizationDetailViewModel>();
+
+            var utilization = new Cats.Models.UtilizationHeader
+                                  {DistributionDate = DateTime.Now, DistributedBy = userProfileId};
+
+
+            foreach (var utilizationDetailViewModel in utilizationDetailViewModels)
+            {
+                var utilizationDetail = new Cats.Models.UtilizationDetail
+                                            {
+                                                DistributedQuantity = utilizationDetailViewModel.DistributedQuantity,
+                                                FdpId = utilizationDetailViewModel.FdpId,
+                                                UtilizationHeader = utilization
+                                            };
+                utilization.RequisitionId = utilizationDetailViewModel.RequisitionId;
+                _utilizationDetailSerivce.AddDetailDistribution(utilizationDetail);
+            }
+
+            return Json(results.ToDataSourceResult(request, ModelState));
+        }
 
         public JsonResult GetCasscadeAdminUnits()
         {

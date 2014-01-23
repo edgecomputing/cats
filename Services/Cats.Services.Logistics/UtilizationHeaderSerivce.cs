@@ -76,9 +76,9 @@ namespace Cats.Services.Logistics
             var requisition = _unitOfWork.ReliefRequisitionRepository.Get(r => r.RegionID == regionId && r.Status == status,null,null).ToList();
             return requisition;
         }
-        public ReliefRequisition GetReliefRequisitions(int requisitionId)
+        public List<ReliefRequisitionDetail> GetReliefRequisitions(int requisitionId)
         {
-            var requisition = _unitOfWork.ReliefRequisitionRepository.Get(r => r.RequisitionID == requisitionId, null, "ReliefRequisaitionDetail").FirstOrDefault();
+            var requisition = _unitOfWork.ReliefRequisitionDetailRepository.FindBy(r => r.RequisitionID == requisitionId).ToList();
             return requisition;
         }
 

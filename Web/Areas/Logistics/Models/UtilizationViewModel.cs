@@ -1,4 +1,4 @@
-﻿namespace Cats.Models.ViewModels
+﻿namespace Cats.Areas.Logistics.Models
 {
    public class UtilizationViewModel
     {

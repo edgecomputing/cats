@@ -10,7 +10,7 @@ namespace Cats.Models
     {
         public UtilizationHeader()
         {
-            this.DetailDistributions = new List<UtilizationDetail>();
+            this.UtilizationDetails = new List<UtilizationDetail>();
         }
 
         public int DistributionId { get; set; }
@@ -18,7 +18,7 @@ namespace Cats.Models
         public System.DateTime DistributionDate { get; set; }
         public Nullable<int> DistributedBy { get; set; }
         public string Remark { get; set; }
-        public virtual ICollection<UtilizationDetail> DetailDistributions { get; set; }
+        public virtual ICollection<UtilizationDetail> UtilizationDetails { get; set; }
         public virtual UserProfile UserProfile { get; set; }
     }
 }

@@ -19,7 +19,7 @@ namespace Cats.Models.Mapping
                 .HasMaxLength(200);
 
             // Table & Column Mappings
-            this.ToTable("HeaderDistribution");
+            this.ToTable("UtilizationHeader");
             this.Property(t => t.DistributionId).HasColumnName("DistributionId");
             this.Property(t => t.RequisitionId).HasColumnName("RequisitionId");
             this.Property(t => t.DistributionDate).HasColumnName("DistributionDate");
@@ -28,7 +28,7 @@ namespace Cats.Models.Mapping
 
             // Relationships
             this.HasOptional(t => t.UserProfile)
-                .WithMany(t => t.HeaderDistributions)
+                .WithMany(t => t.UtilizationHeaders)
                 .HasForeignKey(d => d.DistributedBy);
 
         }

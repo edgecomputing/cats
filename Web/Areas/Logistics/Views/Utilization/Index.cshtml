@@ -1,4 +1,6 @@
-﻿@using Kendo.Mvc.UI
+﻿@model UtilizationViewModel
+@using Cats.Areas.Logistics.Models
+@using Kendo.Mvc.UI
 @using LanguageHelpers.Localization
 
 @{
@@ -6,58 +8,78 @@
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
 
+
+
+
+@section Toolbar
+{
+     
+    <a class="btn toolbar-btn " data-buttontype="btn_save" href="javascript:saveUtilization()"></a>
+   
+}
+
 <div class="form-horizontal">
             
-     @Html.HiddenFor(m => m.)
-    <div class="control-group" id="region">
-        <div class="control-label">
-            @Html.Label(Translator.Translate("Region"))
+        @Html.HiddenFor(m => m.RegionId)
+        
+        <div class="control-group" id="program">
+            <div class="control-label">
+                @Html.Label(Translator.Translate("Program"))
+            </div>
+            <div class="controls" id="div_program">
+                @Html.DropDownList("ProgramID", String.Empty)  
+            </div>
         </div>
-        <div class="controls" id="div_region">
-            @Html.DropDownList("RegionID",String.Empty)  
+
+        <div class="control-group" id="region">
+            <div class="control-label">
+                @Html.Label(Translator.Translate("Region"))
+            </div>
+            <div class="controls" id="div_region">
+                @Html.DropDownList("RegionID", String.Empty)  
+            </div>
         </div>
+
+        <div class="control-group">
+            <div class="control-label">
+                @Html.Label(Translator.Translate("Zone"))
+            </div>
+            <div class="controls" id="div_zone">
+                @Html.DropDownList("ZoneID", String.Empty)
+            </div>
+        </div>
+
+        <div class="control-group">
+            <div class="control-label">
+                @Html.Label(Translator.Translate("Woreda"))
+            </div>
+            <div class="controls" id="div_woreda" >
+                @Html.DropDownList("WoredaID", string.Empty)
+            </div>
+          
+        </div>
+        
+        
+        
     </div>
-
-    <div class="control-group">
-        <div class="control-label">
-            @Html.Label(Translator.Translate("Zone"))
-        </div>
-        <div class="controls" id="div_zone">
-            @Html.DropDownList("ZoneID",String.Empty)
-           
-               
-        </div>
-
-    </div>
-
-    <div class="control-group">
-        <div class="control-label">
-            @Html.Label(Translator.Translate("Woreda"))
-        </div>
-        <div class="controls" id="div_woreda" >
-            @Html.DropDownList( "WoredaID",string.Empty)
-            
-        </div>
-
-    </div>
-
-</div>
 
 
 
 
 <table class="borderless">
-    <tr>
+    
         <td>
             <div style="float: left;">
-                @(Html.Kendo().Grid<Cats.Models.ViewModels.UtilizationViewModel>()
+                @(Html.Kendo().Grid<UtilizationViewModel>()
                       .Name("RequisitionGrid")
+                      .Events(events => events.Change("Grid_OnRowSelect"))
+                      .Selectable()
                       .Columns(columns => columns.Bound(p => p.RequisitionNo).Title(Translator.Translate("Requestion No")))
                       .HtmlAttributes(new { style = "height:430px;" })
                       .DataSource(dataSource => dataSource
                                                     .Ajax()
                                                     .Model(model => model.Id(p => p.RequisitionId))
-                                                    .Read(read => read.Action("ReadRequestionNumbers", "Utility", new { regionId = -1,programId =-1,year =-1 }))
+                                                    .Read(read => read.Action("ReadRequestionNumbers", "Utilization", new { regionId = -1, zoneId = -1, woredaId = -1,programId =-1 }).Data("filterDataRequisitions"))
                      
                       )
                       )
@@ -65,19 +87,21 @@
         </td>
         <td>
 
-            <div>
+            <div style="float: left;">
 
-                @(Html.Kendo().Grid<Cats.Models.ViewModels.UtilizationDetailViewModel>()
+                @(Html.Kendo().Grid<UtilizationDetailViewModel>()
                       .Name("RequisitionGridDetail")
                       .Columns(columns =>
                                    {
                                       
-                                       columns.Bound(p => p.FDP).Width(100).Title(Translator.Translate("Zone")).HtmlAttributes(new { style = "background-color:lightgray" });
-                                       columns.Bound(p => p.AllocatedAmount).Width(100).Title(Translator.Translate("Woreda")).HtmlAttributes(new { style = "background-color:lightgray" });
-                                       columns.Bound(p => p.NumberOfBeneficiaries).Width(100).Title(Translator.Translate("FDP")).HtmlAttributes(new { style = "background-color:lightgray" });
-                                       columns.Bound(p => p.DispatchedToFDPAmount).Width(60).Title(Translator.Translate("Dispatched")).HtmlAttributes(new { align = "right" });
-                                       columns.Bound(p => p.DispatchedToFDPAmount).Width(60).Title(Translator.Translate("Beneficiaries")).HtmlAttributes(new { align = "right" });
-                                       
+                                       columns.Bound(p => p.FDP).Width(100).Title(Translator.Translate("FDP")).HtmlAttributes(new { style = "background-color:lightgray" });
+                                       columns.Bound(p => p.RequestedAmount).Width(100).Title(Translator.Translate("Requested")).HtmlAttributes(new { style = "background-color:lightgray" });
+                                       columns.Bound(p => p.AllocatedAmount).Width(100).Title(Translator.Translate("Allocated")).HtmlAttributes(new { style = "background-color:lightgray" });
+                                       columns.Bound(p => p.NumberOfBeneficiaries).Width(100).Title(Translator.Translate("No of Beneficiaries")).HtmlAttributes(new { style = "background-color:lightgray" });
+                                       columns.Bound(p => p.ReceivedAtFDPAmount).Width(60).Title(Translator.Translate("Received")).HtmlAttributes(new { align = "right" }).HtmlAttributes(new { style = "background-color:lightgray" });
+                                       columns.Bound(p => p.DispatchedToFDPAmount).Width(60).Title(Translator.Translate("Dispatched")).HtmlAttributes(new { align = "right" }).HtmlAttributes(new { style = "background-color:lightgray" });
+                                     
+                                       columns.Bound(p => p.DistributedQuantity).Width(60).Title(Translator.Translate("Distributed Quantity")).HtmlAttributes(new { align = "right" });
                                       
 
                                    })
@@ -88,27 +112,34 @@
                       .Selectable(t => t.Mode(GridSelectionMode.Single))
                       .Navigatable()
                       .HtmlAttributes(new { style = "height:430px;" })
-                      .Events(events => events.DataBound("onDataBound"))
+                   
                       .DataSource(dataSource => dataSource
                                                     .Ajax()
-                                                   
+                                                    .Batch(true)
+                                                    .Events(e=>e.RequestEnd("onRequestEnd"))
+                                                    .ServerOperation(false)
                                                     .Model(model =>
                                                                {
                                                                    model.Id(p => p.FdpId);
                                                                    model.Field(detail => detail.FDP).Editable(false);
+                                                                   model.Field(detail => detail.RequestedAmount).Editable(false);
                                                                    model.Field(detail => detail.AllocatedAmount).Editable(false);
                                                                    model.Field(detail => detail.DispatchedToFDPAmount).Editable(false);
                                                                    model.Field(detail => detail.NumberOfBeneficiaries).Editable(false);
+                                                                   model.Field(detail => detail.ReceivedAtFDPAmount).Editable(false);
+                                                                   model.Field(detail => detail.DistributedQuantity).Editable(true);
+
                                                                })
                                                   
 
-                                                    .Read(read => read.Action("Allocation_Read", "Request", new { id = ViewBag.RequestID }))
-                                                    .Update(update => update.Action("ReadRequisitionDetail", "Utility", new {requisitionId = -1}))
+                                                    .Read(read => read.Action("ReadRequisitionDetail", "Utilization", new { requisitionId = -1}).Data("filterDataRequisitionsDetail"))
+                                                    .Update(update => update.Action("Create", "Utilization"))
+                                                   
                                                   
                       ))
             </div>
         </td>
-    </tr>
+    
 </table>
 
 
@@ -121,50 +152,137 @@
 
 <script>
 
+
+    function onRequestEnd(e) {
+        //Check request type
+        if (e.type == "create" || e.type == "update") {
+            //check for errors in the response
+            if (e.response == null || e.response.Errors == null) {
+                alert("Distribution Information has been Saved!");
+            }
+        }
+    }
+    
+    saveUtilization = function(e) {
+       
+        $("#RequisitionGridDetail").data("kendoGrid").saveChanges();
+       
+    };
+    
+    var selectedRequisitionId;
+    Grid_OnRowSelect = function (e) {
+
+
+        //Selecting Grid
+        var gview = $("#RequisitionGrid").data("kendoGrid");
+        //Getting selected item
+        var selectedItem = gview.dataItem(gview.select());
+        //accessing selected rows data 
+        selectedRequisitionId = selectedItem.RequisitionId;
+        var grid = $("#RequisitionGridDetail").data("kendoGrid");
+        grid.dataSource.read();
+       
+       
+        
+    };
+
+    function filterDataRequisitions() {
+       
+        return {
+            regionId: $("#RegionID").val(),
+            zoneID: $("#ZoneID").val(),
+            woredaID: $("#WoredaID").val(),
+            programID:$("#ProgramID").val()
+            
+        };
+    }
+
+    function filterDataRequisitionsDetail() {
+        
+        return { requisitionId: selectedRequisitionId };
+        
+       
+    }
+    
+        $("#RegionID").change(function () {
+           
+            var grid = $("#RequisitionGrid").data("kendoGrid");
+            grid.dataSource.read();
+        });
+        $("#ZoneID").change(function () {
+            
+            var grid = $("#RequisitionGrid").data("kendoGrid");
+
+            grid.dataSource.read();
+        });
+        $("#WoredaID").change(function () {
+            var grid = $("#RequisitionGrid").data("kendoGrid");
+
+            grid.dataSource.read();
+        });
+        $("#ProgramID").change(function () {
+            var grid = $("#RequisitionGrid").data("kendoGrid");
+
+            grid.dataSource.read();
+        });
+    
+    
+    
     var admin_region_hash = {};
     var admin_zone_hash = {};
     var admin_regions = {};
-    
-    $(function () {
-        
-       
-        $.getJSON('@Url.Action("GetCasscadeAdminUnits", "Utilization")', function (data) {
-            
+   
 
+    $.ajax({
+        url: '@Url.Action("GetCasscadeAdminUnits", "Utilization")',
+        dataType: 'json',
+        success: function (data) {
+           
             var msg = "";
-                for (var i in data) {
-                    
-                    msg += "\n" + data[i].RegionName;
-                   
-                    var keyr = data[i].RegionID;
-                    admin_regions[keyr] = data[i];
-                   
-                    var zoneCount = data[i].zones.length;
-                   
-                    for (var r = 0; r < zoneCount; r++) {
-                        var keyZone = data[i].zones[r].ZoneID;
-                        admin_region_hash[keyZone] = data[i].zones[r];
-                       
-                        var countw = data[i].zones[r].Woredas.length;
-                       
-                        for (var jj = 0; jj < countw; jj++) {
-                            var keyw = data[i].zones[r].Woredas[jj].WoredaID;
-                            admin_zone_hash[keyw] = data[i].zones[r].Woredas[jj].fdps;
-                        }
+            for (var i in data) {
+
+                msg += "\n" + data[i].RegionName;
+
+                var keyr = data[i].RegionID;
+                admin_regions[keyr] = data[i];
+
+                var zoneCount = data[i].zones.length;
+
+                for (var r = 0; r < zoneCount; r++) {
+                    var keyZone = data[i].zones[r].ZoneID;
+                    admin_region_hash[keyZone] = data[i].zones[r];
+
+                    var countw = data[i].zones[r].Woredas.length;
+
+                    for (var jj = 0; jj < countw; jj++) {
+                        var keyw = data[i].zones[r].Woredas[jj].WoredaID;
+                        admin_zone_hash[keyw] = data[i].zones[r].Woredas[jj].fdps;
                     }
                 }
-            
-
-        });
+            }
 
 
+       
+        },
+        error: function (request, textStatus, errorThrown) {
+            alert(textStatus);
+        },
+        //complete: function (request, textStatus) { //for additional info
+        //    alert(request.responseText);
+        //    alert(textStatus);
+        //}
+    });
+
+    var zone = document.getElementById("ZoneID");
+    zone.enable = false;
         $("#RegionID").change(function () {
-         
+
+            zone.enable = true;
             var selectedRegionId = $("#RegionID").val();
             var region = admin_regions[selectedRegionId];
             var zones = region.zones;
-            alert("tst");
-            alert(zones.length);
+           
+           
            
             var htmr = "<select name='ZoneID' id ='ZoneID' > ";
             for (var r in zones) {
@@ -215,5 +333,5 @@
         });
         
        
-    });
+   
 </script>
