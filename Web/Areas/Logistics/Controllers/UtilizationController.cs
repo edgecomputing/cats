@@ -36,6 +36,7 @@ namespace Cats.Areas.Logistics.Controllers
 
         public ActionResult Index()
         {
+            ViewBag.RegionCollection = _commonService.GetAminUnits(t => t.AdminUnitTypeID == 2);
             ViewBag.RegionID = new SelectList(_commonService.GetAminUnits(t => t.AdminUnitTypeID == 2), "AdminUnitID", "Name");
             ViewBag.ZoneID = new SelectList(_commonService.GetAminUnits(t => t.AdminUnitTypeID == 3), "AdminUnitID", "Name");
             ViewBag.WoredaID = new SelectList(_commonService.GetAminUnits(t => t.AdminUnitTypeID == 4), "AdminUnitID", "Name");
@@ -44,12 +45,12 @@ namespace Cats.Areas.Logistics.Controllers
         }
 
 
-        public  ActionResult ReadRequestionNumbers([DataSourceRequest] DataSourceRequest request,int regionId,  int zoneId = -1, int woredaId = -1,int programId =-1)
+        public ActionResult ReadRequestionNumbers([DataSourceRequest] DataSourceRequest request, int zoneId, int programId = -1)
         {
-            if (regionId == -1 || woredaId == -1 || zoneId == -1 || programId ==-1)
+            if (zoneId == -1 || programId ==-1)
                 return null;
             var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
-            var requisition = _utilizationService.GetRequisitions(regionId,5);
+            var requisition = _utilizationService.GetRequisitions(zoneId,programId,5);
             var requisitionViewModel =UtilizationViewModelBinder.GetUtilizationViewModel(requisition);
             return Json(requisitionViewModel.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }

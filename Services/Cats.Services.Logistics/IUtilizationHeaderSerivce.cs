@@ -25,7 +25,7 @@ namespace Cats.Services.Logistics
             string includeProperties = "");
 
         List<ReliefRequisitionDetail> GetReliefRequisitions(int requisitionId);
-        List<ReliefRequisition> GetRequisitions(int regionId, int status);
+        List<ReliefRequisition> GetRequisitions(int zoneId,int programId, int status);
         RegionalPSNPPlan  GetPSNPPlanRequisitions(int regionId, int status);
         RegionalPSNPPlan  GetPSNPPlan(int planId);
     }

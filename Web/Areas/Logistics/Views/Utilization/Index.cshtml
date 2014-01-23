@@ -5,7 +5,7 @@
 
 @{
     ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_MainLayout.cshtml";
+    Layout = "~/Views/Shared/_MainLayoutWide.cshtml";
 }
 
 
@@ -18,7 +18,16 @@
    
 }
 
-<div class="form-horizontal">
+
+
+<fieldset>
+    <legend>
+        Distribution Data Entry
+    </legend>
+</fieldset>
+<div id="div_tree_view" class="span3">
+    
+    
             
         @Html.HiddenFor(m => m.RegionId)
         
@@ -30,56 +39,74 @@
                 @Html.DropDownList("ProgramID", String.Empty)  
             </div>
         </div>
+   
 
-        <div class="control-group" id="region">
-            <div class="control-label">
-                @Html.Label(Translator.Translate("Region"))
-            </div>
-            <div class="controls" id="div_region">
-                @Html.DropDownList("RegionID", String.Empty)  
-            </div>
-        </div>
+    @(Html.Kendo().TreeView()
+        .Name("AdminUnitTreeView")
+        .Animation(animation => animation.Expand(open => open.Fade(FadeDirection.In)))
+        .Events(events => events
+           
+            .Select("onSelect")
+            )
+        .Items(treeview =>
+        {
+           
+            treeview.Add().Text("Regions").Enabled(false)
+                .SpriteCssClasses("folder")
+                .Expanded(true)
+                .Items(root =>
+                {
+                    foreach (var region in ViewBag.RegionCollection)
+                    {
+                        root.Add().Text((string)region.Name)
+                            .SpriteCssClasses("folder")
+                           // .Expanded(true)
+                            .Items(zones =>
+                            {
+                                foreach( var zone in region.AdminUnit1)
+                                {
+                                    dynamic zone1 = zone;
+                                    zones.Add().Text((string) zone.Name)
+                                    .Id(zone.AdminUnitID + "")
+                                        .SpriteCssClasses("image");
+                                    //.Items(woredas =>
+                                    //{
+                                    //    foreach (var woreda in zone1.AdminUnit1)
+                                    //    {
+                                    //        woredas.Add().Text((string)woreda.Name)
+                                    //       .Id(woreda.AdminUnitID + "")
 
-        <div class="control-group">
-            <div class="control-label">
-                @Html.Label(Translator.Translate("Zone"))
-            </div>
-            <div class="controls" id="div_zone">
-                @Html.DropDownList("ZoneID", String.Empty)
-            </div>
-        </div>
+                                    //       .SpriteCssClasses("pdf");
 
-        <div class="control-group">
-            <div class="control-label">
-                @Html.Label(Translator.Translate("Woreda"))
-            </div>
-            <div class="controls" id="div_woreda" >
-                @Html.DropDownList("WoredaID", string.Empty)
-            </div>
-          
-        </div>
-        
-        
-        
-    </div>
-
-
-
+                                    //    }
+                                    //}); 
+                                }
+                                
+                            });
+                    } 
+                   
+                   
+                    
+                });
+        })
+    )
+</div>
 
 <table class="borderless">
     
-        <td>
+        <td style="width: 200px">
             <div style="float: left;">
                 @(Html.Kendo().Grid<UtilizationViewModel>()
                       .Name("RequisitionGrid")
                       .Events(events => events.Change("Grid_OnRowSelect"))
                       .Selectable()
                       .Columns(columns => columns.Bound(p => p.RequisitionNo).Title(Translator.Translate("Requestion No")))
+                      .Scrollable()
                       .HtmlAttributes(new { style = "height:430px;" })
                       .DataSource(dataSource => dataSource
                                                     .Ajax()
                                                     .Model(model => model.Id(p => p.RequisitionId))
-                                                    .Read(read => read.Action("ReadRequestionNumbers", "Utilization", new { regionId = -1, zoneId = -1, woredaId = -1,programId =-1 }).Data("filterDataRequisitions"))
+                                                    .Read(read => read.Action("ReadRequestionNumbers", "Utilization", new { zoneId = -1,programId =-1 }).Data("filterDataRequisitions"))
                      
                       )
                       )
@@ -95,9 +122,9 @@
                                    {
                                       
                                        columns.Bound(p => p.FDP).Width(100).Title(Translator.Translate("FDP")).HtmlAttributes(new { style = "background-color:lightgray" });
-                                       columns.Bound(p => p.RequestedAmount).Width(100).Title(Translator.Translate("Requested")).HtmlAttributes(new { style = "background-color:lightgray" });
-                                       columns.Bound(p => p.AllocatedAmount).Width(100).Title(Translator.Translate("Allocated")).HtmlAttributes(new { style = "background-color:lightgray" });
-                                       columns.Bound(p => p.NumberOfBeneficiaries).Width(100).Title(Translator.Translate("No of Beneficiaries")).HtmlAttributes(new { style = "background-color:lightgray" });
+                                       columns.Bound(p => p.RequestedAmount).Width(60).Title(Translator.Translate("Requested")).HtmlAttributes(new { style = "background-color:lightgray" });
+                                       columns.Bound(p => p.AllocatedAmount).Width(60).Title(Translator.Translate("Allocated")).HtmlAttributes(new { style = "background-color:lightgray" });
+                                       columns.Bound(p => p.NumberOfBeneficiaries).Width(60).Title(Translator.Translate("No of Beneficiaries")).HtmlAttributes(new { style = "background-color:lightgray" });
                                        columns.Bound(p => p.ReceivedAtFDPAmount).Width(60).Title(Translator.Translate("Received")).HtmlAttributes(new { align = "right" }).HtmlAttributes(new { style = "background-color:lightgray" });
                                        columns.Bound(p => p.DispatchedToFDPAmount).Width(60).Title(Translator.Translate("Dispatched")).HtmlAttributes(new { align = "right" }).HtmlAttributes(new { style = "background-color:lightgray" });
                                      
@@ -151,7 +178,26 @@
 
 
 <script>
-
+    var selectedWoreda;
+    function onSelect(e) {
+       
+        var id = this.dataItem(e.node).id;
+        selectedWoreda = id;
+      
+        if (id != null) {
+            var grid = $("#RequisitionGrid").data("kendoGrid");
+            grid.dataSource.read();
+           
+        }
+    }
+    function filterDataRequisitions() {
+        return {
+            zoneId: selectedWoreda,
+            programId: $("#ProgramID").val()
+        
+        };
+    };
+    
 
     function onRequestEnd(e) {
         //Check request type
@@ -186,16 +232,16 @@
         
     };
 
-    function filterDataRequisitions() {
+    //function filterDataRequisitions() {
        
-        return {
-            regionId: $("#RegionID").val(),
-            zoneID: $("#ZoneID").val(),
-            woredaID: $("#WoredaID").val(),
-            programID:$("#ProgramID").val()
+    //    return {
+    //        regionId: $("#RegionID").val(),
+    //        zoneID: $("#ZoneID").val(),
+    //        woredaID: $("#WoredaID").val(),
+    //        programID:$("#ProgramID").val()
             
-        };
-    }
+    //    };
+    //}
 
     function filterDataRequisitionsDetail() {
         
