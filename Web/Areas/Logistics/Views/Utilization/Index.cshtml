@@ -1,0 +1,258 @@
+﻿@model UtilizationViewModel
+@using Cats.Areas.Logistics.Models
+@using Kendo.Mvc.UI
+@using LanguageHelpers.Localization
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MainLayoutWide.cshtml";
+}
+
+
+
+
+@section Toolbar
+{
+     
+    <a class="btn toolbar-btn " data-buttontype="btn_save" href="javascript:saveUtilization()"></a>
+   
+}
+
+
+
+<fieldset>
+    <legend>
+        Distribution Data Entry
+    </legend>
+    <h5> Start by selecting program and zone from the left side and click on one of the requisitions.</h5>
+    <hr/>
+</fieldset>
+<div id="div_tree_view" class="span3">
+    
+    
+            
+        @Html.HiddenFor(m => m.RegionId)
+        
+        <div class="control-group" id="program">
+            <div class="control-label">
+                @Html.Label(Translator.Translate("Program"))
+            </div>
+            <div class="controls" id="div_program">
+                @Html.DropDownList("ProgramID", String.Empty)  
+            </div>
+        </div>
+   
+
+    @(Html.Kendo().TreeView()
+        .Name("AdminUnitTreeView")
+        .Animation(animation => animation.Expand(open => open.Fade(FadeDirection.In)))
+        .Events(events => events
+           
+            .Select("onSelect")
+            )
+        .Items(treeview =>
+        {
+           
+            treeview.Add().Text("Regions").Enabled(false)
+                .SpriteCssClasses("folder")
+                .Expanded(true)
+                .Items(root =>
+                {
+                    foreach (var region in ViewBag.RegionCollection)
+                    {
+                        root.Add().Text((string)region.Name)
+                            .SpriteCssClasses("folder")
+                           // .Expanded(true)
+                            .Items(zones =>
+                            {
+                                foreach( var zone in region.AdminUnit1)
+                                {
+                                    dynamic zone1 = zone;
+                                    zones.Add().Text((string) zone.Name)
+                                    .Id(zone.AdminUnitID + "")
+                                        .SpriteCssClasses("image");
+                                    //.Items(woredas =>
+                                    //{
+                                    //    foreach (var woreda in zone1.AdminUnit1)
+                                    //    {
+                                    //        woredas.Add().Text((string)woreda.Name)
+                                    //       .Id(woreda.AdminUnitID + "")
+
+                                    //       .SpriteCssClasses("pdf");
+
+                                    //    }
+                                    //}); 
+                                }
+                                
+                            });
+                    } 
+                   
+                   
+                    
+                });
+        })
+    )
+</div>
+
+<table class="borderless">
+    
+        <td style="width: 200px">
+            <div style="float: left;">
+                @(Html.Kendo().Grid<UtilizationViewModel>()
+                      .Name("RequisitionGrid")
+                      .Events(events => events.Change("Grid_OnRowSelect"))
+                      .Selectable()
+                      .Columns(columns => columns.Bound(p => p.RequisitionNo).Title(Translator.Translate("Requestion No")))
+                      .Scrollable()
+                      .HtmlAttributes(new { style = "height:430px;" })
+                      .DataSource(dataSource => dataSource
+                                                    .Ajax()
+                                                    .Model(model => model.Id(p => p.RequisitionId))
+                                                    .Read(read => read.Action("ReadRequestionNumbers", "Utilization", new { zoneId = -1,programId =-1 }).Data("filterDataRequisitions"))
+                     
+                      )
+                      )
+            </div>
+        </td>
+        <td>
+
+            <div style="float: left;">
+
+                @(Html.Kendo().Grid<UtilizationDetailViewModel>()
+                      .Name("RequisitionGridDetail")
+                      .Columns(columns =>
+                                   {
+                                      
+                                       columns.Bound(p => p.FDP).Width(100).Title(Translator.Translate("FDP")).HtmlAttributes(new { style = "background-color:lightgray" });
+                                       columns.Bound(p => p.RequestedAmount).Width(60).Title(Translator.Translate("Requested")).HtmlAttributes(new { style = "background-color:lightgray" });
+                                       columns.Bound(p => p.AllocatedAmount).Width(60).Title(Translator.Translate("Allocated")).HtmlAttributes(new { style = "background-color:lightgray" });
+                                       columns.Bound(p => p.NumberOfBeneficiaries).Width(60).Title(Translator.Translate("No of Beneficiaries")).HtmlAttributes(new { style = "background-color:lightgray" });
+                                       columns.Bound(p => p.ReceivedAtFDPAmount).Width(60).Title(Translator.Translate("Received")).HtmlAttributes(new { align = "right" }).HtmlAttributes(new { style = "background-color:lightgray" });
+                                       columns.Bound(p => p.DispatchedToFDPAmount).Width(60).Title(Translator.Translate("Dispatched")).HtmlAttributes(new { align = "right" }).HtmlAttributes(new { style = "background-color:lightgray" });
+                                     
+                                       columns.Bound(p => p.DistributedQuantity).Width(60).Title(Translator.Translate("Distributed Quantity")).HtmlAttributes(new { align = "right" });
+                                      
+
+                                   })
+                   
+                      .Editable(editable => editable.Mode(GridEditMode.InCell))
+                     
+                      .Scrollable()
+                      .Selectable(t => t.Mode(GridSelectionMode.Single))
+                      .Navigatable()
+                      .HtmlAttributes(new { style = "height:430px;" })
+                   
+                      .DataSource(dataSource => dataSource
+                                                    .Ajax()
+                                                    .Batch(true)
+                                                    .Events(e=>e.RequestEnd("onRequestEnd"))
+                                                    .ServerOperation(false)
+                                                    .Model(model =>
+                                                               {
+                                                                   model.Id(p => p.FdpId);
+                                                                   model.Field(detail => detail.FDP).Editable(false);
+                                                                   model.Field(detail => detail.RequestedAmount).Editable(false);
+                                                                   model.Field(detail => detail.AllocatedAmount).Editable(false);
+                                                                   model.Field(detail => detail.DispatchedToFDPAmount).Editable(false);
+                                                                   model.Field(detail => detail.NumberOfBeneficiaries).Editable(false);
+                                                                   model.Field(detail => detail.ReceivedAtFDPAmount).Editable(false);
+                                                                   model.Field(detail => detail.DistributedQuantity).Editable(true);
+
+                                                               })
+                                                  
+
+                                                    .Read(read => read.Action("ReadRequisitionDetail", "Utilization", new { requisitionId = -1}).Data("filterDataRequisitionsDetail"))
+                                                    .Update(update => update.Action("Create", "Utilization"))
+                                                   
+                                                  
+                      ))
+            </div>
+        </td>
+    
+</table>
+
+
+
+
+
+
+
+
+
+<script>
+    var selectedWoreda;
+    function onSelect(e) {
+       
+        var id = this.dataItem(e.node).id;
+        selectedWoreda = id;
+      
+        if (id != null) {
+            var grid = $("#RequisitionGrid").data("kendoGrid");
+            grid.dataSource.read();
+           
+        }
+    }
+    function filterDataRequisitions() {
+        return {
+            zoneId: selectedWoreda,
+            programId: $("#ProgramID").val()
+        
+        };
+    };
+    
+
+    function onRequestEnd(e) {
+        //Check request type
+        if (e.type == "create" || e.type == "update") {
+            //check for errors in the response
+            if (e.response == null || e.response.Errors == null) {
+                alert("Distribution Information has been Saved!");
+            }
+        }
+    }
+    
+    saveUtilization = function(e) {
+       
+        $("#RequisitionGridDetail").data("kendoGrid").saveChanges();
+       
+    };
+    
+    var selectedRequisitionId;
+    Grid_OnRowSelect = function (e) {
+
+
+        //Selecting Grid
+        var gview = $("#RequisitionGrid").data("kendoGrid");
+        //Getting selected item
+        var selectedItem = gview.dataItem(gview.select());
+        //accessing selected rows data 
+        selectedRequisitionId = selectedItem.RequisitionId;
+        var grid = $("#RequisitionGridDetail").data("kendoGrid");
+        grid.dataSource.read();
+       
+       
+        
+    };
+
+
+    function filterDataRequisitionsDetail() {
+        
+        return { requisitionId: selectedRequisitionId };
+        
+       
+    }
+    
+       
+        $("#ProgramID").change(function () {
+            var grid = $("#RequisitionGrid").data("kendoGrid");
+
+            grid.dataSource.read();
+        });
+    
+    
+    
+    
+        
+       
+   
+</script>

@@ -31,7 +31,7 @@ namespace Cats.Models
         public virtual ICollection<RegionalPSNPPlanDetail> RegionalPSNPPlanDetails { get; set; }
         public virtual ICollection<Distribution> Distributions { get; set; }
 
-        public virtual ICollection<DetailDistribution> DetailDistributions { get; set; }
+        public virtual ICollection<UtilizationDetail> UtilizationDetails { get; set; }
         public virtual ICollection<DistributionByAge> DistributionByAges { get; set; }
   
 
