@@ -46,7 +46,7 @@ namespace Cats.Models.Hubs
         /// </value>
         [DataType(DataType.Password)]
         [Display(Name = "Confirm new password")]
-       //todo:check [Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
+       //TODO:check [Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
     }
 
@@ -159,7 +159,7 @@ namespace Cats.Models.Hubs
         /// </value>
         [DataType(DataType.Password)]
         [Display(Name = "Confirm password")]
-       //todo:check [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+       //TODO:check [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
     }
 

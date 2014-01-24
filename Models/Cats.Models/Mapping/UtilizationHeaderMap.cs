@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Cats.Models.Mapping
 {
-    public class HeaderDistributionMap : EntityTypeConfiguration<HeaderDistribution>
+    public class UtilizationHeaderMap : EntityTypeConfiguration<UtilizationHeader>
     {
-        public HeaderDistributionMap()
+        public UtilizationHeaderMap()
         {
             // Primary Key
             this.HasKey(t => t.DistributionId);
@@ -19,7 +19,7 @@ namespace Cats.Models.Mapping
                 .HasMaxLength(200);
 
             // Table & Column Mappings
-            this.ToTable("HeaderDistribution");
+            this.ToTable("UtilizationHeader");
             this.Property(t => t.DistributionId).HasColumnName("DistributionId");
             this.Property(t => t.RequisitionId).HasColumnName("RequisitionId");
             this.Property(t => t.DistributionDate).HasColumnName("DistributionDate");
@@ -28,7 +28,7 @@ namespace Cats.Models.Mapping
 
             // Relationships
             this.HasOptional(t => t.UserProfile)
-                .WithMany(t => t.HeaderDistributions)
+                .WithMany(t => t.UtilizationHeaders)
                 .HasForeignKey(d => d.DistributedBy);
 
         }
