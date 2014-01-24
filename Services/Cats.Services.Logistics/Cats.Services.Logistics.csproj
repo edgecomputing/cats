@@ -70,10 +70,12 @@
   <ItemGroup>
     <Compile Include="BeneficiaryAllocationService.cs" />
     <Compile Include="DetailDestirbutionService.cs" />
+    <Compile Include="IDistributionByAgeService.cs" />
     <Compile Include="DistributionDetailService.cs" />
     <Compile Include="DistributionService.cs" />
     <Compile Include="HeaderDistributionService.cs" />
     <Compile Include="IDetailDistributionService.cs" />
+    <Compile Include="DistributionByAgeService.cs" />
     <Compile Include="IDistributionDetailService.cs" />
     <Compile Include="IDistributionService.cs" />
     <Compile Include="IHeaderDistributionService.cs" />

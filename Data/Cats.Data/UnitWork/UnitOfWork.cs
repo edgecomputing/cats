@@ -880,10 +880,16 @@ namespace Cats.Data.UnitWork
 
         }
 
+        private IGenericRepository<DistributionByAge> _distributionByAgeRepository;
+        public IGenericRepository<DistributionByAge> DistributionByAgeRepositroy
+        {
+            get { return this._distributionByAgeRepository ?? (this._distributionByAgeRepository = new GenericRepository<DistributionByAge>(_context)); }
+
+        }
+
         //public IGenericRepository<TransportBidQuotationHeader> TransportBidQuotationHeaderRepository
         //{
         //    throw new NotImplementedException(); 
         //}
-
     }
 }
