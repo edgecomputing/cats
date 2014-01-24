@@ -277,7 +277,7 @@
         if ($("#ProgramID").val() == 1)//releif
         {
            
-            $("#div_round").hide();
+           
             $.getJSON('/Utilization/GetMonth/' + $("#PlanID").val(), function (data) {
                 var months = '<option> Select Month </option>';
                 $.each(data, function (i, m) {
@@ -286,8 +286,16 @@
                 $("#month").html(months);
             });
 
-           
+            $.getJSON('/Utilization/GetRound/' + $("#PlanID").val(), function (data) {
+                var months = '<option> Select Round </option>';
+                $.each(data, function (i, r) {
+                    months += "<option value='" + r.Value + "'>" + r.Text + "</option>";
+                });
+                $("#round").html(months);
+            });
+            
             $("#div_month").show();
+            $("#div_round").show();
         }
         else if ($("#ProgramID").val())//psnp
         {

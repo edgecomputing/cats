@@ -116,13 +116,33 @@ namespace Cats.Areas.Logistics.Controllers
        
         public JsonResult GetMonth(string id)
         {
-            var months = _regionalRequestService.FindBy(r => r.PlanID == int.Parse(id)).Select(m => m.Month).ToList();
-            return Json(new SelectList(months, "Month", "Month"), JsonRequestBehavior.AllowGet);
+            try
+            {
+                var planid = int.Parse(id);
+                var months = _regionalRequestService.FindBy(r => r.PlanID == planid).ToList();
+                return Json(new SelectList(months, "Month", "Month"), JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+
+                return null;
+            }
+          
         }
         public JsonResult GetRound(string id)
         {
-            var rounds = _regionalRequestService.FindBy(r => r.PlanID == int.Parse(id)).Select(m => m.Round).ToList();
-            return Json(new SelectList(rounds, "Round", "Round"), JsonRequestBehavior.AllowGet);
+            try
+            {
+                var planid = int.Parse(id);
+                var rounds = _regionalRequestService.FindBy(r => r.PlanID == planid).ToList();
+                return Json(new SelectList(rounds, "Round", "Round"), JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+
+                return null;
+            }
+           
         }
     }
 }
