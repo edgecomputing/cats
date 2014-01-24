@@ -35,19 +35,25 @@
         @Html.HiddenFor(m => m.RegionId)
         @using (Html.BeginForm())
         {
-            <div class="control-group" id="program">
-                <div class="control-label">
+          
                     @Html.Label(Translator.Translate("Program"))
-                </div>
-                <div class="controls" id="div_program">
                     @Html.DropDownList("ProgramID", String.Empty)  
-                </div>
-            </div>
+               
            
                     @Html.Label(Translator.Translate("Plan"))
-               
                     <select id="PlanID" name="PlanID"></select>
-                
+                    
+            <div id="div_month">
+                @Html.Label(Translator.Translate("Month"))
+                <select id="month" name="month"></select>
+            </div>
+            <div id="div_round">
+                @Html.Label(Translator.Translate("Round"))
+                <select id="round" name="round"></select>
+            </div>
+                   
+                    
+                    
         }
     @(Html.Kendo().TreeView()
         .Name("AdminUnitTreeView")
@@ -186,6 +192,14 @@
 
 
 <script>
+
+    $(document).ready(function(parameters) {
+        $("#div_round").hide();
+        $("#div_month").hide();
+    });
+
+
+
     var selectedWoreda;
     function onSelect(e) {
        
@@ -251,29 +265,69 @@
         
        
     }
-        $("#ProgramID").change(function () {
-            var grid = $("#RequisitionGrid").data("kendoGrid");
-            grid.dataSource.read();
-        });
+    $("#ProgramID").change(function () {
         
-        $("#PlanID").change(function () {
-           
-            var grid = $("#RequisitionGrid").data("kendoGrid");
-            grid.dataSource.read();
-        });
-        $(function() {
-            $("#ProgramID").change(function() {
-               
-                $.getJSON('/Utilization/GetPlans/' + $("#ProgramID").val(), function (data) {
-                    var plans = '<option> Select a Plan </option>';
-                    $.each(data, function (i, plan) {
-                        plans += "<option value='" + plan.Value +"'>" + plan.Text + "</option>";
-                    });
-                    $("#PlanID").html(plans);
-                });
 
+        var grid = $("#RequisitionGrid").data("kendoGrid");
+        grid.dataSource.read();
+    });
+        
+    $("#PlanID").change(function () {
+           
+        if ($("#ProgramID").val() == 1)//releif
+        {
+           
+            $("#div_round").hide();
+            $.getJSON('/Utilization/GetMonth/' + $("#PlanID").val(), function (data) {
+                var months = '<option> Select Month </option>';
+                $.each(data, function (i, m) {
+                    months += "<option value='" + m.Value + "'>" + m.Text + "</option>";
+                });
+                $("#month").html(months);
             });
+
+           
+            $("#div_month").show();
+        }
+        else if ($("#ProgramID").val())//psnp
+        {
+            $("#div_month").hide();
+
+            $.getJSON('/Utilization/GetRound/' + $("#PlanID").val(), function (data) {
+                var months = '<option> Select Round </option>';
+                $.each(data, function (i, r) {
+                    months += "<option value='" + r.Value + "'>" + r.Text + "</option>";
+                });
+                $("#round").html(months);
+            });
+
+            $("#div_round").show();
+        }
+        
+
+        var grid = $("#RequisitionGrid").data("kendoGrid");
+        grid.dataSource.read();
+    });
+    $(function () {
+        
+      
+        
+        $("#ProgramID").change(function() {
+               
+            $("#div_round").hide();
+            $("#div_month").hide();
+            
+            $.getJSON('/Utilization/GetPlans/' + $("#ProgramID").val(), function (data) {
+                var plans = '<option> Select a Plan </option>';
+                $.each(data, function (i, plan) {
+                    plans += "<option value='" + plan.Value +"'>" + plan.Text + "</option>";
+                });
+                $("#PlanID").html(plans);
+            });
+
+
+           
         });
-       
+    });       
    
 </script>

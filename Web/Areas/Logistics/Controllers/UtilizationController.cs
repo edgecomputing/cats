@@ -22,13 +22,15 @@ namespace Cats.Areas.Logistics.Controllers
         private readonly UserAccountService _userAccountService;
         private readonly IWorkflowStatusService _workflowStatusService;
         private readonly ICommonService _commonService;
-        public UtilizationController(IUtilizationHeaderSerivce utilizationService, IUtilizationDetailSerivce utilizationDetailSerivce, UserAccountService userAccountService, IWorkflowStatusService workflowStatusService, ICommonService commonService)
+        private readonly IRegionalRequestService _regionalRequestService;
+        public UtilizationController(IUtilizationHeaderSerivce utilizationService, IUtilizationDetailSerivce utilizationDetailSerivce, UserAccountService userAccountService, IWorkflowStatusService workflowStatusService, ICommonService commonService, IRegionalRequestService regionalRequestService)
         {
             _utilizationService = utilizationService;
             _utilizationDetailSerivce = utilizationDetailSerivce;
             _userAccountService = userAccountService;
             _workflowStatusService = workflowStatusService;
             _commonService = commonService;
+            _regionalRequestService = regionalRequestService;
         }
 
         //
@@ -104,47 +106,23 @@ namespace Cats.Areas.Logistics.Controllers
         }
 
 
+
         public JsonResult GetPlans(string id)
         {
-            int programId = int.Parse(id);
+            var programId = int.Parse(id);
             var plans = _commonService.GetPlan(programId);
             return Json(new SelectList(plans.ToList(), "PlanID", "PlanName"), JsonRequestBehavior.AllowGet);
         }
-        public JsonResult GetCasscadeAdminUnits()
+       
+        public JsonResult GetMonth(string id)
         {
-            var cascadeAdminUnitAllRegions = (from region in _commonService.GetAminUnits(m => m.AdminUnitTypeID == 2)
-
-                                              select new
-                                              {
-                                                  RegionID = region.AdminUnitID,
-                                                  RegionName = region.Name,
-
-                                                  zones = from zone in _commonService.GetAminUnits(z => z.ParentID == region.AdminUnitID)
-                                                          select new
-                                                          {
-                                                              ZoneID = zone.AdminUnitID,
-                                                              ZoneName = zone.Name,
-
-
-                                                              Woredas = from woreda in _commonService.GetAminUnits(m => m.ParentID == zone.AdminUnitID)
-                                                                        select new
-                                                                        {
-                                                                            WoredaID = woreda.AdminUnitID,
-                                                                            WoredaName = woreda.Name,
-                                                                            fdps = from fdp in _commonService.GetFDPs(woreda.AdminUnitID)
-                                                                                   select new
-                                                                                   {
-                                                                                       FDPID = fdp.FDPID,
-                                                                                       FDPName = fdp.Name
-                                                                                   }
-                                                                        }
-
-                                                          }
-                                              }
-
-
-                 );
-            return Json(cascadeAdminUnitAllRegions, JsonRequestBehavior.AllowGet);
+            var months = _regionalRequestService.FindBy(r => r.PlanID == int.Parse(id)).Select(m => m.Month).ToList();
+            return Json(new SelectList(months, "Month", "Month"), JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult GetRound(string id)
+        {
+            var rounds = _regionalRequestService.FindBy(r => r.PlanID == int.Parse(id)).Select(m => m.Round).ToList();
+            return Json(new SelectList(rounds, "Round", "Round"), JsonRequestBehavior.AllowGet);
         }
     }
 }
