@@ -16,7 +16,7 @@
 
 @section Toolbar    {
    
-    <div class="btn-group" style="margin-right:8px;">
+   @* <div class="btn-group" style="margin-right:8px;">
         <button class="btn">Action</button>
         @{
             
@@ -30,21 +30,26 @@
                 <li><a  href="@Url.Action("WarehouseSelection", "TransportBidPlan", new { id = ViewBag.BidPlanID })" >View Bid Plan </a></li>
         </ul>
 
-    </div>
+    </div>*@
            
 }
 
 <div class="form-horizontal well" style="width: 1178px">
     <div class="control-label">
-                    @Html.LabelFor(model => model.BidNumber)
+                    @Html.Label("Active BID")
                 </div>
-                <div class="controls">
-                    @Html.DropDownList("BIDID",String.Empty)
-                    
-                </div>
+    <div class="controls">
+        @Html.DropDownList("BIDID",String.Empty)
+        <div id="div_WinnerNotGenerated" style="display: none">
+        <h4>Winner Is not Generated for this Bid </h4>
+         <a  href="@Url.Action("BidProposalHeader", "PriceQuotation")" >Go To Winner Generation Page </a>
+</div>      
+    </div>
+   
 </div>
-<div>
-    <div style="float: left; width:600px; height:250px; border:1px solid #ececec; margin-top:10px;margin-right:20px;margin-bottom:20px;">
+@*<div>*@
+
+    <div id="div_bidAdmin" style=" display:none; float: left; width:600px; height:350px; border:1px solid #ececec; margin-top:10px;margin-right:20px;margin-bottom:20px;">
         <div style="font-weight: bold;margin:10px;">List of Bid Winners</div>
         @(Html.Kendo().Grid<BidWinnerViewModel>()
               .Name("grid1")
@@ -54,12 +59,11 @@
                       columns.Bound(t => t.TransporterName);
                       columns.Bound(t => t.SourceWarehouse);
                       columns.Bound(t => t.Woreda);
-                      //columns.Bound(t => t.Quantity);
                       columns.Bound(t => t.WinnerTariff).Title(Translator.Translate("Tariff"));
-                      //columns.Bound(t => t.StatusID);
-                      //columns.Bound(t => t.Status);
+                     
                   })
               .Scrollable()
+               .HtmlAttributes(new {style = "height:340px;"})
               .DataSource(datasource =>
                           datasource
                               .Ajax()
@@ -68,7 +72,7 @@
                               //.Group(group => group.Add(m => m.SourceWarehouse))
                               .Group(group=> group.Add(m=>m.TransporterName))
                               
-              .Read(read=>read.Action("BidAdminDraft_Read","BidAdministration").Data("filterData"))))
+              .Read(read=>read.Action("BidAdminDraft_Read","BidAdministration").Data("filterInfo"))))
               
 
              
@@ -77,36 +81,77 @@
         <div style="font-weight: bold;margin:10px;">Bid Plan Detail</div>
 
         @Html.Partial("_BidPlanDetail", Model)
-    </div> 
-    <div style="float: left; width:600px; height:250px; border:1px solid #ececec; margin-top:10px;margin-right:20px;margin-bottom:20px;">
-        <div style="font-weight: bold;margin:10px;">Woredas With out bid Offer</div>
-
-        @Html.Partial("_WoredasWithoutOffer", Model)
     </div> *@
+    <div id="div_Without_Offer" style="display: none; float: left; width:600px; height:350px; border:1px solid #ececec; margin-top:10px;margin-right:20px;margin-bottom:20px;">
+        <div style="font-weight: bold;margin:10px;">Woredas With out bid Offer</div>
+        
+         @(Html.Kendo().Grid<BidWinnerViewModel>()
+        .Name("withOutOffer")
+        .Columns(columns=>
+        {
+ 
+       columns.Bound(t => t.SourceWarehouse);
+        columns.Bound(t => t.Woreda);
+        })
+     .Scrollable()
+      .HtmlAttributes(new {style = "height:340px;"})
+        .DataSource(datasource=>
+            datasource                 
+            .Ajax()
+    .Model(model=>model.Id(p=>p.BidID))
+    .Group(group=>group.Add(m=>m.Region))
+   // .Read(read=>read.Action("WoredasWithoutOffer_Read","BidAdministration").Data("filterInfo"))
+    .Read(read=>read.Action("WoredasWithoutOffer_Read","BidAdministration").Data("filterInfo"))
+    ))
+         
+       
+    </div> 
    
-</div>
+@*</div>*@
 <script type="text/javascript">
-    function collapseGroupRows() {
-        var grid = $("#grid1").data("kendoGrid");
-        grid.collapseGroup(grid.tbody.find(">tr.k-grouping-row"));
-        $('tr[role*="row"]').hide();
+    var bidID;
+    function filterInfo() {
+        return { BIDID: bidID };
     }
-    
     $("#BIDID").change(function () {
-        var selected = $("#BIDID").val();
-        $("#BIDID").val(selected);
-        var grid = $("#grid").data("kendoGrid");
-        grid.dataSource.read();
-        alert(selected);
+        
+        bidID = $("#BIDID").val();
+        //var isWinnerGenrated = $.post("@Url.Action("WinnerGenerated", "BidAdministration",new {Area="Procurement"})", bidID);
+        var selectedBidId = new Array();
+        selectedBidId[0] = bidID;
+       
+         $.ajax({
+            type: "GET",
+            url: "/BidAdministration/WinnerGenerated",
+            contentType: "application/json; charset=utf-8",
+            data: {BIDID:bidID},
+            //dataType: "json",
+            success: CheckStatus,
+            error: function () {
+                alert("fail");
+            }
+             
+        });
+        
     });
     
-    function filterData() {
-
-        return {
-            BIDID: $("#BIDID").val()
-            
-        };
+    function CheckStatus(results) {
+        if (results=="False") {
+            $("#div_WinnerNotGenerated").show();
+                $("#div_bidAdmin").hide();
+                $("#div_Without_Offer").hide();
+        }
+        else {
+            $("#div_bidAdmin").show();
+            $("#grid1").data("kendoGrid").dataSource.read();
+                $("#div_Without_Offer").show();
+                $("#withOutOffer").data("kendoGrid").dataSource.read();
+               
+            $("#div_WinnerNotGenerated").hide();
+        }
     }
+    
+   
 </script>
 
 
