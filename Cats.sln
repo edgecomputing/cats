@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Models", "Models", "{22239E9E-2CFB-4860-A1CF-28A80CF15054}"
 	ProjectSection(SolutionItems) = preProject
 		Web\Areas\Logistics\Models\SummaryFreeAndPhysicalStockModel.cs = Web\Areas\Logistics\Models\SummaryFreeAndPhysicalStockModel.cs
@@ -111,6 +113,7 @@ Global
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{7711C8B7-E894-4305-AE96-3255A184344C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7711C8B7-E894-4305-AE96-3255A184344C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7711C8B7-E894-4305-AE96-3255A184344C}.Pilot|Any CPU.ActiveCfg = Release|Any CPU
 		{7711C8B7-E894-4305-AE96-3255A184344C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7711C8B7-E894-4305-AE96-3255A184344C}.Release|Any CPU.Build.0 = Release|Any CPU
