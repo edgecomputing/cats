@@ -24,6 +24,8 @@
     <legend>
         Distribution Data Entry
     </legend>
+    <h5> Start by selecting program and zone from the left side and click on one of the requisitions.</h5>
+    <hr/>
 </fieldset>
 <div id="div_tree_view" class="span3">
     
@@ -232,16 +234,6 @@
         
     };
 
-    //function filterDataRequisitions() {
-       
-    //    return {
-    //        regionId: $("#RegionID").val(),
-    //        zoneID: $("#ZoneID").val(),
-    //        woredaID: $("#WoredaID").val(),
-    //        programID:$("#ProgramID").val()
-            
-    //    };
-    //}
 
     function filterDataRequisitionsDetail() {
         
@@ -250,22 +242,7 @@
        
     }
     
-        $("#RegionID").change(function () {
-           
-            var grid = $("#RequisitionGrid").data("kendoGrid");
-            grid.dataSource.read();
-        });
-        $("#ZoneID").change(function () {
-            
-            var grid = $("#RequisitionGrid").data("kendoGrid");
-
-            grid.dataSource.read();
-        });
-        $("#WoredaID").change(function () {
-            var grid = $("#RequisitionGrid").data("kendoGrid");
-
-            grid.dataSource.read();
-        });
+       
         $("#ProgramID").change(function () {
             var grid = $("#RequisitionGrid").data("kendoGrid");
 
@@ -274,109 +251,7 @@
     
     
     
-    var admin_region_hash = {};
-    var admin_zone_hash = {};
-    var admin_regions = {};
-   
-
-    $.ajax({
-        url: '@Url.Action("GetCasscadeAdminUnits", "Utilization")',
-        dataType: 'json',
-        success: function (data) {
-           
-            var msg = "";
-            for (var i in data) {
-
-                msg += "\n" + data[i].RegionName;
-
-                var keyr = data[i].RegionID;
-                admin_regions[keyr] = data[i];
-
-                var zoneCount = data[i].zones.length;
-
-                for (var r = 0; r < zoneCount; r++) {
-                    var keyZone = data[i].zones[r].ZoneID;
-                    admin_region_hash[keyZone] = data[i].zones[r];
-
-                    var countw = data[i].zones[r].Woredas.length;
-
-                    for (var jj = 0; jj < countw; jj++) {
-                        var keyw = data[i].zones[r].Woredas[jj].WoredaID;
-                        admin_zone_hash[keyw] = data[i].zones[r].Woredas[jj].fdps;
-                    }
-                }
-            }
-
-
-       
-        },
-        error: function (request, textStatus, errorThrown) {
-            alert(textStatus);
-        },
-        //complete: function (request, textStatus) { //for additional info
-        //    alert(request.responseText);
-        //    alert(textStatus);
-        //}
-    });
-
-    var zone = document.getElementById("ZoneID");
-    zone.enable = false;
-        $("#RegionID").change(function () {
-
-            zone.enable = true;
-            var selectedRegionId = $("#RegionID").val();
-            var region = admin_regions[selectedRegionId];
-            var zones = region.zones;
-           
-           
-           
-            var htmr = "<select name='ZoneID' id ='ZoneID' > ";
-            for (var r in zones) {
-
-                htmr += "<option value='" + zones[r].ZoneID + "'>" + zones[r].ZoneName + "</option>";
-              
-            }
-            htmr += "</select>";
-            $("#div_zone").html(htmr);
-            
-           
-            $("#ZoneID").change(function() {
-                var zoneId = $("#ZoneID").val();
-                var zone = admin_region_hash[zoneId];
-                var woredas = zone.Woredas;
-
-               
-                var htm = "<select name='WoredaID' id ='WoredaID' > ";
-                for (var z in woredas) { 
-                    htm += "<option value='" + woredas[z].WoredaID + "'>" + woredas[z].WoredaName + "</option>";  
-                }
-
-                htm += "</select>";
-                $("#div_woreda").html(htm);
-
-               
-            });
-        });
-        
-
-       
-        $("#ZoneID").change(function () {
-           
-            var zoneId = $("#ZoneID").val();
-            var zone = admin_region_hash[zoneId];
-            var woredas = zone.Woredas;
-
-
-            var htm = "<select name='WoredaID' id ='WoredaID' > ";
-            for (var z in woredas) {
-                htm += "<option value='" + woredas[z].WoredaID + "'>" + woredas[z].WoredaName + "</option>";
-            }
-
-            htm += "</select>";
-            $("#div_woreda").html(htm);
-
-            
-        });
+    
         
        
    
