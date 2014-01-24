@@ -96,7 +96,10 @@ namespace Cats.Services.Common
            return _unitOfWork.PlanRepository.FindBy(m => m.ProgramID == programID && m.Status == (int)PlanStatus.HRDCreated);
        }
 
-
+     public  List<Plan> GetPlans()
+     {
+         return _unitOfWork.PlanRepository.GetAll();
+     }
        public List<FDP> GetFDPs(int woredaID)
        {
            return _unitOfWork.FDPRepository.FindBy(m => m.AdminUnitID == woredaID);

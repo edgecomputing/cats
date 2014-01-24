@@ -25,7 +25,8 @@ namespace Cats.ViewModelBinder
                                                               RequisitionId = u.RequisitionID,
                                                               RequistionNo = u.ReliefRequisition.RequisitionNo,
                                                               Program = u.ReliefRequisition.Program.Name,
-                                                              Programid = (int)u.ReliefRequisition.ProgramID
+                                                              Programid = (int)u.ReliefRequisition.ProgramID,
+                                                              PlanId = u.ReliefRequisition.RegionalRequest.PlanID
                                                           });
         }
 

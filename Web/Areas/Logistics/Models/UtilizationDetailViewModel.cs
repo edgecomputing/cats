@@ -17,7 +17,7 @@ namespace Cats.Areas.Logistics.Models
         public string RequistionNo { get; set; }
         public int Programid { get; set; }
         public string Program { get; set; }
-
+        public int PlanId { get; set; }
         public decimal DistributedQuantity { get; set; }
         public DateTime DistributionStartDate { get; set; }
         public DateTime DistributionEndDate { get; set; }

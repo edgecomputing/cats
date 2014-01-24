@@ -22,27 +22,33 @@
 
 <fieldset>
     <legend>
-        Distribution Data Entry
+        Distribution Data Entry<br/>
+       <h5> Start by selecting program,Plan and zone from the left side and click on one of the requisitions.</h5>
     </legend>
-    <h5> Start by selecting program and zone from the left side and click on one of the requisitions.</h5>
-    <hr/>
+    
+    
 </fieldset>
 <div id="div_tree_view" class="span3">
     
     
             
         @Html.HiddenFor(m => m.RegionId)
-        
-        <div class="control-group" id="program">
-            <div class="control-label">
-                @Html.Label(Translator.Translate("Program"))
+        @using (Html.BeginForm())
+        {
+            <div class="control-group" id="program">
+                <div class="control-label">
+                    @Html.Label(Translator.Translate("Program"))
+                </div>
+                <div class="controls" id="div_program">
+                    @Html.DropDownList("ProgramID", String.Empty)  
+                </div>
             </div>
-            <div class="controls" id="div_program">
-                @Html.DropDownList("ProgramID", String.Empty)  
-            </div>
-        </div>
-   
-
+           
+                    @Html.Label(Translator.Translate("Plan"))
+               
+                    <select id="PlanID" name="PlanID"></select>
+                
+        }
     @(Html.Kendo().TreeView()
         .Name("AdminUnitTreeView")
         .Animation(animation => animation.Expand(open => open.Fade(FadeDirection.In)))
@@ -108,7 +114,7 @@
                       .DataSource(dataSource => dataSource
                                                     .Ajax()
                                                     .Model(model => model.Id(p => p.RequisitionId))
-                                                    .Read(read => read.Action("ReadRequestionNumbers", "Utilization", new { zoneId = -1,programId =-1 }).Data("filterDataRequisitions"))
+                                                    .Read(read => read.Action("ReadRequestionNumbers", "Utilization", new { zoneId = -1,programId =-1,planId = -1}).Data("filterDataRequisitions"))
                      
                       )
                       )
@@ -193,11 +199,15 @@
         }
     }
     function filterDataRequisitions() {
+       
+      
         return {
             zoneId: selectedWoreda,
-            programId: $("#ProgramID").val()
-        
+            programId: $("#ProgramID").val(),
+            planId: $("#PlanID").val()
+            
         };
+        
     };
     
 
@@ -241,18 +251,29 @@
         
        
     }
-    
-       
         $("#ProgramID").change(function () {
             var grid = $("#RequisitionGrid").data("kendoGrid");
-
             grid.dataSource.read();
         });
-    
-    
-    
-    
         
+        $("#PlanID").change(function () {
+           
+            var grid = $("#RequisitionGrid").data("kendoGrid");
+            grid.dataSource.read();
+        });
+        $(function() {
+            $("#ProgramID").change(function() {
+               
+                $.getJSON('/Utilization/GetPlans/' + $("#ProgramID").val(), function (data) {
+                    var plans = '<option> Select a Plan </option>';
+                    $.each(data, function (i, plan) {
+                        plans += "<option value='" + plan.Value +"'>" + plan.Text + "</option>";
+                    });
+                    $("#PlanID").html(plans);
+                });
+
+            });
+        });
        
    
 </script>
