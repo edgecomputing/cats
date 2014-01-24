@@ -65,6 +65,16 @@ namespace Cats.Areas.Logistics.Controllers
             return Json(requisitionViewModel.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
 
         }
+        public ActionResult DistributionByAge_Read([DataSourceRequest] DataSourceRequest request, int requisitionId = -1)
+        {
+            if (requisitionId == -1)
+                return null;
+            var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
+            var requisitionDetail = _utilizationService.GetReliefRequisitions(requisitionId);
+            var distributionByAgeDetailViewModel =UtilizationViewModelBinder.GetDistributionByAgeDetail(requisitionDetail);
+            return Json(distributionByAgeDetailViewModel.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+
+        }
 
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Update([DataSourceRequest] DataSourceRequest request, IEnumerable<Models.UtilizationDetailViewModel> utilizationDetailViewModels)
@@ -99,7 +109,7 @@ namespace Cats.Areas.Logistics.Controllers
 
             return Json(results.ToDataSourceResult(request, ModelState));
         }
-
+                
         public JsonResult GetCasscadeAdminUnits()
         {
             var cascadeAdminUnitAllRegions = (from region in _commonService.GetAminUnits(m => m.AdminUnitTypeID == 2)

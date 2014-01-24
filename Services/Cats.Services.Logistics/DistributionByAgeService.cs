@@ -8,12 +8,12 @@ using Cats.Models;
 namespace Cats.Services.Logistics
 {
 
-    public class EntityService:IDistributionByAgeService
+    public class DistributionByAgeService:IDistributionByAgeService
    {
        private readonly  IUnitOfWork _unitOfWork;
-      
 
-       public EntityService(IUnitOfWork unitOfWork)
+
+       public DistributionByAgeService(IUnitOfWork unitOfWork)
        {
            this._unitOfWork = unitOfWork;
        }

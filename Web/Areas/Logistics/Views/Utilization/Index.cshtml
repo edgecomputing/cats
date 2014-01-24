@@ -96,7 +96,7 @@
 
 <table class="borderless">
     
-        <td style="width: 200px">
+        <td style="width: 180px">
             <div style="float: left;">
                 @(Html.Kendo().Grid<UtilizationViewModel>()
                       .Name("RequisitionGrid")
@@ -104,7 +104,7 @@
                       .Selectable()
                       .Columns(columns => columns.Bound(p => p.RequisitionNo).Title(Translator.Translate("Requestion No")))
                       .Scrollable()
-                      .HtmlAttributes(new { style = "height:430px;" })
+                      .HtmlAttributes(new { style = "height:450px;" })
                       .DataSource(dataSource => dataSource
                                                     .Ajax()
                                                     .Model(model => model.Id(p => p.RequisitionId))
@@ -115,58 +115,31 @@
             </div>
         </td>
         <td>
+           <div class="row-fluid">
+                <ul class="nav nav-tabs ">
+                    <li class="active">
+                        <a href="#tab0" data-toggle="tab"><b>@Translator.Translate("Distribution Quantity Info")</b></a>
+                    </li>
 
-            <div style="float: left;">
-
-                @(Html.Kendo().Grid<UtilizationDetailViewModel>()
-                      .Name("RequisitionGridDetail")
-                      .Columns(columns =>
-                                   {
-                                      
-                                       columns.Bound(p => p.FDP).Width(100).Title(Translator.Translate("FDP")).HtmlAttributes(new { style = "background-color:lightgray" });
-                                       columns.Bound(p => p.RequestedAmount).Width(60).Title(Translator.Translate("Requested")).HtmlAttributes(new { style = "background-color:lightgray" });
-                                       columns.Bound(p => p.AllocatedAmount).Width(60).Title(Translator.Translate("Allocated")).HtmlAttributes(new { style = "background-color:lightgray" });
-                                       columns.Bound(p => p.NumberOfBeneficiaries).Width(60).Title(Translator.Translate("No of Beneficiaries")).HtmlAttributes(new { style = "background-color:lightgray" });
-                                       columns.Bound(p => p.ReceivedAtFDPAmount).Width(60).Title(Translator.Translate("Received")).HtmlAttributes(new { align = "right" }).HtmlAttributes(new { style = "background-color:lightgray" });
-                                       columns.Bound(p => p.DispatchedToFDPAmount).Width(60).Title(Translator.Translate("Dispatched")).HtmlAttributes(new { align = "right" }).HtmlAttributes(new { style = "background-color:lightgray" });
-                                     
-                                       columns.Bound(p => p.DistributedQuantity).Width(60).Title(Translator.Translate("Distributed Quantity")).HtmlAttributes(new { align = "right" });
-                                      
-
-                                   })
-                   
-                      .Editable(editable => editable.Mode(GridEditMode.InCell))
-                     
-                      .Scrollable()
-                      .Selectable(t => t.Mode(GridSelectionMode.Single))
-                      .Navigatable()
-                      .HtmlAttributes(new { style = "height:430px;" })
-                   
-                      .DataSource(dataSource => dataSource
-                                                    .Ajax()
-                                                    .Batch(true)
-                                                    .Events(e=>e.RequestEnd("onRequestEnd"))
-                                                    .ServerOperation(false)
-                                                    .Model(model =>
-                                                               {
-                                                                   model.Id(p => p.FdpId);
-                                                                   model.Field(detail => detail.FDP).Editable(false);
-                                                                   model.Field(detail => detail.RequestedAmount).Editable(false);
-                                                                   model.Field(detail => detail.AllocatedAmount).Editable(false);
-                                                                   model.Field(detail => detail.DispatchedToFDPAmount).Editable(false);
-                                                                   model.Field(detail => detail.NumberOfBeneficiaries).Editable(false);
-                                                                   model.Field(detail => detail.ReceivedAtFDPAmount).Editable(false);
-                                                                   model.Field(detail => detail.DistributedQuantity).Editable(true);
-
-                                                               })
-                                                  
-
-                                                    .Read(read => read.Action("ReadRequisitionDetail", "Utilization", new { requisitionId = -1}).Data("filterDataRequisitionsDetail"))
-                                                    .Update(update => update.Action("Create", "Utilization"))
-                                                   
-                                                  
-                      ))
+                    <li>
+                        <a href="#tab1" data-toggle="tab"><b>@Translator.Translate("Distribution by Age")</b></a>
+                    </li>
+           
+                </ul>
+                 <div class="tab-content ">
+            <div id="tab0" class="tab-pane active">
+                <div id="BenficiaryInfo" >
+                    @Html.Partial("_DistributionByBeneficiary",Model)
+                </div>
             </div>
+            <div id="tab1" class="tab-pane">
+                <div id="DistributionByAge" >
+                   @Html.Partial("_DistributionByAge",Model)
+                </div>
+            </div>
+           
+        </div>
+              </div> 
         </td>
     
 </table>
@@ -229,6 +202,8 @@
         selectedRequisitionId = selectedItem.RequisitionId;
         var grid = $("#RequisitionGridDetail").data("kendoGrid");
         grid.dataSource.read();
+        var grid2 = $("#DistributionByAgeDetail").data("kendoGrid");
+        grid2.dataSource.read();
        
        
         
