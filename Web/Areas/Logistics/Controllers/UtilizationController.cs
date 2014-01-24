@@ -22,13 +22,15 @@ namespace Cats.Areas.Logistics.Controllers
         private readonly UserAccountService _userAccountService;
         private readonly IWorkflowStatusService _workflowStatusService;
         private readonly ICommonService _commonService;
-        public UtilizationController(IUtilizationHeaderSerivce utilizationService, IUtilizationDetailSerivce utilizationDetailSerivce, UserAccountService userAccountService, IWorkflowStatusService workflowStatusService, ICommonService commonService)
+        private readonly IRegionalRequestService _regionalRequestService;
+        public UtilizationController(IUtilizationHeaderSerivce utilizationService, IUtilizationDetailSerivce utilizationDetailSerivce, UserAccountService userAccountService, IWorkflowStatusService workflowStatusService, ICommonService commonService, IRegionalRequestService regionalRequestService)
         {
             _utilizationService = utilizationService;
             _utilizationDetailSerivce = utilizationDetailSerivce;
             _userAccountService = userAccountService;
             _workflowStatusService = workflowStatusService;
             _commonService = commonService;
+            _regionalRequestService = regionalRequestService;
         }
 
         //
@@ -36,21 +38,20 @@ namespace Cats.Areas.Logistics.Controllers
 
         public ActionResult Index()
         {
+           
             ViewBag.RegionCollection = _commonService.GetAminUnits(t => t.AdminUnitTypeID == 2);
-            ViewBag.RegionID = new SelectList(_commonService.GetAminUnits(t => t.AdminUnitTypeID == 2), "AdminUnitID", "Name");
-            ViewBag.ZoneID = new SelectList(_commonService.GetAminUnits(t => t.AdminUnitTypeID == 3), "AdminUnitID", "Name");
-            ViewBag.WoredaID = new SelectList(_commonService.GetAminUnits(t => t.AdminUnitTypeID == 4), "AdminUnitID", "Name");
+           
             ViewBag.ProgramID = new SelectList(_commonService.GetPrograms().Take(2),"ProgramId","Name");
             return View();
         }
 
 
-        public ActionResult ReadRequestionNumbers([DataSourceRequest] DataSourceRequest request, int zoneId, int programId = -1)
+        public ActionResult ReadRequestionNumbers([DataSourceRequest] DataSourceRequest request, int zoneId=-1, int programId = -1,int planId = -1)
         {
-            if (zoneId == -1 || programId ==-1)
+            if (zoneId == -1 || programId ==-1 || planId ==-1)
                 return null;
             var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
-            var requisition = _utilizationService.GetRequisitions(zoneId,programId,5);
+            var requisition = _utilizationService.GetRequisitions(zoneId,programId,planId,5);
             var requisitionViewModel =UtilizationViewModelBinder.GetUtilizationViewModel(requisition);
             return Json(requisitionViewModel.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
@@ -86,8 +87,9 @@ namespace Cats.Areas.Logistics.Controllers
 
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Create([DataSourceRequest] DataSourceRequest request,
-            [Bind(Prefix = "models")]IEnumerable<Models.UtilizationDetailViewModel> utilizationDetailViewModels)
+            [Bind(Prefix = "models")]IEnumerable<Models.UtilizationDetailViewModel> utilizationDetailViewModels )
         {
+
             var userProfileId = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).UserProfileID;
             var results = new List<Models.UtilizationDetailViewModel>();
 
@@ -104,47 +106,51 @@ namespace Cats.Areas.Logistics.Controllers
                                                 UtilizationHeader = utilization
                                             };
                 utilization.RequisitionId = utilizationDetailViewModel.RequisitionId;
+                utilization.PlanId = utilizationDetailViewModel.PlanId;
                 _utilizationDetailSerivce.AddDetailDistribution(utilizationDetail);
             }
 
             return Json(results.ToDataSourceResult(request, ModelState));
         }
                 
-        public JsonResult GetCasscadeAdminUnits()
+
+
+        public JsonResult GetPlans(string id)
         {
-            var cascadeAdminUnitAllRegions = (from region in _commonService.GetAminUnits(m => m.AdminUnitTypeID == 2)
+            var programId = int.Parse(id);
+            var plans = _commonService.GetPlan(programId);
+            return Json(new SelectList(plans.ToList(), "PlanID", "PlanName"), JsonRequestBehavior.AllowGet);
+        }
+       
+        public JsonResult GetMonth(string id)
+        {
+            try
+            {
+                var planid = int.Parse(id);
+                var months = _regionalRequestService.FindBy(r => r.PlanID == planid).ToList();
+                return Json(new SelectList(months, "Month", "Month"), JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
 
-                                              select new
-                                              {
-                                                  RegionID = region.AdminUnitID,
-                                                  RegionName = region.Name,
+                return null;
+            }
+          
+        }
+        public JsonResult GetRound(string id)
+        {
+            try
+            {
+                var planid = int.Parse(id);
+                var rounds = _regionalRequestService.FindBy(r => r.PlanID == planid).ToList();
+                return Json(new SelectList(rounds, "Round", "Round"), JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
 
-                                                  zones = from zone in _commonService.GetAminUnits(z => z.ParentID == region.AdminUnitID)
-                                                          select new
-                                                          {
-                                                              ZoneID = zone.AdminUnitID,
-                                                              ZoneName = zone.Name,
-
-
-                                                              Woredas = from woreda in _commonService.GetAminUnits(m => m.ParentID == zone.AdminUnitID)
-                                                                        select new
-                                                                        {
-                                                                            WoredaID = woreda.AdminUnitID,
-                                                                            WoredaName = woreda.Name,
-                                                                            fdps = from fdp in _commonService.GetFDPs(woreda.AdminUnitID)
-                                                                                   select new
-                                                                                   {
-                                                                                       FDPID = fdp.FDPID,
-                                                                                       FDPName = fdp.Name
-                                                                                   }
-                                                                        }
-
-                                                          }
-                                              }
-
-
-                 );
-            return Json(cascadeAdminUnitAllRegions, JsonRequestBehavior.AllowGet);
+                return null;
+            }
+           
         }
     }
 }
