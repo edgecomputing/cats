@@ -76,11 +76,52 @@ namespace Cats.Services.Logistics
 
 
 
-        public List<ReliefRequisition> GetRequisitions(int zoneId, int programId, int planId ,int status)
+        public List<ReliefRequisition> GetRequisitions(int zoneId, int programId, int planId ,int status,int month, int round)
         {
-            var requisition = _unitOfWork.ReliefRequisitionRepository.Get(r => r.ZoneID == zoneId && r.ProgramID == programId && r.RegionalRequest.PlanID == planId,null,null).ToList();
-            return requisition;
+            switch (programId)
+            {
+                case (int) Cats.Models.Constant.Programs.Releif:
+                    if (month!=-1 && round!=-1)
+                    {
+                        var requisition = _unitOfWork.ReliefRequisitionRepository.Get(r => r.ZoneID == zoneId &&
+                                                                                           r.ProgramID == programId && 
+                                                                                           r.RegionalRequest.PlanID == planId && 
+                                                                                           r.Month == month && r.Round == round, null, null).ToList();
+                        return requisition;
+                    }
+                    if (month!=-1 && round ==-1)
+                    {
+                        var requisition = _unitOfWork.ReliefRequisitionRepository.Get(r => r.ZoneID == zoneId &&
+                                                                                           r.ProgramID == programId &&
+                                                                                           r.RegionalRequest.PlanID == planId &&
+                                                                                           r.Month == month, null, null).ToList();
+                        return requisition;
+                    }
+                    if (month==-1 && round !=-1)
+                    {
+                        var requisition = _unitOfWork.ReliefRequisitionRepository.Get(r => r.ZoneID == zoneId &&
+                                                                                           r.ProgramID == programId &&
+                                                                                           r.RegionalRequest.PlanID == planId &&
+                                                                                           r.Round == round, null, null).ToList();
+                        return requisition;
+                    }
+                    return new List<ReliefRequisition>();
+            }
+            if (programId == (int) Cats.Models.Constant.Programs.PSNP)
+            {
+                if (round!=-1)
+                {
+                    var requisition = _unitOfWork.ReliefRequisitionRepository.Get(r => r.ZoneID == zoneId &&
+                                                                                   r.ProgramID == programId &&
+                                                                                   r.RegionalRequest.PlanID == planId &&
+                                                                                   r.Round == round, null, null).ToList();
+                    return requisition;
+                }
+                return new List<ReliefRequisition>();
+            }
+            return new List<ReliefRequisition>();
         }
+
         public List<ReliefRequisitionDetail> GetReliefRequisitions(int requisitionId)
         {
             var requisition = _unitOfWork.ReliefRequisitionDetailRepository.FindBy(r => r.RequisitionID == requisitionId).ToList();

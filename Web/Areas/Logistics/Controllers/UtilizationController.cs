@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using Cats.Helpers;
 using Cats.Models.Constant;
 using Cats.Services.Common;
 using Cats.Services.Logistics;
@@ -46,16 +47,50 @@ namespace Cats.Areas.Logistics.Controllers
         }
 
 
-        public ActionResult ReadRequestionNumbers([DataSourceRequest] DataSourceRequest request, int zoneId=-1, int programId = -1,int planId = -1)
+        public ActionResult ReadRequestionNumbers([DataSourceRequest] DataSourceRequest request, 
+                                                  int zoneId=-1, 
+                                                  int programId = -1,
+                                                  int planId = -1,
+                                                  int round =-1,
+                                                   int month=-1)
         {
             if (zoneId == -1 || programId ==-1 || planId ==-1)
                 return null;
+            if (programId == 1 && (month == -1 && round == -1))
+                return null;
+            if (programId == 2 && round == -1)
+                return null;
+
+            if (IsSaved(planId,month,round))
+            {
+                
+                ModelState.AddModelError("Errors", "Distribution has already been inserted for this plan");
+                return null;
+
+            }
+
+            
             var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
-            var requisition = _utilizationService.GetRequisitions(zoneId,programId,planId,5);
+            var requisition = _utilizationService.GetRequisitions(zoneId,programId,planId,int.Parse(Cats.Models.Constant.ReliefRequisitionStatus.TransportOrderCreated.ToString()),month,round);
             var requisitionViewModel =UtilizationViewModelBinder.GetUtilizationViewModel(requisition);
             return Json(requisitionViewModel.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
 
+
+        private  bool IsSaved(int planId, int month, int round)
+        {
+            try
+            {
+                var utilization =
+                    _utilizationService.FindBy(u => u.PlanId == planId && u.Month == month && u.Round == round).ToList();
+                return true;
+            }
+            catch (Exception)
+            {
+
+                return false;
+            }
+        }
         public ActionResult ReadRequisitionDetail([DataSourceRequest] DataSourceRequest request,   int requisitionId = -1 )
         {
             if (requisitionId == -1)
@@ -117,8 +152,12 @@ namespace Cats.Areas.Logistics.Controllers
             try
             {
                 var planid = int.Parse(id);
+
                 var months = _regionalRequestService.FindBy(r => r.PlanID == planid).ToList();
-                return Json(new SelectList(months, "Month", "Month"), JsonRequestBehavior.AllowGet);
+                var month = from m in months
+                             select new {month = m.Month};
+                var distinctMonth = month.Distinct();
+                return Json(new SelectList(distinctMonth, "month", "month"), JsonRequestBehavior.AllowGet);
             }
             catch (Exception)
             {
@@ -133,7 +172,11 @@ namespace Cats.Areas.Logistics.Controllers
             {
                 var planid = int.Parse(id);
                 var rounds = _regionalRequestService.FindBy(r => r.PlanID == planid).ToList();
-                return Json(new SelectList(rounds, "Round", "Round"), JsonRequestBehavior.AllowGet);
+                var round = from r in rounds
+                            where r.Round != null
+                            select new {round = r.Round};
+                var distinctRound = round.Distinct();
+                return Json(new SelectList(distinctRound, "round", "round"), JsonRequestBehavior.AllowGet);
             }
             catch (Exception)
             {
