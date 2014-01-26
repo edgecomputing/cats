@@ -10,11 +10,15 @@ namespace Cats.Helpers
     {
         private static  Cats.Services.Logistics.ISIPCAllocationService _sipcAllocationService;
         private static Cats.Services.Logistics.DistributionDetailService _distributionDetailService;
-
-        public DistributionHelper(ISIPCAllocationService sipcAllocationService, DistributionDetailService distributionDetailService)
+        private readonly UtilizationDetailService _utilizationDetailService;
+        private static UtilizationDetailService _utilizationDetailServicel;
+        public DistributionHelper(ISIPCAllocationService sipcAllocationService, 
+            DistributionDetailService distributionDetailService,
+            UtilizationDetailService utilizationDetailService)
         {
             _sipcAllocationService = sipcAllocationService;
             _distributionDetailService = distributionDetailService;
+            _utilizationDetailService = utilizationDetailService;
         }
 
         public static decimal GetAllocated(int requisitionId, int fdiPid)
@@ -53,6 +57,21 @@ namespace Cats.Helpers
         public static decimal GetDispatched(int requisitionId,int fdpid)
         {
             return 600;
+        }
+
+        public static decimal GetDistributedQuantity(int requisitionId, int fdpId)
+        {
+            try
+            {
+                return
+                    _utilizationDetailServicel.FindBy(
+                        r => r.UtilizationHeader.RequisitionId == requisitionId && r.FdpId == fdpId).Select(q=>q.DistributedQuantity).SingleOrDefault();
+            }
+            catch (Exception)
+            {
+                
+                return 0;
+            }
         }
     }
 }

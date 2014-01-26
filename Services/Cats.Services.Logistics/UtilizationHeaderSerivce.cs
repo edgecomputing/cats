@@ -86,7 +86,7 @@ namespace Cats.Services.Logistics
                         var requisition = _unitOfWork.ReliefRequisitionRepository.Get(r => r.ZoneID == zoneId &&
                                                                                            r.ProgramID == programId && 
                                                                                            r.RegionalRequest.PlanID == planId && 
-                                                                                           r.Month == month && r.Round == round, null, null).ToList();
+                                                                                           r.RegionalRequest.Month == month && r.RegionalRequest.Round == round, null, null).ToList();
                         return requisition;
                     }
                     if (month!=-1 && round ==-1)
@@ -94,7 +94,7 @@ namespace Cats.Services.Logistics
                         var requisition = _unitOfWork.ReliefRequisitionRepository.Get(r => r.ZoneID == zoneId &&
                                                                                            r.ProgramID == programId &&
                                                                                            r.RegionalRequest.PlanID == planId &&
-                                                                                           r.Month == month, null, null).ToList();
+                                                                                           r.RegionalRequest.Month == month, null, null).ToList();
                         return requisition;
                     }
                     if (month==-1 && round !=-1)
@@ -102,7 +102,7 @@ namespace Cats.Services.Logistics
                         var requisition = _unitOfWork.ReliefRequisitionRepository.Get(r => r.ZoneID == zoneId &&
                                                                                            r.ProgramID == programId &&
                                                                                            r.RegionalRequest.PlanID == planId &&
-                                                                                           r.Round == round, null, null).ToList();
+                                                                                           r.RegionalRequest.Round == round, null, null).ToList();
                         return requisition;
                     }
                     return new List<ReliefRequisition>();
@@ -114,7 +114,7 @@ namespace Cats.Services.Logistics
                     var requisition = _unitOfWork.ReliefRequisitionRepository.Get(r => r.ZoneID == zoneId &&
                                                                                    r.ProgramID == programId &&
                                                                                    r.RegionalRequest.PlanID == planId &&
-                                                                                   r.Round == round, null, null).ToList();
+                                                                                   r.RegionalRequest.Round == round, null, null).ToList();
                     return requisition;
                 }
                 return new List<ReliefRequisition>();

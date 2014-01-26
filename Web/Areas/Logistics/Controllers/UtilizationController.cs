@@ -61,17 +61,11 @@ namespace Cats.Areas.Logistics.Controllers
             if (programId == 2 && round == -1)
                 return null;
 
-            if (IsSaved(planId,month,round))
-            {
-                
-                ModelState.AddModelError("Errors", "Distribution has already been inserted for this plan");
-                return null;
-
-            }
+           
 
             
             var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
-            var requisition = _utilizationService.GetRequisitions(zoneId,programId,planId,int.Parse(Cats.Models.Constant.ReliefRequisitionStatus.TransportOrderCreated.ToString()),month,round);
+            var requisition = _utilizationService.GetRequisitions(zoneId,programId,planId,6,month,round);
             var requisitionViewModel =UtilizationViewModelBinder.GetUtilizationViewModel(requisition);
             return Json(requisitionViewModel.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
@@ -83,7 +77,10 @@ namespace Cats.Areas.Logistics.Controllers
             {
                 var utilization =
                     _utilizationService.FindBy(u => u.PlanId == planId && u.Month == month && u.Round == round).ToList();
-                return true;
+                if (utilization.Count > 0)
+                    return true;
+                else
+                    return false;
             }
             catch (Exception)
             {
@@ -115,15 +112,27 @@ namespace Cats.Areas.Logistics.Controllers
             [Bind(Prefix = "models")]IEnumerable<Models.UtilizationDetailViewModel> utilizationDetailViewModels )
         {
 
+
+            
+
             var userProfileId = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).UserProfileID;
             var results = new List<Models.UtilizationDetailViewModel>();
 
-            var utilization = new Cats.Models.UtilizationHeader
-                                  {DistributionDate = DateTime.Now, DistributedBy = userProfileId};
+
+             var utilizationToBeSaved =
+                    _utilizationService.FindBy(u => u.PlanId == planId && u.Month == month && u.Round == round).ToList();
+             if (utilizationToBeSaved.Count > 0)
+
+                {
+                    
+                }
+            var utilization = new Cats.Models.UtilizationHeader();
+                                 
 
 
             foreach (var utilizationDetailViewModel in utilizationDetailViewModels)
             {
+
                 var utilizationDetail = new Cats.Models.UtilizationDetail
                                             {
                                                 DistributedQuantity = utilizationDetailViewModel.DistributedQuantity,
@@ -132,6 +141,8 @@ namespace Cats.Areas.Logistics.Controllers
                                             };
                 utilization.RequisitionId = utilizationDetailViewModel.RequisitionId;
                 utilization.PlanId = utilizationDetailViewModel.PlanId;
+                utilization.DistributionDate = DateTime.Now;
+                utilization.DistributedBy = userProfileId;
                 _utilizationDetailSerivce.AddDetailDistribution(utilizationDetail);
             }
 
