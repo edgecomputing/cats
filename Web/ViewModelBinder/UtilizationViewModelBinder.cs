@@ -28,7 +28,8 @@ namespace Cats.ViewModelBinder
                                                               Programid = (int)u.ReliefRequisition.ProgramID,
                                                               PlanId = u.ReliefRequisition.RegionalRequest.PlanID,
                                                               Month = u.ReliefRequisition.RegionalRequest.Month,
-                                                              Round = (int) u.ReliefRequisition.RegionalRequest.Round
+                                                              Round = (int) u.ReliefRequisition.RegionalRequest.Round,
+                                                              DistributedQuantity = (int) Helpers.DistributionHelper.GetDistributedQuantity(u.RequisitionID,u.FDPID)
                                                           });
         }
 

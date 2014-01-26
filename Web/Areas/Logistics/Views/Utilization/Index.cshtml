@@ -242,7 +242,8 @@
     
     saveUtilization = function(e) {
 
-        var entityGrid = $("").data("KendoGrid");
+        var entityGrid = $("#RequisitionGridDetail").data("kendoGrid");
+        alert(entityGrid);
         var data = entityGrid.dataSource.data();
         var totalNumber = data.length;
         

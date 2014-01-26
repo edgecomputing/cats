@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web.Mvc;
 using Cats.Areas.Logistics.Models;
 using Cats.Helpers;
+using Cats.Models;
 using Cats.Models.Constant;
 using Cats.Services.Common;
 using Cats.Services.Logistics;
@@ -110,11 +111,21 @@ namespace Cats.Areas.Logistics.Controllers
 
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Create([DataSourceRequest] DataSourceRequest request,
-            [Bind(Prefix = "models")]IEnumerable<Models.UtilizationDetailViewModel> utilizationDetailViewModels )
+            [Bind(Prefix = "models")]IEnumerable<Models.UtilizationDetailViewModel> utilizationDetailViewModels,FormCollection collection )
         {
 
+            int planId = 0;
+            int month = 0;
+            int round = 0;
 
-            
+            foreach (var utilizationDetailViewModel in utilizationDetailViewModels)
+            {
+               planId = utilizationDetailViewModel.PlanId;
+               month = utilizationDetailViewModel.Month;
+               round = utilizationDetailViewModel.Round;
+                break;
+            }
+
 
             var userProfileId = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).UserProfileID;
             var results = new List<Models.UtilizationDetailViewModel>();
@@ -123,35 +134,47 @@ namespace Cats.Areas.Logistics.Controllers
             
             var utilization = new Cats.Models.UtilizationHeader();
                                  
-
-
-            foreach (var utilizationDetailViewModel in utilizationDetailViewModels)
-            {
-
-                var utilizationDetail = new Cats.Models.UtilizationDetail
-                                            {
-                                                DistributedQuantity = utilizationDetailViewModel.DistributedQuantity,
-                                                FdpId = utilizationDetailViewModel.FdpId,
-                                                UtilizationHeader = utilization
-                                            };
-
-                var model = utilizationDetailViewModel;
-                var utilizationToBeSaved =
-                   _utilizationService.FindBy(u => u.PlanId == model.PlanId && u.Month == model.Month && u.Round == model.Round).ToList();
-                if (utilizationToBeSaved.Count > 0)
+            
+               UtilizationHeader utilizationToBeSaved =_utilizationService.FindBy(u => u.PlanId == planId && u.Month == month && u.Round == round).SingleOrDefault();
+                if (utilizationToBeSaved != null)
                 {
+                    foreach (var utilizationDetailViewModel in utilizationDetailViewModels)
+                    {
+                        UtilizationDetailViewModel model = utilizationDetailViewModel;
+                        var utilDetail =
+                            _utilizationDetailSerivce.FindBy(
+                                u =>
+                                u.FdpId == model.FdpId && u.UtilizationHeader.PlanId == planId &&
+                                u.UtilizationHeader.Month == month && u.UtilizationHeader.Round == round).SingleOrDefault();
 
-                    _utilizationDetailSerivce.EditDetailDistribution(utilizationDetail);
+                        if (utilDetail == null) continue;
+                        utilDetail.DistributedQuantity = utilizationDetailViewModel.DistributedQuantity;
+                        _utilizationDetailSerivce.EditDetailDistribution(utilDetail);
+                    }
                 }
                 else
                 {
-                    utilization.RequisitionId = utilizationDetailViewModel.RequisitionId;
-                    utilization.PlanId = utilizationDetailViewModel.PlanId;
-                    utilization.DistributionDate = DateTime.Now;
-                    utilization.DistributedBy = userProfileId;
-                    _utilizationDetailSerivce.AddDetailDistribution(utilizationDetail);
-                }
-                
+
+                     foreach (var utilizationDetailViewModel in utilizationDetailViewModels)
+                     {
+                          var utilizationDetail = new Cats.Models.UtilizationDetail
+                                                    {
+                                                        DistributedQuantity =
+                                                        utilizationDetailViewModel.DistributedQuantity,
+                                                        FdpId = utilizationDetailViewModel.FdpId,
+                                                        UtilizationHeader = utilization
+                                                    };
+
+                         utilization.RequisitionId = utilizationDetailViewModel.RequisitionId;
+                         utilization.PlanId = utilizationDetailViewModel.PlanId;
+                         utilization.Month = utilizationDetailViewModel.Month;
+                         utilization.Round = utilizationDetailViewModel.Round;
+                         utilization.DistributionDate = DateTime.Now;
+                         utilization.DistributedBy = userProfileId;
+                         _utilizationDetailSerivce.AddDetailDistribution(utilizationDetail);
+                     }
+
+                                    
             }
 
             return Json(results.ToDataSourceResult(request, ModelState));
