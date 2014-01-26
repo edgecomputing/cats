@@ -200,6 +200,10 @@
 
 
 
+
+
+
+
     var selectedWoreda;
     function onSelect(e) {
        
@@ -237,7 +241,17 @@
     }
     
     saveUtilization = function(e) {
-       
+
+        var entityGrid = $("").data("KendoGrid");
+        var data = entityGrid.dataSource.data();
+        var totalNumber = data.length;
+        
+        for (var i=0;i<totalNumber;i++)
+        {
+            var currentDataItem = data[i];
+            currentDataItem.dirty = true;
+            
+        }
         $("#RequisitionGridDetail").data("kendoGrid").saveChanges();
        
     };
