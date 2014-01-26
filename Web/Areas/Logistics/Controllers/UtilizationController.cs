@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using Cats.Areas.Logistics.Models;
 using Cats.Helpers;
 using Cats.Models.Constant;
 using Cats.Services.Common;
@@ -119,13 +120,7 @@ namespace Cats.Areas.Logistics.Controllers
             var results = new List<Models.UtilizationDetailViewModel>();
 
 
-             var utilizationToBeSaved =
-                    _utilizationService.FindBy(u => u.PlanId == planId && u.Month == month && u.Round == round).ToList();
-             if (utilizationToBeSaved.Count > 0)
-
-                {
-                    
-                }
+            
             var utilization = new Cats.Models.UtilizationHeader();
                                  
 
@@ -139,11 +134,24 @@ namespace Cats.Areas.Logistics.Controllers
                                                 FdpId = utilizationDetailViewModel.FdpId,
                                                 UtilizationHeader = utilization
                                             };
-                utilization.RequisitionId = utilizationDetailViewModel.RequisitionId;
-                utilization.PlanId = utilizationDetailViewModel.PlanId;
-                utilization.DistributionDate = DateTime.Now;
-                utilization.DistributedBy = userProfileId;
-                _utilizationDetailSerivce.AddDetailDistribution(utilizationDetail);
+
+                var model = utilizationDetailViewModel;
+                var utilizationToBeSaved =
+                   _utilizationService.FindBy(u => u.PlanId == model.PlanId && u.Month == model.Month && u.Round == model.Round).ToList();
+                if (utilizationToBeSaved.Count > 0)
+                {
+
+                    _utilizationDetailSerivce.EditDetailDistribution(utilizationDetail);
+                }
+                else
+                {
+                    utilization.RequisitionId = utilizationDetailViewModel.RequisitionId;
+                    utilization.PlanId = utilizationDetailViewModel.PlanId;
+                    utilization.DistributionDate = DateTime.Now;
+                    utilization.DistributedBy = userProfileId;
+                    _utilizationDetailSerivce.AddDetailDistribution(utilizationDetail);
+                }
+                
             }
 
             return Json(results.ToDataSourceResult(request, ModelState));

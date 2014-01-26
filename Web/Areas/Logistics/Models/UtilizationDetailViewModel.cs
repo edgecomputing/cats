@@ -18,6 +18,8 @@ namespace Cats.Areas.Logistics.Models
         public int Programid { get; set; }
         public string Program { get; set; }
         public int PlanId { get; set; }
+        public int Month { get; set; }
+        public int Round { get; set; }
         public decimal DistributedQuantity { get; set; }
         public DateTime DistributionStartDate { get; set; }
         public DateTime DistributionEndDate { get; set; }
