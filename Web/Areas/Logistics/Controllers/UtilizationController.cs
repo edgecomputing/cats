@@ -26,7 +26,10 @@ namespace Cats.Areas.Logistics.Controllers
         private readonly IWorkflowStatusService _workflowStatusService;
         private readonly ICommonService _commonService;
         private readonly IRegionalRequestService _regionalRequestService;
-        public UtilizationController(IUtilizationHeaderSerivce utilizationService, IUtilizationDetailSerivce utilizationDetailSerivce, UserAccountService userAccountService, IWorkflowStatusService workflowStatusService, ICommonService commonService, IRegionalRequestService regionalRequestService)
+        private readonly IDistributionByAgeDetailService _distributionByAgeDetailService;
+        public UtilizationController(IUtilizationHeaderSerivce utilizationService, IUtilizationDetailSerivce utilizationDetailSerivce, 
+                       UserAccountService userAccountService, IWorkflowStatusService workflowStatusService, ICommonService commonService, 
+                        IRegionalRequestService regionalRequestService,IDistributionByAgeDetailService distributionByAgeDetailService)
         {
             _utilizationService = utilizationService;
             _utilizationDetailSerivce = utilizationDetailSerivce;
@@ -34,6 +37,7 @@ namespace Cats.Areas.Logistics.Controllers
             _workflowStatusService = workflowStatusService;
             _commonService = commonService;
             _regionalRequestService = regionalRequestService;
+            _distributionByAgeDetailService = distributionByAgeDetailService;
         }
 
         //
@@ -106,7 +110,7 @@ namespace Cats.Areas.Logistics.Controllers
                 return null;
             var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
             var requisitionDetail = _utilizationService.GetReliefRequisitions(requisitionId);
-            var distributionByAgeDetailViewModel =UtilizationViewModelBinder.GetDistributionByAgeDetail(requisitionDetail);
+            var distributionByAgeDetailViewModel = UtilizationViewModelBinder.GetUtilizationDetailViewModel(requisitionDetail);
             return Json(distributionByAgeDetailViewModel.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
 
         }
@@ -121,7 +125,7 @@ namespace Cats.Areas.Logistics.Controllers
 
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Create([DataSourceRequest] DataSourceRequest request,
-            [Bind(Prefix = "models")]IEnumerable<Models.UtilizationDetailViewModel> utilizationDetailViewModels,FormCollection collection )
+            [Bind(Prefix = "models")]IEnumerable<Models.UtilizationDetailViewModel> utilizationDetailViewModels, FormCollection collection)
         {
 
             int planId = 0;
@@ -174,6 +178,18 @@ namespace Cats.Areas.Logistics.Controllers
                                                         FdpId = utilizationDetailViewModel.FdpId,
                                                         UtilizationHeader = utilization
                                                     };
+                          //var distributionByAgeDetail = new DistributionByAgeDetail()
+                          //    {
+                          //        FDPID = utilizationDetailViewModel.FdpId,
+                          //        FemaleLessThan5Years = utilizationDetailViewModel.FemaleLessThan5Years,
+                          //        MaleLessThan5Years = utilizationDetailViewModel.MaleLessThan5Years,
+                          //        FemaleBetween5And18Years = utilizationDetailViewModel.FemaleBetween5And18Years,
+                          //        MaleBetween5And18Years = utilizationDetailViewModel.MaleBetween5And18Years,
+                          //        FemaleAbove18Years = utilizationDetailViewModel.FemaleAbove18Years,
+                          //        MaleAbove18Years = utilizationDetailViewModel.MaleAbove18Years,
+                          //        UtilizationHeader = utilization
+
+                          //    };
 
                          utilization.RequisitionId = utilizationDetailViewModel.RequisitionId;
                          utilization.PlanId = utilizationDetailViewModel.PlanId;
@@ -182,6 +198,8 @@ namespace Cats.Areas.Logistics.Controllers
                          utilization.DistributionDate = DateTime.Now;
                          utilization.DistributedBy = userProfileId;
                          _utilizationDetailSerivce.AddDetailDistribution(utilizationDetail);
+                         //_distributionByAgeDetailService.AddDistributionByAgeDetail(distributionByAgeDetail);
+
                      }
 
                                     

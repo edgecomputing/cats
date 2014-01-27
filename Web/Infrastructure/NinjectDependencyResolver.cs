@@ -211,6 +211,7 @@ namespace Cats.Infrastructure
 
             kernel.Bind<IUtilizationHeaderSerivce>().To<UtilizationHeaderSerivce>();
             kernel.Bind<IUtilizationDetailSerivce>().To<UtilizationDetailService>();
+            kernel.Bind<IDistributionByAgeDetailService>().To<DistributionByAgeDetailService>();
         }
         private void AddBindingsHub()
         {

@@ -67,5 +67,25 @@ namespace Cats.Services.Logistics
            _unitOfWork.Dispose();
            
        }
+
+
+       public DistributionByAgeDetail GetDistributionDetail(int requisitionID, int fdpID)
+       {
+           var distributionDetail = _unitOfWork.DistributionByAgeDetailRepository.FindBy(m => m.UtilizationHeader.RequisitionId == requisitionID && m.FDPID == fdpID).FirstOrDefault();
+           if (distributionDetail!=null)
+           {
+               var distributionByAgeDetail = new DistributionByAgeDetail()
+                   {
+                       FemaleLessThan5Years = distributionDetail.FemaleLessThan5Years,
+                       MaleLessThan5Years = distributionDetail.MaleLessThan5Years,
+                       FemaleBetween5And18Years = distributionDetail.FemaleBetween5And18Years,
+                       MaleBetween5And18Years = distributionDetail.MaleBetween5And18Years,
+                       FemaleAbove18Years = distributionDetail.FemaleAbove18Years,
+                       MaleAbove18Years = distributionDetail.MaleAbove18Years
+                   };
+               return distributionByAgeDetail;
+           }
+           return null;
+       }
     }
 }
