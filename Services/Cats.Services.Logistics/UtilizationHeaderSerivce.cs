@@ -130,7 +130,7 @@ namespace Cats.Services.Logistics
 
         public RegionalPSNPPlan GetPSNPPlanRequisitions(int regionId, int status)
         {
-            var psnpRequisition = _unitOfWork.RegionalPSNPPlanRepository.Get(p => p.RegionID == regionId && p.StatusID == status, null, null).FirstOrDefault();
+            var psnpRequisition = _unitOfWork.RegionalPSNPPlanRepository.Get(p=> p.StatusID == status, null, null).FirstOrDefault();
             return psnpRequisition;
         }
 

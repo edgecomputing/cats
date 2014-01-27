@@ -18,9 +18,7 @@ namespace Cats.Models.Mapping
             // Properties
             this.Property(t => t.RegionalPSNPPlanID);
 
-            this.Property(t => t.RegionName)
-                .HasMaxLength(50);
-
+            
             this.Property(t => t.FDPName)
                 .IsRequired()
                 .HasMaxLength(50);
@@ -42,10 +40,10 @@ namespace Cats.Models.Mapping
             this.Property(t => t.BeneficiaryCount).HasColumnName("BeneficiaryCount");
             this.Property(t => t.PlanedFDPID).HasColumnName("PlanedFDPID");
             this.Property(t => t.Duration).HasColumnName("Duration");
-            this.Property(t => t.RegionID).HasColumnName("RegionID");
+          
             this.Property(t => t.Year).HasColumnName("Year");
             this.Property(t => t.RegionalPSNPPlanID).HasColumnName("RegionalPSNPPlanID");
-            this.Property(t => t.RegionName).HasColumnName("RegionName");
+          
             this.Property(t => t.FDPName).HasColumnName("FDPName");
             this.Property(t => t.WoredaName).HasColumnName("WoredaName");
             this.Property(t => t.WoredaID).HasColumnName("WoredaID");
