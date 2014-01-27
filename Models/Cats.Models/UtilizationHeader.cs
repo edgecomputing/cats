@@ -16,6 +16,8 @@ namespace Cats.Models
         public int DistributionId { get; set; }
         public int RequisitionId { get; set; }
         public int PlanId { get; set; }
+        public int  Month { get; set; }
+        public int Round { get; set; }
         public DateTime DistributionDate { get; set; }
         public int? DistributedBy { get; set; }
         public string Remark { get; set; }

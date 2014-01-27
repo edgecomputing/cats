@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using Cats.Areas.Logistics.Models;
+using Cats.Helpers;
+using Cats.Models;
 using Cats.Models.Constant;
 using Cats.Services.Common;
 using Cats.Services.Logistics;
@@ -46,16 +49,47 @@ namespace Cats.Areas.Logistics.Controllers
         }
 
 
-        public ActionResult ReadRequestionNumbers([DataSourceRequest] DataSourceRequest request, int zoneId=-1, int programId = -1,int planId = -1)
+        public ActionResult ReadRequestionNumbers([DataSourceRequest] DataSourceRequest request, 
+                                                  int zoneId=-1, 
+                                                  int programId = -1,
+                                                  int planId = -1,
+                                                  int round =-1,
+                                                   int month=-1)
         {
             if (zoneId == -1 || programId ==-1 || planId ==-1)
                 return null;
+            if (programId == 1 && (month == -1 && round == -1))
+                return null;
+            if (programId == 2 && round == -1)
+                return null;
+
+           
+
+            
             var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
-            var requisition = _utilizationService.GetRequisitions(zoneId,programId,planId,5);
+            var requisition = _utilizationService.GetRequisitions(zoneId,programId,planId,6,month,round);
             var requisitionViewModel =UtilizationViewModelBinder.GetUtilizationViewModel(requisition);
             return Json(requisitionViewModel.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
 
+
+        private  bool IsSaved(int planId, int month, int round)
+        {
+            try
+            {
+                var utilization =
+                    _utilizationService.FindBy(u => u.PlanId == planId && u.Month == month && u.Round == round).ToList();
+                if (utilization.Count > 0)
+                    return true;
+                else
+                    return false;
+            }
+            catch (Exception)
+            {
+
+                return false;
+            }
+        }
         public ActionResult ReadRequisitionDetail([DataSourceRequest] DataSourceRequest request,   int requisitionId = -1 )
         {
             if (requisitionId == -1)
@@ -87,27 +121,70 @@ namespace Cats.Areas.Logistics.Controllers
 
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Create([DataSourceRequest] DataSourceRequest request,
-            [Bind(Prefix = "models")]IEnumerable<Models.UtilizationDetailViewModel> utilizationDetailViewModels )
+            [Bind(Prefix = "models")]IEnumerable<Models.UtilizationDetailViewModel> utilizationDetailViewModels,FormCollection collection )
         {
+
+            int planId = 0;
+            int month = 0;
+            int round = 0;
+
+            foreach (var utilizationDetailViewModel in utilizationDetailViewModels)
+            {
+               planId = utilizationDetailViewModel.PlanId;
+               month = utilizationDetailViewModel.Month;
+               round = utilizationDetailViewModel.Round;
+                break;
+            }
+
 
             var userProfileId = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).UserProfileID;
             var results = new List<Models.UtilizationDetailViewModel>();
 
-            var utilization = new Cats.Models.UtilizationHeader
-                                  {DistributionDate = DateTime.Now, DistributedBy = userProfileId};
 
+            
+            var utilization = new Cats.Models.UtilizationHeader();
+                                 
+            
+               UtilizationHeader utilizationToBeSaved =_utilizationService.FindBy(u => u.PlanId == planId && u.Month == month && u.Round == round).SingleOrDefault();
+                if (utilizationToBeSaved != null)
+                {
+                    foreach (var utilizationDetailViewModel in utilizationDetailViewModels)
+                    {
+                        UtilizationDetailViewModel model = utilizationDetailViewModel;
+                        var utilDetail =
+                            _utilizationDetailSerivce.FindBy(
+                                u =>
+                                u.FdpId == model.FdpId && u.UtilizationHeader.PlanId == planId &&
+                                u.UtilizationHeader.Month == month && u.UtilizationHeader.Round == round).SingleOrDefault();
 
-            foreach (var utilizationDetailViewModel in utilizationDetailViewModels)
-            {
-                var utilizationDetail = new Cats.Models.UtilizationDetail
-                                            {
-                                                DistributedQuantity = utilizationDetailViewModel.DistributedQuantity,
-                                                FdpId = utilizationDetailViewModel.FdpId,
-                                                UtilizationHeader = utilization
-                                            };
-                utilization.RequisitionId = utilizationDetailViewModel.RequisitionId;
-                utilization.PlanId = utilizationDetailViewModel.PlanId;
-                _utilizationDetailSerivce.AddDetailDistribution(utilizationDetail);
+                        if (utilDetail == null) continue;
+                        utilDetail.DistributedQuantity = utilizationDetailViewModel.DistributedQuantity;
+                        _utilizationDetailSerivce.EditDetailDistribution(utilDetail);
+                    }
+                }
+                else
+                {
+
+                     foreach (var utilizationDetailViewModel in utilizationDetailViewModels)
+                     {
+                          var utilizationDetail = new Cats.Models.UtilizationDetail
+                                                    {
+                                                        DistributedQuantity =
+                                                        utilizationDetailViewModel.DistributedQuantity,
+                                                        FdpId = utilizationDetailViewModel.FdpId,
+                                                        UtilizationHeader = utilization
+                                                    };
+
+                         utilization.RequisitionId = utilizationDetailViewModel.RequisitionId;
+                         utilization.PlanId = utilizationDetailViewModel.PlanId;
+                         utilization.Month = utilizationDetailViewModel.Month;
+                         utilization.Round = utilizationDetailViewModel.Round;
+                         utilization.DistributionDate = DateTime.Now;
+                         utilization.DistributedBy = userProfileId;
+                         _utilizationDetailSerivce.AddDetailDistribution(utilizationDetail);
+                     }
+
+                                    
             }
 
             return Json(results.ToDataSourceResult(request, ModelState));
@@ -127,8 +204,12 @@ namespace Cats.Areas.Logistics.Controllers
             try
             {
                 var planid = int.Parse(id);
+
                 var months = _regionalRequestService.FindBy(r => r.PlanID == planid).ToList();
-                return Json(new SelectList(months, "Month", "Month"), JsonRequestBehavior.AllowGet);
+                var month = from m in months
+                             select new {month = m.Month};
+                var distinctMonth = month.Distinct();
+                return Json(new SelectList(distinctMonth, "month", "month"), JsonRequestBehavior.AllowGet);
             }
             catch (Exception)
             {
@@ -143,7 +224,11 @@ namespace Cats.Areas.Logistics.Controllers
             {
                 var planid = int.Parse(id);
                 var rounds = _regionalRequestService.FindBy(r => r.PlanID == planid).ToList();
-                return Json(new SelectList(rounds, "Round", "Round"), JsonRequestBehavior.AllowGet);
+                var round = from r in rounds
+                            where r.Round != null
+                            select new {round = r.Round};
+                var distinctRound = round.Distinct();
+                return Json(new SelectList(distinctRound, "round", "round"), JsonRequestBehavior.AllowGet);
             }
             catch (Exception)
             {

@@ -27,7 +27,7 @@ namespace Cats.Services.Logistics
         
        
         List<ReliefRequisitionDetail> GetReliefRequisitions(int requisitionId);
-        List<ReliefRequisition> GetRequisitions(int zoneId,int programId,int planId, int status);
+        List<ReliefRequisition> GetRequisitions(int zoneId, int programId, int planId, int status, int month, int round);
         RegionalPSNPPlan  GetPSNPPlanRequisitions(int regionId, int status);
         RegionalPSNPPlan  GetPSNPPlan(int planId);
     }

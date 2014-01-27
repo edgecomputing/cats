@@ -120,7 +120,7 @@
                       .DataSource(dataSource => dataSource
                                                     .Ajax()
                                                     .Model(model => model.Id(p => p.RequisitionId))
-                                                    .Read(read => read.Action("ReadRequestionNumbers", "Utilization", new { zoneId = -1,programId =-1,planId = -1}).Data("filterDataRequisitions"))
+                                                    .Read(read => read.Action("ReadRequestionNumbers", "Utilization", new { zoneId = -1,programId =-1,planId = -1,month=-1,round=-1}).Data("filterDataRequisitions"))
                      
                       )
                       )
@@ -173,6 +173,10 @@
 
 
 
+
+
+
+
     var selectedWoreda;
     function onSelect(e) {
        
@@ -191,8 +195,9 @@
         return {
             zoneId: selectedWoreda,
             programId: $("#ProgramID").val(),
-            planId: $("#PlanID").val()
-            
+            planId: $("#PlanID").val(),
+            month: $("#month").val(),
+            round: $("#round").val()
         };
         
     };
@@ -209,7 +214,18 @@
     }
     
     saveUtilization = function(e) {
-       
+
+        var entityGrid = $("#RequisitionGridDetail").data("kendoGrid");
+        alert(entityGrid);
+        var data = entityGrid.dataSource.data();
+        var totalNumber = data.length;
+        
+        for (var i=0;i<totalNumber;i++)
+        {
+            var currentDataItem = data[i];
+            currentDataItem.dirty = true;
+            
+        }
         $("#RequisitionGridDetail").data("kendoGrid").saveChanges();
        
     };
@@ -242,11 +258,19 @@
     }
     $("#ProgramID").change(function () {
         
-
         var grid = $("#RequisitionGrid").data("kendoGrid");
         grid.dataSource.read();
     });
-        
+
+    $("#round").change(function() {
+        var grid = $("#RequisitionGrid").data("kendoGrid");
+        grid.dataSource.read();
+    });
+
+    $("#month").change(function() {
+        var grid = $("#RequisitionGrid").data("kendoGrid");
+        grid.dataSource.read();
+    });
     $("#PlanID").change(function () {
            
         if ($("#ProgramID").val() == 1)//releif

@@ -2,26 +2,21 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 using Cats.Services.Logistics;
 
 namespace Cats.Helpers
 {
-    public class DistributionHelper
+    public static class DistributionHelper
     {
-        private static  Cats.Services.Logistics.ISIPCAllocationService _sipcAllocationService;
-        private static Cats.Services.Logistics.DistributionDetailService _distributionDetailService;
-
-        public DistributionHelper(ISIPCAllocationService sipcAllocationService, DistributionDetailService distributionDetailService)
-        {
-            _sipcAllocationService = sipcAllocationService;
-            _distributionDetailService = distributionDetailService;
-        }
-
+        
+       
         public static decimal GetAllocated(int requisitionId, int fdiPid)
         {
             try
             {
-                var allocatedAmount = _sipcAllocationService.FindBy(s => s.RequisitionDetailID == requisitionId && s.FDPID == fdiPid).Select(p => p.AllocatedAmount).SingleOrDefault();
+                var sipcAllocationService = (ISIPCAllocationService)DependencyResolver.Current.GetService(typeof(ISIPCAllocationService));
+                var allocatedAmount = sipcAllocationService.FindBy(s => s.RequisitionDetailID == requisitionId && s.FDPID == fdiPid).Select(p => p.AllocatedAmount).SingleOrDefault();
                 return allocatedAmount;
             }
             catch (Exception)
@@ -35,6 +30,7 @@ namespace Cats.Helpers
         {
             try
             {
+                var _distributionDetailService = (IDistributionDetailService)DependencyResolver.Current.GetService(typeof(IDistributionDetailService)); 
                 var receivedAtFdp =
                _distributionDetailService.FindBy(
                    r => r.Distribution.RequisitionNo == requisitionNo && r.Distribution.FDPID == fdpId).Sum(
@@ -53,6 +49,22 @@ namespace Cats.Helpers
         public static decimal GetDispatched(int requisitionId,int fdpid)
         {
             return 600;
+        }
+
+        public static decimal GetDistributedQuantity(int requisitionId, int fdpId)
+        {
+            try
+            {
+                var _utilizationDetailService = (IUtilizationDetailSerivce)DependencyResolver.Current.GetService(typeof(IUtilizationDetailSerivce)); 
+                return
+                    _utilizationDetailService.FindBy(
+                        r => r.UtilizationHeader.RequisitionId == requisitionId && r.FdpId == fdpId).Select(q=>q.DistributedQuantity).SingleOrDefault();
+            }
+            catch (Exception)
+            {
+                
+                return 0;
+            }
         }
     }
 }
