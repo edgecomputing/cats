@@ -78,8 +78,11 @@
     <Compile Include="AllocationByRegion.cs" />
     <Compile Include="Constant\Application.cs" />
     <Compile Include="Contact.cs" />
+    <Compile Include="DistributionByAgeDetail.cs" />
+    <Compile Include="Mapping\DistributionByAgeDetailMap.cs" />
     <Compile Include="UtilizationDetail.cs" />
     <Compile Include="Distribution.cs" />
+    <Compile Include="DistributionByAge.cs" />
     <Compile Include="DistributionDetail.cs" />
     <Compile Include="UtilizationHeader.cs" />
     <Compile Include="HRDDonorCoverage.cs" />
@@ -88,6 +91,7 @@
     <Compile Include="Mapping\AddressBookMap.cs" />
     <Compile Include="Mapping\ContactMap.cs" />
     <Compile Include="Mapping\UtilizationDetailMap.cs" />
+    <Compile Include="Mapping\DistributionByAgeMap.cs" />
     <Compile Include="Mapping\DistributionDetailMap.cs" />
     <Compile Include="Mapping\DistributionMap.cs" />
     <Compile Include="Mapping\UtilizationHeaderMap.cs" />
