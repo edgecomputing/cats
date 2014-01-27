@@ -12,7 +12,7 @@ using Kendo.Mvc.UI;
 
 namespace Cats.Web.Adminstration.Controllers
 {
-     [Authorize]
+    [Authorize]
     public class FDPController : Controller
     {
         private readonly IAdminUnitService _adminUnitService;
@@ -34,6 +34,11 @@ namespace Cats.Web.Adminstration.Controllers
             return View();
         }
 
+        public ActionResult map()
+        {
+            return View();
+        }
+
         public JsonResult FDP_Read([DataSourceRequest]DataSourceRequest request, int? adminUnitID)
         {
             var fdps = _fdpService.Get(t => t != null && (t.AdminUnitID == adminUnitID));
@@ -41,8 +46,9 @@ namespace Cats.Web.Adminstration.Controllers
             return Json(fdpsViewModel.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
 
+
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult FDP_Create([DataSourceRequest] DataSourceRequest request, FDPViewModel fdpViewModel,int? adminUnitID)
+        public ActionResult FDP_Create([DataSourceRequest] DataSourceRequest request, FDPViewModel fdpViewModel, int? adminUnitID)
         {
             if (fdpViewModel != null && ModelState.IsValid && adminUnitID.HasValue)
             {
@@ -61,18 +67,74 @@ namespace Cats.Web.Adminstration.Controllers
             return Json(new[] { fdpViewModel }.ToDataSourceResult(request, ModelState));
         }
 
+        public ActionResult FDP_Update(int fdpId)
+        {
+            var fdp = _fdpService.FindById(fdpId);
+            var fvm = FDPViewModelBinder.BindFDPViewModel(fdp);
+            return View(fvm);
+        }
+
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult FDP_Update([DataSourceRequest] DataSourceRequest request, FDPViewModel fdpViewModel)
         {
-            if (fdpViewModel != null && ModelState.IsValid )
+            if (ModelState.IsValid)
             {
-                
+                try
+                {
+                    var fdp = FDPViewModelBinder.BindFDP(fdpViewModel);
+                    _fdpService.EditFDP(fdp);
+                    ModelState.AddModelError("Success", "Success: FDP Updated.");
+                    return RedirectToAction("Index");
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError("Errors", "Error: FDP not registered. All fields need to be filled.");
+                }
+            }
+            return Json(new[] { fdpViewModel }.ToDataSourceResult(request, ModelState));
+        }
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult FDP_Save([DataSourceRequest] DataSourceRequest request, FDPViewModel fdpViewModel)
+        {
+            if (fdpViewModel != null && ModelState.IsValid)
+            {
                 //var target = _fdpService.FindById(fdpViewModel.FDPID);
                 var fdp = FDPViewModelBinder.BindFDP(fdpViewModel);
                 _fdpService.EditFDP(fdp);
             }
 
             return Json(new[] { fdpViewModel }.ToDataSourceResult(request, ModelState));
+        }
+
+        public JsonResult GetGeography()
+        {
+            var Fdps = _fdpService.FindBy(g => g.Latitude != null && g.Longitude != null);
+
+            var geography = (from fdp in Fdps
+                             select new
+                             {
+                                 fdp.Name,
+                                 fdp.Latitude,
+                                 fdp.Longitude
+                             }
+            );
+
+            return Json(geography, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetFdpGeolocation(int fdpId)
+        {
+            var fdp = _fdpService.FindBy(f => f.FDPID == fdpId);
+            var location = (from fdp1 in fdp
+                            select new
+                                {
+                                    fdp1.Name,
+                                    fdp1.Latitude,
+                                    fdp1.Longitude
+                                }
+                                );
+            return Json(location, JsonRequestBehavior.AllowGet);
         }
 
         //[AcceptVerbs(HttpVerbs.Post)]
