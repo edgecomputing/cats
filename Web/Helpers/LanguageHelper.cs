@@ -12,6 +12,7 @@ namespace Cats.Helpers
     {
         public static string Translate(this HtmlHelper html, string phrase, string language = "EN")
         {
+            return phrase;
             var currentLanguage = language;
 
             // Get current language setting for the user.
