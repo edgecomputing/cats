@@ -66,6 +66,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.Entity" />
     <Reference Include="System.Data.Linq" />
     <Reference Include="System.DirectoryServices" />
     <Reference Include="System.Drawing" />
@@ -895,6 +896,9 @@
     <Content Include="Views\DonorWoreda\Index.cshtml" />
     <Content Include="Views\ContactPerson\Index.cshtml" />
     <Content Include="Views\ContactPerson\Create_contact.cshtml" />
+    <Content Include="Views\FDP\FDP_update.cshtml" />
+    <Content Include="Views\FDP\map.cshtml" />
+    <Content Include="Views\Shared\_MainLayoutMap.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -112,7 +112,7 @@ namespace Cats.Web.Adminstration.Tests
                 Name = "fdpViewModel1",
                 AdminUnitID = 1
             };
-            var jsonResult = _fdpController.FDP_Update(kendoDataRequest, fdpViewModel) as JsonResult;
+            var jsonResult = _fdpController.FDP_Save(kendoDataRequest, fdpViewModel) as JsonResult;
 
             //ASSERT
             Assert.NotNull(jsonResult);
