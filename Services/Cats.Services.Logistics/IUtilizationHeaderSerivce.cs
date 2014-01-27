@@ -24,8 +24,10 @@ namespace Cats.Services.Logistics
             Func<IQueryable<UtilizationHeader>, IOrderedQueryable<UtilizationHeader>> orderBy = null,
             string includeProperties = "");
 
+        
+       
         List<ReliefRequisitionDetail> GetReliefRequisitions(int requisitionId);
-        List<ReliefRequisition> GetRequisitions(int zoneId,int programId, int status);
+        List<ReliefRequisition> GetRequisitions(int zoneId, int programId, int planId, int status, int month, int round);
         RegionalPSNPPlan  GetPSNPPlanRequisitions(int regionId, int status);
         RegionalPSNPPlan  GetPSNPPlan(int planId);
     }

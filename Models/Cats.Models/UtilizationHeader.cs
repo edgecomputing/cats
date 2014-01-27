@@ -15,10 +15,14 @@ namespace Cats.Models
 
         public int DistributionId { get; set; }
         public int RequisitionId { get; set; }
-        public System.DateTime DistributionDate { get; set; }
-        public Nullable<int> DistributedBy { get; set; }
+        public int PlanId { get; set; }
+        public int  Month { get; set; }
+        public int Round { get; set; }
+        public DateTime DistributionDate { get; set; }
+        public int? DistributedBy { get; set; }
         public string Remark { get; set; }
         public virtual ICollection<UtilizationDetail> UtilizationDetails { get; set; }
+        public virtual ICollection<DistributionByAgeDetail> DistributionByAgeDetails { get; set; }
         public virtual UserProfile UserProfile { get; set; }
     }
 }
