@@ -6,13 +6,18 @@ using System.Threading.Tasks;
 
 namespace Cats.Models
 {
-    public partial class DetailDistribution
+    public partial class UtilizationDetail
     {
         public int DistributionDetailId { get; set; }
         public int DistributionHeaderId { get; set; }
         public int FdpId { get; set; }
         public decimal DistributedQuantity { get; set; }
+        public DateTime? DistributionSartDate { get; set; }
+        public DateTime? DistributionEndDate { get; set; }
+        public decimal? LossAmount { get; set; }
+        public string LossReason { get; set; }
+        public decimal? Transfered { get; set; }
         public virtual FDP FDP { get; set; }
-        public virtual HeaderDistribution HeaderDistribution { get; set; }
+        public virtual UtilizationHeader UtilizationHeader { get; set; }
     }
 }

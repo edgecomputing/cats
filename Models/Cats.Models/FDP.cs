@@ -14,6 +14,8 @@ namespace Cats.Models
             this.ReliefRequisitionDetails = new List<ReliefRequisitionDetail>();
             this.TransportOrderDetails = new List<TransportOrderDetail>();
             this.Contacts = new List<Contact>();
+            this.DistributionByAgeDetails=new List<DistributionByAgeDetail>();
+           
         }
 
         public int FDPID { get; set; }
@@ -33,8 +35,9 @@ namespace Cats.Models
         public virtual ICollection<TransportOrderDetail> TransportOrderDetails { get; set; }
         public virtual ICollection<RegionalPSNPPlanDetail> RegionalPSNPPlanDetails { get; set; }
         public virtual ICollection<Distribution> Distributions { get; set; }
-
-        public virtual ICollection<DetailDistribution> DetailDistributions { get; set; }
+        public virtual ICollection<DistributionByAgeDetail> DistributionByAgeDetails  { get; set; }
+        public virtual ICollection<UtilizationDetail> UtilizationDetails { get; set; }
+      
   
 
     }

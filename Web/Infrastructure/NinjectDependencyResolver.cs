@@ -208,6 +208,9 @@ namespace Cats.Infrastructure
             kernel.Bind<Cats.Services.Logistics.IDistributionService>().To<Cats.Services.Logistics.DistributionService>();
             kernel.Bind<Cats.Services.Logistics.IDistributionDetailService>().To<Cats.Services.Logistics.DistributionDetailService>();
             kernel.Bind<ITransportBidQuotationHeader>().To<TransportBidQuotationHeaderHeaderService>();
+
+            kernel.Bind<IUtilizationHeaderSerivce>().To<UtilizationHeaderSerivce>();
+            kernel.Bind<IUtilizationDetailSerivce>().To<UtilizationDetailService>();
         }
         private void AddBindingsHub()
         {

@@ -72,18 +72,7 @@ namespace Cats.Areas.Procurement.Controllers
             var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
             var reportData = vwTransportOrderViewModelBinder.BindListvwTransportOrderViewModel(Data, datePref);
 
-            //var transportOrder = _transportOrderService.FindById(id);
-            //var reportHeader = GetTransportOrderReport(transportOrder);
-            //var reportDetail = GetTransportContract(transportOrder);
-            //var reportData = new object[2];
-            //reportData[0] = reportHeader;
-            //reportData[1] = reportDetail;
-            //var dataSourceName = new string[2];
-            //dataSourceName[0] = "TransportOrderHeader";
-            //dataSourceName[1] = "TransportOrderDetail";
-
-
-            var dataSourceName = "TransportOrders";
+           var dataSourceName = "TransportOrders";
             var result = ReportHelper.PrintReport(reportPath, reportData, dataSourceName);
 
             return File(result.RenderBytes, result.MimeType);
