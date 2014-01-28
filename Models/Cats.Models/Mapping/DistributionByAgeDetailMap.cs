@@ -17,7 +17,7 @@ namespace Cats.Models.Mapping
            // Table & Column Mappings
            this.ToTable("DistributionByAgeDetail");
            this.Property(t => t.DistributionByAgeDetailID).HasColumnName("DistributionByAgeDetailID");
-           this.Property(t => t.DistributionByAgeID).HasColumnName("DistributionByAgeID");
+           this.Property(t => t.DistributionHeaderID).HasColumnName("DistributionHeaderID");
            this.Property(t => t.FDPID).HasColumnName("FDPID");
            this.Property(t => t.MaleLessThan5Years).HasColumnName("MaleLessThan5Years");
            this.Property(t => t.FemaleLessThan5Years).HasColumnName("FemaleLessThan5Years");
@@ -29,9 +29,9 @@ namespace Cats.Models.Mapping
            this.Property(t => t.FemaleAbove18Years).HasColumnName("FemaleAbove18Years");
 
            //Relationships
-           this.HasRequired(t => t.DistributionByAge)
+           this.HasRequired(t => t.UtilizationHeader)
           .WithMany(t => t.DistributionByAgeDetails)
-          .HasForeignKey(d => d.DistributionByAgeID);
+          .HasForeignKey(d => d.DistributionHeaderID);
 
            this.HasRequired(t => t.FDP)
                .WithMany(t => t.DistributionByAgeDetails)

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Cats.Models;
 using Cats.Services.Logistics;
 
 namespace Cats.Helpers
@@ -66,5 +67,18 @@ namespace Cats.Helpers
                 return 0;
             }
         }
+
+        public static DistributionByAgeDetail GetDistributionDetail(int requisitionID, int fdpID)
+        {
+            var distributionDetailService = (IDistributionByAgeDetailService)DependencyResolver.Current.GetService(typeof(IDistributionByAgeDetailService));
+            var distributionDetail = distributionDetailService.GetDistributionDetail(requisitionID, fdpID);
+            if (distributionDetail != null)
+            {
+                var distributionByAgeDetail = distributionDetail;
+                return distributionByAgeDetail;
+            }
+            return null;
+        }
+
     }
 }

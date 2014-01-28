@@ -127,7 +127,7 @@
             </div>
         </td>
         <td>
-           <div class="row-fluid">
+           <div class="row-fluid" style="height: 570px; margin-top: 10px;margin-bottom: 10px">
                 <ul class="nav nav-tabs ">
                     <li class="active">
                         <a href="#tab0" data-toggle="tab"><b>@Translator.Translate("Distribution Quantity Info")</b></a>
@@ -216,7 +216,7 @@
     saveUtilization = function(e) {
 
         var entityGrid = $("#RequisitionGridDetail").data("kendoGrid");
-        alert(entityGrid);
+        //alert(entityGrid);
         var data = entityGrid.dataSource.data();
         var totalNumber = data.length;
         
@@ -227,6 +227,8 @@
             
         }
         $("#RequisitionGridDetail").data("kendoGrid").saveChanges();
+        
+        $("#DistributionByAgeDetail").data("kendoGrid").saveChanges();
        
     };
     

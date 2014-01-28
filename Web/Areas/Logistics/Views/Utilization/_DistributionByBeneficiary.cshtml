@@ -10,7 +10,7 @@
                       .Columns(columns =>
                                    {
                                       
-                                       columns.Bound(p => p.FDP).Width(100).Title(Translator.Translate("FDP")).HtmlAttributes(new { style = "background-color:lightgray" });
+                                       columns.Bound(p => p.FDP).Width(80).Title(Translator.Translate("FDP")).HtmlAttributes(new { style = "background-color:lightgray" });
                                        columns.Bound(p => p.RequestedAmount).Width(60).Title(Translator.Translate("Requested")).HtmlAttributes(new { style = "background-color:lightgray" });
                                        columns.Bound(p => p.AllocatedAmount).Width(60).Title(Translator.Translate("Allocated")).HtmlAttributes(new { style = "background-color:lightgray" });
                                        columns.Bound(p => p.NumberOfBeneficiaries).Width(60).Title(Translator.Translate("No of Beneficiaries")).HtmlAttributes(new { style = "background-color:lightgray" });
