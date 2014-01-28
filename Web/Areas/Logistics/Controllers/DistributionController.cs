@@ -171,7 +171,7 @@ namespace Cats.Areas.Logistics.Controllers
             }
             else
             {
-                var dispatchObj = _dispatchService.FindById(distribution.DispatchID);
+                //var dispatchObj = _dispatchService.FindById(distribution.DispatchID);
             }
             distributionViewModel.DispatchID = id;
             var firstOrDefault = _dispatchService.FindBy(t => t.DispatchID == id).FirstOrDefault();
