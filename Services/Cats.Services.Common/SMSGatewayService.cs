@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
@@ -11,13 +12,16 @@ namespace Cats.Services.Common
 {
     public class SMSGatewayService:ISMSGatewayService
     {
-        private const string ACTION_INCOMING = "incoming";
-        private const string ACTION_OUTGOING = "outgoing";
-        private const string RQUEST_SIGNATURE = "HTTP_X_REQUEST_SIGNATURE";
+   private const string RQUEST_SIGNATURE = "HTTP_X_REQUEST_SIGNATURE";
 
-        public bool SendSMS(Models.ViewModels.SmsOutgoingMessage sms)
+        public bool SendSMS(SmsOutgoingMessage sms)
         {
-            throw new System.NotImplementedException();
+            var phoneNumber = sms.to;
+            var message = sms.message;
+            string url = "http://localhost:8080/envayaphp/example/send_sms.php?to=" + phoneNumber + "&msg=" + message;
+            var webReq = (HttpWebRequest)WebRequest.Create(string.Format(url));
+            webReq.GetResponse();
+            return true;
         }
 
         public bool is_validated(string password)

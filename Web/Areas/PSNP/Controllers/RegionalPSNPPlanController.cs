@@ -61,9 +61,9 @@ namespace Cats.Areas.PSNP
                         {
                             RegionalPSNPPlanID = plan.RegionalPSNPPlanID,
                             Duration = plan.Duration,
-                            RegionID = plan.RegionID,
+                           // RegionID = plan.RegionID,
                             Year = plan.Year,
-                            RegionName = plan.Region.Name,
+                           // RegionName = plan.Region.Name,
                             RationName = plan.Ration.RefrenceNumber
 
 
@@ -156,8 +156,7 @@ namespace Cats.Areas.PSNP
             //regionalpsnpplan.StatusID = 1;
 
             //check if this psnp plan exitsts for this region
-            var exists = _regionalPSNPPlanService.DoesPsnpPlanExistForThisRegion(regionalpsnpplan.PlanId,
-                                                                                 regionalpsnpplan.RegionID);
+            var exists = _regionalPSNPPlanService.DoesPsnpPlanExistForThisRegion(regionalpsnpplan.PlanId);
 
              if (ModelState.IsValid)
                 {

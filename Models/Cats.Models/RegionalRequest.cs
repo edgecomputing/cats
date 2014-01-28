@@ -40,7 +40,6 @@ namespace Cats.Models
         public virtual  Donor Donor { get; set; }
         public virtual Plan Plan { get; set; }
 
-
         public string MonthName { get { return System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(Month); } }
         //public string MonthName { get { return System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(Month); } }
     }

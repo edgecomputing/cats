@@ -71,6 +71,12 @@
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.ReportViewer.WebForms, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
+    <Reference Include="MiniProfiler">
+      <HintPath>..\packages\MiniProfiler.2.1.0\lib\net40\MiniProfiler.dll</HintPath>
+    </Reference>
+    <Reference Include="MiniProfiler.EntityFramework">
+      <HintPath>..\packages\MiniProfiler.EF.2.1.0\lib\net40\MiniProfiler.EntityFramework.dll</HintPath>
+    </Reference>
     <Reference Include="NetSqlAzMan, Version=3.6.0.15, Culture=neutral, PublicKeyToken=ad1153f7ddd0e504, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\NetSqlAzMan-x64.3.6.0.15\lib\net40\NetSqlAzMan.dll</HintPath>
@@ -467,9 +473,11 @@
     <Compile Include="Areas\Logistics\Controllers\SIAllocationController.cs" />
     <Compile Include="Areas\Logistics\Controllers\LogisticsStockStatusController.cs" />
     <Compile Include="Areas\Logistics\Controllers\TransportRequisitionController.cs" />
+    <Compile Include="Areas\Logistics\Controllers\UtilizationController.cs" />
     <Compile Include="Areas\Logistics\LogisticsAreaRegistration.cs" />
     <Compile Include="Areas\Logistics\Models\ActionLink.cs" />
     <Compile Include="Areas\Logistics\Models\AssignHubViewModel.cs" />
+    <Compile Include="Areas\Logistics\Models\DistributionByAgeDetailViewModel.cs" />
     <Compile Include="Areas\Logistics\Models\DistributionDetailViewModel.cs" />
     <Compile Include="Areas\Logistics\Models\DistributionViewModel.cs" />
     <Compile Include="Areas\Logistics\Models\FreeStockStatusViewModel.cs" />
@@ -482,6 +490,8 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Areas\Logistics\Models\HubDto.cs" />
+    <Compile Include="Areas\Logistics\Models\UtilizationDetailViewModel.cs" />
+    <Compile Include="Areas\Logistics\Models\UtilizationViewModel.cs" />
     <Compile Include="Areas\Procurement\Controllers\BidProposalController.cs" />
     <Compile Include="Areas\Procurement\Controllers\BidAdministrationController.cs" />
     <Compile Include="Areas\Procurement\Controllers\ContractAdministrationController.cs" />
@@ -592,6 +602,7 @@
     <Compile Include="Filters\LocalizationFilter.cs" />
     <Compile Include="Helpers\CatsAuthorize.cs" />
     <Compile Include="Helpers\DateHelpers.cs" />
+    <Compile Include="Helpers\DistributionHelper.cs" />
     <Compile Include="Helpers\HtmlExtensions.cs" />
     <Compile Include="Helpers\Hub\AmharicEditorHelper.cs" />
     <Compile Include="Helpers\Hub\CascadeDropDownHelper.cs" />
@@ -713,6 +724,7 @@
     <Compile Include="ViewModelBinder\TransporterListViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\TransportOrderViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\TransportRequisitionViewModelBinder.cs" />
+    <Compile Include="ViewModelBinder\UtilizationViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\vwTransportOrderViewModelBinder.cs" />
     <Compile Include="Web References\ReportPortal\Reference.cs">
       <AutoGen>True</AutoGen>
@@ -1644,6 +1656,9 @@
     <Content Include="Areas\Report\Views\ReportHome\Index.cshtml" />
     <Content Include="Content\themes\default\variables.less" />
     <Content Include="Areas\Settings\Views\Users\add.cshtml" />
+    <Content Include="Areas\Logistics\Views\Utilization\Index.cshtml" />
+    <Content Include="Areas\Logistics\Views\Utilization\_DistributionByAge.cshtml" />
+    <Content Include="Areas\Logistics\Views\Utilization\_DistributionByBeneficiary.cshtml" />
     <None Include="dataset.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>dataset.Designer.cs</LastGenOutput>
@@ -2626,14 +2641,17 @@
     <Content Include="App_GlobalResources\GridLocalization.en-US.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>GridLocalization.en-US.designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="App_GlobalResources\GridLocalization.de-DE.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>GridLocalization.de-DE.designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="App_GlobalResources\GridLocalization.da-DK.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>GridLocalization.da-DK.designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="App_GlobalResources\GridLocalization.bg-BG.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>

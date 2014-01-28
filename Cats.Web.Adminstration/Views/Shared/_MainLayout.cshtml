@@ -26,7 +26,7 @@
     <link href="~/Content/themes/dashboard.css" rel="stylesheet" />
 
     <link href="~/Content/kendo/2013.1.319/kendo.common.min.css" rel="stylesheet" />
-    <link href="@Url.Content("~/Content/kendo/2013.1.319/kendo.default.min.css")" rel="stylesheet" type="text/css" />
+    <link href="~/Content/kendo/2013.1.319/kendo.default.min.css" rel="stylesheet" type="text/css" />
     <!--
     <link href="~/Content/kendo/2013.1.319/kendo.default.min.css" rel="stylesheet" />
 	
@@ -132,7 +132,7 @@
                                     string item = page_url[i];
                                     string urlitem = item.Replace("/", "");
                                     url += item;
-                                <li><span class="divider"> / </span><a href="@url"> @urlitem </a></li>
+                                    <li><span class="divider"> / </span><a href="@url"> @urlitem </a></li>
                             
                                 }
                             }
@@ -140,10 +140,19 @@
                         <!--<li><a href="#">Home</a> <span class="divider">/</span></li>
                             <li class="active">Rations</li>--->
                     </div>
+
                     <div class="span5">
-                        <div style="clear: both;" class="message-window">@RenderSection("Errors", required:false)@Html.CustomValidationSummary()</div>
+                        <div class=" btn-group toolbar">
+                            @RenderSection("Toolbar", required: false)
+                        </div>
                         @Html.Partial("_ToolbarCommon")
                     </div>
+
+                    @*<div class="span5">
+                        <div style="clear: both;" class="message-window">@RenderSection("Errors", required:false)@Html.CustomValidationSummary()</div>
+                        
+                        @Html.Partial("_ToolbarCommon")
+                    </div>*@
                 </div>
                 <div style="clear: both;">
                     @RenderSection("Errors", required:false)

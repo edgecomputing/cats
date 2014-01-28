@@ -23,13 +23,7 @@ namespace Cats.Models
         [Display(Name = "Duration")]
         public int Duration { get; set; }
 
-        //Region
-        [Display(Name = "Region")]
-        public virtual AdminUnit Region { get; set; }
-
-        //RegionID
-        [Display(Name = "Region ID")]
-        public int RegionID { get; set; }
+       
 
         //Ration
         [Display(Name = "Ration")]
@@ -48,11 +42,11 @@ namespace Cats.Models
         [Display(Name = "Status ID")]
         public int StatusID { get; set; }
 
-         [Display(Name = "Name")]    
-        public string ShortName
-        {
-            get { return this.Year + "-" + this.Region.Name; }
-        }
+        // [Display(Name = "Name")]    
+        //public string ShortName
+        //{
+        //    get { return this.Year + "-" + this.Region.Name; }
+        //}
 
         //StatusID
         [Display(Name = "Plan ID")]

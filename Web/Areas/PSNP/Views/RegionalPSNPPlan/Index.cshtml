@@ -29,11 +29,9 @@
     <table class="table table-striped table-bordered">
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.ShortName)
+                @*@Html.DisplayNameFor(model => model.ShortName)*@
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Region)
-            </th>
+            
             <th colspan="2">Period</th>
             
             <th>Status</th>
@@ -50,9 +48,7 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Plan.PlanName)
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Region.Name)
-                </td>
+                
                 <td>
                     @item.Plan.StartDate.ToCTSPreferedDateFormat("gc") 
                 </td>

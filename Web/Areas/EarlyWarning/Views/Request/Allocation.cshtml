@@ -232,10 +232,12 @@
                   .Scrollable()
                   .Selectable(t => t.Mode(GridSelectionMode.Single))
                   .Navigatable()
+                  
                   .HtmlAttributes(new { style = "height:430px;" })
                   .Events(events => events.DataBound("onDataBound"))
                   .DataSource(dataSource => dataSource
                                                 .Ajax()
+                                                
                                                 .Group(group => group.Add(p => p.Woreda))
                                                 .Model(model =>
                                                     {

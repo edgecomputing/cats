@@ -151,6 +151,7 @@ namespace Cats.Infrastructure
 
             kernel.Bind<ILogReadService>().To<LogReadService>();
             kernel.Bind<INotificationService>().To<NotificationService>();
+            kernel.Bind<ISMSGatewayService>().To<SMSGatewayService>();
             kernel.Bind<IUserDashboardPreferenceService>().To<UserDashboardPreferenceService>();
             kernel.Bind<IForgetPasswordRequestService>().To<ForgetPasswordRequestService>();
             kernel.Bind<IDashboardWidgetService>().To<DashboardWidgetService>();
@@ -207,6 +208,10 @@ namespace Cats.Infrastructure
             kernel.Bind<Cats.Services.Logistics.IDistributionService>().To<Cats.Services.Logistics.DistributionService>();
             kernel.Bind<Cats.Services.Logistics.IDistributionDetailService>().To<Cats.Services.Logistics.DistributionDetailService>();
             kernel.Bind<ITransportBidQuotationHeader>().To<TransportBidQuotationHeaderHeaderService>();
+
+            kernel.Bind<IUtilizationHeaderSerivce>().To<UtilizationHeaderSerivce>();
+            kernel.Bind<IUtilizationDetailSerivce>().To<UtilizationDetailService>();
+            kernel.Bind<IDistributionByAgeDetailService>().To<DistributionByAgeDetailService>();
         }
         private void AddBindingsHub()
         {

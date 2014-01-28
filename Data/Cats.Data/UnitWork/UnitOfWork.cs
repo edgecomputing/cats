@@ -866,12 +866,30 @@ namespace Cats.Data.UnitWork
 
         }
 
+        private IGenericRepository<UtilizationHeader> utilizationHeaderRepository;
+        public IGenericRepository<UtilizationHeader> UtilizationHeaderRepository
+        {
+            get { return this.utilizationHeaderRepository ?? (this.utilizationHeaderRepository = new GenericRepository<UtilizationHeader>(_context)); }
 
+        }
+
+        private IGenericRepository<UtilizationDetail> utilizationDetailRepository;
+        public IGenericRepository<UtilizationDetail> UtilizationDetailRepository
+        {
+            get { return this.utilizationDetailRepository ?? (this.utilizationDetailRepository = new GenericRepository<UtilizationDetail>(_context)); }
+
+        }
+
+        private IGenericRepository<DistributionByAgeDetail> _distributionByAgeDetailRepository;
+        public IGenericRepository<DistributionByAgeDetail> DistributionByAgeDetailRepository
+        {
+            get { return this._distributionByAgeDetailRepository ?? (this._distributionByAgeDetailRepository = new GenericRepository<DistributionByAgeDetail>(_context)); }
+
+        }
 
         //public IGenericRepository<TransportBidQuotationHeader> TransportBidQuotationHeaderRepository
         //{
         //    throw new NotImplementedException(); 
         //}
-
     }
 }
