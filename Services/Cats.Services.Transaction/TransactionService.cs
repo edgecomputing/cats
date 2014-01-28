@@ -156,7 +156,7 @@ namespace Cats.Services.Transaction
 
                         Models.Transaction entry2 = new Models.Transaction
                         {
-                            RegionID = plan.RegionID,
+                           
                             CommodityID = rd.CommodityID,
                             Round = r + 1,
                             ProgramID = 2,
@@ -167,7 +167,7 @@ namespace Cats.Services.Transaction
                         };
                         Models.Transaction entry1 = new Models.Transaction
                         {
-                            RegionID = plan.RegionID,
+                           
                             CommodityID = rd.CommodityID,
                             Round = r + 1,
                             ProgramID = 2,
