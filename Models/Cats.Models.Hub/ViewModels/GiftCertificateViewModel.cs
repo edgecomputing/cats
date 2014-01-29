@@ -179,7 +179,7 @@ namespace Cats.Models.Hubs
             giftCertificateViewModel.GiftCertificateID = GiftCertificateModel.GiftCertificateID;
             giftCertificateViewModel.GiftDate = GiftCertificateModel.GiftDate;
             giftCertificateViewModel.DonorID = GiftCertificateModel.DonorID;
-            giftCertificateViewModel.SINumber = GiftCertificateModel.SINumber;
+            giftCertificateViewModel.SINumber = GiftCertificateModel.ShippingInstruction.Value;
             giftCertificateViewModel.ReferenceNo = GiftCertificateModel.ReferenceNo;
             giftCertificateViewModel.Vessel = GiftCertificateModel.Vessel;
             giftCertificateViewModel.ETA = GiftCertificateModel.ETA;
@@ -210,7 +210,7 @@ namespace Cats.Models.Hubs
                                                   {
                                                       GiftCertificateID = this.GiftCertificateID,
                                                       GiftDate = this.GiftDate,
-                                                      SINumber = this.SINumber,
+                                                      //ShippingInstruction. = this.SINumber,
                                                       DonorID = this.DonorID,
                                                       ReferenceNo = this.ReferenceNo,
                                                       Vessel = this.Vessel,

@@ -6,6 +6,7 @@ using System.Data.Objects;
 using System.Linq;
 using System.Linq.Expressions;
 using Cats.Data.Hub;
+using Cats.Models;
 using Cats.Models.Hubs;
 
 
@@ -93,7 +94,7 @@ namespace Cats.Services.Hub
 
                 orginal.GiftDate = giftCertificateModel.GiftDate;
                 orginal.DonorID = giftCertificateModel.DonorID;
-                orginal.SINumber = giftCertificateModel.SINumber;
+                orginal.ShippingInstruction.Value = giftCertificateModel.ShippingInstruction.Value;
                 orginal.ReferenceNo = giftCertificateModel.ReferenceNo;
                 orginal.Vessel = giftCertificateModel.Vessel;
                 orginal.ETA = giftCertificateModel.ETA;
@@ -154,9 +155,18 @@ namespace Cats.Services.Hub
         /// </summary>
         /// <param name="SINumber">The SI number.</param>
         /// <returns></returns>
-        public GiftCertificate FindBySINumber(string SINumber)
+        public GiftCertificate FindBySINumber(string j)
         {
-            return _unitOfWork.GiftCertificateRepository.Get(p => p.SINumber == SINumber).SingleOrDefault();
+            try
+            {
+                //refactored
+                return _unitOfWork.GiftCertificateRepository.Get(p => p.ShippingInstruction.Value == j).FirstOrDefault();
+            }
+            catch
+            {
+                return null;
+            }
+           
         }
 
 
@@ -168,7 +178,7 @@ namespace Cats.Services.Hub
         {
             var tempGiftCertificateDetails = _unitOfWork.GiftCertificateDetailRepository.GetAll();
             var list = (from GCD in tempGiftCertificateDetails
-                        group GCD by GCD.GiftCertificate.SINumber into si
+                        group GCD by GCD.GiftCertificate.ShippingInstruction.Value into si
                         select new SIBalance() { SINumber = si.Key, AvailableBalance = si.Sum(p => p.WeightInMT) }).ToList();
 
             return list;

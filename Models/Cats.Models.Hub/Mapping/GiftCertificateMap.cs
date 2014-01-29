@@ -11,9 +11,9 @@ namespace Cats.Models.Hubs.Mapping
             this.HasKey(t => t.GiftCertificateID);
 
             // Properties
-            this.Property(t => t.SINumber)
-                .IsRequired()
-                .HasMaxLength(50);
+            //this.Property(t => t.SINumber)
+            //    .IsRequired()
+            //    .HasMaxLength(50);
 
             this.Property(t => t.ReferenceNo)
                 .IsRequired()
@@ -30,7 +30,7 @@ namespace Cats.Models.Hubs.Mapping
             this.Property(t => t.GiftCertificateID).HasColumnName("GiftCertificateID");
             this.Property(t => t.GiftDate).HasColumnName("GiftDate");
             this.Property(t => t.DonorID).HasColumnName("DonorID");
-            this.Property(t => t.SINumber).HasColumnName("SINumber");
+            this.Property(t => t.ShippingInstructionID).HasColumnName("ShippingInstructionID");
             this.Property(t => t.ReferenceNo).HasColumnName("ReferenceNo");
             this.Property(t => t.Vessel).HasColumnName("Vessel");
             this.Property(t => t.ETA).HasColumnName("ETA");

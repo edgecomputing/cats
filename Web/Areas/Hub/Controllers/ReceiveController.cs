@@ -122,7 +122,7 @@ namespace Cats.Areas.Hub.Controllers
             {
                 UserProfile user = _userProfileService.GetUser(User.Identity.Name);
                 List<ReceiptAllocation> list = _receiptAllocationService.GetUnclosedAllocationsDetached(user.DefaultHub.HubID, type, closedToo, user.PreferedWeightMeasurment, CommodityType);
-                return View(new GridModel(list));
+                return View(new GridModel());
             }
             catch (Exception ex)
             {

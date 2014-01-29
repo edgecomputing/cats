@@ -596,9 +596,9 @@ namespace Cats.Areas.Hub.Controllers.Allocations
             var SINumbers = from item in _giftCertificateService.GetAllGiftCertificate()
                             select new SelectListItemModel()
                                        {
-                                           Id = item.SINumber,
+                                           Id = item.ShippingInstruction.Value,
                                            //GiftCertificateID.ToString(),
-                                           Name = item.SINumber
+                                           Name = item.ShippingInstruction.Value
                                        };
             return Json(new SelectList(SINumbers.OrderBy(o => o.Name), "Id", "Name"), JsonRequestBehavior.AllowGet);
         }
@@ -618,8 +618,8 @@ namespace Cats.Areas.Hub.Controllers.Allocations
                     SINumbers = from item in _giftCertificateService.GetAllGiftCertificate()
                                 select new SelectListItemModel()
                                            {
-                                               Id = item.SINumber,
-                                               Name = item.SINumber,
+                                               Id = item.ShippingInstruction.Value,
+                                               Name = item.ShippingInstruction.Value,
                                                Collection = "0"
                                            };
                 }
@@ -711,7 +711,7 @@ namespace Cats.Areas.Hub.Controllers.Allocations
                         commodity = GCD.Commodity.Name;
                     }
 
-                    allocateBalance = _receiptAllocationService.GetBalanceForSI(GC.SINumber); //, commodityId.Value);
+                    allocateBalance = _receiptAllocationService.GetBalanceForSI(GC.ShippingInstruction.Value); //, commodityId.Value);
 
                 }
                 //else

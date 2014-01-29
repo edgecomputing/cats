@@ -232,8 +232,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Partials\ForgetPasswordRequest.cs" />
-    <Compile Include="Partials\GiftCertificate.cs" />
-    <Compile Include="Partials\GiftCertificateDetail.cs" />
     <Compile Include="Partials\Hub.cs" />
     <Compile Include="Partials\HubOwner.cs" />
     <Compile Include="Partials\HubSetting.cs" />
