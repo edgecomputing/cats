@@ -483,6 +483,7 @@
     <Compile Include="Areas\Logistics\Models\DistributionViewModel.cs" />
     <Compile Include="Areas\Logistics\Models\FreeStockStatusViewModel.cs" />
     <Compile Include="Areas\Logistics\Models\FreeStockSummaryModel.cs" />
+    <Compile Include="Areas\Logistics\Models\ReceiptAllocationViewModel.cs" />
     <Compile Include="Areas\Logistics\Models\SIAllocation.cs" />
     <Compile Include="Areas\Logistics\Models\Hub.cs" />
     <Compile Include="Areas\EarlyWarning\Models\RequestDetailEdit.cs" />

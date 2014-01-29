@@ -95,7 +95,32 @@ namespace Cats.Areas.Logistics.Models
         public string CommodityTypeText { get; set; }
         public string CommodityText { get; set; }
 
+        public List<Commodity> Commodities { get; set; }
+        public List<Donor> Donors { get; set; }
+        public List<Hub> Hubs { get; set; }
+        public List<Hub> AllHubs { get; set; }
+        public List<GiftCertificateDetail> GiftCertificateDetail { get; set; }
+        public List<Program> Programs { get; set; }
+        public List<CommoditySource> CommoditySources { get; set; }
+        public List<CommodityType> CommodityTypes { get; set; }
+
+        
+        public ReceiptAllocationViewModel(List<Commodity> commodities, List<Donor> donors, List<Program> programs, List<CommodityType> commodityTypes)
+        {
+           
+            InitalizeViewModel(commodities, donors, programs, commodityTypes);
+        }
+
        
+        public void InitalizeViewModel(List<Commodity> commodities, List<Donor> donors, List<Program> programs, List<CommodityType> commodityTypes)
+        {
+            Commodities = commodities;
+            Donors = donors;
+           
+            Programs = programs;
+           
+            CommodityTypes = commodityTypes;
+        }
     
     }
 }

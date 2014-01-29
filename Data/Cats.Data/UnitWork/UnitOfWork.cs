@@ -887,6 +887,13 @@ namespace Cats.Data.UnitWork
 
         }
 
+
+        private IGenericRepository<ReceiptAllocation> _receiptAllocationRepository;
+             public IGenericRepository<ReceiptAllocation> ReceiptAllocationRepository
+        {
+            get { return this._receiptAllocationRepository ?? (this._receiptAllocationRepository = new GenericRepository<ReceiptAllocation>(_context)); }
+
+        }
         //public IGenericRepository<TransportBidQuotationHeader> TransportBidQuotationHeaderRepository
         //{
         //    throw new NotImplementedException(); 
