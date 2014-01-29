@@ -22,5 +22,8 @@ namespace Cats.Services.Logistics
        Transaction GetUncommitedAllocationTransaction(int CommodityID, int ShipingInstructionID, int HubID);
        bool DeleteByID(Guid id);
        ReceiptAllocation FindByID(Guid id);
+
+        List<ReceiptAllocation> GetUnclosedAllocationsDetached(int hubId, int commoditySoureType, bool? closedToo,
+                                                               string weightMeasurmentCode, int? CommodityType);
     }
 }

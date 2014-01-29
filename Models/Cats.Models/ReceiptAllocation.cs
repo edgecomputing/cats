@@ -4,7 +4,7 @@ using Cats.Models;
 
 namespace Cats.Models
 {
-    public class ReceiptAllocation
+    public partial class ReceiptAllocation
     {
         public ReceiptAllocation()
         {
@@ -32,7 +32,8 @@ namespace Cats.Models
         public Nullable<int> SourceHubID { get; set; }
         public string OtherDocumentationRef { get; set; }
         public string Remark { get; set; }
-        //public virtual Commodity Commodity { get; set; }
+        public virtual ICollection<Receive> Receives { get; set; }
+        public virtual Commodity Commodity { get; set; }
         
         //public virtual Donor Donor { get; set; }
         

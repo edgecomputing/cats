@@ -83,5 +83,18 @@ namespace Cats.Services.EarlyWarning
             }
             return oldSiNumber;
         }
+
+        public int GetShipingInstructionId(string si)
+        {
+            var instruction =
+                _unitOfWork.ShippingInstructionRepository.FindBy(t => t.Value.ToUpper() == si.ToUpper()).SingleOrDefault
+                    ();
+
+            if (instruction != null)
+            {
+                return instruction.ShippingInstructionID;
+            }
+            return 0;
+        }
     }
 }

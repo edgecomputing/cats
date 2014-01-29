@@ -41,7 +41,20 @@ namespace Cats.Areas.Logistics.Controllers
             return View();
         }
 
+        public ActionResult ReadReceiptAllocation()
+        {
+            try
+            {
+                var user = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name);
+                List<ReceiptAllocation> list = _receiptAllocationService.GetUnclosedAllocationsDetached(user.DefaultHub.HubID, type, closedToo, user.PreferedWeightMeasurment, CommodityType);
+               
+            }
+            catch (Exception ex)
+            {
+                return View();
 
+            }
+        }
         public ActionResult LoadBySi(string siNumber, int? type)
         {
          

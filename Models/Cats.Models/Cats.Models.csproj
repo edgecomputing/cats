@@ -80,6 +80,11 @@
     <Compile Include="Contact.cs" />
     <Compile Include="DistributionByAgeDetail.cs" />
     <Compile Include="Mapping\DistributionByAgeDetailMap.cs" />
+    <Compile Include="MetaData\ReceiveDetailMetaModel.cs" />
+    <Compile Include="Partial\ReceiptAllocation.cs" />
+    <Compile Include="Partial\ReceiveDetail.cs" />
+    <Compile Include="Receive.cs" />
+    <Compile Include="ReceiveDetail.cs" />
     <Compile Include="UtilizationDetail.cs" />
     <Compile Include="Distribution.cs" />
     <Compile Include="DistributionDetail.cs" />

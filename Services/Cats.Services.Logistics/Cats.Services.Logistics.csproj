@@ -111,6 +111,10 @@
       <Project>{083d007c-dd3b-42c0-b11c-a7015a909085}</Project>
       <Name>Cats.Services.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Cats.Services.EarlyWarning\Cats.Services.EarlyWarning.csproj">
+      <Project>{a08cf415-6299-41ab-9d69-c3ce9b49ccd6}</Project>
+      <Name>Cats.Services.EarlyWarning</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Cats.Services.Hub\Cats.Services.Hub.csproj">
       <Project>{9fba0283-ee84-49f2-8305-f038bbf29658}</Project>
       <Name>Cats.Services.Hub</Name>
