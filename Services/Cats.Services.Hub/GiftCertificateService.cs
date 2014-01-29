@@ -156,7 +156,7 @@ namespace Cats.Services.Hub
         /// <returns></returns>
         public GiftCertificate FindBySINumber(int SINumber)
         {
-            return _unitOfWork.GiftCertificateRepository.Get(p => p.ShippingInstructionID == SINumber).SingleOrDefault();
+            return _unitOfWork.GiftCertificateRepository.Get(p => p.ShippingInstructionID == SINumber).FirstOrDefault();
         }
 
 
