@@ -20,6 +20,7 @@ namespace Cats.Web.Hub.Controllers
         private readonly IDonorService _donorService;
         private readonly IProgramService _programService;
         private readonly IGiftCertificateDetailService _giftCertificateDetailService;
+        private readonly IShippingInstructionService _shippingInstructionService;
 
         public GiftCertificateController(
             IGiftCertificateService giftCertificateService,
@@ -30,7 +31,7 @@ namespace Cats.Web.Hub.Controllers
             ICommodityTypeService commodityTypeService,
            IDonorService donorService,
             IProgramService programService,
-            IGiftCertificateDetailService giftCertificateDetailService)
+            IGiftCertificateDetailService giftCertificateDetailService, IShippingInstructionService shippingInstructionService)
             : base(userProfileService)
         {
             _giftCertificateService = giftCertificateService;
@@ -42,13 +43,15 @@ namespace Cats.Web.Hub.Controllers
             _donorService = donorService;
             _programService = programService;
             _giftCertificateDetailService = giftCertificateDetailService;
-
+            this._shippingInstructionService = shippingInstructionService;
         }
 
         public virtual ActionResult NotUnique(string SINumber, int GiftCertificateID)
         {
-
-            GiftCertificate gift = _giftCertificateService.FindBySINumber(SINumber);
+            var shippingInstruction = _shippingInstructionService.FindBy(t => t.Value == SINumber).FirstOrDefault();
+            var gift = new Cats.Models.Hubs.GiftCertificate();
+            if(shippingInstruction!=null)
+                gift = _giftCertificateService.FindBySINumber(shippingInstruction.ShippingInstructionID);
            UserProfile user = _userProfileService.GetUser(User.Identity.Name);
             bool inReceiptAllocation = _receiptAllocationService.FindBySINumber(SINumber).Any(p => p.CommoditySourceID ==
                CommoditySource.Constants.LOCALPURCHASE);

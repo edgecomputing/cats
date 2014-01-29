@@ -68,7 +68,7 @@ namespace Cats.Services.Hub
             var list = _unitOfWork.GiftCertificateDetailRepository.Get(
                 p => !(p.ReceiptAllocations.Any())
                     || (p.ReceiptAllocations.Any(x => x.IsCommited == false)))
-                    .Select(p => p.GiftCertificate.SINumber).ToList();
+                    .Select(p => p.GiftCertificate.ShippingInstruction.Value).ToList();
 
             return list;     //.Union(db.ReceiptAllocations.Where(p=>p.SINumber))
 

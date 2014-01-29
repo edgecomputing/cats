@@ -66,13 +66,13 @@ namespace Cats.Areas.Hub.Controllers
             _donorService = donorService;
 
         }
-        public ActionResult SINotUnique(string SINUmber, int CommoditySourceID)
+        public ActionResult SINotUnique(int ShippingInstruction, int CommoditySourceID)
         {
 
             //check allocation and gc for the same record
-            var fromGc = _giftCertificateService.FindBySINumber(SINUmber);
+            var fromGc = _giftCertificateService.FindBySINumber(ShippingInstruction);
             var fromRall =
-                _receiptAllocationService.FindBySINumber(SINUmber).FirstOrDefault(
+                _receiptAllocationService.FindBySINumber(fromGc.ShippingInstruction.Value).FirstOrDefault(
                     p => p.CommoditySourceID == CommoditySource.Constants.DONATION);
 
             if (CommoditySourceID == CommoditySource.Constants.LOCALPURCHASE)
@@ -82,7 +82,7 @@ namespace Cats.Areas.Hub.Controllers
             }
             //just incase the user is bad
             var fromRallt =
-                _receiptAllocationService.FindBySINumber(SINUmber).FirstOrDefault(
+                _receiptAllocationService.FindBySINumber(fromGc.ShippingInstruction.Value).FirstOrDefault(
                     p => p.CommoditySourceID == CommoditySource.Constants.LOCALPURCHASE);
 
             if (CommoditySourceID == CommoditySource.Constants.DONATION)
@@ -109,7 +109,7 @@ namespace Cats.Areas.Hub.Controllers
         {
             //TODO perform type specification here
             //Just return an empty list and bind it later
-            List<ReceiptAllocation> list = new List<ReceiptAllocation>();
+            var list = new List<ReceiptAllocationViewModel>();
             ViewBag.CommoditySourceType = type;
             ViewBag.CommodityTypes = new SelectList(_commodityTypeService.GetAllCommodityType(), "CommodityTypeID", "Name", 1); //make the inital binding a food type
             return PartialView("Allocations", list);
@@ -122,7 +122,8 @@ namespace Cats.Areas.Hub.Controllers
             {
                 UserProfile user = _userProfileService.GetUser(User.Identity.Name);
                 List<ReceiptAllocation> list = _receiptAllocationService.GetUnclosedAllocationsDetached(user.DefaultHub.HubID, type, closedToo, user.PreferedWeightMeasurment, CommodityType);
-                return View(new GridModel(list));
+                var listViewModel = BindReceiptAllocationViewModels(list);
+                return View(new GridModel(listViewModel));
             }
             catch (Exception ex)
             {
@@ -130,6 +131,39 @@ namespace Cats.Areas.Hub.Controllers
 
             }
 
+        }
+
+        private IEnumerable<ReceiptAllocationViewModel> BindReceiptAllocationViewModels(IEnumerable<ReceiptAllocation> receiptAllocations)
+        {
+            var receiptAllocationViewModels = new List<ReceiptAllocationViewModel>();
+            foreach (var receiptAllocation in receiptAllocations)
+            {
+                var receiptAllocationViewModel = new ReceiptAllocationViewModel
+                    {
+                        ReceiptAllocationID = receiptAllocation.ReceiptAllocationID,
+                        PartitionID = receiptAllocation.PartitionID,
+                        IsCommited = receiptAllocation.IsCommited,
+                        ETA = receiptAllocation.ETA,
+                        ProjectNumber = receiptAllocation.ProjectNumber,
+                        GiftCertificateDetailID = receiptAllocation.GiftCertificateDetailID,
+                        CommodityID = receiptAllocation.CommodityID,
+                        SINumber = receiptAllocation.SINumber,
+                        UnitID = receiptAllocation.UnitID,
+                        QuantityInUnit = receiptAllocation.QuantityInUnit ?? 0,
+                        QuantityInMT = receiptAllocation.QuantityInMT,
+                        DonorID = receiptAllocation.DonorID,
+                        ProgramID = receiptAllocation.ProgramID,
+                        CommoditySourceID = receiptAllocation.CommoditySourceID,
+                        IsClosed = receiptAllocation.IsClosed,
+                        PurchaseOrder = receiptAllocation.PurchaseOrder,
+                        SupplierName = receiptAllocation.SupplierName,
+                        SourceHubID = receiptAllocation.SourceHubID,
+                        OtherDocumentationRef = receiptAllocation.OtherDocumentationRef,
+                        Remark = receiptAllocation.Remark
+                    };
+                receiptAllocationViewModels.Add(receiptAllocationViewModel);
+            }
+            return receiptAllocationViewModels;
         }
 
 
@@ -302,7 +336,10 @@ namespace Cats.Areas.Hub.Controllers
                 {
 
                     //Only for loading Waybill no
-                    var gCertificate = _giftCertificateService.FindBySINumber(rAllocation.SINumber);
+                    var shippingInstruction = _shippingInstructionService.FindBy(t => t.Value == rAllocation.SINumber).FirstOrDefault();
+                    var gCertificate = new Cats.Models.Hubs.GiftCertificate();
+                    if(shippingInstruction!=null)
+                        gCertificate = _giftCertificateService.FindBySINumber(shippingInstruction.ShippingInstructionID);
                     if (gCertificate != null)
                     {
                         var giftCertificateDetail = gCertificate.GiftCertificateDetails.FirstOrDefault();
@@ -613,7 +650,7 @@ namespace Cats.Areas.Hub.Controllers
         /// </summary>
         /// <param name="SINumber">The SI number.</param>
         /// <returns></returns>
-        public ActionResult LoadDataBySI(string SINumber, string receiptAllocationID)
+        public ActionResult LoadDataBySI(int shippingInstructionID, string receiptAllocationID)
         {
             UserProfile user = _userProfileService.GetUser(User.Identity.Name);
 
@@ -627,9 +664,9 @@ namespace Cats.Areas.Hub.Controllers
             int? ResponsibleDonorID = null;
             int? SourceDonorID = null;
 
-            if (_giftCertificateService.FindBySINumber(SINumber) != null)
+            if (_giftCertificateService.FindBySINumber(shippingInstructionID) != null)
             {
-                Models.Hubs.GiftCertificate gCertificate = _giftCertificateService.FindBySINumber(SINumber);
+                Cats.Models.Hubs.GiftCertificate gCertificate = _giftCertificateService.FindBySINumber(shippingInstructionID);
                 var giftCertificateDetail = gCertificate.GiftCertificateDetails.FirstOrDefault();
                 if (giftCertificateDetail != null)
                 {
@@ -659,12 +696,12 @@ namespace Cats.Areas.Hub.Controllers
             }
             else
             {
-                if (_receiptAllocationService.FindBySINumber(SINumber) != null &&
-                    _receiptAllocationService.FindBySINumber(SINumber).Any())
+                if (_receiptAllocationService.FindBySINumber(_giftCertificateService.FindBySINumber(shippingInstructionID).ShippingInstruction.Value) != null &&
+                    _receiptAllocationService.FindBySINumber(_giftCertificateService.FindBySINumber(shippingInstructionID).ShippingInstruction.Value).Any())
                 {
                     ReceiptAllocation rAllocation =
                         _receiptAllocationService.GetAllReceiptAllocation().FirstOrDefault(
-                            p => p.SINumber == SINumber && p.HubID == user.DefaultHub.HubID);
+                            p => p.SINumber == _giftCertificateService.FindBySINumber(shippingInstructionID).ShippingInstruction.Value && p.HubID == user.DefaultHub.HubID);
 
                     if (rAllocation != null)
                     {
