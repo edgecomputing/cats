@@ -1658,6 +1658,7 @@
     <Content Include="Areas\Logistics\Views\Utilization\Index.cshtml" />
     <Content Include="Areas\Logistics\Views\Utilization\_DistributionByAge.cshtml" />
     <Content Include="Areas\Logistics\Views\Utilization\_DistributionByBeneficiary.cshtml" />
+    <Content Include="Areas\Logistics\Views\Utilization\Create.cshtml" />
     <None Include="dataset.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>dataset.Designer.cs</LastGenOutput>

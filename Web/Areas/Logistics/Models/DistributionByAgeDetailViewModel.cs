@@ -21,6 +21,7 @@ namespace Cats.Areas.Logistics.Models
         public int Programid { get; set; }
         public string Program { get; set; }
 
+        public int DistributionHeadrID { get; set; }
         public int MaleLessThan5Years { get; set; }
         public int FemaleLessThan5Years { get; set; }
         public int MaleBetween5And18Years { get; set; }

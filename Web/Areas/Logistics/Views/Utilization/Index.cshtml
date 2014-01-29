@@ -24,10 +24,9 @@
     <legend>
         Distribution Data Entry<br/>
        <h5> Start by selecting program,Plan and zone from the left side and click on one of the requisitions.</h5>
-    </legend>
-    
-    
-</fieldset>
+    </legend>   
+</fieldset> 
+
 <div id="div_tree_view" class="span3">
     
     
@@ -127,7 +126,7 @@
             </div>
         </td>
         <td>
-           <div class="row-fluid" style="height: 570px; margin-top: 10px;margin-bottom: 10px">
+           <div id="tab_distribution" class="row-fluid" style="display: none; height: 570px; margin-top: 10px;margin-bottom: 10px">
                 <ul class="nav nav-tabs ">
                     <li class="active">
                         <a href="#tab0" data-toggle="tab"><b>@Translator.Translate("Distribution Quantity Info")</b></a>
@@ -235,7 +234,8 @@
     var selectedRequisitionId;
     Grid_OnRowSelect = function (e) {
 
-
+        var distributionTab = $("#tab_distribution");
+        distributionTab.show();
         //Selecting Grid
         var gview = $("#RequisitionGrid").data("kendoGrid");
         //Getting selected item
@@ -254,7 +254,7 @@
 
     function filterDataRequisitionsDetail() {
         
-        return { requisitionId: selectedRequisitionId };
+        return { requisitionId: selectedRequisitionId};
         
        
     }
