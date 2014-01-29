@@ -459,6 +459,7 @@
     <Compile Include="Areas\Hub\Controllers\UserWarehouseController.cs" />
     <Compile Include="Areas\Hub\Controllers\Utilities\TranslationController.cs" />
     <Compile Include="Areas\Hub\HubAreaRegistration.cs" />
+    <Compile Include="Areas\Hub\Models\CommodityTypeViewModel.cs" />
     <Compile Include="Areas\Localization\Controllers\LanguageController.cs" />
     <Compile Include="Areas\Localization\Controllers\TranslationController.cs" />
     <Compile Include="Areas\Localization\LocalizationAreaRegistration.cs" />
