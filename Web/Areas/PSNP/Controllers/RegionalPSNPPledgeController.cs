@@ -66,15 +66,13 @@ namespace Cats.Areas.PSNP.Controllers
         private IEnumerable<Cats.Models.ViewModels.PSNP.RegionalPSNPPlanViewModel> GetRegionalPSNPPlans(IEnumerable<RegionalPSNPPlan> regionalPSNPPlans)
         {
             return (from regionalPSNPPlan in regionalPSNPPlans
-                    let name = regionalPSNPPlan.Region.Name
-                    where name != null
+                  
                     select new Cats.Models.ViewModels.PSNP.RegionalPSNPPlanViewModel()
                         {
                             RegionalPSNPPlanID = regionalPSNPPlan.RegionalPSNPPlanID,
                             Year = regionalPSNPPlan.Year,
                             Duration = regionalPSNPPlan.Duration,
-                            RegionID = regionalPSNPPlan.RegionID,
-                            Region = name,
+
                             RationID = regionalPSNPPlan.RationID,
                             StatusID = regionalPSNPPlan.StatusID,
                         });
@@ -114,9 +112,9 @@ namespace Cats.Areas.PSNP.Controllers
                 if(alreadyReadIDs.Contains(regionalPSNPPlanDetail.RegionalPSNPPlanID))
                     continue;
                 var regionalPSNPPlan = _regionalPSNPPlanService.FindById(regionalPSNPPlanDetail.RegionalPSNPPlanID);
-                var region = _adminUnitService.FindById(regionalPSNPPlan.RegionID);
-                var regionalPSNPPlanName = regionalPSNPPlan.Year + " - " + region.Name;
-                regionalPSNPPlanList.Add(regionalPSNPPlanName);
+                //var region = _adminUnitService.FindById(regionalPSNPPlan.RegionID);
+                var regionalPSNPPlanName = regionalPSNPPlan.Year;// +" - " + region.Name;
+                regionalPSNPPlanList.Add(regionalPSNPPlanName.ToString());
                 alreadyReadIDs.Add(regionalPSNPPlanDetail.RegionalPSNPPlanID);
             }
             ViewBag.RegionalPSNPPlan = new SelectList(regionalPSNPPlanList, "", "", regionalPSNPPledge.RegionalPSNPPlanID = 1);

@@ -24,6 +24,8 @@ namespace Cats.Web.Hub.Controllers.Allocations
         private readonly IHubService _hubService;
         private readonly IProgramService _programService;
         private readonly ICommodityTypeService _commodityTypeService;
+        private readonly IShippingInstructionService _shippingInstructionService;
+
         public ReceiptAllocationController(IReceiptAllocationService receiptAllocationService,
             IUserProfileService userProfileService,
             ICommoditySourceService commoditySourceService,
@@ -33,7 +35,7 @@ namespace Cats.Web.Hub.Controllers.Allocations
             IGiftCertificateDetailService giftCertificateDetailService,
             IHubService hubService,
             IProgramService programService,
-            ICommodityTypeService commodityTypeService):base(userProfileService)
+            ICommodityTypeService commodityTypeService, IShippingInstructionService shippingInstructionService):base(userProfileService)
         {
             this._receiptAllocationService = receiptAllocationService;
             this._userProfileService = userProfileService;
@@ -45,6 +47,7 @@ namespace Cats.Web.Hub.Controllers.Allocations
             this._hubService = hubService;
             this._programService = programService;
             this._commodityTypeService = commodityTypeService;
+            _shippingInstructionService = shippingInstructionService;
         }
 
         public ActionResult SelfReference(int HubID, int? SourceHubID)
@@ -214,7 +217,12 @@ namespace Cats.Web.Hub.Controllers.Allocations
                     receiptAllocationViewModel.GiftCertificateDetailID == null
                     )
                 {
-                    var GC = _giftCertificateService.FindBySINumber(receiptAllocationViewModel.SINumber);
+                    var shippingInstruction =
+                        _shippingInstructionService.FindBy(t => t.Value == receiptAllocationViewModel.SINumber).
+                            FirstOrDefault();
+                    var GC = new GiftCertificate();
+                    if(shippingInstruction!=null)
+                        GC = _giftCertificateService.FindBySINumber(shippingInstruction.ShippingInstructionID);
 
                     if (GC != null)
                     {
@@ -295,8 +303,12 @@ namespace Cats.Web.Hub.Controllers.Allocations
                 receiptAllocationViewModel.OtherDocumentationRef = receiptAllocation.OtherDocumentationRef;
                 receiptAllocationViewModel.Remark = receiptAllocation.Remark;
 
-
-                GiftCertificate GC = _giftCertificateService.FindBySINumber(receiptAllocationViewModel.SINumber);
+                var shippingInstruction =
+                    _shippingInstructionService.FindBy(t => t.Value == receiptAllocationViewModel.SINumber).
+                        FirstOrDefault();
+                var GC = new GiftCertificate();
+                if(shippingInstruction!=null)
+                    GC = _giftCertificateService.FindBySINumber(shippingInstruction.ShippingInstructionID);
                 if (GC != null && receiptAllocation.CommoditySourceID ==CommoditySource.Constants.DONATION)
                 {
                     receiptAllocationViewModel.Commodities.Clear();
@@ -374,7 +386,10 @@ namespace Cats.Web.Hub.Controllers.Allocations
         {
             if (CommoditySourceID.HasValue && CommoditySourceID.Value ==CommoditySource.Constants.DONATION)
             {
-                var mustBeInGift = _giftCertificateService.FindBySINumber(SINUmber);
+                var shippingInstruction = _shippingInstructionService.FindBy(t => t.Value == SINUmber).FirstOrDefault();
+                var mustBeInGift = new GiftCertificate();
+                if(shippingInstruction!=null)
+                    mustBeInGift = _giftCertificateService.FindBySINumber(shippingInstruction.ShippingInstructionID);
                 return Json((mustBeInGift != null), JsonRequestBehavior.AllowGet);
             }
             return Json(true, JsonRequestBehavior.AllowGet);
@@ -383,7 +398,10 @@ namespace Cats.Web.Hub.Controllers.Allocations
         private bool IsSIValid(string SINumber, int CommoditySourceID)
         {
             //check allocation and gc for the same record
-            var fromGc = _giftCertificateService.FindBySINumber(SINumber);
+            var shippingInstruction = _shippingInstructionService.FindBy(t => t.Value == SINumber).FirstOrDefault();
+            var fromGc = new GiftCertificate();
+            if(shippingInstruction!=null)
+                fromGc = _giftCertificateService.FindBySINumber(shippingInstruction.ShippingInstructionID);
             bool fromRall =
                 _receiptAllocationService.IsSINSource(CommoditySource.Constants.DONATION, SINumber);
 
@@ -481,7 +499,10 @@ namespace Cats.Web.Hub.Controllers.Allocations
             receiptAllocationViewModel.HubID = user.DefaultHub.HubID;
             if (SInumber != null)
             {
-                GiftCertificate GC = _giftCertificateService.FindBySINumber(SInumber);
+                var shippingInstruction = _shippingInstructionService.FindBy(t => t.Value == SInumber).FirstOrDefault();
+                var GC = new GiftCertificate();
+                if(shippingInstruction!=null)
+                    GC = _giftCertificateService.FindBySINumber(shippingInstruction.ShippingInstructionID);
                 if (GC != null && type ==CommoditySource.Constants.DONATION)
                 {
                     receiptAllocationViewModel.Commodities.Clear();
@@ -595,9 +616,9 @@ namespace Cats.Web.Hub.Controllers.Allocations
             var SINumbers = from item in _giftCertificateService.GetAllGiftCertificate()
                             select new SelectListItemModel()
                                        {
-                                           Id = item.SINumber,
+                                           Id = item.ShippingInstructionID.ToString(),
                                            //GiftCertificateID.ToString(),
-                                           Name = item.SINumber
+                                           Name = item.ShippingInstruction.Value
                                        };
             return Json(new SelectList(SINumbers.OrderBy(o => o.Name), "Id", "Name"), JsonRequestBehavior.AllowGet);
         }
@@ -617,8 +638,8 @@ namespace Cats.Web.Hub.Controllers.Allocations
                     SINumbers = from item in _giftCertificateService.GetAllGiftCertificate()
                                 select new SelectListItemModel()
                                            {
-                                               Id = item.SINumber,
-                                               Name = item.SINumber,
+                                               Id = item.ShippingInstructionID.ToString(),
+                                               Name = item.ShippingInstruction.Value,
                                                Collection = "0"
                                            };
                 }
@@ -700,7 +721,10 @@ namespace Cats.Web.Hub.Controllers.Allocations
                 decimal GCbalance = 0;
                 decimal allocateBalance = 0;
                 string commodity = "";
-                var GC = _giftCertificateService.FindBySINumber(siNumber);
+                var shippingInstruction = _shippingInstructionService.FindBy(t => t.Value == siNumber).FirstOrDefault();
+                var GC = new GiftCertificate();
+                if(shippingInstruction!=null)
+                    GC = _giftCertificateService.FindBySINumber(shippingInstruction.ShippingInstructionID);
                 if (GC != null)
                 {
 
@@ -710,7 +734,7 @@ namespace Cats.Web.Hub.Controllers.Allocations
                         commodity = GCD.Commodity.Name;
                     }
 
-                    allocateBalance = _receiptAllocationService.GetBalanceForSI(GC.SINumber); //, commodityId.Value);
+                    allocateBalance = _receiptAllocationService.GetBalanceForSI(GC.ShippingInstruction.Value); //, commodityId.Value);
 
                 }
                 //else
@@ -822,12 +846,12 @@ namespace Cats.Web.Hub.Controllers.Allocations
             }
 
             projectCode += "-" + ((QuantityInMT ?? 0).ToString()).ToUpperInvariant();
-
-                if (_giftCertificateService.FindBySINumber(SINumber) != null &&
-                    _giftCertificateService.FindBySINumber(SINumber).GiftCertificateDetails.Any(
+            var shippingInstruction = _shippingInstructionService.FindBy(t => t.Value == SINumber).FirstOrDefault();
+                if (shippingInstruction != null && _giftCertificateService.FindBySINumber(shippingInstruction.ShippingInstructionID) != null &&
+                    _giftCertificateService.FindBySINumber(shippingInstruction.ShippingInstructionID).GiftCertificateDetails.Any(
                         p => p.CommodityID == CommodityID))
                     projectCode += "/" +
-                                    _giftCertificateService.FindBySINumber(SINumber).GiftCertificateDetails.Where(
+                                    _giftCertificateService.FindBySINumber(shippingInstruction.ShippingInstructionID).GiftCertificateDetails.Where(
                                         p => p.CommodityID == CommodityID).Sum(q => q.WeightInMT);
 
             return Json(projectCode , JsonRequestBehavior.AllowGet );

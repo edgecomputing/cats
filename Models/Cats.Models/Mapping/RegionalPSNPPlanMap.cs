@@ -14,9 +14,6 @@ namespace Cats.Models.Mapping
 
             this.Property(t => t.Duration).HasColumnName("Duration");
 
-            this.HasRequired(t => t.Region)
-                    .WithMany(t => t.RegionalPSNPPlans)
-                    .HasForeignKey(d => d.RegionID);
             
             this.HasRequired(t => t.Ration)
                    .WithMany(t => t.RegionalPSNPPlans)

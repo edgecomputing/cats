@@ -156,7 +156,7 @@ namespace Cats.Web.Hub.Helpers
                     case CertificateFields.REFERENCENO:
                         return detail.GiftCertificate.ReferenceNo;
                     case CertificateFields.SINUMBER:
-                        return detail.GiftCertificate.SINumber;
+                        return detail.GiftCertificate.ShippingInstruction.Value;
                     case CertificateFields.VESSEL:
                         return detail.GiftCertificate.Vessel;
                 }
@@ -179,7 +179,7 @@ namespace Cats.Web.Hub.Helpers
                     case CertificateFields.REFERENCENO:
                         return certificate.ReferenceNo;
                     case CertificateFields.SINUMBER:
-                        return certificate.SINumber;
+                        return certificate.ShippingInstruction.Value;
                     case CertificateFields.VESSEL:
                         return certificate.Vessel;
                 }

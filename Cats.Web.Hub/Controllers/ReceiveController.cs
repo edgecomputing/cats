@@ -67,9 +67,11 @@ namespace Cats.Web.Hub.Controllers
         }
         public ActionResult SINotUnique(string SINUmber, int CommoditySourceID)
         {
-
+            var shippingInstruction = _shippingInstructionService.FindBy(t => t.Value == SINUmber).FirstOrDefault();
+            var fromGc = new GiftCertificate();
+            if(shippingInstruction!=null)
             //check allocation and gc for the same record
-            var fromGc = _giftCertificateService.FindBySINumber(SINUmber);
+                fromGc = _giftCertificateService.FindBySINumber(shippingInstruction.ShippingInstructionID);
             var fromRall =
                 _receiptAllocationService.FindBySINumber(SINUmber).FirstOrDefault(
                     p => p.CommoditySourceID == CommoditySource.Constants.DONATION);
@@ -287,9 +289,11 @@ namespace Cats.Web.Hub.Controllers
 
                 if (rAllocation != null)
                 {
-
-                    //Only for loading Waybill no
-                    var gCertificate = _giftCertificateService.FindBySINumber(rAllocation.SINumber);
+                    var shippingInstruction = _shippingInstructionService.FindBy(t => t.Value == rAllocation.SINumber).FirstOrDefault();
+                    var gCertificate = new GiftCertificate();
+                    if(shippingInstruction!=null)
+                        //Only for loading Waybill no
+                        gCertificate = _giftCertificateService.FindBySINumber(shippingInstruction.ShippingInstructionID);
                     if (gCertificate != null)
                     {
                         var giftCertificateDetail = gCertificate.GiftCertificateDetails.FirstOrDefault();
@@ -615,9 +619,10 @@ namespace Cats.Web.Hub.Controllers
             int? ResponsibleDonorID = null;
             int? SourceDonorID = null;
 
-            if (_giftCertificateService.FindBySINumber(SINumber) != null)
+            var shippingInstruction = _shippingInstructionService.FindBy(t => t.Value == SINumber).FirstOrDefault();
+            if (shippingInstruction!=null && _giftCertificateService.FindBySINumber(shippingInstruction.ShippingInstructionID) != null)
             {
-                GiftCertificate gCertificate = _giftCertificateService.FindBySINumber(SINumber);
+                GiftCertificate gCertificate = _giftCertificateService.FindBySINumber(shippingInstruction.ShippingInstructionID);
                 var giftCertificateDetail = gCertificate.GiftCertificateDetails.FirstOrDefault();
                 if (giftCertificateDetail != null)
                 {

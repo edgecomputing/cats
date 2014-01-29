@@ -152,6 +152,8 @@ namespace Cats.Models.Hubs
         public List<CommoditySource> CommoditySources { get; set; }
         public List<CommodityType> CommodityTypes { get; set; }
 
+        public Nullable<int> UnitID { get; set; }
+        public bool IsClosed { get; set; }
         /// <summary>
         /// Initializes a new instance of the <see cref="ReceiptAllocationViewModel"/> class.
         /// </summary>

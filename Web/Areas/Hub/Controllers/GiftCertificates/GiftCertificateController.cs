@@ -21,6 +21,7 @@ namespace Cats.Areas.Hub.Controllers
         private readonly IDonorService _donorService;
         private readonly IProgramService _programService;
         private readonly IGiftCertificateDetailService _giftCertificateDetailService;
+        private readonly IShippingInstructionService _shippingInstructionService;
 
         public GiftCertificateController(
             IGiftCertificateService giftCertificateService,
@@ -31,7 +32,7 @@ namespace Cats.Areas.Hub.Controllers
             ICommodityTypeService commodityTypeService,
            IDonorService donorService,
             IProgramService programService,
-            IGiftCertificateDetailService giftCertificateDetailService)
+            IGiftCertificateDetailService giftCertificateDetailService, IShippingInstructionService shippingInstructionService)
             : base(userProfileService)
         {
             _giftCertificateService = giftCertificateService;
@@ -43,13 +44,15 @@ namespace Cats.Areas.Hub.Controllers
             _donorService = donorService;
             _programService = programService;
             _giftCertificateDetailService = giftCertificateDetailService;
-
+            _shippingInstructionService = shippingInstructionService;
         }
 
         public virtual ActionResult NotUnique(string SINumber, int GiftCertificateID)
         {
-
-            Models.Hubs.GiftCertificate gift = _giftCertificateService.FindBySINumber(SINumber);
+            var shippingInstruction = _shippingInstructionService.FindBy(t => t.Value == SINumber).FirstOrDefault();
+            var gift = new Cats.Models.Hubs.GiftCertificate();
+            if(shippingInstruction!=null)
+                gift = _giftCertificateService.FindBySINumber(shippingInstruction.ShippingInstructionID);
            UserProfile user = _userProfileService.GetUser(User.Identity.Name);
             bool inReceiptAllocation = _receiptAllocationService.FindBySINumber(SINumber).Any(p => p.CommoditySourceID ==
                CommoditySource.Constants.LOCALPURCHASE);
@@ -229,7 +232,7 @@ namespace Cats.Areas.Hub.Controllers
 
         public ActionResult Edit(int id)
         {
-            Models.Hubs.GiftCertificate giftcertificate = _giftCertificateService.Get(t => t.GiftCertificateID == id, null, "GiftCertificateDetails,GiftCertificateDetails.Commodity").FirstOrDefault();
+            Cats.Models.Hubs.GiftCertificate giftcertificate = _giftCertificateService.Get(t => t.GiftCertificateID == id, null, "GiftCertificateDetails,GiftCertificateDetails.Commodity").FirstOrDefault();
             ViewBag.Commodities = _commodityService.GetAllCommodity().OrderBy(o => o.Name);
 
             ViewBag.DCurrencies = _detailService.GetAllDetail().Where(d => d.MasterID == Master.Constants.CURRENCY).OrderBy(o => o.SortOrder);
@@ -248,12 +251,12 @@ namespace Cats.Areas.Hub.Controllers
         public ActionResult Edit(GiftCertificateViewModel giftcertificate)
         {
             //just incase the user meses with the the hidden GiftCertificateID field
-            Models.Hubs.GiftCertificate giftcert = _giftCertificateService.FindById(giftcertificate.GiftCertificateID);
+            Cats.Models.Hubs.GiftCertificate giftcert = _giftCertificateService.FindById(giftcertificate.GiftCertificateID);
 
             if (ModelState.IsValid && giftcert != null)
             {
 
-                Models.Hubs.GiftCertificate giftCertificateModel = giftcertificate.GenerateGiftCertificate();
+                Cats.Models.Hubs.GiftCertificate giftCertificateModel = giftcertificate.GenerateGiftCertificate();
 
                 List<Cats.Models.Hubs.GiftCertificateDetailsViewModel> insertCommodities = GetSelectedGiftCertificateDetails(giftcertificate.JSONInsertedGiftCertificateDetails);
                 List<Cats.Models.Hubs.GiftCertificateDetailsViewModel> deletedCommodities = GetSelectedGiftCertificateDetails(giftcertificate.JSONDeletedGiftCertificateDetails);
@@ -281,7 +284,7 @@ namespace Cats.Areas.Hub.Controllers
 
         public ActionResult Delete(int id)
         {
-            Models.Hubs.GiftCertificate giftcertificate = _giftCertificateService.FindById(id);
+            Cats.Models.Hubs.GiftCertificate giftcertificate = _giftCertificateService.FindById(id);
             return View(giftcertificate);
         }
 

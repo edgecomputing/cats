@@ -156,7 +156,7 @@ namespace Cats.Services.Transaction
 
                         Models.Transaction entry2 = new Models.Transaction
                         {
-                            RegionID = plan.RegionID,
+                           
                             CommodityID = rd.CommodityID,
                             Round = r + 1,
                             ProgramID = 2,
@@ -167,7 +167,7 @@ namespace Cats.Services.Transaction
                         };
                         Models.Transaction entry1 = new Models.Transaction
                         {
-                            RegionID = plan.RegionID,
+                           
                             CommodityID = rd.CommodityID,
                             Round = r + 1,
                             ProgramID = 2,
@@ -301,6 +301,7 @@ namespace Cats.Services.Transaction
             _unitOfWork.Save();
             return true;
         }
+        
         public List<ProjectCode> getAllProjectByHubCommodity(int hubId, int commodityId)
         {
             var receiptAllocation = ReceiptAllocationFindBy(t => t.HubID == hubId && t.CommodityID == commodityId);

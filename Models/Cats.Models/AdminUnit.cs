@@ -50,7 +50,7 @@ namespace Cats.Models
         public virtual ICollection<TransportOrderDetail> TransportOrderDetails { get; set; }
         public virtual ICollection<BidWinner> BidWinners { get; set; }
         public virtual ICollection<TransportBidQuotation> TransportBidQuotations { get; set; }
-        public virtual ICollection<RegionalPSNPPlan> RegionalPSNPPlans { get; set; } 
+      
         
         public virtual ICollection<TransportRequisition> TransportRequisitions { get; set; }
         public virtual ICollection<WoredaHubLink> WoredaHubLinks { get; set; }
