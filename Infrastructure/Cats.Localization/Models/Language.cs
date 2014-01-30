@@ -11,12 +11,11 @@ namespace Cats.Localization.Models
         //public TimeSpan? Name;
         public Language()
         {
-            //this.LocalizedPhrases = new List<LocalizedPhrase>();
+            this.LocalizedTextes = new List<LocalizedText>();
         }
 
         public string LanguageCode { get; set; }
-        public string LanguageName { get; set; }
-
-        public virtual ICollection<LocalizedPhrase> LocalizedPhrases { get; set; }
+        public string LanguageName { get; set; }        
+        public virtual ICollection<LocalizedText> LocalizedTextes { get; set; }
     }
 }

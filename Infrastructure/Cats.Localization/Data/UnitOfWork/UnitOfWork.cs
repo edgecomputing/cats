@@ -13,12 +13,9 @@ namespace Cats.Localization.Data.UnitOfWork
         #region Constructors and private vars
 
         private readonly TranslationContext _context;
-        private IGenericRepository<LocalizedPhrase> localizedPhraseRepo;
+        private IGenericRepository<LocalizedText> localizedTextRepo;
         private IGenericRepository<Language> languageRepo;
-        private IGenericRepository<Page> pageRepo;
-        private IGenericRepository<Phrase> phraseRepo;
-        private IGenericRepository<LocalizedPagePhrase> pagePhraseRepo; 
-
+        private IGenericRepository<Page> pageRepo;          
 
         public UnitOfWork()
         {
@@ -27,9 +24,9 @@ namespace Cats.Localization.Data.UnitOfWork
 
         #endregion
 
-        public IGenericRepository<LocalizedPhrase> LocalizedPhraseRepository
+        public IGenericRepository<LocalizedText> LocalizedTextRepository
         {
-            get { return this.localizedPhraseRepo ?? (this.localizedPhraseRepo = new GenericRepository<LocalizedPhrase>(_context)); }
+            get { return this.localizedTextRepo ?? (this.localizedTextRepo = new GenericRepository<LocalizedText>(_context)); }
 
         }
 
@@ -39,19 +36,9 @@ namespace Cats.Localization.Data.UnitOfWork
 
         }
 
-        public IGenericRepository<Phrase> PhraseRepository
-        {
-            get { return this.phraseRepo ?? (this.phraseRepo = new GenericRepository<Phrase>(_context)); }
-        }
-
         public IGenericRepository<Page> PageRepository
         {
             get { return this.pageRepo ?? (this.pageRepo = new GenericRepository<Page>(_context)); }
-        }
-
-        public IGenericRepository<LocalizedPagePhrase> PagePhraseRepository
-        {
-            get { return this.pagePhraseRepo ?? (this.pagePhraseRepo = new GenericRepository<LocalizedPagePhrase>(_context)); }
         }
 
         private bool disposed = false;

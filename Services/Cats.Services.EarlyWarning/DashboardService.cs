@@ -12,28 +12,28 @@ namespace Cats.Services.EarlyWarning
     {
         public DashboardService()
         {
-            this._IUnitOfWork = new UnitOfWork();
+            this._unitOfWork = new UnitOfWork();
         }
 
-        private readonly IUnitOfWork _IUnitOfWork;
+        private readonly IUnitOfWork _unitOfWork;
 
         public List<RegionalRequest> RegionalRequestsByRegionID(int RegionId)
         {
-            return _IUnitOfWork.RegionalRequestRepository.FindBy(t => t.RegionID == RegionId);
+            return _unitOfWork.RegionalRequestRepository.FindBy(t => t.RegionID == RegionId);
         }
 
         public List<RegionalRequest> RegionalRequests(int RegionId)
         {
             int year = Year();
             int sixMonthsBack = SixMonthsBack();
-            return _IUnitOfWork.RegionalRequestRepository.FindBy(t => t.Month >= sixMonthsBack && t.Year >= year && t.RegionID == RegionId);
+            return _unitOfWork.RegionalRequestRepository.FindBy(t => t.Month >= sixMonthsBack && t.Year >= year && t.RegionID == RegionId);
         }
 
         public List<RegionalRequest> Requests()
         {
             int year = Year();
             int sixMonthsBack = SixMonthsBack();
-            return _IUnitOfWork.RegionalRequestRepository.FindBy(t => t.Month >= sixMonthsBack && t.Year >= year);
+            return _unitOfWork.RegionalRequestRepository.FindBy(t => t.Month >= sixMonthsBack && t.Year >= year);
         }
 
         public IEnumerable<RegionalMonthlyRequest> RMRequests()
@@ -41,7 +41,7 @@ namespace Cats.Services.EarlyWarning
 
             int year = Year();
             int sixMonthsBack = SixMonthsBack();
-            var requests =  _IUnitOfWork.RegionalRequestRepository.FindBy(t => t.Month >= sixMonthsBack && t.Year >= year);
+            var requests =  _unitOfWork.RegionalRequestRepository.FindBy(t => t.Month >= sixMonthsBack && t.Year >= year);
             return (from r in requests 
                     select new RegionalMonthlyRequest 
                     {
@@ -58,14 +58,14 @@ namespace Cats.Services.EarlyWarning
         {
             int year = Year();
             int sixMonthsBack = SixMonthsBack();
-            var regionalRequests = _IUnitOfWork.RegionalRequestRepository.FindBy(t => t.Month >= sixMonthsBack && t.Year >= year);
+            var regionalRequests = _unitOfWork.RegionalRequestRepository.FindBy(t => t.Month >= sixMonthsBack && t.Year >= year);
             return (from _regionalRequests in regionalRequests group _regionalRequests by _regionalRequests.AdminUnit.Name 
                         into RegionalRequests select new Request() { RegionName = RegionalRequests.Key, RequestsCount = RegionalRequests.Count() });
         }
 
         public IEnumerable<ReliefRequisition> RequisitionBasedOnStatus()
         {
-            var requisitions = _IUnitOfWork.ReliefRequisitionRepository.GetAll();
+            var requisitions = _unitOfWork.ReliefRequisitionRepository.GetAll();
             return requisitions;
         }
 
@@ -73,7 +73,7 @@ namespace Cats.Services.EarlyWarning
         {
             int year = Year();
             int sixMonthsBack = SixMonthsBack();
-            var noOfBeneficiaries = _IUnitOfWork.RegionalRequestRepository.FindBy(t => t.Month >= sixMonthsBack && t.Year >= year);
+            var noOfBeneficiaries = _unitOfWork.RegionalRequestRepository.FindBy(t => t.Month >= sixMonthsBack && t.Year >= year);
             return (from _noOfBeneficiaries in noOfBeneficiaries group _noOfBeneficiaries by _noOfBeneficiaries.AdminUnit.Name 
                         into NoOfBeneficiaries select new Beneficiaries() { RegionName = NoOfBeneficiaries.Key,
                         BeneficiariesCount = NoOfBeneficiaries.Sum(t => t.RegionalRequestDetails.Sum(m => m.Beneficiaries)) }).ToList();
@@ -96,13 +96,13 @@ namespace Cats.Services.EarlyWarning
         {
             int year = Year();
             int sixMonthsBack = SixMonthsBack();
-            var beneficiaryDetail = _IUnitOfWork.RegionalRequestDetailRepository.FindBy(t => t.RegionalRequest.Month >= sixMonthsBack && t.RegionalRequest.Year >= year);
+            var beneficiaryDetail = _unitOfWork.RegionalRequestDetailRepository.FindBy(t => t.RegionalRequest.Month >= sixMonthsBack && t.RegionalRequest.Year >= year);
 
             //var g= (from _beneficiaryDetail in beneficiaryDetail join _adminUnit in _IUnitOfWork.AdminUnitRepository.GetAll() on _beneficiaryDetail.RegionalRequest.AdminUnit.AdminUnitID equals _adminUnit.AdminUnitID where _adminUnit.AdminUnitType.Name == "Region" group _beneficiaryDetail by _beneficiaryDetail.RegionalRequest.AdminUnit.Name into _Beneficiaries select new RegionalBeneficiaries() { RegionName = _Beneficiaries.Key, Request = _Beneficiaries.Sum(m => m.Beneficiaries), Allocation = RegionalAllocation(_Beneficiaries.Key), HRD = RegionalHRD(_Beneficiaries.Key) });
 
             //return g;
 
-            return (from _beneficiaryDetail in beneficiaryDetail join _adminUnit in _IUnitOfWork.AdminUnitRepository.GetAll() 
+            return (from _beneficiaryDetail in beneficiaryDetail join _adminUnit in _unitOfWork.AdminUnitRepository.GetAll() 
                     on _beneficiaryDetail.RegionalRequest.AdminUnit.AdminUnitID equals _adminUnit.AdminUnitID where _adminUnit.AdminUnitType.Name == "Region" 
                     group _beneficiaryDetail by _beneficiaryDetail.RegionalRequest.AdminUnit.Name into _Beneficiaries 
                     select new RegionalBeneficiaries() { RegionName = _Beneficiaries.Key, Request = _Beneficiaries.Sum(m => m.Beneficiaries), 
@@ -113,15 +113,15 @@ namespace Cats.Services.EarlyWarning
         public IEnumerable<ZonalBeneficiaries> ZonalBeneficiaries(int RegionId)
         {
             int year = Year();
-            var beneficiaryDetail = _IUnitOfWork.RegionalRequestDetailRepository.FindBy(t => t.RegionalRequest.Year >= year);
+            var beneficiaryDetail = _unitOfWork.RegionalRequestDetailRepository.FindBy(t => t.RegionalRequest.Year >= year);
 
             //var f = (from _beneficiaryDetail in beneficiaryDetail join _adminUnit in _IUnitOfWork.AdminUnitRepository.GetAll() on _beneficiaryDetail.RegionalRequest.AdminUnit.AdminUnitID equals _adminUnit.AdminUnitID where _adminUnit.AdminUnitID == RegionId && _beneficiaryDetail.RegionalRequest.AdminUnit.AdminUnitID == RegionId group _beneficiaryDetail by new { _beneficiaryDetail.RegionalRequest.Month, _beneficiaryDetail.Fdp.AdminUnit.AdminUnitID } into _Beneficiaries select new ZonalBeneficiaries() { Month = System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(_Beneficiaries.Key.Month), Zone = _IUnitOfWork.AdminUnitRepository.FindBy(t => t.AdminUnitID == _Beneficiaries.Key.AdminUnitID).FirstOrDefault().Name, Request = _Beneficiaries.Sum(m => m.Beneficiaries), Allocation = ZonalAllocation(RegionId, _Beneficiaries.Key.Month, _Beneficiaries.Key.AdminUnitID), HRD = ZonalHRD(RegionId, _Beneficiaries.Key.Month, _Beneficiaries.Key.AdminUnitID) });
 
-            return (from _beneficiaryDetail in beneficiaryDetail join _adminUnit in _IUnitOfWork.AdminUnitRepository.GetAll() 
+            return (from _beneficiaryDetail in beneficiaryDetail join _adminUnit in _unitOfWork.AdminUnitRepository.GetAll() 
                      on _beneficiaryDetail.RegionalRequest.AdminUnit.AdminUnitID equals _adminUnit.AdminUnitID where _adminUnit.AdminUnitID == RegionId 
                      group _beneficiaryDetail by new { _beneficiaryDetail.RegionalRequest.Month, _beneficiaryDetail.Fdp.AdminUnit.AdminUnitID } 
                      into _Beneficiaries select new ZonalBeneficiaries() { Month = System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(_Beneficiaries.Key.Month), 
-                         Zone = _IUnitOfWork.AdminUnitRepository.FindBy(t => t.AdminUnitID == _Beneficiaries.Key.AdminUnitID).FirstOrDefault().Name, 
+                         Zone = _unitOfWork.AdminUnitRepository.FindBy(t => t.AdminUnitID == _Beneficiaries.Key.AdminUnitID).FirstOrDefault().Name, 
                          Request = _Beneficiaries.Sum(m => m.Beneficiaries), Allocation = ZonalAllocation(RegionId, _Beneficiaries.Key.Month,
                          _Beneficiaries.Key.AdminUnitID), HRD = ZonalHRD(RegionId, _Beneficiaries.Key.Month, _Beneficiaries.Key.AdminUnitID) });
 
@@ -134,9 +134,9 @@ namespace Cats.Services.EarlyWarning
 
             //var commodityAllocation = (from _allocation in _IUnitOfWork.ReliefRequisitionDetailRepository.FindBy(t => t.ReliefRequisition.RegionalRequest.Month >= sixMonthsBack && t.ReliefRequisition.RegionalRequest.Year >= year) join _adminUnit in _IUnitOfWork.AdminUnitRepository.GetAll() on _allocation.ReliefRequisition.AdminUnit.AdminUnitID equals _adminUnit.AdminUnitID join _adminUnitType in _IUnitOfWork.AdminUnitTypeRepository.GetAll() on _adminUnit.AdminUnitTypeID equals _adminUnitType.AdminUnitTypeID where _adminUnitType.Name == "Region" group _allocation by _allocation.ReliefRequisition.AdminUnit.Name into _Allocation select new { RegionName = _Allocation.Key, Amount = _Allocation.Sum(t => t.BenficiaryNo) }).Where(t => t.RegionName == RegionName).FirstOrDefault();
 
-            var commodityAllocation = (from _allocation in _IUnitOfWork.ReliefRequisitionDetailRepository.FindBy(t => t.ReliefRequisition.RegionalRequest.Month >= sixMonthsBack && t.ReliefRequisition.RegionalRequest.Year >= year)
-                                       join _adminUnit in _IUnitOfWork.AdminUnitRepository.GetAll() on _allocation.ReliefRequisition.AdminUnit.AdminUnitID 
-                                       equals _adminUnit.AdminUnitID join _adminUnitType in _IUnitOfWork.AdminUnitTypeRepository.GetAll() on _adminUnit.AdminUnitTypeID equals _adminUnitType.AdminUnitTypeID 
+            var commodityAllocation = (from _allocation in _unitOfWork.ReliefRequisitionDetailRepository.FindBy(t => t.ReliefRequisition.RegionalRequest.Month >= sixMonthsBack && t.ReliefRequisition.RegionalRequest.Year >= year)
+                                       join _adminUnit in _unitOfWork.AdminUnitRepository.GetAll() on _allocation.ReliefRequisition.AdminUnit.AdminUnitID 
+                                       equals _adminUnit.AdminUnitID join _adminUnitType in _unitOfWork.AdminUnitTypeRepository.GetAll() on _adminUnit.AdminUnitTypeID equals _adminUnitType.AdminUnitTypeID 
                                        where _adminUnitType.Name == "Region" group _allocation by _allocation.ReliefRequisition.AdminUnit.Name into _Allocation 
                                        select new { RegionName = _Allocation.Key, Amount = _Allocation.Sum(t => t.BenficiaryNo) }).Where(t => t.RegionName == RegionName).FirstOrDefault();
 
@@ -146,11 +146,11 @@ namespace Cats.Services.EarlyWarning
         public decimal ZonalAllocation(int RegionId, int Month, int ZoneId)
         {
             int year = Year();
-            var commodityAllocation = (from _allocation in _IUnitOfWork.ReliefRequisitionDetailRepository.FindBy(t => t.ReliefRequisition.RegionalRequest.Year >= year) 
-                                       join _adminUnit in _IUnitOfWork.AdminUnitRepository.GetAll() on _allocation.ReliefRequisition.AdminUnit.AdminUnitID equals _adminUnit.AdminUnitID 
+            var commodityAllocation = (from _allocation in _unitOfWork.ReliefRequisitionDetailRepository.FindBy(t => t.ReliefRequisition.RegionalRequest.Year >= year) 
+                                       join _adminUnit in _unitOfWork.AdminUnitRepository.GetAll() on _allocation.ReliefRequisition.AdminUnit.AdminUnitID equals _adminUnit.AdminUnitID 
                                        where _adminUnit.AdminUnitID == RegionId && _allocation.FDP.AdminUnit.ParentID == ZoneId group _allocation 
                                        by new { _allocation.ReliefRequisition.RegionalRequest.Month, _allocation.FDP.AdminUnitID} into _Allocation 
-                                       select new { Month = _Allocation.Key.Month, Zone=_IUnitOfWork.AdminUnitRepository.FindBy(t=>t.AdminUnitID == _Allocation.Key.AdminUnitID).FirstOrDefault().Name, 
+                                       select new { Month = _Allocation.Key.Month, Zone=_unitOfWork.AdminUnitRepository.FindBy(t=>t.AdminUnitID == _Allocation.Key.AdminUnitID).FirstOrDefault().Name, 
                                        Amount = _Allocation.Sum(t => t.BenficiaryNo) }).Where(t => t.Month == Month).FirstOrDefault();
             return commodityAllocation == null ? 0 : commodityAllocation.Amount;
         }
@@ -162,9 +162,9 @@ namespace Cats.Services.EarlyWarning
 
             //var hrd = (from _hrd in _IUnitOfWork.HRDDetailRepository.FindBy(t => t.StartingMonth + (t.DurationOfAssistance - 1) >= sixMonthsBack && t.HRD.Year >= year) join _adminUnit in _IUnitOfWork.AdminUnitRepository.GetAll() on _hrd.AdminUnit.AdminUnitID equals _adminUnit.AdminUnitID join _adminUnitType in _IUnitOfWork.AdminUnitTypeRepository.GetAll() on _adminUnit.AdminUnitTypeID equals _adminUnitType.AdminUnitTypeID where _adminUnitType.Name == "Region" group _hrd by _hrd.AdminUnit.Name into _HRD select new { RegionName = _HRD.Key, Amount = _HRD.Sum(t => t.NumberOfBeneficiaries) }).Where(t => t.RegionName == RegionName).FirstOrDefault();
 
-            var hrd = (from _hrd in _IUnitOfWork.HRDDetailRepository.FindBy(t => t.StartingMonth + (t.DurationOfAssistance - 1) >= sixMonthsBack && t.HRD.Year >= year) 
-                       join _adminUnit in _IUnitOfWork.AdminUnitRepository.GetAll() on _hrd.AdminUnit.AdminUnitID equals _adminUnit.AdminUnitID 
-                       join _adminUnitType in _IUnitOfWork.AdminUnitTypeRepository.GetAll() on _adminUnit.AdminUnitTypeID equals _adminUnitType.AdminUnitTypeID 
+            var hrd = (from _hrd in _unitOfWork.HRDDetailRepository.FindBy(t => t.StartingMonth + (t.DurationOfAssistance - 1) >= sixMonthsBack && t.HRD.Year >= year) 
+                       join _adminUnit in _unitOfWork.AdminUnitRepository.GetAll() on _hrd.AdminUnit.AdminUnitID equals _adminUnit.AdminUnitID 
+                       join _adminUnitType in _unitOfWork.AdminUnitTypeRepository.GetAll() on _adminUnit.AdminUnitTypeID equals _adminUnitType.AdminUnitTypeID 
                        where _adminUnitType.Name == "Region" group _hrd by _hrd.AdminUnit.Name into _HRD 
                        select new { RegionName = _HRD.Key, Amount = _HRD.Sum(t => t.NumberOfBeneficiaries) }).Where(t => t.RegionName == RegionName).FirstOrDefault();
             return hrd == null ? 0 : hrd.Amount;
@@ -174,17 +174,17 @@ namespace Cats.Services.EarlyWarning
         public decimal ZonalHRD(int RegionId, int Month, int ZoneId)
         {
             int year = Year();
-            var hrd = (from _hrd in _IUnitOfWork.HRDDetailRepository.FindBy(t => t.StartingMonth + (t.DurationOfAssistance - 1) >= Month && t.StartingMonth + (t.DurationOfAssistance - 1) <= Month && t.HRD.Year >= year)
-                       join _adminUnit in _IUnitOfWork.AdminUnitRepository.GetAll() on _hrd.AdminUnit.AdminUnitID equals _adminUnit.AdminUnitID 
+            var hrd = (from _hrd in _unitOfWork.HRDDetailRepository.FindBy(t => t.StartingMonth + (t.DurationOfAssistance - 1) >= Month && t.StartingMonth + (t.DurationOfAssistance - 1) <= Month && t.HRD.Year >= year)
+                       join _adminUnit in _unitOfWork.AdminUnitRepository.GetAll() on _hrd.AdminUnit.AdminUnitID equals _adminUnit.AdminUnitID 
                        where _adminUnit.AdminUnitID == RegionId group _hrd by new { _hrd.StartingMonth, _adminUnit.FDPs.FirstOrDefault().AdminUnitID } 
-                       into _HRD select new { Month = _HRD.Key.StartingMonth, Zone = _IUnitOfWork.AdminUnitRepository.FindBy(t => t.AdminUnitID == _HRD.Key.AdminUnitID).FirstOrDefault().Name,
+                       into _HRD select new { Month = _HRD.Key.StartingMonth, Zone = _unitOfWork.AdminUnitRepository.FindBy(t => t.AdminUnitID == _HRD.Key.AdminUnitID).FirstOrDefault().Name,
                       Amount = _HRD.FirstOrDefault().NumberOfBeneficiaries }).Where(t => t.Month == Month).FirstOrDefault();
             return hrd == null ? 0 : hrd.Amount;
         }
 
         public int getRegionId(string regionName)
         {
-            return _IUnitOfWork.AdminUnitRepository.FindBy(t => t.Name == regionName).FirstOrDefault().AdminUnitID;
+            return _unitOfWork.AdminUnitRepository.FindBy(t => t.Name == regionName).FirstOrDefault().AdminUnitID;
         }
 
 
@@ -200,8 +200,13 @@ namespace Cats.Services.EarlyWarning
 
         public IEnumerable<Notification> GetUnreadNotifications()
         {
-            var notifications = _IUnitOfWork.NotificationRepository.GetAll().Where(n => n.IsRead == false);
+            var notifications = _unitOfWork.NotificationRepository.GetAll().Where(n => n.IsRead == false);
             return notifications;
+        }
+
+        public void Dispose()
+        {
+            _unitOfWork.Dispose();
         }
     }
 }

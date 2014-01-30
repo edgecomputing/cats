@@ -18,6 +18,9 @@
     var checkLogisticsAccessHelper = DependencyResolver.Current.GetService<ILogisticsCheckAccess>();
     var checkProcurementAccessHelper = DependencyResolver.Current.GetService<IProcurementCheckAccess>();
     var dbUser = checkAccessHelper.Storage.GetDBUser(user.Profile.UserName).CustomSid;
+
+    const string PAGE_NAME = "MainMenu";
+    
 }
 
 <div class="navbar navbar-fixed-top">
@@ -38,15 +41,15 @@
                     -->
 
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Translator.Translate("Early Warning")<b class="caret"></b></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Html.Translate2(PAGE_NAME,"Early Warning")<b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             <li>@Html.EarlyWarningOperationMenuItem(@Url.Action("Index", "GiftCertificate", new { Area = "EarlyWarning" }),
-                                                                        EarlyWarningCheckAccess.Operation.View_Gift_Certificate_list, @Translator.Translate("Gift Certificate"))</li>
+                                                                        EarlyWarningCheckAccess.Operation.View_Gift_Certificate_list, @Html.Translate2(PAGE_NAME,"Gift Certificate"))</li>
                             <li class="divider"></li>
-                            <li><a href="@Url.Action("Index", "Plan", new { Area = "EarlyWarning" })">@Translator.Translate("Plan")</a></li>
+                            <li><a href="@Url.Action("Index", "Plan", new { Area = "EarlyWarning" })">@Html.Translate2(PAGE_NAME,"Plan")</a></li>
 
                             <li>@Html.EarlyWarningOperationMenuItem(@Url.Action("Index", "NeedAssessment", new { Area = "EarlyWarning" }),
-                                                                        EarlyWarningCheckAccess.Operation.View_Draft_Needs_Assessment, @Translator.Translate("Needs Assessment"))</li>
+                                                                        EarlyWarningCheckAccess.Operation.View_Draft_Needs_Assessment, @Html.Translate2(PAGE_NAME,"Needs Assessment"))</li>
 
 
                             <li>@Html.EarlyWarningOperationMenuItem(@Url.Action("Index", "HRD", new { Area = "EarlyWarning" }),

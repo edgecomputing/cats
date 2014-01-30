@@ -45,16 +45,17 @@ namespace Cats.Localization.Services
             {
                 try
                 {
-                    // Get all phrases
-                    var phrases = _unitOfWork.PhraseRepository.GetAll().ToList();
+                    // Get a list of default language texts
+                    var defaultTexts = _unitOfWork.LocalizedTextRepository.FindBy(t => t.LanguageCode == "EN").ToList();
 
                     // Add each phrases to the Localized Phrases repo with the current language as the localized text
-                    phrases.ForEach(phrase => _unitOfWork.LocalizedPhraseRepository.Add(
-                        new LocalizedPhrase
+                    defaultTexts.ForEach(text => _unitOfWork.LocalizedTextRepository.Add(
+                        new LocalizedText
                             {
                                 LanguageCode = language.LanguageCode,
-                                PhraseId = phrase.PhraseId,
-                                TranslatedText = phrase.PhraseText
+                                PageId = text.PageId,
+                                TextKey = text.TextKey,
+                                TranslatedText = text.TranslatedText
                             }));
                     // Commit changes to the database
                     _unitOfWork.Save();
@@ -139,7 +140,7 @@ namespace Cats.Localization.Services
 
         public bool DeletePage(Page page)
         {
-            // INFO: Remember to set cascade delete for Page and PagePhrase
+            // INFO: Remember to set cascade delete for Page and LocalizedText
             try
             {
                 _unitOfWork.PageRepository.Delete(page);
@@ -153,151 +154,51 @@ namespace Cats.Localization.Services
             }
         }
 
-
-        #endregion
-
-        #region Phrase CRUD
-
-        public bool AddPhrase(Phrase phrase)
-        {
-            _unitOfWork.PhraseRepository.Add(phrase);
-
-            try
-            {
-                _unitOfWork.Save();
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-        }
-
-        public bool UpdatePhrase(Phrase phrase)
-        {
-            _unitOfWork.PhraseRepository.Edit(phrase);
-            try
-            {
-                _unitOfWork.Save();
-                return true;
-            }
-            catch (Exception exception)
-            {
-                // TODO: Log error 
-                throw new ApplicationException(string.Format("Error updating phrase information"), exception);
-            }
-        }
-
-        public bool DeletePhrase(Phrase phrase)
-        {
-            // INFO: Set cascade delete for Phrase and LocalizedPhrase tables
-            try
-            {
-                _unitOfWork.PhraseRepository.Delete(phrase);
-                _unitOfWork.Save();
-                return true;
-            }
-            catch (Exception exception)
-            {
-                // TODO: Log error here
-                throw new ApplicationException("Error removing phrase information", exception);
-            }
-        }
-
         #endregion
 
         #region Translation Methods
-
-        public List<LocalizedPagePhrase> GetPhrasesForPage(Page page, string language = "EN")
-        {
-            return GetPhrasesForPage(page.PageKey, language);
-        }
-
-        public List<LocalizedPagePhrase> GetPhrasesForPage(string pageName, string language = "EN")
+        public List<LocalizedText> GetLocalizedTextForPage(string pageName, string language = "EN")
         {
             try
             {
-                var phrases = LocalizedPhrasesForPage(pageName, language);
+                var page = _unitOfWork.PageRepository.Get(p => p.PageKey == pageName).Single();
+                return GetLocalizedTextForPage(page, language);
+            }
+            catch (Exception)
+            {
+                // TODO: Log error
+                throw new ApplicationException(string.Format("Error fetching localized text for page: {0}", pageName));
+            }
+        }
+
+        public List<LocalizedText> GetLocalizedTextForPage(Page page, string language = "EN")
+        {
+            try
+            {
+                var phrases = LocalizedTextForPage(page.PageId, language);
                 return phrases.ToList();
             }
             catch (Exception)
             {
                 // TODO: Log error
-                throw new ApplicationException("Error fetching phrases for page");
+                throw new ApplicationException(string.Format("Error fetching localized text for page: {0}", page.PageKey));
             }
         }
 
-        public Dictionary<string, string> GetPhrasesDictionaryForPage(string pageName, string language)
+        public Dictionary<string, string> GetLocalizedTextDictionaryForPage(string pageName, string language)
         {
             try
             {
-                var phrases = LocalizedPhrasesForPage(pageName, language);
+                var page = _unitOfWork.PageRepository.Get(p => p.PageKey == pageName).Single();
+                var phrases = LocalizedTextForPage(page.PageId, language);
                 var result = new Dictionary<string, string>();
-                phrases.ToList().ForEach(text => result.Add(text.PhraseText, text.TranslatedText));
+                phrases.ToList().ForEach(text => result.Add(text.TextKey, text.TranslatedText));
                 return result;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 // TODO: Log error
-                throw new ApplicationException("Error fetching phrases for page");
-            }
-        }
-
-        /// <summary>
-        /// Fetches the associated translation for the specified 'phrase' and 'language'
-        /// </summary>
-        /// <param name="phrase">Identifier for the phrase</param>
-        /// <param name="language">Target language for the translation</param>
-        /// <returns>Corresponding translation for 'phrase' to the language 'language'</returns>
-        public string GetLocalizedPhrase(string phrase, string language)
-        {
-            // If we are requested translation to the default language; i.e. 'EN' the return
-            // the requested text immediately
-            if (language == "EN") return phrase;
-            try
-            {
-                // Try to get translation for 'phrase' and force the expression to return a single object.
-                var phraseTranslation =
-                    _unitOfWork.LocalizedPhraseRepository.Get(
-                        p => p.Phrase.PhraseText == phrase && p.LanguageCode == language).SingleOrDefault();
-
-                if (phraseTranslation != null) return phraseTranslation.TranslatedText;
-            }
-            catch (Exception exception)
-            {
-                // TODO: Log error
-                throw new ApplicationException(string.Format("Unable to fetch translation for phrase {0} to language {1}.", phrase, language), exception);
-            }
-
-            return phrase;
-        }
-
-        /// <summary>
-        /// Inserts a new translation record for the specified phrase
-        /// </summary>
-        /// <param name="phrase">Phrase to translate</param>
-        /// <param name="translation">The corresponding translation for 'phrase'</param>
-        /// <param name="language">The language to translate to</param>
-        /// <returns>Boolean value flagging success/failure</returns>
-        public bool TranslatePhrase(string phrase, string translation, string language = "EN")
-        {
-            // Get the phrase to translate and add the associated text
-            var phraseToTranslate = _unitOfWork.PhraseRepository.Get(p => p.PhraseText == phrase).Single();
-            phraseToTranslate.LocalizedPhrases.Add(new LocalizedPhrase
-                                                       {
-                                                           LanguageCode = language,
-                                                           PhraseId = phraseToTranslate.PhraseId,
-                                                           TranslatedText = "",
-                                                       });
-            try
-            {
-                _unitOfWork.Save();
-                return true;
-            }
-            catch (Exception exception)
-            {
-                // TODO: Log error here
-                throw new ApplicationException(string.Format("Error inserting a new translation for text: {0}", phrase), exception);
+                throw new ApplicationException(string.Format("Error fetching localized text dictionary for page: {0}", pageName),ex);
             }
         }
 
@@ -340,12 +241,11 @@ namespace Cats.Localization.Services
         {
             // For all phrases inside 'translation', add a new translation entry by associating it
             // with the specified language.
-            page.Phrases.ToList().ForEach(p => p.LocalizedPhrases.Add(new LocalizedPhrase
-                                                                        {
-                                                                            LanguageCode = language,
-                                                                            PhraseId = p.PhraseId,
-                                                                            TranslatedText = TranslatedTextFromDictionaryOrDefault(p.PhraseText, translations)
-                                                                        }));
+            page.LocalizedTexts.ToList().ForEach(t =>
+            {
+                t.TranslatedText = TranslatedTextFromDictionaryOrDefault(t.TextKey, translations);
+                t.LanguageCode = language;
+            });
         }
 
         #endregion
@@ -369,12 +269,12 @@ namespace Cats.Localization.Services
             return phrase;
         }
 
-        private IEnumerable<LocalizedPagePhrase> LocalizedPhrasesForPage(string pageName, string language)
+        private IEnumerable<LocalizedText> LocalizedTextForPage(int pageId, string language)
         {
-            return _unitOfWork.PagePhraseRepository.Get(p => p.PageKey == pageName && p.LanguageCode == language);
+            return _unitOfWork.LocalizedTextRepository.Get(t => t.PageId == pageId && t.LanguageCode == language);
         }
 
-
         #endregion
+
     }
 }
