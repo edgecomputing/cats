@@ -866,17 +866,17 @@ namespace Cats.Data.UnitWork
 
         }
 
-        private IGenericRepository<UtilizationHeader> utilizationHeaderRepository;
-        public IGenericRepository<UtilizationHeader> UtilizationHeaderRepository
+        private IGenericRepository<WoredaStockDistribution> utilizationHeaderRepository;
+        public IGenericRepository<WoredaStockDistribution> WoredaStockDistributionRepository
         {
-            get { return this.utilizationHeaderRepository ?? (this.utilizationHeaderRepository = new GenericRepository<UtilizationHeader>(_context)); }
+            get { return this.utilizationHeaderRepository ?? (this.utilizationHeaderRepository = new GenericRepository<WoredaStockDistribution>(_context)); }
 
         }
 
-        private IGenericRepository<UtilizationDetail> utilizationDetailRepository;
-        public IGenericRepository<UtilizationDetail> UtilizationDetailRepository
+        private IGenericRepository<WoredaStockDistributionDetail> utilizationDetailRepository;
+        public IGenericRepository<WoredaStockDistributionDetail> WoredaStockDistributionDetailRepository
         {
-            get { return this.utilizationDetailRepository ?? (this.utilizationDetailRepository = new GenericRepository<UtilizationDetail>(_context)); }
+            get { return this.utilizationDetailRepository ?? (this.utilizationDetailRepository = new GenericRepository<WoredaStockDistributionDetail>(_context)); }
 
         }
 
@@ -887,9 +887,16 @@ namespace Cats.Data.UnitWork
 
         }
 
-        //public IGenericRepository<TransportBidQuotationHeader> TransportBidQuotationHeaderRepository
-        //{
-        //    throw new NotImplementedException(); 
-        //}
+        private IGenericRepository<SupportType> _supportTypeRepository; 
+        public IGenericRepository<SupportType> SupportTypeRepository
+        {
+            get
+            {
+                return this._supportTypeRepository ?? (this._supportTypeRepository = new GenericRepository<SupportType>(_context));
+            }
+        }
+
+
+      
     }
 }

@@ -29,9 +29,9 @@ namespace Cats.Models.Mapping
            this.Property(t => t.FemaleAbove18Years).HasColumnName("FemaleAbove18Years");
 
            //Relationships
-           this.HasRequired(t => t.UtilizationHeader)
-          .WithMany(t => t.DistributionByAgeDetails)
-          .HasForeignKey(d => d.DistributionHeaderID);
+          // this.HasRequired(t => t.WoredaStockDistribution)
+          //.WithMany(t => t.DistributionByAgeDetails)
+          //.HasForeignKey(d => d.DistributionHeaderID);
 
            this.HasRequired(t => t.FDP)
                .WithMany(t => t.DistributionByAgeDetails)

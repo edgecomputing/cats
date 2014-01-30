@@ -134,9 +134,10 @@ namespace Cats.Data
 
         public DbSet<WoredaHubLink> WoredaHubLinks { get; set; }
         public DbSet<ActionTypes> ActionTypeses { get; set; }
-        public DbSet<UtilizationHeader> HeaderDistributions { get; set; }
-        public DbSet<UtilizationDetail> DetailDistributions { get; set; }
+        public DbSet<WoredaStockDistribution> WoredaStockDistributions { get; set; }
+        public DbSet<WoredaStockDistributionDetail> WoredaStockDistributionDetails { get; set; }
         public DbSet<DistributionByAgeDetail> DistributionByAgeDetails { get; set; }
+        public DbSet<SupportType> SupportTypes { get; set; }
 
 
 
@@ -256,8 +257,8 @@ namespace Cats.Data
             modelBuilder.Configurations.Add(new TemplateMap());
             modelBuilder.Configurations.Add(new TemplateFieldMap());
 
-            modelBuilder.Configurations.Add(new UtilizationHeaderMap());
-            modelBuilder.Configurations.Add(new UtilizationDetailMap());
+            modelBuilder.Configurations.Add(new WoredaStockDistributionMap());
+            modelBuilder.Configurations.Add(new WoredaStockDistributionDetailMap());
 
             modelBuilder.Configurations.Add(new DistributionByAgeDetailMap());
 

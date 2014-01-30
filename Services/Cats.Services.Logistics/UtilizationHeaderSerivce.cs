@@ -19,16 +19,16 @@ namespace Cats.Services.Logistics
             this._unitOfWork = unitOfWork;
         }
         #region Default Service Implementation
-        public bool AddHeaderDistribution(UtilizationHeader HeaderDistribution)
+        public bool AddHeaderDistribution(WoredaStockDistribution HeaderDistribution)
         {
-            _unitOfWork.UtilizationHeaderRepository.Add(HeaderDistribution);
+            _unitOfWork.WoredaStockDistributionRepository.Add(HeaderDistribution);
             _unitOfWork.Save();
             return true;
 
         }
-        public bool EditHeaderDistribution(UtilizationHeader HeaderDistribution)
+        public bool EditHeaderDistribution(WoredaStockDistribution HeaderDistribution)
         {
-            _unitOfWork.UtilizationHeaderRepository.Edit(HeaderDistribution);
+            _unitOfWork.WoredaStockDistributionRepository.Edit(HeaderDistribution);
             _unitOfWork.Save();
             return true;
 
@@ -36,39 +36,39 @@ namespace Cats.Services.Logistics
 
        
 
-        public bool DeleteHeaderDistribution(UtilizationHeader HeaderDistribution)
+        public bool DeleteHeaderDistribution(WoredaStockDistribution HeaderDistribution)
         {
             if (HeaderDistribution == null) return false;
-            _unitOfWork.UtilizationHeaderRepository.Delete(HeaderDistribution);
+            _unitOfWork.WoredaStockDistributionRepository.Delete(HeaderDistribution);
             _unitOfWork.Save();
             return true;
         }
         public bool DeleteById(int id)
         {
-            var entity = _unitOfWork.UtilizationHeaderRepository.FindById(id);
+            var entity = _unitOfWork.WoredaStockDistributionRepository.FindById(id);
             if (entity == null) return false;
-            _unitOfWork.UtilizationHeaderRepository.Delete(entity);
+            _unitOfWork.WoredaStockDistributionRepository.Delete(entity);
             _unitOfWork.Save();
             return true;
         }
-        public List<UtilizationHeader> GetAllHeaderDistribution()
+        public List<WoredaStockDistribution> GetAllHeaderDistribution()
         {
-            return _unitOfWork.UtilizationHeaderRepository.GetAll();
+            return _unitOfWork.WoredaStockDistributionRepository.GetAll();
         }
-        public UtilizationHeader FindById(int id)
+        public WoredaStockDistribution FindById(int id)
         {
-            return _unitOfWork.UtilizationHeaderRepository.FindById(id);
+            return _unitOfWork.WoredaStockDistributionRepository.FindById(id);
         }
-        public List<UtilizationHeader> FindBy(Expression<Func<UtilizationHeader, bool>> predicate)
+        public List<WoredaStockDistribution> FindBy(Expression<Func<WoredaStockDistribution, bool>> predicate)
         {
-            return _unitOfWork.UtilizationHeaderRepository.FindBy(predicate);
+            return _unitOfWork.WoredaStockDistributionRepository.FindBy(predicate);
         }
-        public IEnumerable<UtilizationHeader> Get(
-           Expression<Func<UtilizationHeader, bool>> filter = null,
-           Func<IQueryable<UtilizationHeader>, IOrderedQueryable<UtilizationHeader>> orderBy = null,
+        public IEnumerable<WoredaStockDistribution> Get(
+           Expression<Func<WoredaStockDistribution, bool>> filter = null,
+           Func<IQueryable<WoredaStockDistribution>, IOrderedQueryable<WoredaStockDistribution>> orderBy = null,
            string includeProperties = "")
         {
-            return _unitOfWork.UtilizationHeaderRepository.Get(filter, orderBy, includeProperties);
+            return _unitOfWork.WoredaStockDistributionRepository.Get(filter, orderBy, includeProperties);
         }
 
 

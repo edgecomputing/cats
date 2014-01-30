@@ -19,53 +19,53 @@ namespace Cats.Services.Logistics
             this._unitOfWork = unitOfWork;
         }
         #region Default Service Implementation
-        public bool AddDetailDistribution(UtilizationDetail DetailDistribution)
+        public bool AddDetailDistribution(WoredaStockDistributionDetail DetailDistribution)
         {
-            _unitOfWork.UtilizationDetailRepository.Add(DetailDistribution);
+            _unitOfWork.WoredaStockDistributionDetailRepository.Add(DetailDistribution);
             _unitOfWork.Save();
             return true;
 
         }
-        public bool EditDetailDistribution(UtilizationDetail DetailDistribution)
+        public bool EditDetailDistribution(WoredaStockDistributionDetail DetailDistribution)
         {
-            _unitOfWork.UtilizationDetailRepository.Edit(DetailDistribution);
+            _unitOfWork.WoredaStockDistributionDetailRepository.Edit(DetailDistribution);
             _unitOfWork.Save();
             return true;
 
         }
-        public bool DeleteDetailDistribution(UtilizationDetail DetailDistribution)
+        public bool DeleteDetailDistribution(WoredaStockDistributionDetail DetailDistribution)
         {
             if (DetailDistribution == null) return false;
-            _unitOfWork.UtilizationDetailRepository.Delete(DetailDistribution);
+            _unitOfWork.WoredaStockDistributionDetailRepository.Delete(DetailDistribution);
             _unitOfWork.Save();
             return true;
         }
         public bool DeleteById(int id)
         {
-            var entity = _unitOfWork.UtilizationDetailRepository.FindById(id);
+            var entity = _unitOfWork.WoredaStockDistributionDetailRepository.FindById(id);
             if (entity == null) return false;
-            _unitOfWork.UtilizationDetailRepository.Delete(entity);
+            _unitOfWork.WoredaStockDistributionDetailRepository.Delete(entity);
             _unitOfWork.Save();
             return true;
         }
-        public List<UtilizationDetail> GetAllDetailDistribution()
+        public List<WoredaStockDistributionDetail> GetAllDetailDistribution()
         {
-            return _unitOfWork.UtilizationDetailRepository.GetAll();
+            return _unitOfWork.WoredaStockDistributionDetailRepository.GetAll();
         }
-        public UtilizationDetail FindById(Guid id)
+        public WoredaStockDistributionDetail FindById(Guid id)
         {
-            return _unitOfWork.UtilizationDetailRepository.FindById(id);
+            return _unitOfWork.WoredaStockDistributionDetailRepository.FindById(id);
         }
-        public List<UtilizationDetail> FindBy(Expression<Func<UtilizationDetail, bool>> predicate)
+        public List<WoredaStockDistributionDetail> FindBy(Expression<Func<WoredaStockDistributionDetail, bool>> predicate)
         {
-            return _unitOfWork.UtilizationDetailRepository.FindBy(predicate);
+            return _unitOfWork.WoredaStockDistributionDetailRepository.FindBy(predicate);
         }
-       public IEnumerable<UtilizationDetail> Get(
-            Expression<Func<UtilizationDetail, bool>> filter = null,
-            Func<IQueryable<UtilizationDetail>, IOrderedQueryable<UtilizationDetail>> orderBy = null,
+       public IEnumerable<WoredaStockDistributionDetail> Get(
+            Expression<Func<WoredaStockDistributionDetail, bool>> filter = null,
+            Func<IQueryable<WoredaStockDistributionDetail>, IOrderedQueryable<WoredaStockDistributionDetail>> orderBy = null,
             string includeProperties = "")
        {
-           return _unitOfWork.UtilizationDetailRepository.Get(filter, orderBy, includeProperties);
+           return _unitOfWork.WoredaStockDistributionDetailRepository.Get(filter, orderBy, includeProperties);
        }
         #endregion
 

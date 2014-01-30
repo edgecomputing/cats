@@ -11,17 +11,17 @@ namespace Cats.Services.Logistics
     public interface IUtilizationHeaderSerivce
     {
 
-        bool AddHeaderDistribution(UtilizationHeader HeaderDistribution);
-        bool DeleteHeaderDistribution(UtilizationHeader HeaderDistribution);
+        bool AddHeaderDistribution(WoredaStockDistribution HeaderDistribution);
+        bool DeleteHeaderDistribution(WoredaStockDistribution HeaderDistribution);
         bool DeleteById(int id);
-        bool EditHeaderDistribution(UtilizationHeader HeaderDistribution);
-        UtilizationHeader FindById(int id);
-        List<UtilizationHeader> GetAllHeaderDistribution();
-        List<UtilizationHeader> FindBy(Expression<Func<UtilizationHeader, bool>> predicate);
+        bool EditHeaderDistribution(WoredaStockDistribution HeaderDistribution);
+        WoredaStockDistribution FindById(int id);
+        List<WoredaStockDistribution> GetAllHeaderDistribution();
+        List<WoredaStockDistribution> FindBy(Expression<Func<WoredaStockDistribution, bool>> predicate);
 
-        IEnumerable<UtilizationHeader> Get(
-            Expression<Func<UtilizationHeader, bool>> filter = null,
-            Func<IQueryable<UtilizationHeader>, IOrderedQueryable<UtilizationHeader>> orderBy = null,
+        IEnumerable<WoredaStockDistribution> Get(
+            Expression<Func<WoredaStockDistribution, bool>> filter = null,
+            Func<IQueryable<WoredaStockDistribution>, IOrderedQueryable<WoredaStockDistribution>> orderBy = null,
             string includeProperties = "");
 
         

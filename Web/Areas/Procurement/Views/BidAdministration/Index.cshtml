@@ -122,7 +122,7 @@
        
          $.ajax({
             type: "GET",
-            url: "/BidAdministration/WinnerGenerated",
+            url: "@Url.Action("WinnerGenerated", "BidAdministration",new {Area="Procurement"})",
             contentType: "application/json; charset=utf-8",
             data: {BIDID:bidID},
             //dataType: "json",

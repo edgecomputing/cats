@@ -28,9 +28,7 @@
 </fieldset> 
 
 <div id="div_tree_view" class="span3">
-    
-    
-            
+     
         @Html.HiddenFor(m => m.RegionId)
         @using (Html.BeginForm())
         {
@@ -200,7 +198,16 @@
         };
         
     };
-    
+
+    function filterWithWoreda() {
+        return {
+            woredaID: $("#WoredaID").val(),
+            woredaStockDistributionID: $("#WoredaStockDistributionID")
+            
+        };
+        
+    }
+
 
     function onRequestEnd(e) {
         //Check request type
@@ -258,6 +265,12 @@
         
        
     }
+
+    $("#WoredaID").change(function() {
+        alert("here");
+        var grid = $("#RequisitionGridDetail").data("kendoGrid");
+        grid.dataSource.read();
+    });
     $("#ProgramID").change(function () {
         
         var grid = $("#RequisitionGrid").data("kendoGrid");

@@ -7,22 +7,24 @@ using System.Threading.Tasks;
 
 namespace Cats.Models.Mapping
 {
-    public class UtilizationHeaderMap : EntityTypeConfiguration<UtilizationHeader>
+    public class WoredaStockDistributionMap : EntityTypeConfiguration<WoredaStockDistribution>
     {
-        public UtilizationHeaderMap()
+        public WoredaStockDistributionMap()
         {
             // Primary Key
-            this.HasKey(t => t.DistributionId);
+            this.HasKey(t => t.WoredaStockDistributionID);
 
             // Properties
             this.Property(t => t.Remark)
                 .HasMaxLength(200);
 
             // Table & Column Mappings
-            this.ToTable("UtilizationHeader");
-            this.Property(t => t.DistributionId).HasColumnName("DistributionId");
-            this.Property(t => t.RequisitionId).HasColumnName("RequisitionId");
+            this.ToTable("WoredaStockDistribution");
+            this.Property(t => t.WoredaStockDistributionID).HasColumnName("WoredaStockDistributionID");
             this.Property(t => t.WoredaID).HasColumnName("WoredaID");
+            this.Property(t => t.ProgramID).HasColumnName("ProgramID");
+            this.Property(t => t.SupportTypeID).HasColumnName("SupportTypeID");
+            this.Property(t => t.ActualBeneficairies).HasColumnName("ActualBeneficairies");
             this.Property(t => t.DistributionDate).HasColumnName("DistributionDate");
             this.Property(t => t.DistributedBy).HasColumnName("DistributedBy");
 
@@ -41,6 +43,12 @@ namespace Cats.Models.Mapping
             this.HasOptional(t => t.UserProfile)
                 .WithMany(t => t.UtilizationHeaders)
                 .HasForeignKey(d => d.DistributedBy);
+            this.HasRequired(t => t.AdminUnit)
+                .WithMany(t => t.WoredaStockDistributions)
+                .HasForeignKey(t => t.WoredaID);
+            this.HasRequired(t => t.SupportType)
+                .WithMany(t => t.WoredaStockDistributions)
+                .HasForeignKey(t => t.SupportTypeID);
 
         }
     }

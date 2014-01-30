@@ -56,6 +56,7 @@ namespace Cats.Models
         public virtual ICollection<WoredaHubLink> WoredaHubLinks { get; set; }
         public virtual ICollection<HrdDonorCoverageDetail> HrdDonorCoverageDetails { get; set; }
         public virtual ICollection<TransportBidQuotationHeader> TransportBidQuotationHeaders { get; set; }
+        public virtual ICollection<WoredaStockDistribution> WoredaStockDistributions { get; set; } 
 
     }
 }

@@ -5,14 +5,14 @@
     ViewBag.Title = "_DistributionByAge";
 }
 
- @(Html.Kendo().Grid<DistributionByAgeDetailViewModel>()
+ @(Html.Kendo().Grid<WoredaDistributionDetailViewModel>()
                       .Name("DistributionByAgeDetail")
                       .Columns(columns =>
                                    {
                                        
-                                       columns.Bound(p => p.FDP).Width(70).Title(Translator.Translate("FDP")).HtmlAttributes(new { style = "background-color:lightgray" });
-                                       columns.Bound(p => p.RequestedAmount).Width(70).Title(Translator.Translate("Requested")).HtmlAttributes(new { style = "background-color:lightgray" });
-                                       columns.Bound(p => p.AllocatedAmount).Width(70).Title(Translator.Translate("Allocated")).HtmlAttributes(new { style = "background-color:lightgray" });
+                                       columns.Bound(p => p.WoredaID).Width(70).Title(Translator.Translate("WoredaID")).HtmlAttributes(new { style = "background-color:lightgray" });
+                                       columns.Bound(p => p.WoredaName).Width(70).Title(Translator.Translate("Woreda")).HtmlAttributes(new { style = "background-color:lightgray" });
+                                       //columns.Bound(p => p.AllocatedAmount).Width(70).Title(Translator.Translate("Allocated")).HtmlAttributes(new { style = "background-color:lightgray" });
                                        //columns.Bound(p => p.NumberOfBeneficiaries).Width(30).Title(Translator.Translate("No of Beneficiaries")).HtmlAttributes(new { style = "background-color:lightgray" });
                                        //columns.Bound(p => p.ReceivedAtFDPAmount).Width(30).Title(Translator.Translate("Received")).HtmlAttributes(new { align = "right" }).HtmlAttributes(new { style = "background-color:lightgray" });
                                        //columns.Bound(p => p.DispatchedToFDPAmount).Width(30).Title(Translator.Translate("Dispatched")).HtmlAttributes(new { align = "right" }).HtmlAttributes(new { style = "background-color:lightgray" });
@@ -51,7 +51,7 @@
                                                                })
                                                   
 
-                                                    .Read(read => read.Action("DistributionByAge_Read", "Utilization", new { requisitionId = -1}).Data("filterDataRequisitionsDetail"))
+                                                    .Read(read => read.Action("DistributionByAge_Read", "Utilization", new { requisitionId = -1}))
                                                     .Update(update => update.Action("Utilization_Update", "Utilization"))
                                                    
                                                   
