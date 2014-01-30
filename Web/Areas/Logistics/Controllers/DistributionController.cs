@@ -22,29 +22,29 @@ using Kendo.Mvc.UI;
 using Cats.Helpers;
 namespace Cats.Areas.Logistics.Controllers
 {
-    public class DistributionController : Controller
+    public class DeliveryController : Controller
     {
-        private ITransportOrderService _transportOrderService;
-        private IWorkflowStatusService _workflowStatusService;
+        private readonly ITransportOrderService _transportOrderService;
+        private readonly IWorkflowStatusService _workflowStatusService;
 
-        private IDispatchAllocationService _dispatchAllocationService;
-        private IDistributionService _distributionService;
-        private IDispatchService _dispatchService;
-        private IDistributionDetailService _distributionDetailService;
-        private INotificationService _notificationService;
+        private readonly IDispatchAllocationService _dispatchAllocationService;
+        private readonly IDeliveryService _deliveryService;
+        private readonly IDispatchService _dispatchService;
+        private readonly IDeliveryDetailService _deliveryDetailService;
+        private readonly INotificationService _notificationService;
 
-        private IActionTypesService _actionTypeService;
+        private readonly IActionTypesService _actionTypeService;
 
-        private IUserAccountService _userAccountService;
-        private Cats.Services.EarlyWarning.ICommodityService _commodityService;
-        private Cats.Services.EarlyWarning.IUnitService _unitService;
+        private readonly IUserAccountService _userAccountService;
+        private readonly Cats.Services.EarlyWarning.ICommodityService _commodityService;
+        private readonly Cats.Services.EarlyWarning.IUnitService _unitService;
 
-        public DistributionController(ITransportOrderService transportOrderService,
+        public DeliveryController(ITransportOrderService transportOrderService,
                                       IWorkflowStatusService workflowStatusService,
                                       IDispatchAllocationService dispatchAllocationService,
-                                      IDistributionService distributionService,
+                                      IDeliveryService deliveryService,
             IDispatchService dispatchService,
-            IDistributionDetailService distributionDetailService,
+            IDeliveryDetailService deliveryDetailService,
             INotificationService notificationService, IActionTypesService actionTypeService, IUserAccountService userAccountService,
             Cats.Services.EarlyWarning.ICommodityService commodityService, Cats.Services.EarlyWarning.IUnitService unitService)
 
@@ -52,9 +52,9 @@ namespace Cats.Areas.Logistics.Controllers
             _transportOrderService = transportOrderService;
             _workflowStatusService = workflowStatusService;
             _dispatchAllocationService = dispatchAllocationService;
-            _distributionService = distributionService;
+            _deliveryService = deliveryService;
             _dispatchService = dispatchService;
-            _distributionDetailService = distributionDetailService;
+            _deliveryDetailService = deliveryDetailService;
             _notificationService = notificationService;
 
             _actionTypeService = actionTypeService;
@@ -65,7 +65,7 @@ namespace Cats.Areas.Logistics.Controllers
 
         }
         //
-        // GET: /Logistics/Distribution/
+        // GET: /Logistics/delivery/
 
         public ActionResult Index()
         {
@@ -95,10 +95,10 @@ namespace Cats.Areas.Logistics.Controllers
             foreach (var dispatchViewModel in dispatch)
             {
                 var dispatchId = dispatchViewModel.DispatchID;
-                var distribution = _distributionService.FindBy(t => t.DispatchID == dispatchId).FirstOrDefault();
-                dispatchViewModel.GRNReceived = distribution != null;
-                if (distribution != null)
-                    dispatchViewModel.DistributionID = distribution.DistributionID;
+                var delivery = _deliveryService.FindBy(t => t.DispatchID == dispatchId).FirstOrDefault();
+                dispatchViewModel.GRNReceived = delivery != null;
+                if (delivery != null)
+                    dispatchViewModel.DeliveryID = delivery.DeliveryID;
             }
             var dispatchView = SetDatePreference(dispatch);
             return Json(dispatchView.Where(t => !t.GRNReceived).ToList(), JsonRequestBehavior.AllowGet);
@@ -110,10 +110,10 @@ namespace Cats.Areas.Logistics.Controllers
             foreach (var dispatchViewModel in dispatch)
             {
                 var dispatchId = dispatchViewModel.DispatchID;
-                var distribution = _distributionService.FindBy(t => t.DispatchID == dispatchId).FirstOrDefault();
-                dispatchViewModel.GRNReceived = distribution != null;
-                if (distribution != null)
-                    dispatchViewModel.DistributionID = distribution.DistributionID;
+                var delivery = _deliveryService.FindBy(t => t.DispatchID == dispatchId).FirstOrDefault();
+                dispatchViewModel.GRNReceived = delivery != null;
+                if (delivery != null)
+                    dispatchViewModel.DeliveryID = delivery.DeliveryID;
             }
             var dispatchView = SetDatePreference(dispatch);
             return Json(dispatchView.Where(t => t.GRNReceived).ToList(), JsonRequestBehavior.AllowGet);
@@ -123,95 +123,94 @@ namespace Cats.Areas.Logistics.Controllers
             var dispatchIds =
                 _dispatchService.Get(t => t.DispatchAllocation.TransportOrderID == id).Select(t => t.DispatchID).ToList();
 
-            var distributions = _distributionService.Get(t => dispatchIds.Contains(t.DispatchID.Value), null, "DistributionDetails").ToList();
+            var deliveries = _deliveryService.Get(t => dispatchIds.Contains(t.DispatchID.Value), null, "DeliveryDetails").ToList();
 
-            var distributionViewModels = distributions.Select(EditGoodsReceivingNote);
-            return Json(distributionViewModels, JsonRequestBehavior.AllowGet);
+            var deliveryViewModels = deliveries.Select(EditGoodsReceivingNote);
+            return Json(deliveryViewModels, JsonRequestBehavior.AllowGet);
         }
         public ActionResult ReadDeliveryNotesDiscripancy([DataSourceRequest]DataSourceRequest request, int id)
         {
             var dispatchIds =
                 _dispatchService.Get(t => t.DispatchAllocation.TransportOrderID == id).Select(t => t.DispatchID).ToList();
-            var distributions = _distributionService.Get(t => dispatchIds.Contains(t.DispatchID.Value), null, "DistributionDetails").ToList();
-            //var distributionViewModels = distributions.Select(EditGoodsReceivingNote).Select(t => t.ContainsDiscripancy);
-            var distributionViewModels = new List<GRNViewModel>();
-            foreach (var distribution in distributions)
+            var deliveries = _deliveryService.Get(t => dispatchIds.Contains(t.DispatchID.Value)).ToList();
+            //var deliveryViewModels = deliveries.Select(EditGoodsReceivingNote).Select(t => t.ContainsDiscripancy);
+            var deliveryViewModels = new List<GRNViewModel>();
+            foreach (var delivery in deliveries)
             {
-                var localCopyDistribution = distribution;
-                var distributionDetail =
-                    _distributionDetailService.Get(t => t.DistributionID == localCopyDistribution.DistributionID).FirstOrDefault();
-                if (distributionDetail != null && distributionDetail.ReceivedQuantity < distributionDetail.SentQuantity)
+                var localCopyDelivery = delivery;
+                var deliveryDetail =
+                    _deliveryDetailService.Get(t => t.DeliveryID == localCopyDelivery.DeliveryID).FirstOrDefault();
+                if (deliveryDetail != null && deliveryDetail.ReceivedQuantity < deliveryDetail.SentQuantity)
                 {
-                    distributionViewModels.Add(BindDistributionViewModel(distribution));
+                    deliveryViewModels.Add(BindDeliveryViewModel(delivery));
                 }
             }
 
-            return Json(distributionViewModels.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+            return Json(deliveryViewModels.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
         public ActionResult LoadGRN(Guid id)
         {
-            var distribution = _distributionService.Get(t => t.DispatchID == id).FirstOrDefault();
-            var distributionViewModel = new GRNViewModel();
-            if (distribution != null)
+            var delivery = _deliveryService.Get(t => t.DispatchID == id).FirstOrDefault();
+            var deliveryViewModel = new GRNViewModel();
+            if (delivery != null)
             {
-                distributionViewModel = BindDistributionViewModel(distribution);
-                var distributionDetail =
-                    _distributionDetailService.Get(t => t.DistributionID == distribution.DistributionID, null, "Commodity,Unit").
+                deliveryViewModel = BindDeliveryViewModel(delivery);
+                var deliveryDetail =
+                    _deliveryDetailService.Get(t => t.DeliveryID == delivery.DeliveryID, null, "Commodity,Unit").
                         FirstOrDefault();
-                if(distributionDetail!=null)
+                if (deliveryDetail != null)
                 {
-                    distributionViewModel.DistributionDetailID = distributionDetail.DistributionDetailID;
-                    distributionViewModel.CommodityID = distributionDetail.CommodityID;
-                    distributionViewModel.UnitID = distributionDetail.UnitID;
-                    distributionViewModel.SentQuantity = distributionDetail.SentQuantity;
-                    distributionViewModel.ReceivedQuantity = distributionDetail.ReceivedQuantity;
-                    distributionViewModel.Commodity = distributionDetail.Commodity.Name;
-                    distributionViewModel.Unit = distributionDetail.Unit.Name;
+                    deliveryViewModel.DeliveryID = deliveryDetail.DeliveryID;
+                    deliveryViewModel.CommodityID = deliveryDetail.CommodityID;
+                    deliveryViewModel.UnitID = deliveryDetail.UnitID;
+                    deliveryViewModel.SentQuantity = deliveryDetail.SentQuantity;
+                    deliveryViewModel.ReceivedQuantity = deliveryDetail.ReceivedQuantity;
+                    deliveryViewModel.Commodity = deliveryDetail.Commodity.Name;
+                    deliveryViewModel.Unit = deliveryDetail.Unit.Name;
                 }
             }
             else
             {
-                //var dispatchObj = _dispatchService.FindById(distribution.DispatchID);
+                //var dispatchObj = _dispatchService.FindById(delivery.DispatchID);
             }
-            distributionViewModel.DispatchID = id;
+            deliveryViewModel.DispatchID = id;
             var firstOrDefault = _dispatchService.FindBy(t => t.DispatchID == id).FirstOrDefault();
             if (firstOrDefault != null)
-                distributionViewModel.InvoiceNo = firstOrDefault.GIN;
-            return Json(distributionViewModel, JsonRequestBehavior.AllowGet);
+                deliveryViewModel.InvoiceNo = firstOrDefault.GIN;
+            return Json(deliveryViewModel, JsonRequestBehavior.AllowGet);
         }
-        private GRNViewModel BindDistributionViewModel(Distribution distribution)
+        private GRNViewModel BindDeliveryViewModel(Delivery delivery)
         {
             var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
-            var distributionViewModel = new GRNViewModel
+            var deliveryViewModel = new GRNViewModel
                 {
-                    DistributionID = distribution.DistributionID,
-                    InvoiceNo = distribution.InvoiceNo,
-                    ReceivingNumber = distribution.ReceivingNumber,
-                    WayBillNo = distribution.WayBillNo,
-                    ReceivedBy = distribution.ReceivedBy,
-                    ReceivedDate = distribution.ReceivedDate != null ? distribution.ReceivedDate.Value.ToShortDateString() : "",
-                    DeliveryBy = distribution.DeliveryBy,
-                    DeliveryDate = distribution.DeliveryDate != null ? distribution.DeliveryDate.Value.ToShortDateString() : "",
-                    DocumentReceivedDate = distribution.DocumentReceivedDate != null ? distribution.DocumentReceivedDate.Value.ToShortDateString() : ""
+                    DeliveryID = delivery.DeliveryID,
+                    InvoiceNo = delivery.InvoiceNo,
+                    ReceivingNumber = delivery.ReceivingNumber,
+                    WayBillNo = delivery.WayBillNo,
+                    ReceivedBy = delivery.ReceivedBy,
+                    ReceivedDate = delivery.ReceivedDate != null ? delivery.ReceivedDate.Value.ToShortDateString() : "",
+                    DeliveryBy = delivery.DeliveryBy,
+                    DeliveryDate = delivery.DeliveryDate != null ? delivery.DeliveryDate.Value.ToShortDateString() : "",
+                    DocumentReceivedDate = delivery.DocumentReceivedDate != null ? delivery.DocumentReceivedDate.Value.ToShortDateString() : ""
                 };
-            return distributionViewModel;
+            return deliveryViewModel;
         }
-        private IEnumerable<DistributionViewModel> BindDistributionViewModels(IEnumerable<Distribution> distributions)
+        private IEnumerable<DeliveryViewModel> BindDeliverynViewModels(IEnumerable<Delivery> deliveries)
         {
-            var distributionViewModels = new List<DistributionViewModel>();
-            foreach (var distribution in distributions)
+            var deliveryViewModels = new List<DeliveryViewModel>();
+            foreach (var delivery in deliveries)
             {
-                var distributionViewModel = new DistributionViewModel();
-                distributionViewModel.ReceivingNumber = distribution.ReceivingNumber;
-                distributionViewModel.WayBillNo = distribution.WayBillNo;
-                distributionViewModel.ReceivedBy = distribution.ReceivedBy;
-                distributionViewModel.ReceivedDate = distribution.ReceivedDate;
-                distributionViewModel.DeliveryBy = distribution.DeliveryBy;
-                distributionViewModel.DeliveryDate = distribution.DeliveryDate;
-                distributionViewModel.DocumentReceivedDate = distribution.DocumentReceivedDate;
-                distributionViewModels.Add(distributionViewModel);
+                var deliveryViewModel = new DeliveryViewModel();
+                deliveryViewModel.ReceivingNumber = delivery.ReceivingNumber;
+                deliveryViewModel.WayBillNo = delivery.WayBillNo;
+                deliveryViewModel.ReceivedBy = delivery.ReceivedBy;
+                deliveryViewModel.ReceivedDate = delivery.ReceivedDate;
+                deliveryViewModel.DeliveryBy = delivery.DeliveryBy;
+                deliveryViewModel.DocumentReceivedDate = delivery.DocumentReceivedDate;
+                deliveryViewModels.Add(deliveryViewModel);
             }
-            return distributionViewModels;
+            return deliveryViewModels;
         }
         private List<DispatchViewModel> SetDatePreference(List<DispatchViewModel> dispatches)
         {
@@ -232,59 +231,59 @@ namespace Cats.Areas.Logistics.Controllers
             var dispatch = _dispatchService.Get(t => t.DispatchID == dispatchId, null,
                 "FDP,FDP.AdminUnit,FDP.AdminUnit.AdminUnit2,FDP.AdminUnit.AdminUnit2.AdminUnit2,Transporter,Hub").FirstOrDefault();
 
-            var distribution = CreateGoodsReceivingNote(dispatch);
-            return View(distribution);
+            var delivery = CreateGoodsReceivingNote(dispatch);
+            return View(delivery);
         }
         [HttpPost]
-        public ActionResult ReceiveGRN(DistributionViewModel distributionViewModel)
+        public ActionResult ReceiveGRN(DeliveryViewModel deliveryViewModel)
         {
             if (ModelState.IsValid)
             {
                 int transportOrderId = 0;
 
-                var dispatch = _dispatchService.Get(t => t.DispatchID == distributionViewModel.DispatchID, null,
+                var dispatch = _dispatchService.Get(t => t.DispatchID == deliveryViewModel.DispatchID, null,
                     "DispatchDetails,DispatchAllocation").FirstOrDefault();
 
 
-                var distribution = new Distribution();
-                distribution.DeliveryBy = distributionViewModel.DeliveryBy;
-                distribution.DeliveryDate = distributionViewModel.DeliveryDate;
-                distribution.DispatchID = distributionViewModel.DispatchID;
-                distribution.DistributionID = distributionViewModel.DistributionID;
-                distribution.DocumentReceivedBy = distributionViewModel.DocumentReceivedBy;
-                distribution.DocumentReceivedDate = distributionViewModel.DocumentReceivedDate;
-                distribution.DonorID = distributionViewModel.DonorID;
-                distribution.DriverName = distributionViewModel.DriverName;
-                distribution.FDPID = distributionViewModel.FDPID;
-                distribution.HubID = distributionViewModel.HubID;
-                distribution.InvoiceNo = distributionViewModel.InvoiceNo;
-                distribution.PlateNoPrimary = distributionViewModel.PlateNoPrimary;
-                distribution.PlateNoTrailler = distributionViewModel.PlateNoTrailler;
-                distribution.ReceivedBy = distributionViewModel.ReceivedBy;
-                distribution.ReceivedDate = distributionViewModel.ReceivedDate;
-                distribution.ReceivingNumber = distributionViewModel.ReceivingNumber;
-                distribution.RequisitionNo = distributionViewModel.RequisitionNo;
-                distribution.TransporterID = distributionViewModel.TransporterID;
-                distribution.WayBillNo = distributionViewModel.WayBillNo;
+                var delivery = new Delivery();
+                delivery.DeliveryBy = deliveryViewModel.DeliveryBy;
+                delivery.DeliveryDate = deliveryViewModel.DeliveryDate;
+                delivery.DispatchID = deliveryViewModel.DispatchID;
+                delivery.DeliveryID = deliveryViewModel.DeliveryID;
+                delivery.DocumentReceivedBy = deliveryViewModel.DocumentReceivedBy;
+                delivery.DocumentReceivedDate = deliveryViewModel.DocumentReceivedDate;
+                delivery.DonorID = deliveryViewModel.DonorID;
+                delivery.DriverName = deliveryViewModel.DriverName;
+                delivery.FDPID = deliveryViewModel.FDPID;
+                delivery.HubID = deliveryViewModel.HubID;
+                delivery.InvoiceNo = deliveryViewModel.InvoiceNo;
+                delivery.PlateNoPrimary = deliveryViewModel.PlateNoPrimary;
+                delivery.PlateNoTrailler = deliveryViewModel.PlateNoTrailler;
+                delivery.ReceivedBy = deliveryViewModel.ReceivedBy;
+                delivery.ReceivedDate = deliveryViewModel.ReceivedDate;
+                delivery.ReceivingNumber = deliveryViewModel.ReceivingNumber;
+                delivery.RequisitionNo = deliveryViewModel.RequisitionNo;
+                delivery.TransporterID = deliveryViewModel.TransporterID;
+                delivery.WayBillNo = deliveryViewModel.WayBillNo;
                 if (dispatch != null)
                 {
 
 
                     foreach (var dispatchDetail in dispatch.DispatchDetails)
                     {
-                        var distributionDetail = new DistributionDetail();
-                        distributionDetail.DistributionID = distribution.DistributionID;
-                        distributionDetail.DistributionDetailID = Guid.NewGuid();
-                        distributionDetail.CommodityID = dispatchDetail.CommodityID;
-                        distributionDetail.ReceivedQuantity = 0;
-                        distributionDetail.SentQuantity = dispatchDetail.RequestedQuantityInMT;
-                        distributionDetail.UnitID = dispatchDetail.UnitID;
-                        distribution.DistributionDetails.Add(distributionDetail);
+                        var deliveryDetail = new DeliveryDetail();
+                        deliveryDetail.DeliveryID = delivery.DeliveryID;
+                        deliveryDetail.DeliveryDetailID = Guid.NewGuid();
+                        deliveryDetail.CommodityID = dispatchDetail.CommodityID;
+                        deliveryDetail.ReceivedQuantity = 0;
+                        deliveryDetail.SentQuantity = dispatchDetail.RequestedQuantityInMT;
+                        deliveryDetail.UnitID = dispatchDetail.UnitID;
+                        delivery.DeliveryDetails.Add(deliveryDetail);
 
                     }
 
 
-                    _distributionService.AddDistribution(distribution);
+                    _deliveryService.AddDistribution(delivery);
 
                     var dispatchAllocation = dispatch.DispatchAllocation;
                     if (dispatchAllocation != null)
@@ -292,184 +291,184 @@ namespace Cats.Areas.Logistics.Controllers
                         transportOrderId = dispatchAllocation.TransportOrderID.HasValue ? dispatchAllocation.TransportOrderID.Value : 0;
                     }
                 }
-                return RedirectToAction("EditGRN", "Distribution", new { Area = "Logistics", id = distribution.DistributionID });
+                return RedirectToAction("EditGRN", "Delivery", new { Area = "Logistics", id = delivery.DeliveryID });
             }
 
-            return View(distributionViewModel);
+            return View(deliveryViewModel);
         }
         [HttpPost]
-        public ActionResult EditGRN(GRNViewModel distribution)
+        public ActionResult EditGRN(GRNViewModel delivery)
         {
-            var originalDistribution = _distributionService.Get(t => t.DispatchID == distribution.DispatchID, null,
+            var originaldelivery = _deliveryService.Get(t => t.DispatchID == delivery.DispatchID, null,
                 "FDP,FDP.AdminUnit,FDP.AdminUnit.AdminUnit2,FDP.AdminUnit.AdminUnit2.AdminUnit2,Hub").FirstOrDefault();
-            var newDistribution = new Distribution();
-            var distributionDetail = new DistributionDetail();
-            if(originalDistribution!=null)
+            var newdelivery = new Delivery();
+            var deliveryDetail = new DeliveryDetail();
+            if (originaldelivery != null)
             {
-                newDistribution = _distributionService.FindBy(t => t.DistributionID == distribution.DistributionID).FirstOrDefault();
-                if (newDistribution != null)
+                newdelivery = _deliveryService.FindBy(t => t.DeliveryID == delivery.DeliveryID).FirstOrDefault();
+                if (newdelivery != null)
                 {
-                    newDistribution.DispatchID = distribution.DispatchID;
-                    newDistribution.ReceivingNumber = distribution.ReceivingNumber;
-                    newDistribution.WayBillNo = distribution.WayBillNo;
-                    newDistribution.ReceivedBy = distribution.ReceivedBy;
-                    newDistribution.ReceivedDate = DateTime.Parse(distribution.ReceivedDate);
-                    newDistribution.DeliveryBy = distribution.DeliveryBy;
-                    newDistribution.DeliveryDate = DateTime.Parse(distribution.DeliveryDate);
-                    newDistribution.DocumentReceivedDate = DateTime.Parse(distribution.DocumentReceivedDate);
-                    _distributionService.EditDistribution(newDistribution);
+                    newdelivery.DispatchID = delivery.DispatchID;
+                    newdelivery.ReceivingNumber = delivery.ReceivingNumber;
+                    newdelivery.WayBillNo = delivery.WayBillNo;
+                    newdelivery.ReceivedBy = delivery.ReceivedBy;
+                    newdelivery.ReceivedDate = DateTime.Parse(delivery.ReceivedDate);
+                    newdelivery.DeliveryBy = delivery.DeliveryBy;
+                    newdelivery.DeliveryDate = DateTime.Parse(delivery.DeliveryDate);
+                    newdelivery.DocumentReceivedDate = DateTime.Parse(delivery.DocumentReceivedDate);
+                    _deliveryService.EditDistribution(newdelivery);
 
-                    distributionDetail =
-                        _distributionDetailService.Get(t => t.DistributionID == newDistribution.DistributionID, null,
+                    deliveryDetail =
+                        _deliveryDetailService.Get(t => t.DeliveryID == newdelivery.DeliveryID, null,
                                                        "Commodity,Unit").FirstOrDefault();
-                    if(distributionDetail != null)
+                    if (deliveryDetail != null)
                     {
-                        distributionDetail.ReceivedQuantity = distribution.ReceivedQuantity;
-                        _distributionDetailService.EditDistributionDetail(distributionDetail);
+                        deliveryDetail.ReceivedQuantity = delivery.ReceivedQuantity;
+                        _deliveryDetailService.EditDistributionDetail(deliveryDetail);
                     }
                 }
             }
             else
             {
-                var dispatch = _dispatchService.FindBy(t => t.DispatchID == distribution.DispatchID).FirstOrDefault();
-                //newDistribution = new Distribution();
-                newDistribution.DistributionID = new Guid();
-                newDistribution.DispatchID = distribution.DispatchID;
-                newDistribution.ReceivingNumber = distribution.ReceivingNumber;
-                newDistribution.WayBillNo = distribution.WayBillNo;
-                newDistribution.ReceivedBy = distribution.ReceivedBy;
-                newDistribution.ReceivedDate = DateTime.Parse(distribution.ReceivedDate);
-                newDistribution.DeliveryBy = distribution.DeliveryBy;
-                newDistribution.DeliveryDate = DateTime.Parse(distribution.DeliveryDate);
-                newDistribution.DocumentReceivedDate = DateTime.Parse(distribution.DocumentReceivedDate);
+                var dispatch = _dispatchService.FindBy(t => t.DispatchID == delivery.DispatchID).FirstOrDefault();
+                //newDelivery = new Delivery();
+                newdelivery.DeliveryID = Guid.NewGuid();
+                newdelivery.DispatchID = delivery.DispatchID;
+                newdelivery.ReceivingNumber = delivery.ReceivingNumber;
+                newdelivery.WayBillNo = delivery.WayBillNo;
+                newdelivery.ReceivedBy = delivery.ReceivedBy;
+                newdelivery.ReceivedDate = DateTime.Parse(delivery.ReceivedDate);
+                newdelivery.DeliveryBy = delivery.DeliveryBy;
+                newdelivery.DeliveryDate = DateTime.Parse(delivery.DeliveryDate);
+                newdelivery.DocumentReceivedDate = DateTime.Parse(delivery.DocumentReceivedDate);
                 if (dispatch != null)
                 {
                     if (dispatch.DriverName != null)
-                        newDistribution.DriverName = dispatch.DriverName;
+                        newdelivery.DriverName = dispatch.DriverName;
                     //newDistribution.FDP = dispatch.FDP;
                     if (dispatch.FDPID != null)
-                        newDistribution.FDPID = int.Parse(dispatch.FDPID.ToString());
+                        newdelivery.FDPID = int.Parse(dispatch.FDPID.ToString());
                     //newDistribution.Hub = dispatch.Hub;
-                    newDistribution.HubID = dispatch.HubID;
-                    newDistribution.InvoiceNo = dispatch.GIN;
-                    newDistribution.PlateNoPrimary = dispatch.PlateNo_Prime;
-                    newDistribution.PlateNoTrailler = dispatch.PlateNo_Trailer;
-                    newDistribution.RequisitionNo = dispatch.RequisitionNo;
-                    newDistribution.TransporterID = dispatch.TransporterID;
+                    newdelivery.HubID = dispatch.HubID;
+                    newdelivery.InvoiceNo = dispatch.GIN;
+                    newdelivery.PlateNoPrimary = dispatch.PlateNo_Prime;
+                    newdelivery.PlateNoTrailler = dispatch.PlateNo_Trailer;
+                    newdelivery.RequisitionNo = dispatch.RequisitionNo;
+                    newdelivery.TransporterID = dispatch.TransporterID;
                 }
-                _distributionService.AddDistribution(newDistribution);
+                _deliveryService.AddDistribution(newdelivery);
 
-                distributionDetail.DistributionID = newDistribution.DistributionID;
-                distributionDetail.CommodityID = distribution.CommodityID;
-                distributionDetail.UnitID = distribution.UnitID;
-                distributionDetail.SentQuantity = distribution.SentQuantity;
-                distributionDetail.ReceivedQuantity = distribution.ReceivedQuantity;
-                distributionDetail.Commodity = _commodityService.FindById(distribution.CommodityID);
-                distributionDetail.Unit = _unitService.FindById(distribution.UnitID);
-                _distributionDetailService.AddDistributionDetail(distributionDetail);
+                deliveryDetail.DeliveryID = newdelivery.DeliveryID;
+                deliveryDetail.CommodityID = delivery.CommodityID;
+                deliveryDetail.UnitID = delivery.UnitID;
+                deliveryDetail.SentQuantity = delivery.SentQuantity;
+                deliveryDetail.ReceivedQuantity = delivery.ReceivedQuantity;
+                deliveryDetail.Commodity = _commodityService.FindById(delivery.CommodityID);
+                deliveryDetail.Unit = _unitService.FindById(delivery.UnitID);
+                _deliveryDetailService.AddDistributionDetail(deliveryDetail);
             }
-            var distributionViewModel = BindDistributionViewModel(newDistribution);
-            if(distributionDetail!=null)
+            var deliveryViewModel = BindDeliveryViewModel(newdelivery);
+            if(deliveryViewModel!=null)
             {
-                distributionViewModel.DistributionID = distributionDetail.DistributionID;
-                distributionViewModel.CommodityID = distributionDetail.CommodityID;
-                distributionViewModel.UnitID = distributionDetail.UnitID;
-                distributionViewModel.SentQuantity = distributionDetail.SentQuantity;
-                distributionViewModel.ReceivedQuantity = distributionDetail.ReceivedQuantity;
-                distributionViewModel.Commodity = distributionDetail.Commodity.Name;
-                distributionViewModel.Unit = distributionDetail.Unit.Name;
+                deliveryViewModel.DeliveryID = deliveryDetail.DeliveryID;
+                deliveryViewModel.CommodityID = deliveryDetail.CommodityID;
+                deliveryViewModel.UnitID = deliveryDetail.UnitID;
+                deliveryViewModel.SentQuantity = deliveryDetail.SentQuantity;
+                deliveryViewModel.ReceivedQuantity = deliveryDetail.ReceivedQuantity;
+                deliveryViewModel.Commodity = deliveryDetail.Commodity.Name;
+                deliveryViewModel.Unit = deliveryDetail.Unit.Name;
             }
-            return Json(distributionViewModel, JsonRequestBehavior.AllowGet);
+            return Json(deliveryViewModel, JsonRequestBehavior.AllowGet);
             //return View("Dispatches", distributionViewModel);
         }
         
         
-        public ActionResult EditGRN(DistributionViewModel distributionViewModel)
+        public ActionResult EditGRN(DeliveryViewModel deliveryViewModel)
         {
             if (ModelState.IsValid)
             {
                 int transportOrderId = 0;
 
-                var distribution = _distributionService.Get(t => t.DistributionID == distributionViewModel.DistributionID, null,
-                    "DistributionDetails,FDP,Hub").FirstOrDefault();
+                var delivery = _deliveryService.Get(t => t.DeliveryID == deliveryViewModel.DeliveryID, null,
+                    "DeliveryDetails,FDP,Hub").FirstOrDefault();
 
-                var dispatch = _dispatchService.Get(t => t.DispatchID == distributionViewModel.DispatchID, null,
+                var dispatch = _dispatchService.Get(t => t.DispatchID == deliveryViewModel.DispatchID, null,
                    "DispatchAllocation").FirstOrDefault();
 
-                distribution.DeliveryBy = distributionViewModel.DeliveryBy;
-                distribution.DeliveryDate = distributionViewModel.DeliveryDate;
+                delivery.DeliveryBy = deliveryViewModel.DeliveryBy;
+                delivery.DeliveryDate = deliveryViewModel.DeliveryDate;
 
 
-                distribution.DocumentReceivedBy = distributionViewModel.DocumentReceivedBy;
-                distribution.DocumentReceivedDate = distributionViewModel.DocumentReceivedDate;
+                delivery.DocumentReceivedBy = deliveryViewModel.DocumentReceivedBy;
+                delivery.DocumentReceivedDate = deliveryViewModel.DocumentReceivedDate;
 
-                distribution.DriverName = distributionViewModel.DriverName;
+                delivery.DriverName = deliveryViewModel.DriverName;
 
-                distribution.InvoiceNo = distributionViewModel.InvoiceNo;
-                distribution.PlateNoPrimary = distributionViewModel.PlateNoPrimary;
-                distribution.PlateNoTrailler = distributionViewModel.PlateNoTrailler;
-                distribution.ReceivedBy = distributionViewModel.ReceivedBy;
-                distribution.ReceivedDate = distributionViewModel.ReceivedDate;
-                distribution.ReceivingNumber = distributionViewModel.ReceivingNumber;
-                distribution.RequisitionNo = distributionViewModel.RequisitionNo;
-                distribution.TransporterID = distributionViewModel.TransporterID;
-                distribution.WayBillNo = distributionViewModel.WayBillNo;
-                _distributionService.EditDistribution(distribution);
+                delivery.InvoiceNo = deliveryViewModel.InvoiceNo;
+                delivery.PlateNoPrimary = deliveryViewModel.PlateNoPrimary;
+                delivery.PlateNoTrailler = deliveryViewModel.PlateNoTrailler;
+                delivery.ReceivedBy = deliveryViewModel.ReceivedBy;
+                delivery.ReceivedDate = deliveryViewModel.ReceivedDate;
+                delivery.ReceivingNumber = deliveryViewModel.ReceivingNumber;
+                delivery.RequisitionNo = deliveryViewModel.RequisitionNo;
+                delivery.TransporterID = deliveryViewModel.TransporterID;
+                delivery.WayBillNo = deliveryViewModel.WayBillNo;
+                _deliveryService.EditDistribution(delivery);
                 if (dispatch.DispatchAllocation.TransportOrderID.HasValue)
                     transportOrderId = dispatch.DispatchAllocation.TransportOrderID.Value;
-                return RedirectToAction("Dispatches", "Distribution", new { Area = "Logistics", id = transportOrderId });
+                return RedirectToAction("Dispatches", "Delivery", new { Area = "Logistics", id = transportOrderId });
             }
 
-            return View(distributionViewModel);
+            return View(deliveryViewModel);
         }
 
-        public ActionResult ReadDistributionDetail([DataSourceRequest]DataSourceRequest request, Guid distribtionId)
+        public ActionResult ReadDistributionDetail([DataSourceRequest]DataSourceRequest request, Guid deliveryID)
         {
-            var distributionDetails =
-                _distributionDetailService.Get(t => t.DistributionID == distribtionId, null, "Commodity,Unit").
+            var deliveryDetails =
+                _deliveryDetailService.Get(t => t.DeliveryID == deliveryID, null, "Commodity,Unit").
                     ToList();
 
-            var distributionDetailsViewModels = BindDistributionDetailViewModel(distributionDetails);
+            var deliveryDetailsViewModels = BindDeliveryDetailViewModel(deliveryDetails);
 
-            return Json(distributionDetailsViewModels.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+            return Json(deliveryDetailsViewModels.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
-        private List<DistributionDetailViewModel> BindDistributionDetailViewModel(List<DistributionDetail> distributionDetails)
+        private List<DeliveryDetailViewModel> BindDeliveryDetailViewModel(List<DeliveryDetail> deliveryDetails)
         {
-            var distributionDetailViewModels = new List<DistributionDetailViewModel>();
-            foreach (var distributionDetail in distributionDetails)
+            var deliveryDetailViewModels = new List<DeliveryDetailViewModel>();
+            foreach (var deliveryDetail in deliveryDetails)
             {
-                var distributionDetailViewModel = new DistributionDetailViewModel();
-                distributionDetailViewModel.CommodityID = distributionDetail.CommodityID;
-                distributionDetailViewModel.Commodity = distributionDetail.Commodity.Name;
-                distributionDetailViewModel.DistributionDetailID = distributionDetail.DistributionDetailID;
-                distributionDetailViewModel.DistributionID = distributionDetail.DistributionID;
-                distributionDetailViewModel.ReceivedQuantity = distributionDetail.ReceivedQuantity;
-                distributionDetailViewModel.SentQuantity = distributionDetail.SentQuantity;
-                distributionDetailViewModel.UnitID = distributionDetail.UnitID;
-                distributionDetailViewModel.Unit = distributionDetail.Unit.Name;
-                distributionDetailViewModels.Add(distributionDetailViewModel);
+                var deliveryDetailViewModel = new DeliveryDetailViewModel();
+                deliveryDetailViewModel.CommodityID = deliveryDetail.CommodityID;
+                deliveryDetailViewModel.Commodity = deliveryDetail.Commodity.Name;
+                deliveryDetailViewModel.DeliveryDetailID = deliveryDetail.DeliveryDetailID;
+                deliveryDetailViewModel.DeliveryID = deliveryDetail.DeliveryID;
+                deliveryDetailViewModel.ReceivedQuantity = deliveryDetail.ReceivedQuantity;
+                deliveryDetailViewModel.SentQuantity = deliveryDetail.SentQuantity;
+                deliveryDetailViewModel.UnitID = deliveryDetail.UnitID;
+                deliveryDetailViewModel.Unit = deliveryDetail.Unit.Name;
+                deliveryDetailViewModels.Add(deliveryDetailViewModel);
             }
-            return distributionDetailViewModels;
+            return deliveryDetailViewModels;
         }
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult UpdateDistributionDetail([DataSourceRequest] DataSourceRequest request, DistributionDetailViewModel distributionDetail)
+        public ActionResult UpdateDeliveryDetail([DataSourceRequest] DataSourceRequest request, DeliveryDetailViewModel deliveryDetail)
         {
-            if (distributionDetail != null && ModelState.IsValid)
+            if (deliveryDetail != null && ModelState.IsValid)
             {
-                var target = _distributionDetailService.FindById(distributionDetail.DistributionDetailID);
+                var target = _deliveryDetailService.FindById(deliveryDetail.DeliveryDetailID);
                 if (target != null)
                 {
-                    target.ReceivedQuantity = distributionDetail.ReceivedQuantity;
-                    _distributionDetailService.EditDistributionDetail(target);
+                    target.ReceivedQuantity = deliveryDetail.ReceivedQuantity;
+                    _deliveryDetailService.EditDistributionDetail(target);
                 }
             }
 
-            if (distributionDetail.ReceivedQuantity < distributionDetail.SentQuantity)
+            if (deliveryDetail.ReceivedQuantity < deliveryDetail.SentQuantity)
             {
-                var distribution =
-                    _distributionService.FindBy(t => t.DistributionID == distributionDetail.DistributionID).
+                var delivery =
+                    _deliveryService.FindBy(t => t.DeliveryID == deliveryDetail.DeliveryID).
                         FirstOrDefault();
-                var id = distribution.DispatchID;
+                var id = delivery.DispatchID;
                 var dispatch = _dispatchService.Get(t => t.DispatchID == id, null, "DispatchAllocation,DispatchAllocation.Transporter").FirstOrDefault();
                 if (dispatch != null)
                 {
@@ -482,7 +481,7 @@ namespace Cats.Areas.Logistics.Controllers
                 }
 
             }
-            return Json(new[] { distributionDetail }.ToDataSourceResult(request, ModelState));
+            return Json(new[] { deliveryDetail }.ToDataSourceResult(request, ModelState));
         }
         private void SendNotification(int transportOrderId, string transporterName)
         {
@@ -494,14 +493,14 @@ namespace Cats.Areas.Logistics.Controllers
                     if (Request.Url.Host == "localhost")
                     {
                         destinationURl = "http://" + Request.Url.Authority +
-                                         "/Logistics/Distribution/Dispatches/" +
+                                         "/Logistics/Delivery/Dispatches/" +
                                          transportOrderId;
                     }
                     else
                     {
                         destinationURl = "http://" + Request.Url.Authority +
                                         Request.ApplicationPath +
-                                         "/Logistics/Distribution/Dispatches/" +
+                                         "/Logistics/Delivery/Dispatches/" +
                                          transportOrderId;
                     }
 
@@ -514,35 +513,35 @@ namespace Cats.Areas.Logistics.Controllers
                 throw;
             }
         }
-        public ActionResult ReceivingNote(Guid distributionId)
+        public ActionResult ReceivingNote(Guid deliveryID)
         {
             return View();
         }
-        private DistributionViewModel CreateGoodsReceivingNote(Dispatch dispatch)
+        private DeliveryViewModel CreateGoodsReceivingNote(Cats.Models.Hubs.Dispatch dispatch)
         {
-            if (dispatch == null) return new DistributionViewModel();
-            var distribution = new DistributionViewModel();
-            distribution.DeliveryDate = DateTime.Today;
-            distribution.DispatchID = dispatch.DispatchID;
-            distribution.DeliveryDate = DateTime.Today;
-            distribution.DocumentReceivedBy = UserAccountHelper.GetUser(User.Identity.Name).UserProfileID;
-            distribution.DocumentReceivedDate = DateTime.Today;
-            distribution.DistributionID = Guid.NewGuid();
-            //distribution.DonorID=dispatch.
-            distribution.DriverName = dispatch.DriverName;
-            distribution.FDPID = dispatch.FDPID.Value;
-            distribution.HubID = dispatch.HubID;
-            distribution.TransporterID = dispatch.TransporterID;
-            distribution.InvoiceNo = dispatch.GIN;
-            distribution.PlateNoPrimary = dispatch.PlateNo_Prime;
-            distribution.PlateNoTrailler = dispatch.PlateNo_Trailer;
-            distribution.RequisitionNo = dispatch.RequisitionNo;
-            distribution.FDP = dispatch.FDP.Name;
-            distribution.Region = dispatch.FDP.AdminUnit.AdminUnit2.AdminUnit2.Name;
-            distribution.Zone = dispatch.FDP.AdminUnit.AdminUnit2.Name;
-            distribution.Woreda = dispatch.FDP.AdminUnit.Name;
-            distribution.Hub = dispatch.Hub.Name;
-            distribution.Transporter = dispatch.Transporter.Name;
+            if (dispatch == null) return new DeliveryViewModel();
+            var delivery = new DeliveryViewModel();
+            delivery.DeliveryDate = DateTime.Today;
+            delivery.DispatchID = dispatch.DispatchID;
+            delivery.DeliveryDate = DateTime.Today;
+            delivery.DocumentReceivedBy = UserAccountHelper.GetUser(User.Identity.Name).UserProfileID;
+            delivery.DocumentReceivedDate = DateTime.Today;
+            delivery.DeliveryID = Guid.NewGuid();
+            //delivery.DonorID=dispatch.
+            delivery.DriverName = dispatch.DriverName;
+            delivery.FDPID = dispatch.FDPID.Value;
+            delivery.HubID = dispatch.HubID;
+            delivery.TransporterID = dispatch.TransporterID;
+            delivery.InvoiceNo = dispatch.GIN;
+            delivery.PlateNoPrimary = dispatch.PlateNo_Prime;
+            delivery.PlateNoTrailler = dispatch.PlateNo_Trailer;
+            delivery.RequisitionNo = dispatch.RequisitionNo;
+            delivery.FDP = dispatch.FDP.Name;
+            delivery.Region = dispatch.FDP.AdminUnit.AdminUnit2.AdminUnit2.Name;
+            delivery.Zone = dispatch.FDP.AdminUnit.AdminUnit2.Name;
+            delivery.Woreda = dispatch.FDP.AdminUnit.Name;
+            delivery.Hub = dispatch.Hub.Name;
+            delivery.Transporter = dispatch.Transporter.Name;
 
 
             //foreach (var dispatchDetail in dispatch.DispatchDetails)
@@ -557,60 +556,60 @@ namespace Cats.Areas.Logistics.Controllers
 
 
             //}
-            return distribution;
+            return delivery;
         }
-        private DistributionViewModel EditGoodsReceivingNote(Distribution distribution)
+        private DeliveryViewModel EditGoodsReceivingNote(Delivery delivery)
         {
 
-            if (distribution == null) return new DistributionViewModel();
-            var dispatch = _dispatchService.Get(t => t.DispatchID == distribution.DispatchID, null,
+            if (delivery == null) return new DeliveryViewModel();
+            var dispatch = _dispatchService.Get(t => t.DispatchID == delivery.DispatchID, null,
                "FDP,FDP.AdminUnit,FDP.AdminUnit.AdminUnit2,FDP.AdminUnit.AdminUnit2.AdminUnit2,Transporter,Hub").FirstOrDefault();
 
-            var distributionViewModel = new DistributionViewModel();
+            var deliveryViewModel = new DeliveryViewModel();
 
-            distributionViewModel.DispatchID = distribution.DispatchID;
-            distributionViewModel.DeliveryDate = distribution.DeliveryDate;
-            distributionViewModel.DocumentReceivedBy = distribution.DocumentReceivedBy;
-            distributionViewModel.DocumentReceivedDate = distribution.DocumentReceivedDate;
-            distributionViewModel.DistributionID = distribution.DistributionID;
+            deliveryViewModel.DispatchID = delivery.DispatchID;
+            deliveryViewModel.DeliveryDate = delivery.DeliveryDate;
+            deliveryViewModel.DocumentReceivedBy = delivery.DocumentReceivedBy;
+            deliveryViewModel.DocumentReceivedDate = delivery.DocumentReceivedDate;
+            deliveryViewModel.DeliveryID = delivery.DeliveryID;
             //distribution.DonorID=dispatch.
-            distributionViewModel.DriverName = distribution.DriverName;
-            distributionViewModel.FDPID = distribution.FDPID;
-            distributionViewModel.HubID = distribution.HubID;
-            distributionViewModel.TransporterID = distribution.TransporterID;
-            distributionViewModel.InvoiceNo = distribution.InvoiceNo;
-            distributionViewModel.PlateNoPrimary = distribution.PlateNoPrimary;
-            distributionViewModel.PlateNoTrailler = distribution.PlateNoTrailler;
-            distributionViewModel.RequisitionNo = distribution.RequisitionNo;
-            distributionViewModel.FDP = dispatch.FDP.Name;
-            distributionViewModel.Region = dispatch.FDP.AdminUnit.AdminUnit2.AdminUnit2.Name;
-            distributionViewModel.Zone = dispatch.FDP.AdminUnit.AdminUnit2.Name;
-            distributionViewModel.Woreda = dispatch.FDP.AdminUnit.Name;
-            distributionViewModel.Hub = dispatch.Hub.Name;
-            distributionViewModel.DeliveryBy = distribution.DeliveryBy;
-            distributionViewModel.ReceivedBy = distribution.ReceivedBy;
-            distributionViewModel.ReceivedDate = distribution.ReceivedDate;
-            distributionViewModel.ReceivingNumber = distribution.ReceivingNumber;
-            distributionViewModel.InvoiceNo = distribution.InvoiceNo;
-            distributionViewModel.WayBillNo = distribution.WayBillNo;
-            distributionViewModel.RequisitionNo = distribution.RequisitionNo;
-            distributionViewModel.Transporter = dispatch.Transporter.Name;
-            distributionViewModel.Status = distribution.Status;
-            distributionViewModel.ActionTypeRemark = distribution.ActionTypeRemark;
+            deliveryViewModel.DriverName = delivery.DriverName;
+            deliveryViewModel.FDPID = delivery.FDPID;
+            deliveryViewModel.HubID = delivery.HubID;
+            deliveryViewModel.TransporterID = delivery.TransporterID;
+            deliveryViewModel.InvoiceNo = delivery.InvoiceNo;
+            deliveryViewModel.PlateNoPrimary = delivery.PlateNoPrimary;
+            deliveryViewModel.PlateNoTrailler = delivery.PlateNoTrailler;
+            deliveryViewModel.RequisitionNo = delivery.RequisitionNo;
+            deliveryViewModel.FDP = dispatch.FDP.Name;
+            deliveryViewModel.Region = dispatch.FDP.AdminUnit.AdminUnit2.AdminUnit2.Name;
+            deliveryViewModel.Zone = dispatch.FDP.AdminUnit.AdminUnit2.Name;
+            deliveryViewModel.Woreda = dispatch.FDP.AdminUnit.Name;
+            deliveryViewModel.Hub = dispatch.Hub.Name;
+            deliveryViewModel.DeliveryBy = delivery.DeliveryBy;
+            deliveryViewModel.ReceivedBy = delivery.ReceivedBy;
+            deliveryViewModel.ReceivedDate = delivery.ReceivedDate;
+            deliveryViewModel.ReceivingNumber = delivery.ReceivingNumber;
+            deliveryViewModel.InvoiceNo = delivery.InvoiceNo;
+            deliveryViewModel.WayBillNo = delivery.WayBillNo;
+            deliveryViewModel.RequisitionNo = delivery.RequisitionNo;
+            deliveryViewModel.Transporter = dispatch.Transporter.Name;
+            deliveryViewModel.Status = delivery.Status;
+            deliveryViewModel.ActionTypeRemark = delivery.ActionTypeRemark;
             var pref = UserAccountHelper.UserCalendarPreference();
-            distributionViewModel.DeliveryDatePref = distribution.DeliveryDate.HasValue
-                                                         ? distribution.DeliveryDate.Value.ToCTSPreferedDateFormat(pref)
+            deliveryViewModel.DeliveryDatePref = delivery.DeliveryDate.HasValue
+                                                         ? delivery.DeliveryDate.Value.ToCTSPreferedDateFormat(pref)
                                                          : "";
-            distributionViewModel.ReceivedDatePref = distribution.ReceivedDate.HasValue
-                                                         ? distribution.ReceivedDate.Value.ToCTSPreferedDateFormat(pref)
+            deliveryViewModel.ReceivedDatePref = delivery.ReceivedDate.HasValue
+                                                         ? delivery.ReceivedDate.Value.ToCTSPreferedDateFormat(pref)
                                                          : "";
-            distributionViewModel.DocumentReceivedDatePref = distribution.DocumentReceivedDate.HasValue
-                                                                 ? distribution.DocumentReceivedDate.Value.
+            deliveryViewModel.DocumentReceivedDatePref = delivery.DocumentReceivedDate.HasValue
+                                                                 ? delivery.DocumentReceivedDate.Value.
                                                                        ToCTSPreferedDateFormat(pref)
                                                                  : "";
 
-            distributionViewModel.ContainsDiscripancy =
-                distribution.DistributionDetails.Any(t => t.ReceivedQuantity < t.SentQuantity);
+            deliveryViewModel.ContainsDiscripancy =
+                delivery.DeliveryDetails.Any(t => t.ReceivedQuantity < t.SentQuantity);
             //foreach (var dispatchDetail in dispatch.DispatchDetails)
             //{
             //    var distributionDetail = new DistributionDetail();
@@ -623,30 +622,30 @@ namespace Cats.Areas.Logistics.Controllers
 
 
             //}
-            return distributionViewModel;
+            return deliveryViewModel;
         }
 
 
         public ActionResult DiscripancyAction(Guid id)
         {
-            var distribution = _distributionService.Get(t => t.DistributionID == id, null,
+            var delivery = _deliveryService.Get(t => t.DeliveryID == id, null,
                 "FDP,FDP.AdminUnit,FDP.AdminUnit.AdminUnit2,FDP.AdminUnit.AdminUnit2.AdminUnit2,Hub").FirstOrDefault();
             ViewBag.ActionTypes = new SelectList(_actionTypeService.GetAllActionType(), "ActionId", "Name");
-            var distributionViewModel = EditGoodsReceivingNote(distribution);
-            return View(distributionViewModel);
+            var deliveryViewModel = EditGoodsReceivingNote(delivery);
+            return View(deliveryViewModel);
         }
 
-        public ActionResult SaveDiscripancy(DistributionViewModel _distributionViewModel, FormCollection collection)
+        public ActionResult SaveDiscripancy(DeliveryViewModel _deliveryViewModel, FormCollection collection)
         {
 
             var actionType = int.Parse(collection["Actiontype"].ToString(CultureInfo.InvariantCulture));
             var remark = collection["Remark"].ToString(CultureInfo.InvariantCulture);
             var TO = collection.Keys[2].ToString(CultureInfo.InvariantCulture);
-            var distribution = _distributionService.Get(t => t.DistributionID == _distributionViewModel.DistributionID).Single();
-            distribution.Status = (int)Cats.Models.Constant.DistributionStatus.Closed;
-            distribution.ActionType = actionType;
-            distribution.ActionTypeRemark = remark;
-            _distributionService.EditDistribution(distribution);
+            var delivery = _deliveryService.Get(t => t.DeliveryID == _deliveryViewModel.DeliveryID).Single();
+            delivery.Status = (int)Cats.Models.Constant.DistributionStatus.Closed;
+            delivery.ActionType = actionType;
+            delivery.ActionTypeRemark = remark;
+            _deliveryService.EditDistribution(delivery);
             return RedirectToAction("Dispatches", new { id = TO });
         }
 

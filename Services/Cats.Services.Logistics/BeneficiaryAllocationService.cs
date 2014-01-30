@@ -42,7 +42,7 @@ namespace Cats.Services.Logistics
                                                       Amount = itm.Amount,
                                                       BeneficiaryNo = itm.BenficiaryNo,
                                                       ProgramID = itm.ReliefRequisition.ProgramID,
-                                                      Program = itm.ReliefRequisition.ProgramID.HasValue ? itm.ReliefRequisition.Program.Name : string.Empty,
+                                                      Program = itm.ReliefRequisition.Program.Name,
                                                       Round=itm.ReliefRequisition.Round.HasValue ?itm.ReliefRequisition.Round.Value :0,
                                                       Year=itm.ReliefRequisition.RequestedDate.Value.Year,
                                                       Month =itm.ReliefRequisition.RequestedDate.Value.ToString("MMM")

@@ -40,6 +40,24 @@ namespace Cats.Data.UnitWork
 
         }
 
+        private IGenericRepository<Dispatch> _DispatchRepository = null;
+        public IGenericRepository<Dispatch> DispatchRepository
+        {
+            get { return this._DispatchRepository ?? (this._DispatchRepository = new GenericRepository<Dispatch>(_context)); }
+        }
+
+        private IGenericRepository<DispatchDetail> _DispatchDetailRepository = null;
+        public IGenericRepository<DispatchDetail> DispatchDetailRepository
+        {
+            get { return this._DispatchDetailRepository ?? (this._DispatchDetailRepository = new GenericRepository<DispatchDetail>(_context)); }
+        }
+        private IGenericRepository<OtherDispatchAllocation> _OtherDispatchAllocationRepository = null;
+        public IGenericRepository<OtherDispatchAllocation> OtherDispatchAllocationRepository
+        {
+            get { return this._OtherDispatchAllocationRepository ?? (this._OtherDispatchAllocationRepository = new GenericRepository<OtherDispatchAllocation>(_context)); }
+        }
+
+
         private IGenericRepository<TransporterAgreementVersion> _TransporterAgreementVersionRepository = null;
         public IGenericRepository<TransporterAgreementVersion> TransporterAgreementVersionRepository
         {
@@ -819,16 +837,16 @@ namespace Cats.Data.UnitWork
             get { return this.hrdDonorCoverageDetailRepository ?? (this.hrdDonorCoverageDetailRepository = new GenericRepository<HrdDonorCoverageDetail>(_context)); }
         }
 
-        private IGenericRepository<Distribution> distributionRepositiory;
-        public IGenericRepository<Distribution> DistributionRepository
+        private IGenericRepository<Delivery> distributionRepositiory;
+        public IGenericRepository<Delivery> DistributionRepository
         {
-            get { return this.distributionRepositiory ?? (this.distributionRepositiory = new GenericRepository<Distribution>(_context)); }
+            get { return this.distributionRepositiory ?? (this.distributionRepositiory = new GenericRepository<Delivery>(_context)); }
       
         }
-        private IGenericRepository<DistributionDetail> distributionDetailRepository;
-        public IGenericRepository<DistributionDetail> DistributionDetailRepository
+        private IGenericRepository<DeliveryDetail> distributionDetailRepository;
+        public IGenericRepository<DeliveryDetail> DistributionDetailRepository
         {
-            get { return this.distributionDetailRepository ?? (this.distributionDetailRepository = new GenericRepository<DistributionDetail>(_context)); }
+            get { return this.distributionDetailRepository ?? (this.distributionDetailRepository = new GenericRepository<DeliveryDetail>(_context)); }
       
         }
 

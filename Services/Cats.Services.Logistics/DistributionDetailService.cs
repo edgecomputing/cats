@@ -11,7 +11,7 @@ using Cats.Models;
 namespace Cats.Services.Logistics
 {
 
-    public class DistributionDetailService : IDistributionDetailService
+    public class DistributionDetailService : IDeliveryDetailService
     {
         private readonly IUnitOfWork _unitOfWork;
 
@@ -21,21 +21,21 @@ namespace Cats.Services.Logistics
             this._unitOfWork = new UnitOfWork();
         }
         #region Default Service Implementation
-        public bool AddDistributionDetail(DistributionDetail distributionDetail)
+        public bool AddDistributionDetail(DeliveryDetail distributionDetail)
         {
             _unitOfWork.DistributionDetailRepository.Add(distributionDetail);
             _unitOfWork.Save();
             return true;
 
         }
-        public bool EditDistributionDetail(DistributionDetail distributionDetail)
+        public bool EditDistributionDetail(DeliveryDetail distributionDetail)
         {
             _unitOfWork.DistributionDetailRepository.Edit(distributionDetail);
             _unitOfWork.Save();
             return true;
 
         }
-        public bool DeleteDistributionDetail(DistributionDetail distributionDetail)
+        public bool DeleteDistributionDetail(DeliveryDetail distributionDetail)
         {
             if (distributionDetail == null) return false;
             _unitOfWork.DistributionDetailRepository.Delete(distributionDetail);
@@ -50,21 +50,21 @@ namespace Cats.Services.Logistics
             _unitOfWork.Save();
             return true;
         }
-        public List<DistributionDetail> GetAllDistributionDetail()
+        public List<DeliveryDetail> GetAllDistributionDetail()
         {
             return _unitOfWork.DistributionDetailRepository.GetAll();
         }
-        public DistributionDetail FindById(Guid id)
+        public DeliveryDetail FindById(Guid id)
         {
             return _unitOfWork.DistributionDetailRepository.FindById(id);
         }
-        public List<DistributionDetail> FindBy(Expression<Func<DistributionDetail, bool>> predicate)
+        public List<DeliveryDetail> FindBy(Expression<Func<DeliveryDetail, bool>> predicate)
         {
             return _unitOfWork.DistributionDetailRepository.FindBy(predicate);
         }
-       public IEnumerable<DistributionDetail> Get(
-            Expression<Func<DistributionDetail, bool>> filter = null,
-            Func<IQueryable<DistributionDetail>, IOrderedQueryable<DistributionDetail>> orderBy = null,
+       public IEnumerable<DeliveryDetail> Get(
+            Expression<Func<DeliveryDetail, bool>> filter = null,
+            Func<IQueryable<DeliveryDetail>, IOrderedQueryable<DeliveryDetail>> orderBy = null,
             string includeProperties = "")
        {
            return _unitOfWork.DistributionDetailRepository.Get(filter, orderBy, includeProperties);

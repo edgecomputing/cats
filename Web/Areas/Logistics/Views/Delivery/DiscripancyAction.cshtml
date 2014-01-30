@@ -1,32 +1,27 @@
-﻿@model Cats.Areas.Logistics.Models.DistributionViewModel
+﻿@model Cats.Areas.Logistics.Models.DeliveryViewModel
+@using Cats.Areas.Logistics.Models
+@using Cats.Models
+@using Kendo.Mvc.UI
 @using LanguageHelpers.Localization
 @{
     ViewBag.Title = "ReceiveGRN";
     Layout = "~/Views/Shared/_MainLayoutWide.cshtml";
 }
+
 @section Toolbar
 {
     <a class="btn toolbar-btn " data-buttontype="btn_save" data-submittedform="frmCreate"></a>
 
 }
 
-<div class="page-header">@Translator.Translate("Register Transport Goods Receiving Note")</div>
-@using (Html.BeginForm("ReceiveGRN", "Distribution", new { Area = "Logistics" }, FormMethod.Post, new { id = "frmCreate" }))
+
+@using (Html.BeginForm("SaveDiscripancy", "Delivery", new { Area = "Logistics" }, FormMethod.Post,  new { id = "frmCreate" }))
 {
-    @Html.HiddenFor(model => model.DistributionID)
+
+    @Html.HiddenFor(model => model.DeliveryID)
     @Html.HiddenFor(model => model.DispatchID)
-    @Html.HiddenFor(model => model.HubID)
-    @Html.HiddenFor(model => model.FDPID)
-    @Html.HiddenFor(model => model.TransporterID)
-    @Html.HiddenFor(model => model.DonorID)
-    @Html.HiddenFor(model => model.DocumentReceivedBy)
-    @Html.HiddenFor(model=>model.InvoiceNo)
-    @Html.HiddenFor(model=>model.RequisitionNo)
-    @Html.HiddenFor(model=>model.Transporter)
-    @Html.HiddenFor(model => model.Region);
-    @Html.HiddenFor(model=>model.Zone)
-    @Html.HiddenFor(model => model.Woreda);
-    @Html.HiddenFor(model=>model.FDP)
+    var TO = Request.QueryString["transportOrderId"];
+    @Html.Hidden(TO)
     <div class="control-group form-horizontal well">
         <div class="row">
             <div class="span4">
@@ -36,8 +31,7 @@
 
                     </div>
                     <div class="controls">
-                        @Html.TextBoxFor(model => model.ReceivingNumber)
-                        @Html.ValidationMessageFor(model => model.ReceivingNumber);
+                        @Html.TextBoxFor(model => model.ReceivingNumber,new { Disabled = true })
                     </div>
                 </div>
                 <div class="control-group">
@@ -48,14 +42,14 @@
                         @Html.TextBoxFor(model => model.InvoiceNo, new { Disabled = true })
                     </div>
                 </div>
-              
-               
+
+
                 <div class="control-group">
                     <div class="control-label">
                         @Html.LabelFor(model => model.WayBillNo)
                     </div>
                     <div class="controls">
-                        @Html.TextBoxFor(model => model.WayBillNo)
+                        @Html.TextBoxFor(model => model.WayBillNo,new { Disabled = true })
                     </div>
                 </div>
                 <div class="control-group">
@@ -66,23 +60,23 @@
                         @Html.TextBoxFor(model => model.RequisitionNo, new { Disabled = true })
                     </div>
                 </div>
-               <div class="control-group">
+                <div class="control-group">
                     <div class="control-label">
                         @Html.LabelFor(model => model.ReceivedBy)
                     </div>
                     <div class="controls">
-                        @Html.TextBoxFor(model => model.ReceivedBy)
+                        @Html.TextBoxFor(model => model.ReceivedBy,new { Disabled = true })
                     </div>
                 </div>
                 <div class="control-group">
                     <div class="control-label">
-                        @Html.LabelFor(model => model.ReceivedDate, new { @class = "cats-date-pref" })
+                        @Html.LabelFor(model => model.ReceivedDate, new { @class = "cats-date-pref" , Disabled =true})
                     </div>
                     <div class="controls">
-                        @Html.TextBoxFor(model => model.ReceivedDate, new { @class = "cats-datepicker2" })
+                        @Html.TextBoxFor(model => model.ReceivedDate, new { @class = "cats-datepicker2",Disabled = true })
                     </div>
                 </div>
-                  
+
             </div>
             <div class="span4">
                 <div class="control-group">
@@ -93,12 +87,12 @@
                         @Html.TextBoxFor(model => model.Transporter, new { Disabled = true })
                     </div>
                 </div>
-                 <div class="control-group">
+                <div class="control-group">
                     <div class="control-label">
                         @Html.LabelFor(model => model.DriverName)
                     </div>
                     <div class="controls">
-                        @Html.TextBoxFor(model => model.DriverName)
+                        @Html.TextBoxFor(model => model.DriverName,new { Disabled = true })
                     </div>
                 </div>
                 <div class="control-group">
@@ -106,7 +100,7 @@
                         @Html.LabelFor(model => model.PlateNoPrimary)
                     </div>
                     <div class="controls">
-                        @Html.TextBoxFor(model => model.PlateNoPrimary)
+                        @Html.TextBoxFor(model => model.PlateNoPrimary,new { Disabled = true })
                     </div>
                 </div>
                 <div class="control-group">
@@ -114,35 +108,35 @@
                         @Html.LabelFor(model => model.PlateNoTrailler)
                     </div>
                     <div class="controls">
-                        @Html.TextBoxFor(model => model.PlateNoTrailler)
+                        @Html.TextBoxFor(model => model.PlateNoTrailler,new { Disabled = true })
                     </div>
                 </div>
-               
+
                 <div class="control-group">
                     <div class="control-label">
                         @Html.LabelFor(model => model.DeliveryBy)
                     </div>
                     <div class="controls">
-                        @Html.TextBoxFor(model => model.DeliveryBy)
+                        @Html.TextBoxFor(model => model.DeliveryBy,new { Disabled = true })
                     </div>
                 </div>
-                 <div class="control-group">
+                <div class="control-group">
                     <div class="control-label">
-                        @Html.LabelFor(model => model.DeliveryDate, new { @class = "cats-date-pref" })
+                        @Html.LabelFor(model => model.DeliveryDate, new { @class = "cats-date-pref" ,Disabled=true})
                     </div>
                     <div class="controls">
-                        @Html.TextBoxFor(model => model.DeliveryDate, new { @class = "cats-datepicker2" })
+                        @Html.TextBoxFor(model => model.DeliveryDate, new { @class = "cats-datepicker2",Disabled=true })
                     </div>
                 </div>
-               
+
             </div>
             <div class="span4">
-                  <div class="control-group">
+                <div class="control-group">
                     <div class="control-label">
                         @Html.LabelFor(model => model.Region)
                     </div>
                     <div class="controls">
-                        @Html.TextBoxFor(model => model.Region)
+                        @Html.TextBoxFor(model => model.Region, new { Disabled = true })
                     </div>
                 </div>
                 <div class="control-group">
@@ -150,7 +144,7 @@
                         @Html.LabelFor(model => model.Zone)
                     </div>
                     <div class="controls">
-                        @Html.TextBoxFor(model => model.Zone)
+                        @Html.TextBoxFor(model => model.Zone, new { Disabled = true })
                     </div>
                 </div>
                 <div class="control-group">
@@ -158,7 +152,7 @@
                         @Html.LabelFor(model => model.Woreda)
                     </div>
                     <div class="controls">
-                        @Html.TextBoxFor(model => model.Woreda)
+                        @Html.TextBoxFor(model => model.Woreda, new { Disabled = true })
                     </div>
                 </div>
                 <div class="control-group">
@@ -166,10 +160,10 @@
                         @Html.LabelFor(model => model.FDP)
                     </div>
                     <div class="controls">
-                        @Html.TextBoxFor(model => model.FDP)
+                        @Html.TextBoxFor(model => model.FDP, new { Disabled = true })
                     </div>
                 </div>
-                 <div class="control-group">
+                <div class="control-group ">
                     <div class="control-label">
                         @Html.LabelFor(model => model.DocumentReceivedDate, new { @class = "cats-date-pref" })
                     </div>
@@ -178,11 +172,55 @@
                     </div>
 
                 </div>
-               
+
             </div>
         </div>
 
 
     </div>
 
+    <fieldset>
+        <legend>
+            Action to be taken
+
+        </legend>
+        
+        <div class="form-horizontal well">
+
+            <table style="width: 100px;">
+            <tr>
+                <td >
+                        
+                    <div class="control-label">
+                        @Html.Label("Action")
+                    </div>
+                    <div class="controls">
+                        @Html.DropDownList("ActionType", ViewBag.ActionTypes as SelectList)
+                           
+                    </div>
+                   
+                </td>
+            </tr>
+                <tr>
+                        <td>
+                   
+                        <div>
+                            <div class="control-label">
+                                @Html.Label("Remark")
+                            </div>
+                            <div class="controls">
+                                @Html.TextArea("Remark")
+                                
+                            </div>
+                        </div>
+             
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+
+    </fieldset>
+    
 }
+

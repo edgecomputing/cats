@@ -6,9 +6,9 @@ using System.Web;
 
 namespace Cats.Areas.Logistics.Models
 {
-    public class DistributionViewModel
+    public class DeliveryViewModel
     {
-        public System.Guid DistributionID { get; set; }
+        public System.Guid DeliveryID { get; set; }
          [Display(Name = "Receiving Number")]
         [Required(ErrorMessage="Goods receiving number Can't be empty.")]
 

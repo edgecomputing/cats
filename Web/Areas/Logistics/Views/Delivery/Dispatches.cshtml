@@ -502,7 +502,7 @@
 
         $scope.loadGRNPartial = function(id) {
             var dispatchId = { "id": id };
-            $http.post('/Distribution/LoadGRN/', dispatchId).
+            $http.post('/Delivery/LoadGRN/', dispatchId).
                 success(function(data, status, headers, config) {
                     //alert(data["ReceivedBy"]);
                     $scope.GRNDetail = data;
@@ -516,25 +516,25 @@
         $scope.editGRN = function(id) {
             alert("ReceivedBy: " + $scope.GRNDetail.ReceivedBy);
             if ($scope.GRNDetail != null) {
-                $http.post('/Distribution/EditGRN/', $scope.GRNDetail).
+                $http.post('/Delivery/EditGRN/', $scope.GRNDetail).
                     success(function(data, status, headers, config) {
                         //alert(data["ReceivedBy"]);
                         $scope.GRNDetail = data;
                         $http({
                             method: 'GET',
-                            url: '/Distribution/GetGINsWithGRN/' + @ViewBag.TransportOrderId
+                            url: '/Delivery/GetGINsWithGRN/' + @ViewBag.TransportOrderId
                         }).success(function(result) {
                             $scope.GetGINsWithGRN = result;
                         });
                         $http({
                             method: 'GET',
-                            url: '/Distribution/GetGINsWithoutGRN/' + @ViewBag.TransportOrderId
+                            url: '/Delivery/GetGINsWithoutGRN/' + @ViewBag.TransportOrderId
                         }).success(function(result) {
                             $scope.GetGINsWithoutGRN = result;
                         });
                         $http({
                             method: 'GET',
-                            url: '/Distribution/ReadDeliveryNotesDiscripancy/' + @ViewBag.TransportOrderId
+                            url: '/Delivery/ReadDeliveryNotesDiscripancy/' + @ViewBag.TransportOrderId
                         }).success(function(result) {
                             $scope.DeliveryNotes = result;
                         });
@@ -549,7 +549,7 @@
 
         $http({
             method: 'GET',
-            url: '/Distribution/GetGINsWithGRN/' + @ViewBag.TransportOrderId
+            url: '/Delivery/GetGINsWithGRN/' + @ViewBag.TransportOrderId
 
         }).success(function (result) {
             $scope.GetGINsWithGRN = result;
@@ -558,7 +558,7 @@
 
         $http({
             method: 'GET',
-            url: '/Distribution/GetGINsWithoutGRN/' + @ViewBag.TransportOrderId
+            url: '/Delivery/GetGINsWithoutGRN/' + @ViewBag.TransportOrderId
 
         }).success(function (result) {
             $scope.GetGINsWithoutGRN = result;
@@ -566,7 +566,7 @@
 
         $http({
             method: 'GET',
-            url: '/Distribution/ReadDeliveryNotesDiscripancy/' + @ViewBag.TransportOrderId
+            url: '/Delivery/ReadDeliveryNotesDiscripancy/' + @ViewBag.TransportOrderId
 
         }).success(function (result) {
             $scope.DeliveryNotes = result;
@@ -596,7 +596,7 @@
         dispatchId[0] = id;
         $.ajax({
             type: "POST",
-            url: "/Distribution/LoadGRN/",
+            url: "/Delivery/LoadGRN/",
             contentType: "application/json; charset=utf-8",
             data: JSON.stringify(dispatchId),
             dataType: "json",

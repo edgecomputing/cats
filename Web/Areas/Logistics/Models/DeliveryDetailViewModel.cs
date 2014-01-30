@@ -6,16 +6,16 @@ using System.Web.Mvc;
 
 namespace Cats.Areas.Logistics.Models
 {
-    public class DistributionDetailViewModel
+    public class DeliveryDetailViewModel
     {
-        public System.Guid DistributionDetailID { get; set; }
+        public System.Guid DeliveryDetailID { get; set; }
         public int CommodityID { get; set; }
         public int UnitID { get; set; }
           
         public decimal SentQuantity { get; set; }
           [Remote("CheckDeliveredQuanity", "Dispatch", AdditionalFields = "SentQuantity")]
         public decimal ReceivedQuantity { get; set; }
-        public System.Guid DistributionID { get; set; }
+        public System.Guid DeliveryID { get; set; }
         public string Commodity { get; set; }
         public string Unit { get; set; }
     }

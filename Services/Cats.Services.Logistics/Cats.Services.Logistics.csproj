@@ -78,8 +78,8 @@
     <Compile Include="DistributionService.cs" />
     <Compile Include="UtilizationHeaderSerivce.cs" />
     <Compile Include="IUtilizationDetailSerivce.cs" />
-    <Compile Include="IDistributionDetailService.cs" />
-    <Compile Include="IDistributionService.cs" />
+    <Compile Include="IDeliveryDetailService.cs" />
+    <Compile Include="IDeliveryService.cs" />
     <Compile Include="IUtilizationHeaderSerivce.cs" />
     <Compile Include="SIPCAllocationService.cs" />
     <Compile Include="ISIPCAllocationService.cs" />

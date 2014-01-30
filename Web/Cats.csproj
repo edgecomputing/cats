@@ -479,8 +479,8 @@
     <Compile Include="Areas\Logistics\Models\ActionLink.cs" />
     <Compile Include="Areas\Logistics\Models\AssignHubViewModel.cs" />
     <Compile Include="Areas\Logistics\Models\DistributionByAgeDetailViewModel.cs" />
-    <Compile Include="Areas\Logistics\Models\DistributionDetailViewModel.cs" />
-    <Compile Include="Areas\Logistics\Models\DistributionViewModel.cs" />
+    <Compile Include="Areas\Logistics\Models\DeliveryDetailViewModel.cs" />
+    <Compile Include="Areas\Logistics\Models\DeliveryViewModel.cs" />
     <Compile Include="Areas\Logistics\Models\FreeStockStatusViewModel.cs" />
     <Compile Include="Areas\Logistics\Models\FreeStockSummaryModel.cs" />
     <Compile Include="Areas\Logistics\Models\GRNViewModel.cs" />
@@ -1613,13 +1613,13 @@
     <Content Include="Areas\Procurement\Views\TransportList\Index.cshtml" />
     <Content Include="Areas\Procurement\Views\TransportList\TransporterBidDetail.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Request\NewIdps.cshtml" />
-    <Content Include="Areas\Logistics\Views\Distribution\Index.cshtml" />
-    <Content Include="Areas\Logistics\Views\Distribution\Dispatches.cshtml" />
+    <Content Include="Areas\Logistics\Views\Delivery\Index.cshtml" />
+    <Content Include="Areas\Logistics\Views\Delivery\Dispatches.cshtml" />
     <Content Include="Areas\Procurement\Views\PaymentRequest\Index.cshtml" />
     <Content Include="Areas\Procurement\Views\Shared\_GenerateWinnersIgnitor.cshtml" />
-    <Content Include="Areas\Logistics\Views\Distribution\ReceiveGRN.cshtml" />
-    <Content Include="Areas\Logistics\Views\Distribution\EditGRN.cshtml" />
-    <Content Include="Areas\Logistics\Views\Distribution\ReceivingNote.cshtml" />
+    <Content Include="Areas\Logistics\Views\Delivery\ReceiveGRN.cshtml" />
+    <Content Include="Areas\Logistics\Views\Delivery\EditGRN.cshtml" />
+    <Content Include="Areas\Logistics\Views\Delivery\ReceivingNote.cshtml" />
     <Content Include="Areas\Procurement\Views\BidWinner\Index.cshtml" />
     <Content Include="Areas\Procurement\Views\BidWinner\Details.cshtml" />
     <Content Include="Areas\Procurement\Views\BidWinner\Edit.cshtml" />
@@ -1633,9 +1633,9 @@
     <Content Include="Areas\Procurement\Views\Bid\WoredasWithOutBidOffer.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Request\RegionalRequestsPieChart.cshtml" />
     <Content Include="Areas\Procurement\Views\Bid\WoredaWithOutBidOfferFilterParial.cshtml" />
-    <Content Include="Areas\Logistics\Views\Distribution\_DeliveryNotes.cshtml" />
+    <Content Include="Areas\Logistics\Views\Delivery\_DeliveryNotes.cshtml" />
     <Content Include="Areas\Procurement\Views\BidWinner\ListOfWinners.cshtml" />
-    <Content Include="Areas\Logistics\Views\Distribution\DiscripancyAction.cshtml" />
+    <Content Include="Areas\Logistics\Views\Delivery\DiscripancyAction.cshtml" />
     <Content Include="Areas\Procurement\Views\BidAdministration\Index.cshtml" />
     <Content Include="Areas\Procurement\Views\BidAdministration\LeftBar.cshtml" />
     <Content Include="Areas\Procurement\Views\BidAdministration\_WoredasWithoutOffer.cshtml" />
@@ -1649,7 +1649,7 @@
       <SubType>Code</SubType>
     </Content>
     <Content Include="Areas\Report\Views\Web.config" />
-    <Content Include="Areas\Logistics\Views\Distribution\DiscripancyAction.cshtml" />
+    <Content Include="Areas\Logistics\Views\Delivery\DiscripancyAction.cshtml" />
     <Content Include="Areas\Report\Views\ReportHome\Index.cshtml" />
     <Content Include="Content\themes\default\variables.less" />
     <Content Include="Areas\Procurement\Views\PriceQuotation\Winners.cshtml" />
