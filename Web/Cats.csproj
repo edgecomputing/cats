@@ -459,6 +459,7 @@
     <Compile Include="Areas\Hub\Controllers\UserWarehouseController.cs" />
     <Compile Include="Areas\Hub\Controllers\Utilities\TranslationController.cs" />
     <Compile Include="Areas\Hub\HubAreaRegistration.cs" />
+    <Compile Include="Areas\Hub\Models\CommodityTypeViewModel.cs" />
     <Compile Include="Areas\Localization\Controllers\LanguageController.cs" />
     <Compile Include="Areas\Localization\Controllers\TranslationController.cs" />
     <Compile Include="Areas\Localization\LocalizationAreaRegistration.cs" />
@@ -483,7 +484,11 @@
     <Compile Include="Areas\Logistics\Models\DistributionViewModel.cs" />
     <Compile Include="Areas\Logistics\Models\FreeStockStatusViewModel.cs" />
     <Compile Include="Areas\Logistics\Models\FreeStockSummaryModel.cs" />
+
     <Compile Include="Areas\Logistics\Models\ReceiptAllocationViewModel.cs" />
+
+    <Compile Include="Areas\Logistics\Models\GRNViewModel.cs" />
+
     <Compile Include="Areas\Logistics\Models\SIAllocation.cs" />
     <Compile Include="Areas\Logistics\Models\Hub.cs" />
     <Compile Include="Areas\EarlyWarning\Models\RequestDetailEdit.cs" />
@@ -1661,7 +1666,11 @@
     <Content Include="Areas\Logistics\Views\Utilization\Index.cshtml" />
     <Content Include="Areas\Logistics\Views\Utilization\_DistributionByAge.cshtml" />
     <Content Include="Areas\Logistics\Views\Utilization\_DistributionByBeneficiary.cshtml" />
+
     <Content Include="Areas\Logistics\Views\Donation\Index.cshtml" />
+
+    <Content Include="Areas\Logistics\Views\Utilization\Create.cshtml" />
+
     <None Include="dataset.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>dataset.Designer.cs</LastGenOutput>

@@ -80,10 +80,6 @@
     <Compile Include="Contact.cs" />
     <Compile Include="DistributionByAgeDetail.cs" />
     <Compile Include="Mapping\DistributionByAgeDetailMap.cs" />
-    <Compile Include="Mapping\ReceiveDetailMap.cs" />
-    <Compile Include="Mapping\ReceiveMap.cs" />
-    <Compile Include="Receive.cs" />
-    <Compile Include="ReceiveDetail.cs" />
     <Compile Include="UtilizationDetail.cs" />
     <Compile Include="Distribution.cs" />
     <Compile Include="DistributionDetail.cs" />

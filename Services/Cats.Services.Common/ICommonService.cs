@@ -53,6 +53,10 @@ namespace Cats.Services.Common
         List<FDP> GetFDPs(int woredaID);
         List<Plan> GetPlans();
         List<Commodity> GetRationCommodity(int id);
+        List<AdminUnit> FindBy(Expression<Func<AdminUnit, bool>> predicate);
+        List<AdminUnit> GetRegions();
+        List<AdminUnit> GetZones(int regionId);
+        List<AdminUnit> GetWoreda(int zoneId);
     }
 }
 

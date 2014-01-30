@@ -13,7 +13,7 @@ namespace Cats.Models
             //this.Commodity1 = new List<Commodity>();
            
             this.ReliefRequisitionDetails = new List<ReliefRequisitionDetail>();
-            this.ReceiveDetails = new List<ReceiveDetail>();
+          
             //this.TransportOrderDetails = new List<TransportOrderDetail>();
             //this.BidWinners=new List<BidWinner>();
             //this.RationDetails=new List<RationDetail>();
@@ -36,7 +36,7 @@ namespace Cats.Models
       
         public virtual CommodityType CommodityType { get; set; }
 
-        public virtual ICollection<ReceiveDetail> ReceiveDetails { get; set; }
+       
         public virtual ICollection<ReliefRequisitionDetail> ReliefRequisitionDetails { get; set; }
         public virtual ICollection<ReliefRequisition> ReliefRequisitions { get; set; }
         public virtual ICollection<TransportOrderDetail> TransportOrderDetails { get; set; }

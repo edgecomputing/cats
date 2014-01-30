@@ -39,8 +39,8 @@ namespace Cats.Models.Hubs
         public Nullable<System.Guid> ReceiptAllocationID { get; set; }
         public virtual CommoditySource CommoditySource { get; set; }
         public virtual CommodityType CommodityType { get; set; }
-        public virtual Donor Donor { get; set; }
-        public virtual Donor Donor1 { get; set; }
+        //public virtual Donor Donor { get; set; }
+        //public virtual Donor Donor1 { get; set; }
         public virtual Hub Hub { get; set; }
         public virtual ReceiptAllocation ReceiptAllocation { get; set; }
         public virtual Transporter Transporter { get; set; }

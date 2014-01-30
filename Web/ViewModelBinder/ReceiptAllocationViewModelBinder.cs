@@ -8,15 +8,18 @@ namespace Cats.ViewModelBinder
 {
     public class ReceiptAllocationViewModelBinder
     {
-        public static IEnumerable<ReceiptAllocationViewModel> BindReceiptAllocationViewModel(List<Cats.Models.ReceiptAllocation> receiptAllocations )
+        public static IEnumerable<ReceiptAllocationViewModel> BindReceiptAllocationViewModel(List<Cats.Models.Hubs.ReceiptAllocation> receiptAllocations )
         {
             return receiptAllocations.Select(s => new ReceiptAllocationViewModel()
                                                       {
                                                           QuantityInMT = s.QuantityInMT,
-                                                          QuantityInUnit = (decimal) s.QuantityInUnit,
                                                           ReceiptAllocationID = s.ReceiptAllocationID,
-                                                          ProjectNumber = s.ProjectNumber
-                                                          
+                                                          ProjectNumber = s.ProjectNumber,
+                                                          ReceivedQuantity = s.ReceivedQuantityInMT,
+                                                          AllocatedQuantity = s.QuantityInMT,
+                                                          Balance = s.RemainingBalanceInMt,
+                                                          CommodityName = s.Commodity.Name,
+                                                          SINumber = s.SINumber
                                                       });
         }
     }

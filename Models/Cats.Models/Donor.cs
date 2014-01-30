@@ -21,8 +21,7 @@ namespace Cats.Models
             this.Contributions = new List<Contribution>();
             this.HrdDonorCovarages = new List<HrdDonorCoverage>();
             this.ReceiptAllocations = new List<ReceiptAllocation>();
-            this.Receives = new List<Receive>();
-            this.Receives1 = new List<Receive>();
+           
            
         }
         public int DonorID { get; set; }
@@ -46,8 +45,7 @@ namespace Cats.Models
         public virtual ICollection<HrdDonorCoverage> HrdDonorCovarages { get; set; }
         public virtual ICollection<Distribution> Distributions { get; set; }
 
-        public virtual ICollection<Receive> Receives { get; set; }
-        public virtual ICollection<Receive> Receives1 { get; set; }
+     
         
     }
 }

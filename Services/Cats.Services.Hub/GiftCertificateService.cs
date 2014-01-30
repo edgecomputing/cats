@@ -6,7 +6,6 @@ using System.Data.Objects;
 using System.Linq;
 using System.Linq.Expressions;
 using Cats.Data.Hub;
-using Cats.Models;
 using Cats.Models.Hubs;
 
 
@@ -94,7 +93,7 @@ namespace Cats.Services.Hub
 
                 orginal.GiftDate = giftCertificateModel.GiftDate;
                 orginal.DonorID = giftCertificateModel.DonorID;
-                orginal.ShippingInstruction.Value = giftCertificateModel.ShippingInstruction.Value;
+                orginal.ShippingInstructionID = giftCertificateModel.ShippingInstructionID;
                 orginal.ReferenceNo = giftCertificateModel.ReferenceNo;
                 orginal.Vessel = giftCertificateModel.Vessel;
                 orginal.ETA = giftCertificateModel.ETA;
@@ -155,18 +154,9 @@ namespace Cats.Services.Hub
         /// </summary>
         /// <param name="SINumber">The SI number.</param>
         /// <returns></returns>
-        public GiftCertificate FindBySINumber(string j)
+        public GiftCertificate FindBySINumber(int SINumber)
         {
-            try
-            {
-                //refactored
-                return _unitOfWork.GiftCertificateRepository.Get(p => p.ShippingInstruction.Value == j).FirstOrDefault();
-            }
-            catch
-            {
-                return null;
-            }
-           
+            return _unitOfWork.GiftCertificateRepository.Get(p => p.ShippingInstructionID == SINumber).FirstOrDefault();
         }
 
 

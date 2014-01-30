@@ -9,12 +9,7 @@ namespace Cats.Models.Hubs.Mapping
         {
             // Primary Key
             this.HasKey(t => t.GiftCertificateID);
-
-            // Properties
-            //this.Property(t => t.SINumber)
-            //    .IsRequired()
-            //    .HasMaxLength(50);
-
+            
             this.Property(t => t.ReferenceNo)
                 .IsRequired()
                 .HasMaxLength(50);
@@ -49,6 +44,9 @@ namespace Cats.Models.Hubs.Mapping
             this.HasRequired(t => t.Program)
                 .WithMany(t => t.GiftCertificates)
                 .HasForeignKey(d => d.ProgramID);
+            this.HasRequired(t => t.ShippingInstruction)
+                .WithMany(t => t.GiftCertificates)
+                .HasForeignKey(d => d.ShippingInstructionID);
 
         }
     }

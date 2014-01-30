@@ -18,7 +18,7 @@ namespace Cats.Models
             //this.TransportOrderDetails = new List<TransportOrderDetail>();
            // this.HubOwner = new HubOwner();
             this.TransportBidQuotations = new List<TransportBidQuotation>();
-            this.Receives = new List<Receive>();
+           
         }
 
         public int HubID { get; set; }
@@ -41,6 +41,6 @@ namespace Cats.Models
         public virtual ICollection<Distribution> Distributions { get; set; }
 
         public virtual ICollection<WoredaHubLink> WoredaHubLinks { get; set; }
-        public virtual ICollection<Receive> Receives { get; set; }
+       
     }
 }

@@ -10,10 +10,11 @@
     .Name("grid")
     .Columns(columns =>
     {
+        columns.Bound(p => p.CommodityName).Title("Commodity");
         columns.Bound(p => p.SINumber).Width(100);
-        columns.Bound(p => p.ProjectNumber).Width(100);
-        columns.Bound(p => p.QuantityInMT);
-        columns.Bound(p => p.QuantityInUnit).Width(100);
+        columns.Bound(p => p.AllocatedQuantity).Title("Allocated");
+        columns.Bound(p => p.ReceivedQuantity).Title("Received");
+        columns.Bound(p => p.Balance).Title("Balance");
        
         columns.Command(command => { command.Edit(); command.Destroy(); }).Width(160);
     })

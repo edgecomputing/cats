@@ -5,13 +5,19 @@ using System.Web;
 using System.Web.Mvc;
 using Cats.Areas.Logistics.Models;
 using Cats.Models;
-using Cats.Services.EarlyWarning;
+using Cats.Services.Hub;
 using Cats.Services.Logistics;
 using Cats.Services.Security;
 using Cats.Services.Common;
 using Cats.ViewModelBinder;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
+using ICommodityService = Cats.Services.EarlyWarning.ICommodityService;
+using ICommodityTypeService = Cats.Services.EarlyWarning.ICommodityTypeService;
+using IDonorService = Cats.Services.EarlyWarning.IDonorService;
+using IGiftCertificateService = Cats.Services.EarlyWarning.IGiftCertificateService;
+using IHubService = Cats.Services.EarlyWarning.IHubService;
+using IProgramService = Cats.Services.EarlyWarning.IProgramService;
 
 namespace Cats.Areas.Logistics.Controllers
 {
@@ -21,23 +27,31 @@ namespace Cats.Areas.Logistics.Controllers
         // GET: /Logistics/Donation/
         private readonly IReceiptAllocationService _receiptAllocationService;
         private readonly IUserAccountService _userAccountService;
-        private readonly IGiftCertificateService _giftCertificateService;
-        private readonly ICommodityService _commodityService;
-        private readonly ICommodityTypeService _commodityTypeService;
-        private readonly IProgramService _programService;
-        private readonly IDonorService _donorService;
-        private readonly IHubService _hubService;
+        //private readonly IGiftCertificateService _giftCertificateService;
+        //private readonly ICommodityService _commodityService;
+        //private readonly ICommodityTypeService _commodityTypeService;
+        //private readonly IProgramService _programService;
+        //private readonly IDonorService _donorService;
+        //private readonly IHubService _hubService;
        
-        public DonationController(IReceiptAllocationService receiptAllocationService,IGiftCertificateService giftCertificateService, IUserAccountService userAccountService, ICommodityService commodityService, ICommodityTypeService commodityTypeService, IProgramService programService, IDonorService donorService, IHubService hubService)
+        public DonationController(IReceiptAllocationService receiptAllocationService,
+            
+            IUserAccountService userAccountService
+            //ICommodityService commodityService, 
+            //ICommodityTypeService commodityTypeService,
+            //IProgramService programService, 
+            //IDonorService donorService, 
+            //IHubService hubService)
+            )
         {
             _receiptAllocationService = receiptAllocationService;
-            _giftCertificateService = giftCertificateService;
+            //_giftCertificateService = giftCertificateService;
             _userAccountService = userAccountService;
-            _commodityService = commodityService;
-            _commodityTypeService = commodityTypeService;
-            _programService = programService;
-            _donorService = donorService;
-            _hubService = hubService;
+            //_commodityService = commodityService;
+            //_commodityTypeService = commodityTypeService;
+            //_programService = programService;
+            //_donorService = donorService;
+            //_hubService = hubService;
         }
 
         public ActionResult Index()
@@ -50,7 +64,7 @@ namespace Cats.Areas.Logistics.Controllers
             try
             {
                 var user = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name);
-                List<ReceiptAllocation> list = _receiptAllocationService.GetUnclosedAllocationsDetached(user.PreferedWeightMeasurment);
+                List<Cats.Models.Hubs.ReceiptAllocation> list = _receiptAllocationService.GetUnclosedAllocationsDetached(3,1,false,user.PreferedWeightMeasurment,1);
                 var receiptViewModel = ReceiptAllocationViewModelBinder.BindReceiptAllocationViewModel(list);
                 return Json(receiptViewModel.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
             }
@@ -104,20 +118,20 @@ namespace Cats.Areas.Logistics.Controllers
 
         //}
 
-        private ReceiptAllocationViewModel BindReceiptAllocaitonViewModel()
-        {
+        //private ReceiptAllocationViewModel BindReceiptAllocaitonViewModel()
+        //{
           
-            var commodities = _commodityService.GetAllCommodity().DefaultIfEmpty().OrderBy(o => o.Name).ToList();
-            var donors = _donorService.GetAllDonor().DefaultIfEmpty().OrderBy(o => o.Name).ToList();
-            var hubs = new List<Cats.Models.Hubs.Hub>();
+        //    var commodities = _commodityService.GetAllCommodity().DefaultIfEmpty().OrderBy(o => o.Name).ToList();
+        //    var donors = _donorService.GetAllDonor().DefaultIfEmpty().OrderBy(o => o.Name).ToList();
+        //    var hubs = new List<Cats.Models.Hubs.Hub>();
            
-            var programs = _programService.GetAllProgram().DefaultIfEmpty().OrderBy(o => o.Name).ToList();
+        //    var programs = _programService.GetAllProgram().DefaultIfEmpty().OrderBy(o => o.Name).ToList();
           
-            var commodityTypes = _commodityTypeService.GetAllCommodityType().DefaultIfEmpty().OrderBy(o => o.Name).ToList();
-            var viewModel = new ReceiptAllocationViewModel(commodities, donors, programs, commodityTypes);
+        //    var commodityTypes = _commodityTypeService.GetAllCommodityType().DefaultIfEmpty().OrderBy(o => o.Name).ToList();
+        //    var viewModel = new ReceiptAllocationViewModel(commodities, donors, programs, commodityTypes);
          
-            return viewModel;
-        }
+        //    return viewModel;
+        //}
 
     }
 }
