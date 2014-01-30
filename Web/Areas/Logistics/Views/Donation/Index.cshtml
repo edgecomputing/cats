@@ -3,23 +3,36 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
-
-<h2>Index</h2>
+@section Toolbar
+{
+    <a data-buttontype="btn_new_record"  id="btnAddDonationPlan" class="btn toolbar-btn " href="@Url.Action("AddNewDonationPlan", "Donation")"></a>
+}
+<fieldset>
+    
+        <legend>
+            Donation Plan
+        </legend>
+    
+</fieldset>
 
 @(Html.Kendo().Grid<Cats.Areas.Logistics.Models.ReceiptAllocationViewModel>()
     .Name("grid")
     .Columns(columns =>
     {
-        columns.Bound(p => p.CommodityName).Title("Commodity");
+        columns.Bound(p => p.CommodityName).Title("Commodity").Width(100);
+        columns.Bound(p => p.Hub).Title("Hub").Width(100);
         columns.Bound(p => p.SINumber).Width(100);
-        columns.Bound(p => p.AllocatedQuantity).Title("Allocated");
-        columns.Bound(p => p.ReceivedQuantity).Title("Received");
-        columns.Bound(p => p.Balance).Title("Balance");
-       
-        columns.Command(command => { command.Edit(); command.Destroy(); }).Width(160);
+        columns.Bound(p => p.AllocatedQuantity).Title("Allocated").Width(100);
+        columns.Bound(p => p.ReceivedQuantity).Title("Received").Width(100);
+        columns.Bound(p => p.Balance).Title("Balance").Width(100);
+
+        //columns.Command(command =>
+        //                    {
+        //                        command.Edit();
+        //                        command.Destroy();
+        //                    }).Width(160);
     })
-    .ToolBar(toolbar => toolbar.Create())
-    .ToolBar(toolbar=> toolbar.Save())
+    
     .Editable(editable => editable.Mode(GridEditMode.InCell))
     .Pageable()
     .Sortable()
@@ -51,3 +64,30 @@
         }
     }
 </script>
+
+<script type="text/javascript">
+    $(function () {
+
+        //Optional: turn the chache off
+        $.ajaxSetup({ cache: false });
+
+       
+
+        $('#btnAddDonationPlan').click(function () {
+
+            // alert("");
+            $('#dialogContent').load(this.href, function () {
+                $('#dialogDiv').modal({
+                    backdrop: 'static',
+                    keyboard: true
+                }, 'show');
+                //bindForm(this);
+            });
+            return false;
+        });
+    });
+</script>
+
+<div id='dialogDiv' class='modal hide fade in'>
+    <div id='dialogContent'></div>
+</div>

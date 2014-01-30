@@ -12,6 +12,7 @@ using Cats.Services.Common;
 using Cats.ViewModelBinder;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
+using CommonService = Cats.Services.Common.CommonService;
 using ICommodityService = Cats.Services.EarlyWarning.ICommodityService;
 using ICommodityTypeService = Cats.Services.EarlyWarning.ICommodityTypeService;
 using IDonorService = Cats.Services.EarlyWarning.IDonorService;
@@ -27,31 +28,36 @@ namespace Cats.Areas.Logistics.Controllers
         // GET: /Logistics/Donation/
         private readonly IReceiptAllocationService _receiptAllocationService;
         private readonly IUserAccountService _userAccountService;
-        //private readonly IGiftCertificateService _giftCertificateService;
-        //private readonly ICommodityService _commodityService;
-        //private readonly ICommodityTypeService _commodityTypeService;
-        //private readonly IProgramService _programService;
-        //private readonly IDonorService _donorService;
-        //private readonly IHubService _hubService;
+        private readonly IGiftCertificateService _giftCertificateService;
+        private readonly ICommodityService _commodityService;
+        private readonly ICommodityTypeService _commodityTypeService;
+        private readonly IProgramService _programService;
+        private readonly IDonorService _donorService;
+        private readonly IHubService _hubService;
+        private readonly Cats.Services.Common.CommonService _commonService;
+        private readonly IShippingInstructionService _shippingInstructionService;
+        private readonly IGiftCertificateDetailService _giftCertificateDetailService;
        
         public DonationController(IReceiptAllocationService receiptAllocationService,
-            
-            IUserAccountService userAccountService
-            //ICommodityService commodityService, 
-            //ICommodityTypeService commodityTypeService,
-            //IProgramService programService, 
-            //IDonorService donorService, 
-            //IHubService hubService)
-            )
+            IGiftCertificateService giftCertificateService,
+            IUserAccountService userAccountService,
+            ICommodityService commodityService, 
+            ICommodityTypeService commodityTypeService,
+            IProgramService programService, 
+            IDonorService donorService, 
+            IHubService hubService, CommonService commonService, IShippingInstructionService shippingInstructionService, IGiftCertificateDetailService giftCertificateDetailService)
         {
             _receiptAllocationService = receiptAllocationService;
-            //_giftCertificateService = giftCertificateService;
+            _giftCertificateService = giftCertificateService;
             _userAccountService = userAccountService;
-            //_commodityService = commodityService;
-            //_commodityTypeService = commodityTypeService;
-            //_programService = programService;
-            //_donorService = donorService;
-            //_hubService = hubService;
+            _commodityService = commodityService;
+            _commodityTypeService = commodityTypeService;
+            _programService = programService;
+            _donorService = donorService;
+            _hubService = hubService;
+            _commonService = commonService;
+            _shippingInstructionService = shippingInstructionService;
+            _giftCertificateDetailService = giftCertificateDetailService;
         }
 
         public ActionResult Index()
@@ -74,6 +80,76 @@ namespace Cats.Areas.Logistics.Controllers
 
             }
         }
+
+        public ActionResult AddNewDonationPlan()
+        {
+            PopulateLookup();
+            return PartialView("AddNewDonationPlan");
+        }
+
+        [HttpPost]
+        public ActionResult AddNewDonationPlan(Cats.Models.Hubs.ReceiptAllocationViewModel receiptAllocationViewModel)
+        {
+
+            ModelState.Remove("SourceHubID");
+            ModelState.Remove("SupplierName");
+            ModelState.Remove("PurchaseOrder");
+           
+
+            if (ModelState.IsValid)
+            {
+                Cats.Models.Hubs.ReceiptAllocation receiptAllocation = receiptAllocationViewModel.GenerateReceiptAllocation();
+                //for creation make the giftCetificate null if it's from 
+                if (receiptAllocationViewModel.GiftCertificateDetailID == 0 ||
+                    receiptAllocationViewModel.GiftCertificateDetailID == null
+                    )
+                {
+                    var shippingInstruction =_shippingInstructionService.FindBy(t => t.Value == receiptAllocationViewModel.SINumber).FirstOrDefault();
+                    var GC = new Cats.Models.GiftCertificate();
+                    if (shippingInstruction != null)
+                        GC = _giftCertificateService.FindBySINumber(shippingInstruction.Value);
+
+                    if (GC != null)
+                    {
+                        var gcd =GC.GiftCertificateDetails.FirstOrDefault(p => p.CommodityID == receiptAllocationViewModel.CommodityID);
+                        if (gcd != null) 
+                        {
+                            receiptAllocation.GiftCertificateDetailID = gcd.GiftCertificateDetailID;
+                        }
+                    }
+                    else
+                    {
+                        receiptAllocation.GiftCertificateDetailID = null;
+                    }
+                }
+               
+               
+
+                receiptAllocation.HubID = receiptAllocationViewModel.HubID;
+                receiptAllocation.CommoditySourceID =Cats.Models.Hubs.CommoditySource.Constants.DONATION;
+              
+                receiptAllocation.ReceiptAllocationID = Guid.NewGuid();
+                _receiptAllocationService.AddReceiptAllocation(receiptAllocation);
+
+                return RedirectToAction("Index");
+               
+                
+            }
+
+            return RedirectToAction("Index");
+
+        }
+        private void PopulateLookup()
+        {
+           ViewBag.RegionID = new SelectList(_commonService.GetAminUnits(t => t.AdminUnitTypeID == 2), "AdminUnitID","Name");
+           ViewBag.ProgramId = new SelectList(_commonService.GetPrograms().Take(2), "ProgramID", "Name");
+           ViewBag.DonorID = new SelectList(_commonService.GetDonors(), "DonorId", "Name");
+           ViewBag.HubID = new SelectList(_hubService.GetAllHub(), "HubID", "Name");
+           ViewBag.CommodityTypeID = new SelectList(_commodityTypeService.GetAllCommodityType(), "CommodityTypeID", "Name");
+           ViewBag.CommodityID = new SelectList(_commodityService.GetAllCommodity(), "CommodityID", "Name");
+
+        }
+
         //public ActionResult LoadBySi(string siNumber, int? type)
         //{
          

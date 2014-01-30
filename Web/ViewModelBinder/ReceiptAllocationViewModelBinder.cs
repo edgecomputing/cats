@@ -19,7 +19,8 @@ namespace Cats.ViewModelBinder
                                                           AllocatedQuantity = s.QuantityInMT,
                                                           Balance = s.RemainingBalanceInMt,
                                                           CommodityName = s.Commodity.Name,
-                                                          SINumber = s.SINumber
+                                                          SINumber = s.SINumber,
+                                                          Hub = s.Hub.Name
                                                       });
         }
     }

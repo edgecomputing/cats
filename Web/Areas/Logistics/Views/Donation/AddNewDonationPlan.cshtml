@@ -1,0 +1,169 @@
+﻿
+@using LanguageHelpers.Localization
+@model Cats.Models.Hubs.ReceiptAllocationViewModel
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="myModalLabel">@Translator.Translate("Add New Donation Plan")</h3>
+</div>
+
+@using (Html.BeginForm("AddNewDonationPlan", "Donation", FormMethod.Post, new { @class = "modal-form" }))
+{
+  
+    <div class="modal-body">
+        
+        <div class="form-horizontal">
+            
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.SINumber, @Translator.Translate("SI / Batch Number")) <span class="required">*</span>
+                </div>
+                <div class="controls" id="SI">
+                    @Html.TextBoxFor(model => model.SINumber)
+                    @Html.ValidationMessageFor(model => model.SINumber)
+                </div>
+            </div>
+            
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.ETA, @Translator.Translate("ETA")) <span class="required">*</span>
+                </div>
+                <div class="controls" id="ETA">
+                    @(Html.EditorFor(model => model.ETA))
+                    @Html.ValidationMessageFor(model => model.ETA)
+                </div>
+            </div>
+
+        </div>
+        <div class="form-horizontal">
+            @*<div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.OtherDocumentationRef, @Translator.Translate("Memo Reference"))
+                </div>
+                <div class="controls" id="memo">
+                   
+                </div>
+            </div>*@
+            
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.HubID, @Translator.Translate("Hub")) <span class="required">*</span>
+                </div>
+                <div class="controls" id="Source Hub">
+                    @(Html.DropDownList("HubID",string.Empty))
+                   
+                </div>
+            </div>
+
+        </div>
+         
+        <div class="form-horizontal">
+            
+            
+            <div class="control-group">
+                <div class="control-label">
+                   @Html.LabelFor(model => model.DonorID, @Translator.Translate("Donor")) <span class="required">*</span>
+                </div>
+                <div class="controls" id="Donor">
+                    @(Html.DropDownList("DonorID",string.Empty))
+                </div>
+            </div>
+
+        </div>
+        <div class="form-horizontal">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.CommodityTypeID, @Translator.Translate("Commodity Type")) <span class="required">
+                                                                                                           *</span>
+                </div>
+                <div class="controls" id="CommodityType">
+                    @(Html.DropDownList("CommodityTypeID",string.Empty))
+                </div>
+            </div>
+            
+            <div class="control-group">
+                <div class="control-label">
+                   @Html.LabelFor(model => model.CommodityID, @Translator.Translate("Commodity")) <span class="required">*</span>
+                </div>
+                <div class="controls" id="Commodity">
+                    @(Html.DropDownList("CommodityID",string.Empty))
+                </div>
+            </div>
+
+        </div>
+        <div class="form-horizontal">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.ProgramID, @Translator.Translate("Program")) <span class="required">*</span>
+                </div>
+                <div class="controls" id="program">
+                    @(Html.DropDownList("ProgramID",string.Empty))
+                </div>
+            </div>
+            
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.QuantityInMT, @Translator.Translate("Quantity In MT"))
+                    <span class="required">
+                        *</span>
+                </div>
+                <div class="controls" id="QuantityInMT">
+                    @Html.EditorFor(model => model.QuantityInMT,new {})
+                @Html.ValidationMessageFor(model => model.QuantityInMT)
+                </div>
+            </div>
+
+        </div>
+        
+        <div class="form-horizontal">
+            <div class="control-group">
+                <div class="control-label">
+                   @Html.LabelFor(model => model.QuantityInUnit, "Quantity In Unit") <span class="required">*</span>
+                </div>
+                <div class="controls" id="QuantityInUnit">
+                   @Html.TextBoxFor(model => model.QuantityInUnit)
+                </div>
+            </div>
+            
+            <div class="control-group">
+                <div class="control-label">
+                   @Html.LabelFor(model => model.Remark, @Translator.Translate("Remark"))
+                </div>
+                <div class="controls" id="Remark">
+                   @Html.EditorFor(model => model.Remark)
+                @Html.ValidationMessageFor(model => model.Remark)
+                </div>
+            </div>
+
+        </div>
+        
+        <div class="form-horizontal">
+            <div class="control-group">
+                <div class="control-label">
+                   @Html.LabelFor(model => model.ProjectNumber, @Translator.Translate("Project Code")) <span class="required">*</span>
+                </div>
+                <div class="controls" id="ProjectNumber">
+                   @Html.TextBoxFor(model => model.ProjectNumber)
+                    @Html.ValidationMessageFor(model => model.ProjectNumber)
+                </div>
+            </div>
+            
+           
+
+        </div>
+        
+
+
+    </div>
+     
+                   
+    
+               
+                   
+    
+                
+
+    <div class="modal-footer"> <button class="btn btn-primary" type="submit">Save</button>
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+    </div>
+
+}
