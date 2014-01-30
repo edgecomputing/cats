@@ -68,7 +68,15 @@ namespace Cats.Services.Logistics
            
        }
 
-
+       public List<DistributionByAgeDetail> GetDistributionDetail(int distributionHeaderID)
+       {
+           var distributionDetail = _unitOfWork.DistributionByAgeDetailRepository.FindBy(m => m.DistributionHeaderID == distributionHeaderID);
+           if (distributionDetail!=null)
+           {
+               return distributionDetail;
+           }
+           return null;
+       }
        public DistributionByAgeDetail GetDistributionDetail(int requisitionID, int fdpID)
        {
            var distributionDetail = _unitOfWork.DistributionByAgeDetailRepository.FindBy(m => m.UtilizationHeader.RequisitionId == requisitionID && m.FDPID == fdpID).FirstOrDefault();

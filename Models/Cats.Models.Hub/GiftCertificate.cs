@@ -14,7 +14,7 @@ namespace Cats.Models.Hubs
         public int GiftCertificateID { get; set; }
         public System.DateTime GiftDate { get; set; }
         public int DonorID { get; set; }
-        public string SINumber { get; set; }
+        public int ShippingInstructionID { get; set; }
         public string ReferenceNo { get; set; }
         public string Vessel { get; set; }
         public System.DateTime ETA { get; set; }
@@ -25,6 +25,7 @@ namespace Cats.Models.Hubs
         public virtual Detail Detail { get; set; }
         public virtual Donor Donor { get; set; }
         public virtual Program Program { get; set; }
+        public virtual ShippingInstruction ShippingInstruction { get; set; }
         public virtual ICollection<GiftCertificateDetail> GiftCertificateDetails { get; set; }
     }
 }

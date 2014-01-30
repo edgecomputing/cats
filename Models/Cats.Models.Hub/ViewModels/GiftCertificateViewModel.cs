@@ -52,7 +52,7 @@ namespace Cats.Models.Hubs
         [Remote("NotUnique", "GiftCertificate", AdditionalFields = "GiftCertificateID")]
         [StringLength(50)]
         //[Key]
-        public String SINumber { get; set; }
+        public int ShippingInstructionID { get; set; }
 
         /// <summary>
         /// Gets or sets the reference no.
@@ -179,7 +179,7 @@ namespace Cats.Models.Hubs
             giftCertificateViewModel.GiftCertificateID = GiftCertificateModel.GiftCertificateID;
             giftCertificateViewModel.GiftDate = GiftCertificateModel.GiftDate;
             giftCertificateViewModel.DonorID = GiftCertificateModel.DonorID;
-            giftCertificateViewModel.SINumber = GiftCertificateModel.SINumber;
+            giftCertificateViewModel.ShippingInstructionID = GiftCertificateModel.ShippingInstructionID;
             giftCertificateViewModel.ReferenceNo = GiftCertificateModel.ReferenceNo;
             giftCertificateViewModel.Vessel = GiftCertificateModel.Vessel;
             giftCertificateViewModel.ETA = GiftCertificateModel.ETA;
@@ -210,7 +210,7 @@ namespace Cats.Models.Hubs
                                                   {
                                                       GiftCertificateID = this.GiftCertificateID,
                                                       GiftDate = this.GiftDate,
-                                                      SINumber = this.SINumber,
+                                                      ShippingInstructionID = this.ShippingInstructionID,
                                                       DonorID = this.DonorID,
                                                       ReferenceNo = this.ReferenceNo,
                                                       Vessel = this.Vessel,

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using Cats.Data.UnitWork;
 using Cats.Models;
@@ -116,6 +117,22 @@ namespace Cats.Services.Common
                                     Name = detail.Commodity.Name
                                 }).ToList();
            return commodity;
+       }
+       public List<AdminUnit> FindBy(Expression<Func<AdminUnit, bool>> predicate)
+       {
+           return _unitOfWork.AdminUnitRepository.FindBy(predicate);
+       }
+       public List<AdminUnit> GetRegions()
+       {
+           return _unitOfWork.AdminUnitRepository.Get(t => t.AdminUnitTypeID == 2).ToList();
+       }
+       public List<AdminUnit> GetZones(int regionId)
+       {
+           return _unitOfWork.AdminUnitRepository.Get(t => t.ParentID == regionId).ToList();
+       }
+       public List<AdminUnit> GetWoreda(int zoneId)
+       {
+           return _unitOfWork.AdminUnitRepository.Get(t => t.ParentID == zoneId).ToList();
        }
     }
 }

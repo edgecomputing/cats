@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using Cats.Areas.Procurement.Models;
 using Cats.Models.Constant;
 using Cats.Models.Security;
 using Cats.Services.Administration;
@@ -25,12 +26,12 @@ using Cats.Models.Hubs;
 
 namespace Cats.Tests.ControllersTests
 {
-   public class DistributionControllerTest
+    public class DistributionControllerTest
     {
         #region Setup
 
-       private DistributionController _distributionController;
-      
+        private DistributionController _distributionController;
+
         [SetUp]
         public void Init()
         {
@@ -42,6 +43,27 @@ namespace Cats.Tests.ControllersTests
             var distributionDetailService = new Mock<IDistributionDetailService>();
             var notificationService = new Mock<INotificationService>();
             var userAccountService = new Mock<IUserAccountService>();
+            var commodityService = new Mock<Cats.Services.EarlyWarning.ICommodityService>();
+            var unitService = new Mock<Cats.Services.EarlyWarning.IUnitService>();
+            var commodities = new List<Cats.Models.Commodity>()
+                                      {
+                                          new Cats.Models.Commodity()
+                                              {
+                                                  CommodityID = 1,
+                                                  CommodityTypeID = 1,
+                                                  Name = "commodity1",
+                                              }
+                                      };
+            commodityService.Setup(t => t.GetAllCommodity()).Returns(commodities);
+            var units = new List<Cats.Models.Unit>()
+                                      {
+                                          new Cats.Models.Unit()
+                                              {
+                                                  UnitID = 1,
+                                                  Name = "unit1"
+                                              }
+                                      };
+            unitService.Setup(t => t.GetAllUnit()).Returns(units);
             var transportOrders = new List<TransportOrder>()
                                       {
                                           new TransportOrder()
@@ -120,7 +142,7 @@ namespace Cats.Tests.ControllersTests
                                                           
                                             }
                                     };
-            var user = new UserInfo() {UserProfileID = 1, DatePreference = "GC"};
+            var user = new UserInfo() { UserProfileID = 1, DatePreference = "GC" };
             transportOrderService.Setup(
                 t =>
                 t.Get(It.IsAny<Expression<Func<TransportOrder, bool>>>(),
@@ -133,12 +155,12 @@ namespace Cats.Tests.ControllersTests
             userAccountService.Setup(t => t.GetUserInfo(It.IsAny<string>())).Returns(user);
 
 
-                                                                                           
+
             var fakeContext = new Mock<HttpContextBase>();
             var identity = new GenericIdentity("User");
-            var principal = new GenericPrincipal(identity,null);
+            var principal = new GenericPrincipal(identity, null);
             fakeContext.Setup(t => t.User).Returns(principal);
-            
+
             var controllerContext = new Mock<ControllerContext>();
             controllerContext.Setup(t => t.HttpContext).Returns(fakeContext.Object);
 
@@ -147,10 +169,10 @@ namespace Cats.Tests.ControllersTests
                 {
                     new ActionTypes() {ActionId = 1, Name = "ActionName", Description = "ActionDescription"}
                 });
-            
-            
-            
-            _distributionController=
+
+
+
+            _distributionController =
                new DistributionController(
                    transportOrderService.Object,
                    workflowStatusService.Object,
@@ -158,8 +180,8 @@ namespace Cats.Tests.ControllersTests
                    distributionService.Object,
                    dispatchService.Object,
                    distributionDetailService.Object,
-                   notificationService.Object,actionTypesService.Object,
-                   userAccountService.Object
+                   notificationService.Object, actionTypesService.Object,
+                   userAccountService.Object,commodityService.Object,unitService.Object
                );
             _distributionController.ControllerContext = controllerContext.Object;
 
@@ -168,20 +190,20 @@ namespace Cats.Tests.ControllersTests
         [TearDown]
         public void Dispose()
         {
-           _distributionController.Dispose();
+            _distributionController.Dispose();
         }
         #endregion
 
         #region Tests
-       
-     [Test]
-       public void CanShowDispatchForTransportOrder()
-     {
-         var transportOrderId = 1;
-         var result =(ViewResult) _distributionController.Dispatches(transportOrderId);
-         Assert.IsInstanceOf<TransportOrderDispatchViewModel>(result.Model);
-     }
-       
+
+        [Test]
+        public void CanShowDispatchForTransportOrder()
+        {
+            var transportOrderId = 1;
+            var result = (ViewResult)_distributionController.Dispatches(transportOrderId);
+            Assert.IsInstanceOf<TransportOrderViewModel>(result.Model);
+        }
+
         #endregion
     }
 }

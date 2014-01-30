@@ -43,7 +43,7 @@ namespace Cats.Services.Hub
         /// </summary>
         /// <param name="SInumber">The S inumber.</param>
         /// <returns></returns>
-        GiftCertificate FindBySINumber(string SInumber);
+        GiftCertificate FindBySINumber(int SInumber);
         /// <summary>
         /// Gets the SI balances.
         /// </summary>
