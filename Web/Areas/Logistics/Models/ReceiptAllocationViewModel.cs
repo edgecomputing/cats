@@ -111,7 +111,12 @@ namespace Cats.Areas.Logistics.Models
             InitalizeViewModel(commodities, donors, programs, commodityTypes);
         }
 
-       
+        public ReceiptAllocationViewModel()
+        {
+            ;
+        }
+
+
         public void InitalizeViewModel(List<Commodity> commodities, List<Donor> donors, List<Program> programs, List<CommodityType> commodityTypes)
         {
             Commodities = commodities;

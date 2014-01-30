@@ -9,6 +9,10 @@ using Cats.Services.EarlyWarning;
 using Cats.Services.Logistics;
 using Cats.Services.Security;
 using Cats.Services.Common;
+using Cats.ViewModelBinder;
+using Kendo.Mvc.Extensions;
+using Kendo.Mvc.UI;
+
 namespace Cats.Areas.Logistics.Controllers
 {
     public class DonationController : Controller
@@ -41,63 +45,64 @@ namespace Cats.Areas.Logistics.Controllers
             return View();
         }
 
-        public ActionResult ReadReceiptAllocation()
+        public ActionResult ReadReceiptAllocation([DataSourceRequest] DataSourceRequest request)
         {
             try
             {
                 var user = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name);
-                List<ReceiptAllocation> list = _receiptAllocationService.GetUnclosedAllocationsDetached(user.DefaultHub.HubID, type, closedToo, user.PreferedWeightMeasurment, CommodityType);
-               
+                List<ReceiptAllocation> list = _receiptAllocationService.GetUnclosedAllocationsDetached(user.PreferedWeightMeasurment);
+                var receiptViewModel = ReceiptAllocationViewModelBinder.BindReceiptAllocationViewModel(list);
+                return Json(receiptViewModel.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
-                return View();
+                return null;
 
             }
         }
-        public ActionResult LoadBySi(string siNumber, int? type)
-        {
+        //public ActionResult LoadBySi(string siNumber, int? type)
+        //{
          
-            var user = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name);
+        //    var user = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name);
 
-            if (siNumber != null)
-            {
-                var receiptAllocationViewModel = BindReceiptAllocaitonViewModel(); ;
-                var gc = _giftCertificateService.FindBySINumber(siNumber);
-                if (gc != null && type == Cats.Models.Constant.CommoditySourceConst.Constants.DONATION)
-                {
-                    receiptAllocationViewModel.Commodities.Clear();
-                    receiptAllocationViewModel.Donors.Clear();
-                    receiptAllocationViewModel.Programs.Clear();
+        //    if (siNumber != null)
+        //    {
+        //        var receiptAllocationViewModel = BindReceiptAllocaitonViewModel(); ;
+        //        var gc = _giftCertificateService.FindBySINumber(siNumber);
+        //        if (gc != null && type == Cats.Models.Constant.CommoditySourceConst.Constants.DONATION)
+        //        {
+        //            receiptAllocationViewModel.Commodities.Clear();
+        //            receiptAllocationViewModel.Donors.Clear();
+        //            receiptAllocationViewModel.Programs.Clear();
 
                     
-                    foreach (var giftCertificateDetail in gc.GiftCertificateDetails)
-                    {
-                        receiptAllocationViewModel.Commodities.Add(giftCertificateDetail.Commodity);
-                    }
+        //            foreach (var giftCertificateDetail in gc.GiftCertificateDetails)
+        //            {
+        //                receiptAllocationViewModel.Commodities.Add(giftCertificateDetail.Commodity);
+        //            }
                    
-                    receiptAllocationViewModel.Donors.Add(gc.Donor);
-                    receiptAllocationViewModel.DonorID = gc.DonorID;
-                    receiptAllocationViewModel.Programs.Add(gc.Program);
-                    receiptAllocationViewModel.ProgramID = gc.ProgramID;
-                    receiptAllocationViewModel.CommoditySources.Clear();
-                   receiptAllocationViewModel.CommoditySourceID = Cats.Models.Constant.CommoditySourceConst.Constants.DONATION;
+        //            receiptAllocationViewModel.Donors.Add(gc.Donor);
+        //            receiptAllocationViewModel.DonorID = gc.DonorID;
+        //            receiptAllocationViewModel.Programs.Add(gc.Program);
+        //            receiptAllocationViewModel.ProgramID = gc.ProgramID;
+        //            receiptAllocationViewModel.CommoditySources.Clear();
+        //           receiptAllocationViewModel.CommoditySourceID = Cats.Models.Constant.CommoditySourceConst.Constants.DONATION;
                  
 
                    
 
-                    receiptAllocationViewModel.ETA = gc.ETA;
-                    receiptAllocationViewModel.SINumber = siNumber;
+        //            receiptAllocationViewModel.ETA = gc.ETA;
+        //            receiptAllocationViewModel.SINumber = siNumber;
 
-                }
+        //        }
                
-            }
+        //    }
 
 
            
-            return PartialView("Create", receiptAllocationViewModel);
+        //    return PartialView("Create", receiptAllocationViewModel);
 
-        }
+        //}
 
         private ReceiptAllocationViewModel BindReceiptAllocaitonViewModel()
         {

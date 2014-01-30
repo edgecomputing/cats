@@ -137,8 +137,7 @@ namespace Cats.Data
         public DbSet<UtilizationHeader> HeaderDistributions { get; set; }
         public DbSet<UtilizationDetail> DetailDistributions { get; set; }
         public DbSet<DistributionByAgeDetail> DistributionByAgeDetails { get; set; }
-
-
+       
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -261,6 +260,7 @@ namespace Cats.Data
 
             modelBuilder.Configurations.Add(new DistributionByAgeDetailMap());
 
+         
         }
 
     }

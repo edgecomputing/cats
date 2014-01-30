@@ -15,6 +15,7 @@ namespace Cats.Models
             this.ExperienceFrom = dt;
             this.ExperienceTo = dt;
             this.TransportBidQuotationHeaders = new List<TransportBidQuotationHeader>();
+            this.Receives = new List<Receive>();
         }
      
         [Key]
@@ -61,6 +62,7 @@ namespace Cats.Models
         public virtual ICollection<TransporterAgreementVersion> TransporterAgreementVersions { get; set; }
         public virtual ICollection<TransportBidQuotationHeader> TransportBidQuotationHeaders { get; set; }
         //public  List<AdminUnit> Regions { get; set; }
+        public virtual ICollection<Receive> Receives { get; set; }
 
         
     }

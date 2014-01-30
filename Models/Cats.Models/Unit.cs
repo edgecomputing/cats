@@ -12,6 +12,7 @@ namespace Cats.Models
             this.ReceiptAllocations = new List<ReceiptAllocation>();
             this.RegionalPSNPPledges = new List<RegionalPSNPPledge>();
             this.Transactions = new List<Transaction>();
+            this.ReceiveDetails = new List<ReceiveDetail>();
         }
 
         public int UnitID { get; set; }
@@ -21,5 +22,6 @@ namespace Cats.Models
         public virtual ICollection<Transaction> Transactions { get; set; }
         public ICollection<RationDetail> RationDetails { get; set; }
         public virtual ICollection<DistributionDetail> DistributionDetails { get; set; }
+        public virtual ICollection<ReceiveDetail> ReceiveDetails { get; set; }
     }
 }

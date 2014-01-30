@@ -6,18 +6,20 @@
 
 <h2>Index</h2>
 
-@(Html.Kendo().Grid<Cats.Models.ReceiptAllocation>()
+@(Html.Kendo().Grid<Cats.Areas.Logistics.Models.ReceiptAllocationViewModel>()
     .Name("grid")
     .Columns(columns =>
     {
-        columns.Bound(p => p.ProductName);
-        columns.Bound(p => p.UnitPrice).Width(100);
-        columns.Bound(p => p.UnitsInStock).Width(100);
-        columns.Bound(p => p.Discontinued).Width(100);
+        columns.Bound(p => p.SINumber).Width(100);
+        columns.Bound(p => p.ProjectNumber).Width(100);
+        columns.Bound(p => p.QuantityInMT);
+        columns.Bound(p => p.QuantityInUnit).Width(100);
+       
         columns.Command(command => { command.Edit(); command.Destroy(); }).Width(160);
     })
     .ToolBar(toolbar => toolbar.Create())
-    .Editable(editable => editable.Mode(GridEditMode.PopUp))
+    .ToolBar(toolbar=> toolbar.Save())
+    .Editable(editable => editable.Mode(GridEditMode.InCell))
     .Pageable()
     .Sortable()
     .Scrollable()
@@ -26,9 +28,9 @@
         .Ajax()
         .PageSize(20)
         .Events(events => events.Error("error_handler"))
-        .Model(model => model.Id(p => p.ProductID))
+        .Model(model => model.Id(p => p.ReceiptAllocationID))
         .Create(update => update.Action("EditingInline_Create", "Grid"))
-        .Read(read => read.Action("EditingInline_Read", "Grid"))
+        .Read(read => read.Action("ReadReceiptAllocation", "Donation"))
         .Update(update => update.Action("EditingInline_Update", "Grid"))
         .Destroy(update => update.Action("EditingInline_Destroy", "Grid"))
     )
