@@ -3,14 +3,14 @@ using System.Collections.Generic;
 
 namespace Cats.Models
 {
-    public partial class Distribution
+    public partial class Delivery
     {
-        public Distribution()
+        public Delivery()
         {
-            this.DistributionDetails = new List<DistributionDetail>();
+            this.DeliveryDetails = new List<DeliveryDetail>();
         }
 
-        public System.Guid DistributionID { get; set; }
+        public System.Guid DeliveryID { get; set; }
         public string ReceivingNumber { get; set; }
         public Nullable<int> DonorID { get; set; }
         public int TransporterID { get; set; }
@@ -35,6 +35,7 @@ namespace Cats.Models
         public int? Status { get; set; }
         public int? ActionType { get; set; }
         public string ActionTypeRemark { get; set; }
-        public virtual ICollection<DistributionDetail> DistributionDetails { get; set; }
+        public Nullable<Guid> TransactionGroupID { get; set; }
+        public virtual ICollection<DeliveryDetail> DeliveryDetails { get; set; }
     }
 }

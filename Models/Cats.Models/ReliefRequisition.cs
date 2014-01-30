@@ -31,7 +31,7 @@ namespace Cats.Models
         public Nullable<int> ApprovedBy { get; set; }
         public Nullable<System.DateTime> ApprovedDate { get; set; }
         public Nullable<int> Status { get; set; }
-        public Nullable<int> ProgramID { get; set; }
+        public int ProgramID { get; set; }
         public Nullable<int> RegionalRequestID { get; set; }
         public virtual AdminUnit AdminUnit { get; set; }
         public virtual AdminUnit AdminUnit1 { get; set; }

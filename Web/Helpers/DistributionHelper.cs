@@ -31,10 +31,10 @@ namespace Cats.Helpers
         {
             try
             {
-                var _distributionDetailService = (IDistributionDetailService)DependencyResolver.Current.GetService(typeof(IDistributionDetailService)); 
+                var _distributionDetailService = (IDeliveryDetailService)DependencyResolver.Current.GetService(typeof(IDeliveryDetailService)); 
                 var receivedAtFdp =
                _distributionDetailService.FindBy(
-                   r => r.Distribution.RequisitionNo == requisitionNo && r.Distribution.FDPID == fdpId).Sum(
+                   r => r.Delivery.RequisitionNo == requisitionNo && r.Delivery.FDPID == fdpId).Sum(
                        r => r.ReceivedQuantity);
 
                 return receivedAtFdp;

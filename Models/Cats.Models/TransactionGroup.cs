@@ -24,5 +24,6 @@ namespace Cats.Models
         public virtual ICollection<InternalMovement> InternalMovements { get; set; }
         //public virtual ICollection<ReceiveDetail> ReceiveDetails { get; set; }
         public virtual ICollection<Transaction> Transactions { get; set; }
+        public virtual ICollection<DispatchDetail> DispatchDetails { get; set; }
     }
 }

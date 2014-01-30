@@ -3,12 +3,12 @@ using System.Data.Entity.ModelConfiguration;
 
 namespace Cats.Models.Mapping
 {
-    public class DistributionMap : EntityTypeConfiguration<Distribution>
+    public class DeliveryMap : EntityTypeConfiguration<Delivery>
     {
-        public DistributionMap()
+        public DeliveryMap()
         {
             // Primary Key
-            this.HasKey(t => t.DistributionID);
+            this.HasKey(t => t.DeliveryID);
 
             // Properties
             this.Property(t => t.PlateNoPrimary)
@@ -35,8 +35,8 @@ namespace Cats.Models.Mapping
                 .HasMaxLength(100);
 
             // Table & Column Mappings
-            this.ToTable("Distribution");
-            this.Property(t => t.DistributionID).HasColumnName("DistributionID");
+            this.ToTable("Delivery");
+            this.Property(t => t.DeliveryID).HasColumnName("DeliveryID");
             this.Property(t => t.ReceivingNumber).HasColumnName("ReceivingNumber");
             this.Property(t => t.DonorID).HasColumnName("DonorID");
             this.Property(t => t.TransporterID).HasColumnName("TransporterID");
@@ -55,16 +55,16 @@ namespace Cats.Models.Mapping
             this.Property(t => t.ReceivedDate).HasColumnName("ReceivedDate");
             this.Property(t => t.DocumentReceivedDate).HasColumnName("DocumentReceivedDate");
             this.Property(t => t.DocumentReceivedBy).HasColumnName("DocumentReceivedBy");
-
+            this.Property(t => t.TransactionGroupID).HasColumnName("TransactionGroupID");
             // Relationships
             this.HasOptional(t => t.Donor)
-                .WithMany(t => t.Distributions)
+                .WithMany(t => t.Deliveries)
                 .HasForeignKey(d => d.DonorID);
             this.HasRequired(t => t.FDP)
-                .WithMany(t => t.Distributions)
+                .WithMany(t => t.Deliveries)
                 .HasForeignKey(d => d.FDPID);
             this.HasOptional(t => t.Hub)
-                .WithMany(t => t.Distributions)
+                .WithMany(t => t.Deliveries)
                 .HasForeignKey(d => d.HubID);
 
         }

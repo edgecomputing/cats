@@ -96,7 +96,7 @@ namespace Cats.Services.Logistics
                 
                 if (anyReliefRequisition.ProgramID != null)
                 {
-                    program = _unitOfWork.ProgramRepository.FindById(anyReliefRequisition.ProgramID.Value);
+                    program = _unitOfWork.ProgramRepository.FindById(anyReliefRequisition.ProgramID);
                 }
                 
                 var transportRequisition = new TransportRequisition()

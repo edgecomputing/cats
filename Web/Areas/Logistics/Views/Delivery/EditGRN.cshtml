@@ -1,4 +1,4 @@
-﻿@model Cats.Areas.Logistics.Models.DistributionViewModel
+﻿@model Cats.Areas.Logistics.Models.DeliveryViewModel
 @using Cats.Areas.Logistics.Models
 @using Cats.Models
 @using Kendo.Mvc.UI
@@ -15,10 +15,10 @@
 }
 
 <div class="page-header">@Translator.Translate("Register Transport Goods Receiving Note")</div>
-@using (Html.BeginForm("EditGRN", "Distribution", new { Area = "Logistics" }, FormMethod.Post, new { id = "frmCreate" }))
+@using (Html.BeginForm("EditGRN", "Delivery", new { Area = "Logistics" }, FormMethod.Post, new { id = "frmCreate" }))
 {
 
-    @Html.HiddenFor(model => model.DistributionID)
+    @Html.HiddenFor(model => model.DeliveryID)
     @Html.HiddenFor(model => model.DispatchID)
     @Html.HiddenFor(model => model.HubID)
     @Html.HiddenFor(model => model.FDPID)
@@ -185,7 +185,7 @@
     </div>
 
 }
-@(Html.Kendo().Grid<DistributionDetailViewModel>()
+@(Html.Kendo().Grid<DeliveryDetailViewModel>()
            .Name("grid")
            .ToolBar(commands => commands.Save())
            .Editable(editing => editing.Mode(GridEditMode.InCell))
@@ -203,11 +203,11 @@
                    }).Events(es=>es.DataBound("onDataBound"))
            .DataSource(binding => binding.Ajax()
               
-                                       .Read(read => read.Action("ReadDistributionDetail", "Distribution", new { distribtionId = Model.DistributionID }))
-                                       .Update(update => update.Action("UpdateDistributionDetail", "Distribution"))
+                                       .Read(read => read.Action("ReadDistributionDetail", "Delivery", new { distribtionId = Model.DeliveryID }))
+                                       .Update(update => update.Action("UpdateDistributionDetail", "Delivery"))
                                        .Model(m =>
                                        {
-                                           m.Id(t => t.DistributionDetailID);
+                                           m.Id(t => t.DeliveryDetailID);
                                            m.Field(t => t.SentQuantity).Editable(false);
                                            m.Field(t => t.Unit).Editable(false);
                                            m.Field(t => t.Commodity).Editable(false);

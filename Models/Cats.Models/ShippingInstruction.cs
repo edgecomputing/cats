@@ -23,6 +23,7 @@ namespace Cats.Models
         public virtual ICollection<ProjectCodeAllocation> ProjectCodeAllocations { get; set; }
         public virtual ICollection<GiftCertificate> GiftCertificates { get; set; } 
         public virtual ICollection<Transaction> Transactions { get; set; }
+        public virtual ICollection<OtherDispatchAllocation> OtherDispatchAllocations { get; set; }
         public List<ShippingInstruction> GetSIList()
         {
             List<ShippingInstruction> shippingInstructions = new List<ShippingInstruction>();

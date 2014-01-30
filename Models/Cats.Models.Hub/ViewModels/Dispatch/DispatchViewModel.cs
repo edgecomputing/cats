@@ -794,7 +794,7 @@ namespace Cats.Models.Hubs
 
         public bool GRNReceived { get; set; }
 
-        public Guid DistributionID { get; set; }
+        public Guid DeliveryID { get; set; }
         [Display(Name="Quantity Per Unit")]
         public decimal? QuantityPerUnit  { get; set; }
     }

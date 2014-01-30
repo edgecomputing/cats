@@ -30,7 +30,7 @@ namespace Cats.Tests.ControllersTests
     {
         #region Setup
 
-        private DistributionController _distributionController;
+        private DeliveryController _distributionController;
 
         [SetUp]
         public void Init()
@@ -38,9 +38,9 @@ namespace Cats.Tests.ControllersTests
             var transportOrderService = new Mock<ITransportOrderService>();
             var workflowStatusService = new Mock<IWorkflowStatusService>();
             var dispatchAllocationService = new Mock<IDispatchAllocationService>();
-            var distributionService = new Mock<IDistributionService>();
+            var distributionService = new Mock<IDeliveryService>();
             var dispatchService = new Mock<IDispatchService>();
-            var distributionDetailService = new Mock<IDistributionDetailService>();
+            var distributionDetailService = new Mock<IDeliveryDetailService>();
             var notificationService = new Mock<INotificationService>();
             var userAccountService = new Mock<IUserAccountService>();
             var commodityService = new Mock<Cats.Services.EarlyWarning.ICommodityService>();
@@ -114,16 +114,16 @@ namespace Cats.Tests.ControllersTests
                                              FDP = "1",
                                              HubID = 1,
                                              DispatchID = Guid.NewGuid(),
-                                             DistributionID = Guid.NewGuid(),
+                                             DeliveryID = Guid.NewGuid(),
                                              DispatchDate = DateTime.Today,
                                              CreatedDate = DateTime.Today,
                                              DispatchAllocationID = Guid.NewGuid(),
 
                                          }
                                  };
-            var distributions = new List<Distribution>()
+            var distributions = new List<Delivery>()
                                     {
-                                        new Distribution()
+                                        new Delivery()
                                             {
                                                 DeliveryDate = DateTime.Today,
                                                 DeliveryBy ="Ban",
@@ -135,7 +135,7 @@ namespace Cats.Tests.ControllersTests
                                                 ReceivedDate = DateTime.Today,
                                                 ReceivingNumber="002",
                                                 DispatchID=Guid.NewGuid(),
-                                                DistributionID = Guid.NewGuid(),
+                                                DeliveryID = Guid.NewGuid(),
                                                 DocumentReceivedDate = DateTime.Today
                                                 
            
@@ -150,7 +150,7 @@ namespace Cats.Tests.ControllersTests
                       It.IsAny<string>())).Returns(transportOrders);
             workflowStatusService.Setup(t => t.GetStatus(It.IsAny<WORKFLOW>())).Returns(workflowstatuses);
             dispatchAllocationService.Setup(t => t.GetTransportOrderDispatches(It.IsAny<int>())).Returns(dispatches);
-            distributionService.Setup(t => t.FindBy(It.IsAny<Expression<Func<Distribution, bool>>>())).Returns(
+            distributionService.Setup(t => t.FindBy(It.IsAny<Expression<Func<Delivery, bool>>>())).Returns(
                 distributions);
             userAccountService.Setup(t => t.GetUserInfo(It.IsAny<string>())).Returns(user);
 
@@ -173,7 +173,7 @@ namespace Cats.Tests.ControllersTests
 
 
             _distributionController =
-               new DistributionController(
+               new DeliveryController(
                    transportOrderService.Object,
                    workflowStatusService.Object,
                    dispatchAllocationService.Object,

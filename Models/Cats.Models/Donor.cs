@@ -41,6 +41,6 @@ namespace Cats.Models
 
         public virtual ICollection<PromisedContribution> PromisedContributions { get; set; }
         public virtual ICollection<HrdDonorCoverage> HrdDonorCovarages { get; set; }
-        public virtual ICollection<Distribution> Distributions { get; set; }
+        public virtual ICollection<Delivery> Deliveries { get; set; }
     }
 }
