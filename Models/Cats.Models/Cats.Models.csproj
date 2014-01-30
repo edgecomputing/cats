@@ -84,7 +84,9 @@
     <Compile Include="Mapping\DispatchDetailMap.cs" />
     <Compile Include="Mapping\DispatchMap.cs" />
     <Compile Include="Mapping\DistributionByAgeDetailMap.cs" />
+    <Compile Include="Mapping\OtherDispatchAllocationMap.cs" />
     <Compile Include="Mapping\SupportTypeMap.cs" />
+    <Compile Include="OtherDispatchAllocation.cs" />
     <Compile Include="SupportType.cs" />
     <Compile Include="WoredaStockDistributionDetail.cs" />
     <Compile Include="Delivery.cs" />
