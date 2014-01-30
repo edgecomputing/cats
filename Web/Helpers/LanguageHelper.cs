@@ -12,6 +12,7 @@ namespace Cats.Helpers
     {
         public static string Translate(this HtmlHelper html, string phrase, string language = "EN")
         {
+            //TODO: By pass phrase translation to see the impact of localization module on performance
             return phrase;
             var currentLanguage = language;
 
