@@ -18,5 +18,6 @@ namespace Cats.Services.Logistics
         List<DistributionByAgeDetail> GetAllDistributionByAgeDetail();
         List<DistributionByAgeDetail> FindBy(Expression<Func<DistributionByAgeDetail, bool>> predicate);
         DistributionByAgeDetail GetDistributionDetail(int requisitionID, int fdpID);
+       List<DistributionByAgeDetail> GetDistributionDetail(int distributionHeaderID);
     }
 }
