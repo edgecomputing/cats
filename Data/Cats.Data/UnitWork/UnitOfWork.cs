@@ -837,16 +837,16 @@ namespace Cats.Data.UnitWork
             get { return this.hrdDonorCoverageDetailRepository ?? (this.hrdDonorCoverageDetailRepository = new GenericRepository<HrdDonorCoverageDetail>(_context)); }
         }
 
-        private IGenericRepository<Delivery> distributionRepositiory;
-        public IGenericRepository<Delivery> DistributionRepository
+        private IGenericRepository<Delivery> deliveryRepositiory;
+        public IGenericRepository<Delivery> DeliveryRepository
         {
-            get { return this.distributionRepositiory ?? (this.distributionRepositiory = new GenericRepository<Delivery>(_context)); }
+            get { return this.deliveryRepositiory ?? (this.deliveryRepositiory = new GenericRepository<Delivery>(_context)); }
       
         }
-        private IGenericRepository<DeliveryDetail> distributionDetailRepository;
-        public IGenericRepository<DeliveryDetail> DistributionDetailRepository
+        private IGenericRepository<DeliveryDetail> deliveryDetailRepository;
+        public IGenericRepository<DeliveryDetail> DeliveryDetailRepository
         {
-            get { return this.distributionDetailRepository ?? (this.distributionDetailRepository = new GenericRepository<DeliveryDetail>(_context)); }
+            get { return this.deliveryDetailRepository ?? (this.deliveryDetailRepository = new GenericRepository<DeliveryDetail>(_context)); }
       
         }
 

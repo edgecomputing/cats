@@ -12,23 +12,23 @@ namespace Cats.Models.Mapping
 
             // Properties
             // Table & Column Mappings
-            this.ToTable("DistributionDetail");
-            this.Property(t => t.DeliveryDetailID).HasColumnName("DistributionDetailID");
+            this.ToTable("DeliveryDetail");
+            this.Property(t => t.DeliveryDetailID).HasColumnName("DeliveryDetailID");
             this.Property(t => t.CommodityID).HasColumnName("CommodityID");
             this.Property(t => t.UnitID).HasColumnName("UnitID");
             this.Property(t => t.SentQuantity).HasColumnName("SentQuantity");
             this.Property(t => t.ReceivedQuantity).HasColumnName("ReceivedQuantity");
-            this.Property(t => t.DeliveryID).HasColumnName("DistributionID");
+            this.Property(t => t.DeliveryID).HasColumnName("DeliveryID");
 
             // Relationships
             this.HasRequired(t => t.Commodity)
-                .WithMany(t => t.DistributionDetails)
+                .WithMany(t => t.DeliveryDetails)
                 .HasForeignKey(d => d.CommodityID);
             this.HasRequired(t => t.Delivery)
                 .WithMany(t => t.DeliveryDetails)
                 .HasForeignKey(d => d.DeliveryID);
             this.HasRequired(t => t.Unit)
-                .WithMany(t => t.DistributionDetails)
+                .WithMany(t => t.DeliveryDetails)
                 .HasForeignKey(d => d.UnitID);
 
         }

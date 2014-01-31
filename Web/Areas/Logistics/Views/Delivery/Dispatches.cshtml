@@ -116,13 +116,13 @@
             <div class="row-fluid" style="width:800px;float: left;">
                 <ul class="nav nav-tabs ">
                     <li class="active">
-                        <a href="#tab0" data-toggle="tab"><b>@Translator.Translate("Dispatch Waiting Receiving Note")</b></a>
+                        <a href="#tab0" data-toggle="tab" class="enableGRNEdit"><b>@Translator.Translate("Dispatch Waiting Receiving Note")</b></a>
                     </li>
                     <li>
-                        <a href="#tab1" data-toggle="tab"><b>@Translator.Translate("Dispatch With Receiving Note")</b></a>
+                        <a href="#tab1" data-toggle="tab" class="disableGRNEdit"><b>@Translator.Translate("Dispatch With Receiving Note")</b></a>
                     </li>
                     <li>
-                        <a href="#tab2" data-toggle="tab"><b>@Translator.Translate("Receiving Notes")</b></a>
+                        <a href="#tab2" data-toggle="tab" class="disableGRNEdit"><b>@Translator.Translate("Receiving Discrepancies")</b></a>
                     </li>
 
                 </ul>
@@ -307,14 +307,14 @@
                                         @*<tr role="row" data-uid="fc1fa826-1d46-4983-80a4-b7dc0ec37c27" class="alert-danger">*@
                                         <tr role="row" data-ng-repeat="item in DeliveryNotes">
                                             <td>
-                                                <a class="clickableLoader" style="cursor:pointer;" data-ng-click="loadGRNPartial(item.DispatchID)">{{item.GIN}}</a>
+                                                <a class="clickableLoader" style="cursor:pointer;" data-ng-click="loadGRNPartial(item.DispatchID)">{{item.InvoiceNo}}</a>
                                             </td>
                                             <td>{{item.RequisitionNo}}</td>
                                             <td>{{item.Program}}</td>
                                             <td>{{item.FDP}}</td>
                                             <td>{{item.BidNumber}}</td>
-                                            <td>{{item.PlateNo_Prime}}</td>
-                                            <td>{{item.PlateNo_Trailer}}</td>
+                                            <td>{{item.PlateNoPrimary}}</td>
+                                            <td>{{item.PlateNoTrailler}}</td>
                                             <td>{{item.DriverName}}</td>
                                             <td>{{item.DispatchDatePref}}</td>
                                             <td>{{item.CreatedDatePref}}</td>
@@ -339,7 +339,7 @@
                                 <label for="DistributionViewModel_GIN">GIN</label>
                             </div>
                             <div class="controls">
-                                <input type="text" value="{{GRNDetail.InvoiceNo}}" name="DistributionViewModel.GIN" id="DistributionViewModel_GIN" data-ng-model="GRNDetail.InvoiceNo" />
+                                <input type="text" value="{{GRNDetail.InvoiceNo}}" name="DistributionViewModel.GIN" id="DistributionViewModel_GIN" data-ng-model="GRNDetail.InvoiceNo" disabled="disabled"/>
                             </div>
                         </div>
                     </div>
@@ -480,7 +480,7 @@
                 <div class="row">
                     <div class="span6" style="width:400px;">
                         <div class="control-group" style="float: right;">
-                            <button class="btn btn-large btn-primary" ng-click="editGRN()">Update GRN</button>
+                            <button class="btn btn-large btn-primary btnEditGRN" ng-click="editGRN()">Update GRN</button>
                         </div>
                     </div>
                 </div>
@@ -514,7 +514,7 @@
         };
 
         $scope.editGRN = function(id) {
-            alert("ReceivedBy: " + $scope.GRNDetail.ReceivedBy);
+            //alert("ReceivedBy: " + $scope.GRNDetail.ReceivedBy);
             if ($scope.GRNDetail != null) {
                 $http.post('/Delivery/EditGRN/', $scope.GRNDetail).
                     success(function(data, status, headers, config) {
@@ -575,10 +575,14 @@
     });
     
     $(function () {
-        //$(".clickableLoader").on("click",function () {
-        //    alert();
-        //    $(this).parent().Parent().addClass("selected");
-        //});
+        $(".disableGRNEdit").on("click",function () {
+            //alert();
+            $(".btnEditGRN").hide();
+        });
+        $(".enableGRNEdit").on("click",function () {
+            //alert();
+            $(".btnEditGRN").show();
+        });
         //alert();
         //$( ".GINHavingGRN").on( "click", function(e) {
         //    alert();
@@ -610,7 +614,7 @@
         
     }
     function GRNLoadCompleted(results) {
-        alert(results[0]);
+        //alert(results[0]);
     }
     function GRNLoadFailed(request, status, error) {
         

@@ -40,11 +40,20 @@ namespace Cats.Tests.ControllersTests
             var dispatchAllocationService = new Mock<IDispatchAllocationService>();
             var distributionService = new Mock<IDeliveryService>();
             var dispatchService = new Mock<IDispatchService>();
-            var distributionDetailService = new Mock<IDeliveryDetailService>();
+            var deliveryDetailService = new Mock<IDeliveryDetailService>();
             var notificationService = new Mock<INotificationService>();
             var userAccountService = new Mock<IUserAccountService>();
             var commodityService = new Mock<Cats.Services.EarlyWarning.ICommodityService>();
             var unitService = new Mock<Cats.Services.EarlyWarning.IUnitService>();
+            var transactionService = new Mock<Cats.Services.Transaction.ITransactionService>();
+            var transaction = new List<Cats.Models.Transaction>()
+                                      {
+                                          new Cats.Models.Transaction()
+                                              {
+                                                  
+                                              }
+                                      };
+            transactionService.Setup(t => t.GetAllTransaction()).Returns(transaction);
             var commodities = new List<Cats.Models.Commodity>()
                                       {
                                           new Cats.Models.Commodity()
@@ -179,9 +188,9 @@ namespace Cats.Tests.ControllersTests
                    dispatchAllocationService.Object,
                    distributionService.Object,
                    dispatchService.Object,
-                   distributionDetailService.Object,
+                   deliveryDetailService.Object,
                    notificationService.Object, actionTypesService.Object,
-                   userAccountService.Object,commodityService.Object,unitService.Object
+                   userAccountService.Object, commodityService.Object, unitService.Object, transactionService.Object
                );
             _distributionController.ControllerContext = controllerContext.Object;
 

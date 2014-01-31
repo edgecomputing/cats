@@ -1,4 +1,4 @@
-﻿@model Cats.Areas.Logistics.Models.DistributionViewModel
+﻿@model Cats.Areas.Logistics.Models.DeliveryViewModel
 @using Cats.Models
 @using Kendo.Mvc.UI
 @using LanguageHelpers.Localization
@@ -7,7 +7,7 @@
     Layout = "~/Views/Shared/_MainLayoutWide.cshtml";
 }
 <div class="page-header">@Translator.Translate("Transport Goods Receiving Note")</div>
-@Html.HiddenFor(model => model.DistributionID)
+@Html.HiddenFor(model => model.DeliveryID)
 @Html.HiddenFor(model => model.DispatchID)
 @Html.HiddenFor(model => model.HubID)
 @Html.HiddenFor(model => model.FDPID)
@@ -92,13 +92,13 @@
   </div>
 
 </div>
-@(Html.Kendo().Grid<DistributionDetail>().Name("grid")
+@(Html.Kendo().Grid<DeliveryDetail>().Name("grid")
 .Columns(col =>
              {
                  col.Bound(t => t.Commodity.Name);
                  col.Bound(t => t.CommodityID).Hidden(true);
-                 col.Bound(t => t.DistributionDetailID).Hidden(true);
-                 col.Bound(t => t.DistributionID).Hidden(true);
+                 col.Bound(t => t.DeliveryDetailID).Hidden(true);
+                 col.Bound(t => t.DeliveryID).Hidden(true);
                  col.Bound(t => t.SentQuantity);
                  col.Bound(t => t.ReceivedQuantity);
                  col.Bound(t => t.UnitID).Hidden(true);
@@ -107,10 +107,10 @@
              })
   .DataSource(datasource =>
 
-                      datasource.Ajax().Read("ReadDistributionDetail", "Distribution", new { id = Model.DistributionID, Area = "Logistrics" })
+                      datasource.Ajax().Read("ReadDeliveryDetail", "Distribution", new { id = Model.DeliveryID, Area = "Logistrics" })
                                        .Model(t =>
                                                   {
-                                                      t.Id(m => m.DistributionDetailID);
+                                                      t.Id(m => m.DeliveryDetailID);
                                                       t.Field(m => m.SentQuantity).Editable(false);
                                                       t.Field(m => m.Unit.Name).Editable(false);
                                                       t.Field(m => m.Commodity.Name).Editable(false);

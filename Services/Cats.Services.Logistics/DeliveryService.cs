@@ -12,63 +12,63 @@ using Cats.Services.Logistics;
 namespace Cats.Services.Logistics
 {
 
-    public class DistributionService : IDeliveryService
+    public class DeliveryService : IDeliveryService
     {
         private readonly IUnitOfWork _unitOfWork;
 
 
-        public DistributionService()
+        public DeliveryService()
         {
             this._unitOfWork = new UnitOfWork();
         }
         #region Default Service Implementation
-        public bool AddDistribution(Delivery distribution)
+        public bool AddDelivery(Delivery delivery)
         {
-            _unitOfWork.DistributionRepository.Add(distribution);
+            _unitOfWork.DeliveryRepository.Add(delivery);
             _unitOfWork.Save();
             return true;
 
         }
-        public bool EditDistribution(Delivery distribution)
+        public bool EditDelivery(Delivery delivery)
         {
-            _unitOfWork.DistributionRepository.Edit(distribution);
+            _unitOfWork.DeliveryRepository.Edit(delivery);
             _unitOfWork.Save();
             return true;
 
         }
-        public bool DeleteDistribution(Delivery distribution)
+        public bool DeleteDelivery(Delivery delivery)
         {
-            if (distribution == null) return false;
-            _unitOfWork.DistributionRepository.Delete(distribution);
+            if (delivery == null) return false;
+            _unitOfWork.DeliveryRepository.Delete(delivery);
             _unitOfWork.Save();
             return true;
         }
         public bool DeleteById(int id)
         {
-            var entity = _unitOfWork.DistributionRepository.FindById(id);
+            var entity = _unitOfWork.DeliveryRepository.FindById(id);
             if (entity == null) return false;
-            _unitOfWork.DistributionRepository.Delete(entity);
+            _unitOfWork.DeliveryRepository.Delete(entity);
             _unitOfWork.Save();
             return true;
         }
-        public List<Delivery> GetAllDistribution()
+        public List<Delivery> GetAllDelivery()
         {
-            return _unitOfWork.DistributionRepository.GetAll();
+            return _unitOfWork.DeliveryRepository.GetAll();
         }
         public Delivery FindById(int id)
         {
-            return _unitOfWork.DistributionRepository.FindById(id);
+            return _unitOfWork.DeliveryRepository.FindById(id);
         }
         public List<Delivery> FindBy(Expression<Func<Delivery, bool>> predicate)
         {
-            return _unitOfWork.DistributionRepository.FindBy(predicate);
+            return _unitOfWork.DeliveryRepository.FindBy(predicate);
         }
         public IEnumerable<Delivery> Get(
            Expression<Func<Delivery, bool>> filter = null,
            Func<IQueryable<Delivery>, IOrderedQueryable<Delivery>> orderBy = null,
            string includeProperties = "")
         {
-            return _unitOfWork.DistributionRepository.Get(filter, orderBy, includeProperties);
+            return _unitOfWork.DeliveryRepository.Get(filter, orderBy, includeProperties);
         }
         #endregion
 

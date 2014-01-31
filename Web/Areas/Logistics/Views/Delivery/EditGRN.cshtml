@@ -203,8 +203,8 @@
                    }).Events(es=>es.DataBound("onDataBound"))
            .DataSource(binding => binding.Ajax()
               
-                                       .Read(read => read.Action("ReadDistributionDetail", "Delivery", new { distribtionId = Model.DeliveryID }))
-                                       .Update(update => update.Action("UpdateDistributionDetail", "Delivery"))
+                                       .Read(read => read.Action("ReadDeliveryDetail", "Delivery", new { distribtionId = Model.DeliveryID }))
+                                       .Update(update => update.Action("UpdateDeliveryDetail", "Delivery"))
                                        .Model(m =>
                                        {
                                            m.Id(t => t.DeliveryDetailID);
