@@ -6,19 +6,22 @@ using System.Threading.Tasks;
 
 namespace Cats.Models
 {
-    public partial class UtilizationHeader
+    public class WoredaStockDistribution
     {
-        public UtilizationHeader()
+        public WoredaStockDistribution()
         {
-            this.UtilizationDetails = new List<UtilizationDetail>();
+            WoredaStockDistributionDetails = new List<WoredaStockDistributionDetail>();
         }
 
-        public int DistributionId { get; set; }
-        public int RequisitionId { get; set; }
+        public int WoredaStockDistributionID { get; set; }
+        //public int RequisitionId { get; set; }
         public int WoredaID { get; set; }
-        public int PlanId { get; set; }
+        public int ProgramID { get; set; }
+        //public int PlanId { get; set; }
         public int  Month { get; set; }
-        public int Round { get; set; }
+        public int SupportTypeID { get; set; }
+        public int ActualBeneficairies { get; set; }
+        //public int Round { get; set; }
         public DateTime DistributionDate { get; set; }
         public int? DistributedBy { get; set; }
         public string Remark { get; set; }
@@ -30,8 +33,9 @@ namespace Cats.Models
         public int MaleAbove18Years { get; set; }
         public int FemaleAbove18Years { get; set; }
 
-        public virtual ICollection<UtilizationDetail> UtilizationDetails { get; set; }
-        public virtual ICollection<DistributionByAgeDetail> DistributionByAgeDetails { get; set; }
+        public virtual ICollection<WoredaStockDistributionDetail> WoredaStockDistributionDetails { get; set; }
         public virtual UserProfile UserProfile { get; set; }
+        public virtual AdminUnit AdminUnit { get; set; }
+        public virtual SupportType SupportType { get; set; }
     }
 }

@@ -5,7 +5,7 @@
     ViewBag.Title = "_DistributionByBenficiary";
 }
 
- @(Html.Kendo().Grid<UtilizationDetailViewModel>()
+ @(Html.Kendo().Grid<WoredaDistributionDetailViewModel>()
                       .Name("RequisitionGridDetail")
                       .Columns(columns =>
                                    {
@@ -17,7 +17,7 @@
                                        columns.Bound(p => p.ReceivedAtFDPAmount).Width(60).Title(Translator.Translate("Received")).HtmlAttributes(new { align = "right" }).HtmlAttributes(new { style = "background-color:lightgray" });
                                        columns.Bound(p => p.DispatchedToFDPAmount).Width(60).Title(Translator.Translate("Dispatched")).HtmlAttributes(new { align = "right" }).HtmlAttributes(new { style = "background-color:lightgray" });
                                      
-                                       columns.Bound(p => p.DistributedQuantity).Width(60).Title(Translator.Translate("Distributed Quantity")).HtmlAttributes(new { align = "right" });
+                                       columns.Bound(p => p.DistributedAmount).Width(60).Title(Translator.Translate("Distributed Quantity")).HtmlAttributes(new { align = "right" });
                                       
 
                                    })
@@ -32,7 +32,7 @@
                       .DataSource(dataSource => dataSource
                                                     .Ajax()
                                                     .Batch(true)
-                                                    .Events(e=>e.RequestEnd("onRequestEnd"))
+                                                   // .Events(e=>e.RequestEnd("onRequestEnd"))
                                                     .ServerOperation(false)
                                                     .Model(model =>
                                                                {
@@ -43,13 +43,13 @@
                                                                    model.Field(detail => detail.DispatchedToFDPAmount).Editable(false);
                                                                    model.Field(detail => detail.NumberOfBeneficiaries).Editable(false);
                                                                    model.Field(detail => detail.ReceivedAtFDPAmount).Editable(false);
-                                                                   model.Field(detail => detail.DistributedQuantity).Editable(true);
+                                                                   
 
                                                                })
                                                   
 
-                                                    .Read(read => read.Action("ReadRequisitionDetail", "Utilization", new { requisitionId = -1}).Data("filterDataRequisitionsDetail"))
-                                                    .Update(update => update.Action("Utilization_Update", "Utilization"))
+                                                    .Read(read => read.Action("WoredaStockDetail_Read", "WoredaStockDistribution", new { WoredaID=-1,woredaStockDistributionID = -1}).Data("filterWithWoreda"))
+                                                   // .Update(update => update.Action("Utilization_Update", "Utilization"))
                                                    
                                                   
                       ))

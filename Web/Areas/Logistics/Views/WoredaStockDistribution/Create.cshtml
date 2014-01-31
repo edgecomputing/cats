@@ -1,0 +1,248 @@
+﻿@using LanguageHelpers.Localization
+@model Cats.Models.WoredaStockDistribution
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_MainLayoutWide.cshtml";  
+}
+
+<h2>Create</h2>
+
+@section Toolbar
+{
+    <a class="btn toolbar-btn " data-buttontype="btn_save" data-submittedform="frm_create_utilization" title="Save"></a>
+    <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="@Url.Action("Index", "WoredaStockDistribution")" title="Cancel"></a>
+}
+
+@using (Html.BeginForm("Create", "WoredaStockDistribution", FormMethod.Post, new { id = "frm_create_utilization" }))
+{
+    <div class="form-horizontal well">
+        <table border="0">
+            <tr>
+                <td>
+                    <div class="control-group">
+                        <div class="control-label">
+                            @Html.Label(Translator.Translate("Region"))
+                        </div>
+                        <div class="controls" id="div_region">
+                            @Html.DropDownList("Region",ViewBag.Region as SelectList,new {@id="RegionID"})
+                        </div>
+
+                    </div> 
+                </td>
+                <td rowspan="5">
+                    <div id="div_Male" class="form-horizontal well" >
+                        <div class="control-group">
+                            <div class="control-label">
+                                @Html.LabelFor(m=>m.ActualBeneficairies)
+                            </div>
+                            <div class="controls">
+                                @Html.TextBoxFor(m => m.ActualBeneficairies)
+                                @Html.ValidationMessageFor(m=>m.ActualBeneficairies)
+                            </div>
+                        </div>
+
+                        <div class="control-group">
+                            <div class="control-label">
+                                @Html.LabelFor(m=>m.MaleLessThan5Years)
+                            </div>
+                            <div class="controls">
+                                @Html.TextBoxFor(m=>m.MaleLessThan5Years)
+                                @Html.ValidationMessageFor(m=>m.MaleLessThan5Years)
+                            </div>
+                        </div>
+    
+                        <div class="control-group">
+                            <div class="control-label">
+                                @Html.LabelFor(m=>m.MaleBetween5And18Years)
+                            </div>
+                            <div class="controls">
+                                @Html.TextBoxFor(m=>m.MaleBetween5And18Years)
+                                @Html.ValidationMessageFor(m=>m.MaleBetween5And18Years)
+                            </div>
+                        </div>
+    
+                        <div class="control-group">
+                            <div class="control-label">
+                                @Html.LabelFor(m=>m.MaleAbove18Years)
+                            </div>
+                            <div class="controls">
+                                @Html.TextBoxFor(m=>m.MaleAbove18Years)
+                                @Html.ValidationMessageFor(m=>m.MaleAbove18Years)
+                            </div>
+                        </div>
+                    </div>
+                </td>
+                <td rowspan="5">
+                    <div id="div_Female1" class="form-horizontal well">
+                        <div class="control-group">
+                            <div class="control-label">
+                                @Html.LabelFor(m=>m.FemaleLessThan5Years)
+                            </div>
+                            <div class="controls">
+                                @Html.TextBoxFor(m => m.FemaleLessThan5Years)
+                                @Html.ValidationMessageFor(m=>m.FemaleLessThan5Years)
+                            </div>
+                        </div>
+
+                        <div class="control-group">
+                            <div class="control-label">
+                                @Html.LabelFor(m=>m.FemaleBetween5And18Years)
+                            </div>
+                            <div class="controls">
+                                @Html.TextBoxFor(m=>m.FemaleBetween5And18Years)
+                                @Html.ValidationMessageFor(m=>m.FemaleBetween5And18Years)
+                            </div>
+                        </div>
+    
+                        <div class="control-group">
+                            <div class="control-label">
+                                @Html.LabelFor(m=>m.FemaleAbove18Years)
+                            </div>
+                            <div class="controls">
+                                @Html.TextBoxFor(m=>m.FemaleAbove18Years)
+                                @Html.ValidationMessageFor(m=>m.FemaleAbove18Years)
+                            </div>
+                        </div>
+                        <div class="control-group"></div>
+                        <div class="control-group"></div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="control-group">
+                    <div class="control-label">
+                        @Html.Label(Translator.Translate("Zone"))
+                    </div>
+                    <div class="controls" id="div_zone">
+                        @Html.DropDownList("Zone",ViewBag.Zone as SelectList,new {@id="ZoneID"})
+                    </div>
+                        </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    
+                     <div class="control-group">
+                    <div class="control-label">
+                        @Html.Label(Translator.Translate("Woreda"))
+                    </div>
+                    <div class="controls"  id="div_woreda">
+                        @Html.DropDownList("Woreda",ViewBag.Woreda as SelectList,new {@id="WoredaID"})
+                        @Html.ValidationMessageFor(m=>m.WoredaID)
+                    </div>
+
+                </div>
+               
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="control-group">
+                        <div class="control-label">
+                            @Html.Label(Translator.Translate("Program"))
+                        </div>
+                        <div class="controls">
+                            @Html.DropDownList("ProgramID",String.Empty)
+                        </div>
+
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="control-group">
+                        <div class="control-label">
+                            @Html.Label(Translator.Translate("Month"))
+                        </div>
+                        <div class="controls">
+                            @Html.DropDownList("Month",String.Empty)
+                        </div>
+
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+     
+}
+@Html.Partial("_DistributionByBeneficiary")
+
+<script>
+    
+    function filterWithWoreda() {
+        return {
+            woredaID: $("#WoredaID").val()
+           
+
+        };
+
+    }
+
+    $("#WoredaID").change(function () {
+        var grid = $("#RequisitionGridDetail").data("kendoGrid");
+        grid.dataSource.read();
+    });
+    var admin_region_hash = {};
+    var admin_zone_hash = {};
+    
+    $(function() {
+        $.getJSON("@Url.Action("GetAdminUnits", "WoredaStockDistribution", new { Area = "Logistics" })", {}, function(data) {
+            
+            document.getElementById("ZoneID").disabled = true;
+            document.getElementById("WoredaID").disabled = true;
+
+            for (var i in data) {
+                msg += "\n" + data[i].RegionName;
+                var key = data[i].RegionID;
+                admin_region_hash[key] = data[i];
+
+                var count = data[i].Zones.length;
+                
+                for (var j=0; j<count;j++){
+                    var keyz = data[i].Zones[j].ZoneID;
+                    admin_zone_hash[keyz] = data[i].Zones[j].Woredas;
+                }
+            }
+        });
+
+        $("#RegionID").change(function () {
+            var regionId = $("#RegionID").val();
+            var region = admin_region_hash[regionId];
+            var zones = region.Zones;
+            document.getElementById("ZoneID").disabled = false;
+           
+            //var msg = "";
+            var htm = "<select name='Zone' id ='ZoneID' > ";
+            for (var z in zones) {
+                //htm += "<option value='" + zones[z].AdminUnitID + "'>" + zones[z].Name + "</option>";
+                htm += "<option value='" + zones[z].ZoneID + "'>" + zones[z].ZoneName + "</option>";
+                //msg += "\n" + zones[z].ZoneName;
+            }
+
+            htm += "</select>";
+            $("#div_zone").html(htm);
+            
+            $("#ZoneID").change(function () {
+                popoulateWoredas();
+            });
+        });
+
+        function popoulateWoredas() {
+            document.getElementById("WoredaID").disabled = false;
+            var zoneId = $("#ZoneID").val();
+            //alert(zoneId);
+            var woredas = admin_zone_hash[zoneId];
+            var s = "<select id ='WoredaID' name='Woreda' >";
+            for (w in woredas) {
+                s += "<option value='" + woredas[w].WoredaID + "'>" + woredas[w].WoredaName + "</option>";
+            }
+            s += "</select>";
+            $("#div_woreda").html(s);
+        }
+        
+        $("#ZoneID").change(function () {
+            popoulateWoredas();
+        });
+    });
+</script>

@@ -5,7 +5,7 @@ using System.Web;
 
 namespace Cats.Areas.Logistics.Models
 {
-    public class DistributionByAgeDetailViewModel
+    public class WoredaDistributionDetailViewModel
     {
         public int FdpId { get; set; }
         public string FDP { get; set; }
@@ -20,8 +20,12 @@ namespace Cats.Areas.Logistics.Models
         public string RequistionNo { get; set; }
         public int Programid { get; set; }
         public string Program { get; set; }
+        public int WoredaID { get; set; }
+        public string WoredaName { get; set; }
+        public decimal DistributedAmount { get; set; }
 
-        public int DistributionHeadrID { get; set; }
+        public int WoredaStockDistributionID { get; set; }
+        public int WoredaStockDistributionDetailID { get; set; }
         public int MaleLessThan5Years { get; set; }
         public int FemaleLessThan5Years { get; set; }
         public int MaleBetween5And18Years { get; set; }

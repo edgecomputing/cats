@@ -52,21 +52,21 @@ namespace Cats.Helpers
             return 600;
         }
 
-        public static decimal GetDistributedQuantity(int requisitionId, int fdpId)
-        {
-            try
-            {
-                var _utilizationDetailService = (IUtilizationDetailSerivce)DependencyResolver.Current.GetService(typeof(IUtilizationDetailSerivce)); 
-                return
-                    _utilizationDetailService.FindBy(
-                        r => r.UtilizationHeader.RequisitionId == requisitionId && r.FdpId == fdpId).Select(q=>q.DistributedQuantity).SingleOrDefault();
-            }
-            catch (Exception)
-            {
+        //public static decimal GetDistributedQuantity(int requisitionId, int fdpId)
+        //{
+        //    try
+        //    {
+        //        var _utilizationDetailService = (IUtilizationDetailSerivce)DependencyResolver.Current.GetService(typeof(IUtilizationDetailSerivce)); 
+        //        return
+        //            _utilizationDetailService.FindBy(
+        //                r => r.WoredaStockDistribution.RequisitionId == requisitionId && r.FdpId == fdpId).Select(q=>q.DistributedQuantity).SingleOrDefault();
+        //    }
+        //    catch (Exception)
+        //    {
                 
-                return 0;
-            }
-        }
+        //        return 0;
+        //    }
+        //}
 
         public static DistributionByAgeDetail GetDistributionDetail(int requisitionID, int fdpID)
         {

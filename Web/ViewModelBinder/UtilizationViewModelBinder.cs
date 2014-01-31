@@ -29,16 +29,16 @@ namespace Cats.ViewModelBinder
                                                               PlanId = u.ReliefRequisition.RegionalRequest.PlanID,
                                                               Month = u.ReliefRequisition.RegionalRequest.Month,
                                                               Round = (int) u.ReliefRequisition.RegionalRequest.Round,
-                                                              DistributedQuantity = (int) Helpers.DistributionHelper.GetDistributedQuantity(u.RequisitionID,u.FDPID),
+                                                             // DistributedQuantity = (int) Helpers.DistributionHelper.GetDistributedQuantity(u.RequisitionID,u.FDPID),
 
                                                               
                                                           });
         }
 
-        public static IEnumerable<DistributionByAgeDetailViewModel> GetDistributionByAgeDetail(List<ReliefRequisitionDetail> reliefRequisitionDetails)
+        public static IEnumerable<WoredaDistributionDetailViewModel> GetDistributionByAgeDetail(List<ReliefRequisitionDetail> reliefRequisitionDetails)
         {
 
-            return reliefRequisitionDetails.Select(u => new DistributionByAgeDetailViewModel()
+            return reliefRequisitionDetails.Select(u => new WoredaDistributionDetailViewModel()
            {
                FdpId = u.FDPID,
                FDP = u.FDP.Name,
