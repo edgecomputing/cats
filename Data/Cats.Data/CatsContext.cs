@@ -137,7 +137,8 @@ namespace Cats.Data
         public DbSet<UtilizationHeader> HeaderDistributions { get; set; }
         public DbSet<UtilizationDetail> DetailDistributions { get; set; }
         public DbSet<DistributionByAgeDetail> DistributionByAgeDetails { get; set; }
-       
+        public DbSet<ReceiptPlan> ReceiptPlans { get; set; }
+        public DbSet<ReceiptPlanDetail> ReceiptPlanDetails { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -260,7 +261,8 @@ namespace Cats.Data
 
             modelBuilder.Configurations.Add(new DistributionByAgeDetailMap());
 
-         
+            modelBuilder.Configurations.Add(new ReceiptPlanMap());
+            modelBuilder.Configurations.Add(new ReceiptPlanDetailMap());
         }
 
     }

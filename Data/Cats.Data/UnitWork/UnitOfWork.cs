@@ -900,9 +900,28 @@ namespace Cats.Data.UnitWork
 
         }
 
-      
-            
+        private IGenericRepository<ReceiptPlan> _receiptPlanRepository;
+        
+        public IGenericRepository<ReceiptPlan> ReceiptPlanRepository
+        {
+            get
+            {
+                return this._receiptPlanRepository ??
+                       (this._receiptPlanRepository = new GenericRepository<ReceiptPlan>(_context));
+            }
 
+        }
+
+        private IGenericRepository<ReceiptPlanDetail> _receiptPlanDetailRepository;
+        public IGenericRepository<ReceiptPlanDetail> ReceiptPlanDetailRepository
+        {
+            get
+            {
+                return this._receiptPlanDetailRepository ??
+                       (this._receiptPlanDetailRepository = new GenericRepository<ReceiptPlanDetail>(_context));
+            }
+
+        }
             
     }
 }

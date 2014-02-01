@@ -1,4 +1,5 @@
 ﻿
+@using System.Collections
 @using LanguageHelpers.Localization
 @model Cats.Models.Hubs.ReceiptAllocationViewModel
 <div class="modal-header">
@@ -18,7 +19,7 @@
                     @Html.LabelFor(model => model.SINumber, @Translator.Translate("SI / Batch Number")) <span class="required">*</span>
                 </div>
                 <div class="controls" id="SI">
-                    @Html.TextBoxFor(model => model.SINumber)
+                    @Html.TextBoxFor(model => model.SINumber,"SINumber")<span class="hide help-inline">SI is Required!</span>
                     @Html.ValidationMessageFor(model => model.SINumber)
                 </div>
             </div>
@@ -28,7 +29,7 @@
                     @Html.LabelFor(model => model.ETA, @Translator.Translate("ETA")) <span class="required">*</span>
                 </div>
                 <div class="controls" id="ETA">
-                    @(Html.EditorFor(model => model.ETA))
+                    @(Html.TextBoxFor(model => model.ETA, new {@class="cats-datepicker2"}))<span class="hide help-inline">ETA is Required!</span>
                     @Html.ValidationMessageFor(model => model.ETA)
                 </div>
             </div>
@@ -48,8 +49,8 @@
                 <div class="control-label">
                     @Html.LabelFor(model => model.HubID, @Translator.Translate("Hub")) <span class="required">*</span>
                 </div>
-                <div class="controls" id="Source Hub">
-                    @(Html.DropDownList("HubID",string.Empty))
+                <div class="controls" id="Hub">
+                    @(Html.DropDownList("HubID",new SelectList(Model.Hubs,"HubID","Name")))
                    
                 </div>
             </div>
@@ -64,7 +65,7 @@
                    @Html.LabelFor(model => model.DonorID, @Translator.Translate("Donor")) <span class="required">*</span>
                 </div>
                 <div class="controls" id="Donor">
-                    @(Html.DropDownList("DonorID",string.Empty))
+                    @(Html.DropDownList("DonorID",new SelectList(Model.Donors,"DonorID","Name")))
                 </div>
             </div>
 
@@ -76,7 +77,7 @@
                                                                                                            *</span>
                 </div>
                 <div class="controls" id="CommodityType">
-                    @(Html.DropDownList("CommodityTypeID",string.Empty))
+                    @(Html.DropDownList("CommodityTypeID",new SelectList(Model.CommodityTypes,"CommodityTypeID","Name")))
                 </div>
             </div>
             
@@ -85,7 +86,7 @@
                    @Html.LabelFor(model => model.CommodityID, @Translator.Translate("Commodity")) <span class="required">*</span>
                 </div>
                 <div class="controls" id="Commodity">
-                    @(Html.DropDownList("CommodityID",string.Empty))
+                    @(Html.DropDownList("CommodityID", new SelectList(Model.Commodities,"CommodityID","Name")))
                 </div>
             </div>
 
@@ -96,7 +97,7 @@
                     @Html.LabelFor(model => model.ProgramID, @Translator.Translate("Program")) <span class="required">*</span>
                 </div>
                 <div class="controls" id="program">
-                    @(Html.DropDownList("ProgramID",string.Empty))
+                    @(Html.DropDownList("ProgramID",new SelectList(Model.Programs,"ProgramID","Name") ))
                 </div>
             </div>
             
@@ -155,15 +156,69 @@
 
     </div>
      
-                   
+   
     
                
                    
     
                 
 
-    <div class="modal-footer"> <button class="btn btn-primary" type="submit">Save</button>
+    <div class="modal-footer"> <button class="btn btn-primary" type="submit" id="btn-save">Save</button>
         <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
     </div>
 
 }
+
+
+ <script>
+        
+     $('#btn-save').click(function () {
+
+         if ($('#SINumber').val() === "") {
+             // invalid
+             $('#SINumber').next('.help-inline').show();
+             return false;
+         }
+         else {
+             // submit the form here
+             $('#InfroText').submit();
+             return true;
+         }
+     });
+
+
+     $('#SINumber').blur(function () {
+         
+         if ($(this).val() != "") {
+             var donatin = '@Cats.Models.Hubs.CommoditySource.Constants.DONATION';
+             var siNumber = $('#SINumber').val();
+           
+             //alert(url);
+             //$('#dialogContent').load(url, function () {
+                 
+             //    $('#dialogDiv').modal({
+             //        backdrop: 'static',
+             //        keyboard: true
+             //    }, 'show');
+             //    //bindForm(this);
+             //});
+
+             //$.ajax({
+             //    url: url,
+             //    type: "POST",
+             //    data: { siNumber: siNumber, type: donatin},
+             //    success: function (data) {
+                    
+                     
+             //    }
+             //});
+        
+
+
+         }
+         
+     
+        //$.validator.unobtrusive.parse('#receiveAlloc');
+
+    });
+    </script>             

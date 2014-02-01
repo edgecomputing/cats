@@ -71,6 +71,10 @@
     <Compile Include="BeneficiaryAllocationService.cs" />
     <Compile Include="DistributionByAgeDetailService.cs" />
     <Compile Include="IDistributionByAgeDetailService.cs" />
+    <Compile Include="IReceiptPlanDetailService.cs" />
+    <Compile Include="IReceiptPlanService.cs" />
+    <Compile Include="ReceiptPlanDetailService.cs" />
+    <Compile Include="ReceiptPlanService.cs" />
     <Compile Include="UtilizationDetailSerivce.cs" />
     <Compile Include="DistributionDetailService.cs" />
     <Compile Include="DistributionService.cs" />
