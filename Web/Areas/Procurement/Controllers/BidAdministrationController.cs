@@ -70,7 +70,7 @@ namespace Cats.Areas.Procurement.Controllers
         {
 
             int bidID = BIDID ?? 0;
-            var bids = _bidWinnerService.FindBy(m => m.BidID == bidID);
+            var bids = _bidWinnerService.FindBy(m => m.BidID == bidID && m.Position==1);
             var bidsToDisplay = GetBidWinners(bids).ToList();
             return Json(bidsToDisplay.ToDataSourceResult(request));
         }
