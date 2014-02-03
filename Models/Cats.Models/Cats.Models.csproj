@@ -73,6 +73,8 @@
     <Compile Include="AdminUnit.cs" />
     <Compile Include="AdminUnitType.cs" />
     <Compile Include="Allocation.cs" />
+    <Compile Include="ApiModels\SmsOutgoingMessage.cs" />
+    <Compile Include="ApiModels\SMSRequest.cs" />
     <Compile Include="ApplicationSetting.cs" />
     <Compile Include="Audit.cs" />
     <Compile Include="AllocationByRegion.cs" />
