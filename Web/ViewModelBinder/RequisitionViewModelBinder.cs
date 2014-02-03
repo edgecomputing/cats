@@ -81,10 +81,11 @@ namespace Cats.ViewModelBinder
                 CommodityID = reliefRequisitionDetail.CommodityID,
                 FDPID = reliefRequisitionDetail.FDPID,
                 DonorID = reliefRequisitionDetail.DonorID,
-                RationAmount =RationAmount
+                RationAmount =RationAmount,
+                Contingency = (reliefRequisitionDetail.Amount * (decimal)0.05)
                 //_GetCommodityRation(reliefRequisitionDetail.RequisitionID,reliefRequisitionDetail.CommodityID);
                // GetCommodityRation(reliefRequisitionDetail.RequisitionID,reliefRequisitionDetail.CommodityID)
-
+               
             };
 
         }

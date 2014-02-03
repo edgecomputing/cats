@@ -516,7 +516,7 @@ namespace Cats.Services.Hub
             if (dispatch.Type == 1)
             {
                 string sms = dispatch.GetSMSText();
-                SMS.SendSMS(dispatch.FDPID.Value, sms);
+               // SMS.SendSMS(dispatch.FDPID.Value, sms);
             }
         }
 

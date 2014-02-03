@@ -139,7 +139,7 @@
     <Compile Include="Mapping\SessionHistoryMap.cs" />
     <Compile Include="Mapping\SettingMap.cs" />
     <Compile Include="Mapping\ShippingInstructionMap.cs" />
-    <Compile Include="Mapping\SMMap.cs" />
+    <Compile Include="Mapping\SMSMap.cs" />
     <Compile Include="Mapping\StackEventMap.cs" />
     <Compile Include="Mapping\StackEventTypeMap.cs" />
     <Compile Include="Mapping\StoreMap.cs" />
@@ -254,7 +254,6 @@
     <Compile Include="Partials\SessionHistory.cs" />
     <Compile Include="Partials\Setting.cs" />
     <Compile Include="Partials\ShippingInstruction.cs" />
-    <Compile Include="Partials\SMS.cs" />
     <Compile Include="Partials\Store.cs" />
     <Compile Include="Partials\Transaction.cs">
       <SubType>Code</SubType>
@@ -387,7 +386,6 @@
     <Compile Include="ViewModels\Setting.cs" />
     <Compile Include="ViewModels\SIBalance.cs" />
     <Compile Include="ViewModels\SIReportModel.cs" />
-    <Compile Include="ViewModels\SMS.cs" />
     <Compile Include="ViewModels\SMTPConfig.cs" />
     <Compile Include="ViewModels\StackEventLogViewModel.cs" />
     <Compile Include="ViewModels\StackEventViewModel.cs" />

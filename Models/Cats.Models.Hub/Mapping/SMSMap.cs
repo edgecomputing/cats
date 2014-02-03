@@ -9,12 +9,9 @@ namespace Cats.Models.Hubs.Mapping
         public SMSMap()
         {
             // Primary Key
-            this.HasKey(t => new { t.SMSID, t.InOutInd, t.MobileNumber, t.Text, t.Status, t.StatusDate, t.Attempts });
+            this.HasKey(t => t.SMSID);
 
             // Properties
-            this.Property(t => t.SMSID);
-              //  .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
-
             this.Property(t => t.InOutInd)
                 .IsRequired()
                 .IsFixedLength()
@@ -27,13 +24,6 @@ namespace Cats.Models.Hubs.Mapping
             this.Property(t => t.Text)
                 .IsRequired()
                 .HasMaxLength(500);
-
-            this.Property(t => t.Status)
-                .IsRequired()
-                .HasMaxLength(10);
-
-            this.Property(t => t.Attempts);
-              //  .HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
 
             this.Property(t => t.EventTag)
                 .HasMaxLength(30);

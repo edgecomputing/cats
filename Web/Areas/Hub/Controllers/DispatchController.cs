@@ -44,6 +44,7 @@ namespace Cats.Areas.Hub.Controllers
         private readonly IShippingInstructionService _shippingInstructionService;
         private readonly ISMSGatewayService _smsGatewayService;
         private readonly IContactService _contactService;
+        private readonly ISMSService _smsService;
 
         public DispatchController(IDispatchAllocationService dispatchAllocationService, IDispatchService dispatchService,
             IUserProfileService userProfileService, IOtherDispatchAllocationService otherDispatchAllocationService,
@@ -52,7 +53,7 @@ namespace Cats.Areas.Hub.Controllers
             ICommodityService commodityService, ITransactionService transactionService, IStoreService storeService,
             IAdminUnitService adminUnitService, IHubService hubService, IFDPService fdpService,
             IProjectCodeService projectCodeService, IShippingInstructionService shippingInstructionService, 
-            ISMSGatewayService smsGatewayService, IContactService contactService)
+            ISMSGatewayService smsGatewayService, IContactService contactService, ISMSService smsService)
             : base(userProfileService)
         {
             _dispatchAllocationService = dispatchAllocationService;
@@ -75,13 +76,11 @@ namespace Cats.Areas.Hub.Controllers
             _shippingInstructionService = shippingInstructionService;
             _smsGatewayService = smsGatewayService;
             _contactService = contactService;
+            _smsService = smsService;
         }
 
         public ViewResult Index()
         {
-
-          
-
             if (this.UserProfile != null)
             {
                 var user = _userProfileService.GetUser(this.UserProfile.UserName);
@@ -269,7 +268,17 @@ namespace Cats.Areas.Hub.Controllers
                         + dispatch.PlateNo_Prime + "-" + dispatch.PlateNo_Trailer + " Date: " +DateTime.Today.ToShortDateString(),
                     };
 
-                    var result = _smsGatewayService.SendSMS(message);
+                    var sms = new SMS()
+                        {
+                            MobileNumber = contact.PhoneNo,
+                            Text = "Hello," + contact.FirstName + " There is a new dispatch with GIN " + dispatch.GIN + " from " + hub + " hub. COMMODITY: " + dispatch.Commodity + " QUT: " + dispatch.Quantity + " MT." + "Transporter: '" + dispatch.Transporter + "' Plate No.: "
+                                   + dispatch.PlateNo_Prime + "-" + dispatch.PlateNo_Trailer + " Date: " + DateTime.Today.ToShortDateString(),
+                            Status = 1,
+                            InOutInd = "O",
+                        };
+
+                    _smsService.AddSMS(sms);
+                    //var result = _smsGatewayService.SendSMS(message);
                 }
                 
                 return RedirectToAction("Index", "Dispatch");
