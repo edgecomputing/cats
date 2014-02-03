@@ -339,7 +339,7 @@ namespace Cats.Areas.Logistics.Controllers
             return Json(requisitionViewModel.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult WoredaStockDetail_Read([DataSourceRequest] DataSourceRequest request, int woredaID=0,int planID=0,int month=0, int woredaStockDistributionID=0)
+        public ActionResult WoredaStockDetail_Read([DataSourceRequest] DataSourceRequest request, int woredaStockDistributionID=0, int woredaID=0,int planID=0,int month=0)
         {
             if (woredaID==0 || planID==0 || month==0) return null;
             var zone = _commonService.GetZoneID(woredaID);

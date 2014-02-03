@@ -55,7 +55,7 @@
                                                                })
                                                   
 
-                                                    .Read(read => read.Action("WoredaStockDetail_Read", "WoredaStockDistribution", new { WoredaID=Model.WoredaID,planID=Model.PlanID,month=Model.Month,woredaStockDistributionID =Model.WoredaStockDistributionID}))
+                                                    .Read(read => read.Action("WoredaStockDetail_Read", "WoredaStockDistribution", new {woredaStockDistributionID =Model.WoredaStockDistributionID, woredaID=Model.WoredaID,planID=Model.PlanID,month=Model.Month}))
                                                    .Update(update => update.Action("UpdateWoredaDistribution", "WoredaStockDistribution"))
                                                    
                                                   
