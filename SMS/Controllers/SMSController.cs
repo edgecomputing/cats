@@ -47,25 +47,15 @@ namespace SMS.Controllers
                         var m = new SmsOutgoingMessage()
                         {
                             id = msg.SMSID.ToString(),
-                            message = msg.Text,
+                            message = "\"" + msg.Text + "\"",
                             to = msg.MobileNumber,
                             priority = null,
                             type = null
                         };
 
-                        var messageOne = new SmsOutgoingMessage()
-                        {
-                            id = "9y7c9cya5711b",
-                            message = "\"Hello Yareda! You are selected to be man of the day! CATS\"",
-                            to = "0911663223",
-                            priority = null,
-                            type = null
-                        };
-
-                        messages.Add(messageOne);
+                       messages.Add(m);
                     }
                 }
-               
 
                 var messageTwo = new SmsOutgoingMessage()
                 {
