@@ -205,8 +205,8 @@ namespace Cats.Infrastructure
                                                                                           "SecurityContext"].
                                                                                       ConnectionString);
             kernel.Bind<Cats.Services.Hub.Interfaces.IStockStatusService>().To<Cats.Services.Hub.StockStatusService>();
-            kernel.Bind<Cats.Services.Logistics.IDeliveryService>().To<Cats.Services.Logistics.DistributionService>();
-            kernel.Bind<Cats.Services.Logistics.IDeliveryDetailService>().To<Cats.Services.Logistics.DistributionDetailService>();
+            kernel.Bind<Cats.Services.Logistics.IDeliveryService>().To<Cats.Services.Logistics.DeliveryService>();
+            kernel.Bind<Cats.Services.Logistics.IDeliveryDetailService>().To<Cats.Services.Logistics.DeliveryDetailService>();
             kernel.Bind<ITransportBidQuotationHeader>().To<TransportBidQuotationHeaderHeaderService>();
 
             kernel.Bind<IUtilizationHeaderSerivce>().To<UtilizationHeaderSerivce>();

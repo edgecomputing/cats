@@ -464,7 +464,7 @@
     <Compile Include="Areas\Localization\Controllers\TranslationController.cs" />
     <Compile Include="Areas\Localization\LocalizationAreaRegistration.cs" />
     <Compile Include="Areas\Logistics\Controllers\BeneficiaryAllocationController.cs" />
-    <Compile Include="Areas\Logistics\Controllers\DistributionController.cs" />
+    <Compile Include="Areas\Logistics\Controllers\DeliveryController.cs" />
     <Compile Include="Areas\Logistics\Controllers\FDPSIAllocationController.cs" />
     <Compile Include="Areas\Logistics\Controllers\DispatchAllocationController.cs" />
     <Compile Include="Areas\Logistics\Controllers\HomeController.cs" />

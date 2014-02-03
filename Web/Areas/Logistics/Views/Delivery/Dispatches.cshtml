@@ -14,6 +14,16 @@
             .selected {
                 background-color: #006DCC;
             }
+            .errorStyle {
+                font-size: 16px;
+                color: red;
+                font-weight: bold;
+            }
+            .successStyle {
+                font-size: 16px;
+                color: lime;
+                font-weight: bold;
+            }
         </style>
     </head>
     <body ng-controller="DispatchManagementController">
@@ -116,13 +126,13 @@
             <div class="row-fluid" style="width:800px;float: left;">
                 <ul class="nav nav-tabs ">
                     <li class="active">
-                        <a href="#tab0" data-toggle="tab"><b>@Translator.Translate("Dispatch Waiting Receiving Note")</b></a>
+                        <a href="#tab0" data-toggle="tab" @*class="enableGRNEdit"*@ data-ng-click="enableGRNEdit()"><b>@Translator.Translate("Dispatch Waiting Receiving Note")</b></a>
                     </li>
                     <li>
-                        <a href="#tab1" data-toggle="tab"><b>@Translator.Translate("Dispatch With Receiving Note")</b></a>
+                        <a href="#tab1" data-toggle="tab" @*class="disableGRNEdit"*@ data-ng-click="disableGRNEdit()"><b>@Translator.Translate("Dispatch With Receiving Note")</b></a>
                     </li>
                     <li>
-                        <a href="#tab2" data-toggle="tab"><b>@Translator.Translate("Receiving Notes")</b></a>
+                        <a href="#tab2" data-toggle="tab" @*class="disableGRNEdit"*@ data-ng-click="disableGRNEdit()"><b>@Translator.Translate("Receiving Discrepancies")</b></a>
                     </li>
 
                 </ul>
@@ -175,7 +185,7 @@
                                     <colgroup><col><col><col><col><col><col><col><col><col><col></colgroup>
                                     <tbody>
                                         <tr ng-repeat="item in GetGINsWithoutGRN">
-                                            <td><a class="clickableLoader" data-dispatchID ="{{item.DispatchID}}" style="cursor:pointer;" data-ng-click="loadGRNPartial(item.DispatchID)">{{item.GIN}}</a></td>
+                                            <td><a data-dispatchID ="{{item.DispatchID}}" style="cursor:pointer;" data-ng-click="loadGRNPartial(item.DispatchID)">{{item.GIN}}</a></td>
                                             <td>{{item.RequisitionNo}}</td>
                                             <td>{{item.Program}}</td>
                                             <td>{{item.FDP}}</td>
@@ -307,14 +317,14 @@
                                         @*<tr role="row" data-uid="fc1fa826-1d46-4983-80a4-b7dc0ec37c27" class="alert-danger">*@
                                         <tr role="row" data-ng-repeat="item in DeliveryNotes">
                                             <td>
-                                                <a class="clickableLoader" style="cursor:pointer;" data-ng-click="loadGRNPartial(item.DispatchID)">{{item.GIN}}</a>
+                                                <a class="clickableLoader" style="cursor:pointer;" data-ng-click="loadGRNPartial(item.DispatchID)">{{item.InvoiceNo}}</a>
                                             </td>
                                             <td>{{item.RequisitionNo}}</td>
                                             <td>{{item.Program}}</td>
                                             <td>{{item.FDP}}</td>
                                             <td>{{item.BidNumber}}</td>
-                                            <td>{{item.PlateNo_Prime}}</td>
-                                            <td>{{item.PlateNo_Trailer}}</td>
+                                            <td>{{item.PlateNoPrimary}}</td>
+                                            <td>{{item.PlateNoTrailler}}</td>
                                             <td>{{item.DriverName}}</td>
                                             <td>{{item.DispatchDatePref}}</td>
                                             <td>{{item.CreatedDatePref}}</td>
@@ -339,7 +349,7 @@
                                 <label for="DistributionViewModel_GIN">GIN</label>
                             </div>
                             <div class="controls">
-                                <input type="text" value="{{GRNDetail.InvoiceNo}}" name="DistributionViewModel.GIN" id="DistributionViewModel_GIN" data-ng-model="GRNDetail.InvoiceNo" />
+                                <input type="text" value="{{GRNDetail.InvoiceNo}}" name="DistributionViewModel.GIN" id="DistributionViewModel_GIN" data-ng-model="GRNDetail.InvoiceNo" disabled="disabled"/>
                             </div>
                         </div>
                     </div>
@@ -388,7 +398,7 @@
                                 <label for="DistributionViewModel_ReceivedDate" class="cats-date-pref">Received Date</label>
                             </div>
                             <div class="controls">
-                                <input type="text" value="{{GRNDetail.ReceivedDate}}" name="DistributionViewModel.ReceivedDate" id="DistributionViewModel_ReceivedDate" data-ng-model="GRNDetail.ReceivedDate">
+                                <input type="text" value="{{GRNDetail.ReceivedDate}}" name="DistributionViewModel.ReceivedDate" id="DistributionViewModel_ReceivedDate" data-ng-model="GRNDetail.ReceivedDate" id="datepicker">
                             </div>
                         </div>
                     </div>
@@ -412,7 +422,7 @@
                                 <label for="DistributionViewModel_DeliveryDate"  class="cats-date-pref">Delivery Date</label>
                             </div>
                             <div class="controls">
-                                <input type="text" value="{{GRNDetail.DeliveryDate}}" name="DistributionViewModel.DeliveryDate" id="DistributionViewModel_DeliveryDate" data-ng-model="GRNDetail.DeliveryDate">
+                                <input type="text" value="{{GRNDetail.DeliveryDate}}" name="DistributionViewModel.DeliveryDate" id="DistributionViewModel_DeliveryDate" data-ng-model="GRNDetail.DeliveryDate" id="datepicker">
                             </div>
                         </div>
                     </div>
@@ -472,15 +482,16 @@
                                 <label for="DistributionViewModel_DocumentReceivedDate"  class="cats-date-pref">Document Received Date</label>
                             </div>
                             <div class="controls">
-                                <input type="text" value="{{GRNDetail.DocumentReceivedDate}}" name="DistributionViewModel.DocumentReceivedDate" id="DistributionViewModel_DocumentReceivedDate" data-ng-model="GRNDetail.DocumentReceivedDate">
+                                <input type="text" value="{{GRNDetail.DocumentReceivedDate}}" name="DistributionViewModel.DocumentReceivedDate" id="DistributionViewModel_DocumentReceivedDate" data-ng-model="GRNDetail.DocumentReceivedDate" id="datepicker">
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="span6" style="width:400px;">
+                        <div class="control-group message-box" style="float: left;"></div>
                         <div class="control-group" style="float: right;">
-                            <button class="btn btn-large btn-primary" ng-click="editGRN()">Update GRN</button>
+                            <button class="btn btn-large btn-primary btnEditGRN" ng-click="editGRN()">Save</button>
                         </div>
                     </div>
                 </div>
@@ -498,10 +509,21 @@
         $scope.DeliveryNotes = [];
         $scope.GRNDetail = [];
         
+        $scope.disableGRNEdit = function(id) {
+            $scope.GRNDetail = [];
+            $(".btnEditGRN").hide();
+            $(".message-box").html("");
+        };
         
+        $scope.enableGRNEdit = function(id) {
+            $scope.GRNDetail = [];
+            $(".btnEditGRN").show();
+            $(".message-box").html("");
+        };
 
         $scope.loadGRNPartial = function(id) {
             var dispatchId = { "id": id };
+            //$("#" + dispatchId).addClass("selected");
             $http.post('/Delivery/LoadGRN/', dispatchId).
                 success(function(data, status, headers, config) {
                     //alert(data["ReceivedBy"]);
@@ -514,12 +536,15 @@
         };
 
         $scope.editGRN = function(id) {
-            alert("ReceivedBy: " + $scope.GRNDetail.ReceivedBy);
-            if ($scope.GRNDetail != null) {
+            //alert("ReceivedBy: " + $scope.GRNDetail.ReceivedBy);
+            if ($scope.GRNDetail != []) {
                 $http.post('/Delivery/EditGRN/', $scope.GRNDetail).
                     success(function(data, status, headers, config) {
                         //alert(data["ReceivedBy"]);
-                        $scope.GRNDetail = data;
+                        $scope.GRNDetail = [];
+                        $(".message-box").html("Successfully Received!");
+                        $(".message-box").removeClass("errorStyle");
+                        $(".message-box").addClass("successStyle");
                         $http({
                             method: 'GET',
                             url: '/Delivery/GetGINsWithGRN/' + @ViewBag.TransportOrderId
@@ -540,10 +565,16 @@
                         });
                     }).
                     error(function(data, status, headers, config) {
-                        alert("#ERROR - Couldn't edit the selected dispatch.");
+                        //alert("#ERROR - Couldn't edit the selected dispatch.");
+                        $(".message-box").html("ERROR - Couldn't receive the selected dispatch.");
+                        $(".message-box").removeClass("successStyle");
+                        $(".message-box").addClass("errorStyle");
                     });
             } else {
-                alert("#ERROR - Select a dispatch first.");
+                //alert("#ERROR - Select a dispatch first.");
+                $(".message-box").html("ERROR - Select a dispatch first.");
+                $(".message-box").removeClass("successStyle");
+                $(".message-box").addClass("errorStyle");
             }
         };
 
@@ -575,9 +606,14 @@
     });
     
     $(function () {
-        //$(".clickableLoader").on("click",function () {
-        //    alert();
-        //    $(this).parent().Parent().addClass("selected");
+        //$( "#datepicker" ).datepicker();
+        //$(".disableGRNEdit").on("click",function () {
+        //    //alert();
+        //    $(".btnEditGRN").hide();
+        //});
+        //$(".enableGRNEdit").on("click",function () {
+        //    //alert();
+        //    $(".btnEditGRN").show();
         //});
         //alert();
         //$( ".GINHavingGRN").on( "click", function(e) {
@@ -610,7 +646,7 @@
         
     }
     function GRNLoadCompleted(results) {
-        alert(results[0]);
+        //alert(results[0]);
     }
     function GRNLoadFailed(request, status, error) {
         

@@ -49,6 +49,6 @@ namespace Cats.Models
         public virtual ICollection<InKindContributionDetail> InKindContributionDetails{ get; set; }
 
         public virtual ICollection<PromisedContribution> PromisedContributions { get; set; }
-        public virtual ICollection<DeliveryDetail> DistributionDetails { get; set; }
+        public virtual ICollection<DeliveryDetail> DeliveryDetails { get; set; }
     }
 }

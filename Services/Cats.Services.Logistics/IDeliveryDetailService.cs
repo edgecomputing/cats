@@ -11,12 +11,12 @@ namespace Cats.Services.Logistics
     public interface IDeliveryDetailService
     {
 
-        bool AddDistributionDetail(DeliveryDetail distributionDetail);
-        bool DeleteDistributionDetail(DeliveryDetail distributionDetail);
+        bool AddDeliveryDetail(DeliveryDetail deliveryDetail);
+        bool DeleteDeliveryDetail(DeliveryDetail deliveryDetail);
         bool DeleteById(int id);
-        bool EditDistributionDetail(DeliveryDetail distributionDetail);
+        bool EditDeliveryDetail(DeliveryDetail deliveryDetail);
         DeliveryDetail FindById(Guid id);
-        List<DeliveryDetail> GetAllDistributionDetail();
+        List<DeliveryDetail> GetAllDeliveryDetail();
         List<DeliveryDetail> FindBy(Expression<Func<DeliveryDetail, bool>> predicate);
         IEnumerable<DeliveryDetail> Get(
             Expression<Func<DeliveryDetail, bool>> filter = null,

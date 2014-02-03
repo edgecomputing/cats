@@ -74,8 +74,8 @@
     <Compile Include="ISupportTypeService.cs" />
     <Compile Include="SupportTypeService.cs" />
     <Compile Include="UtilizationDetailSerivce.cs" />
-    <Compile Include="DistributionDetailService.cs" />
-    <Compile Include="DistributionService.cs" />
+    <Compile Include="DeliveryDetailService.cs" />
+    <Compile Include="DeliveryService.cs" />
     <Compile Include="UtilizationHeaderSerivce.cs" />
     <Compile Include="IUtilizationDetailSerivce.cs" />
     <Compile Include="IDeliveryDetailService.cs" />

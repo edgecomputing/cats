@@ -68,7 +68,7 @@ namespace Cats.ViewModelBinder
 
         //public static DistributionByAgeDetail GetDistributionDetailByAge(int requisitionID,int fdpID)
         //{
-        //    var distributionDetail = Helpers.DistributionHelper.GetDistributionDetail(requisitionID, fdpID);
+        //    var distributionDetail = Helpers.DistributionHelper.GetDeliveryDetail(requisitionID, fdpID);
         //    return distributionDetail;
         //}
 

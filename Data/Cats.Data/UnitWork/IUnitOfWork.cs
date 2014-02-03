@@ -145,8 +145,8 @@ namespace Cats.Data.UnitWork
         IGenericRepository<WoredaHubLink> WoredaHubLinkRepository { get; }
         IGenericRepository<HrdDonorCoverage> HrdDonorCoverageRepository { get; }
         IGenericRepository<HrdDonorCoverageDetail> HrdDonorCoverageDetailRepository { get; }
-        IGenericRepository<Delivery> DistributionRepository { get; }
-        IGenericRepository<DeliveryDetail> DistributionDetailRepository { get; } 
+        IGenericRepository<Delivery> DeliveryRepository { get; }
+        IGenericRepository<DeliveryDetail> DeliveryDetailRepository { get; } 
         IGenericRepository<PaymentRequest> PaymentRequestRepository { get; }
 
         IGenericRepository<IDPSReasonType> IDPSReasonTypeRepository { get; }

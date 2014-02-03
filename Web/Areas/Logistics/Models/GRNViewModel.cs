@@ -16,6 +16,8 @@ namespace Cats.Areas.Logistics.Models
         public string ReceivingNumber { get; set; }
         public Nullable<int> DonorID { get; set; }
         public string Donor { get; set; }
+        public string Program { get; set; }
+        public string BidNumber { get; set; }
         public int TransporterID { get; set; }
         public string Transporter { get; set; }
         [Display(Name = "Plate No Primary")]
@@ -45,6 +47,11 @@ namespace Cats.Areas.Logistics.Models
         [Display(Name = "Delivery Date")]
         public string DeliveryDatePref { get; set; }
 
+        [Display(Name = "Dispatch Date")]
+        public string DispatchDatePref { get; set; }
+        [Display(Name = "Created Date")]
+        public string CreatedDatePref { get; set; }
+
         [Display(Name = "Received By")]
         public string ReceivedBy { get; set; }
         [Display(Name = "Received Date")]
@@ -63,7 +70,7 @@ namespace Cats.Areas.Logistics.Models
         public string ActionTypeRemark { get; set; }
         public bool ContainsDiscripancy { get; set; }
 
-        public System.Guid DistributionDetailID { get; set; }
+        public System.Guid DeliveryDetailID { get; set; }
         public int CommodityID { get; set; }
         public int UnitID { get; set; }
 
