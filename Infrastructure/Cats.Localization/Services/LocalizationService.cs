@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Cats.Localization.Data.UnitOfWork;
 using Cats.Localization.Models;
+using Cats.Localization.Exceptions;
 
 namespace Cats.Localization.Services
 {
@@ -187,12 +188,25 @@ namespace Cats.Localization.Services
 
         public Dictionary<string, string> GetLocalizedTextDictionaryForPage(string pageName, string language)
         {
+            Page page;
+            var phrases = new List<LocalizedText>();
+
+            // Try to get the requested page
             try
             {
-                var page = _unitOfWork.PageRepository.Get(p => p.PageKey == pageName).Single();
-                var phrases = LocalizedTextForPage(page.PageId, language);
+                page = _unitOfWork.PageRepository.Get(p => p.PageKey == pageName).Single();
+            }
+            catch (Exception ex)
+            {
+                throw new PageNotFoundException("Error fetching page information from the database", ex);  
+            }
+
+            // Assuming that we found the requested page, fetch associated text records.
+            try
+            {            
+                phrases = LocalizedTextForPage(page.PageId, language).ToList();
                 var result = new Dictionary<string, string>();
-                phrases.ToList().ForEach(text => result.Add(text.TextKey, text.TranslatedText));
+                phrases.ForEach(text => result.Add(text.TextKey, text.TranslatedText));
                 return result;
             }
             catch (Exception ex)

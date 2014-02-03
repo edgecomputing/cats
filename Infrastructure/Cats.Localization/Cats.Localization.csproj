@@ -83,6 +83,8 @@
     <Compile Include="Data\UnitOfWork\UnitOfWork.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Exceptions\PageNotFoundException.cs" />
+    <Compile Include="Exceptions\TextNotFoundException.cs" />
     <Compile Include="Models\Language.cs">
       <SubType>Code</SubType>
     </Compile>
