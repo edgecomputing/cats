@@ -18,5 +18,6 @@ namespace Cats.Models.Hubs
         public virtual ICollection<DispatchAllocation> DispatchAllocations { get; set; }
         public virtual ICollection<OtherDispatchAllocation> OtherDispatchAllocations { get; set; }
         public virtual ICollection<Transaction> Transactions { get; set; }
+        public virtual ICollection<GiftCertificate> GiftCertificates { get; set; }
     }
 }

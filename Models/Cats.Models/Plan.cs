@@ -13,7 +13,6 @@ namespace Cats.Models
        {
            Hrds=new List<HRD>();
            NeedAssessments=new List<NeedAssessment>();
-           DistributionByAges=new List<DistributionByAge>();
        }
 
        public int PlanID { get; set; }
@@ -32,6 +31,5 @@ namespace Cats.Models
        public virtual Program Program { get; set; }
        public virtual ICollection<RegionalPSNPPlan> RegionalPSNPPlans { get; set; }
        public virtual ICollection<RegionalRequest> RegionalRequests { get; set; }
-       public virtual ICollection<DistributionByAge> DistributionByAges { get; set; } 
     }
 }

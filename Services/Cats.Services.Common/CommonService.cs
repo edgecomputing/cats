@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using Cats.Data.UnitWork;
 using Cats.Models;
@@ -89,6 +90,7 @@ namespace Cats.Services.Common
         }
        public List<Plan> GetPlan(int programID)
        {
+          
            if (programID == 2)
            {
                return _unitOfWork.PlanRepository.FindBy(m => m.ProgramID == programID && m.Status == (int)PlanStatus.PSNPCreated);
@@ -116,6 +118,44 @@ namespace Cats.Services.Common
                                     Name = detail.Commodity.Name
                                 }).ToList();
            return commodity;
+       }
+       public List<AdminUnit> FindBy(Expression<Func<AdminUnit, bool>> predicate)
+       {
+           return _unitOfWork.AdminUnitRepository.FindBy(predicate);
+       }
+       public List<AdminUnit> GetRegions()
+       {
+           return _unitOfWork.AdminUnitRepository.Get(t => t.AdminUnitTypeID == 2).ToList();
+       }
+       public List<AdminUnit> GetZones(int regionId)
+       {
+           return _unitOfWork.AdminUnitRepository.Get(t => t.ParentID == regionId).ToList();
+       }
+       public List<AdminUnit> GetWoreda(int zoneId)
+       {
+           return _unitOfWork.AdminUnitRepository.Get(t => t.ParentID == zoneId).ToList();
+       }
+
+
+       public List<SupportType> GetAllSupportType()
+       {
+           return _unitOfWork.SupportTypeRepository.GetAll();
+       }
+
+
+       public int GetZoneID(int woredaID)
+       {
+           return _unitOfWork.AdminUnitRepository.FindBy(m => m.AdminUnitID == woredaID).FirstOrDefault().AdminUnit2.
+                   AdminUnitID;
+       }
+
+
+       public List<Plan> GetRequisitionGeneratedPlan(int programID, int zoneID)
+       {
+           var requisition = _unitOfWork.ReliefRequisitionRepository.FindBy(m => m.ZoneID == zoneID).Select(m => m.RegionalRequestID).Distinct();
+           var request = _unitOfWork.RegionalRequestRepository.FindBy(m => requisition.Contains(m.RegionalRequestID) && m.ProgramId == programID).Select(m => m.PlanID).Distinct();
+           var requestCreated = _unitOfWork.PlanRepository.FindBy(m => request.Contains(m.PlanID));
+           return requestCreated;
        }
     }
 }

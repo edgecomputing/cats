@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Linq;
 using Cats.Data.UnitWork;
+using Cats.Data.Hub;
 using Cats.Models;
 
 namespace Cats.Services.Transaction
@@ -10,9 +11,9 @@ namespace Cats.Services.Transaction
    
     public class TransactionService : ITransactionService
     {
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly Cats.Data.UnitWork.IUnitOfWork _unitOfWork;
 
-        public TransactionService(IUnitOfWork unitOfWork)
+        public TransactionService(Cats.Data.UnitWork.IUnitOfWork unitOfWork)
         {
             this._unitOfWork = unitOfWork;
         }
@@ -156,7 +157,7 @@ namespace Cats.Services.Transaction
 
                         Models.Transaction entry2 = new Models.Transaction
                         {
-                            RegionID = plan.RegionID,
+                           
                             CommodityID = rd.CommodityID,
                             Round = r + 1,
                             ProgramID = 2,
@@ -167,7 +168,7 @@ namespace Cats.Services.Transaction
                         };
                         Models.Transaction entry1 = new Models.Transaction
                         {
-                            RegionID = plan.RegionID,
+                           
                             CommodityID = rd.CommodityID,
                             Round = r + 1,
                             ProgramID = 2,
@@ -301,6 +302,72 @@ namespace Cats.Services.Transaction
             _unitOfWork.Save();
             return true;
         }
+
+        public bool PostDeliveryReceipt(Guid deliveryID)
+        {
+            var delivery = _unitOfWork.DeliveryRepository.Get(t => t.DeliveryID == deliveryID, null, "DeliveryDetails").FirstOrDefault();
+            if (delivery == null) return false;
+
+            var transactionGroup = Guid.NewGuid();
+            var transactionDate = DateTime.Now;
+            _unitOfWork.TransactionGroupRepository.Add(new TransactionGroup() { PartitionID = 0, TransactionGroupID = transactionGroup });
+             var transaction = new Models.Transaction();
+            transaction.TransactionID = Guid.NewGuid();
+            var reliefRequisition = _unitOfWork.ReliefRequisitionRepository.Get(t => t.RequisitionNo == delivery.RequisitionNo).FirstOrDefault();
+            if (reliefRequisition != null)
+                transaction.ProgramID = reliefRequisition.ProgramID;
+            var orDefault = _unitOfWork.DispatchRepository.Get(t => t.DispatchID == delivery.DispatchID).FirstOrDefault();
+            if (orDefault !=null)
+                transaction.DonorID = orDefault.DispatchAllocation.DonorID;
+            transaction.TransactionGroupID = transactionGroup;
+            transaction.TransactionDate = transactionDate;
+            var dispatch = _unitOfWork.DispatchRepository.Get(t => t.DispatchID == delivery.DispatchID).FirstOrDefault();
+            if (dispatch !=null)
+                transaction.ShippingInstructionID = dispatch.DispatchAllocation.ShippingInstructionID;
+            transaction.LedgerID = 18;
+            transaction.FDPID = delivery.FDPID;
+            var firstOrDefault = delivery.DeliveryDetails.FirstOrDefault();
+            if (firstOrDefault != null)
+            {
+                transaction.CommodityID = firstOrDefault.CommodityID;
+                transaction.QuantityInMT = firstOrDefault.ReceivedQuantity;
+                transaction.QuantityInUnit = firstOrDefault.ReceivedQuantity;
+                transaction.UnitID = firstOrDefault.UnitID;
+            }
+            _unitOfWork.TransactionRepository.Add(transaction);
+
+            transaction = new Models.Transaction();
+            transaction.TransactionID = Guid.NewGuid();
+            //var reliefRequisition = _unitOfWork.ReliefRequisitionRepository.Get(t => t.RequisitionNo == distribution.RequisitionNo).FirstOrDefault();
+            if (reliefRequisition != null)
+                transaction.ProgramID = reliefRequisition.ProgramID;
+            //var orDefault = _unitOfWorkhub.DispatchRepository.Get(t => t.DispatchID == distribution.DispatchID).FirstOrDefault();
+            if (orDefault != null)
+                transaction.DonorID = orDefault.DispatchAllocation.DonorID;
+            transaction.TransactionGroupID = transactionGroup;
+            transaction.TransactionDate = transactionDate;
+            //var dispatch = _unitOfWorkhub.DispatchRepository.Get(t => t.DispatchID == distribution.DispatchID).FirstOrDefault();
+            if (dispatch != null)
+                transaction.ShippingInstructionID = dispatch.DispatchAllocation.ShippingInstructionID;
+            transaction.LedgerID = 17;
+            transaction.HubID = delivery.HubID;
+            transaction.FDPID = delivery.FDPID;
+            //var firstOrDefault = distribution.DeliveryDetails.FirstOrDefault();
+            if (firstOrDefault != null)
+            {
+                transaction.CommodityID = firstOrDefault.CommodityID;
+                transaction.QuantityInMT = firstOrDefault.ReceivedQuantity;
+                transaction.QuantityInUnit = firstOrDefault.ReceivedQuantity;
+                transaction.UnitID = firstOrDefault.UnitID;
+            }
+            _unitOfWork.TransactionRepository.Add(transaction);
+
+            delivery.Status = 2;
+            delivery.TransactionGroupID = transactionGroup;
+            _unitOfWork.Save();
+            return true;
+        }
+        
         public List<ProjectCode> getAllProjectByHubCommodity(int hubId, int commodityId)
         {
             var receiptAllocation = ReceiptAllocationFindBy(t => t.HubID == hubId && t.CommodityID == commodityId);

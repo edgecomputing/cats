@@ -523,7 +523,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
                 psnp = _RegionalPSNPPlanDetailService.Get(
                     p =>
-                    p.RegionalPSNPPlan.Year == year && p.RegionalPSNPPlan.RegionID == regionId && p.PlanedFDPID == fdpId)
+                    p.RegionalPSNPPlan.Year == year  && p.PlanedFDPID == fdpId)
                     .SingleOrDefault();
 
             }catch (Exception)

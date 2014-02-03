@@ -9,6 +9,7 @@ namespace Cats.Models
         public GiftCertificateDetail()
         {
             this.ReceiptAllocations = new List<ReceiptAllocation>();
+            this.ReceiptPlans = new List<ReceiptPlan>();
         }
         [Key]
         public int GiftCertificateDetailID { get; set; }
@@ -32,5 +33,6 @@ namespace Cats.Models
         public virtual Detail Detail2 { get; set; }
         public virtual GiftCertificate GiftCertificate { get; set; }
         public virtual ICollection<ReceiptAllocation> ReceiptAllocations { get; set; }
+        public virtual ICollection<ReceiptPlan> ReceiptPlans { get; set; }
     }
 }

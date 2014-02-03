@@ -50,9 +50,16 @@ namespace Cats.Services.Common
             string includeProperties = "");
        List<Plan> GetPlan(string programName);
         List<Plan> GetPlan(int programID);
+        List<Plan> GetRequisitionGeneratedPlan(int programID, int zoneID);
         List<FDP> GetFDPs(int woredaID);
         List<Plan> GetPlans();
         List<Commodity> GetRationCommodity(int id);
+        List<AdminUnit> FindBy(Expression<Func<AdminUnit, bool>> predicate);
+        List<AdminUnit> GetRegions();
+        List<AdminUnit> GetZones(int regionId);
+        List<AdminUnit> GetWoreda(int zoneId);
+        List<SupportType> GetAllSupportType();
+        int GetZoneID(int woredaID);
     }
 }
 

@@ -15,6 +15,6 @@ namespace Cats.Models
         public int CommoditySourceID { get; set; }
         public string Name { get; set; }
         public virtual ICollection<ReceiptAllocation> ReceiptAllocations { get; set; }
-      //  public virtual ICollection<Receive> Receives { get; set; }
+      
     }
 }

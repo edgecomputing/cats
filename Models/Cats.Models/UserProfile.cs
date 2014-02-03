@@ -17,6 +17,7 @@ namespace Cats.Models
             this.Hrds=new List<HRD>();
             this.NeedAssessments = new List<NeedAssessment>();
             this.NeedAssessments1 = new List<NeedAssessment>();
+           
         }
 
         public int UserProfileID { get; set; }
@@ -38,10 +39,11 @@ namespace Cats.Models
         public string MobileNumber { get; set; }
         public string Email { get; set; }
         public string DefaultTheme { get; set; }
-        public virtual ICollection<UtilizationHeader> UtilizationHeaders { get; set; }
+        public virtual ICollection<WoredaStockDistribution> UtilizationHeaders { get; set; }
         public virtual ICollection<HRD> Hrds { get; set; }
         public virtual ICollection<NeedAssessment> NeedAssessments { get; set; }
         public virtual ICollection<NeedAssessment> NeedAssessments1 { get; set; }
+       
         
     }
 }

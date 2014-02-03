@@ -61,9 +61,9 @@ namespace Cats.Areas.PSNP
                         {
                             RegionalPSNPPlanID = plan.RegionalPSNPPlanID,
                             Duration = plan.Duration,
-                            RegionID = plan.RegionID,
+                           // RegionID = plan.RegionID,
                             Year = plan.Year,
-                            RegionName = plan.Region.Name,
+                           // RegionName = plan.Region.Name,
                             RationName = plan.Ration.RefrenceNumber
 
 
@@ -156,8 +156,7 @@ namespace Cats.Areas.PSNP
             //regionalpsnpplan.StatusID = 1;
 
             //check if this psnp plan exitsts for this region
-            var exists = _regionalPSNPPlanService.DoesPsnpPlanExistForThisRegion(regionalpsnpplan.PlanId,
-                                                                                 regionalpsnpplan.RegionID);
+            var exists = _regionalPSNPPlanService.DoesPsnpPlanExistForThisRegion(regionalpsnpplan.PlanId);
 
              if (ModelState.IsValid)
                 {
@@ -190,7 +189,7 @@ namespace Cats.Areas.PSNP
                     ViewBag.ErrorMessage2 = "Please make sure the workflow is created and configured.";
                 }
                 LoadLookups();
-                ModelState.AddModelError("Errors", "PSNP plan already made for this period and region.");
+                ModelState.AddModelError("Errors", "PSNP plan already made for this period.");
                 return View(regionalpsnpplan);
             }
             LoadLookups();

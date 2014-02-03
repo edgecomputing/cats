@@ -10,7 +10,7 @@ namespace Cats.Models
     {
        
        public int DistributionByAgeDetailID { get; set; }
-       public int DistributionByAgeID { get; set; }
+       public int DistributionHeaderID { get; set; }
        public int FDPID { get; set; }
        public int MaleLessThan5Years { get; set; }
        public int FemaleLessThan5Years { get; set; }
@@ -19,7 +19,7 @@ namespace Cats.Models
        public int MaleAbove18Years { get; set; }
        public int FemaleAbove18Years { get; set; }
 
-       public virtual DistributionByAge DistributionByAge { get; set; }
+       public virtual WoredaStockDistribution WoredaStockDistribution { get; set; }
        public virtual FDP FDP { get; set; }
     }
 }

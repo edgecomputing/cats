@@ -10,6 +10,7 @@ namespace Cats.Models
         {
             this.Commodities = new List<Commodity>();
            
+           
         }
         [Key]
         public int CommodityTypeID { get; set; }
