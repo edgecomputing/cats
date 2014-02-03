@@ -305,7 +305,7 @@ namespace Cats.Services.Transaction
 
         public bool PostDeliveryReceipt(Guid deliveryID)
         {
-            var delivery = _unitOfWork.DeliveryRepository.Get(t => t.DeliveryID == deliveryID, null, "DeliveryDetail").FirstOrDefault();
+            var delivery = _unitOfWork.DeliveryRepository.Get(t => t.DeliveryID == deliveryID, null, "DeliveryDetails").FirstOrDefault();
             if (delivery == null) return false;
 
             var transactionGroup = Guid.NewGuid();

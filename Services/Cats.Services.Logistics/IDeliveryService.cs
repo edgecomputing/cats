@@ -15,7 +15,7 @@ namespace Cats.Services.Logistics
         bool DeleteDelivery(Delivery distribution);
         bool DeleteById(int id);
         bool EditDelivery(Delivery distribution);
-        Delivery FindById(int id);
+        Delivery FindById(Guid id);
         List<Delivery> GetAllDelivery();
         List<Delivery> FindBy(Expression<Func<Delivery, bool>> predicate);
 

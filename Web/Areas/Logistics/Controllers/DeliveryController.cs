@@ -381,24 +381,31 @@ namespace Cats.Areas.Logistics.Controllers
                 deliveryDetail.UnitID = delivery.UnitID;
                 deliveryDetail.SentQuantity = delivery.SentQuantity;
                 deliveryDetail.ReceivedQuantity = delivery.ReceivedQuantity;
-                deliveryDetail.Commodity = _commodityService.FindById(delivery.CommodityID);
-                deliveryDetail.Unit = _unitService.FindById(delivery.UnitID);
-                deliveryDetail.Delivery = newdelivery;
-                _deliveryDetailService.AddDeliveryDetail(deliveryDetail);
+                //deliveryDetail.Commodity = _commodityService.FindById(delivery.CommodityID);
+                //deliveryDetail.Unit = _unitService.FindById(delivery.UnitID);
+                newdelivery.DeliveryDetails = new List<DeliveryDetail> { deliveryDetail };
+                _deliveryService.AddDelivery(newdelivery);
                 //_deliveryService.AddDelivery(newdelivery);
             }
-            var deliveryViewModel = BindDeliveryViewModel(newdelivery);
-            if(deliveryViewModel!=null)
+            var deliveryViewModel = new GRNViewModel();
+            if (newdelivery != null && deliveryDetail != null)
             {
-                deliveryViewModel.DeliveryID = deliveryDetail.DeliveryID;
-                deliveryViewModel.CommodityID = deliveryDetail.CommodityID;
-                deliveryViewModel.UnitID = deliveryDetail.UnitID;
-                deliveryViewModel.SentQuantity = deliveryDetail.SentQuantity;
-                deliveryViewModel.ReceivedQuantity = deliveryDetail.ReceivedQuantity;
-                deliveryViewModel.Commodity = deliveryDetail.Commodity.Name;
-                deliveryViewModel.Unit = deliveryDetail.Unit.Name;
+                var deliveryWithFDP = _deliveryService.Get(t=>t.DeliveryID==newdelivery.DeliveryID,null,"FDP").FirstOrDefault();
+                deliveryViewModel = BindDeliveryViewModel(deliveryWithFDP);
+                var deliveryDetailWithComodityUnit = _deliveryDetailService.Get(t => t.DeliveryDetailID == deliveryDetail.DeliveryDetailID, null, "Commodity,Unit").FirstOrDefault();
+                if (deliveryDetailWithComodityUnit != null)
+                {
+                    deliveryViewModel.DeliveryID = deliveryDetailWithComodityUnit.DeliveryID;
+                    deliveryViewModel.CommodityID = deliveryDetailWithComodityUnit.CommodityID;
+                    deliveryViewModel.UnitID = deliveryDetailWithComodityUnit.UnitID;
+                    deliveryViewModel.SentQuantity = deliveryDetailWithComodityUnit.SentQuantity;
+                    deliveryViewModel.ReceivedQuantity = deliveryDetailWithComodityUnit.ReceivedQuantity;
+                    deliveryViewModel.Commodity = deliveryDetailWithComodityUnit.Commodity.Name;
+                    deliveryViewModel.Unit = deliveryDetailWithComodityUnit.Unit.Name;
+                }
+                _transactionService.PostDeliveryReceipt(newdelivery.DeliveryID);
             }
-            if (newdelivery != null) _transactionService.PostDeliveryReceipt(newdelivery.DeliveryID);
+            
             return Json(deliveryViewModel, JsonRequestBehavior.AllowGet);
             //return View("Dispatches", distributionViewModel);
         }

@@ -55,7 +55,7 @@ namespace Cats.Services.Logistics
         {
             return _unitOfWork.DeliveryRepository.GetAll();
         }
-        public Delivery FindById(int id)
+        public Delivery FindById(Guid id)
         {
             return _unitOfWork.DeliveryRepository.FindById(id);
         }
