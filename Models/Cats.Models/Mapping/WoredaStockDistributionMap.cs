@@ -19,10 +19,11 @@ namespace Cats.Models.Mapping
                 .HasMaxLength(200);
 
             // Table & Column Mappings
-            this.ToTable("WoredaStockDistribution");
+            this.ToTable("WoredaStcokDistribution");
             this.Property(t => t.WoredaStockDistributionID).HasColumnName("WoredaStockDistributionID");
             this.Property(t => t.WoredaID).HasColumnName("WoredaID");
             this.Property(t => t.ProgramID).HasColumnName("ProgramID");
+            this.Property(t => t.PlanID).HasColumnName("PlanID");
             this.Property(t => t.SupportTypeID).HasColumnName("SupportTypeID");
             this.Property(t => t.ActualBeneficairies).HasColumnName("ActualBeneficairies");
             this.Property(t => t.DistributionDate).HasColumnName("DistributionDate");

@@ -27,9 +27,11 @@ namespace Cats.Areas.Logistics.Controllers
         private readonly ICommonService _commonService;
         private readonly IRegionalRequestService _regionalRequestService;
         private readonly IDistributionByAgeDetailService _distributionByAgeDetailService;
+        private readonly IReliefRequisitionDetailService _reliefRequisitionDetailService;
         public WoredaStockDistributionController(IUtilizationHeaderSerivce utilizationService, IUtilizationDetailSerivce utilizationDetailSerivce, 
                        UserAccountService userAccountService, IWorkflowStatusService workflowStatusService, ICommonService commonService, 
-                        IRegionalRequestService regionalRequestService,IDistributionByAgeDetailService distributionByAgeDetailService)
+                        IRegionalRequestService regionalRequestService,IDistributionByAgeDetailService distributionByAgeDetailService,
+                         IReliefRequisitionDetailService reliefRequisitionDetailService,IReliefRequisitionService reliefRequisitionService)
         {
             _utilizationService = utilizationService;
             _utilizationDetailSerivce = utilizationDetailSerivce;
@@ -38,6 +40,8 @@ namespace Cats.Areas.Logistics.Controllers
             _commonService = commonService;
             _regionalRequestService = regionalRequestService;
             _distributionByAgeDetailService = distributionByAgeDetailService;
+            _reliefRequisitionDetailService = reliefRequisitionDetailService;
+            _reliefRequisitionService = reliefRequisitionService;
         }
 
         //
@@ -49,39 +53,268 @@ namespace Cats.Areas.Logistics.Controllers
             ViewBag.RegionCollection = _commonService.GetAminUnits(t => t.AdminUnitTypeID == 2);
            
             ViewBag.ProgramID = new SelectList(_commonService.GetPrograms().Take(2),"ProgramId","Name");
-
+            LookUps();
             return View();
         }
 
-        public ActionResult Create()
+        public ActionResult Create(int Woreda = -1, int planID = -1,int programID=-1, int month = -1)
         {
-            var utilizationHeader = new WoredaStockDistribution();
-            ViewBag.Region = new SelectList(_commonService.GetAminUnits(m => m.AdminUnitTypeID == 2), "AdminUnitID","Name");
-            ViewBag.Zone = new SelectList(_commonService.FindBy(m => m.AdminUnitTypeID == 3 && m.ParentID == 3),"AdminUnitID", "Name");
-            ViewBag.Woreda = new SelectList(_commonService.FindBy(m => m.AdminUnitTypeID == 4 && m.ParentID == 19),"AdminUnitID", "Name");
-            ViewBag.ProgramID = new SelectList(_commonService.GetPrograms(), "ProgramID", "Name");
-            ViewBag.Month = new SelectList(RequestHelper.GetMonthList(),"Id","Name");
-            return View(utilizationHeader);
+           // var woredaStockDistribution = new WoredaStockDistribution();
+            var woredaStockDistributionViewModel = new WoredaStockDistributionWithDetailViewModel();
+            //woredaStockDistributionViewModel.WoredaDistributionDetailViewModels
+            var woredaStockDistribution = CheckWoredaDistribution(Woreda, planID, month);
+            if (woredaStockDistribution!=null)
+            {
+                LookUps(woredaStockDistribution);
+                woredaStockDistributionViewModel = woredaStockDistribution;
+                woredaStockDistributionViewModel.PlanID = planID;
+                woredaStockDistributionViewModel.WoredaID = Woreda;
+                woredaStockDistributionViewModel.Month = month;
+                woredaStockDistributionViewModel.ProgramID = programID;
+                return View(woredaStockDistributionViewModel);
+            }
+            //ModelState.AddModelError("Errora",@"Request is Not Created for this plan");
+            LookUps();
+            var distributionDetail=_commonService.GetFDPs(Woreda);
+            var listOfFdps = GetWoredaStockDistribution(distributionDetail);
+            woredaStockDistributionViewModel.WoredaDistributionDetailViewModels = listOfFdps;
+            woredaStockDistributionViewModel.PlanID = planID;
+            woredaStockDistributionViewModel.WoredaID = Woreda;
+            woredaStockDistributionViewModel.Month = month;
+            woredaStockDistributionViewModel.ProgramID = programID;
+
+            return View(woredaStockDistributionViewModel);
+        }
+
+        public WoredaStockDistributionWithDetailViewModel CheckWoredaDistribution(int woredaID = -1, int planID = -1, int month = -1)
+        {
+            if (woredaID == -1 || planID == -1 || month == -1)
+                return null;
+            //var woredaStockDistribution = _utilizationService.FindBy(m => m.WoredaID == woredaID && m.Month == month && m.PlanID == planID).FirstOrDefault();
+            var zoneID = _commonService.GetZoneID(woredaID);
+            var regionalRequest =
+                _regionalRequestService.FindBy(m => m.PlanID == planID && m.Month == month).FirstOrDefault();
+            if (regionalRequest!=null)
+            {
+                var requisition =
+                    _reliefRequisitionService.FindBy(
+                        m => m.RegionalRequestID == regionalRequest.RegionalRequestID && m.ZoneID == zoneID).
+                        FirstOrDefault();
+                if (requisition != null)
+                {
+                    var woredaStockDistribution = _utilizationService.FindBy(m => m.WoredaID == woredaID && m.Month == month && m.PlanID == planID).FirstOrDefault();
+                    if (woredaStockDistribution==null)
+                    {
+                       //TODO:populateWOredas with detail for the grid
+                        var fdpStockDistribution = _commonService.GetFDPs(woredaID);
+                        var listOfFdps = new WoredaStockDistributionWithDetailViewModel
+                            {
+                                WoredaDistributionDetailViewModels = GetWoredaStockDistribution(fdpStockDistribution),
+                                
+
+                            };
+                            
+                        return listOfFdps;
+                    }
+
+                    var woredaStockDistributionWithDetailViewModel = new WoredaStockDistributionWithDetailViewModel()
+                    {
+                    WoredaStockDistributionID = woredaStockDistribution.WoredaStockDistributionID,
+                    WoredaID = woredaStockDistribution.WoredaID,
+                    ProgramID = woredaStockDistribution.ProgramID,
+                    PlanID = woredaStockDistribution.PlanID,
+                    Month = woredaStockDistribution.WoredaStockDistributionID,
+                    SupportTypeID = woredaStockDistribution.SupportTypeID,
+                    ActualBeneficairies = woredaStockDistribution.ActualBeneficairies,
+                    MaleBetween5And18Years = woredaStockDistribution.MaleBetween5And18Years,
+                    FemaleLessThan5Years = woredaStockDistribution.FemaleLessThan5Years,
+                    MaleAbove18Years = woredaStockDistribution.MaleAbove18Years,
+                    MaleLessThan5Years = woredaStockDistribution.MaleLessThan5Years,
+                    FemaleAbove18Years = woredaStockDistribution.FemaleAbove18Years,
+                    FemaleBetween5And18Years = woredaStockDistribution.FemaleBetween5And18Years,
+                    WoredaDistributionDetailViewModels = (from woredaDistributionDetail in woredaStockDistribution.WoredaStockDistributionDetails
+                                                          select new WoredaDistributionDetailViewModel()
+                                                              {
+                                                                  FdpId = woredaDistributionDetail.FdpId,
+                                                                  FDP = woredaDistributionDetail.FDP.Name,
+                                                                  RequisitionDetailViewModel = GetRequisionInfo(requisition.RequisitionID, woredaDistributionDetail.FdpId),
+                                                                  RequistionNo = requisition.RequisitionNo,
+                                                                  Round = requisition.Round,
+                                                                  Month = RequestHelper.MonthName(requisition.Month),
+
+                                                                  //CommodityName = ,
+                                                                  //Month = ,
+                                                                  //AllocatedAmount = ,
+                                                                  //RequistionNo = ,
+                                                                  //BeginingBalance = 0,
+                                                                  //EndingBalance = 0,
+                                                                  DistributedAmount = woredaDistributionDetail.DistributedAmount,
+
+
+                                                              }
+                         )
+
+
+                };
+
+                    return woredaStockDistributionWithDetailViewModel;
+                }
+                return null;
+
+            }
+            return null;
+           
+        }
+        private RequisitionDetailViewModel GetRequisionInfo(int requisitionID,int fdpID)
+        {
+            var requisitionDetail =_reliefRequisitionDetailService.FindBy(m => m.RequisitionID == requisitionID && m.FDPID == fdpID).FirstOrDefault();
+            if (requisitionDetail != null)
+            {
+                var requisitonDetailInfo = new RequisitionDetailViewModel()
+                    {
+                        CommodityID = requisitionDetail.CommodityID,
+                        CommodityName = requisitionDetail.Commodity.Name,
+                        BeneficaryNumber = requisitionDetail.BenficiaryNo,
+                        AllocatedAmount = requisitionDetail.Amount
+                    };
+                return requisitonDetailInfo;
+            }
+            return null;
+        }
+        private IEnumerable<WoredaDistributionDetailViewModel> GetWoredaStockDistributionDetailInfo(int woredaStockDistributionID)
+        {
+            var woredaStockDistributionDetails = _utilizationDetailSerivce.FindBy(m => m.WoredaStockDistributionID == woredaStockDistributionID);
+            var woredaDistribution = _utilizationService.FindById(woredaStockDistributionID);
+            if (woredaStockDistributionDetails!=null)
+            {
+                
+            
+               return (from woredaStockDistributionDetail in woredaStockDistributionDetails
+                    select new WoredaDistributionDetailViewModel()
+                    {
+                        FdpId = woredaStockDistributionDetail.FdpId,
+                        FDP = woredaStockDistributionDetail.FDP.Name,
+                        WoredaStockDistributionID = woredaStockDistributionDetail.WoredaStockDistributionID,
+                        WoredaStockDistributionDetailID = woredaStockDistributionDetail.WoredaStockDistributionID,
+                        DistributedAmount = woredaStockDistributionDetail.DistributedAmount
+
+                    });
+            }
+            var fdpStockDistribution = _commonService.GetFDPs(woredaDistribution.WoredaID);
+            return  GetWoredaStockDistribution(fdpStockDistribution);
+
+        }
+        private WoredaStockDistribution GetWoredaDetailMOdel(WoredaStockDistributionWithDetailViewModel distributionViewModel)
+        {
+            if (distributionViewModel!=null)
+            {
+                var distributionModel = new WoredaStockDistribution()
+                    {
+                        WoredaStockDistributionID = distributionViewModel.WoredaStockDistributionID,
+                        ProgramID = distributionViewModel.ProgramID,
+                        PlanID = distributionViewModel.PlanID,
+                        WoredaID = distributionViewModel.WoredaID,
+                        Month = distributionViewModel.Month,
+                        ActualBeneficairies = distributionViewModel.ActualBeneficairies,
+                        MaleBetween5And18Years = distributionViewModel.MaleBetween5And18Years,
+                        MaleLessThan5Years = distributionViewModel.MaleLessThan5Years,
+                        MaleAbove18Years = distributionViewModel.MaleAbove18Years,
+                        FemaleAbove18Years = distributionViewModel.FemaleAbove18Years,
+                        FemaleBetween5And18Years = distributionViewModel.FemaleBetween5And18Years,
+                        FemaleLessThan5Years = distributionViewModel.FemaleLessThan5Years,
+                        SupportTypeID = distributionViewModel.SupportTypeID
+
+                    };
+                return distributionModel;
+            }
+            return null;
         }
         [HttpPost]
-        public ActionResult Create(WoredaStockDistribution woredaStockDistribution)
+        public ActionResult Create(WoredaStockDistributionWithDetailViewModel woredaStockDistribution)
         {
             if (woredaStockDistribution!=null && ModelState.IsValid)
             {
-                var utilization = _utilizationService.FindBy(m => m.WoredaID == woredaStockDistribution.WoredaID && m.WoredaStockDistributionID == woredaStockDistribution.WoredaStockDistributionID).FirstOrDefault();
+                var utilization = _utilizationService.FindBy(m => m.WoredaID == woredaStockDistribution.WoredaID && 
+                                                             m.PlanID == woredaStockDistribution.PlanID && 
+                                                             m.Month==woredaStockDistribution.Month).FirstOrDefault();
+                var BindToModel = GetWoredaDetailMOdel(woredaStockDistribution);
                 if (utilization==null)
                 {
                     var userProfileId = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).UserProfileID;
-                    woredaStockDistribution.DistributedBy = userProfileId;
-                    woredaStockDistribution.DistributionDate = DateTime.Now;
-                    _utilizationService.AddHeaderDistribution(woredaStockDistribution);
-                    return RedirectToAction("Index");
+                    BindToModel.DistributedBy = userProfileId;
+                    BindToModel.DistributionDate = DateTime.Now;
+                    var saved=_utilizationService.AddHeaderDistribution(BindToModel);
+                    if (saved)
+                    {
+                        var fdpStockDistribution = _commonService.GetFDPs(woredaStockDistribution.WoredaID);
+
+                        var woredaDistributionDetailViewModels = GetWoredaStockDistribution(fdpStockDistribution);
+
+
+                        var distributionHeader =
+                            _utilizationService.FindBy(m => m.WoredaID == woredaStockDistribution.WoredaID &&
+                                                            m.PlanID == woredaStockDistribution.PlanID &&
+                                                            m.Month == woredaStockDistribution.Month).FirstOrDefault();
+
+                        foreach (var woredaDistributionDetailViewModel in woredaDistributionDetailViewModels)
+                        {
+                            var distributionDetailModel = new WoredaStockDistributionDetail()
+                                {
+                                    WoredaStockDistributionID = distributionHeader.WoredaStockDistributionID,
+                                    FdpId = woredaDistributionDetailViewModel.FdpId,
+                                    DistributedAmount = woredaDistributionDetailViewModel.DistributedAmount
+
+
+                                };
+                            _utilizationDetailSerivce.AddDetailDistribution(distributionDetailModel);
+                        }
+
+                        ModelState.AddModelError("Success", @"Distribution Information Successfully Saved");
+                        LookUps();
+                        //var distributionDetail = _utilizationDetailSerivce.FindBy(m => m.WoredaStockDistributionID == distributionHeader.WoredaStockDistributionID);
+                        //distributionHeader.WoredaStockDistributionDetails = distributionDetail;
+                        WoredaStockDistributionWithDetailViewModel woredaStockDistributionViewModel = GetWoredaStockDistributionFormDB(distributionHeader);
+                        return View(woredaStockDistributionViewModel);
+                    }
                 }
-                ModelState.AddModelError("Errors",@"Distribution Information for this Woreda already exist.You can Edit the fields");
-                return RedirectToAction("Edit", new {id = woredaStockDistribution.WoredaStockDistributionID});
+                utilization.ActualBeneficairies = woredaStockDistribution.ActualBeneficairies;
+                utilization.FemaleLessThan5Years = woredaStockDistribution.FemaleLessThan5Years;
+                utilization.FemaleBetween5And18Years = woredaStockDistribution.FemaleLessThan5Years;
+                utilization.FemaleAbove18Years = woredaStockDistribution.FemaleAbove18Years;
+                utilization.MaleLessThan5Years = woredaStockDistribution.MaleLessThan5Years;
+                utilization.MaleBetween5And18Years = woredaStockDistribution.MaleBetween5And18Years;
+                utilization.MaleAbove18Years = woredaStockDistribution.MaleAbove18Years;
+                utilization.SupportTypeID = woredaStockDistribution.SupportTypeID;
+                _utilizationService.EditHeaderDistribution(utilization);
+
+                var woredaDistributionHeader = _utilizationService.FindById(utilization.WoredaStockDistributionID);
+                WoredaStockDistributionWithDetailViewModel woredaStockDistributionViewModel2 = GetWoredaStockDistributionFormDB(woredaDistributionHeader);
+                LookUps();
+                return View(woredaStockDistributionViewModel2);
             }
             ModelState.AddModelError("Errors",@"Unable to Save Distribution Information");
             return View();
+        }
+        public void LookUps()
+        {
+            ViewBag.Region = new SelectList(_commonService.GetAminUnits(m => m.AdminUnitTypeID == 2), "AdminUnitID", "Name");
+            ViewBag.Zone = new SelectList(_commonService.FindBy(m => m.AdminUnitTypeID == 3 && m.ParentID == 3), "AdminUnitID", "Name");
+            ViewBag.Woreda = new SelectList(_commonService.FindBy(m => m.AdminUnitTypeID == 4 && m.ParentID == 19), "AdminUnitID", "Name");
+            ViewBag.ProgramID = new SelectList(_commonService.GetPrograms(), "ProgramID", "Name");
+            //ViewBag.Month = new SelectList(RequestHelper.GetMonthList(), "Id", "Name");
+            ViewBag.SupportTypeID = new SelectList(_commonService.GetAllSupportType(), "SupportTypeID", "Description");
+        }
+        
+         public void LookUps(WoredaStockDistributionWithDetailViewModel distributionInfo)
+        {
+            
+             
+            ViewBag.Region = new SelectList(_commonService.GetAminUnits(m => m.AdminUnitTypeID == 2), "AdminUnitID", "Name");
+            ViewBag.Zone = new SelectList(_commonService.FindBy(m => m.AdminUnitTypeID == 3 && m.ParentID == 3), "AdminUnitID", "Name");
+            ViewBag.Woreda = new SelectList(_commonService.FindBy(m => m.AdminUnitTypeID == 4 && m.ParentID == 19), "AdminUnitID", "Name",distributionInfo.WoredaID);
+            ViewBag.ProgramID = new SelectList(_commonService.GetPrograms(), "ProgramID", "Name",distributionInfo.ProgramID);
+            //ViewBag.Month = new SelectList(RequestHelper.GetMonthList(), "Id", "Name");
+            ViewBag.SupportTypeID = new SelectList(_commonService.GetAllSupportType(), "SupportTypeID", "Description");
         }
         public ActionResult ReadRequestionNumbers([DataSourceRequest] DataSourceRequest request, 
                                                   int zoneId=-1, 
@@ -106,10 +339,10 @@ namespace Cats.Areas.Logistics.Controllers
             return Json(requisitionViewModel.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult WoredaStockDetail_Read([DataSourceRequest] DataSourceRequest request, int woredaID=-1, int woredaStockDistributionID=-1)
+        public ActionResult WoredaStockDetail_Read([DataSourceRequest] DataSourceRequest request, int woredaID=0, int woredaStockDistributionID=0)
         {
-            if (woredaID==-1) return null;
-            if (woredaStockDistributionID!=-1)
+            if (woredaID==0) return null;
+            if (woredaStockDistributionID!=0)
             {
                 var woredaStockDistribution =
                     _utilizationDetailSerivce.FindBy(
@@ -134,13 +367,16 @@ namespace Cats.Areas.Logistics.Controllers
                             FdpId = woredaStockDistributionDetail.FdpId,
                             FDP = woredaStockDistributionDetail.FDP.Name,
                             WoredaStockDistributionID = woredaStockDistributionDetail.WoredaStockDistributionID,
-                            WoredaStockDistributionDetailID = woredaStockDistributionDetail.WoredaStockDistributionID,
-                            DistributedAmount = woredaStockDistributionDetail.DistributedAmount
+                            WoredaStockDistributionDetailID = woredaStockDistributionDetail.WoredaStockDistributionDetailID,
+                            DistributedAmount = woredaStockDistributionDetail.DistributedAmount,
+                            BeginingBalance = woredaStockDistributionDetail.StartingBalance,
+                            EndingBalance = woredaStockDistributionDetail.EndingBalance
+                           
                             
                         });
 
         }
-
+        
         private IEnumerable<WoredaDistributionDetailViewModel>  GetWoredaStockDistribution(IEnumerable<FDP> fdps)
         {
             return (from fdp in fdps
@@ -149,265 +385,38 @@ namespace Cats.Areas.Logistics.Controllers
                             FdpId = fdp.FDPID,
                             FDP = fdp.Name,
                             DistributedAmount = 0
+                            
                         });
         }
-        //private  bool IsSaved(int planId, int month, int round)
-        //{
-        //    try
-        //    {
-        //        var utilization =
-        //            _utilizationService.FindBy(u => u.PlanId == planId && u.Month == month && u.Round == round).ToList();
-        //        if (utilization.Count > 0)
-        //            return true;
-        //        else
-        //            return false;
-        //    }
-        //    catch (Exception)
-        //    {
-
-        //        return false;
-        //    }
-        //}
-        public ActionResult ReadRequisitionDetail([DataSourceRequest] DataSourceRequest request,   int requisitionId = -1 )
-        {
-            if (requisitionId == -1)
-                return null;
-            var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
-            var requisitionDetail = _utilizationService.GetReliefRequisitions(requisitionId);
-            //var requisitionViewModel = UtilizationViewModelBinder.GetUtilizationDetailViewModel(requisition);
-            var distributionByAgeDetailViewModel = GetDistributionByAgeDetail(requisitionDetail);
-            return Json(distributionByAgeDetailViewModel.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
-
-        }
-        private IEnumerable<WoredaDistributionDetailViewModel> GetDistributionByAgeDetail(IEnumerable<ReliefRequisitionDetail> reliefRequisitionDetails)
-        {
-            var woredaGrouped = (from reliefRequisitionDetail in reliefRequisitionDetails
-                                 group reliefRequisitionDetail by reliefRequisitionDetail.FDP.AdminUnit
-                                 into woredaDetail
-                                 select woredaDetail);
-            return (from groupedDetail in woredaGrouped
-                    select new WoredaDistributionDetailViewModel()
-                        {
-                            WoredaID = groupedDetail.Key.AdminUnitID,
-                            WoredaName = groupedDetail.Key.Name
-                           
-                        });
-
-        }
-        public ActionResult DistributionByAge_Read([DataSourceRequest] DataSourceRequest request, int requisitionId = -1)
-        {
-            if (requisitionId == -1)
-                return null;
-            var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
-            var requisitionDetail = _utilizationService.GetReliefRequisitions(requisitionId);
-            var distributionByAgeDetailViewModel = UtilizationViewModelBinder.GetDistributionByAgeDetail(requisitionDetail);
-            return Json(distributionByAgeDetailViewModel.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
-
-        }
-
+      
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult Update([DataSourceRequest] DataSourceRequest request, IEnumerable<Models.UtilizationDetailViewModel> utilizationDetailViewModels)
+        public ActionResult UpdateWoredaDistribution([DataSourceRequest] DataSourceRequest request,WoredaDistributionDetailViewModel woredaDistributionDetail )
         {
-            var results = new List<Models.UtilizationDetailViewModel>();
-            return Json(results.ToDataSourceResult(request, ModelState));
+            if (woredaDistributionDetail != null && ModelState.IsValid)
+            {
+                var detail = _utilizationDetailSerivce.FindById(woredaDistributionDetail.WoredaStockDistributionDetailID);
+                if (detail != null)
+                {
+                    detail.WoredaStockDistributionID = woredaDistributionDetail.WoredaStockDistributionID;
+                    detail.DistributedAmount = woredaDistributionDetail.DistributedAmount;
+                    detail.TotalIn = woredaDistributionDetail.TotalIn;
+                    detail.TotoalOut = woredaDistributionDetail.TotalOut;
+                    detail.StartingBalance = woredaDistributionDetail.BeginingBalance;
+                    detail.EndingBalance = woredaDistributionDetail.EndingBalance;
+                    detail.LossAmount = woredaDistributionDetail.LossAmount;
+                 
+
+                    _utilizationDetailSerivce.EditDetailDistribution(detail);
+                }
+
+            }
+            return Json(new[] { woredaDistributionDetail }.ToDataSourceResult(request, ModelState));
         }
 
-        //[AcceptVerbs(HttpVerbs.Post)]
-        //public ActionResult Utilization_Update([DataSourceRequest] DataSourceRequest request, [Bind(Prefix = "models")]IEnumerable<Models.UtilizationDetailViewModel> utilizationDetailViewModels)
-        //{
-
-
-        //           var userProfileId = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).UserProfileID;
-        //            var planId = utilizationDetailViewModels.FirstOrDefault().PlanId;
-        //            var month = utilizationDetailViewModels.FirstOrDefault().Month;
-        //            var round = utilizationDetailViewModels.FirstOrDefault().Round;
-        //            var requisitionID = utilizationDetailViewModels.FirstOrDefault().RequisitionId;
-                   
-                
-        //        foreach (var utilizationDetailViewModel in utilizationDetailViewModels)
-        //        {
-
-
-        //            var utilizationHeader =
-        //                _utilizationService.FindBy(m => m.RequisitionId == requisitionID && m.PlanId == planId &&
-        //                                                m.Month == month && m.Round == round).FirstOrDefault();
-        //            if (utilizationHeader != null)
-        //            {
-        //                var utilizationDetail =
-        //                    _utilizationDetailSerivce.FindBy(
-        //                        m => m.WoredaStockDistributionID == utilizationHeader.WoredaStockDistributionID
-        //                             && m.FdpId == utilizationDetailViewModel.FdpId).FirstOrDefault();
-        //                var distributionByAgeDetail =
-        //                    _distributionByAgeDetailService.FindBy(
-        //                        m => m.DistributionHeaderID == utilizationHeader.WoredaStockDistributionID
-        //                             && m.FDPID == utilizationDetailViewModel.FdpId).FirstOrDefault();
-        //                if (utilizationDetail != null)
-        //                {
-        //                    utilizationDetail.DistributedAmount = utilizationDetailViewModel.DistributedQuantity;
-        //                    _utilizationDetailSerivce.EditDetailDistribution(utilizationDetail);
-        //                }
-        //                else
-        //                {
-        //                    var utilizationDetailModel = new WoredaStockDistributionDetail
-        //                        {
-        //                            DistributedAmount = utilizationDetailViewModel.DistributedQuantity,
-        //                            FdpId = utilizationDetailViewModel.FdpId,
-        //                            WoredaStockDistributionID = utilizationHeader.WoredaStockDistributionID
-        //                        };
-        //                    _utilizationDetailSerivce.AddDetailDistribution(utilizationDetailModel);
-        //                }
-        //                if (distributionByAgeDetail != null)
-        //                {
-        //                    distributionByAgeDetail.FemaleLessThan5Years =
-        //                        utilizationDetailViewModel.FemaleLessThan5Years;
-        //                    distributionByAgeDetail.MaleLessThan5Years = utilizationDetailViewModel.MaleLessThan5Years;
-        //                    distributionByAgeDetail.FemaleBetween5And18Years =
-        //                        utilizationDetailViewModel.FemaleBetween5And18Years;
-        //                    distributionByAgeDetail.MaleBetween5And18Years =
-        //                        utilizationDetailViewModel.MaleBetween5And18Years;
-        //                    distributionByAgeDetail.FemaleAbove18Years = utilizationDetailViewModel.FemaleAbove18Years;
-        //                    distributionByAgeDetail.MaleAbove18Years = utilizationDetailViewModel.MaleAbove18Years;
-        //                    _distributionByAgeDetailService.EditDistributionByAgeDetail(distributionByAgeDetail);
-
-        //                }
-        //                else
-        //                {
-        //                    var distributionDetailByAgeModel = new DistributionByAgeDetail()
-        //                        {
-        //                            FDPID = utilizationDetailViewModel.FdpId,
-        //                            FemaleLessThan5Years = utilizationDetailViewModel.FemaleLessThan5Years,
-        //                            MaleLessThan5Years = utilizationDetailViewModel.MaleLessThan5Years,
-        //                            FemaleBetween5And18Years = utilizationDetailViewModel.FemaleBetween5And18Years,
-        //                            MaleBetween5And18Years = utilizationDetailViewModel.MaleBetween5And18Years,
-        //                            FemaleAbove18Years = utilizationDetailViewModel.FemaleAbove18Years,
-        //                            MaleAbove18Years = utilizationDetailViewModel.MaleAbove18Years,
-        //                            DistributionHeaderID = utilizationHeader.WoredaStockDistributionID
-        //                        };
-        //                    _distributionByAgeDetailService.AddDistributionByAgeDetail(distributionDetailByAgeModel);
-        //                }
-        //            }
-        //            else
-        //            {
-        //                var utilization = new WoredaStockDistribution()
-        //                    {
-        //                        //RequisitionId = requisitionID,
-        //                        //PlanId = planId,
-        //                        Month = month,
-        //                        //Round = round,
-        //                        DistributionDate = DateTime.Now,
-        //                        DistributedBy = userProfileId
-        //                    };
-
-        //                _utilizationService.AddHeaderDistribution(utilization);
-        //            }
-        //        }
-            
-        //    return Json(utilizationDetailViewModels.ToDataSourceResult(request, ModelState));
-        //}
-
-        //[AcceptVerbs(HttpVerbs.Post)]
-        //public ActionResult Create([DataSourceRequest] DataSourceRequest request,
-        //    [Bind(Prefix = "models")]IEnumerable<Models.UtilizationDetailViewModel> utilizationDetailViewModels, FormCollection collection)
-        //{
-
-        //    int planId = 0;
-        //    int month = 0;
-        //    int round = 0;
-            
-
-        //    foreach (var utilizationDetailViewModel in utilizationDetailViewModels)
-        //    {
-        //       planId = utilizationDetailViewModel.PlanId;
-        //       month = utilizationDetailViewModel.Month;
-        //       round = utilizationDetailViewModel.Round;
-        //        break;
-        //    }
-
-
-        //    var userProfileId = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).UserProfileID;
-        //    var results = new List<Models.UtilizationDetailViewModel>();
-
-
-            
-        //    var utilization = new Cats.Models.WoredaStockDistribution();
-                                 
-            
-        //       WoredaStockDistribution utilizationToBeSaved =_utilizationService.FindBy(u => u.PlanId == planId && u.Month == month && u.Round == round).SingleOrDefault();
-        //        if (utilizationToBeSaved != null)
-        //        {
-        //            foreach (var utilizationDetailViewModel in utilizationDetailViewModels)
-        //            {
-        //                UtilizationDetailViewModel model = utilizationDetailViewModel;
-        //                var utilDetail =
-        //                    _utilizationDetailSerivce.FindBy(
-        //                        u =>
-        //                        u.FdpId == model.FdpId && u.WoredaStockDistribution.PlanId == planId &&
-        //                        u.WoredaStockDistribution.Month == month && u.WoredaStockDistribution.Round == round).SingleOrDefault();
-
-        //                var distributionByAgeDetail=_distributionByAgeDetailService.FindBy(m=>m.FDPID==model.FdpId && m.WoredaStockDistribution.PlanId == planId &&
-        //                        m.WoredaStockDistribution.Month == month && m.WoredaStockDistribution.Round == round).SingleOrDefault();
-        //                //if (utilDetail == null &&) continue;
-        //                if (utilDetail != null)
-        //                {
-        //                    utilDetail.DistributedQuantity = utilizationDetailViewModel.DistributedQuantity;
-        //                    _utilizationDetailSerivce.EditDetailDistribution(utilDetail);
-        //                }
-        //               if(distributionByAgeDetail!=null)
-        //                {
-        //                    distributionByAgeDetail.FemaleAbove18Years = model.FemaleAbove18Years;
-        //                    distributionByAgeDetail.FemaleBetween5And18Years = model.FemaleBetween5And18Years;
-        //                    distributionByAgeDetail.FemaleAbove18Years = model.FemaleAbove18Years;
-        //                }
-        //            }
-        //        }
-        //        else
-        //        {
-
-        //             foreach (var utilizationDetailViewModel in utilizationDetailViewModels)
-        //             {
-        //                  var utilizationDetail = new Cats.Models.WoredaStockDistributionDetail
-        //                                            {
-        //                                                DistributedQuantity =
-        //                                                utilizationDetailViewModel.DistributedQuantity,
-        //                                                FdpId = utilizationDetailViewModel.FdpId,
-        //                                                WoredaStockDistribution = utilization
-        //                                            };
-        //                  var distributionByAgeDetail = new DistributionByAgeDetail()
-        //                      {
-        //                          FDPID = utilizationDetailViewModel.FdpId,
-        //                          FemaleLessThan5Years = utilizationDetailViewModel.FemaleLessThan5Years,
-        //                          MaleLessThan5Years = utilizationDetailViewModel.MaleLessThan5Years,
-        //                          FemaleBetween5And18Years = utilizationDetailViewModel.FemaleBetween5And18Years,
-        //                          MaleBetween5And18Years = utilizationDetailViewModel.MaleBetween5And18Years,
-        //                          FemaleAbove18Years = utilizationDetailViewModel.FemaleAbove18Years,
-        //                          MaleAbove18Years = utilizationDetailViewModel.MaleAbove18Years,
-        //                          WoredaStockDistribution = utilization
-
-        //                      };
-
-        //                 utilization.RequisitionId = utilizationDetailViewModel.RequisitionId;
-        //                 utilization.PlanId = utilizationDetailViewModel.PlanId;
-        //                 utilization.Month = utilizationDetailViewModel.Month;
-        //                 utilization.Round = utilizationDetailViewModel.Round;
-        //                 utilization.DistributionDate = DateTime.Now;
-        //                 utilization.DistributedBy = userProfileId;
-        //                 _utilizationDetailSerivce.AddDetailDistribution(utilizationDetail);
-        //                 _distributionByAgeDetailService.AddDistributionByAgeDetail(distributionByAgeDetail);
-
-        //             }
-
-                                    
-        //    }
-
-        //    return Json(results.ToDataSourceResult(request, ModelState));
-        //}
-                
-
-
-        public JsonResult GetPlans(string id)
+        public JsonResult GetPlans(string id,int zoneID)
         {
             var programId = int.Parse(id);
-            var plans = _commonService.GetPlan(programId);
+            var plans = _commonService.GetRequisitionGeneratedPlan(programId,zoneID);
             return Json(new SelectList(plans.ToList(), "PlanID", "PlanName"), JsonRequestBehavior.AllowGet);
         }
        
@@ -472,6 +481,53 @@ namespace Cats.Areas.Logistics.Controllers
                      }
                     );
             return Json(r, JsonRequestBehavior.AllowGet);
+        }
+
+        private WoredaStockDistributionWithDetailViewModel GetWoredaStockDistributionFormDB(WoredaStockDistribution woredaStockDistribution)
+        {
+            var woredaStockDistributionWithDetailViewModel = new WoredaStockDistributionWithDetailViewModel()
+            {
+                WoredaStockDistributionID = woredaStockDistribution.WoredaStockDistributionID,
+                WoredaID = woredaStockDistribution.WoredaID,
+                ProgramID = woredaStockDistribution.ProgramID,
+                PlanID = woredaStockDistribution.PlanID,
+                Month = woredaStockDistribution.WoredaStockDistributionID,
+                SupportTypeID = woredaStockDistribution.SupportTypeID,
+                ActualBeneficairies = woredaStockDistribution.ActualBeneficairies,
+                MaleBetween5And18Years = woredaStockDistribution.MaleBetween5And18Years,
+                MaleAbove18Years = woredaStockDistribution.MaleAbove18Years,
+                MaleLessThan5Years = woredaStockDistribution.MaleLessThan5Years,
+                FemaleAbove18Years = woredaStockDistribution.FemaleAbove18Years,
+                FemaleBetween5And18Years = woredaStockDistribution.FemaleBetween5And18Years,
+                
+                //WoredaDistributionDetailViewModels = (from woredaDistributionDetail in woredaStockDistribution.WoredaStockDistributionDetails
+                //                                      select new WoredaDistributionDetailViewModel()
+                //                                      {
+                //                                          FdpId = woredaDistributionDetail.FdpId,
+                //                                          //FDP = woredaDistributionDetail.FDP.Name,
+                //                                          WoredaStockDistributionDetailID = woredaDistributionDetail.WoredaStockDistributionDetailID,
+                //                                          WoredaStockDistributionID = woredaDistributionDetail.WoredaStockDistributionID,
+                //                                          //RequisitionDetailViewModel = GetRequisionInfo(requisition.RequisitionID, woredaDistributionDetail.FdpId),
+                //                                          //RequistionNo = requisition.RequisitionNo,
+                //                                          //Round = requisition.Round,
+                //                                          //Month = RequestHelper.MonthName(requisition.Month),
+
+                //                                          //CommodityName = ,
+                //                                          //Month = ,
+                //                                          //AllocatedAmount = ,
+                //                                          //RequistionNo = ,
+                //                                          //BeginingBalance = 0,
+                //                                          //EndingBalance = 0,
+                //                                          DistributedAmount = woredaDistributionDetail.DistributedAmount,
+
+
+                //                                      }
+                //     )
+
+
+            };
+
+            return woredaStockDistributionWithDetailViewModel;
         }
     }
 }

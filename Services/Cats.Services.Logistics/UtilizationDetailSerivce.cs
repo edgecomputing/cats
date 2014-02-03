@@ -52,7 +52,7 @@ namespace Cats.Services.Logistics
         {
             return _unitOfWork.WoredaStockDistributionDetailRepository.GetAll();
         }
-        public WoredaStockDistributionDetail FindById(Guid id)
+        public WoredaStockDistributionDetail FindById(int id)
         {
             return _unitOfWork.WoredaStockDistributionDetailRepository.FindById(id);
         }

@@ -493,6 +493,7 @@
     <Compile Include="Areas\Logistics\Models\HubDto.cs" />
     <Compile Include="Areas\Logistics\Models\UtilizationDetailViewModel.cs" />
     <Compile Include="Areas\Logistics\Models\UtilizationViewModel.cs" />
+    <Compile Include="Areas\Logistics\Models\WoredaStockDistributionWithDetailViewModel.cs" />
     <Compile Include="Areas\Procurement\Controllers\BidProposalController.cs" />
     <Compile Include="Areas\Procurement\Controllers\BidAdministrationController.cs" />
     <Compile Include="Areas\Procurement\Controllers\ContractAdministrationController.cs" />
@@ -1661,6 +1662,7 @@
     <Content Include="Areas\Logistics\Views\WoredaStockDistribution\_DistributionByAge.cshtml" />
     <Content Include="Areas\Logistics\Views\WoredaStockDistribution\_DistributionByBeneficiary.cshtml" />
     <Content Include="Areas\Logistics\Views\WoredaStockDistribution\Create.cshtml" />
+    <Content Include="Areas\Logistics\Views\WoredaStockDistribution\_LeftBar.cshtml" />
     <None Include="dataset.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>dataset.Designer.cs</LastGenOutput>

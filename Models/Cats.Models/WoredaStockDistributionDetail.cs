@@ -12,12 +12,15 @@ namespace Cats.Models
         public int WoredaStockDistributionID { get; set; }
         public int FdpId { get; set; }
         public decimal DistributedAmount { get; set; }
+        public decimal StartingBalance { get; set; }
+        public decimal EndingBalance { get; set; }
+        public decimal TotalIn { get; set; }
+        public decimal TotoalOut { get; set; }
+        public DateTime DistributionStartDate { get; set; }
+        public DateTime DistributionEndDate { get; set; }
+        public decimal LossAmount { get; set; }
+        public string  LossReason { get; set; }
 
-        //public DateTime? DistributionSartDate { get; set; }
-        //public DateTime? DistributionEndDate { get; set; }
-        //public decimal? LossAmount { get; set; }
-        //public string LossReason { get; set; }
-        //public decimal? Transfered { get; set; }
         public virtual FDP FDP { get; set; }
         public virtual WoredaStockDistribution WoredaStockDistribution { get; set; }
     }

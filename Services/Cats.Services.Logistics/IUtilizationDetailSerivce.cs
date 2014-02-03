@@ -15,7 +15,7 @@ namespace Cats.Services.Logistics
         bool DeleteDetailDistribution(WoredaStockDistributionDetail DetailDistribution);
         bool DeleteById(int id);
         bool EditDetailDistribution(WoredaStockDistributionDetail DetailDistribution);
-        WoredaStockDistributionDetail FindById(Guid id);
+        WoredaStockDistributionDetail FindById(int id);
         List<WoredaStockDistributionDetail> GetAllDetailDistribution();
         List<WoredaStockDistributionDetail> FindBy(Expression<Func<WoredaStockDistributionDetail, bool>> predicate);
         IEnumerable<WoredaStockDistributionDetail> Get(
