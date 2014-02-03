@@ -27,16 +27,16 @@ namespace Cats.Models
         public string Longitude { get; set; }
 
         public virtual AdminUnit AdminUnit { get; set; }
-
+        public virtual ICollection<Dispatch> Dispatches { get; set; }
         public virtual ICollection<Contact> Contacts { get; set; }
         public virtual ICollection<DispatchAllocation> DispatchAllocations { get; set; }
         public virtual ICollection<RegionalRequestDetail> RegionalRequestDetails { get; set; }
         public virtual ICollection<ReliefRequisitionDetail> ReliefRequisitionDetails { get; set; }
         public virtual ICollection<TransportOrderDetail> TransportOrderDetails { get; set; }
         public virtual ICollection<RegionalPSNPPlanDetail> RegionalPSNPPlanDetails { get; set; }
-        public virtual ICollection<Distribution> Distributions { get; set; }
+        public virtual ICollection<Delivery> Deliveries { get; set; }
         public virtual ICollection<DistributionByAgeDetail> DistributionByAgeDetails  { get; set; }
-        public virtual ICollection<UtilizationDetail> UtilizationDetails { get; set; }
+        public virtual ICollection<WoredaStockDistributionDetail> WoredaStockDistributionDetails { get; set; }
       
   
 

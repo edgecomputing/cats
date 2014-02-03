@@ -126,22 +126,35 @@ namespace Cats.Data
         public DbSet<SIPCAllocation> SIPCAllocation { get; set; }
         public DbSet<HrdDonorCoverage> HrdDonorCoverages { get; set; }
         public DbSet<HrdDonorCoverageDetail> HrdDonorCoverageDetails { get; set; }
-        public DbSet<Distribution> Distributions { get; set; }
-        public DbSet<DistributionDetail> DistributionDetails { get; set; }
+        public DbSet<Delivery> Deliveries { get; set; }
+        public DbSet<DeliveryDetail> DeliveryDetails { get; set; }
         public DbSet<PaymentRequest> PaymentRequests { get; set; }
 
         public DbSet<IDPSReasonType> IDPSReasonTypes { get; set; }
 
         public DbSet<WoredaHubLink> WoredaHubLinks { get; set; }
         public DbSet<ActionTypes> ActionTypeses { get; set; }
-        public DbSet<UtilizationHeader> HeaderDistributions { get; set; }
-        public DbSet<UtilizationDetail> DetailDistributions { get; set; }
+        public DbSet<WoredaStockDistribution> WoredaStockDistributions { get; set; }
+        public DbSet<WoredaStockDistributionDetail> WoredaStockDistributionDetails { get; set; }
         public DbSet<DistributionByAgeDetail> DistributionByAgeDetails { get; set; }
+
         public DbSet<ReceiptPlan> ReceiptPlans { get; set; }
         public DbSet<ReceiptPlanDetail> ReceiptPlanDetails { get; set; }
 
+        public DbSet<SupportType> SupportTypes { get; set; }
+
+        public DbSet<Dispatch> Dispatches { get; set; }
+        public DbSet<DispatchDetail> DispatchDetails { get; set; }
+        public DbSet<OtherDispatchAllocation> OtherDispatchAllocations { get; set; }
+
+
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            modelBuilder.Configurations.Add(new DispatchMap());
+            modelBuilder.Configurations.Add(new DispatchDetailMap());
+            modelBuilder.Configurations.Add(new OtherDispatchAllocationMap());
+
             modelBuilder.Configurations.Add(new PaymentRequestMap());
             modelBuilder.Configurations.Add(new SIPCAllocationMap());
             modelBuilder.Configurations.Add(new PromisedContributionMap());
@@ -246,8 +259,8 @@ namespace Cats.Data
             modelBuilder.Configurations.Add(new NotificationMap());
             modelBuilder.Configurations.Add(new HRDDonorCoverageMap());
             modelBuilder.Configurations.Add(new HrdDonorCoverageDetailMap());
-            modelBuilder.Configurations.Add(new DistributionMap());
-            modelBuilder.Configurations.Add(new DistributionDetailMap());
+            modelBuilder.Configurations.Add(new DeliveryMap());
+            modelBuilder.Configurations.Add(new DeliveryDetailMap());
             modelBuilder.Configurations.Add(new IDPSReasonTypeMap());
             modelBuilder.Configurations.Add(new TransportBidQuotationHeaderMap());
             modelBuilder.Configurations.Add(new ActionTypesMap());
@@ -256,8 +269,8 @@ namespace Cats.Data
             modelBuilder.Configurations.Add(new TemplateMap());
             modelBuilder.Configurations.Add(new TemplateFieldMap());
 
-            modelBuilder.Configurations.Add(new UtilizationHeaderMap());
-            modelBuilder.Configurations.Add(new UtilizationDetailMap());
+            modelBuilder.Configurations.Add(new WoredaStockDistributionMap());
+            modelBuilder.Configurations.Add(new WoredaStockDistributionDetailMap());
 
             modelBuilder.Configurations.Add(new DistributionByAgeDetailMap());
 

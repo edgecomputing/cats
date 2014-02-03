@@ -31,10 +31,10 @@ namespace Cats.Helpers
         {
             try
             {
-                var _distributionDetailService = (IDistributionDetailService)DependencyResolver.Current.GetService(typeof(IDistributionDetailService)); 
+                var _distributionDetailService = (IDeliveryDetailService)DependencyResolver.Current.GetService(typeof(IDeliveryDetailService)); 
                 var receivedAtFdp =
                _distributionDetailService.FindBy(
-                   r => r.Distribution.RequisitionNo == requisitionNo && r.Distribution.FDPID == fdpId).Sum(
+                   r => r.Delivery.RequisitionNo == requisitionNo && r.Delivery.FDPID == fdpId).Sum(
                        r => r.ReceivedQuantity);
 
                 return receivedAtFdp;
@@ -52,21 +52,21 @@ namespace Cats.Helpers
             return 600;
         }
 
-        public static decimal GetDistributedQuantity(int requisitionId, int fdpId)
-        {
-            try
-            {
-                var _utilizationDetailService = (IUtilizationDetailSerivce)DependencyResolver.Current.GetService(typeof(IUtilizationDetailSerivce)); 
-                return
-                    _utilizationDetailService.FindBy(
-                        r => r.UtilizationHeader.RequisitionId == requisitionId && r.FdpId == fdpId).Select(q=>q.DistributedQuantity).SingleOrDefault();
-            }
-            catch (Exception)
-            {
+        //public static decimal GetDistributedQuantity(int requisitionId, int fdpId)
+        //{
+        //    try
+        //    {
+        //        var _utilizationDetailService = (IUtilizationDetailSerivce)DependencyResolver.Current.GetService(typeof(IUtilizationDetailSerivce)); 
+        //        return
+        //            _utilizationDetailService.FindBy(
+        //                r => r.WoredaStockDistribution.RequisitionId == requisitionId && r.FdpId == fdpId).Select(q=>q.DistributedQuantity).SingleOrDefault();
+        //    }
+        //    catch (Exception)
+        //    {
                 
-                return 0;
-            }
-        }
+        //        return 0;
+        //    }
+        //}
 
         public static DistributionByAgeDetail GetDistributionDetail(int requisitionID, int fdpID)
         {

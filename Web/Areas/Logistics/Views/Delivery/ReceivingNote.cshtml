@@ -1,0 +1,125 @@
+﻿@model Cats.Areas.Logistics.Models.DeliveryViewModel
+@using Cats.Models
+@using Kendo.Mvc.UI
+@using LanguageHelpers.Localization
+@{
+    ViewBag.Title = "Goods Receving Note";
+    Layout = "~/Views/Shared/_MainLayoutWide.cshtml";
+}
+<div class="page-header">@Translator.Translate("Transport Goods Receiving Note")</div>
+@Html.HiddenFor(model => model.DeliveryID)
+@Html.HiddenFor(model => model.DispatchID)
+@Html.HiddenFor(model => model.HubID)
+@Html.HiddenFor(model => model.FDPID)
+@Html.HiddenFor(model => model.TransporterID)
+@Html.HiddenFor(model => model.DonorID)
+@Html.HiddenFor(model => model.DocumentReceivedBy)
+<div class="control-group form-horizontal well">
+    <div class="row">
+        <div class="span6">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.ReceivingNumber)
+
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(model => model.ReceivingNumber, new { Disabled = true })
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.InvoiceNo)
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(model => model.InvoiceNo, new { Disabled = true })
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.DriverName)
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(model => model.DriverName, new { Disabled = true })
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.DeliveryDate, new { @class = "cats-date-pref" })
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(model => model.DeliveryDate, new { Disabled = true })
+                </div>
+            </div>
+        </div>
+        <div class="span6">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.Transporter)
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(model => model.Transporter, new { Disabled = true })
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.FDP)
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(model => model.FDP, new { Disabled = true })
+                </div>
+
+            </div>
+      
+        <div class="control-group">
+            <div class="control-label">
+                @Html.LabelFor(model => model.DocumentReceivedDate, new { @class = "cats-date-pref" })
+            </div>
+            <div class="controls">
+                @Html.TextBoxFor(model => model.DocumentReceivedDate, new { Disabled = true })
+            </div>
+
+        </div>
+        <div class="control-group">
+            <div class="control-label">
+                @Html.LabelFor(model => model.DeliveryBy)
+            </div>
+            <div class="controls">
+                @Html.TextBoxFor(model => model.DeliveryBy, new { Disabled = true })
+            </div>
+        </div>
+    </div>
+
+  </div>
+
+</div>
+@(Html.Kendo().Grid<DeliveryDetail>().Name("grid")
+.Columns(col =>
+             {
+                 col.Bound(t => t.Commodity.Name);
+                 col.Bound(t => t.CommodityID).Hidden(true);
+                 col.Bound(t => t.DeliveryDetailID).Hidden(true);
+                 col.Bound(t => t.DeliveryID).Hidden(true);
+                 col.Bound(t => t.SentQuantity);
+                 col.Bound(t => t.ReceivedQuantity);
+                 col.Bound(t => t.UnitID).Hidden(true);
+                 col.Bound(t => t.Unit.Name);
+
+             })
+  .DataSource(datasource =>
+
+                      datasource.Ajax().Read("ReadDeliveryDetail", "Distribution", new { id = Model.DeliveryID, Area = "Logistrics" })
+                                       .Model(t =>
+                                                  {
+                                                      t.Id(m => m.DeliveryDetailID);
+                                                      t.Field(m => m.SentQuantity).Editable(false);
+                                                      t.Field(m => m.Unit.Name).Editable(false);
+                                                      t.Field(m => m.Commodity.Name).Editable(false);
+                                                      t.Field(m => m.ReceivedQuantity).Editable(false);
+
+                                                  })
+
+
+
+                  )
+)
+

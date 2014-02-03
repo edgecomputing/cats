@@ -21,7 +21,12 @@ namespace Cats.Models
         public virtual ICollection<RegionalPSNPPledge> RegionalPSNPPledges { get; set; }
         public virtual ICollection<Transaction> Transactions { get; set; }
         public ICollection<RationDetail> RationDetails { get; set; }
-        public virtual ICollection<DistributionDetail> DistributionDetails { get; set; }
+
+      //  public virtual ICollection<DistributionDetail> DistributionDetails { get; set; }
        
+
+        public virtual ICollection<DeliveryDetail> DeliveryDetails { get; set; }
+        public virtual ICollection<DispatchDetail> DispatchDetails { get; set; }
+
     }
 }

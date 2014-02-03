@@ -84,17 +84,17 @@
                     @(Html.TextBoxFor(model=>model.Commodity,new { Disabled = true }))
                 </div>
             </div>
-            
-            <div class="control-group">
-                <div class="control-label">
-                    @Html.LabelFor(model => model.WieghtInMT, @Translator.Translate("GC Amount")) 
-                </div>
-                <div class="controls" >
-                    @(Html.TextBoxFor(model=>model.WieghtInMT,new { Disabled = true }))
+            <div class="span4">
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.LabelFor(model => model.WieghtInMT, @Translator.Translate("GC Amount")) 
+                    </div>
+                    <div class="controls" >
+                        @(Html.TextBoxFor(model=>model.WieghtInMT,new { Disabled = true }))
+                    </div>
                 </div>
             </div>
         </div>
-    
     </div>
      <div class="row">
         <div class="span4">

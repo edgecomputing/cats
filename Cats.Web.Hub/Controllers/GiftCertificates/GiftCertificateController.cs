@@ -64,7 +64,6 @@ namespace Cats.Web.Hub.Controllers
             {
                 return Json(string.Format("{0} is invalid, there is an existing record with the same SI Number ", SINumber),
                         JsonRequestBehavior.AllowGet);
-
             }
         }
 

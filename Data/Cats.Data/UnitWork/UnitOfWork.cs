@@ -40,6 +40,24 @@ namespace Cats.Data.UnitWork
 
         }
 
+        private IGenericRepository<Dispatch> _DispatchRepository = null;
+        public IGenericRepository<Dispatch> DispatchRepository
+        {
+            get { return this._DispatchRepository ?? (this._DispatchRepository = new GenericRepository<Dispatch>(_context)); }
+        }
+
+        private IGenericRepository<DispatchDetail> _DispatchDetailRepository = null;
+        public IGenericRepository<DispatchDetail> DispatchDetailRepository
+        {
+            get { return this._DispatchDetailRepository ?? (this._DispatchDetailRepository = new GenericRepository<DispatchDetail>(_context)); }
+        }
+        private IGenericRepository<OtherDispatchAllocation> _OtherDispatchAllocationRepository = null;
+        public IGenericRepository<OtherDispatchAllocation> OtherDispatchAllocationRepository
+        {
+            get { return this._OtherDispatchAllocationRepository ?? (this._OtherDispatchAllocationRepository = new GenericRepository<OtherDispatchAllocation>(_context)); }
+        }
+
+
         private IGenericRepository<TransporterAgreementVersion> _TransporterAgreementVersionRepository = null;
         public IGenericRepository<TransporterAgreementVersion> TransporterAgreementVersionRepository
         {
@@ -819,16 +837,16 @@ namespace Cats.Data.UnitWork
             get { return this.hrdDonorCoverageDetailRepository ?? (this.hrdDonorCoverageDetailRepository = new GenericRepository<HrdDonorCoverageDetail>(_context)); }
         }
 
-        private IGenericRepository<Distribution> distributionRepositiory;
-        public IGenericRepository<Distribution> DistributionRepository
+        private IGenericRepository<Delivery> deliveryRepositiory;
+        public IGenericRepository<Delivery> DeliveryRepository
         {
-            get { return this.distributionRepositiory ?? (this.distributionRepositiory = new GenericRepository<Distribution>(_context)); }
+            get { return this.deliveryRepositiory ?? (this.deliveryRepositiory = new GenericRepository<Delivery>(_context)); }
       
         }
-        private IGenericRepository<DistributionDetail> distributionDetailRepository;
-        public IGenericRepository<DistributionDetail> DistributionDetailRepository
+        private IGenericRepository<DeliveryDetail> deliveryDetailRepository;
+        public IGenericRepository<DeliveryDetail> DeliveryDetailRepository
         {
-            get { return this.distributionDetailRepository ?? (this.distributionDetailRepository = new GenericRepository<DistributionDetail>(_context)); }
+            get { return this.deliveryDetailRepository ?? (this.deliveryDetailRepository = new GenericRepository<DeliveryDetail>(_context)); }
       
         }
 
@@ -866,17 +884,17 @@ namespace Cats.Data.UnitWork
 
         }
 
-        private IGenericRepository<UtilizationHeader> utilizationHeaderRepository;
-        public IGenericRepository<UtilizationHeader> UtilizationHeaderRepository
+        private IGenericRepository<WoredaStockDistribution> utilizationHeaderRepository;
+        public IGenericRepository<WoredaStockDistribution> WoredaStockDistributionRepository
         {
-            get { return this.utilizationHeaderRepository ?? (this.utilizationHeaderRepository = new GenericRepository<UtilizationHeader>(_context)); }
+            get { return this.utilizationHeaderRepository ?? (this.utilizationHeaderRepository = new GenericRepository<WoredaStockDistribution>(_context)); }
 
         }
 
-        private IGenericRepository<UtilizationDetail> utilizationDetailRepository;
-        public IGenericRepository<UtilizationDetail> UtilizationDetailRepository
+        private IGenericRepository<WoredaStockDistributionDetail> utilizationDetailRepository;
+        public IGenericRepository<WoredaStockDistributionDetail> WoredaStockDistributionDetailRepository
         {
-            get { return this.utilizationDetailRepository ?? (this.utilizationDetailRepository = new GenericRepository<UtilizationDetail>(_context)); }
+            get { return this.utilizationDetailRepository ?? (this.utilizationDetailRepository = new GenericRepository<WoredaStockDistributionDetail>(_context)); }
 
         }
 
@@ -886,6 +904,7 @@ namespace Cats.Data.UnitWork
             get { return this._distributionByAgeDetailRepository ?? (this._distributionByAgeDetailRepository = new GenericRepository<DistributionByAgeDetail>(_context)); }
 
         }
+
 
 
         private IGenericRepository<ReceiptAllocation> _receiptAllocationRepository;
@@ -923,5 +942,18 @@ namespace Cats.Data.UnitWork
 
         }
             
+
+        private IGenericRepository<SupportType> _supportTypeRepository; 
+        public IGenericRepository<SupportType> SupportTypeRepository
+        {
+            get
+            {
+                return this._supportTypeRepository ?? (this._supportTypeRepository = new GenericRepository<SupportType>(_context));
+            }
+        }
+
+
+      
+
     }
 }
