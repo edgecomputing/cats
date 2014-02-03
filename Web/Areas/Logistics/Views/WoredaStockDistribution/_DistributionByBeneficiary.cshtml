@@ -12,11 +12,11 @@
                                    {
                                       
                                        columns.Bound(p => p.FDP).Width(80).Title(Translator.Translate("FDP")).HtmlAttributes(new { style = "background-color:lightgray" });
-                                       //columns.Bound(p => p.RequisitionDetailViewModel.CommodityName).Width(60).Title(Translator.Translate("Commodity")).HtmlAttributes(new { style = "background-color:lightgray" });
+                                       columns.Bound(p => p.RequisitionDetailViewModel.CommodityName).Width(60).Title(Translator.Translate("Commodity")).HtmlAttributes(new { style = "background-color:lightgray" });
                                        columns.Bound(p => p.Round).Width(60).HtmlAttributes(new { style = "background-color:lightgray" });
                                        columns.Bound(p => p.Month).Width(60).HtmlAttributes(new { style = "background-color:lightgray" });
-                                      // columns.Bound(p => p.RequisitionDetailViewModel.AllocatedAmount).HtmlAttributes(new { align = "right" }).HtmlAttributes(new { style = "background-color:lightgray" });
-                                       //columns.Bound(p => p.RequistionNo).Width(60).HtmlAttributes(new { align = "right" }).HtmlAttributes(new { style = "background-color:lightgray" });
+                                       columns.Bound(p => p.RequisitionDetailViewModel.AllocatedAmount).HtmlAttributes(new { align = "right" }).HtmlAttributes(new { style = "background-color:lightgray" });
+                                       columns.Bound(p => p.RequistionNo).Width(100).HtmlAttributes(new { align = "right" }).HtmlAttributes(new { style = "background-color:lightgray" });
                                        columns.Bound(p => p.BeginingBalance);
                                        columns.Bound(p => p.TotalIn);
                                        columns.Bound(p => p.TotalOut);
@@ -25,7 +25,7 @@
                                       // columns.Bound(p => p.DistributionEndDate);
                                        columns.Bound(p => p.DistributedAmount);
                                        columns.Bound(p => p.LossAmount);
-                                       columns.Bound(p => p.LossReason);
+                                      // columns.Bound(p => p.LossReason);
                                      
                                    })
                        .ToolBar(toolBar=>toolBar.Save())
@@ -55,7 +55,7 @@
                                                                })
                                                   
 
-                                                    .Read(read => read.Action("WoredaStockDetail_Read", "WoredaStockDistribution", new { WoredaID=Model.WoredaID,woredaStockDistributionID =Model.WoredaStockDistributionID}))
+                                                    .Read(read => read.Action("WoredaStockDetail_Read", "WoredaStockDistribution", new { WoredaID=Model.WoredaID,planID=Model.PlanID,month=Model.Month,woredaStockDistributionID =Model.WoredaStockDistributionID}))
                                                    .Update(update => update.Action("UpdateWoredaDistribution", "WoredaStockDistribution"))
                                                    
                                                   
