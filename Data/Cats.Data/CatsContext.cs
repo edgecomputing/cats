@@ -137,11 +137,16 @@ namespace Cats.Data
         public DbSet<WoredaStockDistribution> WoredaStockDistributions { get; set; }
         public DbSet<WoredaStockDistributionDetail> WoredaStockDistributionDetails { get; set; }
         public DbSet<DistributionByAgeDetail> DistributionByAgeDetails { get; set; }
+
+        public DbSet<ReceiptPlan> ReceiptPlans { get; set; }
+        public DbSet<ReceiptPlanDetail> ReceiptPlanDetails { get; set; }
+
         public DbSet<SupportType> SupportTypes { get; set; }
 
         public DbSet<Dispatch> Dispatches { get; set; }
         public DbSet<DispatchDetail> DispatchDetails { get; set; }
         public DbSet<OtherDispatchAllocation> OtherDispatchAllocations { get; set; }
+
 
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -269,6 +274,8 @@ namespace Cats.Data
 
             modelBuilder.Configurations.Add(new DistributionByAgeDetailMap());
 
+            modelBuilder.Configurations.Add(new ReceiptPlanMap());
+            modelBuilder.Configurations.Add(new ReceiptPlanDetailMap());
         }
 
     }

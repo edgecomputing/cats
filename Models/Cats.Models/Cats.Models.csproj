@@ -84,6 +84,10 @@
     <Compile Include="Mapping\DispatchDetailMap.cs" />
     <Compile Include="Mapping\DispatchMap.cs" />
     <Compile Include="Mapping\DistributionByAgeDetailMap.cs" />
+    <Compile Include="Mapping\ReceiptPlanDetailMap.cs" />
+    <Compile Include="Mapping\ReceiptPlanMap.cs" />
+    <Compile Include="ReceiptPlan.cs" />
+    <Compile Include="ReceiptPlanDetal.cs" />
     <Compile Include="Mapping\OtherDispatchAllocationMap.cs" />
     <Compile Include="Mapping\SupportTypeMap.cs" />
     <Compile Include="OtherDispatchAllocation.cs" />

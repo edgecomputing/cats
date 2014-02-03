@@ -34,9 +34,9 @@ namespace Cats.Models.Hubs.MetaModels
 
     		public EntityCollection<ReceiptAllocation> ReceiptAllocations { get; set; }
 
-    		public EntityCollection<Receive> Receives { get; set; }
+            //public EntityCollection<Receive> Receives { get; set; }
 
-    		public EntityCollection<Receive> Receives1 { get; set; }
+            //public EntityCollection<Receive> Receives1 { get; set; }
 
 	   }
 }

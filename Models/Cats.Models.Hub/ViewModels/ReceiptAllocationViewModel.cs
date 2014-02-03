@@ -198,6 +198,7 @@ namespace Cats.Models.Hubs
             //    AllHubs =
             //        _Repository.Hub.GetAll().DefaultIfEmpty().OrderBy(o => o.Name).ToList();
             //}
+            Hubs = allHubs;
             Programs = programs;// _Repository.Program.GetAll().DefaultIfEmpty().OrderBy(o => o.Name).ToList();
             CommoditySources = commoditySources;// _Repository.CommoditySource.GetAll().DefaultIfEmpty().OrderBy(o => o.Name).ToList();
             CommodityTypes = commodityTypes;// _Repository.CommodityType.GetAll().DefaultIfEmpty().OrderBy(o => o.Name).ToList();

@@ -905,6 +905,44 @@ namespace Cats.Data.UnitWork
 
         }
 
+
+
+        private IGenericRepository<ReceiptAllocation> _receiptAllocationRepository;
+
+        public IGenericRepository<ReceiptAllocation> ReceiptAllocationRepository
+        {
+            get
+            {
+                return this._receiptAllocationRepository ??
+                       (this._receiptAllocationRepository = new GenericRepository<ReceiptAllocation>(_context));
+            }
+
+        }
+
+        private IGenericRepository<ReceiptPlan> _receiptPlanRepository;
+        
+        public IGenericRepository<ReceiptPlan> ReceiptPlanRepository
+        {
+            get
+            {
+                return this._receiptPlanRepository ??
+                       (this._receiptPlanRepository = new GenericRepository<ReceiptPlan>(_context));
+            }
+
+        }
+
+        private IGenericRepository<ReceiptPlanDetail> _receiptPlanDetailRepository;
+        public IGenericRepository<ReceiptPlanDetail> ReceiptPlanDetailRepository
+        {
+            get
+            {
+                return this._receiptPlanDetailRepository ??
+                       (this._receiptPlanDetailRepository = new GenericRepository<ReceiptPlanDetail>(_context));
+            }
+
+        }
+            
+
         private IGenericRepository<SupportType> _supportTypeRepository; 
         public IGenericRepository<SupportType> SupportTypeRepository
         {
@@ -916,5 +954,6 @@ namespace Cats.Data.UnitWork
 
 
       
+
     }
 }

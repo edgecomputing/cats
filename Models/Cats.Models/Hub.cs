@@ -18,6 +18,8 @@ namespace Cats.Models
             //this.TransportOrderDetails = new List<TransportOrderDetail>();
            // this.HubOwner = new HubOwner();
             this.TransportBidQuotations = new List<TransportBidQuotation>();
+            this.ReceiptPlanDetails = new List<ReceiptPlanDetail>();
+           
         }
 
         public int HubID { get; set; }
@@ -40,5 +42,7 @@ namespace Cats.Models
         public virtual ICollection<Delivery> Deliveries { get; set; }
         public virtual ICollection<OtherDispatchAllocation> OtherDispatchAllocations { get; set; }
         public virtual ICollection<WoredaHubLink> WoredaHubLinks { get; set; }
+        public virtual ICollection<ReceiptPlanDetail> ReceiptPlanDetails { get; set; }
+       
     }
 }

@@ -4,6 +4,7 @@ using System.Web.Mvc;
 using Cats.Data.UnitWork;
 using Cats.Models;
 using Cats.Services.Administration;
+using Cats.Services.Hub;
 using Cats.Services.Security;
 using LanguageHelpers.Localization.Services;
 using Logistics.Security;
@@ -15,23 +16,44 @@ using Cats.Services.EarlyWarning;
 using Cats.Services.Procurement;
 using Cats.Services.Logistics;
 using Cats.Services.PSNP;
-using Cats.Services.Transaction;
 using Cats.Services.Common;
 using log4net;
 using Early_Warning.Security;
 using AdminUnitService = Cats.Services.EarlyWarning.AdminUnitService;
 using CommodityService = Cats.Services.EarlyWarning.CommodityService;
+using CommonService = Cats.Services.Common.CommonService;
 using DonorService = Cats.Services.EarlyWarning.DonorService;
 using FDPService = Cats.Services.EarlyWarning.FDPService;
+using ForgetPasswordRequestService = Cats.Services.Security.ForgetPasswordRequestService;
+using GiftCertificateDetailService = Cats.Services.EarlyWarning.GiftCertificateDetailService;
+using GiftCertificateService = Cats.Services.EarlyWarning.GiftCertificateService;
 using HubService = Cats.Services.EarlyWarning.HubService;
 using IAdminUnitService = Cats.Services.EarlyWarning.IAdminUnitService;
 using ICommodityService = Cats.Services.EarlyWarning.ICommodityService;
+using ICommonService = Cats.Services.Common.ICommonService;
 using IDonorService = Cats.Services.EarlyWarning.IDonorService;
 using IFDPService = Cats.Services.EarlyWarning.IFDPService;
+using IForgetPasswordRequestService = Cats.Services.Security.IForgetPasswordRequestService;
+using IGiftCertificateDetailService = Cats.Services.EarlyWarning.IGiftCertificateDetailService;
+using IGiftCertificateService = Cats.Services.EarlyWarning.IGiftCertificateService;
 using IHubService = Cats.Services.EarlyWarning.IHubService;
+using ILedgerService = Cats.Services.Common.ILedgerService;
+using ILetterTemplateService = Cats.Services.Common.ILetterTemplateService;
 using IProgramService = Cats.Services.EarlyWarning.IProgramService;
+using IProjectCodeService = Cats.Services.EarlyWarning.IProjectCodeService;
+using ISettingService = Cats.Services.Security.ISettingService;
+using IShippingInstructionService = Cats.Services.EarlyWarning.IShippingInstructionService;
+using ITransactionService = Cats.Services.Transaction.ITransactionService;
+using ITransporterService = Cats.Services.Procurement.ITransporterService;
 using IUnitService = Cats.Services.EarlyWarning.IUnitService;
+using LedgerService = Cats.Services.Common.LedgerService;
+using LetterTemplateService = Cats.Services.Common.LetterTemplateService;
 using ProgramService = Cats.Services.EarlyWarning.ProgramService;
+using ProjectCodeService = Cats.Services.EarlyWarning.ProjectCodeService;
+using SettingService = Cats.Services.Security.SettingService;
+using ShippingInstructionService = Cats.Services.EarlyWarning.ShippingInstructionService;
+using TransactionService = Cats.Services.Transaction.TransactionService;
+using TransporterService = Cats.Services.Procurement.TransporterService;
 using UnitService = Cats.Services.EarlyWarning.UnitService;
 
 //using Cats.Services.Hub.Interfaces;
@@ -212,6 +234,10 @@ namespace Cats.Infrastructure
             kernel.Bind<IUtilizationHeaderSerivce>().To<UtilizationHeaderSerivce>();
             kernel.Bind<IUtilizationDetailSerivce>().To<UtilizationDetailService>();
             kernel.Bind<IDistributionByAgeDetailService>().To<DistributionByAgeDetailService>();
+          
+            kernel.Bind<Cats.Services.EarlyWarning.ICommodityTypeService>().To<Cats.Services.EarlyWarning.CommodityTypeService>();
+            kernel.Bind<IReceiptPlanService>().To<ReceiptPlanService>();
+            kernel.Bind<IReceiptPlanDetailService>().To<ReceiptPlanDetailService>();
         }
         private void AddBindingsHub()
         {

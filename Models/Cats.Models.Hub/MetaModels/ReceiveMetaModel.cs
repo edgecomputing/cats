@@ -90,9 +90,9 @@ namespace Cats.Models.Hubs.MetaModels
 
     		public EntityCollection<CommodityType> CommodityType { get; set; }
 
-    		public EntityCollection<Donor> Donor { get; set; }
+            //public EntityCollection<Donor> Donor { get; set; }
 
-    		public EntityCollection<Donor> Donor1 { get; set; }
+            //public EntityCollection<Donor> Donor1 { get; set; }
 
     		public EntityCollection<Hub> Hub { get; set; }
 

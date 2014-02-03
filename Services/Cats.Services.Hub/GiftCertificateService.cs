@@ -159,7 +159,10 @@ namespace Cats.Services.Hub
             return _unitOfWork.GiftCertificateRepository.Get(p => p.ShippingInstructionID == SINumber).FirstOrDefault();
         }
 
-
+        public GiftCertificate FindBySINumber(string SINumber)
+        {
+            return _unitOfWork.GiftCertificateRepository.Get(p => p.ShippingInstruction.Value == SINumber).FirstOrDefault();
+        }
         /// <summary>
         /// Gets the SI balances.
         /// </summary>

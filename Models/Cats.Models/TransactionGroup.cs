@@ -13,7 +13,7 @@ namespace Cats.Models
             //this.Adjustments = new List<Adjustment>();
             //this.DispatchDetails = new List<DispatchDetail>();
             this.InternalMovements = new List<InternalMovement>();
-            //this.ReceiveDetails = new List<ReceiveDetail>();
+          
             this.Transactions = new List<Transaction>();
         }
 
@@ -22,7 +22,7 @@ namespace Cats.Models
         //public virtual ICollection<Adjustment> Adjustments { get; set; }
         //public virtual ICollection<DispatchDetail> DispatchDetails { get; set; }
         public virtual ICollection<InternalMovement> InternalMovements { get; set; }
-        //public virtual ICollection<ReceiveDetail> ReceiveDetails { get; set; }
+       
         public virtual ICollection<Transaction> Transactions { get; set; }
         public virtual ICollection<DispatchDetail> DispatchDetails { get; set; }
     }
