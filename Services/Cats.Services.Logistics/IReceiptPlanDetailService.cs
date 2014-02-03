@@ -15,7 +15,7 @@ namespace Cats.Services.Logistics
         ReceiptPlanDetail FindById(int id);
         List<ReceiptPlanDetail> GetAllReceiptPlanDetail();
         List<ReceiptPlanDetail> FindBy(Expression<Func<ReceiptPlanDetail, bool>> predicate);
-
+        List<ReceiptPlanDetail> GetNewReceiptPlanDetail();
 
     }
 }

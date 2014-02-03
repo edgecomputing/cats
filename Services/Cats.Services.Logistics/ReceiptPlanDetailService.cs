@@ -60,6 +60,24 @@ namespace Cats.Services.Logistics
         }
         #endregion
 
+        public List<ReceiptPlanDetail> GetNewReceiptPlanDetail()
+        {
+            var hubs = _unitOfWork.HubRepository.Get(h => h.HubOwnerID == 1);
+            List<ReceiptPlanDetail> _receiptPlanDetails = new List<ReceiptPlanDetail>();
+            foreach (var hub in hubs)
+            {
+                var receiptDetailPlan = new ReceiptPlanDetail();
+                receiptDetailPlan.HubId = hub.HubID;
+                receiptDetailPlan.Hub = hub;
+                receiptDetailPlan.Allocated = 0;
+                receiptDetailPlan.Received = 0;
+                receiptDetailPlan.Balance = 0;
+                _receiptPlanDetails.Add(receiptDetailPlan);
+
+            }
+            return _receiptPlanDetails;
+        }
+
         public void Dispose()
         {
             _unitOfWork.Dispose();

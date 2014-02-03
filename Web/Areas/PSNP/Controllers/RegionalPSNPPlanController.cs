@@ -189,7 +189,7 @@ namespace Cats.Areas.PSNP
                     ViewBag.ErrorMessage2 = "Please make sure the workflow is created and configured.";
                 }
                 LoadLookups();
-                ModelState.AddModelError("Errors", "PSNP plan already made for this period and region.");
+                ModelState.AddModelError("Errors", "PSNP plan already made for this period.");
                 return View(regionalpsnpplan);
             }
             LoadLookups();

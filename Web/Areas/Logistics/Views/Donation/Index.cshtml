@@ -5,7 +5,7 @@
 }
 @section Toolbar
 {
-    <a data-buttontype="btn_new_record"  id="btnAddDonationPlan" class="btn toolbar-btn " href="@Url.Action("AddNewDonationPlan", "Donation")"></a>
+    <a data-buttontype="btn_new_record"  class="btn toolbar-btn " href="@Url.Action("AddNewDonationPlan", "Donation")"></a>
 }
 <fieldset>
     
@@ -14,27 +14,28 @@
         </legend>
     
 </fieldset>
-
-@(Html.Kendo().Grid<Cats.Areas.Logistics.Models.ReceiptAllocationViewModel>()
+  
+@(Html.Kendo().Grid<Cats.Areas.Logistics.Models.DonationHeaderViewModel>()
     .Name("grid")
     .Columns(columns =>
     {
-        columns.Bound(p => p.CommodityName).Title("Commodity").Width(100);
-        columns.Bound(p => p.Hub).Title("Hub").Width(100);
-        columns.Bound(p => p.SINumber).Width(100);
-        columns.Bound(p => p.AllocatedQuantity).Title("Allocated").Width(100);
-        columns.Bound(p => p.ReceivedQuantity).Title("Received").Width(100);
-        columns.Bound(p => p.Balance).Title("Balance").Width(100);
+        columns.Bound(p => p.SINumber).Title("SI Number").Width(100);
+        columns.Bound(p => p.Date).Title("Allocation Date").Width(100);
+       // columns.Bound(p => p.EnteredBy).Width(100);
+        columns.Bound(p => p.Program).Title("Program").Width(200);
+        columns.Bound(p => p.Donor).Title("Donor").Width(200);
 
-        //columns.Command(command =>
-        //                    {
-        //                        command.Edit();
-        //                        command.Destroy();
-        //                    }).Width(160);
+
+        columns.Command(p =>
+        {
+            p.Custom("Edit").Click("Edit");
+            //p.Custom("Delete").Click("Delete");
+
+        });
     })
     
     .Editable(editable => editable.Mode(GridEditMode.InCell))
-    .Pageable()
+   
     .Sortable()
     .Scrollable()
     .HtmlAttributes(new { style = "height:430px;" })
@@ -42,9 +43,9 @@
         .Ajax()
         .PageSize(20)
         .Events(events => events.Error("error_handler"))
-        .Model(model => model.Id(p => p.ReceiptAllocationID))
+        .Model(model => model.Id(p => p.ReceiptHeaderId))
         .Create(update => update.Action("EditingInline_Create", "Grid"))
-        .Read(read => read.Action("ReadReceiptAllocation", "Donation"))
+        .Read(read => read.Action("ReadReceiptPlan", "Donation"))
         .Update(update => update.Action("EditingInline_Update", "Grid"))
         .Destroy(update => update.Action("EditingInline_Destroy", "Grid"))
     )
@@ -66,6 +67,17 @@
 </script>
 
 <script type="text/javascript">
+    
+
+    function Edit(e) {
+        e.preventDefault();
+
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var siNumber = dataItem["SINumber"];
+        window.location = null;
+        window.location = "@Url.Action("AddNewDonationPlan", "Donation")" + "?siNumber=" + siNumber;
+    }
+    
     $(function () {
 
         //Optional: turn the chache off

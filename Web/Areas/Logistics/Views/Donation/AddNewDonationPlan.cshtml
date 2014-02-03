@@ -1,224 +1,205 @@
-﻿
-@using System.Collections
+﻿@using System.Collections
 @using LanguageHelpers.Localization
-@model Cats.Models.Hubs.ReceiptAllocationViewModel
-<div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h3 id="myModalLabel">@Translator.Translate("Add New Donation Plan")</h3>
-</div>
+@model Cats.Areas.Logistics.Models.DonationHeaderViewModel
+@using Kendo.Mvc.UI
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+    var test = 0;
+    var headerId = -1;
+   
+    if (Model!=null)
+    {
+        headerId = Model.ReceiptHeaderId;
+    }
+    
+}
 
-@using (Html.BeginForm("AddNewDonationPlan", "Donation", FormMethod.Post, new { @class = "modal-form" }))
-{
+
+
+@section Toolbar{
+    <a class="btn toolbar-btn " data-buttontype="btn_save" href="javascript:saverecords()"></a>
+    <a id="btnAddProposal" data-buttontype="btn_back_to_list" class="btn toolbar-btn " href="@Url.Action("Index", "Donation")"></a>
+}
+
   
-    <div class="modal-body">
-        
-        <div class="form-horizontal">
-            
+<h4>New Dontaion Plan</h4>
+
+@Html.HiddenFor(model=>model.GiftCertificateDetailId)
+<div class="control-group form-horizontal well">
+    <div class="row">
+        <div class="span6">  
             <div class="control-group">
                 <div class="control-label">
-                    @Html.LabelFor(model => model.SINumber, @Translator.Translate("SI / Batch Number")) <span class="required">*</span>
+                    @Html.LabelFor(model => model.SINumber, @Translator.Translate("SI / Batch Number"))
                 </div>
-                <div class="controls" id="SI">
-                    @Html.TextBoxFor(model => model.SINumber,"SINumber")<span class="hide help-inline">SI is Required!</span>
+                <div class="controls">
+                    @Html.TextBoxFor(model => model.SINumber,"SINumber")
                     @Html.ValidationMessageFor(model => model.SINumber)
                 </div>
             </div>
-            
+        </div>
+        <div class="span4">
             <div class="control-group">
                 <div class="control-label">
-                    @Html.LabelFor(model => model.ETA, @Translator.Translate("ETA")) <span class="required">*</span>
+                    @Html.LabelFor(model => model.ETA, @Translator.Translate("ETA"))
                 </div>
-                <div class="controls" id="ETA">
-                    @(Html.TextBoxFor(model => model.ETA, new {@class="cats-datepicker2"}))<span class="hide help-inline">ETA is Required!</span>
+                <div class="controls" >
+                    @(Html.TextBoxFor(model => model.ETA, new {@class="cats-datepicker2",Disabled = true}))
                     @Html.ValidationMessageFor(model => model.ETA)
                 </div>
             </div>
 
         </div>
-        <div class="form-horizontal">
-            @*<div class="control-group">
-                <div class="control-label">
-                    @Html.LabelFor(model => model.OtherDocumentationRef, @Translator.Translate("Memo Reference"))
-                </div>
-                <div class="controls" id="memo">
-                   
-                </div>
-            </div>*@
-            
-            <div class="control-group">
-                <div class="control-label">
-                    @Html.LabelFor(model => model.HubID, @Translator.Translate("Hub")) <span class="required">*</span>
-                </div>
-                <div class="controls" id="Hub">
-                    @(Html.DropDownList("HubID",new SelectList(Model.Hubs,"HubID","Name")))
-                   
-                </div>
-            </div>
-
-        </div>
-         
-        <div class="form-horizontal">
-            
-            
-            <div class="control-group">
-                <div class="control-label">
-                   @Html.LabelFor(model => model.DonorID, @Translator.Translate("Donor")) <span class="required">*</span>
-                </div>
-                <div class="controls" id="Donor">
-                    @(Html.DropDownList("DonorID",new SelectList(Model.Donors,"DonorID","Name")))
-                </div>
-            </div>
-
-        </div>
-        <div class="form-horizontal">
-            <div class="control-group">
-                <div class="control-label">
-                    @Html.LabelFor(model => model.CommodityTypeID, @Translator.Translate("Commodity Type")) <span class="required">
-                                                                                                           *</span>
-                </div>
-                <div class="controls" id="CommodityType">
-                    @(Html.DropDownList("CommodityTypeID",new SelectList(Model.CommodityTypes,"CommodityTypeID","Name")))
-                </div>
-            </div>
-            
-            <div class="control-group">
-                <div class="control-label">
-                   @Html.LabelFor(model => model.CommodityID, @Translator.Translate("Commodity")) <span class="required">*</span>
-                </div>
-                <div class="controls" id="Commodity">
-                    @(Html.DropDownList("CommodityID", new SelectList(Model.Commodities,"CommodityID","Name")))
-                </div>
-            </div>
-
-        </div>
-        <div class="form-horizontal">
-            <div class="control-group">
-                <div class="control-label">
-                    @Html.LabelFor(model => model.ProgramID, @Translator.Translate("Program")) <span class="required">*</span>
-                </div>
-                <div class="controls" id="program">
-                    @(Html.DropDownList("ProgramID",new SelectList(Model.Programs,"ProgramID","Name") ))
-                </div>
-            </div>
-            
-            <div class="control-group">
-                <div class="control-label">
-                    @Html.LabelFor(model => model.QuantityInMT, @Translator.Translate("Quantity In MT"))
-                    <span class="required">
-                        *</span>
-                </div>
-                <div class="controls" id="QuantityInMT">
-                    @Html.EditorFor(model => model.QuantityInMT,new {})
-                @Html.ValidationMessageFor(model => model.QuantityInMT)
-                </div>
-            </div>
-
-        </div>
-        
-        <div class="form-horizontal">
-            <div class="control-group">
-                <div class="control-label">
-                   @Html.LabelFor(model => model.QuantityInUnit, "Quantity In Unit") <span class="required">*</span>
-                </div>
-                <div class="controls" id="QuantityInUnit">
-                   @Html.TextBoxFor(model => model.QuantityInUnit)
-                </div>
-            </div>
-            
-            <div class="control-group">
-                <div class="control-label">
-                   @Html.LabelFor(model => model.Remark, @Translator.Translate("Remark"))
-                </div>
-                <div class="controls" id="Remark">
-                   @Html.EditorFor(model => model.Remark)
-                @Html.ValidationMessageFor(model => model.Remark)
-                </div>
-            </div>
-
-        </div>
-        
-        <div class="form-horizontal">
-            <div class="control-group">
-                <div class="control-label">
-                   @Html.LabelFor(model => model.ProjectNumber, @Translator.Translate("Project Code")) <span class="required">*</span>
-                </div>
-                <div class="controls" id="ProjectNumber">
-                   @Html.TextBoxFor(model => model.ProjectNumber)
-                    @Html.ValidationMessageFor(model => model.ProjectNumber)
-                </div>
-            </div>
-            
-           
-
-        </div>
-        
-
-
     </div>
-     
+    <div class="row">
+        <div class="span6">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.Donor, @Translator.Translate("Donor")) 
+                </div>
+                <div class="controls">
+                    @(Html.TextBoxFor(model => model.Donor,new { Disabled = true }))
+                </div>
+            </div>
+        </div>
+        <div class="span4">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.CommodityType, @Translator.Translate("Commodity Type")) 
+                </div>
+                <div class="controls" >
+                    @(Html.TextBoxFor(model=>model.CommodityType,new { Disabled = true }))
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span6">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.Commodity, @Translator.Translate("Commodity")) 
+                </div>
+                <div class="controls" >
+                    @(Html.TextBoxFor(model=>model.Commodity,new { Disabled = true }))
+                </div>
+            </div>
+            
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.WieghtInMT, @Translator.Translate("GC Amount")) 
+                </div>
+                <div class="controls" >
+                    @(Html.TextBoxFor(model=>model.WieghtInMT,new { Disabled = true }))
+                </div>
+            </div>
+        </div>
+    
+    </div>
+     <div class="row">
+        <div class="span4">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.Program, @Translator.Translate("Program")) 
+                </div>
+                <div class="controls">
+                    @(Html.TextBoxFor(model=>model.Program,new { Disabled = true }))
+                </div>
+            </div>
+        </div>
+           
+    </div>
+</div>
+
+       
+@(Html.Kendo().Grid<Cats.Areas.Logistics.Models.DonationDetailViewModel.DonationDetail>()
+    .Name("grid")
+    .Columns(columns =>
+    {
+        columns.Bound(p => p.Hub).Title("Hub").Width(100);
+        columns.Bound(p => p.Allocated).Title("Allocated").Width(30).Format("{0:N}").ClientFooterTemplate("Sum: #=sum#");
+        columns.Bound(p => p.Received).Title("Received").Width(30).Format("{0:N}");
+        columns.Bound(p => p.Balance).Title("Balance").Width(30).Format("{0:N}");
+        })
+    
+    .Editable(editable => editable.Mode(GridEditMode.InCell))
+    .Sortable()
+    .Scrollable()
+    .Events(events => events.DataBound("onDataBound"))
+   
+    //.HtmlAttributes(new { style = "height:430px;" })
+    .DataSource(dataSource => dataSource
+        .Ajax()
+         .Aggregates(aggregates => aggregates.Add(p => p.Allocated).Sum())
+        .PageSize(20)
+        .Events(events => events.Error("error_handler"))
+        .Batch(true)
+        .Events(e=>e.RequestEnd("onRequestEnd"))
+        .ServerOperation(false)
+        .Model(model => model.Id(p => p.ReceiptHeaderId))
+        .Model(model => model.Field(p=>p.Hub).Editable(false))
+        .Create(update => update.Action("SaveDonation", "Donation",new {id = Model.GiftCertificateDetailId}))
+        .Read(read => read.Action("ReadReceiptPlanDetail", "Donation",new {receiptID = @headerId}))
+        .Update(update => update.Action("SaveDonation", "Donation"))
+        .Destroy(update => update.Action("EditingInline_Destroy", "Grid"))
+    )
+)
+<script>
+      
+    function error_handler(e) {
+        if (e.errors) {
+            var message = "Errors:\n";
+            $.each(e.errors, function (key, value) {
+                if ('errors' in value) {
+                    $.each(value.errors, function () {
+                        message += this + "\n";
+                    });
+                }
+            });
+            alert(message);
+        }
+    }
+    
+
    
     
-               
-                   
-    
-                
+    function onDataBound(e) {
+        var grid = $("#grid").data("kendoGrid");
+        $(grid.tbody).on("focus", "input", function (e) {
+            var input = $(this);
+            setTimeout(function () { input.select(); }, 100);
+        });
+    }
+    function saverecords() {
+        $("#grid").data("kendoGrid").saveChanges();
+    }
 
-    <div class="modal-footer"> <button class="btn btn-primary" type="submit" id="btn-save">Save</button>
-        <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
-    </div>
-
-}
-
-
- <script>
-        
-     $('#btn-save').click(function () {
-
-         if ($('#SINumber').val() === "") {
-             // invalid
-             $('#SINumber').next('.help-inline').show();
-             return false;
-         }
-         else {
-             // submit the form here
-             $('#InfroText').submit();
-             return true;
-         }
-     });
-
-
-     $('#SINumber').blur(function () {
-         
-         if ($(this).val() != "") {
-             var donatin = '@Cats.Models.Hubs.CommoditySource.Constants.DONATION';
-             var siNumber = $('#SINumber').val();
-           
-             //alert(url);
-             //$('#dialogContent').load(url, function () {
-                 
-             //    $('#dialogDiv').modal({
-             //        backdrop: 'static',
-             //        keyboard: true
-             //    }, 'show');
-             //    //bindForm(this);
-             //});
-
-             //$.ajax({
-             //    url: url,
-             //    type: "POST",
-             //    data: { siNumber: siNumber, type: donatin},
-             //    success: function (data) {
-                    
-                     
-             //    }
-             //});
-        
-
-
-         }
-         
-     
-        //$.validator.unobtrusive.parse('#receiveAlloc');
-
+    $("#SINumber").blur(function () {
+       
+        $.ajax({
+            type: "POST",
+            url: "/Donation/LoadBySi/" + $("#SINumber").val(),
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            
+            success: function (result) {
+                window.location.href = result.Url;
+                },
+            error: function (error) {
+                alert("There was an error posting the data to the server: " + error.responseText);
+            }
+        });
     });
-    </script>             
+  
+    function onRequestEnd(e) {
+        debugger;
+        if (e.type == "update" && !e.response.Errors) {
+            alert("Update record is successfull");
+        }
+
+        if (e.type == "create" && !e.response.Errors) {
+            alert("Create record is successfull");
+        }
+    }
+
+</script>          
