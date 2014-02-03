@@ -129,7 +129,7 @@
                            {
                                columns.Bound(e => e.TransportOrderID).Visible(false).Width(120);
                                columns.Bound(e => e.TransportOderNo).ClientTemplate("<a href='" +
-                                                                                    Url.Action("Dispatches", "Distribution", new { Area = "Logistics", id = "#=TransportOrderID#" }) + " '>#=TransportOderNo#</a>  ").Width(130);
+                                                                                    Url.Action("Dispatches", "Delivery", new { Area = "Logistics", id = "#=TransportOrderID#" }) + " '>#=TransportOderNo#</a>  ").Width(130);
                                columns.Bound(e => e.SignedDate).Title("Signed Date").Width(120);
                                columns.Bound(e => e.StartedOn).Title("Started On").Width(120);
                                columns.Bound(e => e.RemainingDays).Title("Remaining Dates").Width(120);
@@ -172,10 +172,10 @@
 <div>
      <div style="float: left; width:600px; height:250px; border:1px solid #ececec; margin-top:20px;margin-right:20px;margin-bottom:20px;">
         <div style="font-weight: bold;margin:10px;">@Translator.Translate("GRN with delivery discripancy")</div>
-        @(Html.Kendo().Grid<DistributionViewModel>().Name("gridGRNWithDiscripancy")
+        @(Html.Kendo().Grid<DeliveryViewModel>().Name("gridGRNWithDiscripancy")
                       .Columns(col =>
                                    {
-                                       col.Bound(request => request.ReceivingNumber).ClientTemplate("<a href='" + Url.Action("EditGRN", "Distribution", new { id = "#=DistributionID#" }) + " '>#=ReceivingNumber#</a>  ").HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;" }); ;
+                                       col.Bound(request => request.ReceivingNumber).ClientTemplate("<a href='" + Url.Action("EditGRN", "Delivery", new { id = "#=DistributionID#" }) + " '>#=ReceivingNumber#</a>  ").HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;" }); ;
                                        col.Bound(t => t.InvoiceNo).Title(Translator.Translate("GIN"));
                                        col.Bound(t => t.RequisitionNo).HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;" });
                                        //col.Bound(t => t.Region);

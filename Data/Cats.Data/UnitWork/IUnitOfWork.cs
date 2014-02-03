@@ -19,7 +19,9 @@ namespace Cats.Data.UnitWork
         IGenericRepository<ProcessTemplate> ProcessTemplateRepository { get; }
         IGenericRepository<StateTemplate> StateTemplateRepository { get; }
         IGenericRepository<FlowTemplate> FlowTemplateRepository { get; }
-
+        IGenericRepository<Dispatch> DispatchRepository { get; }
+        IGenericRepository<DispatchDetail> DispatchDetailRepository { get; }
+        IGenericRepository<OtherDispatchAllocation> OtherDispatchAllocationRepository { get; }
         IGenericRepository<RegionalRequest> RegionalRequestRepository { get; }
         IGenericRepository<RegionalRequestDetail> RegionalRequestDetailRepository { get; }
         IGenericRepository<AdminUnit> AdminUnitRepository { get; }
@@ -143,8 +145,8 @@ namespace Cats.Data.UnitWork
         IGenericRepository<WoredaHubLink> WoredaHubLinkRepository { get; }
         IGenericRepository<HrdDonorCoverage> HrdDonorCoverageRepository { get; }
         IGenericRepository<HrdDonorCoverageDetail> HrdDonorCoverageDetailRepository { get; }
-        IGenericRepository<Distribution> DistributionRepository { get; }
-        IGenericRepository<DistributionDetail> DistributionDetailRepository { get; } 
+        IGenericRepository<Delivery> DeliveryRepository { get; }
+        IGenericRepository<DeliveryDetail> DeliveryDetailRepository { get; } 
         IGenericRepository<PaymentRequest> PaymentRequestRepository { get; }
 
         IGenericRepository<IDPSReasonType> IDPSReasonTypeRepository { get; }
@@ -155,11 +157,15 @@ namespace Cats.Data.UnitWork
         IGenericRepository<Template> TemplateRepository { get; }
         IGenericRepository<TemplateField> TemplateFieldRepository { get; }
 
-        IGenericRepository<UtilizationHeader> UtilizationHeaderRepository { get; }
-        IGenericRepository<UtilizationDetail> UtilizationDetailRepository { get; } 
-        IGenericRepository<DistributionByAgeDetail> DistributionByAgeDetailRepository { get; } 
+        IGenericRepository<WoredaStockDistribution> WoredaStockDistributionRepository { get; }
+        IGenericRepository<WoredaStockDistributionDetail> WoredaStockDistributionDetailRepository { get; } 
+        IGenericRepository<DistributionByAgeDetail> DistributionByAgeDetailRepository { get; }
+        IGenericRepository<SupportType> SupportTypeRepository { get; } 
         //IGenericRepository<TransportBidQuotationHeader> TransportbidQuotationHeaderRepository { get; } 
-
+        IGenericRepository<ReceiptAllocation> ReceiptAllocationRepository { get; }
+        IGenericRepository<ReceiptPlan> ReceiptPlanRepository { get; }
+        IGenericRepository<ReceiptPlanDetail> ReceiptPlanDetailRepository { get; } 
+       
         void Save();
 
     }

@@ -54,31 +54,31 @@ namespace Cats.Models.Mapping
             this.Property(t => t.OtherDocumentationRef).HasColumnName("OtherDocumentationRef");
             this.Property(t => t.Remark).HasColumnName("Remark");
 
-            // Relationships
-            //this.HasRequired(t => t.Commodity)
-            //    .WithMany(t => t.ReceiptAllocations)
-            //    .HasForeignKey(d => d.CommodityID);
-            //this.HasRequired(t => t.CommoditySource)
-            //    .WithMany(t => t.ReceiptAllocations)
-            //    .HasForeignKey(d => d.CommoditySourceID);
-            //this.HasOptional(t => t.Donor)
-            //    .WithMany(t => t.ReceiptAllocations)
-            //    .HasForeignKey(d => d.DonorID);
-            //this.HasOptional(t => t.GiftCertificateDetail)
-            //    .WithMany(t => t.ReceiptAllocations)
-            //    .HasForeignKey(d => d.GiftCertificateDetailID);
-            //this.HasRequired(t => t.Hub)
-            //    .WithMany(t => t.ReceiptAllocations)
-            //    .HasForeignKey(d => d.HubID);
-            //this.HasOptional(t => t.Hub1)
-            //    .WithMany(t => t.ReceiptAllocations1)
-            //    .HasForeignKey(d => d.SourceHubID);
-            //this.HasRequired(t => t.Program)
-            //    .WithMany(t => t.ReceiptAllocations)
-            //    .HasForeignKey(d => d.ProgramID);
-            //this.HasOptional(t => t.Unit)
-            //    .WithMany(t => t.ReceiptAllocations)
-            //    .HasForeignKey(d => d.UnitID);
+             //Relationships
+            this.HasRequired(t => t.Commodity)
+                .WithMany(t => t.ReceiptAllocations)
+                .HasForeignKey(d => d.CommodityID);
+            this.HasRequired(t => t.CommoditySource)
+                .WithMany(t => t.ReceiptAllocations)
+                .HasForeignKey(d => d.CommoditySourceID);
+            this.HasOptional(t => t.Donor)
+                .WithMany(t => t.ReceiptAllocations)
+                .HasForeignKey(d => d.DonorID);
+            this.HasOptional(t => t.GiftCertificateDetail)
+                .WithMany(t => t.ReceiptAllocations)
+                .HasForeignKey(d => d.GiftCertificateDetailID);
+            this.HasRequired(t => t.Hub)
+                .WithMany(t => t.ReceiptAllocations)
+                .HasForeignKey(d => d.HubID);
+            this.HasOptional(t => t.Hub1)
+                .WithMany(t => t.ReceiptAllocations1)
+                .HasForeignKey(d => d.SourceHubID);
+            this.HasRequired(t => t.Program)
+                .WithMany(t => t.ReceiptAllocations)
+                .HasForeignKey(d => d.ProgramID);
+            this.HasOptional(t => t.Unit)
+                .WithMany(t => t.ReceiptAllocations)
+                .HasForeignKey(d => d.UnitID);
         }
     }
 }

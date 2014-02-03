@@ -1,0 +1,205 @@
+﻿@using System.Collections
+@using LanguageHelpers.Localization
+@model Cats.Areas.Logistics.Models.DonationHeaderViewModel
+@using Kendo.Mvc.UI
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+    var test = 0;
+    var headerId = -1;
+   
+    if (Model!=null)
+    {
+        headerId = Model.ReceiptHeaderId;
+    }
+    
+}
+
+
+
+@section Toolbar{
+    <a class="btn toolbar-btn " data-buttontype="btn_save" href="javascript:saverecords()"></a>
+    <a id="btnAddProposal" data-buttontype="btn_back_to_list" class="btn toolbar-btn " href="@Url.Action("Index", "Donation")"></a>
+}
+
+  
+<h4>New Dontaion Plan</h4>
+
+@Html.HiddenFor(model=>model.GiftCertificateDetailId)
+<div class="control-group form-horizontal well">
+    <div class="row">
+        <div class="span6">  
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.SINumber, @Translator.Translate("SI / Batch Number"))
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(model => model.SINumber,"SINumber")
+                    @Html.ValidationMessageFor(model => model.SINumber)
+                </div>
+            </div>
+        </div>
+        <div class="span4">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.ETA, @Translator.Translate("ETA"))
+                </div>
+                <div class="controls" >
+                    @(Html.TextBoxFor(model => model.ETA, new {@class="cats-datepicker2",Disabled = true}))
+                    @Html.ValidationMessageFor(model => model.ETA)
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="span6">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.Donor, @Translator.Translate("Donor")) 
+                </div>
+                <div class="controls">
+                    @(Html.TextBoxFor(model => model.Donor,new { Disabled = true }))
+                </div>
+            </div>
+        </div>
+        <div class="span4">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.CommodityType, @Translator.Translate("Commodity Type")) 
+                </div>
+                <div class="controls" >
+                    @(Html.TextBoxFor(model=>model.CommodityType,new { Disabled = true }))
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span6">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.Commodity, @Translator.Translate("Commodity")) 
+                </div>
+                <div class="controls" >
+                    @(Html.TextBoxFor(model=>model.Commodity,new { Disabled = true }))
+                </div>
+            </div>
+            <div class="span4">
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.LabelFor(model => model.WieghtInMT, @Translator.Translate("GC Amount")) 
+                    </div>
+                    <div class="controls" >
+                        @(Html.TextBoxFor(model=>model.WieghtInMT,new { Disabled = true }))
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+     <div class="row">
+        <div class="span4">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.Program, @Translator.Translate("Program")) 
+                </div>
+                <div class="controls">
+                    @(Html.TextBoxFor(model=>model.Program,new { Disabled = true }))
+                </div>
+            </div>
+        </div>
+           
+    </div>
+</div>
+
+       
+@(Html.Kendo().Grid<Cats.Areas.Logistics.Models.DonationDetailViewModel.DonationDetail>()
+    .Name("grid")
+    .Columns(columns =>
+    {
+        columns.Bound(p => p.Hub).Title("Hub").Width(100);
+        columns.Bound(p => p.Allocated).Title("Allocated").Width(30).Format("{0:N}").ClientFooterTemplate("Sum: #=sum#");
+        columns.Bound(p => p.Received).Title("Received").Width(30).Format("{0:N}");
+        columns.Bound(p => p.Balance).Title("Balance").Width(30).Format("{0:N}");
+        })
+    
+    .Editable(editable => editable.Mode(GridEditMode.InCell))
+    .Sortable()
+    .Scrollable()
+    .Events(events => events.DataBound("onDataBound"))
+   
+    //.HtmlAttributes(new { style = "height:430px;" })
+    .DataSource(dataSource => dataSource
+        .Ajax()
+         .Aggregates(aggregates => aggregates.Add(p => p.Allocated).Sum())
+        .PageSize(20)
+        .Events(events => events.Error("error_handler"))
+        .Batch(true)
+        .Events(e=>e.RequestEnd("onRequestEnd"))
+        .ServerOperation(false)
+        .Model(model => model.Id(p => p.ReceiptHeaderId))
+        .Model(model => model.Field(p=>p.Hub).Editable(false))
+        .Create(update => update.Action("SaveDonation", "Donation",new {id = Model.GiftCertificateDetailId}))
+        .Read(read => read.Action("ReadReceiptPlanDetail", "Donation",new {receiptID = @headerId}))
+        .Update(update => update.Action("SaveDonation", "Donation"))
+        .Destroy(update => update.Action("EditingInline_Destroy", "Grid"))
+    )
+)
+<script>
+      
+    function error_handler(e) {
+        if (e.errors) {
+            var message = "Errors:\n";
+            $.each(e.errors, function (key, value) {
+                if ('errors' in value) {
+                    $.each(value.errors, function () {
+                        message += this + "\n";
+                    });
+                }
+            });
+            alert(message);
+        }
+    }
+    
+
+   
+    
+    function onDataBound(e) {
+        var grid = $("#grid").data("kendoGrid");
+        $(grid.tbody).on("focus", "input", function (e) {
+            var input = $(this);
+            setTimeout(function () { input.select(); }, 100);
+        });
+    }
+    function saverecords() {
+        $("#grid").data("kendoGrid").saveChanges();
+    }
+
+    $("#SINumber").blur(function () {
+       
+        $.ajax({
+            type: "POST",
+            url: "/Donation/LoadBySi/" + $("#SINumber").val(),
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            
+            success: function (result) {
+                window.location.href = result.Url;
+                },
+            error: function (error) {
+                alert("There was an error posting the data to the server: " + error.responseText);
+            }
+        });
+    });
+  
+    function onRequestEnd(e) {
+        debugger;
+        if (e.type == "update" && !e.response.Errors) {
+            alert("Update record is successfull");
+        }
+
+        if (e.type == "create" && !e.response.Errors) {
+            alert("Create record is successfull");
+        }
+    }
+
+</script>          

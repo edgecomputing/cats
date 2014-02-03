@@ -29,13 +29,13 @@ namespace Cats.Areas.Procurement.Controllers
         private readonly IUserAccountService _userAccountService;
         private readonly IDispatchAllocationService _dispatchAllocationService;
         private readonly IWorkflowStatusService _workflowStatusService;
-        private readonly IDistributionService _distributionService;
+        private readonly IDeliveryService _distributionService;
         private readonly IBidWinnerService _bidWinnerService;
         private readonly Cats.Services.EarlyWarning.IAdminUnitService _adminUnitService;
 
         public ContractAdministrationController(IPaymentRequestService paymentRequestService, ITransporterService transporterService,
             ITransportOrderService transportOrderService, IUserAccountService userAccountService, IDispatchAllocationService dispatchAllocationService, 
-            IWorkflowStatusService workflowStatusService, IDistributionService distributionService, IBidWinnerService bidWinnerService,
+            IWorkflowStatusService workflowStatusService, IDeliveryService distributionService, IBidWinnerService bidWinnerService,
             Cats.Services.EarlyWarning.IAdminUnitService adminUnitService)
         {
             _adminUnitService = adminUnitService;
@@ -116,7 +116,7 @@ namespace Cats.Areas.Procurement.Controllers
                     var distribution = _distributionService.FindBy(t => t.DispatchID == dispatchId).FirstOrDefault();
                     dispatchViewModel.GRNReceived = distribution != null;
                     if (distribution != null)
-                        dispatchViewModel.DistributionID = distribution.DistributionID;
+                        dispatchViewModel.DeliveryID = distribution.DeliveryID;
                 }
                 var dispatchView = SetDatePreference(dispatch);
                 return Json(dispatchView.ToDataSourceResult(request));

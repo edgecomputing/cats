@@ -11,8 +11,8 @@ namespace Cats.Services.Common
 {
     public interface ISMSGatewayService
     {
-        bool SendSMS(SmsOutgoingMessage sms);
-        bool is_validated(string password);
-        string get_action();
+        //bool SendSMS(SmsOutgoingMessage sms);
+        //bool is_validated(string password);
+        //string get_action();
     }
 }

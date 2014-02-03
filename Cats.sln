@@ -1,8 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
-MinimumVisualStudioVersion = 10.0.40219.1
+# Visual Studio 2012
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Models", "Models", "{22239E9E-2CFB-4860-A1CF-28A80CF15054}"
 	ProjectSection(SolutionItems) = preProject
 		Web\Areas\Logistics\Models\SummaryFreeAndPhysicalStockModel.cs = Web\Areas\Logistics\Models\SummaryFreeAndPhysicalStockModel.cs
@@ -103,6 +101,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cats.TemplateServer", "Servers\Cats.TemplateServer\Cats.TemplateServer.csproj", "{9F0F9E25-A596-46A8-9A92-456B549149BC}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Servers", "Servers", "{7293E6AB-E9C8-415E-9469-5FE65575E7E3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Api", "Api", "{20E8AAF7-3C70-4814-8E43-E7A380C225F4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SMS", "SMS\SMS.csproj", "{EA461A4E-0F81-4CF5-896F-9D57BEC4EDA8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -322,6 +324,14 @@ Global
 		{9F0F9E25-A596-46A8-9A92-456B549149BC}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9F0F9E25-A596-46A8-9A92-456B549149BC}.UAT|Any CPU.ActiveCfg = Release|Any CPU
 		{9F0F9E25-A596-46A8-9A92-456B549149BC}.UAT|Any CPU.Build.0 = Release|Any CPU
+		{EA461A4E-0F81-4CF5-896F-9D57BEC4EDA8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA461A4E-0F81-4CF5-896F-9D57BEC4EDA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA461A4E-0F81-4CF5-896F-9D57BEC4EDA8}.Pilot|Any CPU.ActiveCfg = Release|Any CPU
+		{EA461A4E-0F81-4CF5-896F-9D57BEC4EDA8}.Pilot|Any CPU.Build.0 = Release|Any CPU
+		{EA461A4E-0F81-4CF5-896F-9D57BEC4EDA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA461A4E-0F81-4CF5-896F-9D57BEC4EDA8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA461A4E-0F81-4CF5-896F-9D57BEC4EDA8}.UAT|Any CPU.ActiveCfg = Release|Any CPU
+		{EA461A4E-0F81-4CF5-896F-9D57BEC4EDA8}.UAT|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -356,6 +366,7 @@ Global
 		{2DB02A2C-8E7B-4A3C-9A4C-AF7736A66990} = {F069A766-0B41-4152-AAC9-EDF3D9C064A4}
 		{48791F08-2497-4328-B7DE-2CBE5A81C836} = {5C3F75A2-1748-4DDE-955E-214166AA17AC}
 		{9F0F9E25-A596-46A8-9A92-456B549149BC} = {7293E6AB-E9C8-415E-9469-5FE65575E7E3}
+		{EA461A4E-0F81-4CF5-896F-9D57BEC4EDA8} = {20E8AAF7-3C70-4814-8E43-E7A380C225F4}
 	EndGlobalSection
 	GlobalSection(Performance) = preSolution
 		HasPerformanceSessions = true

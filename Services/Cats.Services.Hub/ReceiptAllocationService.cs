@@ -285,8 +285,7 @@ namespace Cats.Services.Hub
             var receiptAll = _unitOfWork.ReceiptAllocationRepository.Get().ToList();
             var unclosed = (from rAll in receiptAll
                             where hubId == rAll.HubID
-                                  && x.Any(p => p == rAll.CommoditySourceID)
-                            select rAll).ToList();
+                                 select rAll).ToList();
 
             if (closedToo == null || closedToo == false)
             {

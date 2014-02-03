@@ -18,6 +18,7 @@ namespace Cats.Services.EarlyWarning
          ShippingInstruction FindById(int id);
          List<ShippingInstruction> FindBy(Expression<Func<ShippingInstruction, bool>> predicate);
         ShippingInstruction GetSiNumber(string siNumber);
+        int GetShipingInstructionId(string si);
 
     }
 }

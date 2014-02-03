@@ -90,7 +90,7 @@ namespace Cats.Areas.PSNP
 
         public ActionResult Index()
         {
-            IEnumerable<Cats.Models.RegionalPSNPPlan> list = (IEnumerable<Cats.Models.RegionalPSNPPlan>)_regionalPSNPPlanService.GetAllRegionalPSNPPlan();
+            IEnumerable<RegionalPSNPPlan> list = (IEnumerable<Cats.Models.RegionalPSNPPlan>)_regionalPSNPPlanService.GetAllRegionalPSNPPlan();
 
             return View(list);
 
@@ -189,7 +189,7 @@ namespace Cats.Areas.PSNP
                     ViewBag.ErrorMessage2 = "Please make sure the workflow is created and configured.";
                 }
                 LoadLookups();
-                ModelState.AddModelError("Errors", "PSNP plan already made for this period and region.");
+                ModelState.AddModelError("Errors", "PSNP plan already made for this period.");
                 return View(regionalpsnpplan);
             }
             LoadLookups();

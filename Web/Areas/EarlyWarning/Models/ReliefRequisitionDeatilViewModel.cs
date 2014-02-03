@@ -22,5 +22,6 @@ namespace Cats.Areas.EarlyWarning.Models
         public string Donor { get; set; }
         public decimal RationAmount { get; set; }
         public List<Donor> Donors { get; set; }
+        public decimal Contingency { get; set; }
     }
 }

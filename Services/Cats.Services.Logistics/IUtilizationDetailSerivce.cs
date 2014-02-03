@@ -11,16 +11,16 @@ namespace Cats.Services.Logistics
    public interface IUtilizationDetailSerivce
     {
 
-        bool AddDetailDistribution(UtilizationDetail DetailDistribution);
-        bool DeleteDetailDistribution(UtilizationDetail DetailDistribution);
+        bool AddDetailDistribution(WoredaStockDistributionDetail DetailDistribution);
+        bool DeleteDetailDistribution(WoredaStockDistributionDetail DetailDistribution);
         bool DeleteById(int id);
-        bool EditDetailDistribution(UtilizationDetail DetailDistribution);
-        UtilizationDetail FindById(Guid id);
-        List<UtilizationDetail> GetAllDetailDistribution();
-        List<UtilizationDetail> FindBy(Expression<Func<UtilizationDetail, bool>> predicate);
-        IEnumerable<UtilizationDetail> Get(
-            Expression<Func<UtilizationDetail, bool>> filter = null,
-            Func<IQueryable<UtilizationDetail>, IOrderedQueryable<UtilizationDetail>> orderBy = null,
+        bool EditDetailDistribution(WoredaStockDistributionDetail DetailDistribution);
+        WoredaStockDistributionDetail FindById(int id);
+        List<WoredaStockDistributionDetail> GetAllDetailDistribution();
+        List<WoredaStockDistributionDetail> FindBy(Expression<Func<WoredaStockDistributionDetail, bool>> predicate);
+        IEnumerable<WoredaStockDistributionDetail> Get(
+            Expression<Func<WoredaStockDistributionDetail, bool>> filter = null,
+            Func<IQueryable<WoredaStockDistributionDetail>, IOrderedQueryable<WoredaStockDistributionDetail>> orderBy = null,
             string includeProperties = "");
 
     }

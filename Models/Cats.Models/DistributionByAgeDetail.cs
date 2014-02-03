@@ -19,7 +19,7 @@ namespace Cats.Models
        public int MaleAbove18Years { get; set; }
        public int FemaleAbove18Years { get; set; }
 
-       public virtual UtilizationHeader UtilizationHeader { get; set; }
+       public virtual WoredaStockDistribution WoredaStockDistribution { get; set; }
        public virtual FDP FDP { get; set; }
     }
 }

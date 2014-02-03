@@ -1,0 +1,33 @@
+﻿@model UtilizationViewModel
+@using Cats.Areas.Logistics.Models
+@using Kendo.Mvc.UI
+@using LanguageHelpers.Localization
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+
+
+
+@*@section Toolbar
+{
+     
+    <a class="btn toolbar-btn " data-buttontype="btn_save" href="javascript:saveUtilization()"></a>
+   
+}*@
+@section LeftBar
+{
+    @Html.Partial("_LeftBar")
+}
+
+
+<fieldset>
+    <legend>
+        Distribution Data Entry<br/>
+       <h5> Select all information from the Left side to Enter new/Edit Distribution information</h5>
+    </legend>   
+</fieldset> 
+
+

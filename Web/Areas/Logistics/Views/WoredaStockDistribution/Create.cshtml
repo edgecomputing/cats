@@ -1,0 +1,162 @@
+﻿@using LanguageHelpers.Localization
+@model Cats.Areas.Logistics.Models.WoredaStockDistributionWithDetailViewModel
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";  
+}
+
+<h4>Create</h4>
+@section leftBar
+{
+    @Html.Partial("_LeftBar")
+}
+@section Toolbar
+{
+    <a class="btn toolbar-btn " data-buttontype="btn_save" data-submittedform="frm_create_utilization" title="Save"></a>
+    <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="@Url.Action("Index", "WoredaStockDistribution")" title="Cancel"></a>
+}
+@*@Html.HiddenFor(m => m.WoredaStockDistributionID)*@
+
+@using (Html.BeginForm("Create", "WoredaStockDistribution" , FormMethod.Post, new { id = "frm_create_utilization" }))
+{
+    @Html.HiddenFor(m=>m.WoredaID)
+@Html.HiddenFor(m=>m.PlanID)
+@Html.HiddenFor(m=>m.Month)
+@Html.HiddenFor(m=>m.ProgramID)
+@Html.HiddenFor(m=>m.WoredaStockDistributionID)
+//@Html.HiddenFor(m=>m.WoredaDistributionDetailViewModels)
+    <div class="form-horizontal">
+        <table border="0">
+            <tr>
+               @* <td rowspan="5" style="width: 10px; height: 240px;">
+                    <div  class="form-horizontal well">
+                    <div class="control-group">
+                        <div class="control-label">
+                            @Html.Label(Translator.Translate("Region"))
+                        </div>
+                        <div class="controls" id="div_region">
+                            @Html.DropDownList("Region", ViewBag.Region as SelectList, new {@id = "RegionID"})
+                        </div>
+
+                    </div> 
+                  </div>
+                </td>*@
+                
+                <td rowspan="5">
+                    <div id="div_Male" class="form-horizontal well" >
+                        <div class="control-group">
+                            <div class="control-label">
+                                @Html.LabelFor(m => m.ActualBeneficairies)
+                            </div>
+                            <div class="controls">
+                                @Html.TextBoxFor(m => m.ActualBeneficairies)
+                                @Html.ValidationMessageFor(m => m.ActualBeneficairies)
+                            </div>
+                        </div>
+
+                        <div class="control-group">
+                            <div class="control-label">
+                                @Html.LabelFor(m => m.MaleLessThan5Years)
+                            </div>
+                            <div class="controls">
+                                @Html.TextBoxFor(m => m.MaleLessThan5Years)
+                                @Html.ValidationMessageFor(m => m.MaleLessThan5Years)
+                            </div>
+                        </div>
+    
+                        <div class="control-group">
+                            <div class="control-label">
+                                @Html.LabelFor(m => m.MaleBetween5And18Years)
+                            </div>
+                            <div class="controls">
+                                @Html.TextBoxFor(m => m.MaleBetween5And18Years)
+                                @Html.ValidationMessageFor(m => m.MaleBetween5And18Years)
+                            </div>
+                        </div>
+    
+                        <div class="control-group">
+                            <div class="control-label">
+                                @Html.LabelFor(m => m.MaleAbove18Years)
+                            </div>
+                            <div class="controls">
+                                @Html.TextBoxFor(m => m.MaleAbove18Years)
+                                @Html.ValidationMessageFor(m => m.MaleAbove18Years)
+                            </div>
+                        </div>
+                    </div>
+                </td>
+                <td rowspan="5">
+                    <div id="div_Female1" class="form-horizontal well">
+                        <div class="control-group">
+                            <div class="control-label">
+                                @Html.LabelFor(m => m.FemaleLessThan5Years)
+                            </div>
+                            <div class="controls">
+                                @Html.TextBoxFor(m => m.FemaleLessThan5Years)
+                                @Html.ValidationMessageFor(m => m.FemaleLessThan5Years)
+                            </div>
+                        </div>
+
+                        <div class="control-group">
+                            <div class="control-label">
+                                @Html.LabelFor(m => m.FemaleBetween5And18Years)
+                            </div>
+                            <div class="controls">
+                                @Html.TextBoxFor(m => m.FemaleBetween5And18Years)
+                                @Html.ValidationMessageFor(m => m.FemaleBetween5And18Years)
+                            </div>
+                        </div>
+    
+                        <div class="control-group">
+                            <div class="control-label">
+                                @Html.LabelFor(m => m.FemaleAbove18Years)
+                            </div>
+                            <div class="controls">
+                                @Html.TextBoxFor(m => m.FemaleAbove18Years)
+                                @Html.ValidationMessageFor(m => m.FemaleAbove18Years)
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <div class="control-label">
+                                @Html.LabelFor(m => m.SupportTypeID)
+                            </div>
+                            <div class="controls">
+                                @Html.DropDownList("SupportTypeID", String.Empty)
+                                @Html.ValidationMessageFor(m => m.SupportTypeID)
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+           
+            
+        </table>
+    </div>
+
+
+    @Html.Partial("_DistributionByBeneficiary", Model)
+}
+@*<script>
+    
+    $(function () {
+
+
+
+        $("#ProgramID").change(function () {
+
+            $("#div_round").hide();
+            $("#div_month").hide();
+
+            $.getJSON('/WoredaStockDistribution/GetPlans/' + $("#ProgramID").val(), function (data) {
+                var plans = '<option> Select a Plan </option>';
+                $.each(data, function (i, plan) {
+                    plans += "<option value='" + plan.Value + "'>" + plan.Text + "</option>";
+                });
+                $("#PlanID").html(plans);
+            });
+
+
+
+        });
+    });
+</script>*@
