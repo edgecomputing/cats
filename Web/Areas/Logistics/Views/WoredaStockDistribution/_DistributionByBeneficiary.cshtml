@@ -50,6 +50,11 @@
                                                                    model.Field(detail => detail.DispatchedToFDPAmount).Editable(false);
                                                                    model.Field(detail => detail.NumberOfBeneficiaries).Editable(false);
                                                                    model.Field(detail => detail.ReceivedAtFDPAmount).Editable(false);
+                                                                   model.Field(detail => detail.Round).Editable(false);
+                                                                   model.Field(detail => detail.Month).Editable(false);
+                                                                   model.Field(detail => detail.RequistionNo).Editable(false);
+                                                                   model.Field(detail => detail.RequisitionDetailViewModel.CommodityName).Editable(false);
+                                                                   model.Field(detail => detail.RequisitionDetailViewModel.AllocatedAmount).Editable(false);
                                                                    model.Field(detail => detail.TotalIn).Editable(true);
 
                                                                })

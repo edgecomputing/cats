@@ -533,7 +533,7 @@ namespace Cats.Areas.Logistics.Controllers
                 WoredaID = woredaStockDistribution.WoredaID,
                 ProgramID = woredaStockDistribution.ProgramID,
                 PlanID = woredaStockDistribution.PlanID,
-                Month = woredaStockDistribution.WoredaStockDistributionID,
+                Month = woredaStockDistribution.Month,
                 SupportTypeID = woredaStockDistribution.SupportTypeID,
                 ActualBeneficairies = woredaStockDistribution.ActualBeneficairies,
                 MaleBetween5And18Years = woredaStockDistribution.MaleBetween5And18Years,
@@ -542,31 +542,6 @@ namespace Cats.Areas.Logistics.Controllers
                 FemaleAbove18Years = woredaStockDistribution.FemaleAbove18Years,
                 FemaleBetween5And18Years = woredaStockDistribution.FemaleBetween5And18Years,
                 
-                //WoredaDistributionDetailViewModels = (from woredaDistributionDetail in woredaStockDistribution.WoredaStockDistributionDetails
-                //                                      select new WoredaDistributionDetailViewModel()
-                //                                      {
-                //                                          FdpId = woredaDistributionDetail.FdpId,
-                //                                          //FDP = woredaDistributionDetail.FDP.Name,
-                //                                          WoredaStockDistributionDetailID = woredaDistributionDetail.WoredaStockDistributionDetailID,
-                //                                          WoredaStockDistributionID = woredaDistributionDetail.WoredaStockDistributionID,
-                //                                          //RequisitionDetailViewModel = GetRequisionInfo(requisition.RequisitionID, woredaDistributionDetail.FdpId),
-                //                                          //RequistionNo = requisition.RequisitionNo,
-                //                                          //Round = requisition.Round,
-                //                                          //Month = RequestHelper.MonthName(requisition.Month),
-
-                //                                          //CommodityName = ,
-                //                                          //Month = ,
-                //                                          //AllocatedAmount = ,
-                //                                          //RequistionNo = ,
-                //                                          //BeginingBalance = 0,
-                //                                          //EndingBalance = 0,
-                //                                          DistributedAmount = woredaDistributionDetail.DistributedAmount,
-
-
-                //                                      }
-                //     )
-
-
             };
 
             return woredaStockDistributionWithDetailViewModel;
