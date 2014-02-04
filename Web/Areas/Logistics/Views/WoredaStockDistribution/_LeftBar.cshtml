@@ -161,7 +161,7 @@
         });
         $("#PlanID").change(function() {
 
-            $.getJSON("@Url.Action("GetMonth", "WoredaStockDistribution")" +"/" + $("#PlanID").val(), function (data) {
+            $.getJSON("@Url.Action("GetMonth", "WoredaStockDistribution")" + "?id=" + $("#PlanID").val() + "&zoneID=" + $("#ZoneID").val(), function (data) {
                 var months = '<option> Select Month </option>';
                 $.each(data, function(i, m) {
                     months += "<option value='" + m.Value + "'>" + m.Text + "</option>";

@@ -12,9 +12,9 @@
                                    {
                                       
                                        columns.Bound(p => p.FDP).Width(80).Title(Translator.Translate("FDP")).HtmlAttributes(new { style = "background-color:lightgray" });
-                                       columns.Bound(p => p.RequisitionDetailViewModel.CommodityName).Width(60).Title(Translator.Translate("Commodity")).HtmlAttributes(new { style = "background-color:lightgray" });
+                                       columns.Bound(p => p.RequisitionDetailViewModel.CommodityName).Width(100).Title(Translator.Translate("Commodity")).HtmlAttributes(new { style = "background-color:lightgray" });
                                        columns.Bound(p => p.Round).Width(60).HtmlAttributes(new { style = "background-color:lightgray" });
-                                       columns.Bound(p => p.Month).Width(60).HtmlAttributes(new { style = "background-color:lightgray" });
+                                       columns.Bound(p => p.Month).Width(80).HtmlAttributes(new { style = "background-color:lightgray" });
                                        columns.Bound(p => p.RequisitionDetailViewModel.AllocatedAmount).HtmlAttributes(new { align = "right" }).HtmlAttributes(new { style = "background-color:lightgray" });
                                        columns.Bound(p => p.RequistionNo).Width(100).HtmlAttributes(new { align = "right" }).HtmlAttributes(new { style = "background-color:lightgray" });
                                        columns.Bound(p => p.BeginingBalance);

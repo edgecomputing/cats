@@ -145,10 +145,22 @@ namespace Cats.Services.Common
 
        public int GetZoneID(int woredaID)
        {
-           return _unitOfWork.AdminUnitRepository.FindBy(m => m.AdminUnitID == woredaID).FirstOrDefault().AdminUnit2.
+           var woreda = _unitOfWork.AdminUnitRepository.FindBy(m => m.AdminUnitID == woredaID).FirstOrDefault();
+           if (woreda != null)
+               return woreda.AdminUnit2.
                    AdminUnitID;
+           return 0;
        }
 
+        public int GetRegion(int zoneID)
+        {
+            var zone = _unitOfWork.AdminUnitRepository.FindBy(m => m.AdminUnit2.AdminUnitID == zoneID).FirstOrDefault();
+            if (zone!=null)
+            {
+                return zone.AdminUnit2.AdminUnit2.AdminUnitID;
+            }
+            return 0;
+        }
 
        public List<Plan> GetRequisitionGeneratedPlan(int programID, int zoneID)
        {

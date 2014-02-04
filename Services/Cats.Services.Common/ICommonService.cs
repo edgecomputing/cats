@@ -60,6 +60,7 @@ namespace Cats.Services.Common
         List<AdminUnit> GetWoreda(int zoneId);
         List<SupportType> GetAllSupportType();
         int GetZoneID(int woredaID);
+        int GetRegion(int zoneID);
     }
 }
 

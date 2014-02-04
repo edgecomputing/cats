@@ -270,7 +270,7 @@ namespace Cats.Areas.Logistics.Controllers
                         }
 
                         ModelState.AddModelError("Success", @"Distribution Information Successfully Saved");
-                        LookUps();
+                        LookUps(woredaStockDistribution);
                         //var distributionDetail = _utilizationDetailSerivce.FindBy(m => m.WoredaStockDistributionID == distributionHeader.WoredaStockDistributionID);
                         //distributionHeader.WoredaStockDistributionDetails = distributionDetail;
                         WoredaStockDistributionWithDetailViewModel woredaStockDistributionViewModel = GetWoredaStockDistributionFormDB(distributionHeader);
@@ -343,7 +343,8 @@ namespace Cats.Areas.Logistics.Controllers
         {
             if (woredaID==0 || planID==0 || month==0) return null;
             var zone = _commonService.GetZoneID(woredaID);
-            var regionalRequest = _regionalRequestService.FindBy(m => m.PlanID == planID && m.Month == month).FirstOrDefault();
+            var region = _commonService.GetRegion(zone);
+            var regionalRequest = _regionalRequestService.FindBy(m => m.PlanID == planID && m.Month == month && m.RegionID==region).FirstOrDefault();
             var requisition = _reliefRequisitionService.FindBy(m => m.RegionalRequestID == regionalRequest.RegionalRequestID
                                                                  && m.ZoneID == zone).FirstOrDefault();
             if (regionalRequest!=null)
@@ -462,14 +463,15 @@ namespace Cats.Areas.Logistics.Controllers
             return Json(new SelectList(plans.ToList(), "PlanID", "PlanName"), JsonRequestBehavior.AllowGet);
         }
        
-        public JsonResult GetMonth(string id)
+        public JsonResult GetMonth(string id,int zoneID)
         {
             try
             {
                 var planid = int.Parse(id);
-
-                var months = _regionalRequestService.FindBy(r => r.PlanID == planid).ToList();
-                var month = from m in months
+                var requisition = _reliefRequisitionService.FindBy(m => m.ZoneID == zoneID).Select(m => m.RegionalRequestID).Distinct();
+                var request = _regionalRequestService.FindBy(m => requisition.Contains(m.RegionalRequestID) && m.PlanID == planid) .ToList();
+                //var months = _regionalRequestService.FindBy(r => r.PlanID == planid).ToList();
+                var month = from m in request
                              select new {month = m.Month};
                 var distinctMonth = month.Distinct();
                 return Json(new SelectList(distinctMonth, "month", "month"), JsonRequestBehavior.AllowGet);
