@@ -406,7 +406,7 @@ namespace Cats.Areas.Logistics.Controllers
                 {
                     receiptHeader.IsClosed = true;
                     _receiptPlanService.EditReceiptPlan(receiptHeader);
-                    return RedirectToAction("Index", "ReceiptAllocation", new { Area = "Hub" });
+                    return RedirectToAction("Index", "Receive", new { Area = "Hub" });
                 }
             }
             return null;
