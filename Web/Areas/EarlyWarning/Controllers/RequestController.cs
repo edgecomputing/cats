@@ -112,7 +112,14 @@ namespace Cats.Areas.EarlyWarning.Controllers
             regionalRequest.Status = (int)RegionalRequestStatus.Draft;
             regionalRequest.RequistionDate = DateTime.Today;
             regionalRequest.Year = hrdpsnpPlanInfo.HRDPSNPPlan.Year;
+
             regionalRequest.PlanID = hrdpsnpPlanInfo.HRDPSNPPlan.PlanID;
+            
+            if (hrdpsnpPlanInfo.HRDPSNPPlan.ProgramID == 2)
+            {
+                regionalRequest.PlanID = hrdpsnpPlanInfo.HRDPSNPPlan.PSNPPlanID;
+            }
+
             if (hrdpsnpPlanInfo.HRDPSNPPlan.SeasonID.HasValue)
                 regionalRequest.Season = hrdpsnpPlanInfo.HRDPSNPPlan.SeasonID.Value;
             regionalRequest.Month = hrdpsnpPlanInfo.HRDPSNPPlan.Month;
@@ -260,7 +267,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                 HRDPSNPPlanInfo psnphrdPlanInfo = _regionalRequestService.PlanToRequest(hrdpsnpPlan);
                 if (psnphrdPlanInfo != null)
                 {
-                    var exisiting = _regionalRequestService.FindBy(r => r.PlanID == psnphrdPlanInfo.HRDPSNPPlan.PlanID
+                    var exisiting = _regionalRequestService.FindBy(r => r.PlanID == psnphrdPlanInfo.HRDPSNPPlan.PSNPPlanID
                                                                         &&
                                                                         r.ProgramId ==
                                                                         psnphrdPlanInfo.HRDPSNPPlan.ProgramID && r.RegionID==psnphrdPlanInfo.HRDPSNPPlan.RegionID

@@ -90,7 +90,7 @@ namespace Cats.Areas.PSNP
 
         public ActionResult Index()
         {
-            IEnumerable<Cats.Models.RegionalPSNPPlan> list = (IEnumerable<Cats.Models.RegionalPSNPPlan>)_regionalPSNPPlanService.GetAllRegionalPSNPPlan();
+            IEnumerable<RegionalPSNPPlan> list = (IEnumerable<Cats.Models.RegionalPSNPPlan>)_regionalPSNPPlanService.GetAllRegionalPSNPPlan();
 
             return View(list);
 
