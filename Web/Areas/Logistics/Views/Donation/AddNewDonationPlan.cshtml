@@ -1,20 +1,14 @@
 ﻿@using System.Collections
 @using LanguageHelpers.Localization
-@model Cats.Areas.Logistics.Models.DonationHeaderViewModel
+@model Cats.Areas.Logistics.Models.DonationViewModel
 @using Kendo.Mvc.UI
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
     
-    var headerId = -1;
    
-    if (Model!=null)
-    {
-        headerId = Model.ReceiptHeaderId;
-    }
     
 }
-
 
 
 @section Toolbar{
@@ -36,7 +30,7 @@
   
 <h4>Receive Plan</h4>
 
-@Html.HiddenFor(model=>model.GiftCertificateDetailId)
+
 <div class="control-group form-horizontal well">
     <div class="row">
         <div class="span6">  
@@ -67,20 +61,20 @@
         <div class="span6">
             <div class="control-group">
                 <div class="control-label">
-                    @Html.LabelFor(model => model.Donor, @Translator.Translate("Donor")) 
+                    @Html.Label(@Translator.Translate("Donor")) 
                 </div>
                 <div class="controls">
-                    @(Html.TextBoxFor(model => model.Donor,new { Disabled = true }))
+                    @(Html.DropDownListFor(model => model.DonorID,new SelectList(Model.Donors,"DonorID","Name")))
                 </div>
             </div>
         </div>
         <div class="span4">
             <div class="control-group">
                 <div class="control-label">
-                    @Html.LabelFor(model => model.CommodityType, @Translator.Translate("Commodity Type")) 
+                    @Html.Label(@Translator.Translate("Commodity Type")) 
                 </div>
                 <div class="controls" >
-                    @(Html.TextBoxFor(model=>model.CommodityType,new { Disabled = true }))
+                    @(Html.DropDownListFor(model=>model.CommodityID,new SelectList(Model.CommodityTypes,"CommodityTypeID","Name")))
                 </div>
             </div>
         </div>
@@ -89,10 +83,10 @@
         <div class="span6">
             <div class="control-group">
                 <div class="control-label">
-                    @Html.LabelFor(model => model.Commodity, @Translator.Translate("Commodity")) 
+                    @Html.Label(@Translator.Translate("Commodity")) 
                 </div>
                 <div class="controls" >
-                    @(Html.TextBoxFor(model=>model.Commodity,new { Disabled = true }))
+                    @(Html.DropDownListFor(model=>model.CommodityID, new SelectList(Model.Commodities,"CommodityID","Name")))
                 </div>
             </div>
         </div>
@@ -112,10 +106,10 @@
         <div class="span4">
             <div class="control-group">
                 <div class="control-label">
-                    @Html.LabelFor(model => model.Program, @Translator.Translate("Program")) 
+                    @Html.Label(@Translator.Translate("Program")) 
                 </div>
                 <div class="controls">
-                    @(Html.TextBoxFor(model=>model.Program,new { Disabled = true }))
+                    @(Html.DropDownListFor(model=>model.ProgramID,new SelectList(Model.Programs,"ProgramID","Name")))
                 </div>
             </div>
         </div>
@@ -124,13 +118,13 @@
 </div>
 
        
-@(Html.Kendo().Grid<Cats.Areas.Logistics.Models.DonationDetailViewModel.DonationDetail>()
+@(Html.Kendo().Grid<Cats.Areas.Logistics.Models.DonationViewModel.DonationDetail>()
     .Name("grid")
     .Columns(columns =>
     {
         columns.Bound(p => p.Hub).Title("Hub").Width(100);
-        columns.Bound(p => p.Allocated).Title("Allocated").Width(30).Format("{0:n2}").ClientFooterTemplate("Sum: #=sum#").HtmlAttributes(new {align = "Right"}).HtmlAttributes(new {style = "text-align: right; font-size: 12px; "});;
-        columns.Bound(p => p.Received).Title("Received").Width(30).Format("{0:n2}").HtmlAttributes(new {align = "Right"}).HtmlAttributes(new {style = "text-align: right; font-size: 12px; "});;
+        columns.Bound(p => p.AllocatedAmount).Title("Allocated").Width(30).Format("{0:n2}").ClientFooterTemplate("Sum: #=sum#").HtmlAttributes(new {align = "Right"}).HtmlAttributes(new {style = "text-align: right; font-size: 12px; "});;
+        columns.Bound(p => p.ReceivedAmount).Title("Received").Width(30).Format("{0:n2}").HtmlAttributes(new {align = "Right"}).HtmlAttributes(new {style = "text-align: right; font-size: 12px; "});;
         columns.Bound(p => p.Balance).Title("Balance").Width(30).Format("{0:n2}").HtmlAttributes(new {align = "Right"}).HtmlAttributes(new {style = "text-align: right; font-size: 12px; "});;
         })
     
@@ -142,16 +136,16 @@
     //.HtmlAttributes(new { style = "height:430px;" })
     .DataSource(dataSource => dataSource
         .Ajax()
-         .Aggregates(aggregates => aggregates.Add(p => p.Allocated).Sum())
+         .Aggregates(aggregates => aggregates.Add(p => p.AllocatedAmount).Sum())
         .PageSize(20)
         .Events(events => events.Error("error_handler"))
         .Batch(true)
         .Events(e=>e.RequestEnd("onRequestEnd"))
         .ServerOperation(false)
-        .Model(model => model.Id(p => p.ReceiptHeaderId))
+        .Model(model => model.Id(p => p.DonationDetailPlanID))
         .Model(model => model.Field(p=>p.Hub).Editable(false))
-        .Create(update => update.Action("SaveDonation", "Donation",new {id = Model.GiftCertificateDetailId}))
-        .Read(read => read.Action("ReadReceiptPlanDetail", "Donation",new {receiptID = @headerId}))
+        .Create(update => update.Action("SaveDonation", "Donation"))
+        .Read(read => read.Action("ReadReceiptPlanDetail", "Donation"))
         .Update(update => update.Action("SaveDonation", "Donation"))
         .Destroy(update => update.Action("EditingInline_Destroy", "Grid"))
     )

@@ -9,6 +9,7 @@ namespace Cats.Areas.Logistics.Models
     {
         public int DonationHeaderPlanID { get; set; }
         public int ShippingInstructionId { get; set; }
+        public string SINumber { get; set; }
         public Nullable<int> GiftCertificateID { get; set; }
         public int CommodityID { get; set; }
         public int DonorID { get; set; }
@@ -23,33 +24,56 @@ namespace Cats.Areas.Logistics.Models
         public Nullable<System.DateTime> AllocationDate { get; set; }
         public string Remark { get; set; }
         public virtual ICollection<DonationPlanDetail> DonationPlanDetails { get; set; }
-       public virtual UserProfile UserProfile { get; set; }
-
+        public virtual UserProfile UserProfile { get; set; }
+        public decimal WieghtInMT { get; set; }
        public List<Commodity> Commodities { get; set; }
        public List<Donor> Donors { get; set; }
-       public List<Hub> Hubs { get; set; }
-       public List<Hub> AllHubs { get; set; }
+       public List<Cats.Models.Hub> Hubs { get; set; }
+       public List<Cats.Models.Hub> AllHubs { get; set; }
        public List<GiftCertificateDetail> GiftCertificateDetail { get; set; }
        public List<Program> Programs { get; set; }
        public List<CommoditySource> CommoditySources { get; set; }
        public List<CommodityType> CommodityTypes { get; set; }
 
-       public DonationViewModel(List<Commodity> commodities, List<Donor> donors, List<Hub> allHubs, List<Program> programs, List<CommoditySource> commoditySources, List<CommodityType> commodityTypes, UserProfile user)
+
+        public class DonationDetail
         {
-            InitalizeViewModel(  commodities,  donors ,  allHubs,  programs  , commoditySources,  commodityTypes  );
+            public int DonationDetailPlanID { get; set; }
+            public int DonationHeaderPlanID { get; set; }
+            public int HubID { get; set; }
+            public string Hub { get; set; }
+            public decimal AllocatedAmount { get; set; }
+            public decimal ReceivedAmount { get; set; }
+            public decimal Balance { get; set; }
+        }
+
+         public DonationViewModel()
+         {
+             
+         }
+        public DonationViewModel(List<Commodity> commodities,
+           List<Donor> donors, 
+           List<Cats.Models.Hub> allHubs, 
+           List<Program> programs, 
+          List<CommodityType> commodityTypes)
+        {
+            InitalizeViewModel(  commodities,  donors ,  allHubs,  programs,  commodityTypes  );
         }
 
         /// <summary>
         /// Initalizes the view model.
         /// </summary>
-        public void InitalizeViewModel(List<Commodity> commodities,List<Donor> donors ,List<Hub> allHubs,List<Program> programs  ,List<CommoditySource> commoditySources,List<CommodityType> commodityTypes  )
+        public void InitalizeViewModel(List<Commodity> commodities,
+            List<Donor> donors ,
+            List<Cats.Models.Hub> allHubs,
+            List<Program> programs  ,
+           List<CommodityType> commodityTypes  )
         {
             Commodities = commodities;
             Donors = donors;
             AllHubs = allHubs;
             Hubs = allHubs;
             Programs = programs;
-            CommoditySources = commoditySources;
             CommodityTypes = commodityTypes;
         }
     }
