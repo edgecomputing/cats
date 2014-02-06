@@ -5,7 +5,7 @@
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
-    var test = 0;
+    
     var headerId = -1;
    
     if (Model!=null)
@@ -18,12 +18,23 @@
 
 
 @section Toolbar{
+    
+    <div class="btn-group" style="margin-right: 8px;">
+        <button class="btn dropdown-toggle " data-toggle="dropdown"> @Translator.Translate("Actions") 
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu">
+            <li><a id="btnReceiptDispatch"  href="@Url.Action("CloseLocalPlan", "Donation", new { receiptHeaderId = @headerId })" >@Translator.Translate("Receive")</a></li>
+            
+        </ul>
+
+    </div>
     <a class="btn toolbar-btn " data-buttontype="btn_save" href="javascript:saverecords()"></a>
     <a id="btnAddProposal" data-buttontype="btn_back_to_list" class="btn toolbar-btn " href="@Url.Action("Index", "Donation")"></a>
 }
 
   
-<h4>New Dontaion Plan</h4>
+<h4>Receive Plan</h4>
 
 @Html.HiddenFor(model=>model.GiftCertificateDetailId)
 <div class="control-group form-horizontal well">
@@ -84,6 +95,7 @@
                     @(Html.TextBoxFor(model=>model.Commodity,new { Disabled = true }))
                 </div>
             </div>
+        </div>
             <div class="span4">
                 <div class="control-group">
                     <div class="control-label">
@@ -94,7 +106,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        
     </div>
      <div class="row">
         <div class="span4">
@@ -117,9 +129,9 @@
     .Columns(columns =>
     {
         columns.Bound(p => p.Hub).Title("Hub").Width(100);
-        columns.Bound(p => p.Allocated).Title("Allocated").Width(30).Format("{0:N}").ClientFooterTemplate("Sum: #=sum#");
-        columns.Bound(p => p.Received).Title("Received").Width(30).Format("{0:N}");
-        columns.Bound(p => p.Balance).Title("Balance").Width(30).Format("{0:N}");
+        columns.Bound(p => p.Allocated).Title("Allocated").Width(30).ClientFooterTemplate("Sum: #=sum#").Format("{0:n0}").HtmlAttributes(new {align = "Right"}).HtmlAttributes(new {style = "text-align: right; font-size: 12px; "});;
+        columns.Bound(p => p.Received).Title("Received").Width(30).Format("{0:n0}").HtmlAttributes(new {align = "Right"}).HtmlAttributes(new {style = "text-align: right; font-size: 12px; "});;
+        columns.Bound(p => p.Balance).Title("Balance").Width(30).Format("{0:n0}").HtmlAttributes(new {align = "Right"}).HtmlAttributes(new {style = "text-align: right; font-size: 12px; "});;
         })
     
     .Editable(editable => editable.Mode(GridEditMode.InCell))

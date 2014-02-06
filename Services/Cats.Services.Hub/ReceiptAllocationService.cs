@@ -30,6 +30,7 @@ namespace Cats.Services.Hub
         #region Default Service Implementation
         public bool AddReceiptAllocation(ReceiptAllocation receiptAllocation)
         {
+
             _unitOfWork.ReceiptAllocationRepository.Add(receiptAllocation);
             _unitOfWork.Save();
             return true;
