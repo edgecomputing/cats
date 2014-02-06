@@ -147,6 +147,8 @@ namespace Cats.Data
         public DbSet<DispatchDetail> DispatchDetails { get; set; }
         public DbSet<OtherDispatchAllocation> OtherDispatchAllocations { get; set; }
 
+        public DbSet<DonationPlanHeader> DonationPlanHeaders { get; set; }
+        public DbSet<DonationPlanDetail> DonationPlanDetails { get; set; }
 
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -276,6 +278,9 @@ namespace Cats.Data
 
             modelBuilder.Configurations.Add(new ReceiptPlanMap());
             modelBuilder.Configurations.Add(new ReceiptPlanDetailMap());
+
+            modelBuilder.Configurations.Add(new DonationPlanHeaderMap());
+            modelBuilder.Configurations.Add(new DonationPlanDetailMap());
         }
 
     }

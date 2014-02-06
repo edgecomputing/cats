@@ -238,6 +238,9 @@ namespace Cats.Infrastructure
             kernel.Bind<Cats.Services.EarlyWarning.ICommodityTypeService>().To<Cats.Services.EarlyWarning.CommodityTypeService>();
             kernel.Bind<IReceiptPlanService>().To<ReceiptPlanService>();
             kernel.Bind<IReceiptPlanDetailService>().To<ReceiptPlanDetailService>();
+
+            kernel.Bind<IDonationPlanHeaderService>().To<DonationPlanHeaderService>();
+            kernel.Bind<IDonationPlanDetailService>().To<DonationPlanDetailService>();
         }
         private void AddBindingsHub()
         {
