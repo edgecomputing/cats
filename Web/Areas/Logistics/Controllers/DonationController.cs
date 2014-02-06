@@ -29,49 +29,41 @@ namespace Cats.Areas.Logistics.Controllers
     {
         //
         // GET: /Logistics/Donation/
-        private readonly IReceiptPlanService _receiptPlanService;
-        private readonly IReceiptPlanDetailService _receiptPlanDetailService;
+        
         private readonly IReceiptAllocationService _receiptAllocationService;
         private readonly IUserAccountService _userAccountService;
         private readonly GiftCertificateService _giftCertificateService;
-        private readonly Cats.Services.EarlyWarning.ICommodityService _commodityService;
+        private readonly ICommodityService _commodityService;
         private readonly ICommodityTypeService _commodityTypeService;
-        private readonly IProgramService _programService;
-        private readonly IDonorService _donorService;
-        private readonly Cats.Services.EarlyWarning.IHubService _hubService;
-        private readonly Cats.Services.Common.ICommonService _commonService;
+        private readonly IHubService _hubService;
+        private readonly ICommonService _commonService;
         private readonly IShippingInstructionService _shippingInstructionService;
-        private readonly IGiftCertificateDetailService _giftCertificateDetailService;
-        private readonly ICommoditySourceService _commoditySourceService;
-      
+        private readonly IDonationPlanHeaderService _donationPlanHeaderService;
+        private readonly IDonationPlanDetailService _donationPlanDetailService;
+
         public DonationController(
             IReceiptAllocationService receiptAllocationService,
-         IUserAccountService userAccountService,
-         ICommodityService commodityService, 
-          ICommonService commonService, 
-            IShippingInstructionService shippingInstructionService, 
-            IGiftCertificateDetailService giftCertificateDetailService, 
-            ICommoditySourceService commoditySourceService, GiftCertificateService giftCertificateService, IDonorService donorService, IProgramService programService, ICommodityTypeService commodityTypeService, IHubService hubService, IReceiptPlanDetailService receiptPlanDetailService, IReceiptPlanService receiptPlanService)
+            IUserAccountService userAccountService,
+            ICommodityService commodityService,
+            ICommonService commonService,
+            IShippingInstructionService shippingInstructionService,
+            IGiftCertificateDetailService giftCertificateDetailService,
+            ICommoditySourceService commoditySourceService, GiftCertificateService giftCertificateService, 
+            IDonorService donorService, 
+            IProgramService programService, 
+            ICommodityTypeService commodityTypeService, 
+            IHubService hubService, IDonationPlanDetailService donationPlanDetailService, IDonationPlanHeaderService donationPlanHeaderService)
         {
             _receiptAllocationService = receiptAllocationService;
-          
             _userAccountService = userAccountService;
             _commodityService = commodityService;
-           
-          
-          
-         
             _commonService = commonService;
             _shippingInstructionService = shippingInstructionService;
-            _giftCertificateDetailService = giftCertificateDetailService;
-            _commoditySourceService = commoditySourceService;
-            _giftCertificateService = giftCertificateService;
-            _donorService = donorService;
-            _programService = programService;
+           _giftCertificateService = giftCertificateService;
             _commodityTypeService = commodityTypeService;
             _hubService = hubService;
-            _receiptPlanDetailService = receiptPlanDetailService;
-            _receiptPlanService = receiptPlanService;
+            _donationPlanDetailService = donationPlanDetailService;
+            _donationPlanHeaderService = donationPlanHeaderService;
         }
 
         public ActionResult Index()
@@ -80,23 +72,13 @@ namespace Cats.Areas.Logistics.Controllers
             return View();
         }
 
-        public ActionResult ReadReceiptPlan([DataSourceRequest] DataSourceRequest request, int receiptID = -1)
+        public ActionResult ReadDonationPlan([DataSourceRequest] DataSourceRequest request)
         {
             try
             {
-                List<ReceiptPlan> receipts=null;
-                if (receiptID != -1)
-                {
-                    receipts = _receiptPlanService.GetAllReceiptPlan().Where(r => r.IsClosed == false && r.ReceiptHeaderId == receiptID).ToList();
-                    if(receipts.Count < 1)
-                        receipts = _receiptPlanService.GetAllReceiptPlan().Where(r => r.IsClosed == false).ToList();
-                }
-                else
-                {
-                   receipts = _receiptPlanService.GetAllReceiptPlan().Where(r => r.IsClosed == false).ToList();
-                }
-                 
-                var receiptViewModel = ReceiptPlanViewModelBinder.GetReceiptHeaderPlanViewModel(receipts);
+                List<DonationPlanHeader> donationHeader = null;
+                donationHeader = _donationPlanHeaderService.GetAllDonationPlanHeader().Where(r => r.IsCommited == false).ToList();
+                var receiptViewModel = ReceiptPlanViewModelBinder.GetReceiptHeaderPlanViewModel(donationHeader);
                 return Json(receiptViewModel.ToList().ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
 
             }
@@ -108,39 +90,25 @@ namespace Cats.Areas.Logistics.Controllers
             }
         }
 
-        public ActionResult ReadReceiptPlanDetail([DataSourceRequest] DataSourceRequest request, int receiptID = -1)
+        public ActionResult ReadDonationPlanPlanDetail([DataSourceRequest] DataSourceRequest request, int donationHeaderPlanID = -1)
         {
-           List<ReceiptPlanDetail> receiptDetails = null;
-            if (receiptID != -1)
+           List<Cats.Models.DonationPlanDetail> donationPlanDetails = null;
+           if (donationHeaderPlanID != -1)
             {
-                receiptDetails = _receiptPlanDetailService.FindBy(r => r.ReceiptHeaderId == receiptID).ToList();
-                if (receiptDetails.Count <1)
-                    receiptDetails = _receiptPlanDetailService.GetNewReceiptPlanDetail(); 
+                donationPlanDetails = _donationPlanDetailService.FindBy(r => r.DonationHeaderPlanID == donationHeaderPlanID).ToList();
+                if (donationPlanDetails.Count < 1)
+                    donationPlanDetails = _donationPlanDetailService.GetNewReceiptPlanDetail(); 
             }
             else
             {
-                receiptDetails = _receiptPlanDetailService.GetNewReceiptPlanDetail(); 
+                donationPlanDetails = _donationPlanDetailService.GetNewReceiptPlanDetail(); 
             }
-            
-            var receiptPlanDetailViewModel = ReceiptPlanViewModelBinder.GetDonationDetailViewModel(receiptDetails);
+
+           var receiptPlanDetailViewModel = ReceiptPlanViewModelBinder.GetDonationDetailViewModel(donationPlanDetails);
             return Json(receiptPlanDetailViewModel.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult ReadReceiptAllocation([DataSourceRequest] DataSourceRequest request)
-        {
-            try
-            {
-                var user = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name);
-                List<Cats.Models.Hubs.ReceiptAllocation> list = _receiptAllocationService.GetUnclosedAllocationsDetached(3,1,false,user.PreferedWeightMeasurment,1);
-                var receiptViewModel = ReceiptAllocationViewModelBinder.BindReceiptAllocationViewModel(list);
-                return Json(receiptViewModel.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception ex)
-            {
-                return null;
-
-            }
-        }
+       
 
         public ActionResult AddNewDonationPlan(string siNumber = null)
         {
@@ -260,133 +228,133 @@ namespace Cats.Areas.Logistics.Controllers
 
         }
 
-        [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult SaveDonation([DataSourceRequest] DataSourceRequest request, [Bind(Prefix = "models")]IEnumerable<DonationDetailViewModel.DonationDetail> donationDetailViewModel, int id = -1)
-        {
-            ReceiptPlanDetail[] receieptDetailArray = new ReceiptPlanDetail[] {};
-            var detailViewModel = donationDetailViewModel as DonationDetailViewModel.DonationDetail[] ?? donationDetailViewModel.ToArray();
-             var receiptDetailPlan = _receiptPlanService.FindBy(p => p.GiftCertificateDetailId == id).SingleOrDefault();
-             //if (receiptDetailPlan != null)
-             //{
-             //    receieptDetailArray = receiptDetailPlan.ReceiptPlanDetails.ToArray();
-             //    for (var i = 0; i < detailViewModel.GetUpperBound(0); i++)
-             //    {
-             //        receieptDetailArray[i].Allocated = detailViewModel[i].Allocated;
-             //        receieptDetailArray[i].Received = detailViewModel[i].Received;
-             //        receieptDetailArray[i].Balance = detailViewModel[i].Balance;
+        //[AcceptVerbs(HttpVerbs.Post)]
+        //public ActionResult SaveDonation([DataSourceRequest] DataSourceRequest request, [Bind(Prefix = "models")]IEnumerable<DonationDetailViewModel.DonationDetail> donationDetailViewModel, int id = -1)
+        //{
+        //    ReceiptPlanDetail[] receieptDetailArray = new ReceiptPlanDetail[] {};
+        //    var detailViewModel = donationDetailViewModel as DonationDetailViewModel.DonationDetail[] ?? donationDetailViewModel.ToArray();
+        //     var receiptDetailPlan = _receiptPlanService.FindBy(p => p.GiftCertificateDetailId == id).SingleOrDefault();
+        //     //if (receiptDetailPlan != null)
+        //     //{
+        //     //    receieptDetailArray = receiptDetailPlan.ReceiptPlanDetails.ToArray();
+        //     //    for (var i = 0; i < detailViewModel.GetUpperBound(0); i++)
+        //     //    {
+        //     //        receieptDetailArray[i].Allocated = detailViewModel[i].Allocated;
+        //     //        receieptDetailArray[i].Received = detailViewModel[i].Received;
+        //     //        receieptDetailArray[i].Balance = detailViewModel[i].Balance;
 
-             //        var detail = new ReceiptPlanDetail();
-             //        detail = receieptDetailArray[i];
-             //        _receiptPlanDetailService.EditReceiptPlanDetail(detail);
-             //    }
+        //     //        var detail = new ReceiptPlanDetail();
+        //     //        detail = receieptDetailArray[i];
+        //     //        _receiptPlanDetailService.EditReceiptPlanDetail(detail);
+        //     //    }
 
-             //}
-             //else
-             //{
-
-
+        //     //}
+        //     //else
+        //     //{
 
 
 
 
-                 var user = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name);
-                 var receiptPlanHeader = new ReceiptPlan
-                                             {
-                                                 IsClosed = false,
-                                                 ReceiptDate = DateTime.Now,
-                                                 EnteredBy = user.UserProfileID
-                                             };
 
-                 foreach (var donationDetail in detailViewModel)
-                 {
-                     var receiptDetail = new ReceiptPlanDetail
-                                             {
-                                                 HubId = donationDetail.HubId,
-                                                 Allocated = donationDetail.Allocated,
-                                                 Received = donationDetail.Received,
-                                                 Balance = donationDetail.Balance
-                                             };
 
-                     receiptPlanHeader.GiftCertificateDetailId = id;
-                     receiptDetail.ReceiptPlan = receiptPlanHeader;
-                     _receiptPlanDetailService.AddReceiptPlanDetail(receiptDetail);
-                 }
-            // }
+        //         var user = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name);
+        //         var receiptPlanHeader = new ReceiptPlan
+        //                                     {
+        //                                         IsClosed = false,
+        //                                         ReceiptDate = DateTime.Now,
+        //                                         EnteredBy = user.UserProfileID
+        //                                     };
 
-            return Json(detailViewModel.ToDataSourceResult(request, ModelState));
-        }
+        //         foreach (var donationDetail in detailViewModel)
+        //         {
+        //             var receiptDetail = new ReceiptPlanDetail
+        //                                     {
+        //                                         HubId = donationDetail.HubId,
+        //                                         Allocated = donationDetail.Allocated,
+        //                                         Received = donationDetail.Received,
+        //                                         Balance = donationDetail.Balance
+        //                                     };
+
+        //             receiptPlanHeader.GiftCertificateDetailId = id;
+        //             receiptDetail.ReceiptPlan = receiptPlanHeader;
+        //             _receiptPlanDetailService.AddReceiptPlanDetail(receiptDetail);
+        //         }
+        //    // }
+
+        //    return Json(detailViewModel.ToDataSourceResult(request, ModelState));
+        //}
 
        
 
 
-        public bool TriggerReceive(int receiptHeaderId)
-        {
-            try
-            {
-                var receipt =
-                    _receiptPlanDetailService.FindBy(r => r.ReceiptHeaderId == receiptHeaderId).ToList();
-                foreach (var receiptPlanDetail in receipt)
-                {
-                    var receiptAllocation = new Cats.Models.Hubs.ReceiptAllocation
-                                                {
-                                                    ReceiptAllocationID = Guid.NewGuid(),
-                                                    CommodityID =
-                                                        receiptPlanDetail.ReceiptPlan.GiftCertificateDetail.CommodityID,
-                                                    IsCommited = false,
-                                                    ETA =
-                                                        receiptPlanDetail.ReceiptPlan.GiftCertificateDetail.
-                                                        GiftCertificate.ETA,
-                                                    ProjectNumber = "12-12",
-                                                    SINumber =
-                                                        receiptPlanDetail.ReceiptPlan.GiftCertificateDetail.
-                                                        GiftCertificate.ShippingInstruction.Value,
-                                                    QuantityInMT = receiptPlanDetail.Allocated,
-                                                    HubID = receiptPlanDetail.HubId,
-                                                    ProgramID =
-                                                        receiptPlanDetail.ReceiptPlan.GiftCertificateDetail.
-                                                        GiftCertificate.ProgramID,
-                                                        GiftCertificateDetailID = receiptPlanDetail.ReceiptPlan.GiftCertificateDetailId,
-                                                    CommoditySourceID = 1,
-                                                    IsClosed = false,
-                                                    PartitionID = 0
-                                                };
+        //public bool TriggerReceive(int receiptHeaderId)
+        //{
+        //    try
+        //    {
+        //        var receipt =
+        //            _receiptPlanDetailService.FindBy(r => r.ReceiptHeaderId == receiptHeaderId).ToList();
+        //        foreach (var receiptPlanDetail in receipt)
+        //        {
+        //            var receiptAllocation = new Cats.Models.Hubs.ReceiptAllocation
+        //                                        {
+        //                                            ReceiptAllocationID = Guid.NewGuid(),
+        //                                            CommodityID =
+        //                                                receiptPlanDetail.ReceiptPlan.GiftCertificateDetail.CommodityID,
+        //                                            IsCommited = false,
+        //                                            ETA =
+        //                                                receiptPlanDetail.ReceiptPlan.GiftCertificateDetail.
+        //                                                GiftCertificate.ETA,
+        //                                            ProjectNumber = "12-12",
+        //                                            SINumber =
+        //                                                receiptPlanDetail.ReceiptPlan.GiftCertificateDetail.
+        //                                                GiftCertificate.ShippingInstruction.Value,
+        //                                            QuantityInMT = receiptPlanDetail.Allocated,
+        //                                            HubID = receiptPlanDetail.HubId,
+        //                                            ProgramID =
+        //                                                receiptPlanDetail.ReceiptPlan.GiftCertificateDetail.
+        //                                                GiftCertificate.ProgramID,
+        //                                                GiftCertificateDetailID = receiptPlanDetail.ReceiptPlan.GiftCertificateDetailId,
+        //                                            CommoditySourceID = 1,
+        //                                            IsClosed = false,
+        //                                            PartitionID = 0
+        //                                        };
 
-                    _receiptAllocationService.AddReceiptAllocation(receiptAllocation);
-                }
-                return true;
-            }
-            catch (System.Data.Entity.Validation.DbEntityValidationException e)
-            {
-                var outputLines = new List<string>();
-                foreach (var eve in e.EntityValidationErrors)
-                {
-                    outputLines.Add(string.Format(
-                        "{0}: Entity of type \"{1}\" in state \"{2}\" has the following validation errors:",
-                        DateTime.Now, eve.Entry.Entity.GetType().Name, eve.Entry.State));
-                    outputLines.AddRange(eve.ValidationErrors.Select(ve => string.Format("- Property: \"{0}\", Error: \"{1}\"", ve.PropertyName, ve.ErrorMessage)));
-                }
-                // System.IO.File.AppendAllLines(@"c:\temp\errors.txt", outputLines);
-                throw;
-            }
+        //            _receiptAllocationService.AddReceiptAllocation(receiptAllocation);
+        //        }
+        //        return true;
+        //    }
+        //    catch (System.Data.Entity.Validation.DbEntityValidationException e)
+        //    {
+        //        var outputLines = new List<string>();
+        //        foreach (var eve in e.EntityValidationErrors)
+        //        {
+        //            outputLines.Add(string.Format(
+        //                "{0}: Entity of type \"{1}\" in state \"{2}\" has the following validation errors:",
+        //                DateTime.Now, eve.Entry.Entity.GetType().Name, eve.Entry.State));
+        //            outputLines.AddRange(eve.ValidationErrors.Select(ve => string.Format("- Property: \"{0}\", Error: \"{1}\"", ve.PropertyName, ve.ErrorMessage)));
+        //        }
+        //        // System.IO.File.AppendAllLines(@"c:\temp\errors.txt", outputLines);
+        //        throw;
+        //    }
               
             
-        }
+        //}
 
-        public ActionResult CloseLocalPlan(int receiptHeaderId)
-        {
-            if (TriggerReceive(receiptHeaderId))
-            {
-                var receiptHeader =
-                    _receiptPlanService.FindBy(f => f.ReceiptHeaderId == receiptHeaderId).SingleOrDefault();
-                if (receiptHeader != null)
-                {
-                    receiptHeader.IsClosed = true;
-                    _receiptPlanService.EditReceiptPlan(receiptHeader);
-                    return RedirectToAction("Index", "Receive", new { Area = "Hub" });
-                }
-            }
-            return null;
-        }
+        //public ActionResult CloseLocalPlan(int receiptHeaderId)
+        //{
+        //    if (TriggerReceive(receiptHeaderId))
+        //    {
+        //        var receiptHeader =
+        //            _receiptPlanService.FindBy(f => f.ReceiptHeaderId == receiptHeaderId).SingleOrDefault();
+        //        if (receiptHeader != null)
+        //        {
+        //            receiptHeader.IsClosed = true;
+        //            _receiptPlanService.EditReceiptPlan(receiptHeader);
+        //            return RedirectToAction("Index", "Receive", new { Area = "Hub" });
+        //        }
+        //    }
+        //    return null;
+        //}
 
     }
 }

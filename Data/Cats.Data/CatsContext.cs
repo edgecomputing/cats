@@ -150,7 +150,6 @@ namespace Cats.Data
         public DbSet<DonationPlanHeader> DonationPlanHeaders { get; set; }
         public DbSet<DonationPlanDetail> DonationPlanDetails { get; set; }
 
-
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Configurations.Add(new DispatchMap());

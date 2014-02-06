@@ -60,6 +60,27 @@ namespace Cats.Services.Logistics
         }
         #endregion
 
+
+
+        public List<DonationPlanDetail> GetNewReceiptPlanDetail()
+        {
+            var hubs = _unitOfWork.HubRepository.Get(h => h.HubOwnerID == 1);
+            var donationPlanDetails = new List<DonationPlanDetail>();
+            foreach (var hub in hubs)
+            {
+                var donationDetail = new DonationPlanDetail();
+                donationDetail.HubID = hub.HubID;
+                donationDetail.Hub = hub;
+                donationDetail.AllocatedAmount = 0;
+                donationDetail.ReceivedAmount = 0;
+                donationDetail.Balance = 0;
+                donationPlanDetails.Add(donationDetail);
+
+            }
+            return donationPlanDetails;
+        }
+
+
         public void Dispose()
         {
             _unitOfWork.Dispose();

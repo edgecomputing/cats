@@ -16,7 +16,7 @@ namespace Cats.Services.Logistics
         List<DonationPlanDetail> GetAllDonationPlanDetail();
         List<DonationPlanDetail> FindBy(Expression<Func<DonationPlanDetail, bool>> predicate);
 
-
+        List<DonationPlanDetail> GetNewReceiptPlanDetail();
     }
 }
 
