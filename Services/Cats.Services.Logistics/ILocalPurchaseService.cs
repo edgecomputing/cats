@@ -16,6 +16,7 @@ namespace Cats.Services.Logistics
        LocalPurchase FindById(int id);
        List<LocalPurchase> GetAllEntity();
        List<LocalPurchase> FindBy(Expression<Func<LocalPurchase, bool>> predicate);
+       List<Models.Hub> GetAllHub();
 
 
    }

@@ -61,12 +61,17 @@ namespace Cats.Services.Logistics
        }
        #endregion
        
+
+       public List<Models.Hub> GetAllHub()
+       {
+           return _unitOfWork.HubRepository.GetAll();
+       }
+
        public void Dispose()
        {
            _unitOfWork.Dispose();
-           
+
        }
-       
    }
    }
    
