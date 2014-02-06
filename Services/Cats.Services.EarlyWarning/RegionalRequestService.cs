@@ -214,7 +214,7 @@ namespace Cats.Services.EarlyWarning
                     if (psnpplan != null)
                     {
                         result.HRDPSNPPlan.RationID = psnpplan.RationID;
-                        beneficiaryInfos = PSNPToRequest(psnpplan);
+                        beneficiaryInfos = PSNPToRequest(psnpplan,plan.RegionID);
                     }
                 }
                 else if (plan.ProgramID == 1)
@@ -297,10 +297,11 @@ namespace Cats.Services.EarlyWarning
             return benficiaries;
         }
 
-        private List<BeneficiaryInfo> PSNPToRequest(RegionalPSNPPlan plan)
+        private List<BeneficiaryInfo> PSNPToRequest(RegionalPSNPPlan plan,int regionID)
         {
             List<BeneficiaryInfo> benficiaries =
                 (from RegionalPSNPPlanDetail pd in plan.RegionalPSNPPlanDetails
+                 where pd.PlanedFDP.AdminUnit.AdminUnit2.AdminUnit2.AdminUnitID==regionID
                  select
                      new BeneficiaryInfo
                          {FDPID = pd.PlanedFDP.FDPID, FDPName = pd.PlanedFDP.Name, Beneficiaries = pd.BeneficiaryCount})
