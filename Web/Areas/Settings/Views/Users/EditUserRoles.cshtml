@@ -14,7 +14,8 @@
     @Html.Partial("_AdminLeftBar")
 }
 <style>
-    .hubSelect{}    
+    .hubSelect {
+    }
 </style>
 
 <h4 class="page-header">Edit User Roles</h4>
@@ -88,13 +89,13 @@
                                 <div>
                                     @Html.HiddenFor(m => m.Applications[j].ApplicationName, new { @class = "input-xlarge" })
                                     @Html.HiddenFor(m => m.Applications[j].Roles[k].RoleName, new { @class = "input-xlarge" })
-                                    @Html.CheckBoxFor(m => m.Applications[j].Roles[k].IsChecked, new {@class = "hubSelect"})
+                                    @Html.CheckBoxFor(m => m.Applications[j].Roles[k].IsChecked, new { @class = "hubSelect" })
                                     @Html.DisplayFor(m => Model.Applications[j].Roles[k].RoleName, new { @class = "input-xlarge" })
                                 </div> 
                               
 
                             }
-                            <div class="well" id="hubselection">
+                            <div class="well" id="hubselection" style="display: none">
                                 select hub 
                             </div>
                         </div>    
@@ -140,7 +141,27 @@
 }
 
 <script>
-$( ".hubSelect" ).on( "click", function() {
-  $( "#hubselection" ).html( $( "input:checked" ).val() + " is checked!" );
-});
+    $(".hubSelect").on("click", function () {
+        var n = $("input.hubSelect:checked ").length;
+
+        if (n >= 1) {
+            $("#hubselection").show("slow");
+            //alert(n);
+        } else {
+            $("#hubselection").hide("slow");
+        }
+        //
+
+        //    $("#hubselection").html($("input:checked").val() + " is checked!");
+        //var status = $("#hubselection").html($("input:checked").val());
+        //alert(status);
+        //if(status == "true" ) {
+
+
+        //}else if(status=="false")
+        //{
+        //    $("#hubselection").hide();
+        //}
+
+    });
 </script>
