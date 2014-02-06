@@ -1030,6 +1030,12 @@
     <Content Include="Content\bootstrap-responsive.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\images\CATS.png" />
+    <Content Include="Content\Login\App.css" />
+    <Content Include="Content\Login\bootstrap.min.css" />
+    <Content Include="Content\Login\bootstrab.min.js" />
+    <Content Include="Content\Login\Login.js" />
+    <Content Include="Content\Login\Login.css" />
     <Content Include="Content\css\custom-theme\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\css\custom-theme\images\ui-bg_flat_10_aaaaaa_40x100.png" />
     <Content Include="Content\css\custom-theme\images\ui-bg_flat_75_ffffff_40x100.png" />
@@ -1224,6 +1230,7 @@
     <Content Include="Content\kendo\2013.1.319\Uniform\slider-v.gif" />
     <Content Include="Content\kendo\2013.1.319\Uniform\sprite%402x.png" />
     <Content Include="Content\kendo\2013.1.319\Uniform\sprite.png" />
+    <Content Include="Content\Login\App.js" />
     <Content Include="Content\ng-grid.css" />
     <Content Include="Content\ng-table.css" />
     <Content Include="Content\PrintReport.css" />
