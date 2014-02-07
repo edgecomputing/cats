@@ -476,6 +476,7 @@
     <Compile Include="Areas\Logistics\Controllers\LogisticsStockStatusController.cs" />
     <Compile Include="Areas\Logistics\Controllers\TransportRequisitionController.cs" />
     <Compile Include="Areas\Logistics\Controllers\WoredaStockDistributionController.cs" />
+    <Compile Include="Areas\Logistics\LocalPurchaseController.cs" />
     <Compile Include="Areas\Logistics\LogisticsAreaRegistration.cs" />
     <Compile Include="Areas\Logistics\Models\ActionLink.cs" />
     <Compile Include="Areas\Logistics\Models\AssignHubViewModel.cs" />
@@ -486,6 +487,7 @@
     <Compile Include="Areas\Logistics\Models\DeliveryViewModel.cs" />
     <Compile Include="Areas\Logistics\Models\FreeStockStatusViewModel.cs" />
     <Compile Include="Areas\Logistics\Models\FreeStockSummaryModel.cs" />
+    <Compile Include="Areas\Logistics\Models\LocalPurchaseDetailViewModel.cs" />
     <Compile Include="Areas\Logistics\Models\ReceiptAllocationViewModel.cs" />
     <Compile Include="Areas\Logistics\Models\GRNViewModel.cs" />
     <Compile Include="Areas\Logistics\Models\SIAllocation.cs" />
