@@ -104,16 +104,19 @@ namespace Cats.Areas.Logistics.Controllers
                 donationPlanDetails = _donationPlanDetailService.GetNewReceiptPlanDetail(); 
             }
 
-           var receiptPlanDetailViewModel = ReceiptPlanViewModelBinder.GetDonationDetailViewModel(donationPlanDetails);
-            return Json(receiptPlanDetailViewModel.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+           //var receiptPlanDetailViewModel = ReceiptPlanViewModelBinder.GetDonationDetailViewModel(donationPlanDetails);
+           // return Json(receiptPlanDetailViewModel.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+            return null;
         }
 
        
 
         public ActionResult AddNewDonationPlan(string siNumber = null)
         {
+            try
+            {
 
-            if (siNumber!=null)
+           if (siNumber!=null)
             {
 
                 var donationViewModel = PopulateLookup();
@@ -150,6 +153,12 @@ namespace Cats.Areas.Logistics.Controllers
 
             var model = PopulateLookup();
             return View(model);
+            }
+            catch (Exception)
+            {
+
+                return null;
+            }
         }
 
             [HttpPost]
@@ -216,7 +225,8 @@ namespace Cats.Areas.Logistics.Controllers
             var commodity = _commodityService.GetAllCommodity();
 
           var donationViewModel = new DonationViewModel(commodity, donor, hub  , program,commodityType);
-            return donationViewModel;
+          donationViewModel.DonationPlanDetails = GetNewDonationDetail();
+          return donationViewModel;
         }
 
         public ActionResult LoadBySi(string id)
@@ -228,60 +238,153 @@ namespace Cats.Areas.Logistics.Controllers
 
         }
 
+        private List<DonationDetail> GetNewDonationDetail()
+        {
+            var hubs = _hubService.GetAllHub().Where(h => h.HubOwnerID == 1);
+            var donationPlanDetails = new List<DonationDetail>();
+            foreach (var hub in hubs)
+            {
+                var donationDetail = new DonationDetail();
+                donationDetail.HubID = hub.HubID;
+                donationDetail.Hub = hub.Name;
+                donationDetail.AllocatedAmount = 0;
+                donationDetail.ReceivedAmount = 0;
+                donationDetail.Balance = 0;
+                donationPlanDetails.Add(donationDetail);
+
+            }
+            return donationPlanDetails;
+        }
+
+        public ActionResult Save(DonationViewModel donationViewModel)
+        {
+            if (donationViewModel!=null)
+            {
+               
+               var siId = _shippingInstructionService.GetShipingInstructionId(donationViewModel.SINumber);
+                if (siId != 0)
+                {
+                    
+                }
+                if (donationViewModel.DonationHeaderPlanID == 0)
+                {
+                    
+
+                }
+
+                var donationHeader = new DonationPlanHeader
+                                         {
+                                             AllocationDate = DateTime.Now,
+                                             CommodityID = donationViewModel.CommodityID,
+                                             DonorID = donationViewModel.DonorID,
+                                             ETA = donationViewModel.ETA,
+                                             IsCommited = false,
+                                             ProgramID = donationViewModel.ProgramID,
+                                             ShippingInstructionId =siId
+                                               
+                                         };
+
+                foreach (var donationPlanDetail in donationViewModel.DonationPlanDetails)
+                {
+                    var donationDetail = new DonationPlanDetail
+                                             {
+                                                 HubID = donationPlanDetail.HubID,
+                                                 AllocatedAmount = donationPlanDetail.AllocatedAmount,
+                                                 ReceivedAmount = donationPlanDetail.ReceivedAmount,
+                                                 Balance = donationPlanDetail.Balance,
+                                                 DonationPlanHeader = donationHeader
+                                             };
+                    
+
+                    _donationPlanDetailService.AddDonationPlanDetail(donationDetail);
+                }
+            }
+            return View(category);
+        }
+
+        private Boolean DoesSIExistInShippingInstruction(string siNumber)
+        {
+            try
+            {
+                var siId = _shippingInstructionService.GetShipingInstructionId(siNumber);
+                return true;
+            }
+            catch (Exception)
+            {
+
+                return false;
+            }
+        }
+
+        private Boolean DoesSIExistInDonationHeader(string siNumber)
+        {
+            try
+            {
+                var siId =
+                    _donationPlanHeaderService.FindBy(d => d.ShippingInstruction.Value == siNumber).SingleOrDefault();
+                return true;
+            }
+            catch (Exception)
+            {
+
+                return false;
+            }
+        }
         //[AcceptVerbs(HttpVerbs.Post)]
-        //public ActionResult SaveDonation([DataSourceRequest] DataSourceRequest request, [Bind(Prefix = "models")]IEnumerable<DonationDetailViewModel.DonationDetail> donationDetailViewModel, int id = -1)
+        //public ActionResult SaveDonation([DataSourceRequest] DataSourceRequest request, 
+        //    [Bind(Prefix = "models")]IEnumerable<DonationViewModel.DonationDetail> donationDetailViewModel,DonationViewModel header)
         //{
-        //    ReceiptPlanDetail[] receieptDetailArray = new ReceiptPlanDetail[] {};
-        //    var detailViewModel = donationDetailViewModel as DonationDetailViewModel.DonationDetail[] ?? donationDetailViewModel.ToArray();
-        //     var receiptDetailPlan = _receiptPlanService.FindBy(p => p.GiftCertificateDetailId == id).SingleOrDefault();
-        //     //if (receiptDetailPlan != null)
-        //     //{
-        //     //    receieptDetailArray = receiptDetailPlan.ReceiptPlanDetails.ToArray();
-        //     //    for (var i = 0; i < detailViewModel.GetUpperBound(0); i++)
-        //     //    {
-        //     //        receieptDetailArray[i].Allocated = detailViewModel[i].Allocated;
-        //     //        receieptDetailArray[i].Received = detailViewModel[i].Received;
-        //     //        receieptDetailArray[i].Balance = detailViewModel[i].Balance;
+        //    //ReceiptPlanDetail[] receieptDetailArray = new ReceiptPlanDetail[] { };
+        //    //var detailViewModel = donationDetailViewModel as DonationDetailViewModel.DonationDetail[] ?? donationDetailViewModel.ToArray();
+        //    //var receiptDetailPlan = _receiptPlanService.FindBy(p => p.GiftCertificateDetailId == id).SingleOrDefault();
+        //    ////if (receiptDetailPlan != null)
+        //    ////{
+        //    ////    receieptDetailArray = receiptDetailPlan.ReceiptPlanDetails.ToArray();
+        //    ////    for (var i = 0; i < detailViewModel.GetUpperBound(0); i++)
+        //    ////    {
+        //    ////        receieptDetailArray[i].Allocated = detailViewModel[i].Allocated;
+        //    ////        receieptDetailArray[i].Received = detailViewModel[i].Received;
+        //    ////        receieptDetailArray[i].Balance = detailViewModel[i].Balance;
 
-        //     //        var detail = new ReceiptPlanDetail();
-        //     //        detail = receieptDetailArray[i];
-        //     //        _receiptPlanDetailService.EditReceiptPlanDetail(detail);
-        //     //    }
+        //    ////        var detail = new ReceiptPlanDetail();
+        //    ////        detail = receieptDetailArray[i];
+        //    ////        _receiptPlanDetailService.EditReceiptPlanDetail(detail);
+        //    ////    }
 
-        //     //}
-        //     //else
-        //     //{
-
-
+        //    ////}
+        //    ////else
+        //    ////{
 
 
 
 
-        //         var user = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name);
-        //         var receiptPlanHeader = new ReceiptPlan
-        //                                     {
-        //                                         IsClosed = false,
-        //                                         ReceiptDate = DateTime.Now,
-        //                                         EnteredBy = user.UserProfileID
-        //                                     };
 
-        //         foreach (var donationDetail in detailViewModel)
-        //         {
-        //             var receiptDetail = new ReceiptPlanDetail
-        //                                     {
-        //                                         HubId = donationDetail.HubId,
-        //                                         Allocated = donationDetail.Allocated,
-        //                                         Received = donationDetail.Received,
-        //                                         Balance = donationDetail.Balance
-        //                                     };
 
-        //             receiptPlanHeader.GiftCertificateDetailId = id;
-        //             receiptDetail.ReceiptPlan = receiptPlanHeader;
-        //             _receiptPlanDetailService.AddReceiptPlanDetail(receiptDetail);
-        //         }
-        //    // }
+        //    //var user = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name);
+        //    //var receiptPlanHeader = new ReceiptPlan
+        //    //                            {
+        //    //                                IsClosed = false,
+        //    //                                ReceiptDate = DateTime.Now,
+        //    //                                EnteredBy = user.UserProfileID
+        //    //                            };
 
-        //    return Json(detailViewModel.ToDataSourceResult(request, ModelState));
+        //    //foreach (var donationDetail in detailViewModel)
+        //    //{
+        //    //    var receiptDetail = new ReceiptPlanDetail
+        //    //                            {
+        //    //                                HubId = donationDetail.HubId,
+        //    //                                Allocated = donationDetail.Allocated,
+        //    //                                Received = donationDetail.Received,
+        //    //                                Balance = donationDetail.Balance
+        //    //                            };
+
+        //    //    receiptPlanHeader.GiftCertificateDetailId = id;
+        //    //    receiptDetail.ReceiptPlan = receiptPlanHeader;
+        //    //    _receiptPlanDetailService.AddReceiptPlanDetail(receiptDetail);
+        //    //}
+        //    //// }
+
+        //    return Json(donationDetailViewModel.ToDataSourceResult(request, ModelState));
         //}
 
        

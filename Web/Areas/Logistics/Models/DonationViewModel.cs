@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using Cats.Models;
@@ -9,6 +10,8 @@ namespace Cats.Areas.Logistics.Models
     {
         public int DonationHeaderPlanID { get; set; }
         public int ShippingInstructionId { get; set; }
+
+        [Required(ErrorMessage = "SI is Required")]
         public string SINumber { get; set; }
         public Nullable<int> GiftCertificateID { get; set; }
         public int CommodityID { get; set; }
@@ -23,7 +26,7 @@ namespace Cats.Areas.Logistics.Models
         public Nullable<int> EnteredBy { get; set; }
         public Nullable<System.DateTime> AllocationDate { get; set; }
         public string Remark { get; set; }
-        public virtual ICollection<DonationPlanDetail> DonationPlanDetails { get; set; }
+       // public virtual ICollection<DonationPlanDetail> DonationPlanDetails { get; set; }
         public virtual UserProfile UserProfile { get; set; }
         public decimal WieghtInMT { get; set; }
        public List<Commodity> Commodities { get; set; }
@@ -34,18 +37,18 @@ namespace Cats.Areas.Logistics.Models
        public List<Program> Programs { get; set; }
        public List<CommoditySource> CommoditySources { get; set; }
        public List<CommodityType> CommodityTypes { get; set; }
+       public IEnumerable<DonationDetail> DonationPlanDetails { get; set; }
 
-
-        public class DonationDetail
-        {
-            public int DonationDetailPlanID { get; set; }
-            public int DonationHeaderPlanID { get; set; }
-            public int HubID { get; set; }
-            public string Hub { get; set; }
-            public decimal AllocatedAmount { get; set; }
-            public decimal ReceivedAmount { get; set; }
-            public decimal Balance { get; set; }
-        }
+        //public class DonationDetail
+        //{
+        //    public int DonationDetailPlanID { get; set; }
+        //    public int DonationHeaderPlanID { get; set; }
+        //    public int HubID { get; set; }
+        //    public string Hub { get; set; }
+        //    public decimal AllocatedAmount { get; set; }
+        //    public decimal ReceivedAmount { get; set; }
+        //    public decimal Balance { get; set; }
+        //}
 
          public DonationViewModel()
          {

@@ -480,6 +480,7 @@
     <Compile Include="Areas\Logistics\Models\ActionLink.cs" />
     <Compile Include="Areas\Logistics\Models\AssignHubViewModel.cs" />
     <Compile Include="Areas\Logistics\Models\DistributionByAgeDetailViewModel.cs" />
+    <Compile Include="Areas\Logistics\Models\DonationDetail.cs" />
     <Compile Include="Areas\Logistics\Models\DonationDetailViewModel.cs" />
     <Compile Include="Areas\Logistics\Models\DonationHeaderViewModel.cs" />
     <Compile Include="Areas\Logistics\Models\DeliveryDetailViewModel.cs" />

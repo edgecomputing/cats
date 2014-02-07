@@ -27,16 +27,17 @@ namespace Cats.ViewModelBinder
                                                           });
         }
 
-        public static IEnumerable<DonationViewModel.DonationDetail> GetDonationDetailViewModel(List<Cats.Models.DonationPlanDetail> donationPlanDetails )
-        {
-            return donationPlanDetails.Select(planDetail => new DonationViewModel.DonationDetail()
-                                                               {
-                                                                   HubID = planDetail.HubID,
-                                                                   Hub = planDetail.Hub.Name,
-                                                                   AllocatedAmount = planDetail.AllocatedAmount,
-                                                                   ReceivedAmount = planDetail.ReceivedAmount,
-                                                                   Balance = planDetail.Balance
-                                                               });
-        }
+        //public static IEnumerable<DonationViewModel.DonationDetail> GetDonationDetailViewModel(List<Cats.Models.DonationPlanDetail> donationPlanDetails )
+        //{
+        //    return donationPlanDetails.Select(planDetail => new DonationViewModel.DonationDetail()
+        //                                                       {
+        //                                                           HubID = planDetail.HubID,
+        //                                                           Hub = planDetail.Hub.Name,
+        //                                                           AllocatedAmount = planDetail.AllocatedAmount,
+        //                                                           ReceivedAmount = planDetail.ReceivedAmount,
+        //                                                           Balance = planDetail.Balance
+        //                                                       });
+            
+        //}
     }
 }

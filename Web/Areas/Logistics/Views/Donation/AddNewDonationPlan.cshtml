@@ -18,12 +18,13 @@
             <span class="caret"></span>
         </button>
         <ul class="dropdown-menu">
-           @* <li><a id="btnReceiptDispatch"  href="@Url.Action("CloseLocalPlan", "Donation", new { receiptHeaderId = @headerId })" >@Translator.Translate("Receive")</a></li>*@
+            @* <li><a id="btnReceiptDispatch"  href="@Url.Action("CloseLocalPlan", "Donation", new { receiptHeaderId = @headerId })" >@Translator.Translate("Receive")</a></li>*@
             
         </ul>
 
     </div>
-    <a class="btn toolbar-btn " data-buttontype="btn_save" href="javascript:saverecords()"></a>
+   
+    <a class="btn toolbar-btn " data-buttontype="btn_save" data-submittedform="frmDonation"></a>
     <a id="btnAddProposal" data-buttontype="btn_back_to_list" class="btn toolbar-btn " href="@Url.Action("Index", "Donation")"></a>
 }
 
@@ -31,125 +32,127 @@
 <h4>Receive Plan</h4>
 
 
-<div class="control-group form-horizontal well">
-    <div class="row">
-        <div class="span6">  
-            <div class="control-group">
-                <div class="control-label">
-                    @Html.LabelFor(model => model.SINumber, @Translator.Translate("SI / Batch Number"))
-                </div>
-                <div class="controls">
-                    @Html.TextBoxFor(model => model.SINumber,"SINumber")
-                    @Html.ValidationMessageFor(model => model.SINumber)
-                </div>
-            </div>
-        </div>
-        <div class="span4">
-            <div class="control-group">
-                <div class="control-label">
-                    @Html.LabelFor(model => model.ETA, @Translator.Translate("ETA"))
-                </div>
-                <div class="controls" >
-                    @(Html.TextBoxFor(model => model.ETA, new {@class="cats-datepicker2",Disabled = true}))
-                    @Html.ValidationMessageFor(model => model.ETA)
+@using (Html.BeginForm("Save", "Donation", FormMethod.Post, new { id = "frmDonation" }))
+{
+    <div class="control-group form-horizontal well">
+        <div class="row">
+            <div class="span6">  
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.LabelFor(model => model.SINumber, @Translator.Translate("SI / Batch Number"))
+                    </div>
+                    <div class="controls">
+                        @Html.TextBoxFor(model => model.SINumber, "SINumber")
+                        @Html.ValidationMessageFor(model => model.SINumber)
+                    </div>
                 </div>
             </div>
+            <div class="span4">
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.LabelFor(model => model.ETA, @Translator.Translate("ETA"))
+                    </div>
+                    <div class="controls" >
+                        @(Html.TextBoxFor(model => model.ETA, new {@class = "cats-datepicker2", Disabled = true}))
+                        @Html.ValidationMessageFor(model => model.ETA)
+                    </div>
+                </div>
 
+            </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="span6">
-            <div class="control-group">
-                <div class="control-label">
-                    @Html.Label(@Translator.Translate("Donor")) 
+        <div class="row">
+            <div class="span6">
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.Label(@Translator.Translate("Donor")) 
+                    </div>
+                    <div class="controls">
+                        @(Html.DropDownListFor(model => model.DonorID, new SelectList(Model.Donors, "DonorID", "Name")))
+                    </div>
                 </div>
-                <div class="controls">
-                    @(Html.DropDownListFor(model => model.DonorID,new SelectList(Model.Donors,"DonorID","Name")))
+            </div>
+            <div class="span4">
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.Label(@Translator.Translate("Commodity Type")) 
+                    </div>
+                    <div class="controls" >
+                        @(Html.DropDownListFor(model => model.CommodityID, new SelectList(Model.CommodityTypes, "CommodityTypeID", "Name")))
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="span4">
-            <div class="control-group">
-                <div class="control-label">
-                    @Html.Label(@Translator.Translate("Commodity Type")) 
-                </div>
-                <div class="controls" >
-                    @(Html.DropDownListFor(model=>model.CommodityID,new SelectList(Model.CommodityTypes,"CommodityTypeID","Name")))
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="span6">
-            <div class="control-group">
-                <div class="control-label">
-                    @Html.Label(@Translator.Translate("Commodity")) 
-                </div>
-                <div class="controls" >
-                    @(Html.DropDownListFor(model=>model.CommodityID, new SelectList(Model.Commodities,"CommodityID","Name")))
+        <div class="row">
+            <div class="span6">
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.Label(@Translator.Translate("Commodity")) 
+                    </div>
+                    <div class="controls" >
+                        @(Html.DropDownListFor(model => model.CommodityID, new SelectList(Model.Commodities, "CommodityID", "Name")))
+                    </div>
                 </div>
             </div>
-        </div>
             <div class="span4">
                 <div class="control-group">
                     <div class="control-label">
                         @Html.LabelFor(model => model.WieghtInMT, @Translator.Translate("GC Amount")) 
                     </div>
                     <div class="controls" >
-                        @(Html.TextBoxFor(model=>model.WieghtInMT,new { Disabled = true }))
+                        @(Html.TextBoxFor(model => model.WieghtInMT, new {Disabled = true}))
                     </div>
                 </div>
             </div>
         
-    </div>
-     <div class="row">
-        <div class="span4">
-            <div class="control-group">
-                <div class="control-label">
-                    @Html.Label(@Translator.Translate("Program")) 
-                </div>
-                <div class="controls">
-                    @(Html.DropDownListFor(model=>model.ProgramID,new SelectList(Model.Programs,"ProgramID","Name")))
+        </div>
+        <div class="row">
+            <div class="span4">
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.Label(@Translator.Translate("Program")) 
+                    </div>
+                    <div class="controls">
+                        @(Html.DropDownListFor(model => model.ProgramID, new SelectList(Model.Programs, "ProgramID", "Name")))
+                    </div>
                 </div>
             </div>
-        </div>
            
+        </div>
     </div>
-</div>
 
-       
-@(Html.Kendo().Grid<Cats.Areas.Logistics.Models.DonationViewModel.DonationDetail>()
-    .Name("grid")
-    .Columns(columns =>
-    {
-        columns.Bound(p => p.Hub).Title("Hub").Width(100);
-        columns.Bound(p => p.AllocatedAmount).Title("Allocated").Width(30).Format("{0:n2}").ClientFooterTemplate("Sum: #=sum#").HtmlAttributes(new {align = "Right"}).HtmlAttributes(new {style = "text-align: right; font-size: 12px; "});;
-        columns.Bound(p => p.ReceivedAmount).Title("Received").Width(30).Format("{0:n2}").HtmlAttributes(new {align = "Right"}).HtmlAttributes(new {style = "text-align: right; font-size: 12px; "});;
-        columns.Bound(p => p.Balance).Title("Balance").Width(30).Format("{0:n2}").HtmlAttributes(new {align = "Right"}).HtmlAttributes(new {style = "text-align: right; font-size: 12px; "});;
-        })
-    
-    .Editable(editable => editable.Mode(GridEditMode.InCell))
-    .Sortable()
-    .Scrollable()
-    .Events(events => events.DataBound("onDataBound"))
+    @(Html.Kendo().Grid(Model.DonationPlanDetails)
+          .Name("grid")
+          .Columns(columns =>
+                       {
+                           columns.Bound(p => p.Hub).Title("Hub").Width(100);
+                           columns.Bound(p => p.AllocatedAmount).Title("Allocated").Width(30).Format("{0:n2}").ClientFooterTemplate("Sum: #=sum#").HtmlAttributes(new {align = "Right"}).HtmlAttributes(new {style = "text-align: right; font-size: 12px; "});
+                           
+                           columns.Bound(p => p.ReceivedAmount).Title("Received").Width(30).Format("{0:n2}").HtmlAttributes(new {align = "Right"}).HtmlAttributes(new {style = "text-align: right; font-size: 12px; "});
+                           
+                           columns.Bound(p => p.Balance).Title("Balance").Width(30).Format("{0:n2}").HtmlAttributes(new {align = "Right"}).HtmlAttributes(new {style = "text-align: right; font-size: 12px; "});
+                           
+                       })
+
+          .Editable(editable => editable.Mode(GridEditMode.InCell))
+          .Sortable()
+          .Scrollable()
+          .Events(events => events.DataBound("onDataBound"))
    
-    //.HtmlAttributes(new { style = "height:430px;" })
-    .DataSource(dataSource => dataSource
-        .Ajax()
-         .Aggregates(aggregates => aggregates.Add(p => p.AllocatedAmount).Sum())
-        .PageSize(20)
-        .Events(events => events.Error("error_handler"))
-        .Batch(true)
-        .Events(e=>e.RequestEnd("onRequestEnd"))
-        .ServerOperation(false)
-        .Model(model => model.Id(p => p.DonationDetailPlanID))
-        .Model(model => model.Field(p=>p.Hub).Editable(false))
-        .Create(update => update.Action("SaveDonation", "Donation"))
-        .Read(read => read.Action("ReadReceiptPlanDetail", "Donation"))
-        .Update(update => update.Action("SaveDonation", "Donation"))
-        .Destroy(update => update.Action("EditingInline_Destroy", "Grid"))
-    )
-)
+          //.HtmlAttributes(new { style = "height:430px;" })
+          .DataSource(dataSource => dataSource
+                                        .Ajax()
+                                        .Aggregates(aggregates => aggregates.Add(p => p.AllocatedAmount).Sum())
+                                        .PageSize(20)
+                                        .Events(events => events.Error("error_handler"))
+                                       
+                                        .Events(e => e.RequestEnd("onRequestEnd"))
+                                        .ServerOperation(false)
+                                        .Model(model => model.Id(p => p.DonationDetailPlanID))
+                                        .Model(model => model.Field(p => p.Hub).Editable(false))
+                                        
+          )
+          )
+}
 <script>
       
     function error_handler(e) {
@@ -167,7 +170,11 @@
     }
     
 
-   
+    function index(dataItem) {
+        var data = $("#grid").data("kendoGrid").dataSource.data();
+
+        return data.indexOf(dataItem);
+    }
     
     function onDataBound(e) {
         var grid = $("#grid").data("kendoGrid");
