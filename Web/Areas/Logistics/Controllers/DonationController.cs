@@ -310,6 +310,45 @@ namespace Cats.Areas.Logistics.Controllers
                 return false;
             }
         }
+
+        private bool UpdateDonationPlan(DonationViewModel donationViewModel, int shippinInstructionId)
+        {
+            try
+            {
+                var index = 0;
+                var donation = _donationPlanHeaderService.FindBy(s => s.ShippingInstructionId == shippinInstructionId).SingleOrDefault();
+                if (donation!=null)
+                {
+                    donation.AllocationDate = DateTime.Now;
+                    donation.CommodityID = donationViewModel.CommodityID;
+                    donation.DonorID = donationViewModel.DonorID;
+                    donation.ETA = donation.ETA;
+                    donation.IsCommited = false;
+                    donation.ProgramID = donationViewModel.ProgramID;
+                    donation.ShippingInstructionId = shippinInstructionId;
+
+                    var detailArray = donationViewModel.DonationPlanDetails.ToArray();
+                    foreach (var donationPlanDetail in donation.DonationPlanDetails)
+                    {
+                        donationPlanDetail.AllocatedAmount = detailArray[index].AllocatedAmount;
+                        donationPlanDetail.ReceivedAmount = detailArray[index].ReceivedAmount;
+                        donationPlanDetail.Balance = detailArray[index].Balance;
+                        donationPlanDetail.HubID = detailArray[index].HubID;
+
+                        donationPlanDetail.DonationPlanHeader = donation;
+
+                        _donationPlanDetailService.EditDonationPlanDetail(donationPlanDetail);
+                    }
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception)
+            {
+
+                return false;
+            }
+        }
         private Boolean DoesSIExistInShippingInstruction(string siNumber)
         {
             try
