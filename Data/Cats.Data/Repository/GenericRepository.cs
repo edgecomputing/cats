@@ -53,8 +53,7 @@ namespace Cats.Data.Repository
             _context.Entry(entity).State = EntityState.Modified;
             return true;
         }
-
-
+       
         public virtual T FindById(int id)
         {
             return _context.Set<T>().Find(id);

@@ -92,11 +92,16 @@
                                     @Html.CheckBoxFor(m => m.Applications[j].Roles[k].IsChecked, new { @class = "hubSelect" })
                                     @Html.DisplayFor(m => Model.Applications[j].Roles[k].RoleName, new { @class = "input-xlarge" })
                                 </div> 
-                              
 
                             }
                             <div class="well" id="hubselection" style="display: none">
-                                select hub 
+                                <!-- Text input-->
+                                <div class="control-group">
+                                    <label class="control-label">Default Hub:</label>
+                                    <div class="controls">
+                                        @Html.DropDownList("Hub", ViewBag.hubs as SelectList,new {@class="controls span10"})
+                                    </div>
+                                </div>
                             </div>
                         </div>    
                             
@@ -107,7 +112,6 @@
                         <div class="tab-pane" id="@j">
                             @for (int k = 0; k < Model.Applications[j].Roles.Count; k++)
                             {
-                                       
                                 <div>
                                     @Html.HiddenFor(m => m.Applications[j].ApplicationName, new { @class = "input-xlarge" })
                                     @Html.HiddenFor(m => m.Applications[j].Roles[k].RoleName, new { @class = "input-xlarge" })
@@ -118,8 +122,6 @@
                         </div>    
                         }
                     }
-
-
                 </div>
 
 
@@ -146,22 +148,23 @@
 
         if (n >= 1) {
             $("#hubselection").show("slow");
-            //alert(n);
+           
         } else {
             $("#hubselection").hide("slow");
         }
-        //
+    });
+</script>
 
-        //    $("#hubselection").html($("input:checked").val() + " is checked!");
-        //var status = $("#hubselection").html($("input:checked").val());
-        //alert(status);
-        //if(status == "true" ) {
+<script type="text/javascript">
+    $(function () {
 
+        var n = $("input.hubSelect:checked ").length;
 
-        //}else if(status=="false")
-        //{
-        //    $("#hubselection").hide();
-        //}
+        if (n >= 1) {
+            $("#hubselection").show("slow");
 
+        } else {
+            $("#hubselection").hide("slow");
+        }
     });
 </script>

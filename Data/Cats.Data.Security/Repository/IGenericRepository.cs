@@ -18,7 +18,7 @@ namespace Cats.Data.Security
 
         IEnumerable<T> Get(
         Expression<Func<T, bool>> filter = null,
-      Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
+        Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
         string includeProperties = "");
     }
 }
