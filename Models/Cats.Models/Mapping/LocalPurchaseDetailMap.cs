@@ -17,15 +17,15 @@ namespace Cats.Models.Mapping
            // Properties
            // Table & Column Mappings
            this.ToTable("LocalPurchaseDetail");
-           this.Property(t => t.LocalPurchaseDetailID).HasColumnName("LocalPurchaseID");
-           this.Property(t => t.LocalPurchseID).HasColumnName("GiftCertificateID");
-           this.Property(t => t.HubID).HasColumnName("DateCreated");
-           this.Property(t => t.AllocatedAmount).HasColumnName("PurchaseOrder");
-           this.Property(t => t.RecievedAmount).HasColumnName("SupplierName");
+           this.Property(t => t.LocalPurchaseDetailID).HasColumnName("LocalPurchaseDetailID");
+           this.Property(t => t.LocalPurchaseID).HasColumnName("LocalPurchaseID");
+           this.Property(t => t.HubID).HasColumnName("HubID");
+           this.Property(t => t.AllocatedAmount).HasColumnName("AllocatedAmount");
+           this.Property(t => t.RecievedAmount).HasColumnName("RecievedAmount");
            // Relationships
            this.HasRequired(t => t.LocalPurchase)
                .WithMany(t => t.LocalPurchaseDetails)
-               .HasForeignKey(d => d.LocalPurchseID);
+               .HasForeignKey(d => d.LocalPurchaseID);
 
            this.HasRequired(t => t.Hub)
                .WithMany(t => t.LocalPurchaseDetails)

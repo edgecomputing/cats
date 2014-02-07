@@ -18,4 +18,17 @@ namespace Cats.Areas.Logistics.Models
             get { return AllocatedAmonut - RecievedAmonut; }
         }
     }
+    public class LocalPurchaseFromGiftCertificateInfo
+    {
+        public int GiftCertificateID { get; set; }
+        public int CommodityID { get; set; }
+        public string CommodityName { get; set; }
+        public int DonorID { get; set; }
+        public string DonorName { get; set; }
+        public int ProgramID { get; set; }
+        public string ProgramName { get; set; }
+        public decimal QuantityInMT { get; set; }
+        public string CommoditySource { get; set; }
+
+    }
 }
