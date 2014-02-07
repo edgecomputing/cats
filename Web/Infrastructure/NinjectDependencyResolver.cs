@@ -241,6 +241,7 @@ namespace Cats.Infrastructure
             kernel.Bind<ILocalPurchaseService>().To<LocalPurchaseService>();
             kernel.Bind<ILocalPurchaseDetailService>().To<LocalPurchaseDetailService>();
             kernel.Bind<IDonationPlanDetailService>().To<DonationPlanDetailService>();
+            kernel.Bind<IDonationPlanHeaderService>().To<DonationPlanHeaderService>();
         }
         private void AddBindingsHub()
         {
