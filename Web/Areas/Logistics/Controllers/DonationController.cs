@@ -330,6 +330,22 @@ namespace Cats.Areas.Logistics.Controllers
                 return false;
             }
         }
+
+        private int InsertInToShippingInstructionTable(string siNumber)
+        {
+            try
+            {
+                var shippingInstruction = new Cats.Models.ShippingInstruction();
+                shippingInstruction.Value = siNumber;
+                _shippingInstructionService.AddShippingInstruction(shippingInstruction);
+                return shippingInstruction.ShippingInstructionID;
+            }
+            catch (Exception)
+            {
+
+                return -1;
+            }
+        }
         //[AcceptVerbs(HttpVerbs.Post)]
         //public ActionResult SaveDonation([DataSourceRequest] DataSourceRequest request, 
         //    [Bind(Prefix = "models")]IEnumerable<DonationViewModel.DonationDetail> donationDetailViewModel,DonationViewModel header)
