@@ -23,7 +23,7 @@
                         <div class="span3">
 
                             <label>Select As of Date</label>
-                            <input id="txtDate1" class="cats-datepicker2  input-medium" type="text"  placeholder="As of date">
+                            <input id="txtDate1" class="cats-datepicker2  input-medium" type="text" placeholder="As of date">
                         </div>
 
                         <div class="span3">
@@ -41,7 +41,7 @@
                         </div>
 
                         <div class="span3">
-                            <button type="button" class="btn btn-default btn-lg" style="margin-top:23px;" ng-click="getSummary()">Get</button>
+                            <button type="button" class="btn btn-default btn-lg" style="margin-top: 23px;" ng-click="getSummary()">Get</button>
                         </div>
                     </div>
                 </div>
@@ -89,7 +89,7 @@
                     <div class="form-control span12">
                         <div class="span3">
                             <label>Select As of Date</label>
-                            <input id="txtDate2" class="cats-datepicker2  input-medium"  type="text" placeholder="As of date">
+                            <input id="txtDate2" class="cats-datepicker2  input-medium" type="text" placeholder="As of date">
                             @*<input id="txtDate1" class="cats-datepicker2  input-medium" type="text"  placeholder="As of date">*@
                             @*<input ng-model="reqParam.date" class="cats-datepicker2  input-medium" type="text">*@
                         </div>
@@ -169,14 +169,14 @@
 
 <script>
     function SummaryController($scope, $http) {
-        
-        $scope.reqParam = { program: 1, date: new Date()};
+
+        $scope.reqParam = { program: 1, date: new Date() };
         $scope.summaryData = [];
         $scope.programsCollection = [];
         $scope.freeStockSum = 0;
         $scope.physicalStockSum = 0;
 
-        var onSuccess = function(data) {
+        var onSuccess = function (data) {
             $scope.summaryData = data;
             var f = 0;
             var p = 0;
@@ -188,7 +188,7 @@
             $scope.physicalStockSum = p;
         };
 
-        var onProgramGetSuccess = function(data) {
+        var onProgramGetSuccess = function (data) {
             $scope.ProgramsCollection = data;
         };
 
@@ -198,7 +198,7 @@
             $http.post("@Url.Action("GetStockStatusSummaryP", "LogisticsStockStatus", new { Area = "Logistics" })", $scope.reqParam).success(onSuccess);
         };
 
-        $scope.getPrograms = function() {
+        $scope.getPrograms = function () {
 
             //$http.post("/LogisticsStockStatus/GetPrograms", null).success(onProgramGetSuccess);
             $http.post("@Url.Action("GetPrograms", "LogisticsStockStatus", new { Area = "Logistics" })", null).success(onProgramGetSuccess);
@@ -219,11 +219,11 @@
         $scope.freeStockSum = 0;
         $scope.physicalSum = 0;
 
-        var changeDate = function(data) {
+        var changeDate = function (data) {
 
         };
 
-        var onSuccess = function(data) {
+        var onSuccess = function (data) {
 
             $scope.stockData = data;
 
@@ -252,11 +252,11 @@
             $scope.physicalSum = p;
         };
 
-        var onHubGetSuccess = function(data) {
+        var onHubGetSuccess = function (data) {
             $scope.HubsCollection = data;
         };
 
-        var onProgramGetSuccess = function(data) {
+        var onProgramGetSuccess = function (data) {
             $scope.ProgramsCollection = data;
         };
 
@@ -266,12 +266,12 @@
             $http.post("@Url.Action("GetStockStatusD", "LogisticsStockStatus", new { Area = "Logistics" })", $scope.requestParam).success(onSuccess);
         };
 
-        $scope.getHubs = function() {
+        $scope.getHubs = function () {
             //$http.post("/LogisticsStockStatus/GetHubs", null).success(onHubGetSuccess);
             $http.post("@Url.Action("GetHubs", "LogisticsStockStatus", new { Area = "Logistics" })", null).success(onHubGetSuccess);
         };
 
-        $scope.getPrograms = function() {
+        $scope.getPrograms = function () {
 
             // $http.post("/LogisticsStockStatus/GetPrograms", null).success(onProgramGetSuccess);
             $http.post("@Url.Action("GetPrograms", "LogisticsStockStatus", new { Area = "Logistics" })", null).success(onProgramGetSuccess);
@@ -289,7 +289,7 @@
         //var CurrentDate = new Date();
         //CurrentDate.getFullYear();
         drawBar('2013');
-        
+
         $("#toolbar_button_print").click(function (e) {
             e.preventDefault();
             var url = '@Url.Action("PrintSummaryFreePhysicalStock", "LogisticsStockStatus")';

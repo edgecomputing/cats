@@ -18,5 +18,6 @@ namespace Cats.Areas.Settings.Models
         public bool IsDisabled { get; set; }
         public List<Cats.Models.Security.ViewModels.Application> Applications { get; set; }
         public bool IsSelected { get; set; }
+        public int? DefaultHub { get; set; }
     }    
 }

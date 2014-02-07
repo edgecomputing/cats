@@ -70,9 +70,16 @@
   <ItemGroup>
     <Compile Include="BeneficiaryAllocationService.cs" />
     <Compile Include="DistributionByAgeDetailService.cs" />
+    <Compile Include="DonationPlanDetail.cs" />
+    <Compile Include="DonationPlanDetailService.cs" />
     <Compile Include="IDistributionByAgeDetailService.cs" />
+
+    <Compile Include="IDonationPlanDetail.cs" />
+    <Compile Include="IDonationPlanHeaderService.cs" />
+
     <Compile Include="ILocalPurchaseDetailService.cs" />
     <Compile Include="ILocalPurchaseService.cs" />
+
     <Compile Include="IReceiptPlanDetailService.cs" />
     <Compile Include="IReceiptPlanService.cs" />
     <Compile Include="LocalPurchaseDetailService.cs" />
@@ -122,10 +129,6 @@
     <ProjectReference Include="..\Cats.Services.EarlyWarning\Cats.Services.EarlyWarning.csproj">
       <Project>{a08cf415-6299-41ab-9d69-c3ce9b49ccd6}</Project>
       <Name>Cats.Services.EarlyWarning</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Cats.Services.Hub\Cats.Services.Hub.csproj">
-      <Project>{9fba0283-ee84-49f2-8305-f038bbf29658}</Project>
-      <Name>Cats.Services.Hub</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

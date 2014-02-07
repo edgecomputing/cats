@@ -1,22 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Cats.Areas.Logistics.Models
+namespace Cats.Models
 {
-    public class DonationHeaderViewModel
+    public partial class DonationPlanHeader
     {
+        public DonationPlanHeader()
+        {
+            this.DonationPlanDetails = new List<DonationPlanDetail>();
+        }
+
         public int DonationHeaderPlanID { get; set; }
         public int ShippingInstructionId { get; set; }
-        public string SINumber { get; set; }
         public Nullable<int> GiftCertificateID { get; set; }
         public int CommodityID { get; set; }
-        public string CommodityName { get; set; }   
         public int DonorID { get; set; }
-        public string DonorName { get; set; }
         public int ProgramID { get; set; }
-        public string ProgramName { get; set; }
         public System.DateTime ETA { get; set; }
         public string Vessel { get; set; }
         public string ReferenceNo { get; set; }
@@ -24,9 +26,13 @@ namespace Cats.Areas.Logistics.Models
         public Nullable<System.Guid> TransactionGroupID { get; set; }
         public Nullable<bool> IsCommited { get; set; }
         public Nullable<int> EnteredBy { get; set; }
-        public string ProcessedBy { get; set; }
         public Nullable<System.DateTime> AllocationDate { get; set; }
-        public string DateOfAllocation { get; set; }
         public string Remark { get; set; }
+        public virtual Commodity Commodity { get; set; }
+        public virtual ICollection<DonationPlanDetail> DonationPlanDetails { get; set; }
+        public virtual ShippingInstruction ShippingInstruction { get; set; }
+        public virtual Donor Donor { get; set; }
+        public virtual Program Program { get; set; }
+        public virtual UserProfile UserProfile { get; set; }
     }
 }

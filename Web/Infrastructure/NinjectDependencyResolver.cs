@@ -240,6 +240,7 @@ namespace Cats.Infrastructure
             kernel.Bind<IReceiptPlanDetailService>().To<ReceiptPlanDetailService>();
             kernel.Bind<ILocalPurchaseService>().To<LocalPurchaseService>();
             kernel.Bind<ILocalPurchaseDetailService>().To<LocalPurchaseDetailService>();
+            kernel.Bind<IDonationPlanDetailService>().To<DonationPlanDetailService>();
         }
         private void AddBindingsHub()
         {
