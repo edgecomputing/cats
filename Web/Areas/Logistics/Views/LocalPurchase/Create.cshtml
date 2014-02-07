@@ -1,0 +1,186 @@
+﻿@using Cats.Areas.Logistics.Models
+@using Kendo.Mvc.UI
+@using LanguageHelpers.Localization
+@model Cats.Models.LocalPurchase
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";  
+}
+@section Toolbar
+{
+    <a class="btn toolbar-btn " data-buttontype="btn_save" data-submittedform="frm_create_utilization" title="Save"></a>
+    <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="@Url.Action("Index", "LocalPurchase")" title="Cancel"></a>
+}
+<h4>Recipt Plan From Local Purchase </h4>
+<div class="form-horizontal well">
+    <table border="0">
+        <tr>
+            <td>
+               
+                <div class="control-label">
+                    @Html.Label(Translator.Translate("SI Number"))
+                </div>
+                <div class="controls">
+                   @(Html.Kendo().AutoComplete()
+          .Name("SINumber")
+          .HtmlAttributes(new { style = "width:215px;" })
+          .Filter("startswith")
+          .Placeholder("Enter or Select SINumber...")
+          .DataSource(source=>source.Read(read=>read.Action("AutoCompleteSiNumber","LocalPurchase").Data("onAdditionalData")).ServerFiltering(true))
+         
+    )
+                </div>
+                
+            </td>
+            <td>
+                
+                <div class="control-label">
+                    @Html.Label(Translator.Translate("PurchaseOrder"))
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(m=>m.PurchaseOrder)
+                </div>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+                
+                <div class="control-label">
+                    @Html.Label(Translator.Translate("Commodity Source"))
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(m=>m.GiftCertificateID)
+                </div>
+                
+            </td>
+            <td>
+                
+                <div class="control-label">
+                    @Html.Label(Translator.Translate("Commodity Type"))
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(m=>m.GiftCertificateID)
+                </div>
+                
+            </td>
+
+        </tr>
+        <tr>
+            <td>
+              
+                <div class="control-label">
+                    @Html.Label(Translator.Translate("Donor"))
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(m=>m.GiftCertificateID)
+                </div>
+               
+            </td>
+            <td>
+                
+                <div class="control-label">
+                    @Html.Label(Translator.Translate("Program"))
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(m=>m.GiftCertificateID)
+                </div>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+               
+                <div class="control-label">
+                    @Html.Label(Translator.Translate("Supplier Name"))
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(m=>m.GiftCertificateID)
+                </div>
+               
+            </td>
+            <td>
+                
+                <div class="control-label">
+                    @Html.Label(Translator.Translate("Project Code"))
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(m=>m.GiftCertificateID)
+                </div>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+               
+                <div class="control-label">
+                    @Html.Label(Translator.Translate("Commodity"))
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(m=>m.GiftCertificateID)
+                </div>
+            </td>
+            <td>
+                
+                <div class="control-label">
+                    @Html.Label(Translator.Translate("Quantity in MT"))
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(m=>m.GiftCertificateID)
+                </div>
+               
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+               
+                <div class="control-label">
+                    @Html.Label(Translator.Translate("Remark"))
+                </div>
+                <div class="controls" style="height: 10px">
+                    @Html.TextBoxFor(m=>m.Remark)
+                </div>
+                
+            </td>
+        </tr>
+    </table>
+</div>
+<div>
+    @(Html.Kendo().Grid<LocalPurchaseDetailViewModel>()
+          .Name("LocalPurchaseDetail")
+          .Columns(columns =>
+              {
+                  columns.Bound(m => m.HubName).Title(Translator.Translate("Hub"));
+                  columns.Bound(m => m.AllocatedAmonut).Width(200).Title(Translator.Translate("Allocated Amonut")).HtmlAttributes(new { align = "right" });
+                  columns.Bound(m => m.RecievedAmonut).Width(200).Title(Translator.Translate("Recieved Amount")).HtmlAttributes(new { align = "right" });
+                  columns.Bound(m => m.RemainingAmonut).Width(200).Title(Translator.Translate("Remaining Amonut")).HtmlAttributes(new { align = "right" });
+              
+              }
+
+          )
+         
+          .Editable(edit => edit.Mode(GridEditMode.InCell))
+          .Navigatable()
+          .DataSource(dataSource => dataSource
+                                        .Ajax()
+                                        .Model(model =>
+                                            {
+                                                model.Id(p => p.LocalPurchaseDetailID);
+                                                model.Field(p => p.HubName).Editable(false);
+                                            })
+            
+                                        .Read(read => read.Action("HubsLocalPurchaseDetail_Read", "LocalPurchase", new { localPurchaseID = Model.LocalPurchaseID }))
+          //.Update(update => update.Action("Commodity_Update", "Request"))
+          )
+          )
+</div>
+
+<script type="text/javascript">
+    function onAdditionalData(e) {
+      
+        return {
+            term: $("#SINumber").val()
+           
+        };
+    }
+    </script>

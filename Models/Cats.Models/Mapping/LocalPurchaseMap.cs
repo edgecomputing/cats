@@ -22,11 +22,11 @@ namespace Cats.Models.Mapping
            this.Property(t => t.DateCreated).HasColumnName("DateCreated");
            this.Property(t => t.PurchaseOrder).HasColumnName("PurchaseOrder");
            this.Property(t => t.SupplierName).HasColumnName("SupplierName");
-           this.Property(t => t.ReferenceNumber).HasColumnName("StatusID");
+           this.Property(t => t.ReferenceNumber).HasColumnName("ReferenceNumber");
            this.Property(t => t.StatusID).HasColumnName("StatusID");
            this.Property(t => t.Remark).HasColumnName("Remark");
            // Relationships
-           this.HasOptional(t => t.GiftCertificate)
+           this.HasRequired(t => t.GiftCertificate)
                .WithMany(t => t.LocalPurchases)
                .HasForeignKey(d => d.GiftCertificateID);
        }
