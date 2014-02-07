@@ -258,16 +258,29 @@ namespace Cats.Areas.Logistics.Controllers
 
         public ActionResult Save(DonationViewModel donationViewModel)
         {
+            
+
             if (donationViewModel!=null)
             {
-               
-             
-                if (donationViewModel.DonationHeaderPlanID == 0)
+                var siId = DoesSIExistInShippingInstruction(donationViewModel.SINumber);
+                if(siId)
                 {
-                    
-
+                    if(!DoesSIExistInDonationHeader(donationViewModel.SINumber))
+                    {
+                        SaveNewDonationPlan(donationViewModel);
+                    }
+                    else
+                    {
+                        var si = _shippingInstructionService.GetShipingInstructionId(donationViewModel.SINumber);
+                        UpdateDonationPlan(donationViewModel,si);
+                    }
                 }
-
+                else
+                {
+                    InsertInToShippingInstructionTable(donationViewModel.SINumber);//first in shippins instruction table
+                    SaveNewDonationPlan(donationViewModel);// second in doation table
+                }
+                
                 
             }
             return View(category);
