@@ -261,47 +261,55 @@ namespace Cats.Areas.Logistics.Controllers
             if (donationViewModel!=null)
             {
                
-               var siId = _shippingInstructionService.GetShipingInstructionId(donationViewModel.SINumber);
-                if (siId != 0)
-                {
-                    
-                }
+             
                 if (donationViewModel.DonationHeaderPlanID == 0)
                 {
                     
 
                 }
 
-                var donationHeader = new DonationPlanHeader
-                                         {
-                                             AllocationDate = DateTime.Now,
-                                             CommodityID = donationViewModel.CommodityID,
-                                             DonorID = donationViewModel.DonorID,
-                                             ETA = donationViewModel.ETA,
-                                             IsCommited = false,
-                                             ProgramID = donationViewModel.ProgramID,
-                                             ShippingInstructionId =siId
-                                               
-                                         };
-
-                foreach (var donationPlanDetail in donationViewModel.DonationPlanDetails)
-                {
-                    var donationDetail = new DonationPlanDetail
-                                             {
-                                                 HubID = donationPlanDetail.HubID,
-                                                 AllocatedAmount = donationPlanDetail.AllocatedAmount,
-                                                 ReceivedAmount = donationPlanDetail.ReceivedAmount,
-                                                 Balance = donationPlanDetail.Balance,
-                                                 DonationPlanHeader = donationHeader
-                                             };
-                    
-
-                    _donationPlanDetailService.AddDonationPlanDetail(donationDetail);
-                }
+                
             }
             return View(category);
         }
 
+        private bool SaveNewDonationPlan(DonationViewModel donationViewModel)
+        {
+            try
+            {
+
+           
+            var donationHeader = new DonationPlanHeader
+            {
+                AllocationDate = DateTime.Now,
+                CommodityID = donationViewModel.CommodityID,
+                DonorID = donationViewModel.DonorID,
+                ETA = donationViewModel.ETA,
+                IsCommited = false,
+                ProgramID = donationViewModel.ProgramID,
+                ShippingInstructionId = siId
+
+            };
+
+            foreach (var donationDetail in donationViewModel.DonationPlanDetails.Select(donationPlanDetail => new DonationPlanDetail
+                                                                                                                  {
+                                                                                                                      HubID = donationPlanDetail.HubID,
+                                                                                                                      AllocatedAmount = donationPlanDetail.AllocatedAmount,
+                                                                                                                      ReceivedAmount = donationPlanDetail.ReceivedAmount,
+                                                                                                                      Balance = donationPlanDetail.Balance,
+                                                                                                                      DonationPlanHeader = donationHeader
+                                                                                                                  }))
+            {
+                _donationPlanDetailService.AddDonationPlanDetail(donationDetail);
+            }
+            return true;
+            }
+            catch (Exception)
+            {
+
+                return false;
+            }
+        }
         private Boolean DoesSIExistInShippingInstruction(string siNumber)
         {
             try
