@@ -15,7 +15,7 @@ namespace Cats.Services.Logistics
         DonationPlanHeader FindById(int id);
         List<DonationPlanHeader> GetAllDonationPlanHeader();
         List<DonationPlanHeader> FindBy(Expression<Func<DonationPlanHeader, bool>> predicate);
-
+        void Dispose();
 
     }
 }
