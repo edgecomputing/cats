@@ -9,6 +9,7 @@ namespace Cats.Models
         public GiftCertificate()
         {
             this.GiftCertificateDetails = new List<GiftCertificateDetail>();
+            this.LocalPurchases=new List<LocalPurchase>();
         }
         [Key]
         public int GiftCertificateID { get; set; }
@@ -31,6 +32,7 @@ namespace Cats.Models
         public virtual Program Program { get; set; }
         public virtual IList<GiftCertificateDetail> GiftCertificateDetails { get; set; }
         public virtual ShippingInstruction ShippingInstruction { get; set; }
+        public virtual ICollection<LocalPurchase> LocalPurchases  { get; set; }
         public Dictionary<string,string> ToDictionary()
         {
             var dictionary = new Dictionary<string, string>

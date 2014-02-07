@@ -49,7 +49,13 @@ namespace Cats.Controllers
                     FormsAuthentication.SetAuthCookie(model.UserName, model.RememberMe);
 
                     // Will be refactored
-                    Session["User"] = _userAccountService.GetUserDetail(model.UserName);
+                   
+                    
+                    var user = _userAccountService.GetUserDetail(model.UserName);
+                    user.LogginDate = DateTime.Today;
+                    user.NumberOfLogins += 1;
+                    Session["User"] = user;
+                    _userAccountService.UpdateUser(user);
 
                     ////
 

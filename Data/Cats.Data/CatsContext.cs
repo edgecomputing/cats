@@ -146,6 +146,8 @@ namespace Cats.Data
         public DbSet<Dispatch> Dispatches { get; set; }
         public DbSet<DispatchDetail> DispatchDetails { get; set; }
         public DbSet<OtherDispatchAllocation> OtherDispatchAllocations { get; set; }
+        public DbSet<LocalPurchase> LocalPurchases { get; set; }
+        public DbSet<LocalPurchaseDetail> LocalPurchaseDetails { get; set; }
 
         public DbSet<DonationPlanHeader> DonationPlanHeaders { get; set; }
         public DbSet<DonationPlanDetail> DonationPlanDetails { get; set; }
@@ -278,8 +280,13 @@ namespace Cats.Data
             modelBuilder.Configurations.Add(new ReceiptPlanMap());
             modelBuilder.Configurations.Add(new ReceiptPlanDetailMap());
 
+
             modelBuilder.Configurations.Add(new DonationPlanHeaderMap());
             modelBuilder.Configurations.Add(new DonationPlanDetailMap());
+
+            modelBuilder.Configurations.Add(new LocalPurchaseMap());
+            modelBuilder.Configurations.Add(new LocalPurchaseDetailMap());
+
         }
 
     }
