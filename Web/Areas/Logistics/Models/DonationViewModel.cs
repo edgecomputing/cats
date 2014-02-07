@@ -26,29 +26,20 @@ namespace Cats.Areas.Logistics.Models
         public Nullable<int> EnteredBy { get; set; }
         public Nullable<System.DateTime> AllocationDate { get; set; }
         public string Remark { get; set; }
-       // public virtual ICollection<DonationPlanDetail> DonationPlanDetails { get; set; }
+       
         public virtual UserProfile UserProfile { get; set; }
         public decimal WieghtInMT { get; set; }
        public List<Commodity> Commodities { get; set; }
        public List<Donor> Donors { get; set; }
        public List<Cats.Models.Hub> Hubs { get; set; }
        public List<Cats.Models.Hub> AllHubs { get; set; }
-       public List<GiftCertificateDetail> GiftCertificateDetail { get; set; }
+     
        public List<Program> Programs { get; set; }
        public List<CommoditySource> CommoditySources { get; set; }
        public List<CommodityType> CommodityTypes { get; set; }
        public IEnumerable<DonationDetail> DonationPlanDetails { get; set; }
 
-        //public class DonationDetail
-        //{
-        //    public int DonationDetailPlanID { get; set; }
-        //    public int DonationHeaderPlanID { get; set; }
-        //    public int HubID { get; set; }
-        //    public string Hub { get; set; }
-        //    public decimal AllocatedAmount { get; set; }
-        //    public decimal ReceivedAmount { get; set; }
-        //    public decimal Balance { get; set; }
-        //}
+      
 
          public DonationViewModel()
          {

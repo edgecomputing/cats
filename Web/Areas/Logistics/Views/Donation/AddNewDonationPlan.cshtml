@@ -124,7 +124,8 @@
           .Name("grid")
           .Columns(columns =>
                        {
-                           columns.Bound(p => p.Hub).Title("Hub").Width(100);
+                           columns.Bound(p => p.Hub).Title("Hub").Width(100).ClientTemplate("#= Hub #" +
+                    "<input type='hidden' name='DonationPlanDetails[#= index(data)#].Hub' value='#= Hub #' />");
                            columns.Bound(p => p.AllocatedAmount).Title("Allocated").Width(30).Format("{0:n2}").ClientFooterTemplate("Sum: #=sum#").HtmlAttributes(new {align = "Right"}).HtmlAttributes(new {style = "text-align: right; font-size: 12px; "});
                            
                            columns.Bound(p => p.ReceivedAmount).Title("Received").Width(30).Format("{0:n2}").HtmlAttributes(new {align = "Right"}).HtmlAttributes(new {style = "text-align: right; font-size: 12px; "});

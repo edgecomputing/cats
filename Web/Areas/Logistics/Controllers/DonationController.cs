@@ -119,7 +119,7 @@ namespace Cats.Areas.Logistics.Controllers
            if (siNumber!=null)
             {
 
-                var donationViewModel = PopulateLookup();
+                var donationViewModel = InitDonationViewModel();
               
               
                 var giftCertificate = _giftCertificateService.GetAllGiftCertificate().SingleOrDefault(d => d.ShippingInstruction.Value == siNumber);
@@ -140,7 +140,7 @@ namespace Cats.Areas.Logistics.Controllers
                     donationViewModel.DonorID = giftCertificate.DonorID;
                     donationViewModel.Programs.Add(giftCertificate.Program);
                     donationViewModel.ProgramID = giftCertificate.ProgramID;
-
+                    donationViewModel.GiftCertificateID = giftCertificate.GiftCertificateID;
                     donationViewModel.SINumber = siNumber;
                     donationViewModel.ETA = giftCertificate.ETA;
 
@@ -151,7 +151,7 @@ namespace Cats.Areas.Logistics.Controllers
                 }
             }
 
-            var model = PopulateLookup();
+            var model = InitDonationViewModel();
             return View(model);
             }
             catch (Exception)
@@ -213,7 +213,7 @@ namespace Cats.Areas.Logistics.Controllers
             return RedirectToAction("Index");
 
         }
-        private DonationViewModel PopulateLookup()
+            private DonationViewModel InitDonationViewModel()
         {
 
 
@@ -225,7 +225,10 @@ namespace Cats.Areas.Logistics.Controllers
             var commodity = _commodityService.GetAllCommodity();
 
           var donationViewModel = new DonationViewModel(commodity, donor, hub  , program,commodityType)
-                                      {DonationPlanDetails = GetNewDonationDetail()};
+                                      {
+                                          DonationPlanDetails = GetNewDonationDetail(),
+                                          ETA = DateTime.Now
+                                      };
             return donationViewModel;
         }
 
@@ -258,24 +261,24 @@ namespace Cats.Areas.Logistics.Controllers
             if (donationViewModel!=null)
             {
                 var siId = DoesSIExistInShippingInstruction(donationViewModel.SINumber);
-                if(siId)
+                if(siId != 0)
                 {
                     if(!DoesSIExistInDonationHeader(donationViewModel.SINumber))
                     {
-                        var si = _shippingInstructionService.GetShipingInstructionId(donationViewModel.SINumber);
-                        SaveNewDonationPlan(donationViewModel, si);
+                       
+                        SaveNewDonationPlan(donationViewModel, siId);
                     }
                     else
                     {
-                        var si = _shippingInstructionService.GetShipingInstructionId(donationViewModel.SINumber);
-                        UpdateDonationPlan(donationViewModel,si);
+                       
+                        UpdateDonationPlan(donationViewModel, siId);
                     }
                 }
                 else
                 {
-                    InsertInToShippingInstructionTable(donationViewModel.SINumber);//first in shippins instruction table
-                    var si = _shippingInstructionService.GetShipingInstructionId(donationViewModel.SINumber);
-                    SaveNewDonationPlan(donationViewModel,si);// second in doation table
+                    var si = InsertInToShippingInstructionTable(donationViewModel.SINumber);//first in shippins instruction table
+                    if(si!=-1)
+                        SaveNewDonationPlan(donationViewModel,si);// second in doation table
                 }
                 
                 
@@ -359,17 +362,17 @@ namespace Cats.Areas.Logistics.Controllers
                 return false;
             }
         }
-        private Boolean DoesSIExistInShippingInstruction(string siNumber)
+        private int DoesSIExistInShippingInstruction(string siNumber)
         {
             try
             {
                 var siId = _shippingInstructionService.GetShipingInstructionId(siNumber);
-                return true;
+                return siId;
             }
             catch (Exception)
             {
 
-                return false;
+                return 0;
             }
         }
 
@@ -379,6 +382,8 @@ namespace Cats.Areas.Logistics.Controllers
             {
                 var siId =
                     _donationPlanHeaderService.FindBy(d => d.ShippingInstruction.Value == siNumber).SingleOrDefault();
+                if (siId == null)
+                    return false;
                 return true;
             }
             catch (Exception)
