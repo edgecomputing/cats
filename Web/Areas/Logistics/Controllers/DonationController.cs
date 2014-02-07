@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
@@ -111,7 +112,7 @@ namespace Cats.Areas.Logistics.Controllers
 
        
 
-        public ActionResult AddNewDonationPlan(string siNumber = null)
+        public ActionResult AddNewDonationPlan(string siNumber = null,int typeOfLoad =1)
         {
             try
             {
@@ -119,36 +120,13 @@ namespace Cats.Areas.Logistics.Controllers
            if (siNumber!=null)
             {
 
-                var donationViewModel = InitDonationViewModel();
-              
-              
-                var giftCertificate = _giftCertificateService.GetAllGiftCertificate().SingleOrDefault(d => d.ShippingInstruction.Value == siNumber);
-                if (giftCertificate !=null )
+                if (typeOfLoad == 1)
                 {
-                    donationViewModel.Commodities.Clear();
-                    donationViewModel.Donors.Clear();
-                    donationViewModel.Programs.Clear();
-
-
-                   
-                        foreach (Cats.Models.GiftCertificateDetail giftCertificateDetail in giftCertificate.GiftCertificateDetails)
-                        {
-                            donationViewModel.Commodities.Add(giftCertificateDetail.Commodity);
-                        }
-
-                    donationViewModel.Donors.Add(giftCertificate.Donor);
-                    donationViewModel.DonorID = giftCertificate.DonorID;
-                    donationViewModel.Programs.Add(giftCertificate.Program);
-                    donationViewModel.ProgramID = giftCertificate.ProgramID;
-                    donationViewModel.GiftCertificateID = giftCertificate.GiftCertificateID;
-                    donationViewModel.SINumber = siNumber;
-                    donationViewModel.ETA = giftCertificate.ETA;
-
-
-
-                    return View(donationViewModel);
-
+                    return View(LoadFromGiftCertificiate(siNumber));
                 }
+
+                var siId = _shippingInstructionService.GetShipingInstructionId(siNumber);
+                return View(LoadFromDonation(siId));
             }
 
             var model = InitDonationViewModel();
@@ -159,6 +137,82 @@ namespace Cats.Areas.Logistics.Controllers
 
                 return null;
             }
+        }
+
+
+
+        public DonationViewModel LoadFromGiftCertificiate(string siNumber)
+        {
+            var donationViewModel = InitDonationViewModel();
+
+
+            var giftCertificate = _giftCertificateService.GetAllGiftCertificate().SingleOrDefault(d => d.ShippingInstruction.Value == siNumber);
+            if (giftCertificate != null)
+            {
+                donationViewModel.Commodities.Clear();
+                donationViewModel.Donors.Clear();
+                donationViewModel.Programs.Clear();
+
+
+
+                foreach (Cats.Models.GiftCertificateDetail giftCertificateDetail in giftCertificate.GiftCertificateDetails)
+                {
+                    donationViewModel.Commodities.Add(giftCertificateDetail.Commodity);
+                }
+
+                donationViewModel.Donors.Add(giftCertificate.Donor);
+                donationViewModel.DonorID = giftCertificate.DonorID;
+                donationViewModel.Programs.Add(giftCertificate.Program);
+                donationViewModel.ProgramID = giftCertificate.ProgramID;
+                donationViewModel.GiftCertificateID = giftCertificate.GiftCertificateID;
+                donationViewModel.SINumber = siNumber;
+                donationViewModel.ETA = giftCertificate.ETA;
+
+
+
+                return donationViewModel;
+
+            }
+            return null;
+        }
+
+
+        private DonationViewModel LoadFromDonation(int shippinInstructionId)
+        {
+            var donation = _donationPlanHeaderService.FindBy(s => s.ShippingInstructionId == shippinInstructionId).SingleOrDefault();
+            if (donation != null)
+            {
+                int index = 0;
+               var detailList = new List<DonationViewModel>();
+                var donationViewModel = new DonationViewModel();
+
+
+                donationViewModel.ETA = donation.ETA;
+                donationViewModel.CommodityID = donation.CommodityID;
+                donationViewModel.ProgramID = donation.ProgramID;
+                donationViewModel.DonorID = donation.DonorID;
+                donationViewModel.IsCommited = donation.IsCommited;
+                donationViewModel.GiftCertificateID = donation.GiftCertificateID;
+                donationViewModel.DonationHeaderPlanID = donation.DonationHeaderPlanID;
+                donationViewModel.AllocationDate = donation.AllocationDate;
+                donationViewModel.EnteredBy = donation.EnteredBy;
+                donationViewModel.ShippingInstructionId = donation.ShippingInstructionId;
+                var list = donation.DonationPlanDetails.Select(detail => new DonationDetail
+                                                                             {
+                                                                                 HubID = detail.HubID, 
+                                                                                 AllocatedAmount = detail.AllocatedAmount,
+                                                                                 ReceivedAmount = detail.ReceivedAmount, 
+                                                                                 Balance = detail.Balance
+                                                                             }).ToList();
+
+
+                donationViewModel.DonationPlanDetails =  list;
+                
+                   
+                
+                return donationViewModel;
+            }
+            return null;
         }
 
             [HttpPost]

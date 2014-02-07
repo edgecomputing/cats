@@ -53,7 +53,7 @@
                         @Html.LabelFor(model => model.ETA, @Translator.Translate("ETA"))
                     </div>
                     <div class="controls" >
-                        @(Html.TextBoxFor(model => model.ETA, new {@class = "cats-datepicker2", Disabled = true}))
+                        @(Html.TextBoxFor(model => model.ETA, new {@class = "cats-datepicker2"}))
                         @Html.ValidationMessageFor(model => model.ETA)
                     </div>
                 </div>
@@ -124,13 +124,19 @@
           .Name("grid")
           .Columns(columns =>
                        {
+                           columns.Bound(p => p.HubID).Title("Hub").Width(100).ClientTemplate("#= HubID #" +
+                    "<input type='hidden' name='DonationPlanDetails[#= index(data)#].HubID' value='#= HubID #' />");
                            columns.Bound(p => p.Hub).Title("Hub").Width(100).ClientTemplate("#= Hub #" +
-                    "<input type='hidden' name='DonationPlanDetails[#= index(data)#].Hub' value='#= Hub #' />");
-                           columns.Bound(p => p.AllocatedAmount).Title("Allocated").Width(30).Format("{0:n2}").ClientFooterTemplate("Sum: #=sum#").HtmlAttributes(new {align = "Right"}).HtmlAttributes(new {style = "text-align: right; font-size: 12px; "});
-                           
-                           columns.Bound(p => p.ReceivedAmount).Title("Received").Width(30).Format("{0:n2}").HtmlAttributes(new {align = "Right"}).HtmlAttributes(new {style = "text-align: right; font-size: 12px; "});
-                           
-                           columns.Bound(p => p.Balance).Title("Balance").Width(30).Format("{0:n2}").HtmlAttributes(new {align = "Right"}).HtmlAttributes(new {style = "text-align: right; font-size: 12px; "});
+                   "<input type='hidden' name='DonationPlanDetails[#= index(data)#].Hub' value='#= Hub #' />");
+
+                           columns.Bound(p => p.AllocatedAmount).Title("Allocated").Width(30).Format("{0:n2}").ClientFooterTemplate("Sum: #=sum#").HtmlAttributes(new { align = "Right" }).HtmlAttributes(new { style = "text-align: right; font-size: 12px; " }).ClientTemplate("#= AllocatedAmount #" +
+                    "<input type='hidden' name='DonationPlanDetails[#= index(data)#].AllocatedAmount' value='#= AllocatedAmount #' />"); ;
+
+                           columns.Bound(p => p.ReceivedAmount).Title("Received").Width(30).Format("{0:n2}").HtmlAttributes(new { align = "Right" }).HtmlAttributes(new { style = "text-align: right; font-size: 12px; " }).ClientTemplate("#= ReceivedAmount #" +
+                    "<input type='hidden' name='DonationPlanDetails[#= index(data)#].ReceivedAmount' value='#= ReceivedAmount #' />"); ;
+
+                           columns.Bound(p => p.Balance).Title("Balance").Width(30).Format("{0:n2}").HtmlAttributes(new { align = "Right" }).HtmlAttributes(new { style = "text-align: right; font-size: 12px; " }).ClientTemplate("#= Balance #" +
+                   "<input type='hidden' name='DonationPlanDetails[#= index(data)#].Balance' value='#= Balance #' />"); ;
                            
                        })
 
@@ -150,12 +156,17 @@
                                         .ServerOperation(false)
                                         .Model(model => model.Id(p => p.DonationDetailPlanID))
                                         .Model(model => model.Field(p => p.Hub).Editable(false))
+                                       
                                         
           )
           )
 }
 <script>
       
+
+    var grid = $("#grid").data("kendoGrid");
+    grid.hideColumn(1);
+    
     function error_handler(e) {
         if (e.errors) {
             var message = "Errors:\n";
