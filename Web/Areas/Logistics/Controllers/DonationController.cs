@@ -184,7 +184,7 @@ namespace Cats.Areas.Logistics.Controllers
             {
                 int index = 0;
                var detailList = new List<DonationViewModel>();
-                var donationViewModel = new DonationViewModel();
+                var donationViewModel = InitDonationViewModel();
 
 
                 donationViewModel.ETA = donation.ETA;
@@ -196,6 +196,7 @@ namespace Cats.Areas.Logistics.Controllers
                 donationViewModel.DonationHeaderPlanID = donation.DonationHeaderPlanID;
                 donationViewModel.AllocationDate = donation.AllocationDate;
                 donationViewModel.EnteredBy = donation.EnteredBy;
+                
                 donationViewModel.ShippingInstructionId = donation.ShippingInstructionId;
                 var list = donation.DonationPlanDetails.Select(detail => new DonationDetail
                                                                              {
@@ -286,14 +287,14 @@ namespace Cats.Areas.Logistics.Controllers
             return donationViewModel;
         }
 
-        public ActionResult LoadBySi(string id)
-        {
+            public ActionResult LoadBySi(string id)
+            {
 
-            var redirectUrl = new UrlHelper(Request.RequestContext).Action("AddNewDonationPlan", "Donation",
-                                                                          new { Area = "Logistics", siNumber = id });
-            return Json(new {Url = redirectUrl});
+                var redirectUrl = new UrlHelper(Request.RequestContext).Action("AddNewDonationPlan", "Donation",
+                                                                               new { Area = "Logistics", siNumber = id, typeOfLoad = 0 });
+                return Json(new {Url = redirectUrl});
 
-        }
+            }
 
         private IEnumerable<DonationDetail> GetNewDonationDetail()
         {

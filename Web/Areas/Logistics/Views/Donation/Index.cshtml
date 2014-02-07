@@ -74,7 +74,7 @@
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
         var siNumber = dataItem["SINumber"];
         window.location = null;
-        window.location = "@Url.Action("AddNewDonationPlan", "Donation")" + "?siNumber=" + siNumber;
+        window.location = "@Url.Action("AddNewDonationPlan", "Donation")" + "?siNumber=" + siNumber + "&typeOfLoad=0";
     }
     
     $(function () {
