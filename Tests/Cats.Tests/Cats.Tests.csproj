@@ -131,6 +131,7 @@
     <Compile Include="ControllersTests\CurrencyControllerTest.cs" />
     <Compile Include="ControllersTests\DispatchLocationsControllerTest.cs" />
     <Compile Include="ControllersTests\DistributionControllerTest.cs" />
+    <Compile Include="ControllersTests\DonationPlanTest.cs" />
     <Compile Include="ControllersTests\GiftCertificateControllerTests.cs" />
     <Compile Include="ControllersTests\HRDControllerTest.cs" />
     <Compile Include="ControllersTests\HRDControllerTests.cs" />
