@@ -1,0 +1,34 @@
+﻿@using Cats.Areas.Logistics.Models
+@using Kendo.Mvc.UI
+@using LanguageHelpers.Localization
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";  
+}
+
+<h4>List of Reciept Plan From Local Purchase</h4>
+ @(Html.Kendo().Grid<LocalPurchaseViewModel>()
+              .Name("LocalPurchaseDetail")
+              .Columns(columns =>
+                  {
+                      columns.Bound(m => m.SiNumber).Title(Translator.Translate("SI Number"));
+                      columns.Bound(m => m.Program).Title(Translator.Translate("Program"));
+                      columns.Bound(m => m.DonorName).Width(200).Title(Translator.Translate("Donor"));
+                      columns.Bound(m => m.SupplierName).Width(200).Title(Translator.Translate("Supplier Name"));
+                      columns.Bound(m => m.Commodity).Width(200).Title(Translator.Translate("Commodity"));
+                      columns.Bound(m => m.ReferenceNumber).Title("Reference Number");
+                      columns.Bound(m => m.CreatedDate).Title("Created Date");
+
+                  }
+
+              )
+
+              .Editable(edit => edit.Mode(GridEditMode.InCell))
+              .Navigatable()
+              .DataSource(dataSource => dataSource
+                                            .Ajax()
+                                            .Model(model =>model.Id(m=>m.LocalPurchaseID))
+                                            .Read(read => read.Action("LocalPurchase_Read", "LocalPurchase"))
+              //.Update(update => update.Action("Commodity_Update", "Request"))
+              )
+              )

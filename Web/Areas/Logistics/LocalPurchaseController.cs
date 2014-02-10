@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using Cats.Areas.Logistics.Models;
 using Cats.Models;
+using Cats.Services.Common;
 using Cats.Services.EarlyWarning;
 using Cats.Services.Logistics;
 using Kendo.Mvc.Extensions;
@@ -17,13 +18,15 @@ namespace Cats.Areas.Logistics
         //
         // GET: /Logistics/LocalPurchase/
         private ILocalPurchaseService _localPurchaseService;
+        private ICommonService _commonService;
         private ILocalPurchaseDetailService _localPurchaseDetailService;
         private IGiftCertificateService _giftCertificateService;
         private IShippingInstructionService _shippingInstructionService;
-        public LocalPurchaseController( ILocalPurchaseService localPurchaseService,ILocalPurchaseDetailService localPurchaseDetailService,
+        public LocalPurchaseController( ILocalPurchaseService localPurchaseService,ICommonService commonService,ILocalPurchaseDetailService localPurchaseDetailService,
                                         IGiftCertificateService giftCertificateService,IShippingInstructionService shippingInstructionService)
         {
             _localPurchaseService = localPurchaseService;
+            _commonService = commonService;
             _localPurchaseDetailService = localPurchaseDetailService;
             _giftCertificateService = giftCertificateService;
             _shippingInstructionService = shippingInstructionService;
@@ -35,9 +38,92 @@ namespace Cats.Areas.Logistics
         }
         public ActionResult Create()
         {
-            var localpurchase = new LocalPurchase();
+            ViewBag.ProgramID = new SelectList(_commonService.GetPrograms(),"ProgramID","Name");
+            ViewBag.CommodityID =new SelectList( _commonService.GetCommodities(),"CommodityID","Name");
+            ViewBag.CommodityTypeID =new SelectList( _commonService.GetCommodityTypes(),"CommodityTypeID","Name");
+            ViewBag.DonorID = new SelectList( _commonService.GetDonors(),"DonorID","Name");
+            var localpurchase = new LocalPurchaseWithDetailViewModel
+                {
+                    CommoditySource="Local Purchase",
+                    LocalPurchaseDetailViewModels = GetNewLocalPurchaseDetail()
+                };
             return View(localpurchase);
 
+        }
+        public ActionResult SaveLocalPurchase(LocalPurchaseWithDetailViewModel localPurchaseWithDetailViewModel)
+        {
+            if(localPurchaseWithDetailViewModel!=null)
+            {
+                var shippingInstractionID = CheckAvilabilityOfSiNumber(localPurchaseWithDetailViewModel.SINumber);
+                if (shippingInstractionID != 0)
+                {
+                    if (!CheckAvailabilityOfSiInLocalPurchase(localPurchaseWithDetailViewModel.SINumber))
+                    {
+
+                        SaveNewLocalPurchase(localPurchaseWithDetailViewModel, shippingInstractionID);
+                    }
+                    else
+                    {
+
+                        //UpdateLocalPurchase(localPurchaseWithDetailViewModel, shippingInstractionID);
+                    }
+                }
+                else
+                {
+                    var si = AddSiNumber(localPurchaseWithDetailViewModel.SINumber);
+                    if (si != -1)
+                        SaveNewLocalPurchase(localPurchaseWithDetailViewModel, si);// second in doation table
+                }
+            }
+            return RedirectToAction("Index");
+        }
+
+        private bool SaveNewLocalPurchase(LocalPurchaseWithDetailViewModel localPurchaseWithDetailViewModel, int sippingInstractionID)
+        {
+            try
+            {
+
+
+                var localPurchase = new LocalPurchase()
+                {
+                    DateCreated = DateTime.Now,
+                    CommodityID = localPurchaseWithDetailViewModel.CommodityID,
+                    DonorID = localPurchaseWithDetailViewModel.DonorID,
+                    ProgramID = localPurchaseWithDetailViewModel.ProgramID,
+                    ShippingInstructionID = sippingInstractionID,
+                    PurchaseOrder = localPurchaseWithDetailViewModel.PurchaseOrder,
+                    SupplierName = localPurchaseWithDetailViewModel.SupplierName,
+                    Quantity = localPurchaseWithDetailViewModel.Quantity,
+                    ReferenceNumber = localPurchaseWithDetailViewModel.ReferenceNumber,
+                    StatusID = 1,
+
+
+                };
+
+                foreach (var localPurchaseDetail in localPurchaseWithDetailViewModel.LocalPurchaseDetailViewModels
+                    .Select(localPurchaseDetail => new LocalPurchaseDetail()
+                {
+                    HubID = localPurchaseDetail.HubID,
+                    AllocatedAmount = localPurchaseDetail.AllocatedAmonut,
+                    RecievedAmount = localPurchaseDetail.RecievedAmonut,
+                    LocalPurchase = localPurchase
+                }))
+                {
+                    _localPurchaseDetailService.AddLocalPurchaseDetail(localPurchaseDetail);
+                }
+                return true;
+            }
+            catch (Exception)
+            {
+
+                return false;
+            }
+        }
+        public ActionResult LocalPurchase_Read([DataSourceRequest] DataSourceRequest request)
+        {
+            var localPurchase = _localPurchaseService.GetAllLocalPurchase().OrderByDescending(m => m.LocalPurchaseID).ToList();
+            var localPurchseToDisplay = GetLocalPurchase(localPurchase);
+            return Json(localPurchseToDisplay.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
         public ActionResult HubsLocalPurchaseDetail_Read([DataSourceRequest] DataSourceRequest request,int localPurchaseID)
         {
@@ -64,9 +150,30 @@ namespace Cats.Areas.Logistics
                         });
 
         }
+        private IEnumerable<LocalPurchaseViewModel> GetLocalPurchase(IEnumerable<LocalPurchase> localPurchases)
+        {
+            return (from localPurchase in localPurchases
+                    select new LocalPurchaseViewModel
+                        {
+                            LocalPurchaseID = localPurchase.LocalPurchaseID,
+                            CommodityID = localPurchase.CommodityID,
+                            Commodity = localPurchase.Commodity.Name,
+                            ProgramID = localPurchase.ProgramID,
+                            Program = localPurchase.Program.Name,
+                            DonorID = localPurchase.DonorID,
+                            DonorName = localPurchase.Donor.Name,
+                            SupplierName = localPurchase.SupplierName,
+                            ReferenceNumber = localPurchase.ReferenceNumber,
+                            SiNumber = localPurchase.ShippingInstruction.Value,
+                            //CreatedDate = localPurchase.DateCreated,
+                           
+                        });
+
+        }
+
         private IEnumerable<LocalPurchaseDetailViewModel> GetNewLocalPurchaseDetail()
         {
-            var hubs = _localPurchaseService.GetAllHub().Where(m=>m.HubID < 4);
+            var hubs = _localPurchaseService.GetAllHub().Where(m=>m.HubOwnerID==1);
             return (from hub in hubs
                     select new LocalPurchaseDetailViewModel
                         {
@@ -104,6 +211,52 @@ namespace Cats.Areas.Logistics
                           where siNumber.Value.ToLower().StartsWith(term.ToLower())
                           select siNumber.Value);
             return Json(result, JsonRequestBehavior.AllowGet);
+        }
+        private int CheckAvilabilityOfSiNumber(string siNumber)
+        {
+            try
+            {
+                var siId = _shippingInstructionService.GetShipingInstructionId(siNumber);
+                return siId;
+            }
+            catch (Exception)
+            {
+
+                return 0;
+            }
+        }
+
+        private Boolean CheckAvailabilityOfSiInLocalPurchase(string siNumber)
+        {
+            var shippingInstructionID = _shippingInstructionService.FindBy(m => m.Value == siNumber).FirstOrDefault().ShippingInstructionID;
+            try
+            {
+                var siId = _localPurchaseService.FindBy(d => d.ShippingInstructionID == shippingInstructionID).SingleOrDefault();
+                if (siId == null)
+                    return false;
+                return true;
+            }
+            catch (Exception)
+            {
+
+                return false;
+            }
+        }
+
+        private int AddSiNumber(string siNumber)
+        {
+            try
+            {
+                var shippingInstruction = new Cats.Models.ShippingInstruction();
+                shippingInstruction.Value = siNumber;
+                _shippingInstructionService.AddShippingInstruction(shippingInstruction);
+                return shippingInstruction.ShippingInstructionID;
+            }
+            catch (Exception)
+            {
+
+                return -1;
+            }
         }
     }
 }

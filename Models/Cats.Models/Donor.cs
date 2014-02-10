@@ -46,9 +46,9 @@ namespace Cats.Models
 
       //  public virtual ICollection<Distribution> Distributions { get; set; }
 
-     
-        
 
+
+        public virtual ICollection<LocalPurchase>   LocalPurchases  { get; set; }
         public virtual ICollection<Delivery> Deliveries { get; set; }
 
     }

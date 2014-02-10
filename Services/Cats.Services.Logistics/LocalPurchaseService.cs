@@ -47,7 +47,7 @@ namespace Cats.Services.Logistics
            _unitOfWork.Save();
            return true;
        }
-       public List<LocalPurchase> GetAllEntity()
+       public List<LocalPurchase> GetAllLocalPurchase()
        {
            return _unitOfWork.LocalPurchaseRepository.GetAll();
        } 

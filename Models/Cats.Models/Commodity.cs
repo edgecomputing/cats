@@ -53,5 +53,6 @@ namespace Cats.Models
 
         public virtual ICollection<PromisedContribution> PromisedContributions { get; set; }
         public virtual ICollection<DeliveryDetail> DeliveryDetails { get; set; }
+        public virtual ICollection<LocalPurchase> LocalPurchases  { get; set; }
     }
 }

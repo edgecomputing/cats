@@ -19,6 +19,11 @@ namespace Cats.Models.Mapping
            this.ToTable("LocalPurchase");
            this.Property(t => t.LocalPurchaseID).HasColumnName("LocalPurchaseID");
            this.Property(t => t.GiftCertificateID).HasColumnName("GiftCertificateID");
+           this.Property(t => t.ShippingInstructionID).HasColumnName("ShippingInstructionID");
+           this.Property(t => t.CommodityID).HasColumnName("CommodityID");
+           this.Property(t => t.DonorID).HasColumnName("DonorID");
+           this.Property(t => t.ProgramID).HasColumnName("ProgramID");
+           this.Property(t => t.Quantity).HasColumnName("Quantity");
            this.Property(t => t.DateCreated).HasColumnName("DateCreated");
            this.Property(t => t.PurchaseOrder).HasColumnName("PurchaseOrder");
            this.Property(t => t.SupplierName).HasColumnName("SupplierName");
@@ -26,9 +31,18 @@ namespace Cats.Models.Mapping
            this.Property(t => t.StatusID).HasColumnName("StatusID");
            this.Property(t => t.Remark).HasColumnName("Remark");
            // Relationships
-           this.HasRequired(t => t.GiftCertificate)
+           this.HasOptional(t => t.GiftCertificate)
                .WithMany(t => t.LocalPurchases)
                .HasForeignKey(d => d.GiftCertificateID);
+           this.HasRequired(t => t.Commodity)
+               .WithMany(t => t.LocalPurchases)
+               .HasForeignKey(t => t.CommodityID);
+           this.HasRequired(t => t.Donor)
+             .WithMany(t => t.LocalPurchases)
+             .HasForeignKey(t => t.DonorID);
+           this.HasRequired(t => t.Program)
+             .WithMany(t => t.LocalPurchases)
+             .HasForeignKey(t => t.ProgramID);
        }
     }
 }

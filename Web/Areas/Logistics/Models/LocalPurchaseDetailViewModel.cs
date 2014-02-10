@@ -18,6 +18,21 @@ namespace Cats.Areas.Logistics.Models
             get { return AllocatedAmonut - RecievedAmonut; }
         }
     }
+    public class LocalPurchaseViewModel
+    {
+        public int LocalPurchaseID { get; set; }
+        public string SiNumber { get; set; }
+        public int ProgramID { get; set; }
+        public string Program { get; set; }
+        public int DonorID { get; set; }
+        public string DonorName { get; set; }
+        public string SupplierName { get; set; }
+        public string ReferenceNumber { get; set; }
+        public string CreatedDate { get; set; }
+        public int CommodityID { get; set; }
+        public string Commodity { get; set; }
+
+    }
     public class LocalPurchaseFromGiftCertificateInfo
     {
         public int GiftCertificateID { get; set; }
@@ -30,5 +45,23 @@ namespace Cats.Areas.Logistics.Models
         public decimal QuantityInMT { get; set; }
         public string CommoditySource { get; set; }
 
+    }
+    public class LocalPurchaseWithDetailViewModel
+    {
+        public int LocalPurchaseID { get; set; }
+        public int GiftCertificateID { get; set; }
+        public string SINumber { get; set; }
+        public int CommodityID { get; set; }
+        public int DonorID { get; set; }
+        public int ProgramID { get; set; }
+        public int ShippingInstractionID { get; set; }
+        public int PurchaseOrder { get; set; }
+        public string SupplierName { get; set; }
+        public decimal Quantity { get; set; }
+        public string CommoditySource { get; set; }
+        public string Remark { get; set; }
+        public int CommodityTypeID { get; set; }
+        public string ReferenceNumber { get; set; }
+        public IEnumerable<LocalPurchaseDetailViewModel> LocalPurchaseDetailViewModels { get; set; } 
     }
 }

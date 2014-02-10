@@ -15,6 +15,7 @@ namespace Cats.Models
             this.DonationPlanHeaders = new List<DonationPlanHeader>();
             this.Transactions = new List<Transaction>();
             this.TransportRequisitions = new List<TransportRequisition>();
+            this.LocalPurchases=new List<LocalPurchase>();
            
             //this.Plans=new List<Plan>();
         }
@@ -32,6 +33,7 @@ namespace Cats.Models
         public virtual ICollection<Transaction> Transactions { get; set; }
         public virtual ICollection<TransportRequisition> TransportRequisitions { get; set; }
         public virtual ICollection<OtherDispatchAllocation> OtherDispatchAllocations { get; set; }
+        public virtual ICollection<LocalPurchase> LocalPurchases { get; set; } 
        //public virtual ICollection<Plan> Plans { get; set; } 
     }
 }
