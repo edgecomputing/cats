@@ -63,6 +63,9 @@
     <Reference Include="FluentMigrator">
       <HintPath>..\packages\FluentMigrator.1.1.0.0\lib\40\FluentMigrator.dll</HintPath>
     </Reference>
+    <Reference Include="HibernatingRhinos.Profiler.Appender">
+      <HintPath>..\..\..\EntityFramework.Profiler-v2.0-Build-2229\HibernatingRhinos.Profiler.Appender.dll</HintPath>
+    </Reference>
     <Reference Include="Kendo.Mvc">
       <HintPath>..\lib\KENDOUIMVC\2013.1.319.340\Kendo.Mvc.dll</HintPath>
     </Reference>

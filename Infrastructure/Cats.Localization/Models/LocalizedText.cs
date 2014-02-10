@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace Cats.Localization.Models
 {
-    public partial class LocalizedPhrase
+    public partial class LocalizedText
     {
-        public int LocalizationId { get; set; }
+        public int LocalizedTextId { get; set; }
         public string LanguageCode { get; set; }
-        public int PhraseId { get; set; }
+        public Nullable<int> PageId { get; set; }
+        public string TextKey { get; set; }
         public string TranslatedText { get; set; }
-        public virtual Language Language { get; set; }
-        public virtual Phrase Phrase { get; set; }
+        public virtual Page Page { get; set; }
     }
 }

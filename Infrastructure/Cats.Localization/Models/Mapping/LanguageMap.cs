@@ -26,7 +26,7 @@ namespace Cats.Localization.Models.Mapping
 
             // Table & Column Mappings
             //this.ToTable("Languages", "Localization");
-            this.ToTable("Languages");
+            this.ToTable("dbo.Languages");
             this.Property(t => t.LanguageCode).HasColumnName("LanguageCode");
             this.Property(t => t.LanguageName).HasColumnName("LanguageName");
         }

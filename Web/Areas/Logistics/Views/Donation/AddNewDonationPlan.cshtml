@@ -5,8 +5,12 @@
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
-    
-   
+
+    var headerId = 0;
+    if(Model!=null)
+    {
+        headerId = Model.DonationHeaderPlanID;
+    }
     
 }
 
@@ -18,7 +22,7 @@
             <span class="caret"></span>
         </button>
         <ul class="dropdown-menu">
-            @* <li><a id="btnReceiptDispatch"  href="@Url.Action("CloseLocalPlan", "Donation", new { receiptHeaderId = @headerId })" >@Translator.Translate("Receive")</a></li>*@
+             <li><a id="btnReceiptDispatch"  href="@Url.Action("CloseLocalPlan", "Donation", new { donationPlanHeaderId = @headerId })" >@Translator.Translate("Receive")</a></li>
             
         </ul>
 
@@ -124,7 +128,7 @@
           .Name("grid")
           .Columns(columns =>
                        {
-                           columns.Bound(p => p.HubID).Title("Hub").Width(100).ClientTemplate("#= HubID #" +
+                           columns.Bound(p => p.HubID).Title("Hub").Width(100).Hidden(true).ClientTemplate("#= HubID #" +
                     "<input type='hidden' name='DonationPlanDetails[#= index(data)#].HubID' value='#= HubID #' />");
                            columns.Bound(p => p.Hub).Title("Hub").Width(100).ClientTemplate("#= Hub #" +
                    "<input type='hidden' name='DonationPlanDetails[#= index(data)#].Hub' value='#= Hub #' />");
