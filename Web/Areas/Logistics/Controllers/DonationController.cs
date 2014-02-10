@@ -315,10 +315,12 @@ namespace Cats.Areas.Logistics.Controllers
 
 
                 }
-                return RedirectToAction("AddNewDonationPlan");
+                return RedirectToAction("Index");
 
             }
-            return View("AddNewDonationPlan");
+
+            var model = InitDonationViewModel();
+           return View("AddNewDonationPlan",model);
         }
 
         private bool SaveNewDonationPlan(DonationViewModel donationViewModel,int siId)
