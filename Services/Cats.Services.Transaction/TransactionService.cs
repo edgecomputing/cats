@@ -277,7 +277,8 @@ namespace Cats.Services.Transaction
                                           TransactionDate = transactionDate,
                                           CommodityID = donationPlanHeader.CommodityID,
                                           ShippingInstructionID = donationPlanHeader.ShippingInstructionId,
-                                          HubID = donationPlanDetail.HubID
+                                          HubID = donationPlanDetail.HubID,
+                                          LedgerID = 10
                                       };
 
                 _unitOfWork.TransactionRepository.Add(transaction);
@@ -294,12 +295,14 @@ namespace Cats.Services.Transaction
                                      TransactionDate = transactionDate,
                                      CommodityID = donationPlanHeader.CommodityID,
                                      ShippingInstructionID = donationPlanHeader.ShippingInstructionId,
-                                     HubID = donationPlanDetail.HubID
+                                     HubID = donationPlanDetail.HubID,
+                                     LedgerID = 4
                                  };
 
                 _unitOfWork.TransactionRepository.Add(transaction);
             }
 
+            donationPlanHeader.TransactionGroupID = transactionGroup;
             _unitOfWork.Save();
             return true;
 
