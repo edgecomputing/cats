@@ -32,9 +32,9 @@ namespace Cats.Models
        public virtual GiftCertificate GiftCertificate { get; set; }
        public virtual ICollection<LocalPurchaseDetail> LocalPurchaseDetails  { get; set; }
        public virtual ShippingInstruction ShippingInstruction { get; set; }
-       public Commodity Commodity { get; set; }
-       public Donor Donor { get; set; }
-       public Program Program { get; set; }
+       public virtual Commodity Commodity { get; set; }
+       public virtual Donor Donor { get; set; }
+       public virtual Program Program { get; set; }
 
     }
 }

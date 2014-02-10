@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using Cats.Areas.Logistics.Models;
 using Cats.Models;
+using Cats.Models.Constant;
 using Cats.Services.Common;
 using Cats.Services.EarlyWarning;
 using Cats.Services.Logistics;
@@ -49,6 +50,35 @@ namespace Cats.Areas.Logistics
                 };
             return View(localpurchase);
 
+        }
+        public ActionResult Details(int id)
+        {
+            var localPurchase = _localPurchaseService.FindById(id);
+            ViewBag.ProgramID = new SelectList(_commonService.GetPrograms(), "ProgramID", "Name",localPurchase.ProgramID);
+            ViewBag.CommodityID = new SelectList(_commonService.GetCommodities(), "CommodityID", "Name",localPurchase.CommodityID);
+            ViewBag.CommodityTypeID = new SelectList(_commonService.GetCommodityTypes(), "CommodityTypeID", "Name");
+            ViewBag.DonorID = new SelectList(_commonService.GetDonors(), "DonorID", "Name",localPurchase.DonorID);
+            if (localPurchase!=null)
+            {
+                var localPurchaseWithDetailViewModel = new LocalPurchaseWithDetailViewModel()
+                    {
+                        LocalPurchaseID = localPurchase.LocalPurchaseID,
+                        ProgramID = localPurchase.ProgramID,
+                        DonorID = localPurchase.DonorID,
+                        CommodityID = localPurchase.DonorID,
+                        SINumber = localPurchase.ShippingInstruction.Value,
+                        ReferenceNumber = localPurchase.ReferenceNumber,
+                        SupplierName = localPurchase.SupplierName,
+                        PurchaseOrder = localPurchase.PurchaseOrder,
+                        Quantity = localPurchase.Quantity,
+                        CommoditySource = "Local Purchase";
+                        LocalPurchaseDetailViewModels = GetLocalPurchaseDetail(localPurchase.LocalPurchaseDetails)
+
+                    };
+                return View(localPurchaseWithDetailViewModel);
+            }
+            ModelState.AddModelError("Errors",@"Unable to Display Local Purchase Information!");
+            return RedirectToAction("Index");
         }
         public ActionResult SaveLocalPurchase(LocalPurchaseWithDetailViewModel localPurchaseWithDetailViewModel)
         {
@@ -95,7 +125,7 @@ namespace Cats.Areas.Logistics
                     SupplierName = localPurchaseWithDetailViewModel.SupplierName,
                     Quantity = localPurchaseWithDetailViewModel.Quantity,
                     ReferenceNumber = localPurchaseWithDetailViewModel.ReferenceNumber,
-                    StatusID = 1,
+                    StatusID = (int)LocalPurchaseStatus.Draft,
 
 
                 };
@@ -118,6 +148,34 @@ namespace Cats.Areas.Logistics
 
                 return false;
             }
+        }
+        public ActionResult UpdateLocalPurchase(LocalPurchaseWithDetailViewModel localPurchaseDetailViewModel)
+        {
+            var localPurchase = _localPurchaseService.FindById(localPurchaseDetailViewModel.LocalPurchaseID);
+            var index = 0;
+            if (localPurchase!=null)
+            {
+                localPurchase.CommodityID = localPurchaseDetailViewModel.CommodityID;
+                localPurchase.DonorID = localPurchaseDetailViewModel.DonorID;
+                localPurchase.ProgramID = localPurchaseDetailViewModel.ProgramID;
+                localPurchase.PurchaseOrder = localPurchaseDetailViewModel.PurchaseOrder;
+                localPurchase.SupplierName = localPurchaseDetailViewModel.SupplierName;
+                localPurchase.Quantity = localPurchaseDetailViewModel.Quantity;
+                localPurchase.ReferenceNumber = localPurchaseDetailViewModel.ReferenceNumber;
+                var localPurchaseDetailsViewModel = localPurchaseDetailViewModel.LocalPurchaseDetailViewModels.ToArray();
+                foreach (var localPurchaseDetail in localPurchase.LocalPurchaseDetails)
+                {
+                    localPurchaseDetail.AllocatedAmount = localPurchaseDetailsViewModel[index].AllocatedAmonut;
+                    localPurchaseDetail.RecievedAmount = localPurchaseDetailsViewModel[index].RecievedAmonut;
+                    localPurchaseDetail.LocalPurchase = localPurchase;
+                    _localPurchaseDetailService.EditLocalPurchaseDetail(localPurchaseDetail);
+                    index++;
+
+                }
+                ModelState.AddModelError("Sucess",@"Local Purchase Sucessfully Updated");
+                return RedirectToAction("Details", new {id = localPurchase.LocalPurchaseID});
+            }
+            return RedirectToAction("Index");
         }
         public ActionResult LocalPurchase_Read([DataSourceRequest] DataSourceRequest request)
         {
@@ -165,6 +223,8 @@ namespace Cats.Areas.Logistics
                             SupplierName = localPurchase.SupplierName,
                             ReferenceNumber = localPurchase.ReferenceNumber,
                             SiNumber = localPurchase.ShippingInstruction.Value,
+                            Quantity = localPurchase.Quantity,
+                            Status = _commonService.GetStatusName(WORKFLOW.LocalPUrchase, localPurchase.StatusID)
                             //CreatedDate = localPurchase.DateCreated,
                            
                         });

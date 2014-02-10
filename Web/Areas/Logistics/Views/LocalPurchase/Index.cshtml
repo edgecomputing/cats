@@ -5,25 +5,29 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_MainLayout.cshtml";  
 }
-
+@section Toolbar
+{
+    <a data-buttontype="btn_new_record" class="btn toolbar-btn " href="@Url.Action("Create", "LocalPurchase")"></a>
+}
 <h4>List of Reciept Plan From Local Purchase</h4>
  @(Html.Kendo().Grid<LocalPurchaseViewModel>()
-              .Name("LocalPurchaseDetail")
+              .Name("grid")
               .Columns(columns =>
                   {
-                      columns.Bound(m => m.SiNumber).Title(Translator.Translate("SI Number"));
+                      columns.Bound(m => m.SiNumber).Title(Translator.Translate("SI Number")).
+                          ClientTemplate("<a href='" + Url.Action("Details", "LocalPurchase", new { id = "#=LocalPurchaseID#" }) + " '>#=SiNumber#</a>  "); ;
                       columns.Bound(m => m.Program).Title(Translator.Translate("Program"));
                       columns.Bound(m => m.DonorName).Width(200).Title(Translator.Translate("Donor"));
                       columns.Bound(m => m.SupplierName).Width(200).Title(Translator.Translate("Supplier Name"));
                       columns.Bound(m => m.Commodity).Width(200).Title(Translator.Translate("Commodity"));
                       columns.Bound(m => m.ReferenceNumber).Title("Reference Number");
-                      columns.Bound(m => m.CreatedDate).Title("Created Date");
+                      columns.Bound(m => m.Quantity).HtmlAttributes(new {align = "right"});
+                      // columns.Bound(m => m.CreatedDate).Title("Created Date");
 
                   }
 
               )
 
-              .Editable(edit => edit.Mode(GridEditMode.InCell))
               .Navigatable()
               .DataSource(dataSource => dataSource
                                             .Ajax()

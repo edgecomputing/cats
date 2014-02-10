@@ -31,6 +31,8 @@ namespace Cats.Areas.Logistics.Models
         public string CreatedDate { get; set; }
         public int CommodityID { get; set; }
         public string Commodity { get; set; }
+        public decimal Quantity { get; set; }
+        public string Status { get; set; }
 
     }
     public class LocalPurchaseFromGiftCertificateInfo
