@@ -154,11 +154,11 @@
 
                         @Html.Partial("_BreadCrumb")
                     </div>
-                    <div class="span5">
-                        <div class=" btn-group toolbar">
-                            @RenderSection("Toolbar", required: false)
-                        </div>
-                        @Html.Partial("_ToolbarCommon")
+                    <div class="span5" >
+                        <div class="pull-right btn-toolbar toolbar">
+                            @RenderSection("Toolbar", required: false)                           
+                            @Html.Partial("_ToolbarCommon")
+                        </div>                        
                     </div>
 
                 </div>
