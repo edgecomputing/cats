@@ -11,9 +11,7 @@ using Cats.Services.EarlyWarning;
 namespace Cats.Helpers
 {
     public static class  NotificationHelper
-    {
-       
-
+    {       
         public static int GetUnreadNotifications(this HtmlHelper helper)
         {
             try
@@ -64,9 +62,6 @@ namespace Cats.Helpers
                 return 0;
             }
         }
-
-
-
 
         public static HtmlString GetActiveNotifications(this HtmlHelper helper)
         {

@@ -20,22 +20,23 @@ namespace Cats.Controllers
     public class HomeController : Controller
     {
         private IRegionalRequestService _regionalRequestService;
-        private IReliefRequisitionService _reliefRequistionService; 
-        private IUnitOfWork _unitOfWork ;
+        private IReliefRequisitionService _reliefRequistionService;
+        private IUnitOfWork _unitOfWork;
         private IUserDashboardPreferenceService _userDashboardPreferenceService;
         private IDashboardWidgetService _dashboardWidgetService;
         private IUserAccountService userService;
         private readonly IDashboardService _IDashboardService;
         private readonly IUserAccountService _userAccountService;
         private readonly INotificationService _notificationService;
-        public HomeController(IUserDashboardPreferenceService userDashboardPreferenceService, 
-            IDashboardWidgetService dashboardWidgetService, 
+        public HomeController(IUserDashboardPreferenceService userDashboardPreferenceService,
+            IDashboardWidgetService dashboardWidgetService,
             IUserAccountService _userService,
             IUnitOfWork unitOfWork,
             IRegionalRequestService regionalRequestService,
-            IReliefRequisitionService reliefRequisitionService, IDashboardService iDashboardService, IUserAccountService userAccountService, INotificationService notificationService) {
+            IReliefRequisitionService reliefRequisitionService, IDashboardService iDashboardService, IUserAccountService userAccountService, INotificationService notificationService)
+        {
             _regionalRequestService = regionalRequestService;
-            _reliefRequistionService =  reliefRequisitionService;
+            _reliefRequistionService = reliefRequisitionService;
             _IDashboardService = iDashboardService;
             this._userAccountService = userAccountService;
             _notificationService = notificationService;
@@ -43,23 +44,25 @@ namespace Cats.Controllers
             _dashboardWidgetService = dashboardWidgetService;
             this.userService = _userService;
             _unitOfWork = unitOfWork;
-            }
+        }
 
         //
         // GET: /Home/
-   //     [Authorize]
-        public ActionResult Index(int regionId=4)
+        //     [Authorize]
+        public ActionResult Index(int regionId = 4)
         {
             //var req = _reliefRequistionService.FindBy(t => t.RegionID == regionId);
             var req = _regionalRequestService.FindBy(t => t.RegionID == regionId);
-            ////ViewBag.Requests = req;
+            //ViewBag.Requests = req;
             var userID = UserAccountHelper.GetUser(HttpContext.User.Identity.Name).UserProfileID;
             var userDashboardPreferences = _userDashboardPreferenceService.Get(t => t.UserID == userID).OrderBy(m=>m.OrderNo);
             var dashboardWidgets = userDashboardPreferences.Select(userDashboardPreference => 
                                     _dashboardWidgetService.FindById(userDashboardPreference.DashboardWidgetID)).ToList();
             return View(dashboardWidgets);
             //return Json(req, JsonRequestBehavior.AllowGet);
-           // return Json(req, JsonRequestBehavior.AllowGet);
+            //return Json(req, JsonRequestBehavior.AllowGet);
+            //var widgets = new List<DashboardWidget>();
+            //return View(widgets);
         }
 
         public ActionResult Preference()
@@ -103,7 +106,7 @@ namespace Cats.Controllers
             var selectedDashboardWidgets = userDashboardPreferences.Select(userDashboardPreference =>
                                     _dashboardWidgetService.FindById(userDashboardPreference.DashboardWidgetID)).ToList();
             var selectedDashboardWidgetIDs = selectedDashboardWidgets.Select(selectedDashboardWidget => selectedDashboardWidget.DashboardWidgetID).ToList();
-            
+
             //Create the newly selected dashboards in user preference
             var order = 1;
             foreach (var selectedDashboardID in selectedDashboardIDs)
@@ -163,16 +166,16 @@ namespace Cats.Controllers
         public ActionResult GetUnreadNotification([DataSourceRequest] DataSourceRequest request)
         {
 
-                var user = System.Web.HttpContext.Current.User.Identity.Name;
-                var roles = _userAccountService.GetUserPermissions(user).Select(a => a.Roles).ToList();
-                var allUserRollsInAllApplications = new List<string>();
+            var user = System.Web.HttpContext.Current.User.Identity.Name;
+            var roles = _userAccountService.GetUserPermissions(user).Select(a => a.Roles).ToList();
+            var allUserRollsInAllApplications = new List<string>();
 
-                foreach (var app in roles)
-                {
-                    allUserRollsInAllApplications.AddRange(app.Select(role => role.RoleName));
-                }
-             
-                var totalUnread = _notificationService.GetAllNotification().Where(n => n.IsRead == false && allUserRollsInAllApplications.Contains(n.RoleName)).ToList();
+            foreach (var app in roles)
+            {
+                allUserRollsInAllApplications.AddRange(app.Select(role => role.RoleName));
+            }
+
+            var totalUnread = _notificationService.GetAllNotification().Where(n => n.IsRead == false && allUserRollsInAllApplications.Contains(n.RoleName)).ToList();
 
             var notificationViewModel = Cats.ViewModelBinder.NotificationViewModelBinder.ReturnNotificationViewModel(totalUnread.ToList());
             return Json(notificationViewModel.ToDataSourceResult(request));

@@ -20,18 +20,14 @@ namespace Cats.Localization.Data
             : base("Name=CatsContext") { }
 
         public DbSet<Language> Languages { get; set; }
-        public DbSet<Phrase> Phrases { get; set; }
+        public DbSet<LocalizedText> LocalizedTextes { get; set; }
         public DbSet<Page> Pages { get; set; }
-        public DbSet<LocalizedPhrase> LocalizedPhrases { get; set; }
-        public DbSet<LocalizedPagePhrase> LocalizedPagePhrases { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Configurations.Add(new LanguageMap());
-            modelBuilder.Configurations.Add(new PhraseMap());
             modelBuilder.Configurations.Add(new PageMap());
-            modelBuilder.Configurations.Add(new LocalizedPhraseMap());
-            modelBuilder.Configurations.Add(new LocalizedPagePhraseMap());
+            modelBuilder.Configurations.Add(new LocalizedTextMap());
         }
     }
 }
