@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using Cats.Data.UnitWork;
 using Cats.Models;
+using Cats.Models.Constant;
 
 namespace Cats.Services.Logistics
 {
@@ -47,7 +48,7 @@ namespace Cats.Services.Logistics
            _unitOfWork.Save();
            return true;
        }
-       public List<LocalPurchase> GetAllEntity()
+       public List<LocalPurchase> GetAllLocalPurchase()
        {
            return _unitOfWork.LocalPurchaseRepository.GetAll();
        } 
@@ -66,11 +67,49 @@ namespace Cats.Services.Logistics
        {
            return _unitOfWork.HubRepository.GetAll();
        }
+       
 
        public void Dispose()
        {
            _unitOfWork.Dispose();
 
+       }
+
+
+       public bool Approve(LocalPurchase localPurchase)
+       {
+           try
+           {
+               localPurchase.StatusID = (int) LocalPurchaseStatus.Approved;
+               _unitOfWork.LocalPurchaseRepository.Edit(localPurchase);
+               foreach (var localPurchaseDetail in localPurchase.LocalPurchaseDetails)
+               {
+                   var reciptAllocaltion = new ReceiptAllocation()
+                       {
+                           ReceiptAllocationID = Guid.NewGuid(),
+                           ProgramID = localPurchase.ProgramID,
+                           CommodityID = localPurchase.CommodityID,
+                           DonorID = localPurchase.DonorID,
+                           ETA = localPurchase.DateCreated,
+                           SINumber = localPurchase.ShippingInstruction.Value,
+                           QuantityInMT = localPurchaseDetail.AllocatedAmount,
+                           HubID = localPurchaseDetail.HubID,
+                           CommoditySourceID = 3, //Local Purchase
+                           ProjectNumber = localPurchase.ProjectCode,
+                           //PurchaseOrder = localPurchase.PurchaseOrder, 
+                           PartitionID = 0,
+                           IsCommited = false
+                       };
+                   _unitOfWork.ReceiptAllocationReository.Add(reciptAllocaltion);
+                   _unitOfWork.Save();
+               }
+               return true;
+           }
+           catch (Exception)
+           {
+
+               return false;
+           }
        }
    }
    }

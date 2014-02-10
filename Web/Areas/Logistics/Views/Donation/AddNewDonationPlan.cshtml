@@ -134,13 +134,13 @@
                    "<input type='hidden' name='DonationPlanDetails[#= index(data)#].Hub' value='#= Hub #' />");
 
                            columns.Bound(p => p.AllocatedAmount).Title("Allocated").Width(30).Format("{0:n2}").ClientFooterTemplate("Sum: #=sum#").HtmlAttributes(new { align = "Right" }).HtmlAttributes(new { style = "text-align: right; font-size: 12px; " }).ClientTemplate("#= AllocatedAmount #" +
-                    "<input type='hidden' name='DonationPlanDetails[#= index(data)#].AllocatedAmount' value='#= AllocatedAmount #' />"); ;
+                    "<input type='hidden' name='DonationPlanDetails[#= index(data)#].AllocatedAmount' value='#= AllocatedAmount #' />"); 
 
                            columns.Bound(p => p.ReceivedAmount).Title("Received").Width(30).Format("{0:n2}").HtmlAttributes(new { align = "Right" }).HtmlAttributes(new { style = "text-align: right; font-size: 12px; " }).ClientTemplate("#= ReceivedAmount #" +
-                    "<input type='hidden' name='DonationPlanDetails[#= index(data)#].ReceivedAmount' value='#= ReceivedAmount #' />"); ;
+                    "<input type='hidden' name='DonationPlanDetails[#= index(data)#].ReceivedAmount' value='#= ReceivedAmount #' />"); 
 
                            columns.Bound(p => p.Balance).Title("Balance").Width(30).Format("{0:n2}").HtmlAttributes(new { align = "Right" }).HtmlAttributes(new { style = "text-align: right; font-size: 12px; " }).ClientTemplate("#= Balance #" +
-                   "<input type='hidden' name='DonationPlanDetails[#= index(data)#].Balance' value='#= Balance #' />"); ;
+                   "<input type='hidden' name='DonationPlanDetails[#= index(data)#].Balance' value='#= Balance #' />");
                            
                        })
 
