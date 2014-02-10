@@ -53,16 +53,16 @@ namespace Cats.Controllers
         {
             //var req = _reliefRequistionService.FindBy(t => t.RegionID == regionId);
             var req = _regionalRequestService.FindBy(t => t.RegionID == regionId);
-            ////ViewBag.Requests = req;
-            //var userID = UserAccountHelper.GetUser(HttpContext.User.Identity.Name).UserProfileID;
-            //var userDashboardPreferences = _userDashboardPreferenceService.Get(t => t.UserID == userID).OrderBy(m=>m.OrderNo);
-            //var dashboardWidgets = userDashboardPreferences.Select(userDashboardPreference => 
-            //                        _dashboardWidgetService.FindById(userDashboardPreference.DashboardWidgetID)).ToList();
-            //return View(dashboardWidgets);
+            //ViewBag.Requests = req;
+            var userID = UserAccountHelper.GetUser(HttpContext.User.Identity.Name).UserProfileID;
+            var userDashboardPreferences = _userDashboardPreferenceService.Get(t => t.UserID == userID).OrderBy(m=>m.OrderNo);
+            var dashboardWidgets = userDashboardPreferences.Select(userDashboardPreference => 
+                                    _dashboardWidgetService.FindById(userDashboardPreference.DashboardWidgetID)).ToList();
+            return View(dashboardWidgets);
             //return Json(req, JsonRequestBehavior.AllowGet);
             //return Json(req, JsonRequestBehavior.AllowGet);
-            var widgets = new List<DashboardWidget>();
-            return View(widgets);
+            //var widgets = new List<DashboardWidget>();
+            //return View(widgets);
         }
 
         public ActionResult Preference()
