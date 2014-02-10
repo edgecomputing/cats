@@ -48,16 +48,18 @@ namespace Cats.Controllers
                 {
                     FormsAuthentication.SetAuthCookie(model.UserName, model.RememberMe);
 
-                    // Will be refactored
-                   
-                    
+                    // Will be refactored                              
                     var user = _userAccountService.GetUserDetail(model.UserName);
                     user.LogginDate = DateTime.Today;
                     user.NumberOfLogins += 1;
                     Session["User"] = user;
                     _userAccountService.UpdateUser(user);
 
-                    ////
+                    // Add user information to session variable to avoid frequent trip to the databas
+                    var service = (IUserAccountService)DependencyResolver.Current.GetService(typeof(IUserAccountService));
+                    var userInfo = service.GetUserInfo(model.UserName);
+                    Session["USER_INFO"] = userInfo;
+
 
                     // TODO: Review user permission code
                     //string[] authorization = service.GetUserPermissions(service.GetUserInfo(model.UserName).UserAccountId, "Administrator", "Manage User Account");
