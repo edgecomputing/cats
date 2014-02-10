@@ -253,6 +253,58 @@ namespace Cats.Services.Transaction
               return result;
         }
 
+        public bool PostDonationPlan(DonationPlanHeader donationPlanHeader)
+        {
+            var transactionGroup = Guid.NewGuid();
+            var transactionDate = DateTime.Now;
+
+            _unitOfWork.TransactionGroupRepository.Add(new TransactionGroup()
+            {
+                PartitionID = 0,
+                TransactionGroupID = transactionGroup
+            });
+
+            foreach (var donationPlanDetail in donationPlanHeader.DonationPlanDetails)
+            {
+                var transaction = new Models.Transaction
+                                      {
+                                          TransactionID = Guid.NewGuid(),
+                                          ProgramID = donationPlanHeader.ProgramID,
+                                          DonorID = donationPlanHeader.DonorID,
+                                          CommoditySourceID = 1,
+                                          QuantityInMT = donationPlanDetail.AllocatedAmount,
+                                          TransactionGroupID = transactionGroup,
+                                          TransactionDate = transactionDate,
+                                          CommodityID = donationPlanHeader.CommodityID,
+                                          ShippingInstructionID = donationPlanHeader.ShippingInstructionId,
+                                          HubID = donationPlanDetail.HubID
+                                      };
+
+                _unitOfWork.TransactionRepository.Add(transaction);
+
+
+                transaction= new Models.Transaction
+                                 {
+                                     TransactionID = Guid.NewGuid(),
+                                     ProgramID = donationPlanHeader.ProgramID,
+                                     DonorID = donationPlanHeader.DonorID,
+                                     CommoditySourceID = 1,
+                                     QuantityInMT = donationPlanDetail.AllocatedAmount,
+                                     TransactionGroupID = transactionGroup,
+                                     TransactionDate = transactionDate,
+                                     CommodityID = donationPlanHeader.CommodityID,
+                                     ShippingInstructionID = donationPlanHeader.ShippingInstructionId,
+                                     HubID = donationPlanDetail.HubID
+                                 };
+
+                _unitOfWork.TransactionRepository.Add(transaction);
+            }
+
+            _unitOfWork.Save();
+            return true;
+
+        }
+
 
         public bool PostGiftCertificate(int giftCertificateId)
         {
@@ -261,7 +313,10 @@ namespace Cats.Services.Transaction
 
             var transactionGroup = Guid.NewGuid();
             var transactionDate = DateTime.Now;
-            _unitOfWork.TransactionGroupRepository.Add(new TransactionGroup() { PartitionID = 0, TransactionGroupID = transactionGroup });
+            _unitOfWork.TransactionGroupRepository.Add(new TransactionGroup()
+                                                           {
+                                                               PartitionID = 0, TransactionGroupID = transactionGroup
+                                                           });
             foreach (var giftCertificateDetail in giftCertificate.GiftCertificateDetails)
             {
                 var transaction = new Models.Transaction();
