@@ -59,7 +59,7 @@ namespace Cats.Areas.Logistics.Models
         public string ProjectCode { get; set; }
         public int ProgramID { get; set; }
         public int ShippingInstractionID { get; set; }
-        public int PurchaseOrder { get; set; }
+        public string PurchaseOrder { get; set; }
         public string SupplierName { get; set; }
         public decimal Quantity { get; set; }
         public string CommoditySource { get; set; }

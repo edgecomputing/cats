@@ -79,7 +79,6 @@ namespace Cats.Areas.Logistics
                     };
                 return View(localPurchaseWithDetailViewModel);
             }
-            ModelState.AddModelError("Errors",@"Unable to Display Local Purchase Information!");
             return RedirectToAction("Index");
         }
         public ActionResult SaveLocalPurchase(LocalPurchaseWithDetailViewModel localPurchaseWithDetailViewModel)

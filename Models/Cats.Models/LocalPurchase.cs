@@ -22,7 +22,7 @@ namespace Cats.Models
        public int ProgramID { get; set; }
        public decimal Quantity { get; set; }
        public DateTime DateCreated { get; set; }
-       public int PurchaseOrder { get; set; }
+       public string PurchaseOrder { get; set; }
        public string SupplierName { get; set; }
        public string ReferenceNumber { get; set; }
        public int StatusID { get; set; }
