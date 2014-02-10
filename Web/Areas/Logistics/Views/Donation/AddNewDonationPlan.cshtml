@@ -128,7 +128,7 @@
           .Name("grid")
           .Columns(columns =>
                        {
-                           columns.Bound(p => p.HubID).Title("Hub").Width(100).ClientTemplate("#= HubID #" +
+                           columns.Bound(p => p.HubID).Title("Hub").Width(100).Hidden(true).ClientTemplate("#= HubID #" +
                     "<input type='hidden' name='DonationPlanDetails[#= index(data)#].HubID' value='#= HubID #' />");
                            columns.Bound(p => p.Hub).Title("Hub").Width(100).ClientTemplate("#= Hub #" +
                    "<input type='hidden' name='DonationPlanDetails[#= index(data)#].Hub' value='#= Hub #' />");
