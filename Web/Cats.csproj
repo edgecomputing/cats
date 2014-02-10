@@ -479,16 +479,20 @@
     <Compile Include="Areas\Logistics\Controllers\LogisticsStockStatusController.cs" />
     <Compile Include="Areas\Logistics\Controllers\TransportRequisitionController.cs" />
     <Compile Include="Areas\Logistics\Controllers\WoredaStockDistributionController.cs" />
+    <Compile Include="Areas\Logistics\LocalPurchaseController.cs" />
     <Compile Include="Areas\Logistics\LogisticsAreaRegistration.cs" />
     <Compile Include="Areas\Logistics\Models\ActionLink.cs" />
     <Compile Include="Areas\Logistics\Models\AssignHubViewModel.cs" />
     <Compile Include="Areas\Logistics\Models\DistributionByAgeDetailViewModel.cs" />
+    <Compile Include="Areas\Logistics\Models\DonationDetail.cs" />
     <Compile Include="Areas\Logistics\Models\DonationDetailViewModel.cs" />
     <Compile Include="Areas\Logistics\Models\DonationHeaderViewModel.cs" />
     <Compile Include="Areas\Logistics\Models\DeliveryDetailViewModel.cs" />
     <Compile Include="Areas\Logistics\Models\DeliveryViewModel.cs" />
+    <Compile Include="Areas\Logistics\Models\DonationViewModel.cs" />
     <Compile Include="Areas\Logistics\Models\FreeStockStatusViewModel.cs" />
     <Compile Include="Areas\Logistics\Models\FreeStockSummaryModel.cs" />
+    <Compile Include="Areas\Logistics\Models\LocalPurchaseDetailViewModel.cs" />
     <Compile Include="Areas\Logistics\Models\ReceiptAllocationViewModel.cs" />
     <Compile Include="Areas\Logistics\Models\GRNViewModel.cs" />
     <Compile Include="Areas\Logistics\Models\SIAllocation.cs" />
@@ -1033,6 +1037,12 @@
     <Content Include="Content\bootstrap-responsive.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\images\CATS.png" />
+    <Content Include="Content\Login\App.css" />
+    <Content Include="Content\Login\bootstrap.min.css" />
+    <Content Include="Content\Login\bootstrab.min.js" />
+    <Content Include="Content\Login\Login.js" />
+    <Content Include="Content\Login\Login.css" />
     <Content Include="Content\css\custom-theme\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\css\custom-theme\images\ui-bg_flat_10_aaaaaa_40x100.png" />
     <Content Include="Content\css\custom-theme\images\ui-bg_flat_75_ffffff_40x100.png" />
@@ -1227,6 +1237,7 @@
     <Content Include="Content\kendo\2013.1.319\Uniform\slider-v.gif" />
     <Content Include="Content\kendo\2013.1.319\Uniform\sprite%402x.png" />
     <Content Include="Content\kendo\2013.1.319\Uniform\sprite.png" />
+    <Content Include="Content\Login\App.js" />
     <Content Include="Content\ng-grid.css" />
     <Content Include="Content\ng-table.css" />
     <Content Include="Content\PrintReport.css" />
@@ -1679,6 +1690,7 @@
     <Content Include="Areas\Logistics\Views\WoredaStockDistribution\_DistributionByBeneficiary.cshtml" />
     <Content Include="Areas\Logistics\Views\WoredaStockDistribution\Create.cshtml" />
     <Content Include="Areas\Logistics\Views\WoredaStockDistribution\_LeftBar.cshtml" />
+    <Content Include="Areas\Logistics\Views\LocalPurchase\Create.cshtml" />
     <None Include="dataset.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>dataset.Designer.cs</LastGenOutput>

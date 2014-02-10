@@ -164,8 +164,14 @@ namespace Cats.Data.UnitWork
         //IGenericRepository<TransportBidQuotationHeader> TransportbidQuotationHeaderRepository { get; } 
         IGenericRepository<ReceiptAllocation> ReceiptAllocationRepository { get; }
         IGenericRepository<ReceiptPlan> ReceiptPlanRepository { get; }
-        IGenericRepository<ReceiptPlanDetail> ReceiptPlanDetailRepository { get; } 
-       
+        IGenericRepository<ReceiptPlanDetail> ReceiptPlanDetailRepository { get; }
+
+        IGenericRepository<DonationPlanHeader> DonationPlanHeaderRepository { get; }
+        IGenericRepository<DonationPlanDetail> DonationPlanDetailRepository { get; } 
+
+        IGenericRepository<LocalPurchase> LocalPurchaseRepository { get;}
+        IGenericRepository<LocalPurchaseDetail> LocalPurchaseDetailRepository { get; } 
+
         void Save();
 
     }

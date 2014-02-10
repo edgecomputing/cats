@@ -428,6 +428,8 @@ namespace Cats.Data.UnitWork
 
         }
 
+        
+
         public void Save()
         {
             try
@@ -941,7 +943,24 @@ namespace Cats.Data.UnitWork
             }
 
         }
-            
+
+        private IGenericRepository<DonationPlanHeader> _donationPlanHeaderRepository; 
+        public IGenericRepository<DonationPlanHeader> DonationPlanHeaderRepository
+        {
+            get
+            {
+                return this._donationPlanHeaderRepository ?? (this._donationPlanHeaderRepository = new GenericRepository<DonationPlanHeader>(_context));
+            }
+        }
+
+        private IGenericRepository<DonationPlanDetail> _donationPlanDetailRepository;
+        public IGenericRepository<DonationPlanDetail> DonationPlanDetailRepository
+        {
+            get
+            {
+                return this._donationPlanDetailRepository ?? (this._donationPlanDetailRepository = new GenericRepository<DonationPlanDetail>(_context));
+            }
+        }
 
         private IGenericRepository<SupportType> _supportTypeRepository; 
         public IGenericRepository<SupportType> SupportTypeRepository
@@ -952,8 +971,24 @@ namespace Cats.Data.UnitWork
             }
         }
 
+        private IGenericRepository<LocalPurchase> _localPurchaseRepositiry;
+        public IGenericRepository<LocalPurchase> LocalPurchaseRepository
+        {
+            get 
+            { 
+                return this._localPurchaseRepositiry ?? (this._localPurchaseRepositiry = new GenericRepository<LocalPurchase>(_context));
+            }
+        }
 
-      
+        private IGenericRepository<LocalPurchaseDetail> _localPurchaseDetilRepository;
+        public IGenericRepository<LocalPurchaseDetail> LocalPurchaseDetailRepository
+        {
+            get
+            {
+                return this._localPurchaseDetilRepository ??
+                       (this._localPurchaseDetilRepository = new GenericRepository<LocalPurchaseDetail>(_context));
+            }
+        }
 
     }
 }

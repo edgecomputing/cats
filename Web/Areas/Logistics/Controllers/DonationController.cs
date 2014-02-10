@@ -4,18 +4,18 @@ using System.Linq;
 using System.Web.Mvc;
 using Cats.Areas.Logistics.Models;
 using Cats.Models;
-using Cats.Models.Hubs;
 using Cats.Services.Hub;
 using Cats.Services.Logistics;
-using Cats.Services.Security;
 using Cats.ViewModelBinder;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
-using CommonService = Cats.Services.Common.CommonService;
+using GiftCertificateService = Cats.Services.EarlyWarning.GiftCertificateService;
+using ICommodityService = Cats.Services.EarlyWarning.ICommodityService;
 using ICommodityTypeService = Cats.Services.EarlyWarning.ICommodityTypeService;
-using IDonorService = Cats.Services.EarlyWarning.IDonorService;
+using ICommonService = Cats.Services.Common.ICommonService;
 using IHubService = Cats.Services.EarlyWarning.IHubService;
-using IProgramService = Cats.Services.EarlyWarning.IProgramService;
+using IShippingInstructionService = Cats.Services.EarlyWarning.IShippingInstructionService;
+
 
 namespace Cats.Areas.Logistics.Controllers
 {
@@ -23,49 +23,37 @@ namespace Cats.Areas.Logistics.Controllers
     {
         //
         // GET: /Logistics/Donation/
-        private readonly IReceiptPlanService _receiptPlanService;
-        private readonly IReceiptPlanDetailService _receiptPlanDetailService;
+        
         private readonly IReceiptAllocationService _receiptAllocationService;
-        private readonly IUserAccountService _userAccountService;
         private readonly GiftCertificateService _giftCertificateService;
-        private readonly Cats.Services.Hub.ICommodityService _commodityService;
-        private readonly Cats.Services.Hub.ICommodityTypeService _commodityTypeService;
-        private readonly Cats.Services.Hub.IProgramService _programService;
-        private readonly Cats.Services.Hub.IDonorService _donorService;
-        private readonly Cats.Services.Hub.IHubService _hubService;
-        private readonly CommonService _commonService;
+        private readonly ICommodityService _commodityService;
+        private readonly ICommodityTypeService _commodityTypeService;
+        private readonly IHubService _hubService;
+        private readonly ICommonService _commonService;
         private readonly IShippingInstructionService _shippingInstructionService;
-        private readonly IGiftCertificateDetailService _giftCertificateDetailService;
-        private readonly ICommoditySourceService _commoditySourceService;
-       
+        private readonly IDonationPlanHeaderService _donationPlanHeaderService;
+        private readonly IDonationPlanDetailService _donationPlanDetailService;
+
         public DonationController(
             IReceiptAllocationService receiptAllocationService,
-         IUserAccountService userAccountService,
-         Cats.Services.Hub.ICommodityService commodityService, 
-          CommonService commonService, 
+            ICommodityService commodityService,
+            ICommonService commonService,
             IShippingInstructionService shippingInstructionService, 
-            IGiftCertificateDetailService giftCertificateDetailService, 
-            ICommoditySourceService commoditySourceService, GiftCertificateService giftCertificateService, Services.Hub.IDonorService donorService, Services.Hub.IProgramService programService, Services.Hub.ICommodityTypeService commodityTypeService, Services.Hub.IHubService hubService, IReceiptPlanDetailService receiptPlanDetailService, IReceiptPlanService receiptPlanService)
+            GiftCertificateService giftCertificateService, 
+            ICommodityTypeService commodityTypeService, 
+            IHubService hubService, 
+            IDonationPlanDetailService donationPlanDetailService, 
+            IDonationPlanHeaderService donationPlanHeaderService)
         {
             _receiptAllocationService = receiptAllocationService;
-          
-            _userAccountService = userAccountService;
             _commodityService = commodityService;
-           
-          
-          
-         
             _commonService = commonService;
             _shippingInstructionService = shippingInstructionService;
-            _giftCertificateDetailService = giftCertificateDetailService;
-            _commoditySourceService = commoditySourceService;
-            _giftCertificateService = giftCertificateService;
-            _donorService = donorService;
-            _programService = programService;
+           _giftCertificateService = giftCertificateService;
             _commodityTypeService = commodityTypeService;
             _hubService = hubService;
-            _receiptPlanDetailService = receiptPlanDetailService;
-            _receiptPlanService = receiptPlanService;
+            _donationPlanDetailService = donationPlanDetailService;
+            _donationPlanHeaderService = donationPlanHeaderService;
         }
 
         public ActionResult Index()
@@ -74,23 +62,13 @@ namespace Cats.Areas.Logistics.Controllers
             return View();
         }
 
-        public ActionResult ReadReceiptPlan([DataSourceRequest] DataSourceRequest request, int receiptID = -1)
+        public ActionResult ReadDonationPlan([DataSourceRequest] DataSourceRequest request)
         {
             try
             {
-                List<ReceiptPlan> receipts=null;
-                if (receiptID != -1)
-                {
-                    receipts = _receiptPlanService.GetAllReceiptPlan().Where(r => r.IsClosed == false && r.ReceiptHeaderId == receiptID).ToList();
-                    if(receipts.Count < 1)
-                        receipts = _receiptPlanService.GetAllReceiptPlan().Where(r => r.IsClosed == false).ToList();
-                }
-                else
-                {
-                   receipts = _receiptPlanService.GetAllReceiptPlan().Where(r => r.IsClosed == false).ToList();
-                }
-                 
-                var receiptViewModel = ReceiptPlanViewModelBinder.GetReceiptHeaderPlanViewModel(receipts);
+                List<DonationPlanHeader> donationHeader = null;
+                donationHeader = _donationPlanHeaderService.GetAllDonationPlanHeader().Where(r => r.IsCommited == false).ToList();
+                var receiptViewModel = ReceiptPlanViewModelBinder.GetReceiptHeaderPlanViewModel(donationHeader);
                 return Json(receiptViewModel.ToList().ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
 
             }
@@ -102,195 +80,443 @@ namespace Cats.Areas.Logistics.Controllers
             }
         }
 
-        public ActionResult ReadReceiptPlanDetail([DataSourceRequest] DataSourceRequest request, int receiptID = -1)
-        {
-           List<ReceiptPlanDetail> receiptDetails = null;
-            if (receiptID != -1)
-            {
-                receiptDetails = _receiptPlanDetailService.FindBy(r => r.ReceiptHeaderId == receiptID).ToList();
-                if (receiptDetails.Count <1)
-                    receiptDetails = _receiptPlanDetailService.GetNewReceiptPlanDetail(); 
-            }
-            else
-            {
-                receiptDetails = _receiptPlanDetailService.GetNewReceiptPlanDetail(); 
-            }
-            
-            var receiptPlanDetailViewModel = ReceiptPlanViewModelBinder.GetDonationDetailViewModel(receiptDetails);
-            return Json(receiptPlanDetailViewModel.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
-        }
+       
 
-        public ActionResult ReadReceiptAllocation([DataSourceRequest] DataSourceRequest request)
+       
+
+        public ActionResult AddNewDonationPlan(string siNumber = null,int typeOfLoad =1)
         {
             try
             {
-                var user = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name);
-                List<Cats.Models.Hubs.ReceiptAllocation> list = _receiptAllocationService.GetUnclosedAllocationsDetached(3,1,false,user.PreferedWeightMeasurment,1);
-                var receiptViewModel = ReceiptAllocationViewModelBinder.BindReceiptAllocationViewModel(list);
-                return Json(receiptViewModel.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception ex)
+
+           if (siNumber!=null)
             {
-                return null;
 
-            }
-        }
-
-        public ActionResult AddNewDonationPlan(string siNumber = null)
-        {
-
-            if (siNumber!=null)
-            {
-                DonationHeaderViewModel receipt = null;
-                var user = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name);
-                var giftCertificateDetails =
-                    _giftCertificateDetailService.GetAllGiftCertificateDetail().Where(
-                        d => d.GiftCertificate.ShippingInstruction.Value == siNumber).ToList();
-                if (giftCertificateDetails != null)
+                if (typeOfLoad == 1)
                 {
-                    foreach (var gcertificateDetail in giftCertificateDetails)
-                    {
-
-
-
-                        receipt = new DonationHeaderViewModel()
-                                      {
-                                          ETA = gcertificateDetail.GiftCertificate.ETA,
-                                          Program = gcertificateDetail.GiftCertificate.Program.Name,
-                                          Donor = gcertificateDetail.GiftCertificate.Donor.Name,
-                                          Commodity = gcertificateDetail.Commodity.Name,
-                                          CommodityType = gcertificateDetail.Commodity.CommodityType.Name,
-                                          GiftCertificateDetailId = gcertificateDetail.GiftCertificateDetailID,
-                                          WieghtInMT = gcertificateDetail.WeightInMT
-                                      };
-                        break;
-
-                    }
-
-                    return View(receipt);
-
+                    return View(LoadFromGiftCertificiate(siNumber));
                 }
+
+                var siId = _shippingInstructionService.GetShipingInstructionId(siNumber);
+                return View(LoadFromDonation(siId));
             }
-             var model = new DonationHeaderViewModel();
-             return View(model);
+
+            var model = InitDonationViewModel();
+            return View(model);
+            }
+            catch (Exception)
+            {
+
+                return null;
+            }
         }
 
-            [HttpPost]
-        public ActionResult AddNewDonationPlan(Cats.Models.Hubs.ReceiptAllocationViewModel receiptAllocationViewModel)
-        {
 
-            ModelState.Remove("SourceHubID");
-            ModelState.Remove("SupplierName");
-            ModelState.Remove("PurchaseOrder");
+
+        public DonationViewModel LoadFromGiftCertificiate(string siNumber)
+        {
+            var donationViewModel = InitDonationViewModel();
+
+
+            var giftCertificate = _giftCertificateService.GetAllGiftCertificate().SingleOrDefault(d => d.ShippingInstruction.Value == siNumber);
+            if (giftCertificate != null)
+            {
+                donationViewModel.Commodities.Clear();
+                donationViewModel.Donors.Clear();
+                donationViewModel.Programs.Clear();
+
+
+
+                foreach (Cats.Models.GiftCertificateDetail giftCertificateDetail in giftCertificate.GiftCertificateDetails)
+                {
+                    donationViewModel.Commodities.Add(giftCertificateDetail.Commodity);
+                }
+
+                donationViewModel.Donors.Add(giftCertificate.Donor);
+                donationViewModel.DonorID = giftCertificate.DonorID;
+                donationViewModel.Programs.Add(giftCertificate.Program);
+                donationViewModel.ProgramID = giftCertificate.ProgramID;
+                donationViewModel.GiftCertificateID = giftCertificate.GiftCertificateID;
+                donationViewModel.SINumber = siNumber;
+                donationViewModel.ETA = giftCertificate.ETA;
+
+
+
+                return donationViewModel;
+
+            }
+            return null;
+        }
+
+
+        private DonationViewModel LoadFromDonation(int shippinInstructionId)
+        {
+            var donation = _donationPlanHeaderService.FindBy(s => s.ShippingInstructionId == shippinInstructionId).SingleOrDefault();
+            if (donation != null)
+            {
+                int index = 0;
+               var detailList = new List<DonationViewModel>();
+                var donationViewModel = InitDonationViewModel();
+
+
+                donationViewModel.ETA = donation.ETA;
+                donationViewModel.CommodityID = donation.CommodityID;
+                donationViewModel.ProgramID = donation.ProgramID;
+                donationViewModel.DonorID = donation.DonorID;
+                donationViewModel.IsCommited = donation.IsCommited;
+                donationViewModel.GiftCertificateID = donation.GiftCertificateID;
+                donationViewModel.DonationHeaderPlanID = donation.DonationHeaderPlanID;
+                donationViewModel.AllocationDate = donation.AllocationDate;
+                donationViewModel.EnteredBy = donation.EnteredBy;
+                
+                donationViewModel.ShippingInstructionId = donation.ShippingInstructionId;
+                var list = donation.DonationPlanDetails.Select(detail => new DonationDetail
+                                                                             {
+                                                                                 HubID = detail.HubID, 
+                                                                                 Hub = detail.Hub.Name,
+                                                                                 AllocatedAmount = detail.AllocatedAmount,
+                                                                                 ReceivedAmount = detail.ReceivedAmount, 
+                                                                                 Balance = detail.Balance
+                                                                             }).ToList();
+
+
+                donationViewModel.DonationPlanDetails =  list;
+                
+                   
+                
+                return donationViewModel;
+            }
+            return null;
+        }
+
+            //[HttpPost]
+        //public ActionResult AddNewDonationPlan(Cats.Models.Hubs.ReceiptAllocationViewModel receiptAllocationViewModel)
+        //{
+
+        //    ModelState.Remove("SourceHubID");
+        //    ModelState.Remove("SupplierName");
+        //    ModelState.Remove("PurchaseOrder");
            
 
             
+        //    if (ModelState.IsValid)
+        //    {
+        //        var receiptAllocation = receiptAllocationViewModel.GenerateReceiptAllocation();
+                
+        //        if (receiptAllocationViewModel.GiftCertificateDetailID == 0 || receiptAllocationViewModel.GiftCertificateDetailID == null)
+        //        {
+        //            var shippingInstruction =_shippingInstructionService.FindBy(t => t.Value == receiptAllocationViewModel.SINumber).FirstOrDefault();
+        //            var gc = new Cats.Models.GiftCertificate();
+        //            if (shippingInstruction != null)
+        //                gc = _giftCertificateService.FindBySINumber(shippingInstruction.Value);
+
+        //            if (gc != null)
+        //            {
+        //                var gcd =gc.GiftCertificateDetails.FirstOrDefault(p => p.CommodityID == receiptAllocationViewModel.CommodityID);
+        //                if (gcd != null) 
+        //                {
+        //                    receiptAllocation.GiftCertificateDetailID = gcd.GiftCertificateDetailID;
+        //                }
+        //            }
+        //            else
+        //            {
+        //                receiptAllocation.GiftCertificateDetailID = null;
+        //            }
+        //        }
+               
+               
+
+        //        receiptAllocation.HubID = receiptAllocationViewModel.HubID;
+        //        receiptAllocation.CommoditySourceID =Cats.Models.Hubs.CommoditySource.Constants.DONATION;
+              
+        //        receiptAllocation.ReceiptAllocationID = Guid.NewGuid();
+        //        _receiptAllocationService.AddReceiptAllocation(receiptAllocation);
+
+        //        return RedirectToAction("Index");
+               
+                
+        //    }
+            
+
+        //    return RedirectToAction("Index");
+
+        //}
+        private DonationViewModel InitDonationViewModel()
+        {
+
+
+
+            var program = _commonService.GetPrograms().ToList();
+            var donor = _commonService.GetDonors().ToList();
+            var hub = _hubService.GetAllHub().ToList();
+            var commodityType = _commodityTypeService.GetAllCommodityType();
+            var commodity = _commodityService.GetAllCommodity();
+
+            var donationViewModel = new DonationViewModel(commodity, donor, hub, program, commodityType)
+                                        {
+                                            DonationPlanDetails = GetNewDonationDetail(),
+                                            ETA = DateTime.Now
+                                        };
+            return donationViewModel;
+        }
+
+
+        public ActionResult LoadBySi(string id)
+            {
+
+                var redirectUrl = new UrlHelper(Request.RequestContext).Action("AddNewDonationPlan", "Donation",new { Area = "Logistics", siNumber = id });
+                return Json(new {Url = redirectUrl});
+
+            }
+
+        private IEnumerable<DonationDetail> GetNewDonationDetail()
+        {
+            var hubs = _hubService.GetAllHub().Where(h => h.HubOwnerID == 1);
+            return hubs.Select(hub => new DonationDetail
+                                          {
+                                              HubID = hub.HubID, 
+                                              Hub = hub.Name, 
+                                              AllocatedAmount = 0, 
+                                              ReceivedAmount = 0, 
+                                              Balance = 0
+                                          }).ToList();
+        }
+
+        public ActionResult Save(DonationViewModel donationViewModel)
+        {
+
             if (ModelState.IsValid)
             {
-                var receiptAllocation = receiptAllocationViewModel.GenerateReceiptAllocation();
-                
-                if (receiptAllocationViewModel.GiftCertificateDetailID == 0 || receiptAllocationViewModel.GiftCertificateDetailID == null)
-                {
-                    var shippingInstruction =_shippingInstructionService.FindBy(t => t.Value == receiptAllocationViewModel.SINumber).FirstOrDefault();
-                    var gc = new Cats.Models.Hubs.GiftCertificate();
-                    if (shippingInstruction != null)
-                        gc = _giftCertificateService.FindBySINumber(shippingInstruction.Value);
 
-                    if (gc != null)
+
+                if (donationViewModel != null)
+                {
+                    var siId = DoesSIExistInShippingInstruction(donationViewModel.SINumber);
+                    if (siId != 0)
                     {
-                        var gcd =gc.GiftCertificateDetails.FirstOrDefault(p => p.CommodityID == receiptAllocationViewModel.CommodityID);
-                        if (gcd != null) 
+                        if (!DoesSIExistInDonationHeader(donationViewModel.SINumber))
                         {
-                            receiptAllocation.GiftCertificateDetailID = gcd.GiftCertificateDetailID;
+
+                            SaveNewDonationPlan(donationViewModel, siId);
+                        }
+                        else
+                        {
+
+                            UpdateDonationPlan(donationViewModel, siId);
                         }
                     }
                     else
                     {
-                        receiptAllocation.GiftCertificateDetailID = null;
+                        var si = InsertInToShippingInstructionTable(donationViewModel.SINumber);
+                            //first in shippins instruction table
+                        if (si != -1)
+                            SaveNewDonationPlan(donationViewModel, si); // second in doation table
                     }
+
+
                 }
-               
-               
-
-                receiptAllocation.HubID = receiptAllocationViewModel.HubID;
-                receiptAllocation.CommoditySourceID =Cats.Models.Hubs.CommoditySource.Constants.DONATION;
-              
-                receiptAllocation.ReceiptAllocationID = Guid.NewGuid();
-                _receiptAllocationService.AddReceiptAllocation(receiptAllocation);
-
                 return RedirectToAction("Index");
-               
-                
+
             }
-            
 
-            return RedirectToAction("Index");
-
-        }
-        private void PopulateLookup()
-        {
-           ViewBag.RegionID = new SelectList(_commonService.GetAminUnits(t => t.AdminUnitTypeID == 2), "AdminUnitID","Name");
-           ViewBag.ProgramId = new SelectList(_commonService.GetPrograms().Take(2), "ProgramID", "Name");
-           ViewBag.DonorID = new SelectList(_commonService.GetDonors(), "DonorId", "Name");
-           ViewBag.HubID = new SelectList(_hubService.GetAllHub(), "HubID", "Name");
-           ViewBag.CommodityTypeID = new SelectList(_commodityTypeService.GetAllCommodityType(), "CommodityTypeID", "Name");
-           ViewBag.CommodityID = new SelectList(_commodityService.GetAllCommodity(), "CommodityID", "Name");
-
+            var model = InitDonationViewModel();
+           return View("AddNewDonationPlan",model);
         }
 
-        public ActionResult LoadBySi(string id)
+        private bool SaveNewDonationPlan(DonationViewModel donationViewModel,int siId)
         {
-
-            var redirectUrl = new UrlHelper(Request.RequestContext).Action("AddNewDonationPlan", "Donation",
-                                                                          new { Area = "Logistics", siNumber = id });
-            return Json(new {Url = redirectUrl});
-
-        }
-
-        [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult SaveDonation([DataSourceRequest] DataSourceRequest request, [Bind(Prefix = "models")]IEnumerable<DonationDetailViewModel.DonationDetail> donationDetailViewModel, int id = -1)
-        {
-
-
-            var receiptDetailPlan = _receiptPlanService.FindBy(p => p.GiftCertificateDetailId == id).SingleOrDefault();
-
-             var user = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name);
-            var receiptPlanHeader = new ReceiptPlan
-                                        {
-                                            IsClosed = false, ReceiptDate = DateTime.Now, EnteredBy = user.UserProfileID
-                                        };
-
-            foreach (var donationDetail in donationDetailViewModel)
+            try
             {
-                var receiptDetail = new ReceiptPlanDetail
-                                        {
-                                            HubId = donationDetail.HubId,
-                                            Allocated = donationDetail.Allocated,
-                                            Received = donationDetail.Received,
-                                            Balance = donationDetail.Balance
-                                        };
 
-                receiptPlanHeader.GiftCertificateDetailId = id;
-                receiptDetail.ReceiptPlan = receiptPlanHeader;
-                _receiptPlanDetailService.AddReceiptPlanDetail(receiptDetail);
+           
+            var donationHeader = new DonationPlanHeader
+            {
+                AllocationDate = DateTime.Now,
+                CommodityID = donationViewModel.CommodityID,
+                DonorID = donationViewModel.DonorID,
+                ETA = donationViewModel.ETA,
+                IsCommited = false,
+                ProgramID = donationViewModel.ProgramID,
+                ShippingInstructionId = siId
+
+            };
+
+            foreach (var donationDetail in donationViewModel.DonationPlanDetails.Select(donationPlanDetail => new DonationPlanDetail
+                                                                                                                  {
+                                                                                                                      HubID = donationPlanDetail.HubID,
+                                                                                                                      AllocatedAmount = donationPlanDetail.AllocatedAmount,
+                                                                                                                      ReceivedAmount = donationPlanDetail.ReceivedAmount,
+                                                                                                                      Balance = donationPlanDetail.Balance,
+                                                                                                                      DonationPlanHeader = donationHeader
+                                                                                                                  }))
+            {
+                _donationPlanDetailService.AddDonationPlanDetail(donationDetail);
             }
+            return true;
+            }
+            catch (Exception)
+            {
 
-            return Json(donationDetailViewModel.ToDataSourceResult(request, ModelState));
+                return false;
+            }
         }
 
-        private Cats.Models.Hubs.ReceiptAllocationViewModel BindReceiptAllocaitonViewModel()
+        private bool UpdateDonationPlan(DonationViewModel donationViewModel, int shippinInstructionId)
         {
+            try
+            {
+                var index = 0;
+                var donation = _donationPlanHeaderService.FindBy(s => s.ShippingInstructionId == shippinInstructionId).SingleOrDefault();
+                
+                if (donation!=null)
+                {
+                    donation.AllocationDate = DateTime.Now;
+                    donation.CommodityID = donationViewModel.CommodityID;
+                    donation.DonorID = donationViewModel.DonorID;
+                    donation.ETA = donation.ETA;
+                    donation.IsCommited = false;
+                    donation.ProgramID = donationViewModel.ProgramID;
+                    donation.ShippingInstructionId = shippinInstructionId;
 
-            var commodities = _commodityService.GetAllCommodity().DefaultIfEmpty().OrderBy(o => o.Name).ToList();
-            var donors = _donorService.GetAllDonor().DefaultIfEmpty().OrderBy(o => o.Name).ToList();
-            var hubs = _hubService.GetAllHub();
-            
-            var programs = _programService.GetAllProgram().DefaultIfEmpty().OrderBy(o => o.Name).ToList();
-            var commoditySource = _commoditySourceService.GetAllCommoditySource().OrderBy(o => o.Name).ToList();
-            var commodityTypes = _commodityTypeService.GetAllCommodityType().OrderBy(o => o.Name).ToList();
-            var viewModel = new Cats.Models.Hubs.ReceiptAllocationViewModel(commodities, donors,hubs, programs,commoditySource, commodityTypes,null);
 
-            return viewModel;
+                    var detailArray = donationViewModel.DonationPlanDetails.ToArray();
+                    foreach (var donationPlanDetail in donation.DonationPlanDetails)
+                    {
+                        donationPlanDetail.AllocatedAmount = detailArray[index].AllocatedAmount;
+                        donationPlanDetail.ReceivedAmount = detailArray[index].ReceivedAmount;
+                        donationPlanDetail.Balance = detailArray[index].Balance;
+                        donationPlanDetail.HubID = detailArray[index].HubID;
+                        donationPlanDetail.DonationPlanHeader = donation;
+                        _donationPlanDetailService.EditDonationPlanDetail(donationPlanDetail);
+                    }
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception)
+            {
+
+                return false;
+            }
+        }
+        private int DoesSIExistInShippingInstruction(string siNumber)
+        {
+            try
+            {
+                var siId = _shippingInstructionService.GetShipingInstructionId(siNumber);
+                return siId;
+            }
+            catch (Exception)
+            {
+
+                return 0;
+            }
+        }
+
+        private Boolean DoesSIExistInDonationHeader(string siNumber)
+        {
+            try
+            {
+                var siId =
+                    _donationPlanHeaderService.FindBy(d => d.ShippingInstruction.Value == siNumber).SingleOrDefault();
+                if (siId == null)
+                    return false;
+                return true;
+            }
+            catch (Exception)
+            {
+
+                return false;
+            }
+        }
+
+        private int InsertInToShippingInstructionTable(string siNumber)
+        {
+            try
+            {
+                var shippingInstruction = new Cats.Models.ShippingInstruction();
+                shippingInstruction.Value = siNumber;
+                _shippingInstructionService.AddShippingInstruction(shippingInstruction);
+                return shippingInstruction.ShippingInstructionID;
+            }
+            catch (Exception)
+            {
+
+                return -1;
+            }
+        }
+
+
+
+
+        public bool TriggerReceive(int donationPlanId)
+        {
+            try
+            {
+                var donationDetail =
+                    _donationPlanDetailService.FindBy(r => r.DonationHeaderPlanID == donationPlanId).ToList();
+                    
+                foreach (var detail in donationDetail)
+                {
+                    var receiptAllocation = new Cats.Models.Hubs.ReceiptAllocation
+                                                {
+                                                    ReceiptAllocationID = Guid.NewGuid(),
+                                                    CommodityID =
+                                                        detail.DonationPlanHeader.CommodityID,
+                                                    IsCommited = false,
+                                                    ETA =
+                                                        detail.DonationPlanHeader.ETA,
+                                                    ProjectNumber = "12-12",
+                                                    SINumber =
+                                                        detail.DonationPlanHeader.ShippingInstruction.Value,
+                                                        
+                                                    QuantityInMT = detail.AllocatedAmount,
+                                                    HubID = detail.HubID,
+                                                    ProgramID =
+                                                        detail.DonationPlanHeader.ProgramID,
+                                                       
+                                                    GiftCertificateDetailID = detail.DonationPlanHeader.GiftCertificateID,
+                                                    CommoditySourceID = 1,
+                                                    IsClosed = false,
+                                                    PartitionID = 0
+                                                };
+
+                    _receiptAllocationService.AddReceiptAllocation(receiptAllocation);
+                }
+                return true;
+            }
+            catch (System.Data.Entity.Validation.DbEntityValidationException e)
+            {
+                var outputLines = new List<string>();
+                foreach (var eve in e.EntityValidationErrors)
+                {
+                    outputLines.Add(string.Format(
+                        "{0}: Entity of type \"{1}\" in state \"{2}\" has the following validation errors:",
+                        DateTime.Now, eve.Entry.Entity.GetType().Name, eve.Entry.State));
+                    outputLines.AddRange(eve.ValidationErrors.Select(ve => string.Format("- Property: \"{0}\", Error: \"{1}\"", ve.PropertyName, ve.ErrorMessage)));
+                }
+                // System.IO.File.AppendAllLines(@"c:\temp\errors.txt", outputLines);
+                throw;
+            }
+
+
+        }
+
+        public ActionResult CloseLocalPlan(int donationPlanHeaderId)
+        {
+            if (TriggerReceive(donationPlanHeaderId))
+            {
+                var donationHeader =
+                    _donationPlanHeaderService.FindBy(d => d.DonationHeaderPlanID == donationPlanHeaderId).
+                        SingleOrDefault();
+                if (donationHeader != null)
+                {
+                    donationHeader.IsCommited = true;
+                    _donationPlanHeaderService.EditDonationPlanHeader(donationHeader);
+                    return RedirectToAction("Index", "Receive", new { Area = "Hub" });
+                }
+            }
+            return null;
         }
 
     }

@@ -78,6 +78,8 @@ namespace Cats.Models.Security.Mapping
             this.Property(t => t.CaseTeam).HasColumnName("CaseTeam");
             this.Property(t => t.Keyboard).HasColumnName("Keyboard");
             this.Property(t => t.Disabled).HasColumnName("Disabled");
+            this.Property(t => t.DefaultHub).HasColumnName("DefaultHub");
+            this.Property(t => t.NumberOfLogins).HasColumnName("NumberOfLogins");
 
         }
     }

@@ -13,6 +13,10 @@
 {
     @Html.Partial("_AdminLeftBar")
 }
+<style>
+    .hubSelect {
+    }
+</style>
 
 <h4 class="page-header">Edit User Roles</h4>
 
@@ -35,35 +39,34 @@
 
             @*<div class="container">*@
 
-                <!-------->
-                <div id="content">
+            <!-------->
+            <div id="content">
 
-                    <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
-                        @for (int i = 0; i < Model.Applications.Count; i++)
-                        {
+                <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
+                    @for (int i = 0; i < Model.Applications.Count; i++)
+                    {
 
-                            if (i == 0)
-                            { 
-                            <li class="active"><a href="#@i-1" data-toggle="tab">@Model.Applications[i].ApplicationName</a></li>
-                            }
-                            else
-                            {
-                            <li><a href="#@i" data-toggle="tab">@Model.Applications[i].ApplicationName</a></li>
-                            }
+                        if (i == 0)
+                        { 
+                        <li class="active"><a href="#@i-1" data-toggle="tab">@Model.Applications[i].ApplicationName</a></li>
                         }
+                        else
+                        {
+                        <li><a href="#@i" data-toggle="tab">@Model.Applications[i].ApplicationName</a></li>
+                        }
+                    }
 
-                    </ul>
+                </ul>
 
-                    <div id="tab-content" class="tab-content">
+                <div id="tab-content" class="tab-content">
 
-                       
-                            @for(int j = 0; j < Model.Applications.Count; j++)
+                    @for (int j = 0; j < Model.Applications.Count; j++)
+                    {
+                        if (j == 0)
+                        {
+                        <div class="tab-pane active" id="@j-1">
+                            @for (int l = 0; l < Model.Applications[j].Roles.Count; l++)
                             {
-                                if(j == 0)
-                                {
-                                <div class="tab-pane active" id="@j-1">
-                                @for (int l = 0; l < Model.Applications[j].Roles.Count; l++)
-                                {
                                        
                                 <div>
                                     @Html.HiddenFor(m => m.Applications[j].ApplicationName, new { @class = "input-xlarge" })
@@ -71,33 +74,58 @@
                                     @Html.CheckBoxFor(m => m.Applications[j].Roles[l].IsChecked, new { @class = "input-xlarge" })
                                     @Html.DisplayFor(m => Model.Applications[j].Roles[l].RoleName, new { @class = "input-xlarge" })
                                 </div> 
-
-                                }
-                             </div> 
+                                    
+                                    
                             }
-                            else
+
+                        </div> 
+                        }
+                        else if (j == 2)
+                        {
+                        <div class="tab-pane" id="@j">
+                            @for (int k = 0; k < Model.Applications[j].Roles.Count; k++)
                             {
-                                <div class="tab-pane" id="@j">
-                                @for(int k = 0 ; k < Model.Applications[j].Roles.Count; k++)
-                                {
                                        
                                 <div>
                                     @Html.HiddenFor(m => m.Applications[j].ApplicationName, new { @class = "input-xlarge" })
-                                    @Html.HiddenFor(m=> m.Applications[j].Roles[k].RoleName, new { @class = "input-xlarge" })
-                                    @Html.CheckBoxFor(m => m.Applications[j].Roles[k].IsChecked, new { @class = "input-xlarge" })
+                                    @Html.HiddenFor(m => m.Applications[j].Roles[k].RoleName, new { @class = "input-xlarge" })
+                                    @Html.CheckBoxFor(m => m.Applications[j].Roles[k].IsChecked, new { @class = "hubSelect" })
                                     @Html.DisplayFor(m => Model.Applications[j].Roles[k].RoleName, new { @class = "input-xlarge" })
                                 </div> 
 
-                                }
-                             </div>    
                             }
+                            <div class="well" id="hubselection" style="display: none">
+                                <!-- Text input-->
+                                <div class="control-group">
+                                    <label class="control-label">Default Hub:</label>
+                                    <div class="controls">
+                                        @Html.DropDownList("Hub", ViewBag.hubs as SelectList,new {@class="controls span10"})
+                                    </div>
+                                </div>
+                            </div>
+                        </div>    
+                            
+                        }
+
+                        else
+                        {
+                        <div class="tab-pane" id="@j">
+                            @for (int k = 0; k < Model.Applications[j].Roles.Count; k++)
+                            {
+                                <div>
+                                    @Html.HiddenFor(m => m.Applications[j].ApplicationName, new { @class = "input-xlarge" })
+                                    @Html.HiddenFor(m => m.Applications[j].Roles[k].RoleName, new { @class = "input-xlarge" })
+                                    @Html.CheckBoxFor(m => m.Applications[j].Roles[k].IsChecked, new { @class = "input-xlarge" })
+                                    @Html.DisplayFor(m => Model.Applications[j].Roles[k].RoleName, new { @class = "input-xlarge" })
+                                </div> 
                             }
-                        
-
-                    </div>
-
-
+                        </div>    
+                        }
+                    }
                 </div>
+
+
+            </div>
             @*</div>*@
         </div>
     </div>
@@ -113,3 +141,30 @@
         </div>
     </div>
 }
+
+<script>
+    $(".hubSelect").on("click", function () {
+        var n = $("input.hubSelect:checked ").length;
+
+        if (n >= 1) {
+            $("#hubselection").show("slow");
+           
+        } else {
+            $("#hubselection").hide("slow");
+        }
+    });
+</script>
+
+<script type="text/javascript">
+    $(function () {
+
+        var n = $("input.hubSelect:checked ").length;
+
+        if (n >= 1) {
+            $("#hubselection").show("slow");
+
+        } else {
+            $("#hubselection").hide("slow");
+        }
+    });
+</script>

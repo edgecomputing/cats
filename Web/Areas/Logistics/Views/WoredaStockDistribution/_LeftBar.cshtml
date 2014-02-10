@@ -65,7 +65,7 @@
         </div>
         <div class="control-group">
             <div class="control-label">
-                @Html.Label(Translator.Translate("Month"))
+                @Html.Label(Translator.Translate("Month /Round"))
             </div>
             <div class="controls">
                 <select id="month" name="month"></select>
@@ -161,7 +161,7 @@
         });
         $("#PlanID").change(function() {
 
-            $.getJSON('/WoredaStockDistribution/GetMonth/' + $("#PlanID").val(), function(data) {
+            $.getJSON("@Url.Action("GetMonth", "WoredaStockDistribution")" + "?id=" + $("#PlanID").val() + "&zoneID=" + $("#ZoneID").val(), function (data) {
                 var months = '<option> Select Month </option>';
                 $.each(data, function(i, m) {
                     months += "<option value='" + m.Value + "'>" + m.Text + "</option>";
