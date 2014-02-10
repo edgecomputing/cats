@@ -22,13 +22,14 @@
                       columns.Bound(m => m.Commodity).Width(200).Title(Translator.Translate("Commodity"));
                       columns.Bound(m => m.ReferenceNumber).Title("Reference Number");
                       columns.Bound(m => m.Quantity).HtmlAttributes(new {align = "right"});
-                      // columns.Bound(m => m.CreatedDate).Title("Created Date");
+                      columns.Bound(m => m.Status).Title("Status");
 
                   }
 
               )
 
               .Navigatable()
+              .HtmlAttributes(new { style = "height:430px;" })
               .DataSource(dataSource => dataSource
                                             .Ajax()
                                             .Model(model =>model.Id(m=>m.LocalPurchaseID))

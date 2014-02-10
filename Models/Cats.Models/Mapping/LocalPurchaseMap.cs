@@ -20,6 +20,7 @@ namespace Cats.Models.Mapping
            this.Property(t => t.LocalPurchaseID).HasColumnName("LocalPurchaseID");
            this.Property(t => t.GiftCertificateID).HasColumnName("GiftCertificateID");
            this.Property(t => t.ShippingInstructionID).HasColumnName("ShippingInstructionID");
+           this.Property(t => t.ProjectCode).HasColumnName("ProjectCode");
            this.Property(t => t.CommodityID).HasColumnName("CommodityID");
            this.Property(t => t.DonorID).HasColumnName("DonorID");
            this.Property(t => t.ProgramID).HasColumnName("ProgramID");

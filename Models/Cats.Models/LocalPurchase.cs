@@ -16,6 +16,7 @@ namespace Cats.Models
        public int LocalPurchaseID { get; set; }
        public int? GiftCertificateID { get; set; }
        public int ShippingInstructionID { get; set; }
+       public string ProjectCode { get; set; }
        public int CommodityID { get; set; }
        public int DonorID { get; set; }
        public int ProgramID { get; set; }

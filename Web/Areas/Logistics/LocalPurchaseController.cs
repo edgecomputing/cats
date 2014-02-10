@@ -66,12 +66,14 @@ namespace Cats.Areas.Logistics
                         ProgramID = localPurchase.ProgramID,
                         DonorID = localPurchase.DonorID,
                         CommodityID = localPurchase.DonorID,
+                        ProjectCode = localPurchase.ProjectCode,
                         SINumber = localPurchase.ShippingInstruction.Value,
                         ReferenceNumber = localPurchase.ReferenceNumber,
                         SupplierName = localPurchase.SupplierName,
                         PurchaseOrder = localPurchase.PurchaseOrder,
                         Quantity = localPurchase.Quantity,
-                        CommoditySource = "Local Purchase";
+                        StatusID = localPurchase.StatusID,
+                        CommoditySource = "Local Purchase",
                         LocalPurchaseDetailViewModels = GetLocalPurchaseDetail(localPurchase.LocalPurchaseDetails)
 
                     };
@@ -125,6 +127,7 @@ namespace Cats.Areas.Logistics
                     SupplierName = localPurchaseWithDetailViewModel.SupplierName,
                     Quantity = localPurchaseWithDetailViewModel.Quantity,
                     ReferenceNumber = localPurchaseWithDetailViewModel.ReferenceNumber,
+                    ProjectCode = localPurchaseWithDetailViewModel.ProjectCode,
                     StatusID = (int)LocalPurchaseStatus.Draft,
 
 
@@ -162,16 +165,18 @@ namespace Cats.Areas.Logistics
                 localPurchase.SupplierName = localPurchaseDetailViewModel.SupplierName;
                 localPurchase.Quantity = localPurchaseDetailViewModel.Quantity;
                 localPurchase.ReferenceNumber = localPurchaseDetailViewModel.ReferenceNumber;
-                var localPurchaseDetailsViewModel = localPurchaseDetailViewModel.LocalPurchaseDetailViewModels.ToArray();
-                foreach (var localPurchaseDetail in localPurchase.LocalPurchaseDetails)
-                {
-                    localPurchaseDetail.AllocatedAmount = localPurchaseDetailsViewModel[index].AllocatedAmonut;
-                    localPurchaseDetail.RecievedAmount = localPurchaseDetailsViewModel[index].RecievedAmonut;
-                    localPurchaseDetail.LocalPurchase = localPurchase;
-                    _localPurchaseDetailService.EditLocalPurchaseDetail(localPurchaseDetail);
-                    index++;
+                localPurchase.ProjectCode = localPurchaseDetailViewModel.ProjectCode;
+                _localPurchaseService.EditLocalPurchase(localPurchase);
+                //var localPurchaseDetailsViewModel = localPurchaseDetailViewModel.LocalPurchaseDetailViewModels.ToArray();
+                //foreach (var localPurchaseDetail in localPurchase.LocalPurchaseDetails)
+                //{
+                //    localPurchaseDetail.AllocatedAmount = localPurchaseDetailsViewModel[index].AllocatedAmonut;
+                //    localPurchaseDetail.RecievedAmount = localPurchaseDetailsViewModel[index].RecievedAmonut;
+                //    //localPurchaseDetail.LocalPurchase = localPurchase;
+                //    _localPurchaseDetailService.EditLocalPurchaseDetail(localPurchaseDetail);
+                //    index++;
 
-                }
+                //}
                 ModelState.AddModelError("Sucess",@"Local Purchase Sucessfully Updated");
                 return RedirectToAction("Details", new {id = localPurchase.LocalPurchaseID});
             }
@@ -224,6 +229,7 @@ namespace Cats.Areas.Logistics
                             ReferenceNumber = localPurchase.ReferenceNumber,
                             SiNumber = localPurchase.ShippingInstruction.Value,
                             Quantity = localPurchase.Quantity,
+                            ProjectCode = localPurchase.ProjectCode,
                             Status = _commonService.GetStatusName(WORKFLOW.LocalPUrchase, localPurchase.StatusID)
                             //CreatedDate = localPurchase.DateCreated,
                            
@@ -317,6 +323,17 @@ namespace Cats.Areas.Logistics
 
                 return -1;
             }
+        }
+        public ActionResult Approve(int id)
+        {
+            var localPurchase = _localPurchaseService.FindById(id);
+            if (localPurchase!=null)
+            {
+                //localPurchase.StatusID = (int) LocalPurchaseStatus.Approved;
+                _localPurchaseService.Approve(localPurchase);
+                return RedirectToAction("details", new {id = localPurchase.LocalPurchaseID});
+            }
+            return RedirectToAction("Index");
         }
     }
 }

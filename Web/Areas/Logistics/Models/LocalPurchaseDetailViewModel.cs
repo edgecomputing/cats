@@ -24,6 +24,7 @@ namespace Cats.Areas.Logistics.Models
         public string SiNumber { get; set; }
         public int ProgramID { get; set; }
         public string Program { get; set; }
+        public string ProjectCode { get; set; }
         public int DonorID { get; set; }
         public string DonorName { get; set; }
         public string SupplierName { get; set; }
@@ -55,6 +56,7 @@ namespace Cats.Areas.Logistics.Models
         public string SINumber { get; set; }
         public int CommodityID { get; set; }
         public int DonorID { get; set; }
+        public string ProjectCode { get; set; }
         public int ProgramID { get; set; }
         public int ShippingInstractionID { get; set; }
         public int PurchaseOrder { get; set; }
@@ -64,6 +66,7 @@ namespace Cats.Areas.Logistics.Models
         public string Remark { get; set; }
         public int CommodityTypeID { get; set; }
         public string ReferenceNumber { get; set; }
+        public int StatusID { get; set; }
         public IEnumerable<LocalPurchaseDetailViewModel> LocalPurchaseDetailViewModels { get; set; } 
     }
 }

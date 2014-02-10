@@ -17,6 +17,7 @@ namespace Cats.Services.Logistics
        List<LocalPurchase> GetAllLocalPurchase();
        List<LocalPurchase> FindBy(Expression<Func<LocalPurchase, bool>> predicate);
        List<Models.Hub> GetAllHub();
+       bool Approve(LocalPurchase  localPurchase);
 
 
    }

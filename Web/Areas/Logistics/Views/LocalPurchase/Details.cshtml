@@ -9,14 +9,29 @@
 
 @section Toolbar
 {
-    <a class="btn toolbar-btn " data-buttontype="btn_save" data-submittedform="frm_create_localPurchase" title="Save"></a>
-    <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="@Url.Action("Index", "LocalPurchase")" title="Cancel"></a>
+   
+   
+    <div class="btn-group" style="margin-right: 8px;">
+    <button class="btn dropdown-toggle " data-toggle="dropdown"> @Translator.Translate("Actions") 
+        <span class="caret"></span>
+    </button>
+         @if(Model.StatusID==1)
+         {
+             <ul class="dropdown-menu">
+           
+                 <li><a  href="@Url.Action("Approve", "LocalPurchase", new {id = Model.LocalPurchaseID})" >@Translator.Translate("Approve")</a></li>
+             </ul>
+              <a class="btn toolbar-btn " data-buttontype="btn_save" data-submittedform="frm_create_localPurchase" title="Save"></a>
+         }
+          <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="@Url.Action("Index", "LocalPurchase")" title="Cancel"></a>
+        
+    </div>
 }
 <h4>Recipt Plan From Local Purchase Detail </h4>
 
 @using (Html.BeginForm("UpdateLocalPurchase", "LocalPurchase", FormMethod.Post, new { id = "frm_create_localPurchase" }))
 {
-    @Html.HiddenFor(m=>m.LocalPurchaseID)
+    @Html.HiddenFor(m => m.LocalPurchaseID)
     <div class="form-horizontal well">
         <table border="0">
             <tr>
@@ -28,11 +43,11 @@
                     <div class="controls">
                         @(Html.Kendo().AutoComplete()
                               .Name("SINumber")
-                              .HtmlAttributes(new {style = "width:215px;"})
+                              .HtmlAttributes(new { style = "width:215px;" })
                               .Filter("startswith")
                               .Placeholder("Enter or Select SINumber...")
                               .DataSource(source => source.Read(read => read.Action("AutoCompleteSiNumber", "LocalPurchase").Data("onAdditionalData")).ServerFiltering(true))
-         
+
                               )
                     </div>
                 
@@ -55,7 +70,7 @@
                         @Html.Label(Translator.Translate("Commodity Source"))
                     </div>
                     <div class="controls">
-                        @Html.TextBoxFor(m => m.CommoditySource, new {Disabled = true})
+                        @Html.TextBoxFor(m => m.CommoditySource, new { Disabled = true })
                     </div>
                 
                 </td>
@@ -154,20 +169,20 @@
         @(Html.Kendo().Grid(Model.LocalPurchaseDetailViewModels)
               .Name("LocalPurchaseDetail")
               .Columns(columns =>
-                  {
-                      columns.Bound(m => m.HubID).Visible(false).ClientTemplate("#= HubID #" +
-                    "<input type='hidden' name='LocalPurchaseDetailViewModels[#= index(data)#].HubID' value='#= HubID #' />");
-                      columns.Bound(m => m.HubName).Title(Translator.Translate("Hub")).ClientTemplate("#= HubName #" +
-                   "<input type='hidden' name='LocalPurchaseDetailViewModels[#= index(data)#].HubName' value='#= HubName #' />");
-                      columns.Bound(m => m.AllocatedAmonut).Width(200).Title(Translator.Translate("Allocated Amonut")).HtmlAttributes(new {align = "right"})
-                      .ClientTemplate("#= AllocatedAmonut #" +
-                    "<input type='hidden' name='LocalPurchaseDetailViewModels[#= index(data)#].AllocatedAmonut' value='#= AllocatedAmonut #' />"); 
-                      columns.Bound(m => m.RecievedAmonut).Width(200).Title(Translator.Translate("Recieved Amount")).HtmlAttributes(new {align = "right"})
-                      .ClientTemplate("#= RecievedAmonut #" +
-                    "<input type='hidden' name='LocalPurchaseDetailViewModels[#= index(data)#].RecievedAmonut' value='#= RecievedAmonut #' />"); 
-                      columns.Bound(m => m.RemainingAmonut).Width(200).Title(Translator.Translate("Remaining Amonut")).HtmlAttributes(new {align = "right"});
+              {
+                  columns.Bound(m => m.HubID).Visible(false).ClientTemplate("#= HubID #" +
+                "<input type='hidden' name='LocalPurchaseDetailViewModels[#= index(data)#].HubID' value='#= HubID #' />");
+                  columns.Bound(m => m.HubName).Title(Translator.Translate("Hub")).ClientTemplate("#= HubName #" +
+               "<input type='hidden' name='LocalPurchaseDetailViewModels[#= index(data)#].HubName' value='#= HubName #' />");
+                  columns.Bound(m => m.AllocatedAmonut).Width(200).Title(Translator.Translate("Allocated Amonut")).HtmlAttributes(new { align = "right" })
+                  .ClientTemplate("#= AllocatedAmonut #" +
+                "<input type='hidden' name='LocalPurchaseDetailViewModels[#= index(data)#].AllocatedAmonut' value='#= AllocatedAmonut #' />");
+                  columns.Bound(m => m.RecievedAmonut).Width(200).Title(Translator.Translate("Recieved Amount")).HtmlAttributes(new { align = "right" })
+                  .ClientTemplate("#= RecievedAmonut #" +
+                "<input type='hidden' name='LocalPurchaseDetailViewModels[#= index(data)#].RecievedAmonut' value='#= RecievedAmonut #' />");
+                  columns.Bound(m => m.RemainingAmonut).Width(200).Title(Translator.Translate("Remaining Amonut")).HtmlAttributes(new { align = "right" });
 
-                  }
+              }
 
               )
 
@@ -176,13 +191,13 @@
               .DataSource(dataSource => dataSource
                                             .Ajax()
                                             .Model(model =>
-                                                {
-                                                    model.Id(p => p.LocalPurchaseDetailID);
-                                                    model.Field(p => p.HubName).Editable(false);
-                                                })
+                                            {
+                                                model.Id(p => p.LocalPurchaseDetailID);
+                                                model.Field(p => p.HubName).Editable(false);
+                                            })
 
-                                            .Read(read => read.Action("HubsLocalPurchaseDetail_Read", "LocalPurchase", new {localPurchaseID = Model.LocalPurchaseID}))
-              //.Update(update => update.Action("Commodity_Update", "Request"))
+                                            .Read(read => read.Action("HubsLocalPurchaseDetail_Read", "LocalPurchase", new { localPurchaseID = Model.LocalPurchaseID }))
+        //.Update(update => update.Action("Commodity_Update", "Request"))
               )
               )
     </div>
