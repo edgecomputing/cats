@@ -23,7 +23,9 @@ namespace Cats
     {
         protected void Application_Start()
         {
-           
+            // Clear all ViewEngines except Razor
+            ViewEngines.Engines.Clear(); 
+            ViewEngines.Engines.Add(new RazorViewEngine());
            
             AreaRegistration.RegisterAllAreas();
 
@@ -37,6 +39,9 @@ namespace Cats
 
             log4net.Config.XmlConfigurator.Configure();
             DependencyResolver.Current.GetService<ILogger>();
+
+            // EF Profiler
+            //HibernatingRhinos.Profiler.Appender.EntityFramework.EntityFrameworkProfiler.Initialize();
 
         }
         protected void Application_AuthenticateRequest(object sender, EventArgs e)
@@ -53,7 +58,7 @@ namespace Cats
 
         protected void Application_BeginRequest()
         {
-            if(Request.IsLocal)
+            if (Request.IsLocal)
             {
                 MiniProfiler.Start();
                 MiniProfilerEF.InitializeEF42();

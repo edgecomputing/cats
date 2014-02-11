@@ -63,6 +63,9 @@
     <Reference Include="FluentMigrator">
       <HintPath>..\packages\FluentMigrator.1.1.0.0\lib\40\FluentMigrator.dll</HintPath>
     </Reference>
+    <Reference Include="HibernatingRhinos.Profiler.Appender">
+      <HintPath>..\..\..\EntityFramework.Profiler-v2.0-Build-2229\HibernatingRhinos.Profiler.Appender.dll</HintPath>
+    </Reference>
     <Reference Include="Kendo.Mvc">
       <HintPath>..\lib\KENDOUIMVC\2013.1.319.340\Kendo.Mvc.dll</HintPath>
     </Reference>
@@ -481,10 +484,12 @@
     <Compile Include="Areas\Logistics\Models\ActionLink.cs" />
     <Compile Include="Areas\Logistics\Models\AssignHubViewModel.cs" />
     <Compile Include="Areas\Logistics\Models\DistributionByAgeDetailViewModel.cs" />
+    <Compile Include="Areas\Logistics\Models\DonationDetail.cs" />
     <Compile Include="Areas\Logistics\Models\DonationDetailViewModel.cs" />
     <Compile Include="Areas\Logistics\Models\DonationHeaderViewModel.cs" />
     <Compile Include="Areas\Logistics\Models\DeliveryDetailViewModel.cs" />
     <Compile Include="Areas\Logistics\Models\DeliveryViewModel.cs" />
+    <Compile Include="Areas\Logistics\Models\DonationViewModel.cs" />
     <Compile Include="Areas\Logistics\Models\FreeStockStatusViewModel.cs" />
     <Compile Include="Areas\Logistics\Models\FreeStockSummaryModel.cs" />
     <Compile Include="Areas\Logistics\Models\LocalPurchaseDetailViewModel.cs" />
@@ -1687,8 +1692,11 @@
     <Content Include="Areas\Logistics\Views\WoredaStockDistribution\_DistributionByBeneficiary.cshtml" />
     <Content Include="Areas\Logistics\Views\WoredaStockDistribution\Create.cshtml" />
     <Content Include="Areas\Logistics\Views\WoredaStockDistribution\_LeftBar.cshtml" />
+    <Content Include="Areas\Logistics\Views\LocalPurchase\Create.cshtml" />
+    <Content Include="Areas\Logistics\Views\LocalPurchase\Index.cshtml" />
     <Content Include="Areas\Regional\Views\Web.config" />
     <Content Include="Areas\Regional\Views\Home\Index.cshtml" />
+    <Content Include="Areas\Logistics\Views\LocalPurchase\Details.cshtml" />
     <None Include="dataset.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>dataset.Designer.cs</LastGenOutput>

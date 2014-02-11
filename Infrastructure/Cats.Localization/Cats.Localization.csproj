@@ -83,34 +83,24 @@
     <Compile Include="Data\UnitOfWork\UnitOfWork.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Exceptions\PageNotFoundException.cs" />
+    <Compile Include="Exceptions\TextNotFoundException.cs" />
     <Compile Include="Models\Language.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Models\LocalizedPagePhrase.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Models\LocalizedPhrase.cs">
+    <Compile Include="Models\LocalizedText.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Models\Mapping\LanguageMap.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Models\Mapping\LocalizedPagePhraseMap.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Models\Mapping\LocalizedPhraseMap.cs">
+    <Compile Include="Models\Mapping\LocalizedTextMap.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Models\Mapping\PageMap.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Models\Mapping\PhraseMap.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Models\Page.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Models\Phrase.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />

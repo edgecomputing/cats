@@ -10,7 +10,7 @@
 <fieldset>
     
         <legend>
-            Donation Plan
+            Receive Plan
         </legend>
     
 </fieldset>
@@ -20,12 +20,11 @@
     .Columns(columns =>
     {
         columns.Bound(p => p.SINumber).Title("SI Number").Width(100);
-        columns.Bound(p => p.Date).Title("Allocation Date").Width(100);
-       // columns.Bound(p => p.EnteredBy).Width(100);
-        columns.Bound(p => p.Program).Title("Program").Width(200);
-        columns.Bound(p => p.Donor).Title("Donor").Width(200);
-
-
+        columns.Bound(p => p.DateOfAllocation).Title("Allocation Date").Width(100);
+        columns.Bound(p => p.ProgramName).Title("Program").Width(200);
+        columns.Bound(p => p.DonorName).Title("Donor").Width(200);
+        columns.Bound(p => p.CommodityName).Title("Commodity").Width(200);
+       
         columns.Command(p =>
         {
             p.Custom("Edit").Click("Edit");
@@ -43,9 +42,9 @@
         .Ajax()
         .PageSize(20)
         .Events(events => events.Error("error_handler"))
-        .Model(model => model.Id(p => p.ReceiptHeaderId))
+        .Model(model => model.Id(p => p.DonationHeaderPlanID))
         .Create(update => update.Action("EditingInline_Create", "Grid"))
-        .Read(read => read.Action("ReadReceiptPlan", "Donation"))
+        .Read(read => read.Action("ReadDonationPlan", "Donation"))
         .Update(update => update.Action("EditingInline_Update", "Grid"))
         .Destroy(update => update.Action("EditingInline_Destroy", "Grid"))
     )
@@ -75,7 +74,7 @@
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
         var siNumber = dataItem["SINumber"];
         window.location = null;
-        window.location = "@Url.Action("AddNewDonationPlan", "Donation")" + "?siNumber=" + siNumber;
+        window.location = "@Url.Action("AddNewDonationPlan", "Donation")" + "?siNumber=" + siNumber + "&typeOfLoad=0";
     }
     
     $(function () {

@@ -83,6 +83,15 @@
     <Compile Include="Dispatch.cs" />
     <Compile Include="DispatchDetail.cs" />
     <Compile Include="DistributionByAgeDetail.cs" />
+
+    <Compile Include="DonationPlanDetail.cs" />
+    <Compile Include="DonationPlanHeader.cs" />
+    <!--<Compile Include="Mapping\DispatchDetailMap.cs" />
+    <Compile Include="Mapping\DispatchMap.cs" />
+    <Compile Include="Mapping\DistributionByAgeDetailMap.cs" />-->
+    <Compile Include="Mapping\DonationPlanDetailMap.cs" />
+    <Compile Include="Mapping\DonationPlanHeaderMap.cs" />
+
     <Compile Include="LocalPurchase.cs" />
     <Compile Include="LocalPurchaseDetail.cs" />
     <Compile Include="Mapping\DispatchDetailMap.cs" />
@@ -90,6 +99,7 @@
     <Compile Include="Mapping\DistributionByAgeDetailMap.cs" />
     <Compile Include="Mapping\LocalPurchaseDetailMap.cs" />
     <Compile Include="Mapping\LocalPurchaseMap.cs" />
+
     <Compile Include="Mapping\ReceiptPlanDetailMap.cs" />
     <Compile Include="Mapping\ReceiptPlanMap.cs" />
     <Compile Include="ReceiptPlan.cs" />

@@ -14,5 +14,10 @@ namespace Cats.Helpers
                 log.Error(eCurrent.Message);
             }
         }
+
+        public static void Log(Exception ex)
+        {
+            //TODO: Log incoming exception to log by appending current user information
+        }
     }
 }

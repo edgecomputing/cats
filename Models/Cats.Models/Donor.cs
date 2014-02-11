@@ -21,7 +21,7 @@ namespace Cats.Models
             this.Contributions = new List<Contribution>();
             this.HrdDonorCovarages = new List<HrdDonorCoverage>();
             this.ReceiptAllocations = new List<ReceiptAllocation>();
-           
+            this.DonationPlanHeaders = new List<DonationPlanHeader>();
            
         }
         public int DonorID { get; set; }
@@ -33,7 +33,7 @@ namespace Cats.Models
 
         public virtual ICollection<GiftCertificate> GiftCertificates { get; set; }
         public virtual ICollection<TransportOrderDetail> TransportOrderDetails { get; set; }
-
+        public virtual ICollection<DonationPlanHeader> DonationPlanHeaders { get; set; }
         public virtual ICollection<ReliefRequisitionDetail> ReliefRequisitionDetails { get; set; }
 
         public virtual ICollection<RegionalPSNPPledge> RegionalPSNPPledges { get; set; }
@@ -46,9 +46,9 @@ namespace Cats.Models
 
       //  public virtual ICollection<Distribution> Distributions { get; set; }
 
-     
-        
 
+
+        public virtual ICollection<LocalPurchase>   LocalPurchases  { get; set; }
         public virtual ICollection<Delivery> Deliveries { get; set; }
 
     }

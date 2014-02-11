@@ -55,6 +55,9 @@ using ShippingInstructionService = Cats.Services.EarlyWarning.ShippingInstructio
 using TransactionService = Cats.Services.Transaction.TransactionService;
 using TransporterService = Cats.Services.Procurement.TransporterService;
 using UnitService = Cats.Services.EarlyWarning.UnitService;
+using Cats.Localization;
+using Cats.Localization.Services;
+
 
 //using Cats.Services.Hub.Interfaces;
 //using Cats.Services.Hub;
@@ -145,10 +148,12 @@ namespace Cats.Infrastructure
             kernel.Bind<IRegionalPSNPPlanService>().To<RegionalPSNPPlanService>();
             kernel.Bind<IRegionalPSNPPlanDetailService>().To<RegionalPSNPPlanDetailService>();
 
-            kernel.Bind<ILocalizedTextService>().To<LocalizedTextService>();
-            kernel.Bind<ILanguageService>().To<LanguageService>();
+            //kernel.Bind<ILocalizedTextService>().To<LocalizedTextService>();
             //kernel.Bind<ILanguageService>().To<LanguageService>();
-            kernel.Bind<LanguageHelpers.Localization.Data.IUnitOfWork>().To<LanguageHelpers.Localization.Data.UnitOfWork>();
+            //kernel.Bind<LanguageHelpers.Localization.Data.IUnitOfWork>().To<LanguageHelpers.Localization.Data.UnitOfWork>();
+
+            kernel.Bind<Cats.Localization.Data.UnitOfWork.IUnitOfWork>().To<Cats.Localization.Data.UnitOfWork.UnitOfWork>();
+            kernel.Bind<ILocalizationService>().To<LocalizationService>();
 
             kernel.Bind<IGiftCertificateService>().To<GiftCertificateService>();
             kernel.Bind<IGiftCertificateDetailService>().To<GiftCertificateDetailService>();
@@ -238,6 +243,10 @@ namespace Cats.Infrastructure
             kernel.Bind<Cats.Services.EarlyWarning.ICommodityTypeService>().To<Cats.Services.EarlyWarning.CommodityTypeService>();
             kernel.Bind<IReceiptPlanService>().To<ReceiptPlanService>();
             kernel.Bind<IReceiptPlanDetailService>().To<ReceiptPlanDetailService>();
+            kernel.Bind<ILocalPurchaseService>().To<LocalPurchaseService>();
+            kernel.Bind<ILocalPurchaseDetailService>().To<LocalPurchaseDetailService>();
+            kernel.Bind<IDonationPlanDetailService>().To<DonationPlanDetailService>();
+            kernel.Bind<IDonationPlanHeaderService>().To<DonationPlanHeaderService>();
         }
         private void AddBindingsHub()
         {
