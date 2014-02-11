@@ -14,9 +14,10 @@ namespace Cats.Services.Logistics
        bool DeleteById(int id);
        bool EditLocalPurchase(LocalPurchase localPurchase);
        LocalPurchase FindById(int id);
-       List<LocalPurchase> GetAllEntity();
+       List<LocalPurchase> GetAllLocalPurchase();
        List<LocalPurchase> FindBy(Expression<Func<LocalPurchase, bool>> predicate);
        List<Models.Hub> GetAllHub();
+       bool Approve(LocalPurchase  localPurchase);
 
 
    }
