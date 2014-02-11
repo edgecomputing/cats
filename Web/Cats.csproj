@@ -2524,10 +2524,6 @@
       <Project>{7cf78855-5a90-441f-9acc-fafbd1cad68a}</Project>
       <Name>Cats.Data</Name>
     </ProjectReference>
-    <ProjectReference Include="..\EasyCats\Cats.EasyAccess.csproj">
-      <Project>{c4b246a0-a33f-426e-9ac1-823702069b2b}</Project>
-      <Name>Cats.EasyAccess</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Infrastructure\Cats.Localization\Cats.Localization.csproj">
       <Project>{097528f8-cfef-4a8f-9d6c-d2366af9583e}</Project>
       <Name>Cats.Localization</Name>
