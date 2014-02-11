@@ -271,6 +271,7 @@ namespace Cats.Areas.Logistics.Controllers
 
                         ModelState.AddModelError("Success", @"Distribution Information Successfully Saved");
                         LookUps(woredaStockDistribution);
+
                         //var distributionDetail = _utilizationDetailSerivce.FindBy(m => m.WoredaStockDistributionID == distributionHeader.WoredaStockDistributionID);
                         //distributionHeader.WoredaStockDistributionDetails = distributionDetail;
                         WoredaStockDistributionWithDetailViewModel woredaStockDistributionViewModel = GetWoredaStockDistributionFormDB(distributionHeader);

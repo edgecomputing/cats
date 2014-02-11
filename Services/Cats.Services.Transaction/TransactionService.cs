@@ -302,7 +302,10 @@ namespace Cats.Services.Transaction
                 _unitOfWork.TransactionRepository.Add(transaction);
             }
 
-            donationPlanHeader.TransactionGroupID = transactionGroup;
+            var donationHeader =
+                _unitOfWork.DonationPlanHeaderRepository.FindById(donationPlanHeader.DonationHeaderPlanID);
+            if (donationHeader!=null)
+                donationPlanHeader.TransactionGroupID = transactionGroup;
             _unitOfWork.Save();
             return true;
 
