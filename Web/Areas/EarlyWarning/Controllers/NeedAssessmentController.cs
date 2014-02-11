@@ -35,7 +35,9 @@ namespace Cats.Areas.EarlyWarning.Controllers
                                         INeedAssessmentHeaderService needAssessmentHeaderService,
                                         INeedAssessmentDetailService needAssessmentDetailService,
                                         ISeasonService seasonService, ITypeOfNeedAssessmentService typeOfNeedAssessmentService,
-                                        ILog log, IPlanService planService,ICommonService commonService)
+                                        ILog log, 
+                                        IPlanService planService,
+                                        ICommonService commonService)
         {
             _needAssessmentService = needAssessmentService;
             _adminUnitService = adminUnitService;

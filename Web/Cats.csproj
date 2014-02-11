@@ -2512,6 +2512,10 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Cats.Services.Dashboard\Cats.Services.Dashboard.csproj">
+      <Project>{e72bb7c7-71ac-4c26-9c91-8d29f086879e}</Project>
+      <Name>Cats.Services.Dashboard</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Data\Cats.Data.Hub\Cats.Data.Hub.csproj">
       <Project>{b311922a-4002-40b1-aa96-e005b6d436dd}</Project>
       <Name>Cats.Data.Hub</Name>
