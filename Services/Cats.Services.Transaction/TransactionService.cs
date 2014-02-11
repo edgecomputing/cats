@@ -253,7 +253,122 @@ namespace Cats.Services.Transaction
               return result;
         }
 
+        public bool PostDonationPlan(DonationPlanHeader donationPlanHeader)
+        {
+            var transactionGroup = Guid.NewGuid();
+            var transactionDate = DateTime.Now;
 
+            _unitOfWork.TransactionGroupRepository.Add(new TransactionGroup()
+            {
+                PartitionID = 0,
+                TransactionGroupID = transactionGroup
+            });
+
+            foreach (var donationPlanDetail in donationPlanHeader.DonationPlanDetails)
+            {
+                var transaction = new Models.Transaction
+                                      {
+                                          TransactionID = Guid.NewGuid(),
+                                          ProgramID = donationPlanHeader.ProgramID,
+                                          DonorID = donationPlanHeader.DonorID,
+                                          CommoditySourceID = 1,
+                                          QuantityInMT = donationPlanDetail.AllocatedAmount,
+                                          TransactionGroupID = transactionGroup,
+                                          TransactionDate = transactionDate,
+                                          CommodityID = donationPlanHeader.CommodityID,
+                                          ShippingInstructionID = donationPlanHeader.ShippingInstructionId,
+                                          HubID = donationPlanDetail.HubID,
+                                          LedgerID = 10
+                                      };
+
+                _unitOfWork.TransactionRepository.Add(transaction);
+
+
+                transaction= new Models.Transaction
+                                 {
+                                     TransactionID = Guid.NewGuid(),
+                                     ProgramID = donationPlanHeader.ProgramID,
+                                     DonorID = donationPlanHeader.DonorID,
+                                     CommoditySourceID = 1,
+                                     QuantityInMT = donationPlanDetail.AllocatedAmount,
+                                     TransactionGroupID = transactionGroup,
+                                     TransactionDate = transactionDate,
+                                     CommodityID = donationPlanHeader.CommodityID,
+                                     ShippingInstructionID = donationPlanHeader.ShippingInstructionId,
+                                     HubID = donationPlanDetail.HubID,
+                                     LedgerID = 4
+                                 };
+
+                _unitOfWork.TransactionRepository.Add(transaction);
+            }
+
+            var donationHeader =
+                _unitOfWork.DonationPlanHeaderRepository.FindById(donationPlanHeader.DonationHeaderPlanID);
+            if (donationHeader!=null)
+                donationPlanHeader.TransactionGroupID = transactionGroup;
+            _unitOfWork.Save();
+            return true;
+
+        }
+
+        public bool PostDistribution(int distributionId)
+        {
+            var woredaStcokDistribution = _unitOfWork.WoredaStockDistributionRepository.FindById(distributionId);
+            if (woredaStcokDistribution!=null)
+            {
+                var transactionGroup = Guid.NewGuid();
+                var transactionDate = DateTime.Now;
+
+                _unitOfWork.TransactionGroupRepository.Add(new TransactionGroup()
+                {
+                    PartitionID = 0,
+                    TransactionGroupID = transactionGroup
+                });
+
+                foreach (var woredaStockDistributionDetail in woredaStcokDistribution.WoredaStockDistributionDetails)
+                {
+                    var transaction = new Models.Transaction
+                    {
+
+                        TransactionID = Guid.NewGuid(),
+                        ProgramID = woredaStcokDistribution.ProgramID,
+                        QuantityInMT = woredaStockDistributionDetail.DistributedAmount,
+                        TransactionGroupID = transactionGroup,
+                        TransactionDate = transactionDate,
+                        FDPID = woredaStockDistributionDetail.FdpId,
+                        Month = woredaStcokDistribution.Month,
+                        
+                       LedgerID = 12
+                    };
+
+                    _unitOfWork.TransactionRepository.Add(transaction);
+
+
+
+                    transaction = new Models.Transaction
+                    {
+
+                        TransactionID = Guid.NewGuid(),
+                        ProgramID = woredaStcokDistribution.ProgramID,
+                        QuantityInMT = woredaStockDistributionDetail.DistributedAmount,
+                        TransactionGroupID = transactionGroup,
+                        TransactionDate = transactionDate,
+                        FDPID = woredaStockDistributionDetail.FdpId,
+                        Month = woredaStcokDistribution.Month,
+
+                        LedgerID = 18
+                    };
+
+                    _unitOfWork.TransactionRepository.Add(transaction);
+
+
+                }
+
+                woredaStcokDistribution.TransactionGroupID = transactionGroup;
+                _unitOfWork.Save();
+            }
+            return true;
+        }
         public bool PostGiftCertificate(int giftCertificateId)
         {
             var giftCertificate = _unitOfWork.GiftCertificateRepository.Get(t => t.GiftCertificateID == giftCertificateId, null,"GiftCertificateDetails").FirstOrDefault();
@@ -261,7 +376,10 @@ namespace Cats.Services.Transaction
 
             var transactionGroup = Guid.NewGuid();
             var transactionDate = DateTime.Now;
-            _unitOfWork.TransactionGroupRepository.Add(new TransactionGroup() { PartitionID = 0, TransactionGroupID = transactionGroup });
+            _unitOfWork.TransactionGroupRepository.Add(new TransactionGroup()
+                                                           {
+                                                               PartitionID = 0, TransactionGroupID = transactionGroup
+                                                           });
             foreach (var giftCertificateDetail in giftCertificate.GiftCertificateDetails)
             {
                 var transaction = new Models.Transaction();

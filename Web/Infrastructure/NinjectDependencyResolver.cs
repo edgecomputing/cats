@@ -17,6 +17,8 @@ using Cats.Services.Procurement;
 using Cats.Services.Logistics;
 using Cats.Services.PSNP;
 using Cats.Services.Common;
+using Cats.Services.Dashboard;
+
 using log4net;
 using Early_Warning.Security;
 using AdminUnitService = Cats.Services.EarlyWarning.AdminUnitService;
@@ -127,7 +129,7 @@ namespace Cats.Infrastructure
             kernel.Bind<IShippingInstructionService>().To<ShippingInstructionService>();
 
             kernel.Bind<ITransactionService>().To<TransactionService>();
-           // kernel.Bind<ITransactionService>().To<TransactionService>();
+            //kernel.Bind<ITransactionService>().To<TransactionService>();
             //kernel.Bind<ITransactionGroupService>().To<TransactionGroupService>();
             kernel.Bind<ITransportRequisitionService>().To<TransportRequisitionService>();
 
@@ -248,6 +250,7 @@ namespace Cats.Infrastructure
             kernel.Bind<IDonationPlanDetailService>().To<DonationPlanDetailService>();
             kernel.Bind<IDonationPlanHeaderService>().To<DonationPlanHeaderService>();
             kernel.Bind<ILoanReciptPlanService>().To<LoanReciptPlanService>();
+            kernel.Bind<IRegionalDashboard>().To<RegionalDashboard>();
         }
         private void AddBindingsHub()
         {

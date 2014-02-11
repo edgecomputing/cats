@@ -567,6 +567,8 @@
     <Compile Include="Areas\PSNP\Models\RegionalPSNPPlan.cs" />
     <Compile Include="Areas\PSNP\PSNPAreaRegistration.cs" />
     <Compile Include="Areas\PSNP\Controllers\RegionalPSNPPlanController.cs" />
+    <Compile Include="Areas\Regional\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Regional\RegionalAreaRegistration.cs" />
     <Compile Include="Areas\Report\Controllers\ReportHomeController.cs" />
     <Compile Include="Areas\Report\ReportAreaRegistration.cs" />
     <Compile Include="Areas\Settings\Controllers\AdminDashboardController.cs" />
@@ -1694,6 +1696,8 @@
     <Content Include="Areas\Logistics\Views\WoredaStockDistribution\_LeftBar.cshtml" />
     <Content Include="Areas\Logistics\Views\LocalPurchase\Create.cshtml" />
     <Content Include="Areas\Logistics\Views\LocalPurchase\Index.cshtml" />
+    <Content Include="Areas\Regional\Views\Web.config" />
+    <Content Include="Areas\Regional\Views\Home\Index.cshtml" />
     <Content Include="Areas\Logistics\Views\LocalPurchase\Details.cshtml" />
     <Content Include="Areas\Logistics\Views\ReciptPlanForLoanAndOthers\Create.cshtml" />
     <Content Include="Areas\Logistics\Views\ReciptPlanForLoanAndOthers\Index.cshtml" />
@@ -2497,6 +2501,8 @@
     <Folder Include="Areas\Hub\Views\ReleaseNotes\" />
     <Folder Include="Areas\Localization\Models\" />
     <Folder Include="Areas\PSNP\Views\Shared\" />
+    <Folder Include="Areas\Regional\Models\" />
+    <Folder Include="Areas\Regional\Views\Shared\" />
     <Folder Include="Areas\Report\Models\" />
     <Folder Include="Areas\Report\Views\Shared\" />
     <Folder Include="Areas\Settings\Views\Setting\" />
@@ -2510,6 +2516,10 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Cats.Services.Dashboard\Cats.Services.Dashboard.csproj">
+      <Project>{e72bb7c7-71ac-4c26-9c91-8d29f086879e}</Project>
+      <Name>Cats.Services.Dashboard</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Data\Cats.Data.Hub\Cats.Data.Hub.csproj">
       <Project>{b311922a-4002-40b1-aa96-e005b6d436dd}</Project>
       <Name>Cats.Data.Hub</Name>
@@ -2521,6 +2531,10 @@
     <ProjectReference Include="..\Data\Cats.Data\Cats.Data.csproj">
       <Project>{7cf78855-5a90-441f-9acc-fafbd1cad68a}</Project>
       <Name>Cats.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EasyCats\Cats.EasyAccess.csproj">
+      <Project>{c4b246a0-a33f-426e-9ac1-823702069b2b}</Project>
+      <Name>Cats.EasyAccess</Name>
     </ProjectReference>
     <ProjectReference Include="..\Infrastructure\Cats.Localization\Cats.Localization.csproj">
       <Project>{097528f8-cfef-4a8f-9d6c-d2366af9583e}</Project>

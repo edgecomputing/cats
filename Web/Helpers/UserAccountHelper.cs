@@ -62,7 +62,7 @@ namespace Cats.Helpers
             try
             {
                 // Check to see if we already have the user profile loaded in the session.
-                if(null != HttpContext.Current.Session)
+                if (null != HttpContext.Current.Session["USER_INFO"])
                 {
                     user = (UserInfo)HttpContext.Current.Session["USER_INFO"];
                 }
