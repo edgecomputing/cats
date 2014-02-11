@@ -356,7 +356,7 @@ namespace Cats.Services.Transaction
                         FDPID = woredaStockDistributionDetail.FdpId,
                         Month = woredaStcokDistribution.Month,
 
-                        LedgerID = 12
+                        LedgerID = 18
                     };
 
                     _unitOfWork.TransactionRepository.Add(transaction);
