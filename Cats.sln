@@ -106,7 +106,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Api", "Api", "{20E8AAF7-3C7
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SMS", "SMS\SMS.csproj", "{EA461A4E-0F81-4CF5-896F-9D57BEC4EDA8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyCats", "EasyCats\EasyCats.csproj", "{C4B246A0-A33F-426E-9AC1-823702069B2B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cats.EasyAccess", "EasyCats\Cats.EasyAccess.csproj", "{C4B246A0-A33F-426E-9AC1-823702069B2B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

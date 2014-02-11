@@ -560,6 +560,8 @@
     <Compile Include="Areas\PSNP\Models\RegionalPSNPPlan.cs" />
     <Compile Include="Areas\PSNP\PSNPAreaRegistration.cs" />
     <Compile Include="Areas\PSNP\Controllers\RegionalPSNPPlanController.cs" />
+    <Compile Include="Areas\Regional\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Regional\RegionalAreaRegistration.cs" />
     <Compile Include="Areas\Report\Controllers\ReportHomeController.cs" />
     <Compile Include="Areas\Report\ReportAreaRegistration.cs" />
     <Compile Include="Areas\Settings\Controllers\AdminDashboardController.cs" />
@@ -1685,6 +1687,8 @@
     <Content Include="Areas\Logistics\Views\WoredaStockDistribution\_DistributionByBeneficiary.cshtml" />
     <Content Include="Areas\Logistics\Views\WoredaStockDistribution\Create.cshtml" />
     <Content Include="Areas\Logistics\Views\WoredaStockDistribution\_LeftBar.cshtml" />
+    <Content Include="Areas\Regional\Views\Web.config" />
+    <Content Include="Areas\Regional\Views\Home\Index.cshtml" />
     <None Include="dataset.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>dataset.Designer.cs</LastGenOutput>
@@ -2485,6 +2489,8 @@
     <Folder Include="Areas\Hub\Views\ReleaseNotes\" />
     <Folder Include="Areas\Localization\Models\" />
     <Folder Include="Areas\PSNP\Views\Shared\" />
+    <Folder Include="Areas\Regional\Models\" />
+    <Folder Include="Areas\Regional\Views\Shared\" />
     <Folder Include="Areas\Report\Models\" />
     <Folder Include="Areas\Report\Views\Shared\" />
     <Folder Include="Areas\Settings\Views\Setting\" />
@@ -2509,6 +2515,10 @@
     <ProjectReference Include="..\Data\Cats.Data\Cats.Data.csproj">
       <Project>{7cf78855-5a90-441f-9acc-fafbd1cad68a}</Project>
       <Name>Cats.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EasyCats\Cats.EasyAccess.csproj">
+      <Project>{c4b246a0-a33f-426e-9ac1-823702069b2b}</Project>
+      <Name>Cats.EasyAccess</Name>
     </ProjectReference>
     <ProjectReference Include="..\Infrastructure\Cats.Localization\Cats.Localization.csproj">
       <Project>{097528f8-cfef-4a8f-9d6c-d2366af9583e}</Project>

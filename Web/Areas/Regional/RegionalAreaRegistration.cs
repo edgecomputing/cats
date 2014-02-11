@@ -19,6 +19,13 @@ namespace Cats.Areas.Regional
                 "Regional/{controller}/{action}/{id}",
                 new { action = "Index", id = UrlParameter.Optional }
             );
+
+            context.MapRoute(
+                name: "Regional_Start",
+                url: "Regional/",
+                defaults: new { controller = "Home", action = "Index" },
+                namespaces: new[] { "Cats.Areas.Regional.Controllers" }
+                );
         }
     }
 }
