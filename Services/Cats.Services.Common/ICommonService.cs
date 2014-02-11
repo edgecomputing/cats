@@ -60,6 +60,9 @@ namespace Cats.Services.Common
         List<SupportType> GetAllSupportType();
         int GetZoneID(int woredaID);
         int GetRegion(int zoneID);
+        List<CommoditySource> GetCommoditySource();
+        int GetShippingInstruction(string siNumber);
+        List<Hub> GetAllHubs();
 
     }
 }
