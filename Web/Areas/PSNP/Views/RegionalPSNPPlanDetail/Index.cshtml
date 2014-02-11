@@ -8,23 +8,40 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
     var RegionalPSNPPlanID = 0;
+    //var index = 0;
+    var plan = ViewBag.PsnpPlan;
+    StateTemplate state = plan.AttachedBusinessProcess.CurrentState.BaseStateTemplate;
 }
 
 @section LeftBar
 {
     @Html.Partial("_PSNPDetailLeftBar")
-       
 }
-  @section Toolbar
+
+@section Toolbar
 {
+
+    <div class="btn-group">
+        <button class="btn edit_button" id="action">Workflow</button>
+        <button class="btn  dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
+        <ul class="dropdown-menu">
+            @foreach (FlowTemplate actions in state.InitialStateFlowTemplates)
+            {
+                <li class="edit_button"><a href="javascript:promot_workflow(@plan.AttachedBusinessProcess.BusinessProcessID ,@actions.FinalStateID,'@actions.Name',@plan.RegionalPSNPPlanID)" title="@actions.Name">@actions.Name</a></li>            
+            }
+            <li class="divider"></li>
+            <li class="edit_button"><a href="javascript:workflow_history(@plan.AttachedBusinessProcess.BusinessProcessID)">History</a></li>
+        </ul>
+    </div>
+    
     <a class="btn toolbar-btn " data-buttontype="btn_back_to_list" href="@Url.Action("Index", "RegionalPSNPPlan")"></a>
 }
-  
+
 @if (ViewBag.psnpPlan != null)
 {
     RegionalPSNPPlanID = ViewBag.PsnpPlan.RegionalPSNPPlanID;
     List<int> regionalBenCount = new List<int>();
-    for(int r =0;r< ViewBag.PsnpPlan.Duration;r++)
+    for (int r = 0; r < ViewBag.PsnpPlan.Duration; r++)
     {
         regionalBenCount.Add(0);
     }
@@ -32,32 +49,32 @@
     {
         for (int r = 0; r < fdp.FoodRatio; r++)
         {
-            regionalBenCount[r]+=(int)fdp.BeneficiaryCount;
+            regionalBenCount[r] += (int)fdp.BeneficiaryCount;
         }
     }
 
     int i = 0;
-        <div>
-    <h4><b>PSNP Plan</b>:  <span>@ViewBag.PsnpPlan.Year</span> @ViewBag.psnpPlanID</h4>
+    <div>
+        <h4><b>PSNP Plan</b>:  <span>@ViewBag.PsnpPlan.Year</span> @ViewBag.psnpPlanID</h4>
         <b>Summary of People Needing Food Assistance</b>
-        <table style="width:100%" class="table table-striped table-bordered">
-        <tr>
-            @foreach (var r in regionalBenCount)
-            {
-                i++; 
-                <td>Month-@i</td>
+        <table style="width: 100%" class="table table-striped table-bordered">
+            <tr>
+                @foreach (var r in regionalBenCount)
+                {
+                    i++; 
+                    <td>Month-@i</td>
                 
-            }
-        </tr>
-        <tr>
-            @foreach (var r in regionalBenCount)
-            {
-                <td>@r</td>
+                }
+            </tr>
+            <tr>
+                @foreach (var r in regionalBenCount)
+                {
+                    <td>@r</td>
                
-            }
-        </tr>
-    </table>
-    
+                }
+            </tr>
+        </table>
+
     </div>
 }
 @(Html.Kendo().Grid<Cats.Models.PSNP.PSNPPlanDetailView>()
@@ -67,18 +84,18 @@
         columns.Bound(p => p.ZoneName);
         columns.Bound(p => p.WoredaName);
         columns.Bound(p => p.FDPName);
-        columns.Bound(p => p.BeneficiaryCount).HtmlAttributes(new {align="right"});
+        columns.Bound(p => p.BeneficiaryCount).HtmlAttributes(new { align = "right" });
         columns.Bound(p => p.FoodRatio).HtmlAttributes(new { align = "right" });
         columns.Bound(p => p.CashRatio).HtmlAttributes(new { align = "right" });
     })
     .DataSource(
         dataSource => dataSource
         .Ajax()
-        .Group(g=>g.Add(m=>m.ZoneName))
+        .Group(g => g.Add(m => m.ZoneName))
         .Model(model => model.Id(p => p.RegionalPSNPPlanDetailID))
         .Read(read => read.Action("GetDataListAjax", "RegionalPSNPPlanDetail").Data("filterInfo"))
         )
-    
+
     .HtmlAttributes(new { style = "width:100%; max-height:450px;" })
     .Sortable()
     .Scrollable()
@@ -92,8 +109,8 @@
     $(function()
     {
         var printurl= "@Url.Action("print", "RegionalPSNPPlan", new { Area = "PSNP", id = RegionalPSNPPlanID })";
-            $("#toolbar_button_print").attr("href",printurl);
-        });
+        $("#toolbar_button_print").attr("href",printurl);
+    });
     function deleteRecord(e) {
         e.preventDefault();
 

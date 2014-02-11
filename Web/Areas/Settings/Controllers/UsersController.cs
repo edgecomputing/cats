@@ -156,7 +156,9 @@ namespace Cats.Areas.Settings.Controllers
             var roles = new Dictionary<string, List<Role>>();
             var Roles = new List<Role>();
 
-            var user = _userService.FindBy(u=>u.UserName == userInfo.UserName).SingleOrDefault();
+            //var user = _userService.FindBy(u=>u.UserName == userInfo.UserName).SingleOrDefault();
+            
+            var user = _userService.GetUserDetail(userInfo.UserName);
             user.DefaultHub = userInfo.DefaultHub;
             _userService.UpdateUser(user);
 
