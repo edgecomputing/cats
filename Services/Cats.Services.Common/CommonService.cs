@@ -145,10 +145,22 @@ namespace Cats.Services.Common
 
        public int GetZoneID(int woredaID)
        {
-           return _unitOfWork.AdminUnitRepository.FindBy(m => m.AdminUnitID == woredaID).FirstOrDefault().AdminUnit2.
+           var woreda = _unitOfWork.AdminUnitRepository.FindBy(m => m.AdminUnitID == woredaID).FirstOrDefault();
+           if (woreda != null)
+               return woreda.AdminUnit2.
                    AdminUnitID;
+           return 0;
        }
 
+        public int GetRegion(int zoneID)
+        {
+            var zone = _unitOfWork.AdminUnitRepository.FindBy(m => m.AdminUnit2.AdminUnitID == zoneID).FirstOrDefault();
+            if (zone!=null)
+            {
+                return zone.AdminUnit2.AdminUnit2.AdminUnitID;
+            }
+            return 0;
+        }
 
        public List<Plan> GetRequisitionGeneratedPlan(int programID, int zoneID)
        {
@@ -157,5 +169,30 @@ namespace Cats.Services.Common
            var requestCreated = _unitOfWork.PlanRepository.FindBy(m => request.Contains(m.PlanID));
            return requestCreated;
        }
+       public List<CommoditySource> GetCommoditySource()
+       {
+           return
+               _unitOfWork.CommoditySourceRepository.FindBy(
+                   m =>
+                   m.CommoditySourceID == 2 || m.CommoditySourceID == 5 || m.CommoditySourceID == 8 ||
+                   m.CommoditySourceID == 9); //populate commodity sources for Loan,Transfer,Repayment and Swap
+
+       }
+       public int GetShippingInstruction(string siNumber)
+       {
+           var sINumber =_unitOfWork.ShippingInstructionRepository.FindBy(m => m.Value == siNumber).FirstOrDefault();
+           if (sINumber==null)
+           {
+               var shippingInstruction = new ShippingInstruction();
+               shippingInstruction.Value = siNumber;
+               _unitOfWork.ShippingInstructionRepository.Add(shippingInstruction);
+               return shippingInstruction.ShippingInstructionID;
+           }
+           return sINumber.ShippingInstructionID;
+       }
+        public List<Hub> GetAllHubs()
+        {
+            return _unitOfWork.HubRepository.GetAll();
+        }
     }
 }

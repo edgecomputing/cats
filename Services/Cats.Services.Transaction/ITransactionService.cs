@@ -27,5 +27,7 @@ namespace Cats.Services.Transaction
         List<ReceiptAllocation> getSIBalance(int hubId, int commodityId);
         List<ReceiptAllocation> getProjectBalance(int hubId, int commodityId);
         List<Models.Transaction> PostSIAllocation(int requisitionID);
+        bool PostDonationPlan(DonationPlanHeader donationPlanDetail);
+        bool PostDistribution(int distributionId);
     }
 }

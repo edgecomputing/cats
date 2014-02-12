@@ -11,10 +11,6 @@ namespace Cats.Localization.Services
         bool UpdateLanguage(Language language);
         bool DeleteLanguage(Language language, bool cascadeDelete = true);
 
-        bool AddPhrase(Phrase phrase);
-        bool UpdatePhrase(Phrase phrase);
-        bool DeletePhrase(Phrase phrase);
-
         bool AddPage(Page page);
         bool UpdatePage(Page page);
         bool DeletePage(Page page);
@@ -29,13 +25,11 @@ namespace Cats.Localization.Services
          * 
          */
 
-        List<LocalizedPagePhrase> GetPhrasesForPage(Page page, string language = "EN");
-        List<LocalizedPagePhrase> GetPhrasesForPage(string pageName, string language = "EN");
-        Dictionary<string, string> GetPhrasesDictionaryForPage(string pageName, string language);
+        List<LocalizedText> GetLocalizedTextForPage(Page page, string language = "EN");
+        List<LocalizedText> GetLocalizedTextForPage(string pageName, string language = "EN");
+        Dictionary<string, string> GetLocalizedTextDictionaryForPage(string pageName, string language);
 
-        string GetLocalizedPhrase(string phrase, string language);
 
-        bool TranslatePhrase(string phrase, string translation, string language = "EN");
         bool TranslatePage(string page, Dictionary<string, string> translations, string language = "EN");
 
 

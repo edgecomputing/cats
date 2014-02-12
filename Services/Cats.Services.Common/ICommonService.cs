@@ -3,7 +3,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
       using Cats.Models;
       using Cats.Models.Constant;
 
@@ -60,6 +59,11 @@ namespace Cats.Services.Common
         List<AdminUnit> GetWoreda(int zoneId);
         List<SupportType> GetAllSupportType();
         int GetZoneID(int woredaID);
+        int GetRegion(int zoneID);
+        List<CommoditySource> GetCommoditySource();
+        int GetShippingInstruction(string siNumber);
+        List<Hub> GetAllHubs();
+
     }
 }
 

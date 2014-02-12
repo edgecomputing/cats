@@ -22,7 +22,7 @@ namespace Cats.Helpers
             catch (Exception)
             {
                 return "Guest User";
-            }                       
+            }
         }
 
         public static string GetUserName()
@@ -52,8 +52,34 @@ namespace Cats.Helpers
         }
         public static UserInfo GetUser(string userName)
         {
-            var service = (IUserAccountService)DependencyResolver.Current.GetService(typeof (IUserAccountService));
-            return service.GetUserInfo(userName);
+            return GetUserInfo(userName);
+        }
+
+        private static UserInfo GetUserInfo(string userName)
+        {
+            // Initialize the user object with the incoming user name to avoid 'Use of uninitialized variable exception'
+            UserInfo user = new UserInfo { UserName = userName };
+            try
+            {
+                // Check to see if we already have the user profile loaded in the session.
+                if (null != HttpContext.Current.Session["USER_INFO"])
+                {
+                    user = (UserInfo)HttpContext.Current.Session["USER_INFO"];
+                }
+                else
+                {
+                    // Fetch a copy from the database if we don't have a session variable already loaded in memory
+                    var service = (IUserAccountService)DependencyResolver.Current.GetService(typeof(IUserAccountService));
+                    user = service.GetUserInfo(userName);
+                }
+            }
+            catch (Exception ex)
+            {
+                //TODO: Log error here
+                Logger.Log(ex);
+            }
+
+            return user;
         }
 
         public static string UserCalendarPreference(this HtmlHelper helper)
@@ -73,7 +99,7 @@ namespace Cats.Helpers
             {
                 // TODO: Log exception hrere
             }
- 
+
             return preference.ToUpper();
         }
         public static string UserUnitPreference(this HtmlHelper helper)

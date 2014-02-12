@@ -63,6 +63,9 @@
     <Reference Include="FluentMigrator">
       <HintPath>..\packages\FluentMigrator.1.1.0.0\lib\40\FluentMigrator.dll</HintPath>
     </Reference>
+    <Reference Include="HibernatingRhinos.Profiler.Appender">
+      <HintPath>..\..\..\EntityFramework.Profiler-v2.0-Build-2229\HibernatingRhinos.Profiler.Appender.dll</HintPath>
+    </Reference>
     <Reference Include="Kendo.Mvc">
       <HintPath>..\lib\KENDOUIMVC\2013.1.319.340\Kendo.Mvc.dll</HintPath>
     </Reference>
@@ -387,6 +390,7 @@
     <Compile Include="Areas\EarlyWarning\Models\HRDDonorCoverageViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\HRDWithRegionalRequestViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\InKindContributionDetailViewModel.cs" />
+    <Compile Include="Areas\Logistics\Models\LoanReciptPlanViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\NeedAssessmentPlanViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\PlanViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\PlanWithHRDViewModel.cs" />
@@ -472,20 +476,28 @@
     <Compile Include="Areas\Logistics\Controllers\HubAllocationController.cs" />
     <Compile Include="Areas\Logistics\Controllers\ProjectAllocationController.cs" />
     <Compile Include="Areas\Logistics\Controllers\PromisedContributionController.cs" />
+    <Compile Include="Areas\Logistics\Controllers\ReciptPlanForLoanAndOthersController.cs" />
     <Compile Include="Areas\Logistics\Controllers\SIAllocationController.cs" />
     <Compile Include="Areas\Logistics\Controllers\LogisticsStockStatusController.cs" />
     <Compile Include="Areas\Logistics\Controllers\TransportRequisitionController.cs" />
     <Compile Include="Areas\Logistics\Controllers\WoredaStockDistributionController.cs" />
+    <Compile Include="Areas\Logistics\Controllers\LocalPurchaseController.cs" />
     <Compile Include="Areas\Logistics\LogisticsAreaRegistration.cs" />
     <Compile Include="Areas\Logistics\Models\ActionLink.cs" />
     <Compile Include="Areas\Logistics\Models\ZonesViewModel.cs" />
     <Compile Include="Areas\Logistics\Models\AssignHubViewModel.cs" />
     <Compile Include="Areas\Logistics\Models\DispatchViewModelForReconcile.cs" />
     <Compile Include="Areas\Logistics\Models\DistributionByAgeDetailViewModel.cs" />
+    <Compile Include="Areas\Logistics\Models\DonationDetail.cs" />
+    <Compile Include="Areas\Logistics\Models\DonationDetailViewModel.cs" />
+    <Compile Include="Areas\Logistics\Models\DonationHeaderViewModel.cs" />
     <Compile Include="Areas\Logistics\Models\DeliveryDetailViewModel.cs" />
     <Compile Include="Areas\Logistics\Models\DeliveryViewModel.cs" />
+    <Compile Include="Areas\Logistics\Models\DonationViewModel.cs" />
     <Compile Include="Areas\Logistics\Models\FreeStockStatusViewModel.cs" />
     <Compile Include="Areas\Logistics\Models\FreeStockSummaryModel.cs" />
+    <Compile Include="Areas\Logistics\Models\LocalPurchaseDetailViewModel.cs" />
+    <Compile Include="Areas\Logistics\Models\ReceiptAllocationViewModel.cs" />
     <Compile Include="Areas\Logistics\Models\GRNViewModel.cs" />
     <Compile Include="Areas\Logistics\Models\SIAllocation.cs" />
     <Compile Include="Areas\Logistics\Models\Hub.cs" />
@@ -557,6 +569,8 @@
     <Compile Include="Areas\PSNP\Models\RegionalPSNPPlan.cs" />
     <Compile Include="Areas\PSNP\PSNPAreaRegistration.cs" />
     <Compile Include="Areas\PSNP\Controllers\RegionalPSNPPlanController.cs" />
+    <Compile Include="Areas\Regional\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Regional\RegionalAreaRegistration.cs" />
     <Compile Include="Areas\Report\Controllers\ReportHomeController.cs" />
     <Compile Include="Areas\Report\ReportAreaRegistration.cs" />
     <Compile Include="Areas\Settings\Controllers\AdminDashboardController.cs" />
@@ -1026,6 +1040,13 @@
     <Content Include="Content\bootstrap-responsive.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Dashboard\dashboardcomponents.css" />
+    <Content Include="Content\images\CATS.png" />
+    <Content Include="Content\Login\App.css" />
+    <Content Include="Content\Login\bootstrap.min.css" />
+    <Content Include="Content\Login\bootstrab.min.js" />
+    <Content Include="Content\Login\Login.js" />
+    <Content Include="Content\Login\Login.css" />
     <Content Include="Content\css\custom-theme\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\css\custom-theme\images\ui-bg_flat_10_aaaaaa_40x100.png" />
     <Content Include="Content\css\custom-theme\images\ui-bg_flat_75_ffffff_40x100.png" />
@@ -1220,6 +1241,7 @@
     <Content Include="Content\kendo\2013.1.319\Uniform\slider-v.gif" />
     <Content Include="Content\kendo\2013.1.319\Uniform\sprite%402x.png" />
     <Content Include="Content\kendo\2013.1.319\Uniform\sprite.png" />
+    <Content Include="Content\Login\App.js" />
     <Content Include="Content\ng-grid.css" />
     <Content Include="Content\ng-table.css" />
     <Content Include="Content\PrintReport.css" />
@@ -1667,6 +1689,13 @@
     <Content Include="Areas\Logistics\Views\WoredaStockDistribution\_DistributionByBeneficiary.cshtml" />
     <Content Include="Areas\Logistics\Views\WoredaStockDistribution\Create.cshtml" />
     <Content Include="Areas\Logistics\Views\DeliveryReconcile\Index.cshtml" />
+    <Content Include="Areas\Logistics\Views\LocalPurchase\Create.cshtml" />
+    <Content Include="Areas\Logistics\Views\LocalPurchase\Index.cshtml" />
+    <Content Include="Areas\Regional\Views\Web.config" />
+    <Content Include="Areas\Regional\Views\Home\Index.cshtml" />
+    <Content Include="Areas\Logistics\Views\LocalPurchase\Details.cshtml" />
+    <Content Include="Areas\Logistics\Views\ReciptPlanForLoanAndOthers\Create.cshtml" />
+    <Content Include="Areas\Logistics\Views\ReciptPlanForLoanAndOthers\Index.cshtml" />
     <None Include="dataset.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>dataset.Designer.cs</LastGenOutput>
@@ -2467,6 +2496,8 @@
     <Folder Include="Areas\Hub\Views\ReleaseNotes\" />
     <Folder Include="Areas\Localization\Models\" />
     <Folder Include="Areas\PSNP\Views\Shared\" />
+    <Folder Include="Areas\Regional\Models\" />
+    <Folder Include="Areas\Regional\Views\Shared\" />
     <Folder Include="Areas\Report\Models\" />
     <Folder Include="Areas\Report\Views\Shared\" />
     <Folder Include="Areas\Settings\Views\Setting\" />
@@ -2480,6 +2511,10 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Cats.Services.Dashboard\Cats.Services.Dashboard.csproj">
+      <Project>{e72bb7c7-71ac-4c26-9c91-8d29f086879e}</Project>
+      <Name>Cats.Services.Dashboard</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Data\Cats.Data.Hub\Cats.Data.Hub.csproj">
       <Project>{b311922a-4002-40b1-aa96-e005b6d436dd}</Project>
       <Name>Cats.Data.Hub</Name>
@@ -2491,6 +2526,10 @@
     <ProjectReference Include="..\Data\Cats.Data\Cats.Data.csproj">
       <Project>{7cf78855-5a90-441f-9acc-fafbd1cad68a}</Project>
       <Name>Cats.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EasyCats\Cats.EasyAccess.csproj">
+      <Project>{c4b246a0-a33f-426e-9ac1-823702069b2b}</Project>
+      <Name>Cats.EasyAccess</Name>
     </ProjectReference>
     <ProjectReference Include="..\Infrastructure\Cats.Localization\Cats.Localization.csproj">
       <Project>{097528f8-cfef-4a8f-9d6c-d2366af9583e}</Project>

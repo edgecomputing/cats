@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity.ModelConfiguration;
 using System.Linq;
 using System.Text;
@@ -9,7 +10,7 @@ namespace Cats.Localization.Models.Mapping
 {
     public class PageMap : EntityTypeConfiguration<Page>
     {
-        public PageMap()
+                public PageMap()
         {
             // Primary Key
             this.HasKey(t => t.PageId);
@@ -17,24 +18,16 @@ namespace Cats.Localization.Models.Mapping
             // Properties
             this.Property(t => t.PageKey)
                 .IsRequired()
+                .HasMaxLength(100);
+
+            this.Property(t => t.PageDescription)
                 .HasMaxLength(200);
 
             // Table & Column Mappings
-            this.ToTable("Page", "Localization");
+            this.ToTable("dbo.Page");
             this.Property(t => t.PageId).HasColumnName("PageId");
             this.Property(t => t.PageKey).HasColumnName("PageKey");
-
-            // Relationships
-            this.HasMany(t => t.Phrases)
-                .WithMany(t => t.Pages)
-                .Map(m =>
-                {
-                    m.ToTable("PagePhrase", "Localization");
-                    m.MapLeftKey("PageId");
-                    m.MapRightKey("PhraseId");
-                });
-
-
+            this.Property(t => t.PageDescription).HasColumnName("PageDescription");
         }
     }
 }

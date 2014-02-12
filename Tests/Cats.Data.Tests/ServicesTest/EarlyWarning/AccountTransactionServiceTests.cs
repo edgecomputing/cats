@@ -191,7 +191,8 @@ namespace Cats.Data.Tests.ServicesTest.EarlyWarning
                                                                   {
                                                                       HubID = 1,
                                                                       Name = "Hub1",
-                                                                  }
+                                                                  },
+                                                        TransactionGroup =new Tr
                                                }
                                        };
             var deliveryReconcileRepositoy = new Mock<IGenericRepository<DeliveryReconcile>>();

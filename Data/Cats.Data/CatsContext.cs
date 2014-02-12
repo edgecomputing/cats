@@ -147,7 +147,12 @@ namespace Cats.Data
         public DbSet<DispatchDetail> DispatchDetails { get; set; }
         public DbSet<OtherDispatchAllocation> OtherDispatchAllocations { get; set; }
         public DbSet<DeliveryReconcile> DeliveryReconciles { get; set; }
+        public DbSet<LocalPurchase> LocalPurchases { get; set; }
+        public DbSet<LocalPurchaseDetail> LocalPurchaseDetails { get; set; }
 
+        public DbSet<DonationPlanHeader> DonationPlanHeaders { get; set; }
+        public DbSet<DonationPlanDetail> DonationPlanDetails { get; set; }
+        public DbSet<LoanReciptPlan> LoanReciptPlans { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -278,6 +283,15 @@ namespace Cats.Data
 
             modelBuilder.Configurations.Add(new ReceiptPlanMap());
             modelBuilder.Configurations.Add(new ReceiptPlanDetailMap());
+
+
+            modelBuilder.Configurations.Add(new DonationPlanHeaderMap());
+            modelBuilder.Configurations.Add(new DonationPlanDetailMap());
+
+            modelBuilder.Configurations.Add(new LocalPurchaseMap());
+            modelBuilder.Configurations.Add(new LocalPurchaseDetailMap());
+            modelBuilder.Configurations.Add(new LoanReciptPlanMap());
+
         }
 
     }

@@ -7,26 +7,26 @@ namespace Cats.Areas.Logistics.Models
 {
     public class DonationHeaderViewModel
     {
-        public int ReceiptHeaderId { get; set; }
-        public int? GiftCertificateDetailId { get; set; }
-        public Nullable<System.DateTime> ReceiptDate { get; set; }
-        public Nullable<int> EnteredBy { get; set; }
-        public bool? IsClosed { get; set; }
-        public string Remark { get; set; }
-
-        public int?  ProgramId { get; set; }
-        public string Program { get; set; }
-        public string Donor { get; set; }
-        public int? DonorId { get; set; }
-        public int? Unit { get; set; }
-        public DateTime? ETA { get; set; }
+        public int DonationHeaderPlanID { get; set; }
+        public int ShippingInstructionId { get; set; }
         public string SINumber { get; set; }
-        public int? ShippingInstructionId { get; set; }
-        public DateTime? ExpiryDate { get; set; }
-        public string Commodity { get; set; }
-        public int? CommodityId { get; set; }
-        public string CommodityType { get; set; }
-        public decimal? WieghtInMT { get; set; }
-        public string Date { get; set; }
+        public Nullable<int> GiftCertificateID { get; set; }
+        public int CommodityID { get; set; }
+        public string CommodityName { get; set; }   
+        public int DonorID { get; set; }
+        public string DonorName { get; set; }
+        public int ProgramID { get; set; }
+        public string ProgramName { get; set; }
+        public System.DateTime ETA { get; set; }
+        public string Vessel { get; set; }
+        public string ReferenceNo { get; set; }
+        public Nullable<int> ModeOfTransport { get; set; }
+        public Nullable<System.Guid> TransactionGroupID { get; set; }
+        public Nullable<bool> IsCommited { get; set; }
+        public Nullable<int> EnteredBy { get; set; }
+        public string ProcessedBy { get; set; }
+        public Nullable<System.DateTime> AllocationDate { get; set; }
+        public string DateOfAllocation { get; set; }
+        public string Remark { get; set; }
     }
 }

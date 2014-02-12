@@ -18,6 +18,7 @@ namespace Cats.Services.Security
         bool RemoveRole(string user, string application, string role);
         bool Delete(UserProfile user);
         bool DeleteById(int id);
+        bool UpdateUser(UserProfile user);
         bool Save(UserProfile user);
         UserProfile FindById(int id);
         List<UserProfile> GetAll();

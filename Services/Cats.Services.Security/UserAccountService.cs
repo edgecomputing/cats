@@ -650,5 +650,13 @@ namespace Cats.Services.Security
 
             return true;
         }
+
+
+        public bool UpdateUser(UserProfile entity)
+        {
+            _unitOfWork.UserProfileRepository.Edit(entity);
+            _unitOfWork.Save();
+            return true;
+        }
     }
 }

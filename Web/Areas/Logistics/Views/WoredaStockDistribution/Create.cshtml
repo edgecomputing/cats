@@ -44,19 +44,19 @@
                 
                 <td rowspan="5">
                     <div id="div_Male" class="form-horizontal well" >
-                        <div class="control-group">
+                         <div class="control-group">
                             <div class="control-label">
-                                @Html.LabelFor(m => m.ActualBeneficairies)
+                                @Html.LabelFor(m => m.SupportTypeID,Translator.Translate("Support Type"))
                             </div>
                             <div class="controls">
-                                @Html.TextBoxFor(m => m.ActualBeneficairies)
-                                @Html.ValidationMessageFor(m => m.ActualBeneficairies)
+                                @Html.DropDownList("SupportTypeID", String.Empty)
+                                @Html.ValidationMessageFor(m => m.SupportTypeID)
                             </div>
                         </div>
-
+                      
                         <div class="control-group">
                             <div class="control-label">
-                                @Html.LabelFor(m => m.MaleLessThan5Years)
+                                @Html.LabelFor(m => m.MaleLessThan5Years,Translator.Translate("Male <5 Years"))
                             </div>
                             <div class="controls">
                                 @Html.TextBoxFor(m => m.MaleLessThan5Years)
@@ -66,7 +66,7 @@
     
                         <div class="control-group">
                             <div class="control-label">
-                                @Html.LabelFor(m => m.MaleBetween5And18Years)
+                                @Html.LabelFor(m => m.MaleBetween5And18Years,Translator.Translate("Male 5-18 Years"))
                             </div>
                             <div class="controls">
                                 @Html.TextBoxFor(m => m.MaleBetween5And18Years)
@@ -76,7 +76,7 @@
     
                         <div class="control-group">
                             <div class="control-label">
-                                @Html.LabelFor(m => m.MaleAbove18Years)
+                                @Html.LabelFor(m => m.MaleAbove18Years,Translator.Translate("Male >18 Years"))
                             </div>
                             <div class="controls">
                                 @Html.TextBoxFor(m => m.MaleAbove18Years)
@@ -89,7 +89,7 @@
                     <div id="div_Female1" class="form-horizontal well">
                         <div class="control-group">
                             <div class="control-label">
-                                @Html.LabelFor(m => m.FemaleLessThan5Years)
+                                @Html.LabelFor(m => m.FemaleLessThan5Years,Translator.Translate("Female <5 Years"))
                             </div>
                             <div class="controls">
                                 @Html.TextBoxFor(m => m.FemaleLessThan5Years)
@@ -99,7 +99,7 @@
 
                         <div class="control-group">
                             <div class="control-label">
-                                @Html.LabelFor(m => m.FemaleBetween5And18Years)
+                                @Html.LabelFor(m => m.FemaleBetween5And18Years,Translator.Translate("Female 5-18 Years"))
                             </div>
                             <div class="controls">
                                 @Html.TextBoxFor(m => m.FemaleBetween5And18Years)
@@ -109,7 +109,7 @@
     
                         <div class="control-group">
                             <div class="control-label">
-                                @Html.LabelFor(m => m.FemaleAbove18Years)
+                                @Html.LabelFor(m => m.FemaleAbove18Years,Translator.Translate("Female >18 Years"))
                             </div>
                             <div class="controls">
                                 @Html.TextBoxFor(m => m.FemaleAbove18Years)
@@ -118,13 +118,14 @@
                         </div>
                         <div class="control-group">
                             <div class="control-label">
-                                @Html.LabelFor(m => m.SupportTypeID)
+                                @Html.LabelFor(m => m.ActualBeneficairies,Translator.Translate("Actual Beneficiary"))
                             </div>
                             <div class="controls">
-                                @Html.DropDownList("SupportTypeID", String.Empty)
-                                @Html.ValidationMessageFor(m => m.SupportTypeID)
+                                @Html.TextBoxFor(m => m.ActualBeneficairies)
+                                @Html.ValidationMessageFor(m => m.ActualBeneficairies)
                             </div>
                         </div>
+                       
                     </div>
                 </td>
             </tr>

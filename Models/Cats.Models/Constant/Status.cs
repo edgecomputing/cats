@@ -15,7 +15,9 @@ namespace Cats.Models.Constant
       HRD=5,
       Plan=7,
       BidWinner=8,
-      BID=9
+      BID=9,
+      LocalPUrchase=10
+
   }
     public enum Programs
     {
@@ -104,6 +106,13 @@ namespace Cats.Models.Constant
         Closed=4,
         Active=5
 
+    }
+    public enum LocalPurchaseStatus
+    {
+        Draft=1,
+        Approved=2,
+        Recived=3,
+        Closed=4
     }
    
 }

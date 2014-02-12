@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Web.Security;
 using Cats.Helpers;
 using Cats.Models.Security;
+using Cats.Services.EarlyWarning;
 using Cats.Services.Security;
 using System.Linq;
 using System.Web.Mvc;
@@ -17,16 +18,20 @@ namespace Cats.Areas.Settings.Controllers
     [Authorize]
     public class UsersController : Controller
     {
-        private IUserAccountService userService;
+        private readonly  IUserAccountService _userService;
+        private readonly  IHubService _hubService;
+       // private readonly IUserAccountService _userAccountService;
       
-        public UsersController(IUserAccountService service)
+        public UsersController(IUserAccountService service, IHubService hubService)
         {
-            userService = service;
+            _userService = service;
+            _hubService = hubService;
+            //_userAccountService = userAccountService;
         }
 
         public ActionResult UsersList([DataSourceRequest] DataSourceRequest request)
         {
-            var users = userService.GetUsers();
+            var users = _userService.GetUsers();
             return Json(users.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
 
@@ -34,13 +39,11 @@ namespace Cats.Areas.Settings.Controllers
         {
             return View();
         }
-
-
+        
         public ActionResult New()
         {
             var model = new UserViewModel();
             //List<Cats.Models.Security.ViewModels.Application> Applications = userService.GetApplications("CATS");
-
             //model.Applications = Applications;
             return View(model);
         }
@@ -51,39 +54,39 @@ namespace Cats.Areas.Settings.Controllers
             return View();
         }
 
-
         [HttpPost]
         public ActionResult New(UserViewModel userInfo)
         {
-            var messages = new List<string>();
+            //var messages = new List<string>();
 
-            // Check business rule and validations
-            if (userInfo.UserName == string.Empty)
-                messages.Add("User name cannot be empty");
-            if (userInfo.FirstName == string.Empty)
-                messages.Add("First name cannot be empty");
-            if (userInfo.LastName == string.Empty)
-                messages.Add("Last Name cannot be empty");
-            if (userInfo.Password == string.Empty)
-                messages.Add("Password cannot be empty");
-            if (userInfo.Password != userInfo.PasswordConfirm)
-                messages.Add("Passwords do not match");
+            //// Check business rule and validations
+            //if (userInfo.UserName == string.Empty)
+            //    messages.Add("User name cannot be empty");
+            //if (userInfo.FirstName == string.Empty)
+            //    messages.Add("First name cannot be empty");
+            //if (userInfo.LastName == string.Empty)
+            //    messages.Add("Last Name cannot be empty");
+            //if (userInfo.Password == string.Empty)
+            //    messages.Add("Password cannot be empty");
+            //if (userInfo.Password != userInfo.PasswordConfirm)
+            //    messages.Add("Passwords do not match");
 
 
-            if (messages.Count > 0)
-                return View();
+            //if (messages.Count > 0)
+            //    return View();
 
 
             // If the supplied information is correct then persist it to the database
             var user = new UserProfile();
 
             user.UserName = userInfo.UserName;
-            user.Password = userService.HashPassword(userInfo.Password);
+            user.Password = _userService.HashPassword(userInfo.Password);
 
             // Set default values for required fields
             user.Disabled = false;
             user.LockedInInd = false;
             user.ActiveInd = true;
+            user.NumberOfLogins = 0;
 
 
             //List<Cats.Models.Security.ViewModels.Application> app = userInfo.Applications;
@@ -112,7 +115,7 @@ namespace Cats.Areas.Settings.Controllers
             user.FailedAttempts = 0;
             user.LoggedInInd = false;
 
-            if(userService.Add(user, roles))
+            if(_userService.Add(user, roles))
             {
                 return View("Index");
             }
@@ -123,13 +126,13 @@ namespace Cats.Areas.Settings.Controllers
 
         public ActionResult UserProfile(int id)
         {
-            var user = userService.GetUserInfo(id);
+            var user = _userService.GetUserInfo(id);
             return View(user);
         }
 
         public JsonResult GetUsers()
         {
-            var users = userService.GetAll();
+            var users = _userService.GetAll();
             return Json(users.ToList(), JsonRequestBehavior.AllowGet);
         }
 
@@ -138,11 +141,10 @@ namespace Cats.Areas.Settings.Controllers
         {
             //var roles = new string[] { "EW Coordinator", "EW-Experts" };
             //userService.AddRoleSample("Rahel", "Early Warning", roles);
-
             var model = new UserViewModel();
             model.UserName = UserName;
-            List<Application> Applications = userService.GetUserPermissions(UserName);
-
+            List<Application> Applications = _userService.GetUserPermissions(UserName);
+            ViewBag.hubs = new SelectList(_hubService.GetAllHub(), "HubID", "Name");
             model.Applications = Applications;
             return View(model);
         }
@@ -153,14 +155,20 @@ namespace Cats.Areas.Settings.Controllers
             var app = userInfo.Applications;
             var roles = new Dictionary<string, List<Role>>();
             var Roles = new List<Role>();
+
+            //var user = _userService.FindBy(u=>u.UserName == userInfo.UserName).SingleOrDefault();
             
+            var user = _userService.GetUserDetail(userInfo.UserName);
+            user.DefaultHub = userInfo.DefaultHub;
+            _userService.UpdateUser(user);
+
             foreach (var application in app)
             {
                 foreach (var role in application.Roles)
                 {
                     if (role.IsChecked)
                     {
-                        userService.AddRole(userInfo.UserName, application.ApplicationName, role.RoleName);  
+                        _userService.AddRole(userInfo.UserName, application.ApplicationName, role.RoleName);  
                     }      
                     else if(!role.IsChecked)
                     {
@@ -194,16 +202,16 @@ namespace Cats.Areas.Settings.Controllers
         public ActionResult ChangePassword(ChangePasswordModel model)
         {
             var userid = UserAccountHelper.GetUser(HttpContext.User.Identity.Name).UserProfileID;
-            var oldpassword = userService.HashPassword(model.OldPassword);
+            var oldpassword = _userService.HashPassword(model.OldPassword);
             if (ModelState.IsValid)
             {
                 bool changePasswordSucceeded;
 
-                if (userService.GetUserDetail(userid).Password == oldpassword)
+                if (_userService.GetUserDetail(userid).Password == oldpassword)
                 {
                     try
                     {
-                        changePasswordSucceeded = userService.ChangePassword(userid, model.NewPassword);
+                        changePasswordSucceeded = _userService.ChangePassword(userid, model.NewPassword);
                     }
                     catch (Exception e)
                     {

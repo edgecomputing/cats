@@ -20,6 +20,7 @@ using Kendo.Mvc.UI;
 using Cats.Areas.Logistics.Models;
 using log4net;
 using Cats.ViewModelBinder;
+using Cats.Helpers;
 
 
 namespace Cats.Areas.Procurement.Controllers
@@ -32,7 +33,6 @@ namespace Cats.Areas.Procurement.Controllers
         private readonly ITransportRequisitionService _transportRequisitionService;
         private readonly IWorkflowStatusService _workflowStatusService;
         private readonly ILog _log;
-        private readonly IUserAccountService _userAccountService;
         private readonly IAdminUnitService _adminUnitService;
         private readonly ITransReqWithoutTransporterService _transReqWithoutTransporterService;
         private readonly ITransporterService _transporterService;
@@ -40,7 +40,7 @@ namespace Cats.Areas.Procurement.Controllers
 
         public TransportOrderController(ITransportOrderService transportOrderService,
             ITransportRequisitionService transportRequisitionService,
-            IWorkflowStatusService workflowStatusService, ILog log, IUserAccountService userAccountService,
+            IWorkflowStatusService workflowStatusService, ILog log,
             ITransReqWithoutTransporterService transReqWithoutTransporterService, ITransportOrderDetailService transportOrderDetailService,
             IAdminUnitService adminUnitService, ITransporterService transporterService, ITransportBidQuotationService bidQuotationService)
         {
@@ -48,7 +48,6 @@ namespace Cats.Areas.Procurement.Controllers
             this._transportRequisitionService = transportRequisitionService;
             this._workflowStatusService = workflowStatusService;
             _log = log;
-            _userAccountService = userAccountService;
             _adminUnitService = adminUnitService;
             _transporterService = transporterService;
             _transReqWithoutTransporterService = transReqWithoutTransporterService;
@@ -69,7 +68,7 @@ namespace Cats.Areas.Procurement.Controllers
             var reportPath = Server.MapPath("~/Report/Procurment/TransportOrder.rdlc");
 
             var Data = _transportOrderService.GeTransportOrderRpt(id);
-            var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
+            var datePref = UserAccountHelper.GetUser(User.Identity.Name).DatePreference;
             var reportData = vwTransportOrderViewModelBinder.BindListvwTransportOrderViewModel(Data, datePref);
 
            var dataSourceName = "TransportOrders";
@@ -125,8 +124,8 @@ namespace Cats.Areas.Procurement.Controllers
 
         public ActionResult TransportOrder_Read([DataSourceRequest] DataSourceRequest request, int id = 0)
         {
-            var transportOrders = id == 0 ? _transportOrderService.Get(t => t.StatusID == (int)TransportOrderStatus.Draft).OrderByDescending(m => m.TransportOrderID).ToList() : _transportOrderService.Get(t => t.StatusID == id).ToList();
-            var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
+            var transportOrders = id == 0 ? _transportOrderService.Get(t => t.StatusID == (int)TransportOrderStatus.Draft).OrderByDescending(m => m.TransportOrderID).ToList() : _transportOrderService.Get(t => t.StatusID == id).ToList();            
+            var datePref = UserAccountHelper.GetUser(User.Identity.Name).DatePreference;
             var statuses = _workflowStatusService.GetStatus(WORKFLOW.TRANSPORT_ORDER);
             var transportOrderViewModels = TransportOrderViewModelBinder.BindListTransportOrderViewModel(
                 transportOrders, datePref, statuses);
@@ -182,7 +181,7 @@ namespace Cats.Areas.Procurement.Controllers
         public ActionResult Details(int id)
         {
             var transportOrder = _transportOrderService.Get(t => t.TransportOrderID == id, null, "TransportOrderDetails.FDP,TransportOrderDetails.FDP.AdminUnit,TransportOrderDetails.Commodity,TransportOrderDetails.Hub,TransportOrderDetails.ReliefRequisition").FirstOrDefault();
-            var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
+            var datePref = UserAccountHelper.GetUser(User.Identity.Name).DatePreference;
             var statuses = _workflowStatusService.GetStatus(WORKFLOW.TRANSPORT_ORDER);
             var transportOrderViewModel = TransportOrderViewModelBinder.BindTransportOrderViewModel(transportOrder, datePref, statuses);
             ViewData["Transport.order.detail.ViewModel"] = transportOrder == null ? null :
@@ -447,7 +446,7 @@ namespace Cats.Areas.Procurement.Controllers
         }
         private TransportContractViewModel GetTransportOrder(TransportOrder transportOrder)
         {
-            var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
+            var datePref = UserAccountHelper.GetUser(User.Identity.Name).DatePreference;
             var transportContract = new TransportContractViewModel()
                 {
                     TransportOrderID = transportOrder.TransportOrderID,
@@ -554,7 +553,7 @@ namespace Cats.Areas.Procurement.Controllers
         }
         private TransportContractReportViewModel GetTransportOrderReport(TransportOrder transportOrder)
         {
-            var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
+            var datePref = UserAccountHelper.GetUser(User.Identity.Name).DatePreference;
             var transportOrderReport = new TransportContractReportViewModel()
             {
                 TransportOrderID = transportOrder.TransportOrderID,

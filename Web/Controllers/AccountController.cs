@@ -21,7 +21,7 @@ namespace Cats.Controllers
 
 
         public AccountController(IUserAccountService userAccountService, ILog log,
-                                 IForgetPasswordRequestService forgetPasswordRequestService,ISettingService settingService)
+                                 IForgetPasswordRequestService forgetPasswordRequestService, ISettingService settingService)
         {
             _userAccountService = userAccountService;
             _log = log;
@@ -48,10 +48,18 @@ namespace Cats.Controllers
                 {
                     FormsAuthentication.SetAuthCookie(model.UserName, model.RememberMe);
 
-                    // Will be refactored
-                    Session["User"] = _userAccountService.GetUserDetail(model.UserName);
-                   
-                    ////
+                    // Will be refactored                              
+                    var user = _userAccountService.GetUserDetail(model.UserName);
+                    user.LogginDate = DateTime.Today;
+                    user.NumberOfLogins += 1;
+                    Session["User"] = user;
+                    _userAccountService.UpdateUser(user);
+
+                    // Add user information to session variable to avoid frequent trip to the databas
+                    var service = (IUserAccountService)DependencyResolver.Current.GetService(typeof(IUserAccountService));
+                    var userInfo = service.GetUserInfo(model.UserName);
+                    Session["USER_INFO"] = userInfo;
+
 
                     // TODO: Review user permission code
                     //string[] authorization = service.GetUserPermissions(service.GetUserInfo(model.UserName).UserAccountId, "Administrator", "Manage User Account");
@@ -110,11 +118,11 @@ namespace Cats.Controllers
         {
             if (ModelState.IsValid)
             {
-                
+
                 var user = _userAccountService.GetUserDetail(model.UserName);
                 if (user != null)
                 {
-                   
+
                     var forgetPasswordRequest = new ForgetPasswordRequest()
                     {
                         Completed = false,
@@ -163,13 +171,13 @@ namespace Cats.Controllers
                         {
                             ViewBag.ErrorMessage = "The user name or email address you provided is not correct. Please try again.";
                         }
-                      
+
                     }
-                    
+
                     ModelState.AddModelError("Sucess", "Email has Sent to your email Address.");
                 }
-              
-               // ModelState.AddModelError("Errors", "Invalid User Name " + model.UserName);
+
+                // ModelState.AddModelError("Errors", "Invalid User Name " + model.UserName);
             }
             return View();
         }
@@ -215,13 +223,11 @@ namespace Cats.Controllers
 
         public ActionResult RedirectToHub()
         {
-           
             return Redirect("/hub");
         }
         public ActionResult Administration()
         {
             return Redirect("/home");
         }
-        
     }
 }

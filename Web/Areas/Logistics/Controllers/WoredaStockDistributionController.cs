@@ -13,7 +13,7 @@ using Cats.Services.Security;
 using Cats.ViewModelBinder;
 using Kendo.Mvc.UI;
 using Kendo.Mvc.Extensions;
-
+using Cats.Services.Transaction;
 namespace Cats.Areas.Logistics.Controllers
 {
     public class WoredaStockDistributionController : Controller
@@ -23,25 +23,28 @@ namespace Cats.Areas.Logistics.Controllers
         private readonly IUtilizationDetailSerivce _utilizationDetailSerivce;
         private readonly IReliefRequisitionService _reliefRequisitionService;
         private readonly UserAccountService _userAccountService;
-        private readonly IWorkflowStatusService _workflowStatusService;
         private readonly ICommonService _commonService;
         private readonly IRegionalRequestService _regionalRequestService;
-        private readonly IDistributionByAgeDetailService _distributionByAgeDetailService;
         private readonly IReliefRequisitionDetailService _reliefRequisitionDetailService;
-        public WoredaStockDistributionController(IUtilizationHeaderSerivce utilizationService, IUtilizationDetailSerivce utilizationDetailSerivce, 
-                       UserAccountService userAccountService, IWorkflowStatusService workflowStatusService, ICommonService commonService, 
-                        IRegionalRequestService regionalRequestService,IDistributionByAgeDetailService distributionByAgeDetailService,
-                         IReliefRequisitionDetailService reliefRequisitionDetailService,IReliefRequisitionService reliefRequisitionService)
+        private readonly ITransactionService _transactionService;
+        public WoredaStockDistributionController(
+            IUtilizationHeaderSerivce utilizationService,
+            IUtilizationDetailSerivce utilizationDetailSerivce, 
+            UserAccountService userAccountService,
+            ICommonService commonService, 
+            IRegionalRequestService regionalRequestService,
+            IReliefRequisitionDetailService reliefRequisitionDetailService,
+            IReliefRequisitionService reliefRequisitionService,
+            ITransactionService transactionService)
         {
             _utilizationService = utilizationService;
             _utilizationDetailSerivce = utilizationDetailSerivce;
             _userAccountService = userAccountService;
-            _workflowStatusService = workflowStatusService;
             _commonService = commonService;
             _regionalRequestService = regionalRequestService;
-            _distributionByAgeDetailService = distributionByAgeDetailService;
             _reliefRequisitionDetailService = reliefRequisitionDetailService;
             _reliefRequisitionService = reliefRequisitionService;
+            _transactionService = transactionService;
         }
 
         //
@@ -181,29 +184,7 @@ namespace Cats.Areas.Logistics.Controllers
             }
             return null;
         }
-        //private IEnumerable<WoredaDistributionDetailViewModel> GetWoredaStockDistributionDetailInfo(int woredaStockDistributionID)
-        //{
-        //    var woredaStockDistributionDetails = _utilizationDetailSerivce.FindBy(m => m.WoredaStockDistributionID == woredaStockDistributionID);
-        //    var woredaDistribution = _utilizationService.FindById(woredaStockDistributionID);
-        //    if (woredaStockDistributionDetails!=null)
-        //    {
-                
-            
-        //       return (from woredaStockDistributionDetail in woredaStockDistributionDetails
-        //            select new WoredaDistributionDetailViewModel()
-        //            {
-        //                FdpId = woredaStockDistributionDetail.FdpId,
-        //                FDP = woredaStockDistributionDetail.FDP.Name,
-        //                WoredaStockDistributionID = woredaStockDistributionDetail.WoredaStockDistributionID,
-        //                WoredaStockDistributionDetailID = woredaStockDistributionDetail.WoredaStockDistributionID,
-        //                DistributedAmount = woredaStockDistributionDetail.DistributedAmount
-
-        //            });
-        //    }
-        //    var fdpStockDistribution = _commonService.GetFDPs(woredaDistribution.WoredaID);
-        //    return  GetWoredaStockDistribution(fdpStockDistribution);
-
-        //}
+       
         private WoredaStockDistribution GetWoredaDetailMOdel(WoredaStockDistributionWithDetailViewModel distributionViewModel)
         {
             if (distributionViewModel!=null)
@@ -270,10 +251,15 @@ namespace Cats.Areas.Logistics.Controllers
                         }
 
                         ModelState.AddModelError("Success", @"Distribution Information Successfully Saved");
-                        LookUps();
-                        //var distributionDetail = _utilizationDetailSerivce.FindBy(m => m.WoredaStockDistributionID == distributionHeader.WoredaStockDistributionID);
-                        //distributionHeader.WoredaStockDistributionDetails = distributionDetail;
+                        LookUps(woredaStockDistribution);
+
+
+                        if (distributionHeader != null)
+                        {
+                            _transactionService.PostDistribution(distributionHeader.WoredaStockDistributionID);
+                        }
                         WoredaStockDistributionWithDetailViewModel woredaStockDistributionViewModel = GetWoredaStockDistributionFormDB(distributionHeader);
+                        
                         return View(woredaStockDistributionViewModel);
                     }
                 }
@@ -343,7 +329,8 @@ namespace Cats.Areas.Logistics.Controllers
         {
             if (woredaID==0 || planID==0 || month==0) return null;
             var zone = _commonService.GetZoneID(woredaID);
-            var regionalRequest = _regionalRequestService.FindBy(m => m.PlanID == planID && m.Month == month).FirstOrDefault();
+            var region = _commonService.GetRegion(zone);
+            var regionalRequest = _regionalRequestService.FindBy(m => m.PlanID == planID && m.Month == month && m.RegionID==region).FirstOrDefault();
             var requisition = _reliefRequisitionService.FindBy(m => m.RegionalRequestID == regionalRequest.RegionalRequestID
                                                                  && m.ZoneID == zone).FirstOrDefault();
             if (regionalRequest!=null)
@@ -462,14 +449,15 @@ namespace Cats.Areas.Logistics.Controllers
             return Json(new SelectList(plans.ToList(), "PlanID", "PlanName"), JsonRequestBehavior.AllowGet);
         }
        
-        public JsonResult GetMonth(string id)
+        public JsonResult GetMonth(string id,int zoneID)
         {
             try
             {
                 var planid = int.Parse(id);
-
-                var months = _regionalRequestService.FindBy(r => r.PlanID == planid).ToList();
-                var month = from m in months
+                var requisition = _reliefRequisitionService.FindBy(m => m.ZoneID == zoneID).Select(m => m.RegionalRequestID).Distinct();
+                var request = _regionalRequestService.FindBy(m => requisition.Contains(m.RegionalRequestID) && m.PlanID == planid) .ToList();
+                //var months = _regionalRequestService.FindBy(r => r.PlanID == planid).ToList();
+                var month = from m in request
                              select new {month = m.Month};
                 var distinctMonth = month.Distinct();
                 return Json(new SelectList(distinctMonth, "month", "month"), JsonRequestBehavior.AllowGet);

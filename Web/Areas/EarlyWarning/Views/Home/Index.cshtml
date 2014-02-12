@@ -4,8 +4,8 @@
     ViewBag.Title = "Index";
     ViewBag.ViewWidth = "Wide";
     Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+    const string PAGE_NAME="Regional.Home.Index";
 }
-
 
 <link href="~/Content/DashboardWidget.css" rel="stylesheet">
 <html>
@@ -22,31 +22,31 @@
                 <div class="widget-content">
                     <div class="shortcuts">
                         <a href="@Url.Action("Index", "Contribution", new { Area = "EarlyWarning" })" class="shortcut"><i class="shortcut-icon icon-list-alt"></i>
-                            <span class="shortcut-label">Contribution</span>
+                            <span class="shortcut-label">@Html.Translate2(PAGE_NAME,"Contribution")</span>
                         </a>
 
                         <a href="@Url.Action("Index", "GiftCertificate", new { Area = "EarlyWarning" })" class="shortcut"><i class="shortcut-icon icon-signal"></i>
-                            <span class="shortcut-label">Gift Certificate</span>
+                            <span class="shortcut-label">@Html.Translate2(PAGE_NAME,"Gift Certificate")</span>
                         </a>
 
                         <a href="@Url.Action("Index", "HRD", new { Area = "EarlyWarning" })" class="shortcut"><i class="shortcut-icon icon-inbox"></i>
-                            <span class="shortcut-label">HRD</span>
+                            <span class="shortcut-label">@Html.Translate2(PAGE_NAME,"HRD")</span>
                         </a>
 
                         <a href="@Url.Action("Index", "NeedAssessment", new { Area = "EarlyWarning" })" class="shortcut"><i class="shortcut-icon icon-tasks"></i>
-                            <span class="shortcut-label">Need Assessment</span>
+                            <span class="shortcut-label">@Html.Translate2(PAGE_NAME,"Need Assessment")</span>
                         </a>
 
                         <a href="@Url.Action("Index", "Ration", new { Area = "EarlyWarning" })" class="shortcut"><i class="shortcut-icon icon-bell"></i>
-                            <span class="shortcut-label">Ration</span>
+                            <span class="shortcut-label">@Html.Translate2(PAGE_NAME,"Ration")</span>
                         </a>
 
                         <a href="@Url.Action("Index", "ReliefRequisition", new { Area = "EarlyWarning" })" class="shortcut"><i class="shortcut-icon icon-cog"></i>
-                            <span class="shortcut-label">Relief Requisition</span>
+                            <span class="shortcut-label">@Html.Translate2(PAGE_NAME,"Relief Requisition")</span>
                         </a>
 
                         <a href="@Url.Action("Index", "Request", new { Area = "EarlyWarning" })" class="shortcut"><i class="shortcut-icon icon-cog"></i>
-                            <span class="shortcut-label">Request</span>
+                            <span class="shortcut-label">@Html.Translate2(PAGE_NAME,"Request")</span>
                         </a>
                     </div>
                 </div>

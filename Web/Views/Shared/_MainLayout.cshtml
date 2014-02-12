@@ -6,6 +6,7 @@
     UserIdentity user = (UserIdentity)HttpContext.Current.User.Identity;
 
     string theme = "default";
+    var spanWidth = "span12";
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -16,12 +17,13 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <!-- Le styles 
+    <!-- Le styles
     <link href="~/Content/assets/css/bootstrap.css" rel="stylesheet">-->
     <link href="~/Content/themes/@theme/bootstrap.min.css" rel="stylesheet">
+    
+    @*<link href="~/Content/Login/bootstrap.min.css" rel="stylesheet"/>*@
     <link href="~/Content/assets/css/font-awesome.css" rel="stylesheet" />
     <link href="~/Content/Site.css" rel="stylesheet" />
-
     <link href="~/Content/themes/dashboard.css" rel="stylesheet" />
 
     <link href="~/Content/kendo/2013.1.319/kendo.common.min.css" rel="stylesheet" />
@@ -29,6 +31,7 @@
     <link href="@Url.Content("~/Content/kendo/2013.1.319/kendo.bootstrap.min.css")" rel="stylesheet" type="text/css" />
     <link href="~/Content/ng-grid.css" rel="stylesheet" />
     <link href="~/Content/ng-table.css" rel="stylesheet" />
+    @RenderSection("Styles", required: false)
 
     <!--
     <link href="~/Content/kendo/2013.1.319/kendo.default.min.css" rel="stylesheet" />
@@ -43,7 +46,6 @@
     <script src="~/Scripts/ng-table.js"></script>
     <script src="~/Scripts/ng-grid.js"></script>
 
-    @*<script data-require="ng-table@@*" data-semver="0.3.0" src="http://bazalt-cms.com/assets/ng-table/0.3.0/ng-table.js"></script>*@
     <script type="text/javascript" src="~/Scripts/ng-highchart.js"></script>
 
     <style type="text/css">
@@ -102,8 +104,8 @@
     <link href="~/Content/assets/css/bootstrap-responsive.css" rel="stylesheet" />
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
-		<script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
-	<![endif]-->
+        <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
 
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
@@ -132,30 +134,34 @@
     <div class="container-fluid">
 
         <div class="row-fluid">
-            <div class="span2 column-divider">
-                <div class="sidebar-nav">
-                    <ul class="nav nav-list">
-                        @RenderSection("LeftBar", required: false)
-                    </ul>
-                </div>
-                <!--/.well -->
-            </div>
+            @{
+                if (IsSectionDefined("LeftBar"))
+                {
+                    spanWidth = "span10";
+                    <div class="span2 column-divider">
+                        <div class="sidebar-nav">
+                            <ul class="nav nav-list">
+                                @RenderSection("LeftBar", required: false)
+                            </ul>
+                        </div>
+                        <!--/.well -->
+                    </div>
+                }
+            }
+
             <!--/span-->
-            <div class="span10">
+            <div class="@spanWidth">
                 <div>
                     <div class="span7">
                         @RenderSection("Breadcrumb", required: false)
 
                         @Html.Partial("_BreadCrumb")
                     </div>
-
-
-
-                    <div class="span5">
-                        <div class=" btn-group toolbar">
-                            @RenderSection("Toolbar", required: false)
-                        </div>
-                        @Html.Partial("_ToolbarCommon")
+                    <div class="span5" >
+                        <div class="pull-right btn-toolbar toolbar">
+                            @RenderSection("Toolbar", required: false)                           
+                            @Html.Partial("_ToolbarCommon")
+                        </div>                        
                     </div>
 
                 </div>
@@ -217,9 +223,8 @@
         </div>
     </div>
     <!--/.fluid-container-->
-
     <!-- javascript
-	================================================== -->
+    ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     @RenderSection("Scripts", required: false)
 
@@ -258,17 +263,17 @@
 
         if (calendarPreference != "EC")
         {
-        <script>
-            $(function () {
-                $(".cats-datepicker2").datepicker();
-            });
-        </script>
+            <script>
+                $(function () {
+                    $(".cats-datepicker2").datepicker();
+                });
+            </script>
         }
         else
         {
-        <script type='text/javascript'>
-            init_datepicker();
-        </script>                                                                                                
+            <script type='text/javascript'>
+                init_datepicker();
+            </script>
         }
         <script>
             //Script to generate row number
@@ -295,8 +300,8 @@
             }
 
         </script>
-        
-       
+
+
     }
     <script type="text/javascript">
         var datepreferencedisplay = "@Translator.Translate(@Html.UserCalendarPreference())";
@@ -312,7 +317,7 @@
             $(".cats-unit-pref-grid >.k-link").append("(" + unitpreferencedisplay + ")");
             /*each(function () {
                 $(this).append("(" + datepeferencedisplay + ")");
-                
+
             });*/
         });
 
@@ -325,7 +330,7 @@
         }
 
     </script>
-    
+
     @MiniProfiler.RenderIncludes()
     <!-- JIRA Collector scripts -->
     @*<script type="text/javascript" src="https://cats-edge.atlassian.net/s/d41d8cd98f00b204e9800998ecf8427e/en_US-d926hj-1988229788/6207/22/1.4.3/_/download/batch/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector.js?collectorId=630f8204"></script>*@

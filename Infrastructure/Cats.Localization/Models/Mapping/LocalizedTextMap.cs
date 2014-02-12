@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace Cats.Localization.Models.Mapping
 {
-    public class LocalizedPhraseMap : EntityTypeConfiguration<LocalizedPhrase>
+    public class LocalizedTextMap : EntityTypeConfiguration<LocalizedText>
     {
-        public LocalizedPhraseMap()
+        public LocalizedTextMap()
         {
             // Primary Key
-            this.HasKey(t => t.LocalizationId);
+            this.HasKey(t => t.LocalizedTextId);
 
             // Properties
             this.Property(t => t.LanguageCode)
@@ -20,23 +20,24 @@ namespace Cats.Localization.Models.Mapping
                 .IsFixedLength()
                 .HasMaxLength(2);
 
+            this.Property(t => t.TextKey)
+                .HasMaxLength(200);
+
             this.Property(t => t.TranslatedText)
-                .IsRequired();
+                .HasMaxLength(200);
 
             // Table & Column Mappings
-            this.ToTable("LocalizedPhrase", "Localization");
-            this.Property(t => t.LocalizationId).HasColumnName("LocalizationId");
+            this.ToTable("dbo.LocalizedTexts");
+            this.Property(t => t.LocalizedTextId).HasColumnName("LocalizedTextId");
             this.Property(t => t.LanguageCode).HasColumnName("LanguageCode");
-            this.Property(t => t.PhraseId).HasColumnName("PhraseId");
+            this.Property(t => t.PageId).HasColumnName("PageId");
+            this.Property(t => t.TextKey).HasColumnName("TextKey");
             this.Property(t => t.TranslatedText).HasColumnName("TranslatedText");
 
             // Relationships
-            this.HasRequired(t => t.Language);
-               // .WithMany(t => t.LocalizedPhrases)
-                //.HasForeignKey(d => d.LanguageCode);
-            this.HasRequired(t => t.Phrase);
-               // .WithMany(t => t.LocalizedPhrases)
-                //.HasForeignKey(d => d.PhraseId);
+            this.HasOptional(t => t.Page)
+                .WithMany(t => t.LocalizedTexts)
+                .HasForeignKey(d => d.PageId);
 
         }
     }

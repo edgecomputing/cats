@@ -114,8 +114,8 @@
                   }).ToolBar(toolbar =>
                       {
                           toolbar.Save();
-                          //toolbar.Create();
-                          toolbar.Custom().Text("Add FDP").HtmlAttributes(new { id = "addFDP" });
+                          toolbar.Create();
+                          //toolbar.Custom().Text("Add FDP").HtmlAttributes(new { id = "addFDP" });
                       })
               .Editable(edit => edit.Mode(GridEditMode.InCell))
               .Pageable()
@@ -127,7 +127,7 @@
                               .PageSize(10)
                               .Model(m => m.Id(t => t.FDPID))
                               .Read(read => read.Action("FDP_Read", "FDP").Data("selectedWoredaId"))
-                              //.Create(create => create.Action("FDP_Create", "FDP").Data("selectedWoredaId"))
+                              .Create(create => create.Action("FDP_Create", "FDP").Data("selectedWoredaId"))
                               .Update("FDP_Save", "FDP")
                               .Destroy(update => update.Action("FDP_Destroy", "FDP"))
                 //.Destroy("FDP_Destroy","FDP")
