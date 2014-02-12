@@ -43,6 +43,7 @@ namespace Cats.Models
         public virtual ICollection<OtherDispatchAllocation> OtherDispatchAllocations { get; set; }
         public virtual ICollection<WoredaHubLink> WoredaHubLinks { get; set; }
         public virtual ICollection<ReceiptPlanDetail> ReceiptPlanDetails { get; set; }
+        public virtual ICollection<DeliveryReconcile> DeliveryReconciles { get; set; }
        
     }
 }

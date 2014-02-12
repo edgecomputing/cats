@@ -80,9 +80,11 @@
     <Compile Include="AllocationByRegion.cs" />
     <Compile Include="Constant\Application.cs" />
     <Compile Include="Contact.cs" />
+    <Compile Include="DeliveryReconcile.cs" />
     <Compile Include="Dispatch.cs" />
     <Compile Include="DispatchDetail.cs" />
     <Compile Include="DistributionByAgeDetail.cs" />
+    <Compile Include="Mapping\DeliveryReconcileMap.cs" />
     <Compile Include="Mapping\DispatchDetailMap.cs" />
     <Compile Include="Mapping\DispatchMap.cs" />
     <Compile Include="Mapping\DistributionByAgeDetailMap.cs" />

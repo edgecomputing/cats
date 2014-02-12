@@ -164,8 +164,8 @@ namespace Cats.Data.UnitWork
         //IGenericRepository<TransportBidQuotationHeader> TransportbidQuotationHeaderRepository { get; } 
         IGenericRepository<ReceiptAllocation> ReceiptAllocationRepository { get; }
         IGenericRepository<ReceiptPlan> ReceiptPlanRepository { get; }
-        IGenericRepository<ReceiptPlanDetail> ReceiptPlanDetailRepository { get; } 
-       
+        IGenericRepository<ReceiptPlanDetail> ReceiptPlanDetailRepository { get; }
+        IGenericRepository<DeliveryReconcile> DeliveryReconcileRepository { get; }
         void Save();
 
     }

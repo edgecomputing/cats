@@ -464,8 +464,8 @@
     <Compile Include="Areas\Localization\Controllers\TranslationController.cs" />
     <Compile Include="Areas\Localization\LocalizationAreaRegistration.cs" />
     <Compile Include="Areas\Logistics\Controllers\BeneficiaryAllocationController.cs" />
-    <Compile Include="Areas\Logistics\Controllers\DonationController.cs" />
     <Compile Include="Areas\Logistics\Controllers\DeliveryController.cs" />
+    <Compile Include="Areas\Logistics\Controllers\DeliveryReconcileController.cs" />
     <Compile Include="Areas\Logistics\Controllers\FDPSIAllocationController.cs" />
     <Compile Include="Areas\Logistics\Controllers\DispatchAllocationController.cs" />
     <Compile Include="Areas\Logistics\Controllers\HomeController.cs" />
@@ -478,15 +478,14 @@
     <Compile Include="Areas\Logistics\Controllers\WoredaStockDistributionController.cs" />
     <Compile Include="Areas\Logistics\LogisticsAreaRegistration.cs" />
     <Compile Include="Areas\Logistics\Models\ActionLink.cs" />
+    <Compile Include="Areas\Logistics\Models\ZonesViewModel.cs" />
     <Compile Include="Areas\Logistics\Models\AssignHubViewModel.cs" />
+    <Compile Include="Areas\Logistics\Models\DispatchViewModelForReconcile.cs" />
     <Compile Include="Areas\Logistics\Models\DistributionByAgeDetailViewModel.cs" />
-    <Compile Include="Areas\Logistics\Models\DonationDetailViewModel.cs" />
-    <Compile Include="Areas\Logistics\Models\DonationHeaderViewModel.cs" />
     <Compile Include="Areas\Logistics\Models\DeliveryDetailViewModel.cs" />
     <Compile Include="Areas\Logistics\Models\DeliveryViewModel.cs" />
     <Compile Include="Areas\Logistics\Models\FreeStockStatusViewModel.cs" />
     <Compile Include="Areas\Logistics\Models\FreeStockSummaryModel.cs" />
-    <Compile Include="Areas\Logistics\Models\ReceiptAllocationViewModel.cs" />
     <Compile Include="Areas\Logistics\Models\GRNViewModel.cs" />
     <Compile Include="Areas\Logistics\Models\SIAllocation.cs" />
     <Compile Include="Areas\Logistics\Models\Hub.cs" />
@@ -583,7 +582,6 @@
       <DependentUpon>CatsMasterDataSet.xsd</DependentUpon>
     </Compile>
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\SMSController.cs" />
     <Compile Include="Controllers\SMSGatewayController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Areas\EarlyWarning\Controllers\HomeController.cs" />
@@ -720,14 +718,12 @@
     </Compile>
     <Compile Include="ViewModelBinder\DispatchReportViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\DispatchViewModelBinder.cs" />
-    <Compile Include="ViewModelBinder\DonationViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\FDPViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\GiftCertificateViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\HRDViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\HubAllocationViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\NeedAssessmentViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\NotificationViewModelBinder.cs" />
-    <Compile Include="ViewModelBinder\ReceiptAllocationViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\RequestViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\RequisitionViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\TransporterListViewModelBinder.cs" />
@@ -1353,6 +1349,7 @@
     <Content Include="Scripts\2013.1.219\telerik.window.min.js" />
     <Content Include="Scripts\angular.min.js" />
     <Content Include="Scripts\angular\angular-dragdrop.min.js" />
+    <Content Include="Scripts\angular\angular-kendo.js" />
     <Content Include="Scripts\angular\angular-resource.js" />
     <Content Include="Scripts\angular\angular.js" />
     <Content Include="Scripts\angular\css\bootstrap.min.css" />
@@ -1665,17 +1662,11 @@
     <Content Include="Areas\Report\Views\ReportHome\Index.cshtml" />
     <Content Include="Content\themes\default\variables.less" />
     <Content Include="Areas\Settings\Views\Users\add.cshtml" />
-    <Content Include="Areas\Logistics\Views\Utilization\Index.cshtml" />
-    <Content Include="Areas\Logistics\Views\Utilization\_DistributionByAge.cshtml" />
-    <Content Include="Areas\Logistics\Views\Utilization\_DistributionByBeneficiary.cshtml" />
-    <Content Include="Areas\Logistics\Views\Donation\Index.cshtml" />
-    <Content Include="Areas\Logistics\Views\Utilization\Create.cshtml" />
-    <Content Include="Areas\Logistics\Views\Donation\AddNewDonationPlan.cshtml" />
     <Content Include="Areas\Logistics\Views\WoredaStockDistribution\Index.cshtml" />
     <Content Include="Areas\Logistics\Views\WoredaStockDistribution\_DistributionByAge.cshtml" />
     <Content Include="Areas\Logistics\Views\WoredaStockDistribution\_DistributionByBeneficiary.cshtml" />
     <Content Include="Areas\Logistics\Views\WoredaStockDistribution\Create.cshtml" />
-    <Content Include="Areas\Logistics\Views\WoredaStockDistribution\_LeftBar.cshtml" />
+    <Content Include="Areas\Logistics\Views\DeliveryReconcile\Index.cshtml" />
     <None Include="dataset.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>dataset.Designer.cs</LastGenOutput>
@@ -2630,7 +2621,6 @@
     <Content Include="App_GlobalResources\GridLocalization.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>GridLocalization.designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
     </Content>
     <Content Include="App_GlobalResources\GridLocalization.pt-PT.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>

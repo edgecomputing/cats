@@ -27,6 +27,8 @@ namespace Cats.Models
             public const int GOODS_UNDER_CARE = 12;
             public const int PLEDGED_TO_FDP = 15;
             public const int COMMITED_TO_FDP = 16;
+            public const int GOODS_IN_TRANSIT = 17;
+            public const int DELIVERY_RECEIPT = 18;
         }
     }
 }

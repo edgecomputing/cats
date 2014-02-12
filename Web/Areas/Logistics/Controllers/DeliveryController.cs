@@ -403,7 +403,6 @@ namespace Cats.Areas.Logistics.Controllers
                     deliveryViewModel.Commodity = deliveryDetailWithComodityUnit.Commodity.Name;
                     deliveryViewModel.Unit = deliveryDetailWithComodityUnit.Unit.Name;
                 }
-                _transactionService.PostDeliveryReceipt(newdelivery.DeliveryID);
             }
             
             return Json(deliveryViewModel, JsonRequestBehavior.AllowGet);

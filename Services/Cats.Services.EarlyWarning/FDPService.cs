@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using Cats.Data.UnitWork;
 using Cats.Models;
@@ -60,6 +61,12 @@ namespace Cats.Services.EarlyWarning
         public List<FDP> FindBy(Expression<Func<FDP, bool>> predicate)
         {
             return _unitOfWork.FDPRepository.FindBy(predicate);
+        }
+        public IEnumerable<FDP> Get(System.Linq.Expressions.Expression<Func<FDP, bool>> filter = null,
+                                    Func<IQueryable<FDP>, IOrderedQueryable<FDP>> orderBy = null,
+                                    string includeProperties = "")
+        {
+            return _unitOfWork.FDPRepository.Get(filter, orderBy, includeProperties);
         }
         #endregion
 
