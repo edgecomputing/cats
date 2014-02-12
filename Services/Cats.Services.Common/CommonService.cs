@@ -169,5 +169,30 @@ namespace Cats.Services.Common
            var requestCreated = _unitOfWork.PlanRepository.FindBy(m => request.Contains(m.PlanID));
            return requestCreated;
        }
+       public List<CommoditySource> GetCommoditySource()
+       {
+           return
+               _unitOfWork.CommoditySourceRepository.FindBy(
+                   m =>
+                   m.CommoditySourceID == 2 || m.CommoditySourceID == 5 || m.CommoditySourceID == 8 ||
+                   m.CommoditySourceID == 9); //populate commodity sources for Loan,Transfer,Repayment and Swap
+
+       }
+       public int GetShippingInstruction(string siNumber)
+       {
+           var sINumber =_unitOfWork.ShippingInstructionRepository.FindBy(m => m.Value == siNumber).FirstOrDefault();
+           if (sINumber==null)
+           {
+               var shippingInstruction = new ShippingInstruction();
+               shippingInstruction.Value = siNumber;
+               _unitOfWork.ShippingInstructionRepository.Add(shippingInstruction);
+               return shippingInstruction.ShippingInstructionID;
+           }
+           return sINumber.ShippingInstructionID;
+       }
+        public List<Hub> GetAllHubs()
+        {
+            return _unitOfWork.HubRepository.GetAll();
+        }
     }
 }

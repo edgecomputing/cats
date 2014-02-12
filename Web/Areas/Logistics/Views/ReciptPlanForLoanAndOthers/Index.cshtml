@@ -1,0 +1,70 @@
+﻿@using Cats.Areas.Logistics.Models
+@using Kendo.Mvc.UI
+@using Cats.Helpers
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+    const string pageName = "Logistics.ReciptPlanForLoanAndOthers.Index";
+    
+}
+@section Toolbar
+{
+    <a id="btnAddReciptPlan" data-buttontype="btn_new_record" class="btn toolbar-btn " href="@Url.Action("Create", "ReciptPlanForLoanAndOthers")"></a>
+}
+@section LeftBar
+{
+    
+}
+<script type="text/javascript">
+    $(function () {
+
+        //Optional: turn the chache off
+        $.ajaxSetup({ cache: false });
+
+        $('#btnAddReciptPlan').click(function () {
+
+            // alert("");
+            $('#dialogContent').load(this.href, function () {
+                $('#dialogDiv').modal({
+                    backdrop: 'static',
+                    keyboard: true
+                }, 'show');
+                //bindForm(this);
+            });
+            return false;
+        });
+
+    });
+</script>
+
+<div id='dialogDiv' class='modal hide fade in' style="width: 800px;margin-right: 10px">
+    <div id='dialogContent'></div>
+</div>
+<h4>List of Reciept Plan From Local Purchase</h4>
+ @(Html.Kendo().Grid<LoanReciptPlanViewModel>()
+              .Name("grid")
+              .Columns(columns =>
+                  {
+                      columns.Bound(m => m.SiNumber).Title(@Html.Translate2(pageName,"SI Number"));
+                          //ClientTemplate("<a href='" + Url.Action("Details", "LocalPurchase", new { id = "#=LocalPurchaseID#" }) + " '>#=SiNumber#</a>  "); 
+                      columns.Bound(m => m.ProgramName).Title(@Html.Translate2(pageName,"Program"));
+                      columns.Bound(m => m.CommodityName).Width(200).Title(@Html.Translate2(pageName,"Donor"));
+                      columns.Bound(m => m.CommoditySourceName).Width(200).Title(@Html.Translate2(pageName,"Commodity Source"));
+                      columns.Bound(m => m.HubName).Width(200).Title(@Html.Translate2(pageName,"Hub"));
+                      columns.Bound(m => m.SourceHubName);
+                      columns.Bound(m => m.Quantity).HtmlAttributes(new {align = "right"});
+                     
+
+                  }
+
+              )
+
+              .Navigatable()
+              .HtmlAttributes(new { style = "height:430px;" })
+              .DataSource(dataSource => dataSource
+                                            .Ajax()
+                                            .Model(model =>model.Id(m=>m.LoanReciptPlanID))
+                                            .Read(read => read.Action("LoanReciptPlan_Read", "ReciptPlanForLoanAndOthers"))
+              //.Update(update => update.Action("Commodity_Update", "Request"))
+              )
+              )

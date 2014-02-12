@@ -170,7 +170,8 @@ namespace Cats.Data.UnitWork
         IGenericRepository<DonationPlanDetail> DonationPlanDetailRepository { get; } 
 
         IGenericRepository<LocalPurchase> LocalPurchaseRepository { get;}
-        IGenericRepository<LocalPurchaseDetail> LocalPurchaseDetailRepository { get; } 
+        IGenericRepository<LocalPurchaseDetail> LocalPurchaseDetailRepository { get; }
+        IGenericRepository<LoanReciptPlan> LoanReciptPlanRepository { get; } 
 
         void Save();
 

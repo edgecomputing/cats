@@ -23,6 +23,8 @@ namespace Cats.Models
             this.DonationPlanDetails = new List<DonationPlanDetail>();
 
             this.LocalPurchaseDetails=new List<LocalPurchaseDetail>();
+            this.LoanReciptPlans=new List<LoanReciptPlan>();
+            this.LoanReciptPlans2=new List<LoanReciptPlan>();
 
            
         }
@@ -49,6 +51,8 @@ namespace Cats.Models
         public virtual ICollection<WoredaHubLink> WoredaHubLinks { get; set; }
         public virtual ICollection<ReceiptPlanDetail> ReceiptPlanDetails { get; set; }
         public virtual ICollection<LocalPurchaseDetail> LocalPurchaseDetails  { get; set; }
+        public virtual ICollection<LoanReciptPlan> LoanReciptPlans { get; set; }
+        public virtual ICollection<LoanReciptPlan> LoanReciptPlans2 { get; set; } 
        
     }
 }
