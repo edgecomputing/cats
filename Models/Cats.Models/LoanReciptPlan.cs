@@ -19,6 +19,7 @@ namespace Cats.Models
        public int CommoditySourceID { get; set; }
        public int CommodityID { get; set; }
        public decimal Quantity { get; set; }
+       public int StatusID { get; set; }
 
        public virtual Hub Hub  { get; set; }
        public virtual Hub OriginHub { get; set; }

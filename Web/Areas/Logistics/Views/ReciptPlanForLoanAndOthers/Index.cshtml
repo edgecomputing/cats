@@ -52,8 +52,14 @@
                       columns.Bound(m => m.CommoditySourceName).Width(200).Title(@Html.Translate2(pageName,"Commodity Source"));
                       columns.Bound(m => m.HubName).Width(200).Title(@Html.Translate2(pageName,"Hub"));
                       columns.Bound(m => m.SourceHubName);
-                      columns.Bound(m => m.Quantity).HtmlAttributes(new {align = "right"});
-                     
+                      columns.Bound(m => m.Quantity).HtmlAttributes(new {align = "right"}).Title(@Html.Translate2(pageName,"Quantity in MT"));
+                      columns.Bound(m => m.Status);
+                      columns.Command(p =>
+                      {
+                          p.Custom("Edit").Click("Edit");
+                          p.Custom("Approve").Click("Approve");
+                      }).Width(250);
+
 
                   }
 
@@ -68,3 +74,27 @@
               //.Update(update => update.Action("Commodity_Update", "Request"))
               )
               )
+<script>
+    function Edit(e) {
+        e.preventDefault();
+
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var url = "@Url.Action("Edit", "ReciptPlanForLoanAndOthers")" + "/" + dataItem.LoanReciptPlanID;
+        $('#dialogContent').load(url, function () {
+            $('#dialogDiv').modal({
+                backdrop: 'static',
+                keyboard: true
+            }, 'show');
+           
+        });
+        return false;
+
+    }
+
+    function Approve(e) {
+        e.preventDefault();
+
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        window.location = "@Url.Action("Approve", "ReciptPlanForLoanAndOthers")" + "/" + dataItem.LoanReciptPlanID;
+    }
+</script>

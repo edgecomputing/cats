@@ -23,6 +23,8 @@ namespace Cats.Areas.Logistics.Models
         public string ProjectCode { get; set; }
         public string SiNumber { get; set; }
         public DateTime CreatedDate { get; set; }
+        public int StatusID { get; set; }
+        public string Status { get; set; }
 
 
     }
