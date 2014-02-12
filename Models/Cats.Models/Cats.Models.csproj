@@ -80,15 +80,18 @@
     <Compile Include="AllocationByRegion.cs" />
     <Compile Include="Constant\Application.cs" />
     <Compile Include="Contact.cs" />
+    <Compile Include="DeliveryReconcile.cs" />
     <Compile Include="Dispatch.cs" />
     <Compile Include="DispatchDetail.cs" />
     <Compile Include="DistributionByAgeDetail.cs" />
+    <Compile Include="Mapping\DeliveryReconcileMap.cs" />
     <Compile Include="DonationPlanDetail.cs" />
     <Compile Include="DonationPlanHeader.cs" />
     <!--<Compile Include="Mapping\DispatchDetailMap.cs" />
     <Compile Include="Mapping\DispatchMap.cs" />
     <Compile Include="Mapping\DistributionByAgeDetailMap.cs" />-->
     <Compile Include="LoanReciptPlan.cs" />
+    <Compile Include="LoanReciptPlanDetail.cs" />
     <Compile Include="Mapping\DonationPlanDetailMap.cs" />
     <Compile Include="Mapping\DonationPlanHeaderMap.cs" />
     <Compile Include="LocalPurchase.cs" />
@@ -96,6 +99,7 @@
     <Compile Include="Mapping\DispatchDetailMap.cs" />
     <Compile Include="Mapping\DispatchMap.cs" />
     <Compile Include="Mapping\DistributionByAgeDetailMap.cs" />
+    <Compile Include="Mapping\LoanReciptPlanDetailMap.cs" />
     <Compile Include="Mapping\LocalPurchaseDetailMap.cs" />
     <Compile Include="Mapping\LocalPurchaseMap.cs" />
     <Compile Include="Mapping\ReceiptPlanDetailMap.cs" />
@@ -107,6 +111,7 @@
     <Compile Include="Mapping\SupportTypeMap.cs" />
     <Compile Include="OtherDispatchAllocation.cs" />
     <Compile Include="SupportType.cs" />
+    <Compile Include="ViewModels\DistributionByAgeViewModel.cs" />
     <Compile Include="WoredaStockDistributionDetail.cs" />
     <Compile Include="Delivery.cs" />
     <Compile Include="DeliveryDetail.cs" />

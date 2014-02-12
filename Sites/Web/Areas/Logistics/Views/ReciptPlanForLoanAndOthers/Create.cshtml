@@ -10,7 +10,7 @@
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
     <h3 id="myModalLabel">@Html.Translate2(PAGE_NAME,"New Recipt Plan from Loan,Swap,Repayment or Others")</h3>
 </div>
-@using (Html.BeginForm("Create", "ReciptPlanForLoanAndOthers", FormMethod.Post, new { @class = "modal-form" }))
+@using (Html.BeginForm("Create", "ReciptPlanForLoanAndOthers", FormMethod.Post, new { @class = "modal-form",id="myForm1" }))
 {
     <table border="0" class="form-horizontal">
         <tr style="width: 300px">
@@ -39,18 +39,19 @@
                     @Html.LabelFor(m=>m.SourceHubID,@Html.Translate2(PAGE_NAME,"Source Hub"))
                 </div>
                 <div class="controls">
-                    @Html.DropDownList("HubID")
+                    @Html.DropDownList("SourceHubID")
                     @Html.ValidationMessageFor(m=>m.SourceHubID)
                 </div>
             </td>
-            <td style="width: 50%" align="left">
-                <div class="control-label">
-                    @Html.LabelFor(m=>m.CommodityID,@Html.Translate2(PAGE_NAME,"Commodity"))
+            <td style="width: 50%">
+                 <div class="control-label">
+                    @Html.LabelFor(m=>m.CommodityID,@Html.Translate2(PAGE_NAME,"Commodity Type"))
                 </div>
                 <div class="controls">
-                    @Html.DropDownList("CommodityID")
+                    @Html.DropDownList("CommodityTypeID")
                     @Html.ValidationMessageFor(m=>m.CommodityID)
                 </div>
+                
             </td>
         </tr>
         <tr>
@@ -64,23 +65,24 @@
                 </div>
             </td>
             <td>
-                <div class="control-label">
-                    @Html.LabelFor(m=>m.CommodityID,@Html.Translate2(PAGE_NAME,"Commodity Type"))
+               <div class="control-label">
+                    @Html.LabelFor(m=>m.CommodityID,@Html.Translate2(PAGE_NAME,"Commodity"))
                 </div>
                 <div class="controls">
-                    @Html.DropDownList("CommodityTypeID")
+                    @Html.DropDownList("CommodityID")
                     @Html.ValidationMessageFor(m=>m.CommodityID)
                 </div>
             </td>
         </tr>
         <tr>
             <td>
-                <div class="control-label">
-                    @Html.LabelFor(m=>m.ProjectCode,@Html.Translate2(PAGE_NAME,"Project Code"))
+                 <div class="control-label">
+                    @Html.LabelFor(m=>m.CommoditySourceID,@Html.Translate2(PAGE_NAME,"Commodity Source"))
                 </div>
                 <div class="controls">
-                    @Html.TextBoxFor(m=>m.ProjectCode)
-                    @Html.ValidationMessageFor(m=>m.ProjectCode)
+                    @Html.DropDownList("CommoditySourceID")
+                    @Html.ValidationMessageFor(m=>m.CommoditySourceID)
+
                 </div>
             </td>
             <td>
@@ -96,17 +98,17 @@
         <tr>
             <td>
                 <div class="control-label">
-                    @Html.LabelFor(m=>m.CommoditySourceID,@Html.Translate2(PAGE_NAME,"Commodity Source"))
+                    @Html.LabelFor(m=>m.ProjectCode,@Html.Translate2(PAGE_NAME,"Project Code"))
                 </div>
                 <div class="controls">
-                    @Html.DropDownList("CommoditySourceID")
-                    @Html.ValidationMessageFor(m=>m.CommoditySourceID)
-
+                    @Html.TextBoxFor(m=>m.ProjectCode)
+                    @Html.ValidationMessageFor(m=>m.ProjectCode)
                 </div>
+               
             </td>
             <td>
                 <div class="control-label">
-                    @Html.LabelFor(m=>m.Quantity,@Html.Translate2(PAGE_NAME,"Quantity"))
+                    @Html.LabelFor(m=>m.Quantity,@Html.Translate2(PAGE_NAME,"Quantity in MT"))
                 </div> 
                 <div class="controls">
                     @Html.TextBoxFor(m=>m.Quantity)
@@ -121,3 +123,21 @@
        
     </div>
 }
+<script>
+$(document).ready(function () {
+ 
+        var allValidationRules = {
+            RefeenceNumber: "required",
+            ProjectCode: "required",
+            Quantity: "required"
+        };
+        $("#myForm1").validate({
+            rules: allValidationRules,
+            showErrors: function (element, errorClass, validClass) {
+                for (var i in errorClass) {
+                    $(errorClass[i].element).popover('show');
+                }
+            }
+        });
+});
+    </script>

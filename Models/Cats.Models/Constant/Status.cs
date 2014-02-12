@@ -16,7 +16,7 @@ namespace Cats.Models.Constant
       Plan=7,
       BidWinner=8,
       BID=9,
-      LocalPUrchase=10
+      LocalPUrchase=10,
 
   }
     public enum Programs
@@ -114,5 +114,6 @@ namespace Cats.Models.Constant
         Recived=3,
         Closed=4
     }
+
    
 }

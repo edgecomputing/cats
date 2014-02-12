@@ -448,7 +448,7 @@ namespace Cats.Web.Hub.Controllers
                 //this check need's to be revisited
                 if (prevCommodities.Count() == 0)
                 {
-                    ModelState.AddModelError("ReceiveDetails", "Please add atleast one commodity to save this Reciept");
+                    ModelState.AddModelError("ReceiveDetails", "Please add at least one commodity to save this Reciept");
                 }
                 
                 //TODO add check against the commodity type for each commodity 

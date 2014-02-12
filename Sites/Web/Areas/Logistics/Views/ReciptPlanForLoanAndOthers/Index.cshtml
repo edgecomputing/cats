@@ -37,23 +37,28 @@
     });
 </script>
 
-<div id='dialogDiv' class='modal hide fade in' style="width: 800px;margin-right: 10px">
+<div id='dialogDiv' class='modal hide fade in' style="width: 820px;margin-right: 10px">
     <div id='dialogContent'></div>
 </div>
-<h4>List of Reciept Plan From Local Purchase</h4>
+<h4>List of Reciept Plan From Loan,Swap,Repayment or Other</h4>
  @(Html.Kendo().Grid<LoanReciptPlanViewModel>()
               .Name("grid")
               .Columns(columns =>
                   {
-                      columns.Bound(m => m.SiNumber).Title(@Html.Translate2(pageName,"SI Number"));
-                          //ClientTemplate("<a href='" + Url.Action("Details", "LocalPurchase", new { id = "#=LocalPurchaseID#" }) + " '>#=SiNumber#</a>  "); 
+                      columns.Bound(m => m.SiNumber).Title(@Html.Translate2(pageName, "SI Number")).ClientTemplate("<a href='" + Url.Action("Detail", "ReciptPlanForLoanAndOthers", new { id = "#=LoanReciptPlanID#" }) + " '>#=SiNumber#</a>  "); 
                       columns.Bound(m => m.ProgramName).Title(@Html.Translate2(pageName,"Program"));
-                      columns.Bound(m => m.CommodityName).Width(200).Title(@Html.Translate2(pageName,"Donor"));
+                      columns.Bound(m => m.CommodityName).Width(200).Title(@Html.Translate2(pageName,"Commodity"));
                       columns.Bound(m => m.CommoditySourceName).Width(200).Title(@Html.Translate2(pageName,"Commodity Source"));
                       columns.Bound(m => m.HubName).Width(200).Title(@Html.Translate2(pageName,"Hub"));
                       columns.Bound(m => m.SourceHubName);
-                      columns.Bound(m => m.Quantity).HtmlAttributes(new {align = "right"});
-                     
+                      columns.Bound(m => m.Quantity).HtmlAttributes(new {align = "right"}).Title(@Html.Translate2(pageName,"Quantity in MT"));
+                      columns.Bound(m => m.Status);
+                      columns.Command(p =>
+                      {
+                          p.Custom("Edit").Click("Edit");
+                          p.Custom("Recieve").Click("Recieve");
+                      }).Width(250);
+
 
                   }
 
@@ -67,4 +72,40 @@
                                             .Read(read => read.Action("LoanReciptPlan_Read", "ReciptPlanForLoanAndOthers"))
               //.Update(update => update.Action("Commodity_Update", "Request"))
               )
-              )
+       )
+
+<div id='dialogDivSmall' class='modal hide fade in'>
+    <div id='dialogContentSmall'></div>
+</div>
+<script>
+    function Edit(e) {
+        e.preventDefault();
+
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var url = "@Url.Action("Edit", "ReciptPlanForLoanAndOthers")" + "/" + dataItem.LoanReciptPlanID;
+        $('#dialogContent').load(url, function () {
+            $('#dialogDiv').modal({
+                backdrop: 'static',
+                keyboard: true
+            }, 'show');
+           
+        });
+        return false;
+
+    }
+
+    function Recieve(e) {
+        e.preventDefault();
+
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var url = "@Url.Action("ReciptPlan", "ReciptPlanForLoanAndOthers")" + "/" + dataItem.LoanReciptPlanID;
+        $('#dialogContentSmall').load(url, function () {
+            $('#dialogDivSmall').modal({
+                backdrop: 'static',
+                keyboard: true
+            }, 'show');
+
+        });
+        return false;
+    }
+</script>

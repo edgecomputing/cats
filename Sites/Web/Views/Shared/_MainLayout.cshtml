@@ -20,9 +20,10 @@
     <!-- Le styles
     <link href="~/Content/assets/css/bootstrap.css" rel="stylesheet">-->
     <link href="~/Content/themes/@theme/bootstrap.min.css" rel="stylesheet">
+    
+    @*<link href="~/Content/Login/bootstrap.min.css" rel="stylesheet"/>*@
     <link href="~/Content/assets/css/font-awesome.css" rel="stylesheet" />
     <link href="~/Content/Site.css" rel="stylesheet" />
-
     <link href="~/Content/themes/dashboard.css" rel="stylesheet" />
 
     <link href="~/Content/kendo/2013.1.319/kendo.common.min.css" rel="stylesheet" />
@@ -30,6 +31,7 @@
     <link href="@Url.Content("~/Content/kendo/2013.1.319/kendo.bootstrap.min.css")" rel="stylesheet" type="text/css" />
     <link href="~/Content/ng-grid.css" rel="stylesheet" />
     <link href="~/Content/ng-table.css" rel="stylesheet" />
+    @RenderSection("Styles", required: false)
 
     <!--
     <link href="~/Content/kendo/2013.1.319/kendo.default.min.css" rel="stylesheet" />
@@ -40,6 +42,7 @@
     <script src="~/Scripts/kendo/2013.1.319/kendo.aspnetmvc.min.js" type="text/javascript"></script>
     <script src="~/Scripts/angular/angular.js"> </script>
     <script src="~/Scripts/angular/angular-resource.js"></script>
+    
     <script src="~/Scripts/ng-table.js"></script>
     <script src="~/Scripts/ng-grid.js"></script>
 

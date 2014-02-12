@@ -46,6 +46,12 @@ namespace Cats.Data.UnitWork
             get { return this._DispatchRepository ?? (this._DispatchRepository = new GenericRepository<Dispatch>(_context)); }
         }
 
+        private IGenericRepository<DeliveryReconcile> _DeliveryReconcile = null;
+        public IGenericRepository<DeliveryReconcile> DeliveryReconcileRepository
+        {
+            get { return this._DeliveryReconcile ?? (this._DeliveryReconcile = new GenericRepository<DeliveryReconcile>(_context)); }
+        }
+
         private IGenericRepository<DispatchDetail> _DispatchDetailRepository = null;
         public IGenericRepository<DispatchDetail> DispatchDetailRepository
         {
@@ -997,6 +1003,16 @@ namespace Cats.Data.UnitWork
             {
                 return this._loanReciptPlanRepository ??
                        (this._loanReciptPlanRepository = new GenericRepository<LoanReciptPlan>(_context));
+            }
+        }
+
+        private IGenericRepository<LoanReciptPlanDetail> _loanReciptPlanDetailRepository;
+        public IGenericRepository<LoanReciptPlanDetail> LoanReciptPlanDetailRepository
+        {
+            get
+            {
+                return this._loanReciptPlanDetailRepository ??
+                       (this._loanReciptPlanDetailRepository = new GenericRepository<LoanReciptPlanDetail>(_context));
             }
         }
 

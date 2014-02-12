@@ -421,37 +421,39 @@ namespace Cats.Services.Transaction
             return true;
         }
 
-        public bool PostDeliveryReceipt(Guid deliveryID)
+        public bool PostDeliveryReconcileReceipt(int deliveryReconcileID)
         {
-            var delivery = _unitOfWork.DeliveryRepository.Get(t => t.DeliveryID == deliveryID, null, "DeliveryDetails").FirstOrDefault();
-            if (delivery == null) return false;
+            var deliveryReconcile = _unitOfWork.DeliveryReconcileRepository.Get(t => t.DeliveryReconcileID == deliveryReconcileID, null, "Dispatch").FirstOrDefault();
+            if (deliveryReconcile == null) return false;
 
             var transactionGroup = Guid.NewGuid();
             var transactionDate = DateTime.Now;
             _unitOfWork.TransactionGroupRepository.Add(new TransactionGroup() { PartitionID = 0, TransactionGroupID = transactionGroup });
              var transaction = new Models.Transaction();
             transaction.TransactionID = Guid.NewGuid();
-            var reliefRequisition = _unitOfWork.ReliefRequisitionRepository.Get(t => t.RequisitionNo == delivery.RequisitionNo).FirstOrDefault();
+            var reliefRequisition = _unitOfWork.ReliefRequisitionRepository.Get(t => t.RequisitionNo == deliveryReconcile.RequsitionNo).FirstOrDefault();
             if (reliefRequisition != null)
                 transaction.ProgramID = reliefRequisition.ProgramID;
-            var orDefault = _unitOfWork.DispatchRepository.Get(t => t.DispatchID == delivery.DispatchID).FirstOrDefault();
+            var orDefault = _unitOfWork.DispatchRepository.Get(t => t.DispatchID == deliveryReconcile.DispatchID).FirstOrDefault();
             if (orDefault !=null)
                 transaction.DonorID = orDefault.DispatchAllocation.DonorID;
             transaction.TransactionGroupID = transactionGroup;
             transaction.TransactionDate = transactionDate;
-            var dispatch = _unitOfWork.DispatchRepository.Get(t => t.DispatchID == delivery.DispatchID).FirstOrDefault();
+            var dispatch = _unitOfWork.DispatchRepository.Get(t => t.DispatchID == deliveryReconcile.DispatchID).FirstOrDefault();
             if (dispatch !=null)
                 transaction.ShippingInstructionID = dispatch.DispatchAllocation.ShippingInstructionID;
-            transaction.LedgerID = 18;
-            transaction.FDPID = delivery.FDPID;
-            var firstOrDefault = delivery.DeliveryDetails.FirstOrDefault();
+            transaction.LedgerID = Models.Ledger.Constants.DELIVERY_RECEIPT;
+            transaction.FDPID = deliveryReconcile.FDPID;
+            var firstOrDefault = deliveryReconcile.Dispatch.DispatchAllocation;
             if (firstOrDefault != null)
             {
                 transaction.CommodityID = firstOrDefault.CommodityID;
-                transaction.QuantityInMT = firstOrDefault.ReceivedQuantity;
-                transaction.QuantityInUnit = firstOrDefault.ReceivedQuantity;
-                transaction.UnitID = firstOrDefault.UnitID;
+                
             }
+            transaction.QuantityInMT = deliveryReconcile.ReceivedAmount / 10;
+            transaction.QuantityInUnit = deliveryReconcile.ReceivedAmount;
+            var @default = _unitOfWork.UnitRepository.FindBy(t => t.Name == "Quintal").FirstOrDefault();
+            transaction.UnitID = @default != null ? @default.UnitID : 1;
             _unitOfWork.TransactionRepository.Add(transaction);
 
             transaction = new Models.Transaction();
@@ -467,21 +469,21 @@ namespace Cats.Services.Transaction
             //var dispatch = _unitOfWorkhub.DispatchRepository.Get(t => t.DispatchID == distribution.DispatchID).FirstOrDefault();
             if (dispatch != null)
                 transaction.ShippingInstructionID = dispatch.DispatchAllocation.ShippingInstructionID;
-            transaction.LedgerID = 17;
-            transaction.HubID = delivery.HubID;
-            transaction.FDPID = delivery.FDPID;
+            transaction.LedgerID = Models.Ledger.Constants.GOODS_IN_TRANSIT;
+            transaction.HubID = deliveryReconcile.HubID;
+            transaction.FDPID = deliveryReconcile.FDPID;
             //var firstOrDefault = distribution.DeliveryDetails.FirstOrDefault();
             if (firstOrDefault != null)
             {
                 transaction.CommodityID = firstOrDefault.CommodityID;
-                transaction.QuantityInMT = firstOrDefault.ReceivedQuantity;
-                transaction.QuantityInUnit = firstOrDefault.ReceivedQuantity;
-                transaction.UnitID = firstOrDefault.UnitID;
             }
+            transaction.QuantityInMT = deliveryReconcile.ReceivedAmount / 10;
+            transaction.QuantityInUnit = deliveryReconcile.ReceivedAmount;
+            var @default1 = _unitOfWork.UnitRepository.FindBy(t => t.Name == "Quintal").FirstOrDefault();
+            transaction.UnitID = @default != null ? @default.UnitID : 1;
             _unitOfWork.TransactionRepository.Add(transaction);
 
-            delivery.Status = 2;
-            delivery.TransactionGroupID = transactionGroup;
+            deliveryReconcile.TransactionGroupID = transactionGroup;
             _unitOfWork.Save();
             return true;
         }

@@ -37,7 +37,7 @@ namespace Cats.Models
         public virtual ICollection<Delivery> Deliveries { get; set; }
         public virtual ICollection<DistributionByAgeDetail> DistributionByAgeDetails  { get; set; }
         public virtual ICollection<WoredaStockDistributionDetail> WoredaStockDistributionDetails { get; set; }
-      
+        public virtual ICollection<DeliveryReconcile> DeliveryReconciles { get; set; }
   
 
     }

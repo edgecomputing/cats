@@ -245,7 +245,8 @@ namespace Cats.Services.Hub
                     SentQuantityInMT = c.SentQuantityInMT.Value,
                     SentQuantityInUnit = c.SentQuantityInUnit.Value,
                     UnitID = c.UnitID,
-                    ReceiveID = receive.ReceiveID
+                    ReceiveID = receive.ReceiveID,
+                    ReceiveDetailID = Guid.NewGuid()
                 };
                 if (c.ReceiveDetailID.HasValue)
                 {
@@ -516,7 +517,7 @@ namespace Cats.Services.Hub
             if (dispatch.Type == 1)
             {
                 string sms = dispatch.GetSMSText();
-               // SMS.SendSMS(dispatch.FDPID.Value, sms);
+                //SMS.SendSMS(dispatch.FDPID.Value, sms);
             }
         }
 
