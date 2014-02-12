@@ -1,0 +1,202 @@
+﻿@using Cats.Models
+@model ProcessTemplate
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+@section LeftBar
+{
+    @Html.Partial("_workflowLeftBar")
+<div style="height:450px;"></div>
+}
+@section Toolbar
+{
+    <button onclick="onSaveProcesss()" data-buttontype="btn_save" id="btn-save" class="btn toolbar-btn "></button>
+    <!--
+    <a onclick="onRedraw()" class="btn toolbar-btn" href="#" title="Redraw"><i class="icon-download"></i></a>
+    <a class="btn toolbar-btn" href="javascript:onAddState()" title="Add State"><i class="icon-stop"></i> Add State</a>
+    <a class="btn toolbar-btn" href="javascript:onAddFlow()" title="Add Link"><i class="icon-link"></i> Add Link</a>
+        -->
+
+    
+    
+}
+
+<div ng-app ng-controller="processCtrl">
+    <div class="designer_window" >
+        <canvas id="drawingCanvas" class="canvas" width="1500" height="750"></canvas>
+
+        <div ng-repeat="state in ProcessTemplateData.StateTemplates" ng-dblclick="editState($index)" data-index="{{$index}}" id="states_{{state.StateTemplateID}}" class="state statetype-{{state.StateType}}" style="left: {{state.pos.left}}px; top: {{state.pos.top}}px;">
+
+            <div class="content">{{state.Name}}</div>
+            <div class="connector left-connector"></div>
+            <div class="connector right-connector"></div>
+            <div class="connector top-connector"></div>
+            <div class="connector bottom-connector"></div>
+        </div>
+
+        <div ng-repeat="flow in ProcessTemplateData.FlowTemplates" ng-dblclick="editflow($index)" data-index="{{$index}}" id="flows_{{flow.FlowTemplateID}}" class="flow_data flow" style="left: {{flow.pos.left}}px; top: {{flow.pos.top}}px;">
+            <div class="content">{{flow.Name}}</div>
+        </div>
+        <div id="popover_flow_editor" class="popover fade right in" style="top:50px; left: 704px; display: none;">
+            <div class="arrow"></div>
+            <div class="popover-title">Edit Flow
+                <button type="button" class="close" ng-click="cancelFlowEdit();">×</button>
+            </div>
+            <div class="popover-content">
+                <div class="small_form">
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td>Name</td>
+                                <td>
+                                    <input type="text" ng-model="ProcessTemplateData.FlowTemplates[EditedFlowIndex].Name"></td>
+                            </tr>
+                             <tr>
+                                <td>Start</td>
+                                 
+                                <td>
+                                    <select ng-change="onFlowChange()" id="select_InitialStateID" ng-model="ProcessTemplateData.FlowTemplates[EditedFlowIndex].InitialStateID">
+                                        <option  ng-repeat="state in ProcessTemplateData.StateTemplates" value="{{state.StateTemplateID}}">{{state.Name}}</option>
+                                    </select>
+                                 </td>   
+                            </tr>
+                             <tr>
+                                <td>End</td>
+                                 <td>   
+                                     <select ng-change="onFlowChange()"  id="select_FinalStateID" ng-model="ProcessTemplateData.FlowTemplates[EditedFlowIndex].FinalStateID">
+                                        <option  ng-repeat="state in ProcessTemplateData.StateTemplates" value="{{state.StateTemplateID}}">{{state.Name}}</option>
+                                    </select>
+                                </td>
+                            </tr>
+                        </table>
+
+                    
+
+                </div>
+            </div>
+
+        </div>
+   
+         <div id="popover_state_editor" class="popover fade right in" style="top: 52px; left: 434px; display: none;">
+            <div class="arrow"></div>
+            <div class="popover-title">Edit State
+                <button type="button" class="close" ng-click="cancelStateEdit();">×</button>
+            </div>
+            <div class="popover-content">
+                <div class="small_form" id="frm_current">
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td>Name</td>
+                                <td>
+                                    <input type="text" ng-model="ProcessTemplateData.StateTemplates[EditedStateId].Name"></td>
+                            </tr>
+                             <tr>
+                                <td>Code</td>
+                                <td>
+                                    <input type="text" ng-model="ProcessTemplateData.StateTemplates[EditedStateId].StateNo"></td>
+                            </tr>
+                            <tr>
+                                <td>Access</td>
+                                <td>
+                                    <select class="field" data-type="select" ng-model="ProcessTemplateData.StateTemplates[EditedStateId].AllowedAccessLevel">
+                                        <option value="0">None</option>
+                                        <option value="1">View</option>
+                                        <option value="2">Edit</option>
+                                        <option value="3">Full</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Type</td>
+                                <td>
+                                    <select class="field" data-type="select" ng-model="ProcessTemplateData.StateTemplates[EditedStateId].StateType">
+                                        <option value="0">Start</option>
+                                        <option value="1">Intermediate</option>
+                                        <option value="2">Finish</option>
+                                    </select>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="left_bar" id="right_bar" style="display:nones;">
+        <ul style="list-style:none;">
+            <li><a  href="#" ng-click="AddState()" title="Add State"><i class="icon-stop"></i> Add State</a></li>
+            <li><a href="#" ng-click="AddFlow()" title="Add Link"><i class="icon-link"></i> Add Link</a></li>
+
+        </ul>
+        <div style="display:none;">
+        <br />
+        <div>{{ProcessTemplateData.StateTemplates[EditedStateId].Name}}</div>
+        <div ng-repeat="state in ProcessTemplateData.StateTemplates">
+            <input ng-model="state.Name" />
+        </div>
+        <div id="debug" style="display: none;"></div>
+            </div>
+    </div>
+    
+    <div class="designer_window2">
+        
+        <div id="frm_state_template" style="display: none;">
+            <table>
+                <tr>
+                    <td>Name</td>
+                    <td>
+                        <input /></td>
+                </tr>
+                <tr>
+                    <td>Access</td>
+                    <td>
+                        <select class="field" data-type="select" id="inputsize">
+                            <option value="0">None</option>
+                            <option value="1">View</option>
+                            <option value="2">Edit</option>
+                            <option value="3">Full</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Type</td>
+                    <td>
+                        <select class="field" data-type="select" id="inputsize">
+                            <option value="0">Start</option>
+                            <option value="1">Intermediate</option>
+                            <option value="2">Finish</option>
+                        </select>
+                    </td>
+                </tr>
+            </table>
+
+            <hr>
+            <button class="btn btn_popup_save btn-primary ">Save</button>
+            <button class="btn btn_popup_cancel">Cancel</button>
+
+        </div>
+
+    </div>
+    <div>
+        <link href="@Url.Content("~/Content/workflow/workflowDesigner.css")" rel="stylesheet" type="text/css" />
+        <script src="@Url.Content("~/Content/workflow/workflow.js")"></script>
+        <script src="@Url.Content("~/Content/workflow/jquery-1.8.0.js")"></script>
+        <script src="@Url.Content("~/Content/workflow/jquery-ui-1.8.23.custom.js")"></script>
+    </div>
+</div>
+<script>
+    var $$scope;
+    var processId=@Model.ProcessTemplateID;
+    var SaveServerURL="@Url.Action("saveGraphics", "ProcessTemplate", new { Area = "WorkflowManager" })";
+    var serverURL="@Url.Action("index", "ProcessTemplate", new { Area = "WorkflowManager" })";
+</script>
+
+

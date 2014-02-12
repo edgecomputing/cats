@@ -109,7 +109,7 @@
       <Project>{0E706780-A5B2-488C-A502-49526946DEB5}</Project>
       <Name>Cats.Services.Security</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Web\Cats.csproj">
+    <ProjectReference Include="..\..\Sites\Web\Cats.csproj">
       <Project>{f8991e39-b399-4baf-8515-f62b28a604be}</Project>
       <Name>Cats</Name>
     </ProjectReference>
