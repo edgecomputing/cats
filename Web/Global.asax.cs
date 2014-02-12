@@ -60,8 +60,8 @@ namespace Cats
         {
             if (Request.IsLocal)
             {
-                MiniProfiler.Start();
-                MiniProfilerEF.InitializeEF42();
+                //MiniProfiler.Start();
+                //MiniProfilerEF.InitializeEF42();
             }
         }
 
@@ -69,7 +69,5 @@ namespace Cats
         {
             MiniProfiler.Stop();
         }
-       
-       
     }
 }

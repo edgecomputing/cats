@@ -1039,6 +1039,7 @@
     <Content Include="Content\bootstrap-responsive.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Dashboard\dashboardcomponents.css" />
     <Content Include="Content\images\CATS.png" />
     <Content Include="Content\Login\App.css" />
     <Content Include="Content\Login\bootstrap.min.css" />
