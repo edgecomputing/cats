@@ -111,6 +111,7 @@
     <Compile Include="Mapping\SupportTypeMap.cs" />
     <Compile Include="OtherDispatchAllocation.cs" />
     <Compile Include="SupportType.cs" />
+    <Compile Include="ViewModels\DistributionByAgeViewModel.cs" />
     <Compile Include="WoredaStockDistributionDetail.cs" />
     <Compile Include="Delivery.cs" />
     <Compile Include="DeliveryDetail.cs" />

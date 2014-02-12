@@ -61,25 +61,25 @@ namespace Cats.Areas.Logistics.Controllers
         public ActionResult Index()
         {
 
-            return View();
+            //return View();
         }
 
         public ActionResult ReadDonationPlan([DataSourceRequest] DataSourceRequest request)
         {
-            try
-            {
-                List<DonationPlanHeader> donationHeader = null;
-                donationHeader = _donationPlanHeaderService.GetAllDonationPlanHeader().Where(r => r.IsCommited == false).ToList();
-                var receiptViewModel = ReceiptPlanViewModelBinder.GetReceiptHeaderPlanViewModel(donationHeader);
-                return Json(receiptViewModel.ToList().ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+            //try
+            //{
+            //    List<DonationPlanHeader> donationHeader = null;
+            //    donationHeader = _donationPlanHeaderService.GetAllDonationPlanHeader().Where(r => r.IsCommited == false).ToList();
+            //    var receiptViewModel = ReceiptPlanViewModelBinder.GetReceiptHeaderPlanViewModel(donationHeader);
+            //    return Json(receiptViewModel.ToList().ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
 
-            }
-            catch (Exception)
-            {
-                return null;
+            //}
+            //catch (Exception)
+            //{
+            //    return null;
 
 
-            }
+            //}
         }
 
        
