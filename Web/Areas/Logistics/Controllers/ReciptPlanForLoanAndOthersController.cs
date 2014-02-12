@@ -34,6 +34,7 @@ namespace Cats.Areas.Logistics.Controllers
         {
             ViewBag.ProgramID = new SelectList(_commonService.GetPrograms(), "ProgramID", "Name");
             ViewBag.CommodityID = new SelectList(_commonService.GetCommodities(), "CommodityID", "Name");
+            ViewBag.SourceHubID = new SelectList(_commonService.GetAllHubs(), "HubID", "Name");
             ViewBag.CommodityTypeID = new SelectList(_commonService.GetCommodityTypes(), "CommodityTypeID", "Name");
             ViewBag.CommoditySourceID = new SelectList(_commonService.GetCommoditySource(), "CommoditySourceID", "Name");
             ViewBag.HubID = new SelectList(_commonService.GetAllHubs(), "HubID", "Name");
@@ -63,6 +64,7 @@ namespace Cats.Areas.Logistics.Controllers
                         CommoditySourceID = loanReciptPlanViewModel.CommoditySourceID,
                         ShippingInstructionID = _commonService.GetShippingInstruction(loanReciptPlanViewModel.SiNumber),
                         SourceHubID = loanReciptPlanViewModel.SourceHubID,
+                        HubID = loanReciptPlanViewModel.HubID,
                         ProjectCode = loanReciptPlanViewModel.ProjectCode,
                         ReferenceNumber = loanReciptPlanViewModel.RefeenceNumber,
                         Quantity = loanReciptPlanViewModel.Quantity,

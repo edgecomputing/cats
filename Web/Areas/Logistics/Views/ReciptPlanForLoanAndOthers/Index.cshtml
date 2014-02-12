@@ -37,10 +37,10 @@
     });
 </script>
 
-<div id='dialogDiv' class='modal hide fade in' style="width: 800px;margin-right: 10px">
+<div id='dialogDiv' class='modal hide fade in' style="width: 820px;margin-right: 10px">
     <div id='dialogContent'></div>
 </div>
-<h4>List of Reciept Plan From Local Purchase</h4>
+<h4>List of Reciept Plan From Loan,Swap,Repayment or Other</h4>
  @(Html.Kendo().Grid<LoanReciptPlanViewModel>()
               .Name("grid")
               .Columns(columns =>
@@ -48,7 +48,7 @@
                       columns.Bound(m => m.SiNumber).Title(@Html.Translate2(pageName,"SI Number"));
                           //ClientTemplate("<a href='" + Url.Action("Details", "LocalPurchase", new { id = "#=LocalPurchaseID#" }) + " '>#=SiNumber#</a>  "); 
                       columns.Bound(m => m.ProgramName).Title(@Html.Translate2(pageName,"Program"));
-                      columns.Bound(m => m.CommodityName).Width(200).Title(@Html.Translate2(pageName,"Donor"));
+                      columns.Bound(m => m.CommodityName).Width(200).Title(@Html.Translate2(pageName,"Commodity"));
                       columns.Bound(m => m.CommoditySourceName).Width(200).Title(@Html.Translate2(pageName,"Commodity Source"));
                       columns.Bound(m => m.HubName).Width(200).Title(@Html.Translate2(pageName,"Hub"));
                       columns.Bound(m => m.SourceHubName);
