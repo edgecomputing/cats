@@ -39,7 +39,7 @@ namespace Cats.Areas.PSNP
                                           , IBusinessProcessStateService BusinessProcessStateServiceParam
                                           , IApplicationSettingService ApplicationSettingParam
                                           , ILog log
-                                           , IPlanService planService
+                                          , IPlanService planService
                                          )
         {
             this._regionalPSNPPlanService = regionalPSNPPlanServiceParam;

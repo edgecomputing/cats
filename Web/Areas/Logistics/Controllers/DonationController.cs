@@ -15,6 +15,7 @@ using ICommodityTypeService = Cats.Services.EarlyWarning.ICommodityTypeService;
 using ICommonService = Cats.Services.Common.ICommonService;
 using IHubService = Cats.Services.EarlyWarning.IHubService;
 using IShippingInstructionService = Cats.Services.EarlyWarning.IShippingInstructionService;
+using ITransactionService = Cats.Services.Transaction.ITransactionService;
 
 
 namespace Cats.Areas.Logistics.Controllers
@@ -33,7 +34,7 @@ namespace Cats.Areas.Logistics.Controllers
         private readonly IShippingInstructionService _shippingInstructionService;
         private readonly IDonationPlanHeaderService _donationPlanHeaderService;
         private readonly IDonationPlanDetailService _donationPlanDetailService;
-
+        private readonly ITransactionService _transactionService;
         public DonationController(
             IReceiptAllocationService receiptAllocationService,
             ICommodityService commodityService,
@@ -43,7 +44,7 @@ namespace Cats.Areas.Logistics.Controllers
             ICommodityTypeService commodityTypeService, 
             IHubService hubService, 
             IDonationPlanDetailService donationPlanDetailService, 
-            IDonationPlanHeaderService donationPlanHeaderService)
+            IDonationPlanHeaderService donationPlanHeaderService, ITransactionService transactionService)
         {
             _receiptAllocationService = receiptAllocationService;
             _commodityService = commodityService;
@@ -54,6 +55,7 @@ namespace Cats.Areas.Logistics.Controllers
             _hubService = hubService;
             _donationPlanDetailService = donationPlanDetailService;
             _donationPlanHeaderService = donationPlanHeaderService;
+            _transactionService = transactionService;
         }
 
         public ActionResult Index()
@@ -298,6 +300,7 @@ namespace Cats.Areas.Logistics.Controllers
                         {
 
                             SaveNewDonationPlan(donationViewModel, siId);
+                            
                         }
                         else
                         {
@@ -352,6 +355,8 @@ namespace Cats.Areas.Logistics.Controllers
             {
                 _donationPlanDetailService.AddDonationPlanDetail(donationDetail);
             }
+
+                _transactionService.PostDonationPlan(donationHeader);
             return true;
             }
             catch (Exception)

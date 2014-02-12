@@ -32,7 +32,7 @@ namespace Cats.Models.Mapping
            this.Property(t => t.StatusID).HasColumnName("StatusID");
            this.Property(t => t.Remark).HasColumnName("Remark");
            // Relationships
-           this.HasOptional(t => t.GiftCertificate)
+           this.HasRequired(t => t.GiftCertificate)
                .WithMany(t => t.LocalPurchases)
                .HasForeignKey(d => d.GiftCertificateID);
            this.HasRequired(t => t.Commodity)

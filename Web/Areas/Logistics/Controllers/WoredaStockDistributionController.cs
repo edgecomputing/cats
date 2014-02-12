@@ -13,7 +13,7 @@ using Cats.Services.Security;
 using Cats.ViewModelBinder;
 using Kendo.Mvc.UI;
 using Kendo.Mvc.Extensions;
-
+using Cats.Services.Transaction;
 namespace Cats.Areas.Logistics.Controllers
 {
     public class WoredaStockDistributionController : Controller
@@ -23,25 +23,28 @@ namespace Cats.Areas.Logistics.Controllers
         private readonly IUtilizationDetailSerivce _utilizationDetailSerivce;
         private readonly IReliefRequisitionService _reliefRequisitionService;
         private readonly UserAccountService _userAccountService;
-        private readonly IWorkflowStatusService _workflowStatusService;
         private readonly ICommonService _commonService;
         private readonly IRegionalRequestService _regionalRequestService;
-        private readonly IDistributionByAgeDetailService _distributionByAgeDetailService;
         private readonly IReliefRequisitionDetailService _reliefRequisitionDetailService;
-        public WoredaStockDistributionController(IUtilizationHeaderSerivce utilizationService, IUtilizationDetailSerivce utilizationDetailSerivce, 
-                       UserAccountService userAccountService, IWorkflowStatusService workflowStatusService, ICommonService commonService, 
-                        IRegionalRequestService regionalRequestService,IDistributionByAgeDetailService distributionByAgeDetailService,
-                         IReliefRequisitionDetailService reliefRequisitionDetailService,IReliefRequisitionService reliefRequisitionService)
+        private readonly ITransactionService _transactionService;
+        public WoredaStockDistributionController(
+            IUtilizationHeaderSerivce utilizationService,
+            IUtilizationDetailSerivce utilizationDetailSerivce, 
+            UserAccountService userAccountService,
+            ICommonService commonService, 
+            IRegionalRequestService regionalRequestService,
+            IReliefRequisitionDetailService reliefRequisitionDetailService,
+            IReliefRequisitionService reliefRequisitionService,
+            ITransactionService transactionService)
         {
             _utilizationService = utilizationService;
             _utilizationDetailSerivce = utilizationDetailSerivce;
             _userAccountService = userAccountService;
-            _workflowStatusService = workflowStatusService;
             _commonService = commonService;
             _regionalRequestService = regionalRequestService;
-            _distributionByAgeDetailService = distributionByAgeDetailService;
             _reliefRequisitionDetailService = reliefRequisitionDetailService;
             _reliefRequisitionService = reliefRequisitionService;
+            _transactionService = transactionService;
         }
 
         //
@@ -181,29 +184,7 @@ namespace Cats.Areas.Logistics.Controllers
             }
             return null;
         }
-        //private IEnumerable<WoredaDistributionDetailViewModel> GetWoredaStockDistributionDetailInfo(int woredaStockDistributionID)
-        //{
-        //    var woredaStockDistributionDetails = _utilizationDetailSerivce.FindBy(m => m.WoredaStockDistributionID == woredaStockDistributionID);
-        //    var woredaDistribution = _utilizationService.FindById(woredaStockDistributionID);
-        //    if (woredaStockDistributionDetails!=null)
-        //    {
-                
-            
-        //       return (from woredaStockDistributionDetail in woredaStockDistributionDetails
-        //            select new WoredaDistributionDetailViewModel()
-        //            {
-        //                FdpId = woredaStockDistributionDetail.FdpId,
-        //                FDP = woredaStockDistributionDetail.FDP.Name,
-        //                WoredaStockDistributionID = woredaStockDistributionDetail.WoredaStockDistributionID,
-        //                WoredaStockDistributionDetailID = woredaStockDistributionDetail.WoredaStockDistributionID,
-        //                DistributedAmount = woredaStockDistributionDetail.DistributedAmount
-
-        //            });
-        //    }
-        //    var fdpStockDistribution = _commonService.GetFDPs(woredaDistribution.WoredaID);
-        //    return  GetWoredaStockDistribution(fdpStockDistribution);
-
-        //}
+       
         private WoredaStockDistribution GetWoredaDetailMOdel(WoredaStockDistributionWithDetailViewModel distributionViewModel)
         {
             if (distributionViewModel!=null)
@@ -271,9 +252,14 @@ namespace Cats.Areas.Logistics.Controllers
 
                         ModelState.AddModelError("Success", @"Distribution Information Successfully Saved");
                         LookUps(woredaStockDistribution);
-                        //var distributionDetail = _utilizationDetailSerivce.FindBy(m => m.WoredaStockDistributionID == distributionHeader.WoredaStockDistributionID);
-                        //distributionHeader.WoredaStockDistributionDetails = distributionDetail;
+
+
+                        if (distributionHeader != null)
+                        {
+                            _transactionService.PostDistribution(distributionHeader.WoredaStockDistributionID);
+                        }
                         WoredaStockDistributionWithDetailViewModel woredaStockDistributionViewModel = GetWoredaStockDistributionFormDB(distributionHeader);
+                        
                         return View(woredaStockDistributionViewModel);
                     }
                 }
