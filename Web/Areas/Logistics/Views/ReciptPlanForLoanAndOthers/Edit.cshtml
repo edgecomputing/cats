@@ -1,26 +1,29 @@
 ﻿@using LanguageHelpers.Localization
 @using Cats.Helpers
-@model Cats.Areas.Logistics.Models.LoanReciptPlanViewModel
+@model Cats.Models.LoanReciptPlan
 @{
     ViewBag.Title = "Create";
-    const string PAGE_NAME = "Logistics.ReciptPlanForLoanAndOthers.Create";
+    const string PAGE_NAME = "Logistics.ReciptPlanForLoanAndOthers.Edit";
 }
 
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
     <h3 id="myModalLabel">@Html.Translate2(PAGE_NAME,"New Recipt Plan from Loan,Swap,Repayment or Others")</h3>
 </div>
-@using (Html.BeginForm("Create", "ReciptPlanForLoanAndOthers", FormMethod.Post, new { @class = "modal-form",id="myForm1" }))
+@using (Html.BeginForm("Edit", "ReciptPlanForLoanAndOthers", FormMethod.Post, new { @class = "modal-form", id="myForm"}))
 {
+    @Html.HiddenFor(m=>m.LoanReciptPlanID)
+    @Html.HiddenFor(m=>m.StatusID)
+    @Html.HiddenFor(m=>m.ShippingInstructionID)
     <table border="0" class="form-horizontal">
         <tr style="width: 300px">
             <td style="width:50%">
                 <div class="control-label">
-                    @Html.LabelFor(m=>m.SiNumber,@Html.Translate2(PAGE_NAME,"SI Number"))
+                    @Html.LabelFor(m=>m.ShippingInstruction.Value,@Html.Translate2(PAGE_NAME,"SI Number"))
                 </div>
                 <div class="controls">
-                    @Html.TextBoxFor(m=>m.SiNumber)
-                    @Html.ValidationMessageFor(m=>m.SiNumber)
+                    @Html.TextBoxFor(m=>m.ShippingInstruction.Value,new {disabled=true})
+                    @Html.ValidationMessageFor(m=>m.ShippingInstruction.Value)
                 </div>
             </td>
             <td style="width: 50%">
@@ -87,11 +90,11 @@
             </td>
             <td>
                 <div class="control-label">
-                    @Html.LabelFor(m=>m.RefeenceNumber,@Html.Translate2(PAGE_NAME,"Reference Number"))
+                    @Html.LabelFor(m=>m.ReferenceNumber,@Html.Translate2(PAGE_NAME,"Reference Number"))
                 </div>
                 <div class="controls">
-                    @Html.TextBoxFor(m=>m.RefeenceNumber)
-                    @Html.ValidationMessageFor(m=>m.RefeenceNumber)
+                    @Html.TextBoxFor(m=>m.ReferenceNumber)
+                    @Html.ValidationMessageFor(m=>m.ReferenceNumber)
                 </div>
             </td>
         </tr>
@@ -118,7 +121,7 @@
         </tr>
     </table>
     
-    <div class="modal-footer"> <button class="btn btn-primary" type="submit">Save</button>
+    <div class="modal-footer"> <button class="btn btn-primary" type="submit">Save Changes</button>
         <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
        
     </div>
@@ -127,11 +130,11 @@
 $(document).ready(function () {
  
         var allValidationRules = {
-            RefeenceNumber: "required",
+            ReferenceNumber: "required",
             ProjectCode: "required",
             Quantity: "required"
         };
-        $("#myForm1").validate({
+        $("#myForm").validate({
             rules: allValidationRules,
             showErrors: function (element, errorClass, validClass) {
                 for (var i in errorClass) {

@@ -340,7 +340,8 @@ namespace Cats.Areas.Logistics.Controllers
                 ETA = donationViewModel.ETA,
                 IsCommited = false,
                 ProgramID = donationViewModel.ProgramID,
-                ShippingInstructionId = siId
+                ShippingInstructionId = siId,
+                DonatedAmount = donationViewModel.WieghtInMT
 
             };
 
@@ -382,6 +383,7 @@ namespace Cats.Areas.Logistics.Controllers
                     donation.IsCommited = false;
                     donation.ProgramID = donationViewModel.ProgramID;
                     donation.ShippingInstructionId = shippinInstructionId;
+                    donation.DonatedAmount = donationViewModel.WieghtInMT;
 
 
                     var detailArray = donationViewModel.DonationPlanDetails.ToArray();

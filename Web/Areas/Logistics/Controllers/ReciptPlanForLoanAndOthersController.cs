@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using Cats.Areas.EarlyWarning.Models;
 using Cats.Areas.Logistics.Models;
 using Cats.Models;
+using Cats.Models.Constant;
 using Cats.Services.Common;
 using Cats.Services.Logistics;
 using Kendo.Mvc.Extensions;
@@ -19,10 +20,13 @@ namespace Cats.Areas.Logistics.Controllers
         // GET: /Logistics/ReciptPlanForLoanAndOthers/
         private readonly ILoanReciptPlanService _loanReciptPlanService;
         private readonly ICommonService _commonService;
-        public ReciptPlanForLoanAndOthersController(ILoanReciptPlanService loanReciptPlanService,ICommonService commonService)
+        private readonly ILoanReciptPlanDetailService _loanReciptPlanDetailService;
+        public ReciptPlanForLoanAndOthersController(ILoanReciptPlanService loanReciptPlanService,ICommonService commonService,
+                                                    ILoanReciptPlanDetailService loanReciptPlanDetailService)
         {
             _loanReciptPlanService = loanReciptPlanService;
             _commonService = commonService;
+            _loanReciptPlanDetailService = loanReciptPlanDetailService;
 
         }
 
@@ -34,6 +38,7 @@ namespace Cats.Areas.Logistics.Controllers
         {
             ViewBag.ProgramID = new SelectList(_commonService.GetPrograms(), "ProgramID", "Name");
             ViewBag.CommodityID = new SelectList(_commonService.GetCommodities(), "CommodityID", "Name");
+            ViewBag.SourceHubID = new SelectList(_commonService.GetAllHubs(), "HubID", "Name");
             ViewBag.CommodityTypeID = new SelectList(_commonService.GetCommodityTypes(), "CommodityTypeID", "Name");
             ViewBag.CommoditySourceID = new SelectList(_commonService.GetCommoditySource(), "CommoditySourceID", "Name");
             ViewBag.HubID = new SelectList(_commonService.GetAllHubs(), "HubID", "Name");
@@ -53,6 +58,38 @@ namespace Cats.Areas.Logistics.Controllers
             }
             return View(loanReciptPlanViewModel);
         }
+        public ActionResult Edit(int id)
+        {
+            var loanReciptPlan = _loanReciptPlanService.FindById(id);
+            if (loanReciptPlan==null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.ProgramID = new SelectList(_commonService.GetPrograms(), "ProgramID", "Name",loanReciptPlan.ProgramID);
+            ViewBag.CommodityID = new SelectList(_commonService.GetCommodities(), "CommodityID", "Name",loanReciptPlan.CommodityID);
+            ViewBag.SourceHubID = new SelectList(_commonService.GetAllHubs(), "HubID", "Name",loanReciptPlan.SourceHubID);
+            ViewBag.CommodityTypeID = new SelectList(_commonService.GetCommodityTypes(), "CommodityTypeID", "Name");
+            ViewBag.CommoditySourceID = new SelectList(_commonService.GetCommoditySource(), "CommoditySourceID", "Name",loanReciptPlan.CommoditySourceID);
+            ViewBag.HubID = new SelectList(_commonService.GetAllHubs(), "HubID", "Name",loanReciptPlan.HubID);
+            return View(loanReciptPlan);
+        }
+        [HttpPost]
+        public ActionResult Edit(LoanReciptPlan loanReciptPlan)
+        {
+            if (ModelState.IsValid && loanReciptPlan!=null )
+            {
+                _loanReciptPlanService.EditLoanReciptPlan(loanReciptPlan);
+                return RedirectToAction("Index");
+            }
+            ModelState.AddModelError("Errors",@"Unable to update please check fields");
+            ViewBag.ProgramID = new SelectList(_commonService.GetPrograms(), "ProgramID", "Name", loanReciptPlan.ProgramID);
+            ViewBag.CommodityID = new SelectList(_commonService.GetCommodities(), "CommodityID", "Name", loanReciptPlan.CommodityID);
+            ViewBag.SourceHubID = new SelectList(_commonService.GetAllHubs(), "HubID", "Name", loanReciptPlan.SourceHubID);
+            ViewBag.CommodityTypeID = new SelectList(_commonService.GetCommodityTypes(), "CommodityTypeID", "Name");
+            ViewBag.CommoditySourceID = new SelectList(_commonService.GetCommoditySource(), "CommoditySourceID", "Name", loanReciptPlan.CommoditySourceID);
+            ViewBag.HubID = new SelectList(_commonService.GetAllHubs(), "HubID", "Name", loanReciptPlan.HubID);
+            return View(loanReciptPlan);
+        }
         private LoanReciptPlan GetLoanReciptPlan(LoanReciptPlanViewModel loanReciptPlanViewModel)
         {
           
@@ -63,10 +100,12 @@ namespace Cats.Areas.Logistics.Controllers
                         CommoditySourceID = loanReciptPlanViewModel.CommoditySourceID,
                         ShippingInstructionID = _commonService.GetShippingInstruction(loanReciptPlanViewModel.SiNumber),
                         SourceHubID = loanReciptPlanViewModel.SourceHubID,
+                        HubID = loanReciptPlanViewModel.HubID,
                         ProjectCode = loanReciptPlanViewModel.ProjectCode,
                         ReferenceNumber = loanReciptPlanViewModel.RefeenceNumber,
                         Quantity = loanReciptPlanViewModel.Quantity,
-                        CreatedDate = DateTime.Today
+                        CreatedDate = DateTime.Today,
+                        StatusID = (int)LocalPurchaseStatus.Draft
                     };
                 return loanReciptPlan;
         }
@@ -90,10 +129,88 @@ namespace Cats.Areas.Logistics.Controllers
                             RefeenceNumber = loanReciptPlan.ReferenceNumber,
                             SiNumber = loanReciptPlan.ShippingInstruction.Value,
                             ProjectCode = loanReciptPlan.ProjectCode,
-                            Quantity = loanReciptPlan.Quantity
+                            Quantity = loanReciptPlan.Quantity,
+                            StatusID = loanReciptPlan.StatusID,
+                            Status = _commonService.GetStatusName(WORKFLOW.LocalPUrchase, loanReciptPlan.StatusID)
                         });
 
         }
-        
+
+        //public ActionResult Approve(int id)
+        //{
+        //    var loanReciptPlan = _loanReciptPlanService.FindById(id);
+        //    if (loanReciptPlan==null)
+        //    {
+        //        return HttpNotFound();
+
+        //    }
+        //    _loanReciptPlanService.ApproveReciptPlan(loanReciptPlan);
+        //}
+        public ActionResult Detail(int id)
+        {
+            var loanReciptPlan = _loanReciptPlanService.FindById(id);
+            if (loanReciptPlan==null)
+            {
+                return HttpNotFound();
+            }
+            return View(loanReciptPlan);
+        }
+        public ActionResult LoanReciptPlanDetail_Read([DataSourceRequest] DataSourceRequest request, int loanReciptPlanID)
+        {
+            var loanReciptPlanDetail = _loanReciptPlanDetailService.FindBy(m=>m.LoanReciptPlanID==loanReciptPlanID);
+            var loanReciptPlanDetailToDisplay = BidToLoanReciptPlanDetail(loanReciptPlanDetail);
+            return Json(loanReciptPlanDetailToDisplay.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+        }
+        private IEnumerable<LoanReciptPlanWithDetailViewModel> BidToLoanReciptPlanDetail(IEnumerable<LoanReciptPlanDetail> loanReciptPlanDetails )
+        {
+            return (from loanReciptPlanDetail in loanReciptPlanDetails
+                    select new LoanReciptPlanWithDetailViewModel
+                        {
+                            LoanReciptPlanDetailID = loanReciptPlanDetail.LoanReciptPlanDetailID,
+                            LoanReciptPlanID = loanReciptPlanDetail.LoanReciptPlanID,
+                            HubID = loanReciptPlanDetail.HubID,
+                            HubName = loanReciptPlanDetail.Hub.Name,
+                            MemoRefrenceNumber = loanReciptPlanDetail.MemoReferenceNumber,
+                            Amount = loanReciptPlanDetail.RecievedQuantity
+                        });
+        }
+        public ActionResult ReciptPlan(int id)
+        {
+            var loanReciptPlan = _loanReciptPlanService.FindById(id);
+            if (loanReciptPlan==null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.HubID = new SelectList(_commonService.GetAllHubs(), "HubID", "Name");
+            var loanReciptPlanViewModel = new LoanReciptPlanWithDetailViewModel()
+                {
+                    LoanReciptPlanID = id,
+                    TotalAmount = loanReciptPlan.Quantity,
+                    Remaining = _loanReciptPlanDetailService.GetRemainingQuantity(id)
+                };
+            ViewBag.Errors = "Out of Quantity! The Remaining Quantity is" + loanReciptPlanViewModel.Remaining;
+            return View(loanReciptPlanViewModel);
+        }
+        [HttpPost]
+        public ActionResult ReciptPlan(LoanReciptPlanWithDetailViewModel loanReciptPlanDetail)
+        {
+            if (ModelState.IsValid && loanReciptPlanDetail!=null)
+            {
+                var loanReciptPlanModel = new LoanReciptPlanDetail()
+                    {
+                        LoanReciptPlanID = loanReciptPlanDetail.LoanReciptPlanID,
+                        HubID = loanReciptPlanDetail.HubID,
+                        MemoReferenceNumber = loanReciptPlanDetail.MemoRefrenceNumber,
+                        RecievedQuantity = loanReciptPlanDetail.Amount,
+                        RecievedDate = DateTime.Today,
+                        ApprovedBy = 1
+                    };
+                _loanReciptPlanDetailService.AddRecievedLoanReciptPlanDetail(loanReciptPlanModel);
+                return RedirectToAction("Detail", new {id = loanReciptPlanDetail.LoanReciptPlanID});
+            }
+            ViewBag.HubID = new SelectList(_commonService.GetAllHubs(), "HubID", "Name");
+            return View(loanReciptPlanDetail);
+        }
+       
     }
 }

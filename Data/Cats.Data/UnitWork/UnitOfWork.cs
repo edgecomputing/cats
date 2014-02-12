@@ -1006,5 +1006,15 @@ namespace Cats.Data.UnitWork
             }
         }
 
+        private IGenericRepository<LoanReciptPlanDetail> _loanReciptPlanDetailRepository;
+        public IGenericRepository<LoanReciptPlanDetail> LoanReciptPlanDetailRepository
+        {
+            get
+            {
+                return this._loanReciptPlanDetailRepository ??
+                       (this._loanReciptPlanDetailRepository = new GenericRepository<LoanReciptPlanDetail>(_context));
+            }
+        }
+
     }
 }

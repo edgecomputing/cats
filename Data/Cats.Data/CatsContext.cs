@@ -153,6 +153,7 @@ namespace Cats.Data
         public DbSet<DonationPlanHeader> DonationPlanHeaders { get; set; }
         public DbSet<DonationPlanDetail> DonationPlanDetails { get; set; }
         public DbSet<LoanReciptPlan> LoanReciptPlans { get; set; }
+        public DbSet<LoanReciptPlanDetail> LoanReciptPlanDetails { get; set; } 
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -291,6 +292,7 @@ namespace Cats.Data
             modelBuilder.Configurations.Add(new LocalPurchaseMap());
             modelBuilder.Configurations.Add(new LocalPurchaseDetailMap());
             modelBuilder.Configurations.Add(new LoanReciptPlanMap());
+            modelBuilder.Configurations.Add(new LoanReciptPlanDetailMap());
 
         }
 

@@ -77,11 +77,13 @@
     <Compile Include="IDistributionByAgeDetailService.cs" />
     <Compile Include="IDonationPlanDetail.cs" />
     <Compile Include="IDonationPlanHeaderService.cs" />
+    <Compile Include="ILoanReciptPlanDetailService.cs" />
     <Compile Include="ILoanReciptPlanService.cs" />
     <Compile Include="ILocalPurchaseDetailService.cs" />
     <Compile Include="ILocalPurchaseService.cs" />
     <Compile Include="IReceiptPlanDetailService.cs" />
     <Compile Include="IReceiptPlanService.cs" />
+    <Compile Include="LoanReciptPlanDetailService.cs" />
     <Compile Include="LoanReciptPlanService.cs" />
     <Compile Include="LocalPurchaseDetailService.cs" />
     <Compile Include="LocalPurchaseService.cs" />

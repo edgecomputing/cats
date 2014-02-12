@@ -186,6 +186,7 @@ namespace Cats.Services.Common
                var shippingInstruction = new ShippingInstruction();
                shippingInstruction.Value = siNumber;
                _unitOfWork.ShippingInstructionRepository.Add(shippingInstruction);
+               _unitOfWork.Save();
                return shippingInstruction.ShippingInstructionID;
            }
            return sINumber.ShippingInstructionID;

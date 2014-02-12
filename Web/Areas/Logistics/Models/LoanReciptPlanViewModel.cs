@@ -23,7 +23,21 @@ namespace Cats.Areas.Logistics.Models
         public string ProjectCode { get; set; }
         public string SiNumber { get; set; }
         public DateTime CreatedDate { get; set; }
+        public int StatusID { get; set; }
+        public string Status { get; set; }
 
 
+    }
+    public class LoanReciptPlanWithDetailViewModel
+    {
+        public int LoanReciptPlanDetailID { get; set; }
+        public int LoanReciptPlanID { get; set; }
+        public int HubID { get; set; }
+        public string HubName { get; set; }
+        public string MemoRefrenceNumber { get; set; }
+        public decimal TotalAmount { get; set; }
+        public decimal Amount { get; set; }
+        public decimal Remaining { get; set; }
+      
     }
 }
