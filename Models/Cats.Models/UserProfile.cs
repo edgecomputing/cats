@@ -18,6 +18,7 @@ namespace Cats.Models
             this.NeedAssessments = new List<NeedAssessment>();
             this.NeedAssessments1 = new List<NeedAssessment>();
             this.DonationPlanHeaders = new List<DonationPlanHeader>();
+            this.LoanReciptPlanDetails = new List<LoanReciptPlanDetail>();
         }
 
         public int UserProfileID { get; set; }
@@ -49,6 +50,7 @@ namespace Cats.Models
         public virtual ICollection<HRD> Hrds { get; set; }
         public virtual ICollection<NeedAssessment> NeedAssessments { get; set; }
         public virtual ICollection<NeedAssessment> NeedAssessments1 { get; set; }
+        public virtual ICollection<LoanReciptPlanDetail> LoanReciptPlanDetails { get; set; } 
        
         
     }

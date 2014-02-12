@@ -10,7 +10,7 @@
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
     <h3 id="myModalLabel">@Html.Translate2(PAGE_NAME,"New Recipt Plan from Loan,Swap,Repayment or Others")</h3>
 </div>
-@using (Html.BeginForm("Create", "ReciptPlanForLoanAndOthers", FormMethod.Post, new { @class = "modal-form" }))
+@using (Html.BeginForm("Create", "ReciptPlanForLoanAndOthers", FormMethod.Post, new { @class = "modal-form",id="myForm1" }))
 {
     <table border="0" class="form-horizontal">
         <tr style="width: 300px">
@@ -123,3 +123,21 @@
        
     </div>
 }
+<script>
+$(document).ready(function () {
+ 
+        var allValidationRules = {
+            RefeenceNumber: "required",
+            ProjectCode: "required",
+            Quantity: "required"
+        };
+        $("#myForm1").validate({
+            rules: allValidationRules,
+            showErrors: function (element, errorClass, validClass) {
+                for (var i in errorClass) {
+                    $(errorClass[i].element).popover('show');
+                }
+            }
+        });
+});
+    </script>

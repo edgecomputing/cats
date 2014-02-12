@@ -8,6 +8,11 @@ namespace Cats.Models
 {
    public class LoanReciptPlan
     {
+       public LoanReciptPlan()
+       {
+           this.LoanReciptPlanDetails=new List<LoanReciptPlanDetail>();
+       }
+       
        public int LoanReciptPlanID { get; set; }
        public int ShippingInstructionID { get; set; }
        public int HubID { get; set; }
@@ -27,5 +32,6 @@ namespace Cats.Models
        public virtual CommoditySource CommoditySource { get; set; }
        public virtual Commodity Commodity { get; set; }
        public virtual ShippingInstruction ShippingInstruction { get; set; }
+       public ICollection<LoanReciptPlanDetail> LoanReciptPlanDetails { get; set; }
     }
 }

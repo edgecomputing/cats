@@ -20,10 +20,13 @@ namespace Cats.Areas.Logistics.Controllers
         // GET: /Logistics/ReciptPlanForLoanAndOthers/
         private readonly ILoanReciptPlanService _loanReciptPlanService;
         private readonly ICommonService _commonService;
-        public ReciptPlanForLoanAndOthersController(ILoanReciptPlanService loanReciptPlanService,ICommonService commonService)
+        private readonly ILoanReciptPlanDetailService _loanReciptPlanDetailService;
+        public ReciptPlanForLoanAndOthersController(ILoanReciptPlanService loanReciptPlanService,ICommonService commonService,
+                                                    ILoanReciptPlanDetailService loanReciptPlanDetailService)
         {
             _loanReciptPlanService = loanReciptPlanService;
             _commonService = commonService;
+            _loanReciptPlanDetailService = loanReciptPlanDetailService;
 
         }
 
@@ -132,6 +135,82 @@ namespace Cats.Areas.Logistics.Controllers
                         });
 
         }
-        
+
+        //public ActionResult Approve(int id)
+        //{
+        //    var loanReciptPlan = _loanReciptPlanService.FindById(id);
+        //    if (loanReciptPlan==null)
+        //    {
+        //        return HttpNotFound();
+
+        //    }
+        //    _loanReciptPlanService.ApproveReciptPlan(loanReciptPlan);
+        //}
+        public ActionResult Detail(int id)
+        {
+            var loanReciptPlan = _loanReciptPlanService.FindById(id);
+            if (loanReciptPlan==null)
+            {
+                return HttpNotFound();
+            }
+            return View(loanReciptPlan);
+        }
+        public ActionResult LoanReciptPlanDetail_Read([DataSourceRequest] DataSourceRequest request, int loanReciptPlanID)
+        {
+            var loanReciptPlanDetail = _loanReciptPlanDetailService.FindBy(m=>m.LoanReciptPlanID==loanReciptPlanID);
+            var loanReciptPlanDetailToDisplay = BidToLoanReciptPlanDetail(loanReciptPlanDetail);
+            return Json(loanReciptPlanDetailToDisplay.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+        }
+        private IEnumerable<LoanReciptPlanWithDetailViewModel> BidToLoanReciptPlanDetail(IEnumerable<LoanReciptPlanDetail> loanReciptPlanDetails )
+        {
+            return (from loanReciptPlanDetail in loanReciptPlanDetails
+                    select new LoanReciptPlanWithDetailViewModel
+                        {
+                            LoanReciptPlanDetailID = loanReciptPlanDetail.LoanReciptPlanDetailID,
+                            LoanReciptPlanID = loanReciptPlanDetail.LoanReciptPlanID,
+                            HubID = loanReciptPlanDetail.HubID,
+                            HubName = loanReciptPlanDetail.Hub.Name,
+                            MemoRefrenceNumber = loanReciptPlanDetail.MemoReferenceNumber,
+                            Amount = loanReciptPlanDetail.RecievedQuantity
+                        });
+        }
+        public ActionResult ReciptPlan(int id)
+        {
+            var loanReciptPlan = _loanReciptPlanService.FindById(id);
+            if (loanReciptPlan==null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.HubID = new SelectList(_commonService.GetAllHubs(), "HubID", "Name");
+            var loanReciptPlanViewModel = new LoanReciptPlanWithDetailViewModel()
+                {
+                    LoanReciptPlanID = id,
+                    TotalAmount = loanReciptPlan.Quantity,
+                    Remaining = _loanReciptPlanDetailService.GetRemainingQuantity(id)
+                };
+            ViewBag.Errors = "Out of Quantity! The Remaining Quantity is" + loanReciptPlanViewModel.Remaining;
+            return View(loanReciptPlanViewModel);
+        }
+        [HttpPost]
+        public ActionResult ReciptPlan(LoanReciptPlanWithDetailViewModel loanReciptPlanDetail)
+        {
+            if (ModelState.IsValid && loanReciptPlanDetail!=null)
+            {
+                var loanReciptPlanModel = new LoanReciptPlanDetail()
+                    {
+                        LoanReciptPlanID = loanReciptPlanDetail.LoanReciptPlanID,
+                        HubID = loanReciptPlanDetail.HubID,
+                        MemoReferenceNumber = loanReciptPlanDetail.MemoRefrenceNumber,
+                        RecievedQuantity = loanReciptPlanDetail.Amount,
+                        RecievedDate = DateTime.Today,
+                        ApprovedBy = 1
+                    };
+                _loanReciptPlanDetailService.AddRecievedLoanReciptPlanDetail(loanReciptPlanModel);
+                return RedirectToAction("Detail", new {id = loanReciptPlanDetail.LoanReciptPlanID});
+            }
+            ViewBag.HubID = new SelectList(_commonService.GetAllHubs(), "HubID", "Name");
+            return View(loanReciptPlanDetail);
+        }
+       
     }
 }

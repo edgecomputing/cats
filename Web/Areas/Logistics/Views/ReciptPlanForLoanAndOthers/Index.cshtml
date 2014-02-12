@@ -45,8 +45,7 @@
               .Name("grid")
               .Columns(columns =>
                   {
-                      columns.Bound(m => m.SiNumber).Title(@Html.Translate2(pageName,"SI Number"));
-                          //ClientTemplate("<a href='" + Url.Action("Details", "LocalPurchase", new { id = "#=LocalPurchaseID#" }) + " '>#=SiNumber#</a>  "); 
+                      columns.Bound(m => m.SiNumber).Title(@Html.Translate2(pageName, "SI Number")).ClientTemplate("<a href='" + Url.Action("Detail", "ReciptPlanForLoanAndOthers", new { id = "#=LoanReciptPlanID#" }) + " '>#=SiNumber#</a>  "); 
                       columns.Bound(m => m.ProgramName).Title(@Html.Translate2(pageName,"Program"));
                       columns.Bound(m => m.CommodityName).Width(200).Title(@Html.Translate2(pageName,"Commodity"));
                       columns.Bound(m => m.CommoditySourceName).Width(200).Title(@Html.Translate2(pageName,"Commodity Source"));
@@ -57,7 +56,7 @@
                       columns.Command(p =>
                       {
                           p.Custom("Edit").Click("Edit");
-                          p.Custom("Approve").Click("Approve");
+                          p.Custom("Recieve").Click("Recieve");
                       }).Width(250);
 
 
@@ -73,7 +72,11 @@
                                             .Read(read => read.Action("LoanReciptPlan_Read", "ReciptPlanForLoanAndOthers"))
               //.Update(update => update.Action("Commodity_Update", "Request"))
               )
-              )
+       )
+
+<div id='dialogDivSmall' class='modal hide fade in'>
+    <div id='dialogContentSmall'></div>
+</div>
 <script>
     function Edit(e) {
         e.preventDefault();
@@ -91,10 +94,18 @@
 
     }
 
-    function Approve(e) {
+    function Recieve(e) {
         e.preventDefault();
 
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
-        window.location = "@Url.Action("Approve", "ReciptPlanForLoanAndOthers")" + "/" + dataItem.LoanReciptPlanID;
+        var url = "@Url.Action("ReciptPlan", "ReciptPlanForLoanAndOthers")" + "/" + dataItem.LoanReciptPlanID;
+        $('#dialogContentSmall').load(url, function () {
+            $('#dialogDivSmall').modal({
+                backdrop: 'static',
+                keyboard: true
+            }, 'show');
+
+        });
+        return false;
     }
 </script>

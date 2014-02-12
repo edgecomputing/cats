@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using Cats.Data.UnitWork;
 using Cats.Models;
+using Cats.Models.Constant;
 
 namespace Cats.Services.Logistics
 {
@@ -59,7 +60,7 @@ namespace Cats.Services.Logistics
            return _unitOfWork.LoanReciptPlanRepository.FindBy(predicate);
        }
        #endregion
-       
+
        public void Dispose()
        {
            _unitOfWork.Dispose();
