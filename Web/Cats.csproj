@@ -390,6 +390,7 @@
     <Compile Include="Areas\EarlyWarning\Models\HRDDonorCoverageViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\HRDWithRegionalRequestViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\InKindContributionDetailViewModel.cs" />
+    <Compile Include="Areas\Logistics\Models\LoanReciptPlanViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\NeedAssessmentPlanViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\PlanViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\PlanWithHRDViewModel.cs" />
@@ -475,11 +476,12 @@
     <Compile Include="Areas\Logistics\Controllers\HubAllocationController.cs" />
     <Compile Include="Areas\Logistics\Controllers\ProjectAllocationController.cs" />
     <Compile Include="Areas\Logistics\Controllers\PromisedContributionController.cs" />
+    <Compile Include="Areas\Logistics\Controllers\ReciptPlanForLoanAndOthersController.cs" />
     <Compile Include="Areas\Logistics\Controllers\SIAllocationController.cs" />
     <Compile Include="Areas\Logistics\Controllers\LogisticsStockStatusController.cs" />
     <Compile Include="Areas\Logistics\Controllers\TransportRequisitionController.cs" />
     <Compile Include="Areas\Logistics\Controllers\WoredaStockDistributionController.cs" />
-    <Compile Include="Areas\Logistics\LocalPurchaseController.cs" />
+    <Compile Include="Areas\Logistics\Controllers\LocalPurchaseController.cs" />
     <Compile Include="Areas\Logistics\LogisticsAreaRegistration.cs" />
     <Compile Include="Areas\Logistics\Models\ActionLink.cs" />
     <Compile Include="Areas\Logistics\Models\AssignHubViewModel.cs" />
@@ -1698,6 +1700,8 @@
     <Content Include="Areas\Regional\Views\Web.config" />
     <Content Include="Areas\Regional\Views\Home\Index.cshtml" />
     <Content Include="Areas\Logistics\Views\LocalPurchase\Details.cshtml" />
+    <Content Include="Areas\Logistics\Views\ReciptPlanForLoanAndOthers\Create.cshtml" />
+    <Content Include="Areas\Logistics\Views\ReciptPlanForLoanAndOthers\Index.cshtml" />
     <None Include="dataset.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>dataset.Designer.cs</LastGenOutput>
