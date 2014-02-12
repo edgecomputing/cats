@@ -69,7 +69,5 @@ namespace Cats
         {
             MiniProfiler.Stop();
         }
-       
-       
     }
 }
