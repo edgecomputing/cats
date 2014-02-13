@@ -14,10 +14,12 @@ namespace Cats.Models
             /// <summary>
             /// 
             /// </summary>
+
             /// 
             /// 
-	
-            public const int GOODS_ON_HAND   = 1;
+
+            public const int GOODS_ON_HAND = 1;
+
             public const int GOODS_IN_TRANSIT = 2;
             public const int GOODS_RECIEVABLE = 3;
             public const int LIABILITIES = 4;
@@ -32,8 +34,9 @@ namespace Cats.Models
             public const int LOSS = 13;
             public const int DAMAGED = 14;
 
-         
-           
+
+
+
         }
     }
 }

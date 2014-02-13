@@ -19,6 +19,9 @@ namespace Cats.Services.EarlyWarning
         List<FDP> GetAllFDP();
         List<FDP> FindBy(Expression<Func<FDP, bool>> predicate);
 
+        IEnumerable<FDP> Get(System.Linq.Expressions.Expression<Func<FDP, bool>> filter = null,
+                             Func<IQueryable<FDP>, IOrderedQueryable<FDP>> orderBy = null,
+                             string includeProperties = "");
 
     }
 }

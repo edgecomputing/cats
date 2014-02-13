@@ -612,6 +612,10 @@ namespace Cats.Models.Hubs
             {
                 receive.ReceiveID = this.ReceiveID.Value;
             }
+            else
+            {
+                receive.ReceiveID = Guid.NewGuid();
+            }
             return receive;
         }
 

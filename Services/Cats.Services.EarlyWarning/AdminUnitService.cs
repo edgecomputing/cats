@@ -82,6 +82,12 @@ namespace Cats.Services.EarlyWarning
             return _unitOfWork.AdminUnitRepository.Get(t => t.ParentID ==zoneId).ToList();
         }
 
+        public List<AdminUnit> GetAllZones(int regionID)
+        {
+            return _unitOfWork.AdminUnitRepository.Get(
+                  t => t.AdminUnitTypeID == 3 && t.AdminUnit2.AdminUnitID == regionID, t => t.OrderBy(x => x.Name), "AdminUnit1, AdminUnit2").ToList();
+        }
+
         public void Dispose()
         {
             _unitOfWork.Dispose();

@@ -21,7 +21,7 @@ namespace Cats.Services.Transaction
         List<Models.Transaction> FindBy(Expression<Func<Models.Transaction, bool>> predicate);
         List<Models.Transaction> PostPSNPPlan(RegionalPSNPPlan plan, Ration ration);
         bool PostGiftCertificate(int giftCertificateId);
-        bool PostDeliveryReceipt(Guid deliveryID);
+        bool PostDeliveryReconcileReceipt(int deliveryID);
         List<ProjectCode> getAllProjectByHubCommodity(int hubId, int commodityId);
         List<ShippingInstruction> getAllSIByHubCommodity(int hubId, int commodityId);
         List<ReceiptAllocation> getSIBalance(int hubId, int commodityId);

@@ -1,0 +1,2847 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{F8991E39-B399-4BAF-8515-F62B28A604BE}</ProjectGuid>
+    <ProjectTypeGuids>{E3E379DF-F4C6-4180-9B81-6769533ABE47};{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Cats</RootNamespace>
+    <AssemblyName>Cats</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
+    <IISExpressUseClassicPipelineMode />
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+    <SilverlightApplicationList>
+    </SilverlightApplicationList>
+    <WcfConfigValidationEnabled>True</WcfConfigValidationEnabled>
+    <!--<RunOctoPack>True</RunOctoPack>-->
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DocumentFormat.OpenXml, Version=2.0.5022.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Elmah">
+      <HintPath>..\packages\elmah.corelibrary.1.2.2\lib\Elmah.dll</HintPath>
+    </Reference>
+    <Reference Include="Elmah.Mvc">
+      <HintPath>..\packages\Elmah.MVC.2.1.1\lib\net40\Elmah.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentAssertions">
+      <HintPath>..\packages\FluentAssertions.2.0.1\lib\net45\FluentAssertions.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentMigrator">
+      <HintPath>..\packages\FluentMigrator.1.1.0.0\lib\40\FluentMigrator.dll</HintPath>
+    </Reference>
+    <Reference Include="Kendo.Mvc">
+      <HintPath>..\lib\KENDOUIMVC\2013.1.319.340\Kendo.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net">
+      <HintPath>..\packages\log4net.2.0.0\lib\net40-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.ReportViewer.WebForms, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
+    <Reference Include="MiniProfiler">
+      <HintPath>..\packages\MiniProfiler.2.1.0\lib\net40\MiniProfiler.dll</HintPath>
+    </Reference>
+    <Reference Include="MiniProfiler.EntityFramework">
+      <HintPath>..\packages\MiniProfiler.EF.2.1.0\lib\net40\MiniProfiler.EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="NetSqlAzMan, Version=3.6.0.15, Culture=neutral, PublicKeyToken=ad1153f7ddd0e504, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\NetSqlAzMan-x64.3.6.0.15\lib\net40\NetSqlAzMan.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.5.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject">
+      <HintPath>..\packages\Ninject.3.0.1.10\lib\net45-full\Ninject.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Data.Linq" />
+    <Reference Include="System.DirectoryServices" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+    </Reference>
+    <Reference Include="System.Net.Http.Formatting, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.4.0.20710.0\lib\net40\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="System.Web.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.4.0.20710.0\lib\net40\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.4.0.20710.0\lib\net40\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.4.0.20710.0\lib\net40\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.0.0\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Providers">
+      <HintPath>..\packages\Microsoft.AspNet.Providers.Core.1.1\lib\net40\System.Web.Providers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.2.0.20710.0\lib\net40\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Web.Mvc">
+      <HintPath>..\packages\TelerikMvcExtensions.2013.1.219\lib\net40\Telerik.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGrease">
+      <Private>True</Private>
+      <HintPath>..\packages\WebGrease.1.1.0\lib\WebGrease.dll</HintPath>
+    </Reference>
+    <Reference Include="Antlr3.Runtime">
+      <Private>True</Private>
+      <HintPath>..\packages\WebGrease.1.1.0\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_GlobalResources\EditorLocalization.bg-BG.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EditorLocalization.bg-BG.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\EditorLocalization.da-DK.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EditorLocalization.da-DK.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\EditorLocalization.de-DE.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EditorLocalization.de-DE.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\EditorLocalization.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EditorLocalization.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\EditorLocalization.en-US.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EditorLocalization.en-US.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\EditorLocalization.fr-FR.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EditorLocalization.fr-FR.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\EditorLocalization.nl-NL.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EditorLocalization.nl-NL.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\EditorLocalization.pl-PL.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EditorLocalization.pl-PL.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\EditorLocalization.pt-BR.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EditorLocalization.pt-BR.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\EditorLocalization.pt-PT.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EditorLocalization.pt-PT.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\EditorLocalization.ru-RU.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EditorLocalization.ru-RU.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\EditorLocalization.uk-UA.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EditorLocalization.uk-UA.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\EditorLocalization.zh-CN.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EditorLocalization.zh-CN.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\GridLocalization.bg-BG.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GridLocalization.bg-BG.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\GridLocalization.da-DK.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GridLocalization.da-DK.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\GridLocalization.de-DE.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GridLocalization.de-DE.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\GridLocalization.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GridLocalization.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\GridLocalization.en-US.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GridLocalization.en-US.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\GridLocalization.es-ES.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GridLocalization.es-ES.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\GridLocalization.fr-FR.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GridLocalization.fr-FR.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\GridLocalization.nl-NL.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GridLocalization.nl-NL.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\GridLocalization.pl-PL.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GridLocalization.pl-PL.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\GridLocalization.pt-BR.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GridLocalization.pt-BR.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\GridLocalization.pt-PT.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GridLocalization.pt-PT.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\GridLocalization.ru-RU.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GridLocalization.ru-RU.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\GridLocalization.uk-UA.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GridLocalization.uk-UA.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\GridLocalization.zh-CN.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GridLocalization.zh-CN.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\UploadLocalization.bg-BG.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UploadLocalization.bg-BG.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\UploadLocalization.da-DK.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UploadLocalization.da-DK.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\UploadLocalization.en-US.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UploadLocalization.en-US.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\UploadLocalization.fr-FR.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UploadLocalization.fr-FR.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\UploadLocalization.nl-NL.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UploadLocalization.nl-NL.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\UploadLocalization.pl-PL.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UploadLocalization.pl-PL.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\UploadLocalization.pt-BR.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UploadLocalization.pt-BR.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\UploadLocalization.pt-PT.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UploadLocalization.pt-PT.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\UploadLocalization.ru-RU.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UploadLocalization.ru-RU.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\UploadLocalization.zh-CN.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UploadLocalization.zh-CN.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_Start\BundleConfig.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="App_Start\FilterConfig.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="App_Start\RouteConfig.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="App_Start\WebApiConfig.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\EarlyWarning\Controllers\ContributionController.cs" />
+    <Compile Include="Areas\EarlyWarning\Controllers\CurrencyController.cs" />
+    <Compile Include="Areas\EarlyWarning\Controllers\DonorCoverageController.cs" />
+    <Compile Include="Areas\EarlyWarning\Controllers\GiftCertificateController.cs" />
+    <Compile Include="Areas\EarlyWarning\Controllers\HRDController.cs" />
+    <Compile Include="Areas\EarlyWarning\Controllers\NeedAssessmentController.cs" />
+    <Compile Include="Areas\EarlyWarning\Controllers\PlanController.cs" />
+    <Compile Include="Areas\EarlyWarning\Controllers\RationController.cs" />
+    <Compile Include="Areas\EarlyWarning\Controllers\ReliefRequisitionController.cs" />
+    <Compile Include="Areas\EarlyWarning\Controllers\RequestController.cs" />
+    <Compile Include="Areas\EarlyWarning\EarlyWarningAreaRegistration.cs" />
+    <Compile Include="Areas\EarlyWarning\Models\AddCommodityViewModel.cs" />
+    <Compile Include="Areas\EarlyWarning\Models\AddFDPViewModel.cs" />
+    <Compile Include="Areas\EarlyWarning\Models\ContributionDetailViewModel.cs" />
+    <Compile Include="Areas\EarlyWarning\Models\ContributionSummaryViewModel.cs" />
+    <Compile Include="Areas\EarlyWarning\Models\ContributionViewModel.cs" />
+    <Compile Include="Areas\EarlyWarning\Models\CurrencyViewModel.cs" />
+    <Compile Include="Areas\EarlyWarning\Models\GiftCertificateViewModel.cs" />
+    <Compile Include="Areas\EarlyWarning\Models\HRDDonorCoverageViewModel.cs" />
+    <Compile Include="Areas\EarlyWarning\Models\HRDWithRegionalRequestViewModel.cs" />
+    <Compile Include="Areas\EarlyWarning\Models\InKindContributionDetailViewModel.cs" />
+    <Compile Include="Areas\Logistics\Models\LoanReciptPlanViewModel.cs" />
+    <Compile Include="Areas\EarlyWarning\Models\NeedAssessmentPlanViewModel.cs" />
+    <Compile Include="Areas\EarlyWarning\Models\PlanViewModel.cs" />
+    <Compile Include="Areas\EarlyWarning\Models\PlanWithHRDViewModel.cs" />
+    <Compile Include="Areas\EarlyWarning\Models\RequestDetailCommodityViewModel.cs" />
+    <Compile Include="Areas\EarlyWarning\Models\RationDetailViewModel.cs" />
+    <Compile Include="Areas\EarlyWarning\Models\RationViewModel.cs" />
+    <Compile Include="Areas\EarlyWarning\Models\ReceivedRequisitionsDto.cs" />
+    <Compile Include="Areas\EarlyWarning\Models\RegionalRequestDetailViewModel.cs" />
+    <Compile Include="Areas\EarlyWarning\Models\RegionalRequestViewModel.cs" />
+    <Compile Include="Areas\EarlyWarning\Models\ReleifRequisitionDetailEdit.cs" />
+    <Compile Include="Areas\EarlyWarning\Models\ReliefRequisitionDeatilViewModel.cs" />
+    <Compile Include="Areas\EarlyWarning\Models\ReliefRequisitionViewModel.cs" />
+    <Compile Include="Areas\EarlyWarning\Models\GiftCertificateDetailsViewModel.cs" />
+    <Compile Include="Areas\EarlyWarning\Models\SearchRequsetViewModel.cs" />
+    <Compile Include="Areas\EarlyWarning\Views\PrintableReports\HRD\HRDDatasetForPrint.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>HRDDatasetForPrint.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Hub\Controllers\AboutController.cs" />
+    <Compile Include="Areas\Hub\Controllers\AccountController.cs" />
+    <Compile Include="Areas\Hub\Controllers\AdminController.cs" />
+    <Compile Include="Areas\Hub\Controllers\AdminUnitController.cs" />
+    <Compile Include="Areas\Hub\Controllers\Allocations\DispatchAllocationController.cs" />
+    <Compile Include="Areas\Hub\Controllers\Allocations\DispatchPlanController.cs" />
+    <Compile Include="Areas\Hub\Controllers\Allocations\ReceiptAllocationController.cs" />
+    <Compile Include="Areas\Hub\Controllers\AuditController.cs" />
+    <Compile Include="Areas\Hub\Controllers\CommodityController.cs" />
+    <Compile Include="Areas\Hub\Controllers\CommodityGradeController.cs" />
+    <Compile Include="Areas\Hub\Controllers\CommoditySourceController.cs" />
+    <Compile Include="Areas\Hub\Controllers\CommodityTypeController.cs" />
+    <Compile Include="Areas\Hub\Controllers\ContactController.cs" />
+    <Compile Include="Areas\Hub\Controllers\CurrentHubController.cs" />
+    <Compile Include="Areas\Hub\Controllers\DispatchController.cs" />
+    <Compile Include="Areas\Hub\Controllers\DonorController.cs" />
+    <Compile Include="Areas\Hub\Controllers\ErrorController.cs" />
+    <Compile Include="Areas\Hub\Controllers\FDPController.cs" />
+    <Compile Include="Areas\Hub\Controllers\GiftCertificates\GiftCertificateController.cs" />
+    <Compile Include="Areas\Hub\Controllers\HelpController.cs" />
+    <Compile Include="Areas\Hub\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Hub\Controllers\HubController.cs" />
+    <Compile Include="Areas\Hub\Controllers\HubOwnerController.cs" />
+    <Compile Include="Areas\Hub\Controllers\HubSettingController.cs" />
+    <Compile Include="Areas\Hub\Controllers\InternalMovementController.cs" />
+    <Compile Include="Areas\Hub\Controllers\LanguageController.cs" />
+    <Compile Include="Areas\Hub\Controllers\LedgerController.cs" />
+    <Compile Include="Areas\Hub\Controllers\LetterTemplateController.cs" />
+    <Compile Include="Areas\Hub\Controllers\LossesAndAdjustmentsController.cs" />
+    <Compile Include="Areas\Hub\Controllers\PlannerController.cs" />
+    <Compile Include="Areas\Hub\Controllers\ProgramController.cs" />
+    <Compile Include="Areas\Hub\Controllers\ReceiveCommodityController.cs" />
+    <Compile Include="Areas\Hub\Controllers\ReceiveController.cs" />
+    <Compile Include="Areas\Hub\Controllers\ReleaseNotesController.cs" />
+    <Compile Include="Areas\Hub\Controllers\ReplicationController.cs" />
+    <Compile Include="Areas\Hub\Controllers\Reports\BinCardController.cs" />
+    <Compile Include="Areas\Hub\Controllers\Reports\StackCardController.cs" />
+    <Compile Include="Areas\Hub\Controllers\Reports\StockManagementController.cs" />
+    <Compile Include="Areas\Hub\Controllers\Reports\StockStatusController.cs" />
+    <Compile Include="Areas\Hub\Controllers\Reports\TransportationReportController.cs" />
+    <Compile Include="Areas\Hub\Controllers\RolesController.cs" />
+    <Compile Include="Areas\Hub\Controllers\SettingController.cs" />
+    <Compile Include="Areas\Hub\Controllers\StackEventController.cs" />
+    <Compile Include="Areas\Hub\Controllers\StartingBalanceController.cs" />
+    <Compile Include="Areas\Hub\Controllers\StoreController.cs" />
+    <Compile Include="Areas\Hub\Controllers\TransactionController.cs" />
+    <Compile Include="Areas\Hub\Controllers\TransporterController.cs" />
+    <Compile Include="Areas\Hub\Controllers\TransportOrderController.cs" />
+    <Compile Include="Areas\Hub\Controllers\UnitController.cs" />
+    <Compile Include="Areas\Hub\Controllers\UserAccountHelper.cs" />
+    <Compile Include="Areas\Hub\Controllers\UserWarehouseController.cs" />
+    <Compile Include="Areas\Hub\Controllers\Utilities\TranslationController.cs" />
+    <Compile Include="Areas\Hub\HubAreaRegistration.cs" />
+    <Compile Include="Areas\Hub\Models\CommodityTypeViewModel.cs" />
+    <Compile Include="Areas\Localization\Controllers\LanguageController.cs" />
+    <Compile Include="Areas\Localization\Controllers\TranslationController.cs" />
+    <Compile Include="Areas\Localization\LocalizationAreaRegistration.cs" />
+    <Compile Include="Areas\Logistics\Controllers\BeneficiaryAllocationController.cs" />
+    <Compile Include="Areas\Logistics\Controllers\DeliveryController.cs" />
+    <Compile Include="Areas\Logistics\Controllers\DeliveryReconcileController.cs" />
+    <Compile Include="Areas\Logistics\Controllers\FDPSIAllocationController.cs" />
+    <Compile Include="Areas\Logistics\Controllers\DispatchAllocationController.cs" />
+    <Compile Include="Areas\Logistics\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Logistics\Controllers\HubAllocationController.cs" />
+    <Compile Include="Areas\Logistics\Controllers\ProjectAllocationController.cs" />
+    <Compile Include="Areas\Logistics\Controllers\PromisedContributionController.cs" />
+    <Compile Include="Areas\Logistics\Controllers\ReciptPlanForLoanAndOthersController.cs" />
+    <Compile Include="Areas\Logistics\Controllers\SIAllocationController.cs" />
+    <Compile Include="Areas\Logistics\Controllers\LogisticsStockStatusController.cs" />
+    <Compile Include="Areas\Logistics\Controllers\TransportRequisitionController.cs" />
+    <Compile Include="Areas\Logistics\Controllers\WoredaStockDistributionController.cs" />
+    <Compile Include="Areas\Logistics\Controllers\LocalPurchaseController.cs" />
+    <Compile Include="Areas\Logistics\LogisticsAreaRegistration.cs" />
+    <Compile Include="Areas\Logistics\Models\ActionLink.cs" />
+    <Compile Include="Areas\Logistics\Models\ZonesViewModel.cs" />
+    <Compile Include="Areas\Logistics\Models\AssignHubViewModel.cs" />
+    <Compile Include="Areas\Logistics\Models\DispatchViewModelForReconcile.cs" />
+    <Compile Include="Areas\Logistics\Models\DistributionByAgeDetailViewModel.cs" />
+    <Compile Include="Areas\Logistics\Models\DonationDetail.cs" />
+    <Compile Include="Areas\Logistics\Models\DonationDetailViewModel.cs" />
+    <Compile Include="Areas\Logistics\Models\DonationHeaderViewModel.cs" />
+    <Compile Include="Areas\Logistics\Models\DeliveryDetailViewModel.cs" />
+    <Compile Include="Areas\Logistics\Models\DeliveryViewModel.cs" />
+    <Compile Include="Areas\Logistics\Models\DonationViewModel.cs" />
+    <Compile Include="Areas\Logistics\Models\FreeStockStatusViewModel.cs" />
+    <Compile Include="Areas\Logistics\Models\FreeStockSummaryModel.cs" />
+    <Compile Include="Areas\Logistics\Models\LocalPurchaseDetailViewModel.cs" />
+    <Compile Include="Areas\Logistics\Models\ReceiptAllocationViewModel.cs" />
+    <Compile Include="Areas\Logistics\Models\GRNViewModel.cs" />
+    <Compile Include="Areas\Logistics\Models\SIAllocation.cs" />
+    <Compile Include="Areas\Logistics\Models\Hub.cs" />
+    <Compile Include="Areas\EarlyWarning\Models\RequestDetailEdit.cs" />
+    <Compile Include="Areas\Logistics\Models\HubAllocation.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Logistics\Models\HubDto.cs" />
+    <Compile Include="Areas\Logistics\Models\UtilizationDetailViewModel.cs" />
+    <Compile Include="Areas\Logistics\Models\UtilizationViewModel.cs" />
+    <Compile Include="Areas\Logistics\Models\WoredaStockDistributionWithDetailViewModel.cs" />
+    <Compile Include="Areas\Procurement\Controllers\BidProposalController.cs" />
+    <Compile Include="Areas\Procurement\Controllers\BidAdministrationController.cs" />
+    <Compile Include="Areas\Procurement\Controllers\ContractAdministrationController.cs" />
+    <Compile Include="Areas\Procurement\Models\BidPlanDetailViewModel.cs" />
+    <Compile Include="Areas\Procurement\Models\TransportBidQuotationHeaderViewModel.cs" />
+    <Compile Include="Areas\Procurement\Models\TransportOrderDispatchViewModel.cs" />
+    <Compile Include="Areas\Procurement\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Procurement\Controllers\WoredaHubController.cs" />
+    <Compile Include="Areas\Procurement\Models\ActiveTransportOrderViewModel.cs" />
+    <Compile Include="Areas\Procurement\Models\AgreementVersionViewModel.cs" />
+    <Compile Include="Areas\Procurement\Controllers\TransportBidPlanDetailController.cs" />
+    <Compile Include="Areas\Procurement\Controllers\TransportListController.cs" />
+    <Compile Include="Areas\Procurement\Models\SubstituteTransporterOrder.cs" />
+    <Compile Include="Areas\Procurement\Models\TransportBidQuotationBinding.cs" />
+    <Compile Include="Areas\Procurement\Models\TransportBidQuotationViewModel.cs" />
+    <Compile Include="Areas\Procurement\Models\TransportContractReportViewModel.cs" />
+    <Compile Include="Areas\Procurement\Models\TransportContractViewModel.cs" />
+    <Compile Include="Areas\Procurement\Models\TransporterAgreementViewModel.cs" />
+    <Compile Include="Areas\Procurement\Models\TransporterViewModel.cs" />
+    <Compile Include="Areas\Procurement\Models\TransportOrderDetailViewModel.cs" />
+    <Compile Include="Areas\Procurement\Models\TransportOrderViewModel.cs" />
+    <Compile Include="Areas\Procurement\Controllers\BidWinnerController.cs" />
+    <Compile Include="Areas\Logistics\Models\TransportRequisitionDetailViewModel.cs" />
+    <Compile Include="Areas\Logistics\Models\TransportRequisitionViewModel.cs" />
+    <Compile Include="Areas\Procurement\Controllers\PriceQuotationController.cs" />
+    <Compile Include="Areas\Procurement\Controllers\DispatchLocationsController.cs" />
+    <Compile Include="Areas\Procurement\Controllers\RFQController.cs" />
+    <Compile Include="Areas\Procurement\Controllers\TransporterController.cs" />
+    <Compile Include="Areas\Logistics\Models\ProjectCodeAllocation.cs" />
+    <Compile Include="Areas\Procurement\Controllers\BidController.cs" />
+    <Compile Include="Areas\Procurement\Controllers\TransportBidPlanController.cs" />
+    <Compile Include="Areas\Procurement\Controllers\TransportOrderController.cs" />
+    <Compile Include="Areas\Procurement\Models\BidDetailsViewModel.cs" />
+    <Compile Include="Areas\Procurement\Models\BidsViewModel.cs" />
+    <Compile Include="Areas\Procurement\Models\DispatchLocationViewModel.cs" />
+    <Compile Include="Areas\Procurement\Models\PriceQuotationModel.cs" />
+    <Compile Include="Areas\Procurement\Models\RegionTotalViewModel.cs" />
+    <Compile Include="Areas\Procurement\Models\RequisitionToDispatchSelect.cs" />
+    <Compile Include="Areas\Procurement\Models\RfqViewModel.cs" />
+    <Compile Include="Areas\Procurement\Models\TransportBidPlanViewModel.cs" />
+    <Compile Include="Areas\Procurement\Models\TransporterPOCO.cs" />
+    <Compile Include="Areas\Procurement\Models\TransportRequisitionSelect.cs" />
+    <Compile Include="Areas\Procurement\Models\vwTransportOrderViewModel.cs" />
+    <Compile Include="Areas\Procurement\Models\WarehouseProgramViewModel.cs" />
+    <Compile Include="Areas\Procurement\Models\WarehouseSelectionFilterViewModel.cs" />
+    <Compile Include="Areas\Procurement\Models\WinnersByBidViewModel.cs" />
+    <Compile Include="Areas\Procurement\Models\WoredaHierarchyViewModel.cs" />
+    <Compile Include="Areas\Procurement\Models\WoredaHubBinding.cs" />
+    <Compile Include="Areas\Procurement\Controllers\PaymentRequestController.cs" />
+    <Compile Include="Areas\Procurement\Models\WoredaHubLinkBinding.cs" />
+    <Compile Include="Areas\Procurement\Models\WoredaHubLinkViewModel.cs" />
+    <Compile Include="Areas\Procurement\Models\WoredaHubViewModel.cs" />
+    <Compile Include="Areas\Procurement\Models\WoredasInCurrentContract.cs" />
+    <Compile Include="Areas\Procurement\ProcurementAreaRegistration.cs" />
+    <Compile Include="Areas\PSNP\Controllers\HomeController.cs" />
+    <Compile Include="Areas\PSNP\Controllers\RegionalPSNPPlanDetailController.cs" />
+    <Compile Include="Areas\PSNP\Controllers\RegionalPSNPPledgeController.cs" />
+    <Compile Include="Areas\PSNP\Models\RegionalPSNPPlan.cs" />
+    <Compile Include="Areas\PSNP\PSNPAreaRegistration.cs" />
+    <Compile Include="Areas\PSNP\Controllers\RegionalPSNPPlanController.cs" />
+    <Compile Include="Areas\Regional\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Regional\RegionalAreaRegistration.cs" />
+    <Compile Include="Areas\Report\Controllers\ReportHomeController.cs" />
+    <Compile Include="Areas\Report\ReportAreaRegistration.cs" />
+    <Compile Include="Areas\Settings\Controllers\AdminDashboardController.cs" />
+    <Compile Include="Areas\Settings\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Settings\Controllers\LogController.cs" />
+    <Compile Include="Areas\Settings\Controllers\UsersController.cs" />
+    <Compile Include="Areas\Settings\Models\ChangePasswordModel.cs" />
+    <Compile Include="Areas\Settings\Models\ForgetPasswordRequestModel.cs" />
+    <Compile Include="Areas\Settings\Models\ForgotPasswordModel.cs" />
+    <Compile Include="Areas\Settings\Models\UserPreferenceViewModel.cs" />
+    <Compile Include="Areas\Settings\Models\UserViewModel.cs" />
+    <Compile Include="Areas\Settings\SettingsAreaRegistration.cs" />
+    <Compile Include="Areas\Transaction\Controllers\TransactionTestController.cs" />
+    <Compile Include="Areas\Transaction\TransactionAreaRegistration.cs" />
+    <Compile Include="Areas\WorkflowManager\Controllers\BusinessProcessController.cs" />
+    <Compile Include="Areas\WorkflowManager\Controllers\FlowTemplateController.cs" />
+    <Compile Include="Areas\WorkflowManager\Controllers\ProcessTemplateController.cs" />
+    <Compile Include="Areas\WorkflowManager\Controllers\StateTemplateController.cs" />
+    <Compile Include="Areas\WorkflowManager\WorkflowManagerAreaRegistration.cs" />
+    <Compile Include="CatsMasterDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CatsMasterDataSet.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\SMSGatewayController.cs" />
+    <Compile Include="Controllers\DashboardController.cs" />
+    <Compile Include="Areas\EarlyWarning\Controllers\HomeController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\UserPreferenceController.cs" />
+    <Compile Include="CTSDataSet.cs">
+      <DependentUpon>CTSDataSet.xsd</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CTSDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CTSDataSet.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="dataset.cs">
+      <DependentUpon>dataset.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="dataset.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>dataset.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Filters\LocalizationFilter.cs" />
+    <Compile Include="Helpers\CatsAuthorize.cs" />
+    <Compile Include="Helpers\DateHelpers.cs" />
+    <Compile Include="Helpers\DistributionHelper.cs" />
+    <Compile Include="Helpers\HtmlExtensions.cs" />
+    <Compile Include="Helpers\Hub\AmharicEditorHelper.cs" />
+    <Compile Include="Helpers\Hub\CascadeDropDownHelper.cs" />
+    <Compile Include="Helpers\Hub\CatsAuthorize.cs" />
+    <Compile Include="Helpers\Hub\ControllerContextExtensions.cs" />
+    <Compile Include="Helpers\Hub\CultureHelper.cs" />
+    <Compile Include="Helpers\Hub\CurrentUserHelper.cs" />
+    <Compile Include="Helpers\Hub\DateHelpers.cs" />
+    <Compile Include="Helpers\Hub\DictionaryExtensions.cs" />
+    <Compile Include="Helpers\Hub\HandledErrorLoggerFilter.cs" />
+    <Compile Include="Helpers\Hub\HtmlHelpers.cs" />
+    <Compile Include="Helpers\Hub\HtmlHelpersExtensions.cs" />
+    <Compile Include="Helpers\Hub\LanguageHelper.cs" />
+    <Compile Include="Helpers\Hub\LetterTemplateHelper.cs" />
+    <Compile Include="Helpers\Hub\Log.cs" />
+    <Compile Include="Helpers\Hub\MembershipProvider.cs" />
+    <Compile Include="Helpers\Hub\MonthHelper.cs" />
+    <Compile Include="Helpers\Hub\StringExtensions.cs" />
+    <Compile Include="Helpers\Hub\UserAccountHelper.cs" />
+    <Compile Include="Helpers\Hub\VersionHelper.cs" />
+    <Compile Include="Helpers\LanguageHelper.cs" />
+    <Compile Include="Helpers\Log.cs" />
+    <Compile Include="Helpers\MainMenuExtensionHelper.cs" />
+    <Compile Include="Helpers\MD5Hashing.cs" />
+    <Compile Include="Helpers\NotificationHelper.cs" />
+    <Compile Include="Helpers\ReportMenuHelper.cs" />
+    <Compile Include="Helpers\RoundMonthHelper.cs" />
+    <Compile Include="Helpers\SendMail.cs" />
+    <Compile Include="Helpers\TemplateHelper.cs" />
+    <Compile Include="Helpers\UnitConversion.cs" />
+    <Compile Include="Helpers\VersionHelperExtension.cs" />
+    <Compile Include="HRDDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>HRDDataSet.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Helpers\AmharicEditorHelper.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Helpers\ElmahErrorAttribute.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Helpers\EthiopianDate.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Helpers\getGregorianDate.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Helpers\RequestHelper.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Helpers\UserAccountHelper.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Helpers\UserRoleHelper.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Infrastructure\Infrastructure\Configuration.cs" />
+    <Compile Include="Infrastructure\Infrastructure\CryptoGen.cs" />
+    <Compile Include="Infrastructure\Infrastructure\EthiopianDate.cs" />
+    <Compile Include="Infrastructure\Infrastructure\MD5Hash.cs" />
+    <Compile Include="Infrastructure\Infrastructure\SendMail.cs" />
+    <Compile Include="Infrastructure\ReportHelper.cs" />
+    <Compile Include="Library\CatsReportServerCredentials.cs" />
+    <Compile Include="Library\Controllers\BaseController.cs" />
+    <Compile Include="Library\ErrorHandler.cs" />
+    <Compile Include="Library\FormsAuthenticationWrapper.cs" />
+    <Compile Include="Library\MembershipWrapper.cs" />
+    <Compile Include="Library\RoleProvider.cs" />
+    <Compile Include="Library\UrlHelperWrapper.cs" />
+    <Compile Include="Models\Month.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Infrastructure\NinjectDependencyResolver.cs" />
+    <Compile Include="Models\SelectFromGrid.cs" />
+    <Compile Include="Models\DashboardViewModel.cs" />
+    <Compile Include="Models\ViewModels\LoginModel.cs" />
+    <Compile Include="Models\ViewModels\ReportDTO.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Areas\EarlyWarning\Models\HRDCompareViewModel.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="ReportViewer.aspx.cs">
+      <DependentUpon>ReportViewer.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ReportViewer.aspx.designer.cs">
+      <DependentUpon>ReportViewer.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Requisitionattachment.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Requisitionattachment.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="RequisitionSummary.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RequisitionSummary.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="RFQModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RFQModel.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModelBinder\DispatchReportViewModelBinder.cs" />
+    <Compile Include="ViewModelBinder\DispatchViewModelBinder.cs" />
+    <Compile Include="ViewModelBinder\FDPViewModelBinder.cs" />
+    <Compile Include="ViewModelBinder\GiftCertificateViewModelBinder.cs" />
+    <Compile Include="ViewModelBinder\HRDViewModelBinder.cs" />
+    <Compile Include="ViewModelBinder\HubAllocationViewModelBinder.cs" />
+    <Compile Include="ViewModelBinder\NeedAssessmentViewModelBinder.cs" />
+    <Compile Include="ViewModelBinder\NotificationViewModelBinder.cs" />
+    <Compile Include="ViewModelBinder\RequestViewModelBinder.cs" />
+    <Compile Include="ViewModelBinder\RequisitionViewModelBinder.cs" />
+    <Compile Include="ViewModelBinder\TransporterListViewModelBinder.cs" />
+    <Compile Include="ViewModelBinder\TransportOrderViewModelBinder.cs" />
+    <Compile Include="ViewModelBinder\TransportRequisitionViewModelBinder.cs" />
+    <Compile Include="ViewModelBinder\UtilizationViewModelBinder.cs" />
+    <Compile Include="ViewModelBinder\vwTransportOrderViewModelBinder.cs" />
+    <Compile Include="Web References\ReportPortal\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Hub\Views\Dispatch\EditorTemplates\GridForeignKey.ascx" />
+    <Content Include="Areas\Hub\Views\GiftCertificate\EditorTemplates\GridForeignKey.ascx" />
+    <Content Include="Areas\Hub\Views\Receive\EditorTemplates\ComboBox.ascx" />
+    <Content Include="Areas\Hub\Views\Receive\EditorTemplates\GridForeignKey.ascx" />
+    <Content Include="Areas\Hub\Views\Shared\EditorTemplates\Currency.ascx" />
+    <Content Include="Areas\Hub\Views\Shared\EditorTemplates\Date.ascx" />
+    <Content Include="Areas\Hub\Views\Shared\EditorTemplates\GridForeignKey.ascx" />
+    <Content Include="Areas\Hub\Views\Shared\EditorTemplates\Integer.ascx" />
+    <Content Include="Areas\Hub\Views\Shared\EditorTemplates\Number.ascx" />
+    <Content Include="Areas\Hub\Views\Shared\EditorTemplates\Time.ascx" />
+    <!--<Content Include="ClientBin\EWdispatchAllocationList.xap" />-->
+    <Content Include="Content\2013.1.219\Black\editor.png" />
+    <Content Include="Content\2013.1.219\Black\imagebrowser.png" />
+    <Content Include="Content\2013.1.219\Black\loading.gif" />
+    <Content Include="Content\2013.1.219\Black\slider-h.gif" />
+    <Content Include="Content\2013.1.219\Black\slider-v.gif" />
+    <Content Include="Content\2013.1.219\Black\sprite-vertical.png" />
+    <Content Include="Content\2013.1.219\Black\sprite.png" />
+    <Content Include="Content\2013.1.219\Black\treeview-line.png" />
+    <Content Include="Content\2013.1.219\Black\treeview-nodes-rtl.png" />
+    <Content Include="Content\2013.1.219\Black\treeview-nodes.png" />
+    <Content Include="Content\2013.1.219\Default\editor.png" />
+    <Content Include="Content\2013.1.219\Default\imagebrowser.png" />
+    <Content Include="Content\2013.1.219\Default\loading.gif" />
+    <Content Include="Content\2013.1.219\Default\slider-h.gif" />
+    <Content Include="Content\2013.1.219\Default\slider-v.gif" />
+    <Content Include="Content\2013.1.219\Default\sprite-vertical.png" />
+    <Content Include="Content\2013.1.219\Default\sprite.png" />
+    <Content Include="Content\2013.1.219\Default\treeview-line.png" />
+    <Content Include="Content\2013.1.219\Default\treeview-nodes-rtl.png" />
+    <Content Include="Content\2013.1.219\Default\treeview-nodes.png" />
+    <Content Include="Content\2013.1.219\Forest\editor.png" />
+    <Content Include="Content\2013.1.219\Forest\imagebrowser.png" />
+    <Content Include="Content\2013.1.219\Forest\loading.gif" />
+    <Content Include="Content\2013.1.219\Forest\slider-h.gif" />
+    <Content Include="Content\2013.1.219\Forest\slider-v.gif" />
+    <Content Include="Content\2013.1.219\Forest\sprite-vertical.png" />
+    <Content Include="Content\2013.1.219\Forest\sprite.png" />
+    <Content Include="Content\2013.1.219\Forest\treeview-line.png" />
+    <Content Include="Content\2013.1.219\Forest\treeview-nodes-rtl.png" />
+    <Content Include="Content\2013.1.219\Forest\treeview-nodes.png" />
+    <Content Include="Content\2013.1.219\Hay\editor.png" />
+    <Content Include="Content\2013.1.219\Hay\imagebrowser.png" />
+    <Content Include="Content\2013.1.219\Hay\loading.gif" />
+    <Content Include="Content\2013.1.219\Hay\slider-h.gif" />
+    <Content Include="Content\2013.1.219\Hay\slider-v.gif" />
+    <Content Include="Content\2013.1.219\Hay\sprite-vertical.png" />
+    <Content Include="Content\2013.1.219\Hay\sprite.png" />
+    <Content Include="Content\2013.1.219\Hay\treeview-line.png" />
+    <Content Include="Content\2013.1.219\Hay\treeview-nodes-rtl.png" />
+    <Content Include="Content\2013.1.219\Hay\treeview-nodes.png" />
+    <Content Include="Content\2013.1.219\Metro\editor.png" />
+    <Content Include="Content\2013.1.219\Metro\imagebrowser.png" />
+    <Content Include="Content\2013.1.219\Metro\loading.gif" />
+    <Content Include="Content\2013.1.219\Metro\slider-h.gif" />
+    <Content Include="Content\2013.1.219\Metro\slider-v.gif" />
+    <Content Include="Content\2013.1.219\Metro\sprite.png" />
+    <Content Include="Content\2013.1.219\Office2007\editor.png" />
+    <Content Include="Content\2013.1.219\Office2007\imagebrowser.png" />
+    <Content Include="Content\2013.1.219\Office2007\loading.gif" />
+    <Content Include="Content\2013.1.219\Office2007\slider-h.gif" />
+    <Content Include="Content\2013.1.219\Office2007\slider-v.gif" />
+    <Content Include="Content\2013.1.219\Office2007\sprite-vertical.png" />
+    <Content Include="Content\2013.1.219\Office2007\sprite.png" />
+    <Content Include="Content\2013.1.219\Office2007\treeview-line.png" />
+    <Content Include="Content\2013.1.219\Office2007\treeview-nodes-rtl.png" />
+    <Content Include="Content\2013.1.219\Office2007\treeview-nodes.png" />
+    <Content Include="Content\2013.1.219\Office2010Black\editor.png" />
+    <Content Include="Content\2013.1.219\Office2010Black\imagebrowser.png" />
+    <Content Include="Content\2013.1.219\Office2010Black\loading.gif" />
+    <Content Include="Content\2013.1.219\Office2010Black\slider-h.gif" />
+    <Content Include="Content\2013.1.219\Office2010Black\slider-v.gif" />
+    <Content Include="Content\2013.1.219\Office2010Black\sprite-vertical.png" />
+    <Content Include="Content\2013.1.219\Office2010Black\sprite.png" />
+    <Content Include="Content\2013.1.219\Office2010Black\treeview-line.png" />
+    <Content Include="Content\2013.1.219\Office2010Black\treeview-nodes-rtl.png" />
+    <Content Include="Content\2013.1.219\Office2010Black\treeview-nodes.png" />
+    <Content Include="Content\2013.1.219\Office2010Blue\editor.png" />
+    <Content Include="Content\2013.1.219\Office2010Blue\gradient.png" />
+    <Content Include="Content\2013.1.219\Office2010Blue\imagebrowser.png" />
+    <Content Include="Content\2013.1.219\Office2010Blue\loading.gif" />
+    <Content Include="Content\2013.1.219\Office2010Blue\slider-h.gif" />
+    <Content Include="Content\2013.1.219\Office2010Blue\slider-v.gif" />
+    <Content Include="Content\2013.1.219\Office2010Blue\sprite-vertical.png" />
+    <Content Include="Content\2013.1.219\Office2010Blue\sprite.png" />
+    <Content Include="Content\2013.1.219\Office2010Silver\editor.png" />
+    <Content Include="Content\2013.1.219\Office2010Silver\gradient.png" />
+    <Content Include="Content\2013.1.219\Office2010Silver\imagebrowser.png" />
+    <Content Include="Content\2013.1.219\Office2010Silver\loading.gif" />
+    <Content Include="Content\2013.1.219\Office2010Silver\slider-h.gif" />
+    <Content Include="Content\2013.1.219\Office2010Silver\slider-v.gif" />
+    <Content Include="Content\2013.1.219\Office2010Silver\sprite-vertical.png" />
+    <Content Include="Content\2013.1.219\Office2010Silver\sprite.png" />
+    <Content Include="Content\2013.1.219\Outlook\editor.png" />
+    <Content Include="Content\2013.1.219\Outlook\imagebrowser.png" />
+    <Content Include="Content\2013.1.219\Outlook\loading.gif" />
+    <Content Include="Content\2013.1.219\Outlook\slider-h.gif" />
+    <Content Include="Content\2013.1.219\Outlook\slider-v.gif" />
+    <Content Include="Content\2013.1.219\Outlook\sprite-vertical.png" />
+    <Content Include="Content\2013.1.219\Outlook\sprite.png" />
+    <Content Include="Content\2013.1.219\Outlook\treeview-line.png" />
+    <Content Include="Content\2013.1.219\Outlook\treeview-nodes-rtl.png" />
+    <Content Include="Content\2013.1.219\Outlook\treeview-nodes.png" />
+    <Content Include="Content\2013.1.219\Simple\editor.png" />
+    <Content Include="Content\2013.1.219\Simple\imagebrowser.png" />
+    <Content Include="Content\2013.1.219\Simple\loading.gif" />
+    <Content Include="Content\2013.1.219\Simple\slider-h.gif" />
+    <Content Include="Content\2013.1.219\Simple\slider-v.gif" />
+    <Content Include="Content\2013.1.219\Simple\sprite.png" />
+    <Content Include="Content\2013.1.219\Simple\treeview-line.png" />
+    <Content Include="Content\2013.1.219\Simple\treeview-nodes-rtl.png" />
+    <Content Include="Content\2013.1.219\Simple\treeview-nodes.png" />
+    <Content Include="Content\2013.1.219\Sitefinity\editor.png" />
+    <Content Include="Content\2013.1.219\Sitefinity\imagebrowser.png" />
+    <Content Include="Content\2013.1.219\Sitefinity\loading.gif" />
+    <Content Include="Content\2013.1.219\Sitefinity\slider-h.gif" />
+    <Content Include="Content\2013.1.219\Sitefinity\slider-v.gif" />
+    <Content Include="Content\2013.1.219\Sitefinity\sprite-vertical.png" />
+    <Content Include="Content\2013.1.219\Sitefinity\sprite.png" />
+    <Content Include="Content\2013.1.219\Sitefinity\treeview-line.png" />
+    <Content Include="Content\2013.1.219\Sitefinity\treeview-nodes-rtl.png" />
+    <Content Include="Content\2013.1.219\Sitefinity\treeview-nodes.png" />
+    <Content Include="Content\2013.1.219\Sunset\editor.png" />
+    <Content Include="Content\2013.1.219\Sunset\imagebrowser.png" />
+    <Content Include="Content\2013.1.219\Sunset\loading.gif" />
+    <Content Include="Content\2013.1.219\Sunset\slider-h.gif" />
+    <Content Include="Content\2013.1.219\Sunset\slider-v.gif" />
+    <Content Include="Content\2013.1.219\Sunset\sprite-vertical.png" />
+    <Content Include="Content\2013.1.219\Sunset\sprite.png" />
+    <Content Include="Content\2013.1.219\Sunset\treeview-line.png" />
+    <Content Include="Content\2013.1.219\Sunset\treeview-nodes-rtl.png" />
+    <Content Include="Content\2013.1.219\Sunset\treeview-nodes.png" />
+    <Content Include="Content\2013.1.219\telerik.black.min.css" />
+    <Content Include="Content\2013.1.219\telerik.common.min.css" />
+    <Content Include="Content\2013.1.219\telerik.default.min.css" />
+    <Content Include="Content\2013.1.219\telerik.forest.min.css" />
+    <Content Include="Content\2013.1.219\telerik.hay.min.css" />
+    <Content Include="Content\2013.1.219\telerik.metro.min.css" />
+    <Content Include="Content\2013.1.219\telerik.office2007.min.css" />
+    <Content Include="Content\2013.1.219\telerik.office2010black.min.css" />
+    <Content Include="Content\2013.1.219\telerik.office2010blue.min.css" />
+    <Content Include="Content\2013.1.219\telerik.office2010silver.min.css" />
+    <Content Include="Content\2013.1.219\telerik.outlook.min.css" />
+    <Content Include="Content\2013.1.219\telerik.rtl.min.css" />
+    <Content Include="Content\2013.1.219\telerik.simple.min.css" />
+    <Content Include="Content\2013.1.219\telerik.sitefinity.min.css" />
+    <Content Include="Content\2013.1.219\telerik.sunset.min.css" />
+    <Content Include="Content\2013.1.219\telerik.telerik.min.css" />
+    <Content Include="Content\2013.1.219\telerik.transparent.min.css" />
+    <Content Include="Content\2013.1.219\telerik.vista.min.css" />
+    <Content Include="Content\2013.1.219\telerik.web20.min.css" />
+    <Content Include="Content\2013.1.219\telerik.webblue.min.css" />
+    <Content Include="Content\2013.1.219\telerik.windows7.min.css" />
+    <Content Include="Content\2013.1.219\Telerik\editor.png" />
+    <Content Include="Content\2013.1.219\Telerik\imagebrowser.png" />
+    <Content Include="Content\2013.1.219\Telerik\loading.gif" />
+    <Content Include="Content\2013.1.219\Telerik\slider-h.gif" />
+    <Content Include="Content\2013.1.219\Telerik\slider-v.gif" />
+    <Content Include="Content\2013.1.219\Telerik\sprite-vertical.png" />
+    <Content Include="Content\2013.1.219\Telerik\sprite.png" />
+    <Content Include="Content\2013.1.219\Telerik\treeview-line.png" />
+    <Content Include="Content\2013.1.219\Telerik\treeview-nodes-rtl.png" />
+    <Content Include="Content\2013.1.219\Telerik\treeview-nodes.png" />
+    <Content Include="Content\2013.1.219\Transparent\active.png" />
+    <Content Include="Content\2013.1.219\Transparent\editor.png" />
+    <Content Include="Content\2013.1.219\Transparent\gradient.png" />
+    <Content Include="Content\2013.1.219\Transparent\group.png" />
+    <Content Include="Content\2013.1.219\Transparent\hover.png" />
+    <Content Include="Content\2013.1.219\Transparent\imagebrowser.png" />
+    <Content Include="Content\2013.1.219\Transparent\loading.gif" />
+    <Content Include="Content\2013.1.219\Transparent\selected.png" />
+    <Content Include="Content\2013.1.219\Transparent\slider-h.gif" />
+    <Content Include="Content\2013.1.219\Transparent\slider-v.gif" />
+    <Content Include="Content\2013.1.219\Transparent\sprite-vertical.png" />
+    <Content Include="Content\2013.1.219\Transparent\sprite.png" />
+    <Content Include="Content\2013.1.219\Transparent\toolbar.png" />
+    <Content Include="Content\2013.1.219\Transparent\widget.png" />
+    <Content Include="Content\2013.1.219\Vista\editor.png" />
+    <Content Include="Content\2013.1.219\Vista\imagebrowser.png" />
+    <Content Include="Content\2013.1.219\Vista\loading.gif" />
+    <Content Include="Content\2013.1.219\Vista\slider-h.gif" />
+    <Content Include="Content\2013.1.219\Vista\slider-v.gif" />
+    <Content Include="Content\2013.1.219\Vista\sprite-vertical.png" />
+    <Content Include="Content\2013.1.219\Vista\sprite.png" />
+    <Content Include="Content\2013.1.219\Web20\editor.png" />
+    <Content Include="Content\2013.1.219\Web20\imagebrowser.png" />
+    <Content Include="Content\2013.1.219\Web20\loading.gif" />
+    <Content Include="Content\2013.1.219\Web20\slider-h.gif" />
+    <Content Include="Content\2013.1.219\Web20\slider-v.gif" />
+    <Content Include="Content\2013.1.219\Web20\sprite-vertical.png" />
+    <Content Include="Content\2013.1.219\Web20\sprite.png" />
+    <Content Include="Content\2013.1.219\Web20\treeview-line.png" />
+    <Content Include="Content\2013.1.219\Web20\treeview-nodes-rtl.png" />
+    <Content Include="Content\2013.1.219\Web20\treeview-nodes.png" />
+    <Content Include="Content\2013.1.219\WebBlue\editor.png" />
+    <Content Include="Content\2013.1.219\WebBlue\imagebrowser.png" />
+    <Content Include="Content\2013.1.219\WebBlue\loading.gif" />
+    <Content Include="Content\2013.1.219\WebBlue\slider-h.gif" />
+    <Content Include="Content\2013.1.219\WebBlue\slider-v.gif" />
+    <Content Include="Content\2013.1.219\WebBlue\sprite-vertical.png" />
+    <Content Include="Content\2013.1.219\WebBlue\sprite.png" />
+    <Content Include="Content\2013.1.219\WebBlue\treeview-line.png" />
+    <Content Include="Content\2013.1.219\WebBlue\treeview-nodes-rtl.png" />
+    <Content Include="Content\2013.1.219\WebBlue\treeview-nodes.png" />
+    <Content Include="Content\2013.1.219\Windows7\editor.png" />
+    <Content Include="Content\2013.1.219\Windows7\imagebrowser.png" />
+    <Content Include="Content\2013.1.219\Windows7\loading.gif" />
+    <Content Include="Content\2013.1.219\Windows7\slider-h.gif" />
+    <Content Include="Content\2013.1.219\Windows7\slider-v.gif" />
+    <Content Include="Content\2013.1.219\Windows7\sprite-vertical.png" />
+    <Content Include="Content\2013.1.219\Windows7\sprite.png" />
+    <Content Include="Content\assets\css\bootstrap-responsive.css" />
+    <Content Include="Content\assets\css\bootstrap-responsive.min.css" />
+    <Content Include="Content\assets\css\bootstrap.css" />
+    <Content Include="Content\assets\css\bootstrap.min.css" />
+    <Content Include="Content\assets\css\docs.css" />
+    <Content Include="Content\assets\ico\apple-touch-icon-114-precomposed.png" />
+    <Content Include="Content\assets\ico\apple-touch-icon-144-precomposed.png" />
+    <Content Include="Content\assets\ico\apple-touch-icon-57-precomposed.png" />
+    <Content Include="Content\assets\ico\apple-touch-icon-72-precomposed.png" />
+    <Content Include="Content\assets\ico\favicon.ico" />
+    <Content Include="Content\assets\ico\favicon.png" />
+    <Content Include="Content\assets\img\bootstrap-docs-readme.png" />
+    <Content Include="Content\assets\img\bootstrap-mdo-sfmoma-01.jpg" />
+    <Content Include="Content\assets\img\bootstrap-mdo-sfmoma-02.jpg" />
+    <Content Include="Content\assets\img\bootstrap-mdo-sfmoma-03.jpg" />
+    <Content Include="Content\assets\img\bs-docs-bootstrap-features.png" />
+    <Content Include="Content\assets\img\bs-docs-masthead-pattern.png" />
+    <Content Include="Content\assets\img\bs-docs-responsive-illustrations.png" />
+    <Content Include="Content\assets\img\bs-docs-twitter-github.png" />
+    <Content Include="Content\assets\img\error.png" />
+    <Content Include="Content\assets\img\example-sites\8020select.png" />
+    <Content Include="Content\assets\img\example-sites\adoptahydrant.png" />
+    <Content Include="Content\assets\img\example-sites\breakingnews.png" />
+    <Content Include="Content\assets\img\example-sites\fleetio.png" />
+    <Content Include="Content\assets\img\example-sites\gathercontent.png" />
+    <Content Include="Content\assets\img\example-sites\jshint.png" />
+    <Content Include="Content\assets\img\example-sites\kippt.png" />
+    <Content Include="Content\assets\img\example-sites\soundready.png" />
+    <Content Include="Content\assets\img\examples\bootstrap-example-carousel.png" />
+    <Content Include="Content\assets\img\examples\bootstrap-example-fluid.png" />
+    <Content Include="Content\assets\img\examples\bootstrap-example-justified-nav.png" />
+    <Content Include="Content\assets\img\examples\bootstrap-example-marketing-narrow.png" />
+    <Content Include="Content\assets\img\examples\bootstrap-example-marketing.png" />
+    <Content Include="Content\assets\img\examples\bootstrap-example-signin.png" />
+    <Content Include="Content\assets\img\examples\bootstrap-example-starter.png" />
+    <Content Include="Content\assets\img\examples\bootstrap-example-sticky-footer.png" />
+    <Content Include="Content\assets\img\examples\browser-icon-chrome.png" />
+    <Content Include="Content\assets\img\examples\browser-icon-firefox.png" />
+    <Content Include="Content\assets\img\examples\browser-icon-safari.png" />
+    <Content Include="Content\assets\img\examples\slide-01.jpg" />
+    <Content Include="Content\assets\img\examples\slide-02.jpg" />
+    <Content Include="Content\assets\img\examples\slide-03.jpg" />
+    <Content Include="Content\assets\img\glyphicons-halflings-white.png" />
+    <Content Include="Content\assets\img\glyphicons-halflings.png" />
+    <Content Include="Content\assets\img\grid-baseline-20px.png" />
+    <Content Include="Content\assets\img\less-logo-large.png" />
+    <Content Include="Content\assets\img\responsive-illustrations.png" />
+    <Content Include="Content\assets\img\valid.png" />
+    <Content Include="Content\assets\js\application.js" />
+    <Content Include="Content\assets\js\bootstrap-affix.js" />
+    <Content Include="Content\assets\js\bootstrap-alert.js" />
+    <Content Include="Content\assets\js\bootstrap-button.js" />
+    <Content Include="Content\assets\js\bootstrap-carousel.js" />
+    <Content Include="Content\assets\js\bootstrap-collapse.js" />
+    <Content Include="Content\assets\js\bootstrap-datepicker.js" />
+    <Content Include="Content\assets\js\bootstrap-dropdown.js" />
+    <Content Include="Content\assets\js\bootstrap-modal.js" />
+    <Content Include="Content\assets\js\bootstrap-popover.js" />
+    <Content Include="Content\assets\js\bootstrap-scrollspy.js" />
+    <Content Include="Content\assets\js\bootstrap-tab.js" />
+    <Content Include="Content\assets\js\bootstrap-tooltip.js" />
+    <Content Include="Content\assets\js\bootstrap-transition.js" />
+    <Content Include="Content\assets\js\bootstrap-typeahead.js" />
+    <Content Include="Content\assets\js\bootstrap.js" />
+    <Content Include="Content\assets\js\bootstrap.min.js" />
+    <Content Include="Content\assets\js\google-code-prettify\prettify.css" />
+    <Content Include="Content\assets\js\google-code-prettify\prettify.js" />
+    <Content Include="Content\assets\js\holder\holder.js" />
+    <Content Include="Content\assets\js\html5shiv.js" />
+    <Content Include="Content\assets\js\jquery-1.7.1.min.js" />
+    <Content Include="Content\assets\js\jquery.js" />
+    <Content Include="Content\assets\js\jquery.validate.js" />
+    <Content Include="Content\assets\js\jquery.validate.min.js" />
+    <Content Include="Content\bootstrap-responsive.css" />
+    <Content Include="Content\bootstrap-responsive.min.css" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Dashboard\dashboardcomponents.css" />
+    <Content Include="Content\images\CATS.png" />
+    <Content Include="Content\Login\App.css" />
+    <Content Include="Content\Login\bootstrap.min.css" />
+    <Content Include="Content\Login\bootstrab.min.js" />
+    <Content Include="Content\Login\Login.js" />
+    <Content Include="Content\Login\Login.css" />
+    <Content Include="Content\css\custom-theme\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Content\css\custom-theme\images\ui-bg_flat_10_aaaaaa_40x100.png" />
+    <Content Include="Content\css\custom-theme\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Content\css\custom-theme\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Content\css\custom-theme\images\ui-bg_glass_55_fcf0ba_1x400.png" />
+    <Content Include="Content\css\custom-theme\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Content\css\custom-theme\images\ui-bg_gloss-wave_100_ece8da_500x100.png" />
+    <Content Include="Content\css\custom-theme\images\ui-bg_highlight-hard_100_f5f3e5_1x100.png" />
+    <Content Include="Content\css\custom-theme\images\ui-bg_highlight-hard_100_fafaf4_1x100.png" />
+    <Content Include="Content\css\custom-theme\images\ui-bg_highlight-hard_15_496e79_1x100.png" />
+    <Content Include="Content\css\custom-theme\images\ui-bg_highlight-hard_95_cccccc_1x100.png" />
+    <Content Include="Content\css\custom-theme\images\ui-bg_highlight-soft_25_218eb0_1x100.png" />
+    <Content Include="Content\css\custom-theme\images\ui-bg_highlight-soft_75_99c0eb_1x100.png" />
+    <Content Include="Content\css\custom-theme\images\ui-bg_highlight-soft_95_ffedad_1x100.png" />
+    <Content Include="Content\css\custom-theme\images\ui-bg_inset-hard_75_91bcf7_1x100.png" />
+    <Content Include="Content\css\custom-theme\images\ui-bg_inset-soft_15_2b2922_1x100.png" />
+    <Content Include="Content\css\custom-theme\images\ui-bg_inset-soft_75_91bcf7_1x100.png" />
+    <Content Include="Content\css\custom-theme\images\ui-bg_inset-soft_95_fef1ec_1x100.png" />
+    <Content Include="Content\css\custom-theme\images\ui-icons_222222_256x240.png" />
+    <Content Include="Content\css\custom-theme\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Content\css\custom-theme\images\ui-icons_454545_256x240.png" />
+    <Content Include="Content\css\custom-theme\images\ui-icons_808080_256x240.png" />
+    <Content Include="Content\css\custom-theme\images\ui-icons_847e71_256x240.png" />
+    <Content Include="Content\css\custom-theme\images\ui-icons_888888_256x240.png" />
+    <Content Include="Content\css\custom-theme\images\ui-icons_8dc262_256x240.png" />
+    <Content Include="Content\css\custom-theme\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Content\css\custom-theme\images\ui-icons_eeeeee_256x240.png" />
+    <Content Include="Content\css\custom-theme\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="Content\css\custom-theme\jquery-ui-1.7.3.custom.css" />
+    <Content Include="Content\css\custom-theme\jquery-ui-1.8.18.custom.css" />
+    <Content Include="Content\css\south-street\images\ui-bg_glass_55_fcf0ba_1x400.png" />
+    <Content Include="Content\css\south-street\images\ui-bg_gloss-wave_100_ece8da_500x100.png" />
+    <Content Include="Content\css\south-street\images\ui-bg_highlight-hard_100_f5f3e5_1x100.png" />
+    <Content Include="Content\css\south-street\images\ui-bg_highlight-hard_100_fafaf4_1x100.png" />
+    <Content Include="Content\css\south-street\images\ui-bg_highlight-hard_15_459e00_1x100.png" />
+    <Content Include="Content\css\south-street\images\ui-bg_highlight-hard_95_cccccc_1x100.png" />
+    <Content Include="Content\css\south-street\images\ui-bg_highlight-soft_25_67b021_1x100.png" />
+    <Content Include="Content\css\south-street\images\ui-bg_highlight-soft_95_ffedad_1x100.png" />
+    <Content Include="Content\css\south-street\images\ui-bg_inset-soft_15_2b2922_1x100.png" />
+    <Content Include="Content\css\south-street\images\ui-icons_808080_256x240.png" />
+    <Content Include="Content\css\south-street\images\ui-icons_847e71_256x240.png" />
+    <Content Include="Content\css\south-street\images\ui-icons_8dc262_256x240.png" />
+    <Content Include="Content\css\south-street\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Content\css\south-street\images\ui-icons_eeeeee_256x240.png" />
+    <Content Include="Content\css\south-street\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="Content\css\south-street\jquery-ui-1.8.18.custom.css" />
+    <Content Include="Content\DashboardWidget.css" />
+    <Content Include="Content\Gridmvc.css" />
+    <Content Include="Content\images\glyphicons-halflings-white.png" />
+    <Content Include="Content\images\glyphicons-halflings.png" />
+    <Content Include="Content\assets\css\font-awesome.css" />
+    <Content Include="Content\assets\font\fontawesome-webfont.svg" />
+    <Content Include="Content\images\Regions%27flags.png" />
+    <Content Include="Content\images\Regionsflags_small.png" />
+    <Content Include="Content\kendo\2013.1.319\Black\editor.png" />
+    <Content Include="Content\kendo\2013.1.319\Black\imagebrowser.png" />
+    <Content Include="Content\kendo\2013.1.319\Black\loading-image.gif" />
+    <Content Include="Content\kendo\2013.1.319\Black\loading.gif" />
+    <Content Include="Content\kendo\2013.1.319\Black\slider-h.gif" />
+    <Content Include="Content\kendo\2013.1.319\Black\slider-v.gif" />
+    <Content Include="Content\kendo\2013.1.319\Black\sprite%402x.png" />
+    <Content Include="Content\kendo\2013.1.319\Black\sprite.png" />
+    <Content Include="Content\kendo\2013.1.319\BlueOpal\editor.png" />
+    <Content Include="Content\kendo\2013.1.319\BlueOpal\imagebrowser.png" />
+    <Content Include="Content\kendo\2013.1.319\BlueOpal\loading-image.gif" />
+    <Content Include="Content\kendo\2013.1.319\BlueOpal\loading.gif" />
+    <Content Include="Content\kendo\2013.1.319\BlueOpal\slider-h.gif" />
+    <Content Include="Content\kendo\2013.1.319\BlueOpal\slider-v.gif" />
+    <Content Include="Content\kendo\2013.1.319\BlueOpal\sprite%402x.png" />
+    <Content Include="Content\kendo\2013.1.319\BlueOpal\sprite.png" />
+    <Content Include="Content\kendo\2013.1.319\Bootstrap\editor.png" />
+    <Content Include="Content\kendo\2013.1.319\Bootstrap\imagebrowser.png" />
+    <Content Include="Content\kendo\2013.1.319\Bootstrap\loading-image.gif" />
+    <Content Include="Content\kendo\2013.1.319\Bootstrap\loading.gif" />
+    <Content Include="Content\kendo\2013.1.319\Bootstrap\slider-h.gif" />
+    <Content Include="Content\kendo\2013.1.319\Bootstrap\slider-v.gif" />
+    <Content Include="Content\kendo\2013.1.319\Bootstrap\sprite%402x.png" />
+    <Content Include="Content\kendo\2013.1.319\Bootstrap\sprite.png" />
+    <Content Include="Content\kendo\2013.1.319\Default\editor.png" />
+    <Content Include="Content\kendo\2013.1.319\Default\imagebrowser.png" />
+    <Content Include="Content\kendo\2013.1.319\Default\loading-image.gif" />
+    <Content Include="Content\kendo\2013.1.319\Default\loading.gif" />
+    <Content Include="Content\kendo\2013.1.319\Default\slider-h.gif" />
+    <Content Include="Content\kendo\2013.1.319\Default\slider-v.gif" />
+    <Content Include="Content\kendo\2013.1.319\Default\sprite%402x.png" />
+    <Content Include="Content\kendo\2013.1.319\Default\sprite.png" />
+    <Content Include="Content\kendo\2013.1.319\HighContrast\editor.png" />
+    <Content Include="Content\kendo\2013.1.319\HighContrast\imagebrowser.png" />
+    <Content Include="Content\kendo\2013.1.319\HighContrast\loading-image.gif" />
+    <Content Include="Content\kendo\2013.1.319\HighContrast\loading.gif" />
+    <Content Include="Content\kendo\2013.1.319\HighContrast\slider-h.gif" />
+    <Content Include="Content\kendo\2013.1.319\HighContrast\slider-v.gif" />
+    <Content Include="Content\kendo\2013.1.319\HighContrast\sprite%402x.png" />
+    <Content Include="Content\kendo\2013.1.319\HighContrast\sprite.png" />
+    <Content Include="Content\kendo\2013.1.319\images\back.png" />
+    <Content Include="Content\kendo\2013.1.319\kendo.black.min.css" />
+    <Content Include="Content\kendo\2013.1.319\kendo.blueopal.min.css" />
+    <Content Include="Content\kendo\2013.1.319\kendo.bootstrap.min.css" />
+    <Content Include="Content\kendo\2013.1.319\kendo.common.min.css" />
+    <Content Include="Content\kendo\2013.1.319\kendo.dataviz.black.min.css" />
+    <Content Include="Content\kendo\2013.1.319\kendo.dataviz.blueopal.min.css" />
+    <Content Include="Content\kendo\2013.1.319\kendo.dataviz.bootstrap.min.css" />
+    <Content Include="Content\kendo\2013.1.319\kendo.dataviz.default.min.css" />
+    <Content Include="Content\kendo\2013.1.319\kendo.dataviz.highcontrast.min.css" />
+    <Content Include="Content\kendo\2013.1.319\kendo.dataviz.metro.min.css" />
+    <Content Include="Content\kendo\2013.1.319\kendo.dataviz.metroblack.min.css" />
+    <Content Include="Content\kendo\2013.1.319\kendo.dataviz.min.css" />
+    <Content Include="Content\kendo\2013.1.319\kendo.dataviz.moonlight.min.css" />
+    <Content Include="Content\kendo\2013.1.319\kendo.dataviz.silver.min.css" />
+    <Content Include="Content\kendo\2013.1.319\kendo.dataviz.uniform.min.css" />
+    <Content Include="Content\kendo\2013.1.319\kendo.default.min.css" />
+    <Content Include="Content\kendo\2013.1.319\kendo.highcontrast.min.css" />
+    <Content Include="Content\kendo\2013.1.319\kendo.metro.min.css" />
+    <Content Include="Content\kendo\2013.1.319\kendo.metroblack.min.css" />
+    <Content Include="Content\kendo\2013.1.319\kendo.mobile.all.min.css" />
+    <Content Include="Content\kendo\2013.1.319\kendo.mobile.android4.min.css" />
+    <Content Include="Content\kendo\2013.1.319\kendo.mobile.blackberry.min.css" />
+    <Content Include="Content\kendo\2013.1.319\kendo.mobile.ios.min.css" />
+    <Content Include="Content\kendo\2013.1.319\kendo.mobile.meego.min.css" />
+    <Content Include="Content\kendo\2013.1.319\kendo.mobile.wp8.min.css" />
+    <Content Include="Content\kendo\2013.1.319\kendo.moonlight.min.css" />
+    <Content Include="Content\kendo\2013.1.319\kendo.rtl.min.css" />
+    <Content Include="Content\kendo\2013.1.319\kendo.silver.min.css" />
+    <Content Include="Content\kendo\2013.1.319\kendo.uniform.min.css" />
+    <Content Include="Content\kendo\2013.1.319\MetroBlack\editor.png" />
+    <Content Include="Content\kendo\2013.1.319\MetroBlack\imagebrowser.png" />
+    <Content Include="Content\kendo\2013.1.319\MetroBlack\loading-image.gif" />
+    <Content Include="Content\kendo\2013.1.319\MetroBlack\loading.gif" />
+    <Content Include="Content\kendo\2013.1.319\MetroBlack\slider-h.gif" />
+    <Content Include="Content\kendo\2013.1.319\MetroBlack\slider-v.gif" />
+    <Content Include="Content\kendo\2013.1.319\MetroBlack\sprite%402x.png" />
+    <Content Include="Content\kendo\2013.1.319\MetroBlack\sprite.png" />
+    <Content Include="Content\kendo\2013.1.319\Metro\editor.png" />
+    <Content Include="Content\kendo\2013.1.319\Metro\imagebrowser.png" />
+    <Content Include="Content\kendo\2013.1.319\Metro\loading-image.gif" />
+    <Content Include="Content\kendo\2013.1.319\Metro\loading.gif" />
+    <Content Include="Content\kendo\2013.1.319\Metro\slider-h.gif" />
+    <Content Include="Content\kendo\2013.1.319\Metro\slider-v.gif" />
+    <Content Include="Content\kendo\2013.1.319\Metro\sprite%402x.png" />
+    <Content Include="Content\kendo\2013.1.319\Metro\sprite.png" />
+    <Content Include="Content\kendo\2013.1.319\Moonlight\editor.png" />
+    <Content Include="Content\kendo\2013.1.319\Moonlight\imagebrowser.png" />
+    <Content Include="Content\kendo\2013.1.319\Moonlight\loading-image.gif" />
+    <Content Include="Content\kendo\2013.1.319\Moonlight\loading.gif" />
+    <Content Include="Content\kendo\2013.1.319\Moonlight\slider-h.gif" />
+    <Content Include="Content\kendo\2013.1.319\Moonlight\slider-v.gif" />
+    <Content Include="Content\kendo\2013.1.319\Moonlight\sprite%402x.png" />
+    <Content Include="Content\kendo\2013.1.319\Moonlight\sprite.png" />
+    <Content Include="Content\kendo\2013.1.319\Silver\editor.png" />
+    <Content Include="Content\kendo\2013.1.319\Silver\imagebrowser.png" />
+    <Content Include="Content\kendo\2013.1.319\Silver\loading-image.gif" />
+    <Content Include="Content\kendo\2013.1.319\Silver\loading.gif" />
+    <Content Include="Content\kendo\2013.1.319\Silver\slider-h.gif" />
+    <Content Include="Content\kendo\2013.1.319\Silver\slider-v.gif" />
+    <Content Include="Content\kendo\2013.1.319\Silver\sprite%402x.png" />
+    <Content Include="Content\kendo\2013.1.319\Silver\sprite.png" />
+    <Content Include="Content\kendo\2013.1.319\textures\brushed-metal.png" />
+    <Content Include="Content\kendo\2013.1.319\textures\dots1.png" />
+    <Content Include="Content\kendo\2013.1.319\textures\dots10.png" />
+    <Content Include="Content\kendo\2013.1.319\textures\dots11.png" />
+    <Content Include="Content\kendo\2013.1.319\textures\dots12.png" />
+    <Content Include="Content\kendo\2013.1.319\textures\dots13.png" />
+    <Content Include="Content\kendo\2013.1.319\textures\dots2.png" />
+    <Content Include="Content\kendo\2013.1.319\textures\dots3.png" />
+    <Content Include="Content\kendo\2013.1.319\textures\dots4.png" />
+    <Content Include="Content\kendo\2013.1.319\textures\dots5.png" />
+    <Content Include="Content\kendo\2013.1.319\textures\dots6.png" />
+    <Content Include="Content\kendo\2013.1.319\textures\dots7.png" />
+    <Content Include="Content\kendo\2013.1.319\textures\dots8.png" />
+    <Content Include="Content\kendo\2013.1.319\textures\dots9.png" />
+    <Content Include="Content\kendo\2013.1.319\textures\glass-lighter.png" />
+    <Content Include="Content\kendo\2013.1.319\textures\glass.png" />
+    <Content Include="Content\kendo\2013.1.319\textures\highlight.png" />
+    <Content Include="Content\kendo\2013.1.319\textures\hsv-gradient.png" />
+    <Content Include="Content\kendo\2013.1.319\textures\hue.png" />
+    <Content Include="Content\kendo\2013.1.319\textures\leather1.png" />
+    <Content Include="Content\kendo\2013.1.319\textures\leather2.png" />
+    <Content Include="Content\kendo\2013.1.319\textures\noise.png" />
+    <Content Include="Content\kendo\2013.1.319\textures\stripe1.png" />
+    <Content Include="Content\kendo\2013.1.319\textures\stripe2.png" />
+    <Content Include="Content\kendo\2013.1.319\textures\stripe3.png" />
+    <Content Include="Content\kendo\2013.1.319\textures\stripe4.png" />
+    <Content Include="Content\kendo\2013.1.319\textures\stripe5.png" />
+    <Content Include="Content\kendo\2013.1.319\textures\stripe6.png" />
+    <Content Include="Content\kendo\2013.1.319\textures\transparency.png" />
+    <Content Include="Content\kendo\2013.1.319\textures\transtexture.png" />
+    <Content Include="Content\kendo\2013.1.319\Uniform\editor.png" />
+    <Content Include="Content\kendo\2013.1.319\Uniform\imagebrowser.png" />
+    <Content Include="Content\kendo\2013.1.319\Uniform\loading-image.gif" />
+    <Content Include="Content\kendo\2013.1.319\Uniform\loading.gif" />
+    <Content Include="Content\kendo\2013.1.319\Uniform\slider-h.gif" />
+    <Content Include="Content\kendo\2013.1.319\Uniform\slider-v.gif" />
+    <Content Include="Content\kendo\2013.1.319\Uniform\sprite%402x.png" />
+    <Content Include="Content\kendo\2013.1.319\Uniform\sprite.png" />
+    <Content Include="Content\Login\App.js" />
+    <Content Include="Content\ng-grid.css" />
+    <Content Include="Content\ng-table.css" />
+    <Content Include="Content\PrintReport.css" />
+    <Content Include="Content\Site.css" />
+    <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="Content\themes\base\images\ui-icons_222222_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_454545_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_888888_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Content\themes\base\jquery-ui.css" />
+    <Content Include="Content\themes\base\jquery.ui.accordion.css" />
+    <Content Include="Content\themes\base\jquery.ui.all.css" />
+    <Content Include="Content\themes\base\jquery.ui.autocomplete.css" />
+    <Content Include="Content\themes\base\jquery.ui.base.css" />
+    <Content Include="Content\themes\base\jquery.ui.button.css" />
+    <Content Include="Content\themes\base\jquery.ui.core.css" />
+    <Content Include="Content\themes\base\jquery.ui.datepicker.css" />
+    <Content Include="Content\themes\base\jquery.ui.dialog.css" />
+    <Content Include="Content\themes\base\jquery.ui.progressbar.css" />
+    <Content Include="Content\themes\base\jquery.ui.resizable.css" />
+    <Content Include="Content\themes\base\jquery.ui.selectable.css" />
+    <Content Include="Content\themes\base\jquery.ui.slider.css" />
+    <Content Include="Content\themes\base\jquery.ui.tabs.css" />
+    <Content Include="Content\themes\base\jquery.ui.theme.css" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="Content\themes\base\minified\images\ui-icons_222222_256x240.png" />
+    <Content Include="Content\themes\base\minified\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Content\themes\base\minified\images\ui-icons_454545_256x240.png" />
+    <Content Include="Content\themes\base\minified\images\ui-icons_888888_256x240.png" />
+    <Content Include="Content\themes\base\minified\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Content\themes\base\minified\jquery-ui.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.accordion.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.autocomplete.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.button.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.core.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.datepicker.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.dialog.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.progressbar.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.resizable.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.selectable.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.slider.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.tabs.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
+    <Content Include="Content\themes\dashboard.css" />
+    <Content Include="Content\themes\default\bootstrap-responsive.css" />
+    <Content Include="Content\themes\default\bootstrap-responsive.min.css" />
+    <Content Include="Content\themes\default\bootstrap.css" />
+    <Content Include="Content\themes\default\bootstrap.min.css" />
+    <Content Include="Content\themes\default\index.html" />
+    <Content Include="Content\Workflow\jquery-1.8.0.js" />
+    <Content Include="Content\Workflow\jquery-ui-1.8.23.custom.js" />
+    <Content Include="Content\Workflow\workflow.js" />
+    <Content Include="Content\Workflow\workflowDesigner.css" />
+    <Content Include="Global.asax" />
+    <Content Include="Areas\EarlyWarning\Views\Web.config" />
+    <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\New.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\SendToLogistics.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\Edit.cshtml" />
+    <Content Include="Content\assets\js\README.md" />
+    <Content Include="Areas\Logistics\Views\Web.config" />
+    <!--<Content Include="Areas\Logistics\Views\HubAllocation\Index.cshtml" />
+    <Content Include="Areas\Logistics\Views\Edit.cshtml" />-->
+    <!--<Content Include="Areas\Logistics\Views\HubAllocation\Edit.cshtml" />-->
+    <Content Include="Areas\EarlyWarning\Views\Request\Allocation.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Request\Index.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Request\New.cshtml" />
+    <Content Include="Images\ajax-loader.gif" />
+    <Content Include="Images\ajax-loaderbig.gif" />
+    <Content Include="Images\audit.png" />
+    <Content Include="Images\change.png" />
+    <Content Include="Images\dialog-warning.png" />
+    <Content Include="Images\english.png" />
+    <Content Include="Images\ethiopian.png" />
+    <Content Include="Images\messagebox_warning.png" />
+    <Content Include="Images\tick.png" />
+    <Content Include="Images\top-bg.gif" />
+    <Content Include="Images\Warning.png" />
+    <Content Include="Images\watermark.png" />
+    <Content Include="Images\x.png" />
+    <Content Include="ReportViewer.aspx" />
+    <Content Include="Scripts\2012.1.419\telerik.calendar.min.js" />
+    <Content Include="Scripts\2012.1.419\telerik.datepicker.min.js" />
+    <Content Include="Scripts\2013.1.219\jquery-1.7.1.min.js" />
+    <Content Include="Scripts\2013.1.219\jquery.validate.min.js" />
+    <Content Include="Scripts\2013.1.219\telerik.all.min.js" />
+    <Content Include="Scripts\2013.1.219\telerik.autocomplete.min.js" />
+    <Content Include="Scripts\2013.1.219\telerik.calendar.min.js" />
+    <Content Include="Scripts\2013.1.219\telerik.chart.min.js" />
+    <Content Include="Scripts\2013.1.219\telerik.combobox.min.js" />
+    <Content Include="Scripts\2013.1.219\telerik.common.min.js" />
+    <Content Include="Scripts\2013.1.219\telerik.datepicker.min.js" />
+    <Content Include="Scripts\2013.1.219\telerik.datetimepicker.min.js" />
+    <Content Include="Scripts\2013.1.219\telerik.draganddrop.min.js" />
+    <Content Include="Scripts\2013.1.219\telerik.editor.min.js" />
+    <Content Include="Scripts\2013.1.219\telerik.grid.editing.min.js" />
+    <Content Include="Scripts\2013.1.219\telerik.grid.filtering.min.js" />
+    <Content Include="Scripts\2013.1.219\telerik.grid.grouping.min.js" />
+    <Content Include="Scripts\2013.1.219\telerik.grid.min.js" />
+    <Content Include="Scripts\2013.1.219\telerik.grid.reordering.min.js" />
+    <Content Include="Scripts\2013.1.219\telerik.grid.resizing.min.js" />
+    <Content Include="Scripts\2013.1.219\telerik.imagebrowser.min.js" />
+    <Content Include="Scripts\2013.1.219\telerik.list.min.js" />
+    <Content Include="Scripts\2013.1.219\telerik.menu.min.js" />
+    <Content Include="Scripts\2013.1.219\telerik.panelbar.min.js" />
+    <Content Include="Scripts\2013.1.219\telerik.slider.min.js" />
+    <Content Include="Scripts\2013.1.219\telerik.splitter.min.js" />
+    <Content Include="Scripts\2013.1.219\telerik.tabstrip.min.js" />
+    <Content Include="Scripts\2013.1.219\telerik.textbox.min.js" />
+    <Content Include="Scripts\2013.1.219\telerik.timepicker.min.js" />
+    <Content Include="Scripts\2013.1.219\telerik.treeview.min.js" />
+    <Content Include="Scripts\2013.1.219\telerik.upload.min.js" />
+    <Content Include="Scripts\2013.1.219\telerik.window.min.js" />
+    <Content Include="Scripts\angular.min.js" />
+    <Content Include="Scripts\angular\angular-dragdrop.min.js" />
+    <Content Include="Scripts\angular\angular-kendo.js" />
+    <Content Include="Scripts\angular\angular-resource.js" />
+    <Content Include="Scripts\angular\angular.js" />
+    <Content Include="Scripts\angular\css\bootstrap.min.css" />
+    <Content Include="Scripts\angular\css\jquery-ui.css" />
+    <Content Include="Scripts\angular\allocation-angular.js" />
+    <Content Include="Scripts\Beka.EthDate\Beka.EthDate.js" />
+    <Content Include="Scripts\Beka.EthDate\jquery-ui-1.9.2.custom.css" />
+    <Content Include="Scripts\Beka.EthDate\jquery.Beka.EthCalDatePicker.js" />
+    <Content Include="Scripts\bootbox.min.js" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\cats-print-script.js" />
+    <Content Include="Scripts\gridmvc.js" />
+    <Content Include="Scripts\gridmvc.lang.ru.js" />
+    <Content Include="Scripts\gridmvc.min.js" />
+    <Content Include="Areas\Procurement\Views\RFQ\index.cshtml" />
+    <Content Include="Areas\Settings\Views\Users\Index.cshtml" />
+    <Content Include="Areas\Procurement\Views\TransportOrder\TransportRequisitions.cshtml" />
+    <!--<Content Include="Areas\Logistics\Views\HubAllocation\AssignHub.cshtml" />-->
+    <Content Include="Areas\Procurement\Views\RFQ\Details.cshtml" />
+    <Content Include="Areas\Procurement\Views\TransportOrder\Index.cshtml" />
+    <Content Include="Areas\Procurement\Views\TransportOrder\Edit.cshtml" />
+    <Content Include="Areas\Procurement\Views\TransportOrder\Details.cshtml" />
+    <Content Include="Areas\Logistics\Views\ProjectAllocation\HubAllocationDetail.cshtml" />
+    <Content Include="Areas\Logistics\Views\ProjectAllocation\ProjectCodeAllocation.cshtml" />
+    <Content Include="Areas\Logistics\Views\ProjectAllocation\_HubAllocatedRequisitons.cshtml" />
+    <Content Include="Areas\Logistics\Views\ProjectAllocation\Edit.cshtml" />
+    <!--<Content Include="Areas\Logistics\Views\HubAllocation\AssignHub.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Areas\Logistics\Views\HubAllocation\AssignHub.cshtml">
+      <SubType>Code</SubType>
+    </Content>-->
+    <Content Include="CTSDataSet.xsc">
+      <DependentUpon>CTSDataSet.xsd</DependentUpon>
+    </Content>
+    <Content Include="Areas\Logistics\Views\TransportRequisition\Requisitions.cshtml" />
+    <Content Include="Areas\Logistics\Views\TransportRequisition\Edit.cshtml" />
+    <Content Include="Areas\Procurement\Views\DispatchLocations\Index.cshtml" />
+    <Content Include="Areas\Procurement\Views\DispatchLocations\Details.cshtml" />
+    <Content Include="Areas\Logistics\Views\TransportRequisition\Index.cshtml" />
+    <Content Include="Areas\Logistics\Views\ProjectAllocation\Allocate.cshtml" />
+    <Content Include="Areas\Logistics\Views\ProjectAllocation\HubAllocatedList.cshtml" />
+    <Content Include="Areas\Logistics\Views\ProjectAllocation\_Add.cshtml" />
+    <Content Include="Areas\Procurement\Views\TransportOrder\TransportOrder.cshtml" />
+    <Content Include="Areas\Procurement\Views\TransportOrder\TransportOrderPartial.cshtml" />
+    <Content Include="Areas\Procurement\Views\TransportOrder\TransportOrderDetail.cshtml" />
+    <Content Include="Areas\Procurement\Views\RFQ\Edit.cshtml" />
+    <Content Include="Areas\Procurement\Views\RFQ\EditStart.cshtml" />
+    <Content Include="Areas\Procurement\Views\PriceQuotation\Index.cshtml" />
+    <Content Include="Areas\Procurement\Views\PriceQuotation\EditStart.cshtml" />
+    <Content Include="Areas\Logistics\Views\TransportRequisition\Approve.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\HRD\Create.cshtml" />
+    <Content Include="Content\kendo\2013.1.319\images\KendoUI.ttf" />
+    <Content Include="Content\kendo\2013.1.319\images\KendoUI.woff" />
+    <Content Include="Areas\EarlyWarning\Views\HRD\Index.cshtml" />
+    <Content Include="Areas\Procurement\Views\Shared\_BidSelectionPartial.cshtml" />
+    <Content Include="Areas\Procurement\Views\PriceQuotation\Copy of EditStart.cshtml" />
+    <Content Include="Areas\Settings\Views\Shared\Dashboard\Index.cshtml" />
+    <Content Include="Areas\Procurement\Views\Transporter\EditPartial.cshtml" />
+    <Content Include="Areas\Procurement\Views\Bid\_BidLeftBar.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Request\_RequestLeftbarForFederal.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\_RequistionsLeftBar.cshtml" />
+    <Content Include="Areas\Logistics\Views\Shared\_AllocationLeftBar.cshtml" />
+    <Content Include="Areas\Logistics\Views\ProjectAllocation\AllocateProjectCode.cshtml" />
+    <Content Include="Areas\Logistics\Views\ProjectAllocation\AllocatePC.cshtml" />
+    <Content Include="Areas\Logistics\Views\ProjectAllocation\Assign.cshtml" />
+    <Content Include="Areas\Logistics\Views\ProjectAllocation\AssignedprojectCodes.cshtml" />
+    <Content Include="Areas\Procurement\Views\Shared\_AdminUnitTree.cshtml" />
+    <Content Include="Areas\Procurement\Views\BidWinner\BidWinner.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\Details.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Request\Edit.cshtml" />
+    <Content Include="Areas\Procurement\Views\Shared\_RFQFilterPartial.cshtml" />
+    <Content Include="Areas\Procurement\Views\TransportBidPlan\_BidPlanLeftBar.cshtml" />
+    <Content Include="Areas\Procurement\Views\DispatchLocations\_DispatchLocationsLeftBar.cshtml" />
+    <Content Include="Areas\Settings\Views\Users\UserProfile.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <!--<Content Include="Areas\Procurement\Views\Bid\CurrentBids.cshtml" />-->
+    <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\Details.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Request\_RegionalRequestLeftBar.cshtml" />
+    <Content Include="Areas\Logistics\Views\TransportRequisition\Details.cshtml" />
+    <Content Include="Areas\Procurement\Views\TransportOrder\_TransportOrderLeftBar.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Request\View1.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Ration\_Edit.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Ration\Details.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Ration\_Create.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Ration\Index.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\NeedAssessment\Index.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\HRD\HRDDetail.cshtml" />
+    <Content Include="Areas\PSNP\Views\Web.config" />
+    <Content Include="Areas\PSNP\Views\RegionalPSNPPlan\Index.cshtml" />
+    <Content Include="Areas\PSNP\Views\RegionalPSNPPlan\Create.cshtml" />
+    <Content Include="Areas\PSNP\Views\RegionalPSNPPlan\Edit.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\HRD\_HRDLeftBar.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\HRD\Edit.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Shared\_NeedAssessmentPartial.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\NeedAssessment\Approved.cshtml" />
+    <Content Include="Areas\PSNP\Views\RegionalPSNPPlan\Delete.cshtml" />
+    <Content Include="Areas\PSNP\Views\RegionalPSNPPlanDetail\Index.cshtml" />
+    <Content Include="Areas\PSNP\Views\RegionalPSNPPlanDetail\Edit.cshtml" />
+    <Content Include="Areas\PSNP\Views\RegionalPSNPPlanDetail\Create.cshtml" />
+    <Content Include="Areas\PSNP\Views\RegionalPSNPPlanDetail\Delete.cshtml" />
+    <Content Include="Areas\PSNP\Views\RegionalPSNPPlanDetail\Details.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Request\Details.cshtml" />
+    <Content Include="Areas\Localization\Views\Web.config" />
+    <Content Include="Areas\EarlyWarning\Views\GiftCertificate\GenerateTemplate.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\GiftCertificate\Index.cshtml" />
+    <Content Include="Areas\Transaction\Views\Web.config" />
+    <Content Include="Areas\Transaction\Views\TransactionTest\Index.cshtml" />
+    <Content Include="Areas\Transaction\Views\TransactionTest\Details.cshtml" />
+    <Content Include="Areas\Transaction\Views\TransactionTest\Create.cshtml" />
+    <Content Include="Areas\Transaction\Views\TransactionTest\Edit.cshtml" />
+    <Content Include="Areas\Transaction\Views\TransactionTest\Delete.cshtml" />
+    <Content Include="Areas\Localization\Views\Language\Index.cshtml" />
+    <Content Include="Areas\Localization\Views\Language\Create.cshtml" />
+    <Content Include="Areas\Localization\Views\Language\Edit.cshtml" />
+    <Content Include="Areas\Localization\Views\Shared\LanguageLeftBar.cshtml" />
+    <Content Include="Areas\Localization\Views\Translation\EditTranslation.cshtml" />
+    <Content Include="Areas\Transaction\Views\TransactionTest\PostHRD.cshtml" />
+    <Content Include="Areas\PSNP\Views\RegionalPSNPPlan\_PSNPLeftBar.cshtml" />
+    <Content Include="Areas\WorkflowManager\Views\Web.config" />
+    <Content Include="Areas\WorkflowManager\Views\FlowTemplate\Index.cshtml" />
+    <Content Include="Areas\WorkflowManager\Views\FlowTemplate\_listKendo.cshtml" />
+    <Content Include="Areas\WorkflowManager\Views\ProcessTemplate\Design.cshtml" />
+    <Content Include="Areas\WorkflowManager\Views\ProcessTemplate\Index.cshtml" />
+    <Content Include="Areas\WorkflowManager\Views\ProcessTemplate\_listKendo.cshtml" />
+    <Content Include="Areas\WorkflowManager\Views\StateTemplate\Edit.cshtml" />
+    <Content Include="Areas\WorkflowManager\Views\StateTemplate\Index.cshtml" />
+    <Content Include="Areas\WorkflowManager\Views\StateTemplate\_listKendo.cshtml" />
+    <Content Include="Areas\PSNP\Views\RegionalPSNPPlan\Copy of Index.cshtml" />
+    <Content Include="Areas\WorkflowManager\Views\ProcessTemplate\Detail.cshtml" />
+    <Content Include="Areas\WorkflowManager\Views\BusinessProcess\Index.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\HRD\Print.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\PrintableReports\HRD\HRDDatasetForPrint.xsc">
+      <DependentUpon>HRDDatasetForPrint.xsd</DependentUpon>
+    </Content>
+    <Content Include="Areas\WorkflowManager\Views\BusinessProcess\_listKendo.cshtml" />
+    <Content Include="Areas\WorkflowManager\Views\BusinessProcess\Edit.cshtml" />
+    <Content Include="Areas\WorkflowManager\Views\BusinessProcess\_PSNPLeftBar.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Contribution\ContributionSummary.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\NeedAssessment\_NeedAssessmentMainLeftBar.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\GiftCertificate\LetterTemplate.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\NeedAssessment\_NeedAssessmentLeftBar.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Areas\EarlyWarning\Views\HRD\HRDPrintOut.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Currency\Index.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Currency\Create.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\index.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Home\Index.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Currency\_CurrencyLeftBar.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Contribution\InkindDetails.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\HRD\Detail.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Plan\Create.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Plan\Index.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\NeedAssessment\PlannedNeedAssessment.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\HRD\HRDFromPlan.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\NeedAssessment\NeedAssessmentPlan.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\NeedAssessment\Detail.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\NeedAssessment\AddNeedAssessment.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Plan\Edit.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\HRD\CreateHRD.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Plan\_PlanLeftBar.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\DonorCoverage\Create.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\DonorCoverage\Detail.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\DonorCoverage\Index.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\DonorCoverage\AddWoreda.cshtml" />
+    <None Include="Areas\EarlyWarning\Views\PrintableReports\HRD\HRDDatasetForPrint.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>HRDDatasetForPrint.Designer.cs</LastGenOutput>
+    </None>
+    <Content Include="Areas\EarlyWarning\Views\PrintableReports\HRD\HRDDatasetForPrint.xss">
+      <DependentUpon>HRDDatasetForPrint.xsd</DependentUpon>
+    </Content>
+    <Content Include="Areas\EarlyWarning\Views\HRD\RegionalSummary.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\HRD\Compare.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\HRD\ApprovedHRDs.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\HRD\CurrentHRDs.cshtml" />
+    <Content Include="Areas\PSNP\Views\RegionalPSNPPledge\Index.cshtml" />
+    <Content Include="Areas\PSNP\Views\RegionalPSNPPledge\_RegionalPSNPPledgeLeftBar.cshtml" />
+    <Content Include="Areas\PSNP\Views\RegionalPSNPPledge\Issue.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Contribution\Create.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Contribution\Index.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Contribution\Details.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\GiftCertificate\Create.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\GiftCertificate\_EditPartial.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\GiftCertificate\Edit.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\GiftCertificate\Delete.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Contribution\_ContributionLeftBar.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\NeedAssessment\Edit.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\NeedAssessment\CreateNeedAssessment.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\GiftCertificate\Detail.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\GiftCertificate\_Print.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\GiftCertificate\_Approve.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Shared\_rationLeftBar.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Request\RequestFromPlan.cshtml" />
+    <Content Include="Areas\WorkflowManager\Views\ProcessTemplate\_heirarchy.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Request\PreparePlan.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Request\ReconcileRequest.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Request\RequestsFromRegion.cshtml" />
+    <Content Include="Areas\Logistics\Views\Home\Index.cshtml" />
+    <Content Include="Areas\Procurement\Views\Home\Index.cshtml" />
+    <Content Include="Areas\PSNP\Views\Home\Index.cshtml" />
+    <Content Include="Areas\Logistics\Views\BeneficiaryAllocation\Index.cshtml" />
+    <Content Include="Areas\Settings\Views\Users\EditUserRoles.cshtml" />
+    <Content Include="Areas\Settings\Views\Home\Index.cshtml" />
+    <Content Include="Areas\Settings\Views\Shared\Dashboard\_Configuration.cshtml" />
+    <Content Include="Areas\Settings\Views\Shared\_DynamicAdminDashboard.cshtml" />
+    <Content Include="Areas\Settings\Views\Shared\Dashboard\_Commodity.cshtml" />
+    <Content Include="Areas\Settings\Views\Shared\Dashboard\_Locations_FDPs.cshtml" />
+    <Content Include="Areas\Settings\Views\Shared\Dashboard\_TransactionAndJournals.cshtml" />
+    <Content Include="Areas\Settings\Views\Shared\Dashboard\_BusineesProcess.cshtml" />
+    <Content Include="Areas\Settings\Views\Shared\Dashboard\_UsersAndRoles.cshtml" />
+    <Content Include="Areas\Settings\Views\Shared\Dashboard\_Translation.cshtml" />
+    <Content Include="Areas\Settings\Views\Shared\Dashboard\_Systemlog.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Shared\_giftLeftBar.cshtml" />
+    <Content Include="Areas\Settings\Views\Log\Index.cshtml" />
+    <Content Include="Areas\Settings\Views\Log\List.cshtml" />
+    <Content Include="Areas\Logistics\Views\Shared\_DispatchProgress.cshtml" />
+    <Content Include="Areas\Logistics\Views\LogisticsStockStatus\ReceivedCommodity.cshtml" />
+    <Content Include="Areas\Logistics\Views\LogisticsStockStatus\nghigh.cshtml" />
+    <Content Include="Scripts\ng-google-chart.js" />
+    <Content Include="Scripts\ng-highchart.js" />
+    <Content Include="Scripts\HubScripts\Cascade.js" />
+    <Content Include="Scripts\HubScripts\DialogForm.js" />
+    <Content Include="Scripts\HubScripts\dispatch.js" />
+    <Content Include="Areas\Logistics\Views\LogisticsStockStatus\AngularGrid.cshtml" />
+    <Content Include="Areas\Logistics\Views\LogisticsStockStatus\angu.cshtml" />
+    <Content Include="Areas\Logistics\Views\TransportRequisition\ConfirmGenerateTransportOrder.cshtml" />
+    <Content Include="Areas\Logistics\Views\FDPSIAllocation\Index.cshtml" />
+    <Content Include="Areas\Logistics\Views\FDPSIAllocation\DragDrop.cshtml" />
+    <Content Include="Areas\Logistics\Views\LogisticsStockStatus\Copy of Index.cshtml" />
+    <Content Include="Areas\Logistics\Views\FDPSIAllocation\Copy of DragDrop.cshtml" />
+    <Content Include="dataset.xsc">
+      <DependentUpon>dataset.xsd</DependentUpon>
+    </Content>
+    <Content Include="Areas\Logistics\Views\LogisticsStockStatus\CarryOverStock.cshtml" />
+    <Content Include="Areas\Logistics\Views\Shared\_TransportContractsExecution.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Request\AddBeneficary.cshtml" />
+    <Content Include="Areas\Hub\Views\TransportOrder\Index.cshtml" />
+    <Content Include="Areas\Hub\Views\TransportOrder\TransportContract.cshtml" />
+    <Content Include="Areas\Logistics\Views\LogisticsStockStatus\SummaryForFreeAndPhysicalStock.cshtml" />
+    <Content Include="Areas\Logistics\Views\LogisticsStockStatus\DispatchCommodity.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Request\_FilterRequestLeftBar.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Request\List.cshtml" />
+    <Content Include="Areas\Logistics\Views\LogisticsStockStatus\TransferredStock.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Request\AddCommodity.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Request\_commdityList.cshtml" />
+    <Content Include="Areas\Procurement\Views\BidWinner\ActiveTransporters.cshtml" />
+    <Content Include="Areas\Procurement\Views\WoredaHub\Index.cshtml" />
+    <Content Include="Areas\Procurement\Views\WoredaHub\Details.cshtml" />
+    <Content Include="Areas\Procurement\Views\BidWinner\BidWinningTransporters.cshtml" />
+    <Content Include="Areas\Procurement\Views\BidWinner\GenerateAgreementTemplate.cshtml" />
+    <Content Include="Areas\Procurement\Views\BidWinner\ShowAllAgreements.cshtml" />
+    <Content Include="Areas\Procurement\Views\ContractAdministration\Index.cshtml" />
+    <Content Include="Areas\Procurement\Views\ContractAdministration\DeliveryNotes.cshtml" />
+    <Content Include="Areas\Procurement\Views\ContractAdministration\PaymentRequest.cshtml" />
+    <Content Include="Areas\Procurement\Views\ContractAdministration\ActiveTransportOrders.cshtml" />
+    <Content Include="Areas\Procurement\Views\ContractAdministration\FDPsInCurrentContract.cshtml" />
+    <Content Include="Areas\Procurement\Views\PriceQuotation\BidProposal.cshtml" />
+    <Content Include="Areas\Procurement\Views\PriceQuotation\bidProposals.cshtml" />
+    <Content Include="Areas\Procurement\Views\PriceQuotation\GenerateWinners.cshtml" />
+    <Content Include="Areas\Hub\Views\Dispatch\CreateDispatch.cshtml" />
+    <Content Include="Areas\Procurement\Views\TransportList\Index.cshtml" />
+    <Content Include="Areas\Procurement\Views\TransportList\TransporterBidDetail.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Request\NewIdps.cshtml" />
+    <Content Include="Areas\Logistics\Views\Delivery\Index.cshtml" />
+    <Content Include="Areas\Logistics\Views\Delivery\Dispatches.cshtml" />
+    <Content Include="Areas\Procurement\Views\PaymentRequest\Index.cshtml" />
+    <Content Include="Areas\Procurement\Views\Shared\_GenerateWinnersIgnitor.cshtml" />
+    <Content Include="Areas\Logistics\Views\Delivery\ReceiveGRN.cshtml" />
+    <Content Include="Areas\Logistics\Views\Delivery\EditGRN.cshtml" />
+    <Content Include="Areas\Logistics\Views\Delivery\ReceivingNote.cshtml" />
+    <Content Include="Areas\Procurement\Views\BidWinner\Index.cshtml" />
+    <Content Include="Areas\Procurement\Views\BidWinner\Details.cshtml" />
+    <Content Include="Areas\Procurement\Views\BidWinner\Edit.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\CreateRequisitionForIDPS.cshtml" />
+    <Content Include="Areas\WorkflowManager\Views\BusinessProcess\History.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Areas\Procurement\Views\BidWinner\SignedTransporterContract.cshtml" />
+    <Content Include="Areas\Procurement\Views\PaymentRequest\Create.cshtml" />
+    <Content Include="Areas\WorkflowManager\Views\ProcessTemplate\Copy of Detail.cshtml" />
+    <Content Include="Areas\Procurement\Views\Bid\WoredasWithOutBidOffer.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Request\RegionalRequestsPieChart.cshtml" />
+    <Content Include="Areas\Procurement\Views\Bid\WoredaWithOutBidOfferFilterParial.cshtml" />
+    <Content Include="Areas\Logistics\Views\Delivery\_DeliveryNotes.cshtml" />
+    <Content Include="Areas\Procurement\Views\BidWinner\ListOfWinners.cshtml" />
+    <Content Include="Areas\Logistics\Views\Delivery\DiscripancyAction.cshtml" />
+    <Content Include="Areas\Procurement\Views\BidAdministration\Index.cshtml" />
+    <Content Include="Areas\Procurement\Views\BidAdministration\LeftBar.cshtml" />
+    <Content Include="Areas\Procurement\Views\BidAdministration\_WoredasWithoutOffer.cshtml" />
+    <Content Include="Areas\Procurement\Views\BidAdministration\WithoutRFQ.cshtml" />
+    <Content Include="Areas\Procurement\Views\PriceQuotation\BidProposalHeader.cshtml" />
+    <Content Include="Areas\Procurement\Views\BidProposal\Index.cshtml" />
+    <Content Include="Areas\Procurement\Views\PriceQuotation\Details.cshtml" />
+    <Content Include="Areas\Procurement\Views\PriceQuotation\Create.cshtml" />
+    <Content Include="Areas\Procurement\Views\BidAdministration\_BidPlanDetail.cshtml" />
+    <Content Include="Areas\Procurement\Views\TransportOrder\TransportContract.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Areas\Report\Views\Web.config" />
+    <Content Include="Areas\Logistics\Views\Delivery\DiscripancyAction.cshtml" />
+    <Content Include="Areas\Report\Views\ReportHome\Index.cshtml" />
+    <Content Include="Content\themes\default\variables.less" />
+    <Content Include="Areas\Procurement\Views\PriceQuotation\Winners.cshtml" />
+    <Content Include="Areas\Procurement\Views\PriceQuotation\Edit_proposal.cshtml" />
+    <Content Include="Areas\Report\Views\ReportHome\Index.cshtml" />
+    <Content Include="Content\themes\default\variables.less" />
+    <Content Include="Areas\Settings\Views\Users\add.cshtml" />
+    <Content Include="Areas\Logistics\Views\WoredaStockDistribution\Index.cshtml" />
+    <Content Include="Areas\Logistics\Views\WoredaStockDistribution\_DistributionByAge.cshtml" />
+    <Content Include="Areas\Logistics\Views\WoredaStockDistribution\_DistributionByBeneficiary.cshtml" />
+    <Content Include="Areas\Logistics\Views\WoredaStockDistribution\Create.cshtml" />
+    <Content Include="Areas\Logistics\Views\DeliveryReconcile\Index.cshtml" />
+    <Content Include="Areas\Logistics\Views\LocalPurchase\Create.cshtml" />
+    <Content Include="Areas\Logistics\Views\LocalPurchase\Index.cshtml" />
+    <Content Include="Areas\Regional\Views\Web.config" />
+    <Content Include="Areas\Regional\Views\Home\Index.cshtml" />
+    <Content Include="Areas\Logistics\Views\LocalPurchase\Details.cshtml" />
+    <Content Include="Areas\Logistics\Views\ReciptPlanForLoanAndOthers\Create.cshtml" />
+    <Content Include="Areas\Logistics\Views\ReciptPlanForLoanAndOthers\Index.cshtml" />
+    <Content Include="Areas\Logistics\Views\ReciptPlanForLoanAndOthers\Edit.cshtml" />
+    <Content Include="Areas\Logistics\Views\ReciptPlanForLoanAndOthers\Detail.cshtml" />
+    <Content Include="Areas\Logistics\Views\ReciptPlanForLoanAndOthers\ReciptPlan.cshtml" />
+    <None Include="dataset.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>dataset.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <Content Include="dataset.xss">
+      <DependentUpon>dataset.xsd</DependentUpon>
+    </Content>
+    <Content Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="RFQModel.xsc">
+      <DependentUpon>RFQModel.xsd</DependentUpon>
+    </Content>
+    <None Include="RFQModel.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>RFQModel.Designer.cs</LastGenOutput>
+    </None>
+    <Content Include="RFQModel.xss">
+      <DependentUpon>RFQModel.xsd</DependentUpon>
+    </Content>
+    <None Include="Scripts\HubScripts\jquery-1.7.1-vsdoc.js" />
+    <Content Include="Scripts\HubScripts\jquery-1.7.1.js" />
+    <Content Include="Scripts\HubScripts\jquery-1.7.1.min.js" />
+    <Content Include="Scripts\HubScripts\jquery-ui-1.8.11.js" />
+    <Content Include="Scripts\HubScripts\jquery-ui-1.8.11.min.js" />
+    <Content Include="Scripts\HubScripts\jquery.jCombo.js" />
+    <Content Include="Scripts\HubScripts\jquery.jgeez.min.js" />
+    <Content Include="Scripts\HubScripts\jquery.printElement.js" />
+    <Content Include="Scripts\HubScripts\jquery.printElement.min.js" />
+    <Content Include="Scripts\HubScripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\HubScripts\jquery.unobtrusive-ajax.min.js" />
+    <None Include="Scripts\HubScripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\HubScripts\jquery.validate.js" />
+    <Content Include="Scripts\HubScripts\jquery.validate.min.js" />
+    <Content Include="Scripts\HubScripts\jquery.validate.unobtrusive.bQuery.js" />
+    <Content Include="Scripts\HubScripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\HubScripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\HubScripts\jq_dialogs.js" />
+    <Content Include="Scripts\HubScripts\MicrosoftAjax.debug.js" />
+    <Content Include="Scripts\HubScripts\MicrosoftAjax.js" />
+    <Content Include="Scripts\HubScripts\MicrosoftMvcAjax.debug.js" />
+    <Content Include="Scripts\HubScripts\MicrosoftMvcAjax.js" />
+    <Content Include="Scripts\HubScripts\MicrosoftMvcValidation.debug.js" />
+    <Content Include="Scripts\HubScripts\MicrosoftMvcValidation.js" />
+    <Content Include="Scripts\HubScripts\modernizr-1.7.js" />
+    <Content Include="Scripts\HubScripts\modernizr-1.7.min.js" />
+    <Content Include="Scripts\HubScripts\modernizr-2.5.3.js" />
+    <Content Include="Scripts\HubScripts\receive.js" />
+    <Content Include="Scripts\HubScripts\ReportFileter.js" />
+    <Content Include="Scripts\HubScripts\ReportingDateFilters.js" />
+    <Content Include="Scripts\HubScripts\utility.js" />
+    <Content Include="Scripts\jquery-ui.js" />
+    <Content Include="Scripts\jquery-ui.min.js" />
+    <Content Include="Scripts\ng-grid.js" />
+    <Content Include="Scripts\ng-table.js" />
+    <Content Include="Views\Account\ForgetPassword.cshtml" />
+    <Content Include="Areas\Localization\Views\Translation\Index.cshtml" />
+    <Content Include="Areas\Localization\Views\Translation\Details.cshtml" />
+    <Content Include="Areas\Localization\Views\Translation\Create.cshtml" />
+    <Content Include="Areas\Settings\Views\Users\ChangePassword.cshtml" />
+    <Content Include="Areas\Logistics\Views\Shared\_TransportRequisitonLeftBar.cshtml" />
+    <Content Include="Areas\Logistics\Views\ProjectAllocation\_OnSICodeChange.cshtml" />
+    <Content Include="Content\Web.config" />
+    <Content Include="Areas\Logistics\Views\Shared\_ApprovedRequisitions.cshtml" />
+    <Content Include="CatsMasterDataSet.xsc">
+      <DependentUpon>CatsMasterDataSet.xsd</DependentUpon>
+    </Content>
+    <Content Include="Areas\Logistics\Views\TransportRequisition\Destinations.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Areas\Logistics\Views\PromisedContribution\Index.cshtml" />
+    <Content Include="Areas\Logistics\Views\PromisedContribution\Edit.cshtml" />
+    <Content Include="Areas\Hub\Views\Web.config" />
+    <Content Include="Areas\Logistics\Views\LogisticsStockStatus\Index.cshtml" />
+    <Content Include="Areas\Logistics\Views\LogisticsStockStatus\Status.cshtml" />
+    <Content Include="Areas\Logistics\Views\TransportRequisition\panel.cshtml" />
+    <Content Include="Areas\Hub\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Hub\Views\About\Index.cshtml" />
+    <Content Include="Areas\Hub\Views\Account\_Standalone.cshtml" />
+    <Content Include="Areas\Hub\Views\Account\ChangePassword.cshtml" />
+    <Content Include="Areas\Hub\Views\Account\ChangePasswordSuccess.cshtml" />
+    <Content Include="Areas\Hub\Views\Account\ConfirmPasswordChange.cshtml" />
+    <Content Include="Areas\Hub\Views\Account\ForgetPassword.cshtml" />
+    <Content Include="Areas\Hub\Views\Account\ForgetPasswordRequest.cshtml" />
+    <Content Include="Areas\Hub\Views\Account\LogOn.cshtml" />
+    <Content Include="Areas\Hub\Views\Account\Register.cshtml" />
+    <Content Include="Areas\Hub\Views\Admin\Users\Create.cshtml" />
+    <Content Include="Areas\Hub\Views\Admin\Users\Delete.cshtml" />
+    <Content Include="Areas\Hub\Views\Admin\Users\Details.cshtml" />
+    <Content Include="Areas\Hub\Views\Admin\Users\Edit.cshtml" />
+    <Content Include="Areas\Hub\Views\Admin\Users\Home.cshtml" />
+    <Content Include="Areas\Hub\Views\Admin\Users\Index.cshtml" />
+    <Content Include="Areas\Hub\Views\Admin\Users\Preferences.cshtml" />
+    <Content Include="Areas\Hub\Views\Admin\Users\Update.cshtml" />
+    <Content Include="Areas\Hub\Views\Admin\Users\UserHubs.cshtml" />
+    <Content Include="Areas\Hub\Views\Admin\Users\UserRoles.cshtml" />
+    <Content Include="Areas\Hub\Views\AdminUnit\AdminUnits.cshtml" />
+    <Content Include="Areas\Hub\Views\AdminUnit\Create.cshtml" />
+    <Content Include="Areas\Hub\Views\AdminUnit\CreateRegion.cshtml" />
+    <Content Include="Areas\Hub\Views\AdminUnit\CreateWoreda.cshtml" />
+    <Content Include="Areas\Hub\Views\AdminUnit\CreateZone.cshtml" />
+    <Content Include="Areas\Hub\Views\AdminUnit\Delete.cshtml" />
+    <Content Include="Areas\Hub\Views\AdminUnit\Edit.cshtml" />
+    <Content Include="Areas\Hub\Views\AdminUnit\Index.cshtml" />
+    <Content Include="Areas\Hub\Views\AdminUnit\Lists\AdminUnits.1.cshtml" />
+    <Content Include="Areas\Hub\Views\AdminUnit\Lists\AdminUnits.2.cshtml" />
+    <Content Include="Areas\Hub\Views\AdminUnit\Lists\AdminUnits.3.cshtml" />
+    <Content Include="Areas\Hub\Views\AdminUnit\Lists\AdminUnits.4.cshtml" />
+    <Content Include="Areas\Hub\Views\AdminUnit\UnitTypes.cshtml" />
+    <Content Include="Areas\Hub\Views\BinCard\Index.cshtml" />
+    <Content Include="Areas\Hub\Views\Commodity\_CommodityPartial.cshtml" />
+    <Content Include="Areas\Hub\Views\Commodity\Create.cshtml" />
+    <Content Include="Areas\Hub\Views\Commodity\Delete.cshtml" />
+    <Content Include="Areas\Hub\Views\Commodity\Details.cshtml" />
+    <Content Include="Areas\Hub\Views\Commodity\Edit.cshtml" />
+    <Content Include="Areas\Hub\Views\Commodity\Index.cshtml" />
+    <Content Include="Areas\Hub\Views\Commodity\Update.cshtml" />
+    <Content Include="Areas\Hub\Views\CommodityGrade\Create.cshtml" />
+    <Content Include="Areas\Hub\Views\CommodityGrade\Delete.cshtml" />
+    <Content Include="Areas\Hub\Views\CommodityGrade\Details.cshtml" />
+    <Content Include="Areas\Hub\Views\CommodityGrade\Edit.cshtml" />
+    <Content Include="Areas\Hub\Views\CommodityGrade\Index.cshtml" />
+    <Content Include="Areas\Hub\Views\CommodityGrade\Update.cshtml" />
+    <Content Include="Areas\Hub\Views\CommoditySource\Create.cshtml" />
+    <Content Include="Areas\Hub\Views\CommoditySource\Delete.cshtml" />
+    <Content Include="Areas\Hub\Views\CommoditySource\Details.cshtml" />
+    <Content Include="Areas\Hub\Views\CommoditySource\Edit.cshtml" />
+    <Content Include="Areas\Hub\Views\CommoditySource\Index.cshtml" />
+    <Content Include="Areas\Hub\Views\CommoditySource\Update.cshtml" />
+    <Content Include="Areas\Hub\Views\CommodityType\Create.cshtml" />
+    <Content Include="Areas\Hub\Views\CommodityType\Delete.cshtml" />
+    <Content Include="Areas\Hub\Views\CommodityType\Details.cshtml" />
+    <Content Include="Areas\Hub\Views\CommodityType\Edit.cshtml" />
+    <Content Include="Areas\Hub\Views\CommodityType\Index.cshtml" />
+    <Content Include="Areas\Hub\Views\CommodityType\Update.cshtml" />
+    <Content Include="Areas\Hub\Views\Contact\Create.cshtml" />
+    <Content Include="Areas\Hub\Views\Contact\Delete.cshtml" />
+    <Content Include="Areas\Hub\Views\Contact\Details.cshtml" />
+    <Content Include="Areas\Hub\Views\Contact\Edit.cshtml" />
+    <Content Include="Areas\Hub\Views\Contact\Index.cshtml" />
+    <Content Include="Areas\Hub\Views\Dispatch\Create.cshtml" />
+    <Content Include="Areas\Hub\Views\Dispatch\Delete.cshtml" />
+    <Content Include="Areas\Hub\Views\Dispatch\Details.cshtml" />
+    <Content Include="Areas\Hub\Views\Dispatch\DispatchPartial.cshtml" />
+    <Content Include="Areas\Hub\Views\Dispatch\Edit.cshtml" />
+    <Content Include="Areas\Hub\Views\Dispatch\Index.cshtml" />
+    <Content Include="Areas\Hub\Views\Dispatch\Log.cshtml" />
+    <Content Include="Areas\Hub\Views\DispatchAllocation\AllocationList.cshtml" />
+    <Content Include="Areas\Hub\Views\DispatchAllocation\Close.cshtml" />
+    <Content Include="Areas\Hub\Views\DispatchAllocation\CloseOther.cshtml" />
+    <Content Include="Areas\Hub\Views\DispatchAllocation\Create.cshtml" />
+    <Content Include="Areas\Hub\Views\DispatchAllocation\Edit.cshtml" />
+    <Content Include="Areas\Hub\Views\DispatchAllocation\EditLoans.cshtml" />
+    <Content Include="Areas\Hub\Views\DispatchAllocation\EditTransfer.cshtml" />
+    <Content Include="Areas\Hub\Views\DispatchAllocation\Index.cshtml" />
+    <Content Include="Areas\Hub\Views\DispatchAllocation\Partials\EditLoans.cshtml" />
+    <Content Include="Areas\Hub\Views\DispatchAllocation\Partials\EditTransfer.cshtml" />
+    <Content Include="Areas\Hub\Views\DispatchAllocation\SelectionHeader.cshtml" />
+    <Content Include="Areas\Hub\Views\DispatchAllocation\SIBalance.cshtml" />
+    <Content Include="Areas\Hub\Views\DispatchAllocation\ToHubs.cshtml" />
+    <Content Include="Areas\Hub\Views\DispatchAllocation\ToOtherOwners.cshtml" />
+    <Content Include="Areas\Hub\Views\DispatchPlan\Index.cshtml" />
+    <Content Include="Areas\Hub\Views\DispatchPlan\ListRequisitions.cshtml" />
+    <Content Include="Areas\Hub\Views\DispatchPlan\RequistionDetails.cshtml" />
+    <Content Include="Areas\Hub\Views\Donor\Create.cshtml" />
+    <Content Include="Areas\Hub\Views\Donor\Delete.cshtml" />
+    <Content Include="Areas\Hub\Views\Donor\Details.cshtml" />
+    <Content Include="Areas\Hub\Views\Donor\Edit.cshtml" />
+    <Content Include="Areas\Hub\Views\Donor\Index.cshtml" />
+    <Content Include="Areas\Hub\Views\Donor\ListPartial.cshtml" />
+    <Content Include="Areas\Hub\Views\Donor\Update.cshtml" />
+    <Content Include="Areas\Hub\Views\Error\Error.cshtml" />
+    <Content Include="Areas\Hub\Views\Error\General.cshtml" />
+    <Content Include="Areas\Hub\Views\Error\NotFound.cshtml" />
+    <Content Include="Areas\Hub\Views\Error\ViewErrors.cshtml" />
+    <Content Include="Areas\Hub\Views\FDP\Create.cshtml" />
+    <Content Include="Areas\Hub\Views\FDP\Delete.cshtml" />
+    <Content Include="Areas\Hub\Views\FDP\Details.cshtml" />
+    <Content Include="Areas\Hub\Views\FDP\Edit.cshtml" />
+    <Content Include="Areas\Hub\Views\FDP\Index.cshtml" />
+    <Content Include="Areas\Hub\Views\FDP\IndexPartial.cshtml" />
+    <Content Include="Areas\Hub\Views\FDP\Update.cshtml" />
+    <Content Include="Areas\Hub\Views\GiftCertificate\ChartView.cshtml" />
+    <Content Include="Areas\Hub\Views\GiftCertificate\Create.cshtml" />
+    <Content Include="Areas\Hub\Views\GiftCertificate\Delete.cshtml" />
+    <Content Include="Areas\Hub\Views\GiftCertificate\Details.cshtml" />
+    <Content Include="Areas\Hub\Views\GiftCertificate\Edit.cshtml" />
+    <Content Include="Areas\Hub\Views\GiftCertificate\EditorTemplates\WayBillWarning.cshtml" />
+    <Content Include="Areas\Hub\Views\GiftCertificate\EditPartial.cshtml" />
+    <Content Include="Areas\Hub\Views\GiftCertificate\Index.cshtml" />
+    <Content Include="Areas\Hub\Views\GiftCertificate\MonthlySummary.cshtml" />
+    <Content Include="Areas\Hub\Views\Help\Index.cshtml" />
+    <Content Include="Areas\Hub\Views\Home\About.cshtml" />
+    <Content Include="Areas\Hub\Views\Home\ConfigSMTP.cshtml" />
+    <Content Include="Areas\Hub\Views\Home\EditConfigSMTP.cshtml" />
+    <Content Include="Areas\Hub\Views\Home\Index.cshtml" />
+    <Content Include="Areas\Hub\Views\Hub\Create.cshtml" />
+    <Content Include="Areas\Hub\Views\Hub\Delete.cshtml" />
+    <Content Include="Areas\Hub\Views\Hub\Details.cshtml" />
+    <Content Include="Areas\Hub\Views\Hub\Edit.cshtml" />
+    <Content Include="Areas\Hub\Views\Hub\Index.cshtml" />
+    <Content Include="Areas\Hub\Views\Hub\ListPartial.cshtml" />
+    <Content Include="Areas\Hub\Views\HubOwner\Create.cshtml" />
+    <Content Include="Areas\Hub\Views\HubOwner\Delete.cshtml" />
+    <Content Include="Areas\Hub\Views\HubOwner\Details.cshtml" />
+    <Content Include="Areas\Hub\Views\HubOwner\Edit.cshtml" />
+    <Content Include="Areas\Hub\Views\HubOwner\Index.cshtml" />
+    <Content Include="Areas\Hub\Views\HubOwner\Update.cshtml" />
+    <Content Include="Areas\Hub\Views\HubSetting\Create.cshtml" />
+    <Content Include="Areas\Hub\Views\HubSetting\Delete.cshtml" />
+    <Content Include="Areas\Hub\Views\HubSetting\Details.cshtml" />
+    <Content Include="Areas\Hub\Views\HubSetting\Edit.cshtml" />
+    <Content Include="Areas\Hub\Views\HubSetting\Index.cshtml" />
+    <Content Include="Areas\Hub\Views\HubSetting\ListPartial.cshtml" />
+    <Content Include="Areas\Hub\Views\InternalMovement\Create.cshtml" />
+    <Content Include="Areas\Hub\Views\InternalMovement\EditPartial.cshtml" />
+    <Content Include="Areas\Hub\Views\InternalMovement\Index.cshtml" />
+    <Content Include="Areas\Hub\Views\InternalMovement\SINumberBalance.cshtml" />
+    <Content Include="Areas\Hub\Views\InternalMovement\ViewDetial.cshtml" />
+    <Content Include="Areas\Hub\Views\Ledger\Index.cshtml" />
+    <Content Include="Areas\Hub\Views\LetterTemplate\Create.cshtml" />
+    <Content Include="Areas\Hub\Views\LetterTemplate\Delete.cshtml" />
+    <Content Include="Areas\Hub\Views\LetterTemplate\Details.cshtml" />
+    <Content Include="Areas\Hub\Views\LetterTemplate\Edit.cshtml" />
+    <Content Include="Areas\Hub\Views\LetterTemplate\Index.cshtml" />
+    <Content Include="Areas\Hub\Views\LetterTemplate\LetterBodyPartial.cshtml" />
+    <Content Include="Areas\Hub\Views\LetterTemplate\LetterPreview.cshtml" />
+    <Content Include="Areas\Hub\Views\LetterTemplate\SelectTemplatePartial.cshtml" />
+    <Content Include="Areas\Hub\Views\LossesAndAdjustments\AdjustmentEditPartial.cshtml" />
+    <Content Include="Areas\Hub\Views\LossesAndAdjustments\Create.cshtml" />
+    <Content Include="Areas\Hub\Views\LossesAndAdjustments\CreateAdjustment.cshtml" />
+    <Content Include="Areas\Hub\Views\LossesAndAdjustments\CreateLoss.cshtml" />
+    <Content Include="Areas\Hub\Views\LossesAndAdjustments\Index.cshtml" />
+    <Content Include="Areas\Hub\Views\LossesAndAdjustments\Log.cshtml" />
+    <Content Include="Areas\Hub\Views\LossesAndAdjustments\LossEditPartial.cshtml" />
+    <Content Include="Areas\Hub\Views\LossesAndAdjustments\ViewDetial.cshtml" />
+    <Content Include="Areas\Hub\Views\Planner\Index.cshtml" />
+    <Content Include="Areas\Hub\Views\Program\Create.cshtml" />
+    <Content Include="Areas\Hub\Views\Program\Delete.cshtml" />
+    <Content Include="Areas\Hub\Views\Program\Details.cshtml" />
+    <Content Include="Areas\Hub\Views\Program\Edit.cshtml" />
+    <Content Include="Areas\Hub\Views\Program\Index.cshtml" />
+    <Content Include="Areas\Hub\Views\Program\ListPartial.cshtml" />
+    <Content Include="Areas\Hub\Views\ReceiptAllocation\AllocationList.cshtml" />
+    <Content Include="Areas\Hub\Views\ReceiptAllocation\Close.cshtml" />
+    <Content Include="Areas\Hub\Views\ReceiptAllocation\Create.cshtml" />
+    <Content Include="Areas\Hub\Views\ReceiptAllocation\Delete.cshtml" />
+    <Content Include="Areas\Hub\Views\ReceiptAllocation\Edit.cshtml" />
+    <Content Include="Areas\Hub\Views\ReceiptAllocation\EditPartial.cshtml" />
+    <Content Include="Areas\Hub\Views\ReceiptAllocation\FromHubs.cshtml" />
+    <Content Include="Areas\Hub\Views\ReceiptAllocation\Index.cshtml" />
+    <Content Include="Areas\Hub\Views\ReceiptAllocation\Loans.cshtml" />
+    <Content Include="Areas\Hub\Views\ReceiptAllocation\LocalPurchase.cshtml" />
+    <Content Include="Areas\Hub\Views\ReceiptAllocation\SIBalance.cshtml" />
+    <Content Include="Areas\Hub\Views\Receive\_ReceivePartial.cshtml" />
+    <Content Include="Areas\Hub\Views\Receive\Allocations.cshtml" />
+    <Content Include="Areas\Hub\Views\Receive\Create.cshtml" />
+    <Content Include="Areas\Hub\Views\Receive\Delete.cshtml" />
+    <Content Include="Areas\Hub\Views\Receive\Details.cshtml" />
+    <Content Include="Areas\Hub\Views\Receive\Edit.cshtml" />
+    <Content Include="Areas\Hub\Views\Receive\Index.cshtml" />
+    <Content Include="Areas\Hub\Views\Receive\Log.cshtml" />
+    <Content Include="Areas\Hub\Views\Replication\Index.cshtml" />
+    <Content Include="Areas\Hub\Views\Replication\PublicationTwo.cshtml" />
+    <Content Include="Areas\Hub\Views\Replication\PublicatonOne.cshtml" />
+    <Content Include="Areas\Hub\Views\Reports\AreaPartial.cshtml" />
+    <Content Include="Areas\Hub\Views\Reports\DistributionReport.cshtml" />
+    <Content Include="Areas\Hub\Views\Reports\DistributionReportFilters.cshtml" />
+    <Content Include="Areas\Hub\Views\Reports\DistributionReportPartial.cshtml" />
+    <Content Include="Areas\Hub\Views\Reports\FreeStock.cshtml" />
+    <Content Include="Areas\Hub\Views\Reports\FreeStockFilters.cshtml" />
+    <Content Include="Areas\Hub\Views\Reports\FreeStockPartial.cshtml" />
+    <Content Include="Areas\Hub\Views\Reports\Index.cshtml" />
+    <Content Include="Areas\Hub\Views\Reports\OffloadingFilters.cshtml" />
+    <Content Include="Areas\Hub\Views\Reports\OffloadingReport.cshtml" />
+    <Content Include="Areas\Hub\Views\Reports\OffloadingReportPartial.cshtml" />
+    <Content Include="Areas\Hub\Views\Reports\Receive.cshtml" />
+    <Content Include="Areas\Hub\Views\Reports\ReceiveFilters.cshtml" />
+    <Content Include="Areas\Hub\Views\Reports\ReceivePartial.cshtml" />
+    <Content Include="Areas\Hub\Views\Reports\SIReport.cshtml" />
+    <Content Include="Areas\Hub\Views\Roles\Create.cshtml" />
+    <Content Include="Areas\Hub\Views\Roles\Delete.cshtml" />
+    <Content Include="Areas\Hub\Views\Roles\Details.cshtml" />
+    <Content Include="Areas\Hub\Views\Roles\Edit.cshtml" />
+    <Content Include="Areas\Hub\Views\Roles\Index.cshtml" />
+    <Content Include="Areas\Hub\Views\Roles\Update.cshtml" />
+    <Content Include="Areas\Hub\Views\Setting\EditConfigSMTP.cshtml" />
+    <Content Include="Areas\Hub\Views\Setting\SysSettings.cshtml" />
+    <Content Include="Areas\Hub\Views\Shared\_Language.cshtml" />
+    <Content Include="Areas\Hub\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Hub\Views\Shared\_LogOnPartial.cshtml" />
+    <Content Include="Areas\Hub\Views\Shared\AdminUnit.cshtml" />
+    <Content Include="Areas\Hub\Views\Shared\DisplayHub.cshtml" />
+    <Content Include="Areas\Hub\Views\Shared\DisplayTemplates\CommodityId.cshtml" />
+    <Content Include="Areas\Hub\Views\Shared\DisplayTemplates\DateTime.cshtml" />
+    <Content Include="Areas\Hub\Views\Shared\DisplayTemplates\PreferedWeightMeasurment.cshtml" />
+    <Content Include="Areas\Hub\Views\Shared\EditorTemplates\AmharicTextArea.cshtml" />
+    <Content Include="Areas\Hub\Views\Shared\EditorTemplates\AmharicTextBox.cshtml" />
+    <Content Include="Areas\Hub\Views\Shared\EditorTemplates\Color.cshtml" />
+    <Content Include="Areas\Hub\Views\Shared\EditorTemplates\CommodityId.cshtml" />
+    <Content Include="Areas\Hub\Views\Shared\EditorTemplates\Currency.cshtml" />
+    <Content Include="Areas\Hub\Views\Shared\EditorTemplates\Date.cshtml" />
+    <Content Include="Areas\Hub\Views\Shared\EditorTemplates\DateTime-Local.cshtml" />
+    <Content Include="Areas\Hub\Views\Shared\EditorTemplates\DateTime.cshtml" />
+    <Content Include="Areas\Hub\Views\Shared\EditorTemplates\EmailAddress.cshtml" />
+    <Content Include="Areas\Hub\Views\Shared\EditorTemplates\GridForeignKey.cshtml" />
+    <Content Include="Areas\Hub\Views\Shared\EditorTemplates\Integer.cshtml" />
+    <Content Include="Areas\Hub\Views\Shared\EditorTemplates\Month.cshtml" />
+    <Content Include="Areas\Hub\Views\Shared\EditorTemplates\Number.cshtml" />
+    <Content Include="Areas\Hub\Views\Shared\EditorTemplates\PhoneNumber.cshtml" />
+    <Content Include="Areas\Hub\Views\Shared\EditorTemplates\PreferedWeightMeasurment.cshtml" />
+    <Content Include="Areas\Hub\Views\Shared\EditorTemplates\PreferedWeightMeasurmentQi.cshtml" />
+    <Content Include="Areas\Hub\Views\Shared\EditorTemplates\Search.cshtml" />
+    <Content Include="Areas\Hub\Views\Shared\EditorTemplates\Time.cshtml" />
+    <Content Include="Areas\Hub\Views\Shared\EditorTemplates\Unit.cshtml" />
+    <Content Include="Areas\Hub\Views\Shared\EditorTemplates\Url.cshtml" />
+    <Content Include="Areas\Hub\Views\Shared\EditorTemplates\UserRoleModel.cshtml" />
+    <Content Include="Areas\Hub\Views\Shared\EditorTemplates\Week.cshtml" />
+    <Content Include="Areas\Hub\Views\Shared\Error.cshtml" />
+    <Content Include="Areas\Hub\Views\Shared\FieldAudits.cshtml" />
+    <Content Include="Areas\Hub\Views\Shared\NotFound.cshtml" />
+    <Content Include="Areas\Hub\Views\Shared\SelectHub.cshtml" />
+    <Content Include="Areas\Hub\Views\Shared\SIBalance.cshtml" />
+    <Content Include="Areas\Hub\Views\StackCard\Index.cshtml" />
+    <Content Include="Areas\Hub\Views\StackEvent\EditStackEvent.cshtml" />
+    <Content Include="Areas\Hub\Views\StackEvent\EventLog.cshtml" />
+    <Content Include="Areas\Hub\Views\StackEvent\Index.cshtml" />
+    <Content Include="Areas\Hub\Views\StartingBalance\Create.cshtml" />
+    <Content Include="Areas\Hub\Views\StartingBalance\Edit.cshtml" />
+    <Content Include="Areas\Hub\Views\StartingBalance\Index.cshtml" />
+    <Content Include="Areas\Hub\Views\StartingBalance\StartingBalancePartial.cshtml" />
+    <Content Include="Areas\Hub\Views\StockManagement\AreaPartial.cshtml" />
+    <Content Include="Areas\Hub\Views\StockManagement\ArrivalsVsReceipts.cshtml" />
+    <Content Include="Areas\Hub\Views\StockManagement\ArrivalsVsReceiptsReport.cshtml" />
+    <Content Include="Areas\Hub\Views\StockManagement\CommittedVsDispatched.cshtml" />
+    <Content Include="Areas\Hub\Views\StockManagement\CommittedVsDispatchedReport.cshtml" />
+    <Content Include="Areas\Hub\Views\StockManagement\CustomeDate.cshtml" />
+    <Content Include="Areas\Hub\Views\StockManagement\DeliveryAgainstDispatch.cshtml" />
+    <Content Include="Areas\Hub\Views\StockManagement\DeliveryAgainstDispatchReport.cshtml" />
+    <Content Include="Areas\Hub\Views\StockManagement\Dispatches.cshtml" />
+    <Content Include="Areas\Hub\Views\StockManagement\DispatchesReport.cshtml" />
+    <Content Include="Areas\Hub\Views\StockManagement\DistributionByOwner.cshtml" />
+    <Content Include="Areas\Hub\Views\StockManagement\DistributionByOwnerReport.cshtml" />
+    <Content Include="Areas\Hub\Views\StockManagement\DistributionDeliveryDispatch.cshtml" />
+    <Content Include="Areas\Hub\Views\StockManagement\DistributionDeliveryDispatchReport.cshtml" />
+    <Content Include="Areas\Hub\Views\StockManagement\InTransit.cshtml" />
+    <Content Include="Areas\Hub\Views\StockManagement\InTransitReprot.cshtml" />
+    <Content Include="Areas\Hub\Views\StockManagement\MonthToDate.cshtml" />
+    <Content Include="Areas\Hub\Views\StockManagement\ProjectCode.cshtml" />
+    <Content Include="Areas\Hub\Views\StockManagement\Receipts.cshtml" />
+    <Content Include="Areas\Hub\Views\StockManagement\ReceiptsReport.cshtml" />
+    <Content Include="Areas\Hub\Views\StockManagement\ShippingInstruction.cshtml" />
+    <Content Include="Areas\Hub\Views\StockManagement\StockBalance.cshtml" />
+    <Content Include="Areas\Hub\Views\StockManagement\StockBalanceReport.cshtml" />
+    <Content Include="Areas\Hub\Views\StockStatus\Dispatch.cshtml" />
+    <Content Include="Areas\Hub\Views\StockStatus\DispatchPartial.cshtml" />
+    <Content Include="Areas\Hub\Views\StockStatus\FreeStock.cshtml" />
+    <Content Include="Areas\Hub\Views\StockStatus\Index.cshtml" />
+    <Content Include="Areas\Hub\Views\StockStatus\Receipts.cshtml" />
+    <Content Include="Areas\Hub\Views\Store\Create.cshtml" />
+    <Content Include="Areas\Hub\Views\Store\Delete.cshtml" />
+    <Content Include="Areas\Hub\Views\Store\Details.cshtml" />
+    <Content Include="Areas\Hub\Views\Store\Edit.cshtml" />
+    <Content Include="Areas\Hub\Views\Store\Index.cshtml" />
+    <Content Include="Areas\Hub\Views\Store\Update.cshtml" />
+    <Content Include="Areas\Hub\Views\Transaction\Index.cshtml" />
+    <Content Include="Areas\Hub\Views\Transaction\Journal.cshtml" />
+    <Content Include="Areas\Hub\Views\Transaction\Ledger.cshtml" />
+    <Content Include="Areas\Hub\Views\Transaction\LedgerPartial.cshtml" />
+    <Content Include="Areas\Hub\Views\Transactions\Index.cshtml" />
+    <Content Include="Areas\Hub\Views\Translation\Edit.cshtml" />
+    <Content Include="Areas\Hub\Views\Translation\Index.cshtml" />
+    <Content Include="Areas\Hub\Views\TransportationReport\DateRangeErrorPage.cshtml" />
+    <Content Include="Areas\Hub\Views\TransportationReport\EmptyPage.cshtml" />
+    <Content Include="Areas\Hub\Views\TransportationReport\Index.cshtml" />
+    <Content Include="Areas\Hub\Views\TransportationReport\PartialGrid.cshtml" />
+    <Content Include="Areas\Hub\Views\Transporter\Create.cshtml" />
+    <Content Include="Areas\Hub\Views\Transporter\Delete.cshtml" />
+    <Content Include="Areas\Hub\Views\Transporter\Details.cshtml" />
+    <Content Include="Areas\Hub\Views\Transporter\Edit.cshtml" />
+    <Content Include="Areas\Hub\Views\Transporter\Index.cshtml" />
+    <Content Include="Areas\Hub\Views\Transporter\Update.cshtml" />
+    <Content Include="Areas\Hub\Views\Unit\Create.cshtml" />
+    <Content Include="Areas\Hub\Views\Unit\Delete.cshtml" />
+    <Content Include="Areas\Hub\Views\Unit\Details.cshtml" />
+    <Content Include="Areas\Hub\Views\Unit\Edit.cshtml" />
+    <Content Include="Areas\Hub\Views\Unit\Index.cshtml" />
+    <Content Include="Areas\Hub\Views\Unit\Update.cshtml" />
+    <Content Include="Areas\Hub\Views\UserWarehouse\Create.cshtml" />
+    <Content Include="Areas\Hub\Views\UserWarehouse\Delete.cshtml" />
+    <Content Include="Areas\Hub\Views\UserWarehouse\Details.cshtml" />
+    <Content Include="Areas\Hub\Views\UserWarehouse\Edit.cshtml" />
+    <Content Include="Areas\Hub\Views\UserWarehouse\Index.cshtml" />
+    <Content Include="Areas\Hub\Views\UserWarehouse\Update.cshtml" />
+    <None Include="CatsMasterDataSet.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>CatsMasterDataSet.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <Content Include="CatsMasterDataSet.xss">
+      <DependentUpon>CatsMasterDataSet.xsd</DependentUpon>
+    </Content>
+    <Content Include="Areas\Procurement\Views\TransportOrder\OrderDetail.cshtml" />
+    <Content Include="Areas\Logistics\Views\SIAllocation\Index.cshtml" />
+    <Content Include="Areas\Procurement\Views\TransportOrder\AssignTransporter.cshtml" />
+    <Content Include="Areas\Logistics\Views\TransportRequisition\Destinations.cshtml" />
+    <Content Include="Areas\Logistics\Views\DispatchAllocation\Index.cshtml" />
+    <Content Include="Areas\Logistics\Views\DispatchAllocation\HubAllocation.cshtml" />
+    <Content Include="Areas\Logistics\Views\DispatchAllocation\AllocateProjectCode.cshtml" />
+    <Content Include="Areas\Logistics\Views\DispatchAllocation\hub.cshtml" />
+    <Content Include="Areas\Logistics\Views\DispatchAllocation\main.cshtml" />
+    <None Include="CTSDataSet.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>CTSDataSet.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <Content Include="CTSDataSet.xss">
+      <DependentUpon>CTSDataSet.xsd</DependentUpon>
+    </Content>
+    <Content Include="HRDDataSet.xsc">
+      <DependentUpon>HRDDataSet.xsd</DependentUpon>
+    </Content>
+    <None Include="HRDDataSet.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>HRDDataSet.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <Content Include="HRDDataSet.xss">
+      <DependentUpon>HRDDataSet.xsd</DependentUpon>
+    </Content>
+    <Content Include="RequisitionSummary.xsc">
+      <DependentUpon>RequisitionSummary.xsd</DependentUpon>
+    </Content>
+    <Content Include="Requisitionattachment.xsc">
+      <DependentUpon>Requisitionattachment.xsd</DependentUpon>
+    </Content>
+    <None Include="Requisitionattachment.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>Requisitionattachment.Designer.cs</LastGenOutput>
+    </None>
+    <Content Include="Requisitionattachment.xss">
+      <DependentUpon>Requisitionattachment.xsd</DependentUpon>
+    </Content>
+    <None Include="RequisitionSummary.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>RequisitionSummary.Designer.cs</LastGenOutput>
+    </None>
+    <Content Include="RequisitionSummary.xss">
+      <DependentUpon>RequisitionSummary.xsd</DependentUpon>
+    </Content>
+    <None Include="Scripts\jquery-1.9.1.intellisense.js" />
+    <Content Include="Scripts\ICanHaz-no-mustache.js" />
+    <Content Include="Scripts\ICanHaz.js" />
+    <Content Include="Scripts\jquery-1.9.1.js" />
+    <Content Include="Scripts\jquery-1.9.1.min.js" />
+    <Content Include="Scripts\jquery-migrate-1.2.1.min.js" />
+    <Content Include="Scripts\js\CatsUI.js" />
+    <Content Include="Scripts\js\exporting.js" />
+    <Content Include="Scripts\js\highcharts-more.js" />
+    <Content Include="Scripts\js\highcharts-more.src.js" />
+    <Content Include="Scripts\js\highcharts.js" />
+    <Content Include="Scripts\js\highcharts.src.js" />
+    <Content Include="Scripts\js\humanity.calendars.picker.css" />
+    <Content Include="Scripts\js\jquery.calendars.ethiopian-am.js" />
+    <Content Include="Scripts\js\jquery.calendars.ethiopian.js" />
+    <Content Include="Scripts\js\jquery.calendars.js" />
+    <Content Include="Scripts\js\jquery.calendars.picker-am.js" />
+    <Content Include="Scripts\js\jquery.calendars.picker.js" />
+    <Content Include="Scripts\js\jquery.calendars.plus.js" />
+    <Content Include="Content\site.js" />
+    <None Include="Scripts\kendo.web-vsdoc.js" />
+    <None Include="Scripts\kendo.web.min.intellisense.js" />
+    <Content Include="Scripts\jquery.jgeez.min.js" />
+    <Content Include="Scripts\js\jquery.mb.browser.js" />
+    <Content Include="Scripts\kendo.modernizr.custom.js" />
+    <Content Include="Scripts\kendo.web.min.js" />
+    <Content Include="Areas\Procurement\Views\Web.config" />
+    <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\Index.cshtml" />
+    <Content Include="Areas\Procurement\Views\Transporter\Index.cshtml" />
+    <Content Include="Areas\Procurement\Views\Transporter\Details.cshtml" />
+    <Content Include="Areas\Procurement\Views\Transporter\Create.cshtml" />
+    <Content Include="Areas\Procurement\Views\Transporter\Edit.cshtml" />
+    <Content Include="Areas\Procurement\Views\Transporter\Delete.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Request\SubmittedRequest.cshtml" />
+    <Content Include="Areas\Logistics\Views\HubAllocation\hubAllocation.cshtml" />
+    <Content Include="Areas\Logistics\Views\ProjectAllocation\Index.cshtml" />
+    <Content Include="Areas\Procurement\Views\Bid\Index.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\NewRequisiton.cshtml" />
+    <Content Include="Areas\Procurement\Views\Bid\Create.cshtml" />
+    <Content Include="Areas\Procurement\Views\Bid\Details.cshtml" />
+    <Content Include="Areas\Procurement\Views\Bid\Edit.cshtml" />
+    <Content Include="Areas\Procurement\Views\TransportBidPlan\Index.cshtml" />
+    <Content Include="Areas\Procurement\Views\TransportBidPlan\Details.cshtml" />
+    <Content Include="Areas\Procurement\Views\TransportBidPlan\Create.cshtml" />
+    <Content Include="Areas\Procurement\Views\TransportBidPlan\Edit.cshtml" />
+    <Content Include="Areas\Procurement\Views\TransportBidPlan\Delete.cshtml" />
+    <Content Include="Areas\Procurement\Views\Shared\editPartial.cshtml" />
+    <Content Include="Areas\Procurement\Views\TransportBidPlan\WarehouseSelection.cshtml" />
+    <Content Include="Areas\Procurement\Views\TransportBidPlan\EditAJAX.cshtml" />
+    <Content Include="Areas\Procurement\Views\TransportBidPlanDetail\Index.cshtml" />
+    <Content Include="Areas\Procurement\Views\TransportBidPlanDetail\Details.cshtml" />
+    <Content Include="Areas\Procurement\Views\TransportBidPlanDetail\Create.cshtml" />
+    <Content Include="Areas\Procurement\Views\TransportBidPlanDetail\Edit.cshtml" />
+    <Content Include="Areas\Procurement\Views\TransportBidPlanDetail\Delete.cshtml" />
+    <!--<Content Include="Areas\Logistics\Views\HubAllocation\Request.cshtml" />-->
+    <Content Include="Scripts\jquery-1.9.1.min.map" />
+    <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\Allocation.cshtml" />
+    <!--<Content Include="Areas\Logistics\Views\HubAllocation\Edit.cshtml" />-->
+    <Content Include="Areas\Settings\Views\Web.config" />
+    <Content Include="Areas\Settings\Views\AdminDashboard\Index.cshtml" />
+    <Content Include="Areas\Settings\Views\Shared\_AdminLeftBar.cshtml" />
+    <Content Include="Areas\Settings\Views\Shared\_AdminMenuBar.cshtml" />
+    <Content Include="Content\assets\font\fontawesome-webfont.eot" />
+    <Content Include="Content\assets\font\fontawesome-webfont.ttf" />
+    <Content Include="Content\assets\font\fontawesome-webfont.woff" />
+    <Content Include="Content\assets\font\FontAwesome.otf" />
+    <Content Include="Areas\Procurement\Views\Bid\EditBidStatus.cshtml" />
+    <Content Include="Areas\Settings\Views\Users\New.cshtml" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery-ui-1.8.20.js" />
+    <Content Include="Scripts\jquery-ui-1.8.20.min.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\jquery.min.js" />
+    <None Include="Scripts\kendo\2013.1.319\kendo.all-vsdoc.js" />
+    <None Include="Scripts\kendo\2013.1.319\kendo.all.min.intellisense.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.all.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.aspnetmvc.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.autocomplete.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.binder.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.calendar.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.colorpicker.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.columnmenu.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.combobox.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.core.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.data.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.data.odata.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.data.xml.min.js" />
+    <None Include="Scripts\kendo\2013.1.319\kendo.dataviz-vsdoc.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.dataviz.chart.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.dataviz.core.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.dataviz.gauge.min.js" />
+    <None Include="Scripts\kendo\2013.1.319\kendo.dataviz.min.intellisense.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.dataviz.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.dataviz.sparkline.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.dataviz.stock.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.dataviz.svg.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.dataviz.themes.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.dataviz.vml.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.datepicker.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.datetimepicker.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.draganddrop.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.dropdownlist.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.editable.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.editor.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.filtermenu.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.fx.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.grid.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.groupable.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.imagebrowser.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.list.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.listview.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.menu.min.js" />
+    <None Include="Scripts\kendo\2013.1.319\kendo.mobile-vsdoc.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.mobile.actionsheet.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.mobile.application.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.mobile.button.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.mobile.buttongroup.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.mobile.listview.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.mobile.loader.min.js" />
+    <None Include="Scripts\kendo\2013.1.319\kendo.mobile.min.intellisense.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.mobile.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.mobile.modalview.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.mobile.navbar.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.mobile.pane.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.mobile.popover.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.mobile.scroller.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.mobile.scrollview.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.mobile.shim.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.mobile.splitview.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.mobile.switch.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.mobile.tabstrip.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.mobile.view.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.multiselect.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.numerictextbox.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.pager.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.panelbar.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.popup.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.reorderable.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.resizable.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.router.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.selectable.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.slider.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.sortable.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.splitter.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.tabstrip.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.timepicker.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.tooltip.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.touch.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.treeview.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.upload.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.userevents.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.validator.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.view.min.js" />
+    <None Include="Scripts\kendo\2013.1.319\kendo.web-vsdoc.js" />
+    <None Include="Scripts\kendo\2013.1.319\kendo.web.min.intellisense.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.web.min.js" />
+    <Content Include="Scripts\kendo\2013.1.319\kendo.window.min.js" />
+    <Content Include="Scripts\knockout-2.1.0.debug.js" />
+    <Content Include="Scripts\knockout-2.1.0.js" />
+    <Content Include="Scripts\modernizr-2.5.3.js" />
+    <Content Include="Scripts\_references.js" />
+    <Content Include="Areas\Logistics\Views\HubAllocation\ApprovedRequisitions.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\Shared\HRDPrintReportViewer.aspx" />
+    <Content Include="Views\Shared\_BreadCrumb.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\_MainLayout.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Home\Login.cshtml" />
+    <Content Include="Views\Shared\_GridPager.cshtml" />
+    <Content Include="Views\Shared\_Grid.cshtml" />
+    <Content Include="Views\Shared\_MainLayoutWide.cshtml" />
+    <Content Include="Views\Shared\_AdminLayout.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\Currency.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\Date.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\DateTime.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\GridForeignKey.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\Integer.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\Number.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\String.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\Time.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\AdminUnitEditor.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\ProgramEditor.cshtml" />
+    <Content Include="Views\Shared\_Dashboard.cshtml" />
+    <Content Include="Views\Shared\_DashboardLayout.cshtml" />
+    <Content Include="Templates\gift_Certificate.dotx" />
+    <Content Include="Views\Shared\EditorTemplates\AmharicTextArea.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\AmharicTextBox.cshtml" />
+    <Content Include="Views\Shared\_PieRequests.cshtml" />
+    <Content Include="Views\Shared\_promotWorkflow.cshtml" />
+    <Content Include="Views\Shared\_ToolbarCommon.cshtml" />
+    <Content Include="Views\Shared\_ToolbarDataManipulation.cshtml" />
+    <Content Include="Views\Shared\_BarBeneficiaries.cshtml" />
+    <Content Include="Views\Shared\_Requests.cshtml" />
+    <Content Include="Views\Shared\_BarRegionalReqDetailCommodity.cshtml" />
+    <Content Include="Views\Shared\_MainLayout.cshtml" />
+    <Content Include="Views\Shared\_BarNeedAssessment.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\_ToolbarCommon.cshtml" />
+    <Content Include="Views\Shared\_MainMenu.cshtml" />
+    <Content Include="Views\Shared\Dashboard\_BarBeneficiaries.cshtml" />
+    <Content Include="Views\Shared\Dashboard\_BarRegionalReqDetailCommodity.cshtml" />
+    <Content Include="Views\Shared\Dashboard\_Shortcuts.cshtml" />
+    <Content Include="Views\Shared\Dashboard\_Alerts.cshtml" />
+    <Content Include="Views\Shared\Dashboard\_PieRequests.cshtml" />
+    <Content Include="Views\Shared\Dashboard\_BarNeedAssessment.cshtml" />
+    <Content Include="Views\Shared\Dashboard\_RegionalMonthlyRequests.cshtml" />
+    <Content Include="Views\Shared\_DashboardDynamic.cshtml" />
+    <Content Include="Views\Shared\Dashboard\_MonthlyRequests.cshtml" />
+    <Content Include="Views\Shared\Dashboard\_ReliefRequisitionBasedOnStatus.cshtml" />
+    <Content Include="Views\Shared\_ReliefRequisitionBasedOnStatus.cshtml" />
+    <Content Include="Views\Shared\UserPreference.cshtml" />
+    <Content Include="Views\Home\Preference.cshtml" />
+    <Content Include="Views\UserPreference\Edit.cshtml" />
+    <Content Include="Views\Shared\Edit.cshtml" />
+    <Content Include="Views\Account\ForgetPasswordRequest.cshtml" />
+    <Content Include="Views\Shared\_LogOnPartial.cshtml" />
+    <Content Include="Views\Shared\_Version.cshtml" />
+    <Content Include="Views\Dashboard\RegionalRequestsPieChart.cshtml" />
+    <Content Include="Web References\ReportPortal\ActiveState.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\ReportPortal\CacheRefreshPlan.datasource">
+      <DependentUpon>Ref192.168.1.248erence.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\ReportPortal\CacheRefreshPlanState.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\ReportPortal\CatalogItem.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\ReportPortal\DataRetrievalPlan.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\ReportPortal\DataSetDefinition.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\ReportPortal\DataSource.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\ReportPortal\DataSourceDefinition.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\ReportPortal\DataSourcePrompt.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\ReportPortal\Event.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\ReportPortal\ExpirationDefinition.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\ReportPortal\Extension.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\ReportPortal\ExtensionParameter.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\ReportPortal\ExtensionSettings.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\ReportPortal\ItemHistorySnapshot.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\ReportPortal\ItemParameter.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\ReportPortal\ItemReferenceData.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\ReportPortal\Job.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\ReportPortal\ModelCatalogItem.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\ReportPortal\ModelDrillthroughReport.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\ReportPortal\ModelItem.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\ReportPortal\ParameterValue.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\ReportPortal\ParameterValueOrFieldReference.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\ReportPortal\Policy.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\ReportPortal\Property.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\ReportPortal\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </Content>
+    <Content Include="Web References\ReportPortal\ReportService2010.wsdl" />
+    <Content Include="Web References\ReportPortal\Role.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\ReportPortal\Schedule.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\ReportPortal\ScheduleDefinitionOrReference.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\ReportPortal\Subscription.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\ReportPortal\Task.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\ReportPortal\Warning.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="Areas\Hub\Models\generated\" />
+    <Folder Include="Areas\Hub\Views\ReleaseNotes\" />
+    <Folder Include="Areas\Localization\Models\" />
+    <Folder Include="Areas\PSNP\Views\Shared\" />
+    <Folder Include="Areas\Regional\Models\" />
+    <Folder Include="Areas\Regional\Views\Shared\" />
+    <Folder Include="Areas\Report\Models\" />
+    <Folder Include="Areas\Report\Views\Shared\" />
+    <Folder Include="Areas\Settings\Views\Setting\" />
+    <Folder Include="Areas\Transaction\Models\" />
+    <Folder Include="Areas\Transaction\Views\Shared\" />
+    <Folder Include="Areas\WorkflowManager\Models\" />
+    <Folder Include="Areas\WorkflowManager\Views\Shared\" />
+    <Folder Include="bin\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Data\Cats.Data.Hub\Cats.Data.Hub.csproj">
+      <Project>{b311922a-4002-40b1-aa96-e005b6d436dd}</Project>
+      <Name>Cats.Data.Hub</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Data\Cats.Data.Security\Cats.Data.Security.csproj">
+      <Project>{065612ec-b087-492f-abee-029598960744}</Project>
+      <Name>Cats.Data.Security</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Data\Cats.Data\Cats.Data.csproj">
+      <Project>{7cf78855-5a90-441f-9acc-fafbd1cad68a}</Project>
+      <Name>Cats.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Infrastructure\Cats.Localization\Cats.Localization.csproj">
+      <Project>{097528f8-cfef-4a8f-9d6c-d2366af9583e}</Project>
+      <Name>Cats.Localization</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Infrastructure\Cats.Documents\Cats.Documents.csproj">
+      <Project>{48791f08-2497-4328-b7de-2cbe5a81c836}</Project>
+      <Name>Cats.Documents</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Infrastructure\Helpers.Localization\LanguageHelpers.Localization.csproj">
+      <Project>{29c71652-546b-4362-bf05-a187e781d6bd}</Project>
+      <Name>LanguageHelpers.Localization</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Models\Cats.Exceptions\Cats.Exceptions.csproj">
+      <Project>{9e3489ee-1fd7-458f-8729-63b07a919be7}</Project>
+      <Name>Cats.Exceptions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Models\Cats.Models.Hub\Cats.Models.Hub.csproj">
+      <Project>{1467c728-3071-4798-997c-61314b26ef2e}</Project>
+      <Name>Cats.Models.Hub</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Models\Cats.Models.Security\Cats.Models.Security.csproj">
+      <Project>{e3c4d9fc-ad84-4e19-a475-6adbd134af68}</Project>
+      <Name>Cats.Models.Security</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Models\Cats.Models\Cats.Models.csproj">
+      <Project>{abfb63d2-89fc-45bc-aa4e-5d9b21094b85}</Project>
+      <Name>Cats.Models</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ReportLib\ReportLib.csproj">
+      <Project>{2db02a2c-8e7b-4a3c-9a4c-af7736a66990}</Project>
+      <Name>ReportLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Services\Cats.Services.Administration\Cats.Services.Administration.csproj">
+      <Project>{2f5baa46-25c9-4b3b-aaf6-7df39e9a696a}</Project>
+      <Name>Cats.Services.Administration</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Services\Cats.Services.Common\Cats.Services.Common.csproj">
+      <Project>{083d007c-dd3b-42c0-b11c-a7015a909085}</Project>
+      <Name>Cats.Services.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Services\Cats.Services.Dashboard\Cats.Services.Dashboard.csproj">
+      <Project>{e72bb7c7-71ac-4c26-9c91-8d29f086879e}</Project>
+      <Name>Cats.Services.Dashboard</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Services\Cats.Services.EarlyWarning\Cats.Services.EarlyWarning.csproj">
+      <Project>{a08cf415-6299-41ab-9d69-c3ce9b49ccd6}</Project>
+      <Name>Cats.Services.EarlyWarning</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Services\Cats.Services.Hub\Cats.Services.Hub.csproj">
+      <Project>{9fba0283-ee84-49f2-8305-f038bbf29658}</Project>
+      <Name>Cats.Services.Hub</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Services\Cats.Services.Hub\Cats.Services.Hub.csproj">
+      <Project>{9fba0283-ee84-49f2-8305-f038bbf29658}</Project>
+      <Name>Cats.Services.Hub</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Services\Cats.Services.Logistics\Cats.Services.Logistics.csproj">
+      <Project>{eef1ddeb-a6e9-493d-975d-c551a73a79b9}</Project>
+      <Name>Cats.Services.Logistics</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\services\Cats.Services.Procurement\Cats.Services.Procurement.csproj">
+      <Project>{b0410b11-91e0-40ec-9f16-55fc5e2c4090}</Project>
+      <Name>Cats.Services.Procurement</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Services\Cats.Services.PSNP\Cats.Services.PSNP.csproj">
+      <Project>{8eda6b56-c5c9-4744-a356-1af76ad96159}</Project>
+      <Name>Cats.Services.PSNP</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Services\Cats.Services.Security\Cats.Services.Security.csproj">
+      <Project>{0e706780-a5b2-488c-a502-49526946deb5}</Project>
+      <Name>Cats.Services.Security</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Services\Cats.Services.Transaction\Cats.Services.Transaction.csproj">
+      <Project>{9b741d92-4b67-4863-bf38-a1adcae40870}</Project>
+      <Name>Cats.Services.Transaction</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_GlobalResources\UploadLocalization.zh-CN.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>UploadLocalization.zh-CN.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\UploadLocalization.ru-RU.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>UploadLocalization.ru-RU.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\UploadLocalization.pt-PT.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>UploadLocalization.pt-PT.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\UploadLocalization.pt-BR.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>UploadLocalization.pt-BR.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\UploadLocalization.pl-PL.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>UploadLocalization.pl-PL.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\UploadLocalization.nl-NL.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>UploadLocalization.nl-NL.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\UploadLocalization.fr-FR.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>UploadLocalization.fr-FR.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\UploadLocalization.en-US.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>UploadLocalization.en-US.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\UploadLocalization.da-DK.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>UploadLocalization.da-DK.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\UploadLocalization.bg-BG.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>UploadLocalization.bg-BG.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\GridLocalization.zh-CN.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>GridLocalization.zh-CN.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\GridLocalization.uk-UA.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>GridLocalization.uk-UA.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\GridLocalization.ru-RU.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>GridLocalization.ru-RU.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\GridLocalization.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>GridLocalization.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\GridLocalization.pt-PT.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>GridLocalization.pt-PT.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\GridLocalization.pt-BR.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>GridLocalization.pt-BR.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\GridLocalization.pl-PL.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>GridLocalization.pl-PL.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\GridLocalization.nl-NL.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>GridLocalization.nl-NL.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\GridLocalization.fr-FR.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>GridLocalization.fr-FR.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\GridLocalization.es-ES.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>GridLocalization.es-ES.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\GridLocalization.en-US.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>GridLocalization.en-US.designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="App_GlobalResources\GridLocalization.de-DE.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>GridLocalization.de-DE.designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="App_GlobalResources\GridLocalization.da-DK.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>GridLocalization.da-DK.designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="App_GlobalResources\GridLocalization.bg-BG.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>GridLocalization.bg-BG.designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="App_GlobalResources\EditorLocalization.zh-CN.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>EditorLocalization.zh-CN.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\EditorLocalization.uk-UA.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>EditorLocalization.uk-UA.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\EditorLocalization.ru-RU.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>EditorLocalization.ru-RU.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\EditorLocalization.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>EditorLocalization.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\EditorLocalization.pt-PT.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>EditorLocalization.pt-PT.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\EditorLocalization.pt-BR.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>EditorLocalization.pt-BR.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\EditorLocalization.pl-PL.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>EditorLocalization.pl-PL.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\EditorLocalization.nl-NL.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>EditorLocalization.nl-NL.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\EditorLocalization.fr-FR.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>EditorLocalization.fr-FR.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\EditorLocalization.en-US.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>EditorLocalization.en-US.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\EditorLocalization.de-DE.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>EditorLocalization.de-DE.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\EditorLocalization.da-DK.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>EditorLocalization.da-DK.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\EditorLocalization.bg-BG.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>EditorLocalization.bg-BG.designer.cs</LastGenOutput>
+    </Content>
+    <EmbeddedResource Include="Areas\EarlyWarning\Views\PrintableReports\HRD\AllHRD.rdlc" />
+    <EmbeddedResource Include="Report\EarlyWarning\RRDDetail.rdlc" />
+    <EmbeddedResource Include="Report\HRD\HRDSummaryByRegion.rdlc" />
+    <EmbeddedResource Include="Report\Logisitcs\CarryOverStockStatus.rdlc" />
+    <EmbeddedResource Include="Report\Logisitcs\TransferredStockStatus.rdlc" />
+    <EmbeddedResource Include="Report\Logisitcs\ReceivedCommodityStatus.rdlc" />
+    <EmbeddedResource Include="Report\Logisitcs\SummaryFreePhysicalStock.rdlc" />
+    <EmbeddedResource Include="Report\Logisitcs\transportRequisitionAttachment.rdlc" />
+    <EmbeddedResource Include="Report\Logisitcs\TransportRequisitionSummary.rdlc" />
+    <EmbeddedResource Include="Report\Procurment\RFQ.rdlc" />
+    <EmbeddedResource Include="Report\Procurment\TransportOrder.rdlc" />
+    <EmbeddedResource Include="Report\PSNP\AnnualPlan.rdlc" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferences Include="Web References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferenceUrl Include="http://192.168.1.248/ReportServer/ReportService2010.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\ReportPortal\</RelPath>
+      <UpdateFromURL>http://192.168.1.248/ReportServer/ReportService2010.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Cats_ReportPortal_ReportingService2010</CachedSettingsPropName>
+    </WebReferenceUrl>
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">11.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'UAT|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'PILOT|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>3325</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:1786/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+      <UserProperties UseCdnSupport="False" />
+    </VisualStudio>
+  </ProjectExtensions>
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
+  <Import Project="$(SolutionDir)\.octopack\OctoPack.targets" />
+  <!-- <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />-->
+  <!--Target Name="BeforeBuild">
+    <TransformXml Source="Web.config" Transform="Web.$(Configuration).config" Destination="Web.config" />
+  </Target>-->
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>
