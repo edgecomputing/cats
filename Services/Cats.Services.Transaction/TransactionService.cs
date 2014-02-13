@@ -80,6 +80,7 @@ namespace Cats.Services.Transaction
             List<int> regionalBenCount = new List<int>();
             ration = hrd.Ration;
             int RegionID=0;
+            
             for (int r = 0; r < 12; r++)
             {
                 regionalBenCount.Add(0);
@@ -110,7 +111,8 @@ namespace Cats.Services.Transaction
                             QuantityInUnit = -amount,
                             UnitID = 1,
                             QuantityInMT = -amount,
-                            LedgerID = 200
+                            LedgerID = Cats.Models.Ledger.Constants.REQUIRMENT_DOCUMENT_PALN // previously 200
+                            
                         };
                         Models.Transaction entry1 = new Models.Transaction
                         {
@@ -121,7 +123,7 @@ namespace Cats.Services.Transaction
                             QuantityInUnit = amount,
                             UnitID = 1,
                             QuantityInMT = amount,
-                            LedgerID = 100
+                            LedgerID = Cats.Models.Ledger.Constants.REQUIRMENT_DOCUMENT //previously 100
                         };
                         entries.Add(entry1);
                         entries.Add(entry2);
