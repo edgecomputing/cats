@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -28,7 +29,7 @@ namespace Cats.Areas.Logistics.Models
 
 
     }
-    public class LoanReciptPlanWithDetailViewModel
+    public class LoanReciptPlanWithDetailViewModel//:IValidatableObject
     {
         public int LoanReciptPlanDetailID { get; set; }
         public int LoanReciptPlanID { get; set; }
@@ -36,8 +37,18 @@ namespace Cats.Areas.Logistics.Models
         public string HubName { get; set; }
         public string MemoRefrenceNumber { get; set; }
         public decimal TotalAmount { get; set; }
+        [Required(ErrorMessage = @"Amount is Required")]
+         //[Range(0, "Remaining", ErrorMessage = "Minimum value allowed is 0")]
         public decimal Amount { get; set; }
         public decimal Remaining { get; set; }
-      
+
+
+        //public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        //{
+        //    if (Amount > Remaining )
+        //    {
+        //        yield return new ValidationResult("Amount can not be more than Remaining Amount.");
+        //    }
+        //}
     }
 }
