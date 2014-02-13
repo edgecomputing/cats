@@ -229,6 +229,37 @@ namespace Cats.Areas.Settings.Controllers
             }
             return View(model);
         }
+
+        public JsonResult ChangePassword2(FormCollection values)
+        {
+            var userid = UserAccountHelper.GetUser(HttpContext.User.Identity.Name).UserProfileID;
+            var oldpassword = _userService.HashPassword(values["OldPassword"]);
+            if (ModelState.IsValid)
+            {
+                bool changePasswordSucceeded;
+
+                if (_userService.GetUserDetail(userid).Password == oldpassword)
+                {
+                    try
+                    {
+                        changePasswordSucceeded = _userService.ChangePassword(userid, values["NewPassword"]);
+                    }
+                    catch (Exception e)
+                    {
+                        changePasswordSucceeded = false;
+                        //ModelState.AddModelError("Errors", e.Message);
+                    }
+                    if (changePasswordSucceeded)
+                        ModelState.AddModelError("Success", "Password Successfully Changed.");
+                    //return RedirectToAction("ChangePasswordSuccess");
+                    else
+                        ModelState.AddModelError("Errors", "The new password is invalid.");
+
+                }
+                else ModelState.AddModelError("Errors", "The current password is incorrect ");
+            }
+            return new JsonResult();
+        }
         //public ActionResult ChangePasswordSuccess()
         //{
         //    ModelState.AddModelError("Sucess", "Password Successfully Changed.");

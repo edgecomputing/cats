@@ -20,7 +20,7 @@
     <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
     <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
     <IISExpressUseClassicPipelineMode />
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
     <SilverlightApplicationList>
     </SilverlightApplicationList>
@@ -600,7 +600,6 @@
     <Compile Include="Controllers\UserPreferenceController.cs" />
     <Compile Include="CTSDataSet.cs">
       <DependentUpon>CTSDataSet.xsd</DependentUpon>
-      <SubType>Component</SubType>
     </Compile>
     <Compile Include="CTSDataSet.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -707,7 +706,6 @@
     </Compile>
     <Compile Include="ReportViewer.aspx.cs">
       <DependentUpon>ReportViewer.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="ReportViewer.aspx.designer.cs">
       <DependentUpon>ReportViewer.aspx</DependentUpon>
@@ -2511,67 +2509,67 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Data\Cats.Data.Hub\Cats.Data.Hub.csproj">
+    <ProjectReference Include="..\..\Data\Cats.Data.Hub\Cats.Data.Hub.csproj">
       <Project>{b311922a-4002-40b1-aa96-e005b6d436dd}</Project>
       <Name>Cats.Data.Hub</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Data\Cats.Data.Security\Cats.Data.Security.csproj">
+    <ProjectReference Include="..\..\Data\Cats.Data.Security\Cats.Data.Security.csproj">
       <Project>{065612ec-b087-492f-abee-029598960744}</Project>
       <Name>Cats.Data.Security</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Data\Cats.Data\Cats.Data.csproj">
+    <ProjectReference Include="..\..\Data\Cats.Data\Cats.Data.csproj">
       <Project>{7cf78855-5a90-441f-9acc-fafbd1cad68a}</Project>
       <Name>Cats.Data</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Infrastructure\Cats.Localization\Cats.Localization.csproj">
+    <ProjectReference Include="..\..\Infrastructure\Cats.Localization\Cats.Localization.csproj">
       <Project>{097528f8-cfef-4a8f-9d6c-d2366af9583e}</Project>
       <Name>Cats.Localization</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Infrastructure\Cats.Documents\Cats.Documents.csproj">
+    <ProjectReference Include="..\..\Infrastructure\Cats.Documents\Cats.Documents.csproj">
       <Project>{48791f08-2497-4328-b7de-2cbe5a81c836}</Project>
       <Name>Cats.Documents</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Infrastructure\Helpers.Localization\LanguageHelpers.Localization.csproj">
+    <ProjectReference Include="..\..\Infrastructure\Helpers.Localization\LanguageHelpers.Localization.csproj">
       <Project>{29c71652-546b-4362-bf05-a187e781d6bd}</Project>
       <Name>LanguageHelpers.Localization</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Models\Cats.Exceptions\Cats.Exceptions.csproj">
+    <ProjectReference Include="..\..\Models\Cats.Exceptions\Cats.Exceptions.csproj">
       <Project>{9e3489ee-1fd7-458f-8729-63b07a919be7}</Project>
       <Name>Cats.Exceptions</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Models\Cats.Models.Hub\Cats.Models.Hub.csproj">
+    <ProjectReference Include="..\..\Models\Cats.Models.Hub\Cats.Models.Hub.csproj">
       <Project>{1467c728-3071-4798-997c-61314b26ef2e}</Project>
       <Name>Cats.Models.Hub</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Models\Cats.Models.Security\Cats.Models.Security.csproj">
+    <ProjectReference Include="..\..\Models\Cats.Models.Security\Cats.Models.Security.csproj">
       <Project>{e3c4d9fc-ad84-4e19-a475-6adbd134af68}</Project>
       <Name>Cats.Models.Security</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Models\Cats.Models\Cats.Models.csproj">
+    <ProjectReference Include="..\..\Models\Cats.Models\Cats.Models.csproj">
       <Project>{abfb63d2-89fc-45bc-aa4e-5d9b21094b85}</Project>
       <Name>Cats.Models</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ReportLib\ReportLib.csproj">
+    <ProjectReference Include="..\..\ReportLib\ReportLib.csproj">
       <Project>{2db02a2c-8e7b-4a3c-9a4c-af7736a66990}</Project>
       <Name>ReportLib</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Services\Cats.Services.Administration\Cats.Services.Administration.csproj">
+    <ProjectReference Include="..\..\Services\Cats.Services.Administration\Cats.Services.Administration.csproj">
       <Project>{2f5baa46-25c9-4b3b-aaf6-7df39e9a696a}</Project>
       <Name>Cats.Services.Administration</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Services\Cats.Services.Common\Cats.Services.Common.csproj">
+    <ProjectReference Include="..\..\Services\Cats.Services.Common\Cats.Services.Common.csproj">
       <Project>{083d007c-dd3b-42c0-b11c-a7015a909085}</Project>
       <Name>Cats.Services.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Services\Cats.Services.Dashboard\Cats.Services.Dashboard.csproj">
+    <ProjectReference Include="..\..\Services\Cats.Services.Dashboard\Cats.Services.Dashboard.csproj">
       <Project>{e72bb7c7-71ac-4c26-9c91-8d29f086879e}</Project>
       <Name>Cats.Services.Dashboard</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Services\Cats.Services.EarlyWarning\Cats.Services.EarlyWarning.csproj">
+    <ProjectReference Include="..\..\Services\Cats.Services.EarlyWarning\Cats.Services.EarlyWarning.csproj">
       <Project>{a08cf415-6299-41ab-9d69-c3ce9b49ccd6}</Project>
       <Name>Cats.Services.EarlyWarning</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Services\Cats.Services.Hub\Cats.Services.Hub.csproj">
+    <ProjectReference Include="..\..\Services\Cats.Services.Hub\Cats.Services.Hub.csproj">
       <Project>{9fba0283-ee84-49f2-8305-f038bbf29658}</Project>
       <Name>Cats.Services.Hub</Name>
     </ProjectReference>
@@ -2579,23 +2577,23 @@
       <Project>{9fba0283-ee84-49f2-8305-f038bbf29658}</Project>
       <Name>Cats.Services.Hub</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Services\Cats.Services.Logistics\Cats.Services.Logistics.csproj">
+    <ProjectReference Include="..\..\Services\Cats.Services.Logistics\Cats.Services.Logistics.csproj">
       <Project>{eef1ddeb-a6e9-493d-975d-c551a73a79b9}</Project>
       <Name>Cats.Services.Logistics</Name>
     </ProjectReference>
-    <ProjectReference Include="..\services\Cats.Services.Procurement\Cats.Services.Procurement.csproj">
+    <ProjectReference Include="..\..\services\Cats.Services.Procurement\Cats.Services.Procurement.csproj">
       <Project>{b0410b11-91e0-40ec-9f16-55fc5e2c4090}</Project>
       <Name>Cats.Services.Procurement</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Services\Cats.Services.PSNP\Cats.Services.PSNP.csproj">
+    <ProjectReference Include="..\..\Services\Cats.Services.PSNP\Cats.Services.PSNP.csproj">
       <Project>{8eda6b56-c5c9-4744-a356-1af76ad96159}</Project>
       <Name>Cats.Services.PSNP</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Services\Cats.Services.Security\Cats.Services.Security.csproj">
+    <ProjectReference Include="..\..\Services\Cats.Services.Security\Cats.Services.Security.csproj">
       <Project>{0e706780-a5b2-488c-a502-49526946deb5}</Project>
       <Name>Cats.Services.Security</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Services\Cats.Services.Transaction\Cats.Services.Transaction.csproj">
+    <ProjectReference Include="..\..\Services\Cats.Services.Transaction\Cats.Services.Transaction.csproj">
       <Project>{9b741d92-4b67-4863-bf38-a1adcae40870}</Project>
       <Name>Cats.Services.Transaction</Name>
     </ProjectReference>
