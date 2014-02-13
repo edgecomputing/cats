@@ -39,5 +39,6 @@ namespace Cats.Models
         public virtual OtherDispatchAllocation OtherDispatchAllocation { get; set; }
         public virtual Transporter Transporter { get; set; }
         public virtual ICollection<DispatchDetail> DispatchDetails { get; set; }
+        public virtual ICollection<DeliveryReconcile> DeliveryReconciles { get; set; }
     }
 }

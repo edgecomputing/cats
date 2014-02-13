@@ -165,6 +165,7 @@ namespace Cats.Data.UnitWork
         IGenericRepository<ReceiptAllocation> ReceiptAllocationRepository { get; }
         IGenericRepository<ReceiptPlan> ReceiptPlanRepository { get; }
         IGenericRepository<ReceiptPlanDetail> ReceiptPlanDetailRepository { get; }
+        IGenericRepository<DeliveryReconcile> DeliveryReconcileRepository { get; }
 
         IGenericRepository<DonationPlanHeader> DonationPlanHeaderRepository { get; }
         IGenericRepository<DonationPlanDetail> DonationPlanDetailRepository { get; } 

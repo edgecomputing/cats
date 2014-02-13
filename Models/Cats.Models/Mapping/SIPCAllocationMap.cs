@@ -18,12 +18,16 @@ namespace Cats.Models.Mapping
             this.Property(t => t.Code).HasColumnName("Code");
             this.Property(t => t.AllocatedAmount).HasColumnName("AllocatedAmount");
             this.Property(t => t.AllocationType).HasColumnName("AllocationType");
+            this.Property(t => t.TransactionGroupID).HasColumnName("TransactionGroupID");
 
             // Relationships
             this.HasRequired(t => t.ReliefRequisitionDetail)
                 .WithMany(t => t.SIPCAllocations)
                 .HasForeignKey(d => d.RequisitionDetailID);
 
+            this.HasRequired(t => t.TransactionGroup)
+                .WithMany(t => t.SIPCAllocations)
+                .HasForeignKey(d => d.TransactionGroupID);
         }
     }
 }

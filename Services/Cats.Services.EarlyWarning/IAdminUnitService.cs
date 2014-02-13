@@ -21,6 +21,7 @@ namespace Cats.Services.EarlyWarning
         List<AdminUnit> GetRegions();
         List<AdminUnit> GetZones(int regionId);
         List<AdminUnit> GetWoreda(int zoneId);
+        List<AdminUnit> GetAllZones(int regionID);
         //JsonResult GetAdminUnits();
     }
 }

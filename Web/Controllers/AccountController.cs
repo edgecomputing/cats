@@ -50,9 +50,9 @@ namespace Cats.Controllers
 
                     // Will be refactored                              
                     var user = _userAccountService.GetUserDetail(model.UserName);
-                    user.LogginDate = DateTime.Today;
+                    user.LogginDate = DateTime.Now;
                     user.NumberOfLogins += 1;
-                    Session["User"] = user;
+                    Session["USER_PROFILE"] = user;
                     _userAccountService.UpdateUser(user);
 
                     // Add user information to session variable to avoid frequent trip to the databas

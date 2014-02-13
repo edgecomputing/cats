@@ -69,7 +69,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BeneficiaryAllocationService.cs" />
+    <Compile Include="DeliveryReconcileService.cs" />
     <Compile Include="DistributionByAgeDetailService.cs" />
+    <Compile Include="IDeliveryReconcileService.cs" />
     <Compile Include="DonationPlanDetail.cs" />
     <Compile Include="DonationPlanDetailService.cs" />
     <Compile Include="IDistributionByAgeDetailService.cs" />

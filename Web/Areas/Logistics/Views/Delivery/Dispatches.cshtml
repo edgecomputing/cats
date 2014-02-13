@@ -548,6 +548,8 @@
                         $http({
                             method: 'GET',
                             url: '/Delivery/GetGINsWithGRN/' + @ViewBag.TransportOrderId
+                            @*url: @Url.Action("GetGINsWithGRN", "Delivery", new { Area = "Logistics", id = @ViewBag.TransportOrderId })*@
+                            
                         }).success(function(result) {
                             $scope.GetGINsWithGRN = result;
                         });

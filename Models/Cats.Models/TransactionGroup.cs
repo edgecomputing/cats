@@ -22,8 +22,9 @@ namespace Cats.Models
         //public virtual ICollection<Adjustment> Adjustments { get; set; }
         //public virtual ICollection<DispatchDetail> DispatchDetails { get; set; }
         public virtual ICollection<InternalMovement> InternalMovements { get; set; }
-       
+        public virtual ICollection<DeliveryReconcile> DeliveryReconciles { get; set; }
         public virtual ICollection<Transaction> Transactions { get; set; }
         public virtual ICollection<DispatchDetail> DispatchDetails { get; set; }
+        public virtual ICollection<SIPCAllocation> SIPCAllocations { get; set; }
     }
 }

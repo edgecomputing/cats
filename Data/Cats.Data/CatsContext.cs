@@ -146,6 +146,7 @@ namespace Cats.Data
         public DbSet<Dispatch> Dispatches { get; set; }
         public DbSet<DispatchDetail> DispatchDetails { get; set; }
         public DbSet<OtherDispatchAllocation> OtherDispatchAllocations { get; set; }
+        public DbSet<DeliveryReconcile> DeliveryReconciles { get; set; }
         public DbSet<LocalPurchase> LocalPurchases { get; set; }
         public DbSet<LocalPurchaseDetail> LocalPurchaseDetails { get; set; }
 
@@ -159,6 +160,8 @@ namespace Cats.Data
             modelBuilder.Configurations.Add(new DispatchMap());
             modelBuilder.Configurations.Add(new DispatchDetailMap());
             modelBuilder.Configurations.Add(new OtherDispatchAllocationMap());
+
+            modelBuilder.Configurations.Add(new DeliveryReconcileMap());
 
             modelBuilder.Configurations.Add(new PaymentRequestMap());
             modelBuilder.Configurations.Add(new SIPCAllocationMap());
