@@ -132,7 +132,7 @@
       <Project>{2f5baa46-25c9-4b3b-aaf6-7df39e9a696a}</Project>
       <Name>Cats.Services.Administration</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Sites\Cats.Web.Adminstration\Cats.Web.Adminstration.csproj">
+    <ProjectReference Include="..\..\Cats.Web.Adminstration\Cats.Web.Adminstration.csproj">
       <Project>{7d69aec0-4ce9-4bfe-bb34-9b92e78db6e5}</Project>
       <Name>Cats.Web.Adminstration</Name>
     </ProjectReference>

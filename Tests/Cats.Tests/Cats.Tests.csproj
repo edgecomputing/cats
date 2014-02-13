@@ -217,7 +217,7 @@
       <Project>{a08cf415-6299-41ab-9d69-c3ce9b49ccd6}</Project>
       <Name>Cats.Services.EarlyWarning</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Sites\Web\Cats.csproj">
+    <ProjectReference Include="..\..\Web\Cats.csproj">
       <Project>{f8991e39-b399-4baf-8515-f62b28a604be}</Project>
       <Name>Cats</Name>
     </ProjectReference>

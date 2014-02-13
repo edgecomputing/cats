@@ -94,11 +94,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Api", "Api", "{20E8AAF7-3C7
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SMS", "SMS\SMS.csproj", "{EA461A4E-0F81-4CF5-896F-9D57BEC4EDA8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cats", "Sites\Web\Cats.csproj", "{F8991E39-B399-4BAF-8515-F62B28A604BE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cats", "Web\Cats.csproj", "{F8991E39-B399-4BAF-8515-F62B28A604BE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cats.Web.Hub", "Sites\Cats.Web.Hub\Cats.Web.Hub.csproj", "{C0555FD5-D03E-43BB-9827-CA695F665059}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cats.Web.Hub", "Cats.Web.Hub\Cats.Web.Hub.csproj", "{C0555FD5-D03E-43BB-9827-CA695F665059}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cats.Web.Adminstration", "Sites\Cats.Web.Adminstration\Cats.Web.Adminstration.csproj", "{7D69AEC0-4CE9-4BFE-BB34-9B92E78DB6E5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cats.Web.Adminstration", "Cats.Web.Adminstration\Cats.Web.Adminstration.csproj", "{7D69AEC0-4CE9-4BFE-BB34-9B92E78DB6E5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cats.Services.Dashboard", "Services\Cats.Services.Dashboard\Cats.Services.Dashboard.csproj", "{E72BB7C7-71AC-4C26-9C91-8D29F086879E}"
 EndProject
