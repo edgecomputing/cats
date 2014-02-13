@@ -34,7 +34,17 @@ namespace Cats.Models
             public const int LOSS = 13;
             public const int DAMAGED = 14;
 
-
+            public const int GOODS_PROMISSED_PLEDGE = 15;
+            public const int GOODS_PROMISSED_GIFT_CERTIFICATE_COMMITED = 16;
+            public const int GOODS_PROMISSED_AS_PART_OF_LOAN_COMMITED = 17;
+            public const int GOODS_PROMISSED_AS_PART_OF_LOAN_UNCOMMITED = 18;
+            public const int GOODS_PROMISSED_GIFT_CERTIFICATE_UNCOMMITED = 19;
+            public const int GOODS_ON_HAND_UNCOMMITED = 20;
+           
+           
+           
+            
+           
 
 
         }
