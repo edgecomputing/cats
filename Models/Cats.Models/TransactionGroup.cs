@@ -25,5 +25,6 @@ namespace Cats.Models
         public virtual ICollection<DeliveryReconcile> DeliveryReconciles { get; set; }
         public virtual ICollection<Transaction> Transactions { get; set; }
         public virtual ICollection<DispatchDetail> DispatchDetails { get; set; }
+        public virtual ICollection<SIPCAllocation> SIPCAllocations { get; set; }
     }
 }

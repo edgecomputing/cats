@@ -26,7 +26,7 @@ namespace Cats.Services.Transaction
         List<ShippingInstruction> getAllSIByHubCommodity(int hubId, int commodityId);
         List<ReceiptAllocation> getSIBalance(int hubId, int commodityId);
         List<ReceiptAllocation> getProjectBalance(int hubId, int commodityId);
-        List<Models.Transaction> PostSIAllocation(int requisitionID);
+        bool PostSIAllocation(int requisitionID);
         bool PostDonationPlan(DonationPlanHeader donationPlanDetail);
         bool PostDistribution(int distributionId);
     }

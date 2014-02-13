@@ -31,4 +31,13 @@ namespace Cats.Models
             public const int DELIVERY_RECEIPT = 18;
         }
     }
+
+    public class TransactionConstants
+    {
+        public class Constants
+        {
+            public const string SHIPPNG_INSTRUCTION = "SI";
+            public const string PROJECT_CODE = "PC";
+        }
+    }
 }
