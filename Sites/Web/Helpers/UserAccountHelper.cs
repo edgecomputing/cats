@@ -47,6 +47,10 @@ namespace Cats.Helpers
             return GetUserInfo(userName);
         }
 
+        public static UserInfo GetCurrentUser()
+        {
+            return GetUserInfo(HttpContext.Current.User.Identity.Name);
+        }
         private static UserInfo GetUserInfo(string userName)
         {
             // Initialize the user object with the incoming user name to avoid 'Use of uninitialized variable exception'

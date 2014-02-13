@@ -77,8 +77,9 @@ namespace Cats.Helpers
             //       user, we must check for possible errors.
             try
             {
-                var user = (UserIdentity)HttpContext.Current.User.Identity;
-                currentUnit = user.Profile.PreferedWeightMeasurment;
+                var user2 = (UserIdentity)HttpContext.Current.User.Identity;
+                var user = UserAccountHelper.GetCurrentUser();                
+                currentUnit = user.PreferedWeightMeasurment;
             }
             catch (Exception)
             {
