@@ -8,7 +8,7 @@
 
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h3 id="myModalLabel">@Html.Translate2(PAGE_NAME,"New Recipt Plan from Loan,Swap,Repayment or Others")</h3>
+    <h3 id="myModalLabel">@Html.Translate2(PAGE_NAME,"Edit Recipt Plan from Loan")</h3>
 </div>
 @using (Html.BeginForm("Edit", "ReciptPlanForLoan", FormMethod.Post, new { @class = "modal-form", id="myForm"}))
 {
@@ -26,7 +26,7 @@
                     @Html.ValidationMessageFor(m=>m.ShippingInstruction.Value)
                 </div>
             </td>
-            <td style="width: 50%">
+            @* <td style="width: 50%">
                 <div class="control-label">
                     @Html.LabelFor(m=>m.HubID,@Html.Translate2(PAGE_NAME,"Hub"))
                 </div>
@@ -34,6 +34,16 @@
                     @Html.DropDownList("HubID")
                     @Html.ValidationMessageFor(m=>m.HubID)
                 </div>
+            </td>*@
+             <td style="width: 50%">
+                 <div class="control-label">
+                    @Html.LabelFor(m=>m.CommodityID,@Html.Translate2(PAGE_NAME,"Commodity Type"))
+                </div>
+                <div class="controls">
+                    @Html.DropDownList("CommodityTypeID")
+                    @Html.ValidationMessageFor(m=>m.CommodityID)
+                </div>
+                
             </td>
         </tr>
         <tr style="width: 300px">
@@ -46,15 +56,14 @@
                     @Html.ValidationMessageFor(m=>m.SourceHubID)
                 </div>
             </td>
-            <td style="width: 50%">
-                 <div class="control-label">
-                    @Html.LabelFor(m=>m.CommodityID,@Html.Translate2(PAGE_NAME,"Commodity Type"))
+             <td>
+               <div class="control-label">
+                    @Html.LabelFor(m=>m.CommodityID,@Html.Translate2(PAGE_NAME,"Commodity"))
                 </div>
                 <div class="controls">
-                    @Html.DropDownList("CommodityTypeID")
+                    @Html.DropDownList("CommodityID")
                     @Html.ValidationMessageFor(m=>m.CommodityID)
                 </div>
-                
             </td>
         </tr>
         <tr>
@@ -67,13 +76,13 @@
                     @Html.ValidationMessageFor(m=>m.ProgramID)
                 </div>
             </td>
-            <td>
-               <div class="control-label">
-                    @Html.LabelFor(m=>m.CommodityID,@Html.Translate2(PAGE_NAME,"Commodity"))
+             <td>
+                <div class="control-label">
+                    @Html.LabelFor(m=>m.ReferenceNumber,@Html.Translate2(PAGE_NAME,"Reference Number"))
                 </div>
                 <div class="controls">
-                    @Html.DropDownList("CommodityID")
-                    @Html.ValidationMessageFor(m=>m.CommodityID)
+                    @Html.TextBoxFor(m=>m.ReferenceNumber)
+                    @Html.ValidationMessageFor(m=>m.ReferenceNumber)
                 </div>
             </td>
         </tr>
@@ -88,13 +97,13 @@
 
                 </div>
             </td>
-            <td>
+             <td>
                 <div class="control-label">
-                    @Html.LabelFor(m=>m.ReferenceNumber,@Html.Translate2(PAGE_NAME,"Reference Number"))
-                </div>
+                    @Html.LabelFor(m=>m.Quantity,@Html.Translate2(PAGE_NAME,"Quantity in MT"))
+                </div> 
                 <div class="controls">
-                    @Html.TextBoxFor(m=>m.ReferenceNumber)
-                    @Html.ValidationMessageFor(m=>m.ReferenceNumber)
+                    @Html.TextBoxFor(m=>m.Quantity)
+                    @Html.ValidationMessageFor(m=>m.Quantity)
                 </div>
             </td>
         </tr>
@@ -109,7 +118,7 @@
                 </div>
                
             </td>
-            <td>
+           @* <td>
                 <div class="control-label">
                     @Html.LabelFor(m=>m.Quantity,@Html.Translate2(PAGE_NAME,"Quantity in MT"))
                 </div> 
@@ -117,7 +126,7 @@
                     @Html.TextBoxFor(m=>m.Quantity)
                     @Html.ValidationMessageFor(m=>m.Quantity)
                 </div>
-            </td>
+            </td>*@
         </tr>
     </table>
     

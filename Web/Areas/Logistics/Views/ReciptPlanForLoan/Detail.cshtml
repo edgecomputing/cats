@@ -95,7 +95,7 @@
                 @Html.LabelFor(m=>m.SourceHubID,@Html.Translate2(PAGE_NAME,"Source Hub"))
             </div>
             <div class="controls">
-                @Html.TextBoxFor(m=>m.OriginHub.Name,new {disabled=true})
+                @Html.TextBoxFor(m=>m.Hub.Name,new {disabled=true})
             </div>
         </td>
     </tr>
@@ -165,12 +165,14 @@
                       columns.Bound(m => m.HubName).Title(@Html.Translate2(PAGE_NAME, "Hub"));
                       columns.Bound(m => m.Amount).Width(200).Title(@Html.Translate2(PAGE_NAME, "Recieving Amount"));
                       columns.Bound(m => m.Remaining).Width(200).Title(@Html.Translate2(PAGE_NAME, "Remaining"));
+                     // columns.Bound(m => m.Remaining).ClientFooterTemplate("Total in Birr <b>:#=kendo.format('{0:N}', sum)#</b>").Format("{0:N}");
+                      
                   }
 
               )
 
               .Navigatable()
-              .HtmlAttributes(new { style = "height:430px;" })
+              .HtmlAttributes(new { style = "height:230px;" })
               .DataSource(dataSource => dataSource
                                             .Ajax()
                                             .Model(model =>model.Id(m=>m.LoanReciptPlanDetailID))

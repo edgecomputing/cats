@@ -9,7 +9,7 @@
 }
 @section Toolbar
 {
-    <a id="btnAddReciptPlan" data-buttontype="btn_new_record" class="btn toolbar-btn " href="@Url.Action("Create", "ReciptPlanForLoanAndOthers")"></a>
+    <a id="btnAddReciptPlan" data-buttontype="btn_new_record" class="btn toolbar-btn " href="@Url.Action("Create", "ReciptPlanForLoan")"></a>
 }
 @section LeftBar
 {
@@ -40,7 +40,7 @@
 <div id='dialogDiv' class='modal hide fade in' style="width: 820px;margin-right: 10px">
     <div id='dialogContent'></div>
 </div>
-<h4>List of Reciept Plan From Loan,Swap,Repayment or Other</h4>
+<h4>List of Reciept Plan From Loan</h4>
  @(Html.Kendo().Grid<LoanReciptPlanViewModel>()
               .Name("grid")
               .Columns(columns =>
@@ -49,8 +49,7 @@
                       columns.Bound(m => m.ProgramName).Title(@Html.Translate2(pageName,"Program"));
                       columns.Bound(m => m.CommodityName).Width(200).Title(@Html.Translate2(pageName,"Commodity"));
                       columns.Bound(m => m.CommoditySourceName).Width(200).Title(@Html.Translate2(pageName,"Commodity Source"));
-                      columns.Bound(m => m.HubName).Width(200).Title(@Html.Translate2(pageName,"Hub"));
-                      columns.Bound(m => m.SourceHubName);
+                      columns.Bound(m => m.SourceHubName).Width(200).Title(@Html.Translate2(pageName,"Source Hub"));
                       columns.Bound(m => m.Quantity).HtmlAttributes(new {align = "right"}).Title(@Html.Translate2(pageName,"Quantity in MT"));
                       columns.Bound(m => m.Status);
                       //columns.Command(p =>

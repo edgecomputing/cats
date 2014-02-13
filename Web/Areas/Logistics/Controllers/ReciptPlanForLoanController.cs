@@ -41,7 +41,7 @@ namespace Cats.Areas.Logistics.Controllers
             ViewBag.SourceHubID = new SelectList(_commonService.GetAllHubs(), "HubID", "Name");
             ViewBag.CommodityTypeID = new SelectList(_commonService.GetCommodityTypes(), "CommodityTypeID", "Name");
             ViewBag.CommoditySourceID = new SelectList(_commonService.GetCommoditySource(), "CommoditySourceID", "Name");
-            ViewBag.HubID = new SelectList(_commonService.GetAllHubs(), "HubID", "Name");
+            //ViewBag.HubID = new SelectList(_commonService.GetAllHubs(), "HubID", "Name");
             var loanReciptPlanViewModel = new LoanReciptPlanViewModel();
             return View(loanReciptPlanViewModel);
 
@@ -70,7 +70,7 @@ namespace Cats.Areas.Logistics.Controllers
             ViewBag.SourceHubID = new SelectList(_commonService.GetAllHubs(), "HubID", "Name",loanReciptPlan.SourceHubID);
             ViewBag.CommodityTypeID = new SelectList(_commonService.GetCommodityTypes(), "CommodityTypeID", "Name");
             ViewBag.CommoditySourceID = new SelectList(_commonService.GetCommoditySource(), "CommoditySourceID", "Name",loanReciptPlan.CommoditySourceID);
-            ViewBag.HubID = new SelectList(_commonService.GetAllHubs(), "HubID", "Name",loanReciptPlan.HubID);
+            //ViewBag.HubID = new SelectList(_commonService.GetAllHubs(), "HubID", "Name",loanReciptPlan.HubID);
             return View(loanReciptPlan);
         }
         [HttpPost]
@@ -79,7 +79,7 @@ namespace Cats.Areas.Logistics.Controllers
             if (ModelState.IsValid && loanReciptPlan!=null )
             {
                 _loanReciptPlanService.EditLoanReciptPlan(loanReciptPlan);
-                return RedirectToAction("Index");
+                return RedirectToAction("Detail",new {id=loanReciptPlan.LoanReciptPlanID});
             }
             ModelState.AddModelError("Errors",@"Unable to update please check fields");
             ViewBag.ProgramID = new SelectList(_commonService.GetPrograms(), "ProgramID", "Name", loanReciptPlan.ProgramID);
@@ -87,7 +87,7 @@ namespace Cats.Areas.Logistics.Controllers
             ViewBag.SourceHubID = new SelectList(_commonService.GetAllHubs(), "HubID", "Name", loanReciptPlan.SourceHubID);
             ViewBag.CommodityTypeID = new SelectList(_commonService.GetCommodityTypes(), "CommodityTypeID", "Name");
             ViewBag.CommoditySourceID = new SelectList(_commonService.GetCommoditySource(), "CommoditySourceID", "Name", loanReciptPlan.CommoditySourceID);
-            ViewBag.HubID = new SelectList(_commonService.GetAllHubs(), "HubID", "Name", loanReciptPlan.HubID);
+            //ViewBag.HubID = new SelectList(_commonService.GetAllHubs(), "HubID", "Name", loanReciptPlan.HubID);
             return View(loanReciptPlan);
         }
         private LoanReciptPlan GetLoanReciptPlan(LoanReciptPlanViewModel loanReciptPlanViewModel)
@@ -100,7 +100,7 @@ namespace Cats.Areas.Logistics.Controllers
                         CommoditySourceID = loanReciptPlanViewModel.CommoditySourceID,
                         ShippingInstructionID = _commonService.GetShippingInstruction(loanReciptPlanViewModel.SiNumber),
                         SourceHubID = loanReciptPlanViewModel.SourceHubID,
-                        HubID = loanReciptPlanViewModel.HubID,
+                        //HubID = loanReciptPlanViewModel.HubID,
                         ProjectCode = loanReciptPlanViewModel.ProjectCode,
                         ReferenceNumber = loanReciptPlanViewModel.RefeenceNumber,
                         Quantity = loanReciptPlanViewModel.Quantity,
@@ -124,7 +124,7 @@ namespace Cats.Areas.Logistics.Controllers
                             ProgramName = loanReciptPlan.Program.Name,
                             CommodityName = loanReciptPlan.Commodity.Name,
                             CommoditySourceName = loanReciptPlan.CommoditySource.Name,
-                            HubName = loanReciptPlan.OriginHub.Name,
+                            HubName = loanReciptPlan.Hub.Name,
                             SourceHubName = loanReciptPlan.Hub.Name,
                             RefeenceNumber = loanReciptPlan.ReferenceNumber,
                             SiNumber = loanReciptPlan.ShippingInstruction.Value,

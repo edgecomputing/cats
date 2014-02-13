@@ -122,11 +122,20 @@
                             <li>@Html.LogisticOperationMenuItem(@Html.Translate("Transport Requisition"),
                                                                 @Url.Action("Index", "TransportRequisition", new { Area = "Logistics" }),
                                                                 LogisticsCheckAccess.Operation.View_Transport_Requisition)</li>
+                            <li class="divider"></li>
 
-                             <li><a href="@Url.Action("Index", "Donation", new { Area = "Logistics" })">Donation Plan</a></li>
-
+                            <li class="dropdown-submenu">
+                                <a href="#" data-toggle="dropdown">@Translator.Translate("Recipt Plan")</a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="@Url.Action("Index", "LocalPurchase", new { Area = "Logistics" })">Local Purchase</a></li>
+                                    <li><a href="@Url.Action("Index", "Donation", new { Area = "Logistics" })">Donation</a></li>
+                                    <li><a href="@Url.Action("Index", "ReciptPlanForLoan", new { Area = "Logistics" })">Loan</a></li>
+                                     
+                                </ul>
+                            </li>
+                            
                             <li><a href="@Url.Action("Index", "WoredaStockDistribution", new { Area = "Logistics" })">Distribution Entry</a></li>
-                             <li><a href="@Url.Action("Index", "ReciptPlanForLoanAndOthers", new { Area = "Logistics" })">Recipt Plan for Loan</a></li>
+                            
 
                             <li>@Html.ProcurementOperationMenuItem(@Html.Translate("Transport Order"),
                                                                    @Url.Action("Index", "TransportOrder", new { Area = "Procurement" }),
