@@ -22,6 +22,7 @@ namespace Cats.Models
             public const int GOODS_RECIEVABLE = 3;
             public const int LIABILITIES = 4;
             public const int GOODS_UNDER_CARE = 5;
+            public const int ADJUSTMENT = 6;
             public const int PLEDGED_TO_FDP = 7;
             public const int COMMITED_TO_FDP = 8;
             public const int DELIVERY_IN_TRANSIT = 9;

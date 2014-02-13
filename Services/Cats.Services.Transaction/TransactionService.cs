@@ -340,7 +340,7 @@ namespace Cats.Services.Transaction
                         FDPID = woredaStockDistributionDetail.FdpId,
                         Month = woredaStcokDistribution.Month,
                         
-                       LedgerID = Ledger.Constants.GOODS_UNDER_CARE;
+                       LedgerID = Ledger.Constants.GOODS_UNDER_CARE
                     };
 
                     _unitOfWork.TransactionRepository.Add(transaction);
