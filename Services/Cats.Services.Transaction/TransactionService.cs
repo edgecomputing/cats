@@ -166,7 +166,7 @@ namespace Cats.Services.Transaction
                             QuantityInUnit = -amount,
                             UnitID=1,
                             QuantityInMT = -amount,
-                            LedgerID = 200
+                            LedgerID = Cats.Models.Ledger.Constants.REQUIRMENT_DOCUMENT_PALN // previously 200
                         };
                         Models.Transaction entry1 = new Models.Transaction
                         {
@@ -177,7 +177,7 @@ namespace Cats.Services.Transaction
                             QuantityInUnit = amount,
                             UnitID = 1,
                             QuantityInMT = amount,
-                            LedgerID = 100
+                            LedgerID = Cats.Models.Ledger.Constants.REQUIRMENT_DOCUMENT //previously 100
                         };
                         entries.Add(entry1);
                         entries.Add(entry2);
@@ -280,7 +280,7 @@ namespace Cats.Services.Transaction
                                           CommodityID = donationPlanHeader.CommodityID,
                                           ShippingInstructionID = donationPlanHeader.ShippingInstructionId,
                                           HubID = donationPlanDetail.HubID,
-                                          LedgerID = 10
+                                          LedgerID = Ledger.Constants.GOODS_RECIEVABLE
                                       };
 
                 _unitOfWork.TransactionRepository.Add(transaction);
@@ -298,7 +298,7 @@ namespace Cats.Services.Transaction
                                      CommodityID = donationPlanHeader.CommodityID,
                                      ShippingInstructionID = donationPlanHeader.ShippingInstructionId,
                                      HubID = donationPlanDetail.HubID,
-                                     LedgerID = 4
+                                     LedgerID = 4 //good promissed - pledged is not in ledger list
                                  };
 
                 _unitOfWork.TransactionRepository.Add(transaction);
@@ -340,7 +340,7 @@ namespace Cats.Services.Transaction
                         FDPID = woredaStockDistributionDetail.FdpId,
                         Month = woredaStcokDistribution.Month,
                         
-                       LedgerID = 12
+                       LedgerID = Ledger.Constants.GOODS_UNDER_CARE;
                     };
 
                     _unitOfWork.TransactionRepository.Add(transaction);
@@ -358,7 +358,7 @@ namespace Cats.Services.Transaction
                         FDPID = woredaStockDistributionDetail.FdpId,
                         Month = woredaStcokDistribution.Month,
 
-                        LedgerID = 18
+                        LedgerID = Ledger.Constants.DELIVERY_RECEIPT
                     };
 
                     _unitOfWork.TransactionRepository.Add(transaction);
@@ -395,7 +395,7 @@ namespace Cats.Services.Transaction
                 transaction.TransactionGroupID = transactionGroup;
                 transaction.TransactionDate = transactionDate;
                 transaction.UnitID = 1;
-                transaction.LedgerID = 5;
+                transaction.LedgerID = 5;//Goods Promised - Gift Certificate - Commited not found in ledger list
                 transaction.CommodityID = giftCertificateDetail.CommodityID;
                // transaction.ShippingInstructionID = giftCertificate.SINumber;
                 _unitOfWork.TransactionRepository.Add(transaction);
@@ -409,7 +409,7 @@ namespace Cats.Services.Transaction
                 transaction.TransactionDate = transactionDate;
                 transaction.QuantityInUnit = giftCertificateDetail.WeightInMT;
                 transaction.UnitID = 1;
-                transaction.LedgerID = 4;
+                transaction.LedgerID = 4;//Goods Promised - Pledge	 not found in ledger list
 
                 _unitOfWork.TransactionRepository.Add(transaction);
 
@@ -444,7 +444,7 @@ namespace Cats.Services.Transaction
             var dispatch = _unitOfWork.DispatchRepository.Get(t => t.DispatchID == delivery.DispatchID).FirstOrDefault();
             if (dispatch !=null)
                 transaction.ShippingInstructionID = dispatch.DispatchAllocation.ShippingInstructionID;
-            transaction.LedgerID = 18;
+            transaction.LedgerID = Ledger.Constants.DELIVERY_RECEIPT;
             transaction.FDPID = delivery.FDPID;
             var firstOrDefault = delivery.DeliveryDetails.FirstOrDefault();
             if (firstOrDefault != null)
@@ -469,7 +469,7 @@ namespace Cats.Services.Transaction
             //var dispatch = _unitOfWorkhub.DispatchRepository.Get(t => t.DispatchID == distribution.DispatchID).FirstOrDefault();
             if (dispatch != null)
                 transaction.ShippingInstructionID = dispatch.DispatchAllocation.ShippingInstructionID;
-            transaction.LedgerID = 17;
+            transaction.LedgerID = Ledger.Constants.GOODS_IN_TRANSIT;
             transaction.HubID = delivery.HubID;
             transaction.FDPID = delivery.FDPID;
             //var firstOrDefault = distribution.DeliveryDetails.FirstOrDefault();
