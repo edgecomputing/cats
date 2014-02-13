@@ -30,7 +30,8 @@
         );
         columns.Bound(u => u.FullName).Title("Full Name");
         columns.Bound(u => u.Disabled).Title("Disabled Account");
-        columns.Bound(u => u.LoggedInInd).Title("Currently Logged In");
+        columns.Bound(u => u.LogginDate).Title("Last Logged In").Format("{0:MMM dd yyyy}");
+        columns.Bound(u => u.NumberOfLogins).Title("Total Logins");
         columns.Bound(u => u.LanguageCode).Title("UI Language");
         columns.Bound(u => u.Keyboard).Title("Keyboard Language");
         columns.Bound(u => u.DatePreference).Title("Calendar Preference");
