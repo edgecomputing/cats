@@ -29,6 +29,7 @@ namespace Cats.Models
         public Nullable<int> EnteredBy { get; set; }
         public Nullable<System.DateTime> AllocationDate { get; set; }
         public string Remark { get; set; }
+        public int? Status { get; set; }
         public virtual Commodity Commodity { get; set; }
         public virtual ICollection<DonationPlanDetail> DonationPlanDetails { get; set; }
         public virtual ShippingInstruction ShippingInstruction { get; set; }
