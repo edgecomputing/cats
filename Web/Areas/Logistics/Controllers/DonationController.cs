@@ -83,7 +83,11 @@ namespace Cats.Areas.Logistics.Controllers
         }
 
        
-
+        public ActionResult AddNewDonation()
+        {
+            var model = InitDonationViewModel();
+           return PartialView("addNewDonation", model);
+        }
        
 
         public ActionResult AddNewDonationPlan(string siNumber = null,int typeOfLoad =1)
@@ -135,6 +139,7 @@ namespace Cats.Areas.Logistics.Controllers
                     donationViewModel.Commodities.Add(giftCertificateDetail.Commodity);
                 }
 
+                donationViewModel.CommodityID = giftCertificate.GiftCertificateDetails[0].CommodityID;
                 donationViewModel.Donors.Add(giftCertificate.Donor);
                 donationViewModel.DonorID = giftCertificate.DonorID;
                 donationViewModel.Programs.Add(giftCertificate.Program);
@@ -259,6 +264,7 @@ namespace Cats.Areas.Logistics.Controllers
                                         {
                                             DonationPlanDetails = GetNewDonationDetail(),
                                             ETA = DateTime.Now
+                                            
                                         };
             return donationViewModel;
         }
@@ -272,6 +278,20 @@ namespace Cats.Areas.Logistics.Controllers
 
             }
 
+        public JsonResult Load(string id)
+        {
+            var giftCertificate = _giftCertificateService.GetAllGiftCertificate().SingleOrDefault(d => d.ShippingInstruction.Value == id);
+            return giftCertificate != null ? Json(new {donorId = giftCertificate.DonorID,
+                programId = giftCertificate.ProgramID,
+                eta=giftCertificate.ETA,
+                quantity = giftCertificate.GiftCertificateDetails[0].WeightInMT, 
+                comodity = giftCertificate.GiftCertificateDetails[0].CommodityID,
+                commodityType = giftCertificate.GiftCertificateDetails[0].Commodity.CommodityTypeID
+            }, JsonRequestBehavior.AllowGet) : null;
+        }
+
+    
+        
         private IEnumerable<DonationDetail> GetNewDonationDetail()
         {
             var hubs = _hubService.GetAllHub().Where(h => h.HubOwnerID == 1);
@@ -283,6 +303,21 @@ namespace Cats.Areas.Logistics.Controllers
                                               ReceivedAmount = 0, 
                                               Balance = 0
                                           }).ToList();
+        }
+        public ActionResult SaveHeader(string  id)
+        {
+            try
+            {
+                var donationModel = LoadFromGiftCertificiate(id);
+                SaveNewDonationPlan(donationModel,DoesSIExistInShippingInstruction(id));
+                return RedirectToAction("AddNewDonationPlan", "Donation", new { Area = "Logistics", siNumber = id, typeOfLoad = 0 });
+
+            }
+            catch (Exception)
+            {
+
+               return null;
+            }
         }
 
         public ActionResult Save(DonationViewModel donationViewModel)
@@ -373,28 +408,31 @@ namespace Cats.Areas.Logistics.Controllers
             try
             {
                 var index = 0;
-                var donation = _donationPlanHeaderService.FindBy(s => s.ShippingInstructionId == shippinInstructionId).SingleOrDefault();
+                var donation = _donationPlanDetailService.FindBy(s => s.DonationPlanHeader.ShippingInstructionId == shippinInstructionId).ToList();
                 
-                if (donation!=null)
+                if (donation.Count > 0)
                 {
-                    donation.AllocationDate = DateTime.Now;
-                    donation.CommodityID = donationViewModel.CommodityID;
-                    donation.DonorID = donationViewModel.DonorID;
-                    donation.ETA = donation.ETA;
-                    donation.IsCommited = false;
-                    donation.ProgramID = donationViewModel.ProgramID;
-                    donation.ShippingInstructionId = shippinInstructionId;
-                    donation.DonatedAmount = donationViewModel.WieghtInMT;
+                    
 
 
                     var detailArray = donationViewModel.DonationPlanDetails.ToArray();
-                    foreach (var donationPlanDetail in donation.DonationPlanDetails)
+                    foreach (var donationPlanDetail in donation)
                     {
+                        donationPlanDetail.DonationPlanHeader.AllocationDate = DateTime.Now;
+                        donationPlanDetail.DonationPlanHeader.CommodityID = donationViewModel.CommodityID;
+                        donationPlanDetail.DonationPlanHeader.DonorID = donationViewModel.DonorID;
+                        donationPlanDetail.DonationPlanHeader.ETA = donationPlanDetail.DonationPlanHeader.ETA;
+                        donationPlanDetail.DonationPlanHeader.IsCommited = false;
+                        donationPlanDetail.DonationPlanHeader.ProgramID = donationViewModel.ProgramID;
+                        donationPlanDetail.DonationPlanHeader.ShippingInstructionId = shippinInstructionId;
+                        donationPlanDetail.DonationPlanHeader.DonatedAmount = donationViewModel.WieghtInMT;
+
+
                         donationPlanDetail.AllocatedAmount = detailArray[index].AllocatedAmount;
                         donationPlanDetail.ReceivedAmount = detailArray[index].ReceivedAmount;
                         donationPlanDetail.Balance = detailArray[index].Balance;
                         donationPlanDetail.HubID = detailArray[index].HubID;
-                        donationPlanDetail.DonationPlanHeader = donation;
+                       // donationPlanDetail.DonationPlanHeader = donation;
                         _donationPlanDetailService.EditDonationPlanDetail(donationPlanDetail);
                         index++;
                     }

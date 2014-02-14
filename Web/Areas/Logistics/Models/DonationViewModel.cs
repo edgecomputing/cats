@@ -15,6 +15,10 @@ namespace Cats.Areas.Logistics.Models
         public string SINumber { get; set; }
         public Nullable<int> GiftCertificateID { get; set; }
         public int CommodityID { get; set; }
+        public string commodityName { get; set; }
+        public string DonorName { get; set; }
+        public string ProgramName { get; set; }
+        public string CommoditySourceName { get; set; }
         public int DonorID { get; set; }
         public int ProgramID { get; set; }
         public System.DateTime ETA { get; set; }
