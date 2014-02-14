@@ -473,7 +473,7 @@
     <Compile Include="Areas\Logistics\Controllers\HubAllocationController.cs" />
     <Compile Include="Areas\Logistics\Controllers\ProjectAllocationController.cs" />
     <Compile Include="Areas\Logistics\Controllers\PromisedContributionController.cs" />
-    <Compile Include="Areas\Logistics\Controllers\ReciptPlanForLoanAndOthersController.cs" />
+    <Compile Include="Areas\Logistics\Controllers\ReciptPlanForLoanController.cs" />
     <Compile Include="Areas\Logistics\Controllers\SIAllocationController.cs" />
     <Compile Include="Areas\Logistics\Controllers\LogisticsStockStatusController.cs" />
     <Compile Include="Areas\Logistics\Controllers\TransportRequisitionController.cs" />
@@ -1691,11 +1691,11 @@
     <Content Include="Areas\Regional\Views\Web.config" />
     <Content Include="Areas\Regional\Views\Home\Index.cshtml" />
     <Content Include="Areas\Logistics\Views\LocalPurchase\Details.cshtml" />
-    <Content Include="Areas\Logistics\Views\ReciptPlanForLoanAndOthers\Create.cshtml" />
-    <Content Include="Areas\Logistics\Views\ReciptPlanForLoanAndOthers\Index.cshtml" />
-    <Content Include="Areas\Logistics\Views\ReciptPlanForLoanAndOthers\Edit.cshtml" />
-    <Content Include="Areas\Logistics\Views\ReciptPlanForLoanAndOthers\Detail.cshtml" />
-    <Content Include="Areas\Logistics\Views\ReciptPlanForLoanAndOthers\ReciptPlan.cshtml" />
+    <Content Include="Areas\Logistics\Views\ReciptPlanForLoan\Create.cshtml" />
+    <Content Include="Areas\Logistics\Views\ReciptPlanForLoan\Index.cshtml" />
+    <Content Include="Areas\Logistics\Views\ReciptPlanForLoan\Edit.cshtml" />
+    <Content Include="Areas\Logistics\Views\ReciptPlanForLoan\Detail.cshtml" />
+    <Content Include="Areas\Logistics\Views\ReciptPlanForLoan\ReciptPlan.cshtml" />
     <None Include="dataset.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>dataset.Designer.cs</LastGenOutput>

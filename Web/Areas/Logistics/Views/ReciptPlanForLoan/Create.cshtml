@@ -1,0 +1,154 @@
+﻿@using LanguageHelpers.Localization
+@using Cats.Helpers
+@model Cats.Areas.Logistics.Models.LoanReciptPlanViewModel
+@{
+    ViewBag.Title = "Create";
+    const string PAGE_NAME = "Logistics.ReciptPlanForLoanAndOthers.Create";
+}
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="myModalLabel">@Html.Translate2(PAGE_NAME,"New Recipt Plan from Loan")</h3>
+</div>
+@using (Html.BeginForm("Create", "ReciptPlanForLoan", FormMethod.Post, new { @class = "modal-form",id="myForm1" }))
+{
+    <table border="0" class="form-horizontal">
+        <tr style="width: 300px">
+            <td style="width:50%">
+                <div class="control-label">
+                    @Html.LabelFor(m=>m.SiNumber,@Html.Translate2(PAGE_NAME,"SI Number"))
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(m=>m.SiNumber)
+                    @Html.ValidationMessageFor(m=>m.SiNumber)
+                </div>
+            </td>
+             <td style="width: 50%">
+                 <div class="control-label">
+                    @Html.LabelFor(m=>m.CommodityID,@Html.Translate2(PAGE_NAME,"Commodity Type"))
+                </div>
+                <div class="controls">
+                    @Html.DropDownList("CommodityTypeID")
+                    @Html.ValidationMessageFor(m=>m.CommodityID)
+                </div>
+                
+            </td>
+           @* <td style="width: 50%">
+                <div class="control-label">
+                    @Html.LabelFor(m=>m.HubID,@Html.Translate2(PAGE_NAME,"Hub"))
+                </div>
+                <div class="controls">
+                    @Html.DropDownList("HubID")
+                    @Html.ValidationMessageFor(m=>m.HubID)
+                </div>
+            </td>*@
+        </tr>
+        <tr style="width: 300px">
+            <td style="width: 50%">
+                <div class="control-label">
+                    @Html.LabelFor(m=>m.SourceHubID,@Html.Translate2(PAGE_NAME,"Source Hub"))
+                </div>
+                <div class="controls">
+                    @Html.DropDownList("SourceHubID")
+                    @Html.ValidationMessageFor(m=>m.SourceHubID)
+                </div>
+            </td>
+             <td>
+               <div class="control-label">
+                    @Html.LabelFor(m=>m.CommodityID,@Html.Translate2(PAGE_NAME,"Commodity"))
+                </div>
+                <div class="controls">
+                    @Html.DropDownList("CommodityID")
+                    @Html.ValidationMessageFor(m=>m.CommodityID)
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="control-label">
+                    @Html.LabelFor(m=>m.ProgramID,@Html.Translate2(PAGE_NAME,"Program"))
+                </div>
+                <div class="controls">
+                    @Html.DropDownList("ProgramID")
+                    @Html.ValidationMessageFor(m=>m.ProgramID)
+                </div>
+            </td>
+            <td>
+                <div class="control-label">
+                    @Html.LabelFor(m=>m.RefeenceNumber,@Html.Translate2(PAGE_NAME,"Reference Number"))
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(m=>m.RefeenceNumber)
+                    @Html.ValidationMessageFor(m=>m.RefeenceNumber)
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                 <div class="control-label">
+                    @Html.LabelFor(m=>m.CommoditySourceID,@Html.Translate2(PAGE_NAME,"Commodity Source"))
+                </div>
+                <div class="controls">
+                    @Html.DropDownList("CommoditySourceID")
+                    @Html.ValidationMessageFor(m=>m.CommoditySourceID)
+
+                </div>
+            </td>
+           <td>
+                <div class="control-label">
+                    @Html.LabelFor(m=>m.Quantity,@Html.Translate2(PAGE_NAME,"Quantity in MT"))
+                </div> 
+                <div class="controls">
+                    @Html.TextBoxFor(m=>m.Quantity)
+                    @Html.ValidationMessageFor(m=>m.Quantity)
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="control-label">
+                    @Html.LabelFor(m=>m.ProjectCode,@Html.Translate2(PAGE_NAME,"Project Code"))
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(m=>m.ProjectCode)
+                    @Html.ValidationMessageFor(m=>m.ProjectCode)
+                </div>
+               
+            </td>
+            @*<td>
+                <div class="control-label">
+                    @Html.LabelFor(m=>m.Quantity,@Html.Translate2(PAGE_NAME,"Quantity in MT"))
+                </div> 
+                <div class="controls">
+                    @Html.TextBoxFor(m=>m.Quantity)
+                    @Html.ValidationMessageFor(m=>m.Quantity)
+                </div>
+            </td>*@
+        </tr>
+    </table>
+    
+    <div class="modal-footer"> <button class="btn btn-primary" type="submit">Save</button>
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+       
+    </div>
+}
+<script>
+$(document).ready(function () {
+ 
+        var allValidationRules = {
+            RefeenceNumber: "required",
+            ProjectCode: "required",
+            Quantity: "required",
+            SiNumber:"required"
+            
+        };
+        $("#myForm1").validate({
+            rules: allValidationRules,
+            showErrors: function (element, errorClass, validClass) {
+                for (var i in errorClass) {
+                    $(errorClass[i].element).popover('show');
+                }
+            }
+        });
+});
+    </script>

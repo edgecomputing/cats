@@ -218,7 +218,8 @@ namespace Cats.Areas.PSNP.Controllers
                                  BeneficiaryCount = fdb.BeneficiaryCount,
                                  RegionalPSNPPlanID = fdb.RegionalPSNPPlanID,
                                  FoodRatio = fdb.FoodRatio,
-                                 CashRatio = fdb.CashRatio
+                                 CashRatio = fdb.CashRatio,
+                                 RegionName = fdp.AdminUnit.AdminUnit2.AdminUnit2.Name
                              };
             }
             return Json(allFDPData.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
