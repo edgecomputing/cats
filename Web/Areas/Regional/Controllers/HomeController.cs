@@ -11,14 +11,6 @@ namespace Cats.Areas.Regional.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly IRegionalDashboard _regionalDashboard;
-
-        public HomeController(IRegionalDashboard regionalDashboard)
-        {
-            _regionalDashboard = regionalDashboard;
-        }
-
-
         //
         // GET: /Regional/Home/
         public ActionResult Index()
@@ -27,11 +19,6 @@ namespace Cats.Areas.Regional.Controllers
             return View();
         }
 
-        public JsonResult Requests()
-        {
-            var requests = _regionalDashboard.GetRecentRequests();
-            return Json(requests, JsonRequestBehavior.AllowGet);
-        }
-
+       
     }
 }
