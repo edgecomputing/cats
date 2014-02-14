@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using Cats.Data.UnitWork;
 using Cats.Models;
@@ -111,6 +112,16 @@ namespace Cats.Services.Logistics
                return false;
            }
        }
+        public decimal GetRemainingAmount(int id)
+        {
+            var localPurchase = _unitOfWork.LocalPurchaseRepository.FindById(id);
+            if (localPurchase != null)
+            {
+                decimal totalRecieved = localPurchase.LocalPurchaseDetails.Sum(reciptPlanDetail => reciptPlanDetail.AllocatedAmount);
+                return localPurchase.Quantity - totalRecieved;
+            }
+            return 0;
+        }
    }
    }
    

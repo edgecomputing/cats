@@ -46,11 +46,11 @@
         <tr style="width: 300px">
             <td style="width: 50%">
                 <div class="control-label">
-                    @Html.LabelFor(m=>m.SourceHubID,@Html.Translate2(PAGE_NAME,"Source Hub"))
+                    @Html.LabelFor(m=>m.LoanSource,@Html.Translate2(PAGE_NAME,"Loan Source"))
                 </div>
                 <div class="controls">
-                    @Html.DropDownList("SourceHubID")
-                    @Html.ValidationMessageFor(m=>m.SourceHubID)
+                    @Html.TextBoxFor(m=>m.LoanSource)
+                    @Html.ValidationMessageFor(m=>m.LoanSource)
                 </div>
             </td>
              <td>
@@ -89,7 +89,7 @@
                     @Html.LabelFor(m=>m.CommoditySourceID,@Html.Translate2(PAGE_NAME,"Commodity Source"))
                 </div>
                 <div class="controls">
-                    @Html.DropDownList("CommoditySourceID")
+                    @Html.TextBoxFor(m=>m.CommoditySourceName,new {Disabled=true})
                     @Html.ValidationMessageFor(m=>m.CommoditySourceID)
 
                 </div>
@@ -139,7 +139,8 @@ $(document).ready(function () {
             RefeenceNumber: "required",
             ProjectCode: "required",
             Quantity: "required",
-            SiNumber:"required"
+            SiNumber: "required",
+            LoanSource:"required"
             
         };
         $("#myForm1").validate({

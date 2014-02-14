@@ -90,7 +90,7 @@ namespace Cats.Services.Logistics
                         SINumber = loanReciptPlan.ShippingInstruction.Value,
                         QuantityInMT = loanReciptPlanDetail.RecievedQuantity,
                         HubID = loanReciptPlanDetail.HubID,
-                        SourceHubID = loanReciptPlan.SourceHubID,
+                        //SourceHubID = loanReciptPlan.SourceHubID,
                         ProgramID = loanReciptPlan.ProgramID,
                         IsClosed = false
                     };

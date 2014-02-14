@@ -11,11 +11,11 @@ namespace Cats.Areas.Logistics.Models
         public int LoanReciptPlanID { get; set; }
         public int ProgramID { get; set; }
         public string ProgramName { get; set; }
-        public int HubID { get; set; }
-        public string HubName { get; set; }
+        //public int HubID { get; set; }
+        //public string HubName { get; set; }
         public int CommoditySourceID  { get; set; }
         public int CommodityID { get; set; }
-        public int SourceHubID { get; set; }
+        public string LoanSource { get; set; }
         public string SourceHubName { get; set; }
         public string CommodityName { get; set; }
         public string CommoditySourceName { get; set; }
@@ -23,7 +23,7 @@ namespace Cats.Areas.Logistics.Models
         public decimal Quantity { get; set; }
         public string ProjectCode { get; set; }
         public string SiNumber { get; set; }
-        public DateTime CreatedDate { get; set; }
+        public string CreatedDate { get; set; }
         public int StatusID { get; set; }
         public string Status { get; set; }
 
@@ -41,6 +41,7 @@ namespace Cats.Areas.Logistics.Models
          //[Range(0, "Remaining", ErrorMessage = "Minimum value allowed is 0")]
         public decimal Amount { get; set; }
         public decimal Remaining { get; set; }
+        public string CreatedDate { get; set; }
 
 
         //public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

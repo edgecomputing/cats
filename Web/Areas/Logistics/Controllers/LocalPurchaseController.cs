@@ -93,11 +93,7 @@ namespace Cats.Areas.Logistics.Controllers
 
                         SaveNewLocalPurchase(localPurchaseWithDetailViewModel, shippingInstractionID);
                     }
-                    else
-                    {
-
-                        //UpdateLocalPurchase(localPurchaseWithDetailViewModel, shippingInstractionID);
-                    }
+                    
                 }
                 else
                 {
@@ -208,7 +204,9 @@ namespace Cats.Areas.Logistics.Controllers
                             HubID = localPurchaseDetail.HubID,
                             HubName = localPurchaseDetail.Hub.Name,
                             AllocatedAmonut = localPurchaseDetail.AllocatedAmount,
-                            RecievedAmonut = localPurchaseDetail.RecievedAmount
+                            RecievedAmonut = localPurchaseDetail.RecievedAmount,
+                            RemainingAmonut = _localPurchaseService.GetRemainingAmount(localPurchaseDetail.LocalPurchaseID)
+                            
                         });
 
         }

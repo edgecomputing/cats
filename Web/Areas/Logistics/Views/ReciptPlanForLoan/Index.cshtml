@@ -45,12 +45,13 @@
               .Name("grid")
               .Columns(columns =>
                   {
-                      columns.Bound(m => m.SiNumber).Title(@Html.Translate2(pageName, "SI Number")).ClientTemplate("<a href='" + Url.Action("Detail", "ReciptPlanForLoan", new { id = "#=LoanReciptPlanID#" }) + " '>#=SiNumber#</a>  "); 
+                      columns.Bound(m => m.SiNumber).Title(@Html.Translate2(pageName, "SI Number")).ClientTemplate("<a href='" + Url.Action("Detail", "ReciptPlanForLoan", new { id = "#=LoanReciptPlanID#" }) + " '>#=SiNumber#</a>  ");
+                      columns.Bound(m => m.LoanSource).Width(200).Title(@Html.Translate2(pageName, "Loan Source"));
                       columns.Bound(m => m.ProgramName).Title(@Html.Translate2(pageName,"Program"));
                       columns.Bound(m => m.CommodityName).Width(200).Title(@Html.Translate2(pageName,"Commodity"));
                       columns.Bound(m => m.CommoditySourceName).Width(200).Title(@Html.Translate2(pageName,"Commodity Source"));
-                      columns.Bound(m => m.SourceHubName).Width(200).Title(@Html.Translate2(pageName,"Source Hub"));
                       columns.Bound(m => m.Quantity).HtmlAttributes(new {align = "right"}).Title(@Html.Translate2(pageName,"Quantity in MT"));
+                      columns.Bound(m => m.CreatedDate).Title("Created Date");
                       columns.Bound(m => m.Status);
                       //columns.Command(p =>
                       //{

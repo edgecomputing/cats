@@ -18,6 +18,7 @@ namespace Cats.Services.Logistics
        List<LocalPurchase> FindBy(Expression<Func<LocalPurchase, bool>> predicate);
        List<Models.Hub> GetAllHub();
        bool Approve(LocalPurchase  localPurchase);
+       decimal GetRemainingAmount(int id);
 
 
    }

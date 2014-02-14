@@ -2,13 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
+using System.Web.Mvc;
 using Cats.Areas.Logistics.Controllers;
 using Cats.Models;
 using Cats.Models.Constant;
+using Cats.Models.Security;
 using Cats.Services.Common;
 using Cats.Services.Logistics;
+using Cats.Services.Security;
 using Kendo.Mvc.UI;
 using Moq;
 using NUnit.Framework;
@@ -95,13 +100,24 @@ namespace Cats.Tests.ControllersTests
                               It.IsAny<string>())).Returns(new List<Program>() { new Program() { ProgramID = 1, Name = "PSNP" } });
             commonService.Setup(t=>t.GetStatusName(It.IsAny<WORKFLOW>(), It.IsAny<int>())).Returns("Draft");
 
-
-
+            var userAccountService = new Mock<IUserAccountService>();
+            userAccountService.Setup(t => t.GetUserInfo(It.IsAny<string>())).Returns(new UserInfo()
+            {
+                UserName = "x",
+                DatePreference = "en"
+            });
+            var fakeContext = new Mock<HttpContextBase>();
+            var identity = new GenericIdentity("User");
+            var principal = new GenericPrincipal(identity, null);
+            fakeContext.Setup(t => t.User).Returns(principal);
+            var controllerContext = new Mock<ControllerContext>();
+            controllerContext.Setup(t => t.HttpContext).Returns(fakeContext.Object);
             commonService.Setup(
             t =>
             t.GetCommoditySource()).Returns(new List<CommoditySource>() { new CommoditySource() { CommoditySourceID = 1, Name = "Loan" } });
 
-            _reciptPlanForLoanController = new ReciptPlanForLoanController(loanService.Object, commonService.Object, loanDetailService.Object);
+            _reciptPlanForLoanController = new ReciptPlanForLoanController(loanService.Object, commonService.Object, loanDetailService.Object, userAccountService.Object);
+            _reciptPlanForLoanController.ControllerContext = controllerContext.Object;
         }
         [TearDown]
         public void Dispose()
