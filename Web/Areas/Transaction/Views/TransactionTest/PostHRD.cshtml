@@ -1,5 +1,5 @@
 ﻿@using Cats.Models;
-@model IEnumerable<Cats.Models.AccountTransaction>
+@model IEnumerable<Cats.Models.Transaction>
 
 @{
     ViewBag.Title = "index";
@@ -130,9 +130,9 @@
         </td>
         <!--
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.AccountTransactionID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.AccountTransactionID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.AccountTransactionID })
+            @Html.ActionLink("Edit", "Edit", new { id=item.TransactionID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.TransactionID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.TransactionID })
         </td>-->
     </tr>
 }
