@@ -462,6 +462,159 @@ namespace Cats.Data.Tests.ServicesTest.EarlyWarning
                       It.IsAny<Func<IQueryable<ProjectCode>, IOrderedQueryable<ProjectCode>>>(),
                       It.IsAny<string>())).Returns(projectCodes);
 
+            var regionalPSNPPlans = new List<RegionalPSNPPlan>()
+                                       {
+                                           new RegionalPSNPPlan()
+                                               {
+                                                   RegionalPSNPPlanID = 1,
+                                                   Year = 2014,
+                                                   Duration = 5,
+                                                   RationID = 1,
+                                                   StatusID = 1,
+                                                   PlanId = 1,
+                                                   RegionalPSNPPlanDetails = new List<RegionalPSNPPlanDetail>()
+                                                                                 {
+                                                                                    new RegionalPSNPPlanDetail()
+                                                                                        {
+                                                                                            RegionalPSNPPlanDetailID = 1,
+                                                                                            RegionalPSNPPlanID = 1,
+                                                                                            PlanedFDPID = 1,
+                                                                                            BeneficiaryCount = 200,
+                                                                                            FoodRatio = 3,
+                                                                                            CashRatio = 3,
+                                                                                            Item3Ratio = 0,
+                                                                                            Item4Ratio = 0
+                                                                                        }
+                                                                                 }
+                                               }
+                                       };
+            var regionalPSNPPlanRepositoy = new Mock<IGenericRepository<RegionalPSNPPlan>>();
+            regionalPSNPPlanRepositoy.Setup(
+                t =>
+                t.Get(It.IsAny<Expression<Func<RegionalPSNPPlan, bool>>>(),
+                      It.IsAny<Func<IQueryable<RegionalPSNPPlan>, IOrderedQueryable<RegionalPSNPPlan>>>(),
+                      It.IsAny<string>())).Returns(regionalPSNPPlans);
+
+            var rations = new List<Ration>()
+                                       {
+                                           new Ration()
+                                               {
+                                                   RationID = 1,
+                                                   CreatedDate = DateTime.Now,
+                                                   IsDefaultRation = true,
+                                                   RefrenceNumber = "Ration-Default",
+                                                   RationDetails = new List<RationDetail>()
+                                                                       {
+                                                                           new RationDetail()
+                                                                               {
+                                                                                   RationDetailID = 1,
+                                                                                   RationID =1,
+                                                                                   CommodityID = 1,
+                                                                                   Amount = 20,
+                                                                               },
+                                                                           new RationDetail()
+                                                                               {
+                                                                                   RationDetailID = 2,
+                                                                                   RationID =1,
+                                                                                   CommodityID = 2,
+                                                                                   Amount = 20,
+                                                                               }
+                                                                       }
+                                               }
+                                       };
+            var rationRepositoy = new Mock<IGenericRepository<Ration>>();
+            rationRepositoy.Setup(
+                t =>
+                t.Get(It.IsAny<Expression<Func<Ration, bool>>>(),
+                      It.IsAny<Func<IQueryable<Ration>, IOrderedQueryable<Ration>>>(),
+                      It.IsAny<string>())).Returns(rations);
+
+            var hrds = new List<HRD>()
+                           {
+                               new HRD()
+                                   {
+                                       HRDID = 1,
+                                       Year = 2014,
+                                       CreatedDate = DateTime.Now,
+                                       PublishedDate = DateTime.Now,
+                                       RationID = 1,
+                                       PlanID = 1,
+                                       Ration = new Ration()
+                                                    {
+                                                        RationID = 1,
+                                                        CreatedDate = DateTime.Now,
+                                                        IsDefaultRation = true,
+                                                        RefrenceNumber = "Ration-Default",
+                                                        RationDetails = new List<RationDetail>()
+                                                                            {
+                                                                                new RationDetail()
+                                                                                    {
+                                                                                        RationDetailID = 1,
+                                                                                        RationID = 1,
+                                                                                        CommodityID = 1,
+                                                                                        Amount = 20,
+                                                                                    },
+                                                                                new RationDetail()
+                                                                                    {
+                                                                                        RationDetailID = 2,
+                                                                                        RationID = 1,
+                                                                                        CommodityID = 2,
+                                                                                        Amount = 20,
+                                                                                    }
+                                                                            },
+                                                    },
+                                       HRDDetails = new List<HRDDetail>()
+                                                        {
+                                                            new HRDDetail()
+                                                                {
+                                                                    HRDDetailID = 1,
+                                                                    HRDID = 1,
+                                                                    WoredaID = 3,
+                                                                    NumberOfBeneficiaries = 123,
+                                                                    DurationOfAssistance = 6,
+                                                                    StartingMonth = 6,
+                                                                    AdminUnit = new AdminUnit()
+                                                                                    {
+                                                                                        AdminUnitID = 3,
+                                                                                        Name = "Woreda1",
+                                                                                        AdminUnitTypeID = 4,
+                                                                                        AdminUnit2 = new AdminUnit()
+                                                                                                         {
+                                                                                                             AdminUnitID
+                                                                                                                 = 2,
+                                                                                                             Name =
+                                                                                                                 "Zone1",
+                                                                                                             AdminUnitTypeID
+                                                                                                                 = 3,
+                                                                                                             AdminUnit2
+                                                                                                                 =
+                                                                                                                 new AdminUnit
+                                                                                                                 ()
+                                                                                                                     {
+                                                                                                                         AdminUnitID
+                                                                                                                             =
+                                                                                                                             1,
+                                                                                                                         Name
+                                                                                                                             =
+                                                                                                                             "Region1",
+                                                                                                                         AdminUnitTypeID
+                                                                                                                             =
+                                                                                                                             2,
+                                                                                                                     }
+                                                                                                         }
+                                                                                    }
+                                                                }
+                                                        }
+
+                                   }
+                           };
+            var hrdRepositoy = new Mock<IGenericRepository<HRD>>();
+            hrdRepositoy.Setup(
+                t =>
+                t.Get(It.IsAny<Expression<Func<HRD, bool>>>(),
+                      It.IsAny<Func<IQueryable<HRD>, IOrderedQueryable<HRD>>>(),
+                      It.IsAny<string>())).Returns(hrds);
+
             var transactionRepository = new Mock<IGenericRepository<Models.Transaction>>();
             transactionRepository.Setup(t => t.Add(It.IsAny<Models.Transaction>())).Returns(true);
             var transactionGroupRepository = new Mock<IGenericRepository<TransactionGroup>>();
@@ -476,6 +629,9 @@ namespace Cats.Data.Tests.ServicesTest.EarlyWarning
             unitOfWork.Setup(t => t.SIPCAllocationRepository).Returns(siPCAllocationRepositoy.Object);
             unitOfWork.Setup(t => t.ShippingInstructionRepository).Returns(shippingInstructionRepositoy.Object);
             unitOfWork.Setup(t => t.ProjectCodeRepository).Returns(projectCodeRepositoy.Object);
+            unitOfWork.Setup(t => t.RegionalPSNPPlanRepository).Returns(regionalPSNPPlanRepositoy.Object);
+            unitOfWork.Setup(t => t.RationRepository).Returns(rationRepositoy.Object);
+            unitOfWork.Setup(t => t.HRDRepository).Returns(hrdRepositoy.Object);
             unitOfWork.Setup(t => t.TransactionRepository).Returns(transactionRepository.Object);
             unitOfWork.Setup(t => t.TransactionGroupRepository).Returns(transactionGroupRepository.Object);
             unitOfWork.Setup(t => t.Save());
@@ -520,6 +676,163 @@ namespace Cats.Data.Tests.ServicesTest.EarlyWarning
 
             //Assert
             Assert.IsTrue(result);
+        }
+
+        [Test]
+        public void ShouldPostPSNPPlanTransaction()
+        {
+            //Act
+            var regionalPSNPPlan = new RegionalPSNPPlan()
+                                                {
+                                                    RegionalPSNPPlanID = 1,
+                                                    Year = 2014,
+                                                    Duration = 5,
+                                                    RationID = 1,
+                                                    StatusID = 1,
+                                                    PlanId = 1,
+                                                    RegionalPSNPPlanDetails = new List<RegionalPSNPPlanDetail>()
+                                                                                        {
+                                                                                        new RegionalPSNPPlanDetail()
+                                                                                            {
+                                                                                                RegionalPSNPPlanDetailID = 1,
+                                                                                                RegionalPSNPPlanID = 1,
+                                                                                                PlanedFDPID = 1,
+                                                                                                BeneficiaryCount = 200,
+                                                                                                FoodRatio = 3,
+                                                                                                CashRatio = 3,
+                                                                                                Item3Ratio = 0,
+                                                                                                Item4Ratio = 0
+                                                                                            }
+                                                                                        }
+                                                };
+
+            var ration = new Ration()
+                                {
+                                    RationID = 1,
+                                    CreatedDate = DateTime.Now,
+                                    IsDefaultRation = true,
+                                    RefrenceNumber = "Ration-Default",
+                                    RationDetails = new List<RationDetail>()
+                                                        {
+                                                            new RationDetail()
+                                                                {
+                                                                    RationDetailID = 1,
+                                                                    RationID =1,
+                                                                    CommodityID = 1,
+                                                                    Amount = 20,
+                                                                },
+                                                            new RationDetail()
+                                                                {
+                                                                    RationDetailID = 2,
+                                                                    RationID =1,
+                                                                    CommodityID = 2,
+                                                                    Amount = 20,
+                                                                }
+                                                        }
+                                };
+            var result = _accountTransactionService.PostPSNPPlan(regionalPSNPPlan, ration);
+
+            //Assert
+            Assert.IsInstanceOf<List<Models.Transaction>>(result);
+        }
+
+        [Test]
+        public void ShouldPostHRDPlanTransaction()
+        {
+            //Act
+            var hrd = new HRD()
+            {
+                HRDID = 1,
+                Year = 2014,
+                CreatedDate = DateTime.Now,
+                PublishedDate = DateTime.Now,
+                RationID = 1,
+                PlanID = 1,
+                Ration = new Ration()
+                                {
+                                    RationID = 1,
+                                    CreatedDate = DateTime.Now,
+                                    IsDefaultRation = true,
+                                    RefrenceNumber = "Ration-Default",
+                                    RationDetails = new List<RationDetail>()
+                                                                        {
+                                                                            new RationDetail()
+                                                                                {
+                                                                                    RationDetailID = 1,
+                                                                                    RationID =1,
+                                                                                    CommodityID = 1,
+                                                                                    Amount = 20,
+                                                                                },
+                                                                            new RationDetail()
+                                                                                {
+                                                                                    RationDetailID = 2,
+                                                                                    RationID =1,
+                                                                                    CommodityID = 2,
+                                                                                    Amount = 20,
+                                                                                }
+                                                                        },
+                                },
+                HRDDetails = new List<HRDDetail>()
+                                 {
+                                     new HRDDetail()
+                                         {
+                                             HRDDetailID = 1,
+                                             HRDID = 1,
+                                             WoredaID = 3,
+                                             NumberOfBeneficiaries = 123,
+                                             DurationOfAssistance = 6,
+                                             StartingMonth = 6,
+                                             AdminUnit = new AdminUnit()
+                                                             {
+                                                                 AdminUnitID = 3,
+                                                                 Name = "Woreda1",
+                                                                 AdminUnitTypeID = 4,
+                                                                 AdminUnit2 = new AdminUnit()
+                                                                                  {
+                                                                                      AdminUnitID = 2,
+                                                                                      Name = "Zone1",
+                                                                                      AdminUnitTypeID = 3,
+                                                                                      AdminUnit2 = new AdminUnit()
+                                                                                                        {
+                                                                                                            AdminUnitID = 1,
+                                                                                                            Name = "Region1",
+                                                                                                            AdminUnitTypeID = 2,
+                                                                                                        }
+                                                                                  }
+                                                             }
+                                         }
+                                 }
+
+            };
+
+            var ration = new Ration()
+            {
+                RationID = 1,
+                CreatedDate = DateTime.Now,
+                IsDefaultRation = true,
+                RefrenceNumber = "Ration-Default",
+                RationDetails = new List<RationDetail>()
+                                                        {
+                                                            new RationDetail()
+                                                                {
+                                                                    RationDetailID = 1,
+                                                                    RationID =1,
+                                                                    CommodityID = 1,
+                                                                    Amount = 20,
+                                                                },
+                                                            new RationDetail()
+                                                                {
+                                                                    RationDetailID = 2,
+                                                                    RationID =1,
+                                                                    CommodityID = 2,
+                                                                    Amount = 20,
+                                                                }
+                                                        }
+            };
+            var result = _accountTransactionService.PostHRDPlan(hrd, ration);
+
+            //Assert
+            Assert.IsInstanceOf<List<Models.Transaction>>(result);
         }
 
         #endregion

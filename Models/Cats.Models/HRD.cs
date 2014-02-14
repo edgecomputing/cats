@@ -21,6 +21,8 @@ namespace Cats.Models
         //public Nullable<int> NeedAssessmentID { get; set; }
         public Nullable<int> Status { get; set; }
         public int PlanID { get; set; }
+        public Nullable<System.Guid> TransactionGroupID { get; set; }
+        public virtual TransactionGroup TransactionGroup { get; set; }
         public virtual Ration Ration { get; set; }
         public virtual ICollection<HRDDetail> HRDDetails { get; set; }
         public virtual UserProfile UserProfile { get; set; }

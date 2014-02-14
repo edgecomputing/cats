@@ -56,6 +56,8 @@ namespace Cats.Models
         {
             public const string SHIPPNG_INSTRUCTION = "SI";
             public const string PROJECT_CODE = "PC";
+            public const int HRD_PROGRAM_ID = 1;
+            public const int PSNP_PROGRAM_ID = 2;
         }
     }
 }
