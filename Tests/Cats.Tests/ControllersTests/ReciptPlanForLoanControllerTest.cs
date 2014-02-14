@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using Cats.Areas.Logistics.Controllers;
+using Cats.Areas.Logistics.Models;
 using Cats.Models;
 using Cats.Models.Constant;
 using Cats.Models.Security;
@@ -17,6 +18,7 @@ using Cats.Services.Security;
 using Kendo.Mvc.UI;
 using Moq;
 using NUnit.Framework;
+using Hub = Cats.Models.Hub;
 
 namespace Cats.Tests.ControllersTests
 {   
@@ -125,13 +127,30 @@ namespace Cats.Tests.ControllersTests
             _reciptPlanForLoanController.Dispose();
         }
         #endregion
+         [Test]
+       public void CanCreateNewReciptPlan()
+        {
+            var loanReciptPlan = new LoanReciptPlanViewModel();
+            var result = _reciptPlanForLoanController.Create(loanReciptPlan);
+            Assert.IsNotNull(result);
+        }
 
-        //[Test]
-        //public void CanReadReciptPlan()
-        //{
-        //    var request = new DataSourceRequest();
-        //    var result = _reciptPlanForLoanController.LoanReciptPlan_Read(request);
-        //    Assert.IsNotNull(result);
-        //}
+        [Test]
+        public void CanEdit()
+        {
+            var result = _reciptPlanForLoanController.Edit(2);
+            Assert.IsNotNull(result);
+        }
+       //[Test]
+       // public void CanReadReciptPlanDetail()
+       //{
+       //    var request = new DataSourceRequest();
+       //    const int loanReciptPlanID = 1;
+      
+       //   var result = _reciptPlanForLoanController.LoanReciptPlanDetail_Read(request, loanReciptPlanID);
+
+       //   Assert.IsNotNull(result);
+       //}
+       
     }
 }
