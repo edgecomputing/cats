@@ -6,7 +6,6 @@ using System.Text;
 using Cats.Data.UnitWork;
 using Cats.Models;
 using Cats.Models.Constant;
-using Cats.Models.Security;
 
 namespace Cats.Services.Common
 {

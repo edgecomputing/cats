@@ -5,7 +5,6 @@ using System.Linq;
 using System.Linq.Expressions;
       using Cats.Models;
       using Cats.Models.Constant;
-      using Cats.Models.Security;
 
 namespace Cats.Services.Common
 {
