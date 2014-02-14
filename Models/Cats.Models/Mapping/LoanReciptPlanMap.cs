@@ -19,14 +19,14 @@ namespace Cats.Models.Mapping
            this.ToTable("LoanReciptPlan");
            this.Property(t => t.LoanReciptPlanID).HasColumnName("LoanReciptPlanID");
            this.Property(t => t.ShippingInstructionID).HasColumnName("ShippingInstructionID");
-           this.Property(t => t.SourceHubID).HasColumnName("SourceHubID");
+           this.Property(t => t.LoanSource).HasColumnName("LoanSource");
            this.Property(t => t.ProgramID).HasColumnName("ProgramID");
            this.Property(t => t.ProjectCode).HasColumnName("ProjectCode");
            this.Property(t => t.CreatedDate).HasColumnName("CreatedDate");
            this.Property(t => t.ReferenceNumber).HasColumnName("ReferenceNumber");
            this.Property(t => t.CommoditySourceID).HasColumnName("CommoditySourceID");
            this.Property(t => t.CommodityID).HasColumnName("CommodityID");
-           this.Property(t => t.HubID).HasColumnName("HubID");
+          // this.Property(t => t.HubID).HasColumnName("HubID");
            this.Property(t => t.Quantity).HasColumnName("Quantity");
            this.Property(t => t.StatusID).HasColumnName("StatusID");
 
@@ -35,9 +35,9 @@ namespace Cats.Models.Mapping
                .WithMany(t => t.LoanReciptPlans)
                .HasForeignKey(d => d.ShippingInstructionID);
 
-           this.HasRequired(t => t.Hub)
-           .WithMany(t => t.LoanReciptPlans)
-           .HasForeignKey(d => d.SourceHubID);
+           //this.HasRequired(t => t.Hub)
+           //.WithMany(t => t.LoanReciptPlans)
+           //.HasForeignKey(d => d.SourceHubID);
 
            this.HasRequired(t => t.Program)
            .WithMany(t => t.LoanReciptPlans)
@@ -51,9 +51,9 @@ namespace Cats.Models.Mapping
            .WithMany(t => t.LoanReciptPlans)
            .HasForeignKey(d => d.CommodityID);
 
-           this.HasRequired(t => t.OriginHub)
-           .WithMany(t => t.LoanReciptPlans2)
-           .HasForeignKey(d => d.HubID);
+           //this.HasRequired(t => t.Hub)
+           //.WithMany(t => t.LoanReciptPlans)
+           //.HasForeignKey(d => d.SourceHubID);
        }
 
     }

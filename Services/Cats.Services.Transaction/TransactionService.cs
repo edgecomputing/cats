@@ -98,37 +98,48 @@ namespace Cats.Services.Transaction
                 int noben = regionalBenCount[r];
                 if (noben > 0)
                 {
+                    Guid transactionGroupID = Guid.NewGuid();
+                    DateTime transactionDate = DateTime.Now;
                     foreach (RationDetail rd in ration.RationDetails)
                     {
                         decimal amount = rd.Amount * noben;
-
+                        
                         Models.Transaction entry2 = new Models.Transaction
                         {
                             RegionID = RegionID,
                             CommodityID = rd.CommodityID,
                             Round = r + 1,
-                            ProgramID = 2,
-                            QuantityInUnit = -amount,
+                            ProgramID = TransactionConstants.Constants.HRD_PROGRAM_ID,
+                            QuantityInUnit = amount,
                             UnitID = 1,
-                            QuantityInMT = -amount,
-                            LedgerID = Cats.Models.Ledger.Constants.REQUIRMENT_DOCUMENT_PALN // previously 200
-                            
+                            QuantityInMT = amount,
+                            LedgerID = Cats.Models.Ledger.Constants.REQUIRMENT_DOCUMENT_PALN, // previously 200
+                            TransactionDate = transactionDate,
+                            TransactionGroupID = transactionGroupID,
+                            TransactionID = Guid.NewGuid(),
                         };
                         Models.Transaction entry1 = new Models.Transaction
                         {
                             RegionID = RegionID,
                             CommodityID = rd.CommodityID,
                             Round = r + 1,
-                            ProgramID = 2,
-                            QuantityInUnit = amount,
+                            ProgramID = TransactionConstants.Constants.HRD_PROGRAM_ID,
+                            QuantityInUnit = -amount,
                             UnitID = 1,
-                            QuantityInMT = amount,
-                            LedgerID = Cats.Models.Ledger.Constants.REQUIRMENT_DOCUMENT //previously 100
+                            QuantityInMT = -amount,
+                            LedgerID = Cats.Models.Ledger.Constants.REQUIRMENT_DOCUMENT, //previously 100
+                            TransactionDate = transactionDate,
+                            TransactionGroupID = transactionGroupID,
+                            TransactionID = Guid.NewGuid(),
                         };
+                        _unitOfWork.TransactionRepository.Add(entry1);
+                        _unitOfWork.TransactionRepository.Add(entry2);
+                        _unitOfWork.Save();
                         entries.Add(entry1);
                         entries.Add(entry2);
-
                     }
+                    hrd.TransactionGroupID = transactionGroupID;
+                    _unitOfWork.HRDRepository.Edit(hrd);
                 }
             }
             return entries;
@@ -153,6 +164,8 @@ namespace Cats.Services.Transaction
                 int noben = regionalBenCount[r];
                 if (noben > 0)
                 {
+                    Guid transactionGroupID = Guid.NewGuid();
+                    DateTime transactionDate = DateTime.Now;
                     foreach (RationDetail rd in ration.RationDetails)
                     {
                         decimal amount = rd.Amount * noben;
@@ -162,47 +175,54 @@ namespace Cats.Services.Transaction
                            
                             CommodityID = rd.CommodityID,
                             Round = r + 1,
-                            ProgramID = 2,
-                            QuantityInUnit = -amount,
+                            ProgramID = TransactionConstants.Constants.PSNP_PROGRAM_ID,
+                            QuantityInUnit = amount,
                             UnitID=1,
-                            QuantityInMT = -amount,
-                            LedgerID = Cats.Models.Ledger.Constants.REQUIRMENT_DOCUMENT_PALN // previously 200
+                            QuantityInMT = amount,
+                            LedgerID = Cats.Models.Ledger.Constants.REQUIRMENT_DOCUMENT_PALN, // previously 200
+                            TransactionDate = transactionDate,
+                            TransactionGroupID = transactionGroupID,
+                            TransactionID = Guid.NewGuid(),
                         };
                         Models.Transaction entry1 = new Models.Transaction
                         {
                            
                             CommodityID = rd.CommodityID,
                             Round = r + 1,
-                            ProgramID = 2,
-                            QuantityInUnit = amount,
+                            ProgramID = TransactionConstants.Constants.PSNP_PROGRAM_ID,
+                            QuantityInUnit = -amount,
                             UnitID = 1,
-                            QuantityInMT = amount,
-                            LedgerID = Cats.Models.Ledger.Constants.REQUIRMENT_DOCUMENT //previously 100
+                            QuantityInMT = -amount,
+                            LedgerID = Cats.Models.Ledger.Constants.REQUIRMENT_DOCUMENT, //previously 100
+                            TransactionDate = transactionDate,
+                            TransactionGroupID = transactionGroupID,
+                            TransactionID = Guid.NewGuid(),
                         };
+                        _unitOfWork.TransactionRepository.Add(entry1);
+                        _unitOfWork.TransactionRepository.Add(entry2);
+                        _unitOfWork.Save();
                         entries.Add(entry1);
                         entries.Add(entry2);
-
                     }
+                    plan.TransactionGroupID = transactionGroupID;
+                    _unitOfWork.RegionalPSNPPlanRepository.Edit(plan);
                 }
             }
-            PostTransaction(entries);
             return entries;
             
         }
-        public List<Models.Transaction> PostSIAllocation(int requisitionID)
+        public bool PostSIAllocation(int requisitionID)
         {
-            List<Models.Transaction> result = new List<Models.Transaction>();
+            var result = new List<Models.Transaction>();
             var allocationDetails = _unitOfWork.SIPCAllocationRepository.Get(t => t.ReliefRequisitionDetail.RequisitionID == requisitionID);
-            if (allocationDetails == null) return result;
+            if (allocationDetails == null) return false;
 
             var transactionGroup = Guid.NewGuid();
             var transactionDate = DateTime.Now;
             _unitOfWork.TransactionGroupRepository.Add(new TransactionGroup() { PartitionID = 0, TransactionGroupID = transactionGroup });
 
             //ProjectCodeID	ShippingInstructionID ProgramID QuantityInMT	QuantityInUnit	UnitID	TransactionDate	RegionID	Month	Round	DonorID	CommoditySourceID	GiftTypeID	FDP
-
-
-
+            
             foreach (var allocationDetail in allocationDetails)
             {
                 var transaction = new Models.Transaction();
@@ -219,13 +239,21 @@ namespace Cats.Services.Transaction
                 transaction.ProgramID = (int)allocationDetail.ReliefRequisitionDetail.ReliefRequisition.ProgramID;
                 transaction.RegionID = allocationDetail.ReliefRequisitionDetail.ReliefRequisition.RegionID;
 
-                if (allocationDetail.AllocationType == "SI")
+                if (allocationDetail.AllocationType == TransactionConstants.Constants.SHIPPNG_INSTRUCTION)
                 {
-                    transaction.ShippingInstructionID = allocationDetail.Code;
+                    var detail = allocationDetail;
+                    var shippingInstruction =
+                        _unitOfWork.ShippingInstructionRepository.Get(t => t.Value == detail.Code.ToString()).
+                            FirstOrDefault();
+                    if (shippingInstruction != null) transaction.ShippingInstructionID = shippingInstruction.ShippingInstructionID;
                 }
                 else
                 {
-                    transaction.ProjectCodeID = allocationDetail.Code;
+                    var detail = allocationDetail;
+                    var projectCode =
+                        _unitOfWork.ProjectCodeRepository.Get(t => t.Value == detail.Code.ToString()).
+                            FirstOrDefault();
+                    if (projectCode != null) transaction.ProjectCodeID = projectCode.ProjectCodeID;
                 }
                 _unitOfWork.TransactionRepository.Add(transaction);
                // result.Add(transaction);
@@ -244,15 +272,32 @@ namespace Cats.Services.Transaction
                 transaction2.FDPID = allocationDetail.ReliefRequisitionDetail.FDPID;
                 transaction2.ProgramID = (int)allocationDetail.ReliefRequisitionDetail.ReliefRequisition.ProgramID;
                 transaction2.RegionID = allocationDetail.ReliefRequisitionDetail.ReliefRequisition.RegionID;
+                if (allocationDetail.AllocationType == TransactionConstants.Constants.SHIPPNG_INSTRUCTION)
+                {
+                    var detail = allocationDetail;
+                    var shippingInstruction =
+                        _unitOfWork.ShippingInstructionRepository.Get(t => t.Value == detail.Code.ToString()).
+                            FirstOrDefault();
+                    if (shippingInstruction != null) transaction.ShippingInstructionID = shippingInstruction.ShippingInstructionID;
+                }
+                else
+                {
+                    var detail = allocationDetail;
+                    var projectCode =
+                        _unitOfWork.ProjectCodeRepository.Get(t => t.Value == detail.Code.ToString()).
+                            FirstOrDefault();
+                    if (projectCode != null) transaction.ProjectCodeID = projectCode.ProjectCodeID;
+                }
                 _unitOfWork.TransactionRepository.Add(transaction2);
-
+                allocationDetail.TransactionGroupID = transactionGroup;
+                _unitOfWork.SIPCAllocationRepository.Edit(allocationDetail);
                 //result.Add(transaction);
-
             }
             ReliefRequisition requisition = _unitOfWork.ReliefRequisitionRepository.FindById(requisitionID);
             requisition.Status = 4;
            _unitOfWork.Save();
-              return result;
+              //return result;
+            return true;
         }
 
         public bool PostDonationPlan(DonationPlanHeader donationPlanHeader)
@@ -395,7 +440,7 @@ namespace Cats.Services.Transaction
                 transaction.TransactionGroupID = transactionGroup;
                 transaction.TransactionDate = transactionDate;
                 transaction.UnitID = 1;
-                transaction.LedgerID = 5;//Goods Promised - Gift Certificate - Commited not found in ledger list
+                transaction.LedgerID = Ledger.Constants.GOODS_PROMISSED_GIFT_CERTIFICATE_COMMITED;//Goods Promised - Gift Certificate - Commited not found in ledger list
                 transaction.CommodityID = giftCertificateDetail.CommodityID;
                // transaction.ShippingInstructionID = giftCertificate.SINumber;
                 _unitOfWork.TransactionRepository.Add(transaction);
@@ -409,7 +454,7 @@ namespace Cats.Services.Transaction
                 transaction.TransactionDate = transactionDate;
                 transaction.QuantityInUnit = giftCertificateDetail.WeightInMT;
                 transaction.UnitID = 1;
-                transaction.LedgerID = 4;//Goods Promised - Pledge	 not found in ledger list
+                transaction.LedgerID = Ledger.Constants.GOODS_PROMISSED_PLEDGE;//Goods Promised - Pledge	 not found in ledger list
 
                 _unitOfWork.TransactionRepository.Add(transaction);
 
@@ -460,7 +505,7 @@ namespace Cats.Services.Transaction
             }
             transaction.QuantityInMT = deliveryReconcile.ReceivedAmount / 10;
             transaction.QuantityInUnit = deliveryReconcile.ReceivedAmount;
-            var @default = _unitOfWork.UnitRepository.FindBy(t => t.Name == "Quintal").FirstOrDefault();
+            var @default = _unitOfWork.UnitRepository.Get(t => t.Name == "Quintal").FirstOrDefault();
             transaction.UnitID = @default != null ? @default.UnitID : 1;
             _unitOfWork.TransactionRepository.Add(transaction);
 
@@ -493,7 +538,7 @@ namespace Cats.Services.Transaction
             }
             transaction.QuantityInMT = deliveryReconcile.ReceivedAmount / 10;
             transaction.QuantityInUnit = deliveryReconcile.ReceivedAmount;
-            var @default1 = _unitOfWork.UnitRepository.FindBy(t => t.Name == "Quintal").FirstOrDefault();
+            var @default1 = _unitOfWork.UnitRepository.Get(t => t.Name == "Quintal").FirstOrDefault();
             transaction.UnitID = @default != null ? @default.UnitID : 1;
             _unitOfWork.TransactionRepository.Add(transaction);
 

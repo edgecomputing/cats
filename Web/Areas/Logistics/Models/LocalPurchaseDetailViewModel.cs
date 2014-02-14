@@ -13,10 +13,10 @@ namespace Cats.Areas.Logistics.Models
         public int HubID { get; set; }
         public decimal AllocatedAmonut { get; set; }
         public decimal RecievedAmonut { get; set; }
-        public Decimal RemainingAmonut
-        {
-            get { return AllocatedAmonut - RecievedAmonut; }
-        }
+        public decimal RemainingAmonut { get; set; }
+        //{
+        //    get { return AllocatedAmonut - RecievedAmonut; }
+        //}
     }
     public class LocalPurchaseViewModel
     {
