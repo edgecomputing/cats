@@ -32,6 +32,7 @@ namespace Cats.Models
         public string Remark { get; set; }
         public int? Status { get; set; }
         public virtual Commodity Commodity { get; set; }
+        public virtual CommodityType CommodityType { get; set; }
         public virtual ICollection<DonationPlanDetail> DonationPlanDetails { get; set; }
         public virtual ShippingInstruction ShippingInstruction { get; set; }
         public virtual Donor Donor { get; set; }
