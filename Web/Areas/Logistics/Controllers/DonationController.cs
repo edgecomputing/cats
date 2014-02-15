@@ -330,6 +330,12 @@ namespace Cats.Areas.Logistics.Controllers
             }
         }
 
+        public JsonResult GetGiftCertificates()
+        {
+            var giftCertificate =
+                _giftCertificateService.GetAllGiftCertificate().Select(g => g.ShippingInstruction.Value);
+            return Json(giftCertificate, JsonRequestBehavior.AllowGet);
+        }
         public ActionResult Save(DonationViewModel donationViewModel)
         {
 

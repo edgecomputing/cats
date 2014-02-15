@@ -2,117 +2,160 @@
 @using LanguageHelpers.Localization
 
 
-<div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h3 id="myModalLabel">@Translator.Translate("Add New Receive Plan")</h3>
-</div>
-@{
-    var siNo = "0";
-    if (Model!=null)
-    {
-        siNo = Model.SINumber;
-    }
-}
 
-@using (Html.BeginForm("Save", "Donation", new { siNumber = siNo }, FormMethod.Post, new { id = "myModal" }))
-{
+
+
+
     
 
-    <div class="modal-body">
-        
-        <div class="form-horizontal">
-            
-            <div class="control-group">
-                <div class="control-label">
-                    @Html.Label(Translator.Translate("SI Number"))
-                </div>
-                <div class="controls">
-                    @Html.TextBoxFor(model => model.SINumber, new { required = "required" })
-                    @Html.ValidationMessageFor(m => m.SINumber)
-               
-                </div>
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="myModalLabel">@Translator.Translate("Add New Receive Plan")</h3>
+    </div>
+    @{
+        var siNo = "0";
+        if (Model!=null)
+        {
+            siNo = Model.SINumber;
+        }
+    }
 
-            </div>
+    @using (Html.BeginForm("Save", "Donation", new { siNumber = siNo }, FormMethod.Post, new { id = "myModal" }))
+    {
+    
+
+        <div class="modal-body">
+        
+            <div class="form-horizontal">
+            
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.Label(Translator.Translate("SI Number"))
+                    </div>
+                    <div class="controls">
+                        @Html.TextBoxFor(model => model.SINumber, new {@class="addresspicker", required = "required" })<span class="hide help-inline">SI Number is required</span>
+                        @Html.ValidationMessageFor(m => m.SINumber)
+               
+                    </div>
+
+                </div>
             
                 
-                    <div class="control-group" >
-                        <div class="control-label">
-                            @Html.Label(Translator.Translate("Quantity"))
-                        </div>
-                        <div class="controls" >
-                            @Html.TextBoxFor(model=>model.WieghtInMT,new { @readonly = "readonly" })
-                            @Html.ValidationMessageFor(m => m.WieghtInMT)
-               
-                        </div>
-
+                <div class="control-group" >
+                    <div class="control-label">
+                        @Html.Label(Translator.Translate("Quantity"))
                     </div>
+                    <div class="controls" >
+                        @Html.TextBoxFor(model=>model.WieghtInMT,new { @readonly = "readonly", Value="" })
+                        @Html.ValidationMessageFor(m => m.WieghtInMT)
+               
+                    </div>
+
+                </div>
                    
-                        <div class="control-group">
-                            <div class="control-label">
-                                @Html.LabelFor(model => model.ETA, @Translator.Translate("ETA"))
-                            </div>
-                            <div class="controls" >
-                                @(Html.TextBoxFor(model => model.ETA, new { @readonly = "readonly" }))
-                                @Html.ValidationMessageFor(model => model.ETA)
-                            </div>
-                        </div>
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.LabelFor(model => model.ETA, @Translator.Translate("ETA"))
+                    </div>
+                    <div class="controls" >
+                        @(Html.TextBoxFor(model => model.ETA, new { @readonly = "readonly" ,Value=""}))
+                        @Html.ValidationMessageFor(model => model.ETA)
+                    </div>
+                </div>
 
                    
-            <div class="control-group">
-                <div class="control-label">
-                    @Html.Label(@Translator.Translate("Donor")) 
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.Label(@Translator.Translate("Donor")) 
+                    </div>
+                    <div class="controls">
+                        @(Html.TextBoxFor(model => model.DonorName, new { @readonly = "readonly" })) @*new SelectList(Model.Donors, "DonorID", "Name")*@
+                    </div>
                 </div>
-                <div class="controls">
-                    @(Html.TextBoxFor(model => model.DonorName, new { @readonly = "readonly" })) @*new SelectList(Model.Donors, "DonorID", "Name")*@
-                </div>
-            </div>
             
-            <div class="control-group">
-                <div class="control-label">
-                    @Html.Label(@Translator.Translate("Commodity Type")) 
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.Label(@Translator.Translate("Commodity Type")) 
+                    </div>
+                    <div class="controls" >
+                        @(Html.TextBoxFor(model => model.CommomdityTypeName,new { @readonly = "readonly" })) @*, new SelectList(Model.CommodityTypes, "CommodityTypeID", "Name")*@
+                    </div>
                 </div>
-                <div class="controls" >
-                    @(Html.TextBoxFor(model => model.CommomdityTypeName,new { @readonly = "readonly" })) @*, new SelectList(Model.CommodityTypes, "CommodityTypeID", "Name")*@
-                </div>
-            </div>
             
-            <div class="control-group">
-                <div class="control-label">
-                    @Html.Label(@Translator.Translate("Commodity")) 
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.Label(@Translator.Translate("Commodity")) 
+                    </div>
+                    <div class="controls" >
+                        @(Html.TextBoxFor(model => model.CommodityName,new { @readonly = "readonly" })) @*, new SelectList(Model.Commodities, "CommodityID", "Name")*@
+                    </div>
                 </div>
-                <div class="controls" >
-                    @(Html.TextBoxFor(model => model.CommodityName,new { @readonly = "readonly" })) @*, new SelectList(Model.Commodities, "CommodityID", "Name")*@
-                </div>
-            </div>
             
           
             
-            <div class="control-group">
-                <div class="control-label">
-                    @Html.Label(@Translator.Translate("Program")) 
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.Label(@Translator.Translate("Program")) 
+                    </div>
+                    <div class="controls">
+                        @(Html.TextBoxFor(model => model.ProgramName,new { @readonly = "readonly" })) @*, new SelectList(Model.Programs, "ProgramID", "Name")*@
+                    </div>
                 </div>
-                <div class="controls">
-                    @(Html.TextBoxFor(model => model.ProgramName,new { @readonly = "readonly" })) @*, new SelectList(Model.Programs, "ProgramID", "Name")*@
-                </div>
-            </div>
 
            
+            </div>
         </div>
-    </div>
 
-    <div class="modal-footer"> <button class="btn btn-primary" type="button" onclick="onSave(this)">Save</button>
-        <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+        <div class="modal-footer"> <button class="btn btn-primary" type="button" onclick="onSave(this)">Save</button>
+            <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
        
-    </div>
+        </div>
 
-}
+    }
 
 <script>
+    var giftCertificates = "";
+    var sourceArr = [];
+    $(document).ready(function() {
 
+        $.ajax({
+            type: "POST",
+            url: "/Donation/GetGiftCertificates",
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+
+            success: function (result) {
+                for (var i = 0; i < result.length; i++) {
+                    sourceArr.push(result[i]);
+               
+                }
+            },
+            error: function (error) {
+                alert("There was an error posting the data to the server: " + error.responseText);
+            }
+        });
+    });
+
+    
+
+    $('#SINumber').typeahead({ source: sourceArr });
+    
+    
+
+    
     function onSave(e) {
         
-        var url =  "/Donation/SaveHeader/" + $("#SINumber").val() ;
-        window.location.href = url;
+        if ($('#SINumber').val() === "") {
+            // invalid
+            $('#SINumber').next('.help-inline').show();
+            return false;
+        }
+        else {
+            var url = "/Donation/SaveHeader/" + $("#SINumber").val();
+            window.location.href = url;
+        }
+        
+      
        
        
     };
@@ -147,3 +190,6 @@
 
     
 </script>
+
+
+
