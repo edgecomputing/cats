@@ -92,7 +92,7 @@
                         @Html.Label(Translator.Translate("Project Code"))
                     </div>
                     <div class="controls">
-                        @Html.TextBoxFor(m => m.GiftCertificateID)
+                        @Html.TextBoxFor(m => m.ProjectCode)
                     </div>
                 
                 </td>
@@ -194,6 +194,8 @@
                                             {
                                                 model.Id(p => p.LocalPurchaseDetailID);
                                                 model.Field(p => p.HubName).Editable(false);
+                                                model.Field(p => p.RecievedAmonut).Editable(false);
+                                                model.Field(p => p.RemainingAmonut).Editable(false);
                                             })
 
                                             .Read(read => read.Action("HubsLocalPurchaseDetail_Read", "LocalPurchase", new { localPurchaseID = Model.LocalPurchaseID }))

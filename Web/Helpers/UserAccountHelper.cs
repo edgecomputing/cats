@@ -14,22 +14,14 @@ namespace Cats.Helpers
     {
         public static string GetUserName(this HtmlHelper helper)
         {
-            try
-            {
-                var user = (UserIdentity)HttpContext.Current.User.Identity;
-                return user.FullName;
-            }
-            catch (Exception)
-            {
-                return "Guest User";
-            }
+            return GetUserName();
         }
 
         public static string GetUserName()
         {
             try
             {
-                var user = (UserIdentity)HttpContext.Current.User.Identity;
+                var user = (UserInfo)HttpContext.Current.Session["USER_INFO"];
                 return user.FullName;
             }
             catch (Exception)
@@ -55,6 +47,10 @@ namespace Cats.Helpers
             return GetUserInfo(userName);
         }
 
+        public static UserInfo GetCurrentUser()
+        {
+            return GetUserInfo(HttpContext.Current.User.Identity.Name);
+        }
         private static UserInfo GetUserInfo(string userName)
         {
             // Initialize the user object with the incoming user name to avoid 'Use of uninitialized variable exception'

@@ -40,8 +40,8 @@
     .Columns(columns =>
     {
 
+        columns.Bound(p => p.RegionName);
         columns.Bound(p => p.ZoneName);
-
         columns.Bound(p => p.WoredaName);
         columns.Bound(p => p.FDPName);
         columns.Bound(p => p.BeneficiaryCount).HtmlAttributes(new { align = "Right" });
@@ -63,6 +63,11 @@
             model.Field(p => p.WoredaName).Editable(false);
             model.Field(p => p.FDPName).Editable(false);
         })
+         .Group(group =>
+           {
+               group.Add(m => m.RegionName);
+               group.Add(m => m.ZoneName);
+           })
         )
     
     .HtmlAttributes(new { style = "width:100%; height:450px;" })

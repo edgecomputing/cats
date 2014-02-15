@@ -77,6 +77,7 @@ namespace Cats.Models.Mapping
             this.Property(t => t.Email).HasColumnName("Email");
             this.Property(t => t.DefaultTheme).HasColumnName("DefaultTheme");
             this.Property(t => t.DefaultHub).HasColumnName("DefaultHub");
+        
         }
     }
  }

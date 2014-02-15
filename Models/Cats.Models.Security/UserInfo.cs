@@ -27,6 +27,7 @@ namespace Cats.Models.Security
         public string DefaultTheme { get; set; }
         public bool ActiveInd { get; set; }
         public bool LockedInInd { get; set; }
+        public int NumberOfLogins { get; set; }
       //  public byte[] UserSID { get; set; }
         public int UserProfileID { get; set; }
 

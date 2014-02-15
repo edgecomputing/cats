@@ -20,7 +20,7 @@
     <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
     <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
     <IISExpressUseClassicPipelineMode />
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
     <SilverlightApplicationList>
     </SilverlightApplicationList>
@@ -62,9 +62,6 @@
     </Reference>
     <Reference Include="FluentMigrator">
       <HintPath>..\packages\FluentMigrator.1.1.0.0\lib\40\FluentMigrator.dll</HintPath>
-    </Reference>
-    <Reference Include="HibernatingRhinos.Profiler.Appender">
-      <HintPath>..\..\..\EntityFramework.Profiler-v2.0-Build-2229\HibernatingRhinos.Profiler.Appender.dll</HintPath>
     </Reference>
     <Reference Include="Kendo.Mvc">
       <HintPath>..\lib\KENDOUIMVC\2013.1.319.340\Kendo.Mvc.dll</HintPath>
@@ -390,6 +387,8 @@
     <Compile Include="Areas\EarlyWarning\Models\HRDDonorCoverageViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\HRDWithRegionalRequestViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\InKindContributionDetailViewModel.cs" />
+    <Compile Include="Areas\Logistics\Controllers\DonationController.cs" />
+    <Compile Include="Areas\Logistics\LocalPurchaseController.cs" />
     <Compile Include="Areas\Logistics\Models\LoanReciptPlanViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\NeedAssessmentPlanViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\PlanViewModel.cs" />
@@ -476,7 +475,7 @@
     <Compile Include="Areas\Logistics\Controllers\HubAllocationController.cs" />
     <Compile Include="Areas\Logistics\Controllers\ProjectAllocationController.cs" />
     <Compile Include="Areas\Logistics\Controllers\PromisedContributionController.cs" />
-    <Compile Include="Areas\Logistics\Controllers\ReciptPlanForLoanAndOthersController.cs" />
+    <Compile Include="Areas\Logistics\Controllers\ReciptPlanForLoanController.cs" />
     <Compile Include="Areas\Logistics\Controllers\SIAllocationController.cs" />
     <Compile Include="Areas\Logistics\Controllers\LogisticsStockStatusController.cs" />
     <Compile Include="Areas\Logistics\Controllers\TransportRequisitionController.cs" />
@@ -733,12 +732,14 @@
     </Compile>
     <Compile Include="ViewModelBinder\DispatchReportViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\DispatchViewModelBinder.cs" />
+    <Compile Include="ViewModelBinder\DonationViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\FDPViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\GiftCertificateViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\HRDViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\HubAllocationViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\NeedAssessmentViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\NotificationViewModelBinder.cs" />
+    <Compile Include="ViewModelBinder\ReceiptAllocationViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\RequestViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\RequisitionViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\TransporterListViewModelBinder.cs" />
@@ -1695,11 +1696,22 @@
     <Content Include="Areas\Regional\Views\Web.config" />
     <Content Include="Areas\Regional\Views\Home\Index.cshtml" />
     <Content Include="Areas\Logistics\Views\LocalPurchase\Details.cshtml" />
+
     <Content Include="Areas\Logistics\Views\ReciptPlanForLoanAndOthers\Create.cshtml" />
     <Content Include="Areas\Logistics\Views\ReciptPlanForLoanAndOthers\Index.cshtml" />
     <Content Include="Areas\Logistics\Views\ReciptPlanForLoanAndOthers\Edit.cshtml" />
     <Content Include="Areas\Logistics\Views\ReciptPlanForLoanAndOthers\Detail.cshtml" />
     <Content Include="Areas\Logistics\Views\ReciptPlanForLoanAndOthers\ReciptPlan.cshtml" />
+    <Content Include="Areas\Logistics\Views\Donation\AddNewDonationPlan.cshtml" />
+    <Content Include="Areas\Logistics\Views\Donation\Index.cshtml" />
+    <Content Include="Areas\Logistics\Views\Donation\addNewDonation.cshtml" />
+
+    <Content Include="Areas\Logistics\Views\ReciptPlanForLoan\Create.cshtml" />
+    <Content Include="Areas\Logistics\Views\ReciptPlanForLoan\Index.cshtml" />
+    <Content Include="Areas\Logistics\Views\ReciptPlanForLoan\Edit.cshtml" />
+    <Content Include="Areas\Logistics\Views\ReciptPlanForLoan\Detail.cshtml" />
+    <Content Include="Areas\Logistics\Views\ReciptPlanForLoan\ReciptPlan.cshtml" />
+
     <None Include="dataset.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>dataset.Designer.cs</LastGenOutput>
@@ -2515,10 +2527,6 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Cats.Services.Dashboard\Cats.Services.Dashboard.csproj">
-      <Project>{e72bb7c7-71ac-4c26-9c91-8d29f086879e}</Project>
-      <Name>Cats.Services.Dashboard</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Data\Cats.Data.Hub\Cats.Data.Hub.csproj">
       <Project>{b311922a-4002-40b1-aa96-e005b6d436dd}</Project>
       <Name>Cats.Data.Hub</Name>
@@ -2530,10 +2538,6 @@
     <ProjectReference Include="..\Data\Cats.Data\Cats.Data.csproj">
       <Project>{7cf78855-5a90-441f-9acc-fafbd1cad68a}</Project>
       <Name>Cats.Data</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\EasyCats\Cats.EasyAccess.csproj">
-      <Project>{c4b246a0-a33f-426e-9ac1-823702069b2b}</Project>
-      <Name>Cats.EasyAccess</Name>
     </ProjectReference>
     <ProjectReference Include="..\Infrastructure\Cats.Localization\Cats.Localization.csproj">
       <Project>{097528f8-cfef-4a8f-9d6c-d2366af9583e}</Project>
@@ -2574,6 +2578,10 @@
     <ProjectReference Include="..\Services\Cats.Services.Common\Cats.Services.Common.csproj">
       <Project>{083d007c-dd3b-42c0-b11c-a7015a909085}</Project>
       <Name>Cats.Services.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Services\Cats.Services.Dashboard\Cats.Services.Dashboard.csproj">
+      <Project>{e72bb7c7-71ac-4c26-9c91-8d29f086879e}</Project>
+      <Name>Cats.Services.Dashboard</Name>
     </ProjectReference>
     <ProjectReference Include="..\Services\Cats.Services.EarlyWarning\Cats.Services.EarlyWarning.csproj">
       <Project>{a08cf415-6299-41ab-9d69-c3ce9b49ccd6}</Project>
