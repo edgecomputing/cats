@@ -27,7 +27,7 @@
                     @Html.Label(Translator.Translate("SI Number"))
                 </div>
                 <div class="controls">
-                    @Html.TextBoxFor(model=>model.SINumber)
+                    @Html.TextBoxFor(model => model.SINumber, new { required = "required" })
                     @Html.ValidationMessageFor(m => m.SINumber)
                
                 </div>
@@ -63,7 +63,7 @@
                     @Html.Label(@Translator.Translate("Donor")) 
                 </div>
                 <div class="controls">
-                    @(Html.TextBoxFor(model => model.DonorID, new { @readonly = "readonly" })) @*new SelectList(Model.Donors, "DonorID", "Name")*@
+                    @(Html.TextBoxFor(model => model.DonorName, new { @readonly = "readonly" })) @*new SelectList(Model.Donors, "DonorID", "Name")*@
                 </div>
             </div>
             
@@ -72,7 +72,7 @@
                     @Html.Label(@Translator.Translate("Commodity Type")) 
                 </div>
                 <div class="controls" >
-                    @(Html.TextBoxFor(model => model.CommodityTypeID,new { @readonly = "readonly" })) @*, new SelectList(Model.CommodityTypes, "CommodityTypeID", "Name")*@
+                    @(Html.TextBoxFor(model => model.CommomdityTypeName,new { @readonly = "readonly" })) @*, new SelectList(Model.CommodityTypes, "CommodityTypeID", "Name")*@
                 </div>
             </div>
             
@@ -81,7 +81,7 @@
                     @Html.Label(@Translator.Translate("Commodity")) 
                 </div>
                 <div class="controls" >
-                    @(Html.TextBoxFor(model => model.CommodityID,new { @readonly = "readonly" })) @*, new SelectList(Model.Commodities, "CommodityID", "Name")*@
+                    @(Html.TextBoxFor(model => model.CommodityName,new { @readonly = "readonly" })) @*, new SelectList(Model.Commodities, "CommodityID", "Name")*@
                 </div>
             </div>
             
@@ -92,7 +92,7 @@
                     @Html.Label(@Translator.Translate("Program")) 
                 </div>
                 <div class="controls">
-                    @(Html.TextBoxFor(model => model.ProgramID,new { @readonly = "readonly" })) @*, new SelectList(Model.Programs, "ProgramID", "Name")*@
+                    @(Html.TextBoxFor(model => model.ProgramName,new { @readonly = "readonly" })) @*, new SelectList(Model.Programs, "ProgramID", "Name")*@
                 </div>
             </div>
 
@@ -131,10 +131,10 @@
                 
                 $("#WieghtInMT").val(result.quantity);
                 $("#ETA").val(date);
-                $("#DonorID").val(result.donorId);
-                $("#ProgramID").val(result.programId);
-                $("#CommodityID").val(result.comodity);
-                $("#CommodityID").val(result.commodityType);
+                $("#DonorName").val(result.donorId);
+                $("#ProgramName").val(result.programId);
+                $("#CommodityName").val(result.comodity);
+                $("#CommomdityTypeName").val(result.commodityType);
                
                
             },

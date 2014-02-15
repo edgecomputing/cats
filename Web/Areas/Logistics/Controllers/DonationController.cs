@@ -182,7 +182,7 @@ namespace Cats.Areas.Logistics.Controllers
                 donationViewModel.EnteredBy = donation.EnteredBy;
                 donationViewModel.WieghtInMT = donation.DonatedAmount;
                 donationViewModel.ShippingInstructionId = donation.ShippingInstructionId;
-                donationViewModel.CommodityTypeID = donation.CommodityTypeID;
+                donationViewModel.CommodityTypeID = (int) donation.CommodityTypeID;
                 donationViewModel.CommodityName = donation.Commodity.Name;
                 donationViewModel.DonorName = donation.Donor.Name;
                 donationViewModel.ProgramName = donation.Program.Name;
@@ -291,12 +291,12 @@ namespace Cats.Areas.Logistics.Controllers
         public JsonResult Load(string id)
         {
             var giftCertificate = _giftCertificateService.GetAllGiftCertificate().SingleOrDefault(d => d.ShippingInstruction.Value == id);
-            return giftCertificate != null ? Json(new {donorId = giftCertificate.DonorID,
-                programId = giftCertificate.ProgramID,
+            return giftCertificate != null ? Json(new {donorId = giftCertificate.Donor.Name,
+                programId = giftCertificate.Program.Name,
                 eta=giftCertificate.ETA,
                 quantity = giftCertificate.GiftCertificateDetails[0].WeightInMT, 
-                comodity = giftCertificate.GiftCertificateDetails[0].CommodityID,
-                commodityType = giftCertificate.GiftCertificateDetails[0].Commodity.CommodityTypeID
+                comodity = giftCertificate.GiftCertificateDetails[0].Commodity.Name,
+                commodityType = giftCertificate.GiftCertificateDetails[0].Commodity.CommodityType.Name
             }, JsonRequestBehavior.AllowGet) : null;
         }
 
