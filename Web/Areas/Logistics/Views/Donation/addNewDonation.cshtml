@@ -33,7 +33,7 @@
                         @Html.Label(Translator.Translate("SI Number"))
                     </div>
                     <div class="controls">
-                        @Html.TextBoxFor(model => model.SINumber, new {@class="addresspicker", required = "required" })<span class="hide help-inline">SI Number is required</span>
+                        @Html.TextBoxFor(model => model.SINumber, new {@class="addresspicker", required = "required",autocomplete="off" })<span class="hide help-inline">SI Number is required</span>
                         @Html.ValidationMessageFor(m => m.SINumber)
                
                     </div>

@@ -81,7 +81,7 @@
                         @Html.Label(@Translator.Translate("Commodity Type")) 
                     </div>
                     <div class="controls" >
-                        @(Html.DropDownListFor(model => model.CommodityID, new SelectList(Model.CommodityTypes, "CommodityTypeID", "Name")))
+                        @(Html.DropDownListFor(model => model.CommodityTypeID, new SelectList(Model.CommodityTypes, "CommodityTypeID", "Name")))
                     </div>
                 </div>
             </div>

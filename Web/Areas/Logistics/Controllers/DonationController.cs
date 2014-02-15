@@ -290,7 +290,18 @@ namespace Cats.Areas.Logistics.Controllers
 
         public JsonResult Load(string id)
         {
-            var giftCertificate = _giftCertificateService.GetAllGiftCertificate().SingleOrDefault(d => d.ShippingInstruction.Value == id);
+            Cats.Models.GiftCertificate giftCertificate = null;
+            try
+            {
+                giftCertificate = _giftCertificateService.GetAllGiftCertificate().SingleOrDefault(d => d.ShippingInstruction.Value == id);
+            }
+            catch (Exception)
+            {
+
+                ModelState.AddModelError("Error","More than One gift certificate is found");
+                return null;
+            }
+           
             return giftCertificate != null ? Json(new {donorId = giftCertificate.Donor.Name,
                 programId = giftCertificate.Program.Name,
                 eta=giftCertificate.ETA,
