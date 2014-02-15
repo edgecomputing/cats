@@ -20,6 +20,7 @@ namespace Cats.Areas.Logistics.Models
         public string DonorName { get; set; }
         public string ProgramName { get; set; }
         public string CommoditySourceName { get; set; }
+        public string CommomdityTypeName { get; set; }
         public int DonorID { get; set; }
         public int ProgramID { get; set; }
         public System.DateTime ETA { get; set; }

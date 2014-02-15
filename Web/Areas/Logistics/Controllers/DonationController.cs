@@ -148,6 +148,9 @@ namespace Cats.Areas.Logistics.Controllers
                 donationViewModel.SINumber = siNumber;
                 donationViewModel.ETA = giftCertificate.ETA;
                 donationViewModel.CommodityTypeID = giftCertificate.GiftCertificateDetails[0].Commodity.CommodityTypeID;
+                donationViewModel.CommodityName = giftCertificate.GiftCertificateDetails[0].Commodity.Name;
+                donationViewModel.DonorName = giftCertificate.Donor.Name;
+                donationViewModel.ProgramName = giftCertificate.Program.Name;
 
 
                 return donationViewModel;
@@ -179,7 +182,10 @@ namespace Cats.Areas.Logistics.Controllers
                 donationViewModel.WieghtInMT = donation.DonatedAmount;
                 donationViewModel.ShippingInstructionId = donation.ShippingInstructionId;
                 donationViewModel.CommodityTypeID = donation.CommodityTypeID;
-
+                donationViewModel.CommodityName = donation.Commodity.Name;
+                donationViewModel.DonorName = donation.Donor.Name;
+                donationViewModel.ProgramName = donation.Program.Name;
+              
                 var list = donation.DonationPlanDetails.Select(detail => new DonationDetail
                                                                              {
                                                                                  HubID = detail.HubID, 
