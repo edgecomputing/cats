@@ -343,8 +343,14 @@ namespace Cats.Areas.Logistics.Controllers
 
         public JsonResult GetGiftCertificates()
         {
-            var giftCertificate =
-                _giftCertificateService.GetAllGiftCertificate().Select(g => g.ShippingInstruction.Value);
+
+
+           // var giftCertificate = _giftCertificateService.GetAllGiftCertificate();
+            var giftCertificate = (from gift in _giftCertificateService.GetAllGiftCertificate()
+                                   select gift.ShippingInstruction.Value).Except(
+                                       from allocated in _receiptAllocationService.GetAllReceiptAllocation()
+                                       select allocated.SINumber).ToList();
+                        
             return Json(giftCertificate, JsonRequestBehavior.AllowGet);
         }
         public ActionResult Save(DonationViewModel donationViewModel)
