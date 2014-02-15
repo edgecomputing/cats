@@ -147,8 +147,12 @@ namespace Cats.Areas.Logistics.Controllers
                 donationViewModel.GiftCertificateID = giftCertificate.GiftCertificateID;
                 donationViewModel.SINumber = siNumber;
                 donationViewModel.ETA = giftCertificate.ETA;
-
-
+                donationViewModel.CommodityTypeID = giftCertificate.GiftCertificateDetails[0].Commodity.CommodityTypeID;
+                donationViewModel.CommodityName = giftCertificate.GiftCertificateDetails[0].Commodity.Name;
+                donationViewModel.DonorName = giftCertificate.Donor.Name;
+                donationViewModel.ProgramName = giftCertificate.Program.Name;
+                donationViewModel.CommomdityTypeName =
+                    giftCertificate.GiftCertificateDetails[0].Commodity.CommodityType.Name;
 
                 return donationViewModel;
 
@@ -178,6 +182,12 @@ namespace Cats.Areas.Logistics.Controllers
                 donationViewModel.EnteredBy = donation.EnteredBy;
                 donationViewModel.WieghtInMT = donation.DonatedAmount;
                 donationViewModel.ShippingInstructionId = donation.ShippingInstructionId;
+                donationViewModel.CommodityTypeID = (int) donation.CommodityTypeID;
+                donationViewModel.CommodityName = donation.Commodity.Name;
+                donationViewModel.DonorName = donation.Donor.Name;
+                donationViewModel.ProgramName = donation.Program.Name;
+                donationViewModel.CommomdityTypeName = donation.CommodityType.Name;
+
                 var list = donation.DonationPlanDetails.Select(detail => new DonationDetail
                                                                              {
                                                                                  HubID = detail.HubID, 
@@ -280,13 +290,24 @@ namespace Cats.Areas.Logistics.Controllers
 
         public JsonResult Load(string id)
         {
-            var giftCertificate = _giftCertificateService.GetAllGiftCertificate().SingleOrDefault(d => d.ShippingInstruction.Value == id);
-            return giftCertificate != null ? Json(new {donorId = giftCertificate.DonorID,
-                programId = giftCertificate.ProgramID,
+            Cats.Models.GiftCertificate giftCertificate = null;
+            try
+            {
+                giftCertificate = _giftCertificateService.GetAllGiftCertificate().SingleOrDefault(d => d.ShippingInstruction.Value == id);
+            }
+            catch (Exception)
+            {
+
+                ModelState.AddModelError("Error","More than One gift certificate is found");
+                return null;
+            }
+           
+            return giftCertificate != null ? Json(new {donorId = giftCertificate.Donor.Name,
+                programId = giftCertificate.Program.Name,
                 eta=giftCertificate.ETA,
                 quantity = giftCertificate.GiftCertificateDetails[0].WeightInMT, 
-                comodity = giftCertificate.GiftCertificateDetails[0].CommodityID,
-                commodityType = giftCertificate.GiftCertificateDetails[0].Commodity.CommodityTypeID
+                comodity = giftCertificate.GiftCertificateDetails[0].Commodity.Name,
+                commodityType = giftCertificate.GiftCertificateDetails[0].Commodity.CommodityType.Name
             }, JsonRequestBehavior.AllowGet) : null;
         }
 
@@ -320,6 +341,12 @@ namespace Cats.Areas.Logistics.Controllers
             }
         }
 
+        public JsonResult GetGiftCertificates()
+        {
+            var giftCertificate =
+                _giftCertificateService.GetAllGiftCertificate().Select(g => g.ShippingInstruction.Value);
+            return Json(giftCertificate, JsonRequestBehavior.AllowGet);
+        }
         public ActionResult Save(DonationViewModel donationViewModel)
         {
 
@@ -377,7 +404,8 @@ namespace Cats.Areas.Logistics.Controllers
                 IsCommited = false,
                 ProgramID = donationViewModel.ProgramID,
                 ShippingInstructionId = siId,
-                DonatedAmount = donationViewModel.WieghtInMT
+                DonatedAmount = donationViewModel.WieghtInMT,
+                CommodityTypeID = donationViewModel.CommodityTypeID
 
             };
 
@@ -426,7 +454,7 @@ namespace Cats.Areas.Logistics.Controllers
                         donationPlanDetail.DonationPlanHeader.ProgramID = donationViewModel.ProgramID;
                         donationPlanDetail.DonationPlanHeader.ShippingInstructionId = shippinInstructionId;
                         donationPlanDetail.DonationPlanHeader.DonatedAmount = donationViewModel.WieghtInMT;
-
+                        donationPlanDetail.DonationPlanHeader.CommodityTypeID = donationViewModel.CommodityTypeID;
 
                         donationPlanDetail.AllocatedAmount = detailArray[index].AllocatedAmount;
                         donationPlanDetail.ReceivedAmount = detailArray[index].ReceivedAmount;

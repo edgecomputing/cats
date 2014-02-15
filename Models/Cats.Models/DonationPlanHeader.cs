@@ -17,6 +17,7 @@ namespace Cats.Models
         public int ShippingInstructionId { get; set; }
         public Nullable<int> GiftCertificateID { get; set; }
         public int CommodityID { get; set; }
+        public int? CommodityTypeID { get; set; }
         public decimal DonatedAmount { get; set; }
         public int DonorID { get; set; }
         public int ProgramID { get; set; }
@@ -31,6 +32,7 @@ namespace Cats.Models
         public string Remark { get; set; }
         public int? Status { get; set; }
         public virtual Commodity Commodity { get; set; }
+        public virtual CommodityType CommodityType { get; set; }
         public virtual ICollection<DonationPlanDetail> DonationPlanDetails { get; set; }
         public virtual ShippingInstruction ShippingInstruction { get; set; }
         public virtual Donor Donor { get; set; }
