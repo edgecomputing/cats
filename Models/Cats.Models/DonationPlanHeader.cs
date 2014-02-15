@@ -17,6 +17,7 @@ namespace Cats.Models
         public int ShippingInstructionId { get; set; }
         public Nullable<int> GiftCertificateID { get; set; }
         public int CommodityID { get; set; }
+        public int CommodityTypeID { get; set; }
         public decimal DonatedAmount { get; set; }
         public int DonorID { get; set; }
         public int ProgramID { get; set; }

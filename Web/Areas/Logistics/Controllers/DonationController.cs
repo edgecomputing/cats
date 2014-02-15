@@ -147,7 +147,7 @@ namespace Cats.Areas.Logistics.Controllers
                 donationViewModel.GiftCertificateID = giftCertificate.GiftCertificateID;
                 donationViewModel.SINumber = siNumber;
                 donationViewModel.ETA = giftCertificate.ETA;
-
+                donationViewModel.CommodityTypeID = giftCertificate.GiftCertificateDetails[0].Commodity.CommodityTypeID;
 
 
                 return donationViewModel;
@@ -178,6 +178,8 @@ namespace Cats.Areas.Logistics.Controllers
                 donationViewModel.EnteredBy = donation.EnteredBy;
                 donationViewModel.WieghtInMT = donation.DonatedAmount;
                 donationViewModel.ShippingInstructionId = donation.ShippingInstructionId;
+                donationViewModel.CommodityTypeID = donation.CommodityTypeID;
+
                 var list = donation.DonationPlanDetails.Select(detail => new DonationDetail
                                                                              {
                                                                                  HubID = detail.HubID, 
@@ -377,7 +379,8 @@ namespace Cats.Areas.Logistics.Controllers
                 IsCommited = false,
                 ProgramID = donationViewModel.ProgramID,
                 ShippingInstructionId = siId,
-                DonatedAmount = donationViewModel.WieghtInMT
+                DonatedAmount = donationViewModel.WieghtInMT,
+                CommodityTypeID = donationViewModel.CommodityTypeID
 
             };
 
@@ -426,7 +429,7 @@ namespace Cats.Areas.Logistics.Controllers
                         donationPlanDetail.DonationPlanHeader.ProgramID = donationViewModel.ProgramID;
                         donationPlanDetail.DonationPlanHeader.ShippingInstructionId = shippinInstructionId;
                         donationPlanDetail.DonationPlanHeader.DonatedAmount = donationViewModel.WieghtInMT;
-
+                        donationPlanDetail.DonationPlanHeader.CommodityTypeID = donationViewModel.CommodityTypeID;
 
                         donationPlanDetail.AllocatedAmount = detailArray[index].AllocatedAmount;
                         donationPlanDetail.ReceivedAmount = detailArray[index].ReceivedAmount;

@@ -40,7 +40,7 @@
                             @Html.Label(Translator.Translate("Quantity"))
                         </div>
                         <div class="controls" id="div_quatity">
-                            @Html.TextBoxFor(model=>model.WieghtInMT,new { Disabled = true })
+                            @Html.TextBoxFor(model=>model.WieghtInMT,new { @readonly = "readonly" })
                             @Html.ValidationMessageFor(m => m.WieghtInMT)
                
                         </div>
@@ -52,7 +52,7 @@
                                 @Html.LabelFor(model => model.ETA, @Translator.Translate("ETA"))
                             </div>
                             <div class="controls" >
-                                @(Html.TextBoxFor(model => model.ETA, new { Disabled = true }))
+                                @(Html.TextBoxFor(model => model.ETA, new { @readonly = "readonly" }))
                                 @Html.ValidationMessageFor(model => model.ETA)
                             </div>
                         </div>
@@ -63,7 +63,7 @@
                     @Html.Label(@Translator.Translate("Donor")) 
                 </div>
                 <div class="controls">
-                    @(Html.DropDownListFor(model => model.DonorID, new SelectList(Model.Donors, "DonorID", "Name"),new { disabled = "disabled" }))
+                    @(Html.DropDownListFor(model => model.DonorID, new SelectList(Model.Donors, "DonorID", "Name"),new { @readonly = "readonly" }))
                 </div>
             </div>
             
@@ -72,7 +72,7 @@
                     @Html.Label(@Translator.Translate("Commodity Type")) 
                 </div>
                 <div class="controls" >
-                    @(Html.DropDownListFor(model => model.CommodityID, new SelectList(Model.CommodityTypes, "CommodityTypeID", "Name"),new { disabled = "disabled" }))
+                    @(Html.DropDownListFor(model => model.CommodityID, new SelectList(Model.CommodityTypes, "CommodityTypeID", "Name"),new { @readonly = "readonly" }))
                 </div>
             </div>*@
             
@@ -81,7 +81,7 @@
                     @Html.Label(@Translator.Translate("Commodity")) 
                 </div>
                 <div class="controls" >
-                    @(Html.DropDownListFor(model => model.CommodityID, new SelectList(Model.Commodities, "CommodityID", "Name"),new {disabled ="disabled"}))
+                    @(Html.DropDownListFor(model => model.CommodityID, new SelectList(Model.Commodities, "CommodityID", "Name"),new { @readonly = "readonly" }))
                 </div>
             </div>
             
@@ -92,7 +92,7 @@
                     @Html.Label(@Translator.Translate("Program")) 
                 </div>
                 <div class="controls">
-                    @(Html.DropDownListFor(model => model.ProgramID, new SelectList(Model.Programs, "ProgramID", "Name"),new {disabled = "disabled"}))
+                    @(Html.DropDownListFor(model => model.ProgramID, new SelectList(Model.Programs, "ProgramID", "Name"),new { @readonly = "readonly" }))
                 </div>
             </div>
 
