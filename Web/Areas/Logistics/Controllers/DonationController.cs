@@ -387,7 +387,21 @@ namespace Cats.Areas.Logistics.Controllers
 
 
                 }
-                return RedirectToAction("Index");
+
+
+                var program = _commonService.GetPrograms().ToList();
+                var donor = _commonService.GetDonors().ToList();
+                var hub = _hubService.GetAllHub().ToList();
+                var commodityType = _commodityTypeService.GetAllCommodityType();
+                var commodity = _commodityService.GetAllCommodity();
+
+                donationViewModel.Donors = donor;
+                donationViewModel.Commodities = commodity;
+                donationViewModel.Programs = program;
+                donationViewModel.CommodityTypes = commodityType;
+
+                ModelState.AddModelError("Success", "Receipt Plan has been saved");
+                return View("AddNewDonationPlan", donationViewModel);
 
             }
 
