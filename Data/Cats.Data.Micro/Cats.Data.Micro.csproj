@@ -42,13 +42,13 @@
   <ItemGroup>
     <Compile Include="Framework\Massive.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-<<<<<<< HEAD:EasyCats/Cats.EasyAccess.csproj
+
     <Compile Include="Models\RegionalRequest.cs" />
     <Compile Include="Models\UserProfile.cs" />
     <Compile Include="ViewModels\RecentRequest.cs" />
-=======
+
     <Compile Include="UserProfile.cs" />
->>>>>>> 986d0a7426b310efe330f1d8d769d2540ffe9f33:Data/Cats.Data.Micro/Cats.Data.Micro.csproj
+
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
