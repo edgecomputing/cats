@@ -5,7 +5,7 @@
 }
 @section Toolbar
 {
-    <a data-buttontype="btn_new_record"  class="btn toolbar-btn " href="@Url.Action("AddNewDonationPlan", "Donation")"></a>
+    <a data-buttontype="btn_new_record" id="btnAddDonation" class="btn toolbar-btn " href="@Url.Action("AddNewDonation", "Donation")"></a>
 }
 <fieldset>
     
@@ -77,14 +77,16 @@
         window.location = "@Url.Action("AddNewDonationPlan", "Donation")" + "?siNumber=" + siNumber + "&typeOfLoad=0";
     }
     
+   
+</script>
+
+<script type="text/javascript">
     $(function () {
 
         //Optional: turn the chache off
         $.ajaxSetup({ cache: false });
 
-       
-
-        $('#btnAddDonationPlan').click(function () {
+        $('#btnAddDonation').click(function () {
 
             // alert("");
             $('#dialogContent').load(this.href, function () {
@@ -96,6 +98,8 @@
             });
             return false;
         });
+
+      
     });
 </script>
 

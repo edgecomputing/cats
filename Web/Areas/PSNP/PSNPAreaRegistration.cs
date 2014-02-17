@@ -14,7 +14,6 @@ namespace Cats.Areas.PSNP
 
         public override void RegisterArea(AreaRegistrationContext context)
         {
-
             context.MapRoute(
                  "PSNP_default",
                  "PSNP/{controller}/{action}/{id}",
