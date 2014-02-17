@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Cats.Data.Micro;
+using Cats.Data.Micro.Models;
+
 
 namespace Cats.Services.Dashboard
 {
