@@ -568,6 +568,7 @@
     <Compile Include="Areas\PSNP\Models\RegionalPSNPPlan.cs" />
     <Compile Include="Areas\PSNP\PSNPAreaRegistration.cs" />
     <Compile Include="Areas\PSNP\Controllers\RegionalPSNPPlanController.cs" />
+    <Compile Include="Areas\Regional\Controllers\FetchDataController.cs" />
     <Compile Include="Areas\Regional\Controllers\HomeController.cs" />
     <Compile Include="Areas\Regional\RegionalAreaRegistration.cs" />
     <Compile Include="Areas\Report\Controllers\ReportHomeController.cs" />

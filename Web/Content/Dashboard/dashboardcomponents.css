@@ -1,7 +1,7 @@
 ﻿body {
   color: #444;
   font: 13px/1.7em "Open Sans", "trebuchet ms", arial, sans-serif;
-  background: #666666 url(../img/layout/sidebar-bg.png) repeat-y 0 0;
+  background: #666666;
 }
 h1,
 h2,
@@ -1306,7 +1306,7 @@ label {
   font-size: 13px;
 }
 .progress-stat {
-  margin-top: 2.25em;
+  margin-top: 1.25em;
 }
 .progress-stat:first-child {
   margin-top: 0;
@@ -3206,6 +3206,12 @@ table.dataTable th:active {
 }
 .error-details ul {
   text-align: left;
+}
+
+.column-divider-regional {
+    padding-right: 20px;
+    padding-left: 20px;
+    border-right: 1px solid #ccc;
 }
 @media (min-width: 768px) {
   .error-container {

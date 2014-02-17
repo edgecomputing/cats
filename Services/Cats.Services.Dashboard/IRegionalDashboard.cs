@@ -8,6 +8,6 @@ namespace Cats.Services.Dashboard
 {
     public interface IRegionalDashboard:IDisposable
     {
-        List<Object> GetRecentRequests();
+        List<Object> GetRecentRequests(int regionID);
     }
 }
