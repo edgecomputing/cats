@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Cats.Data.Micro;
 using Cats.Data.Micro.Models;
 
+
 namespace Cats.Services.Dashboard
 {
     public class RegionalDashboard : IRegionalDashboard

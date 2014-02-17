@@ -1,5 +1,6 @@
 ﻿using Cats.Cats.Data.Micro;
 
+
 namespace Cats.Data.Micro.Models
 {
     public class RegionalRequest : DynamicModel

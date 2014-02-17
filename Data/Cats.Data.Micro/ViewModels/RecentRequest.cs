@@ -1,10 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace EasyCats.ViewModels
+
+
+
+namespace Cats.Data.Micro.ViewModels
+
 {
     public class RecentRequest
     {
