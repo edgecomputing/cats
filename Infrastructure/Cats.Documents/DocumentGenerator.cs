@@ -99,6 +99,7 @@ namespace Cats.Documents
                 if (!File.Exists(_templateFileName))
                 {
                     throw new Exception(message: "TemplateFileName (" + _templateFileName + ") does not exist");
+                  
                 }
 
                 // If the file is a DOTX file convert it to docx
