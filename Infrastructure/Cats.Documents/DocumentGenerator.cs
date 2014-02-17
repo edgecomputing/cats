@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -83,6 +84,7 @@ namespace Cats.Documents
             }
             catch (Exception ex)
             {
+                System.IO.File.AppendAllText(@"c:\temp\errors.txt", "In DocumentGeneration::convertTemplate():   " + ex.Message.ToString(CultureInfo.InvariantCulture));
                 return new TemplateGenerationResult { Value = false, Exception = "DocumentGeneration::convertTemplate() - " + ex.ToString() };
             }
         }
@@ -321,6 +323,7 @@ namespace Cats.Documents
             }
             catch (Exception ex)
             {
+                System.IO.File.AppendAllText(@"c:\temp\errors.txt", "In DocumentGeneration::generateDocument():   " + ex.Message.ToString(CultureInfo.InvariantCulture));
                 return new TemplateGenerationResult { Value = false, Exception = "DocumentGeneration::generateDocument() - " + ex.ToString() };
             }
         }
