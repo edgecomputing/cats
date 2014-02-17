@@ -65,10 +65,13 @@ namespace Cats.Services.Logistics
        public decimal GetRemainingQuantity(int id)
        {
            var reciptPlan = _unitOfWork.LoanReciptPlanRepository.FindById(id);
+           decimal totalRecived = 0;
            if (reciptPlan!=null)
            {
-              decimal totalRecieved = reciptPlan.LoanReciptPlanDetails.Sum(reciptPlanDetail => reciptPlanDetail.RecievedQuantity);
-              return reciptPlan.Quantity - totalRecieved;
+               totalRecived += reciptPlan.LoanReciptPlanDetails.Sum(loanreciptPlanDetail => loanreciptPlanDetail.RecievedQuantity);
+
+               //decimal totalRecieved = reciptPlan.LoanReciptPlanDetails.Sum(reciptPlanDetail => reciptPlanDetail.RecievedQuantity);
+              return reciptPlan.Quantity - totalRecived;
            }
            return 0;
        }
