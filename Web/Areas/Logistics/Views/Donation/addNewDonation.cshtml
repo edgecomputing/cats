@@ -46,7 +46,7 @@
                         @Html.Label(Translator.Translate("Quantity"))
                     </div>
                     <div class="controls" >
-                        @Html.TextBoxFor(model=>model.WieghtInMT,new { @readonly = "readonly", Value="" })
+                        @Html.TextBoxFor(model=>model.WieghtInMT,new { @readonly = "readonly", Value="" })<span class="hide help-inline">Quantity Number is required</span>
                         @Html.ValidationMessageFor(m => m.WieghtInMT)
                
                     </div>
@@ -149,7 +149,11 @@
             // invalid
             $('#SINumber').next('.help-inline').show();
             return false;
+        } if ($('#WieghtInMT').val() === "") {
+            $('#WieghtInMT').next('.help-inline').show();
+            return false;
         }
+        
         else {
             var url = "/Donation/SaveHeader/" + $("#SINumber").val();
             window.location.href = url;
@@ -171,9 +175,10 @@
             success: function (result) {
 
                 var date = new Date(parseInt(result.eta.substr(6)));
+                var dtString = (date.getMonth() + 2) + "/" + ((date.getDate()) + 8) + "/" + date.getFullYear();
                 
                 $("#WieghtInMT").val(result.quantity);
-                $("#ETA").val(date);
+                $("#ETA").val(dtString);
                 $("#DonorName").val(result.donorId);
                 $("#ProgramName").val(result.programId);
                 $("#CommodityName").val(result.comodity);
@@ -184,6 +189,12 @@
             error: function (error) {
                 
                 alert("Duplicate gift certificate has been found: " + error.responseText);
+                $("#WieghtInMT").val("");
+                $("#ETA").val("");
+                $("#DonorName").val("");
+                $("#ProgramName").val("");
+                $("#CommodityName").val("");
+                $("#CommomdityTypeName").val("");
             }
         });
     });

@@ -23,6 +23,7 @@ namespace Cats.Areas.Logistics.Models
         public string CommomdityTypeName { get; set; }
         public int DonorID { get; set; }
         public int ProgramID { get; set; }
+        [DataType(DataType.Date)]
         public System.DateTime ETA { get; set; }
         public string Vessel { get; set; }
         public string ReferenceNo { get; set; }
