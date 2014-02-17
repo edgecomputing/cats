@@ -36,6 +36,10 @@ namespace Cats.Models.PSNP
         //Status
         [Display(Name = "Status")]
         public string StatusName { get; set; }
+
+        public string From { get; set; }
+        public string To { get; set; }
+        public string PlanName { get; set; }
     }
 
     public class PSNPPlanDetailView

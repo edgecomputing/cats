@@ -388,7 +388,6 @@
     <Compile Include="Areas\EarlyWarning\Models\HRDWithRegionalRequestViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\InKindContributionDetailViewModel.cs" />
     <Compile Include="Areas\Logistics\Controllers\DonationController.cs" />
-    <Compile Include="Areas\Logistics\LocalPurchaseController.cs" />
     <Compile Include="Areas\Logistics\Models\LoanReciptPlanViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\NeedAssessmentPlanViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\PlanViewModel.cs" />

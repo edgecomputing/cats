@@ -203,6 +203,7 @@ namespace Cats.Areas.Logistics.Controllers
         [HttpPost]
         public ActionResult ReciptPlan(LoanReciptPlanWithDetailViewModel loanReciptPlanDetail)
         {
+            var userID = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).UserProfileID;
             if (ModelState.IsValid && loanReciptPlanDetail!=null)
             {
                 var loanReciptPlanModel = new LoanReciptPlanDetail()
@@ -212,7 +213,7 @@ namespace Cats.Areas.Logistics.Controllers
                         MemoReferenceNumber = loanReciptPlanDetail.MemoRefrenceNumber,
                         RecievedQuantity = loanReciptPlanDetail.Amount,
                         RecievedDate = DateTime.Today,
-                        ApprovedBy = 1
+                        ApprovedBy = userID
                     };
                 _loanReciptPlanDetailService.AddRecievedLoanReciptPlanDetail(loanReciptPlanModel);
                 return RedirectToAction("Detail", new {id = loanReciptPlanDetail.LoanReciptPlanID});
