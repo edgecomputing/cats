@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -320,7 +321,8 @@ namespace Cats.Areas.EarlyWarning.Controllers
         public void ShowTemplate(string fileName, int giftCertificateId)
         {
             // TODO: Make sure to use DI to get the template generator instance
-          
+           try
+           {
                 var template = new TemplateHelper(_unitofwork);
                 string filePath = template.GenerateTemplate(giftCertificateId, 1, fileName); //here you have to send the name of the tempalte and the id of the giftcertificate
                
@@ -330,7 +332,12 @@ namespace Cats.Areas.EarlyWarning.Controllers
                 Response.AddHeader("Content-Disposition", @"filename= " + fileName + ".docx");
                 Response.TransmitFile(filePath);
                 Response.End();
-          
+           }catch(Exception e)
+           {
+               
+              
+               System.IO.File.AppendAllText(@"c:\temp\errors.txt", e.Message.ToString(CultureInfo.InvariantCulture));
+           }
 
                
         }
