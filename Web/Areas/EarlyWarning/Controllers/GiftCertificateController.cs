@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -331,9 +332,11 @@ namespace Cats.Areas.EarlyWarning.Controllers
                 Response.AddHeader("Content-Disposition", @"filename= " + fileName + ".docx");
                 Response.TransmitFile(filePath);
                 Response.End();
-           }catch
+           }catch(Exception e)
            {
-               
+
+
+               System.IO.File.AppendAllText(@"c:\temp\errors.txt", " ShowTemplate : " + e.Message.ToString(CultureInfo.InvariantCulture));
            }
 
                
