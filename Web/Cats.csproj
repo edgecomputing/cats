@@ -1695,11 +1695,6 @@
     <Content Include="Areas\Regional\Views\Web.config" />
     <Content Include="Areas\Regional\Views\Home\Index.cshtml" />
     <Content Include="Areas\Logistics\Views\LocalPurchase\Details.cshtml" />
-    <Content Include="Areas\Logistics\Views\ReciptPlanForLoanAndOthers\Create.cshtml" />
-    <Content Include="Areas\Logistics\Views\ReciptPlanForLoanAndOthers\Index.cshtml" />
-    <Content Include="Areas\Logistics\Views\ReciptPlanForLoanAndOthers\Edit.cshtml" />
-    <Content Include="Areas\Logistics\Views\ReciptPlanForLoanAndOthers\Detail.cshtml" />
-    <Content Include="Areas\Logistics\Views\ReciptPlanForLoanAndOthers\ReciptPlan.cshtml" />
     <Content Include="Areas\Logistics\Views\Donation\AddNewDonationPlan.cshtml" />
     <Content Include="Areas\Logistics\Views\Donation\Index.cshtml" />
     <Content Include="Areas\Logistics\Views\Donation\addNewDonation.cshtml" />

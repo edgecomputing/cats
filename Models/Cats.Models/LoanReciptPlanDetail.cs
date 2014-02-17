@@ -11,7 +11,7 @@ namespace Cats.Models
        public int LoanReciptPlanDetailID { get; set; }
        public int LoanReciptPlanID { get; set; }
        public int HubID { get; set; }
-       public string MemoReferenceNumber { get; set; }
+       //public string MemoReferenceNumber { get; set; }
        public decimal RecievedQuantity { get; set; }
        public int ApprovedBy { get; set; }
        public DateTime RecievedDate { get; set; }

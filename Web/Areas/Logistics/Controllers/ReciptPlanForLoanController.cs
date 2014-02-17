@@ -176,7 +176,7 @@ namespace Cats.Areas.Logistics.Controllers
                             LoanReciptPlanID = loanReciptPlanDetail.LoanReciptPlanID,
                             HubID = loanReciptPlanDetail.HubID,
                             HubName = loanReciptPlanDetail.Hub.Name,
-                            MemoRefrenceNumber = loanReciptPlanDetail.MemoReferenceNumber,
+                           // MemoRefrenceNumber = loanReciptPlanDetail.MemoReferenceNumber,
                             Amount = loanReciptPlanDetail.RecievedQuantity,
                             CreatedDate = loanReciptPlanDetail.RecievedDate.ToCTSPreferedDateFormat(datePref),
                             Remaining = _loanReciptPlanDetailService.GetRemainingQuantity(loanReciptPlanDetail.LoanReciptPlanID)
@@ -210,7 +210,7 @@ namespace Cats.Areas.Logistics.Controllers
                     {
                         LoanReciptPlanID = loanReciptPlanDetail.LoanReciptPlanID,
                         HubID = loanReciptPlanDetail.HubID,
-                        MemoReferenceNumber = loanReciptPlanDetail.MemoRefrenceNumber,
+                        //MemoReferenceNumber = loanReciptPlanDetail.MemoRefrenceNumber,
                         RecievedQuantity = loanReciptPlanDetail.Amount,
                         RecievedDate = DateTime.Today,
                         ApprovedBy = userID
