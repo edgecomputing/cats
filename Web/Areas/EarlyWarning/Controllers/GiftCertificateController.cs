@@ -334,9 +334,9 @@ namespace Cats.Areas.EarlyWarning.Controllers
                 Response.End();
            }catch(Exception e)
            {
-               
-              
-               System.IO.File.AppendAllText(@"c:\temp\errors.txt", e.Message.ToString(CultureInfo.InvariantCulture));
+
+
+               System.IO.File.AppendAllText(@"c:\temp\errors.txt", " ShowTemplate : " + e.Message.ToString(CultureInfo.InvariantCulture));
            }
 
                
