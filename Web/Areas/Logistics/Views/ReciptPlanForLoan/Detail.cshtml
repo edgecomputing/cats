@@ -92,10 +92,10 @@
         </td>
         <td style="width: 50%">
             <div class="control-label">
-                @Html.LabelFor(m=>m.SourceHubID,@Html.Translate2(PAGE_NAME,"Source Hub"))
+                @Html.LabelFor(m=>m.LoanSource,@Html.Translate2(PAGE_NAME,"Loan Source"))
             </div>
             <div class="controls">
-                @Html.TextBoxFor(m=>m.Hub.Name,new {disabled=true})
+                @Html.TextBoxFor(m=>m.LoanSource,new {disabled=true})
             </div>
         </td>
     </tr>
@@ -163,8 +163,9 @@
                   {
                       columns.Bound(m => m.MemoRefrenceNumber).Title(@Html.Translate2(PAGE_NAME, "Memo Reference number"));
                       columns.Bound(m => m.HubName).Title(@Html.Translate2(PAGE_NAME, "Hub"));
-                      columns.Bound(m => m.Amount).Width(200).Title(@Html.Translate2(PAGE_NAME, "Recieving Amount"));
-                      columns.Bound(m => m.Remaining).Width(200).Title(@Html.Translate2(PAGE_NAME, "Remaining"));
+                      columns.Bound(m => m.CreatedDate).Title("Recieved Date");
+                      columns.Bound(m => m.Amount).Width(200).Title(@Html.Translate2(PAGE_NAME, "Recieving Amount")).HtmlAttributes(new { align = "right" });
+                      columns.Bound(m => m.Remaining).Width(200).Title(@Html.Translate2(PAGE_NAME, "Remaining")).HtmlAttributes(new { align = "right" });
                      // columns.Bound(m => m.Remaining).ClientFooterTemplate("Total in Birr <b>:#=kendo.format('{0:N}', sum)#</b>").Format("{0:N}");
                       
                   }
@@ -175,6 +176,7 @@
               .HtmlAttributes(new { style = "height:230px;" })
               .DataSource(dataSource => dataSource
                                             .Ajax()
+                                            .Group(t=>t.Add(m=>m.HubName))
                                             .Model(model =>model.Id(m=>m.LoanReciptPlanDetailID))
                                             .Read(read => read.Action("LoanReciptPlanDetail_Read", "ReciptPlanForLoan",new {loanReciptPlanID=Model.LoanReciptPlanID}))
               //.Update(update => update.Action("Commodity_Update", "Request"))

@@ -19,7 +19,7 @@ namespace Cats.Models.Mapping
            this.ToTable("LoanReciptPlan");
            this.Property(t => t.LoanReciptPlanID).HasColumnName("LoanReciptPlanID");
            this.Property(t => t.ShippingInstructionID).HasColumnName("ShippingInstructionID");
-           this.Property(t => t.SourceHubID).HasColumnName("SourceHubID");
+           this.Property(t => t.LoanSource).HasColumnName("LoanSource");
            this.Property(t => t.ProgramID).HasColumnName("ProgramID");
            this.Property(t => t.ProjectCode).HasColumnName("ProjectCode");
            this.Property(t => t.CreatedDate).HasColumnName("CreatedDate");
@@ -51,9 +51,9 @@ namespace Cats.Models.Mapping
            .WithMany(t => t.LoanReciptPlans)
            .HasForeignKey(d => d.CommodityID);
 
-           this.HasRequired(t => t.Hub)
-           .WithMany(t => t.LoanReciptPlans)
-           .HasForeignKey(d => d.SourceHubID);
+           //this.HasRequired(t => t.Hub)
+           //.WithMany(t => t.LoanReciptPlans)
+           //.HasForeignKey(d => d.SourceHubID);
        }
 
     }

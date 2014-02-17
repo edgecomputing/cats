@@ -98,7 +98,9 @@ namespace Cats.Documents
                 // Don't continue if the template file name is not found
                 if (!File.Exists(_templateFileName))
                 {
+                    System.IO.File.AppendAllText(@"c:\temp\errors.txt","In GenerateDocument:   " +  _templateFileName);
                     throw new Exception(message: "TemplateFileName (" + _templateFileName + ") does not exist");
+                  
                 }
 
                 // If the file is a DOTX file convert it to docx

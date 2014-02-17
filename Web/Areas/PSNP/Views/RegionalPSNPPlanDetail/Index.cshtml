@@ -1,4 +1,5 @@
-﻿@using Kendo.Mvc.UI;
+﻿@using Cats.Helpers
+@using Kendo.Mvc.UI;
 @using Cats.Models;
 @using Cats.Models.PSNP;
 @using LanguageHelpers.Localization
@@ -11,6 +12,8 @@
     //var index = 0;
     var plan = ViewBag.PsnpPlan;
     StateTemplate state = plan.AttachedBusinessProcess.CurrentState.BaseStateTemplate;
+     const string pageName = "PSNP.RegionalPSNPPlanDetail.Index";
+     ViewBag.TargetController = "RegionalPSNPPlan";
 }
 
 @section LeftBar
@@ -33,8 +36,27 @@
             <li class="edit_button"><a href="javascript:workflow_history(@plan.AttachedBusinessProcess.BusinessProcessID)">History</a></li>
         </ul>
     </div>
+    <div class="btn-group">
+        <button class="btn">Action</button>
+        
+           
+        <button class="btn dropdown-toggle " data-toggle="dropdown">
+            <span class="caret"></span>
+        </button>
+           
+        <ul class="dropdown-menu">
+            @if (state.AllowedAccessLevel >= 2)
+            {
+                <li><a href="@Url.Action("Edit", "RegionalPSNPPlanDetail", new { Area = "PSNP", id = plan.RegionalPSNPPlanID })">@Html.Translate2(pageName, "Edit")</a></li>
+            }
+            @if (state.AllowedAccessLevel >= 3)
+            {
+                <li><a href="@Url.Action("Delete", "RegionalPSNPPlan", new { Area = "PSNP", id = plan.RegionalPSNPPlanID })">@Html.Translate2(pageName, "Delete")</a></li>
+            }
+        </ul>
+    </div>
+      <a class="btn toolbar-btn " data-buttontype="btn_back_to_list" href="@Url.Action("Index", "RegionalPSNPPlan")"></a>
     
-    <a class="btn toolbar-btn " data-buttontype="btn_back_to_list" href="@Url.Action("Index", "RegionalPSNPPlan")"></a>
 }
 
 @if (ViewBag.psnpPlan != null)
@@ -80,7 +102,8 @@
 @(Html.Kendo().Grid<Cats.Models.PSNP.PSNPPlanDetailView>()
     .Name("grid")
     .Columns(columns =>
-    {
+        {
+        columns.Bound(p => p.RegionName).Title(@Html.Translate2(pageName, "Region"));
         columns.Bound(p => p.ZoneName);
         columns.Bound(p => p.WoredaName);
         columns.Bound(p => p.FDPName);
@@ -91,6 +114,7 @@
     .DataSource(
         dataSource => dataSource
         .Ajax()
+         .Group(g=>g.Add(m=>m.RegionName))
         .Group(g => g.Add(m => m.ZoneName))
         .Model(model => model.Id(p => p.RegionalPSNPPlanDetailID))
         .Read(read => read.Action("GetDataListAjax", "RegionalPSNPPlanDetail").Data("filterInfo"))
@@ -143,4 +167,35 @@
         $("#grid").data("kendoGrid").dataSource.read();
     }
 
+</script>
+<div id="modalHistory" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false" style="width: 600px;">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h4 id="modalHistoryLabel">Activity History</h4>
+    </div>
+    <div class="modal-body" id="modalHistoryBody">History</div>
+        <div class="modal-footer">
+            <a href="@Url.Action("Details", "BusinessProcess", new { Area = "WorkflowManager", id = "0" })">View In New Window</a>
+        </div>
+</div>
+@Html.Partial("~/Views/Shared/_PromotWorkflow.cshtml")
+<script>
+    var history_link = "@Url.Action("History", "BusinessProcess", new { Area = "WorkflowManager", id = "0" })";
+
+    function promot_workflow(BusinessProcessID, nextstate, actionname) {
+        $('#ParentBusinessProcessID').val(BusinessProcessID);
+        $('#stateID').val(nextstate);
+        $('#modalPromotionLabel').html(actionname);
+
+        $('#modalPromotion').modal();
+    }
+    function workflow_history(BusinessProcessID) {
+        $('#modalHistory').modal();
+        $.post(history_link + BusinessProcessID, {},
+            function (data) {
+                $("#modalHistoryBody").html(data);
+            }
+        );
+
+    }
 </script>

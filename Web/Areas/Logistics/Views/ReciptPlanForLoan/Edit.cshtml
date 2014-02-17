@@ -15,6 +15,7 @@
     @Html.HiddenFor(m=>m.LoanReciptPlanID)
     @Html.HiddenFor(m=>m.StatusID)
     @Html.HiddenFor(m=>m.ShippingInstructionID)
+    @Html.HiddenFor(m=>m.CommoditySourceID)
     <table border="0" class="form-horizontal">
         <tr style="width: 300px">
             <td style="width:50%">
@@ -49,11 +50,11 @@
         <tr style="width: 300px">
             <td style="width: 50%">
                 <div class="control-label">
-                    @Html.LabelFor(m=>m.SourceHubID,@Html.Translate2(PAGE_NAME,"Source Hub"))
+                    @Html.LabelFor(m=>m.LoanSource,@Html.Translate2(PAGE_NAME,"Loan Source"))
                 </div>
                 <div class="controls">
-                    @Html.DropDownList("SourceHubID")
-                    @Html.ValidationMessageFor(m=>m.SourceHubID)
+                    @Html.TextBoxFor(m=>m.LoanSource)
+                    @Html.ValidationMessageFor(m=>m.LoanSource)
                 </div>
             </td>
              <td>
@@ -92,7 +93,7 @@
                     @Html.LabelFor(m=>m.CommoditySourceID,@Html.Translate2(PAGE_NAME,"Commodity Source"))
                 </div>
                 <div class="controls">
-                    @Html.DropDownList("CommoditySourceID")
+                    @Html.TextBoxFor(m=>m.CommoditySource.Name,new {Disabled="Disabled"})
                     @Html.ValidationMessageFor(m=>m.CommoditySourceID)
 
                 </div>
@@ -141,7 +142,8 @@ $(document).ready(function () {
         var allValidationRules = {
             ReferenceNumber: "required",
             ProjectCode: "required",
-            Quantity: "required"
+            Quantity: "required",
+            LoanSource:"required"
         };
         $("#myForm").validate({
             rules: allValidationRules,
