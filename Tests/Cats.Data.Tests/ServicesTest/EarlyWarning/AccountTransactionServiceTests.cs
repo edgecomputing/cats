@@ -615,6 +615,101 @@ namespace Cats.Data.Tests.ServicesTest.EarlyWarning
                       It.IsAny<Func<IQueryable<HRD>, IOrderedQueryable<HRD>>>(),
                       It.IsAny<string>())).Returns(hrds);
 
+            var woredaStockDistributions = new List<WoredaStockDistribution>()
+                                       {
+                                           new WoredaStockDistribution()
+                                               {
+                                                   WoredaStockDistributionID = 1,
+                                                   WoredaID = 1,
+                                                   ProgramID = 1,
+                                                   PlanID = 1,
+                                                   Month = 1,
+                                                   SupportTypeID = 1,
+                                                   ActualBeneficairies = 500,
+                                                   DistributionDate = DateTime.Now,
+                                                   DistributedBy = 1,
+                                                   Remark = "Sample remark",
+                                                   MaleLessThan5Years = 100,
+                                                   FemaleLessThan5Years = 100,
+                                                   MaleBetween5And18Years = 100,
+                                                   FemaleBetween5And18Years = 100,
+                                                   MaleAbove18Years = 50,
+                                                   FemaleAbove18Years = 50,
+                                                   WoredaStockDistributionDetails = new List<WoredaStockDistributionDetail>()
+                                                                                        {
+                                                                                            new WoredaStockDistributionDetail()
+                                                                                                {
+                                                                                                   WoredaStockDistributionDetailID = 1,
+                                                                                                   WoredaStockDistributionID = 1,
+                                                                                                   FdpId = 1,
+                                                                                                   DistributedAmount = 100,
+                                                                                                   StartingBalance = 100,
+                                                                                                   EndingBalance = 20,
+                                                                                                   TotalIn = 100,
+                                                                                                   TotoalOut = 80,
+                                                                                                   DistributionStartDate = DateTime.Now,
+                                                                                                   DistributionEndDate = DateTime.Today.AddDays(10),
+                                                                                                   LossAmount = 10,
+                                                                                                   LossReason = "Rat intrusion",
+                                                                                                   FDP = new FDP()
+                                                                                                             {
+                                                                                                                FDPID = 1,
+                                                                                                                Name = "FDP1",
+                                                                                                                AdminUnitID = 1
+                                                                                                             },
+                                                                                                }
+                                                                                        }
+                                               }
+                                       };
+            var woredaStockDistributionRepositoy = new Mock<IGenericRepository<WoredaStockDistribution>>();
+            woredaStockDistributionRepositoy.Setup(
+                t =>
+                t.Get(It.IsAny<Expression<Func<WoredaStockDistribution, bool>>>(),
+                      It.IsAny<Func<IQueryable<WoredaStockDistribution>, IOrderedQueryable<WoredaStockDistribution>>>(),
+                      It.IsAny<string>())).Returns(woredaStockDistributions);
+
+            var donationPlanHeaders = new List<DonationPlanHeader>()
+                                       {
+                                           new DonationPlanHeader()
+                                                {
+                                                    DonationHeaderPlanID = 1,
+                                                    ShippingInstructionId = 1,
+                                                    CommodityID = 1,
+                                                    DonatedAmount = 500,
+                                                    DonorID = 1,
+                                                    ProgramID = 1,
+                                                    ETA = DateTime.Today.AddDays(10),
+                                                    Vessel = "Vessel-123",
+                                                    ReferenceNo = "REF-123",
+                                                    Remark = "Sample Remark",
+                                                    DonationPlanDetails = new List<DonationPlanDetail>()
+                                                                              {
+                                                                                  new DonationPlanDetail()
+                                                                                      {
+                                                                                          DonationDetailPlanID = 1,
+                                                                                          DonationHeaderPlanID = 1,
+                                                                                          HubID = 1,
+                                                                                          AllocatedAmount = 500,
+                                                                                          ReceivedAmount = 450,
+                                                                                          Balance = 50,
+                                                                                          Hub = new Hub()
+                                                                                                    {
+                                                                                                        HubID = 1,
+                                                                                                        Name = "Hub1"
+                                                                                                    }
+                                                                                      }
+                                                                              }
+                                                }
+                                       };
+            var donationPlanHeaderRepositoy = new Mock<IGenericRepository<DonationPlanHeader>>();
+            donationPlanHeaderRepositoy.Setup(
+                t =>
+                t.Get(It.IsAny<Expression<Func<DonationPlanHeader, bool>>>(),
+                      It.IsAny<Func<IQueryable<DonationPlanHeader>, IOrderedQueryable<DonationPlanHeader>>>(),
+                      It.IsAny<string>())).Returns(donationPlanHeaders);
+            donationPlanHeaderRepositoy.Setup(t => t.FindById(It.IsAny<int>())).Returns((int id) => donationPlanHeaders.
+                                                                                                 FirstOrDefault(t => t.DonationHeaderPlanID == id));
+
             var transactionRepository = new Mock<IGenericRepository<Models.Transaction>>();
             transactionRepository.Setup(t => t.Add(It.IsAny<Models.Transaction>())).Returns(true);
             var transactionGroupRepository = new Mock<IGenericRepository<TransactionGroup>>();
@@ -632,6 +727,8 @@ namespace Cats.Data.Tests.ServicesTest.EarlyWarning
             unitOfWork.Setup(t => t.RegionalPSNPPlanRepository).Returns(regionalPSNPPlanRepositoy.Object);
             unitOfWork.Setup(t => t.RationRepository).Returns(rationRepositoy.Object);
             unitOfWork.Setup(t => t.HRDRepository).Returns(hrdRepositoy.Object);
+            unitOfWork.Setup(t => t.DonationPlanHeaderRepository).Returns(donationPlanHeaderRepositoy.Object);
+            unitOfWork.Setup(t => t.WoredaStockDistributionRepository).Returns(woredaStockDistributionRepositoy.Object);
             unitOfWork.Setup(t => t.TransactionRepository).Returns(transactionRepository.Object);
             unitOfWork.Setup(t => t.TransactionGroupRepository).Returns(transactionGroupRepository.Object);
             unitOfWork.Setup(t => t.Save());
@@ -833,6 +930,56 @@ namespace Cats.Data.Tests.ServicesTest.EarlyWarning
 
             //Assert
             Assert.IsInstanceOf<List<Models.Transaction>>(result);
+        }
+
+        [Test]
+        public void ShouldPostDistributionTransaction()
+        {
+            //Act
+            var result = _accountTransactionService.PostDistribution(1);
+
+            //Assert
+            Assert.IsTrue(result);
+        }
+
+        [Test]
+        public void ShouldPostDonationPlanTransaction()
+        {
+            //Act
+            var donationPlanHeader = new DonationPlanHeader()
+            {
+                DonationHeaderPlanID = 1,
+                ShippingInstructionId = 1,
+                CommodityID = 1,
+                DonatedAmount = 500,
+                DonorID = 1,
+                ProgramID = 1,
+                ETA = DateTime.Today.AddDays(10),
+                Vessel = "Vessel-123",
+                ReferenceNo = "REF-123",
+                Remark = "Sample Remark",
+                DonationPlanDetails = new List<DonationPlanDetail>()
+                                          {
+                                              new DonationPlanDetail()
+                                                  {
+                                                      DonationDetailPlanID = 1,
+                                                      DonationHeaderPlanID = 1,
+                                                      HubID = 1,
+                                                      AllocatedAmount = 500,
+                                                      ReceivedAmount = 450,
+                                                      Balance = 50,
+                                                      Hub = new Hub()
+                                                                {
+                                                                    HubID = 1,
+                                                                    Name = "Hub1"
+                                                                }
+                                                  }
+                                          }
+            };
+            var result = _accountTransactionService.PostDonationPlan(donationPlanHeader);
+
+            //Assert
+            Assert.IsTrue(result);
         }
 
         #endregion
