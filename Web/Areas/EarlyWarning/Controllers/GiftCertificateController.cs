@@ -336,7 +336,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
            {
 
 
-               System.IO.File.AppendAllText(@"c:\temp\errors.txt", " ShowTemplate : " + e.Message.ToString(CultureInfo.InvariantCulture));
+               //System.IO.File.AppendAllText(@"c:\temp\errors.txt", " ShowTemplate : " + e.Message.ToString(CultureInfo.InvariantCulture));
            }
 
                
