@@ -153,7 +153,8 @@ namespace Cats.Data
         public DbSet<DonationPlanHeader> DonationPlanHeaders { get; set; }
         public DbSet<DonationPlanDetail> DonationPlanDetails { get; set; }
         public DbSet<LoanReciptPlan> LoanReciptPlans { get; set; }
-        public DbSet<LoanReciptPlanDetail> LoanReciptPlanDetails { get; set; } 
+        public DbSet<LoanReciptPlanDetail> LoanReciptPlanDetails { get; set; }
+        public DbSet<Transfer> Transfers { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
