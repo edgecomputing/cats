@@ -170,7 +170,7 @@
               .Name("LocalPurchaseDetail")
               .Columns(columns =>
               {
-                  columns.Bound(m => m.HubID).Visible(false).ClientTemplate("#= HubID #" +
+                  columns.Bound(m => m.HubID).Hidden(true).ClientTemplate("#= HubID #" +
                 "<input type='hidden' name='LocalPurchaseDetailViewModels[#= index(data)#].HubID' value='#= HubID #' />");
                   columns.Bound(m => m.HubName).Title(Translator.Translate("Hub")).ClientTemplate("#= HubName #" +
                "<input type='hidden' name='LocalPurchaseDetailViewModels[#= index(data)#].HubName' value='#= HubName #' />");

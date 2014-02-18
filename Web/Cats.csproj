@@ -388,7 +388,6 @@
     <Compile Include="Areas\EarlyWarning\Models\HRDWithRegionalRequestViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\InKindContributionDetailViewModel.cs" />
     <Compile Include="Areas\Logistics\Controllers\DonationController.cs" />
-    <Compile Include="Areas\Logistics\LocalPurchaseController.cs" />
     <Compile Include="Areas\Logistics\Models\LoanReciptPlanViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\NeedAssessmentPlanViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\PlanViewModel.cs" />
@@ -1696,11 +1695,6 @@
     <Content Include="Areas\Regional\Views\Web.config" />
     <Content Include="Areas\Regional\Views\Home\Index.cshtml" />
     <Content Include="Areas\Logistics\Views\LocalPurchase\Details.cshtml" />
-    <Content Include="Areas\Logistics\Views\ReciptPlanForLoanAndOthers\Create.cshtml" />
-    <Content Include="Areas\Logistics\Views\ReciptPlanForLoanAndOthers\Index.cshtml" />
-    <Content Include="Areas\Logistics\Views\ReciptPlanForLoanAndOthers\Edit.cshtml" />
-    <Content Include="Areas\Logistics\Views\ReciptPlanForLoanAndOthers\Detail.cshtml" />
-    <Content Include="Areas\Logistics\Views\ReciptPlanForLoanAndOthers\ReciptPlan.cshtml" />
     <Content Include="Areas\Logistics\Views\Donation\AddNewDonationPlan.cshtml" />
     <Content Include="Areas\Logistics\Views\Donation\Index.cshtml" />
     <Content Include="Areas\Logistics\Views\Donation\addNewDonation.cshtml" />

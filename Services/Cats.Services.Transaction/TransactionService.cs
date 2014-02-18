@@ -337,13 +337,13 @@ namespace Cats.Services.Transaction
                                      ProgramID = donationPlanHeader.ProgramID,
                                      DonorID = donationPlanHeader.DonorID,
                                      CommoditySourceID = 1,
-                                     QuantityInMT = donationPlanDetail.AllocatedAmount,
+                                     QuantityInMT = -donationPlanDetail.AllocatedAmount,
                                      TransactionGroupID = transactionGroup,
                                      TransactionDate = transactionDate,
                                      CommodityID = donationPlanHeader.CommodityID,
                                      ShippingInstructionID = donationPlanHeader.ShippingInstructionId,
                                      HubID = donationPlanDetail.HubID,
-                                     LedgerID = 4 //good promissed - pledged is not in ledger list
+                                     LedgerID = Ledger.Constants.GOODS_PROMISSED_GIFT_CERTIFICATE_COMMITED //good promissed - pledged is not in ledger list // Former LedgerID = 4
                                  };
 
                 _unitOfWork.TransactionRepository.Add(transaction);
