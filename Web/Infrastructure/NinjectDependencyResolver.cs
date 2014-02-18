@@ -5,6 +5,7 @@ using Cats.Data.UnitWork;
 using Cats.Models;
 using Cats.Services.Administration;
 using Cats.Services.Hub;
+using Cats.Services.Hub.Interfaces;
 using Cats.Services.Security;
 using LanguageHelpers.Localization.Services;
 using Logistics.Security;
@@ -256,7 +257,7 @@ namespace Cats.Infrastructure
         }
         private void AddBindingsHub()
         {
-            kernel.Bind<Cats.Data.Hub.IUnitOfWork>().To<Cats.Data.Hub.UnitOfWork>();
+            kernel.Bind<Data.Hub.UnitWork.IUnitOfWork>().To<Cats.Data.Hub.UnitOfWork>();
             kernel.Bind<Cats.Services.Hub.IFDPService>().To<Cats.Services.Hub.FDPService>();
             kernel.Bind<Cats.Services.Hub.IAdminUnitService>().To<Cats.Services.Hub.AdminUnitService>();
             kernel.Bind<Cats.Services.Hub.ICommodityService>().To<Cats.Services.Hub.CommodityService>();
@@ -293,7 +294,7 @@ namespace Cats.Infrastructure
             kernel.Bind<Cats.Services.Hub.IAuditService>().To<Cats.Services.Hub.AuditSevice>();
             kernel.Bind<Cats.Services.Hub.ICommonService>().To<Cats.Services.Hub.CommonService>();
             kernel.Bind<Cats.Services.Hub.IDonorService>().To<Cats.Services.Hub.DonorService>();
-            kernel.Bind<Cats.Services.Hub.IErrorLogService>().To<Cats.Services.Hub.ErrorLogService>();
+            kernel.Bind<IErrorLogService>().To<Cats.Services.Hub.ErrorLogService>();
             kernel.Bind<Cats.Services.Hub.IGiftCertificateDetailService>().To<Cats.Services.Hub.GiftCertificateDetailService>();
             kernel.Bind<Cats.Services.Hub.IGiftCertificateService>().To<Cats.Services.Hub.GiftCertificateService>();
             kernel.Bind<Cats.Services.Hub.IHubOwnerService>().To<Cats.Services.Hub.HubOwnerService>();
