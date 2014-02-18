@@ -83,6 +83,7 @@
     <Compile Include="ILocalPurchaseService.cs" />
     <Compile Include="IReceiptPlanDetailService.cs" />
     <Compile Include="IReceiptPlanService.cs" />
+    <Compile Include="ITransferService.cs" />
     <Compile Include="LoanReciptPlanDetailService.cs" />
     <Compile Include="LoanReciptPlanService.cs" />
     <Compile Include="LocalPurchaseDetailService.cs" />
@@ -91,6 +92,7 @@
     <Compile Include="ReceiptPlanService.cs" />
     <Compile Include="ISupportTypeService.cs" />
     <Compile Include="SupportTypeService.cs" />
+    <Compile Include="TransferService.cs" />
     <Compile Include="UtilizationDetailSerivce.cs" />
     <Compile Include="DeliveryDetailService.cs" />
     <Compile Include="DeliveryService.cs" />
