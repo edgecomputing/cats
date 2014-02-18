@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Cats.Data.Hub;
+
 using Cats.Data.UnitWork;
 using NUnit.Framework;
 using Moq;
