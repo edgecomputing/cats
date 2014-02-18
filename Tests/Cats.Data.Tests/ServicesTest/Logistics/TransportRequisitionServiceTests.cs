@@ -186,7 +186,7 @@ namespace Cats.Data.Tests.ServicesTest.Logistics
                                                      RequisitionID = 1,
                                                      HubID = 1,
                                                      HubAllocationID = 1,
-                                                     Hub=new Hub
+                                                     Hub=new Models.Hub()
                                                              {
                                                                  Name="Hub 1",
                                                                  HubID=1,
