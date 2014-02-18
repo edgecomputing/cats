@@ -1,6 +1,6 @@
 ﻿body {
   color: #444;
-  font: 13px/1.7em "Open Sans", "trebuchet ms", arial, sans-serif;
+  
 }
 h1,
 h2,
@@ -10,7 +10,6 @@ h5,
 h6,
 p {
   margin-top: 0;
-  font-family: 'Open Sans', 'trebuchet ms', arial, sans-serif;
 }
 ul.icons-list {
   padding: 0;
