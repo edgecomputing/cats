@@ -11,6 +11,11 @@
     var user = UserAccountHelper.GetUser(HttpContext.Current.User.Identity.Name);
 
 }
+
+@section LeftBar{
+
+    @Html.Partial("_giftLeftBar");
+}
 <h4 class="page-header">
     @Translator.Translate(ViewBag.Title)
 </h4>

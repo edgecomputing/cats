@@ -171,10 +171,11 @@
     function SummaryController($scope, $http) {
 
         $scope.reqParam = { program: 1, date: new Date() };
-        $scope.summaryData = [];
-        $scope.programsCollection = [];
-        $scope.freeStockSum = 0;
-        $scope.physicalStockSum = 0;
+        $scope.requestRows = [];
+        
+        //$scope.programsCollection = [];
+        //$scope.freeStockSum = 0;
+        //$scope.physicalStockSum = 0;
 
         var onSuccess = function (data) {
             $scope.summaryData = data;
@@ -188,9 +189,9 @@
             $scope.physicalStockSum = p;
         };
 
-        var onProgramGetSuccess = function (data) {
-            $scope.ProgramsCollection = data;
-        };
+        //var onProgramGetSuccess = function (data) {
+        //    $scope.ProgramsCollection = data;
+        //};
 
         $scope.getSummary = function () {
             //$http.post("/LogisticsStockStatus/GetStockStatusSummaryP", $scope.reqParam).success(onSuccess);

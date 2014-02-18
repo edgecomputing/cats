@@ -5,7 +5,7 @@
 
 @{
     ViewBag.Title = "Dispatches";
-    Layout = "~/Views/Shared/_MainLayoutWide.cshtml";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
     
 }
 <html ng-app="DispatchManagementModule">
@@ -524,7 +524,7 @@
         $scope.loadGRNPartial = function(id) {
             var dispatchId = { "id": id };
             //$("#" + dispatchId).addClass("selected");
-            $http.post('/Delivery/LoadGRN/', dispatchId).
+            $http.post(rootDir + 'Delivery/LoadGRN/', dispatchId).
                 success(function(data, status, headers, config) {
                     //alert(data["ReceivedBy"]);
                     $scope.GRNDetail = data;
@@ -538,7 +538,7 @@
         $scope.editGRN = function(id) {
             //alert("ReceivedBy: " + $scope.GRNDetail.ReceivedBy);
             if ($scope.GRNDetail != []) {
-                $http.post('/Delivery/EditGRN/', $scope.GRNDetail).
+                $http.post(rootDir + 'Delivery/EditGRN/', $scope.GRNDetail).
                     success(function(data, status, headers, config) {
                         //alert(data["ReceivedBy"]);
                         $scope.GRNDetail = [];
@@ -547,21 +547,21 @@
                         $(".message-box").addClass("successStyle");
                         $http({
                             method: 'GET',
-                            url: '/Delivery/GetGINsWithGRN/' + @ViewBag.TransportOrderId
-                            @*url: @Url.Action("GetGINsWithGRN", "Delivery", new { Area = "Logistics", id = @ViewBag.TransportOrderId })*@
+                            url: rootDir + 'Delivery/GetGINsWithGRN/' + @ViewBag.TransportOrderId
+                            //url: @*@Url.Action("GetGINsWithGRN", "Delivery", new { Area = "Logistics", id = @ViewBag.TransportOrderId }),*@
                             
                         }).success(function(result) {
                             $scope.GetGINsWithGRN = result;
                         });
                         $http({
                             method: 'GET',
-                            url: '/Delivery/GetGINsWithoutGRN/' + @ViewBag.TransportOrderId
+                            url: rootDir + 'Delivery/GetGINsWithoutGRN/' + @ViewBag.TransportOrderId
                         }).success(function(result) {
                             $scope.GetGINsWithoutGRN = result;
                         });
                         $http({
                             method: 'GET',
-                            url: '/Delivery/ReadDeliveryNotesDiscripancy/' + @ViewBag.TransportOrderId
+                            url: rootDir + 'Delivery/ReadDeliveryNotesDiscripancy/' + @ViewBag.TransportOrderId
                         }).success(function(result) {
                             $scope.DeliveryNotes = result;
                         });
@@ -579,10 +579,10 @@
                 $(".message-box").addClass("errorStyle");
             }
         };
-
+        //alert(rootDir);
         $http({
             method: 'GET',
-            url: '/Delivery/GetGINsWithGRN/' + @ViewBag.TransportOrderId
+            url: rootDir + 'Delivery/GetGINsWithGRN/' + @ViewBag.TransportOrderId
 
         }).success(function (result) {
             $scope.GetGINsWithGRN = result;
@@ -591,7 +591,7 @@
 
         $http({
             method: 'GET',
-            url: '/Delivery/GetGINsWithoutGRN/' + @ViewBag.TransportOrderId
+            url: rootDir + 'Delivery/GetGINsWithoutGRN/' + @ViewBag.TransportOrderId
 
         }).success(function (result) {
             $scope.GetGINsWithoutGRN = result;
@@ -599,7 +599,7 @@
 
         $http({
             method: 'GET',
-            url: '/Delivery/ReadDeliveryNotesDiscripancy/' + @ViewBag.TransportOrderId
+            url: rootDir + 'Delivery/ReadDeliveryNotesDiscripancy/' + @ViewBag.TransportOrderId
 
         }).success(function (result) {
             $scope.DeliveryNotes = result;
@@ -634,7 +634,7 @@
         dispatchId[0] = id;
         $.ajax({
             type: "POST",
-            url: "/Delivery/LoadGRN/",
+            url: rootDir + "Delivery/LoadGRN/",
             contentType: "application/json; charset=utf-8",
             data: JSON.stringify(dispatchId),
             dataType: "json",

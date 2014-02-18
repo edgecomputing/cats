@@ -10,28 +10,72 @@
 }
 @section Toolbar
 {
-    <button class="btn dropdown-toggle " data-toggle="dropdown">
-        @Html.Translate2(PAGE_NAME,"Actions")
-        <span class="caret"></span>
-    </button>
-    <ul class="dropdown-menu">
-        <li><a id="btnRecive" href="@Url.Action("ReciptPlan", "ReciptPlanForLoanAndOthers", new { id = Model.LoanReciptPlanID})">@Html.Translate2(PAGE_NAME,"Recieve")</a></li>
-        @if(Model.StatusID==(int)LocalPurchaseStatus.Draft)
+  
+    <div class="btn-group">
+        <button class="btn">Action</button>
+        
+           
+            <button class="btn dropdown-toggle " data-toggle="dropdown">
+                <span class="caret"></span>
+            </button>
+           
+        <ul class="dropdown-menu">
+            <li><a id="btnRecive" href="@Url.Action("ReciptPlan", "ReciptPlanForLoan", new { id = Model.LoanReciptPlanID})">@Html.Translate2(PAGE_NAME,"Recieve Plan")</a></li>
+             @if(Model.StatusID==(int)LocalPurchaseStatus.Draft)
        {
-        <li><a id="btnEdit" href="@Url.Action("Edit", "ReciptPlanForLoanAndOthers", new {id = Model.LoanReciptPlanID})">@Html.Translate2(PAGE_NAME, "Edit")</a></li>@*
+        <li><a id="btnEdit" href="@Url.Action("Edit", "ReciptPlanForLoan", new {id = Model.LoanReciptPlanID})">@Html.Translate2(PAGE_NAME, "Edit")</a></li>@*
         <li><a id="btnApprove" href="@Url.Action("", "ReciptPlanForLoanAndOthers", new {id = Model.LoanReciptPlanID})">@Html.Translate2(PAGE_NAME, "Approve")</a></li>*@
       }
     </ul>
-    <a class="btn toolbar-btn " href="@Url.Action("Index", "ReciptPlanForLoanAndOthers")" data-buttontype="btn_back_to_list"></a>
+    <a class="btn toolbar-btn " href="@Url.Action("Index", "ReciptPlanForLoan")" data-buttontype="btn_back_to_list"></a>
+    </div>
 
-
-    
 }
+
 @section LeftBar {
     
 
 }
+<script type="text/javascript">
+    $(function () {
 
+        //Optional: turn the chache off
+        $.ajaxSetup({ cache: false });
+
+        $('#btnRecive').click(function () {
+
+            // alert("");
+            $('#dialogContentSmall').load(this.href, function () {
+                $('#dialogDivSmall').modal({
+                    backdrop: 'static',
+                    keyboard: true
+                }, 'show');
+                //bindForm(this);
+            });
+            return false;
+        });
+        
+        $('#btnEdit').click(function () {
+
+            // alert("");
+            $('#dialogContent').load(this.href, function () {
+                $('#dialogDiv').modal({
+                    backdrop: 'static',
+                    keyboard: true
+                }, 'show');
+                //bindForm(this);
+            });
+            return false;
+        });
+
+    });
+</script>
+<div id='dialogDivSmall' class='modal hide fade in'>
+    <div id='dialogContentSmall'></div>
+</div>
+<div id='dialogDiv' class='modal hide fade in' style="width: 820px;margin-right: 10px">
+    <div id='dialogContent'></div>
+</div>
     @Html.HiddenFor(m=>m.LoanReciptPlanID)
     @Html.HiddenFor(m=>m.StatusID)
     @Html.HiddenFor(m=>m.ShippingInstructionID)
@@ -48,10 +92,10 @@
         </td>
         <td style="width: 50%">
             <div class="control-label">
-                @Html.LabelFor(m=>m.SourceHubID,@Html.Translate2(PAGE_NAME,"Source Hub"))
+                @Html.LabelFor(m=>m.LoanSource,@Html.Translate2(PAGE_NAME,"Loan Source"))
             </div>
             <div class="controls">
-                @Html.TextBoxFor(m=>m.OriginHub.Name,new {disabled=true})
+                @Html.TextBoxFor(m=>m.LoanSource,new {disabled=true})
             </div>
         </td>
     </tr>
@@ -119,18 +163,22 @@
                   {
                       columns.Bound(m => m.MemoRefrenceNumber).Title(@Html.Translate2(PAGE_NAME, "Memo Reference number"));
                       columns.Bound(m => m.HubName).Title(@Html.Translate2(PAGE_NAME, "Hub"));
-                      columns.Bound(m => m.Amount).Width(200).Title(@Html.Translate2(PAGE_NAME, "Recieving Amount"));
-                      columns.Bound(m => m.Remaining).Width(200).Title(@Html.Translate2(PAGE_NAME, "Remaining"));
+                      columns.Bound(m => m.CreatedDate).Title("Recieved Date");
+                      columns.Bound(m => m.Amount).Width(200).Title(@Html.Translate2(PAGE_NAME, "Recieving Amount")).HtmlAttributes(new { align = "right" });
+                      columns.Bound(m => m.Remaining).Width(200).Title(@Html.Translate2(PAGE_NAME, "Remaining")).HtmlAttributes(new { align = "right" });
+                     // columns.Bound(m => m.Remaining).ClientFooterTemplate("Total in Birr <b>:#=kendo.format('{0:N}', sum)#</b>").Format("{0:N}");
+                      
                   }
 
               )
 
               .Navigatable()
-              .HtmlAttributes(new { style = "height:430px;" })
+              .HtmlAttributes(new { style = "height:230px;" })
               .DataSource(dataSource => dataSource
                                             .Ajax()
+                                            .Group(t=>t.Add(m=>m.HubName))
                                             .Model(model =>model.Id(m=>m.LoanReciptPlanDetailID))
-                                            .Read(read => read.Action("LoanReciptPlanDetail_Read", "ReciptPlanForLoanAndOthers",new {loanReciptPlanID=Model.LoanReciptPlanID}))
+                                            .Read(read => read.Action("LoanReciptPlanDetail_Read", "ReciptPlanForLoan",new {loanReciptPlanID=Model.LoanReciptPlanID}))
               //.Update(update => update.Action("Commodity_Update", "Request"))
               )
        )

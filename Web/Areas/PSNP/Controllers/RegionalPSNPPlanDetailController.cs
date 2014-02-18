@@ -149,6 +149,7 @@ namespace Cats.Areas.PSNP.Controllers
                                  WoredaName = fdp.AdminUnit.Name,
                                  ZoneID = fdp.AdminUnit.AdminUnit2.AdminUnitID,
                                  ZoneName = fdp.AdminUnit.AdminUnit2.Name,
+                                 RegionName = fdp.AdminUnit.AdminUnit2.AdminUnit2.Name,
                                  RegionalPSNPPlanDetailID = plandetail.RegionalPSNPPlanDetailID,
                                  BeneficiaryCount = plandetail.BeneficiaryCount,
                                  RegionalPSNPPlanID = plan.RegionalPSNPPlanID,
@@ -218,7 +219,8 @@ namespace Cats.Areas.PSNP.Controllers
                                  BeneficiaryCount = fdb.BeneficiaryCount,
                                  RegionalPSNPPlanID = fdb.RegionalPSNPPlanID,
                                  FoodRatio = fdb.FoodRatio,
-                                 CashRatio = fdb.CashRatio
+                                 CashRatio = fdb.CashRatio,
+                                 RegionName = fdp.AdminUnit.AdminUnit2.AdminUnit2.Name
                              };
             }
             return Json(allFDPData.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);

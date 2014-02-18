@@ -195,5 +195,6 @@ namespace Cats.Services.Common
         {
             return _unitOfWork.HubRepository.GetAll();
         }
+        
     }
 }

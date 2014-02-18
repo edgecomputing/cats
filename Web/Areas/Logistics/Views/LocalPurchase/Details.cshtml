@@ -92,7 +92,7 @@
                         @Html.Label(Translator.Translate("Project Code"))
                     </div>
                     <div class="controls">
-                        @Html.TextBoxFor(m => m.GiftCertificateID)
+                        @Html.TextBoxFor(m => m.ProjectCode)
                     </div>
                 
                 </td>
@@ -170,7 +170,7 @@
               .Name("LocalPurchaseDetail")
               .Columns(columns =>
               {
-                  columns.Bound(m => m.HubID).Visible(false).ClientTemplate("#= HubID #" +
+                  columns.Bound(m => m.HubID).Hidden(true).ClientTemplate("#= HubID #" +
                 "<input type='hidden' name='LocalPurchaseDetailViewModels[#= index(data)#].HubID' value='#= HubID #' />");
                   columns.Bound(m => m.HubName).Title(Translator.Translate("Hub")).ClientTemplate("#= HubName #" +
                "<input type='hidden' name='LocalPurchaseDetailViewModels[#= index(data)#].HubName' value='#= HubName #' />");
@@ -194,6 +194,8 @@
                                             {
                                                 model.Id(p => p.LocalPurchaseDetailID);
                                                 model.Field(p => p.HubName).Editable(false);
+                                                model.Field(p => p.RecievedAmonut).Editable(false);
+                                                model.Field(p => p.RemainingAmonut).Editable(false);
                                             })
 
                                             .Read(read => read.Action("HubsLocalPurchaseDetail_Read", "LocalPurchase", new { localPurchaseID = Model.LocalPurchaseID }))

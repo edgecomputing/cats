@@ -15,8 +15,8 @@ namespace Cats.Models
        
        public int LoanReciptPlanID { get; set; }
        public int ShippingInstructionID { get; set; }
-       public int HubID { get; set; }
-       public int SourceHubID { get; set; }
+      // public int HubID { get; set; }
+       public string LoanSource { get; set; }
        public int ProgramID { get; set; }
        public string ProjectCode { get; set; }
        public DateTime CreatedDate { get; set; }
@@ -26,8 +26,8 @@ namespace Cats.Models
        public decimal Quantity { get; set; }
        public int StatusID { get; set; }
 
-       public virtual Hub Hub  { get; set; }
-       public virtual Hub OriginHub { get; set; }
+      // public virtual Hub Hub  { get; set; }
+       //public virtual Hub Hub { get; set; }
        public virtual Program Program { get; set; }
        public virtual CommoditySource CommoditySource { get; set; }
        public virtual Commodity Commodity { get; set; }

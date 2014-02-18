@@ -28,7 +28,7 @@
 
     </div>
    
-    <a class="btn toolbar-btn " data-buttontype="btn_save" data-submittedform="frmDonation"></a>
+    <a class="btn toolbar-btn "  data-buttontype="btn_save" data-submittedform="frmDonation"></a>
     <a id="btnAddProposal" data-buttontype="btn_back_to_list" class="btn toolbar-btn " href="@Url.Action("Index", "Donation")"></a>
 }
 
@@ -46,7 +46,7 @@
                         @Html.LabelFor(model => model.SINumber, @Translator.Translate("SI / Batch Number"))
                     </div>
                     <div class="controls">
-                        @Html.TextBoxFor(model => model.SINumber, "SINumber")
+                        @Html.TextBoxFor(model => model.SINumber, "SINumber",new { @readonly = "readonly" })
                         @Html.ValidationMessageFor(model => model.SINumber)
                     </div>
                 </div>
@@ -57,7 +57,7 @@
                         @Html.LabelFor(model => model.ETA, @Translator.Translate("ETA"))
                     </div>
                     <div class="controls" >
-                        @(Html.TextBoxFor(model => model.ETA, new {@class = "cats-datepicker2"}))
+                        @(Html.TextBoxFor(model => model.ETA,new {@readonly = "readonly" }))
                         @Html.ValidationMessageFor(model => model.ETA)
                     </div>
                 </div>
@@ -71,7 +71,7 @@
                         @Html.Label(@Translator.Translate("Donor")) 
                     </div>
                     <div class="controls">
-                        @(Html.DropDownListFor(model => model.DonorID, new SelectList(Model.Donors, "DonorID", "Name")))
+                        @(Html.DropDownListFor(model => model.DonorID, new SelectList(Model.Donors, "DonorID", "Name"),new { @readonly = "readonly" }))
                     </div>
                 </div>
             </div>
@@ -81,7 +81,7 @@
                         @Html.Label(@Translator.Translate("Commodity Type")) 
                     </div>
                     <div class="controls" >
-                        @(Html.DropDownListFor(model => model.CommodityID, new SelectList(Model.CommodityTypes, "CommodityTypeID", "Name")))
+                        @(Html.DropDownListFor(model => model.CommodityTypeID, new SelectList(Model.CommodityTypes, "CommodityTypeID", "Name"),new { @readonly = "readonly" }))
                     </div>
                 </div>
             </div>
@@ -93,7 +93,7 @@
                         @Html.Label(@Translator.Translate("Commodity")) 
                     </div>
                     <div class="controls" >
-                        @(Html.DropDownListFor(model => model.CommodityID, new SelectList(Model.Commodities, "CommodityID", "Name")))
+                        @(Html.DropDownListFor(model => model.CommodityID, new SelectList(Model.Commodities, "CommodityID", "Name"),new { @readonly = "readonly" }))
                     </div>
                 </div>
             </div>
@@ -103,7 +103,7 @@
                         @Html.LabelFor(model => model.WieghtInMT, @Translator.Translate("GC Amount")) 
                     </div>
                     <div class="controls" >
-                        @(Html.TextBoxFor(model => model.WieghtInMT))
+                        @(Html.TextBoxFor(model => model.WieghtInMT,new { @readonly = "readonly" }))
                     </div>
                 </div>
             </div>
@@ -116,7 +116,7 @@
                         @Html.Label(@Translator.Translate("Program")) 
                     </div>
                     <div class="controls">
-                        @(Html.DropDownListFor(model => model.ProgramID, new SelectList(Model.Programs, "ProgramID", "Name")))
+                        @(Html.DropDownListFor(model => model.ProgramID, new SelectList(Model.Programs, "ProgramID", "Name"),new { @readonly = "readonly" }))
                     </div>
                 </div>
             </div>
@@ -133,7 +133,7 @@
                            columns.Bound(p => p.Hub).Title("Hub").Width(100).ClientTemplate("#= Hub #" +
                    "<input type='hidden' name='DonationPlanDetails[#= index(data)#].Hub' value='#= Hub #' />");
 
-                           columns.Bound(p => p.AllocatedAmount).Title("Allocated").Width(30).Format("{0:n2}").ClientFooterTemplate("Sum: #=sum#").HtmlAttributes(new { align = "Right" }).HtmlAttributes(new { style = "text-align: right; font-size: 12px; " }).ClientTemplate("#= AllocatedAmount #" +
+                           columns.Bound(p => p.AllocatedAmount).Title("Allocated").Width(30).Format("{0:n2}").ClientFooterTemplate("<div style='text-align: right'> Sum: #=sum#</div>").HtmlAttributes(new { align = "Right" }).HtmlAttributes(new { style = "text-align: right; font-size: 12px; " }).ClientTemplate("#= AllocatedAmount #" +
                     "<input type='hidden' name='DonationPlanDetails[#= index(data)#].AllocatedAmount' value='#= AllocatedAmount #' />"); 
 
                            columns.Bound(p => p.ReceivedAmount).Title("Received").Width(30).Format("{0:n2}").HtmlAttributes(new { align = "Right" }).HtmlAttributes(new { style = "text-align: right; font-size: 12px; " }).ClientTemplate("#= ReceivedAmount #" +
@@ -149,14 +149,14 @@
           .Scrollable()
           .Events(events => events.DataBound("onDataBound"))
    
-          //.HtmlAttributes(new { style = "height:430px;" })
+          .HtmlAttributes(new { style = "height:150px;" })
           .DataSource(dataSource => dataSource
                                         .Ajax()
                                         .Aggregates(aggregates => aggregates.Add(p => p.AllocatedAmount).Sum())
                                         .PageSize(20)
                                         .Events(events => events.Error("error_handler"))
                                        
-                                        .Events(e => e.RequestEnd("onRequestEnd"))
+                                       
                                         .ServerOperation(false)
                                         .Model(model => model.Id(p => p.DonationDetailPlanID))
                                         .Model(model => model.Field(p => p.Hub).Editable(false))
@@ -168,8 +168,7 @@
 <script>
       
 
-    var grid = $("#grid").data("kendoGrid");
-    grid.hideColumn(1);
+    
     
     function error_handler(e) {
         if (e.errors) {
@@ -203,32 +202,5 @@
         $("#grid").data("kendoGrid").saveChanges();
     }
 
-    $("#SINumber").blur(function () {
-       
-        $.ajax({
-            type: "POST",
-            url: "/Donation/LoadBySi/" + $("#SINumber").val(),
-            dataType: "json",
-            contentType: "application/json; charset=utf-8",
-            
-            success: function (result) {
-                window.location.href = result.Url;
-                },
-            error: function (error) {
-                alert("There was an error posting the data to the server: " + error.responseText);
-            }
-        });
-    });
-  
-    function onRequestEnd(e) {
-        debugger;
-        if (e.type == "update" && !e.response.Errors) {
-            alert("Update record is successfull");
-        }
-
-        if (e.type == "create" && !e.response.Errors) {
-            alert("Create record is successfull");
-        }
-    }
-
+   
 </script>          

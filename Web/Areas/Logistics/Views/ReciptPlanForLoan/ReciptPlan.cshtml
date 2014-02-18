@@ -7,13 +7,13 @@
 
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h3 id="myModalLabel">@Html.Translate2(pageName,"New Recipt plan for Loan")</h3>
+    <h3 id="myModalLabel">@Html.Translate2(pageName,"New Recipt plan from Loan")</h3>
 </div>
-@using (Html.BeginForm("ReciptPlan", "ReciptPlanForLoanAndOthers", FormMethod.Post, new { @class = "modal-form", id="myForm"}))
+@using (Html.BeginForm("ReciptPlan", "ReciptPlanForLoan", FormMethod.Post, new { @class = "modal-form", id="myForm"}))
 {
     @Html.HiddenFor(m=>m.LoanReciptPlanID)
     <div class="form-horizontal">
-        <div class="control-group">
+       @* <div class="control-group">
             <div class="control-label">
                 @Html.LabelFor(m => m.MemoRefrenceNumber)
             </div>
@@ -21,7 +21,7 @@
                 @Html.TextBoxFor(m => m.MemoRefrenceNumber)
                 @Html.ValidationMessageFor(m => m.MemoRefrenceNumber) 
             </div>
-        </div>
+        </div>*@
         <div class="control-group">
             <div class="control-label">
                 @Html.LabelFor(m => m.HubID, @Html.Translate2(pageName, "Hub"))
@@ -38,7 +38,7 @@
             <div class="controls">
                 @Html.TextBoxFor(m => m.Amount)
                 @Html.ValidationMessageFor(m => m.Amount) 
-                @if (@Model.Amount > Model.Remaining)
+                @if (Model.Amount > Model.Remaining)
                 {
                     <span class="alert alert-error">
                         @ViewBag.Errors
@@ -47,9 +47,22 @@
             </div>
         </div>
     
-        <div class="modal-footer"> <button class="btn btn-primary" type="submit">Recieve </button>
+        <div class="modal-footer"> <button class="btn btn-primary" type="submit">Save </button>
             <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
        
         </div>
     </div>
 }
+@*<script>
+function ValidateAmount(){
+    var remaining;
+    var amount;
+    remaining = document.getElementById("Remaining").value;
+    amount = document.getElementById("Amount").value;
+    if (amount > remaining) {
+        alert(amount - remaining);
+        document.body.style.background = "orange";
+    }
+
+}
+    </script>*@

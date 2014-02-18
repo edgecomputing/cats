@@ -9,7 +9,7 @@
 }
 @section Toolbar
 {
-    <a id="btnAddReciptPlan" data-buttontype="btn_new_record" class="btn toolbar-btn " href="@Url.Action("Create", "ReciptPlanForLoanAndOthers")"></a>
+    <a id="btnAddReciptPlan" data-buttontype="btn_new_record" class="btn toolbar-btn " href="@Url.Action("Create", "ReciptPlanForLoan")"></a>
 }
 @section LeftBar
 {
@@ -40,24 +40,24 @@
 <div id='dialogDiv' class='modal hide fade in' style="width: 820px;margin-right: 10px">
     <div id='dialogContent'></div>
 </div>
-<h4>List of Reciept Plan From Loan,Swap,Repayment or Other</h4>
+<h4>List of Reciept Plan From Loan</h4>
  @(Html.Kendo().Grid<LoanReciptPlanViewModel>()
               .Name("grid")
               .Columns(columns =>
                   {
-                      columns.Bound(m => m.SiNumber).Title(@Html.Translate2(pageName, "SI Number")).ClientTemplate("<a href='" + Url.Action("Detail", "ReciptPlanForLoanAndOthers", new { id = "#=LoanReciptPlanID#" }) + " '>#=SiNumber#</a>  "); 
+                      columns.Bound(m => m.SiNumber).Title(@Html.Translate2(pageName, "SI Number")).ClientTemplate("<a href='" + Url.Action("Detail", "ReciptPlanForLoan", new { id = "#=LoanReciptPlanID#" }) + " '>#=SiNumber#</a>  ");
+                      columns.Bound(m => m.LoanSource).Width(200).Title(@Html.Translate2(pageName, "Loan Source"));
                       columns.Bound(m => m.ProgramName).Title(@Html.Translate2(pageName,"Program"));
                       columns.Bound(m => m.CommodityName).Width(200).Title(@Html.Translate2(pageName,"Commodity"));
                       columns.Bound(m => m.CommoditySourceName).Width(200).Title(@Html.Translate2(pageName,"Commodity Source"));
-                      columns.Bound(m => m.HubName).Width(200).Title(@Html.Translate2(pageName,"Hub"));
-                      columns.Bound(m => m.SourceHubName);
                       columns.Bound(m => m.Quantity).HtmlAttributes(new {align = "right"}).Title(@Html.Translate2(pageName,"Quantity in MT"));
+                      columns.Bound(m => m.CreatedDate).Title("Created Date");
                       columns.Bound(m => m.Status);
-                      columns.Command(p =>
-                      {
-                          p.Custom("Edit").Click("Edit");
-                          p.Custom("Recieve").Click("Recieve");
-                      }).Width(250);
+                      //columns.Command(p =>
+                      //{
+                      //    p.Custom("Edit").Click("Edit");
+                      //    p.Custom("Recieve").Click("Recieve");
+                      //}).Width(250);
 
 
                   }
@@ -69,7 +69,7 @@
               .DataSource(dataSource => dataSource
                                             .Ajax()
                                             .Model(model =>model.Id(m=>m.LoanReciptPlanID))
-                                            .Read(read => read.Action("LoanReciptPlan_Read", "ReciptPlanForLoanAndOthers"))
+                                            .Read(read => read.Action("LoanReciptPlan_Read", "ReciptPlanForLoan"))
               //.Update(update => update.Action("Commodity_Update", "Request"))
               )
        )
@@ -77,12 +77,12 @@
 <div id='dialogDivSmall' class='modal hide fade in'>
     <div id='dialogContentSmall'></div>
 </div>
-<script>
+@*<script>
     function Edit(e) {
         e.preventDefault();
 
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
-        var url = "@Url.Action("Edit", "ReciptPlanForLoanAndOthers")" + "/" + dataItem.LoanReciptPlanID;
+        var url = "@Url.Action("Edit", "ReciptPlanForLoan")" + "/" + dataItem.LoanReciptPlanID;
         $('#dialogContent').load(url, function () {
             $('#dialogDiv').modal({
                 backdrop: 'static',
@@ -98,7 +98,7 @@
         e.preventDefault();
 
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
-        var url = "@Url.Action("ReciptPlan", "ReciptPlanForLoanAndOthers")" + "/" + dataItem.LoanReciptPlanID;
+        var url = "@Url.Action("ReciptPlan", "ReciptPlanForLoan")" + "/" + dataItem.LoanReciptPlanID;
         $('#dialogContentSmall').load(url, function () {
             $('#dialogDivSmall').modal({
                 backdrop: 'static',
@@ -108,4 +108,4 @@
         });
         return false;
     }
-</script>
+</script>*@

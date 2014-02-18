@@ -8,13 +8,14 @@
 
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h3 id="myModalLabel">@Html.Translate2(PAGE_NAME,"New Recipt Plan from Loan,Swap,Repayment or Others")</h3>
+    <h3 id="myModalLabel">@Html.Translate2(PAGE_NAME,"Edit Recipt Plan from Loan")</h3>
 </div>
-@using (Html.BeginForm("Edit", "ReciptPlanForLoanAndOthers", FormMethod.Post, new { @class = "modal-form", id="myForm"}))
+@using (Html.BeginForm("Edit", "ReciptPlanForLoan", FormMethod.Post, new { @class = "modal-form", id="myForm"}))
 {
     @Html.HiddenFor(m=>m.LoanReciptPlanID)
     @Html.HiddenFor(m=>m.StatusID)
     @Html.HiddenFor(m=>m.ShippingInstructionID)
+    @Html.HiddenFor(m=>m.CommoditySourceID)
     <table border="0" class="form-horizontal">
         <tr style="width: 300px">
             <td style="width:50%">
@@ -26,7 +27,7 @@
                     @Html.ValidationMessageFor(m=>m.ShippingInstruction.Value)
                 </div>
             </td>
-            <td style="width: 50%">
+            @* <td style="width: 50%">
                 <div class="control-label">
                     @Html.LabelFor(m=>m.HubID,@Html.Translate2(PAGE_NAME,"Hub"))
                 </div>
@@ -34,19 +35,8 @@
                     @Html.DropDownList("HubID")
                     @Html.ValidationMessageFor(m=>m.HubID)
                 </div>
-            </td>
-        </tr>
-        <tr style="width: 300px">
-            <td style="width: 50%">
-                <div class="control-label">
-                    @Html.LabelFor(m=>m.SourceHubID,@Html.Translate2(PAGE_NAME,"Source Hub"))
-                </div>
-                <div class="controls">
-                    @Html.DropDownList("SourceHubID")
-                    @Html.ValidationMessageFor(m=>m.SourceHubID)
-                </div>
-            </td>
-            <td style="width: 50%">
+            </td>*@
+             <td style="width: 50%">
                  <div class="control-label">
                     @Html.LabelFor(m=>m.CommodityID,@Html.Translate2(PAGE_NAME,"Commodity Type"))
                 </div>
@@ -55,6 +45,26 @@
                     @Html.ValidationMessageFor(m=>m.CommodityID)
                 </div>
                 
+            </td>
+        </tr>
+        <tr style="width: 300px">
+            <td style="width: 50%">
+                <div class="control-label">
+                    @Html.LabelFor(m=>m.LoanSource,@Html.Translate2(PAGE_NAME,"Loan Source"))
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(m=>m.LoanSource)
+                    @Html.ValidationMessageFor(m=>m.LoanSource)
+                </div>
+            </td>
+             <td>
+               <div class="control-label">
+                    @Html.LabelFor(m=>m.CommodityID,@Html.Translate2(PAGE_NAME,"Commodity"))
+                </div>
+                <div class="controls">
+                    @Html.DropDownList("CommodityID")
+                    @Html.ValidationMessageFor(m=>m.CommodityID)
+                </div>
             </td>
         </tr>
         <tr>
@@ -67,13 +77,13 @@
                     @Html.ValidationMessageFor(m=>m.ProgramID)
                 </div>
             </td>
-            <td>
-               <div class="control-label">
-                    @Html.LabelFor(m=>m.CommodityID,@Html.Translate2(PAGE_NAME,"Commodity"))
+             <td>
+                <div class="control-label">
+                    @Html.LabelFor(m=>m.ReferenceNumber,@Html.Translate2(PAGE_NAME,"Reference Number"))
                 </div>
                 <div class="controls">
-                    @Html.DropDownList("CommodityID")
-                    @Html.ValidationMessageFor(m=>m.CommodityID)
+                    @Html.TextBoxFor(m=>m.ReferenceNumber)
+                    @Html.ValidationMessageFor(m=>m.ReferenceNumber)
                 </div>
             </td>
         </tr>
@@ -83,18 +93,18 @@
                     @Html.LabelFor(m=>m.CommoditySourceID,@Html.Translate2(PAGE_NAME,"Commodity Source"))
                 </div>
                 <div class="controls">
-                    @Html.DropDownList("CommoditySourceID")
+                    @Html.TextBoxFor(m=>m.CommoditySource.Name,new {Disabled="Disabled"})
                     @Html.ValidationMessageFor(m=>m.CommoditySourceID)
 
                 </div>
             </td>
-            <td>
+             <td>
                 <div class="control-label">
-                    @Html.LabelFor(m=>m.ReferenceNumber,@Html.Translate2(PAGE_NAME,"Reference Number"))
-                </div>
+                    @Html.LabelFor(m=>m.Quantity,@Html.Translate2(PAGE_NAME,"Quantity in MT"))
+                </div> 
                 <div class="controls">
-                    @Html.TextBoxFor(m=>m.ReferenceNumber)
-                    @Html.ValidationMessageFor(m=>m.ReferenceNumber)
+                    @Html.TextBoxFor(m=>m.Quantity)
+                    @Html.ValidationMessageFor(m=>m.Quantity)
                 </div>
             </td>
         </tr>
@@ -109,7 +119,7 @@
                 </div>
                
             </td>
-            <td>
+           @* <td>
                 <div class="control-label">
                     @Html.LabelFor(m=>m.Quantity,@Html.Translate2(PAGE_NAME,"Quantity in MT"))
                 </div> 
@@ -117,7 +127,7 @@
                     @Html.TextBoxFor(m=>m.Quantity)
                     @Html.ValidationMessageFor(m=>m.Quantity)
                 </div>
-            </td>
+            </td>*@
         </tr>
     </table>
     
@@ -132,7 +142,8 @@ $(document).ready(function () {
         var allValidationRules = {
             ReferenceNumber: "required",
             ProjectCode: "required",
-            Quantity: "required"
+            Quantity: "required",
+            LoanSource:"required"
         };
         $("#myForm").validate({
             rules: allValidationRules,
