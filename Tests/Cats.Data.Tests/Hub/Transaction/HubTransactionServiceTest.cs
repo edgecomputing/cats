@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Cats.Data.Hub;
+using Cats.Data.UnitWork;
 using NUnit.Framework;
 using Moq;
 using Cats.Services.Hub;
@@ -17,7 +19,7 @@ namespace Cats.Data.Tests.Hub.Transaction
         [SetUp]
         public void Init()
         {
-
+            var unitOfWork = new Mock<IUnitOfWork>();
         }
 
 
