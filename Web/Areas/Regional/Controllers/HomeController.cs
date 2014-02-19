@@ -13,6 +13,7 @@ namespace Cats.Areas.Regional.Controllers
         // GET: /Regional/Home/
         public ActionResult Index()
         {
+            ViewBag.RegionID = 2;
             ViewBag.RegionName = "Afar";
             return View();
         }
