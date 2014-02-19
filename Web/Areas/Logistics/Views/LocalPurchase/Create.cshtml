@@ -153,7 +153,7 @@
               .Name("LocalPurchaseDetail")
               .Columns(columns =>
                   {
-                      columns.Bound(m => m.HubID).ClientTemplate("#= HubID #" +
+                      columns.Bound(m => m.HubID).Hidden(true).ClientTemplate("#= HubID #" +
                     "<input type='hidden' name='LocalPurchaseDetailViewModels[#= index(data)#].HubID' value='#= HubID #' />");
                       columns.Bound(m => m.HubName).Title(Translator.Translate("Hub")).ClientTemplate("#= HubName #" +
                    "<input type='hidden' name='LocalPurchaseDetailViewModels[#= index(data)#].HubName' value='#= HubName #' />");
@@ -178,6 +178,7 @@
                                                     model.Id(p => p.LocalPurchaseDetailID);
                                                     model.Field(p => p.HubName).Editable(false);
                                                     model.Field(p => p.HubID).Editable(false);
+                                                    model.Field(p => p.RecievedAmonut).Editable(false);
                                                 })
 
                                             .Read(read => read.Action("HubsLocalPurchaseDetail_Read", "LocalPurchase", new {localPurchaseID = Model.LocalPurchaseID}))

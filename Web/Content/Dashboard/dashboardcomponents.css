@@ -1,6 +1,6 @@
 ﻿body {
   color: #444;
-  font: 13px/1.7em "Open Sans", "trebuchet ms", arial, sans-serif;
+  
 }
 h1,
 h2,
@@ -10,7 +10,6 @@ h5,
 h6,
 p {
   margin-top: 0;
-  font-family: 'Open Sans', 'trebuchet ms', arial, sans-serif;
 }
 ul.icons-list {
   padding: 0;
@@ -686,7 +685,7 @@ label {
 .portlet .portlet-header h5,
 .portlet .portlet-header h6 {
   float: left;
-  padding: 10px 0;
+  padding: 1px 0;
   margin: 0 1em 0 0;
   display: inline-block;
   vertical-align: middle;
@@ -709,7 +708,7 @@ label {
   vertical-align: middle;
 }
 .portlet .portlet-tools {
-  float: left;
+  float: right;
   display: inline-block;
   padding: 0;
   margin: 5px 0 0 0;

@@ -13,7 +13,7 @@
 {
     @Html.HiddenFor(m=>m.LoanReciptPlanID)
     <div class="form-horizontal">
-        <div class="control-group">
+       @* <div class="control-group">
             <div class="control-label">
                 @Html.LabelFor(m => m.MemoRefrenceNumber)
             </div>
@@ -21,7 +21,7 @@
                 @Html.TextBoxFor(m => m.MemoRefrenceNumber)
                 @Html.ValidationMessageFor(m => m.MemoRefrenceNumber) 
             </div>
-        </div>
+        </div>*@
         <div class="control-group">
             <div class="control-label">
                 @Html.LabelFor(m => m.HubID, @Html.Translate2(pageName, "Hub"))

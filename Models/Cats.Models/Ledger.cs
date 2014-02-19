@@ -43,7 +43,6 @@ namespace Cats.Models
             public const int STATISTICS = 21;
            
            
-           
             
            
 

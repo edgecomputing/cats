@@ -198,4 +198,9 @@
         );
 
     }
+
+    $(function () {
+        var printurl = " @Url.Action("Print", "RegionalPSNPPlan", new { Area = "PSNP", id = plan.RegionalPSNPPlanID })";
+        $("#toolbar_button_print").attr("href", printurl);
+    });
 </script>

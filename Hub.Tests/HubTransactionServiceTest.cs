@@ -106,186 +106,186 @@ namespace Cats.Tests.Service_Tests
         }
 
         #endregion
-        [Test]
-        public void ShouldSaveDispatchTransactionTransaction()
-        {
-            var commodities = new List<Commodity>()
-                                  {
-                                      new Commodity()
-                                          {
-                                              CommodityID = 1,
-                                              Name = "Commodity1"
-                                          },
-                                      new Commodity()
-                                          {
-                                              CommodityID = 2,
-                                              Name = "Commodity2"
-                                          }
-                                  };
-            var transporters = new List<Transporter>()
-                                   {
-                                       new Transporter()
-                                           {
-                                               TransporterID = 1,
-                                               Name = "Transporter1"
-                                           },
-                                       new Transporter()
-                                           {
-                                               TransporterID = 2,
-                                               Name = "Transporter2"
-                                           }
-                                   };
-            var units = new List<Unit>()
-                            {
-                                new Unit()
-                                    {
-                                        UnitID = 1,
-                                        Name = "Unit1"
-                                    },
-                                new Unit()
-                                    {
-                                        UnitID = 2,
-                                        Name = "Unit2"
-                                    }
-                            };
-            var fdps = new List<FDP>()
-                           {
-                               new FDP()
-                                   {
-                                       FDPID = 1,
-                                       Name = "FDP1"
-                                   },
-                               new FDP()
-                                   {
-                                       FDPID = 2,
-                                       Name = "FDP2"
-                                   }
-                           };
-            var programs = new List<Program>()
-                               {
-                                   new Program()
-                                       {
-                                           ProgramID = 1,
-                                           Name = "Program1"
-                                       },
-                                   new Program()
-                                       {
-                                           ProgramID = 2,
-                                           Name = "Program2"
-                                       }
-                               };
-            var regions = new List<AdminUnit>()
-                              {
-                                  new AdminUnit()
-                                      {
-                                          AdminUnitID = 1,
-                                          Name = "AdminUnit1"
-                                      },
-                                  new AdminUnit()
-                                      {
-                                          AdminUnitID = 2,
-                                          Name = "AdminUnit2"
-                                      }
-                              };
-            var zones = new List<AdminUnit>()
-                              {
-                                  new AdminUnit()
-                                      {
-                                          AdminUnitID = 3,
-                                          Name = "AdminUnit3"
-                                      },
-                                  new AdminUnit()
-                                      {
-                                          AdminUnitID = 4,
-                                          Name = "AdminUnit4"
-                                      }
-                              };
-            var stores = new List<Store>()
-                             {
-                                 new Store()
-                                     {
-                                         StoreID = 1,
-                                         Name = "Store1"
-                                     },
-                                 new Store()
-                                     {
-                                         StoreID = 2,
-                                         Name = "Store2"
-                                     }
-                             };
-            var dispatchModel = new DispatchModel(commodities,transporters,units,fdps,programs,regions,zones,stores)
-                                        {
-                                            DispatchDetails = new List<DispatchDetailModel>()
-                                                                  {
-                                                                      new DispatchDetailModel()
-                                                                          {
-                                                                              Id = Guid.NewGuid(),
-                                                                              DispatchID = Guid.NewGuid(),
-                                                                              DispatchDetailCounter = 1,
-                                                                              CommodityName = "Commodiy1",
-                                                                              CommodityID = 1,
-                                                                              RequestedQuantityMT = 100,
-                                                                              DispatchedQuantityMT = 100,
-                                                                              RequestedQuantity = 100,
-                                                                              DispatchedQuantity = 100,
-                                                                              Unit = 1,
-                                                                              Description = "Sample Description"
-                                                                          },
-                                                                       new DispatchDetailModel()
-                                                                          {
-                                                                              Id = Guid.NewGuid(),
-                                                                              DispatchID = Guid.NewGuid(),
-                                                                              DispatchDetailCounter = 1,
-                                                                              CommodityName = "Commodiy1",
-                                                                              CommodityID = 1,
-                                                                              RequestedQuantityMT = 100,
-                                                                              DispatchedQuantityMT = 100,
-                                                                              RequestedQuantity = 100,
-                                                                              DispatchedQuantity = 100,
-                                                                              Unit = 1,
-                                                                              Description = "Sample Description"
-                                                                          }
-                                                                  },
-                                            CommodityTypeID = 1,
-                                            Type = 1,
-                                            BidNumber = "00000",
-                                            DispatchAllocationID = Guid.NewGuid(),
-                                            OtherDispatchAllocationID = Guid.NewGuid(),
-                                            ProgramID = 1,
-                                            FDPID = 1,
-                                            SINumber = "SI-123",
-                                            ProjectNumber = "PC-123",
-                                            StackNumber = 123,
-                                            StoreID = 1,
-                                        };
+        //[Test]
+        //public void ShouldSaveDispatchTransactionTransaction()
+        //{
+        //    var commodities = new List<Commodity>()
+        //                          {
+        //                              new Commodity()
+        //                                  {
+        //                                      CommodityID = 1,
+        //                                      Name = "Commodity1"
+        //                                  },
+        //                              new Commodity()
+        //                                  {
+        //                                      CommodityID = 2,
+        //                                      Name = "Commodity2"
+        //                                  }
+        //                          };
+        //    var transporters = new List<Transporter>()
+        //                           {
+        //                               new Transporter()
+        //                                   {
+        //                                       TransporterID = 1,
+        //                                       Name = "Transporter1"
+        //                                   },
+        //                               new Transporter()
+        //                                   {
+        //                                       TransporterID = 2,
+        //                                       Name = "Transporter2"
+        //                                   }
+        //                           };
+        //    var units = new List<Unit>()
+        //                    {
+        //                        new Unit()
+        //                            {
+        //                                UnitID = 1,
+        //                                Name = "Unit1"
+        //                            },
+        //                        new Unit()
+        //                            {
+        //                                UnitID = 2,
+        //                                Name = "Unit2"
+        //                            }
+        //                    };
+        //    var fdps = new List<FDP>()
+        //                   {
+        //                       new FDP()
+        //                           {
+        //                               FDPID = 1,
+        //                               Name = "FDP1"
+        //                           },
+        //                       new FDP()
+        //                           {
+        //                               FDPID = 2,
+        //                               Name = "FDP2"
+        //                           }
+        //                   };
+        //    var programs = new List<Program>()
+        //                       {
+        //                           new Program()
+        //                               {
+        //                                   ProgramID = 1,
+        //                                   Name = "Program1"
+        //                               },
+        //                           new Program()
+        //                               {
+        //                                   ProgramID = 2,
+        //                                   Name = "Program2"
+        //                               }
+        //                       };
+        //    var regions = new List<AdminUnit>()
+        //                      {
+        //                          new AdminUnit()
+        //                              {
+        //                                  AdminUnitID = 1,
+        //                                  Name = "AdminUnit1"
+        //                              },
+        //                          new AdminUnit()
+        //                              {
+        //                                  AdminUnitID = 2,
+        //                                  Name = "AdminUnit2"
+        //                              }
+        //                      };
+        //    var zones = new List<AdminUnit>()
+        //                      {
+        //                          new AdminUnit()
+        //                              {
+        //                                  AdminUnitID = 3,
+        //                                  Name = "AdminUnit3"
+        //                              },
+        //                          new AdminUnit()
+        //                              {
+        //                                  AdminUnitID = 4,
+        //                                  Name = "AdminUnit4"
+        //                              }
+        //                      };
+        //    var stores = new List<Store>()
+        //                     {
+        //                         new Store()
+        //                             {
+        //                                 StoreID = 1,
+        //                                 Name = "Store1"
+        //                             },
+        //                         new Store()
+        //                             {
+        //                                 StoreID = 2,
+        //                                 Name = "Store2"
+        //                             }
+        //                     };
+        //    var dispatchModel = new DispatchModel(commodities,transporters,units,fdps,programs,regions,zones,stores)
+        //                                {
+        //                                    DispatchDetails = new List<DispatchDetailModel>()
+        //                                                          {
+        //                                                              new DispatchDetailModel()
+        //                                                                  {
+        //                                                                      Id = Guid.NewGuid(),
+        //                                                                      DispatchID = Guid.NewGuid(),
+        //                                                                      DispatchDetailCounter = 1,
+        //                                                                      CommodityName = "Commodiy1",
+        //                                                                      CommodityID = 1,
+        //                                                                      RequestedQuantityMT = 100,
+        //                                                                      DispatchedQuantityMT = 100,
+        //                                                                      RequestedQuantity = 100,
+        //                                                                      DispatchedQuantity = 100,
+        //                                                                      Unit = 1,
+        //                                                                      Description = "Sample Description"
+        //                                                                  },
+        //                                                               new DispatchDetailModel()
+        //                                                                  {
+        //                                                                      Id = Guid.NewGuid(),
+        //                                                                      DispatchID = Guid.NewGuid(),
+        //                                                                      DispatchDetailCounter = 1,
+        //                                                                      CommodityName = "Commodiy1",
+        //                                                                      CommodityID = 1,
+        //                                                                      RequestedQuantityMT = 100,
+        //                                                                      DispatchedQuantityMT = 100,
+        //                                                                      RequestedQuantity = 100,
+        //                                                                      DispatchedQuantity = 100,
+        //                                                                      Unit = 1,
+        //                                                                      Description = "Sample Description"
+        //                                                                  }
+        //                                                          },
+        //                                    CommodityTypeID = 1,
+        //                                    Type = 1,
+        //                                    BidNumber = "00000",
+        //                                    DispatchAllocationID = Guid.NewGuid(),
+        //                                    OtherDispatchAllocationID = Guid.NewGuid(),
+        //                                    ProgramID = 1,
+        //                                    FDPID = 1,
+        //                                    SINumber = "SI-123",
+        //                                    ProjectNumber = "PC-123",
+        //                                    StackNumber = 123,
+        //                                    StoreID = 1,
+        //                                };
 
-            var user = new UserProfile()
-                           {
-                               UserProfileID = 1,
-                               UserName = "admin",
-                               Password = "password",
-                               FirstName = "Abebe",
-                               LastName = "Balcha",
-                               GrandFatherName = "Asnake",
-                               ActiveInd = true,
-                               LoggedInInd = true,
-                               FailedAttempts = 100,
-                               LanguageCode = "AM",
-                               DatePreference = "EC",
-                               PreferedWeightMeasurment = "Qtl",
-                               MobileNumber = "+251911123456",
-                               Email = "email@cats.com",
-                               DefaultHub = new Hub()
-                                                {
-                                                    HubID = 1,
-                                                    Name = "DireDawa"
-                                                }
-                           };
-            //Act
-            var result = _hubTransactionService.SaveDispatchTransaction(dispatchModel,user);
+        //    var user = new UserProfile()
+        //                   {
+        //                       UserProfileID = 1,
+        //                       UserName = "admin",
+        //                       Password = "password",
+        //                       FirstName = "Abebe",
+        //                       LastName = "Balcha",
+        //                       GrandFatherName = "Asnake",
+        //                       ActiveInd = true,
+        //                       LoggedInInd = true,
+        //                       FailedAttempts = 100,
+        //                       LanguageCode = "AM",
+        //                       DatePreference = "EC",
+        //                       PreferedWeightMeasurment = "Qtl",
+        //                       MobileNumber = "+251911123456",
+        //                       Email = "email@cats.com",
+        //                       DefaultHub = new Hub()
+        //                                        {
+        //                                            HubID = 1,
+        //                                            Name = "DireDawa"
+        //                                        }
+        //                   };
+        //    //Act
+        //    //var result = _hubTransactionService.SaveDispatchTransaction(dispatchModel,user);
 
-            //Assert
-            Assert.IsTrue(result);
-        }
+        //    //Assert
+        //    //Assert.IsTrue(result);
+        //}
     }
 }

@@ -195,6 +195,19 @@ namespace Cats.Services.Common
         {
             return _unitOfWork.HubRepository.GetAll();
         }
+        public List<GiftCertificate> GetAllGiftCertificates()
+        {
+            return _unitOfWork.GiftCertificateRepository.GetAll();
+        }
+        public string GetCommditySourceName(int id)
+        {
+            var commoditySource = _unitOfWork.CommoditySourceRepository.FindById(id);
+            if (commoditySource!=null)
+            {
+                return commoditySource.Name;
+            }
+            return null;
+        }
         
     }
 }

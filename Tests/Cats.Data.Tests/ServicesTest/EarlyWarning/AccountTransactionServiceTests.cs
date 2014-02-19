@@ -166,7 +166,7 @@ namespace Cats.Data.Tests.ServicesTest.EarlyWarning
                                                                                  Name = "FDP1",
                                                                                  AdminUnitID = 1
                                                                               },
-                                                                         Hub = new Hub()
+                                                                         Hub = new Models.Hub()
                                                                               {
                                                                                  HubID = 1,
                                                                                  Name = "Hub1",
@@ -187,7 +187,7 @@ namespace Cats.Data.Tests.ServicesTest.EarlyWarning
                                                                       Name = "FDP1",
                                                                       AdminUnitID = 1
                                                                   },
-                                                        Hub = new Hub()
+                                                        Hub = new Models.Hub()
                                                                   {
                                                                       HubID = 1,
                                                                       Name = "Hub1",
@@ -335,7 +335,7 @@ namespace Cats.Data.Tests.ServicesTest.EarlyWarning
                                                                     Name = "FDP1",
                                                                     AdminUnitID = 1
                                                                 },
-                                                            Hub = new Hub()
+                                                            Hub = new Models.Hub()
                                                                 {
                                                                     HubID = 1,
                                                                     Name = "Hub1",
@@ -692,7 +692,7 @@ namespace Cats.Data.Tests.ServicesTest.EarlyWarning
                                                                                           AllocatedAmount = 500,
                                                                                           ReceivedAmount = 450,
                                                                                           Balance = 50,
-                                                                                          Hub = new Hub()
+                                                                                          Hub = new Models.Hub()
                                                                                                     {
                                                                                                         HubID = 1,
                                                                                                         Name = "Hub1"
@@ -968,7 +968,7 @@ namespace Cats.Data.Tests.ServicesTest.EarlyWarning
                                                       AllocatedAmount = 500,
                                                       ReceivedAmount = 450,
                                                       Balance = 50,
-                                                      Hub = new Hub()
+                                                      Hub = new Models.Hub()
                                                                 {
                                                                     HubID = 1,
                                                                     Name = "Hub1"
@@ -982,6 +982,7 @@ namespace Cats.Data.Tests.ServicesTest.EarlyWarning
             Assert.IsTrue(result);
         }
 
+       
         #endregion
     }
 }

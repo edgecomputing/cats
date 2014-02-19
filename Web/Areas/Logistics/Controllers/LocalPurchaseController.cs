@@ -45,7 +45,7 @@ namespace Cats.Areas.Logistics.Controllers
             ViewBag.DonorID = new SelectList( _commonService.GetDonors(),"DonorID","Name");
             var localpurchase = new LocalPurchaseWithDetailViewModel
                 {
-                    CommoditySource="Local Purchase",
+                    CommoditySource=_commonService.GetCommditySourceName(3),//commodity source for local purchase
                     LocalPurchaseDetailViewModels = GetNewLocalPurchaseDetail()
                 };
             return View(localpurchase);
@@ -73,7 +73,7 @@ namespace Cats.Areas.Logistics.Controllers
                         PurchaseOrder = localPurchase.PurchaseOrder,
                         Quantity = localPurchase.Quantity,
                         StatusID = localPurchase.StatusID,
-                        CommoditySource = "Local Purchase",
+                        CommoditySource = _commonService.GetCommditySourceName(3),//commodity source for local purchase
                         LocalPurchaseDetailViewModels = GetLocalPurchaseDetail(localPurchase.LocalPurchaseDetails)
 
                     };

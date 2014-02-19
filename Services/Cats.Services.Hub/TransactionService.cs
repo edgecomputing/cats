@@ -263,13 +263,15 @@ namespace Cats.Services.Hub
                 receiveDetail.TransactionGroup = tgroup;
                 receive.ReceiveDetails.Add(receiveDetail);
 
+
+                //transaction for goods on hand // previously it was GOODS_ON_HAND_UNCOMMITED
                 Transaction transaction = new Transaction();
                 transaction.TransactionID = Guid.NewGuid();
                 transaction.TransactionGroupID = transactionGroupId;
                 transaction.TransactionDate = DateTime.Now;
                 transaction.ParentCommodityID = _unitOfWork.CommodityRepository.FindById(c.CommodityID).ParentID ?? c.CommodityID;
                 transaction.CommodityID = c.CommodityID;
-                transaction.LedgerID = Ledger.Constants.GOODS_ON_HAND_UNCOMMITED;
+                transaction.LedgerID = Ledger.Constants.GOODS_ON_HAND;
                 transaction.HubOwnerID = user.DefaultHub.HubOwnerID;
 
                 transaction.AccountID = _accountService.GetAccountIdWithCreate(Account.Constants.HUB, receive.HubID);
@@ -288,7 +290,35 @@ namespace Cats.Services.Hub
                 transaction.TransactionGroupID = tgroup.TransactionGroupID;
                 tgroup.Transactions.Add(transaction);
 
-                // do the second half of the transaction here.
+                //transaction for statistics
+                transaction = new Transaction();
+                transaction.TransactionID = Guid.NewGuid();
+                transaction.TransactionGroupID = transactionGroupId;
+                transaction.TransactionDate = DateTime.Now;
+                transaction.ParentCommodityID = _unitOfWork.CommodityRepository.FindById(c.CommodityID).ParentID ?? c.CommodityID;
+                transaction.CommodityID = c.CommodityID;
+                transaction.LedgerID = Ledger.Constants.STATISTICS;
+                transaction.HubOwnerID = user.DefaultHub.HubOwnerID;
+
+                transaction.AccountID = _accountService.GetAccountIdWithCreate(Account.Constants.HUB, receive.HubID);
+                transaction.ShippingInstructionID = _shippingInstructionService.GetSINumberIdWithCreate(receiveModels.SINumber).ShippingInstructionID;
+
+                transaction.ProjectCodeID = _projectCodeService.GetProjectCodeIdWIthCreate(receiveModels.ProjectNumber).ProjectCodeID;
+                transaction.HubID = user.DefaultHub.HubID;
+                transaction.UnitID = c.UnitID;
+                if (c.ReceivedQuantityInMT != null) transaction.QuantityInMT = c.ReceivedQuantityInMT.Value;
+                if (c.ReceivedQuantityInUnit != null) transaction.QuantityInUnit = c.ReceivedQuantityInUnit.Value;
+                if (c.CommodityGradeID != null) transaction.CommodityGradeID = c.CommodityGradeID.Value;
+
+                transaction.ProgramID = receiveModels.ProgramID;
+                transaction.StoreID = receiveModels.StoreID;
+                transaction.Stack = receiveModels.StackNumber;
+                transaction.TransactionGroupID = tgroup.TransactionGroupID;
+                tgroup.Transactions.Add(transaction);
+
+
+
+                //transaction for GOODS_ON_HAND_UNCOMMITED
 
                 var transaction2 = new Transaction();
                 transaction2.TransactionID = Guid.NewGuid();
@@ -298,29 +328,36 @@ namespace Cats.Services.Hub
                 transaction2.ParentCommodityID = transaction.ParentCommodityID;
                 transaction2.CommodityID = c.CommodityID;
                 transaction2.HubOwnerID = user.DefaultHub.HubOwnerID;
+
+                transaction2.LedgerID = Ledger.Constants.GOODS_UNDER_CARE;
+                if (receive.ResponsibleDonorID != null)
+                    transaction2.AccountID = _accountService.GetAccountIdWithCreate(Account.Constants.DONOR, receive.ResponsibleDonorID.Value);
+
                 //Decide from where the -ve side of the transaction comes from
                 //it is either from the allocated stock
                 // or it is from goods under care.
 
                 // this means that this receipt is done without having gone through the gift certificate process.
 
+                #region "commented out"
+                //if (receiveModels.CommoditySourceID == CommoditySource.Constants.DONATION || receiveModels.CommoditySourceID == CommoditySource.Constants.LOCALPURCHASE)
+                //{
+                //    transaction2.LedgerID = Ledger.Constants.GOODS_UNDER_CARE;
+                //    transaction2.AccountID = _accountService.GetAccountIdWithCreate(Account.Constants.DONOR, receive.ResponsibleDonorID.Value);
+                //}
+                //else if (receiveModels.CommoditySourceID == CommoditySource.Constants.REPAYMENT)
+                //{
+                //    transaction2.LedgerID = Ledger.Constants.GOODS_RECIEVABLE;
+                //    transaction2.AccountID = _accountService.GetAccountIdWithCreate(Account.Constants.HUB, receiveModels.SourceHubID.Value);
+                //}
+                //else
+                //{
+                //    transaction2.LedgerID = Ledger.Constants.LIABILITIES;
+                //    transaction2.AccountID = _accountService.GetAccountIdWithCreate(Account.Constants.HUB, receiveModels.SourceHubID.Value);
+                //}
+#endregion
 
-
-                if (receiveModels.CommoditySourceID == CommoditySource.Constants.DONATION || receiveModels.CommoditySourceID == CommoditySource.Constants.LOCALPURCHASE)
-                {
-                    transaction2.LedgerID = Ledger.Constants.GOODS_UNDER_CARE;
-                    transaction2.AccountID = _accountService.GetAccountIdWithCreate(Account.Constants.DONOR, receive.ResponsibleDonorID.Value);
-                }
-                else if (receiveModels.CommoditySourceID == CommoditySource.Constants.REPAYMENT)
-                {
-                    transaction2.LedgerID = Ledger.Constants.GOODS_RECIEVABLE;
-                    transaction2.AccountID = _accountService.GetAccountIdWithCreate(Account.Constants.HUB, receiveModels.SourceHubID.Value);
-                }
-                else
-                {
-                    transaction2.LedgerID = Ledger.Constants.LIABILITIES;
-                    transaction2.AccountID = _accountService.GetAccountIdWithCreate(Account.Constants.HUB, receiveModels.SourceHubID.Value);
-                }
+               
 
                 transaction2.ShippingInstructionID = _shippingInstructionService.GetSINumberIdWithCreate(receiveModels.SINumber).ShippingInstructionID;
                 transaction2.ProjectCodeID = _projectCodeService.GetProjectCodeIdWIthCreate(receiveModels.ProjectNumber).ProjectCodeID;
@@ -339,6 +376,64 @@ namespace Cats.Services.Hub
                 //repository.Transaction = new TransactionRepository();
                 tgroup.Transactions.Add(transaction2);
 
+
+
+                // transaction for Receivable 
+                 transaction2 = new Transaction();
+                transaction2.TransactionID = Guid.NewGuid();
+                transaction2.TransactionGroupID = transactionGroupId;
+                transaction2.TransactionDate = DateTime.Now;
+                //TAKEs the PARENT FROM THE FIRST TRANSACTION
+                transaction2.ParentCommodityID = transaction.ParentCommodityID;
+                transaction2.CommodityID = c.CommodityID;
+                transaction2.HubOwnerID = user.DefaultHub.HubOwnerID;
+
+                transaction2.LedgerID = Ledger.Constants.GOODS_RECIEVABLE;
+                if (receive.ResponsibleDonorID != null)
+                    transaction2.AccountID = _accountService.GetAccountIdWithCreate(Account.Constants.DONOR, receive.ResponsibleDonorID.Value);
+
+                //Decide from where the -ve side of the transaction comes from
+                //it is either from the allocated stock
+                // or it is from goods under care.
+
+                // this means that this receipt is done without having gone through the gift certificate process.
+
+                #region "commented out"
+                //if (receiveModels.CommoditySourceID == CommoditySource.Constants.DONATION || receiveModels.CommoditySourceID == CommoditySource.Constants.LOCALPURCHASE)
+                //{
+                //    transaction2.LedgerID = Ledger.Constants.GOODS_UNDER_CARE;
+                //    transaction2.AccountID = _accountService.GetAccountIdWithCreate(Account.Constants.DONOR, receive.ResponsibleDonorID.Value);
+                //}
+                //else if (receiveModels.CommoditySourceID == CommoditySource.Constants.REPAYMENT)
+                //{
+                //    transaction2.LedgerID = Ledger.Constants.GOODS_RECIEVABLE;
+                //    transaction2.AccountID = _accountService.GetAccountIdWithCreate(Account.Constants.HUB, receiveModels.SourceHubID.Value);
+                //}
+                //else
+                //{
+                //    transaction2.LedgerID = Ledger.Constants.LIABILITIES;
+                //    transaction2.AccountID = _accountService.GetAccountIdWithCreate(Account.Constants.HUB, receiveModels.SourceHubID.Value);
+                //}
+                #endregion
+
+
+
+                transaction2.ShippingInstructionID = _shippingInstructionService.GetSINumberIdWithCreate(receiveModels.SINumber).ShippingInstructionID;
+                transaction2.ProjectCodeID = _projectCodeService.GetProjectCodeIdWIthCreate(receiveModels.ProjectNumber).ProjectCodeID;
+                transaction2.HubID = user.DefaultHub.HubID;
+                transaction2.UnitID = c.UnitID;
+                // this is the credit part, so make it Negative
+                if (c.ReceivedQuantityInMT != null) transaction2.QuantityInMT = -c.ReceivedQuantityInMT.Value;
+                if (c.ReceivedQuantityInUnit != null) transaction2.QuantityInUnit = -c.ReceivedQuantityInUnit.Value;
+                if (c.CommodityGradeID != null) transaction2.CommodityGradeID = c.CommodityGradeID.Value;
+
+                transaction2.ProgramID = receiveModels.ProgramID;
+                transaction2.StoreID = receiveModels.StoreID;
+                transaction2.Stack = receiveModels.StackNumber;
+                transaction2.TransactionGroupID = tgroup.TransactionGroupID;
+                // hack to get past same key object in context error
+                //repository.Transaction = new TransactionRepository();
+                tgroup.Transactions.Add(transaction2);
             }
 
             // Try to save this transaction

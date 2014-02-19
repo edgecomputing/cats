@@ -47,7 +47,7 @@ namespace Cats.Areas.Logistics.Controllers
             ViewBag.CommoditySourceID = new SelectList(_commonService.GetCommoditySource(), "CommoditySourceID", "Name",2);
             //ViewBag.HubID = new SelectList(_commonService.GetAllHubs(), "HubID", "Name");
             var loanReciptPlanViewModel = new LoanReciptPlanViewModel();
-            loanReciptPlanViewModel.CommoditySourceName = "Loan";
+            loanReciptPlanViewModel.CommoditySourceName = _commonService.GetCommditySourceName(2);//commodity source for Loan
             return View(loanReciptPlanViewModel);
 
         }
@@ -176,7 +176,7 @@ namespace Cats.Areas.Logistics.Controllers
                             LoanReciptPlanID = loanReciptPlanDetail.LoanReciptPlanID,
                             HubID = loanReciptPlanDetail.HubID,
                             HubName = loanReciptPlanDetail.Hub.Name,
-                            MemoRefrenceNumber = loanReciptPlanDetail.MemoReferenceNumber,
+                           // MemoRefrenceNumber = loanReciptPlanDetail.MemoReferenceNumber,
                             Amount = loanReciptPlanDetail.RecievedQuantity,
                             CreatedDate = loanReciptPlanDetail.RecievedDate.ToCTSPreferedDateFormat(datePref),
                             Remaining = _loanReciptPlanDetailService.GetRemainingQuantity(loanReciptPlanDetail.LoanReciptPlanID)
@@ -203,16 +203,17 @@ namespace Cats.Areas.Logistics.Controllers
         [HttpPost]
         public ActionResult ReciptPlan(LoanReciptPlanWithDetailViewModel loanReciptPlanDetail)
         {
+            var userID = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).UserProfileID;
             if (ModelState.IsValid && loanReciptPlanDetail!=null)
             {
                 var loanReciptPlanModel = new LoanReciptPlanDetail()
                     {
                         LoanReciptPlanID = loanReciptPlanDetail.LoanReciptPlanID,
                         HubID = loanReciptPlanDetail.HubID,
-                        MemoReferenceNumber = loanReciptPlanDetail.MemoRefrenceNumber,
+                        //MemoReferenceNumber = loanReciptPlanDetail.MemoRefrenceNumber,
                         RecievedQuantity = loanReciptPlanDetail.Amount,
                         RecievedDate = DateTime.Today,
-                        ApprovedBy = 1
+                        ApprovedBy = userID
                     };
                 _loanReciptPlanDetailService.AddRecievedLoanReciptPlanDetail(loanReciptPlanModel);
                 return RedirectToAction("Detail", new {id = loanReciptPlanDetail.LoanReciptPlanID});

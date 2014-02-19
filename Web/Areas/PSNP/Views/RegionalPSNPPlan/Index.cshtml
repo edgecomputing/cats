@@ -26,7 +26,32 @@
 
 <h4>List of Regional PSNP Plans</h4>
 
-<div class="k-content">
+
+@(Html.Kendo().Grid<RegionalPSNPPlanViewModel>()
+    .Name("grid")
+    .Columns(columns =>
+        {
+            columns.Bound(p => p.PlanName).ClientTemplate("<a href='" + Url.Action("Index", "RegionalPSNPPlanDetail", new { id = "#=RegionalPSNPPlanID#" }) + " '>#=PlanName#</a>  "); 
+        columns.Bound(p => p.From);
+        columns.Bound(p => p.To);
+        columns.Bound(p => p.StatusName);
+       
+    })
+    .DataSource(
+        dataSource => dataSource
+        .Ajax()
+        .Model(model => model.Id(p => p.RegionalPSNPPlanID))
+        .Read(read => read.Action("GetListAjax", "RegionalPSNPPlan"))
+        )
+
+    .HtmlAttributes(new { style = "width:100%; max-height:450px;" })
+    .Sortable()
+    .Scrollable()
+    .HtmlAttributes(new { style = "width:100%; height:550px;" })
+
+      )
+
+@*<div class="k-content">
     <table id="grid" class="table-striped">
         <colgroup>
             <col />
@@ -42,9 +67,8 @@
                 <th data-field="from">From</th>
                 <th data-field="to">To</th>
                 <th data-field="status">Status</th>
-                <th data-field="actions">Actions</th>
             </tr>
-        </thead>
+        </thead>*@
 
         @*<tr>
             <th>
@@ -58,7 +82,7 @@
 
             <th></th>
         </tr>*@
-        <tbody>
+        @*<tbody>
 
             @foreach (RegionalPSNPPlan item in Model)
             {
@@ -80,9 +104,9 @@
 
                     <td>
                         @Html.DisplayFor(modelItem => item.AttachedBusinessProcess.CurrentState.BaseStateTemplate.Name)
-                    </td>
+                    </td>*@
 
-                    <td>
+                  @*  <td>
                         <a data-buttontype="btn_print"  class="btn toolbar-btn " href="@Url.Action("Print", "RegionalPSNPPlan", new { Area = "PSNP", id = item.RegionalPSNPPlanID })"><i class="icon-print"></i></a>
                         @if (state.AllowedAccessLevel >= 1)
                         {
@@ -100,7 +124,7 @@
                     
                         }
 
-                    </td>
+                    </td>*@
                     @*<td>
                         <div class="btn-group">
                             <button class="btn edit_button" id="action_@index">Workflow</button>
@@ -115,12 +139,12 @@
                             </ul>
                         </div>
                     </td>*@
-                </tr>
+              @*  </tr>
             }
         </tbody>
     </table>
 
-</div>
+</div>*@
 <div id="modalHistory" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false" style="width: 600px;">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
