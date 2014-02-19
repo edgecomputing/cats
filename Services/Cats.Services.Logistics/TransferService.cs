@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using Cats.Data.UnitWork;
 using Cats.Models;
+using Cats.Models.Constant;
 
 namespace Cats.Services.Logistics
 {
@@ -59,7 +60,34 @@ namespace Cats.Services.Logistics
            return _unitOfWork.TransferRepository.FindBy(predicate);
        }
        #endregion
-       
+       public bool Approve (Transfer transfer)
+       {
+               if (transfer!=null)
+               {
+                   transfer.StatusID = (int) LocalPurchaseStatus.Approved;
+                   _unitOfWork.TransferRepository.Edit(transfer);
+                   var reciptAllocaltion = new ReceiptAllocation()
+                   {
+                       ReceiptAllocationID = Guid.NewGuid(),
+                       ProgramID = transfer.ProgramID,
+                       CommodityID = transfer.CommodityID,
+                       ETA = transfer.CreatedDate,
+                       SINumber = transfer.ShippingInstruction.Value,
+                       QuantityInMT = transfer.Quantity,
+                       HubID = transfer.DestinationHubID,
+                       CommoditySourceID = transfer.CommoditySourceID, 
+                       ProjectNumber = transfer.ProjectCode,
+                       SourceHubID = transfer.SourceHubID, 
+                       PartitionID = 0,
+                       IsCommited = false
+                   };
+                   _unitOfWork.ReceiptAllocationReository.Add(reciptAllocaltion);
+                   _unitOfWork.Save();
+                   return true;
+
+               }
+           return false;
+       }
        public void Dispose()
        {
            _unitOfWork.Dispose();

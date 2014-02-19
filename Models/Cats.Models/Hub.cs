@@ -24,8 +24,8 @@ namespace Cats.Models
 
             this.LocalPurchaseDetails=new List<LocalPurchaseDetail>();
             this.LoanReciptPlanDetails=new List<LoanReciptPlanDetail>();
-            this.SourceTransfers=new List<Transfer>();
-            this.DestinationTransfers=new List<Transfer>();
+            this.Transfers = new List<Transfer>();
+            this.Transfers1 = new List<Transfer>();
            // this.LoanReciptPlans=new List<LoanReciptPlan>();
 
            
@@ -57,8 +57,8 @@ namespace Cats.Models
         //public virtual ICollection<LoanReciptPlan> LoanReciptPlans { get; set; }
         //public virtual ICollection<LoanReciptPlan> LoanReciptPlans { get; set; }
         public virtual ICollection<LoanReciptPlanDetail> LoanReciptPlanDetails { get; set; }
-        public virtual ICollection<Transfer> SourceTransfers   { get; set; }
-        public virtual ICollection<Transfer> DestinationTransfers  { get; set; }
+        public virtual ICollection<Transfer> Transfers { get; set; }
+        public virtual ICollection<Transfer> Transfers1 { get; set; }
        
     }
 }

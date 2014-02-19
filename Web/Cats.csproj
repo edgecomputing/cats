@@ -1707,6 +1707,7 @@
     <Content Include="Areas\Logistics\Views\ReciptPlanForLoan\ReciptPlan.cshtml" />
     <Content Include="Areas\Logistics\Views\Transfer\Create.cshtml" />
     <Content Include="Areas\Logistics\Views\Transfer\Index.cshtml" />
+    <Content Include="Areas\Logistics\Views\Transfer\Detail.cshtml" />
     <None Include="dataset.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>dataset.Designer.cs</LastGenOutput>

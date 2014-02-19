@@ -18,6 +18,7 @@ namespace Cats.Services.Logistics
        Transfer FindById(int id);
        List<Transfer> GetAllTransfer();
        List<Transfer> FindBy(Expression<Func<Transfer, bool>> predicate);
+       bool Approve(Transfer transfer);
 
 
    }

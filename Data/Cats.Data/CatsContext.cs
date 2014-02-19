@@ -294,6 +294,7 @@ namespace Cats.Data
             modelBuilder.Configurations.Add(new LocalPurchaseDetailMap());
             modelBuilder.Configurations.Add(new LoanReciptPlanMap());
             modelBuilder.Configurations.Add(new LoanReciptPlanDetailMap());
+            modelBuilder.Configurations.Add(new TransferMap());
 
         }
 
