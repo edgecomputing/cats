@@ -43,6 +43,7 @@ namespace Cats.Models.Hubs
             public const int GOODS_PROMISSED_AS_PART_OF_LOAN_UNCOMMITED = 18;
             public const int GOODS_PROMISSED_GIFT_CERTIFICATE_UNCOMMITED = 19;
             public const int GOODS_ON_HAND_UNCOMMITED = 20;
+            public const int STATISTICS = 21;
         }
 
     }
