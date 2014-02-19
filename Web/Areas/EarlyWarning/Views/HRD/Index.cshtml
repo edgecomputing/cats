@@ -33,7 +33,12 @@
         }).data("kendoWindow");
     });
 </script>
-
+@section Toolbar
+{
+    @Html.EarlyWarningOperationButton(
+                        @Url.Action("Create", "HRD", new { Area = "EarlyWarning" }),
+                        EarlyWarningCheckAccess.Operation.New_HRD, "<i class=\"icon-plus\"></i>", "btn", "btn_new_record")
+}
 @section LeftBar{
 
     @Html.Partial("_HRDLeftBar")

@@ -47,7 +47,7 @@ namespace Cats.Areas.Logistics.Controllers
             ViewBag.CommoditySourceID = new SelectList(_commonService.GetCommoditySource(), "CommoditySourceID", "Name",2);
             //ViewBag.HubID = new SelectList(_commonService.GetAllHubs(), "HubID", "Name");
             var loanReciptPlanViewModel = new LoanReciptPlanViewModel();
-            loanReciptPlanViewModel.CommoditySourceName = "Loan";
+            loanReciptPlanViewModel.CommoditySourceName = _commonService.GetCommditySourceName(2);//commodity source for Loan
             return View(loanReciptPlanViewModel);
 
         }

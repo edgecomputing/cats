@@ -388,6 +388,7 @@
     <Compile Include="Areas\EarlyWarning\Models\HRDWithRegionalRequestViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\InKindContributionDetailViewModel.cs" />
     <Compile Include="Areas\Logistics\Controllers\DonationController.cs" />
+    <Compile Include="Areas\Logistics\Controllers\TransferController.cs" />
     <Compile Include="Areas\Logistics\Models\LoanReciptPlanViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\NeedAssessmentPlanViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\PlanViewModel.cs" />
@@ -482,6 +483,7 @@
     <Compile Include="Areas\Logistics\Controllers\LocalPurchaseController.cs" />
     <Compile Include="Areas\Logistics\LogisticsAreaRegistration.cs" />
     <Compile Include="Areas\Logistics\Models\ActionLink.cs" />
+    <Compile Include="Areas\Logistics\Models\TransferViewModel.cs" />
     <Compile Include="Areas\Logistics\Models\ZonesViewModel.cs" />
     <Compile Include="Areas\Logistics\Models\AssignHubViewModel.cs" />
     <Compile Include="Areas\Logistics\Models\DispatchViewModelForReconcile.cs" />
@@ -1043,6 +1045,8 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Dashboard\dashboardcomponents.css" />
     <Content Include="Content\images\CATS.png" />
+    <Content Include="Content\images\CatsLogo.ico" />
+    <Content Include="Content\images\CATS_Blue.ico" />
     <Content Include="Content\Login\App.css" />
     <Content Include="Content\Login\bootstrap.min.css" />
     <Content Include="Content\Login\bootstrab.min.js" />
@@ -1703,6 +1707,9 @@
     <Content Include="Areas\Logistics\Views\ReciptPlanForLoan\Edit.cshtml" />
     <Content Include="Areas\Logistics\Views\ReciptPlanForLoan\Detail.cshtml" />
     <Content Include="Areas\Logistics\Views\ReciptPlanForLoan\ReciptPlan.cshtml" />
+    <Content Include="Areas\Logistics\Views\Transfer\Create.cshtml" />
+    <Content Include="Areas\Logistics\Views\Transfer\Index.cshtml" />
+    <Content Include="Areas\Logistics\Views\Transfer\Detail.cshtml" />
     <None Include="dataset.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>dataset.Designer.cs</LastGenOutput>
