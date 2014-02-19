@@ -685,7 +685,7 @@ label {
 .portlet .portlet-header h5,
 .portlet .portlet-header h6 {
   float: left;
-  padding: 10px 0;
+  padding: 1px 0;
   margin: 0 1em 0 0;
   display: inline-block;
   vertical-align: middle;
@@ -708,7 +708,7 @@ label {
   vertical-align: middle;
 }
 .portlet .portlet-tools {
-  float: left;
+  float: right;
   display: inline-block;
   padding: 0;
   margin: 5px 0 0 0;
