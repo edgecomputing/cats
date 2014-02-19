@@ -88,6 +88,9 @@
     <Reference Include="Ninject">
       <HintPath>..\packages\Ninject.3.0.1.10\lib\net45-full\Ninject.dll</HintPath>
     </Reference>
+    <Reference Include="nunit.framework">
+      <HintPath>..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Entity" />
@@ -388,6 +391,7 @@
     <Compile Include="Areas\EarlyWarning\Models\HRDWithRegionalRequestViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\InKindContributionDetailViewModel.cs" />
     <Compile Include="Areas\Logistics\Controllers\DonationController.cs" />
+    <Compile Include="Areas\Logistics\Controllers\TransferController.cs" />
     <Compile Include="Areas\Logistics\Models\LoanReciptPlanViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\NeedAssessmentPlanViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\PlanViewModel.cs" />
@@ -482,6 +486,7 @@
     <Compile Include="Areas\Logistics\Controllers\LocalPurchaseController.cs" />
     <Compile Include="Areas\Logistics\LogisticsAreaRegistration.cs" />
     <Compile Include="Areas\Logistics\Models\ActionLink.cs" />
+    <Compile Include="Areas\Logistics\Models\TransferViewModel.cs" />
     <Compile Include="Areas\Logistics\Models\ZonesViewModel.cs" />
     <Compile Include="Areas\Logistics\Models\AssignHubViewModel.cs" />
     <Compile Include="Areas\Logistics\Models\DispatchViewModelForReconcile.cs" />
@@ -1705,6 +1710,9 @@
     <Content Include="Areas\Logistics\Views\ReciptPlanForLoan\Edit.cshtml" />
     <Content Include="Areas\Logistics\Views\ReciptPlanForLoan\Detail.cshtml" />
     <Content Include="Areas\Logistics\Views\ReciptPlanForLoan\ReciptPlan.cshtml" />
+    <Content Include="Areas\Logistics\Views\Transfer\Create.cshtml" />
+    <Content Include="Areas\Logistics\Views\Transfer\Index.cshtml" />
+    <Content Include="Areas\Logistics\Views\Transfer\Detail.cshtml" />
     <None Include="dataset.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>dataset.Designer.cs</LastGenOutput>

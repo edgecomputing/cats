@@ -1,0 +1,80 @@
+﻿@using Cats.Areas.Logistics.Models
+@using Cats.Helpers
+@using Kendo.Mvc.UI
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+    const string pageName = "Logistics.Transfer.Index";
+}
+
+@section Toolbar
+{
+    <a id="btnAddReciptPlan" data-buttontype="btn_new_record" class="btn toolbar-btn " href="@Url.Action("Create", "Transfer")"></a>
+}
+@section LeftBar
+{
+    
+}
+<script type="text/javascript">
+    $(function () {
+
+        //Optional: turn the chache off
+        $.ajaxSetup({ cache: false });
+
+        $('#btnAddReciptPlan').click(function () {
+
+            // alert("");
+            $('#dialogContent').load(this.href, function () {
+                $('#dialogDiv').modal({
+                    backdrop: 'static',
+                    keyboard: true
+                }, 'show');
+                //bindForm(this);
+            });
+            return false;
+        });
+
+    });
+</script>
+
+<div id='dialogDiv' class='modal hide fade in' style="width: 820px;margin-right: 10px">
+    <div id='dialogContent'></div>
+</div>
+<h4>List of Reciept Plan From Transfer</h4>
+ @(Html.Kendo().Grid<TransferViewModel>()
+              .Name("grid")
+              .Columns(columns =>
+                  {
+                      columns.Bound(m => m.SiNumber).Title(@Html.Translate2(pageName, "SI Number")).ClientTemplate("<a href='" + Url.Action("Detail", "Transfer", new { id = "#=TransferID#" }) + " '>#=SiNumber#</a>  ");
+                      columns.Bound(m => m.SourceHubName).Width(200).Title(@Html.Translate2(pageName, "Source Hub"));
+                      columns.Bound(m => m.Program).Title(@Html.Translate2(pageName,"Program"));
+                      columns.Bound(m => m.Commodity).Width(200).Title(@Html.Translate2(pageName,"Commodity"));
+                      columns.Bound(m => m.CommoditySource).Width(100).Title(@Html.Translate2(pageName,"Commodity Source"));
+                      columns.Bound(m => m.Quantity).HtmlAttributes(new {align = "right"}).Title(@Html.Translate2(pageName,"Quantity in MT"));
+                      columns.Bound(m => m.CreatedDate).Title("Created Date");
+                      columns.Bound(m => m.DestinationHubName).Title(@Html.Translate2(pageName, "Destination hub"));
+                      columns.Bound(m => m.StatusName);
+                      //columns.Command(p =>
+                      //{
+                      //    p.Custom("Edit").Click("Edit");
+                      //    p.Custom("Recieve").Click("Recieve");
+                      //}).Width(250);
+
+
+                  }
+
+              )
+
+              .Navigatable()
+              .HtmlAttributes(new { style = "height:430px;" })
+              .DataSource(dataSource => dataSource
+                                            .Ajax()
+                                            .Model(model =>model.Id(m=>m.TransferID))
+                                            .Read(read => read.Action("Transfer_Read", "Transfer"))
+              //.Update(update => update.Action("Commodity_Update", "Request"))
+              )
+       )
+
+<div id='dialogDivSmall' class='modal hide fade in'>
+    <div id='dialogContentSmall'></div>
+</div>

@@ -253,6 +253,7 @@ namespace Cats.Infrastructure
             kernel.Bind<ILoanReciptPlanService>().To<LoanReciptPlanService>();
             kernel.Bind<IRegionalDashboard>().To<RegionalDashboard>();
             kernel.Bind<ILoanReciptPlanDetailService>().To<LoanReciptPlanDetailService>();
+            kernel.Bind<ITransferService>().To<TransferService>();
         }
         private void AddBindingsHub()
         {

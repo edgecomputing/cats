@@ -1016,5 +1016,11 @@ namespace Cats.Data.UnitWork
             }
         }
 
+        private IGenericRepository<Transfer> _transferRepository;
+        public IGenericRepository<Transfer> TransferRepository
+        {
+            get { return this._transferRepository ?? (this._transferRepository = new GenericRepository<Transfer>(_context)); }
+        }
+
     }
 }
