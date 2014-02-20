@@ -56,6 +56,40 @@ namespace Cats.Areas.Logistics.Controllers
             }
             return View(transferViewModel);
         }
+        public ActionResult Edit(int id)
+        {
+            var transfer = _transferService.FindById(id);
+            if (transfer==null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.ProgramID = new SelectList(_commonService.GetPrograms(), "ProgramID", "Name",transfer.ProgramID);
+            ViewBag.SourceHubID = new SelectList(_commonService.GetAllHubs(), "HubID", "Name",transfer.SourceHubID);
+            ViewBag.CommodityID = new SelectList(_commonService.GetCommodities(), "CommodityID", "Name",transfer.CommodityID);
+            ViewBag.CommodityTypeID = new SelectList(_commonService.GetCommodityTypes(), "CommodityTypeID", "Name");
+            ViewBag.DestinationHubID = new SelectList(_commonService.GetAllHubs(), "HubID", "Name",transfer.DestinationHubID);
+            ViewBag.CommoditySourceID = new SelectList(_commonService.GetCommoditySource(), "CommoditySourceID", "Name",transfer.CommoditySourceID);
+            return View(transfer);
+        }
+
+       [HttpPost]
+        public ActionResult Edit(Transfer transfer)
+       {
+          
+           if(ModelState.IsValid && transfer!=null)
+           {
+               transfer.CommoditySourceID = 5;//Commodity Source for transfer
+               _transferService.EditTransfer(transfer);
+               return RedirectToAction("detail", new {id = transfer.TransferID});
+           }
+           ViewBag.ProgramID = new SelectList(_commonService.GetPrograms(), "ProgramID", "Name", transfer.ProgramID);
+           ViewBag.SourceHubID = new SelectList(_commonService.GetAllHubs(), "HubID", "Name", transfer.SourceHubID);
+           ViewBag.CommodityID = new SelectList(_commonService.GetCommodities(), "CommodityID", "Name", transfer.CommodityID);
+           ViewBag.CommodityTypeID = new SelectList(_commonService.GetCommodityTypes(), "CommodityTypeID", "Name");
+           ViewBag.DestinationHubID = new SelectList(_commonService.GetAllHubs(), "HubID", "Name", transfer.DestinationHubID);
+           ViewBag.CommoditySourceID = new SelectList(_commonService.GetCommoditySource(), "CommoditySourceID", "Name", transfer.CommoditySourceID);
+           return View(transfer);
+       }
         private Transfer GetTransfer(TransferViewModel transferViewModel)
         {
                var transfer = new Transfer()
