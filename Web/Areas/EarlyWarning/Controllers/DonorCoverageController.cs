@@ -46,7 +46,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         public ActionResult Create()
         {
             var hrdDonorCoverage = new HrdDonorCoverage();
-            ViewBag.DonorID =new SelectList(_donorService.GetAllDonor(),"DonorID","DonorCode");
+            ViewBag.DonorID =new SelectList(_donorService.GetAllDonor(),"DonorID","Name");
             var hrds = _hrdService.GetAllHRD().Where(m => m.Status != (int)HRDStatus.Draft);
             var hrd =(from item in hrds
                  select new { item.HRDID, Name = string.Format("{0}-{1}", item.Season.Name, item.Year) }).ToList();
