@@ -71,12 +71,12 @@ namespace Cats.Services.EarlyWarning
                 _unitOfWork.HrdDonorCoverageDetailRepository.FindBy(
                     m => m.HRDDonorCoverageID == hrdDonorCoverageDetail.HRDDonorCoverageID &&
                          m.WoredaID == hrdDonorCoverageDetail.WoredaID);
-            if (woredaExists!=null)
+            if (woredaExists==null)
             {
-                return true;
+                _unitOfWork.HrdDonorCoverageDetailRepository.Add(hrdDonorCoverageDetail);
+                _unitOfWork.Save();
             }
-            _unitOfWork.HrdDonorCoverageDetailRepository.Add(hrdDonorCoverageDetail);
-            _unitOfWork.Save();
+            
             return true;
         }
         public void Dispose()
