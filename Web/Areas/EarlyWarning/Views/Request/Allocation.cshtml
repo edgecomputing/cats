@@ -45,7 +45,6 @@
 
 <script type="text/javascript">
     $(function () {
-
         //Optional: turn the chache off
         $.ajaxSetup({ cache: false });
 
@@ -198,14 +197,14 @@
     </div>*@
 
 <table class="borderless">
-    <td>
+    <td >
         <div style="float: left;">
             @(Html.Kendo().Grid<RequestDetailCommodityViewModel>()
                   .Name("commodityGrid")
                   .Columns(columns =>
                       {
                           columns.Bound(p => p.Commodity).Title(Translator.Translate("Commodity"));
-                          columns.Command(p => p.Custom("Delete").Click("onCommodityDelete"));
+                          columns.Command(p => p.Custom("Delete").Click("onCommodityDelete")).Title("Action");
                       }
 
                   )
@@ -244,13 +243,18 @@
                   .Scrollable()
                   .Selectable(t => t.Mode(GridSelectionMode.Single))
                   .Navigatable()
+                  //.Groupable()
 
                   .HtmlAttributes(new { style = "height:430px;" })
                   .Events(events => events.DataBound("onDataBound"))
                   .DataSource(dataSource => dataSource
                                                 .Ajax()
 
-                                                .Group(group => group.Add(p => p.Woreda))
+                                                .Group(group =>
+                                                    {
+                                                        group.Add(p => p.Zone);
+                                                        group.Add(p => p.Woreda);
+                                                    } )
                                                 .Model(model =>
                                                     {
                                                         model.Id(p => p.RegionalRequestDetailID);
