@@ -18,6 +18,8 @@
     REQUEST FOR QUOTATION</h2>
 
 <p>Transport Quotation Delivery Datasheet for Region <b>@ViewBag.SelectedRegion</b></p>
+<p>Bid Reference Number <b>@ViewBag.BidReference</b></p>
+
 <p>Transporter Name:_________________________________</p>
 
 <div>
@@ -71,7 +73,7 @@
         var b = @ViewBag.bid;
         var r = @ViewBag.reg;
 
-        var printurl = "@Url.Action("Print", "RFQ")" + "?bidPlanID="+ b + "&regionID="+r;
+        var printurl = "@Url.Action("Print", "RFQ")" + "?bidID="+ b + "&regionID="+r;
         $("#toolbar_button_print").attr("href", printurl);
     });
 </script>
