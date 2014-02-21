@@ -19,12 +19,12 @@
             </button>
            
         <ul class="dropdown-menu">
-            <li><a href="@Url.Action("", "Transfer", new { id = Model.TransferID})">@Html.Translate2(pageName,"Issue")</a></li>
-            <li><a href="@Url.Action("", "Transfer", new { id = Model.TransferID})">@Html.Translate2(pageName,"Dispatch")</a></li>
+            @*<li><a href="@Url.Action("", "Transfer", new { id = Model.TransferID})">@Html.Translate2(pageName,"Issue")</a></li>
+            <li><a href="@Url.Action("", "Transfer", new { id = Model.TransferID})">@Html.Translate2(pageName,"Dispatch")</a></li>*@
              @if(Model.StatusID==(int)LocalPurchaseStatus.Draft)
        {
-        <li><a id="btnEdit" href="@Url.Action("", "Transfer", new {id = Model.TransferID})">@Html.Translate2(pageName, "Edit")</a></li>
-        <li><a id="btnApprove" href="@Url.Action("Approve", "Transfer", new {id = Model.TransferID})">@Html.Translate2(pageName, "Approve")</a></li>
+        <li><a id="btnEdit" href="@Url.Action("Edit", "Transfer", new {id = Model.TransferID})">@Html.Translate2(pageName, "Edit")</a></li>
+        <li><a id="btnApprove" href="@Url.Action("Approve", "Transfer", new {id = Model.TransferID})">@Html.Translate2(pageName, "Approve(Send to Hub)")</a></li>
       }
     </ul>
     <a class="btn toolbar-btn " href="@Url.Action("Index", "Transfer")" data-buttontype="btn_back_to_list"></a>
@@ -36,6 +36,31 @@
     
 
 }
+<script type="text/javascript">
+    $(function () {
+
+        //Optional: turn the chache off
+        $.ajaxSetup({ cache: false });
+
+        $('#btnEdit').click(function () {
+
+            // alert("");
+            $('#dialogContent').load(this.href, function () {
+                $('#dialogDiv').modal({
+                    backdrop: 'static',
+                    keyboard: true
+                }, 'show');
+                //bindForm(this);
+            });
+            return false;
+        });
+
+    });
+</script>
+
+<div id='dialogDiv' class='modal hide fade in' style="width: 820px;margin-right: 10px">
+    <div id='dialogContent'></div>
+</div>
 <div class="row-fluid form-horizontal">
     <div class="control-group">
         <div class="control-label">
