@@ -291,10 +291,10 @@ namespace Cats.Services.EarlyWarning
                              //TODO:Include navigation property for commodity on relife requistion
                              Commodity = itm.Commodity.Name,
                              Program = itm.Program.Name,
-                             Region = itm.AdminUnit1.Name,
+                             Region = itm.AdminUnit.Name,
                              Round = itm.Round,
                              Month = itm.Month,
-                             Zone = itm.AdminUnit.Name,
+                             Zone = itm.AdminUnit1.Name,
                              Status = itm.Status,
                              RequisitionID = itm.RequisitionID,
                              // RequestedBy = itm.UserProfile,

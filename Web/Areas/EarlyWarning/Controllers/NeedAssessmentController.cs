@@ -320,7 +320,12 @@ namespace Cats.Areas.EarlyWarning.Controllers
          ViewBag.TypeOfNeed = new SelectList(_typeOfNeedAssessmentService.GetAllTypeOfNeedAssessment(), "TypeOfNeedAssessmentID", "TypeOfNeedAssessment1");
          ViewBag.Regions = new SelectList(_adminUnitService.FindBy(t => t.AdminUnitTypeID == 2), "AdminUnitID", "Name");
          ViewBag.Season = new SelectList(_seasonService.GetAllSeason(), "SeasonID", "Name");
-         return View(needAssessment);
+         if (needAssessment!=null)
+         {
+             return View(needAssessment);
+         }
+         var newAssessment = new NeedAssessment {PlanID = id};
+         return View(newAssessment);
      }
     [HttpPost]
     public ActionResult AddNeedAssessment(NeedAssessment needAssessment,FormCollection collection)
@@ -328,6 +333,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         var region = collection["RegionID"].ToString(CultureInfo.InvariantCulture);
         var regionID = int.Parse(region);
         int season = int.Parse(collection["SeasonID"].ToString(CultureInfo.InvariantCulture));
+        int planID = int.Parse(collection["PlanID"].ToString(CultureInfo.InvariantCulture));
         int typeOfNeedID = int.Parse(collection["TypeOfNeedID"].ToString(CultureInfo.InvariantCulture));
         var userID = _needAssessmentHeaderService.GetUserProfileId(HttpContext.User.Identity.Name);
         try
@@ -344,8 +350,8 @@ namespace Cats.Areas.EarlyWarning.Controllers
             //ViewBag.Season = new SelectList(_seasonService.GetAllSeason(), "SeasonID", "Name");
             //ViewBag.TypeOfNeed = new SelectList(_typeOfNeedAssessmentService.GetAllTypeOfNeedAssessment(), "TypeOfNeedAssessmentID", "TypeOfNeedAssessment1");
             ViewBag.Error = "Need Assessment is already Created for this region";
-            ModelState.AddModelError("Errors", ViewBag.Error);
-            return RedirectToAction("AddNeedAssessment", "NeedAssessment", new { id = needAssessment.PlanID });
+            //ModelState.AddModelError("Errors", ViewBag.Error);
+            return RedirectToAction("Detail", "NeedAssessment", new { id = needAssessment.PlanID });
         }
     }
 

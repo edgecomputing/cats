@@ -93,21 +93,22 @@
     <div class="container">
 
         <div>
-            <div class="row" style="border-bottom-width: thin; border-bottom-color: cadetblue; border-bottom-style: inset;">
+            <div class="row" style="border-bottom-width: thin; border-bottom-color: #666; border-bottom-style: inset; margin-top: 5px">
 
                 <div class="pull-left">
                     <h4>Requests</h4>
                 </div>
                 <div class="pull-right">
                     <div class="btn-group">
-                        <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
-                            <i class="icon-cog"></i>Hide  
+                        <button id ="RequestHeader"type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
+                            <i class="icon-arrow-up"></i> 
+                            <i class="icon-arrow-down"></i> 
                         </button>
 
                     </div>
                 </div>
             </div>
-            <div class="row">
+            <div id="RequestContent"class="row">
                 <div>&nbsp;</div>
                 <div ng-controller="RecentRequestsController" class="span8">
                     <div class="portlet">
@@ -334,21 +335,22 @@
         </div>
 
         <div>
-            <div class="row" style="border-bottom-width: thin; border-bottom-color: #666; border-bottom-style: inset;">
+            <div class="row" style="border-bottom-width: thin; border-bottom-color: #666; border-bottom-style: inset; margin-top: 5px">
 
                 <div class="pull-left">
                     <h4>Requisitions</h4>
                 </div>
                 <div class="pull-right">
                     <div class="btn-group">
-                        <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
-                            <i class="icon-cog"></i>Hide  
+                        <button id="RequisitionHeader"type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
+                             <i class="icon-arrow-up"></i> 
+                            <i class="icon-arrow-down"></i> 
                         </button>
 
                     </div>
                 </div>
             </div>
-            <div class="row">
+            <div id="RequisitionContent" class="row">
                 <div>&nbsp;</div>
                 <div class="span4">
 
@@ -550,21 +552,22 @@
         </div>
 
         <div>
-            <div class="row" style="border-bottom-width: thin; border-bottom-color: #666; border-bottom-style: inset; margin-top: 20px">
+            <div class="row" style="border-bottom-width: thin; border-bottom-color: #666; border-bottom-style: inset; margin-top: 5px">
 
                 <div class="pull-left">
                     <h4>Dispatches</h4>
                 </div>
                 <div class="pull-right">
                     <div class="btn-group">
-                        <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
-                            <i class="icon-cog"></i>Hide  
+                        <button id="DispatchHeader" type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
+                            <i class="icon-arrow-up"></i> 
+                            <i class="icon-arrow-down"></i> 
                         </button>
 
                     </div>
                 </div>
             </div>
-            <div class="row">
+            <div id="DispatchContent"class="row">
                 <div>&nbsp;</div>
 
                 <div ng-controller="RecentRequestsController" class="span8">
@@ -579,7 +582,7 @@
                                     <button class="btn btn-sm btn-default">
                                         Show more
                                     </button>
-
+                                    <a class="btn btn-sm btn-default" href="@Url.Action("Index", "DeliveryReconcile", new { Area="Logistics", regionID= ViewBag.RegionID })">FDP Commodity Receipt</a>
                                 </li>
                             </ul>
                         </div>
@@ -677,21 +680,22 @@
         </div>
 
         <div>
-            <div class="row" style="border-bottom-width: thin; border-bottom-color: #666; border-bottom-style: inset; margin-top: 20px">
+            <div class="row" style="border-bottom-width: thin; border-bottom-color: #666; border-bottom-style: inset; margin-top: 5px">
 
                 <div class="pull-left">
                     <h4>Distribution</h4>
                 </div>
                 <div class="pull-right">
                     <div class="btn-group">
-                        <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
-                            <i class="icon-cog"></i>Hide  
+                        <button id="DistributionHeader"type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
+                            <i class="icon-arrow-up"></i> 
+                            <i class="icon-arrow-down"></i> 
                         </button>
 
                     </div>
                 </div>
             </div>
-            <div class="row">
+            <div id="DistributionContent"class="row">
                 <div>&nbsp;</div>
 
                 <div ng-controller="RecentRequestsController" class="span5">
@@ -917,6 +921,23 @@
     </div>
 </div>
 
+<script>
+    $("#RequestHeader").click(function () {
+        $("#RequestContent").slideToggle("slow", "linear");
+    });
+    
+    $("#RequisitionHeader").click(function () {
+        $("#RequisitionContent").slideToggle("slow", "linear");
+    });
+    
+    $("#DispatchHeader").click(function () {
+        $("#DispatchContent").slideToggle("slow", "linear");
+    });
+    
+    $("#DistributionHeader").click(function () {
+        $("#DistributionContent").slideToggle("slow", "linear");
+    });
+</script>
 
 <script>
     function RecentRequestsController($scope, $http) {

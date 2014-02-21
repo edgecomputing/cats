@@ -147,6 +147,7 @@
     <Compile Include="ProjectAllocationControllerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ControllersTests\ReliefRequisitionControllerTests.cs" />
+    <Compile Include="Service Tests\HubTransactionServiceTest.cs" />
     <Compile Include="Service Tests\TransportOrder\TransportOrdreServiceTest.cs" />
   </ItemGroup>
   <ItemGroup>

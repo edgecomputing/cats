@@ -123,6 +123,33 @@ namespace Cats.Services.EarlyWarning
             return true;
         }
 
+        public bool AddAllCommodity(int regionalRequestID)
+        {
+            var regionalRequestDetail = _unitOfWork.RegionalRequestDetailRepository.Get(m => m.RegionalRequestID == regionalRequestID);
+            var rationID = _unitOfWork.RegionalRequestRepository.FindById(regionalRequestID).RationID;
+            var rationDetails = _unitOfWork.RationDetailRepository.FindBy(m => m.RationID == rationID);
+           
+                foreach (var requestDetail in regionalRequestDetail)
+                {
+                    foreach (var rationDetail in rationDetails)
+                    {
+                        if (requestDetail.RequestDetailCommodities.All(t=>t.CommodityID!=rationDetail.CommodityID))
+                        {
+                            requestDetail.RequestDetailCommodities.Add(new RequestDetailCommodity()
+                                {
+                                    CommodityID = rationDetail.CommodityID,
+                                    Amount = requestDetail.Beneficiaries*rationDetail.Amount
+                                });
+                        }
+                    }
+
+                }
+            _unitOfWork.Save();
+            return true;
+
+
+        }
+
         public bool AddRegionalRequestDetailWithBeneficiary(RegionalRequestDetail regionalRequestDetail)
         {
             var oldRequestDetail = _unitOfWork.RegionalRequestDetailRepository.FindBy(m => m.RegionalRequestID==regionalRequestDetail.RegionalRequestID

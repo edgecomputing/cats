@@ -33,6 +33,7 @@
     <ul class="dropdown-menu">
         <li><a id="btnAddFDP" href="@Url.Action("AddBeneficary", "Request", new { id = Model.RegionalRequestID, programId = @ViewBag.programId })">@Translator.Translate("Add FDP")</a></li>
         <li><a id="btnAddCommodity" href="@Url.Action("AddCommodity", "Request", new { id = Model.RegionalRequestID })">@Translator.Translate("Add Commodity")</a></li>
+        <li><a  href="@Url.Action("AddAllCommodity", "Request", new { id = Model.RegionalRequestID })">@Translator.Translate("Add All Commodity")</a></li>
     </ul>
 </div>
 
@@ -44,7 +45,6 @@
 
 <script type="text/javascript">
     $(function () {
-
         //Optional: turn the chache off
         $.ajaxSetup({ cache: false });
 
@@ -197,14 +197,14 @@
     </div>*@
 
 <table class="borderless">
-    <td>
+    <td >
         <div style="float: left;">
             @(Html.Kendo().Grid<RequestDetailCommodityViewModel>()
                   .Name("commodityGrid")
                   .Columns(columns =>
                       {
                           columns.Bound(p => p.Commodity).Title(Translator.Translate("Commodity"));
-                          columns.Command(p => p.Custom("Delete").Click("onCommodityDelete"));
+                          columns.Command(p => p.Custom("Delete").Click("onCommodityDelete")).Title("Action");
                       }
 
                   )
@@ -243,13 +243,18 @@
                   .Scrollable()
                   .Selectable(t => t.Mode(GridSelectionMode.Single))
                   .Navigatable()
+                  //.Groupable()
 
                   .HtmlAttributes(new { style = "height:430px;" })
                   .Events(events => events.DataBound("onDataBound"))
                   .DataSource(dataSource => dataSource
                                                 .Ajax()
 
-                                                .Group(group => group.Add(p => p.Woreda))
+                                                .Group(group =>
+                                                    {
+                                                        group.Add(p => p.Zone);
+                                                        group.Add(p => p.Woreda);
+                                                    } )
                                                 .Model(model =>
                                                     {
                                                         model.Id(p => p.RegionalRequestDetailID);

@@ -5,13 +5,48 @@
     ViewBag.Title = "Detail";
     Layout = "~/Views/Shared/_MainLayout.cshtml";  
 }
+
 @section Toolbar
 {
 
-    <a class="btn toolbar-btn " href="@Url.Action("AddNeedAssessment", "NeedAssessment" ,new {id=Model.PlanID})"data-buttontype="">Add Assessment</a>
+   @* <a class="btn toolbar-btn " href="@Url.Action("AddNeedAssessment", "NeedAssessment" ,new {id=Model.PlanID})"data-buttontype="">Add Assessment</a>
     <a class="btn toolbar-btn " href="@Url.Action("CreateHRD", "HRD" ,new {id=Model.PlanID})"data-buttontype="">Create HRD</a>
+    *@
+    <div class="btn-group" style="margin-right: 8px;">
+    <button class="btn dropdown-toggle " data-toggle="dropdown">
+        @Translator.Translate("Actions")
+        <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu">
+        <li><a id="btnAddAssessment" href="@Url.Action("AddNeedAssessment", "NeedAssessment", new { id = Model.PlanID })">@Translator.Translate("Add Assessment")</a></li>
+        <li><a id="btnCreateHrd" href="@Url.Action("CreateHRD", "HRD", new { id = Model.PlanID })">@Translator.Translate("Create HRD")</a></li>
+    </ul>
+</div>
 }
+<script type="text/javascript">
+    $(function () {
 
+        //Optional: turn the chache off
+        $.ajaxSetup({ cache: false });
+
+        $('#btnAddAssessment').click(function () {
+
+            // alert("");
+            $('#dialogContent').load(this.href, function () {
+                $('#dialogDiv').modal({
+                    backdrop: 'static',
+                    keyboard: true
+                }, 'show');
+                //bindForm(this);
+            });
+            return false;
+        });
+
+    });
+</script>
+<div id='dialogDiv' class='modal hide fade in'>
+    <div id='dialogContent'></div>
+</div>
 <h4>list of Need Assessments</h4>
 
 <div class="control-group form-horizontal well">

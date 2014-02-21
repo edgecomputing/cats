@@ -31,7 +31,13 @@ namespace Cats.Services.Hub
 
         }
 
-
+        public void Dispose()
+        {
+            _unitOfWork.Dispose();
+            _accountService.Dispose();
+            _projectCodeService.Dispose();
+            _shippingInstructionService.Dispose();
+        }
 
 
         /// <summary>
@@ -550,7 +556,7 @@ namespace Cats.Services.Hub
         /// </summary>
         /// <param name="dispatchModel">The dispatch model.</param>
         /// <param name="user">The user.</param>
-        public void SaveDispatchTransaction(DispatchModel dispatchModel, UserProfile user)
+        public bool SaveDispatchTransaction(DispatchModel dispatchModel, UserProfile user) //used to return void
         {
             Dispatch dispatch = dispatchModel.GenerateDipatch(user);
 
@@ -573,19 +579,31 @@ namespace Cats.Services.Hub
 
                 if (dispatchModel.Type == 1)
                 {
-                    Transaction transaction2 = GetPositiveFDPTransaction(dispatchModel, dispatch, detail);
-                    group.Transactions.Add(transaction2);
-
-                    Transaction transaction = GetNegativeFDPTransaction(dispatchModel, dispatch, detail);
+                    Transaction transaction = GetGoodsOnHandFDPTransaction(dispatchModel, dispatch, detail);
                     group.Transactions.Add(transaction);
+                    
+                    Transaction transaction2 = GetGoodsInTransitFDPTransaction(dispatchModel, dispatch, detail);
+                    group.Transactions.Add(transaction2);
+                    
+                    Transaction transaction3 = GetStatisticsFDPTransaction(dispatchModel, dispatch, detail);
+                    group.Transactions.Add(transaction3);
+
+                    Transaction transaction4 = GetCommitedToFDPTransaction(dispatchModel, dispatch, detail);
+                    group.Transactions.Add(transaction4);
                 }
                 else
                 {
-                    Transaction transaction2 = GetPositiveHUBTransaction(dispatchModel, dispatch, detail);
+                    Transaction transaction = GetGoodsOnHandHUBTransaction(dispatchModel, dispatch, detail);
+                    group.Transactions.Add(transaction);
+
+                    Transaction transaction2 = GetGoodInTransitHUBTransaction(dispatchModel, dispatch, detail);
                     group.Transactions.Add(transaction2);
 
-                    Transaction transaction = GetNegativeHUBTransaction(dispatchModel, dispatch, detail);
-                    group.Transactions.Add(transaction);
+                    Transaction transaction3 = GetStatisticsHUBTransaction(dispatchModel, dispatch, detail);
+                    group.Transactions.Add(transaction3);
+
+                    Transaction transaction4 = GetCommittedToFDPHUBTransaction(dispatchModel, dispatch, detail);
+                    group.Transactions.Add(transaction4);
                 }
 
                 DispatchDetail dispatchDetail = GenerateDispatchDetail(detail);
@@ -602,6 +620,7 @@ namespace Cats.Services.Hub
             {
                 _unitOfWork.DispatchRepository.Add(dispatch);
                 _unitOfWork.Save();
+                return true;
                 //repository.Dispatch.Add(dispatch);
                 //dbTransaction.Commit();
             }
@@ -617,6 +636,7 @@ namespace Cats.Services.Hub
                 string sms = dispatch.GetSMSText();
                 //SMS.SendSMS(dispatch.FDPID.Value, sms);
             }
+            return false;
         }
 
         public void SaveDispatchTransaction(DispatchViewModel dispatchViewModel)
@@ -770,7 +790,7 @@ namespace Cats.Services.Hub
         /// <param name="dispatch">The dispatch.</param>
         /// <param name="detail">The detail.</param>
         /// <returns></returns>
-        private Transaction GetPositiveFDPTransaction(DispatchModel dispatchModel, Dispatch dispatch, DispatchDetailModel detail)
+        private Transaction GetGoodsInTransitFDPTransaction(DispatchModel dispatchModel, Dispatch dispatch, DispatchDetailModel detail)
         {
             Transaction transaction2 = new Transaction();
             transaction2.AccountID = _accountService.GetAccountIdWithCreate(Account.Constants.FDP, dispatchModel.FDPID.Value);
@@ -798,7 +818,7 @@ namespace Cats.Services.Hub
         /// <param name="dispatch">The dispatch.</param>
         /// <param name="detail">The detail.</param>
         /// <returns></returns>
-        private Transaction GetNegativeFDPTransaction(DispatchModel dispatchModel, Dispatch dispatch, DispatchDetailModel detail)
+        private Transaction GetGoodsOnHandFDPTransaction(DispatchModel dispatchModel, Dispatch dispatch, DispatchDetailModel detail)
         {
             Transaction transaction = new Transaction();
             transaction.AccountID = _accountService.GetAccountIdWithCreate(Account.Constants.FDP, dispatch.FDPID.Value);
@@ -807,9 +827,51 @@ namespace Cats.Services.Hub
             transaction.CommodityID = detail.CommodityID;
             transaction.HubID = dispatch.HubID;
             transaction.HubOwnerID = _unitOfWork.HubRepository.FindById(dispatch.HubID).HubOwnerID;
-            transaction.LedgerID = Ledger.Constants.GOODS_ON_HAND_UNCOMMITED;
+            transaction.LedgerID = Ledger.Constants.GOODS_ON_HAND; //previously GOODS_ON_HAND_UNCOMMITED
             transaction.QuantityInMT = -detail.DispatchedQuantityMT.Value;
             transaction.QuantityInUnit = -detail.DispatchedQuantity.Value;
+            transaction.ShippingInstructionID = _shippingInstructionService.GetShipingInstructionId(dispatchModel.SINumber);
+            transaction.ProjectCodeID = _projectCodeService.GetProjectCodeId(dispatchModel.ProjectNumber);
+            transaction.Stack = dispatchModel.StackNumber;
+            transaction.StoreID = dispatchModel.StoreID;
+            transaction.TransactionDate = DateTime.Now;
+            transaction.UnitID = detail.Unit;
+            return transaction;
+        }
+
+        private Transaction GetStatisticsFDPTransaction(DispatchModel dispatchModel, Dispatch dispatch, DispatchDetailModel detail)
+        {
+            Transaction transaction = new Transaction();
+            transaction.AccountID = _accountService.GetAccountIdWithCreate(Account.Constants.FDP, dispatch.FDPID.Value);
+            transaction.ProgramID = dispatchModel.ProgramID;
+            transaction.ParentCommodityID = detail.CommodityID;
+            transaction.CommodityID = detail.CommodityID;
+            transaction.HubID = dispatch.HubID;
+            transaction.HubOwnerID = _unitOfWork.HubRepository.FindById(dispatch.HubID).HubOwnerID;
+            transaction.LedgerID = Ledger.Constants.STATISTICS;
+            transaction.QuantityInMT = -detail.DispatchedQuantityMT.Value;
+            transaction.QuantityInUnit = -detail.DispatchedQuantity.Value;
+            transaction.ShippingInstructionID = _shippingInstructionService.GetShipingInstructionId(dispatchModel.SINumber);
+            transaction.ProjectCodeID = _projectCodeService.GetProjectCodeId(dispatchModel.ProjectNumber);
+            transaction.Stack = dispatchModel.StackNumber;
+            transaction.StoreID = dispatchModel.StoreID;
+            transaction.TransactionDate = DateTime.Now;
+            transaction.UnitID = detail.Unit;
+            return transaction;
+        }
+
+        private Transaction GetCommitedToFDPTransaction(DispatchModel dispatchModel, Dispatch dispatch, DispatchDetailModel detail)
+        {
+            Transaction transaction = new Transaction();
+            transaction.AccountID = _accountService.GetAccountIdWithCreate(Account.Constants.FDP, dispatch.FDPID.Value);
+            transaction.ProgramID = dispatchModel.ProgramID;
+            transaction.ParentCommodityID = detail.CommodityID;
+            transaction.CommodityID = detail.CommodityID;
+            transaction.HubID = dispatch.HubID;
+            transaction.HubOwnerID = _unitOfWork.HubRepository.FindById(dispatch.HubID).HubOwnerID;
+            transaction.LedgerID = Ledger.Constants.COMMITED_TO_FDP;
+            transaction.QuantityInMT = +detail.DispatchedQuantityMT.Value;
+            transaction.QuantityInUnit = +detail.DispatchedQuantity.Value;
             transaction.ShippingInstructionID = _shippingInstructionService.GetShipingInstructionId(dispatchModel.SINumber);
             transaction.ProjectCodeID = _projectCodeService.GetProjectCodeId(dispatchModel.ProjectNumber);
             transaction.Stack = dispatchModel.StackNumber;
@@ -826,7 +888,7 @@ namespace Cats.Services.Hub
         /// <param name="dispatch">The dispatch.</param>
         /// <param name="detail">The detail.</param>
         /// <returns></returns>
-        private Transaction GetPositiveHUBTransaction(DispatchModel dispatchModel, Dispatch dispatch, DispatchDetailModel detail)
+        private Transaction GetGoodInTransitHUBTransaction(DispatchModel dispatchModel, Dispatch dispatch, DispatchDetailModel detail)
         {
             Transaction transaction2 = new Transaction();
             transaction2.AccountID = _accountService.GetAccountIdWithCreate(Account.Constants.HUB, dispatchModel.ToHubID.Value);
@@ -848,6 +910,28 @@ namespace Cats.Services.Hub
             return transaction2;
         }
 
+        private Transaction GetGoodsOnHandHUBTransaction(DispatchModel dispatchModel, Dispatch dispatch, DispatchDetailModel detail)
+        {
+            Transaction transaction2 = new Transaction();
+            transaction2.AccountID = _accountService.GetAccountIdWithCreate(Account.Constants.HUB, dispatchModel.ToHubID.Value);
+            transaction2.ProgramID = dispatchModel.ProgramID;
+            transaction2.ParentCommodityID = detail.CommodityID;
+            transaction2.CommodityID = detail.CommodityID;
+            transaction2.HubID = dispatch.HubID;
+            transaction2.HubOwnerID = _unitOfWork.HubRepository.FindById(dispatch.HubID).HubOwnerID;
+            transaction2.LedgerID = Ledger.Constants.GOODS_ON_HAND; //Previously GOODS_ON_HAND_UNCOMMITED
+            transaction2.QuantityInMT = -detail.DispatchedQuantityMT.Value;
+            transaction2.QuantityInUnit = -detail.DispatchedQuantity.Value;
+            transaction2.ShippingInstructionID = _shippingInstructionService.GetShipingInstructionId(dispatchModel.SINumber);
+
+            transaction2.ProjectCodeID = _projectCodeService.GetProjectCodeId(dispatchModel.ProjectNumber);
+            transaction2.Stack = dispatchModel.StackNumber;
+            transaction2.StoreID = dispatchModel.StoreID;
+            transaction2.TransactionDate = DateTime.Now;
+            transaction2.UnitID = detail.Unit;
+            return transaction2;
+        }
+
         /// <summary>
         /// Gets the negative HUB Transaction.
         /// </summary>
@@ -855,7 +939,7 @@ namespace Cats.Services.Hub
         /// <param name="dispatch">The dispatch.</param>
         /// <param name="detail">The detail.</param>
         /// <returns></returns>
-        private Transaction GetNegativeHUBTransaction(DispatchModel dispatchModel, Dispatch dispatch, DispatchDetailModel detail)
+        private Transaction GetStatisticsHUBTransaction(DispatchModel dispatchModel, Dispatch dispatch, DispatchDetailModel detail)
         {
             Transaction transaction = new Transaction();
             transaction.AccountID = _accountService.GetAccountIdWithCreate(Account.Constants.HUB, dispatch.HubID);
@@ -864,7 +948,28 @@ namespace Cats.Services.Hub
             transaction.CommodityID = detail.CommodityID;
             transaction.HubID = dispatch.HubID;
             transaction.HubOwnerID = _unitOfWork.HubRepository.FindById(dispatch.HubID).HubOwnerID;
-            transaction.LedgerID = Ledger.Constants.GOODS_ON_HAND_UNCOMMITED;
+            transaction.LedgerID = Ledger.Constants.STATISTICS;
+            transaction.QuantityInMT = -detail.DispatchedQuantityMT.Value;
+            transaction.QuantityInUnit = -detail.DispatchedQuantity.Value;
+            transaction.ShippingInstructionID = _shippingInstructionService.GetShipingInstructionId(dispatchModel.SINumber);
+            //transaction.ProjectCodeID = _projectCodeService.GetProjectCodeId(dispatchModel.ProjectNumber);
+            transaction.Stack = dispatchModel.StackNumber;
+            transaction.StoreID = dispatchModel.StoreID;
+            transaction.TransactionDate = DateTime.Now;
+            transaction.UnitID = detail.Unit;
+            return transaction;
+        }
+
+        private Transaction GetCommittedToFDPHUBTransaction(DispatchModel dispatchModel, Dispatch dispatch, DispatchDetailModel detail)
+        {
+            Transaction transaction = new Transaction();
+            transaction.AccountID = _accountService.GetAccountIdWithCreate(Account.Constants.HUB, dispatch.HubID);
+            transaction.ProgramID = dispatchModel.ProgramID;
+            transaction.ParentCommodityID = detail.CommodityID;
+            transaction.CommodityID = detail.CommodityID;
+            transaction.HubID = dispatch.HubID;
+            transaction.HubOwnerID = _unitOfWork.HubRepository.FindById(dispatch.HubID).HubOwnerID;
+            transaction.LedgerID = Ledger.Constants.STATISTICS;
             transaction.QuantityInMT = -detail.DispatchedQuantityMT.Value;
             transaction.QuantityInUnit = -detail.DispatchedQuantity.Value;
             transaction.ShippingInstructionID = _shippingInstructionService.GetShipingInstructionId(dispatchModel.SINumber);
