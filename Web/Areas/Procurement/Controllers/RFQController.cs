@@ -85,7 +85,8 @@ namespace Cats.Areas.Procurement.Controllers
         public ActionResult Details(int BidPlanID = 0, int RegionID = 0)
         {
             //ViewBag.RegionID = new SelectList(_adminUnitService.GetAllAdminUnit(), "AdminUnitID", "Name", RegionID);
-            ViewBag.SelectedRegion = _adminUnitService.FindById(RegionID);
+            var r = _adminUnitService.FindById(RegionID);
+            ViewBag.SelectedRegion = r.Name;
             ViewBag.BidPlanID = new SelectList(_transportBidPlanService.GetAllTransportBidPlan(), "TransportBidPlanID", "ShortName", BidPlanID);
             ViewBag.RegionID = new SelectList(_adminUnitService.FindBy(t => t.AdminUnitTypeID == 2), "AdminUnitID", "Name", RegionID);
             ViewBag.bid = BidPlanID;
@@ -121,6 +122,7 @@ namespace Cats.Areas.Procurement.Controllers
             
             ViewBag.BidPlan = bidPlan;
             ViewBag.region = RegionID;
+           // ViewBag.regionName= 
             return View(bidPlan);
         }
 

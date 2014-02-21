@@ -5,31 +5,25 @@
 }
 @section LeftBar
 {
-   @Html.Partial("_RFQFilterPartial")
+    @Html.Partial("_RFQFilterPartial")
 }
 
- 
-
 <style>
-     th
-    {
-        text-align:center;
+    th {
+        text-align: center;
     }
 </style>
-<h2 style="text-align:center;">Disaster Risk Management and Food Security Sector <br />REQUEST FOR QUOTATION</h2>
+<h2 style="text-align: center;">Disaster Risk Management and Food Security Sector
+    <br />
+    REQUEST FOR QUOTATION</h2>
 
-<p>Transport Quotation Delivery Datasheet for Region <b>@*@ViewBag.SelectedRegion.Name*@</b></p> 
+<p>Transport Quotation Delivery Datasheet for Region <b>@ViewBag.SelectedRegion</b></p>
 <p>Transporter Name:_________________________________</p>
 
 <div>
     <div class="span4">City: ______________________</div>
     <div class="span4">Woreda: ____________________</div>
     <div class="span4">Kebele: ____________________</div>
-
-
-    
-
-
 </div>
 <div>
     <div class="span4">Tel No: ____________________</div>
@@ -44,7 +38,7 @@
         <th rowspan="2">Source Warehouse</th>
         <th colspan="2">Destination</th>
         <th colspan="2">Tariff/Quintal</th>
-        <th rowspan="2" style="min-width:200px;">Remark</th>
+        <th rowspan="2" style="min-width: 200px;">Remark</th>
     </tr>
     <tr>
         <th>Zone</th>
@@ -53,30 +47,23 @@
         <th>Cent</th>
     </tr>
 
- @{
-    var count = 0;
-
-
-
-    foreach (var item in ViewBag.regionPlanDistinct)
-
-{
-    count++;
-    <tr>
-        <td>@count</td>
-        <td>@item.SourceWarehouse</td>
+    @{
+        var count = 0;
         
-        
-        <td> @item.DestinationZone</td>
-        <td>@item.DestinationWoreda</td>
-
-        
-        <td></td>
-        <td></td>
-        <td></td>    
-    </tr>
-}
-}
+        foreach (var item in ViewBag.regionPlanDistinct)
+        {
+            count++;
+        <tr>
+            <td>@count</td>
+            <td>@item.SourceWarehouse</td>
+            <td>@item.DestinationZone</td>
+            <td>@item.DestinationWoreda</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        }
+    }
 </table>
 
 <script>
