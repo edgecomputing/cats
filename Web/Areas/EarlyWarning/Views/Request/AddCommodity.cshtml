@@ -17,10 +17,12 @@
                     @Html.Label(Translator.Translate("Commodity"))
                 </div>
                 <div class="controls">
-                    @Html.DropDownList("CommodityID",String.Empty)
+                    @Html.DropDownList("CommodityID")
                     @Html.ValidationMessageFor(m => m.CommodityID)
+                   @* <input type="submit" value="Add All Commodities" onclick="javascript: addAllCommodities();"/>*@
+                     @*<button type="button" onclick="addAllCommodities()">Add All Commodities</button>*@
                 </div>
-
+              
             </div>
             
 
@@ -32,3 +34,12 @@
     </div>
 
 }
+@* <input type="submit" value="Add All Commodities" onclick="javascript: addAllCommodities();"/>
+<script type="text/javascript">
+    function addAllCommodities(e) {
+         e.preventDefault();
+        var requestId = $("#RegionalRequestID").val();
+        window.location = "@Url.Action("AddAllCommodity", "Request")" + "/" + requestId;
+    }
+ 
+ </script>*@

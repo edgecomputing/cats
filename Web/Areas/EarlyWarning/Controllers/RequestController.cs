@@ -1023,9 +1023,19 @@ namespace Cats.Areas.EarlyWarning.Controllers
                 _regionalRequestDetailService.AddRequestDetailCommodity(addCommodity.CommodityID, addCommodity.RegionalRequestID);
                 return RedirectToAction("Allocation", new { id = addCommodity.RegionalRequestID });
             }
+            ModelState.AddModelError("Errors",@"Unable to add Commodity");
             return RedirectToAction("Allocation", new {id = addCommodity.RegionalRequestID});
         }
-
+        public ActionResult AddAllCommodity(int? id)
+        {
+            if (id != null)
+            {
+                _regionalRequestDetailService.AddAllCommodity((int)id);
+                return RedirectToAction("Allocation", new { id = id });
+            }
+            ModelState.AddModelError("Errors", @"unable to Add All Commodities");
+            return RedirectToAction("Allocation", new { id = id });
+        }
         public ActionResult DeleteCommodity(int? commodityID, int requestID)
         {
             if (commodityID != null)
