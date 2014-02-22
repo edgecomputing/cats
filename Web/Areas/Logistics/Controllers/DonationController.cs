@@ -86,7 +86,7 @@ namespace Cats.Areas.Logistics.Controllers
         public ActionResult AddNewDonation()
         {
             var model = InitDonationViewModel();
-           return PartialView("addNewDonation", model);
+           return View("addNewDonation", model);
         }
        
 
