@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Models", "Models", "{22239E9E-2CFB-4860-A1CF-28A80CF15054}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{EDAB4613-D24D-46C7-8518-D6BBA73C5272}"
@@ -105,6 +107,7 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cats.Data.Micro", "Data\Cats.Data.Micro\Cats.Data.Micro.csproj", "{C4B246A0-A33F-426E-9AC1-823702069B2B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cats.Data.Hub.Test", "Tests\Cats.Data.Hub.Test\Cats.Data.Hub.Test.csproj", "{6C99130A-FDF7-42EC-8660-0FC4E28DA6E4}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hub.Tests", "Hub.Tests\Hub.Tests.csproj", "{7542A70B-9C3E-4510-A9F3-EB9ED47CC322}"
 EndProject
 Global
