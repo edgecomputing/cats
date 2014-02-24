@@ -25,16 +25,16 @@
         <li><a id="btnAddCommodity" href="@Url.Action("AddCommodity", "Request", new { id = Model.RegionalRequestID })">@Translator.Translate("Add Commodity")</a></li>
     </ul>*@
 
-<div class="btn-group" style="margin-right: 8px;">
-    <button class="btn dropdown-toggle " data-toggle="dropdown">
-        @Translator.Translate("Actions")
-        <span class="caret"></span>
-    </button>
-    <ul class="dropdown-menu">
-        <li><a id="btnAddFDP" href="@Url.Action("AddBeneficary", "Request", new { id = Model.RegionalRequestID, programId = @ViewBag.programId })">@Translator.Translate("Add FDP")</a></li>
-        <li><a id="btnAddCommodity" href="@Url.Action("AddCommodity", "Request", new { id = Model.RegionalRequestID })">@Translator.Translate("Add Commodity")</a></li>
-    </ul>
-</div>
+    <div class="btn-group" style="margin-right: 8px;">
+        <button class="btn dropdown-toggle " data-toggle="dropdown">
+            @Translator.Translate("Actions")
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu">
+            <li><a id="btnAddFDP" href="@Url.Action("AddBeneficary", "Request", new { id = Model.RegionalRequestID, programId = @ViewBag.programId })">@Translator.Translate("Add FDP")</a></li>
+            <li><a id="btnAddCommodity" href="@Url.Action("AddCommodity", "Request", new { id = Model.RegionalRequestID })">@Translator.Translate("Add Commodity")</a></li>
+        </ul>
+    </div>
 
     <a class="btn toolbar-btn " data-buttontype="btn_save" href="javascript:saverecords()"></a>
     <a class="btn toolbar-btn " href="@Url.Action("Details", "Request", new { Area = "EarlyWarning", id = Model.RegionalRequestID })" data-buttontype="btn_back_to_list"></a>
@@ -61,9 +61,9 @@
             return false;
         });
 
-        $('#btnAddFDP').click(function () {
+        $('#btnAddFDP').click(function (e) {
 
-            // alert("");
+            //e.preventDefault();
             $('#dialogContent').load(this.href, function () {
                 $('#dialogDiv').modal({
                     backdrop: 'static',
@@ -83,7 +83,7 @@
 <fieldset>
     <legend>
         @Translator.Translate("Resource Allocation")
-</legend>
+    </legend>
 </fieldset>
 @Html.HiddenFor(m => m.RegionalRequestID)
 <div class="form-horizontal well">

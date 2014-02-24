@@ -198,7 +198,7 @@ namespace Cats.Services.EarlyWarning
             //Assumtions Here is ColumnName of the request detail match with commodity name 
             var requestDetails =
                 _unitOfWork.RegionalRequestDetailRepository.Get(
-                    t => t.RegionalRequestID == regionalRequest.RegionalRequestID,null,"FDP.AdminUnit");
+                    t => t.RegionalRequestID == regionalRequest.RegionalRequestID && t.Beneficiaries > 0,null,"FDP.AdminUnit");
           
             var reliefRequisitions = new List<ReliefRequisition>();
 
@@ -231,7 +231,7 @@ namespace Cats.Services.EarlyWarning
         public List<int?> GetZonesFoodRequested(int requestId)
         {
             var regionalRequestDetails =
-                _unitOfWork.RegionalRequestDetailRepository.Get(t => t.RegionalRequestID == requestId, null,
+                _unitOfWork.RegionalRequestDetailRepository.Get(t => t.RegionalRequestID == requestId && t.Beneficiaries > 0, null,
                                                                 "FDP,FDP.AdminUnit");
             var zones =
                 (from requestDetail in regionalRequestDetails
