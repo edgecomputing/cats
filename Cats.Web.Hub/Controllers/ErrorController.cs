@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using Cats.Models.Hubs;
 using Cats.Services.Hub;
+using Cats.Services.Hub.Interfaces;
 using Cats.Web.Hub;
 
 namespace Cats.Web.Hub.Controllers

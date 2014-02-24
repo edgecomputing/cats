@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using Cats.Models.Hubs;
+using Cats.Models.Hubs.ViewModels;
 using Cats.Services.Hub;
 using Cats.Web.Hub.Helpers;
 using Newtonsoft.Json;

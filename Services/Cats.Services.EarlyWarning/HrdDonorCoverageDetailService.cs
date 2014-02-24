@@ -65,7 +65,20 @@ namespace Cats.Services.EarlyWarning
         {
             return _unitOfWork.HrdDonorCoverageDetailRepository.Get(filter, orderBy, includeProperties);
         }
-
+        public bool AddWoredas(Models.HrdDonorCoverageDetail hrdDonorCoverageDetail)
+        {
+            var woredaExists =
+                _unitOfWork.HrdDonorCoverageDetailRepository.FindBy(
+                    m => m.HRDDonorCoverageID == hrdDonorCoverageDetail.HRDDonorCoverageID &&
+                         m.WoredaID == hrdDonorCoverageDetail.WoredaID);
+            if (woredaExists==null)
+            {
+                _unitOfWork.HrdDonorCoverageDetailRepository.Add(hrdDonorCoverageDetail);
+                _unitOfWork.Save();
+            }
+            
+            return true;
+        }
         public void Dispose()
         {
             _unitOfWork.Dispose();

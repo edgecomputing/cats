@@ -25,8 +25,8 @@
 
       <div class="row">
       <div ng-app="dragDrop"  ng-controller="DragDroController">
-          <fieldset>
-              <legend> <ng-pluralize count="Requisitions.length" when="newRequisitions"></ng-pluralize></legend>
+          <fieldset style="left: 120px">
+              <legend> <ng-pluralize style="left: 120px" count="Requisitions.length" when="newRequisitions"></ng-pluralize></legend>
           </fieldset>
                                                                         
                                                                    
@@ -54,6 +54,8 @@
                                               <br />Commodity: {{item.Commodity}}
                                               <br />Benficiary: {{item.BenficiaryNo}}
                                               <br />Amount: {{item.AmountAllocated}}
+                                              <br />Region: {{item.Region}}
+                                              <br />Zone: {{item.Zone}}
                                           </div>
                                       </div>
                                   </div>

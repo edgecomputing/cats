@@ -2,10 +2,9 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Data.Objects.DataClasses;
-using Cats.Data.Repository;
+using Cats.Data.Hub.Repository;
+using Cats.Data.Hub.UnitWork;
 using Cats.Models.Hubs;
-using DRMFSS.BLL.Interfaces;
-using DRMFSS.BLL.Repository;
 
 
 namespace Cats.Data.Hub

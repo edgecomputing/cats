@@ -151,6 +151,7 @@ namespace Cats.Areas.Logistics.Controllers
                 donationViewModel.CommodityName = giftCertificate.GiftCertificateDetails[0].Commodity.Name;
                 donationViewModel.DonorName = giftCertificate.Donor.Name;
                 donationViewModel.ProgramName = giftCertificate.Program.Name;
+                donationViewModel.WieghtInMT = giftCertificate.GiftCertificateDetails[0].WeightInMT;
                 donationViewModel.CommomdityTypeName =
                     giftCertificate.GiftCertificateDetails[0].Commodity.CommodityType.Name;
 

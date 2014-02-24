@@ -21,6 +21,8 @@
               <xs:element name="Birr" msprop:Generator_ColumnVarNameInTable="columnBirr" msprop:Generator_ColumnPropNameInRow="Birr" msprop:Generator_ColumnPropNameInTable="BirrColumn" msprop:Generator_UserColumnName="Birr" type="xs:string" minOccurs="0" />
               <xs:element name="cent" msprop:Generator_ColumnVarNameInTable="columncent" msprop:Generator_ColumnPropNameInRow="cent" msprop:Generator_ColumnPropNameInTable="centColumn" msprop:Generator_UserColumnName="cent" type="xs:string" minOccurs="0" />
               <xs:element name="Remark" msprop:Generator_ColumnVarNameInTable="columnRemark" msprop:Generator_ColumnPropNameInRow="Remark" msprop:Generator_ColumnPropNameInTable="RemarkColumn" msprop:Generator_UserColumnName="Remark" type="xs:string" minOccurs="0" />
+              <xs:element name="Region" msprop:Generator_ColumnVarNameInTable="columnRegion" msprop:Generator_ColumnPropNameInRow="Region" msprop:Generator_ColumnPropNameInTable="RegionColumn" msprop:Generator_UserColumnName="Region" type="xs:string" minOccurs="0" />
+              <xs:element name="BidReference" msprop:Generator_ColumnVarNameInTable="columnBidReference" msprop:Generator_ColumnPropNameInRow="BidReference" msprop:Generator_ColumnPropNameInTable="BidReferenceColumn" msprop:Generator_UserColumnName="BidReference" type="xs:string" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>

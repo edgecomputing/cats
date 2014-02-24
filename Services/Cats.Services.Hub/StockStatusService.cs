@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using Cats.Data.Hub.UnitWork;
 using Cats.Services.Hub.Interfaces;
 using Cats.Data.Hub;
 using Cats.Models.Hubs;

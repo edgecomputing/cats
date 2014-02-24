@@ -74,7 +74,7 @@ app.controller("DragDroController", function ($scope, dragDropService, savefacto
     
     $scope.newRequisitions = {
         
-        0: "No requisitions in " + RegionName +" region ",
+        0: "    No requisitions in " + RegionName +" region ",
         other: "{} requisitions  in " +  RegionName
     };
 
