@@ -238,11 +238,11 @@ namespace Cats.Services.Hub
 
             foreach (ReceiveDetailViewModel c in receiveModels.ReceiveDetails)
             {
-                //if (commType.CommodityTypeID == 2)//if it's a non food
-                //{
-                //    c.ReceivedQuantityInMT = 0;
-                //    c.SentQuantityInMT = 0;
-                //}
+                if (commType.CommodityTypeID == 2)//if it's a non food
+                {
+                    c.ReceivedQuantityInMT = 0;
+                    c.SentQuantityInMT = 0;
+                }
                 TransactionGroup tgroup = new TransactionGroup();
                 tgroup.TransactionGroupID = transactionGroupId;
                 var receiveDetail = new ReceiveDetail()
@@ -275,8 +275,10 @@ namespace Cats.Services.Hub
                 transaction.LedgerID = Ledger.Constants.GOODS_ON_HAND;
                 transaction.HubOwnerID = user.DefaultHub.HubOwnerID;
 
+                
+                
                 transaction.AccountID = _accountService.GetAccountIdWithCreate(Account.Constants.HUB, receive.HubID);
-                transaction.ShippingInstructionID = _shippingInstructionService.GetSINumberIdWithCreate(receiveModels.SINumber).ShippingInstructionID;
+                transaction.ShippingInstructionID =_shippingInstructionService.GetSINumberIdWithCreate(receiveModels.SINumber).ShippingInstructionID;
 
                 transaction.ProjectCodeID = _projectCodeService.GetProjectCodeIdWIthCreate(receiveModels.ProjectNumber).ProjectCodeID;
                 transaction.HubID = user.DefaultHub.HubID;

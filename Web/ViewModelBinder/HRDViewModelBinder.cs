@@ -131,7 +131,6 @@ namespace Cats.ViewModelBinder
                         }
                         if (col != null)
                         {
-                             ration = rationDetail.Amount;
                             var currentUnitUpper = currentUnit.ToUpper().Trim();
                             if (currentUnitUpper == "MT")
                                 ration = rationDetail.Amount/1000;
