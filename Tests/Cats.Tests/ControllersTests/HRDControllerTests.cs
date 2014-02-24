@@ -123,6 +123,7 @@ namespace Cats.Tests.ControllersTests
                 UserName = "x",
                 DatePreference = "en"
             });
+
             var fakeContext = new Mock<HttpContextBase>();
             var identity = new GenericIdentity("User");
             var principal = new GenericPrincipal(identity, null);
@@ -130,19 +131,20 @@ namespace Cats.Tests.ControllersTests
             var controllerContext = new Mock<ControllerContext>();
             controllerContext.Setup(t => t.HttpContext).Returns(fakeContext.Object);
 
-            _hrdController = new HRDController(adminUnitService.Object, 
-                hrdService.Object, 
-                rationService.Object, 
-                rationDetailService.Object,
-                hrdDetailService.Object,
-                commodityService.Object,
-                needAssesmentDetailService.Object,
-                needAssesmentHeaderService.Object,
-                workflowSatusService.Object,
-                seasonService.Object,userAccountService.Object,
-                log.Object,planService.Object
+            _hrdController = new HRDController(adminUnitService.Object,
+                                               hrdService.Object,
+                                               rationService.Object,
+                                               rationDetailService.Object,
+                                               hrdDetailService.Object,
+                                               commodityService.Object,
+                                               needAssesmentDetailService.Object,
+                                               needAssesmentHeaderService.Object,
+                                               workflowSatusService.Object,
+                                               seasonService.Object, userAccountService.Object,
+                                               log.Object, planService.Object
                 );
-            _hrdController.ControllerContext = controllerContext.Object;
+
+           _hrdController.ControllerContext = controllerContext.Object;
         }
 
         [TearDown]

@@ -4,9 +4,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Web;
 using Cats.Data.UnitWork;
 using Cats.Models;
-
+using Cats.Services.Security;
 
 
 namespace Cats.Services.EarlyWarning
@@ -99,22 +100,48 @@ namespace Cats.Services.EarlyWarning
             return true;
         }
 
-       
+       private decimal GetDurationOfAssistance(int planId, int woredaId)
+       {
+           var hrd =
+               _unitOfWork.HRDDetailRepository.FindBy(h => h.HRD.PlanID == planId && h.AdminUnit.AdminUnitID == woredaId)
+                   .FirstOrDefault();
+           if (hrd != null) return hrd.DurationOfAssistance;
+           return 0;
+       }
 
-        public bool AddRequestDetailCommodity(int commodityId,int requestId)
+       private decimal GetRationDependingOnPreference(decimal ration, string currentUnit)
+       {
+
+              currentUnit = currentUnit.ToUpper();
+          
+          
+               if (currentUnit == "MT")
+                   ration = ration / 1000;
+               else ration = ration/100;
+
+               return ration;
+           
+        }
+        public bool AddRequestDetailCommodity(int commodityId, int requestId, string currentUnit)
         {
             var requestDetail = _unitOfWork.RegionalRequestDetailRepository.Get(t => t.RegionalRequestID == requestId);
-
+            decimal DurationOfAssistance = 1;
+            decimal ration = 0;
             var rationAmount = GetCommodityRation(requestId, commodityId);
+            ration = GetRationDependingOnPreference(rationAmount, currentUnit);
 
             foreach (var regionalRequestDetail in requestDetail)
             {
+                
+                DurationOfAssistance = GetDurationOfAssistance(regionalRequestDetail.RegionalRequest.PlanID,
+                                                                regionalRequestDetail.Fdp.AdminUnitID);
+
                if(regionalRequestDetail.RequestDetailCommodities.All(t=>t.CommodityID!=commodityId))
                {
                    regionalRequestDetail.RequestDetailCommodities.Add(new RequestDetailCommodity
                                                                           {
                                                                               CommodityID=commodityId ,
-                                                                              Amount = regionalRequestDetail.Beneficiaries * rationAmount
+                                                                              Amount = regionalRequestDetail.Beneficiaries * ration * DurationOfAssistance
                                                                               
                                                                           });
                }
