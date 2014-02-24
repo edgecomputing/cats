@@ -4,6 +4,7 @@ using System.Data.Common;
 using System.Linq;
 using System.Text;
 using Cats.Data.Hub;
+using Cats.Data.Hub.UnitWork;
 using Cats.Models.Hubs;
 using Cats.Models.Hubs.ViewModels;
 using Cats.Models.Hubs.ViewModels.Report;
@@ -219,7 +220,7 @@ namespace Cats.Services.Hub
         /// </summary>
         /// <param name="receiveModels">The receive models.</param>
         /// <param name="user">The user.</param>
-        public void SaveReceiptTransaction(ReceiveViewModel receiveModels, UserProfile user)
+        public Boolean SaveReceiptTransaction(ReceiveViewModel receiveModels, UserProfile user)
         {
             // Populate more details of the reciept object 
             // Save it when you are done.
@@ -229,7 +230,7 @@ namespace Cats.Services.Hub
             receive.HubID = user.DefaultHub.HubID;
             receive.UserProfileID = user.UserProfileID;
             var commType = _unitOfWork.CommodityTypeRepository.FindById(receiveModels.CommodityTypeID);
-
+           
             // var comms = GenerateReceiveDetail(commodities);
 
 
@@ -274,8 +275,10 @@ namespace Cats.Services.Hub
                 transaction.LedgerID = Ledger.Constants.GOODS_ON_HAND;
                 transaction.HubOwnerID = user.DefaultHub.HubOwnerID;
 
+                
+                
                 transaction.AccountID = _accountService.GetAccountIdWithCreate(Account.Constants.HUB, receive.HubID);
-                transaction.ShippingInstructionID = _shippingInstructionService.GetSINumberIdWithCreate(receiveModels.SINumber).ShippingInstructionID;
+                transaction.ShippingInstructionID =_shippingInstructionService.GetSINumberIdWithCreate(receiveModels.SINumber).ShippingInstructionID;
 
                 transaction.ProjectCodeID = _projectCodeService.GetProjectCodeIdWIthCreate(receiveModels.ProjectNumber).ProjectCodeID;
                 transaction.HubID = user.DefaultHub.HubID;
@@ -444,6 +447,8 @@ namespace Cats.Services.Hub
                 //repository.Receive.Add(receive);
                 _unitOfWork.ReceiveRepository.Add(receive);
                 _unitOfWork.Save();
+
+                return true;
             }
             catch (Exception exp)
             {

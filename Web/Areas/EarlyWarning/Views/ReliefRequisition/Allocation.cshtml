@@ -23,9 +23,23 @@
         <a href="@Url.Action("SendToLogistics", "ReliefRequisition", new { id = Model.RequisitionID })" class="btn toolbar-btn btn-Approve-allocation"><i class=""></i>Approve</a>
     }
 }
-<h5 class="page-header">Monthly   @Html.DisplayFor(model => model.Program) Requisition Resource Allocation
+
+@{
+    if (Model!=null)
+    {
+        if (Model.ProgramID == 3 ) //i.e. IDPS
+        {
+            <h5 class="page-header">   @Html.DisplayFor(model => model.Program) Requisition Resource Allocation </h5>
+        }
+        else
+        {
+            <h5 class="page-header">Monthly   @Html.DisplayFor(model => model.Program) Requisition Resource Allocation </h5>
+        }
+    }
+}
+
         
-</h5>
+
 <div id='dialogDiv' class='modal hide fade in'>
     <div id='dialogContent'></div>
 </div>

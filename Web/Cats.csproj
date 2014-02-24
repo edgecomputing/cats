@@ -1714,6 +1714,7 @@
     <Content Include="Areas\Logistics\Views\Transfer\Index.cshtml" />
     <Content Include="Areas\Logistics\Views\Transfer\Detail.cshtml" />
     <Content Include="Areas\Logistics\Views\Transfer\Edit.cshtml" />
+    <Content Include="Areas\Logistics\Views\Donation\View1.cshtml" />
     <None Include="dataset.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>dataset.Designer.cs</LastGenOutput>
@@ -2126,7 +2127,7 @@
     <Content Include="Areas\Logistics\Views\DispatchAllocation\Index.cshtml" />
     <Content Include="Areas\Logistics\Views\DispatchAllocation\HubAllocation.cshtml" />
     <Content Include="Areas\Logistics\Views\DispatchAllocation\AllocateProjectCode.cshtml" />
-    <Content Include="Areas\Logistics\Views\DispatchAllocation\hub.cshtml" />
+    <Content Include="Areas\Logistics\Views\DispatchAllocation\Hub.cshtml" />
     <Content Include="Areas\Logistics\Views\DispatchAllocation\main.cshtml" />
     <None Include="CTSDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>

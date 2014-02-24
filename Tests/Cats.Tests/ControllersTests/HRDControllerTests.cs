@@ -10,6 +10,7 @@ using System.Web;
 using System.Web.Mvc;
 using Cats.Areas.EarlyWarning.Controllers;
 using Cats.Areas.EarlyWarning.Models;
+using Cats.Helpers;
 using Cats.Models;
 using Cats.Models.Security;
 using Cats.Services.EarlyWarning;
@@ -129,6 +130,7 @@ namespace Cats.Tests.ControllersTests
             fakeContext.Setup(t => t.User).Returns(principal);
             var controllerContext = new Mock<ControllerContext>();
             controllerContext.Setup(t => t.HttpContext).Returns(fakeContext.Object);
+            
 
             _hrdController = new HRDController(adminUnitService.Object, 
                 hrdService.Object, 
@@ -142,6 +144,7 @@ namespace Cats.Tests.ControllersTests
                 seasonService.Object,userAccountService.Object,
                 log.Object,planService.Object
                 );
+            _hrdController.ControllerContext = controllerContext.Object;
         }
 
         [TearDown]
@@ -183,7 +186,7 @@ namespace Cats.Tests.ControllersTests
             //act
             var result = _hrdController.Detail(1);
             //
-            Assert.AreEqual(1,((DataTable)((ViewResult)result).Model).Rows.Count);
+            Assert.AreEqual(1, ((DataTable)((ViewResult)result).Model).Rows.Count);
         }
         [Test]
         public void ShouldDisplayHRDSummary()

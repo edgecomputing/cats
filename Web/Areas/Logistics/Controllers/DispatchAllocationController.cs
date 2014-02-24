@@ -197,7 +197,7 @@ namespace Cats.Areas.Logistics.Controllers
                     _HubAllocationService.AddHubAllocation(newHubAllocation);
 
                 }
-
+                ModelState.AddModelError("Success","Allocation is Saved.");
                 return Json(new { success = true });
             }
             catch (Exception ex)

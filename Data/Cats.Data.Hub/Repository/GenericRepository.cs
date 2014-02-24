@@ -4,9 +4,8 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
-using Cats.Data.Hub;
 
-namespace Cats.Data.Repository
+namespace Cats.Data.Hub.Repository
 {
    public class GenericRepository<T> :
    IGenericRepository<T>
