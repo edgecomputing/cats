@@ -606,12 +606,11 @@ namespace Cats.Areas.EarlyWarning.Controllers
         {
             if (commodity != null && ModelState.IsValid)
             {
-                var user = UserAccountHelper.GetCurrentUser();
-                var currentUnit = user.PreferedWeightMeasurment;
+                
 
                 //try
                 //{
-                _regionalRequestDetailService.AddRequestDetailCommodity(commodity.CommodityID, id, currentUnit);
+                _regionalRequestDetailService.AddRequestDetailCommodity(commodity.CommodityID, id);
                 //}
                 //catch(Exception ex)
                 //{
@@ -1023,10 +1022,9 @@ namespace Cats.Areas.EarlyWarning.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = UserAccountHelper.GetCurrentUser();
-                var currentUnit = user.PreferedWeightMeasurment;
+                
 
-                _regionalRequestDetailService.AddRequestDetailCommodity(addCommodity.CommodityID, addCommodity.RegionalRequestID, currentUnit);
+                _regionalRequestDetailService.AddRequestDetailCommodity(addCommodity.CommodityID, addCommodity.RegionalRequestID);
                 return RedirectToAction("Allocation", new { id = addCommodity.RegionalRequestID });
             }
             ModelState.AddModelError("Errors",@"Unable to add Commodity");

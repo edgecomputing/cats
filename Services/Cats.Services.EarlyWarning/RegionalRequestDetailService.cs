@@ -109,39 +109,32 @@ namespace Cats.Services.EarlyWarning
            return 0;
        }
 
-       private decimal GetRationDependingOnPreference(decimal ration, string currentUnit)
+       private decimal GetRationDependingOnPreference(decimal ration)
        {
-
-              currentUnit = currentUnit.ToUpper();
-          
-          
-               if (currentUnit == "MT")
-                   ration = ration / 1000;
-               else ration = ration/100;
-
-               return ration;
+             ration = ration / 1000; //change it to metric tone
+             return ration;
            
         }
-        public bool AddRequestDetailCommodity(int commodityId, int requestId, string currentUnit)
+        public bool AddRequestDetailCommodity(int commodityId, int requestId)
         {
             var requestDetail = _unitOfWork.RegionalRequestDetailRepository.Get(t => t.RegionalRequestID == requestId);
             decimal DurationOfAssistance = 1;
             decimal ration = 0;
             var rationAmount = GetCommodityRation(requestId, commodityId);
-            ration = GetRationDependingOnPreference(rationAmount, currentUnit);
+            ration = GetRationDependingOnPreference(rationAmount);
 
             foreach (var regionalRequestDetail in requestDetail)
             {
                 
-                DurationOfAssistance = GetDurationOfAssistance(regionalRequestDetail.RegionalRequest.PlanID,
-                                                                regionalRequestDetail.Fdp.AdminUnitID);
+                //DurationOfAssistance = GetDurationOfAssistance(regionalRequestDetail.RegionalRequest.PlanID,
+                //                                                regionalRequestDetail.Fdp.AdminUnitID);
 
                if(regionalRequestDetail.RequestDetailCommodities.All(t=>t.CommodityID!=commodityId))
                {
                    regionalRequestDetail.RequestDetailCommodities.Add(new RequestDetailCommodity
                                                                           {
                                                                               CommodityID=commodityId ,
-                                                                              Amount = regionalRequestDetail.Beneficiaries * ration * DurationOfAssistance
+                                                                              Amount = regionalRequestDetail.Beneficiaries * ration 
                                                                               
                                                                           });
                }

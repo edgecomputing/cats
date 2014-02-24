@@ -54,7 +54,7 @@ namespace Cats.ViewModelBinder
             return hrdCompareViewModels;
         }
 
-        public static DataTable TransposeData(IEnumerable<HRDDetail> hrdDetails, IEnumerable<RationDetail> rationDetails)
+        public static DataTable TransposeData(IEnumerable<HRDDetail> hrdDetails, IEnumerable<RationDetail> rationDetails,string preferedWeight)
         {
             
             var dt = new DataTable("Transpose");
@@ -112,8 +112,10 @@ namespace Cats.ViewModelBinder
                     dr[colStartingMonth] = RequestHelper.MonthName(hrdDetail.StartingMonth);
                     decimal total = 0;
                     decimal ration = 0;
-                    var user = UserAccountHelper.GetCurrentUser();
-                    var currentUnit = user.PreferedWeightMeasurment;
+
+
+
+                    var currentUnit = preferedWeight; ;
 
                    
                     foreach (var rationDetail in rationDetails)

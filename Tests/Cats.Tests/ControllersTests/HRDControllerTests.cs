@@ -121,11 +121,13 @@ namespace Cats.Tests.ControllersTests
             userAccountService.Setup(t => t.GetUserInfo(It.IsAny<string>())).Returns(new UserInfo()
             {
                 UserName = "x",
-                DatePreference = "en"
+                DatePreference = "en",
+                PreferedWeightMeasurment = "mt"
             });
 
             var fakeContext = new Mock<HttpContextBase>();
-            var identity = new GenericIdentity("User");
+            var identity = new GenericIdentity("Admin");
+           
             var principal = new GenericPrincipal(identity, null);
             fakeContext.Setup(t => t.User).Returns(principal);
             var controllerContext = new Mock<ControllerContext>();
