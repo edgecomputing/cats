@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.Mvc;
 using Cats.Services.Security;
 using Cats.Models.Security;
+using System.Web.Security;
 
 namespace Cats.Helpers
 {
@@ -19,32 +20,43 @@ namespace Cats.Helpers
 
         public static string GetUserName()
         {
+            var userName = string.Empty;
             try
             {
                 var user = (UserInfo)HttpContext.Current.Session["USER_INFO"];
-                return user.FullName;
+                userName= user.FullName;
             }
             catch (Exception)
             {
-                return "Guest User";
+                SignOut();
+                userName="Guest User";
             }
+            return userName;
         }
 
         public static string UserLanguagePreference(this HtmlHelper helper)
         {
+            var userLanguagePreference = string.Empty;
             try
             {
                 var user = (UserIdentity)HttpContext.Current.User.Identity;
-                return GetUser(user.Name).LanguageCode;
+                userLanguagePreference= GetUser(user.Name).LanguageCode;
             }
             catch (Exception)
             {
-                return "Guest User";
+                userLanguagePreference ="Guest User";
+                SignOut();                
             }
+            return userLanguagePreference;
         }
         public static UserInfo GetUser(string userName)
         {
             return GetUserInfo(userName);
+        }
+
+        private static void SignOut()
+        {
+            FormsAuthentication.SignOut();
         }
 
         public static UserInfo GetCurrentUser()

@@ -2127,7 +2127,7 @@
     <Content Include="Areas\Logistics\Views\DispatchAllocation\Index.cshtml" />
     <Content Include="Areas\Logistics\Views\DispatchAllocation\HubAllocation.cshtml" />
     <Content Include="Areas\Logistics\Views\DispatchAllocation\AllocateProjectCode.cshtml" />
-    <Content Include="Areas\Logistics\Views\DispatchAllocation\hub.cshtml" />
+    <Content Include="Areas\Logistics\Views\DispatchAllocation\Hub.cshtml" />
     <Content Include="Areas\Logistics\Views\DispatchAllocation\main.cshtml" />
     <None Include="CTSDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
