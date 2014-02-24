@@ -142,6 +142,7 @@ namespace Cats.Tests.ControllersTests
                 seasonService.Object,userAccountService.Object,
                 log.Object,planService.Object
                 );
+            _hrdController.ControllerContext = controllerContext.Object;
         }
 
         [TearDown]
@@ -177,14 +178,14 @@ namespace Cats.Tests.ControllersTests
             Assert.IsInstanceOf<JsonResult>(result);
 
         }
-        //[Test]
-        //public void ShouldDisplayHRDDetail()
-        //{
-        //    //act
-        //    var result = _hrdController.Detail(1);
-        //    //
-        //    Assert.AreEqual(1,((DataTable)((ViewResult)result).Model).Rows.Count);
-        //}
+        [Test]
+        public void ShouldDisplayHRDDetail()
+        {
+            //act
+            var result = _hrdController.Detail(1);
+            //
+            Assert.AreEqual(1, ((DataTable)((ViewResult)result).Model).Rows.Count);
+        }
         [Test]
         public void ShouldDisplayHRDSummary()
         {

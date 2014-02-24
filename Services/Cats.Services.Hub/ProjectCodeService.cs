@@ -91,7 +91,7 @@ namespace Cats.Services.Hub
         /// </summary>
         /// <param name="projectNumber">The project number.</param>
         /// <returns></returns>
-        public ProjectCode GetProjectCodeIdWIthCreate(string projectNumber)
+        public  ProjectCode GetProjectCodeIdWIthCreate(string projectNumber)
         {
             var projCode = _unitOfWork.ProjectCodeRepository.FindBy(i => i.Value.ToUpper() == projectNumber.ToUpper()).SingleOrDefault();
 
