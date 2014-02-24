@@ -7,7 +7,7 @@
     <h3 id="myModalLabel">@Translator.Translate("Add Commodity")</h3>
 </div>
 
-@using (Html.BeginForm("AddCommodity", "Request", FormMethod.Post, new { @class = "modal-form"}))
+@using (Html.BeginForm("AddCommodity", "Request",FormMethod.Post, new { @class = "modal-form"}))
 {
     @Html.HiddenFor(m=>m.RegionalRequestID)
     <div class="modal-body">
@@ -19,7 +19,7 @@
                 <div class="controls">
                     @Html.DropDownList("CommodityID")
                     @Html.ValidationMessageFor(m => m.CommodityID)
-                   @* <input type="submit" value="Add All Commodities" onclick="javascript: addAllCommodities();"/>*@
+                   @* <input type="button" value="Add All Commodities" onclick="javascript: addAllCommodities();"/>*@
                      @*<button type="button" onclick="addAllCommodities()">Add All Commodities</button>*@
                 </div>
               
@@ -29,15 +29,23 @@
         </div>
     </div>
 
-    <div class="modal-footer"> <button class="btn btn-primary" type="submit">Save</button>
+     
+    <div class="modal-footer">
+        
+       
+                
+                 <label> Create For All commodities?
+                 @Html.CheckBoxFor(m=>m.ChkAllCommodities)</label>
+                     
+        <button class="btn btn-primary" value="add" >Save</button>
         <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
     </div>
 
 }
-@* <input type="submit" value="Add All Commodities" onclick="javascript: addAllCommodities();"/>
-<script type="text/javascript">
-    function addAllCommodities(e) {
-         e.preventDefault();
+
+@*<script type="text/javascript">
+    function addAllCommodities() {
+         //e.preventDefault();
         var requestId = $("#RegionalRequestID").val();
         window.location = "@Url.Action("AddAllCommodity", "Request")" + "/" + requestId;
     }

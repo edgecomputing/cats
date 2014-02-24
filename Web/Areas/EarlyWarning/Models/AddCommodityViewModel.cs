@@ -10,5 +10,6 @@ namespace Cats.Areas.EarlyWarning.Models
         public int CommodityID { get; set; }
         public int RegionalRequestDetailID { get; set; }
         public int RegionalRequestID { get; set; }
+        public bool ChkAllCommodities { get; set; }
     }
 }
