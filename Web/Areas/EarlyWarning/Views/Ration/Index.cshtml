@@ -7,11 +7,6 @@
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
 
-
-@section LeftBar
-{
-   @Html.Partial("_rationLeftBar")
-}
 @section Toolbar
 {
     <a data-buttontype="btn_new_record" id="btnCreate" class="btn toolbar-btn " href="@Url.Action("Create", "Ration")"></a>
@@ -32,15 +27,16 @@
 
                  columns.Bound(p => p.RationID).ClientTemplate("<a class='set_default_#=IsDefaultRation#' href='javascript:SetDefault(#=RationID#)'>Set Default</a>  ");
 
-                
-              
+
+
              }).Events(ev => ev.DataBound("resetRowNumber"))
-             .DataSource(datasource=>datasource.Ajax().Read("Ration_Read","Ration"))
-             //.Pageable()
-             )
+             .DataSource(datasource => datasource.Ajax().Read("Ration_Read", "Ration"))
+             .HtmlAttributes(new { style = "height:430px;" })
+             
+)
 @section Scripts
 {
-  
+
 }
 
 <script type="text/javascript">
@@ -60,10 +56,10 @@
             return false;
         });
     });
-    
+
     function SetDefault(rationId) {
-        
-      
+
+
         window.location = "@Url.Action("SetDefault", "Ration")" + "/" + rationId;
 
     }
@@ -73,8 +69,8 @@
     .default_true {
         font-weight: bold;
     }
+
     .set_default_true {
         display: none;
     }
 </style>
-
