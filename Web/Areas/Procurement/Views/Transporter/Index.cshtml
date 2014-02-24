@@ -110,7 +110,8 @@
     function editRecord(e) {
         e.preventDefault();
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
-        var url = "/Procurement/Transporter/Edit/" + dataItem.TransporterID;
+        var url = "@Url.Action("Edit","Transporter",new {area="Procurement"})"+ "/" + dataItem.TransporterID;
+            //"/Procurement/Transporter/Edit/" + dataItem.TransporterID;
         window.location = url;
     }
 </script>

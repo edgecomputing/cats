@@ -117,7 +117,7 @@ namespace Cats.Areas.Procurement.Controllers
 
                     var woredas = _adminUnitService.FindBy(m => m.AdminUnitTypeID == 4);
                     var psnptransportBidPlanDetail = (from detail in woredas
-                                                      //where _transportBidPlanDetailService.GetWoredaGroupedPsnpAmount(detail.AdminUnitID)>0
+                                                      where _transportBidPlanDetailService.GetWoredaGroupedPsnpAmount(detail.AdminUnitID)>0
                                                       select new TransportBidPlanDetail()
                                                           {
                                                               DestinationID = detail.AdminUnitID,
@@ -132,7 +132,7 @@ namespace Cats.Areas.Procurement.Controllers
                                                           }).ToList();
 
                     var relieftransportBidPlanDetail = (from detail in woredas
-                                                        //where _transportBidPlanDetailService.GetHrdCommodityAmount(detail.AdminUnitID)>0
+                                                        where _transportBidPlanDetailService.GetHrdCommodityAmount(detail.AdminUnitID)>0
                                                         select new TransportBidPlanDetail()
                                                             {
                                                                 DestinationID = detail.AdminUnitID,
