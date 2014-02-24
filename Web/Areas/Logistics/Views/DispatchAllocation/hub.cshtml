@@ -15,22 +15,12 @@
    <a class="btn toolbar-btn " data-buttontype="btn_back_to_list" href="@Url.Action("Index","DispatchAllocation",new {regionId= Request.QueryString["regionid"]})"></a>
 }
 
-
-
-
-    
-    
-
-       
-
       <div class="row">
       <div ng-app="dragDrop"  ng-controller="DragDroController">
           <fieldset style="left: 120px">
               <legend> <ng-pluralize style="left: 120px" count="Requisitions.length" when="newRequisitions"></ng-pluralize></legend>
           </fieldset>
-                                                                        
-                                                                   
-                        
+                                                                                      
               <div class="span3" >
                   @*<div ng-model="allocated" ng-repeat="item in allocated">
                             
@@ -105,7 +95,6 @@
     
             </div>
        
-      
    <script src="~/Scripts/angular/allocation-angular.js"></script>
     <script>
         var regionId = '@ViewBag.regionId';
