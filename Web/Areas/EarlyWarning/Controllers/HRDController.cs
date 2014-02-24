@@ -233,19 +233,23 @@ namespace Cats.Areas.EarlyWarning.Controllers
         [EarlyWarningAuthorize(operation = EarlyWarningCheckAccess.Operation.View_HRD_Detail)]
         public ActionResult Detail(int id)
         {
+          var preferedweight =  _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).PreferedWeightMeasurment;
+            
             var hrd = _hrdService.Get(m => m.HRDID == id).FirstOrDefault();
             ViewBag.SeasonID = hrd.Season.Name;
             ViewBag.Year = hrd.Year;
             ViewBag.HRDID = id;
-            var dt = GetTransposedHRD(id);
+            var dt = GetTransposedHRD(id, preferedweight);
             return View(dt);
         }
-        private DataTable GetTransposedHRD(int id)
+        private DataTable GetTransposedHRD(int id, string preferedweight)
         {
+           
+
             var hrd = _hrdService.FindById(id);
             var hrdDetails = _hrdDetailService.Get(t => t.HRDID == id, null, "AdminUnit,AdminUnit.AdminUnit2,AdminUnit.AdminUnit2.AdminUnit2").ToList();
             var rationDetails = _rationDetailService.Get(t => t.RationID == hrd.RationID, null, "Commodity");
-            var dt = HRDViewModelBinder.TransposeData(hrdDetails, rationDetails);
+            var dt = HRDViewModelBinder.TransposeData(hrdDetails, rationDetails,preferedweight);
             return dt;
         }
 

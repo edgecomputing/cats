@@ -122,29 +122,33 @@ namespace Cats.Tests.ControllersTests
             userAccountService.Setup(t => t.GetUserInfo(It.IsAny<string>())).Returns(new UserInfo()
             {
                 UserName = "x",
-                DatePreference = "en"
+                DatePreference = "en",
+                PreferedWeightMeasurment = "mt"
             });
+
             var fakeContext = new Mock<HttpContextBase>();
-            var identity = new GenericIdentity("User");
+            var identity = new GenericIdentity("Admin");
+           
             var principal = new GenericPrincipal(identity, null);
             fakeContext.Setup(t => t.User).Returns(principal);
             var controllerContext = new Mock<ControllerContext>();
             controllerContext.Setup(t => t.HttpContext).Returns(fakeContext.Object);
             
 
-            _hrdController = new HRDController(adminUnitService.Object, 
-                hrdService.Object, 
-                rationService.Object, 
-                rationDetailService.Object,
-                hrdDetailService.Object,
-                commodityService.Object,
-                needAssesmentDetailService.Object,
-                needAssesmentHeaderService.Object,
-                workflowSatusService.Object,
-                seasonService.Object,userAccountService.Object,
-                log.Object,planService.Object
+            _hrdController = new HRDController(adminUnitService.Object,
+                                               hrdService.Object,
+                                               rationService.Object,
+                                               rationDetailService.Object,
+                                               hrdDetailService.Object,
+                                               commodityService.Object,
+                                               needAssesmentDetailService.Object,
+                                               needAssesmentHeaderService.Object,
+                                               workflowSatusService.Object,
+                                               seasonService.Object, userAccountService.Object,
+                                               log.Object, planService.Object
                 );
-            _hrdController.ControllerContext = controllerContext.Object;
+
+           _hrdController.ControllerContext = controllerContext.Object;
         }
 
         [TearDown]
