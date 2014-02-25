@@ -17,6 +17,7 @@ using Master = Cats.Models.Constant.Master;
 using Cats.Helpers;
 using Cats.Data.UnitWork;
 using System.Reflection;
+using Cats.Security;
 
 namespace Cats.Areas.EarlyWarning.Controllers
 {
@@ -44,7 +45,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             _shippingInstructionService = shippingInstructionService;
         }
 
-        [EarlyWarningAuthorize(operation = EarlyWarningCheckAccess.Operation.View_Gift_Certificate_list)]
+        [EarlyWarningAuthorize(operation = EarlyWarningConstants.Operation.View_Gift_Certificate_list)]
         public ActionResult Index(int id=1)
         {
             ViewBag.Title = id == 1 ? "Draft Gift Certificates" : "Approved Gift Certificates";
@@ -54,7 +55,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             return View(giftsViewModel);
         }
 
-        [EarlyWarningAuthorize(operation = EarlyWarningCheckAccess.Operation.View_Gift_Certificate_list)]
+        [EarlyWarningAuthorize(operation = EarlyWarningConstants.Operation.View_Gift_Certificate_list)]
         public JsonResult GetListOfCertificate([DataSourceRequest] DataSourceRequest request)
         {
             var giftCertList = _giftCertificateDetailService.GetAllGiftCertificateDetail();
@@ -74,7 +75,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             return Json(result.ToDataSourceResult(request, ModelState));
         }
 
-        [EarlyWarningAuthorize(operation = EarlyWarningCheckAccess.Operation.Generate_Gift_Certificate_Template)]
+        [EarlyWarningAuthorize(operation = EarlyWarningConstants.Operation.Generate_Gift_Certificate_Template)]
         public ActionResult GenerateTemplate(int id)
         {
             return RedirectToAction("LetterTemplate", new {giftceritificateId = id});
@@ -96,7 +97,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             }
         }
 
-        [EarlyWarningAuthorize(operation = EarlyWarningCheckAccess.Operation.New_Gift_Certificate)]
+        [EarlyWarningAuthorize(operation = EarlyWarningConstants.Operation.New_Gift_Certificate)]
         public ActionResult Create()
         {
 
@@ -109,7 +110,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         }
 
         [HttpPost]
-        [EarlyWarningAuthorize(operation = EarlyWarningCheckAccess.Operation.New_Gift_Certificate)]
+        [EarlyWarningAuthorize(operation = EarlyWarningConstants.Operation.New_Gift_Certificate)]
         public ActionResult Create(GiftCertificateViewModel giftcertificateViewModel)
         {
             if (ModelState.IsValid && giftcertificateViewModel != null)
@@ -128,7 +129,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
-        [EarlyWarningAuthorize(operation = EarlyWarningCheckAccess.Operation.New_Gift_Certificate)]
+        [EarlyWarningAuthorize(operation = EarlyWarningConstants.Operation.New_Gift_Certificate)]
         public ActionResult GiftCertificateDetail_Create([DataSourceRequest] DataSourceRequest request, GiftCertificateDetailsViewModel giftCertificateDetailsViewModel, int? id)
         {
             if (giftCertificateDetailsViewModel != null && ModelState.IsValid && id.HasValue)
@@ -142,7 +143,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
-        [EarlyWarningAuthorize(operation = EarlyWarningCheckAccess.Operation.View_Gift_Certificate_list)]
+        [EarlyWarningAuthorize(operation = EarlyWarningConstants.Operation.View_Gift_Certificate_list)]
         public ActionResult GiftCertificateDetail_Read([DataSourceRequest] DataSourceRequest request, int? id)
         {
             if (!id.HasValue)
@@ -168,7 +169,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
-        [EarlyWarningAuthorize(operation = EarlyWarningCheckAccess.Operation.Edit_Gift_Certificate)]
+        [EarlyWarningAuthorize(operation = EarlyWarningConstants.Operation.Edit_Gift_Certificate)]
         public ActionResult GiftCertificateDetail_Update([DataSourceRequest]DataSourceRequest request, GiftCertificateDetailsViewModel giftCertificateDetailsViewModel)
         {
             if (giftCertificateDetailsViewModel != null && ModelState.IsValid)
@@ -186,7 +187,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
-        [EarlyWarningAuthorize(operation = EarlyWarningCheckAccess.Operation.Delete_needs_assessment)]
+        [EarlyWarningAuthorize(operation = EarlyWarningConstants.Operation.Delete_needs_assessment)]
         public ActionResult GiftCertificateDetail_Destroy([DataSourceRequest] DataSourceRequest request,
                                                   GiftCertificateDetailsViewModel giftCertificateDetailsViewModel)
         {
@@ -197,8 +198,8 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
             return Json(ModelState.ToDataSourceResult());
         }
-    
-        [EarlyWarningAuthorize(operation = EarlyWarningCheckAccess.Operation.Edit_Gift_Certificate)]
+
+        [EarlyWarningAuthorize(operation = EarlyWarningConstants.Operation.Edit_Gift_Certificate)]
         public ActionResult Edit(int id)
         {
             var giftcertificate = _giftCertificateService.Get(t => t.GiftCertificateID == id, null, "GiftCertificateDetails,GiftCertificateDetails.Commodity").FirstOrDefault();
@@ -209,7 +210,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         }
 
         [HttpPost]
-        [EarlyWarningAuthorize(operation = EarlyWarningCheckAccess.Operation.Edit_Gift_Certificate)]
+        [EarlyWarningAuthorize(operation = EarlyWarningConstants.Operation.Edit_Gift_Certificate)]
         public ActionResult Edit(GiftCertificateViewModel giftcertificate)
         {
             //just incase the user meses with the the hidden GiftCertificateID field
@@ -230,7 +231,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             return View(giftcertificate);
         }
 
-        [EarlyWarningAuthorize(operation = EarlyWarningCheckAccess.Operation.Delete_Gift_Certificate)]
+        [EarlyWarningAuthorize(operation = EarlyWarningConstants.Operation.Delete_Gift_Certificate)]
         public ActionResult Delete(int id)
         {
             var giftcertificate = _giftCertificateService.FindById(id);
@@ -240,7 +241,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
 
         [HttpPost, ActionName("Delete")]
-        [EarlyWarningAuthorize(operation = EarlyWarningCheckAccess.Operation.Delete_Gift_Certificate)]
+        [EarlyWarningAuthorize(operation = EarlyWarningConstants.Operation.Delete_Gift_Certificate)]
         public ActionResult DeleteConfirmed(int id)
         {
             _giftCertificateService.DeleteById(id);
@@ -253,7 +254,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         }
 
         [HttpGet]
-        [EarlyWarningAuthorize(operation = EarlyWarningCheckAccess.Operation.Approve_Gift_Certeficate)]
+        [EarlyWarningAuthorize(operation = EarlyWarningConstants.Operation.Approve_Gift_Certeficate)]
        public ActionResult Approved(int id)
        {
            var giftCertificate = _giftCertificateService.FindById(id);
@@ -263,7 +264,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
        }
 
         [HttpPost]
-        [EarlyWarningAuthorize(operation = EarlyWarningCheckAccess.Operation.Approve_Gift_Certeficate)]
+        [EarlyWarningAuthorize(operation = EarlyWarningConstants.Operation.Approve_Gift_Certeficate)]
        public ActionResult Approve(int GiftCertificateID)
         {
             var result = _transactionService.PostGiftCertificate(GiftCertificateID);
@@ -305,14 +306,14 @@ namespace Cats.Areas.EarlyWarning.Controllers
             }
         }
 
-        [EarlyWarningAuthorize(operation = EarlyWarningCheckAccess.Operation.Generate_Gift_Certificate_Template)]
+        [EarlyWarningAuthorize(operation = EarlyWarningConstants.Operation.Generate_Gift_Certificate_Template)]
         public ActionResult LetterTemplate(int giftceritificateId)
         {
             ViewData["giftcertficateId"] = giftceritificateId;
             return View();
         }
 
-        [EarlyWarningAuthorize(operation = EarlyWarningCheckAccess.Operation.Generate_Gift_Certificate_Template)]
+        [EarlyWarningAuthorize(operation = EarlyWarningConstants.Operation.Generate_Gift_Certificate_Template)]
        public ActionResult ShowLetterTemplates([DataSourceRequest] DataSourceRequest request)
        {
            return Json(_letterTemplateService.GetAllLetterTemplates().ToDataSourceResult(request));
