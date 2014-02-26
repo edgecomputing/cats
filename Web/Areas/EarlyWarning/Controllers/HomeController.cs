@@ -16,11 +16,14 @@ namespace Cats.Areas.EarlyWarning.Controllers
         private readonly IHRDService _hrdService;
         private readonly IHRDDetailService _hrdDetailService;
         private readonly IRationDetailService _rationDetailService;
-        public HomeController(IHRDService hrdService,IHRDDetailService hrdDetailService,IRationDetailService rationDetailService)
+        private readonly IRegionalRequestService _regionalRequestService;
+        public HomeController(IHRDService hrdService,IHRDDetailService hrdDetailService,
+                              IRationDetailService rationDetailService,IRegionalRequestService regionalRequestService)
         {
             _hrdService = hrdService;
             _hrdDetailService = hrdDetailService;
             _rationDetailService = rationDetailService;
+            _regionalRequestService = regionalRequestService;
 
         }
         public ActionResult Index()
@@ -42,6 +45,22 @@ namespace Cats.Areas.EarlyWarning.Controllers
             var dt = HRDViewModelBinder.TransposeDataSummary(hrdDetails, rationDetails);
             return dt;
         }
-       
+        //public JsonResult GetRation()
+        //{
+        //    var currentHrd = _hrdService.FindBy(m => m.Status == 4).FirstOrDefault();
+        //    if (currentHrd != null)
+        //    {
+        //        var ration = _rationDetailService.FindBy(m => m.RationID == currentHrd.RationID);
+        //    }
+
+        //}
+      public JsonResult GetRegionalRequests()
+      {
+          var currentHrd = _hrdService.FindBy(m => m.Status == 4).FirstOrDefault();
+          
+              var requests = _regionalRequestService.FindBy(m => m.PlanID == currentHrd.PlanID);
+
+          return Json(requests, JsonRequestBehavior.AllowGet);
+      }
     }
 }
