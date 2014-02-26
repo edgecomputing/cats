@@ -606,6 +606,8 @@ namespace Cats.Areas.EarlyWarning.Controllers
         {
             if (commodity != null && ModelState.IsValid)
             {
+                
+
                 //try
                 //{
                 _regionalRequestDetailService.AddRequestDetailCommodity(commodity.CommodityID, id);
@@ -1015,27 +1017,33 @@ namespace Cats.Areas.EarlyWarning.Controllers
             return PartialView(addCommodityViewModel);
         }
 
-        [HttpPost]
+       [HttpPost]
         public ActionResult AddCommodity(AddCommodityViewModel addCommodity)
         {
             if (ModelState.IsValid)
             {
+                if(addCommodity.ChkAllCommodities)
+                {
+                    _regionalRequestDetailService.AddAllCommodity(addCommodity.RegionalRequestID);
+                    return RedirectToAction("Allocation", new { id = addCommodity.RegionalRequestID });
+                }
+
                 _regionalRequestDetailService.AddRequestDetailCommodity(addCommodity.CommodityID, addCommodity.RegionalRequestID);
                 return RedirectToAction("Allocation", new { id = addCommodity.RegionalRequestID });
             }
             ModelState.AddModelError("Errors",@"Unable to add Commodity");
             return RedirectToAction("Allocation", new {id = addCommodity.RegionalRequestID});
         }
-        public ActionResult AddAllCommodity(int? id)
-        {
-            if (id != null)
-            {
-                _regionalRequestDetailService.AddAllCommodity((int)id);
-                return RedirectToAction("Allocation", new { id = id });
-            }
-            ModelState.AddModelError("Errors", @"unable to Add All Commodities");
-            return RedirectToAction("Allocation", new { id = id });
-        }
+        //public ActionResult AddAllCommodity(int? id)
+        //{
+        //    if (id != null)
+        //    {
+        //        _regionalRequestDetailService.AddAllCommodity((int)id);
+        //        return RedirectToAction("Allocation", new { id = id });
+        //    }
+        //    ModelState.AddModelError("Errors", @"unable to Add All Commodities");
+        //    return RedirectToAction("Allocation", new { id = id });
+        //}
         public ActionResult DeleteCommodity(int? commodityID, int requestID)
         {
             if (commodityID != null)

@@ -624,12 +624,12 @@
     </Compile>
     <Compile Include="Filters\LocalizationFilter.cs" />
     <Compile Include="Helpers\CatsAuthorize.cs" />
+    <Compile Include="Helpers\CatsGlobals.cs" />
     <Compile Include="Helpers\DateHelpers.cs" />
     <Compile Include="Helpers\DistributionHelper.cs" />
     <Compile Include="Helpers\HtmlExtensions.cs" />
     <Compile Include="Helpers\Hub\AmharicEditorHelper.cs" />
     <Compile Include="Helpers\Hub\CascadeDropDownHelper.cs" />
-    <Compile Include="Helpers\Hub\CatsAuthorize.cs" />
     <Compile Include="Helpers\Hub\ControllerContextExtensions.cs" />
     <Compile Include="Helpers\Hub\CultureHelper.cs" />
     <Compile Include="Helpers\Hub\CurrentUserHelper.cs" />
@@ -1714,6 +1714,7 @@
     <Content Include="Areas\Logistics\Views\Transfer\Index.cshtml" />
     <Content Include="Areas\Logistics\Views\Transfer\Detail.cshtml" />
     <Content Include="Areas\Logistics\Views\Transfer\Edit.cshtml" />
+    <Content Include="Areas\Logistics\Views\Donation\View1.cshtml" />
     <None Include="dataset.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>dataset.Designer.cs</LastGenOutput>
@@ -2126,7 +2127,7 @@
     <Content Include="Areas\Logistics\Views\DispatchAllocation\Index.cshtml" />
     <Content Include="Areas\Logistics\Views\DispatchAllocation\HubAllocation.cshtml" />
     <Content Include="Areas\Logistics\Views\DispatchAllocation\AllocateProjectCode.cshtml" />
-    <Content Include="Areas\Logistics\Views\DispatchAllocation\hub.cshtml" />
+    <Content Include="Areas\Logistics\Views\DispatchAllocation\Hub.cshtml" />
     <Content Include="Areas\Logistics\Views\DispatchAllocation\main.cshtml" />
     <None Include="CTSDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>

@@ -14,6 +14,7 @@ namespace Cats.Services.EarlyWarning
         bool DeleteHrdDonorCoverageDetail(HrdDonorCoverageDetail hrdDonorCoverageDetail);
         bool DeleteById(int id);
         bool EditHrdDonorCoverageDetail(HrdDonorCoverageDetail hrdDonorCoverageDetail);
+        bool AddWoredas(HrdDonorCoverageDetail hrdDonorCoverageDetail);
         HrdDonorCoverageDetail FindById(int id);
         List<HrdDonorCoverageDetail> GetAllHrdDonorCoverageDetail();
         List<HrdDonorCoverageDetail> FindBy(Expression<Func<HrdDonorCoverageDetail, bool>> predicate);

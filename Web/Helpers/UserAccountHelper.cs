@@ -7,6 +7,8 @@ using System.Web;
 using System.Web.Mvc;
 using Cats.Services.Security;
 using Cats.Models.Security;
+using System.Web.Security;
+using NetSqlAzMan.Cache;
 
 namespace Cats.Helpers
 {
@@ -19,32 +21,43 @@ namespace Cats.Helpers
 
         public static string GetUserName()
         {
+            var userName = string.Empty;
             try
             {
                 var user = (UserInfo)HttpContext.Current.Session["USER_INFO"];
-                return user.FullName;
+                userName= user.FullName;
             }
             catch (Exception)
             {
-                return "Guest User";
+                SignOut();
+                userName="Guest User";
             }
+            return userName;
         }
 
         public static string UserLanguagePreference(this HtmlHelper helper)
         {
+            var userLanguagePreference = string.Empty;
             try
             {
                 var user = (UserIdentity)HttpContext.Current.User.Identity;
-                return GetUser(user.Name).LanguageCode;
+                userLanguagePreference= GetUser(user.Name).LanguageCode;
             }
             catch (Exception)
             {
-                return "Guest User";
+                userLanguagePreference ="Guest User";
+                SignOut();                
             }
+            return userLanguagePreference;
         }
         public static UserInfo GetUser(string userName)
         {
             return GetUserInfo(userName);
+        }
+
+        private static void SignOut()
+        {
+            FormsAuthentication.SignOut();
         }
 
         public static UserInfo GetCurrentUser()
@@ -116,6 +129,41 @@ namespace Cats.Helpers
             }
 
             return preference.ToUpper();
+        }
+
+        public static UserPermissionCache GetUserPermissionCache(CatsGlobals.Applications application)
+        {
+            UserPermissionCache permissionsCache = null;
+           
+            switch (application)
+            {
+                case CatsGlobals.Applications.EarlyWarning:
+                    permissionsCache = (UserPermissionCache)HttpContext.Current.Session[CatsGlobals.EARLY_WARNING_PERMISSIONS];
+                    break;
+                case CatsGlobals.Applications.PSNP:
+                    permissionsCache = (UserPermissionCache)HttpContext.Current.Session[CatsGlobals.PSNP_PERMISSIONS];
+                    break;
+                case CatsGlobals.Applications.Logistics:
+                    permissionsCache = (UserPermissionCache)HttpContext.Current.Session[CatsGlobals.LOGISTICS_PERMISSIONS];
+                    break;
+                case CatsGlobals.Applications.Procurement:
+                    permissionsCache = (UserPermissionCache)HttpContext.Current.Session[CatsGlobals.PROCUREMENT_PERMISSIONS];
+                    break;
+                case CatsGlobals.Applications.Finance:
+                    permissionsCache = (UserPermissionCache)HttpContext.Current.Session[CatsGlobals.FINANCE_PERMISSIONS];
+                    break;
+                case CatsGlobals.Applications.Hub:
+                    permissionsCache = (UserPermissionCache)HttpContext.Current.Session[CatsGlobals.HUB_PERMISSIONS];
+                    break;
+                case CatsGlobals.Applications.Administration:
+                    permissionsCache = (UserPermissionCache)HttpContext.Current.Session[CatsGlobals.ADMINISTRATION_PERMISSIONS];
+                    break;
+                case CatsGlobals.Applications.Region:
+                    permissionsCache = (UserPermissionCache)HttpContext.Current.Session[CatsGlobals.REGION_PERMISSIONS];
+                    break;
+            }
+
+            return permissionsCache;
         }
 
     }

@@ -13,6 +13,10 @@ using Cats.Helpers;
 using LanguageHelpers.Localization.DataAnnotations;
 using StackExchange.Profiling;
 using log4net.Core;
+using NetSqlAzMan;
+using NetSqlAzMan.Interfaces;
+using NetSqlAzMan.Cache;
+using System.Configuration;
 
 namespace Cats
 {
@@ -69,5 +73,6 @@ namespace Cats
         {
             MiniProfiler.Stop();
         }
+
     }
 }

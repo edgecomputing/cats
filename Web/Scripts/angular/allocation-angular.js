@@ -3,7 +3,7 @@
 /// <reference path="angular.js" />
 
 var $$scope;
-
+var timer;
 // Create app Module 
 function onsaveAllocation() {
     $$scope.saveAllocation();
@@ -33,7 +33,20 @@ app.factory("savefactory", function ($http) {
         save: function (hubAllocated) {
           
             $http.post(UrlPOST, { allocation: hubAllocated }).success(function (responseData) {
+                var msg = '<div class="cats_success">Success: Hub allocation saved successfully.</div>';
+                $(".message-window").html(msg).delay(800).hide().fadeIn(); // Don't change this line. 
+                clearTimeout(timer); // Don't change this line.
+                timer = setTimeout(function () { // Don't change this line.
+                    $(".message-window").fadeOut("normal", function () { $(this).html(''); }); // Don't change this line.
+                }, 5000); // Here is the millisecond duration in which the message will be displayed. Can be changed.
                
+            }).error(function (responseData) {
+                var msg = '<div class="cats_error">Error: Hub allocation couldn\'t be saved.</div>';
+                $(".message-window").html(msg).delay(800).hide().fadeIn(); // Don't change this line. 
+                clearTimeout(timer); // Don't change this line.
+                timer = setTimeout(function () { // Don't change this line.
+                    $(".message-window").fadeOut("normal", function () { $(this).html(''); }); // Don't change this line.
+                }, 5000); // Here is the millisecond duration in which the message will be displayed. Can be changed.
                
             });
         }
@@ -61,7 +74,7 @@ app.controller("DragDroController", function ($scope, dragDropService, savefacto
     
     $scope.newRequisitions = {
         
-        0: "No requisitions in " + RegionName +" region ",
+        0: "    No requisitions in " + RegionName +" region ",
         other: "{} requisitions  in " +  RegionName
     };
 

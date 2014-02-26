@@ -4,11 +4,12 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Cats.Data.Hub;
+using Cats.Data.Hub.UnitWork;
 using Cats.Models.Hubs;
 using Cats.Services.Hub;
 using Cats.Services.Hub.Interfaces;
 using Cats.Services.Security;
-using Early_Warning.Security;
+using Cats.Security;
 using NetSqlAzMan;
 using NetSqlAzMan.Providers;
 using Ninject;
@@ -114,13 +115,6 @@ namespace Cats.Web.Hub.Infrastructure
                                                                                             "SecurityContext"].
                                                                                         ConnectionString);
             kernel.Bind<NetSqlAzManRoleProvider>().To<NetSqlAzManRoleProvider>();
-
-            kernel.Bind<IEarlyWarningCheckAccess>().To<EarlyWarningCheckAccess>().WithConstructorArgument("storageConnectionString",
-                                                                                    System.Configuration.
-                                                                                        ConfigurationManager.
-                                                                                        ConnectionStrings[
-                                                                                            "SecurityContext"].
-                                                                                        ConnectionString);
          
         }
     }

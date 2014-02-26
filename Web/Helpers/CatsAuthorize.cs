@@ -4,23 +4,26 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Cats.Services.Security;
-using Early_Warning.Security;
+using Cats.Security;
 using Logistics.Security;
 using Ninject;
+using NetSqlAzMan.Interfaces;
+using NetSqlAzMan;
+using NetSqlAzMan.Cache;
 
 namespace Cats.Helpers
 {
 
     public class EarlyWarningAuthorize : AuthorizeAttribute
     {
-        private readonly IEarlyWarningCheckAccess _checkAccessHelper;
-        
-        public EarlyWarningCheckAccess.Operation operation;
+        private EarlyWarningConstants constants = new EarlyWarningConstants();
+        UserPermissionCache ewCache;
+        public EarlyWarningConstants.Operation operation;
 
 
         public EarlyWarningAuthorize()
         {
-            _checkAccessHelper = DependencyResolver.Current.GetService<IEarlyWarningCheckAccess>();
+            ewCache = UserAccountHelper.GetUserPermissionCache(CatsGlobals.Applications.EarlyWarning);
         }
 
         protected override bool AuthorizeCore(HttpContextBase httpContext)
@@ -29,10 +32,8 @@ namespace Cats.Helpers
                 throw new ArgumentNullException("httpContext");
 
             if (!httpContext.User.Identity.IsAuthenticated)
-                return false;
-            return _checkAccessHelper.CheckAccess(operation,
-                                                 _checkAccessHelper.Storage.GetDBUser(httpContext.User.Identity.Name).
-                                                     CustomSid);
+                return false;            
+            return ewCache.CheckAccess(constants.ItemName(operation), DateTime.Now) == AuthorizationType.Allow ? true : false;
         }
     }
 

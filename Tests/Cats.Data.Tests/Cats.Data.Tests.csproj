@@ -71,7 +71,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Hub\Transaction\HubTransactionServiceTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServicesTest\EarlyWarning\AccountTransactionServiceTests.cs" />
     <Compile Include="ServicesTest\EarlyWarning\RegionalRequestServiceTest.cs" />

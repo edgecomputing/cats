@@ -1,13 +1,8 @@
 ﻿using System;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using System.Data.Objects.DataClasses;
-using Cats.Data.Repository;
+using Cats.Data.Hub.Repository;
 using Cats.Models.Hubs;
-using DRMFSS.BLL.Interfaces;
 
-
-namespace Cats.Data.Hub
+namespace Cats.Data.Hub.UnitWork
 {
 
 		public interface IUnitOfWork:IDisposable

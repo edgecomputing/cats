@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using Cats.Data.Hub;
 using System.Linq;
+using Cats.Data.Hub.UnitWork;
 using Cats.Models.Hubs;
 using Cats.Models.Hubs.ViewModels.Common;
 
@@ -90,7 +91,7 @@ namespace Cats.Services.Hub
         /// </summary>
         /// <param name="projectNumber">The project number.</param>
         /// <returns></returns>
-        public ProjectCode GetProjectCodeIdWIthCreate(string projectNumber)
+        public  ProjectCode GetProjectCodeIdWIthCreate(string projectNumber)
         {
             var projCode = _unitOfWork.ProjectCodeRepository.FindBy(i => i.Value.ToUpper() == projectNumber.ToUpper()).SingleOrDefault();
 
