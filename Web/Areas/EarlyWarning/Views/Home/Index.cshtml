@@ -222,24 +222,36 @@
                         </div>
 
                         <!-- /.portlet-header -->
-                        <div class="portlet-content">
-                            <th class="table-responsive">
-                            <table id="" class="table table-striped table-checkable"> 
+                        <div class="portlet-content" style="height:240px;  overflow: scroll" >
+                            <th class="table-responsive" >
+                            <table id="" class="table table-striped table-checkable"  > 
                                                          
                                 <thead>
                                     <tr>
-                                        <th>Region</th>
+                                         @foreach (System.Data.DataColumn col in Model.Columns)
+                                         {
+                                           <th>@col.Caption</th>
+                                        }
+                                        @*<th>Region</th>
                                         <th>Number of Beneficiary</th>
                                         <th>Pulse</th>
                                         <th>Oil</th>
                                         <th>Cereal</th>
                                         <th>Wheat</th>
-                                        <th>Total </th>
+                                        <th>Total </th>*@
                                     </tr>
                                 </thead>
-                                <tbody>
-                                     
-                                    <tr class="">
+                                <tbody >
+                                     @foreach(System.Data.DataRow row in Model.Rows)
+                                         {
+              <tr>
+      @foreach (var cell in row.ItemArray)
+      {
+         <td>@cell.ToString()</td>
+      }
+   </tr>
+} 
+                                   @* <tr class="">
                                         <td class="hidden-xs">Afar</td>
                                         <td>20.05</td>
                                         <td>20.36</td>
@@ -283,7 +295,7 @@
                                         <td>568.25</td>
                                         <td>85.36</td>
                                         <td>75896.25</td>
-                                    </tr>
+                                    </tr>*@
                                     
 
                                 </tbody>
