@@ -536,7 +536,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             var plan = _hrdService.GetPlan(id);
             var hrd = new HRD();
             ViewBag.Year = DateTime.Today.Year;
-            ViewBag.RationID = new SelectList(_rationService.GetAllRation(), "RationID", "RefrenceNumber", hrd.RationID = 1);
+            ViewBag.RationID = new SelectList(_rationService.GetAllRation(), "RationID", "RefrenceNumber");
             ViewBag.SeasonID = new SelectList(_seasonService.GetAllSeason(), "SeasonID", "Name");
             hrd.PlanID = plan.PlanID;
             return View(hrd);
@@ -581,12 +581,12 @@ namespace Cats.Areas.EarlyWarning.Controllers
                 {
                     var log = new Logger();
                     log.LogAllErrorsMesseges(exception, _log);
-                    ModelState.AddModelError("Errors", "Unable to create hrd form the given need Assessment");
+                    ModelState.AddModelError("Errors", @"Unable to create hrd form the given need Assessment");
                     //ViewBag.Error = "HRD for this Season and Year already Exists";
                 }
             }
             ViewBag.Year = hrd.Year;
-            ViewBag.RationID = new SelectList(_rationService.GetAllRation(), "RationID", "RefrenceNumber", hrd.RationID = 1);
+            ViewBag.RationID = new SelectList(_rationService.GetAllRation(), "RationID", "RefrenceNumber");
             ViewBag.SeasonID = new SelectList(_seasonService.GetAllSeason(), "SeasonID", "Name");
             return View(hrd);
             }
