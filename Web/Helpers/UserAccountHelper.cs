@@ -133,28 +133,33 @@ namespace Cats.Helpers
 
         public static UserPermissionCache GetUserPermissionCache(CatsGlobals.Applications application)
         {
-            UserPermissionCache permissionsCache=(UserPermissionCache)HttpContext.Current.Session[CatsGlobals.EARLY_WARNING_PERMISSIONS];
-
+            UserPermissionCache permissionsCache = null;
+           
             switch (application)
             {
                 case CatsGlobals.Applications.EarlyWarning:
                     permissionsCache = (UserPermissionCache)HttpContext.Current.Session[CatsGlobals.EARLY_WARNING_PERMISSIONS];
                     break;
                 case CatsGlobals.Applications.PSNP:
+                    permissionsCache = (UserPermissionCache)HttpContext.Current.Session[CatsGlobals.PSNP_PERMISSIONS];
                     break;
                 case CatsGlobals.Applications.Logistics:
+                    permissionsCache = (UserPermissionCache)HttpContext.Current.Session[CatsGlobals.LOGISTICS_PERMISSIONS];
                     break;
                 case CatsGlobals.Applications.Procurement:
+                    permissionsCache = (UserPermissionCache)HttpContext.Current.Session[CatsGlobals.PROCUREMENT_PERMISSIONS];
                     break;
                 case CatsGlobals.Applications.Finance:
+                    permissionsCache = (UserPermissionCache)HttpContext.Current.Session[CatsGlobals.FINANCE_PERMISSIONS];
                     break;
                 case CatsGlobals.Applications.Hub:
+                    permissionsCache = (UserPermissionCache)HttpContext.Current.Session[CatsGlobals.HUB_PERMISSIONS];
                     break;
                 case CatsGlobals.Applications.Administration:
+                    permissionsCache = (UserPermissionCache)HttpContext.Current.Session[CatsGlobals.ADMINISTRATION_PERMISSIONS];
                     break;
                 case CatsGlobals.Applications.Region:
-                    break;
-                default:
+                    permissionsCache = (UserPermissionCache)HttpContext.Current.Session[CatsGlobals.REGION_PERMISSIONS];
                     break;
             }
 

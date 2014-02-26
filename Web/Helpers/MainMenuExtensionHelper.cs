@@ -8,6 +8,7 @@ using Logistics.Security;
 using Cats.Security;
 using NetSqlAzMan.Cache;
 using NetSqlAzMan.Interfaces;
+using System.Web.Security;
 
 namespace Cats.Helpers
 {
@@ -15,53 +16,92 @@ namespace Cats.Helpers
     {
         public static MvcHtmlString EarlyWarningOperationMenuItem(this HtmlHelper helper, string url, EarlyWarningConstants.Operation operation, string text = "", string ccsClass = "", string dataButtontype = "")
         {
-            var constants = new EarlyWarningConstants();
-            var ewCache = UserAccountHelper.GetUserPermissionCache(CatsGlobals.Applications.EarlyWarning);
+            return MvcHtmlString.Create(@"<a data-buttontype=" + dataButtontype + "  class=" + ccsClass + " href=" + url + ">" + text + "</a>");
+            
+            //var constants = new EarlyWarningConstants();
+            //var ewCache = UserAccountHelper.GetUserPermissionCache(CatsGlobals.Applications.EarlyWarning);
 
-            var html = string.Empty;
+            //// If cache is null then force the user to sign-in again
+            //if (null == ewCache)
+            //{
+            //    FormsAuthentication.SignOut();
+            //    return MvcHtmlString.Create(string.Empty);
+            //}
 
-            if (ewCache.CheckAccess(constants.ItemName(operation),DateTime.Now)==AuthorizationType.Allow)
-            {
-                html = @"<a data-buttontype=" + dataButtontype + "  class=" + ccsClass + " href=" + url + ">" + text + "</a>";
-            }
-            return MvcHtmlString.Create(html);
+            //var html = string.Empty;
+            //if (ewCache.CheckAccess(constants.ItemName(operation), DateTime.Now) == AuthorizationType.Allow)
+            //{
+            //    html = @"<a data-buttontype=" + dataButtontype + "  class=" + ccsClass + " href=" + url + ">" + text + "</a>";
+            //}
+            //return MvcHtmlString.Create(html);
         }
 
         public static MvcHtmlString EarlyWarningOperationButton(this HtmlHelper helper, string url, EarlyWarningConstants.Operation operation, string text = "", string ccsClass = "", string dataButtontype = "", string id = "")
         {
-            var constants = new EarlyWarningConstants();
-            var ewCache = UserAccountHelper.GetUserPermissionCache(CatsGlobals.Applications.EarlyWarning);
 
-            var html = string.Empty;
-
-            if (ewCache.CheckAccess(constants.ItemName(operation), DateTime.Now)==AuthorizationType.Allow)
+            var html = "<a href=" + url;
+            if (ccsClass != "")
             {
-                html = "<a href=" + url;
-                if (ccsClass != "")
-                {
-                    html += " class=" + ccsClass;
-                }
-                if (id != "")
-                {
-                    html += " id=" + id;
-                }
-                if (dataButtontype != "")
-                {
-                    html += " data-buttontype=" + dataButtontype;
-                }
-                if (text != "")
-                {
-                    html += " >" + text + "</a>";
-                }
-                else
-                {
-                    html += " ></a>";
-                }
+                html += " class=" + ccsClass;
             }
+            if (id != "")
+            {
+                html += " id=" + id;
+            }
+            if (dataButtontype != "")
+            {
+                html += " data-buttontype=" + dataButtontype;
+            }
+            if (text != "")
+            {
+                html += " >" + text + "</a>";
+            }
+            else
+            {
+                html += " ></a>";
+            }
+
+            
+            //var constants = new EarlyWarningConstants();
+            //var ewCache = UserAccountHelper.GetUserPermissionCache(CatsGlobals.Applications.EarlyWarning);
+
+            //// If cache is null then force the user to sign-in again
+            //if (null == ewCache)
+            //{
+            //    FormsAuthentication.SignOut();
+            //    return MvcHtmlString.Create(string.Empty);
+            //}
+
+            //var html = string.Empty;
+
+            //if (ewCache.CheckAccess(constants.ItemName(operation), DateTime.Now) == AuthorizationType.Allow)
+            //{
+            //    html = "<a href=" + url;
+            //    if (ccsClass != "")
+            //    {
+            //        html += " class=" + ccsClass;
+            //    }
+            //    if (id != "")
+            //    {
+            //        html += " id=" + id;
+            //    }
+            //    if (dataButtontype != "")
+            //    {
+            //        html += " data-buttontype=" + dataButtontype;
+            //    }
+            //    if (text != "")
+            //    {
+            //        html += " >" + text + "</a>";
+            //    }
+            //    else
+            //    {
+            //        html += " ></a>";
+            //    }
+            //}
             return MvcHtmlString.Create(html);
         }
 
-        public static MvcHtmlString PSNPOperationMenuItem(this HtmlHelper helper, string text, string url, PSNPCheckAccess.Operation operation, string ccsClass="", string dataButtontype="")
+        public static MvcHtmlString PSNPOperationMenuItem(this HtmlHelper helper, string text, string url, PSNPCheckAccess.Operation operation, string ccsClass = "", string dataButtontype = "")
         {
             var user = (UserIdentity)HttpContext.Current.User.Identity;
             var checkAccessHelper = DependencyResolver.Current.GetService<IPSNPCheckAccess>();
@@ -136,7 +176,7 @@ namespace Cats.Helpers
             //return MvcHtmlString.Create(html);
         }
 
-        public static MvcHtmlString LogisticOperationMenuItem(this HtmlHelper helper, string text, string url, LogisticsCheckAccess.Operation operation, string ccsClass="", string dataButtontype="")
+        public static MvcHtmlString LogisticOperationMenuItem(this HtmlHelper helper, string text, string url, LogisticsCheckAccess.Operation operation, string ccsClass = "", string dataButtontype = "")
         {
             var html = @"<a data-buttontype=" + dataButtontype + "  class=" + ccsClass + " href=" + url + ">" + text + "</a>";
             return MvcHtmlString.Create(html);
@@ -213,7 +253,7 @@ namespace Cats.Helpers
             //return MvcHtmlString.Create(html);
         }
 
-        public static MvcHtmlString ProcurementOperationMenuItem(this HtmlHelper helper, string text, string url, ProcurementCheckAccess.Operation operation, string ccsClass="", string dataButtontype="")
+        public static MvcHtmlString ProcurementOperationMenuItem(this HtmlHelper helper, string text, string url, ProcurementCheckAccess.Operation operation, string ccsClass = "", string dataButtontype = "")
         {
             var html = @"<a data-buttontype=" + dataButtontype + "  class=" + ccsClass + " href=" + url + ">" + text + "</a>";
             return MvcHtmlString.Create(html);
