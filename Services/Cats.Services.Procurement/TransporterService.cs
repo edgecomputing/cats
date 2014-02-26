@@ -4,6 +4,7 @@ using System.Linq.Expressions;
 using Cats.Data.UnitWork;
 using Cats.Models;
 using System.Linq;
+using Cats.Models.Constant;
 
 namespace Cats.Services.Procurement
 {
@@ -61,28 +62,66 @@ namespace Cats.Services.Procurement
         }
         #endregion
 
-        public List<TransportBidQuotation> GetBidWinner(int sourceID, int DestinationID)
+        //public List<TransportBidQuotation> GetBidWinner(int sourceID, int DestinationID)
+        //{
+        //    List<TransportBidQuotation> Winners = new List<TransportBidQuotation>();
+        //    List<ApplicationSetting> currentBids = _unitOfWork.ApplicationSettingRepository.FindBy(t => t.SettingName == "CurrentBid");
+        //    if (currentBids.Count < 1)
+        //    {
+        //        return Winners;
+        //    }
+        //    string bidIdstr = currentBids[0].SettingValue;
+        //    if (bidIdstr == "")
+        //    {
+        //        return Winners;
+        //    }
+        //    if (bidIdstr != "")
+        //    {
+        //        int currentBidId = int.Parse(bidIdstr);
+        //        Winners = _unitOfWork.TransportBidQuotationRepository.FindBy(q => q.BidID == currentBidId && q.SourceID == sourceID && q.DestinationID == DestinationID && q.IsWinner == true);
+        //        Winners.OrderBy(t => t.Position);
+        //    }
+        //    return Winners.OrderBy(t => t.Position).ToList();
+        //}
+        public List<BidWinner> GetBidWinner(int sourceID, int DestinationID)
         {
-            List<TransportBidQuotation> Winners = new List<TransportBidQuotation>();
-            List<ApplicationSetting> currentBids = _unitOfWork.ApplicationSettingRepository.FindBy(t => t.SettingName == "CurrentBid");
-            if (currentBids.Count < 1)
+            List<BidWinner> Winners = new List<BidWinner>();
+            //List<ApplicationSetting> currentBids = _unitOfWork.ApplicationSettingRepository.FindBy(t => t.SettingName == "CurrentBid");
+            //var currentBids = _unitOfWork.BidRepository.FindBy(t => t.StatusID == int.Parse(BidStatus.Active.ToString()));
+            //foreach (var currentBid in currentBids)
+            //{
+            //    var bid = currentBid;
+            //var activeBidStatusID = int.Parse(BidStatus.Active.ToString());
+            var bidWinner =
+                _unitOfWork.BidWinnerRepository.Get(
+                    t => t.SourceID == sourceID && t.DestinationID == DestinationID && t.Position == 1 &&
+                        t.Bid.StatusID == 5).FirstOrDefault();
+            //}
+            if (bidWinner == null)
             {
                 return Winners;
             }
-            string bidIdstr = currentBids[0].SettingValue;
+            var bidIdstr = bidWinner.BidID.ToString();
             if (bidIdstr=="")
             {
                 return Winners;
             }
             if (bidIdstr != "")
             {
-                int currentBidId = int.Parse(bidIdstr);
-                Winners = _unitOfWork.TransportBidQuotationRepository.FindBy(q => q.BidID == currentBidId && q.SourceID == sourceID && q.DestinationID == DestinationID && q.IsWinner == true);
+                var currentBidId = int.Parse(bidIdstr);
+                Winners = _unitOfWork.BidWinnerRepository.FindBy(q => q.BidID == currentBidId && q.SourceID == sourceID && q.DestinationID == DestinationID && q.Position == 1);
                 Winners.OrderBy(t => t.Position);
             }
             return Winners.OrderBy(t => t.Position).ToList();
         }
-        public TransportBidQuotation GetCurrentBidWinner(int sourceID,int DestincationID)
+
+        //public TransportBidQuotation GetCurrentBidWinner(int sourceID, int DestincationID)
+        //{
+        //    var winners = GetBidWinner(sourceID, DestincationID);
+        //    if (winners.Count < 1) return null;
+        //    return winners[0];
+        //}
+        public BidWinner GetCurrentBidWinner(int sourceID,int DestincationID)
         {
            var winners =GetBidWinner(sourceID, DestincationID);
            if (winners.Count < 1) return null;

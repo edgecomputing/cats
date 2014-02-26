@@ -281,7 +281,7 @@ namespace Cats.Areas.Logistics.Controllers
 
             {
                 var requisitions = _reliefRequisitionService.FindBy(t => t.RegionID == regionId && t.Status == (int)ReliefRequisitionStatus.ProjectCodeAssigned);
-                var programs = (from item in requisitions select item.ProgramID).ToList();
+                var programs = (from item in requisitions select item.ProgramID).Distinct().ToList();
                 var requisitionToDispatches = new List<List<int>>();
                 var currentUser = UserAccountHelper.GetUser(User.Identity.Name).UserProfileID;
                 foreach (var program in programs)
