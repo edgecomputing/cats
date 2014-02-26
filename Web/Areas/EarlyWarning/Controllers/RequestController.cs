@@ -606,6 +606,8 @@ namespace Cats.Areas.EarlyWarning.Controllers
         {
             if (commodity != null && ModelState.IsValid)
             {
+                
+
                 //try
                 //{
                 _regionalRequestDetailService.AddRequestDetailCommodity(commodity.CommodityID, id);
@@ -1019,12 +1021,13 @@ namespace Cats.Areas.EarlyWarning.Controllers
         public ActionResult AddCommodity(AddCommodityViewModel addCommodity)
         {
             if (ModelState.IsValid)
-            { 
+            {
                 if(addCommodity.ChkAllCommodities)
                 {
                     _regionalRequestDetailService.AddAllCommodity(addCommodity.RegionalRequestID);
                     return RedirectToAction("Allocation", new { id = addCommodity.RegionalRequestID });
                 }
+
                 _regionalRequestDetailService.AddRequestDetailCommodity(addCommodity.CommodityID, addCommodity.RegionalRequestID);
                 return RedirectToAction("Allocation", new { id = addCommodity.RegionalRequestID });
             }

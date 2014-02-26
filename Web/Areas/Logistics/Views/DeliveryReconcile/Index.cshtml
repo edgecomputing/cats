@@ -85,7 +85,7 @@
                                                columns.Bound(c => c.MonthYear).Width(12);
                                                columns.Bound(c => c.Quantity).Width(22).Title("Dispatched Qty. (Qtl)").HtmlAttributes(new { style = "text-align:right" });
                                                columns.Bound(c => c.GRN).Width(8);
-                                               columns.Bound(c => c.ReceivedDate).Width(16);
+                                               columns.Bound(c => c.ReceivedDate).Width(16).Format("{0:dd-MMM-yyyy}");
                                                columns.Bound(c => c.ReceivedAmount).Width(20).Title("Received Qty. (Qtl)").HtmlAttributes(new { style = "text-align:right" });
                                                columns.Bound(c => c.LossAmount).Width(16).Title("Loss Qty. (Qtl)").HtmlAttributes(new { style = "text-align:right" }); ;
                                                columns.Bound(c => c.LossReason).Width(15);

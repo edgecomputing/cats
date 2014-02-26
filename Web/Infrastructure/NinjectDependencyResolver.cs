@@ -21,7 +21,7 @@ using Cats.Services.Common;
 using Cats.Services.Dashboard;
 
 using log4net;
-using Early_Warning.Security;
+using Cats.Security;
 using AdminUnitService = Cats.Services.EarlyWarning.AdminUnitService;
 using CommodityService = Cats.Services.EarlyWarning.CommodityService;
 using CommonService = Cats.Services.Common.CommonService;
@@ -210,12 +210,7 @@ namespace Cats.Infrastructure
                                                                                            "SecurityContext"].
                                                                                        ConnectionString);
             kernel.Bind<NetSqlAzManRoleProvider>().To<NetSqlAzManRoleProvider>();
-            kernel.Bind<IEarlyWarningCheckAccess>().To<EarlyWarningCheckAccess>().WithConstructorArgument("storageConnectionString",
-                                                                                   System.Configuration.
-                                                                                       ConfigurationManager.
-                                                                                       ConnectionStrings[
-                                                                                           "SecurityContext"].
-                                                                                       ConnectionString);
+
             kernel.Bind<ILogisticsCheckAccess>().To<LogisticsCheckAccess>().WithConstructorArgument("storageConnectionString",
                                                                                   System.Configuration.
                                                                                       ConfigurationManager.

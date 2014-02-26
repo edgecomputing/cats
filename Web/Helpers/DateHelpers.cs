@@ -88,11 +88,11 @@ namespace Cats.Helpers
 
             // If the current unit is 'Metric Tone' then return the  value (the passed value)            
             if (currentUnit.ToUpper().Trim() == "MT")
-                return amount/1000;
+                return amount;
 
             // For the other unit (quintal)  multiply by 10
 
-            return amount;
+            return amount * 10;
         }
     }
 }

@@ -9,7 +9,7 @@ using System.Security.Cryptography;
 using Cats.Services.Hub;
 using Cats.Services.Security;
 using Cats.Web.Hub.Helpers;
-using Early_Warning.Security;
+using Cats.Security;
 
 
 namespace Cats.Web.Hub.Controllers
@@ -27,7 +27,6 @@ namespace Cats.Web.Hub.Controllers
             return View();
         }
 
-        [CatsAuthorize(operation = EarlyWarningCheckAccess.Operation.View_request)]
         public ActionResult About()
         {
             return View();

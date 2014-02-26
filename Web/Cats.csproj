@@ -624,12 +624,12 @@
     </Compile>
     <Compile Include="Filters\LocalizationFilter.cs" />
     <Compile Include="Helpers\CatsAuthorize.cs" />
+    <Compile Include="Helpers\CatsGlobals.cs" />
     <Compile Include="Helpers\DateHelpers.cs" />
     <Compile Include="Helpers\DistributionHelper.cs" />
     <Compile Include="Helpers\HtmlExtensions.cs" />
     <Compile Include="Helpers\Hub\AmharicEditorHelper.cs" />
     <Compile Include="Helpers\Hub\CascadeDropDownHelper.cs" />
-    <Compile Include="Helpers\Hub\CatsAuthorize.cs" />
     <Compile Include="Helpers\Hub\ControllerContextExtensions.cs" />
     <Compile Include="Helpers\Hub\CultureHelper.cs" />
     <Compile Include="Helpers\Hub\CurrentUserHelper.cs" />

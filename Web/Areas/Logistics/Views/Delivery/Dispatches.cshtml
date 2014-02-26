@@ -398,7 +398,7 @@
                                 <label for="DistributionViewModel_ReceivedDate" class="cats-date-pref">Received Date</label>
                             </div>
                             <div class="controls">
-                                <input type="text" value="{{GRNDetail.ReceivedDate}}" name="DistributionViewModel.ReceivedDate" id="DistributionViewModel_ReceivedDate" data-ng-model="GRNDetail.ReceivedDate" id="datepicker">
+                                <input class="cats-datepicker2" type="text" value="{{GRNDetail.ReceivedDate}}" name="DistributionViewModel.ReceivedDate" id="DistributionViewModel_ReceivedDate" data-ng-model="GRNDetail.ReceivedDate" id="datepicker">
                             </div>
                         </div>
                     </div>
@@ -422,7 +422,7 @@
                                 <label for="DistributionViewModel_DeliveryDate"  class="cats-date-pref">Delivery Date</label>
                             </div>
                             <div class="controls">
-                                <input type="text" value="{{GRNDetail.DeliveryDate}}" name="DistributionViewModel.DeliveryDate" id="DistributionViewModel_DeliveryDate" data-ng-model="GRNDetail.DeliveryDate" id="datepicker">
+                                <input class="cats-datepicker2" type="text" value="{{GRNDetail.DeliveryDate}}" name="DistributionViewModel.DeliveryDate" id="DistributionViewModel_DeliveryDate" data-ng-model="GRNDetail.DeliveryDate" id="datepicker">
                             </div>
                         </div>
                     </div>
@@ -482,7 +482,7 @@
                                 <label for="DistributionViewModel_DocumentReceivedDate"  class="cats-date-pref">Document Received Date</label>
                             </div>
                             <div class="controls">
-                                <input type="text" value="{{GRNDetail.DocumentReceivedDate}}" name="DistributionViewModel.DocumentReceivedDate" id="DistributionViewModel_DocumentReceivedDate" data-ng-model="GRNDetail.DocumentReceivedDate" id="datepicker">
+                                <input class="cats-datepicker2" type="text" value="{{GRNDetail.DocumentReceivedDate}}" name="DistributionViewModel.DocumentReceivedDate" id="DistributionViewModel_DocumentReceivedDate" data-ng-model="GRNDetail.DocumentReceivedDate" id="datepicker">
                             </div>
                         </div>
                     </div>
@@ -693,6 +693,8 @@
             rowIdx++;
         });
     }
+    
+    init_datepicker();
 </script>
 
 <script type="text/javascript">
