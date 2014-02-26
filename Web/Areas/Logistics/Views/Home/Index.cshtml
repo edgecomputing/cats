@@ -112,7 +112,7 @@
 
                     <div class="details column-divider-regional center">
                         <span class="content">Approved Requests</span>
-                        <span class="value">76</span>
+                        <span class="value">{{totalApproved}}</span>
                     </div>
 
                     <div class="details column-divider-regional center">
@@ -839,6 +839,28 @@
 
 <script>
     
+
+    myApp.controller('MainCtrl', ['$scope', function ($scope) {
+
+        var totalApproved, pendingHubAloocation, pendingSIPCAllocation, pendingTransportOrder;
+        $http({
+            method: 'GET',
+            url: '@Url.Action("ImportantNumbers","Home")'
+        })
+        .success(function (data, status, headers, config) {
+            // successful data retrieval
+            console.log(data);
+            totalApproved = data;
+        })
+        .error(function (data, status, headers, config) {
+            // something went wrong :(
+        });
+    }]);
+
+
+
+
+
     var Regions = function($scope)
     {
         $scope.regions = [

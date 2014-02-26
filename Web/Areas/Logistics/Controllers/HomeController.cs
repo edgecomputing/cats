@@ -155,8 +155,10 @@ namespace Cats.Areas.Logistics.Controllers
             var requests =
                 _reliefRequisitionService.GetAllReliefRequisition().GroupBy(s => s.Status).Select(c=> new
                                                                                                           {
-                                                                                                              Region = c.Key,
-                                                                                                              TotalCount =c.Count()
+                                                                                                              Status = c.Key,
+                                                                                                              Count =c.Count()
+
+
                                                                                                           });
             return Json(requests, JsonRequestBehavior.AllowGet);
         }
