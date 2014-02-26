@@ -8,6 +8,10 @@ using Cats.Models.ViewModels;
 using Cats.Services.Security;
 using log4net;
 using Cats.Helpers;
+using NetSqlAzMan.Interfaces;
+using NetSqlAzMan;
+using System.Configuration;
+using NetSqlAzMan.Cache;
 
 namespace Cats.Controllers
 {
@@ -60,6 +64,31 @@ namespace Cats.Controllers
                     var userInfo = service.GetUserInfo(model.UserName);
                     Session["USER_INFO"] = userInfo;
 
+                    // Before trying to go and look for user permissions, check if the user is logged in or not
+                    
+                    //// Load user permissions
+                    //IAzManStorage storage = new SqlAzManStorage(ConfigurationManager.ConnectionStrings["CatsContext"].ConnectionString);
+                    //IAzManDBUser dbUser = storage.GetDBUser(user.UserName);
+
+                    //// Early Warning user permissions
+                    //UserPermissionCache earlyWarningPermissionCache = new UserPermissionCache(storage, CatsGlobals.CATS, CatsGlobals.EARLY_WARNING, dbUser, true, true);
+                    //Session[CatsGlobals.EARLY_WARNING_PERMISSIONS] = earlyWarningPermissionCache;
+
+
+                    ////PSNP user permission
+                    //UserPermissionCache psnpPermissionCache = new UserPermissionCache(storage, CatsGlobals.CATS, CatsGlobals.PSNP, dbUser, true, true);
+                    //Session[CatsGlobals.PSNP_PERMISSIONS] = psnpPermissionCache;
+
+                    //// Logistics user permissions
+                    //UserPermissionCache logisticsPermissionCache = new UserPermissionCache(storage, CatsGlobals.CATS, CatsGlobals.LOGISTICS, dbUser, true, true);
+                    //Session[CatsGlobals.PSNP_PERMISSIONS] = logisticsPermissionCache;
+
+                    // Procurement user permissions
+
+
+                    // Hub user permissions
+
+                    // Whatever permission we are going to have!
 
                     // TODO: Review user permission code
                     //string[] authorization = service.GetUserPermissions(service.GetUserInfo(model.UserName).UserAccountId, "Administrator", "Manage User Account");
