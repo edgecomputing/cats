@@ -61,9 +61,9 @@
             return false;
         });
 
-        $('#btnAddFDP').click(function () {
+        $('#btnAddFDP').click(function (e) {
 
-            // alert("");
+            //e.preventDefault();
             $('#dialogContent').load(this.href, function () {
                 $('#dialogDiv').modal({
                     backdrop: 'static',
@@ -83,7 +83,7 @@
 <fieldset>
     <legend>
         @Translator.Translate("Resource Allocation")
-</legend>
+    </legend>
 </fieldset>
 @Html.HiddenFor(m => m.RegionalRequestID)
 <div class="form-horizontal well">

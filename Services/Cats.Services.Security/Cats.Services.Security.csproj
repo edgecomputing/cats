@@ -79,9 +79,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EarlyWarningCheckAccess.cs" />
     <Compile Include="ForgetPasswordRequestService.cs" />
-    <Compile Include="IEarlyWarningCheckAccess.cs" />
     <Compile Include="IForgetPasswordRequestService.cs" />
     <Compile Include="ILogisticsCheckAccess.cs" />
     <Compile Include="IProcurementCheckAccess.cs" />

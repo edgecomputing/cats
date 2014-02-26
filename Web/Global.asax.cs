@@ -13,6 +13,10 @@ using Cats.Helpers;
 using LanguageHelpers.Localization.DataAnnotations;
 using StackExchange.Profiling;
 using log4net.Core;
+using NetSqlAzMan;
+using NetSqlAzMan.Interfaces;
+using NetSqlAzMan.Cache;
+using System.Configuration;
 
 namespace Cats
 {
@@ -68,6 +72,34 @@ namespace Cats
         protected void Application_EndRequest()
         {
             MiniProfiler.Stop();
+        }
+
+        protected void Session_Start()
+        {
+            var user = (UserIdentity)HttpContext.Current.User.Identity;            
+            IAzManStorage storage = new SqlAzManStorage(ConfigurationManager.ConnectionStrings["CatsContext"].ConnectionString);
+            IAzManDBUser dbUser = storage.GetDBUser(user.Name);
+
+            // Early Warning user permissions
+            UserPermissionCache earlyWarningPermissionCache = new UserPermissionCache(storage, CatsGlobals.CATS, CatsGlobals.EARLY_WARNING,dbUser,true,true);
+            Session[CatsGlobals.EARLY_WARNING_PERMISSIONS] = earlyWarningPermissionCache;
+
+
+            //PSNP user permission
+            UserPermissionCache psnpPermissionCache = new UserPermissionCache(storage, CatsGlobals.CATS, CatsGlobals.PSNP, dbUser, true, true);
+            Session[CatsGlobals.PSNP_PERMISSIONS] = psnpPermissionCache;
+
+            // Logistics user permissions
+            UserPermissionCache logisticsPermissionCache = new UserPermissionCache(storage, CatsGlobals.CATS, CatsGlobals.LOGISTICS, dbUser, true, true);
+            Session[CatsGlobals.PSNP_PERMISSIONS] = logisticsPermissionCache;
+
+            // Procurement user permissions
+
+
+            // Hub user permissions
+
+            // Whatever permission we are going to have!
+
         }
     }
 }

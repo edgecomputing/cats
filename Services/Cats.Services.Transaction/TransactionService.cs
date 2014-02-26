@@ -241,9 +241,9 @@ namespace Cats.Services.Transaction
 
                 if (allocationDetail.AllocationType == TransactionConstants.Constants.SHIPPNG_INSTRUCTION)
                 {
-                    var detail = allocationDetail;
+                    var siCode = allocationDetail.Code.ToString();
                     var shippingInstruction =
-                        _unitOfWork.ShippingInstructionRepository.Get(t => t.Value == detail.Code.ToString()).
+                        _unitOfWork.ShippingInstructionRepository.Get(t => t.Value == siCode).
                             FirstOrDefault();
                     if (shippingInstruction != null) transaction.ShippingInstructionID = shippingInstruction.ShippingInstructionID;
                 }
@@ -274,9 +274,9 @@ namespace Cats.Services.Transaction
                 transaction2.RegionID = allocationDetail.ReliefRequisitionDetail.ReliefRequisition.RegionID;
                 if (allocationDetail.AllocationType == TransactionConstants.Constants.SHIPPNG_INSTRUCTION)
                 {
-                    var detail = allocationDetail;
+                    var siCode = allocationDetail.Code.ToString();
                     var shippingInstruction =
-                        _unitOfWork.ShippingInstructionRepository.Get(t => t.Value == detail.Code.ToString()).
+                        _unitOfWork.ShippingInstructionRepository.Get(t => t.Value == siCode).
                             FirstOrDefault();
                     if (shippingInstruction != null) transaction.ShippingInstructionID = shippingInstruction.ShippingInstructionID;
                 }

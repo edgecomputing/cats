@@ -1,23 +1,20 @@
 ﻿@using Cats.Helpers
 @using Cats.Services.Security
 @using LanguageHelpers.Localization
-@using Early_Warning.Security
+@using Cats.Security
 @using Logistics.Security
 
 @{
 
     var user = (UserIdentity)HttpContext.Current.User.Identity;
     var role = UserRoleHelper.GetUserRole(user.Profile.UserName);
-    var accessHelper = new EarlyWarningCheckAccess("");
     var lang = user.Profile.LanguageCode;
     ViewBag.CurrentUser = user;
     //  Translator.CurrentLanguage = lang;
     //   Translator.LoadTexts();
 
-    var checkAccessHelper = DependencyResolver.Current.GetService<IEarlyWarningCheckAccess>();
     var checkLogisticsAccessHelper = DependencyResolver.Current.GetService<ILogisticsCheckAccess>();
     var checkProcurementAccessHelper = DependencyResolver.Current.GetService<IProcurementCheckAccess>();
-    var dbUser = checkAccessHelper.Storage.GetDBUser(user.Profile.UserName).CustomSid;
 
     const string PAGE_NAME = "MainMenu";
 
@@ -45,24 +42,24 @@
                         <ul class="dropdown-menu">
                             <li>
                                 @Html.EarlyWarningOperationMenuItem(@Url.Action("Index", "GiftCertificate", new { Area = "EarlyWarning" }),
-                                                                        EarlyWarningCheckAccess.Operation.View_Gift_Certificate_list, @Html.Translate2(PAGE_NAME, "Gift Certificate"))
+                                                                        EarlyWarningConstants.Operation.View_Gift_Certificate_list, @Html.Translate2(PAGE_NAME, "Gift Certificate"))
                             </li>
                             <li class="divider"></li>
                             <li><a href="@Url.Action("Index", "Plan", new { Area = "EarlyWarning" })">@Html.Translate2(PAGE_NAME, "Plan")</a></li>
 
                             <li>
                                 @Html.EarlyWarningOperationMenuItem(@Url.Action("Index", "NeedAssessment", new { Area = "EarlyWarning" }),
-                                                                        EarlyWarningCheckAccess.Operation.View_Draft_Needs_Assessment, @Html.Translate2(PAGE_NAME, "Needs Assessment"))
+                                                                                 EarlyWarningConstants.Operation.View_Draft_Needs_Assessment, @Html.Translate2(PAGE_NAME, "Needs Assessment"))
                             </li>
 
 
                             <li>
                                 @Html.EarlyWarningOperationMenuItem(@Url.Action("Index", "HRD", new { Area = "EarlyWarning" }),
-                                                                    EarlyWarningCheckAccess.Operation.View_HRD_list, @Translator.Translate("HRD"))
+                                                                             EarlyWarningConstants.Operation.View_HRD_list, @Translator.Translate("HRD"))
                             </li>
                             <li>
                                 @Html.EarlyWarningOperationMenuItem(@Url.Action("Index", "DonorCoverage", new { Area = "EarlyWarning" }),
-                                                                        EarlyWarningCheckAccess.Operation.View_HRD_list, @Translator.Translate("Donor Coverage"))
+                                                                                 EarlyWarningConstants.Operation.View_HRD_list, @Translator.Translate("Donor Coverage"))
                             </li>
 
                             <li class="divider"></li>
@@ -72,7 +69,7 @@
                                 <ul class="dropdown-menu">
                                     <li>
                                         @Html.EarlyWarningOperationMenuItem(@Url.Action("Index", "Request", new { Area = "EarlyWarning" }),
-                                                                        EarlyWarningCheckAccess.Operation.View_request, @Translator.Translate("Requests"))
+                                                                                 EarlyWarningConstants.Operation.View_request, @Translator.Translate("Requests"))
                                     </li>
                                     <li><a href="@Url.Action("New", "Request", new { Area = "EarlyWarning" })">@Translator.Translate("New Request") </a></li>
                                     <li><a href="@Url.Action("NewIdps", "Request", new { Area = "EarlyWarning" })">@Translator.Translate("New IDPS Request")</a></li>
@@ -81,7 +78,7 @@
 
                             <li>
                                 @Html.EarlyWarningOperationMenuItem(@Url.Action("Index", "ReliefRequisition", new { Area = "EarlyWarning" }),
-                                                                        EarlyWarningCheckAccess.Operation.View_Requisition, @Translator.Translate("Requisitions"))
+                                                                                 EarlyWarningConstants.Operation.View_Requisition, @Translator.Translate("Requisitions"))
                             </li>
 
 
@@ -89,7 +86,7 @@
 
                             <li>
                                 @Html.EarlyWarningOperationMenuItem(@Url.Action("Index", "Ration", new { Area = "EarlyWarning" }),
-                                                                        EarlyWarningCheckAccess.Operation.View_Ration_List, @Translator.Translate("Rations"))
+                                                                                 EarlyWarningConstants.Operation.View_Ration_List, @Translator.Translate("Rations"))
                             </li>
 
                             <li class="divider"></li>
@@ -111,18 +108,18 @@
 
                             <li>
                                 @Html.EarlyWarningOperationMenuItem(@Url.Action("Index", "Request", new { Area = "EarlyWarning" }),
-                                                                        EarlyWarningCheckAccess.Operation.View_request, @Translator.Translate("Requests"))
+                                                                                 EarlyWarningConstants.Operation.View_request, @Translator.Translate("Requests"))
                             </li>
 
                             <li>
                                 @Html.EarlyWarningOperationMenuItem(@Url.Action("Index", "ReliefRequisition", new { Area = "EarlyWarning" }),
-                                                                        EarlyWarningCheckAccess.Operation.View_Requisition, @Translator.Translate("Requisitions"))
+                                                                                 EarlyWarningConstants.Operation.View_Requisition, @Translator.Translate("Requisitions"))
                             </li>
                             <li class="divider"></li>
 
                             <li>
                                 @Html.EarlyWarningOperationMenuItem(@Url.Action("Index", "Ration", new { Area = "EarlyWarning" }),
-                                                                        EarlyWarningCheckAccess.Operation.View_Ration_List, @Translator.Translate("Rations"))
+                                                                                 EarlyWarningConstants.Operation.View_Ration_List, @Translator.Translate("Rations"))
                             </li>
                             <li class="divider" />
 

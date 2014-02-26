@@ -8,6 +8,7 @@ using System.Web.Mvc;
 using Cats.Services.Security;
 using Cats.Models.Security;
 using System.Web.Security;
+using NetSqlAzMan.Cache;
 
 namespace Cats.Helpers
 {
@@ -128,6 +129,36 @@ namespace Cats.Helpers
             }
 
             return preference.ToUpper();
+        }
+
+        public static UserPermissionCache GetUserPermissionCache(CatsGlobals.Applications application)
+        {
+            UserPermissionCache permissionsCache=(UserPermissionCache)HttpContext.Current.Session[CatsGlobals.EARLY_WARNING_PERMISSIONS];
+
+            switch (application)
+            {
+                case CatsGlobals.Applications.EarlyWarning:
+                    permissionsCache = (UserPermissionCache)HttpContext.Current.Session[CatsGlobals.EARLY_WARNING_PERMISSIONS];
+                    break;
+                case CatsGlobals.Applications.PSNP:
+                    break;
+                case CatsGlobals.Applications.Logistics:
+                    break;
+                case CatsGlobals.Applications.Procurement:
+                    break;
+                case CatsGlobals.Applications.Finance:
+                    break;
+                case CatsGlobals.Applications.Hub:
+                    break;
+                case CatsGlobals.Applications.Administration:
+                    break;
+                case CatsGlobals.Applications.Region:
+                    break;
+                default:
+                    break;
+            }
+
+            return permissionsCache;
         }
 
     }

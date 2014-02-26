@@ -13,6 +13,7 @@ using Kendo.Mvc.Extensions;
 using log4net;
 using Cats.Helpers;
 using Cats.ViewModelBinder;
+using Cats.Security;
 
 namespace Cats.Areas.EarlyWarning.Controllers
 {
@@ -52,7 +53,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
         //
         // GET: /EarlyWarning/NeedAssessment/
-        [EarlyWarningAuthorize(operation = EarlyWarningCheckAccess.Operation.View_Draft_Needs_Assessment)]
+        [EarlyWarningAuthorize(operation = EarlyWarningConstants.Operation.View_Draft_Needs_Assessment)]
         public ActionResult Index(int id=0)
         {
 
