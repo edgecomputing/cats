@@ -42,6 +42,8 @@ namespace Cats.Areas.Logistics.Controllers
 
         public ActionResult Index()
         {
+            ViewBag.RegionID = 2;
+            ViewBag.RegionName = "Afar";
             return View();
         }
 
@@ -143,5 +145,21 @@ namespace Cats.Areas.Logistics.Controllers
             }
             return days;
         }
+
+
+
+        #region "Dashboard"
+
+        public JsonResult ImportantNumbers ()
+        {
+            var requests =
+                _reliefRequisitionService.GetAllReliefRequisition().GroupBy(s => s.Status).Select(c=> new
+                                                                                                          {
+                                                                                                              Region = c.Key,
+                                                                                                              TotalCount =c.Count()
+                                                                                                          });
+            return Json(requests, JsonRequestBehavior.AllowGet);
+        }
+        #endregion
     }
 }
