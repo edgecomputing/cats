@@ -84,7 +84,7 @@
     <div class="container">
         <h3>Early Warning Dahsboard</h3>
         <hr />
-        <div ng-controller="ImportantNumbers" class="container row">
+        <div  class="container row">
             <div class="span6">
                 <a href="javascript:;" class="dashboard-stat">
                     <div class="visual">
@@ -160,7 +160,7 @@
         <hr />
     </div>
 
-    <div class="container">
+    <div ng-controller="EWDashboardController" class="container">
         
         <div>
             <div class="row" style="border-bottom-width: thin; border-bottom-color: #666; border-bottom-style: inset; margin-top: 5px">
@@ -204,12 +204,12 @@
             <div id="DispatchContent"class="row">
                 <div>&nbsp;</div>
 
-                <div ng-controller="RecentRequestsController" class="span8">
+                <div  class="span8">
                     <div class="portlet">
                         <div class="portlet-header">
                             <h3>
                                 <i class=""></i>
-                                Belege 2006 
+                                @ViewBag.HRDName
                                 
                             </h3>
                             <ul class="portlet-tools pull-right">
@@ -251,53 +251,7 @@
       }
    </tr>
 } 
-                                   @* <tr class="">
-                                        <td class="hidden-xs">Afar</td>
-                                        <td>20.05</td>
-                                        <td>20.36</td>
-                                        <td>485.58</td>
-                                        <td>85.36</td>
-                                        <td>85.36</td>
-                                        <td>15420.00</td>
-                                    </tr>
-                                    <tr class="">
-                                        <td class="hidden-xs">Amhara</td>
-                                        <td>789.26</td>
-                                        <td>785.89</td>
-                                        <td>745.68</td>
-                                        <td>568.25</td>
-                                        <td>85.36</td>
-                                        <td>75896.25</td>
-                                    </tr>
-                                    <tr class="">
-                                        <td class="hidden-xs">Tigray</td>
-                                        <td>20.05</td>
-                                        <td>20.36</td>
-                                        <td>485.58</td>
-                                        <td>85.36</td>
-                                        <td>85.36</td>
-                                        <td>15420.00</td>
-                                    </tr>
-                                    <tr class="">
-                                        <td class="hidden-xs">Orimia</td>
-                                        <td>789.26</td>
-                                        <td>785.89</td>
-                                        <td>745.68</td>
-                                        <td>568.25</td>
-                                        <td>85.36</td>
-                                        <td>75896.25</td>
-                                    </tr>
-                                    <tr class="">
-                                        <td class="hidden-xs">Somali</td>
-                                        <td>789.26</td>
-                                        <td>785.89</td>
-                                        <td>745.68</td>
-                                        <td>568.25</td>
-                                        <td>85.36</td>
-                                        <td>75896.25</td>
-                                    </tr>*@
                                     
-
                                 </tbody>
                             </table>
 
@@ -334,44 +288,15 @@
                                     <thead>
                                         <tr>
                                             <th class="hidden-xs">Commodity</th>
-                                           <th>Amount in KG</th>
+                                           <th>Amount in MT</th>
                                            
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr class="">
-                                            <td class="hidden-xs">Pulse</td>
-                                            <td>15.00</td>
-                                            
-                                            
-                                        </tr>
-
-                                        <tr class="">
-                                            <td class="hidden-xs">CSB</td>
-                                           <td>15.00</td>
-                                            
-                                           
-                                        </tr>
-
-                                        <tr class="">
-                                            <td class="hidden-xs">Oil</td>
-                                            <td>15.00</td>
-                                            
-                                            
-                                        </tr>
-
-                                        <tr class="">
-                                            <td class="hidden-xs">Cearal</td>
-                                           <td>15.00</td>
-                                            
-                                            
-                                        </tr>
-                                         <tr class="">
-                                            <td class="hidden-xs">Wheat</td>
-                                            <td>15.00</td>
-                                            
-                                        </tr>
-
+                                        <tr ng-repeat="ration in Rations" class="">
+                                            <td class="hidden-xs">{{ration.Commodity}}</td>
+                                            <td>{{ration.Amount}}</td>
+                                          </tr>
                                     </tbody>
                         </table>
                                 </div>
@@ -401,7 +326,7 @@
             </div>
             <div id="RequestContent"class="row">
                 <div>&nbsp;</div>
-                <div ng-controller="RecentRequestsController" class="span8">
+                <div  class="span8">
                     <div class="portlet">
                         <div class="portlet-header">
                             <h3>
@@ -413,16 +338,13 @@
                                     <button class="btn btn-sm btn-default">
                                         Show more
                                     </button>
-                                    <button class="btn btn-sm btn-default">
-                                        New Request
-                                    </button>
                                 </li>
                             </ul>
                         </div>
 
                         <!-- /.portlet-header -->
 
-                        <div class="portlet-content">
+                        <div class="portlet-content" style="height:240px;  overflow: scroll">
                             <th class="table-responsive">
                                 <table id="" class="table table-striped table-checkable">
                                     <thead>
@@ -437,17 +359,17 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr class="">
-                                            <td class="hidden-xs">Afar</td>
-                                            <td>2802</td>
+                                        <tr ng-repeat="request in Requests" class="">
+                                            <td class="hidden-xs">{{request.Region}}</td>
+                                            <td>2012</td>
                                             <td>52</td>
-                                            <th>2</th>
-                                             <th>January</th>
+                                            <th>{{request.Round}}</th>
+                                             <th>{{request.MonthName}}</th>
                                             @*<th>
                                                 <a href="javascript:;" class="btn btn-sm btn-default">View <i class="icon-chevron-right"></i>
                                                 </a>
                                             </th>*@
-                                            <td><span class="label label-success">Approved</span></td>
+                                            <td><span class="label label-success">{{request.StatusID}}</span></td>
                                             <td class="align-center">
                                                 @*<a class="btn btn-sm btn-default" data-original-title="Approve">
                                                     <i class="icon-upload"></i>Approve
@@ -455,56 +377,47 @@
                                             </td>
                                         </tr>
 
-                                        <tr class="">
+                                       @* <tr class="">
                                             <td class="hidden-xs">Oromia</td>
                                             <td>320</td>
                                             <td>52</td>
                                             <th>2</th>
                                              <th>January</th>
-                                           @* <th>
-                                                <a href="javascript:;" class="btn btn-sm btn-default">View <i class="icon-chevron-right"></i>
-                                                </a>
-                                            </th>*@
+                                           
                                             <td><span class="label label-danger">Pending</span></td>
                                             <td class="align-center">
                                                 <a class="btn btn-sm btn-default" data-original-title="Approve">Allocate
                                                 </a>
                                             </td>
-                                        </tr>
+                                        </tr>*@
 
-                                        <tr class="">
+                                      @*  <tr class="">
                                             <td class="hidden-xs">Tigray</td>
                                             <td>2800</td>
                                             <td>21</td>
                                             <th>2</th>
                                             <th>January</th>
-                                           @* <th>
-                                                <a href="javascript:;" class="btn btn-sm btn-default">View <i class="icon-chevron-right"></i>
-                                                </a>
-                                            </th>*@
+                                          
                                             <td><span class="label label-warning">Allocated</span></td>
                                             <td class="align-center">
                                                 <a class="btn btn-sm btn-default" data-original-title="Approve">Approve
                                                 </a>
                                             </td>
-                                        </tr>
+                                        </tr>*@
 
-                                        <tr class="">
+                                        @*<tr class="">
                                             <td class="hidden-xs">Amhara</td>
                                             <td>8500</td>
                                             <td>63</td>
                                             <th>2</th>
                                              <th>January</th>
-                                           @* <th>
-                                                <a href="javascript:;" class="btn btn-sm btn-default">View <i class="icon-chevron-right"></i>
-                                                </a>
-                                            </th>*@
+                                         
                                             <td><span class="label label-warning">Allocated</span></td>
                                             <td class="align-center">
                                                 <a class="btn btn-sm btn-default" data-original-title="Approve">Approve
                                                 </a>
                                             </td>
-                                        </tr>
+                                        </tr>*@
 
                                     </tbody>
                                 </table>
@@ -699,7 +612,7 @@
                     </div>
                     <!-- /.portlet -->
                 </div>
-                <div ng-controller="RecentRequestsController" class="span7">
+                <div class="span7">
                     <div class="portlet">
                         <div class="portlet-header">
                             <h3>
@@ -802,10 +715,7 @@
                 <!-- /.portlet -->
             </div>
         </div>
-
-        
-
-        
+  
 
     </div>
 </div>
@@ -824,4 +734,34 @@
     });
     
    
+</script>
+
+<script>
+    function EWDashboardController($scope, $http) {
+        
+        $scope.Rations = [];
+        $scope.Requests = [];
+        $scope.Requisitions = [];
+
+        var onRequestsSuccess = function(data) {
+            $scope.Requests = data;
+        };
+
+        var onRationSuccess = function(data) {
+            $scope.Rations = data;
+        };
+
+        $scope.getRequests = function() {
+            $http.post("@Url.Action("GetRegionalRequests", "EWDashboard", new { Area = "EarlyWarning" })").success(onRequestsSuccess);
+        };
+
+        $scope.getRations = function() {
+            $http.post("@Url.Action("GetRation", "EWDashboard", new { Area = "EarlyWarning" })").success(onRationSuccess);
+
+        };
+
+        $scope.getRations();
+        $scope.getRequests();
+    }
+
 </script>
