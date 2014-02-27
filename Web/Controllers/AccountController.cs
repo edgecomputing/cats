@@ -67,21 +67,21 @@ namespace Cats.Controllers
                     // Before trying to go and look for user permissions, check if the user is logged in or not
                     
                     //// Load user permissions
-                    //IAzManStorage storage = new SqlAzManStorage(ConfigurationManager.ConnectionStrings["CatsContext"].ConnectionString);
-                    //IAzManDBUser dbUser = storage.GetDBUser(user.UserName);
+                    IAzManStorage storage = new SqlAzManStorage(ConfigurationManager.ConnectionStrings["CatsContext"].ConnectionString);
+                    IAzManDBUser dbUser = storage.GetDBUser(user.UserName);
 
-                    //// Early Warning user permissions
-                    //UserPermissionCache earlyWarningPermissionCache = new UserPermissionCache(storage, CatsGlobals.CATS, CatsGlobals.EARLY_WARNING, dbUser, true, true);
-                    //Session[CatsGlobals.EARLY_WARNING_PERMISSIONS] = earlyWarningPermissionCache;
+                    // Early Warning user permissions
+                    UserPermissionCache earlyWarningPermissionCache = new UserPermissionCache(storage, CatsGlobals.CATS, CatsGlobals.EARLY_WARNING, dbUser, true, false);
+                    Session[CatsGlobals.EARLY_WARNING_PERMISSIONS] = earlyWarningPermissionCache;
 
 
-                    ////PSNP user permission
-                    //UserPermissionCache psnpPermissionCache = new UserPermissionCache(storage, CatsGlobals.CATS, CatsGlobals.PSNP, dbUser, true, true);
-                    //Session[CatsGlobals.PSNP_PERMISSIONS] = psnpPermissionCache;
+                    //PSNP user permission
+                    UserPermissionCache psnpPermissionCache = new UserPermissionCache(storage, CatsGlobals.CATS, CatsGlobals.PSNP, dbUser, true, false);
+                    Session[CatsGlobals.PSNP_PERMISSIONS] = psnpPermissionCache;
 
-                    //// Logistics user permissions
-                    //UserPermissionCache logisticsPermissionCache = new UserPermissionCache(storage, CatsGlobals.CATS, CatsGlobals.LOGISTICS, dbUser, true, true);
-                    //Session[CatsGlobals.PSNP_PERMISSIONS] = logisticsPermissionCache;
+                    // Logistics user permissions
+                    UserPermissionCache logisticsPermissionCache = new UserPermissionCache(storage, CatsGlobals.CATS, CatsGlobals.LOGISTICS, dbUser, true, false);
+                    Session[CatsGlobals.PSNP_PERMISSIONS] = logisticsPermissionCache;
 
                     // Procurement user permissions
 
