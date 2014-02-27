@@ -75,15 +75,16 @@ namespace Cats.Areas.Logistics.Controllers
         //
         // GET: /Logistics/TransportRequisition/
 
-        public ActionResult Index()
+        public ActionResult Index(int id = -1)
         {
+            ViewBag.Status = id;
             return View();
 
         }
-        public ActionResult TransportRequisition_Read([DataSourceRequest] DataSourceRequest request, string searchIndex,int status=-1)
+        public ActionResult TransportRequisition_Read([DataSourceRequest] DataSourceRequest request, string searchIndex,int status)
         {
             var transportRequisitions = status ==-1 ? _transportRequisitionService.Get(t => t.TransportRequisitionNo.Contains(searchIndex)):
-                _transportRequisitionService.Get(t=>t.TransportRequisitionNo.Contains(searchIndex) && t.Status==(int)TransportRequisitionStatus.Approved);
+                _transportRequisitionService.Get(t=>t.TransportRequisitionNo.Contains(searchIndex) && t.Status==(int)status).OrderByDescending(t=>t.RequestedDate);
             var statuses = _workflowStatusService.GetStatus(WORKFLOW.TRANSPORT_REQUISITION);
             var users = _userAccountService.GetUsers();
             var transportRequisitonViewModels =
