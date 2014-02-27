@@ -165,23 +165,22 @@ namespace Cats.Areas.Logistics.Controllers
             return Json(regions, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult ImportantNumbers ()
+        public JsonResult ImportantNumbers (string id)
         {
             var requests =
-                _reliefRequisitionService.GetAllReliefRequisition().GroupBy(s => s.Status).Select(c=> new
-                                                                                                          {
-                                                                                                              Status = c.Key,
-                                                                                                              Count =c.Count(),
-                                                                                                              regionId = c.Select(d=>d.RegionID),
-                                                                                                              RegionName = c.Select(d=>d.AdminUnit.Name)
-                                                                                                          });
+                _reliefRequisitionService.GetAllReliefRequisition().Where(d=>d.AdminUnit.Name == id).GroupBy(s => s.Status).Select(c => new
+                                                                                                           {
+                                                                                                               Status = c.Key,
+                                                                                                               Count = c.Count(),
+
+                                                                                                           }).Distinct();
             return Json(requests, JsonRequestBehavior.AllowGet);
         }
 
 
         public JsonResult GetRequiasitions(int id)
         {
-            var requestes = _reliefRequisitionService.FindBy(s => s.Status == id).Select(r => new
+            var requestes = _reliefRequisitionService.GetAllReliefRequisition().Where(s=>s.Status == id).Select(r => new
                                                                                                   {
                                                                                                       reqNo= r.RequisitionNo,
                                                                                                       zone= r.AdminUnit1.Name,

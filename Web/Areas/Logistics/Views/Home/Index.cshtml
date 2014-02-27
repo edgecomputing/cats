@@ -87,11 +87,12 @@
 <div ng-app="myApp">
     <div class="container">
         <div ng-controller="Regions" class="container row">
+            
             <div class="span12" > <h4>Region:</h4> 
-                <select ng-model="selected" ng-options="r.id as r.name for r in regions" >
-                    <option > Choose a Region:</option>
+                <select ng-change="onChange(regionName)"   ng-model="regionName" ng-options="r.name as r.name for r in regions" >
+                    <option > Choose a Region </option>
                 </select>
-               @* <pre>selectedLimit: {{selected | json}}</pre>  *@ 
+                 <pre>Region: {{regionName}}</pre>   
             </div>
             <hr />
         </div>
@@ -112,21 +113,21 @@
 
                     <div class="details column-divider-regional center">
                         <span class="content">Approved Requests</span>
-                        <span class="value">{{totalApproved}}</span>
+                        <span class="value">{{totalApproved }}</span>
                     </div>
 
                     <div class="details column-divider-regional center">
-                        <span class="content">Pending Hub Allocation</span>
+                        <span class="content">Hub Assigned</span>
                         <span class="value">{{pendingHubAloocation}}</span>
                     </div>
 
                     <div class="details column-divider-regional center">
-                        <span class="content">Pending SI/PC </span>
+                        <span class="content">SI/PC Assigned</span>
                         <span class="value">{{pendingSIPCAllocation}} </span>
                     </div>
 
                     <div class="details column-divider-regional center">
-                        <span class="content">transport Req</span>
+                        <span class="content">transport Requisition(s)</span>
                         <span class="value">{{pendingTransportOrder}} </span>
                     </div>
 
@@ -206,6 +207,7 @@
                     <div class="portlet">
                         <div class="portlet-header">
                             <h3>
+                              
                                 <i class=""></i>
                                 Approved Requests
                             </h3>
@@ -237,20 +239,19 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr ng-repeat="req in requests.request | limitTo:qty">
+                                    <tr ng-repeat="req in requests.request  | filter:{RegionName:regionName}">
                                         <td class="hidden-xs">{{$index + 1}}</td>
+                                         <th>{{req.regionId}}</th>
                                         <td>{{req.reqNo}}</td>
                                         <td>{{req.zone}}</td>
                                         <th>{{req.beneficiaries}} QT</th>
                                         <th>{{req.amount}}</th>
                                         <th>{{req.commodity}}</th>
-                                        <th>
-                                            <a href="javascript:;" class="btn btn-sm btn-default">View <i class="icon-chevron-right"></i>
-                                            </a>
-                                        </th>
+                                       
+                                       
                                         <td><span class="label label-danger">Pending</span></td>
                                         <td class="align-center">
-                                            <a class="btn btn-sm btn-default" data-original-title="Approve"> Approve </a>
+                                            <a class="btn btn-sm btn-default" data-original-title="Approve"> Assign Hub </a>
                                         </td>
                                            
                                     </tr>
@@ -417,20 +418,17 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr ng-repeat="req in requestsApproved.request | limitTo:qty">
+                                        <tr ng-repeat="req in requestsApproved.request | filter:{RegionName:regionName}">
                                         <td class="hidden-xs">{{$index + 1}}</td>
                                         <td>{{req.reqNo}}</td>
                                         <td>{{req.zone}}</td>
                                         <th>{{req.beneficiaries}} QT</th>
                                         <th>{{req.amount}}</th>
                                         <th>{{req.commodity}}</th>
-                                            <th>
-                                                <a href="javascript:;" class="btn btn-sm btn-default">View <i class="icon-chevron-right"></i>
-                                                </a>
-                                            </th>
+                                            
                                             <td><span class="label label-danger">Pending</span></td>
                                             <td class="align-center">
-                                                <a class="btn btn-sm btn-default" data-original-title="Approve">Assign Hub</a>
+                                                <a class="btn btn-sm btn-default" data-original-title="Approve">Assign SI / PC</a>
                                             </td>
                                         </tr>
 
@@ -502,7 +500,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                   <tr ng-repeat="req in requestsSIPCAllocated.request | limitTo:qty">
+                                   <tr ng-repeat="req in requestsSIPCAllocated.request |  filter:{RegionName:regionName}">
                                         <td class="hidden-xs">{{$index + 1}}</td>
                                         <td>{{req.reqNo}}</td>
                                         <td>{{req.zone}}</td>
@@ -512,10 +510,7 @@
                                         <th>{{req.allocationType}}</th>
                                    
                                    
-                                   <th>
-                                                <a href="javascript:;" class="btn btn-sm btn-default">View <i class="icon-chevron-right"></i>
-                                                </a>
-                                            </th>
+                                  
                                             <td><span class="label label-danger">Pending</span></td>
                                             <td class="align-center">
                                                 <a class="btn btn-sm btn-default" data-original-title="Approve">Create Transport Requisition</a>
@@ -619,7 +614,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                     <tr ng-repeat="req in TransportRequestion.request | limitTo:qty">
+                                     <tr ng-repeat="req in TransportRequestion.request | filter:{RegionName:regionName}">
                                         <td class="hidden-xs">{{$index + 1}}</td>
                                         <td>{{req.reqNo}}</td>
                                         <td>{{req.zone}}</td>
@@ -674,54 +669,33 @@
     
     var myApp = angular.module('myApp', []);
     
-    myApp.controller('ImportantNumbers', ['$scope', '$http', function ($scope, $http) {
+    //global variables
+    myApp.service('sharedProperties', function () {
+        var property = '';
 
-        var totalRequisitions,
-            totalApproved,
-            pendingHubAloocation,
-            pendingSIPCAllocation,
-            pendingTransportOrder;
-        $http({
-            method: 'GET',
-            url: '@Url.Action("ImportantNumbers","Home")'
-        })
-        .success(function (data, status, headers, config) {
-            
-            $.each(data, function (i, item) {
-               
-                switch (item.Status) {
-                    case 1:
-                        $scope.totalRequisitions = item.Count;
-                        break;
-                    case 2:
-                        $scope.totalApproved = item.Count;
-                        break;
-                    case 3:
-                       
-                        $scope.pendingHubAloocation = item.Count;
-                        break;
-                    case 4:
-                        $scope.pendingSIPCAllocation = item.Count;
-                        break;
-                    case 5:
-                        $scope.pendingTransportOrder = item.Count;
-                        break;
-                    case 6:
-                        break;
-                default:
-                }
-                   
-                });
-            
-            
-        })
-        .error(function (data, status, headers, config) {
-            // something went wrong :(
-        });
+        return {
+            getProperty: function () {
+                return property;
+            },
+            setProperty: function (value) {
+                property = value;
+            }
+        };
+    });
+    var filter={};
+    myApp.controller('ImportantNumbers', ['$scope', '$http','$rootScope', function ($scope, $http, $rootScope) {
+
+        $rootScope.totalApproved = "";
+        $rootScope.totalRequisitions = "";
+        $rootScope.pendingHubAloocation = "";
+        $rootScope.pendingSIPCAllocation = "";
+        $rootScope.pendingTransportOrder = "";
+        
+       
     }]);
 
 
-    myApp.controller('ApprovedRequestsController', ['$scope', '$http', function ($scope, $http) {
+    myApp.controller('ApprovedRequestsController', ['$scope', '$http', '$rootScope', function ($scope, $http, $rootScope) {
 
         $scope.qty = 6;
         $scope.requests = { };
@@ -731,15 +705,17 @@
          })
         .success(function (data, status, headers, config) {
             $scope.requests.request = data;
-            
+           
            })
         .error(function (data, status, headers, config) {
             // something went wrong :(
         });
-   
+
+
+        $rootScope.regionName = "";
     }]);
     
-    myApp.controller('HubAllocationController', ['$scope', '$http', function ($scope, $http) {
+    myApp.controller('HubAllocationController', ['$scope', '$http','$rootScope', function ($scope, $http, $rootScope) {
         $scope.qty = 6;
         $scope.requestsApproved = {};
         $http({
@@ -748,13 +724,16 @@
         })
         .success(function (data, status, headers, config) {
             $scope.requestsApproved.request = data;
-            
+            console.log(data);
         })
         .error(function (data, status, headers, config) {
             // something went wrong :(
         });
+        
+
+        $rootScope.regionName = "";
     }]);
-    myApp.controller('SIPCController', ['$scope', '$http', function ($scope, $http) {
+    myApp.controller('SIPCController', ['$scope', '$http', '$rootScope', function ($scope, $http, $rootScope) {
         
         $scope.qty = 6;
         $scope.requestsSIPCAllocated = {};
@@ -769,9 +748,12 @@
         .error(function (data, status, headers, config) {
             // something went wrong :(
         });
+        
+
+        $rootScope.regionName = "";
     }]);
     
-    myApp.controller('TransportRequisitionController', ['$scope', '$http', function ($scope, $http) {
+    myApp.controller('TransportRequisitionController', ['$scope', '$http', '$rootScope', function ($scope, $http, $rootScope) {
         
         $scope.qty = 6;
         $scope.TransportRequestion = {};
@@ -787,11 +769,15 @@
         .error(function (data, status, headers, config) {
             // something went wrong :(
         });
-        
+
+        $rootScope.regionName = "";
     }]);
     
 
-    myApp.controller('Regions', ['$scope', '$http', function ($scope, $http) {
+    myApp.controller('Regions', ['$scope', '$http', '$rootScope', function ($scope, $http, $rootScope) {
+
+
+
 
         $scope.regions = [];
         $http({
@@ -802,6 +788,7 @@
 
 
             $scope.regions = data;
+           
             
             
         })
@@ -809,6 +796,60 @@
             // something went wrong :(
         });
         
+
+        $scope.onChange = function (name) {
+            $rootScope.regionName = name;
+
+
+
+            $http({
+                
+                method: 'GET',
+                params: {id: name},
+                url: '@Url.Action("ImportantNumbers","Home")'
+             })
+        .success(function (data, status, headers, config) {
+
+            console.log(data);
+            $.each(data, function (i, item) {
+              
+                switch (item.Status) {
+                    case 1:
+                        $rootScope.totalRequisitions = item.Count;
+                        break;
+                    case 2:
+                        $rootScope.totalApproved = item.Count;
+                        break;
+                    case 3:
+                        $rootScope.pendingHubAloocation = item.Count;
+                        break;
+                    case 4:
+                        $rootScope.pendingSIPCAllocation = item.Count;
+                        break;
+                    case 5:
+                        $rootScope.pendingTransportOrder = item.Count;
+                        break;
+                    case 6:
+                        break;
+                    default:
+                }
+
+            });
+
+
+
+        })
+        .error(function (data, status, headers, config) {
+            // something went wrong :(
+        });
+
+
+
+
+
+           
+        };
+
     }]);
     
     
