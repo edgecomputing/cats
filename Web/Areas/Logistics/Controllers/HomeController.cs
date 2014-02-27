@@ -188,7 +188,7 @@ namespace Cats.Areas.Logistics.Controllers
                                                                                                       amount  = r.ReliefRequisitionDetails.Sum(d=>d.Amount),
                                                                                                       commodity = r.Commodity.Name,
                                                                                                       regionId  = r.RegionalRequest.RegionID,
-                                                                                                      RegionName = r.RegionalRequest.AdminUnit.Name
+                                                                                                      RegionName = r.AdminUnit.Name
                                                                                                   });
             return Json(requestes, JsonRequestBehavior.AllowGet);
         }

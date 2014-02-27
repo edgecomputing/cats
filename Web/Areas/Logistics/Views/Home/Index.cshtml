@@ -138,47 +138,47 @@
             </div>
             <!-- /.col-md-3 -->
 
-            <div class="span2">
+           @* <div class="span2">
 
                 <a href="javascript:;" class="dashboard-stat">
                     <div class="visual">
-                        @*<i class="icon-shopping-cart"></i>*@
+                      
                     </div>
-                    <!-- /.visual -->
+                   
 
                     <div class="details">
                         <span class="content">Total Plans</span>
                         <span class="value">8</span>
                     </div>
-                    <!-- /.details -->
+                    
 
                 </a>
-                <!-- /.dashboard-stat -->
+               
 
-            </div>
-            <!-- /.col-md-3 -->
+            </div>*@
+          
 
-            <div class="span2">
+           @* <div class="span2">
 
                 <a href="javascript:;" class="dashboard-stat">
                     <div class="visual">
-                        @*<i class="icon-money"></i>*@
+                       
                     </div>
-                    <!-- /.visual -->
+                
 
                     <div class="details">
                         <span class="content">Receipt Plan</span>
                         <span class="value">5</span>
                     </div>
-                    <!-- /.details -->
+                   
 
                     
 
                 </a>
-                <!-- /.dashboard-stat -->
+               
 
-            </div>
-            <!-- /.col-md-9 -->
+            </div>*@
+           
         </div>
         <hr />
     </div>
@@ -241,7 +241,6 @@
                                 <tbody>
                                     <tr ng-repeat="req in requests.request  | filter:{RegionName:regionName}">
                                         <td class="hidden-xs">{{$index + 1}}</td>
-                                         <th>{{req.regionId}}</th>
                                         <td>{{req.reqNo}}</td>
                                         <td>{{req.zone}}</td>
                                         <th>{{req.beneficiaries}} QT</th>
@@ -251,7 +250,7 @@
                                        
                                         <td><span class="label label-danger">Pending</span></td>
                                         <td class="align-center">
-                                            <a class="btn btn-sm btn-default" data-original-title="Approve"> Assign Hub </a>
+                                            @*<a class="btn btn-sm btn-default" data-original-title="Approve" href="@Url.Action("AssignHubFromLogisticsDashboard", "DispatchAllocation", new { Area = "Logistics", paramRegionId =  )"> Assign Hub </a>*@
                                         </td>
                                            
                                     </tr>
@@ -260,12 +259,11 @@
                             </table>
 
                         </div>
-                        <!-- /.table-responsive -->
-                    </div>
-                    <!-- /.portlet-content -->
+                        
+                    </div>  <!-- /.portlet-content -->
 
                 </div>
-                <div class="span3">
+                @*<div class="span3">
 
                     <div class="portlet">
                         <div class="portlet-header">
@@ -275,7 +273,7 @@
                             </h3>
                         </div>
 
-                        <!-- /.portlet-header -->
+                       
 
                         <div class="portlet-content">
                             <div class="progress-stat">
@@ -285,24 +283,23 @@
                                     <div class="pull-left">
                                         Approved Requests
                                     </div>
-                                    <!-- /.stat-label -->
-
+                                  
                                     <div class="pull-right">
                                         33%
                                     </div>
-                                    <!-- /.stat-value -->
+                                   
 
                                 </div>
-                                <!-- /stat-header -->
+                              
 
                                
                                 <div class="progress progress-success">
                                     <div class="bar" style="width: 33%"></div>
                                 </div>
-                                <!-- /.progress -->
+                               
 
                             </div>
-                            <!-- /.progress-stat -->
+                         
 
                             <div class="progress-stat">
 
@@ -311,23 +308,23 @@
                                     <div class="pull-left">
                                         Pending Requests
                                     </div>
-                                    <!-- /.stat-label -->
+                                   
 
                                     <div class="pull-right">
                                         42%
                                     </div>
-                                    <!-- /.stat-value -->
+                                   
 
                                 </div>
-                                <!-- /stat-header -->
+                               
 
                                 <div class="progress progress-danger">
                                     <div class="bar" style="width: 42%"></div>
                                 </div>
-                                <!-- /.progress -->
+                               
 
                             </div>
-                            <!-- /.progress-stat -->
+                           
 
                             <div class="progress-stat">
 
@@ -336,32 +333,32 @@
                                     <div class="pull-left">
                                         Allocated
                                     </div>
-                                    <!-- /.stat-label -->
+                                   
 
                                     <div class="pull-right">
                                         25%
                                     </div>
-                                    <!-- /.stat-value -->
+                                  
 
                                 </div>
-                                <!-- /stat-header -->
+                              
 
                                 <div class="progress progress-warning">
                                     <div class="bar" style="width: 25%"></div>
                                 </div>
-                                <!-- /.progress -->
+                               
 
                             </div>
-                            <!-- /.progress-stat -->
+                          
 
                             <br>
                         </div>
-                        <!-- /.portlet-content -->
+                       
 
                     </div>
-                    <!-- /.portlet -->
-                </div>
-                <!-- /.portlet -->
+                  
+                </div>*@
+               
             </div>
         </div>
 
@@ -419,7 +416,8 @@
                                     </thead>
                                     <tbody>
                                         <tr ng-repeat="req in requestsApproved.request | filter:{RegionName:regionName}">
-                                        <td class="hidden-xs">{{$index + 1}}</td>
+                                            <td class="hidden-xs">{{$index + 1}}</td>
+                                            <td>{{req.RegionName}}</td>
                                         <td>{{req.reqNo}}</td>
                                         <td>{{req.zone}}</td>
                                         <th>{{req.beneficiaries}} QT</th>
@@ -724,7 +722,7 @@
         })
         .success(function (data, status, headers, config) {
             $scope.requestsApproved.request = data;
-            console.log(data);
+            
         })
         .error(function (data, status, headers, config) {
             // something went wrong :(
@@ -759,12 +757,12 @@
         $scope.TransportRequestion = {};
         $http({
             method: 'GET',
-            url: '@Url.Action("GetRequiasitions","Home", new {id = 4})'
+            url: '@Url.Action("GetRequiasitions","Home", new {id = 5})'
         })
         .success(function (data, status, headers, config) {
             
             $scope.TransportRequestion.request = data;
-           
+            console.log(data);
         })
         .error(function (data, status, headers, config) {
             // something went wrong :(
