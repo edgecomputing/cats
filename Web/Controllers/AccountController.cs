@@ -81,12 +81,19 @@ namespace Cats.Controllers
 
                     // Logistics user permissions
                     UserPermissionCache logisticsPermissionCache = new UserPermissionCache(storage, CatsGlobals.CATS, CatsGlobals.LOGISTICS, dbUser, true, false);
-                    Session[CatsGlobals.PSNP_PERMISSIONS] = logisticsPermissionCache;
+                    Session[CatsGlobals.LOGISTICS_PERMISSIONS] = logisticsPermissionCache;
 
                     // Procurement user permissions
-
+                    UserPermissionCache procurementPermissionCache = new UserPermissionCache(storage, CatsGlobals.CATS, CatsGlobals.PROCUREMENT, dbUser, true, false);
+                    Session[CatsGlobals.PROCUREMENT_PERMISSIONS] = procurementPermissionCache;
 
                     // Hub user permissions
+                    UserPermissionCache hubPermissionCache = new UserPermissionCache(storage, CatsGlobals.CATS, CatsGlobals.HUB, dbUser, true, false);
+                    Session[CatsGlobals.HUB_PERMISSIONS] = hubPermissionCache;
+
+                    // Regional user permissions
+                    UserPermissionCache regionalPermissionCache = new UserPermissionCache(storage, CatsGlobals.CATS, CatsGlobals.REGION, dbUser, true, false);
+                    Session[CatsGlobals.REGION_PERMISSIONS] = regionalPermissionCache;
 
                     // Whatever permission we are going to have!
 
@@ -117,6 +124,7 @@ namespace Cats.Controllers
 
         public ActionResult Logout()
         {
+            Session.Clear();
             FormsAuthentication.SignOut();
             return RedirectToAction("Index", "Home");
         }

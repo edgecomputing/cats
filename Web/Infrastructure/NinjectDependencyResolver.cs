@@ -8,7 +8,6 @@ using Cats.Services.Hub;
 using Cats.Services.Hub.Interfaces;
 using Cats.Services.Security;
 using LanguageHelpers.Localization.Services;
-using Logistics.Security;
 using NetSqlAzMan;
 using NetSqlAzMan.Interfaces;
 using NetSqlAzMan.Providers;
@@ -211,24 +210,24 @@ namespace Cats.Infrastructure
                                                                                        ConnectionString);
             kernel.Bind<NetSqlAzManRoleProvider>().To<NetSqlAzManRoleProvider>();
 
-            kernel.Bind<ILogisticsCheckAccess>().To<LogisticsCheckAccess>().WithConstructorArgument("storageConnectionString",
-                                                                                  System.Configuration.
-                                                                                      ConfigurationManager.
-                                                                                      ConnectionStrings[
-                                                                                          "SecurityContext"].
-                                                                                      ConnectionString);
-            kernel.Bind<IProcurementCheckAccess>().To<ProcurementCheckAccess>().WithConstructorArgument("storageConnectionString",
-                                                                                  System.Configuration.
-                                                                                      ConfigurationManager.
-                                                                                      ConnectionStrings[
-                                                                                          "SecurityContext"].
-                                                                                      ConnectionString);
-            kernel.Bind<IPSNPCheckAccess>().To<PSNPCheckAccess>().WithConstructorArgument("storageConnectionString",
-                                                                                  System.Configuration.
-                                                                                      ConfigurationManager.
-                                                                                      ConnectionStrings[
-                                                                                          "SecurityContext"].
-                                                                                      ConnectionString);
+            //kernel.Bind<ILogisticsCheckAccess>().To<LogisticsCheckAccess>().WithConstructorArgument("storageConnectionString",
+            //                                                                      System.Configuration.
+            //                                                                          ConfigurationManager.
+            //                                                                          ConnectionStrings[
+            //                                                                              "SecurityContext"].
+            //                                                                          ConnectionString);
+            //kernel.Bind<IProcurementCheckAccess>().To<ProcurementCheckAccess>().WithConstructorArgument("storageConnectionString",
+            //                                                                      System.Configuration.
+            //                                                                          ConfigurationManager.
+            //                                                                          ConnectionStrings[
+            //                                                                              "SecurityContext"].
+            //                                                                          ConnectionString);
+            //kernel.Bind<IPSNPCheckAccess>().To<PSNPCheckAccess>().WithConstructorArgument("storageConnectionString",
+            //                                                                      System.Configuration.
+            //                                                                          ConfigurationManager.
+            //                                                                          ConnectionStrings[
+            //                                                                              "SecurityContext"].
+            //                                                                          ConnectionString);
             kernel.Bind<Cats.Services.Hub.Interfaces.IStockStatusService>().To<Cats.Services.Hub.StockStatusService>();
             kernel.Bind<Cats.Services.Logistics.IDeliveryService>().To<Cats.Services.Logistics.DeliveryService>();
             kernel.Bind<Cats.Services.Logistics.IDeliveryDetailService>().To<Cats.Services.Logistics.DeliveryDetailService>();
