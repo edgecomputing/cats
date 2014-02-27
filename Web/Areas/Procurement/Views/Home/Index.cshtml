@@ -1,73 +1,922 @@
-﻿@using Cats.Helpers
-
-@{
+﻿@{
     ViewBag.Title = "Index";
-    ViewBag.ViewWidth = "Wide";
-    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+    const string PAGE_NAME = "EarlyWarning.Index";
 }
 
-<link href="~/Content/DashboardWidget.css" rel="stylesheet">
+@section styles
+{
+    @*<link href="~/Content/Login/bootstrap.min.css" rel="stylesheet" />*@
+    <link href="~/Content/Dashboard/dashboardcomponents.css" rel="stylesheet" />
+    @*<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,800italic,400,600,800" type="text/css">*@
+}
+<div ng-app>
+    <div class="container">
+        <h3>Procurement Dashboard</h3>
+        <hr />
+        <div ng-controller="ImportantNumbers" class="container row">
+            <div class="span13">
+                <a href="javascript:;" class="dashboard-stat">
+                    <div class="visual">
+                        @*<i class="icon-star"></i>*@
+                    </div>
+                    <!-- /.visual -->
 
-<html>
-<body>
-    <div class="row">
-        <div class="span6">
-            <div class="widget stacked">
-                <div class="widget-header">
-                    <i class="icon-bookmark"></i>
-                    <h3>Welcome to Procurement</h3>
-                </div>
-                <div class="widget-content">
-
-                    <div class="shortcuts">
-                        <a href="@Url.Action("Index", "Bid", new { Area = "Procurement" })" class="shortcut"><i class="shortcut-icon icon-list-alt"></i>
-                            <span class="shortcut-label">Bid</span>
-                        </a>
-
-                        <a href="@Url.Action("BidWinner", "BidWinner", new { Area = "Procurement" })" class="shortcut"><i class="shortcut-icon icon-signal"></i>
-                            <span class="shortcut-label">Bid Winner</span>
-                        </a>
-
-                        <a href="@Url.Action("Index", "DispatchLocations", new { Area = "Procurement" })" class="shortcut"><i class="shortcut-icon icon-inbox"></i>
-                            <span class="shortcut-label">Dispatch Locations</span>
-                        </a>
-
-                        <a href="@Url.Action("Index", "PriceQuotation", new { Area = "Procurement" })" class="shortcut"><i class="shortcut-icon icon-tasks"></i>
-                            <span class="shortcut-label">Price Quotation</span>
-                        </a>
-
-                        <a href="@Url.Action("Index", "RFQ", new { Area = "Procurement" })" class="shortcut"><i class="shortcut-icon icon-bell"></i>
-                            <span class="shortcut-label">RFQ</span>
-                        </a>
-
-                        <a href="@Url.Action("Index", "TransportBidPlan", new { Area = "Procurement" })" class="shortcut"><i class="shortcut-icon icon-cog"></i>
-                            <span class="shortcut-label">Transport Bid Plan</span>
-                        </a>
-
-                        <a href="@Url.Action("Index", "Transporter", new { Area = "Procurement" })" class="shortcut"><i class="shortcut-icon icon-cog"></i>
-                            <span class="shortcut-label">Transporter</span>
-                        </a>
-
-                        <a href="@Url.Action("Index", "TransportOrder", new { Area = "Procurement" })" class="shortcut"><i class="shortcut-icon icon-cog"></i>
-                            <span class="shortcut-label">Transport Order</span>
-                        </a>
-
+                    <div class="details column-divider-regional center">
+                        <span class="content">Woredas Without Offer</span>
+                        <span class="value">20</span>
                     </div>
 
-                </div>
+                    <div class="details column-divider-regional center">
+                        <span class="content">Woredas with more than one winner</span>
+                        <span class="value">50</span>
+                    </div>
+
+                    <div class="details column-divider-regional center">
+                        <span class="content">Active Transprters</span>
+                        <span class="value">15</span>
+                    </div>
+                    <div class="details column-divider-regional center">
+                        <span class="content">Underperforming Transprters</span>
+                        <span class="value">4</span>
+                    </div>
+
+                    <!-- /.details -->
+                    
+                </a>
+                <!-- /.dashboard-stat -->
             </div>
+            <!-- /.col-md-3 -->
+
+            
+            <!-- /.col-md-9 -->
         </div>
-        <div class="span6">
-            <div class="widget stacked">
-                <div class="widget-header">
-                    <i class="icon-bookmark"></i>
-                    <h3>Other Contents</h3>
-                </div>
-                <div class="widget-content">
-                    <h4>Other Contents go here</h4>
-                </div>
-            </div>
-        </div>
+        <hr />
     </div>
-</body>
-</html>
+
+    <div class="container">
+
+        <div>
+            <div class="row" style="border-bottom-width: thin; border-bottom-color: #666; border-bottom-style: inset; margin-top: 5px">
+
+                <div class="pull-left">
+                    <h4>Bids</h4>
+                </div>
+                <div class="pull-right">
+                    <div class="btn-group">
+                        <button id ="RequestHeader"type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
+                            <i class="icon-arrow-up"></i> 
+                            <i class="icon-arrow-down"></i> 
+                        </button>
+
+                    </div>
+                </div>
+            </div>
+            <div id="RequestContent"class="row">
+                <div>&nbsp;</div>
+                <div ng-controller="RecentRequestsController" class="span8">
+                    <div class="portlet">
+                        <div class="portlet-header">
+                            <h3>
+                                <i class=""></i>
+                                Recent Requests
+                            </h3>
+                            <ul class="portlet-tools pull-right">
+                                <li>
+                                    <button class="btn btn-sm btn-default">
+                                        Show more
+                                    </button>
+                                    <button class="btn btn-sm btn-default">
+                                        New Request
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- /.portlet-header -->
+
+                        <div class="portlet-content">
+                            <th class="table-responsive">
+                                <table id="" class="table table-striped table-checkable">
+                                    <thead>
+                                        <tr>
+                                            <th class="hidden-xs">Number</th>
+                                            <th>FDPS</th>
+                                            <th>Beneficiaries</th>
+                                            <th>Amount(QT)</th>
+                                            <th>Detail</th>
+                                            <th>Status</th>
+                                            <th class="align-center">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="">
+                                            <td class="hidden-xs">REF-15420</td>
+                                            <td>28</td>
+                                            <td>{{2800|number}}</td>
+                                            <th>{{14580|number}} QT</th>
+                                            <th>
+                                                <a href="javascript:;" class="btn btn-sm btn-default">View <i class="icon-chevron-right"></i>
+                                                </a>
+                                            </th>
+                                            <td><span class="label label-success">Approved</span></td>
+                                            <td class="align-center">
+                                                @*<a class="btn btn-sm btn-default" data-original-title="Approve">
+                                                    <i class="icon-upload"></i>Approve
+                                                </a>*@
+                                            </td>
+                                        </tr>
+
+                                        <tr class="">
+                                            <td class="hidden-xs">REF-00420</td>
+                                            <td>320</td>
+                                            <td>{{2514|number}}</td>
+                                            <th>{{30580|number}} QT</th>
+                                            <th>
+                                                <a href="javascript:;" class="btn btn-sm btn-default">View <i class="icon-chevron-right"></i>
+                                                </a>
+                                            </th>
+                                            <td><span class="label label-danger">Pending</span></td>
+                                            <td class="align-center">
+                                                <a class="btn btn-sm btn-default" data-original-title="Approve">Allocate
+                                                </a>
+                                            </td>
+                                        </tr>
+
+                                        <tr class="">
+                                            <td class="hidden-xs">REF-15420</td>
+                                            <td>28</td>
+                                            <td>{{2800|number}}</td>
+                                            <th>{{14580|number}} QT</th>
+                                            <th>
+                                                <a href="javascript:;" class="btn btn-sm btn-default">View <i class="icon-chevron-right"></i>
+                                                </a>
+                                            </th>
+                                            <td><span class="label label-warning">Allocated</span></td>
+                                            <td class="align-center">
+                                                <a class="btn btn-sm btn-default" data-original-title="Approve">Approve
+                                                </a>
+                                            </td>
+                                        </tr>
+
+                                        <tr class="">
+                                            <td class="hidden-xs">REF-15420</td>
+                                            <td>85</td>
+                                            <td>{{8547|number}}</td>
+                                            <th>{{54124|number}} QT</th>
+                                            <th>
+                                                <a href="javascript:;" class="btn btn-sm btn-default">View <i class="icon-chevron-right"></i>
+                                                </a>
+                                            </th>
+                                            <td><span class="label label-warning">Allocated</span></td>
+                                            <td class="align-center">
+                                                <a class="btn btn-sm btn-default" data-original-title="Approve">Approve
+                                                </a>
+                                            </td>
+                                        </tr>
+
+                                        @* <tr class="" ng-repeat="request in Requests">
+                                            <td class="hidden-xs">{{request[1].Value}}</td>
+                                            <td>{{request[3].Value| date:'medium'}}</td>
+                                            <td><span class="label label-success">{{request[4].Value}}</span></td>
+                                           <td class="align-center">
+                                                <a class="btn btn-sm btn-default" data-original-title="Approve">
+                                                    <i class="icon-upload"></i>Approve
+                                                </a>
+                                            </td>
+                                        </tr>*@
+                                    </tbody>
+                                </table>
+
+                        </div>
+                        <!-- /.table-responsive -->
+                    </div>
+                    <!-- /.portlet-content -->
+
+                </div>
+                <div class="span3">
+
+                    <div class="portlet">
+                        <div class="portlet-header">
+                            <h3>
+                                <i class=""></i>
+                                Percentage
+                            </h3>
+                        </div>
+
+                        <!-- /.portlet-header -->
+
+                        <div class="portlet-content">
+                            <div class="progress-stat">
+
+                                <div class="stat-header">
+
+                                    <div class="pull-left">
+                                        Approved Requests
+                                    </div>
+                                    <!-- /.stat-label -->
+
+                                    <div class="pull-right">
+                                        33%
+                                    </div>
+                                    <!-- /.stat-value -->
+
+                                </div>
+                                <!-- /stat-header -->
+
+                                @*<div class="progress progress-bar-success">
+                                    <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="33" aria-valuemin="0" aria-valuemax="100" style="width: 33%">
+                                        <span class="sr-only">33% Approved</span>
+                                    </div>
+                                </div>*@
+                                <div class="progress progress-success">
+                                    <div class="bar" style="width: 33%"></div>
+                                </div>
+                                <!-- /.progress -->
+
+                            </div>
+                            <!-- /.progress-stat -->
+
+                            <div class="progress-stat">
+
+                                <div class="stat-header">
+
+                                    <div class="pull-left">
+                                        Pending Requests
+                                    </div>
+                                    <!-- /.stat-label -->
+
+                                    <div class="pull-right">
+                                        42%
+                                    </div>
+                                    <!-- /.stat-value -->
+
+                                </div>
+                                <!-- /stat-header -->
+
+                                <div class="progress progress-danger">
+                                    <div class="bar" style="width: 42%"></div>
+                                </div>
+                                <!-- /.progress -->
+
+                            </div>
+                            <!-- /.progress-stat -->
+
+                            <div class="progress-stat">
+
+                                <div class="stat-header">
+
+                                    <div class="pull-left">
+                                        Allocated
+                                    </div>
+                                    <!-- /.stat-label -->
+
+                                    <div class="pull-right">
+                                        25%
+                                    </div>
+                                    <!-- /.stat-value -->
+
+                                </div>
+                                <!-- /stat-header -->
+
+                                <div class="progress progress-warning">
+                                    <div class="bar" style="width: 25%"></div>
+                                </div>
+                                <!-- /.progress -->
+
+                            </div>
+                            <!-- /.progress-stat -->
+
+                            <br>
+                        </div>
+                        <!-- /.portlet-content -->
+
+                    </div>
+                    <!-- /.portlet -->
+                </div>
+                <!-- /.portlet -->
+            </div>
+        </div>
+
+        <div>
+            <div class="row" style="border-bottom-width: thin; border-bottom-color: #666; border-bottom-style: inset; margin-top: 5px">
+
+                <div class="pull-left">
+                    <h4>Requisitions</h4>
+                </div>
+                <div class="pull-right">
+                    <div class="btn-group">
+                        <button id="RequisitionHeader"type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
+                             <i class="icon-arrow-up"></i> 
+                            <i class="icon-arrow-down"></i> 
+                        </button>
+
+                    </div>
+                </div>
+            </div>
+            <div id="RequisitionContent" class="row">
+                <div>&nbsp;</div>
+                <div class="span4">
+
+                    <div class="portlet">
+                        <div class="portlet-header">
+                            <h3>
+                                <i class=""></i>
+                                Requisitions Percentage by Status 
+                            </h3>
+                        </div>
+
+                        <!-- /.portlet-header -->
+
+                        <div class="portlet-content">
+                            <div class="progress-stat">
+
+                                <div class="stat-header">
+
+                                    <div class="pull-left">
+                                        Approved Requisitions
+                                    </div>
+                                    <!-- /.stat-label -->
+
+                                    <div class="pull-right">
+                                        33%
+                                    </div>
+                                    <!-- /.stat-value -->
+
+                                </div>
+                                <!-- /stat-header -->
+
+                                <div class="progress progress-success">
+                                    <div class="bar" style="width: 33%"></div>
+                                </div>
+                                <!-- /.progress -->
+
+                            </div>
+                            <!-- /.progress-stat -->
+
+                            <div class="progress-stat">
+
+                                <div class="stat-header">
+
+                                    <div class="pull-left">
+                                        Pending Requisitions
+                                    </div>
+                                    <!-- /.stat-label -->
+
+                                    <div class="pull-right">
+                                        42%
+                                    </div>
+                                    <!-- /.stat-value -->
+
+                                </div>
+                                <!-- /stat-header -->
+
+                                <div class="progress progress-danger">
+                                    <div class="bar" style="width: 42%"></div>
+                                </div>
+                                <!-- /.progress -->
+
+                            </div>
+                            <!-- /.progress-stat -->
+
+                            <div class="progress-stat">
+
+                                <div class="stat-header">
+
+                                    <div class="pull-left">
+                                        Hub Assigned
+                                    </div>
+                                    <!-- /.stat-label -->
+
+                                    <div class="pull-right">
+                                        25%
+                                    </div>
+                                    <!-- /.stat-value -->
+
+                                </div>
+                                <!-- /stat-header -->
+
+                                <div class="progress progress-warning">
+                                    <div class="bar" style="width: 25%"></div>
+                                </div>
+                                <!-- /.progress -->
+
+                            </div>
+                            <!-- /.progress-stat -->
+
+                            <br>
+                        </div>
+                        <!-- /.portlet-content -->
+
+                    </div>
+                    <!-- /.portlet -->
+                </div>
+                <div ng-controller="RecentRequestsController" class="span7">
+                    <div class="portlet">
+                        <div class="portlet-header">
+                            <h3>
+                                <i class=""></i>
+                                Recent Requisitions
+                            </h3>
+                            <ul class="portlet-tools pull-right">
+                                <li>
+                                    <button class="btn btn-sm btn-default">
+                                        Show more
+                                    </button>
+
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- /.portlet-header -->
+
+                        <div class="portlet-content">
+                            <th class="table-responsive">
+                                <table id="" class="table table-striped table-checkable">
+                                    <thead>
+                                        <tr>
+                                            <th class="hidden-xs">Number</th>
+                                            <th>Commodity</th>
+                                            <th>Beneficiaries</th>
+                                            <th>Amount(QT)</th>
+                                            <th>Status</th>
+                                            <th class="align-center">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="">
+                                            <td class="hidden-xs">REQ-1206</td>
+                                            <td>Pulse</td>
+                                            <td>{{8000|number}}</td>
+                                            <th>{{120|number}} QT</th>
+                                            <td><span class="label label-success">Approved</span></td>
+                                            <td>
+                                                <a href="javascript:;" class="btn btn-sm btn-default">View <i class="icon-chevron-right"></i>
+                                                </a>
+
+                                            </td>
+                                        </tr>
+
+                                        <tr class="">
+                                            <td class="hidden-xs">REQ-1824</td>
+                                            <td>Cereal</td>
+                                            <td>{{7500|number}}</td>
+                                            <th>{{142|number}} QT</th>
+                                            <td><span class="label label-danger">Pending</span></td>
+                                            <td>
+                                                <a href="javascript:;" class="btn btn-sm btn-default">View <i class="icon-chevron-right"></i>
+                                                </a>
+                                                <a class="btn btn-sm btn-default" data-original-title="Approve">
+                                                    <i class="icon-upload"></i>Approve
+                                                </a>
+                                            </td>
+                                        </tr>
+
+                                        <tr class="">
+                                            <td class="hidden-xs">REQ-1325</td>
+                                            <td>Oil</td>
+                                            <td>{{5824|number}}</td>
+                                            <th>{{546|number}} QT</th>
+                                            <td><span class="label label-success">Approved</span></td>
+                                            <td>
+                                                <a href="javascript:;" class="btn btn-sm btn-default">View <i class="icon-chevron-right"></i>
+                                                </a>
+
+                                            </td>
+                                        </tr>
+
+                                        <tr class="">
+                                            <td class="hidden-xs">REQ-0026</td>
+                                            <td>Wheat</td>
+                                            <td>{{9251|number}}</td>
+                                            <th>{{280|number}} QT</th>
+                                            <td><span class="label label-danger">Pending</span></td>
+                                            <td>
+                                                <a href="javascript:;" class="btn btn-sm btn-default">View <i class="icon-chevron-right"></i>
+                                                </a>
+                                                <a class="btn btn-sm btn-default" data-original-title="Approve">
+                                                    <i class="icon-upload"></i>Approve
+                                                </a>
+                                            </td>
+                                        </tr>
+
+
+                                    </tbody>
+                                </table>
+
+                        </div>
+                        <!-- /.table-responsive -->
+                    </div>
+                    <!-- /.portlet-content -->
+
+                </div>
+
+                <!-- /.portlet -->
+            </div>
+        </div>
+
+        <div>
+            <div class="row" style="border-bottom-width: thin; border-bottom-color: #666; border-bottom-style: inset; margin-top: 5px">
+
+                <div class="pull-left">
+                    <h4>Dispatches</h4>
+                </div>
+                <div class="pull-right">
+                    <div class="btn-group">
+                        <button id="DispatchHeader" type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
+                            <i class="icon-arrow-up"></i> 
+                            <i class="icon-arrow-down"></i> 
+                        </button>
+
+                    </div>
+                </div>
+            </div>
+            <div id="DispatchContent"class="row">
+                <div>&nbsp;</div>
+
+                <div ng-controller="RecentRequestsController" class="span8">
+                    <div class="portlet">
+                        <div class="portlet-header">
+                            <h3>
+                                <i class=""></i>
+                                Incoming Dispatches
+                            </h3>
+                            <ul class="portlet-tools pull-right">
+                                <li>
+                                    <button class="btn btn-sm btn-default">
+                                        Show more
+                                    </button>
+                                    <a class="btn btn-sm btn-default" href="@Url.Action("Index", "DeliveryReconcile", new { Area="Logistics", regionID= ViewBag.RegionID })">FDP Commodity Receipt</a>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- /.portlet-header -->
+
+                        <div class="portlet-content">
+                            <th class="table-responsive">
+                                <table id="" class="table table-striped table-checkable">
+                                    <thead>
+                                        <tr>
+                                            <th>FDP</th>
+                                            <th>Woreda</th>
+                                            <th>Commodity</th>
+                                            <th>Quantity(QT)</th>
+                                            <th>Source Hub</th>
+                                            <th>Transporter</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="">
+                                            <td class="hidden-xs">Adahar</td>
+                                            <td>Chefera</td>
+                                            <td>Pulse</td>
+                                            <td>{{510|number:2}}</td>
+                                            <th>Adama Hub</th>
+                                            <td>Weyra</td>
+                                        </tr>
+                                        <tr class="">
+                                            <td class="hidden-xs">Asayta</td>
+                                            <td>Asayta</td>
+                                            <td>Pulse</td>
+                                            <td>{{510|number:2}}</td>
+                                            <th>Adama Hub</th>
+                                            <td>Tana</td>
+                                        </tr>
+                                        <tr class="">
+                                            <td class="hidden-xs">Gagu</td>
+                                            <td>Mille</td>
+                                            <td>Cereal</td>
+                                            <td>{{451|number:2}}</td>
+                                            <th>Adama Hub</th>
+                                            <td>Trans</td>
+                                        </tr>
+                                        <tr class="">
+                                            <td class="hidden-xs">Adahar</td>
+                                            <td>Chefera</td>
+                                            <td>Oil</td>
+                                            <td>{{614|number:2}}</td>
+                                            <th>Kombolcha Hub</th>
+                                            <td>Victor</td>
+                                        </tr>
+
+
+                                    </tbody>
+                                </table>
+
+                        </div>
+                        <!-- /.table-responsive -->
+                    </div>
+                    <!-- /.portlet-content -->
+
+                </div>
+                <div class="span3">
+
+                    <div class="portlet">
+                        <!-- /.portlet-header -->
+
+                        <div class="">
+                            <a href="javascript:;" class="dashboard-stat">
+                                <div class="details ">
+                                    <span class="content">Number of Incoming Dispatches</span>
+                                    <span class="value">98 </span>
+                                </div>
+                            </a>
+                            <br>
+                        </div>
+
+                        <div class="">
+                            <a href="javascript:;" class="dashboard-stat">
+                                <div class="details ">
+                                    <span class="content">Total Incoming Commodity</span>
+                                    <span class="value">200 QT </span>
+                                </div>
+                            </a>
+                            <br>
+                        </div>
+                        <!-- /.portlet-content -->
+
+                    </div>
+                    <!-- /.portlet -->
+                </div>
+                <!-- /.portlet -->
+            </div>
+        </div>
+
+        <div>
+            <div class="row" style="border-bottom-width: thin; border-bottom-color: #666; border-bottom-style: inset; margin-top: 5px">
+
+                <div class="pull-left">
+                    <h4>Distribution</h4>
+                </div>
+                <div class="pull-right">
+                    <div class="btn-group">
+                        <button id="DistributionHeader"type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
+                            <i class="icon-arrow-up"></i> 
+                            <i class="icon-arrow-down"></i> 
+                        </button>
+
+                    </div>
+                </div>
+            </div>
+            <div id="DistributionContent"class="row">
+                <div>&nbsp;</div>
+
+                <div ng-controller="RecentRequestsController" class="span5">
+                    <div class="portlet">
+                        <div class="portlet-header">
+                            <h3>
+                                <i class=""></i>
+                                Current Distributions
+                            </h3>
+                            <ul class=" pull-right portlet-tools ">
+                                <li>
+                                    <button class="btn btn-sm btn-default">
+                                        Show more
+                                    </button>
+
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- /.portlet-header -->
+
+                        <div class="portlet-content">
+                            <th class="table-responsive">
+                                <table id="" class="table table-striped table-checkable">
+                                    <thead>
+                                        <tr>
+                                            <th class="hidden-xs">Plan</th>
+                                            <th>Woreda</th>
+                                            <th>FDPs</th>
+                                            <th>Status</th>
+                                            <th class="align-center"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="">
+                                            <td class="hidden-xs">2055</td>
+                                            <td>Dawent</td>
+                                            <td>{{80|number}}</td>
+                                            <td><span class="label label-default">On process</span></td>
+                                            <td>
+                                                <a href="javascript:;" class="btn btn-sm btn-default">View <i class="icon-chevron-right"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+
+                                        <tr class="">
+                                            <td class="hidden-xs">1206</td>
+                                            <td>Adhar</td>
+                                            <td>{{45|number}}</td>
+                                            <td><span class="label label-success">Completed</span></td>
+                                            <td>
+                                                <a href="javascript:;" class="btn btn-sm btn-default">View <i class="icon-chevron-right"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+
+                                        <tr class="">
+                                            <td class="hidden-xs">1207</td>
+                                            <td>Adhar</td>
+                                            <td>{{24|number}}</td>
+                                            <td><span class="label label-success">Completed</span></td>
+                                            <td>
+                                                <a href="javascript:;" class="btn btn-sm btn-default">View <i class="icon-chevron-right"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+
+                                        <tr class="">
+                                            <td class="hidden-xs">2206</td>
+                                            <td>Adhar</td>
+                                            <td>{{56|number}}</td>
+                                            <td><span class="label label-success">Completed</span></td>
+                                            <td>
+                                                <a href="javascript:;" class="btn btn-sm btn-default">View <i class="icon-chevron-right"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+
+
+                                    </tbody>
+                                </table>
+
+                        </div>
+                        <!-- /.table-responsive -->
+                    </div>
+                    <!-- /.portlet-content -->
+
+                </div>
+                <div class="span4">
+
+                    <div class="portlet">
+                        <div class="portlet-header">
+                            <h3>
+                                <i class=""></i>
+                                Age Percentage
+                            </h3>
+                        </div>
+
+                        <!-- /.portlet-header -->
+
+                        <div class="portlet-content">
+                            <div class="progress-stat">
+
+                                <div class="stat-header">
+
+                                    <div class="pull-left">
+                                        Older than 18 years
+                                    </div>
+                                    <!-- /.stat-label -->
+
+                                    <div class="pull-right">
+                                        23%
+                                    </div>
+                                    <!-- /.stat-value -->
+
+                                </div>
+                                <!-- /stat-header -->
+
+                                <div class="progress progress-info">
+                                    <div class="bar" style="width: 23%"></div>
+                                </div>
+                                <!-- /.progress -->
+
+                            </div>
+                            <!-- /.progress-stat -->
+
+                            <div class="progress-stat">
+
+                                <div class="stat-header">
+
+                                    <div class="pull-left">
+                                        Between 5 and 18 years
+                                    </div>
+                                    <!-- /.stat-label -->
+
+                                    <div class="pull-right">
+                                        24%
+                                    </div>
+                                    <!-- /.stat-value -->
+
+                                </div>
+                                <!-- /stat-header -->
+
+                                <div class="progress progress-info">
+                                    <div class="bar" style="width: 24%"></div>
+                                </div>
+                                <!-- /.progress -->
+
+                            </div>
+                            <!-- /.progress-stat -->
+
+                            <div class="progress-stat">
+
+                                <div class="stat-header">
+
+                                    <div class="pull-left">
+                                        Younger than 5 years
+                                    </div>
+                                    <!-- /.stat-label -->
+
+                                    <div class="pull-right">
+                                        53%
+                                    </div>
+                                    <!-- /.stat-value -->
+
+                                </div>
+                                <!-- /stat-header -->
+
+                                <div class="progress progress-info">
+                                    <div class="bar" style="width: 53%"></div>
+                                </div>
+                                <!-- /.progress -->
+
+                            </div>
+                            <!-- /.progress-stat -->
+
+                            <br>
+                        </div>
+                        <!-- /.portlet-content -->
+
+                    </div>
+                    <!-- /.portlet -->
+                </div>
+                <div class="span2">
+
+                    <div class="portlet">
+                        <!-- /.portlet-header -->
+
+                        <div class="">
+                            <a href="javascript:;" class="dashboard-stat">
+                                <div class="visual">
+                                    <i class="icon-female"></i>
+                                </div>
+                                <div class="details ">
+                                    <span class="content">Female</span>
+                                    <span class="value">12,452 </span>
+                                </div>
+                            </a>
+                            <br>
+                        </div>
+
+                        <div class="">
+                            <a href="javascript:;" class="dashboard-stat">
+                                <div class="visual">
+                                    <i class="icon-male"></i>
+                                </div>
+                                <div class="details ">
+                                    <span class="content">Male</span>
+                                    <span class="value">15,142 </span>
+                                </div>
+                            </a>
+                            <br>
+                        </div>
+                        <!-- /.portlet-content -->
+
+                    </div>
+                    <!-- /.portlet -->
+                </div>
+                <!-- /.portlet -->
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    $("#RequestHeader").click(function () {
+        $("#RequestContent").slideToggle("slow", "linear");
+    });
+
+    $("#RequisitionHeader").click(function () {
+        $("#RequisitionContent").slideToggle("slow", "linear");
+    });
+
+    $("#DispatchHeader").click(function () {
+        $("#DispatchContent").slideToggle("slow", "linear");
+    });
+
+    $("#DistributionHeader").click(function () {
+        $("#DistributionContent").slideToggle("slow", "linear");
+    });
+</script>
+
+<script>
+    function RecentRequestsController($scope, $http) {
+        $scope.reqParam = { regionID: 2 };
+        $scope.Requests = [];
+        var onSuccess = function (data) {
+            $scope.Requests = data;
+        };
+        $scope.getRequests = function () {
+            $http.post("@Url.Action("Requests", "FetchData", new { Area = "Regional" })", $scope.reqParam).success(onSuccess);
+        };
+        $scope.getRequests();
+    }
+
+    function ImportantNumbers($scope) {
+    }
+
+</script>

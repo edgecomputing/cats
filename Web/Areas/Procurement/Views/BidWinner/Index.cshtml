@@ -1,6 +1,7 @@
 ﻿@using Cats.Areas.Procurement.Models
 @model Cats.Models.BidWinner
 @using Cats.Helpers
+@using Cats.Security
 @using Cats.Services.Security
 @using Kendo.Mvc.UI
 @{
@@ -38,7 +39,7 @@
             columns.Bound(t => t.BidNumber).ClientTemplate(
                 @Html.EarlyWarningOperationButton(
                     @Url.Action("ListOfWinners", "BidWinner", new { id = "#=BidID#" }),
-                    EarlyWarningCheckAccess.Operation.View_Need_Assessment_Detail, "#=BidNumber#").ToString()); 
+                    EarlyWarningConstants.Operation.View_Need_Assessment_Detail, "#=BidNumber#").ToString()); 
         columns.Bound(t => t.Year);
         columns.Bound(t => t.OpeningDate).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid" }); 
 
