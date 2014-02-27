@@ -81,15 +81,9 @@
   <ItemGroup>
     <Compile Include="ForgetPasswordRequestService.cs" />
     <Compile Include="IForgetPasswordRequestService.cs" />
-    <Compile Include="ILogisticsCheckAccess.cs" />
-    <Compile Include="IProcurementCheckAccess.cs" />
-    <Compile Include="IPSNPCheckAccess.cs" />
     <Compile Include="ISettingService.cs" />
     <Compile Include="IUserAccountService.cs" />
-    <Compile Include="LogisticsCheckAccess.cs" />
-    <Compile Include="ProcurementCheckAccess.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="PSNPCheckAccess.cs" />
     <Compile Include="SecurityConstants.cs" />
     <Compile Include="SettingService.cs" />
     <Compile Include="UserAccountService.cs" />

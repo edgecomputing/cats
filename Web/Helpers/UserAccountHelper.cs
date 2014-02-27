@@ -80,6 +80,8 @@ namespace Cats.Helpers
                     // Fetch a copy from the database if we don't have a session variable already loaded in memory
                     var service = (IUserAccountService)DependencyResolver.Current.GetService(typeof(IUserAccountService));
                     user = service.GetUserInfo(userName);
+                    HttpContext.Current.Session["USER_INFO"] = user;
+                    HttpContext.Current.Session["USER_PROFILE"] = service.GetUserDetail(userName);
                 }
             }
             catch (Exception ex)
