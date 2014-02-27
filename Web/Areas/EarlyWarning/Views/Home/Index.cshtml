@@ -232,25 +232,19 @@
                                          {
                                            <th>@col.Caption</th>
                                         }
-                                        @*<th>Region</th>
-                                        <th>Number of Beneficiary</th>
-                                        <th>Pulse</th>
-                                        <th>Oil</th>
-                                        <th>Cereal</th>
-                                        <th>Wheat</th>
-                                        <th>Total </th>*@
+                                      
                                     </tr>
                                 </thead>
                                 <tbody >
                                      @foreach(System.Data.DataRow row in Model.Rows)
                                          {
-              <tr>
-      @foreach (var cell in row.ItemArray)
-      {
-         <td>@cell.ToString()</td>
-      }
-   </tr>
-} 
+                                        <tr>
+                                       @foreach (var cell in row.ItemArray)
+                                          {
+                                             <td>@cell.ToString()</td>
+                                          }
+                                       </tr>
+                                      } 
                                     
                                 </tbody>
                             </table>
@@ -361,15 +355,11 @@
                                     <tbody>
                                         <tr ng-repeat="request in Requests" class="">
                                             <td class="hidden-xs">{{request.Region}}</td>
-                                            <td>2012</td>
-                                            <td>52</td>
+                                            <td>{{request.Beneficiary}}</td>
+                                            <td>{{request.NumberOfFDPS}}</td>
                                             <th>{{request.Round}}</th>
                                              <th>{{request.MonthName}}</th>
-                                            @*<th>
-                                                <a href="javascript:;" class="btn btn-sm btn-default">View <i class="icon-chevron-right"></i>
-                                                </a>
-                                            </th>*@
-                                            <td><span class="label label-success">{{request.StatusID}}</span></td>
+                                            <td><span class="label label-success">{{request.Status}}</span></td>
                                             <td class="align-center">
                                                 @*<a class="btn btn-sm btn-default" data-original-title="Approve">
                                                     <i class="icon-upload"></i>Approve
@@ -377,47 +367,7 @@
                                             </td>
                                         </tr>
 
-                                       @* <tr class="">
-                                            <td class="hidden-xs">Oromia</td>
-                                            <td>320</td>
-                                            <td>52</td>
-                                            <th>2</th>
-                                             <th>January</th>
-                                           
-                                            <td><span class="label label-danger">Pending</span></td>
-                                            <td class="align-center">
-                                                <a class="btn btn-sm btn-default" data-original-title="Approve">Allocate
-                                                </a>
-                                            </td>
-                                        </tr>*@
-
-                                      @*  <tr class="">
-                                            <td class="hidden-xs">Tigray</td>
-                                            <td>2800</td>
-                                            <td>21</td>
-                                            <th>2</th>
-                                            <th>January</th>
-                                          
-                                            <td><span class="label label-warning">Allocated</span></td>
-                                            <td class="align-center">
-                                                <a class="btn btn-sm btn-default" data-original-title="Approve">Approve
-                                                </a>
-                                            </td>
-                                        </tr>*@
-
-                                        @*<tr class="">
-                                            <td class="hidden-xs">Amhara</td>
-                                            <td>8500</td>
-                                            <td>63</td>
-                                            <th>2</th>
-                                             <th>January</th>
-                                         
-                                            <td><span class="label label-warning">Allocated</span></td>
-                                            <td class="align-center">
-                                                <a class="btn btn-sm btn-default" data-original-title="Approve">Approve
-                                                </a>
-                                            </td>
-                                        </tr>*@
+                                      
 
                                     </tbody>
                                 </table>
@@ -639,18 +589,18 @@
                                             <th class="hidden-xs">Number</th>
                                             <th>Commodity</th>
                                             <th>Beneficiaries</th>
-                                            <th>Amount(QT)</th>
+                                            <th>Amount(MT)</th>
                                             <th>Status</th>
                                             <th class="align-center">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr class="">
-                                            <td class="hidden-xs">REQ-1206</td>
-                                            <td>Pulse</td>
-                                            <td>{{8000|number}}</td>
-                                            <th>{{120|number}} QT</th>
-                                            <td><span class="label label-success">Approved</span></td>
+                                        <tr ng-repeat="requisition in Requisitions" class="">
+                                            <td class="hidden-xs">{{requisition.RequisitonNumber}}</td>
+                                            <td>{{requisition.Commodity}}</td>
+                                            <td>{{requisition.Beneficiary}}</td>
+                                            <th>{{requisition.Amount}} </th>
+                                            <td><span class="label label-success">{{requisition.Status}}</span></td>
                                             <td>
                                                 <a href="javascript:;" class="btn btn-sm btn-default">View <i class="icon-chevron-right"></i>
                                                 </a>
@@ -658,50 +608,7 @@
                                             </td>
                                         </tr>
 
-                                        <tr class="">
-                                            <td class="hidden-xs">REQ-1824</td>
-                                            <td>Cereal</td>
-                                            <td>{{7500|number}}</td>
-                                            <th>{{142|number}} QT</th>
-                                            <td><span class="label label-danger">Pending</span></td>
-                                            <td>
-                                                <a href="javascript:;" class="btn btn-sm btn-default">View <i class="icon-chevron-right"></i>
-                                                </a>
-                                                <a class="btn btn-sm btn-default" data-original-title="Approve">
-                                                    <i class="icon-upload"></i>Approve
-                                                </a>
-                                            </td>
-                                        </tr>
-
-                                        <tr class="">
-                                            <td class="hidden-xs">REQ-1325</td>
-                                            <td>Oil</td>
-                                            <td>{{5824|number}}</td>
-                                            <th>{{546|number}} QT</th>
-                                            <td><span class="label label-success">Approved</span></td>
-                                            <td>
-                                                <a href="javascript:;" class="btn btn-sm btn-default">View <i class="icon-chevron-right"></i>
-                                                </a>
-
-                                            </td>
-                                        </tr>
-
-                                        <tr class="">
-                                            <td class="hidden-xs">REQ-0026</td>
-                                            <td>Wheat</td>
-                                            <td>{{9251|number}}</td>
-                                            <th>{{280|number}} QT</th>
-                                            <td><span class="label label-danger">Pending</span></td>
-                                            <td>
-                                                <a href="javascript:;" class="btn btn-sm btn-default">View <i class="icon-chevron-right"></i>
-                                                </a>
-                                                <a class="btn btn-sm btn-default" data-original-title="Approve">
-                                                    <i class="icon-upload"></i>Approve
-                                                </a>
-                                            </td>
-                                        </tr>
-
-
+                                       
                                     </tbody>
                                 </table>
 
@@ -750,6 +657,10 @@
         var onRationSuccess = function(data) {
             $scope.Rations = data;
         };
+        
+        var onRequisitionSuccess = function (data) {
+            $scope.Requisitions = data;
+        };
 
         $scope.getRequests = function() {
             $http.post("@Url.Action("GetRegionalRequests", "EWDashboard", new { Area = "EarlyWarning" })").success(onRequestsSuccess);
@@ -759,9 +670,14 @@
             $http.post("@Url.Action("GetRation", "EWDashboard", new { Area = "EarlyWarning" })").success(onRationSuccess);
 
         };
+        $scope.getRequisitions = function () {
+            $http.post("@Url.Action("GetRequisition", "EWDashboard", new { Area = "EarlyWarning" })").success(onRequisitionSuccess);
+
+         };
 
         $scope.getRations();
         $scope.getRequests();
+        $scope.getRequisitions();
     }
 
 </script>
