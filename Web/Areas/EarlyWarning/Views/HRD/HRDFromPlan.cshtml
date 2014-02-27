@@ -1,4 +1,5 @@
-﻿@using Cats.Services.Security
+﻿@using Cats.Security
+@using Cats.Services.Security
 @using Kendo.Mvc.UI
 @using Cats.Helpers
 
@@ -11,7 +12,7 @@
 {
     @Html.EarlyWarningOperationButton(
         @Url.Action("Create", "HRD", new {Area = "EarlyWarning"}),
-        EarlyWarningCheckAccess.Operation.New_HRD, "<i class=\"icon-plus\"></i>", "btn", "btn_new_record")
+        EarlyWarningConstants.Operation.New_HRD, "<i class=\"icon-plus\"></i>", "btn", "btn_new_record")
 }
 <div>
     <h4>List of HRD</h4>
@@ -48,7 +49,7 @@
             columns.Bound(p => p.Ration).Title("Ration No").ClientTemplate(
                 @Html.EarlyWarningOperationButton(
                     @Url.Action("Detail", "HRD", new { id = "#=HRDID#" }),
-                    EarlyWarningCheckAccess.Operation.View_Need_Assessment_Detail, "#=Ration#").ToString());
+                    EarlyWarningConstants.Operation.View_Need_Assessment_Detail, "#=Ration#").ToString());
             columns.Bound(p => p.Season);
             columns.Bound(p => p.Year);
             columns.Bound(p => p.CreatedBy);

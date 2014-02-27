@@ -1,17 +1,18 @@
 ﻿@using Cats.Helpers
 @using Cats.Models.Constant
+@using Cats.Security
 @using Cats.Services.Security
 <ul class="nav nav-list">
     <li class="nav-header">Regional Request</li>        
     <li>
         @Html.EarlyWarningOperationButton(
                         @Url.Action("SubmittedRequest", "Request", new {id=(int)RegionalRequestStatus.Approved}),
-                        EarlyWarningCheckAccess.Operation.View_submitted_requests, "<i class=\"icon-check-sign\"></i> Regional Requests ")
+                        EarlyWarningConstants.Operation.View_submitted_requests, "<i class=\"icon-check-sign\"></i> Regional Requests ")
     </li>
     <li>
         @Html.EarlyWarningOperationButton(
                         @Url.Action("SubmittedRequest", "Request", new {id=(int)RegionalRequestStatus.FederalApproved}),
-                        EarlyWarningCheckAccess.Operation.View_Approved_Request, "<i class=\"icon-inbox\"></i> Approved Requests ")
+                        EarlyWarningConstants.Operation.View_Approved_Request, "<i class=\"icon-inbox\"></i> Approved Requests ")
     </li>
     
    

@@ -22,7 +22,40 @@ namespace Cats.Services.Dashboard
             //dynamic table = new RegionalRequest();
             //var re = table.Find(Categor)
         }
+        
+        public List<object> GetRecentRequisitions(int regionID)
+        {
+            var requisitions = new RecentRequisition();
+            var limResult =
+                requisitions.Query(
+                    "SELECT TOP 5 * FROM Dashborad_Regional_Requisitions WHERE RegionID=@0 ORDER BY RequestedDate",
+                    args: regionID);
+            return limResult.ToList();
+        }
 
+        public List<object> RequisitionsPercentage(int regionID)
+        {
+            dynamic requisitions = new RequisitionPercentage();
+            var status =
+                requisitions.Query("SELECT * FROM Dashboard_regional_ReqPercentage WHERE RegionID=@0",args:regionID);
+
+            foreach (var statu in status)
+            {
+                //statu.
+            }
+            
+            return status.ToList();
+        }
+
+        public List<object> GetRecentDispatches(int regionID)
+        {
+            var requisitions = new RecentDispatches();
+            var limResult =
+                requisitions.Query(
+                    "SELECT TOP 5 * FROM Dashboard_Regional_Dispatches WHERE RegionID=@0 ORDER BY DispatchDate",
+                    args: regionID);
+            return limResult.ToList();
+        }
         public void Dispose()
         {
          

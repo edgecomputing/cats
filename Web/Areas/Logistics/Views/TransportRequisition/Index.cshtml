@@ -45,7 +45,7 @@ Transport Requisition Code: <input id="searchIndex" style="width: 300px; height:
     function searchIndexObj() {
         //alert($("#AdminUnitTreeView").data("kendoTreeView").dataSource.id);
         var searchIndexValue = $("#searchIndex").val();
-        var obj = { searchIndex: searchIndexValue };
+        var obj = { searchIndex: searchIndexValue, status: @ViewBag.Status };
         return obj;
     }
     

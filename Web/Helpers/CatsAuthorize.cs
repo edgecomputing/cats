@@ -28,6 +28,7 @@ namespace Cats.Helpers
 
         protected override bool AuthorizeCore(HttpContextBase httpContext)
         {
+            ewCache = UserAccountHelper.GetUserPermissionCache(CatsGlobals.Applications.EarlyWarning);
             if (httpContext == null)
                 throw new ArgumentNullException("httpContext");
 

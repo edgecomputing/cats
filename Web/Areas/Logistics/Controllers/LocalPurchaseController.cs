@@ -150,7 +150,6 @@ namespace Cats.Areas.Logistics.Controllers
         public ActionResult UpdateLocalPurchase(LocalPurchaseWithDetailViewModel localPurchaseDetailViewModel)
         {
             var localPurchase = _localPurchaseService.FindById(localPurchaseDetailViewModel.LocalPurchaseID);
-            var index = 0;
             if (localPurchase!=null)
             {
                 localPurchase.CommodityID = localPurchaseDetailViewModel.CommodityID;
@@ -162,17 +161,18 @@ namespace Cats.Areas.Logistics.Controllers
                 localPurchase.ReferenceNumber = localPurchaseDetailViewModel.ReferenceNumber;
                 localPurchase.ProjectCode = localPurchaseDetailViewModel.ProjectCode;
                 _localPurchaseService.EditLocalPurchase(localPurchase);
-                //var localPurchaseDetailsViewModel = localPurchaseDetailViewModel.LocalPurchaseDetailViewModels.ToArray();
-                //foreach (var localPurchaseDetail in localPurchase.LocalPurchaseDetails)
-                //{
-                //    localPurchaseDetail.AllocatedAmount = localPurchaseDetailsViewModel[index].AllocatedAmonut;
-                //    localPurchaseDetail.RecievedAmount = localPurchaseDetailsViewModel[index].RecievedAmonut;
-                //    //localPurchaseDetail.LocalPurchase = localPurchase;
-                //    _localPurchaseDetailService.EditLocalPurchaseDetail(localPurchaseDetail);
-                //    index++;
 
-                //}
-                ModelState.AddModelError("Sucess",@"Local Purchase Sucessfully Updated");
+                foreach (var localPurchaseDetail in localPurchaseDetailViewModel.LocalPurchaseDetailViewModels)
+                {
+                    var detail = _localPurchaseDetailService.FindById(localPurchaseDetail.LocalPurchaseDetailID);
+                    if (detail!=null)
+                    {
+                        detail.AllocatedAmount = localPurchaseDetail.AllocatedAmonut;
+                        _localPurchaseDetailService.EditLocalPurchaseDetail(detail);
+                    }
+
+                }
+                ModelState.AddModelError("Success", @"Local Purchase Sucessfully Updated");
                 return RedirectToAction("Details", new {id = localPurchase.LocalPurchaseID});
             }
             return RedirectToAction("Index");

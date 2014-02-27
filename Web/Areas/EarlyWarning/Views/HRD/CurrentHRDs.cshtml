@@ -1,5 +1,6 @@
 ﻿
 @using Cats.Helpers
+@using Cats.Security
 @using Cats.Services.Security
 @using Kendo.Mvc.UI
 @using LanguageHelpers.Localization
@@ -15,7 +16,7 @@
 {
     @Html.EarlyWarningOperationButton(
                         @Url.Action("Create", "HRD", new { Area = "EarlyWarning" }),
-                        EarlyWarningCheckAccess.Operation.New_HRD, "<i class=\"icon-plus\"></i>", "btn", "btn_new_record")
+                        EarlyWarningConstants.Operation.New_HRD, "<i class=\"icon-plus\"></i>", "btn", "btn_new_record")
 }
 <div>
     <h4 class="page-header">Current HRD</h4>
@@ -31,7 +32,7 @@
             columns.Bound(p => p.HRDName).Title(Translator.Translate("HRD Name")).ClientTemplate(
                                 @Html.EarlyWarningOperationButton(
                                     @Url.Action("Detail", "HRD", new { id = "#=HRDID#" }),
-                                    EarlyWarningCheckAccess.Operation.New_HRD, "#=HRDName#").ToString());
+                                    EarlyWarningConstants.Operation.New_HRD, "#=HRDName#").ToString());
             columns.Bound(p => p.Plan);
             columns.Bound(p => p.Ration).Title("Ration No");
             //columns.Bound(p => p.Season);

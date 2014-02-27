@@ -16,88 +16,88 @@ namespace Cats.Helpers
     {
         public static MvcHtmlString EarlyWarningOperationMenuItem(this HtmlHelper helper, string url, EarlyWarningConstants.Operation operation, string text = "", string ccsClass = "", string dataButtontype = "")
         {
-            return MvcHtmlString.Create(@"<a data-buttontype=" + dataButtontype + "  class=" + ccsClass + " href=" + url + ">" + text + "</a>");
-            
-            //var constants = new EarlyWarningConstants();
-            //var ewCache = UserAccountHelper.GetUserPermissionCache(CatsGlobals.Applications.EarlyWarning);
+            //return MvcHtmlString.Create(@"<a data-buttontype=" + dataButtontype + "  class=" + ccsClass + " href=" + url + ">" + text + "</a>");
 
-            //// If cache is null then force the user to sign-in again
-            //if (null == ewCache)
-            //{
-            //    FormsAuthentication.SignOut();
-            //    return MvcHtmlString.Create(string.Empty);
-            //}
+            var constants = new EarlyWarningConstants();
+            var ewCache = UserAccountHelper.GetUserPermissionCache(CatsGlobals.Applications.EarlyWarning);
 
-            //var html = string.Empty;
-            //if (ewCache.CheckAccess(constants.ItemName(operation), DateTime.Now) == AuthorizationType.Allow)
-            //{
-            //    html = @"<a data-buttontype=" + dataButtontype + "  class=" + ccsClass + " href=" + url + ">" + text + "</a>";
-            //}
-            //return MvcHtmlString.Create(html);
+            // If cache is null then force the user to sign-in again
+            if (null == ewCache)
+            {
+                FormsAuthentication.SignOut();
+                return MvcHtmlString.Create(string.Empty);
+            }
+
+            var html = string.Empty;
+            if (ewCache.CheckAccess(constants.ItemName(operation), DateTime.Now) == AuthorizationType.Allow)
+            {
+                html = @"<a data-buttontype=" + dataButtontype + "  class=" + ccsClass + " href=" + url + ">" + text + "</a>";
+            }
+            return MvcHtmlString.Create(html);
         }
 
         public static MvcHtmlString EarlyWarningOperationButton(this HtmlHelper helper, string url, EarlyWarningConstants.Operation operation, string text = "", string ccsClass = "", string dataButtontype = "", string id = "")
         {
 
-            var html = "<a href=" + url;
-            if (ccsClass != "")
-            {
-                html += " class=" + ccsClass;
-            }
-            if (id != "")
-            {
-                html += " id=" + id;
-            }
-            if (dataButtontype != "")
-            {
-                html += " data-buttontype=" + dataButtontype;
-            }
-            if (text != "")
-            {
-                html += " >" + text + "</a>";
-            }
-            else
-            {
-                html += " ></a>";
-            }
-
-            
-            //var constants = new EarlyWarningConstants();
-            //var ewCache = UserAccountHelper.GetUserPermissionCache(CatsGlobals.Applications.EarlyWarning);
-
-            //// If cache is null then force the user to sign-in again
-            //if (null == ewCache)
+            //var html = "<a href=" + url;
+            //if (ccsClass != "")
             //{
-            //    FormsAuthentication.SignOut();
-            //    return MvcHtmlString.Create(string.Empty);
+            //    html += " class=" + ccsClass;
+            //}
+            //if (id != "")
+            //{
+            //    html += " id=" + id;
+            //}
+            //if (dataButtontype != "")
+            //{
+            //    html += " data-buttontype=" + dataButtontype;
+            //}
+            //if (text != "")
+            //{
+            //    html += " >" + text + "</a>";
+            //}
+            //else
+            //{
+            //    html += " ></a>";
             //}
 
-            //var html = string.Empty;
 
-            //if (ewCache.CheckAccess(constants.ItemName(operation), DateTime.Now) == AuthorizationType.Allow)
-            //{
-            //    html = "<a href=" + url;
-            //    if (ccsClass != "")
-            //    {
-            //        html += " class=" + ccsClass;
-            //    }
-            //    if (id != "")
-            //    {
-            //        html += " id=" + id;
-            //    }
-            //    if (dataButtontype != "")
-            //    {
-            //        html += " data-buttontype=" + dataButtontype;
-            //    }
-            //    if (text != "")
-            //    {
-            //        html += " >" + text + "</a>";
-            //    }
-            //    else
-            //    {
-            //        html += " ></a>";
-            //    }
-            //}
+            var constants = new EarlyWarningConstants();
+            var ewCache = UserAccountHelper.GetUserPermissionCache(CatsGlobals.Applications.EarlyWarning);
+
+            // If cache is null then force the user to sign-in again
+            if (null == ewCache)
+            {
+                FormsAuthentication.SignOut();
+                return MvcHtmlString.Create(string.Empty);
+            }
+
+            var html = string.Empty;
+
+            if (ewCache.CheckAccess(constants.ItemName(operation), DateTime.Now) == AuthorizationType.Allow)
+            {
+                html = "<a href=" + url;
+                if (ccsClass != "")
+                {
+                    html += " class=" + ccsClass;
+                }
+                if (id != "")
+                {
+                    html += " id=" + id;
+                }
+                if (dataButtontype != "")
+                {
+                    html += " data-buttontype=" + dataButtontype;
+                }
+                if (text != "")
+                {
+                    html += " >" + text + "</a>";
+                }
+                else
+                {
+                    html += " ></a>";
+                }
+            }
             return MvcHtmlString.Create(html);
         }
 

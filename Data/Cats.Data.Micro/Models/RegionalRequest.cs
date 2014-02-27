@@ -9,7 +9,7 @@ namespace Cats.Data.Micro.Models
         public RegionalRequest()
             : base("CatsContext", "EarlyWarning.RegionalRequest", "RegionalRequestID")
         {
-           
+
         }
     }
 }
