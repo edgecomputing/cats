@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Cats.Models.Security;
 using Cats.Models.ViewModels;
 using Cats.Services.Security;
 
@@ -33,6 +34,27 @@ namespace Cats.Controllers
                 TempData["PreferenceUpdateSuccessMsg"] = "Success: General preference updated";
                 
                 userService.Save(user);
+                var userInfo = new UserInfo
+                                   {
+                                       UserName = user.UserName,
+                                       FirstName = user.FirstName,
+                                       LastName = user.LastName,
+                                       ActiveInd = user.ActiveInd,
+                                       CaseTeam = user.CaseTeam,
+                                       DatePreference = user.DatePreference,
+                                       DefaultTheme = user.DefaultTheme,
+                                       Email = user.Email,
+                                       FailedAttempts = user.FailedAttempts,
+                                       GrandFatherName = user.GrandFatherName,
+                                       Keyboard = user.Keyboard,
+                                       LanguageCode = user.LanguageCode,
+                                       LockedInInd = user.LockedInInd,
+                                       LogOutDate = user.LogOutDate,
+                                       LogginDate = user.LogginDate,
+                                       NumberOfLogins = user.NumberOfLogins,
+                                       PreferedWeightMeasurment = user.PreferedWeightMeasurment
+                                   };
+                Session["USER_INFO"] = userInfo;
             }
             else
             {

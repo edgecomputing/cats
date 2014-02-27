@@ -1,4 +1,5 @@
 ﻿@using Cats.Helpers
+@using Cats.Security
 @using Cats.Services.Security
 @using Kendo.Mvc.UI
 @using LanguageHelpers.Localization
@@ -13,7 +14,7 @@
 {
     @*@Html.ProcurementOperationButton(
                         @Url.Action("Create", "HRD", new { Area = "EarlyWarning" }),
-                        EarlyWarningCheckAccess.Operation.New_HRD, "<i class=\"icon-plus\"></i>", "btn", "btn_new_record")*@
+                        EarlyWarningConstants.Operation.New_HRD, "<i class=\"icon-plus\"></i>", "btn", "btn_new_record")*@
    
     @*@Html.ProcurementOperationButton(
                        
@@ -85,7 +86,7 @@
               columns.Bound(p => p.BidNumber).Title(Translator.Translate("Bid Number")).ClientTemplate(
                 @Html.EarlyWarningOperationButton(
                     @Url.Action("Details", "PriceQuotation", new { id = "#=TransportBidQuotationHeaderID#" }),
-                    (EarlyWarningCheckAccess.Operation) ProcurementCheckAccess.Operation.Edit_bid_proposal_details, "#=BidNumber#").ToString());
+                    (EarlyWarningConstants.Operation)ProcurementCheckAccess.Operation.Edit_bid_proposal_details, "#=BidNumber#").ToString());
               
               columns.Bound(p => p.Region);
               columns.Bound(p => p.Transporter);

@@ -107,7 +107,7 @@ namespace Cats.ViewModelBinder
             giftCertificateDetail.GiftCertificateDetailID = giftCertificateDetailsViewModel.GiftCertificateDetailID;
             giftCertificateDetail.GiftCertificateID = giftCertificateDetailsViewModel.GiftCertificateID;
             giftCertificateDetail.TransactionGroupID = giftCertificateDetailsViewModel.TransactionGroupID;
-
+            giftCertificateDetail.ExpiryDate = giftCertificateDetailsViewModel.ExpiryDate;
             return giftCertificateDetail;
         }
 

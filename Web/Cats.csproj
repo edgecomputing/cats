@@ -372,6 +372,7 @@
     <Compile Include="Areas\EarlyWarning\Controllers\ContributionController.cs" />
     <Compile Include="Areas\EarlyWarning\Controllers\CurrencyController.cs" />
     <Compile Include="Areas\EarlyWarning\Controllers\DonorCoverageController.cs" />
+    <Compile Include="Areas\EarlyWarning\Controllers\EWDashboardController.cs" />
     <Compile Include="Areas\EarlyWarning\Controllers\GiftCertificateController.cs" />
     <Compile Include="Areas\EarlyWarning\Controllers\HRDController.cs" />
     <Compile Include="Areas\EarlyWarning\Controllers\NeedAssessmentController.cs" />
@@ -390,6 +391,7 @@
     <Compile Include="Areas\EarlyWarning\Models\HRDDonorCoverageViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\HRDWithRegionalRequestViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\InKindContributionDetailViewModel.cs" />
+    <Compile Include="Areas\EarlyWarning\Models\RegionalRequestInfoViewModel.cs" />
     <Compile Include="Areas\Logistics\Controllers\DonationController.cs" />
     <Compile Include="Areas\Logistics\Controllers\TransferController.cs" />
     <Compile Include="Areas\Logistics\Models\LoanReciptPlanViewModel.cs" />

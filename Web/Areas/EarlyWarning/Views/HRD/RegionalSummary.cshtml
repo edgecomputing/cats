@@ -1,5 +1,6 @@
 ﻿@using Cats.Helpers
 @using Cats.Models.ViewModels
+@using Cats.Security
 @using Cats.Services.Security
 @using Kendo.Mvc.UI
 @model  System.Data.DataTable
@@ -13,7 +14,7 @@
 {
     @Html.EarlyWarningOperationButton(
                         @Url.Action("Index", "HRD", new {Area = "EarlyWarning"}),
-                        EarlyWarningCheckAccess.Operation.View_HRD_list, "<i class=\"icon-list\"></i>", "btn", "btn_back_to_list")
+                        EarlyWarningConstants.Operation.View_HRD_list, "<i class=\"icon-list\"></i>", "btn", "btn_back_to_list")
 }
 
 <div>
