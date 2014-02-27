@@ -34,6 +34,7 @@ namespace Cats.Controllers
 
         }
 
+        [HttpGet]
         [AllowAnonymous]
         public ActionResult Login()
         {
@@ -46,6 +47,7 @@ namespace Cats.Controllers
         public ActionResult Login(LoginModel model, string returnUrl)
         {
             // Check if the supplied credentials are correct.
+            ViewBag.HasError = false;
             try
             {
                 if (_userAccountService.Authenticate(model.UserName, model.Password))
@@ -56,7 +58,7 @@ namespace Cats.Controllers
                     var user = _userAccountService.GetUserDetail(model.UserName);
                     user.LogginDate = DateTime.Now;
                     user.NumberOfLogins += 1;
-                    Session["USER_PROFILE"] = user;
+                    // Session["USER_PROFILE"] = user;
                     _userAccountService.UpdateUser(user);
 
                     // Add user information to session variable to avoid frequent trip to the databas
@@ -81,12 +83,19 @@ namespace Cats.Controllers
 
                     // Logistics user permissions
                     UserPermissionCache logisticsPermissionCache = new UserPermissionCache(storage, CatsGlobals.CATS, CatsGlobals.LOGISTICS, dbUser, true, false);
-                    Session[CatsGlobals.PSNP_PERMISSIONS] = logisticsPermissionCache;
+                    Session[CatsGlobals.LOGISTICS_PERMISSIONS] = logisticsPermissionCache;
 
                     // Procurement user permissions
-
+                    UserPermissionCache procurementPermissionCache = new UserPermissionCache(storage, CatsGlobals.CATS, CatsGlobals.PROCUREMENT, dbUser, true, false);
+                    Session[CatsGlobals.PROCUREMENT_PERMISSIONS] = procurementPermissionCache;
 
                     // Hub user permissions
+                    UserPermissionCache hubPermissionCache = new UserPermissionCache(storage, CatsGlobals.CATS, CatsGlobals.HUB, dbUser, true, false);
+                    Session[CatsGlobals.HUB_PERMISSIONS] = hubPermissionCache;
+
+                    // Regional user permissions
+                    UserPermissionCache regionalPermissionCache = new UserPermissionCache(storage, CatsGlobals.CATS, CatsGlobals.REGION, dbUser, true, false);
+                    Session[CatsGlobals.REGION_PERMISSIONS] = regionalPermissionCache;
 
                     // Whatever permission we are going to have!
 
@@ -108,15 +117,16 @@ namespace Cats.Controllers
 
                 ModelState.AddModelError("", exception.Message);
             }
-
+            //ViewBag.HasError = false;
             // If we got this far, something failed, redisplay form            
-            return View(model);
+            return View();
         }
 
         [Authorize]
 
         public ActionResult Logout()
         {
+            Session.Clear();
             FormsAuthentication.SignOut();
             return RedirectToAction("Index", "Home");
         }
