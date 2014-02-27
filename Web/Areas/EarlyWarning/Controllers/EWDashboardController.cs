@@ -44,7 +44,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         {
 
             var currentHrd = _eWDashboardService.FindByHrd(m => m.Status == 3).FirstOrDefault();
-            var requests = _eWDashboardService.FindByRequest(m => m.PlanID == currentHrd.PlanID && m.ProgramId==1);
+            var requests = _eWDashboardService.FindByRequest(m => m.PlanID == currentHrd.PlanID && m.ProgramId==1).OrderByDescending(m=>m.RegionalRequestID);
             var requestDetail = GetRecentRegionalRequests(requests);
 
             return Json(requestDetail, JsonRequestBehavior.AllowGet);
@@ -52,7 +52,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         private IEnumerable<RegionalRequestViewModel> GetRecentRegionalRequests(IEnumerable<RegionalRequest> regionalRequests)
         {
             return (from regionalRequest in regionalRequests
-                    where regionalRequest.Status==(int)RegionalRequestStatus.Draft && regionalRequest.ProgramId==1// only for relief program
+                    where  regionalRequest.ProgramId==1// only for relief program
                    // from requestDetail in regionalRequest.RegionalRequestDetails
                     select new RegionalRequestViewModel()
                         {
@@ -69,7 +69,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         public JsonResult GetRequisition()
         {
             var currentHrd = _eWDashboardService.FindByHrd(m => m.Status == 3).FirstOrDefault();
-            var requests = _eWDashboardService.FindByRequest(m => m.PlanID == currentHrd.PlanID);
+            var requests = _eWDashboardService.FindByRequest(m => m.PlanID == currentHrd.PlanID).OrderByDescending(m=>m.RegionalRequestID);
             var requisitions = GetRequisisition(requests);
             return Json(requisitions, JsonRequestBehavior.AllowGet);
 
@@ -79,12 +79,13 @@ namespace Cats.Areas.EarlyWarning.Controllers
             var reliefRequisitions = _eWDashboardService.GetAllReliefRequisition();
             return (from reliefRequisition in reliefRequisitions
                     from request in requests
-                    where reliefRequisition.RegionalRequestID == request.RegionalRequestID
+                    where reliefRequisition.RegionalRequestID == request.RegionalRequestID && reliefRequisition.Status==(int)ReliefRequisitionStatus.Draft 
                     select new ReliefRequisitionInfoViewModel()
                         {
                             RequisitonNumber = reliefRequisition.RequisitionNo,
+                            Region = reliefRequisition.AdminUnit.Name,
+                            Zone = reliefRequisition.AdminUnit1.Name,
                             Commodity = reliefRequisition.Commodity.Name,
-                            Zone = reliefRequisition.AdminUnit.AdminUnit2.Name,
                             Beneficiary = reliefRequisition.ReliefRequisitionDetails.Sum(m=>m.BenficiaryNo),
                             Amount = reliefRequisition.ReliefRequisitionDetails.Sum(m=>m.Amount),
                             Status =_eWDashboardService.GetStatusName(WORKFLOW.RELIEF_REQUISITION,
@@ -93,25 +94,31 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
                         });
         }
-        //public JsonResult GetRequestedInfo(int planID)
-        //{
-        //    var request = _regionalRequestService.FindBy(m => m.PlanID == planID);
-        //    var requestDetail = GetRquestDetailViewModel(request);
-        //    return Json(requestDetail, JsonRequestBehavior.AllowGet);
-        //}
-        //private IEnumerable<RegionalRequestInfoViewModel> GetRquestDetailViewModel(IEnumerable<RegionalRequest> regionalRequests)
-        //{
-        //    var requestCount = (from regionalRequest in regionalRequests
-        //                        group regionalRequest by regionalRequest.RegionID
-        //                            into regionalGroup
-        //                            select new
-        //                                {
-        //                                    Region = regionalGroup.Key,
-        //                                    totalRequest = regionalGroup.Count()
-        //                                });
+        public JsonResult GetRequestedInfo()
+        {
+            var currentHrd = _eWDashboardService.FindByHrd(m => m.Status == 3).FirstOrDefault();
+            var request = _eWDashboardService.FindByRequest(m => m.PlanID == currentHrd.PlanID).OrderByDescending(m=>m.RegionalRequestID);
+            var requestDetail = GetRquestDetailViewModel(request);
+            return Json(requestDetail, JsonRequestBehavior.AllowGet);
+        }
+        private IEnumerable<RegionalRequestInfoViewModel> GetRquestDetailViewModel(IEnumerable<RegionalRequest> regionalRequests)
+        {
+            var request = (from regionalRequest in regionalRequests
+                           select new RegionalRequestInfoViewModel
+                               {
+                                   RegionID = regionalRequest.RegionID,
+                                   RegionName = regionalRequest.AdminUnit.Name,
+                                   NoOfRequests =
+                                       _eWDashboardService.FindByRequest(m => m.RegionID == regionalRequest.RegionID
+                                                                              && m.PlanID == regionalRequest.PlanID).
+                               Count,
+                                   // Remaining = _eWDashboardService.GetRemainingRequest(regionalRequest.RegionID,regionalRequest.PlanID)
 
 
+                               });
+            var distinictRequest = request.GroupBy(m=>m.RegionID,(key, group) => group.First()).ToList();
+            return distinictRequest;
 
-        //}
+        }
     }
 }

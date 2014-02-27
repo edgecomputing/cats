@@ -17,5 +17,6 @@ namespace Cats.Services.Dashboard
       string GetStatusName(WORKFLOW workflow, int statusId);
       List<ReliefRequisition> FindByRequisition(Expression<Func<ReliefRequisition, bool>> predicate);
       List<ReliefRequisition> GetAllReliefRequisition();
+      int GetRemainingRequest(int regionID, int planID);
     }
 }

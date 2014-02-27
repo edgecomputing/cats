@@ -9,7 +9,7 @@ namespace Cats.Areas.EarlyWarning.Models
     {
         public int RegionID { get; set; }
         public string RegionName { get; set; }
-        public int Requested { get; set; }
+        public int NoOfRequests { get; set; }
         public int Remaining { get; set; }
 
     }
@@ -21,6 +21,7 @@ namespace Cats.Areas.EarlyWarning.Models
         public int Beneficiary { get; set; }
         public decimal Amount { get; set; }
         public string Status     { get; set; }
+        public string Region { get; set; }
     }
 
 }

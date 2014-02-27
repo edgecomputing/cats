@@ -48,7 +48,21 @@ namespace Cats.Services.Dashboard
         {
             return _unitOfWork.ReliefRequisitionRepository.GetAll();
         }
-        public void Dispose()
+        public int GetRemainingRequest(int regionID, int planID)
+        {
+            var hrd = _unitOfWork.HRDRepository.FindBy(m => m.Status==3).FirstOrDefault();
+             var totalRequest = (from hrdDetail in hrd.HRDDetails
+                                  where hrdDetail.AdminUnit.AdminUnit2.AdminUnit2.AdminUnitID==regionID
+                                 select new
+                                 {
+                                      
+                                   hrdDetail.DurationOfAssistance
+                                 }).Max().DurationOfAssistance;
+                                          
+            var requested =_unitOfWork.RegionalRequestRepository.FindBy(m => m.RegionID == regionID && m.PlanID == planID).Count;
+            return (totalRequest - requested);
+        }
+       public void Dispose()
         {
             _unitOfWork.Dispose();
         }
