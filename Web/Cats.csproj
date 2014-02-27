@@ -574,6 +574,8 @@
     <Compile Include="Areas\PSNP\Controllers\RegionalPSNPPlanController.cs" />
     <Compile Include="Areas\Regional\Controllers\FetchDataController.cs" />
     <Compile Include="Areas\Regional\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Regional\Models\DashboardData.cs" />
+    <Compile Include="Areas\Regional\Models\ImportantNumbers.cs" />
     <Compile Include="Areas\Regional\RegionalAreaRegistration.cs" />
     <Compile Include="Areas\Report\Controllers\ReportHomeController.cs" />
     <Compile Include="Areas\Report\ReportAreaRegistration.cs" />
@@ -581,6 +583,7 @@
     <Compile Include="Areas\Settings\Controllers\HomeController.cs" />
     <Compile Include="Areas\Settings\Controllers\LogController.cs" />
     <Compile Include="Areas\Settings\Controllers\UsersController.cs" />
+    <Compile Include="Areas\Settings\Models\CaseTeam.cs" />
     <Compile Include="Areas\Settings\Models\ChangePasswordModel.cs" />
     <Compile Include="Areas\Settings\Models\ForgetPasswordRequestModel.cs" />
     <Compile Include="Areas\Settings\Models\ForgotPasswordModel.cs" />
@@ -2515,7 +2518,6 @@
     <Folder Include="Areas\Hub\Views\ReleaseNotes\" />
     <Folder Include="Areas\Localization\Models\" />
     <Folder Include="Areas\PSNP\Views\Shared\" />
-    <Folder Include="Areas\Regional\Models\" />
     <Folder Include="Areas\Regional\Views\Shared\" />
     <Folder Include="Areas\Report\Models\" />
     <Folder Include="Areas\Report\Views\Shared\" />

@@ -20,12 +20,14 @@ namespace Cats.Areas.Settings.Controllers
     {
         private readonly  IUserAccountService _userService;
         private readonly  IHubService _hubService;
+        private readonly IAdminUnitService _adminUnitService;
        // private readonly IUserAccountService _userAccountService;
       
-        public UsersController(IUserAccountService service, IHubService hubService)
+        public UsersController(IUserAccountService service, IHubService hubService, IAdminUnitService adminUnitService)
         {
             _userService = service;
             _hubService = hubService;
+            _adminUnitService = adminUnitService;
             //_userAccountService = userAccountService;
         }
 
@@ -43,8 +45,21 @@ namespace Cats.Areas.Settings.Controllers
         public ActionResult New()
         {
             var model = new UserViewModel();
+
+            var caseteams = new List<CaseTeam>();
+
+            caseteams.Add(new CaseTeam() { ID = 1,CaseTeamName = "EarlyWarning"});
+            caseteams.Add(new CaseTeam() { ID = 2, CaseTeamName = "PSNP/FSCD" });
+            caseteams.Add(new CaseTeam() { ID = 3, CaseTeamName = "Logistics" });
+            caseteams.Add(new CaseTeam() { ID = 4, CaseTeamName = "Procurement" });
+            //caseteams.Add(new CaseTeam() { ID = 1, CaseTeamName = "Hub" });
+
+            ViewBag.CaseTeams = caseteams;
             //List<Cats.Models.Security.ViewModels.Application> Applications = userService.GetApplications("CATS");
             //model.Applications = Applications;
+
+            ViewBag.Regions = _adminUnitService.GetRegions();
+
             return View(model);
         }
 
@@ -88,7 +103,6 @@ namespace Cats.Areas.Settings.Controllers
             user.ActiveInd = true;
             user.NumberOfLogins = 0;
 
-
             //List<Cats.Models.Security.ViewModels.Application> app = userInfo.Applications;
             Dictionary<string, List<string>> roles = new Dictionary<string, List<string>>();
             //List<string> Roles;
@@ -106,6 +120,8 @@ namespace Cats.Areas.Settings.Controllers
 
             user.FirstName = userInfo.FirstName;
             user.LastName = userInfo.LastName;
+            user.RegionalUser = userInfo.RegionalUser;
+            user.CaseTeam = userInfo.CaseTeam;
 
             user.LanguageCode = "EN";
             user.Keyboard = "AM";
@@ -119,9 +135,7 @@ namespace Cats.Areas.Settings.Controllers
             {
                 return View("Index");
             }
-
             return View();
-
         }
 
         public ActionResult UserProfile(int id)

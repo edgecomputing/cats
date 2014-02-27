@@ -34,6 +34,7 @@ namespace Cats.Controllers
 
         }
 
+        [HttpGet]
         [AllowAnonymous]
         public ActionResult Login()
         {
@@ -46,6 +47,7 @@ namespace Cats.Controllers
         public ActionResult Login(LoginModel model, string returnUrl)
         {
             // Check if the supplied credentials are correct.
+            ViewBag.HasError = false;
             try
             {
                 if (_userAccountService.Authenticate(model.UserName, model.Password))
@@ -56,7 +58,7 @@ namespace Cats.Controllers
                     var user = _userAccountService.GetUserDetail(model.UserName);
                     user.LogginDate = DateTime.Now;
                     user.NumberOfLogins += 1;
-                    Session["USER_PROFILE"] = user;
+                    // Session["USER_PROFILE"] = user;
                     _userAccountService.UpdateUser(user);
 
                     // Add user information to session variable to avoid frequent trip to the databas
@@ -108,9 +110,9 @@ namespace Cats.Controllers
 
                 ModelState.AddModelError("", exception.Message);
             }
-
+            //ViewBag.HasError = false;
             // If we got this far, something failed, redisplay form            
-            return View(model);
+            return View();
         }
 
         [Authorize]
