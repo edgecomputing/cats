@@ -17,7 +17,7 @@ using Cats.Services.Common;
 using Cats.Services.EarlyWarning;
 using Cats.Services.Logistics;
 using Cats.ViewModelBinder;
-using Early_Warning.Security;
+using Cats.Security;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
 using Cats.Services.Security;

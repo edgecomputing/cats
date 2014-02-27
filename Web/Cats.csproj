@@ -372,6 +372,7 @@
     <Compile Include="Areas\EarlyWarning\Controllers\ContributionController.cs" />
     <Compile Include="Areas\EarlyWarning\Controllers\CurrencyController.cs" />
     <Compile Include="Areas\EarlyWarning\Controllers\DonorCoverageController.cs" />
+    <Compile Include="Areas\EarlyWarning\Controllers\EWDashboardController.cs" />
     <Compile Include="Areas\EarlyWarning\Controllers\GiftCertificateController.cs" />
     <Compile Include="Areas\EarlyWarning\Controllers\HRDController.cs" />
     <Compile Include="Areas\EarlyWarning\Controllers\NeedAssessmentController.cs" />
@@ -390,6 +391,7 @@
     <Compile Include="Areas\EarlyWarning\Models\HRDDonorCoverageViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\HRDWithRegionalRequestViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\InKindContributionDetailViewModel.cs" />
+    <Compile Include="Areas\EarlyWarning\Models\RegionalRequestInfoViewModel.cs" />
     <Compile Include="Areas\Logistics\Controllers\DonationController.cs" />
     <Compile Include="Areas\Logistics\Controllers\TransferController.cs" />
     <Compile Include="Areas\Logistics\Models\LoanReciptPlanViewModel.cs" />
@@ -624,12 +626,12 @@
     </Compile>
     <Compile Include="Filters\LocalizationFilter.cs" />
     <Compile Include="Helpers\CatsAuthorize.cs" />
+    <Compile Include="Helpers\CatsGlobals.cs" />
     <Compile Include="Helpers\DateHelpers.cs" />
     <Compile Include="Helpers\DistributionHelper.cs" />
     <Compile Include="Helpers\HtmlExtensions.cs" />
     <Compile Include="Helpers\Hub\AmharicEditorHelper.cs" />
     <Compile Include="Helpers\Hub\CascadeDropDownHelper.cs" />
-    <Compile Include="Helpers\Hub\CatsAuthorize.cs" />
     <Compile Include="Helpers\Hub\ControllerContextExtensions.cs" />
     <Compile Include="Helpers\Hub\CultureHelper.cs" />
     <Compile Include="Helpers\Hub\CurrentUserHelper.cs" />

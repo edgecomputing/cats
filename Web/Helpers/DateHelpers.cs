@@ -41,7 +41,8 @@ namespace Cats.Helpers
         //            return ethiopianDate.ToLongDateString();
         //        }
         //    }
-        //    else {
+        //    else
+        //    {
         //        return String.Empty;
         //    }
         //}

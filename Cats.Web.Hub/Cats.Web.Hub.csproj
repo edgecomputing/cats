@@ -185,7 +185,6 @@
     </Compile>
     <Compile Include="Helpers\AmharicEditorHelper.cs" />
     <Compile Include="Helpers\CascadeDropDownHelper.cs" />
-    <Compile Include="Helpers\CatsAuthorize.cs" />
     <Compile Include="Helpers\ControllerContextExtensions.cs" />
     <Compile Include="Helpers\CultureHelper.cs" />
     <Compile Include="Helpers\CurrentUserHelper.cs" />

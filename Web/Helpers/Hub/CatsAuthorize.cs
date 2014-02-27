@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Cats.Services.Security;
-using Early_Warning.Security;
+using Cats.Security;
 using Ninject;
 
 namespace Cats.Web.Hub.Helpers

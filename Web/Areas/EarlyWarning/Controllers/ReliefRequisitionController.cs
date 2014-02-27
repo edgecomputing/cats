@@ -126,7 +126,14 @@ namespace Cats.Areas.EarlyWarning.Controllers
         [HttpGet]
         public ViewResult NewRequisiton(int id)
         {
+
             var input = _reliefRequisitionService.GetRequisitionByRequestId(id);
+             //var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
+            foreach (var reliefRequisitionNew in input)
+            {
+                //reliefRequisitionNew.RequestDatePref =
+                    //reliefRequisitionNew.RequestedDate.ToCTSPreferedDateFormat(datePref);
+            }
             return View(input);
         }
 
