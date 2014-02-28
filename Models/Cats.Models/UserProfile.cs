@@ -12,8 +12,6 @@ namespace Cats.Models
 
         public UserProfile()
         {
-
-            
             this.Hrds=new List<HRD>();
             this.NeedAssessments = new List<NeedAssessment>();
             this.NeedAssessments1 = new List<NeedAssessment>();
@@ -44,6 +42,8 @@ namespace Cats.Models
         public virtual ICollection<DonationPlanHeader> DonationPlanHeaders { get; set; }
 
         public int? DefaultHub { get; set; }
+        public int? RegionID { get; set; }
+        public bool RegionalUser { get; set; }
 
 
         public virtual ICollection<WoredaStockDistribution> UtilizationHeaders { get; set; }

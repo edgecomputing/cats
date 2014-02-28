@@ -49,18 +49,53 @@ namespace Cats.Controllers
         //
         // GET: /Home/
         //     [Authorize]
-        public ActionResult Index(int regionId = 4)
+        public ActionResult Index()
         {
             //var req = _reliefRequistionService.FindBy(t => t.RegionID == regionId);
-            var req = _regionalRequestService.FindBy(t => t.RegionID == regionId);
+            //var req = _regionalRequestService.FindBy(t => t.RegionID == regionId);
             //ViewBag.Requests = req;
+
             var currentUser = UserAccountHelper.GetUser(HttpContext.User.Identity.Name);
 
             var userID = currentUser.UserProfileID;
-            var userDashboardPreferences = _userDashboardPreferenceService.Get(t => t.UserID == userID).OrderBy(m=>m.OrderNo);
-            var dashboardWidgets = userDashboardPreferences.Select(userDashboardPreference => 
+
+
+            if (currentUser.RegionalUser)
+            {
+                ViewBag.RegionID = currentUser.RegionID;
+                return RedirectToAction("Index", "Home", new { Area = "Regional" });
+            }
+            //else //if (!currentUser.RegionalUser)
+            //{
+                //If the user is not regional user 
+                switch (currentUser.CaseTeam)
+                {
+                    case 1:
+                        return RedirectToAction("Index", "Home", new { Area = "EarlyWarning" });
+                        break;
+                    case 2:
+                        return RedirectToAction("Index", "Home", new { Area = "PSNP" });
+                        break;
+                    case 3:
+                        return RedirectToAction("Index", "Home", new { Area = "Logistics" });
+                        break;
+                    case 4:
+                        return RedirectToAction("Index", "Home", new { Area = "Procurement" });
+                        break;
+                    case 5:
+                        return RedirectToAction("Index", "Home", new { Area = "Hub" });
+                        break;
+                   // default:
+                        //return RedirectToAction("Index", "Home");
+                }
+            //}
+            
+            // If the user is not niether regional nor caseteam user return this default page
+            var userDashboardPreferences = _userDashboardPreferenceService.Get(t => t.UserID == userID).OrderBy(m => m.OrderNo);
+            var dashboardWidgets = userDashboardPreferences.Select(userDashboardPreference =>
                                     _dashboardWidgetService.FindById(userDashboardPreference.DashboardWidgetID)).ToList();
             return View(dashboardWidgets);
+
             //return Json(req, JsonRequestBehavior.AllowGet);
             //return Json(req, JsonRequestBehavior.AllowGet);
             //var widgets = new List<DashboardWidget>();

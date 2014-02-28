@@ -23,17 +23,17 @@
 
                     <div class="details column-divider-regional center">
                         <span class="content">Total Requests</span>
-                        <span class="value">8,547</span>
+                        <span class="value">{{Numbers.TotalRequests|number}}</span>
                     </div>
 
                     <div class="details column-divider-regional center">
                         <span class="content">Total Requisitions</span>
-                        <span class="value">521</span>
+                        <span class="value">{{Numbers.TotalRequistions|number}}</span>
                     </div>
 
                     <div class="details column-divider-regional center">
                         <span class="content">Required Commodity</span>
-                        <span class="value">5,000 QT </span>
+                        <span class="value">{{Numbers.TotalCommodity|number}} QT </span>
                     </div>
 
 
@@ -54,7 +54,7 @@
 
                     <div class="details">
                         <span class="content">Total Number of FDPS</span>
-                        <span class="value">58</span>
+                        <span class="value">{{Numbers.TotalFDPS|number}}</span>
                     </div>
                     <!-- /.details -->
 
@@ -74,7 +74,7 @@
 
                     <div class="details">
                         <span class="content">People in Need</span>
-                        <span class="value">56,000</span>
+                        <span class="value">{{Numbers.TotalPeople|number}}</span>
                     </div>
                     <!-- /.details -->
 
@@ -144,7 +144,33 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr class="">
+                                        
+                                        <tr class="" ng-repeat="request in Requests">
+                                            @*<td class="hidden-xs">{{request[1].Value}}</td>
+                                            <td>{{request[3].Value| date:'medium'}}</td>
+                                            <td><span class="label label-success">{{request[4].Value}}</span></td>
+                                            <td class="align-center">
+                                                <a class="btn btn-sm btn-default" data-original-title="Approve">
+                                                    <i class="icon-upload"></i>Approve
+                                                </a>
+                                            </td>*@
+                                            <td class="hidden-xs">{{request[1].Value}}</td>
+                                            <td>{{request[2].Value}}</td>
+                                            <td>{{25142|number}}</td>
+                                            <th>{{1442|number}} QT</th>
+                                            <th>
+                                                <a href="javascript:;" class="btn btn-sm btn-default">View <i class="icon-chevron-right"></i>
+                                                </a>
+                                            </th>
+                                            <td><span class="label label-success">{{request[4].Value}}</span></td>
+                                            <td class="align-center">
+                                                <a class="btn btn-sm btn-default" data-original-title="Approve">
+                                                    <i class="icon-upload"></i>Approve
+                                                </a>
+                                            </td>
+                                        </tr>
+
+                                        @*<tr class="">
                                             <td class="hidden-xs">REF-15420</td>
                                             <td>28</td>
                                             <td>{{2800|number}}</td>
@@ -155,9 +181,6 @@
                                             </th>
                                             <td><span class="label label-success">Approved</span></td>
                                             <td class="align-center">
-                                                @*<a class="btn btn-sm btn-default" data-original-title="Approve">
-                                                    <i class="icon-upload"></i>Approve
-                                                </a>*@
                                             </td>
                                         </tr>
 
@@ -207,18 +230,9 @@
                                                 <a class="btn btn-sm btn-default" data-original-title="Approve">Approve
                                                 </a>
                                             </td>
-                                        </tr>
-
-                                        @* <tr class="" ng-repeat="request in Requests">
-                                            <td class="hidden-xs">{{request[1].Value}}</td>
-                                            <td>{{request[3].Value| date:'medium'}}</td>
-                                            <td><span class="label label-success">{{request[4].Value}}</span></td>
-                                           <td class="align-center">
-                                                <a class="btn btn-sm btn-default" data-original-title="Approve">
-                                                    <i class="icon-upload"></i>Approve
-                                                </a>
-                                            </td>
                                         </tr>*@
+
+                                        
                                     </tbody>
                                 </table>
 
@@ -251,7 +265,7 @@
                                     <!-- /.stat-label -->
 
                                     <div class="pull-right">
-                                        33%
+                                        {{Data.ApprovedRequests}}%
                                     </div>
                                     <!-- /.stat-value -->
 
@@ -264,7 +278,7 @@
                                     </div>
                                 </div>*@
                                 <div class="progress progress-success">
-                                    <div class="bar" style="width: 33%"></div>
+                                    <div class="bar" style="width: {{Data.ApprovedRequests}}%"></div>
                                 </div>
                                 <!-- /.progress -->
 
@@ -278,13 +292,13 @@
                                     </div>
                                     <!-- /.stat-label -->
                                     <div class="pull-right">
-                                        42%
+                                         {{Data.PendingRequests}}%
                                     </div>
                                     <!-- /.stat-value -->
                                 </div>
                                 <!-- /stat-header -->
                                 <div class="progress progress-danger">
-                                    <div class="bar" style="width: 42%"></div>
+                                    <div class="bar" style="width: {{Data.PendingRequests}}%"></div>
                                 </div>
                                 <!-- /.progress -->
                             </div>
@@ -300,7 +314,7 @@
                                     <!-- /.stat-label -->
 
                                     <div class="pull-right">
-                                        25%
+                                        {{Data.HubAssignedRequests}}%
                                     </div>
                                     <!-- /.stat-value -->
 
@@ -308,7 +322,7 @@
                                 <!-- /stat-header -->
 
                                 <div class="progress progress-warning">
-                                    <div class="bar" style="width: 25%"></div>
+                                    <div class="bar" style="width: {{Data.HubAssignedRequests}}%"></div>
                                 </div>
                                 <!-- /.progress -->
 
@@ -367,7 +381,7 @@
                                     <!-- /.stat-label -->
 
                                     <div class="pull-right">
-                                        33%
+                                        {{Data.ApprovedRequisitions}}%
                                     </div>
                                     <!-- /.stat-value -->
 
@@ -375,7 +389,7 @@
                                 <!-- /stat-header -->
 
                                 <div class="progress progress-success">
-                                    <div class="bar" style="width: 33%"></div>
+                                    <div class="bar" style="width: {{Data.ApprovedRequisitions}}%"></div>
                                 </div>
                                 <!-- /.progress -->
 
@@ -392,7 +406,7 @@
                                     <!-- /.stat-label -->
 
                                     <div class="pull-right">
-                                        42%
+                                        {{Data.PendingRequisitions}}%
                                     </div>
                                     <!-- /.stat-value -->
 
@@ -400,7 +414,7 @@
                                 <!-- /stat-header -->
 
                                 <div class="progress progress-danger">
-                                    <div class="bar" style="width: 42%"></div>
+                                    <div class="bar" style="width:  {{Data.PendingRequisitions}}%"></div>
                                 </div>
                                 <!-- /.progress -->
 
@@ -417,7 +431,7 @@
                                     <!-- /.stat-label -->
 
                                     <div class="pull-right">
-                                        25%
+                                        {{Data.HubAssignedRequisitions}}%
                                     </div>
                                     <!-- /.stat-value -->
 
@@ -425,10 +439,10 @@
                                 <!-- /stat-header -->
 
                                 <div class="progress progress-warning">
-                                    <div class="bar" style="width: 25%"></div>
+                                    <div class="bar" style="width: {{Data.HubAssignedRequisitions}}%"></div>
                                 </div>
                                 <!-- /.progress -->
-
+                                
                             </div>
                             <!-- /.progress-stat -->
 
@@ -660,7 +674,7 @@
                             <a href="javascript:;" class="dashboard-stat">
                                 <div class="details ">
                                     <span class="content">Number of Incoming Dispatches</span>
-                                    <span class="value">98 </span>
+                                    <span class="value">{{Data.IncomingDispatches|number}} </span>
                                 </div>
                             </a>
                             <br>
@@ -670,7 +684,7 @@
                             <a href="javascript:;" class="dashboard-stat">
                                 <div class="details ">
                                     <span class="content">Total Incoming Commodity</span>
-                                    <span class="value">200 QT </span>
+                                    <span class="value">{{Data.IncomingCommodity|number}} QT </span>
                                 </div>
                             </a>
                             <br>
@@ -812,7 +826,7 @@
                                     <!-- /.stat-label -->
 
                                     <div class="pull-right">
-                                        23%
+                                        {{Data.Above18}}%
                                     </div>
                                     <!-- /.stat-value -->
 
@@ -820,7 +834,7 @@
                                 <!-- /stat-header -->
 
                                 <div class="progress progress-info">
-                                    <div class="bar" style="width: 23%"></div>
+                                    <div class="bar" style="width: {{Data.Above18}}%"></div>
                                 </div>
                                 <!-- /.progress -->
 
@@ -837,7 +851,7 @@
                                     <!-- /.stat-label -->
 
                                     <div class="pull-right">
-                                        24%
+                                        {{Data.Bet5And8}}%
                                     </div>
                                     <!-- /.stat-value -->
 
@@ -845,7 +859,7 @@
                                 <!-- /stat-header -->
 
                                 <div class="progress progress-info">
-                                    <div class="bar" style="width: 24%"></div>
+                                    <div class="bar" style="width: {{Data.Bet5And8}}%"></div>
                                 </div>
                                 <!-- /.progress -->
 
@@ -862,7 +876,7 @@
                                     <!-- /.stat-label -->
 
                                     <div class="pull-right">
-                                        53%
+                                        {{Data.Below5}}%
                                     </div>
                                     <!-- /.stat-value -->
 
@@ -870,7 +884,7 @@
                                 <!-- /stat-header -->
 
                                 <div class="progress progress-info">
-                                    <div class="bar" style="width: 53%"></div>
+                                    <div class="bar" style="width: {{Data.Below5}}%"></div>
                                 </div>
                                 <!-- /.progress -->
 
@@ -896,7 +910,7 @@
                                 </div>
                                 <div class="details ">
                                     <span class="content">Female</span>
-                                    <span class="value">12,452 </span>
+                                    <span class="value">{{Data.Female|number}} </span>
                                 </div>
                             </a>
                             <br>
@@ -909,7 +923,7 @@
                                 </div>
                                 <div class="details ">
                                     <span class="content">Male</span>
-                                    <span class="value">15,142 </span>
+                                    <span class="value">{{Data.Male|number}} </span>
                                 </div>
                             </a>
                             <br>
@@ -951,11 +965,8 @@
         $scope.Requests = [];
         $scope.Requisitions = [];
         $scope.Dispatches = [];
-
-        $scope.ApprovedRequisition = 0;
-        $scope.PendingRequisition = 0;
-        $scope.HubAssignedRequisition = 0;
-
+        $scope.Data = [];
+        
         var onRequestsSuccess = function (data) {
             $scope.Requests = data;
         };
@@ -967,6 +978,12 @@
         var onDispatchesSuccess = function (data) {
             $scope.Dispatches = data;
         };
+        
+        var onDashboardDataSuccess = function (data) {
+            $scope.Data = data;
+        };
+
+
 
         $scope.getRequests = function () {
             $http.post("@Url.Action("Requests", "FetchData", new { Area = "Regional" })", $scope.reqParam).success(onRequestsSuccess);
@@ -979,15 +996,35 @@
         $scope.getDispatches = function() {
             $http.post("@Url.Action("Dispatches", "FetchData", new { Area = "Regional" })", $scope.reqParam).success(onDispatchesSuccess);
         };
+        
+        $scope.getDispatches = function () {
+            $http.post("@Url.Action("Dispatches", "FetchData", new { Area = "Regional" })", $scope.reqParam).success(onDispatchesSuccess);
+        };
+
+        $scope.getRegionalData = function() {
+            $http.post("@Url.Action("RegionalData", "FetchData", new { Area = "Regional" })", $scope.reqParam).success(onDashboardDataSuccess);
+        };
 
         $scope.getRequests();
         $scope.getRequisitions();
         $scope.getDispatches();
+        $scope.getRegionalData();
     }
 
 
     function ImportantNumbersController($scope, $http) {
+        $scope.reqParam = { regionID: 2 };
+        $scope.Numbers = [];
+        
+        var onNumbersSuccess = function (data) {
+            $scope.Numbers = data;
+        };
 
+        $scope.getNumbers = function () {
+            $http.post("@Url.Action("ImportantNumbers", "FetchData", new { Area = "Regional" })", $scope.reqParam).success(onNumbersSuccess);
+        };
+        
+        $scope.getNumbers();
     }
 
 </script>

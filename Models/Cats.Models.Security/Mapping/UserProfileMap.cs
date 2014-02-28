@@ -55,6 +55,9 @@ namespace Cats.Models.Security.Mapping
             this.Property(t => t.Keyboard)
                 .HasMaxLength(2);
 
+            this.Property(t => t.RegionalUser)
+                .IsRequired();
+
             // Table & Column Mappings
             this.ToTable("UserProfile");
             this.Property(t => t.UserProfileID).HasColumnName("UserProfileID");
@@ -80,6 +83,8 @@ namespace Cats.Models.Security.Mapping
             this.Property(t => t.Disabled).HasColumnName("Disabled");
             this.Property(t => t.DefaultHub).HasColumnName("DefaultHub");
             this.Property(t => t.NumberOfLogins).HasColumnName("NumberOfLogins");
+            this.Property(t => t.RegionID).HasColumnName("RegionID");
+            this.Property(t => t.RegionalUser).HasColumnName("RegionalUser");
 
         }
     }

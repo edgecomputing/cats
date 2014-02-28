@@ -253,7 +253,7 @@
         {
             if (column.DataType == typeof(decimal))
             {
-                columns.Bound(column.ColumnName).HtmlAttributes(new { align = "right" }).Format("{0:N2}").HeaderHtmlAttributes(new { @class = "cats-unit-pref-grid" });
+                columns.Bound(column.ColumnName).HtmlAttributes(new { align = "right" }).Format("{0:N4}").HeaderHtmlAttributes(new { @class = "cats-unit-pref-grid" });
 
             }
             else if (column.DataType == typeof(int))

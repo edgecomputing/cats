@@ -71,9 +71,21 @@ namespace Cats.Helpers
             try
             {
                 // Check to see if we already have the user profile loaded in the session.
-                if (null != HttpContext.Current.Session["USER_INFO"])
+                if ( HttpContext.Current.Session.Keys.Count>0)
                 {
-                    user = (UserInfo)HttpContext.Current.Session["USER_INFO"];
+                    if (HttpContext.Current.Session["USER_INFO"]!=null)
+                    {
+                        user = (UserInfo)HttpContext.Current.Session["USER_INFO"];    
+                    }
+                    else
+                    {
+                        // Fetch a copy from the database if we don't have a session variable already loaded in memory
+                        var service = (IUserAccountService)DependencyResolver.Current.GetService(typeof(IUserAccountService));
+                        user = service.GetUserInfo(userName);
+                    }
+
+                    //to update the "USER_INFO"session as far as the user is engaged 
+                    //HttpContext.Current.Session["USER_INFO"] = user;
                 }
                 else
                 {
@@ -84,6 +96,7 @@ namespace Cats.Helpers
                     HttpContext.Current.Session["USER_PROFILE"] = service.GetUserDetail(userName);
                 }
             }
+
             catch (Exception ex)
             {
                 //TODO: Log error here
@@ -110,13 +123,13 @@ namespace Cats.Helpers
             {
                 // TODO: Log exception hrere
             }
-
             return preference.ToUpper();
         }
         public static string UserUnitPreference(this HtmlHelper helper)
         {
             return UserUnitPreference();
         }
+
         public static string UserUnitPreference()
         {
             var preference = "MT";
