@@ -38,5 +38,21 @@ namespace Cats.Areas.EarlyWarning.Models
         public decimal TransportRequistionCreated { get; set; }
         public decimal TransportOrderCreated { get; set; }
     }
+    public class RegionalTotalViewModel
+    {
+        public string RegionName { get; set; }
+        public int TotalBeneficary { get; set; }
+        public decimal BeneficiaryPercentage { get; set; }
+    }
+    public class GiftCertificateViewModel
+    {
+        public string SINumber { get; set; }
+        public string DonorName { get; set; }
+        public string DclarationNumber { get; set; }
+        public string Commodity { get; set; }
+        public decimal Wieght { get; set; }
+        public string GiftDate { get; set; }
+        public string Status { get; set; }
+    }
 
 }

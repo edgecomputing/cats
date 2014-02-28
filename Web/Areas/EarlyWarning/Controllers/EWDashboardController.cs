@@ -64,7 +64,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                             NumberOfFDPS = regionalRequest.RegionalRequestDetails.Count(),
                             Status = _eWDashboardService.GetStatusName(WORKFLOW.REGIONAL_REQUEST, regionalRequest.Status)
 
-                        });
+                        }).Take(5);
         }
         public JsonResult GetRequisition()
         {
@@ -92,7 +92,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                                                                   reliefRequisition.Status.Value)
 
 
-                        });
+                        }).Take(5);
         }
         public JsonResult GetRequestedInfo()
         {
@@ -169,9 +169,68 @@ namespace Cats.Areas.EarlyWarning.Controllers
             return Json(requisitionStatusPercentage, JsonRequestBehavior.AllowGet);
 
         }
+        public JsonResult GetHrdRegionPercentage()
+        {
+            var currentHrd = _eWDashboardService.FindByHrd(m => m.Status == 3).FirstOrDefault();
+            IEnumerable<RegionalTotalViewModel> regionalSummery = new List<RegionalTotalViewModel>(); 
+            if (currentHrd != null)
+            {
+
+                var regionGroup = from detail in currentHrd.HRDDetails
+                                     group detail by detail.AdminUnit.AdminUnit2.AdminUnit2
+                                     into regionalDetail
+                                     select new
+                                         {
+                                             Region = regionalDetail.Key,
+                                             NumberOfBeneficiaries = regionalDetail.Sum(m => m.NumberOfBeneficiaries)     
+                                         };
+                regionalSummery= (from total in regionGroup
+                        select new RegionalTotalViewModel
+                        {
+                            RegionName = total.Region.Name,
+                            TotalBeneficary = total.NumberOfBeneficiaries,
+                         
+                        });
+                decimal totalNationalBeneficiary = regionalSummery.Sum(m => m.TotalBeneficary);
+                regionalSummery = (from regionalTotalViewModel in regionalSummery
+                                   where regionalTotalViewModel.TotalBeneficary>0
+                                   select new RegionalTotalViewModel()
+                                       {
+                                           RegionName = regionalTotalViewModel.RegionName,
+                                           TotalBeneficary = regionalTotalViewModel.TotalBeneficary,
+                                           BeneficiaryPercentage =(regionalTotalViewModel.TotalBeneficary/totalNationalBeneficiary)*100
+
+                                       }).OrderByDescending(m=>m.TotalBeneficary);
+
+
+            }
+            return Json(regionalSummery, JsonRequestBehavior.AllowGet);
+        }
         private HRD GetCurrentHrd()
         {
             return _eWDashboardService.FindByHrd(m => m.Status == 3).FirstOrDefault();
+        }
+        public JsonResult GetRecentGiftCertificates()
+        {
+            var draftGiftCertificate = _eWDashboardService.GetAllGiftCertificate().Where(m => m.StatusID == 1);
+
+            var giftCertificate = GetGiftCertificate(draftGiftCertificate);
+
+            return Json(giftCertificate, JsonRequestBehavior.AllowGet);
+        }
+        private IEnumerable<GiftCertificateViewModel> GetGiftCertificate(IEnumerable<Cats.Models.GiftCertificate> giftCertificates)
+        {
+            return (from giftCertificate in giftCertificates
+                    select new GiftCertificateViewModel()
+                        {
+                            DonorName = giftCertificate.Donor.Name,
+                            SINumber = giftCertificate.ShippingInstruction.Value,
+                            DclarationNumber = giftCertificate.DeclarationNumber,
+                            Status = "Draft"
+                            // Commodity = giftCertificate.GiftCertificateDetails.FirstOrDefault().Commodity.Name
+                        }).Take(5);
+
+
         }
     }
 }

@@ -178,29 +178,7 @@
                     </div>
                 </div>
             </div>
-            @*
-            @(Html.Kendo().Grid(Model)
-          
-    .Name("grid")
-    .Columns(columns =>
-    {
-        foreach (System.Data.DataColumn column in Model.Columns)
-        {
-            if (column.DataType == typeof(decimal))
-            { columns.Bound(column.ColumnName).HtmlAttributes(new { align = "right" }).Format("{0:N2}"); }
-            else if (column.DataType == typeof(int))
-            {
-                columns.Bound(column.ColumnName).HtmlAttributes(new { align = "right" }).Format("{0:N0}"); 
-            }
-            else{
-                columns.Bound(column.ColumnName);
-            }
-
-        }
-    })
-       
-    )
-            *@
+           
             <div id="DispatchContent"class="row">
                 <div>&nbsp;</div>
 
@@ -222,7 +200,7 @@
                         </div>
 
                         <!-- /.portlet-header -->
-                        <div class="portlet-content" style="height:240px;  overflow: scroll" >
+                        <div class="portlet-content"  >
                             <th class="table-responsive" >
                             <table id="" class="table table-striped table-checkable"  > 
                                                          
@@ -242,7 +220,14 @@
                                         <tr>
                                        @foreach (var cell in row.ItemArray)
                                           {
-                                             <td>@cell.ToString()</td>
+                                              if(cell.GetType()==typeof(decimal))
+                                              {
+                                                  <td>@cell.ToString().AsFloat()</td>
+                                              }
+                                              else
+                                              {
+                                                  <td>@cell.ToString()</td>
+                                              }
                                           }
                                        </tr>
                                       } 
@@ -256,7 +241,42 @@
                     <!-- /.portlet-content -->
 
                 </div>
-           
+                   <div class="span3">
+
+                    <div class="portlet">
+                        <div class="portlet-header">
+                            <h3>
+                                <i class=""></i>
+                               HRD Percentage
+                            </h3>
+                        </div>
+                        <div class="portlet-content">
+                            <div class="progress-stat" ng-repeat="region in Regions">
+
+                                <div class="stat-header" style="height: 5px">
+
+                                    <div class="pull-left">
+                                        {{region.RegionName}} ({{region.TotalBeneficary}})
+                                    </div>
+                                    <!-- /.stat-label -->
+
+                                    <div class="pull-right">
+                                        {{region.BeneficiaryPercentage|number:2}}%
+                                    </div>
+                                    <!-- /.stat-value -->
+
+                                </div>
+                                <!-- /stat-header -->
+
+                                <div class="progress progress-info">
+                                    <div class="bar" style="width: {{region.BeneficiaryPercentage}}%"></div>
+                                </div>
+                                <!-- /.progress -->
+
+                            </div>
+                        </div>
+                        </div>
+                        </div>
                 <div class="span3">
 
                     <div class="portlet">
@@ -300,7 +320,8 @@
                     </div>
                     <!-- /.portlet -->
                 </div>
-                <!-- /.portlet -->
+                <!-- /.portlet --> 
+              
             </div>
         </div>
         <div>
@@ -339,7 +360,7 @@
 
                         <!-- /.portlet-header -->
 
-                        <div class="portlet-content" style="height:420px; ">
+                        <div class="portlet-content" >
                             <th class="table-responsive">
                                 <table id="" class="table table-striped table-checkable">
                                     <thead>
@@ -544,7 +565,7 @@
                         <!-- /.portlet-header -->
 
                         <div class="portlet-content">
-                            <div class="progress-stat">
+                            <div class="progress-stat" >
 
                                 <div class="stat-header">
 
@@ -715,7 +736,7 @@
 
                         <!-- /.portlet-header -->
 
-                        <div class="portlet-content" style="height:380px;  overflow: scroll">
+                        <div class="portlet-content"  ">
                             <th class="table-responsive">
                                 <table id="" class="table table-striped table-checkable">
                                     <thead>
@@ -760,7 +781,254 @@
                 <!-- /.portlet -->
             </div>
         </div>
-  
+        
+        <div>
+            <div class="row" style="border-bottom-width: thin; border-bottom-color: #666; border-bottom-style: inset; margin-top: 5px">
+
+                <div class="pull-left">
+                    <h4>Recent GiftCertificate</h4>
+                </div>
+                <div class="pull-right">
+                    <div class="btn-group">
+                        <button id="GiftCertificateHeader"type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
+                             <i class="icon-arrow-up"></i> 
+                            <i class="icon-arrow-down"></i> 
+                        </button>
+
+                    </div>
+                </div>
+            </div>
+            <div id="GiftCertificateContent" class="row">
+                <div>&nbsp;</div>
+              @* <div class="span4">
+
+                    <div class="portlet">
+                        <div class="portlet-header">
+                            <h3>
+                                <i class=""></i>
+                                Requisitions Percentage by Status 
+                            </h3>
+                        </div>
+
+                        <!-- /.portlet-header -->
+
+                        <div class="portlet-content">
+                            <div class="progress-stat">
+
+                                <div class="stat-header">
+
+                                    <div class="pull-left">
+                                        Approved Requisitions
+                                    </div>
+                                    <!-- /.stat-label -->
+
+                                    <div class="pull-right">
+                                        {{RequisitionStatus.Approved|number:2}}%
+                                    </div>
+                                    <!-- /.stat-value -->
+
+                                </div>
+                                <!-- /stat-header -->
+
+                                <div class="progress progress-success">
+                                    <div class="bar" style="width: {{RequisitionStatus.Approved}}%"></div>
+                                </div>
+                                <!-- /.progress -->
+
+                            </div>
+                            <!-- /.progress-stat -->
+
+                            <div class="progress-stat">
+
+                                <div class="stat-header">
+
+                                    <div class="pull-left">
+                                        Pending Requisitions
+                                    </div>
+                                    <!-- /.stat-label -->
+
+                                    <div class="pull-right">
+                                        {{RequisitionStatus.Pending|number:2}}%
+                                    </div>
+                                    <!-- /.stat-value -->
+
+                                </div>
+                                <!-- /stat-header -->
+
+                                <div class="progress progress-danger">
+                                    <div class="bar" style="width: {{RequisitionStatus.Pending}}%"></div>
+                                </div>
+                                <!-- /.progress -->
+
+                            </div>
+                            <!-- /.progress-stat -->
+
+                            <div class="progress-stat">
+
+                                <div class="stat-header">
+
+                                    <div class="pull-left">
+                                        Hub Assigned
+                                    </div>
+                                    <!-- /.stat-label -->
+
+                                    <div class="pull-right">
+                                        {{RequisitionStatus.HubAssigned|number:2}}%
+                                    </div>
+                                    <!-- /.stat-value -->
+
+                                </div>
+                                <!-- /stat-header -->
+
+                                <div class="progress progress-warning">
+                                    <div class="bar" style="width: {{RequisitionStatus.HubAssigned}}%"></div>
+                                </div>
+                                <!-- /.progress -->
+
+                            </div>
+                            <!-- /.progress-stat -->
+                            <div class="progress-stat">
+
+                                <div class="stat-header">
+
+                                    <div class="pull-left">
+                                        Project Code Assigned
+                                    </div>
+                                    <!-- /.stat-label -->
+
+                                    <div class="pull-right">
+                                        {{RequisitionStatus.ProjectCodeAssigned|number:2}}%
+                                    </div>
+                                    <!-- /.stat-value -->
+
+                                </div>
+                                <!-- /stat-header -->
+
+                                <div class="progress progress-warning">
+                                    <div class="bar" style="width: {{RequisitionStatus.ProjectCodeAssigned}}%"></div>
+                                </div>
+                                <!-- /.progress -->
+
+                            </div>
+                            <!-- /.progress-stat -->
+                            <div class="progress-stat">
+
+                                <div class="stat-header">
+
+                                    <div class="pull-left">
+                                        Transport Requisition Created
+                                    </div>
+                                    <!-- /.stat-label -->
+
+                                    <div class="pull-right">
+                                        {{RequisitionStatus.TransportRequistionCreated|number:2}}%
+                                    </div>
+                                    <!-- /.stat-value -->
+
+                                </div>
+                                <!-- /stat-header -->
+
+                                <div class="progress progress-info">
+                                    <div class="bar" style="width: {{RequisitionStatus.TransportRequistionCreated}}%"></div>
+                                </div>
+                                <!-- /.progress -->
+
+                            </div>
+                            <!-- /.progress-stat -->
+                             <div class="progress-stat">
+
+                                <div class="stat-header">
+
+                                    <div class="pull-left">
+                                        Transport Order Created
+                                    </div>
+                                    <!-- /.stat-label -->
+
+                                    <div class="pull-right">
+                                        {{RequisitionStatus.TransportOrderCreated|number:2}}%
+                                    </div>
+                                    <!-- /.stat-value -->
+
+                                </div>
+                                <!-- /stat-header -->
+
+                                <div class="progress progress-info">
+                                    <div class="bar" style="width: {{RequisitionStatus.TransportOrderCreated}}%"></div>
+                                </div>
+                                <!-- /.progress -->
+
+                            </div>
+                            <br>
+                        </div>
+                        <!-- /.portlet-content -->
+
+                    </div>
+                    <!-- /.portlet -->
+                </div> *@
+                <div class="span7">
+                    <div class="portlet">
+                        <div class="portlet-header">
+                            <h3>
+                                <i class=""></i>
+                                Recent GiftCertificates
+                            </h3>
+                            <ul class="portlet-tools pull-right">
+                                <li>
+                                    <button class="btn btn-sm btn-default">
+                                        Show more
+                                    </button>
+
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- /.portlet-header -->
+
+                        <div class="portlet-content" >
+                            <th class="table-responsive">
+                                <table id="" class="table table-striped table-checkable">
+                                    <thead>
+                                        <tr>
+                                            <th class="hidden-xs">SI Number</th>
+                                            <th>Donor</th>
+                                            <th>Gift Date</th>
+                                            <th>Declaration Number</th>
+                                            <th>Commodity</th>
+                                            <th>Weight in MT</th>
+                                            <th>Status</th>
+                                          @*  <th class="align-center">Action</th>*@
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="giftCertificate in GiftCertificates" class="">
+                                            <td class="hidden-xs">{{giftCertificate.SINumber}}</td>
+                                            <td>{{giftCertificate.DonorName}}</td>
+                                            <td>{{giftCertificate.GiftDate}}</td>
+                                            <td>{{giftCertificate.DclarationNumber}}</td>
+                                            <td>{{giftCertificate.Commodity}}</td>
+                                            <th>{{giftCertificate.Wieght}} </th>
+                                            <td><span class="label label-success">{{giftCertificate.Status}}</span></td>
+                                           @* <td>
+                                                <a href="javascript:;" class="btn btn-sm btn-default">View <i class="icon-chevron-right"></i>
+                                                </a>
+
+                                            </td>*@
+                                        </tr>
+
+                                       
+                                    </tbody>
+                                </table>
+
+                        </div>
+                        <!-- /.table-responsive -->
+                    </div>
+                    <!-- /.portlet-content -->
+
+                </div>
+
+                <!-- /.portlet -->
+            </div>
+        </div>
 
     </div>
 </div>
@@ -790,6 +1058,8 @@
         $scope.RequestedAmount = [];
         $scope.RequestStatus = [];
         $scope.RequisitionStatus = [];
+        $scope.Regions = [];
+        $scope.GiftCertificates=[];
 
         var onRequestsSuccess = function(data) {
             $scope.Requests = data;
@@ -812,6 +1082,12 @@
         };
         var onRequisitionStatusSuccess = function (data) {
             $scope.RequisitionStatus = data;
+        };
+        var onRegionTotalSuccess = function (data) {
+            $scope.Regions = data;
+        };
+        var onGiftCertificateSuccess = function (data) {
+            $scope.GiftCertificates = data;
         };
 
         $scope.getRequests = function() {
@@ -838,13 +1114,23 @@
             $http.post("@Url.Action("GetRequisitionStatusPercentage", "EWDashboard", new { Area = "EarlyWarning" })").success(onRequisitionStatusSuccess);
 
         };
+        $scope.getHrdRegionPercentage = function () {
+            $http.post("@Url.Action("GetHrdRegionPercentage", "EWDashboard", new { Area = "EarlyWarning" })").success(onRegionTotalSuccess);
 
+        };
+        $scope.getRecentGiftCertificates = function () {
+            $http.post("@Url.Action("GetRecentGiftCertificates", "EWDashboard", new { Area = "EarlyWarning" })").success(onGiftCertificateSuccess);
+
+         };
+        
         $scope.getRations();
         $scope.getRequests();
         $scope.getRequisitions();
         $scope.getRequestedInfo();
         $scope.getStatusInPercentage();
         $scope.getRequisitionStatusInPercentage();
+        $scope.getHrdRegionPercentage();
+        $scope.getRecentGiftCertificates();
     }
 
 </script>

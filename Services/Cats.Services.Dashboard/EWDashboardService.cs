@@ -62,6 +62,10 @@ namespace Cats.Services.Dashboard
             var requested =_unitOfWork.RegionalRequestRepository.FindBy(m => m.RegionID == regionID && m.PlanID == planID).Count;
             return (totalRequest - requested);
         }
+      public  List<Models.GiftCertificate> GetAllGiftCertificate()
+      {
+          return _unitOfWork.GiftCertificateRepository.GetAll();
+      }
        public void Dispose()
         {
             _unitOfWork.Dispose();
