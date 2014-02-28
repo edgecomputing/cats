@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Cats.Areas.Procurement.Models;
 using Cats.Services.EarlyWarning;
 using Cats.Services.Logistics;
 using Cats.Services.Procurement;
 using Cats.Services.Security;
 using hub = Cats.Services.Hub;
 using Cats.Models;
-
+using Cats.Helpers;
 namespace Cats.Areas.Logistics.Controllers
 {
     public class HomeController : Controller
@@ -25,6 +26,9 @@ namespace Cats.Areas.Logistics.Controllers
         private readonly hub.IDispatchDetailService _dispatchDetailService;
         private readonly Cats.Services.Logistics.ISIPCAllocationService _sipcAllocationService;
         private readonly IAdminUnitService _adminUnitService;
+        private readonly IHRDService _hrdService;
+        private readonly IBidWinnerService _bidWinnerService;
+        private readonly IBidService _bidService;
 
         public HomeController(IReliefRequisitionService reliefRequisitionService,
             hub.IDispatchAllocationService dispatchAllocationService,
@@ -32,7 +36,7 @@ namespace Cats.Areas.Logistics.Controllers
             ITransportOrderService transportOrderService,
             ITransportOrderDetailService transportOrderDetailService,
             hub.DispatchService dispatchService,
-            hub.DispatchDetailService dispatchDetailService, ISIPCAllocationService sipcAllocationService, IAdminUnitService adminUnitService)
+            hub.DispatchDetailService dispatchDetailService, ISIPCAllocationService sipcAllocationService, IAdminUnitService adminUnitService, IHRDService hrdService, IBidWinnerService bidWinnerService, IBidService bidService)
         {
             this._reliefRequisitionService = reliefRequisitionService;
             _dispatchAllocationService = dispatchAllocationService;
@@ -43,6 +47,9 @@ namespace Cats.Areas.Logistics.Controllers
             _dispatchDetailService = dispatchDetailService;
             _sipcAllocationService = sipcAllocationService;
             _adminUnitService = adminUnitService;
+            _hrdService = hrdService;
+            _bidWinnerService = bidWinnerService;
+            _bidService = bidService;
         }
 
         public ActionResult Index()
@@ -165,6 +172,82 @@ namespace Cats.Areas.Logistics.Controllers
             return Json(regions, JsonRequestBehavior.AllowGet);
         }
 
+        #region hrd
+
+        public ActionResult CurrentHrdRead()
+        {
+             var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
+            DateTime latestDate = _hrdService.Get(m => m.Status == 3).Max(m => m.PublishedDate);
+            var hrds = _hrdService.FindBy(m => m.Status == 3 && m.PublishedDate == latestDate).Select(h=> new 
+                                                                                                              {
+                                                                                                                  plan = h.Plan.PlanName,
+                                                                                                                  ration =h.Ration.RefrenceNumber,
+                                                                                                                  createdBy = h.CreatedBY,
+                                                                                                                  createdDate = h.CreatedDate.ToCTSPreferedDateFormat(datePref),
+                                                                                                                  status = h.Status,
+                                                                                                                  RegionName = h.HRDDetails.Select(r=>r.AdminUnit.Name),
+                                                                                                                  RegionId = h.HRDDetails.Select(r => r.AdminUnit.AdminUnitID)
+                                                                                                              });
+            return Json(hrds,JsonRequestBehavior.AllowGet);
+        }
+
+        #endregion
+
+        #region Bid
+
+        public JsonResult GetBids()
+        {
+            var bids = _bidService.FindBy(s => s.StatusID == (int) Cats.Models.Constant.BidStatus.Active).Select(b=> new
+                                                                                                                         {
+                                                                                                                             BidNo = b.BidNumber,
+                                                                                                                             BidId=b.BidID
+                                                                                                                         });
+            return Json(bids, JsonRequestBehavior.AllowGet);
+        }
+
+        private IEnumerable<BidWinnerViewModel> GetBidWinners(IEnumerable<BidWinner> bidWinners)
+        {
+            var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
+            return (from bidWinner in bidWinners
+                    select new BidWinnerViewModel()
+                    {
+                        BidWinnnerID = bidWinner.BidWinnerID,
+                        TransporterID = bidWinner.TransporterID,
+                        TransporterName = bidWinner.Transporter.Name,
+                        SourceWarehouse = bidWinner.Hub.Name,
+                        Woreda = bidWinner.AdminUnit.Name,
+                        Region = bidWinner.AdminUnit.AdminUnit2.AdminUnit2.Name,
+                        WinnerTariff = bidWinner.Tariff,
+                        Quantity = bidWinner.Amount,
+                        BidID = bidWinner.BidID,
+                        BidPlanID = bidWinner.Bid.TransportBidPlanID,
+                        BidMumber = bidWinner.Bid.BidNumber,
+                        BidStartDate = bidWinner.Bid.StartDate.ToCTSPreferedDateFormat(datePref),
+                        BidEndDate = bidWinner.Bid.EndDate.ToCTSPreferedDateFormat(datePref),
+                        BidOpeningDate = bidWinner.Bid.OpeningDate.ToCTSPreferedDateFormat(datePref),
+                        StatusID = bidWinner.Status,
+
+                        //Status = _workflowStatusService.GetStatusName(WORKFLOW.BidWinner, int(bidWinner.Status.Value))
+
+                    });
+        }
+        public JsonResult  GetListOfBidWinners(int id)
+        {
+            var selectedBidWinners = new SelectedBidWinnerViewModel();
+            var bidWinner = _bidWinnerService.FindBy(m => m.BidID == id && m.Position == 1);
+            if (bidWinner != null)
+            {
+                selectedBidWinners.Bidwinners = GetBidWinners(bidWinner).ToList();
+            }
+            return Json(selectedBidWinners,JsonRequestBehavior.AllowGet);
+        }
+
+
+        #endregion
+
+        #region request
+
+
         public JsonResult ImportantNumbers (string id)
         {
             var requests =
@@ -208,8 +291,8 @@ namespace Cats.Areas.Logistics.Controllers
             return Json(siPcAllocated, JsonRequestBehavior.AllowGet);
         }
 
+        #endregion
 
-        
         #endregion
     }
 }
