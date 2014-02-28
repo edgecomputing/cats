@@ -120,5 +120,58 @@ namespace Cats.Areas.EarlyWarning.Controllers
             return distinictRequest;
 
         }
+        public JsonResult GetStatusInPercentage()
+        {
+            var hrd = GetCurrentHrd();
+            var request = _eWDashboardService.FindByRequest(m => m.PlanID == hrd.PlanID);
+            decimal draft = request.Count(m => m.Status == (int) RegionalRequestStatus.Draft);
+            decimal approved = request.Count(m => m.Status == (int) RegionalRequestStatus.Approved);
+            decimal closed = request.Count(m => m.Status == (int) RegionalRequestStatus.Closed);
+            var percentage = new RequestPercentageViewModel
+                {
+                    Pending = ((draft)/(request.Count))*100,
+                    Approved = (approved/request.Count)*100,
+                    RequisitionCreated = (closed/request.Count)*100
+                };
+            return Json(percentage, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult GetRequisitionStatusPercentage()
+        {
+            var currentHrd = _eWDashboardService.FindByHrd(m => m.Status == 3).FirstOrDefault();
+            var requests = _eWDashboardService.FindByRequest(m => m.PlanID == currentHrd.PlanID).OrderByDescending(m => m.RegionalRequestID);
+            var allRequisitions = _eWDashboardService.GetAllReliefRequisition();
+
+            var requisitons = (from requisiton in allRequisitions
+                               from request in requests
+                               where requisiton.RegionalRequestID == request.RegionalRequestID
+                               select new
+                                   {
+                                       requisiton.Status
+                                   }).ToList();
+
+            decimal draft = requisitons.Count(m => m.Status == (int) ReliefRequisitionStatus.Draft);
+            decimal approved = requisitons.Count(m => m.Status == (int)ReliefRequisitionStatus.Approved);
+            decimal hubAssigned = requisitons.Count(m => m.Status == (int)ReliefRequisitionStatus.HubAssigned);
+            decimal pcAssigned = requisitons.Count(m => m.Status == (int)ReliefRequisitionStatus.ProjectCodeAssigned);
+            decimal transportRequisitionCreated = requisitons.Count(m => m.Status == (int)ReliefRequisitionStatus.TransportRequisitionCreated);
+            decimal transportOrderCreated=requisitons.Count(m => m.Status == (int) ReliefRequisitionStatus.TransportOrderCreated);
+
+            var requisitionStatusPercentage = new RequisitionStatusPercentage()
+                {
+                    Pending = (draft/requisitons.Count)*100,
+                    Approved = (approved/requisitons.Count)*100,
+                    HubAssigned = (hubAssigned/requisitons.Count)*100,
+                    ProjectCodeAssigned = (pcAssigned/requisitons.Count)*100,
+                    TransportRequistionCreated = (transportRequisitionCreated/requisitons.Count)*100,
+                    TransportOrderCreated = (transportOrderCreated/requisitons.Count)*100
+
+                };
+            return Json(requisitionStatusPercentage, JsonRequestBehavior.AllowGet);
+
+        }
+        private HRD GetCurrentHrd()
+        {
+            return _eWDashboardService.FindByHrd(m => m.Status == 3).FirstOrDefault();
+        }
     }
 }

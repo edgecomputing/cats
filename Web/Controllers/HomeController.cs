@@ -60,36 +60,37 @@ namespace Cats.Controllers
             var userID = currentUser.UserProfileID;
 
 
-            if (currentUser.RegionalUser)
-            {
-                ViewBag.RegionID = currentUser.RegionID;
-                return RedirectToAction("Index", "Home", new { Area = "Regional" });
-            }
-            else if(!currentUser.RegionalUser)
-            {
-                //If the user is not regional user 
-                switch (currentUser.CaseTeam)
-                {
-                    case 1:
-                        return RedirectToAction("Index", "Home", new { Area = "EarlyWarning" });
-                        break;
-                    case 2:
-                        return RedirectToAction("Index", "Home", new { Area = "PSNP" });
-                        break;
-                    case 3:
-                        return RedirectToAction("Index", "Home", new { Area = "Logistics" });
-                        break;
-                    case 4:
-                        return RedirectToAction("Index", "Home", new { Area = "Procurement" });
-                        break;
-                    case 5:
-                        return RedirectToAction("Index", "Home", new { Area = "Hub" });
-                        break;
-                    default:
-                        return RedirectToAction("Index", "Home");
+            //if (currentUser.RegionalUser)
+            //{
+            //    ViewBag.RegionID = currentUser.RegionID;
+            //    return RedirectToAction("Index", "Home", new { Area = "Regional" });
+            //}
+            //else if (!currentUser.RegionalUser)
+            //{
+            //    //If the user is not regional user 
+            //    switch (currentUser.CaseTeam)
+            //    {
+            //        case 1:
+            //            return RedirectToAction("Index", "Home", new { Area = "EarlyWarning" });
+            //            break;
+            //        case 2:
+            //            return RedirectToAction("Index", "Home", new { Area = "PSNP" });
+            //            break;
+            //        case 3:
+            //            return RedirectToAction("Index", "Home", new { Area = "Logistics" });
+            //            break;
+            //        case 4:
+            //            return RedirectToAction("Index", "Home", new { Area = "Procurement" });
+            //            break;
+            //        case 5:
+            //            return RedirectToAction("Index", "Home", new { Area = "Hub" });
+            //            break;
+            //        default:
+            //            return RedirectToAction("Index", "Home");
+            //            break;
 
-                }
-            }
+            //    }
+            //}
             
             // If the user is not niether regional nor caseteam user return this default page
             var userDashboardPreferences = _userDashboardPreferenceService.Get(t => t.UserID == userID).OrderBy(m => m.OrderNo);

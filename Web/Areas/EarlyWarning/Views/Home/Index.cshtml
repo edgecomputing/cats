@@ -339,7 +339,7 @@
 
                         <!-- /.portlet-header -->
 
-                        <div class="portlet-content" style="height:240px;  overflow: scroll">
+                        <div class="portlet-content" style="height:420px; ">
                             <th class="table-responsive">
                                 <table id="" class="table table-striped table-checkable">
                                     <thead>
@@ -420,6 +420,96 @@
                     <!-- /.portlet -->
                 </div>
                 <!-- /.portlet -->
+                
+                 <div class="span3">
+
+                    <div class="portlet">
+                        <div class="portlet-header">
+                            <h3>
+                                <i class=""></i>
+                                Percentage
+                            </h3>
+                        </div>
+
+                        <!-- /.portlet-header -->
+
+                        <div class="portlet-content">
+                            <div class="progress-stat">
+
+                                <div class="stat-header">
+
+                                    <div class="pull-left">
+                                        Approved Requests
+                                    </div>
+                                    <!-- /.stat-label -->
+
+                                    <div class="pull-right">
+                                       {{RequestStatus.Approved|number:2}}%
+                                    </div>
+                                    <!-- /.stat-value -->
+
+                                </div>
+                                <!-- /stat-header -->
+
+                                <div class="progress progress-success">
+                                    <div class="bar" style="width: {{RequestStatus.Approved}}%"></div>
+                                </div>
+                                <!-- /.progress -->
+                                <br/>
+                            </div>
+                            <!-- /.progress-stat -->
+
+                            <div class="progress-stat">
+                                <div class="stat-header">
+                                    <div class="pull-left">
+                                        Pending Requests
+                                    </div>
+                                    <!-- /.stat-label -->
+                                    <div class="pull-right">
+                                         {{RequestStatus.Pending|number:2}}%
+                                    </div>
+                                    <!-- /.stat-value -->
+                                </div>
+                                <!-- /stat-header -->
+                                <div class="progress progress-danger">
+                                    <div class="bar" style="width: {{RequestStatus.Pending}}%"></div>
+                                </div>
+                                <!-- /.progress -->
+                            </div>
+                            <!-- /.progress-stat -->
+
+                            <div class="progress-stat">
+
+                                <div class="stat-header">
+
+                                    <div class="pull-left">
+                                        Requisition Generated
+                                    </div>
+                                    <!-- /.stat-label -->
+
+                                    <div class="pull-right">
+                                        {{RequestStatus.RequisitionCreated|number:2}}%
+                                    </div>
+                                    <!-- /.stat-value -->
+
+                                </div>
+                                <!-- /stat-header -->
+
+                                <div class="progress progress-warning">
+                                    <div class="bar" style="width: {{RequestStatus.RequisitionCreated}}%"></div>
+                                </div>
+                                <!-- /.progress -->
+
+                            </div>
+                            <!-- /.progress-stat -->
+
+                            <br>
+                        </div>
+                        <!-- /.portlet-content -->
+
+                    </div>
+                    <!-- /.portlet -->
+                </div>
             </div>
         </div>
 
@@ -464,7 +554,7 @@
                                     <!-- /.stat-label -->
 
                                     <div class="pull-right">
-                                        33%
+                                        {{RequisitionStatus.Approved|number:2}}%
                                     </div>
                                     <!-- /.stat-value -->
 
@@ -472,7 +562,7 @@
                                 <!-- /stat-header -->
 
                                 <div class="progress progress-success">
-                                    <div class="bar" style="width: 33%"></div>
+                                    <div class="bar" style="width: {{RequisitionStatus.Approved}}%"></div>
                                 </div>
                                 <!-- /.progress -->
 
@@ -489,7 +579,7 @@
                                     <!-- /.stat-label -->
 
                                     <div class="pull-right">
-                                        42%
+                                        {{RequisitionStatus.Pending|number:2}}%
                                     </div>
                                     <!-- /.stat-value -->
 
@@ -497,7 +587,7 @@
                                 <!-- /stat-header -->
 
                                 <div class="progress progress-danger">
-                                    <div class="bar" style="width: 42%"></div>
+                                    <div class="bar" style="width: {{RequisitionStatus.Pending}}%"></div>
                                 </div>
                                 <!-- /.progress -->
 
@@ -514,7 +604,7 @@
                                     <!-- /.stat-label -->
 
                                     <div class="pull-right">
-                                        25%
+                                        {{RequisitionStatus.HubAssigned|number:2}}%
                                     </div>
                                     <!-- /.stat-value -->
 
@@ -522,13 +612,83 @@
                                 <!-- /stat-header -->
 
                                 <div class="progress progress-warning">
-                                    <div class="bar" style="width: 25%"></div>
+                                    <div class="bar" style="width: {{RequisitionStatus.HubAssigned}}%"></div>
                                 </div>
                                 <!-- /.progress -->
 
                             </div>
                             <!-- /.progress-stat -->
+                            <div class="progress-stat">
 
+                                <div class="stat-header">
+
+                                    <div class="pull-left">
+                                        Project Code Assigned
+                                    </div>
+                                    <!-- /.stat-label -->
+
+                                    <div class="pull-right">
+                                        {{RequisitionStatus.ProjectCodeAssigned|number:2}}%
+                                    </div>
+                                    <!-- /.stat-value -->
+
+                                </div>
+                                <!-- /stat-header -->
+
+                                <div class="progress progress-warning">
+                                    <div class="bar" style="width: {{RequisitionStatus.ProjectCodeAssigned}}%"></div>
+                                </div>
+                                <!-- /.progress -->
+
+                            </div>
+                            <!-- /.progress-stat -->
+                            <div class="progress-stat">
+
+                                <div class="stat-header">
+
+                                    <div class="pull-left">
+                                        Transport Requisition Created
+                                    </div>
+                                    <!-- /.stat-label -->
+
+                                    <div class="pull-right">
+                                        {{RequisitionStatus.TransportRequistionCreated|number:2}}%
+                                    </div>
+                                    <!-- /.stat-value -->
+
+                                </div>
+                                <!-- /stat-header -->
+
+                                <div class="progress progress-info">
+                                    <div class="bar" style="width: {{RequisitionStatus.TransportRequistionCreated}}%"></div>
+                                </div>
+                                <!-- /.progress -->
+
+                            </div>
+                            <!-- /.progress-stat -->
+                             <div class="progress-stat">
+
+                                <div class="stat-header">
+
+                                    <div class="pull-left">
+                                        Transport Order Created
+                                    </div>
+                                    <!-- /.stat-label -->
+
+                                    <div class="pull-right">
+                                        {{RequisitionStatus.TransportOrderCreated|number:2}}%
+                                    </div>
+                                    <!-- /.stat-value -->
+
+                                </div>
+                                <!-- /stat-header -->
+
+                                <div class="progress progress-info">
+                                    <div class="bar" style="width: {{RequisitionStatus.TransportOrderCreated}}%"></div>
+                                </div>
+                                <!-- /.progress -->
+
+                            </div>
                             <br>
                         </div>
                         <!-- /.portlet-content -->
@@ -555,7 +715,7 @@
 
                         <!-- /.portlet-header -->
 
-                        <div class="portlet-content" style="height:300px;  overflow: scroll">
+                        <div class="portlet-content" style="height:380px;  overflow: scroll">
                             <th class="table-responsive">
                                 <table id="" class="table table-striped table-checkable">
                                     <thead>
@@ -628,6 +788,8 @@
         $scope.Requests = [];
         $scope.Requisitions = [];
         $scope.RequestedAmount = [];
+        $scope.RequestStatus = [];
+        $scope.RequisitionStatus = [];
 
         var onRequestsSuccess = function(data) {
             $scope.Requests = data;
@@ -643,6 +805,13 @@
 
         var onRequestedAmoutSuccess = function(data) {
             $scope.RequestedAmount = data;
+        };
+        
+        var onRequestStatusSuccess = function (data) {
+            $scope.RequestStatus = data;
+        };
+        var onRequisitionStatusSuccess = function (data) {
+            $scope.RequisitionStatus = data;
         };
 
         $scope.getRequests = function() {
@@ -660,12 +829,22 @@
         $scope.getRequestedInfo = function () {
             $http.post("@Url.Action("GetRequestedInfo", "EWDashboard", new { Area = "EarlyWarning" })").success(onRequestedAmoutSuccess);
 
-         };
+        };
+        $scope.getStatusInPercentage = function () {
+            $http.post("@Url.Action("GetStatusInPercentage", "EWDashboard", new { Area = "EarlyWarning" })").success(onRequestStatusSuccess);
+
+        };
+        $scope.getRequisitionStatusInPercentage = function () {
+            $http.post("@Url.Action("GetRequisitionStatusPercentage", "EWDashboard", new { Area = "EarlyWarning" })").success(onRequisitionStatusSuccess);
+
+        };
 
         $scope.getRations();
         $scope.getRequests();
         $scope.getRequisitions();
         $scope.getRequestedInfo();
+        $scope.getStatusInPercentage();
+        $scope.getRequisitionStatusInPercentage();
     }
 
 </script>
