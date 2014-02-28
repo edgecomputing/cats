@@ -86,7 +86,7 @@
               columns.Bound(p => p.BidNumber).Title(Translator.Translate("Bid Number")).ClientTemplate(
                 @Html.EarlyWarningOperationButton(
                     @Url.Action("Details", "PriceQuotation", new { id = "#=TransportBidQuotationHeaderID#" }),
-                    (EarlyWarningConstants.Operation)ProcurementCheckAccess.Operation.Edit_bid_proposal_details, "#=BidNumber#").ToString());
+                    (EarlyWarningConstants.Operation)ProcurementConstants.Operation.Edit_bid_proposal_details, "#=BidNumber#").ToString());
               
               columns.Bound(p => p.Region);
               columns.Bound(p => p.Transporter);
