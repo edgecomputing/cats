@@ -150,7 +150,12 @@ namespace Cats.Areas.Logistics.Controllers
 
         }
 
+        public ActionResult AssignHubFromLogisticsDashboard(int paramRegionId)
+        {
+            ViewBag.regionId = paramRegionId;
+           return RedirectToAction("Hub", new { regionId = paramRegionId });
 
+        }
         public ActionResult Hub(int regionId)
         {
             if (regionId != -1)

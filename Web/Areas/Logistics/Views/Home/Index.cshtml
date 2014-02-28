@@ -84,14 +84,15 @@
    
     <link href="~/Content/Dashboard/dashboardcomponents.css" rel="stylesheet" />
    }
-<div ng-app>
+<div ng-app="myApp">
     <div class="container">
         <div ng-controller="Regions" class="container row">
+            
             <div class="span12" > <h4>Region:</h4> 
-                <select ng-model="selected" ng-options="r.name for r in regions">
-                    <option value =""> Choose a Region:</option>
+                <select ng-change="onChange(regionName)"   ng-model="regionName" ng-options="r.name as r.name for r in regions" >
+                    <option > Choose a Region </option>
                 </select>
-                
+                 <pre>Region: {{regionName}}</pre>   
             </div>
             <hr />
         </div>
@@ -112,22 +113,22 @@
 
                     <div class="details column-divider-regional center">
                         <span class="content">Approved Requests</span>
-                        <span class="value">76</span>
+                        <span class="value">{{totalApproved }}</span>
                     </div>
 
                     <div class="details column-divider-regional center">
-                        <span class="content">Pending Hub Allocation</span>
-                        <span class="value">7</span>
+                        <span class="content">Hub Assigned</span>
+                        <span class="value">{{pendingHubAloocation}}</span>
                     </div>
 
                     <div class="details column-divider-regional center">
-                        <span class="content">Pending SI/PC </span>
-                        <span class="value">5 </span>
+                        <span class="content">SI/PC Assigned</span>
+                        <span class="value">{{pendingSIPCAllocation}} </span>
                     </div>
 
                     <div class="details column-divider-regional center">
-                        <span class="content">transport Req</span>
-                        <span class="value">8 </span>
+                        <span class="content">transport Requisition(s)</span>
+                        <span class="value">{{pendingTransportOrder}} </span>
                     </div>
 
                     <!-- /.details -->
@@ -137,47 +138,47 @@
             </div>
             <!-- /.col-md-3 -->
 
-            <div class="span2">
+           @* <div class="span2">
 
                 <a href="javascript:;" class="dashboard-stat">
                     <div class="visual">
-                        @*<i class="icon-shopping-cart"></i>*@
+                      
                     </div>
-                    <!-- /.visual -->
+                   
 
                     <div class="details">
                         <span class="content">Total Plans</span>
                         <span class="value">8</span>
                     </div>
-                    <!-- /.details -->
+                    
 
                 </a>
-                <!-- /.dashboard-stat -->
+               
 
-            </div>
-            <!-- /.col-md-3 -->
+            </div>*@
+          
 
-            <div class="span2">
+           @* <div class="span2">
 
                 <a href="javascript:;" class="dashboard-stat">
                     <div class="visual">
-                        @*<i class="icon-money"></i>*@
+                       
                     </div>
-                    <!-- /.visual -->
+                
 
                     <div class="details">
                         <span class="content">Receipt Plan</span>
                         <span class="value">5</span>
                     </div>
-                    <!-- /.details -->
+                   
 
                     
 
                 </a>
-                <!-- /.dashboard-stat -->
+               
 
-            </div>
-            <!-- /.col-md-9 -->
+            </div>*@
+           
         </div>
         <hr />
     </div>
@@ -206,6 +207,7 @@
                     <div class="portlet">
                         <div class="portlet-header">
                             <h3>
+                              
                                 <i class=""></i>
                                 Approved Requests
                             </h3>
@@ -237,82 +239,31 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr class="">
-                                        <td class="hidden-xs">REQ-15420</td>
-                                        <td>28</td>
-                                        <td>{{2800|number}}</td>
-                                        <th>{{14580|number}} QT</th>
-                                        <th>pulse</th>
-                                        <th>
-                                            <a href="javascript:;" class="btn btn-sm btn-default">View <i class="icon-chevron-right"></i>
-                                            </a>
-                                        </th>
+                                    <tr ng-repeat="req in requests.request  | filter:{RegionName:regionName}">
+                                        <td class="hidden-xs">{{$index + 1}}</td>
+                                        <td>{{req.reqNo}}</td>
+                                        <td>{{req.zone}}</td>
+                                        <th>{{req.beneficiaries}} QT</th>
+                                        <th>{{req.amount}}</th>
+                                        <th>{{req.commodity}}</th>
+                                       
+                                       
                                         <td><span class="label label-danger">Pending</span></td>
                                         <td class="align-center">
-                                            <a class="btn btn-sm btn-default" data-original-title="Approve"> Assign Hub</a>
+                                            @*<a class="btn btn-sm btn-default" data-original-title="Approve" href="@Url.Action("AssignHubFromLogisticsDashboard", "DispatchAllocation", new { Area = "Logistics", paramRegionId =  )"> Assign Hub </a>*@
                                         </td>
                                            
                                     </tr>
-
-                                    <tr class="">
-                                        <td class="hidden-xs">REQ-00420</td>
-                                        <td>320</td>
-                                        <td>{{2514|number}}</td>
-                                        <th>{{30580|number}} QT</th>
-                                        <th>pulse</th>
-                                        <th>
-                                            <a href="javascript:;" class="btn btn-sm btn-default">View <i class="icon-chevron-right"></i>
-                                            </a>
-                                        </th>
-                                        <td><span class="label label-danger">Pending</span></td>
-                                        <td class="align-center">
-                                            <a class="btn btn-sm btn-default" data-original-title="Approve"> Assign Hub</a>
-                                        </td>
-                                    </tr>
-
-                                    <tr class="">
-                                        <td class="hidden-xs">REQ-15420</td>
-                                        <td>28</td>
-                                        <td>{{2800|number}}</td>
-                                        <th>{{14580|number}} QT</th>
-                                        <th>pulse</th>
-                                        <th>
-                                            <a href="javascript:;" class="btn btn-sm btn-default">View <i class="icon-chevron-right"></i>
-                                            </a>
-                                        </th>
-                                        <td><span class="label label-danger">Pending</span></td>
-                                        <td class="align-center">
-                                            <a class="btn btn-sm btn-default" data-original-title="Approve"> Assign Hub</a>
-                                        </td>
-                                    </tr>
-
-                                    <tr class="">
-                                        <td class="hidden-xs">REF-15420</td>
-                                        <td>85</td>
-                                        <td>{{8547|number}}</td>
-                                        <th>{{54124|number}} QT</th>
-                                        <th>pulse</th>
-                                        <th>
-                                            <a href="javascript:;" class="btn btn-sm btn-default">View <i class="icon-chevron-right"></i>
-                                            </a>
-                                        </th>
-                                        <td><span class="label label-danger">Pending</span></td>
-                                        <td class="align-center">
-                                            <a class="btn btn-sm btn-default" data-original-title="Approve"> Assign Hub</a>
-                                        </td>
-                                    </tr>
-
-                                       
+                                    
                                 </tbody>
                             </table>
 
                         </div>
-                        <!-- /.table-responsive -->
-                    </div>
-                    <!-- /.portlet-content -->
+                        
+                    </div>  <!-- /.portlet-content -->
 
                 </div>
-                <div class="span3">
+                @*<div class="span3">
 
                     <div class="portlet">
                         <div class="portlet-header">
@@ -322,7 +273,7 @@
                             </h3>
                         </div>
 
-                        <!-- /.portlet-header -->
+                       
 
                         <div class="portlet-content">
                             <div class="progress-stat">
@@ -332,24 +283,23 @@
                                     <div class="pull-left">
                                         Approved Requests
                                     </div>
-                                    <!-- /.stat-label -->
-
+                                  
                                     <div class="pull-right">
                                         33%
                                     </div>
-                                    <!-- /.stat-value -->
+                                   
 
                                 </div>
-                                <!-- /stat-header -->
+                              
 
                                
                                 <div class="progress progress-success">
                                     <div class="bar" style="width: 33%"></div>
                                 </div>
-                                <!-- /.progress -->
+                               
 
                             </div>
-                            <!-- /.progress-stat -->
+                         
 
                             <div class="progress-stat">
 
@@ -358,23 +308,23 @@
                                     <div class="pull-left">
                                         Pending Requests
                                     </div>
-                                    <!-- /.stat-label -->
+                                   
 
                                     <div class="pull-right">
                                         42%
                                     </div>
-                                    <!-- /.stat-value -->
+                                   
 
                                 </div>
-                                <!-- /stat-header -->
+                               
 
                                 <div class="progress progress-danger">
                                     <div class="bar" style="width: 42%"></div>
                                 </div>
-                                <!-- /.progress -->
+                               
 
                             </div>
-                            <!-- /.progress-stat -->
+                           
 
                             <div class="progress-stat">
 
@@ -383,32 +333,32 @@
                                     <div class="pull-left">
                                         Allocated
                                     </div>
-                                    <!-- /.stat-label -->
+                                   
 
                                     <div class="pull-right">
                                         25%
                                     </div>
-                                    <!-- /.stat-value -->
+                                  
 
                                 </div>
-                                <!-- /stat-header -->
+                              
 
                                 <div class="progress progress-warning">
                                     <div class="bar" style="width: 25%"></div>
                                 </div>
-                                <!-- /.progress -->
+                               
 
                             </div>
-                            <!-- /.progress-stat -->
+                          
 
                             <br>
                         </div>
-                        <!-- /.portlet-content -->
+                       
 
                     </div>
-                    <!-- /.portlet -->
-                </div>
-                <!-- /.portlet -->
+                  
+                </div>*@
+               
             </div>
         </div>
 
@@ -430,7 +380,7 @@
             </div>
             <div id="HubAllocatedRequisitionContent" class="row">
                 <div>&nbsp;</div>
-                
+
                 <div ng-controller="HubAllocationController" class="span8">
                     <div class="portlet">
                         <div class="portlet-header">
@@ -452,90 +402,36 @@
 
                         <div class="portlet-content">
                             <th class="table-responsive">
-                            <table id="" class="table table-striped table-checkable">
-                                <thead>
-                                    <tr>
-                                        <th class="hidden-xs">Number</th>
-                                        <th>Req No</th>
-                                        <th>Zone</th>
-                                        <th>Beneficiaries</th>
-                                        <th>Amount(QT)</th>
-                                        <th>Commodity</th>
-                                        <th class="align-center">Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr class="">
-                                        <td class="hidden-xs">REQ-1206</td>
-                                        <td>zone 1 </td>
-                                        <td>85</td>
-                                        <td>{{8547|number}}</td>
-                                        <th>{{54124|number}} QT</th>
-                                        <th>pulse</th>
-                                        <th>
-                                            <a href="javascript:;" class="btn btn-sm btn-default">View <i class="icon-chevron-right"></i>
-                                            </a>
-                                        </th>
-                                        <td><span class="label label-danger">Pending</span></td>
-                                        <td class="align-center">
-                                            <a class="btn btn-sm btn-default" data-original-title="Approve">Assign</a>
-                                        </td>
-                                    </tr>
+                                <table id="" class="table table-striped table-checkable">
+                                    <thead>
+                                        <tr>
+                                            <th class="hidden-xs">Number</th>
+                                            <th>Req No</th>
+                                            <th>Zone</th>
+                                            <th>Beneficiaries</th>
+                                            <th>Amount(QT)</th>
+                                            <th>Commodity</th>
+                                            <th class="align-center">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="req in requestsApproved.request | filter:{RegionName:regionName}">
+                                            <td class="hidden-xs">{{$index + 1}}</td>
+                                            <td>{{req.RegionName}}</td>
+                                        <td>{{req.reqNo}}</td>
+                                        <td>{{req.zone}}</td>
+                                        <th>{{req.beneficiaries}} QT</th>
+                                        <th>{{req.amount}}</th>
+                                        <th>{{req.commodity}}</th>
+                                            
+                                            <td><span class="label label-danger">Pending</span></td>
+                                            <td class="align-center">
+                                                <a class="btn btn-sm btn-default" data-original-title="Approve">Assign SI / PC</a>
+                                            </td>
+                                        </tr>
 
-                                    <tr class="">
-                                        <td class="hidden-xs">REQ-1824</td>
-                                        <th>Zone</th>
-                                        <td>85</td>
-                                        <td>{{8547|number}}</td>
-                                        <th>{{54124|number}} QT</th>
-                                        <th>pulse</th>
-                                        <th>
-                                            <a href="javascript:;" class="btn btn-sm btn-default">View <i class="icon-chevron-right"></i>
-                                            </a>
-                                        </th>
-                                        <td><span class="label label-danger">Pending</span></td>
-                                        <td class="align-center">
-                                            <a class="btn btn-sm btn-default" data-original-title="Approve">Assign</a>
-                                        </td>
-                                    </tr>
-
-                                    <tr class="">
-                                        <td class="hidden-xs">REQ-1325</td>
-                                        <td>zone 1 </td>
-                                        <td>85</td>
-                                        <td>{{8547|number}}</td>
-                                        <th>{{54124|number}} QT</th>
-                                        <th>pulse</th>
-                                        <th>
-                                            <a href="javascript:;" class="btn btn-sm btn-default">View <i class="icon-chevron-right"></i>
-                                            </a>
-                                        </th>
-                                        <td><span class="label label-danger">Pending</span></td>
-                                        <td class="align-center">
-                                            <a class="btn btn-sm btn-default" data-original-title="Approve">Assign</a>
-                                        </td>
-                                    </tr>
-
-                                    <tr class="">
-                                        <td class="hidden-xs">REQ-0026</td>
-                                        <td>zone 1 </td>
-                                        <td>85</td>
-                                        <td>{{8547|number}}</td>
-                                        <th>{{54124|number}} QT</th>
-                                        <th>pulse</th>
-                                        <th>
-                                            <a href="javascript:;" class="btn btn-sm btn-default">View <i class="icon-chevron-right"></i>
-                                            </a>
-                                        </th>
-                                        <td><span class="label label-danger">Pending</span></td>
-                                        <td class="align-center">
-                                            <a class="btn btn-sm btn-default" data-original-title="Approve">Assign</a>
-                                        </td>
-                                    </tr>
-
-
-                                </tbody>
-                            </table>
+                                        </tbody>
+                                </table>
 
                         </div>
                         <!-- /.table-responsive -->
@@ -595,53 +491,29 @@
                                         <th>Req No</th>
                                         <th>Zone</th>
                                         <th>Beneficiaries</th>
-                                        <th>Amount(QT)</th>
+                                        <th>Amount</th>
                                         <th>Commodity</th>
-                                        <th>SI/PC</th>
-                                        <th>SI/PC Amount</th>
+                                        <th>Allocation Type</th>
+                                        
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr class="">
-                                        <td class="hidden-xs">REQ-1325</td>
-                                        <td>zone 1 </td>
-                                        <td>85</td>
-                                        <td>{{8547|number}}</td>
-                                        <th>{{54124|number}} QT</th>
-                                        <th>pulse</th>
-                                        <th>si-0002</th>
-                                        <th>100</th>
-                                    </tr>
-                                    <tr class="">
-                                        <td class="hidden-xs">REQ-1325</td>
-                                        <td>zone 1 </td>
-                                        <td>85</td>
-                                        <td>{{8547|number}}</td>
-                                        <th>{{54124|number}} QT</th>
-                                        <th>pulse</th>
-                                        <th>si-0003</th>
-                                        <th>1000</th>
-                                    </tr>
-                                    <tr class="">
-                                        <td class="hidden-xs">REQ-1325</td>
-                                        <td>zone 1 </td>
-                                        <td>85</td>
-                                        <td>{{8547|number}}</td>
-                                        <th>{{54124|number}} QT</th>
-                                        <th>pulse</th>
-                                        <th>si-0005</th>
-                                        <th>300</th>
-                                    </tr>
-                                    <tr class="">
-                                        <td class="hidden-xs">REQ-1325</td>
-                                        <td>zone 1 </td>
-                                        <td>85</td>
-                                        <td>{{8547|number}}</td>
-                                        <th>{{54124|number}} QT</th>
-                                        <th>pulse</th>
-                                        <th>si-0009</th>
-                                        <th>800</th>
-                                    </tr>
+                                   <tr ng-repeat="req in requestsSIPCAllocated.request |  filter:{RegionName:regionName}">
+                                        <td class="hidden-xs">{{$index + 1}}</td>
+                                        <td>{{req.reqNo}}</td>
+                                        <td>{{req.zone}}</td>
+                                        <th>{{req.beneficiaries}}</th>
+                                        <th>{{req.amount}}</th>
+                                       <th>{{req.commodity}}</th>
+                                        <th>{{req.allocationType}}</th>
+                                   
+                                   
+                                  
+                                            <td><span class="label label-danger">Pending</span></td>
+                                            <td class="align-center">
+                                                <a class="btn btn-sm btn-default" data-original-title="Approve">Create Transport Requisition</a>
+                                            </td>
+                                </tr>
 
 
                                 </tbody>
@@ -730,78 +602,32 @@
                                 <thead>
                                     <tr>
                                         <th class="hidden-xs">Number</th>
-                                        <th>Requisition Date</th>
+                                        
                                         <th>Req No</th>
                                         <th>Zone</th>
                                         <th>Beneficiaries</th>
-                                        <th>Amount(QT)</th>
+                                        <th>Amount</th>
                                         <th>Commodity</th>
                                             
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr class="">
-                                        <td class="hidden-xs">EM/2/15/2013</td>
-                                        <td>ህዳር 19 - 2006 </td>
-                                        <td>REQ-3</td>
-                                        <th>Zone 1</th>
-                                        <th>900</th>
-                                        <th>9000</th>
-                                        <th>Pulse</th>
+                                     <tr ng-repeat="req in TransportRequestion.request | filter:{RegionName:regionName}">
+                                        <td class="hidden-xs">{{$index + 1}}</td>
+                                        <td>{{req.reqNo}}</td>
+                                        <td>{{req.zone}}</td>
+                                        <th>{{req.beneficiaries}}</th>
+                                        <th>{{req.amount}}</th>
+                                        <th>{{req.commodity}}</th>
+                                       
+                                    
                                         <td><span class="label label-default">On process</span></td>
                                         <td>
                                             <a href="javascript:;" class="btn btn-sm btn-default">View <i class="icon-chevron-right"></i>
                                             </a>
                                         </td>
                                     </tr>
-
-                                    <tr class="">
-                                        <td class="hidden-xs">EM/6/15/2013</td>
-                                        <td>ህዳር 19 - 2006 </td>
-                                        <td>REQ-4</td>
-                                        <th>Zone 3</th>
-                                        <th>66</th>
-                                        <th>567</th>
-                                        <th>Cereal</th>
-                                        <td><span class="label label-default">On process</span></td>
-                                        <td>
-                                            <a href="javascript:;" class="btn btn-sm btn-default">View <i class="icon-chevron-right"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-
-                                    <tr class="">
-                                        <td class="hidden-xs">EM/2/15/2013</td>
-                                        <td>ህዳር 19 - 2006 </td>
-                                        <td>REQ-6</td>
-                                        <th>Zone 7</th>
-                                        <th>89</th>
-                                        <th>5</th>
-                                        <th>Pulse</th>
-                                        <td><span class="label label-default">On process</span></td>
-                                        <td>
-                                            <a href="javascript:;" class="btn btn-sm btn-default">View <i class="icon-chevron-right"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-
-                                    <tr class="">
-                                        <td class="hidden-xs">EM/2/888/2013</td>
-                                        <td>ህዳር 19 - 2006 </td>
-                                        <td>REQ-55</td>
-                                        <th>Zone-4</th>
-                                        <th>7</th>
-                                        <th>77</th>
-                                        <th>Pulse</th>
-                                        <td><span class="label label-default">On process</span></td>
-                                        <td>
-                                            <a href="javascript:;" class="btn btn-sm btn-default">View <i class="icon-chevron-right"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-
-
-                                </tbody>
+                                    </tbody>
                             </table>
 
                         </div>
@@ -839,14 +665,191 @@
 
 <script>
     
-    var Regions = function($scope)
-    {
-        $scope.regions = [
-            { name:'Afar' },
-            { name: 'Amhara' },
-            { name: 'Tigraye' }];
-    }
-    ;
+    var myApp = angular.module('myApp', []);
+    
+    //global variables
+    myApp.service('sharedProperties', function () {
+        var property = '';
+
+        return {
+            getProperty: function () {
+                return property;
+            },
+            setProperty: function (value) {
+                property = value;
+            }
+        };
+    });
+    var filter={};
+    myApp.controller('ImportantNumbers', ['$scope', '$http','$rootScope', function ($scope, $http, $rootScope) {
+
+        $rootScope.totalApproved = "";
+        $rootScope.totalRequisitions = "";
+        $rootScope.pendingHubAloocation = "";
+        $rootScope.pendingSIPCAllocation = "";
+        $rootScope.pendingTransportOrder = "";
+        
+       
+    }]);
+
+
+    myApp.controller('ApprovedRequestsController', ['$scope', '$http', '$rootScope', function ($scope, $http, $rootScope) {
+
+        $scope.qty = 6;
+        $scope.requests = { };
+        $http({
+            method: 'GET',
+            url: '@Url.Action("GetRequiasitions","Home", new {id = 2})'
+         })
+        .success(function (data, status, headers, config) {
+            $scope.requests.request = data;
+           
+           })
+        .error(function (data, status, headers, config) {
+            // something went wrong :(
+        });
+
+
+        $rootScope.regionName = "";
+    }]);
+    
+    myApp.controller('HubAllocationController', ['$scope', '$http','$rootScope', function ($scope, $http, $rootScope) {
+        $scope.qty = 6;
+        $scope.requestsApproved = {};
+        $http({
+            method: 'GET',
+            url: '@Url.Action("GetRequiasitions","Home", new {id = 3})'
+        })
+        .success(function (data, status, headers, config) {
+            $scope.requestsApproved.request = data;
+            
+        })
+        .error(function (data, status, headers, config) {
+            // something went wrong :(
+        });
+        
+
+        $rootScope.regionName = "";
+    }]);
+    myApp.controller('SIPCController', ['$scope', '$http', '$rootScope', function ($scope, $http, $rootScope) {
+        
+        $scope.qty = 6;
+        $scope.requestsSIPCAllocated = {};
+        $http({
+            method: 'GET',
+            url: '@Url.Action("GetSiPcAllocation","Home")'
+        })
+        .success(function (data, status, headers, config) {
+            $scope.requestsSIPCAllocated.request = data;
+
+        })
+        .error(function (data, status, headers, config) {
+            // something went wrong :(
+        });
+        
+
+        $rootScope.regionName = "";
+    }]);
+    
+    myApp.controller('TransportRequisitionController', ['$scope', '$http', '$rootScope', function ($scope, $http, $rootScope) {
+        
+        $scope.qty = 6;
+        $scope.TransportRequestion = {};
+        $http({
+            method: 'GET',
+            url: '@Url.Action("GetRequiasitions","Home", new {id = 5})'
+        })
+        .success(function (data, status, headers, config) {
+            
+            $scope.TransportRequestion.request = data;
+            console.log(data);
+        })
+        .error(function (data, status, headers, config) {
+            // something went wrong :(
+        });
+
+        $rootScope.regionName = "";
+    }]);
+    
+
+    myApp.controller('Regions', ['$scope', '$http', '$rootScope', function ($scope, $http, $rootScope) {
+
+
+
+
+        $scope.regions = [];
+        $http({
+            method: 'GET',
+            url: '@Url.Action("GetRegions","Home")'
+        })
+        .success(function (data, status, headers, config) {
+
+
+            $scope.regions = data;
+           
+            
+            
+        })
+        .error(function (data, status, headers, config) {
+            // something went wrong :(
+        });
+        
+
+        $scope.onChange = function (name) {
+            $rootScope.regionName = name;
+
+
+
+            $http({
+                
+                method: 'GET',
+                params: {id: name},
+                url: '@Url.Action("ImportantNumbers","Home")'
+             })
+        .success(function (data, status, headers, config) {
+
+            console.log(data);
+            $.each(data, function (i, item) {
+              
+                switch (item.Status) {
+                    case 1:
+                        $rootScope.totalRequisitions = item.Count;
+                        break;
+                    case 2:
+                        $rootScope.totalApproved = item.Count;
+                        break;
+                    case 3:
+                        $rootScope.pendingHubAloocation = item.Count;
+                        break;
+                    case 4:
+                        $rootScope.pendingSIPCAllocation = item.Count;
+                        break;
+                    case 5:
+                        $rootScope.pendingTransportOrder = item.Count;
+                        break;
+                    case 6:
+                        break;
+                    default:
+                }
+
+            });
+
+
+
+        })
+        .error(function (data, status, headers, config) {
+            // something went wrong :(
+        });
+
+
+
+
+
+           
+        };
+
+    }]);
+    
     
 </script>
 

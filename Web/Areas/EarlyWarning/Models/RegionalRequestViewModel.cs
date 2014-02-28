@@ -34,6 +34,10 @@ namespace Cats.Areas.EarlyWarning.Models
         public string Remark { get; set; }
         public string MonthName { get; set; }
         public int? Round { get; set; }
+
+
+        public int Beneficiary { get; set; }
+        public int NumberOfFDPS { get; set; }
        
     }
 }

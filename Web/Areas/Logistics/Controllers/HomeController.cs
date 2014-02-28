@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Cats.Services.EarlyWarning;
+using Cats.Services.Logistics;
 using Cats.Services.Procurement;
 using Cats.Services.Security;
 using hub = Cats.Services.Hub;
@@ -22,14 +23,16 @@ namespace Cats.Areas.Logistics.Controllers
         private readonly ITransportOrderDetailService _transportOrderDetailService;
         private readonly hub.IDispatchService _dispatchService;
         private readonly hub.IDispatchDetailService _dispatchDetailService;
-       
+        private readonly Cats.Services.Logistics.ISIPCAllocationService _sipcAllocationService;
+        private readonly IAdminUnitService _adminUnitService;
+
         public HomeController(IReliefRequisitionService reliefRequisitionService,
             hub.IDispatchAllocationService dispatchAllocationService,
             IUserAccountService userAccountService,
             ITransportOrderService transportOrderService,
             ITransportOrderDetailService transportOrderDetailService,
             hub.DispatchService dispatchService,
-            hub.DispatchDetailService dispatchDetailService)
+            hub.DispatchDetailService dispatchDetailService, ISIPCAllocationService sipcAllocationService, IAdminUnitService adminUnitService)
         {
             this._reliefRequisitionService = reliefRequisitionService;
             _dispatchAllocationService = dispatchAllocationService;
@@ -37,7 +40,9 @@ namespace Cats.Areas.Logistics.Controllers
             _transportOrderService = transportOrderService;
             _transportOrderDetailService = transportOrderDetailService;
             _dispatchService = dispatchService;
-            _dispatchDetailService = dispatchDetailService; 
+            _dispatchDetailService = dispatchDetailService;
+            _sipcAllocationService = sipcAllocationService;
+            _adminUnitService = adminUnitService;
         }
 
         public ActionResult Index()
@@ -150,16 +155,61 @@ namespace Cats.Areas.Logistics.Controllers
 
         #region "Dashboard"
 
-        public JsonResult ImportantNumbers ()
+        public JsonResult GetRegions()
+        {
+            var regions = _adminUnitService.GetRegions().Select(r=> new
+                                                                        {
+                                                                            name = r.Name,
+                                                                            id=r.AdminUnitID
+                                                                        });
+            return Json(regions, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult ImportantNumbers (string id)
         {
             var requests =
-                _reliefRequisitionService.GetAllReliefRequisition().GroupBy(s => s.Status).Select(c=> new
-                                                                                                          {
-                                                                                                              Region = c.Key,
-                                                                                                              TotalCount =c.Count()
-                                                                                                          });
+                _reliefRequisitionService.GetAllReliefRequisition().Where(d=>d.AdminUnit.Name == id).GroupBy(s => s.Status).Select(c => new
+                                                                                                           {
+                                                                                                               Status = c.Key,
+                                                                                                               Count = c.Count(),
+
+                                                                                                           }).Distinct();
             return Json(requests, JsonRequestBehavior.AllowGet);
         }
+
+
+        public JsonResult GetRequiasitions(int id)
+        {
+            var requestes = _reliefRequisitionService.GetAllReliefRequisition().Where(s=>s.Status == id).Select(r => new
+                                                                                                  {
+                                                                                                      reqNo= r.RequisitionNo,
+                                                                                                      zone= r.AdminUnit1.Name,
+                                                                                                      beneficiaries = r.ReliefRequisitionDetails.Sum(d=>d.BenficiaryNo),
+                                                                                                      amount  = r.ReliefRequisitionDetails.Sum(d=>d.Amount),
+                                                                                                      commodity = r.Commodity.Name,
+                                                                                                      regionId  = r.RegionalRequest.RegionID,
+                                                                                                      RegionName = r.AdminUnit.Name
+                                                                                                  });
+            return Json(requestes, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetSiPcAllocation()
+        {
+            var siPcAllocated = _sipcAllocationService.GetAll().Select(s => new
+                                                                                {
+                                                                                    reqNo = s.ReliefRequisitionDetail.ReliefRequisition.RequisitionNo,
+                                                                                    beneficiaries = s.ReliefRequisitionDetail.BenficiaryNo,
+                                                                                    amount = s.AllocatedAmount,
+                                                                                    commodity = s.ReliefRequisitionDetail.ReliefRequisition.Commodity.Name,
+                                                                                    allocationType = s.AllocationType,
+                                                                                    regionId = s.ReliefRequisitionDetail.ReliefRequisition.RegionID,
+                                                                                    RegionName =s.ReliefRequisitionDetail.ReliefRequisition.AdminUnit.Name
+                                                                                });
+            return Json(siPcAllocated, JsonRequestBehavior.AllowGet);
+        }
+
+
+        
         #endregion
     }
 }

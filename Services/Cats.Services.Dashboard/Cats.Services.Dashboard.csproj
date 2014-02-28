@@ -39,6 +39,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EWDashboardService.cs" />
+    <Compile Include="IEWDashboardService.cs" />
     <Compile Include="IRegionalDashboard.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RegionalDashboard.cs" />
@@ -47,6 +49,14 @@
     <ProjectReference Include="..\..\Data\Cats.Data.Micro\Cats.Data.Micro.csproj">
       <Project>{c4b246a0-a33f-426e-9ac1-823702069b2b}</Project>
       <Name>Cats.Data.Micro</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Data\Cats.Data\Cats.Data.csproj">
+      <Project>{7cf78855-5a90-441f-9acc-fafbd1cad68a}</Project>
+      <Name>Cats.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Models\Cats.Models\Cats.Models.csproj">
+      <Project>{abfb63d2-89fc-45bc-aa4e-5d9b21094b85}</Project>
+      <Name>Cats.Models</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
