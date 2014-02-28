@@ -206,31 +206,31 @@
                                                          
                                 <thead>
                                     <tr>
-                                         @foreach (System.Data.DataColumn col in Model.Columns)
-                                         {
+                                        @foreach (System.Data.DataColumn col in Model.Columns)
+                                        {
                                            
-                                             <th>@col.Caption</th>
+                                            <th>@col.Caption</th>
                                         }
                                       
                                     </tr>
                                 </thead>
                                 <tbody >
-                                     @foreach(System.Data.DataRow row in Model.Rows)
-                                         {
+                                    @foreach(System.Data.DataRow row in Model.Rows)
+                                    {
                                         <tr>
-                                       @foreach (var cell in row.ItemArray)
-                                          {
-                                              if(cell.GetType()==typeof(decimal))
-                                              {
-                                                  <td>@cell.ToString().AsFloat()</td>
-                                              }
-                                              else
-                                              {
-                                                  <td>@cell.ToString()</td>
-                                              }
-                                          }
-                                       </tr>
-                                      } 
+                                            @foreach (var cell in row.ItemArray)
+                                            {
+                                                if(cell.GetType()==typeof(decimal))
+                                                {
+                                                    <td>@cell.ToString().AsFloat()</td>
+                                                }
+                                                else
+                                                {
+                                                    <td>@cell.ToString()</td>
+                                                }
+                                            }
+                                        </tr>
+                                    } 
                                     
                                 </tbody>
                             </table>
@@ -240,6 +240,39 @@
                     </div>
                     <!-- /.portlet-content -->
 
+                </div>
+                   <div class="span3">
+
+                    <div class="portlet">
+                        <!-- /.portlet-header -->
+                        <div class="portlet-header">
+                            <h3>
+                                <i class=""></i>
+                               Ration Detail
+                            </h3>
+                        </div>
+                        <div class="portlet-content" >
+                            <th class="table-responsive">
+                        <table id="" class="table table-striped table-checkable" >
+                                    <thead>
+                                        <tr>
+                                            <th class="hidden-xs">Commodity</th>
+                                           <th>Amount in MT</th>
+                                           
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="ration in Rations" class="">
+                                            <td class="hidden-xs">{{ration.Commodity}}</td>
+                                            <td>{{ration.Amount}}</td>
+                                          </tr>
+                                    </tbody>
+                        </table>
+                                </div>
+                        <!-- /.portlet-content -->
+
+                    </div>
+                    <!-- /.portlet -->
                 </div>
                    <div class="span3">
 
@@ -277,49 +310,7 @@
                         </div>
                         </div>
                         </div>
-                <div class="span3">
-
-                    <div class="portlet">
-                        <!-- /.portlet-header -->
-
-                       @* <div class="">
-                            <a href="javascript:;" class="dashboard-stat">
-                                <div class="details ">
-                                    <span class="content">Total Number of Beneficaries</span>
-                                    <span class="value">123456 </span>
-                                </div>
-                            </a>
-                            <br>
-                        </div>*@
-                        <div class="portlet-header">
-                            <h3>
-                                <i class=""></i>
-                               Ration Detail
-                            </h3>
-                        </div>
-                        <div class="portlet-content">
-                            <th class="table-responsive">
-                        <table id="" class="table table-striped table-checkable">
-                                    <thead>
-                                        <tr>
-                                            <th class="hidden-xs">Commodity</th>
-                                           <th>Amount in MT</th>
-                                           
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr ng-repeat="ration in Rations" class="">
-                                            <td class="hidden-xs">{{ration.Commodity}}</td>
-                                            <td>{{ration.Amount}}</td>
-                                          </tr>
-                                    </tbody>
-                        </table>
-                                </div>
-                        <!-- /.portlet-content -->
-
-                    </div>
-                    <!-- /.portlet -->
-                </div>
+             
                 <!-- /.portlet --> 
               
             </div>
@@ -571,6 +562,7 @@
 
                                     <div class="pull-left">
                                         Approved Requisitions
+                                        ({{RequisitionStatus.NoOfDraft}})
                                     </div>
                                     <!-- /.stat-label -->
 
@@ -596,6 +588,7 @@
 
                                     <div class="pull-left">
                                         Pending Requisitions
+                                        ({{RequisitionStatus.NoOfApproved}})
                                     </div>
                                     <!-- /.stat-label -->
 
@@ -621,6 +614,7 @@
 
                                     <div class="pull-left">
                                         Hub Assigned
+                                        ({{RequisitionStatus.NoHubAssigned}})
                                     </div>
                                     <!-- /.stat-label -->
 
@@ -645,6 +639,7 @@
 
                                     <div class="pull-left">
                                         Project Code Assigned
+                                        ({{RequisitionStatus.NoOfPcAssigned}})
                                     </div>
                                     <!-- /.stat-label -->
 
@@ -669,6 +664,7 @@
 
                                     <div class="pull-left">
                                         Transport Requisition Created
+                                        ({{RequisitionStatus.NoOfTransportReqCreated}})
                                     </div>
                                     <!-- /.stat-label -->
 
@@ -693,6 +689,7 @@
 
                                     <div class="pull-left">
                                         Transport Order Created
+                                        ({{RequisitionStatus.NoOfTransportOrderCreated}})
                                     </div>
                                     <!-- /.stat-label -->
 

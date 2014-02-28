@@ -163,7 +163,13 @@ namespace Cats.Areas.EarlyWarning.Controllers
                     HubAssigned = (hubAssigned/requisitons.Count)*100,
                     ProjectCodeAssigned = (pcAssigned/requisitons.Count)*100,
                     TransportRequistionCreated = (transportRequisitionCreated/requisitons.Count)*100,
-                    TransportOrderCreated = (transportOrderCreated/requisitons.Count)*100
+                    TransportOrderCreated = (transportOrderCreated/requisitons.Count)*100,
+                    NoOfDraft = (int)draft,
+                    NoOfApproved = (int)approved,
+                    NoHubAssigned = (int)hubAssigned,
+                    NoOfPcAssigned = (int)pcAssigned,
+                    NoOfTransportReqCreated = (int)transportRequisitionCreated,
+                    NoOfTransportOrderCreated = (int)transportOrderCreated
 
                 };
             return Json(requisitionStatusPercentage, JsonRequestBehavior.AllowGet);

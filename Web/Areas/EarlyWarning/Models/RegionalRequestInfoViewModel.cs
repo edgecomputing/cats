@@ -37,6 +37,12 @@ namespace Cats.Areas.EarlyWarning.Models
         public decimal ProjectCodeAssigned { get; set; }
         public decimal TransportRequistionCreated { get; set; }
         public decimal TransportOrderCreated { get; set; }
+        public int NoOfDraft { get; set; }
+        public int NoOfApproved { get; set; }
+        public int NoHubAssigned { get; set; }
+        public int NoOfPcAssigned { get; set; }
+        public int NoOfTransportReqCreated { get; set; }
+        public int NoOfTransportOrderCreated { get; set; }
     }
     public class RegionalTotalViewModel
     {
