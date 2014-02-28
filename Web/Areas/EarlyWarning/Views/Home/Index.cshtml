@@ -797,171 +797,7 @@
             </div>
             <div id="GiftCertificateContent" class="row">
                 <div>&nbsp;</div>
-              @* <div class="span4">
-
-                    <div class="portlet">
-                        <div class="portlet-header">
-                            <h3>
-                                <i class=""></i>
-                                Requisitions Percentage by Status 
-                            </h3>
-                        </div>
-
-                        <!-- /.portlet-header -->
-
-                        <div class="portlet-content">
-                            <div class="progress-stat">
-
-                                <div class="stat-header">
-
-                                    <div class="pull-left">
-                                        Approved Requisitions
-                                    </div>
-                                    <!-- /.stat-label -->
-
-                                    <div class="pull-right">
-                                        {{RequisitionStatus.Approved|number:2}}%
-                                    </div>
-                                    <!-- /.stat-value -->
-
-                                </div>
-                                <!-- /stat-header -->
-
-                                <div class="progress progress-success">
-                                    <div class="bar" style="width: {{RequisitionStatus.Approved}}%"></div>
-                                </div>
-                                <!-- /.progress -->
-
-                            </div>
-                            <!-- /.progress-stat -->
-
-                            <div class="progress-stat">
-
-                                <div class="stat-header">
-
-                                    <div class="pull-left">
-                                        Pending Requisitions
-                                    </div>
-                                    <!-- /.stat-label -->
-
-                                    <div class="pull-right">
-                                        {{RequisitionStatus.Pending|number:2}}%
-                                    </div>
-                                    <!-- /.stat-value -->
-
-                                </div>
-                                <!-- /stat-header -->
-
-                                <div class="progress progress-danger">
-                                    <div class="bar" style="width: {{RequisitionStatus.Pending}}%"></div>
-                                </div>
-                                <!-- /.progress -->
-
-                            </div>
-                            <!-- /.progress-stat -->
-
-                            <div class="progress-stat">
-
-                                <div class="stat-header">
-
-                                    <div class="pull-left">
-                                        Hub Assigned
-                                    </div>
-                                    <!-- /.stat-label -->
-
-                                    <div class="pull-right">
-                                        {{RequisitionStatus.HubAssigned|number:2}}%
-                                    </div>
-                                    <!-- /.stat-value -->
-
-                                </div>
-                                <!-- /stat-header -->
-
-                                <div class="progress progress-warning">
-                                    <div class="bar" style="width: {{RequisitionStatus.HubAssigned}}%"></div>
-                                </div>
-                                <!-- /.progress -->
-
-                            </div>
-                            <!-- /.progress-stat -->
-                            <div class="progress-stat">
-
-                                <div class="stat-header">
-
-                                    <div class="pull-left">
-                                        Project Code Assigned
-                                    </div>
-                                    <!-- /.stat-label -->
-
-                                    <div class="pull-right">
-                                        {{RequisitionStatus.ProjectCodeAssigned|number:2}}%
-                                    </div>
-                                    <!-- /.stat-value -->
-
-                                </div>
-                                <!-- /stat-header -->
-
-                                <div class="progress progress-warning">
-                                    <div class="bar" style="width: {{RequisitionStatus.ProjectCodeAssigned}}%"></div>
-                                </div>
-                                <!-- /.progress -->
-
-                            </div>
-                            <!-- /.progress-stat -->
-                            <div class="progress-stat">
-
-                                <div class="stat-header">
-
-                                    <div class="pull-left">
-                                        Transport Requisition Created
-                                    </div>
-                                    <!-- /.stat-label -->
-
-                                    <div class="pull-right">
-                                        {{RequisitionStatus.TransportRequistionCreated|number:2}}%
-                                    </div>
-                                    <!-- /.stat-value -->
-
-                                </div>
-                                <!-- /stat-header -->
-
-                                <div class="progress progress-info">
-                                    <div class="bar" style="width: {{RequisitionStatus.TransportRequistionCreated}}%"></div>
-                                </div>
-                                <!-- /.progress -->
-
-                            </div>
-                            <!-- /.progress-stat -->
-                             <div class="progress-stat">
-
-                                <div class="stat-header">
-
-                                    <div class="pull-left">
-                                        Transport Order Created
-                                    </div>
-                                    <!-- /.stat-label -->
-
-                                    <div class="pull-right">
-                                        {{RequisitionStatus.TransportOrderCreated|number:2}}%
-                                    </div>
-                                    <!-- /.stat-value -->
-
-                                </div>
-                                <!-- /stat-header -->
-
-                                <div class="progress progress-info">
-                                    <div class="bar" style="width: {{RequisitionStatus.TransportOrderCreated}}%"></div>
-                                </div>
-                                <!-- /.progress -->
-
-                            </div>
-                            <br>
-                        </div>
-                        <!-- /.portlet-content -->
-
-                    </div>
-                    <!-- /.portlet -->
-                </div> *@
+             
                 <div class="span7">
                     <div class="portlet">
                         <div class="portlet-header">
@@ -1042,7 +878,10 @@
     $("#DispatchHeader").click(function () {
         $("#DispatchContent").slideToggle("slow", "linear");
     });
-    
+    $("#GiftCertificateHeader").click(function () {
+        $("#GiftCertificateContent").slideToggle("slow", "linear");
+    });
+  
    
 </script>
 

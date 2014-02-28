@@ -218,7 +218,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         }
         public JsonResult GetRecentGiftCertificates()
         {
-            var draftGiftCertificate = _eWDashboardService.GetAllGiftCertificate().Where(m => m.StatusID == 1);
+            var draftGiftCertificate = _eWDashboardService.GetAllGiftCertificate().Where(m => m.StatusID == 1).OrderByDescending(m=>m.GiftCertificateID);
 
             var giftCertificate = GetGiftCertificate(draftGiftCertificate);
 
