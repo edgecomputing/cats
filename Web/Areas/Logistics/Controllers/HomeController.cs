@@ -4,6 +4,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Cats.Areas.Procurement.Models;
+using Cats.Models.Constant;
+using Cats.Models.ViewModels.HRD;
 using Cats.Services.EarlyWarning;
 using Cats.Services.Logistics;
 using Cats.Services.Procurement;
@@ -175,21 +177,35 @@ namespace Cats.Areas.Logistics.Controllers
 
         #region hrd
 
+        private IEnumerable<HRDViewModel> GetHrds(IEnumerable<HRD> hrds)
+        {
+            var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
+            return (from hrd in hrds
+                    select new HRDViewModel
+                    {
+                        HRDID = hrd.HRDID,
+                        Season = hrd.Season.Name,
+                        Year = hrd.Year,
+                        Ration = hrd.Ration.RefrenceNumber,
+                        CreatedDate = hrd.CreatedDate,
+                        CreatedBy = hrd.UserProfile.FirstName + " " + hrd.UserProfile.LastName,
+                        PublishedDate = hrd.PublishedDate,
+                        StatusID = hrd.Status,
+                        CreatedDatePref = hrd.CreatedDate.ToCTSPreferedDateFormat(datePref),
+                        PublishedDatePref = hrd.PublishedDate.ToCTSPreferedDateFormat(datePref),
+                        Plan = hrd.Plan.PlanName
+
+                    });
+        }
+
+
         public ActionResult CurrentHrdRead()
         {
              var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
             DateTime latestDate = _hrdService.Get(m => m.Status == 3).Max(m => m.PublishedDate);
-            var hrds = _hrdService.FindBy(m => m.Status == 3 && m.PublishedDate == latestDate).Select(h=> new 
-                                                                                                              {
-                                                                                                                  plan = h.Plan.PlanName,
-                                                                                                                  ration =h.Ration.RefrenceNumber,
-                                                                                                                  createdBy = h.CreatedBY,
-                                                                                                                  createdDate = h.CreatedDate.ToCTSPreferedDateFormat(datePref),
-                                                                                                                  status = h.Status,
-                                                                                                                  PublishedDate = h.PublishedDate.ToCTSPreferedDateFormat(datePref)
-                                                                                                                  
-                                                                                                              });
-            return Json(hrds,JsonRequestBehavior.AllowGet);
+            var hrds = _hrdService.FindBy(m => m.Status == 3 && m.PublishedDate == latestDate);
+            var hrdsToDisplay = GetHrds(hrds).ToList();
+            return Json(hrdsToDisplay, JsonRequestBehavior.AllowGet);
         }
 
         #endregion
@@ -227,7 +243,7 @@ namespace Cats.Areas.Logistics.Controllers
                         BidEndDate = bidWinner.Bid.EndDate.ToCTSPreferedDateFormat(datePref),
                         BidOpeningDate = bidWinner.Bid.OpeningDate.ToCTSPreferedDateFormat(datePref),
                         StatusID = bidWinner.Status,
-
+                        
                         //Status = _workflowStatusService.GetStatusName(WORKFLOW.BidWinner, int(bidWinner.Status.Value))
 
                     });

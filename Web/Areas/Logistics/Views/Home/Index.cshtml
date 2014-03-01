@@ -484,22 +484,26 @@
                                     <tr>
                                         <th class="hidden-xs">Number</th>
                                         <th>Plan</th>
+                                        <th>Season</th>
+                                        <th>Year</th>
                                         <th>Ration</th>
                                         <th>Created By</th>
                                         <th>Created Date</th>
                                         <th>PublishedDate</th>
 
-                                        <th class="align-center">Action</th>
+                                        
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr ng-repeat="req in currentHRD">
                                         <td class="hidden-xs">{{$index + 1}}</td>
-                                        <td>{{req.plan}}</td>
-                                        <td>{{req.ration}}</td>
-                                        <td>{{req.createdBy}}</td>
-                                        <th>{{req.createdDate}}</th>
-                                        <th>{{req.PublishedDate}}</th>
+                                        <td>{{req.Plan}}</td>
+                                        <td>{{req.Season}}</td>
+                                        <td>{{req.Year}}</td>
+                                        <td>{{req.Ration}}</td>
+                                        <td>{{req.CreatedBy}}</td>
+                                        <th>{{req.CreatedDatePref}}</th>
+                                        <th>{{req.PublishedDatePref}}</th>
                                       
                                        
                                     </tr>
