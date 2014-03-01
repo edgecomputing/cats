@@ -1,4 +1,4 @@
-﻿using System.Globalization;
+using System.Globalization;
 using Cats.Helpers;
 using Cats.Models;
 using Cats.Services.EarlyWarning;
@@ -82,7 +82,6 @@ namespace Cats.Controllers
                     case 5:
                         return RedirectToAction("Index", "Home", new { Area = "Hub" });
                         break;
-                  
 
                 }
 

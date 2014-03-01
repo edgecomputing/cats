@@ -20,7 +20,7 @@
                 @Html.Label(Translator.Translate("Region"))
             </div>
             <div class="controls" id="div_region">
-                @Html.DropDownList("Region",ViewBag.Region as SelectList,new {@id="RegionID"})
+                @Html.DropDownList("Region",ViewBag.Region as SelectList ,"--Select Region--",new {@id="RegionID"})
             </div>
 
         </div> 
@@ -29,7 +29,7 @@
                 @Html.Label(Translator.Translate("Zone"))
             </div>
             <div class="controls" id="div_zone">
-                @Html.DropDownList("Zone",ViewBag.Zone as SelectList,new {@id="ZoneID"})
+                @Html.DropDownList("Zone",ViewBag.Zone as SelectList ,"",new {@id="ZoneID"})
             </div>
         </div>
         <div class="control-group">
@@ -37,7 +37,7 @@
                 @Html.Label(Translator.Translate("Woreda"))
             </div>
             <div class="controls"  id="div_woreda">
-                @Html.DropDownList("Woreda",ViewBag.Woreda as SelectList,new {@id="WoredaID"})
+                @Html.DropDownList("Woreda",ViewBag.Woreda as SelectList,"",new {@id="WoredaID"})
                 @*@Html.DropDownListFor(m=>m.WoredaID,ViewBag.Woreda as SelectList,new {@id="WoredaID"})*@
                 @*@Html.ValidationMessageFor(m=>m.WoredaID)*@
             </div>
