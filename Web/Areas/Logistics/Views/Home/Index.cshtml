@@ -487,19 +487,20 @@
                                         <th>Ration</th>
                                         <th>Created By</th>
                                         <th>Created Date</th>
-                                        <th>Status</th>
+                                        <th>PublishedDate</th>
+
                                         <th class="align-center">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr ng-repeat="req in CurrentHRD.hrd | filter:{RegionName:regionName}">
+                                    <tr ng-repeat="req in currentHRD">
                                         <td class="hidden-xs">{{$index + 1}}</td>
                                         <td>{{req.plan}}</td>
                                         <td>{{req.ration}}</td>
                                         <td>{{req.createdBy}}</td>
-                                        <th>{{req.createdDate}} QT</th>
-                                        <th>{{req.status}}</th>
-                                        <th>{{req.RegionName}}</th>
+                                        <th>{{req.createdDate}}</th>
+                                        <th>{{req.PublishedDate}}</th>
+                                      
                                        
                                     </tr>
 
@@ -522,7 +523,7 @@
             <div class="row" style="border-bottom-width: thin; border-bottom-color: #666; border-bottom-style: inset; margin-top: 5px">
 
                 <div class="pull-left">
-                    <h4>Current HRD</h4>
+                    <h4>Bid</h4>
                 </div>
                 <div class="pull-right">
                     <div class="btn-group">
@@ -557,7 +558,7 @@
                                        
             
                                              Bid:
-                                                <select ng-change="onChange(bid.BidNo)"   ng-model="bid" ng-options="bid.BidNo as bid.BidNo for bid in bids" >
+                                                <select ng-change="onChange(bid)"   ng-model="bid" ng-options="bid.BidNo as bid.BidNo for bid in bids" >
                                                     <option > Choose a Bid </option>
                                                 </select>
                                                 <pre>Bid: {{bid}}</pre>   
@@ -567,23 +568,23 @@
                                     </tr>
                                     <tr>
                                         <th class="hidden-xs">Number</th>
-                                        <th>TransporterName</th>
-                                        <th>SourceWarehouse</th>
+                                        <th>Transporter Name</th>
+                                        <th>Source Warehouse</th>
                                         <th>Woreda</th>
                                         <th>Region</th>
                                         <th>Quantity</th>
-                                        <th>BidMumber</th>
+                                        <th>Bid Number</th>
                                         
-                                        <th class="align-center">Action</th>
+                                        
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr ng-repeat="req in bidWinners.bid">
+                                    <tr ng-repeat="req in bidWinners.bid | filter:{Region:regionName}">
                                         <td class="hidden-xs">{{$index + 1}}</td>
                                         <td>{{req.TransporterName}}</td>
                                         <td>{{req.SourceWarehouse}}</td>
                                         <td>{{req.Woreda}}</td>
-                                        <th>{{req.Region}} QT</th>
+                                        <th>{{req.Region}}</th>
                                         <th>{{req.Quantity}}</th>
                                         <th>{{req.BidMumber}}</th>
                                      </tr>
@@ -657,7 +658,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                   <tr ng-repeat="req in requestsSIPCAllocated.request |  filter:{RegionName:regionName}">
+                                   <tr ng-repeat="req in requestsSIPCAllocated |  filter:{RegionName:regionName}">
                                         <td class="hidden-xs">{{$index + 1}}</td>
                                         <td>{{req.reqNo}}</td>
                                         <td>{{req.zone}}</td>
@@ -857,36 +858,52 @@
 
         $scope.qty = 6;
         $scope.currentHRD = {};
-        $http({ method: 'GET', url: '@Url.Action("CurrentHrdRead","Home")' }).success(function (data, status, headers, config) { $scope.currentHRD.hrd = data;});
+        var JsonArray = [];
+        $http({ method: 'GET', url: '@Url.Action("CurrentHrdRead","Home")' }).success(function (data, status, headers, config) {
+            $.each(data, function (i, item) {
+              
+                $scope.currentHRD[i] = item;
+            });
+            
+        });
         $rootScope.regionName = "";
     }]);
     
     myApp.controller('BidWinnersController', ['$scope', '$http', '$rootScope', function ($scope, $http, $rootScope) {
 
        
-        $rootScope.bidWinners = {};
-       
+        $scope.bidWinners = {};
         $rootScope.regionName = "";
-     }]);
-
-    myApp.controller('BidController', ['$scope', '$http', '$rootScope', function ($scope, $http, $rootScope) {
-
+        
         $scope.bids = [];
-        $http({ method: 'GET', url: '@Url.Action("GetBids","Home")' }).success(function (data, status, headers, config) {$scope.bids = data;});
+        $http({ method: 'GET', url: '@Url.Action("GetBids","Home")' }).success(function (data, status, headers, config) { $scope.bids = data;
+             });
 
 
 
         $scope.onChange = function (bidId) {
-            $http({ method: 'GET', param: bidId ,url: '@Url.Action("GetListOfBidWinners","Home")' }).success(function (data, status, headers, config) {$rootScope.bidWinners.bid = data;});
+           
+            $http({ method: 'GET', params: { id: bidId }, url: '@Url.Action("GetListOfBidWinners","Home")' }).success(function (data, status, headers, config) {
+                $scope.bidWinners.bid = data.Bidwinners;
+                console.log(data.Bidwinners);
+                $.each($scope.bidWinners.bid, function (i, item) {
+                    
+                    console.log(item.SourceWarehouse);
+                    
+                });
+               
+            });
         };
-    }]);
+        
+     }]);
 
+ 
 
     myApp.controller('ApprovedRequestsController', ['$scope', '$http', '$rootScope', function ($scope, $http, $rootScope) {
 
         $scope.qty = 6;
         $scope.requests = { };
-        $http({method: 'GET',url: '@Url.Action("GetRequiasitions","Home", new {id = 2})'}).success(function(data, status, headers, config) { $scope.requests.request = data; });
+        $http({ method: 'GET', url: '@Url.Action("GetRequiasitions","Home", new {id = 2})' }).success(function (data, status, headers, config) { $scope.requests.request = data; console.log($scope.requests.request); });
         $rootScope.regionName = "";
     }]);
     

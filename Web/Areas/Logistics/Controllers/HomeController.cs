@@ -27,6 +27,7 @@ namespace Cats.Areas.Logistics.Controllers
         private readonly Cats.Services.Logistics.ISIPCAllocationService _sipcAllocationService;
         private readonly IAdminUnitService _adminUnitService;
         private readonly IHRDService _hrdService;
+        
         private readonly IBidWinnerService _bidWinnerService;
         private readonly IBidService _bidService;
 
@@ -185,8 +186,8 @@ namespace Cats.Areas.Logistics.Controllers
                                                                                                                   createdBy = h.CreatedBY,
                                                                                                                   createdDate = h.CreatedDate.ToCTSPreferedDateFormat(datePref),
                                                                                                                   status = h.Status,
-                                                                                                                  RegionName = h.HRDDetails.Select(r=>r.AdminUnit.Name),
-                                                                                                                  RegionId = h.HRDDetails.Select(r => r.AdminUnit.AdminUnitID)
+                                                                                                                  PublishedDate = h.PublishedDate.ToCTSPreferedDateFormat(datePref)
+                                                                                                                  
                                                                                                               });
             return Json(hrds,JsonRequestBehavior.AllowGet);
         }
@@ -197,7 +198,7 @@ namespace Cats.Areas.Logistics.Controllers
 
         public JsonResult GetBids()
         {
-            var bids = _bidService.FindBy(s => s.StatusID == (int) Cats.Models.Constant.BidStatus.Active).Select(b=> new
+            var bids = _bidService.GetAllBid().Where(b=>b.StatusID == (int) Cats.Models.Constant.BidStatus.Active).Select(b=> new
                                                                                                                          {
                                                                                                                              BidNo = b.BidNumber,
                                                                                                                              BidId=b.BidID
@@ -231,10 +232,11 @@ namespace Cats.Areas.Logistics.Controllers
 
                     });
         }
-        public JsonResult  GetListOfBidWinners(int id)
+        public JsonResult  GetListOfBidWinners(string id)
         {
             var selectedBidWinners = new SelectedBidWinnerViewModel();
-            var bidWinner = _bidWinnerService.FindBy(m => m.BidID == id && m.Position == 1);
+            var bid = _bidService.FindBy(t => t.BidNumber == id).SingleOrDefault();
+            var bidWinner = _bidWinnerService.FindBy(m => m.BidID == bid.BidID );
             if (bidWinner != null)
             {
                 selectedBidWinners.Bidwinners = GetBidWinners(bidWinner).ToList();
