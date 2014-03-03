@@ -192,10 +192,11 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
         private DataTable GetHRDSummary(int id)
         {
+            var weightPref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).PreferedWeightMeasurment;
             var hrd = _hrdService.FindById(id);
             var hrdDetails = _hrdDetailService.Get(t => t.HRDID == id, null, "AdminUnit,AdminUnit.AdminUnit2,AdminUnit.AdminUnit2.AdminUnit2").ToList();
             var rationDetails = _rationDetailService.Get(t => t.RationID == hrd.RationID, null, "Commodity");
-            var dt = HRDViewModelBinder.TransposeDataSummary(hrdDetails, rationDetails);
+            var dt = HRDViewModelBinder.TransposeDataSummary(hrdDetails, rationDetails,weightPref);
             return dt;
         }
 

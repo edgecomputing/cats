@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Cats.Services.EarlyWarning;
+using Cats.Services.Security;
 using Cats.ViewModelBinder;
 
 namespace Cats.Areas.EarlyWarning.Controllers
@@ -17,15 +18,16 @@ namespace Cats.Areas.EarlyWarning.Controllers
         private readonly IHRDDetailService _hrdDetailService;
         private readonly IRationDetailService _rationDetailService;
         private readonly IRegionalRequestService _regionalRequestService;
+        private IUserAccountService _userAccountService;
 
         public HomeController(IHRDService hrdService, IHRDDetailService hrdDetailService,
-                              IRationDetailService rationDetailService, IRegionalRequestService regionalRequestService)
+                              IRationDetailService rationDetailService, IRegionalRequestService regionalRequestService, IUserAccountService userAccountService)
         {
             _hrdService = hrdService;
             _hrdDetailService = hrdDetailService;
             _rationDetailService = rationDetailService;
             _regionalRequestService = regionalRequestService;
-
+            _userAccountService = userAccountService;
         }
 
         public ActionResult Index()
@@ -44,12 +46,13 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
         private DataTable GetHRDSummary(int id)
         {
+            var weightPref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).PreferedWeightMeasurment;
             var hrd = _hrdService.FindById(id);
             var hrdDetails =
                 _hrdDetailService.Get(t => t.HRDID == id, null,
                                       "AdminUnit,AdminUnit.AdminUnit2,AdminUnit.AdminUnit2.AdminUnit2").ToList();
             var rationDetails = _rationDetailService.Get(t => t.RationID == hrd.RationID, null, "Commodity");
-            var dt = HRDViewModelBinder.TransposeDataSummary(hrdDetails, rationDetails);
+            var dt = HRDViewModelBinder.TransposeDataSummary(hrdDetails, rationDetails, weightPref);
             return dt;
         }
 

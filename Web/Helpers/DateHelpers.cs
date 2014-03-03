@@ -69,7 +69,7 @@ namespace Cats.Helpers
 
         }
         
-        public static Decimal ToPreferedWeightUnit(this Decimal amount, string unit = "MT")
+        public static decimal ToPreferedWeightUnit(this decimal amount, string unit = "MT")
         {
             string currentUnit;
 

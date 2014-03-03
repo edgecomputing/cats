@@ -13,6 +13,8 @@ using Cats.Services.Security;
 using hub = Cats.Services.Hub;
 using Cats.Models;
 using Cats.Helpers;
+using TransporterViewModel = Cats.Models.ViewModels.TransporterViewModel;
+
 namespace Cats.Areas.Logistics.Controllers
 {
     public class HomeController : Controller
@@ -222,40 +224,34 @@ namespace Cats.Areas.Logistics.Controllers
             return Json(bids, JsonRequestBehavior.AllowGet);
         }
 
-        private IEnumerable<BidWinnerViewModel> GetBidWinners(IEnumerable<BidWinner> bidWinners)
+        private IEnumerable<Cats.Models.ViewModels.TransporterViewModel> GetBidWinners(IEnumerable<BidWinner> bidWinners)
         {
             var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
             return (from bidWinner in bidWinners
-                    select new BidWinnerViewModel()
+                    select new Cats.Models.ViewModels.TransporterViewModel()
                     {
-                        BidWinnnerID = bidWinner.BidWinnerID,
-                        TransporterID = bidWinner.TransporterID,
-                        TransporterName = bidWinner.Transporter.Name,
-                        SourceWarehouse = bidWinner.Hub.Name,
-                        Woreda = bidWinner.AdminUnit.Name,
-                        Region = bidWinner.AdminUnit.AdminUnit2.AdminUnit2.Name,
-                        WinnerTariff = bidWinner.Tariff,
-                        Quantity = bidWinner.Amount,
-                        BidID = bidWinner.BidID,
-                        BidPlanID = bidWinner.Bid.TransportBidPlanID,
-                        BidMumber = bidWinner.Bid.BidNumber,
-                        BidStartDate = bidWinner.Bid.StartDate.ToCTSPreferedDateFormat(datePref),
-                        BidEndDate = bidWinner.Bid.EndDate.ToCTSPreferedDateFormat(datePref),
-                        BidOpeningDate = bidWinner.Bid.OpeningDate.ToCTSPreferedDateFormat(datePref),
-                        StatusID = bidWinner.Status,
                         
-                        //Status = _workflowStatusService.GetStatusName(WORKFLOW.BidWinner, int(bidWinner.Status.Value))
-
-                    });
+                        TransporterID = bidWinner.TransporterID,
+                        Name = bidWinner.Transporter.Name,
+                        RegioName = _adminUnitService.FindById(bidWinner.Transporter.Region).Name,
+                        SubCity = bidWinner.Transporter.SubCity,
+                        ZoneName = _adminUnitService.FindById(bidWinner.Transporter.Zone).Name,
+                        TelephoneNo = bidWinner.Transporter.TelephoneNo,
+                        Capital = bidWinner.Transporter.Capital,
+                        MobileNo = bidWinner.Transporter.MobileNo,
+                        Desitnation = _adminUnitService.FindById(bidWinner.DestinationID).Name,
+                        Source = _adminUnitService.FindById(bidWinner.SourceID).Name,
+                        Fdp = bidWinner.AdminUnit.Name
+                    }).Distinct();
         }
         public JsonResult  GetListOfBidWinners(string id)
         {
-            var selectedBidWinners = new SelectedBidWinnerViewModel();
+            var selectedBidWinners = new List<TransporterViewModel>();
             var bid = _bidService.FindBy(t => t.BidNumber == id).SingleOrDefault();
             var bidWinner = _bidWinnerService.FindBy(m => m.BidID == bid.BidID );
             if (bidWinner != null)
             {
-                selectedBidWinners.Bidwinners = GetBidWinners(bidWinner).ToList();
+                selectedBidWinners = GetBidWinners(bidWinner).ToList();
             }
             return Json(selectedBidWinners,JsonRequestBehavior.AllowGet);
         }
@@ -296,7 +292,7 @@ namespace Cats.Areas.Logistics.Controllers
 
         public JsonResult GetSiPcAllocation()
         {
-            var siPcAllocated = _sipcAllocationService.GetAll().Select(s => new
+            var siPcAllocated = _sipcAllocationService.FindBy(r=>r.ReliefRequisitionDetail.ReliefRequisition.Status  == (int) Cats.Models.Constant.ReliefRequisitionStatus.ProjectCodeAssigned).Select(s => new
                                                                                 {
                                                                                     reqNo = s.ReliefRequisitionDetail.ReliefRequisition.RequisitionNo,
                                                                                     beneficiaries = s.ReliefRequisitionDetail.BenficiaryNo,
@@ -304,7 +300,8 @@ namespace Cats.Areas.Logistics.Controllers
                                                                                     commodity = s.ReliefRequisitionDetail.ReliefRequisition.Commodity.Name,
                                                                                     allocationType = s.AllocationType,
                                                                                     regionId = s.ReliefRequisitionDetail.ReliefRequisition.RegionID,
-                                                                                    RegionName =s.ReliefRequisitionDetail.ReliefRequisition.AdminUnit.Name
+                                                                                    RegionName =s.ReliefRequisitionDetail.ReliefRequisition.AdminUnit.Name,
+                                                                                    program = s.ReliefRequisitionDetail.ReliefRequisition.Program.Name
                                                                                 });
             return Json(siPcAllocated, JsonRequestBehavior.AllowGet);
         }
