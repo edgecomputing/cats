@@ -111,7 +111,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                                        _eWDashboardService.FindByRequest(m => m.RegionID == regionalRequest.RegionID
                                                                               && m.PlanID == regionalRequest.PlanID).
                                Count,
-                                   // Remaining = _eWDashboardService.GetRemainingRequest(regionalRequest.RegionID,regionalRequest.PlanID)
+                                    Remaining = _eWDashboardService.GetRemainingRequest(regionalRequest.RegionID,regionalRequest.PlanID)
 
 
                                });

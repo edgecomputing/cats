@@ -370,7 +370,7 @@
                                     </thead>
                                     <tbody>
                                         <tr ng-repeat="request in Requests" class="">
-                                            <td class="hidden-xs"><a ng-href="@Url.Action("Allocation", "Request", new { Area = "EarlyWarning", id = 3152})"> {{request.Region}} </a> </td>
+                                            <td class="hidden-xs"><a ng-href="@Url.Action("Allocation", "Request", new { Area = "EarlyWarning", id = "#{{request.Region}}#"})"> {{request.Region}} </a> </td>
                                             <td>{{request.Beneficiary}}</td>
                                             <td>{{request.NumberOfFDPS}}</td>
                                             <th>{{request.Round}}</th>
@@ -419,7 +419,7 @@
                                         <tr ng-repeat="requested in RequestedAmount">
                                             <td class="hidden-xs">{{requested.RegionName}}</td>
                                             <td>{{requested.NoOfRequests}}</td>
-                                            <td>2</td>
+                                            <td>{{requested.Remaining}}</td>
                                             
                                         </tr>
 
