@@ -12,6 +12,7 @@ namespace Cats.Models
         public int RequestCommodityID { get; set; }
         public int RegionalRequestDetailID { get; set; }
         public int CommodityID { get; set; }
+
         public decimal Amount { get; set; }
         public Nullable<int> UnitID { get; set; }
         public virtual Commodity Commodity { get; set; }

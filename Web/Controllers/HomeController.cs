@@ -65,9 +65,6 @@ namespace Cats.Controllers
                 ViewBag.RegionID = currentUser.RegionID;
                 return RedirectToAction("Index", "Home", new { Area = "Regional" });
             }
-            //else //if (!currentUser.RegionalUser)
-            //{
-                //If the user is not regional user 
                 switch (currentUser.CaseTeam)
                 {
                     case 1:
@@ -85,11 +82,9 @@ namespace Cats.Controllers
                     case 5:
                         return RedirectToAction("Index", "Home", new { Area = "Hub" });
                         break;
-                   // default:
-                        //return RedirectToAction("Index", "Home");
-            //            break;
+
                 }
-            //}
+
             
             // If the user is not niether regional nor caseteam user return this default page
             var userDashboardPreferences = _userDashboardPreferenceService.Get(t => t.UserID == userID).OrderBy(m => m.OrderNo);
