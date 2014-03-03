@@ -29,7 +29,6 @@ namespace Cats.Helpers
             }
             catch (Exception)
             {
-                SignOut();
                 userName="Guest User";
             }
             return userName;
@@ -46,7 +45,6 @@ namespace Cats.Helpers
             catch (Exception)
             {
                 userLanguagePreference ="Guest User";
-                SignOut();                
             }
             return userLanguagePreference;
         }
@@ -101,6 +99,8 @@ namespace Cats.Helpers
             {
                 //TODO: Log error here
                 Logger.Log(ex);
+                SignOut();
+                return null;
             }
 
             return user;
