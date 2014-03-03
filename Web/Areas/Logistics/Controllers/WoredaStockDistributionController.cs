@@ -57,12 +57,22 @@ namespace Cats.Areas.Logistics.Controllers
            
             ViewBag.ProgramID = new SelectList(_commonService.GetPrograms().Take(2),"ProgramId","Name");
             LookUps();
+            if (ViewBag.Errors == "errors")
+                ModelState.AddModelError("Errors", @"Please Select values from the Left Side");
             return View();
         }
 
         public ActionResult Create(int Woreda = -1, int planID = -1,int programID=-1, int month = -1)
         {
-           // var woredaStockDistribution = new WoredaStockDistribution();
+           if(Woreda==-1||planID==-1 || programID==-1 || month==-1)
+           {
+              
+               LookUps();
+               ViewBag.Errors = "errors";
+              
+               return RedirectToAction("Index");
+
+           }
             var woredaStockDistributionViewModel = new WoredaStockDistributionWithDetailViewModel();
             //woredaStockDistributionViewModel.WoredaDistributionDetailViewModels
             var woredaStockDistribution = CheckWoredaDistribution(Woreda, planID, month);
@@ -78,7 +88,7 @@ namespace Cats.Areas.Logistics.Controllers
             }
             //ModelState.AddModelError("Errora",@"Request is Not Created for this plan");
             LookUps();
-            var distributionDetail=_commonService.GetFDPs(Woreda);
+            var distributionDetail = _commonService.GetFDPs(Woreda);
             //var listOfFdps = GetWoredaStockDistribution(distributionDetail);
             //woredaStockDistributionViewModel.WoredaDistributionDetailViewModels = listOfFdps;
             woredaStockDistributionViewModel.PlanID = planID;
@@ -283,7 +293,7 @@ namespace Cats.Areas.Logistics.Controllers
         }
         public void LookUps()
         {
-            ViewBag.Region = new SelectList(_commonService.GetAminUnits(m => m.AdminUnitTypeID == 2), "AdminUnitID", "Name");
+            ViewBag.Region = new SelectList(_commonService.GetAminUnits(m => m.AdminUnitTypeID == 2), "AdminUnitID", "Name","--Select Region--");
             ViewBag.Zone = new SelectList(_commonService.FindBy(m => m.AdminUnitTypeID == 3 && m.ParentID == 3), "AdminUnitID", "Name");
             ViewBag.Woreda = new SelectList(_commonService.FindBy(m => m.AdminUnitTypeID == 4 && m.ParentID == 19), "AdminUnitID", "Name");
             ViewBag.ProgramID = new SelectList(_commonService.GetPrograms(), "ProgramID", "Name");

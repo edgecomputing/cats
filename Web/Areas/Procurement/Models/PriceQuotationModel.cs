@@ -93,6 +93,7 @@ namespace Cats.Areas.Procurement.Models
         public string BidEndDate { get; set; }
         public string BidOpeningDate { get; set; }
         public bool Selected { get; set; }
+
     }
     public class BidWinnerViewingModel
     {
