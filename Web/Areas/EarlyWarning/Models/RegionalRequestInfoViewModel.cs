@@ -60,5 +60,11 @@ namespace Cats.Areas.EarlyWarning.Models
         public string GiftDate { get; set; }
         public string Status { get; set; }
     }
+    public class HrdAndRequestViewModel
+    {
+        public int TotalHrdBeneficaryNumber { get; set; }
+        public int RequestedTotalBeneficaryNumber { get; set; }
+        public int HrdTotalCommodity { get; set; }
+    }
 
 }

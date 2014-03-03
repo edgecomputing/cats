@@ -84,7 +84,9 @@
     <div class="container">
         <h3>Early Warning Dahsboard</h3>
         <hr />
+
         <div  class="container row">
+            
             <div class="span6">
                 <a href="javascript:;" class="dashboard-stat">
                     <div class="visual">
@@ -222,7 +224,8 @@
                                             {
                                                 if(cell.GetType()==typeof(decimal))
                                                 {
-                                                    <td>@cell.ToString().AsFloat()</td>
+                                                    @*<td>@cell.ToString()</td>*@
+                                                    <td>@String.Format("{0:n0}",@cell)</td>
                                                 }
                                                 else
                                                 {
@@ -367,7 +370,7 @@
                                     </thead>
                                     <tbody>
                                         <tr ng-repeat="request in Requests" class="">
-                                            <td class="hidden-xs">{{request.Region}}</td>
+                                            <td class="hidden-xs"><a ng-href="@Url.Action("Allocation", "Request", new { Area = "EarlyWarning", id = "#{{request.Region}}#"})"> {{request.Region}} </a> </td>
                                             <td>{{request.Beneficiary}}</td>
                                             <td>{{request.NumberOfFDPS}}</td>
                                             <th>{{request.Round}}</th>
@@ -416,7 +419,7 @@
                                         <tr ng-repeat="requested in RequestedAmount">
                                             <td class="hidden-xs">{{requested.RegionName}}</td>
                                             <td>{{requested.NoOfRequests}}</td>
-                                            <td>2</td>
+                                            <td>{{requested.Remaining}}</td>
                                             
                                         </tr>
 
@@ -562,7 +565,7 @@
 
                                     <div class="pull-left">
                                         Approved Requisitions
-                                        ({{RequisitionStatus.NoOfDraft}})
+                                        ({{RequisitionStatus.NoOfApproved}})
                                     </div>
                                     <!-- /.stat-label -->
 
@@ -588,7 +591,7 @@
 
                                     <div class="pull-left">
                                         Pending Requisitions
-                                        ({{RequisitionStatus.NoOfApproved}})
+                                        ({{RequisitionStatus.NoOfDraft}})
                                     </div>
                                     <!-- /.stat-label -->
 
@@ -733,7 +736,7 @@
 
                         <!-- /.portlet-header -->
 
-                        <div class="portlet-content"  ">
+                        <div class="portlet-content">
                             <th class="table-responsive">
                                 <table id="" class="table table-striped table-checkable">
                                     <thead>
