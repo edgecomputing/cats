@@ -520,6 +520,7 @@
     <Compile Include="Areas\Procurement\Controllers\FetchDataController.cs" />
     <Compile Include="Areas\Procurement\Models\BidPlanDetailViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\PaymentRequestPercentageViewModel.cs" />
+    <Compile Include="Areas\Procurement\Models\PaymentRequestViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\SummarizedNumbersViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\TransportBidQuotationHeaderViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\TransportOrderDispatchViewModel.cs" />

@@ -50,7 +50,8 @@ namespace Cats.Areas.Procurement.Controllers
         public JsonResult PaymentRequestsStatus([DataSourceRequest]DataSourceRequest request)
         {
             var paymentRequestStatus = _paymentRequestService.GetAll().Take(10);
-            return Json(paymentRequestStatus, JsonRequestBehavior.AllowGet);
+            var paymentRequestStatusViewModels = BindPaymentRequestViewModel(paymentRequestStatus);
+            return Json(paymentRequestStatusViewModels, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult PaymentRequestsPercentage([DataSourceRequest]DataSourceRequest request)
@@ -85,7 +86,8 @@ namespace Cats.Areas.Procurement.Controllers
             var paymentRequest =
                 _paymentRequestService.Get(
                     t => t.BusinessProcess.CurrentState.BaseStateTemplate.Name == "Payment Requested").ToList();
-            return Json(paymentRequest, JsonRequestBehavior.AllowGet);
+            var paymentRequestViewModels = BindPaymentRequestViewModel(paymentRequest);
+            return Json(paymentRequestViewModels, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult PaymentRequestAtLogistics([DataSourceRequest]DataSourceRequest request)
@@ -93,7 +95,8 @@ namespace Cats.Areas.Procurement.Controllers
             var paymentRequestAtLogistics =
                 _paymentRequestService.Get(
                     t => t.BusinessProcess.CurrentState.BaseStateTemplate.Name == "Submitted for Approval").ToList();
-            return Json(paymentRequestAtLogistics, JsonRequestBehavior.AllowGet);
+            var paymentRequestAtLogisticViewModels = BindPaymentRequestViewModel(paymentRequestAtLogistics);
+            return Json(paymentRequestAtLogisticViewModels, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult VerifiedPaymentRequest([DataSourceRequest]DataSourceRequest request)
@@ -101,7 +104,8 @@ namespace Cats.Areas.Procurement.Controllers
             var verifiedPaymentRequest =
                 _paymentRequestService.Get(
                     t => t.BusinessProcess.CurrentState.BaseStateTemplate.Name == "Approved for Payment").ToList();
-            return Json(verifiedPaymentRequest, JsonRequestBehavior.AllowGet);
+            var verifiedPaymentRequestViewModels = BindPaymentRequestViewModel(verifiedPaymentRequest);
+            return Json(verifiedPaymentRequestViewModels, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult CheckCashedPaymentRequest([DataSourceRequest]DataSourceRequest request)
@@ -109,14 +113,43 @@ namespace Cats.Areas.Procurement.Controllers
             var checkCashedPaymentRequest =
                 _paymentRequestService.Get(
                     t => t.BusinessProcess.CurrentState.BaseStateTemplate.Name == "Check Cashed").ToList();
-            return Json(checkCashedPaymentRequest, JsonRequestBehavior.AllowGet);
+            var checkCashedPaymentRequestViewModels = BindPaymentRequestViewModel(checkCashedPaymentRequest);
+            return Json(checkCashedPaymentRequestViewModels, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult RecentBids([DataSourceRequest]DataSourceRequest request)
         {
             var recentBids =
                 _bidService.GetAllBid().OrderByDescending(t=>t.OpeningDate).Take(10).ToList();
-            return Json(recentBids, JsonRequestBehavior.AllowGet);
+            var recentBidViewModels =  BindBidViewModels(recentBids);
+            return Json(recentBidViewModels, JsonRequestBehavior.AllowGet);
+        }
+
+        public List<PaymentRequestViewModel> BindPaymentRequestViewModel(IEnumerable<PaymentRequest> paymentRequests)
+        {
+            return paymentRequests.Select(paymentRequest => new PaymentRequestViewModel()
+                                                                {
+                                                                    BusinessProcessID = paymentRequest.BusinessProcessID, 
+                                                                    PaymentRequestID = paymentRequest.PaymentRequestID, 
+                                                                    ReferenceNo = paymentRequest.ReferenceNo, 
+                                                                    RequestedAmount = paymentRequest.RequestedAmount, 
+                                                                    TransportOrderID = paymentRequest.TransportOrderID, 
+                                                                    TransportOrderNo = paymentRequest.TransportOrder.TransportOrderNo, 
+                                                                    TransporterName = paymentRequest.TransportOrder.Transporter.Name
+                                                                }).ToList();
+        }
+
+        public List<BidsViewModel> BindBidViewModels(IEnumerable<Bid> bids)
+        {
+            return bids.Select(bid => new BidsViewModel()
+                                        {
+                                            BidID = bid.BidID,
+                                            BidNumber = bid.BidNumber,
+                                            EndDate = bid.EndDate,
+                                            OpeningDate = bid.OpeningDate,
+                                            StartDate = bid.StartDate,
+                                            StatusID = bid.StatusID
+                                        }).ToList();
         }
     }
 }
