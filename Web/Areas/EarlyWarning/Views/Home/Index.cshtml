@@ -84,7 +84,9 @@
     <div class="container">
         <h3>Early Warning Dahsboard</h3>
         <hr />
+
         <div  class="container row">
+            
             <div class="span6">
                 <a href="javascript:;" class="dashboard-stat">
                     <div class="visual">
@@ -222,7 +224,8 @@
                                             {
                                                 if(cell.GetType()==typeof(decimal))
                                                 {
-                                                    <td>@cell.ToString().AsFloat()</td>
+                                                    @*<td>@cell.ToString()</td>*@
+                                                    <td>@String.Format("{0:n0}",@cell)</td>
                                                 }
                                                 else
                                                 {
@@ -367,7 +370,8 @@
                                     </thead>
                                     <tbody>
                                         <tr ng-repeat="request in Requests" class="">
-                                            <td class="hidden-xs">{{request.Region}}</td>
+                                            @*<td class="hidden-xs"><a ng-href="@Url.Action("Allocation", "Request", new { Area = "EarlyWarning", id = "{{request.Region}}"})"> {{request.Region}} </a> </td>*@
+                                            <td class="hidden-xs"><a ng-href="@Url.Content("~/EarlyWarning/Request/Allocation/{{request.RegionalRequestID}}")">{{request.Region}}  </a> </td>                                
                                             <td>{{request.Beneficiary}}</td>
                                             <td>{{request.NumberOfFDPS}}</td>
                                             <th>{{request.Round}}</th>
@@ -409,14 +413,14 @@
                                         <tr>
                                             <th class="hidden-xs">Region</th>
                                            <th>Requested</th>
-                                           <th>Remainig</th>
+                                           <th>Remaining</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr ng-repeat="requested in RequestedAmount">
                                             <td class="hidden-xs">{{requested.RegionName}}</td>
                                             <td>{{requested.NoOfRequests}}</td>
-                                            <td>2</td>
+                                            <td>{{requested.Remaining}}</td>
                                             
                                         </tr>
 
@@ -439,7 +443,7 @@
                         <div class="portlet-header">
                             <h3>
                                 <i class=""></i>
-                                Percentage
+                               Regional Requests Percentage
                             </h3>
                         </div>
 
@@ -463,7 +467,7 @@
                                 </div>
                                 <!-- /stat-header -->
 
-                                <div class="progress progress-success">
+                                <div class="progress progress-info">
                                     <div class="bar" style="width: {{RequestStatus.Approved}}%"></div>
                                 </div>
                                 <!-- /.progress -->
@@ -483,7 +487,7 @@
                                     <!-- /.stat-value -->
                                 </div>
                                 <!-- /stat-header -->
-                                <div class="progress progress-danger">
+                                <div class="progress progress-info">
                                     <div class="bar" style="width: {{RequestStatus.Pending}}%"></div>
                                 </div>
                                 <!-- /.progress -->
@@ -507,7 +511,7 @@
                                 </div>
                                 <!-- /stat-header -->
 
-                                <div class="progress progress-warning">
+                                <div class="progress progress-info">
                                     <div class="bar" style="width: {{RequestStatus.RequisitionCreated}}%"></div>
                                 </div>
                                 <!-- /.progress -->
@@ -562,7 +566,7 @@
 
                                     <div class="pull-left">
                                         Approved Requisitions
-                                        ({{RequisitionStatus.NoOfDraft}})
+                                        ({{RequisitionStatus.NoOfApproved}})
                                     </div>
                                     <!-- /.stat-label -->
 
@@ -574,7 +578,7 @@
                                 </div>
                                 <!-- /stat-header -->
 
-                                <div class="progress progress-success">
+                                <div class="progress progress-info">
                                     <div class="bar" style="width: {{RequisitionStatus.Approved}}%"></div>
                                 </div>
                                 <!-- /.progress -->
@@ -588,7 +592,7 @@
 
                                     <div class="pull-left">
                                         Pending Requisitions
-                                        ({{RequisitionStatus.NoOfApproved}})
+                                        ({{RequisitionStatus.NoOfDraft}})
                                     </div>
                                     <!-- /.stat-label -->
 
@@ -600,7 +604,7 @@
                                 </div>
                                 <!-- /stat-header -->
 
-                                <div class="progress progress-danger">
+                                <div class="progress progress-info">
                                     <div class="bar" style="width: {{RequisitionStatus.Pending}}%"></div>
                                 </div>
                                 <!-- /.progress -->
@@ -626,7 +630,7 @@
                                 </div>
                                 <!-- /stat-header -->
 
-                                <div class="progress progress-warning">
+                                <div class="progress progress-info">
                                     <div class="bar" style="width: {{RequisitionStatus.HubAssigned}}%"></div>
                                 </div>
                                 <!-- /.progress -->
@@ -651,7 +655,7 @@
                                 </div>
                                 <!-- /stat-header -->
 
-                                <div class="progress progress-warning">
+                                <div class="progress progress-info">
                                     <div class="bar" style="width: {{RequisitionStatus.ProjectCodeAssigned}}%"></div>
                                 </div>
                                 <!-- /.progress -->
@@ -733,7 +737,7 @@
 
                         <!-- /.portlet-header -->
 
-                        <div class="portlet-content"  ">
+                        <div class="portlet-content">
                             <th class="table-responsive">
                                 <table id="" class="table table-striped table-checkable">
                                     <thead>
@@ -750,7 +754,7 @@
                                     </thead>
                                     <tbody>
                                         <tr ng-repeat="requisition in Requisitions" class="">
-                                            <td class="hidden-xs">{{requisition.RequisitonNumber}}</td>
+                                             <td class="hidden-xs"><a ng-href= "@Url.Content("~/EarlyWarning/ReliefRequisition/Allocation/{{requisition.RequisitionID}}")"> {{requisition.RequisitonNumber}} </a> </td>
                                             <td>{{requisition.Region}}</td>
                                             <td>{{requisition.Zone}}</td>
                                             <td>{{requisition.Commodity}}</td>
@@ -798,7 +802,7 @@
             <div id="GiftCertificateContent" class="row">
                 <div>&nbsp;</div>
              
-                <div class="span7">
+                <div class="span10">
                     <div class="portlet">
                         <div class="portlet-header">
                             <h3>
@@ -826,20 +830,24 @@
                                             <th>Donor</th>
                                             <th>Gift Date</th>
                                             <th>Declaration Number</th>
-                                            <th>Commodity</th>
-                                            <th>Weight in MT</th>
+                                           @* <th>Commodity</th>*@
+                                            <th>Total Weight in MT</th>
+                                            <th>Total Estimated Price</th>
+                                            <th>Total Estimated Tax</th>
                                             <th>Status</th>
                                           @*  <th class="align-center">Action</th>*@
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr ng-repeat="giftCertificate in GiftCertificates" class="">
-                                            <td class="hidden-xs">{{giftCertificate.SINumber}}</td>
+                                            <td class="hidden-xs"> <a ng-href= "@Url.Content("~/EarlyWarning/GiftCertificate/Edit/{{giftCertificate.GiftCertificateID}}")"> {{giftCertificate.SINumber}}</td>
                                             <td>{{giftCertificate.DonorName}}</td>
                                             <td>{{giftCertificate.GiftDate}}</td>
                                             <td>{{giftCertificate.DclarationNumber}}</td>
-                                            <td>{{giftCertificate.Commodity}}</td>
+                                            @*<td>{{giftCertificate.Commodity}}</td>*@
                                             <th>{{giftCertificate.Wieght}} </th>
+                                            <th>${{giftCertificate.EstimatedPrice}} </th>
+                                             <th>${{giftCertificate.TotalEstimatedTax}} </th>
                                             <td><span class="label label-success">{{giftCertificate.Status}}</span></td>
                                            @* <td>
                                                 <a href="javascript:;" class="btn btn-sm btn-default">View <i class="icon-chevron-right"></i>

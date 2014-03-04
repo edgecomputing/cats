@@ -10,7 +10,7 @@ namespace Cats.Areas.PSNP.Controllers
     public class HomeController : Controller
     {
         //
-        // GET: /PSNP/Home/
+        // GET: /PSNP/Home/`
 
         //public ActionResult Index()
         //{
@@ -24,12 +24,10 @@ namespace Cats.Areas.PSNP.Controllers
         //    };
         //    return View(widgets);
         //}
-
-
+        
         public ActionResult Index()
         {
             return View();
         }
-
     }
 }

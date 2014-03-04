@@ -1,56 +1,589 @@
-﻿@*@model IEnumerable<Cats.Models.RegionalRequest>*@
-
-﻿@using Cats.Helpers
-
-@{
+﻿@{
     ViewBag.Title = "Index";
-    ViewBag.ViewWidth = "Wide";
-    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+    const string PAGE_NAME = "PSNP.Index";
 }
 
-<link href="~/Content/DashboardWidget.css" rel="stylesheet">
+@section styles
+{
+    <link href="~/Content/Dashboard/dashboardcomponents.css" rel="stylesheet" />
+}
 
-<html>
-<body>
-    <div class="row">
-        <div class="span6">
-            <div class="widget stacked">
-                <div class="widget-header">
-                    <i class="icon-bookmark"></i>
-                    <h3>Welcome To PSNP</h3>
+<div ng-app>
+
+    <div ng-controller="PSNPDashboardController" class="container">
+        <div>
+            <div id="DistributionContent" class="row">
+                <div>&nbsp;</div>
+                <div class="span11">
+                    <div class="portlet">
+                        <div class="portlet-header">
+                            <h3>
+                                <i class=""></i>
+                                Quick Actions
+                            </h3>
+                        </div>
+
+                        <!-- /.portlet-header -->
+
+                        <div class="portlet-content">
+                            <div class="shortcuts">
+
+                                <a href="@Url.Action("Index", "RegionalPSNPPlan", new { Area = "PSNP" })" class="shortcut"><i class="shortcut-icon icon-list-alt"></i>
+                                    <span class="shortcut-label">Regional PSNP Plan</span>
+                                </a>
+
+                                <a href="@Url.Action("Index", "RegionalPSNPPlanDetail", new { Area = "PSNP" })" class="shortcut"><i class="shortcut-icon icon-signal"></i>
+                                    <span class="shortcut-label">Regional PSNP Plan Detail</span>
+                                </a>
+
+                                <a href="@Url.Action("Index", "RegionalPSNPPledge", new { Area = "PSNP" })" class="shortcut"><i class="shortcut-icon icon-inbox"></i>
+                                    <span class="shortcut-label">Regional PSNP Pledge</span>
+                                </a>
+                            </div>
+                        </div>
+                        <!-- /.table-responsive -->
+                    </div>
+                    <!-- /.portlet-content -->
+                    <br />
                 </div>
-                <div class="widget-content">
 
-                    <div class="shortcuts">
+                @* <div class="span5">
 
-                        <a href="@Url.Action("Index", "RegionalPSNPPlan", new { Area = "PSNP" })" class="shortcut"><i class="shortcut-icon icon-list-alt"></i>
-                            <span class="shortcut-label">Regional PSNP Plan</span>
-                        </a>
+                    <div class="portlet">
+                        <div class="portlet-header">
+                            <h3>
+                                <i class=""></i>
+                                Age Percentage
+                            </h3>
+                        </div>
 
-                        <a href="@Url.Action("Index", "RegionalPSNPPlanDetail", new { Area = "PSNP" })" class="shortcut"><i class="shortcut-icon icon-signal"></i>
-                            <span class="shortcut-label">Regional PSNP Plan Detail</span>
-                        </a>
+                        <!-- /.portlet-header -->
 
-                        <a href="@Url.Action("Index", "RegionalPSNPPledge", new { Area = "PSNP" })" class="shortcut"><i class="shortcut-icon icon-inbox"></i>
-                            <span class="shortcut-label">Regional PSNP Pledge</span>
-                        </a>
+                        <div class="portlet-content">
+                            
+                        <!-- /.portlet-content -->
+
+                    </div>
+                    <!-- /.portlet -->
+                </div>*@
+
+                <!-- /.portlet -->
+            </div>
+        </div>
+
+        <div>
+            <div class="row" style="border-bottom-width: thin; border-bottom-color: #666; border-bottom-style: inset; margin-top: 5px">
+                <div class="pull-left">
+                    <h4>Monthly Requests</h4>
+                </div>
+                <div class="pull-right">
+                    <div class="btn-group">
+                        <button id="RequestHeader" type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
+                            <i class="icon-arrow-up"></i>
+                            <i class="icon-arrow-down"></i>
+                        </button>
+
+                    </div>
+                </div>
+            </div>
+            <div id="RequestContent" class="row">
+                <div>&nbsp;</div>
+                <div class="span7">
+                    <div class="portlet">
+                        <div class="portlet-header">
+                            <h3>
+                                <i class=""></i>
+                                Recent Requests
+                            </h3>
+                            <ul class="portlet-tools pull-right">
+                                <li>
+                                    <a class="btn btn-sm btn-default " href="@Url.Action("Index", "Request", new { Area = "EarlyWarning" })"> Show More</a>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- /.portlet-header -->
+
+                        <div class="portlet-content">
+                            <th class="table-responsive">
+                                <table id="" class="table table-striped table-checkable">
+                                    <thead>
+                                        <tr>
+                                            <th class="hidden-xs">Number</th>
+                                            <th>FDPS</th>
+                                            <th>Beneficiaries</th>
+                                            <th>Status</th>
+                                            <th>Detail</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="request in Requests">
+                                            <td class="hidden-xs">{{request.Number}}</td>
+                                            <td>{{request.fdps}}</td>
+                                            <td>{{request.beneficiaries}}</td>
+                                            <td><span class="label label-success">{{request.status}}</span></td>
+                                            <th>
+                                                <a href="javascript:;" class="btn btn-sm btn-default">View <i class="icon-chevron-right"></i>
+                                                </a>
+                                            </th>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                        </div>
+                        <!-- /.table-responsive -->
+                    </div>
+                    <!-- /.portlet-content -->
+
+                </div>
+                <div class="span4">
+
+                    <div class="portlet">
+                        <div class="portlet-header">
+                            <h3>
+                                <i class=""></i>
+                                Requests Per Region
+                            </h3>
+                        </div>
+
+                        <!-- /.portlet-header -->
+
+                        <div class="portlet-content">
+                            <div class="chart-wrapper">
+                                <div class="chart-inner">
+                                    <div id="container" style="width: 100%; height: 100%;"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.portlet-content -->
+
+                    </div>
+                    <!-- /.portlet -->
+                </div>
+                <!-- /.portlet -->
+            </div>
+        </div>
+
+        <div>
+            <div class="row" style="border-bottom-width: thin; border-bottom-color: #666; border-bottom-style: inset; margin-top: 5px">
+
+                <div class="pull-left">
+                    <h4>Monthly Requisitions</h4>
+                </div>
+                <div class="pull-right">
+                    <div class="btn-group">
+                        <button id="RequisitionHeader" type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
+                            <i class="icon-arrow-up"></i>
+                            <i class="icon-arrow-down"></i>
+                        </button>
+
+                    </div>
+                </div>
+            </div>
+            <div id="RequisitionContent" class="row">
+                <div>&nbsp;</div>
+                <div class="span4">
+
+                    <div class="portlet">
+                        <div class="portlet-header">
+                            <h3>
+                                <i class=""></i>
+                                Requisitions Percentage by Status 
+                            </h3>
+                        </div>
+
+                        <!-- /.portlet-header -->
+
+                        <div class="portlet-content">
+                            <div class="chart-wrapper">
+                                <div class="chart-inner">
+                                    <div id="containerRequisition" style="width: 100%; height: 100%;"></div>
+                                </div>
+                            </div>
+                            <!-- /.portlet-content -->
+
+                        </div>
+                        <!-- /.portlet -->
                     </div>
 
+                    <!-- /.portlet -->
+                </div>
+                <div class="span7">
+                    <div class="portlet">
+                        <div class="portlet-header">
+                            <h3>
+                                <i class=""></i>
+                                Recent Requisitions
+                            </h3>
+                            <ul class="portlet-tools pull-right">
+                                <li>
+                                    <button class="btn btn-sm btn-default">
+                                        Show more
+                                    </button>
+
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- /.portlet-header -->
+                        <div class="portlet-content">
+                            <th class="table-responsive">
+                                <table id="" class="table table-striped table-checkable">
+                                    <thead>
+                                        <tr>
+                                            <th class="hidden-xs">Number</th>
+                                            <th>Commodity</th>
+                                            <th>Beneficiaries</th>
+                                            <th>Amount(QT)</th>
+                                            <th>Status</th>
+                                            <th class="align-center">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="" ng-repeat="requisition in Requisitions">
+
+                                            <td>{{requisition.Number}}</td>
+                                            <th>{{requisition.Commodity}}</th>
+                                            <td>{{requisition.Beneficicaries|number}}</td>
+                                            <th>{{requisition.Amount|number}} QT</th>
+
+                                            <td><span class="label label-danger">{{requisition.Status}}</span></td>
+                                            <td>
+                                                <a ng-href="@Url.Action("Allocation", "ReliefRequisition", new { Area = "EarlyWarning", id = 2 })" class="btn btn-sm btn-default">View <i class="icon-chevron-right"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                        </div>
+                        <!-- /.table-responsive -->
+                    </div>
+                    <!-- /.portlet-content -->
                 </div>
             </div>
         </div>
 
-        <div class="span6">
-            <div class="widget stacked">
-                <div class="widget-header">
-                    <i class="icon-bookmark"></i>
-                    <h3>Other Contents</h3>
+        <div>
+            <div class="row" style="border-bottom-width: thin; border-bottom-color: #666; border-bottom-style: inset; margin-top: 5px">
+
+                <div class="pull-left">
+                    <h4>Utilization</h4>
                 </div>
-                <div class="widget-content">
-                    <h4>Other Contents go here</h4>
+                <div class="pull-right">
+                    <div class="btn-group">
+                        <button id="RequisitionHeader" type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
+                            <i class="icon-arrow-up"></i>
+                            <i class="icon-arrow-down"></i>
+                        </button>
+
+                    </div>
                 </div>
             </div>
+            <div id="RequisitionContent" class="row">
+                <div>&nbsp;</div>
+                <div class="span4">
+
+                    <div class="portlet">
+                        <div class="portlet-header">
+                            <h3>
+                                <i class=""></i>
+                                Utilizatio by Age 
+                            </h3>
+                        </div>
+
+                        <!-- /.portlet-header -->
+
+                        <div class="portlet-content">
+                            <div class="progress-stat">
+
+                                <div class="stat-header">
+
+                                    <div class="pull-left">
+                                        Older than 18 years
+                                    </div>
+                                    <!-- /.stat-label -->
+
+                                    <div class="pull-right">
+                                        {{Data.Above18}}%
+                                    </div>
+                                    <!-- /.stat-value -->
+
+                                </div>
+                                <!-- /stat-header -->
+
+                                <div class="progress progress-info">
+                                    <div class="bar" style="width: {{Data.Above18}}%"></div>
+                                </div>
+                                <!-- /.progress -->
+
+                            </div>
+                            <!-- /.progress-stat -->
+
+                            <div class="progress-stat">
+
+                                <div class="stat-header">
+
+                                    <div class="pull-left">
+                                        Between 5 and 18 years
+                                    </div>
+                                    <!-- /.stat-label -->
+
+                                    <div class="pull-right">
+                                        {{Data.Bet5And8}}%
+                                    </div>
+                                    <!-- /.stat-value -->
+
+                                </div>
+                                <!-- /stat-header -->
+
+                                <div class="progress progress-info">
+                                    <div class="bar" style="width: {{Data.Bet5And8}}%"></div>
+                                </div>
+                                <!-- /.progress -->
+
+                            </div>
+                            <!-- /.progress-stat -->
+
+                            <div class="progress-stat">
+
+                                <div class="stat-header">
+
+                                    <div class="pull-left">
+                                        Younger than 5 years
+                                    </div>
+                                    <!-- /.stat-label -->
+
+                                    <div class="pull-right">
+                                        {{Data.Below5}}%
+                                    </div>
+                                    <!-- /.stat-value -->
+
+                                </div>
+                                <!-- /stat-header -->
+
+                                <div class="progress progress-info">
+                                    <div class="bar" style="width: {{Data.Below5}}%"></div>
+                                </div>
+                                <!-- /.progress -->
+
+                            </div>
+                            <!-- /.progress-stat -->
+
+                            <br>
+                        </div>
+                        <!-- /.portlet-content -->
+
+                    </div>
+                    <!-- /.portlet -->
+                </div>
+                <div class="span7">
+                    <div class="portlet">
+                        <div class="portlet-header">
+                            <h3>
+                                <i class=""></i>
+                                Utilizatin by Region
+                            </h3>
+                            <ul class="portlet-tools pull-right">
+                                <li>
+                                    <button class="btn btn-sm btn-default">
+                                        Show more
+                                    </button>
+
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- /.portlet-header -->
+                        <div class="portlet-content">
+                            <th class="table-responsive">
+                                <table id="" class="table table-striped table-checkable">
+                                    @* <thead>
+                                        <tr>
+                                            <th class="hidden-xs">Number</th>
+                                            <th>Commodity</th>
+                                            <th>Beneficiaries</th>
+                                            <th>Amount(QT)</th>
+                                            <th>Status</th>
+                                            <th class="align-center">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="" ng-repeat="requisition in Requisitions">
+
+                                            <td>{{requisition[1].Value}}</td>
+                                            <th>{{requisition[7].Value}}</th>
+                                            <td>{{requisition[2].Value|number}}</td>
+                                            <th>{{requisition[3].Value|number}} QT</th>
+
+                                            <td><span class="label label-danger">{{requisition[4].Value}}</span></td>
+                                            <td>
+                                                <a ng-href="@Url.Action("Allocation", "ReliefRequisition", new { Area = "EarlyWarning", id = 2 })" class="btn btn-sm btn-default">View <i class="icon-chevron-right"></i>
+                                                </a>
+
+                                                <a class="btn btn-sm btn-default" data-original-title="Approve">
+                                                    <i class="icon-upload"></i>Approve
+                                                </a>
+                                            </td>
+                                        </tr>
+
+                                    </tbody>*@
+                                </table>
+
+                        </div>
+                        <!-- /.table-responsive -->
+                    </div>
+                    <!-- /.portlet-content -->
+                </div>
+                <!-- /.portlet -->
+            </div>
+
         </div>
+
     </div>
-</body>
-</html>
+
+</div>
+
+<script>
+    $("#RequestHeader").click(function () {
+        $("#RequestContent").slideToggle("slow", "linear");
+    });
+    $("#RequisitionHeader").click(function () {
+        $("#RequisitionContent").slideToggle("slow", "linear");
+    });
+</script>
+
+<script>
+    function PSNPDashboardController($scope, $http) {
+        $scope.reqParam = { regionID: 2 };
+        $scope.Requests = [];
+        $scope.Requisitions = [];
+        $scope.Data = [];
+
+        var onRequestsSuccess = function (data) {
+            $scope.Requests = data;
+        };
+
+        var onRequisitionsSuccess = function (data) {
+            $scope.Requisitions = data;
+        };
+
+        var onDashboardDataSuccess = function (data) {
+            $scope.Data = data;
+        };
+
+        $scope.getRequests = function () {
+            $http.post("@Url.Action("GetPsnpRequests", "Dashboard", new { Area = "PSNP" })", $scope.reqParam).success(onRequestsSuccess);
+        };
+
+        $scope.getRequisitions = function () {
+            $http.post("@Url.Action("GetPsnpRequisitions", "Dashboard", new { Area = "PSNP" })", $scope.reqParam).success(onRequisitionsSuccess);
+        };
+
+        $scope.getUtilization = function () {
+            $http.post("@Url.Action("GetUtilizationReport", "Dashboard", new { Area = "PSNP" })", $scope.reqParam).success(onDispatchesSuccess);
+        };
+
+        $scope.getRegionalData = function () {
+            $http.post("@Url.Action("RegionalData", "FetchData", new { Area = "Regional" })", $scope.reqParam).success(onDashboardDataSuccess);
+        };
+
+        $scope.getRequests();
+        $scope.getRequisitions();
+    }
+</script>
+<script src="~/Scripts/js/highcharts.js"></script>
+<script>
+    $(function () {
+        $('#container').highcharts({
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false
+            },
+
+            tooltip: {
+                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: true,
+                        color: '#000000',
+                        connectorColor: '#000000',
+                        format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+                    }
+                }
+            },
+            credits: {
+                enabled: false
+            },
+            series: [{
+                type: 'pie',
+                name: 'Browser share',
+                data: [
+                    ['Afar', 45.0],
+                    ['Oromiya', 26.8],
+                    {
+                        name: 'SNNPR',
+                        y: 12.8,
+                        sliced: true,
+                        selected: true
+                    },
+                    ['Amhara', 8.5],
+                    ['Somali', 6.2],
+                    ['Benishangul', 0.7]
+                ]
+            }]
+        });
+    });
+</script>
+
+<script>
+    $(function () {
+        $('#containerRequisition').highcharts({
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false
+            },
+
+            tooltip: {
+                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            },
+            credits: {
+                enabled: false
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: true,
+                        color: '#000000',
+                        connectorColor: '#000000',
+                        format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+                    }
+                }
+            },
+            series: [{
+                type: 'pie',
+                name: 'Browser share',
+                data: [
+                    ['Afar', 45.0],
+                    ['Oromiya', 26.8],
+                    {
+                        name: 'SNNPR',
+                        y: 12.8,
+                        sliced: true,
+                        selected: true
+                    },
+                    ['Amhara', 8.5],
+                    ['Somali', 6.2],
+                    ['Benishangul', 0.7]
+                ]
+            }]
+        });
+    });
+</script>
