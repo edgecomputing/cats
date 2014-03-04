@@ -571,9 +571,12 @@
     <Compile Include="Areas\Procurement\Models\WoredaHubViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\WoredasInCurrentContract.cs" />
     <Compile Include="Areas\Procurement\ProcurementAreaRegistration.cs" />
+    <Compile Include="Areas\PSNP\Controllers\DashboardController.cs" />
     <Compile Include="Areas\PSNP\Controllers\HomeController.cs" />
     <Compile Include="Areas\PSNP\Controllers\RegionalPSNPPlanDetailController.cs" />
     <Compile Include="Areas\PSNP\Controllers\RegionalPSNPPledgeController.cs" />
+    <Compile Include="Areas\PSNP\Models\PSNPRequetViewModel.cs" />
+    <Compile Include="Areas\PSNP\Models\PSNPRequisitionViewModel.cs" />
     <Compile Include="Areas\PSNP\Models\RegionalPSNPPlan.cs" />
     <Compile Include="Areas\PSNP\PSNPAreaRegistration.cs" />
     <Compile Include="Areas\PSNP\Controllers\RegionalPSNPPlanController.cs" />
@@ -1723,6 +1726,7 @@
     <Content Include="Areas\Logistics\Views\Transfer\Detail.cshtml" />
     <Content Include="Areas\Logistics\Views\Transfer\Edit.cshtml" />
     <Content Include="Areas\Logistics\Views\Donation\View1.cshtml" />
+    <Content Include="Areas\PSNP\Views\Home\Copy of Index.cshtml" />
     <None Include="dataset.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>dataset.Designer.cs</LastGenOutput>

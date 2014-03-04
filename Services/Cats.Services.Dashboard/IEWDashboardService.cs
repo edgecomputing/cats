@@ -18,5 +18,6 @@ namespace Cats.Services.Dashboard
       List<ReliefRequisition> FindByRequisition(Expression<Func<ReliefRequisition, bool>> predicate);
       List<ReliefRequisition> GetAllReliefRequisition();
       int GetRemainingRequest(int regionID, int planID);
+      List<GiftCertificate> GetAllGiftCertificate();
     }
 }

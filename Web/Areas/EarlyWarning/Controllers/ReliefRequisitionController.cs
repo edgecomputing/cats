@@ -171,10 +171,11 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
         public ActionResult Allocation_Read([DataSourceRequest] DataSourceRequest request, int id)
         {
-
+            
             var requisitionDetails = _reliefRequisitionDetailService.Get(t => t.RequisitionID == id, null, "ReliefRequisition.AdminUnit,FDP.AdminUnit,FDP,Donor,Commodity").ToList();
             var commodityID = requisitionDetails.FirstOrDefault().CommodityID;
             var RationAmount = GetCommodityRation(id, commodityID);
+            RationAmount = RationAmount.GetPreferedRation();
             var requisitionDetailViewModels = RequisitionViewModelBinder.BindReliefRequisitionDetailListViewModel(requisitionDetails,RationAmount);
             return Json(requisitionDetailViewModels.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
