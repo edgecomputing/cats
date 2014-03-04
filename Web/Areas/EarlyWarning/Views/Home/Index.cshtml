@@ -81,13 +81,13 @@
     @*<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,800italic,400,600,800" type="text/css">*@
 }
 <div ng-app>
-    <div class="container">
+  <div ng-controller="ImportantNumbersController" class="container">
         <h3>Early Warning Dahsboard</h3>
         <hr />
 
         <div  class="container row">
             
-            <div class="span6">
+            <div class="span8">
                 <a href="javascript:;" class="dashboard-stat">
                     <div class="visual">
                         @*<i class="icon-star"></i>*@
@@ -96,17 +96,17 @@
 
                     <div class="details column-divider-regional center">
                         <span class="content">Total Requests</span>
-                        <span class="value">8,547</span>
+                        <span class="value"> {{RequiredNumber.TotalRequest}}</span>
                     </div>
 
                     <div class="details column-divider-regional center">
                         <span class="content">Total Requisitions</span>
-                        <span class="value">521</span>
+                        <span class="value">{{RequiredNumber.TotalRequisitionNumber}}</span>
                     </div>
 
                     <div class="details column-divider-regional center">
                         <span class="content">Required Commodity</span>
-                        <span class="value">5,000 QT </span>
+                        <span class="value">{{RequiredNumber.HrdTotalCommodity|number}} in MT</span>
                     </div>
 
 
@@ -117,24 +117,6 @@
             </div>
             <!-- /.col-md-3 -->
 
-            <div class="span3">
-
-                <a href="javascript:;" class="dashboard-stat">
-                    <div class="visual">
-                        @*<i class="icon-shopping-cart"></i>*@
-                    </div>
-                    <!-- /.visual -->
-
-                    <div class="details">
-                        <span class="content">Total Number of FDPS</span>
-                        <span class="value">58</span>
-                    </div>
-                    <!-- /.details -->
-
-                </a>
-                <!-- /.dashboard-stat -->
-
-            </div>
             <!-- /.col-md-3 -->
 
             <div class="span3">
@@ -147,7 +129,7 @@
 
                     <div class="details">
                         <span class="content">People in Need</span>
-                        <span class="value">56,000</span>
+                        <span class="value">{{RequiredNumber.TotalHrdBeneficaryNumber|number}}</span>
                     </div>
                     <!-- /.details -->
 
@@ -840,7 +822,7 @@
                                     </thead>
                                     <tbody>
                                         <tr ng-repeat="giftCertificate in GiftCertificates" class="">
-                                            <td class="hidden-xs"> <a ng-href= "@Url.Content("~/EarlyWarning/GiftCertificate/Edit/{{giftCertificate.GiftCertificateID}}")"> {{giftCertificate.SINumber}}</td>
+                                            <td class="hidden-xs"> <a ng-href= "@Url.Content("~/EarlyWarning/GiftCertificate/Edit/{{giftCertificate.GiftCertificateID}}")"> {{giftCertificate.SINumber}}</a></td>
                                             <td>{{giftCertificate.DonorName}}</td>
                                             <td>{{giftCertificate.GiftDate}}</td>
                                             <td>{{giftCertificate.DclarationNumber}}</td>
@@ -903,8 +885,10 @@
         $scope.RequestStatus = [];
         $scope.RequisitionStatus = [];
         $scope.Regions = [];
-        $scope.GiftCertificates=[];
+        $scope.GiftCertificates = [];
+       
 
+       
         var onRequestsSuccess = function(data) {
             $scope.Requests = data;
         };
@@ -933,7 +917,7 @@
         var onGiftCertificateSuccess = function (data) {
             $scope.GiftCertificates = data;
         };
-
+       
         $scope.getRequests = function() {
             $http.post("@Url.Action("GetRegionalRequests", "EWDashboard", new { Area = "EarlyWarning" })").success(onRequestsSuccess);
         };
@@ -966,7 +950,6 @@
             $http.post("@Url.Action("GetRecentGiftCertificates", "EWDashboard", new { Area = "EarlyWarning" })").success(onGiftCertificateSuccess);
 
          };
-        
         $scope.getRations();
         $scope.getRequests();
         $scope.getRequisitions();
@@ -975,6 +958,22 @@
         $scope.getRequisitionStatusInPercentage();
         $scope.getHrdRegionPercentage();
         $scope.getRecentGiftCertificates();
+    }
+    
+    function ImportantNumbersController($scope, $http) {
+       
+        $scope.RequiredNumber = [];
+
+        var onRequirednumberSuccess = function (data) {
+            $scope.RequiredNumber = data;
+        };
+
+        $scope.getRequiredNumber = function () {
+            $http.post("@Url.Action("GetEarlyWarningRequiredNumbers", "EWDashboard", new { Area = "EarlyWarning" })").success(onRequirednumberSuccess);
+
+        };
+
+        $scope.getRequiredNumber();
     }
 
 </script>
