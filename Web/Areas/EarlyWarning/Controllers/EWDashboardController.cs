@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using Cats.Areas.EarlyWarning.Models;
 using Cats.Helpers;
 using Cats.Models;
 using Cats.Models.Constant;
 using Cats.Services.Dashboard;
+using Cats.Services.Security;
 
 namespace Cats.Areas.EarlyWarning.Controllers
 {
@@ -15,9 +14,11 @@ namespace Cats.Areas.EarlyWarning.Controllers
     {
 
         private readonly IEWDashboardService _eWDashboardService;
-        public EWDashboardController(IEWDashboardService ewDashboardService)
+        private readonly IUserAccountService _userAccountService;
+        public EWDashboardController(IEWDashboardService ewDashboardService,IUserAccountService userAccountService)
         {
             _eWDashboardService = ewDashboardService;
+            _userAccountService = userAccountService;
 
         }
 
@@ -33,7 +34,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         private IEnumerable<RationDetailViewModel>  GetRationDetailInfo(IEnumerable<RationDetail> rationDetails)
         {
             return (from rationDetail in rationDetails
-                    select new RationDetailViewModel()
+                    select new RationDetailViewModel
                         {
                             Commodity = rationDetail.Commodity.Name,
                             Amount = rationDetail.Amount
@@ -56,6 +57,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                    // from requestDetail in regionalRequest.RegionalRequestDetails
                     select new RegionalRequestViewModel()
                         {
+                            RegionalRequestID =regionalRequest.RegionalRequestID, 
                             Region = regionalRequest.AdminUnit.Name,
                             Round = regionalRequest.Round,
                             MonthName = RequestHelper.MonthName(regionalRequest.Month),
@@ -64,7 +66,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                             NumberOfFDPS = regionalRequest.RegionalRequestDetails.Count(),
                             Status = _eWDashboardService.GetStatusName(WORKFLOW.REGIONAL_REQUEST, regionalRequest.Status)
 
-                        });
+                        }).Take(10);
         }
         public JsonResult GetRequisition()
         {
@@ -80,8 +82,9 @@ namespace Cats.Areas.EarlyWarning.Controllers
             return (from reliefRequisition in reliefRequisitions
                     from request in requests
                     where reliefRequisition.RegionalRequestID == request.RegionalRequestID && reliefRequisition.Status==(int)ReliefRequisitionStatus.Draft 
-                    select new ReliefRequisitionInfoViewModel()
+                    select new ReliefRequisitionInfoViewModel
                         {
+                            RequisitionID = reliefRequisition.RequisitionID,
                             RequisitonNumber = reliefRequisition.RequisitionNo,
                             Region = reliefRequisition.AdminUnit.Name,
                             Zone = reliefRequisition.AdminUnit1.Name,
@@ -92,7 +95,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                                                                   reliefRequisition.Status.Value)
 
 
-                        });
+                        }).Take(8);
         }
         public JsonResult GetRequestedInfo()
         {
@@ -112,12 +115,137 @@ namespace Cats.Areas.EarlyWarning.Controllers
                                        _eWDashboardService.FindByRequest(m => m.RegionID == regionalRequest.RegionID
                                                                               && m.PlanID == regionalRequest.PlanID).
                                Count,
-                                   // Remaining = _eWDashboardService.GetRemainingRequest(regionalRequest.RegionID,regionalRequest.PlanID)
+                                    Remaining = _eWDashboardService.GetRemainingRequest(regionalRequest.RegionID,regionalRequest.PlanID)
 
 
                                });
             var distinictRequest = request.GroupBy(m=>m.RegionID,(key, group) => group.First()).ToList();
             return distinictRequest;
+
+        }
+        public JsonResult GetStatusInPercentage()
+        {
+            var hrd = GetCurrentHrd();
+            var request = _eWDashboardService.FindByRequest(m => m.PlanID == hrd.PlanID);
+            decimal draft = request.Count(m => m.Status == (int) RegionalRequestStatus.Draft);
+            decimal approved = request.Count(m => m.Status == (int) RegionalRequestStatus.Approved);
+            decimal closed = request.Count(m => m.Status == (int) RegionalRequestStatus.Closed);
+            var percentage = new RequestPercentageViewModel
+                {
+                    Pending = ((draft)/(request.Count))*100,
+                    Approved = (approved/request.Count)*100,
+                    RequisitionCreated = (closed/request.Count)*100
+                };
+            return Json(percentage, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult GetRequisitionStatusPercentage()
+        {
+            var currentHrd = _eWDashboardService.FindByHrd(m => m.Status == 3).FirstOrDefault();
+            var requests = _eWDashboardService.FindByRequest(m => m.PlanID == currentHrd.PlanID).OrderByDescending(m => m.RegionalRequestID);
+            var allRequisitions = _eWDashboardService.GetAllReliefRequisition();
+
+            var requisitons = (from requisiton in allRequisitions
+                               from request in requests
+                               where requisiton.RegionalRequestID == request.RegionalRequestID
+                               select new
+                                   {
+                                       requisiton.Status
+                                   }).ToList();
+
+            decimal draft = requisitons.Count(m => m.Status == (int) ReliefRequisitionStatus.Draft);
+            decimal approved = requisitons.Count(m => m.Status == (int)ReliefRequisitionStatus.Approved);
+            decimal hubAssigned = requisitons.Count(m => m.Status == (int)ReliefRequisitionStatus.HubAssigned);
+            decimal pcAssigned = requisitons.Count(m => m.Status == (int)ReliefRequisitionStatus.ProjectCodeAssigned);
+            decimal transportRequisitionCreated = requisitons.Count(m => m.Status == (int)ReliefRequisitionStatus.TransportRequisitionCreated);
+            decimal transportOrderCreated=requisitons.Count(m => m.Status == (int) ReliefRequisitionStatus.TransportOrderCreated);
+
+            var requisitionStatusPercentage = new RequisitionStatusPercentage
+                {
+                    Pending = (draft/requisitons.Count)*100,
+                    Approved = (approved/requisitons.Count)*100,
+                    HubAssigned = (hubAssigned/requisitons.Count)*100,
+                    ProjectCodeAssigned = (pcAssigned/requisitons.Count)*100,
+                    TransportRequistionCreated = (transportRequisitionCreated/requisitons.Count)*100,
+                    TransportOrderCreated = (transportOrderCreated/requisitons.Count)*100,
+                    NoOfDraft =(int) draft,
+                    NoOfApproved = (int)approved,
+                    NoHubAssigned = (int)hubAssigned,
+                    NoOfPcAssigned = (int)pcAssigned,
+                    NoOfTransportReqCreated = (int)transportRequisitionCreated,
+                    NoOfTransportOrderCreated = (int)transportOrderCreated
+
+                };
+            return Json(requisitionStatusPercentage, JsonRequestBehavior.AllowGet);
+
+        }
+        public JsonResult GetHrdRegionPercentage()
+        {
+            var currentHrd = _eWDashboardService.FindByHrd(m => m.Status == 3).FirstOrDefault();
+            IEnumerable<RegionalTotalViewModel> regionalSummery = new List<RegionalTotalViewModel>(); 
+            if (currentHrd != null)
+            {
+
+                var regionGroup = from detail in currentHrd.HRDDetails
+                                     group detail by detail.AdminUnit.AdminUnit2.AdminUnit2
+                                     into regionalDetail
+                                     select new
+                                         {
+                                             Region = regionalDetail.Key,
+                                             NumberOfBeneficiaries = regionalDetail.Sum(m => m.NumberOfBeneficiaries)     
+                                         };
+                regionalSummery= (from total in regionGroup
+                        select new RegionalTotalViewModel
+                        {
+                            RegionName = total.Region.Name,
+                            TotalBeneficary = total.NumberOfBeneficiaries,
+                         
+                        });
+                decimal totalNationalBeneficiary = regionalSummery.Sum(m => m.TotalBeneficary);
+                regionalSummery = (from regionalTotalViewModel in regionalSummery
+                                   where regionalTotalViewModel.TotalBeneficary>0
+                                   select new RegionalTotalViewModel
+                                       {
+                                           RegionName = regionalTotalViewModel.RegionName,
+                                           TotalBeneficary = regionalTotalViewModel.TotalBeneficary,
+                                           BeneficiaryPercentage =(regionalTotalViewModel.TotalBeneficary/totalNationalBeneficiary)*100
+
+                                       }).OrderByDescending(m=>m.TotalBeneficary);
+
+
+            }
+            return Json(regionalSummery, JsonRequestBehavior.AllowGet);
+        }
+        private HRD GetCurrentHrd()
+        {
+            return _eWDashboardService.FindByHrd(m => m.Status == 3).FirstOrDefault();
+        }
+        public JsonResult GetRecentGiftCertificates()
+        {
+            var draftGiftCertificate = _eWDashboardService.GetAllGiftCertificate().Where(m => m.StatusID == 1).OrderByDescending(m=>m.GiftCertificateID);
+
+            var giftCertificate = GetGiftCertificate(draftGiftCertificate);
+
+            return Json(giftCertificate, JsonRequestBehavior.AllowGet);
+        }
+        private IEnumerable<GiftCertificateViewModel> GetGiftCertificate(IEnumerable<Cats.Models.GiftCertificate> giftCertificates)
+        {
+              var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
+            return (from giftCertificate in giftCertificates
+                    select new GiftCertificateViewModel
+                        {
+                            GiftCertificateID=giftCertificate.GiftCertificateID,
+                            DonorName = giftCertificate.Donor.Name,
+                            SINumber = giftCertificate.ShippingInstruction.Value,
+                            DclarationNumber = giftCertificate.DeclarationNumber,
+                            Status = "Draft",
+                            GiftDate = giftCertificate.GiftDate.ToCTSPreferedDateFormat(datePref),
+                            Wieght = giftCertificate.GiftCertificateDetails.Sum(m=>m.WeightInMT),
+                            EstimatedPrice = giftCertificate.GiftCertificateDetails.Sum(m=>m.EstimatedPrice),
+                            TotalEstimatedTax = giftCertificate.GiftCertificateDetails.Sum(m=>m.EstimatedTax)
+
+                            // Commodity = giftCertificate.GiftCertificateDetails.FirstOrDefault().Commodity.Name
+                        }).Take(5);
+
 
         }
     }

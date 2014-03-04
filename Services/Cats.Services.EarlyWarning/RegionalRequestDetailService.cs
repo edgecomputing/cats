@@ -46,7 +46,9 @@ namespace Cats.Services.EarlyWarning
             {
                 var rationAmount = GetCommodityRation(requestDetail.RegionalRequestID, requestCommodity.CommodityID);
                 var target = _unitOfWork.RequestDetailCommodityRepository.FindById(requestCommodity.RequestCommodityID);
-                target.Amount = requestDetail.Beneficiaries*rationAmount;
+                decimal ration = 0;
+                ration = GetRationDependingOnPreference(rationAmount);
+                target.Amount = requestDetail.Beneficiaries * ration;
             }
             return true;
         }
@@ -153,12 +155,14 @@ namespace Cats.Services.EarlyWarning
                 {
                     foreach (var rationDetail in rationDetails)
                     {
+                        decimal ration = 0;
+                        ration = GetRationDependingOnPreference(rationDetail.Amount);
                         if (requestDetail.RequestDetailCommodities.All(t=>t.CommodityID!=rationDetail.CommodityID))
                         {
                             requestDetail.RequestDetailCommodities.Add(new RequestDetailCommodity()
                                 {
                                     CommodityID = rationDetail.CommodityID,
-                                    Amount = requestDetail.Beneficiaries*rationDetail.Amount
+                                    Amount = requestDetail.Beneficiaries * ration
                                 });
                         }
                     }

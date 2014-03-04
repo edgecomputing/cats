@@ -332,7 +332,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             HRDPSNPPlanInfo psnphrdPlanInfo = _regionalRequestService.PlanToRequest(hrdpsnpPlan);
             RegionalRequest req = CreateRegionalRequest(psnphrdPlanInfo, collection, plan.PlanID, reasonTypeID);
 
-            return RedirectToAction("Allocation", new { id = req.RegionalRequestID, programid = 3 });
+            return RedirectToAction("Allocation", new { id = req.RegionalRequestID });
 
         }
 
