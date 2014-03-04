@@ -69,8 +69,9 @@ namespace Cats.Areas.EarlyWarning.Models
     public class HrdAndRequestViewModel
     {
         public int TotalHrdBeneficaryNumber { get; set; }
-        public int RequestedTotalBeneficaryNumber { get; set; }
-        public int HrdTotalCommodity { get; set; }
+        public int TotalRequest { get; set; }
+        public int TotalRequisitionNumber    { get; set; }
+        public decimal HrdTotalCommodity { get; set; }
     }
 
 }
