@@ -517,7 +517,11 @@
     <Compile Include="Areas\Procurement\Controllers\BidProposalController.cs" />
     <Compile Include="Areas\Procurement\Controllers\BidAdministrationController.cs" />
     <Compile Include="Areas\Procurement\Controllers\ContractAdministrationController.cs" />
+    <Compile Include="Areas\Procurement\Controllers\FetchDataController.cs" />
     <Compile Include="Areas\Procurement\Models\BidPlanDetailViewModel.cs" />
+    <Compile Include="Areas\Procurement\Models\PaymentRequestPercentageViewModel.cs" />
+    <Compile Include="Areas\Procurement\Models\PaymentRequestViewModel.cs" />
+    <Compile Include="Areas\Procurement\Models\SummarizedNumbersViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\TransportBidQuotationHeaderViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\TransportOrderDispatchViewModel.cs" />
     <Compile Include="Areas\Procurement\Controllers\HomeController.cs" />

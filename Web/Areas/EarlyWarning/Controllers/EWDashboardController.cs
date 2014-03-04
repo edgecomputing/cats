@@ -248,5 +248,29 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
 
         }
+        public JsonResult GetEarlyWarningRequiredNumbers()
+        {
+            var currentHrd = GetCurrentHrd();
+            var nationalBenficiaryNo = currentHrd.HRDDetails.Sum(m => m.NumberOfBeneficiaries);
+             var requests = _eWDashboardService.FindByRequest(m => m.PlanID == currentHrd.PlanID);
+            var requistions = _eWDashboardService.GetAllReliefRequisition();
+            
+            var hrdAndRequestViewModel = new HrdAndRequestViewModel
+                {
+                    TotalHrdBeneficaryNumber = nationalBenficiaryNo,
+                    HrdTotalCommodity = currentHrd.Ration.RationDetails.Sum(m => m.Amount)*(nationalBenficiaryNo),
+                    TotalRequest = requests.Count,
+                    TotalRequisitionNumber = (from requistion in requistions
+                                                  from request in requests
+                                                  where requistion.RegionalRequestID==request.RegionalRequestID
+                                                  select new
+                                                 {
+                                                 requistion.RequisitionID
+                                               }).Count()
+
+                    //RequestedTotalBeneficaryNumber = requests.RegionalRequestDetails.Sum(m=>m.Beneficiaries)
+                };
+            return Json(hrdAndRequestViewModel, JsonRequestBehavior.AllowGet);
+        }
     }
 }
