@@ -410,6 +410,49 @@ namespace Cats.Services.Security
             //var f =(from t in items where t.Authorization == AuthorizationType.Allow && t.Type == ItemType.Role  select new Role { RoleName = t.Name }).ToList();
             return roles;
         }
+        public List<Role> GetUserPermissionsNotification(string userName, string store, string application)
+        {
+            //throw new NotImplementedException();
+            //string userSid = userId.ToString("X");
+            //string zeroes = string.Empty;
+            //for (int start = 0; start < 8 - userSid.Length; start++)
+            //    zeroes += "0";
+            string connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["CatsContext"].ConnectionString;
+
+            IAzManStorage AzManStore = new SqlAzManStorage(connectionString);
+            StorageCache storage = new StorageCache(connectionString);
+
+            //storage.BuildStorageCache(store, application);
+            //new AuthorizedItem(){}
+            //AuthorizedItem[] items = storage.GetAuthorizedItems(store, application, AzManStore.GetDBUser(userName).CustomSid.StringValue, DateTime.Now);
+
+            //AuthorizedItem[] items = storage.GetAuthorizedItems("CATS", application, AzManStore.GetDBUser(userName).CustomSid.StringValue, DateTime.Now, null);
+
+            var allItems = storage.Storage.GetStore(store).GetApplication(application).Items;
+
+            ////var d = CheckAccess(AzManStore.GetDBUser(userName), application, "EW Coordinator", AzManStore);
+
+            var roleItems = (
+                          from t in allItems
+                          where t.Value.ItemType == ItemType.Role
+                          select t
+                         );
+
+            var roles = new List<Role>();
+
+            foreach (var item in roleItems)
+            {
+                var r = new Role();
+                r.RoleName = item.Value.Name;
+                r.IsChecked = CheckAccess(AzManStore.GetDBUser(userName), application, item.Value.Name, AzManStore);
+                if (r.IsChecked)
+                    roles.Add(r);
+            }
+
+            //AuthorizedItem[] items = storage.GetAuthorizedItems();
+            //var f =(from t in items where t.Authorization == AuthorizationType.Allow && t.Type == ItemType.Role  select new Role { RoleName = t.Name }).ToList();
+            return roles;
+        }
 
         public void AssociateRoles(string username)
         {
@@ -461,6 +504,36 @@ namespace Cats.Services.Security
             //}
         }
 
+        public List<Application> GetUserPermissionsNotification(string UserName)
+        {
+            var apps = new List<Application>();
+            //try
+            //{
+            const string store = "CATS";
+
+            string connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["CatsContext"].ConnectionString;
+            IAzManStorage storage = new SqlAzManStorage(connectionString);
+            IAzManStore mystore = storage.GetStore(store); //or storage["My Store"]
+            // IAzManApplication myapp = mystore.GetApplication(application);
+
+            List<IAzManApplication> Applications = mystore.GetApplications().ToList();
+
+            //_provider.Initialize("AuthorizationRoleProvider", ConfigureAuthorizationRoleProvider("CATS","Early warning"));
+
+            //Dictionary<string, IAzManApplication> Applications = _provider.GetStorage().Stores["CATS"].Applications;
+            foreach (var app in Applications)
+            {
+                apps.Add(new Application() { ApplicationName = app.Name, Roles = GetUserPermissionsNotification(UserName, "CATS", app.Name) });
+            }
+
+            return apps;
+            //}
+            //catch(Exception ex)
+            //{
+            //    var s = ex.Message;
+            //    return apps;
+            //}
+        }
         /// <summary>
         /// Get all roles associated with the application provided
         /// </summary>
