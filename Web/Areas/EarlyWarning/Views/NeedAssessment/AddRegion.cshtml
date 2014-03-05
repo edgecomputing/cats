@@ -6,6 +6,7 @@
 @{
     ViewBag.Title = Translator.Translate("Add New Need Assessment");
     Layout = "~/Views/Shared/_MainLayout.cshtml";
+     const string PAGE_NAME = "EarlyWarning.NeedAssessment.AddRegion";
 }
 @section Toolbar
 {
@@ -25,7 +26,7 @@
         <div class="span6">
             <div class="control-group">
                 <div class="control-label">
-                    @Html.LabelFor(m => m.Plan.PlanName)
+                    @Html.LabelFor(m => m.Plan.PlanName,@Html.Translate2(PAGE_NAME,"Name"))
                 </div>
                 <div class="controls">
                     @Html.TextBoxFor(m => m.Plan.PlanName)

@@ -6,6 +6,7 @@ using Cats.Helpers;
 using Cats.Models;
 using Cats.Models.Constant;
 using Cats.Services.Dashboard;
+using Cats.Services.Security;
 
 namespace Cats.Areas.EarlyWarning.Controllers
 {
@@ -13,9 +14,11 @@ namespace Cats.Areas.EarlyWarning.Controllers
     {
 
         private readonly IEWDashboardService _eWDashboardService;
-        public EWDashboardController(IEWDashboardService ewDashboardService)
+        private readonly IUserAccountService _userAccountService;
+        public EWDashboardController(IEWDashboardService ewDashboardService,IUserAccountService userAccountService)
         {
             _eWDashboardService = ewDashboardService;
+            _userAccountService = userAccountService;
 
         }
 
@@ -81,6 +84,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                     where reliefRequisition.RegionalRequestID == request.RegionalRequestID && reliefRequisition.Status==(int)ReliefRequisitionStatus.Draft 
                     select new ReliefRequisitionInfoViewModel
                         {
+                            RequisitionID = reliefRequisition.RequisitionID,
                             RequisitonNumber = reliefRequisition.RequisitionNo,
                             Region = reliefRequisition.AdminUnit.Name,
                             Zone = reliefRequisition.AdminUnit1.Name,
@@ -225,17 +229,48 @@ namespace Cats.Areas.EarlyWarning.Controllers
         }
         private IEnumerable<GiftCertificateViewModel> GetGiftCertificate(IEnumerable<Cats.Models.GiftCertificate> giftCertificates)
         {
+              var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
             return (from giftCertificate in giftCertificates
                     select new GiftCertificateViewModel
                         {
+                            GiftCertificateID=giftCertificate.GiftCertificateID,
                             DonorName = giftCertificate.Donor.Name,
                             SINumber = giftCertificate.ShippingInstruction.Value,
                             DclarationNumber = giftCertificate.DeclarationNumber,
-                            Status = "Draft"
+                            Status = "Draft",
+                            GiftDate = giftCertificate.GiftDate.ToCTSPreferedDateFormat(datePref),
+                            Wieght = giftCertificate.GiftCertificateDetails.Sum(m=>m.WeightInMT),
+                            EstimatedPrice = giftCertificate.GiftCertificateDetails.Sum(m=>m.EstimatedPrice),
+                            TotalEstimatedTax = giftCertificate.GiftCertificateDetails.Sum(m=>m.EstimatedTax)
+
                             // Commodity = giftCertificate.GiftCertificateDetails.FirstOrDefault().Commodity.Name
                         }).Take(5);
 
 
+        }
+        public JsonResult GetEarlyWarningRequiredNumbers()
+        {
+            var currentHrd = GetCurrentHrd();
+            var nationalBenficiaryNo = currentHrd.HRDDetails.Sum(m => m.NumberOfBeneficiaries);
+             var requests = _eWDashboardService.FindByRequest(m => m.PlanID == currentHrd.PlanID);
+            var requistions = _eWDashboardService.GetAllReliefRequisition();
+            
+            var hrdAndRequestViewModel = new HrdAndRequestViewModel
+                {
+                    TotalHrdBeneficaryNumber = nationalBenficiaryNo,
+                    HrdTotalCommodity = currentHrd.Ration.RationDetails.Sum(m => m.Amount)*(nationalBenficiaryNo),
+                    TotalRequest = requests.Count,
+                    TotalRequisitionNumber = (from requistion in requistions
+                                                  from request in requests
+                                                  where requistion.RegionalRequestID==request.RegionalRequestID
+                                                  select new
+                                                 {
+                                                 requistion.RequisitionID
+                                               }).Count()
+
+                    //RequestedTotalBeneficaryNumber = requests.RegionalRequestDetails.Sum(m=>m.Beneficiaries)
+                };
+            return Json(hrdAndRequestViewModel, JsonRequestBehavior.AllowGet);
         }
     }
 }

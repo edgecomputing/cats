@@ -127,7 +127,10 @@
         columns.ForeignKey(p => p.Donor, (IEnumerable<Cats.Models.Donor>)ViewData["donors"], "DonorID", "Name").Width(200);
         columns.Bound(p => p.BenficiaryNo).Width(100).HtmlAttributes(new { align = "right" }).Format("{0:n0}");
         columns.Bound(p => p.Amount).Width(100).HtmlAttributes(new { style = "background-color:lightgray" , align = "right" }).Format("{0:n2}").HeaderHtmlAttributes(new { @class = "cats-unit-pref-grid" });
-        columns.Bound(p => p.Contingency).Width(100).HtmlAttributes(new { style = "background-color:lightgray" , align = "right" }).Format("{0:n2}").HeaderHtmlAttributes(new { @class = "cats-unit-pref-grid" });
+        if (Model.ProgramID == 2)
+        {
+            columns.Bound(p => p.Contingency).Width(100).HtmlAttributes(new {style = "background-color:lightgray", align = "right"}).Format("{0:n2}").HeaderHtmlAttributes(new {@class = "cats-unit-pref-grid"});
+        }
         columns.Bound(p => p.RationAmount).Hidden(true);
     })
     .ToolBar(toolbar => toolbar.Save())

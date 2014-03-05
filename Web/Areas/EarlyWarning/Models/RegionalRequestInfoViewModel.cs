@@ -15,6 +15,8 @@ namespace Cats.Areas.EarlyWarning.Models
     }
     public class ReliefRequisitionInfoViewModel
     {
+
+        public int RequisitionID { get; set; }
         public string RequisitonNumber { get; set; }
         public string Commodity { get; set; }
         public string Zone { get; set; }
@@ -52,10 +54,14 @@ namespace Cats.Areas.EarlyWarning.Models
     }
     public class GiftCertificateViewModel
     {
+        public int GiftCertificateID { get; set; }
         public string SINumber { get; set; }
         public string DonorName { get; set; }
         public string DclarationNumber { get; set; }
         public string Commodity { get; set; }
+        public string CommodityType { get; set; }
+        public decimal EstimatedPrice { get; set; }
+        public decimal TotalEstimatedTax { get; set; }
         public decimal Wieght { get; set; }
         public string GiftDate { get; set; }
         public string Status { get; set; }
@@ -63,8 +69,9 @@ namespace Cats.Areas.EarlyWarning.Models
     public class HrdAndRequestViewModel
     {
         public int TotalHrdBeneficaryNumber { get; set; }
-        public int RequestedTotalBeneficaryNumber { get; set; }
-        public int HrdTotalCommodity { get; set; }
+        public int TotalRequest { get; set; }
+        public int TotalRequisitionNumber    { get; set; }
+        public decimal HrdTotalCommodity { get; set; }
     }
 
 }
