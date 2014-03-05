@@ -110,19 +110,19 @@
                             <li class="divider"></li>
 
                             <li>
-                                @Html.EarlyWarningOperationMenuItem(@Url.Action("Index", "Request", new { Area = "EarlyWarning" }),
-                                                                    EarlyWarningConstants.Operation.View_request, @Translator.Translate("Requests"))
+                                @Html.PSNPOperationMenuItem(@Translator.Translate("Requests"), @Url.Action("Index", "Request", new { Area = "EarlyWarning" }),
+                                                                    PsnpConstants.Operation.View_request)
                             </li>
 
                             <li>
-                                @Html.EarlyWarningOperationMenuItem(@Url.Action("Index", "ReliefRequisition", new { Area = "EarlyWarning" }),
-                                                                    EarlyWarningConstants.Operation.View_Requisition, @Translator.Translate("Requisitions"))
+                                @Html.PSNPOperationMenuItem(@Translator.Translate("Requisitions"), @Url.Action("Index", "ReliefRequisition", new { Area = "EarlyWarning" }),
+                                                                    PsnpConstants.Operation.View_Requisition)
                             </li>
                             <li class="divider"></li>
 
                             <li>
-                                @Html.EarlyWarningOperationMenuItem(@Url.Action("Index", "Ration", new { Area = "EarlyWarning" }),
-                                                                    EarlyWarningConstants.Operation.View_Ration_List, @Translator.Translate("Rations"))
+                                @Html.PSNPOperationMenuItem(@Translator.Translate("Rations"), @Url.Action("Index", "Ration", new { Area = "EarlyWarning" }),
+                                                                    PsnpConstants.Operation.View_Ration_List)
                             </li>
                             <li class="divider" />
 
