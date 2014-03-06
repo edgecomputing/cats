@@ -50,7 +50,7 @@ namespace Cats.Areas.Procurement.Controllers
         public ActionResult Index()
         {
             LoadLookups();
-            IEnumerable<Cats.Models.PaymentRequest> list = (IEnumerable<Cats.Models.PaymentRequest>)_PaymentRequestservice.GetAll();
+            IEnumerable<Cats.Models.PaymentRequest> list = (IEnumerable<Cats.Models.PaymentRequest>)_PaymentRequestservice.GetAll().OrderByDescending(t=>t.PaymentRequestID);
 
             return View(list);
         }

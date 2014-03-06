@@ -134,7 +134,7 @@ namespace Cats.Areas.Logistics.Controllers
             if (regionId == -1 || status == -1) return Json((new List<RequisitionViewModel>()).ToDataSourceResult(request));
             requisititions = _reliefRequisitionService.FindBy(
                 r =>
-                r.Status == status && r.RegionID == regionId);
+                r.Status == status && r.RegionID == regionId).OrderByDescending(t=>t.RequisitionID).ToList();
 
 
             var requisitionViewModel = HubAllocationViewModelBinder.ReturnRequisitionGroupByReuisitionNo(requisititions);
