@@ -181,7 +181,7 @@
         
         $.ajax({
             type: "POST",
-            url: "@Url.Action("Load", "Donation",new {Area="Logistics"})",
+            url: "@Url.Action("Load", "Donation",new {Area="Logistics"})" + "?id=" + $("#SINumber").val(),
             dataType: "json",
             contentType: "application/json; charset=utf-8",
 
