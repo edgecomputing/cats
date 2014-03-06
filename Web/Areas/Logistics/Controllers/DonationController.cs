@@ -294,7 +294,7 @@ namespace Cats.Areas.Logistics.Controllers
             Cats.Models.GiftCertificate giftCertificate = null;
             try
             {
-                giftCertificate = _giftCertificateService.GetAllGiftCertificate().SingleOrDefault(d => d.ShippingInstruction.Value == id);
+                giftCertificate = _giftCertificateService.GetAllGiftCertificate().FirstOrDefault(d => d.ShippingInstruction.Value == id);
             }
             catch (Exception)
             {
