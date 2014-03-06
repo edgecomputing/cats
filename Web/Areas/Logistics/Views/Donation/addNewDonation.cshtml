@@ -132,7 +132,7 @@
 
         $.ajax({
             type: "POST",
-            url: rootDir + "Donation/GetGiftCertificates",
+            url: "@Url.Action("GetGiftCertificates", "Donation",new {Area="Logistics"})",
             dataType: "json",
             contentType: "application/json; charset=utf-8",
 
@@ -167,8 +167,9 @@
         }
         
         else {
-            var url = rootDir + "Donation/SaveHeader/" + $("#SINumber").val();
-            window.location.href = url;
+            window.location = null;
+            window.location = "@Url.Action("SaveHeader", "Donation")" + "?id=" + $("#SINumber").val();
+         
         }
         
       
@@ -180,7 +181,7 @@
         
         $.ajax({
             type: "POST",
-            url: rootDir + "Donation/Load/" + $("#SINumber").val(),
+            url: "@Url.Action("Load", "Donation",new {Area="Logistics"})",
             dataType: "json",
             contentType: "application/json; charset=utf-8",
 
