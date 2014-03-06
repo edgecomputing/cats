@@ -128,11 +128,13 @@ namespace Cats.Areas.EarlyWarning.Controllers
         {
 
             var input = _reliefRequisitionService.GetRequisitionByRequestId(id);
-             //var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
+            var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
+            
             foreach (var reliefRequisitionNew in input)
             {
-                //reliefRequisitionNew.RequestDatePref =
-                    //reliefRequisitionNew.RequestedDate.ToCTSPreferedDateFormat(datePref);
+                var preferedDate = reliefRequisitionNew.RequestedDate??DateTime.Now;
+                preferedDate = reliefRequisitionNew.RequestedDate ?? DateTime.Now;
+                reliefRequisitionNew.RequestDatePref = preferedDate.ToCTSPreferedDateFormat(datePref);
             }
             return View(input);
         }
