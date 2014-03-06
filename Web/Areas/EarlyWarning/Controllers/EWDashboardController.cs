@@ -126,12 +126,20 @@ namespace Cats.Areas.EarlyWarning.Controllers
         public JsonResult GetStatusInPercentage()
         {
             var hrd = GetCurrentHrd();
+            RequestPercentageViewModel percentage = null;
             var request = _eWDashboardService.FindByRequest(m => m.PlanID == hrd.PlanID);
             decimal draft = request.Count(m => m.Status == (int) RegionalRequestStatus.Draft);
             decimal approved = request.Count(m => m.Status == (int) RegionalRequestStatus.Approved);
             decimal closed = request.Count(m => m.Status == (int) RegionalRequestStatus.Closed);
-            var percentage = new RequestPercentageViewModel
+
+            if (request.Count <1 )
+            {
+                percentage = new RequestPercentageViewModel();
+                return Json(percentage, JsonRequestBehavior.AllowGet);   
+            }
+            percentage = new RequestPercentageViewModel
                 {
+                  
                     Pending = ((draft)/(request.Count))*100,
                     Approved = (approved/request.Count)*100,
                     RequisitionCreated = (closed/request.Count)*100
@@ -140,6 +148,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         }
         public JsonResult GetRequisitionStatusPercentage()
         {
+            RequisitionStatusPercentage requisitionStatusPercentage = null;
             var currentHrd = _eWDashboardService.FindByHrd(m => m.Status == 3).FirstOrDefault();
             var requests = _eWDashboardService.FindByRequest(m => m.PlanID == currentHrd.PlanID).OrderByDescending(m => m.RegionalRequestID);
             var allRequisitions = _eWDashboardService.GetAllReliefRequisition();
@@ -159,7 +168,12 @@ namespace Cats.Areas.EarlyWarning.Controllers
             decimal transportRequisitionCreated = requisitons.Count(m => m.Status == (int)ReliefRequisitionStatus.TransportRequisitionCreated);
             decimal transportOrderCreated=requisitons.Count(m => m.Status == (int) ReliefRequisitionStatus.TransportOrderCreated);
 
-            var requisitionStatusPercentage = new RequisitionStatusPercentage
+            if (requisitons.Count < 1)
+            {
+                requisitionStatusPercentage = new RequisitionStatusPercentage();
+                return Json(requisitionStatusPercentage, JsonRequestBehavior.AllowGet);
+            }
+             requisitionStatusPercentage = new RequisitionStatusPercentage
                 {
                     Pending = (draft/requisitons.Count)*100,
                     Approved = (approved/requisitons.Count)*100,
