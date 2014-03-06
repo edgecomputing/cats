@@ -256,8 +256,15 @@ namespace Cats.Areas.PSNP.Controllers
                         bm.BeneficiaryCount = (int)item.BeneficiaryCount;
                         bm.FoodRatio = (int)item.FoodRatio;
                         bm.CashRatio = (int)item.CashRatio;
-
-                        _regionalPSNPPlanDetailService.AddRegionalPSNPPlanDetail(bm);
+                        var psnpPlanExist =
+                            _regionalPSNPPlanDetailService.FindBy(
+                                m => m.RegionalPSNPPlanID == item.RegionalPSNPPlanID && m.PlanedFDPID == item.FDPID).
+                                FirstOrDefault();
+                        if (psnpPlanExist==null)
+                        {
+                            _regionalPSNPPlanDetailService.AddRegionalPSNPPlanDetail(bm);
+                        }
+                        
                     }
                 }
                 else

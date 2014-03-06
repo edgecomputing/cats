@@ -189,9 +189,9 @@
             $scope.physicalStockSum = p;
         };
 
-        //var onProgramGetSuccess = function (data) {
-        //    $scope.ProgramsCollection = data;
-        //};
+        var onProgramGetSuccess = function (data) {
+            $scope.ProgramsCollection = data;
+        };
 
         $scope.getSummary = function () {
             //$http.post("/LogisticsStockStatus/GetStockStatusSummaryP", $scope.reqParam).success(onSuccess);
