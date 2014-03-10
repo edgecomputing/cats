@@ -330,10 +330,10 @@ namespace Cats.Areas.Logistics.Controllers
                     newdelivery.ReceivingNumber = delivery.ReceivingNumber;
                     newdelivery.WayBillNo = delivery.WayBillNo;
                     newdelivery.ReceivedBy = delivery.ReceivedBy;
-                    newdelivery.ReceivedDate = DateTime.Parse(delivery.ReceivedDate);
+                    newdelivery.ReceivedDate = delivery.ReceivedDate != null? DateTime.Parse(delivery.ReceivedDate) : DateTime.Now;
                     newdelivery.DeliveryBy = delivery.DeliveryBy;
-                    newdelivery.DeliveryDate = DateTime.Parse(delivery.DeliveryDate);
-                    newdelivery.DocumentReceivedDate = DateTime.Parse(delivery.DocumentReceivedDate);
+                    newdelivery.DeliveryDate = delivery.DeliveryDate != null? DateTime.Parse(delivery.DeliveryDate) : DateTime.Now;
+                    newdelivery.DocumentReceivedDate = delivery.DocumentReceivedDate != null? DateTime.Parse(delivery.DocumentReceivedDate) : DateTime.Now;
                     _deliveryService.EditDelivery(newdelivery);
 
                     deliveryDetail =
@@ -355,10 +355,10 @@ namespace Cats.Areas.Logistics.Controllers
                 newdelivery.ReceivingNumber = delivery.ReceivingNumber;
                 newdelivery.WayBillNo = delivery.WayBillNo;
                 newdelivery.ReceivedBy = delivery.ReceivedBy;
-                newdelivery.ReceivedDate = DateTime.Parse(delivery.ReceivedDate);
+                newdelivery.ReceivedDate = delivery.ReceivedDate != null ? DateTime.Parse(delivery.ReceivedDate) : DateTime.Now;
                 newdelivery.DeliveryBy = delivery.DeliveryBy;
-                newdelivery.DeliveryDate = DateTime.Parse(delivery.DeliveryDate);
-                newdelivery.DocumentReceivedDate = DateTime.Parse(delivery.DocumentReceivedDate);
+                newdelivery.DeliveryDate = delivery.DeliveryDate != null ? DateTime.Parse(delivery.DeliveryDate) : DateTime.Now;
+                newdelivery.DocumentReceivedDate = delivery.DocumentReceivedDate != null ? DateTime.Parse(delivery.DocumentReceivedDate) : DateTime.Now;
                 if (dispatch != null)
                 {
                     if (dispatch.DriverName != null)
