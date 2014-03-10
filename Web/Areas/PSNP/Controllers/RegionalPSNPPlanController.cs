@@ -164,7 +164,7 @@ namespace Cats.Areas.PSNP
             //regionalpsnpplan.StatusID = 1;
 
             //check if this psnp plan exitsts for this region
-            var exists = _regionalPSNPPlanService.DoesPsnpPlanExistForThisRegion(regionalpsnpplan.PlanId);
+            var exists = _regionalPSNPPlanService.DoesPsnpPlanExistForThisRegion(regionalpsnpplan.PlanId,regionalpsnpplan.Year);
 
              if (ModelState.IsValid)
                 {
