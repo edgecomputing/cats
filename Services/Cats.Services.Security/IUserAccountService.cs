@@ -45,6 +45,7 @@ namespace Cats.Services.Security
         UserInfo GetUserInfo(string userName);
         UserInfo GetUserInfo(int userId);
         List<Role> GetUserPermissions(string UserName, string store, string application);
+        List<Role> GetUserPermissionsNotification(string userName, string store, string application);
 
         string[] GetRoles(string application);
         string[] GetUserRoles(string username);
@@ -52,5 +53,6 @@ namespace Cats.Services.Security
         List<Role> GetRolesList(string application);
         void EditUserRole(string owner, string userName, Dictionary<string, List<Role>> applications);
         List<Application> GetUserPermissions(string UserName);
+        List<Application> GetUserPermissionsNotification(string UserName);
     }
 }

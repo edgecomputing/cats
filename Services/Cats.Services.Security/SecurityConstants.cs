@@ -808,11 +808,22 @@ namespace Cats.Security
             {
                 return "View annual plan list";
             }
+            if ((operation == Operation.View_Ration_List))
+            {
+                return "View Ration List";
+            }
+            if ((operation == Operation.View_request))
+            {
+                return "View request";
+            }
+            if ((operation == Operation.View_Requisition))
+            {
+                return "View Requisition";
+            }
             throw new System.ArgumentException("Unknown Operation name", "operation");
         }
 
         #endregion
-
         #region Enums
         /// <summary>
         /// Roles Enumeration
@@ -907,9 +918,20 @@ namespace Cats.Security
             /// Operation View annual plan list
             /// </summary>
             View_annual_plan_list,
+            /// <summary>
+            /// Operation View Ration List
+            /// </summary>
+            View_Ration_List,
+            /// <summary>
+            /// Operation View request
+            /// </summary>
+            View_request,
+            /// <summary>
+            /// Operation View Requisition
+            /// </summary>
+            View_Requisition,
         }
         #endregion
-    
     }
     #endregion
 
