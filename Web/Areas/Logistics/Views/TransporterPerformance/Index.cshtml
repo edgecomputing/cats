@@ -1,0 +1,77 @@
+﻿@using Cats.Areas.Logistics.Models
+@using Cats.Helpers
+@using Kendo.Mvc.UI
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+    const string PAGE_NAME = "Logistics.TransporterPerformance.Index";
+}
+
+<h4 class="page-header">Transporter Performance Summary</h4>
+Agreement Contract #: <input id="searchIndex" style="width: 300px; height: 20px; border-radius: 3px; margin-top: 5px;" type="search" /> <a data-buttontype=""  class="btn icon-search" onclick="reloadTDRGrid()" ></a>
+
+
+@(Html.Kendo().Grid<TransporterPerformanceViewModel>()
+.Name("Grid")
+.Columns(columns =>
+  {
+
+      columns.Bound(m => m.TransportOrderNumber).ClientTemplate("<a href='" + Url.Action("Index", "TransporterPerformance", new { Area = "Logistics", id = "#=TransporterOrderID#" }) + " '>#=TransportOrderNumber#</a>  ");
+    columns.Bound(m => m.TotalQuantity);
+      columns.Bound(m => m.PickedUpSofar).Title(@Html.Translate2(PAGE_NAME,"Picked Up Sofar"));
+    columns.Bound(m => m.StartDate).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid" });
+    columns.Bound(m => m.NoOfDaysToComplete).Title(@Html.Translate2(PAGE_NAME, "Agreed to complete (days)"));
+    columns.Bound(m => m.ElapsedDays).Title(@Html.Translate2(PAGE_NAME,"Elapsed Time(in Days)"));
+      columns.Bound(m => m.Percentage).Title(@Html.Translate2(PAGE_NAME,"Percentage Completed"));
+  })
+    .Sortable()
+    .Scrollable()
+    .HtmlAttributes(new { style = "height:430px;" })
+    .DataSource(dataSource => dataSource
+        .Ajax()
+        //.PageSize(20)
+        .Model(model =>model.Id(p => p.TransporterOrderID))
+        .Read(read => read.Action("TransporterPerformance_Read", "TransporterPerformance").Data("searchIndexObj"))
+    )
+      )
+@*<script>
+var contractNumbers = "";
+var sourceArr = [];
+$(document).ready(function () {
+
+    $.ajax({
+        type: "POST",
+        url: "@Url.Action("GetContractNumbers", "TransporterPerformance",new {Area="Logistics"})",
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
+
+        success: function (result) {
+            for (var i = 0; i < result.length; i++) {
+                sourceArr.push(result[i]);
+
+            }
+        },
+        error: function (error) {
+            alert("There was an error posting the data to the server: " + error.responseText);
+        }
+    });
+});
+
+
+
+    $('#searchIndex').typeahead({ source: sourceArr });
+    </script>*@
+<script>
+    function searchIndexObj() {
+        //alert($("#AdminUnitTreeView").data("kendoTreeView").dataSource.id);
+        var searchIndexValue = $("#searchIndex").val();
+        var obj = { searchIndex: searchIndexValue };
+        return obj;
+    }
+    
+    function reloadTDRGrid() {
+        //alert($("#searchIndex").val());
+        var grid = $("#Grid").data("kendoGrid");
+        grid.dataSource.read();
+    }
+</script>

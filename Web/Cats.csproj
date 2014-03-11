@@ -396,6 +396,7 @@
     <Compile Include="Areas\Finance\FinanceAreaRegistration.cs" />
     <Compile Include="Areas\Logistics\Controllers\DonationController.cs" />
     <Compile Include="Areas\Logistics\Controllers\TransferController.cs" />
+    <Compile Include="Areas\Logistics\Controllers\TransporterPerformanceController.cs" />
     <Compile Include="Areas\Logistics\Models\LoanReciptPlanViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\NeedAssessmentPlanViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\PlanViewModel.cs" />
@@ -491,6 +492,7 @@
     <Compile Include="Areas\Logistics\LogisticsAreaRegistration.cs" />
     <Compile Include="Areas\Logistics\Models\ActionLink.cs" />
     <Compile Include="Areas\Logistics\Models\TransferViewModel.cs" />
+    <Compile Include="Areas\Logistics\Models\TransporterPerformanceViewModel.cs" />
     <Compile Include="Areas\Logistics\Models\ZonesViewModel.cs" />
     <Compile Include="Areas\Logistics\Models\AssignHubViewModel.cs" />
     <Compile Include="Areas\Logistics\Models\DispatchViewModelForReconcile.cs" />
@@ -1732,6 +1734,7 @@
     <Content Include="Areas\PSNP\Views\Home\Copy of Index.cshtml" />
     <Content Include="Areas\Finance\Views\Web.config" />
     <Content Include="Areas\Finance\Views\Home\Index.cshtml" />
+    <Content Include="Areas\Logistics\Views\TransporterPerformance\Index.cshtml" />
     <None Include="dataset.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>dataset.Designer.cs</LastGenOutput>
