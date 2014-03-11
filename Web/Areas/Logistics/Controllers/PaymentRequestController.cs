@@ -102,8 +102,5 @@ namespace Cats.Areas.Logistics.Controllers
             _BusinessProcessService.PromotWorkflow(st);
             return RedirectToAction("Index");
         }
-
-      
     }
 }
-
