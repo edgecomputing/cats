@@ -8,7 +8,6 @@ namespace Cats.Models
     {
         public int BusinessProcessStateID { get; set; }
         //Fields
-
         /*
         [Display(Name = "StateID")]
         public int StateID { get; set; }

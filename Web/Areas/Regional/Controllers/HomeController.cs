@@ -27,6 +27,5 @@ namespace Cats.Areas.Regional.Controllers
             ViewBag.RegionName = currentUser.RegionID != null ? _adminUnitService.FindById(currentUser.RegionID ?? 0).Name : "";
             return View();
         }
-
     }
 }
