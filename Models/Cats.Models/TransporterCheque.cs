@@ -10,7 +10,7 @@ namespace Cats.Models
     {
         public int TransporterChequeId { get; set; }
         public string CheckNo { get; set; }
-        public float Amount { get; set; }
+        public double Amount { get; set; }
         public int TransporterId { get; set; }
         public int PreparedBy { get; set; }
         public int AppovedBy { get; set; }

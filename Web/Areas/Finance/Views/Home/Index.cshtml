@@ -68,11 +68,11 @@
                                 </thead>
                                 <tbody>
                                      <tr  ng-repeat ="req in paymentRequest">
-                                         <td class="hidden-xs">{{$Index + 1}}</td>
-                                         <td>{{req.ReferenceNo}}</td>
-                                        <td>{{req.TransportOrder}}</td>
+                                        <td class="hidden-xs">{{$index + 1}}</td>
+                                        <td>{{req.Reference_No}}</td>
+                                        <td>{{req.Transport_Order}}</td>
                                         <td>{{req.Transporter}}</td>
-                                        <th>{{req.Amount}}</th>
+                                        <th>{{req.Amount | number}}</th>
                                         <th>{{req.AmountTransported}}</th>
                                        
                                     </tr>
@@ -139,7 +139,7 @@
                                         <th>Cheque No</th>
                                          <th>Transporter</th>
                                         <th>Amount</th>
-                                        <th>Date</th>
+                                        <th>Date Approved</th>
                                         <th>Prepared By</th>
                                         <th>Approved By</th>
                                         <th>Status</th>
@@ -147,12 +147,12 @@
                                 </thead>
                                 <tbody>
                                     <tr ng-repeat="req in cheques">
-                                        <td class="hidden-xs">{{$Index + 1}}</td>
+                                        <td class="hidden-xs">{{$index + 1}}</td>
                                         <td>{{req.chequeNo}}</td>
                                         <td>{{req.Transporter}}</td>
-                                        <th>{{req.Amount}}</th>
-                                        <th>{{}}</th>
-                                        <th>{{req.PreparedBy}}</th>
+                                        <th>{{req.Amount | number}}</th>
+                                        <th>{{req.DateApproved}}</th>
+                                        <th>{{req.ApprovedBy}}</th>
                                         <th>{{req.PreparedBy}}</th>
                                         <th>{{req.status}}</th>
                                     </tr>
@@ -182,7 +182,8 @@
 
       
         $scope.paymentRequest = {};
-        $http({ method: 'GET', url: '@Url.Action("ReadPaymentRequest","Home")' }).success(function(data, status, headers, config) {
+        $http({ method: 'GET', url: '@Url.Action("ReadPaymentRequest","Home")' }).success(function (data, status, headers, config) {
+            console.log(data);
             $scope.paymentRequest = data;
         });
     }]);
@@ -193,6 +194,7 @@
         $scope.cheques = {};
         $http({ method: 'GET', url: '@Url.Action("ReadCheques","Home")' }).success(function (data, status, headers, config) {
             $scope.cheques = data;
+            console.log(data);
         });
      }]);
 </script>

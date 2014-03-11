@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using Cats.Services.Finance;
 using Cats.Services.Procurement;
-
+using Cats.Helpers;
 namespace Cats.Areas.Finance.Controllers
 {
    
@@ -34,9 +34,9 @@ namespace Cats.Areas.Finance.Controllers
                                                                            {
                                                                                Transporter = p.TransportOrder.Transporter.Name,
                                                                                Amount =p.RequestedAmount,
-                                                                               TransportOrder =  p.TransportOrder.TransportOrderNo,
-                                                                               ReferenceNo = p.TransportOrder,
-                                                                               AmountTransported = p.TransportOrder.TransportOrderDetails.Sum(y=>y.QuantityQtl)
+                                                                               Transport_Order = p.TransportOrder.TransportOrderNo,
+                                                                               Reference_No = p.ReferenceNo,
+                                                                               AmountTransported = p.TransportOrder.TransportOrderDetails.Sum(y => y.QuantityQtl)
                                                                            });
             return Json(requests, JsonRequestBehavior.AllowGet);
         }
@@ -49,7 +49,8 @@ namespace Cats.Areas.Finance.Controllers
                                                                                                  Transporter = c.Transporter.Name,
                                                                                                  Amount = c.Amount,
                                                                                                  PreparedBy = c.UserProfile.FirstName + " " + c.UserProfile.LastName,
-                                                                                                 ApprovedBy = c.UserProfile1.FirstName + " " + c.UserProfile1.LastName
+                                                                                                 ApprovedBy = c.UserProfile1.FirstName + " " + c.UserProfile1.LastName,
+                                                                                                 DateApproved = c.AppovedDate.Date.ToCTSPreferedDateFormat(UserAccountHelper.UserCalendarPreference())
                                                                                                  
                                                                                              });
             return Json(cheques, JsonRequestBehavior.AllowGet);
