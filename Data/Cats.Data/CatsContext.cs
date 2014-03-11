@@ -155,7 +155,7 @@ namespace Cats.Data
         public DbSet<LoanReciptPlan> LoanReciptPlans { get; set; }
         public DbSet<LoanReciptPlanDetail> LoanReciptPlanDetails { get; set; }
         public DbSet<Transfer> Transfers { get; set; }
-
+        public DbSet<TransporterCheque> TransporterCheques { get; set; }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Configurations.Add(new DispatchMap());
@@ -295,7 +295,7 @@ namespace Cats.Data
             modelBuilder.Configurations.Add(new LoanReciptPlanMap());
             modelBuilder.Configurations.Add(new LoanReciptPlanDetailMap());
             modelBuilder.Configurations.Add(new TransferMap());
-
+            modelBuilder.Configurations.Add(new TransporterChequeMap());
         }
 
     }

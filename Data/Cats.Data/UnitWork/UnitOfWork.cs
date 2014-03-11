@@ -40,6 +40,16 @@ namespace Cats.Data.UnitWork
 
         }
 
+        private IGenericRepository<TransporterCheque> _TransporterChequeRepository; 
+        public IGenericRepository<TransporterCheque> TransporterChequeRepository
+        {
+            get
+            {
+                return this._TransporterChequeRepository ??
+                       (this._TransporterChequeRepository = new GenericRepository<TransporterCheque>(_context));
+            }
+        }
+
         private IGenericRepository<Dispatch> _DispatchRepository = null;
         public IGenericRepository<Dispatch> DispatchRepository
         {

@@ -4,6 +4,7 @@ using System.Web.Mvc;
 using Cats.Data.UnitWork;
 using Cats.Models;
 using Cats.Services.Administration;
+using Cats.Services.Finance;
 using Cats.Services.Hub;
 using Cats.Services.Hub.Interfaces;
 using Cats.Services.Security;
@@ -250,6 +251,7 @@ namespace Cats.Infrastructure
             kernel.Bind<ILoanReciptPlanDetailService>().To<LoanReciptPlanDetailService>();
             kernel.Bind<ITransferService>().To<TransferService>();
             kernel.Bind<IEWDashboardService>().To<EWDashboardService>();
+            kernel.Bind<ITransporterChequeService>().To<TransporterChequeService>();
         }
         private void AddBindingsHub()
         {
