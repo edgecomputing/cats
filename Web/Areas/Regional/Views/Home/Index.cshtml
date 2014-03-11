@@ -20,7 +20,6 @@
                         @*<i class="icon-star"></i>*@
                     </div>
                     <!-- /.visual -->
-
                     <div class="details column-divider-regional center">
                         <span class="content">Total Requests</span>
                         <span class="value">{{Numbers.TotalRequests|number}}</span>
@@ -31,11 +30,10 @@
                         <span class="value">{{Numbers.TotalRequistions|number}}</span>
                     </div>
 
-                    <div class="details column-divider-regional center">
+                    @*<div class="details column-divider-regional center">
                         <span class="content">Required Commodity</span>
                         <span class="value">{{Numbers.TotalCommodity|number}} QT </span>
-                    </div>
-
+                    </div>*@
 
                     <!-- /.details -->
 
@@ -51,13 +49,11 @@
                         @*<i class="icon-shopping-cart"></i>*@
                     </div>
                     <!-- /.visual -->
-
                     <div class="details">
                         <span class="content">Total Number of FDPS</span>
                         <span class="value">{{Numbers.TotalFDPS|number}}</span>
                     </div>
                     <!-- /.details -->
-
                 </a>
                 <!-- /.dashboard-stat -->
 
@@ -297,7 +293,7 @@
                                     <!-- /.stat-value -->
                                 </div>
                                 <!-- /stat-header -->
-                                <div class="progress progress-danger">
+                                <div class="progress progress-success">
                                     <div class="bar" style="width: {{Data.PendingRequests}}%"></div>
                                 </div>
                                 <!-- /.progress -->
@@ -321,7 +317,7 @@
                                 </div>
                                 <!-- /stat-header -->
 
-                                <div class="progress progress-warning">
+                                <div class="progress progress-success">
                                     <div class="bar" style="width: {{Data.HubAssignedRequests}}%"></div>
                                 </div>
                                 <!-- /.progress -->
@@ -413,7 +409,7 @@
                                 </div>
                                 <!-- /stat-header -->
 
-                                <div class="progress progress-danger">
+                                <div class="progress progress-success">
                                     <div class="bar" style="width:  {{Data.PendingRequisitions}}%"></div>
                                 </div>
                                 <!-- /.progress -->
@@ -438,7 +434,7 @@
                                 </div>
                                 <!-- /stat-header -->
 
-                                <div class="progress progress-warning">
+                                <div class="progress progress-success">
                                     <div class="bar" style="width: {{Data.HubAssignedRequisitions}}%"></div>
                                 </div>
                                 <!-- /.progress -->
