@@ -393,6 +393,7 @@
     <Compile Include="Areas\EarlyWarning\Models\InKindContributionDetailViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\RegionalRequestInfoViewModel.cs" />
     <Compile Include="Areas\Finance\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Finance\Controllers\TransportOrderPerformanceController.cs" />
     <Compile Include="Areas\Finance\FinanceAreaRegistration.cs" />
     <Compile Include="Areas\Logistics\Controllers\DonationController.cs" />
     <Compile Include="Areas\Logistics\Controllers\PaymentRequestController.cs" />
@@ -1732,6 +1733,7 @@
     <Content Include="Areas\Finance\Views\Home\Index.cshtml" />
     <Content Include="Areas\Logistics\Views\PaymentRequest\Create.cshtml" />
     <Content Include="Areas\Logistics\Views\PaymentRequest\Index.cshtml" />
+    <Content Include="Areas\Finance\Views\TransportOrderPerformance\Index.cshtml" />
     <None Include="dataset.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>dataset.Designer.cs</LastGenOutput>
