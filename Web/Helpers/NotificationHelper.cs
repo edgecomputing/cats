@@ -18,7 +18,7 @@ namespace Cats.Helpers
             {
                 var accountService = (IUserAccountService)DependencyResolver.Current.GetService(typeof(IUserAccountService));
                 var user = HttpContext.Current.User.Identity.Name;
-                var roles = accountService.GetUserPermissions(user).Select(a => a.Roles).ToList();
+                var roles = accountService.GetUserPermissionsNotification(user).Select(a => a.Roles).ToList();
                 var allUserRollsInAllApplications = new List<string>();
 
                 foreach (var app in roles)
@@ -46,7 +46,7 @@ namespace Cats.Helpers
             {
                 var accountService = (IUserAccountService)DependencyResolver.Current.GetService(typeof(IUserAccountService));
                 var user = HttpContext.Current.User.Identity.Name;
-                var roles = accountService.GetUserPermissions(user).Select(a => a.Roles).ToList();
+                var roles = accountService.GetUserPermissionsNotification(user).Select(a => a.Roles).ToList();
                 var allUserRollsInAllApplications = new List<string>();
 
                 foreach (var app in roles)

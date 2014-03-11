@@ -125,7 +125,7 @@ namespace Cats.Areas.Logistics.Controllers
             var donationViewModel = InitDonationViewModel();
 
 
-            var giftCertificate = _giftCertificateService.GetAllGiftCertificate().SingleOrDefault(d => d.ShippingInstruction.Value == siNumber);
+            var giftCertificate = _giftCertificateService.GetAllGiftCertificate().FirstOrDefault(d => d.ShippingInstruction.Value == siNumber);
             if (giftCertificate != null)
             {
                 donationViewModel.Commodities.Clear();
@@ -294,7 +294,7 @@ namespace Cats.Areas.Logistics.Controllers
             Cats.Models.GiftCertificate giftCertificate = null;
             try
             {
-                giftCertificate = _giftCertificateService.GetAllGiftCertificate().SingleOrDefault(d => d.ShippingInstruction.Value == id);
+                giftCertificate = _giftCertificateService.GetAllGiftCertificate().FirstOrDefault(d => d.ShippingInstruction.Value == id);
             }
             catch (Exception)
             {

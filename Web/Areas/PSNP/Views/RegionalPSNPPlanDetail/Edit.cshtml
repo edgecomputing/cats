@@ -20,7 +20,7 @@
     <a class="btn toolbar-btn " data-buttontype="btn_save" href="javascript:saverecords()"></a>
     <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="javascript:cancelChanges()"></a>
          <a class="btn toolbar-btn " data-buttontype="btn_reload" href="javascript:reloadrecords()"></a>
-     <a class="btn toolbar-btn " data-buttontype="btn_back_to_list" href="@Url.Action("Index", "RegionalPSNPPlan")"></a>
+     <a class="btn toolbar-btn " data-buttontype="btn_back_to_list" href="@Url.Action("Index", "RegionalPSNPPlanDetail",new {id=ViewBag.PsnpPlan.RegionalPSNPPlanID})"></a>
     
 }
    
