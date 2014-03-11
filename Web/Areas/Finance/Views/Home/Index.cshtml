@@ -21,7 +21,7 @@
                 </div>
                 <div class="pull-right">
                     <div class="btn-group">
-                        <button id ="ApprovedRequestHeader"type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
+                        <button id ="paymentRequestHeader"type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
                             <i class="icon-arrow-up"></i> 
                             <i class="icon-arrow-down"></i> 
                         </button>
@@ -29,9 +29,9 @@
                     </div>
                 </div>
             </div>
-            <div id="ApprovedRequestContent"class="row">
+            <div id="paymentRequestContent"class="row">
                 <div>&nbsp;</div>
-                <div ng-controller="ApprovedRequestsController" class="span8">
+                <div ng-controller="paymentRequestController" class="span8">
                     <div class="portlet">
                         <div class="portlet-header">
                             <h3>
@@ -57,52 +57,26 @@
                                 <thead>
                                     <tr>
                                         <th class="hidden-xs">Number</th>
+                                        <th>Reference No</th>
                                         <th>Transport Order No</th>
                                         <th>Transporter</th>
                                         <th>Payment Amount</th>
                                         <th>Transported Amout (QT)</th>
-                                        <th>Requested By</th>
-                                        <th>Requisition Date</th>  
+                                       
                                         
                                     </tr>
                                 </thead>
                                 <tbody>
-                                     <tr>
-                                        <td class="hidden-xs">1</td>
-                                        <td>TRN - L09KJUYTO80002</td>
-                                        <td>tana</td>
-                                        <th>670000</th>
-                                        <th>909000</th>
-                                        <th>Ato Fasil</th>
-                                        <th>2/2/2000</th>
+                                     <tr  ng-repeat ="req in paymentRequest">
+                                         <td class="hidden-xs">{{$Index + 1}}</td>
+                                         <td>{{req.ReferenceNo}}</td>
+                                        <td>{{req.TransportOrder}}</td>
+                                        <td>{{req.Transporter}}</td>
+                                        <th>{{req.Amount}}</th>
+                                        <th>{{req.AmountTransported}}</th>
+                                       
                                     </tr>
-                                    <tr>
-                                        <td class="hidden-xs">2</td>
-                                        <td>TRN - K09KJUYTO80002</td>
-                                        <td>KOKA</td>
-                                        <th>5670000</th>
-                                        <th>89000 </th>
-                                        <th>Ato Fasil</th>
-                                        <th>7/9/2000</th>
-                                    </tr>
-                                    <tr>
-                                        <td class="hidden-xs">3</td>
-                                        <td>TRN - TOKJUYTO80002</td>
-                                        <td>Mesfin .</td>
-                                        <th>5670000</th>
-                                        <th>98900</th>
-                                        <th>Ato Fasil</th>
-                                        <th>7/9/2000</th>
-                                    </tr>
-                                     <tr>
-                                        <td class="hidden-xs">4</td>
-                                        <td>TRN - ewKJUYTO80002</td>
-                                        <td>trans</td>
-                                        <th>5670000</th>
-                                        <th>1298 </th>
-                                        <th>Ato Fasil</th>
-                                        <th>7/9/2000</th>
-                                    </tr>
+                                   
                                 </tbody>
                             </table>
 
@@ -168,48 +142,22 @@
                                         <th>Date</th>
                                         <th>Prepared By</th>
                                         <th>Approved By</th>
+                                        <th>Status</th>
                                        </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td class="hidden-xs">1</td>
-                                        <td>L09KJUYTO80002</td>
-                                        <td>tana</td>
-                                        <th>670000</th>
-                                        <th>2/2/2000</th>
-                                        <th>w/t X</th>
-                                        <th>Ato Fasil</th>
+                                    <tr ng-repeat="req in cheques">
+                                        <td class="hidden-xs">{{$Index + 1}}</td>
+                                        <td>{{req.chequeNo}}</td>
+                                        <td>{{req.Transporter}}</td>
+                                        <th>{{req.Amount}}</th>
+                                        <th>{{}}</th>
+                                        <th>{{req.PreparedBy}}</th>
+                                        <th>{{req.PreparedBy}}</th>
+                                        <th>{{req.status}}</th>
                                     </tr>
                                     
-                                    <tr>
-                                        <td class="hidden-xs">2</td>
-                                        <td>LUYT67THHO0002</td>
-                                        <td>Koka plc</td>
-                                        <th>900087</th>
-                                        <th>2/2/2000</th>
-                                        <th>w/t X</th>
-                                        <th>Ato Fasil</th>
-                                    </tr>
-                                    
-                                    <tr>
-                                        <td class="hidden-xs">3</td>
-                                        <td>KKIOU7666O0002</td>
-                                        <td>Mesfin Ind</td>
-                                        <th>908873</th>
-                                        <th>2/2/2000</th>
-                                        <th>w/t X</th>
-                                        <th>Ato Fasil</th>
-                                    </tr>
-                                    
-                                    <tr>
-                                        <td class="hidden-xs">4</td>
-                                        <td>LOIU78O0009802</td>
-                                        <td>Trans</td>
-                                        <th>120000</th>
-                                        <th>2/2/2000</th>
-                                        <th>w/t X</th>
-                                        <th>Ato Fasil</th>
-                                       </tr>
+                                   
                                     
                                 </tbody>
                             </table>
@@ -226,3 +174,25 @@
 
 </div>
 
+<script>
+
+    myApp = angular.module('myApp', []);
+    
+    myApp.controller('paymentRequestController', ['$scope', '$http', '$rootScope', function ($scope, $http) {
+
+      
+        $scope.paymentRequest = {};
+        $http({ method: 'GET', url: '@Url.Action("ReadPaymentRequest","Home")' }).success(function(data, status, headers, config) {
+            $scope.paymentRequest = data;
+        });
+    }]);
+    
+    myApp.controller('ChequeController', ['$scope', '$http', '$rootScope', function ($scope, $http) {
+
+
+        $scope.cheques = {};
+        $http({ method: 'GET', url: '@Url.Action("ReadCheques","Home")' }).success(function (data, status, headers, config) {
+            $scope.cheques = data;
+        });
+     }]);
+</script>

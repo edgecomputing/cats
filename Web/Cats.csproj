@@ -2608,6 +2608,10 @@
       <Project>{a08cf415-6299-41ab-9d69-c3ce9b49ccd6}</Project>
       <Name>Cats.Services.EarlyWarning</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Services\Cats.Services.Finance\Cats.Services.Finance.csproj">
+      <Project>{38f50f60-c3bb-4287-8723-ee8b398204a7}</Project>
+      <Name>Cats.Services.Finance</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Services\Cats.Services.Hub\Cats.Services.Hub.csproj">
       <Project>{9fba0283-ee84-49f2-8305-f038bbf29658}</Project>
       <Name>Cats.Services.Hub</Name>
