@@ -395,9 +395,11 @@
     <Compile Include="Areas\Finance\Controllers\HomeController.cs" />
     <Compile Include="Areas\Finance\Controllers\TransportOrderPerformanceController.cs" />
     <Compile Include="Areas\Finance\FinanceAreaRegistration.cs" />
+    <Compile Include="Areas\Finance\Models\PaymentRequestViewModel.cs" />
     <Compile Include="Areas\Logistics\Controllers\DonationController.cs" />
     <Compile Include="Areas\Logistics\Controllers\PaymentRequestController.cs" />
     <Compile Include="Areas\Logistics\Controllers\TransferController.cs" />
+    <Compile Include="Areas\Logistics\Controllers\TransporterPerformanceController.cs" />
     <Compile Include="Areas\Logistics\Models\LoanReciptPlanViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\NeedAssessmentPlanViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\PlanViewModel.cs" />
@@ -493,6 +495,7 @@
     <Compile Include="Areas\Logistics\LogisticsAreaRegistration.cs" />
     <Compile Include="Areas\Logistics\Models\ActionLink.cs" />
     <Compile Include="Areas\Logistics\Models\TransferViewModel.cs" />
+    <Compile Include="Areas\Logistics\Models\TransporterPerformanceViewModel.cs" />
     <Compile Include="Areas\Logistics\Models\ZonesViewModel.cs" />
     <Compile Include="Areas\Logistics\Models\AssignHubViewModel.cs" />
     <Compile Include="Areas\Logistics\Models\DispatchViewModelForReconcile.cs" />
@@ -522,6 +525,7 @@
     <Compile Include="Areas\Procurement\Controllers\BidAdministrationController.cs" />
     <Compile Include="Areas\Procurement\Controllers\ContractAdministrationController.cs" />
     <Compile Include="Areas\Procurement\Controllers\FetchDataController.cs" />
+    <Compile Include="Areas\Finance\Controllers\ValidatedPaymentRequestController.cs" />
     <Compile Include="Areas\Procurement\Models\BidPlanDetailViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\PaymentRequestPercentageViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\PaymentRequestViewModel.cs" />
@@ -1731,9 +1735,21 @@
     <Content Include="Areas\PSNP\Views\Home\Copy of Index.cshtml" />
     <Content Include="Areas\Finance\Views\Web.config" />
     <Content Include="Areas\Finance\Views\Home\Index.cshtml" />
-    <Content Include="Areas\Logistics\Views\PaymentRequest\Create.cshtml" />
+    <Content Include="Areas\Logistics\Views\TransporterPerformance\Index.cshtml" />
     <Content Include="Areas\Logistics\Views\PaymentRequest\Index.cshtml" />
     <Content Include="Areas\Finance\Views\TransportOrderPerformance\Index.cshtml" />
+    <Content Include="Areas\Finance\Views\ValidatedPaymentRequest\Index.cshtml" />
+    <Content Include="Areas\Finance\Views\ValidatedPaymentRequest\TransporterDetail.cshtml" />
+    <Content Include="Areas\Finance\Views\ValidatedPaymentRequest\TransportOrderDetail.cshtml" />
+    <Content Include="Areas\Hub\Views\Dispatch\Index2.cshtml" />
+    <Content Include="Areas\Hub\Views\Dispatch\Edit2.cshtml" />
+    <Content Include="Areas\WorkflowManager\Views\Shared\_workflowLeftBar.cshtml" />
+    <Content Include="Areas\Logistics\Views\PaymentRequest\Create.cshtml" />
+    <Content Include="Areas\Hub\Views\Dispatch\OtherDispatchAllocationsList.cshtml" />
+    <Content Include="Areas\Hub\Views\Dispatch\DispatchedToFDPList.cshtml" />
+    <Content Include="Areas\Hub\Views\DispatchAllocation\Copy of Edit.cshtml" />
+    <Content Include="Areas\Hub\Views\DispatchAllocation\EditLoans2.cshtml" />
+    <Content Include="Areas\Hub\Views\DispatchAllocation\EditOthers.cshtml" />
     <None Include="dataset.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>dataset.Designer.cs</LastGenOutput>
@@ -2530,7 +2546,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\Finance\Models\" />
     <Folder Include="Areas\Finance\Views\Shared\" />
     <Folder Include="Areas\Hub\Models\generated\" />
     <Folder Include="Areas\Hub\Views\ReleaseNotes\" />

@@ -38,19 +38,20 @@ namespace Cats.Areas.Logistics.Controllers
                 _TransportOrderService = _paramTransportOrderService;
                  
             }
+
         public void LoadLookups()
         {
-
             ViewBag.TransportOrderID = new SelectList(_TransportOrderService.GetAllTransportOrder(), "TransportOrderID", "TransportOrderNo");
-
         }
+
         //
         // GET: /Procurement/PaymentRequest/
 
         public ActionResult Index()
         {
             LoadLookups();
-            var list = (IEnumerable<PaymentRequest>)_PaymentRequestservice.GetAll();
+            //var list = (IEnumerable<PaymentRequest>)_PaymentRequestservice.GetAll();
+            var list = (IEnumerable<PaymentRequest>)_PaymentRequestservice.FindBy(t=>t.BusinessProcess.CurrentState.BaseStateTemplate.StateNo<=2);
             return View(list);
         }
 
@@ -66,12 +67,11 @@ namespace Cats.Areas.Logistics.Controllers
         [HttpPost]
         public ActionResult Create(PaymentRequest request)
         {
-
-
             if (ModelState.IsValid)
             {
-                    int BP_PR = _ApplicationSettingService.getPaymentRequestWorkflow();
-                    if (BP_PR != 0)
+                   int BP_PR = _ApplicationSettingService.getPaymentRequestWorkflow();
+                   
+                   if (BP_PR != 0)
                     {
                         BusinessProcessState createdstate = new BusinessProcessState
                         {
@@ -102,8 +102,5 @@ namespace Cats.Areas.Logistics.Controllers
             _BusinessProcessService.PromotWorkflow(st);
             return RedirectToAction("Index");
         }
-
-      
     }
 }
-

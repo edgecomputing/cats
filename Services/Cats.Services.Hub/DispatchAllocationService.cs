@@ -14,10 +14,12 @@ using Cats.Models.Hubs.ViewModels.Dispatch;
 
 namespace Cats.Services.Hub
 {
+
     public class DispatchAllocationService : IDispatchAllocationService
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IShippingInstructionService _shippingInstructionService;
+
 
         public DispatchAllocationService(IUnitOfWork unitOfWork, IShippingInstructionService shippingInstructionService)
         {
@@ -318,7 +320,9 @@ namespace Cats.Services.Hub
             var unclosed =
                 _unitOfWork.DispatchAllocationRepository.Get(
                     t => (t.ShippingInstructionID.HasValue || t.ProjectCodeID.HasValue)
-                         && hubId == t.HubID);
+                         && hubId == t.HubID
+                         );
+
 
             if (AdminUnitId.HasValue)
             {
@@ -732,16 +736,19 @@ namespace Cats.Services.Hub
                 dispatchViewModel.HubID = dispatch.HubID;
                 // dispatch.ProgramID = dispatchAllocation.ProgramID;
                 dispatchViewModel.Program = dispatchAllocation.Program.Name;
-                dispatchViewModel.Month = dispatch.PeriodMonth;
-                dispatchViewModel.Year = dispatch.PeriodYear;
+
+                    dispatchViewModel.Month = dispatch.PeriodMonth;
+                
+                    dispatchViewModel.Year = dispatch.PeriodYear;
                 dispatchViewModel.PlateNo_Prime = dispatch.PlateNo_Prime;
                 dispatchViewModel.PlateNo_Trailer = dispatch.PlateNo_Trailer;
                 dispatchViewModel.Remark = dispatch.Remark;
                 dispatchViewModel.RequisitionNo = dispatch.RequisitionNo;
                 dispatchViewModel.ProgramID = dispatchAllocation.ProgramID.HasValue ? dispatchAllocation.ProgramID.Value : 0;
                
-                dispatchViewModel.Round = dispatch.Round;
-                dispatchViewModel.TransporterID = dispatch.TransporterID;
+                    dispatchViewModel.Round = dispatch.Round;
+              
+                    dispatchViewModel.TransporterID = dispatch.TransporterID;
 
                 dispatchViewModel.WeighBridgeTicketNumber = dispatch.WeighBridgeTicketNumber;
 

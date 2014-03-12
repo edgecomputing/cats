@@ -310,12 +310,13 @@ namespace Cats.TemplateServer
         #endregion
 
         public string PreviewTemplate(string fileName)
-        {
+        {/*
             var path = ConfigurationSettings.AppSettings["TemplatePath"].ToString(CultureInfo.InvariantCulture) + "Templates\\";
             var template = new TemplateHelper();
             string newfilePath = template.GenerateTemplatePreview(132, 1, fileName, path + fileName, path + Guid.NewGuid().ToString());
 
-            return newfilePath;
+            return newfilePath;*/
+            return "";
 
         }
 

@@ -1,0 +1,164 @@
+﻿@using Cats.Models.Hubs
+@using Cats.Web.Hub.Helpers
+@using Kendo.Mvc.UI
+
+@{
+    string allocationType = ViewBag.allocationType;
+    string quanityColumnHeader = "MT";
+    
+    if(@Html.GetCurrentUser().PreferedWeightMeasurment == "qn")
+    {
+        quanityColumnHeader = "Quintals";
+    }
+    
+
+}
+
+@(Html.Kendo().Grid<Cats.Models.Hubs.ViewModels.OtherDispatchAllocationDto>()
+    .Name("DispatchAllocationGrid_" + allocationType)
+    .Sortable()
+    .Scrollable()
+    .HtmlAttributes(new { style = "height:300px;" })
+    .ClientDetailTemplateId("template_dispatch_detail1")
+   // .Pageable()
+  // .Events(
+  
+    .DataSource(dataSource => dataSource
+        .Ajax()
+        .PageSize(20)
+         
+        .Model(model => model.Id(p => p.OtherDispatchAllocationID))
+        .Read(read => read.Action("DispatchedTo" + allocationType + "ListAjax", "Dispatch", new { type = 1 }))
+    )
+    .Columns(col =>
+    {
+
+        col.Bound(gc => gc.ReferenceNumber);
+        col.Bound(gc => gc.AgreementDate).Title(Html.Translate("Agreement Date")).Format("{0:d-MMM-yyyy}"); ;
+ //       col.Bound(gc => gc.QuantityInMT).Title(Html.Translate("Quantity In " + quanityColumnHeader)).HtmlAttributes(new { align = "right" });
+//        col.Bound(gc => gc.QuantityInUnit).Title(Html.Translate("Quantity In Unit")).HtmlAttributes(new { align = "right" });
+   
+  //      col.Bound(gc => gc.RemainingQuantityInMt).Title(Html.Translate("Reamining In " + quanityColumnHeader)).HtmlAttributes(new { align = "right" });
+  //      col.Bound(gc => gc.RemainingQuantityInUnit).Title(Html.Translate("Reamining In Unit")).HtmlAttributes(new { align = "right" });
+        col.Bound(gc => gc.CommodityName).Title(Html.Translate("Commodity"));
+        col.Bound(gc => gc.EstimatedDispatchDate).Title(Html.Translate("Arival Date")).Format("{0:d-MMM-yyyy}"); ;
+        col.Bound(gc => gc.SINumber).Title(Html.Translate("SI Number"));
+        col.Bound(gc => gc.ProjectCode).Title(Html.Translate("Project Code"));
+        col.Bound(modelItem => modelItem.QuantityInMT).Title(Html.Translate("Planned ")).Width(250)
+                   .ClientTemplate(
+                       "<div class='progress progress-warning progress-striped'><div class='bar' style='width: #=100*(QuantityInMT-RemainingQuantityInMt)/QuantityInMT#%;'><div class='bar-label'>#=(QuantityInMT-RemainingQuantityInMt)# of #=QuantityInMT#</div></div></div>"
+                       );
+        col.Bound(modelItem => modelItem.OtherDispatchAllocationID).Title(Html.Translate("Action")).Width(250)
+            .ClientTemplate(
+                "<div><a class='btn2' href='" +
+                @Url.Action("Create", "Dispatch", new { @allocationId = "#=OtherDispatchAllocationID#", @type = "#=2#" }) +
+                "'>Dispatch</a> | "
+                + "<a href='javascript:EditOtherAllocation(\"#=OtherDispatchAllocationID#\",\"" + @ViewBag.allocationType + "\")' >" + @Html.Translate("Edit")  + "</a> | "
+                + "<a class='close_#=IsClosed#'  href='javascript:OtherClosePlanById(\"#=OtherDispatchAllocationID#\")' >" + @Html.Translate("Close") + "</a>" 
+                + "</div>"
+                );
+        
+    })
+)
+<script id="template_dispatch_detail1" type="text/kendo-tmpl">
+    
+                    @(Html.Kendo().Grid<DispatchModelModelDto>()
+                         .Name("Other_Dispatchs_#=OtherDispatchAllocationID#")
+                        .Columns(columns =>
+                        {
+                            columns.Bound(d => d.DispatchDate).Format("{0:d-MMM-yyyy}");
+                            columns.Bound(d => d.GIN);
+                            columns.Bound(b => b.DispatchedByStoreMan);
+
+                        })
+                        .DataSource(dataSource => dataSource
+                            .Ajax()
+                           // .Batch(true)
+                            .ServerOperation(false)
+                            //.Events(events => events.Error("error_handler"))
+                            // .Events(events => events.Change("onGridKeydown"))
+                           /*.Model(model =>
+                              {
+                                  model.Id(p => p.ReceiveID);
+                              })*/
+                            .Read(read => read.Action("DispatchListGridAjax", "Dispatch", new { DispatchAllocationID = "#=OtherDispatchAllocationID#" }))
+
+                        )
+                         .HtmlAttributes(new { style = "max-height:250px;" })
+                        .Scrollable()
+                        .Sortable()
+                       // .ClientDetailTemplateId("template_receive_detail")
+                        .ToClientTemplate())
+                
+</script>
+<script id="template_receive_detail" type="text/kendo-tmpl">
+    
+                    @(Html.Kendo().Grid<DispatchDetailModelDto>()
+                         .Name("FDP_Dispatch_Details_#=DispatchID#")
+                           .Columns(c =>
+                                        {
+                                            c.Bound(com => com.CommodityName).Title(Html.Translate("Commodity"));
+                                            c.Bound(com => com.UnitName).Title(Html.Translate("Unit"));
+                                            c.Bound(com => com.RequestedQuantityInUnit).Title(Html.Translate("Requested Qty (Unit)")).HtmlAttributes(new { align = "right" }); 
+                                            c.Bound(com => com.DispatchedQuantityInUnit).Title("Dispatched Qty (Unit)").HtmlAttributes(new { align = "right" }); ;
+                                            c.Bound(com => com.RequestedQuantityMT).Title(Html.Translate("Requested Qty " + quanityColumnHeader)).HtmlAttributes(new { align = "right" }); ;
+                                            c.Bound(com => com.DispatchedQuantityMT).Title(Html.Translate("Dispatched Qty " + quanityColumnHeader)).HtmlAttributes(new { align = "right" }); ;
+                                        })
+                        .DataSource(dataSource => dataSource
+                            .Ajax()
+                           // .Batch(true)
+                            .ServerOperation(false)
+                            //.Events(events => events.Error("error_handler"))
+                            // .Events(events => events.Change("onGridKeydown"))
+                           /*.Model(model =>
+                              {
+                                  model.Id(p => p.ReceiveID);
+                              })*/
+                            .Read(read => read.Action("DispatchListGridListGridAjax", "Dispatch", new { DispatchID = "#=DispatchID#" }))
+
+                                )
+                         .HtmlAttributes(new { style = "max-height:250px;" })
+                        .Scrollable()
+                        .Sortable()
+                        .ToClientTemplate())
+                
+</script>
+<script>
+    
+    function EditFDPAllocation(item) {
+        var url = '@Url.Action("Edit", "DispatchAllocation")';
+        var id = (item);
+        url = url + '?id=' + id;
+        showModalEditor(url,{}, "Edit");
+    }
+    
+    function EditFDPAllocation2(item) {
+        $('#DispatchAllocationDialog').data('tWindow').center().open();
+        var id = (item);
+        var url = '@Url.Action("Edit", "DispatchAllocation")';
+        url = url + '?id=' + id;
+        $('#create-edit-form').load(url);
+        $('#create-edit-form').show();
+    }
+
+    function ClosePlanById(id) {
+
+       // $('#DispatchAllocationDialog').data('tWindow').center().open().title("Close Allcation");
+        var url = '@Url.Action("Close", "DispatchAllocation")';
+      //  url = url + '?id=' + DispatchAlloctionID;
+        showModalEditor(url, { id: id }, "Close");
+        /*$('#create-edit-form').load(url, function () {
+            //            if ($('#SINumber').val() != "") {
+            //            }
+        });*/
+
+    }
+    function OtherClosePlanById(id) {
+
+       
+        var url = '@Url.Action("OtherClose", "DispatchAllocation")';
+       // url = url + '?id=' + DispatchAlloctionID;
+        showModalEditor(url, { id: id }, "Close");
+
+    }
+</script>
