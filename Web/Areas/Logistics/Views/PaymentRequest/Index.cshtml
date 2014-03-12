@@ -13,11 +13,6 @@
     ViewBag.TargetController = "PaymentRequest";
 }
 
-@section LeftBar
-{
-
-}
-
 @section Toolbar
 {
     <a data-buttontype="btn_new_record"  class="btn toolbar-btn " href="@Url.Action("Create", "PaymentRequest")"></a>
@@ -34,7 +29,10 @@
         <th>Transporter</th>
         <th>Transport Order</th>
         <th>Requested Amount</th>
+        <th>Transported Quantity</th>
         <th>Status</th>
+        <th>Date</th>
+        <th>Last modified By</th>
         <th></th>
     </tr>
 
@@ -52,22 +50,31 @@
             <td>
                 @item.TransportOrder.TransportOrderNo
             </td>
-            <td>
+            <td style="text-align: right">
                 @item.RequestedAmount
+            </td>
+            <td style="text-align: center">
+                @item.TransportOrder.TransportOrderDetails.Sum(y => y.QuantityQtl)
             </td>
             <td>
                 @switch (state.StateNo)
                 {
                     case 1:
-                        <span class="label label-primary">@state.Name</span>
+                    <span class="label label-primary">@state.Name</span>
                         break;
                     case 2:
-                        <span class="label label-success">@state.Name</span>
+                    <span class="label label-success">@state.Name</span>
                         break;
                     default:
-                        <span class="label label-default">@state.Name</span>
+                    <span class="label label-default">@state.Name</span>
                         break;
                 }
+            </td>
+            <td>
+                @item.BusinessProcess.CurrentState.DatePerformed.ToCTSPreferedDateFormat(UserAccountHelper.UserCalendarPreference())
+            </td>
+            <td>
+                @item.BusinessProcess.CurrentState.PerformedBy
             </td>
             <td>
                 <div class="btn-group">
@@ -83,6 +90,9 @@
                             <li class="divider"></li>
                             <li class="edit_button"><a href="javascript:workflow_history(@item.BusinessProcessID)">History</a></li>
                         </ul>
+                    }else
+                    {
+                        <a class="btn btn-sm" href="javascript:workflow_history(@item.BusinessProcessID)">History</a>
                     }
                 </div>
             </td>
@@ -96,7 +106,6 @@
         <h4 id="modalHistoryLabel">Activity History</h4>
     </div>
     <div class="modal-body" id="modalHistoryBody">History</div>
-
 </div>
 @Html.Partial("~/Views/Shared/_PromotWorkflow.cshtml")
 <script>
@@ -106,7 +115,6 @@
         $('#ParentBusinessProcessID').val(BusinessProcessID);
         $('#stateID').val(nextstate);
         $('#modalPromotionLabel').html(actionname);
-
         $('#modalPromotion').modal();
     }
     function workflow_history(BusinessProcessID) {
@@ -117,6 +125,5 @@
                 $("#modalHistoryBody").html(data);
             }
             );
-
     }
 </script>

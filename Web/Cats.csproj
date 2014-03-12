@@ -393,7 +393,6 @@
     <Compile Include="Areas\EarlyWarning\Models\InKindContributionDetailViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\RegionalRequestInfoViewModel.cs" />
     <Compile Include="Areas\Finance\Controllers\HomeController.cs" />
-    <Compile Include="Areas\Finance\Controllers\PaymentRequestController.cs" />
     <Compile Include="Areas\Finance\Controllers\TransportOrderPerformanceController.cs" />
     <Compile Include="Areas\Finance\FinanceAreaRegistration.cs" />
     <Compile Include="Areas\Logistics\Controllers\DonationController.cs" />
@@ -1737,9 +1736,8 @@
     <Content Include="Areas\Logistics\Views\TransporterPerformance\Index.cshtml" />
     <Content Include="Areas\Logistics\Views\PaymentRequest\Index.cshtml" />
     <Content Include="Areas\Finance\Views\TransportOrderPerformance\Index.cshtml" />
-    <Content Include="Areas\Finance\Views\PaymentRequest\Create.cshtml" />
-    <Content Include="Areas\Finance\Views\PaymentRequest\Index.cshtml" />
     <Content Include="Areas\WorkflowManager\Views\Shared\_workflowLeftBar.cshtml" />
+    <Content Include="Areas\Logistics\Views\PaymentRequest\Create.cshtml" />
     <None Include="dataset.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>dataset.Designer.cs</LastGenOutput>
@@ -2549,7 +2547,6 @@
     <Folder Include="Areas\Transaction\Models\" />
     <Folder Include="Areas\Transaction\Views\Shared\" />
     <Folder Include="Areas\WorkflowManager\Models\" />
-    <Folder Include="Areas\WorkflowManager\Views\Shared\" />
     <Folder Include="bin\" />
   </ItemGroup>
   <ItemGroup>

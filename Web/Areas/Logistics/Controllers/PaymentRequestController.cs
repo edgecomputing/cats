@@ -13,7 +13,7 @@ using Cats.Models;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
 
-namespace Cats.Areas.Finance.Controllers
+namespace Cats.Areas.Logistics.Controllers
 {
     public class PaymentRequestController:Controller
     {
@@ -38,12 +38,12 @@ namespace Cats.Areas.Finance.Controllers
                 _TransportOrderService = _paramTransportOrderService;
                  
             }
+
         public void LoadLookups()
         {
-
             ViewBag.TransportOrderID = new SelectList(_TransportOrderService.GetAllTransportOrder(), "TransportOrderID", "TransportOrderNo");
-
         }
+
         //
         // GET: /Procurement/PaymentRequest/
 
@@ -51,7 +51,7 @@ namespace Cats.Areas.Finance.Controllers
         {
             LoadLookups();
             //var list = (IEnumerable<PaymentRequest>)_PaymentRequestservice.GetAll();
-            var list = (IEnumerable<PaymentRequest>)_PaymentRequestservice.FindBy(t=>t.BusinessProcess.CurrentState.BaseStateTemplate.StateNo>=2);
+            var list = (IEnumerable<PaymentRequest>)_PaymentRequestservice.FindBy(t=>t.BusinessProcess.CurrentState.BaseStateTemplate.StateNo<=2);
             return View(list);
         }
 
@@ -67,8 +67,6 @@ namespace Cats.Areas.Finance.Controllers
         [HttpPost]
         public ActionResult Create(PaymentRequest request)
         {
-
-
             if (ModelState.IsValid)
             {
                    int BP_PR = _ApplicationSettingService.getPaymentRequestWorkflow();
