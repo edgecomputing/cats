@@ -7,71 +7,122 @@
 
 <div ng-app="myApp">
     <div  ng-controller="TransporterPerformanceController" class="container">
-
-     
-        <table  class="table table-bordered">
-                
-            <tr>
-                <td>Contrat No</td><td>0000001</td>
-                <td>Transport Order</td><td>trn-000001</td>
-                <td>Zone</td><td>sample zone</td>
-                <td>Woreda</td><td>sample woreda</td>
-
-            </tr>
-            <tr>
-                <td>Mobile No</td><td>+215911237865</td>
-                <td>Telephone No</td><td>251114167876</td>
-                <td>Region</td><td>Addis A.</td>
-                <td>Sub City</td><td>Lafto</td>
-
-            </tr>
-        </table>
-
-        <div class="row" style="border-bottom-width: thin; border-bottom-color: #666; border-bottom-style: inset; margin-top: 5px">
-
-            <div class="pull-left">
-                <h4>Transporter Performance Detail</h4>
+        
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title" style="font: normal">Transporter Detail</h4>
+                <hr/>
             </div>
-               
-            <table  class="table">
-                <tr>
-                    <td>Region</td>
-                    <td>  <select class="form-control" id="region" placeholder="Transporter" ></select> </td>
-                    <td>Warehouse</td>
-                    <td>
-                        <select class="form-control" id="wareHouse" placeholder="Transporter" ></select>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Start Date
-                    </td>
-                    <td>
-                        <select class="form-control" id="StartDate" placeholder="Transporter" ></select>
-                    </td>
-                    <td>
-                        End Date
-                    </td>
-                    <td>
-                        <select class="form-control" id="EndDate" placeholder="Transporter" ></select>
-                    </td>
-                </tr>
+            <div class="panel-body">
 
-            </table>
+                <div class="row-fluid form-horizontal ">
+                    
+
+                         <div class="form-control span12">
+                             
+                             <div class="span3">
+                                 <label>Contrat No</label>
+                                 <pre>{{transporterInfo.ContratNo}}</pre>
+                             </div>
+                                 
+                             <div class="span3">
+                                 <label>Transporter</label>
+                                <pre> {{transporterInfo.Name}}</pre>
+                             </div>
+                             <div class="span3">
+                                 <label>Transport Order</label>
+                                <pre> {{transporterInfo.TransportOrderNo}}</pre>
+                             </div>
+                        <div class="span3">
+                            <label>Bid No</label>
+                           <pre> {{transporterInfo.bidNo}}</pre>
+                        </div>
+                             
+                             
+                    </div>
+                </div>
                 
+                 <div class="row-fluid form-horizontal ">
+                    <div class="form-control span12">
+                        
+                        <div class="span3">
+                            <label>Mobile No</label>
+                            <pre>{{transporterInfo.MobileNo}}</pre>
+                        </div>
+                         <div class="span3">
+                            <label>Telephone No</label>
+                            <pre>{{transporterInfo.TelephoneNo}}</pre>
+                        </div>
+                        
+                        <div class="span3">
+                                 <label>kebele</label>
+                                 <pre>{{transporterInfo.kebele}}</pre> 
+                             </div>
+                         
+                        <div class="span3">
+                            <label>Sub City</label>
+                            <pre>{{transporterInfo.subCity}}</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
+                      
+        
+        
+        
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title" style="font: normal">Transport Order Detail</h4>
+                <hr/>
+            </div>
+            <div class="panel-body">
+
+                <div class="row-fluid form-horizontal ">
+                    <div class="form-control span12">
+                        
+                        <div class="span3">
+                            <label>Region</label>
+                            <select   ng-model="trans_param.regionId">
+                              <option ng-repeat="r in regions" value="{{r.AdminUnitID}}"> {{r.Name}} </option>
+
+                            </select> 
+                            
+                        </div>
+                        
+                        <div class="span3">
+                            <label>Warehouse</label>
+                            <select    ng-model="trans_param.hubId">  
+                                
+                                <option ng-repeat="hb in hubs" value="{{hb.HubID}}">{{hb.Name}}</option>
+                            </select>
+                           
+                        </div>
+
+                        <div class="span2">
+                            <label>Select start Date</label>
+                            <input type="text" id="StartDate" class="cats-datepicker2  input-medium"  placeholder="Start date"/>
+                        </div>
+
+                        <div class="span2">
+                            
+                            <label>Select end Date</label>
+                            <input type="text" id="EndDate" class="cats-datepicker2  input-medium"  placeholder="End date"/>
+                        </div>
+
+                        <div class="span2">
+                            <button type="button" class="btn btn-default btn-lg" style="margin-top: 23px;" ng-click="show()">show</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div id="TransporterPerformanceContent" class="row">
             <div>&nbsp;</div>
             <div class="span11">
                 <div class="portlet">
-                    <div class="portlet-header">
-                        <h3>
-                              
-                            <i class=""></i>
-                            Transporter Performance
-                        </h3>
-                           
-                    </div>
+                    
 
                     <!-- /.portlet-header -->
 
@@ -81,25 +132,29 @@
                             <thead>
                                 <tr>
                                     <th class="hidden-xs">Number</th>
+                                    <th>Region</th>
+                                    <th>Zone</th>
+                                    <th>Woreda</th>
                                     <th>FDP</th>
-                                    <th>Start Date</th>
-                                    <th>End Date</th>
-                                    <th>Amount</th>
-                                    <th>Driver</th>
-                                    <th>Plate No</th>
+                                    <th>Hub</th>
                                     <th>Requisition No</th>
                                     <th>Commodity</th>
-
-                                </tr>
+                                    <th>Amount</th>
+                                   
+                                 </tr>
                             </thead>
                             <tbody>
-                                <tr  ng-repeat ="req in paymentRequest">
+                                <tr  ng-repeat ="req in transporterInfoDetail.detail ">
                                     <td class="hidden-xs">{{$index + 1}}</td>
-                                    <td>{{req.Reference_No}}</td>
-                                    <td>{{req.Transport_Order}}</td>
-                                    <td>{{req.Transporter}}</td>
-                                    <th>{{req.Amount | number}}</th>
-                                    <th>{{req.AmountTransported}}</th>
+                                    <td>{{req.region}}</td>
+                                    <td>{{req.zone}}</td>
+                                    <td>{{req.woreda}}</td>
+                                    <td>{{req.fdp}}</td>
+                                    <th>{{req.hub}}</th>
+                                    <td>{{req.requisitionNo}}</td>
+                                    <td>{{req.commodity}}</td>
+                                    <th>{{req.amount | number}}</th>
+                                   
                                        
                                 </tr>
                                    
@@ -118,15 +173,60 @@
 
 <script>
 
-    var transportOrderId ='@ViewBag.TransportOrderId';
+    var transportOrderId = '@ViewBag.TransportOrderId';
 
     var app = angular.module('myApp', []);
+  
     
+    
+
+
     app.controller('TransporterPerformanceController', ['$scope', '$http', function ($scope, $http) {
-        var $transporterInfo = {};
-        $http({ method: 'GET',params:transportOrderId, url: '@Url.Action("GetTransporter","TransportOrderPerformance")' }).success(function(data) {
-            $transporterInfo = data;
-            console.log(data);
+        
+
+        $scope.trans_param = { regionId: 0, hubId: 0, transportOrderId: transportOrderId, startDate: new Date(), EndDate: new Date() };
+        $scope.regions = [];
+        $http({ method: 'GET', url: '@Url.Action("GetRegions","TransportOrderPerformance")' }).success(function (data, status, headers, config) { $scope.regions = data; })
+         .error(function (data, status, headers, config) {
+
+         });
+
+        $scope.hubs = [];
+        $http({ method: 'GET', url: '@Url.Action("GetHubs","TransportOrderPerformance")' }).success(function (data, status, headers, config) { $scope.hubs = data; })
+     .error(function (data, status, headers, config) {
+
+     });
+
+
+         $scope.transporterInfo = {};
+        $http({ method: 'GET',params:{ transportOrderId: transportOrderId }, url: '@Url.Action("GetTransporter","TransportOrderPerformance")' }).success(function(data) {
+            $scope.transporterInfo = data;
+           
         });
+
+
+         $scope.transporterInfoDetail = {};
+        $http({ method: 'GET', params: { transportOrderId: transportOrderId }, url: '@Url.Action("GetDispatches","TransportOrderPerformance")' }).success(function (data) {
+            $scope.transporterInfoDetail.detail = data;
+           
+        });
+        
+       
+        $scope.show = function () {
+            $scope.trans_param.startDate = $("#StartDate").val();
+            $scope.trans_param.EndDate = $("#EndDate").val();
+
+           
+            $http.post("@Url.Action("GetFilteredTransportOrderDetail", "TransportOrderPerformance", new { Area = "Finance" })", $scope.trans_param).success(function (data) {
+            $scope.transporterInfoDetail.detail = data;
+        });
+        };
+        
     }]);
+    
+
+    
+    
+    
+    
 </script>
