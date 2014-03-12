@@ -56,6 +56,9 @@ namespace Cats.Models.Mapping
                 .IsRequired()
                 .HasMaxLength(50);
 
+            this.Property(t => t.RegionalUser)
+                .IsRequired();
+
             // Table & Column Mappings
             this.ToTable("UserProfile");
             this.Property(t => t.UserProfileID).HasColumnName("UserProfileID");
@@ -76,7 +79,10 @@ namespace Cats.Models.Mapping
             this.Property(t => t.MobileNumber).HasColumnName("MobileNumber");
             this.Property(t => t.Email).HasColumnName("Email");
             this.Property(t => t.DefaultTheme).HasColumnName("DefaultTheme");
+            this.Property(t => t.DefaultHub).HasColumnName("DefaultHub");
+            this.Property(t => t.RegionID).HasColumnName("RegionID");
+            this.Property(t => t.RegionalUser).HasColumnName("RegionalUser");
+        
         }
     }
  }
-

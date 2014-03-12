@@ -10,6 +10,7 @@ using Cats.Models;
 using Cats.Models.PSNP;
 using Cats.Data;
 using Cats.Services.PSNP;
+using Cats.Services.Security;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
 using Cats.Services.EarlyWarning;
@@ -30,6 +31,7 @@ namespace Cats.Areas.PSNP
         private readonly IApplicationSettingService _ApplicationSettingService;
         private readonly ILog _log;
         private readonly IPlanService _planService;
+        private readonly IUserAccountService _userAccountService;
         
 
         public RegionalPSNPPlanController(IRegionalPSNPPlanService regionalPSNPPlanServiceParam
@@ -39,7 +41,8 @@ namespace Cats.Areas.PSNP
                                           , IBusinessProcessStateService BusinessProcessStateServiceParam
                                           , IApplicationSettingService ApplicationSettingParam
                                           , ILog log
-                                           , IPlanService planService
+                                          , IPlanService planService
+                                          ,IUserAccountService userAccountService
                                          )
         {
             this._regionalPSNPPlanService = regionalPSNPPlanServiceParam;
@@ -50,10 +53,12 @@ namespace Cats.Areas.PSNP
             this._ApplicationSettingService = ApplicationSettingParam;
             this._log = log;
             this._planService = planService;
+            this._userAccountService = userAccountService;
         }
 
         public IEnumerable<RegionalPSNPPlanViewModel> toViewModel(IEnumerable<Cats.Models.RegionalPSNPPlan> list)
         {
+            var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
             try
             {
                 return (from plan in list
@@ -61,10 +66,13 @@ namespace Cats.Areas.PSNP
                         {
                             RegionalPSNPPlanID = plan.RegionalPSNPPlanID,
                             Duration = plan.Duration,
-                            RegionID = plan.RegionID,
+                            PlanName = plan.Plan.PlanName, 
                             Year = plan.Year,
-                            RegionName = plan.Region.Name,
-                            RationName = plan.Ration.RefrenceNumber
+                           // RegionName = plan.Region.Name,
+                            RationName = plan.Ration.RefrenceNumber,
+                            From = plan.Plan.StartDate.ToCTSPreferedDateFormat(datePref),
+                            To = plan.Plan.EndDate.ToCTSPreferedDateFormat(datePref),
+                            StatusName = plan.AttachedBusinessProcess.CurrentState.BaseStateTemplate.Name
 
 
                         });
@@ -90,14 +98,14 @@ namespace Cats.Areas.PSNP
 
         public ActionResult Index()
         {
-            IEnumerable<Cats.Models.RegionalPSNPPlan> list = (IEnumerable<Cats.Models.RegionalPSNPPlan>)_regionalPSNPPlanService.GetAllRegionalPSNPPlan();
+            IEnumerable<RegionalPSNPPlan> list = (IEnumerable<Cats.Models.RegionalPSNPPlan>)_regionalPSNPPlanService.GetAllRegionalPSNPPlan();
 
             return View(list);
 
         }
         public ActionResult GetListAjax([DataSourceRequest] DataSourceRequest request)
         {
-            IEnumerable<Cats.Models.RegionalPSNPPlan> list = (IEnumerable<Cats.Models.RegionalPSNPPlan>)_regionalPSNPPlanService.GetAllRegionalPSNPPlan();
+            IEnumerable<Cats.Models.RegionalPSNPPlan> list = (IEnumerable<Cats.Models.RegionalPSNPPlan>)_regionalPSNPPlanService.GetAllRegionalPSNPPlan().OrderByDescending(m=>m.RegionalPSNPPlanID);
             return Json(toViewModel(list).ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
 
@@ -156,8 +164,7 @@ namespace Cats.Areas.PSNP
             //regionalpsnpplan.StatusID = 1;
 
             //check if this psnp plan exitsts for this region
-            var exists = _regionalPSNPPlanService.DoesPsnpPlanExistForThisRegion(regionalpsnpplan.PlanId,
-                                                                                 regionalpsnpplan.RegionID);
+            var exists = _regionalPSNPPlanService.DoesPsnpPlanExistForThisRegion(regionalpsnpplan.PlanId,regionalpsnpplan.Year);
 
              if (ModelState.IsValid)
                 {
@@ -190,7 +197,7 @@ namespace Cats.Areas.PSNP
                     ViewBag.ErrorMessage2 = "Please make sure the workflow is created and configured.";
                 }
                 LoadLookups();
-                ModelState.AddModelError("Errors", "PSNP plan already made for this period and region.");
+                ModelState.AddModelError("Errors", "PSNP plan already made for this period.");
                 return View(regionalpsnpplan);
             }
             LoadLookups();

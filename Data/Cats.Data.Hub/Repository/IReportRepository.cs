@@ -2,12 +2,9 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Objects;
-using System.Linq;
-using System.Text;
 using Cats.Models.Hubs;
-using DRMFSS.BLL.Repository;
 
-namespace DRMFSS.BLL.Interfaces
+namespace Cats.Data.Hub.Repository
 {
     public interface IReportRepository
     {

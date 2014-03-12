@@ -3,7 +3,10 @@
 @using Cats.Services.Security
 @using LanguageHelpers.Localization
 @model IEnumerable<DashboardWidget>
+
 @{
+    const string PAGE_NAME = "Dashboard Dynamic";
+    
     //UserIdentity user = (UserIdentity)HttpContext.Current.User.Identity;
     //var role = UserRoleHelper.GetUserRole(user.Profile.UserName);
     
@@ -16,7 +19,8 @@
     //    new UIWidget{ Title=  "Need Assessment Summary", Icon ="icon-bar-chart", Source="Dashboard/_BarNeedAssessment" },
     //    };
     var cols = 2;
-    int i = 0;                      
+    int i = 0;   
+                       
 }
 
 <link href="~/Content/DashboardWidget.css" rel="stylesheet">

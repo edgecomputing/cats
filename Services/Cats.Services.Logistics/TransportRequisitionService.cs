@@ -93,9 +93,10 @@ namespace Cats.Services.Logistics
                     region = _unitOfWork.AdminUnitRepository.FindById(anyReliefRequisition.RegionID.Value);
                 }
                 var program = new Program();
+                
                 if (anyReliefRequisition.ProgramID != null)
                 {
-                    program = _unitOfWork.ProgramRepository.FindById(anyReliefRequisition.ProgramID.Value);
+                    program = _unitOfWork.ProgramRepository.FindById(anyReliefRequisition.ProgramID);
                 }
                 
                 var transportRequisition = new TransportRequisition()
@@ -103,7 +104,7 @@ namespace Cats.Services.Logistics
                                                    Status = (int)TransportRequisitionStatus.Draft, //Draft
                                                    RequestedDate = DateTime.Today,
                                                    RequestedBy = requestedBy, //should be current user
-                                                   CertifiedBy = requestedBy, //Should be some user
+                                                   CertifiedBy = requestedBy, //Should be some user ????
                                                    CertifiedDate = DateTime.Today, //should be date cerified
                                                    TransportRequisitionNo = Guid.NewGuid().ToString(),
                                                    RegionID = region.AdminUnitID,

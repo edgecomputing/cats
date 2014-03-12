@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Cats.Data.UnitWork;
 using Cats.Models;
+using Cats.Models.Constant;
 
 namespace Cats.Services.Procurement
 {
@@ -71,23 +72,33 @@ namespace Cats.Services.Procurement
 
         public void ActivateBid(int id)
         {
-            var approvedbid = _unitOfWork.BidRepository.FindById(id);
-            var activeBid = _unitOfWork.BidRepository.FindBy(m => m.StatusID == 2).FirstOrDefault();
-            try
-            {
-                //change the status of bid in to active
-                approvedbid.StatusID = 2;
-                if (activeBid!=null)
-                {
-                    activeBid.StatusID = 5;
-                    _unitOfWork.Save();
-                }
-            }
-            catch (Exception)
-            {
+            var bid = _unitOfWork.BidRepository.FindById(id);
+
+           if(bid!=null)
+           {
+               bid.StatusID = (int)BidStatus.Active;
+               _unitOfWork.Save();
+           }
+
+
+
+
+            //var oldBid = _unitOfWork.BidRepository.FindBy(m => m.StatusID == (int) BidStatus.Active).FirstOrDefault();
+            //try
+            //{
+            //        bid.StatusID = (int)BidStatus.Active;
+            //        if (oldBid != null)
+            //            oldBid.StatusID = (int) BidStatus.Closed;
+            //        _unitOfWork.Save();
+            //}
+            //catch (Exception e)
+            //{
                 
-                throw;
-            }
+            //    throw;
+            //}
+                   
+               
+       
         }
         public string AutogenerateBidNo()
         {

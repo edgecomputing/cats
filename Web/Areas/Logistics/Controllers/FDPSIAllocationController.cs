@@ -12,7 +12,7 @@ using log4net;
 using Cats.Services.Common;
 using Cats.Areas.Logistics.Models;
 using Cats.Services.Logistics;
-
+using Cats.Helpers;
 namespace Cats.Areas.Logistics.Controllers
 {
     public class FDPSIAllocationController : Controller
@@ -65,7 +65,7 @@ namespace Cats.Areas.Logistics.Controllers
                 ZoneName = item.AdminUnit1.Name,
                 RequisitionId = item.RequisitionID,
                 CommodityId = (int)item.CommodityID,
-                Amount = item.ReliefRequisitionDetails.Sum(a => a.Amount),
+                Amount = item.ReliefRequisitionDetails.Sum(a => a.Amount).ToPreferedWeightUnit(),
                 HubAllocationID = item.HubAllocations.ToList()[0].HubAllocationID,
                 HubName = item.HubAllocations.ToList()[0].Hub.Name,
            //     SIAllocations=item.ReliefRequisitionDetails.RegionalRequestDetails.First().Fdpid
@@ -88,7 +88,7 @@ namespace Cats.Areas.Logistics.Controllers
                 FDPId=item.FDPID,
                 FDPName=item.FDP.Name,
                 Name = item.FDP.Name,
-                RequestedAmount=item.Amount,
+                RequestedAmount=item.Amount.ToPreferedWeightUnit(),
                 WoredaId=item.FDP.AdminUnitID,
                 WoredaName=item.FDP.AdminUnit.Name,
                 Commodity = item.Commodity.Name,

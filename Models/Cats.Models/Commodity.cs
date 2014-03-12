@@ -12,7 +12,10 @@ namespace Cats.Models
             //this.DispatchAllocations = new List<DispatchAllocation>();
             //this.Commodity1 = new List<Commodity>();
            
-            //this.ReliefRequisitionDetails = new List<ReliefRequisitionDetail>();
+            this.ReliefRequisitionDetails = new List<ReliefRequisitionDetail>();
+            this.DonationPlanHeaders = new List<DonationPlanHeader>();
+            this.LoanReciptPlans=new List<LoanReciptPlan>();
+            this.Transfers=new List<Transfer>();
             //this.TransportOrderDetails = new List<TransportOrderDetail>();
             //this.BidWinners=new List<BidWinner>();
             //this.RationDetails=new List<RationDetail>();
@@ -34,7 +37,9 @@ namespace Cats.Models
         public virtual Commodity Commodity2 { get; set; }
       
         public virtual CommodityType CommodityType { get; set; }
-     
+
+        public virtual ICollection<DispatchDetail> DispatchDetails { get; set; }
+        public virtual ICollection<DonationPlanHeader> DonationPlanHeaders { get; set; }
         public virtual ICollection<ReliefRequisitionDetail> ReliefRequisitionDetails { get; set; }
         public virtual ICollection<ReliefRequisition> ReliefRequisitions { get; set; }
         public virtual ICollection<TransportOrderDetail> TransportOrderDetails { get; set; }
@@ -43,12 +48,15 @@ namespace Cats.Models
         public virtual ICollection<HRDCommodityDetail> HRDCommodityDetails  { get; set; }
         public virtual ICollection<RequestDetailCommodity> RequestDetailCommodities { get; set; }
         public virtual ICollection<GiftCertificateDetail> GiftCertificateDetails { get; set; }
-
+        public virtual ICollection<ReceiptAllocation> ReceiptAllocations { get; set; } 
         public virtual ICollection<RegionalPSNPPledge> RegionalPSNPPledges { get; set; }
-
+        public virtual ICollection<OtherDispatchAllocation> OtherDispatchAllocations { get; set; }
         public virtual ICollection<InKindContributionDetail> InKindContributionDetails{ get; set; }
 
         public virtual ICollection<PromisedContribution> PromisedContributions { get; set; }
-        public virtual ICollection<DistributionDetail> DistributionDetails { get; set; }
+        public virtual ICollection<DeliveryDetail> DeliveryDetails { get; set; }
+        public virtual ICollection<LocalPurchase> LocalPurchases  { get; set; }
+        public virtual ICollection<LoanReciptPlan> LoanReciptPlans { get; set; }
+        public ICollection<Transfer> Transfers { get; set; } 
     }
 }

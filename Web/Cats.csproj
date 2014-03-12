@@ -20,7 +20,7 @@
     <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
     <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
     <IISExpressUseClassicPipelineMode />
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
     <SilverlightApplicationList>
     </SilverlightApplicationList>
@@ -70,18 +70,26 @@
       <HintPath>..\packages\log4net.2.0.0\lib\net40-full\log4net.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Microsoft.Office.Interop.Word, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-      <HintPath>bin\Microsoft.Office.Interop.Word.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.ReportViewer.WebForms, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
+    <Reference Include="MiniProfiler">
+      <HintPath>..\packages\MiniProfiler.2.1.0\lib\net40\MiniProfiler.dll</HintPath>
+    </Reference>
+    <Reference Include="MiniProfiler.EntityFramework">
+      <HintPath>..\packages\MiniProfiler.EF.2.1.0\lib\net40\MiniProfiler.EntityFramework.dll</HintPath>
+    </Reference>
     <Reference Include="NetSqlAzMan, Version=3.6.0.15, Culture=neutral, PublicKeyToken=ad1153f7ddd0e504, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\NetSqlAzMan-x64.3.6.0.15\lib\net40\NetSqlAzMan.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.5.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="Ninject">
       <HintPath>..\packages\Ninject.3.0.1.10\lib\net45-full\Ninject.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework">
+      <HintPath>..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -111,9 +119,6 @@
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.4.5.6\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System.Net.Http">
     </Reference>
@@ -366,6 +371,8 @@
     </Compile>
     <Compile Include="Areas\EarlyWarning\Controllers\ContributionController.cs" />
     <Compile Include="Areas\EarlyWarning\Controllers\CurrencyController.cs" />
+    <Compile Include="Areas\EarlyWarning\Controllers\DonorCoverageController.cs" />
+    <Compile Include="Areas\EarlyWarning\Controllers\EWDashboardController.cs" />
     <Compile Include="Areas\EarlyWarning\Controllers\GiftCertificateController.cs" />
     <Compile Include="Areas\EarlyWarning\Controllers\HRDController.cs" />
     <Compile Include="Areas\EarlyWarning\Controllers\NeedAssessmentController.cs" />
@@ -381,8 +388,18 @@
     <Compile Include="Areas\EarlyWarning\Models\ContributionViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\CurrencyViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\GiftCertificateViewModel.cs" />
+    <Compile Include="Areas\EarlyWarning\Models\HRDDonorCoverageViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\HRDWithRegionalRequestViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\InKindContributionDetailViewModel.cs" />
+    <Compile Include="Areas\EarlyWarning\Models\RegionalRequestInfoViewModel.cs" />
+    <Compile Include="Areas\Finance\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Finance\Controllers\TransportOrderPerformanceController.cs" />
+    <Compile Include="Areas\Finance\FinanceAreaRegistration.cs" />
+    <Compile Include="Areas\Logistics\Controllers\DonationController.cs" />
+    <Compile Include="Areas\Logistics\Controllers\PaymentRequestController.cs" />
+    <Compile Include="Areas\Logistics\Controllers\TransferController.cs" />
+    <Compile Include="Areas\Logistics\Controllers\TransporterPerformanceController.cs" />
+    <Compile Include="Areas\Logistics\Models\LoanReciptPlanViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\NeedAssessmentPlanViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\PlanViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\PlanWithHRDViewModel.cs" />
@@ -455,27 +472,44 @@
     <Compile Include="Areas\Hub\Controllers\UserWarehouseController.cs" />
     <Compile Include="Areas\Hub\Controllers\Utilities\TranslationController.cs" />
     <Compile Include="Areas\Hub\HubAreaRegistration.cs" />
+    <Compile Include="Areas\Hub\Models\CommodityTypeViewModel.cs" />
     <Compile Include="Areas\Localization\Controllers\LanguageController.cs" />
     <Compile Include="Areas\Localization\Controllers\TranslationController.cs" />
     <Compile Include="Areas\Localization\LocalizationAreaRegistration.cs" />
     <Compile Include="Areas\Logistics\Controllers\BeneficiaryAllocationController.cs" />
-    <Compile Include="Areas\Logistics\Controllers\DistributionController.cs" />
+    <Compile Include="Areas\Logistics\Controllers\DeliveryController.cs" />
+    <Compile Include="Areas\Logistics\Controllers\DeliveryReconcileController.cs" />
     <Compile Include="Areas\Logistics\Controllers\FDPSIAllocationController.cs" />
     <Compile Include="Areas\Logistics\Controllers\DispatchAllocationController.cs" />
     <Compile Include="Areas\Logistics\Controllers\HomeController.cs" />
     <Compile Include="Areas\Logistics\Controllers\HubAllocationController.cs" />
     <Compile Include="Areas\Logistics\Controllers\ProjectAllocationController.cs" />
     <Compile Include="Areas\Logistics\Controllers\PromisedContributionController.cs" />
+    <Compile Include="Areas\Logistics\Controllers\ReciptPlanForLoanController.cs" />
     <Compile Include="Areas\Logistics\Controllers\SIAllocationController.cs" />
     <Compile Include="Areas\Logistics\Controllers\LogisticsStockStatusController.cs" />
     <Compile Include="Areas\Logistics\Controllers\TransportRequisitionController.cs" />
+    <Compile Include="Areas\Logistics\Controllers\WoredaStockDistributionController.cs" />
+    <Compile Include="Areas\Logistics\Controllers\LocalPurchaseController.cs" />
     <Compile Include="Areas\Logistics\LogisticsAreaRegistration.cs" />
     <Compile Include="Areas\Logistics\Models\ActionLink.cs" />
+    <Compile Include="Areas\Logistics\Models\TransferViewModel.cs" />
+    <Compile Include="Areas\Logistics\Models\TransporterPerformanceViewModel.cs" />
+    <Compile Include="Areas\Logistics\Models\ZonesViewModel.cs" />
     <Compile Include="Areas\Logistics\Models\AssignHubViewModel.cs" />
-    <Compile Include="Areas\Logistics\Models\DistributionDetailViewModel.cs" />
-    <Compile Include="Areas\Logistics\Models\DistributionViewModel.cs" />
+    <Compile Include="Areas\Logistics\Models\DispatchViewModelForReconcile.cs" />
+    <Compile Include="Areas\Logistics\Models\DistributionByAgeDetailViewModel.cs" />
+    <Compile Include="Areas\Logistics\Models\DonationDetail.cs" />
+    <Compile Include="Areas\Logistics\Models\DonationDetailViewModel.cs" />
+    <Compile Include="Areas\Logistics\Models\DonationHeaderViewModel.cs" />
+    <Compile Include="Areas\Logistics\Models\DeliveryDetailViewModel.cs" />
+    <Compile Include="Areas\Logistics\Models\DeliveryViewModel.cs" />
+    <Compile Include="Areas\Logistics\Models\DonationViewModel.cs" />
     <Compile Include="Areas\Logistics\Models\FreeStockStatusViewModel.cs" />
     <Compile Include="Areas\Logistics\Models\FreeStockSummaryModel.cs" />
+    <Compile Include="Areas\Logistics\Models\LocalPurchaseDetailViewModel.cs" />
+    <Compile Include="Areas\Logistics\Models\ReceiptAllocationViewModel.cs" />
+    <Compile Include="Areas\Logistics\Models\GRNViewModel.cs" />
     <Compile Include="Areas\Logistics\Models\SIAllocation.cs" />
     <Compile Include="Areas\Logistics\Models\Hub.cs" />
     <Compile Include="Areas\EarlyWarning\Models\RequestDetailEdit.cs" />
@@ -483,9 +517,18 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Areas\Logistics\Models\HubDto.cs" />
+    <Compile Include="Areas\Logistics\Models\UtilizationDetailViewModel.cs" />
+    <Compile Include="Areas\Logistics\Models\UtilizationViewModel.cs" />
+    <Compile Include="Areas\Logistics\Models\WoredaStockDistributionWithDetailViewModel.cs" />
+    <Compile Include="Areas\Procurement\Controllers\BidProposalController.cs" />
     <Compile Include="Areas\Procurement\Controllers\BidAdministrationController.cs" />
     <Compile Include="Areas\Procurement\Controllers\ContractAdministrationController.cs" />
+    <Compile Include="Areas\Procurement\Controllers\FetchDataController.cs" />
     <Compile Include="Areas\Procurement\Models\BidPlanDetailViewModel.cs" />
+    <Compile Include="Areas\Procurement\Models\PaymentRequestPercentageViewModel.cs" />
+    <Compile Include="Areas\Procurement\Models\PaymentRequestViewModel.cs" />
+    <Compile Include="Areas\Procurement\Models\SummarizedNumbersViewModel.cs" />
+    <Compile Include="Areas\Procurement\Models\TransportBidQuotationHeaderViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\TransportOrderDispatchViewModel.cs" />
     <Compile Include="Areas\Procurement\Controllers\HomeController.cs" />
     <Compile Include="Areas\Procurement\Controllers\WoredaHubController.cs" />
@@ -529,25 +572,32 @@
     <Compile Include="Areas\Procurement\Models\WinnersByBidViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\WoredaHierarchyViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\WoredaHubBinding.cs" />
-    <Compile Include="Areas\Procurement\Controllers\PaymentRequestController.cs" />
     <Compile Include="Areas\Procurement\Models\WoredaHubLinkBinding.cs" />
     <Compile Include="Areas\Procurement\Models\WoredaHubLinkViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\WoredaHubViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\WoredasInCurrentContract.cs" />
     <Compile Include="Areas\Procurement\ProcurementAreaRegistration.cs" />
+    <Compile Include="Areas\PSNP\Controllers\DashboardController.cs" />
     <Compile Include="Areas\PSNP\Controllers\HomeController.cs" />
     <Compile Include="Areas\PSNP\Controllers\RegionalPSNPPlanDetailController.cs" />
     <Compile Include="Areas\PSNP\Controllers\RegionalPSNPPledgeController.cs" />
+    <Compile Include="Areas\PSNP\Models\PSNPRequetViewModel.cs" />
+    <Compile Include="Areas\PSNP\Models\PSNPRequisitionViewModel.cs" />
     <Compile Include="Areas\PSNP\Models\RegionalPSNPPlan.cs" />
     <Compile Include="Areas\PSNP\PSNPAreaRegistration.cs" />
     <Compile Include="Areas\PSNP\Controllers\RegionalPSNPPlanController.cs" />
-    <Compile Include="Areas\Report\Controllers\HomeController.cs" />
-    <Compile Include="Areas\Report\Controllers\SMSController.cs" />
+    <Compile Include="Areas\Regional\Controllers\FetchDataController.cs" />
+    <Compile Include="Areas\Regional\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Regional\Models\DashboardData.cs" />
+    <Compile Include="Areas\Regional\Models\ImportantNumbers.cs" />
+    <Compile Include="Areas\Regional\RegionalAreaRegistration.cs" />
+    <Compile Include="Areas\Report\Controllers\ReportHomeController.cs" />
     <Compile Include="Areas\Report\ReportAreaRegistration.cs" />
     <Compile Include="Areas\Settings\Controllers\AdminDashboardController.cs" />
     <Compile Include="Areas\Settings\Controllers\HomeController.cs" />
     <Compile Include="Areas\Settings\Controllers\LogController.cs" />
     <Compile Include="Areas\Settings\Controllers\UsersController.cs" />
+    <Compile Include="Areas\Settings\Models\CaseTeam.cs" />
     <Compile Include="Areas\Settings\Models\ChangePasswordModel.cs" />
     <Compile Include="Areas\Settings\Models\ForgetPasswordRequestModel.cs" />
     <Compile Include="Areas\Settings\Models\ForgotPasswordModel.cs" />
@@ -567,6 +617,7 @@
       <DependentUpon>CatsMasterDataSet.xsd</DependentUpon>
     </Compile>
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\SMSGatewayController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Areas\EarlyWarning\Controllers\HomeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -580,6 +631,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>CTSDataSet.xsd</DependentUpon>
     </Compile>
+    <Compile Include="dataset.cs">
+      <DependentUpon>dataset.xsd</DependentUpon>
+    </Compile>
     <Compile Include="dataset.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -587,11 +641,12 @@
     </Compile>
     <Compile Include="Filters\LocalizationFilter.cs" />
     <Compile Include="Helpers\CatsAuthorize.cs" />
+    <Compile Include="Helpers\CatsGlobals.cs" />
     <Compile Include="Helpers\DateHelpers.cs" />
+    <Compile Include="Helpers\DistributionHelper.cs" />
     <Compile Include="Helpers\HtmlExtensions.cs" />
     <Compile Include="Helpers\Hub\AmharicEditorHelper.cs" />
     <Compile Include="Helpers\Hub\CascadeDropDownHelper.cs" />
-    <Compile Include="Helpers\Hub\CatsAuthorize.cs" />
     <Compile Include="Helpers\Hub\ControllerContextExtensions.cs" />
     <Compile Include="Helpers\Hub\CultureHelper.cs" />
     <Compile Include="Helpers\Hub\CurrentUserHelper.cs" />
@@ -613,6 +668,7 @@
     <Compile Include="Helpers\MainMenuExtensionHelper.cs" />
     <Compile Include="Helpers\MD5Hashing.cs" />
     <Compile Include="Helpers\NotificationHelper.cs" />
+    <Compile Include="Helpers\ReportMenuHelper.cs" />
     <Compile Include="Helpers\RoundMonthHelper.cs" />
     <Compile Include="Helpers\SendMail.cs" />
     <Compile Include="Helpers\TemplateHelper.cs" />
@@ -650,6 +706,7 @@
     <Compile Include="Infrastructure\Infrastructure\MD5Hash.cs" />
     <Compile Include="Infrastructure\Infrastructure\SendMail.cs" />
     <Compile Include="Infrastructure\ReportHelper.cs" />
+    <Compile Include="Library\CatsReportServerCredentials.cs" />
     <Compile Include="Library\Controllers\BaseController.cs" />
     <Compile Include="Library\ErrorHandler.cs" />
     <Compile Include="Library\FormsAuthenticationWrapper.cs" />
@@ -696,17 +753,20 @@
     </Compile>
     <Compile Include="ViewModelBinder\DispatchReportViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\DispatchViewModelBinder.cs" />
+    <Compile Include="ViewModelBinder\DonationViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\FDPViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\GiftCertificateViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\HRDViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\HubAllocationViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\NeedAssessmentViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\NotificationViewModelBinder.cs" />
+    <Compile Include="ViewModelBinder\ReceiptAllocationViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\RequestViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\RequisitionViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\TransporterListViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\TransportOrderViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\TransportRequisitionViewModelBinder.cs" />
+    <Compile Include="ViewModelBinder\UtilizationViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\vwTransportOrderViewModelBinder.cs" />
     <Compile Include="Web References\ReportPortal\Reference.cs">
       <AutoGen>True</AutoGen>
@@ -1003,6 +1063,15 @@
     <Content Include="Content\bootstrap-responsive.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Dashboard\dashboardcomponents.css" />
+    <Content Include="Content\images\CATS.png" />
+    <Content Include="Content\images\CatsLogo.ico" />
+    <Content Include="Content\images\CATS_Blue.ico" />
+    <Content Include="Content\Login\App.css" />
+    <Content Include="Content\Login\bootstrap.min.css" />
+    <Content Include="Content\Login\bootstrab.min.js" />
+    <Content Include="Content\Login\Login.js" />
+    <Content Include="Content\Login\Login.css" />
     <Content Include="Content\css\custom-theme\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\css\custom-theme\images\ui-bg_flat_10_aaaaaa_40x100.png" />
     <Content Include="Content\css\custom-theme\images\ui-bg_flat_75_ffffff_40x100.png" />
@@ -1197,6 +1266,7 @@
     <Content Include="Content\kendo\2013.1.319\Uniform\slider-v.gif" />
     <Content Include="Content\kendo\2013.1.319\Uniform\sprite%402x.png" />
     <Content Include="Content\kendo\2013.1.319\Uniform\sprite.png" />
+    <Content Include="Content\Login\App.js" />
     <Content Include="Content\ng-grid.css" />
     <Content Include="Content\ng-table.css" />
     <Content Include="Content\PrintReport.css" />
@@ -1256,6 +1326,11 @@
     <Content Include="Content\themes\base\minified\jquery.ui.tabs.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
     <Content Include="Content\themes\dashboard.css" />
+    <Content Include="Content\themes\default\bootstrap-responsive.css" />
+    <Content Include="Content\themes\default\bootstrap-responsive.min.css" />
+    <Content Include="Content\themes\default\bootstrap.css" />
+    <Content Include="Content\themes\default\bootstrap.min.css" />
+    <Content Include="Content\themes\default\index.html" />
     <Content Include="Content\Workflow\jquery-1.8.0.js" />
     <Content Include="Content\Workflow\jquery-ui-1.8.23.custom.js" />
     <Content Include="Content\Workflow\workflow.js" />
@@ -1321,6 +1396,7 @@
     <Content Include="Scripts\2013.1.219\telerik.window.min.js" />
     <Content Include="Scripts\angular.min.js" />
     <Content Include="Scripts\angular\angular-dragdrop.min.js" />
+    <Content Include="Scripts\angular\angular-kendo.js" />
     <Content Include="Scripts\angular\angular-resource.js" />
     <Content Include="Scripts\angular\angular.js" />
     <Content Include="Scripts\angular\css\bootstrap.min.css" />
@@ -1372,7 +1448,6 @@
     <Content Include="Areas\Procurement\Views\RFQ\EditStart.cshtml" />
     <Content Include="Areas\Procurement\Views\PriceQuotation\Index.cshtml" />
     <Content Include="Areas\Procurement\Views\PriceQuotation\EditStart.cshtml" />
-    <Content Include="Areas\Procurement\Views\PriceQuotation\Edit.cshtml" />
     <Content Include="Areas\Logistics\Views\TransportRequisition\Approve.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\HRD\Create.cshtml" />
     <Content Include="Content\kendo\2013.1.319\images\KendoUI.ttf" />
@@ -1396,13 +1471,10 @@
     <Content Include="Areas\EarlyWarning\Views\Request\Edit.cshtml" />
     <Content Include="Areas\Procurement\Views\Shared\_RFQFilterPartial.cshtml" />
     <Content Include="Areas\Procurement\Views\TransportBidPlan\_BidPlanLeftBar.cshtml" />
-    <Content Include="Areas\Procurement\Views\Bid\ApprovedBids.cshtml" />
-    <Content Include="Areas\Procurement\Views\Bid\AllBids.cshtml" />
     <Content Include="Areas\Procurement\Views\DispatchLocations\_DispatchLocationsLeftBar.cshtml" />
     <Content Include="Areas\Settings\Views\Users\UserProfile.cshtml">
       <SubType>Code</SubType>
     </Content>
-    <Content Include="Areas\Procurement\Views\Bid\ApprovedBids.cshtml" />
     <!--<Content Include="Areas\Procurement\Views\Bid\CurrentBids.cshtml" />-->
     <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\Details.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Request\_RegionalRequestLeftBar.cshtml" />
@@ -1488,6 +1560,11 @@
     <Content Include="Areas\EarlyWarning\Views\NeedAssessment\AddNeedAssessment.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Plan\Edit.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\HRD\CreateHRD.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Plan\_PlanLeftBar.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\DonorCoverage\Create.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\DonorCoverage\Detail.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\DonorCoverage\Index.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\DonorCoverage\AddWoreda.cshtml" />
     <None Include="Areas\EarlyWarning\Views\PrintableReports\HRD\HRDDatasetForPrint.xsd">
       <SubType>Designer</SubType>
       <Generator>MSDataSetGenerator</Generator>
@@ -1588,13 +1665,12 @@
     <Content Include="Areas\Procurement\Views\TransportList\Index.cshtml" />
     <Content Include="Areas\Procurement\Views\TransportList\TransporterBidDetail.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Request\NewIdps.cshtml" />
-    <Content Include="Areas\Logistics\Views\Distribution\Index.cshtml" />
-    <Content Include="Areas\Logistics\Views\Distribution\Dispatches.cshtml" />
-    <Content Include="Areas\Procurement\Views\PaymentRequest\Index.cshtml" />
+    <Content Include="Areas\Logistics\Views\Delivery\Index.cshtml" />
+    <Content Include="Areas\Logistics\Views\Delivery\Dispatches.cshtml" />
     <Content Include="Areas\Procurement\Views\Shared\_GenerateWinnersIgnitor.cshtml" />
-    <Content Include="Areas\Logistics\Views\Distribution\ReceiveGRN.cshtml" />
-    <Content Include="Areas\Logistics\Views\Distribution\EditGRN.cshtml" />
-    <Content Include="Areas\Logistics\Views\Distribution\ReceivingNote.cshtml" />
+    <Content Include="Areas\Logistics\Views\Delivery\ReceiveGRN.cshtml" />
+    <Content Include="Areas\Logistics\Views\Delivery\EditGRN.cshtml" />
+    <Content Include="Areas\Logistics\Views\Delivery\ReceivingNote.cshtml" />
     <Content Include="Areas\Procurement\Views\BidWinner\Index.cshtml" />
     <Content Include="Areas\Procurement\Views\BidWinner\Details.cshtml" />
     <Content Include="Areas\Procurement\Views\BidWinner\Edit.cshtml" />
@@ -1603,24 +1679,63 @@
       <SubType>Code</SubType>
     </Content>
     <Content Include="Areas\Procurement\Views\BidWinner\SignedTransporterContract.cshtml" />
-    <Content Include="Areas\Procurement\Views\PaymentRequest\Create.cshtml" />
     <Content Include="Areas\WorkflowManager\Views\ProcessTemplate\Copy of Detail.cshtml" />
     <Content Include="Areas\Procurement\Views\Bid\WoredasWithOutBidOffer.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Request\RegionalRequestsPieChart.cshtml" />
     <Content Include="Areas\Procurement\Views\Bid\WoredaWithOutBidOfferFilterParial.cshtml" />
-    <Content Include="Areas\Logistics\Views\Distribution\_DeliveryNotes.cshtml" />
+    <Content Include="Areas\Logistics\Views\Delivery\_DeliveryNotes.cshtml" />
     <Content Include="Areas\Procurement\Views\BidWinner\ListOfWinners.cshtml" />
+    <Content Include="Areas\Logistics\Views\Delivery\DiscripancyAction.cshtml" />
     <Content Include="Areas\Procurement\Views\BidAdministration\Index.cshtml" />
     <Content Include="Areas\Procurement\Views\BidAdministration\LeftBar.cshtml" />
     <Content Include="Areas\Procurement\Views\BidAdministration\_WoredasWithoutOffer.cshtml" />
     <Content Include="Areas\Procurement\Views\BidAdministration\WithoutRFQ.cshtml" />
+    <Content Include="Areas\Procurement\Views\PriceQuotation\BidProposalHeader.cshtml" />
+    <Content Include="Areas\Procurement\Views\BidProposal\Index.cshtml" />
+    <Content Include="Areas\Procurement\Views\PriceQuotation\Details.cshtml" />
+    <Content Include="Areas\Procurement\Views\PriceQuotation\Create.cshtml" />
     <Content Include="Areas\Procurement\Views\BidAdministration\_BidPlanDetail.cshtml" />
     <Content Include="Areas\Procurement\Views\TransportOrder\TransportContract.cshtml">
       <SubType>Code</SubType>
     </Content>
     <Content Include="Areas\Report\Views\Web.config" />
-    <Content Include="Areas\Logistics\Views\Distribution\DiscripancyAction.cshtml" />
-    <Content Include="Areas\Report\Views\SMS\Index.cshtml" />
-    <Content Include="Areas\Report\Views\SMS\Copy of Index.cshtml" />
+    <Content Include="Areas\Logistics\Views\Delivery\DiscripancyAction.cshtml" />
+    <Content Include="Areas\Report\Views\ReportHome\Index.cshtml" />
+    <Content Include="Content\themes\default\variables.less" />
+    <Content Include="Areas\Procurement\Views\PriceQuotation\Winners.cshtml" />
+    <Content Include="Areas\Procurement\Views\PriceQuotation\Edit_proposal.cshtml" />
+    <Content Include="Areas\Report\Views\ReportHome\Index.cshtml" />
+    <Content Include="Content\themes\default\variables.less" />
+    <Content Include="Areas\Settings\Views\Users\add.cshtml" />
+    <Content Include="Areas\Logistics\Views\WoredaStockDistribution\Index.cshtml" />
+    <Content Include="Areas\Logistics\Views\WoredaStockDistribution\_DistributionByAge.cshtml" />
+    <Content Include="Areas\Logistics\Views\WoredaStockDistribution\_DistributionByBeneficiary.cshtml" />
+    <Content Include="Areas\Logistics\Views\WoredaStockDistribution\Create.cshtml" />
+    <Content Include="Areas\Logistics\Views\DeliveryReconcile\Index.cshtml" />
+    <Content Include="Areas\Logistics\Views\LocalPurchase\Create.cshtml" />
+    <Content Include="Areas\Logistics\Views\LocalPurchase\Index.cshtml" />
+    <Content Include="Areas\Regional\Views\Web.config" />
+    <Content Include="Areas\Regional\Views\Home\Index.cshtml" />
+    <Content Include="Areas\Logistics\Views\LocalPurchase\Details.cshtml" />
+    <Content Include="Areas\Logistics\Views\Donation\AddNewDonationPlan.cshtml" />
+    <Content Include="Areas\Logistics\Views\Donation\Index.cshtml" />
+    <Content Include="Areas\Logistics\Views\Donation\addNewDonation.cshtml" />
+    <Content Include="Areas\Logistics\Views\ReciptPlanForLoan\Create.cshtml" />
+    <Content Include="Areas\Logistics\Views\ReciptPlanForLoan\Index.cshtml" />
+    <Content Include="Areas\Logistics\Views\ReciptPlanForLoan\Edit.cshtml" />
+    <Content Include="Areas\Logistics\Views\ReciptPlanForLoan\Detail.cshtml" />
+    <Content Include="Areas\Logistics\Views\ReciptPlanForLoan\ReciptPlan.cshtml" />
+    <Content Include="Areas\Logistics\Views\Transfer\Create.cshtml" />
+    <Content Include="Areas\Logistics\Views\Transfer\Index.cshtml" />
+    <Content Include="Areas\Logistics\Views\Transfer\Detail.cshtml" />
+    <Content Include="Areas\Logistics\Views\Transfer\Edit.cshtml" />
+    <Content Include="Areas\Logistics\Views\Donation\View1.cshtml" />
+    <Content Include="Areas\PSNP\Views\Home\Copy of Index.cshtml" />
+    <Content Include="Areas\Finance\Views\Web.config" />
+    <Content Include="Areas\Finance\Views\Home\Index.cshtml" />
+    <Content Include="Areas\Logistics\Views\TransporterPerformance\Index.cshtml" />
+    <Content Include="Areas\Logistics\Views\PaymentRequest\Index.cshtml" />
+    <Content Include="Areas\Finance\Views\TransportOrderPerformance\Index.cshtml" />
     <None Include="dataset.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>dataset.Designer.cs</LastGenOutput>
@@ -2033,7 +2148,7 @@
     <Content Include="Areas\Logistics\Views\DispatchAllocation\Index.cshtml" />
     <Content Include="Areas\Logistics\Views\DispatchAllocation\HubAllocation.cshtml" />
     <Content Include="Areas\Logistics\Views\DispatchAllocation\AllocateProjectCode.cshtml" />
-    <Content Include="Areas\Logistics\Views\DispatchAllocation\hub.cshtml" />
+    <Content Include="Areas\Logistics\Views\DispatchAllocation\Hub.cshtml" />
     <Content Include="Areas\Logistics\Views\DispatchAllocation\main.cshtml" />
     <None Include="CTSDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
@@ -2312,6 +2427,7 @@
     <Content Include="Views\Account\ForgetPasswordRequest.cshtml" />
     <Content Include="Views\Shared\_LogOnPartial.cshtml" />
     <Content Include="Views\Shared\_Version.cshtml" />
+    <Content Include="Views\Dashboard\RegionalRequestsPieChart.cshtml" />
     <Content Include="Web References\ReportPortal\ActiveState.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </Content>
@@ -2410,13 +2526,19 @@
     <Content Include="Web References\ReportPortal\Warning.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </Content>
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\Finance\Models\" />
+    <Folder Include="Areas\Finance\Views\Shared\" />
     <Folder Include="Areas\Hub\Models\generated\" />
     <Folder Include="Areas\Hub\Views\ReleaseNotes\" />
     <Folder Include="Areas\Localization\Models\" />
     <Folder Include="Areas\PSNP\Views\Shared\" />
+    <Folder Include="Areas\Regional\Views\Shared\" />
     <Folder Include="Areas\Report\Models\" />
     <Folder Include="Areas\Report\Views\Shared\" />
     <Folder Include="Areas\Settings\Views\Setting\" />
@@ -2482,9 +2604,17 @@
       <Project>{083d007c-dd3b-42c0-b11c-a7015a909085}</Project>
       <Name>Cats.Services.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Services\Cats.Services.Dashboard\Cats.Services.Dashboard.csproj">
+      <Project>{e72bb7c7-71ac-4c26-9c91-8d29f086879e}</Project>
+      <Name>Cats.Services.Dashboard</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Services\Cats.Services.EarlyWarning\Cats.Services.EarlyWarning.csproj">
       <Project>{a08cf415-6299-41ab-9d69-c3ce9b49ccd6}</Project>
       <Name>Cats.Services.EarlyWarning</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Services\Cats.Services.Finance\Cats.Services.Finance.csproj">
+      <Project>{38f50f60-c3bb-4287-8723-ee8b398204a7}</Project>
+      <Name>Cats.Services.Finance</Name>
     </ProjectReference>
     <ProjectReference Include="..\Services\Cats.Services.Hub\Cats.Services.Hub.csproj">
       <Project>{9fba0283-ee84-49f2-8305-f038bbf29658}</Project>
@@ -2599,14 +2729,17 @@
     <Content Include="App_GlobalResources\GridLocalization.en-US.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>GridLocalization.en-US.designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="App_GlobalResources\GridLocalization.de-DE.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>GridLocalization.de-DE.designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="App_GlobalResources\GridLocalization.da-DK.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>GridLocalization.da-DK.designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="App_GlobalResources\GridLocalization.bg-BG.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
@@ -2747,9 +2880,9 @@
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <Import Project="$(SolutionDir)\.octopack\OctoPack.targets" />
   <!-- <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />-->
-  <Target Name="BeforeBuild">
+  <!--Target Name="BeforeBuild">
     <TransformXml Source="Web.config" Transform="Web.$(Configuration).config" Destination="Web.config" />
-  </Target>
+  </Target>-->
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

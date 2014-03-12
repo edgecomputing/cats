@@ -8,6 +8,10 @@ using Cats.Models.ViewModels;
 using Cats.Services.Security;
 using log4net;
 using Cats.Helpers;
+using NetSqlAzMan.Interfaces;
+using NetSqlAzMan;
+using System.Configuration;
+using NetSqlAzMan.Cache;
 
 namespace Cats.Controllers
 {
@@ -21,7 +25,7 @@ namespace Cats.Controllers
 
 
         public AccountController(IUserAccountService userAccountService, ILog log,
-                                 IForgetPasswordRequestService forgetPasswordRequestService,ISettingService settingService)
+                                 IForgetPasswordRequestService forgetPasswordRequestService, ISettingService settingService)
         {
             _userAccountService = userAccountService;
             _log = log;
@@ -30,6 +34,7 @@ namespace Cats.Controllers
 
         }
 
+        [HttpGet]
         [AllowAnonymous]
         public ActionResult Login()
         {
@@ -42,16 +47,57 @@ namespace Cats.Controllers
         public ActionResult Login(LoginModel model, string returnUrl)
         {
             // Check if the supplied credentials are correct.
+            ViewBag.HasError = false;
             try
             {
                 if (_userAccountService.Authenticate(model.UserName, model.Password))
                 {
                     FormsAuthentication.SetAuthCookie(model.UserName, model.RememberMe);
 
-                    // Will be refactored
-                    Session["User"] = _userAccountService.GetUserDetail(model.UserName);
-                   
-                    ////
+                    // Will be refactored                              
+                    var user = _userAccountService.GetUserDetail(model.UserName);
+                    user.LogginDate = DateTime.Now;
+                    user.NumberOfLogins += 1;
+                    // Session["USER_PROFILE"] = user;
+                    _userAccountService.UpdateUser(user);
+
+                    // Add user information to session variable to avoid frequent trip to the databas
+                    var service = (IUserAccountService)DependencyResolver.Current.GetService(typeof(IUserAccountService));
+                    var userInfo = service.GetUserInfo(model.UserName);
+                    Session["USER_INFO"] = userInfo;
+
+                    // Before trying to go and look for user permissions, check if the user is logged in or not
+                    
+                    //// Load user permissions
+                    IAzManStorage storage = new SqlAzManStorage(ConfigurationManager.ConnectionStrings["CatsContext"].ConnectionString);
+                    IAzManDBUser dbUser = storage.GetDBUser(user.UserName);
+
+                    // Early Warning user permissions
+                    UserPermissionCache earlyWarningPermissionCache = new UserPermissionCache(storage, CatsGlobals.CATS, CatsGlobals.EARLY_WARNING, dbUser, true, false);
+                    Session[CatsGlobals.EARLY_WARNING_PERMISSIONS] = earlyWarningPermissionCache;
+
+
+                    //PSNP user permission
+                    UserPermissionCache psnpPermissionCache = new UserPermissionCache(storage, CatsGlobals.CATS, CatsGlobals.PSNP, dbUser, true, false);
+                    Session[CatsGlobals.PSNP_PERMISSIONS] = psnpPermissionCache;
+
+                    // Logistics user permissions
+                    UserPermissionCache logisticsPermissionCache = new UserPermissionCache(storage, CatsGlobals.CATS, CatsGlobals.LOGISTICS, dbUser, true, false);
+                    Session[CatsGlobals.LOGISTICS_PERMISSIONS] = logisticsPermissionCache;
+
+                    // Procurement user permissions
+                    UserPermissionCache procurementPermissionCache = new UserPermissionCache(storage, CatsGlobals.CATS, CatsGlobals.PROCUREMENT, dbUser, true, false);
+                    Session[CatsGlobals.PROCUREMENT_PERMISSIONS] = procurementPermissionCache;
+
+                    // Hub user permissions
+                    UserPermissionCache hubPermissionCache = new UserPermissionCache(storage, CatsGlobals.CATS, CatsGlobals.HUB, dbUser, true, false);
+                    Session[CatsGlobals.HUB_PERMISSIONS] = hubPermissionCache;
+
+                    // Regional user permissions
+                    UserPermissionCache regionalPermissionCache = new UserPermissionCache(storage, CatsGlobals.CATS, CatsGlobals.REGION, dbUser, true, false);
+                    Session[CatsGlobals.REGION_PERMISSIONS] = regionalPermissionCache;
+
+                    // Whatever permission we are going to have!
 
                     // TODO: Review user permission code
                     //string[] authorization = service.GetUserPermissions(service.GetUserInfo(model.UserName).UserAccountId, "Administrator", "Manage User Account");
@@ -71,15 +117,16 @@ namespace Cats.Controllers
 
                 ModelState.AddModelError("", exception.Message);
             }
-
+            //ViewBag.HasError = false;
             // If we got this far, something failed, redisplay form            
-            return View(model);
+            return View();
         }
 
         [Authorize]
 
         public ActionResult Logout()
         {
+            Session.Clear();
             FormsAuthentication.SignOut();
             return RedirectToAction("Index", "Home");
         }
@@ -110,11 +157,11 @@ namespace Cats.Controllers
         {
             if (ModelState.IsValid)
             {
-                
+
                 var user = _userAccountService.GetUserDetail(model.UserName);
                 if (user != null)
                 {
-                   
+
                     var forgetPasswordRequest = new ForgetPasswordRequest()
                     {
                         Completed = false,
@@ -163,13 +210,13 @@ namespace Cats.Controllers
                         {
                             ViewBag.ErrorMessage = "The user name or email address you provided is not correct. Please try again.";
                         }
-                      
+
                     }
-                    
+
                     ModelState.AddModelError("Sucess", "Email has Sent to your email Address.");
                 }
-              
-               // ModelState.AddModelError("Errors", "Invalid User Name " + model.UserName);
+
+                // ModelState.AddModelError("Errors", "Invalid User Name " + model.UserName);
             }
             return View();
         }
@@ -215,13 +262,11 @@ namespace Cats.Controllers
 
         public ActionResult RedirectToHub()
         {
-           
             return Redirect("/hub");
         }
         public ActionResult Administration()
         {
             return Redirect("/home");
         }
-        
     }
 }

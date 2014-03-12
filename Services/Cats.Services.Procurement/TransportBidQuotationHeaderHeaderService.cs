@@ -20,7 +20,7 @@ namespace Cats.Services.Procurement
 
         public bool AddTransportBidQuotationHeader(TransportBidQuotationHeader transportBidQuotationHeader)
         {
-            _unitOfWork.TransportbidQuotationHeaderRepository.Add(transportBidQuotationHeader);
+            _unitOfWork.TransportBidQuotationHeaderRepository.Add(transportBidQuotationHeader);
             _unitOfWork.Save();
             return true;
         }
@@ -28,7 +28,7 @@ namespace Cats.Services.Procurement
         public bool UpdateTransportBidQuotationHeader(TransportBidQuotationHeader transportBidQuotationHeader)
         {
             if (transportBidQuotationHeader == null) return false;
-            _unitOfWork.TransportbidQuotationHeaderRepository.Edit(transportBidQuotationHeader);
+            _unitOfWork.TransportBidQuotationHeaderRepository.Edit(transportBidQuotationHeader);
             _unitOfWork.Save();
             return true;
         }
@@ -36,35 +36,35 @@ namespace Cats.Services.Procurement
         public bool DeleteTransportBidQuotationHeader(TransportBidQuotationHeader transportBidQuotationHeader)
         {
             if (transportBidQuotationHeader == null) return false;
-            _unitOfWork.TransportbidQuotationHeaderRepository.Delete(transportBidQuotationHeader);
+            _unitOfWork.TransportBidQuotationHeaderRepository.Delete(transportBidQuotationHeader);
             _unitOfWork.Save();
             return true;
         }
 
         public bool DeleteById(int id)
         {
-            var transportBidQuotationHeader = _unitOfWork.TransportbidQuotationHeaderRepository.FindById(id);
+            var transportBidQuotationHeader = _unitOfWork.TransportBidQuotationHeaderRepository.FindById(id);
             return DeleteTransportBidQuotationHeader(transportBidQuotationHeader);
         }
 
         public TransportBidQuotationHeader FindById(int id)
         {
-            return _unitOfWork.TransportbidQuotationHeaderRepository.FindById(id);
+            return _unitOfWork.TransportBidQuotationHeaderRepository.FindById(id);
         }
 
         public List<TransportBidQuotationHeader> GetAllTransportBidQuotationHeader()
         {
-            return _unitOfWork.TransportbidQuotationHeaderRepository.GetAll();
+            return _unitOfWork.TransportBidQuotationHeaderRepository.GetAll();
         }
 
         public List<TransportBidQuotationHeader> FindBy(Expression<Func<TransportBidQuotationHeader, bool>> predicate)
         {
-            return _unitOfWork.TransportbidQuotationHeaderRepository.FindBy(predicate);
+            return _unitOfWork.TransportBidQuotationHeaderRepository.FindBy(predicate);
         }
 
         public IEnumerable<TransportBidQuotationHeader> Get(Expression<Func<TransportBidQuotationHeader, bool>> filter = null, Func<IQueryable<TransportBidQuotationHeader>, IOrderedQueryable<TransportBidQuotationHeader>> orderBy = null, string includeProperties = "")
         {
-            return _unitOfWork.TransportbidQuotationHeaderRepository.Get(filter, orderBy, includeProperties);
+            return _unitOfWork.TransportBidQuotationHeaderRepository.Get(filter, orderBy, includeProperties);
         }
     }
 }

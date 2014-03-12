@@ -1,6 +1,7 @@
 ﻿@using System.Collections
 @using Cats.Helpers
 @using Cats.Models
+@using Cats.Security
 @using Cats.Services.Security
 @using Kendo.Mvc.UI
 @using LanguageHelpers.Localization
@@ -20,7 +21,7 @@
 {
     @Html.EarlyWarningOperationButton(
                         @Url.Action("Detail", "HRD", new {id = ViewBag.HRDID}),
-                        EarlyWarningCheckAccess.Operation.New_HRD, "<i class=\"icon-list\"></i>", "btn", "btn_back_to_list")
+                        EarlyWarningConstants.Operation.New_HRD, "<i class=\"icon-list\"></i>", "btn", "btn_back_to_list")
 }
 
 @section LeftBar

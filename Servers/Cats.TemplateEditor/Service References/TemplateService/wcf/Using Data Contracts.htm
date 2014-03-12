@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html dir="ltr" xmlns="http://www.w3.org/1999/xhtml" lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8"><link rel="canonical" href="http://msdn.microsoft.com/en-us/library/ms733127%28v=vs.110%29.aspx">
+        <title>Using Data Contracts</title>
+
+
+
+
+<meta name="DCS.dcsuri" content="/en-us/library/vstudio/ms733127(d=default,l=en-us,v=vs.110).aspx">
+
+<meta name="NormalizedUrl" content="http://msdn.microsoft.com/en-us/library/vstudio/ms733127(d=default,l=en-us,v=vs.110).aspx">
+
+<meta name="VotingContextUrl" content="http://msdn.microsoft.com/en-us/library/vstudio/ms733127(d=default,l=en-us,v=vs.110).aspx">
+
+<meta name="MN" content="FB361397-10:27:41 PM">
+
+<meta name="Search.ShortId" content="ms733127">
+
+<meta name="Ms.Locale" content="en-us">
+
+
+
+
+
+
+
+        
+    
+    
+
+    <link rel="stylesheet" type="text/css" href="Using%20Data%20Contracts_files/Combined.css"><script src="Using%20Data%20Contracts_files/ms2.js" async="" type="text/javascript"></script><script class="mtps-injected">try {
+/**/
+(window.MTPS || (window.MTPS = {})).cdnDomains || (window.MTPS.cdnDomains = { 
+	"image": "http://i.msdn.microsoft.com", 
+	"js": "http://i2.msdn.microsoft.com", 
+	"css": "http://i3.msdn.microsoft.com"
+});
+/**/
+} finally { MTPS._injectNextScript_0 && MTPS._injectNextScript_0(); }</script><script src="Using%20Data%20Contracts_files/jquery-1.js" class="mtps-injected"></script><script class="mtps-injected">try {
+//
+  var literalNormalizedUrl = '/en-us/library/vstudio/ms733127(d=default,l=en-us,v=vs.110).aspx';
+  var wt_nvr_ru = 'WT_NVR_RU';
+  var wt_fpcdom = '.microsoft.com';
+  var wt_domlist = 'msdn.microsoft.com';
+  var wt_pathlist = '';
+  var wt_paramlist = 'DCSext.mtps_devcenter';
+  var wt_siteid = 'MSDN';
+  var gDomain = 'm.webtrends.com';
+  var gDcsId = 'dcsmgru7m99k7mqmgrhudo0k8_8c6m';
+  var gFpc = 'WT_FPC';
+
+
+
+  if (document.cookie.indexOf(gFpc + "=") == -1) {
+    var wtidJs = document.createElement("script");
+    wtidJs.src = "//" + gDomain + "/" + gDcsId + "/wtid.js";
+    document.getElementsByTagName("head")[0].appendChild(wtidJs);
+  }
+
+
+
+  var detectedLocale = 'en-us';
+  var wtsp = '_msdn_';
+  var gTrackEvents = '0';
+/**/
+} finally { MTPS._injectNextScript_2 && MTPS._injectNextScript_2(); }</script><script class="mtps-injected">try {
+/**/
+  var omni_guid = "48dad315-7e96-4291-a70a-281afbc1880f";
+/**/
+} finally { MTPS._injectNextScript_3 && MTPS._injectNextScript_3(); }</script><script src="Using%20Data%20Contracts_files/Combined_002.js" class="mtps-injected"></script><link media="print" type="text/css" rel="stylesheet" href="Using%20Data%20Contracts_files/PrintView.css"><script class="mtps-injected">try {
+//
+    var searchWidgetJsUri = 'http://i2.services.social.microsoft.com/search/Widgets/SearchBox.jss?boxid=HeaderSearchTextBox&btnid=HeaderSearchButton&brand=MSDN&loc=en-us&Refinement=195&watermark=Visual%20Studio&focusOnInit=false&iroot=vstudio';
+  //
+} finally { MTPS._injectNextScript_5 && MTPS._injectNextScript_5(); }</script><script src="Using%20Data%20Contracts_files/Combined_003.js" class="mtps-injected"></script><script id="mscom.srch.searchBox" src="Using%20Data%20Contracts_files/SearchBox.js"></script><script src="Using%20Data%20Contracts_files/jquery.js" class="mtps-injected"></script><script src="Using%20Data%20Contracts_files/Combined.js" class="mtps-injected"></script><script src="Using%20Data%20Contracts_files/broker.js"></script><script class="mtps-injected">try {
+$(document).ready(function() {
+        try {
+            var token = $("#globalRequestVerification input[name='__RequestVerificationToken']").clone();
+            $("#siteFeedbackForm").append(token);
+        } catch(err) {
+            
+        }
+    });
+} finally { MTPS._injectNextScript_9 && MTPS._injectNextScript_9(); }</script><script src="Using%20Data%20Contracts_files/sf_main.htm" type="text/javascript"></script><script src="Using%20Data%20Contracts_files/javascript.js" type="text/javascript"></script><script src="Using%20Data%20Contracts_files/client" type="text/javascript"></script><script src="Using%20Data%20Contracts_files/affiliate_client.js" id="jw_00" type="text/javascript"></script><script src="Using%20Data%20Contracts_files/sf_preloader.jsp" type="text/javascript"></script><script src="Using%20Data%20Contracts_files/sf_code.jsp" type="text/javascript"></script><script src="Using%20Data%20Contracts_files/base_single_icon.js" type="text/javascript"></script><script class="dealply_content_script" id="__DealPly__471707.0686062086" type="text/javascript" src="Using%20Data%20Contracts_files/-1426426751.js"></script></head>
+    <body class="library">
+        <div id="page">
+            
+            
+  
+            
+    
+
+
+
+<header class="ux-header">
+  <div class="header-top-bar">
+    <a class="header-top-bar-brand-logo" href="http://msdn.microsoft.com/vstudio" title="Visual Studio Home"></a>
+
+    <ul class="header-top-bar-links" id="ux-nav-user">
+      <li class="header-top-bar-search-box">
+        
+
+<form name="HeaderSearchForm" id="HeaderSearchForm" method="get" action="http://social.msdn.microsoft.com/search/en-us/">
+  <input value="Search Visual Studio with Bing" style="color: rgb(170, 170, 170); font-style: italic;" autocomplete="off" id="HeaderSearchTextBox" name="query" title="Search Visual Studio with Bing" class="TextBoxSearch" type="text">
+  <input id="RefinementId" name="refinement" title="195" value="195" type="hidden">
+  <input id="HeaderSearchButton" title="Search Visual Studio with Bing" class="header-search-button" value="" type="submit">
+  
+<div style="display: none; text-align: left; border: 1px solid buttonshadow; position: absolute; z-index: 1000; padding: 2px; background-color: rgb(255, 255, 255); color: rgb(255, 255, 255); font-family: &quot;Segoe UI&quot;,Helvetica,Garuda,Arial,sans-serif; font-size: 13.3333px;" id="SearchFlyoutContainer"><div id="SuggestionContainer"><ul style="list-style: none outside none; padding: 4px 2px 0px 1px; cursor: pointer; margin: 1px; white-space: nowrap;"></ul></div></div></form>
+      </li>
+
+
+
+      <li class="last">
+        <a class="scarabLink" id="idPPScarab" href="https://login.live.com/login.srf?wa=wsignin1.0&amp;rpsnv=12&amp;ct=1388212062&amp;rver=6.0.5276.0&amp;wp=MCLBI&amp;wlcxt=msdn%24msdn%24msdn&amp;wreply=http%3a%2f%2fmsdn.microsoft.com%2fen-us%2flibrary%2fvstudio%2fms733127%2528v%3dvs.110%2529.aspx&amp;lc=1033&amp;id=254354&amp;mkt=en-US" title="Sign in">
+          <span id="idPPScarabSIT">Sign in</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+  <div class="header-nav-container">
+  <nav class="header-nav">
+    <ul class="header-nav-pri">
+          <li><a href="http://msdn.microsoft.com/en-us/vstudio/aa718325.aspx" title="Home">Home</a></li>
+          <li><a href="http://code.msdn.microsoft.com/vstudio" title="Samples">Samples</a></li>
+          <li><a href="http://msdn.microsoft.com/en-us/vstudio/jj672990.aspx" title="Languages">Languages</a></li>
+          <li><a href="http://visualstudiogallery.msdn.microsoft.com/" title="Extensions">Extensions</a></li>
+          <li class="header-nav-selected"><a href="http://msdn.microsoft.com/en-us/library/vstudio" title="Documentation">Documentation</a></li>
+          <li><a href="http://social.msdn.microsoft.com/forums/vstudio/en-us/home?category=visualstudio%2cvslanguages%2cvstfs%2cnetdevelopment%2cvsarch" title="Forums">Forums</a></li>
+
+    </ul>
+  
+      <ul class="header-nav-sec">
+            <li>
+                <a href="http://msdn.microsoft.com/en-us/library/vstudio/dd831853%28v=vs.120%29.aspx" title="Visual Studio">Visual Studio</a>
+            </li>
+            <li>
+                <a href="http://msdn.microsoft.com/en-us/library/vstudio/fda2bad5%28v=vs.120%29.aspx" title="Team Foundation Server ALM">Team Foundation Server ALM</a>
+            </li>
+            <li class="header-nav-selected">
+                <a href="http://msdn.microsoft.com/en-us/library/vstudio/w0x726c2.aspx" title=".NET Framework">.NET Framework</a>
+            </li>
+      </ul>
+  </nav>
+  
+    <div class="header-nav-trial">
+      <a href="http://go.microsoft.com/fwlink/?LinkId=309297&amp;clcid=0x409&amp;slcid=0x409" title="Get started for free" class="trialanchor">
+        <span class="trialtext">Get started for free</span>
+        <span class="trialimage"></span>
+      </a>
+    </div>
+  </div>
+</header>
+
+
+
+
+        
+            <div id="body">
+                
+
+
+
+
+
+
+    <div style="width: 280px; max-width: 480px;" id="leftNav">
+
+
+
+<div id="tocnav">
+            <div style="padding-left: 0px;" class="toclevel0" data-toclevel="0">
+<a class="toc_collapsed" href="#"></a><a data-tochassubtree="true" href="http://msdn.microsoft.com/en-us/library/vstudio/jj159353.aspx" id="jj159081_MSDN.10_en-us" mtpsaliasid="" mtpsassetid="a94d4841-3f89-438a-bead-d707357ad950_MSDN.10_en-us" mtpsshortid="jj159353_MSDN.10_en-us" title="Developer Tools and Languages">Developer Tools and Languages</a>            </div>
+            <div style="padding-left: 0px;" class="toclevel0" data-toclevel="0">
+<a class="toc_collapsed" href="#"></a><a data-tochassubtree="true" href="http://msdn.microsoft.com/en-us/library/vstudio/w0x726c2%28v=vs.110%29.aspx" id="aa139616_MSDN.10_en-us" mtpsaliasid="" mtpsassetid="f61f02f2-2f20-483d-8f56-a9c8f3a54986_MSDN.10_en-us" mtpsshortid="w0x726c2_VS.110_en-us" title=".NET Framework 4.5">.NET Framework 4.5</a>            </div>
+            <div style="padding-left: 0px;" class="toclevel0" data-toclevel="0">
+<a class="toc_collapsed" href="#"></a><a data-tochassubtree="true" href="http://msdn.microsoft.com/en-us/library/vstudio/hh156542%28v=vs.110%29.aspx" id="hh781599_VS.110_en-us" mtpsaliasid="" mtpsassetid="26e3d285-24c3-435c-a797-9fe5affb8525_VS.110_en-us" mtpsshortid="hh156542_VS.110_en-us" title="Development Guide">Development Guide</a>            </div>
+            <div style="padding-left: 0px;" class="toclevel0" data-toclevel="0">
+<a class="toc_collapsed" href="#"></a><a data-tochassubtree="true" href="http://msdn.microsoft.com/en-us/library/vstudio/hh156544%28v=vs.110%29.aspx" id="hh830425_VS.110_en-us" mtpsaliasid="" mtpsassetid="96aad289-58bc-4389-89d0-b09dfc4d5c58_VS.110_en-us" mtpsshortid="hh156544_VS.110_en-us" title="Service-Oriented Applications with WCF">Service-Oriented Applications with WCF</a>            </div>
+            <div data-childrenloaded="true" style="padding-left: 0px;" class="toclevel0" data-toclevel="0">
+<a class="toc_expanded" href="#"></a><a data-tochassubtree="true" href="http://msdn.microsoft.com/en-us/library/vstudio/dd456779%28v=vs.110%29.aspx" id="gg281726_VS.110_en-us" mtpsaliasid="" mtpsassetid="149348a6-bf82-4ccc-9604-fa7cc88c0749_VS.110_en-us" mtpsshortid="dd456779_VS.110_en-us" title="Windows Communication Foundation (WCF)">Windows Communication Foundation (WCF)</a>            </div><div data-toclevel="1" style="padding-left: 13px;"><span class="toc_empty"></span><a href="http://msdn.microsoft.com/en-us/library/vstudio/dd456789%28v=vs.110%29.aspx" title="What's New in Windows Communication Foundation 4.5">What's New in Windows Communication Foundation 4.5</a></div><div data-toclevel="1" style="padding-left: 13px;"><span class="toc_empty"></span><a href="http://msdn.microsoft.com/en-us/library/vstudio/hh309266%28v=vs.110%29.aspx" title="WCF Simplification Features">WCF Simplification Features</a></div><div data-toclevel="1" style="padding-left: 13px;"><span class="toc_empty"></span><a href="http://msdn.microsoft.com/en-us/library/vstudio/ms730846%28v=vs.110%29.aspx" title="Guide to the Documentation">Guide to the Documentation</a></div><div data-toclevel="1" style="padding-left: 13px;"><a class="toc_collapsed" href="#"></a><a href="http://msdn.microsoft.com/en-us/library/vstudio/ms731190%28v=vs.110%29.aspx" title="Conceptual Overview">Conceptual Overview</a></div><div data-childrenloaded="true" data-toclevel="1" style="padding-left: 13px;"><a class="toc_expanded" href="#"></a><a href="http://msdn.microsoft.com/en-us/library/vstudio/ms734712%28v=vs.110%29.aspx" title="Getting Started Tutorial">Getting Started Tutorial</a></div><div data-toclevel="2" style="padding-left: 26px;"><span class="toc_empty"></span><a href="http://msdn.microsoft.com/en-us/library/vstudio/ms731835%28v=vs.110%29.aspx" title="How to: Define a Service Contract">How to: Define a Service Contract</a></div><div data-toclevel="2" style="padding-left: 26px;"><span class="toc_empty"></span><a href="http://msdn.microsoft.com/en-us/library/vstudio/ms734686%28v=vs.110%29.aspx" title="How to: Implement a Service Contract">How to: Implement a Service Contract</a></div><div data-toclevel="2" style="padding-left: 26px;"><span class="toc_empty"></span><a href="http://msdn.microsoft.com/en-us/library/vstudio/ms730935%28v=vs.110%29.aspx" title="How to: Host and Run a Basic Service">How to: Host and Run a Basic Service</a></div><div data-toclevel="2" style="padding-left: 26px;"><span class="toc_empty"></span><a href="http://msdn.microsoft.com/en-us/library/vstudio/ms733133%28v=vs.110%29.aspx" title="How to: Create a Client">How to: Create a Client</a></div><div data-toclevel="2" style="padding-left: 26px;"><span class="toc_empty"></span><a href="http://msdn.microsoft.com/en-us/library/vstudio/ms734663%28v=vs.110%29.aspx" title="How to: Configure a Client">How to: Configure a Client</a></div><div data-toclevel="2" style="padding-left: 26px;"><span class="toc_empty"></span><a href="http://msdn.microsoft.com/en-us/library/vstudio/ms730144%28v=vs.110%29.aspx" title="How to: Use a Client">How to: Use a Client</a></div><div data-toclevel="2" style="padding-left: 26px;"><span class="toc_empty"></span><a href="http://msdn.microsoft.com/en-us/library/vstudio/bb924513%28v=vs.110%29.aspx" title="Troubleshooting the Getting Started Tutorial">Troubleshooting the Getting Started Tutorial</a></div><div data-childrenloaded="true" data-toclevel="1" style="padding-left: 13px;"><a class="toc_expanded" href="#"></a><a href="http://msdn.microsoft.com/en-us/library/vstudio/ms731067%28v=vs.110%29.aspx" title="Basic WCF Programming">Basic WCF Programming</a></div><div data-toclevel="2" style="padding-left: 26px;"><span class="toc_empty"></span><a href="http://msdn.microsoft.com/en-us/library/vstudio/ms732098%28v=vs.110%29.aspx" title="Basic Programming Lifecycle">Basic Programming Lifecycle</a></div><div data-toclevel="2" style="padding-left: 26px;"><a class="toc_collapsed" href="#"></a><a href="http://msdn.microsoft.com/en-us/library/vstudio/ms729746%28v=vs.110%29.aspx" title="Designing and Implementing Services">Designing and Implementing Services</a></div><div data-toclevel="2" style="padding-left: 26px;"><a class="toc_collapsed" href="#"></a><a href="http://msdn.microsoft.com/en-us/library/vstudio/ms733830%28v=vs.110%29.aspx" title="Configuring Services">Configuring Services</a></div><div data-toclevel="2" style="padding-left: 26px;"><a class="toc_collapsed" href="#"></a><a href="http://msdn.microsoft.com/en-us/library/vstudio/ms730158%28v=vs.110%29.aspx" title="Hosting Services">Hosting Services</a></div><div data-toclevel="2" style="padding-left: 26px;"><a class="toc_collapsed" href="#"></a><a href="http://msdn.microsoft.com/en-us/library/vstudio/ms730825%28v=vs.110%29.aspx" title="Building Clients">Building Clients</a></div><div data-toclevel="2" style="padding-left: 26px;"><span class="toc_empty"></span><a href="http://msdn.microsoft.com/en-us/library/vstudio/ms789051%28v=vs.110%29.aspx" title="Introduction to Extensibility">Introduction to Extensibility</a></div><div data-toclevel="2" style="padding-left: 26px;"><span class="toc_empty"></span><a href="http://msdn.microsoft.com/en-us/library/vstudio/aa702636%28v=vs.110%29.aspx" title="WCF Troubleshooting Quickstart">WCF Troubleshooting Quickstart</a></div><div data-toclevel="2" style="padding-left: 26px;"><span class="toc_empty"></span><a href="http://msdn.microsoft.com/en-us/library/vstudio/gg281715%28v=vs.110%29.aspx" title="WCF Error Handling">WCF Error Handling</a></div><div data-toclevel="2" style="padding-left: 26px;"><span class="toc_empty"></span><a href="http://msdn.microsoft.com/en-us/library/vstudio/jj823172%28v=vs.110%29.aspx" title="WCF and ASP.NET Web API">WCF and ASP.NET Web API</a></div>
+            <div data-childrenloaded="true" style="padding-left: 13px;" class="toclevel0" data-toclevel="1">
+<a class="toc_expanded" href="#"></a><a data-tochassubtree="true" href="http://msdn.microsoft.com/en-us/library/vstudio/ms733103%28v=vs.110%29.aspx" id="gg281758_VS.110_en-us" mtpsaliasid="" mtpsassetid="9b4368ca-0bd3-40dc-a539-bcd5779cee5f_VS.110_en-us" mtpsshortid="ms733103_VS.110_en-us" title="WCF Feature Details">WCF Feature Details</a>            </div><div data-childrenloaded="true" data-toclevel="2" style="padding-left: 26px;"><a class="toc_collapsed" href="#"></a><a href="http://msdn.microsoft.com/en-us/library/vstudio/dd456788%28v=vs.110%29.aspx" title="Workflow Services">Workflow Services</a></div><div data-toclevel="3" style="padding-left: 39px; display: none;"><span class="toc_empty"></span><a href="http://msdn.microsoft.com/en-us/library/vstudio/dd456797%28v=vs.110%29.aspx" title="Workflow Services Overview">Workflow Services Overview</a></div><div data-toclevel="3" style="padding-left: 39px; display: none;"><span class="toc_empty"></span><a href="http://msdn.microsoft.com/en-us/library/vstudio/ff432975%28v=vs.110%29.aspx" title="Creating a Long-running Workflow Service">Creating a Long-running Workflow Service</a></div><div data-toclevel="3" style="padding-left: 39px; display: none;"><span class="toc_empty"></span><a href="http://msdn.microsoft.com/en-us/library/vstudio/ee358739%28v=vs.110%29.aspx" title="Messaging Activities">Messaging Activities</a></div><div data-toclevel="3" style="padding-left: 39px; display: none;"><span class="toc_empty"></span><a href="http://msdn.microsoft.com/en-us/library/vstudio/ee358734%28v=vs.110%29.aspx" title="How to: Create a Workflow Service with Messaging Activities">How to: Create a Workflow Service with Messaging Activities</a></div><div data-toclevel="3" style="padding-left: 39px; display: none;"><span class="toc_empty"></span><a href="http://msdn.microsoft.com/en-us/library/vstudio/ee358741%28v=vs.110%29.aspx" title="Using Contracts in Workflow">Using Contracts in Workflow</a></div><div data-toclevel="3" style="padding-left: 39px; display: none;"><a class="toc_collapsed" href="#"></a><a href="http://msdn.microsoft.com/en-us/library/vstudio/ee358721%28v=vs.110%29.aspx" title="Hosting Workflow Services Overview">Hosting Workflow Services Overview</a></div><div data-toclevel="3" style="padding-left: 39px; display: none;"><a class="toc_collapsed" href="#"></a><a href="http://msdn.microsoft.com/en-us/library/vstudio/dd456784%28v=vs.110%29.aspx" title="Correlation">Correlation</a></div><div data-toclevel="3" style="padding-left: 39px; display: none;"><span class="toc_empty"></span><a href="http://msdn.microsoft.com/en-us/library/vstudio/ff452697%28v=vs.110%29.aspx" title="Accessing OperationContext from a Workflow Service">Accessing OperationContext from a Workflow Service</a></div><div data-toclevel="3" style="padding-left: 39px; display: none;"><span class="toc_empty"></span><a href="http://msdn.microsoft.com/en-us/library/vstudio/ff452450%28v=vs.110%29.aspx" title="Accessing Identity Information inside a Workflow Service">Accessing Identity Information inside a Workflow Service</a></div><div data-toclevel="3" style="padding-left: 39px; display: none;"><span class="toc_empty"></span><a href="http://msdn.microsoft.com/en-us/library/vstudio/ff742829%28v=vs.110%29.aspx" title="Configuring Serialization in a Workflow Service">Configuring Serialization in a Workflow Service</a></div><div data-toclevel="3" style="padding-left: 39px; display: none;"><span class="toc_empty"></span><a href="http://msdn.microsoft.com/en-us/library/vstudio/ee523057%28v=vs.110%29.aspx" title="How To: Access a Service From a Workflow Application">How To: Access a Service From a Workflow Application</a></div><div data-toclevel="3" style="padding-left: 39px; display: none;"><span class="toc_empty"></span><a href="http://msdn.microsoft.com/en-us/library/vstudio/ee358761%28v=vs.110%29.aspx" title="Out-of-Order Message Processing">Out-of-Order Message Processing</a></div><div data-toclevel="3" style="padding-left: 39px; display: none;"><span class="toc_empty"></span><a href="http://msdn.microsoft.com/en-us/library/vstudio/ff470395%28v=vs.110%29.aspx" title="Flowing Transactions into and out of Workflow Services">Flowing Transactions into and out of Workflow Services</a></div><div data-toclevel="3" style="padding-left: 39px; display: none;"><span class="toc_empty"></span><a href="http://msdn.microsoft.com/en-us/library/vstudio/ee517414%28v=vs.110%29.aspx" title="Changing the Cache Sharing Levels for Send Activities">Changing the Cache Sharing Levels for Send Activities</a></div><div data-toclevel="3" style="padding-left: 39px; display: none;"><span class="toc_empty"></span><a href="http://msdn.microsoft.com/en-us/library/vstudio/dn148257%28v=vs.110%29.aspx" title="Contract First Workflow Service Development">Contract First Workflow Service Development</a></div><div data-toclevel="3" style="padding-left: 39px; display: none;"><span class="toc_empty"></span><a href="http://msdn.microsoft.com/en-us/library/vstudio/hh305676%28v=vs.110%29.aspx" title="How to: Create a workflow service that consumes an existing service contract">How to: Create a workflow service that consumes an existing service contract</a></div><div data-toclevel="3" style="padding-left: 39px; display: none;"><span class="toc_empty"></span><a href="http://msdn.microsoft.com/en-us/library/vstudio/ff729672%28v=vs.110%29.aspx" title="How to: Create a Workflow Service That Calls Another Workflow Service">How to: Create a Workflow Service That Calls Another Workflow Service</a></div><div data-toclevel="3" style="padding-left: 39px; display: none;"><span class="toc_empty"></span><a href="http://msdn.microsoft.com/en-us/library/vstudio/gg281653%28v=vs.110%29.aspx" title="Adding a Service Reference in a Workflow Solution">Adding a Service Reference in a Workflow Solution</a></div><div data-toclevel="3" style="padding-left: 39px; display: none;"><span class="toc_empty"></span><a href="http://msdn.microsoft.com/en-us/library/vstudio/hh314045%28v=vs.110%29.aspx" title="Side by Side Versioning in WorkflowServiceHost">Side by Side Versioning in WorkflowServiceHost</a></div><div data-toclevel="2" style="padding-left: 26px;"><a class="toc_collapsed" href="#"></a><a href="http://msdn.microsoft.com/en-us/library/vstudio/ms733107%28v=vs.110%29.aspx" title="Endpoints: Addresses, Bindings, and Contracts">Endpoints: Addresses, Bindings, and Contracts</a></div>
+            <div style="padding-left: 26px;" class="toclevel0" data-toclevel="2">
+<a class="toc_collapsed" href="#"></a><a data-tochassubtree="true" href="http://msdn.microsoft.com/en-us/library/vstudio/ms730035%28v=vs.110%29.aspx" id="gg281792_VS.110_en-us" mtpsaliasid="" mtpsassetid="0f03c635-f3e7-4c5c-9463-3cb0135e221e_VS.110_en-us" mtpsshortid="ms730035_VS.110_en-us" title="Data Transfer and Serialization">Data Transfer and Serialization</a>            </div>
+            <div style="padding-left: 39px;" data-childrenloaded="true" class="toclevel1 current" data-toclevel="3">
+<a class="toc_expanded" href="#"></a><a data-tochassubtree="true" href="http://msdn.microsoft.com/en-us/library/vstudio/ms733127%28v=vs.110%29.aspx" id="gg281754_VS.110_en-us" mtpsaliasid="" mtpsassetid="a3ae7b21-c15c-4c05-abd8-f483bcbf31af_VS.110_en-us" mtpsshortid="ms733127_VS.110_en-us" title="Using Data Contracts">Using Data Contracts</a>            </div>
+            <div style="padding-left: 52px;" class="toclevel2" data-toclevel="4">
+<span class="toc_empty"></span><a href="http://msdn.microsoft.com/en-us/library/vstudio/ms733811%28v=vs.110%29.aspx" mtpsaliasid="" mtpsassetid="" mtpsshortid="" title="How to: Create a Basic Data Contract for a Class or Structure">How to: Create a Basic Data Contract for a Class or Structure</a>            </div>
+            <div style="padding-left: 52px;" class="toclevel2" data-toclevel="4">
+<span class="toc_empty"></span><a href="http://msdn.microsoft.com/en-us/library/vstudio/cc656732%28v=vs.110%29.aspx" mtpsaliasid="" mtpsassetid="" mtpsshortid="" title="Serializable Types">Serializable Types</a>            </div>
+            <div style="padding-left: 52px;" class="toclevel2" data-toclevel="4">
+<span class="toc_empty"></span><a href="http://msdn.microsoft.com/en-us/library/vstudio/ms731045%28v=vs.110%29.aspx" mtpsaliasid="" mtpsassetid="" mtpsshortid="" title="Data Contract Names">Data Contract Names</a>            </div>
+            <div style="padding-left: 52px;" class="toclevel2" data-toclevel="4">
+<span class="toc_empty"></span><a href="http://msdn.microsoft.com/en-us/library/vstudio/ms734767%28v=vs.110%29.aspx" mtpsaliasid="" mtpsassetid="" mtpsshortid="" title="Data Contract Equivalence">Data Contract Equivalence</a>            </div>
+            <div style="padding-left: 52px;" class="toclevel2" data-toclevel="4">
+<span class="toc_empty"></span><a href="http://msdn.microsoft.com/en-us/library/vstudio/ms729813%28v=vs.110%29.aspx" mtpsaliasid="" mtpsassetid="" mtpsshortid="" title="Data Member Order">Data Member Order</a>            </div>
+            <div style="padding-left: 52px;" class="toclevel2" data-toclevel="4">
+<span class="toc_empty"></span><a href="http://msdn.microsoft.com/en-us/library/vstudio/ms730167%28v=vs.110%29.aspx" mtpsaliasid="" mtpsassetid="" mtpsshortid="" title="Data Contract Known Types">Data Contract Known Types</a>            </div>
+            <div style="padding-left: 52px;" class="toclevel2" data-toclevel="4">
+<span class="toc_empty"></span><a href="http://msdn.microsoft.com/en-us/library/vstudio/ms731083%28v=vs.110%29.aspx" mtpsaliasid="" mtpsassetid="" mtpsshortid="" title="Forward-Compatible Data Contracts">Forward-Compatible Data Contracts</a>            </div>
+            <div style="padding-left: 52px;" class="toclevel2" data-toclevel="4">
+<span class="toc_empty"></span><a href="http://msdn.microsoft.com/en-us/library/vstudio/ms731138%28v=vs.110%29.aspx" mtpsaliasid="" mtpsassetid="" mtpsshortid="" title="Data Contract Versioning">Data Contract Versioning</a>            </div>
+            <div style="padding-left: 52px;" class="toclevel2" data-toclevel="4">
+<span class="toc_empty"></span><a href="http://msdn.microsoft.com/en-us/library/vstudio/ms733734%28v=vs.110%29.aspx" mtpsaliasid="" mtpsassetid="" mtpsshortid="" title="Version-Tolerant Serialization Callbacks">Version-Tolerant Serialization Callbacks</a>            </div>
+            <div style="padding-left: 52px;" class="toclevel2" data-toclevel="4">
+<span class="toc_empty"></span><a href="http://msdn.microsoft.com/en-us/library/vstudio/aa347792%28v=vs.110%29.aspx" mtpsaliasid="" mtpsassetid="" mtpsshortid="" title="Data Member Default Values">Data Member Default Values</a>            </div>
+            <div style="padding-left: 52px;" class="toclevel2" data-toclevel="4">
+<span class="toc_empty"></span><a href="http://msdn.microsoft.com/en-us/library/vstudio/cc656708%28v=vs.110%29.aspx" mtpsaliasid="" mtpsassetid="" mtpsshortid="" title="Interoperable Object References">Interoperable Object References</a>            </div>
+            <div style="padding-left: 52px;" class="toclevel2" data-toclevel="4">
+<a class="toc_collapsed" href="#"></a><a data-tochassubtree="true" href="http://msdn.microsoft.com/en-us/library/vstudio/ms731923%28v=vs.110%29.aspx" id="gg281763_VS.110_en-us" mtpsaliasid="" mtpsassetid="" mtpsshortid="" title="Types Supported by the Data Contract Serializer">Types Supported by the Data Contract Serializer</a>            </div><div data-toclevel="2" style="padding-left: 26px;"><a class="toc_collapsed" href="#"></a><a href="http://msdn.microsoft.com/en-us/library/vstudio/ms731193%28v=vs.110%29.aspx" title="Sessions, Instancing, and Concurrency">Sessions, Instancing, and Concurrency</a></div><div data-toclevel="2" style="padding-left: 26px;"><a class="toc_collapsed" href="#"></a><a href="http://msdn.microsoft.com/en-us/library/vstudio/ms729350%28v=vs.110%29.aspx" title="Transports">Transports</a></div><div data-toclevel="2" style="padding-left: 26px;"><a class="toc_collapsed" href="#"></a><a href="http://msdn.microsoft.com/en-us/library/vstudio/ms732355%28v=vs.110%29.aspx" title="Queues and Reliable Sessions">Queues and Reliable Sessions</a></div><div data-toclevel="2" style="padding-left: 26px;"><a class="toc_collapsed" href="#"></a><a href="http://msdn.microsoft.com/en-us/library/vstudio/ms730266%28v=vs.110%29.aspx" title="Transactions">Transactions</a></div><div data-toclevel="2" style="padding-left: 26px;"><a class="toc_collapsed" href="#"></a><a href="http://msdn.microsoft.com/en-us/library/vstudio/ms732362%28v=vs.110%29.aspx" title="Security">Security</a></div><div data-toclevel="2" style="padding-left: 26px;"><a class="toc_collapsed" href="#"></a><a href="http://msdn.microsoft.com/en-us/library/vstudio/ms733761%28v=vs.110%29.aspx" title="Peer-to-Peer Networking">Peer-to-Peer Networking</a></div><div data-toclevel="2" style="padding-left: 26px;"><a class="toc_collapsed" href="#"></a><a href="http://msdn.microsoft.com/en-us/library/vstudio/ms731823%28v=vs.110%29.aspx" title="Metadata">Metadata</a></div><div data-toclevel="2" style="padding-left: 26px;"><a class="toc_collapsed" href="#"></a><a href="http://msdn.microsoft.com/en-us/library/vstudio/ms734653%28v=vs.110%29.aspx" title="Clients">Clients</a></div><div data-toclevel="2" style="padding-left: 26px;"><a class="toc_collapsed" href="#"></a><a href="http://msdn.microsoft.com/en-us/library/vstudio/ms729846%28v=vs.110%29.aspx" title="Hosting">Hosting</a></div><div data-toclevel="2" style="padding-left: 26px;"><a class="toc_collapsed" href="#"></a><a href="http://msdn.microsoft.com/en-us/library/vstudio/bb412175%28v=vs.110%29.aspx" title="Partial Trust">Partial Trust</a></div><div data-toclevel="2" style="padding-left: 26px;"><a class="toc_collapsed" href="#"></a><a href="http://msdn.microsoft.com/en-us/library/vstudio/ms730017%28v=vs.110%29.aspx" title="Interoperability and Integration">Interoperability and Integration</a></div><div data-toclevel="2" style="padding-left: 26px;"><a class="toc_collapsed" href="#"></a><a href="http://msdn.microsoft.com/en-us/library/vstudio/bb412169%28v=vs.110%29.aspx" title="WCF Web HTTP Programming Model">WCF Web HTTP Programming Model</a></div><div data-toclevel="2" style="padding-left: 26px;"><a class="toc_collapsed" href="#"></a><a href="http://msdn.microsoft.com/en-us/library/vstudio/bb412202%28v=vs.110%29.aspx" title="WCF Syndication">WCF Syndication</a></div><div data-toclevel="2" style="padding-left: 26px;"><a class="toc_collapsed" href="#"></a><a href="http://msdn.microsoft.com/en-us/library/vstudio/bb412173%28v=vs.110%29.aspx" title="AJAX Integration and JSON Support">AJAX Integration and JSON Support</a></div><div data-toclevel="2" style="padding-left: 26px;"><a class="toc_collapsed" href="#"></a><a href="http://msdn.microsoft.com/en-us/library/vstudio/dd456782%28v=vs.110%29.aspx" title="WCF Discovery">WCF Discovery</a></div><div data-toclevel="2" style="padding-left: 26px;"><a class="toc_collapsed" href="#"></a><a href="http://msdn.microsoft.com/en-us/library/vstudio/ee517421%28v=vs.110%29.aspx" title="Routing">Routing</a></div><div data-toclevel="2" style="padding-left: 26px;"><span class="toc_empty"></span><a href="http://msdn.microsoft.com/en-us/library/vstudio/hh556231%28v=vs.110%29.aspx" title="WCF and Internationalized Domain Names">WCF and Internationalized Domain Names</a></div><div data-toclevel="2" style="padding-left: 26px;"><a class="toc_collapsed" href="#"></a><a href="http://msdn.microsoft.com/en-us/library/vstudio/hh674271%28v=vs.110%29.aspx" title="WCF and WebSockets">WCF and WebSockets</a></div><div data-toclevel="1" style="padding-left: 13px;"><a class="toc_collapsed" href="#"></a><a href="http://msdn.microsoft.com/en-us/library/vstudio/ms733848%28v=vs.110%29.aspx" title="Extending WCF">Extending WCF</a></div><div data-toclevel="1" style="padding-left: 13px;"><a class="toc_collapsed" href="#"></a><a href="http://msdn.microsoft.com/en-us/library/vstudio/ms731197%28v=vs.110%29.aspx" title="Guidelines and Best Practices">Guidelines and Best Practices</a></div><div data-toclevel="1" style="padding-left: 13px;"><a class="toc_collapsed" href="#"></a><a href="http://msdn.microsoft.com/en-us/library/vstudio/ms731055%28v=vs.110%29.aspx" title="Administration and Diagnostics">Administration and Diagnostics</a></div><div data-toclevel="1" style="padding-left: 13px;"><span class="toc_empty"></span><a href="http://msdn.microsoft.com/en-us/library/vstudio/ms733890%28v=vs.110%29.aspx" title="System Requirements">System Requirements</a></div><div data-toclevel="1" style="padding-left: 13px;"><span class="toc_empty"></span><a href="http://msdn.microsoft.com/en-us/library/vstudio/aa702743%28v=vs.110%29.aspx" title="Operating System Resources Required by WCF">Operating System Resources Required by WCF</a></div><div data-toclevel="1" style="padding-left: 13px;"><span class="toc_empty"></span><a href="http://msdn.microsoft.com/en-us/library/vstudio/aa751852%28v=vs.110%29.aspx" title="Troubleshooting Setup Issues">Troubleshooting Setup Issues</a></div><div data-toclevel="1" style="padding-left: 13px;"><a class="toc_collapsed" href="#"></a><a href="http://msdn.microsoft.com/en-us/library/vstudio/bb552361%28v=vs.110%29.aspx" title="Using the WCF Development Tools">Using the WCF Development Tools</a></div><div data-toclevel="1" style="padding-left: 13px;"><a class="toc_collapsed" href="#"></a><a href="http://msdn.microsoft.com/en-us/library/vstudio/ms732015%28v=vs.110%29.aspx" title="Windows Communication Foundation Tools">Windows Communication Foundation Tools</a></div><div data-toclevel="1" style="padding-left: 13px;"><a class="toc_collapsed" href="#"></a><a href="http://msdn.microsoft.com/en-us/library/vstudio/dd483346%28v=vs.110%29.aspx" title="Windows Communication Foundation Samples">Windows Communication Foundation Samples</a></div><div data-toclevel="1" style="padding-left: 13px;"><span class="toc_empty"></span><a href="http://msdn.microsoft.com/en-us/library/vstudio/dd456781%28v=vs.110%29.aspx" title="Windows Communication Foundation Glossary">Windows Communication Foundation Glossary</a></div><div data-toclevel="1" style="padding-left: 13px;"><span class="toc_empty"></span><a href="http://msdn.microsoft.com/en-us/library/vstudio/ms733770%28v=vs.110%29.aspx" title="General Reference">General Reference</a></div><div data-toclevel="1" style="padding-left: 13px;"><span class="toc_empty"></span><a href="http://msdn.microsoft.com/en-us/library/vstudio/ms733801%28v=vs.110%29.aspx" title="Feedback and Community">Feedback and Community</a></div><div data-toclevel="1" style="padding-left: 13px;"><span class="toc_empty"></span><a href="http://msdn.microsoft.com/en-us/library/vstudio/ms733927%28v=vs.110%29.aspx" title="Privacy Information">Privacy Information</a></div>
+</div>
+        
+
+        
+
+        
+        
+        <div style="height: 3356px;" id="toc-resizable-ew" class="toc-resizable-ew"></div>
+        
+
+<a style="left: 280px; display: inline-block;" id="NavigationResize" href="javascript:void(0)">
+    <img style="" class="cl_nav_resize_open" src="Using%20Data%20Contracts_files/ImageSprite.png" title="Expand" alt="Expand">
+    <img style="display: none;" class="cl_nav_resize_close" src="Using%20Data%20Contracts_files/ImageSprite.png" title="Minimize" alt="Minimize">
+</a>
+
+
+
+    </div>
+<div style="margin-left: 280px; width: auto;" id="content" class="content">
+
+
+
+
+
+
+
+    
+    
+
+    
+
+    
+
+        
+<div xmlns="http://www.w3.org/1999/xhtml">
+<div class="topic" xmlns="http://www.w3.org/1999/xhtml" xmlns:mtps="http://msdn2.microsoft.com/mtps" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:cs="http://msdn.microsoft.com/en-us/">
+  <h1 class="title">Using Data Contracts</h1><div class="lw_vs"><div id="curversion"><strong>
+            .NET Framework 4.5
+        </strong></div><div id="versionclick"><div id="vsseperator" class="cl_lw_vs_seperator"></div><div><div><a id="vsLink" href="javascript:;">
+                        Other Versions
+                    </a></div><div class="cl_vs_arrow clip10x10"><img class="cl_lw_vs_arrow" id="vsArrow" alt="" src="Using%20Data%20Contracts_files/ImageSprite.png"></div></div><ul style="display: none;" id="vsPanel"><li><a href="http://msdn.microsoft.com/en-us/library/vstudio/ms733127%28v=vs.100%29.aspx" title="">.NET Framework 4</a></li><li><a href="http://msdn.microsoft.com/en-us/library/vstudio/ms733127%28v=vs.90%29.aspx" title="">.NET Framework 3.5</a></li><li><a href="http://msdn.microsoft.com/en-us/library/vstudio/ms733127%28v=vs.85%29.aspx" title="">.NET Framework 3.0</a></li></ul></div><div id="ratingCounterSeperator" class="cl_lw_vs_seperator" style="display: block;"></div><div style="margin: 0px 0px 0px 13px; display: block;" id="ratingCounter">
+        <span id="rcA" class="ratingText">
+            9 out of 15 rated this helpful <span id="rateThisPrefix">- </span><a id="rateThisTopic" href="#feedback" title="Rate this topic">Rate this topic</a>
+            
+        </span>
+    </div></div><div style="clear:both;"></div>
+  
+  <div id="mainSection">
+    <div id="mainBody">
+      <p>
+        
+      </p>
+      <p>A <em>data contract</em> is a formal agreement between a 
+service and a client that abstractly describes the data to be exchanged.
+ That is, to communicate, the client and the service do not have to 
+share the same types, only the same data contracts. A data contract 
+precisely defines, for each parameter or return type, what data is 
+serialized (turned into XML) to be exchanged.</p>
+      <h2 class="heading">Data Contract Basics</h2>
+      <div id="sectionSection0" class="section">
+        <p>
+						Windows Communication Foundation (WCF) uses a serialization engine
+ called the Data Contract Serializer by default to serialize and 
+deserialize data (convert it to and from XML). All .NET Framework 
+primitive types, such as integers and strings, as well as certain types 
+treated as primitives, such as <a href="http://msdn.microsoft.com/en-us/library/vstudio/system.datetime%28v=vs.110%29.aspx">DateTime</a> and <a href="http://msdn.microsoft.com/en-us/library/vstudio/system.xml.xmlelement%28v=vs.110%29.aspx">XmlElement</a>,
+ can be serialized with no other preparation and are considered as 
+having default data contracts. Many .NET Framework types also have 
+existing data contracts. For a full list of serializable types, see <a href="http://msdn.microsoft.com/en-us/library/vstudio/ms731923%28v=vs.110%29.aspx">Types Supported by the Data Contract Serializer</a>. </p>
+        <p>New complex types that you create must have a data contract defined for them to be serializable. By default, the <a href="http://msdn.microsoft.com/en-us/library/vstudio/system.runtime.serialization.datacontractserializer%28v=vs.110%29.aspx">DataContractSerializer</a>
+ infers the data contract and serializes all publicly visible types. All
+ public read/write properties and fields of the type are serialized. You
+ can opt out members from serialization by using the <a href="http://msdn.microsoft.com/en-us/library/vstudio/system.runtime.serialization.ignoredatamemberattribute%28v=vs.110%29.aspx">IgnoreDataMemberAttribute</a>. You can also explicitly create a data contract by using <a href="http://msdn.microsoft.com/en-us/library/vstudio/system.runtime.serialization.datacontractattribute%28v=vs.110%29.aspx">DataContractAttribute</a> and <a href="http://msdn.microsoft.com/en-us/library/vstudio/system.runtime.serialization.datamemberattribute%28v=vs.110%29.aspx">DataMemberAttribute</a> attributes. This is normally done by applying the <a href="http://msdn.microsoft.com/en-us/library/vstudio/system.runtime.serialization.datacontractattribute%28v=vs.110%29.aspx">DataContractAttribute</a> attribute to the type. This attribute can be applied to classes, structures, and enumerations. The <a href="http://msdn.microsoft.com/en-us/library/vstudio/system.runtime.serialization.datamemberattribute%28v=vs.110%29.aspx">DataMemberAttribute</a> attribute must then be applied to each member of the data contract type to indicate that it is a <em>data member</em>, that is, it should be serialized. For more information, see <a href="http://msdn.microsoft.com/en-us/library/vstudio/cc656732%28v=vs.110%29.aspx">Serializable Types</a>. </p>
+        <h3 class="subHeading">Example</h3>
+        <div class="subSection">
+          <p>The following example shows a service contract (an interface) to which the <a href="http://msdn.microsoft.com/en-us/library/vstudio/system.servicemodel.servicecontractattribute%28v=vs.110%29.aspx">ServiceContractAttribute</a> and <a href="http://msdn.microsoft.com/en-us/library/vstudio/system.servicemodel.operationcontractattribute%28v=vs.110%29.aspx">OperationContractAttribute</a>
+ attributes have been explicitly applied. The example shows that 
+primitive types do not require a data contract, while a complex type 
+does.</p>
+          
+<div id="code-snippet-1" class="codeSnippetContainer" xmlns="">
+    <div class="codeSnippetContainerTabs">
+        <div class="codeSnippetContainerTabActive" dir="ltr"><a>C#</a></div><div class="codeSnippetContainerTab" dir="ltr"><a href="http://msdn.microsoft.com/en-us/library/vstudio/ms733127%28v=vs.110%29.aspx?cs-save-lang=1&amp;cs-lang=vb#code-snippet-1">VB</a></div>
+    </div>
+    <div class="codeSnippetContainerCodeContainer">
+        <div class="codeSnippetToolBar">
+            <div class="codeSnippetToolBarText">
+                <a name="CodeSnippetCopyLink" style="display: none;" title="Copy to clipboard." href="javascript:if%20(window.epx.codeSnippet)window.epx.codeSnippet.copyCode('CodeSnippetContainerCode_07e0af85-3a29-48c8-a4a7-c4a529349240');">Copy</a>
+            </div>
+        </div>
+        <div id="CodeSnippetContainerCode_07e0af85-3a29-48c8-a4a7-c4a529349240" class="codeSnippetContainerCode" dir="ltr">
+            <div style="color:Black;"><pre>[ServiceContract]
+<span style="color:Blue;">public</span> <span style="color:Blue;">interface</span> ISampleInterface
+{
+    <span style="color:Green;">// No data contract is requred since both the parameter </span>
+    <span style="color:Green;">// and return types are primitive types.</span>
+    [OperationContract]
+    <span style="color:Blue;">double</span> SquareRoot(<span style="color:Blue;">int</span> root);
+
+    <span style="color:Green;">// No Data Contract required because both parameter and return </span>
+    <span style="color:Green;">// types are marked with the SerializableAttribute attribute.</span>
+    [OperationContract]
+    System.Drawing.Bitmap GetPicture(System.Uri pictureUri);
+
+    <span style="color:Green;">// The MyTypes.PurchaseOrder is a complex type, and thus </span>
+    <span style="color:Green;">// requires a data contract.</span>
+    [OperationContract]
+    <span style="color:Blue;">bool</span> ApprovePurchaseOrder(MyTypes.PurchaseOrder po);
+}
+
+</pre></div>
+            
+        </div>
+    </div>
+</div>
+
+          
+          <p>The following example shows how a data contract for the <code>MyTypes.PurchaseOrder</code> type is created by applying the <a href="http://msdn.microsoft.com/en-us/library/vstudio/system.runtime.serialization.datacontractattribute%28v=vs.110%29.aspx">DataContractAttribute</a> and <a href="http://msdn.microsoft.com/en-us/library/vstudio/system.runtime.serialization.datamemberattribute%28v=vs.110%29.aspx">DataMemberAttribute</a> attributes to the class and its members.</p>
+          
+<div id="code-snippet-2" class="codeSnippetContainer" xmlns="">
+    <div class="codeSnippetContainerTabs">
+        <div class="codeSnippetContainerTabActive" dir="ltr"><a>C#</a></div><div class="codeSnippetContainerTab" dir="ltr"><a href="http://msdn.microsoft.com/en-us/library/vstudio/ms733127%28v=vs.110%29.aspx?cs-save-lang=1&amp;cs-lang=vb#code-snippet-2">VB</a></div>
+    </div>
+    <div class="codeSnippetContainerCodeContainer">
+        <div class="codeSnippetToolBar">
+            <div class="codeSnippetToolBarText">
+                <a name="CodeSnippetCopyLink" style="display: none;" title="Copy to clipboard." href="javascript:if%20(window.epx.codeSnippet)window.epx.codeSnippet.copyCode('CodeSnippetContainerCode_ab253d7b-8b76-494d-83c6-3b91366d3488');">Copy</a>
+            </div>
+        </div>
+        <div id="CodeSnippetContainerCode_ab253d7b-8b76-494d-83c6-3b91366d3488" class="codeSnippetContainerCode" dir="ltr">
+            <div style="color:Black;"><pre><span style="color:Blue;">namespace</span> MyTypes
+{
+    [DataContract]
+    <span style="color:Blue;">public</span> <span style="color:Blue;">class</span> PurchaseOrder
+    {
+        <span style="color:Blue;">private</span> <span style="color:Blue;">int</span> poId_value;
+
+        <span style="color:Green;">// Apply the DataMemberAttribute to the property.</span>
+        [DataMember]
+        <span style="color:Blue;">public</span> <span style="color:Blue;">int</span> PurchaseOrderId
+        {
+
+            <span style="color:Blue;">get</span> { <span style="color:Blue;">return</span> poId_value; }
+            <span style="color:Blue;">set</span> { poId_value = value; }
+        }
+    }
+}
+
+</pre></div>
+            
+        </div>
+    </div>
+</div>
+
+          
+        </div>
+        <h3 class="subHeading">Notes</h3>
+        <div class="subSection">
+          <p>The following notes provide items to consider when creating data contracts:</p>
+          <ul>
+            <li class="unordered">
+									The <a href="http://msdn.microsoft.com/en-us/library/vstudio/system.runtime.serialization.ignoredatamemberattribute%28v=vs.110%29.aspx">IgnoreDataMemberAttribute</a> attribute is only honored when used with unmarked types. This includes types that are not marked with one of the <a href="http://msdn.microsoft.com/en-us/library/vstudio/system.runtime.serialization.datacontractattribute%28v=vs.110%29.aspx">DataContractAttribute</a>, <a href="http://msdn.microsoft.com/en-us/library/vstudio/system.serializableattribute%28v=vs.110%29.aspx">SerializableAttribute</a>, <a href="http://msdn.microsoft.com/en-us/library/vstudio/system.runtime.serialization.collectiondatacontractattribute%28v=vs.110%29.aspx">CollectionDataContractAttribute</a>, or <a href="http://msdn.microsoft.com/en-us/library/vstudio/system.runtime.serialization.enummemberattribute%28v=vs.110%29.aspx">EnumMemberAttribute</a> attributes, or marked as serializable by any other means (such as <a href="http://msdn.microsoft.com/en-us/library/vstudio/system.xml.serialization.ixmlserializable%28v=vs.110%29.aspx">IXmlSerializable</a>). <br><br></li>
+            <li class="unordered">
+									You can apply the <a href="http://msdn.microsoft.com/en-us/library/vstudio/system.runtime.serialization.datamemberattribute%28v=vs.110%29.aspx">DataMemberAttribute</a> attribute to fields, and properties. <br><br></li>
+            <li class="unordered">
+									Member accessibility levels (internal, private, protected, or public) do not affect the data contract in any way.<br><br></li>
+            <li class="unordered">
+									The <a href="http://msdn.microsoft.com/en-us/library/vstudio/system.runtime.serialization.datamemberattribute%28v=vs.110%29.aspx">DataMemberAttribute</a> attribute is ignored if it is applied to static members.<br><br></li>
+            <li class="unordered">
+									During serialization, property-get code is called for property 
+data members to get the value of the properties to be serialized. <br><br></li>
+            <li class="unordered">
+									During deserialization, an uninitialized object is first 
+created, without calling any constructors on the type. Then all data 
+members are deserialized. <br><br></li>
+            <li class="unordered">
+									During deserialization, property-set code is called for 
+property data members to set the properties to the value being 
+deserialized.<br><br></li>
+            <li class="unordered">
+									For a data contract to be valid, it must be possible to 
+serialize all of its data members. For a full list of serializable 
+types, see <a href="http://msdn.microsoft.com/en-us/library/vstudio/ms731923%28v=vs.110%29.aspx">Types Supported by the Data Contract Serializer</a>.<br><br>
+									Generic types are handled in exactly the same way as 
+non-generic types. There are no special requirements for generic 
+parameters. For example, consider the following type.<br><br></li>
+          </ul>
+          
+<div id="code-snippet-3" class="codeSnippetContainer" xmlns="">
+    <div class="codeSnippetContainerTabs">
+        <div class="codeSnippetContainerTabActive" dir="ltr"><a>C#</a></div><div class="codeSnippetContainerTab" dir="ltr"><a href="http://msdn.microsoft.com/en-us/library/vstudio/ms733127%28v=vs.110%29.aspx?cs-save-lang=1&amp;cs-lang=vb#code-snippet-3">VB</a></div>
+    </div>
+    <div class="codeSnippetContainerCodeContainer">
+        <div class="codeSnippetToolBar">
+            <div class="codeSnippetToolBarText">
+                <a name="CodeSnippetCopyLink" style="display: none;" title="Copy to clipboard." href="javascript:if%20(window.epx.codeSnippet)window.epx.codeSnippet.copyCode('CodeSnippetContainerCode_071ceb4a-4bbc-4a8f-87e4-2098882feff1');">Copy</a>
+            </div>
+        </div>
+        <div id="CodeSnippetContainerCode_071ceb4a-4bbc-4a8f-87e4-2098882feff1" class="codeSnippetContainerCode" dir="ltr">
+            <div style="color:Black;"><pre>[DataContract]
+<span style="color:Blue;">public</span> <span style="color:Blue;">class</span> MyGenericType1&lt;T&gt;
+{
+    <span style="color:Green;">// Code not shown.</span>
+}
+
+</pre></div>
+            
+        </div>
+    </div>
+</div>
+
+          
+          <p>This type is serializable whether the type used for the generic type parameter (<em>T</em>)
+ is serializable or not. Because it must be possible to serialize all 
+data members, the following type is serializable only if the generic 
+type parameter is also serializable, as shown in the following code.</p>
+          
+<div id="code-snippet-4" class="codeSnippetContainer" xmlns="">
+    <div class="codeSnippetContainerTabs">
+        <div class="codeSnippetContainerTabActive" dir="ltr"><a>C#</a></div><div class="codeSnippetContainerTab" dir="ltr"><a href="http://msdn.microsoft.com/en-us/library/vstudio/ms733127%28v=vs.110%29.aspx?cs-save-lang=1&amp;cs-lang=vb#code-snippet-4">VB</a></div>
+    </div>
+    <div class="codeSnippetContainerCodeContainer">
+        <div class="codeSnippetToolBar">
+            <div class="codeSnippetToolBarText">
+                <a name="CodeSnippetCopyLink" style="display: none;" title="Copy to clipboard." href="javascript:if%20(window.epx.codeSnippet)window.epx.codeSnippet.copyCode('CodeSnippetContainerCode_ba923d4e-126a-4fc3-abbd-2034369673b1');">Copy</a>
+            </div>
+        </div>
+        <div id="CodeSnippetContainerCode_ba923d4e-126a-4fc3-abbd-2034369673b1" class="codeSnippetContainerCode" dir="ltr">
+            <div style="color:Black;"><pre>[DataContract]
+<span style="color:Blue;">public</span> <span style="color:Blue;">class</span> MyGenericType2&lt;T&gt;
+{
+    [DataMember]
+    T theData;
+}
+
+</pre></div>
+            
+        </div>
+    </div>
+</div>
+
+          
+          <p>For a complete code sample of a WCF service that defines a data contract see the <a href="http://msdn.microsoft.com/en-us/library/vstudio/ms752104%28v=vs.110%29.aspx">Basic Data Contract</a> sample.</p>
+        </div>
+      </div>
+      <h2 class="heading">
+        <span id="seeAlsoNoToggle">See Also</span>
+      </h2>
+      <div id="seeAlsoSection" class="section">
+        <h4 class="subHeading">Tasks</h4>
+        <a href="http://msdn.microsoft.com/en-us/library/vstudio/ms733811%28v=vs.110%29.aspx">How to: Create a Basic Data Contract for a Class or Structure</a>
+        <br>
+        <h4 class="subHeading">Reference</h4>
+        <a href="http://msdn.microsoft.com/en-us/library/vstudio/system.runtime.serialization.datamemberattribute%28v=vs.110%29.aspx">DataMemberAttribute</a>
+        <br>
+        <a href="http://msdn.microsoft.com/en-us/library/vstudio/system.runtime.serialization.datacontractattribute%28v=vs.110%29.aspx">DataContractAttribute</a>
+        <br>
+        <h4 class="subHeading">Concepts</h4>
+        <a href="http://msdn.microsoft.com/en-us/library/vstudio/cc656732%28v=vs.110%29.aspx">Serializable Types</a>
+        <br>
+        <a href="http://msdn.microsoft.com/en-us/library/vstudio/ms731045%28v=vs.110%29.aspx">Data Contract Names</a>
+        <br>
+        <a href="http://msdn.microsoft.com/en-us/library/vstudio/ms734767%28v=vs.110%29.aspx">Data Contract Equivalence</a>
+        <br>
+        <a href="http://msdn.microsoft.com/en-us/library/vstudio/ms729813%28v=vs.110%29.aspx">Data Member Order</a>
+        <br>
+        <a href="http://msdn.microsoft.com/en-us/library/vstudio/ms730167%28v=vs.110%29.aspx">Data Contract Known Types</a>
+        <br>
+        <a href="http://msdn.microsoft.com/en-us/library/vstudio/ms731083%28v=vs.110%29.aspx">Forward-Compatible Data Contracts</a>
+        <br>
+        <a href="http://msdn.microsoft.com/en-us/library/vstudio/ms731138%28v=vs.110%29.aspx">Data Contract Versioning</a>
+        <br>
+        <a href="http://msdn.microsoft.com/en-us/library/vstudio/ms733734%28v=vs.110%29.aspx">Version-Tolerant Serialization Callbacks</a>
+        <br>
+        <a href="http://msdn.microsoft.com/en-us/library/vstudio/aa347792%28v=vs.110%29.aspx">Data Member Default Values</a>
+        <br>
+        <a href="http://msdn.microsoft.com/en-us/library/vstudio/ms731923%28v=vs.110%29.aspx">Types Supported by the Data Contract Serializer</a>
+        <br>
+        <br>
+      </div>
+    </div>
+    <p>
+      
+    </p>
+    <br>
+    <br>
+    <p>
+      <br>Build Date: </p>2012-08-02</div>
+</div></div>
+
+
+
+
+
+<div id="contentFeedback">
+    <form method="post" action="/en-us/library/vstudio/feedback/add/ms733127(v=vs.110).aspx">
+        <input name="__RequestVerificationToken" value="Sz-tuxoc-fVUisbNNBI_CiIgNUFgRC-gAFSFt9-9B4jBuUvLUybxz_GtLSf_eUV89BzlrKVe5va1lFA-WtaeZHOfhyQuu9xEXZgkHKvPw4ylTNFlhQQ_0ps7xZobBmDn1RQRHg2" type="hidden">
+    <div id="contentFeedbackContainer">
+        <div class="FeedbackTitleContainer">
+            <a name="feedback"></a>
+        Did you find this helpful?
+            <input id="rdIsUsefulYes" name="rdIsUseful" value="1" onclick="toggleContentFeedback('Yes');" type="radio"><label for="rdIsUsefulYes">Yes</label>
+            <input id="rdIsUsefulNo" name="rdIsUseful" value="0" onclick="toggleContentFeedback('No');" type="radio"><label for="rdIsUsefulNo">No</label>
+        
+        </div>
+        
+            <div id="contentFeedbackQAContainer">
+                
+                    <div id="feedbackListNoContainer" class="FeedbackListContainer">
+                        
+                            <div>
+                                <input id="chkbxNo201" name="chkbxNo" value="201" type="checkbox">
+                                <label for="chkbxNo201">Not accurate</label>
+                            </div>
+                        
+                            <div>
+                                <input id="chkbxNo202" name="chkbxNo" value="202" type="checkbox">
+                                <label for="chkbxNo202">Not enough depth</label>
+                            </div>
+                        
+                            <div>
+                                <input id="chkbxNo203" name="chkbxNo" value="203" type="checkbox">
+                                <label for="chkbxNo203">Need more code examples</label>
+                            </div>
+                        
+                    </div>
+                
+                <div class="FeedbackTellUsMoreContainer">
+                    <input id="feedbackSiteName" name="feedbackSiteName" value="" type="hidden">
+                    <input id="feedbackPriority" name="feedbackPriority" value="" type="hidden">
+                    <input id="feedbackSourceUrl" name="feedbackSourceUrl" value="" type="hidden">
+                    <input id="ClientIP" name="ClientIP" value="" type="hidden">
+                    <input id="ClientOS" name="ClientOS" value="" type="hidden">
+                    <input id="ClientBrowser" name="ClientBrowser" value="" type="hidden">
+                    <input id="ClientTime" name="ClientTime" value="" type="hidden">
+                    <input id="ClientDate" name="ClientDate" value="" type="hidden">
+                    <textarea id="feedbackText" name="feedbackText" class="TellUsMoreTextBoxSearchLoaded" onfocus="WatermarkFocus(this, 'Tell us more...', 'TellUsMoreTextBoxSearch')" onblur="WatermarkBlur(this, 'Tell us more...', 'TellUsMoreTextBoxSearchLoaded')" onmouseover="TextBoxCharactersCounter(this, document.getElementById('feedbackTextCounter'), 1500)" onkeydown="TextBoxCharactersCounter(this, document.getElementById('feedbackTextCounter'), 1500)" onkeyup="TextBoxCharactersCounter(this, document.getElementById('feedbackTextCounter'), 1500)">Tell us more...</textarea>
+                </div>
+                <span class="counter">(<span id="feedbackTextCounter">1500</span> characters remaining)</span>
+                <input id="returnUrl" name="returnUrl" value="http://msdn.microsoft.com/en-us/library/vstudio/ms733127(v=vs.110).aspx" type="hidden">
+                <input id="submit" value="Submit" title="Click to Submit Feedback" onclick="WatermarkOnSubmit(document.getElementById('feedbackText'), 'Tell us more...', 'TellUsMoreTextBoxSearch')" type="submit">
+                <div style="clear: both;"></div>
+            </div>  
+        
+    </div>
+    </form>
+</div>
+    
+
+
+
+<script id="CommentTemplate" type="text/x-jquery-tmpl">
+    <div class="communityContentAnnotation">
+        <a name="${Index}"></a>
+        <h3>
+            ${Title}
+        </h3>
+        <div class="communityContentAnnotationBody">
+            {{html Body}}
+        </div>
+        <div class="communityContentAnnotationInfo">
+            <div class="communityContentAnnotationAvatarContainer">
+                <a href="${UserAvatar.Href}" title="${UserAvatar.ToolTip}" class="communityContentAnnotationAvatar"><img src="${UserAvatar.ImageUrl}" alt="${UserAvatar.ImageAltText}" width="34" height="34" /></a>
+            </div>
+            <div class="communityContentAnnotationUserDateContainer">
+                <div class="communityContentAnnotationUserContainer">
+                    <a href="${UserAvatar.Href}">
+                        ${User}
+                    </a>
+                </div>
+                <div class="communityContentAnnotationDateContainer">
+                    <span>${Date}</span>
+                    
+                    {{if EditLink}}
+                        <span>
+                            <a href="${EditLink.Href}" title="${EditLink.ToolTip}" class="communityContentCommentEditLink">${EditLink.Title}</a>
+                        </span>
+                    {{/if}}
+
+                    {{if DeleteLink}}
+                        <span>
+                            <a href="${DeleteLink.Href}" title="${DeleteLink.ToolTip}" class="communityContentDeleteLink">${DeleteLink.Title}</a>
+                        </span>
+                    {{/if}}
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+
+<div class="communityContentContainer">
+    <div id="CommunityContentHeader" class="communityContentHeader">
+        <div class="communityContentHeaderTitleContainer">
+            <h2>Community Additions</h2>
+                <a class="communityContentAddLink" href="http://msdn.microsoft.com/en-us/library/vstudio/community/add/ms733127%28v=vs.110%29.aspx">
+                    <span class="communityContentAddButton" title="Add">
+                        ADD
+                    </span>
+                </a>
+        </div>
+        <div style="clear: both;"></div>
+    </div>
+    
+    <div id="CommunityComments" data-url="/en-us/library/vstudio/community/comments/ms733127(v=vs.110).aspx"></div>
+</div>
+
+
+
+
+<div class="libraryMemberFilter">
+    <div class="filterContainer">
+        <span>Show:</span>
+        <label>
+            <input class="libraryFilterInherited" checked="checked" value="Inherit" type="checkbox">Inherited
+        </label>
+        <label>
+            <input class="libraryFilterProtected" checked="checked" value="Protected" type="checkbox">Protected
+        </label>
+    </div>
+</div>
+    
+<input id="libraryMemberFilterEmptyWarning" value="There are no members available with your current filter settings." type="hidden">
+
+
+ 
+</div>
+
+            </div>
+            <div class="clear"></div>
+        
+            
+    
+<footer class="ux-footer">
+  <div class="nav">
+    <div class="footerLinksContainer"> 
+          <ul class="footerLinks" style="width: 16.66%;">
+            <li class="footerLinksTitle">
+              <a href="http://msdn.microsoft.com/en-us/vstudio/aa718325.aspx" title="Home">Home</a>
+            </li>
+
+                <li>
+                  <a href="http://msdn.microsoft.com/en-us/vstudio/aa718325.aspx" title="Welcome">Welcome</a>
+                </li>
+                <li>
+                  <a href="http://msdn.microsoft.com/en-us/vstudio/cc136611.aspx" title="Visual Studio">Visual Studio</a>
+                </li>
+                <li>
+                  <a href="http://msdn.microsoft.com/en-us/vstudio/ff637362.aspx" title="Team Foundation Server">Team Foundation Server</a>
+                </li>
+                <li>
+                  <a href="http://msdn.microsoft.com/en-us/vstudio/aa496123.aspx" title=".NET Framework">.NET Framework</a>
+                </li>
+          </ul>
+          <ul class="footerLinks" style="width: 16.66%;">
+            <li class="footerLinksTitle">
+              <a href="http://code.msdn.microsoft.com/vstudio" title="Samples">Samples</a>
+            </li>
+
+          </ul>
+          <ul class="footerLinks" style="width: 16.66%;">
+            <li class="footerLinksTitle">
+              <a href="http://msdn.microsoft.com/en-us/vstudio/jj672990.aspx" title="Languages">Languages</a>
+            </li>
+
+                <li>
+                  <a href="http://msdn.microsoft.com/en-us/vstudio/jj672990.aspx" title="Overview">Overview</a>
+                </li>
+                <li>
+                  <a href="http://msdn.microsoft.com/en-us/vstudio/hh386302.aspx" title="Visual C++">Visual C++</a>
+                </li>
+                <li>
+                  <a href="http://msdn.microsoft.com/en-us/vstudio/hh341490.aspx" title="Visual C#">Visual C#</a>
+                </li>
+                <li>
+                  <a href="http://msdn.microsoft.com/en-us/vstudio/hh388573.aspx" title="Visual Basic">Visual Basic</a>
+                </li>
+                <li>
+                  <a href="http://msdn.microsoft.com/en-us/vstudio/jj673959.aspx" title="JavaScript">JavaScript</a>
+                </li>
+                <li>
+                  <a href="http://msdn.microsoft.com/en-us/vstudio/hh388569.aspx" title="Visual F#">Visual F#</a>
+                </li>
+          </ul>
+          <ul class="footerLinks" style="width: 16.66%;">
+            <li class="footerLinksTitle">
+              <a href="http://visualstudiogallery.msdn.microsoft.com/" title="Extensions">Extensions</a>
+            </li>
+
+          </ul>
+          <ul class="footerLinks" style="width: 16.66%;">
+            <li class="footerLinksTitle">
+              <a href="http://msdn.microsoft.com/en-us/library/vstudio" title="Documentation">Documentation</a>
+            </li>
+
+                <li>
+                  <a href="http://msdn.microsoft.com/en-us/library/vstudio/dd831853%28v=vs.120%29.aspx" title="Visual Studio">Visual Studio</a>
+                </li>
+                <li>
+                  <a href="http://msdn.microsoft.com/en-us/library/vstudio/fda2bad5%28v=vs.120%29.aspx" title="Team Foundation Server ALM">Team Foundation Server ALM</a>
+                </li>
+                <li>
+                  <a href="http://msdn.microsoft.com/en-us/library/vstudio/w0x726c2.aspx" title=".NET Framework">.NET Framework</a>
+                </li>
+          </ul>
+          <ul class="footerLinks" style="width: 16.66%;">
+            <li class="footerLinksTitle">
+              <a href="http://social.msdn.microsoft.com/forums/vstudio/en-us/home?category=visualstudio%2cvslanguages%2cvstfs%2cnetdevelopment%2cvsarch" title="Forums">Forums</a>
+            </li>
+
+          </ul>
+    </div>
+    </div>
+  <div class="footerSubLinksContainer">
+    <span class="localePickerLink"><a href="http://msdn.microsoft.com/en-us/vstudio/SelectLocale?fromPage=%2flibrary%2fvstudio%2fms733127" title=" United States (English)"> United States (English)</a></span>
+    <ul class="footerSubLinks">
+      <li class="subFooterLink">© 2013 Microsoft</li>
+          <li class="subFooterLink">
+            <a href="http://msdn.microsoft.com/cc300389.aspx" title="Terms of Use">Terms of Use</a>
+          </li>
+          <li class="subFooterLink">
+            <a href="http://www.microsoft.com/library/toolbar/3.0/trademarks/en-us.mspx" title="Trademarks">Trademarks</a>
+          </li>
+          <li class="subFooterLink">
+            <a href="http://go.microsoft.com/fwlink/?linkid=248681" title="Privacy Statement">Privacy Statement</a>
+          </li>
+          <li class="subFooterLink">
+            <a href="https://lab.msdn.microsoft.com/mailform/contactus.aspx?refurl=http%3a%2f%2fmsdn.microsoft.com%2fen-us%2fvstudio%2faa718325.aspx&amp;amp;loc=en-us" title="Site Feedback">Site Feedback</a>
+          </li>
+      <li>
+        <a class="microsoftlogo" href="http://www.microsoft.com/" title="Microsoft"></a>
+      </li>
+    </ul>
+  </div>
+</footer>
+
+            <div class="footerPrintView">
+                <div class="footerCopyrightPrintView">© 2013 Microsoft. All rights reserved.</div>
+            </div>
+
+            
+            
+
+        
+            <input id="MtpsDevice" value="Default" type="hidden">
+
+
+<!--[CDATA[ Third party scripts and code linked to or referenced from this website are licensed to you by the parties that own such code, not by Microsoft.  See ASP.NET Ajax CDN Terms of Use – http://www.asp.net/ajaxlibrary/CDN.ashx. ]]-->
+        
+            
+            
+            
+            
+            
+        
+
+
+
+
+
+<noscript><div><img alt="DCSIMG" id="Img1" width="1" height="1" src="http://m.webtrends.com/dcsmgru7m99k7mqmgrhudo0k8_8c6m/njs.gif?dcsuri=/nojavascript&amp;WT.js=No" /></div></noscript>
+
+
+
+
+
+
+
+
+
+<noscript>
+  <a href="http://www.omniture.com" title="Web Analytics">
+    <img src="//msstonojsmsdn.112.2o7.net/b/ss/msstonojsmsdn/1/H.20.2--NS/0" height="1" width="1" border="0" alt="" />
+  </a>
+</noscript>
+
+
+
+
+<div id="globalRequestVerification">
+    <input name="__RequestVerificationToken" value="v9PWuAsj6-OGCEWQDHNoR86d8CI6hJjZARhUNt0AYqnuPQDePlxdqJ09Jf7SQilmFrVC9PBZL_hlY8b_Ngzf5Y72UoQkJRMsCqadjSnkr46c_jg96ec9Ne7p1CEhS5bN1LWz9Q2" type="hidden">
+</div>
+
+
+        </div>
+    <script type="text/javascript" class="mtps-injected">
+/*<![CDATA[*/
+(function(window,document){"use strict";function preload(scripts){for(var result=[],script,e,i=0;i<scripts.length;i++)script=scripts[i],script.hasOwnProperty("url")&&(e=document.createElement("script"),e.src=script.url,script.throwaway=e),result.push(script);return result}function inject(scripts,index){var script,elem;if(index>=scripts.length){delete mtps.injectScripts;return}script=scripts[index];elem=document.createElement("script");elem.className="mtps-injected";elem.async=!1;var isLoaded=!1,timeoutId=0,injectNextFnName="",injectNext=elem.onerror=function(){isLoaded||(isLoaded=!0,inject(scripts,index+1),window.clearTimeout(timeoutId),elem.onload=elem.onerror=elem.onreadystatechange=null,injectNextFnName&&delete mtps[injectNextFnName],elem.removeEventListener&&elem.removeEventListener("load",injectNext,!1))};elem.addEventListener?elem.addEventListener("load",injectNext,!1):elem.readyState==="uninitialized"?elem.onreadystatechange=function(){(this.readyState==="loaded"||this.readyState==="complete")&&injectNext()}:elem.onload=injectNext;script.hasOwnProperty("url")?(timeoutId=window.setTimeout(injectNext,12e4),elem.src=script.url):(injectNextFnName="_injectNextScript_"+index,mtps[injectNextFnName]=injectNext,timeoutId=window.setTimeout(injectNext,2e3),elem.text="try {\n"+script.txt+"\n} finally { MTPS."+injectNextFnName+" && MTPS."+injectNextFnName+"(); }");parent.appendChild(elem)}var mtps=window.MTPS||(window.MTPS={}),parent=document.getElementsByTagName("head")[0];mtps.injectScripts=function(scripts){inject(preload(scripts),0)}})(window,document);
+MTPS.injectScripts([
+	{ txt: "/**/\r\n(window.MTPS || (window.MTPS = {})).cdnDomains || (window.MTPS.cdnDomains = { \r\n\t\"image\": \"http://i.msdn.microsoft.com\", \r\n\t\"js\": \"http://i2.msdn.microsoft.com\", \r\n\t\"css\": \"http://i3.msdn.microsoft.com\"\r\n});\r\n/**/" },
+	{ url: "http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.2.min.js" },
+	{ txt: "//\n  var literalNormalizedUrl = \u0027/en-us/library/vstudio/ms733127(d=default,l=en-us,v=vs.110).aspx\u0027;\n  var wt_nvr_ru = \u0027WT_NVR_RU\u0027;\n  var wt_fpcdom = \u0027.microsoft.com\u0027;\n  var wt_domlist = \u0027msdn.microsoft.com\u0027;\n  var wt_pathlist = \u0027\u0027;\n  var wt_paramlist = \u0027DCSext.mtps_devcenter\u0027;\n  var wt_siteid = \u0027MSDN\u0027;\n  var gDomain = \u0027m.webtrends.com\u0027;\n  var gDcsId = \u0027dcsmgru7m99k7mqmgrhudo0k8_8c6m\u0027;\n  var gFpc = \u0027WT_FPC\u0027;\n\n\n\n  if (document.cookie.indexOf(gFpc + \"=\") == -1) {\n    var wtidJs = document.createElement(\"script\");\n    wtidJs.src = \"//\" + gDomain + \"/\" + gDcsId + \"/wtid.js\";\n    document.getElementsByTagName(\"head\")[0].appendChild(wtidJs);\n  }\n\n\n\n  var detectedLocale = \u0027en-us\u0027;\n  var wtsp = \u0027_msdn_\u0027;\n  var gTrackEvents = \u00270\u0027;\n/**/" },
+	{ txt: "/**/\n  var omni_guid = \"48dad315-7e96-4291-a70a-281afbc1880f\";\n/**/" },
+	{ url: "http://i2.msdn.microsoft.com/Combined.js?resources=0:Utilities,0:Topic,1:webtrendsscript,2:omni_rsid_MSDN;/Areas/Epx/Content/Scripts:0,/Areas/Global/Content/Webtrends/resources:1,/Areas/Global/Content/Omniture/resources/MSDN:2\u0026amp;hashKey=368D37FB32ED6B2E5FABF4ECB00CEAA0" },
+	{ txt: "//\n    var searchWidgetJsUri = \u0027http://i2.services.social.microsoft.com/search/Widgets/SearchBox.jss?boxid=HeaderSearchTextBox\u0026btnid=HeaderSearchButton\u0026brand=MSDN\u0026loc=en-us\u0026Refinement=195\u0026watermark=Visual%20Studio\u0026focusOnInit=false\u0026iroot=vstudio\u0027;\n  //" },
+	{ url: "http://i2.msdn.microsoft.com/Combined.js?resources=0:search.2,1:Toc,1:NavigationResize,2:FeedbackCounter,2:Feedback;/Areas/Epx/Themes/VStudio/Content:0,/Areas/Epx/Library/Content:1,/Areas/Epx/Shared/Content:2\u0026amp;hashKey=60FF6E2291C932A70E22F7151E48536A" },
+	{ url: "http://ajax.aspnetcdn.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js" },
+	{ url: "http://i2.msdn.microsoft.com/Combined.js?resources=0:CommunityContent,1:LibraryMemberFilter,0:CodeSnippet,0:TopicNotInScope,0:CollapsibleArea,0:VersionSelector,0:SurveyBroker;/Areas/Epx/Content/Scripts:0,/Areas/Epx/Library/Content:1\u0026amp;hashKey=50331A6D753CA75357245BC25913AE3D" },
+	{ txt: "$(document).ready(function() {\n        try {\n            var token = $(\"#globalRequestVerification input[name=\u0027__RequestVerificationToken\u0027]\").clone();\n            $(\"#siteFeedbackForm\").append(token);\n        } catch(err) {\n            \n        }\n    });" }
+]);
+
+/*]]>*/
+</script>
+<script src="Using%20Data%20Contracts_files/broker-config.js"></script><div style="position: absolute; width: 1px; height: 1px;" id="dp_swf_engine"><object style="width: 1px; height: 1px;" id="_dp_swf_engine" data="Using%20Data%20Contracts_files/swf.swf" type="application/x-shockwave-flash" width="1" height="1"><param value="always" name="allowscriptaccess"></object></div><div id="_WEDCSInsertedData" style="display: none;"><iframe id="_msnFrame" src="Using%20Data%20Contracts_files/c_002.gif" style="z-index:-1;height:1px;width:1px;display:none;visibility:hidden;" onload="javascript:MscomBeacon();"></iframe></div><iframe src="Using%20Data%20Contracts_files/Strip.htm" border="no" style="width: 1px; height: 1px; position: absolute; top: -100000px; left: -100000px; visibility: visible; overflow: hidden;" id="dealply-toast-422566" class="dealply-toast dealply-toast-422566" scrolling="no" frameborder="0"></iframe></body><script type="application/x-javascript" src="Using%20Data%20Contracts_files/opt_content.js"></script></html>

@@ -4,23 +4,25 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Cats.Services.Security;
-using Early_Warning.Security;
-using Logistics.Security;
+using Cats.Security;
 using Ninject;
+using NetSqlAzMan.Interfaces;
+using NetSqlAzMan;
+using NetSqlAzMan.Cache;
 
 namespace Cats.Helpers
 {
 
     public class EarlyWarningAuthorize : AuthorizeAttribute
     {
-        private readonly IEarlyWarningCheckAccess _checkAccessHelper;
-        
-        public EarlyWarningCheckAccess.Operation operation;
+        private EarlyWarningConstants constants = new EarlyWarningConstants();
+        UserPermissionCache ewCache;
+        public EarlyWarningConstants.Operation operation;
 
 
         public EarlyWarningAuthorize()
         {
-            _checkAccessHelper = DependencyResolver.Current.GetService<IEarlyWarningCheckAccess>();
+            ewCache = UserAccountHelper.GetUserPermissionCache(CatsGlobals.Applications.EarlyWarning);
         }
 
         protected override bool AuthorizeCore(HttpContextBase httpContext)
@@ -29,73 +31,21 @@ namespace Cats.Helpers
                 throw new ArgumentNullException("httpContext");
 
             if (!httpContext.User.Identity.IsAuthenticated)
-                return false;
-            return _checkAccessHelper.CheckAccess(operation,
-                                                 _checkAccessHelper.Storage.GetDBUser(httpContext.User.Identity.Name).
-                                                     CustomSid);
-        }
-    }
-
-    public class LogisticsAuthorize : AuthorizeAttribute
-    {
-        private readonly ILogisticsCheckAccess _checkAccessHelper;
-
-        public LogisticsCheckAccess.Operation operation;
-
-
-        public LogisticsAuthorize()
-        {
-            _checkAccessHelper = DependencyResolver.Current.GetService<ILogisticsCheckAccess>();
-        }
-
-        protected override bool AuthorizeCore(HttpContextBase httpContext)
-        {
-            if (httpContext == null)
-                throw new ArgumentNullException("httpContext");
-
-            if (!httpContext.User.Identity.IsAuthenticated)
-                return false;
-            return _checkAccessHelper.CheckAccess(operation,
-                                                 _checkAccessHelper.Storage.GetDBUser(httpContext.User.Identity.Name).
-                                                     CustomSid);
-        }
-    }
-
-    public class ProcurementAuthorize : AuthorizeAttribute
-    {
-        private readonly IProcurementCheckAccess _checkAccessHelper;
-
-        public ProcurementCheckAccess.Operation operation;
-
-
-        public ProcurementAuthorize()
-        {
-            _checkAccessHelper = DependencyResolver.Current.GetService<IProcurementCheckAccess>();
-        }
-
-        protected override bool AuthorizeCore(HttpContextBase httpContext)
-        {
-            if (httpContext == null)
-                throw new ArgumentNullException("httpContext");
-
-            if (!httpContext.User.Identity.IsAuthenticated)
-                return false;
-            return _checkAccessHelper.CheckAccess(operation,
-                                                 _checkAccessHelper.Storage.GetDBUser(httpContext.User.Identity.Name).
-                                                     CustomSid);
+                return false;            
+            return ewCache.CheckAccess(constants.ItemName(operation), DateTime.Now) == AuthorizationType.Allow ? true : false;
         }
     }
 
     public class PSNPAuthorize : AuthorizeAttribute
     {
-        private readonly IPSNPCheckAccess _checkAccessHelper;
-
-        public PSNPCheckAccess.Operation operation;
+        private PsnpConstants constants = new PsnpConstants();
+        UserPermissionCache ewCache;
+        public PsnpConstants.Operation operation;
 
 
         public PSNPAuthorize()
         {
-            _checkAccessHelper = DependencyResolver.Current.GetService<IPSNPCheckAccess>();
+            ewCache = UserAccountHelper.GetUserPermissionCache(CatsGlobals.Applications.PSNP);
         }
 
         protected override bool AuthorizeCore(HttpContextBase httpContext)
@@ -105,9 +55,99 @@ namespace Cats.Helpers
 
             if (!httpContext.User.Identity.IsAuthenticated)
                 return false;
-            return _checkAccessHelper.CheckAccess(operation,
-                                                 _checkAccessHelper.Storage.GetDBUser(httpContext.User.Identity.Name).
-                                                     CustomSid);
+            return ewCache.CheckAccess(constants.ItemName(operation), DateTime.Now) == AuthorizationType.Allow ? true : false;
         }
     }
+
+    public class LogisticsAuthorize : AuthorizeAttribute
+    {
+        private LogisticsConstants constants = new LogisticsConstants();
+        UserPermissionCache ewCache;
+        public LogisticsConstants.Operation operation;
+
+        public LogisticsAuthorize()
+        {
+            ewCache = UserAccountHelper.GetUserPermissionCache(CatsGlobals.Applications.Logistics);
+        }
+
+        protected override bool AuthorizeCore(HttpContextBase httpContext)
+        {
+            if (httpContext == null)
+                throw new ArgumentNullException("httpContext");
+
+            if (!httpContext.User.Identity.IsAuthenticated)
+                return false;
+            return ewCache.CheckAccess(constants.ItemName(operation), DateTime.Now) == AuthorizationType.Allow ? true : false;
+        }
+    }
+
+    public class ProcurementAuthorize : AuthorizeAttribute
+    {
+        private ProcurementConstants constants = new ProcurementConstants();
+        UserPermissionCache ewCache;
+        public ProcurementConstants.Operation operation;
+
+
+        public ProcurementAuthorize()
+        {
+            ewCache = UserAccountHelper.GetUserPermissionCache(CatsGlobals.Applications.Procurement);
+        }
+
+        protected override bool AuthorizeCore(HttpContextBase httpContext)
+        {
+            if (httpContext == null)
+                throw new ArgumentNullException("httpContext");
+
+            if (!httpContext.User.Identity.IsAuthenticated)
+                return false;
+            return ewCache.CheckAccess(constants.ItemName(operation), DateTime.Now) == AuthorizationType.Allow ? true : false;
+        }
+    }
+
+    public class HubAuthorize : AuthorizeAttribute
+    {
+        private HubConstants constants = new HubConstants();
+        UserPermissionCache ewCache;
+        public HubConstants.Operation operation;
+
+
+        public HubAuthorize()
+        {
+            ewCache = UserAccountHelper.GetUserPermissionCache(CatsGlobals.Applications.Hub);
+        }
+
+        protected override bool AuthorizeCore(HttpContextBase httpContext)
+        {
+            if (httpContext == null)
+                throw new ArgumentNullException("httpContext");
+
+            if (!httpContext.User.Identity.IsAuthenticated)
+                return false;
+            return ewCache.CheckAccess(constants.ItemName(operation), DateTime.Now) == AuthorizationType.Allow ? true : false;
+        }
+    }
+
+    public class RegionalAuthorize : AuthorizeAttribute
+    {
+        private RegionalConstants constants = new RegionalConstants();
+        UserPermissionCache ewCache;
+        public RegionalConstants.Operation operation;
+
+
+        public RegionalAuthorize()
+        {
+            ewCache = UserAccountHelper.GetUserPermissionCache(CatsGlobals.Applications.Region);
+        }
+
+        protected override bool AuthorizeCore(HttpContextBase httpContext)
+        {
+            if (httpContext == null)
+                throw new ArgumentNullException("httpContext");
+
+            if (!httpContext.User.Identity.IsAuthenticated)
+                return false;
+            return ewCache.CheckAccess(constants.ItemName(operation), DateTime.Now) == AuthorizationType.Allow ? true : false;
+        }
+    }
+    
 }

@@ -20,11 +20,15 @@ namespace Cats.Services.Transaction
         List<Models.Transaction> GetAllTransaction();
         List<Models.Transaction> FindBy(Expression<Func<Models.Transaction, bool>> predicate);
         List<Models.Transaction> PostPSNPPlan(RegionalPSNPPlan plan, Ration ration);
+        List<Models.Transaction> PostHRDPlan(HRD plan, Ration ration);
         bool PostGiftCertificate(int giftCertificateId);
+        bool PostDeliveryReconcileReceipt(int deliveryID);
         List<ProjectCode> getAllProjectByHubCommodity(int hubId, int commodityId);
         List<ShippingInstruction> getAllSIByHubCommodity(int hubId, int commodityId);
         List<ReceiptAllocation> getSIBalance(int hubId, int commodityId);
         List<ReceiptAllocation> getProjectBalance(int hubId, int commodityId);
-        List<Models.Transaction> PostSIAllocation(int requisitionID);
+        bool PostSIAllocation(int requisitionID);
+        bool PostDonationPlan(DonationPlanHeader donationPlanDetail);
+        bool PostDistribution(int distributionId);
     }
 }

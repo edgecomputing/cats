@@ -99,6 +99,10 @@
       <Project>{a08cf415-6299-41ab-9d69-c3ce9b49ccd6}</Project>
       <Name>Cats.Services.EarlyWarning</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Services\Cats.Services.Hub\Cats.Services.Hub.csproj">
+      <Project>{9fba0283-ee84-49f2-8305-f038bbf29658}</Project>
+      <Name>Cats.Services.Hub</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Services\Cats.Services.Logistics\Cats.Services.Logistics.csproj">
       <Project>{eef1ddeb-a6e9-493d-975d-c551a73a79b9}</Project>
       <Name>Cats.Services.Logistics</Name>
@@ -112,7 +116,9 @@
       <Name>Cats.Services.Transaction</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

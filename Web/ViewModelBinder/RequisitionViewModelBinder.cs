@@ -56,7 +56,7 @@ namespace Cats.ViewModelBinder
             return new ReliefRequisitionDetail()
             {
                 BenficiaryNo = reliefRequisitionDetailViewModel.BenficiaryNo,
-                Amount = reliefRequisitionDetailViewModel.Amount,
+                Amount = reliefRequisitionDetailViewModel.Amount.ToPreferedWeightUnit(),
                 RequisitionID = reliefRequisitionDetailViewModel.RequisitionID,
                 RequisitionDetailID = reliefRequisitionDetailViewModel.RequisitionDetailID,
                 CommodityID = reliefRequisitionDetailViewModel.CommodityID,
@@ -67,6 +67,8 @@ namespace Cats.ViewModelBinder
         }
         public static ReliefRequisitionDetailViewModel BindReliefRequisitionDetailViewModel(ReliefRequisitionDetail reliefRequisitionDetail, decimal RationAmount)
         {
+
+
             return new ReliefRequisitionDetailViewModel()
             {
                 Zone = reliefRequisitionDetail.ReliefRequisition.AdminUnit1.Name,
@@ -75,16 +77,17 @@ namespace Cats.ViewModelBinder
                 Donor = reliefRequisitionDetail.DonorID.HasValue ? reliefRequisitionDetail.Donor.Name : "-",
                 Commodity = reliefRequisitionDetail.Commodity.Name,
                 BenficiaryNo = reliefRequisitionDetail.BenficiaryNo,
-                Amount =reliefRequisitionDetail.Amount,
+                Amount =reliefRequisitionDetail.Amount.ToPreferedWeightUnit(),
                 RequisitionID = reliefRequisitionDetail.RequisitionID,
                 RequisitionDetailID = reliefRequisitionDetail.RequisitionDetailID,
                 CommodityID = reliefRequisitionDetail.CommodityID,
                 FDPID = reliefRequisitionDetail.FDPID,
                 DonorID = reliefRequisitionDetail.DonorID,
-                RationAmount =RationAmount
+                RationAmount =RationAmount,
+                Contingency = (reliefRequisitionDetail.Amount * (decimal)0.05)
                 //_GetCommodityRation(reliefRequisitionDetail.RequisitionID,reliefRequisitionDetail.CommodityID);
                // GetCommodityRation(reliefRequisitionDetail.RequisitionID,reliefRequisitionDetail.CommodityID)
-
+               
             };
 
         }

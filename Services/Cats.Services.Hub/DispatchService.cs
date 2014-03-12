@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using Cats.Data.Hub;
+using Cats.Data.Hub.UnitWork;
 using Cats.Models.Hubs;
 
 
@@ -153,14 +154,14 @@ namespace Cats.Services.Hub
                 if (balance.CommodityTypeID == 1)
                 {
                     balance.TotalDispatchedMT = (from v in trans
-                                                 where v.LedgerID == Ledger.Constants.GOODS_DISPATCHED
+                                                 where v.LedgerID == Ledger.Constants.GOODS_IN_TRANSIT
                                                  select v.QuantityInMT).DefaultIfEmpty().Sum();
 
                 }
                 else
                 {
                     balance.TotalDispatchedMT = (from v in trans
-                                                 where v.LedgerID == Ledger.Constants.GOODS_DISPATCHED
+                                                 where v.LedgerID == Ledger.Constants.GOODS_IN_TRANSIT
                                                  select v.QuantityInUnit).DefaultIfEmpty().Sum();
 
                 }

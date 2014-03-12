@@ -61,12 +61,11 @@ namespace Cats.Areas.PSNP.Controllers
             }
             return ret;
         }
-        public IEnumerable<PSNPPlanDetailView> getRegionFDPs(int regionID, int planID)
+        public IEnumerable<PSNPPlanDetailView> getRegionFDPs(int planID)
         {
             IEnumerable<FDP> list = _FDPService.GetAllFDP();
             return (from fdp in list
-                    where (fdp.AdminUnit.AdminUnit2.AdminUnit2.AdminUnitID == regionID)
-                    select new PSNPPlanDetailView
+                   select new PSNPPlanDetailView
                     {
                         ZoneID = fdp.AdminUnit.AdminUnit2.AdminUnitID,
                         ZoneName = fdp.AdminUnit.AdminUnit2.Name,
@@ -124,7 +123,7 @@ namespace Cats.Areas.PSNP.Controllers
             {
                 ViewBag.PsnpPlan = plan;
                 filledData = plan.RegionalPSNPPlanDetails;
-                IEnumerable<PSNPPlanDetailView> allFDPs = getRegionFDPs(plan.Region.AdminUnitID, id);
+                IEnumerable<PSNPPlanDetailView> allFDPs = getRegionFDPs(id);
                 allFDPData = toViewModel(filledData, allFDPs);
             }
             return View(allFDPData);
@@ -137,7 +136,7 @@ namespace Cats.Areas.PSNP.Controllers
             RegionalPSNPPlan plan = _regionalPSNPPlanService.FindById(id);
             if (plan != null)
             {
-                IEnumerable<FDP> allFDPs = _FDPService.FindBy(f => f.AdminUnit.AdminUnit2.AdminUnit2.AdminUnitID == plan.Region.AdminUnitID);
+                IEnumerable<FDP> allFDPs = _FDPService.GetAllFDP();
                 filledData = plan.RegionalPSNPPlanDetails;
                 allFDPData = from fdp in allFDPs
                              join plandetail in filledData on fdp.FDPID equals plandetail.PlanedFDPID
@@ -150,6 +149,7 @@ namespace Cats.Areas.PSNP.Controllers
                                  WoredaName = fdp.AdminUnit.Name,
                                  ZoneID = fdp.AdminUnit.AdminUnit2.AdminUnitID,
                                  ZoneName = fdp.AdminUnit.AdminUnit2.Name,
+                                 RegionName = fdp.AdminUnit.AdminUnit2.AdminUnit2.Name,
                                  RegionalPSNPPlanDetailID = plandetail.RegionalPSNPPlanDetailID,
                                  BeneficiaryCount = plandetail.BeneficiaryCount,
                                  RegionalPSNPPlanID = plan.RegionalPSNPPlanID,
@@ -169,7 +169,7 @@ namespace Cats.Areas.PSNP.Controllers
 
                 ViewBag.PsnpPlan = plan;
                 filledData = plan.RegionalPSNPPlanDetails;
-                IEnumerable<FDP> allFDPs = _FDPService.FindBy(f => f.AdminUnit.AdminUnit2.AdminUnit2.AdminUnitID == plan.Region.AdminUnitID);
+                IEnumerable<FDP> allFDPs = _FDPService.GetAllFDP();
                 allFDPData = from fdp in allFDPs
                              join plandetail in filledData on fdp.FDPID equals plandetail.PlanedFDPID
                              into fdpBeneficiary
@@ -202,7 +202,7 @@ namespace Cats.Areas.PSNP.Controllers
 
                 ViewBag.PsnpPlan = plan;
                 filledData = plan.RegionalPSNPPlanDetails;
-                IEnumerable<FDP> allFDPs = _FDPService.FindBy(f => f.AdminUnit.AdminUnit2.AdminUnit2.AdminUnitID == plan.Region.AdminUnitID);
+                IEnumerable<FDP> allFDPs = _FDPService.GetAllFDP();
                 allFDPData = from fdp in allFDPs
                              join plandetail in filledData on fdp.FDPID equals plandetail.PlanedFDPID
                              into fdpBeneficiary
@@ -219,7 +219,8 @@ namespace Cats.Areas.PSNP.Controllers
                                  BeneficiaryCount = fdb.BeneficiaryCount,
                                  RegionalPSNPPlanID = fdb.RegionalPSNPPlanID,
                                  FoodRatio = fdb.FoodRatio,
-                                 CashRatio = fdb.CashRatio
+                                 CashRatio = fdb.CashRatio,
+                                 RegionName = fdp.AdminUnit.AdminUnit2.AdminUnit2.Name
                              };
             }
             return Json(allFDPData.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
@@ -255,8 +256,15 @@ namespace Cats.Areas.PSNP.Controllers
                         bm.BeneficiaryCount = (int)item.BeneficiaryCount;
                         bm.FoodRatio = (int)item.FoodRatio;
                         bm.CashRatio = (int)item.CashRatio;
-
-                        _regionalPSNPPlanDetailService.AddRegionalPSNPPlanDetail(bm);
+                        var psnpPlanExist =
+                            _regionalPSNPPlanDetailService.FindBy(
+                                m => m.RegionalPSNPPlanID == item.RegionalPSNPPlanID && m.PlanedFDPID == item.FDPID).
+                                FirstOrDefault();
+                        if (psnpPlanExist==null)
+                        {
+                            _regionalPSNPPlanDetailService.AddRegionalPSNPPlanDetail(bm);
+                        }
+                        
                     }
                 }
                 else

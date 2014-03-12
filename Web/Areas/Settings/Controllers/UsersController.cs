@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Web.Security;
 using Cats.Helpers;
 using Cats.Models.Security;
+using Cats.Services.EarlyWarning;
 using Cats.Services.Security;
 using System.Linq;
 using System.Web.Mvc;
@@ -17,16 +18,22 @@ namespace Cats.Areas.Settings.Controllers
     [Authorize]
     public class UsersController : Controller
     {
-        private IUserAccountService userService;
+        private readonly  IUserAccountService _userService;
+        private readonly  IHubService _hubService;
+        private readonly IAdminUnitService _adminUnitService;
+       // private readonly IUserAccountService _userAccountService;
       
-        public UsersController(IUserAccountService service)
+        public UsersController(IUserAccountService service, IHubService hubService, IAdminUnitService adminUnitService)
         {
-            userService = service;
+            _userService = service;
+            _hubService = hubService;
+            _adminUnitService = adminUnitService;
+            //_userAccountService = userAccountService;
         }
 
         public ActionResult UsersList([DataSourceRequest] DataSourceRequest request)
         {
-            var users = userService.GetUsers();
+            var users = _userService.GetUsers();
             return Json(users.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
 
@@ -34,51 +41,67 @@ namespace Cats.Areas.Settings.Controllers
         {
             return View();
         }
-
-
+        
         public ActionResult New()
         {
             var model = new UserViewModel();
-            //List<Cats.Models.Security.ViewModels.Application> Applications = userService.GetApplications("CATS");
 
+            var caseteams = new List<CaseTeam>();
+
+            caseteams.Add(new CaseTeam() { ID = 1,CaseTeamName = "EarlyWarning"});
+            caseteams.Add(new CaseTeam() { ID = 2, CaseTeamName = "PSNP/FSCD" });
+            caseteams.Add(new CaseTeam() { ID = 3, CaseTeamName = "Logistics" });
+            caseteams.Add(new CaseTeam() { ID = 4, CaseTeamName = "Procurement" });
+            //caseteams.Add(new CaseTeam() { ID = 1, CaseTeamName = "Hub" });
+
+            ViewBag.CaseTeams = caseteams;
+            //List<Cats.Models.Security.ViewModels.Application> Applications = userService.GetApplications("CATS");
             //model.Applications = Applications;
+
+            ViewBag.Regions = _adminUnitService.GetRegions();
+
             return View(model);
         }
 
-
+        public ActionResult add()
+        {
+            //userService.AddRoleSample();
+            return View();
+        }
 
         [HttpPost]
         public ActionResult New(UserViewModel userInfo)
         {
-            var messages = new List<string>();
+            //var messages = new List<string>();
 
-            // Check business rule and validations
-            if (userInfo.UserName == string.Empty)
-                messages.Add("User name cannot be empty");
-            if (userInfo.FirstName == string.Empty)
-                messages.Add("First name cannot be empty");
-            if (userInfo.LastName == string.Empty)
-                messages.Add("Last Name cannot be empty");
-            if (userInfo.Password == string.Empty)
-                messages.Add("Password cannot be empty");
-            if (userInfo.Password != userInfo.PasswordConfirm)
-                messages.Add("Passwords do not match");
+            //// Check business rule and validations
+            //if (userInfo.UserName == string.Empty)
+            //    messages.Add("User name cannot be empty");
+            //if (userInfo.FirstName == string.Empty)
+            //    messages.Add("First name cannot be empty");
+            //if (userInfo.LastName == string.Empty)
+            //    messages.Add("Last Name cannot be empty");
+            //if (userInfo.Password == string.Empty)
+            //    messages.Add("Password cannot be empty");
+            //if (userInfo.Password != userInfo.PasswordConfirm)
+            //    messages.Add("Passwords do not match");
 
 
-            if (messages.Count > 0)
-                return View();
+            //if (messages.Count > 0)
+            //    return View();
+
 
             // If the supplied information is correct then persist it to the database
             var user = new UserProfile();
 
             user.UserName = userInfo.UserName;
-            user.Password = userService.HashPassword(userInfo.Password);
+            user.Password = _userService.HashPassword(userInfo.Password);
 
             // Set default values for required fields
             user.Disabled = false;
             user.LockedInInd = false;
             user.ActiveInd = true;
-
+            user.NumberOfLogins = 0;
 
             //List<Cats.Models.Security.ViewModels.Application> app = userInfo.Applications;
             Dictionary<string, List<string>> roles = new Dictionary<string, List<string>>();
@@ -97,6 +120,8 @@ namespace Cats.Areas.Settings.Controllers
 
             user.FirstName = userInfo.FirstName;
             user.LastName = userInfo.LastName;
+            user.RegionalUser = userInfo.RegionalUser;
+            user.CaseTeam = userInfo.CaseTeam;
 
             user.LanguageCode = "EN";
             user.Keyboard = "AM";
@@ -106,34 +131,34 @@ namespace Cats.Areas.Settings.Controllers
             user.FailedAttempts = 0;
             user.LoggedInInd = false;
 
-            if(userService.Add(user, roles))
+            if(_userService.Add(user, roles))
             {
                 return View("Index");
             }
-
             return View();
-
         }
 
         public ActionResult UserProfile(int id)
         {
-            var user = userService.GetUserInfo(id);
+            var user = _userService.GetUserInfo(id);
             return View(user);
         }
 
         public JsonResult GetUsers()
         {
-            var users = userService.GetAll();
+            var users = _userService.GetAll();
             return Json(users.ToList(), JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
         public ActionResult EditUserRoles(string UserName)
         {
+            //var roles = new string[] { "EW Coordinator", "EW-Experts" };
+            //userService.AddRoleSample("Rahel", "Early Warning", roles);
             var model = new UserViewModel();
             model.UserName = UserName;
-            List<Cats.Models.Security.ViewModels.Application> Applications = userService.GetUserPermissions(UserName);
-
+            List<Application> Applications = _userService.GetUserPermissions(UserName);
+            ViewBag.hubs = new SelectList(_hubService.GetAllHub(), "HubID", "Name");
             model.Applications = Applications;
             return View(model);
         }
@@ -141,49 +166,66 @@ namespace Cats.Areas.Settings.Controllers
         [HttpPost]
         public ActionResult EditUserRoles(UserViewModel userInfo)
         {
-            //// 
-
-            List<Cats.Models.Security.ViewModels.Application> app = userInfo.Applications;
+            var app = userInfo.Applications;
             var roles = new Dictionary<string, List<Role>>();
             var Roles = new List<Role>();
+
+            //var user = _userService.FindBy(u=>u.UserName == userInfo.UserName).SingleOrDefault();
+            
+            var user = _userService.GetUserDetail(userInfo.UserName);
+            user.DefaultHub = userInfo.DefaultHub;
+            _userService.UpdateUser(user);
+
             foreach (var application in app)
             {
                 foreach (var role in application.Roles)
                 {
                     if (role.IsChecked)
-                        Roles = new List<Role>() { new Role() { RoleName = role.RoleName } };
+                    {
+                        _userService.AddRole(userInfo.UserName, application.ApplicationName, role.RoleName);  
+                    }      
+                    else if(!role.IsChecked)
+                    {
+                        //userService.RemoveRole(userInfo.UserName, application.ApplicationName, role.RoleName);  
+                    }
                 }
-                if (Roles.Count > 0)
-                    roles.Add(application.ApplicationName, Roles);
+                
+                //if (Roles.Count > 0)
+                //  roles.Add(application.ApplicationName, Roles);
             }
 
-            var user = new UserProfile();
+            return RedirectToAction("Index");
+            //var user = new UserProfile();
 
-            user.UserName = userInfo.UserName;
-            userService.EditUserRole(userInfo.UserName, userInfo.UserName, roles);
+            //var model = new UserViewModel();
+            //model.UserName = userInfo.UserName;
+            //List<Application> Applications = userService.GetUserPermissions(userInfo.UserName);
 
-            return View();
+            //model.Applications = Applications;
+            //return View(model);
         }
+       
         public ActionResult ChangePassword()
         {
             //var userInfo=userService.FindById(id);
             var model = new ChangePasswordModel();
             return View(model);
         }
+       
         [HttpPost]
         public ActionResult ChangePassword(ChangePasswordModel model)
         {
             var userid = UserAccountHelper.GetUser(HttpContext.User.Identity.Name).UserProfileID;
-            var oldpassword = userService.HashPassword(model.OldPassword);
+            var oldpassword = _userService.HashPassword(model.OldPassword);
             if (ModelState.IsValid)
             {
                 bool changePasswordSucceeded;
 
-                if (userService.GetUserDetail(userid).Password == oldpassword)
+                if (_userService.GetUserDetail(userid).Password == oldpassword)
                 {
                     try
                     {
-                        changePasswordSucceeded = userService.ChangePassword(userid, model.NewPassword);
+                        changePasswordSucceeded = _userService.ChangePassword(userid, model.NewPassword);
                     }
                     catch (Exception e)
                     {
@@ -200,6 +242,37 @@ namespace Cats.Areas.Settings.Controllers
                 else ModelState.AddModelError("Errors", "The current password is incorrect ");
             }
             return View(model);
+        }
+
+        public JsonResult ChangePassword2(FormCollection values)
+        {
+            var userid = UserAccountHelper.GetUser(HttpContext.User.Identity.Name).UserProfileID;
+            var oldpassword = _userService.HashPassword(values["OldPassword"]);
+            if (ModelState.IsValid)
+            {
+                bool changePasswordSucceeded;
+
+                if (_userService.GetUserDetail(userid).Password == oldpassword)
+                {
+                    try
+                    {
+                        changePasswordSucceeded = _userService.ChangePassword(userid, values["NewPassword"]);
+                    }
+                    catch (Exception e)
+                    {
+                        changePasswordSucceeded = false;
+                        //ModelState.AddModelError("Errors", e.Message);
+                    }
+                    if (changePasswordSucceeded)
+                        ModelState.AddModelError("Success", "Password Successfully Changed.");
+                    //return RedirectToAction("ChangePasswordSuccess");
+                    else
+                        ModelState.AddModelError("Errors", "The new password is invalid.");
+
+                }
+                else ModelState.AddModelError("Errors", "The current password is incorrect ");
+            }
+            return new JsonResult();
         }
         //public ActionResult ChangePasswordSuccess()
         //{

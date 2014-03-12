@@ -14,8 +14,11 @@ namespace Cats.Services.Security
         // CRUD Operations
         bool Add(UserProfile entity, Dictionary<string, List<string>> roles);
         bool Add(UserProfile entity, string store, string application);
+        bool AddRole(string user, string application, string role);
+        bool RemoveRole(string user, string application, string role);
         bool Delete(UserProfile user);
         bool DeleteById(int id);
+        bool UpdateUser(UserProfile user);
         bool Save(UserProfile user);
         UserProfile FindById(int id);
         List<UserProfile> GetAll();
@@ -42,6 +45,7 @@ namespace Cats.Services.Security
         UserInfo GetUserInfo(string userName);
         UserInfo GetUserInfo(int userId);
         List<Role> GetUserPermissions(string UserName, string store, string application);
+        List<Role> GetUserPermissionsNotification(string userName, string store, string application);
 
         string[] GetRoles(string application);
         string[] GetUserRoles(string username);
@@ -49,5 +53,6 @@ namespace Cats.Services.Security
         List<Role> GetRolesList(string application);
         void EditUserRole(string owner, string userName, Dictionary<string, List<Role>> applications);
         List<Application> GetUserPermissions(string UserName);
+        List<Application> GetUserPermissionsNotification(string UserName);
     }
 }

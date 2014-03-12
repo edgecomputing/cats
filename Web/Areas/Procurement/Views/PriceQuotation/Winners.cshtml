@@ -1,0 +1,76 @@
+﻿@using Cats.Areas.Procurement.Models
+@using Kendo.Mvc.UI
+@{
+    ViewBag.Title = "Generate Winners";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+@section Toolbar    {
+    @* 
+    <div class="btn-group" style="margin-right:8px;">
+        <button class="btn">Action</button>
+        @{
+            <button class="btn dropdown-toggle " data-toggle="dropdown">
+                <span class="caret"></span>
+            </button>
+           
+        }
+
+        <ul class="dropdown-menu">
+            <li><a  href="@Url.Action("ClearBidWinners", "PriceQuotation")" >Clear Winners</a></li>
+        </ul>
+
+    </div>    *@
+
+}
+
+<div class="row">
+    <h4>Bid Winner Transporters</h4>
+</div>
+@*<div class="row">
+    @Html.Partial("_GenerateWinnersIgnitor")
+</div>*@
+
+<div class="row">
+    @(Html.Kendo().Grid<BidWinnerViewModel>()
+          .Name("grid")
+          .Columns(columns =>
+              {
+                  columns.Bound(p => p.SourceWarehouse);
+                  columns.Bound(p => p.Zone);
+                  columns.Bound(p => p.Woreda);
+                  columns.Bound(p => p.TransporterName);
+                  columns.Bound(p => p.Rank);
+                  columns.Bound(p => p.WinnerTariff).Title("Tariff").HtmlAttributes(new { align = "Right" }).Format("{0:N}");
+              })
+          .Scrollable()
+          .Filterable()
+          .Groupable()
+            //.Events(events => events.DataBound("onDataBound"))
+          .HtmlAttributes(new { style = "height:430px;" })
+          .DataSource(dataSource => dataSource
+                                        .Ajax()
+                                        .Group(group =>
+                                            {
+                                                group.Add(m => m.Zone);
+                                                group.Add(m => m.Woreda);
+                                            })
+              //.PageSize(8)
+                                        .Model(model => model.Id(p => p.BidWinnnerID))
+
+                                        .Read(read => read.Action("ReadBidWinners", "PriceQuotation", new
+                                        {
+                                            bidNumber = @ViewBag.BidID,
+                                            regionID = @ViewBag.RegionID
+                                        }))
+
+                                        //.Update(update => update.Action("SaveBidProposals", "PriceQuotation"))
+          ))
+</div>
+
+<script>
+    function onChangeStatus(e) {
+        e.preventDefault();
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        window.location = "@Url.Action("Edit", "BidWinner")" + "/" + dataItem.BidWinnnerID;
+    }
+</script>

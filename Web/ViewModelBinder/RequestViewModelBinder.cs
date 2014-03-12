@@ -67,7 +67,7 @@ namespace Cats.ViewModelBinder
             //  request.DonorID=
             return request;
         }
-        
+
         public static RegionalRequest BindRegionalRequest(RegionalRequest origin, RegionalRequest request = null)
         {
             if (request == null) request = new RegionalRequest();
@@ -86,7 +86,7 @@ namespace Cats.ViewModelBinder
             return request;
         }
 
-        public static DataTable TransposeDataNew(List<PLANWithRegionalRequestViewModel> woredaRequestDetail)
+        public static DataTable TransposeDataNew(List<PLANWithRegionalRequestViewModel> woredaRequestDetail, int programID)
         {
             var dt = new DataTable("Transpose");
 
@@ -103,12 +103,16 @@ namespace Cats.ViewModelBinder
             dt.Columns.Add(colNoBeneficiary);
 
             var colNoPlannedBeneficiary = new DataColumn("Planned Beneficiaries", typeof(int));
-            colNoPlannedBeneficiary.ExtendedProperties["ID"] = -1;
-            dt.Columns.Add(colNoPlannedBeneficiary);
-
             var colDifference = new DataColumn("Difference", typeof(int));
-            colDifference.ExtendedProperties["ID"] = -1;
-            dt.Columns.Add(colDifference);
+
+            if (programID != 3)
+            {
+                colNoPlannedBeneficiary.ExtendedProperties["ID"] = -1;
+                dt.Columns.Add(colNoPlannedBeneficiary);
+
+                colDifference.ExtendedProperties["ID"] = -1;
+                dt.Columns.Add(colDifference);
+            }
 
             //var requestdetail = requestDetails.FirstOrDefault();
 
@@ -116,11 +120,11 @@ namespace Cats.ViewModelBinder
             {
                 var requestdetail = woredaRequestDetail.FirstOrDefault().RegionalRequestDetails.FirstOrDefault();
 
-                if (requestdetail !=null)
+                if (requestdetail != null)
                 {
                     foreach (var ds in requestdetail.RequestDetailCommodities)
                     {
-                        var col = new DataColumn(ds.Commodity.Name.Trim(), typeof (decimal));
+                        var col = new DataColumn(ds.Commodity.Name.Trim(), typeof(decimal));
                         col.ExtendedProperties.Add("ID", ds.CommodityID);
                         dt.Columns.Add(col);
                     }
@@ -129,12 +133,16 @@ namespace Cats.ViewModelBinder
                 foreach (var singleWoreda in woredaRequestDetail)
                 {
                     var dr = dt.NewRow();
-                
+
                     dr[colZone] = singleWoreda.zone;
                     dr[colWoreda] = singleWoreda.Woreda;
+
                     dr[colNoBeneficiary] = singleWoreda.RequestedBeneficiaryNo;
-                    dr[colNoPlannedBeneficiary] = singleWoreda.PlannedBeneficaryNo;
-                    dr[colDifference] = singleWoreda.Difference;
+                    if (programID != 3)
+                    {
+                        dr[colNoPlannedBeneficiary] = singleWoreda.PlannedBeneficaryNo;
+                        dr[colDifference] = singleWoreda.Difference;
+                    }
                     var details = singleWoreda.RegionalRequestDetails;
                     //var groupedByWoreda = (
                     //                          from regionalRequestDetail in requestDetails
@@ -142,9 +150,9 @@ namespace Cats.ViewModelBinder
                     //                          into g
                     //                          select g
                     //                      );
-                
+
                     //decimal accumelate = 0;
-              
+
 
                     foreach (var requestDetailCommodity in requestdetail.RequestDetailCommodities)
                     {
@@ -156,16 +164,16 @@ namespace Cats.ViewModelBinder
                             {
                                 if (commodity.CommodityID == requestDetailCommodity.CommodityID)
                                 {
-                                    amount  = amount + commodity.Amount;
+                                    amount = amount + commodity.Amount;
                                 }
-                                
+
                             }
-                            
+
                         }
 
                         var rDetatils = singleWoreda.RegionalRequestDetails;
                         //_requestDetailCommodityService.FindBy(requestDetailCommodity.CommodityID);
-                        
+
                         DataColumn col = null;
                         foreach (DataColumn column in dt.Columns)
                         {
@@ -192,7 +200,7 @@ namespace Cats.ViewModelBinder
             return dt;
         }
 
-        public static  DataTable TransposeData(IEnumerable<RegionalRequestDetail> requestDetails )
+        public static DataTable TransposeData(IEnumerable<RegionalRequestDetail> requestDetails)
         {
             var dt = new DataTable("Transpose");
             //var colRequstDetailID = new DataColumn("RequstDetailID", typeof(int));
@@ -234,8 +242,8 @@ namespace Cats.ViewModelBinder
                 var groupedByWoreda = (
                                         from regionalRequestDetail in requestDetails
                                         group regionalRequestDetail by regionalRequestDetail.Fdp.AdminUnit
-                                        into g
-                                        select g
+                                            into g
+                                            select g
                                       );
 
                 foreach (var requestDetail in requestDetails)
@@ -262,7 +270,7 @@ namespace Cats.ViewModelBinder
 
                         if (col != null)
                         {
-                            
+
                             dr[col.ColumnName] = requestDetailCommodity.Amount.ToPreferedWeightUnit();
                         }
                     }

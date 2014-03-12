@@ -33,7 +33,7 @@ namespace LanguageHelpers.Localization
          
          public static string Translate(string TextKey)
          {
-             
+             return TextKey;
              return _instance._Translate(TextKey, CurrentLanguage);
          }
          public static string Translate(string TextKey, string LanguageCode)

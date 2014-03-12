@@ -1,17 +1,18 @@
-﻿@using Cats.Helpers;
-
+﻿@using StackExchange.Profiling;
+@using Cats.Helpers;
+@using LanguageHelpers.Localization
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>CATS: Commodity Allocation & Tracking System</title>
+    <title>@Translator.Translate("Commodity Allocation & Tracking System")</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
 
     <!-- Le styles -->
     @*<link href="~/Content/themes/@theme/bootstrap.min.css" rel="stylesheet">*@
-    <link href="~/Content/assets/css/bootstrap.css" rel="stylesheet">
+    <link href="~/Content/themes/default/bootstrap.min.css" rel="stylesheet">
     <link href="~/Content/assets/css/font-awesome.css" rel="stylesheet" />
     <link href="~/Content/Site.css" rel="stylesheet" />
 
@@ -21,19 +22,9 @@
     <link href="~/Content/kendo/2013.1.319/kendo.common.min.css" rel="stylesheet" />
     <link href="~/Content/kendo/2013.1.319/kendo.default.min.css" rel="stylesheet" />
     <link href="@Url.Content("~/Content/kendo/2013.1.319/kendo.bootstrap.min.css")" rel="stylesheet" type="text/css" />
-   
+    
     <script src="~/Scripts/kendo/2013.1.319/jquery.min.js"></script>
-    <script src="~/Scripts/kendo/2013.1.319/kendo.all.min.js"></script>
-    <script src="~/Scripts/kendo/2013.1.319/kendo.aspnetmvc.min.js" type="text/javascript"></script>
-
-    <script type="text/javascript" src="~/Scripts/js/exporting.js"></script>
-    <script type="text/javascript" src="~/Scripts/js/highcharts.js"></script>
-    <script type="text/javascript" src="~/Scripts/angular/angular.js"> </script>
-    <script src="~/Scripts/angular/angular-resource.js"></script>
-
-    <script src="~/Scripts/ICanHaz.js"></script>
-<script src="~/Scripts/jquery-1.9.1.min.js"></script>
-
+    
     <style type="text/css">
         body {
             padding-top: 60px;
@@ -65,7 +56,7 @@
         <div class="row">
             @{
                 var bodyspan = "span12";
-             }
+            }
 
             @if (ViewBag.ViewWidth != "Wide")
             {
@@ -98,24 +89,17 @@
     <!-- Le javascript
 	================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
+    <script src="~/Scripts/kendo/2013.1.319/kendo.all.min.js"></script>
+    <script src="~/Scripts/kendo/2013.1.319/kendo.aspnetmvc.min.js" type="text/javascript"></script>
+
+    <script type="text/javascript" src="~/Scripts/js/highcharts.js"></script>
+    <script type="text/javascript" src="~/Scripts/js/exporting.js"></script>
+
+    @*<script src="~/Scripts/jquery-1.9.1.min.js"></script>*@
+
     @RenderSection("Scripts", required: false)
 
-    <script src="~/Content/assets/js/bootstrap-transition.js"></script>
-    <script src="~/Content/assets/js/bootstrap-alert.js"></script>
-    <script src="~/Content/assets/js/bootstrap-modal.js"></script>
-    <script src="~/Content/assets/js/bootstrap-dropdown.js"></script>
-    <script src="~/Content/assets/js/bootstrap-scrollspy.js"></script>
-    <script src="~/Content/assets/js/bootstrap-tab.js"></script>
-    <script src="~/Content/assets/js/bootstrap-tooltip.js"></script>
-    <script src="~/Content/assets/js/bootstrap-popover.js"></script>
-    <script src="~/Content/assets/js/bootstrap-button.js"></script>
-    <script src="~/Content/assets/js/bootstrap-collapse.js"></script>
-    <script src="~/Content/assets/js/bootstrap-carousel.js"></script>
-    <script src="~/Content/assets/js/bootstrap-typeahead.js"></script>
-    <script src="~/Content/assets/js/bootstrap-datepicker.js"></script>
-
-    <script src="~/Content/assets/js/jquery.validate.min.js"></script>
-    <script src="~/Content/assets/js/jquery.validate.js"></script>
+    <script src="~/Content/assets/js/bootstrap.js"></script>
 
     @{
         var calendarPerference = 1;
@@ -131,14 +115,14 @@
         }
         else
         {
-        <link href="/Scripts/js/humanity.calendars.picker.css" rel="stylesheet" type="text/css" />
-        <script type="text/javascript" src="/Scripts/js/jquery.calendars.js"> </script>
-        <script type="text/javascript" src="/Scripts/js/jquery.calendars.js"> </script>
-        <script type="text/javascript" src="/Scripts/js/jquery.calendars.plus.js"> </script>
-        <script type="text/javascript" src="/Scripts/js/jquery.calendars.picker.js"> </script>
-        <script type="text/javascript" src="/Scripts/js/jquery.calendars.ethiopian.js"> </script>
-        <script type="text/javascript" src="/Scripts/js/jquery.calendars.picker-am.js"> </script>
-        <script type="text/javascript" src="/Scripts/js/jquery.calendars.ethiopian-am.js"> </script>
+        <link href="~/Scripts/js/humanity.calendars.picker.css" rel="stylesheet" type="text/css" />
+        <script type="text/javascript" src="~/Scripts/js/jquery.calendars.js"> </script>
+        <script type="text/javascript" src="~/Scripts/js/jquery.calendars.js"> </script>
+        <script type="text/javascript" src="~/Scripts/js/jquery.calendars.plus.js"> </script>
+        <script type="text/javascript" src="~/Scripts/js/jquery.calendars.picker.js"> </script>
+        <script type="text/javascript" src="~/Scripts/js/jquery.calendars.ethiopian.js"> </script>
+        <script type="text/javascript" src="~/Scripts/js/jquery.calendars.picker-am.js"> </script>
+        <script type="text/javascript" src="~/Scripts/js/jquery.calendars.ethiopian-am.js"> </script>
                                    
         <script type='text/javascript'>
 
@@ -160,5 +144,8 @@
         }
     }
 
+    <!-- JIRA Collector scripts -->
+    @*<script type="text/javascript" src="https://cats-edge.atlassian.net/s/d41d8cd98f00b204e9800998ecf8427e/en_US-d926hj-1988229788/6207/22/1.4.3/_/download/batch/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector.js?collectorId=630f8204"></script>*@
+    @MiniProfiler.RenderIncludes()
 </body>
 </html>

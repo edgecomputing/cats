@@ -53,6 +53,7 @@ namespace Cats.Areas.Procurement.Models
     public class PriceQuotationDetail
     {
         public int TransportBidQuotationID { get; set; }
+        public int HeaderId { get; set; }
         public string SourceWarehouse { get; set; }
         public string Zone { get; set; }
         public string Woreda { get; set; }
@@ -66,6 +67,8 @@ namespace Cats.Areas.Procurement.Models
     public class SelectedBidWinnerViewModel
     {
         public List<BidWinnerViewModel> Bidwinners { get; set; }
+        public int BidID { get; set; }
+        public string BidNumber { get; set; }
     }
     public class BidWinnerViewModel  
     {
@@ -73,6 +76,7 @@ namespace Cats.Areas.Procurement.Models
         public string SourceWarehouse { get; set; }
         public int SourceId { get; set; }
         public int DestinationId { get; set; }
+        public string Region { get; set; }
         public string Zone { get; set; }
         public string Woreda { get; set; }
         public int TransporterID { get; set; }
@@ -89,6 +93,7 @@ namespace Cats.Areas.Procurement.Models
         public string BidEndDate { get; set; }
         public string BidOpeningDate { get; set; }
         public bool Selected { get; set; }
+
     }
     public class BidWinnerViewingModel
     {

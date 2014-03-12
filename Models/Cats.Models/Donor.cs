@@ -19,8 +19,10 @@ namespace Cats.Models
             this.TransportOrderDetails = new List<TransportOrderDetail>();
             this.GiftCertificates = new List<GiftCertificate>();
             this.Contributions = new List<Contribution>();
-            this.WoredasByDonors = new List<WoredasByDonor>();
-            //this.Contributions1 = new List<Contribution>();
+            this.HrdDonorCovarages = new List<HrdDonorCoverage>();
+            this.ReceiptAllocations = new List<ReceiptAllocation>();
+            this.DonationPlanHeaders = new List<DonationPlanHeader>();
+           
         }
         public int DonorID { get; set; }
         public string Name { get; set; }
@@ -31,16 +33,23 @@ namespace Cats.Models
 
         public virtual ICollection<GiftCertificate> GiftCertificates { get; set; }
         public virtual ICollection<TransportOrderDetail> TransportOrderDetails { get; set; }
-
+        public virtual ICollection<DonationPlanHeader> DonationPlanHeaders { get; set; }
         public virtual ICollection<ReliefRequisitionDetail> ReliefRequisitionDetails { get; set; }
 
         public virtual ICollection<RegionalPSNPPledge> RegionalPSNPPledges { get; set; }
         public virtual ICollection<Contribution> Contributions { get; set; }
         public virtual ICollection<RegionalRequest> RegionalRequests { get; set; }
-        //public virtual ICollection<Contribution> Contributions1 { get; set; }
+        public virtual ICollection<ReceiptAllocation> ReceiptAllocations { get; set; }
 
         public virtual ICollection<PromisedContribution> PromisedContributions { get; set; }
-        public virtual ICollection<WoredasByDonor> WoredasByDonors { get; set; }
-        public virtual ICollection<Distribution> Distributions { get; set; }
+        public virtual ICollection<HrdDonorCoverage> HrdDonorCovarages { get; set; }
+
+      //  public virtual ICollection<Distribution> Distributions { get; set; }
+
+
+
+        public virtual ICollection<LocalPurchase>   LocalPurchases  { get; set; }
+        public virtual ICollection<Delivery> Deliveries { get; set; }
+
     }
 }

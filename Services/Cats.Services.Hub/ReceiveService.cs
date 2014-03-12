@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using Cats.Data.Hub;
+using Cats.Data.Hub.UnitWork;
+using Cats.Models.Hubs.ViewModels;
 using Cats.Models.Hubs.ViewModels.Report;
 using System.Linq;
 using Cats.Models.Hubs;

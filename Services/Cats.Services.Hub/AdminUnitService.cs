@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using Cats.Data.Hub;
+using Cats.Data.Hub.UnitWork;
 using Cats.Models.Hubs;
 using Cats.Models.Hubs.Repository;
 using Cats.Models.Hubs.ViewModels.Report;
@@ -198,9 +199,10 @@ namespace Cats.Services.Hub
 
         public IEnumerable<TreeViewModel> GetTreeElts(int adminunitParentId, int hubId)
         {
+            //TODO:Check if the  t.ShippingInstructionID.HasValue && t.ProjectCodeID.HasValue ...&& to || to accoumidate SI/PC allocation
             var UnclosedDispatchAllocations = _unitOfWork.DispatchAllocationRepository.FindBy(t =>
-                                                                                      t.ShippingInstructionID.HasValue &&
-                                                                                      t.ProjectCodeID.HasValue
+                                                                                     ( t.ShippingInstructionID.HasValue ||
+                                                                                      t.ProjectCodeID.HasValue)
                                                                                       && hubId == t.HubID &&
                                                                                       t.IsClosed == false);
                 

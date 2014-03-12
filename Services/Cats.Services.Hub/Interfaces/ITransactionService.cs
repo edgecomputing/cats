@@ -51,14 +51,14 @@ namespace Cats.Services.Hub
         /// </summary>
         /// <param name="receiveModels">The receive models.</param>
         /// <param name="user">The user.</param>
-        void SaveReceiptTransaction(ReceiveViewModel receiveModels, UserProfile user);
+        Boolean SaveReceiptTransaction(ReceiveViewModel receiveModels, UserProfile user);
 
         /// <summary>
         /// Saves the dispatch transaction.
         /// </summary>
         /// <param name="dispatchModel">The dispatch model.</param>
         /// <param name="user">The user.</param>
-        void SaveDispatchTransaction(DispatchModel dispatchModel, UserProfile user);
+        bool SaveDispatchTransaction(DispatchModel dispatchModel, UserProfile user);
         void SaveDispatchTransaction(DispatchViewModel dispatchModel);
 
         /// <summary>

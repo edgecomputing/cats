@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using Cats.Data.UnitWork;
 using Cats.Models;
@@ -89,6 +90,7 @@ namespace Cats.Services.Common
         }
        public List<Plan> GetPlan(int programID)
        {
+          
            if (programID == 2)
            {
                return _unitOfWork.PlanRepository.FindBy(m => m.ProgramID == programID && m.Status == (int)PlanStatus.PSNPCreated);
@@ -96,7 +98,10 @@ namespace Cats.Services.Common
            return _unitOfWork.PlanRepository.FindBy(m => m.ProgramID == programID && m.Status == (int)PlanStatus.HRDCreated);
        }
 
-
+     public  List<Plan> GetPlans()
+     {
+         return _unitOfWork.PlanRepository.GetAll();
+     }
        public List<FDP> GetFDPs(int woredaID)
        {
            return _unitOfWork.FDPRepository.FindBy(m => m.AdminUnitID == woredaID);
@@ -114,5 +119,95 @@ namespace Cats.Services.Common
                                 }).ToList();
            return commodity;
        }
+       public List<AdminUnit> FindBy(Expression<Func<AdminUnit, bool>> predicate)
+       {
+           return _unitOfWork.AdminUnitRepository.FindBy(predicate);
+       }
+       public List<AdminUnit> GetRegions()
+       {
+           return _unitOfWork.AdminUnitRepository.Get(t => t.AdminUnitTypeID == 2).ToList();
+       }
+       public List<AdminUnit> GetZones(int regionId)
+       {
+           return _unitOfWork.AdminUnitRepository.Get(t => t.ParentID == regionId).ToList();
+       }
+       public List<AdminUnit> GetWoreda(int zoneId)
+       {
+           return _unitOfWork.AdminUnitRepository.Get(t => t.ParentID == zoneId).ToList();
+       }
+
+
+       public List<SupportType> GetAllSupportType()
+       {
+           return _unitOfWork.SupportTypeRepository.GetAll();
+       }
+
+
+       public int GetZoneID(int woredaID)
+       {
+           var woreda = _unitOfWork.AdminUnitRepository.FindBy(m => m.AdminUnitID == woredaID).FirstOrDefault();
+           if (woreda != null)
+               return woreda.AdminUnit2.
+                   AdminUnitID;
+           return 0;
+       }
+
+        public int GetRegion(int zoneID)
+        {
+            var zone = _unitOfWork.AdminUnitRepository.FindBy(m => m.AdminUnit2.AdminUnitID == zoneID).FirstOrDefault();
+            if (zone!=null)
+            {
+                return zone.AdminUnit2.AdminUnit2.AdminUnitID;
+            }
+            return 0;
+        }
+
+       public List<Plan> GetRequisitionGeneratedPlan(int programID, int zoneID)
+       {
+           var requisition = _unitOfWork.ReliefRequisitionRepository.FindBy(m => m.ZoneID == zoneID).Select(m => m.RegionalRequestID).Distinct();
+           var request = _unitOfWork.RegionalRequestRepository.FindBy(m => requisition.Contains(m.RegionalRequestID) && m.ProgramId == programID).Select(m => m.PlanID).Distinct();
+           var requestCreated = _unitOfWork.PlanRepository.FindBy(m => request.Contains(m.PlanID));
+           return requestCreated;
+       }
+       public List<CommoditySource> GetCommoditySource()
+       {
+           return
+               _unitOfWork.CommoditySourceRepository.FindBy(
+                   m =>
+                   m.CommoditySourceID == 2 || m.CommoditySourceID == 5 || m.CommoditySourceID == 8 ||
+                   m.CommoditySourceID == 9); //populate commodity sources for Loan,Transfer,Repayment and Swap
+
+       }
+       public int GetShippingInstruction(string siNumber)
+       {
+           var sINumber =_unitOfWork.ShippingInstructionRepository.FindBy(m => m.Value == siNumber).FirstOrDefault();
+           if (sINumber==null)
+           {
+               var shippingInstruction = new ShippingInstruction();
+               shippingInstruction.Value = siNumber;
+               _unitOfWork.ShippingInstructionRepository.Add(shippingInstruction);
+               _unitOfWork.Save();
+               return shippingInstruction.ShippingInstructionID;
+           }
+           return sINumber.ShippingInstructionID;
+       }
+        public List<Hub> GetAllHubs()
+        {
+            return _unitOfWork.HubRepository.GetAll();
+        }
+        public List<GiftCertificate> GetAllGiftCertificates()
+        {
+            return _unitOfWork.GiftCertificateRepository.GetAll();
+        }
+        public string GetCommditySourceName(int id)
+        {
+            var commoditySource = _unitOfWork.CommoditySourceRepository.FindById(id);
+            if (commoditySource!=null)
+            {
+                return commoditySource.Name;
+            }
+            return null;
+        }
+        
     }
 }

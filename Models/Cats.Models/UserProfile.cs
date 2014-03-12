@@ -12,15 +12,13 @@ namespace Cats.Models
 
         public UserProfile()
         {
-
-            //this.ReliefRequisitions = new List<ReliefRequisition>();
-            //this.ReliefRequisitions1 = new List<ReliefRequisition>();
-           // this.HubAllocations = new List<HubAllocation>();
-            //this.TransportRequisitions = new List<TransportRequisition>();
-            //this.TransportRequisitions1=new List<TransportRequisition>();
             this.Hrds=new List<HRD>();
             this.NeedAssessments = new List<NeedAssessment>();
             this.NeedAssessments1 = new List<NeedAssessment>();
+            this.DonationPlanHeaders = new List<DonationPlanHeader>();
+            this.LoanReciptPlanDetails = new List<LoanReciptPlanDetail>();
+            this.TransporterCheques = new List<TransporterCheque>();
+            this.TransporterCheques1 = new List<TransporterCheque>();
         }
 
         public int UserProfileID { get; set; }
@@ -42,14 +40,21 @@ namespace Cats.Models
         public string MobileNumber { get; set; }
         public string Email { get; set; }
         public string DefaultTheme { get; set; }
-       // public virtual ICollection<NeedAssessmentHeader> NeedAssessmentHeaders { get; set; }
-        //public virtual ICollection<ReliefRequisition> ReliefRequisitions { get; set; }
-        //public virtual ICollection<ReliefRequisition> ReliefRequisitions1 { get; set; }
-       // public virtual ICollection<HubAllocation> HubAllocations { get; set; }
+
+        public virtual ICollection<DonationPlanHeader> DonationPlanHeaders { get; set; }
+
+        public int? DefaultHub { get; set; }
+        public int? RegionID { get; set; }
+        public bool RegionalUser { get; set; }
+
+        public virtual ICollection<TransporterCheque> TransporterCheques { get; set; }
+        public virtual ICollection<TransporterCheque> TransporterCheques1 { get; set; }
+        public virtual ICollection<WoredaStockDistribution> UtilizationHeaders { get; set; }
         public virtual ICollection<HRD> Hrds { get; set; }
         public virtual ICollection<NeedAssessment> NeedAssessments { get; set; }
         public virtual ICollection<NeedAssessment> NeedAssessments1 { get; set; }
-        //public virtual ICollection<TransportRequisition> TransportRequisitions { get; set; }
-        //public virtual ICollection<TransportRequisition> TransportRequisitions1 { get; set; }
+        public virtual ICollection<LoanReciptPlanDetail> LoanReciptPlanDetails { get; set; } 
+       
+        
     }
 }

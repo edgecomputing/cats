@@ -10,6 +10,7 @@ using System.Text;
 
 using System.Data.Objects.DataClasses;
 using Cats.Data.Hub;
+using Cats.Data.Hub.UnitWork;
 using Cats.Models.Hubs;
 
 namespace Cats.Services.Hub
@@ -30,6 +31,7 @@ namespace Cats.Services.Hub
         #region Default Service Implementation
         public bool AddReceiptAllocation(ReceiptAllocation receiptAllocation)
         {
+
             _unitOfWork.ReceiptAllocationRepository.Add(receiptAllocation);
             _unitOfWork.Save();
             return true;
@@ -285,8 +287,7 @@ namespace Cats.Services.Hub
             var receiptAll = _unitOfWork.ReceiptAllocationRepository.Get().ToList();
             var unclosed = (from rAll in receiptAll
                             where hubId == rAll.HubID
-                                  && x.Any(p => p == rAll.CommoditySourceID)
-                            select rAll).ToList();
+                                 select rAll).ToList();
 
             if (closedToo == null || closedToo == false)
             {

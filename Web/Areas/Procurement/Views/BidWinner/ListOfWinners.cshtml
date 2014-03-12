@@ -2,6 +2,7 @@
 @model  WinnersTransportersViewModel
 @using Cats.Helpers
 @using Cats.Models
+@using Cats.Security
 @using Cats.Services.Security
 @using Kendo.Mvc.UI
 @{
@@ -22,7 +23,7 @@
         columns.Bound(t => t.TransporterName).ClientTemplate(
            @Html.EarlyWarningOperationButton(
                @Url.Action("Details", "BidWinner", new { id = Model.BidID, transporterID = "#=TransporterID#" }),
-               EarlyWarningCheckAccess.Operation.View_Need_Assessment_Detail, "#=TransporterName#").ToString());
+               EarlyWarningConstants.Operation.View_Need_Assessment_Detail, "#=TransporterName#").ToString());
             columns.Bound(m => m.TransporterID);
         })
      .Scrollable()

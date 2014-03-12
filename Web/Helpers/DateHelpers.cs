@@ -41,7 +41,8 @@ namespace Cats.Helpers
         //            return ethiopianDate.ToLongDateString();
         //        }
         //    }
-        //    else {
+        //    else
+        //    {
         //        return String.Empty;
         //    }
         //}
@@ -68,7 +69,7 @@ namespace Cats.Helpers
 
         }
         
-        public static Decimal ToPreferedWeightUnit(this Decimal amount, string unit = "MT")
+        public static decimal ToPreferedWeightUnit(this decimal amount, string unit = "MT")
         {
             string currentUnit;
 
@@ -77,8 +78,9 @@ namespace Cats.Helpers
             //       user, we must check for possible errors.
             try
             {
-                var user = (UserIdentity)HttpContext.Current.User.Identity;
-                currentUnit = user.Profile.PreferedWeightMeasurment;
+                
+                var user = UserAccountHelper.GetCurrentUser();                
+                currentUnit = user.PreferedWeightMeasurment;
             }
             catch (Exception)
             {
@@ -86,12 +88,32 @@ namespace Cats.Helpers
             }
 
             // If the current unit is 'Metric Tone' then return the  value (the passed value)            
-            if (currentUnit.ToUpper() == "MT")
+            if (currentUnit.ToUpper().Trim() == "MT")
                 return amount;
 
             // For the other unit (quintal)  multiply by 10
 
             return amount * 10;
+        }
+
+        public static decimal GetPreferedRation(this decimal amount)
+        {
+            string currentUnit;
+            try
+            {
+                var user = UserAccountHelper.GetCurrentUser();
+                currentUnit = user.PreferedWeightMeasurment;
+            }
+            catch (Exception)
+            {
+
+                return amount;
+            }
+
+
+            if (currentUnit.ToUpper().Trim() == "MT")
+                return amount / 1000;
+            return amount/100;
         }
     }
 }

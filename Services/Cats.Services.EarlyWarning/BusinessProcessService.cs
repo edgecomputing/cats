@@ -127,5 +127,12 @@ namespace Cats.Services.EarlyWarning
             }
             return bp;
         }
-   }
+
+
+        public bool Save()
+        {
+            _unitOfWork.Save();
+            return true;
+        }
+    }
  }

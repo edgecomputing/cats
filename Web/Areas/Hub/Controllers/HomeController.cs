@@ -10,7 +10,8 @@ using Cats.Services.Hub;
 using Cats.Services.Security;
 using Cats.Web.Hub;
 using Cats.Web.Hub.Helpers;
-using Early_Warning.Security;
+using Cats.Security;
+using Cats.Helpers;
 
 
 namespace Cats.Areas.Hub.Controllers
@@ -28,7 +29,7 @@ namespace Cats.Areas.Hub.Controllers
             return View();
         }
 
-        [CatsAuthorize(operation = EarlyWarningCheckAccess.Operation.View_request)]
+        [EarlyWarningAuthorize(operation = EarlyWarningConstants.Operation.View_request)]
         public ActionResult About()
         {
             return View();

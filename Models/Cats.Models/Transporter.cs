@@ -14,6 +14,8 @@ namespace Cats.Models
             DateTime dt = DateTime.Now; ;
             this.ExperienceFrom = dt;
             this.ExperienceTo = dt;
+            this.TransportBidQuotationHeaders = new List<TransportBidQuotationHeader>();
+            
         }
      
         [Key]
@@ -58,7 +60,14 @@ namespace Cats.Models
         public virtual ICollection<BidWinner> BidWinners { get; set; }
         public virtual ICollection<TransportBidQuotation> TransportBidQuotations { get; set; }
         public virtual ICollection<TransporterAgreementVersion> TransporterAgreementVersions { get; set; }
+        public virtual ICollection<TransportBidQuotationHeader> TransportBidQuotationHeaders { get; set; }
+
         //public  List<AdminUnit> Regions { get; set; }
+
+
+        public virtual TransporterCheque TransporterCheque { get; set; }
+        public virtual ICollection<Dispatch> Dispatches { get; set; }
+        public virtual ICollection<OtherDispatchAllocation> OtherDispatchAllocations { get; set; }
 
         
     }

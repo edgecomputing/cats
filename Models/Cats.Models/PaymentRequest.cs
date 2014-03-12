@@ -13,6 +13,7 @@ namespace Cats.Models
         public virtual BusinessProcess BusinessProcess { get; set; }
 
     }
+
     public class PaymentRequestPOCO
     {
         public int PaymentRequestID {get;set;}

@@ -131,6 +131,7 @@
     <Compile Include="ControllersTests\CurrencyControllerTest.cs" />
     <Compile Include="ControllersTests\DispatchLocationsControllerTest.cs" />
     <Compile Include="ControllersTests\DistributionControllerTest.cs" />
+    <Compile Include="ControllersTests\DonationPlanTest.cs" />
     <Compile Include="ControllersTests\GiftCertificateControllerTests.cs" />
     <Compile Include="ControllersTests\HRDControllerTest.cs" />
     <Compile Include="ControllersTests\HRDControllerTests.cs" />
@@ -138,6 +139,7 @@
     <Compile Include="ControllersTests\NeedAssessmentTest.cs" />
     <Compile Include="ControllersTests\PlanControllerTest.cs" />
     <Compile Include="ControllersTests\RationControllerTest.cs" />
+    <Compile Include="ControllersTests\ReciptPlanForLoanControllerTest.cs" />
     <Compile Include="ControllersTests\RequestControllerTests.cs" />
     <Compile Include="ControllersTests\TransportListTest.cs" />
     <Compile Include="ControllersTests\TransportOrderControllerTests.cs" />
@@ -145,6 +147,7 @@
     <Compile Include="ProjectAllocationControllerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ControllersTests\ReliefRequisitionControllerTests.cs" />
+    <Compile Include="Service Tests\HubTransactionServiceTest.cs" />
     <Compile Include="Service Tests\TransportOrder\TransportOrdreServiceTest.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -203,10 +206,6 @@
       <Project>{9b741d92-4b67-4863-bf38-a1adcae40870}</Project>
       <Name>Cats.Services.Transaction</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Web\Cats.csproj">
-      <Project>{f8991e39-b399-4baf-8515-f62b28a604be}</Project>
-      <Name>Cats</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -219,6 +218,10 @@
     <ProjectReference Include="..\..\Services\Cats.Services.EarlyWarning\Cats.Services.EarlyWarning.csproj">
       <Project>{a08cf415-6299-41ab-9d69-c3ce9b49ccd6}</Project>
       <Name>Cats.Services.EarlyWarning</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Web\Cats.csproj">
+      <Project>{f8991e39-b399-4baf-8515-f62b28a604be}</Project>
+      <Name>Cats</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Web\Cats.csproj">
       <Project>{f8991e39-b399-4baf-8515-f62b28a604be}</Project>

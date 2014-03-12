@@ -8,7 +8,7 @@
 
 @{
     ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_MainLayoutWide.cshtml";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
 
 
@@ -16,6 +16,29 @@
 @section Toolbar
 {
     <a data-buttontype="btn_new_record"  class="btn toolbar-btn "  href="@Url.Action("TransportRequisitions","TransportOrder",new {Area="Procurement"})"></a>
+    <div class="btn-group" style="margin-right:8px;">
+        <button class="btn">Action</button>
+        @{
+            
+            <button class="btn dropdown-toggle " data-toggle="dropdown">
+                <span class="caret"></span>
+            </button>
+           
+           
+        }
+        <ul class="dropdown-menu">
+            @if (@ViewBag.TransportOrderTitle != "Draft")
+            {
+                <li><a   href="@Url.Action("Index", "TransportOrder", new {area = "Procurement", id = (int) TransportOrderStatus.Draft})" > View Draft </a></li>
+            }
+            else
+            {
+                <li><a   href="@Url.Action("Index", "TransportOrder", new {area = "Procurement", id = (int) TransportOrderStatus.Approved})" >View Approved </a></li>
+            }
+        </ul>
+
+    </div>
+           
 }
 <div>
 @(Html.Kendo().Grid<TransportOrderViewModel>().Name("Grid").Columns(columns =>
@@ -33,6 +56,7 @@
     columns.Bound(to => to.Status);
           columns.Command(p =>
               {
+                 
                   if (@ViewBag.TransportOrderTitle == "Draft") //TransportRequisitionStatus.Draft
                   {
                       p.Custom("Approve").Click("onApprove");

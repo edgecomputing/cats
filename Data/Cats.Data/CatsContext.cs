@@ -27,6 +27,7 @@ namespace Cats.Data
         public DbSet<AdminUnit> AdminUnits { get; set; }
         public DbSet<Commodity> Commodities { get; set; }
         public DbSet<CommodityType> CommodityTypes { get; set; }
+        public DbSet<Contact> Contacts { get; set; }
         public DbSet<FDP> Fdps { get; set; }
         public DbSet<Program> Programs { get; set; }
         public DbSet<AdminUnitType> AdminUnitTypes { get; set; }
@@ -64,6 +65,8 @@ namespace Cats.Data
         public DbSet<Workflow> Workflows { get; set; }
         public DbSet<WorkflowStatus> WorkflowStatuses { get; set; }
         public DbSet<TransportBidQuotation> TransportBidQuotations { get; set; }
+        public DbSet<TransportBidQuotationHeader> TransportBidQuotationHeaders { get; set; }
+
         public DbSet<ApplicationSetting> ApplicationSetting { get; set; }
         public DbSet<Ration> Rations { get; set; }
 
@@ -121,18 +124,46 @@ namespace Cats.Data
         public DbSet<Notification> Notifications { get; set; }
         public DbSet<TransporterAgreementVersion> TransporterAgreementVersions { get; set; }
         public DbSet<SIPCAllocation> SIPCAllocation { get; set; }
-        public DbSet<WoredasByDonor> WoredasByDonors { get; set; }
-        public DbSet<Distribution> Distributions { get; set; }
-        public DbSet<DistributionDetail> DistributionDetails { get; set; }
+        public DbSet<HrdDonorCoverage> HrdDonorCoverages { get; set; }
+        public DbSet<HrdDonorCoverageDetail> HrdDonorCoverageDetails { get; set; }
+        public DbSet<Delivery> Deliveries { get; set; }
+        public DbSet<DeliveryDetail> DeliveryDetails { get; set; }
         public DbSet<PaymentRequest> PaymentRequests { get; set; }
 
         public DbSet<IDPSReasonType> IDPSReasonTypes { get; set; }
 
         public DbSet<WoredaHubLink> WoredaHubLinks { get; set; }
         public DbSet<ActionTypes> ActionTypeses { get; set; }
+        public DbSet<WoredaStockDistribution> WoredaStockDistributions { get; set; }
+        public DbSet<WoredaStockDistributionDetail> WoredaStockDistributionDetails { get; set; }
+        public DbSet<DistributionByAgeDetail> DistributionByAgeDetails { get; set; }
 
+        public DbSet<ReceiptPlan> ReceiptPlans { get; set; }
+        public DbSet<ReceiptPlanDetail> ReceiptPlanDetails { get; set; }
+
+        public DbSet<SupportType> SupportTypes { get; set; }
+
+        public DbSet<Dispatch> Dispatches { get; set; }
+        public DbSet<DispatchDetail> DispatchDetails { get; set; }
+        public DbSet<OtherDispatchAllocation> OtherDispatchAllocations { get; set; }
+        public DbSet<DeliveryReconcile> DeliveryReconciles { get; set; }
+        public DbSet<LocalPurchase> LocalPurchases { get; set; }
+        public DbSet<LocalPurchaseDetail> LocalPurchaseDetails { get; set; }
+
+        public DbSet<DonationPlanHeader> DonationPlanHeaders { get; set; }
+        public DbSet<DonationPlanDetail> DonationPlanDetails { get; set; }
+        public DbSet<LoanReciptPlan> LoanReciptPlans { get; set; }
+        public DbSet<LoanReciptPlanDetail> LoanReciptPlanDetails { get; set; }
+        public DbSet<Transfer> Transfers { get; set; }
+        public DbSet<TransporterCheque> TransporterCheques { get; set; }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            modelBuilder.Configurations.Add(new DispatchMap());
+            modelBuilder.Configurations.Add(new DispatchDetailMap());
+            modelBuilder.Configurations.Add(new OtherDispatchAllocationMap());
+
+            modelBuilder.Configurations.Add(new DeliveryReconcileMap());
+
             modelBuilder.Configurations.Add(new PaymentRequestMap());
             modelBuilder.Configurations.Add(new SIPCAllocationMap());
             modelBuilder.Configurations.Add(new PromisedContributionMap());
@@ -187,6 +218,7 @@ namespace Cats.Data
              modelBuilder.Configurations.Add(new WorkflowMap());
             modelBuilder.Configurations.Add(new WorkflowStatusMap());
             modelBuilder.Configurations.Add(new TransportBidQuotationMap());
+           // modelBuilder.Configurations.Add(new TransportBidQuotationHeaderMap());
             modelBuilder.Configurations.Add(new ApplicationSettingMap());
             modelBuilder.Configurations.Add(new RationMap());
 
@@ -234,12 +266,36 @@ namespace Cats.Data
             modelBuilder.Configurations.Add(new AllocationByRegionMap());
             modelBuilder.Configurations.Add(new PlanMap());
             modelBuilder.Configurations.Add(new NotificationMap());
-            modelBuilder.Configurations.Add(new WoredasByDonorMap());
-            modelBuilder.Configurations.Add(new DistributionMap());
-            modelBuilder.Configurations.Add(new DistributionDetailMap());
+            modelBuilder.Configurations.Add(new HRDDonorCoverageMap());
+            modelBuilder.Configurations.Add(new HrdDonorCoverageDetailMap());
+            modelBuilder.Configurations.Add(new DeliveryMap());
+            modelBuilder.Configurations.Add(new DeliveryDetailMap());
             modelBuilder.Configurations.Add(new IDPSReasonTypeMap());
             modelBuilder.Configurations.Add(new TransportBidQuotationHeaderMap());
             modelBuilder.Configurations.Add(new ActionTypesMap());
+
+            modelBuilder.Configurations.Add(new TemplateTypeMap());
+            modelBuilder.Configurations.Add(new TemplateMap());
+            modelBuilder.Configurations.Add(new TemplateFieldMap());
+
+            modelBuilder.Configurations.Add(new WoredaStockDistributionMap());
+            modelBuilder.Configurations.Add(new WoredaStockDistributionDetailMap());
+
+            modelBuilder.Configurations.Add(new DistributionByAgeDetailMap());
+
+            modelBuilder.Configurations.Add(new ReceiptPlanMap());
+            modelBuilder.Configurations.Add(new ReceiptPlanDetailMap());
+
+
+            modelBuilder.Configurations.Add(new DonationPlanHeaderMap());
+            modelBuilder.Configurations.Add(new DonationPlanDetailMap());
+
+            modelBuilder.Configurations.Add(new LocalPurchaseMap());
+            modelBuilder.Configurations.Add(new LocalPurchaseDetailMap());
+            modelBuilder.Configurations.Add(new LoanReciptPlanMap());
+            modelBuilder.Configurations.Add(new LoanReciptPlanDetailMap());
+            modelBuilder.Configurations.Add(new TransferMap());
+            modelBuilder.Configurations.Add(new TransporterChequeMap());
         }
 
     }

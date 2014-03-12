@@ -3,7 +3,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
       using Cats.Models;
       using Cats.Models.Constant;
 
@@ -50,8 +49,24 @@ namespace Cats.Services.Common
             string includeProperties = "");
        List<Plan> GetPlan(string programName);
         List<Plan> GetPlan(int programID);
+        List<Plan> GetRequisitionGeneratedPlan(int programID, int zoneID);
         List<FDP> GetFDPs(int woredaID);
+        List<Plan> GetPlans();
         List<Commodity> GetRationCommodity(int id);
+        List<AdminUnit> FindBy(Expression<Func<AdminUnit, bool>> predicate);
+        List<AdminUnit> GetRegions();
+        List<AdminUnit> GetZones(int regionId);
+        List<AdminUnit> GetWoreda(int zoneId);
+        List<SupportType> GetAllSupportType();
+        int GetZoneID(int woredaID);
+        int GetRegion(int zoneID);
+        List<CommoditySource> GetCommoditySource();
+        int GetShippingInstruction(string siNumber);
+        List<Hub> GetAllHubs();
+        List<GiftCertificate> GetAllGiftCertificates();
+        string GetCommditySourceName(int id);
+
+
     }
 }
 

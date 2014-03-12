@@ -11,7 +11,12 @@ using Cats.Infrastructure;
 using Cats.Services.Security;
 using Cats.Helpers;
 using LanguageHelpers.Localization.DataAnnotations;
+using StackExchange.Profiling;
 using log4net.Core;
+using NetSqlAzMan;
+using NetSqlAzMan.Interfaces;
+using NetSqlAzMan.Cache;
+using System.Configuration;
 
 namespace Cats
 {
@@ -22,7 +27,9 @@ namespace Cats
     {
         protected void Application_Start()
         {
-           
+            // Clear all ViewEngines except Razor
+            ViewEngines.Engines.Clear(); 
+            ViewEngines.Engines.Add(new RazorViewEngine());
            
             AreaRegistration.RegisterAllAreas();
 
@@ -37,6 +44,9 @@ namespace Cats
             log4net.Config.XmlConfigurator.Configure();
             DependencyResolver.Current.GetService<ILogger>();
 
+            // EF Profiler
+            //HibernatingRhinos.Profiler.Appender.EntityFramework.EntityFrameworkProfiler.Initialize();
+
         }
         protected void Application_AuthenticateRequest(object sender, EventArgs e)
         {
@@ -49,7 +59,20 @@ namespace Cats
                 HttpContext.Current.User = principal;
             }
         }
-       
-       
+
+        protected void Application_BeginRequest()
+        {
+            if (Request.IsLocal)
+            {
+                //MiniProfiler.Start();
+                //MiniProfilerEF.InitializeEF42();
+            }
+        }
+
+        protected void Application_EndRequest()
+        {
+            MiniProfiler.Stop();
+        }
+
     }
 }

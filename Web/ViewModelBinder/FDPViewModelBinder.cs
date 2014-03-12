@@ -13,7 +13,11 @@ namespace Cats.Web.Hub.ViewModelBinder
         {
             return fdps.Select(fdp1 => new FDPViewModel()
                 {
-                    FDPID = fdp1.FDPID, Name = fdp1.Name, NameAM = fdp1.NameAM, AdminUnitID = fdp1.AdminUnitID
+                    FDPID = fdp1.FDPID, 
+                    Name = fdp1.Name,
+                    NameAM = fdp1.NameAM, 
+                    AdminUnitID = fdp1.AdminUnitID
+                    
                 }).ToList();
         }
     }

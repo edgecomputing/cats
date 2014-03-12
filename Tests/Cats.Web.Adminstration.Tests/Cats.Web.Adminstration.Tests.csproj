@@ -42,9 +42,9 @@
     <Reference Include="Moq">
       <HintPath>..\..\packages\Moq.4.1.1309.1617\lib\net40\Moq.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json">
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Newtonsoft.Json.5.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="nunit.framework">
       <HintPath>..\..\packages\NUnit.2.6.2\lib\nunit.framework.dll</HintPath>
@@ -105,7 +105,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommoidtyTypeControllerTests.cs" />
-    <Compile Include="ControllerTest\WoredaDonorTest.cs" />
     <Compile Include="DonorControllerTest.cs" />
     <Compile Include="FDPControllerTest.cs" />
     <Compile Include="ControllerTest\CommoidtyTypeControllerTests.cs" />
@@ -125,10 +124,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Cats.Web.Adminstration\Cats.Web.Adminstration.csproj">
-      <Project>{7D69AEC0-4CE9-4BFE-BB34-9B92E78DB6E5}</Project>
-      <Name>Cats.Web.Adminstration</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Models\Cats.Models\Cats.Models.csproj">
       <Project>{abfb63d2-89fc-45bc-aa4e-5d9b21094b85}</Project>
       <Name>Cats.Models</Name>
@@ -136,6 +131,10 @@
     <ProjectReference Include="..\..\Services\Cats.Services.Administration\Cats.Services.Administration.csproj">
       <Project>{2f5baa46-25c9-4b3b-aaf6-7df39e9a696a}</Project>
       <Name>Cats.Services.Administration</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Cats.Web.Adminstration\Cats.Web.Adminstration.csproj">
+      <Project>{7d69aec0-4ce9-4bfe-bb34-9b92e78db6e5}</Project>
+      <Name>Cats.Web.Adminstration</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

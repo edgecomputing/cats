@@ -10,8 +10,7 @@ namespace Cats.Models.Hubs
         {
             this.GiftCertificates = new List<GiftCertificate>();
             this.ReceiptAllocations = new List<ReceiptAllocation>();
-            this.Receives = new List<Receive>();
-            this.Receives1 = new List<Receive>();
+        
         }
         [Key]
         public int DonorID { get; set; }
@@ -22,7 +21,6 @@ namespace Cats.Models.Hubs
         public string LongName { get; set; }
         public virtual ICollection<GiftCertificate> GiftCertificates { get; set; }
         public virtual ICollection<ReceiptAllocation> ReceiptAllocations { get; set; }
-        public virtual ICollection<Receive> Receives { get; set; }
-        public virtual ICollection<Receive> Receives1 { get; set; }
+      
     }
 }

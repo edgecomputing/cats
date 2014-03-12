@@ -165,17 +165,7 @@ namespace Cats.Services.Procurement
                 transportOrder.EndDate = DateTime.Today;
                 transportOrder.TransportOrderNo = Guid.NewGuid().ToString();
                 transportOrder.OrderExpiryDate = DateTime.Today.AddDays(10);
-                var currentBid = _unitOfWork.ApplicationSettingRepository.FindBy(t => t.SettingName == "CurrentBid");
-                if (currentBid != null)
-                {
-                    var bidID = int.Parse(currentBid[0].SettingValue);
-                    transportOrder.BidDocumentNo = _unitOfWork.BidRepository.FindById(bidID).BidNumber;
-                }
-                else
-                {
-                    transportOrder.BidDocumentNo = "Bid-Number";
-                    //_unitOfWork.BidWinnerRepository.FindById(transporter).Bid.BidNumber;
-                }
+                
                 transportOrder.PerformanceBondReceiptNo = "PERFORMANCE-BOND-NO";
                 //var transporterName = _unitOfWork.TransporterRepository.FindById(transporter).Name;
                 transportOrder.ContractNumber = Guid.NewGuid().ToString();
@@ -190,11 +180,28 @@ namespace Cats.Services.Procurement
 
                 foreach (var transporterRequisition in transportLocations)
                 {
+                    //var currentBid = _unitOfWork.BidRepository.FindBy(t => t.StatusID == int.Parse(BidStatus.Active.ToString())).FirstOrDefault();
+                    var transReq = transporterRequisition;
+                    //var activeBidStatusID = int.Parse(BidStatus.Active.ToString());
+                    var bidWinner =
+                    _unitOfWork.BidWinnerRepository.Get(
+                        t => t.SourceID == transReq.HubID && t.DestinationID == transReq.WoredaID && t.Position == 1 &&
+                            t.Bid.StatusID == 5).FirstOrDefault();
+                    if (bidWinner != null)
+                    {
+                        transportOrder.BidDocumentNo = _unitOfWork.BidRepository.FindById(bidWinner.BidID).BidNumber;
+                    }
+                    else
+                    {
+                        transportOrder.BidDocumentNo = "Bid-Number";
+                        //_unitOfWork.BidWinnerRepository.FindById(transporter).Bid.BidNumber;
+                    }
+
                     var requisionsDetails =
                         _unitOfWork.ReliefRequisitionDetailRepository.Get(
                             t =>
-                            t.RequisitionID == transporterRequisition.RequisitionID &&
-                            t.FDP.AdminUnitID == transporterRequisition.WoredaID, null, "ReliefRequisition").ToList();
+                            t.RequisitionID == transReq.RequisitionID &&
+                            t.FDP.AdminUnitID == transReq.WoredaID, null, "ReliefRequisition").ToList();
 
                     foreach (var reliefRequisitionDetail in requisionsDetails)
                     {
@@ -204,8 +211,8 @@ namespace Cats.Services.Procurement
                         transportOrderDetail.FdpID = reliefRequisitionDetail.FDPID;
                         transportOrderDetail.RequisitionID = reliefRequisitionDetail.RequisitionID;
                         transportOrderDetail.QuantityQtl = reliefRequisitionDetail.Amount;
-                        transportOrderDetail.TariffPerQtl = transporterRequisition.TariffPerQtl;
-                        transportOrderDetail.SourceWarehouseID = transporterRequisition.HubID;
+                        transportOrderDetail.TariffPerQtl = transReq.TariffPerQtl;
+                        transportOrderDetail.SourceWarehouseID = transReq.HubID;
                         transportOrder.TransportOrderDetails.Add(transportOrderDetail);
                     }
 
@@ -286,8 +293,9 @@ namespace Cats.Services.Procurement
                 }
                 else
                 {
+                    //TODO: these commented lines should be figured out how they affect the rest of the code
                     transportRequisition.TransporterID = transportBidWinner.TransporterID;
-                    transportRequisition.TariffPerQtl = transportBidWinner.Tariff;
+                    transportRequisition.TariffPerQtl = transportBidWinner.Tariff!=null ? (decimal) transportBidWinner.Tariff : 0;
 
                     transportSourceDestination.Add(transportRequisition);
                 }
@@ -374,9 +382,9 @@ namespace Cats.Services.Procurement
             return false;
 
         }
+        
         private class TransporterRequisition
         {
-
             public int HubID { get; set; }
             public int WoredaID { get; set; }
             public int RequisitionID { get; set; }
@@ -384,6 +392,7 @@ namespace Cats.Services.Procurement
             public decimal TariffPerQtl { get; set; }
             public int TransportRequisitionDetailID { get; set; }
         }
+
         public List<Hub> GetHubs()
         {
             return _unitOfWork.HubRepository.GetAll();

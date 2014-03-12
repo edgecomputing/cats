@@ -27,9 +27,11 @@ namespace Cats.Models.Security
         public string DefaultTheme { get; set; }
         public bool ActiveInd { get; set; }
         public bool LockedInInd { get; set; }
+        public int NumberOfLogins { get; set; }
       //  public byte[] UserSID { get; set; }
         public int UserProfileID { get; set; }
-
+        public int? RegionID { get; set; }
+        public bool RegionalUser { get; set; }
         public string FullName
         {
             get { return string.Format("{0} {1} {2}", FirstName, LastName, GrandFatherName); }

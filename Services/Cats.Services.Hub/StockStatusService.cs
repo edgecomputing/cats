@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using Cats.Data.Hub.UnitWork;
 using Cats.Services.Hub.Interfaces;
 using Cats.Data.Hub;
 using Cats.Models.Hubs;
@@ -336,7 +337,7 @@ namespace Cats.Services.Hub
                     if (s.LedgerID == 2 || s.LedgerID == 3 || s.LedgerID == 12)
                     {
                         phys = phys + Math.Abs(s.QuantityInMT);
-                    }
+                    }   
 
                     if (s.LedgerID == 2)
                     {

@@ -1,8 +1,8 @@
 ﻿@using Cats.Areas.EarlyWarning.Models
 @using Cats.Helpers
+@using Cats.Security
 @using Cats.Services.Security
 @using Kendo.Mvc.UI
-@using Logistics.Security
 @{
     ViewBag.Title = "Details";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
@@ -19,7 +19,7 @@
 {
    @Html.LogisticsOperationButton(
                         @Url.Action("Details", "TransportRequisition", new { id=ViewBag.TransportRequisitonID }),
-                        LogisticsCheckAccess.Operation.View_Transport_Requisition_Detail, "<i class=\"icon-list\"></i>", "btn", "btn_back_to_list")
+                        LogisticsConstants.Operation.View_Transport_Requisition_Detail, "<i class=\"icon-list\"></i>", "btn", "btn_back_to_list")
     
 }
 @{

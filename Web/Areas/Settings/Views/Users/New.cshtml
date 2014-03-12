@@ -58,6 +58,29 @@
         </div>
     </div>
     
+    <!-- Password input-->
+    <div class="control-group">
+        <label class="control-label">Regional User:</label>
+        <div class="controls">
+            @Html.CheckBoxFor(m => m.RegionalUser)
+        </div>
+    </div>
+    
+     <!-- Password input-->
+    <div class="control-group">
+        <label class="control-label">Region:</label>
+        <div class="controls">
+            @Html.DropDownListFor(m => m.RegionID, new SelectList(ViewBag.Regions, "AdminUnitID","Name"))
+        </div>
+    </div>
+    
+    <!-- Password input-->
+    <div class="control-group">
+        <label class="control-label">Case Team:</label>
+        <div class="controls">
+            @Html.DropDownListFor(m => m.CaseTeam, new SelectList(ViewBag.CaseTeams, "ID","CaseTeamName"))
+        </div>
+    </div>
     @*
     <!-- START -->
     

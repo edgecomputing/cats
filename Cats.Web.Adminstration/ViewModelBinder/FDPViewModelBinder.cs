@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using Cats.Models;
 using Cats.Web.Adminstration.Models.ViewModels;
+using System.Data.Spatial;
 
 namespace Cats.Web.Adminstration.ViewModelBinder
 {
@@ -17,7 +18,12 @@ namespace Cats.Web.Adminstration.ViewModelBinder
                 Name = fdp.Name,
                 NameAM = fdp.NameAM,
                 AdminUnitID = fdp.AdminUnitID,
-                AdminUnit = fdp.AdminUnit.Name
+                AdminUnit = fdp.AdminUnit.Name,
+                //latitiude = fdp.FDPLocation!=null?fdp.FDPLocation.Latitude:0.0,
+                //longitude = fdp.FDPLocation!=null?fdp.FDPLocation.Longitude: 0.0
+                latitude = fdp.Latitude,
+                longitude = fdp.Longitude
+
             };
         }
         public static List<FDPViewModel> BindListFDPViewModel(List<FDP> fdPs)
@@ -32,7 +38,11 @@ namespace Cats.Web.Adminstration.ViewModelBinder
                 FDPID = fdpViewModel.FDPID,
                 Name = fdpViewModel.Name,
                 NameAM = fdpViewModel.NameAM,
-                AdminUnitID = fdpViewModel.AdminUnitID
+                AdminUnitID = fdpViewModel.AdminUnitID,
+                //FDPLocation = DbGeography.FromText("POINT(47.605049 48.605049)"),
+                //FDPLocation = DbGeography.FromText("POINT("+fdpViewModel.longitude.ToString()+" "+fdpViewModel.latitiude+")")
+                Latitude = fdpViewModel.latitude,
+                Longitude = fdpViewModel.longitude
             };
         } 
     }

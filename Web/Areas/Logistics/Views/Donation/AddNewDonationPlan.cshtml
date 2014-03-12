@@ -1,0 +1,206 @@
+﻿@using System.Collections
+@using LanguageHelpers.Localization
+@model Cats.Areas.Logistics.Models.DonationViewModel
+@using Kendo.Mvc.UI
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+
+    var headerId = 0;
+    if(Model!=null)
+    {
+        headerId = Model.DonationHeaderPlanID;
+    }
+    
+}
+
+
+@section Toolbar{
+    
+    <div class="btn-group" style="margin-right: 8px;">
+        <button class="btn dropdown-toggle " data-toggle="dropdown"> @Translator.Translate("Actions") 
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu">
+             <li><a id="btnReceiptDispatch"  href="@Url.Action("CloseLocalPlan", "Donation", new { donationPlanHeaderId = @headerId })" >@Translator.Translate("Receive")</a></li>
+            
+        </ul>
+
+    </div>
+   
+    <a class="btn toolbar-btn "  data-buttontype="btn_save" data-submittedform="frmDonation"></a>
+    <a id="btnAddProposal" data-buttontype="btn_back_to_list" class="btn toolbar-btn " href="@Url.Action("Index", "Donation")"></a>
+}
+
+  
+<h4>Receive Plan</h4>
+
+
+@using (Html.BeginForm("Save", "Donation", FormMethod.Post, new { id = "frmDonation" }))
+{
+    <div class="control-group form-horizontal well">
+        <div class="row">
+            <div class="span6">  
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.LabelFor(model => model.SINumber, @Translator.Translate("SI / Batch Number"))
+                    </div>
+                    <div class="controls">
+                        @Html.TextBoxFor(model => model.SINumber, "SINumber",new { @readonly = "readonly" })
+                        @Html.ValidationMessageFor(model => model.SINumber)
+                    </div>
+                </div>
+            </div>
+            <div class="span4">
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.LabelFor(model => model.ETA, @Translator.Translate("ETA"))
+                    </div>
+                    <div class="controls" >
+                        @(Html.TextBoxFor(model => model.ETA,new {@readonly = "readonly" }))
+                        @Html.ValidationMessageFor(model => model.ETA)
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="span6">
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.Label(@Translator.Translate("Donor")) 
+                    </div>
+                    <div class="controls">
+                        @(Html.DropDownListFor(model => model.DonorID, new SelectList(Model.Donors, "DonorID", "Name"),new { @readonly = "readonly" }))
+                    </div>
+                </div>
+            </div>
+            <div class="span4">
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.Label(@Translator.Translate("Commodity Type")) 
+                    </div>
+                    <div class="controls" >
+                        @(Html.DropDownListFor(model => model.CommodityTypeID, new SelectList(Model.CommodityTypes, "CommodityTypeID", "Name"),new { @readonly = "readonly" }))
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="span6">
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.Label(@Translator.Translate("Commodity")) 
+                    </div>
+                    <div class="controls" >
+                        @(Html.DropDownListFor(model => model.CommodityID, new SelectList(Model.Commodities, "CommodityID", "Name"),new { @readonly = "readonly" }))
+                    </div>
+                </div>
+            </div>
+            <div class="span4">
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.LabelFor(model => model.WieghtInMT, @Translator.Translate("GC Amount")) 
+                    </div>
+                    <div class="controls" >
+                        @(Html.TextBoxFor(model => model.WieghtInMT,new { @readonly = "readonly" }))
+                    </div>
+                </div>
+            </div>
+        
+        </div>
+        <div class="row">
+            <div class="span4">
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.Label(@Translator.Translate("Program")) 
+                    </div>
+                    <div class="controls">
+                        @(Html.DropDownListFor(model => model.ProgramID, new SelectList(Model.Programs, "ProgramID", "Name"),new { @readonly = "readonly" }))
+                    </div>
+                </div>
+            </div>
+           
+        </div>
+    </div>
+
+    @(Html.Kendo().Grid(Model.DonationPlanDetails)
+          .Name("grid")
+          .Columns(columns =>
+                       {
+                           columns.Bound(p => p.HubID).Title("Hub").Width(100).Hidden(true).ClientTemplate("#= HubID #" +
+                    "<input type='hidden' name='DonationPlanDetails[#= index(data)#].HubID' value='#= HubID #' />");
+                           columns.Bound(p => p.Hub).Title("Hub").Width(100).ClientTemplate("#= Hub #" +
+                   "<input type='hidden' name='DonationPlanDetails[#= index(data)#].Hub' value='#= Hub #' />");
+
+                           columns.Bound(p => p.AllocatedAmount).Title("Allocated").Width(30).Format("{0:n2}").ClientFooterTemplate("<div style='text-align: right'> Sum: #=sum#</div>").HtmlAttributes(new { align = "Right" }).HtmlAttributes(new { style = "text-align: right; font-size: 12px; " }).ClientTemplate("#= AllocatedAmount #" +
+                    "<input type='hidden' name='DonationPlanDetails[#= index(data)#].AllocatedAmount' value='#= AllocatedAmount #' />"); 
+
+                           columns.Bound(p => p.ReceivedAmount).Title("Received").Width(30).Format("{0:n2}").HtmlAttributes(new { align = "Right" }).HtmlAttributes(new { style = "text-align: right; font-size: 12px; " }).ClientTemplate("#= ReceivedAmount #" +
+                    "<input type='hidden' name='DonationPlanDetails[#= index(data)#].ReceivedAmount' value='#= ReceivedAmount #' />"); 
+
+                           columns.Bound(p => p.Balance).Title("Balance").Width(30).Format("{0:n2}").HtmlAttributes(new { align = "Right" }).HtmlAttributes(new { style = "text-align: right; font-size: 12px; " }).ClientTemplate("#= Balance #" +
+                   "<input type='hidden' name='DonationPlanDetails[#= index(data)#].Balance' value='#= Balance #' />");
+                           
+                       })
+
+          .Editable(editable => editable.Mode(GridEditMode.InCell))
+          .Sortable()
+          .Scrollable()
+          .Events(events => events.DataBound("onDataBound"))
+   
+          .HtmlAttributes(new { style = "height:150px;" })
+          .DataSource(dataSource => dataSource
+                                        .Ajax()
+                                        .Aggregates(aggregates => aggregates.Add(p => p.AllocatedAmount).Sum())
+                                        .PageSize(20)
+                                        .Events(events => events.Error("error_handler"))
+                                       
+                                       
+                                        .ServerOperation(false)
+                                        .Model(model => model.Id(p => p.DonationDetailPlanID))
+                                        .Model(model => model.Field(p => p.Hub).Editable(false))
+                                       
+                                        
+          )
+          )
+}
+<script>
+      
+
+    
+    
+    function error_handler(e) {
+        if (e.errors) {
+            var message = "Errors:\n";
+            $.each(e.errors, function (key, value) {
+                if ('errors' in value) {
+                    $.each(value.errors, function () {
+                        message += this + "\n";
+                    });
+                }
+            });
+            alert(message);
+        }
+    }
+    
+
+    function index(dataItem) {
+        var data = $("#grid").data("kendoGrid").dataSource.data();
+
+        return data.indexOf(dataItem);
+    }
+    
+    function onDataBound(e) {
+        var grid = $("#grid").data("kendoGrid");
+        $(grid.tbody).on("focus", "input", function (e) {
+            var input = $(this);
+            setTimeout(function () { input.select(); }, 100);
+        });
+    }
+    function saverecords() {
+        $("#grid").data("kendoGrid").saveChanges();
+    }
+
+   
+</script>          

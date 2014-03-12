@@ -69,10 +69,38 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BeneficiaryAllocationService.cs" />
-    <Compile Include="DistributionDetailService.cs" />
-    <Compile Include="DistributionService.cs" />
-    <Compile Include="IDistributionDetailService.cs" />
-    <Compile Include="IDistributionService.cs" />
+    <Compile Include="DeliveryReconcileService.cs" />
+    <Compile Include="DistributionByAgeDetailService.cs" />
+    <Compile Include="IDeliveryReconcileService.cs" />
+    <Compile Include="DonationPlanDetail.cs" />
+    <Compile Include="DonationPlanDetailService.cs" />
+    <Compile Include="IDistributionByAgeDetailService.cs" />
+    <Compile Include="IDonationPlanDetail.cs" />
+    <Compile Include="IDonationPlanHeaderService.cs" />
+    <Compile Include="ILoanReciptPlanDetailService.cs" />
+    <Compile Include="ILoanReciptPlanService.cs" />
+    <Compile Include="ILocalPurchaseDetailService.cs" />
+    <Compile Include="ILocalPurchaseService.cs" />
+    <Compile Include="IReceiptPlanDetailService.cs" />
+    <Compile Include="IReceiptPlanService.cs" />
+    <Compile Include="ITransferService.cs" />
+    <Compile Include="LoanReciptPlanDetailService.cs" />
+    <Compile Include="LoanReciptPlanService.cs" />
+    <Compile Include="LocalPurchaseDetailService.cs" />
+    <Compile Include="LocalPurchaseService.cs" />
+    <Compile Include="ReceiptPlanDetailService.cs" />
+    <Compile Include="ReceiptPlanService.cs" />
+    <Compile Include="ISupportTypeService.cs" />
+    <Compile Include="SupportTypeService.cs" />
+    <Compile Include="TransferService.cs" />
+    <Compile Include="UtilizationDetailSerivce.cs" />
+    <Compile Include="DeliveryDetailService.cs" />
+    <Compile Include="DeliveryService.cs" />
+    <Compile Include="UtilizationHeaderSerivce.cs" />
+    <Compile Include="IUtilizationDetailSerivce.cs" />
+    <Compile Include="IDeliveryDetailService.cs" />
+    <Compile Include="IDeliveryService.cs" />
+    <Compile Include="IUtilizationHeaderSerivce.cs" />
     <Compile Include="SIPCAllocationService.cs" />
     <Compile Include="ISIPCAllocationService.cs" />
     <Compile Include="IBeneficiaryAllocationService.cs" />
@@ -103,9 +131,9 @@
       <Project>{083d007c-dd3b-42c0-b11c-a7015a909085}</Project>
       <Name>Cats.Services.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Cats.Services.Hub\Cats.Services.Hub.csproj">
-      <Project>{9fba0283-ee84-49f2-8305-f038bbf29658}</Project>
-      <Name>Cats.Services.Hub</Name>
+    <ProjectReference Include="..\Cats.Services.EarlyWarning\Cats.Services.EarlyWarning.csproj">
+      <Project>{a08cf415-6299-41ab-9d69-c3ce9b49ccd6}</Project>
+      <Name>Cats.Services.EarlyWarning</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

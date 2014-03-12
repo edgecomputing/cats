@@ -19,7 +19,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
     {
         //
         // GET: /EarlyWarning/Plan/
-        private IPlanService _hrdPlanService;
+        private IPlanService _planService;
         private IUserAccountService _userAccountService;
         private ICommonService _commonService;
         private INeedAssessmentService _needAssessmentService;
@@ -27,20 +27,21 @@ namespace Cats.Areas.EarlyWarning.Controllers
         public PlanController(IPlanService hrdPlanService,IUserAccountService userAccountService,
                               ICommonService commonService,INeedAssessmentService needAssessmentService,IHRDService hrdService)
         {
-            _hrdPlanService = hrdPlanService;
+            _planService = hrdPlanService;
             _userAccountService = userAccountService;
             _commonService = commonService;
             _needAssessmentService = needAssessmentService;
         }
-        public ActionResult Index()
+        public ActionResult Index(int id=0)
         {
+            ViewBag.Status = id;
             return View();
         }
 
-        public ActionResult Plan_Read([DataSourceRequest] DataSourceRequest request)
+        public ActionResult Plan_Read([DataSourceRequest] DataSourceRequest request,int id=0)
         {
 
-            var plans = _hrdPlanService.GetAllPlan().OrderByDescending(m=>m.PlanID);
+            var plans =id == 0 ? _planService.Get(m=>m.Status==(int)PlanStatus.Draft).OrderByDescending(m=>m.PlanID).ToList():_planService.Get(m=>m.Status==id).ToList();
             var plansToDisplay = GetPlan(plans).ToList();
             return Json(plansToDisplay.ToDataSourceResult(request));
         }
@@ -64,7 +65,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         public ActionResult Create()
         {
             var plan = new Plan();
-            ViewBag.ProgramID = new SelectList(_hrdPlanService.GetPrograms(),"ProgramID", "Name");
+            ViewBag.ProgramID = new SelectList(_planService.GetPrograms(),"ProgramID", "Name");
             plan.StartDate = DateTime.Now;
             plan.EndDate = DateTime.Now;
             return View(plan);
@@ -78,25 +79,25 @@ namespace Cats.Areas.EarlyWarning.Controllers
                 try
                 {
                     plan.Status = (int)PlanStatus.Draft;
-                    _hrdPlanService.AddPlan(plan);
+                    _planService.AddPlan(plan);
                     return RedirectToAction("Index");
                 }
                 catch (Exception ex)
                 {
                     
                    ModelState.AddModelError("Errors","Plan with this name already Existed");
-                   ViewBag.ProgramID = new SelectList(_hrdPlanService.GetPrograms(), "ProgramID", "Name");
+                   ViewBag.ProgramID = new SelectList(_planService.GetPrograms(), "ProgramID", "Name");
                    return View(plan);
                 }
                 
             }
-            ViewBag.ProgramID = new SelectList(_hrdPlanService.GetPrograms(), "ProgramID", "Name");
+            ViewBag.ProgramID = new SelectList(_planService.GetPrograms(), "ProgramID", "Name");
             return View(plan);
         }
         public ActionResult Edit(int id)
         {
-            var plan = _hrdPlanService.FindById(id);
-            ViewBag.ProgramID = new SelectList(_hrdPlanService.GetPrograms(), "ProgramID", "Name",plan.ProgramID);
+            var plan = _planService.FindById(id);
+            ViewBag.ProgramID = new SelectList(_planService.GetPrograms(), "ProgramID", "Name",plan.ProgramID);
             if (plan==null)
             {
                 return HttpNotFound();
@@ -108,14 +109,25 @@ namespace Cats.Areas.EarlyWarning.Controllers
         {
             if(ModelState.IsValid)
             {
-                _hrdPlanService.EditPlan(plan);
+                _planService.EditPlan(plan);
                 return RedirectToAction("Index");
             }
             return View(plan);
         }
+        public ActionResult ClosePlan(int id)
+        {
+            var plan=_planService.FindById(id);
+            if(plan!=null)
+            {
+                plan.Status = (int) PlanStatus.Closed;
+                _planService.EditPlan(plan);
+                return RedirectToAction("Index", "Plan", new {id = plan.Status});
+            }
+            return RedirectToAction("index", "Plan", new {id = plan.Status});
+        }
         public ActionResult Detail(int id)
         {
-            var plan = _hrdPlanService.FindById(id);
+            var plan = _planService.FindById(id);
 
             var needAssessment = _needAssessmentService.FindBy(m => m.PlanID == plan.PlanID).ToList();
             var hrd = _hrdService.FindBy(m => m.PlanID == plan.PlanID).ToList();

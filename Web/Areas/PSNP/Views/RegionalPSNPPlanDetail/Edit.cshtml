@@ -20,7 +20,7 @@
     <a class="btn toolbar-btn " data-buttontype="btn_save" href="javascript:saverecords()"></a>
     <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="javascript:cancelChanges()"></a>
          <a class="btn toolbar-btn " data-buttontype="btn_reload" href="javascript:reloadrecords()"></a>
-     <a class="btn toolbar-btn " data-buttontype="btn_back_to_list" href="@Url.Action("Index", "RegionalPSNPPlan")"></a>
+     <a class="btn toolbar-btn " data-buttontype="btn_back_to_list" href="@Url.Action("Index", "RegionalPSNPPlanDetail",new {id=ViewBag.PsnpPlan.RegionalPSNPPlanID})"></a>
     
 }
    
@@ -30,7 +30,7 @@
     duration = ViewBag.PsnpPlan.Duration;
     RegionalPSNPPlanID = ViewBag.PsnpPlan.RegionalPSNPPlanID;
     <div>
-    <h4><b>Edit PSNP Plan</b>: <span>@ViewBag.PsnpPlan.Region.Name Region - </span>  <span>@ViewBag.PsnpPlan.Year</span> @ViewBag.psnpPlanID</h4>
+    <h4><b>Edit PSNP Plan</b>:   <span>@ViewBag.PsnpPlan.Year</span> @ViewBag.psnpPlanID</h4>
    
     </div>
 }
@@ -40,8 +40,8 @@
     .Columns(columns =>
     {
 
+        columns.Bound(p => p.RegionName);
         columns.Bound(p => p.ZoneName);
-
         columns.Bound(p => p.WoredaName);
         columns.Bound(p => p.FDPName);
         columns.Bound(p => p.BeneficiaryCount).HtmlAttributes(new { align = "Right" });
@@ -63,6 +63,11 @@
             model.Field(p => p.WoredaName).Editable(false);
             model.Field(p => p.FDPName).Editable(false);
         })
+         .Group(group =>
+           {
+               group.Add(m => m.RegionName);
+               group.Add(m => m.ZoneName);
+           })
         )
     
     .HtmlAttributes(new { style = "width:100%; height:450px;" })

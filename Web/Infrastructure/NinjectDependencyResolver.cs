@@ -4,9 +4,11 @@ using System.Web.Mvc;
 using Cats.Data.UnitWork;
 using Cats.Models;
 using Cats.Services.Administration;
+using Cats.Services.Finance;
+using Cats.Services.Hub;
+using Cats.Services.Hub.Interfaces;
 using Cats.Services.Security;
 using LanguageHelpers.Localization.Services;
-using Logistics.Security;
 using NetSqlAzMan;
 using NetSqlAzMan.Interfaces;
 using NetSqlAzMan.Providers;
@@ -15,24 +17,50 @@ using Cats.Services.EarlyWarning;
 using Cats.Services.Procurement;
 using Cats.Services.Logistics;
 using Cats.Services.PSNP;
-using Cats.Services.Transaction;
 using Cats.Services.Common;
+using Cats.Services.Dashboard;
+
 using log4net;
-using Early_Warning.Security;
+using Cats.Security;
 using AdminUnitService = Cats.Services.EarlyWarning.AdminUnitService;
 using CommodityService = Cats.Services.EarlyWarning.CommodityService;
+using CommonService = Cats.Services.Common.CommonService;
 using DonorService = Cats.Services.EarlyWarning.DonorService;
 using FDPService = Cats.Services.EarlyWarning.FDPService;
+using ForgetPasswordRequestService = Cats.Services.Security.ForgetPasswordRequestService;
+using GiftCertificateDetailService = Cats.Services.EarlyWarning.GiftCertificateDetailService;
+using GiftCertificateService = Cats.Services.EarlyWarning.GiftCertificateService;
 using HubService = Cats.Services.EarlyWarning.HubService;
 using IAdminUnitService = Cats.Services.EarlyWarning.IAdminUnitService;
 using ICommodityService = Cats.Services.EarlyWarning.ICommodityService;
+using ICommonService = Cats.Services.Common.ICommonService;
 using IDonorService = Cats.Services.EarlyWarning.IDonorService;
 using IFDPService = Cats.Services.EarlyWarning.IFDPService;
+using IForgetPasswordRequestService = Cats.Services.Security.IForgetPasswordRequestService;
+using IGiftCertificateDetailService = Cats.Services.EarlyWarning.IGiftCertificateDetailService;
+using IGiftCertificateService = Cats.Services.EarlyWarning.IGiftCertificateService;
 using IHubService = Cats.Services.EarlyWarning.IHubService;
+using ILedgerService = Cats.Services.Common.ILedgerService;
+using ILetterTemplateService = Cats.Services.Common.ILetterTemplateService;
 using IProgramService = Cats.Services.EarlyWarning.IProgramService;
+using IProjectCodeService = Cats.Services.EarlyWarning.IProjectCodeService;
+using ISettingService = Cats.Services.Security.ISettingService;
+using IShippingInstructionService = Cats.Services.EarlyWarning.IShippingInstructionService;
+using ITransactionService = Cats.Services.Transaction.ITransactionService;
+using ITransporterService = Cats.Services.Procurement.ITransporterService;
 using IUnitService = Cats.Services.EarlyWarning.IUnitService;
+using LedgerService = Cats.Services.Common.LedgerService;
+using LetterTemplateService = Cats.Services.Common.LetterTemplateService;
 using ProgramService = Cats.Services.EarlyWarning.ProgramService;
+using ProjectCodeService = Cats.Services.EarlyWarning.ProjectCodeService;
+using SettingService = Cats.Services.Security.SettingService;
+using ShippingInstructionService = Cats.Services.EarlyWarning.ShippingInstructionService;
+using TransactionService = Cats.Services.Transaction.TransactionService;
+using TransporterService = Cats.Services.Procurement.TransporterService;
 using UnitService = Cats.Services.EarlyWarning.UnitService;
+using Cats.Localization;
+using Cats.Localization.Services;
+
 
 //using Cats.Services.Hub.Interfaces;
 //using Cats.Services.Hub;
@@ -104,13 +132,14 @@ namespace Cats.Infrastructure
             kernel.Bind<IShippingInstructionService>().To<ShippingInstructionService>();
 
             kernel.Bind<ITransactionService>().To<TransactionService>();
-           // kernel.Bind<ITransactionService>().To<TransactionService>();
+            //kernel.Bind<ITransactionService>().To<TransactionService>();
             //kernel.Bind<ITransactionGroupService>().To<TransactionGroupService>();
             kernel.Bind<ITransportRequisitionService>().To<TransportRequisitionService>();
 
             kernel.Bind<IBeneficiaryAllocationService>().To<BeneficiaryAllocationService>();
             kernel.Bind<IWorkflowStatusService>().To<WorkflowStatusService>();
             kernel.Bind<ITransportBidQuotationService>().To<TransportBidQuotationService>();
+            kernel.Bind<ITransportBidQuotationHeaderService>().To<TransportBidQuotationHeaderService>();
             kernel.Bind<IApplicationSettingService>().To<ApplicationSettingService>();
             kernel.Bind<IRationService>().To<RationService>();
             kernel.Bind<IRationDetailService>().To<RationDetailService>();
@@ -124,10 +153,12 @@ namespace Cats.Infrastructure
             kernel.Bind<IRegionalPSNPPlanService>().To<RegionalPSNPPlanService>();
             kernel.Bind<IRegionalPSNPPlanDetailService>().To<RegionalPSNPPlanDetailService>();
 
-            kernel.Bind<ILocalizedTextService>().To<LocalizedTextService>();
-            kernel.Bind<ILanguageService>().To<LanguageService>();
+            //kernel.Bind<ILocalizedTextService>().To<LocalizedTextService>();
             //kernel.Bind<ILanguageService>().To<LanguageService>();
-            kernel.Bind<LanguageHelpers.Localization.Data.IUnitOfWork>().To<LanguageHelpers.Localization.Data.UnitOfWork>();
+            //kernel.Bind<LanguageHelpers.Localization.Data.IUnitOfWork>().To<LanguageHelpers.Localization.Data.UnitOfWork>();
+
+            kernel.Bind<Cats.Localization.Data.UnitOfWork.IUnitOfWork>().To<Cats.Localization.Data.UnitOfWork.UnitOfWork>();
+            kernel.Bind<ILocalizationService>().To<LocalizationService>();
 
             kernel.Bind<IGiftCertificateService>().To<GiftCertificateService>();
             kernel.Bind<IGiftCertificateDetailService>().To<GiftCertificateDetailService>();
@@ -152,6 +183,7 @@ namespace Cats.Infrastructure
 
             kernel.Bind<ILogReadService>().To<LogReadService>();
             kernel.Bind<INotificationService>().To<NotificationService>();
+            kernel.Bind<ISMSGatewayService>().To<SMSGatewayService>();
             kernel.Bind<IUserDashboardPreferenceService>().To<UserDashboardPreferenceService>();
             kernel.Bind<IForgetPasswordRequestService>().To<ForgetPasswordRequestService>();
             kernel.Bind<IDashboardWidgetService>().To<DashboardWidgetService>();
@@ -162,13 +194,16 @@ namespace Cats.Infrastructure
             kernel.Bind<IAllocationByRegionService>().To<AllocationByRegionService>();
             kernel.Bind<IPlanService>().To<PlanService>();
             kernel.Bind<IDashboardService>().To<DashboardService>();
-
+            kernel.Bind<IHrdDonorCoverageService>().To<HrdDonorCoverageService>();
+            kernel.Bind<IHrdDonorCoverageDetailService>().To<HrdDonorCoverageDetailService>();
             kernel.Bind<IIDPSReasonTypeServices>().To<IDPSReasonTypeServices>();
             kernel.Bind<IActionTypesService>().To<ActionTypesService>();
 
             kernel.Bind<IWoredaHubLinkService>().To<WoredaHubLinkService>();
             kernel.Bind<IWoredaHubService>().To<WoredaHubService>();
             kernel.Bind<ITransporterAgreementVersionService>().To<TransporterAgreementVersionService>();
+
+            kernel.Bind<ITemplateService>().To<TemplateService>();
 
             kernel.Bind<IAzManStorage>().To<SqlAzManStorage>().WithConstructorArgument("connectionString",
                                                                                    System.Configuration.
@@ -177,38 +212,52 @@ namespace Cats.Infrastructure
                                                                                            "SecurityContext"].
                                                                                        ConnectionString);
             kernel.Bind<NetSqlAzManRoleProvider>().To<NetSqlAzManRoleProvider>();
-            kernel.Bind<IEarlyWarningCheckAccess>().To<EarlyWarningCheckAccess>().WithConstructorArgument("storageConnectionString",
-                                                                                   System.Configuration.
-                                                                                       ConfigurationManager.
-                                                                                       ConnectionStrings[
-                                                                                           "SecurityContext"].
-                                                                                       ConnectionString);
-            kernel.Bind<ILogisticsCheckAccess>().To<LogisticsCheckAccess>().WithConstructorArgument("storageConnectionString",
-                                                                                  System.Configuration.
-                                                                                      ConfigurationManager.
-                                                                                      ConnectionStrings[
-                                                                                          "SecurityContext"].
-                                                                                      ConnectionString);
-            kernel.Bind<IProcurementCheckAccess>().To<ProcurementCheckAccess>().WithConstructorArgument("storageConnectionString",
-                                                                                  System.Configuration.
-                                                                                      ConfigurationManager.
-                                                                                      ConnectionStrings[
-                                                                                          "SecurityContext"].
-                                                                                      ConnectionString);
-            kernel.Bind<IPSNPCheckAccess>().To<PSNPCheckAccess>().WithConstructorArgument("storageConnectionString",
-                                                                                  System.Configuration.
-                                                                                      ConfigurationManager.
-                                                                                      ConnectionStrings[
-                                                                                          "SecurityContext"].
-                                                                                      ConnectionString);
+
+            //kernel.Bind<ILogisticsCheckAccess>().To<LogisticsCheckAccess>().WithConstructorArgument("storageConnectionString",
+            //                                                                      System.Configuration.
+            //                                                                          ConfigurationManager.
+            //                                                                          ConnectionStrings[
+            //                                                                              "SecurityContext"].
+            //                                                                          ConnectionString);
+            //kernel.Bind<IProcurementCheckAccess>().To<ProcurementCheckAccess>().WithConstructorArgument("storageConnectionString",
+            //                                                                      System.Configuration.
+            //                                                                          ConfigurationManager.
+            //                                                                          ConnectionStrings[
+            //                                                                              "SecurityContext"].
+            //                                                                          ConnectionString);
+            //kernel.Bind<IPSNPCheckAccess>().To<PSNPCheckAccess>().WithConstructorArgument("storageConnectionString",
+            //                                                                      System.Configuration.
+            //                                                                          ConfigurationManager.
+            //                                                                          ConnectionStrings[
+            //                                                                              "SecurityContext"].
+            //                                                                          ConnectionString);
             kernel.Bind<Cats.Services.Hub.Interfaces.IStockStatusService>().To<Cats.Services.Hub.StockStatusService>();
-            kernel.Bind<Cats.Services.Logistics.IDistributionService>().To<Cats.Services.Logistics.DistributionService>();
-            kernel.Bind<Cats.Services.Logistics.IDistributionDetailService>().To<Cats.Services.Logistics.DistributionDetailService>();
+            kernel.Bind<Cats.Services.Logistics.IDeliveryService>().To<Cats.Services.Logistics.DeliveryService>();
+            kernel.Bind<Cats.Services.Logistics.IDeliveryDetailService>().To<Cats.Services.Logistics.DeliveryDetailService>();
             kernel.Bind<ITransportBidQuotationHeader>().To<TransportBidQuotationHeaderHeaderService>();
+
+            kernel.Bind<IUtilizationHeaderSerivce>().To<UtilizationHeaderSerivce>();
+            kernel.Bind<IUtilizationDetailSerivce>().To<UtilizationDetailService>();
+            kernel.Bind<IDistributionByAgeDetailService>().To<DistributionByAgeDetailService>();
+          
+            kernel.Bind<Cats.Services.EarlyWarning.ICommodityTypeService>().To<Cats.Services.EarlyWarning.CommodityTypeService>();
+            kernel.Bind<IReceiptPlanService>().To<ReceiptPlanService>();
+            kernel.Bind<IReceiptPlanDetailService>().To<ReceiptPlanDetailService>();
+            kernel.Bind<IDeliveryReconcileService>().To<DeliveryReconcileService>();
+            kernel.Bind<ILocalPurchaseService>().To<LocalPurchaseService>();
+            kernel.Bind<ILocalPurchaseDetailService>().To<LocalPurchaseDetailService>();
+            kernel.Bind<IDonationPlanDetailService>().To<DonationPlanDetailService>();
+            kernel.Bind<IDonationPlanHeaderService>().To<DonationPlanHeaderService>();
+            kernel.Bind<ILoanReciptPlanService>().To<LoanReciptPlanService>();
+            kernel.Bind<IRegionalDashboard>().To<RegionalDashboard>();
+            kernel.Bind<ILoanReciptPlanDetailService>().To<LoanReciptPlanDetailService>();
+            kernel.Bind<ITransferService>().To<TransferService>();
+            kernel.Bind<IEWDashboardService>().To<EWDashboardService>();
+            kernel.Bind<ITransporterChequeService>().To<TransporterChequeService>();
         }
         private void AddBindingsHub()
         {
-            kernel.Bind<Cats.Data.Hub.IUnitOfWork>().To<Cats.Data.Hub.UnitOfWork>();
+            kernel.Bind<Data.Hub.UnitWork.IUnitOfWork>().To<Cats.Data.Hub.UnitOfWork>();
             kernel.Bind<Cats.Services.Hub.IFDPService>().To<Cats.Services.Hub.FDPService>();
             kernel.Bind<Cats.Services.Hub.IAdminUnitService>().To<Cats.Services.Hub.AdminUnitService>();
             kernel.Bind<Cats.Services.Hub.ICommodityService>().To<Cats.Services.Hub.CommodityService>();
@@ -245,7 +294,7 @@ namespace Cats.Infrastructure
             kernel.Bind<Cats.Services.Hub.IAuditService>().To<Cats.Services.Hub.AuditSevice>();
             kernel.Bind<Cats.Services.Hub.ICommonService>().To<Cats.Services.Hub.CommonService>();
             kernel.Bind<Cats.Services.Hub.IDonorService>().To<Cats.Services.Hub.DonorService>();
-            kernel.Bind<Cats.Services.Hub.IErrorLogService>().To<Cats.Services.Hub.ErrorLogService>();
+            kernel.Bind<IErrorLogService>().To<Cats.Services.Hub.ErrorLogService>();
             kernel.Bind<Cats.Services.Hub.IGiftCertificateDetailService>().To<Cats.Services.Hub.GiftCertificateDetailService>();
             kernel.Bind<Cats.Services.Hub.IGiftCertificateService>().To<Cats.Services.Hub.GiftCertificateService>();
             kernel.Bind<Cats.Services.Hub.IHubOwnerService>().To<Cats.Services.Hub.HubOwnerService>();

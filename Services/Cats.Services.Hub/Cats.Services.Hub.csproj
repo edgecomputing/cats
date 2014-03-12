@@ -39,6 +39,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\EntityFramework.5.0.0\lib\net40\EntityFramework.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\packages\Newtonsoft.Json.5.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -106,7 +109,7 @@
     <Compile Include="Interfaces\ILedgerTypeService.cs" />
     <Compile Include="Interfaces\ILetterTemplate.cs" />
     <Compile Include="Interfaces\IMasterService.cs" />
-    <Compile Include="Interfaces\InternalMovementService.cs" />
+    <Compile Include="InternalMovementService.cs" />
     <Compile Include="Interfaces\IOtherDispatchAllocationService.cs" />
     <Compile Include="Interfaces\IPartitionService.cs" />
     <Compile Include="Interfaces\IPeriodService.cs" />

@@ -1,22 +1,64 @@
-﻿@using Kendo.Mvc.UI
-@using LanguageHelpers.Localization
+﻿@using LanguageHelpers.Localization
 @model Cats.Models.NeedAssessment
 @{
     ViewBag.Title = "AddNeedAssessment";
-    Layout = "~/Views/Shared/_MainLayout.cshtml";  
+    //Layout = "~/Views/Shared/_MainLayout.cshtml";  
 }
- 
-<h4>Add Need Assessment</h4>
-@section Toolbar
+ @*@section Toolbar
 {
     <a class="btn toolbar-btn " data-buttontype="btn_save" data-submittedform="frm_add_region"></a>
     <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="@Url.Action("Index", "NeedAssessment")" title="save"></a>
+}*@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="myModalLabel">@Translator.Translate("Add Need Assessment")</h3>
+</div>
+
+@using (Html.BeginForm("AddNeedAssessment", "NeedAssessment", FormMethod.Post, new { @class = "modal-form"}))
+{
+
+    @Html.HiddenFor(m => m.PlanID)
+    <div class="modal-body">
+        <div class="form-horizontal">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(m => m.Season)
+                </div>
+                <div class="controls">
+                    @Html.DropDownList("SeasonID", ViewBag.Season as SelectList, new {id = "Season"})
+                    @Html.ValidationMessageFor(model => model.Season)
+                </div>
+              
+            </div>
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(m => m.Region)
+                </div>
+                <div class="controls">
+                    @Html.DropDownList("RegionID", ViewBag.Regions as SelectList, new {id = "Region"})
+                    @Html.ValidationMessageFor(model => model.Region)
+                </div>
+
+            </div>
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.Label(Translator.Translate("Assessment Type"))
+                </div>
+                <div class="controls">
+                    @Html.DropDownList("TypeOfNeedID", ViewBag.TypeOfNeed as SelectList, new {id = "TypeOfNeed"})
+                    @Html.ValidationMessageFor(model => model.TypeOfNeedAssessment1.TypeOfNeedAssessmentID)
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <div class="modal-footer"> <button class="btn btn-primary" type="submit">Save</button>
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+    </div>
 }
-
-
-@using (Html.BeginForm("AddNeedAssessment", "NeedAssessment", FormMethod.Post, new { id = "frm_add_region" }))
-{  
-    @Html.HiddenFor(m=>m.PlanID)
+    @* @Html.HiddenFor(m=>m.PlanID)
     <div class="control-group form-horizontal well">
         <div class="row">
             <div class="span6">
@@ -32,16 +74,16 @@
             </div>
 
             <div class="span6">
-            <div class="control-group">
-                <div class="control-label">
-                    @Html.LabelFor(m => m.Season)
-                </div>
-                <div class="controls">
-                   @Html.DropDownList("SeasonID", ViewBag.Season as SelectList, new { id = "Season" })
-                    @Html.ValidationMessageFor(model => model.Season)
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.LabelFor(m => m.Season)
+                    </div>
+                    <div class="controls">
+                        @Html.DropDownList("SeasonID", ViewBag.Season as SelectList, new { id = "Season" })
+                        @Html.ValidationMessageFor(model => model.Season)
+                    </div>
                 </div>
             </div>
-        </div>
         </div>
         <div class="row">
             <div class="span6">
@@ -63,7 +105,7 @@
                         @Html.Label(Translator.Translate("Assessment Type"))
                     </div>
                     <div class="controls">
-                         @Html.DropDownList("TypeOfNeedID", ViewBag.TypeOfNeed as SelectList, new { id = "TypeOfNeed" })
+                        @Html.DropDownList("TypeOfNeedID", ViewBag.TypeOfNeed as SelectList, new { id = "TypeOfNeed" })
                         @Html.ValidationMessageFor(model => model.TypeOfNeedAssessment1.TypeOfNeedAssessmentID)
                     </div>
 
@@ -71,8 +113,11 @@
             </div>
         </div>
     </div>
-}
-@(Html.Kendo().Grid<Cats.Models.NeedAssessmentHeaderViewModel>()
+     <div class="modal-footer"> <button class="btn btn-primary" type="submit">Save</button>
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+    </div>
+}*@
+@*@(Html.Kendo().Grid<Cats.Models.NeedAssessmentHeaderViewModel>()
     .Name("grid")
     .Columns(columns =>
     {
@@ -90,4 +135,4 @@
         .Model(model => model.Id(p => p.NeedAID))
         .Read(read=>read.Action("PlannedNeedAssessmentInfo_Read","NeedAssessment",new {id=Model.PlanID}))
     )
-)
+)*@

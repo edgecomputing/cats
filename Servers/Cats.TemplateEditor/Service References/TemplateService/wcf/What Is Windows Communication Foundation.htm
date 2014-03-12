@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html dir="ltr" xmlns="http://www.w3.org/1999/xhtml" lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8"><link rel="canonical" href="http://msdn.microsoft.com/en-us/library/ms731082%28v=vs.110%29.aspx">
+        <title>What Is Windows Communication Foundation</title>
+
+
+
+
+<meta name="DCS.dcsuri" content="/en-us/library/vstudio/ms731082(d=default,l=en-us,v=vs.110).aspx">
+
+<meta name="NormalizedUrl" content="http://msdn.microsoft.com/en-us/library/vstudio/ms731082(d=default,l=en-us,v=vs.110).aspx">
+
+<meta name="VotingContextUrl" content="http://msdn.microsoft.com/en-us/library/vstudio/ms731082(d=default,l=en-us,v=vs.110).aspx">
+
+<meta name="MN" content="FB361397-10:27:02 PM">
+
+<meta name="Search.ShortId" content="ms731082">
+
+<meta name="Ms.Locale" content="en-us">
+
+
+
+
+
+
+
+        
+    
+    
+
+    <link rel="stylesheet" type="text/css" href="What%20Is%20Windows%20Communication%20Foundation_files/Combined.css"><script src="What%20Is%20Windows%20Communication%20Foundation_files/ms2.js" async="" type="text/javascript"></script><script class="mtps-injected">try {
+/**/
+(window.MTPS || (window.MTPS = {})).cdnDomains || (window.MTPS.cdnDomains = { 
+	"image": "http://i.msdn.microsoft.com", 
+	"js": "http://i2.msdn.microsoft.com", 
+	"css": "http://i3.msdn.microsoft.com"
+});
+/**/
+} finally { MTPS._injectNextScript_0 && MTPS._injectNextScript_0(); }</script><script src="What%20Is%20Windows%20Communication%20Foundation_files/jquery-1.js" class="mtps-injected"></script><script class="mtps-injected">try {
+//
+  var literalNormalizedUrl = '/en-us/library/vstudio/ms731082(d=default,l=en-us,v=vs.110).aspx';
+  var wt_nvr_ru = 'WT_NVR_RU';
+  var wt_fpcdom = '.microsoft.com';
+  var wt_domlist = 'msdn.microsoft.com';
+  var wt_pathlist = '';
+  var wt_paramlist = 'DCSext.mtps_devcenter';
+  var wt_siteid = 'MSDN';
+  var gDomain = 'm.webtrends.com';
+  var gDcsId = 'dcsmgru7m99k7mqmgrhudo0k8_8c6m';
+  var gFpc = 'WT_FPC';
+
+
+
+  if (document.cookie.indexOf(gFpc + "=") == -1) {
+    var wtidJs = document.createElement("script");
+    wtidJs.src = "//" + gDomain + "/" + gDcsId + "/wtid.js";
+    document.getElementsByTagName("head")[0].appendChild(wtidJs);
+  }
+
+
+
+  var detectedLocale = 'en-us';
+  var wtsp = '_msdn_';
+  var gTrackEvents = '0';
+/**/
+} finally { MTPS._injectNextScript_2 && MTPS._injectNextScript_2(); }</script><script class="mtps-injected">try {
+/**/
+  var omni_guid = "a5d48c01-5365-4b7a-8e1d-cf707a4b7ed6";
+/**/
+} finally { MTPS._injectNextScript_3 && MTPS._injectNextScript_3(); }</script><script src="What%20Is%20Windows%20Communication%20Foundation_files/Combined_002.js" class="mtps-injected"></script><link media="print" type="text/css" rel="stylesheet" href="What%20Is%20Windows%20Communication%20Foundation_files/PrintView.css"><script class="mtps-injected">try {
+//
+    var searchWidgetJsUri = 'http://i2.services.social.microsoft.com/search/Widgets/SearchBox.jss?boxid=HeaderSearchTextBox&btnid=HeaderSearchButton&brand=MSDN&loc=en-us&Refinement=195&watermark=Visual%20Studio&focusOnInit=false&iroot=vstudio';
+  //
+} finally { MTPS._injectNextScript_5 && MTPS._injectNextScript_5(); }</script><script src="What%20Is%20Windows%20Communication%20Foundation_files/Combined_003.js" class="mtps-injected"></script><script src="What%20Is%20Windows%20Communication%20Foundation_files/sf_main.htm" type="text/javascript"></script><script src="What%20Is%20Windows%20Communication%20Foundation_files/javascript.js" type="text/javascript"></script><script src="What%20Is%20Windows%20Communication%20Foundation_files/client" type="text/javascript"></script><script src="What%20Is%20Windows%20Communication%20Foundation_files/sf_preloader.jsp" type="text/javascript"></script><script src="What%20Is%20Windows%20Communication%20Foundation_files/affiliate_client.js" id="jw_00" type="text/javascript"></script><script src="What%20Is%20Windows%20Communication%20Foundation_files/sf_code.jsp" type="text/javascript"></script><script src="What%20Is%20Windows%20Communication%20Foundation_files/base_single_icon.js" type="text/javascript"></script><script id="mscom.srch.searchBox" src="What%20Is%20Windows%20Communication%20Foundation_files/SearchBox.js"></script><script src="What%20Is%20Windows%20Communication%20Foundation_files/jquery.js" class="mtps-injected"></script><script src="What%20Is%20Windows%20Communication%20Foundation_files/Combined.js" class="mtps-injected"></script><script src="What%20Is%20Windows%20Communication%20Foundation_files/broker.js"></script><script class="mtps-injected">try {
+$(document).ready(function() {
+        try {
+            var token = $("#globalRequestVerification input[name='__RequestVerificationToken']").clone();
+            $("#siteFeedbackForm").append(token);
+        } catch(err) {
+            
+        }
+    });
+} finally { MTPS._injectNextScript_9 && MTPS._injectNextScript_9(); }</script><script class="dealply_content_script" id="__DealPly__429889.9573025782" type="text/javascript" src="What%20Is%20Windows%20Communication%20Foundation_files/-1426426751.js"></script></head>
+    <body class="library">
+        <div id="page">
+            
+            
+  
+            
+    
+
+
+
+<header class="ux-header">
+  <div class="header-top-bar">
+    <a class="header-top-bar-brand-logo" href="http://msdn.microsoft.com/vstudio" title="Visual Studio Home"></a>
+
+    <ul class="header-top-bar-links" id="ux-nav-user">
+      <li class="header-top-bar-search-box">
+        
+
+<form name="HeaderSearchForm" id="HeaderSearchForm" method="get" action="http://social.msdn.microsoft.com/search/en-us/">
+  <input value="Search Visual Studio with Bing" style="color: rgb(170, 170, 170); font-style: italic;" autocomplete="off" id="HeaderSearchTextBox" name="query" title="Search Visual Studio with Bing" class="TextBoxSearch" type="text">
+  <input id="RefinementId" name="refinement" title="195" value="195" type="hidden">
+  <input id="HeaderSearchButton" title="Search Visual Studio with Bing" class="header-search-button" value="" type="submit">
+  
+<div style="display: none; text-align: left; border: 1px solid buttonshadow; position: absolute; z-index: 1000; padding: 2px; background-color: rgb(255, 255, 255); color: rgb(255, 255, 255); font-family: &quot;Segoe UI&quot;,Helvetica,Garuda,Arial,sans-serif; font-size: 13.3333px;" id="SearchFlyoutContainer"><div id="SuggestionContainer"><ul style="list-style: none outside none; padding: 4px 2px 0px 1px; cursor: pointer; margin: 1px; white-space: nowrap;"></ul></div></div></form>
+      </li>
+
+
+
+      <li class="last">
+        <a class="scarabLink" id="idPPScarab" href="https://login.live.com/login.srf?wa=wsignin1.0&amp;rpsnv=12&amp;ct=1388212023&amp;rver=6.0.5276.0&amp;wp=MCLBI&amp;wlcxt=msdn%24msdn%24msdn&amp;wreply=http%3a%2f%2fmsdn.microsoft.com%2fen-us%2flibrary%2fvstudio%2fms731082%2528v%3dvs.110%2529.aspx&amp;lc=1033&amp;id=254354&amp;mkt=en-US" title="Sign in">
+          <span id="idPPScarabSIT">Sign in</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+  <div class="header-nav-container">
+  <nav class="header-nav">
+    <ul class="header-nav-pri">
+          <li><a href="http://msdn.microsoft.com/en-us/vstudio/aa718325.aspx" title="Home">Home</a></li>
+          <li><a href="http://code.msdn.microsoft.com/vstudio" title="Samples">Samples</a></li>
+          <li><a href="http://msdn.microsoft.com/en-us/vstudio/jj672990.aspx" title="Languages">Languages</a></li>
+          <li><a href="http://visualstudiogallery.msdn.microsoft.com/" title="Extensions">Extensions</a></li>
+          <li class="header-nav-selected"><a href="http://msdn.microsoft.com/en-us/library/vstudio" title="Documentation">Documentation</a></li>
+          <li><a href="http://social.msdn.microsoft.com/forums/vstudio/en-us/home?category=visualstudio%2cvslanguages%2cvstfs%2cnetdevelopment%2cvsarch" title="Forums">Forums</a></li>
+
+    </ul>
+  
+      <ul class="header-nav-sec">
+            <li>
+                <a href="http://msdn.microsoft.com/en-us/library/vstudio/dd831853%28v=vs.120%29.aspx" title="Visual Studio">Visual Studio</a>
+            </li>
+            <li>
+                <a href="http://msdn.microsoft.com/en-us/library/vstudio/fda2bad5%28v=vs.120%29.aspx" title="Team Foundation Server ALM">Team Foundation Server ALM</a>
+            </li>
+            <li class="header-nav-selected">
+                <a href="http://msdn.microsoft.com/en-us/library/vstudio/w0x726c2.aspx" title=".NET Framework">.NET Framework</a>
+            </li>
+      </ul>
+  </nav>
+  
+    <div class="header-nav-trial">
+      <a href="http://go.microsoft.com/fwlink/?LinkId=309297&amp;clcid=0x409&amp;slcid=0x409" title="Get started for free" class="trialanchor">
+        <span class="trialtext">Get started for free</span>
+        <span class="trialimage"></span>
+      </a>
+    </div>
+  </div>
+</header>
+
+
+
+
+        
+            <div id="body">
+                
+
+
+
+
+
+
+    <div style="width: 280px; max-width: 480px;" id="leftNav">
+
+
+
+<div id="tocnav">
+            <div style="padding-left: 0px;" class="toclevel0" data-toclevel="0">
+<a class="toc_collapsed" href="#"></a><a data-tochassubtree="true" href="http://msdn.microsoft.com/en-us/library/vstudio/jj159353.aspx" id="jj159081_MSDN.10_en-us" mtpsaliasid="" mtpsassetid="a94d4841-3f89-438a-bead-d707357ad950_MSDN.10_en-us" mtpsshortid="jj159353_MSDN.10_en-us" title="Developer Tools and Languages">Developer Tools and Languages</a>            </div>
+            <div style="padding-left: 0px;" class="toclevel0" data-toclevel="0">
+<a class="toc_collapsed" href="#"></a><a data-tochassubtree="true" href="http://msdn.microsoft.com/en-us/library/vstudio/w0x726c2%28v=vs.110%29.aspx" id="aa139616_MSDN.10_en-us" mtpsaliasid="" mtpsassetid="f61f02f2-2f20-483d-8f56-a9c8f3a54986_MSDN.10_en-us" mtpsshortid="w0x726c2_VS.110_en-us" title=".NET Framework 4.5">.NET Framework 4.5</a>            </div>
+            <div style="padding-left: 0px;" class="toclevel0" data-toclevel="0">
+<a class="toc_collapsed" href="#"></a><a data-tochassubtree="true" href="http://msdn.microsoft.com/en-us/library/vstudio/hh156542%28v=vs.110%29.aspx" id="hh781599_VS.110_en-us" mtpsaliasid="" mtpsassetid="26e3d285-24c3-435c-a797-9fe5affb8525_VS.110_en-us" mtpsshortid="hh156542_VS.110_en-us" title="Development Guide">Development Guide</a>            </div>
+            <div style="padding-left: 0px;" class="toclevel0" data-toclevel="0">
+<a class="toc_collapsed" href="#"></a><a data-tochassubtree="true" href="http://msdn.microsoft.com/en-us/library/vstudio/hh156544%28v=vs.110%29.aspx" id="hh830425_VS.110_en-us" mtpsaliasid="" mtpsassetid="96aad289-58bc-4389-89d0-b09dfc4d5c58_VS.110_en-us" mtpsshortid="hh156544_VS.110_en-us" title="Service-Oriented Applications with WCF">Service-Oriented Applications with WCF</a>            </div>
+            <div style="padding-left: 0px;" class="toclevel0" data-toclevel="0">
+<a class="toc_collapsed" href="#"></a><a data-tochassubtree="true" href="http://msdn.microsoft.com/en-us/library/vstudio/dd456779%28v=vs.110%29.aspx" id="gg281726_VS.110_en-us" mtpsaliasid="" mtpsassetid="149348a6-bf82-4ccc-9604-fa7cc88c0749_VS.110_en-us" mtpsshortid="dd456779_VS.110_en-us" title="Windows Communication Foundation (WCF)">Windows Communication Foundation (WCF)</a>            </div>
+            <div data-childrenloaded="true" style="padding-left: 13px;" class="toclevel1" data-toclevel="1">
+<a class="toc_expanded" href="#"></a><a data-tochassubtree="true" href="http://msdn.microsoft.com/en-us/library/vstudio/ms731190%28v=vs.110%29.aspx" id="gg281768_VS.110_en-us" mtpsaliasid="" mtpsassetid="503fae4b-014c-44df-a9c7-c76ec4ed4229_VS.110_en-us" mtpsshortid="ms731190_VS.110_en-us" title="Conceptual Overview">Conceptual Overview</a>            </div>
+            <div style="padding-left: 26px;" class="toclevel2 current" data-toclevel="2">
+<span class="toc_empty"></span><a href="http://msdn.microsoft.com/en-us/library/vstudio/ms731082%28v=vs.110%29.aspx" mtpsaliasid="" mtpsassetid="" mtpsshortid="" title="What Is Windows Communication Foundation">What Is Windows Communication Foundation</a>            </div>
+            <div style="padding-left: 26px;" class="toclevel2" data-toclevel="2">
+<span class="toc_empty"></span><a href="http://msdn.microsoft.com/en-us/library/vstudio/ms731079%28v=vs.110%29.aspx" mtpsaliasid="" mtpsassetid="" mtpsshortid="" title="Fundamental Windows Communication Foundation Concepts">Fundamental Windows Communication Foundation Concepts</a>            </div>
+            <div style="padding-left: 26px;" class="toclevel2" data-toclevel="2">
+<span class="toc_empty"></span><a href="http://msdn.microsoft.com/en-us/library/vstudio/ms733128%28v=vs.110%29.aspx" mtpsaliasid="" mtpsassetid="" mtpsshortid="" title="Windows Communication Foundation Architecture">Windows Communication Foundation Architecture</a>            </div>
+            <div style="padding-left: 26px;" class="toclevel2" data-toclevel="2">
+<span class="toc_empty"></span><a href="http://msdn.microsoft.com/en-us/library/vstudio/cc716765%28v=vs.110%29.aspx" mtpsaliasid="" mtpsassetid="" mtpsshortid="" title="WCF and .NET Framework Client Profile">WCF and .NET Framework Client Profile</a>            </div>
+</div>
+        
+
+        
+
+        
+        
+        <div style="height: 3385px;" id="toc-resizable-ew" class="toc-resizable-ew"></div>
+        
+
+<a style="left: 280px; display: inline-block;" id="NavigationResize" href="javascript:void(0)">
+    <img style="" class="cl_nav_resize_open" src="What%20Is%20Windows%20Communication%20Foundation_files/ImageSprite.png" title="Expand" alt="Expand">
+    <img style="display: none;" class="cl_nav_resize_close" src="What%20Is%20Windows%20Communication%20Foundation_files/ImageSprite.png" title="Minimize" alt="Minimize">
+</a>
+
+
+
+    </div>
+<div style="margin-left: 280px; width: auto;" id="content" class="content">
+
+
+
+
+
+
+
+    
+    
+
+    
+
+    
+
+        
+<div xmlns="http://www.w3.org/1999/xhtml">
+<div class="topic" xmlns="http://www.w3.org/1999/xhtml" xmlns:mtps="http://msdn2.microsoft.com/mtps" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:cs="http://msdn.microsoft.com/en-us/">
+  <h1 class="title">What Is Windows Communication Foundation</h1><div class="lw_vs"><div id="curversion"><strong>
+            .NET Framework 4.5
+        </strong></div><div id="versionclick"><div id="vsseperator" class="cl_lw_vs_seperator"></div><div><div><a id="vsLink" href="javascript:;">
+                        Other Versions
+                    </a></div><div class="cl_vs_arrow clip10x10"><img class="cl_lw_vs_arrow" id="vsArrow" alt="" src="What%20Is%20Windows%20Communication%20Foundation_files/ImageSprite.png"></div></div><ul style="display: none;" id="vsPanel"><li><a href="http://msdn.microsoft.com/en-us/library/vstudio/ms731082%28v=vs.100%29.aspx" title="">.NET Framework 4</a></li><li><a href="http://msdn.microsoft.com/en-us/library/vstudio/ms731082%28v=vs.90%29.aspx" title="">.NET Framework 3.5</a></li><li><a href="http://msdn.microsoft.com/en-us/library/vstudio/ms731082%28v=vs.85%29.aspx" title="">.NET Framework 3.0</a></li></ul></div><div id="ratingCounterSeperator" class="cl_lw_vs_seperator" style="display: block;"></div><div style="margin: 0px 0px 0px 13px; display: block;" id="ratingCounter">
+        <span id="rcA" class="ratingText">
+            83 out of 100 rated this helpful <span id="rateThisPrefix">- </span><a id="rateThisTopic" href="#feedback" title="Rate this topic">Rate this topic</a>
+            
+        </span>
+    </div></div><div style="clear:both;"></div>
+  
+  <div id="mainSection">
+    <div id="mainBody">
+      <p>
+        
+      </p>
+      <p>
+					Windows Communication Foundation (WCF) is a framework for building 
+service-oriented applications. Using WCF, you can send data as 
+asynchronous messages from one service endpoint to another. A service 
+endpoint can be part of a continuously available service hosted by IIS, 
+or it can be a service hosted in an application. An endpoint can be a 
+client of a service that requests data from a service endpoint. The 
+messages can be as simple as a single character or word sent as XML, or 
+as complex as a stream of binary data. A few sample scenarios include:</p>
+      <ul>
+        <li class="unordered">
+						A secure service to process business transactions. <br><br></li>
+        <li class="unordered">
+						A service that supplies current data to others, such as a traffic report or other monitoring service.<br><br></li>
+        <li class="unordered">
+						A chat service that allows two people to communicate or exchange data in real time.<br><br></li>
+        <li class="unordered">
+						A dashboard application that polls one or more services for data and presents it in a logical presentation. <br><br></li>
+        <li class="unordered">
+						Exposing a workflow implemented using Windows Workflow Foundation as a WCF service.<br><br></li>
+        <li class="unordered">
+						A Silverlight application to poll a service for the latest data feeds.<br><br></li>
+      </ul>
+      <p>While creating such applications was possible prior to the 
+existence of WCF, WCF makes the development of endpoints easier than 
+ever. In summary, WCF is designed to offer a manageable approach to 
+creating Web services and Web service clients. </p>
+      <h2 class="heading">Features of WCF</h2>
+      <div id="sectionSection0" class="section">
+        <p>
+						WCF includes the following set of features. For more information, see <a href="http://msdn.microsoft.com/en-us/library/vstudio/ms733103%28v=vs.110%29.aspx">WCF Feature Details</a>.</p>
+        <ul>
+          <li class="unordered">
+            <strong>Service Orientation</strong>
+            <br>
+            <br>
+							One consequence of using WS standards is that WCF enables you to create <em>service oriented</em>
+ applications. Service-oriented architecture (SOA) is the reliance on 
+Web services to send and receive data. The services have the general 
+advantage of being loosely-coupled instead of hard-coded from one 
+application to another. A loosely-coupled relationship implies that any 
+client created on any platform can connect to any service as long as the
+ essential contracts are met. <br><br></li>
+          <li class="unordered">
+            <strong>Interoperability</strong>
+            <br>
+            <br>
+							
+								WCF implements modern industry standards for Web service 
+interoperability. For more information about the supported standards, 
+see <a href="http://msdn.microsoft.com/en-us/library/vstudio/ms730017%28v=vs.110%29.aspx">Interoperability and Integration</a>.<br><br></li>
+          <li class="unordered">
+            <strong>Multiple Message Patterns</strong>
+            <br>
+            <br>
+							Messages are exchanged in one of several patterns. The most 
+common pattern is the request/reply pattern, where one endpoint requests
+ data from a second endpoint. The second endpoint replies. There are 
+other patterns such as a one-way message in which a single endpoint 
+sends a message without any expectation of a reply. A more complex 
+pattern is the duplex exchange pattern where two endpoints establish a 
+connection and send data back and forth, similar to an instant messaging
+ program. For more information about how to implement different message 
+exchange patterns using WCF see <a href="http://msdn.microsoft.com/en-us/library/vstudio/aa702732%28v=vs.110%29.aspx">Contracts</a>.<br><br></li>
+          <li class="unordered">
+            <strong>Service Metadata</strong>
+            <br>
+            <br>
+							
+								WCF supports publishing service metadata using formats specified
+ in industry standards such as WSDL, XML Schema and WS-Policy. This 
+metadata can be used to automatically generate and configure clients for
+ accessing WCF services. Metadata can be published over HTTP and HTTPS 
+or using the Web Service Metadata Exchange standard. For more 
+information, see <a href="http://msdn.microsoft.com/en-us/library/vstudio/ms731823%28v=vs.110%29.aspx">Metadata</a>.<br><br></li>
+          <li class="unordered">
+            <strong>Data Contracts</strong>
+            <br>
+            <br>
+							Because WCF is built using the .NET Framework, it also includes 
+code-friendly methods of supplying the contracts you want to enforce. 
+One of the universal types of contracts is the data contract. In 
+essence, as you code your service using Visual C# or Visual Basic, the 
+easiest way to handle data is by creating classes that represent a data 
+entity with properties that belong to the data entity. WCF includes a 
+comprehensive system for working with data in this easy manner. Once you
+ have created the classes that represent data, your service 
+automatically generates the metadata that allows clients to comply with 
+the data types you have designed. For more information, see <a href="http://msdn.microsoft.com/en-us/library/vstudio/ms733127%28v=vs.110%29.aspx">Using Data Contracts</a><br><br></li>
+          <li class="unordered">
+            <strong>Security</strong>
+            <br>
+            <br>
+							Messages can be encrypted to protect privacy and you can require 
+users to authenticate themselves before being allowed to receive 
+messages. Security can be implemented using well-known standards such as
+ SSL or WS-SecureConversation. For more information, see <a href="http://msdn.microsoft.com/en-us/library/vstudio/ms732362%28v=vs.110%29.aspx">Windows Communication Foundation Security</a>.<br><br></li>
+          <li class="unordered">
+            <strong>Multiple Transports and Encodings</strong>
+            <br>
+            <br>
+							Messages can be sent on any of several built-in transport 
+protocols and encodings. The most common protocol and encoding is to 
+send text encoded SOAP messages using is the HyperText Transfer Protocol
+ (HTTP) for use on the World Wide Web. Alternatively, WCF allows you to 
+send messages over TCP, named pipes, or MSMQ. These messages can be 
+encoded as text or using an optimized binary format.  Binary data can be
+ sent efficiently using the MTOM standard. If none of the provided 
+transports or encodings suit your needs you can create your own custom 
+transport or encoding. For more information about transports and 
+encodings supported by WCF see <a href="http://msdn.microsoft.com/en-us/library/vstudio/ms729350%28v=vs.110%29.aspx">Transports in Windows Communication Foundation</a>.<br><br></li>
+          <li class="unordered">
+            <strong>Reliable and Queued Messages</strong>
+            <br>
+            <br>
+							
+								WCF supports reliable message exchange using reliable sessions 
+implemented over WS-Reliable Messaging and using MSMQ. For more 
+information about reliable and queued messaging support in WCF see <a href="http://msdn.microsoft.com/en-us/library/vstudio/ms732355%28v=vs.110%29.aspx">Queues and Reliable Sessions</a>. <br><br></li>
+          <li class="unordered">
+            <strong>Durable Messages</strong>
+            <br>
+            <br>
+							A durable message is one that is never lost due to a disruption 
+in the communication. The messages in a durable message pattern are 
+always saved to a database. If a disruption occurs, the database allows 
+you to resume the message exchange when the connection is restored. You 
+can also create a durable message using the Windows Workflow Foundation 
+(WF). For more information, see <a href="http://msdn.microsoft.com/en-us/library/vstudio/dd456788%28v=vs.110%29.aspx">Workflow Services</a>.<br><br></li>
+          <li class="unordered">
+            <strong>Transactions</strong>
+            <br>
+            <br>
+							WCF also supports transactions using one of three transaction models: WS-AtomicTtransactions, the APIs in the <a href="http://msdn.microsoft.com/en-us/library/vstudio/system.transactions%28v=vs.110%29.aspx">System.Transactions</a> namespace, and Microsoft Distributed Transaction Coordinator. For more information about transaction support in WCF see <a href="http://msdn.microsoft.com/en-us/library/vstudio/ms730266%28v=vs.110%29.aspx">Transactions</a>.<br><br></li>
+          <li class="unordered">
+            <strong>AJAX and REST Support</strong>
+            <br>
+            <br>
+							REST is an example of an evolving Web 2.0 technology. WCF can be 
+configured to process "plain" XML data that is not wrapped in a SOAP 
+envelope. WCF can also be extended to support specific XML formats, such
+ as ATOM (a popular RSS standard), and even non-XML formats, such as 
+JavaScript Object Notation (JSON). <br><br></li>
+          <li class="unordered">
+            <strong>Extensibility</strong>
+            <br>
+            <br>
+							The WCF architecture has a number of extensibility points. If 
+extra capability is required, there are a number of entry points that 
+allow you to customize the behavior of a service. For more information 
+about available extensibility points see <a href="http://msdn.microsoft.com/en-us/library/vstudio/ms733848%28v=vs.110%29.aspx">Extending WCF</a>.<br><br></li>
+        </ul>
+      </div>
+      <h2 class="heading">WCF Integration with Other Microsoft Technologies</h2>
+      <div id="sectionSection1" class="section">
+        <p>
+						WCF is a flexible platform. Because of this extreme flexibility, 
+WCF is also used in several other Microsoft products. By understanding 
+the basics of WCF, you have an immediate advantage if you also use any 
+of these products.</p>
+        <p>The first technology to pair with WCF was the Windows 
+Workflow Foundation (WF). Workflows simplify application development by 
+encapsulating steps in the workflow as “activities.” In the first 
+version of Windows Workflow Foundation, a developer had to create a host
+ for the workflow. The next version of Windows Workflow Foundation was 
+integrated with WCF. That allowed any workflow to be easily hosted in a 
+WCF service; you can do this by automatically choosing the WF/WCF a 
+project type in Visual Studio 2012.</p>
+        <p>Microsoft BizTalk Server R2 also utilizes WCF as a 
+communication technology. BizTalk is designed to receive and transform 
+data from one standardized format to another. Messages must be delivered
+ to its central message box where the message can be transformed using 
+either a strict mapping or by using one of the BizTalk features such as 
+its workflow engine. BizTalk can now use the WCF Line of Business (LOB) 
+adapter to deliver messages to the message box.</p>
+        <p>Microsoft Silverlight is a platform for creating 
+interoperable, rich Web applications that allow developers to create 
+media-intensive Web sites (such as streaming video). Beginning with 
+version 2, Silverlight has incorporated WCF as a communication 
+technology to connect Silverlight applications to WCF endpoints.</p>
+        <p>Microsoft .NET Services is a cloud computing initiative that 
+uses WCF for building Internet-enabled applications. Use .NET Services 
+to create WCF services that operate across trust boundaries.</p>
+        <p>The hosting features of Windows Server AppFabric application 
+server is specifically built for deploying and managing applications 
+that use WCF for communication. The hosting features includes rich 
+tooling and configuration options specifically designed for WCF-enabled 
+applications.</p>
+      </div>
+      <h2 class="heading">
+        <span id="seeAlsoNoToggle">See Also</span>
+      </h2>
+      <div id="seeAlsoSection" class="section">
+        <h4 class="subHeading">Reference</h4>
+        <a href="http://msdn.microsoft.com/en-us/library/vstudio/system.servicemodel%28v=vs.110%29.aspx">System.ServiceModel</a>
+        <br>
+        <h4 class="subHeading">Concepts</h4>
+        <a href="http://msdn.microsoft.com/en-us/library/vstudio/ms731079%28v=vs.110%29.aspx">Fundamental Windows Communication Foundation Concepts</a>
+        <br>
+        <a href="http://msdn.microsoft.com/en-us/library/vstudio/ms733128%28v=vs.110%29.aspx">Windows Communication Foundation Architecture</a>
+        <br>
+        <a href="http://msdn.microsoft.com/en-us/library/vstudio/ms730846%28v=vs.110%29.aspx">Guide to the Documentation</a>
+        <br>
+        <h4 class="subHeading">Other Resources</h4>
+        <a href="http://msdn.microsoft.com/en-us/library/vstudio/ms731197%28v=vs.110%29.aspx">Guidelines and Best Practices</a>
+        <br>
+        <a href="http://msdn.microsoft.com/en-us/library/vstudio/ms734712%28v=vs.110%29.aspx">Getting Started Tutorial</a>
+        <br>
+        <a href="http://msdn.microsoft.com/en-us/library/vstudio/ms731067%28v=vs.110%29.aspx">Basic WCF Programming</a>
+        <br>
+        <a href="http://msdn.microsoft.com/en-us/library/vstudio/ms751514%28v=vs.110%29.aspx">Windows Communication Foundation Samples</a>
+        <br>
+        <br>
+      </div>
+    </div>
+    <p>
+      
+    </p>
+    <br>
+    <br>
+    <p>
+      <br>Build Date: </p>2012-08-02</div>
+</div></div>
+
+
+
+
+
+<div id="contentFeedback">
+    <form method="post" action="/en-us/library/vstudio/feedback/add/ms731082(v=vs.110).aspx">
+        <input name="__RequestVerificationToken" value="lsLGgYR3fVQl4YZi6M3G4sSUh-5PCO8bGe1JdHVjbk5vnyHDYeW_V-FadRuq8zSOr9HUKWz2Nduq6atsTctw0baItfESe-ZMRcE8Ehg9RAHCAoBSD3dPeazYDhYLaR2MjzKtuA2" type="hidden">
+    <div id="contentFeedbackContainer">
+        <div class="FeedbackTitleContainer">
+            <a name="feedback"></a>
+        Did you find this helpful?
+            <input id="rdIsUsefulYes" name="rdIsUseful" value="1" onclick="toggleContentFeedback('Yes');" type="radio"><label for="rdIsUsefulYes">Yes</label>
+            <input id="rdIsUsefulNo" name="rdIsUseful" value="0" onclick="toggleContentFeedback('No');" type="radio"><label for="rdIsUsefulNo">No</label>
+        
+        </div>
+        
+            <div id="contentFeedbackQAContainer">
+                
+                    <div id="feedbackListNoContainer" class="FeedbackListContainer">
+                        
+                            <div>
+                                <input id="chkbxNo201" name="chkbxNo" value="201" type="checkbox">
+                                <label for="chkbxNo201">Not accurate</label>
+                            </div>
+                        
+                            <div>
+                                <input id="chkbxNo202" name="chkbxNo" value="202" type="checkbox">
+                                <label for="chkbxNo202">Not enough depth</label>
+                            </div>
+                        
+                            <div>
+                                <input id="chkbxNo203" name="chkbxNo" value="203" type="checkbox">
+                                <label for="chkbxNo203">Need more code examples</label>
+                            </div>
+                        
+                    </div>
+                
+                <div class="FeedbackTellUsMoreContainer">
+                    <input id="feedbackSiteName" name="feedbackSiteName" value="" type="hidden">
+                    <input id="feedbackPriority" name="feedbackPriority" value="" type="hidden">
+                    <input id="feedbackSourceUrl" name="feedbackSourceUrl" value="" type="hidden">
+                    <input id="ClientIP" name="ClientIP" value="" type="hidden">
+                    <input id="ClientOS" name="ClientOS" value="" type="hidden">
+                    <input id="ClientBrowser" name="ClientBrowser" value="" type="hidden">
+                    <input id="ClientTime" name="ClientTime" value="" type="hidden">
+                    <input id="ClientDate" name="ClientDate" value="" type="hidden">
+                    <textarea id="feedbackText" name="feedbackText" class="TellUsMoreTextBoxSearchLoaded" onfocus="WatermarkFocus(this, 'Tell us more...', 'TellUsMoreTextBoxSearch')" onblur="WatermarkBlur(this, 'Tell us more...', 'TellUsMoreTextBoxSearchLoaded')" onmouseover="TextBoxCharactersCounter(this, document.getElementById('feedbackTextCounter'), 1500)" onkeydown="TextBoxCharactersCounter(this, document.getElementById('feedbackTextCounter'), 1500)" onkeyup="TextBoxCharactersCounter(this, document.getElementById('feedbackTextCounter'), 1500)">Tell us more...</textarea>
+                </div>
+                <span class="counter">(<span id="feedbackTextCounter">1500</span> characters remaining)</span>
+                <input id="returnUrl" name="returnUrl" value="http://msdn.microsoft.com/en-us/library/vstudio/ms731082(v=vs.110).aspx" type="hidden">
+                <input id="submit" value="Submit" title="Click to Submit Feedback" onclick="WatermarkOnSubmit(document.getElementById('feedbackText'), 'Tell us more...', 'TellUsMoreTextBoxSearch')" type="submit">
+                <div style="clear: both;"></div>
+            </div>  
+        
+    </div>
+    </form>
+</div>
+    
+
+
+
+<script id="CommentTemplate" type="text/x-jquery-tmpl">
+    <div class="communityContentAnnotation">
+        <a name="${Index}"></a>
+        <h3>
+            ${Title}
+        </h3>
+        <div class="communityContentAnnotationBody">
+            {{html Body}}
+        </div>
+        <div class="communityContentAnnotationInfo">
+            <div class="communityContentAnnotationAvatarContainer">
+                <a href="${UserAvatar.Href}" title="${UserAvatar.ToolTip}" class="communityContentAnnotationAvatar"><img src="${UserAvatar.ImageUrl}" alt="${UserAvatar.ImageAltText}" width="34" height="34" /></a>
+            </div>
+            <div class="communityContentAnnotationUserDateContainer">
+                <div class="communityContentAnnotationUserContainer">
+                    <a href="${UserAvatar.Href}">
+                        ${User}
+                    </a>
+                </div>
+                <div class="communityContentAnnotationDateContainer">
+                    <span>${Date}</span>
+                    
+                    {{if EditLink}}
+                        <span>
+                            <a href="${EditLink.Href}" title="${EditLink.ToolTip}" class="communityContentCommentEditLink">${EditLink.Title}</a>
+                        </span>
+                    {{/if}}
+
+                    {{if DeleteLink}}
+                        <span>
+                            <a href="${DeleteLink.Href}" title="${DeleteLink.ToolTip}" class="communityContentDeleteLink">${DeleteLink.Title}</a>
+                        </span>
+                    {{/if}}
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+
+<div class="communityContentContainer">
+    <div id="CommunityContentHeader" class="communityContentHeader">
+        <div class="communityContentHeaderTitleContainer">
+            <h2>Community Additions</h2>
+                <a class="communityContentAddLink" href="http://msdn.microsoft.com/en-us/library/vstudio/community/add/ms731082%28v=vs.110%29.aspx">
+                    <span class="communityContentAddButton" title="Add">
+                        ADD
+                    </span>
+                </a>
+        </div>
+        <div style="clear: both;"></div>
+    </div>
+    
+    <div id="CommunityComments" data-url="/en-us/library/vstudio/community/comments/ms731082(v=vs.110).aspx"><div class="communityContentAnnotation">         <a name="2"></a>         <h3>             Binary stream versus xml         </h3>         <div class="communityContentAnnotationBody">             <p>Hi Pradeep, I am not sure this is the right forum for your question. Try: <a>http://social.msdn.microsoft.com/Forums/en-US/home?forum=wcf</a></p><br><p>A short answer would be that XML carries more overhead to make it more robustly consumable.</p>         </div>         <div class="communityContentAnnotationInfo">             <div class="communityContentAnnotationAvatarContainer">                 <a href="http://social.msdn.microsoft.com/profile/thomas%20w%20marshall/" title="" class="communityContentAnnotationAvatar"><img src="What%20Is%20Windows%20Communication%20Foundation_files/avatar_002.jpg" alt="" width="34" height="34"></a>             </div>             <div class="communityContentAnnotationUserDateContainer">                 <div class="communityContentAnnotationUserContainer">                     <a href="http://social.msdn.microsoft.com/profile/thomas%20w%20marshall/">                         Thomas W Marshall                     </a>                 </div>                 <div class="communityContentAnnotationDateContainer">                     <span>12/26/2013</span>                                                                                 </div>             </div>         </div>     </div><div class="communityContentAnnotation">         <a name="1"></a>         <h3>             Binary stream versus xml         </h3>         <div class="communityContentAnnotationBody">
+             Why is it that when data is transferred in the form of 
+binary stream, the performance seems to improve than when the data is 
+transferred in th form of xml?         </div>         <div class="communityContentAnnotationInfo">             <div class="communityContentAnnotationAvatarContainer">                 <a href="http://social.msdn.microsoft.com/profile/paramdeep%20singh%20saini/" title="" class="communityContentAnnotationAvatar"><img src="What%20Is%20Windows%20Communication%20Foundation_files/avatar.jpg" alt="" width="34" height="34"></a>             </div>             <div class="communityContentAnnotationUserDateContainer">                 <div class="communityContentAnnotationUserContainer">                     <a href="http://social.msdn.microsoft.com/profile/paramdeep%20singh%20saini/">                         Paramdeep Singh Saini                     </a>                 </div>                 <div class="communityContentAnnotationDateContainer">                     <span>10/15/2012</span>                                                                                 </div>             </div>         </div>     </div></div>
+</div>
+
+
+
+
+<div class="libraryMemberFilter">
+    <div class="filterContainer">
+        <span>Show:</span>
+        <label>
+            <input class="libraryFilterInherited" checked="checked" value="Inherit" type="checkbox">Inherited
+        </label>
+        <label>
+            <input class="libraryFilterProtected" checked="checked" value="Protected" type="checkbox">Protected
+        </label>
+    </div>
+</div>
+    
+<input id="libraryMemberFilterEmptyWarning" value="There are no members available with your current filter settings." type="hidden">
+
+
+ 
+</div>
+
+            </div>
+            <div class="clear"></div>
+        
+            
+    
+<footer class="ux-footer">
+  <div class="nav">
+    <div class="footerLinksContainer"> 
+          <ul class="footerLinks" style="width: 16.66%;">
+            <li class="footerLinksTitle">
+              <a href="http://msdn.microsoft.com/en-us/vstudio/aa718325.aspx" title="Home">Home</a>
+            </li>
+
+                <li>
+                  <a href="http://msdn.microsoft.com/en-us/vstudio/aa718325.aspx" title="Welcome">Welcome</a>
+                </li>
+                <li>
+                  <a href="http://msdn.microsoft.com/en-us/vstudio/cc136611.aspx" title="Visual Studio">Visual Studio</a>
+                </li>
+                <li>
+                  <a href="http://msdn.microsoft.com/en-us/vstudio/ff637362.aspx" title="Team Foundation Server">Team Foundation Server</a>
+                </li>
+                <li>
+                  <a href="http://msdn.microsoft.com/en-us/vstudio/aa496123.aspx" title=".NET Framework">.NET Framework</a>
+                </li>
+          </ul>
+          <ul class="footerLinks" style="width: 16.66%;">
+            <li class="footerLinksTitle">
+              <a href="http://code.msdn.microsoft.com/vstudio" title="Samples">Samples</a>
+            </li>
+
+          </ul>
+          <ul class="footerLinks" style="width: 16.66%;">
+            <li class="footerLinksTitle">
+              <a href="http://msdn.microsoft.com/en-us/vstudio/jj672990.aspx" title="Languages">Languages</a>
+            </li>
+
+                <li>
+                  <a href="http://msdn.microsoft.com/en-us/vstudio/jj672990.aspx" title="Overview">Overview</a>
+                </li>
+                <li>
+                  <a href="http://msdn.microsoft.com/en-us/vstudio/hh386302.aspx" title="Visual C++">Visual C++</a>
+                </li>
+                <li>
+                  <a href="http://msdn.microsoft.com/en-us/vstudio/hh341490.aspx" title="Visual C#">Visual C#</a>
+                </li>
+                <li>
+                  <a href="http://msdn.microsoft.com/en-us/vstudio/hh388573.aspx" title="Visual Basic">Visual Basic</a>
+                </li>
+                <li>
+                  <a href="http://msdn.microsoft.com/en-us/vstudio/jj673959.aspx" title="JavaScript">JavaScript</a>
+                </li>
+                <li>
+                  <a href="http://msdn.microsoft.com/en-us/vstudio/hh388569.aspx" title="Visual F#">Visual F#</a>
+                </li>
+          </ul>
+          <ul class="footerLinks" style="width: 16.66%;">
+            <li class="footerLinksTitle">
+              <a href="http://visualstudiogallery.msdn.microsoft.com/" title="Extensions">Extensions</a>
+            </li>
+
+          </ul>
+          <ul class="footerLinks" style="width: 16.66%;">
+            <li class="footerLinksTitle">
+              <a href="http://msdn.microsoft.com/en-us/library/vstudio" title="Documentation">Documentation</a>
+            </li>
+
+                <li>
+                  <a href="http://msdn.microsoft.com/en-us/library/vstudio/dd831853%28v=vs.120%29.aspx" title="Visual Studio">Visual Studio</a>
+                </li>
+                <li>
+                  <a href="http://msdn.microsoft.com/en-us/library/vstudio/fda2bad5%28v=vs.120%29.aspx" title="Team Foundation Server ALM">Team Foundation Server ALM</a>
+                </li>
+                <li>
+                  <a href="http://msdn.microsoft.com/en-us/library/vstudio/w0x726c2.aspx" title=".NET Framework">.NET Framework</a>
+                </li>
+          </ul>
+          <ul class="footerLinks" style="width: 16.66%;">
+            <li class="footerLinksTitle">
+              <a href="http://social.msdn.microsoft.com/forums/vstudio/en-us/home?category=visualstudio%2cvslanguages%2cvstfs%2cnetdevelopment%2cvsarch" title="Forums">Forums</a>
+            </li>
+
+          </ul>
+    </div>
+    </div>
+  <div class="footerSubLinksContainer">
+    <span class="localePickerLink"><a href="http://msdn.microsoft.com/en-us/vstudio/SelectLocale?fromPage=%2flibrary%2fvstudio%2fms731082" title=" United States (English)"> United States (English)</a></span>
+    <ul class="footerSubLinks">
+      <li class="subFooterLink">© 2013 Microsoft</li>
+          <li class="subFooterLink">
+            <a href="http://msdn.microsoft.com/cc300389.aspx" title="Terms of Use">Terms of Use</a>
+          </li>
+          <li class="subFooterLink">
+            <a href="http://www.microsoft.com/library/toolbar/3.0/trademarks/en-us.mspx" title="Trademarks">Trademarks</a>
+          </li>
+          <li class="subFooterLink">
+            <a href="http://go.microsoft.com/fwlink/?linkid=248681" title="Privacy Statement">Privacy Statement</a>
+          </li>
+          <li class="subFooterLink">
+            <a href="https://lab.msdn.microsoft.com/mailform/contactus.aspx?refurl=http%3a%2f%2fmsdn.microsoft.com%2fen-us%2fvstudio%2faa718325.aspx&amp;amp;loc=en-us" title="Site Feedback">Site Feedback</a>
+          </li>
+      <li>
+        <a class="microsoftlogo" href="http://www.microsoft.com/" title="Microsoft"></a>
+      </li>
+    </ul>
+  </div>
+</footer>
+
+            <div class="footerPrintView">
+                <div class="footerCopyrightPrintView">© 2013 Microsoft. All rights reserved.</div>
+            </div>
+
+            
+            
+
+        
+            <input id="MtpsDevice" value="Default" type="hidden">
+
+
+<!--[CDATA[ Third party scripts and code linked to or referenced from this website are licensed to you by the parties that own such code, not by Microsoft.  See ASP.NET Ajax CDN Terms of Use – http://www.asp.net/ajaxlibrary/CDN.ashx. ]]-->
+        
+            
+            
+            
+            
+            
+        
+
+
+
+
+
+<noscript><div><img alt="DCSIMG" id="Img1" width="1" height="1" src="http://m.webtrends.com/dcsmgru7m99k7mqmgrhudo0k8_8c6m/njs.gif?dcsuri=/nojavascript&amp;WT.js=No" /></div></noscript>
+
+
+
+
+
+
+
+
+
+<noscript>
+  <a href="http://www.omniture.com" title="Web Analytics">
+    <img src="//msstonojsmsdn.112.2o7.net/b/ss/msstonojsmsdn/1/H.20.2--NS/0" height="1" width="1" border="0" alt="" />
+  </a>
+</noscript>
+
+
+
+
+<div id="globalRequestVerification">
+    <input name="__RequestVerificationToken" value="akNepfug-K9MnrJhAGsq0C6o6W3jrz2nh10L-_DxF1X5tYhkZ2DRPX7QMX6A8Yd8L-dKYKn1Nn-QlQG1f3FlKN-wWdw5WTBtTmFYFCHvR87BmsHBEfUtEvX8jwpzYxMgpw85AA2" type="hidden">
+</div>
+
+
+        </div>
+    <script type="text/javascript" class="mtps-injected">
+/*<![CDATA[*/
+(function(window,document){"use strict";function preload(scripts){for(var result=[],script,e,i=0;i<scripts.length;i++)script=scripts[i],script.hasOwnProperty("url")&&(e=document.createElement("script"),e.src=script.url,script.throwaway=e),result.push(script);return result}function inject(scripts,index){var script,elem;if(index>=scripts.length){delete mtps.injectScripts;return}script=scripts[index];elem=document.createElement("script");elem.className="mtps-injected";elem.async=!1;var isLoaded=!1,timeoutId=0,injectNextFnName="",injectNext=elem.onerror=function(){isLoaded||(isLoaded=!0,inject(scripts,index+1),window.clearTimeout(timeoutId),elem.onload=elem.onerror=elem.onreadystatechange=null,injectNextFnName&&delete mtps[injectNextFnName],elem.removeEventListener&&elem.removeEventListener("load",injectNext,!1))};elem.addEventListener?elem.addEventListener("load",injectNext,!1):elem.readyState==="uninitialized"?elem.onreadystatechange=function(){(this.readyState==="loaded"||this.readyState==="complete")&&injectNext()}:elem.onload=injectNext;script.hasOwnProperty("url")?(timeoutId=window.setTimeout(injectNext,12e4),elem.src=script.url):(injectNextFnName="_injectNextScript_"+index,mtps[injectNextFnName]=injectNext,timeoutId=window.setTimeout(injectNext,2e3),elem.text="try {\n"+script.txt+"\n} finally { MTPS."+injectNextFnName+" && MTPS."+injectNextFnName+"(); }");parent.appendChild(elem)}var mtps=window.MTPS||(window.MTPS={}),parent=document.getElementsByTagName("head")[0];mtps.injectScripts=function(scripts){inject(preload(scripts),0)}})(window,document);
+MTPS.injectScripts([
+	{ txt: "/**/\r\n(window.MTPS || (window.MTPS = {})).cdnDomains || (window.MTPS.cdnDomains = { \r\n\t\"image\": \"http://i.msdn.microsoft.com\", \r\n\t\"js\": \"http://i2.msdn.microsoft.com\", \r\n\t\"css\": \"http://i3.msdn.microsoft.com\"\r\n});\r\n/**/" },
+	{ url: "http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.2.min.js" },
+	{ txt: "//\n  var literalNormalizedUrl = \u0027/en-us/library/vstudio/ms731082(d=default,l=en-us,v=vs.110).aspx\u0027;\n  var wt_nvr_ru = \u0027WT_NVR_RU\u0027;\n  var wt_fpcdom = \u0027.microsoft.com\u0027;\n  var wt_domlist = \u0027msdn.microsoft.com\u0027;\n  var wt_pathlist = \u0027\u0027;\n  var wt_paramlist = \u0027DCSext.mtps_devcenter\u0027;\n  var wt_siteid = \u0027MSDN\u0027;\n  var gDomain = \u0027m.webtrends.com\u0027;\n  var gDcsId = \u0027dcsmgru7m99k7mqmgrhudo0k8_8c6m\u0027;\n  var gFpc = \u0027WT_FPC\u0027;\n\n\n\n  if (document.cookie.indexOf(gFpc + \"=\") == -1) {\n    var wtidJs = document.createElement(\"script\");\n    wtidJs.src = \"//\" + gDomain + \"/\" + gDcsId + \"/wtid.js\";\n    document.getElementsByTagName(\"head\")[0].appendChild(wtidJs);\n  }\n\n\n\n  var detectedLocale = \u0027en-us\u0027;\n  var wtsp = \u0027_msdn_\u0027;\n  var gTrackEvents = \u00270\u0027;\n/**/" },
+	{ txt: "/**/\n  var omni_guid = \"a5d48c01-5365-4b7a-8e1d-cf707a4b7ed6\";\n/**/" },
+	{ url: "http://i2.msdn.microsoft.com/Combined.js?resources=0:Utilities,0:Topic,1:webtrendsscript,2:omni_rsid_MSDN;/Areas/Epx/Content/Scripts:0,/Areas/Global/Content/Webtrends/resources:1,/Areas/Global/Content/Omniture/resources/MSDN:2\u0026amp;hashKey=368D37FB32ED6B2E5FABF4ECB00CEAA0" },
+	{ txt: "//\n    var searchWidgetJsUri = \u0027http://i2.services.social.microsoft.com/search/Widgets/SearchBox.jss?boxid=HeaderSearchTextBox\u0026btnid=HeaderSearchButton\u0026brand=MSDN\u0026loc=en-us\u0026Refinement=195\u0026watermark=Visual%20Studio\u0026focusOnInit=false\u0026iroot=vstudio\u0027;\n  //" },
+	{ url: "http://i2.msdn.microsoft.com/Combined.js?resources=0:search.2,1:Toc,1:NavigationResize,2:FeedbackCounter,2:Feedback;/Areas/Epx/Themes/VStudio/Content:0,/Areas/Epx/Library/Content:1,/Areas/Epx/Shared/Content:2\u0026amp;hashKey=60FF6E2291C932A70E22F7151E48536A" },
+	{ url: "http://ajax.aspnetcdn.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js" },
+	{ url: "http://i2.msdn.microsoft.com/Combined.js?resources=0:CommunityContent,1:LibraryMemberFilter,0:CodeSnippet,0:TopicNotInScope,0:CollapsibleArea,0:VersionSelector,0:SurveyBroker;/Areas/Epx/Content/Scripts:0,/Areas/Epx/Library/Content:1\u0026amp;hashKey=50331A6D753CA75357245BC25913AE3D" },
+	{ txt: "$(document).ready(function() {\n        try {\n            var token = $(\"#globalRequestVerification input[name=\u0027__RequestVerificationToken\u0027]\").clone();\n            $(\"#siteFeedbackForm\").append(token);\n        } catch(err) {\n            \n        }\n    });" }
+]);
+
+/*]]>*/
+</script>
+<script src="What%20Is%20Windows%20Communication%20Foundation_files/broker-config.js"></script><div style="position: absolute; width: 1px; height: 1px;" id="dp_swf_engine"><object style="width: 1px; height: 1px;" id="_dp_swf_engine" data="What%20Is%20Windows%20Communication%20Foundation_files/swf.swf" type="application/x-shockwave-flash" width="1" height="1"><param value="always" name="allowscriptaccess"></object></div><div id="_WEDCSInsertedData" style="display: none;"><iframe id="_msnFrame" src="What%20Is%20Windows%20Communication%20Foundation_files/c_002.gif" style="z-index:-1;height:1px;width:1px;display:none;visibility:hidden;" onload="javascript:MscomBeacon();"></iframe></div><iframe src="What%20Is%20Windows%20Communication%20Foundation_files/Strip.htm" border="no" style="width: 1px; height: 1px; position: absolute; top: -100000px; left: -100000px; visibility: visible; overflow: hidden;" id="dealply-toast-674166" class="dealply-toast dealply-toast-674166" scrolling="no" frameborder="0"></iframe></body><script type="application/x-javascript" src="What%20Is%20Windows%20Communication%20Foundation_files/opt_content.js"></script></html>

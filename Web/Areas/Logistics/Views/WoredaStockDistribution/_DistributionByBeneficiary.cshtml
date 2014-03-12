@@ -1,0 +1,69 @@
+﻿@using Cats.Areas.Logistics.Models
+@using Kendo.Mvc.UI
+@using LanguageHelpers.Localization
+@model Cats.Areas.Logistics.Models.WoredaStockDistributionWithDetailViewModel
+@{
+    ViewBag.Title = "_DistributionByBenficiary";
+}
+
+ @(Html.Kendo().Grid<WoredaDistributionDetailViewModel>()
+                      .Name("RequisitionGridDetail")
+                      .Columns(columns =>
+                                   {
+                                      
+                                       columns.Bound(p => p.FDP).Width(80).Title(Translator.Translate("FDP")).HtmlAttributes(new { style = "background-color:lightgray" });
+                                       columns.Bound(p => p.RequisitionDetailViewModel.CommodityName).Width(100).Title(Translator.Translate("Commodity")).HtmlAttributes(new { style = "background-color:lightgray" });
+                                       columns.Bound(p => p.Round).Width(60).HtmlAttributes(new { style = "background-color:lightgray" });
+                                       columns.Bound(p => p.Month).Width(80).HtmlAttributes(new { style = "background-color:lightgray" });
+                                       columns.Bound(p => p.RequisitionDetailViewModel.AllocatedAmount).HtmlAttributes(new { align = "right" }).HtmlAttributes(new { style = "background-color:lightgray" });
+                                       columns.Bound(p => p.RequistionNo).Width(100).HtmlAttributes(new { align = "right" }).HtmlAttributes(new { style = "background-color:lightgray" });
+                                       columns.Bound(p => p.BeginingBalance);
+                                       columns.Bound(p => p.TotalIn);
+                                       columns.Bound(p => p.TotalOut);
+                                       columns.Bound(p => p.EndingBalance);
+                                      // columns.Bound(p => p.DistributionStartDate);
+                                      // columns.Bound(p => p.DistributionEndDate);
+                                       columns.Bound(p => p.DistributedAmount);
+                                       columns.Bound(p => p.LossAmount);
+                                      // columns.Bound(p => p.LossReason);
+                                     
+                                   })
+                       .ToolBar(toolBar=>toolBar.Save())
+                      .Editable(editable => editable.Mode(GridEditMode.InCell))
+                     
+                      .Scrollable()
+                      //.Selectable(t => t.Mode(GridSelectionMode.Single))
+                      .Navigatable()
+                      .HtmlAttributes(new { style = "height:450px;" })
+                   
+                      .DataSource(dataSource => dataSource
+                                                    .Ajax()
+                                                   // .Batch(true)
+                                                   // .Events(e=>e.RequestEnd("onRequestEnd"))
+                                                   // .ServerOperation(false)
+                                                    .Model(model =>
+                                                               {
+                                                                   model.Id(p => p.WoredaStockDistributionDetailID);
+                                                                   model.Field(detail => detail.FDP).Editable(false);
+                                                                   model.Field(detail => detail.RequestedAmount).Editable(false);
+                                                                   model.Field(detail => detail.AllocatedAmount).Editable(false);
+                                                                   model.Field(detail => detail.DispatchedToFDPAmount).Editable(false);
+                                                                   model.Field(detail => detail.NumberOfBeneficiaries).Editable(false);
+                                                                   model.Field(detail => detail.ReceivedAtFDPAmount).Editable(false);
+                                                                   model.Field(detail => detail.Round).Editable(false);
+                                                                   model.Field(detail => detail.Month).Editable(false);
+                                                                   model.Field(detail => detail.RequistionNo).Editable(false);
+                                                                   model.Field(detail => detail.RequisitionDetailViewModel.CommodityName).Editable(false);
+                                                                   model.Field(detail => detail.RequisitionDetailViewModel.AllocatedAmount).Editable(false);
+                                                                   model.Field(detail => detail.TotalIn).Editable(true);
+
+                                                               })
+                                                  
+
+                                                    .Read(read => read.Action("WoredaStockDetail_Read", "WoredaStockDistribution", new {woredaStockDistributionID =Model.WoredaStockDistributionID, woredaID=Model.WoredaID,planID=Model.PlanID,month=Model.Month}))
+                                                   .Update(update => update.Action("UpdateWoredaDistribution", "WoredaStockDistribution"))
+                                                   
+                                                  
+                      ))
+
+            

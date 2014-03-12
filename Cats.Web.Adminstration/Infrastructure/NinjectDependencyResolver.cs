@@ -9,13 +9,8 @@ using NetSqlAzMan.Interfaces;
 using NetSqlAzMan.Providers;
 using Ninject;
 using log4net;
-using CommodityTypeService = Cats.Services.Administration.CommodityTypeService;
-using DonorService = Cats.Services.Administration.DonorService;
-using ICommodityTypeService = Cats.Services.Administration.ICommodityTypeService;
-using IDonorService = Cats.Services.Administration.IDonorService;
 
-
-namespace Cats.Web.Administration.Infrastructure
+namespace Cats.Web.Adminstration.Infrastructure
 {
     public class NinjectDependencyResolver : IDependencyResolver
     {
@@ -68,7 +63,7 @@ namespace Cats.Web.Administration.Infrastructure
             kernel.Bind<IUserProfileService>().To<UserProfileService>();
             kernel.Bind<IAdminUnitService>().To<AdminUnitService>();
             kernel.Bind<IFDPService>().To<FDPService>();
-            kernel.Bind<IWoredaDonorService>().To<WoredaDonorService>();
+            kernel.Bind<IContactService>().To<ContactService>();
             kernel.Bind<IIDPSReasonTypeServices>().To<IDPSReasonTypeServices>();
             kernel.Bind<IAzManStorage>().To<SqlAzManStorage>().WithConstructorArgument("connectionString",
                                                                                   System.Configuration.

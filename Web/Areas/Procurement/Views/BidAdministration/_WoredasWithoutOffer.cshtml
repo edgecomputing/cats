@@ -12,20 +12,28 @@
     .Name("withOutOffer")
     .Columns(columns=>
         {
-              
-        columns.Bound(t => t.SourceWarehouse);
+
+            //columns.Bound(t => t.Region);
+       columns.Bound(t => t.SourceWarehouse);
         columns.Bound(t => t.Woreda);
         //columns.Bound(t => t.Zone);
         //columns.Bound(t => t.StatusID);
         //columns.Bound(t => t.Status);
         })
      .Scrollable()
-    // .HtmlAttributes(new { style = "height:400px;" })
+   .Events(events => events.DataBound("collapseRows"))
         .DataSource(datasource=>
             datasource                 
             .Ajax()
     .Model(model=>model.Id(p=>p.BidID))
-    .Group(group=>group.Add(m=>m.Zone))
+    .Group(group=>group.Add(m=>m.Region))
     .Read("WoredasWithoutOffer_Read","BidAdministration",new{id=Model.Bidwinners.First().BidID})
     
            ))
+<script type="text/javascript">
+    function collapseRows() {
+        var grid = $("#withOutOffer").data("kendoGrid");
+        grid.collapseGroup(grid.tbody.find(">tr.k-grouping-row"));
+        $('tr[role*="row"]').hide();
+    }
+</script>

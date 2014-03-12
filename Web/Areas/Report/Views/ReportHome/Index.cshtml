@@ -1,0 +1,32 @@
+﻿@using Cats.Models
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MainLayoutWide.cshtml";
+}
+
+<h3>Reports</h3>
+
+<div style="float: left;min-width: 150px;height: 300px;border-color: crimson">
+    <ul>
+        @foreach (var folder in (IEnumerable<ReportFolder>)Model)
+        {      
+            <li>
+                <h5>@folder.Name</h5>
+                <ul>
+                    @foreach (var report in (IEnumerable<ReportObj>)folder.Reports)
+                    {
+                        <li>
+                            <a href="@string.Format("/ReportViewer.aspx?path={0}", @report.URL)">@report.Name</a>
+                        </li> 
+                    }
+                 </ul> 
+            </li>     
+        }
+    </ul>
+</div>
+
+<div style="float: right;min-width: 600px;height: 300px;border-color: crimson">
+    
+</div>
+
+

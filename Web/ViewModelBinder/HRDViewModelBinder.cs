@@ -54,8 +54,9 @@ namespace Cats.ViewModelBinder
             return hrdCompareViewModels;
         }
 
-        public static DataTable TransposeData(IEnumerable<HRDDetail> hrdDetails, IEnumerable<RationDetail> rationDetails)
+        public static DataTable TransposeData(IEnumerable<HRDDetail> hrdDetails, IEnumerable<RationDetail> rationDetails,string preferedWeight)
         {
+            
             var dt = new DataTable("Transpose");
 
             var colRegion = new DataColumn("Region", typeof(string));
@@ -110,6 +111,13 @@ namespace Cats.ViewModelBinder
                     dr[colDuration] = hrdDetail.DurationOfAssistance;
                     dr[colStartingMonth] = RequestHelper.MonthName(hrdDetail.StartingMonth);
                     decimal total = 0;
+                    decimal ration = 0;
+
+
+
+                    var currentUnit = preferedWeight; ;
+
+                   
                     foreach (var rationDetail in rationDetails)
                     {
 
@@ -125,8 +133,15 @@ namespace Cats.ViewModelBinder
                         }
                         if (col != null)
                         {
-                            total += rationDetail.Amount * hrdDetail.NumberOfBeneficiaries * hrdDetail.DurationOfAssistance;
-                            dr[col.ColumnName] = rationDetail.Amount * hrdDetail.NumberOfBeneficiaries * hrdDetail.DurationOfAssistance;
+                            var currentUnitUpper = currentUnit.ToUpper().Trim();
+                            if (currentUnitUpper == "MT")
+                                ration = rationDetail.Amount/1000;
+                            else
+                                ration = rationDetail.Amount/100;
+
+
+                            total += ration * hrdDetail.NumberOfBeneficiaries * hrdDetail.DurationOfAssistance;
+                            dr[col.ColumnName] = ration * hrdDetail.NumberOfBeneficiaries * hrdDetail.DurationOfAssistance;
 
                         }
                     }
@@ -141,7 +156,7 @@ namespace Cats.ViewModelBinder
 
             return dt;
         }
-        public static DataTable TransposeDataSummary(IEnumerable<HRDDetail> hrdDetails, IEnumerable<RationDetail> rationDetails)
+        public static DataTable TransposeDataSummary(IEnumerable<HRDDetail> hrdDetails, IEnumerable<RationDetail> rationDetails, string preferedWeight)
         {
             var dt = new DataTable("Transpose");
 
@@ -188,6 +203,12 @@ namespace Cats.ViewModelBinder
 
                     foreach (var rationDetail in rationDetails)
                     {
+                        decimal ratio = 0;
+                        preferedWeight = preferedWeight.ToUpper();
+                        if (preferedWeight.Trim() == "MT")
+                            ratio = rationDetail.Amount / 1000;
+                        else ratio = rationDetail.Amount/100;
+
                         DataColumn col = null;
                         foreach (DataColumn column in dt.Columns)
                         {
@@ -200,7 +221,7 @@ namespace Cats.ViewModelBinder
                         }
                         if (col != null)
                         {
-                            var regionSum = hrdDetails.Where(t => t.AdminUnit.AdminUnit2.AdminUnit2.AdminUnitID == region.AdminUnitID).Sum(t => t.NumberOfBeneficiaries * t.DurationOfAssistance * rationDetail.Amount);
+                            var regionSum = hrdDetails.Where(t => t.AdminUnit.AdminUnit2.AdminUnit2.AdminUnitID == region.AdminUnitID).Sum(t => t.NumberOfBeneficiaries * t.DurationOfAssistance * ratio);
 
                             total += regionSum;
                             dr[col.ColumnName] = regionSum;

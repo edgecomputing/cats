@@ -1,0 +1,173 @@
+﻿@using LanguageHelpers.Localization
+
+<style>
+    .sidebarForm, .sidebarForm form
+    {
+        margin:0;
+        padding:0;
+    }
+    .sidebarForm select
+    {
+        width:170px;
+    }
+</style>
+<div class="sidebarForm">
+    @using (Html.BeginForm("Create", "WoredaStockDistribution", FormMethod.Get))
+    {
+
+        <div class="control-group">
+            <div class="control-label">
+                @Html.Label(Translator.Translate("Region"))
+            </div>
+            <div class="controls" id="div_region">
+                @Html.DropDownList("Region",ViewBag.Region as SelectList ,"--Select Region--",new {@id="RegionID"})
+            </div>
+
+        </div> 
+        <div class="control-group">
+            <div class="control-label">
+                @Html.Label(Translator.Translate("Zone"))
+            </div>
+            <div class="controls" id="div_zone">
+                @Html.DropDownList("Zone",ViewBag.Zone as SelectList ,"",new {@id="ZoneID"})
+            </div>
+        </div>
+        <div class="control-group">
+            <div class="control-label">
+                @Html.Label(Translator.Translate("Woreda"))
+            </div>
+            <div class="controls"  id="div_woreda">
+                @Html.DropDownList("Woreda",ViewBag.Woreda as SelectList,"",new {@id="WoredaID"})
+                @*@Html.DropDownListFor(m=>m.WoredaID,ViewBag.Woreda as SelectList,new {@id="WoredaID"})*@
+                @*@Html.ValidationMessageFor(m=>m.WoredaID)*@
+            </div>
+
+        </div>
+        <div class="control-group">
+                        
+            <div class="control-label">
+                @Html.Label(Translator.Translate("Program"))
+            </div>
+            <div class="controls">
+                @Html.DropDownList("ProgramID",String.Empty)
+            </div>
+
+        </div>
+        <div class="control-group">
+            <div class="control-label">
+                @Html.Label(Translator.Translate("Plan"))
+            </div>
+            <div class="controls">
+                @*@Html.Label(Translator.Translate("Plan"))*@
+                <select id="PlanID" name="PlanID"></select>
+                @* @Html.DropDownList("PlanID",String.Empty)*@
+            </div>
+        </div>
+        <div class="control-group">
+            <div class="control-label">
+                @Html.Label(Translator.Translate("Month /Round"))
+            </div>
+            <div class="controls">
+                <select id="month" name="month"></select>
+            </div>
+
+        </div>
+        <input type="submit" value="Select" class="btn btn-default btn-lg"/>
+    }
+</div>
+<script>
+    
+    var admin_region_hash = {};
+    var admin_zone_hash = {};
+    
+    $(function() {
+        $.getJSON("@Url.Action("GetAdminUnits", "WoredaStockDistribution", new { Area = "Logistics" })", {}, function(data) {
+            
+            document.getElementById("ZoneID").disabled = true;
+            document.getElementById("WoredaID").disabled = true;
+
+            var msg = "";
+            for (var i in data) {
+                msg += "\n" + data[i].RegionName;
+                var key = data[i].RegionID;
+                admin_region_hash[key] = data[i];
+
+                var count = data[i].Zones.length;
+
+                for (var j = 0; j < count; j++) {
+                    var keyz = data[i].Zones[j].ZoneID;
+                    admin_zone_hash[keyz] = data[i].Zones[j].Woredas;
+                }
+            }
+        });
+
+        $("#RegionID").change(function () {
+            var regionId = $("#RegionID").val();
+            var region = admin_region_hash[regionId];
+            var zones = region.Zones;
+            document.getElementById("ZoneID").disabled = false;
+
+            //var msg = "";
+            var htm = "<select name='Zone' id ='ZoneID' > ";
+            for (var z in zones) {
+                //htm += "<option value='" + zones[z].AdminUnitID + "'>" + zones[z].Name + "</option>";
+                htm += "<option value='" + zones[z].ZoneID + "'>" + zones[z].ZoneName + "</option>";
+                //msg += "\n" + zones[z].ZoneName;
+            }
+
+            htm += "</select>";
+            $("#div_zone").html(htm);
+
+            $("#ZoneID").change(function () {
+                popoulateWoredas();
+            });
+        });
+
+        function popoulateWoredas() {
+            document.getElementById("WoredaID").disabled = false;
+            var zoneId = $("#ZoneID").val();
+            //alert(zoneId);
+            var woredas = admin_zone_hash[zoneId];
+            var s = "<select id ='WoredaID' name='Woreda' >";
+            for (w in woredas) {
+                s += "<option value='" + woredas[w].WoredaID + "'>" + woredas[w].WoredaName + "</option>";
+            }
+            s += "</select>";
+            $("#div_woreda").html(s);
+        }
+
+        $("#ZoneID").change(function () {
+            popoulateWoredas();
+        });
+    });
+    $(function () {
+
+
+
+        $("#ProgramID").change(function () {
+
+            $("#div_round").hide();
+            $("#div_month").hide();
+            $.getJSON("@Url.Action("GetPlans", "WoredaStockDistribution")" + "?id=" + $("#ProgramID").val() + "&zoneID=" + $("#ZoneID").val(), function (data) {
+                var plans = '<option> Select a Plan </option>';
+                $.each(data, function (i, plan) {
+                    plans += "<option value='" + plan.Value + "'>" + plan.Text + "</option>";
+                });
+                $("#PlanID").html(plans);
+            });
+
+
+
+        });
+        $("#PlanID").change(function() {
+
+            $.getJSON("@Url.Action("GetMonth", "WoredaStockDistribution")" + "?id=" + $("#PlanID").val() + "&zoneID=" + $("#ZoneID").val(), function (data) {
+                var months = '<option> Select Month </option>';
+                $.each(data, function(i, m) {
+                    months += "<option value='" + m.Value + "'>" + m.Text + "</option>";
+                });
+                $("#month").html(months);
+            });
+        });
+    });
+</script>

@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using Cats.Data.Hub;
+using Cats.Data.Hub.UnitWork;
 using Cats.Models.Hubs;
 
 
@@ -20,6 +21,7 @@ namespace Cats.Services.Hub
             this._unitOfWork = new UnitOfWork();
         }
         #region Default Service Implementation
+
         public bool AddContact(Contact contact)
         {
             _unitOfWork.ContactRepository.Add(contact);

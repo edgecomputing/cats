@@ -76,6 +76,13 @@
     <Compile Include="CommodityTypeService.cs" />
     <Compile Include="CurrencyService.cs" />
     <Compile Include="DashboardService.cs" />
+    <Compile Include="HrdDonorCoverageDetailService.cs" />
+    <Compile Include="HrdDonorCoverageService.cs" />
+    <Compile Include="IHrdDonorCoverageDetailService.cs" />
+    <Compile Include="IHrdDonorCoverageService.cs" />
+    <Compile Include="ITemplateFieldsService.cs" />
+    <Compile Include="ITemplateService.cs" />
+    <Compile Include="ITemplateTypeService.cs" />
     <Compile Include="PlanService.cs" />
     <Compile Include="IAllocationByRegionService.cs" />
     <Compile Include="ICurrencyService.cs" />
@@ -149,6 +156,9 @@
     <Compile Include="SeasonService.cs" />
     <Compile Include="ShippingInstructionService.cs" />
     <Compile Include="StateTemplateService.cs" />
+    <Compile Include="TemplateFieldService.cs" />
+    <Compile Include="TemplateService.cs" />
+    <Compile Include="TemplateTypeService.cs" />
     <Compile Include="TypeOfNeedAssessmentService.cs" />
     <Compile Include="UnitService.cs" />
     <Compile Include="WorkflowStatusService.cs" />

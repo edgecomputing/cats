@@ -10,19 +10,14 @@
     @Html.ValidationSummary()
 
     <div class="modal-body">
-        
-        @Html.HiddenFor(model=>model.GiftCertificateID)
-       
-   
-    <p>
-        Are you sure you want to Approve?
-    </p> 
+        @Html.HiddenFor(model => model.GiftCertificateID)
+        <p>
+            Are you sure you want to Approve?
+        </p>
 
     </div>
     <div class="modal-footer">
-          <button class="btn btn-primary" type="submit">Yes</button>
+        <button class="btn btn-primary" type="submit">Yes</button>
         <button class="btn" data-dismiss="modal" aria-hidden="true">No</button>
-      
     </div>
-
 }

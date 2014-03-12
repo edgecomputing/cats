@@ -1,7 +1,7 @@
 ﻿<script type="text/javascript">
     $(function () {
-        //$.getJSON('@Url.Action("PieRequests", "Dashboard")', {}, function (data) {
-        $.getJSON('/Dashboard/PieRequests', {}, function (data) {
+        $.getJSON('@Url.Action("PieRequests", "Dashboard")', {}, function (data) {
+        //$.getJSON('/Dashboard/PieRequests', {}, function (data) {
              var json = data;
              var jsondata = [];
              for (var i in json) {
@@ -16,12 +16,10 @@
                      plotBackgroundColor: null,
                      plotBorderWidth: null,
                      plotShadow: false
-
                  },
                  title: {
                      text: 'Percentage of Requests per Region'
                  },
-
                  plotOptions: {
                      pie: {
                          showInLegend: true,

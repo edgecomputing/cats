@@ -19,7 +19,9 @@ namespace Cats.Data.UnitWork
         IGenericRepository<ProcessTemplate> ProcessTemplateRepository { get; }
         IGenericRepository<StateTemplate> StateTemplateRepository { get; }
         IGenericRepository<FlowTemplate> FlowTemplateRepository { get; }
-
+        IGenericRepository<Dispatch> DispatchRepository { get; }
+        IGenericRepository<DispatchDetail> DispatchDetailRepository { get; }
+        IGenericRepository<OtherDispatchAllocation> OtherDispatchAllocationRepository { get; }
         IGenericRepository<RegionalRequest> RegionalRequestRepository { get; }
         IGenericRepository<RegionalRequestDetail> RegionalRequestDetailRepository { get; }
         IGenericRepository<AdminUnit> AdminUnitRepository { get; }
@@ -27,6 +29,7 @@ namespace Cats.Data.UnitWork
         IGenericRepository<Commodity> CommodityRepository { get; }
         IGenericRepository<CommodityType> CommodityTypeRepository { get; }
         IGenericRepository<FDP> FDPRepository { get; }
+        IGenericRepository<Contact> ContactRepository { get; }
         IGenericRepository<Program> ProgramRepository { get; }
         IGenericRepository<Hub> HubRepository { get; }
         IGenericRepository<ActionTypes> ActionTypesRepository { get; }
@@ -70,6 +73,7 @@ namespace Cats.Data.UnitWork
         IGenericRepository<WorkflowStatus> WorkflowStatusRepository { get; }
 
         IGenericRepository<TransportBidQuotation> TransportBidQuotationRepository { get; }
+        IGenericRepository<TransportBidQuotationHeader> TransportBidQuotationHeaderRepository { get; }
         IGenericRepository<ApplicationSetting> ApplicationSettingRepository { get; }
 
         IGenericRepository<Ration> RationRepository { get; }
@@ -93,7 +97,7 @@ namespace Cats.Data.UnitWork
 
 
         IGenericRepository<RequestDetailCommodity> RequestDetailCommodityRepository { get; }
-
+        
         IGenericRepository<GiftCertificate> GiftCertificateRepository { get; }
         IGenericRepository<GiftCertificateDetail> GiftCertificateDetailRepository { get; }
 
@@ -139,13 +143,39 @@ namespace Cats.Data.UnitWork
 
         IGenericRepository<Notification> NotificationRepository { get; }
         IGenericRepository<WoredaHubLink> WoredaHubLinkRepository { get; }
-        IGenericRepository<WoredasByDonor> WoredaByDonorRepository { get; }
-        IGenericRepository<Distribution> DistributionRepository { get; }
-        IGenericRepository<DistributionDetail> DistributionDetailRepository { get; } 
+        IGenericRepository<HrdDonorCoverage> HrdDonorCoverageRepository { get; }
+        IGenericRepository<HrdDonorCoverageDetail> HrdDonorCoverageDetailRepository { get; }
+        IGenericRepository<Delivery> DeliveryRepository { get; }
+        IGenericRepository<DeliveryDetail> DeliveryDetailRepository { get; } 
         IGenericRepository<PaymentRequest> PaymentRequestRepository { get; }
 
         IGenericRepository<IDPSReasonType> IDPSReasonTypeRepository { get; }
-        IGenericRepository<TransportBidQuotationHeader> TransportbidQuotationHeaderRepository { get; } 
+
+        //IGenericRepository<TransportBidQuotationHeader> TransportbidQuotationHeaderRepository { get; }
+
+        IGenericRepository<TemplateType> TemplateTypeRepository { get; }
+        IGenericRepository<Template> TemplateRepository { get; }
+        IGenericRepository<TemplateField> TemplateFieldRepository { get; }
+
+        IGenericRepository<WoredaStockDistribution> WoredaStockDistributionRepository { get; }
+        IGenericRepository<WoredaStockDistributionDetail> WoredaStockDistributionDetailRepository { get; } 
+        IGenericRepository<DistributionByAgeDetail> DistributionByAgeDetailRepository { get; }
+        IGenericRepository<SupportType> SupportTypeRepository { get; } 
+        //IGenericRepository<TransportBidQuotationHeader> TransportbidQuotationHeaderRepository { get; } 
+        IGenericRepository<ReceiptAllocation> ReceiptAllocationRepository { get; }
+        IGenericRepository<ReceiptPlan> ReceiptPlanRepository { get; }
+        IGenericRepository<ReceiptPlanDetail> ReceiptPlanDetailRepository { get; }
+        IGenericRepository<DeliveryReconcile> DeliveryReconcileRepository { get; }
+
+        IGenericRepository<DonationPlanHeader> DonationPlanHeaderRepository { get; }
+        IGenericRepository<DonationPlanDetail> DonationPlanDetailRepository { get; } 
+
+        IGenericRepository<LocalPurchase> LocalPurchaseRepository { get;}
+        IGenericRepository<LocalPurchaseDetail> LocalPurchaseDetailRepository { get; }
+        IGenericRepository<LoanReciptPlan> LoanReciptPlanRepository { get; }
+        IGenericRepository<LoanReciptPlanDetail> LoanReciptPlanDetailRepository { get;}
+        IGenericRepository<Transfer> TransferRepository { get; }
+        IGenericRepository<TransporterCheque> TransporterChequeRepository { get; } 
         void Save();
 
     }

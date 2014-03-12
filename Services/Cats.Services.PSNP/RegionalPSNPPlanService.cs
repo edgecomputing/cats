@@ -63,11 +63,13 @@ namespace Cats.Services.PSNP
             return _unitOfWork.VwPSNPAnnualPlanRepository.FindBy(t=>t.RegionalPSNPPlanID==id);
         }
 
-        public bool DoesPsnpPlanExistForThisRegion(int period, int region)
+        public bool DoesPsnpPlanExistForThisRegion(int planId,int year)
         {
             var psnp =
-                _unitOfWork.RegionalPSNPPlanRepository.Get(p => p.RegionID == region && p.PlanId == period).Count();
-            return psnp > 0  ? true : false;
+                 _unitOfWork.RegionalPSNPPlanRepository.Get(p => p.PlanId == planId && p.Year==year).Count();
+            return psnp > 0;
         }
+
+       
     }
 }

@@ -7,6 +7,8 @@ using System.Web;
 using System.Web.Mvc;
 using Cats.Services.Security;
 using Cats.Models.Security;
+using System.Web.Security;
+using NetSqlAzMan.Cache;
 
 namespace Cats.Helpers
 {
@@ -14,32 +16,94 @@ namespace Cats.Helpers
     {
         public static string GetUserName(this HtmlHelper helper)
         {
+            return GetUserName();
+        }
+
+        public static string GetUserName()
+        {
+            var userName = string.Empty;
             try
             {
-                var user = (UserIdentity)HttpContext.Current.User.Identity;
-                return user.FullName;
+                var user = (UserInfo)HttpContext.Current.Session["USER_INFO"];
+                userName= user.FullName;
             }
             catch (Exception)
             {
-                return "Guest User";
-            }                       
+                SignOut();
+                userName="Guest User";
+            }
+            return userName;
         }
+
         public static string UserLanguagePreference(this HtmlHelper helper)
         {
+            var userLanguagePreference = string.Empty;
             try
             {
                 var user = (UserIdentity)HttpContext.Current.User.Identity;
-                return GetUser(user.Name).LanguageCode;
+                userLanguagePreference= GetUser(user.Name).LanguageCode;
             }
             catch (Exception)
             {
-                return "Guest User";
+                userLanguagePreference ="Guest User";
+                SignOut();                
             }
+            return userLanguagePreference;
         }
         public static UserInfo GetUser(string userName)
         {
-            var service = (IUserAccountService)DependencyResolver.Current.GetService(typeof (IUserAccountService));
-            return service.GetUserInfo(userName);
+            return GetUserInfo(userName);
+        }
+
+        private static void SignOut()
+        {
+            FormsAuthentication.SignOut();
+        }
+
+        public static UserInfo GetCurrentUser()
+        {
+            return GetUserInfo(HttpContext.Current.User.Identity.Name);
+        }
+        private static UserInfo GetUserInfo(string userName)
+        {
+            // Initialize the user object with the incoming user name to avoid 'Use of uninitialized variable exception'
+            UserInfo user = new UserInfo { UserName = userName };
+            try
+            {
+                // Check to see if we already have the user profile loaded in the session.
+                if ( HttpContext.Current.Session.Keys.Count>0)
+                {
+                    if (HttpContext.Current.Session["USER_INFO"]!=null)
+                    {
+                        user = (UserInfo)HttpContext.Current.Session["USER_INFO"];    
+                    }
+                    else
+                    {
+                        // Fetch a copy from the database if we don't have a session variable already loaded in memory
+                        var service = (IUserAccountService)DependencyResolver.Current.GetService(typeof(IUserAccountService));
+                        user = service.GetUserInfo(userName);
+                    }
+
+                    //to update the "USER_INFO"session as far as the user is engaged 
+                    //HttpContext.Current.Session["USER_INFO"] = user;
+                }
+                else
+                {
+                    // Fetch a copy from the database if we don't have a session variable already loaded in memory
+                    var service = (IUserAccountService)DependencyResolver.Current.GetService(typeof(IUserAccountService));
+                    user = service.GetUserInfo(userName);
+                    HttpContext.Current.Session["USER_INFO"] = user;
+                    HttpContext.Current.Session["USER_PROFILE"] = service.GetUserDetail(userName);
+                }
+            }
+
+            catch (Exception ex)
+            {
+                //TODO: Log error here
+                Logger.Log(ex);
+            }
+
+            return user;
         }
 
         public static string UserCalendarPreference(this HtmlHelper helper)
@@ -59,13 +123,13 @@ namespace Cats.Helpers
             {
                 // TODO: Log exception hrere
             }
- 
             return preference.ToUpper();
         }
         public static string UserUnitPreference(this HtmlHelper helper)
         {
             return UserUnitPreference();
         }
+
         public static string UserUnitPreference()
         {
             var preference = "MT";
@@ -80,6 +144,41 @@ namespace Cats.Helpers
             }
 
             return preference.ToUpper();
+        }
+
+        public static UserPermissionCache GetUserPermissionCache(CatsGlobals.Applications application)
+        {
+            UserPermissionCache permissionsCache = null;
+           
+            switch (application)
+            {
+                case CatsGlobals.Applications.EarlyWarning:
+                    permissionsCache = (UserPermissionCache)HttpContext.Current.Session[CatsGlobals.EARLY_WARNING_PERMISSIONS];
+                    break;
+                case CatsGlobals.Applications.PSNP:
+                    permissionsCache = (UserPermissionCache)HttpContext.Current.Session[CatsGlobals.PSNP_PERMISSIONS];
+                    break;
+                case CatsGlobals.Applications.Logistics:
+                    permissionsCache = (UserPermissionCache)HttpContext.Current.Session[CatsGlobals.LOGISTICS_PERMISSIONS];
+                    break;
+                case CatsGlobals.Applications.Procurement:
+                    permissionsCache = (UserPermissionCache)HttpContext.Current.Session[CatsGlobals.PROCUREMENT_PERMISSIONS];
+                    break;
+                case CatsGlobals.Applications.Finance:
+                    permissionsCache = (UserPermissionCache)HttpContext.Current.Session[CatsGlobals.FINANCE_PERMISSIONS];
+                    break;
+                case CatsGlobals.Applications.Hub:
+                    permissionsCache = (UserPermissionCache)HttpContext.Current.Session[CatsGlobals.HUB_PERMISSIONS];
+                    break;
+                case CatsGlobals.Applications.Administration:
+                    permissionsCache = (UserPermissionCache)HttpContext.Current.Session[CatsGlobals.ADMINISTRATION_PERMISSIONS];
+                    break;
+                case CatsGlobals.Applications.Region:
+                    permissionsCache = (UserPermissionCache)HttpContext.Current.Session[CatsGlobals.REGION_PERMISSIONS];
+                    break;
+            }
+
+            return permissionsCache;
         }
 
     }

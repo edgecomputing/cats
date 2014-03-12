@@ -7,9 +7,9 @@
 
     var RegionName = "";
      function Regional() {
-        @* //  $.getJSON('@Url.Action("BarRegionalReqDetailCommodity", "Dashboard")',{}, function (data) {*@
-         $.getJSON('/Dashboard/BarRegionalReqDetailCommodity', {}, function (data) {
-            var json = data
+         $.getJSON('@Url.Action("BarRegionalReqDetailCommodity", "Dashboard")',{}, function (data) {
+         //$.getJSON('/Dashboard/BarRegionalReqDetailCommodity', {}, function (data) {
+             var json = data;
             var jsondata = [];
             var _jsondata = [];
             var jsonHRD = [];

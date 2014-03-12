@@ -24,12 +24,13 @@ namespace Cats.Models.Mapping
             this.Property(t => t.Name).HasColumnName("Name");
             this.Property(t => t.NameAM).HasColumnName("NameAM");
             this.Property(t => t.AdminUnitID).HasColumnName("AdminUnitID");
+            this.Property(t => t.Latitude).HasColumnName("Latitude");
+            this.Property(t => t.Longitude).HasColumnName("Longitude");
 
             // Relationships
             this.HasRequired(t => t.AdminUnit)
                 .WithMany(t => t.FDPs)
                 .HasForeignKey(d => d.AdminUnitID);
-            
 
         }
     }

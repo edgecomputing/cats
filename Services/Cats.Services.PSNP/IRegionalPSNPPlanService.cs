@@ -21,7 +21,7 @@ namespace Cats.Services.PSNP
         List<RegionalPSNPPlan> FindBy(Expression<Func<RegionalPSNPPlan, bool>> predicate);
 
         List<vwPSNPAnnualPlan> GetAnnualPlanRpt(int id);
-        bool DoesPsnpPlanExistForThisRegion(int year, int region);
+        bool DoesPsnpPlanExistForThisRegion(int planId,int year);
 
 
     }

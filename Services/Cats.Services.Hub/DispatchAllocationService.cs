@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using Cats.Data.Hub;
+using Cats.Data.Hub.UnitWork;
 using Cats.Models.Hubs;
 using Cats.Models.Hubs.ViewModels;
 using Cats.Models.Hubs.ViewModels.Common;
@@ -13,12 +14,10 @@ using Cats.Models.Hubs.ViewModels.Dispatch;
 
 namespace Cats.Services.Hub
 {
-
     public class DispatchAllocationService : IDispatchAllocationService
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IShippingInstructionService _shippingInstructionService;
-
 
         public DispatchAllocationService(IUnitOfWork unitOfWork, IShippingInstructionService shippingInstructionService)
         {
@@ -315,11 +314,11 @@ namespace Cats.Services.Hub
         public List<DispatchAllocationViewModelDto> GetCommitedAllocationsByHubDetached(int hubId, string PreferedWeightMeasurment, bool? closedToo, int? AdminUnitId, int? CommodityType)
         {
             List<DispatchAllocationViewModelDto> GetUncloDetacheced = new List<DispatchAllocationViewModelDto>();
+            //TODO:Check whether both si and pc is required for checking
             var unclosed =
                 _unitOfWork.DispatchAllocationRepository.Get(
-                    t => t.ShippingInstructionID.HasValue && t.ProjectCodeID.HasValue
+                    t => (t.ShippingInstructionID.HasValue || t.ProjectCodeID.HasValue)
                          && hubId == t.HubID);
-
 
             if (AdminUnitId.HasValue)
             {
@@ -499,11 +498,11 @@ namespace Cats.Services.Hub
         /// <returns></returns>
         public List<string> GetAvailableRequisionNumbers(int HubId, bool UnCommited)
         {
-            var allocations = _unitOfWork.DispatchAllocationRepository.Get(t => t.HubID == HubId);
-
+           var allocations = _unitOfWork.DispatchAllocationRepository.Get(t => t.HubID == HubId);
+            
             if (UnCommited)
             {
-                allocations = allocations.Where(p => !p.ShippingInstructionID.HasValue && !p.ProjectCodeID.HasValue);
+                allocations = allocations.Where(p => !(p.ShippingInstructionID.HasValue || p.ProjectCodeID.HasValue)).ToList();
             }
 
             return allocations.Select(p => p.RequisitionNo).Distinct().ToList();
@@ -733,19 +732,16 @@ namespace Cats.Services.Hub
                 dispatchViewModel.HubID = dispatch.HubID;
                 // dispatch.ProgramID = dispatchAllocation.ProgramID;
                 dispatchViewModel.Program = dispatchAllocation.Program.Name;
-
-                    dispatchViewModel.Month = dispatch.PeriodMonth;
-                
-                    dispatchViewModel.Year = dispatch.PeriodYear;
+                dispatchViewModel.Month = dispatch.PeriodMonth;
+                dispatchViewModel.Year = dispatch.PeriodYear;
                 dispatchViewModel.PlateNo_Prime = dispatch.PlateNo_Prime;
                 dispatchViewModel.PlateNo_Trailer = dispatch.PlateNo_Trailer;
                 dispatchViewModel.Remark = dispatch.Remark;
                 dispatchViewModel.RequisitionNo = dispatch.RequisitionNo;
                 dispatchViewModel.ProgramID = dispatchAllocation.ProgramID.HasValue ? dispatchAllocation.ProgramID.Value : 0;
                
-                    dispatchViewModel.Round = dispatch.Round;
-              
-                    dispatchViewModel.TransporterID = dispatch.TransporterID;
+                dispatchViewModel.Round = dispatch.Round;
+                dispatchViewModel.TransporterID = dispatch.TransporterID;
 
                 dispatchViewModel.WeighBridgeTicketNumber = dispatch.WeighBridgeTicketNumber;
 

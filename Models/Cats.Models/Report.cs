@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace Cats.Models
 {
-    public class Report
+    public class ReportObj
     {
-        private string Name { get; set; }
-        private string URL { get; set; }
-        private string Description { get; set; }
+        public string Name { get; set; }
+        public string URL { get; set; }
+        public string Description { get; set; }
     }
 }

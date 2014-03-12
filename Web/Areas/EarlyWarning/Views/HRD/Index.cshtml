@@ -1,4 +1,5 @@
-﻿@using Cats.Services.Security
+﻿@using Cats.Security
+@using Cats.Services.Security
 @using Kendo.Mvc.UI
 @using Cats.Helpers
 @using LanguageHelpers.Localization
@@ -11,13 +12,6 @@
 }
 
 
-@section Toolbar
-{
-    @Html.EarlyWarningOperationButton(
-                        @Url.Action("Create", "HRD", new { Area = "EarlyWarning" }),
-                        EarlyWarningCheckAccess.Operation.New_HRD, "<i class=\"icon-plus\"></i>", "btn", "btn_new_record")
-}
-
 <div>
     <h4>List of HRD</h4>
 </div>
@@ -27,6 +21,7 @@
     <button id="yes" class="k-button">Yes</button>
     <button id="no" class="k-button">No</button>
 </div>
+
 <script>
     var wnd;
     $(document).ready(function () {
@@ -39,7 +34,12 @@
         }).data("kendoWindow");
     });
 </script>
-
+@section Toolbar
+{
+    @Html.EarlyWarningOperationButton(
+                        @Url.Action("Create", "HRD", new { Area = "EarlyWarning" }),
+                        EarlyWarningConstants.Operation.New_HRD, "<i class=\"icon-plus\"></i>", "btn", "btn_new_record")
+}
 @section LeftBar{
 
     @Html.Partial("_HRDLeftBar")
@@ -53,10 +53,11 @@
             columns.Bound(p => p.HRDName).Title(Translator.Translate("HRD Name")).ClientTemplate(
                             @Html.EarlyWarningOperationButton(
                                 @Url.Action("Detail", "HRD", new { id = "#=HRDID#" }),
-                                EarlyWarningCheckAccess.Operation.New_HRD, "#=HRDName#").ToString());
+                                EarlyWarningConstants.Operation.New_HRD, "#=HRDName#").ToString());
+            columns.Bound(p => p.Plan);
             columns.Bound(p => p.Ration).Title("Ration No");
-            columns.Bound(p => p.Season);
-            columns.Bound(p => p.Year);
+            //columns.Bound(p => p.Season);
+            //columns.Bound(p => p.Year);
             columns.Bound(p => p.CreatedBy).Width(160);
             columns.Bound(p => p.CreatedDatePref).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid" }).Width(160);
             // columns.Bound(p => p.PublishedDate).Format("{0:MM/dd/yyyy}");
@@ -69,6 +70,7 @@
                 p.Custom("Summary").Click("showSummary");
 
             }).Width(250);
+            
             //{
             //   // p.Custom("ViewDetails").Click("showDetails");
             //    p.Custom("Edit").Click("hrdEdit");
@@ -81,7 +83,6 @@
 
         })
             .Sortable()
-            .Filterable()
             .Scrollable()
             .HtmlAttributes(new { style = "height:430px;" })
             .DataSource(dataSource => dataSource

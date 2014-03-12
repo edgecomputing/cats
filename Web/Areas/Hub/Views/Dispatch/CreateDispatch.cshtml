@@ -23,6 +23,19 @@
    // @Html.HiddenFor(model=>model.UnitID)
     @Html.HiddenFor(model=>model.UserProfileID)
     @Html.HiddenFor(model=>model.CommodityID)
+    @Html.HiddenFor(model => model.SINumber)
+     @Html.HiddenFor(model => model.Region)
+    @Html.HiddenFor(model => model.Woreda)
+     @Html.HiddenFor(model => model.ProjectNumber)
+     @Html.HiddenFor(model => model.Zone)
+     @Html.HiddenFor(model => model.FDP)
+     @Html.HiddenFor(model => model.Commodity)
+     @Html.HiddenFor(model => model.RequisitionNo)
+     @Html.HiddenFor(model => model.Year)
+     @Html.HiddenFor(model => model.Month)
+    @Html.HiddenFor(model => model.Round)
+     @Html.HiddenFor(model => model.Transporter)
+      @Html.HiddenFor(model => model.BidNumber)
     <h6 class="page-header">Dispatch Header</h6>
     <div class="row-fluid panel-body form-horizontal">
 
@@ -33,6 +46,7 @@
                 </div>
                 <div class="controls">
                     @Html.TextBoxFor(model => model.GIN)
+                    @Html.ValidationMessageFor(model=>model.GIN)
                 </div>
             </div>
 

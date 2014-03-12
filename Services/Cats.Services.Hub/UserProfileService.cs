@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using Cats.Data.Hub;
+using Cats.Data.Hub.UnitWork;
 using Cats.Models.Hubs;
 
 namespace Cats.Services.Hub
@@ -39,8 +40,8 @@ namespace Cats.Services.Hub
                                 t => t.Hub).FirstOrDefault();
                               
                     }
-                
-
+                //TODO:Since user cration doesn't assign default hub by default we will add here default hub for current user;
+          
             user.DefaultHub = hub;
 
 

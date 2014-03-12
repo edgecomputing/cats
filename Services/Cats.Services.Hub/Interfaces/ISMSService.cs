@@ -18,9 +18,5 @@ namespace Cats.Services.Hub
         SMS FindById(int id);
         List<SMS> GetAllSMS();
         List<SMS> FindBy(Expression<Func<SMS, bool>> predicate);
-
-
     }
 }
-
-

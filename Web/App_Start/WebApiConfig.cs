@@ -14,6 +14,17 @@ namespace Cats
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
+
+            var appXmlType = config.Formatters.XmlFormatter.SupportedMediaTypes.FirstOrDefault(t => t.MediaType == "application/xml");
+            config.Formatters.XmlFormatter.SupportedMediaTypes.Remove(appXmlType);
+            //config.Formatters.JsonFormatter.SupportedEncodings.RemoveAt(0);
+            //config.Formatters.JsonFormatter.SupportedEncodings[]=null;
+
+
+            //config.Formatters.JsonFormatter.AddUriPathExtensionMapping("json", "application/json");
+            //config.Formatters.XmlFormatter.
+            //config.Formatters.XmlFormatter.AddUriPathExtensionMapping("xml", "application/xml");
+            //config.Formatters.JsonFormatter.SupportedEncodings.FirstOrDefault()            //config.Formatters.JsonFormatter.SupportedMediaTypes.FirstOrDefault()
         }
     }
 }

@@ -257,8 +257,7 @@ namespace Cats.Data.Tests.ServicesTest.Procurement
              sipcAllocationRepository.Setup(t => t.FindBy(It.IsAny<Expression<Func<SIPCAllocation, bool>>>())).Returns(new List<SIPCAllocation>());
              mockUnitOfWork.Setup(t => t.SIPCAllocationRepository).Returns(sipcAllocationRepository.Object);
              var transporterService = new Mock<ITransporterService>();
-            transporterService.Setup(t => t.GetCurrentBidWinner(It.IsAny<int>(), It.IsAny<int>())).Returns(new TransportBidQuotation
-                                                                                                               ()
+            transporterService.Setup(t => t.GetCurrentBidWinner(It.IsAny<int>(), It.IsAny<int>())).Returns(new BidWinner()
                                                                                                                {
                                                                                                                    BidID
                                                                                                                        =
@@ -269,9 +268,6 @@ namespace Cats.Data.Tests.ServicesTest.Procurement
                                                                                                                    Position
                                                                                                                        =
                                                                                                                        1,
-                                                                                                                   IsWinner
-                                                                                                                       =
-                                                                                                                       true,
                                                                                                                    SourceID
                                                                                                                        =
                                                                                                                        1,
@@ -279,9 +275,6 @@ namespace Cats.Data.Tests.ServicesTest.Procurement
                                                                                                                        =
                                                                                                                        1,
                                                                                                                    TransporterID
-                                                                                                                       =
-                                                                                                                       1,
-                                                                                                                   TransportBidQuotationID
                                                                                                                        =
                                                                                                                        1
                                                                                                                });

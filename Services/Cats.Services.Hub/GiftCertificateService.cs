@@ -6,6 +6,7 @@ using System.Data.Objects;
 using System.Linq;
 using System.Linq.Expressions;
 using Cats.Data.Hub;
+using Cats.Data.Hub.UnitWork;
 using Cats.Models.Hubs;
 
 
@@ -93,7 +94,7 @@ namespace Cats.Services.Hub
 
                 orginal.GiftDate = giftCertificateModel.GiftDate;
                 orginal.DonorID = giftCertificateModel.DonorID;
-                orginal.SINumber = giftCertificateModel.SINumber;
+                orginal.ShippingInstructionID = giftCertificateModel.ShippingInstructionID;
                 orginal.ReferenceNo = giftCertificateModel.ReferenceNo;
                 orginal.Vessel = giftCertificateModel.Vessel;
                 orginal.ETA = giftCertificateModel.ETA;
@@ -154,12 +155,15 @@ namespace Cats.Services.Hub
         /// </summary>
         /// <param name="SINumber">The SI number.</param>
         /// <returns></returns>
-        public GiftCertificate FindBySINumber(string SINumber)
+        public GiftCertificate FindBySINumber(int SINumber)
         {
-            return _unitOfWork.GiftCertificateRepository.Get(p => p.SINumber == SINumber).SingleOrDefault();
+            return _unitOfWork.GiftCertificateRepository.Get(p => p.ShippingInstructionID == SINumber).FirstOrDefault();
         }
 
-
+        public GiftCertificate FindBySINumber(string SINumber)
+        {
+            return _unitOfWork.GiftCertificateRepository.Get(p => p.ShippingInstruction.Value == SINumber).FirstOrDefault();
+        }
         /// <summary>
         /// Gets the SI balances.
         /// </summary>
@@ -168,7 +172,7 @@ namespace Cats.Services.Hub
         {
             var tempGiftCertificateDetails = _unitOfWork.GiftCertificateDetailRepository.GetAll();
             var list = (from GCD in tempGiftCertificateDetails
-                        group GCD by GCD.GiftCertificate.SINumber into si
+                        group GCD by GCD.GiftCertificate.ShippingInstruction.Value into si
                         select new SIBalance() { SINumber = si.Key, AvailableBalance = si.Sum(p => p.WeightInMT) }).ToList();
 
             return list;

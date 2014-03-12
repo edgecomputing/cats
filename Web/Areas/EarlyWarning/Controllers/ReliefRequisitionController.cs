@@ -126,7 +126,16 @@ namespace Cats.Areas.EarlyWarning.Controllers
         [HttpGet]
         public ViewResult NewRequisiton(int id)
         {
+
             var input = _reliefRequisitionService.GetRequisitionByRequestId(id);
+            var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
+            
+            foreach (var reliefRequisitionNew in input)
+            {
+                var preferedDate = reliefRequisitionNew.RequestedDate??DateTime.Now;
+                preferedDate = reliefRequisitionNew.RequestedDate ?? DateTime.Now;
+                reliefRequisitionNew.RequestDatePref = preferedDate.ToCTSPreferedDateFormat(datePref);
+            }
             return View(input);
         }
 
@@ -164,10 +173,11 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
         public ActionResult Allocation_Read([DataSourceRequest] DataSourceRequest request, int id)
         {
-
+            
             var requisitionDetails = _reliefRequisitionDetailService.Get(t => t.RequisitionID == id, null, "ReliefRequisition.AdminUnit,FDP.AdminUnit,FDP,Donor,Commodity").ToList();
             var commodityID = requisitionDetails.FirstOrDefault().CommodityID;
             var RationAmount = GetCommodityRation(id, commodityID);
+            RationAmount = RationAmount.GetPreferedRation();
             var requisitionDetailViewModels = RequisitionViewModelBinder.BindReliefRequisitionDetailListViewModel(requisitionDetails,RationAmount);
             return Json(requisitionDetailViewModels.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
@@ -336,7 +346,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                                                                                                   _workflowStatusService
                                                                                                       .GetStatus(
                                                                                                           WORKFLOW.
-                                                                                                              RELIEF_REQUISITION),datePref);
+                                                                                                              RELIEF_REQUISITION),datePref).OrderByDescending(m=>m.RequisitionID);
             return Json(requestViewModels.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
 

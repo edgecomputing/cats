@@ -35,7 +35,6 @@ namespace Cats.Models.Hubs.Mapping
             this.HasRequired(t => t.FDP)
                 .WithMany(t => t.Contacts)
                 .HasForeignKey(d => d.FDPID);
-
         }
     }
 }

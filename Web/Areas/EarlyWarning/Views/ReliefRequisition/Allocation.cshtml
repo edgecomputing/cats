@@ -23,9 +23,23 @@
         <a href="@Url.Action("SendToLogistics", "ReliefRequisition", new { id = Model.RequisitionID })" class="btn toolbar-btn btn-Approve-allocation"><i class=""></i>Approve</a>
     }
 }
-<h5 class="page-header">Monthly   @Html.DisplayFor(model => model.Program) Requisition Resource Allocation
+
+@{
+    if (Model!=null)
+    {
+        if (Model.ProgramID == 3 ) //i.e. IDPS
+        {
+            <h5 class="page-header">   @Html.DisplayFor(model => model.Program) Requisition Resource Allocation </h5>
+        }
+        else
+        {
+            <h5 class="page-header">Monthly   @Html.DisplayFor(model => model.Program) Requisition Resource Allocation </h5>
+        }
+    }
+}
+
         
-</h5>
+
 <div id='dialogDiv' class='modal hide fade in'>
     <div id='dialogContent'></div>
 </div>
@@ -112,7 +126,11 @@
         columns.Bound(p => p.Commodity).Width(100).HtmlAttributes(new { style = "background-color:lightgray" });
         columns.ForeignKey(p => p.Donor, (IEnumerable<Cats.Models.Donor>)ViewData["donors"], "DonorID", "Name").Width(200);
         columns.Bound(p => p.BenficiaryNo).Width(100).HtmlAttributes(new { align = "right" }).Format("{0:n0}");
-        columns.Bound(p => p.Amount).Width(100).HtmlAttributes(new { align = "right" }).Format("{0:n2}").HeaderHtmlAttributes(new { @class = "cats-unit-pref-grid" });
+        columns.Bound(p => p.Amount).Width(100).HtmlAttributes(new { style = "background-color:lightgray" , align = "right" }).Format("{0:n2}").HeaderHtmlAttributes(new { @class = "cats-unit-pref-grid" });
+        if (Model.ProgramID == 2)
+        {
+            columns.Bound(p => p.Contingency).Width(100).HtmlAttributes(new {style = "background-color:lightgray", align = "right"}).Format("{0:n2}").HeaderHtmlAttributes(new {@class = "cats-unit-pref-grid"});
+        }
         columns.Bound(p => p.RationAmount).Hidden(true);
     })
     .ToolBar(toolbar => toolbar.Save())
@@ -136,6 +154,8 @@
                 model.Field(detail => detail.Zone).Editable(false);
                 model.Field(detail => detail.Woreda).Editable(false);
                 model.Field(detail => detail.Commodity).Editable(false);
+                //model.Field(detail => detail.Amount).Editable(false);
+                //model.Field(detail => detail.Contingency).Editable(false);
             })
         .Create(update => update.Action("Allocation_Create", "ReliefRequisition"))
         .Read(read => read.Action("Allocation_Read", "ReliefRequisition", new { id = Model.RequisitionID }))

@@ -1,13 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
-using Cats.Models.Hubs;
-using Cats.Models.Hubs.Repository;
 
-namespace Cats.Models.Hubs
+namespace Cats.Models.Hubs.ViewModels
 {
 
 
@@ -611,6 +608,10 @@ namespace Cats.Models.Hubs
             if (this.ReceiveID.HasValue)
             {
                 receive.ReceiveID = this.ReceiveID.Value;
+            }
+            else
+            {
+                receive.ReceiveID = Guid.NewGuid();
             }
             return receive;
         }

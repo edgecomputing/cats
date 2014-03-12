@@ -1,4 +1,4 @@
-﻿@model Cats.Models.TransportRequisition
+﻿@model Cats.Areas.Logistics.Models.TransportRequisitionViewModel
 
 @{
     ViewBag.Title = "Edit";
@@ -41,7 +41,7 @@
                     @Html.LabelFor(model => model.RequestedBy)
                 </div>
                 <div class="controls">
-                    @Html.TextBoxFor(model => model.RequestedBy)
+                    @Html.DropDownList("RequestedBy", string.Empty)
                     @Html.ValidationMessageFor(model => model.RequestedBy)
                 </div>
             </div>
@@ -59,7 +59,7 @@
                     @Html.LabelFor(model => model.CertifiedBy)
                 </div>
                 <div class="controls">
-                    @Html.TextBoxFor(model => model.CertifiedBy)
+                    @Html.DropDownList("CertifiedBy", string.Empty)
                     @Html.ValidationMessageFor(model => model.CertifiedBy)
                 </div>
             </div>
