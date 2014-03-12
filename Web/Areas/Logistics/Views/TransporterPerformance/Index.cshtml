@@ -16,13 +16,14 @@ Agreement Contract #: <input id="searchIndex" style="width: 300px; height: 20px;
 .Columns(columns =>
   {
 
-      columns.Bound(m => m.TransportOrderNumber).ClientTemplate("<a href='" + Url.Action("Index", "TransporterPerformance", new { Area = "Logistics", id = "#=TransporterOrderID#" }) + " '>#=TransportOrderNumber#</a>  ");
-    columns.Bound(m => m.TotalQuantity);
-      columns.Bound(m => m.PickedUpSofar).Title(@Html.Translate2(PAGE_NAME,"Picked Up Sofar"));
+    columns.Bound(m => m.TransportOrderNumber).ClientTemplate("<a href='" + Url.Action("Index", "TransporterPerformance", new { Area = "Logistics", id = "#=TransporterOrderID#" }) + " '>#=TransportOrderNumber#</a>  ");
+    columns.Bound(m => m.TransporterName);
+    columns.Bound(m => m.TotalQuantity).Title(@Html.Translate2(PAGE_NAME, "Total Quantity in QTL")).HtmlAttributes(new { align = "Right" });
+    columns.Bound(m => m.PickedUpSofar).Title(@Html.Translate2(PAGE_NAME, "Picked Up Sofar in QTL")).HtmlAttributes(new { align = "Right" });
     columns.Bound(m => m.StartDate).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid" });
-    columns.Bound(m => m.NoOfDaysToComplete).Title(@Html.Translate2(PAGE_NAME, "Agreed to complete (days)"));
-    columns.Bound(m => m.ElapsedDays).Title(@Html.Translate2(PAGE_NAME,"Elapsed Time(in Days)"));
-      columns.Bound(m => m.Percentage).Title(@Html.Translate2(PAGE_NAME,"Percentage Completed"));
+    columns.Bound(m => m.NoOfDaysToComplete).Title(@Html.Translate2(PAGE_NAME, "Agreed to complete (days)")).HtmlAttributes(new { align = "Right" });
+    columns.Bound(m => m.ElapsedDays).Title(@Html.Translate2(PAGE_NAME, "Elapsed Time(in Days)")).HtmlAttributes(new { align = "Right" });
+    columns.Bound(m => m.Percentage).Title(@Html.Translate2(PAGE_NAME, "Percentage Completed")).HtmlAttributes(new { align = "Center"}).Format("{0:N2}"); 
   })
     .Sortable()
     .Scrollable()

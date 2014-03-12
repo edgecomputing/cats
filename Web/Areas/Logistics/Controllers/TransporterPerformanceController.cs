@@ -6,6 +6,8 @@ using System.Web.Mvc;
 using Cats.Areas.Logistics.Models;
 using Cats.Helpers;
 using Cats.Models;
+using Cats.Models.Constant;
+using Cats.Services.Hub;
 using Cats.Services.Procurement;
 using Cats.Services.Security;
 using Kendo.Mvc.Extensions;
@@ -19,10 +21,13 @@ namespace Cats.Areas.Logistics.Controllers
         // GET: /Logistics/TransporterPerformance/
         private readonly ITransportOrderService _transportOrderService;
         private readonly IUserAccountService _userAccountService;
-        public TransporterPerformanceController(ITransportOrderService transportOrderService,IUserAccountService userAccountService)
+        private readonly IDispatchAllocationService _dispatchAllocationService;
+        public TransporterPerformanceController(ITransportOrderService transportOrderService,IUserAccountService userAccountService,
+                                              IDispatchAllocationService dispatchAllocationService)
         {
             _transportOrderService = transportOrderService;
             _userAccountService = userAccountService;
+            _dispatchAllocationService = dispatchAllocationService;
 
         }
         public ActionResult Index()
@@ -32,7 +37,9 @@ namespace Cats.Areas.Logistics.Controllers
 
         public ActionResult TransporterPerformance_Read([DataSourceRequest] DataSourceRequest request, string searchIndex)
         {
-            var transportOrder = _transportOrderService.Get(m => m.ContractNumber.Contains(searchIndex));
+            var transportOrder = _transportOrderService.Get(m => m.ContractNumber.Contains(searchIndex))
+                               .Where(m=>m.StatusID==(int)TransportOrderStatus.Closed && m.TransportOrderDetails.Sum(s=>s.QuantityQtl)>0)
+                               .OrderByDescending(m=>m.TransportOrderID);
             var transportOrderToDisplay = GetTransportOrder(transportOrder);
             return Json(transportOrderToDisplay.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
@@ -50,8 +57,8 @@ namespace Cats.Areas.Logistics.Controllers
                         StartDate = transportOrder.StartDate.ToCTSPreferedDateFormat(datePref),
                         TotalQuantity = transportOrder.TransportOrderDetails.Sum(m => m.QuantityQtl),
                         NoOfDaysToComplete =(int) (transportOrder.EndDate.Subtract(transportOrder.StartDate)).TotalDays,
+                        PickedUpSofar = GetDispatchAllocation(transportOrder.TransportOrderID),
                         ElapsedDays =(int)(DateTime.Now.Subtract(transportOrder.StartDate)).TotalDays,
-                        Percentage = (456 / (transportOrder.TransportOrderDetails.Sum(m => m.QuantityQtl)))*100
                     });
                 
             
@@ -68,6 +75,13 @@ namespace Cats.Areas.Logistics.Controllers
             //select allocated.SINumber).ToList();
 
             return Json(contractNumbers, JsonRequestBehavior.AllowGet);
+        }
+
+        private Decimal GetDispatchAllocation(int transportOrderID)
+        {
+            var dispatchAllocations = _dispatchAllocationService.FindBy(m => m.TransportOrderID == transportOrderID);
+            var dispatchedSoFar = dispatchAllocations.Sum(m => m.Amount);
+            return dispatchedSoFar;
         }
     }
 }

@@ -16,7 +16,17 @@ namespace Cats.Areas.Logistics.Models
         public string StartDate { get; set; }
         public int NoOfDaysToComplete { get; set; }
         public int ElapsedDays { get; set; }
-        public decimal Percentage { get; set; }
+        public decimal Percentage
+        {
+            get
+            {
+                return (PickedUpSofar/TotalQuantity)*100;
+            }
+        }
         public string ContractNumber { get; set; }
+    }
+    public class DispatchAllocationViewModel
+    {
+        public decimal DispatchedSoFar { get; set; }
     }
 }
