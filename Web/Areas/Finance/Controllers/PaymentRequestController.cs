@@ -13,7 +13,7 @@ using Cats.Models;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
 
-namespace Cats.Areas.Finance.Controllers
+namespace Cats.Areas.Logistics.Controllers
 {
     public class PaymentRequestController:Controller
     {
@@ -51,7 +51,7 @@ namespace Cats.Areas.Finance.Controllers
         {
             LoadLookups();
             //var list = (IEnumerable<PaymentRequest>)_PaymentRequestservice.GetAll();
-            var list = (IEnumerable<PaymentRequest>)_PaymentRequestservice.FindBy(t=>t.BusinessProcess.CurrentState.BaseStateTemplate.StateNo>=2);
+            var list = (IEnumerable<PaymentRequest>)_PaymentRequestservice.FindBy(t=>t.BusinessProcess.CurrentState.BaseStateTemplate.StateNo<=2);
             return View(list);
         }
 
