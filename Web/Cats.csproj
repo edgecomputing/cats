@@ -395,6 +395,7 @@
     <Compile Include="Areas\Finance\Controllers\HomeController.cs" />
     <Compile Include="Areas\Finance\Controllers\TransportOrderPerformanceController.cs" />
     <Compile Include="Areas\Finance\FinanceAreaRegistration.cs" />
+    <Compile Include="Areas\Finance\Models\PaymentRequestViewModel.cs" />
     <Compile Include="Areas\Logistics\Controllers\DonationController.cs" />
     <Compile Include="Areas\Logistics\Controllers\PaymentRequestController.cs" />
     <Compile Include="Areas\Logistics\Controllers\TransferController.cs" />
@@ -524,6 +525,7 @@
     <Compile Include="Areas\Procurement\Controllers\BidAdministrationController.cs" />
     <Compile Include="Areas\Procurement\Controllers\ContractAdministrationController.cs" />
     <Compile Include="Areas\Procurement\Controllers\FetchDataController.cs" />
+    <Compile Include="Areas\Finance\Controllers\ValidatedPaymentRequestController.cs" />
     <Compile Include="Areas\Procurement\Models\BidPlanDetailViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\PaymentRequestPercentageViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\PaymentRequestViewModel.cs" />
@@ -1736,6 +1738,9 @@
     <Content Include="Areas\Logistics\Views\TransporterPerformance\Index.cshtml" />
     <Content Include="Areas\Logistics\Views\PaymentRequest\Index.cshtml" />
     <Content Include="Areas\Finance\Views\TransportOrderPerformance\Index.cshtml" />
+    <Content Include="Areas\Finance\Views\ValidatedPaymentRequest\Index.cshtml" />
+    <Content Include="Areas\Finance\Views\ValidatedPaymentRequest\TransporterDetail.cshtml" />
+    <Content Include="Areas\Finance\Views\ValidatedPaymentRequest\TransportOrderDetail.cshtml" />
     <None Include="dataset.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>dataset.Designer.cs</LastGenOutput>
@@ -2532,7 +2537,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\Finance\Models\" />
     <Folder Include="Areas\Finance\Views\Shared\" />
     <Folder Include="Areas\Hub\Models\generated\" />
     <Folder Include="Areas\Hub\Views\ReleaseNotes\" />

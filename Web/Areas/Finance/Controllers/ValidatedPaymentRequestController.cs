@@ -13,7 +13,7 @@ using Cats.Services.EarlyWarning;
 using Cats.Services.Procurement;
 using Cats.ViewModelBinder;
 
-namespace Cats.Areas.Procurement.Controllers
+namespace Cats.Areas.Finance.Controllers
 {
     public class ValidatedPaymentRequestController : Controller
     {
@@ -80,6 +80,58 @@ namespace Cats.Areas.Procurement.Controllers
                 return HttpNotFound();
             }
             return View(transporter);
+        }
+
+        public ActionResult LoadLabourCost(int paymentRequestID)
+        {
+            var paymentRequestObj = _paymentRequestservice.FindById(paymentRequestID);
+            var paymentRequestViewModel = new Models.PaymentRequestViewModel();
+            if (paymentRequestObj!=null)
+            {
+                paymentRequestViewModel.PaymentRequestID = paymentRequestObj.PaymentRequestID;
+                paymentRequestViewModel.TransportOrderID = paymentRequestObj.TransportOrderID;
+                paymentRequestViewModel.RequestedAmount = paymentRequestObj.RequestedAmount;
+                paymentRequestViewModel.ReferenceNo = paymentRequestObj.ReferenceNo;
+                paymentRequestViewModel.BusinessProcessID = paymentRequestObj.BusinessProcessID;
+                paymentRequestViewModel.LabourCostRate = paymentRequestObj.LabourCostRate;
+                paymentRequestViewModel.LabourCost = paymentRequestObj.LabourCost;
+            }
+            return Json(paymentRequestViewModel, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult EditLabourCostInfo(Models.PaymentRequestViewModel paymentRequestViewModel)
+        {
+            var paymentRequestObj = _paymentRequestservice.FindById(paymentRequestViewModel.PaymentRequestID);
+            paymentRequestObj.LabourCostRate = paymentRequestViewModel.LabourCostRate;
+            paymentRequestObj.LabourCost = paymentRequestViewModel.LabourCost;
+            _paymentRequestservice.Update(paymentRequestObj);
+            return Json(paymentRequestViewModel, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult LoadCheque(int paymentRequestID)
+        {
+            var paymentRequestObj = _paymentRequestservice.FindById(paymentRequestID);
+            var paymentRequestViewModel = new Models.PaymentRequestViewModel();
+            if (paymentRequestObj != null)
+            {
+                paymentRequestViewModel.PaymentRequestID = paymentRequestObj.PaymentRequestID;
+                paymentRequestViewModel.TransportOrderID = paymentRequestObj.TransportOrderID;
+                paymentRequestViewModel.RequestedAmount = paymentRequestObj.RequestedAmount;
+                paymentRequestViewModel.ReferenceNo = paymentRequestObj.ReferenceNo;
+                paymentRequestViewModel.BusinessProcessID = paymentRequestObj.BusinessProcessID;
+                paymentRequestViewModel.LabourCostRate = paymentRequestObj.LabourCostRate;
+                paymentRequestViewModel.LabourCost = paymentRequestObj.LabourCost;
+            }
+            return Json(paymentRequestViewModel, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult EditChequeInfo(Models.PaymentRequestViewModel paymentRequestViewModel)
+        {
+            var paymentRequestObj = _paymentRequestservice.FindById(paymentRequestViewModel.PaymentRequestID);
+            paymentRequestObj.LabourCostRate = paymentRequestViewModel.LabourCostRate;
+            paymentRequestObj.LabourCost = paymentRequestViewModel.LabourCost;
+            _paymentRequestservice.Update(paymentRequestObj);
+            return Json(paymentRequestViewModel, JsonRequestBehavior.AllowGet);
         }
 
         private IEnumerable<TransportOrderDetailViewModel> GetDetail(IEnumerable<TransportOrderDetail> transportOrderDetails)
