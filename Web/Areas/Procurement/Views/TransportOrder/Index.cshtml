@@ -29,11 +29,11 @@
         <ul class="dropdown-menu">
             @if (@ViewBag.TransportOrderTitle != "Draft")
             {
-                <li><a   href="@Url.Action("Index", "TransportOrder", new {area = "Procurement", id = (int) TransportOrderStatus.Draft})" >Draft </a></li>
+                <li><a   href="@Url.Action("Index", "TransportOrder", new {area = "Procurement", id = (int) TransportOrderStatus.Draft})" > View Draft </a></li>
             }
             else
             {
-                <li><a   href="@Url.Action("Index", "TransportOrder", new {area = "Procurement", id = (int) TransportOrderStatus.Approved})" >Approved </a></li>
+                <li><a   href="@Url.Action("Index", "TransportOrder", new {area = "Procurement", id = (int) TransportOrderStatus.Approved})" >View Approved </a></li>
             }
         </ul>
 

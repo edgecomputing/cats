@@ -17,6 +17,7 @@
 {
     <a data-buttontype="btn_new_record"  class="btn toolbar-btn " href="@Url.Action("Create", "PaymentRequest")"></a>
 }
+
 @{
     int index = 0;
 }
@@ -65,8 +66,6 @@
                             <li class="edit_button"><a href="javascript:workflow_history(@item.BusinessProcessID)">History</a></li>
                         </ul>
                     </div>
-
-
                 </td>
         </tr>
         }

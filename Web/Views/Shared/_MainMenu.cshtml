@@ -152,9 +152,13 @@
                             </li>
 
                             <li>
-                            @Html.LogisticOperationMenuItem(@Html.Translate("Transport Requisition"),
-                                                            @Url.Action("Index", "TransportRequisition", new { Area = "Logistics" }),
-                                                            LogisticsConstants.Operation.View_Transport_Requisition)
+                                @Html.LogisticOperationMenuItem(@Html.Translate("Transport Requisition"),
+                                                                @Url.Action("Index", "TransportRequisition", new { Area = "Logistics" }),
+                                                                LogisticsConstants.Operation.View_Transport_Requisition)
+                            </li>
+                            
+                                 <li><a href="@Url.Action("Index", "TransporterPerformance", new { Area = "Logistics" })">Transporter Performance</a></li>
+                           
                             <li class="divider"></li>
 
                             <li class="dropdown-submenu">
@@ -182,7 +186,6 @@
                                                                    @Url.Action("Index", "PaymentRequest", new { Area = "Logistics" }),
                                                                    ProcurementConstants.Operation.View_Payment_History)
                             </li>
-
                             <li class="divider" />
                             <li class="dropdown-submenu">
                                 <a href="#" data-toggle="dropdown">Reports</a>
@@ -233,11 +236,11 @@
                                                                    ProcurementConstants.Operation.View_bid_plan)
                             </li>
 
-                            <li>
+                            @*<li>
                                 @Html.ProcurementOperationMenuItem(@Html.Translate("Validated Payment Requests"),
                                                                    @Url.Action("Index", "ValidatedPaymentRequest", new { Area = "Procurement" }),
                                                                    ProcurementConstants.Operation.View_Payment_History)
-                            </li>
+                            </li>*@
                             <li class="divider" />
 
                             <li>
@@ -282,7 +285,16 @@
                             </li>
                         </ul>
                     </li>
-
+                    
+                    <li class="dropdown">
+                        @* <div align="center"><a href="@Url.Action("Index","Home",new{Area="Procurement"})"><i class="icon-tasks"></i></a></div>*@
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Translator.Translate("Finance") <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="@Url.Action("Index","Home",new{Area="Finance"})">Dashboard</a>
+                            </li>
+                        </ul>
+                    </li>
                     <li class="dropdown">
                        
                          <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Translator.Translate("Hub") <b class="caret"></b></a>

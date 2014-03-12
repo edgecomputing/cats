@@ -392,8 +392,13 @@
     <Compile Include="Areas\EarlyWarning\Models\HRDWithRegionalRequestViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\InKindContributionDetailViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\RegionalRequestInfoViewModel.cs" />
+    <Compile Include="Areas\Finance\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Finance\Controllers\TransportOrderPerformanceController.cs" />
+    <Compile Include="Areas\Finance\FinanceAreaRegistration.cs" />
     <Compile Include="Areas\Logistics\Controllers\DonationController.cs" />
+    <Compile Include="Areas\Logistics\Controllers\PaymentRequestController.cs" />
     <Compile Include="Areas\Logistics\Controllers\TransferController.cs" />
+    <Compile Include="Areas\Logistics\Controllers\TransporterPerformanceController.cs" />
     <Compile Include="Areas\Logistics\Models\LoanReciptPlanViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\NeedAssessmentPlanViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\PlanViewModel.cs" />
@@ -489,6 +494,7 @@
     <Compile Include="Areas\Logistics\LogisticsAreaRegistration.cs" />
     <Compile Include="Areas\Logistics\Models\ActionLink.cs" />
     <Compile Include="Areas\Logistics\Models\TransferViewModel.cs" />
+    <Compile Include="Areas\Logistics\Models\TransporterPerformanceViewModel.cs" />
     <Compile Include="Areas\Logistics\Models\ZonesViewModel.cs" />
     <Compile Include="Areas\Logistics\Models\AssignHubViewModel.cs" />
     <Compile Include="Areas\Logistics\Models\DispatchViewModelForReconcile.cs" />
@@ -518,7 +524,6 @@
     <Compile Include="Areas\Procurement\Controllers\BidAdministrationController.cs" />
     <Compile Include="Areas\Procurement\Controllers\ContractAdministrationController.cs" />
     <Compile Include="Areas\Procurement\Controllers\FetchDataController.cs" />
-    <Compile Include="Areas\Procurement\Controllers\ValidatedPaymentRequestController.cs" />
     <Compile Include="Areas\Procurement\Models\BidPlanDetailViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\PaymentRequestPercentageViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\PaymentRequestViewModel.cs" />
@@ -567,7 +572,6 @@
     <Compile Include="Areas\Procurement\Models\WinnersByBidViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\WoredaHierarchyViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\WoredaHubBinding.cs" />
-    <Compile Include="Areas\Logistics\Controllers\PaymentRequestController.cs" />
     <Compile Include="Areas\Procurement\Models\WoredaHubLinkBinding.cs" />
     <Compile Include="Areas\Procurement\Models\WoredaHubLinkViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\WoredaHubViewModel.cs" />
@@ -1663,7 +1667,6 @@
     <Content Include="Areas\EarlyWarning\Views\Request\NewIdps.cshtml" />
     <Content Include="Areas\Logistics\Views\Delivery\Index.cshtml" />
     <Content Include="Areas\Logistics\Views\Delivery\Dispatches.cshtml" />
-    <Content Include="Areas\Logistics\Views\PaymentRequest\Index.cshtml" />
     <Content Include="Areas\Procurement\Views\Shared\_GenerateWinnersIgnitor.cshtml" />
     <Content Include="Areas\Logistics\Views\Delivery\ReceiveGRN.cshtml" />
     <Content Include="Areas\Logistics\Views\Delivery\EditGRN.cshtml" />
@@ -1676,7 +1679,6 @@
       <SubType>Code</SubType>
     </Content>
     <Content Include="Areas\Procurement\Views\BidWinner\SignedTransporterContract.cshtml" />
-    <Content Include="Areas\Logistics\Views\PaymentRequest\Create.cshtml" />
     <Content Include="Areas\WorkflowManager\Views\ProcessTemplate\Copy of Detail.cshtml" />
     <Content Include="Areas\Procurement\Views\Bid\WoredasWithOutBidOffer.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Request\RegionalRequestsPieChart.cshtml" />
@@ -1729,9 +1731,11 @@
     <Content Include="Areas\Logistics\Views\Transfer\Edit.cshtml" />
     <Content Include="Areas\Logistics\Views\Donation\View1.cshtml" />
     <Content Include="Areas\PSNP\Views\Home\Copy of Index.cshtml" />
-    <Content Include="Areas\Procurement\Views\ValidatedPaymentRequest\Index.cshtml" />
-    <Content Include="Areas\Procurement\Views\ValidatedPaymentRequest\TransportOrderDetail.cshtml" />
-    <Content Include="Areas\Procurement\Views\ValidatedPaymentRequest\TransporterDetail.cshtml" />
+    <Content Include="Areas\Finance\Views\Web.config" />
+    <Content Include="Areas\Finance\Views\Home\Index.cshtml" />
+    <Content Include="Areas\Logistics\Views\TransporterPerformance\Index.cshtml" />
+    <Content Include="Areas\Logistics\Views\PaymentRequest\Index.cshtml" />
+    <Content Include="Areas\Finance\Views\TransportOrderPerformance\Index.cshtml" />
     <None Include="dataset.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>dataset.Designer.cs</LastGenOutput>
@@ -2528,6 +2532,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\Finance\Models\" />
+    <Folder Include="Areas\Finance\Views\Shared\" />
     <Folder Include="Areas\Hub\Models\generated\" />
     <Folder Include="Areas\Hub\Views\ReleaseNotes\" />
     <Folder Include="Areas\Localization\Models\" />
@@ -2605,6 +2611,10 @@
     <ProjectReference Include="..\Services\Cats.Services.EarlyWarning\Cats.Services.EarlyWarning.csproj">
       <Project>{a08cf415-6299-41ab-9d69-c3ce9b49ccd6}</Project>
       <Name>Cats.Services.EarlyWarning</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Services\Cats.Services.Finance\Cats.Services.Finance.csproj">
+      <Project>{38f50f60-c3bb-4287-8723-ee8b398204a7}</Project>
+      <Name>Cats.Services.Finance</Name>
     </ProjectReference>
     <ProjectReference Include="..\Services\Cats.Services.Hub\Cats.Services.Hub.csproj">
       <Project>{9fba0283-ee84-49f2-8305-f038bbf29658}</Project>

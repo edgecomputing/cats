@@ -13,7 +13,7 @@ using Cats.Models;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
 
-namespace Cats.Areas.Procurement.Controllers
+namespace Cats.Areas.Logistics.Controllers
 {
     public class PaymentRequestController:Controller
     {
@@ -50,16 +50,15 @@ namespace Cats.Areas.Procurement.Controllers
         public ActionResult Index()
         {
             LoadLookups();
-            IEnumerable<Cats.Models.PaymentRequest> list = (IEnumerable<Cats.Models.PaymentRequest>)_PaymentRequestservice.GetAll().OrderByDescending(t=>t.PaymentRequestID);
-
+            var list = (IEnumerable<PaymentRequest>)_PaymentRequestservice.GetAll();
             return View(list);
         }
+
         public ActionResult Create()
         {
             LoadLookups();
             return View();
         }
-
 
         //
         // POST: /PSNP/RegionalPSNPPlan/Create
@@ -71,8 +70,6 @@ namespace Cats.Areas.Procurement.Controllers
 
             if (ModelState.IsValid)
             {
-
-
                     int BP_PR = _ApplicationSettingService.getPaymentRequestWorkflow();
                     if (BP_PR != 0)
                     {
@@ -83,14 +80,14 @@ namespace Cats.Areas.Procurement.Controllers
                             Comment = "Created workflow for Payment Request"
 
                         };
-                        _PaymentRequestservice.Create(request);
+                        //_PaymentRequestservice.Create(request);
 
                         BusinessProcess bp = _BusinessProcessService.CreateBusinessProcess(BP_PR,request.PaymentRequestID,
                                                                                            "PaymentRequest", createdstate);
                         request.BusinessProcessID = bp.BusinessProcessID;
-                        _PaymentRequestservice.Update(request);
+                        _PaymentRequestservice.Create(request);
+                        //_PaymentRequestservice.Update(request);
                         return RedirectToAction("Index");
-
                     }
                     ViewBag.ErrorMessage1 = "The workflow assosiated with Payment Request doesnot exist.";
                     ViewBag.ErrorMessage2 = "Please make sure the workflow is created and configured.";
@@ -104,7 +101,6 @@ namespace Cats.Areas.Procurement.Controllers
         {
             _BusinessProcessService.PromotWorkflow(st);
             return RedirectToAction("Index");
-
         }
 
       
