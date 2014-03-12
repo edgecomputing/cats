@@ -34,7 +34,11 @@ namespace Cats.Services.Hub
 
         List<OtherDispatchAllocationDto> GetCommitedLoanAllocationsDetached(UserProfile user, bool? closedToo, int? CommodityType);
 
+        List<OtherDispatchAllocationDto> GetCommitedLoanAllocationsDetached(UserProfile user, int hubId, bool? closedToo, int? CommodityType);
+
         List<OtherDispatchAllocationDto> GetCommitedTransferAllocationsDetached(UserProfile user, bool? closedToo, int? CommodityType);
+
+        List<OtherDispatchAllocationDto> GetCommitedTransferAllocationsDetached(UserProfile user, int hubId, bool? closedToo, int? CommodityType);
 
         void CloseById(Guid otherDispatchAllocationId);
     

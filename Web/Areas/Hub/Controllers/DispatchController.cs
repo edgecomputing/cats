@@ -15,8 +15,14 @@ using LanguageHelpers.Localization;
 using Newtonsoft.Json;
 using Telerik.Web.Mvc;
 using System;
+
+using Cats.Models.Hubs;
+using Cats.Models.Hubs.ViewModels;
+using Cats.Models.Hubs.ViewModels.Common;
 using Cats.Models.Hubs.ViewModels.Dispatch;
 
+using Kendo.Mvc.Extensions;
+using Kendo.Mvc.UI;
 
 namespace Cats.Areas.Hub.Controllers
 { 
@@ -78,7 +84,13 @@ namespace Cats.Areas.Hub.Controllers
             _contactService = contactService;
             _smsService = smsService;
         }
-
+        public void populateLookups(UserProfile user)
+        {
+            
+            ViewBag.FilterCommodityTypeID = new SelectList(_commodityTypeService.GetAllCommodityType(), "CommodityTypeID", "Name");
+            ViewBag.HubsID = new SelectList(_hubService.GetAllHub(), "HubID", "HubNameWithOwner", user.DefaultHub.HubID);
+            ViewBag.RegionCollection = _adminUnitService.FindBy(t => t.AdminUnitTypeID == 2);
+        }
         public ViewResult Index()
         {
             if (this.UserProfile != null)
@@ -98,6 +110,86 @@ namespace Cats.Areas.Hub.Controllers
             }
             return null;
         }
+        public ViewResult Index2()
+        {
+            if (this.UserProfile != null)
+            {
+                UserProfile user = _userProfileService.GetUser(this.UserProfile.UserName);
+                populateLookups(user);
+                return View();
+                /*var prefWeight =
+                    _userProfileService.GetUser(this.UserProfile.UserName).PreferedWeightMeasurment.ToUpperInvariant();
+                var toFdps =
+                    _dispatchAllocationService.GetCommitedAllocationsByHubDetached(
+                        user.DefaultHub.HubID, prefWeight, null, null, null);
+                var loans = _otherDispatchAllocationService.GetAllToOtherOwnerHubs(user);
+                var transfer = _otherDispatchAllocationService.GetAllToCurrentOwnerHubs(user);
+                var adminUnit = new List<AdminUnit> { _adminUnitService.FindById(1) };
+                var commodityTypes = _commodityTypeService.GetAllCommodityType();
+                var model = new DispatchHomeViewModel(toFdps, loans, transfer, commodityTypes, adminUnit, user);
+                return View(model);
+            
+                 */
+                }
+            return null;
+        }
+
+        public ActionResult DispatchedToFDPListAjax([DataSourceRequest] DataSourceRequest request,int? HubID, bool? closed, int? adminUnitID, int? commodityType)
+        {
+            var user = _userProfileService.GetUser(User.Identity.Name);
+            //HubID=HubID??HubID:user.DefaultHub.HubID; user.DefaultHub.HubID
+            int hub = (int)(HubID.HasValue ? HubID : user.DefaultHub.HubID);
+            var fdpAllocations = _dispatchAllocationService.GetCommitedAllocationsByHubDetached(hub, user.PreferedWeightMeasurment, closed, adminUnitID, commodityType);
+            //return View(new List<DispatchAllocationViewModelDto>());
+            return Json(fdpAllocations.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult DispatchListGridAjax([DataSourceRequest] DataSourceRequest request, string dispatchAllocationID)
+        {
+            var user = _userProfileService.GetUser(User.Identity.Name);
+            //TODO cascade using allocation id
+            var dispatchs = _dispatchService.ByHubIdAndAllocationIDetached(user.DefaultHub.HubID, Guid.Parse(dispatchAllocationID));
+            return Json(dispatchs.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult DispatchListGridListGridAjax([DataSourceRequest] DataSourceRequest request, string dispatchID)
+        {
+            var user = _userProfileService.GetUser(User.Identity.Name);
+            //(user.DefaultHub.HubID)
+            var receiveDetails = _dispatchDetailService.ByDispatchIDetached(Guid.Parse(dispatchID), user.PreferedWeightMeasurment);
+            return Json(receiveDetails.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult DispatchedToLoanListAjax([DataSourceRequest] DataSourceRequest request, int? HubID, bool? closed, int? commodityType)
+        {
+            var user = _userProfileService.GetUser(User.Identity.Name);
+            int hub = (int)(HubID.HasValue ? HubID : user.DefaultHub.HubID);
+            var loanAllocations = _otherDispatchAllocationService.GetCommitedLoanAllocationsDetached(user,hub, closed, commodityType);
+            return Json(loanAllocations.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+        }
+
+
+        public ActionResult DispatchedToTransferListAjax([DataSourceRequest] DataSourceRequest request, int? HubID, bool? closed, int? commodityType)
+        {
+            var user = _userProfileService.GetUser(User.Identity.Name);
+            int hub = (int)(HubID.HasValue ? HubID : user.DefaultHub.HubID);
+            var transferAllocations = _otherDispatchAllocationService.GetCommitedTransferAllocationsDetached(user,hub,  closed, commodityType);
+            foreach (var t in transferAllocations)
+            {
+              //  t.OtherDispatchAllocationID =Guid.NewGuid();
+            }
+            return Json(transferAllocations.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult DispatchedToFDPList(bool? closed, int? adminUnitID, int? commodityType)
+        {
+            //var user = _userProfileService.GetUser(User.Identity.Name);
+            //var fdpAllocations = _dispatchAllocationService.GetCommitedAllocationsByHubDetached(user.DefaultHub.HubID, user.PreferedWeightMeasurment, closed, adminUnitID, commodityType);
+           // return View(new List<DispatchAllocationViewModelDto>());
+            return PartialView("DispatchedToFDPList", new List<DispatchAllocationViewModelDto>());
+        }
+        public ActionResult OtherDispatchAllocationsList(string allocationType, bool? closed, int? adminUnitID, int? commodityType)
+        {
+            ViewBag.allocationType = allocationType;
+            return PartialView("OtherDispatchAllocationsList", new List<OtherDispatchAllocationDto>());
+        }        
+
 
         [GridAction]
         public ActionResult GetFdpAllocations(bool? closed, int? adminUnitID, int? commodityType)
@@ -253,7 +345,7 @@ namespace Cats.Areas.Hub.Controllers
                 dispatch.HubID = dispatchviewmodel.HubID;
                 
                 dispatch.Quantity = UserProfile.PreferedWeightMeasurment.ToLower() == "mt" ? dispatchviewmodel.Quantity : dispatchviewmodel.Quantity / 10;
-                _transactionService.SaveDispatchTransaction(dispatch);
+                //_transactionService.SaveDispatchTransaction(dispatch);
 
                 var contacts = _contactService.FindBy(c=>c.FDPID == dispatch.FDPID);
 
