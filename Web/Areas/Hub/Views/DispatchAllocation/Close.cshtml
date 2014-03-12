@@ -12,7 +12,7 @@
     <div class="display-field">
         @Html.DisplayFor(model => model.Hub.HubNameWithOwner)
     </div>*@
-
+<div style="max-height:150px; overflow:scroll;">
     <div class="display-label">Year</div>
     <div class="display-field">
         @Html.DisplayFor(model => model.Year)
@@ -73,11 +73,12 @@
     <div class="display-field">
         @Html.DisplayFor(model => model.ProjectCode.Value)
     </div>
+</div>
 
-
-@using (Html.BeginForm())
+@using (Html.BeginForm("Close", "DispatchAllocation", FormMethod.Post, new { @id = "frm_edit_inline" }))
     {
-    <br />
+           @Html.HiddenFor(model => model.DispatchAllocationID)
+
     <p style="clear: both">
         <input type="submit" style="width: 80px; height: 25px; horiz-align: center" class="t-button" value="@Html.Translate("Close")"
             onclick="return CloseDispatchAllocationForm(this)" />
