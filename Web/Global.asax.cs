@@ -11,7 +11,7 @@ using Cats.Infrastructure;
 using Cats.Services.Security;
 using Cats.Helpers;
 using LanguageHelpers.Localization.DataAnnotations;
-using StackExchange.Profiling;
+//using StackExchange.Profiling;
 using log4net.Core;
 using NetSqlAzMan;
 using NetSqlAzMan.Interfaces;
@@ -71,7 +71,7 @@ namespace Cats
 
         protected void Application_EndRequest()
         {
-            MiniProfiler.Stop();
+           // MiniProfiler.Stop();
         }
 
     }
