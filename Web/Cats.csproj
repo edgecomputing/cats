@@ -71,12 +71,6 @@
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.ReportViewer.WebForms, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
-    <Reference Include="MiniProfiler">
-      <HintPath>..\packages\MiniProfiler.2.1.0\lib\net40\MiniProfiler.dll</HintPath>
-    </Reference>
-    <Reference Include="MiniProfiler.EntityFramework">
-      <HintPath>..\packages\MiniProfiler.EF.2.1.0\lib\net40\MiniProfiler.EntityFramework.dll</HintPath>
-    </Reference>
     <Reference Include="NetSqlAzMan, Version=3.6.0.15, Culture=neutral, PublicKeyToken=ad1153f7ddd0e504, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\NetSqlAzMan-x64.3.6.0.15\lib\net40\NetSqlAzMan.dll</HintPath>
@@ -1741,6 +1735,13 @@
     <Content Include="Areas\Finance\Views\ValidatedPaymentRequest\Index.cshtml" />
     <Content Include="Areas\Finance\Views\ValidatedPaymentRequest\TransporterDetail.cshtml" />
     <Content Include="Areas\Finance\Views\ValidatedPaymentRequest\TransportOrderDetail.cshtml" />
+    <Content Include="Areas\Hub\Views\Dispatch\Index2.cshtml" />
+    <Content Include="Areas\Hub\Views\Dispatch\Edit2.cshtml" />
+    <Content Include="Areas\Hub\Views\Dispatch\OtherDispatchAllocationsList.cshtml" />
+    <Content Include="Areas\Hub\Views\Dispatch\DispatchedToFDPList.cshtml" />
+    <Content Include="Areas\Hub\Views\DispatchAllocation\Copy of Edit.cshtml" />
+    <Content Include="Areas\Hub\Views\DispatchAllocation\EditLoans2.cshtml" />
+    <Content Include="Areas\Hub\Views\DispatchAllocation\EditOthers.cshtml" />
     <None Include="dataset.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>dataset.Designer.cs</LastGenOutput>

@@ -575,6 +575,18 @@ namespace Cats.Areas.Hub.Controllers.Allocations
             otherDispatchAllocationViewModel.InitTransfer(user, tohubs, commodities, commodityTypes, programs, units);
             return otherDispatchAllocationViewModel;
         }
+        public ActionResult EditTransfer2(string id)
+        {
+            var model = new OtherDispatchAllocationViewModel();
+            if (id != null && id != "")
+            {
+                model = _otherDispatchAllocationService.GetViewModelByID(Guid.Parse(id));
+            }
+           // var model = _otherDispatchAllocationService.GetViewModelByID(Guid.Parse(id));
+            // model.InitTransfer(_userProfileService.GetUser(User.Identity.Name), repository);
+            return PartialView("EditOthers", InitTransfer(model));
+        }
+
         public ActionResult EditTransfer(string id)
         {
             var model = _otherDispatchAllocationService.GetViewModelByID( Guid.Parse(id));
@@ -623,13 +635,48 @@ namespace Cats.Areas.Hub.Controllers.Allocations
            otherDispatchAllocationViewModel.InitLoan(user,tohubs,commodities,commodityTypes,programs,units);
             return otherDispatchAllocationViewModel;
         }
+        public ActionResult EditLoan2(string id)
+        {
+            var model = new OtherDispatchAllocationViewModel();
+            if (id != null && id != "")
+            {
+                model = _otherDispatchAllocationService.GetViewModelByID(Guid.Parse(id));
+            }
+                // model.InitLoan(_userProfileService.GetUser(User.Identity.Name), repository);
+            return PartialView("EditOthers", InitLoan(model));
+        }
         public ActionResult EditLoan(string id)
         {
             var model = _otherDispatchAllocationService.GetViewModelByID( Guid.Parse(id));
            // model.InitLoan(_userProfileService.GetUser(User.Identity.Name), repository);
             return PartialView("EditLoans", InitLoan(model));
         }
+        public ActionResult SaveTransferAjax(OtherDispatchAllocationViewModel model)
+        {
+            UserProfile user = _userProfileService.GetUser(User.Identity.Name);
+            model.FromHubID = user.DefaultHub.HubID;
+            if (ModelState.IsValid)
+            {
+                _otherDispatchAllocationService.Save(model);
+                return Json("{status:1}", JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json("{status:0}", JsonRequestBehavior.AllowGet);
 
+                //return PartialView("EditLoans", InitLoan(model));
+            }
+        }
+        public ActionResult SaveFDPAllocationAjax(DispatchAllocationViewModel allocation)
+        {
+            if (ModelState.IsValid)
+            {
+                DispatchAllocation alloc = GetAllocationModel(allocation);
+                _dispatchAllocationService.EditDispatchAllocation(alloc);
+                return Json("{status:1}", JsonRequestBehavior.AllowGet);
+            }
+            return Json("{status:0}", JsonRequestBehavior.AllowGet);
+        }
         // Only do the save if this has been a post.
         [HttpPost]
         public ActionResult SaveLoan(OtherDispatchAllocationViewModel model)
@@ -646,7 +693,9 @@ namespace Cats.Areas.Hub.Controllers.Allocations
             else
             {
                 //model.InitLoan(_userProfileService.GetUser(User.Identity.Name), repository);
-                return PartialView("EditLoans", InitLoan(model));
+               
+                //return PartialView("EditLoans", InitLoan(model));
+                return PartialView("EditLoans2",  _otherDispatchAllocationService.GetViewModelByID((Guid)model.OtherDispatchAllocationID));
             }
         }
 
@@ -672,17 +721,17 @@ namespace Cats.Areas.Hub.Controllers.Allocations
         }
 
         [HttpPost, ActionName("Close")]
-        public ActionResult CloseConfirmed(string id)
+        public ActionResult CloseConfirmed(string DispatchAllocationID)
         {
-            var closeAllocation = _dispatchAllocationService.FindById(Guid.Parse(id));
+            var closeAllocation = _dispatchAllocationService.FindById(Guid.Parse(DispatchAllocationID));
             if (closeAllocation != null)
             {
-                _dispatchAllocationService.CloseById(Guid.Parse(id));
-                return Json(new { gridNum = 1 }, JsonRequestBehavior.AllowGet);
+                _dispatchAllocationService.CloseById(Guid.Parse(DispatchAllocationID));
+                return Json(new { status=1,gridNum = 1 }, JsonRequestBehavior.AllowGet);
                 //if (this.Request.UrlReferrer != null) return Redirect(Request.UrlReferrer.PathAndQuery);
                 //else return RedirectToAction("Index");
             }
-            return this.Close(id);
+            return this.Close(DispatchAllocationID);
         }
 
         public ActionResult OtherClose(string id)
@@ -692,13 +741,13 @@ namespace Cats.Areas.Hub.Controllers.Allocations
         }
 
         [HttpPost, ActionName("OtherClose")]
-        public ActionResult OtherCloseConfirmed(string id)
+        public ActionResult OtherCloseConfirmed(string OtherDispatchAllocationID)
         {
-            var closeAllocation = _otherDispatchAllocationService.FindById(Guid.Parse(id));
+            var closeAllocation = _otherDispatchAllocationService.FindById(Guid.Parse(OtherDispatchAllocationID));
             UserProfile user = _userProfileService.GetUser(User.Identity.Name);
             if (closeAllocation != null)
             {
-               _otherDispatchAllocationService.CloseById(Guid.Parse(id));
+                _otherDispatchAllocationService.CloseById(Guid.Parse(OtherDispatchAllocationID));
                 int? gridNum = null;
                 if (closeAllocation.Hub1.HubOwnerID == user.DefaultHub.HubOwnerID)
                 {
@@ -707,13 +756,13 @@ namespace Cats.Areas.Hub.Controllers.Allocations
                 else
                 {
                     gridNum = 2;
-                }        
+                }
 
-                return Json(new { gridNum }, JsonRequestBehavior.AllowGet);
+                return Json(new { gridNum = 3,status=1 }, JsonRequestBehavior.AllowGet);
                 //if (this.Request.UrlReferrer != null) return Redirect(Request.UrlReferrer.PathAndQuery);
                 //else return RedirectToAction("Index");
             }
-            return this.Close(id);
+            return this.Close(OtherDispatchAllocationID);
         }
 
 
