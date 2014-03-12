@@ -177,7 +177,11 @@
                                                                    @Url.Action("Index", "TransportOrder", new { Area = "Procurement" }),
                                                                    ProcurementConstants.Operation.View_Transport_Order)
                             </li>
-
+                            <li>
+                                @Html.ProcurementOperationMenuItem(@Html.Translate("Payment Request"),
+                                                                   @Url.Action("Index", "PaymentRequest", new { Area = "Logistics" }),
+                                                                   ProcurementConstants.Operation.View_Payment_History)
+                            </li>
 
                             <li class="divider" />
                             <li class="dropdown-submenu">
@@ -230,8 +234,8 @@
                             </li>
 
                             <li>
-                                @Html.ProcurementOperationMenuItem(@Html.Translate("Payment Request"),
-                                                                   @Url.Action("Index", "PaymentRequest", new { Area = "Procurement" }),
+                                @Html.ProcurementOperationMenuItem(@Html.Translate("Validated Payment Requests"),
+                                                                   @Url.Action("Index", "ValidatedPaymentRequest", new { Area = "Procurement" }),
                                                                    ProcurementConstants.Operation.View_Payment_History)
                             </li>
                             <li class="divider" />

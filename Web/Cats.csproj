@@ -518,6 +518,7 @@
     <Compile Include="Areas\Procurement\Controllers\BidAdministrationController.cs" />
     <Compile Include="Areas\Procurement\Controllers\ContractAdministrationController.cs" />
     <Compile Include="Areas\Procurement\Controllers\FetchDataController.cs" />
+    <Compile Include="Areas\Procurement\Controllers\ValidatedPaymentRequestController.cs" />
     <Compile Include="Areas\Procurement\Models\BidPlanDetailViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\PaymentRequestPercentageViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\PaymentRequestViewModel.cs" />
@@ -566,7 +567,7 @@
     <Compile Include="Areas\Procurement\Models\WinnersByBidViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\WoredaHierarchyViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\WoredaHubBinding.cs" />
-    <Compile Include="Areas\Procurement\Controllers\PaymentRequestController.cs" />
+    <Compile Include="Areas\Logistics\Controllers\PaymentRequestController.cs" />
     <Compile Include="Areas\Procurement\Models\WoredaHubLinkBinding.cs" />
     <Compile Include="Areas\Procurement\Models\WoredaHubLinkViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\WoredaHubViewModel.cs" />
@@ -1662,7 +1663,7 @@
     <Content Include="Areas\EarlyWarning\Views\Request\NewIdps.cshtml" />
     <Content Include="Areas\Logistics\Views\Delivery\Index.cshtml" />
     <Content Include="Areas\Logistics\Views\Delivery\Dispatches.cshtml" />
-    <Content Include="Areas\Procurement\Views\PaymentRequest\Index.cshtml" />
+    <Content Include="Areas\Logistics\Views\PaymentRequest\Index.cshtml" />
     <Content Include="Areas\Procurement\Views\Shared\_GenerateWinnersIgnitor.cshtml" />
     <Content Include="Areas\Logistics\Views\Delivery\ReceiveGRN.cshtml" />
     <Content Include="Areas\Logistics\Views\Delivery\EditGRN.cshtml" />
@@ -1675,7 +1676,7 @@
       <SubType>Code</SubType>
     </Content>
     <Content Include="Areas\Procurement\Views\BidWinner\SignedTransporterContract.cshtml" />
-    <Content Include="Areas\Procurement\Views\PaymentRequest\Create.cshtml" />
+    <Content Include="Areas\Logistics\Views\PaymentRequest\Create.cshtml" />
     <Content Include="Areas\WorkflowManager\Views\ProcessTemplate\Copy of Detail.cshtml" />
     <Content Include="Areas\Procurement\Views\Bid\WoredasWithOutBidOffer.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Request\RegionalRequestsPieChart.cshtml" />
@@ -1728,6 +1729,9 @@
     <Content Include="Areas\Logistics\Views\Transfer\Edit.cshtml" />
     <Content Include="Areas\Logistics\Views\Donation\View1.cshtml" />
     <Content Include="Areas\PSNP\Views\Home\Copy of Index.cshtml" />
+    <Content Include="Areas\Procurement\Views\ValidatedPaymentRequest\Index.cshtml" />
+    <Content Include="Areas\Procurement\Views\ValidatedPaymentRequest\TransportOrderDetail.cshtml" />
+    <Content Include="Areas\Procurement\Views\ValidatedPaymentRequest\TransporterDetail.cshtml" />
     <None Include="dataset.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>dataset.Designer.cs</LastGenOutput>
