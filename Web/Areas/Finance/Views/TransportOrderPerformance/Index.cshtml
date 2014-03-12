@@ -9,109 +9,124 @@
     <div  ng-controller="TransporterPerformanceController" class="container">
 
      
-            <table  class="table table-bordered">
+        <table  class="table table-bordered">
                 
-                <tr>
-                    <td>Contrat No</td><td>0000001</td>
-                    <td>Transport Order</td><td>trn-000001</td>
-                    <td>Zone</td><td>sample zone</td>
-                    <td>Woreda</td><td>sample woreda</td>
+            <tr>
+                <td>Contrat No</td><td>0000001</td>
+                <td>Transport Order</td><td>trn-000001</td>
+                <td>Zone</td><td>sample zone</td>
+                <td>Woreda</td><td>sample woreda</td>
 
-                </tr>
-                <tr>
-                    <td>Mobile No</td><td>+215911237865</td>
-                    <td>Telephone No</td><td>251114167876</td>
-                    <td>Region</td><td>Addis A.</td>
-                    <td>Sub City</td><td>Lafto</td>
+            </tr>
+            <tr>
+                <td>Mobile No</td><td>+215911237865</td>
+                <td>Telephone No</td><td>251114167876</td>
+                <td>Region</td><td>Addis A.</td>
+                <td>Sub City</td><td>Lafto</td>
 
-                </tr>
-            </table>
+            </tr>
+        </table>
 
-            <div class="row" style="border-bottom-width: thin; border-bottom-color: #666; border-bottom-style: inset; margin-top: 5px">
+        <div class="row" style="border-bottom-width: thin; border-bottom-color: #666; border-bottom-style: inset; margin-top: 5px">
 
-                <div class="pull-left">
-                    <h4>Transporter Performance Detail</h4>
-                </div>
-               
-                <table  class="table">
-                    <tr>
-                        <td>Region</td>
-                        <td>  <select class="form-control" id="region" placeholder="Transporter" ></select> </td>
-                        <td>Warehouse</td>
-                        <td>
-                            <select class="form-control" id="wareHouse" placeholder="Transporter" ></select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            Start Date
-                        </td>
-                        <td>
-                            <select class="form-control" id="StartDate" placeholder="Transporter" ></select>
-                        </td>
-                        <td>
-                            End Date
-                        </td>
-                        <td>
-                            <select class="form-control" id="EndDate" placeholder="Transporter" ></select>
-                        </td>
-                    </tr>
-
-                </table>
-                
+            <div class="pull-left">
+                <h4>Transporter Performance Detail</h4>
             </div>
-            <div id="TransporterPerformanceContent" class="row">
-                <div>&nbsp;</div>
-                <div class="span11">
-                    <div class="portlet">
-                        <div class="portlet-header">
-                            <h3>
+               
+            <table  class="table">
+                <tr>
+                    <td>Region</td>
+                    <td>  <select class="form-control" id="region" placeholder="Transporter" ></select> </td>
+                    <td>Warehouse</td>
+                    <td>
+                        <select class="form-control" id="wareHouse" placeholder="Transporter" ></select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Start Date
+                    </td>
+                    <td>
+                        <select class="form-control" id="StartDate" placeholder="Transporter" ></select>
+                    </td>
+                    <td>
+                        End Date
+                    </td>
+                    <td>
+                        <select class="form-control" id="EndDate" placeholder="Transporter" ></select>
+                    </td>
+                </tr>
+
+            </table>
+                
+        </div>
+        <div id="TransporterPerformanceContent" class="row">
+            <div>&nbsp;</div>
+            <div class="span11">
+                <div class="portlet">
+                    <div class="portlet-header">
+                        <h3>
                               
-                                <i class=""></i>
-                                Transporter Performance
-                            </h3>
+                            <i class=""></i>
+                            Transporter Performance
+                        </h3>
                            
-                        </div>
+                    </div>
 
-                        <!-- /.portlet-header -->
+                    <!-- /.portlet-header -->
 
-                        <div class="portlet-content">
-                            <th class="table-responsive">
-                            <table id="" class="table table-striped table-checkable">
-                                <thead>
-                                    <tr>
-                                        <th class="hidden-xs">Number</th>
-                                        <th>FDP</th>
-                                        <th>Start Date</th>
-                                        <th>End Date</th>
-                                        <th>Amount</th>
-                                        <th>Driver</th>
-                                        <th>Plate No</th>
-                                        <th>Requisition No</th>
-                                        <th>Commodity</th>
+                    <div class="portlet-content">
+                        <th class="table-responsive">
+                        <table id="" class="table table-striped table-checkable">
+                            <thead>
+                                <tr>
+                                    <th class="hidden-xs">Number</th>
+                                    <th>FDP</th>
+                                    <th>Start Date</th>
+                                    <th>End Date</th>
+                                    <th>Amount</th>
+                                    <th>Driver</th>
+                                    <th>Plate No</th>
+                                    <th>Requisition No</th>
+                                    <th>Commodity</th>
 
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr  ng-repeat ="req in paymentRequest">
-                                        <td class="hidden-xs">{{$index + 1}}</td>
-                                        <td>{{req.Reference_No}}</td>
-                                        <td>{{req.Transport_Order}}</td>
-                                        <td>{{req.Transporter}}</td>
-                                        <th>{{req.Amount | number}}</th>
-                                        <th>{{req.AmountTransported}}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr  ng-repeat ="req in paymentRequest">
+                                    <td class="hidden-xs">{{$index + 1}}</td>
+                                    <td>{{req.Reference_No}}</td>
+                                    <td>{{req.Transport_Order}}</td>
+                                    <td>{{req.Transporter}}</td>
+                                    <th>{{req.Amount | number}}</th>
+                                    <th>{{req.AmountTransported}}</th>
                                        
-                                    </tr>
+                                </tr>
                                    
-                                </tbody>
-                            </table>
+                            </tbody>
+                        </table>
 
-                        </div>
+                    </div>
                         
-                    </div> 
+                </div> 
 
-                </div>
             </div>
         </div>
+    </div>
    
 </div>
+
+<script>
+
+    var transportOrderId ='@ViewBag.TransportOrderId';
+
+    var app = angular.module('myApp', []);
+    
+    app.controller('TransporterPerformanceController', ['$scope', '$http', function ($scope, $http) {
+        var $transporterInfo = {};
+        $http({ method: 'GET',params:transportOrderId, url: '@Url.Action("GetTransporter","TransportOrderPerformance")' }).success(function(data) {
+            $transporterInfo = data;
+            console.log(data);
+        });
+    }]);
+</script>

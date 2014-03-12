@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Cats.Services.Administration;
+using Cats.Services.EarlyWarning;
 using Cats.Services.Procurement;
 
 namespace Cats.Areas.Finance.Controllers
@@ -11,14 +11,12 @@ namespace Cats.Areas.Finance.Controllers
     public class TransportOrderPerformanceController : Controller
     {
         private readonly ITransportOrderService _transportOrderService;
-        private readonly ITransporterService _transporterService;
         private readonly ITransportOrderDetailService _transportOrderDetailService;
         private readonly IHubService _hubService;
 
         public TransportOrderPerformanceController(ITransportOrderService transportOrderService, ITransporterService transporterService, ITransportOrderDetailService transportOrderDetailService, IHubService hubService)
         {
             _transportOrderService = transportOrderService;
-            _transporterService = transporterService;
             _transportOrderDetailService = transportOrderDetailService;
             _hubService = hubService;
         }
@@ -26,15 +24,13 @@ namespace Cats.Areas.Finance.Controllers
         //
         // GET: /Finance/TransportOrderPerformance/
 
-        public ActionResult Index()
+        public ActionResult Index(int id=-1)
         {
+            ViewBag.TransportOrderId = id;
             return View();
         }
 
-        public ActionResult TransportOrderDetail(int id)
-        {
-            return RedirectToAction("GetTransporter", new {transportOrderId = id});
-        }
+       
         public JsonResult GetTransporter(int transportOrderId)
         {
             var transporter = _transportOrderService.FindBy(t => t.TransportOrderID == transportOrderId).Select(r => new
@@ -71,7 +67,7 @@ namespace Cats.Areas.Finance.Controllers
                                                                                                                      donor = r.Donor,
                                                                                                                      zone = r.AdminUnit.Name
                                                                                                                  });
-            return Json(transportOrderDetail, JsonRequestBehavior.AllowGet);
+            return Json(transportOrderDetail,JsonRequestBehavior.AllowGet);
         }
     }
 }
