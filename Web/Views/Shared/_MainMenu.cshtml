@@ -152,9 +152,13 @@
                             </li>
 
                             <li>
-                            @Html.LogisticOperationMenuItem(@Html.Translate("Transport Requisition"),
-                                                            @Url.Action("Index", "TransportRequisition", new { Area = "Logistics" }),
-                                                            LogisticsConstants.Operation.View_Transport_Requisition)
+                                @Html.LogisticOperationMenuItem(@Html.Translate("Transport Requisition"),
+                                                                @Url.Action("Index", "TransportRequisition", new { Area = "Logistics" }),
+                                                                LogisticsConstants.Operation.View_Transport_Requisition)
+                            </li>
+                            
+                                 <li><a href="@Url.Action("Index", "TransporterPerformance", new { Area = "Logistics" })">Transporter Performance</a></li>
+                           
                             <li class="divider"></li>
 
                             <li class="dropdown-submenu">
