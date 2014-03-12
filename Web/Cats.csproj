@@ -1735,6 +1735,7 @@
     <Content Include="Areas\Logistics\Views\PaymentRequest\Index.cshtml" />
     <Content Include="Areas\Finance\Views\PaymentRequest\Create.cshtml" />
     <Content Include="Areas\Finance\Views\PaymentRequest\Index.cshtml" />
+    <Content Include="Areas\WorkflowManager\Views\Shared\_workflowLeftBar.cshtml" />
     <None Include="dataset.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>dataset.Designer.cs</LastGenOutput>
@@ -2544,7 +2545,6 @@
     <Folder Include="Areas\Transaction\Models\" />
     <Folder Include="Areas\Transaction\Views\Shared\" />
     <Folder Include="Areas\WorkflowManager\Models\" />
-    <Folder Include="Areas\WorkflowManager\Views\Shared\" />
     <Folder Include="bin\" />
   </ItemGroup>
   <ItemGroup>
