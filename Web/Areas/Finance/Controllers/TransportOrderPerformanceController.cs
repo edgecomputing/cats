@@ -3,11 +3,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Cats.Services.Administration;
+using Cats.Services.Procurement;
 
 namespace Cats.Areas.Finance.Controllers
 {
     public class TransportOrderPerformanceController : Controller
     {
+        private readonly ITransportOrderService _transportOrderService;
+        private readonly ITransporterService _transporterService;
+        private readonly ITransportOrderDetailService _transportOrderDetailService;
+        private readonly IHubService _hubService;
+
+        public TransportOrderPerformanceController(ITransportOrderService transportOrderService, ITransporterService transporterService, ITransportOrderDetailService transportOrderDetailService, IHubService hubService)
+        {
+            _transportOrderService = transportOrderService;
+            _transporterService = transporterService;
+            _transportOrderDetailService = transportOrderDetailService;
+            _hubService = hubService;
+        }
+
         //
         // GET: /Finance/TransportOrderPerformance/
 
@@ -16,5 +31,47 @@ namespace Cats.Areas.Finance.Controllers
             return View();
         }
 
+        public ActionResult TransportOrderDetail(int id)
+        {
+            return RedirectToAction("GetTransporter", new {transportOrderId = id});
+        }
+        public JsonResult GetTransporter(int transportOrderId)
+        {
+            var transporter = _transportOrderService.FindBy(t => t.TransportOrderID == transportOrderId).Select(r => new
+                                                                                                           {
+                                                                                                               Name =r.Transporter.Name,
+                                                                                                               subCity =r.Transporter.SubCity,
+                                                                                                               kebele =r.Transporter.Kebele,
+                                                                                                               houseNo =r.Transporter.HouseNo,
+                                                                                                               TelephoneNo=r.Transporter.TelephoneNo,
+                                                                                                               MobileNo=r.Transporter.MobileNo,
+                                                                                                               Email =r.Transporter.Email,
+                                                                                                               ContratNo=r.ContractNumber,
+                                                                                                               bidNo =r.BidDocumentNo,
+                                                                                                               TransporOrderStartDate= r.StartDate,
+                                                                                                               TransportOrderEndDate= r.EndDate
+                                                                                                           });
+           
+            return Json(transporter, JsonRequestBehavior.AllowGet);
+        }
+
+
+        public JsonResult GetDispatches(int transportOrderId)
+        {
+            var transportOrderDetail =
+                _transportOrderDetailService.FindBy(t => t.TransportOrderID == transportOrderId).Select(r => new 
+                                                                                                                 {
+                                                                                                                     fdp = r.FDP.Name,
+                                                                                                                     region = r.FDP.AdminUnit.AdminUnit2.Name,
+                                                                                                                     hub =  _hubService.FindById(r.SourceWarehouseID).Name,
+                                                                                                                     amount = r.QuantityQtl,
+                                                                                                                     requisitionNo = r.ReliefRequisition.RequisitionNo,
+                                                                                                                     tariff = r.TariffPerQtl,
+                                                                                                                     commodity =r.Commodity.Name,
+                                                                                                                     donor = r.Donor,
+                                                                                                                     zone = r.AdminUnit.Name
+                                                                                                                 });
+            return Json(transportOrderDetail, JsonRequestBehavior.AllowGet);
+        }
     }
 }
