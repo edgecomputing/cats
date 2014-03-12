@@ -8,7 +8,7 @@ using Cats.Services.Procurement;
 using Cats.Helpers;
 namespace Cats.Areas.Finance.Controllers
 {
-   
+
     public class HomeController : Controller
     {
         private readonly ITransporterChequeService _transporterChequeService;
@@ -30,20 +30,24 @@ namespace Cats.Areas.Finance.Controllers
 
         public JsonResult ReadPaymentRequest()
         {
-            var requests = _paymentRequestServvice.GetAll().Select(p=> new 
+            
+            var requests = _paymentRequestServvice.GetAll().Select(p => new
                                                                            {
                                                                                Transporter = p.TransportOrder.Transporter.Name,
-                                                                               Amount =p.RequestedAmount,
+                                                                               Amount = p.RequestedAmount,
                                                                                Transport_Order = p.TransportOrder.TransportOrderNo,
                                                                                Reference_No = p.ReferenceNo,
-                                                                               AmountTransported = p.TransportOrder.TransportOrderDetails.Sum(y => y.QuantityQtl)
+                                                                               AmountTransported = p.TransportOrder.TransportOrderDetails.Sum(y => y.QuantityQtl),
+                                                                               Status = p.BusinessProcess.CurrentState.BaseStateTemplate.Name,
+                                                                               Date = p.BusinessProcess.CurrentState.DatePerformed.ToCTSPreferedDateFormat(UserAccountHelper.UserCalendarPreference()),
+                                                                               Performer = p.BusinessProcess.CurrentState.PerformedBy
                                                                            });
-            return Json(requests, JsonRequestBehavior.AllowGet);
+            return Json(requests.OrderBy(t=>t.Date).Take(10), JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult ReadCheques()
         {
-            var cheques = _transporterChequeService.GetAllTransporterCheque().Select(c=> new
+            var cheques = _transporterChequeService.GetAllTransporterCheque().Select(c => new
                                                                                              {
                                                                                                  chequeNo = c.CheckNo,
                                                                                                  Transporter = c.Transporter.Name,
@@ -51,7 +55,7 @@ namespace Cats.Areas.Finance.Controllers
                                                                                                  PreparedBy = c.UserProfile.FirstName + " " + c.UserProfile.LastName,
                                                                                                  ApprovedBy = c.UserProfile1.FirstName + " " + c.UserProfile1.LastName,
                                                                                                  DateApproved = c.AppovedDate.Date.ToCTSPreferedDateFormat(UserAccountHelper.UserCalendarPreference())
-                                                                                                 
+
                                                                                              });
             return Json(cheques, JsonRequestBehavior.AllowGet);
         }
