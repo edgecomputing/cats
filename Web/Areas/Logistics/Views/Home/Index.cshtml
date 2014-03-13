@@ -203,7 +203,7 @@
             </div>
             <div id="ApprovedRequestContent"class="row">
                 <div>&nbsp;</div>
-                <div ng-controller="ApprovedRequestsController" class="span8">
+                <div ng-controller="ApprovedRequestsController" class="span11">
                     <div class="portlet">
                         <div class="portlet-header">
                             <h3>
@@ -385,7 +385,7 @@
             <div id="CurrentHRDContent" class="row">
                 <div>&nbsp;</div>
 
-                <div ng-controller="CurrentHRDController" class="span8">
+                <div ng-controller="CurrentHRDController" class="span11">
                     <div class="portlet">
                         <div class="portlet-header">
                             <h3>
@@ -462,7 +462,7 @@
             <div id="BidWinnerContent" class="row">
                 <div>&nbsp;</div>
 
-                <div ng-controller="BidWinnersController" class="span8">
+                <div ng-controller="BidWinnersController" class="span11">
                     <div class="portlet">
                         <div class="portlet-header">
                             <h3>
@@ -555,7 +555,7 @@
             <div id="SIPCContent"class="row">
                 <div>&nbsp;</div>
 
-                <div ng-controller="SIPCController" class="span8">
+                <div ng-controller="SIPCController" class="span11">
                     <div class="portlet">
                         <div class="portlet-header">
                             <h3>
@@ -619,7 +619,7 @@
                     <!-- /.portlet-content -->
 
                 </div>
-                <div class="span3">
+                @*<div class="span3">
 
                     <div class="portlet">
                         <!-- /.portlet-header -->
@@ -647,7 +647,7 @@
 
                     </div>
                     <!-- /.portlet -->
-                </div>
+                </div>*@
                 <!-- /.portlet -->
             </div>
         </div>
@@ -671,7 +671,7 @@
             <div id="TransportOrderContent"class="row">
                 <div>&nbsp;</div>
 
-                <div ng-controller="TransportOrderController" class="span8">
+                <div ng-controller="TransportOrderController" class="span11">
                     <div class="portlet">
                         <div class="portlet-header">
                             <h3>
@@ -744,7 +744,7 @@
             <div id="TransportRequisitionContent"class="row">
                 <div>&nbsp;</div>
 
-                <div ng-controller="TransportRequisitionController" class="span8">
+                <div ng-controller="TransportRequisitionController" class="span11">
                     <div class="portlet">
                         <div class="portlet-header">
                             <h3>
@@ -821,6 +821,11 @@
         $("#CurrentHRDContent").slideToggle("slow", "linear");
     });
     
+
+    $("#BidWinnersHeader").click(function () {
+        $("#BidWinnerContent").slideToggle("slow", "linear");
+    });
+    
     $("#SIPCHeader").click(function () {
         $("#SIPCContent").slideToggle("slow", "linear");
     });
@@ -828,6 +833,12 @@
     $("#TransportRequisitionHeader").click(function () {
         $("#TransportRequisitionContent").slideToggle("slow", "linear");
     });
+    
+    $("#TransportOrderHeader").click(function () {
+        $("#TransportOrderContent").slideToggle("slow", "linear");
+    });
+    
+    
 </script>
 
 <script>
