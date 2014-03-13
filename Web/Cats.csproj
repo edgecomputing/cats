@@ -1765,6 +1765,7 @@
     <Content Include="RFQModel.xsc">
       <DependentUpon>RFQModel.xsd</DependentUpon>
     </Content>
+    <None Include="Properties\PublishProfiles\cats.pubxml" />
     <None Include="RFQModel.xsd">
       <SubType>Designer</SubType>
       <Generator>MSDataSetGenerator</Generator>
@@ -2558,7 +2559,6 @@
     <Folder Include="Areas\Transaction\Models\" />
     <Folder Include="Areas\Transaction\Views\Shared\" />
     <Folder Include="Areas\WorkflowManager\Models\" />
-    <Folder Include="Areas\WorkflowManager\Views\Shared\" />
     <Folder Include="bin\" />
   </ItemGroup>
   <ItemGroup>
