@@ -393,7 +393,6 @@
     <Compile Include="Areas\EarlyWarning\Models\InKindContributionDetailViewModel.cs" />
     <Compile Include="Areas\EarlyWarning\Models\RegionalRequestInfoViewModel.cs" />
     <Compile Include="Areas\Finance\Controllers\HomeController.cs" />
-    <Compile Include="Areas\Finance\Controllers\TransportOrderPerformanceController.cs" />
     <Compile Include="Areas\Finance\FinanceAreaRegistration.cs" />
     <Compile Include="Areas\Finance\Models\PaymentRequestViewModel.cs" />
     <Compile Include="Areas\Logistics\Controllers\DonationController.cs" />
@@ -1737,7 +1736,6 @@
     <Content Include="Areas\Finance\Views\Home\Index.cshtml" />
     <Content Include="Areas\Logistics\Views\TransporterPerformance\Index.cshtml" />
     <Content Include="Areas\Logistics\Views\PaymentRequest\Index.cshtml" />
-    <Content Include="Areas\Finance\Views\TransportOrderPerformance\Index.cshtml" />
     <Content Include="Areas\Finance\Views\ValidatedPaymentRequest\Index.cshtml" />
     <Content Include="Areas\Finance\Views\ValidatedPaymentRequest\TransporterDetail.cshtml" />
     <Content Include="Areas\Finance\Views\ValidatedPaymentRequest\TransportOrderDetail.cshtml" />
@@ -1750,6 +1748,7 @@
     <Content Include="Areas\Hub\Views\DispatchAllocation\Copy of Edit.cshtml" />
     <Content Include="Areas\Hub\Views\DispatchAllocation\EditLoans2.cshtml" />
     <Content Include="Areas\Hub\Views\DispatchAllocation\EditOthers.cshtml" />
+    <Content Include="Areas\Logistics\Views\TransporterPerformance\TransportOrderPerformanceDetail.cshtml" />
     <None Include="dataset.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>dataset.Designer.cs</LastGenOutput>
