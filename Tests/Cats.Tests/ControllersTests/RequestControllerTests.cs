@@ -527,7 +527,7 @@ namespace Cats.Tests.ControllersTests
         {
             //Arrange
             //Act
-            var result = (ViewResult)_requestController.Allocation(1);
+            var result = (ViewResult)_requestController.Allocation2(1);
 
             //Assert
             Assert.IsInstanceOf<RegionalRequestViewModel>(result.Model);
