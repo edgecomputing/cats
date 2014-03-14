@@ -357,6 +357,7 @@ namespace Cats.Areas.Procurement.Controllers
             {
                 var bidDetail = _bidDetailService.FindById(bidDetailEdit.Number);
                 bidId = bidDetail.BidID;
+
                 bidDetail.AmountForReliefProgram = bidDetailEdit.AmountForReliefProgram;
                 bidDetail.AmountForPSNPProgram = bidDetailEdit.AmountForPSNPProgram;
                 bidDetail.BidDocumentPrice = bidDetailEdit.BidDocumentPrice;

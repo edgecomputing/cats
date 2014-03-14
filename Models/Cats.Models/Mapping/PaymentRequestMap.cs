@@ -15,6 +15,8 @@ namespace Cats.Models.Mapping
             this.Property(t => t.BusinessProcessID).HasColumnName("BusinessProcessID");
             this.Property(t => t.RequestedAmount).HasColumnName("RequestedAmount");
             this.Property(t => t.ReferenceNo).HasColumnName("ReferenceNo");
+            this.Property(t => t.LabourCostRate).HasColumnName("LabourCostRate");
+            this.Property(t => t.LabourCost).HasColumnName("LabourCost");
 
 
             this.HasRequired(t => t.BusinessProcess)
@@ -24,6 +26,8 @@ namespace Cats.Models.Mapping
             this.HasRequired(t => t.TransportOrder)
               .WithMany(t => t.PaymentRequests)
               .HasForeignKey(d => d.TransportOrderID);
+
+            
         }
     }
 }

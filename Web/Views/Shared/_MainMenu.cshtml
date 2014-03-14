@@ -237,8 +237,8 @@
                             </li>
 
                             @*<li>
-                                @Html.ProcurementOperationMenuItem(@Html.Translate("Payment Request"),
-                                                                   @Url.Action("Index", "PaymentRequest", new { Area = "Procurement" }),
+                                @Html.ProcurementOperationMenuItem(@Html.Translate("Validated Payment Requests"),
+                                                                   @Url.Action("Index", "ValidatedPaymentRequest", new { Area = "Procurement" }),
                                                                    ProcurementConstants.Operation.View_Payment_History)
                             </li>*@
                             <li class="divider" />
@@ -293,10 +293,12 @@
                             <li>
                                 <a href="@Url.Action("Index","Home",new{Area="Finance"})">Dashboard</a>
                             </li>
+
+                            
+                            <li class="divider"></li>
                             <li>
-                                @Html.ProcurementOperationMenuItem(@Html.Translate("Payment Request"),
-                                                                   @Url.Action("Index", "PaymentRequest", new { Area = "Finance" }),
-                                                                   ProcurementConstants.Operation.View_Payment_History)
+                                <a href="@Url.Action("Index","ValidatedPaymentRequest",new{Area="Finance"})">Validated Payment Requests</a>
+
                             </li>
                         </ul>
                     </li>

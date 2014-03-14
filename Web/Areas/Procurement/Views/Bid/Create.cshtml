@@ -37,7 +37,8 @@
                     @Html.LabelFor(model => model.BidNumber, "Bid Number")
                 </div>
                 <div class="controls">
-                    @Html.TextBoxFor(model=>model.BidNumber,new { @placeholder = "Enter Bid Number",@readonly="readonly" })
+                    @*@Html.TextBoxFor(model=>model.BidNumber,new { @placeholder = "Enter Bid Number",@readonly="readonly" })*@
+                    @Html.TextBoxFor(model=>model.BidNumber,new { @placeholder = "Enter Bid Number"})
                     @Html.ValidationMessageFor(model => model.BidNumber)
                 </div>
             </div>

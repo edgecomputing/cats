@@ -136,7 +136,7 @@ namespace Cats.Areas.Procurement.Controllers
         {
             var req = new TransportRequisitionWithTransporter();
             //req.Transporters = _transportOrderService.GetTransporter();
-            var transReqWithoutTransport = _transReqWithoutTransporterService.FindBy(m => m.IsAssigned == false);
+            var transReqWithoutTransport = _transReqWithoutTransporterService.FindBy(m => m.IsAssigned == false).OrderByDescending(t=>t.TransportRequisitionDetailID);
             if (transReqWithoutTransport != null)
             {
                 req.TransReqwithOutTransporters = GetTransReqWithoutTransporter(transReqWithoutTransport).ToList();
