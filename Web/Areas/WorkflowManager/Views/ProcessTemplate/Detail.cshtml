@@ -3,15 +3,15 @@
 
 @{
     ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_MainLayout.cshtml";
-}
-@section LeftBar
-{
-    @Html.Partial("_workflowLeftBar")
-<div style="height:450px;"></div>
+    Layout = "~/Views/Shared/_MainLayoutWide.cshtml";
 }
 @section Toolbar
 {
+    <a class="btn toolbar-btn" href="#" onclick="onAddStateClick()"  title="Add State"><i class="icon-stop"></i> Add State</a>
+    <a class="btn toolbar-btn" href="#" onclick="onAddFlowClick()" title="Add Link"><i class="icon-link"></i> Add Link</a>
+
+
+
     <button onclick="onSaveProcesss()" data-buttontype="btn_save" id="btn-save" class="btn toolbar-btn "></button>
     <!--
     <a onclick="onRedraw()" class="btn toolbar-btn" href="#" title="Redraw"><i class="icon-download"></i></a>
@@ -24,20 +24,27 @@
 }
 
 <div ng-app ng-controller="processCtrl">
+
     <div class="designer_window" >
         <canvas id="drawingCanvas" class="canvas" width="1500" height="750"></canvas>
 
         <div ng-repeat="state in ProcessTemplateData.StateTemplates" ng-dblclick="editState($index)" data-index="{{$index}}" id="states_{{state.StateTemplateID}}" class="state statetype-{{state.StateType}}" style="left: {{state.pos.left}}px; top: {{state.pos.top}}px;">
+            {{state.Name}} <a href="#" ng-click="deleteFlow($index)" class="btn-remove"> x </a>
+        </div>
+        <!--
+        <div ng-repeat="state in ProcessTemplateData.StateTemplates" ng-dblclick="editState($index)" data-index="{{$index}}" id="states_{{state.StateTemplateID}}" class="state statetype-{{state.StateType}}" style="left: {{state.pos.left}}px; top: {{state.pos.top}}px;">
 
             <div class="content">{{state.Name}}</div>
+            <div style="float:right;">X</div>
             <div class="connector left-connector"></div>
             <div class="connector right-connector"></div>
             <div class="connector top-connector"></div>
             <div class="connector bottom-connector"></div>
         </div>
+            -->
 
         <div ng-repeat="flow in ProcessTemplateData.FlowTemplates" ng-dblclick="editflow($index)" data-index="{{$index}}" id="flows_{{flow.FlowTemplateID}}" class="flow_data flow" style="left: {{flow.pos.left}}px; top: {{flow.pos.top}}px;">
-            <div class="content">{{flow.Name}}</div>
+            {{flow.Name}}<a href="#" ng-click="deleteFlow($index)" class="btn-remove"> x </a>
         </div>
         <div id="popover_flow_editor" class="popover fade right in" style="top:50px; left: 704px; display: none;">
             <div class="arrow"></div>
@@ -130,7 +137,9 @@
         </div>
     </div>
 
-    <div class="left_bar" id="right_bar" style="display:nones;">
+    <div class="left_bar" id="right_bar" style="display:none;">
+        <button id="btn_AddState" ng-click="AddState()" title="Add State"><i class="icon-stop"></i> Add State</button>
+
         <ul style="list-style:none;">
             <li><a  href="#" ng-click="AddState()" title="Add State"><i class="icon-stop"></i> Add State</a></li>
             <li><a href="#" ng-click="AddFlow()" title="Add Link"><i class="icon-link"></i> Add Link</a></li>
@@ -185,7 +194,7 @@
         </div>
 
     </div>
-    <div>
+    <div style="height:900px;">
         <link href="@Url.Content("~/Content/workflow/workflowDesigner.css")" rel="stylesheet" type="text/css" />
         <script src="@Url.Content("~/Content/workflow/workflow.js")"></script>
         <script src="@Url.Content("~/Content/workflow/jquery-1.8.0.js")"></script>
@@ -197,6 +206,83 @@
     var processId=@Model.ProcessTemplateID;
     var SaveServerURL="@Url.Action("saveGraphics", "ProcessTemplate", new { Area = "WorkflowManager" })";
     var serverURL="@Url.Action("index", "ProcessTemplate", new { Area = "WorkflowManager" })";
-</script>
 
+    function onAddStateClick()
+    {
+        $$scope.AddState();
+        $$scope.$apply();
+    }
+    function onAddFlowClick()
+    {
+        $$scope.AddFlow();
+        $$scope.$apply();
+
+    }
+</script>
+<style>
+    body
+    {
+        background:#EEE;
+    }
+    .state, .flow
+    {
+        border:solid 1px #AAA;
+        line-height:30px;
+        height:30px;
+
+        text-align:center;
+        border-radius:4px;
+        background:rgba(255,255,255,.9);
+        padding-left:10px;
+        padding-right:5px;
+        
+
+    }
+    .flow
+    {
+
+
+         line-height:20px;
+         font-size:10px;
+         height:20px;
+         border-radius:8px;
+         color:#08F;
+          border:solid 1px #DDF;
+    }
+        .state .btn-remove, .flow .btn-remove
+        {
+
+            padding-left:5px;
+            visibility:hidden;
+        }
+        .state:hover .btn-remove, .flow:hover .btn-remove
+        {
+            visibility:visible;
+        }
+
+        .state input 
+    {
+        background: transparent;
+        border: none;
+        box-shadow: none;
+    }
+
+        .state input:active, .state input:focus
+        {
+            color: #666;
+            border: none;
+            box-shadow: none;
+        }
+
+        .statetype-0 
+{
+   background:#b6ff00;
+}
+        .statetype-2
+{
+    /*
+    background:#ffa5a5;*/ 
+    background:rgba(255,200,200,.9);
+}
+</style>
 

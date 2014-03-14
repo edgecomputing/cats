@@ -1,0 +1,183 @@
+﻿@using Kendo.Mvc.UI
+<div id="div_tree_log">
+    
+</div>
+<style>
+    .tree_view
+    {
+    }
+    .tree_view .node-children
+    {
+        margin-left:20px;
+    }
+    .tree_view  .node-label 
+    {
+        font-weight:bold;
+    }
+    .tree_view .collapsed .node-label
+    {
+        font-weight:normal;
+    }
+    .tree_view .collapsed .node-children 
+    {
+        display:none;
+    }
+   .tree_view .expanded .node-children
+   {
+       display:block !important;
+   }
+    .popover
+    {
+       
+    }
+    .popover-content
+    {
+        padding:0;
+    }
+    .popover-fixed
+    {
+        height:300px;
+        overflow:scroll;
+        padding:5px;
+    }
+</style>
+
+<div id="div_tree_view" class="tree_view popover-fixed">
+    
+    @{
+        int i=0;
+    
+        foreach (var region in ViewBag.RegionCollection)
+        {
+        <div class="tree-node collapsed" id="region_@region.AdminUnitID">
+            <div class="node-label" >
+                        <a id="admin_@region.AdminUnitID" href="#" onclick="treeNodeSelected(@region.AdminUnitID,'region',this)" data-regionid="@region.AdminUnitID"  data-regionname="@region.Name">@region.Name</a>
+            </div>
+            
+            <div class="node-children">
+            @foreach (var zone in region.AdminUnit1)
+            {
+                <div class="tree-node collapsed" id="zone_@zone.AdminUnitID" data-nodezonename="@zone.Name" id="zone_@zone.AdminUnitID">
+                    <div class="node-label" >
+                        <a id="admin_@zone.AdminUnitID" href="#" onclick="treeNodeSelected(@zone.AdminUnitID,'zone',this)"  data-regionid="@region.AdminUnitID" data-zoneid="@zone.AdminUnitID" data-zonename="@zone.Name">@zone.Name</a>
+                    </div>
+                    <div class="node-children">
+                    @foreach (var woreda in zone.AdminUnit1)
+                    {
+                        <div class="tree-node collapsed" id="woreda_@woreda.AdminUnitID">
+                            <div class="node-label" >
+                                <a id="admin_@woreda.AdminUnitID" href="#" onclick="treeNodeSelected(@woreda.AdminUnitID,'woreda',this)"  data-regionid="@region.AdminUnitID" data-zoneid="@zone.AdminUnitID" data-zonename="@zone.Name">@woreda.Name</a>
+                            </div>
+                            
+                            <div class="node-children">
+                            @foreach (var fdp in woreda.FDPs)
+                            {
+                                <div class="tree-node collapsed" id="fdp_@fdp.FDPID">
+                                    <div class="node-label" >
+                                        <a id="admin_@fdp.FDPID" id="fdpData_@fdp.FDPID" href="#" onclick="treeNodeSelected(@fdp.FDPID,'fdp',this)"  data-regionid="@region.AdminUnitID" data-zoneid="@zone.AdminUnitID" data-zonename="@zone.Name" data-woredaid="@woreda.AdminUnitID" data-woredaname="@woreda.Name"  data-fdpid="@fdp.FDPID" data-fdpname="@fdp.Name" >@fdp.Name</a>
+                                    </div>
+                                </div>
+                            }
+                            </div>
+                        </div>
+            
+                    }
+                    </div>
+                </div>
+            
+            }
+            </div>
+        </div>
+    }
+    }
+    <script>
+        var lastTarget = "";
+        var selecttreecallback = function () {
+        };
+        function treeNodeSelected(id, type, element) {
+            
+            var selectedNode=$("#" + type + "_" + id);
+            selectedNode.toggleClass("collapsed", 1, 2000);
+
+            var $element = $(element);
+            var selectcallback = $element.data("selectcallback");
+
+            console.log("treeNodeSelected", selectcallback);
+           
+            var selection = { FDPID: $element.data("fdpid"), fdpName: $element.data("fdpname"), WoredaID: $element.data("woredaid"), woredaName: $element.data("woredaname"), ZoneID: $element.data("zoneid"), zoneName: $element.data("zonename"), RegionID: $element.data("regionid") };
+
+            if (selectcallback) {
+                eval(selectcallback + "(type, selection,id)");
+            }
+            return;
+            /*
+            if (typeof (adminTreeSelectionCallback) != "function") {
+                console.log("treeNodeSelected - No Callback");
+                return;
+            }
+            if (type == "fdp" && adminTreeSelectionCallback) {
+                // $element = $(type + "Data_" + id).first();
+              //  alert(element);
+                
+                var selection = { FDPID: $element.data("fdpid"), WoredaID: $element.data("woredaid"), fdpName: $element.data("fdpname"), woredaName: $element.data("woredaname"), ZoneID: $element.data("zoneid"), zoneName: $element.data("zonename"), RegionID: $element.data("regionid") };
+                adminTreeSelectionCallback.OnFdp(selection);
+            }*/
+        }
+        var hidePopover = function () {
+            if (lastTarget) {
+
+                lastTarget.popover('hide');
+            }
+            lastTarget = "";
+        };
+        var showFDPSelector = function (options) {
+            //alert("edit");
+            var target = options.target
+            var adminUnit = options.adminUnit;
+            var callback = options.callback ? options.callback : "no_callback";
+            if (typeof (target) == "string") {
+                target = document.getElementById(target);
+            }
+            var $target = $(target);
+            var $content = $("#div_form_template").clone();
+            $content.find(".node-label a").attr("data-selectcallback", callback);
+            var innerHtml = $content.html();
+            if (options.htmlRenderer) {
+                innerHtml = options.htmlRenderer(innerHtml)
+            }
+            var htm = "<div id='frm_current' >" + innerHtml + "</div>";
+
+            if (lastTarget) {
+                if ($target.attr("id") == lastTarget.attr("id")) {
+                    lastTarget.popover('hide');
+                }
+                else {
+                    lastTarget.popover('hide');
+                }
+            }
+            //$(htm).find(".node-label a").attr("data-selectcallback", callback);
+            //htm=$(htm).find(".node-label a").css("font-size", "10px").html();
+
+
+            $target.popover({ html: true, trigger: "manual", title: "Select FDP", content: htm, placement: "bottom" });
+            $target.popover({ container: 'body' });
+            if (!options.noshow) {
+                $target.popover("show");
+            }
+           // $target.popover("show");
+            
+            //$("#frm_current .node-label a").attr("data-selectcallback",callback);
+        
+            if (adminUnit) {
+                $("#region_" + adminUnit.RegionID).removeClass("collapsed");
+                $("#zone_" + adminUnit.ZoneID).removeClass("collapsed");
+                $("#woreda_" + adminUnit.WoredaID).removeClass("collapsed");
+                $("#fdp_" + adminUnit.FDPID).removeClass("collapsed");
+
+            }
+           // $target.popover("hide");
+            lastTarget = $target;
+            return;
+        };
+    </script>
+</div>

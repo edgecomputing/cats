@@ -74,9 +74,10 @@
             <h3>Welcome to CATS.</h3>
             <h5>Please sign in to get access.</h5>
 
-
-            @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { @class = "form", @id = "login-form" }))
+           @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { @class = "form", @id = "login-form" }))
             {
+               
+                <input type="hidden" name="returnUrl" value="@ViewBag.returnUrl" />
                 <!--<h2 class="form-signin-heading">Sign in to CATS</h2>  -->
                 <div class="form-group">
                     <label for="login-username">Username</label>
