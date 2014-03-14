@@ -91,7 +91,7 @@
 
                       columns.Bound(t => t.Region);
                       columns.Bound(t => t.BeneficiaryNumber).HtmlAttributes(new { align = "Right" }); 
-                      columns.Bound(t => t.Percentage).HtmlAttributes(new { align = "Center" }).Format("{0:N2}%");
+                      columns.Bound(t => t.Percentage).HtmlAttributes(new { align = "Center" }).Format("{0:N0}%");
                      
                      
                   })
@@ -115,7 +115,7 @@
 
                       columns.Bound(t => t.Region);
                       columns.Bound(t => t.BeneficiaryNumber).HtmlAttributes(new { align = "Right" });
-                      columns.Bound(t => t.Percentage).HtmlAttributes(new { align = "Center"}).Format("{0:N2}%");
+                      columns.Bound(t => t.Percentage).HtmlAttributes(new { align = "Center"}).Format("{0:N0}%");
                      
                      
                   })

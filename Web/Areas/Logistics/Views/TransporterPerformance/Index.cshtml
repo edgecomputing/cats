@@ -23,7 +23,7 @@ Agreement Contract #: <input id="searchIndex" style="width: 300px; height: 20px;
     columns.Bound(m => m.StartDate).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid" });
     columns.Bound(m => m.NoOfDaysToComplete).Title(@Html.Translate2(PAGE_NAME, "Agreed to complete (days)")).HtmlAttributes(new { align = "Right" });
     columns.Bound(m => m.ElapsedDays).Title(@Html.Translate2(PAGE_NAME, "Elapsed Time(in Days)")).HtmlAttributes(new { align = "Right" });
-    columns.Bound(m => m.Percentage).Title(@Html.Translate2(PAGE_NAME, "Percentage Completed")).HtmlAttributes(new { align = "Center"}).Format("{0:N2}%"); 
+    columns.Bound(m => m.Percentage).Title(@Html.Translate2(PAGE_NAME, "Percentage Completed")).HtmlAttributes(new { align = "Center"}).Format("{0:N0}%"); 
   })
     .Sortable()
     .Scrollable()
