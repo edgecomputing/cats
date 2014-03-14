@@ -773,9 +773,9 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
         public ActionResult Request_Search([DataSourceRequest] DataSourceRequest request, int RegionID, int ProgramID, int StatusID, DateTime DateFrom, DateTime DateTo)// SearchRequsetViewModel filter)
         {
- 
 
-///            var requests = id == -1 ? _regionalRequestService.GetAllRegionalRequest().OrderByDescending(m => m.RegionalRequestID) : _regionalRequestService.Get(t => t.Status == id);
+
+            var requests = StatusID == -1 ? _regionalRequestService.GetAllRegionalRequest().OrderByDescending(m => m.RegionalRequestID) : _regionalRequestService.Get(t => t.Status == StatusID);
             var statuses = _commonService.GetStatus(WORKFLOW.REGIONAL_REQUEST);
             var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
             var requestViewModels = RequestViewModelBinder.BindRegionalRequestListViewModel(requests, statuses, datePref);

@@ -3,6 +3,12 @@
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
 
+@section Toolbar
+{
+     
+   
+   <a class="btn toolbar-btn " data-buttontype="btn_back_to_list" href="@Url.Action("Index","TransporterPerformance",new { Area = "Logistics"})"></a>
+}
 
 
 <div ng-app="myApp">
@@ -22,7 +28,7 @@
                              
                              <div class="span3">
                                  <label>Contract</label>
-                                 <pre><a href="@Url.Action("ViewContractAgreement", "ValidatedPaymentRequest", new { transporterID = ViewBag.TransportOrderId })">{{transporterInfo.ContratNo}}</a> </pre>
+                                 <pre><a href="@Url.Action("ViewContractAgreement", "ValidatedPaymentRequest", new {  Area = "Finance", transporterID = ViewBag.TransportOrderId })">{{transporterInfo.ContratNo}}</a> </pre>
                                 @* <pre>{{transporterInfo.ContratNo}}</pre>*@
                              </div>
                                  
@@ -140,7 +146,7 @@
                                     <th>Hub</th>
                                     <th>Requisition No</th>
                                     <th>Commodity</th>
-                                    <th>Amount</th>
+                                    <th>Amount (Qtl)</th>
                                    
                                  </tr>
                             </thead>
@@ -187,27 +193,27 @@
 
         $scope.trans_param = { regionId: 0, hubId: 0, transportOrderId: transportOrderId, startDate: new Date(), EndDate: new Date() };
         $scope.regions = [];
-        $http({ method: 'GET', url: '@Url.Action("GetRegions","TransportOrderPerformance")' }).success(function (data, status, headers, config) { $scope.regions = data; })
+        $http({ method: 'GET', url: '@Url.Action("GetRegions","TransporterPerformance")' }).success(function (data, status, headers, config) { $scope.regions = data; })
          .error(function (data, status, headers, config) {
 
          });
 
         $scope.hubs = [];
-        $http({ method: 'GET', url: '@Url.Action("GetHubs","TransportOrderPerformance")' }).success(function (data, status, headers, config) { $scope.hubs = data; })
+        $http({ method: 'GET', url: '@Url.Action("GetHubs","TransporterPerformance")' }).success(function (data, status, headers, config) { $scope.hubs = data; })
      .error(function (data, status, headers, config) {
 
      });
 
 
          $scope.transporterInfo = {};
-        $http({ method: 'GET',params:{ transportOrderId: transportOrderId }, url: '@Url.Action("GetTransporter","TransportOrderPerformance")' }).success(function(data) {
+        $http({ method: 'GET',params:{ transportOrderId: transportOrderId }, url: '@Url.Action("GetTransporter","TransporterPerformance")' }).success(function(data) {
             $scope.transporterInfo = data;
            
         });
 
 
          $scope.transporterInfoDetail = {};
-        $http({ method: 'GET', params: { transportOrderId: transportOrderId }, url: '@Url.Action("GetDispatches","TransportOrderPerformance")' }).success(function (data) {
+        $http({ method: 'GET', params: { transportOrderId: transportOrderId }, url: '@Url.Action("GetDispatches","TransporterPerformance")' }).success(function (data) {
             $scope.transporterInfoDetail.detail = data;
            
         });
@@ -218,7 +224,7 @@
             $scope.trans_param.EndDate = $("#EndDate").val();
 
            
-            $http.post("@Url.Action("GetFilteredTransportOrderDetail", "TransportOrderPerformance", new { Area = "Finance" })", $scope.trans_param).success(function (data) {
+            $http.post("@Url.Action("GetFilteredTransportOrderDetail", "TransporterPerformance", new { Area = "Logistics" })", $scope.trans_param).success(function (data) {
             $scope.transporterInfoDetail.detail = data;
         });
         };
