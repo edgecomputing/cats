@@ -100,6 +100,9 @@ function processCtrl($scope, $http) {
         var GraphicsData = { states: {}, flows: {} };
         if (GraphicsDataStr) {
             eval("GraphicsData=" + GraphicsDataStr);
+            if (!GraphicsData.states) {
+                GraphicsData = { states: {}, flows: {} };
+            }
             $scope.ProcessTemplateData.DiagramData = GraphicsData;
         }
         $scope.initData();
@@ -161,7 +164,7 @@ function processCtrl($scope, $http) {
 
         for (var i in $scope.ProcessTemplateData.StateTemplates) {
             var state = $scope.ProcessTemplateData.StateTemplates[i];
-            var pos = { left: 100, top: 50 * i };
+            var pos = { left: 400, top: 50 + 50 * i };
             if (GraphicsData && GraphicsData.states["state_" + state.StateTemplateID]) {
                 var pos = GraphicsData.states["state_" + state.StateTemplateID];
             }
@@ -174,7 +177,10 @@ function processCtrl($scope, $http) {
           //  flow.InitialStateID = "" + flow.InitialStateID;
           //  flow.FinalStateID = "" + flow.FinalStateID;
 
-            var pos = { left: 400, top: 50 * i +25 };
+            var pos = { left: 100, top: 50 * i + 75 };
+            if (i % 2) {
+                pos.left = 700;
+            }
             if (GraphicsData && GraphicsData.flows["flow_" + flow.FlowTemplateID]) {
                 var pos = GraphicsData.flows["flow_" + flow.FlowTemplateID];
             }
@@ -256,6 +262,24 @@ function processCtrl($scope, $http) {
             // $('#myModal').modal('show');
         }
     };
+    $scope.deleteState = function (index) {
+        var state = $scope.ProcessTemplateData.StateTemplates[index];
+        $http.post($scope.serverURL + "deleteState", { id: state.StateTemplateID })
+            .success(function (resp, status, headers, config)
+            {
+                $scope.ProcessTemplateData.StateTemplates.splice(index, 1);
+            }
+            );
+    };
+    $scope.deleteFlow = function (index) {
+        var flow = $scope.ProcessTemplateData.FlowTemplates[index];
+        $http.post($scope.serverURL + "deleteFlow", { id: flow.FlowTemplateID })
+            .success(function (resp, status, headers, config) {
+                $scope.ProcessTemplateData.FlowTemplates.splice(index, 1);
+            }
+            );
+    };
+    
     $scope.GetDiagramDataJson=function()
     {
         var statePosJson = "";

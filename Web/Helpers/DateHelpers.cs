@@ -24,6 +24,8 @@ namespace Cats.Helpers
             }
         }
 
+
+
         //public static string ToCTSPreferedDateFormat(this Nullable<DateTime> date, string lang)
         //{
         //    if (date != null)

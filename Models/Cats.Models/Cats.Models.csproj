@@ -106,6 +106,7 @@
     <Compile Include="Mapping\ReceiptPlanMap.cs" />
     <Compile Include="Mapping\LoanReciptPlanMap.cs" />
     <Compile Include="Mapping\TransferMap.cs" />
+    <Compile Include="Mapping\TransporeterChequeMap.cs" />
     <Compile Include="ReceiptPlan.cs" />
     <Compile Include="ReceiptPlanDetal.cs" />
     <Compile Include="Mapping\OtherDispatchAllocationMap.cs" />
@@ -113,6 +114,7 @@
     <Compile Include="OtherDispatchAllocation.cs" />
     <Compile Include="SupportType.cs" />
     <Compile Include="Transfer.cs" />
+    <Compile Include="TransporterCheque.cs" />
     <Compile Include="ViewModels\DistributionByAgeViewModel.cs" />
     <Compile Include="WoredaStockDistributionDetail.cs" />
     <Compile Include="Delivery.cs" />

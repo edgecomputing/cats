@@ -334,6 +334,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
             return RedirectToAction("Allocation", new { id = req.RegionalRequestID });
 
+
         }
 
         /*
@@ -370,9 +371,85 @@ namespace Cats.Areas.EarlyWarning.Controllers
         }
 
         #region Regional Request Detail
+        public ActionResult getAllCommodities([DataSourceRequest] DataSourceRequest request)
+        {
+            var dt = new SelectList(_commonService.GetCommodities(), "CommodityID", "Name");
+            //var dt=_commonService.GetCommodities();
+            return Json(dt.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult Commodity_Create2(int commodityId, int requestId)
+        {
+
+            _regionalRequestDetailService.AddRequestDetailCommodity(commodityId, requestId);
+
+            return Json("{success:true}", JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult Commodity_Destroy2(int CommodityID, int requestId)
+        {
+            _regionalRequestDetailService.DeleteRequestDetailCommodity(CommodityID, requestId);
+            return Json("{success:true}", JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult Allocation_Create2(RegionalRequestDetailViewModel regionalRequestDetailViewModel)
+        {
+            if (regionalRequestDetailViewModel != null && ModelState.IsValid)
+            {
+                _regionalRequestDetailService.AddRegionalRequestDetail(BindRegionalRequestDetail(regionalRequestDetailViewModel));
+            }
+            return RedirectToAction("Allocation_Read", new {request=new DataSourceRequest(), id = regionalRequestDetailViewModel.RegionalRequestID });
+            /*
+            var requestDetails = _regionalRequestDetailService.FindBy(t => t.RegionalRequestID == regionalRequestDetailViewModel.RegionalRequestID);
+            var requestDetailViewModels = (from dtl in requestDetails select BindRegionalRequestDetailViewModel(dtl));
+            return Json(requestDetailViewModels, JsonRequestBehavior.AllowGet);*/
+        }
+        public ActionResult Allocation_Update2(RegionalRequestDetailViewModel regionalRequestDetail)
+        {
+            //  if (regionalRequestDetail != null && ModelState.IsValid)
+            {
+                var target = _regionalRequestDetailService.FindById(regionalRequestDetail.RegionalRequestDetailID);
+                if (target != null)
+                {
+                    target.Beneficiaries = regionalRequestDetail.Beneficiaries;
+                    target.Fdpid = regionalRequestDetail.Fdpid;
+
+                    _regionalRequestDetailService.EditRegionalRequestDetail(target);
+                }
+            }
+            var requestDetails = _regionalRequestDetailService.FindBy(t => t.RegionalRequestID == regionalRequestDetail.RegionalRequestID);
+            var requestDetailViewModels = (from dtl in requestDetails select BindRegionalRequestDetailViewModel(dtl));
+            return Json(requestDetailViewModels, JsonRequestBehavior.AllowGet);
+
+            //return Json(new[] { regionalRequestDetail }.ToDataSourceResult(request, ModelState));
+        }
+        public ActionResult Allocation_Delete([DataSourceRequest] DataSourceRequest request, int id)
+        {
+            _regionalRequestDetailService.DeleteById(id);
+
+            return Json("{success:true}", JsonRequestBehavior.AllowGet);
+        }
 
 
-        public ActionResult Allocation(int id,int programId = -1)
+        public ActionResult Allocation(int id, int programId = -1)
+        {
+            var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
+            ViewBag.programId = programId;
+            ViewBag.RequestID = id;
+
+            RegionalRequest request =
+                _regionalRequestService.Get(t => t.RegionalRequestID == id, null, "AdminUnit,Program,Ration").FirstOrDefault();
+            var statuses = _commonService.GetStatus(WORKFLOW.REGIONAL_REQUEST);
+            var requestModelView = RequestViewModelBinder.BindRegionalRequestViewModel(request, statuses, datePref);
+            ViewBag.RegionCollection = _adminUnitService.FindBy(t => t.AdminUnitTypeID == 2 && t.AdminUnitID == request.RegionID);
+
+            /*
+                         var requestDetails = _regionalRequestDetailService.Get(t => t.RegionalRequestID == id);
+                        var requestDetailCommodities = (from item in requestDetails select item.RequestDetailCommodities).FirstOrDefault();
+                        if (requestDetailCommodities != null)
+                            ViewData["AllocatedCommodities"] = (from itm in requestDetailCommodities select new Commodity() { CommodityID = itm.CommodityID });
+                        ViewData["AvailableCommodities"] = _commonService.GetCommodities();
+            */
+            return View(requestModelView);
+        }
+        public ActionResult Allocation2(int id,int programId = -1)
         {
             var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
             ViewBag.programId = programId;
@@ -696,14 +773,9 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
         public ActionResult Request_Search([DataSourceRequest] DataSourceRequest request, int RegionID, int ProgramID, int StatusID, DateTime DateFrom, DateTime DateTo)// SearchRequsetViewModel filter)
         {
-            var requests = _regionalRequestService.FindBy(t => t.RegionID == RegionID
-                                                        && t.ProgramId == ProgramID
-                                                        && t.Status == StatusID
-                                                        && t.RequistionDate <= DateTo
-                                                        && t.RequistionDate >= DateFrom
-                                                        ).OrderByDescending(m => m.RegionalRequestID);
 
-///            var requests = id == -1 ? _regionalRequestService.GetAllRegionalRequest().OrderByDescending(m => m.RegionalRequestID) : _regionalRequestService.Get(t => t.Status == id);
+
+            var requests = StatusID == -1 ? _regionalRequestService.GetAllRegionalRequest().OrderByDescending(m => m.RegionalRequestID) : _regionalRequestService.Get(t => t.Status == StatusID);
             var statuses = _commonService.GetStatus(WORKFLOW.REGIONAL_REQUEST);
             var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
             var requestViewModels = RequestViewModelBinder.BindRegionalRequestListViewModel(requests, statuses, datePref);

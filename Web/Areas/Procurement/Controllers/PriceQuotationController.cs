@@ -315,7 +315,7 @@ namespace Cats.Areas.Procurement.Controllers
 
         public ActionResult Read_BidProposals([DataSourceRequest]DataSourceRequest request)
         {
-            var proposals = _transportBidQuotationHeaderService.GetAllTransportBidQuotationHeader();
+            var proposals = _transportBidQuotationHeaderService.GetAllTransportBidQuotationHeader().OrderByDescending(t=>t.TransportBidQuotationHeaderID);
             var r = (from proposal in proposals
                      select new TransportBidQuotationHeaderViewModel()
                      {

@@ -140,6 +140,16 @@ namespace Cats.Areas.WorkflowManager.Controllers
             }
             return Json("{}");
         }
+        public ActionResult DeleteState(int id)
+        {
+                _StateTemplateService.DeleteById(id);
+                return Json("{}", JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult DeleteFlow(int id)
+        {
+            _FlowTemplateService.DeleteById(id);
+            return Json("{}", JsonRequestBehavior.AllowGet);
+        }        
         public ActionResult AddState(StateTemplate item)
         {
             if (item != null)

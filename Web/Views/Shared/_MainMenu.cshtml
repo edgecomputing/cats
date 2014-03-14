@@ -36,30 +36,35 @@
                         PLEASE WATCH THE SPACE BETWEEN TOP MENU ITEMS AND THE CARET
                         ************************************************************************************************
                     -->
-
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Html.Translate2(PAGE_NAME, "Early Warning")<b class="caret"></b></a>
+                        @*<a href="@Url.Action("Index","Home",new{Area="EarlyWarning"})"><i class="icon-align-center icon-bar-chart"></i></a>*@
+                       @* <div align="center"><a href="@Url.Action("Index","Home",new{Area="EarlyWarning"})"><i class="icon-tasks"></i></a></div>*@
+                        <a  href="#" class="dropdown-toggle" data-toggle="dropdown">@Html.Translate2(PAGE_NAME, " Early Warning")<b class="caret"></b></a></>
                         <ul class="dropdown-menu">
                             <li>
+                                <a href="@Url.Action("Index","Home",new{Area="EarlyWarning"})">Dashboard</a>
+                            </li>
+                            <li>
                                 @Html.EarlyWarningOperationMenuItem(@Url.Action("Index", "GiftCertificate", new { Area = "EarlyWarning" }),
-                                                                        EarlyWarningConstants.Operation.View_Gift_Certificate_list, @Html.Translate2(PAGE_NAME, "Gift Certificate"))
+                                                                    EarlyWarningConstants.Operation.View_Gift_Certificate_list, @Html.Translate2(PAGE_NAME, "Gift Certificate"))
                             </li>
                             <li class="divider"></li>
+
                             <li><a href="@Url.Action("Index", "Plan", new { Area = "EarlyWarning" })">@Html.Translate2(PAGE_NAME, "Plan")</a></li>
 
                             <li>
                                 @Html.EarlyWarningOperationMenuItem(@Url.Action("Index", "NeedAssessment", new { Area = "EarlyWarning" }),
-                                                                                 EarlyWarningConstants.Operation.View_Draft_Needs_Assessment, @Html.Translate2(PAGE_NAME, "Needs Assessment"))
+                                                                    EarlyWarningConstants.Operation.View_Draft_Needs_Assessment, @Html.Translate2(PAGE_NAME, "Needs Assessment"))
                             </li>
 
 
                             <li>
                                 @Html.EarlyWarningOperationMenuItem(@Url.Action("Index", "HRD", new { Area = "EarlyWarning" }),
-                                                                             EarlyWarningConstants.Operation.View_HRD_list, @Translator.Translate("HRD"))
+                                                                    EarlyWarningConstants.Operation.View_HRD_list, @Translator.Translate("HRD"))
                             </li>
                             <li>
                                 @Html.EarlyWarningOperationMenuItem(@Url.Action("Index", "DonorCoverage", new { Area = "EarlyWarning" }),
-                                                                                 EarlyWarningConstants.Operation.View_HRD_list, @Translator.Translate("Donor Coverage"))
+                                                                    EarlyWarningConstants.Operation.View_HRD_list, @Translator.Translate("Donor Coverage"))
                             </li>
 
                             <li class="divider"></li>
@@ -69,7 +74,7 @@
                                 <ul class="dropdown-menu">
                                     <li>
                                         @Html.EarlyWarningOperationMenuItem(@Url.Action("Index", "Request", new { Area = "EarlyWarning" }),
-                                                                                 EarlyWarningConstants.Operation.View_request, @Translator.Translate("Requests"))
+                                                                            EarlyWarningConstants.Operation.View_request, @Translator.Translate("Requests"))
                                     </li>
                                     <li><a href="@Url.Action("New", "Request", new { Area = "EarlyWarning" })">@Translator.Translate("New Request") </a></li>
                                     <li><a href="@Url.Action("NewIdps", "Request", new { Area = "EarlyWarning" })">@Translator.Translate("New IDPS Request")</a></li>
@@ -78,7 +83,7 @@
 
                             <li>
                                 @Html.EarlyWarningOperationMenuItem(@Url.Action("Index", "ReliefRequisition", new { Area = "EarlyWarning" }),
-                                                                                 EarlyWarningConstants.Operation.View_Requisition, @Translator.Translate("Requisitions"))
+                                                                    EarlyWarningConstants.Operation.View_Requisition, @Translator.Translate("Requisitions"))
                             </li>
 
 
@@ -86,7 +91,7 @@
 
                             <li>
                                 @Html.EarlyWarningOperationMenuItem(@Url.Action("Index", "Ration", new { Area = "EarlyWarning" }),
-                                                                                 EarlyWarningConstants.Operation.View_Ration_List, @Translator.Translate("Rations"))
+                                                                    EarlyWarningConstants.Operation.View_Ration_List, @Translator.Translate("Rations"))
                             </li>
 
                             <li class="divider"></li>
@@ -96,30 +101,36 @@
                     </li>
 
                     <li class="dropdown">
+                        @*<div align="center"><a href="@Url.Action("Index","Home",new{Area="PSNP"})"><i class="icon-tasks"></i></a></div>*@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Translator.Translate("FSCD") <b class="caret"></b></a>
                         <ul class="dropdown-menu">
+                            
+                            <li>
+                                <a href="@Url.Action("Index","Home",new{Area="PSNP"})">Dashboard</a>
+                            </li>
 
                             <li>
                                 @Html.PSNPOperationMenuItem(@Translator.Translate("PSNP Plan"),
                                                             @Url.Action("Index", "RegionalPSNPPlan", new { Area = "PSNP" }),
                                                             PsnpConstants.Operation.View_annual_plan_list)
                             </li>
+                            <li><a href="@Url.Action("Index", "Plan", new { Area = "EarlyWarning" })">@Html.Translate2(PAGE_NAME, "Plan")</a></li>
                             <li class="divider"></li>
 
                             <li>
-                                @Html.EarlyWarningOperationMenuItem(@Url.Action("Index", "Request", new { Area = "EarlyWarning" }),
-                                                                                 EarlyWarningConstants.Operation.View_request, @Translator.Translate("Requests"))
+                                @Html.PSNPOperationMenuItem(@Translator.Translate("Requests"), @Url.Action("Index", "Request", new { Area = "EarlyWarning" }),
+                                                                    PsnpConstants.Operation.View_request)
                             </li>
 
                             <li>
-                                @Html.EarlyWarningOperationMenuItem(@Url.Action("Index", "ReliefRequisition", new { Area = "EarlyWarning" }),
-                                                                                 EarlyWarningConstants.Operation.View_Requisition, @Translator.Translate("Requisitions"))
+                                @Html.PSNPOperationMenuItem(@Translator.Translate("Requisitions"), @Url.Action("Index", "ReliefRequisition", new { Area = "EarlyWarning" }),
+                                                                    PsnpConstants.Operation.View_Requisition)
                             </li>
                             <li class="divider"></li>
 
                             <li>
-                                @Html.EarlyWarningOperationMenuItem(@Url.Action("Index", "Ration", new { Area = "EarlyWarning" }),
-                                                                                 EarlyWarningConstants.Operation.View_Ration_List, @Translator.Translate("Rations"))
+                                @Html.PSNPOperationMenuItem(@Translator.Translate("Rations"), @Url.Action("Index", "Ration", new { Area = "EarlyWarning" }),
+                                                                    PsnpConstants.Operation.View_Ration_List)
                             </li>
                             <li class="divider" />
 
@@ -127,11 +138,11 @@
                         </ul>
                     </li>
                     <li class="dropdown">
+                        @*<div align="center"><a href="@Url.Action("Index","Home",new{Area="Logistics"})"><i class="icon-tasks"></i></a></div>*@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Translator.Translate("Logistics") <b class="caret"></b></a>
-
-
-
+                        
                         <ul class="dropdown-menu">
+                            
                             <li><a href="@Url.Action("Index", "Home", new { Area = "Logistics" })">Logistics Dashboard</a></li>
 
                             <li>
@@ -144,6 +155,10 @@
                                 @Html.LogisticOperationMenuItem(@Html.Translate("Transport Requisition"),
                                                                 @Url.Action("Index", "TransportRequisition", new { Area = "Logistics" }),
                                                                 LogisticsConstants.Operation.View_Transport_Requisition)
+                            </li>
+                            
+                                 <li><a href="@Url.Action("Index", "TransporterPerformance", new { Area = "Logistics" })">Transporter Performance</a></li>
+                           
                             <li class="divider"></li>
 
                             <li class="dropdown-submenu">
@@ -166,8 +181,11 @@
                                                                    @Url.Action("Index", "TransportOrder", new { Area = "Procurement" }),
                                                                    ProcurementConstants.Operation.View_Transport_Order)
                             </li>
-
-
+                            <li>
+                                @Html.ProcurementOperationMenuItem(@Html.Translate("Payment Request"),
+                                                                   @Url.Action("Index", "PaymentRequest", new { Area = "Logistics" }),
+                                                                   ProcurementConstants.Operation.View_Payment_History)
+                            </li>
                             <li class="divider" />
                             <li class="dropdown-submenu">
                                 <a href="#" data-toggle="dropdown">Reports</a>
@@ -178,18 +196,18 @@
 
                                     <li>
                                         @Html.LogisticOperationMenuItem(@Html.Translate("Commodity Received Stock"),
-                                                                    @Url.Action("ReceivedCommodity", "LogisticsStockStatus", new { Area = "Logistics" }),
-                                                                    LogisticsConstants.Operation.View_Transport_Requisition)
+                                                                        @Url.Action("ReceivedCommodity", "LogisticsStockStatus", new { Area = "Logistics" }),
+                                                                        LogisticsConstants.Operation.View_Transport_Requisition)
                                     </li>
                                     <li>
                                         @Html.LogisticOperationMenuItem(@Html.Translate("Carry Over Stock"),
-                                                                    @Url.Action("CarryOverStock", "LogisticsStockStatus", new { Area = "Logistics" }),
-                                                                    LogisticsConstants.Operation.View_Transport_Requisition)
+                                                                        @Url.Action("CarryOverStock", "LogisticsStockStatus", new { Area = "Logistics" }),
+                                                                        LogisticsConstants.Operation.View_Transport_Requisition)
                                     </li>
                                     <li>
                                         @Html.LogisticOperationMenuItem(@Html.Translate("Transferred Stock"),
-                                                               @Url.Action("TransferredStock", "LogisticsStockStatus", new { Area = "Logistics" }),
-                                                                LogisticsConstants.Operation.View_Transport_Requisition)
+                                                                        @Url.Action("TransferredStock", "LogisticsStockStatus", new { Area = "Logistics" }),
+                                                                        LogisticsConstants.Operation.View_Transport_Requisition)
                                     </li>
                                     @*<li><a href="#">@Html.Translate("Stock")</a></li>*@
                                 </ul>
@@ -200,8 +218,12 @@
                     </li>
 
                     <li class="dropdown">
+                      @* <div align="center"><a href="@Url.Action("Index","Home",new{Area="Procurement"})"><i class="icon-tasks"></i></a></div>*@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Translator.Translate("Procurement") <b class="caret"></b></a>
                         <ul class="dropdown-menu">
+                            <li>
+                                <a href="@Url.Action("Index","Home",new{Area="Procurement"})">Dashboard</a>
+                            </li>
                             <li>
                                 @Html.ProcurementOperationMenuItem(@Html.Translate("Manage Bids"),
                                                                    @Url.Action("Index", "Bid", new { Area = "Procurement" }),
@@ -210,15 +232,15 @@
 
                             <li>
                                 @Html.ProcurementOperationMenuItem(@Html.Translate("Bid Planning"),
-                                                                    @Url.Action("Index", "TransportBidPlan", new { Area = "Procurement" }),
-                                                                    ProcurementConstants.Operation.View_bid_plan)
+                                                                   @Url.Action("Index", "TransportBidPlan", new { Area = "Procurement" }),
+                                                                   ProcurementConstants.Operation.View_bid_plan)
                             </li>
 
-                            <li>
-                                @Html.ProcurementOperationMenuItem(@Html.Translate("Payment Request"),
-                                                                   @Url.Action("Index", "PaymentRequest", new { Area = "Procurement" }),
+                            @*<li>
+                                @Html.ProcurementOperationMenuItem(@Html.Translate("Validated Payment Requests"),
+                                                                   @Url.Action("Index", "ValidatedPaymentRequest", new { Area = "Procurement" }),
                                                                    ProcurementConstants.Operation.View_Payment_History)
-                            </li>
+                            </li>*@
                             <li class="divider" />
 
                             <li>
@@ -235,7 +257,7 @@
 
                             <li>
                                 @Html.ProcurementOperationMenuItem(@Html.Translate("Price Quotation"),
-                                                                    @Url.Action("BidProposalHeader", "PriceQuotation", new { Area = "Procurement" }),
+                                                                   @Url.Action("BidProposalHeader", "PriceQuotation", new { Area = "Procurement" }),
                                                                    ProcurementConstants.Operation.View_Bid_Proposals)
                             </li>
 
@@ -253,7 +275,7 @@
                             </li>
                             <li>
                                 @Html.ProcurementOperationMenuItem(@Html.Translate("Bid Administration"),
-                                                                    @Url.Action("Index", "BidAdministration", new { Area = "Procurement" }),
+                                                                   @Url.Action("Index", "BidAdministration", new { Area = "Procurement" }),
                                                                    ProcurementConstants.Operation.View_Bid_admin)
                             </li>
                             <li>
@@ -263,9 +285,26 @@
                             </li>
                         </ul>
                     </li>
-
+                    
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Translator.Translate("Hub") <b class="caret"></b></a>
+                        @* <div align="center"><a href="@Url.Action("Index","Home",new{Area="Procurement"})"><i class="icon-tasks"></i></a></div>*@
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Translator.Translate("Finance") <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="@Url.Action("Index","Home",new{Area="Finance"})">Dashboard</a>
+                            </li>
+
+                            
+                            <li class="divider"></li>
+                            <li>
+                                <a href="@Url.Action("Index","ValidatedPaymentRequest",new{Area="Finance"})">Validated Payment Requests</a>
+
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                       
+                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Translator.Translate("Hub") <b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             <li>
                                 @Html.HubOperationMenuItem(@Html.Translate("Receipts"),
@@ -354,17 +393,18 @@
                             </li>
                         </ul>
                     </li>
-                    <li><a href="@Url.Action("Index", "Report", new { Area = "Reports" })">@Translator.Translate("Report")</a></li>
+                    @*<li><a href="@Url.Action("Index", "Report", new { Area = "Reports" })">@Translator.Translate("Report")</a></li>*@
                     @*<li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Translator.Translate("Report") <b class="caret"></b></a>
                         @Html.ReportMenu()
                     </li>*@
+                    
                     <li><a href="@Url.Action("Index", "AdminDashboard", new { Area = "Settings" })">@Translator.Translate("Settings")</a></li>
                 </ul>
                 <ul class="nav pull-right">
-                    @*<li class="divider-vertical"></li>
+                    <li class="divider-vertical"></li>
 
-                    <li class="dropdown">
+                    @*<li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-envelope icon-white"><span class="badge badge-info">@Html.GetUnreadNotifications()</span></i><b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             <li>@Html.GetActiveNotifications()</li>

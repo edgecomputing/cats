@@ -1,0 +1,22 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+@section LeftBar
+{
+    
+}
+<h2>SMS Sender</h2>
+
+@using (Html.BeginForm("SendSMS", "SMS", FormMethod.Post))
+{
+<div>Message</div>
+<input name="message" value="@ViewBag.message" />
+<div>
+Address
+</div>
+<input name="address" value="@ViewBag.address" />
+    
+<input type="submit" value="Send" />    
+}
