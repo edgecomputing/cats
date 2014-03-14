@@ -19,7 +19,7 @@ namespace Cats.Models.Hubs
             receiptAllocationViewModelDto.CommodityID = receiptAllocation.CommodityID;
             receiptAllocationViewModelDto.SINumber = receiptAllocation.SINumber;
             receiptAllocationViewModelDto.QuantityInMT = receiptAllocation.QuantityInMT;
-            
+
             receiptAllocationViewModelDto.HubID = receiptAllocation.HubID;
             receiptAllocationViewModelDto.ETA = receiptAllocation.ETA;
             if (receiptAllocation.DonorID != null) receiptAllocationViewModelDto.DonorID = receiptAllocation.DonorID.Value;
@@ -36,12 +36,12 @@ namespace Cats.Models.Hubs
 
             receiptAllocationViewModelDto.ProgramID = receiptAllocation.ProgramID;
             receiptAllocationViewModelDto.CommoditySourceID = receiptAllocation.CommoditySourceID;
-            
+
             receiptAllocationViewModelDto.CommodityName = receiptAllocation.CommodityName;
             receiptAllocationViewModelDto.ReceivedQuantityInMT = receiptAllocation.ReceivedQuantityInMT;
             receiptAllocationViewModelDto.RemainingBalanceInMt = receiptAllocation.RemainingBalanceInMt;
-            
-            
+
+
             return receiptAllocationViewModelDto;
 
         }
@@ -105,10 +105,10 @@ namespace Cats.Models.Hubs
         public String Remark { get; set; }
 
         public bool UserNotAllowedHub { set; get; }
-        
+
         [UIHint("PreferedWeightMeasurment")]
         public Decimal RemainingBalanceInMt { set; get; }
-        
+
         [UIHint("PreferedWeightMeasurment")]
         public Decimal ReceivedQuantityInMT { get; set; }
 
@@ -121,15 +121,15 @@ namespace Cats.Models.Hubs
         public string CommodityName { set; get; }
 
 
-//        public EntityCollection<CommoditySource> CommoditySource { get; set; }
+        //        public EntityCollection<CommoditySource> CommoditySource { get; set; }
 
-//        public EntityCollection<Donor> Donor { get; set; }
+        //        public EntityCollection<Donor> Donor { get; set; }
 
-//        public EntityCollection<GiftCertificateDetail> GiftCertificateDetail { get; set; }
+        //        public EntityCollection<GiftCertificateDetail> GiftCertificateDetail { get; set; }
 
-//        public EntityCollection<Hub> Hub { get; set; }
+        //        public EntityCollection<Hub> Hub { get; set; }
 
-//        public EntityCollection<Hub> Hub1 { get; set; }
+        //        public EntityCollection<Hub> Hub1 { get; set; }
 
 
     }
@@ -140,7 +140,7 @@ namespace Cats.Models.Hubs
     public class ReceiptAllocationViewModel
     {
         //todo:code smell 
-      //  private IUnitOfWork _Repository = new UnitOfWork();
+        //  private IUnitOfWork _Repository = new UnitOfWork();
         private UserProfile _UserProfile = null;
 
         public List<Commodity> Commodities { get; set; }
@@ -154,6 +154,9 @@ namespace Cats.Models.Hubs
 
         public Nullable<int> UnitID { get; set; }
         public bool IsClosed { get; set; }
+        public Decimal ReceivedQuantityInMT { get; set; }
+
+        public Decimal RemainingBalanceInMT { get; set; }
         /// <summary>
         /// Initializes a new instance of the <see cref="ReceiptAllocationViewModel"/> class.
         /// </summary>
@@ -170,17 +173,17 @@ namespace Cats.Models.Hubs
         /// </summary>
         /// <param name="unitOfWork">The unit of work.</param>
         /// <param name="userProfile">The user profile.</param>
-        public ReceiptAllocationViewModel(List<Commodity> commodities,List<Donor> donors ,List<Hub> allHubs,List<Program> programs  ,List<CommoditySource> commoditySources,List<CommodityType> commodityTypes ,UserProfile user )
+        public ReceiptAllocationViewModel(List<Commodity> commodities, List<Donor> donors, List<Hub> allHubs, List<Program> programs, List<CommoditySource> commoditySources, List<CommodityType> commodityTypes, UserProfile user)
         {
             //_Repository = unitOfWork;
             _UserProfile = user;
-            InitalizeViewModel(  commodities,  donors ,  allHubs,  programs  , commoditySources,  commodityTypes  );
+            InitalizeViewModel(commodities, donors, allHubs, programs, commoditySources, commodityTypes);
         }
 
         /// <summary>
         /// Initalizes the view model.
         /// </summary>
-        public void InitalizeViewModel(List<Commodity> commodities,List<Donor> donors ,List<Hub> allHubs,List<Program> programs  ,List<CommoditySource> commoditySources,List<CommodityType> commodityTypes  )
+        public void InitalizeViewModel(List<Commodity> commodities, List<Donor> donors, List<Hub> allHubs, List<Program> programs, List<CommoditySource> commoditySources, List<CommodityType> commodityTypes)
         {
             Commodities = commodities;//_Repository.Commodity.GetAll().DefaultIfEmpty().OrderBy(o => o.Name).ToList();
             Donors = donors;// _Repository.Donor.GetAll().DefaultIfEmpty().OrderBy(o => o.Name).ToList();
@@ -220,7 +223,7 @@ namespace Cats.Models.Hubs
                 CommodityID = this.CommodityID,
                 HubID = this.HubID,
                 ETA = this.ETA,
-                DonorID = this.DonorID == null ? (int?) null : this.DonorID.Value,
+                DonorID = this.DonorID == null ? (int?)null : this.DonorID.Value,
                 GiftCertificateDetailID = this.GiftCertificateDetailID,
                 PartitionID = this.PartitionID,
                 ProgramID = this.ProgramID,
@@ -231,13 +234,13 @@ namespace Cats.Models.Hubs
                 SupplierName = this.SupplierName,
                 OtherDocumentationRef = this.OtherDocumentationRef,
                 QuantityInUnit = this.QuantityInUnit,
-                Remark = this.Remark           
+                Remark = this.Remark
             };
-            if(this.ReceiptAllocationID.HasValue)
+            if (this.ReceiptAllocationID.HasValue)
             {
                 receiptAllocation.ReceiptAllocationID = this.ReceiptAllocationID.Value;
             }
-            
+
             return receiptAllocation;
         }
 
@@ -254,11 +257,11 @@ namespace Cats.Models.Hubs
             receiptAllocationViewModel.CommodityID = receiptAllocation.CommodityID;
             receiptAllocationViewModel.SINumber = receiptAllocation.SINumber;
             receiptAllocationViewModel.QuantityInMT = receiptAllocation.QuantityInMT;
-            if(receiptAllocation.QuantityInUnit == null)
+            if (receiptAllocation.QuantityInUnit == null)
                 receiptAllocationViewModel.QuantityInUnit = 0;
             else
                 receiptAllocationViewModel.QuantityInUnit = receiptAllocation.QuantityInUnit.Value;
-            
+
             receiptAllocationViewModel.HubID = receiptAllocation.HubID;
             receiptAllocationViewModel.ETA = receiptAllocation.ETA;
             receiptAllocationViewModel.DonorID = receiptAllocation.DonorID;
@@ -280,11 +283,11 @@ namespace Cats.Models.Hubs
         // [Required(ErrorMessage = "Partition is required")]
         public Int32 PartitionID { get; set; }
 
-     //   [Required(ErrorMessage = "Receipt Allocation is required")]
+        //   [Required(ErrorMessage = "Receipt Allocation is required")]
         public Guid? ReceiptAllocationID { get; set; }
 
-    //    [Required(ErrorMessage = "Transaction Group is required")]
-       // [Required(ErrorMessage = "Is Commited is required")]
+        //    [Required(ErrorMessage = "Transaction Group is required")]
+        // [Required(ErrorMessage = "Is Commited is required")]
         public Boolean IsCommited { get; set; }
 
         [Required(ErrorMessage = "ETA is required")]
@@ -305,7 +308,7 @@ namespace Cats.Models.Hubs
         //[Remote("SIMustBeInGift", "ReceiptAllocation", AdditionalFields = "CommoditySourceID", ErrorMessage = "The SInumber not Found in Gift Certificate")]
         [Remote("SINotUnique", "ReceiptAllocation", AdditionalFields = "CommoditySourceID", ErrorMessage = "The SInumber given is Not valid for this Commodity Source")]
         public String SINumber { get; set; }
-        
+
         [Required(ErrorMessage = "Quantity is required")]
         [RegularExpression("[0-9.]*", ErrorMessage = "Only numbers allowed")]
         [Range(0, 999999999.99)]

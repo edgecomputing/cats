@@ -59,8 +59,7 @@ namespace Cats.Areas.Logistics.Controllers
 
         public ActionResult Index()
         {
-            ViewBag.RegionID = 2;
-            ViewBag.RegionName = "Afar";
+            
             return View();
         }
 
@@ -306,6 +305,22 @@ namespace Cats.Areas.Logistics.Controllers
             return Json(siPcAllocated, JsonRequestBehavior.AllowGet);
         }
 
+        #endregion
+
+        #region transporters
+
+        public JsonResult GetTransporters()
+        {
+            var transporters =
+                _transportOrderService.FindBy(s=>s.StatusID <  (int)(Cats.Models.Constant.TransportOrderStatus.Closed) ).Select(p => new{
+                                                                                  name = p.Transporter.Name,
+                                                                                  region = _adminUnitService.FindById(p.Transporter.Region).Name ,
+                                                                                  zone = _adminUnitService.FindById(p.Transporter.Zone).Name,
+                                                                                  transportOrderNo = p.TransportOrderNo,
+                                                                                  mobileNo = p.Transporter.MobileNo
+                                                                              });
+            return Json(transporters, JsonRequestBehavior.AllowGet);
+        }
         #endregion
 
         #endregion

@@ -7,11 +7,6 @@
 
 <h3>@Html.Translate("Are you sure you want to Close this Dispatch Allocation?")</h3>
 
-
-@*    <div class="display-label">Hub</div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.Hub.HubNameWithOwner)
-    </div>*@
 <div style="max-height:150px; overflow:scroll;">
     <div class="display-label">Year</div>
     <div class="display-field">
@@ -78,7 +73,7 @@
 @using (Html.BeginForm("Close", "DispatchAllocation", FormMethod.Post, new { @id = "frm_edit_inline" }))
     {
            @Html.HiddenFor(model => model.DispatchAllocationID)
-
+    <!--
     <p style="clear: both">
         <input type="submit" style="width: 80px; height: 25px; horiz-align: center" class="t-button" value="@Html.Translate("Close")"
             onclick="return CloseDispatchAllocationForm(this)" />
@@ -86,14 +81,5 @@
         value="@Html.Translate("Cancel")"
             onclick="cancel()" />
     </p>
-    <script type="text/javascript">
-
-
-
-    </script>
-    
-@*    <p>
-        <input type="submit" value="Close" /> |
-        @Html.ActionLink("Go Back", "Index","Receive")
-    </p>*@
+        -->
 }
