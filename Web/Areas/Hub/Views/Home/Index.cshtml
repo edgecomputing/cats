@@ -1,13 +1,766 @@
-﻿@using Cats.Web.Hub.Helpers
-@{
-    ViewBag.Title = Html.Translate("DRMFSS Application");
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+    const string PAGE_NAME = "HubDashBoard.Index";
 }
 
-<h2 class="pagetitle"> @Html.Translate("CommodityTracking System")</h2>
-<!-- start content -->
-<p>
-    @Html.Translate(" Welcome to the DRMFSS Food tracking system. ")  
-    @Html.Translate(" This application is developed by the help of WFP to assist ") 
-    @Html.Translate(" with the tracking of Food and non food commodities.")
-    @Html.Translate("Any news article that you have to be aware of will be displayed here.")
-</p>
+@section styles
+{
+    <link href="~/Content/Dashboard/dashboardcomponents.css" rel="stylesheet" />
+}
+
+<div ng-app>
+    <div ng-controller="RegionalDashboardController" class="container">
+        <div>
+            <h2>@ViewBag.RegionName</h2>
+
+            <div class="row" style="border-bottom-width: thin; border-bottom-color: #666; border-bottom-style: inset; margin-top: 5px">
+                <div class="pull-left">
+                    <h4>Stock Status</h4>
+                </div>
+                <div class="pull-right">
+                    <div class="btn-group">
+                        <button id="RequestHeader" type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
+                            <i class="icon-arrow-up"></i>
+                            <i class="icon-arrow-down"></i>
+                        </button>
+
+                    </div>
+                </div>
+            </div>
+            <div id="StockStatusContent" class="row">
+                <div>&nbsp;</div>
+                <div class="span8">
+                    <div class="portlet">
+                        <div class="portlet-header">
+                            <h3>
+                                <i class=""></i>
+                                Stock Status per commodity
+                            </h3>
+                        </div>
+
+                        <!-- /.portlet-header -->
+
+                        <div class="portlet-content">
+                            <th class="table-responsive">
+                                <table id="" class="table table-striped table-checkable">
+                                    <thead>
+                                        <tr>
+                                            <th class="hidden-xs">Commodity</th>
+                                            <th>Free Stock</th>
+                                            <th>Physical Stock</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        <tr class="" ng-repeat="request in Requests">
+                                            <td class="hidden-xs">{{request[1].Value}}</td>
+                                            <td>{{request[2].Value}}</td>
+                                            <td>{{25142|number}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                        </div>
+                        <!-- /.table-responsive -->
+                    </div>
+                    <!-- /.portlet-content -->
+
+                </div>
+                <div class="span3">
+                    <div class="portlet">
+                        <div class="portlet-header">
+                            <h3>
+                                <i class=""></i>
+                                Percentage
+                            </h3>
+                        </div>
+
+                        <!-- /.portlet-header -->
+
+                        <div class="portlet-content">
+                            <div class="progress-stat">
+
+                                <div class="stat-header">
+
+                                    <div class="pull-left">
+                                        Free Stock
+                                    </div>
+                                    <!-- /.stat-label -->
+
+                                    <div class="pull-right">
+                                        {{Data.ApprovedRequests}}%
+                                    </div>
+                                    <!-- /.stat-value -->
+
+                                </div>
+                              
+                                <div class="progress progress-success">
+                                    <div class="bar" style="width: {{Data.ApprovedRequests}}%"></div>
+                                </div>
+                                <!-- /.progress -->
+
+                            </div>
+                            <!-- /.progress-stat -->
+
+                            <div class="progress-stat">
+                                <div class="stat-header">
+                                    <div class="pull-left">
+                                       Physical Stock
+                                    </div>
+                                    <!-- /.stat-label -->
+                                    <div class="pull-right">
+                                        {{Data.PendingRequests}}%
+                                    </div>
+                                    <!-- /.stat-value -->
+                                </div>
+                                <!-- /stat-header -->
+                                <div class="progress progress-success">
+                                    <div class="bar" style="width: {{Data.PendingRequests}}%"></div>
+                                </div>
+                                <!-- /.progress -->
+                            </div>
+                            <!-- /.progress-stat -->
+
+                            <br>
+                        </div>
+                        <!-- /.portlet-content -->
+
+                    </div>
+                    <!-- /.portlet -->
+                </div>
+                <!-- /.portlet -->
+            </div>
+        </div>
+
+        <div>
+            <div class="row" style="border-bottom-width: thin; border-bottom-color: #666; border-bottom-style: inset; margin-top: 5px">
+                <div class="pull-left">
+                    <h4>Dispatches</h4>
+                </div>
+                <div class="pull-right">
+                    <div class="btn-group">
+                        <button id="RequestHeader" type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
+                            <i class="icon-arrow-up"></i>
+                            <i class="icon-arrow-down"></i>
+                        </button>
+
+                    </div>
+                </div>
+            </div>
+            <div id="RequestContent" class="row">
+                <div>&nbsp;</div>
+                <div class="span8">
+                    <div class="portlet">
+                        <div class="portlet-header">
+                            <h3>
+                                <i class=""></i>
+                                Recent Requests
+                            </h3>
+                            <ul class="portlet-tools pull-right">
+                                <li>
+                                    <button class="btn btn-sm btn-default">
+                                        Show more
+                                    </button>
+                                    <button class="btn btn-sm btn-default">
+                                        New Request
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- /.portlet-header -->
+
+                        <div class="portlet-content">
+                            <th class="table-responsive">
+                                <table id="" class="table table-striped table-checkable">
+                                    <thead>
+                                        <tr>
+                                            <th class="hidden-xs">Number</th>
+                                            <th>FDPS</th>
+                                            <th>Beneficiaries</th>
+                                            <th>Amount(QT)</th>
+                                            <th>Detail</th>
+                                            <th>Status</th>
+                                            <th class="align-center">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        <tr class="" ng-repeat="request in Requests">
+                                            @*<td class="hidden-xs">{{request[1].Value}}</td>
+                                                <td>{{request[3].Value| date:'medium'}}</td>
+                                                <td><span class="label label-success">{{request[4].Value}}</span></td>
+                                                <td class="align-center">
+                                                    <a class="btn btn-sm btn-default" data-original-title="Approve">
+                                                        <i class="icon-upload"></i>Approve
+                                                    </a>
+                                                </td>*@
+                                            <td class="hidden-xs">{{request[1].Value}}</td>
+                                            <td>{{request[2].Value}}</td>
+                                            <td>{{25142|number}}</td>
+                                            <th>{{1442|number}} QT</th>
+                                            <th>
+                                                <a href="javascript:;" class="btn btn-sm btn-default">
+                                                    View <i class="icon-chevron-right"></i>
+                                                </a>
+                                            </th>
+                                            <td><span class="label label-success">{{request[4].Value}}</span></td>
+                                            <td class="align-center">
+                                                <a class="btn btn-sm btn-default" data-original-title="Approve">
+                                                    <i class="icon-upload"></i>Approve
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                        </div>
+                        <!-- /.table-responsive -->
+                    </div>
+                    <!-- /.portlet-content -->
+
+                </div>
+                <div class="span3">
+                    <div class="portlet">
+                        <div class="portlet-header">
+                            <h3>
+                                <i class=""></i>
+                                Percentage
+                            </h3>
+                        </div>
+
+                        <!-- /.portlet-header -->
+
+                        <div class="portlet-content">
+                            <div class="progress-stat">
+
+                                <div class="stat-header">
+
+                                    <div class="pull-left">
+                                        Approved Requests
+                                    </div>
+                                    <!-- /.stat-label -->
+
+                                    <div class="pull-right">
+                                        {{Data.ApprovedRequests}}%
+                                    </div>
+                                    <!-- /.stat-value -->
+
+                                </div>
+                                <!-- /stat-header -->
+                                @*<div class="progress progress-bar-success">
+                                        <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="33" aria-valuemin="0" aria-valuemax="100" style="width: 33%">
+                                            <span class="sr-only">33% Approved</span>
+                                        </div>
+                                    </div>*@
+                                <div class="progress progress-success">
+                                    <div class="bar" style="width: {{Data.ApprovedRequests}}%"></div>
+                                </div>
+                                <!-- /.progress -->
+
+                            </div>
+                            <!-- /.progress-stat -->
+
+                            <div class="progress-stat">
+                                <div class="stat-header">
+                                    <div class="pull-left">
+                                        Pending Requests
+                                    </div>
+                                    <!-- /.stat-label -->
+                                    <div class="pull-right">
+                                        {{Data.PendingRequests}}%
+                                    </div>
+                                    <!-- /.stat-value -->
+                                </div>
+                                <!-- /stat-header -->
+                                <div class="progress progress-success">
+                                    <div class="bar" style="width: {{Data.PendingRequests}}%"></div>
+                                </div>
+                                <!-- /.progress -->
+                            </div>
+                            <!-- /.progress-stat -->
+
+                            <div class="progress-stat">
+
+                                <div class="stat-header">
+
+                                    <div class="pull-left">
+                                        Allocated
+                                    </div>
+                                    <!-- /.stat-label -->
+
+                                    <div class="pull-right">
+                                        {{Data.HubAssignedRequests}}%
+                                    </div>
+                                    <!-- /.stat-value -->
+
+                                </div>
+                                <!-- /stat-header -->
+
+                                <div class="progress progress-success">
+                                    <div class="bar" style="width: {{Data.HubAssignedRequests}}%"></div>
+                                </div>
+                                <!-- /.progress -->
+
+                            </div>
+                            <!-- /.progress-stat -->
+
+                            <br>
+                        </div>
+                        <!-- /.portlet-content -->
+
+                    </div>
+                    <!-- /.portlet -->
+                </div>
+                <!-- /.portlet -->
+            </div>
+        </div>
+
+        <div>
+            <div class="row" style="border-bottom-width: thin; border-bottom-color: #666; border-bottom-style: inset; margin-top: 5px">
+
+                <div class="pull-left">
+                    <h4> Receiving allocation </h4>
+                </div>
+                <div class="pull-right">
+                    <div class="btn-group">
+                        <button id="RequisitionHeader" type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
+                            <i class="icon-arrow-up"></i>
+                            <i class="icon-arrow-down"></i>
+                        </button>
+
+                    </div>
+                </div>
+            </div>
+            <div id="RequisitionContent" class="row">
+                <div>&nbsp;</div>
+                <div class="span4">
+
+                    <div class="portlet">
+                        <div class="portlet-header">
+                            <h3>
+                                <i class=""></i>
+                                Requisitions Percentage by Status
+                            </h3>
+                        </div>
+
+                        <!-- /.portlet-header -->
+
+                        <div class="portlet-content">
+                            <div class="progress-stat">
+
+                                <div class="stat-header">
+
+                                    <div class="pull-left">
+                                        Approved Requisitions
+                                    </div>
+                                    <!-- /.stat-label -->
+
+                                    <div class="pull-right">
+                                        {{Data.ApprovedRequisitions}}%
+                                    </div>
+                                    <!-- /.stat-value -->
+
+                                </div>
+                                <!-- /stat-header -->
+
+                                <div class="progress progress-success">
+                                    <div class="bar" style="width: {{Data.ApprovedRequisitions}}%"></div>
+                                </div>
+                                <!-- /.progress -->
+
+                            </div>
+                            <!-- /.progress-stat -->
+
+                            <div class="progress-stat">
+
+                                <div class="stat-header">
+
+                                    <div class="pull-left">
+                                        Pending Requisitions
+                                    </div>
+                                    <!-- /.stat-label -->
+
+                                    <div class="pull-right">
+                                        {{Data.PendingRequisitions}}%
+                                    </div>
+                                    <!-- /.stat-value -->
+
+                                </div>
+                                <!-- /stat-header -->
+
+                                <div class="progress progress-success">
+                                    <div class="bar" style="width:  {{Data.PendingRequisitions}}%"></div>
+                                </div>
+                                <!-- /.progress -->
+
+                            </div>
+                            <!-- /.progress-stat -->
+
+                            <div class="progress-stat">
+
+                                <div class="stat-header">
+
+                                    <div class="pull-left">
+                                        Hub Assigned
+                                    </div>
+                                    <!-- /.stat-label -->
+
+                                    <div class="pull-right">
+                                        {{Data.HubAssignedRequisitions}}%
+                                    </div>
+                                    <!-- /.stat-value -->
+
+                                </div>
+                                <!-- /stat-header -->
+
+                                <div class="progress progress-success">
+                                    <div class="bar" style="width: {{Data.HubAssignedRequisitions}}%"></div>
+                                </div>
+                                <!-- /.progress -->
+
+                            </div>
+                            <!-- /.progress-stat -->
+
+                            <br>
+                        </div>
+                        <!-- /.portlet-content -->
+
+                    </div>
+                    <!-- /.portlet -->
+                </div>
+                <div class="span7">
+                    <div class="portlet">
+                        <div class="portlet-header">
+                            <h3>
+                                <i class=""></i>
+                                Recent Requisitions
+                            </h3>
+                            <ul class="portlet-tools pull-right">
+                                <li>
+                                    <button class="btn btn-sm btn-default">
+                                        Show more
+                                    </button>
+
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- /.portlet-header -->
+                        <div class="portlet-content">
+                            <th class="table-responsive">
+                                <table id="" class="table table-striped table-checkable">
+                                    <thead>
+                                        <tr>
+                                            <th class="hidden-xs">Number</th>
+                                            <th>Commodity</th>
+                                            <th>Beneficiaries</th>
+                                            <th>Amount(QT)</th>
+                                            <th>Status</th>
+                                            <th class="align-center">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @* <tr class="">
+                                                <td class="hidden-xs">REQ-1206</td>
+                                                <td>Pulse</td>
+                                                <td>{{8000|number}}</td>
+                                                <th>{{120|number}} QT</th>
+                                                <td><span class="label label-success">Approved</span></td>
+                                                <td>
+                                                    <a href="javascript:;" class="btn btn-sm btn-default">View <i class="icon-chevron-right"></i>
+                                                    </a>
+
+                                                </td>
+                                            </tr>
+
+                                            <tr class="">
+                                                <td class="hidden-xs">REQ-1824</td>
+                                                <td>Cereal</td>
+                                                <td>{{7500|number}}</td>
+                                                <th>{{142|number}} QT</th>
+                                                <td><span class="label label-danger">Pending</span></td>
+                                                <td>
+                                                    <a href="javascript:;" class="btn btn-sm btn-default">View <i class="icon-chevron-right"></i>
+                                                    </a>
+                                                    <a class="btn btn-sm btn-default" data-original-title="Approve">
+                                                        <i class="icon-upload"></i>Approve
+                                                    </a>
+                                                </td>
+                                            </tr>
+
+                                            <tr class="">
+                                                <td class="hidden-xs">REQ-1325</td>
+                                                <td>Oil</td>
+                                                <td>{{5824|number}}</td>
+                                                <th>{{546|number}} QT</th>
+                                                <td><span class="label label-success">Approved</span></td>
+                                                <td>
+                                                    <a href="javascript:;" class="btn btn-sm btn-default">View <i class="icon-chevron-right"></i>
+                                                    </a>
+
+                                                </td>
+                                            </tr>
+
+                                            <tr class="">
+                                                <td class="hidden-xs">REQ-0026</td>
+                                                <td>Wheat</td>
+                                                <td>{{9251|number}}</td>
+                                                <th>{{280|number}} QT</th>
+                                                <td><span class="label label-danger">Pending</span></td>
+                                                <td>
+                                                    <a href="javascript:;" class="btn btn-sm btn-default">View <i class="icon-chevron-right"></i>
+                                                    </a>
+                                                    <a class="btn btn-sm btn-default" data-original-title="Approve">
+                                                        <i class="icon-upload"></i>Approve
+                                                    </a>
+                                                </td>
+                                            </tr>*@
+
+                                        <tr class="" ng-repeat="requisition in Requisitions">
+
+                                            <td>{{requisition[1].Value}}</td>
+                                            <th>{{requisition[7].Value}}</th>
+                                            <td>{{requisition[2].Value|number}}</td>
+                                            <th>{{requisition[3].Value|number}} QT</th>
+
+                                            <td><span class="label label-danger">{{requisition[4].Value}}</span></td>
+                                            <td>
+                                                <a ng-href="@Url.Action("Allocation", "ReliefRequisition", new { Area = "EarlyWarning", id = 2 })" class="btn btn-sm btn-default">
+                                                    View <i class="icon-chevron-right"></i>
+                                                </a>
+
+                                                <a class="btn btn-sm btn-default" data-original-title="Approve">
+                                                    <i class="icon-upload"></i>Approve
+                                                </a>
+                                            </td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+
+                        </div>
+                        <!-- /.table-responsive -->
+                    </div>
+                    <!-- /.portlet-content -->
+                </div>
+                <!-- /.portlet -->
+            </div>
+        </div>
+
+        <div>
+            <div class="row" style="border-bottom-width: thin; border-bottom-color: #666; border-bottom-style: inset; margin-top: 5px">
+                <div class="pull-left">
+                    <h4>Transporters with active transport orders</h4>
+                </div>
+                <div class="pull-right">
+                    <div class="btn-group">
+                        <button id="DispatchHeader" type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
+                            <i class="icon-arrow-up"></i>
+                            <i class="icon-arrow-down"></i>
+                        </button>
+
+                    </div>
+                </div>
+            </div>
+
+            <div id="DispatchContent" class="row">
+                <div>&nbsp;</div>
+
+                <div class="span8">
+                    <div class="portlet">
+                        <div class="portlet-header">
+                            <h3>
+                                <i class=""></i>
+                                Incoming Dispatches
+                            </h3>
+                            <ul class="portlet-tools pull-right">
+                                <li>
+                                    <button class="btn btn-sm btn-default">
+                                        Show more
+                                    </button>
+                                    <a class="btn btn-sm btn-default" href="@Url.Action("Index", "DeliveryReconcile", new { Area = "Logistics", regionID = ViewBag.RegionID })">FDP Commodity Receipt</a>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- /.portlet-header -->
+
+                        <div class="portlet-content">
+                            <th class="table-responsive">
+                                <table id="" class="table table-striped table-checkable">
+                                    <thead>
+                                        <tr>
+                                            <th>FDP</th>
+                                            <th>Woreda</th>
+                                            <th>Commodity</th>
+                                            <th>Quantity(QT)</th>
+                                            <th>Source Hub</th>
+                                            <th>Transporter</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @*<tr class="">
+                                                <td class="hidden-xs">Adahar</td>
+                                                <td>Chefera</td>
+                                                <td>Pulse</td>
+                                                <td>{{510|number:2}}</td>
+                                                <th>Adama Hub</th>
+                                                <td>Weyra</td>
+                                            </tr>
+                                            <tr class="">
+                                                <td class="hidden-xs">Asayta</td>
+                                                <td>Asayta</td>
+                                                <td>Pulse</td>
+                                                <td>{{510|number:2}}</td>
+                                                <th>Adama Hub</th>
+                                                <td>Tana</td>
+                                            </tr>
+                                            <tr class="">
+                                                <td class="hidden-xs">Gagu</td>
+                                                <td>Mille</td>
+                                                <td>Cereal</td>
+                                                <td>{{451|number:2}}</td>
+                                                <th>Adama Hub</th>
+                                                <td>Trans</td>
+                                            </tr>*@
+
+                                        <tr class="" ng-repeat="dispatch in Dispatches">
+                                            <td>{{dispatch[0].Value}}</td>
+                                            <th>{{dispatch[1].Value}}</th>
+                                            <td>{{dispatch[2].Value}}</td>
+                                            <th>{{dispatch[5].Value|number:2}} QT</th>
+                                            <td>{{dispatch[3].Value}}</td>
+                                            <th>{{dispatch[4].Value}}</th>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                        </div>
+                        <!-- /.table-responsive -->
+                    </div>
+                    <!-- /.portlet-content -->
+                </div>
+                <div class="span3">
+
+                    <div class="portlet">
+                        <!-- /.portlet-header -->
+
+                        <div class="">
+                            <a href="javascript:;" class="dashboard-stat">
+                                <div class="details ">
+                                    <span class="content">Number of Incoming Dispatches</span>
+                                    <span class="value">{{Data.IncomingDispatches|number}} </span>
+                                </div>
+                            </a>
+                            <br>
+                        </div>
+
+                        <div class="">
+                            <a href="javascript:;" class="dashboard-stat">
+                                <div class="details ">
+                                    <span class="content">Total Incoming Commodity</span>
+                                    <span class="value">{{Data.IncomingCommodity|number}} QT </span>
+                                </div>
+                            </a>
+                            <br>
+                        </div>
+                        <!-- /.portlet-content -->
+
+                    </div>
+                    <!-- /.portlet -->
+                </div>
+                <!-- /.portlet -->
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    $("#RequestHeader").click(function () {
+        $("#RequestContent").slideToggle("slow", "linear");
+    });
+
+    $("#RequisitionHeader").click(function () {
+        $("#RequisitionContent").slideToggle("slow", "linear");
+    });
+
+    $("#DispatchHeader").click(function () {
+        $("#DispatchContent").slideToggle("slow", "linear");
+    });
+
+    $("#DistributionHeader").click(function () {
+        $("#DistributionContent").slideToggle("slow", "linear");
+    });
+</script>
+
+<script>
+    function RegionalDashboardController($scope, $http) {
+
+        $scope.reqParam = { regionID: 2 };
+        $scope.Requests = [];
+        $scope.Requisitions = [];
+        $scope.Dispatches = [];
+        $scope.Data = [];
+
+        var onRequestsSuccess = function (data) {
+            $scope.Requests = data;
+        };
+
+        var onRequisitionsSuccess = function (data) {
+            $scope.Requisitions = data;
+        };
+
+        var onDispatchesSuccess = function (data) {
+            $scope.Dispatches = data;
+        };
+
+        var onDashboardDataSuccess = function (data) {
+            $scope.Data = data;
+        };
+
+
+
+        $scope.getRequests = function () {
+            $http.post("@Url.Action("Requests", "FetchData", new { Area = "Regional" })", $scope.reqParam).success(onRequestsSuccess);
+        };
+
+        $scope.getRequisitions = function () {
+            $http.post("@Url.Action("Requisitions", "FetchData", new { Area = "Regional" })", $scope.reqParam).success(onRequisitionsSuccess);
+        };
+
+        $scope.getDispatches = function() {
+            $http.post("@Url.Action("Dispatches", "FetchData", new { Area = "Regional" })", $scope.reqParam).success(onDispatchesSuccess);
+        };
+
+        $scope.getDispatches = function () {
+            $http.post("@Url.Action("Dispatches", "FetchData", new { Area = "Regional" })", $scope.reqParam).success(onDispatchesSuccess);
+        };
+
+        $scope.getRegionalData = function() {
+            $http.post("@Url.Action("RegionalData", "FetchData", new { Area = "Regional" })", $scope.reqParam).success(onDashboardDataSuccess);
+        };
+
+        $scope.getRequests();
+        $scope.getRequisitions();
+        $scope.getDispatches();
+        $scope.getRegionalData();
+    }
+
+
+    function ImportantNumbersController($scope, $http) {
+        $scope.reqParam = { regionID: 2 };
+        $scope.Numbers = [];
+
+        var onNumbersSuccess = function (data) {
+            $scope.Numbers = data;
+        };
+
+        $scope.getNumbers = function () {
+            $http.post("@Url.Action("ImportantNumbers", "FetchData", new { Area = "Regional" })", $scope.reqParam).success(onNumbersSuccess);
+        };
+
+        $scope.getNumbers();
+    }
+
+</script>

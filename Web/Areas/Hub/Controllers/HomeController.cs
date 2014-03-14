@@ -26,6 +26,7 @@ namespace Cats.Areas.Hub.Controllers
         }
         public ActionResult Index()
         {
+            ViewBag.RegionName = "Adama Hub";
             return View();
         }
 
