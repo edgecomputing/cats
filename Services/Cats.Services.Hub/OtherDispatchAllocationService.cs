@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 
 using System.Linq;
-using Cats.Data.Hub;
+using Cats.Data.Hub.UnitWork;
 using Cats.Models.Hubs;
 using Cats.Models.Hubs.ViewModels;
 using Cats.Models.Hubs.ViewModels.Dispatch;
@@ -23,7 +23,7 @@ namespace Cats.Services.Hub
         public OtherDispatchAllocationService(IUnitOfWork unitOfWork, IProjectCodeService projectCodeService, IShippingInstructionService ShippingInstructionService)
         {
             this._unitOfWork = unitOfWork;
-            this._projectCodeService=projectCodeService;
+            this._projectCodeService = projectCodeService;
             this._shippingInstructionService = ShippingInstructionService;
         }
         #region Default Service Implementation
@@ -102,7 +102,7 @@ namespace Cats.Services.Hub
                 oAllocation.CommodityID = model.CommodityID;
                 oAllocation.EstimatedDispatchDate = model.EstimatedDispatchDate;
                 oAllocation.IsClosed = model.IsClosed;
-                oAllocation.ProjectCodeID =  _projectCodeService.GetProjectCodeId(model.ProjectCode);
+                oAllocation.ProjectCodeID = _projectCodeService.GetProjectCodeId(model.ProjectCode);
                 oAllocation.ShippingInstructionID =
                     _shippingInstructionService.GetShipingInstructionId(model.ShippingInstruction);
                 oAllocation.UnitID = model.UnitID;
@@ -111,7 +111,7 @@ namespace Cats.Services.Hub
                 oAllocation.QuantityInUnit = model.QuantityInUnit;
                 oAllocation.Remark = model.Remark;
                 //Modify Banty :From SaveChanges(oAllocation) to SaveChanges()
-               // repository.OtherDispatchAllocation.SaveChanges(oAllocation);
+                // repository.OtherDispatchAllocation.SaveChanges(oAllocation);
                 _unitOfWork.Save();
 
             }
@@ -141,7 +141,7 @@ namespace Cats.Services.Hub
                 oAllocation.Remark = model.Remark;
                 _unitOfWork.OtherDispatchAllocationRepository.Add(oAllocation);//
                 _unitOfWork.Save();
-                
+
             }
 
         }
@@ -149,7 +149,7 @@ namespace Cats.Services.Hub
 
         public OtherDispatchAllocationViewModel GetViewModelByID(Guid otherDispatchAllocationId)
         {
-            var  OtherDispach =  _unitOfWork.OtherDispatchAllocationRepository.Get();
+            var OtherDispach = _unitOfWork.OtherDispatchAllocationRepository.Get();
             var model = (from v in OtherDispach
                          where v.OtherDispatchAllocationID == otherDispatchAllocationId
                          select v).FirstOrDefault();
@@ -202,14 +202,14 @@ namespace Cats.Services.Hub
         {
             return GetCommitedLoanAllocationsDetached(user, user.DefaultHub.HubID, closedToo, CommodityType);
         }
-        public List<OtherDispatchAllocationDto> GetCommitedLoanAllocationsDetached(UserProfile user,int hubId, bool? closedToo, int? CommodityType)
+        public List<OtherDispatchAllocationDto> GetCommitedLoanAllocationsDetached(UserProfile user, int hubId, bool? closedToo, int? CommodityType)
         {
 
             List<OtherDispatchAllocationDto> LoanList = new List<OtherDispatchAllocationDto>();
 
             var Loans = (from v in _unitOfWork.OtherDispatchAllocationRepository.Get()
                          where v.HubID == hubId
-                        // where v.HubID == user.DefaultHub.HubID && v.Hub1.HubOwnerID != user.DefaultHub.HubOwnerID
+                         // where v.HubID == user.DefaultHub.HubID && v.Hub1.HubOwnerID != user.DefaultHub.HubOwnerID
                          select v
                         );
 
@@ -265,15 +265,15 @@ namespace Cats.Services.Hub
 
         public List<OtherDispatchAllocationDto> GetCommitedTransferAllocationsDetached(UserProfile user, bool? closedToo, int? CommodityType)
         {
-            return GetCommitedTransferAllocationsDetached(user,user.DefaultHub.HubID, closedToo, CommodityType);
+            return GetCommitedTransferAllocationsDetached(user, user.DefaultHub.HubID, closedToo, CommodityType);
         }
-        public List<OtherDispatchAllocationDto> GetCommitedTransferAllocationsDetached(UserProfile user,int hubId, bool? closedToo, int? CommodityType)
+        public List<OtherDispatchAllocationDto> GetCommitedTransferAllocationsDetached(UserProfile user, int hubId, bool? closedToo, int? CommodityType)
         {
             List<OtherDispatchAllocationDto> TransferList = new List<OtherDispatchAllocationDto>();
 
             var Transafers = (from v in _unitOfWork.OtherDispatchAllocationRepository.Get()
-                            //  where v.HubID == user.DefaultHub.HubID && v.Hub1.HubOwnerID == user.DefaultHub.HubOwnerID
-                            where v.HubID ==hubId
+                              //  where v.HubID == user.DefaultHub.HubID && v.Hub1.HubOwnerID == user.DefaultHub.HubOwnerID
+                              where v.HubID == hubId
                               select v
                         );
 
@@ -332,11 +332,11 @@ namespace Cats.Services.Hub
             var delAllocation = _unitOfWork.OtherDispatchAllocationRepository.Get().FirstOrDefault(allocation => allocation.OtherDispatchAllocationID == id);
             if (delAllocation != null) delAllocation.IsClosed = true;
             delAllocation.IsClosed = true;
-          //  _unitOfWork.OtherDispatchAllocationRepository.Add(delAllocation);
+            //  _unitOfWork.OtherDispatchAllocationRepository.Add(delAllocation);
             _unitOfWork.Save();
         }
 
-       
+
 
     }
 }

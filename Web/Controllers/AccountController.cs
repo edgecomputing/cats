@@ -36,9 +36,10 @@ namespace Cats.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public ActionResult Login()
+        public ActionResult Login(string returnUrl)
         {
             ViewBag.HasError = false;
+            ViewBag.returnUrl = returnUrl;
             return View();
         }
 
@@ -48,6 +49,7 @@ namespace Cats.Controllers
         {
             // Check if the supplied credentials are correct.
             ViewBag.HasError = false;
+            ViewBag.returnUrl = returnUrl;
             try
             {
                 if (_userAccountService.Authenticate(model.UserName, model.Password))

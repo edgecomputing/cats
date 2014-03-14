@@ -1,4 +1,5 @@
-﻿@using StackExchange.Profiling;
+﻿@*using StackExchange.Profiling;
+*@
 @using Cats.Services.Security;
 @using Cats.Helpers;
 @using LanguageHelpers.Localization
@@ -235,6 +236,9 @@
     <script src="~/Content/assets/js/jquery.validate.min.js"></script>
     <script src="~/Content/assets/js/jquery.validate.js"></script>
 
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
 
     <link href="~/Scripts/Beka.EthDate/jquery-ui-1.9.2.custom.css" rel="stylesheet" type="text/css" />
 
@@ -335,7 +339,8 @@
 
     </script>
 
-    @MiniProfiler.RenderIncludes()
+    @*MiniProfiler.RenderIncludes()
+    *@
     <!-- JIRA Collector scripts -->
     @*<script type="text/javascript" src="https://cats-edge.atlassian.net/s/d41d8cd98f00b204e9800998ecf8427e/en_US-d926hj-1988229788/6207/22/1.4.3/_/download/batch/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector.js?collectorId=630f8204"></script>*@
 
