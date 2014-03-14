@@ -17,7 +17,19 @@
     <body data-ng-controller="PaymentRequestManagementController">
         <div id="modalLabourCostInfo">
             <div class="form-horizontal well" style=" padding-left: 40px;margin-left:0px;width:400px;height:250px;float: right;">
-                
+                <div class="row">
+                    <div class="span6">
+                        <div class="control-group">
+                            <div class="control-label">
+                                <label for="PaymentRequest_ReferenceNo">Referrence No.</label>
+                            </div>
+                            <div class="controls">
+                                <input type="text" value="{{SelectedLabourInfo.ReferenceNo}}" name="PaymentRequest.ReferenceNo" id="PaymentRequest_ReferenceNo" 
+                                       data-ng-model="SelectedLabourInfo.ReferenceNo" disabled="disabled"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="span6">
                         <div class="control-group">
@@ -39,7 +51,7 @@
                             </div>
                             <div class="controls">
                                 <input type="text" value="{{SelectedLabourInfo.LabourCostRate}}" name="PaymentRequest.LabourCostRate" id="PaymentRequest_LabourCostRate" 
-                                       data-ng-model="SelectedLabourInfo.LabourCostRate" data-ng-keypress="labourCostRateKeyPressed()"/>
+                                       data-ng-model="SelectedLabourInfo.LabourCostRate" data-ng-change="labourCostRateKeyPressed()"/>
                             </div>
                         </div>
                     </div>
@@ -81,10 +93,22 @@
             });
         </script>
         <div id="modalChequeInfo">
-            <div class="form-horizontal well" style=" padding-left: 40px;margin-left:0px;width:400px;height:350px;float: right;">
-                
+            <div class="form-horizontal well" style=" padding-left: 10px;margin-left:0px;width:530px;height:350px;float: right;">
                 <div class="row">
                     <div class="span6">
+                        <div class="control-group">
+                            <div class="control-label">
+                                <label for="PaymentRequestRefNo">Referrence No.</label>
+                            </div>
+                            <div class="controls">
+                                <input type="text" value="{{SelectedCheckInfo.PaymentRequestRefNo}}" name="PaymentRequest.PaymentRequestRefNo" id="PaymentRequestRefNo" 
+                                       data-ng-model="SelectedCheckInfo.PaymentRequestRefNo" disabled="disabled"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="span2">
                         <div class="control-group">
                             <div class="control-label">
                                 <label for="CheckInfo_CheckNo">Check No.</label>
@@ -97,59 +121,20 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="span6">
+                    <div class="span2">
                         <div class="control-group">
                             <div class="control-label">
-                                <label for="CheckInfo_Amount">Amount</label>
+                                <label for="CheckInfo_PaymentVoucherNo">Payment Voucher No.</label>
                             </div>
                             <div class="controls">
-                                <input type="text" value="{{SelectedCheckInfo.Amount}}" name="CheckInfo.Amount" id="CheckInfo_Amount" 
-                                       data-ng-model="SelectedCheckInfo.Amount"/>
+                                <input type="text" value="{{SelectedCheckInfo.PaymentVoucherNo}}" name="CheckInfo.PaymentVoucherNo" id="CheckInfo_PaymentVoucherNo" 
+                                       data-ng-model="SelectedCheckInfo.PaymentVoucherNo"/>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="span6">
-                        <div class="control-group">
-                            <div class="control-label">
-                                <label for="CheckInfo_PreparedBy">Prepared By</label>
-                            </div>
-                            <div class="controls">
-                                <input type="text" value="{{SelectedCheckInfo.PreparedBy}}" name="CheckInfo.Amount" id="CheckInfo_PreparedBy" 
-                                       data-ng-model="SelectedCheckInfo.PreparedBy"/>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="span6">
-                        <div class="control-group">
-                            <div class="control-label">
-                                <label for="CheckInfo_AppovedBy">Appoved By</label>
-                            </div>
-                            <div class="controls">
-                                <input type="text" value="{{SelectedCheckInfo.AppovedBy}}" name="CheckInfo.AppovedBy" id="CheckInfo_AppovedBy" 
-                                       data-ng-model="SelectedCheckInfo.AppovedBy"/>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="span6">
-                        <div class="control-group">
-                            <div class="control-label">
-                                <label for="CheckInfo_AppovedDate">Appoved Date</label>
-                            </div>
-                            <div class="controls">
-                                <input type="text" value="{{SelectedCheckInfo.AppovedDate}}" name="CheckInfo.AppovedDate" id="CheckInfo_AppovedDate" 
-                                       data-ng-model="SelectedCheckInfo.AppovedDate"/>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="span6">
+                    <div class="span2">
                         <div class="control-group">
                             <div class="control-label">
                                 <label for="CheckInfo_BankName">Bank Name</label>
@@ -162,7 +147,60 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="span6" style="width:400px;">
+                    <div class="span2">
+                        <div class="control-group">
+                            <div class="control-label">
+                                <label for="CheckInfo_Amount">Amount</label>
+                            </div>
+                            <div class="controls">
+                                <input type="text" value="{{SelectedCheckInfo.Amount}}" name="CheckInfo.Amount" id="CheckInfo_Amount" 
+                                       data-ng-model="SelectedCheckInfo.Amount"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="span2">
+                        <div class="control-group">
+                            <div class="control-label">
+                                <label for="CheckInfo_PreparedBy">Prepared By</label>
+                            </div>
+                            <div class="controls">
+                                <input type="text" value="{{SelectedCheckInfo.PreparedBy}}" name="CheckInfo.PreparedBy" id="CheckInfo_PreparedBy" 
+                                       data-ng-model="SelectedCheckInfo.PreparedBy" disabled="disabled"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="span2">
+                        <div class="control-group">
+                            <div class="control-label">
+                                <label for="CheckInfo_AppovedBy">Appoved By</label>
+                            </div>
+                            <div class="controls">
+                                <input type="text" value="{{SelectedCheckInfo.AppovedBy}}" name="CheckInfo.AppovedBy" id="CheckInfo_AppovedBy" 
+                                       data-ng-model="SelectedCheckInfo.AppovedBy" disabled="disabled"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="span2">
+                        <div class="control-group">
+                            <div class="control-label">
+                                <label for="datepicker">Appoved Date</label>
+                            </div>
+                            <div class="controls">
+                                <input class="cats-datepicker2" type="text" value="{{SelectedCheckInfo.Transporter}}" name="CheckInfo.AppovedDate"  id="datepicker"
+                                       data-ng-model="SelectedCheckInfo.AppovedDate" disabled="disabled"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="span2" style="width:400px;">
                         <div class="control-group message-box" style="float: left;"></div>
                         <div class="control-group" style="float: right;">
                             <button class="btn" data-ng-click="editChequeInfo()">Save</button>
@@ -175,7 +213,7 @@
             var wndChequeInfo;
             $(document).ready(function () {
                 wndChequeInfo = $("#modalChequeInfo").kendoWindow({
-                    title: "Edit Labour Cost Info.",
+                    title: "Edit Cheque Info.",
                     modal: true,
                     visible: false,
                     resizable: false,
@@ -319,6 +357,16 @@
                     }
                 };
                 
+                $scope.labourCostRateKeyPressed = function () {
+                    //alert("LabourCost: " + $scope.SelectedLabourInfo.LabourCost);
+                    if ($scope.SelectedLabourInfo != []) {
+                        $scope.SelectedLabourInfo.LabourCost = $scope.SelectedLabourInfo.RequestedAmount * $scope.SelectedLabourInfo.LabourCostRate;
+                        //alert("LabourCost: " + $scope.SelectedLabourInfo.LabourCost);
+                    } else {
+                    }
+                    //alert("LabourCost: " + $scope.SelectedLabourInfo.LabourCost);
+                };
+                
                 $scope.loadChequeInfo = function (id) {
                     var paymentRequestId = { "paymentRequestID": id };
                     //$("#" + dispatchId).addClass("selected");
@@ -327,6 +375,8 @@
                         success(function (data, status, headers, config) {
                             //alert(data["ReceivedBy"]);
                             $scope.SelectedCheckInfo = data;
+                            if (data.AppovedDate == null)
+                                $scope.SelectedCheckInfo.AppovedDate = "";
                             //$scope.GRNDetail.DispatchID = id;
                         }).
                         error(function (data, status, headers, config) {
@@ -348,7 +398,7 @@
                     }
                 };
             });
-
+            init_datepicker();
         </script>
     </body>
 </html>

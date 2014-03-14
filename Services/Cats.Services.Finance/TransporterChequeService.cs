@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using Cats.Data.UnitWork;
 using Cats.Models;
@@ -58,6 +59,12 @@ namespace Cats.Services.Finance
         public List<TransporterCheque> FindBy(Expression<Func<TransporterCheque, bool>> predicate)
         {
             return _unitOfWork.TransporterChequeRepository.FindBy(predicate);
+        }
+        public IEnumerable<TransporterCheque> Get(System.Linq.Expressions.Expression<Func<TransporterCheque, bool>> filter = null,
+                                    Func<IQueryable<TransporterCheque>, IOrderedQueryable<TransporterCheque>> orderBy = null,
+                                    string includeProperties = "")
+        {
+            return _unitOfWork.TransporterChequeRepository.Get(filter, orderBy, includeProperties);
         }
         #endregion
 

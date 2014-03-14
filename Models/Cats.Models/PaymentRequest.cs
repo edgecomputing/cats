@@ -21,8 +21,8 @@ namespace Cats.Models
         public decimal RequestedAmount { get; set; }
         public string ReferenceNo {get;set;}
         public int BusinessProcessID { get; set; }
-        public decimal LabourCostRate { get; set; }
-        public decimal LabourCost { get; set; }
+        public Nullable<decimal> LabourCostRate { get; set; }
+        public Nullable<decimal> LabourCost { get; set; }
     }
 
 }
