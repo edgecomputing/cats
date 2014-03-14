@@ -7,7 +7,8 @@
 {
      
    
-   <a class="btn toolbar-btn " data-buttontype="btn_back_to_list" href="@Url.Action("Index","TransporterPerformance",new { Area = "Logistics"})"></a>
+    <a class="btn toolbar-btn " data-buttontype="btn_back_to_list" href="@Url.Action("Index","TransporterPerformance",new { Area = "Logistics"})"></a>
+    <link href="~/Content/Dashboard/dashboardcomponents.css" rel="stylesheet" />
 }
 
 
@@ -16,7 +17,12 @@
         
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h4 class="panel-title" style="font: normal">Transporter Detail</h4>
+                <fieldset>
+                    <legend>
+                        Transporter Detail
+                    </legend>
+                </fieldset>
+                
                 <hr/>
             </div>
             <div class="panel-body">
@@ -76,49 +82,59 @@
         </div>
                       
         
-        
+       
         
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h4 class="panel-title" style="font: normal">Transport Order Detail</h4>
+                <fieldset>
+                    <legend>
+                        Transport Order Detail
+                    </legend>
+                </fieldset>
+               
                 <hr/>
             </div>
             <div class="panel-body">
-
+                
                 <div class="row-fluid form-horizontal ">
                     <div class="form-control span12">
                         
-                        <div class="span3">
-                            <label>Region</label>
-                            <select   ng-model="trans_param.regionId">
-                              <option ng-repeat="r in regions" value="{{r.AdminUnitID}}"> {{r.Name}} </option>
+                        <div class="portlet">
+                            <div class="portlet-header">
+                               
+                                <div class="span3">
+                                    <label>Region</label>
+                                    <select   ng-model="trans_param.regionId">
+                                        <option ng-repeat="r in regions" value="{{r.AdminUnitID}}"> {{r.Name}} </option>
 
-                            </select> 
+                                    </select> 
                             
-                        </div>
+                                </div>
                         
-                        <div class="span3">
-                            <label>Warehouse</label>
-                            <select    ng-model="trans_param.hubId">  
+                                <div class="span3">
+                                    <label>Warehouse</label>
+                                    <select    ng-model="trans_param.hubId">  
                                 
-                                <option ng-repeat="hb in hubs" value="{{hb.HubID}}">{{hb.Name}}</option>
-                            </select>
+                                        <option ng-repeat="hb in hubs" value="{{hb.HubID}}">{{hb.Name}}</option>
+                                    </select>
                            
-                        </div>
+                                </div>
 
-                        <div class="span2">
-                            <label>Select start Date</label>
-                            <input type="text" id="StartDate" class="cats-datepicker2  input-medium"  placeholder="Start date"/>
-                        </div>
+                                <div class="span2">
+                                    <label>Select start Date</label>
+                                    <input type="text" id="StartDate" class="cats-datepicker2  input-medium"  placeholder="Start date"/>
+                                </div>
 
-                        <div class="span2">
+                                <div class="span2">
                             
-                            <label>Select end Date</label>
-                            <input type="text" id="EndDate" class="cats-datepicker2  input-medium"  placeholder="End date"/>
-                        </div>
+                                    <label>Select end Date</label>
+                                    <input type="text" id="EndDate" class="cats-datepicker2  input-medium"  placeholder="End date"/>
+                                </div>
 
-                        <div class="span2">
-                            <button type="button" class="btn btn-default btn-lg" style="margin-top: 23px;" ng-click="show()">show</button>
+                                <div class="span2">
+                                    <button type="button" class="btn btn-default btn-lg" style="margin-top: 23px;" ng-click="show()">show</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
