@@ -50,12 +50,10 @@ namespace Cats.Areas.Hub.Controllers
 
         public ViewResult Index(int id = 0)
         {
-           
             ViewBag.TransportOrdrStatus = id;
             ViewBag.TransportOrderTitle = id == 0
                                               ? "Draft"
                                               : _workflowStatusService.GetStatusName(WORKFLOW.TRANSPORT_ORDER, id);
-         
             return View();
         }
 
