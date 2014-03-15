@@ -1,0 +1,401 @@
+﻿@using Cats.Areas.EarlyWarning.Models
+@model RegionalRequestViewModel
+@using Cats.Helpers
+@using Cats.Models
+@using Cats.Services.Security
+@using Kendo.Mvc.UI
+@using LanguageHelpers.Localization
+
+@{
+    ViewBag.Title = "Regional Relief Requests";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+@section Toolbar    {
+    @*  @Html.EarlyWarningOperationButton(
+        @Url.Action("Details", "Request", new { Area = "EarlyWarning", id = Model.RegionalRequestID }),
+        EarlyWarningConstants.Operation.View_request, "", "btn icon-reply", "btn_back_to_list")*@
+
+    @*<button class="btn dropdown-toggle " data-toggle="dropdown">
+        @Translator.Translate("Actions")
+        <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu">
+        <li><a id="btnAddFDP" href="@Url.Action("AddBeneficary", "Request", new { id = Model.RegionalRequestID, programId = @ViewBag.programId })">@Translator.Translate("Add FDP")</a></li>
+        <li><a id="btnAddCommodity" href="@Url.Action("AddCommodity", "Request", new { id = Model.RegionalRequestID })">@Translator.Translate("Add Commodity")</a></li>
+    </ul>*@
+
+<div class="btn-group" style="margin-right: 8px;">
+    <button class="btn dropdown-toggle " data-toggle="dropdown">
+        @Translator.Translate("Actions")
+        <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu">
+        <li><a id="btnAddFDP" href="@Url.Action("AddBeneficary", "Request", new { id = Model.RegionalRequestID, programId = @ViewBag.programId })">@Translator.Translate("Add FDP")</a></li>
+        <li><a id="btnAddCommodity" href="@Url.Action("AddCommodity", "Request", new { id = Model.RegionalRequestID })">@Translator.Translate("Add Commodity")</a></li>
+       @* <li><a  href="@Url.Action("AddAllCommodity", "Request", new { id = Model.RegionalRequestID })">@Translator.Translate("Add All Commodity")</a></li>*@
+    </ul>
+</div>
+
+    <a class="btn toolbar-btn " data-buttontype="btn_save" href="javascript:saverecords()"></a>
+    <a class="btn toolbar-btn " href="@Url.Action("Details", "Request", new { Area = "EarlyWarning", id = Model.RegionalRequestID })" data-buttontype="btn_back_to_list"></a>
+
+
+}
+
+<script type="text/javascript">
+    $(function () {
+        //Optional: turn the chache off
+        $.ajaxSetup({ cache: false });
+
+        $('#btnAddCommodity').click(function () {
+
+            // alert("");
+            $('#dialogContent').load(this.href, function () {
+                $('#dialogDiv').modal({
+                    backdrop: 'static',
+                    keyboard: true
+                }, 'show');
+                //bindForm(this);
+            });
+            return false;
+        });
+
+        $('#btnAddFDP').click(function (e) {
+
+            //e.preventDefault();
+            $('#dialogContent').load(this.href, function () {
+                $('#dialogDiv').modal({
+                    backdrop: 'static',
+                    keyboard: true
+                }, 'show');
+                //bindForm(this);
+            });
+            return false;
+        });
+    });
+</script>
+
+<div id='dialogDiv' class='modal hide fade in'>
+    <div id='dialogContent'></div>
+</div>
+
+<fieldset>
+    <legend>
+        @Translator.Translate("Resource Allocation")
+    </legend>
+</fieldset>
+@Html.HiddenFor(m => m.RegionalRequestID)
+<div class="form-horizontal well">
+    <table border="0" style="width: 80px;">
+        <tr>
+            <td style="width: 40%">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.ReferenceNumber, Translator.Translate("Reference Number"))
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(model => model.ReferenceNumber, new { disabled = true })
+                </div>
+            </td>
+            <td style="width: 40%">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.Program, Translator.Translate("Program"))
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(model => model.Program, new { disabled = true })
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 50%">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.Region, Translator.Translate("Region"))
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(model => model.Region, new { disabled = true })
+                </div>
+            </td>
+            <td style="width: 50%">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.MonthName, Translator.Translate("Month"))
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(model => model.MonthName, new { disabled = true })
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 50%">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.RequestDate, Translator.Translate("Date of Request"))
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(model => model.RequestDate, new { disabled = true })
+                </div>
+            </td>
+            <td style="width: 50%">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.Year, Translator.Translate("Year"))
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(model => model.Year, new { disabled = true })
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 50%">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.Ration, Translator.Translate("Ration"))
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(model => model.Ration, new { disabled = true })
+                    @*<a href="#" class="rationChange">Change</a>*@
+                </div>
+            </td>
+            <td style="width: 50%">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.Status, Translator.Translate("Status"))
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(model => model.Status, new { disabled = true })
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>
+
+@*<h5 class="well-small">Commodities Allocation</h5>
+    <div style="width: 400px">
+    @(Html.Kendo().Grid<RequestDetailCommodityViewModel>()
+          .Name("commodityGrid")
+              .Columns(columns =>
+              {
+                  columns.ForeignKey(p => p.CommodityID, (IEnumerable<Commodity>)ViewData["AvailableCommodities"], "CommodityID", "Name");
+                  columns.Command(command => command.Destroy()).Width(100);
+              }
+
+          )
+                .ToolBar(toolbar =>
+                             {
+                                 toolbar.Save();
+                                 toolbar.Create();
+                             })
+                 .Editable(edit => edit.Mode(GridEditMode.InCell))
+                 .Pageable()
+                .Selectable(t => t.Mode(GridSelectionMode.Single))
+                 .Navigatable()
+                  .DataSource(dataSource => dataSource
+                 .Ajax()
+                .PageSize(5)
+
+                .Model(model => model.Id(p => p.CommodityID))
+                .Create(update => update.Action("Commodity_Create", "Request", new { id = ViewBag.RequestID }))
+                .Read(read => read.Action("Commodity_Read", "Request", new { id = ViewBag.RequestID }))
+                .Update(update => update.Action("Commodity_Update", "Request"))
+                .Destroy(update => update.Action("Commodity_Destroy", "Request", new { id = ViewBag.RequestID })))
+          )
+    </div>*@
+
+<table class="borderless">
+    <td >
+        <div style="float: left;">
+            @(Html.Kendo().Grid<RequestDetailCommodityViewModel>()
+                  .Name("commodityGrid")
+                  .Columns(columns =>
+                      {
+                          columns.Bound(p => p.Commodity).Title(Translator.Translate("Commodity"));
+                          columns.Command(p => p.Custom("Delete").Click("onCommodityDelete")).Title("Action");
+                      }
+
+                  )
+                  .HtmlAttributes(new { style = "height:430px;" })
+                  .DataSource(dataSource => dataSource
+                                                .Ajax()
+                                                .Model(model => model.Id(p => p.CommodityID))
+                      //.Create(update => update.Action("Commodity_Create", "Request", new { id = ViewBag.RequestID }))
+                                                .Read(read => read.Action("Commodity_Read", "Request", new { id = ViewBag.RequestID }))
+                    //.Update(update => update.Action("Commodity_Update", "Request"))
+                    //.Destroy(update => update.Action("Commodity_Destroy", "Request", new { id = ViewBag.RequestID }))
+                  )
+            )
+        </div>
+    </td>
+    <td>
+
+        <div>
+
+            @(Html.Kendo().Grid<RegionalRequestDetailViewModel>()
+                  .Name("grid")
+                  .Columns(columns =>
+                      {
+                          //columns.Template(t => { }).Title("No").ClientTemplate("#= renderNumber(data) #").Width(30);
+                          columns.Bound(p => p.Zone).Width(100).Title(Translator.Translate("Zone")).HtmlAttributes(new { style = "background-color:lightgray" });
+                          columns.Bound(p => p.Woreda).Width(100).Title(Translator.Translate("Woreda")).HtmlAttributes(new { style = "background-color:lightgray" });
+                          columns.Bound(p => p.FDP).Width(100).Title(Translator.Translate("FDP")).HtmlAttributes(new { style = "background-color:lightgray" });
+                          columns.Bound(p => p.Beneficiaries).Width(60).Title(Translator.Translate("Beneficiaries")).HtmlAttributes(new { align = "right" });
+                          //columns.Bound(p => p.PlannedBeneficiaries).Width(60).HtmlAttributes(new { align = "right" });
+                          columns.Command(p => p.Custom("Delete").Click("onDelete")).Width(50);
+
+                      })
+                    //.ToolBar(toolbar => toolbar.Save())
+                  .Editable(editable => editable.Mode(GridEditMode.InCell))
+                    //.Events(events => events.DataBound("onDataBound"))
+                  .Scrollable()
+                  .Selectable(t => t.Mode(GridSelectionMode.Single))
+                  .Navigatable()
+                  //.Groupable()
+
+                  .HtmlAttributes(new { style = "height:430px;" })
+                  .Events(events => events.DataBound("onDataBound"))
+                  .DataSource(dataSource => dataSource
+                                                .Ajax()
+
+                                                .Group(group =>
+                                                    {
+                                                        group.Add(p => p.Zone);
+                                                        group.Add(p => p.Woreda);
+                                                    } )
+                                                .Model(model =>
+                                                    {
+                                                        model.Id(p => p.RegionalRequestDetailID);
+                                                        model.Field(detail => detail.FDP).Editable(false);
+                                                        model.Field(detail => detail.Zone).Editable(false);
+                                                        model.Field(detail => detail.Woreda).Editable(false);
+                                                        model.Field(detail => detail.PlannedBeneficiaries).Editable(false);
+                                                    })
+                                                .Create(update => update.Action("Allocation_Create", "Request"))
+
+                                                .Read(read => read.Action("Allocation_Read", "Request", new { id = ViewBag.RequestID }))
+                                                .Update(update => update.Action("Allocation_Update", "Request"))
+                                                .Destroy(update => update.Action("Allocation_Destroy", "Request"))
+                  ))
+        </div>
+    </td>
+</table>
+
+<script type="text/javascript">
+    function onDataBound(e) {
+        //alert("");
+        check_planned();
+        var grid = $("#grid").data("kendoGrid");
+        $(grid.tbody).on("change", "td", function (e) {
+
+            var row = $(this).closest("tr");
+            var rowIdx = $("tr", grid.tbody).index(row);
+            update_ui(rowIdx, row);
+        }
+        );
+
+        //var grid = $("#grid").data("kendoGrid");
+        $(grid.tbody).on("focus", "input", function (e) {
+            var input = $(this);
+            setTimeout(function () { input.select(); }, 100);
+        });
+    }
+
+    function update_ui(rowIdx, row) {
+        var grid = $("#grid").data("kendoGrid");
+        var firstItem = $('#grid').data().kendoGrid.dataSource.data()[rowIdx];
+        var plannedBeneficiaries = firstItem.get('PlannedBeneficiaries');
+        var beneficiaries = firstItem.get('Beneficiaries');
+
+        if (plannedBeneficiaries < beneficiaries) {
+            row.addClass("surplus");
+        } else {
+            row.removeClass("surplus");
+        }
+    }
+
+    function check_planned() {
+        var grid = $("#grid").data("kendoGrid");
+        var rowIdx = 0;
+        $(grid.tbody).find("tr").each(function () {
+            //$(this).addClass("surplus");
+            update_ui(rowIdx, $(this));
+            rowIdx++;
+        });
+    }
+
+
+    function onDelete(e) {
+        e.preventDefault();
+
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        window.location = "@Url.Action("DeleteFDP", "Request")" + "/" + dataItem.RegionalRequestDetailID;
+    }
+</script>
+
+<style>
+    .surplus * {
+        color: red;
+    }
+
+    .surplus {
+        color: red;
+    }
+</style>
+
+<script type="text/javascript">
+    function onCommodityDelete(e) {
+        e.preventDefault();
+        var requestId = $("#RegionalRequestID").val();
+
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        window.location = "@Url.Action("DeleteCommodity", "Request")" + "?commodityID=" + dataItem.CommodityID + "&requestID=" + requestId;
+    }
+
+    function saverecords() {
+        $("#grid").data("kendoGrid").saveChanges();
+    }
+
+    function onDataBound(e) {
+        var grid = $("#grid").data("kendoGrid");
+        $(grid.tbody).on("focus", "input", function (e) {
+            var input = $(this);
+            setTimeout(function () { input.select(); }, 100);
+        });
+    }
+</script>
+
+<script type="text/javascript">
+    function error_handler(e) {
+        if (e.errors) {
+            var message = "Errors:\n";
+            $.each(e.errors, function (key, value) {
+                if ('errors' in value) {
+                    $.each(value.errors, function () {
+                        message += this + "\n";
+                    });
+                }
+            });
+            alert(message);
+        }
+    }
+
+    function onGridKeydown(e) {
+        if (e.keyCode === kendo.keys.TAB) {
+            var grid = $(this).closest("[data-role=grid]").data("kendoGrid");
+            var current = grid.current();
+            if (!current.hasClass("editable-cell")) {
+                var nextCell = current.nextAll(".editable-cell");
+                if (!nextCell[0]) {
+                    //search the next row
+                    var nextRow = current.parent().next();
+                    var nextCell = current.parent().next().children(".editable-cell:first");
+                }
+                grid.current(nextCell);
+                grid.editCell(nextCell[0]);
+            }
+        }
+    };
+
+    function onDataBound(e) {
+
+        var grid = $("#grid").data("kendoGrid");
+        $(grid.tbody).on("focus", "input", function (e) {
+            var input = $(this);
+            setTimeout(function () { input.select(); }, 100);
+
+        });
+    }
+</script>

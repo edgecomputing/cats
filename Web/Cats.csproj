@@ -395,6 +395,7 @@
     <Compile Include="Areas\Finance\Controllers\HomeController.cs" />
     <Compile Include="Areas\Finance\FinanceAreaRegistration.cs" />
     <Compile Include="Areas\Finance\Models\PaymentRequestViewModel.cs" />
+    <Compile Include="Areas\Finance\Models\TransporterChequeViewModel.cs" />
     <Compile Include="Areas\Hub\Controllers\HubDashboardController.cs" />
     <Compile Include="Areas\Hub\Models\StockStatusViewModel.cs" />
     <Compile Include="Areas\Logistics\Controllers\DonationController.cs" />
@@ -1334,6 +1335,10 @@
     <Content Include="Content\themes\default\bootstrap.css" />
     <Content Include="Content\themes\default\bootstrap.min.css" />
     <Content Include="Content\themes\default\index.html" />
+    <Content Include="Content\tokeninput\js\jquery.tokeninput.js" />
+    <Content Include="Content\tokeninput\styles\token-input-facebook.css" />
+    <Content Include="Content\tokeninput\styles\token-input-mac.css" />
+    <Content Include="Content\tokeninput\styles\token-input.css" />
     <Content Include="Content\Workflow\jquery-1.8.0.js" />
     <Content Include="Content\Workflow\jquery-ui-1.8.23.custom.js" />
     <Content Include="Content\Workflow\workflow.js" />
@@ -1750,7 +1755,10 @@
     <Content Include="Areas\Hub\Views\DispatchAllocation\Copy of Edit.cshtml" />
     <Content Include="Areas\Hub\Views\DispatchAllocation\EditLoans2.cshtml" />
     <Content Include="Areas\Hub\Views\DispatchAllocation\EditOthers.cshtml" />
+    <Content Include="Areas\Hub\Views\Receive\Index2.cshtml" />
     <Content Include="Areas\Logistics\Views\TransporterPerformance\TransportOrderPerformanceDetail.cshtml" />
+    <Content Include="Areas\Hub\Views\Receive\Allocations2.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Request\Allocation2.cshtml" />
     <None Include="dataset.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>dataset.Designer.cs</LastGenOutput>
@@ -1810,6 +1818,7 @@
     <Content Include="Scripts\jquery-ui.min.js" />
     <Content Include="Scripts\ng-grid.js" />
     <Content Include="Scripts\ng-table.js" />
+    <Content Include="Scripts\RequestAllocation\RequestAllocationController.js" />
     <Content Include="Views\Account\ForgetPassword.cshtml" />
     <Content Include="Areas\Localization\Views\Translation\Index.cshtml" />
     <Content Include="Areas\Localization\Views\Translation\Details.cshtml" />

@@ -163,7 +163,7 @@
             overflow:visible;
             text-shadow:1px 1px 1px #FFF;
            
-            min-width:100px;
+            width:250px;
             
         }
         .filter
@@ -232,11 +232,14 @@
                 }
             }
             catch (e) { }
+           // alert("valid");
+            //return;
             // return;
             var url = $frm.attr("action");
             var attribs = {};
             console.log("submitForm ", url);
             $frm.hide();
+            /*
             var $inputs = $("#" + frmId + " input");
             $inputs.each(function (index, element) {
                 //console.log("   submitForm ", element);
@@ -244,14 +247,16 @@
                     attribs[element.name] = element.value;
                 }
             });
-
+            */
             attribs = $frm.serialize();
             //console.log(attribs);
             $.post(url, attribs, function (data) {
                 $frm.show();
                 console.log("Submit Result", data);
-                var submitResult = {};
-                eval("submitResult = " + data);
+                var submitResult = data;
+                if (typeof (data) == "string") {
+                    eval("submitResult = " + data);
+                }
                 if (submitResult.status) {
                     $('#modal_edit_window').modal(('hide'));
                     dataRefresh();

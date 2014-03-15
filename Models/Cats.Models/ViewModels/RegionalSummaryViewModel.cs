@@ -21,4 +21,12 @@ namespace Cats.Models.ViewModels
         public decimal Oil { get; set; }
         public decimal Total { get { return Cereal + Pulse + Oil + BlededFood; } }
     }
+    public class CompareHrdViewModel
+    {
+        public int HrdID { get; set; }
+        public string HrdName { get; set; }
+        public decimal BeneficiaryNumber { get; set; }
+        public string Region { get; set; }
+        public decimal Percentage { get; set; }
+    }
 }
