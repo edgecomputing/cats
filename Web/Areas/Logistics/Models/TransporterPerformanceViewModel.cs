@@ -21,7 +21,14 @@ namespace Cats.Areas.Logistics.Models
         {
             get
             {
-                return (PickedUpSofar/TotalQuantity)*100;
+                if (PickedUpSofar>0)
+                {
+                   return  (Delivered/PickedUpSofar)*100;
+                }
+
+                return 0;
+                
+               
             }
         }
         public string ContractNumber { get; set; }
