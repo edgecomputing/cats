@@ -17,7 +17,7 @@ namespace Cats.Models
         public int TransporterId { get; set; }
         public int PreparedBy { get; set; }
         public int AppovedBy { get; set; }
-        public int Status { get; set; }
+      
         public System.DateTime AppovedDate { get; set; }
         public int? Status  { get; set; }
         public virtual Transporter Transporter { get; set; }
