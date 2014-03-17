@@ -31,7 +31,7 @@ namespace Cats.Models.Mapping
             this.Property(t => t.PreparedBy).HasColumnName("PreparedBy");
             this.Property(t => t.AppovedBy).HasColumnName("AppovedBy");
             this.Property(t => t.AppovedDate).HasColumnName("AppovedDate");
-            
+            this.Property(t => t.Status).HasColumnName("Status");
 
             // Relationships
             this.HasRequired(t => t.Transporter)

@@ -87,21 +87,77 @@ namespace Cats.Areas.Finance.Controllers
             return View(transporter);
         }
 
-        public ActionResult LoadLabourCost(int paymentRequestID)
+        public ActionResult PaymentDeductionsPartialView(int paymentRequestID)
         {
-            var paymentRequestObj = _paymentRequestservice.FindById(paymentRequestID);
+            var paymentRequestObj = _paymentRequestservice.Get(t => t.PaymentRequestID == paymentRequestID, null, "TransportOrder, TransportOrder.Transporter").FirstOrDefault();
             var paymentRequestViewModel = new Models.PaymentRequestViewModel();
             if (paymentRequestObj!=null)
             {
                 paymentRequestViewModel.PaymentRequestID = paymentRequestObj.PaymentRequestID;
                 paymentRequestViewModel.TransportOrderID = paymentRequestObj.TransportOrderID;
+                paymentRequestViewModel.TransportOrderNo = paymentRequestObj.TransportOrder.TransportOrderNo;
+                paymentRequestViewModel.TransporterID = paymentRequestObj.TransportOrder.TransporterID;
+                paymentRequestViewModel.Transporter = paymentRequestObj.TransportOrder.Transporter.Name;
                 paymentRequestViewModel.RequestedAmount = paymentRequestObj.RequestedAmount;
                 paymentRequestViewModel.ReferenceNo = paymentRequestObj.ReferenceNo;
                 paymentRequestViewModel.BusinessProcessID = paymentRequestObj.BusinessProcessID;
                 paymentRequestViewModel.LabourCostRate = paymentRequestObj.LabourCostRate;
                 paymentRequestViewModel.LabourCost = paymentRequestObj.LabourCost;
+                paymentRequestViewModel.RejectedAmount = paymentRequestObj.RejectedAmount;
+                paymentRequestViewModel.RejectionReason = paymentRequestObj.RejectionReason;
+            }
+            return View(paymentRequestViewModel);
+        }
+
+        public ActionResult LoadLabourCost(int paymentRequestID)
+        {
+            var paymentRequestObj = _paymentRequestservice.Get(t => t.PaymentRequestID == paymentRequestID, null, "TransportOrder, TransportOrder.Transporter").FirstOrDefault();
+            var paymentRequestViewModel = new Models.PaymentRequestViewModel();
+            if (paymentRequestObj != null)
+            {
+                paymentRequestViewModel.PaymentRequestID = paymentRequestObj.PaymentRequestID;
+                paymentRequestViewModel.TransportOrderID = paymentRequestObj.TransportOrderID;
+                paymentRequestViewModel.TransportOrderNo = paymentRequestObj.TransportOrder.TransportOrderNo;
+                paymentRequestViewModel.TransporterID = paymentRequestObj.TransportOrder.TransporterID;
+                paymentRequestViewModel.Transporter = paymentRequestObj.TransportOrder.Transporter.Name;
+                paymentRequestViewModel.RequestedAmount = paymentRequestObj.RequestedAmount;
+                paymentRequestViewModel.ReferenceNo = paymentRequestObj.ReferenceNo;
+                paymentRequestViewModel.BusinessProcessID = paymentRequestObj.BusinessProcessID;
+                paymentRequestViewModel.LabourCostRate = paymentRequestObj.LabourCostRate;
+                paymentRequestViewModel.LabourCost = paymentRequestObj.LabourCost;
+                paymentRequestViewModel.RejectedAmount = paymentRequestObj.RejectedAmount;
+                paymentRequestViewModel.RejectionReason = paymentRequestObj.RejectionReason;
             }
             return Json(paymentRequestViewModel, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult LoadPaymentRequest()
+        {
+            var paymentRequests = _paymentRequestservice.Get(null, null, "TransportOrder, TransportOrder.Transporter, BusinessProcess.CurrentState.BaseStateTemplate");
+            var paymentRequestViewModels = new List<Models.PaymentRequestViewModel>();
+            if (paymentRequests != null)
+            {
+                foreach (var paymentRequest in paymentRequests)
+                {
+                    var paymentRequestViewModel = new Models.PaymentRequestViewModel();
+                    paymentRequestViewModel.PaymentRequestID = paymentRequest.PaymentRequestID;
+                    paymentRequestViewModel.TransportOrderID = paymentRequest.TransportOrderID;
+                    paymentRequestViewModel.TransportOrderNo = paymentRequest.TransportOrder.TransportOrderNo;
+                    paymentRequestViewModel.TransporterID = paymentRequest.TransportOrder.TransporterID;
+                    paymentRequestViewModel.Transporter = paymentRequest.TransportOrder.Transporter.Name;
+                    paymentRequestViewModel.RequestedAmount = paymentRequest.RequestedAmount;
+                    paymentRequestViewModel.ReferenceNo = paymentRequest.ReferenceNo;
+                    paymentRequestViewModel.BusinessProcessID = paymentRequest.BusinessProcessID;
+                    paymentRequestViewModel.StateNo = paymentRequest.BusinessProcess.CurrentState.BaseStateTemplate.StateNo;
+                    paymentRequestViewModel.LabourCostRate = paymentRequest.LabourCostRate;
+                    paymentRequestViewModel.LabourCost = paymentRequest.LabourCost;
+                    paymentRequestViewModel.RejectedAmount = paymentRequest.RejectedAmount;
+                    paymentRequestViewModel.RejectionReason = paymentRequest.RejectionReason;
+                    paymentRequestViewModels.Add(paymentRequestViewModel);
+                }
+                
+            }
+            return Json(paymentRequestViewModels, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult EditLabourCostInfo(Models.PaymentRequestViewModel paymentRequestViewModel)
@@ -109,12 +165,15 @@ namespace Cats.Areas.Finance.Controllers
             var paymentRequestObj = _paymentRequestservice.FindById(paymentRequestViewModel.PaymentRequestID);
             paymentRequestObj.LabourCostRate = paymentRequestViewModel.LabourCostRate;
             paymentRequestObj.LabourCost = paymentRequestViewModel.LabourCost;
+            paymentRequestObj.RejectedAmount = paymentRequestViewModel.RejectedAmount;
+            paymentRequestObj.RejectionReason = paymentRequestViewModel.RejectionReason;
             _paymentRequestservice.Update(paymentRequestObj);
             return Json(paymentRequestViewModel, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult LoadCheque(int paymentRequestID)
         {
+            var user = UserAccountHelper.GetUser(User.Identity.Name);
             var paymentRequestObj = _paymentRequestservice.FindById(paymentRequestID);
             var transporterChequeObj = _transporterChequeService.Get(t => t.PaymentRequestID == paymentRequestID, null, "UserProfile,Transporter,PaymentRequest").FirstOrDefault();
             var transporterChequeViewModel = new Models.TransporterChequeViewModel();
@@ -137,11 +196,21 @@ namespace Cats.Areas.Finance.Controllers
                     transporterChequeViewModel.AppovedByID = transporterChequeObj.AppovedBy;
                     transporterChequeViewModel.AppovedBy = transporterChequeObj.UserProfile1.UserName;
                     transporterChequeViewModel.AppovedDate = transporterChequeObj.AppovedDate;
+                    transporterChequeViewModel.Status = transporterChequeObj.Status;
                 }
                 else
                 {
                     transporterChequeViewModel.PaymentRequestID = paymentRequestID;
                     transporterChequeViewModel.PaymentRequestRefNo = paymentRequestObj.ReferenceNo;
+                    transporterChequeViewModel.PreparedBy = user.FirstName + " " + user.LastName;
+                    transporterChequeViewModel.PreparedByID = user.UserProfileID;
+                    if (paymentRequestObj.LabourCost != null && paymentRequestObj.RejectedAmount!=null)
+                    {
+                        transporterChequeViewModel.Amount = (double) (paymentRequestObj.RequestedAmount - paymentRequestObj.LabourCost -
+                                                                      paymentRequestObj.RejectedAmount);
+                    }
+                    
+                    //transporterChequeViewModel.AppovedDate = "MM/DD/YYYY";
                     //transporterChequeViewModel.AppovedDate = DateTime.Parse("mm-dd-yyyy");
                 }
             }
@@ -165,20 +234,22 @@ namespace Cats.Areas.Finance.Controllers
                     PreparedBy = transporterCheque.UserProfile.UserName,
                     AppovedBy = transporterCheque.UserProfile1.UserName,
                     AppovedDate = transporterCheque.AppovedDate,
+                    Status = transporterCheque.Status
                 };
             }
             return transporterChequeViewModel;
         }
 
-        public ActionResult ApproveChequeInfo(Models.TransporterChequeViewModel transporterChequeViewModel)
+        public ActionResult ApproveChequeInfo(int transporterChequeID)
         {
             var user = UserAccountHelper.GetUser(User.Identity.Name);
-            var transporterChequeObj = _transporterChequeService.FindById(transporterChequeViewModel.TransporterChequeId);
+            var transporterChequeObj = _transporterChequeService.FindById(transporterChequeID);
             transporterChequeObj.AppovedBy = user.UserProfileID;
             transporterChequeObj.AppovedDate = DateTime.Now;
+            transporterChequeObj.Status = 2;
             _transporterChequeService.EditTransporterCheque(transporterChequeObj);
             //var transporterChequeViewModel = BindTransporterChequeViewModel(transporterChequeObj);
-            return Json(transporterChequeViewModel, JsonRequestBehavior.AllowGet);
+            return Json(transporterChequeID, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult EditChequeInfo(Models.TransporterChequeViewModel transporterChequeViewModel)
@@ -202,7 +273,7 @@ namespace Cats.Areas.Finance.Controllers
                 }
                 else
                 {
-                    transporterChequeObj = new TransporterCheque()
+                    var transporterChequeObjs = new TransporterCheque()
                                                    {
                                                        PaymentRequestID = transporterChequeViewModel.PaymentRequestID,
                                                        CheckNo = transporterChequeViewModel.CheckNo,
@@ -211,10 +282,11 @@ namespace Cats.Areas.Finance.Controllers
                                                        Amount = transporterChequeViewModel.Amount,
                                                        TransporterId = paymentRequestObj.TransportOrder.Transporter.TransporterID,
                                                        PreparedBy = user.UserProfileID,
+                                                       Status = 1
                                                        //AppovedBy = transporterChequeViewModel.AppovedByID,
                                                        //AppovedDate = transporterChequeViewModel.AppovedDate,
                                                    };
-                    _transporterChequeService.AddTransporterCheque(transporterChequeObj);
+                    _transporterChequeService.AddTransporterCheque(transporterChequeObjs);
                 }
             }
             return Json(transporterChequeObj, JsonRequestBehavior.AllowGet);

@@ -1757,6 +1757,7 @@
     <Content Include="Areas\Logistics\Views\TransporterPerformance\TransportOrderPerformanceDetail.cshtml" />
     <Content Include="Areas\Hub\Views\Receive\Allocations2.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Request\Allocation2.cshtml" />
+    <Content Include="Areas\Finance\Views\ValidatedPaymentRequest\PaymentDeductionsPartialView.cshtml" />
     <None Include="dataset.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>dataset.Designer.cs</LastGenOutput>

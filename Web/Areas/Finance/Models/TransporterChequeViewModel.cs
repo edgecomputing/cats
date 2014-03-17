@@ -20,6 +20,7 @@ namespace Cats.Areas.Finance.Models
         public string PreparedBy { get; set; }
         public int AppovedByID { get; set; }
         public string AppovedBy { get; set; }
+        public int Status { get; set; }
         public DateTime AppovedDate { get; set; }
     }
 }
