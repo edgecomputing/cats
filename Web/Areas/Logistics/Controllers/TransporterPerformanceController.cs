@@ -71,7 +71,7 @@ namespace Cats.Areas.Logistics.Controllers
                         StartDate = transportOrder.StartDate.ToCTSPreferedDateFormat(datePref),
                         TotalQuantity = transportOrder.TransportOrderDetails.Sum(m => m.QuantityQtl),
                         NoOfDaysToComplete =(int) (transportOrder.EndDate.Subtract(transportOrder.StartDate)).TotalDays,
-                        PickedUpSofar = GetDispatchAllocation(transportOrder.TransportOrderID), 
+                        PickedUpSofar = GetDispatchAllocation(transportOrder.TransportOrderID)*10, 
                         Delivered = GetDelivered(transportOrder.TransportOrderID),
                         ElapsedDays =(int)(DateTime.Now.Subtract(transportOrder.StartDate)).TotalDays,
                     });
