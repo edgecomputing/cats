@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using Cats.Areas.Logistics.Models;
+using Cats.Helpers;
 using Cats.Models;
 using Cats.Services.Hub;
 using Cats.Services.Logistics;
 using Cats.ViewModelBinder;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
+using log4net;
 using GiftCertificateService = Cats.Services.EarlyWarning.GiftCertificateService;
 using ICommodityService = Cats.Services.EarlyWarning.ICommodityService;
 using ICommodityTypeService = Cats.Services.EarlyWarning.ICommodityTypeService;
@@ -35,6 +37,7 @@ namespace Cats.Areas.Logistics.Controllers
         private readonly IDonationPlanHeaderService _donationPlanHeaderService;
         private readonly IDonationPlanDetailService _donationPlanDetailService;
         private readonly ITransactionService _transactionService;
+        private ILog _log;
         public DonationController(
             IReceiptAllocationService receiptAllocationService,
             ICommodityService commodityService,
@@ -44,7 +47,7 @@ namespace Cats.Areas.Logistics.Controllers
             ICommodityTypeService commodityTypeService, 
             IHubService hubService, 
             IDonationPlanDetailService donationPlanDetailService, 
-            IDonationPlanHeaderService donationPlanHeaderService, ITransactionService transactionService)
+            IDonationPlanHeaderService donationPlanHeaderService, ITransactionService transactionService, ILog log)
         {
             _receiptAllocationService = receiptAllocationService;
             _commodityService = commodityService;
@@ -56,6 +59,7 @@ namespace Cats.Areas.Logistics.Controllers
             _donationPlanDetailService = donationPlanDetailService;
             _donationPlanHeaderService = donationPlanHeaderService;
             _transactionService = transactionService;
+            _log = log;
         }
 
         public ActionResult Index()
@@ -291,18 +295,13 @@ namespace Cats.Areas.Logistics.Controllers
 
         public JsonResult Load(string id)
         {
-            Cats.Models.GiftCertificate giftCertificate = null;
             try
             {
-                giftCertificate = _giftCertificateService.GetAllGiftCertificate().FirstOrDefault(d => d.ShippingInstruction.Value == id);
-            }
-            catch (Exception)
-            {
 
-                ModelState.AddModelError("Error","More than One gift certificate is found");
-                return null;
-            }
            
+            Cats.Models.GiftCertificate giftCertificate = null;
+            giftCertificate = _giftCertificateService.GetAllGiftCertificate().FirstOrDefault(d => d.ShippingInstruction.Value == id);
+            
             return giftCertificate != null ? Json(new {donorId = giftCertificate.Donor.Name,
                 programId = giftCertificate.Program.Name,
                 eta=giftCertificate.ETA,
@@ -310,6 +309,16 @@ namespace Cats.Areas.Logistics.Controllers
                 comodity = giftCertificate.GiftCertificateDetails[0].Commodity.Name,
                 commodityType = giftCertificate.GiftCertificateDetails[0].Commodity.CommodityType.Name
             }, JsonRequestBehavior.AllowGet) : null;
+
+            }
+            catch (Exception exception)
+            {
+
+                var log = new Logger();
+                log.LogAllErrorsMesseges(exception, _log);
+                ModelState.AddModelError("Errors", "Gift certificate detail information is not available.");
+                return null;
+            }
         }
 
     
@@ -349,8 +358,8 @@ namespace Cats.Areas.Logistics.Controllers
            // var giftCertificate = _giftCertificateService.GetAllGiftCertificate();
             var giftCertificate = (from gift in _giftCertificateService.GetAllGiftCertificate()
                                    select gift.ShippingInstruction.Value).Except(
-                                       from allocated in _receiptAllocationService.GetAllReceiptAllocation()
-                                       select allocated.SINumber).ToList();
+                                       from allocated in _donationPlanHeaderService.GetAllDonationPlanHeader()
+                                       select allocated.ShippingInstruction.Value).ToList();
                         
             return Json(giftCertificate, JsonRequestBehavior.AllowGet);
         }
