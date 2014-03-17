@@ -42,5 +42,5 @@ function init_toolbar_button() {
         var bs = button_styles[i];
         $("." + i).append("<i class=\"" + bs.icon + "\">").attr("title", bs.tooltip);
     }*/
-    $(".toolbar-btn").tooltip();
+    $(".toolbar-btn").tooltip({ container: 'body' });
 }

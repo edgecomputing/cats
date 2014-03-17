@@ -18,7 +18,12 @@
 }
 <h4 class="page-header">@Translator.Translate( "Regional Requests")</h4>
 
-@Html.Partial("_FilterRequestLeftBar")
+<div id="div_filter">
+    @Html.Partial("_FilterRequestLeftBar")
+
+</div>
+
+
 
 @(Html.Kendo().Grid<RegionalRequestViewModel>()
     .Name("RequestListGrid")
@@ -26,7 +31,8 @@
                  {
                     
                      columns.Template(t => { }).Title("No").ClientTemplate("#= renderNumber(data) #").Width(50);
-                     columns.Bound(request => request.ReferenceNumber).ClientTemplate("<a href='" + Url.Action("Details", "Request", new {id = "#=RegionalRequestID#"}) + " '>#=ReferenceNumber#</a>  ");
+                     columns.Bound(request => request.ReferenceNumber).ClientTemplate
+                         ("<a href='" + Url.Action("Details", "Request", new { id = "#=RegionalRequestID#" }) + " '>#=ReferenceNumber#</a>" );
                      columns.Bound(request => request.Region);
                      columns.Bound(request => request.Year);
                      columns.Bound(request => request.MonthName).Title(Html.Translate("Month"));
@@ -47,6 +53,10 @@ else
     @Html.ActionLink("Approve", "ApproveRequest", "Request", new { Area = "EarlyWarning", id = @item.RegionalRequestID })
 }
 </text>);
+                     columns.Bound(request => request.PlanId).Title(Html.Translate("Action")).ClientTemplate
+             ("<a href='" + Url.Action("Details", "Request", new { id = "#=RegionalRequestID#" }) + " '>Detail</a> &nbsp; " +
+             "<a href='" + Url.Action("Allocation", "Request", new { id = "#=RegionalRequestID#" }) + " '>Allocate</a>  ");
+
                
                 })
     .Sortable()
@@ -74,3 +84,15 @@ else
       )
       )
 
+<script>
+    $(function () {
+        var filterRegionID ="@ViewBag.Filter.RegionID";
+        $("#div_filter").find("form").each(function (index, element) {
+            console.log(" form ", filterRegionID, element);
+            if (!filterRegionID) {
+                element.submit();
+            }
+                //return;
+        });
+    });
+</script>

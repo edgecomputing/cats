@@ -5,7 +5,9 @@
 }
 .designer_window
 {
-    position:absolute;border:solid 1px #CCC;left:18%;right:10px;top:100px;bottom:100px;
+    position:absolute;border:solid 1px #CCC;left:10px;right:10px;top:100px;bottom:10px;
+    background:#FFF;
+    overflow:scroll;
     
 }
 .canvas
@@ -61,17 +63,7 @@
           border:solid 1px #DDF;
     }
 
- .statetype-0 .content
-{
-   /*background:#b6ff00;*/ 
-    background:rgba(200,255,100,.9);
-}
-.statetype-2 .content
-{
-    /*
-    background:#ffa5a5;*/ 
-    background:rgba(255,200,200,.9);
-}
+
 .state .connector
 {
     width:6px;

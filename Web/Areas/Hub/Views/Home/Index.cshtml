@@ -1,13 +1,291 @@
-﻿@using Cats.Web.Hub.Helpers
-@{
-    ViewBag.Title = Html.Translate("DRMFSS Application");
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+    const string PAGE_NAME = "HubDashBoard.Index";
 }
 
-<h2 class="pagetitle"> @Html.Translate("CommodityTracking System")</h2>
-<!-- start content -->
-<p>
-    @Html.Translate(" Welcome to the DRMFSS Food tracking system. ")  
-    @Html.Translate(" This application is developed by the help of WFP to assist ") 
-    @Html.Translate(" with the tracking of Food and non food commodities.")
-    @Html.Translate("Any news article that you have to be aware of will be displayed here.")
-</p>
+@section styles
+{
+    <link href="~/Content/Dashboard/dashboardcomponents.css" rel="stylesheet" />
+}
+
+<div ng-app>
+    <div ng-controller="HubDashboardController" class="container">
+        <div>
+            <h2>@ViewBag.HubName</h2>
+            <div class="row" style="border-bottom-width: thin; border-bottom-color: #666; border-bottom-style: inset; margin-top: 5px">
+                <div class="pull-left">
+                    <h4>Stock Status</h4>
+                </div>
+                <div class="pull-right">
+                    <div class="btn-group">
+                        <button id="RequestHeader" type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
+                            <i class="icon-arrow-up"></i>
+                            <i class="icon-arrow-down"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div id="StockStatusContent" class="row">
+                <div>&nbsp;</div>
+                <div class="span11">
+                    <div class="portlet">
+                        <!-- /.portlet-header -->
+                        <div class="portlet-content">
+                            <div class="progress-stat">
+                                <div class="progress">
+                                    <div class="bar bar-success" style="width:{{ StockStatus.freestockPercent; }}%;">
+                                    <span>Free Stock {{ StockStatus.freestockPercent; }}%</span>
+                                    </div>
+                                    <div class="bar bar-warning" style="width:{{ StockStatus.physicalStockPercent; }}%;">
+                                        <span>Physical Stock {{ StockStatus.physicalStockPercent; }}%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </br>
+                        <!-- /.portlet-content -->
+                    </div>
+                    <!-- /.portlet -->
+                </div>
+                <div class="span11">
+                    <div class="portlet">
+                        <div class="portlet-header">
+                            <h3>
+                                <i class=""></i>
+                                Stock Status per commodity
+                            </h3>
+                        </div>
+
+                        <!-- /.portlet-header -->
+
+                        <div class="portlet-content">
+                            <th class="table-responsive">
+                                <table id="" class="table table-striped table-checkable">
+                                    <thead>
+                                        <tr>
+                                            <th class="hidden-xs">Commodity</th>
+                                            <th>Free Stock</th>
+                                            <th>Physical Stock</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        <tr class="" ng-repeat="Commodity in CommodityStock">
+                                            <td class="hidden-xs">{{Commodity.CommodityName}}</td>
+                                            <td>{{Commodity.FreeStock}}</td>
+                                            <td>{{Commodity.PhysicalStock}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                        </div>
+                        <!-- /.table-responsive -->
+                    </div>
+                    <!-- /.portlet-content -->
+
+                </div>
+
+                <!-- /.portlet -->
+            </div>
+        </div>
+        <div>
+            <div class="row" style="border-bottom-width: thin; border-bottom-color: #666; border-bottom-style: inset; margin-top: 5px">
+                <div class="pull-left">
+                    <h4>Dispatches</h4>
+                </div>
+                <div class="pull-right">
+                    <div class="btn-group">
+                        <button id="RequestHeader" type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
+                            <i class="icon-arrow-up"></i>
+                            <i class="icon-arrow-down"></i>
+                        </button>
+
+                    </div>
+                </div>
+            </div>
+            <div id="RequestContent" class="row">
+                <div>&nbsp;</div>
+                <div class="span11">
+                    <div class="portlet">
+                        <div class="portlet-header">
+                            <h3>
+                                <i class=""></i>
+                                Recent Dispatches
+                            </h3>
+                            <ul class="portlet-tools pull-right">
+                                <li>
+                                    <button class="btn btn-sm btn-default">
+                                        Show more
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- /.portlet-header -->
+
+                        <div class="portlet-content">
+                            <th class="table-responsive">
+                                <table id="" class="table table-striped table-checkable">
+                                    <thead>
+                                        <tr>
+                                            <th class="hidden-xs">Bid</th>
+                                            <th>Requisition</th>
+                                            <th>FDP</th>
+                                            <th>Commodity</th>
+                                            <th>Planned</th>
+                                            <th>Dispatched</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="" ng-repeat="request in Requests">
+                                            <td class="hidden-xs">{{request[1].Value}}</td>
+                                            <td>{{request[2].Value}}</td>
+                                            <td>{{25142|number}}</td>
+                                            <th>{{1442|number}} QT</th>
+                                            <th>{{1442|number}} QT</th>
+                                            <th>{{1442|number}} QT</th>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                        </div>
+                        <!-- /.table-responsive -->
+                    </div>
+                    <!-- /.portlet-content -->
+
+                </div>
+                <!-- /.portlet -->
+            </div>
+        </div>
+        <div>
+            <div class="row" style="border-bottom-width: thin; border-bottom-color: #666; border-bottom-style: inset; margin-top: 5px">
+                <div class="pull-left">
+                    <h4>Transporters with active transport orders</h4>
+                </div>
+                <div class="pull-right">
+                    <div class="btn-group">
+                        <button id="DispatchHeader" type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
+                            <i class="icon-arrow-up"></i>
+                            <i class="icon-arrow-down"></i>
+                        </button>
+
+                    </div>
+                </div>
+            </div>
+
+            <div id="DispatchContent" class="row">
+                <div>&nbsp;</div>
+                <div class="span11">
+                    <div class="portlet">
+                        <div class="portlet-header">
+                            <h3>
+                                <i class=""></i>
+                                Incoming Dispatches
+                            </h3>
+                        </div>
+                        <!-- /.portlet-header -->
+                        <div class="portlet-content">
+                            <th class="table-responsive">
+                                <table id="" class="table table-striped table-checkable">
+                                    <thead>
+                                        <tr>
+                                            <th>Contract No.</th>
+                                            <th>Transporter</th>
+                                            <th>Bid Document</th>
+                                            <th>Dispatch Date</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="" ng-repeat="dispatch in Dispatches">
+                                            <th>{{dispatch[1].Value}}</th>
+                                            <th>{{dispatch[2].Value}}</th>
+                                            <th>{{dispatch[5].Value|number:2}} QT</th>
+                                            <th>{{dispatch[3].Value}}</th>
+                                            <th>{{dispatch[4].Value}}</th>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                        </div>
+                        <!-- /.table-responsive -->
+                    </div>
+                    <!-- /.portlet-content -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $("#RequestHeader").click(function () {
+        $("#RequestContent").slideToggle("slow", "linear");
+    });
+
+    $("#RequisitionHeader").click(function () {
+        $("#RequisitionContent").slideToggle("slow", "linear");
+    });
+
+    $("#DispatchHeader").click(function () {
+        $("#DispatchContent").slideToggle("slow", "linear");
+    });
+
+    $("#DistributionHeader").click(function () {
+        $("#DistributionContent").slideToggle("slow", "linear");
+    });
+</script>
+
+<script>
+    function HubDashboardController($scope, $http) {
+        @{
+            var hub = ViewBag.hub;
+        }
+
+        $scope.requestParam = { hub: 1, program: 1, date: new Date() };
+        $scope.reqParam = { regionID: 2 };
+        $scope.CommodityStock = [];
+        $scope.StockStatus = [];
+
+        $scope.Dispatches = [];
+        $scope.Data = [];
+
+        var onCommodityStkStatusSuccess = function (data) {
+            $scope.CommodityStock = data;
+        };
+
+        var onStockStatusSuccess = function (data) {
+            $scope.StockStatus = data;
+        };
+
+        var onDispatchesSuccess = function (data) {
+            $scope.Dispatches = data;
+        };
+
+        var onDashboardDataSuccess = function (data) {
+            $scope.Data = data;
+        };
+
+        $scope.getCommodityStockStatus = function () {
+            $http.post("@Url.Action("CommodityStockStatus", "HubDashboard", new { Area = "Hub" })", $scope.requestParam).success(onCommodityStkStatusSuccess);
+        };
+
+        $scope.getStockStatus = function () {
+            $http.post("@Url.Action("StockStatus", "HubDashboard", new { Area = "Hub" })", $scope.requestParam).success(onStockStatusSuccess);
+        };
+
+        $scope.getDispatches = function () {
+            $http.post("@Url.Action("Dispatches", "FetchData", new { Area = "Regional" })", $scope.reqParam).success(onDispatchesSuccess);
+        };
+
+        $scope.getDispatches = function () {
+            $http.post("@Url.Action("Dispatches", "FetchData", new { Area = "Regional" })", $scope.reqParam).success(onDispatchesSuccess);
+        };
+
+        $scope.getRegionalData = function () {
+            $http.post("@Url.Action("RegionalData", "FetchData", new { Area = "Regional" })", $scope.reqParam).success(onDashboardDataSuccess);
+        };
+
+        $scope.getCommodityStockStatus();
+        $scope.getStockStatus();
+        $scope.getDispatches();
+        $scope.getRegionalData();
+    }
+</script>

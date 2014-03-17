@@ -11,7 +11,7 @@ using Cats.Models.Hubs.ViewModels.Dispatch;
 
 namespace Cats.Services.Hub
 {
-    public interface IOtherDispatchAllocationService:IDisposable
+    public interface IOtherDispatchAllocationService : IDisposable
     {
 
         bool AddOtherDispatchAllocation(OtherDispatchAllocation otherDispatchAllocation);
@@ -41,7 +41,7 @@ namespace Cats.Services.Hub
         List<OtherDispatchAllocationDto> GetCommitedTransferAllocationsDetached(UserProfile user, int hubId, bool? closedToo, int? CommodityType);
 
         void CloseById(Guid otherDispatchAllocationId);
-    
+
     }
 }
 

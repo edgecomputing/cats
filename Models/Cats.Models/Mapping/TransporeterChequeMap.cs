@@ -24,11 +24,14 @@ namespace Cats.Models.Mapping
             this.Property(t => t.TransporterChequeId).HasColumnName("TransporterChequeId");
             this.Property(t => t.PaymentRequestID).HasColumnName("PaymentRequestID");
             this.Property(t => t.CheckNo).HasColumnName("CheckNo");
+            this.Property(t => t.PaymentVoucherNo).HasColumnName("PaymentVoucherNo");
+            this.Property(t => t.BankName).HasColumnName("BankName");
+            this.Property(t => t.Amount).HasColumnName("Amount");
             this.Property(t => t.TransporterId).HasColumnName("TransporterId");
             this.Property(t => t.PreparedBy).HasColumnName("PreparedBy");
             this.Property(t => t.AppovedBy).HasColumnName("AppovedBy");
             this.Property(t => t.AppovedDate).HasColumnName("AppovedDate");
-            this.Property(t => t.BusinessProcessID).HasColumnName("BusinessProcessID");
+            
 
             // Relationships
             this.HasRequired(t => t.Transporter)

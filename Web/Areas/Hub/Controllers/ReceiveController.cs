@@ -12,6 +12,8 @@ using Newtonsoft.Json;
 using Telerik.Web.Mvc;
 using System.ComponentModel.DataAnnotations;
 
+using Kendo.Mvc.Extensions;
+using Kendo.Mvc.UI;
 namespace Cats.Areas.Hub.Controllers
 {
     /// <summary>
@@ -67,6 +69,13 @@ namespace Cats.Areas.Hub.Controllers
             _donorService = donorService;
 
         }
+        public void populateLookups(UserProfile user)
+        {
+
+            ViewBag.FilterCommodityTypeID = new SelectList(_commodityTypeService.GetAllCommodityType(), "CommodityTypeID", "Name");
+            ViewBag.HubsID = new SelectList(_hubService.GetAllHub(), "HubID", "HubNameWithOwner", user.DefaultHub.HubID);
+         //   ViewBag.RegionCollection = _adminUnitService.FindBy(t => t.AdminUnitTypeID == 2);
+        }
         public ActionResult SINotUnique(int ShippingInstruction, int CommoditySourceID)
         {
 
@@ -115,6 +124,52 @@ namespace Cats.Areas.Hub.Controllers
             ViewBag.CommodityTypes = new SelectList(_commodityTypeService.GetAllCommodityType(), "CommodityTypeID", "Name", 1); //make the inital binding a food type
             return PartialView("Allocations", list);
         }
+        public ActionResult AllocationList2(int type)
+        {
+            //TODO perform type specification here
+            //Just return an empty list and bind it later
+            var list = new List<ReceiptAllocationViewModel>();
+            ViewBag.CommoditySourceType = type;
+            ViewBag.CommodityTypes = new SelectList(_commodityTypeService.GetAllCommodityType(), "CommodityTypeID", "Name", 1); //make the inital binding a food type
+            return PartialView("Allocations2", list);
+        }
+
+        public ActionResult AllocationListAjax([DataSourceRequest] DataSourceRequest request, int type, bool? closedToo, int? CommodityType)
+        {
+            List<ReceiptAllocation> list = new List<ReceiptAllocation>();
+            List<ReceiptAllocationViewModel> listViewModel = new List<ReceiptAllocationViewModel>();
+            try
+            {
+                UserProfile user = _userProfileService.GetUser(User.Identity.Name);
+                list = _receiptAllocationService.GetUnclosedAllocationsDetached(user.DefaultHub.HubID, type, closedToo, user.PreferedWeightMeasurment, CommodityType);
+                listViewModel = BindReceiptAllocationViewModels(list).ToList();
+                return Json(listViewModel.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(listViewModel.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+
+            }
+        }
+
+
+        public ActionResult ReceiveListAjax([DataSourceRequest] DataSourceRequest request, string ReceiptAllocationID)
+        {
+            UserProfile user = _userProfileService.GetUser(User.Identity.Name);
+            //TODO cascade using allocation id
+            List<ReceiveViewModelDto> receives = _receiveService.ByHubIdAndAllocationIDetached(user.DefaultHub.HubID, Guid.Parse(ReceiptAllocationID));
+            return Json(receives.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+        }
+
+
+        public ActionResult ReceiveDetailAjax([DataSourceRequest] DataSourceRequest request, string ReceiveID)
+        {
+            UserProfile user = _userProfileService.GetUser(User.Identity.Name);
+            //(user.DefaultHub.HubID)
+            List<ReceiveDetailViewModelDto> receiveDetails = _receiveDetailService.ByReceiveIDetached(Guid.Parse(ReceiveID), user.PreferedWeightMeasurment);
+            return Json(receiveDetails.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+        }
+
 
         [GridAction]
         public ActionResult AllocationListGrid(int type, bool? closedToo, int? CommodityType)
@@ -217,7 +272,13 @@ namespace Cats.Areas.Hub.Controllers
             List<Receive> receives = _receiveService.ByHubId(user.DefaultHub.HubID);
             return View(receives);
         }
-
+        public virtual ActionResult Index2()
+        {
+            UserProfile user = _userProfileService.GetUser(User.Identity.Name);
+            populateLookups(user);
+            List<Receive> receives = _receiveService.ByHubId(user.DefaultHub.HubID);
+            return View(receives);
+        }
         public virtual ActionResult Log()
         {
             List<Receive> receives = _receiveService.ByHubId(GetCurrentUserProfile().DefaultHub.HubID);
