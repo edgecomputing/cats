@@ -41,7 +41,7 @@
                             <ul class="portlet-tools pull-right">
                                 <li>
                                     <button class="btn btn-sm btn-default">
-                                        Detail
+                                     <a href="@Url.Action("Index","ValidatedPaymentRequest",new {Area ="Finance"})">Detail</a>   
                                     </button>
 
                                 </li>
@@ -54,29 +54,35 @@
                             <th class="table-responsive">
                                 <table id="" class="table table-striped table-checkable">
                                     <thead>
+                                        <th class="portlet-header" colspan="7">Payment Request</th>
+                                        <th class="portlet-header" colspan="3">Reference</th>
                                         <tr>
+                                            
                                             <th class="hidden-xs">Number</th>
-                                            <th>Reference No</th>
-                                            <th>Transport Order No</th>
-                                            <th>Transporter</th>
-                                            <th style="text-align: center">Payment Amount</th>
-                                            <th style="text-align: center">Transported Amout (QT)</th>
-                                            <th>Current Status</th>
-                                            <th>Date Performed</th>
-                                            <th>Modified By</th>
+                                            <th>Transporter Name</th>
+                                            <th style="text-align: center">Requested Amount</th>
+                                            <th style="text-align: center">Aditional Labour Cost</th>
+                                            <th style="text-align: center">Total Amount</th>
+                                            <th style="text-align: center">Rejected Amount</th>
+                                            <th style="text-align: center">Net Pay</th>
+                                          
+                                            <th>Date</th>
+                                            <th>Check No</th>
+                                            <th>PV No</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr ng-repeat="req in paymentRequest">
                                             <td class="hidden-xs">{{$index + 1}}</td>
-                                            <td>{{req.Reference_No}}</td>
-                                            <td>{{req.Transport_Order}}</td>
                                             <td>{{req.Transporter}}</td>
-                                            <th style="text-align: right; margin-right: 20px">{{req.Amount | number:2}}</th>
-                                            <th style="text-align: right; margin-right: 20px">{{req.AmountTransported | number:2}}</th>
-                                            <th>{{req.Status}}</th>
-                                            <th>{{req.Date}}</th>
-                                            <th>{{req.Performer}}</th>
+                                            <td style="text-align: right; margin-right: 20px">{{req.RequestedAmount}}</td>
+                                            <td style="text-align: right; margin-right: 20px">{{req.AditionalLabourCost | number:2}}</td>
+                                             <td style="text-align: right; margin-right: 20px">{{req.RequestedAmount + req.AditionalLabourCost | number:2}} </td>
+                                            <td style="text-align: right; margin-right: 20px">{{req.RejectedAmount | number:2}}</td>
+                                            <td style="text-align: right; margin-right: 20px">{{(req.RequestedAmount + req.AditionalLabourCost) - req.RejectedAmount | number:2}} </td>
+                                            <td style="text-align: right; margin-right: 20px">{{req.Date}}</td>
+                                            <th>{{req.ChequeNo}}</th>
+                                            <th>{{req.PVNo}}</th>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -141,7 +147,7 @@
                                             <th>Date Approved</th>
                                             <th>Prepared By</th>
                                             <th>Approved By</th>
-                                            <th>Status</th>
+                                            
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -153,7 +159,7 @@
                                             <th>{{req.DateApproved}}</th>
                                             <th>{{req.ApprovedBy}}</th>
                                             <th>{{req.PreparedBy}}</th>
-                                            <th>{{req.status}}</th>
+                                            
                                         </tr>
                                     </tbody>
                                 </table>

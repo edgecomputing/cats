@@ -100,7 +100,7 @@ namespace Cats.Controllers
                     Session[CatsGlobals.REGION_PERMISSIONS] = regionalPermissionCache;
 
                     // Whatever permission we are going to have!
-
+                    _log.Info("Logged in User: " + user.UserName);
                     // TODO: Review user permission code
                     //string[] authorization = service.GetUserPermissions(service.GetUserInfo(model.UserName).UserAccountId, "Administrator", "Manage User Account");
                     //service.GetUserPermissions(model.UserName, "CATS", "Finance");
@@ -112,7 +112,7 @@ namespace Cats.Controllers
             {
                 var log = new Logger();
                 log.LogAllErrorsMesseges(exception, _log);
-
+               
                 ViewBag.HasError = true;
                 ViewBag.Error = exception.ToString();
                 ViewBag.ErrorMessage = "Login failed. Try logging in with the right user name and password.";
@@ -130,6 +130,7 @@ namespace Cats.Controllers
         {
             Session.Clear();
             FormsAuthentication.SignOut();
+            _log.Info("Logged out User: " + this.User.Identity.Name);
             return RedirectToAction("Index", "Home");
         }
 
