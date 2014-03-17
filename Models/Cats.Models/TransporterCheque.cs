@@ -18,6 +18,7 @@ namespace Cats.Models
         public int PreparedBy { get; set; }
         public int AppovedBy { get; set; }
         public System.DateTime AppovedDate { get; set; }
+        public int? Status  { get; set; }
         public virtual Transporter Transporter { get; set; }
         public virtual UserProfile UserProfile { get; set; }
         public virtual UserProfile UserProfile1 { get; set; }
