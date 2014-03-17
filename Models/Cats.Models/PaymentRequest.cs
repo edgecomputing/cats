@@ -23,6 +23,8 @@ namespace Cats.Models
         public int BusinessProcessID { get; set; }
         public Nullable<decimal> LabourCostRate { get; set; }
         public Nullable<decimal> LabourCost { get; set; }
+        public Nullable<decimal> RejectedAmount { get; set; }
+        public string RejectionReason { get; set; }
     }
 
 }
