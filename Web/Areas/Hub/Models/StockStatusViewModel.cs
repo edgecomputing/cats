@@ -7,10 +7,10 @@ namespace Cats.Areas.Hub.Models
 {
     public class StockStatusViewModel
     {
-        public int freestockPercent { get; set; }
-        public int physicalStockPercent { get; set; }
-        public int freeStockAmount { get; set; }
-        public int physicalStockAmount { get; set; }
-        public int totalStock { get; set; }
+        public decimal freestockPercent { get; set; }
+        public decimal physicalStockPercent { get; set; }
+        public decimal freeStockAmount { get; set; }
+        public decimal physicalStockAmount { get; set; }
+        public decimal totalStock { get; set; }
     }
 }
