@@ -529,6 +529,66 @@
             </div>
             <div id="RequisitionContent" class="row">
                 <div>&nbsp;</div>
+                 <div class="span7">
+                    <div class="portlet">
+                        <div class="portlet-header">
+                            <h3>
+                                <i class=""></i>
+                                Recent Requisitions
+                            </h3>
+                            <ul class="portlet-tools pull-right">
+                                <li>
+                                    <button class="btn btn-sm btn-default">
+                                        Show more
+                                    </button>
+
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- /.portlet-header -->
+
+                        <div class="portlet-content">
+                            <th class="table-responsive">
+                                <table id="" class="table table-striped table-checkable">
+                                    <thead>
+                                        <tr>
+                                            <th class="hidden-xs">Requisition Number</th>
+                                            <th>Region</th>
+                                            <th>Zone</th>
+                                            <th>Commodity</th>
+                                            <th>Beneficiaries</th>
+                                            <th>Amount(MT)</th>
+                                            <th>Status</th>
+                                          @*  <th class="align-center">Action</th>*@
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="requisition in Requisitions" class="">
+                                             <td class="hidden-xs"><a ng-href= "@Url.Content("~/EarlyWarning/ReliefRequisition/Allocation/{{requisition.RequisitionID}}")"> {{requisition.RequisitonNumber}} </a> </td>
+                                            <td>{{requisition.Region}}</td>
+                                            <td>{{requisition.Zone}}</td>
+                                            <td>{{requisition.Commodity}}</td>
+                                            <td>{{requisition.Beneficiary}}</td>
+                                            <th>{{requisition.Amount}} </th>
+                                            <td><span class="label label-success">{{requisition.Status}}</span></td>
+                                           @* <td>
+                                                <a href="javascript:;" class="btn btn-sm btn-default">View <i class="icon-chevron-right"></i>
+                                                </a>
+
+                                            </td>*@
+                                        </tr>
+
+                                       
+                                    </tbody>
+                                </table>
+
+                        </div>
+                        <!-- /.table-responsive -->
+                    </div>
+                    <!-- /.portlet-content -->
+
+                </div>
                 <div class="span4">
 
                     <div class="portlet">
@@ -700,66 +760,7 @@
                     </div>
                     <!-- /.portlet -->
                 </div>
-                <div class="span7">
-                    <div class="portlet">
-                        <div class="portlet-header">
-                            <h3>
-                                <i class=""></i>
-                                Recent Requisitions
-                            </h3>
-                            <ul class="portlet-tools pull-right">
-                                <li>
-                                    <button class="btn btn-sm btn-default">
-                                        Show more
-                                    </button>
-
-                                </li>
-                            </ul>
-                        </div>
-
-                        <!-- /.portlet-header -->
-
-                        <div class="portlet-content">
-                            <th class="table-responsive">
-                                <table id="" class="table table-striped table-checkable">
-                                    <thead>
-                                        <tr>
-                                            <th class="hidden-xs">Requisition Number</th>
-                                            <th>Region</th>
-                                            <th>Zone</th>
-                                            <th>Commodity</th>
-                                            <th>Beneficiaries</th>
-                                            <th>Amount(MT)</th>
-                                            <th>Status</th>
-                                          @*  <th class="align-center">Action</th>*@
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr ng-repeat="requisition in Requisitions" class="">
-                                             <td class="hidden-xs"><a ng-href= "@Url.Content("~/EarlyWarning/ReliefRequisition/Allocation/{{requisition.RequisitionID}}")"> {{requisition.RequisitonNumber}} </a> </td>
-                                            <td>{{requisition.Region}}</td>
-                                            <td>{{requisition.Zone}}</td>
-                                            <td>{{requisition.Commodity}}</td>
-                                            <td>{{requisition.Beneficiary}}</td>
-                                            <th>{{requisition.Amount}} </th>
-                                            <td><span class="label label-success">{{requisition.Status}}</span></td>
-                                           @* <td>
-                                                <a href="javascript:;" class="btn btn-sm btn-default">View <i class="icon-chevron-right"></i>
-                                                </a>
-
-                                            </td>*@
-                                        </tr>
-
-                                       
-                                    </tbody>
-                                </table>
-
-                        </div>
-                        <!-- /.table-responsive -->
-                    </div>
-                    <!-- /.portlet-content -->
-
-                </div>
+               
 
                 <!-- /.portlet -->
             </div>
