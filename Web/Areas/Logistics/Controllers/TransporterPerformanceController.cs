@@ -84,6 +84,7 @@ namespace Cats.Areas.Logistics.Controllers
 
 
             var contractNumbers = (from contractNumber in _transportOrderService.GetAllTransportOrder()
+                                   where contractNumber.StatusID == (int) TransportOrderStatus.Closed 
                                    select contractNumber.ContractNumber).Distinct().ToList();
           
 

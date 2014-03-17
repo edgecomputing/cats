@@ -9,8 +9,8 @@
 
 <h4 class="page-header">Transporter Performance Summary</h4>
 Agreement Contract #:
- @Html.TextBox("searchIndex")
-@*<input id="searchIndex" style="width: 300px; height: 20px; border-radius: 3px; margin-top: 5px;" type="search" />*@
+@* @Html.TextBox("searchIndex")*@
+<input id="searchIndex" style="width: 300px; height: 20px; border-radius: 3px; margin-top: 5px;" type="search" />
  <a data-buttontype=""  class="btn icon-search" onclick="reloadTDRGrid()" ></a>
 
 
@@ -44,7 +44,7 @@ var contractNumbers = "";
 var sourceArr = [];
 $(document).ready(function () {
  
-    alert("here");
+    $('#searchIndex').typeahead({ source: sourceArr });
 
     $.ajax({
         
@@ -57,18 +57,16 @@ $(document).ready(function () {
         success: function (result) {
             for (var i = 0; i < result.length; i++) {
                 sourceArr.push(result[i]);
-              
+                
             }
         },
         error: function (error) {
-            alert("There was an error posting the data to the server: " + error.responseText);
+            alert("There was an error on reading the data from the server: " + error.responseText);
         }
     });
 });
 
-
-    $('#searchIndex').typeahead({ source: sourceArr });
-    
+ 
     function searchIndexObj() {
         var searchIndexValue = $("#searchIndex").val();
         var obj = { searchIndex: searchIndexValue };
@@ -80,4 +78,9 @@ $(document).ready(function () {
         var grid = $("#Grid").data("kendoGrid");
         grid.dataSource.read();
     }
+
+    $("#searchIndex").on('change', function() {
+        var grid = $("#Grid").data("kendoGrid");
+        grid.dataSource.read();
+    });
 </script>
