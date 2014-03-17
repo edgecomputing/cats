@@ -8,10 +8,12 @@ using Cats.Helpers;
 using Cats.Models;
 using Cats.Models.Constant;
 using Cats.Services.Hub;
+using Cats.Services.Logistics;
 using Cats.Services.Procurement;
 using Cats.Services.Security;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
+using Dispatch = Cats.Models.Hubs.Dispatch;
 using IAdminUnitService = Cats.Services.EarlyWarning.IAdminUnitService;
 using IHubService = Cats.Services.EarlyWarning.IHubService;
 
@@ -27,8 +29,11 @@ namespace Cats.Areas.Logistics.Controllers
         private readonly ITransportOrderDetailService _transportOrderDetailService;
         private readonly IHubService _hubService;
         private readonly IAdminUnitService _adminUnitService;
+        private readonly IDispatchService _dispatchService;
+        private readonly IDeliveryService _deliveryService;
         public TransporterPerformanceController(ITransportOrderService transportOrderService,IUserAccountService userAccountService,
-                                              IDispatchAllocationService dispatchAllocationService, ITransportOrderDetailService transportOrderDetailService, IHubService hubService, IAdminUnitService adminUnitService)
+                                              IDispatchAllocationService dispatchAllocationService, ITransportOrderDetailService transportOrderDetailService,
+                                              IHubService hubService, IAdminUnitService adminUnitService,IDispatchService dispatchService,IDeliveryService deliveryService)
         {
             _transportOrderService = transportOrderService;
             _userAccountService = userAccountService;
@@ -36,6 +41,8 @@ namespace Cats.Areas.Logistics.Controllers
             _transportOrderDetailService = transportOrderDetailService;
             _hubService = hubService;
             _adminUnitService = adminUnitService;
+            _dispatchService = dispatchService;
+            _deliveryService = deliveryService;
         }
         public ActionResult Index()
         {
@@ -64,7 +71,8 @@ namespace Cats.Areas.Logistics.Controllers
                         StartDate = transportOrder.StartDate.ToCTSPreferedDateFormat(datePref),
                         TotalQuantity = transportOrder.TransportOrderDetails.Sum(m => m.QuantityQtl),
                         NoOfDaysToComplete =(int) (transportOrder.EndDate.Subtract(transportOrder.StartDate)).TotalDays,
-                        PickedUpSofar = GetDispatchAllocation(transportOrder.TransportOrderID),
+                        PickedUpSofar = GetDispatchAllocation(transportOrder.TransportOrderID), 
+                        Delivered = GetDelivered(transportOrder.TransportOrderID),
                         ElapsedDays =(int)(DateTime.Now.Subtract(transportOrder.StartDate)).TotalDays,
                     });
                 
@@ -77,20 +85,26 @@ namespace Cats.Areas.Logistics.Controllers
 
             var contractNumbers = (from contractNumber in _transportOrderService.GetAllTransportOrder()
                                    select contractNumber.ContractNumber).Distinct().ToList();
-            // .Except(
-            //from allocated in _receiptAllocationService.GetAllReceiptAllocation()
-            //select allocated.SINumber).ToList();
+          
 
             return Json(contractNumbers, JsonRequestBehavior.AllowGet);
         }
 
         private Decimal GetDispatchAllocation(int transportOrderID)
         {
-            var dispatchAllocations = _dispatchAllocationService.FindBy(m => m.TransportOrderID == transportOrderID);
-            var dispatchedSoFar = dispatchAllocations.Sum(m => m.Amount);
-            return dispatchedSoFar;
+            var dispatches = _dispatchService.Get(t => t.DispatchAllocation.TransportOrderID == transportOrderID).ToList();
+            var totaldispatched= dispatches.Sum(dispatch => dispatch.DispatchDetails.Sum(m => m.DispatchedQuantityInMT));
+
+            return totaldispatched;
         }
 
+        private decimal GetDelivered(int transportOrderID)
+        {
+            var dispatchIds = _dispatchService.Get(t => t.DispatchAllocation.TransportOrderID == transportOrderID).Select(t => t.DispatchID).ToList();
+            var deliveries = _deliveryService.Get(t => dispatchIds.Contains(t.DispatchID.Value), null, "DeliveryDetails");
+            return deliveries.Sum(delivery => delivery.DeliveryDetails.Sum(m => m.ReceivedQuantity));
+        }
+     
 
         #region transporter performance detail
 

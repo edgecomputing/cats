@@ -13,6 +13,7 @@ namespace Cats.Areas.Logistics.Models
         public string TransporterName { get; set; }
         public decimal TotalQuantity { get; set; }
         public decimal PickedUpSofar { get; set; }
+        public decimal Delivered { get; set; }
         public string StartDate { get; set; }
         public int NoOfDaysToComplete { get; set; }
         public int ElapsedDays { get; set; }
