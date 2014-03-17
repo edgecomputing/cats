@@ -14,6 +14,7 @@ namespace Cats.Areas.Finance.Controllers
         private readonly ITransporterChequeService _transporterChequeService;
         private readonly IPaymentRequestService _paymentRequestServvice;
 
+
         public HomeController(ITransporterChequeService transporterChequeService, IPaymentRequestService paymentRequestServvice)
         {
             _transporterChequeService = transporterChequeService;
@@ -34,12 +35,13 @@ namespace Cats.Areas.Finance.Controllers
             var requests = _paymentRequestServvice.GetAll().Select(p => new
                                                                            {
                                                                                Transporter = p.TransportOrder.Transporter.Name,
-                                                                               Amount = p.RequestedAmount,
-                                                                               Transport_Order = p.TransportOrder.TransportOrderNo,
-                                                                               Reference_No = p.ReferenceNo,
-                                                                               AmountTransported = p.TransportOrder.TransportOrderDetails.Sum(y => y.QuantityQtl),
+                                                                               RequestedAmount = p.RequestedAmount,
+                                                                               AditionalLabourCost = p.LabourCost,
+                                                                               RejectedAmount = p.RejectedAmount,
+                                                                               Date  = _transporterChequeService.FindBy(t=>t.PaymentRequestID == p.PaymentRequestID).Select(d=>d.AppovedDate).FirstOrDefault().ToCTSPreferedDateFormat(UserAccountHelper.UserCalendarPreference()),
+                                                                               ChequeNo = _transporterChequeService.FindBy(t=>t.PaymentRequestID == p.PaymentRequestID).Select(d=>d.CheckNo).FirstOrDefault(),
+                                                                               PVNo = _transporterChequeService.FindBy(t=>t.PaymentRequestID == p.PaymentRequestID).Select(d=>d.PaymentVoucherNo).FirstOrDefault(),
                                                                                Status = p.BusinessProcess.CurrentState.BaseStateTemplate.Name,
-                                                                               Date = p.BusinessProcess.CurrentState.DatePerformed.ToCTSPreferedDateFormat(UserAccountHelper.UserCalendarPreference()),
                                                                                Performer = p.BusinessProcess.CurrentState.PerformedBy
                                                                            });
             return Json(requests.OrderBy(t=>t.Date).Take(10), JsonRequestBehavior.AllowGet);

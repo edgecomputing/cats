@@ -87,6 +87,7 @@ namespace Cats.Models.PSNP
 
         //CashRatio
         [Display(Name = "Cash Ratio")]
+        [Range(0, 12, ErrorMessage = "Cash Ration can not be less than 0 and greater than 12!")]
         public Nullable<int> CashRatio { get; set; }
 
         //Item3Ratio
@@ -124,6 +125,7 @@ namespace Cats.Models.PSNP
 
         //FoodRatio
         [Display(Name = "Food Ratio")]
+        [Range(0, 12, ErrorMessage = "Cash Ration can not be less than 0 and greater than 12!")]
         public int FoodRatio { get; set; }
 
         //CashRatio

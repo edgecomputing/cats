@@ -13,6 +13,7 @@ namespace Cats.Areas.Logistics.Models
         public string TransporterName { get; set; }
         public decimal TotalQuantity { get; set; }
         public decimal PickedUpSofar { get; set; }
+        public decimal Delivered { get; set; }
         public string StartDate { get; set; }
         public int NoOfDaysToComplete { get; set; }
         public int ElapsedDays { get; set; }
@@ -20,7 +21,14 @@ namespace Cats.Areas.Logistics.Models
         {
             get
             {
-                return (PickedUpSofar/TotalQuantity)*100;
+                if (PickedUpSofar>0)
+                {
+                   return  (Delivered/PickedUpSofar)*100;
+                }
+
+                return 0;
+                
+               
             }
         }
         public string ContractNumber { get; set; }

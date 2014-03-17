@@ -14,18 +14,27 @@ using Cats.Security;
 using Cats.Helpers;
 
 
+
 namespace Cats.Areas.Hub.Controllers
 {
 
     public class HomeController : BaseController
     {
-        public HomeController(IUserProfileService userProfileService)
+        private readonly IAdminUnitService _adminUnitService;
+        private readonly IHubService _hubService;
+
+        public HomeController(IUserProfileService userProfileService, IAdminUnitService adminUnitService, IHubService hubService)
             : base(userProfileService)
         {
+            _adminUnitService = adminUnitService;
+            _hubService = hubService;
 
         }
         public ActionResult Index()
         {
+            var currentUser = UserAccountHelper.GetUser(HttpContext.User.Identity.Name);
+            ViewBag.HubName = currentUser.DefaultHub != null ? _hubService.FindById(currentUser.DefaultHub ?? 1).Name : "";
+            ViewBag.HubID = currentUser.DefaultHub != null ? currentUser.DefaultHub : 0;
             return View();
         }
 

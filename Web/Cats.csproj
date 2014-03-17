@@ -396,6 +396,8 @@
     <Compile Include="Areas\Finance\FinanceAreaRegistration.cs" />
     <Compile Include="Areas\Finance\Models\PaymentRequestViewModel.cs" />
     <Compile Include="Areas\Finance\Models\TransporterChequeViewModel.cs" />
+    <Compile Include="Areas\Hub\Controllers\HubDashboardController.cs" />
+    <Compile Include="Areas\Hub\Models\StockStatusViewModel.cs" />
     <Compile Include="Areas\Logistics\Controllers\DonationController.cs" />
     <Compile Include="Areas\Logistics\Controllers\PaymentRequestController.cs" />
     <Compile Include="Areas\Logistics\Controllers\TransferController.cs" />
