@@ -312,7 +312,7 @@ namespace Cats.Services.Hub
             return result.ToList();
         }
 
-        public List<HubFreeStockSummaryView> GetStockSummaryD(int program, DateTime date)
+      public List<HubFreeStockSummaryView> GetStockSummaryD(int program, DateTime date)
         {
             var status = _transactionService.Get(t => t.HubID != null && t.ProgramID == program && DateTime.Compare(t.TransactionDate, date) <= 0);
             var grouped = (
@@ -329,10 +329,12 @@ namespace Cats.Services.Hub
                 decimal free = 0;
 
                 var hubName = "";
+                var hubID = 0;
 
                 foreach (var s in i.Transactions)
                 {
                     hubName = s.Hub.Name;
+                    hubID = s.HubID??0;
 
                     if (s.LedgerID == 2 || s.LedgerID == 3 || s.LedgerID == 12)
                     {
@@ -346,6 +348,7 @@ namespace Cats.Services.Hub
                 }
                 var item = new HubFreeStockSummaryView()
                 {
+                    HubID = hubID,
                     HubName = hubName,
                     TotalPhysicalStock = phys,
                     TotalFreestock = free

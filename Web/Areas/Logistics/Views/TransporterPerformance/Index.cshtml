@@ -8,7 +8,10 @@
 }
 
 <h4 class="page-header">Transporter Performance Summary</h4>
-Agreement Contract #: <input id="searchIndex" style="width: 300px; height: 20px; border-radius: 3px; margin-top: 5px;" type="search" /> <a data-buttontype=""  class="btn icon-search" onclick="reloadTDRGrid()" ></a>
+Agreement Contract #:
+@* @Html.TextBox("searchIndex")*@
+<input id="searchIndex" style="width: 300px; height: 20px; border-radius: 3px; margin-top: 5px;" type="search" />
+ <a data-buttontype=""  class="btn icon-search" onclick="reloadTDRGrid()" ></a>
 
 
 @(Html.Kendo().Grid<TransporterPerformanceViewModel>()
@@ -20,6 +23,7 @@ Agreement Contract #: <input id="searchIndex" style="width: 300px; height: 20px;
     columns.Bound(m => m.TransporterName);
     columns.Bound(m => m.TotalQuantity).Title(@Html.Translate2(PAGE_NAME, "Total Quantity in QTL")).HtmlAttributes(new { align = "Right" });
     columns.Bound(m => m.PickedUpSofar).Title(@Html.Translate2(PAGE_NAME, "Picked Up Sofar in QTL")).HtmlAttributes(new { align = "Right" });
+    columns.Bound(m => m.Delivered).Title(@Html.Translate2(PAGE_NAME, "Delivered in QTL")).HtmlAttributes(new { align = "Right" });
     columns.Bound(m => m.StartDate).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid" });
     columns.Bound(m => m.NoOfDaysToComplete).Title(@Html.Translate2(PAGE_NAME, "Agreed to complete (days)")).HtmlAttributes(new { align = "Right" });
     columns.Bound(m => m.ElapsedDays).Title(@Html.Translate2(PAGE_NAME, "Elapsed Time(in Days)")).HtmlAttributes(new { align = "Right" });
@@ -35,13 +39,17 @@ Agreement Contract #: <input id="searchIndex" style="width: 300px; height: 20px;
         .Read(read => read.Action("TransporterPerformance_Read", "TransporterPerformance").Data("searchIndexObj"))
     )
       )
-@*<script>
+<script>
 var contractNumbers = "";
 var sourceArr = [];
 $(document).ready(function () {
+ 
+    $('#searchIndex').typeahead({ source: sourceArr });
 
     $.ajax({
+        
         type: "POST",
+        
         url: "@Url.Action("GetContractNumbers", "TransporterPerformance",new {Area="Logistics"})",
         dataType: "json",
         contentType: "application/json; charset=utf-8",
@@ -49,20 +57,16 @@ $(document).ready(function () {
         success: function (result) {
             for (var i = 0; i < result.length; i++) {
                 sourceArr.push(result[i]);
-
+                
             }
         },
         error: function (error) {
-            alert("There was an error posting the data to the server: " + error.responseText);
+            alert("There was an error on reading the data from the server: " + error.responseText);
         }
     });
 });
 
-
-
-    $('#searchIndex').typeahead({ source: sourceArr });
-    </script>*@
-<script>
+ 
     function searchIndexObj() {
         var searchIndexValue = $("#searchIndex").val();
         var obj = { searchIndex: searchIndexValue };
@@ -74,4 +78,9 @@ $(document).ready(function () {
         var grid = $("#Grid").data("kendoGrid");
         grid.dataSource.read();
     }
+
+    $("#searchIndex").on('change', function() {
+        var grid = $("#Grid").data("kendoGrid");
+        grid.dataSource.read();
+    });
 </script>

@@ -12,14 +12,14 @@
 <div ng-app>
     <div ng-controller="HubDashboardController" class="container">
         <div>
-            <h2>@ViewBag.HubName</h2>
+            <h2>@ViewBag.HubName Hub</h2>
             <div class="row" style="border-bottom-width: thin; border-bottom-color: #666; border-bottom-style: inset; margin-top: 5px">
                 <div class="pull-left">
                     <h4>Stock Status</h4>
                 </div>
                 <div class="pull-right">
                     <div class="btn-group">
-                        <button id="RequestHeader" type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
+                        <button id="StockStatusHeader" type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
                             <i class="icon-arrow-up"></i>
                             <i class="icon-arrow-down"></i>
                         </button>
@@ -35,10 +35,10 @@
                             <div class="progress-stat">
                                 <div class="progress">
                                     <div class="bar bar-success" style="width:{{ StockStatus.freestockPercent; }}%;">
-                                    <span>Free Stock {{ StockStatus.freestockPercent; }}%</span>
+                                    <span>Free Stock {{ StockStatus.freestockPercent|number:2; }}%</span>
                                     </div>
                                     <div class="bar bar-warning" style="width:{{ StockStatus.physicalStockPercent; }}%;">
-                                        <span>Physical Stock {{ StockStatus.physicalStockPercent; }}%</span>
+                                        <span>Committed Stock {{ StockStatus.physicalStockPercent|number:2; }}%</span>
                                     </div>
                                 </div>
                             </div>
@@ -55,6 +55,14 @@
                                 <i class=""></i>
                                 Stock Status per commodity
                             </h3>
+
+                            <ul class="portlet-tools pull-right">
+                                <li>
+                                    <a class="btn btn-sm btn-default" href="@Url.Action("Index", "LogisticsStockStatus", new { Area = "Logistics" })">
+                                        Show more
+                                    </a>
+                                </li>
+                            </ul>
                         </div>
 
                         <!-- /.portlet-header -->
@@ -65,16 +73,15 @@
                                     <thead>
                                         <tr>
                                             <th class="hidden-xs">Commodity</th>
-                                            <th>Free Stock</th>
-                                            <th>Physical Stock</th>
+                                            <th style="text-align:center">Free Stock (MT)</th>
+                                            <th style="text-align:center">Physical Stock(MT)</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-
                                         <tr class="" ng-repeat="Commodity in CommodityStock">
                                             <td class="hidden-xs">{{Commodity.CommodityName}}</td>
-                                            <td>{{Commodity.FreeStock}}</td>
-                                            <td>{{Commodity.PhysicalStock}}</td>
+                                            <td style="text-align: right; padding-right: 80px;">{{Commodity.FreeStock}}</td>
+                                            <td style="text-align: right; padding-right: 80px;">{{Commodity.PhysicalStock}}</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -216,8 +223,9 @@
 </div>
 
 <script>
-    $("#RequestHeader").click(function () {
-        $("#RequestContent").slideToggle("slow", "linear");
+    $("#StockStatusHeader").click(function () {
+        $("#StockStatusContent").slideToggle("slow", "linear");
+        alert(@ViewBag.HubID);
     });
 
     $("#RequisitionHeader").click(function () {
@@ -235,11 +243,8 @@
 
 <script>
     function HubDashboardController($scope, $http) {
-        @{
-            var hub = ViewBag.hub;
-        }
-
-        $scope.requestParam = { hub: 1, program: 1, date: new Date() };
+        
+        $scope.requestParam = { hub: '@ViewBag.HubID', program: 1, date: new Date() };
         $scope.reqParam = { regionID: 2 };
         $scope.CommodityStock = [];
         $scope.StockStatus = [];
@@ -289,3 +294,4 @@
         $scope.getRegionalData();
     }
 </script>
+

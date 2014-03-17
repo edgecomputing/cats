@@ -59,7 +59,8 @@ namespace Cats.Areas.Logistics.Controllers
 
         public ActionResult Index()
         {
-            
+            var currentUser = UserAccountHelper.GetUser(HttpContext.User.Identity.Name);
+            ViewBag.RegionName = currentUser.RegionID != null ? _adminUnitService.FindById(currentUser.RegionID ?? 0).Name : "";
             return View();
         }
 
