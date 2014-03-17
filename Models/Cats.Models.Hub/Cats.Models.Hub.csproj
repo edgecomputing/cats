@@ -693,7 +693,9 @@
     <EmbeddedResource Include="App_GlobalResources\GridLocalization.da-DK.resx" />
     <EmbeddedResource Include="App_GlobalResources\GridLocalization.de-DE.resx" />
     <EmbeddedResource Include="App_GlobalResources\GridLocalization.en-US.resx" />
-    <EmbeddedResource Include="App_GlobalResources\GridLocalization.es-ES.resx" />
+    <EmbeddedResource Include="App_GlobalResources\GridLocalization.es-ES.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="App_GlobalResources\GridLocalization.fr-FR.resx" />
     <EmbeddedResource Include="App_GlobalResources\GridLocalization.nl-NL.resx" />
     <EmbeddedResource Include="App_GlobalResources\GridLocalization.pl-PL.resx" />
