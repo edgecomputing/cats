@@ -194,6 +194,14 @@
    
 </div>
 
+<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="width: 150px;  right: 50%; top: 50%; margin: auto;">
+    <div class="progress progress-success  progress-striped active" style="height: 20px;">
+        <div class="bar" style="width:100%"></div>
+    </div>
+    <div id="modalContent" style="text-align: center;">
+    </div>
+</div>
+
 <script>
 
     var transportOrderId = '@ViewBag.TransportOrderId';
@@ -231,7 +239,7 @@
          $scope.transporterInfoDetail = {};
         $http({ method: 'GET', params: { transportOrderId: transportOrderId }, url: '@Url.Action("GetDispatches","TransporterPerformance")' }).success(function (data) {
             $scope.transporterInfoDetail.detail = data;
-           
+            
         });
         
        
@@ -246,9 +254,18 @@
         };
         
     }]);
-    
 
-    
+
+
+    var promotSuccess = function() {
+
+        $('#myModal').modal('hide');
+        $('#modalContent').html("loading...");
+        $('#myModal').modal('show');
+        setTimeout(function() { window.current(); }, 3000);
+
+
+    };
     
     
     

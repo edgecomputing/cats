@@ -11,7 +11,8 @@ namespace Cats.Helpers
 
             for (var eCurrent = ex; eCurrent != null; eCurrent = eCurrent.InnerException)
             {
-                log.Error(eCurrent.Message);
+                log.Error(eCurrent.Message,eCurrent.GetBaseException());
+                
             }
         }
 
