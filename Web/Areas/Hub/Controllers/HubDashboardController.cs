@@ -25,18 +25,35 @@ namespace Cats.Areas.Hub.Controllers
         {
             return View();
         }
-        
-        public JsonResult StockStatus (int hub, int program) {
-        
-            var s = new StockStatusViewModel() { 
-               freeStockAmount = 45000,
-               freestockPercent = 10,
-               physicalStockAmount = 55000,
-               physicalStockPercent = 90,
-               totalStock = 100000
+
+        public JsonResult StockStatus(int hub, int program)
+        {
+
+            var st = _stockStatusService.GetStockSummaryD(1, DateTime.Now);
+
+            //st.Take()
+            var value = st.Find(t => t.HubID == hub);
+
+            var free = (value.TotalFreestock / value.TotalPhysicalStock) * 100;
+            var commited = ((value.TotalPhysicalStock - value.TotalFreestock) / value.TotalPhysicalStock) * 100;
+
+            var q = (from s in st
+                     where s.HubID == hub
+                     select s);
+
+            //var free = q.First;
+            // return Json(q, JsonRequestBehavior.AllowGet);
+
+            var j = new StockStatusViewModel()
+            {
+                freeStockAmount = value.TotalFreestock,
+                freestockPercent = free,
+                physicalStockAmount = (value.TotalPhysicalStock - value.TotalFreestock),
+                physicalStockPercent = commited,
+                totalStock = value.TotalPhysicalStock
             };
 
-            return Json(s, JsonRequestBehavior.AllowGet);
+            return Json(j, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult CommodityStockStatus(int hub, int program)
