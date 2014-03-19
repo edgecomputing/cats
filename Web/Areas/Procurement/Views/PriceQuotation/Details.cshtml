@@ -125,6 +125,8 @@
                     })
                 .Scrollable()
                 .Filterable()
+                .Navigatable()
+                .Events(events => events.Change("onDataBound"))
                 //.ToolBar(toolBar => toolBar.Save())
                 .Groupable()
                 .Editable(editable => editable.Mode(GridEditMode.InCell))
@@ -158,4 +160,21 @@
     function saverecords() {
         $("#grid").data("kendoGrid").saveChanges();
     }
+
+    //function onGridKeydown(e) {
+    //    if (e.keyCode === kendo.keys.TAB) {
+    //        var grid = $(this).closest("[data-role=grid]").data("kendoGrid");
+    //        var current = grid.current();
+    //        if (!current.hasClass("editable-cell")) {
+    //            var nextCell = current.nextAll(".editable-cell");
+    //            if (!nextCell[0]) {
+    //                //search the next row
+    //                var nextRow = current.parent().next();
+    //                var nextCell = current.parent().next().children(".editable-cell:first");
+    //            }
+    //            grid.current(nextCell);
+    //            grid.editCell(nextCell[0])
+    //        }
+    //    }
+    //};
 </script>
