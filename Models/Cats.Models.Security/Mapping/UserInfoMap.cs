@@ -58,6 +58,8 @@ namespace Cats.Models.Security.Mapping
                 .HasMaxLength(50);
             this.Property(t => t.RegionalUser)
                 .IsRequired();
+            this.Property(t => t.IsAdmin)
+              .IsRequired();
 
             //this.Property(t => t.UserSID)
             //    .HasMaxLength(85);
@@ -86,6 +88,8 @@ namespace Cats.Models.Security.Mapping
             this.Property(t => t.UserProfileID).HasColumnName("UserProfileID");
             this.Property(t => t.NumberOfLogins).HasColumnName("NumberOfLogins");
             this.Property(t => t.RegionID).HasColumnName("RegionID");
+            this.Property(t => t.DefaultHub).HasColumnName("DefaultHub");
+            this.Property(t => t.IsAdmin).HasColumnName("IsAdmin");
 
             // this.Property(t => t.UserSID).HasColumnName("UserSID");
         }

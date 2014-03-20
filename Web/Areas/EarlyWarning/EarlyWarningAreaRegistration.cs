@@ -27,8 +27,6 @@ namespace Cats.Areas.EarlyWarning
                 "EarlyWarning/{controller}/{action}/{id}",
                 new { action = "Index", id = UrlParameter.Optional }
             );
-
-            
         }
     }
 }

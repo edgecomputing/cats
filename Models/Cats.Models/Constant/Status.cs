@@ -115,5 +115,10 @@ namespace Cats.Models.Constant
         Closed=4
     }
 
-   
+   public enum ChequeStatus
+   {
+       Prepare = 1,
+       Signed = 2,
+       Paid =3
+   }
 }

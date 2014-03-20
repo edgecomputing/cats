@@ -30,11 +30,12 @@ namespace Cats.Helpers
             var html = string.Empty;
             if (ewCache.CheckAccess(constants.ItemName(operation), DateTime.Now) == AuthorizationType.Allow)
             {
-                html = @"<a data-buttontype=" + dataButtontype + "  class=" + ccsClass + " href=" + url + ">" + text + "</a>";
+                html = @"<a data-buttontype=" + dataButtontype + " class=" + ccsClass + " href=" + url + ">" + text + "</a>";
             }
             return MvcHtmlString.Create(html);
         }
 
+               
         public static MvcHtmlString EarlyWarningOperationButton(this HtmlHelper helper, string url, EarlyWarningConstants.Operation operation, string text = "", string ccsClass = "", string dataButtontype = "", string id = "")
         {
             var constants = new EarlyWarningConstants();

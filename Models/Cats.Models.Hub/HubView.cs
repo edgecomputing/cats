@@ -27,11 +27,9 @@ namespace Cats.Models.Hubs
    }
 
     public class HubFreeStockSummaryView {
+        public int HubID { get; set; }
         public string HubName { get; set; }
         public decimal TotalFreestock { get; set; }
         public decimal TotalPhysicalStock { get; set; }
     }
-
-
-
 }

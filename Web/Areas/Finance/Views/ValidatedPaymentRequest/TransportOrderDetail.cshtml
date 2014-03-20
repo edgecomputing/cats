@@ -1,5 +1,7 @@
 ﻿@using Cats.Areas.Logistics.Models
 @using Cats.Areas.Procurement.Models
+@using Cats.Helpers
+@using Cats.Security
 @using Kendo.Mvc.UI
 @model TransportOrderViewModel
 
@@ -7,7 +9,10 @@
     ViewBag.Title = "Details";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
-
+@section Toolbar
+{ 
+    <a href="@Url.Action("Index", "ValidatedPaymentRequest", new { Area = "Finance" })" class="btn" data-buttontype="btn_back_to_list" title="Back to List"><i class="icon-list"></i></a>
+}
 <div class="control-group form-horizontal well">
     <div class="row">
         <div class="span6">

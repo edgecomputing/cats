@@ -24,21 +24,25 @@ namespace Cats.Models.Mapping
             this.Property(t => t.TransporterChequeId).HasColumnName("TransporterChequeId");
             this.Property(t => t.PaymentRequestID).HasColumnName("PaymentRequestID");
             this.Property(t => t.CheckNo).HasColumnName("CheckNo");
-            this.Property(t => t.TransporterId).HasColumnName("TransporterId");
+            this.Property(t => t.PaymentVoucherNo).HasColumnName("PaymentVoucherNo");
+            this.Property(t => t.BankName).HasColumnName("BankName");
+            this.Property(t => t.Amount).HasColumnName("Amount");
+            //this.Property(t => t.TransporterId).HasColumnName("TransporterId");
             this.Property(t => t.PreparedBy).HasColumnName("PreparedBy");
             this.Property(t => t.AppovedBy).HasColumnName("AppovedBy");
             this.Property(t => t.AppovedDate).HasColumnName("AppovedDate");
-            this.Property(t => t.BusinessProcessID).HasColumnName("BusinessProcessID");
+            this.Property(t => t.Status).HasColumnName("Status");
 
             // Relationships
-            this.HasRequired(t => t.Transporter)
-                .WithOptional(t => t.TransporterCheque);
+            //this.HasRequired(t => t.Transporter)
+            //    .WithMany(t => t.TransporterCheques)
+            //    .HasForeignKey(d => d.TransporterId);
             this.HasRequired(t => t.UserProfile)
                 .WithMany(t => t.TransporterCheques)
-                .HasForeignKey(d => d.AppovedBy);
+                .HasForeignKey(d => d.PreparedBy);
             this.HasRequired(t => t.UserProfile1)
                 .WithMany(t => t.TransporterCheques1)
-                .HasForeignKey(d => d.PreparedBy);
+                .HasForeignKey(d => d.AppovedBy);
         }
     }
 }
