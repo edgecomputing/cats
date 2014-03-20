@@ -1,0 +1,21 @@
+﻿<div class="btn-group" style="margin-right:5px;">
+    <button class="btn toolbar-btn" data-buttontype="btn_new_record" onclick="gridAddRow()"></button>
+    <button class="btn toolbar-btn" data-buttontype="btn_save" onclick="gridSaveChanges()"></button>
+    <button class="btn toolbar-btn" data-buttontype="btn_cancel" onclick="gridCancelChanges()"></button>
+</div> |
+
+<script>
+    var editedGridID = "#grid";
+    function gridSaveChanges() {
+        var grid = $(editedGridID).data("kendoGrid");
+        grid.saveChanges();
+    }
+    function gridAddRow() {
+        var grid = $(editedGridID).data("kendoGrid");
+        console.log(grid.addRow());
+    }
+    function gridCancelChanges() {
+        var grid = $(editedGridID).data("kendoGrid");
+        grid.cancelChanges();
+    }
+</script>

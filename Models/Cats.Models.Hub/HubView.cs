@@ -10,6 +10,7 @@ namespace Cats.Models.Hubs
     {
         public int HubId { get; set; }
         public string Name { get; set; }
+        public int HubOwnerID { get; set; }
     }
 
     public class ProgramView
