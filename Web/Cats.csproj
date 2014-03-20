@@ -2906,9 +2906,9 @@
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <Import Project="$(SolutionDir)\.octopack\OctoPack.targets" />
   <!-- <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />-->
-=======
-    </Content>-->
-    <Content Include="CTSDataSet.xsc">
+ <!--</Content>-->
+ 
+ <Content Include="CTSDataSet.xsc">
       <DependentUpon>CTSDataSet.xsd</DependentUpon>
     </Content>
     <Content Include="Areas\Logistics\Views\TransportRequisition\Requisitions.cshtml" />
@@ -4025,7 +4025,8 @@
     <None Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
-  </ItemGroup>
+  <!--</ItemGroup>-->
+  
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Finance\Views\Shared\" />
