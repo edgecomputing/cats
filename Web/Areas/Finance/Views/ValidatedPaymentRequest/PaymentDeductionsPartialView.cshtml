@@ -1,0 +1,89 @@
+﻿@model Cats.Areas.Finance.Models.PaymentRequestViewModel
+<div class="form-horizontal well" style=" padding-left: 40px;margin-left:0px;width:400px;height:250px;float: right;">
+    <div class="row">
+        <div class="span6">
+            <div class="control-group">
+                <div class="control-label">
+                    <label for="PaymentRequest_ReferenceNo">Referrence No.</label>
+                </div>
+                <div class="controls">
+                    <input type="text" value="{{SelectedLabourInfo.ReferenceNo}}" name="PaymentRequest.ReferenceNo" id="PaymentRequest_ReferenceNo" 
+                            data-ng-model="SelectedLabourInfo.ReferenceNo" disabled="disabled"/>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span6">
+            <div class="control-group">
+                <div class="control-label">
+                    <label for="PaymentRequest_RequestedAmount">Requested Amount(In QTL)</label>
+                </div>
+                <div class="controls">
+                    <input type="text" value="{{SelectedLabourInfo.RequestedAmount}}" name="PaymentRequest.RequestedAmount" id="PaymentRequest_RequestedAmount" 
+                            data-ng-model="SelectedLabourInfo.RequestedAmount" disabled="disabled"/>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span6">
+            <div class="control-group">
+                <div class="control-label">
+                    <label for="PaymentRequest_LabourCostRate">Labour Cost Rate (per QTL)</label>
+                </div>
+                <div class="controls">
+                    <input type="text" value="{{SelectedLabourInfo.LabourCostRate}}" name="PaymentRequest.LabourCostRate" id="PaymentRequest_LabourCostRate" 
+                            data-ng-model="SelectedLabourInfo.LabourCostRate" data-ng-change="labourCostRateKeyPressed()"/>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span6">
+            <div class="control-group">
+                <div class="control-label">
+                    <label for="PaymentRequest_LabourCost">Labour Cost</label>
+                </div>
+                <div class="controls">
+                    <input type="text" value="{{SelectedLabourInfo.LabourCost}}" name="PaymentRequest.LabourCost" id="PaymentRequest_LabourCost" 
+                            data-ng-model="SelectedLabourInfo.LabourCost" disabled="disabled"/>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span6">
+            <div class="control-group">
+                <div class="control-label">
+                    <label for="PaymentRequest_RejectedAmount">Rejected Amount</label>
+                </div>
+                <div class="controls">
+                    <input type="text" value="{{SelectedLabourInfo.RejectedAmount}}" name="PaymentRequest.RejectedAmount" id="PaymentRequest_RejectedAmount" 
+                            data-ng-model="SelectedLabourInfo.RejectedAmount"/>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span6">
+            <div class="control-group">
+                <div class="control-label">
+                    <label for="PaymentRequest_RejectionReason">Rejection Reason</label>
+                </div>
+                <div class="controls">
+                    <input type="text" value="{{SelectedLabourInfo.RejectionReason}}" name="PaymentRequest.RejectionReason" id="PaymentRequest_RejectionReason" 
+                            data-ng-model="SelectedLabourInfo.RejectionReason"/>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span6" style="width:400px;">
+            <div class="control-group message-box" style="float: left;"></div>
+            <div class="control-group" style="float: right;">
+                <button class="btn" data-ng-click="editLabourCostInfo()">Save</button>
+            </div>
+        </div>
+    </div>
+</div>

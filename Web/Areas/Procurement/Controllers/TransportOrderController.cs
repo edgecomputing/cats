@@ -428,6 +428,7 @@ namespace Cats.Areas.Procurement.Controllers
                     select new TransportOrderDetailViewModel()
                         {
                             TransportOrderID = detail.TransportOrderID,
+                            TransportOrderDetailID = detail.TransportOrderDetailID,
                             CommodityID = detail.CommodityID,
                             SourceWarehouseID = detail.SourceWarehouseID,
                             QuantityQtl = detail.QuantityQtl.ToPreferedWeightUnit(),
