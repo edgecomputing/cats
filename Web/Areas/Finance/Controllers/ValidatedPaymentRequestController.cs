@@ -175,7 +175,7 @@ namespace Cats.Areas.Finance.Controllers
         {
             var user = UserAccountHelper.GetUser(User.Identity.Name);
             var paymentRequestObj = _paymentRequestservice.FindById(paymentRequestID);
-            var transporterChequeObj = _transporterChequeService.Get(t => t.PaymentRequestID == paymentRequestID, null, "UserProfile,Transporter,PaymentRequest").FirstOrDefault();
+            var transporterChequeObj = _transporterChequeService.Get(t => t.PaymentRequestID == paymentRequestID).FirstOrDefault();
             var transporterChequeViewModel = new Models.TransporterChequeViewModel();
             if (paymentRequestObj != null)
             {
@@ -193,8 +193,8 @@ namespace Cats.Areas.Finance.Controllers
 
                     transporterChequeViewModel.PreparedByID = transporterChequeObj.PreparedBy;
                     transporterChequeViewModel.PreparedBy = transporterChequeObj.UserProfile.UserName;
-                    transporterChequeViewModel.AppovedByID = transporterChequeObj.AppovedBy;
-                    transporterChequeViewModel.AppovedBy = transporterChequeObj.UserProfile1.UserName;
+                    transporterChequeViewModel.AppovedByID = transporterChequeObj.AppovedBy??0;
+                    transporterChequeViewModel.AppovedBy = transporterChequeObj.AppovedBy != null ? transporterChequeObj.UserProfile1.UserName : null;
                     transporterChequeViewModel.AppovedDate = transporterChequeObj.AppovedDate;
                     transporterChequeViewModel.Status = transporterChequeObj.Status;
                 }
@@ -206,7 +206,7 @@ namespace Cats.Areas.Finance.Controllers
                     transporterChequeViewModel.PreparedByID = user.UserProfileID;
                     if (paymentRequestObj.LabourCost != null && paymentRequestObj.RejectedAmount!=null)
                     {
-                        transporterChequeViewModel.Amount = (double) (paymentRequestObj.RequestedAmount - paymentRequestObj.LabourCost -
+                        transporterChequeViewModel.Amount = (decimal) (paymentRequestObj.RequestedAmount + paymentRequestObj.LabourCost -
                                                                       paymentRequestObj.RejectedAmount);
                     }
                     
@@ -230,9 +230,9 @@ namespace Cats.Areas.Finance.Controllers
                     PaymentVoucherNo = transporterCheque.PaymentVoucherNo,
                     BankName = transporterCheque.BankName,
                     Amount = transporterCheque.Amount,
-                    TransporterId = transporterCheque.TransporterId,
+                    TransporterId = transporterCheque.PaymentRequest.TransportOrder.TransporterID,
                     PreparedBy = transporterCheque.UserProfile.UserName,
-                    AppovedBy = transporterCheque.UserProfile1.UserName,
+                    AppovedBy = transporterCheque.UserProfile1!=null? transporterCheque.UserProfile1.UserName : "",
                     AppovedDate = transporterCheque.AppovedDate,
                     Status = transporterCheque.Status
                 };
@@ -265,7 +265,6 @@ namespace Cats.Areas.Finance.Controllers
                     transporterChequeObj.PaymentVoucherNo = transporterChequeViewModel.PaymentVoucherNo;
                     transporterChequeObj.BankName = transporterChequeViewModel.BankName;
                     transporterChequeObj.Amount = transporterChequeViewModel.Amount;
-                    transporterChequeObj.TransporterId = paymentRequestObj.TransportOrder.Transporter.TransporterID;
                     //transporterChequeObj.PreparedBy = user.UserProfileID;
                     //transporterChequeObj.AppovedBy = transporterChequeViewModel.AppovedByID;
                     //transporterChequeObj.AppovedDate = transporterChequeViewModel.AppovedDate;
@@ -273,23 +272,23 @@ namespace Cats.Areas.Finance.Controllers
                 }
                 else
                 {
-                    var transporterChequeObjs = new TransporterCheque()
+                    transporterChequeObj = new TransporterCheque()
                                                    {
+                                                       TransporterChequeId = Guid.NewGuid(),
                                                        PaymentRequestID = transporterChequeViewModel.PaymentRequestID,
                                                        CheckNo = transporterChequeViewModel.CheckNo,
                                                        PaymentVoucherNo = transporterChequeViewModel.PaymentVoucherNo,
                                                        BankName = transporterChequeViewModel.BankName,
                                                        Amount = transporterChequeViewModel.Amount,
-                                                       TransporterId = paymentRequestObj.TransportOrder.Transporter.TransporterID,
                                                        PreparedBy = user.UserProfileID,
                                                        Status = 1
                                                        //AppovedBy = transporterChequeViewModel.AppovedByID,
                                                        //AppovedDate = transporterChequeViewModel.AppovedDate,
                                                    };
-                    _transporterChequeService.AddTransporterCheque(transporterChequeObjs);
+                    _transporterChequeService.AddTransporterCheque(transporterChequeObj);
                 }
             }
-            return Json(transporterChequeObj, JsonRequestBehavior.AllowGet);
+            return Json(BindTransporterChequeViewModel(transporterChequeObj), JsonRequestBehavior.AllowGet);
         }
 
         private IEnumerable<TransportOrderDetailViewModel> GetDetail(IEnumerable<TransportOrderDetail> transportOrderDetails)
