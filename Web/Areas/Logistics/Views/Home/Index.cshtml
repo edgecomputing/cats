@@ -847,17 +847,12 @@
     var myApp = angular.module('myApp', []);
     
     myApp.controller('ImportantNumbers', ['$scope', '$http','$rootScope', function ($scope, $http, $rootScope) {
-
         $rootScope.totalRequisitions = 0;
         $rootScope.totalApproved = 0;
         $rootScope.pendingHubAloocation = 0;
         $rootScope.pendingSIPCAllocation = 0;
         $rootScope.pendingTransportOrder = 0;
-        
-       
     }]);
-
-
 
     myApp.controller('CurrentHRDController', ['$scope', '$http', '$rootScope', function ($scope, $http, $rootScope) {
 

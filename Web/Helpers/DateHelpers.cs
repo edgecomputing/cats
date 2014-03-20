@@ -12,6 +12,8 @@ namespace Cats.Helpers
     {
         public static string ToCTSPreferedDateFormat(this DateTime date, string lang)
         {
+            if (date.Date.Equals(DateTime.Parse("1/1/0001")))
+                return string.Empty;
             if (lang.ToLower() == "gc")
             {
                 IFormatProvider provider = new CultureInfo("en-GB");

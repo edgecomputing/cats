@@ -395,6 +395,9 @@
     <Compile Include="Areas\Finance\Controllers\HomeController.cs" />
     <Compile Include="Areas\Finance\FinanceAreaRegistration.cs" />
     <Compile Include="Areas\Finance\Models\PaymentRequestViewModel.cs" />
+    <Compile Include="Areas\Finance\Models\TransporterChequeViewModel.cs" />
+    <Compile Include="Areas\Hub\Controllers\HubDashboardController.cs" />
+    <Compile Include="Areas\Hub\Models\StockStatusViewModel.cs" />
     <Compile Include="Areas\Logistics\Controllers\DonationController.cs" />
     <Compile Include="Areas\Logistics\Controllers\PaymentRequestController.cs" />
     <Compile Include="Areas\Logistics\Controllers\TransferController.cs" />
@@ -1756,6 +1759,7 @@
     <Content Include="Areas\Logistics\Views\TransporterPerformance\TransportOrderPerformanceDetail.cshtml" />
     <Content Include="Areas\Hub\Views\Receive\Allocations2.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Request\Allocation2.cshtml" />
+    <Content Include="Areas\Finance\Views\ValidatedPaymentRequest\PaymentDeductionsPartialView.cshtml" />
     <None Include="dataset.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>dataset.Designer.cs</LastGenOutput>

@@ -345,7 +345,7 @@ namespace Cats.Areas.Hub.Controllers
                 dispatch.HubID = dispatchviewmodel.HubID;
                 
                 dispatch.Quantity = UserProfile.PreferedWeightMeasurment.ToLower() == "mt" ? dispatchviewmodel.Quantity : dispatchviewmodel.Quantity / 10;
-                //_transactionService.SaveDispatchTransaction(dispatch);
+                _transactionService.SaveDispatchTransaction(dispatch);
 
                 var contacts = _contactService.FindBy(c=>c.FDPID == dispatch.FDPID);
 
