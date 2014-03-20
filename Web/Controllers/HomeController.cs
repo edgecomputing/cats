@@ -58,7 +58,9 @@ namespace Cats.Controllers
             var currentUser = UserAccountHelper.GetUser(HttpContext.User.Identity.Name);
 
             var userID = currentUser.UserProfileID;
-
+            if (currentUser.IsAdmin) {
+                return RedirectToAction("Index", "AdminDashboard", new { Area = "Settings" });
+            }
 
             if (currentUser.RegionalUser)
             {

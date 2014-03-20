@@ -1759,7 +1759,6 @@
     <Content Include="Areas\Logistics\Views\TransporterPerformance\TransportOrderPerformanceDetail.cshtml" />
     <Content Include="Areas\Hub\Views\Receive\Allocations2.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Request\Allocation2.cshtml" />
-    <Content Include="Areas\Finance\Views\ValidatedPaymentRequest\PaymentDeductionsPartialView.cshtml" />
     <None Include="dataset.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>dataset.Designer.cs</LastGenOutput>
@@ -2552,6 +2551,8 @@
     <Content Include="Web References\ReportPortal\Warning.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </Content>
+    <Content Include="Views\Shared\_MainMenu - Copy.cshtml" />
+    <Content Include="Views\Shared\Menu Partials\_RegionalMenu.cshtml" />
     <None Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

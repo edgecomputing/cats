@@ -196,7 +196,7 @@ namespace Cats.Areas.Finance.Controllers
                     transporterChequeViewModel.AppovedByID = transporterChequeObj.AppovedBy??0;
                     transporterChequeViewModel.AppovedBy = transporterChequeObj.AppovedBy != null ? transporterChequeObj.UserProfile1.UserName : null;
                     transporterChequeViewModel.AppovedDate = transporterChequeObj.AppovedDate;
-                    transporterChequeViewModel.Status = transporterChequeObj.Status;
+                    transporterChequeViewModel.Status = (int) transporterChequeObj.Status;
                 }
                 else
                 {
@@ -234,7 +234,7 @@ namespace Cats.Areas.Finance.Controllers
                     PreparedBy = transporterCheque.UserProfile.UserName,
                     AppovedBy = transporterCheque.UserProfile1!=null? transporterCheque.UserProfile1.UserName : "",
                     AppovedDate = transporterCheque.AppovedDate,
-                    Status = transporterCheque.Status
+                    Status = (int) transporterCheque.Status
                 };
             }
             return transporterChequeViewModel;

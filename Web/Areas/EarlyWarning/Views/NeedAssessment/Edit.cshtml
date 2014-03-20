@@ -52,7 +52,7 @@
       .Navigatable()
       .Events(events => events.Change("onDataBound"))
       .Editable(editable => editable.Mode(GridEditMode.InCell))
-       .Events(events => events.DataBound("onDataBound"))
+      .Events(events => events.DataBound("onDataBound"))
       .DataSource(dataSource => dataSource
                                     .Ajax()
 
@@ -83,20 +83,20 @@
 
 <script>
     function onGridKeydown(e) {
-        if (e.keyCode === kendo.keys.TAB) {
-            var grid = $(this).closest("[data-role=grid]").data("kendoGrid");
-            var current = grid.current();
-            if (!current.hasClass("editable-cell")) {
-                var nextCell = current.nextAll(".editable-cell");
-                if (!nextCell[0]) {
-                    //search the next row
-                    var nextRow = current.parent().next();
-                    var nextCell = current.parent().next().children(".editable-cell:first");
-                }
-                grid.current(nextCell);
-                grid.editCell(nextCell[0])
-            }
-        }
+        //if (e.keyCode === kendo.keys.TAB) {
+        //    var grid = $(this).closest("[data-role=grid]").data("kendoGrid");
+        //    var current = grid.current();
+        //    if (!current.hasClass("editable-cell")) {
+        //        var nextCell = current.nextAll(".editable-cell");
+        //        if (!nextCell[0]) {
+        //            //search the next row
+        //            var nextRow = current.parent().next();
+        //            var nextCell = current.parent().next().children(".editable-cell:first");
+        //        }
+        //        grid.current(nextCell);
+        //        grid.editCell(nextCell[0])
+        //    }
+        //}
     };
     
 

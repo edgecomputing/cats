@@ -49,17 +49,55 @@ namespace Cats.Areas.Finance.Controllers
 
         public JsonResult ReadCheques()
         {
-            var cheques = _transporterChequeService.GetAllTransporterCheque().Select(c => new
+            var cheques = _transporterChequeService.GetAllTransporterCheque().Where(t=>t.Status < 4).Select(c => new
                                                                                              {
                                                                                                  chequeNo = c.CheckNo,
                                                                                                  Transporter = c.PaymentRequest.TransportOrder.Transporter.Name,
                                                                                                  Amount = c.Amount,
                                                                                                  PreparedBy = c.UserProfile.FirstName + " " + c.UserProfile.LastName,
                                                                                                  ApprovedBy = c.UserProfile1.FirstName + " " + c.UserProfile1.LastName,
-                                                                                                 DateApproved = c.AppovedDate.Date.ToCTSPreferedDateFormat(UserAccountHelper.UserCalendarPreference())
-
+                                                                                                 DateApproved = c.AppovedDate.Date.ToCTSPreferedDateFormat(UserAccountHelper.UserCalendarPreference()),
+                                                                                                 transporterChequeId = c.TransporterChequeId,
+                                                                                                 State = c.Status,
+                                                                                                 Status = status((int) c.Status),
+                                                                                                 ButtonStatus = _status((int)c.Status)
                                                                                              });
             return Json(cheques, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult UpdateChequeStatus(int transporterChequeId, int status)
+        {
+            var cheque = _transporterChequeService.FindById(transporterChequeId);
+            if (cheque == null)
+                return Json(null);
+            cheque.Status = status;
+            _transporterChequeService.EditTransporterCheque(cheque);
+
+            return RedirectToAction("Index");
+
+
+
+        }
+
+        private string status (int status)
+        {
+            if (status == 1)
+                return "Prepared";
+            if (status == 2)
+                return "Signed";
+            if (status == 3)
+                return "Paid";
+            return "";
+        }
+        private string _status(int status)
+        {
+            if (status <= 1)
+                return "Sign";
+            if (status == 2)
+                return "Pay";
+            if (status == 3)
+                return "Close";
+            return "";
         }
     }
 }
