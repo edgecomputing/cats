@@ -59,6 +59,9 @@ namespace Cats.Models.Mapping
             this.Property(t => t.RegionalUser)
                 .IsRequired();
 
+            this.Property(t => t.IsAdmin)
+              .IsRequired();
+
             // Table & Column Mappings
             this.ToTable("UserProfile");
             this.Property(t => t.UserProfileID).HasColumnName("UserProfileID");
@@ -82,6 +85,7 @@ namespace Cats.Models.Mapping
             this.Property(t => t.DefaultHub).HasColumnName("DefaultHub");
             this.Property(t => t.RegionID).HasColumnName("RegionID");
             this.Property(t => t.RegionalUser).HasColumnName("RegionalUser");
+            this.Property(t => t.IsAdmin).HasColumnName("IsAdmin");
         
         }
     }
