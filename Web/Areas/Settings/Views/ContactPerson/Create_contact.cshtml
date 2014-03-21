@@ -1,0 +1,66 @@
+﻿@using LanguageHelpers.Localization
+@model Cats.Areas.Settings.Models.ViewModels.ContactViewModel
+
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="myModalLabel">Add New Contact Person</h3>
+</div>
+
+@using (Html.BeginForm("Create_contact", "ContactPerson", FormMethod.Post, new { @class = "modal-form" }))
+
+{
+    <div class="modal-body">
+        <div class="well form-horizontal">
+            @Html.HiddenFor(m=>m.FDPID)
+            @Html.HiddenFor(m=>m.FDPName)
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(m => m.FDPName, "FDP")
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(m => m.FDPName,new{disabled=true})
+                    @Html.ValidationMessageFor(m => m.FDPName)
+                </div>
+            </div>
+
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(m => m.FirstName, "First Name")
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(m => m.FirstName)
+                    @Html.ValidationMessageFor(m => m.FirstName)
+                </div>
+            </div>
+
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(m => m.LastName)
+                </div>
+                <div class="controls">
+                    @* <input class="cats-datepicker" type="text" id="create" name="create" />*@
+                    @Html.TextBoxFor(m => m.LastName)
+                    @Html.ValidationMessageFor(m => m.LastName)
+                </div>
+
+            </div>
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(m => m.PhoneNo)
+                </div>
+                <div class="controls">
+                    @* <input class="cats-datepicker" type="text" id="create" name="create" />*@
+                    @Html.TextBoxFor(m => m.PhoneNo)
+                    @Html.ValidationMessageFor(m => m.PhoneNo)
+                </div>
+
+            </div>
+           </div>
+    </div>
+    
+    <div class="modal-footer">
+        <button class="btn btn-primary" type="submit">Save</button>
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+    </div>
+}

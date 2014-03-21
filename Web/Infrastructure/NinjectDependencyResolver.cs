@@ -91,7 +91,10 @@ namespace Cats.Infrastructure
         
         private void AddBindings()
         {
-
+            kernel.Bind<Cats.Services.Administration.IAdminUnitService>().To<Cats.Services.Administration.AdminUnitService>();
+            kernel.Bind<Cats.Services.Administration.IFDPService>().To<Cats.Services.Administration.FDPService>();
+            kernel.Bind<Cats.Services.Administration.IContactService>().To<Cats.Services.Administration.ContactService>();
+            
             kernel.Bind<IMessagingService>().To<SMSMessagingService>();
             kernel.Bind<IPaymentRequestService>().To<PaymentRequestService>();
             kernel.Bind<ISIPCAllocationService>().To<SIPCAllocationService>();

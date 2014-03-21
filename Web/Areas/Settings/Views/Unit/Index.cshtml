@@ -1,0 +1,46 @@
+﻿@using System.Collections
+@using Cats.Areas.Settings.Models.ViewModels
+@using Kendo.Mvc.UI
+@{
+    Layout = "~/Views/Shared/_MainLayout.cshtml";  
+}
+@section Toolbar
+{
+  @Html.Partial("_AdminGridCommands");    
+}
+@section LeftBar
+{
+   @Html.Partial("_AdminLeftBar");
+}
+<script>
+      $(document).ready(function () {
+          setAsActive("#Unit");
+      });
+</script>
+
+<div>
+    <h4>Units</h4>
+</div>
+@(Html.Kendo().Grid<UnitViewModel>()
+    .Name("grid")
+    .Editable(editable => editable.Mode(GridEditMode.InCell))
+    .Sortable()
+    .Filterable()
+    .HtmlAttributes(new { style = "height:400px;" })
+    .Scrollable()
+    .Navigatable()
+    .Columns(columns =>
+        {
+            columns.Bound(p => p.UnitName);
+            columns.Command(command => command.Destroy()).Width(110);
+        })
+
+    .DataSource(dataSource => dataSource
+          .Ajax()
+            .Model(model => model.Id(p => p.UnitID))
+           .Read(read => read.Action("Unit_Read", "Unit"))
+           .Update(update => update.Action("Unit_Update", "Unit"))
+           .Create(create => create.Action("Unit_Create", "Unit"))
+           .Destroy(destroy => destroy.Action("Unit_Destroy", "Unit"))
+ 
+     ))
