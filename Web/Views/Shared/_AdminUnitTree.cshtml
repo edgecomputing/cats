@@ -36,10 +36,29 @@
     }
     .popover-fixed
     {
-        height:300px;
+        height:240px;
         overflow:scroll;
         padding:5px;
     }
+        .popover-fixed::-webkit-scrollbar { width: 8px; height:8px;}
+::-webkit-scrollbar-track {
+      background-color: transparent;
+} /* the new scrollbar will have a flat appearance with the set background color */
+ 
+::-webkit-scrollbar-thumb {
+      border-radius:4px;
+      background-color: #EEE; 
+} /* this will style the thumb, ignoring the track */
+ 
+::-webkit-scrollbar-button {
+      /*background-color: #7c2929;*/
+      display:none;
+} /* optionally, you can style the top and the bottom buttons (left and right for horizontal bars) */
+ 
+::-webkit-scrollbar-corner {
+    display:none;  
+    background-color: transparent;
+} /* if both the vertical and the*/
 </style>
 
 <div id="div_tree_view" class="tree_view popover-fixed">

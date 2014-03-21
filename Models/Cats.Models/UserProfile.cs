@@ -46,7 +46,7 @@ namespace Cats.Models
         public int? DefaultHub { get; set; }
         public int? RegionID { get; set; }
         public bool RegionalUser { get; set; }
-
+        public bool IsAdmin { get; set; }
         public virtual ICollection<TransporterCheque> TransporterCheques { get; set; }
         public virtual ICollection<TransporterCheque> TransporterCheques1 { get; set; }
         public virtual ICollection<WoredaStockDistribution> UtilizationHeaders { get; set; }

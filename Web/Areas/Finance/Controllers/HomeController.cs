@@ -51,7 +51,7 @@ namespace Cats.Areas.Finance.Controllers
             var cheques = _transporterChequeService.GetAllTransporterCheque().Where(t=>t.Status < 4).Select(c => new
                                                                                              {
                                                                                                  chequeNo = c.CheckNo,
-                                                                                                 Transporter = c.Transporter.Name,
+                                                                                                 Transporter = c.PaymentRequest.TransportOrder.Transporter.Name,
                                                                                                  Amount = c.Amount,
                                                                                                  PreparedBy = c.UserProfile.FirstName + " " + c.UserProfile.LastName,
                                                                                                  ApprovedBy = c.UserProfile1.FirstName + " " + c.UserProfile1.LastName,// DateApproved = c.AppovedDate.Date.ToCTSPreferedDateFormat(UserAccountHelper.UserCalendarPreference()),

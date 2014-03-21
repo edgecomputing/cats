@@ -1,0 +1,49 @@
+﻿@using System.Collections
+@using Cats.Areas.Settings.Models.ViewModels
+@using Kendo.Mvc.UI
+@{
+    Layout = "~/Views/Shared/_MainLayout.cshtml";  
+}
+@section Toolbar
+{
+  @Html.Partial("_AdminGridCommands");    
+}
+@section LeftBar
+{
+   @Html.Partial("_AdminLeftBar");
+}
+<script>
+      $(document).ready(function () {
+          setAsActive("#Program");
+      });
+</script>
+
+<div>
+    <h4>Programs</h4>
+</div>
+@(Html.Kendo().Grid<ProgramViewModel>()
+    .Name("grid")
+    .Editable(editable => editable.Mode(GridEditMode.InCell))
+    .Sortable()
+    .Filterable()
+    .HtmlAttributes(new { style = "height:400px;" })
+    .Scrollable()
+    .Navigatable()
+    .Columns(columns =>
+        {
+            columns.Bound(p => p.ProgramName);
+            columns.Bound(p => p.Description);
+            columns.Bound(p => p.LongName);
+            columns.Bound(p => p.ShortCode);
+            columns.Command(command => command.Destroy()).Width(110);
+        })
+
+    .DataSource(dataSource => dataSource
+          .Ajax()
+            .Model(model => model.Id(p => p.ProgramID))
+           .Read(read => read.Action("Program_Read", "Program"))
+           .Update(update => update.Action("Program_Update", "Program"))
+           .Create(create => create.Action("Program_Create", "Program"))
+           .Destroy(destroy => destroy.Action("Program_Destroy", "Program"))
+ 
+     ))

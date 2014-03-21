@@ -8,20 +8,21 @@ namespace Cats.Models
 {
     public partial class TransporterCheque
     {
-        public int TransporterChequeId { get; set; }
-        public Nullable<int> PaymentRequestID { get; set; }
+
+        public System.Guid TransporterChequeId { get; set; }
+        public int PaymentRequestID { get; set; }
         public string CheckNo { get; set; }
         public string PaymentVoucherNo { get; set; }
         public string BankName { get; set; }
-        public double Amount { get; set; }
-        public int TransporterId { get; set; }
-        public Nullable<int> PreparedBy { get; set; }
-        public Nullable<int> AppovedBy { get; set; }
-        public Nullable<System.DateTime> AppovedDate { get; set; }
-        public Nullable<System.DateTime> PaymentDate { get; set; }
-        public Nullable<int> PaidBy { get; set; }
-        public Nullable<int> Status { get; set; }
-        public virtual Transporter Transporter { get; set; }
+        public decimal Amount { get; set; }
+        //public int TransporterId { get; set; }
+        public int PreparedBy { get; set; }
+        public int? AppovedBy { get; set; }
+        public int Status { get; set; }
+        public DateTime AppovedDate { get; set; }
+        public DateTime? PaymentDate { get; set; }
+        public int? PaidBy { get; set; }
+        public virtual PaymentRequest PaymentRequest { get; set; }
         public virtual UserProfile UserProfile { get; set; }
         public virtual UserProfile UserProfile1 { get; set; }
     }
