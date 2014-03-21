@@ -1,60 +1,146 @@
-﻿
+﻿    <style>
+        .active
+        {
+            font-weight:bold;
+        }
+        .nav-list li
+        {
+            margin-top:2px;
+        }
+        .active-link a, .nav-list li:hover a
+        {
+            background-image:url(/Content/assets/img/arrow.png);
+            background-position:center right;
+           
+        }
+        .sidebar-nav
+        {
+
+            padding:0;
+        }
+        .column-divider
+        {
+         
+            padding:0;
+        }
+        .sidebar-nav .nav-list
+        {
+            
+            padding-left:0;
+            padding-right:0px;
+        }
+        .fixed-height::-webkit-scrollbar { width: 8px; height:0px;}
+::-webkit-scrollbar-track {
+      background-color: transparent;
+       width:4px;
+} /* the new scrollbar will have a flat appearance with the set background color */
+ 
+::-webkit-scrollbar-thumb {
+      border-radius:4px;
+      background-color: rgba(245,245,245,0.5); 
+     /*
+         visibility:hidden;
+         */
+} 
+/* this will style the thumb, ignoring the track */
+ .fixed-height:hover ::-webkit-scrollbar-thumb {
+     visibility:visible;
+}
+::-webkit-scrollbar-button {
+      /*background-color: #7c2929;*/
+      display:none;
+} /* optionally, you can style the top and the bottom buttons (left and right for horizontal bars) */
+ 
+::-webkit-scrollbar-corner {
+    display:none;  
+    background-color: transparent;
+} /* if both the vertical and the*/
+    </style>
+    <script>
+        function setAsActive(id) {
+            $(id).addClass("active-link");
+
+        }
+        //saveChanges
+        //addRow()
+        //cancelChanges()
+        
+        function onRun() {
+            var command = $("#txt_command").val();
+            var grid = $("#grid").data("kendoGrid");
+            console.log(grid, command);
+
+            eval("grid." + command);
+
+        }
+    </script>
+<!--
+<textarea id="txt_command" ></textarea>
+<button onclick="onRun()">Run</button>
+    -->
+    
+<div class="fixed-height" style="height:500px;   margin-right:-20px; margin-left:-2px; padding-left:10px; padding-right:20px; overflow-y:scroll; overflow-x:visible;">
+
     <ul class="nav nav-list">
         <li class="nav-header">Dashboard</li>
-        <li class="active">
+        <li>
             <a href="#"><i class="icon-white icon-home"></i>Home</a>
         </li>
 
         <li class="nav-header">Configuration</li>
-        <li>
+
+        <li id="Hubs">
+            <a href="@Url.Action("Index","Hubs")"><i class="icon-folder-open"></i>Hubs</a>
+        </li>
+        <li id="HubOwner">
+            <a href="@Url.Action("Index","HubOwner")"><i class="icon-folder-open"></i> Hub Owners</a>
+            
+        </li>
+        <li id="Store">
+            <a href="@Url.Action("Index","Store")"><i class="icon-folder-open"></i>Stores</a>
+        </li>
+        <li id="Warehouse">
             <a href="#"><i class="icon-folder-open"></i>Warehouses</a>
         </li>
-        <li>
-            <a href="#"><i class="icon-folder-open"></i>Hubs</a>
-        </li>
-        <li>
-            <a href="#"><i class="icon-folder-open"></i>Hub Owners</a>
-        </li>
-        <li>
-            <a href="#"><i class="icon-folder-open"></i>Stores</a>
-        </li>
-         <li>
+         <li id="Currency">
             <a href="@Url.Action("Index","Currency",new {Area="EarlyWarning"})"><i class="icon-folder-open"></i>Currency</a>
         </li>
         <li class="nav-header">Commodity</li>
-        <li>
-            <a href="#"><i class="icon-check"></i>Commodity Type</a>
+        <li id="CommodityType">
+            <a href="@Url.Action("Index","CommodityType")"><i class="icon-check"></i>Commodity Type</a>
         </li>
-        <li>
-            <a href="#"><i class="icon-check"></i>Commodity</a>
+        <li id="Commodity">
+            <a href="@Url.Action("Index","Commodity")"><i class="icon-check"></i>Commodity</a>
         </li>
-        <li>
-            <a href="#"><i class="icon-check"></i>Commodity Grade</a>
+        <li id="CommodityGrade">
+            <a href="@Url.Action("Index","CommodityGrade")"><i class="icon-check"></i>Commodity Grade</a>
         </li>
-        <li>
-            <a href="#"><i class="icon-check"></i>Commodity Source</a>
+        <li id="CommoditySource">
+            <a href="@Url.Action("Index","CommoditySource")"><i class="icon-check"></i>Commodity Source</a>
         </li>
-        <li>
-            <a href="#"><i class="icon-check"></i>Program</a>
+        <li id="Program">
+            <a href="@Url.Action("Index","Program")"><i class="icon-check"></i>Program</a>
         </li>
-        <li>
-            <a href="#"><i class="icon-envelope"></i>Donors</a>
+        <li id="Donor">
+            <a href="@Url.Action("Index","Donor")"><i class="icon-envelope"></i>Donors</a>
         </li>
-        <li>
-            <a href="#"><i class="icon-check"></i>Units</a>
+        <li id="Unit">
+            <a href="@Url.Action("Index","Unit")"><i class="icon-check"></i>Units</a>
         </li>
 
         <li class="nav-header">Locations & FDPs</li>
-        <li>
-            <a href="#"><i class="icon-file"></i>Administrative Units</a>
+        <li id="FDP">
+            <a href="@Url.Action("Index","FDP")"><i class="icon-file"></i>Administrative Units</a>
         </li>
         <li>
             <a href="#"><i class="icon-file"></i>FDPs</a>
         </li>
 
         <li class="nav-header">Business Process</li>
-        <li>
-            <a href="@Url.Action("Index","ProcessTemplate",new {Area="WorkflowManager"})"><i class="icon-list-alt"></i>Workflow Definition</a>
+        <li id="ProcessTemplate">
+            <a href="@Url.Action("Index","ProcessTemplate")"><i class="icon-list-alt"></i>Workflow Definition</a>
+<!--            <a href="@Url.Action("Index","ProcessTemplate",new {Area="WorkflowManager"})"><i class="icon-list-alt"></i>Workflow Definition</a>
+    -->
         </li>
         <li>
             <a href="#"><i class="icon-list-alt"></i>Ledger</a>
@@ -98,3 +184,4 @@
         </li>
     </ul>
 
+  </div> 

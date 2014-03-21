@@ -1,0 +1,51 @@
+﻿@using Cats.Models.Hubs;
+@using System.Collections
+@using Cats.Areas.Settings.Models.ViewModels
+@using Kendo.Mvc.UI
+@{
+    Layout = "~/Views/Shared/_MainLayout.cshtml";  
+}
+@section Toolbar
+{
+    @Html.Partial("_AdminGridCommands");    
+}
+@section LeftBar
+{
+    @Html.Partial("_AdminLeftBar");
+}
+<script>
+    $(document).ready(function () {
+        setAsActive("#Commodity");
+    });
+</script>
+
+<h4 class="page-header">Commodity</h4>
+@(Html.Kendo().Grid<CommodityViewModel>()
+    .Name("grid")
+    .Editable(editable => editable.Mode(GridEditMode.InCell))
+    .Sortable()
+    .Filterable()
+    .HtmlAttributes(new { style = "height:400px;" })
+    .Scrollable()
+    .Navigatable()
+    .Columns(columns =>
+    {
+        columns.Bound(t => t.CommodityID).Visible(false);
+        columns.Bound(t => t.CommodityCode);
+        columns.Bound(t => t.Name);
+        columns.Bound(t => t.LongName);
+        columns.ForeignKey(t => t.CommodityTypeID, (IEnumerable<CommodityType>)ViewData["CommodityTypes"], "CommodityTypeID", "Name");
+        columns.ForeignKey(t => t.ParentID, (IEnumerable<Commodity>)ViewData["Commodities"], "CommodityID", "Name");
+        columns.Bound(t => t.NameAM);
+        columns.Command(command => command.Destroy());
+        // columns.Command(command => command.Custom("Delete").Click("OnDelete"));
+
+    })
+    .DataSource(
+        datasource =>datasource.Ajax()
+            .Model(model => model.Id(p => p.CommodityID))
+            .Read("Commodity_Read", "Commodity")
+            .Create("Commodity_Create", "Commodity")
+            .Update("Commodity_Update", "Commodity")
+            .Destroy("Commodity_Delete", "Commodity")
+      ))

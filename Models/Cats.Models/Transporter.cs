@@ -65,7 +65,7 @@ namespace Cats.Models
         //public  List<AdminUnit> Regions { get; set; }
 
 
-        public virtual TransporterCheque TransporterCheque { get; set; }
+        
         public virtual ICollection<Dispatch> Dispatches { get; set; }
         public virtual ICollection<OtherDispatchAllocation> OtherDispatchAllocations { get; set; }
 

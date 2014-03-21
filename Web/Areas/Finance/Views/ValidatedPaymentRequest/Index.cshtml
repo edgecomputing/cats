@@ -346,15 +346,23 @@
             var history_link = "@Url.Action("History", "BusinessProcess", new { Area = "WorkflowManager", id = "0" })";
 
             function promot_workflow(BusinessProcessID, nextstate, actionname) {
-                alert(nextstate);
+                //alert(nextstate);
                 $('#ParentBusinessProcessID').val(BusinessProcessID);
                 $('#stateID').val(nextstate);
                 $('#modalPromotionLabel').html(actionname);
 
                 $('#modalPromotion').modal();
-                if (nextstate == "") {
-                    var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
-                    window.location = "@Url.Action("ApproveChequeInfo", "ValidatedPaymentRequest")" + "/" + dataItem.TransportBidQuotationHeaderID;
+                //alert("nextstate: " + nextstate);
+                if (nextstate == "2021") {
+                    alert("nextstate: " + nextstate);
+                    @*var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+                    window.location = "@Url.Action("ApproveChequeInfo", "ValidatedPaymentRequest")" + "/" + dataItem.TransportBidQuotationHeaderID;*@
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("ApproveChequeInfo", "ValidatedPaymentRequest")",
+                        data: "{id:1}",
+                        dataType: json
+                    });
                 }
             }
             function workflow_history(BusinessProcessID) {
@@ -374,7 +382,7 @@
                 //called when key is pressed in textbox
                 $("#PaymentRequest_LabourCostRate").keypress(function (e) {
                     //if the letter is not digit then display error and don't type anything
-                    if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+                    if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57) && e.which != 190) {
                         //display error message
                         $("#errmsgPaymentRequest_LabourCostRate").html("Digits Only").show().fadeOut("slow");
                         return false;
@@ -382,7 +390,7 @@
                 });
                 $("#PaymentRequest_RejectedAmount").keypress(function (e) {
                     //if the letter is not digit then display error and don't type anything
-                    if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+                    if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57) && e.which != 190) {
                         //display error message
                         $("#errmsgPaymentRequest_RejectedAmount").html("Digits Only").show().fadeOut("slow");
                         return false;
@@ -390,7 +398,7 @@
                 });
                 $("#CheckInfo_Amount").keypress(function (e) {
                     //if the letter is not digit then display error and don't type anything
-                    if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+                    if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57) && e.which != 190) {
                         //display error message
                         $("#errmsgCheckInfo_Amount").html("Digits Only").show().fadeOut("slow");
                         return false;
@@ -467,7 +475,7 @@
                         success(function (data, status, headers, config) {
                             //alert(data["ReceivedBy"]);
                             $scope.SelectedCheckInfo = data;
-                            if (data.AppovedBy == null)
+                            if (data.AppovedBy == null && data.AppovedBy == "")
                                 $scope.SelectedCheckInfo.AppovedDate = "";
                             if ($scope.SelectedCheckInfo.Amount==null)
                                 $scope.SelectedCheckInfo.Amount = $scope.SelectedLabourInfo.RequestedAmount - $scope.SelectedLabourInfo.LabourCost - $scope.SelectedLabourInfo.RejectedAmount;
@@ -484,6 +492,7 @@
                     if ($scope.SelectedCheckInfo != []) {
                         $http.post(rootDir + 'ValidatedPaymentRequest/EditChequeInfo/', $scope.SelectedCheckInfo).
                             success(function (data, status, headers, config) {
+                                alert("success");
                                 $("#messageboxPayDeduct").html("Saved Successfully!");
                                 var timer = 3000;
                                 clearTimeout(timer);

@@ -1,0 +1,50 @@
+﻿@using Cats.Models.Hubs;
+@using System.Collections
+@using Cats.Areas.Settings.Models.ViewModels
+@using Kendo.Mvc.UI
+@{
+    Layout = "~/Views/Shared/_MainLayout.cshtml";  
+}
+@section Toolbar
+{
+    @Html.Partial("_AdminGridCommands");    
+}
+@section LeftBar
+{
+    @Html.Partial("_AdminLeftBar");
+}
+<script>
+    $(document).ready(function () {
+        setAsActive("#CommodityGrade");
+    });
+</script>
+
+<h4 class="page-header">Commodity Grade</h4>
+@(Html.Kendo().Grid<CommodityGradeViewModel>()
+    .Name("grid")
+    .Editable(editable => editable.Mode(GridEditMode.InCell))
+    .Sortable()
+    .Filterable()
+    .HtmlAttributes(new { style = "height:400px;" })
+    .Scrollable()
+    .Navigatable()
+    .Columns(columns =>
+    {
+        columns.Bound(t => t.CommodityGradeID).Visible(false);
+
+        columns.Bound(t => t.Name);
+        columns.Bound(t => t.Description);
+        columns.Command(command => command.Destroy());
+        // columns.Command(command => command.Custom("Delete").Click("OnDelete"));
+
+    })
+    .DataSource(
+        datasource =>datasource.Ajax()
+        .Read("CommodityGrade_Read","CommodityGrade")
+        .Create("CommodityGrade_Create","CommodityGrade")
+        .Update("CommodityGrade_Update","CommodityGrade")
+        .Destroy("CommodityGrade_Destroy","CommodityGrade")
+        .Model(m=>m.Id(model=>model.CommodityGradeID))
+      ))
+
+
