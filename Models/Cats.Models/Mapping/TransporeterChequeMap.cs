@@ -40,9 +40,6 @@ namespace Cats.Models.Mapping
             this.HasRequired(t => t.UserProfile)
                 .WithMany(t => t.TransporterCheques)
                 .HasForeignKey(d => d.PreparedBy);
-            this.HasRequired(t => t.UserProfile1)
-                .WithMany(t => t.TransporterCheques1)
-                .HasForeignKey(d => d.AppovedBy);
         }
     }
 }
