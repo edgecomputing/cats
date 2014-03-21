@@ -58,7 +58,7 @@ namespace Cats.Areas.Logistics.Controllers
             _userAccountService = userAccountService;
         }
 
-        public ActionResult Index(int RegionID)
+        public ActionResult Index(int regionID)
         {
             ViewBag.RegionID = regionID;
             ViewBag.Region = _adminUnitService.FindById(regionID).Name;
