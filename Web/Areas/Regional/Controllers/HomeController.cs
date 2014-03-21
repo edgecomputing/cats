@@ -23,6 +23,7 @@ namespace Cats.Areas.Regional.Controllers
         // GET: /Regional/Home/
         public ActionResult Index()
         {
+			ViewBag.RegionID = currentUser.RegionID;
             var currentUser = UserAccountHelper.GetUser(HttpContext.User.Identity.Name);
             ViewBag.RegionName = currentUser.RegionID != null ? _adminUnitService.FindById(currentUser.RegionID ?? 0).Name : "";
             return View();
