@@ -20,7 +20,6 @@ namespace Cats.Models
         public int Status { get; set; }
         public DateTime AppovedDate { get; set; }
         public virtual UserProfile UserProfile { get; set; }
-        public virtual UserProfile UserProfile1 { get; set; }
         public virtual PaymentRequest PaymentRequest { get; set; }
     }
 }

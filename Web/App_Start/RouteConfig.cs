@@ -21,6 +21,13 @@ namespace Cats
                 );
 
             routes.MapRoute(
+                name: "ReportListing",
+                url: "ReportListing",
+                defaults: new { controller = "Home", action = "ReportListing"},
+                namespaces: new[] { "Cats.Controllers" }
+                );
+
+            routes.MapRoute(
                 name: "Error",
                 url: "Error",
                 defaults: new { controller = "Home", action = "Error" }

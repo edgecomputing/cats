@@ -22,7 +22,11 @@
     const string PAGE_NAME = "MainMenu";
 
 }
-
+<style>
+    #reportMenuAnchor {
+        cursor: pointer;
+    }
+</style>
 <div class="navbar navbar-fixed-top">
     <div class="navbar-inner">
         <div class="container">
@@ -525,13 +529,20 @@
                         </div>
                             break;
                     }
+                    
                 }
-
+                <div>
+                    <ul class="nav">
+                        <li>
+                            <a id="reportMenuAnchor">@Html.Translate2(PAGE_NAME, " Reports")</a>
+                        </li>
+                    </ul>
+                </div>
                 <ul class="nav pull-right">
                     <li class="divider-vertical"></li>
 
                     @*<li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-envelope icon-white"><span class="badge badge-info">@Html.GetUnreadNotifications()</span></i><b class="caret"></b></a>
+                            <a href="#" class="dropdown-togg    le" data-toggle="dropdown"><i class="icon-envelope icon-white"><span class="badge badge-info">@Html.GetUnreadNotifications()</span></i><b class="caret"></b></a>
                             <ul class="dropdown-menu">
                                 <li>@Html.GetActiveNotifications()</li>
                             </ul>
@@ -596,3 +607,8 @@
         </div>
     }
 </div>
+<script>
+    $('#reportMenuAnchor').click(function () {
+        window.location = "@Url.Action("ReportListing","Home",new {Area=""})";
+    });
+</script>

@@ -121,4 +121,15 @@ namespace Cats.Models.Constant
        Signed = 2,
        Paid =3
    }
+
+    public enum StateTemplate
+    {
+        PaymentRequested = 2013,
+        RequestVerified = 2015,
+        SubmittedToFinance = 2016,
+        VerifiedByFinance = 2017,
+        ChequeIssued = 2018,
+        ChequeApproved = 2020,
+        ChequeCollected = 2019
+    }
 }
