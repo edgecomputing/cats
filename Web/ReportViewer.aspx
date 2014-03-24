@@ -46,7 +46,7 @@
     </style>
 </head>
 <body>
-    <a class="btn" data-type="btn_back_to_list" href="Home/ReportListing" title="Back to List"><i class="icon-list"></i></a>
+    <a class="btn" data-type="btn_back_to_list" href="Home/ReportListing" title="Back to Report List"><i class="icon-list"></i></a>
     <form id="form1" runat="server">
         <div>
 
