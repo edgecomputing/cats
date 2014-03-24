@@ -2610,6 +2610,7 @@
       <DependentUpon>Reference.map</DependentUpon>
     </Content>
     <Content Include="Views\Shared\_MainLayoutMap.cshtml" />
+    <Content Include="Views\Shared\ReportListing.cshtml" />
     <None Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
