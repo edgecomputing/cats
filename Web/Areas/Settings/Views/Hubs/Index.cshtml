@@ -1,0 +1,48 @@
+﻿@using System.Collections
+@using Cats.Areas.Settings.Models.ViewModels
+@using Kendo.Mvc.UI
+@{
+    Layout = "~/Views/Shared/_MainLayout.cshtml";  
+}
+@section Toolbar
+{
+  @Html.Partial("_AdminGridCommands");    
+}
+@section LeftBar
+{
+   @Html.Partial("_AdminLeftBar");
+}
+<script>
+    $(document).ready(function () {
+        setAsActive("#Hubs");
+    });
+</script>
+<div>
+    <h4>Manage Hubs</h4>
+</div>
+@(Html.Kendo().Grid<Cats.Models.Hubs.HubView>()
+    .Name("grid")
+    .Editable(editable => editable.Mode(GridEditMode.InCell))
+    .Sortable()
+    .Filterable()
+    .HtmlAttributes(new { style = "height:400px;" })
+    .Scrollable()
+    .Navigatable()
+    .Columns(columns =>
+        {
+            columns.Bound(p => p.Name).Width(150);
+            columns.ForeignKey(p => p.HubOwnerID, (System.Collections.IEnumerable)ViewBag.HubOwnersList, "HubOwnerID", "Name").Title("Hub Owner")
+                .Width(350);
+            columns.Command(command => command.Destroy()).Width(110);
+        })
+
+    .DataSource(dataSource => dataSource
+            .Ajax()
+            .Model(model => model.Id(p => p.HubId))
+            .Read(read => read.Action("ReadAllJson", "Hubs"))
+            .Update(update => update.Action("UpdateJson", "Hubs"))
+            .Create(create => create.Action("CreateJson", "Hubs"))
+            .Destroy(destroy=>destroy.Action("DeleteJson","Hubs"))
+        )
+   
+      )

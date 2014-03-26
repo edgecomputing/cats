@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Cats.Services.Administration;
 using Cats.Services.Finance;
 using Cats.Services.Procurement;
 using Cats.Helpers;
@@ -13,12 +14,13 @@ namespace Cats.Areas.Finance.Controllers
     {
         private readonly ITransporterChequeService _transporterChequeService;
         private readonly IPaymentRequestService _paymentRequestServvice;
+        private readonly IUserProfileService _userProfileService;
 
-
-        public HomeController(ITransporterChequeService transporterChequeService, IPaymentRequestService paymentRequestServvice)
+        public HomeController(ITransporterChequeService transporterChequeService, IPaymentRequestService paymentRequestServvice, IUserProfileService userProfileService)
         {
             _transporterChequeService = transporterChequeService;
             _paymentRequestServvice = paymentRequestServvice;
+            _userProfileService = userProfileService;
         }
 
         //
@@ -52,10 +54,11 @@ namespace Cats.Areas.Finance.Controllers
             var cheques = _transporterChequeService.GetAllTransporterCheque().Where(t=>t.Status < 4).Select(c => new
                                                                                              {
                                                                                                  chequeNo = c.CheckNo,
-                                                                                                 Transporter = c.Transporter.Name,
+                                                                                                 Transporter = c.PaymentRequest.TransportOrder.Transporter.Name,
                                                                                                  Amount = c.Amount,
                                                                                                  PreparedBy = c.UserProfile.FirstName + " " + c.UserProfile.LastName,
-                                                                                                 ApprovedBy = c.UserProfile1.FirstName + " " + c.UserProfile1.LastName,
+                                                                                                 ApprovedBy = c.AppovedBy != null ? _userProfileService.FindById((int)c.AppovedBy).FirstName + " " +
+                                                                                                                _userProfileService.FindById((int)c.AppovedBy).LastName : "",
                                                                                                  DateApproved = c.AppovedDate.Date.ToCTSPreferedDateFormat(UserAccountHelper.UserCalendarPreference()),
                                                                                                  transporterChequeId = c.TransporterChequeId,
                                                                                                  State = c.Status,

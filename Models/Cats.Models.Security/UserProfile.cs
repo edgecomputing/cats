@@ -44,7 +44,7 @@ namespace Cats.Models.Security
         public int? RegionID { get; set; }
         //public bool Disabled { get; set; }
         public bool RegionalUser { get; set; }
-
+        public bool IsAdmin { get; set; }
         public string FullName { get { return string.Format("{0} {1} {2}", FirstName, LastName, GrandFatherName); } }
 
         //public virtual ICollection<Adjustment> Adjustments { get; set; }

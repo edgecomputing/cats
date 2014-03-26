@@ -1,0 +1,25 @@
+﻿@using Cats.Helpers
+@using Cats.Security
+@{
+    ViewBag.Title = "ReportListing";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+@*<style>
+    /* LIST #8 */
+    #list8 {  }
+    #list8 ul { list-style:none; }
+    #list8 ul li { font-family:Georgia,serif,Times; font-size:18px; padding: 10px }
+    #list8 ul li a { display:block; width:300px; height:28px; background-color:#fff; border-left:5px solid #acacac; border-right:5px solid #acacac; padding-left:10px;
+      text-decoration:none; color:dodgerblue; }
+    #list8 ul li a:hover {  -moz-transform:rotate(-5deg); -moz-box-shadow:10px 10px 20px #fff;
+      -webkit-transform:rotate(-5deg); -webkit-box-shadow:10px 10px 20px #fff;
+      transform:rotate(-5deg); box-shadow:10px 10px 20px #fff; }
+</style>*@
+
+
+
+<h3>Report Listing</h3>
+
+<div>
+    @Html.ReportList()
+</div>

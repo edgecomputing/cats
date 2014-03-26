@@ -18,7 +18,6 @@ namespace Cats.Models
             this.DonationPlanHeaders = new List<DonationPlanHeader>();
             this.LoanReciptPlanDetails = new List<LoanReciptPlanDetail>();
             this.TransporterCheques = new List<TransporterCheque>();
-            this.TransporterCheques1 = new List<TransporterCheque>();
         }
 
         public int UserProfileID { get; set; }
@@ -46,9 +45,8 @@ namespace Cats.Models
         public int? DefaultHub { get; set; }
         public int? RegionID { get; set; }
         public bool RegionalUser { get; set; }
-
+        public bool IsAdmin { get; set; }
         public virtual ICollection<TransporterCheque> TransporterCheques { get; set; }
-        public virtual ICollection<TransporterCheque> TransporterCheques1 { get; set; }
         public virtual ICollection<WoredaStockDistribution> UtilizationHeaders { get; set; }
         public virtual ICollection<HRD> Hrds { get; set; }
         public virtual ICollection<NeedAssessment> NeedAssessments { get; set; }

@@ -25,6 +25,11 @@
                 font-weight: bold;
                 font-size: 16px;
             }
+            #messageboxPayDeductCheque {
+                color: springgreen;
+                font-weight: bold;
+                font-size: 16px;
+            }
         </style>
     </head>
     <body data-ng-controller="PaymentRequestManagementController">
@@ -116,7 +121,7 @@
                 <div class="span5" style="width:400px;">
                     <div class="control-group message-box" style="float: left;" id="messageboxPayDeduct"></div>
                     <div class="control-group" style="float: right;">
-                        <button class="btn" data-ng-click="editLabourCostInfo()">Save</button>
+                        <button id="btnSavePaymentDeductions" class="btn" data-ng-click="editLabourCostInfo()">Save</button>
                     </div>
                 </div>
             </div>
@@ -243,9 +248,9 @@
                 
             <div class="">
                 <div class="span5" style="width:400px;">
-                    <div class="control-group message-box" style="float: left;" id="messageboxPayDeduct"></div>
+                    <div class="control-group message-box" style="float: left;" id="messageboxPayDeductCheque"></div>
                     <div class="control-group" style="float: right;">
-                        <button class="btn" data-ng-click="editChequeInfo()">Save</button>
+                        <button id="btnSaveChequeInfo" class="btn" data-ng-click="editChequeInfo()">Save</button>
                     </div>
                 </div>
             </div>
@@ -304,11 +309,11 @@
                     </td>
                     <td>
                         <a href="@Url.Action("ViewContractAgreement", "ValidatedPaymentRequest", new { transporterID = item.TransportOrder.Transporter.TransporterID })">Contract Agreement</a> &nbsp;&nbsp;
-                        <button class="btn" ng-click="loadLabourCost(@item.PaymentRequestID)">Payment Deductions</button>
+                        <button class="btn" data-ng-click="loadLabourCost(@item.PaymentRequestID,@state.StateNo)">Payment Deductions</button>
                         @*<a href="@Url.Action("LabourCost", "ValidatedPaymentRequest")">Labour Cost</a>*@
-                        @if (@state.StateNo == 4)
+                        @if (@state.StateNo >= 4)
                         {
-                            <button class="btn" ng-click="loadChequeInfo(@item.PaymentRequestID)">Cheque Info.</button>
+                            <button class="btn" data-ng-click="loadChequeInfo(@item.PaymentRequestID, @state.StateNo)">Cheque Info.</button>
                         }
                     </td>
                     <td>
@@ -345,16 +350,25 @@
         <script>
             var history_link = "@Url.Action("History", "BusinessProcess", new { Area = "WorkflowManager", id = "0" })";
 
-            function promot_workflow(BusinessProcessID, nextstate, actionname) {
-                alert(nextstate);
+            function promot_workflow(BusinessProcessID, nextstate, actionname, PaymentRequestID) {
+                //alert(PaymentRequestID);
                 $('#ParentBusinessProcessID').val(BusinessProcessID);
                 $('#stateID').val(nextstate);
                 $('#modalPromotionLabel').html(actionname);
-
+                $('#PaymentRequestID').val(PaymentRequestID);
                 $('#modalPromotion').modal();
-                if (nextstate == "") {
-                    var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
-                    window.location = "@Url.Action("ApproveChequeInfo", "ValidatedPaymentRequest")" + "/" + dataItem.TransportBidQuotationHeaderID;
+                $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("ApproveChequeInfo", "ValidatedPaymentRequest")",
+                        data: "{id:1}",
+                        dataType: json
+                    });
+                //alert("nextstate: " + nextstate);
+                if (nextstate == "2021") {
+                    //alert("nextstate: " + nextstate);
+                    @*var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+                    window.location = "@Url.Action("ApproveChequeInfo", "ValidatedPaymentRequest")" + "/" + dataItem.TransportBidQuotationHeaderID;*@
+                    
                 }
             }
             function workflow_history(BusinessProcessID) {
@@ -374,7 +388,7 @@
                 //called when key is pressed in textbox
                 $("#PaymentRequest_LabourCostRate").keypress(function (e) {
                     //if the letter is not digit then display error and don't type anything
-                    if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+                    if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57) && e.which != 190) {
                         //display error message
                         $("#errmsgPaymentRequest_LabourCostRate").html("Digits Only").show().fadeOut("slow");
                         return false;
@@ -382,7 +396,7 @@
                 });
                 $("#PaymentRequest_RejectedAmount").keypress(function (e) {
                     //if the letter is not digit then display error and don't type anything
-                    if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+                    if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57) && e.which != 190) {
                         //display error message
                         $("#errmsgPaymentRequest_RejectedAmount").html("Digits Only").show().fadeOut("slow");
                         return false;
@@ -390,7 +404,7 @@
                 });
                 $("#CheckInfo_Amount").keypress(function (e) {
                     //if the letter is not digit then display error and don't type anything
-                    if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+                    if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57) && e.which != 190) {
                         //display error message
                         $("#errmsgCheckInfo_Amount").html("Digits Only").show().fadeOut("slow");
                         return false;
@@ -401,7 +415,7 @@
                 $scope.SelectedLabourInfo = [];
                 $scope.SelectedCheckInfo = [];
 
-                $scope.loadLabourCost = function(id) {
+                $scope.loadLabourCost = function (id, stateNo) {
                     var paymentRequestId = { "paymentRequestID": id };
                     //$("#" + dispatchId).addClass("selected");
                     //alert(paymentRequestId);
@@ -415,6 +429,18 @@
                         error(function(data, status, headers, config) {
                             alert("#ERROR - Can't load the GRN for the selected dispatch.");
                         });
+                    if (stateNo >= 4) {
+                        $("#PaymentRequest_LabourCostRate").attr("disabled", "disabled");
+                        $("#PaymentRequest_RejectedAmount").attr("disabled", "disabled");
+                        $("#PaymentRequest_RejectionReason").attr("disabled", "disabled");
+                        $("#btnSavePaymentDeductions").hide();
+                    }
+                    else {
+                        $("#PaymentRequest_LabourCostRate").removeAttr("disabled");
+                        $("#PaymentRequest_RejectedAmount").removeAttr("disabled");
+                        $("#PaymentRequest_RejectionReason").removeAttr("disabled");
+                        $("#btnSavePaymentDeductions").show();
+                    }
                     wndLabourCostInfo.center().open();
                     //$('#dialogContent').load(rootDir + 'Finance/ValidatedPaymentRequest/PaymentDeductionsPartialView/', function () {
                     //    $('#dialogDiv').modal({
@@ -459,7 +485,7 @@
                     //alert("LabourCost: " + $scope.SelectedLabourInfo.LabourCost);
                 };
                 
-                $scope.loadChequeInfo = function (id) {
+                $scope.loadChequeInfo = function (id, stateNo) {
                     var paymentRequestId = { "paymentRequestID": id };
                     //$("#" + dispatchId).addClass("selected");
                     //alert(paymentRequestId);
@@ -467,7 +493,7 @@
                         success(function (data, status, headers, config) {
                             //alert(data["ReceivedBy"]);
                             $scope.SelectedCheckInfo = data;
-                            if (data.AppovedBy == null)
+                            if (data.AppovedBy == null || data.AppovedBy == "")
                                 $scope.SelectedCheckInfo.AppovedDate = "";
                             if ($scope.SelectedCheckInfo.Amount==null)
                                 $scope.SelectedCheckInfo.Amount = $scope.SelectedLabourInfo.RequestedAmount - $scope.SelectedLabourInfo.LabourCost - $scope.SelectedLabourInfo.RejectedAmount;
@@ -476,6 +502,20 @@
                         error(function (data, status, headers, config) {
                             alert("#ERROR - Can't load the GRN for the selected dispatch.");
                         });
+                    if (stateNo!=4) {
+                        $("#CheckInfo_CheckNo").attr("disabled", "disabled");
+                        $("#CheckInfo_PaymentVoucherNo").attr("disabled", "disabled");
+                        $("#CheckInfo_BankName").attr("disabled", "disabled");
+                        $("#CheckInfo_Amount").attr("disabled", "disabled"); 
+                        $("#btnSaveChequeInfo").hide();
+                    }
+                    else {
+                        $("#CheckInfo_CheckNo").removeAttr("disabled");
+                        $("#CheckInfo_PaymentVoucherNo").removeAttr("disabled");
+                        $("#CheckInfo_BankName").removeAttr("disabled");
+                        $("#CheckInfo_Amount").removeAttr("disabled");
+                        $("#btnSaveChequeInfo").show();
+                    }
                     wndChequeInfo.center().open();
                 };
 
@@ -484,19 +524,20 @@
                     if ($scope.SelectedCheckInfo != []) {
                         $http.post(rootDir + 'ValidatedPaymentRequest/EditChequeInfo/', $scope.SelectedCheckInfo).
                             success(function (data, status, headers, config) {
-                                $("#messageboxPayDeduct").html("Saved Successfully!");
+                                //alert("success");
+                                $("#messageboxPayDeductCheque").html("Saved Successfully!");
                                 var timer = 3000;
                                 clearTimeout(timer);
                                 timer = setTimeout(function () {
-                                    $("#messageboxPayDeduct").html('');
+                                    $("#messageboxPayDeductCheque").html('');
                                 }, 3000);
                             }).
                             error(function (data, status, headers, config) {
-                                $("#messageboxPayDeduct").html("Saving is Unsuccessfully!");
+                                $("#messageboxPayDeductCheque").html("Saving is Unsuccessfully!");
                                 var timer = 3000;
                                 clearTimeout(timer);
                                 timer = setTimeout(function () {
-                                    $("#messageboxPayDeduct").html('');
+                                    $("#messageboxPayDeductCheque").html('');
                                 }, 3000);
                             });
                     } else {

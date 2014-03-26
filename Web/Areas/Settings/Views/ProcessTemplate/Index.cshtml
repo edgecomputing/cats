@@ -1,0 +1,52 @@
+﻿@using System.Collections
+@using Cats.Models
+@using Kendo.Mvc.UI
+@{
+    Layout = "~/Views/Shared/_MainLayout.cshtml";  
+}
+@section Toolbar
+{
+  @Html.Partial("_AdminGridCommands");    
+}
+@section LeftBar
+{
+   @Html.Partial("_AdminLeftBar");
+}
+<script>
+      $(document).ready(function () {
+          setAsActive("#ProcessTemplate");
+      });
+</script>
+@(Html.Kendo().Grid<ProcessTemplate>()
+    .Name("grid")
+    .Editable(editable => editable.Mode(GridEditMode.InCell))
+    .Sortable()
+    .Filterable()
+    .HtmlAttributes(new { style = "height:400px;" })
+    .Scrollable()
+    .Navigatable()
+    .Columns(columns =>
+        {
+            columns.Bound(p => p.Name).Width(250);
+
+            columns.Bound(p => p.Description);
+            columns.Bound(p => p.ProcessTemplateID).Title("").ClientTemplate("<a class='btn' href='" + Url.Action("Design", "ProcessTemplate", new { id = "#=ProcessTemplateID#" }) + " '>Detail</a>  ").Width(110); 
+
+            columns.Command(command => command.Destroy()).Width(110);
+        })
+
+    .DataSource(dataSource => dataSource
+          .Ajax()
+        .Model(model =>
+                {
+                    model.Id(p => p.ProcessTemplateID);
+                    model.Field(p => p.ProcessTemplateID).Editable(false);
+                }
+            )
+        .Create(update => update.Action("CreateKendo", "ProcessTemplate"))
+        .Read(read => read.Action("ReadKendo", "ProcessTemplate"))
+        .Update(update => update.Action("EditKendo", "ProcessTemplate"))
+        .Destroy(update => update.Action("DeleteKendo", "ProcessTemplate"))
+
+     ))
+

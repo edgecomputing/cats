@@ -25,7 +25,6 @@ namespace Cats.Services.EarlyWarning
                 _unitOfWork.BusinessProcessStateRepository.Add(state);
                 _unitOfWork.Save();
                 item.CurrentStateID = state.BusinessProcessStateID;
-                
                 _unitOfWork.BusinessProcessRepository.Edit(item);
                 _unitOfWork.Save();
                
