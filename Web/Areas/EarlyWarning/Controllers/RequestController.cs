@@ -775,7 +775,8 @@ namespace Cats.Areas.EarlyWarning.Controllers
         {
 
 
-            var requests = StatusID == -1 ? _regionalRequestService.GetAllRegionalRequest().OrderByDescending(m => m.RegionalRequestID) : _regionalRequestService.Get(t => t.Status == StatusID);
+            var requests = StatusID == -1 ? _regionalRequestService.GetAllRegionalRequest().OrderByDescending(m => m.RegionalRequestID) : _regionalRequestService.Get( m=>m.RegionID==RegionID && m.ProgramId==ProgramID &&m.Status == StatusID
+                                                                                                                     && m.RequistionDate >= DateFrom && m.RequistionDate <= DateTo);
             var statuses = _commonService.GetStatus(WORKFLOW.REGIONAL_REQUEST);
             var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
             var requestViewModels = RequestViewModelBinder.BindRegionalRequestListViewModel(requests, statuses, datePref);
