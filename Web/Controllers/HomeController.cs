@@ -222,6 +222,9 @@ namespace Cats.Controllers
             return View();
         }
 
-
+        public ActionResult ReportListing()
+        {
+            return View();
+        }
     }
 }
