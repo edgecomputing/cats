@@ -2493,7 +2493,7 @@
     <Content Include="Views\Shared\_MainLayout.cshtml" />
     <Content Include="Views\Shared\_BarNeedAssessment.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\_ToolbarCommon.cshtml" />
-    <Content Include="Views\Shared\_MainMenu.cshtml" />
+    <Content Include="Views\Shared\_MainMenuNew.cshtml" />
     <Content Include="Views\Shared\Dashboard\_BarBeneficiaries.cshtml" />
     <Content Include="Views\Shared\Dashboard\_BarRegionalReqDetailCommodity.cshtml" />
     <Content Include="Views\Shared\Dashboard\_Shortcuts.cshtml" />
@@ -2613,6 +2613,7 @@
     </Content>
     <Content Include="Views\Shared\_MainLayoutMap.cshtml" />
     <Content Include="Views\Shared\ReportListing.cshtml" />
+    <Content Include="Views\Shared\_MainMenu.cshtml" />
     <None Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -69,8 +69,9 @@
                     <!-- /.visual -->
 
                     <div class="details">
-                        <span class="content">People in Need</span>
+                        <span class="content">Beneficiaries in Current HRD</span>
                         <span class="value">{{Numbers.TotalPeople|number}}</span>
+                        
                     </div>
                     <!-- /.details -->
 
@@ -136,7 +137,7 @@
                                             <th>Amount(QT)</th>
                                             <th>Detail</th>
                                             <th>Status</th>
-                                            <th class="align-center">Action</th>
+                                            @*<th class="align-center">Action</th>*@
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -159,11 +160,11 @@
                                                 </a>
                                             </th>
                                             <td><span class="label label-success">{{request[4].Value}}</span></td>
-                                            <td class="align-center">
+                                           @* <td class="align-center">
                                                 <a class="btn btn-sm btn-default" data-original-title="Approve">
                                                     <i class="icon-upload"></i>Approve
                                                 </a>
-                                            </td>
+                                            </td>*@
                                         </tr>
 
                                         @*<tr class="">
@@ -227,7 +228,6 @@
                                                 </a>
                                             </td>
                                         </tr>*@
-
                                         
                                     </tbody>
                                 </table>
@@ -244,13 +244,33 @@
                         <div class="portlet-header">
                             <h3>
                                 <i class=""></i>
-                                Percentage
+                                Requests Percentage
                             </h3>
                         </div>
 
                         <!-- /.portlet-header -->
 
                         <div class="portlet-content">
+                           
+                             <div class="progress-stat">
+                                <div class="stat-header">
+                                    <div class="pull-left">
+                                        Draft Requests
+                                    </div>
+                                    <!-- /.stat-label -->
+                                    <div class="pull-right">
+                                         {{Data.PendingRequests|number:2}}%
+                                    </div>
+                                    <!-- /.stat-value -->
+                                </div>
+                                <!-- /stat-header -->
+                                <div class="progress progress-success">
+                                    <div class="bar" style="width: {{Data.PendingRequests}}%"></div>
+                                </div>
+                                <!-- /.progress -->
+                            </div>
+                            <!-- /.progress-stat -->
+
                             <div class="progress-stat">
 
                                 <div class="stat-header">
@@ -261,7 +281,7 @@
                                     <!-- /.stat-label -->
 
                                     <div class="pull-right">
-                                        {{Data.ApprovedRequests}}%
+                                        {{Data.ApprovedRequests|number:2}}%
                                     </div>
                                     <!-- /.stat-value -->
 
@@ -281,36 +301,19 @@
                             </div>
                             <!-- /.progress-stat -->
 
-                            <div class="progress-stat">
-                                <div class="stat-header">
-                                    <div class="pull-left">
-                                        Pending Requests
-                                    </div>
-                                    <!-- /.stat-label -->
-                                    <div class="pull-right">
-                                         {{Data.PendingRequests}}%
-                                    </div>
-                                    <!-- /.stat-value -->
-                                </div>
-                                <!-- /stat-header -->
-                                <div class="progress progress-success">
-                                    <div class="bar" style="width: {{Data.PendingRequests}}%"></div>
-                                </div>
-                                <!-- /.progress -->
-                            </div>
-                            <!-- /.progress-stat -->
+                           
 
                             <div class="progress-stat">
 
                                 <div class="stat-header">
 
                                     <div class="pull-left">
-                                        Allocated
+                                        Closed
                                     </div>
                                     <!-- /.stat-label -->
 
                                     <div class="pull-right">
-                                        {{Data.HubAssignedRequests}}%
+                                        {{Data.HubAssignedRequests|number:2}}%
                                     </div>
                                     <!-- /.stat-value -->
 
@@ -324,7 +327,32 @@
 
                             </div>
                             <!-- /.progress-stat -->
+                            
+                            
+                            <div class="progress-stat">
 
+                                <div class="stat-header">
+
+                                    <div class="pull-left">
+                                        Approved by Federal
+                                    </div>
+                                    <!-- /.stat-label -->
+
+                                    <div class="pull-right">
+                                        {{Data.FederalApproved|number:2}}%
+                                    </div>
+                                    <!-- /.stat-value -->
+
+                                </div>
+                                <!-- /stat-header -->
+
+                                <div class="progress progress-success">
+                                    <div class="bar" style="width: {{Data.FederalApproved}}%"></div>
+                                </div>
+                                <!-- /.progress -->
+
+                            </div>
+                            <!-- /.progress-stat -->
                             <br>
                         </div>
                         <!-- /.portlet-content -->
@@ -354,7 +382,7 @@
             </div>
             <div id="RequisitionContent" class="row">
                 <div>&nbsp;</div>
-                   <div class="span7">
+                   <div class="span8">
                     <div class="portlet">
                         <div class="portlet-header">
                             <h3>
@@ -454,9 +482,9 @@
                                             <a ng-href="@Url.Action("Allocation", "ReliefRequisition", new { Area = "EarlyWarning", id = 2 })" class="btn btn-sm btn-default">View <i class="icon-chevron-right"></i>
                                             </a>
 
-                                            <a class="btn btn-sm btn-default" data-original-title="Approve">
+                                            @*<a class="btn btn-sm btn-default" data-original-title="Approve">
                                                 <i class="icon-upload"></i>Approve
-                                            </a>
+                                            </a>*@
                                         </td>
                                     </tr>
 
@@ -468,19 +496,46 @@
                     </div>
                     <!-- /.portlet-content -->
                 </div>
-                <div class="span4">
+                <div class="span3">
 
                     <div class="portlet">
                         <div class="portlet-header">
                             <h3>
                                 <i class=""></i>
-                                Requisitions Percentage by Status
+                                Requisitions Percentage
                             </h3>
                         </div>
 
                         <!-- /.portlet-header -->
 
                         <div class="portlet-content">
+                          
+
+                            <div class="progress-stat">
+
+                                <div class="stat-header">
+
+                                    <div class="pull-left">
+                                        Draft Requisitions
+                                    </div>
+                                    <!-- /.stat-label -->
+
+                                    <div class="pull-right">
+                                        {{Data.PendingRequisitions|number:2}}%
+                                    </div>
+                                    <!-- /.stat-value -->
+
+                                </div>
+                                <!-- /stat-header -->
+
+                                <div class="progress progress-success">
+                                    <div class="bar" style="width:  {{Data.PendingRequisitions}}%"></div>
+                                </div>
+                                <!-- /.progress -->
+
+                            </div>
+                            <!-- /.progress-stat -->
+                            
                             <div class="progress-stat">
 
                                 <div class="stat-header">
@@ -491,7 +546,7 @@
                                     <!-- /.stat-label -->
 
                                     <div class="pull-right">
-                                        {{Data.ApprovedRequisitions}}%
+                                        {{Data.ApprovedRequisitions|number:2}}%
                                     </div>
                                     <!-- /.stat-value -->
 
@@ -511,37 +566,12 @@
                                 <div class="stat-header">
 
                                     <div class="pull-left">
-                                        Pending Requisitions
-                                    </div>
-                                    <!-- /.stat-label -->
-
-                                    <div class="pull-right">
-                                        {{Data.PendingRequisitions}}%
-                                    </div>
-                                    <!-- /.stat-value -->
-
-                                </div>
-                                <!-- /stat-header -->
-
-                                <div class="progress progress-success">
-                                    <div class="bar" style="width:  {{Data.PendingRequisitions}}%"></div>
-                                </div>
-                                <!-- /.progress -->
-
-                            </div>
-                            <!-- /.progress-stat -->
-
-                            <div class="progress-stat">
-
-                                <div class="stat-header">
-
-                                    <div class="pull-left">
                                         Hub Assigned
                                     </div>
                                     <!-- /.stat-label -->
 
                                     <div class="pull-right">
-                                        {{Data.HubAssignedRequisitions}}%
+                                        {{Data.HubAssignedRequisitions|number:2}}%
                                     </div>
                                     <!-- /.stat-value -->
 
@@ -957,7 +987,7 @@
 <script>
     function RegionalDashboardController($scope, $http) {
 
-        $scope.reqParam = { regionID: 2 };
+        $scope.reqParam = { regionID: '@ViewBag.RegionID' };
         $scope.Requests = [];
         $scope.Requisitions = [];
         $scope.Dispatches = [];
@@ -1009,7 +1039,7 @@
 
 
     function ImportantNumbersController($scope, $http) {
-        $scope.reqParam = { regionID: 2 };
+        $scope.reqParam = { regionID: "@ViewBag.RegionID" };
         $scope.Numbers = [];
         
         var onNumbersSuccess = function (data) {
