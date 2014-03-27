@@ -18,6 +18,7 @@ namespace Cats.Models.Security
 
         [Key]
         public int UserProfileID { get; set; }
+         [Required]
         public string UserName { get; set; }
         public string Password { get; set; }
         public string FirstName { get; set; }
@@ -33,6 +34,9 @@ namespace Cats.Models.Security
         public string DatePreference { get; set; }
         public string PreferedWeightMeasurment { get; set; }
         public string MobileNumber { get; set; }
+        [Required]
+        [DataType(DataType.EmailAddress)]
+        [EmailAddress]
         public string Email { get; set; }
         public string DefaultTheme { get; set; }
         public string Keyboard { get; set; }

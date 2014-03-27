@@ -40,6 +40,11 @@
 
            "<a href='" + Url.Action("EditUserRoles", "Users", new { UserName = "#=UserName#" }) + " '>Edit Role</a> "
            );
+        columns.Bound(u => u.UserName).Title("User Name").ClientTemplate(
+
+
+           "<a href='" + Url.Action("EditUser", "Users", new { userId = "#=UserProfileID#" }) + " '>Edit User</a> "
+           );
     })
     .Sortable()
     .Scrollable()

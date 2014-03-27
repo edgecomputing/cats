@@ -23,8 +23,9 @@ namespace Cats.Areas.Regional.Controllers
         // GET: /Regional/Home/
         public ActionResult Index()
         {
-            var currentUser = UserAccountHelper.GetUser(HttpContext.User.Identity.Name);
-            ViewBag.RegionName = currentUser.RegionID != null ? _adminUnitService.FindById(currentUser.RegionID ?? 0).Name : "";
+			var currentUser = UserAccountHelper.GetUser(HttpContext.User.Identity.Name);
+			ViewBag.RegionID = currentUser.RegionID;
+            ViewBag.RegionName = currentUser.RegionID != null ? _adminUnitService.FindById(currentUser.RegionID ?? 0).Name : "[region not set for user]";
             return View();
         }
     }

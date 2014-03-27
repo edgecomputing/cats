@@ -25,5 +25,6 @@ namespace Cats.Models
         public virtual PaymentRequest PaymentRequest { get; set; }
         public virtual UserProfile UserProfile { get; set; }
         public virtual UserProfile UserProfile1 { get; set; }
+
     }
 }

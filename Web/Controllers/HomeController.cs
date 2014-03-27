@@ -61,7 +61,9 @@ namespace Cats.Controllers
             if (currentUser.IsAdmin) {
                 return RedirectToAction("Index", "AdminDashboard", new { Area = "Settings" });
             }
-
+			if (currentUser.DefaultHub!= null) {
+                return RedirectToAction("Index", "Home", new { Area = "Hub" });
+            }
             if (currentUser.RegionalUser)
             {
                 ViewBag.RegionID = currentUser.RegionID;
@@ -82,7 +84,7 @@ namespace Cats.Controllers
                         return RedirectToAction("Index", "Home", new { Area = "Procurement" });
                         break;
                     case 5:
-                        return RedirectToAction("Index", "Home", new { Area = "Hub" });
+                        return RedirectToAction("Index", "Home", new { Area = "Finance" });
                         break;
 
                 }

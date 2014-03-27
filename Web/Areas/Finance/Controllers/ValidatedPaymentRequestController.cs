@@ -9,6 +9,7 @@ using Cats.Areas.Procurement.Models;
 using Cats.Helpers;
 using Cats.Models;
 using Cats.Models.Constant;
+using Cats.Services.Administration;
 using Cats.Services.Common;
 using Cats.Services.EarlyWarning;
 using Cats.Services.Finance;
@@ -28,6 +29,7 @@ namespace Cats.Areas.Finance.Controllers
         private readonly IWorkflowStatusService _workflowStatusService;
         private readonly ITransporterService _transporterService;
         private readonly ITransporterChequeService _transporterChequeService;
+        private readonly IUserProfileService _userProfileService;
 
         public ValidatedPaymentRequestController(IBusinessProcessService paramBusinessProcessService
                                         , IBusinessProcessStateService paramBusinessProcessStateService
@@ -36,7 +38,7 @@ namespace Cats.Areas.Finance.Controllers
                                         , ITransportOrderService paramTransportOrderService
                                         , ITransporterAgreementVersionService transporterAgreementVersionService
                                         , IWorkflowStatusService workflowStatusService, ITransporterService transporterService
-                                        , ITransporterChequeService transporterChequeService)
+                                        , ITransporterChequeService transporterChequeService, IUserProfileService userProfileService)
             {
 
                 _businessProcessService = paramBusinessProcessService;
@@ -48,6 +50,7 @@ namespace Cats.Areas.Finance.Controllers
                 _workflowStatusService = workflowStatusService;
                 _transporterService = transporterService;
                 _transporterChequeService = transporterChequeService;
+                 _userProfileService = userProfileService;
             }
         //
         // GET: /Procurement/ValidatedPaymentRequest/
@@ -59,9 +62,18 @@ namespace Cats.Areas.Finance.Controllers
             return View(list);
         }
 
-        public ActionResult Promote(BusinessProcessState st)
+        public ActionResult Promote(BusinessProcessState st, int PaymentRequestID)
         {
             _businessProcessService.PromotWorkflow(st);
+            var transporterChequeObj = _transporterChequeService.Get(t => t.PaymentRequestID == PaymentRequestID).FirstOrDefault();
+            if (transporterChequeObj != null)
+            {
+                if (st.StateID == (int)Cats.Models.Constant.StateTemplate.ChequeApproved)
+                {
+                    transporterChequeObj.AppovedBy = UserAccountHelper.GetUser(User.Identity.Name).UserProfileID;
+                    transporterChequeObj.AppovedDate = DateTime.Now;
+                }
+            }
             return RedirectToAction("Index");
 
         }
@@ -175,7 +187,7 @@ namespace Cats.Areas.Finance.Controllers
         {
             var user = UserAccountHelper.GetUser(User.Identity.Name);
             var paymentRequestObj = _paymentRequestservice.FindById(paymentRequestID);
-            var transporterChequeObj = _transporterChequeService.Get(t => t.PaymentRequestID == paymentRequestID).FirstOrDefault();
+            var transporterChequeObj = _transporterChequeService.Get(t => t.PaymentRequestID == paymentRequestID, null, "UserProfile").FirstOrDefault();
             var transporterChequeViewModel = new Models.TransporterChequeViewModel();
             if (paymentRequestObj != null)
             {
@@ -192,9 +204,12 @@ namespace Cats.Areas.Finance.Controllers
                     transporterChequeViewModel.Transporter = paymentRequestObj.TransportOrder.Transporter.Name;
 
                     transporterChequeViewModel.PreparedByID = transporterChequeObj.PreparedBy;
-                    transporterChequeViewModel.PreparedBy = transporterChequeObj.UserProfile.UserName;
+                    transporterChequeViewModel.PreparedBy = _userProfileService.FindById((int)transporterChequeObj.PreparedBy).FirstName + " " +
+                                                            _userProfileService.FindById((int)transporterChequeObj.PreparedBy).LastName;
                     transporterChequeViewModel.AppovedByID = transporterChequeObj.AppovedBy??0;
-                    transporterChequeViewModel.AppovedBy = transporterChequeObj.AppovedBy != null ? transporterChequeObj.UserProfile1.UserName : null;
+                    transporterChequeViewModel.AppovedBy = transporterChequeObj.AppovedBy != null ? 
+                        _userProfileService.FindById((int)transporterChequeObj.AppovedBy).FirstName + " " +
+                        _userProfileService.FindById((int)transporterChequeObj.AppovedBy).LastName : null;
                     transporterChequeViewModel.AppovedDate = transporterChequeObj.AppovedDate;
                     transporterChequeViewModel.Status = (int) transporterChequeObj.Status;
                 }
@@ -230,9 +245,12 @@ namespace Cats.Areas.Finance.Controllers
                     PaymentVoucherNo = transporterCheque.PaymentVoucherNo,
                     BankName = transporterCheque.BankName,
                     Amount = transporterCheque.Amount,
-                    TransporterId = transporterCheque.PaymentRequest.TransportOrder.TransporterID,
-                    PreparedBy = transporterCheque.UserProfile.UserName,
-                    AppovedBy = transporterCheque.UserProfile1!=null? transporterCheque.UserProfile1.UserName : "",
+                    TransporterId = _paymentRequestservice.FindById(transporterCheque.PaymentRequestID).TransportOrder.TransporterID,
+                    PreparedBy = _userProfileService.FindById((int)transporterCheque.PreparedBy).FirstName + " " +
+                        _userProfileService.FindById((int)transporterCheque.PreparedBy).LastName,
+                    AppovedBy = transporterCheque.AppovedBy != null ? 
+                        _userProfileService.FindById((int)transporterCheque.AppovedBy).FirstName + " " +
+                        _userProfileService.FindById((int)transporterCheque.AppovedBy).LastName : string.Empty,
                     AppovedDate = transporterCheque.AppovedDate,
                     Status = (int) transporterCheque.Status
                 };

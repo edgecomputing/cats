@@ -1,0 +1,221 @@
+﻿@model Cats.Models.Security.UserProfile
+@{
+    ViewBag.Title = "EditUser";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+@section MainMenu
+{
+    @Html.Partial("_AdminMenuBar")
+}
+
+@section Leftbar
+{
+    @Html.Partial("_AdminLeftBar")
+}
+<fieldset>
+    <legend>
+        Edit User 
+    </legend>
+</fieldset> 
+
+
+
+
+@using (Html.BeginForm("EditUser", "Users", FormMethod.Post))
+{
+    @Html.HiddenFor(m=>m.UserProfileID)
+    <div class="control-group form-horizontal">
+        <div class="row">
+            <div class="span4">
+                <div class="control-group">
+                    @Html.LabelFor(m => m.UserName, new {@class = "control-label"})
+                    <div class="controls">
+                        @Html.TextBoxFor(m => m.UserName, new {@size = 50})
+                        @Html.ValidationMessageFor(m => m.UserName)
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="span6">
+                <div class="control-group">
+                    @Html.LabelFor(m => m.FirstName, new {@class = "control-label"})
+                    <div class="controls">
+                        @Html.TextBoxFor(m => m.FirstName, new {@size = 200})
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="span6">
+                <div class="control-group">
+                    @Html.LabelFor(m => m.LastName, new {@class = "control-label"})
+                    <div class="controls">
+                        @Html.TextBoxFor(m => m.LastName, new {@size = 200})
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="span6">
+                <div class="control-group">
+                    @Html.LabelFor(m => m.GrandFatherName, new {@class = "control-label"})
+                    <div class="controls">
+                        @Html.TextBoxFor(m => m.GrandFatherName, new {@size = 200})
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="span6">
+                <div class="control-group">
+                    @Html.LabelFor(m => m.MobileNumber, new {@class = "control-label"})
+                    <div class="controls">
+                        @Html.TextBoxFor(m => m.MobileNumber, new {@size = 200})
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="span6">
+                <div class="control-group">
+                    @Html.LabelFor(m => m.Email, new {@class = "control-label"})
+                    <div class="controls">
+                        @Html.TextBoxFor(m => m.Email, new {@size = 200})
+                        @Html.ValidationMessageFor(m=>m.Email)
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        
+       <div class="row">
+            <div class="span6">
+                <div class="control-group">
+                    @Html.Label("User Type", new {@class = "control-label"})
+                    <div class="controls">
+                        @(Html.DropDownList("UserType",new SelectList(ViewBag.userTypes, "Text", "Value",ViewBag.Selected),new { @id = "UserType"}))
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row" id="div_hubs" style="display: none">
+            <div class="span6">
+                <div class="control-group">
+                    @Html.LabelFor(m => m.DefaultHub, new {@class = "control-label"})
+                    <div class="controls">
+                        @(Html.DropDownListFor(model => model.DefaultHub, new SelectList(ViewBag.hubs, "HubID", "Name","")))
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row" id="div_regions" style="display: none">
+            <div class="span6">
+                <div class="control-group">
+                    @Html.Label("Region", new {@class = "control-label"})
+                    <div class="controls">
+                        @(Html.DropDownListFor(model => model.RegionID, new SelectList(ViewBag.regions, "AdminUnitID", "Name")))
+                        @Html.HiddenFor(m=>m.RegionalUser)
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+        
+        <div class="row" id="div_caseTeam" style="display: none">
+            <div class="span6">
+                <div class="control-group">
+                    <label class="control-label">Case Team:</label>
+                    <div class="controls">
+                        @Html.DropDownListFor(m => m.CaseTeam, new SelectList(ViewBag.CaseTeams, "ID","CaseTeamName"),"")
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <a class="btn" href="@Url.Action("Index", "Users")">Cancel</a>
+           <button class="btn" type="submit" value="Save" id="btnSave"> Save </button>
+       
+        </div>
+    </div>
+}
+
+<script>
+
+    $(document).ready(function() {
+
+        if (document.getElementById("UserType").value == "1")
+        {
+            
+            $("#div_regions").show();
+            $("#div_hubs").hide();
+            $("#div_caseTeam").hide();
+           
+        }
+        else if (document.getElementById("UserType").value == "2") {
+           
+            $("#div_regions").hide();
+            $("#div_hubs").show();
+            $("#div_caseTeam").hide();
+            
+        } else if (document.getElementById("UserType").value == "3") {
+            
+            $("#div_regions").hide();
+            $("#div_hubs").hide();
+            $("#div_caseTeam").show();
+           
+            
+        
+        }
+    });
+
+
+    $('#UserType').change(function () {
+        
+        if (this.value == "1") {
+            
+            $("#div_regions").show();
+            $("#div_hubs").hide();
+            $("#div_caseTeam").hide();
+
+            
+            document.getElementById("RegionalUser").value = true;
+            document.getElementById("DefaultHub").value = '';
+            document.getElementById("CaseTeam").value = '';
+            
+        } else if (this.value == "2") {
+            
+            $("#div_regions").hide();
+            $("#div_hubs").show();
+            $("#div_caseTeam").hide();
+            
+            document.getElementById("RegionalUser").value = false;
+            document.getElementById("RegionID").value = '';
+            document.getElementById("CaseTeam").value = '';
+            
+        } else if (this.value == "3") {
+            
+            $("#div_regions").hide();
+            $("#div_hubs").hide();
+            $("#div_caseTeam").show();
+            
+            document.getElementById("RegionalUser").value = false;
+            document.getElementById("DefaultHub").value = '';
+            document.getElementById("RegionID").value = '';
+            
+        }
+        
+       
+    });
+</script>
