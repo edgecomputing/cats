@@ -46,18 +46,19 @@ namespace Cats.Areas.Settings.Controllers
         {
             var model = new UserViewModel();
 
+          
+           
+
             var caseteams = new List<CaseTeam>();
 
             caseteams.Add(new CaseTeam() { ID = 1,CaseTeamName = "EarlyWarning"});
             caseteams.Add(new CaseTeam() { ID = 2, CaseTeamName = "PSNP/FSCD" });
             caseteams.Add(new CaseTeam() { ID = 3, CaseTeamName = "Logistics" });
             caseteams.Add(new CaseTeam() { ID = 4, CaseTeamName = "Procurement" });
-            //caseteams.Add(new CaseTeam() { ID = 1, CaseTeamName = "Hub" });
+          
 
             ViewBag.CaseTeams = caseteams;
-            //List<Cats.Models.Security.ViewModels.Application> Applications = userService.GetApplications("CATS");
-            //model.Applications = Applications;
-
+           
             ViewBag.Regions = _adminUnitService.GetRegions();
 
             return View(model);
@@ -121,6 +122,7 @@ namespace Cats.Areas.Settings.Controllers
             user.FirstName = userInfo.FirstName;
             user.LastName = userInfo.LastName;
             user.RegionalUser = userInfo.RegionalUser;
+            user.RegionID = userInfo.RegionID;
             user.CaseTeam = userInfo.CaseTeam;
 
             user.LanguageCode = "EN";
@@ -137,7 +139,79 @@ namespace Cats.Areas.Settings.Controllers
             }
             return View();
         }
+        public void init()
+        {
+            var caseteams = new List<CaseTeam>
+                                    {
+                                        new CaseTeam() {ID = 1, CaseTeamName = "EarlyWarning"},
+                                        new CaseTeam() {ID = 2, CaseTeamName = "PSNP/FSCD"},
+                                        new CaseTeam() {ID = 3, CaseTeamName = "Logistics"},
+                                        new CaseTeam() {ID = 4, CaseTeamName = "Procurement"}
+                                    };
+            var userTypes = new SelectList(new[]
+                       {
+                           new SelectListItem {Text = "Regional", Value = "1"},
+                           new SelectListItem {Text = "Hub", Value = "2"},
+                            new SelectListItem {Text = "Case team", Value = "3"},
+                       }, "Text", "Value");
 
+            ViewBag.CaseTeams = caseteams;
+            ViewBag.userTypes = userTypes;
+        }
+        public ActionResult EditUser(int userId)
+        {
+            var user = _userService.FindById(userId);
+            if (user != null)
+            {
+                if (user.RegionalUser)
+                    ViewBag.Selected = 1;
+                else if (user.DefaultHub > 0)
+                    ViewBag.Selected = 2;
+                else if (user.CaseTeam > 0)
+                    ViewBag.Selected = 3;
+                else
+                    ViewBag.Selected = 1;
+
+                init();
+                ViewBag.hubs = _hubService.GetAllHub().ToList();
+                ViewBag.regions = _adminUnitService.GetRegions();
+                return View(user);
+
+            }
+            return View("Index");
+
+        }
+
+        [HttpPost]
+        public ActionResult EditUser(UserProfile userInfo)
+        {
+
+            if (ModelState.IsValid)
+            {
+                var user = _userService.FindById(userInfo.UserProfileID);
+                user.UserName = userInfo.UserName;
+                user.FirstName = userInfo.FirstName;
+                user.LastName = userInfo.LastName;
+                user.GrandFatherName = userInfo.GrandFatherName;
+                user.RegionalUser = userInfo.RegionalUser;
+                user.RegionID = userInfo.RegionalUser ? user.RegionID : null; 
+                user.RegionID = userInfo.RegionID;
+                user.DefaultHub = userInfo.DefaultHub;
+                user.CaseTeam = userInfo.CaseTeam;
+                user.MobileNumber = userInfo.MobileNumber;
+                user.Email = userInfo.Email;
+
+                if (_userService.UpdateUser(user))
+                {
+                    return View("Index");
+                }
+               
+            }
+            init();
+            ViewBag.hubs = _hubService.GetAllHub().ToList();
+            ViewBag.regions = _adminUnitService.GetRegions();
+            return View("EditUser");
+        }
         public ActionResult UserProfile(int id)
         {
             var user = _userService.GetUserInfo(id);

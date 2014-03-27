@@ -31,7 +31,7 @@ namespace Cats.Areas.Regional.Controllers
             }
             
 			ViewBag.RegionID = currentUser.RegionID;
-            ViewBag.RegionName = currentUser.RegionID != null ? _adminUnitService.FindById(currentUser.RegionID ?? 0).Name : "";
+            ViewBag.RegionName = currentUser.RegionID != null ? _adminUnitService.FindById(currentUser.RegionID ?? 0).Name : "[region not set for user]";
             return View();
         }
     }

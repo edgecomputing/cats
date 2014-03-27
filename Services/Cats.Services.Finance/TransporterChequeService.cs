@@ -21,6 +21,7 @@ namespace Cats.Services.Finance
         #region Default Service Implementation
         public bool AddTransporterCheque(TransporterCheque transporterCheque)
         {
+
             _unitOfWork.TransporterChequeRepository.Add(transporterCheque);
             _unitOfWork.Save();
             return true;
