@@ -1777,6 +1777,7 @@
     <Content Include="Areas\Logistics\Views\Transfer\Index.cshtml" />
     <Content Include="Areas\Logistics\Views\Transfer\Detail.cshtml" />
     <Content Include="Areas\Logistics\Views\Transfer\Edit.cshtml" />
+    <Content Include="Areas\Logistics\Views\Donation\View1.cshtml" />
     <Content Include="Areas\PSNP\Views\Home\Copy of Index.cshtml" />
     <Content Include="Areas\Finance\Views\Web.config" />
     <Content Include="Areas\Finance\Views\Home\Index.cshtml" />
@@ -1818,7 +1819,6 @@
     <Content Include="Areas\Settings\Views\Shared\_MainLayoutMap.cshtml" />
     <Content Include="Areas\Settings\Views\ProcessTemplate\Detail.cshtml" />
     <Content Include="Areas\Settings\Views\ProcessTemplate\Index.cshtml" />
-    <Content Include="Areas\Settings\Views\Users\EditUser.cshtml" />
     <None Include="dataset.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>dataset.Designer.cs</LastGenOutput>
@@ -2493,7 +2493,7 @@
     <Content Include="Views\Shared\_MainLayout.cshtml" />
     <Content Include="Views\Shared\_BarNeedAssessment.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\_ToolbarCommon.cshtml" />
-    <Content Include="Views\Shared\_MainMenuNew.cshtml" />
+    <Content Include="Views\Shared\_MainMenu.cshtml" />
     <Content Include="Views\Shared\Dashboard\_BarBeneficiaries.cshtml" />
     <Content Include="Views\Shared\Dashboard\_BarRegionalReqDetailCommodity.cshtml" />
     <Content Include="Views\Shared\Dashboard\_Shortcuts.cshtml" />
