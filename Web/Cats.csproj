@@ -2613,7 +2613,7 @@
     </Content>
     <Content Include="Views\Shared\_MainLayoutMap.cshtml" />
     <Content Include="Views\Shared\ReportListing.cshtml" />
-    <Content Include="Views\Shared\_MainMenu.cshtml" />
+    <Content Include="Views\Shared\_MainMenuOld.cshtml" />
     <None Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
