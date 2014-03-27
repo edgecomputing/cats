@@ -8,6 +8,7 @@ namespace Cats.Models
 {
     public partial class TransporterCheque
     {
+
         public System.Guid TransporterChequeId { get; set; }
         public int PaymentRequestID { get; set; }
         public string CheckNo { get; set; }
@@ -19,7 +20,11 @@ namespace Cats.Models
         public int? AppovedBy { get; set; }
         public int Status { get; set; }
         public DateTime AppovedDate { get; set; }
-        public virtual UserProfile UserProfile { get; set; }
+        public DateTime? PaymentDate { get; set; }
+        public int? PaidBy { get; set; }
         public virtual PaymentRequest PaymentRequest { get; set; }
+        public virtual UserProfile UserProfile { get; set; }
+        public virtual UserProfile UserProfile1 { get; set; }
+
     }
 }

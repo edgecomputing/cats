@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
+using Cats.Models;
 
 namespace Cats.Models
 {
@@ -13,6 +14,7 @@ namespace Cats.Models
         public virtual BusinessProcess BusinessProcess { get; set; }
         
     }
+  
 
     public class PaymentRequestPOCO
     {
@@ -25,6 +27,7 @@ namespace Cats.Models
         public Nullable<decimal> LabourCost { get; set; }
         public Nullable<decimal> RejectedAmount { get; set; }
         public string RejectionReason { get; set; }
+        public virtual ICollection<TransporterCheque> TransporterCheques { get; set; }
     }
 
 }
