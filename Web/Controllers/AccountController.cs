@@ -54,7 +54,7 @@ namespace Cats.Controllers
             {
                 if (_userAccountService.Authenticate(model.UserName, model.Password))
                 {
-                    FormsAuthentication.SetAuthCookie(model.UserName, model.RememberMe);
+                    FormsAuthentication.SetAuthCookie(model.UserName,true);
 
                     // Will be refactored                              
                     var user = _userAccountService.GetUserDetail(model.UserName);
