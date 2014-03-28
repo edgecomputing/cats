@@ -110,9 +110,9 @@
         <div class="row" id="div_hubs" style="display: none">
             <div class="span6">
                 <div class="control-group">
-                    @Html.LabelFor(m => m.DefaultHub, new {@class = "control-label"})
+                    @Html.Label("Hub", new {@class = "control-label"})
                     <div class="controls">
-                        @(Html.DropDownListFor(model => model.DefaultHub, new SelectList(ViewBag.hubs, "HubID", "Name","")))
+                        @Html.DropDownListFor(model => model.DefaultHub, new SelectList(ViewBag.hubs, "HubID", "Name"),"Select Hub")
                     </div>
                 </div>
             </div>
@@ -123,7 +123,7 @@
                 <div class="control-group">
                     @Html.Label("Region", new {@class = "control-label"})
                     <div class="controls">
-                        @(Html.DropDownListFor(model => model.RegionID, new SelectList(ViewBag.regions, "AdminUnitID", "Name")))
+                        @Html.DropDownListFor(model => model.RegionID, new SelectList(ViewBag.regions, "AdminUnitID", "Name"))
                         @Html.HiddenFor(m=>m.RegionalUser)
                     </div>
                 </div>
@@ -135,9 +135,9 @@
         <div class="row" id="div_caseTeam" style="display: none">
             <div class="span6">
                 <div class="control-group">
-                    <label class="control-label">Case Team:</label>
+                    <label class="control-label">Case Team</label>
                     <div class="controls">
-                        @Html.DropDownListFor(m => m.CaseTeam, new SelectList(ViewBag.CaseTeams, "ID","CaseTeamName"),"")
+                        @Html.DropDownListFor(m => m.CaseTeam, new SelectList(ViewBag.CaseTeams, "ID","CaseTeamName"),"Select case Team")
                     </div>
                 </div>
             </div>
@@ -161,20 +161,29 @@
             $("#div_regions").show();
             $("#div_hubs").hide();
             $("#div_caseTeam").hide();
-           
+            document.getElementById("RegionalUser").value = true;
+            document.getElementById("DefaultHub").value = '';
+            document.getElementById("CaseTeam").value = '';
+            
         }
         else if (document.getElementById("UserType").value == "2") {
            
             $("#div_regions").hide();
             $("#div_hubs").show();
             $("#div_caseTeam").hide();
+            document.getElementById("RegionalUser").value = false;
+            document.getElementById("RegionID").value = '';
+            document.getElementById("CaseTeam").value = '';
             
         } else if (document.getElementById("UserType").value == "3") {
             
             $("#div_regions").hide();
             $("#div_hubs").hide();
             $("#div_caseTeam").show();
-           
+            
+            document.getElementById("RegionalUser").value = false;
+            document.getElementById("DefaultHub").value = '';
+            document.getElementById("RegionID").value = '';
             
         
         }
@@ -193,7 +202,7 @@
             document.getElementById("RegionalUser").value = true;
             document.getElementById("DefaultHub").value = '';
             document.getElementById("CaseTeam").value = '';
-            
+           
         } else if (this.value == "2") {
             
             $("#div_regions").hide();
