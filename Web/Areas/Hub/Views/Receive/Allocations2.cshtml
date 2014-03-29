@@ -28,7 +28,7 @@
         .Ajax()
         .Model(model => model.Id(p => p.ReceiptAllocationID))
         .Read(read => read.Action("AllocationListAjax", "Receive", new { type = allocationType }))
-        .Destroy(update => update.Action("DeleteAjax", "TransportBidPlan"))
+        .Destroy(update => update.Action("DeleteAjax", "Receive"))
     )
     .Columns(columns =>
     {
@@ -37,12 +37,12 @@
         columns.Bound(dis => dis.QuantityInMT).Title(Html.Translate("Allocated In " + quanityColumnHeader)).Format("{0:N3}").HtmlAttributes(new { align = "right" });
         columns.Bound(dis => dis.ReceivedQuantityInMT).Title(Html.Translate("Received in " + quanityColumnHeader)).Format("{0:N3}").HtmlAttributes(new { align = "right" });
         columns.Bound(dis => dis.RemainingBalanceInMT).Title(Html.Translate("Remaining in " + quanityColumnHeader)).Format("{0:N3}").HtmlAttributes(new { align = "right" });
-        columns.Bound(dis => dis.IsClosed).Hidden(true).ClientTemplate("<input type='checkbox' disabled='disabled' name='closed' <#= IsClosed?\"checked='checked'\" : \"\" #> />");
-
-        columns.Command(command => { 
-           command.Custom("Edit").Click("editRecord");
-          
-        });
+        columns.Bound(dis => dis.ReceiptAllocationID).Title("").ClientTemplate("<a href='" +
+            @Url.Action("Create", "Receive", new { @ReceiptAllocationID = "#=ReceiptAllocationID#", @type = allocationType }) +
+            "'>Recieve  </a> &nbsp; " + 
+            "<a href='javascript:EditPlan(\"#=ReceiptAllocationID#\"," + allocationType +")'>Edit</a> &nbsp; " +
+            "<a  class='close_#=IsClosed#' href='javascript:ClosePlanByID(\"#=ReceiptAllocationID#\"," + allocationType + ")'>Close</a>"
+            );
     })
 )
 <script id="template_receive" type="text/kendo-tmpl">
