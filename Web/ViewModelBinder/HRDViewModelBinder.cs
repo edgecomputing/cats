@@ -173,7 +173,7 @@ namespace Cats.ViewModelBinder
             {
                 foreach (var ds in rationDetails)
                 {
-                    var col = new DataColumn(ds.Commodity.Name.Trim(), typeof(decimal));
+                    var col = new DataColumn(ds.Commodity.Name.Trim() + " in " + preferedWeight.ToUpper().Trim(), typeof(decimal));
                     col.ExtendedProperties.Add("ID", ds.CommodityID);
                     dt.Columns.Add(col);
                 }

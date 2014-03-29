@@ -19,6 +19,14 @@ namespace Cats.Models.Mapping
                 .IsRequired()
                 .HasMaxLength(50);
 
+            this.Property(t => t.PaymentVoucherNo)
+                .IsRequired()
+                .HasMaxLength(50);
+
+            this.Property(t => t.BankName)
+                .IsRequired()
+                .HasMaxLength(50);
+
             // Table & Column Mappings
             this.ToTable("TransporterCheque");
             this.Property(t => t.TransporterChequeId).HasColumnName("TransporterChequeId");
@@ -31,18 +39,24 @@ namespace Cats.Models.Mapping
             this.Property(t => t.PreparedBy).HasColumnName("PreparedBy");
             this.Property(t => t.AppovedBy).HasColumnName("AppovedBy");
             this.Property(t => t.AppovedDate).HasColumnName("AppovedDate");
+            this.Property(t => t.PaymentDate).HasColumnName("PaymentDate");
+            this.Property(t => t.PaidBy).HasColumnName("PaidBy");
             this.Property(t => t.Status).HasColumnName("Status");
 
             // Relationships
+
             //this.HasRequired(t => t.Transporter)
             //    .WithMany(t => t.TransporterCheques)
             //    .HasForeignKey(d => d.TransporterId);
             this.HasRequired(t => t.UserProfile)
                 .WithMany(t => t.TransporterCheques)
                 .HasForeignKey(d => d.PreparedBy);
+
             this.HasRequired(t => t.UserProfile1)
                 .WithMany(t => t.TransporterCheques1)
                 .HasForeignKey(d => d.AppovedBy);
+
+
         }
     }
 }

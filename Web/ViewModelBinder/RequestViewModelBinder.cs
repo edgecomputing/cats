@@ -102,7 +102,7 @@ namespace Cats.ViewModelBinder
             colNoBeneficiary.ExtendedProperties["ID"] = -1;
             dt.Columns.Add(colNoBeneficiary);
 
-            var colNoPlannedBeneficiary = new DataColumn("Planned Beneficiaries", typeof(int));
+            var colNoPlannedBeneficiary = new DataColumn("PlannedBeneficiaries", typeof(int));
             var colDifference = new DataColumn("Difference", typeof(int));
 
             if (programID != 3)
