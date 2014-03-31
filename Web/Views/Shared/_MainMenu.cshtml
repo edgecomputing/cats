@@ -276,7 +276,6 @@
                                     @*<li class="dropdown">
                                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Html.Translate2(PAGE_NAME, " Reports")<b class="caret"></b></a>
                                         <ul class="dropdown-menu">
-
                                             <li><a href="#">@Translator.Translate("Reports") </a></li>
                                         </ul>
                                     </li>*@
@@ -369,6 +368,12 @@
                                             @Html.ProcurementOperationMenuItem(@Html.Translate("Transport Order"),
                                                                    @Url.Action("Index", "TransportOrder", new { Area = "Procurement" }),
                                                                    ProcurementConstants.Operation.View_Transport_Order)
+                                        </li>
+
+                                        <li>
+                                            @Html.ProcurementOperationMenuItem(@Html.Translate("Contract Admin"),
+                                                                   @Url.Action("BidWinningTransporters", "BidWinner", new { Area = "Procurement" }),
+                                                                   ProcurementConstants.Operation.View_Winners_for_Contract)
                                         </li>
                                     </ul>
                                 </li>

@@ -54,7 +54,7 @@ namespace Cats.Controllers
                                        LogOutDate = user.LogOutDate,
                                        LogginDate = user.LogginDate,
                                        NumberOfLogins = user.NumberOfLogins,
-                                       PreferedWeightMeasurment = user.PreferedWeightMeasurment
+                                       PreferedWeightMeasurment = user.PreferedWeightMeasurment.Trim()
                                    };
                 Session["USER_INFO"] = userInfo;
                 
