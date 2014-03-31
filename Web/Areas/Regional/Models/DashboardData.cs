@@ -7,12 +7,15 @@ namespace Cats.Areas.Regional.Models
 {
     public class DashboardData
     {
-        public int ApprovedRequests { get; set; }
-        public int PendingRequests { get; set; }
-        public int HubAssignedRequests { get; set; }
-        public int ApprovedRequisitions { get; set; }
-        public int PendingRequisitions { get; set; }
-        public int HubAssignedRequisitions { get; set; }
+        public decimal ApprovedRequests { get; set; }
+        public decimal PendingRequests { get; set; }
+        public decimal HubAssignedRequests { get; set; }
+        public decimal FederalApproved { get; set; }
+
+        public decimal ApprovedRequisitions { get; set; }
+        public decimal PendingRequisitions { get; set; }
+        public decimal HubAssignedRequisitions { get; set; }
+       
         public int IncomingDispatches { get; set; }
         public int IncomingCommodity { get; set; }
         public int Above18 { get; set; }

@@ -376,7 +376,7 @@ namespace Cats.Services.Hub
         {
             var delAllocation = _unitOfWork.ReceiptAllocationRepository.Get().FirstOrDefault(allocation => allocation.ReceiptAllocationID == id);
             if (delAllocation != null) delAllocation.IsClosed = true;
-            _unitOfWork.ReceiptAllocationRepository.Add(delAllocation);
+            _unitOfWork.ReceiptAllocationRepository.Edit(delAllocation);
             _unitOfWork.Save();
         }
 

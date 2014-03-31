@@ -194,7 +194,7 @@ namespace Cats.Areas.Settings.Controllers
                 user.LastName = userInfo.LastName;
                 user.GrandFatherName = userInfo.GrandFatherName;
                 user.RegionalUser = userInfo.RegionalUser;
-                user.RegionID = userInfo.RegionalUser ? user.RegionID : null; 
+                user.RegionID = userInfo.RegionalUser ? userInfo.RegionID : null; 
                 user.RegionID = userInfo.RegionID;
                 user.DefaultHub = userInfo.DefaultHub;
                 user.CaseTeam = userInfo.CaseTeam;

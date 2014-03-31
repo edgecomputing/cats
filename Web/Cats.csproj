@@ -397,6 +397,8 @@
     <Compile Include="Areas\Finance\FinanceAreaRegistration.cs" />
     <Compile Include="Areas\Finance\Models\PaymentRequestViewModel.cs" />
     <Compile Include="Areas\Finance\Models\TransporterChequeViewModel.cs" />
+    <Compile Include="Areas\Hub\Controllers\HubDashboardController.cs" />
+    <Compile Include="Areas\Hub\Models\StockStatusViewModel.cs" />
     <Compile Include="Areas\Logistics\Controllers\DonationController.cs" />
     <Compile Include="Areas\Logistics\Controllers\PaymentRequestController.cs" />
     <Compile Include="Areas\Logistics\Controllers\TransferController.cs" />
@@ -1775,6 +1777,7 @@
     <Content Include="Areas\Logistics\Views\Transfer\Index.cshtml" />
     <Content Include="Areas\Logistics\Views\Transfer\Detail.cshtml" />
     <Content Include="Areas\Logistics\Views\Transfer\Edit.cshtml" />
+    <Content Include="Areas\Logistics\Views\Donation\View1.cshtml" />
     <Content Include="Areas\PSNP\Views\Home\Copy of Index.cshtml" />
     <Content Include="Areas\Finance\Views\Web.config" />
     <Content Include="Areas\Finance\Views\Home\Index.cshtml" />
@@ -1816,7 +1819,8 @@
     <Content Include="Areas\Settings\Views\Shared\_MainLayoutMap.cshtml" />
     <Content Include="Areas\Settings\Views\ProcessTemplate\Detail.cshtml" />
     <Content Include="Areas\Settings\Views\ProcessTemplate\Index.cshtml" />
-    <Content Include="Areas\Settings\Views\Users\EditUser.cshtml" />
+    <Content Include="Areas\Hub\Views\ReceiptAllocation\Copy of Close.cshtml" />
+    <Content Include="Areas\Hub\Views\ReceiptAllocation\Edit.cshtml" />
     <None Include="dataset.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>dataset.Designer.cs</LastGenOutput>
@@ -2069,7 +2073,7 @@
     <Content Include="Areas\Hub\Views\ReceiptAllocation\Close.cshtml" />
     <Content Include="Areas\Hub\Views\ReceiptAllocation\Create.cshtml" />
     <Content Include="Areas\Hub\Views\ReceiptAllocation\Delete.cshtml" />
-    <Content Include="Areas\Hub\Views\ReceiptAllocation\Edit.cshtml" />
+    <Content Include="Areas\Hub\Views\ReceiptAllocation\Edit2.cshtml" />
     <Content Include="Areas\Hub\Views\ReceiptAllocation\EditPartial.cshtml" />
     <Content Include="Areas\Hub\Views\ReceiptAllocation\FromHubs.cshtml" />
     <Content Include="Areas\Hub\Views\ReceiptAllocation\Index.cshtml" />
@@ -2611,6 +2615,7 @@
     </Content>
     <Content Include="Views\Shared\_MainLayoutMap.cshtml" />
     <Content Include="Views\Shared\ReportListing.cshtml" />
+    <Content Include="Views\Shared\_MainMenuOld.cshtml" />
     <None Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

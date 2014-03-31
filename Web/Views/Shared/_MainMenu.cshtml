@@ -148,7 +148,7 @@
 
 
                             <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Html.Translate2(PAGE_NAME, " Reports")<b class="caret"></b></a>
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Html.Translate2(PAGE_NAME, "Hub Reports")<b class="caret"></b></a>
                                 <ul class="dropdown-menu">
 
                                     <li>
@@ -273,13 +273,13 @@
                                         </ul>
                                     </li>
 
-                                    <li class="dropdown">
+                                    @*<li class="dropdown">
                                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Html.Translate2(PAGE_NAME, " Reports")<b class="caret"></b></a>
                                         <ul class="dropdown-menu">
 
                                             <li><a href="#">@Translator.Translate("Reports") </a></li>
                                         </ul>
-                                    </li>
+                                    </li>*@
 
                                 </ul>
                             </div>
@@ -307,6 +307,7 @@
                                             @Html.PSNPOperationMenuItem(@Translator.Translate("Requests"), @Url.Action("Index", "Request", new { Area = "EarlyWarning" }),
                                                                     PsnpConstants.Operation.View_request)
                                         </li>
+                                        <li><a href="@Url.Action("New", "Request", new { Area = "EarlyWarning" })">@Translator.Translate("New Request") </a></li>
                                     </ul>
                                 </li>
 
@@ -331,12 +332,12 @@
                                 </li>
 
 
-                                <li class="dropdown">
+                                @*<li class="dropdown">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Html.Translate2(PAGE_NAME, " Reports")<b class="caret"></b></a>
                                     <ul class="dropdown-menu">
                                         <li><a href="#">@Translator.Translate("Reports") </a></li>
                                     </ul>
-                                </li>
+                                </li>*@
                             </ul>
                         </div>
                             break;
@@ -498,10 +499,10 @@
                                     </ul>
                                 </li>
 
-                                <li class="dropdown">
+                                @*<li class="dropdown">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Html.Translate2(PAGE_NAME, " Reports")<b class="caret"></b></a>
                                     <ul class="dropdown-menu"></ul>
-                                </li>
+                                </li>*@
 
                             </ul>
                         </div>
@@ -519,12 +520,12 @@
                                     </ul>
                                 </li>
 
-                                <li class="dropdown">
+                                @*<li class="dropdown">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Html.Translate2(PAGE_NAME, " Reports")<b class="caret"></b></a>
                                     <ul class="dropdown-menu">
                                         <li><a href="#">@Translator.Translate("ITSH Report") </a></li>
                                     </ul>
-                                </li>
+                                </li>*@
                             </ul>
                         </div>
                             break;

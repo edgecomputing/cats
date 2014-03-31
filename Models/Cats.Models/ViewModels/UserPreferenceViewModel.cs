@@ -47,10 +47,16 @@ namespace Cats.Models.ViewModels
                                             new LookupViewModel() {Name = "Ethiopian", StringID = "EC"}
                                         };
             WeightPerferences = new List<LookupViewModel>
-                                    {
-                                        new LookupViewModel() {Name = "Quintals", StringID = "Qtl"},
-                                        new LookupViewModel() {Name = "Metric Tonne", StringID = "mt"}
-                                    };
+                                        {
+                                           new LookupViewModel() {Name = "Quintals", StringID = "QTL"},
+                                           new LookupViewModel() {Name = "Metric Tone", StringID = "MT"}
+                                        };
+
+            //WeightPerferences = new List<LookupViewModel>
+            //                        {
+            //                            new LookupViewModel() {Name = "Quintals", StringID = "QTL"},
+            //                            new LookupViewModel() {Name = "Metric Tone", StringID = "MT"}
+            //                        };
             ThemePreferences = new List<LookupViewModel>
                                    {
                                        new LookupViewModel(){Name = "Metro",StringID = "metro"},
