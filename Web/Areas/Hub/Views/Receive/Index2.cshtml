@@ -52,9 +52,23 @@
     .close_false
     {
         color:#f00;
-        padding-left:20px;
-        border:solid 1px #F00;
     }
+    .close_false
+        {
+        }
+
+        .close_true
+        {
+            display: none;
+        }
+                .two-col-form .control-group
+        {
+            float: left;
+            width: 49%;
+            /* background:#EEE;
+        border:solid 1px #ff6a00;
+    */
+        }
 </style>
 <h3>Reciept Allocation</h3>
 <div class="filter">
@@ -72,7 +86,7 @@
     </div>
 
   <label class="checkbox" style="margin-left:50px;">
-    <input type="checkbox"> Show closed Plans
+    <input type="checkbox" id="chk_closed"> Show closed Plans
   </label>
 
 </form>
@@ -85,19 +99,25 @@
 </div>
 
 
-        <div id="modal_create_plan" class="modal hide fade" style="width:800px;" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-          <div class="modal-header">
+     <!--Modal Editor-->
+    <div id="modal_edit_window" class="modal hide fade" style="width: 900px;" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+        <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
             <h3 id="modal_label">Create Plan</h3>
-          </div>
-          <div class="modal-body" id="modal_body" >
-            
-          </div>
-          <div class="modal-footer">
-            <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-            <button class="btn btn-primary">Save changes</button>
-          </div>
         </div>
+
+        <div class="modal-body" id="modal_body">
+        </div>
+
+        <div class="modal-footer">
+            <button class="btn btn-danger" data-dismiss="modal" aria-hidden="true"><i class="icon-white icon-remove"></i> @Html.Translate("Cancel")</button>
+            <!--<button class="btn btn-primary" onclick="initValidation('frm_edit_inline')">Validate</button>-->
+            <button class="btn btn-primary" onclick="submitInlineForm('frm_edit_inline')"><i class="icon-white icon-ok"></i> @Html.Translate("Ok")</button>
+
+        </div>
+
+    </div>
 <br />
 
         <ul id="myTab" class="nav nav-tabs">
@@ -147,6 +167,139 @@
     function onSourceTypeChange(type) {
         sourceType = type;
     }
+    function EditPlan(ReceiptAllocationID, type) {
+        var url = '@Url.Action("Edit2", "ReceiptAllocation")';
+        var attribs = { allocationId: ReceiptAllocationID, type: type };
+        var title = "Edit " + type;
+        showModalEditor(url, attribs, title)
+    }
+    function ClosePlanByID(ReceiptAllocationID, type) {
+        var url = '@Url.Action("Close", "ReceiptAllocation")';
+        var attribs = { id: ReceiptAllocationID, type: type };
+        var title = "Close " + type;
+        showModalEditor(url, attribs, title)
+    }
+    function CreateNewPlan(type) {
+        var url = '@Url.Action("LoadBySIPartial", "ReceiptAllocation")';
+        var attribs = { type: type };
+        var title = "Create Plan " + type;
+        showModalEditor(url, attribs, title)
+    }
+    function submitInlineForm(frmId) {
+
+        var $frm = $("#" + frmId);
+        //alert($frm.valid());
+        try {
+            if (!$frm.valid()) {
+                // alert("Error");
+                return;
+            }
+        }
+        catch (e) { }
+        // alert("valid");
+        //return;
+        // return;
+        var url = $frm.attr("action");
+        var attribs = {};
+        console.log("submitForm ", url);
+        $frm.hide();
+        /*
+        var $inputs = $("#" + frmId + " input");
+        $inputs.each(function (index, element) {
+            //console.log("   submitForm ", element);
+            if (element.name) {
+                attribs[element.name] = element.value;
+            }
+        });
+        */
+        attribs = $frm.serialize();
+        //console.log(attribs);
+        $.post(url, attribs, function (data) {
+            $frm.show();
+            console.log("Submit Result", data);
+            var submitResult = data;
+            if (typeof (data) == "string") {
+                eval("submitResult = " + data);
+            }
+            if (submitResult.status) {
+                $('#modal_edit_window').modal(('hide'));
+                dataRefresh();
+            }
+            //$("#modal_body").html(data);
+
+            //alert(data);
+        });
+    }
+    function showModalEditor(url, attribs, title) {
+        $("#modal_label").html(title);
+        $("#modal_body").html("...Loading");
+        $('#modal_edit_window').modal();
+
+        /*
+        $.post(url, attribs, function (data) {
+            $("#modal_body").html(data);
+        });
+        */
+        $.get(url, attribs, function (data) {
+            $("#modal_body").html(data);
+            setTimeout(function () {
+                initValidation()
+            }, 1000);
+
+        });
+    }
+    function initValidation() {
+        $.validator.unobtrusive.parse(document);
+        console.log("validating");
+    }
+    $(function () {
+        
+
+        $("#FilterCommodityTypeID").change(dataRefresh);
+        $("#HubsID").change(dataRefresh);
+        $("#chk_closed").change(dataRefresh);
+
+    });
+    function getFilterAttributes() {
+        var closed = "false";
+        if (document.getElementById("chk_closed").checked) {
+            closed = "true";
+        }
+        var commodityType = $("#FilterCommodityTypeID").val();
+        var HubID = $("#HubsID").val();
+        return { closed: closed, commodityType: commodityType, HubID: HubID};
+    }
+    function dataRefresh(refreshGrids) {
+        //alert();
+        //return;
+        var gridUrl = '@Url.Action("AllocationListAjax", "Receive")';
+        var gridTypes=[@Cats.Models.Hubs.CommoditySource.Constants.DONATION,
+                        @Cats.Models.Hubs.CommoditySource.Constants.LOAN,
+                        @Cats.Models.Hubs.CommoditySource.Constants.LOCALPURCHASE]
+
+            var attribs = getFilterAttributes();
+            console.log("  attribs", attribs);
+            var urlParams = "";
+            var sep = "&";
+            for (var i in attribs) {
+                if (attribs[i] != "") {
+                    urlParams += sep + i + "=" + attribs[i];
+                    sep = "&";
+                }
+            }
+           
+            for (var i in gridTypes) {
+                var loadUrl = gridUrl + "?type=" + gridTypes[i] +  urlParams;
+                var gridName="ReceiveAllocationGrid" + gridTypes[i];
+                console.log("   " + gridName, loadUrl);
+                var gr = $("#" + gridName).data("kendoGrid");
+                if (gr != null) {
+                    gr.dataSource.transport.options.read.url = loadUrl;
+                    gr.dataSource.filter({});
+                }
+            }
+
+        }
 </script>
 <!--
 <script type="text/javascript">

@@ -50,6 +50,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
             return Json(requestDetail, JsonRequestBehavior.AllowGet);
         }
+
         private IEnumerable<RegionalRequestViewModel> GetRecentRegionalRequests(IEnumerable<RegionalRequest> regionalRequests)
         {
             return (from regionalRequest in regionalRequests

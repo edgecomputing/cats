@@ -24,8 +24,14 @@ namespace Cats.Areas.Regional.Controllers
         public ActionResult Index()
         {
 			var currentUser = UserAccountHelper.GetUser(HttpContext.User.Identity.Name);
+            
+            if (!currentUser.RegionalUser || currentUser.RegionID==null)
+            {
+                ModelState.AddModelError("Errors", @"You are not assigned to any region");    
+            }
+            
 			ViewBag.RegionID = currentUser.RegionID;
-            ViewBag.RegionName = currentUser.RegionID != null ? _adminUnitService.FindById(currentUser.RegionID ?? 0).Name : "";
+            ViewBag.RegionName = currentUser.RegionID != null ? _adminUnitService.FindById(currentUser.RegionID ?? 0).Name : "[region not set for user]";
             return View();
         }
     }

@@ -165,20 +165,20 @@
                     <th style="width:150px; padding:7px;">Zone</th>
                     <th style="width:150px">Woreda</th>
                     <th style="width:150px">FDP</th>
-                    <th style="width:150px">Planned</th>
+                   <!-- <th style="width:150px">Planned</th>-->
                     <th style="width:150px">Beneficiary</th>
                     <th></th>
                 </tr>
                 </thead>
                 <tbody class="k-grid-content">
                 <tr  ng-repeat="allocation in allocations">
-                    <td>{{$index+1}} - {{allocation.RegionalRequestID}}</td>
+                    <td>{{$index+1}}</td>
                     
                     <td>{{allocation.Zone}}</td>
                     <td>{{allocation.Woreda}}</td>
                     <td><a ng-click="onFdpListShow($index)" id="fdp_selector_button{{$index}}" class="edit_button" href="#">{{allocation.FDP}}</a></td>
-                    <td>{{allocation.PlannedBeneficiaries}}</td>
-                    <td><input class="flat-input" ng-model="allocation.Beneficiaries"  /></td>
+                    <!--<td>{{allocation.PlannedBeneficiaries}}</td>-->
+                    <td><input class="flat-input txt_beneficiaries"  onchange="onAllocationBeneficiaryChange({{$index}})" ng-model="allocation.Beneficiaries"  /></td>
                     <td><button class="edit_button btn btn-danger"  ng-click="deleteRequestedFDP($index)"><i class="icon-trash icon-white"></i> Delete</button></td>
                 </tr>
                 <tr id="newAllocationEdit" style="display:none;">
@@ -186,7 +186,7 @@
                     <td>{{newAllocation.Zone}}</td>
                     <td>{{newAllocation.Woreda}}</td>
                     <td><a ng-click="onFdpListShow('new')" id="fdp_selector_buttonnew" class="edit_button" href="#">{{newAllocation.FDP}}</a></td>
-                    <td></td>
+                   <!-- <td></td>-->
                     <td><input class="flat-input" ng-model="newAllocation.Beneficiaries" id="txtNewAllocationBeneficiaries"  /></td>
                     <td>
                         <button class="edit_button btn btn-primary"   ng-click="saveAllocation(newAllocation,true)"><i class="icon-ok icon-white"></i>Save</button>
@@ -194,9 +194,9 @@
 
                     </td>
                 </tr>
-                <tr style="display:none;"><td colspan="7"></td></tr>
-                <tr>
-                    <td colspan="6"></td>
+                <tr style="display:none;"><td colspan="6"></td></tr>
+                <tr id="cmdAddAllocation">
+                    <td colspan="5"></td>
                     <td>
                         <button class="edit_button btn btn-primary"  ng-click="onCreateNewAllocation()"><i class="icon-plus icon-white"></i> New</button>
                     </td>
@@ -221,6 +221,7 @@
 
 <script>
     $(function(){
+        $(".onAllocatoinChange").change(function(){});
         //$("#tbl_allocation").kendoGrid();
     });
     var RegionalRequestID=@Model.RegionalRequestID;
@@ -247,6 +248,12 @@
             }
         }
     var lastTarget;
+    var onAllocationBeneficiaryChange=function(index)
+    {
+        console.log("onAllocationBeneficiaryChange", index);
+        $$scope.onAllocatoinChange(index);
+
+    };
     var onAllocationFDPChange = function (type, selection) {
         console.log("onDispatchFDPChange", selection);
         if (type != "fdp")
