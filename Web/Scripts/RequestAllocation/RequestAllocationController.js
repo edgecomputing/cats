@@ -146,13 +146,14 @@ function RequestAllocationController($scope, $http, $timeout) {
         $scope.newAllocation = { RegionalRequestID: $scope.RegionalRequestID, Fdpid: 0, Beneficiaries: "",FDP:"Select FPD" };
         // $('#divNewAllocation').modal("show");
         $('#newAllocationEdit').show();
-
+        $("#cmdAddAllocation").hide();
         setTimeout(function (){$scope.onFdpListShow('new');}, 1000);
         
     }
     $scope.onCreateAllocationCancel = function () {
         hidePopover();
         $('#newAllocationEdit').hide();
+        $("#cmdAddAllocation").show();
     }
     $scope.deleteRequestedFDP = function (index) {
         var reqFDP = $scope.allocations[index];
@@ -183,6 +184,8 @@ function RequestAllocationController($scope, $http, $timeout) {
                 $scope.onRequestDone();
                 if (isNew) {
                     $('#newAllocationEdit').hide();
+                    $("#cmdAddAllocation").show();
+
                     $scope.onFetchRequestAllocationDataSuccess(response.Data);
                     console.log(" Is New", response.Data);
                     //$scope.allocations.push(allocation);

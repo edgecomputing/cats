@@ -1819,6 +1819,8 @@
     <Content Include="Areas\Settings\Views\Shared\_MainLayoutMap.cshtml" />
     <Content Include="Areas\Settings\Views\ProcessTemplate\Detail.cshtml" />
     <Content Include="Areas\Settings\Views\ProcessTemplate\Index.cshtml" />
+    <Content Include="Areas\Hub\Views\ReceiptAllocation\Copy of Close.cshtml" />
+    <Content Include="Areas\Hub\Views\ReceiptAllocation\Edit.cshtml" />
     <None Include="dataset.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>dataset.Designer.cs</LastGenOutput>
@@ -2071,7 +2073,7 @@
     <Content Include="Areas\Hub\Views\ReceiptAllocation\Close.cshtml" />
     <Content Include="Areas\Hub\Views\ReceiptAllocation\Create.cshtml" />
     <Content Include="Areas\Hub\Views\ReceiptAllocation\Delete.cshtml" />
-    <Content Include="Areas\Hub\Views\ReceiptAllocation\Edit.cshtml" />
+    <Content Include="Areas\Hub\Views\ReceiptAllocation\Edit2.cshtml" />
     <Content Include="Areas\Hub\Views\ReceiptAllocation\EditPartial.cshtml" />
     <Content Include="Areas\Hub\Views\ReceiptAllocation\FromHubs.cshtml" />
     <Content Include="Areas\Hub\Views\ReceiptAllocation\Index.cshtml" />
