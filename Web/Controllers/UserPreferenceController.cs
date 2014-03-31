@@ -33,9 +33,9 @@ namespace Cats.Controllers
                 user.PreferedWeightMeasurment = model.WeightPrefernce;
 
                 // Edit user preference
+                _userAccountService.UpdateUser(user);
                 TempData["PreferenceUpdateSuccessMsg"] = "Success: General preference updated";
-               _userAccountService.UpdateUser(user);
-               
+              
                 var userInfo = new UserInfo
                                    {
                                        UserName = user.UserName,
