@@ -34,7 +34,7 @@ namespace Cats.Models.Security
         public string DatePreference { get; set; }
         public string PreferedWeightMeasurment { get; set; }
         public string MobileNumber { get; set; }
-        //[Required]
+        [Required]
         [DataType(DataType.EmailAddress)]
         [EmailAddress]
         public string Email { get; set; }

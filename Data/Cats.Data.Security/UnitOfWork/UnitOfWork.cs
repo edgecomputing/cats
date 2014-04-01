@@ -4,6 +4,9 @@ using System.Data.Entity.Validation;
 using System.Linq;
 using Cats.Models.Security;
 using System.Data.Entity;
+using log4net;
+using System.Text;
+
 
 namespace Cats.Data.Security
 {
@@ -15,6 +18,13 @@ namespace Cats.Data.Security
         #region Ctors and private vars
 
         private readonly SecurityContext _context;
+        private readonly ILog _log;
+
+        public UnitOfWork(ILog log)
+        {
+            this._context = new SecurityContext();
+            _log = log;
+        }
 
         public UnitOfWork()
         {
@@ -60,17 +70,36 @@ namespace Cats.Data.Security
             }
             catch (DbEntityValidationException exception)
             {
-                //foreach (var eve in exception.EntityValidationErrors)
+                //var log = new Logger();
+                //log.LogAllErrorsMesseges(exception, _log);
+
+                //for (var eCurrent = exception; eCurrent != null; eCurrent = (DbEntityValidationException)eCurrent.InnerException)
                 //{
-                //    Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
-                //        eve.Entry.Entity.GetType().Name, eve.Entry.State);
-                //    foreach (var ve in eve.ValidationErrors)
-                //    {
-                //        Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
-                //            ve.PropertyName, ve.ErrorMessage);
-                //    }
+                //    StringBuilder errorMsg = string.Format("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",,);
+                //    _log.Error(eCurrent.Message, eCurrent.GetBaseException());
                 //}
-                //throw;
+
+                for (var eCurrent = exception; eCurrent != null; eCurrent = (DbEntityValidationException)eCurrent.InnerException)
+                {
+                    foreach (var eve in eCurrent.EntityValidationErrors)
+                    {
+                        Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                            eve.Entry.Entity.GetType().Name, eve.Entry.State);
+
+                        StringBuilder errorMsg = new StringBuilder(String.Empty);
+                        var s = string.Format("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:", eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                        errorMsg.Append(s);
+
+                        foreach (var ve in eve.ValidationErrors)
+                        {
+                            errorMsg.Append(string.Format("- Property: \"{0}\", Error: \"{1}\"", ve.PropertyName, ve.ErrorMessage));
+
+                            _log.Error(errorMsg, eCurrent.GetBaseException());
+                        }
+                    } 
+                }
+
+               // throw;
 
             }
 
