@@ -1,13 +1,13 @@
 ﻿@model Cats.Areas.Settings.Models.UserViewModel
 @{
     ViewBag.Title = "New";
-    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";  
 }
 
-@section MainMenu
+@*@section MainMenu
 {
     @Html.Partial("_AdminMenuBar")
-}
+}*@
 
 @section Leftbar
 {
@@ -22,7 +22,7 @@
     <div class="control-group">
         <label class="control-label">User name:</label>
         <div class="controls">
-            @Html.TextBoxFor(m => m.UserName, new { @class = "input-xlarge", @required = "required", @id="UserName" })
+            @Html.TextBoxFor(m => m.UserName, new { @class = "input-xlarge", @required = "required", @id = "UserName" })
         </div>
     </div>
 
@@ -33,7 +33,7 @@
             @Html.TextBoxFor(m => m.FirstName, new { @class = "input-xlarge", @required = "required" })
         </div>
     </div>
-    
+
     <!-- Text input-->
     <div class="control-group">
         <label class="control-label">Last Name name:</label>
@@ -57,106 +57,46 @@
             @Html.PasswordFor(m => m.PasswordConfirm, new { @class = "input-xlarge", @required = "required" })
         </div>
     </div>
-    
-    <!-- Password input-->
+
+
     <div class="control-group">
-        <label class="control-label">Regional User:</label>
+        <label class="control-label">Email:</label>
         <div class="controls">
-            @Html.CheckBoxFor(m => m.RegionalUser)
+            @Html.TextBoxFor(m => m.Email, new { @class = "input-xlarge", @required = "required" , @type="email"})
+            @Html.ValidationMessageFor(m => m.Email)
         </div>
     </div>
-    
-     <!-- Password input-->
+
+
     <div class="control-group">
-        <label class="control-label">Region:</label>
+        @Html.Label("User Type", new { @class = "control-label" })
         <div class="controls">
-            @Html.DropDownListFor(m => m.RegionID, new SelectList(ViewBag.Regions, "AdminUnitID","Name"))
+            @(Html.DropDownList("UserType", new SelectList(ViewBag.userTypes, "Text", "Value","User Type"),"--Select Type", new { @id = "UserType" }))
         </div>
     </div>
-    
-    <!-- Password input-->
-    <div class="control-group">
-        <label class="control-label">Case Team:</label>
+
+    <div id="div_hubs" class="control-group">
+        @Html.Label("Hub", new { @class = "control-label" })
         <div class="controls">
-            @Html.DropDownListFor(m => m.CaseTeam, new SelectList(ViewBag.CaseTeams, "ID","CaseTeamName"))
+            @Html.DropDownListFor(model => model.DefaultHub, new SelectList(ViewBag.hubs, "HubID", "Name"), "--Select Hub")
         </div>
     </div>
-    @*
-    <!-- START -->
-    
-    <div class="control-group">
-        <label class="control-label">Select Role:</label>
+
+    <div id="div_regions" class="control-group">
+        @Html.Label("Region", new { @class = "control-label" })
         <div class="controls">
-                <!-------->
-                <div id="content">
-
-                    <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
-                        @for (int i = 0; i < Model.Applications.Count; i++)
-                        {
-
-                            if (i == 0)
-                            { 
-                            <li class="active"><a href="#@i-1" data-toggle="tab">@Model.Applications[i].ApplicationName</a></li>
-                            }
-                            else
-                            {
-                            <li><a href="#@i" data-toggle="tab">@Model.Applications[i].ApplicationName</a></li>
-                            }
-                        }
-
-                    </ul>
-
-                    <div id="tab-content" class="tab-content">
-
-                       
-                            @for(int j = 0; j < Model.Applications.Count; j++)
-                            {
-                                if(j == 0)
-                                {
-                                <div class="tab-pane active" id="@j-1">
-                                @for (int l = 0; l < Model.Applications[j].Roles.Count; l++)
-                                {
-                                       
-                                <div>
-                                    @Html.HiddenFor(m => m.Applications[j].ApplicationName, new { @class = "input-xlarge" })
-                                    @Html.HiddenFor(m => m.Applications[j].Roles[l].RoleName, new { @class = "input-xlarge" })
-                                    @Html.CheckBoxFor(m => m.Applications[j].Roles[l].IsChecked, new { @class = "input-xlarge" })
-                                    @Html.DisplayFor(m => Model.Applications[j].Roles[l].RoleName, new { @class = "input-xlarge" })
-                                </div> 
-
-                                }
-                             </div> 
-                            }
-                            else
-                            {
-                                <div class="tab-pane" id="@j">
-                                @for(int k = 0 ; k < Model.Applications[j].Roles.Count; k++)
-                                {
-                                       
-                                <div>
-                                    @Html.HiddenFor(m => m.Applications[j].ApplicationName, new { @class = "input-xlarge" })
-                                    @Html.HiddenFor(m=> m.Applications[j].Roles[k].RoleName, new { @class = "input-xlarge" })
-                                    @Html.CheckBoxFor(m => m.Applications[j].Roles[k].IsChecked, new { @class = "input-xlarge" })
-                                    @Html.DisplayFor(m => Model.Applications[j].Roles[k].RoleName, new { @class = "input-xlarge" })
-                                </div> 
-
-                                }
-                             </div>    
-                            }
-                            }
-                        
-
-                    </div>
-
-
-                </div>            
+            @Html.DropDownListFor(model => model.RegionID, new SelectList(ViewBag.regions, "AdminUnitID", "Name"),"--Select Region")
+            @Html.HiddenFor(m => m.RegionalUser)
         </div>
     </div>
-    
-    <!-- END -->
-    
-    *@
-    
+
+    <div id="div_caseTeam" class="control-group">
+        <label class="control-label">Case Team</label>
+        <div class="controls">
+            @Html.DropDownListFor(m => m.CaseTeam, new SelectList(ViewBag.CaseTeams, "ID", "CaseTeamName"), "--Select Case Team")
+        </div>
+    </div>
+
 
     <!-- Button (Double) -->
     <div class="control-group">
@@ -168,12 +108,89 @@
     </div>
 }
 
-
 <script type="text/javascript">
     jQuery(document).ready(function ($) {
         $('#tabs').tab();
     });
+</script>
 
+
+<script>
+
+    $(document).ready(function () {
+
+        if (document.getElementById("UserType").value == "1") {
+            $("#div_regions").show();
+            $("#div_hubs").hide();
+            $("#div_caseTeam").hide();
+            document.getElementById("RegionalUser").value = true;
+            document.getElementById("DefaultHub").value = '';
+            document.getElementById("CaseTeam").value = '';
+        }
+        else if (document.getElementById("UserType").value == "2") {
+
+            $("#div_regions").hide();
+            $("#div_hubs").show();
+            $("#div_caseTeam").hide();
+            document.getElementById("RegionalUser").value = false;
+            document.getElementById("RegionID").value = '';
+            document.getElementById("CaseTeam").value = '';
+
+        } else if (document.getElementById("UserType").value == "3") {
+
+            $("#div_regions").hide();
+            $("#div_hubs").hide();
+            $("#div_caseTeam").show();
+
+            document.getElementById("RegionalUser").value = false;
+            document.getElementById("DefaultHub").value = '';
+            document.getElementById("RegionID").value = '';
+        }
+        else {
+            $("#div_regions").hide();
+            $("#div_hubs").hide();
+            $("#div_caseTeam").hide();
+        }
+    });
+
+    $('#UserType').change(function () {
+        if (this.value == "1") {
+
+            $("#div_regions").show();
+            $("#div_hubs").hide();
+            $("#div_caseTeam").hide();
+
+            document.getElementById("RegionalUser").value = true;
+            document.getElementById("DefaultHub").value = '';
+            document.getElementById("CaseTeam").value = '';
+
+        } else if (this.value == "2") {
+
+            $("#div_regions").hide();
+            $("#div_hubs").show();
+            $("#div_caseTeam").hide();
+
+            document.getElementById("RegionalUser").value = false;
+            document.getElementById("RegionID").value = '';
+            document.getElementById("CaseTeam").value = '';
+
+        } else if (this.value == "3") {
+
+            $("#div_regions").hide();
+            $("#div_hubs").hide();
+            $("#div_caseTeam").show();
+
+            document.getElementById("RegionalUser").value = false;
+            document.getElementById("DefaultHub").value = '';
+            document.getElementById("RegionID").value = '';
+        }
+
+        else  {
+            $("#div_regions").hide();
+            $("#div_hubs").hide();
+            $("#div_caseTeam").hide();
+        }
+    });
 </script>
 
 

@@ -31,7 +31,6 @@ namespace Cats.Controllers
             _log = log;
             _forgetPasswordRequestService = forgetPasswordRequestService;
             _settingService = settingService;
-
         }
 
         [HttpGet]

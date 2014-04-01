@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Cats.Models.Security.ViewModels;
+using System.ComponentModel.DataAnnotations;
 
 namespace Cats.Areas.Settings.Models
 {
@@ -22,5 +23,7 @@ namespace Cats.Areas.Settings.Models
         public bool RegionalUser { get; set; }
         public int CaseTeam { get; set; }
         public int RegionID { get; set; }
+        [Required]
+        public string Email { get; set; }
     }    
 }
