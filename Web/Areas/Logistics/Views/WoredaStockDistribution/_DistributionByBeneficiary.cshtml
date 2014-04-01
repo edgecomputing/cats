@@ -6,16 +6,16 @@
     ViewBag.Title = "_DistributionByBenficiary";
 }
 
- @(Html.Kendo().Grid<WoredaDistributionDetailViewModel>()
+ @(Html.Kendo().Grid<WoredaDistributionDetailViewModel>(Model.WoredaDistributionDetailViewModels)
                       .Name("RequisitionGridDetail")
                       .Columns(columns =>
                                    {
                                       
                                        columns.Bound(p => p.FDP).Width(80).Title(Translator.Translate("FDP")).HtmlAttributes(new { style = "background-color:lightgray" });
-                                       columns.Bound(p => p.RequisitionDetailViewModel.CommodityName).Width(100).Title(Translator.Translate("Commodity")).HtmlAttributes(new { style = "background-color:lightgray" });
+                                       columns.Bound(p => p.CommodityName).Width(100).Title(Translator.Translate("Commodity")).HtmlAttributes(new { style = "background-color:lightgray" });
                                        columns.Bound(p => p.Round).Width(60).HtmlAttributes(new { style = "background-color:lightgray" });
                                        columns.Bound(p => p.Month).Width(80).HtmlAttributes(new { style = "background-color:lightgray" });
-                                       columns.Bound(p => p.RequisitionDetailViewModel.AllocatedAmount).HtmlAttributes(new { align = "right" }).HtmlAttributes(new { style = "background-color:lightgray" });
+                                       columns.Bound(p => p.AllocatedAmount).HtmlAttributes(new { align = "right" }).HtmlAttributes(new { style = "background-color:lightgray" });
                                        columns.Bound(p => p.RequistionNo).Width(100).HtmlAttributes(new { align = "right" }).HtmlAttributes(new { style = "background-color:lightgray" });
                                        columns.Bound(p => p.BeginingBalance);
                                        columns.Bound(p => p.TotalIn);
@@ -28,7 +28,7 @@
                                       // columns.Bound(p => p.LossReason);
                                      
                                    })
-                       .ToolBar(toolBar=>toolBar.Save())
+                       //.ToolBar(toolBar=>toolBar.Save())
                       .Editable(editable => editable.Mode(GridEditMode.InCell))
                      
                       .Scrollable()
@@ -38,7 +38,7 @@
                    
                       .DataSource(dataSource => dataSource
                                                     .Ajax()
-                                                   // .Batch(true)
+                                                     .Group(m=>m.Add(t=>t.FDP))
                                                    // .Events(e=>e.RequestEnd("onRequestEnd"))
                                                    // .ServerOperation(false)
                                                     .Model(model =>
@@ -60,8 +60,8 @@
                                                                })
                                                   
 
-                                                    .Read(read => read.Action("WoredaStockDetail_Read", "WoredaStockDistribution", new {woredaStockDistributionID =Model.WoredaStockDistributionID, woredaID=Model.WoredaID,planID=Model.PlanID,month=Model.Month}))
-                                                   .Update(update => update.Action("UpdateWoredaDistribution", "WoredaStockDistribution"))
+                                                   // .Read(read => read.Action("WoredaStockDetail_Read", "WoredaStockDistribution", new {woredaStockDistributionID =Model.WoredaStockDistributionID, woredaID=Model.WoredaID,planID=Model.PlanID,month=Model.Month}))
+                                                   //.Update(update => update.Action("UpdateWoredaDistribution", "WoredaStockDistribution"))
                                                    
                                                   
                       ))
