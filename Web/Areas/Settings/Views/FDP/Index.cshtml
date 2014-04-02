@@ -1,6 +1,6 @@
 ﻿@using Cats.Models
 @using Cats.Helpers
-@using Cats.Areas.Settings.Models.ViewModels
+@using Cats.Areas.Settings.Models.ViewModels;
 @using Kendo.Mvc.UI
 
 @{
@@ -11,18 +11,7 @@
 @section Toolbar
 {
     <a class="btn toolbar-btn " href="@Url.Action("map", "FDP")">View on Map</a>
-  @Html.Partial("_AdminGridCommands");    
 }
-@section LeftBar
-{
-   @Html.Partial("_AdminLeftBar");
-}
-<script>
-    $(document).ready(function () {
-        setAsActive("#FDP");
-    });
-</script>
-
 
 <div id='dialogDiv' class='modal hide fade in'>
     <div id='dialogContent'></div>
@@ -54,8 +43,8 @@
 
 
 <div>
-    <h4>@Html.Translate("Manage Admin Regions and Final Distribution Points")</h4>
-    
+    <h4>@Html.Translate("Manage Final Distribution Points")</h4>
+    Select a Woreda from the tree to manage FDPs registered under it.
 </div>
 
 
@@ -78,26 +67,23 @@
                           .Expanded(true)
                           .Items(root =>
                               {
-                                  foreach (AdminUnit region in ViewBag.RegionCollection)
+                                  foreach (var region in ViewBag.RegionCollection)
                                   {
                                       root.Add().Text((string)region.Name)
-                                       .Id(region.AdminUnitTypeID + "," + region.AdminUnitID + "," + region.Name)   
                                           .SpriteCssClasses("glyphicon glyphicon-star")
                                           //.Expanded(true)
                                           .Items(zones =>
                                               {
-                                                  foreach (AdminUnit zone in region.AdminUnit1)
+                                                  foreach (var zone in region.AdminUnit1)
                                                   {
                                                       zones.Add().Text((string)zone.Name)
-                                                          .Id(zone.AdminUnitTypeID + "," + zone.AdminUnitID + "," + zone.Name)
                                                           .SpriteCssClasses("image")
                                                           .Items(woredas =>
                                                               {
-                                                                  foreach (AdminUnit woreda in zone.AdminUnit1)
+                                                                  foreach (var woreda in zone.AdminUnit1)
                                                                   {
                                                                       woredas.Add().Text((string)woreda.Name)
-                                                                          .Id(woreda.AdminUnitTypeID + "," + woreda.AdminUnitID + "," + woreda.Name)
-                                                                         // .(woreda.AdminUnitType + "")
+                                                                          .Id(woreda.AdminUnitID + "")
                                                                           .SpriteCssClasses("pdf");
                                                                   }
                                                               });
@@ -111,46 +97,34 @@
     </div>
 
     <div class="span7">
-        <div id="div_FDPGrid" style="display:none;">
-            <div><span class="listed_admin"></span> list in  <span class="parent_admin"></span></div> 
         @(Html.Kendo().Grid<FDPViewModel>()
-            .Name("grid")
-            .Editable(editable => editable.Mode(GridEditMode.InCell))
-            .Sortable()
-            .Filterable()
-            .HtmlAttributes(new { style = "height:400px;" })
-            .Scrollable()
-            .Navigatable() 
-            .Selectable(t => t.Mode(GridSelectionMode.Single))             
+              .Name("grid")
               .Columns(columns =>
                   {
-                      columns.Bound(c => c.Name).Width(120);
-                      columns.Bound(c => c.longitude).Width(150);
-                      columns.Bound(c => c.latitude).Width(150);
-                     // columns.Bound(c => c.AdminUnitID).Width(50);
+                      columns.Bound(c => c.Name);
                       columns.Bound(c => c.FDPID).Visible(false);
                       columns.Command(command =>
                           {
-                              //command.Custom("Delete").Click("OnDelete");
-                              command.Destroy();
+                              command.Custom("Delete").Click("OnDelete");
                               command.Custom("Add Contact").Click("AddContact");
-                             // command.Custom("Details").Click("Details");
+                              command.Custom("Details").Click("Details");
                           }).Width(300);
                       //columns.Command(command => command.Custom("Add Contact").Click("Add contact")).Width(100);
 
                   }).ToolBar(toolbar =>
                       {
-                         // toolbar.Save();
-                          //toolbar.Create();
+                          toolbar.Save();
+                          toolbar.Create();
                           //toolbar.Custom().Text("Add FDP").HtmlAttributes(new { id = "addFDP" });
                       })
-
-              
-
+              .Editable(edit => edit.Mode(GridEditMode.InCell))
+              .Pageable()
+              .Selectable(t => t.Mode(GridSelectionMode.Single))
+              .Navigatable()
               .DataSource(datasource =>
                           datasource
                               .Ajax()
-                              //.PageSize(10)
+                              .PageSize(10)
                               .Model(m => m.Id(t => t.FDPID))
                               .Read(read => read.Action("FDP_Read", "FDP").Data("selectedWoredaId"))
                               .Create(create => create.Action("FDP_Create", "FDP").Data("selectedWoredaId"))
@@ -159,56 +133,7 @@
                 //.Destroy("FDP_Destroy","FDP")
               )
               )
-        </div>
-        <div id="div_adminGrid" style="display:none;">
-           <div><span class="listed_admin"></span> list in  <span class="parent_admin"></span></div> 
- @(Html.Kendo().Grid<AdminUnitViewModel>()
-            .Name("gridAdmin")
-            .Editable(editable => editable.Mode(GridEditMode.InCell))
-            .Sortable()
-            .Filterable()
-            .HtmlAttributes(new { style = "height:400px;" })
-            .Scrollable()
-            .Navigatable() 
-            .Selectable(t => t.Mode(GridSelectionMode.Single))             
-              .Columns(columns =>
-                  {
-                      columns.Bound(c => c.AdminUnitName).Width(300);
-                     // columns.Bound(c => c.AdminUnitTypeID).Width(150);
-                     // columns.Bound(c => c.ParentID).Width(120);
-                    //columns.Bound(c => c.latitude).Width(150);
-                      columns.Bound(c => c.AdminUnitID).Visible(false);
-                      columns.Command(command =>
-                          {
-                              //command.Custom("Delete").Click("OnDelete");
-                              command.Destroy();
 
-                             // command.Custom("Details").Click("Details");
-                          }).Width(300);
-                      //columns.Command(command => command.Custom("Add Contact").Click("Add contact")).Width(100);
-
-                  }).ToolBar(toolbar =>
-                      {
-                         // toolbar.Save();
-                          //toolbar.Create();
-                          //toolbar.Custom().Text("Add FDP").HtmlAttributes(new { id = "addFDP" });
-                      })
-
-              
-
-              .DataSource(datasource =>
-                          datasource
-                              .Ajax()
-                              //.PageSize(10)
-                              .Model(m => m.Id(t => t.AdminUnitID))
-                              .Read(read => read.Action("AdminUnit_Read", "AdminUnit").Data("selectedAdminId"))
-                              .Create(create => create.Action("AdminUnit_Create", "AdminUnit").Data("selectedAdminId"))
-                              .Update("AdminUnit_Update", "AdminUnit")
-                              .Destroy(update => update.Action("AdminUnit_Destroy", "AdminUnit"))
-                //.Destroy("FDP_Destroy","FDP")
-              )
-              )
-        </div>
     </div>
 </div>
 
@@ -246,7 +171,7 @@
 
 <script>
     var selectedWoreda;
-    var selectedAdmin={};
+
     function error_handler(e) {
         if (e.errors) {
             var message = "Errors:\n";
@@ -349,46 +274,21 @@
 
     function selectedWoredaId() {
         //alert($("#AdminUnitTreeView").data("kendoTreeView").dataSource.id);
-        var obj = { adminUnitID: selectedWoreda};
+        var obj = { adminUnitID: selectedWoreda };
         return obj;
     }
-    function selectedAdminId() {
-        //alert($("#AdminUnitTreeView").data("kendoTreeView").dataSource.id);
-        var obj = { parentAdminUnitID: selectedAdmin.AdminUnitID, paramParentID: selectedAdmin.AdminUnitID, paramAdminUnitTypeID: selectedAdmin.AdminUnitTypeID / 1 + 1 };
-        return obj;
-    }
+
     function CurrentSelectedTreeNode() {
         return {
             intEmpky: $("#treeview").current()
         };
     }
-    var admin_unitTypes = { "u2": "Region", "u3": "Zone", "u4": "Woreda", "u5": "FDP" };
+
     function onSelect(e) {
         var id = this.dataItem(e.node).id;
-        
+        selectedWoreda = id;
         if (id != null) {
-            console.log(id);
-            //var s=new String().split(",")
-            var nodeAttrib = id.split(",");
-            console.log(id, nodeAttrib);
-            var admin = { AdminUnitTypeID: nodeAttrib[0], AdminUnitID: nodeAttrib[1], Name: nodeAttrib[2] }
-            $(".parent_admin").html(admin.Name);
-            $(".listed_admin").html(admin_unitTypes["u" + (admin.AdminUnitTypeID/1 + 1)]);
-
-            if (admin.AdminUnitTypeID == 4) {
-                editedGridID = "#grid";
-                selectedWoreda = admin.AdminUnitID;
-                $("#div_FDPGrid").show();
-                $("#div_adminGrid").hide();
-                
-            }
-            else {
-                editedGridID = "#gridAdmin";
-                selectedAdmin = admin;
-                $("#div_FDPGrid").hide();
-                $("#div_adminGrid").show();
-            }
-            var grid = $(editedGridID).data("kendoGrid");
+            var grid = $("#grid").data("kendoGrid");
             grid.dataSource.read();
         }
     }

@@ -6,9 +6,9 @@ using System.Web.Mvc;
 using Cats.Models;
 using Cats.Services.Administration;
 using Cats.Areas.Settings.Models.ViewModels;
+using Cats.Areas.Settings.ViewModelBinder;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
-using  Cats.Areas.Settings.ViewModelBinder;
 
 namespace Cats.Areas.Settings.Controllers
 {
@@ -28,7 +28,7 @@ namespace Cats.Areas.Settings.Controllers
 
         public ActionResult Index()
         {
-            ViewBag.RegionCollection = _adminUnitService.GetRegions();
+            ViewBag.RegionCollection = _adminUnitService.GetAllRegions();
             //ViewData["Zones"] = _adminUnitService.GetZones();
             //ViewData["Regions"] = _adminUnitService.GetAllRegions();
             return View();

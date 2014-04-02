@@ -79,7 +79,7 @@
 <button onclick="onRun()">Run</button>
     -->
     
-<div class="fixed-height" style="height:500px;   margin-right:-20px; margin-left:-2px; padding-left:10px; padding-right:20px; overflow-y:scroll; overflow-x:visible;">
+<div class="fixed-height" style="height:580px;   margin-right:-20px; margin-left:-2px; padding-left:10px; padding-right:20px; overflow-y:scroll; overflow-x:visible;">
 
     <ul class="nav nav-list">
         <li class="nav-header">Dashboard</li>
@@ -94,17 +94,19 @@
         </li>
         <li id="HubOwner">
             <a href="@Url.Action("Index","HubOwner")"><i class="icon-folder-open"></i> Hub Owners</a>
-            
         </li>
         <li id="Store">
             <a href="@Url.Action("Index","Store")"><i class="icon-folder-open"></i>Stores</a>
         </li>
-        <li id="Warehouse">
+        
+        @*<li id="Warehouse">
             <a href="#"><i class="icon-folder-open"></i>Warehouses</a>
-        </li>
-         <li id="Currency">
+        </li>*@
+
+        <li id="Currency">
             <a href="@Url.Action("Index","Currency",new {Area="EarlyWarning"})"><i class="icon-folder-open"></i>Currency</a>
         </li>
+        
         <li class="nav-header">Commodity</li>
         <li id="CommodityType">
             <a href="@Url.Action("Index","CommodityType")"><i class="icon-check"></i>Commodity Type</a>
@@ -127,24 +129,25 @@
         <li id="Unit">
             <a href="@Url.Action("Index","Unit")"><i class="icon-check"></i>Units</a>
         </li>
-
-        <li class="nav-header">Locations & FDPs</li>
+        <li 
+            class="nav-header">Locations & FDPs
+        </li>
         <li id="FDP">
-            <a href="@Url.Action("Index", "FDP", new{ Area="Settings" })"><i class="icon-file"></i>Administrative Units</a>
+            <a href="@Url.Action("Index", "AdminUnit", new{ Area="Settings" })"><i class="icon-file"></i>Administrative Units</a>
         </li>
         <li>
-            <a href="#"><i class="icon-file"></i>FDPs</a>
+            <a href="@Url.Action("Index", "FDP", new{ Area="Settings" })"><i class="icon-file"></i>FDPs</a>
         </li>
 
         <li class="nav-header">Business Process</li>
         <li id="ProcessTemplate">
             <a href="@Url.Action("Index","ProcessTemplate")"><i class="icon-list-alt"></i>Workflow Definition</a>
-<!--            <a href="@Url.Action("Index","ProcessTemplate",new {Area="WorkflowManager"})"><i class="icon-list-alt"></i>Workflow Definition</a>
-    -->
+        <!--            <a href="@Url.Action("Index","ProcessTemplate",new {Area="WorkflowManager"})"><i class="icon-list-alt"></i>Workflow Definition</a>
+        -->
         </li>
-        <li>
+        @*<li>
             <a href="#"><i class="icon-list-alt"></i>Ledger</a>
-        </li>
+        </li>*@
 
         <li class="nav-header">Transactions & Journals</li>
         <li>
@@ -169,9 +172,17 @@
             <a href="@Url.Action("Index","Users")"><i class="icon-user"></i>Users</a>
         </li>
         <li>
-            <a href="#"><i class="icon-group"></i>Groups </a>
+            <a href="#"><i class="icon-group"></i>Roles </a>
+        </li>
+        <li>
+        <a href="@Url.Action("New", "Users", new { Area = "Settings" })">
+            <i class="shortcut-icon icon-inbox"></i>
+            <span class="shortcut-label"> Create New User</span>
+        </a>
+
         </li>
         <li class="divider"></li>
+
         <li class="nav-header">System Logs</li>
         <li>
             <a href="#"><i class="icon-picture"></i>Error Log</a>
