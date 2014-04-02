@@ -25,7 +25,7 @@
         <div class="span6">
             <div class="control-group">
                 <div class="control-label">
-                    @Html.LabelFor(m => m.Plan.PlanName)
+                    @Html.LabelFor(m => m.Plan.PlanName,Translator.Translate("Plan"))
                 </div>
                 <div class="controls">
                     @Html.TextBoxFor(m => m.Plan.PlanName)
