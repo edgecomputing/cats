@@ -618,6 +618,7 @@
     <Compile Include="Areas\Settings\Controllers\ProgramController.cs" />
     <Compile Include="Areas\Settings\Controllers\StoreController.cs" />
     <Compile Include="Areas\Settings\Controllers\UnitController.cs" />
+    <Compile Include="Areas\Settings\Controllers\UserPreferenceController.cs" />
     <Compile Include="Areas\Settings\Controllers\UsersController.cs" />
     <Compile Include="Areas\Settings\Models\CaseTeam.cs" />
     <Compile Include="Areas\Settings\Models\ChangePasswordModel.cs" />
