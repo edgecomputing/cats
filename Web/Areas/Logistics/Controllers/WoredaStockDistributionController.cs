@@ -159,6 +159,7 @@ namespace Cats.Areas.Logistics.Controllers
                                                           from reliefRequisition in requisition
                                                           select new WoredaDistributionDetailViewModel()
                                                               {
+                                                                  WoredaStockDistributionDetailID = woredaDistributionDetail.WoredaStockDistributionDetailID,
                                                                   FdpId = woredaDistributionDetail.FdpId,
                                                                   FDP = woredaDistributionDetail.FDP.Name,
                                                                   CommodityID = GetRequisionInfo(reliefRequisition.RequisitionID, woredaDistributionDetail.FdpId).CommodityID,
@@ -175,7 +176,7 @@ namespace Cats.Areas.Logistics.Controllers
 
 
                                                               }
-                         )
+                         ).ToList()
 
 
                 };
@@ -238,37 +239,43 @@ namespace Cats.Areas.Logistics.Controllers
                 var utilization = _utilizationService.FindBy(m => m.WoredaID == woredaStockDistribution.WoredaID && 
                                                              m.PlanID == woredaStockDistribution.PlanID && 
                                                              m.Month==woredaStockDistribution.Month).FirstOrDefault();
-                var BindToModel = GetWoredaDetailMOdel(woredaStockDistribution);
+                
                 if (utilization==null)
                 {
+                    var bindToModel = GetWoredaDetailMOdel(woredaStockDistribution);
                     var userProfileId = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).UserProfileID;
-                    BindToModel.DistributedBy = userProfileId;
-                    BindToModel.DistributionDate = DateTime.Now;
-                    var saved=_utilizationService.AddHeaderDistribution(BindToModel);
+                    bindToModel.DistributedBy = userProfileId;
+                    bindToModel.DistributionDate = DateTime.Now;
+                    var saved = _utilizationService.AddHeaderDistribution(bindToModel);
                     if (saved)
                     {
-                        var fdpStockDistribution = _commonService.GetFDPs(woredaStockDistribution.WoredaID);
+                        //var fdpStockDistribution = _commonService.GetFDPs(woredaStockDistribution.WoredaID);
 
-                        var woredaDistributionDetailViewModels = GetWoredaStockDistribution(fdpStockDistribution,null);
+                        //var woredaDistributionDetailViewModels = GetWoredaStockDistribution(fdpStockDistribution,null);
 
 
-                        var distributionHeader =
-                            _utilizationService.FindBy(m => m.WoredaID == woredaStockDistribution.WoredaID &&
+                        var distributionHeader =_utilizationService.FindBy(m => m.WoredaID == woredaStockDistribution.WoredaID &&
                                                             m.PlanID == woredaStockDistribution.PlanID &&
                                                             m.Month == woredaStockDistribution.Month).FirstOrDefault();
+                       
+                        foreach (var woredaDistributionDetailViewModel in woredaStockDistribution.WoredaDistributionDetailViewModels)
+                        {
+                            var distributionDetailModel = new WoredaStockDistributionDetail()
+                                {
+                                    WoredaStockDistributionID = distributionHeader.WoredaStockDistributionID,
+                                    FdpId = woredaDistributionDetailViewModel.FdpId,
+                                    StartingBalance = woredaDistributionDetailViewModel.BeginingBalance,
+                                    EndingBalance = woredaDistributionDetailViewModel.EndingBalance,
+                                    TotalIn = woredaDistributionDetailViewModel.TotalIn,
+                                    TotoalOut = woredaDistributionDetailViewModel.TotalOut,
+                                    LossAmount = woredaDistributionDetailViewModel.LossAmount,
+                                    LossReason = woredaDistributionDetailViewModel.LossReason,
+                                    DistributedAmount = woredaDistributionDetailViewModel.DistributedAmount
 
-                        //foreach (var woredaDistributionDetailViewModel in woredaDistributionDetailViewModels)
-                        //{
-                        //    var distributionDetailModel = new WoredaStockDistributionDetail()
-                        //        {
-                        //            WoredaStockDistributionID = distributionHeader.WoredaStockDistributionID,
-                        //            FdpId = woredaDistributionDetailViewModel.FdpId,
-                        //            DistributedAmount = woredaDistributionDetailViewModel.DistributedAmount
 
-
-                        //        };
-                        //    _utilizationDetailSerivce.AddDetailDistribution(distributionDetailModel);
-                        //}
+                                };
+                            _utilizationDetailSerivce.AddDetailDistribution(distributionDetailModel);
+                        }
 
                         ModelState.AddModelError("Success", @"Distribution Information Successfully Saved");
                         LookUps(woredaStockDistribution);
@@ -279,8 +286,14 @@ namespace Cats.Areas.Logistics.Controllers
                             _transactionService.PostDistribution(distributionHeader.WoredaStockDistributionID);
                         }
                         WoredaStockDistributionWithDetailViewModel woredaStockDistributionViewModel = GetWoredaStockDistributionFormDB(distributionHeader);
-                        
-                        return View(woredaStockDistributionViewModel);
+
+                        return RedirectToAction("Create",
+                                                new { Woreda = woredaStockDistributionViewModel.WoredaID,
+                                                      planID = woredaStockDistributionViewModel.PlanID,
+                                                      programID = woredaStockDistributionViewModel.ProgramID,
+                                                      month = woredaStockDistributionViewModel.Month
+                                                });
+                        // return View(woredaStockDistributionViewModel);
                     }
                 }
                 utilization.ActualBeneficairies = woredaStockDistribution.ActualBeneficairies;
@@ -345,54 +358,54 @@ namespace Cats.Areas.Logistics.Controllers
             return Json(requisitionViewModel.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
 
-        //public ActionResult WoredaStockDetail_Read([DataSourceRequest] DataSourceRequest request, int woredaStockDistributionID=0, int woredaID=0,int planID=0,int month=0)
-        //{
-        //    if (woredaID==0 || planID==0 || month==0) return null;
-        //    var zone = _commonService.GetZoneID(woredaID);
-        //    var region = _commonService.GetRegion(zone);
-        //    var regionalRequest = _regionalRequestService.FindBy(m => m.PlanID == planID && m.Month == month && m.RegionID==region).FirstOrDefault();
-           
-        //    if (regionalRequest!=null)
-        //    {
-        //        var requisitions = _reliefRequisitionService.FindBy(m => m.RegionalRequestID == regionalRequest.RegionalRequestID
-        //                                                        && m.ZoneID == zone);
-              
-        //        if (requisitions != null)
-        //        {
-        //            if (woredaStockDistributionID != 0)
-        //            {
-        //                var woredaStockDistribution =
-        //                    _utilizationDetailSerivce.FindBy(
-        //                        m => m.FDP.AdminUnitID == woredaID && m.WoredaStockDistributionID == woredaStockDistributionID);
-        //                var woredaDistributionDetail = new List<WoredaDistributionDetailViewModel>();
-        //                foreach (var reliefRequisition in requisitions)
-        //                {
-        //                    woredaDistributionDetail = GetWoredaStockDistributionDetail(woredaStockDistribution, reliefRequisition);
-                            
-                           
-        //                }
-                        
-        //                return Json(woredaDistributionDetail.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
-        //            }
+        public ActionResult WoredaStockDetail_Read([DataSourceRequest] DataSourceRequest request, int woredaStockDistributionID = 0, int woredaID = 0, int planID = 0, int month = 0)
+        {
+            if (woredaID == 0 || planID == 0 || month == 0) return null;
+            var zone = _commonService.GetZoneID(woredaID);
+            var region = _commonService.GetRegion(zone);
+            var regionalRequest = _regionalRequestService.FindBy(m => m.PlanID == planID && m.Month == month && m.RegionID == region).FirstOrDefault();
+
+            if (regionalRequest != null)
+            {
+                var requisitions = _reliefRequisitionService.FindBy(m => m.RegionalRequestID == regionalRequest.RegionalRequestID
+                                                                && m.ZoneID == zone);
+
+                if (requisitions != null)
+                {
+                    if (woredaStockDistributionID != 0)
+                    {
+                        var woredaStockDistribution =
+                            _utilizationDetailSerivce.FindBy(
+                                m => m.FDP.AdminUnitID == woredaID && m.WoredaStockDistributionID == woredaStockDistributionID);
+                        var woredaDistributionDetail = new List<WoredaDistributionDetailViewModel>();
+                        foreach (var reliefRequisition in requisitions)
+                        {
+                            woredaDistributionDetail = GetWoredaStockDistributionDetail(woredaStockDistribution, reliefRequisition);
 
 
-        //            var fdpStockDistribution = _commonService.GetFDPs(woredaID);
-        //            var woredaStockDistributionDetail = new  List<WoredaDistributionDetailViewModel>();
-        //            foreach (var requisition in requisitions)
-        //            {
-        //                var detail = GetWoredaStockDistribution(fdpStockDistribution, requisition);
-        //                woredaStockDistributionDetail.Add(detail);
-        //            }
-                        
-        //            return Json(woredaStockDistributionDetail.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
-        //        }
-        //    }
+                        }
+
+                        return Json(woredaDistributionDetail.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+                    }
 
 
-        //    //var fdps = _commonService.GetFDPs(woredaID);
-        //    //var detail = GetWoredaStockDistribution(fdps, requisitions);
-        //    return Json(new WoredaDistributionDetailViewModel(), JsonRequestBehavior.AllowGet);
-        //}
+                    var fdpStockDistribution = _commonService.GetFDPs(woredaID);
+                    var woredaStockDistributionDetail = new List<WoredaDistributionDetailViewModel>();
+                    foreach (var requisition in requisitions)
+                    {
+                        var detail = GetWoredaStockDistribution(fdpStockDistribution, requisition);
+                        woredaStockDistributionDetail.Add(detail);
+                    }
+
+                    return Json(woredaStockDistributionDetail.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+                }
+            }
+
+
+            //var fdps = _commonService.GetFDPs(woredaID);
+            //var detail = GetWoredaStockDistribution(fdps, requisitions);
+            return Json(new WoredaDistributionDetailViewModel(), JsonRequestBehavior.AllowGet);
+        }
 
         private List<WoredaDistributionDetailViewModel> GetWoredaStockDistributionDetail(IEnumerable<WoredaStockDistributionDetail> woredaStockDistributionDetails,ReliefRequisition requisition)
         {
