@@ -41,26 +41,41 @@ namespace Cats.Areas.Settings.Controllers
         {
             return View();
         }
-        
+
+        public void init()
+        {
+            var caseteams = new List<CaseTeam>
+                                    {
+                                        new CaseTeam() {ID = 1, CaseTeamName = "EarlyWarning"},
+                                        new CaseTeam() {ID = 2, CaseTeamName = "PSNP/FSCD"},
+                                        new CaseTeam() {ID = 3, CaseTeamName = "Logistics"},
+                                        new CaseTeam() {ID = 4, CaseTeamName = "Procurement"},
+                                        new CaseTeam() {ID = 5, CaseTeamName = "Finance"}
+                                    };
+            var userTypes = new SelectList(new[]
+                       {
+                           new SelectListItem {Text = "Regional", Value = "1"},
+                           new SelectListItem {Text = "Hub", Value = "2"},
+                           new SelectListItem {Text = "Case team", Value = "3"},
+                       }, "Text", "Value");
+
+            ViewBag.userTypes = userTypes;
+            ViewBag.CaseTeams = caseteams;
+            ViewBag.hubs = _hubService.GetAllHub().ToList();
+            ViewBag.regions = _adminUnitService.GetRegions();
+        }
+
         public ActionResult New()
         {
             var model = new UserViewModel();
-
-          
-           
-
-            var caseteams = new List<CaseTeam>();
-
-            caseteams.Add(new CaseTeam() { ID = 1,CaseTeamName = "EarlyWarning"});
-            caseteams.Add(new CaseTeam() { ID = 2, CaseTeamName = "PSNP/FSCD" });
-            caseteams.Add(new CaseTeam() { ID = 3, CaseTeamName = "Logistics" });
-            caseteams.Add(new CaseTeam() { ID = 4, CaseTeamName = "Procurement" });
-          
-
-            ViewBag.CaseTeams = caseteams;
-           
-            ViewBag.Regions = _adminUnitService.GetRegions();
-
+            init();
+            //var caseteams = new List<CaseTeam>();
+            //caseteams.Add(new CaseTeam() { ID = 1,CaseTeamName = "EarlyWarning"});
+            //caseteams.Add(new CaseTeam() { ID = 2, CaseTeamName = "PSNP/FSCD" });
+            //caseteams.Add(new CaseTeam() { ID = 3, CaseTeamName = "Logistics" });
+            //caseteams.Add(new CaseTeam() { ID = 4, CaseTeamName = "Procurement" });
+            //ViewBag.CaseTeams = caseteams;
+            //ViewBag.Regions = _adminUnitService.GetRegions();
             return View(model);
         }
 
@@ -74,7 +89,6 @@ namespace Cats.Areas.Settings.Controllers
         public ActionResult New(UserViewModel userInfo)
         {
             //var messages = new List<string>();
-
             //// Check business rule and validations
             //if (userInfo.UserName == string.Empty)
             //    messages.Add("User name cannot be empty");
@@ -87,10 +101,8 @@ namespace Cats.Areas.Settings.Controllers
             //if (userInfo.Password != userInfo.PasswordConfirm)
             //    messages.Add("Passwords do not match");
 
-
             //if (messages.Count > 0)
             //    return View();
-
 
             // If the supplied information is correct then persist it to the database
             var user = new UserProfile();
@@ -132,6 +144,7 @@ namespace Cats.Areas.Settings.Controllers
             user.DefaultTheme = "Default";
             user.FailedAttempts = 0;
             user.LoggedInInd = false;
+            user.Email = userInfo.Email;
 
             if(_userService.Add(user, roles))
             {
@@ -139,25 +152,7 @@ namespace Cats.Areas.Settings.Controllers
             }
             return View();
         }
-        public void init()
-        {
-            var caseteams = new List<CaseTeam>
-                                    {
-                                        new CaseTeam() {ID = 1, CaseTeamName = "EarlyWarning"},
-                                        new CaseTeam() {ID = 2, CaseTeamName = "PSNP/FSCD"},
-                                        new CaseTeam() {ID = 3, CaseTeamName = "Logistics"},
-                                        new CaseTeam() {ID = 4, CaseTeamName = "Procurement"}
-                                    };
-            var userTypes = new SelectList(new[]
-                       {
-                           new SelectListItem {Text = "Regional", Value = "1"},
-                           new SelectListItem {Text = "Hub", Value = "2"},
-                            new SelectListItem {Text = "Case team", Value = "3"},
-                       }, "Text", "Value");
-
-            ViewBag.CaseTeams = caseteams;
-            ViewBag.userTypes = userTypes;
-        }
+       
         public ActionResult EditUser(int userId)
         {
             var user = _userService.FindById(userId);
@@ -171,13 +166,10 @@ namespace Cats.Areas.Settings.Controllers
                     ViewBag.Selected = 3;
                 else
                     ViewBag.Selected = 1;
-
                 init();
-                ViewBag.hubs = _hubService.GetAllHub().ToList();
-                ViewBag.regions = _adminUnitService.GetRegions();
                 return View(user);
-
             }
+
             return View("Index");
 
         }
@@ -205,7 +197,6 @@ namespace Cats.Areas.Settings.Controllers
                 {
                     return View("Index");
                 }
-               
             }
             init();
             ViewBag.hubs = _hubService.GetAllHub().ToList();

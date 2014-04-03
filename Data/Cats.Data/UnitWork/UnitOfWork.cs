@@ -5,6 +5,8 @@ using System.Data.Entity.Validation;
 using System.Linq;
 using Cats.Models;
 using Cats.Data.Repository;
+using System.Text;
+using log4net;
 
 
 
@@ -32,12 +34,18 @@ namespace Cats.Data.UnitWork
         private IGenericRepository<ContributionDetail> contibutionDetailRepository;
         private IGenericRepository<Currency> currencyRepository;
         private IGenericRepository<InKindContributionDetail> inKindContributionDetailRepository;
-        private IGenericRepository<Store> storeRepository; 
+        private IGenericRepository<Store> storeRepository;
+        private readonly ILog _log;
 
         public UnitOfWork()
         {
             this._context = new CatsContext();
+        }
 
+        public UnitOfWork(ILog log)
+        {
+            this._context = new CatsContext();
+            _log = log;
         }
 
         private IGenericRepository<TransporterCheque> _TransporterChequeRepository; 
@@ -454,15 +462,33 @@ namespace Cats.Data.UnitWork
             }
             catch (System.Data.Entity.Validation.DbEntityValidationException e)
             {
-                var outputLines = new List<string>();
-                foreach (var eve in e.EntityValidationErrors)
+                //var outputLines = new List<string>();
+                //foreach (var eve in e.EntityValidationErrors)
+                //{
+                //    outputLines.Add(string.Format(
+                //        "{0}: Entity of type \"{1}\" in state \"{2}\" has the following validation errors:",
+                //        DateTime.Now, eve.Entry.Entity.GetType().Name, eve.Entry.State));
+                //    outputLines.AddRange(eve.ValidationErrors.Select(ve => string.Format("- Property: \"{0}\", Error: \"{1}\"", ve.PropertyName, ve.ErrorMessage)));
+                //}
+                //// System.IO.File.AppendAllLines(@"c:\temp\errors.txt", outputLines);
+                for (var eCurrent = e; eCurrent != null; eCurrent = (DbEntityValidationException)eCurrent.InnerException)
                 {
-                    outputLines.Add(string.Format(
-                        "{0}: Entity of type \"{1}\" in state \"{2}\" has the following validation errors:",
-                        DateTime.Now, eve.Entry.Entity.GetType().Name, eve.Entry.State));
-                    outputLines.AddRange(eve.ValidationErrors.Select(ve => string.Format("- Property: \"{0}\", Error: \"{1}\"", ve.PropertyName, ve.ErrorMessage)));
+                    foreach (var eve in eCurrent.EntityValidationErrors)
+                    {
+                        Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                            eve.Entry.Entity.GetType().Name, eve.Entry.State);
+
+                        StringBuilder errorMsg = new StringBuilder(String.Empty);
+                        var s = string.Format("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:", eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                        errorMsg.Append(s);
+
+                        foreach (var ve in eve.ValidationErrors)
+                        {
+                            errorMsg.Append(string.Format("- Property: \"{0}\", Error: \"{1}\"", ve.PropertyName, ve.ErrorMessage));
+                            _log.Error(errorMsg, eCurrent.GetBaseException());
+                        }
+                    }
                 }
-                // System.IO.File.AppendAllLines(@"c:\temp\errors.txt", outputLines);
                 throw;
             }
 

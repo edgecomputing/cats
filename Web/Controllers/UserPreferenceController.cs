@@ -6,24 +6,26 @@ using System.Web.Mvc;
 using Cats.Models.Security;
 using Cats.Models.ViewModels;
 using Cats.Services.Security;
+using Cats.Helpers;
 
 namespace Cats.Controllers
 {
     public class UserPreferenceController : Controller
     {
 
-        private readonly IUserAccountService userService;
+        private readonly IUserAccountService _userAccountService;
 
-        public UserPreferenceController(IUserAccountService _userService)
+        public UserPreferenceController(IUserAccountService userAccountService)
         {
-            this.userService = _userService;
+            _userAccountService = userAccountService;
         }
 
         public ActionResult Edit(UserPreferenceEditModel model)
         {
             if (ModelState.IsValid)
             {
-                var user = userService.GetUserDetail(HttpContext.User.Identity.Name);
+                var user = _userAccountService.GetUserDetail(HttpContext.User.Identity.Name);
+                var users = UserAccountHelper.GetUser(HttpContext.User.Identity.Name);
                 user.DefaultTheme = model.ThemePreference;
                 user.DatePreference = model.DateFormatPreference;
                 user.Keyboard = model.KeyboardLanguage;
@@ -31,9 +33,9 @@ namespace Cats.Controllers
                 user.PreferedWeightMeasurment = model.WeightPrefernce;
 
                 // Edit user preference
+                _userAccountService.UpdateUser(user);
                 TempData["PreferenceUpdateSuccessMsg"] = "Success: General preference updated";
-                
-                userService.Save(user);
+              
                 var userInfo = new UserInfo
                                    {
                                        UserName = user.UserName,
@@ -52,9 +54,10 @@ namespace Cats.Controllers
                                        LogOutDate = user.LogOutDate,
                                        LogginDate = user.LogginDate,
                                        NumberOfLogins = user.NumberOfLogins,
-                                       PreferedWeightMeasurment = user.PreferedWeightMeasurment
+                                       PreferedWeightMeasurment = user.PreferedWeightMeasurment.Trim()
                                    };
                 Session["USER_INFO"] = userInfo;
+                
             }
             else
             {

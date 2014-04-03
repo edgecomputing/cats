@@ -34,15 +34,123 @@
             <a class="brand" href="~/">@Translator.Translate("CATS")</a>
             <div class="nav-collapse collapse">
 
-                @if (false /*Is Admin*/)
+                @if (currentUser.IsAdmin)
                 {
+                    <div>
+                        <ul class="nav">
+                            @*<li>
+                                <a href="@Url.Action("Index","AdminDashboard")">Dashboard</a>
+                            </li>*@
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Configuration <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a href="#">Warehouses</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Hubs</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Hub Owners</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Stores</a>
+                                    </li>
+                                    <li class="divider"></li>
+                                    <li>
+                                        <a href="#">Commodity Type</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Commodity</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Commodity Grade</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Commodity Source</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Program</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Donors</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Units</a>
+                                    </li>
 
+                                    <li class="divider"></li>
+
+                                    <li>
+                                        <a href="#">Administrative Units</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">FDPs</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Journals <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a href="#">Journals</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Ledgers</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Translations <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a href="#">Languages</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Translation Terms</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Users<b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a href="@Url.Action("Index","Users")">Users</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Groups</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">System Logs <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a href="#">Error Log</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Audit Log</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
                 }
 
                 else if (currentUser.RegionalUser)
                 {
                     <div>
                         <ul class="nav">
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Html.Translate2(PAGE_NAME, "Need Assesment")<b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        @Html.EarlyWarningOperationMenuItem(@Url.Action("Index", "NeedAssessment", new { Area = "EarlyWarning" }),
+                                                                    EarlyWarningConstants.Operation.View_Draft_Needs_Assessment, @Html.Translate2(PAGE_NAME, "Needs Assessment"))
+                                    </li>
+                                </ul>
+                            </li>
+
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Html.Translate2(PAGE_NAME, "Request")<b class="caret"></b></a>
                                 <ul class="dropdown-menu">
@@ -58,8 +166,14 @@
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Html.Translate2(PAGE_NAME, "Distribution")<b class="caret"></b></a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="@Url.Action("Index", "WoredaStockDistribution", new { Area = "Logistics" })">Distribution Entry</a></li>                                </ul>
+                                    <li><a href="@Url.Action("Index", "WoredaStockDistribution", new { Area = "Logistics" })">Distribution Entry</a></li>
+                                    <li>
+                                        @Html.EarlyWarningOperationMenuItem(@Url.Action("Index", "NeedAssessment", new { Area = "EarlyWarning" }),
+                                                                    EarlyWarningConstants.Operation.View_Draft_Needs_Assessment, @Html.Translate2(PAGE_NAME, "Needs Assessment"))
+                                    </li>
+                                </ul>
                             </li>
+
                         </ul>
                     </div>
                 }
@@ -148,7 +262,7 @@
 
 
                             <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Html.Translate2(PAGE_NAME, " Reports")<b class="caret"></b></a>
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Html.Translate2(PAGE_NAME, "Hub Reports")<b class="caret"></b></a>
                                 <ul class="dropdown-menu">
 
                                     <li>
@@ -208,6 +322,7 @@
                                                 @Html.EarlyWarningOperationMenuItem(@Url.Action("Index", "GiftCertificate", new { Area = "EarlyWarning" }),
                                                                     EarlyWarningConstants.Operation.View_Gift_Certificate_list, @Html.Translate2(PAGE_NAME, "Gift Certificate"))
                                             </li>
+
                                         </ul>
                                     </li>
 
@@ -273,13 +388,12 @@
                                         </ul>
                                     </li>
 
-                                    <li class="dropdown">
-                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Html.Translate2(PAGE_NAME, " Reports")<b class="caret"></b></a>
-                                        <ul class="dropdown-menu">
-
-                                            <li><a href="#">@Translator.Translate("Reports") </a></li>
-                                        </ul>
-                                    </li>
+                                    @*<li class="dropdown">
+                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Html.Translate2(PAGE_NAME, " Reports")<b class="caret"></b></a>
+                                            <ul class="dropdown-menu">
+                                                <li><a href="#">@Translator.Translate("Reports") </a></li>
+                                            </ul>
+                                        </li>*@
 
                                 </ul>
                             </div>
@@ -307,6 +421,7 @@
                                             @Html.PSNPOperationMenuItem(@Translator.Translate("Requests"), @Url.Action("Index", "Request", new { Area = "EarlyWarning" }),
                                                                     PsnpConstants.Operation.View_request)
                                         </li>
+                                        <li><a href="@Url.Action("New", "Request", new { Area = "EarlyWarning" })">@Translator.Translate("New Request") </a></li>
                                     </ul>
                                 </li>
 
@@ -331,12 +446,12 @@
                                 </li>
 
 
-                                <li class="dropdown">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Html.Translate2(PAGE_NAME, " Reports")<b class="caret"></b></a>
-                                    <ul class="dropdown-menu">
-                                        <li><a href="#">@Translator.Translate("Reports") </a></li>
-                                    </ul>
-                                </li>
+                                @*<li class="dropdown">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Html.Translate2(PAGE_NAME, " Reports")<b class="caret"></b></a>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="#">@Translator.Translate("Reports") </a></li>
+                                        </ul>
+                                    </li>*@
                             </ul>
                         </div>
                             break;
@@ -368,6 +483,12 @@
                                             @Html.ProcurementOperationMenuItem(@Html.Translate("Transport Order"),
                                                                    @Url.Action("Index", "TransportOrder", new { Area = "Procurement" }),
                                                                    ProcurementConstants.Operation.View_Transport_Order)
+                                        </li>
+
+                                        <li>
+                                            @Html.ProcurementOperationMenuItem(@Html.Translate("Contract Admin"),
+                                                                   @Url.Action("BidWinningTransporters", "BidWinner", new { Area = "Procurement" }),
+                                                                   ProcurementConstants.Operation.View_Winners_for_Contract)
                                         </li>
                                     </ul>
                                 </li>
@@ -498,10 +619,10 @@
                                     </ul>
                                 </li>
 
-                                <li class="dropdown">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Html.Translate2(PAGE_NAME, " Reports")<b class="caret"></b></a>
-                                    <ul class="dropdown-menu"></ul>
-                                </li>
+                                @*<li class="dropdown">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Html.Translate2(PAGE_NAME, " Reports")<b class="caret"></b></a>
+                                        <ul class="dropdown-menu"></ul>
+                                    </li>*@
 
                             </ul>
                         </div>
@@ -519,17 +640,17 @@
                                     </ul>
                                 </li>
 
-                                <li class="dropdown">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Html.Translate2(PAGE_NAME, " Reports")<b class="caret"></b></a>
-                                    <ul class="dropdown-menu">
-                                        <li><a href="#">@Translator.Translate("ITSH Report") </a></li>
-                                    </ul>
-                                </li>
+                                @*<li class="dropdown">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Html.Translate2(PAGE_NAME, " Reports")<b class="caret"></b></a>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="#">@Translator.Translate("ITSH Report") </a></li>
+                                        </ul>
+                                    </li>*@
                             </ul>
                         </div>
                             break;
                     }
-                    
+
                 }
                 <div>
                     <ul class="nav">
