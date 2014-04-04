@@ -1,56 +1,24 @@
-﻿@*@model IEnumerable<Cats.Models.RegionalRequest>*@
-
-﻿@using Cats.Helpers
-
-@{
+﻿@{
     ViewBag.Title = "Index";
-    ViewBag.ViewWidth = "Wide";
-    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
 
-<link href="~/Content/DashboardWidget.css" rel="stylesheet">
+@*@section MainMenu
+{
+        @Html.Partial("_AdminMenuBar")
+}*@
 
-<html>
-<body>
-    <div class="row">
-        <div class="span5">
-            <div class="widget stacked">
-                <div class="widget-header">
-                    <i class="icon-bookmark"></i>
-                    <h3>Welcome To PSNP</h3>
-                </div>
-                <div class="widget-content">
+@section Leftbar
 
-                    <div class="shortcuts">
+{
+    @Html.Partial("_AdminLeftBar")
+}
 
-                        <a href="@Url.Action("Index", "", new { Area = "PSNP" })" class="shortcut"><i class="shortcut-icon icon-list-alt"></i>
-                            <span class="shortcut-label">Regional PSNP Plan</span>
-                        </a>
+@*<div class="Span12">
+  <
+</div>*@
 
-                        <a href="@Url.Action("Index", "RegionalPSNPPlanDetail", new { Area = "PSNP" })" class="shortcut"><i class="shortcut-icon icon-signal"></i>
-                            <span class="shortcut-label">Regional PSNP Plan Detail</span>
-                        </a>
-
-                        <a href="@Url.Action("Index", "RegionalPSNPPledge", new { Area = "PSNP" })" class="shortcut"><i class="shortcut-icon icon-inbox"></i>
-                            <span class="shortcut-label">Regional PSNP Pledge</span>
-                        </a>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-
-        <div class="span5">
-            <div class="widget stacked">
-                <div class="widget-header">
-                    <i class="icon-bookmark"></i>
-                    <h3>Other Contents</h3>
-                </div>
-                <div class="widget-content">
-                    <h4>Other Contents go here</h4>
-                </div>
-            </div>
-        </div>
-    </div>
-</body>
-</html>
+<h4> Administration Dashboard </h4>
+<ul>
+    @Html.Partial("_DynamicAdminDashboard")
+</ul>

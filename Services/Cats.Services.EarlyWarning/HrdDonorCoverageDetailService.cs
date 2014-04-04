@@ -70,8 +70,8 @@ namespace Cats.Services.EarlyWarning
             var woredaExists =
                 _unitOfWork.HrdDonorCoverageDetailRepository.FindBy(
                     m => m.HRDDonorCoverageID == hrdDonorCoverageDetail.HRDDonorCoverageID &&
-                         m.WoredaID == hrdDonorCoverageDetail.WoredaID);
-            if (woredaExists==null)
+                         m.WoredaID == hrdDonorCoverageDetail.WoredaID).Count;
+            if (woredaExists==0)
             {
                 _unitOfWork.HrdDonorCoverageDetailRepository.Add(hrdDonorCoverageDetail);
                 _unitOfWork.Save();

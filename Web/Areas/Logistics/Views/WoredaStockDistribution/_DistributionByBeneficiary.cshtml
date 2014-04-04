@@ -6,25 +6,44 @@
     ViewBag.Title = "_DistributionByBenficiary";
 }
 
- @(Html.Kendo().Grid<WoredaDistributionDetailViewModel>(Model.WoredaDistributionDetailViewModels)
+ @(Html.Kendo().Grid(Model.WoredaDistributionDetailViewModels)
                       .Name("RequisitionGridDetail")
                       .Columns(columns =>
                                    {
-                                      
+
+                                       columns.Bound(m => m.FdpId).Hidden(true).ClientTemplate("#= FdpId #" +
+                                       "<input type='hidden' name='WoredaDistributionDetailViewModels[#= index(data)#].FdpId' value='#= FdpId #' />");
+                                       
                                        columns.Bound(p => p.FDP).Width(80).Title(Translator.Translate("FDP")).HtmlAttributes(new { style = "background-color:lightgray" });
                                        columns.Bound(p => p.CommodityName).Width(100).Title(Translator.Translate("Commodity")).HtmlAttributes(new { style = "background-color:lightgray" });
                                        columns.Bound(p => p.Round).Width(60).HtmlAttributes(new { style = "background-color:lightgray" });
                                        columns.Bound(p => p.Month).Width(80).HtmlAttributes(new { style = "background-color:lightgray" });
-                                       columns.Bound(p => p.AllocatedAmount).HtmlAttributes(new { align = "right" }).HtmlAttributes(new { style = "background-color:lightgray" });
+                                       columns.Bound(p => p.CommodityID).ClientTemplate("#= CommodityID #" +
+                                       "<input type='hidden' name='WoredaDistributionDetailViewModels[#= index(data)#].CommodityID' value='#= CommodityID #' />");
+                                       columns.Bound(p => p.AllocatedAmount).HtmlAttributes(new { align = "right" }).HtmlAttributes(new { style = "background-color:lightgray" })
+                                       .ClientTemplate("#= AllocatedAmount #" +
+                                       "<input type='hidden' name='WoredaDistributionDetailViewModels[#= index(data)#].AllocatedAmount' value='#= AllocatedAmount #' />");
                                        columns.Bound(p => p.RequistionNo).Width(100).HtmlAttributes(new { align = "right" }).HtmlAttributes(new { style = "background-color:lightgray" });
-                                       columns.Bound(p => p.BeginingBalance);
-                                       columns.Bound(p => p.TotalIn);
-                                       columns.Bound(p => p.TotalOut);
-                                       columns.Bound(p => p.EndingBalance);
+                                       columns.Bound(p => p.BeginingBalance)
+                                           .ClientTemplate("#= BeginingBalance #" +
+                                       "<input type='hidden' name='WoredaDistributionDetailViewModels[#= index(data)#].BeginingBalance' value='#= BeginingBalance #' />");
+                                       columns.Bound(p => p.TotalIn)
+                                            .ClientTemplate("#= TotalIn #" +
+                                       "<input type='hidden' name='WoredaDistributionDetailViewModels[#= index(data)#].TotalIn' value='#= TotalIn #' />");
+                                       columns.Bound(p => p.TotalOut)
+                                            .ClientTemplate("#= TotalOut #" +
+                                       "<input type='hidden' name='WoredaDistributionDetailViewModels[#= index(data)#].TotalOut' value='#= TotalOut #' />");
+                                       columns.Bound(p => p.EndingBalance)
+                                            .ClientTemplate("#= EndingBalance #" +
+                                       "<input type='hidden' name='WoredaDistributionDetailViewModels[#= index(data)#].EndingBalance' value='#= EndingBalance #' />");
                                       // columns.Bound(p => p.DistributionStartDate);
                                       // columns.Bound(p => p.DistributionEndDate);
-                                       columns.Bound(p => p.DistributedAmount);
-                                       columns.Bound(p => p.LossAmount);
+                                       columns.Bound(p => p.DistributedAmount)
+                                            .ClientTemplate("#= DistributedAmount #" +
+                                       "<input type='hidden' name='WoredaDistributionDetailViewModels[#= index(data)#].DistributedAmount' value='#= DistributedAmount #' />");
+                                       columns.Bound(p => p.LossAmount)
+                                            .ClientTemplate("#= LossAmount #" +
+                                       "<input type='hidden' name='WoredaDistributionDetailViewModels[#= index(data)#].LossAmount' value='#= LossAmount #' />");
                                       // columns.Bound(p => p.LossReason);
                                      
                                    })
@@ -38,7 +57,7 @@
                    
                       .DataSource(dataSource => dataSource
                                                     .Ajax()
-                                                     .Group(m=>m.Add(t=>t.FDP))
+                                                     .Group(m=>m.Add(t=>t.CommodityName))
                                                    // .Events(e=>e.RequestEnd("onRequestEnd"))
                                                    // .ServerOperation(false)
                                                     .Model(model =>
@@ -53,8 +72,8 @@
                                                                    model.Field(detail => detail.Round).Editable(false);
                                                                    model.Field(detail => detail.Month).Editable(false);
                                                                    model.Field(detail => detail.RequistionNo).Editable(false);
-                                                                   model.Field(detail => detail.RequisitionDetailViewModel.CommodityName).Editable(false);
-                                                                   model.Field(detail => detail.RequisitionDetailViewModel.AllocatedAmount).Editable(false);
+                                                                   model.Field(detail => detail.CommodityName).Editable(false);
+                                                                   model.Field(detail => detail.AllocatedAmount).Editable(false);
                                                                    model.Field(detail => detail.TotalIn).Editable(true);
 
                                                                })
@@ -67,3 +86,11 @@
                       ))
 
             
+<script type="text/javascript">
+   
+    function index(dataItem) {
+        var data = $("#RequisitionGridDetail").data("kendoGrid").dataSource.data();
+
+        return data.indexOf(dataItem);
+    }
+    </script>

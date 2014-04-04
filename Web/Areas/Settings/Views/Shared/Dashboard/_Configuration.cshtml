@@ -6,21 +6,25 @@
 
     <div id="configContent" class="widget-content">
         <div class="">
-            <a href="@Url.Action("", "", new { Area = "EarlyWarning" })" class="shortcut"><i class="shortcut-icon icon-list-alt"></i>
+            @*<a href="@Url.Action("", "", new { Area = "Settings" })" class="shortcut"><i class="shortcut-icon icon-list-alt"></i>
                 <span class="shortcut-label">Warehouses</span>
-            </a>
-            <br/>
-            <a href="@Url.Action("", "", new { Area = "EarlyWarning" })" class="shortcut"><i class="shortcut-icon icon-signal"></i>
+            </a>*@
+            @*<br/>*@
+            <a href="@Url.Action("Index", "Hubs", new { Area = "Settings" })" class="shortcut"><i class="shortcut-icon icon-signal"></i>
                 <span class="shortcut-label">Hubs</span>
             </a>
             <br/>
-            <a href="@Url.Action("", "", new { Area = "EarlyWarning" })" class="shortcut"><i class="shortcut-icon icon-inbox"></i>
+            <a href="@Url.Action("Index", "HubOwner", new { Area = "Settings" })" class="shortcut"><i class="shortcut-icon icon-inbox"></i>
                 <span class="shortcut-label">Hub Owners</span>
             </a>
             <br/>
-            <a href="@Url.Action("", "", new { Area = "EarlyWarning" })" class="shortcut"><i class="shortcut-icon icon-tasks"></i>
+            <a href="@Url.Action("Index", "Store", new { Area = "Settings" })" class="shortcut"><i class="shortcut-icon icon-tasks"></i>
                 <span class="shortcut-label">Stores</span>
             </a>
+            <br />
+            <a href="@Url.Action("Index","Currency",new {Area="EarlyWarning"})"><i class="icon-folder-open"></i>Currency
+            </a>
+            
             <br/>
         </div>
     </div>
@@ -33,29 +37,3 @@
         $("#configContent").slideToggle("slow", "linear");
     });
 </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
