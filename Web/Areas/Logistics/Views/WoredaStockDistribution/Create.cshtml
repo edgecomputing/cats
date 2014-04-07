@@ -41,7 +41,7 @@
                                 @Html.LabelFor(m => m.SupportTypeID, Translator.Translate("Support Type"))
                             </div>
                             <div class="controls">
-                                @Html.DropDownList("SupportTypeID", String.Empty)
+                                @Html.DropDownList("SupportTypeID")
                                 @Html.ValidationMessageFor(m => m.SupportTypeID)
                             </div>
                         </div>
@@ -131,11 +131,11 @@
                       .Columns(columns =>
                       {
 
-                          
-                      
 
-                        // columns.Bound(p => p.CommodityID).ClientTemplate("#= CommodityID #" +
-                        // "<input type='hidden' name='WoredaDistributionDetailViewModels[#= index(data)#].CommodityID' value='#= CommodityID #' />");
+
+
+                          columns.Bound(p => p.WoredaStockDistributionDetailID).ClientTemplate("#= WoredaStockDistributionDetailID #" +
+                          "<input type='hidden' name='WoredaDistributionDetailViewModels[#= index(data)#].WoredaStockDistributionDetailID' value='#= WoredaStockDistributionDetailID #' />");
                           columns.Bound(p => p.FdpId).Hidden().ClientTemplate("#= FdpId #" +
                            "<input type='hidden' name='WoredaDistributionDetailViewModels[#= index(data)#].FdpId' value='#= FdpId #' />");
                           columns.Bound(p => p.FDP).Width(80).Title(Translator.Translate("FDP")).HtmlAttributes(new { style = "background-color:lightgray" });

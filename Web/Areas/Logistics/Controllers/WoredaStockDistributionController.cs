@@ -296,20 +296,53 @@ namespace Cats.Areas.Logistics.Controllers
                         // return View(woredaStockDistributionViewModel);
                     }
                 }
-                utilization.ActualBeneficairies = woredaStockDistribution.ActualBeneficairies;
-                utilization.FemaleLessThan5Years = woredaStockDistribution.FemaleLessThan5Years;
-                utilization.FemaleBetween5And18Years = woredaStockDistribution.FemaleLessThan5Years;
-                utilization.FemaleAbove18Years = woredaStockDistribution.FemaleAbove18Years;
-                utilization.MaleLessThan5Years = woredaStockDistribution.MaleLessThan5Years;
-                utilization.MaleBetween5And18Years = woredaStockDistribution.MaleBetween5And18Years;
-                utilization.MaleAbove18Years = woredaStockDistribution.MaleAbove18Years;
-                utilization.SupportTypeID = woredaStockDistribution.SupportTypeID;
-                _utilizationService.EditHeaderDistribution(utilization);
+                else
+                {
+                    utilization.ActualBeneficairies = woredaStockDistribution.ActualBeneficairies;
+                    utilization.FemaleLessThan5Years = woredaStockDistribution.FemaleLessThan5Years;
+                    utilization.FemaleBetween5And18Years = woredaStockDistribution.FemaleLessThan5Years;
+                    utilization.FemaleAbove18Years = woredaStockDistribution.FemaleAbove18Years;
+                    utilization.MaleLessThan5Years = woredaStockDistribution.MaleLessThan5Years;
+                    utilization.MaleBetween5And18Years = woredaStockDistribution.MaleBetween5And18Years;
+                    utilization.MaleAbove18Years = woredaStockDistribution.MaleAbove18Years;
+                    utilization.SupportTypeID = woredaStockDistribution.SupportTypeID;
+                    _utilizationService.EditHeaderDistribution(utilization);
 
-                var woredaDistributionHeader = _utilizationService.FindById(utilization.WoredaStockDistributionID);
-                WoredaStockDistributionWithDetailViewModel woredaStockDistributionViewModel2 = GetWoredaStockDistributionFormDB(woredaDistributionHeader);
-                LookUps();
-                return View(woredaStockDistributionViewModel2);
+                    var woredaDistributionDetails = _utilizationDetailSerivce.FindBy(m => m.WoredaStockDistributionID == utilization.WoredaStockDistributionID);
+                    if (woredaDistributionDetails != null)
+                    {
+                        foreach (var woredaDistributionDetailViewModel in woredaStockDistribution.WoredaDistributionDetailViewModels)
+                        {
+                            var woredaDistributionDetail =_utilizationDetailSerivce.FindById(woredaDistributionDetailViewModel.WoredaStockDistributionDetailID);
+                            if (woredaDistributionDetail!=null)
+                            {
+                                woredaDistributionDetail.StartingBalance =woredaDistributionDetailViewModel.BeginingBalance;
+                                woredaDistributionDetail.EndingBalance = woredaDistributionDetailViewModel.EndingBalance;
+                                woredaDistributionDetail.TotalIn = woredaDistributionDetailViewModel.TotalIn;
+                                woredaDistributionDetail.TotoalOut = woredaDistributionDetailViewModel.TotalOut;
+                                woredaDistributionDetail.LossAmount = woredaDistributionDetailViewModel.LossAmount;
+                                woredaDistributionDetail.LossReason = woredaDistributionDetailViewModel.LossReason;
+                                woredaDistributionDetail.DistributedAmount =woredaDistributionDetailViewModel.DistributedAmount;
+                                _utilizationDetailSerivce.EditDetailDistribution(woredaDistributionDetail);
+
+                            }
+                        }
+
+            
+                    }
+                    LookUps();
+                    return RedirectToAction("Create",
+                                                    new
+                                                    {
+                                                        Woreda = utilization.WoredaID,
+                                                        planID = utilization.PlanID,
+                                                        programID = utilization.ProgramID,
+                                                        month = utilization.Month
+                                                    });
+                }
+                
+                //WoredaStockDistributionWithDetailViewModel woredaStockDistributionViewModel2 = GetWoredaStockDistributionFormDB(woredaDistributionHeader);
+              
             }
             ModelState.AddModelError("Errors",@"Unable to Save Distribution Information");
             return View();
