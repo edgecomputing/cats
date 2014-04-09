@@ -2,25 +2,38 @@
 @model IEnumerable<Cats.Models.Security.UserInfo>
 @{
     ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";  
 }
 
-@section MainMenu
+@*@section MainMenu
 {
     @Html.Partial("_AdminMenuBar")
-}
+}*@
 
+@section Toolbar
+{
+    <a href="@Url.Action("New", "Users")" class="btn btn-default">Create new user</a>
+}
 @section Leftbar
 {
     @Html.Partial("_AdminLeftBar")
 }
 
-<h4 class="page-header">User Accounts</h4>
-<div>
-    <a href="@Url.Action("New", "Users")" class="btn btn-success">Create new user</a>
-</div>
-<br />
 
+@*<div class="row">
+    
+    <div class="pull-left">
+    <h4 class="page-header">User Accounts</h4>
+    </div>
+    <div class="pull-right">
+      
+    </div>
+</div>
+<br />*@
+
+<div>
+    <h4>Manage Users</h4>
+</div>
 @(Html.Kendo().Grid(Model)
     .Name("Users")
     .Columns(columns =>
@@ -48,12 +61,11 @@
     })
     .Sortable()
     .Scrollable()
-    .HtmlAttributes(new { style = "width:100%; height:550px;" })
+    .HtmlAttributes(new { style = "width:100%; height:450px;" })
     .DataSource(dataSource => dataSource
         .Ajax()
         .Read(read => read.Action("UsersList", "Users"))
     )
-   
 )
 
 

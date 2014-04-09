@@ -18,15 +18,19 @@ namespace Cats.Areas.Localization.Controllers
         // GET: /Localization/Language/
         private ILanguageService _languageService;
         //private ILocalizedTextService _localizedTextService;
-        private  ILog _Log;
+       // private  ILog _Log;
         //public LanguageController() { }
 
-        public LanguageController(ILanguageService languageService, ILog log)
+        public LanguageController(ILanguageService languageService)
         {
             _languageService = languageService;
             //_localizedTextService = localizedTextService;
-            _Log = log;
+            //_Log = log;
         }
+        //public LanguageController() 
+        //{ 
+
+        //}
 
         public ActionResult Index()
         {
@@ -66,11 +70,11 @@ namespace Cats.Areas.Localization.Controllers
                     _languageService.AddLanguage(language);
                     return RedirectToAction("Index");
                 }
-                catch (Exception exception)
+                catch (Exception )
                 {
-                    var log = new Logger();
-                    log.LogAllErrorsMesseges(exception,_Log);
-                    ModelState.AddModelError("Errors", "Language Code Must Be Unique.");
+                    //var log = new Logger();
+                    //log.LogAllErrorsMesseges(exception,_Log);
+                    //ModelState.AddModelError("Errors", "Language Code Must Be Unique.");
                 }
             }
             return View(language);

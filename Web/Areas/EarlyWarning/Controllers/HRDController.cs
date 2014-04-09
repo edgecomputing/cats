@@ -103,7 +103,6 @@ namespace Cats.Areas.EarlyWarning.Controllers
         [EarlyWarningAuthorize(operation = EarlyWarningConstants.Operation.View_HRD_list)]
         public ActionResult HRD_Read([DataSourceRequest] DataSourceRequest request)
         {
-
             var hrds = _hrdService.Get(m => m.Status == 1).OrderByDescending(m => m.HRDID);
             var hrdsToDisplay = GetHrds(hrds).ToList();
             return Json(hrdsToDisplay.ToDataSourceResult(request));
@@ -371,41 +370,27 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
             if (ModelState.IsValid)
             {
-                try
+                if (startDate >= endDate)
                 {
-                    //var userid = _needAssessmentService.GetUserProfileId(HttpContext.User.Identity.Name);
-                    //var woredas = _adminUnitService.FindBy(m => m.AdminUnitTypeID == 4);
-                    //var seasonID = hrd.SeasonID;
-
-                    _planService.AddHRDPlan(planName, startDate, endDate);
-                    var plan=_planService.FindBy(m => m.PlanName == planName).FirstOrDefault();
-                    var planID = plan.PlanID;
-                    _hrdService.AddHRD(year, userID, seasonID, rationID, planID);
-                    //hrd.CreatedBY = userid;
-                    //var hrdDetails = (from detail in woredas
-                    //                  select new HRDDetail
-                    //                      {
-                    //                          WoredaID = detail.AdminUnitID,
-                    //                          StartingMonth = 1,
-                    //                          //NumberOfBeneficiaries = _needAssessmentDetailService.GetNeedAssessmentBeneficiaryNo(hrd.Year, (int)seasonID, detail.AdminUnitID),
-                    //                          //DurationOfAssistance = _needAssessmentDetailService.GetNeedAssessmentMonths(hrd.Year, (int)seasonID, detail.AdminUnitID)
-                    //                          NumberOfBeneficiaries = 0,
-                    //                          //_needAssessmentDetailService.GetNeedAssessmentBeneficiaryNoFromPlan(hrd.PlanID,detail.AdminUnitID),
-                    //                          DurationOfAssistance = 0
-                    //                          //_needAssessmentDetailService.GetNeedAssessmentMonthsFromPlan(hrd.PlanID,detail.AdminUnitID)
-
-                    //                      }).ToList();
-
-                    //hrd.HRDDetails = hrdDetails;
-                    //_hrdService.AddHRD(hrd);
-                    return RedirectToAction("Index");
+                    ModelState.AddModelError("Errors", @"Start Date Can't be greater than OR Equal to End Date!");
                 }
-                catch (Exception exception)
+                else
                 {
-                    var log = new Logger();
-                    log.LogAllErrorsMesseges(exception, _log);
-                    ModelState.AddModelError("Errors", "Unable To Create New HRD");
-                    //ViewBag.Error = "HRD for this Season and Year already Exists";
+                    try
+                    {
+                        _planService.AddHRDPlan(planName, startDate, endDate);
+                        var plan = _planService.FindBy(m => m.PlanName == planName).FirstOrDefault();
+                        var planID = plan.PlanID;
+                        _hrdService.AddHRD(year, userID, seasonID, rationID, planID);
+                        return RedirectToAction("Index");
+                    }
+                    catch (Exception exception)
+                    {
+                        var log = new Logger();
+                        log.LogAllErrorsMesseges(exception, _log);
+                        ModelState.AddModelError("Errors", "Unable To Create New HRD");
+                        //ViewBag.Error = "HRD for this Season and Year already Exists";
+                    }
                 }
 
             }

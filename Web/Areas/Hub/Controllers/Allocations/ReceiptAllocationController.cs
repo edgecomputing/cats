@@ -382,7 +382,119 @@ namespace Cats.Areas.Hub.Controllers.Allocations
             return PartialView("Edit", receiptAllocationViewModel);
 
         }
+        public ActionResult Edit2(String allocationId)
+        {
 
+            var receiptAllocation = _receiptAllocationService.FindById(Guid.Parse(allocationId));
+            UserProfile user = _userProfileService.GetUser(User.Identity.Name);
+            var receiptAllocationViewModel = BindReceiptAllocaitonViewModel();
+            if (receiptAllocation != null) // && receiptAllocation.IsCommited == false)
+            {
+                receiptAllocationViewModel.IsCommited = receiptAllocation.IsCommited;
+                receiptAllocationViewModel.ReceiptAllocationID = receiptAllocation.ReceiptAllocationID;
+                receiptAllocationViewModel.PartitionID = receiptAllocation.PartitionID;
+                receiptAllocationViewModel.ProjectNumber = receiptAllocation.ProjectNumber;
+                receiptAllocationViewModel.CommodityID = receiptAllocation.CommodityID;
+                //LOAD THE respective type and 
+                //TODO remove the other Types
+                receiptAllocationViewModel.CommodityTypeID = receiptAllocation.Commodity.CommodityTypeID;
+
+                receiptAllocationViewModel.SINumber = receiptAllocation.SINumber;
+                receiptAllocationViewModel.QuantityInMT = receiptAllocation.QuantityInMT;
+                if (receiptAllocation.QuantityInUnit == null)
+                    receiptAllocationViewModel.QuantityInUnit = 0;
+                else
+                    receiptAllocationViewModel.QuantityInUnit = receiptAllocation.QuantityInUnit.Value;
+                receiptAllocationViewModel.HubID = receiptAllocation.HubID;
+                receiptAllocationViewModel.ETA = receiptAllocation.ETA;
+                receiptAllocationViewModel.DonorID = receiptAllocation.DonorID;
+                receiptAllocationViewModel.GiftCertificateDetailID = receiptAllocation.GiftCertificateDetailID;
+                receiptAllocationViewModel.ReceiptAllocationID = receiptAllocation.ReceiptAllocationID;
+                receiptAllocationViewModel.ProgramID = receiptAllocation.ProgramID;
+                receiptAllocationViewModel.CommoditySourceID = receiptAllocation.CommoditySourceID;
+                receiptAllocationViewModel.SourceHubID = receiptAllocation.SourceHubID;
+                receiptAllocationViewModel.PurchaseOrder = receiptAllocation.PurchaseOrder;
+                receiptAllocationViewModel.SupplierName = receiptAllocation.SupplierName;
+                receiptAllocationViewModel.OtherDocumentationRef = receiptAllocation.OtherDocumentationRef;
+                receiptAllocationViewModel.Remark = receiptAllocation.Remark;
+
+                var shippingInstruction =
+                        _shippingInstructionService.FindBy(t => t.Value == receiptAllocationViewModel.SINumber).
+                            FirstOrDefault();
+                var GC = new Cats.Models.Hubs.GiftCertificate();
+                if (shippingInstruction != null)
+                    GC = _giftCertificateService.FindBySINumber(shippingInstruction.ShippingInstructionID);
+                if (GC != null && receiptAllocation.CommoditySourceID == CommoditySource.Constants.DONATION)
+                {
+                    receiptAllocationViewModel.Commodities.Clear();
+                    receiptAllocationViewModel.Donors.Clear();
+                    receiptAllocationViewModel.Programs.Clear();
+                    foreach (GiftCertificateDetail giftCertificateDetail in GC.GiftCertificateDetails)
+                    {
+                        receiptAllocationViewModel.Commodities.Add(giftCertificateDetail.Commodity);
+                    }
+                    //Commodity commodity = receiptAllocationViewModel.Commodities.FirstOrDefault();
+                    //if (commodity != null) receiptAllocationViewModel.CommodityID = commodity.CommodityID;
+                    receiptAllocationViewModel.Donors.Add(GC.Donor);
+                    receiptAllocationViewModel.DonorID = GC.DonorID;
+                    receiptAllocationViewModel.Programs.Add(GC.Program);
+                    receiptAllocationViewModel.ProgramID = GC.ProgramID;
+                    receiptAllocationViewModel.CommoditySources.Clear();
+                    receiptAllocationViewModel.CommoditySources.Add(
+                        _commoditySourceService.FindById(CommoditySource.Constants.DONATION));
+                    receiptAllocationViewModel.CommoditySourceID = CommoditySource.Constants.DONATION;
+
+                }
+                //else
+                //{
+                int sourceType = receiptAllocation.CommoditySourceID;
+
+                if (CommoditySource.Constants.DONATION == sourceType)
+                {
+                    receiptAllocationViewModel.CommoditySources.Clear();
+                    receiptAllocationViewModel.CommoditySources.Add(
+                        _commoditySourceService.FindById(CommoditySource.Constants.DONATION));
+                }
+                //else if (CommoditySource.Constants.TRANSFER == sourceType)
+                //{
+                //    receiptAllocationViewModel.CommoditySources.Clear();
+                //    receiptAllocationViewModel.CommoditySources.Add(
+                //        _commoditySourceService.FindById(CommoditySource.Constants.TRANSFER));
+                //}
+                else if (CommoditySource.Constants.LOCALPURCHASE == sourceType)
+                {
+                    receiptAllocationViewModel.CommoditySources.Clear();
+                    receiptAllocationViewModel.CommoditySources.Add(
+                        _commoditySourceService.FindById(CommoditySource.Constants.LOCALPURCHASE));
+                }
+                else if (CommoditySource.Constants.TRANSFER == sourceType ||
+                        CommoditySource.Constants.REPAYMENT == sourceType ||
+                        CommoditySource.Constants.LOAN == sourceType ||
+                        CommoditySource.Constants.SWAP == sourceType)
+                {
+                    receiptAllocationViewModel.CommoditySources.Clear();
+                    receiptAllocationViewModel.CommoditySources.Add(
+                        _commoditySourceService.FindById(CommoditySource.Constants.REPAYMENT));
+                    receiptAllocationViewModel.CommoditySources.Add(
+                        _commoditySourceService.FindById(CommoditySource.Constants.LOAN));
+                    receiptAllocationViewModel.CommoditySources.Add(
+                        _commoditySourceService.FindById(CommoditySource.Constants.SWAP));
+                    receiptAllocationViewModel.CommoditySources.Add(
+                        _commoditySourceService.FindById(CommoditySource.Constants.TRANSFER));
+
+                }
+                // }
+            }
+            ViewBag.CommoditySourceType = receiptAllocation != null
+                                              ? receiptAllocation.CommoditySourceID
+                                              : CommoditySource.Constants.DONATION;
+
+            if (receiptAllocation != null && receiptAllocation.Receives.Any())
+                ViewBag.receiveUnderAllocation = true;
+
+            return PartialView("Edit2", receiptAllocationViewModel);
+
+        }
         public ActionResult SIMustBeInGift(string SINUmber, int? CommoditySourceID)
         {
             if (CommoditySourceID.HasValue && CommoditySourceID.Value ==CommoditySource.Constants.DONATION)
@@ -787,6 +899,19 @@ namespace Cats.Areas.Hub.Controllers.Allocations
         {
             var delAllocation = _receiptAllocationService.FindById(Guid.Parse(id));
             return PartialView("Close", delAllocation);
+        }
+
+        [HttpPost]
+        public ActionResult CloseAjax(string ReceiptAllocationID)
+        {
+            var delAllocation = _receiptAllocationService.FindById(Guid.Parse(ReceiptAllocationID));
+
+            if (delAllocation != null)
+            {
+                _receiptAllocationService.CloseById(Guid.Parse(ReceiptAllocationID));
+                return Json(new { status = 1}, JsonRequestBehavior.AllowGet);
+            }
+            return Json(new { status = 0}, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost, ActionName("Close")]

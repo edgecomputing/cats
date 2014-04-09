@@ -108,6 +108,7 @@ namespace Cats.Controllers
                 ModelState.AddModelError("Success", TempData["PreferenceUpdateSuccessMsg"].ToString());
             if (TempData["PreferenceUpdateErrorMsg"] != null)
                 ModelState.AddModelError("Errors", TempData["PreferenceUpdateErrorMsg"].ToString());
+
             var userID = UserAccountHelper.GetUser(HttpContext.User.Identity.Name).UserProfileID;
             var userDashboardPreferences = _userDashboardPreferenceService.Get(t => t.UserID == userID).OrderBy(m => m.OrderNo);
             var selectedDashboardWidgets = userDashboardPreferences.Select(userDashboardPreference =>
@@ -129,7 +130,7 @@ namespace Cats.Controllers
             var userPreferenceViewModel = new UserPreferenceViewModel(user);
             ViewBag.Languages = new SelectList(userPreferenceViewModel.Languages, "StringID", "Name", userPreferenceViewModel.Language);
             ViewBag.DateFormatPreference = new SelectList(userPreferenceViewModel.DateFormatPreferences, "StringID", "Name", userPreferenceViewModel.DateFormatPreference);
-            ViewBag.WeightPrefernce = new SelectList(userPreferenceViewModel.WeightPerferences, "StringID", "Name", userPreferenceViewModel.WeightPrefernce);
+            ViewBag.WeightPrefernce = new SelectList(userPreferenceViewModel.WeightPerferences, "StringID", "Name", userPreferenceViewModel.WeightPrefernce.Trim());
             ViewBag.KeyboardLanguage = new SelectList(userPreferenceViewModel.KeyboardLanguages, "StringID", "Name", userPreferenceViewModel.KeyboardLanguage);
             ViewBag.ThemePreference = new SelectList(userPreferenceViewModel.ThemePreferences, "StringID", "Name", userPreferenceViewModel.ThemePreference);
 

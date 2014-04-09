@@ -74,22 +74,31 @@ namespace Cats.Areas.EarlyWarning.Controllers
         [HttpPost]
         public ActionResult Create(Plan plan)
         {
+            var startDate = plan.StartDate;
+            var endDate = plan.EndDate;
             if (ModelState.IsValid)
             {
-                try
+                if (startDate >= endDate)
                 {
-                    plan.Status = (int)PlanStatus.Draft;
-                    _planService.AddPlan(plan);
-                    return RedirectToAction("Index");
+                    ModelState.AddModelError("Errors", @"Start Date Can't be greater than OR Equal to  End Date!");
                 }
-                catch (Exception ex)
+                else
                 {
-                    
-                   ModelState.AddModelError("Errors","Plan with this name already Existed");
-                   ViewBag.ProgramID = new SelectList(_planService.GetPrograms(), "ProgramID", "Name");
-                   return View(plan);
+                    try
+                    {
+                        plan.Status = (int) PlanStatus.Draft;
+                        _planService.AddPlan(plan);
+                        return RedirectToAction("Index");
+                    }
+                    catch (Exception ex)
+                    {
+
+                        ModelState.AddModelError("Errors", "Plan with this name already Existed");
+                        ViewBag.ProgramID = new SelectList(_planService.GetPrograms(), "ProgramID", "Name");
+                        return View(plan);
+                    }
                 }
-                
+
             }
             ViewBag.ProgramID = new SelectList(_planService.GetPrograms(), "ProgramID", "Name");
             return View(plan);

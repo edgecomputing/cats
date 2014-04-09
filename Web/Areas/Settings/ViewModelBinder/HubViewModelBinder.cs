@@ -9,7 +9,7 @@ namespace Cats.Areas.Settings.ViewModelBinder
 {
     public class HubViewModelBinder
     {
-        public static HubViewModel BindHubViewModel(Cats.Models.Hubs.Hub hub)
+        public static HubViewModel BindHubViewModel(Cats.Models.Hub hub)
         {
             return new HubViewModel()
             {
@@ -18,19 +18,19 @@ namespace Cats.Areas.Settings.ViewModelBinder
                 HubOwnerID = hub.HubOwnerID
             };
         }
-        public static List<HubViewModel> BindListHubViewModel(List<Cats.Models.Hubs.Hub> hubs)
+        public static List<HubViewModel> BindListHubViewModel(List<Cats.Models.Hub> hubs)
         {
             return hubs.Select(BindHubViewModel).ToList();
         }
 
-        public static List<Cats.Models.Hubs.Hub> BindListHub(List<HubViewModel> hubViewModels)
+        public static List<Cats.Models.Hub> BindListHub(List<HubViewModel> hubViewModels)
         {
             return hubViewModels.Select(BindHub).ToList();
         }
 
-        public static Cats.Models.Hubs.Hub BindHub(HubViewModel hubViewModel)
+        public static Cats.Models.Hub BindHub(HubViewModel hubViewModel)
         {
-            return new Cats.Models.Hubs.Hub()
+            return new Cats.Models.Hub()
             {
                 HubID = hubViewModel.HubID,
                 Name = hubViewModel.HubName,

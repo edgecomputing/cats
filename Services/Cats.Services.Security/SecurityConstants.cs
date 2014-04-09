@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 namespace Cats.Security
 {
     #region EarlyWarning Security Constants
@@ -701,7 +700,6 @@ namespace Cats.Security
 
     }
     #endregion
-
     #region PSNP Security Constants
     public class PsnpConstants
     {
@@ -934,7 +932,6 @@ namespace Cats.Security
         #endregion
     }
     #endregion
-
     #region Logistics Security Constants
     public class LogisticsConstants
     {
@@ -1456,7 +1453,6 @@ namespace Cats.Security
     
     }
     #endregion
-
     #region Procurement Security Constants
     public class ProcurementConstants
     {
@@ -2074,7 +2070,6 @@ namespace Cats.Security
     
     }
     #endregion
-
     #region Hub Security Constants
     public class HubConstants
     {
@@ -2771,7 +2766,6 @@ namespace Cats.Security
     
     }
     #endregion
-
     #region Region Security Constants
     public class RegionalConstants
     {
@@ -3036,6 +3030,4 @@ namespace Cats.Security
     
     }
     #endregion
-
 }
-

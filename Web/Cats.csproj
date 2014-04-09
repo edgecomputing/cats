@@ -606,7 +606,10 @@
     <Compile Include="Areas\Settings\Controllers\ContactPersonController.cs" />
     <Compile Include="Areas\Settings\Controllers\AdminUnitController.cs" />
     <Compile Include="Areas\Settings\Controllers\DonorController.cs" />
-    <Compile Include="Areas\Settings\Controllers\FDPController.cs" />
+    <Compile Include="Areas\Settings\Controllers\FDPController.cs">
+      <SubType>
+      </SubType>
+    </Compile>
     <Compile Include="Areas\Settings\Controllers\HomeController.cs" />
     <Compile Include="Areas\Settings\Controllers\HubOwnerController.cs" />
     <Compile Include="Areas\Settings\Controllers\HubsController.cs" />
@@ -615,6 +618,7 @@
     <Compile Include="Areas\Settings\Controllers\ProgramController.cs" />
     <Compile Include="Areas\Settings\Controllers\StoreController.cs" />
     <Compile Include="Areas\Settings\Controllers\UnitController.cs" />
+    <Compile Include="Areas\Settings\Controllers\UserPreferenceController.cs" />
     <Compile Include="Areas\Settings\Controllers\UsersController.cs" />
     <Compile Include="Areas\Settings\Models\CaseTeam.cs" />
     <Compile Include="Areas\Settings\Models\ChangePasswordModel.cs" />
@@ -640,14 +644,38 @@
     <Compile Include="Areas\Settings\Models\ViewModels\StoreViewModel.cs" />
     <Compile Include="Areas\Settings\Models\ViewModels\UnitViewModel.cs" />
     <Compile Include="Areas\Settings\SettingsAreaRegistration.cs" />
-    <Compile Include="Areas\Settings\ViewModelBinder\AdminUnitViewModelBinder.cs" />
-    <Compile Include="Areas\Settings\ViewModelBinder\AuditLogViewModelBinder.cs" />
-    <Compile Include="Areas\Settings\ViewModelBinder\CommodityGradeViewModelBinder.cs" />
-    <Compile Include="Areas\Settings\ViewModelBinder\CommoditySourceViewModelBinder.cs" />
-    <Compile Include="Areas\Settings\ViewModelBinder\CommodityTypeViewModelBinder.cs" />
-    <Compile Include="Areas\Settings\ViewModelBinder\CommodityViewModelBinder.cs" />
-    <Compile Include="Areas\Settings\ViewModelBinder\FDPViewModelBinder.cs" />
-    <Compile Include="Areas\Settings\ViewModelBinder\HubViewModelBinder.cs" />
+    <Compile Include="Areas\Settings\ViewModelBinder\AdminUnitViewModelBinder.cs">
+      <SubType>
+      </SubType>
+    </Compile>
+    <Compile Include="Areas\Settings\ViewModelBinder\AuditLogViewModelBinder.cs">
+      <SubType>
+      </SubType>
+    </Compile>
+    <Compile Include="Areas\Settings\ViewModelBinder\CommodityGradeViewModelBinder.cs">
+      <SubType>
+      </SubType>
+    </Compile>
+    <Compile Include="Areas\Settings\ViewModelBinder\CommoditySourceViewModelBinder.cs">
+      <SubType>
+      </SubType>
+    </Compile>
+    <Compile Include="Areas\Settings\ViewModelBinder\CommodityTypeViewModelBinder.cs">
+      <SubType>
+      </SubType>
+    </Compile>
+    <Compile Include="Areas\Settings\ViewModelBinder\CommodityViewModelBinder.cs">
+      <SubType>
+      </SubType>
+    </Compile>
+    <Compile Include="Areas\Settings\ViewModelBinder\FDPViewModelBinder.cs">
+      <SubType>
+      </SubType>
+    </Compile>
+    <Compile Include="Areas\Settings\ViewModelBinder\HubViewModelBinder.cs">
+      <SubType>
+      </SubType>
+    </Compile>
     <Compile Include="Areas\Transaction\Controllers\TransactionTestController.cs" />
     <Compile Include="Areas\Transaction\TransactionAreaRegistration.cs" />
     <Compile Include="Areas\WorkflowManager\Controllers\BusinessProcessController.cs" />
@@ -1811,15 +1839,21 @@
     <Content Include="Areas\Settings\Views\Program\Index.cshtml" />
     <Content Include="Areas\Settings\Views\Unit\Index.cshtml" />
     <Content Include="Areas\Settings\Views\Donor\Index.cshtml" />
-    <Content Include="Areas\Settings\Views\FDP\FDP_update.cshtml" />
-    <Content Include="Areas\Settings\Views\FDP\Index.cshtml" />
-    <Content Include="Areas\Settings\Views\FDP\map.cshtml" />
     <Content Include="Areas\Settings\Views\ContactPerson\Create_contact.cshtml" />
     <Content Include="Areas\Settings\Views\ContactPerson\Index.cshtml" />
     <Content Include="Areas\Settings\Views\Shared\_MainLayoutMap.cshtml" />
     <Content Include="Areas\Settings\Views\ProcessTemplate\Detail.cshtml" />
     <Content Include="Areas\Settings\Views\ProcessTemplate\Index.cshtml" />
+
     <Content Include="Areas\Settings\Views\Users\EditUser.cshtml" />
+
+    <Content Include="Areas\Hub\Views\ReceiptAllocation\Copy of Close.cshtml" />
+    <Content Include="Areas\Hub\Views\ReceiptAllocation\Edit.cshtml" />
+    <Content Include="Areas\Logistics\Views\WoredaStockDistribution\_LeftBar.cshtml" />
+    <Content Include="Areas\Settings\Views\FDP\FDP_update.cshtml" />
+    <Content Include="Areas\Settings\Views\FDP\Index.cshtml" />
+    <Content Include="Areas\Settings\Views\FDP\map.cshtml" />
+
     <None Include="dataset.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>dataset.Designer.cs</LastGenOutput>
@@ -2072,7 +2106,7 @@
     <Content Include="Areas\Hub\Views\ReceiptAllocation\Close.cshtml" />
     <Content Include="Areas\Hub\Views\ReceiptAllocation\Create.cshtml" />
     <Content Include="Areas\Hub\Views\ReceiptAllocation\Delete.cshtml" />
-    <Content Include="Areas\Hub\Views\ReceiptAllocation\Edit.cshtml" />
+    <Content Include="Areas\Hub\Views\ReceiptAllocation\Edit2.cshtml" />
     <Content Include="Areas\Hub\Views\ReceiptAllocation\EditPartial.cshtml" />
     <Content Include="Areas\Hub\Views\ReceiptAllocation\FromHubs.cshtml" />
     <Content Include="Areas\Hub\Views\ReceiptAllocation\Index.cshtml" />

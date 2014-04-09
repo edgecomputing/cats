@@ -124,25 +124,34 @@ namespace Cats.Areas.EarlyWarning.Controllers
              if (ModelState.IsValid)
              {
                  //_planService.AddNeedAssessmentPlan(needAssessment);
-                 try
+                 if (startDate >= endDate)
                  {
-                     _planService.AddPlan(planName, startDate, endDate);
-                     var plan = _planService.Get(p => p.PlanName == planName).Single();
-                     var userID = _needAssessmentHeaderService.GetUserProfileId(HttpContext.User.Identity.Name);
-                     _needAssessmentService.AddNeedAssessment(plan.PlanID, regionID, season, userID, typeOfNeedID);
-                     return RedirectToAction("Index");
+                     ModelState.AddModelError("Errors", @"Start Date Can't be greater than OR Equal to  End Date!");
                  }
-
-                 catch (Exception exception)
+                 else
                  {
-                     var log = new Logger();
-                     log.LogAllErrorsMesseges(exception, _log);
-                     ViewBag.Regions = new SelectList(_adminUnitService.FindBy(t => t.AdminUnitTypeID == 2), "AdminUnitID", "Name");
-                     ViewBag.Season = new SelectList(_seasonService.GetAllSeason(), "SeasonID", "Name");
-                     ViewBag.TypeOfNeed = new SelectList(_typeOfNeedAssessmentService.GetAllTypeOfNeedAssessment(), "TypeOfNeedAssessmentID", "TypeOfNeedAssessment1");
-                     ViewBag.Error = "Need Assessment Already Exists Please Change Plan Name or Region Name";
-                     ModelState.AddModelError("Errors", ViewBag.Error);
-                     return View();
+                     try
+                     {
+                         _planService.AddPlan(planName, startDate, endDate);
+                         var plan = _planService.Get(p => p.PlanName == planName).Single();
+                         var userID = _needAssessmentHeaderService.GetUserProfileId(HttpContext.User.Identity.Name);
+                         _needAssessmentService.AddNeedAssessment(plan.PlanID, regionID, season, userID, typeOfNeedID);
+                         return RedirectToAction("Index");
+                     }
+
+                     catch (Exception exception)
+                     {
+                         var log = new Logger();
+                         log.LogAllErrorsMesseges(exception, _log);
+                         ViewBag.Regions = new SelectList(_adminUnitService.FindBy(t => t.AdminUnitTypeID == 2),
+                                                          "AdminUnitID", "Name");
+                         ViewBag.Season = new SelectList(_seasonService.GetAllSeason(), "SeasonID", "Name");
+                         ViewBag.TypeOfNeed = new SelectList(_typeOfNeedAssessmentService.GetAllTypeOfNeedAssessment(),
+                                                             "TypeOfNeedAssessmentID", "TypeOfNeedAssessment1");
+                         ViewBag.Error = "Need Assessment Already Exists Please Change Plan Name or Region Name";
+                         ModelState.AddModelError("Errors", ViewBag.Error);
+                         return View();
+                     }
                  }
                  //return RedirectToAction("Edit", new { id = regionID, typeOfNeed = typeOfNeedID });
              }
