@@ -643,8 +643,9 @@ namespace Cats.Services.Hub
 
         public void SaveDispatchTransaction(DispatchViewModel dispatchViewModel)
         {
+            
            
-
+            
             var dispatch = new Dispatch();
             dispatch.BidNumber = dispatchViewModel.BidNumber;
             dispatch.CreatedDate = dispatchViewModel.CreatedDate;
@@ -663,6 +664,7 @@ namespace Cats.Services.Hub
             dispatch.Remark = dispatchViewModel.Remark;
             dispatch.RequisitionNo = dispatchViewModel.RequisitionNo;
             dispatch.Round = dispatchViewModel.Round;
+            
             dispatch.TransporterID = dispatchViewModel.TransporterID;
             //dispatch.Type = dispatchViewModel.Type;
             dispatch.UserProfileID = dispatchViewModel.UserProfileID;
@@ -700,6 +702,8 @@ namespace Cats.Services.Hub
                     transaction2.QuantityInUnit = +dispatchViewModel.QuantityInUnit;
                     transaction2.ShippingInstructionID = dispatchViewModel.ShippingInstructionID;
                     transaction2.ProjectCodeID = dispatchViewModel.ProjectCodeID;
+                    transaction2.Round = dispatchViewModel.Round;
+                    transaction2.PlanId = dispatchViewModel.PlanId;
                     //transaction2.Stack = dispatchModel.StackNumber;
                     //transaction2.StoreID = dispatchModel.StoreID;
                     transaction2.TransactionDate = DateTime.Now;
@@ -722,6 +726,8 @@ namespace Cats.Services.Hub
                     transaction.QuantityInUnit = -dispatchViewModel.QuantityInUnit;
                     transaction.ShippingInstructionID = dispatchViewModel.ShippingInstructionID;
                     transaction.ProjectCodeID = dispatchViewModel.ProjectCodeID;
+                    transaction.Round = dispatchViewModel.Round;
+                    transaction.PlanId = dispatchViewModel.PlanId;
                     //transaction.Stack = dispatch.StackNumber;
                     //transaction.StoreID = dispatch.StoreID;
                     transaction.TransactionDate = DateTime.Now;

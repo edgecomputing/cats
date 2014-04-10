@@ -253,6 +253,7 @@ namespace Cats.Services.Hub
             dispatch.PlateNo_Trailer = string.Empty;
             dispatch.Remark = string.Empty;
             dispatch.RequisitionNo = dispatchAllocation.RequisitionNo;
+            dispatch.RequisitionId = dispatchAllocation.RequisitionId;
             dispatch.ProgramID = dispatchAllocation.ProgramID.HasValue?dispatchAllocation.ProgramID.Value:0;
             if (dispatchAllocation.Round.HasValue)
                 dispatch.Round = dispatchAllocation.Round.Value;

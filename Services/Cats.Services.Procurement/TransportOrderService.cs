@@ -458,9 +458,11 @@ namespace Cats.Services.Procurement
                // dispatchAllocation.IsClosed = false;
                 dispatchAllocation.Month = requisition.Month;
                 dispatchAllocation.Round = requisition.Round;
+                
                 dispatchAllocation.TransportOrderID = transportOrderId;
                 dispatchAllocation.ProgramID = requisition.ProgramID;
                 dispatchAllocation.RequisitionNo = requisition.RequisitionNo;
+                dispatchAllocation.RequisitionId = requisition.RequisitionID;
                 dispatchAllocation.PartitionID = 0;
                 var sipc =
                     _unitOfWork.SIPCAllocationRepository.FindBy(
