@@ -11,6 +11,7 @@ namespace Cats.Models
         public int WoredaStockDistributionDetailID { get; set; }
         public int WoredaStockDistributionID { get; set; }
         public int FdpId { get; set; }
+        public int CommodityID { get; set; }
         public decimal DistributedAmount { get; set; }
         public decimal StartingBalance { get; set; }
         public decimal EndingBalance { get; set; }

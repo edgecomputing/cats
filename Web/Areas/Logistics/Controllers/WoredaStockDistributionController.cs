@@ -88,6 +88,7 @@ namespace Cats.Areas.Logistics.Controllers
             }
             //ModelState.AddModelError("Errora",@"Request is Not Created for this plan");
             LookUps();
+            ViewBag.WoredaName =_commonService.GetAminUnits(m => m.AdminUnitID == woredaStockDistribution.WoredaID).FirstOrDefault().Name;
             var distributionDetail = _commonService.GetFDPs(Woreda);
             //var listOfFdps = GetWoredaStockDistribution(distributionDetail);
             //woredaStockDistributionViewModel.WoredaDistributionDetailViewModels = listOfFdps;
@@ -157,6 +158,7 @@ namespace Cats.Areas.Logistics.Controllers
                     FemaleBetween5And18Years = woredaStockDistribution.FemaleBetween5And18Years,
                     WoredaDistributionDetailViewModels = (from woredaDistributionDetail in woredaStockDistribution.WoredaStockDistributionDetails
                                                           from reliefRequisition in requisition
+                                                          where woredaDistributionDetail.CommodityID==reliefRequisition.CommodityID
                                                           select new WoredaDistributionDetailViewModel()
                                                               {
                                                                   WoredaStockDistributionDetailID = woredaDistributionDetail.WoredaStockDistributionDetailID,
@@ -173,6 +175,11 @@ namespace Cats.Areas.Logistics.Controllers
                                                                   BeginingBalance = woredaDistributionDetail.StartingBalance,
                                                                   EndingBalance = woredaDistributionDetail.EndingBalance,
                                                                   DistributedAmount = woredaDistributionDetail.DistributedAmount,
+                                                                  TotalIn = woredaDistributionDetail.TotalIn,
+                                                                  TotalOut = woredaDistributionDetail.TotoalOut,
+                                                                  LossAmount = woredaDistributionDetail.LossAmount,
+                                                                  LossReason = woredaDistributionDetail.LossReason,
+                                                                  
 
 
                                                               }
@@ -264,6 +271,7 @@ namespace Cats.Areas.Logistics.Controllers
                                 {
                                     WoredaStockDistributionID = distributionHeader.WoredaStockDistributionID,
                                     FdpId = woredaDistributionDetailViewModel.FdpId,
+                                    CommodityID = woredaDistributionDetailViewModel.CommodityID,
                                     StartingBalance = woredaDistributionDetailViewModel.BeginingBalance,
                                     EndingBalance = woredaDistributionDetailViewModel.EndingBalance,
                                     TotalIn = woredaDistributionDetailViewModel.TotalIn,
@@ -271,6 +279,7 @@ namespace Cats.Areas.Logistics.Controllers
                                     LossAmount = woredaDistributionDetailViewModel.LossAmount,
                                     LossReason = woredaDistributionDetailViewModel.LossReason,
                                     DistributedAmount = woredaDistributionDetailViewModel.DistributedAmount
+
 
 
                                 };
@@ -316,6 +325,7 @@ namespace Cats.Areas.Logistics.Controllers
                             var woredaDistributionDetail =_utilizationDetailSerivce.FindById(woredaDistributionDetailViewModel.WoredaStockDistributionDetailID);
                             if (woredaDistributionDetail!=null)
                             {
+                                woredaDistributionDetail.CommodityID = woredaDistributionDetailViewModel.CommodityID;
                                 woredaDistributionDetail.StartingBalance =woredaDistributionDetailViewModel.BeginingBalance;
                                 woredaDistributionDetail.EndingBalance = woredaDistributionDetailViewModel.EndingBalance;
                                 woredaDistributionDetail.TotalIn = woredaDistributionDetailViewModel.TotalIn;

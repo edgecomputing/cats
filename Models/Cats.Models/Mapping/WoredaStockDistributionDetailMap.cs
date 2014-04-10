@@ -21,6 +21,7 @@ namespace Cats.Models.Mapping
             this.Property(t => t.WoredaStockDistributionDetailID).HasColumnName("WoredaStockDistributionDetailID");
             this.Property(t => t.WoredaStockDistributionID).HasColumnName("WoredaStockDistributionID");
             this.Property(t => t.FdpId).HasColumnName("FDPID");
+            this.Property(t => t.CommodityID).HasColumnName("CommodityID");
             this.Property(t => t.DistributedAmount).HasColumnName("DistributedAmount");
 
             this.Property(t => t.StartingBalance).HasColumnName("StartingBalance");
