@@ -7,19 +7,19 @@ using System.Web;
 
 namespace Cats.Models.Exceptions
 {
-    public class unabletoResetPasswordException : Exception, ISerializable
+    public class UnabletoResetPasswordException : Exception, ISerializable
     {
         private const int exceptionCode = 1;
         private string exceptionDetail = "Uable to reset user password for ";
         private  string exceptionTip = "";
 
-        public unabletoResetPasswordException() { }
-        public unabletoResetPasswordException(string message) { }
-        public unabletoResetPasswordException(Exception innerExeption) { }
-        public unabletoResetPasswordException(string message, Exception innerException) { }
+        public UnabletoResetPasswordException() { }
+        public UnabletoResetPasswordException(string message) { }
+        public UnabletoResetPasswordException(Exception innerExeption) { }
+        public UnabletoResetPasswordException(string message, Exception innerException) { }
         
         // user name as an argumnet 
-        public unabletoResetPasswordException(params object[] args) {
+        public UnabletoResetPasswordException(params object[] args) {
             exceptionDetail += exceptionDetail + args[0].ToString();
         }
         

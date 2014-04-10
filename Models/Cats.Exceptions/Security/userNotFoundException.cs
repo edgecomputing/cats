@@ -7,16 +7,16 @@ using System.Web;
 
 namespace Cats.Models.Exceptions
 {
-    public class userNotFoundException : Exception, ISerializable
+    public class UserNotFoundException : Exception, ISerializable
     {
         private const int exceptionCode = 2;
         private const string exceptionDetail = "User with the given credential is not found on our system";
         private const string exceptionTip = "Please make sure you have typed both your username and password correctly";
 
-        public userNotFoundException() { }
-        public userNotFoundException(string message)  {   }
-        public userNotFoundException(Exception innerException){   } 
-        public userNotFoundException(string message, Exception innerException) { }
+        public UserNotFoundException() { }
+        public UserNotFoundException(string message)  {   }
+        public UserNotFoundException(Exception innerException){   } 
+        public UserNotFoundException(string message, Exception innerException) { }
 
         public string detail { get { return exceptionDetail; } }
         public string tip { get { return exceptionTip; } }
