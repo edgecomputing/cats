@@ -6,9 +6,14 @@
 
     <div id="locContent" class="widget-content">
         <div class="">
-            <a href="@Url.Action("", "", new { Area = "Settings" })" class="shortcut">
+            <a href="@Url.Action("ManageZones", "AdminUnit", new { Area = "Settings" })" class="shortcut">
                 <i class="shortcut-icon icon-list-alt"></i>
-                <span class="shortcut-label">Administrative Units</span>
+                <span class="shortcut-label">Zones</span>
+            </a>
+            <br/>
+            <a href="@Url.Action("Index", "AdminUnit", new { Area = "Settings" })" class="shortcut">
+                <i class="shortcut-icon icon-list-alt"></i>
+                <span class="shortcut-label">Woredas</span>
             </a>
             <br/>
             <a href="@Url.Action("Index", "FDP", new { Area = "Settings" })" class="shortcut"><i class="shortcut-icon icon-signal"></i>

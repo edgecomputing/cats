@@ -13,7 +13,7 @@
 
 @section Toolbar
 {
-    <a class="btn toolbar-btn " href="@Url.Action("map", "FDP")">View on Map</a>
+    
 }
 
 <div id='dialogDiv' class='modal hide fade in'>
@@ -21,7 +21,7 @@
 </div>
 
 <div id="modalWindow">
-    <h4>Are You Sure You Want to Delete this FDP?</h4>
+    <h4>Are You Sure You Want to Delete this Admin Unit?</h4>
     <button id="yes" class="k-button">Yes</button>
     <button id="no" class="k-button">No</button>
 </div>
@@ -40,20 +40,18 @@
 </script>
 
 @{
-    ViewBag.Title = Html.Translate("Final Destination Points");
+    ViewBag.Title = Html.Translate("Manage Admin Units");
 }
 
-
-
 <div>
-    <h4>@Html.Translate("Manage Final Distribution Points")</h4>
-    Select a Woreda from the tree to manage FDPs registered under it.
+    <h4>@Html.Translate("Manage Admin Units")</h4>
+    Select the parent admin unit to manage units under the same adminunit.
 </div>
 
 
 <div class="container">
-    <div id="map_area"></div>
-    <div id="div_tree_view" class="span3 well">
+   @* <div id="map_area"></div>*@
+       <div id="div_tree_view" class="span3 well">
 
         @(Html.Kendo().TreeView()
               .Name("AdminUnitTreeView")
@@ -62,56 +60,54 @@
 
                                     .Select("onSelect")
               )
-              .Items(treeview =>
-                  {
+              .Items(treeview => treeview.Add().Text("Regions").Enabled(false)
+                                     .SpriteCssClasses("folder")
+                                     .Expanded(true)
+                                     .Items(root =>
+                                         {
+                                             foreach (var region in ViewBag.RegionCollection)
+                                             {
+                                                 root.Add().Text((string) region.Name)
+                                                     .Id(region.AdminUnitID + "")
+                                                     .SpriteCssClasses("glyphicon glyphicon-star");
+                                                 //.Expanded(true)
+                                                 //.Items(zones =>
+                                                 //    {
+                                                 //        //foreach (var zone in region.AdminUnit1)
+                                                 //        //{
+                                                 //        //    zones.Add().Text((string) zone.Name)
+                                                 //        //        .Id(zone.AdminUnitID + "")
+                                                 //        //        .SpriteCssClasses("image");
+                                                 //        //    //.Items(woredas =>
+                                                 //        //    //    {
+                                                 //        //    //        foreach (var woreda in zone.AdminUnit1)
+                                                 //        //    //        {
+                                                 //        //    //            woredas.Add().Text((string)woreda.Name)
+                                                 //        //    //                .Id(woreda.AdminUnitID + "")
+                                                 //        //    //                .SpriteCssClasses("pdf");
+                                                 //        //    //        }
+                                                 //        //    //    });
+                                                 //        //}
 
-                      treeview.Add().Text("Regions").Enabled(false)
-                          .SpriteCssClasses("folder")
-                          .Expanded(true)
-                          .Items(root =>
-                              {
-                                  foreach (var region in ViewBag.RegionCollection)
-                                  {
-                                      root.Add().Text((string)region.Name)
-                                          .SpriteCssClasses("glyphicon glyphicon-star")
-                                          //.Expanded(true)
-                                          .Items(zones =>
-                                              {
-                                                  foreach (var zone in region.AdminUnit1)
-                                                  {
-                                                      zones.Add().Text((string)zone.Name)
-                                                          .SpriteCssClasses("image")
-                                                          .Items(woredas =>
-                                                              {
-                                                                  foreach (var woreda in zone.AdminUnit1)
-                                                                  {
-                                                                      woredas.Add().Text((string)woreda.Name)
-                                                                          .Id(woreda.AdminUnitID + "")
-                                                                          .SpriteCssClasses("pdf");
-                                                                  }
-                                                              });
-                                                  }
-
-                                              });
-                                  }
-                              });
-                  })
+                                                 //    });
+                                             }
+                                         }))
               )
     </div>
 
     <div class="span7">
-        @(Html.Kendo().Grid<FDPViewModel>()
+        @(Html.Kendo().Grid<AdminUnitViewModel>()
               .Name("grid")
               .Columns(columns =>
                   {
-                      columns.Bound(c => c.Name);
-                      columns.Bound(c => c.FDPID).Visible(false);
+                      columns.Bound(c => c.AdminUnitName);
+                      columns.Bound(c => c.AdminUnitID).Visible(false);
                       columns.Command(command =>
-                          {
-                              command.Custom("Delete").Click("OnDelete");
-                              command.Custom("Add Contact").Click("AddContact");
-                              command.Custom("Details").Click("Details");
-                          }).Width(300);
+
+                          command.Custom("Delete").Click("OnDelete")
+                          //command.Custom("Add Contact").Click("AddContact");
+                          //command.Custom("Details").Click("Details");
+                          ).Width(300);
                       //columns.Command(command => command.Custom("Add Contact").Click("Add contact")).Width(100);
 
                   }).ToolBar(toolbar =>
@@ -120,6 +116,7 @@
                           toolbar.Create();
                           //toolbar.Custom().Text("Add FDP").HtmlAttributes(new { id = "addFDP" });
                       })
+                      
               .Editable(edit => edit.Mode(GridEditMode.InCell))
               .Pageable()
               .Selectable(t => t.Mode(GridSelectionMode.Single))
@@ -128,15 +125,14 @@
                           datasource
                               .Ajax()
                               .PageSize(10)
-                              .Model(m => m.Id(t => t.FDPID))
-                              .Read(read => read.Action("FDP_Read", "FDP").Data("selectedWoredaId"))
-                              .Create(create => create.Action("FDP_Create", "FDP").Data("selectedWoredaId"))
-                              .Update("FDP_Save", "FDP")
-                              .Destroy(update => update.Action("FDP_Destroy", "FDP"))
+                              .Model(m => m.Id(t => t.AdminUnitID))
+                              .Read(read => read.Action("AdminUnit_Read", "AdminUnit").Data("selectedUnitId"))
+                              .Create(create => create.Action("AdminUnit_Create", "AdminUnit").Data("selectedUnitIdnType"))
+                              .Update("AdminUnit_Update", "AdminUnit")
+                              .Destroy(update => update.Action("AdminUnit_Destroy", "AdminUnit"))
                 //.Destroy("FDP_Destroy","FDP")
               )
               )
-
     </div>
 </div>
 
@@ -192,14 +188,14 @@
 
     function OnDelete(e) {
         e.preventDefault();
-        var grid = this;
+        //var grid = this;
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
-        var row = $(e.currentTarget).closest("tr");
+        //var row = $(e.currentTarget).closest("tr");
         wnd.center().open();
 
         $("#yes").click(function () {
 
-            window.location = "@Url.Action("FDP_Destroy", "FDP")" + "/" + dataItem.FDPID;
+            window.location = "@Url.Action("AdminUnitZone_Destroy", "AdminUnit")" + "/" + dataItem.AdminUnitID;
             wnd.close();
         });
 
@@ -275,11 +271,23 @@
         //grid.dataSource.read();
     });
 
-    function selectedWoredaId() {
+    function selectedUnitIdnType() {
         //alert($("#AdminUnitTreeView").data("kendoTreeView").dataSource.id);
-        var obj = { adminUnitID: selectedWoreda };
+        var obj = {
+            paramParentID: selectedWoreda,
+            paramAdminUnitTypeID: 3
+        };
         return obj;
     }
+    
+    function selectedUnitId() {
+        //alert($("#AdminUnitTreeView").data("kendoTreeView").dataSource.id);
+        var obj = {
+            parentAdminUnitID: selectedWoreda,
+        };
+        return obj;
+    }
+    
 
     function CurrentSelectedTreeNode() {
         return {
@@ -289,7 +297,9 @@
 
     function onSelect(e) {
         var id = this.dataItem(e.node).id;
+        //var data = $('treeview').data('kendoTreeView').dataItem(e.node);
         selectedWoreda = id;
+        //alert(selectedWoreda);
         if (id != null) {
             var grid = $("#grid").data("kendoGrid");
             grid.dataSource.read();
