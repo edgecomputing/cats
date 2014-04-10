@@ -1,6 +1,5 @@
 ﻿body {
   color: #444;
-  font: 13px/1.7em "Open Sans", "trebuchet ms", arial, sans-serif;
   background: #666666 url(../img/layout/sidebar-bg.png) repeat-y 0 0;
 }
 h1,
@@ -11,7 +10,6 @@ h5,
 h6,
 p {
   margin-top: 0;
-  font-family: 'Open Sans', 'trebuchet ms', arial, sans-serif;
 }
 ul.icons-list {
   padding: 0;
@@ -975,7 +973,6 @@ label {
   background: url('chosen-sprite.png') no-repeat 100% -20px, -o-linear-gradient(#eeeeee 1%, #ffffff 15%);
   background: url('chosen-sprite.png') no-repeat 100% -20px, linear-gradient(#eeeeee 1%, #ffffff 15%);
   font-size: 1em;
-  font-family: sans-serif;
   line-height: normal;
   border-radius: 0;
 }
@@ -1081,7 +1078,6 @@ label {
   box-shadow: none;
   color: #666;
   font-size: 100%;
-  font-family: sans-serif;
   line-height: normal;
   border-radius: 0;
 }
@@ -2176,7 +2172,6 @@ html .fc,
 .fc-text-arrow {
   margin: 0;
   font-size: 1.5em;
-  font-family: Courier, monospace;
   vertical-align: baseline;
   /* for IE7 */
 
