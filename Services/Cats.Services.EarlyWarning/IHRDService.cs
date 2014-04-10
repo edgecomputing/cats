@@ -29,5 +29,6 @@ namespace Cats.Services.EarlyWarning
         void PublishHrd(int hrdId);
         bool AddHRDFromAssessment(HRD hrd);
         bool AddHRD(int year,int userID,int seasonID,int rationID,int planID);
+        int GetWoredaBeneficiaryNumber(int hrdID, int woredaID);
     }
 }

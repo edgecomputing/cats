@@ -155,5 +155,14 @@ namespace Cats.Services.EarlyWarning
             return true;
 
         }
+       public int GetWoredaBeneficiaryNumber(int hrdID, int woredaID)
+       {
+           var hrdDetail=_unitOfWork.HRDDetailRepository.FindBy(m => m.HRDID == hrdID && m.WoredaID == woredaID).FirstOrDefault();
+           if(hrdDetail!=null)
+           {
+               return hrdDetail.NumberOfBeneficiaries;
+           }
+           return 0;
+       }
     }
 }

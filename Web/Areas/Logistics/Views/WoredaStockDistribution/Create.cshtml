@@ -7,7 +7,7 @@
     Layout = "~/Views/Shared/_MainLayout.cshtml";  
 }
 
-<h4>Woreda Distribution Information</h4>
+<h4>Woreda Distribution Information </h4>
 @section leftBar
 {
     @Html.Partial("_LeftBar")
@@ -17,10 +17,7 @@
     <a class="btn toolbar-btn " data-buttontype="btn_save" data-submittedform="frm_create_utilization" title="Save"></a>
     <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="@Url.Action("Index", "WoredaStockDistribution")" title="Cancel"></a>
 }
-@*@Html.HiddenFor(m => m.WoredaStockDistributionID)*@
 
-@*@using (Html.BeginForm("Create", "WoredaStockDistribution", FormMethod.Post, new { id = "frm_create_utilization" }))
-{*@
  @using (Html.BeginForm("Create", "WoredaStockDistribution", FormMethod.Post, FormMethod.Post, new { id = "frm_create_utilization" }))
 {
 @Html.HiddenFor(m => m.WoredaID)
@@ -41,7 +38,7 @@
                                 @Html.LabelFor(m => m.SupportTypeID, Translator.Translate("Support Type"))
                             </div>
                             <div class="controls">
-                                @Html.DropDownList("SupportTypeID", String.Empty)
+                                @Html.DropDownList("SupportTypeID")
                                 @Html.ValidationMessageFor(m => m.SupportTypeID)
                             </div>
                         </div>
@@ -131,14 +128,11 @@
                       .Columns(columns =>
                       {
 
-                          
-                      
-
-                        // columns.Bound(p => p.CommodityID).ClientTemplate("#= CommodityID #" +
-                        // "<input type='hidden' name='WoredaDistributionDetailViewModels[#= index(data)#].CommodityID' value='#= CommodityID #' />");
+                          columns.Bound(p => p.WoredaStockDistributionDetailID).Hidden().ClientTemplate("#= WoredaStockDistributionDetailID #" +
+                          "<input type='hidden' name='WoredaDistributionDetailViewModels[#= index(data)#].WoredaStockDistributionDetailID' value='#= WoredaStockDistributionDetailID #' />");
                           columns.Bound(p => p.FdpId).Hidden().ClientTemplate("#= FdpId #" +
                            "<input type='hidden' name='WoredaDistributionDetailViewModels[#= index(data)#].FdpId' value='#= FdpId #' />");
-                          columns.Bound(p => p.FDP).Width(80).Title(Translator.Translate("FDP")).HtmlAttributes(new { style = "background-color:lightgray" });
+                          columns.Bound(p => p.FDP).Width(100).Title(Translator.Translate("FDP")).HtmlAttributes(new { style = "background-color:lightgray" });
                           columns.Bound(p => p.CommodityName).Width(100).Title(Translator.Translate("Commodity")).HtmlAttributes(new { style = "background-color:lightgray" });
                           columns.Bound(p => p.Round).Width(60).HtmlAttributes(new { style = "background-color:lightgray" });
                           columns.Bound(p => p.Month).Width(80).HtmlAttributes(new { style = "background-color:lightgray" });
