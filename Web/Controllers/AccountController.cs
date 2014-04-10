@@ -66,6 +66,7 @@ namespace Cats.Controllers
                     var service = (IUserAccountService)DependencyResolver.Current.GetService(typeof(IUserAccountService));
                     var userInfo = service.GetUserInfo(model.UserName);
                     Session["USER_INFO"] = userInfo;
+                    Session["USER_PROFILE"] = service.GetUserDetail(model.UserName);
 
                     // Before trying to go and look for user permissions, check if the user is logged in or not
                     
