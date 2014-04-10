@@ -397,7 +397,7 @@ namespace Cats.Services.Transaction
 
                         TransactionID = Guid.NewGuid(),
                         ProgramID = woredaStcokDistribution.ProgramID,
-                        QuantityInMT = woredaStockDistributionDetail.DistributedAmount,
+                        QuantityInMT = -woredaStockDistributionDetail.DistributedAmount,
                         TransactionGroupID = transactionGroup,
                         TransactionDate = transactionDate,
                         FDPID = woredaStockDistributionDetail.FdpId,
