@@ -30,6 +30,7 @@ namespace Cats.Areas.EarlyWarning.Models
         public string Woreda { get; set; }
         public string Zone { get; set; }
         public string Region { get; set; }
+        public int BebeficiaryNumber { get; set; }
     }
     public class AddWoredaViewModel
     {

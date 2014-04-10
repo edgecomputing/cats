@@ -16,12 +16,13 @@ namespace Cats.Areas.Settings.Controllers
     public class AdminUnitController : Controller
     {
         private readonly IAdminUnitService _adminUnitService;
-        private readonly IFDPService _fdpService;
+        // private readonly IFDPService _fdpService;
 
         public AdminUnitController(IAdminUnitService adminUnitService)
         {
             _adminUnitService = adminUnitService;
         }
+        
         //
         // GET: /FDP/
 
@@ -33,15 +34,9 @@ namespace Cats.Areas.Settings.Controllers
             return View();
         }
 
-        public ActionResult map()
-        {
-            return View();
-        }
-
-        public JsonResult AdminUnit_Read([DataSourceRequest]DataSourceRequest request, int parentAdminUnitID=1)
+        public JsonResult AdminUnit_Read([DataSourceRequest]DataSourceRequest request, int parentAdminUnitID)
         {
             List<AdminUnit> admins = _adminUnitService.FindBy(t => t != null && (t.ParentID == parentAdminUnitID));
-
             var adminUnitViewModel = AdminUnitViewModelBinder.BindListAdminUnitViewModel(admins);
             return Json(adminUnitViewModel.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
@@ -95,8 +90,41 @@ namespace Cats.Areas.Settings.Controllers
             return Json(new[] { adminUnitViewModel }.ToDataSourceResult(request, ModelState));
         }
 
+        public ActionResult AdminUnitWoreda_Destroy(int id)
+        {
+            var hub = _adminUnitService.FindById(id);
+            try
+            {
+                _adminUnitService.DeleteById(id);
+                return RedirectToAction("Index");
+            }
+            catch (Exception e)
+            {
+                ModelState.AddModelError("Errors", "Unable to delete Admin Unit");
+            }
+            return RedirectToAction("Index");
+        }
 
+        public ActionResult AdminUnitZone_Destroy(int id)
+        {
+            var hub = _adminUnitService.FindById(id);
+            try
+            {
+                _adminUnitService.DeleteById(id);
+                return RedirectToAction( "ManageZones" );
+            }
+            catch (Exception e)
+            {
+                ModelState.AddModelError("Errors", "Unable to delete Admin Unit");
+            }
+            return RedirectToAction("ManageZones");
+        }
 
+        public ActionResult ManageZones()
+        {
+            ViewBag.RegionCollection = _adminUnitService.GetAllRegions();
+            return View();
+        }
 
         public ActionResult AdminUnit_Destroy(AdminUnitViewModel adminUnitViewModel)
         {
