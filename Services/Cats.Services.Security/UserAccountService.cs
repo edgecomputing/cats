@@ -148,7 +148,7 @@ namespace Cats.Services.Security
 
         public bool Authenticate(string userName, string password)
         {
-            UserInfo user = GetUserInfo(userName);
+            UserInfo user;
 
             // Check if the provided user is found in the database. If not tell the user that the user account provided
             // does not exist in the database.
