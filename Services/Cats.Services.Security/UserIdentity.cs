@@ -51,6 +51,11 @@ namespace Cats.Services.Security
 
         #region Constructor(s)
 
+        public UserIdentity(string userName)
+        {
+            this.userName = userName;
+        }
+
         public UserIdentity(UserProfile user)
         {
             this.userName = user.UserName;
