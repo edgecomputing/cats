@@ -123,11 +123,17 @@
 
         var month_yr_changed = function (date_picker) {
             
+            //---------------------
+          
+            var selected_date = new EthDate();
+            
+            //---------------------
             var m = date_picker.ui.month.val() / 1 + 1;
            // alert(m);
             var yr = date_picker.ui.year.val();
             var selected_month = new EthDate(yr, m, 1);
             date_picker.selected_month = selected_month;
+         
             _ethdatepicker_show_month(date_picker, selected_month);
         };
 
@@ -228,10 +234,13 @@
     };
 
     var _ethdatepicker_show_month = function ($datepicker, selected_date, target, diaplayed_date) {
-        
+
+       
         if (!diaplayed_date) {
             diaplayed_date = new EthDate(selected_date.year, selected_date.month, 1);
         }
+
+        
         var eth_date = new EthDate(diaplayed_date.year, diaplayed_date.month, 1);
         var greg_date = eth_date.toGreg();
         var startdayofmonth = eth_date;
@@ -246,6 +255,7 @@
 
         var headHtm = '<thead><tr>';
         for (var i in day_name_amh_short) {
+           
             headHtm += '<th><span title="' + day_name_amh[i] + '">' + day_name_amh_short[i] + '</span></th>';
         }
         headHtm += '</tr></thead>';

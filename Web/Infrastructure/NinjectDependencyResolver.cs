@@ -62,6 +62,8 @@ using Cats.Localization;
 using Cats.Localization.Services;
 
 
+
+
 //using Cats.Services.Hub.Interfaces;
 //using Cats.Services.Hub;
 
@@ -156,8 +158,8 @@ namespace Cats.Infrastructure
             kernel.Bind<IRegionalPSNPPlanService>().To<RegionalPSNPPlanService>();
             kernel.Bind<IRegionalPSNPPlanDetailService>().To<RegionalPSNPPlanDetailService>();
 
-            //kernel.Bind<ILocalizedTextService>().To<LocalizedTextService>();
-            //kernel.Bind<ILanguageService>().To<LanguageService>();
+            kernel.Bind<ILocalizedTextService>().To<LocalizedTextService>();
+            kernel.Bind<LanguageHelpers.Localization.Services.ILanguageService>().To<LanguageHelpers.Localization.Services.LanguageService>();
             //kernel.Bind<LanguageHelpers.Localization.Data.IUnitOfWork>().To<LanguageHelpers.Localization.Data.UnitOfWork>();
 
             kernel.Bind<Cats.Localization.Data.UnitOfWork.IUnitOfWork>().To<Cats.Localization.Data.UnitOfWork.UnitOfWork>();
