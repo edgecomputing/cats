@@ -1844,12 +1844,16 @@
     <Content Include="Areas\Settings\Views\Shared\_MainLayoutMap.cshtml" />
     <Content Include="Areas\Settings\Views\ProcessTemplate\Detail.cshtml" />
     <Content Include="Areas\Settings\Views\ProcessTemplate\Index.cshtml" />
+
+    <Content Include="Areas\Settings\Views\Users\EditUser.cshtml" />
+
     <Content Include="Areas\Hub\Views\ReceiptAllocation\Copy of Close.cshtml" />
     <Content Include="Areas\Hub\Views\ReceiptAllocation\Edit.cshtml" />
     <Content Include="Areas\Logistics\Views\WoredaStockDistribution\_LeftBar.cshtml" />
     <Content Include="Areas\Settings\Views\FDP\FDP_update.cshtml" />
     <Content Include="Areas\Settings\Views\FDP\Index.cshtml" />
     <Content Include="Areas\Settings\Views\FDP\map.cshtml" />
+
     <None Include="dataset.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>dataset.Designer.cs</LastGenOutput>
@@ -2645,6 +2649,7 @@
     <Content Include="Views\Shared\_MainLayoutMap.cshtml" />
     <Content Include="Views\Shared\ReportListing.cshtml" />
     <Content Include="Views\Shared\_MainMenuOld.cshtml" />
+    <Content Include="Views\Account\ForgotPassword.cshtml" />
     <None Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
