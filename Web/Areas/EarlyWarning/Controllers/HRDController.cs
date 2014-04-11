@@ -11,6 +11,7 @@ using Cats.Models.ViewModels;
 using Cats.Models.ViewModels.HRD;
 using Cats.Services.EarlyWarning;
 using Cats.Services.Security;
+using Cats.Services.Transaction;
 using Cats.ViewModelBinder;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
@@ -36,13 +37,14 @@ namespace Cats.Areas.EarlyWarning.Controllers
         private IUserAccountService _userAccountService;
         private ILog _log;
         private IPlanService _planService;
+        private readonly Cats.Services.Transaction.ITransactionService _transactionService;
 
         public HRDController(IAdminUnitService adminUnitService, IHRDService hrdService,
                              IRationService rationservice, IRationDetailService rationDetailService,
                              IHRDDetailService hrdDetailService, ICommodityService commodityService,
                              INeedAssessmentDetailService needAssessmentDetailService, INeedAssessmentHeaderService needAssessmentService,
                              IWorkflowStatusService workflowStatusService, ISeasonService seasonService, 
-                             IUserAccountService userAccountService, ILog log,IPlanService planService)
+                             IUserAccountService userAccountService, ILog log,IPlanService planService, ITransactionService transactionService)
         {
             _adminUnitService = adminUnitService;
             _hrdService = hrdService;
@@ -57,6 +59,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             _userAccountService = userAccountService;
             _log = log;
             _planService = planService;
+            _transactionService = transactionService;
         }
 
         [EarlyWarningAuthorize(operation = EarlyWarningConstants.Operation.View_HRD_list)]
@@ -480,6 +483,8 @@ namespace Cats.Areas.EarlyWarning.Controllers
         public ActionResult PublishHRD(int id)
         {
             _hrdService.PublishHrd(id);
+            var currentHrd = _hrdService.Get(m => m.Status == 3).FirstOrDefault();
+            if (currentHrd != null) _transactionService.PostHRDPlan(currentHrd,currentHrd.Ration);
             return RedirectToAction("ApprovedHRDs");
         }
         [EarlyWarningAuthorize(operation = EarlyWarningConstants.Operation.Compare_HRD)]
