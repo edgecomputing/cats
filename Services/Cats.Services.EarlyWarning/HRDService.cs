@@ -14,6 +14,7 @@ namespace Cats.Services.EarlyWarning
     public class HRDService : IHRDService
     {
         private readonly IUnitOfWork _unitOfWork;
+       
         public HRDService(IUnitOfWork unitOfWork)
         {
             this._unitOfWork = unitOfWork;
@@ -90,6 +91,7 @@ namespace Cats.Services.EarlyWarning
                 if (null !=currentHrd)
                     currentHrd.Status = 4;
                 _unitOfWork.Save();
+               
             }
             catch (Exception ex)
             {

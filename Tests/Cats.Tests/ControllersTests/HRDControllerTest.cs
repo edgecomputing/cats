@@ -155,7 +155,7 @@ namespace Cats.Tests.ControllersTests
 
             _hrdController = new HRDController(adminUnitService.Object, hrdService.Object, rationService.Object, rationDetailService.Object, 
                                                hrdDetailService.Object, commodityService.Object,needAssessmentDetailService.Object,needAssessmentService.Object,
-                                               workFlowStatusService.Object,seasonService.Object,userAccountService.Object,log.Object,planService.Object);
+                                               workFlowStatusService.Object,seasonService.Object,userAccountService.Object,log.Object,planService.Object,null);
             _hrdController.ControllerContext = controllerContext.Object;
             
 

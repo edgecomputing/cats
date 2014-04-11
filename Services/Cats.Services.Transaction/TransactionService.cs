@@ -100,48 +100,56 @@ namespace Cats.Services.Transaction
                 {
                     Guid transactionGroupID = Guid.NewGuid();
                     DateTime transactionDate = DateTime.Now;
+
+                    _unitOfWork.TransactionGroupRepository.Add(new TransactionGroup() { PartitionID = 0, TransactionGroupID = transactionGroupID });
+
                     foreach (RationDetail rd in ration.RationDetails)
                     {
-                        decimal amount = (rd.Amount/1000) * noben;
-                        
-                        Models.Transaction entry2 = new Models.Transaction
-                        {
-                            RegionID = RegionID,
-                            CommodityID = rd.CommodityID,
-                            Round = r + 1,
-                            ProgramID = TransactionConstants.Constants.HRD_PROGRAM_ID,
-                            QuantityInUnit = amount,
-                            UnitID = 1,
-                            QuantityInMT = amount,
-                            LedgerID = Cats.Models.Ledger.Constants.REQUIRMENT_DOCUMENT_PALN, // previously 200
-                            TransactionDate = transactionDate,
-                            TransactionGroupID = transactionGroupID,
-                            PlanId = hrd.PlanID,
-                            TransactionID = Guid.NewGuid(),
-                        };
-                        Models.Transaction entry1 = new Models.Transaction
-                        {
-                            RegionID = RegionID,
-                            CommodityID = rd.CommodityID,
-                            Round = r + 1,
-                            ProgramID = TransactionConstants.Constants.HRD_PROGRAM_ID,
-                            QuantityInUnit = -amount,
-                            UnitID = 1,
-                            QuantityInMT = -amount,
-                            LedgerID = Cats.Models.Ledger.Constants.REQUIRMENT_DOCUMENT, //previously 100
-                            TransactionDate = transactionDate,
-                            TransactionGroupID = transactionGroupID,
-                            PlanId = hrd.PlanID,
-                            TransactionID = Guid.NewGuid(),
-                        };
+                        decimal amount = (rd.Amount/1000)*noben;
+
+                        var entry2 = new Models.Transaction
+                                                        {
+                                                            RegionID = RegionID,
+                                                            CommodityID = rd.CommodityID,
+                                                            Round = r + 1,
+                                                            ProgramID = TransactionConstants.Constants.HRD_PROGRAM_ID,
+                                                            QuantityInUnit = amount,
+                                                            UnitID = 1,
+                                                            QuantityInMT = amount,
+                                                            LedgerID =
+                                                                Cats.Models.Ledger.Constants.REQUIRMENT_DOCUMENT_PALN,
+                                                            // previously 200
+                                                            TransactionDate = transactionDate,
+                                                            TransactionGroupID = transactionGroupID,
+                                                            PlanId = hrd.PlanID,
+                                                            TransactionID = Guid.NewGuid(),
+                                                        };
+                        var entry1 = new Models.Transaction
+                                                        {
+                                                            RegionID = RegionID,
+                                                            CommodityID = rd.CommodityID,
+                                                            Round = r + 1,
+                                                            ProgramID = TransactionConstants.Constants.HRD_PROGRAM_ID,
+                                                            QuantityInUnit = -amount,
+                                                            UnitID = 1,
+                                                            QuantityInMT = -amount,
+                                                            LedgerID = Cats.Models.Ledger.Constants.REQUIRMENT_DOCUMENT,
+                                                            //previously 100
+                                                            TransactionDate = transactionDate,
+                                                            TransactionGroupID = transactionGroupID,
+                                                            PlanId = hrd.PlanID,
+                                                            TransactionID = Guid.NewGuid(),
+                                                        };
                         _unitOfWork.TransactionRepository.Add(entry1);
                         _unitOfWork.TransactionRepository.Add(entry2);
-                        _unitOfWork.Save();
+                       
                         entries.Add(entry1);
                         entries.Add(entry2);
+
+                        //hrd.TransactionGroupID = transactionGroupID;
+                        //_unitOfWork.HRDRepository.Edit(hrd);
+                        _unitOfWork.Save();
                     }
-                    hrd.TransactionGroupID = transactionGroupID;
-                    _unitOfWork.HRDRepository.Edit(hrd);
                 }
             }
             return entries;

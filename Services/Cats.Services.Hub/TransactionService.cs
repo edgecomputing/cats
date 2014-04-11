@@ -272,7 +272,7 @@ namespace Cats.Services.Hub
                 transaction.TransactionDate = DateTime.Now;
                 transaction.ParentCommodityID = _unitOfWork.CommodityRepository.FindById(c.CommodityID).ParentID ?? c.CommodityID;
                 transaction.CommodityID = c.CommodityID;
-                transaction.LedgerID = Ledger.Constants.GOODS_ON_HAND;
+                transaction.LedgerID = Ledger.Constants.GOODS_ON_HAND_UNCOMMITED;
                 transaction.HubOwnerID = user.DefaultHub.HubOwnerID;
 
                 
@@ -343,21 +343,21 @@ namespace Cats.Services.Hub
                 // this means that this receipt is done without having gone through the gift certificate process.
 
                 #region "commented out"
-                //if (receiveModels.CommoditySourceID == CommoditySource.Constants.DONATION || receiveModels.CommoditySourceID == CommoditySource.Constants.LOCALPURCHASE)
-                //{
-                //    transaction2.LedgerID = Ledger.Constants.GOODS_UNDER_CARE;
-                //    transaction2.AccountID = _accountService.GetAccountIdWithCreate(Account.Constants.DONOR, receive.ResponsibleDonorID.Value);
-                //}
-                //else if (receiveModels.CommoditySourceID == CommoditySource.Constants.REPAYMENT)
-                //{
-                //    transaction2.LedgerID = Ledger.Constants.GOODS_RECIEVABLE;
-                //    transaction2.AccountID = _accountService.GetAccountIdWithCreate(Account.Constants.HUB, receiveModels.SourceHubID.Value);
-                //}
-                //else
-                //{
-                //    transaction2.LedgerID = Ledger.Constants.LIABILITIES;
-                //    transaction2.AccountID = _accountService.GetAccountIdWithCreate(Account.Constants.HUB, receiveModels.SourceHubID.Value);
-                //}
+                if (receiveModels.CommoditySourceID == CommoditySource.Constants.DONATION || receiveModels.CommoditySourceID == CommoditySource.Constants.LOCALPURCHASE)
+                {
+                    transaction2.LedgerID = Ledger.Constants.GOODS_UNDER_CARE;
+                    transaction2.AccountID = _accountService.GetAccountIdWithCreate(Account.Constants.DONOR, receive.ResponsibleDonorID.Value);
+                }
+                else if (receiveModels.CommoditySourceID == CommoditySource.Constants.REPAYMENT)
+                {
+                    transaction2.LedgerID = Ledger.Constants.GOODS_RECIEVABLE;
+                    transaction2.AccountID = _accountService.GetAccountIdWithCreate(Account.Constants.HUB, receiveModels.SourceHubID.Value);
+                }
+                else
+                {
+                    transaction2.LedgerID = Ledger.Constants.LIABILITIES;
+                    transaction2.AccountID = _accountService.GetAccountIdWithCreate(Account.Constants.HUB, receiveModels.SourceHubID.Value);
+                }
 #endregion
 
                
