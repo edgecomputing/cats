@@ -243,6 +243,13 @@ namespace Cats.Services.Transaction
                 transaction.TransactionDate = transactionDate;
                 transaction.UnitID = 1;
 
+                SIPCAllocation allocation = allocationDetail;
+
+                transaction.HubID =
+                    _unitOfWork.HubAllocationRepository.FindBy(
+                        r => allocation != null && r.RequisitionID == allocation.ReliefRequisitionDetail.RequisitionID).Select(
+                            h => h.HubID).FirstOrDefault();
+
                 transaction.QuantityInMT = -allocationDetail.AllocatedAmount;
                 transaction.QuantityInUnit = -allocationDetail.AllocatedAmount;
                 transaction.LedgerID = Models.Ledger.Constants.COMMITED_TO_FDP;
@@ -278,6 +285,11 @@ namespace Cats.Services.Transaction
                 transaction2.TransactionGroupID = transactionGroup;
                 transaction2.TransactionDate = transactionDate;
                 transaction2.UnitID = 1;
+
+                transaction.HubID =
+                   _unitOfWork.HubAllocationRepository.FindBy(
+                       r => allocation != null && r.RequisitionID == allocation.ReliefRequisitionDetail.RequisitionID).Select(
+                           h => h.HubID).FirstOrDefault();
 
                 transaction2.QuantityInMT = allocationDetail.AllocatedAmount;
                 transaction2.QuantityInUnit = allocationDetail.AllocatedAmount;
