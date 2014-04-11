@@ -618,7 +618,7 @@ namespace Cats.Areas.Logistics.Controllers
                 {
                     donationHeader.IsCommited = true;
                     _donationPlanHeaderService.EditDonationPlanHeader(donationHeader);
-                    return RedirectToAction("Index", "Receive", new { Area = "Hub" });
+                    return RedirectToAction("Index", "Donation");
                 }
             }
             return null;

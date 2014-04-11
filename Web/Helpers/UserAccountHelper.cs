@@ -29,7 +29,6 @@ namespace Cats.Helpers
             }
             catch (Exception)
             {
-                SignOut();
                 userName="Guest User";
             }
             return userName;
@@ -46,7 +45,6 @@ namespace Cats.Helpers
             catch (Exception)
             {
                 userLanguagePreference ="Guest User";
-                SignOut();                
             }
             return userLanguagePreference;
         }
@@ -66,44 +64,69 @@ namespace Cats.Helpers
         }
         private static UserInfo GetUserInfo(string userName)
         {
-            // Initialize the user object with the incoming user name to avoid 'Use of uninitialized variable exception'
-            UserInfo user = new UserInfo { UserName = userName };
-            try
+            // Try returning session stored values if available
+            if(null != HttpContext.Current.Session && null!=HttpContext.Current.Session["USER_INFO"])
             {
-                // Check to see if we already have the user profile loaded in the session.
-                if ( HttpContext.Current.Session.Keys.Count>0)
-                {
-                    if (HttpContext.Current.Session["USER_INFO"]!=null)
-                    {
-                        user = (UserInfo)HttpContext.Current.Session["USER_INFO"];    
-                    }
-                    else
-                    {
-                        // Fetch a copy from the database if we don't have a session variable already loaded in memory
-                        var service = (IUserAccountService)DependencyResolver.Current.GetService(typeof(IUserAccountService));
-                        user = service.GetUserInfo(userName);
-                    }
-
-                    //to update the "USER_INFO"session as far as the user is engaged 
-                    //HttpContext.Current.Session["USER_INFO"] = user;
-                }
-                else
-                {
-                    // Fetch a copy from the database if we don't have a session variable already loaded in memory
-                    var service = (IUserAccountService)DependencyResolver.Current.GetService(typeof(IUserAccountService));
-                    user = service.GetUserInfo(userName);
-                    HttpContext.Current.Session["USER_INFO"] = user;
-                    HttpContext.Current.Session["USER_PROFILE"] = service.GetUserDetail(userName);
-                }
+                return (UserInfo)HttpContext.Current.Session["USER_INFO"]; 
             }
 
-            catch (Exception ex)
+            // Fetch a fresh copy of user information from the database
+            var service = (IUserAccountService)DependencyResolver.Current.GetService(typeof(IUserAccountService));
+            var user = service.GetUserInfo(userName);
+
+            // Save user information to session state for latter usage
+            if (HttpContext.Current.Session != null)
             {
-                //TODO: Log error here
-                Logger.Log(ex);
+                HttpContext.Current.Session["USER_INFO"] = user;
+                HttpContext.Current.Session["USER_PROFILE"] = service.GetUserDetail(userName);
             }
 
             return user;
+
+            //// Initialize the user object with the incoming user name to avoid 'Use of uninitialized variable exception'
+            //UserInfo user = new UserInfo { UserName = userName };
+
+            //try
+            //{
+            //    // Check to see if we already have the user profile loaded in the session.
+            //    if ( HttpContext.Current.Session.Keys.Count>0)
+            //    {
+            //        if (HttpContext.Current.Session["USER_INFO"]!=null)
+            //        {
+            //            user = (UserInfo)HttpContext.Current.Session["USER_INFO"];    
+            //        }
+            //        else
+            //        {
+            //            // Fetch a copy from the database if we don't have a session variable already loaded in memory
+            //            var service = (IUserAccountService)DependencyResolver.Current.GetService(typeof(IUserAccountService));
+            //            user = service.GetUserInfo(userName);
+            //        }
+
+            //        //to update the "USER_INFO"session as far as the user is engaged 
+            //        //HttpContext.Current.Session["USER_INFO"] = user;
+            //    }
+            //    else
+            //    {
+            //        // Fetch a copy from the database if we don't have a session variable already loaded in memory
+            //        if(HttpContext.Current.User.Identity.IsAuthenticated)
+            //        {
+            //            var service = (IUserAccountService)DependencyResolver.Current.GetService(typeof(IUserAccountService));
+            //            user = service.GetUserInfo(userName);
+            //            HttpContext.Current.Session["USER_INFO"] = user;
+            //            HttpContext.Current.Session["USER_PROFILE"] = service.GetUserDetail(userName);
+            //        }
+            //    }
+            //}
+
+            //catch (Exception ex)
+            //{
+            //    //TODO: Log error here
+            //    Logger.Log(ex);
+            //    SignOut();
+            //    return null;
+            //}
+
+            //return user;
         }
 
         public static string UserCalendarPreference(this HtmlHelper helper)

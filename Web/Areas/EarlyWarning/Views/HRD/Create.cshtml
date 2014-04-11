@@ -15,8 +15,8 @@
 
 @section Toolbar
 {
-    <a class="btn toolbar-btn " data-buttontype="btn_save" data-submittedform="frm_create_hrd"></a>
-    <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="@Url.Action("Index", "HRD")" title="save"></a>
+    <a id="btn-save" class="btn toolbar-btn " data-buttontype="btn_save" data-submittedform="frm_create_hrd"></a>
+    <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="@Url.Action("Index", "HRD")" title="cancel" ></a>
 }
 <div>
     <h4>Create HRD</h4>
@@ -65,7 +65,7 @@
                     @Html.Label(Translator.Translate("HRD From"), new { @class = "cats-date-pref" })
                 </div>
                 <div class="controls">
-                     @Html.TextBoxFor(m => m.Plan.StartDate, new { @class = "cats-datepicker2" })
+                     @Html.TextBoxFor(m => m.Plan.StartDate, new {  @class = "cats-datepicker2" })
                     @Html.ValidationMessageFor(m => m.Plan.StartDate)
                 </div>
             </div>
@@ -76,11 +76,16 @@
                 <div class="control-label">
                     @Html.Label(Translator.Translate("To"), new { @class = "cats-date-pref" })
                 </div>
-                <div class="controls">
+                <div class="controls" >
                     @Html.TextBoxFor(m => m.Plan.EndDate, new { @class = "cats-datepicker2" })
                     @Html.ValidationMessageFor(m => m.Plan.EndDate)
+                    @*<div id="dateValidation" >
+                        <span class="alert-error span11" style="width: 220px;">
+                            @Html.Label("End Date can't be less than Start date")
+                        </span>
+                      </div>*@
                 </div>
-
+              
             </div>
         </div>
     </div>
@@ -114,3 +119,28 @@
         </div>
     }
 
+@*<script>
+    $("#dateValidation").hide();
+    var startDate = new Date($('#Plan_StartDate').val());
+    var endDate = new Date($('#Plan_EndDate').val());
+    if ((endDate < startDate)) {
+        $("#dateValidation").show();
+    }
+    function DateValidation() {
+      
+        //$("#RationID").change(function () {
+        var startDate = new Date($('#Plan_StartDate').val());
+        var endDate = new Date($('#Plan_EndDate').val());
+        var validationMessage = $("#dateValidation");
+
+        if (startDate < endDate) {
+            validationMessage.hide();
+            return true;
+        } else {
+            validationMessage.show();
+            return false;
+        }
+       // });
+    }   
+
+</script>*@

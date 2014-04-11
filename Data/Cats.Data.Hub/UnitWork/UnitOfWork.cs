@@ -5,15 +5,13 @@ using System.Data.Objects.DataClasses;
 using Cats.Data.Hub.Repository;
 using Cats.Data.Hub.UnitWork;
 using Cats.Models.Hubs;
+using System.Text;
 
 
 namespace Cats.Data.Hub
 {
-
     public class UnitOfWork : IUnitOfWork, IDisposable
     {
-
-
         private readonly HubContext _context;
         public UnitOfWork()
         {

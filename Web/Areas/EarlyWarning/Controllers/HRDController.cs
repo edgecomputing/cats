@@ -11,6 +11,7 @@ using Cats.Models.ViewModels;
 using Cats.Models.ViewModels.HRD;
 using Cats.Services.EarlyWarning;
 using Cats.Services.Security;
+using Cats.Services.Transaction;
 using Cats.ViewModelBinder;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
@@ -36,13 +37,14 @@ namespace Cats.Areas.EarlyWarning.Controllers
         private IUserAccountService _userAccountService;
         private ILog _log;
         private IPlanService _planService;
+        private readonly Cats.Services.Transaction.ITransactionService _transactionService;
 
         public HRDController(IAdminUnitService adminUnitService, IHRDService hrdService,
                              IRationService rationservice, IRationDetailService rationDetailService,
                              IHRDDetailService hrdDetailService, ICommodityService commodityService,
                              INeedAssessmentDetailService needAssessmentDetailService, INeedAssessmentHeaderService needAssessmentService,
                              IWorkflowStatusService workflowStatusService, ISeasonService seasonService, 
-                             IUserAccountService userAccountService, ILog log,IPlanService planService)
+                             IUserAccountService userAccountService, ILog log,IPlanService planService, ITransactionService transactionService)
         {
             _adminUnitService = adminUnitService;
             _hrdService = hrdService;
@@ -57,6 +59,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             _userAccountService = userAccountService;
             _log = log;
             _planService = planService;
+            _transactionService = transactionService;
         }
 
         [EarlyWarningAuthorize(operation = EarlyWarningConstants.Operation.View_HRD_list)]
@@ -103,7 +106,6 @@ namespace Cats.Areas.EarlyWarning.Controllers
         [EarlyWarningAuthorize(operation = EarlyWarningConstants.Operation.View_HRD_list)]
         public ActionResult HRD_Read([DataSourceRequest] DataSourceRequest request)
         {
-
             var hrds = _hrdService.Get(m => m.Status == 1).OrderByDescending(m => m.HRDID);
             var hrdsToDisplay = GetHrds(hrds).ToList();
             return Json(hrdsToDisplay.ToDataSourceResult(request));
@@ -371,41 +373,27 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
             if (ModelState.IsValid)
             {
-                try
+                if (startDate >= endDate)
                 {
-                    //var userid = _needAssessmentService.GetUserProfileId(HttpContext.User.Identity.Name);
-                    //var woredas = _adminUnitService.FindBy(m => m.AdminUnitTypeID == 4);
-                    //var seasonID = hrd.SeasonID;
-
-                    _planService.AddHRDPlan(planName, startDate, endDate);
-                    var plan=_planService.FindBy(m => m.PlanName == planName).FirstOrDefault();
-                    var planID = plan.PlanID;
-                    _hrdService.AddHRD(year, userID, seasonID, rationID, planID);
-                    //hrd.CreatedBY = userid;
-                    //var hrdDetails = (from detail in woredas
-                    //                  select new HRDDetail
-                    //                      {
-                    //                          WoredaID = detail.AdminUnitID,
-                    //                          StartingMonth = 1,
-                    //                          //NumberOfBeneficiaries = _needAssessmentDetailService.GetNeedAssessmentBeneficiaryNo(hrd.Year, (int)seasonID, detail.AdminUnitID),
-                    //                          //DurationOfAssistance = _needAssessmentDetailService.GetNeedAssessmentMonths(hrd.Year, (int)seasonID, detail.AdminUnitID)
-                    //                          NumberOfBeneficiaries = 0,
-                    //                          //_needAssessmentDetailService.GetNeedAssessmentBeneficiaryNoFromPlan(hrd.PlanID,detail.AdminUnitID),
-                    //                          DurationOfAssistance = 0
-                    //                          //_needAssessmentDetailService.GetNeedAssessmentMonthsFromPlan(hrd.PlanID,detail.AdminUnitID)
-
-                    //                      }).ToList();
-
-                    //hrd.HRDDetails = hrdDetails;
-                    //_hrdService.AddHRD(hrd);
-                    return RedirectToAction("Index");
+                    ModelState.AddModelError("Errors", @"Start Date Can't be greater than OR Equal to End Date!");
                 }
-                catch (Exception exception)
+                else
                 {
-                    var log = new Logger();
-                    log.LogAllErrorsMesseges(exception, _log);
-                    ModelState.AddModelError("Errors", "Unable To Create New HRD");
-                    //ViewBag.Error = "HRD for this Season and Year already Exists";
+                    try
+                    {
+                        _planService.AddHRDPlan(planName, startDate, endDate);
+                        var plan = _planService.FindBy(m => m.PlanName == planName).FirstOrDefault();
+                        var planID = plan.PlanID;
+                        _hrdService.AddHRD(year, userID, seasonID, rationID, planID);
+                        return RedirectToAction("Index");
+                    }
+                    catch (Exception exception)
+                    {
+                        var log = new Logger();
+                        log.LogAllErrorsMesseges(exception, _log);
+                        ModelState.AddModelError("Errors", "Unable To Create New HRD");
+                        //ViewBag.Error = "HRD for this Season and Year already Exists";
+                    }
                 }
 
             }
@@ -495,6 +483,8 @@ namespace Cats.Areas.EarlyWarning.Controllers
         public ActionResult PublishHRD(int id)
         {
             _hrdService.PublishHrd(id);
+            var currentHrd = _hrdService.Get(m => m.Status == 3).FirstOrDefault();
+            if (currentHrd != null) _transactionService.PostHRDPlan(currentHrd,currentHrd.Ration);
             return RedirectToAction("ApprovedHRDs");
         }
         [EarlyWarningAuthorize(operation = EarlyWarningConstants.Operation.Compare_HRD)]

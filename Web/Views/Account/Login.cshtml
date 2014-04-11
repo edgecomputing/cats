@@ -12,7 +12,6 @@
     <meta name="author" content="">
     <link rel="shortcut icon" type="image/ico" href="~/Content/images/CATS_Blue.ico">
     <!-- Le styles -->
-    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,800italic,400,600,800" type="text/css">
     <link href="~/Content/Login/bootstrap.min.css" rel="stylesheet">
     @*<link href="~/Content/bootstrap.min.css" rel="stylesheet">*@
     <link href="~/Content/Login/App.css" rel="stylesheet">
@@ -66,6 +65,7 @@
 
 <body>
     <div id="login-container">
+        <div></div>
         <div id="logo">
             <img src="~/Content/images/CATS.png">
         </div>
@@ -73,6 +73,16 @@
         <div id="login">
             <h3>Welcome to CATS.</h3>
             <h5>Please sign in to get access.</h5>
+
+            @if (ViewBag.HasError)
+            {
+                <div class="alert alert-danger">
+                    <i class="icon-exclamation-sign"></i>
+                    <h4>Error</h4>
+                    @*@LanguageHelpers.Localization.Translator.Translate(ViewBag.ErrorMesssage)*@
+                    @ViewBag.ErrorMessage
+                </div>
+            }
 
            @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { @class = "form", @id = "login-form" }))
             {
@@ -91,39 +101,13 @@
             
                 <div class="form-group">
                     <button type="submit" id="login-btn" class="btn btn-primary btn-block">Sign in &nbsp;  <i class="ui-icon-power"></i></button>
-                </div>  
-                        
-                @*<div class="form-group">
-                    
-                    <label class="checkbox">
-                    
-                    </label>   
-                        @Html.CheckBoxFor(m => m.RememberMe)
-                        Remember me
-                        <a href="@Url.Action("ForgetPassword", "Users", new { Area = "Settings" })">  Forget Password</a>
-                    </div>*@ 
-                 
-                //<button class="btn btn-large btn-primary" type="submit">Sign in</button>
+                </div>                      
 
             }
             <a href="javascript::" class="btn btn-default">Forgot Password?</a>
 
         </div>
 
-
-        @if (ViewBag.HasError)
-        {
-            <div class="alert alert-danger">
-                <i class="icon-exclamation-sign"></i>
-                <h4>Error</h4>
-                @*@LanguageHelpers.Localization.Translator.Translate(ViewBag.ErrorMesssage)*@
-                @ViewBag.ErrorMessage
-            </div>
-        }
     </div>
-    @*<script src="~/Scripts/jquery-1.9.1.min.js"></script>
-    <script src="~/Content/Login/bootstrab.min.js"></script>
-    <script src="~/Content/Login/App.js"></script>
-    <script src="~/Content/Login/App.js"></script>*@
 </body>
 </html>

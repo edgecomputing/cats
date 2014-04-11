@@ -47,9 +47,10 @@ namespace Cats.Areas.EarlyWarning.Controllers
         {
             var hrdDonorCoverage = new HrdDonorCoverage();
             ViewBag.DonorID =new SelectList(_donorService.GetAllDonor(),"DonorID","Name");
-            var hrds = _hrdService.GetAllHRD().Where(m => m.Status != (int)HRDStatus.Draft);
-            var hrd =(from item in hrds
-                 select new { item.HRDID, Name = string.Format("{0}-{1}", item.Season.Name, item.Year) }).ToList();
+            var hrds = _hrdService.GetAllHRD().Where(m => m.Status != (int)HRDStatus.Draft).OrderByDescending(m=>m.HRDID);
+            var hrd = (from item in hrds
+                       select new { item.HRDID, Name = string.Format("{0}-{1}", item.Season.Name, item.Year) }).ToList();
+            
             ViewBag.HRDID = new SelectList(hrd,"HRDID","Name");
             
 
@@ -85,7 +86,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         public ActionResult HrdDonorCoverageDetail_Read([DataSourceRequest] DataSourceRequest request,int id=0)
         {
             var donorCoverageDetail = _hrdDonorCoverageDetailService.FindBy(m => m.HRDDonorCoverageID == id).ToList();
-            var donorCoverageDetailDisplay = GetDonorCoverageDetail(donorCoverageDetail);
+            var donorCoverageDetailDisplay = GetDonorCoverageDetail(donorCoverageDetail,id);
             return Json(donorCoverageDetailDisplay.ToDataSourceResult(request));
         }
         private IEnumerable<HRDDonorCoverageViewModel> GetDonorCoverage(IEnumerable<HrdDonorCoverage> hrdDonorCoverages)
@@ -104,8 +105,10 @@ namespace Cats.Areas.EarlyWarning.Controllers
                             
                         });
         }
-        private IEnumerable<HrdDonorCoverageDetailViewModel> GetDonorCoverageDetail(IEnumerable<HrdDonorCoverageDetail> hrdDonorCoverageDetails)
+        private IEnumerable<HrdDonorCoverageDetailViewModel> GetDonorCoverageDetail(IEnumerable<HrdDonorCoverageDetail> hrdDonorCoverageDetails,int id)
         {
+            var hrdDonorCoverage = _hrdDonorCoverageService.FindById(id);
+            var hrd = _hrdService.FindBy(m => m.HRDID == hrdDonorCoverage.HRDID).FirstOrDefault();
             return (from coverageDetail in hrdDonorCoverageDetails
                     select new HrdDonorCoverageDetailViewModel()
                         {
@@ -114,10 +117,12 @@ namespace Cats.Areas.EarlyWarning.Controllers
                             WoredaID = coverageDetail.WoredaID,
                             Woreda = coverageDetail.AdminUnit.Name,
                             Zone = coverageDetail.AdminUnit.AdminUnit2.Name,
-                            Region = coverageDetail.AdminUnit.AdminUnit2.AdminUnit2.Name
+                            Region = coverageDetail.AdminUnit.AdminUnit2.AdminUnit2.Name,
+                            BebeficiaryNumber = _hrdService.GetWoredaBeneficiaryNumber(hrd.HRDID,coverageDetail.WoredaID)
 
                         });
         }
+
         public ActionResult AddWoreda(int id)
         {
             //var donorCoverage = _hrdDonorCoverageService.FindById(id);
@@ -180,5 +185,6 @@ namespace Cats.Areas.EarlyWarning.Controllers
                     );
             return Json(r, JsonRequestBehavior.AllowGet);
         }
+      
     }
 }

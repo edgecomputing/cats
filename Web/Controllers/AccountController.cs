@@ -12,6 +12,7 @@ using NetSqlAzMan.Interfaces;
 using NetSqlAzMan;
 using System.Configuration;
 using NetSqlAzMan.Cache;
+using Cats.Models.Exceptions;
 
 namespace Cats.Controllers
 {
@@ -31,7 +32,6 @@ namespace Cats.Controllers
             _log = log;
             _forgetPasswordRequestService = forgetPasswordRequestService;
             _settingService = settingService;
-
         }
 
         [HttpGet]
@@ -50,6 +50,10 @@ namespace Cats.Controllers
             // Check if the supplied credentials are correct.
             ViewBag.HasError = false;
             ViewBag.returnUrl = returnUrl;
+
+            // Create logger instance to record activities
+            var log = new Logger();
+
             try
             {
                 if (_userAccountService.Authenticate(model.UserName, model.Password))
@@ -67,6 +71,7 @@ namespace Cats.Controllers
                     var service = (IUserAccountService)DependencyResolver.Current.GetService(typeof(IUserAccountService));
                     var userInfo = service.GetUserInfo(model.UserName);
                     Session["USER_INFO"] = userInfo;
+                    Session["USER_PROFILE"] = service.GetUserDetail(model.UserName);
 
                     // Before trying to go and look for user permissions, check if the user is logged in or not
                     
@@ -107,10 +112,29 @@ namespace Cats.Controllers
                     return RedirectToLocal(returnUrl);
                 }
             }
-
-            catch (Exception exception)
+            catch (UserNotFoundException unfe)
             {
-                var log = new Logger();
+                log.LogAllErrorsMesseges(unfe, _log);
+                ViewBag.HasError = true;
+                ViewBag.Error = unfe.ToString();
+                ViewBag.ErrorMessage = "Your user name is not registered as a user on CATS. Please contact your system administrator.";
+            }
+            catch (DisabledUserException due)
+            {
+                log.LogAllErrorsMesseges(due, _log);
+                ViewBag.HasError = true;
+                ViewBag.Error = due.ToString();
+                ViewBag.ErrorMessage = "Your user account is disabled. Please contact your system administrator.";
+            }
+            catch(UnmatchingUsernameAndPasswordException uuape)
+            {
+                log.LogAllErrorsMesseges(uuape, _log);
+                ViewBag.HasError = true;
+                ViewBag.Error = uuape.ToString();
+                ViewBag.ErrorMessage = "The user name and password you provided do not match. Please try again with a correct combination.";
+            }
+            catch (Exception exception)
+            {                
                 log.LogAllErrorsMesseges(exception, _log);
                
                 ViewBag.HasError = true;

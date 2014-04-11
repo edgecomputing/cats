@@ -41,12 +41,12 @@
   <ItemGroup>
     <Compile Include="EarlyWarning\AlreadyExistingHRDExcception.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Security\disabledUserException.cs" />
-    <Compile Include="Security\disablingUserException.cs" />
-    <Compile Include="Security\passwordChangeException.cs" />
-    <Compile Include="Security\unabletoResetPasswordException.cs" />
-    <Compile Include="Security\unmatchingUsernameAndPasswordException.cs" />
-    <Compile Include="Security\userNotFoundException.cs" />
+    <Compile Include="Security\DisabledUserException.cs" />
+    <Compile Include="Security\DisablingUserException.cs" />
+    <Compile Include="Security\PasswordChangeException.cs" />
+    <Compile Include="Security\UnabletoResetPasswordException.cs" />
+    <Compile Include="Security\UnmatchingUsernameAndPasswordException.cs" />
+    <Compile Include="Security\UserNotFoundException.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="PSNP\" />

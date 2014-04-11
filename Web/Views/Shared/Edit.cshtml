@@ -22,14 +22,21 @@
         </div>
     </div>
     
-
-    <div class="control-group">
-        <label class="control-label">Prefered Weight Measurement Unit:</label>
+      <div class="control-group">
+        <label class="control-label">Weight Unit:</label>
+        <div class="controls">
+            @Html.DropDownList("WeightPrefernce", String.Empty)
+            @Html.ValidationMessageFor(m => m.WeightPrefernce)
+        </div>
+    </div>
+    
+    @*<div class="control-group">
+        <label class="control-label">Weight Unit:</label>
         <div class="controls">
            @Html.DropDownList("WeightPrefernce")
            @Html.ValidationMessageFor(m=>m.WeightPrefernce)
         </div>
-    </div>
+    </div>*@
 
 
     <div class="control-group">

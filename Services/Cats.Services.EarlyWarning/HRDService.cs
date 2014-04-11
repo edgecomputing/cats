@@ -14,6 +14,7 @@ namespace Cats.Services.EarlyWarning
     public class HRDService : IHRDService
     {
         private readonly IUnitOfWork _unitOfWork;
+       
         public HRDService(IUnitOfWork unitOfWork)
         {
             this._unitOfWork = unitOfWork;
@@ -90,6 +91,7 @@ namespace Cats.Services.EarlyWarning
                 if (null !=currentHrd)
                     currentHrd.Status = 4;
                 _unitOfWork.Save();
+               
             }
             catch (Exception ex)
             {
@@ -155,5 +157,14 @@ namespace Cats.Services.EarlyWarning
             return true;
 
         }
+       public int GetWoredaBeneficiaryNumber(int hrdID, int woredaID)
+       {
+           var hrdDetail=_unitOfWork.HRDDetailRepository.FindBy(m => m.HRDID == hrdID && m.WoredaID == woredaID).FirstOrDefault();
+           if(hrdDetail!=null)
+           {
+               return hrdDetail.NumberOfBeneficiaries;
+           }
+           return 0;
+       }
     }
 }

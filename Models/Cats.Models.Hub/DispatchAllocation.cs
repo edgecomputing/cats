@@ -22,6 +22,7 @@ namespace Cats.Models.Hubs
         public Nullable<int> ProgramID { get; set; }
         public int CommodityID { get; set; }
         public string RequisitionNo { get; set; }
+        public Nullable<int> RequisitionId { get; set; } 
         public string BidRefNo { get; set; }
         public Nullable<System.DateTime> ContractStartDate { get; set; }
         public Nullable<System.DateTime> ContractEndDate { get; set; }
@@ -32,7 +33,8 @@ namespace Cats.Models.Hubs
         public int FDPID { get; set; }
         public Nullable<int> ShippingInstructionID { get; set; }
         public Nullable<int> ProjectCodeID { get; set; }
-        public Nullable<int> TransportOrderID { get; set; } 
+        public Nullable<int> TransportOrderID { get; set; }
+        
         public bool IsClosed { get; set; }
         public virtual Commodity Commodity { get; set; }
         public virtual ICollection<Dispatch> Dispatches { get; set; }
