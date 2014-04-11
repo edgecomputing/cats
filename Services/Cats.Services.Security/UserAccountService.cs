@@ -148,7 +148,7 @@ namespace Cats.Services.Security
 
         public bool Authenticate(string userName, string password)
         {
-            UserInfo user = GetUserInfo(userName);
+            UserInfo user;
 
             // Check if the provided user is found in the database. If not tell the user that the user account provided
             // does not exist in the database.
@@ -158,19 +158,19 @@ namespace Cats.Services.Security
 
                 if (null == user)
                     //throw new ApplicationException("The requested user could not be found.");
-                    throw new userNotFoundException();
+                    throw new UserNotFoundException();
             }
             catch (Exception ex)
             {
                 //throw new ApplicationException("The requested user could not be found.", ex);
-                throw new userNotFoundException("", ex);
+                throw new UserNotFoundException("", ex);
             }
 
             // If the user account is disabled then we dont need to allow login instead we need to throw an exception
             // stating that the account is disabled.
             if (user.Disabled == true)
 
-                throw new disabledUserException();
+                throw new DisabledUserException();
             //throw new ApplicationException("The user account is currently disabled. Please contact your administrator.");
 
             // Check if the passwords match
@@ -186,7 +186,7 @@ namespace Cats.Services.Security
             else
             {
                 //throw new ApplicationException("The supplied user name and password do not match.");
-                throw new unmatchingUsernameAndPasswordException();
+                throw new UnmatchingUsernameAndPasswordException();
             }
 
             return false;
@@ -220,7 +220,7 @@ namespace Cats.Services.Security
             catch (Exception e)
             {
                 //throw new ApplicationException("Error changing password", e);
-                throw new passwordChangeException(e);
+                throw new PasswordChangeException(e);
             }
             return false;
         }
@@ -255,7 +255,7 @@ namespace Cats.Services.Security
                 catch (Exception e)
                 {
                     //throw new ApplicationException(string.Format("Unable to reset password for {0}. \n Error detail: \n {1} ", info.FullName, e.Message), e);
-                    throw new unabletoResetPasswordException(info.UserName);
+                    throw new UnabletoResetPasswordException(info.UserName);
                 }
             }
             return randomPassword;

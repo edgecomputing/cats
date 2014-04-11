@@ -23,6 +23,7 @@ namespace Cats.Models
       public int ?ProgramID {get; set;}
       public int CommodityID {get; set;}
       public string RequisitionNo {get; set;}
+      public int? RequisitionId { get; set; }
       public string BidRefNo {get; set;}
       public DateTime? ContractStartDate {get; set;}
       public DateTime? ContractEndDate { get; set; }

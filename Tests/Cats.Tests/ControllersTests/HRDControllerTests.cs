@@ -119,6 +119,9 @@ namespace Cats.Tests.ControllersTests
             var planService = new Mock<IPlanService>();
             planService.Setup(m => m.GetAllPlan()).Returns(plan);
 
+
+            var transactionService = new Mock<Cats.Services.Transaction.ITransactionService>();
+            
             userAccountService.Setup(t => t.GetUserInfo(It.IsAny<string>())).Returns(new UserInfo()
             {
                 UserName = "x",
@@ -145,7 +148,7 @@ namespace Cats.Tests.ControllersTests
                                                needAssesmentHeaderService.Object,
                                                workflowSatusService.Object,
                                                seasonService.Object, userAccountService.Object,
-                                               log.Object, planService.Object
+                                               log.Object, planService.Object,null
                 );
 
            _hrdController.ControllerContext = controllerContext.Object;
