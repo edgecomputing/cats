@@ -185,8 +185,6 @@ namespace Cats.Areas.Procurement.Controllers
 
         public ActionResult Details(int id)
         {
-            
-            
             var woredaHub = _woredaHubService.FindById(id);
             var woredaHubViewModel = WoredaHubViewModelBinder(woredaHub);
             return View(woredaHubViewModel);

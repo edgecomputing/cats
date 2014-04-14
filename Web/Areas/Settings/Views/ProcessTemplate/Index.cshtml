@@ -30,7 +30,7 @@
             columns.Bound(p => p.Name).Width(250);
 
             columns.Bound(p => p.Description);
-            columns.Bound(p => p.ProcessTemplateID).Title("").ClientTemplate("<a class='btn' href='" + Url.Action("Design", "ProcessTemplate", new { id = "#=ProcessTemplateID#" }) + " '>Detail</a>  ").Width(110); 
+            columns.Bound(p => p.ProcessTemplateID).Title("").ClientTemplate("<a class='btn' href='" + Url.Action("Detail", "ProcessTemplate", new { id = "#=ProcessTemplateID#" }) + " '>Design</a>  ").Width(110); 
 
             columns.Command(command => command.Destroy()).Width(110);
         })

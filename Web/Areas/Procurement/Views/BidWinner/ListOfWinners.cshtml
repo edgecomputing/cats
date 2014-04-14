@@ -23,7 +23,7 @@
         columns.Bound(t => t.TransporterName).ClientTemplate(
            @Html.EarlyWarningOperationButton(
                @Url.Action("Details", "BidWinner", new { id = Model.BidID, transporterID = "#=TransporterID#" }),
-               EarlyWarningConstants.Operation.View_Need_Assessment_Detail, "#=TransporterName#").ToString());
+               EarlyWarningConstants.Operation.View_Bid_Winners, "#=TransporterName#").ToString());
             columns.Bound(m => m.TransporterID);
         })
      .Scrollable()

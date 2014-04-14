@@ -35,7 +35,7 @@ namespace Cats.Helpers
                 {
                     Credentials = new NetworkCredential(userName, password)
                 };
-
+                
                 //var folders = rs.ListChildren("/", false);
                 ////html += "<ul class='dropdown-menu'>";
                 //foreach (var folder in folders)
@@ -76,17 +76,23 @@ namespace Cats.Helpers
                         //html += "<li class='dropdown-submenu'>";
                         //html += "<a href='#' data-toggle='dropdown'>" + folder.Name + "</a>";
                         //html += "<ul class='dropdown-menu'>";
-                        html += "<div id='list8'><ul>";
+                        html += "<div> <table class='table table-bordered'>  <thead>  <tr>  <th>Report</th>  <th>Description</th>  </tr>  </thead>  <tbody>";       
+                        //html += "<div id='list8'><ul>";
+              
                         foreach (var report in reports)
                         {
+                            
+                            html += "<tr> <td>";
                             var baseUrl = HttpContext.Current.Request.Url.Scheme + "://" + HttpContext.Current.Request.Url.Authority + HttpContext.Current.Request.ApplicationPath.TrimEnd('/') + "/";
-                            html += "<li><a href=' " + baseUrl + "ReportViewer.aspx?path=" + report.Path + "'>" + report.Name + "</a></li>";
+                            html += "<a href=' " + baseUrl + "ReportViewer.aspx?path=" + report.Path + "' target='_blank'>" + report.Name + "</a>";
+                            var desc = report.Description;
+                            html += "</td>  <td>" + desc+ "</td>  </tr>";
                         }
-                        html += "</ul>";
-                        html += "</li>";
+                        //html += "</ul>";
+                        html += "</tbody> </table> </div>";
                     //}
                 //}
-                html += "</ul>";
+                //html += "</ul>";
             }
             catch(Exception ex)
             {
