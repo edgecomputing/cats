@@ -238,7 +238,7 @@ namespace Cats.Areas.Settings.Controllers
             //var user = _userService.FindBy(u=>u.UserName == userInfo.UserName).SingleOrDefault();
             
             var user = _userService.GetUserDetail(userInfo.UserName);
-            user.DefaultHub = userInfo.DefaultHub;
+            //user.DefaultHub = userInfo.DefaultHub;
             _userService.UpdateUser(user);
 
             foreach (var application in app)

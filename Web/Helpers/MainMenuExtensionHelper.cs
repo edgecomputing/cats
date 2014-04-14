@@ -13,6 +13,12 @@ namespace Cats.Helpers
 {
     public static class MainMenuExtensionHelper
     {
+        private static MvcHtmlString Signout()
+        {
+            FormsAuthentication.SignOut();
+            return MvcHtmlString.Create(string.Empty);   
+        }
+
         public static MvcHtmlString EarlyWarningOperationMenuItem(this HtmlHelper helper, string url, EarlyWarningConstants.Operation operation, string text = "", string ccsClass = "", string dataButtontype = "")
         {
             //return MvcHtmlString.Create(@"<a data-buttontype=" + dataButtontype + "  class=" + ccsClass + " href=" + url + ">" + text + "</a>");
@@ -23,8 +29,7 @@ namespace Cats.Helpers
             // If cache is null then force the user to sign-in again
             if (null == ewCache)
             {
-                FormsAuthentication.SignOut();
-                return MvcHtmlString.Create(string.Empty);
+                Signout();
             }
 
             var html = string.Empty;
@@ -34,8 +39,7 @@ namespace Cats.Helpers
             }
             return MvcHtmlString.Create(html);
         }
-
-               
+        
         public static MvcHtmlString EarlyWarningOperationButton(this HtmlHelper helper, string url, EarlyWarningConstants.Operation operation, string text = "", string ccsClass = "", string dataButtontype = "", string id = "")
         {
             var constants = new EarlyWarningConstants();
@@ -44,8 +48,7 @@ namespace Cats.Helpers
             // If cache is null then force the user to sign-in again
             if (null == ewCache)
             {
-                FormsAuthentication.SignOut();
-                return MvcHtmlString.Create(string.Empty);
+                Signout();
             }
 
             var html = string.Empty;
@@ -85,8 +88,7 @@ namespace Cats.Helpers
             // If cache is null then force the user to sign-in again
             if (null == ewCache)
             {
-                FormsAuthentication.SignOut();
-                return MvcHtmlString.Create(string.Empty);
+                Signout();
             }
 
             var html = string.Empty;
@@ -102,16 +104,13 @@ namespace Cats.Helpers
             var constants = new PsnpConstants();
             var ewCache = UserAccountHelper.GetUserPermissionCache(CatsGlobals.Applications.PSNP);
 
+            var html = string.Empty;
             // If cache is null then force the user to sign-in again
             if (null == ewCache)
             {
-                FormsAuthentication.SignOut();
-                return MvcHtmlString.Create(string.Empty);
+                Signout();
             }
-
-            var html = string.Empty;
-
-            if (ewCache.CheckAccess(constants.ItemName(operation), DateTime.Now) == AuthorizationType.Allow)
+            else if (ewCache.CheckAccess(constants.ItemName(operation), DateTime.Now) == AuthorizationType.Allow)
             {
                 html = "<a href=" + url;
                 if (ccsClass != "")
@@ -143,15 +142,14 @@ namespace Cats.Helpers
             var constants = new LogisticsConstants();
             var ewCache = UserAccountHelper.GetUserPermissionCache(CatsGlobals.Applications.Logistics);
 
+            var html = string.Empty;
+
             // If cache is null then force the user to sign-in again
             if (null == ewCache)
             {
-                FormsAuthentication.SignOut();
-                return MvcHtmlString.Create(string.Empty);
+                Signout();
             }
-
-            var html = string.Empty;
-            if (ewCache.CheckAccess(constants.ItemName(operation), DateTime.Now) == AuthorizationType.Allow)
+            else if (ewCache.CheckAccess(constants.ItemName(operation), DateTime.Now) == AuthorizationType.Allow)
             {
                 html = @"<a data-buttontype=" + dataButtontype + "  class=" + ccsClass + " href=" + url + ">" + text + "</a>";
             }
@@ -162,17 +160,13 @@ namespace Cats.Helpers
         {
             var constants = new LogisticsConstants();
             var ewCache = UserAccountHelper.GetUserPermissionCache(CatsGlobals.Applications.Logistics);
-
+            var html = string.Empty;
             // If cache is null then force the user to sign-in again
             if (null == ewCache)
             {
-                FormsAuthentication.SignOut();
-                return MvcHtmlString.Create(string.Empty);
+                Signout();
             }
-
-            var html = string.Empty;
-
-            if (ewCache.CheckAccess(constants.ItemName(operation), DateTime.Now) == AuthorizationType.Allow)
+            else if (ewCache.CheckAccess(constants.ItemName(operation), DateTime.Now) == AuthorizationType.Allow)
             {
                 html = "<a href=" + url;
                 if (ccsClass != "")
@@ -204,15 +198,13 @@ namespace Cats.Helpers
             var constants = new ProcurementConstants();
             var ewCache = UserAccountHelper.GetUserPermissionCache(CatsGlobals.Applications.Procurement);
 
+            var html = string.Empty;
             // If cache is null then force the user to sign-in again
             if (null == ewCache)
             {
-                FormsAuthentication.SignOut();
-                return MvcHtmlString.Create(string.Empty);
+                Signout();
             }
-
-            var html = string.Empty;
-            if (ewCache.CheckAccess(constants.ItemName(operation), DateTime.Now) == AuthorizationType.Allow)
+            else if (ewCache.CheckAccess(constants.ItemName(operation), DateTime.Now) == AuthorizationType.Allow)
             {
                 html = @"<a data-buttontype=" + dataButtontype + "  class=" + ccsClass + " href=" + url + ">" + text + "</a>";
             }
@@ -223,17 +215,14 @@ namespace Cats.Helpers
         {
             var constants = new ProcurementConstants();
             var ewCache = UserAccountHelper.GetUserPermissionCache(CatsGlobals.Applications.Procurement);
-
+            
+            var html = string.Empty;
             // If cache is null then force the user to sign-in again
             if (null == ewCache)
             {
-                FormsAuthentication.SignOut();
-                return MvcHtmlString.Create(string.Empty);
+                Signout();
             }
-
-            var html = string.Empty;
-
-            if (ewCache.CheckAccess(constants.ItemName(operation), DateTime.Now) == AuthorizationType.Allow)
+            else if (ewCache.CheckAccess(constants.ItemName(operation), DateTime.Now) == AuthorizationType.Allow)
             {
                 html = "<a href=" + url;
                 if (ccsClass != "")
@@ -265,15 +254,13 @@ namespace Cats.Helpers
             var constants = new HubConstants();
             var ewCache = UserAccountHelper.GetUserPermissionCache(CatsGlobals.Applications.Hub);
 
+            var html = string.Empty;
             // If cache is null then force the user to sign-in again
             if (null == ewCache)
             {
-                FormsAuthentication.SignOut();
-                return MvcHtmlString.Create(string.Empty);
+                Signout();
             }
-
-            var html = string.Empty;
-            if (ewCache.CheckAccess(constants.ItemName(operation), DateTime.Now) == AuthorizationType.Allow)
+            else if (ewCache.CheckAccess(constants.ItemName(operation), DateTime.Now) == AuthorizationType.Allow)
             {
                 html = @"<a data-buttontype=" + dataButtontype + "  class=" + ccsClass + " href=" + url + ">" + text + "</a>";
             }
@@ -285,16 +272,13 @@ namespace Cats.Helpers
             var constants = new HubConstants();
             var ewCache = UserAccountHelper.GetUserPermissionCache(CatsGlobals.Applications.Hub);
 
+            var html = string.Empty;
             // If cache is null then force the user to sign-in again
             if (null == ewCache)
             {
-                FormsAuthentication.SignOut();
-                return MvcHtmlString.Create(string.Empty);
+                Signout();
             }
-
-            var html = string.Empty;
-
-            if (ewCache.CheckAccess(constants.ItemName(operation), DateTime.Now) == AuthorizationType.Allow)
+           else if (ewCache.CheckAccess(constants.ItemName(operation), DateTime.Now) == AuthorizationType.Allow)
             {
                 html = "<a href=" + url;
                 if (ccsClass != "")
@@ -326,15 +310,13 @@ namespace Cats.Helpers
             var constants = new RegionalConstants();
             var ewCache = UserAccountHelper.GetUserPermissionCache(CatsGlobals.Applications.Region);
 
+            var html = string.Empty;
             // If cache is null then force the user to sign-in again
             if (null == ewCache)
             {
-                FormsAuthentication.SignOut();
-                return MvcHtmlString.Create(string.Empty);
+                Signout();
             }
-
-            var html = string.Empty;
-            if (ewCache.CheckAccess(constants.ItemName(operation), DateTime.Now) == AuthorizationType.Allow)
+            else if (ewCache.CheckAccess(constants.ItemName(operation), DateTime.Now) == AuthorizationType.Allow)
             {
                 html = @"<a data-buttontype=" + dataButtontype + "  class=" + ccsClass + " href=" + url + ">" + text + "</a>";
             }
@@ -346,16 +328,69 @@ namespace Cats.Helpers
             var constants = new RegionalConstants();
             var ewCache = UserAccountHelper.GetUserPermissionCache(CatsGlobals.Applications.Region);
 
+            var html = string.Empty;
             // If cache is null then force the user to sign-in again
             if (null == ewCache)
             {
-                FormsAuthentication.SignOut();
-                return MvcHtmlString.Create(string.Empty);
+                Signout();
             }
+            else if (ewCache.CheckAccess(constants.ItemName(operation), DateTime.Now) == AuthorizationType.Allow)
+            {
+                html = "<a href=" + url;
+                if (ccsClass != "")
+                {
+                    html += " class=" + ccsClass;
+                }
+                if (id != "")
+                {
+                    html += " id=" + id;
+                }
+                if (dataButtontype != "")
+                {
+                    html += " data-buttontype=" + dataButtontype;
+                }
+                if (text != "")
+                {
+                    html += " >" + text + "</a>";
+                }
+                else
+                {
+                    html += " ></a>";
+                }
+            }
+            return MvcHtmlString.Create(html);
+        }
+
+        public static MvcHtmlString FinanceOperationMenuItem(this HtmlHelper helper, string text, string url, FinanceConstants.Operation operation, string ccsClass = "", string dataButtontype = "")
+        {
+            var constants = new FinanceConstants();
+            var ewCache = UserAccountHelper.GetUserPermissionCache(CatsGlobals.Applications.Finance);
 
             var html = string.Empty;
+            // If cache is null then force the user to sign-in again
+            if (null == ewCache)
+            {
+                Signout();
+            }
+            else if (ewCache.CheckAccess(constants.ItemName(operation), DateTime.Now) == AuthorizationType.Allow)
+            {
+                html = @"<a data-buttontype=" + dataButtontype + "  class=" + ccsClass + " href=" + url + ">" + text + "</a>";
+            }
+            return MvcHtmlString.Create(html);
+        }
 
-            if (ewCache.CheckAccess(constants.ItemName(operation), DateTime.Now) == AuthorizationType.Allow)
+        public static MvcHtmlString FinanceOperationButton(this HtmlHelper helper, string url, FinanceConstants.Operation operation, string text = "", string ccsClass = "", string dataButtontype = "", string id = "")
+        {
+            var constants = new FinanceConstants();
+            var ewCache = UserAccountHelper.GetUserPermissionCache(CatsGlobals.Applications.Finance);
+
+            var html = string.Empty;
+            // If cache is null then force the user to sign-in again
+            if (null == ewCache)
+            {
+                Signout();
+            }
+            else if (ewCache.CheckAccess(constants.ItemName(operation), DateTime.Now) == AuthorizationType.Allow)
             {
                 html = "<a href=" + url;
                 if (ccsClass != "")

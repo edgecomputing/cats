@@ -1069,6 +1069,7 @@
     <Content Include="Content\assets\ico\apple-touch-icon-72-precomposed.png" />
     <Content Include="Content\assets\ico\favicon.ico" />
     <Content Include="Content\assets\ico\favicon.png" />
+    <Content Include="Content\assets\img\arrow.png" />
     <Content Include="Content\assets\img\bootstrap-docs-readme.png" />
     <Content Include="Content\assets\img\bootstrap-mdo-sfmoma-01.jpg" />
     <Content Include="Content\assets\img\bootstrap-mdo-sfmoma-02.jpg" />
@@ -1844,9 +1845,7 @@
     <Content Include="Areas\Settings\Views\Shared\_MainLayoutMap.cshtml" />
     <Content Include="Areas\Settings\Views\ProcessTemplate\Detail.cshtml" />
     <Content Include="Areas\Settings\Views\ProcessTemplate\Index.cshtml" />
-
     <Content Include="Areas\Settings\Views\Users\EditUser.cshtml" />
-
     <Content Include="Areas\Hub\Views\ReceiptAllocation\Copy of Close.cshtml" />
     <Content Include="Areas\Hub\Views\ReceiptAllocation\Edit.cshtml" />
     <Content Include="Areas\Logistics\Views\WoredaStockDistribution\_LeftBar.cshtml" />
