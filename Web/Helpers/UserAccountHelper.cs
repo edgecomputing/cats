@@ -176,6 +176,7 @@ namespace Cats.Helpers
                 case CatsGlobals.Applications.Region:
                     permissionsCache = (UserPermissionCache)HttpContext.Current.Session[CatsGlobals.REGION_PERMISSIONS];
                     break;
+
             }
 
             return permissionsCache;

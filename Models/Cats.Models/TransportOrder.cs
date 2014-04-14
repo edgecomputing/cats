@@ -12,7 +12,6 @@ namespace Cats.Models
        {
            this.TransportOrderDetails=new List<TransportOrderDetail>();
            // this.BidWinners=new List<BidWinner>();
-
        }
        public int TransportOrderID { get; set; }
        public string  TransportOrderNo { get; set; }

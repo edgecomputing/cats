@@ -98,6 +98,9 @@ namespace Cats.Controllers
                     UserPermissionCache regionalPermissionCache = new UserPermissionCache(storage, CatsGlobals.CATS, CatsGlobals.REGION, dbUser, true, false);
                     Session[CatsGlobals.REGION_PERMISSIONS] = regionalPermissionCache;
 
+                    // Regional user permissions
+                    UserPermissionCache financePermissionCache = new UserPermissionCache(storage, CatsGlobals.CATS, CatsGlobals.FINANCE, dbUser, true, false);
+                    Session[CatsGlobals.FINANCE_PERMISSIONS] = financePermissionCache;
                     // Whatever permission we are going to have!
                     _log.Info("Logged in User: " + user.UserName);
                     // TODO: Review user permission code
@@ -159,7 +162,6 @@ namespace Cats.Controllers
         {
             if (ModelState.IsValid)
             {
-
                 var user = _userAccountService.GetUserDetail(model.UserName);
                 if (user != null)
                 {
