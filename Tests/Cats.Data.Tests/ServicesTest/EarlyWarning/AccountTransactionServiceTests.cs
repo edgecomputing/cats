@@ -212,6 +212,11 @@ namespace Cats.Data.Tests.ServicesTest.EarlyWarning
                                                    RequisitionNo = "REQ-001",
                                                    Month = 12,
                                                    ProgramID = 1,
+                                                   RegionalRequestID = 1,
+                                                   RegionalRequest = new RegionalRequest()
+                                                                         {
+                                                                             RegionalRequestID = 1
+                                                                         }
                                                },
                                            new ReliefRequisition()
                                                {
@@ -219,6 +224,11 @@ namespace Cats.Data.Tests.ServicesTest.EarlyWarning
                                                    RequisitionNo = "REQ-002",
                                                    Month = 11,
                                                    ProgramID = 2,
+                                                   RegionalRequestID = 2,
+                                                   RegionalRequest = new RegionalRequest()
+                                                                         {
+                                                                             RegionalRequestID = 2
+                                                                         }
                                                }
                                        };
             var reliefRequisitionRepositoy = new Mock<IGenericRepository<ReliefRequisition>>();
@@ -383,7 +393,13 @@ namespace Cats.Data.Tests.ServicesTest.EarlyWarning
                                                                                                                        RequisitionNo = "REQ-001",
                                                                                                                        Month = 12,
                                                                                                                        ProgramID = 1,
-                                                                                                                       RegionID = 1
+                                                                                                                       RegionID = 1,
+                                                                                                                       RegionalRequestID = 1,
+                                                                                                                       RegionalRequest = new RegionalRequest()
+                                                                                                                                             {
+                                                                                                                                                 RegionalRequestID = 1,
+                                                                                                                                                 
+                                                                                                                                             }
                                                                                                                    },
                                                                                  }
                                                },
@@ -410,7 +426,13 @@ namespace Cats.Data.Tests.ServicesTest.EarlyWarning
                                                                                                                        RequisitionNo = "REQ-001",
                                                                                                                        Month = 12,
                                                                                                                        ProgramID = 1,
-                                                                                                                       RegionID = 1
+                                                                                                                       RegionID = 1,
+                                                                                                                       RegionalRequestID = 2,
+                                                                                                                       RegionalRequest = new RegionalRequest()
+                                                                                                                                             {
+                                                                                                                                                 RegionalRequestID = 2,
+                                                                                                                                                 
+                                                                                                                                             }
                                                                                                                    },
                                                                                  }
                                                }

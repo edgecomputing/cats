@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using System.Web.Security;
 using Cats.Models.Hubs;
 using Cats.Models.ViewModels;
+using Cats.Services.EarlyWarning;
 using Cats.Services.Hub;
 using Cats.Services.Common;
 using Cats.ViewModelBinder;
@@ -23,6 +24,15 @@ using Cats.Models.Hubs.ViewModels.Dispatch;
 
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
+using IAdminUnitService = Cats.Services.Hub.IAdminUnitService;
+using ICommodityService = Cats.Services.Hub.ICommodityService;
+using ICommodityTypeService = Cats.Services.Hub.ICommodityTypeService;
+using IFDPService = Cats.Services.Hub.IFDPService;
+using IHubService = Cats.Services.Hub.IHubService;
+using IProgramService = Cats.Services.Hub.IProgramService;
+using IProjectCodeService = Cats.Services.Hub.IProjectCodeService;
+using IShippingInstructionService = Cats.Services.Hub.IShippingInstructionService;
+using IUnitService = Cats.Services.Hub.IUnitService;
 
 namespace Cats.Areas.Hub.Controllers
 { 
@@ -51,6 +61,7 @@ namespace Cats.Areas.Hub.Controllers
         private readonly ISMSGatewayService _smsGatewayService;
         private readonly IContactService _contactService;
         private readonly ISMSService _smsService;
+        private readonly IReliefRequisitionService _reliefRequisitionService;
 
         public DispatchController(IDispatchAllocationService dispatchAllocationService, IDispatchService dispatchService,
             IUserProfileService userProfileService, IOtherDispatchAllocationService otherDispatchAllocationService,
@@ -59,7 +70,7 @@ namespace Cats.Areas.Hub.Controllers
             ICommodityService commodityService, ITransactionService transactionService, IStoreService storeService,
             IAdminUnitService adminUnitService, IHubService hubService, IFDPService fdpService,
             IProjectCodeService projectCodeService, IShippingInstructionService shippingInstructionService, 
-            ISMSGatewayService smsGatewayService, IContactService contactService, ISMSService smsService)
+            ISMSGatewayService smsGatewayService, IContactService contactService, ISMSService smsService, IReliefRequisitionService reliefRequisitionService)
             : base(userProfileService)
         {
             _dispatchAllocationService = dispatchAllocationService;
@@ -83,6 +94,7 @@ namespace Cats.Areas.Hub.Controllers
             _smsGatewayService = smsGatewayService;
             _contactService = contactService;
             _smsService = smsService;
+            _reliefRequisitionService = reliefRequisitionService;
         }
         public void populateLookups(UserProfile user)
         {
@@ -289,7 +301,7 @@ namespace Cats.Areas.Hub.Controllers
            dispatch.Region = fdp.AdminUnit.AdminUnit2.AdminUnit2.Name;
            dispatch.Zone = fdp.AdminUnit.AdminUnit2.Name;
            dispatch.Woreda = fdp.AdminUnit.Name;
-            dispatch.FDP = fdp.Name;
+           dispatch.FDP = fdp.Name;
             var transporter = _transporterService.FindById(dispatch.TransporterID);
            
             dispatch.Transporter = transporter.Name;
@@ -326,8 +338,15 @@ namespace Cats.Areas.Hub.Controllers
             ViewBag.UnitID = new SelectList(_unitService.GetAllUnit(), "UnitID", "Name", dispatchviewmodel.UnitID);
             if(ModelState.IsValid)
             {
-                DispatchViewModel dispatch = _dispatchService.CreateDispatchFromDispatchAllocation(dispatchviewmodel.DispatchAllocationID, 0);
+                
+                var reliefReq =
+                    _reliefRequisitionService.FindBy(n => n.RequisitionID == dispatchviewmodel.RequisitionId).
+                        FirstOrDefault();
+              
 
+
+                DispatchViewModel dispatch = _dispatchService.CreateDispatchFromDispatchAllocation(dispatchviewmodel.DispatchAllocationID, 0);
+                if (reliefReq != null) dispatch.PlanId = reliefReq.RegionalRequest.PlanID;
                 dispatch.UserProfileID = dispatchviewmodel.UserProfileID;
                 dispatch.PlateNo_Prime = dispatchviewmodel.PlateNo_Prime;
                 dispatch.PlateNo_Trailer = dispatchviewmodel.PlateNo_Trailer;
@@ -343,7 +362,8 @@ namespace Cats.Areas.Hub.Controllers
                 dispatch.FDP = dispatchviewmodel.FDP;
                 dispatch.Transporter = dispatchviewmodel.Transporter;
                 dispatch.HubID = dispatchviewmodel.HubID;
-                
+                dispatch.RequisitionId = dispatchviewmodel.RequisitionId;
+
                 dispatch.Quantity = UserProfile.PreferedWeightMeasurment.ToLower() == "mt" ? dispatchviewmodel.Quantity : dispatchviewmodel.Quantity / 10;
                 _transactionService.SaveDispatchTransaction(dispatch);
 

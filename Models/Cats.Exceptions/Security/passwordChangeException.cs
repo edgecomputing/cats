@@ -7,16 +7,16 @@ using System.Web;
 
 namespace Cats.Models.Exceptions
 {
-    public class passwordChangeException : Exception, ISerializable
+    public class PasswordChangeException : Exception, ISerializable
     {
         private const int exceptionCode = 4;
         private const string exceptionDetail = "An error occured while changing password";
         private const string exceptionTip = "";
 
-        public passwordChangeException() { }
-        public passwordChangeException(string message) { }
-        public passwordChangeException(Exception innerExeption) { }
-        public passwordChangeException(string message, Exception innerException) { }
+        public PasswordChangeException() { }
+        public PasswordChangeException(string message) { }
+        public PasswordChangeException(Exception innerExeption) { }
+        public PasswordChangeException(string message, Exception innerException) { }
 
         public string detail { get { return exceptionDetail; } }
         public string tip { get { return exceptionTip; } }

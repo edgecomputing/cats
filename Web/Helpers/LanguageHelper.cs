@@ -12,11 +12,10 @@ namespace Cats.Helpers
 {
     public static class LanguageHelper
     {
+        const string LOCALIZATION_TEXT = "LOCALIZATION_TEXT";
+
         public static string Translate(this HtmlHelper html, string phrase, string language = "EN")
         {
-            //TODO: By pass phrase translation to see the impact of localization module on performance
-            return phrase;
-
             var currentLanguage = language;
 
             // Get current language setting for the user.
@@ -36,10 +35,16 @@ namespace Cats.Helpers
             if (currentLanguage == "EN")
                 return phrase;
 
+            // Check if we already have a session variable to hold list of translations terms
+            if (HttpContext.Current.Session != null && HttpContext.Current.Session[LOCALIZATION_TEXT] != null)
+            {
+
+            }
+
             // For other languages try to get the corresponding translation
             var service = (ILocalizedTextService)DependencyResolver.Current.GetService(typeof(ILocalizedTextService));
 
-            return service.Translate(phrase, language);
+            return service.Translate(phrase, currentLanguage);
         }
 
         public static string Translate2(this HtmlHelper html, string pageName, string phrase, string language = "EN")
@@ -58,7 +63,7 @@ namespace Cats.Helpers
 
             try
             {
-                translatedPhrase = translations.ContainsKey(phrase) ? translations[phrase] : phrase;                
+                translatedPhrase = translations.ContainsKey(phrase) ? translations[phrase] : phrase;
             }
             catch (Exception ex)
             {

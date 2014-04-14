@@ -7,16 +7,16 @@ using System.Web;
 
 namespace Cats.Models.Exceptions
 {
-    public class unmatchingUsernameAndPasswordException : Exception, ISerializable
+    public class UnmatchingUsernameAndPasswordException : Exception, ISerializable
     {
         private const int exceptionCode = 1;
         private const string exceptionDetail = "User password and username do not match.";
         private const string exceptionTip = "Check the spelling, notice capitalization.";
 
-        public unmatchingUsernameAndPasswordException() { }
-        public unmatchingUsernameAndPasswordException(string message) { }
-        public unmatchingUsernameAndPasswordException(Exception innerExeption) { }
-        public unmatchingUsernameAndPasswordException(string message, Exception innerException) { }
+        public UnmatchingUsernameAndPasswordException() { }
+        public UnmatchingUsernameAndPasswordException(string message) { }
+        public UnmatchingUsernameAndPasswordException(Exception innerExeption) { }
+        public UnmatchingUsernameAndPasswordException(string message, Exception innerException) { }
 
         public string detail {get{return exceptionDetail;}}
         public string tip { get { return exceptionTip; } }

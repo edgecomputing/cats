@@ -160,7 +160,7 @@ namespace Cats.Infrastructure
 
             kernel.Bind<ILocalizedTextService>().To<LocalizedTextService>();
             kernel.Bind<LanguageHelpers.Localization.Services.ILanguageService>().To<LanguageHelpers.Localization.Services.LanguageService>();
-            //kernel.Bind<LanguageHelpers.Localization.Data.IUnitOfWork>().To<LanguageHelpers.Localization.Data.UnitOfWork>();
+            kernel.Bind<LanguageHelpers.Localization.Data.IUnitOfWork>().To<LanguageHelpers.Localization.Data.UnitOfWork>();
 
             kernel.Bind<Cats.Localization.Data.UnitOfWork.IUnitOfWork>().To<Cats.Localization.Data.UnitOfWork.UnitOfWork>();
             kernel.Bind<ILocalizationService>().To<LocalizationService>();

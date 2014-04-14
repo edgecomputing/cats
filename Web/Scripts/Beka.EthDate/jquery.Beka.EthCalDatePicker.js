@@ -349,8 +349,9 @@
 															    var greg_date = selected_date.toGreg();
 															    $(target.data("greg_input")).val(greg_date.toLocaleDateString());
 															    cal.removeClass("hover");
-															 //   datepicker.displayed = 0;
 															    cal.hide();
+															 //   datepicker.displayed = 0;
+															   
 															    
 															    //_ethdatepicker_show_month(cal);
 															}
