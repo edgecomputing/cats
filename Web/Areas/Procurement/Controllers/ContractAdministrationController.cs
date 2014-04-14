@@ -62,8 +62,7 @@ namespace Cats.Areas.Procurement.Controllers
                                             + "  |  Sub-City: " + transporterObj.SubCity
                                             + "  |  Telephone: " + transporterObj.TelephoneNo;
             
-
-            
+                        
             //var target = new TransportOrderDispatchViewModel { DispatchViewModels = dispatchView.Where(t => !t.GRNReceived).ToList(), DispatchViewModelsWithGRN = dispatchView.Where(t => t.GRNReceived).ToList(), TransportOrderViewModel = transportOrderViewModel };
             return View();
         }

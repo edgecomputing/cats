@@ -43,7 +43,7 @@ namespace Cats.Areas.Logistics.Controllers
             Cats.Services.EarlyWarning.ICommodityService commodityService, Cats.Services.EarlyWarning.IUnitService unitService, 
             Cats.Services.Transaction.ITransactionService transactionService,
             Cats.Services.EarlyWarning.IAdminUnitService adminUnitService, Cats.Services.EarlyWarning.IFDPService fdpService,
-             Cats.Services.Logistics.IDeliveryReconcileService deliveryReconcileService, IUserAccountService userAccountService)
+            Cats.Services.Logistics.IDeliveryReconcileService deliveryReconcileService, IUserAccountService userAccountService)
 
         {
             _dispatchAllocationService = dispatchAllocationService;

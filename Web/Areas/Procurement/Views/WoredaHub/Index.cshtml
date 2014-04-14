@@ -1,6 +1,7 @@
 ﻿@using Cats.Areas.Procurement.Models
 @using Cats.Helpers
 @using Cats.Models
+@using Cats.Security
 @using Cats.Services.Security
 @using Kendo.Mvc.UI
 @using LanguageHelpers.Localization
@@ -12,8 +13,8 @@
 @section Toolbar
 {
     @Html.ProcurementOperationButton(
-                        @Url.Action("CreateWoredaHub", "WoredaHub", new { Area = "Procurement" }),
-                        ProcurementCheckAccess.Operation.Create_new_bid_plan, "<i class=\"icon-plus\"></i>", "btn", "btn_new_record")
+                        @Url.Action("WoredaHub_Create", "WoredaHub", new { Area = "Procurement" }),
+                        ProcurementConstants.Operation.Create_new_bid_plan, "<i class=\"icon-plus\"></i>", "btn", "btn_new_record")
 }
 <div id="modalWindow">
     <h4>Are You Sure You Want to Approve this "Woreda Hub Version"?</h4>
@@ -42,7 +43,7 @@
         columns.Bound(p => p.WoredaHubName).Title(Translator.Translate("Name")).ClientTemplate(
             @Html.ProcurementOperationButton(
                 @Url.Action("Details", "WoredaHub", new { id = "#=WoredaHubID#" }),
-                ProcurementCheckAccess.Operation.View_bid_plan, "#=WoredaHubName#").ToString());
+                ProcurementConstants.Operation.View_History, "#=WoredaHubName#").ToString());
         columns.Bound(p => p.HRD);
         columns.Bound(p => p.Plan);
         columns.Bound(p => p.Status);

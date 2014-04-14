@@ -2,7 +2,6 @@
 namespace Cats.Security
 {
     #region EarlyWarning Security Constants
-
     public class EarlyWarningConstants
     {
         #region Methods
@@ -14,17 +13,13 @@ namespace Cats.Security
         /// <returns>The Role Name.</returns>
         public virtual string ItemName(Role role)
         {
-            if ((role == Role.EW_Coordinator))
+            if ((role == Role.CaseTeam_Coordinator))
             {
-                return "EW Coordinator";
+                return "CaseTeam-Coordinator";
             }
-            if ((role == Role.EW_Custom_Officer))
+            if ((role == Role.EW_CustomsOfficer))
             {
-                return "EW-Custom Officer";
-            }
-            if ((role == Role.EW_Director__EWRD))
-            {
-                return "EW-Director (EWRD)";
+                return "EW-CustomsOfficer";
             }
             if ((role == Role.EW_Experts))
             {
@@ -33,30 +28,6 @@ namespace Cats.Security
             if ((role == Role.EW_Logistics_Planner))
             {
                 return "EW-Logistics Planner";
-            }
-            if ((role == Role.EW_Minister__MoA))
-            {
-                return "EW-Minister (MoA)";
-            }
-            if ((role == Role.EW_National_DPPC))
-            {
-                return "EW-National DPPC";
-            }
-            if ((role == Role.EW_Other_Stakeholders))
-            {
-                return "EW-Other Stakeholders";
-            }
-            if ((role == Role.EW_Regional_DPPBs))
-            {
-                return "EW-Regional DPPBs";
-            }
-            if ((role == Role.EW_Resource_Mobilization_Expert))
-            {
-                return "EW-Resource Mobilization Expert";
-            }
-            if ((role == Role.EW_State_Minster__DRMFSS))
-            {
-                return "EW-State Minster (DRMFSS)";
             }
             throw new System.ArgumentException("Unknown Role name", "role");
         }
@@ -67,9 +38,13 @@ namespace Cats.Security
         /// <returns>The Task Name.</returns>
         public virtual string ItemName(Task task)
         {
-            if ((task == Task.Manage_Gift_Certificate))
+            if ((task == Task.Manage_Approval))
             {
-                return "Manage Gift Certificate";
+                return "Manage Approval";
+            }
+            if ((task == Task.Manage_Gift_Cereficate))
+            {
+                return "Manage Gift Cereficate";
             }
             if ((task == Task.Manage_HRD))
             {
@@ -107,6 +82,10 @@ namespace Cats.Security
             if ((operation == Operation.Add_new_commodity_allocation))
             {
                 return "Add new commodity allocation";
+            }
+            if ((operation == Operation.Add_New_IDPS_request))
+            {
+                return "Add New IDPS request";
             }
             if ((operation == Operation.Add_new_ration))
             {
@@ -296,6 +275,11 @@ namespace Cats.Security
             {
                 return "View Beneficiary no and duration of assisstance";
             }
+            if ((operation == Operation.View_Bid_Winners))
+            {
+                return "View Bid Winners";
+            }
+           
             if ((operation == Operation.View_Current_HRD))
             {
                 return "View Current HRD";
@@ -336,6 +320,10 @@ namespace Cats.Security
             {
                 return "View PC/SI Assigned Requisition";
             }
+            if ((operation == Operation.View_Plans))
+            {
+                return "View PC/SI Assigned Requisition";
+            }
             if ((operation == Operation.View_Ration_List))
             {
                 return "View Ration List";
@@ -363,17 +351,13 @@ namespace Cats.Security
         public enum Role
         {
             /// <summary>
-            /// Role EW Coordinator
+            /// Role CaseTeam-Coordinator
             /// </summary>
-            EW_Coordinator,
+            CaseTeam_Coordinator,
             /// <summary>
-            /// Role EW-Custom Officer
+            /// Role EW-CustomsOfficer
             /// </summary>
-            EW_Custom_Officer,
-            /// <summary>
-            /// Role EW-Director (EWRD)
-            /// </summary>
-            EW_Director__EWRD,
+            EW_CustomsOfficer,
             /// <summary>
             /// Role EW-Experts
             /// </summary>
@@ -382,30 +366,6 @@ namespace Cats.Security
             /// Role EW-Logistics Planner
             /// </summary>
             EW_Logistics_Planner,
-            /// <summary>
-            /// Role EW-Minister (MoA)
-            /// </summary>
-            EW_Minister__MoA,
-            /// <summary>
-            /// Role EW-National DPPC
-            /// </summary>
-            EW_National_DPPC,
-            /// <summary>
-            /// Role EW-Other Stakeholders
-            /// </summary>
-            EW_Other_Stakeholders,
-            /// <summary>
-            /// Role EW-Regional DPPBs
-            /// </summary>
-            EW_Regional_DPPBs,
-            /// <summary>
-            /// Role EW-Resource Mobilization Expert
-            /// </summary>
-            EW_Resource_Mobilization_Expert,
-            /// <summary>
-            /// Role EW-State Minster (DRMFSS)
-            /// </summary>
-            EW_State_Minster__DRMFSS,
         }
         /// <summary>
         /// Tasks Enumeration
@@ -413,9 +373,13 @@ namespace Cats.Security
         public enum Task
         {
             /// <summary>
-            /// Task Manage Gift Certificate
+            /// Task Manage Approval
             /// </summary>
-            Manage_Gift_Certificate,
+            Manage_Approval,
+            /// <summary>
+            /// Task Manage Gift Cereficate
+            /// </summary>
+            Manage_Gift_Cereficate,
             /// <summary>
             /// Task Manage HRD
             /// </summary>
@@ -450,6 +414,10 @@ namespace Cats.Security
             /// Operation Add new commodity allocation
             /// </summary>
             Add_new_commodity_allocation,
+            /// <summary>
+            /// Operation Add new ration
+            /// </summary>
+            Add_New_IDPS_request,
             /// <summary>
             /// Operation Add new ration
             /// </summary>
@@ -641,6 +609,10 @@ namespace Cats.Security
             /// <summary>
             /// Operation View Current HRD
             /// </summary>
+            View_Bid_Winners,
+            /// <summary>
+            /// Operation View Current HRD
+            /// </summary>
             View_Current_HRD,
             /// <summary>
             /// Operation View Draft Needs Assessment
@@ -681,6 +653,10 @@ namespace Cats.Security
             /// <summary>
             /// Operation View Ration List
             /// </summary>
+            View_Plans,
+            /// <summary>
+            /// Operation View Ration List
+            /// </summary>
             View_Ration_List,
             /// <summary>
             /// Operation View request
@@ -695,7 +671,6 @@ namespace Cats.Security
             /// </summary>
             View_submitted_requests,
         }
-
         #endregion
 
     }
@@ -703,62 +678,6 @@ namespace Cats.Security
     #region PSNP Security Constants
     public class PsnpConstants
     {
-        #region Methods
-
-        /// <summary>
-        /// Retrieve Item name from a Role Enum.
-        /// </summary>
-        /// <param name="role">The role.</param>
-        /// <returns>The Role Name.</returns>
-        public virtual string ItemName(Role role)
-        {
-            if ((role == Role.PSNP_Case_Team_Coordinator))
-            {
-                return "PSNP Case Team Coordinator";
-            }
-            if ((role == Role.PSNP_FIC_Expert))
-            {
-                return "PSNP-FIC Expert";
-            }
-            if ((role == Role.PSNP_Food_Security_Director))
-            {
-                return "PSNP-Food Security Director";
-            }
-            if ((role == Role.PSNP_FSCD_Staffs))
-            {
-                return "PSNP-FSCD Staffs";
-            }
-            if ((role == Role.PSNP_M_E_Expert))
-            {
-                return "PSNP-M&E Expert";
-            }
-            if ((role == Role.PSNP_Resource_Mobilization___Planning_Expert))
-            {
-                return "PSNP-Resource Mobilization & Planning Expert";
-            }
-            if ((role == Role.PSNP_RIC_Expert))
-            {
-                return "PSNP-RIC Expert";
-            }
-            throw new System.ArgumentException("Unknown Role name", "role");
-        }
-        /// <summary>
-        /// Retrieve Item name from a Task Enum.
-        /// </summary>
-        /// <param name="task">The task.</param>
-        /// <returns>The Task Name.</returns>
-        public virtual string ItemName(Task task)
-        {
-            if ((task == Task.Approve_annual_plan))
-            {
-                return "Approve annual plan";
-            }
-            if ((task == Task.Manage_annual_plan))
-            {
-                return "Manage annual plan";
-            }
-            throw new System.ArgumentException("Unknown Task name", "task");
-        }
         /// <summary>
         /// Retrieve Item name from a Operation Enum.
         /// </summary>
@@ -766,168 +685,286 @@ namespace Cats.Security
         /// <returns>The Operation Name.</returns>
         public virtual string ItemName(Operation operation)
         {
-            if ((operation == Operation.Ask_approval))
+            if ((operation == Operation.Add_commodity))
             {
-                return "Ask approval";
+                return "Add commodity";
             }
-            if ((operation == Operation.Complete_annual_plan))
+            if ((operation == Operation.Add_new_plan))
             {
-                return "Complete annual plan";
+                return "Add new plan";
             }
-            if ((operation == Operation.Edit_annual_plan))
+            if ((operation == Operation.Add_new_Ration))
             {
-                return "Edit annual plan";
+                return "Add new Ration";
             }
-            if ((operation == Operation.Export_annual_plan))
+            if ((operation == Operation.Add_new_resource_allocation))
             {
-                return "Export annual plan";
+                return "Add new resource allocation";
             }
-            if ((operation == Operation.New_annual_plan))
+            if ((operation == Operation.Approve_Monthly_relife_requisitions))
             {
-                return "New annual plan";
+                return "Approve Monthly relife requisitions";
             }
-            if ((operation == Operation.Print_annual_plan))
+            if ((operation == Operation.Approve_Request))
             {
-                return "Print annual plan";
+                return "Approve Request";
             }
-            if ((operation == Operation.Regional_PSNP_Plan))
+            if ((operation == Operation.Delete__allocated_resource))
             {
-                return "Regional PSNP Plan";
+                return "Delete  allocated resource";
             }
-            if ((operation == Operation.Request_plan_revision))
+            if ((operation == Operation.Delete_PSNP_plan))
             {
-                return "Request plan revision";
+                return "Delete PSNP plan";
             }
-            if ((operation == Operation.Submit_plan_revision))
+            if ((operation == Operation.Edit__plan))
             {
-                return "Submit plan revision";
+                return "Edit  plan";
             }
-            if ((operation == Operation.View_annual_plan_list))
+            if ((operation == Operation.Edit_PSNP_plan))
             {
-                return "View annual plan list";
+                return "Edit PSNP plan";
             }
-            if ((operation == Operation.View_Ration_List))
+            if ((operation == Operation.Edit_ration))
             {
-                return "View Ration List";
+                return "Edit ration";
             }
-            if ((operation == Operation.View_request))
+            if ((operation == Operation.PSNP_plan_Ask_approval))
             {
-                return "View request";
+                return "PSNP plan Ask approval";
             }
-            if ((operation == Operation.View_Requisition))
+            if ((operation == Operation.PSNP_plan_history))
             {
-                return "View Requisition";
+                return "PSNP plan history";
+            }
+            if ((operation == Operation.Remove_commodity))
+            {
+                return "Remove commodity";
+            }
+            if ((operation == Operation.Select_default_ration))
+            {
+                return "Select default ration";
+            }
+            if ((operation == Operation.View__plan_menu_item))
+            {
+                return "View  plan menu item";
+            }
+            if ((operation == Operation.View_approved_requisitions))
+            {
+                return "View approved requisitions";
+            }
+            if ((operation == Operation.View_assessment_created_plan))
+            {
+                return "View assessment created plan";
+            }
+            if ((operation == Operation.View_closed_plan))
+            {
+                return "View closed plan";
+            }
+            if ((operation == Operation.View_Draft_plan))
+            {
+                return "View Draft plan";
+            }
+            if ((operation == Operation.View_draft_requisitions))
+            {
+                return "View draft requisitions";
+            }
+            if ((operation == Operation.View_HRD_created_Plan))
+            {
+                return "View HRD created Plan";
+            }
+            if ((operation == Operation.View_hub_assigned_requisitions))
+            {
+                return "View hub assigned requisitions";
+            }
+            if ((operation == Operation.View_New_Request_menu_item))
+            {
+                return "View New Request menu item";
+            }
+            if ((operation == Operation.View_PSNP_created_plan))
+            {
+                return "View PSNP created plan";
+            }
+            if ((operation == Operation.View_PSNP_plan_menu_item))
+            {
+                return "View PSNP plan menu item";
+            }
+            if ((operation == Operation.View_ration_menu_item))
+            {
+                return "View ration menu item";
+            }
+            if ((operation == Operation.View_reginal_PSNP_plan))
+            {
+                return "View reginal PSNP plan";
+            }
+            if ((operation == Operation.View_request_allocation))
+            {
+                return "View request allocation";
+            }
+            if ((operation == Operation.View_request_Detail))
+            {
+                return "View request Detail";
+            }
+            if ((operation == Operation.View_request_reference_number))
+            {
+                return "View request reference number";
+            }
+            if ((operation == Operation.View_requests_menu_item))
+            {
+                return "View requests menu item";
+            }
+            if ((operation == Operation.View_requisition_no_link))
+            {
+                return "View requisition no link";
+            }
+            if ((operation == Operation.View_Requisitions))
+            {
+                return "View Requisitions";
             }
             throw new System.ArgumentException("Unknown Operation name", "operation");
         }
-
-        #endregion
         #region Enums
-        /// <summary>
-        /// Roles Enumeration
-        /// </summary>
-        public enum Role
-        {
-            /// <summary>
-            /// Role PSNP Case Team Coordinator
-            /// </summary>
-            PSNP_Case_Team_Coordinator,
-            /// <summary>
-            /// Role PSNP-FIC Expert
-            /// </summary>
-            PSNP_FIC_Expert,
-            /// <summary>
-            /// Role PSNP-Food Security Director
-            /// </summary>
-            PSNP_Food_Security_Director,
-            /// <summary>
-            /// Role PSNP-FSCD Staffs
-            /// </summary>
-            PSNP_FSCD_Staffs,
-            /// <summary>
-            /// Role PSNP-M&E Expert
-            /// </summary>
-            PSNP_M_E_Expert,
-            /// <summary>
-            /// Role PSNP-Resource Mobilization & Planning Expert
-            /// </summary>
-            PSNP_Resource_Mobilization___Planning_Expert,
-            /// <summary>
-            /// Role PSNP-RIC Expert
-            /// </summary>
-            PSNP_RIC_Expert,
-        }
-        /// <summary>
-        /// Tasks Enumeration
-        /// </summary>
-        public enum Task
-        {
-            /// <summary>
-            /// Task Approve annual plan
-            /// </summary>
-            Approve_annual_plan,
-            /// <summary>
-            /// Task Manage annual plan
-            /// </summary>
-            Manage_annual_plan,
-        }
         /// <summary>
         /// Operations Enumeration
         /// </summary>
         public enum Operation
         {
             /// <summary>
-            /// Operation Ask approval
+            /// Operation Add commodity
             /// </summary>
-            Ask_approval,
+            Add_commodity,
             /// <summary>
-            /// Operation Complete annual plan
+            /// Operation Add new plan
             /// </summary>
-            Complete_annual_plan,
+            Add_new_plan,
             /// <summary>
-            /// Operation Edit annual plan
+            /// Operation Add new Ration
             /// </summary>
-            Edit_annual_plan,
+            Add_new_Ration,
             /// <summary>
-            /// Operation Export annual plan
+            /// Operation Add new resource allocation
             /// </summary>
-            Export_annual_plan,
+            Add_new_resource_allocation,
             /// <summary>
-            /// Operation New annual plan
+            /// Operation Approve Monthly relife requisitions
             /// </summary>
-            New_annual_plan,
+            Approve_Monthly_relife_requisitions,
             /// <summary>
-            /// Operation Print annual plan
+            /// Operation Approve Request
             /// </summary>
-            Print_annual_plan,
+            Approve_Request,
             /// <summary>
-            /// Operation Regional PSNP Plan
+            /// Operation Delete  allocated resource
             /// </summary>
-            Regional_PSNP_Plan,
+            Delete__allocated_resource,
             /// <summary>
-            /// Operation Request plan revision
+            /// Operation Delete PSNP plan
             /// </summary>
-            Request_plan_revision,
+            Delete_PSNP_plan,
             /// <summary>
-            /// Operation Submit plan revision
+            /// Operation Edit  plan
             /// </summary>
-            Submit_plan_revision,
+            Edit__plan,
             /// <summary>
-            /// Operation View annual plan list
+            /// Operation Edit PSNP plan
             /// </summary>
-            View_annual_plan_list,
+            Edit_PSNP_plan,
             /// <summary>
-            /// Operation View Ration List
+            /// Operation Edit ration
             /// </summary>
-            View_Ration_List,
+            Edit_ration,
             /// <summary>
-            /// Operation View request
+            /// Operation PSNP plan Ask approval
             /// </summary>
-            View_request,
+            PSNP_plan_Ask_approval,
             /// <summary>
-            /// Operation View Requisition
+            /// Operation PSNP plan history
             /// </summary>
-            View_Requisition,
+            PSNP_plan_history,
+            /// <summary>
+            /// Operation Remove commodity
+            /// </summary>
+            Remove_commodity,
+            /// <summary>
+            /// Operation Select default ration
+            /// </summary>
+            Select_default_ration,
+            /// <summary>
+            /// Operation View  plan menu item
+            /// </summary>
+            View__plan_menu_item,
+            /// <summary>
+            /// Operation View approved requisitions
+            /// </summary>
+            View_approved_requisitions,
+            /// <summary>
+            /// Operation View assessment created plan
+            /// </summary>
+            View_assessment_created_plan,
+            /// <summary>
+            /// Operation View closed plan
+            /// </summary>
+            View_closed_plan,
+            /// <summary>
+            /// Operation View Draft plan
+            /// </summary>
+            View_Draft_plan,
+            /// <summary>
+            /// Operation View draft requisitions
+            /// </summary>
+            View_draft_requisitions,
+            /// <summary>
+            /// Operation View HRD created Plan
+            /// </summary>
+            View_HRD_created_Plan,
+            /// <summary>
+            /// Operation View hub assigned requisitions
+            /// </summary>
+            View_hub_assigned_requisitions,
+            /// <summary>
+            /// Operation View New Request menu item
+            /// </summary>
+            View_New_Request_menu_item,
+            /// <summary>
+            /// Operation View PSNP created plan
+            /// </summary>
+            View_PSNP_created_plan,
+            /// <summary>
+            /// Operation View PSNP plan menu item
+            /// </summary>
+            View_PSNP_plan_menu_item,
+            /// <summary>
+            /// Operation View ration menu item
+            /// </summary>
+            View_ration_menu_item,
+            /// <summary>
+            /// Operation View reginal PSNP plan
+            /// </summary>
+            View_reginal_PSNP_plan,
+            /// <summary>
+            /// Operation View request allocation
+            /// </summary>
+            View_request_allocation,
+            /// <summary>
+            /// Operation View request Detail
+            /// </summary>
+            View_request_Detail,
+            /// <summary>
+            /// Operation View request reference number
+            /// </summary>
+            View_request_reference_number,
+            /// <summary>
+            /// Operation View requests menu item
+            /// </summary>
+            View_requests_menu_item,
+            /// <summary>
+            /// Operation View requisition no link
+            /// </summary>
+            View_requisition_no_link,
+            /// <summary>
+            /// Operation View Requisitions
+            /// </summary>
+            View_Requisitions,
         }
         #endregion
     }
@@ -936,613 +973,427 @@ namespace Cats.Security
     public class LogisticsConstants
     {
         #region Methods
-        /// <summary>
-        /// Retrieve Item name from a Role Enum.
-        /// </summary>
-        /// <param name="role">The role.</param>
-        /// <returns>The Role Name.</returns>
-        public virtual string ItemName(Role role)
-        {
-            if ((role == Role.LG_Account_Verification_Expert_issue))
-            {
-                return "LG-Account Verification Expert(issue)";
-            }
-            if ((role == Role.LG_Addis_Storage___Distribution))
-            {
-                return "LG-Addis Storage & Distribution";
-            }
-            if ((role == Role.LG_Agreement___Processor_issue))
-            {
-                return "LG-Agreement & Processor(issue)";
-            }
-            if ((role == Role.LG_Allocation_Award___Followup))
-            {
-                return "LG-Allocation Award & Followup";
-            }
-            if ((role == Role.LG_Coordinator))
-            {
-                return "LG-Coordinator";
-            }
-            if ((role == Role.LG_Coordinator_issue))
-            {
-                return "LG-Coordinator(issue)";
-            }
-            if ((role == Role.LG_Data_Encoder_issue))
-            {
-                return "LG-Data Encoder(issue)";
-            }
-            if ((role == Role.LG_Evaluation))
-            {
-                return "LG-Evaluation";
-            }
-            if ((role == Role.LG_Followup_Expert_issue))
-            {
-                return "LG-Followup Expert(issue)";
-            }
-            if ((role == Role.LG_Legal_Officer))
-            {
-                return "LG-Legal Officer";
-            }
-            if ((role == Role.LG_Monitoring___Evaluation_utilization))
-            {
-                return "LG-Monitoring & Evaluation(utilization)";
-            }
-            if ((role == Role.LG_Performance_Evaluator))
-            {
-                return "LG-Performance Evaluator";
-            }
-            if ((role == Role.LG_Pipeline_Officer))
-            {
-                return "LG-Pipeline Officer";
-            }
-            if ((role == Role.LG_Report_Compilation))
-            {
-                return "LG-Report Compilation";
-            }
-            if ((role == Role.LG_Secretory))
-            {
-                return "LG-Secretory";
-            }
-            if ((role == Role.LG_Storage___Distribution_Expert_issue))
-            {
-                return "LG-Storage & Distribution Expert(issue)";
-            }
-            if ((role == Role.LG_Store_Keeper))
-            {
-                return "LG-Store Keeper";
-            }
-            if ((role == Role.LG_Transport_Officer))
-            {
-                return "LG-Transport Officer";
-            }
-            if ((role == Role.LG_Transport_Order_Issue_issue))
-            {
-                return "LG-Transport Order Issue(issue)";
-            }
-            throw new System.ArgumentException("Unknown Role name", "role");
-        }
-        /// <summary>
-        /// Retrieve Item name from a Task Enum.
-        /// </summary>
-        /// <param name="task">The task.</param>
-        /// <returns>The Task Name.</returns>
-        public virtual string ItemName(Task task)
-        {
-            if ((task == Task.Approve_bid))
-            {
-                return "Approve bid";
-            }
-            if ((task == Task.Bid_winner_transporters))
-            {
-                return "Bid winner transporters";
-            }
-            if ((task == Task.Dispatch_Allocation))
-            {
-                return "Dispatch Allocation";
-            }
-            if ((task == Task.Logistic_Dashboard))
-            {
-                return "Logistic Dashboard";
-            }
-            if ((task == Task.Manage_RFQ))
-            {
-                return "Manage RFQ";
-            }
-            if ((task == Task.Manage_transport_suppliers))
-            {
-                return "Manage transport suppliers";
-            }
-            if ((task == Task.Resource_Allocation))
-            {
-                return "Resource Allocation";
-            }
-            if ((task == Task.Stock))
-            {
-                return "Stock";
-            }
-            if ((task == Task.Transport_Order))
-            {
-                return "Transport Order";
-            }
-            if ((task == Task.Transport_Requisition))
-            {
-                return "Transport Requisition";
-            }
-            throw new System.ArgumentException("Unknown Task name", "task");
-        }
-        /// <summary>
+         /// <summary>
         /// Retrieve Item name from a Operation Enum.
         /// </summary>
         /// <param name="operation">The operation.</param>
         /// <returns>The Operation Name.</returns>
         public virtual string ItemName(Operation operation)
-        {
-            if ((operation == Operation.Assign_Hub))
-            {
-                return "Assign Hub";
-            }
-            if ((operation == Operation.Delete_transporter))
-            {
-                return "Delete transporter";
-            }
-            if ((operation == Operation.Edit__transport_order))
-            {
-                return "Edit  transport order";
-            }
-            if ((operation == Operation.Edit_transport_supplier))
-            {
-                return "Edit transport supplier";
-            }
-            if ((operation == Operation.Export_bid_winner_list))
-            {
-                return "Export bid winner list";
-            }
-            if ((operation == Operation.Export_hub_allocation))
-            {
-                return "Export hub allocation";
-            }
-            if ((operation == Operation.Export_transport_order))
-            {
-                return "Export transport order";
-            }
-            if ((operation == Operation.Export_transporters_list))
-            {
-                return "Export transporters list";
-            }
-            if ((operation == Operation.Generate_TR))
-            {
-                return "Generate TR";
-            }
-            if ((operation == Operation.Hub_Allocation))
-            {
-                return "Hub Allocation";
-            }
-            if ((operation == Operation.New_transport_order))
-            {
-                return "New transport order";
-            }
-            if ((operation == Operation.New_transport_supplier))
-            {
-                return "New transport supplier";
-            }
-            if ((operation == Operation.PC_SI_Code_Allocation))
-            {
-                return "PC/SI Code Allocation";
-            }
-            if ((operation == Operation.Price_quatation_data_entry))
-            {
-                return "Price quatation data entry";
-            }
-            if ((operation == Operation.Print_bid_winners_list))
-            {
-                return "Print bid winners list";
-            }
-            if ((operation == Operation.Print_hub_allocation))
-            {
-                return "Print hub allocation";
-            }
-            if ((operation == Operation.Print_RFQ))
-            {
-                return "Print RFQ";
-            }
-            if ((operation == Operation.Print_transport_order))
-            {
-                return "Print transport order";
-            }
-            if ((operation == Operation.Print_transporters_list))
-            {
-                return "Print transporters list";
-            }
-            if ((operation == Operation.View_active_contracts))
-            {
-                return "View active contracts";
-            }
-            if ((operation == Operation.View_allocated_hubs))
-            {
-                return "View allocated hubs";
-            }
-            if ((operation == Operation.View_bid_winner_transporters))
-            {
-                return "View bid winner transporters";
-            }
-            if ((operation == Operation.View_contract_history))
-            {
-                return "View contract history";
-            }
-            if ((operation == Operation.View_Destinations))
-            {
-                return "View Destinations";
-            }
-            if ((operation == Operation.View_Dispatch_Allocation))
-            {
-                return "View Dispatch Allocation";
-            }
-            if ((operation == Operation.View_draft_hub_allocation))
-            {
-                return "View draft hub allocation";
-            }
-            if ((operation == Operation.View_Transport_Requisition))
-            {
-                return "View Transport Requisition";
-            }
-            if ((operation == Operation.View_Transport_Requisition_Detail))
-            {
-                return "View Transport Requisition Detail";
-            }
-            if ((operation == Operation.View_transporter_list))
-            {
-                return "View transporter list";
-            }
-            throw new System.ArgumentException("Unknown Operation name", "operation");
-        }
-        
-        #endregion
-        
+         {
+             if ((operation == Operation.Add_new_donation))
+             {
+                 return "Add new donation";
+             }
+             if ((operation == Operation.Add_new_local_purchase))
+             {
+                 return "Add new local purchase";
+             }
+             if ((operation == Operation.Add_new_transfer_plan))
+             {
+                 return "Add new transfer plan";
+             }
+             if ((operation == Operation.Add_new_transport_order))
+             {
+                 return "Add new transport order";
+             }
+             if ((operation == Operation.Approve_local_purchase))
+             {
+                 return "Approve local purchase";
+             }
+             if ((operation == Operation.Approve_transfer_plan))
+             {
+                 return "Approve transfer plan";
+             }
+             if ((operation == Operation.Approve_transport_order))
+             {
+                 return "Approve transport order";
+             }
+             if ((operation == Operation.Approve_transport_requisition))
+             {
+                 return "Approve transport requisition";
+             }
+             if ((operation == Operation.Assign_transporter))
+             {
+                 return "Assign transporter";
+             }
+             if ((operation == Operation.Edit_donation))
+             {
+                 return "Edit donation";
+             }
+             if ((operation == Operation.Edit_GRN))
+             {
+                 return "Edit GRN";
+             }
+             if ((operation == Operation.Edit_transfer_plan))
+             {
+                 return "Edit transfer plan";
+             }
+             if ((operation == Operation.Edit_transport_order))
+             {
+                 return "Edit transport order";
+             }
+             if ((operation == Operation.Edit_transport_requisition))
+             {
+                 return "Edit transport requisition";
+             }
+             if ((operation == Operation.Generate_transport_requisition))
+             {
+                 return "Generate transport requisition";
+             }
+             if ((operation == Operation.Hub_allocation))
+             {
+                 return "Hub allocation";
+             }
+             if ((operation == Operation.Local_purchase_link))
+             {
+                 return "Local purchase link";
+             }
+             if ((operation == Operation.Receive_donation))
+             {
+                 return "Receive donation";
+             }
+             if ((operation == Operation.SI_PC_allocation))
+             {
+                 return "SI/PC allocation";
+             }
+             if ((operation == Operation.Transfer_plan_link))
+             {
+                 return "Transfer plan link";
+             }
+             if ((operation == Operation.Transport_order_link))
+             {
+                 return "Transport order link";
+             }
+             if ((operation == Operation.transport_requisition_link))
+             {
+                 return "transport requisition link";
+             }
+             if ((operation == Operation.Transporter_performance_link))
+             {
+                 return "Transporter performance link";
+             }
+             if ((operation == Operation.Veiw_free_stock_status_report))
+             {
+                 return "Veiw free stock status report";
+             }
+             if ((operation == Operation.View_active_agreement_contract))
+             {
+                 return "View active agreement contract";
+             }
+             if ((operation == Operation.View_active_transport_order))
+             {
+                 return "View active transport order";
+             }
+             if ((operation == Operation.View_approved_transport_order))
+             {
+                 return "View approved transport order";
+             }
+             if ((operation == Operation.View_bid_planning_menu_item))
+             {
+                 return "View bid planning menu item";
+             }
+             if ((operation == Operation.View_bid_winning_transporter))
+             {
+                 return "View bid winning transporter";
+             }
+             if ((operation == Operation.View_carry_over_stock_report))
+             {
+                 return "View carry over stock report";
+             }
+             if ((operation == Operation.View_commodity_recied_status_report))
+             {
+                 return "View commodity recied status report";
+             }
+             if ((operation == Operation.View_contract_admin_history))
+             {
+                 return "View contract admin history";
+             }
+             if ((operation == Operation.View_contract_Admin_menu_item))
+             {
+                 return "View contract Admin menu item";
+             }
+             if ((operation == Operation.View_dispatch_allocation_menu_item))
+             {
+                 return "View dispatch allocation menu item";
+             }
+             if ((operation == Operation.View_donation_menu_item))
+             {
+                 return "View donation menu item";
+             }
+             if ((operation == Operation.View_draft_transport_order))
+             {
+                 return "View draft transport order";
+             }
+             if ((operation == Operation. View_free_stock_report))
+             {
+                 return "View free stock report";
+             }
+           
+             if ((operation == Operation.View_generate_agreement))
+             {
+                 return "View generate agreement";
+             }
+             if ((operation == Operation.View_GIN))
+             {
+                 return "View GIN";
+             }
+             if ((operation == Operation.View_Loan_Menu_Item))
+             {
+                 return "View Loan Menu Item";
+             }
+             if ((operation == Operation.View_local_purchase_menu_item))
+             {
+                 return "View local purchase menu item";
+             }
+             if ((operation == Operation.View_Payment_Requests))
+             {
+                 return "View Payment Requests";
+             }
+             if ((operation == Operation.View_transfer_menu_item))
+             {
+                 return "View transfer menu item";
+             }
+             if ((operation == Operation.View_transfereed_stock_staus_report))
+             {
+                 return "View transfereed stock staus report";
+             }
+             if ((operation == Operation.View_transport_order_menu_item))
+             {
+                 return "View transport order menu item";
+             }
+             if ((operation == Operation.View_transport_requisition_destinations))
+             {
+                 return "View transport requisition destinations";
+             }
+             if ((operation == Operation.View_transport_requisition_menu_item))
+             {
+                 return "View transport requisition menu item";
+             }
+             if ((operation == Operation.View_transporter_performance_menu_item))
+             {
+                 return "View transporter performance menu item";
+             }
+             if ((operation == Operation.Warehouse_selection))
+             {
+                 return "Warehouse selection";
+             }
+             throw new System.ArgumentException("Unknown Operation name", "operation");
+
+             #endregion
+         }
+
         #region Enums
-        /// <summary>
-        /// Roles Enumeration
-        /// </summary>
-        public enum Role
-        {
-            /// <summary>
-            /// Role LG-Account Verification Expert(issue)
-            /// </summary>
-            LG_Account_Verification_Expert_issue,
-            /// <summary>
-            /// Role LG-Addis Storage & Distribution
-            /// </summary>
-            LG_Addis_Storage___Distribution,
-            /// <summary>
-            /// Role LG-Agreement & Processor(issue)
-            /// </summary>
-            LG_Agreement___Processor_issue,
-            /// <summary>
-            /// Role LG-Allocation Award & Followup
-            /// </summary>
-            LG_Allocation_Award___Followup,
-            /// <summary>
-            /// Role LG-Coordinator
-            /// </summary>
-            LG_Coordinator,
-            /// <summary>
-            /// Role LG-Coordinator(issue)
-            /// </summary>
-            LG_Coordinator_issue,
-            /// <summary>
-            /// Role LG-Data Encoder(issue)
-            /// </summary>
-            LG_Data_Encoder_issue,
-            /// <summary>
-            /// Role LG-Evaluation
-            /// </summary>
-            LG_Evaluation,
-            /// <summary>
-            /// Role LG-Followup Expert(issue)
-            /// </summary>
-            LG_Followup_Expert_issue,
-            /// <summary>
-            /// Role LG-Legal Officer
-            /// </summary>
-            LG_Legal_Officer,
-            /// <summary>
-            /// Role LG-Monitoring & Evaluation(utilization)
-            /// </summary>
-            LG_Monitoring___Evaluation_utilization,
-            /// <summary>
-            /// Role LG-Performance Evaluator
-            /// </summary>
-            LG_Performance_Evaluator,
-            /// <summary>
-            /// Role LG-Pipeline Officer
-            /// </summary>
-            LG_Pipeline_Officer,
-            /// <summary>
-            /// Role LG-Report Compilation
-            /// </summary>
-            LG_Report_Compilation,
-            /// <summary>
-            /// Role LG-Secretory
-            /// </summary>
-            LG_Secretory,
-            /// <summary>
-            /// Role LG-Storage & Distribution Expert(issue)
-            /// </summary>
-            LG_Storage___Distribution_Expert_issue,
-            /// <summary>
-            /// Role LG-Store Keeper
-            /// </summary>
-            LG_Store_Keeper,
-            /// <summary>
-            /// Role LG-Transport Officer
-            /// </summary>
-            LG_Transport_Officer,
-            /// <summary>
-            /// Role LG-Transport Order Issue(issue)
-            /// </summary>
-            LG_Transport_Order_Issue_issue,
-        }
-        /// <summary>
-        /// Tasks Enumeration
-        /// </summary>
-        public enum Task
-        {
-            /// <summary>
-            /// Task Approve bid
-            /// </summary>
-            Approve_bid,
-            /// <summary>
-            /// Task Bid winner transporters
-            /// </summary>
-            Bid_winner_transporters,
-            /// <summary>
-            /// Task Dispatch Allocation
-            /// </summary>
-            Dispatch_Allocation,
-            /// <summary>
-            /// Task Logistic Dashboard
-            /// </summary>
-            Logistic_Dashboard,
-            /// <summary>
-            /// Task Manage RFQ
-            /// </summary>
-            Manage_RFQ,
-            /// <summary>
-            /// Task Manage transport suppliers
-            /// </summary>
-            Manage_transport_suppliers,
-            /// <summary>
-            /// Task Resource Allocation
-            /// </summary>
-            Resource_Allocation,
-            /// <summary>
-            /// Task Stock
-            /// </summary>
-            Stock,
-            /// <summary>
-            /// Task Transport Order
-            /// </summary>
-            Transport_Order,
-            /// <summary>
-            /// Task Transport Requisition
-            /// </summary>
-            Transport_Requisition,
-        }
         /// <summary>
         /// Operations Enumeration
         /// </summary>
         public enum Operation
         {
             /// <summary>
-            /// Operation Assign Hub
+            /// Operation Add new donation
             /// </summary>
-            Assign_Hub,
+            Add_new_donation,
             /// <summary>
-            /// Operation Delete transporter
+            /// Operation Add new local purchase
             /// </summary>
-            Delete_transporter,
+            Add_new_local_purchase,
             /// <summary>
-            /// Operation Edit  transport order
+            /// Operation Add new transfer plan
             /// </summary>
-            Edit__transport_order,
+            Add_new_transfer_plan,
             /// <summary>
-            /// Operation Edit transport supplier
+            /// Operation Add new transport order
             /// </summary>
-            Edit_transport_supplier,
+            Add_new_transport_order,
             /// <summary>
-            /// Operation Export bid winner list
+            /// Operation Approve local purchase
             /// </summary>
-            Export_bid_winner_list,
+            Approve_local_purchase,
             /// <summary>
-            /// Operation Export hub allocation
+            /// Operation Approve transfer plan
             /// </summary>
-            Export_hub_allocation,
+            Approve_transfer_plan,
             /// <summary>
-            /// Operation Export transport order
+            /// Operation Approve transport order
             /// </summary>
-            Export_transport_order,
+            Approve_transport_order,
             /// <summary>
-            /// Operation Export transporters list
+            /// Operation Approve transport requisition
             /// </summary>
-            Export_transporters_list,
+            Approve_transport_requisition,
             /// <summary>
-            /// Operation Generate TR
+            /// Operation Assign transporter
             /// </summary>
-            Generate_TR,
+            Assign_transporter,
             /// <summary>
-            /// Operation Hub Allocation
+            /// Operation Edit donation
             /// </summary>
-            Hub_Allocation,
+            Edit_donation,
             /// <summary>
-            /// Operation New transport order
+            /// Operation Edit GRN
             /// </summary>
-            New_transport_order,
+            Edit_GRN,
             /// <summary>
-            /// Operation New transport supplier
+            /// Operation Edit transfer plan
             /// </summary>
-            New_transport_supplier,
+            Edit_transfer_plan,
             /// <summary>
-            /// Operation PC/SI Code Allocation
+            /// Operation Edit transport order
             /// </summary>
-            PC_SI_Code_Allocation,
+            Edit_transport_order,
             /// <summary>
-            /// Operation Price quatation data entry
+            /// Operation Edit transport requisition
             /// </summary>
-            Price_quatation_data_entry,
+            Edit_transport_requisition,
             /// <summary>
-            /// Operation Print bid winners list
+            /// Operation Generate transport requisition
             /// </summary>
-            Print_bid_winners_list,
+            Generate_transport_requisition,
             /// <summary>
-            /// Operation Print hub allocation
+            /// Operation Hub allocation
             /// </summary>
-            Print_hub_allocation,
+            Hub_allocation,
             /// <summary>
-            /// Operation Print RFQ
+            /// Operation Local purchase link
             /// </summary>
-            Print_RFQ,
+            Local_purchase_link,
             /// <summary>
-            /// Operation Print transport order
+            /// Operation Receive donation
             /// </summary>
-            Print_transport_order,
+            Receive_donation,
             /// <summary>
-            /// Operation Print transporters list
+            /// Operation SI/PC allocation
             /// </summary>
-            Print_transporters_list,
+            SI_PC_allocation,
             /// <summary>
-            /// Operation View active contracts
+            /// Operation Transfer plan link
             /// </summary>
-            View_active_contracts,
+            Transfer_plan_link,
             /// <summary>
-            /// Operation View allocated hubs
+            /// Operation Transport order link
             /// </summary>
-            View_allocated_hubs,
+            Transport_order_link,
             /// <summary>
-            /// Operation View bid winner transporters
+            /// Operation transport requisition link
             /// </summary>
-            View_bid_winner_transporters,
+            transport_requisition_link,
             /// <summary>
-            /// Operation View contract history
+            /// Operation Transporter performance link
             /// </summary>
-            View_contract_history,
+            Transporter_performance_link,
             /// <summary>
-            /// Operation View Destinations
+            /// Operation Veiw free stock status report
             /// </summary>
-            View_Destinations,
+            Veiw_free_stock_status_report,
             /// <summary>
-            /// Operation View Dispatch Allocation
+            /// Operation View active agreement contract
             /// </summary>
-            View_Dispatch_Allocation,
+            View_active_agreement_contract,
             /// <summary>
-            /// Operation View draft hub allocation
+            /// Operation View active transport order
             /// </summary>
-            View_draft_hub_allocation,
+            View_active_transport_order,
             /// <summary>
-            /// Operation View Transport Requisition
+            /// Operation View approved transport order
             /// </summary>
-            View_Transport_Requisition,
+            View_approved_transport_order,
             /// <summary>
-            /// Operation View Transport Requisition Detail
+            /// Operation View bid planning menu item
             /// </summary>
-            View_Transport_Requisition_Detail,
+            View_bid_planning_menu_item,
             /// <summary>
-            /// Operation View transporter list
+            /// Operation View bid winning transporter
             /// </summary>
-            View_transporter_list,
+            View_bid_winning_transporter,
+            /// <summary>
+            /// Operation View carry over stock report
+            /// </summary>
+            View_carry_over_stock_report,
+            /// <summary>
+            /// Operation View commodity recied status report
+            /// </summary>
+            View_commodity_recied_status_report,
+            /// <summary>
+            /// Operation View contract admin history
+            /// </summary>
+            View_contract_admin_history,
+            /// <summary>
+            /// Operation View contract Admin menu item
+            /// </summary>
+            View_contract_Admin_menu_item,
+            /// <summary>
+            /// Operation View dispatch allocation menu item
+            /// </summary>
+            View_dispatch_allocation_menu_item,
+            /// <summary>
+            /// Operation View donation menu item
+            /// </summary>
+            View_donation_menu_item,
+            /// <summary>
+            /// Operation View draft transport order
+            /// </summary>
+            View_draft_transport_order,
+            /// <summary>
+            /// Operation View generate agreement
+            /// </summary>
+            View_free_stock_report,
+            /// <summary>
+            /// Operation View free stock report
+            /// </summary>
+            View_generate_agreement,
+            /// <summary>
+            /// Operation View GIN
+            /// </summary>
+            View_GIN,
+            /// <summary>
+            /// Operation View local purchase menu item
+            /// </summary>
+            View_Loan_Menu_Item,
+            /// <summary>
+            /// Operation View local purchase menu item
+            /// </summary>
+            View_local_purchase_menu_item,
+            /// <summary>
+            /// Operation View transfer menu item
+            /// </summary>
+            /// 
+            View_Payment_Requests,
+            /// <summary>
+            /// Operation View transfer menu item
+            /// </summary>
+            /// 
+            View_transfer_menu_item,
+            /// <summary>
+            /// Operation View transfereed stock staus report
+            /// </summary>
+            View_transfereed_stock_staus_report,
+            /// <summary>
+            /// Operation View transport order menu item
+            /// </summary>
+            View_transport_order_menu_item,
+            /// <summary>
+            /// Operation View transport requisition destinations
+            /// </summary>
+            View_transport_requisition_destinations,
+            /// <summary>
+            /// Operation View transport requisition menu item
+            /// </summary>
+            View_transport_requisition_menu_item,
+            /// <summary>
+            /// Operation View transporter performance menu item
+            /// </summary>
+            View_transporter_performance_menu_item,
+            /// <summary>
+            /// Operation Warehouse selection
+            /// </summary>
+            Warehouse_selection,
         }
         #endregion
-    
     }
     #endregion
+
     #region Procurement Security Constants
     public class ProcurementConstants
     {
-        #region Methods
-        /// <summary>
-        /// Retrieve Item name from a Role Enum.
-        /// </summary>
-        /// <param name="role">The role.</param>
-        /// <returns>The Role Name.</returns>
-        public virtual string ItemName(Role role)
-        {
-            if ((role == Role.Procurement_Unit_Coordinator))
-            {
-                return "Procurement Unit Coordinator";
-            }
-            if ((role == Role.Procurement_Data_Encoder))
-            {
-                return "Procurement-Data Encoder";
-            }
-            if ((role == Role.Procurement_Purchaser))
-            {
-                return "Procurement-Purchaser";
-            }
-            throw new System.ArgumentException("Unknown Role name", "role");
-        }
-        /// <summary>
-        /// Retrieve Item name from a Task Enum.
-        /// </summary>
-        /// <param name="task">The task.</param>
-        /// <returns>The Task Name.</returns>
-        public virtual string ItemName(Task task)
-        {
-            if ((task == Task.Approve_Bid_Proposals))
-            {
-                return "Approve Bid Proposals";
-            }
-            if ((task == Task.Bid_admin))
-            {
-                return "Bid admin";
-            }
-            if ((task == Task.Bid_plan))
-            {
-                return "Bid plan";
-            }
-            if ((task == Task.Contract_Admin))
-            {
-                return "Contract Admin";
-            }
-            if ((task == Task.Generate_Winners))
-            {
-                return "Generate Winners";
-            }
-            if ((task == Task.Manage_bid))
-            {
-                return "Manage bid";
-            }
-            if ((task == Task.Payment_Request))
-            {
-                return "Payment Request";
-            }
-            if ((task == Task.Price_Quotation_Data_Entries))
-            {
-                return "Price Quotation Data Entries";
-            }
-            if ((task == Task.Request_For_Quotation__RFQ))
-            {
-                return "Request For Quotation (RFQ)";
-            }
-            if ((task == Task.Transport_Order))
-            {
-                return "Transport Order";
-            }
-            if ((task == Task.Transport_Supplier))
-            {
-                return "Transport Supplier";
-            }
-            if ((task == Task.Winners_Dispatch_Location))
-            {
-                return "Winners Dispatch Location";
-            }
-            if ((task == Task.Woreda_Bid_Proposal))
-            {
-                return "Woreda Bid Proposal";
-            }
-            if ((task == Task.Woreda_bid_Status))
-            {
-                return "Woreda bid Status";
-            }
-            throw new System.ArgumentException("Unknown Task name", "task");
-        }
         /// <summary>
         /// Retrieve Item name from a Operation Enum.
         /// </summary>
@@ -1550,14 +1401,6 @@ namespace Cats.Security
         /// <returns>The Operation Name.</returns>
         public virtual string ItemName(Operation operation)
         {
-            if ((operation == Operation.Add_TO))
-            {
-                return "Add TO";
-            }
-            if ((operation == Operation.Approve_TO))
-            {
-                return "Approve TO";
-            }
             if ((operation == Operation.Assign_Transporter))
             {
                 return "Assign Transporter";
@@ -1565,10 +1408,6 @@ namespace Cats.Security
             if ((operation == Operation.Bid_Planning))
             {
                 return "Bid Planning";
-            }
-            if ((operation == Operation.Cash_Check))
-            {
-                return "Cash Check";
             }
             if ((operation == Operation.Create_new_bid))
             {
@@ -1610,10 +1449,6 @@ namespace Cats.Security
             {
                 return "Edit bid proposal details";
             }
-            if ((operation == Operation.Edit_TO))
-            {
-                return "Edit TO";
-            }
             if ((operation == Operation.Edit_Transport_Supplier))
             {
                 return "Edit Transport Supplier";
@@ -1626,10 +1461,6 @@ namespace Cats.Security
             {
                 return "Export bid plan";
             }
-            if ((operation == Operation.Export_Payment_Request))
-            {
-                return "Export Payment Request";
-            }
             if ((operation == Operation.Generate_Agreement))
             {
                 return "Generate Agreement";
@@ -1638,17 +1469,9 @@ namespace Cats.Security
             {
                 return "Generate Winners for a bid";
             }
-            if ((operation == Operation.Issue_Check))
-            {
-                return "Issue Check";
-            }
             if ((operation == Operation.Manage_Bids))
             {
                 return "Manage Bids";
-            }
-            if ((operation == Operation.New_Payment_Request))
-            {
-                return "New Payment Request";
             }
             if ((operation == Operation.New_Transport_Supplier))
             {
@@ -1670,17 +1493,9 @@ namespace Cats.Security
             {
                 return "Print Contract";
             }
-            if ((operation == Operation.Print_Payment_request))
-            {
-                return "Print Payment request";
-            }
             if ((operation == Operation.Print_RFQ))
             {
                 return "Print RFQ";
-            }
-            if ((operation == Operation.Reject_Approval))
-            {
-                return "Reject Approval";
             }
             if ((operation == Operation.Request_Approval))
             {
@@ -1706,13 +1521,13 @@ namespace Cats.Security
             {
                 return "View Bid admin";
             }
-            if ((operation == Operation.View_bid_list))
+            if ((operation == Operation.View_bid_menu_item))
             {
-                return "View bid list";
+                return "View bid menu item";
             }
-            if ((operation == Operation.View_bid_plan))
+            if ((operation == Operation.View_bid_plan_menu_item))
             {
-                return "View bid plan";
+                return "View bid plan menu item";
             }
             if ((operation == Operation.View_Bid_Proposals))
             {
@@ -1726,17 +1541,13 @@ namespace Cats.Security
             {
                 return "View Dispath Locations";
             }
+            if ((operation == Operation.View_generate_winners_menu_item))
+            {
+                return "View generate winners menu item";
+            }
             if ((operation == Operation.View_History))
             {
                 return "View History";
-            }
-            if ((operation == Operation.View_Payment_History))
-            {
-                return "View Payment History";
-            }
-            if ((operation == Operation.View_Payment_Request))
-            {
-                return "View Payment Request";
             }
             if ((operation == Operation.View_Price_Quotation_Data_Entries))
             {
@@ -1745,6 +1556,10 @@ namespace Cats.Security
             if ((operation == Operation.View_Request_For_Quotation))
             {
                 return "View Request For Quotation";
+            }
+            if ((operation == Operation.View_show_proposals))
+            {
+                return "View show proposals";
             }
             if ((operation == Operation.View_Transport_Order))
             {
@@ -1764,103 +1579,13 @@ namespace Cats.Security
             }
             throw new System.ArgumentException("Unknown Operation name", "operation");
         }
-        
-        #endregion  
 
         #region Enums
-        /// <summary>
-        /// Roles Enumeration
-        /// </summary>
-        public enum Role
-        {
-            /// <summary>
-            /// Role Procurement Unit Coordinator
-            /// </summary>
-            Procurement_Unit_Coordinator,
-            /// <summary>
-            /// Role Procurement-Data Encoder
-            /// </summary>
-            Procurement_Data_Encoder,
-            /// <summary>
-            /// Role Procurement-Purchaser
-            /// </summary>
-            Procurement_Purchaser,
-        }
-        /// <summary>
-        /// Tasks Enumeration
-        /// </summary>
-        public enum Task
-        {
-            /// <summary>
-            /// Task Approve Bid Proposals
-            /// </summary>
-            Approve_Bid_Proposals,
-            /// <summary>
-            /// Task Bid admin
-            /// </summary>
-            Bid_admin,
-            /// <summary>
-            /// Task Bid plan
-            /// </summary>
-            Bid_plan,
-            /// <summary>
-            /// Task Contract Admin
-            /// </summary>
-            Contract_Admin,
-            /// <summary>
-            /// Task Generate Winners
-            /// </summary>
-            Generate_Winners,
-            /// <summary>
-            /// Task Manage bid
-            /// </summary>
-            Manage_bid,
-            /// <summary>
-            /// Task Payment Request
-            /// </summary>
-            Payment_Request,
-            /// <summary>
-            /// Task Price Quotation Data Entries
-            /// </summary>
-            Price_Quotation_Data_Entries,
-            /// <summary>
-            /// Task Request For Quotation (RFQ)
-            /// </summary>
-            Request_For_Quotation__RFQ,
-            /// <summary>
-            /// Task Transport Order
-            /// </summary>
-            Transport_Order,
-            /// <summary>
-            /// Task Transport Supplier
-            /// </summary>
-            Transport_Supplier,
-            /// <summary>
-            /// Task Winners Dispatch Location
-            /// </summary>
-            Winners_Dispatch_Location,
-            /// <summary>
-            /// Task Woreda Bid Proposal
-            /// </summary>
-            Woreda_Bid_Proposal,
-            /// <summary>
-            /// Task Woreda bid Status
-            /// </summary>
-            Woreda_bid_Status,
-        }
         /// <summary>
         /// Operations Enumeration
         /// </summary>
         public enum Operation
         {
-            /// <summary>
-            /// Operation Add TO
-            /// </summary>
-            Add_TO,
-            /// <summary>
-            /// Operation Approve TO
-            /// </summary>
-            Approve_TO,
             /// <summary>
             /// Operation Assign Transporter
             /// </summary>
@@ -1869,10 +1594,6 @@ namespace Cats.Security
             /// Operation Bid Planning
             /// </summary>
             Bid_Planning,
-            /// <summary>
-            /// Operation Cash Check
-            /// </summary>
-            Cash_Check,
             /// <summary>
             /// Operation Create new bid
             /// </summary>
@@ -1914,10 +1635,6 @@ namespace Cats.Security
             /// </summary>
             Edit_bid_proposal_details,
             /// <summary>
-            /// Operation Edit TO
-            /// </summary>
-            Edit_TO,
-            /// <summary>
             /// Operation Edit Transport Supplier
             /// </summary>
             Edit_Transport_Supplier,
@@ -1930,10 +1647,6 @@ namespace Cats.Security
             /// </summary>
             Export_bid_plan,
             /// <summary>
-            /// Operation Export Payment Request
-            /// </summary>
-            Export_Payment_Request,
-            /// <summary>
             /// Operation Generate Agreement
             /// </summary>
             Generate_Agreement,
@@ -1942,17 +1655,9 @@ namespace Cats.Security
             /// </summary>
             Generate_Winners_for_a_bid,
             /// <summary>
-            /// Operation Issue Check
-            /// </summary>
-            Issue_Check,
-            /// <summary>
             /// Operation Manage Bids
             /// </summary>
             Manage_Bids,
-            /// <summary>
-            /// Operation New Payment Request
-            /// </summary>
-            New_Payment_Request,
             /// <summary>
             /// Operation New Transport Supplier
             /// </summary>
@@ -1974,17 +1679,9 @@ namespace Cats.Security
             /// </summary>
             Print_Contract,
             /// <summary>
-            /// Operation Print Payment request
-            /// </summary>
-            Print_Payment_request,
-            /// <summary>
             /// Operation Print RFQ
             /// </summary>
             Print_RFQ,
-            /// <summary>
-            /// Operation Reject Approval
-            /// </summary>
-            Reject_Approval,
             /// <summary>
             /// Operation Request Approval
             /// </summary>
@@ -2010,13 +1707,13 @@ namespace Cats.Security
             /// </summary>
             View_Bid_admin,
             /// <summary>
-            /// Operation View bid list
+            /// Operation View bid menu item
             /// </summary>
-            View_bid_list,
+            View_bid_menu_item,
             /// <summary>
-            /// Operation View bid plan
+            /// Operation View bid plan menu item
             /// </summary>
-            View_bid_plan,
+            View_bid_plan_menu_item,
             /// <summary>
             /// Operation View Bid Proposals
             /// </summary>
@@ -2030,17 +1727,13 @@ namespace Cats.Security
             /// </summary>
             View_Dispath_Locations,
             /// <summary>
+            /// Operation View generate winners menu item
+            /// </summary>
+            View_generate_winners_menu_item,
+            /// <summary>
             /// Operation View History
             /// </summary>
             View_History,
-            /// <summary>
-            /// Operation View Payment History
-            /// </summary>
-            View_Payment_History,
-            /// <summary>
-            /// Operation View Payment Request
-            /// </summary>
-            View_Payment_Request,
             /// <summary>
             /// Operation View Price Quotation Data Entries
             /// </summary>
@@ -2049,6 +1742,10 @@ namespace Cats.Security
             /// Operation View Request For Quotation
             /// </summary>
             View_Request_For_Quotation,
+            /// <summary>
+            /// Operation View show proposals
+            /// </summary>
+            View_show_proposals,
             /// <summary>
             /// Operation View Transport Order
             /// </summary>
@@ -2070,104 +1767,10 @@ namespace Cats.Security
     
     }
     #endregion
+    
     #region Hub Security Constants
     public class HubConstants
     {
-        #region Methods
-        /// <summary>
-        /// Retrieve Item name from a Role Enum.
-        /// </summary>
-        /// <param name="role">The role.</param>
-        /// <returns>The Role Name.</returns>
-        public virtual string ItemName(Role role)
-        {
-            if ((role == Role.Hub_Manager))
-            {
-                return "Hub Manager";
-            }
-            if ((role == Role.Hub_Data_entry_Operator))
-            {
-                return "Hub-Data-entry Operator";
-            }
-            if ((role == Role.Hub_Store_keeper))
-            {
-                return "Hub-Store keeper";
-            }
-            throw new System.ArgumentException("Unknown Role name", "role");
-        }
-        /// <summary>
-        /// Retrieve Item name from a Task Enum.
-        /// </summary>
-        /// <param name="task">The task.</param>
-        /// <returns>The Task Name.</returns>
-        public virtual string ItemName(Task task)
-        {
-            if ((task == Task.Approve_Dispatch))
-            {
-                return "Approve Dispatch";
-            }
-            if ((task == Task.Approve_Receipt))
-            {
-                return "Approve Receipt";
-            }
-            if ((task == Task.Approve_Transport_Order))
-            {
-                return "Approve Transport Order";
-            }
-            if ((task == Task.Bin_Card_Report))
-            {
-                return "Bin Card Report";
-            }
-            if ((task == Task.Dispatch_Stock_Status_Report))
-            {
-                return "Dispatch Stock Status Report";
-            }
-            if ((task == Task.Free_Stock_Report))
-            {
-                return "Free Stock Report";
-            }
-            if ((task == Task.Internal_Movements))
-            {
-                return "Internal Movements";
-            }
-            if ((task == Task.Losses_and_Adjustments))
-            {
-                return "Losses and Adjustments";
-            }
-            if ((task == Task.Manage_Dispatch))
-            {
-                return "Manage Dispatch";
-            }
-            if ((task == Task.Manage_Receipt))
-            {
-                return "Manage Receipt";
-            }
-            if ((task == Task.Receipt_Status))
-            {
-                return "Receipt Status";
-            }
-            if ((task == Task.Stack_Events))
-            {
-                return "Stack Events";
-            }
-            if ((task == Task.Starting_Balance))
-            {
-                return "Starting Balance";
-            }
-            if ((task == Task.Store_Report))
-            {
-                return "Store Report";
-            }
-            if ((task == Task.Transport_Order_List))
-            {
-                return "Transport Order List";
-            }
-            if ((task == Task.Transportation_Report))
-            {
-                return "Transportation Report";
-            }
-            throw new System.ArgumentException("Unknown Task name", "task");
-        }
         /// <summary>
         /// Retrieve Item name from a Operation Enum.
         /// </summary>
@@ -2407,6 +2010,10 @@ namespace Cats.Security
             {
                 return "View starting balance";
             }
+            if ((operation == Operation.View_store_report))
+            {
+                return "View store report";
+            }
             if ((operation == Operation.View_transport_order_list))
             {
                 return "View transport order list";
@@ -2415,103 +2022,10 @@ namespace Cats.Security
             {
                 return "View transportation report";
             }
-            if ((operation == Operation.Viiew_store_report))
-            {
-                return "Viiew store report";
-            }
             throw new System.ArgumentException("Unknown Operation name", "operation");
         }
-        #endregion
-        
+
         #region Enums
-        /// <summary>
-        /// Roles Enumeration
-        /// </summary>
-        public enum Role
-        {
-            /// <summary>
-            /// Role Hub Manager
-            /// </summary>
-            Hub_Manager,
-            /// <summary>
-            /// Role Hub-Data-entry Operator
-            /// </summary>
-            Hub_Data_entry_Operator,
-            /// <summary>
-            /// Role Hub-Store keeper
-            /// </summary>
-            Hub_Store_keeper,
-        }
-        /// <summary>
-        /// Tasks Enumeration
-        /// </summary>
-        public enum Task
-        {
-            /// <summary>
-            /// Task Approve Dispatch
-            /// </summary>
-            Approve_Dispatch,
-            /// <summary>
-            /// Task Approve Receipt
-            /// </summary>
-            Approve_Receipt,
-            /// <summary>
-            /// Task Approve Transport Order
-            /// </summary>
-            Approve_Transport_Order,
-            /// <summary>
-            /// Task Bin Card Report
-            /// </summary>
-            Bin_Card_Report,
-            /// <summary>
-            /// Task Dispatch Stock Status Report
-            /// </summary>
-            Dispatch_Stock_Status_Report,
-            /// <summary>
-            /// Task Free Stock Report
-            /// </summary>
-            Free_Stock_Report,
-            /// <summary>
-            /// Task Internal Movements
-            /// </summary>
-            Internal_Movements,
-            /// <summary>
-            /// Task Losses and Adjustments
-            /// </summary>
-            Losses_and_Adjustments,
-            /// <summary>
-            /// Task Manage Dispatch
-            /// </summary>
-            Manage_Dispatch,
-            /// <summary>
-            /// Task Manage Receipt
-            /// </summary>
-            Manage_Receipt,
-            /// <summary>
-            /// Task Receipt Status
-            /// </summary>
-            Receipt_Status,
-            /// <summary>
-            /// Task Stack Events
-            /// </summary>
-            Stack_Events,
-            /// <summary>
-            /// Task Starting Balance
-            /// </summary>
-            Starting_Balance,
-            /// <summary>
-            /// Task Store Report
-            /// </summary>
-            Store_Report,
-            /// <summary>
-            /// Task Transport Order List
-            /// </summary>
-            Transport_Order_List,
-            /// <summary>
-            /// Task Transportation Report
-            /// </summary>
-            Transportation_Report,
-        }
         /// <summary>
         /// Operations Enumeration
         /// </summary>
@@ -2750,6 +2264,10 @@ namespace Cats.Security
             /// </summary>
             View_starting_balance,
             /// <summary>
+            /// Operation View store report
+            /// </summary>
+            View_store_report,
+            /// <summary>
             /// Operation View transport order list
             /// </summary>
             View_transport_order_list,
@@ -2757,10 +2275,6 @@ namespace Cats.Security
             /// Operation View transportation report
             /// </summary>
             View_transportation_report,
-            /// <summary>
-            /// Operation Viiew store report
-            /// </summary>
-            Viiew_store_report,
         }
         #endregion
     
@@ -2777,45 +2291,13 @@ namespace Cats.Security
         /// <returns>The Role Name.</returns>
         public virtual string ItemName(Role role)
         {
-            if ((role == Role.Afar_Regional_DPPBs))
+            if ((role == Role.BureauHead))
             {
-                return "Afar-Regional DPPBs";
+                return "BureauHead";
             }
-            if ((role == Role.Amhara_Regional_DPPBs))
+            if ((role == Role.DataEntry))
             {
-                return "Amhara-Regional DPPBs";
-            }
-            if ((role == Role.Benshangul_Gumuz_Regional_DPPBs))
-            {
-                return "Benshangul Gumuz-Regional DPPBs";
-            }
-            if ((role == Role.Dire_Dawa_Regional_DPPBs))
-            {
-                return "Dire Dawa-Regional DPPBs";
-            }
-            if ((role == Role.Gambella_Regional_DPPBs))
-            {
-                return "Gambella-Regional DPPBs";
-            }
-            if ((role == Role.Harar_Regional_DPPBs))
-            {
-                return "Harar-Regional DPPBs";
-            }
-            if ((role == Role.Oromia_Regional_DPPBs))
-            {
-                return "Oromia-Regional DPPBs";
-            }
-            if ((role == Role.SNNPR_Regional_DPPBs))
-            {
-                return "SNNPR-Regional DPPBs";
-            }
-            if ((role == Role.Somali_Regional_DPPBs))
-            {
-                return "Somali-Regional DPPBs";
-            }
-            if ((role == Role.Tigray_Regional_DPPBs))
-            {
-                return "Tigray-Regional DPPBs";
+                return "DataEntry";
             }
             throw new System.ArgumentException("Unknown Role name", "role");
         }
@@ -2842,6 +2324,10 @@ namespace Cats.Security
             {
                 return "Manage Needs Assessment";
             }
+            if ((task == Task.Mange_Distribution))
+            {
+                return "Mange Distribution";
+            }
             throw new System.ArgumentException("Unknown Task name", "task");
         }
         /// <summary>
@@ -2851,6 +2337,10 @@ namespace Cats.Security
         /// <returns>The Operation Name.</returns>
         public virtual string ItemName(Operation operation)
         {
+            if ((operation == Operation.Add_Distribution_Entry))
+            {
+                return "Add Distribution Entry";
+            }
             if ((operation == Operation.Add_new_needs_assessment))
             {
                 return "Add new needs assessment";
@@ -2859,9 +2349,21 @@ namespace Cats.Security
             {
                 return "Add new regional request";
             }
+            if ((operation == Operation.Add_woreda_distribution))
+            {
+                return "Add woreda distribution";
+            }
             if ((operation == Operation.Allocate_requests))
             {
                 return "Allocate requests";
+            }
+            if ((operation == Operation.Approve__need_assesment))
+            {
+                return "Approve  need assesment";
+            }
+            if ((operation == Operation.Approve_regional_request))
+            {
+                return "Approve regional request";
             }
             if ((operation == Operation.Delete_needs_assessment))
             {
@@ -2891,9 +2393,33 @@ namespace Cats.Security
             {
                 return "Print requests";
             }
+            if ((operation == Operation.Vew_requests_menu_item))
+            {
+                return "Vew requests menu item";
+            }
+            if ((operation == Operation.View_allocate_link))
+            {
+                return "View allocate link";
+            }
+            if ((operation == Operation.View_detial_link))
+            {
+                return "View detial link";
+            }
+            if ((operation == Operation.View_Distribution_Entry))
+            {
+                return "View Distribution Entry";
+            }
+            if ((operation == Operation.View_Need_assesment_menu_item))
+            {
+                return "View Need assesment menu item";
+            }
             if ((operation == Operation.View_needs_assessment))
             {
                 return "View needs assessment";
+            }
+            if ((operation == Operation.View_reference_link))
+            {
+                return "View reference link";
             }
             if ((operation == Operation.View_requests))
             {
@@ -2902,7 +2428,6 @@ namespace Cats.Security
             throw new System.ArgumentException("Unknown Operation name", "operation");
         }
         #endregion
-       
         #region Enums
         /// <summary>
         /// Roles Enumeration
@@ -2910,45 +2435,13 @@ namespace Cats.Security
         public enum Role
         {
             /// <summary>
-            /// Role Afar-Regional DPPBs
+            /// Role BureauHead
             /// </summary>
-            Afar_Regional_DPPBs,
+            BureauHead,
             /// <summary>
-            /// Role Amhara-Regional DPPBs
+            /// Role DataEntry
             /// </summary>
-            Amhara_Regional_DPPBs,
-            /// <summary>
-            /// Role Benshangul Gumuz-Regional DPPBs
-            /// </summary>
-            Benshangul_Gumuz_Regional_DPPBs,
-            /// <summary>
-            /// Role Dire Dawa-Regional DPPBs
-            /// </summary>
-            Dire_Dawa_Regional_DPPBs,
-            /// <summary>
-            /// Role Gambella-Regional DPPBs
-            /// </summary>
-            Gambella_Regional_DPPBs,
-            /// <summary>
-            /// Role Harar-Regional DPPBs
-            /// </summary>
-            Harar_Regional_DPPBs,
-            /// <summary>
-            /// Role Oromia-Regional DPPBs
-            /// </summary>
-            Oromia_Regional_DPPBs,
-            /// <summary>
-            /// Role SNNPR-Regional DPPBs
-            /// </summary>
-            SNNPR_Regional_DPPBs,
-            /// <summary>
-            /// Role Somali-Regional DPPBs
-            /// </summary>
-            Somali_Regional_DPPBs,
-            /// <summary>
-            /// Role Tigray-Regional DPPBs
-            /// </summary>
-            Tigray_Regional_DPPBs,
+            DataEntry,
         }
         /// <summary>
         /// Tasks Enumeration
@@ -2971,12 +2464,20 @@ namespace Cats.Security
             /// Task Manage Needs Assessment
             /// </summary>
             Manage_Needs_Assessment,
+            /// <summary>
+            /// Task Mange Distribution
+            /// </summary>
+            Mange_Distribution,
         }
         /// <summary>
         /// Operations Enumeration
         /// </summary>
         public enum Operation
         {
+            /// <summary>
+            /// Operation Add Distribution Entry
+            /// </summary>
+            Add_Distribution_Entry,
             /// <summary>
             /// Operation Add new needs assessment
             /// </summary>
@@ -2986,9 +2487,21 @@ namespace Cats.Security
             /// </summary>
             Add_new_regional_request,
             /// <summary>
+            /// Operation Add woreda distribution
+            /// </summary>
+            Add_woreda_distribution,
+            /// <summary>
             /// Operation Allocate requests
             /// </summary>
             Allocate_requests,
+            /// <summary>
+            /// Operation Approve  need assesment
+            /// </summary>
+            Approve__need_assesment,
+            /// <summary>
+            /// Operation Approve regional request
+            /// </summary>
+            Approve_regional_request,
             /// <summary>
             /// Operation Delete needs assessment
             /// </summary>
@@ -3018,16 +2531,229 @@ namespace Cats.Security
             /// </summary>
             Print_requests,
             /// <summary>
+            /// Operation Vew requests menu item
+            /// </summary>
+            Vew_requests_menu_item,
+            /// <summary>
+            /// Operation View allocate link
+            /// </summary>
+            View_allocate_link,
+            /// <summary>
+            /// Operation View detial link
+            /// </summary>
+            View_detial_link,
+            /// <summary>
+            /// Operation View Distribution Entry
+            /// </summary>
+            View_Distribution_Entry,
+            /// <summary>
+            /// Operation View Need assesment menu item
+            /// </summary>
+            View_Need_assesment_menu_item,
+            /// <summary>
             /// Operation View needs assessment
             /// </summary>
             View_needs_assessment,
+            /// <summary>
+            /// Operation View reference link
+            /// </summary>
+            View_reference_link,
             /// <summary>
             /// Operation View requests
             /// </summary>
             View_requests,
         }
         #endregion
-    
     }
     #endregion
+    #region Finance Security Constants
+    public class FinanceConstants
+    {
+        #region Methods
+        /// <summary>
+        /// Retrieve Item name from a Operation Enum.
+        /// </summary>
+        /// <param name="operation">The operation.</param>
+        /// <returns>The Operation Name.</returns>
+       /// <summary>
+        /// Retrieve Item name from a Role Enum.
+        /// </summary>
+        /// <param name="role">The role.</param>
+        /// <returns>The Role Name.</returns>
+        public virtual string ItemName(Role role)
+        {
+            if ((role == Role.Finance__Case_Team_Coordinator))
+            {
+                return "Finance  Case Team Coordinator";
+            }
+            if ((role == Role.Finance_DataEntry))
+            {
+                return "Finance-DataEntry";
+            }
+            throw new System.ArgumentException("Unknown Role name", "role");
+        }
+        /// <summary>
+        /// Retrieve Item name from a Task Enum.
+        /// </summary>
+        /// <param name="task">The task.</param>
+        /// <returns>The Task Name.</returns>
+        public virtual string ItemName(Task task)
+        {
+            if ((task == Task.Manage_payment_request))
+            {
+                return "Manage payment request";
+            }
+            if ((task == Task.Payment_workflow))
+            {
+                return "Payment workflow";
+            }
+            throw new System.ArgumentException("Unknown Task name", "task");
+        }
+        /// <summary>
+        /// Retrieve Item name from a Operation Enum.
+        /// </summary>
+        /// <param name="operation">The operation.</param>
+        /// <returns>The Operation Name.</returns>
+        public virtual string ItemName(Operation operation)
+        {
+            if ((operation == Operation.Approve_cheque))
+            {
+                return "Approve cheque";
+            }
+            if ((operation == Operation.Approve_Payment_request))
+            {
+                return "Approve Payment request";
+            }
+            if ((operation == Operation.Collect_cheque))
+            {
+                return "Collect cheque";
+            }
+            if ((operation == Operation.Contract_agreement_link))
+            {
+                return "Contract agreement link";
+            }
+            if ((operation == Operation.Issue_cheque))
+            {
+                return "Issue cheque";
+            }
+            if ((operation == Operation.Payment_deduction))
+            {
+                return "Payment deduction";
+            }
+            if ((operation == Operation.Payment_request_detail))
+            {
+                return "Payment request detail";
+            }
+            if ((operation == Operation.Transporter_link))
+            {
+                return "Transporter link";
+            }
+            if ((operation == Operation.Transporter_order_link))
+            {
+                return "Transporter order link";
+            }
+            if ((operation == Operation.View_cheque_information))
+            {
+                return "View cheque information";
+            }
+            if ((operation == Operation.View_history))
+            {
+                return "View history";
+            }
+            if ((operation == Operation.View_Payment_request_menu_items))
+            {
+                return "View Payment request menu items";
+            }
+            throw new System.ArgumentException("Unknown Operation name", "operation");
+        }
+
+        #endregion  
+    
+        #region Enums
+       
+        /// <summary>
+        /// Roles Enumeration
+        /// </summary>
+        public enum Role
+        {
+            /// <summary>
+            /// Role Finance  Case Team Coordinator
+            /// </summary>
+            Finance__Case_Team_Coordinator,
+            /// <summary>
+            /// Role Finance-DataEntry
+            /// </summary>
+            Finance_DataEntry,
+        }
+        /// <summary>
+        /// Tasks Enumeration
+        /// </summary>
+        public enum Task
+        {
+            /// <summary>
+            /// Task Manage payment request
+            /// </summary>
+            Manage_payment_request,
+            /// <summary>
+            /// Task Payment workflow
+            /// </summary>
+            Payment_workflow,
+        }
+        /// <summary>
+        /// Operations Enumeration
+        /// </summary>
+        public enum Operation
+        {
+            /// <summary>
+            /// Operation Approve cheque
+            /// </summary>
+            Approve_cheque,
+            /// <summary>
+            /// Operation Approve Payment request
+            /// </summary>
+            Approve_Payment_request,
+            /// <summary>
+            /// Operation Collect cheque
+            /// </summary>
+            Collect_cheque,
+            /// <summary>
+            /// Operation Contract agreement link
+            /// </summary>
+            Contract_agreement_link,
+            /// <summary>
+            /// Operation Issue cheque
+            /// </summary>
+            Issue_cheque,
+            /// <summary>
+            /// Operation Payment deduction
+            /// </summary>
+            Payment_deduction,
+            /// <summary>
+            /// Operation Payment request detail
+            /// </summary>
+            Payment_request_detail,
+            /// <summary>
+            /// Operation Transporter link
+            /// </summary>
+            Transporter_link,
+            /// <summary>
+            /// Operation Transporter order link
+            /// </summary>
+            Transporter_order_link,
+            /// <summary>
+            /// Operation View cheque information
+            /// </summary>
+            View_cheque_information,
+            /// <summary>
+            /// Operation View history
+            /// </summary>
+            View_history,
+            /// <summary>
+            /// Operation View Payment request menu items
+            /// </summary>
+            View_Payment_request_menu_items,
+        }
+        #endregion
+    }
+    #endregion  
 }
