@@ -177,6 +177,7 @@ namespace Cats.Tests.ControllersTests
 
             var fakeContext = new Mock<HttpContextBase>();
             var identity = new GenericIdentity("User");
+            
             var principal = new GenericPrincipal(identity, null);
             fakeContext.Setup(t => t.User).Returns(principal);
             var controllerContext = new Mock<ControllerContext>();

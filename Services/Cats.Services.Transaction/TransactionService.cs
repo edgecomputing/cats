@@ -245,10 +245,18 @@ namespace Cats.Services.Transaction
 
                 SIPCAllocation allocation = allocationDetail;
 
-                transaction.HubID =
-                    _unitOfWork.HubAllocationRepository.FindBy(
-                        r => allocation != null && r.RequisitionID == allocation.ReliefRequisitionDetail.RequisitionID).Select(
-                            h => h.HubID).FirstOrDefault();
+                try
+                {
+                    transaction.HubID =
+                                        _unitOfWork.HubAllocationRepository.FindBy(r => r.RequisitionID == allocation.ReliefRequisitionDetail.RequisitionID).Select(
+                                                h => h.HubID).FirstOrDefault();
+                }
+                catch (Exception)
+                {
+                    
+                    
+                }
+                
 
                 transaction.QuantityInMT = -allocationDetail.AllocatedAmount;
                 transaction.QuantityInUnit = -allocationDetail.AllocatedAmount;
@@ -286,11 +294,19 @@ namespace Cats.Services.Transaction
                 transaction2.TransactionDate = transactionDate;
                 transaction2.UnitID = 1;
 
-                transaction.HubID =
-                   _unitOfWork.HubAllocationRepository.FindBy(
-                       r => allocation != null && r.RequisitionID == allocation.ReliefRequisitionDetail.RequisitionID).Select(
-                           h => h.HubID).FirstOrDefault();
+                try
+                {
+                    transaction2.HubID =
+                                       _unitOfWork.HubAllocationRepository.FindBy(r => r.RequisitionID == allocation.ReliefRequisitionDetail.RequisitionID).Select(
+                                               h => h.HubID).FirstOrDefault();
 
+                }
+                catch (Exception)
+                {
+                    
+                    
+                }
+                
                 transaction2.QuantityInMT = allocationDetail.AllocatedAmount;
                 transaction2.QuantityInUnit = allocationDetail.AllocatedAmount;
                 transaction2.LedgerID = Models.Ledger.Constants.PLEDGED_TO_FDP;
