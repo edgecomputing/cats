@@ -130,6 +130,7 @@ namespace Cats.Services.EarlyWarning
 
         public bool AddHRD(int year, int userID, int seasonID, int rationID, int planID)
         {
+            var plan = _unitOfWork.PlanRepository.FindById(planID);
             var woredas = _unitOfWork.AdminUnitRepository.FindBy(m => m.AdminUnitTypeID == 4);
             var hrd = new HRD()
                 {
@@ -146,7 +147,7 @@ namespace Cats.Services.EarlyWarning
                               select new HRDDetail
                               {
                                   WoredaID = detail.AdminUnitID,
-                                  StartingMonth = 1,
+                                  StartingMonth = plan.StartDate.Month,
                                   NumberOfBeneficiaries = 0,
                                   DurationOfAssistance = 0
                               }).ToList();
