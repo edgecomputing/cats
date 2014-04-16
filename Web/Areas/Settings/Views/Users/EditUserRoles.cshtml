@@ -27,9 +27,10 @@
         <label class="control-label">User name:</label>
         <div class="controls">
             @Html.TextBoxFor(m => m.UserName, new { @class = "input-xlarge", @required = "required" , Disabled=true})
+            @Html.HiddenFor(m =>m.Email)
+            @Html.HiddenFor(m =>m.UserName)
         </div>
     </div>
-
         
     <!-- START -->
     
@@ -123,8 +124,6 @@
                         }
                     }
                 </div>
-
-
             </div>
             @*</div>*@
         </div>
