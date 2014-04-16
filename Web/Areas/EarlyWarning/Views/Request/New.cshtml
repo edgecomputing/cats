@@ -1,5 +1,5 @@
 ﻿@using System.Collections
-@using LanguageHelpers.Localization
+@using Cats.Helpers
 @model Cats.Models.HRDPSNPPlan
 
 
@@ -62,7 +62,7 @@
                 <td style="width: 50%">
                     <div id="Relief_Plan">
                         <div class="control-label">
-                            @Html.LabelFor(model => model.PlanID, Translator.Translate("Plan"))
+                            @Html.LabelFor(model => model.PlanID, Html.Translate("Plan"))
                         </div>
                         <div class="controls">
                             @Html.DropDownList("PlanID", null, new { @id = "cmb_planId" })
@@ -71,7 +71,7 @@
                     </div>
                     <div id="PSNP_Plan">
                         <div class="control-label">
-                            @Html.LabelFor(model => model.PlanID, Translator.Translate("Plan"))
+                            @Html.LabelFor(model => model.PlanID, Html.Translate("Plan"))
                         </div>
                         <div class="controls">
                             @Html.DropDownList("PSNPPlanID", null, new { @id = "cmb_psnpPlanId" })
@@ -150,7 +150,7 @@
                 <td style="width: 50%">
                     <div >
                         <div class="control-label">
-                            @Html.LabelFor(model => model.RationID, Translator.Translate("Ration"))
+                            @Html.LabelFor(model => model.RationID, Html.Translate("Ration"))
                         </div>
                         <div class="controls">
                             @Html.DropDownList("RationID")
@@ -165,7 +165,7 @@
             <tr id="Plan">
                 <td style="width: 50%">
                     
-                        <label class="control-label"> @Translator.Translate("Plan")</label>
+                        <label class="control-label"> @Html.Translate("Plan")</label>
                         <div class="controls">
                             <input type="text"   name="Plan" placeholder="Plan">
                         </div>
@@ -176,7 +176,7 @@
             <tr id="StartDate" >
                 <td style="width: 50%">
                     
-                        <label class="control-label"> @Translator.Translate("Start Date")</label>
+                        <label class="control-label"> @Html.Translate("Start Date")</label>
                         <div class="controls">
                             <input type="text"  class="cats-datepicker2" name="StartDate">
                         </div>
@@ -188,7 +188,7 @@
             <tr id="EndDate">
                 <td style="width: 50%">
                  
-                        <label class="control-label"> @Translator.Translate("End Date")</label>
+                        <label class="control-label"> @Html.Translate("End Date")</label>
                         <div class="controls" >
                             <input type="text"  class="cats-datepicker2" name="EndDate">
                         </div>
@@ -210,7 +210,7 @@
     </div>
     <div class="control-group pull-left" id="Relief_Plan">
         <div class="control-label">
-            @Html.LabelFor(model => model.PlanID, Translator.Translate("Plan"))
+            @Html.LabelFor(model => model.PlanID, Html.Translate("Plan"))
         </div>
         <div class="controls">
             @Html.DropDownList("PlanID", null, new { @id = "cmb_planId" })
@@ -219,7 +219,7 @@
     </div>
     <div class="control-group pull-left" id="PSNP_Plan">
         <div class="control-label">
-            @Html.LabelFor(model => model.PlanID, Translator.Translate("Plan"))
+            @Html.LabelFor(model => model.PlanID, Html.Translate("Plan"))
         </div>
         <div class="controls">
             @Html.DropDownList("PSNPPlanID", null, new { @id = "cmb_psnpPlanId" })
@@ -236,7 +236,7 @@
         </div>
 
     </div>
-      
+
     <div class="control-group pull-left" id="div_month">
         <div class="control-label">
             @Html.LabelFor(model => model.Month, "Month")
@@ -246,8 +246,8 @@
             @Html.ValidationMessageFor(model => model.Month)
         </div>
     </div>
-        
-  
+
+
     <div class="control-group pull-left" id="div_round">
         <div class="control-label">
             @Html.LabelFor(model => model.Round, "Round")
@@ -257,7 +257,7 @@
             @Html.ValidationMessageFor(model => model.Round)
         </div>
     </div>
-        
+
 
     <div class="control-group pull-left">
         <div class="control-label">
@@ -266,7 +266,7 @@
         <div class="controls">
             @Html.TextBoxFor(model => model.Year)
             @Html.ValidationMessageFor(model => model.Year)
-           
+
         </div>
     </div>
 
@@ -288,7 +288,7 @@
             @Html.ValidationMessageFor(model => model.DonorID)
         </div>
     </div>
-   *@
+*@
 }
 <script>
 

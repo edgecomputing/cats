@@ -1,10 +1,11 @@
 ﻿@using Cats.Models
 @using Kendo.Mvc.UI
+@using Cats.Helpers
 @using LanguageHelpers.Localization
 @model Cats.Models.NeedAssessment
 
 @{
-    ViewBag.Title = Translator.Translate("Add New Need Assessment");
+    ViewBag.Title = Html.Translate("Add New Need Assessment");
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
 @section Toolbar
@@ -18,14 +19,14 @@
 {
     @Html.ValidationSummary(true)
 
-        <legend>@Translator.Translate("Add New Need Assessment")</legend>
+        <legend>@Html.Translate("Add New Need Assessment")</legend>
         
         <div class="control-group form-horizontal well">
     <div class="row">
         <div class="span6">
             <div class="control-group">
                 <div class="control-label">
-                    @Html.LabelFor(m => m.Plan.PlanName,Translator.Translate("Plan"))
+                    @Html.LabelFor(m => m.Plan.PlanName, Html.Translate("Plan"))
                 </div>
                 <div class="controls">
                     @Html.TextBoxFor(m => m.Plan.PlanName)
@@ -63,7 +64,7 @@
         <div class="span4">
             <div class="control-group">
                 <div class="control-label">
-                    @Html.Label(Translator.Translate("Assessment Type"))
+                    @Html.Label(Html.Translate("Assessment Type"))
                 </div>
                 <div class="controls">
                    @Html.DropDownList("TypeOfNeedID", ViewBag.TypeOfNeed as SelectList, new { id = "TypeOfNeed" })
@@ -78,7 +79,7 @@
         <div class="span6">
             <div class="control-group">
                 <div class="control-label">
-                    @Html.Label(Translator.Translate("Assessment From"), new { @class = "cats-date-pref" })
+                    @Html.Label(Html.Translate("Assessment From"), new { @class = "cats-date-pref" })
                 </div>
                 <div class="controls">
                      @Html.TextBoxFor(m => m.Plan.StartDate, new { @class = "cats-datepicker2" })
@@ -90,7 +91,7 @@
         <div class="span4">
             <div class="control-group">
                 <div class="control-label">
-                    @Html.Label(Translator.Translate("To"), new { @class = "cats-date-pref" })
+                    @Html.Label(Html.Translate("To"), new { @class = "cats-date-pref" })
                 </div>
                 <div class="controls">
                     @Html.TextBoxFor(m => m.Plan.EndDate, new { @class = "cats-datepicker2" })

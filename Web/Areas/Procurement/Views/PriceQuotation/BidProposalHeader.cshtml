@@ -2,7 +2,6 @@
 @using Cats.Security
 @using Cats.Services.Security
 @using Kendo.Mvc.UI
-@using LanguageHelpers.Localization
 
 @{
     ViewBag.Title = "Index";
@@ -82,8 +81,8 @@
       .Columns(columns =>
           {
               //columns.Bound(p => p.BidNumber).ClientTemplate("<a href='" + Url.Action("Details", "PriceQuotation", new {id = "#=TransportBidQuotationHeaderID#"}) + " '>#=BidNumber#</a>  "); ;
-              
-              columns.Bound(p => p.BidNumber).Title(Translator.Translate("Bid Number")).ClientTemplate(
+
+              columns.Bound(p => p.BidNumber).Title(Html.Translate("Bid Number")).ClientTemplate(
                 @Html.EarlyWarningOperationButton(
                     @Url.Action("Details", "PriceQuotation", new { id = "#=TransportBidQuotationHeaderID#" }),
                     (EarlyWarningConstants.Operation)ProcurementConstants.Operation.Edit_bid_proposal_details, "#=BidNumber#").ToString());

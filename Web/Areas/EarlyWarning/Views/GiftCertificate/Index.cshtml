@@ -18,7 +18,7 @@
     @Html.Partial("_giftLeftBar")
 }
 <h4 class="page-header">
-    @Translator.Translate(ViewBag.Title)
+    @Html.Translate(ViewBag.Title)
 </h4>
 
 @section Toolbar
@@ -78,10 +78,10 @@
                                 .Columns(c =>
                                              {
                                                  c.Bound(com => com.CommodityName);
-                                                 c.Bound(gc => gc.WeightInMT).Format("{0:N2}").HtmlAttributes(new { align = "right" }).Title(Translator.Translate("Weight in MT"));
-                                                 c.Bound(gc => gc.EstimatedPrice).Format("{0:N2}").HtmlAttributes(new { align = "right" }).Title(Translator.Translate("Est. Price"));
-                                                 c.Bound(gc => gc.EstimatedTax).Format("{0:N2}").HtmlAttributes(new { align = "right" }).Title(Translator.Translate("Est. Tax"));
-                                                 c.Bound(gc => gc.FundSource).Title(Translator.Translate("Fund Source"));
+                                                 c.Bound(gc => gc.WeightInMT).Format("{0:N2}").HtmlAttributes(new { align = "right" }).Title(Html.Translate("Weight in MT"));
+                                                 c.Bound(gc => gc.EstimatedPrice).Format("{0:N2}").HtmlAttributes(new { align = "right" }).Title(Html.Translate("Est. Price"));
+                                                 c.Bound(gc => gc.EstimatedTax).Format("{0:N2}").HtmlAttributes(new { align = "right" }).Title(Html.Translate("Est. Tax"));
+                                                 c.Bound(gc => gc.FundSource).Title(Html.Translate("Fund Source"));
                                              })
                             ).Filterable().Sortable().Sortable().Scrollable().HtmlAttributes(new { style = "width:100%; height:550px;" })
     )

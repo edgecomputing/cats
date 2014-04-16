@@ -1,5 +1,7 @@
 ﻿@using Kendo.Mvc.UI
 @using LanguageHelpers.Localization
+@using Cats.Helpers
+
 @model Cats.Models.HRD
 
 @{
@@ -30,7 +32,7 @@
                  <div class="span6">
                     <div class="control-group">
                         <div class="control-label">
-                            @Html.Label(Translator.Translate("HRD Name"))
+                            @Html.Label(Html.Translate("HRD Name"))
                         </div>
                         <div class="controls">
                             @Html.TextBoxFor(m=>m.Plan.PlanName)
@@ -42,7 +44,7 @@
                 <div class="span6">
                     <div class="control-group">
                         <div class="control-label">
-                            @Html.LabelFor(m => m.Year,Translator.Translate("Year (Specified in EC)"))
+                            @Html.LabelFor(m => m.Year, Html.Translate("Year (Specified in EC)"))
                         </div>
                         <div class="controls">
                             @Html.TextBox("Year")
@@ -62,7 +64,7 @@
         <div class="span6">
             <div class="control-group">
                 <div class="control-label">
-                    @Html.Label(Translator.Translate("HRD From"), new { @class = "cats-date-pref" })
+                    @Html.Label(Html.Translate("HRD From"), new { @class = "cats-date-pref" })
                 </div>
                 <div class="controls">
                      @Html.TextBoxFor(m => m.Plan.StartDate, new {  @class = "cats-datepicker2" })
@@ -74,7 +76,7 @@
         <div class="span4">
             <div class="control-group">
                 <div class="control-label">
-                    @Html.Label(Translator.Translate("To"), new { @class = "cats-date-pref" })
+                    @Html.Label(Html.Translate("To"), new { @class = "cats-date-pref" })
                 </div>
                 <div class="controls" >
                     @Html.TextBoxFor(m => m.Plan.EndDate, new { @class = "cats-datepicker2" })

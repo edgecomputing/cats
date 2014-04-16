@@ -1,19 +1,18 @@
 ﻿@using Cats.Helpers
 @using Cats.Services.Security
-@using LanguageHelpers.Localization
 @using Cats.Models;
-    @using Kendo.Mvc.UI
+@using Kendo.Mvc.UI
 
 @model List<PromisedContributionViewModel>
 @{
     
     var user = (UserIdentity)System.Web.HttpContext.Current.User.Identity;
     var unitPreference = user.Profile.PreferedWeightMeasurment;
-    var UserUnit = @Translator.Translate(@Html.UserUnitPreference());
+    var UserUnit = Html.Translate(Html.UserUnitPreference());
     //decimal amount = 12.5M; 
 }
 @{
-    ViewBag.Title = Translator.Translate("Contributions");
+    ViewBag.Title = Html.Translate("Contributions");
     Layout = "~/Views/Shared/_MainLayout.cshtml";
    
 }
@@ -35,7 +34,7 @@
 </style>
 <fieldset>
     <legend>
-       @Translator.Translate("Promised Contribution ")
+       @Html.Translate("Promised Contribution ")
        
     </legend>
 </fieldset>

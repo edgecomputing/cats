@@ -1,6 +1,7 @@
 ﻿@using Cats.Areas.Procurement.Models
 @using Kendo.Mvc.UI
-@using LanguageHelpers.Localization
+@using Cats.Helpers
+
 @model Cats.Models.ViewModels.TransportRequisitionWithTransporter
 
 
@@ -20,7 +21,7 @@
           columns.Bound(to => to.ContractNumber).Width(150).ClientTemplate("<a href='" + Url.Action("TransportContract", "TransportOrder", new { Area = "Hub", id = "#=TransportOrderID#" }) + " '>#=ContractNumber#</a>  ").HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;" });
    
     columns.Bound(to => to.Transporter);
-    columns.Bound(to => to.BidDocumentNo).Width(100).Title(Translator.Translate("Bid Document #"));
+    columns.Bound(to => to.BidDocumentNo).Width(100).Title(Html.Translate("Bid Document #"));
     columns.Bound(to => to.OrderExpiryDateET).Width(120).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid", style = "overflow: visible; white-space: normal;" });
     columns.Bound(to => to.StartDate).Width(120).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid", style = "overflow: visible; white-space: normal;" });
     columns.Bound(to => to.EndDate).Width(120).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid", style = "overflow: visible; white-space: normal;" });

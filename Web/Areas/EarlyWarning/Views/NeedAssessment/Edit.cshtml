@@ -1,8 +1,10 @@
 ﻿@using Kendo.Mvc.UI
 @using LanguageHelpers.Localization
+@using Cats.Helpers
+
 @model Cats.Models.NeedAssessment
 @{
-    ViewBag.Title = Translator.Translate("Edit NeedAssessment");
+    ViewBag.Title = Html.Translate("Edit NeedAssessment");
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
 
@@ -16,8 +18,8 @@
 }
 <fieldset>
     <legend>
-        <h5>@Translator.Translate("Region"):  @ViewData["RegionName"]</h5> 
-       <h5> @Translator.Translate("Need assessment type"): @ViewData["TypeOfNeedAssessment"]</h5>
+        <h5>@Html.Translate("Region"):  @ViewData["RegionName"]</h5> 
+       <h5> @Html.Translate("Need assessment type"): @ViewData["TypeOfNeedAssessment"]</h5>
         <br/>
     </legend>
 </fieldset>

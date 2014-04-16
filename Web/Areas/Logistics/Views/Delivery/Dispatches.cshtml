@@ -1,6 +1,6 @@
 ﻿@using Cats.Areas.Logistics.Models
 @using Kendo.Mvc.UI
-@using LanguageHelpers.Localization
+@using Cats.Helpers
 @model Cats.Areas.Procurement.Models.TransportOrderViewModel
 
 @{
@@ -27,7 +27,7 @@
         </style>
     </head>
     <body ng-controller="DispatchManagementController">
-        <h4 class="page-header">@Translator.Translate("Transport Order Dispatches")</h4>
+        <h4 class="page-header">@Html.Translate("Transport Order Dispatches")</h4>
         <div class="control-group form-horizontal well">
             <div class="row">
                 <div class="span6">
@@ -126,13 +126,13 @@
             <div class="row-fluid" style="width:800px;float: left;">
                 <ul class="nav nav-tabs ">
                     <li class="active">
-                        <a href="#tab0" data-toggle="tab" @*class="enableGRNEdit"*@ data-ng-click="enableGRNEdit()"><b>@Translator.Translate("Dispatch Waiting Receiving Note")</b></a>
+                        <a href="#tab0" data-toggle="tab" @*class="enableGRNEdit"*@ data-ng-click="enableGRNEdit()"><b>@Html.Translate("Dispatch Waiting Receiving Note")</b></a>
                     </li>
                     <li>
-                        <a href="#tab1" data-toggle="tab" @*class="disableGRNEdit"*@ data-ng-click="disableGRNEdit()"><b>@Translator.Translate("Dispatch With Receiving Note")</b></a>
+                        <a href="#tab1" data-toggle="tab" @*class="disableGRNEdit"*@ data-ng-click="disableGRNEdit()"><b>@Html.Translate("Dispatch With Receiving Note")</b></a>
                     </li>
                     <li>
-                        <a href="#tab2" data-toggle="tab" @*class="disableGRNEdit"*@ data-ng-click="disableGRNEdit()"><b>@Translator.Translate("Receiving Discrepancies")</b></a>
+                        <a href="#tab2" data-toggle="tab" @*class="disableGRNEdit"*@ data-ng-click="disableGRNEdit()"><b>@Html.Translate("Receiving Discrepancies")</b></a>
                     </li>
 
                 </ul>

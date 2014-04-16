@@ -1,5 +1,5 @@
 ﻿@model Cats.Models.RegionalPSNPPlan
-@using LanguageHelpers.Localization
+@using Cats.Helpers
 
 @{
     ViewBag.Title = "Edit";
@@ -15,14 +15,14 @@
     <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="@Url.Action("Index", "RegionalPSNPPlan")"></a>
 }
 
-<h2>@Translator.Translate("Edit")</h2>
+<h2>@Html.Translate("Edit")</h2>
 <div class="form-horizontal">
 @using (Html.BeginForm("Edit", "RegionalPSNPPlan", FormMethod.Post, new { id = "frm_edit_psnp" }))
 {
     @Html.ValidationSummary(true)
 
     <fieldset>
-        <legend>@Translator.Translate("Regional PSNP Plan")</legend>
+        <legend>@Html.Translate("Regional PSNP Plan")</legend>
 
         @Html.HiddenFor(model => model.RegionalPSNPPlanID)
 
@@ -64,8 +64,8 @@
 
         <p>
             
-            <input type="submit" value="@Translator.Translate("Save")" class="btn btn-info"/>
-            <a href="@Url.Action("Index", "RegionalPSNPPlan")" class="btn btn-danger">@Translator.Translate("Back to List") </a> 
+            <input type="submit" value="@Html.Translate("Save")" class="btn btn-info"/>
+            <a href="@Url.Action("Index", "RegionalPSNPPlan")" class="btn btn-danger">@Html.Translate("Back to List") </a> 
         </p>
             -->
     </fieldset>

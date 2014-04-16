@@ -2,7 +2,6 @@
 @using Cats.Helpers
 @using Cats.Models.Constant
 @using Kendo.Mvc.UI
-@using LanguageHelpers.Localization
 
 @model Cats.Areas.EarlyWarning.Models.SearchRequsetViewModel
 
@@ -23,7 +22,7 @@
 {
     <a data-buttontype="btn_new_record"  class="btn toolbar-btn " href="@Url.Action("New", "Request")"></a>
 }
-<h4 class="page-header">@Translator.Translate( "Regional Requests")</h4>
+<h4 class="page-header">@Html.Translate("Regional Requests")</h4>
           @Html.Partial("_FilterRequestLeftBar")
 
 

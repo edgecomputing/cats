@@ -3,7 +3,7 @@
 @using Cats.Helpers
 @using Cats.Services.Security
 @using Kendo.Mvc.UI
-@using LanguageHelpers.Localization
+
 @{
     ViewBag.Title = "OrderDetail";
     Layout = "~/Views/Shared/_MainLayout.cshtml";    
@@ -65,7 +65,7 @@
             <div class="span6">
                 <div class="control-group">
                     <div class="control-label">
-                        @Html.Label(Translator.Translate("Requisition No"))
+                        @Html.Label(Html.Translate("Requisition No"))
                     </div>
                     <div class="controls">
                         @Html.TextBoxFor(m => m.RequisitionNo, new { Disabled = true })
@@ -75,7 +75,7 @@
             <div class="span4">
                 <div class="control-group">
                     <div class="control-label">
-                        @Html.Label(Translator.Translate("Contract Number"))
+                        @Html.Label(Html.Translate("Contract Number"))
                     </div>
                     <div class="controls">
                         @Html.TextBoxFor(m => m.ContractNumber, new { Disabled = true })
@@ -88,7 +88,7 @@
             <div class="span6">
                 <div class="control-group">
                     <div class="control-label">
-                        @Html.Label(Translator.Translate("Dispatch Date"),new { @class = "cats-date-pref" })
+                        @Html.Label(Html.Translate("Dispatch Date"), new { @class = "cats-date-pref" })
                     </div>
                     <div class="controls">
                         @*@foreach (var detail in Model.TransportOrderDetails)
@@ -103,7 +103,7 @@
             <div class="span4">
                 <div class="control-group">
                     <div class="control-label">
-                        @Html.Label(Translator.Translate("Transport Order Expiry"))
+                        @Html.Label(Html.Translate("Transport Order Expiry"))
                     </div>
                     <div class="controls">
                         @Html.TextBoxFor(m => m.OrderExpiryDate, new { Disabled = true })
@@ -116,7 +116,7 @@
             <div class="span6">
                 <div class="control-group">
                     <div class="control-label">
-                        @Html.Label(Translator.Translate("Region"))
+                        @Html.Label(Html.Translate("Region"))
                     </div>
                     <div class="controls">
                         @Html.TextBoxFor(m => m.Region, new { Disabled = true })
@@ -127,7 +127,7 @@
             <div class="span4">
                 <div class="control-group">
                     <div class="control-label">
-                        @Html.Label(Translator.Translate("Zone"))
+                        @Html.Label(Html.Translate("Zone"))
                     </div>
                     <div class="controls">
                         @Html.TextBoxFor(m => m.Zone, new { Disabled = true })
@@ -163,7 +163,7 @@
             columns.Bound(p => p.RequisitionNo);
             columns.Bound(p => p.Commodity);
             columns.Bound(p => p.FDP);
-            columns.ForeignKey(p => p.HubID, (IEnumerable) ViewBag.HubID, "hubID", "Name").Width(100).Title(Translator.Translate("Origin Warehouse")).ClientFooterTemplate(Translator.Translate("Total")); 
+            columns.ForeignKey(p => p.HubID, (IEnumerable)ViewBag.HubID, "hubID", "Name").Width(100).Title(Html.Translate("Origin Warehouse")).ClientFooterTemplate(Html.Translate("Total")); 
            // columns.Bound(p => p.DistanceFromOrigin);
             columns.Bound(p => p.QuantityQtl).Title("Qantity").ClientFooterTemplate("<b>#=kendo.format('{0:N0}', sum)#</b>").HtmlAttributes(new { align = "right" }).Format("{0:n2}").HeaderHtmlAttributes(new { @class = "cats-unit-pref-grid" });
             columns.Bound(p => p.TariffPerQtl).Title("Tariff").HtmlAttributes(new { style = "background-color:lightgray" }).Format("{0:n2}").Width(100).HtmlAttributes(new { align = "Right" });
