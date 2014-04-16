@@ -367,12 +367,8 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
             if (ModelState.IsValid)
             {
-                if (startDate >= endDate)
-                {
-                    ModelState.AddModelError("Errors", @"Start Date Can't be greater than OR Equal to End Date!");
-                }
-                else
-                {
+                
+               
                     try
                     {
                         _planService.AddHRDPlan(planName, startDate, endDate);
@@ -388,7 +384,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                         ModelState.AddModelError("Errors", "Unable To Create New HRD");
                         //ViewBag.Error = "HRD for this Season and Year already Exists";
                     }
-                }
+                
 
             }
 
