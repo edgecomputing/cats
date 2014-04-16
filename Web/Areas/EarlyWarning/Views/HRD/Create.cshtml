@@ -21,28 +21,6 @@
     <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="@Url.Action("Index", "HRD")" title="cancel" ></a>
 }
 
-<script type="text/javascript">
-    $(function () {
-
-        //Optional: turn the chache off
-        $.ajaxSetup({ cache: false });
-
-        $('#btnDateinterval').click(function () {
-
-            // alert("");
-            $('#dialogContent').load(this.href, function () {
-                $('#dialogDiv').modal({
-                    backdrop: 'static',
-                    keyboard: true
-                }, 'show');
-                //bindForm(this);
-            });
-            return false;
-        });
-
-    });
-</script>
-
 <div id='dialogDiv' class='modal hide fade in' style="width: 620px;margin-right: 10px">
     <div id='dialogContent'></div>
 </div>
@@ -120,11 +98,9 @@
                             @Html.LabelFor(m => m.Plan.Duration, @Html.Translate2(pageName, "Duration"))
                         </div>
                         <div class="controls">
-                            @*@Html.TextBoxFor(m => m.Plan.EndDate, new { @class = "cats-datepicker2" })
-                    @Html.ValidationMessageFor(m => m.Plan.EndDate)*@
                             @Html.TextBoxFor(m => m.Plan.Duration)
-                            @Html.ValidationMessageFor(m => m.Plan.Duration)
-                            <a id="btnDateinterval"  href="@Url.Action("DateInterval", "HRD", new { area = "EarlyWarning", startDate = "4/15/2014", duration = 6 })">View Date Interval</a>
+                            <a  href="@Url.Action("DateInterval", "HRD", new { area = "EarlyWarning", startDate = "4/15/2014", duration = 6 })">View Date Interval</a>
+                             @Html.ValidationMessageFor(m => m.Plan.Duration)
                         </div>
 
                     </div>
@@ -144,51 +120,36 @@
     </div>
     }
 
-<script>
- @*function HRDController($scope, $http) {
-     $scope.startDate = { startDate: new Date($('#Plan_StartDate').val())};
-     $scope.duration = { duration: $('#Plan_Duration').val() };
-     $scope.duration = [];
-        
-        var onSuccess = function (data) {
-            $scope.duration = data;
-        };
 
-        $scope.getDuration = function () {
-            $http.post("@Url.Action("GetDuration", "HRD", new { Area = "Regional" })", $scope.startDate, $scope.duration).success(onSuccess);
-        };
-        
-     $scope.getDuration();
-    }*@
-    //$("#div_duration").hide();
-    //$("#RationID").change(function() {
-    //    var startDate = new Date($('#Plan_StartDate').val());
-    //    var duration = $('#Plan_Duration').val();
-    //    var endDate = new Date(startDate.setMonth(startDate + duration));
-    //    alert(endDate);
-    //});
+
+<script type="text/javascript">
+    $(function () {
+
+        //Optional: turn the chache off
+        $.ajaxSetup({ cache: false });
+
+        $('#btnDateinterval').click(function () {
+
+            //GetDateInterval();
+
+            $('#dialogContent').load(this.href, function () {
+                $('#dialogDiv').modal({
+                    backdrop: 'static',
+                    keyboard: true
+                }, 'show');
+                //bindForm(this);
+            });
+            return false;
+        });
+
+    });
+
+ 
     function GetDateInterval() {
         var starDate = $('#Plan_StartDate').val();
         var duration = $('#Plan_Duration').val();
                 
         window.location = "@Url.Action("DateInterval", "HRD")" + "?duration=" + duration + "&startDate=" + starDate;
     }
-        
-       @* $.ajax({
-            type: "GET",
-            url: "@Url.Action("DateInterval", "HRD",new {Area="EarlyWarning"})",
-            contentType: "application/json; charset=utf-8",
-            data: { startDate: starDate,duration:duration },
-              //dataType: "json",
-            //success: CheckStatus,
-            error: function () {
-                alert(duration);
-            }
-
-          });*@
-  
-    
-
-  
-
+     
 </script>
