@@ -1641,6 +1641,7 @@
     <Content Include="Areas\EarlyWarning\Views\DonorCoverage\Detail.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\DonorCoverage\Index.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\DonorCoverage\AddWoreda.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\HRD\DateInterval.cshtml" />
     <None Include="Areas\EarlyWarning\Views\PrintableReports\HRD\HRDDatasetForPrint.xsd">
       <SubType>Designer</SubType>
       <Generator>MSDataSetGenerator</Generator>
@@ -1844,9 +1845,7 @@
     <Content Include="Areas\Settings\Views\Shared\_MainLayoutMap.cshtml" />
     <Content Include="Areas\Settings\Views\ProcessTemplate\Detail.cshtml" />
     <Content Include="Areas\Settings\Views\ProcessTemplate\Index.cshtml" />
-
     <Content Include="Areas\Settings\Views\Users\EditUser.cshtml" />
-
     <Content Include="Areas\Hub\Views\ReceiptAllocation\Copy of Close.cshtml" />
     <Content Include="Areas\Hub\Views\ReceiptAllocation\Edit.cshtml" />
     <Content Include="Areas\Logistics\Views\WoredaStockDistribution\_LeftBar.cshtml" />

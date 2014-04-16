@@ -1,10 +1,12 @@
-﻿@using Kendo.Mvc.UI
+﻿@using Cats.Helpers
+@using Kendo.Mvc.UI
 @using LanguageHelpers.Localization
 @model Cats.Models.HRD
 
 @{
     ViewBag.Title = "Create";
-    Layout = "~/Views/Shared/_MainLayout.cshtml";  
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+    const string pageName="EarlyWarning.HRD.Create";
 }
 @section LeftBar
 {
@@ -18,129 +20,175 @@
     <a id="btn-save" class="btn toolbar-btn " data-buttontype="btn_save" data-submittedform="frm_create_hrd"></a>
     <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="@Url.Action("Index", "HRD")" title="cancel" ></a>
 }
+
+<script type="text/javascript">
+    $(function () {
+
+        //Optional: turn the chache off
+        $.ajaxSetup({ cache: false });
+
+        $('#btnDateinterval').click(function () {
+
+            // alert("");
+            $('#dialogContent').load(this.href, function () {
+                $('#dialogDiv').modal({
+                    backdrop: 'static',
+                    keyboard: true
+                }, 'show');
+                //bindForm(this);
+            });
+            return false;
+        });
+
+    });
+</script>
+
+<div id='dialogDiv' class='modal hide fade in' style="width: 620px;margin-right: 10px">
+    <div id='dialogContent'></div>
+</div>
+
 <div>
     <h4>Create HRD</h4>
 </div>
     @using (Html.BeginForm("Create", "HRD", FormMethod.Post, new { id = "frm_create_hrd" }))
-
     {
 
         <div class="well form-horizontal">
             <div class="row">
-                 <div class="span6">
+                <div class="span6">
                     <div class="control-group">
                         <div class="control-label">
-                            @Html.Label(Translator.Translate("HRD Name"))
+                            @Html.Label(@Html.Translate2(pageName, "HRD Name"))
                         </div>
                         <div class="controls">
-                            @Html.TextBoxFor(m=>m.Plan.PlanName)
-                            @Html.ValidationMessageFor(m=>m.Plan.PlanName)
+                            @Html.TextBoxFor(m => m.Plan.PlanName)
+                            @Html.ValidationMessageFor(m => m.Plan.PlanName)
                         </div>
-        
+
                     </div>
                 </div>
                 <div class="span6">
                     <div class="control-group">
                         <div class="control-label">
-                            @Html.LabelFor(m => m.Year,Translator.Translate("Year (Specified in EC)"))
+                            @Html.LabelFor(m => m.Year, Translator.Translate("Year (Specified in EC)"))
                         </div>
                         <div class="controls">
                             @Html.TextBox("Year")
-                            @Html.ValidationMessageFor(m=>m.Year)
-                            @if(@ViewBag.Error!=null)
+                            @Html.ValidationMessageFor(m => m.Year)
+                            @if (@ViewBag.Error != null)
                             {
                                 <span class="alert alert-error">
                                     @ViewBag.Error
                                 </span>
                             }
                         </div>
-        
+
                     </div>
                 </div>
             </div>
             <div class="row">
-        <div class="span6">
-            <div class="control-group">
-                <div class="control-label">
-                    @Html.Label(Translator.Translate("HRD From"), new { @class = "cats-date-pref" })
+                <div class="span6">
+                    <div class="control-group">
+                        <div class="control-label">
+                            @Html.Label(Translator.Translate("HRD From"), new { @class = "cats-date-pref" })
+                        </div>
+                        <div class="controls">
+                            @Html.TextBoxFor(m => m.Plan.StartDate, new { @class = "cats-datepicker2" })
+                            @Html.ValidationMessageFor(m => m.Plan.StartDate)
+                        </div>
+                    </div>
                 </div>
-                <div class="controls">
-                     @Html.TextBoxFor(m => m.Plan.StartDate, new {  @class = "cats-datepicker2" })
-                    @Html.ValidationMessageFor(m => m.Plan.StartDate)
-                </div>
-            </div>
-        </div>
 
-        <div class="span4">
-            <div class="control-group">
-                <div class="control-label">
-                    @Html.Label(Translator.Translate("To"), new { @class = "cats-date-pref" })
-                </div>
-                <div class="controls" >
-                    @Html.TextBoxFor(m => m.Plan.EndDate, new { @class = "cats-datepicker2" })
-                    @Html.ValidationMessageFor(m => m.Plan.EndDate)
-                    @*<div id="dateValidation" >
-                        <span class="alert-error span11" style="width: 220px;">
-                            @Html.Label("End Date can't be less than Start date")
-                        </span>
-                      </div>*@
-                </div>
-              
-            </div>
-        </div>
-    </div>
-            <div class="row">
-                
-                 <div class="span6">
+                <div class="span4">
                     <div class="control-group">
                         <div class="control-label">
                             @Html.LabelFor(m => m.SeasonID)
                         </div>
                         <div class="controls">
-                            @Html.DropDownList("SeasonID",String.Empty)
-                            @Html.ValidationMessageFor(m=>m.SeasonID)
+                            @Html.DropDownList("SeasonID", String.Empty)
+                            @Html.ValidationMessageFor(m => m.SeasonID)
                         </div>
-        
+
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="span6">
+                    <div class="control-group">
+                        <div class="control-label">
+                            @*@Html.Label(Translator.Translate("To"), new { @class = "cats-date-pref" })*@
+                            @Html.LabelFor(m => m.Plan.Duration, @Html.Translate2(pageName, "Duration"))
+                        </div>
+                        <div class="controls">
+                            @*@Html.TextBoxFor(m => m.Plan.EndDate, new { @class = "cats-datepicker2" })
+                    @Html.ValidationMessageFor(m => m.Plan.EndDate)*@
+                            @Html.TextBoxFor(m => m.Plan.Duration)
+                            @Html.ValidationMessageFor(m => m.Plan.Duration)
+                              <a id="btnDateinterval"  href="@Url.Action("DateInterval","HRD",new {area="EarlyWarning",startDate="4/15/2014",duration=6})">View Date Interval</a>
+                        </div>
+
                     </div>
                 </div>
                 <div class="span6">
                     <div class="control-group">
                         <div class="control-label">
-                            @Html.LabelFor(m => m.RationID,"Ration")
+                            @Html.LabelFor(m => m.RationID, "Ration")
                         </div>
                         <div class="controls">
-                            @Html.DropDownList("RationID",String.Empty)
-                            @Html.ValidationMessageFor(m=>m.RationID)
+                            @Html.DropDownList("RationID", String.Empty)
+                            @Html.ValidationMessageFor(m => m.RationID)
                         </div>
                     </div>
-                </div>
+                </div>     
             </div>
-           
-        </div>
+    </div>
     }
 
-@*<script>
-    $("#dateValidation").hide();
-    var startDate = new Date($('#Plan_StartDate').val());
-    var endDate = new Date($('#Plan_EndDate').val());
-    if ((endDate < startDate)) {
-        $("#dateValidation").show();
+<script>
+ @*function HRDController($scope, $http) {
+     $scope.startDate = { startDate: new Date($('#Plan_StartDate').val())};
+     $scope.duration = { duration: $('#Plan_Duration').val() };
+     $scope.duration = [];
+        
+        var onSuccess = function (data) {
+            $scope.duration = data;
+        };
+
+        $scope.getDuration = function () {
+            $http.post("@Url.Action("GetDuration", "HRD", new { Area = "Regional" })", $scope.startDate, $scope.duration).success(onSuccess);
+        };
+        
+     $scope.getDuration();
+    }*@
+    //$("#div_duration").hide();
+    //$("#RationID").change(function() {
+    //    var startDate = new Date($('#Plan_StartDate').val());
+    //    var duration = $('#Plan_Duration').val();
+    //    var endDate = new Date(startDate.setMonth(startDate + duration));
+    //    alert(endDate);
+    //});
+    function GetDateInterval() {
+        var starDate = $('#Plan_StartDate').val();
+        var duration = $('#Plan_Duration').val();
+                
+        window.location = "@Url.Action("DateInterval", "HRD")" + "?duration=" + duration + "&startDate=" + starDate;
     }
-    function DateValidation() {
-      
-        //$("#RationID").change(function () {
-        var startDate = new Date($('#Plan_StartDate').val());
-        var endDate = new Date($('#Plan_EndDate').val());
-        var validationMessage = $("#dateValidation");
+        
+       @* $.ajax({
+            type: "GET",
+            url: "@Url.Action("DateInterval", "HRD",new {Area="EarlyWarning"})",
+            contentType: "application/json; charset=utf-8",
+            data: { startDate: starDate,duration:duration },
+              //dataType: "json",
+            //success: CheckStatus,
+            error: function () {
+                alert(duration);
+            }
 
-        if (startDate < endDate) {
-            validationMessage.hide();
-            return true;
-        } else {
-            validationMessage.show();
-            return false;
-        }
-       // });
-    }   
+          });*@
+  
+    
 
-</script>*@
+  
+
+</script>
