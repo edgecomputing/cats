@@ -18,6 +18,31 @@
     <a class="btn toolbar-btn " data-buttontype="btn_save" data-submittedform="frm_create_plan"></a>
     <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="@Url.Action("Index", "Plan")" title="save"></a>
 }
+<script type="text/javascript">
+    $(function () {
+
+        //Optional: turn the chache off
+        $.ajaxSetup({ cache: false });
+
+        $('#btnDateinterval').click(function () {
+
+            // alert("");
+            $('#dialogContent').load(this.href, function () {
+                $('#dialogDiv').modal({
+                    backdrop: 'static',
+                    keyboard: true
+                }, 'show');
+                //bindForm(this);
+            });
+            return false;
+        });
+
+    });
+</script>
+
+<div id='dialogDiv' class='modal hide fade in' style="width: 620px;margin-right: 10px">
+    <div id='dialogContent'></div>
+</div>
 <div>
     <h4>Create Plan</h4>
 </div>
@@ -58,12 +83,14 @@
             </div>
             <div class="control-group">
                 <div class="control-label">
-                    @Html.LabelFor(m => m.EndDate,Translator.Translate("TO Date"))
+                    @Html.LabelFor(m => m.Duration,Translator.Translate("Duration"))
                 </div>
                 <div class="controls">
                     @* <input class="cats-datepicker" type="text" id="create" name="create" />*@
-                    @Html.TextBoxFor(m=>m.EndDate,new {@class="cats-datepicker2"})
-                    @Html.ValidationMessageFor(m => m.EndDate)
+                    @Html.TextBoxFor(m=>m.Duration)
+                    
+                     <a id="btnDateinterval"  href="@Url.Action("DateInterval", "HRD", new { area = "EarlyWarning", startDate = "4/15/2014", duration = 6 })">View Date Interval</a>
+                        @Html.ValidationMessageFor(m => m.Duration)
                 </div>
         
             </div>
