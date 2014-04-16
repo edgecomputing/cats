@@ -99,7 +99,7 @@
                         </div>
                         <div class="controls">
                             @Html.TextBoxFor(m => m.Plan.Duration)
-                            <a  href="@Url.Action("DateInterval", "HRD", new { area = "EarlyWarning", startDate = "4/15/2014", duration = 6 })">View Date Interval</a>
+                            <a id="btnDateinterval"   href="@Url.Action("DateInterval", "HRD", new { area = "EarlyWarning", startDate = "4/15/2014", duration = 6 })">View Date Interval</a>
                              @Html.ValidationMessageFor(m => m.Plan.Duration)
                         </div>
 
@@ -124,7 +124,7 @@
 
 <script type="text/javascript">
     $(function () {
-
+        
         //Optional: turn the chache off
         $.ajaxSetup({ cache: false });
 
@@ -133,7 +133,9 @@
             //GetDateInterval();
 
             $('#dialogContent').load(this.href, function () {
+              
                 $('#dialogDiv').modal({
+                    
                     backdrop: 'static',
                     keyboard: true
                 }, 'show');
