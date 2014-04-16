@@ -223,6 +223,72 @@ namespace Cats.Services.Transaction
             return entries;
             
         }
+
+        public bool PostRequestAllocation(int requestId)//RRD
+        {
+            var result = new List<Models.Transaction>();
+            var allocationDetails =
+                _unitOfWork.RegionalRequestDetailRepository.FindBy(r => r.RegionalRequest.RegionalRequestID == requestId);
+            if (allocationDetails == null) return false;
+
+            var transactionGroup = Guid.NewGuid();
+            var transactionDate = DateTime.Now;
+            _unitOfWork.TransactionGroupRepository.Add(new TransactionGroup() { PartitionID = 0, TransactionGroupID = transactionGroup });
+
+
+            foreach (var allocationDetail in allocationDetails)
+            {
+                foreach (var detail in allocationDetail.RequestDetailCommodities)
+                {
+
+
+                    var transaction = new Models.Transaction();
+                    transaction.TransactionID = Guid.NewGuid();
+                    transaction.TransactionGroupID = transactionGroup;
+                    transaction.TransactionDate = transactionDate;
+                    transaction.UnitID = 1;
+
+                    transaction.QuantityInMT = - detail.Amount;
+                        transaction.QuantityInUnit = - detail.Amount;
+                    transaction.LedgerID = Models.Ledger.Constants.PLEDGED_TO_FDP;
+                    transaction.CommodityID = detail.CommodityID;
+                    transaction.FDPID = detail.RegionalRequestDetail.Fdpid;
+                    transaction.ProgramID = detail.RegionalRequestDetail.RegionalRequest.ProgramId;
+                    transaction.RegionID = detail.RegionalRequestDetail.RegionalRequest.RegionID;
+                    transaction.PlanId = detail.RegionalRequestDetail.RegionalRequest.PlanID;
+
+                    transaction.Round = detail.RegionalRequestDetail.RegionalRequest.Round;
+                    transaction.Month = detail.RegionalRequestDetail.RegionalRequest.Month;
+                    _unitOfWork.TransactionRepository.Add(transaction);
+
+
+                    //for Register Doc
+                    transaction = new Models.Transaction();
+                    transaction.TransactionID = Guid.NewGuid();
+                    transaction.TransactionGroupID = transactionGroup;
+                    transaction.TransactionDate = transactionDate;
+                    transaction.UnitID = 1;
+
+                    transaction.QuantityInMT = detail.Amount;
+                    transaction.QuantityInUnit = detail.Amount;
+                    transaction.LedgerID = Models.Ledger.Constants.REQUIRMENT_DOCUMENT;
+                    transaction.CommodityID = detail.CommodityID;
+                    transaction.FDPID = detail.RegionalRequestDetail.Fdpid;
+                    transaction.ProgramID = detail.RegionalRequestDetail.RegionalRequest.ProgramId;
+                    transaction.RegionID = detail.RegionalRequestDetail.RegionalRequest.RegionID;
+                    transaction.PlanId = detail.RegionalRequestDetail.RegionalRequest.PlanID;
+
+                    transaction.Round = detail.RegionalRequestDetail.RegionalRequest.Round;
+                    transaction.Month = detail.RegionalRequestDetail.RegionalRequest.Month;
+                    _unitOfWork.TransactionRepository.Add(transaction);
+                }
+            }
+
+            _unitOfWork.Save();
+            return true;
+        }
+
+
         public bool PostSIAllocation(int requisitionID)
         {
             var result = new List<Models.Transaction>();
