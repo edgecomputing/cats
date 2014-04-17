@@ -325,7 +325,7 @@ namespace Cats.Services.Security
         public UserProfile GetUserDetail(string userName)
         {
             //return _unitOfWork.UserRepository.Get(u => u.UserName == userName, null, "UserProfile,UserPreference").SingleOrDefault();
-            return _unitOfWork.UserProfileRepository.Get(u => u.UserName == userName).SingleOrDefault();
+            return _unitOfWork.UserProfileRepository.Get(u => u.UserName == userName).FirstOrDefault();
         }
 
         /// <summary>

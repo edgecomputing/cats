@@ -15,7 +15,8 @@
 }
 
 
-@{<form class=" form-horizontal">
+
+<form class=" form-horizontal">
     <legend>User Profile</legend>
 
     <div class="row">
@@ -105,7 +106,7 @@
     <div class="form-actions">
         <a class="btn" href="@Url.Action("Index","Users")">Cancel</a>
         <a class="btn btn-warning" href="#"><i class="icon-unlink"></i> Disable Account</a>
-        <a class="btn btn-danger" href="#"><i class="icon-trash"></i> Delete Account</a>
+        <a class="btn btn-danger" href="@Url.Action("DeleteAccount","Users",new {id = Model.UserProfileID})"><i class="icon-trash"></i> Delete Account</a>
 
     </div>
 </form>
