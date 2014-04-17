@@ -81,6 +81,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                 
                     try
                     {
+                        plan.EndDate = endDate;
                         plan.Status = (int) PlanStatus.Draft;
                         _planService.AddPlan(plan);
                         return RedirectToAction("Index");
