@@ -2,8 +2,8 @@
 @using Cats.Helpers
 @using Cats.Services.Security
 @using Kendo.Mvc.UI
-@using LanguageHelpers.Localization
 @using Cats.Models
+
 @model  WinnersByBidViewModel
 @{
     ViewBag.Title = "Details";
@@ -66,7 +66,7 @@
                   columns.Bound(t => t.SourceWarehouse);
                   columns.Bound(t => t.Woreda);
                   columns.Bound(t => t.Quantity);
-                  columns.Bound(t => t.WinnerTariff).Title(Translator.Translate("Tariff"));
+                  columns.Bound(t => t.WinnerTariff).Title(Html.Translate("Tariff"));
                   //columns.Bound(t => t.StatusID);
                   //columns.Bound(t => t.Status);
               })

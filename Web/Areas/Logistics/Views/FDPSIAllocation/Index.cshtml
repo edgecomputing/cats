@@ -1,6 +1,6 @@
 ﻿@using Cats.Services.Security
 @using Cats.Helpers;
-@using LanguageHelpers.Localization
+
 @{
     ViewBag.Title = "Hub Allocated Requesitions";
     Layout = "~/Views/Shared/_MainLayoutWide.cshtml";
@@ -93,7 +93,7 @@
 </div>
 <div ng-app="drag-and-drop" ng-controller="oneCtrl" class="allocationscreen">
     <fieldset>
-        <legend style="font-size:16px;">@Translator.Translate("SI/ProjectCode Allocation ")</legend>
+        <legend style="font-size:16px;">@Html.Translate("SI/ProjectCode Allocation ")</legend>
 
     </fieldset>
     <div>
@@ -121,13 +121,13 @@
                      </div>
                     <div id="collapse_zone{{zone.zoneId}}" class="accordion-body collapse">
                             <div style="height:70px;">
-                                <div class="label2">@Translator.Translate("Region"): </div>
+                                <div class="label2">@Html.Translate("Region"): </div>
                                 <div class="value2">{{zone.RegionName}}</div>
 
-                                <div class="label2">@Translator.Translate("Zone"): </div>
+                                <div class="label2">@Html.Translate("Zone"): </div>
                                 <div class="value2">{{zone.name}}</div>
 
-                                <div class="label2">@Translator.Translate("Commodity"): </div>
+                                <div class="label2">@Html.Translate("Commodity"): </div>
                                 <div class="value2">{{zone.Commodity}}</div>
                             </div>
                         <br />

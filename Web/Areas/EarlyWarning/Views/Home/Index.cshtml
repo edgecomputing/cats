@@ -8,70 +8,6 @@
     Layout = "~/Views/Shared/_MainLayout.cshtml";
     const string pageName = "EarlyWarning.Index";
 }
-@*
-<link href="~/Content/DashboardWidget.css" rel="stylesheet">
-<html>
-<body>
-    <div class="span12">
-    <div class="row">
-        
-        <div class="span6">
-            <div class="widget stacked">
-                <div class="widget-header">
-                    <i class="icon-bookmark"></i>
-                    <h3>Welcome to Early Warning</h3>
-                </div>
-                <div class="widget-content">
-                    <div class="shortcuts">
-                        <a href="@Url.Action("Index", "Contribution", new { Area = "EarlyWarning" })" class="shortcut"><i class="shortcut-icon icon-list-alt"></i>
-                            <span class="shortcut-label">@Html.Translate2(PAGE_NAME,"Contribution")</span>
-                        </a>
-
-                        <a href="@Url.Action("Index", "GiftCertificate", new { Area = "EarlyWarning" })" class="shortcut"><i class="shortcut-icon icon-signal"></i>
-                            <span class="shortcut-label">@Html.Translate2(PAGE_NAME,"Gift Certificate")</span>
-                        </a>
-
-                        <a href="@Url.Action("Index", "HRD", new { Area = "EarlyWarning" })" class="shortcut"><i class="shortcut-icon icon-inbox"></i>
-                            <span class="shortcut-label">@Html.Translate2(PAGE_NAME,"HRD")</span>
-                        </a>
-
-                        <a href="@Url.Action("Index", "NeedAssessment", new { Area = "EarlyWarning" })" class="shortcut"><i class="shortcut-icon icon-tasks"></i>
-                            <span class="shortcut-label">@Html.Translate2(PAGE_NAME,"Need Assessment")</span>
-                        </a>
-
-                        <a href="@Url.Action("Index", "Ration", new { Area = "EarlyWarning" })" class="shortcut"><i class="shortcut-icon icon-bell"></i>
-                            <span class="shortcut-label">@Html.Translate2(PAGE_NAME,"Ration")</span>
-                        </a>
-
-                        <a href="@Url.Action("Index", "ReliefRequisition", new { Area = "EarlyWarning" })" class="shortcut"><i class="shortcut-icon icon-cog"></i>
-                            <span class="shortcut-label">@Html.Translate2(PAGE_NAME,"Relief Requisition")</span>
-                        </a>
-
-                        <a href="@Url.Action("Index", "Request", new { Area = "EarlyWarning" })" class="shortcut"><i class="shortcut-icon icon-cog"></i>
-                            <span class="shortcut-label">@Html.Translate2(PAGE_NAME,"Request")</span>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="span6">
-            <div class="widget stacked">
-                <div class="widget-header">
-                    <i class="icon-bookmark"></i>
-                    <h3></h3>
-                </div>
-                <div class="widget-content">
-                    <h4></h4>
-                </div>
-            </div>
-        </div>
-        
-    </div>
-</div>
-</body>
-</html>
-*@
 
 
 @section styles
@@ -80,9 +16,15 @@
     <link href="~/Content/Dashboard/dashboardcomponents.css" rel="stylesheet" />
     @*<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,800italic,400,600,800" type="text/css">*@
 }
+<style >
+    .Alignment {
+
+        text-align: right;
+    }
+</style>
 <div ng-app>
   <div ng-controller="ImportantNumbersController" class="container">
-        <h3>Early Warning Dashboard</h3>
+        <h3>@Html.Translate("Early Warning Dashboard")</h3>
         <hr />
 
         <div  class="container row">
@@ -95,17 +37,17 @@
                     <!-- /.visual -->
 
                     <div class="details column-divider-regional center">
-                        <span class="content">Total Requests</span>
+                        <span class="content">@Html.Translate("Total Requests")</span>
                         <span class="value"> {{RequiredNumber.TotalRequest}}</span>
                     </div>
 
                     <div class="details column-divider-regional center">
-                        <span class="content">Total Requisitions</span>
+                        <span class="content">@Html.Translate("Total Requisitions")</span>
                         <span class="value">{{RequiredNumber.TotalRequisitionNumber}}</span>
                     </div>
 
                     <div class="details column-divider-regional center">
-                        <span class="content">Required Commodity</span>
+                        <span class="content">@Html.Translate("Required Commodity")</span>
                         <span class="value">{{RequiredNumber.HrdTotalCommodity|number}} in MT</span>
                     </div>
 
@@ -128,7 +70,7 @@
                     <!-- /.visual -->
 
                     <div class="details">
-                        <span class="content">People in Need</span>
+                        <span class="content">@Html.Translate("People in Need")</span>
                         <span class="value">{{RequiredNumber.TotalHrdBeneficaryNumber|number}}</span>
                     </div>
                     <!-- /.details -->
@@ -150,7 +92,7 @@
             <div class="row" style="border-bottom-width: thin; border-bottom-color: #666; border-bottom-style: inset; margin-top: 5px">
 
                 <div class="pull-left">
-                    <h4>Current HRD</h4>
+                    <h4>@Html.Translate("Current HRD")</h4>
                 </div>
                 <div class="pull-right">
                     <div class="btn-group">
@@ -177,7 +119,7 @@
                             <ul class="portlet-tools pull-right">
                                 <li>
                                     <button class="btn btn-sm btn-default">
-                                        Show more
+                                        @Html.Translate("Show more")
                                     </button>
                                 </li>
                             </ul>
@@ -208,7 +150,7 @@
                                                 if(cell.GetType()==typeof(decimal))
                                                 {
                                                     @*<td>@cell.ToString()</td>*@
-                                                    <td>@String.Format("{0:n0}",@cell)</td>
+                                                    <td text-align: right;>@String.Format("{0:n0}",@cell)</td>
                                                 }
                                                 else
                                                 {
@@ -234,7 +176,7 @@
                         <div class="portlet-header">
                             <h3>
                                 <i class=""></i>
-                               Ration Detail
+                               @Html.Translate("Ration Detail")
                             </h3>
                         </div>
                         <div class="portlet-content" >
@@ -266,7 +208,7 @@
                         <div class="portlet-header">
                             <h3>
                                 <i class=""></i>
-                               HRD Percentage
+                               @Html.Translate("HRD Percentage")
                             </h3>
                         </div>
                         <div class="portlet-content">
@@ -275,7 +217,7 @@
                                 <div class="stat-header" style="height: 5px">
 
                                     <div class="pull-left">
-                                        {{region.RegionName}} ({{region.TotalBeneficary}})
+                                        {{region.RegionName}} ({{region.TotalBeneficary|number}})
                                     </div>
                                     <!-- /.stat-label -->
 
@@ -355,7 +297,7 @@
                                         <tr ng-repeat="request in Requests" class="">
                                             @*<td class="hidden-xs"><a ng-href="@Url.Action("Allocation", "Request", new { Area = "EarlyWarning", id = "{{request.Region}}"})"> {{request.Region}} </a> </td>*@
                                             <td class="hidden-xs"><a ng-href="@Url.Content("~/EarlyWarning/Request/Allocation/{{request.RegionalRequestID}}")">{{request.Region}}  </a> </td>                                
-                                            <td>{{request.Beneficiary}}</td>
+                                            <td>{{request.Beneficiary|number}}</td>
                                             <td>{{request.NumberOfFDPS}}</td>
                                             <th>{{request.Round}}</th>
                                              <th>{{request.MonthName}}</th>
@@ -570,8 +512,8 @@
                                             <td>{{requisition.Region}}</td>
                                             <td>{{requisition.Zone}}</td>
                                             <td>{{requisition.Commodity}}</td>
-                                            <td>{{requisition.Beneficiary}}</td>
-                                            <th>{{requisition.Amount}} </th>
+                                            <td>{{requisition.Beneficiary|number}}</td>
+                                            <td>{{requisition.Amount|number}} </td>
                                             <td><span class="label label-success">{{requisition.Status}}</span></td>
                                            @* <td>
                                                 <a href="javascript:;" class="btn btn-sm btn-default">View <i class="icon-chevron-right"></i>
@@ -786,7 +728,7 @@
             <div id="GiftCertificateContent" class="row">
                 <div>&nbsp;</div>
              
-                <div class="span10">
+                <div class="span11">
                     <div class="portlet">
                         <div class="portlet-header">
                             <h3>
@@ -816,8 +758,8 @@
                                             <th>Declaration Number</th>
                                            @* <th>Commodity</th>*@
                                             <th>Total Weight in MT</th>
-                                            <th>Total Estimated Price</th>
-                                            <th>Total Estimated Tax</th>
+                                            <th>Total Estimated Price(in Birr)</th>
+                                            <th>Total Estimated Tax(in Birr)</th>
                                             <th>Status</th>
                                           @*  <th class="align-center">Action</th>*@
                                         </tr>
@@ -829,9 +771,9 @@
                                             <td>{{giftCertificate.GiftDate}}</td>
                                             <td>{{giftCertificate.DclarationNumber}}</td>
                                             @*<td>{{giftCertificate.Commodity}}</td>*@
-                                            <th>{{giftCertificate.Wieght}} </th>
-                                            <th>${{giftCertificate.EstimatedPrice}} </th>
-                                             <th>${{giftCertificate.TotalEstimatedTax}} </th>
+                                            <td class="Alignment">{{giftCertificate.Wieght|number}} </td>
+                                            <td class="Alignment">{{giftCertificate.EstimatedPrice|number}} </td>
+                                            <td class="Alignment">{{giftCertificate.TotalEstimatedTax|number}} </td>
                                             <td><span class="label label-success">{{giftCertificate.Status}}</span></td>
                                            @* <td>
                                                 <a href="javascript:;" class="btn btn-sm btn-default">View <i class="icon-chevron-right"></i>

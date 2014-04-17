@@ -1,6 +1,6 @@
 ﻿@using Cats.Services.Security
 @using Cats.Helpers;
-@using LanguageHelpers.Localization
+
 @{
     ViewBag.Title = "Hub Allocated Requesitions";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
@@ -22,7 +22,7 @@
 }
 
 <fieldset>
-    <legend>@Translator.Translate("SI/ProjectCode Allocation")</legend>
+    <legend>@Html.Translate("SI/ProjectCode Allocation")</legend>
    
 </fieldset>
 

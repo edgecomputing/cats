@@ -220,8 +220,10 @@ namespace Cats.Areas.Settings.Controllers
         {
             //var roles = new string[] { "EW Coordinator", "EW-Experts" };
             //userService.AddRoleSample("Rahel", "Early Warning", roles);
+            var user = UserAccountHelper.GetUser(HttpContext.User.Identity.Name);
             var model = new UserViewModel();
             model.UserName = UserName;
+            model.Email = user.Email;
             List<Application> Applications = _userService.GetUserPermissions(UserName);
             ViewBag.hubs = new SelectList(_hubService.GetAllHub(), "HubID", "Name");
             model.Applications = Applications;

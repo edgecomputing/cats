@@ -1,5 +1,5 @@
 ﻿@using System.Collections
-@using LanguageHelpers.Localization
+@using Cats.Helpers
 @model Cats.Models.HRDPSNPPlan
 
 
@@ -77,7 +77,7 @@
                 <td style="width: 50%">
                     <div >
                         <div class="control-label">
-                            @Html.LabelFor(model => model.RationID, Translator.Translate("Ration"))
+                            @Html.LabelFor(model => model.RationID, Html.Translate("Ration"))
                         </div>
                         <div class="controls">
                             @Html.DropDownList("RationID")

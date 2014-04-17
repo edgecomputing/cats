@@ -1,12 +1,12 @@
 ﻿@using Cats.Services.Security
 @using Cats.Helpers;
-@using LanguageHelpers.Localization
+
 @{
     ViewBag.Title = "Hub Allocated Requesitions";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
     // Cats.Models.ShippingInstruction si=new Cats.Models.ShippingInstruction();
     // si.Value
-    var UserUnit = @Translator.Translate(@Html.UserUnitPreference());
+    var UserUnit = Html.Translate(Html.UserUnitPreference());
     decimal amount = 12.5M;
 }
 
@@ -23,7 +23,7 @@
 }
 
 <fieldset>
-    <legend>@Translator.Translate("SI/ProjectCode Allocation")</legend>
+    <legend>@Html.Translate("SI/ProjectCode Allocation")</legend>
     <!--  <div>@amount  MT is  @amount.ToPreferedWeightUnit()</div>-->
 </fieldset>
 
@@ -233,19 +233,19 @@
                         </div>
                         <div id="collapse{{$index}}" class="accordion-body collapse">
                             <div class="accordion-inner">
-                                <div class="label2">@Translator.Translate("Region"): </div>
+                                <div class="label2">@Html.Translate("Region"): </div>
                                 <div class="value2">{{request.RegionName}}</div>
-                                <div class="label2">@Translator.Translate("Zone"): </div>
+                                <div class="label2">@Html.Translate("Zone"): </div>
                                 <div class="value2">{{request.ZoneName}}</div>
-                                <div class="label2">@Translator.Translate("Hub"): </div>
+                                <div class="label2">@Html.Translate("Hub"): </div>
                                 <div class="value2">{{request.HubName}}</div>
-                                <div class="label2">@Translator.Translate("Commodity"): </div>
+                                <div class="label2">@Html.Translate("Commodity"): </div>
                                 <div class="value2">{{request.Commodity}}</div>
-                                <div class="label2">@Translator.Translate("Requested Qty"): </div>
+                                <div class="label2">@Html.Translate("Requested Qty"): </div>
                                 <div class="value2">{{request.Amount}}<i> @UserUnit</i></div>
-                                <div class="label2">@Translator.Translate("Allocated Qty"): </div>
+                                <div class="label2">@Html.Translate("Allocated Qty"): </div>
                                 <div class="value2">{{request.AllocatedAmount}}<i> @UserUnit</i></div>
-                                <div class="label2">@Translator.Translate("Remaining Qty"): </div>
+                                <div class="label2">@Html.Translate("Remaining Qty"): </div>
                                 <div class="value2">{{request.RemainingAmount}}<i> @UserUnit</i></div>
                                 <div class="debug">
                                     <div class="label2">RequisitionId</div>

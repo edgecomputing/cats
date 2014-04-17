@@ -26,7 +26,7 @@
     .Name("grid")
     .Columns(columns =>
         {
-            columns.Bound(p => p.AssessmentName).Title(Translator.Translate("Assessment Name")).ClientTemplate(
+            columns.Bound(p => p.AssessmentName).Title(Html.Translate("Assessment Name")).ClientTemplate(
                 @Html.EarlyWarningOperationButton(
                     @Url.Action("Detail", "NeedAssessment", new { id = "#=PlanID#" }),
                     EarlyWarningConstants.Operation.View_Need_Assessment_Detail, "#=AssessmentName#").ToString());

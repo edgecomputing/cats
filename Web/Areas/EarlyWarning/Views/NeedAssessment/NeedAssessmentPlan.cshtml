@@ -1,5 +1,7 @@
 ﻿@using Kendo.Mvc.UI
 @using LanguageHelpers.Localization
+@using Cats.Helpers
+
 @{
     ViewBag.Title = "NeedAssessmentPlan";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
@@ -22,7 +24,7 @@
     .Name("grid")
     .Columns(columns =>
         {
-            columns.Bound(p => p.AssessmentName).Title(Translator.Translate("Assessment Name")).ClientTemplate("<a href='" + Url.Action("Detail", "NeedAssessment", new { id = "#=PlanID#" }) + " '>#=AssessmentName#</a>  ");
+            columns.Bound(p => p.AssessmentName).Title(Html.Translate("Assessment Name")).ClientTemplate("<a href='" + Url.Action("Detail", "NeedAssessment", new { id = "#=PlanID#" }) + " '>#=AssessmentName#</a>  ");
             columns.Bound(p => p.StartDate);
             columns.Bound(p => p.EndDate);
             columns.Bound(p => p.Year);

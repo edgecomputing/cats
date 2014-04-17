@@ -1,7 +1,7 @@
 ﻿@*using StackExchange.Profiling;*@
 @using Cats.Services.Security;
 @using Cats.Helpers;
-@using LanguageHelpers.Localization
+
 @{
     UserIdentity user = (UserIdentity)HttpContext.Current.User.Identity;
 
@@ -12,7 +12,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>@Translator.Translate("Commodity Allocation & Tracking System")</title>
+    <title>@Html.Translate("Commodity Allocation & Tracking System")</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -311,8 +311,8 @@
 
     }
     <script type="text/javascript">
-        var datepreferencedisplay = "@Translator.Translate(@Html.UserCalendarPreference())";
-        var unitpreferencedisplay = "@Translator.Translate(@Html.UserUnitPreference())";
+        var datepreferencedisplay = "@Html.Translate(@Html.UserCalendarPreference())";
+        var unitpreferencedisplay = "@Html.Translate(@Html.UserUnitPreference())";
 
         $(function () {
 

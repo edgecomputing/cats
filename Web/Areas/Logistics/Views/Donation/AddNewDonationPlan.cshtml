@@ -1,7 +1,9 @@
 ﻿@using System.Collections
-@using LanguageHelpers.Localization
-@model Cats.Areas.Logistics.Models.DonationViewModel
+@using Cats.Helpers
 @using Kendo.Mvc.UI
+
+@model Cats.Areas.Logistics.Models.DonationViewModel
+
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
@@ -18,11 +20,11 @@
 @section Toolbar{
     
     <div class="btn-group" style="margin-right: 8px;">
-        <button class="btn dropdown-toggle " data-toggle="dropdown"> @Translator.Translate("Actions") 
+        <button class="btn dropdown-toggle " data-toggle="dropdown"> @Html.Translate("Actions") 
             <span class="caret"></span>
         </button>
         <ul class="dropdown-menu">
-             <li><a id="btnReceiptDispatch"  href="@Url.Action("CloseLocalPlan", "Donation", new { donationPlanHeaderId = @headerId })" >@Translator.Translate("Receive")</a></li>
+             <li><a id="btnReceiptDispatch"  href="@Url.Action("CloseLocalPlan", "Donation", new { donationPlanHeaderId = @headerId })" >@Html.Translate("Receive")</a></li>
             
         </ul>
 
@@ -43,7 +45,7 @@
             <div class="span6">  
                 <div class="control-group">
                     <div class="control-label">
-                        @Html.LabelFor(model => model.SINumber, @Translator.Translate("SI / Batch Number"))
+                        @Html.LabelFor(model => model.SINumber, @Html.Translate("SI / Batch Number"))
                     </div>
                     <div class="controls">
                         @Html.TextBoxFor(model => model.SINumber, "SINumber",new { @readonly = "readonly" })
@@ -54,7 +56,7 @@
             <div class="span4">
                 <div class="control-group">
                     <div class="control-label">
-                        @Html.LabelFor(model => model.ETA, @Translator.Translate("ETA"))
+                        @Html.LabelFor(model => model.ETA, @Html.Translate("ETA"))
                     </div>
                     <div class="controls" >
                         @(Html.TextBoxFor(model => model.ETA,new {@readonly = "readonly" }))
@@ -68,7 +70,7 @@
             <div class="span6">
                 <div class="control-group">
                     <div class="control-label">
-                        @Html.Label(@Translator.Translate("Donor")) 
+                        @Html.Label(@Html.Translate("Donor")) 
                     </div>
                     <div class="controls">
                         @(Html.DropDownListFor(model => model.DonorID, new SelectList(Model.Donors, "DonorID", "Name"),new { @readonly = "readonly" }))
@@ -78,7 +80,7 @@
             <div class="span4">
                 <div class="control-group">
                     <div class="control-label">
-                        @Html.Label(@Translator.Translate("Commodity Type")) 
+                        @Html.Label(@Html.Translate("Commodity Type")) 
                     </div>
                     <div class="controls" >
                         @(Html.DropDownListFor(model => model.CommodityTypeID, new SelectList(Model.CommodityTypes, "CommodityTypeID", "Name"),new { @readonly = "readonly" }))
@@ -90,7 +92,7 @@
             <div class="span6">
                 <div class="control-group">
                     <div class="control-label">
-                        @Html.Label(@Translator.Translate("Commodity")) 
+                        @Html.Label(@Html.Translate("Commodity")) 
                     </div>
                     <div class="controls" >
                         @(Html.DropDownListFor(model => model.CommodityID, new SelectList(Model.Commodities, "CommodityID", "Name"),new { @readonly = "readonly" }))
@@ -100,7 +102,7 @@
             <div class="span4">
                 <div class="control-group">
                     <div class="control-label">
-                        @Html.LabelFor(model => model.WieghtInMT, @Translator.Translate("GC Amount")) 
+                        @Html.LabelFor(model => model.WieghtInMT, @Html.Translate("GC Amount")) 
                     </div>
                     <div class="controls" >
                         @(Html.TextBoxFor(model => model.WieghtInMT,new { @readonly = "readonly" }))
@@ -113,7 +115,7 @@
             <div class="span4">
                 <div class="control-group">
                     <div class="control-label">
-                        @Html.Label(@Translator.Translate("Program")) 
+                        @Html.Label(@Html.Translate("Program")) 
                     </div>
                     <div class="controls">
                         @(Html.DropDownListFor(model => model.ProgramID, new SelectList(Model.Programs, "ProgramID", "Name"),new { @readonly = "readonly" }))

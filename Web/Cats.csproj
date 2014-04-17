@@ -1642,6 +1642,7 @@
     <Content Include="Areas\EarlyWarning\Views\DonorCoverage\Detail.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\DonorCoverage\Index.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\DonorCoverage\AddWoreda.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\HRD\DateInterval.cshtml" />
     <None Include="Areas\EarlyWarning\Views\PrintableReports\HRD\HRDDatasetForPrint.xsd">
       <SubType>Designer</SubType>
       <Generator>MSDataSetGenerator</Generator>

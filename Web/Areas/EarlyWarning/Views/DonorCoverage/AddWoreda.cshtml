@@ -1,4 +1,6 @@
 ﻿@using LanguageHelpers.Localization
+@using Cats.Helpers
+
 @model Cats.Areas.EarlyWarning.Models.AddWoredaViewModel
 @{
     ViewBag.Title = "AddWoreda";
@@ -6,7 +8,7 @@
 
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h3 id="myModalLabel">@Translator.Translate("Add Woreda")</h3>
+    <h3 id="myModalLabel">@Html.Translate("Add Woreda")</h3>
 </div>
 
 @using (Html.BeginForm("AddWoreda", "DonorCoverage", new { id = Model.DonorCoverageID }, FormMethod.Post, new { @class = "modal-form" }))
@@ -20,7 +22,7 @@
             
             <div class="control-group" id="region">
                 <div class="control-label">
-                    @Html.Label(Translator.Translate("Region"))
+                    @Html.Label(Html.Translate("Region"))
                 </div>
                 <div class="controls" id="div_region">
                     @Html.DropDownList("RegionID",String.Empty)
@@ -32,7 +34,7 @@
 
             <div class="control-group">
                 <div class="control-label">
-                    @Html.Label(Translator.Translate("Zone"))
+                    @Html.Label(Html.Translate("Zone"))
                 </div>
                 <div class="controls" id="div_zone">
                     @Html.DropDownList("ZoneID",String.Empty)
@@ -43,7 +45,7 @@
             </div>
             <div class="control-group">
                 <div class="control-label">
-                    @Html.LabelFor(m => m.WoredaID,Translator.Translate("Woreda"))
+                    @Html.LabelFor(m => m.WoredaID, Html.Translate("Woreda"))
                 </div>
                 <div class="controls" id="div_woreda" >
                     @*@Html.DropDownList( "WoredaID",ViewBag.WoredaID as SelectList, new {@id="WoredaID"})*@

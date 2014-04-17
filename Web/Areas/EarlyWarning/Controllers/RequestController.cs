@@ -258,7 +258,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         public ActionResult ApproveRequest(int id)
         {
             _regionalRequestService.ApproveRequest(id);
-            _transactionService.PostRequestAllocation(id);
+           
             return RedirectToAction("Index");
         }
 

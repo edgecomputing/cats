@@ -12,6 +12,7 @@ using Cats.Models.ViewModels;
 using Cats.Services.Common;
 using Cats.Services.EarlyWarning;
 using Cats.Services.Security;
+using Cats.Services.Transaction;
 using Cats.ViewModelBinder;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
@@ -31,11 +32,11 @@ namespace Cats.Areas.EarlyWarning.Controllers
         private readonly IDonorService _donorService;
         private readonly INotificationService _notificationService;
         private readonly IPlanService _planService;
-
+        private readonly Cats.Services.Transaction.ITransactionService _transactionService;
         public ReliefRequisitionController(IReliefRequisitionService reliefRequisitionService, IWorkflowStatusService workflowStatusService, 
             IReliefRequisitionDetailService reliefRequisitionDetailService,
             IUserAccountService userAccountService,
-            IRationService rationService, IDonorService donorService, INotificationService notificationService, IPlanService planService)
+            IRationService rationService, IDonorService donorService, INotificationService notificationService, IPlanService planService, ITransactionService transactionService)
         {
             this._reliefRequisitionService = reliefRequisitionService;
             this._workflowStatusService = workflowStatusService;
@@ -45,6 +46,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             _donorService = donorService;
             _notificationService = notificationService;
             _planService = planService;
+            _transactionService = transactionService;
         }
 
         public ViewResult Index(int id = 1)
@@ -297,6 +299,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             _reliefRequisitionService.EditReliefRequisition(requisition);
             //send notification
             SendNotification(requisition);
+            _transactionService.PostRequestAllocation(requisitionid);
             return RedirectToAction("Index", "ReliefRequisition");
         }
 

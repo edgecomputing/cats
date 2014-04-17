@@ -1,5 +1,7 @@
 ﻿@using Kendo.Mvc.UI
 @using LanguageHelpers.Localization
+@using Cats.Helpers
+
 @model Cats.Models.Plan
 @{
     ViewBag.Title = "Detail";
@@ -14,12 +16,12 @@
     *@
     <div class="btn-group" style="margin-right: 8px;">
     <button class="btn dropdown-toggle " data-toggle="dropdown">
-        @Translator.Translate("Actions")
+        @Html.Translate("Actions")
         <span class="caret"></span>
     </button>
     <ul class="dropdown-menu">
-        <li><a id="btnAddAssessment" href="@Url.Action("AddNeedAssessment", "NeedAssessment", new { id = Model.PlanID })">@Translator.Translate("Add Assessment")</a></li>
-        <li><a id="btnCreateHrd" href="@Url.Action("CreateHRD", "HRD", new { id = Model.PlanID })">@Translator.Translate("Create HRD")</a></li>
+        <li><a id="btnAddAssessment" href="@Url.Action("AddNeedAssessment", "NeedAssessment", new { id = Model.PlanID })">@Html.Translate("Add Assessment")</a></li>
+        <li><a id="btnCreateHrd" href="@Url.Action("CreateHRD", "HRD", new { id = Model.PlanID })">@Html.Translate("Create HRD")</a></li>
     </ul>
 </div>
 }
@@ -54,7 +56,7 @@
         <div class="span6">
             <div class="control-group">
                 <div class="control-label">
-                    @Html.Label(Translator.Translate("Assessment Name"))
+                    @Html.Label(Html.Translate("Assessment Name"))
                 </div>
                 <div class="controls">
                     @Html.TextBoxFor(m => m.PlanName,new {Disabled=true})
@@ -90,24 +92,24 @@
         </div>*@
 
 @*        <div class="span4">
-            <div class="control-group">
-                <div class="control-label">
-                    @Html.Label(Translator.Translate("Assessment Type"))
-                </div>
-                <div class="controls">
-                   @Html.DropDownList("TypeOfNeedID", ViewBag.TypeOfNeed as SelectList, new { id = "TypeOfNeed" })
-                    
-                    @Html.ValidationMessageFor(model => model.TypeOfNeedAssessment1.TypeOfNeedAssessmentID)
-                </div>
-
+        <div class="control-group">
+            <div class="control-label">
+                @Html.Label(Html.Translate("Assessment Type"))
             </div>
-        </div>*@
+            <div class="controls">
+               @Html.DropDownList("TypeOfNeedID", ViewBag.TypeOfNeed as SelectList, new { id = "TypeOfNeed" })
+
+                @Html.ValidationMessageFor(model => model.TypeOfNeedAssessment1.TypeOfNeedAssessmentID)
+            </div>
+
+        </div>
+    </div>*@
     </div>
     <div class="row">
         <div class="span6">
             <div class="control-group">
                 <div class="control-label">
-                    @Html.Label(Translator.Translate("Assessment From"), new { @class = "cats-date-pref" })
+                    @Html.Label(Html.Translate("Assessment From"), new { @class = "cats-date-pref" })
                 </div>
                 <div class="controls">
                      @Html.TextBoxFor(m => m.StartDate, new { @class = "cats-datepicker2" })
@@ -119,7 +121,7 @@
         <div class="span4">
             <div class="control-group">
                 <div class="control-label">
-                    @Html.Label(Translator.Translate("To"), new { @class = "cats-date-pref" })
+                    @Html.Label(Html.Translate("To"), new { @class = "cats-date-pref" })
                 </div>
                 <div class="controls">
                     @Html.TextBoxFor(m => m.EndDate, new { @class = "cats-datepicker2" })
@@ -139,7 +141,7 @@
     {
         columns.Bound(p => p.RegionName).Title("Region");
         columns.Bound(p => p.SeasonName).Visible(true).Width(100).Title("Season");
-        columns.Bound(p => p.Date).Title(Translator.Translate("Need Assessment Created Date")).HeaderHtmlAttributes(new {@class="cats-date-pref-grid", style = "overflow: visible; white-space: normal;", title = "Need Assessment Created Date" });
+        columns.Bound(p => p.Date).Title(Html.Translate("Need Assessment Created Date")).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid", style = "overflow: visible; white-space: normal;", title = "Need Assessment Created Date" });
         columns.Bound(p => p.NeedACreaterName).Width(100).Title("Created By").HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;", title = "Created By" });
         columns.Bound(p => p.IsApproved).Visible(false);
         columns.Command(p =>

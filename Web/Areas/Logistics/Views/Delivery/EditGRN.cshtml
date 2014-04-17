@@ -2,7 +2,8 @@
 @using Cats.Areas.Logistics.Models
 @using Cats.Models
 @using Kendo.Mvc.UI
-@using LanguageHelpers.Localization
+@using Cats.Helpers
+
 @{
     ViewBag.Title = "ReceiveGRN";
     Layout = "~/Views/Shared/_MainLayoutWide.cshtml";
@@ -14,7 +15,7 @@
 
 }
 
-<div class="page-header">@Translator.Translate("Register Transport Goods Receiving Note")</div>
+<div class="page-header">@Html.Translate("Register Transport Goods Receiving Note")</div>
 @using (Html.BeginForm("EditGRN", "Delivery", new { Area = "Logistics" }, FormMethod.Post, new { id = "frmCreate" }))
 {
 

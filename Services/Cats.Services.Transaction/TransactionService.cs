@@ -228,7 +228,7 @@ namespace Cats.Services.Transaction
         {
             var result = new List<Models.Transaction>();
             var allocationDetails =
-                _unitOfWork.RegionalRequestDetailRepository.FindBy(r => r.RegionalRequest.RegionalRequestID == requestId);
+                _unitOfWork.ReliefRequisitionDetailRepository.FindBy(r => r.ReliefRequisition.RequisitionID == requestId);
             if (allocationDetails == null) return false;
 
             var transactionGroup = Guid.NewGuid();
@@ -236,10 +236,9 @@ namespace Cats.Services.Transaction
             _unitOfWork.TransactionGroupRepository.Add(new TransactionGroup() { PartitionID = 0, TransactionGroupID = transactionGroup });
 
 
-            foreach (var allocationDetail in allocationDetails)
+            foreach (var detail in allocationDetails)
             {
-                foreach (var detail in allocationDetail.RequestDetailCommodities)
-                {
+                
 
 
                     var transaction = new Models.Transaction();
@@ -252,13 +251,13 @@ namespace Cats.Services.Transaction
                         transaction.QuantityInUnit = - detail.Amount;
                     transaction.LedgerID = Models.Ledger.Constants.PLEDGED_TO_FDP;
                     transaction.CommodityID = detail.CommodityID;
-                    transaction.FDPID = detail.RegionalRequestDetail.Fdpid;
-                    transaction.ProgramID = detail.RegionalRequestDetail.RegionalRequest.ProgramId;
-                    transaction.RegionID = detail.RegionalRequestDetail.RegionalRequest.RegionID;
-                    transaction.PlanId = detail.RegionalRequestDetail.RegionalRequest.PlanID;
+                    transaction.FDPID = detail.FDPID;
+                    transaction.ProgramID = detail.ReliefRequisition.ProgramID;
+                    transaction.RegionID = detail.ReliefRequisition.RegionID;
+                    transaction.PlanId = detail.ReliefRequisition.RegionalRequest.PlanID;
 
-                    transaction.Round = detail.RegionalRequestDetail.RegionalRequest.Round;
-                    transaction.Month = detail.RegionalRequestDetail.RegionalRequest.Month;
+                   transaction.Round = detail.ReliefRequisition.RegionalRequest.Round;
+                   transaction.Month = detail.ReliefRequisition.RegionalRequest.Month;
                     _unitOfWork.TransactionRepository.Add(transaction);
 
 
@@ -273,15 +272,15 @@ namespace Cats.Services.Transaction
                     transaction.QuantityInUnit = detail.Amount;
                     transaction.LedgerID = Models.Ledger.Constants.REQUIRMENT_DOCUMENT;
                     transaction.CommodityID = detail.CommodityID;
-                    transaction.FDPID = detail.RegionalRequestDetail.Fdpid;
-                    transaction.ProgramID = detail.RegionalRequestDetail.RegionalRequest.ProgramId;
-                    transaction.RegionID = detail.RegionalRequestDetail.RegionalRequest.RegionID;
-                    transaction.PlanId = detail.RegionalRequestDetail.RegionalRequest.PlanID;
+                    transaction.FDPID = detail.FDPID;
+                    transaction.ProgramID = detail.ReliefRequisition.ProgramID;
+                    transaction.RegionID = detail.ReliefRequisition.RegionID;
+                    transaction.PlanId = detail.ReliefRequisition.RegionalRequest.PlanID;
 
-                    transaction.Round = detail.RegionalRequestDetail.RegionalRequest.Round;
-                    transaction.Month = detail.RegionalRequestDetail.RegionalRequest.Month;
+                    transaction.Round = detail.ReliefRequisition.RegionalRequest.Round;
+                    transaction.Month = detail.ReliefRequisition.RegionalRequest.Month;
                     _unitOfWork.TransactionRepository.Add(transaction);
-                }
+                
             }
 
             _unitOfWork.Save();

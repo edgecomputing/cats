@@ -4,7 +4,6 @@
 @using Cats.Models
 @using Cats.Services.Security
 @using Kendo.Mvc.UI
-@using LanguageHelpers.Localization
 
 @{
     ViewBag.Title = "Regional Relief Requests";
@@ -18,12 +17,12 @@
     <!--
     <div class="btn-group">
     <button class="btn dropdown-toggle " data-toggle="dropdown">
-        @Translator.Translate("Actions")
+        @Html.Translate("Actions")
         <span class="caret"></span>
     </button>
     <ul class="dropdown-menu">
-        <li><a id="btnAddFDP" href="@Url.Action("AddBeneficary", "Request", new { id = Model.RegionalRequestID, programId = @ViewBag.programId })">@Translator.Translate("Add FDP")</a></li>
-        <li><a id="btnAddCommodity" href="@Url.Action("AddCommodity", "Request", new { id = Model.RegionalRequestID })">@Translator.Translate("Add Commodity")</a></li>
+        <li><a id="btnAddFDP" href="@Url.Action("AddBeneficary", "Request", new { id = Model.RegionalRequestID, programId = @ViewBag.programId })">@Html.Translate("Add FDP")</a></li>
+        <li><a id="btnAddCommodity" href="@Url.Action("AddCommodity", "Request", new { id = Model.RegionalRequestID })">@Html.Translate("Add Commodity")</a></li>
     </ul>
     </div>
     <a class="btn toolbar-btn " data-buttontype="btn_save" href="javascript:saverecords()"></a>
@@ -39,7 +38,7 @@
 
 <fieldset>
     <legend>
-        @Translator.Translate("Resource Allocation") 
+        @Html.Translate("Resource Allocation") 
        
     </legend>
 </fieldset>
@@ -140,9 +139,9 @@
                     <td class="fldlabel">Program : </td><td class="fldvalue">@Model.Program</td>
                 </tr>
                 <tr>
-                    <td class="fldlabel">@Translator.Translate("Request Date") : </td><td class="fldvalue">@Model.RequestDate</td>
-                    <td class="fldlabel">@Translator.Translate("Year") : </td><td class="fldvalue">@Model.Year</td>
-                    <td class="fldlabel">@Translator.Translate("Ration") : </td><td class="fldvalue">@Model.Ration</td>
+                    <td class="fldlabel">@Html.Translate("Request Date") : </td><td class="fldvalue">@Model.RequestDate</td>
+                    <td class="fldlabel">@Html.Translate("Year") : </td><td class="fldvalue">@Model.Year</td>
+                    <td class="fldlabel">@Html.Translate("Ration") : </td><td class="fldvalue">@Model.Ration</td>
                 </tr>
             </table>
         </div>
@@ -152,7 +151,7 @@
          <table >
              <tr><td style="padding-left:20px; padding-right:4px;">
                  
-                 @Translator.Translate("Commodities") </td><td><input id="txt_requested_commodities" class="flat-input" /></td></tr>
+                 @Html.Translate("Commodities") </td><td><input id="txt_requested_commodities" class="flat-input" /></td></tr>
          </table> 
     </div>
 

@@ -354,13 +354,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         [EarlyWarningAuthorize(operation = EarlyWarningConstants.Operation.New_HRD)]
         public ActionResult Create(HRD hrd)
         {
-            //DateTime dateCreated = DateTime.Now;
-            //DateTime DatePublished = DateTime.Now;
-
-            //hrd.CreatedDate = dateCreated;
-            //hrd.PublishedDate = DatePublished;
-            //hrd.Status = 1;
-
+           
             var year = hrd.Year;
             var userID = _needAssessmentService.GetUserProfileId(HttpContext.User.Identity.Name);
             var seasonID = hrd.SeasonID.HasValue ? hrd.SeasonID.Value:0;
@@ -369,16 +363,12 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
             var planName = hrd.Plan.PlanName;
             var startDate = hrd.Plan.StartDate;
-            var endDate = hrd.Plan.EndDate;
+            var endDate = hrd.Plan.StartDate.AddMonths(hrd.Plan.Duration);
 
             if (ModelState.IsValid)
             {
-                if (startDate >= endDate)
-                {
-                    ModelState.AddModelError("Errors", @"Start Date Can't be greater than OR Equal to End Date!");
-                }
-                else
-                {
+                
+               
                     try
                     {
                         _planService.AddHRDPlan(planName, startDate, endDate);
@@ -394,7 +384,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                         ModelState.AddModelError("Errors", "Unable To Create New HRD");
                         //ViewBag.Error = "HRD for this Season and Year already Exists";
                     }
-                }
+                
 
             }
 
@@ -559,7 +549,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                                       select new HRDDetail
                                           {
                                               WoredaID = detail.AdminUnitID,
-                                              StartingMonth = 1,
+                                              StartingMonth = dateCreated.Month,
                                               NumberOfBeneficiaries =
                                                   _needAssessmentDetailService.GetNeedAssessmentBeneficiaryNoFromPlan(
                                                       hrd.PlanID, detail.AdminUnitID),
@@ -637,5 +627,29 @@ namespace Cats.Areas.EarlyWarning.Controllers
             }
             return null;
         }
+       public PartialViewResult DateInterval(int ? duration, DateTime startDate)
+       {
+           if ( duration != null)
+           {
+
+               var dateInterval = new DurationViewModel()
+                   {
+                       StartDateGC = startDate.ToCTSPreferedDateFormat("GC"),
+                       EndDateGC = startDate.AddMonths((int) duration).ToCTSPreferedDateFormat("GC"),
+                       StartDateEC = startDate.ToCTSPreferedDateFormat("EC"),
+                       EndDateEC = startDate.AddMonths((int) duration).ToCTSPreferedDateFormat("EC")
+
+                   };
+               return PartialView(dateInterval);
+           }
+           return PartialView(new DurationViewModel()
+               {
+                   StartDateGC = DateTime.Now.ToCTSPreferedDateFormat("GC"),
+                   StartDateEC = DateTime.Now.ToCTSPreferedDateFormat("EC"),
+                   EndDateGC = null,
+                   EndDateEC = null
+               });
+       }
+        
     }
 }

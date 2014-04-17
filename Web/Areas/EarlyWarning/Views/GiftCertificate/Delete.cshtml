@@ -2,96 +2,96 @@
 @using Cats.Helpers
 @using LanguageHelpers.Localization
 @{
-    ViewBag.Title = Translator.Translate("Delete");
+    ViewBag.Title = Html.Translate("Delete");
 }
 
-<h2>@Translator.Translate("Delete")</h2>
+<h2>@Html.Translate("Delete")</h2>
 
-<h3>@Translator.Translate("Are you sure you want to delete this?")</h3>
+<h3>@Html.Translate("Are you sure you want to delete this?")</h3>
 <fieldset>
-    <legend>@Translator.Translate("GiftCertificate")</legend>
+    <legend>@Html.Translate("GiftCertificate")</legend>
 
-    <div class="display-label">@Translator.Translate("GiftDate")</div>
+    <div class="display-label">@Html.Translate("GiftDate")</div>
     <div class="display-field">
         @Html.DisplayFor(model => model.GiftDate)
     </div>
 
-    <div class="display-label">@Translator.Translate("Donor")</div>
+    <div class="display-label">@Html.Translate("Donor")</div>
     <div class="display-field">
         @Html.DisplayFor(model => model.Donor)
     </div>
 
-    <div class="display-label">@Translator.Translate("SINumber")</div>
+    <div class="display-label">@Html.Translate("SINumber")</div>
     <div class="display-field">
         @Html.DisplayFor(model => model.SINumber)
     </div>
 
-    <div class="display-label">@Translator.Translate("ReferenceNo")</div>
+    <div class="display-label">@Html.Translate("ReferenceNo")</div>
     <div class="display-field">
         @Html.DisplayFor(model => model.ReferenceNo)
     </div>
 
-    <div class="display-label">@Translator.Translate("Vessel")</div>
+    <div class="display-label">@Html.Translate("Vessel")</div>
     <div class="display-field">
         @Html.DisplayFor(model => model.Vessel)
     </div>
 
-    <div class="display-label">@Translator.Translate("ETA")</div>
+    <div class="display-label">@Html.Translate("ETA")</div>
     <div class="display-field">
         @Html.DisplayFor(model => model.ETA)
     </div>
 
-    <div class="display-label">@Translator.Translate("Commodity")</div>
+    <div class="display-label">@Html.Translate("Commodity")</div>
     <div class="display-field">
         @Html.DisplayFor(model => model.CommodityName)
     </div>
 
-   @* <div class="display-label">@Translator.Translate("WeightInMT")</div>
+   @* <div class="display-label">@Html.Translate("WeightInMT")</div>
     <div class="display-field">
         @Html.DisplayFor(model => model.WeightInMT)
     </div>
 
-    <div class="display-label">@Translator.Translate("BillOfLoading")</div>
+    <div class="display-label">@Html.Translate("BillOfLoading")</div>
     <div class="display-field">
         @Html.DisplayFor(model => model.BillOfLoading)
     </div>*@
 
-    @*<div class="display-label">@Translator.Translate("Year")</div>
+    @*<div class="display-label">@Html.Translate("Year")</div>
     <div class="display-field">
         @Html.DisplayFor(model => model.Year)
     </div>*@
 
-   @* <div class="display-label">@Translator.Translate("AccountNumber")</div>
+   @* <div class="display-label">@Html.Translate("AccountNumber")</div>
     <div class="display-field">
         @Html.DisplayFor(model => model.AccountNumber)
     </div>*@
 
-   @* <div class="display-label">@Translator.Translate("EstimatedPrice")</div>
+   @* <div class="display-label">@Html.Translate("EstimatedPrice")</div>
     <div class="display-field">
         @Html.DisplayFor(model => model.EstimatedPrice)
     </div>*@
 
-    @*<div class="display-label">@Translator.Translate("EstimatedTax")</div>
+    @*<div class="display-label">@Html.Translate("EstimatedTax")</div>
     <div class="display-field">
         @Html.DisplayFor(model => model.EstimatedTax)
     </div>*@
 
-    @*<div class="display-label">@Translator.Translate("Detail1")</div>
+    @*<div class="display-label">@Html.Translate("Detail1")</div>
     <div class="display-field">
         @Html.DisplayFor(model => model.Detail1.Name)
     </div>*@
 
-   @* <div class="display-label">@Translator.Translate("Detail")</div>
+   @* <div class="display-label">@Html.Translate("Detail")</div>
     <div class="display-field">
         @Html.DisplayFor(model => model.Detail)
     </div>*@
 
-    @*<div class="display-label">@Translator.Translate("Detail2")</div>
+    @*<div class="display-label">@Html.Translate("Detail2")</div>
     <div class="display-field">
         @Html.DisplayFor(model => model.Detail2.Name)
     </div>*@
 
-    <div class="display-label">@Translator.Translate("IsPrinted")</div>
+    <div class="display-label">@Html.Translate("IsPrinted")</div>
     <div class="display-field">
         @Html.DisplayFor(model => model.IsPrinted)
     </div>
@@ -99,7 +99,7 @@
 @using (Html.BeginForm())
     {
     <p>
-        <input type="submit" value="@Translator.Translate("Delete")" /> |
-        @Html.ActionLink(Translator.Translate("Back to List"), "Index")
+        <input type="submit" value="@Html.Translate("Delete")" /> |
+        @Html.ActionLink(Html.Translate("Back to List"), "Index")
     </p>
 }

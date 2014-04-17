@@ -1,6 +1,7 @@
 ﻿@using Cats.Areas.Logistics.Models
 @using Kendo.Mvc.UI
-@using LanguageHelpers.Localization
+@using Cats.Helpers
+
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_MainLayout.cshtml";  
@@ -14,12 +15,12 @@
               .Name("grid")
               .Columns(columns =>
                   {
-                      columns.Bound(m => m.SiNumber).Title(Translator.Translate("SI Number")).
+                      columns.Bound(m => m.SiNumber).Title(Html.Translate("SI Number")).
                           ClientTemplate("<a href='" + Url.Action("Details", "LocalPurchase", new { id = "#=LocalPurchaseID#" }) + " '>#=SiNumber#</a>  "); ;
-                      columns.Bound(m => m.Program).Title(Translator.Translate("Program"));
-                      columns.Bound(m => m.DonorName).Width(200).Title(Translator.Translate("Donor"));
-                      columns.Bound(m => m.SupplierName).Width(200).Title(Translator.Translate("Supplier Name"));
-                      columns.Bound(m => m.Commodity).Width(200).Title(Translator.Translate("Commodity"));
+                      columns.Bound(m => m.Program).Title(Html.Translate("Program"));
+                      columns.Bound(m => m.DonorName).Width(200).Title(Html.Translate("Donor"));
+                      columns.Bound(m => m.SupplierName).Width(200).Title(Html.Translate("Supplier Name"));
+                      columns.Bound(m => m.Commodity).Width(200).Title(Html.Translate("Commodity"));
                       columns.Bound(m => m.ReferenceNumber).Title("Reference Number");
                       columns.Bound(m => m.Quantity).HtmlAttributes(new {align = "right"});
                       columns.Bound(m => m.Status).Title("Status");

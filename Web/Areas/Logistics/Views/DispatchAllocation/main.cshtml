@@ -1,4 +1,4 @@
-﻿@using LanguageHelpers.Localization
+﻿@using Cats.Helpers
 @{
     ViewBag.Title = "main";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
@@ -12,7 +12,7 @@
        
         <fieldset>
             <legend>
-                @Translator.Translate("Dispatch allocation")
+                @Html.Translate("Dispatch allocation")
             </legend>
         </fieldset>
         <div class="offset1 span8">
@@ -34,7 +34,7 @@
         <div class="offset1 span8">
             <fieldset>
                 <legend>
-                    @Translator.Translate("Allocated amount  by Region and Hub")
+                    @Html.Translate("Allocated amount  by Region and Hub")
                 </legend>
             </fieldset>
 
@@ -63,7 +63,7 @@
         <div class="offset1 span8">
             <fieldset>
             <legend>
-                @Translator.Translate("Hub allocated requisitions")
+                @Html.Translate("Hub allocated requisitions")
             </legend>
         </fieldset>
             <table style="border:medium" class="table table-hover table-condensed">

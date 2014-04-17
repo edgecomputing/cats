@@ -3,7 +3,7 @@
 @using Kendo.Mvc.UI
 @using LanguageHelpers.Localization
 @{
-    ViewBag.Title = Translator.Translate("Gift Certificate");
+    ViewBag.Title = Html.Translate("Gift Certificate");
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
 @section Toolbar
@@ -26,7 +26,7 @@
         <div class="span6" style="vertical-align: top">
             <div class="control-group">
                 <div class="control-label">
-                    @Html.LabelFor(model => model.GiftDate, Translator.Translate("Gift Date"), new { @class = "cats-date-pref" })
+                    @Html.LabelFor(model => model.GiftDate, Html.Translate("Gift Date"), new { @class = "cats-date-pref" })
                 </div>
                 <div class="controls">
 
@@ -37,7 +37,7 @@
             </div>
             <div class="control-group">
                 <div class="control-label">
-                    @Html.LabelFor(model => model.DModeOfTransport, Translator.Translate("Mode Of transport"))
+                    @Html.LabelFor(model => model.DModeOfTransport, Html.Translate("Mode Of transport"))
                 </div>
                 <div class="controls">
 
@@ -47,7 +47,7 @@
             </div>
             <div class="control-group">
                 <div class="control-label">
-                    @Html.LabelFor(model => model.ProgramID, Translator.Translate("Program"))
+                    @Html.LabelFor(model => model.ProgramID, Html.Translate("Program"))
                 </div>
                 <div class="controls">
 
@@ -57,7 +57,7 @@
             </div>
             <div class="control-group">
                 <div class="control-label">
-                    @Html.LabelFor(model => model.DonorID, Translator.Translate("Donor"))
+                    @Html.LabelFor(model => model.DonorID, Html.Translate("Donor"))
                 </div>
                 <div class="controls">
 
@@ -79,7 +79,7 @@
             </div>
             <div class="control-group">
                 <div class="control-label">
-                    @Html.LabelFor(model => model.CommodityTypeID, Translator.Translate("Commodity Type"))
+                    @Html.LabelFor(model => model.CommodityTypeID, Html.Translate("Commodity Type"))
                 </div>
                 <div class="controls">
 
@@ -94,7 +94,7 @@
             <div class="control-group">
                 <div class="control-label">
 
-                    @Html.LabelFor(model => model.SINumber, Translator.Translate("SI/Batch Number"))
+                    @Html.LabelFor(model => model.SINumber, Html.Translate("SI/Batch Number"))
                     @*<input type="text" name="names" value="" id="typeahead" data-provide="typeahead" />*@
                 </div>
                 <div class="controls">
@@ -127,7 +127,7 @@
             </div>
             <div class="control-group">
                 <div class="control-label">
-                    @Html.LabelFor(model => model.PortName, Translator.Translate("Port Name"))
+                    @Html.LabelFor(model => model.PortName, Html.Translate("Port Name"))
                 </div>
                 <div class="controls">
                     @Html.TextBoxFor(model => model.PortName)
@@ -136,7 +136,7 @@
             </div>
             <div class="control-group">
                 <div class="control-label">
-                    @Html.LabelFor(model => model.ReferenceNo, Translator.Translate("Reference Number"))
+                    @Html.LabelFor(model => model.ReferenceNo, Html.Translate("Reference Number"))
                 </div>
                 <div class="controls">
                     @Html.TextBoxFor(model => model.ReferenceNo)
@@ -145,7 +145,7 @@
             </div>
             <div class="control-group">
                 <div class="control-label">
-                    @Html.LabelFor(model => model.Vessel, Translator.Translate("Vessel"))
+                    @Html.LabelFor(model => model.Vessel, Html.Translate("Vessel"))
                 </div>
                 <div class="controls">
                     @Html.TextBoxFor(model => model.Vessel)
@@ -154,7 +154,7 @@
             </div>
             <div class="control-group">
                 <div class="control-label">
-                    @Html.LabelFor(model => model.ETA, Translator.Translate("ETA"), new { @class = "cats-date-pref" })
+                    @Html.LabelFor(model => model.ETA, Html.Translate("ETA"), new { @class = "cats-date-pref" })
                 </div>
 
                 <div class="controls">
