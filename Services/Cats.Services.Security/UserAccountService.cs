@@ -288,6 +288,27 @@ namespace Cats.Services.Security
             return false;
         }
 
+        public bool EnableAccount(string userName)
+        {
+            try
+            {
+                var user = _unitOfWork.UserProfileRepository.FindBy(u => u.UserName == userName).SingleOrDefault();
+                if (user != null)
+                {
+                    user.Disabled = !user.Disabled;
+                    _unitOfWork.Save();
+                    return true;
+                }
+            }
+            catch (Exception exception)
+            {
+                throw new ApplicationException("Error disabling/enabling user account", exception);
+
+            }
+
+            return false;
+        }
+
         #endregion
 
         #region Security Module Helper Methods

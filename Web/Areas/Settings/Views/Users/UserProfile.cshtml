@@ -105,7 +105,8 @@
 
     <div class="form-actions">
         <a class="btn" href="@Url.Action("Index","Users")">Cancel</a>
-        <a class="btn btn-warning" href="#"><i class="icon-unlink"></i> Disable Account</a>
+        <a class="btn btn-warning" href="@Url.Action("DeactivateUser","Users",new {id = Model.UserProfileID})"><i class="icon-unlink"></i> Disable Account</a>
+         <a class="btn btn-warning" href="@Url.Action("ActivateUser","Users",new {id = Model.UserProfileID})"><i class="icon-unlink"></i> Enable Account</a>
         <a class="btn btn-danger" href="@Url.Action("DeleteAccount","Users",new {id = Model.UserProfileID})"><i class="icon-trash"></i> Delete Account</a>
 
     </div>

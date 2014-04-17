@@ -37,6 +37,7 @@ namespace Cats.Services.Security
         string ResetPassword(UserInfo userInfo);
         string ResetPassword(string userName);
         bool DisableAccount(string userName);
+        bool EnableAccount(string userName);
 
         // Utility methods
         string HashPassword(string password);

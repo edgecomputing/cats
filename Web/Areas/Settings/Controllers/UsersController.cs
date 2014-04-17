@@ -217,6 +217,33 @@ namespace Cats.Areas.Settings.Controllers
             }
             return View("Index");
         }
+
+        public ActionResult DeactivateUser(int id)
+        {
+             var user = _userService.FindById(id);
+             if (user != null)
+             {
+                 
+                 _userService.DisableAccount(user.UserName);
+                 return View("Index");
+             }
+             return RedirectToAction("UserProfile", new { id = id });
+        }
+
+        public ActionResult ActivateUser(int id)
+        {
+             var user = _userService.FindById(id);
+             if (user != null)
+             {
+                 
+                 _userService.EnableAccount(user.UserName);
+                 return View("Index");
+             }
+             return RedirectToAction("UserProfile", new { id = id });
+        }
+
+        
+
         [HttpGet]
         public ActionResult EditUserRoles(string UserName)
         {
