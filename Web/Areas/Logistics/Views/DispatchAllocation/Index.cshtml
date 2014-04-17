@@ -1,5 +1,5 @@
 ﻿@using Kendo.Mvc.UI
-@using LanguageHelpers.Localization
+@using Cats.Helpers
 @{
     ViewBag.ViewWidth = "Wide";
     ViewBag.Title = "Index";
@@ -22,7 +22,7 @@
 
 <fieldset>
     <legend>
-        @Translator.Translate("Dispatch allocation")
+        @Html.Translate("Dispatch allocation")
     </legend>
 </fieldset>
 
@@ -103,14 +103,14 @@
         <div class="row-fluid">
         <ul class="nav nav-tabs ">
             <li class="active">
-                <a href="#tab0" data-toggle="tab"><b>@Translator.Translate("Approved Requisitions")</b></a>
+                <a href="#tab0" data-toggle="tab"><b>@Html.Translate("Approved Requisitions")</b></a>
             </li>
 
             <li>
-                <a href="#tab1" data-toggle="tab"><b>@Translator.Translate("Hub Allocated Requisitions")</b></a>
+                <a href="#tab1" data-toggle="tab"><b>@Html.Translate("Hub Allocated Requisitions")</b></a>
             </li>
             <li>
-                <a href="#tab2" data-toggle="tab"><b>@Translator.Translate("Project /SI Code Allocated")</b></a>
+                <a href="#tab2" data-toggle="tab"><b>@Html.Translate("Project /SI Code Allocated")</b></a>
             </li>
 
         </ul>

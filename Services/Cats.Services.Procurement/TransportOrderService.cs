@@ -346,7 +346,14 @@ namespace Cats.Services.Procurement
                 transportOrder.ConsignerDate = DateTime.Today;
                 transportOrder.StatusID = (int)TransportOrderStatus.Draft;
                 var lastOrder = _unitOfWork.TransportOrderRepository.GetAll();
-                transportOrder.TransportOrderNo = string.Format("TRN-ORD-{0}", lastOrder.Last().TransportOrderID + 1);
+                if (lastOrder.Count!=0)
+                {
+                    transportOrder.TransportOrderNo = string.Format("TRN-ORD-{0}", lastOrder.Last().TransportOrderID + 1);
+                }
+                else
+                {
+                    transportOrder.TransportOrderNo = string.Format("TRN-ORD-{0}", 1);
+                }
                 transportOrder.ContractNumber = string.Format("{0}/{1}/{2}/{3}", "LTCD", DateTime.Today.Day,
                                                               DateTime.Today.Year, transporterName.Substring(0, 3));
                 foreach (var detail in transReqWithTransporter)

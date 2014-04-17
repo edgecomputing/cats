@@ -4,8 +4,8 @@
 @model Cats.Models.NeedAssessment
 @{
     ViewBag.Title = "PlannedNeedAssessement";
-    Layout = "~/Views/Shared/_MainLayout.cshtml"; 
-    ViewBag.Title = Translator.Translate(" Beneficiary numbers and duration of assisstance");
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+    ViewBag.Title = Html.Translate(" Beneficiary numbers and duration of assisstance");
     var user = UserAccountHelper.GetUser(HttpContext.Current.User.Identity.Name);
 }
 @{var record = 0;}
@@ -16,7 +16,7 @@
     {
         columns.Bound(p => p.RegionName).Title("Region");
         columns.Bound(p => p.SeasonName).Visible(true).Width(100).Title("Season");
-        columns.Bound(p => p.Date).Title(Translator.Translate("Need Assessment Created Date")).HeaderHtmlAttributes(new {@class="cats-date-pref-grid", style = "overflow: visible; white-space: normal;", title = "Need Assessment Created Date" });
+        columns.Bound(p => p.Date).Title(Html.Translate("Need Assessment Created Date")).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid", style = "overflow: visible; white-space: normal;", title = "Need Assessment Created Date" });
         columns.Bound(p => p.NeedACreaterName).Width(100).Title("Created By").HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;", title = "Created By" });
         columns.Command(p =>
         {

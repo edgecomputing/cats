@@ -1,4 +1,5 @@
-﻿@using LanguageHelpers.Localization
+﻿@using Cats.Helpers
+
 @model Cats.Models.BidWinner
 @{
     ViewBag.Title = "Edit";
@@ -34,7 +35,7 @@
             <div class="span6">
                 <div class="control-group">
                     <div class="control-label">
-                        @Html.LabelFor(model => model.Bid, Translator.Translate("BidNumber"))
+                        @Html.LabelFor(model => model.Bid, Html.Translate("BidNumber"))
                     </div>
                     <div class="controls">
                         @Html.TextBoxFor(model=>model.Bid.BidNumber,new {Disabled=true})
@@ -44,7 +45,7 @@
             <div class="span6">
                 <div class="control-group" >
                     <div class="control-label">
-                        @Html.LabelFor(model => model.Transporter.Name, Translator.Translate("Transporter"))
+                        @Html.LabelFor(model => model.Transporter.Name, Html.Translate("Transporter"))
                     </div>
                     <div class="controls">
                         @Html.TextBoxFor(model=>model.Transporter.Name,new {Disabled=true})
@@ -56,7 +57,7 @@
             <div class="span6">
                 <div class="control-group" >
                     <div class="control-label">
-                        @Html.LabelFor(model => model.Hub.Name, Translator.Translate("Warehouse"))
+                        @Html.LabelFor(model => model.Hub.Name, Html.Translate("Warehouse"))
                     </div>
                     <div class="controls">
                         @Html.TextBoxFor(model=>model.Hub.Name,new {Disabled=true})
@@ -66,7 +67,7 @@
              <div class="span6">
                  <div class="control-group" >
                      <div class="control-label">
-                         @Html.LabelFor(model => model.AdminUnit.Name, Translator.Translate("Destination"))
+                         @Html.LabelFor(model => model.AdminUnit.Name, Html.Translate("Destination"))
                      </div>
                      <div class="controls">
                          @Html.TextBoxFor(model=>model.AdminUnit.Name,new {Disabled=true})

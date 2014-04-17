@@ -75,15 +75,10 @@ namespace Cats.Areas.EarlyWarning.Controllers
         public ActionResult Create(Plan plan)
         {
             var startDate = plan.StartDate;
-            var endDate = plan.EndDate;
+            var endDate = plan.StartDate.AddMonths(plan.Duration);
             if (ModelState.IsValid)
             {
-                if (startDate >= endDate)
-                {
-                    ModelState.AddModelError("Errors", @"Start Date Can't be greater than OR Equal to  End Date!");
-                }
-                else
-                {
+                
                     try
                     {
                         plan.Status = (int) PlanStatus.Draft;
@@ -97,7 +92,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                         ViewBag.ProgramID = new SelectList(_planService.GetPrograms(), "ProgramID", "Name");
                         return View(plan);
                     }
-                }
+                
 
             }
             ViewBag.ProgramID = new SelectList(_planService.GetPrograms(), "ProgramID", "Name");

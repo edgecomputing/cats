@@ -1,6 +1,8 @@
 ﻿@using Cats.Areas.EarlyWarning.Models
 @using Kendo.Mvc.UI
 @using LanguageHelpers.Localization
+@using Cats.Helpers
+
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
@@ -18,7 +20,7 @@
                   columns.Bound(m => m.DonorName).ClientTemplate("<a href='" + Url.Action("Detail", "DonorCoverage", new { id = "#=HrdDonorCovarageID#" }) + " '>#=DonorName#</a>  ");
                   columns.Bound(m => m.HRDName);
                   columns.Bound(m => m.CreatedDate);
-                  columns.Bound(m => m.NoCoveredWoredas).Title(Translator.Translate("Number of Woredas"));
+                  columns.Bound(m => m.NoCoveredWoredas).Title(Html.Translate("Number of Woredas"));
 
               }
 

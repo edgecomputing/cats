@@ -1,6 +1,7 @@
 ﻿@using Cats.Areas.Logistics.Models
 @using Kendo.Mvc.UI
-@using LanguageHelpers.Localization
+@using Cats.Helpers
+
 @model Cats.Areas.Logistics.Models.WoredaStockDistributionWithDetailViewModel
 @{
     ViewBag.Title = "Create";
@@ -35,7 +36,7 @@
                     <div id="div_Male" class="form-horizontal well" >
                         <div class="control-group">
                             <div class="control-label">
-                                @Html.LabelFor(m => m.SupportTypeID, Translator.Translate("Support Type"))
+                                @Html.LabelFor(m => m.SupportTypeID, Html.Translate("Support Type"))
                             </div>
                             <div class="controls">
                                 @Html.DropDownList("SupportTypeID")
@@ -45,7 +46,7 @@
                       
                         <div class="control-group">
                             <div class="control-label">
-                                @Html.LabelFor(m => m.MaleLessThan5Years, Translator.Translate("Male <5 Years"))
+                                @Html.LabelFor(m => m.MaleLessThan5Years, Html.Translate("Male <5 Years"))
                             </div>
                             <div class="controls">
                                 @Html.TextBoxFor(m => m.MaleLessThan5Years)
@@ -55,7 +56,7 @@
     
                         <div class="control-group">
                             <div class="control-label">
-                                @Html.LabelFor(m => m.MaleBetween5And18Years, Translator.Translate("Male 5-18 Years"))
+                                @Html.LabelFor(m => m.MaleBetween5And18Years, Html.Translate("Male 5-18 Years"))
                             </div>
                             <div class="controls">
                                 @Html.TextBoxFor(m => m.MaleBetween5And18Years)
@@ -65,7 +66,7 @@
     
                         <div class="control-group">
                             <div class="control-label">
-                                @Html.LabelFor(m => m.MaleAbove18Years, Translator.Translate("Male >18 Years"))
+                                @Html.LabelFor(m => m.MaleAbove18Years, Html.Translate("Male >18 Years"))
                             </div>
                             <div class="controls">
                                 @Html.TextBoxFor(m => m.MaleAbove18Years)
@@ -78,7 +79,7 @@
                     <div id="div_Female1" class="form-horizontal well">
                         <div class="control-group">
                             <div class="control-label">
-                                @Html.LabelFor(m => m.FemaleLessThan5Years, Translator.Translate("Female <5 Years"))
+                                @Html.LabelFor(m => m.FemaleLessThan5Years, Html.Translate("Female <5 Years"))
                             </div>
                             <div class="controls">
                                 @Html.TextBoxFor(m => m.FemaleLessThan5Years)
@@ -88,7 +89,7 @@
 
                         <div class="control-group">
                             <div class="control-label">
-                                @Html.LabelFor(m => m.FemaleBetween5And18Years, Translator.Translate("Female 5-18 Years"))
+                                @Html.LabelFor(m => m.FemaleBetween5And18Years, Html.Translate("Female 5-18 Years"))
                             </div>
                             <div class="controls">
                                 @Html.TextBoxFor(m => m.FemaleBetween5And18Years)
@@ -98,7 +99,7 @@
     
                         <div class="control-group">
                             <div class="control-label">
-                                @Html.LabelFor(m => m.FemaleAbove18Years, Translator.Translate("Female >18 Years"))
+                                @Html.LabelFor(m => m.FemaleAbove18Years, Html.Translate("Female >18 Years"))
                             </div>
                             <div class="controls">
                                 @Html.TextBoxFor(m => m.FemaleAbove18Years)
@@ -107,7 +108,7 @@
                         </div>
                         <div class="control-group">
                             <div class="control-label">
-                                @Html.LabelFor(m => m.ActualBeneficairies, Translator.Translate("Actual Beneficiary"))
+                                @Html.LabelFor(m => m.ActualBeneficairies, Html.Translate("Actual Beneficiary"))
                             </div>
                             <div class="controls">
                                 @Html.TextBoxFor(m => m.ActualBeneficairies)
@@ -132,8 +133,8 @@
                           "<input type='hidden' name='WoredaDistributionDetailViewModels[#= index(data)#].WoredaStockDistributionDetailID' value='#= WoredaStockDistributionDetailID #' />");
                           columns.Bound(p => p.FdpId).Hidden().ClientTemplate("#= FdpId #" +
                            "<input type='hidden' name='WoredaDistributionDetailViewModels[#= index(data)#].FdpId' value='#= FdpId #' />");
-                          columns.Bound(p => p.FDP).Width(100).Title(Translator.Translate("FDP")).HtmlAttributes(new { style = "background-color:lightgray" });
-                          columns.Bound(p => p.CommodityName).Width(100).Title(Translator.Translate("Commodity")).HtmlAttributes(new { style = "background-color:lightgray" });
+                          columns.Bound(p => p.FDP).Width(100).Title(Html.Translate("FDP")).HtmlAttributes(new { style = "background-color:lightgray" });
+                          columns.Bound(p => p.CommodityName).Width(100).Title(Html.Translate("Commodity")).HtmlAttributes(new { style = "background-color:lightgray" });
                           columns.Bound(p => p.Round).Width(60).HtmlAttributes(new { style = "background-color:lightgray" });
                           columns.Bound(p => p.Month).Width(80).HtmlAttributes(new { style = "background-color:lightgray" });
                           columns.Bound(p => p.CommodityID).Hidden().ClientTemplate("#= CommodityID #" +

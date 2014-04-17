@@ -1,5 +1,6 @@
 ﻿@model IEnumerable<Cats.Models.ReliefRequisition>
-@using LanguageHelpers.Localization
+@using Cats.Helpers
+
 @{
     ViewBag.Title = "Allocate";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
@@ -14,7 +15,7 @@
 @section LeftBar
 {
     <div class="control-group">
-               <label class="control-label">@Translator.Translate("Hub Name") : </label>
+               <label class="control-label">@Html.Translate("Hub Name") : </label>
                <div class="controls">
                    @Html.DropDownList("HubId", null, "Adama", new {id = "selectHub", type = "submit"})
                </div>

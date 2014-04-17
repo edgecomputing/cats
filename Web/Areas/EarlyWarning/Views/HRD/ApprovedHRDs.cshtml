@@ -27,7 +27,7 @@
     .Name("grid")
     .Columns(columns =>
         {
-            columns.Bound(p => p.HRDName).Title(Translator.Translate("HRD Name")).ClientTemplate(
+            columns.Bound(p => p.HRDName).Title(Html.Translate("HRD Name")).ClientTemplate(
                                 @Html.EarlyWarningOperationButton(
                                     @Url.Action("Detail", "HRD", new { id = "#=HRDID#" }),
                                     EarlyWarningConstants.Operation.New_HRD, "#=HRDName#").ToString());

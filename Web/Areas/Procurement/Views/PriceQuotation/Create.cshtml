@@ -1,4 +1,5 @@
-﻿@using LanguageHelpers.Localization
+﻿@using Cats.Helpers
+
 @model Cats.Models.TransportBidQuotationHeader
 
 @*@{
@@ -48,7 +49,7 @@
             </div>
             <div class="control-group">
                 <div class="control-label">
-                    @Html.LabelFor(m => m.TransporterId, Translator.Translate("Transporter"))
+                    @Html.LabelFor(m => m.TransporterId, Html.Translate("Transporter"))
                 </div>
                 <div class="controls">
                     @* <input class="cats-datepicker" type="text" id="create" name="create" />*@
@@ -59,7 +60,7 @@
             </div>
             <div class="control-group">
                 <div class="control-label">
-                    @Html.LabelFor(m => m.BidBondAmount, Translator.Translate("Bid Bond"))
+                    @Html.LabelFor(m => m.BidBondAmount, Html.Translate("Bid Bond"))
                 </div>
                 <div class="controls">
                     @* <input class="cats-datepicker" type="text" id="create" name="create" />*@

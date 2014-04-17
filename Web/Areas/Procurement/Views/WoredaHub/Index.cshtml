@@ -4,7 +4,7 @@
 @using Cats.Security
 @using Cats.Services.Security
 @using Kendo.Mvc.UI
-@using LanguageHelpers.Localization
+
 @model List<WoredaHub>
 @{
     ViewBag.Title = "Index";
@@ -39,8 +39,8 @@
 @(Html.Kendo().Grid<WoredaHubViewModel>()
     .Name("grid")
     .Columns(columns =>
-        {
-        columns.Bound(p => p.WoredaHubName).Title(Translator.Translate("Name")).ClientTemplate(
+    {
+        columns.Bound(p => p.WoredaHubName).Title(Html.Translate("Name")).ClientTemplate(
             @Html.ProcurementOperationButton(
                 @Url.Action("Details", "WoredaHub", new { id = "#=WoredaHubID#" }),
                 ProcurementConstants.Operation.View_History, "#=WoredaHubName#").ToString());

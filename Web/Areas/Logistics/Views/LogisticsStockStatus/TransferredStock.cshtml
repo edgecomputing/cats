@@ -1,16 +1,17 @@
 ﻿@using Cats.Models.Hubs
 @using Kendo.Mvc.UI
-@using LanguageHelpers.Localization
+@using Cats.Helpers
+
 @{
     ViewBag.Title = "Transferred Stock";
     Layout = "~/Views/Shared/_MainLayoutWide.cshtml";
 }
 
-<h4 class="page-header">@Translator.Translate("Transferred Stock")</h4>
+<h4 class="page-header">@Html.Translate("Transferred Stock")</h4>
 <div class="row-fluid form-inline">
     <div class="control-group span2">
         <div class="control-label">
-            @Translator.Translate("Hub")
+            @Html.Translate("Hub")
         </div>
         <div class="">
             @Html.DropDownList("SelectHubID", (IEnumerable<SelectListItem>)ViewBag.SelectHubID, "Select Hub",new {@class="controls span11"})
@@ -18,7 +19,7 @@
     </div>
     <div class="control-group span2">
         <div class="control-label">
-            @Translator.Translate("Program")
+            @Html.Translate("Program")
         </div>
         <div class="">
             @Html.DropDownList("SelectProgramID", (IEnumerable<SelectListItem>)ViewBag.SelectProgramID, "Select Program",new {@class="controls span11"})
@@ -32,16 +33,16 @@
                                                            col.Bound(t => t.ShippingInstruction);
                                                            col.Bound(t => t.Commodity);
                                                            col.Bound(t => t.ProjectCode);
-                                                          col.Bound(t => t.Program);
-                                                           col.Template(c => { }).ClientTemplate("#=toCatsPreferedUnit(data.DonorAll)#").HeaderHtmlAttributes(new { @class = "cats-unit-pref" }).HtmlAttributes(new { align = "right" }).Title(Translator.Translate("Carry Over"));
-                                                           col.Template(c => { }).ClientTemplate("#=toCatsPreferedUnit(data.Received)#").HeaderHtmlAttributes(new { @class = "cats-unit-pref" }).HtmlAttributes(new { align = "right" }).Title(Translator.Translate("Received"));
-                                                           col.Template(c => c.Expected).ClientTemplate("#=toCatsPreferedUnit(data.Expected)#").HeaderHtmlAttributes(new { @class = "cats-unit-pref" }).HtmlAttributes(new { align = "right" }).Title(Translator.Translate("Expected"));
-                                                           col.Template(c => c.Commited).ClientTemplate("#=toCatsPreferedUnit(data.Commited)#").HeaderHtmlAttributes(new { @class = "cats-unit-pref" }).HtmlAttributes(new { align = "right" }).Title(Translator.Translate("Commited"));
+                                                           col.Bound(t => t.Program);
+                                                           col.Template(c => { }).ClientTemplate("#=toCatsPreferedUnit(data.DonorAll)#").HeaderHtmlAttributes(new { @class = "cats-unit-pref" }).HtmlAttributes(new { align = "right" }).Title(Html.Translate("Carry Over"));
+                                                           col.Template(c => { }).ClientTemplate("#=toCatsPreferedUnit(data.Received)#").HeaderHtmlAttributes(new { @class = "cats-unit-pref" }).HtmlAttributes(new { align = "right" }).Title(Html.Translate("Received"));
+                                                           col.Template(c => c.Expected).ClientTemplate("#=toCatsPreferedUnit(data.Expected)#").HeaderHtmlAttributes(new { @class = "cats-unit-pref" }).HtmlAttributes(new { align = "right" }).Title(Html.Translate("Expected"));
+                                                           col.Template(c => c.Commited).ClientTemplate("#=toCatsPreferedUnit(data.Commited)#").HeaderHtmlAttributes(new { @class = "cats-unit-pref" }).HtmlAttributes(new { align = "right" }).Title(Html.Translate("Commited"));
 
-                                                           col.Template(c => { }).ClientTemplate("#=toCatsPreferedUnit(data.UnCommited)#").Title(Translator.Translate("Un Commited")).HeaderHtmlAttributes(new { @class = "cats-unit-pref" }).HtmlAttributes(new { align = "right" });
-                                                           col.Template(c => c.Dispatched).ClientTemplate("#=toCatsPreferedUnit(data.Dispatched)#").HeaderHtmlAttributes(new { @class = "cats-unit-pref" }).HtmlAttributes(new { align = "right" }).Title(Translator.Translate("Dispatched"));
+                                                           col.Template(c => { }).ClientTemplate("#=toCatsPreferedUnit(data.UnCommited)#").Title(Html.Translate("Un Commited")).HeaderHtmlAttributes(new { @class = "cats-unit-pref" }).HtmlAttributes(new { align = "right" });
+                                                           col.Template(c => c.Dispatched).ClientTemplate("#=toCatsPreferedUnit(data.Dispatched)#").HeaderHtmlAttributes(new { @class = "cats-unit-pref" }).HtmlAttributes(new { align = "right" }).Title(Html.Translate("Dispatched"));
 
-                                                           col.Template(c => { }).ClientTemplate("#=toCatsPreferedUnit(data.PhysicalStock)#").Title(Translator.Translate("Physical Stock")).HeaderHtmlAttributes(new { @class = "cats-unit-pref" }).HtmlAttributes(new { align = "right" });
+                                                           col.Template(c => { }).ClientTemplate("#=toCatsPreferedUnit(data.PhysicalStock)#").Title(Html.Translate("Physical Stock")).HeaderHtmlAttributes(new { @class = "cats-unit-pref" }).HtmlAttributes(new { align = "right" });
 
                                                        }).DataSource(datasource =>
                                                                              datasource.Ajax().Read(read => read.Action("TransferredStock_read", "LogisticsStockStatus").Data("filterData"))

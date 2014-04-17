@@ -4,7 +4,6 @@
 @using Cats.Helpers
 @using Cats.Services.Security
 @using Kendo.Mvc.UI
-@using LanguageHelpers.Localization
 
 @{
     ViewBag.Title = "Regional Relief Requests";
@@ -151,13 +150,13 @@
             <div class="control-group">
                 <div class="control-label">
                     @Html.LabelFor(m => modelRequest.Program)
-                    @*@Html.Label(Translator.Translate("Dispatch Date"),new { @class = "cats-date-pref" })*@
+                    @*@Html.Label(Html.Translate("Dispatch Date"),new { @class = "cats-date-pref" })*@
                 </div>
                 <div class="controls">
                     @Html.TextBoxFor(m => modelRequest.Program, new { Disabled = true })
                     @*<td>
-                        <b>@Translator.Translate("Year"):</b>
-                        @modelRequest.Year*@
+    <b>@Html.Translate("Year"):</b>
+    @modelRequest.Year*@
                 </div>
             </div>
         </div>

@@ -1,31 +1,57 @@
 ﻿@using Cats.Models
 @using Kendo.Mvc.UI
+@using Cats.Helpers
 @using LanguageHelpers.Localization
 @model Cats.Models.NeedAssessment
 
 @{
-    ViewBag.Title = Translator.Translate("Add New Need Assessment");
+    ViewBag.Title = Html.Translate("Add New Need Assessment");
     Layout = "~/Views/Shared/_MainLayout.cshtml";
+    const string pageName = "EarlyWarning.NeedAssessment.CreateNeedAssessment";
 }
 @section Toolbar
 {
     <a class="btn toolbar-btn " data-buttontype="btn_save" data-submittedform="frm_add_region"></a>
     <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="@Url.Action("Index", "NeedAssessment")" title="save"></a>
 }
+<script type="text/javascript">
+    $(function () {
 
+        //Optional: turn the chache off
+        $.ajaxSetup({ cache: false });
+
+        $('#btnDateinterval').click(function () {
+
+            // alert("");
+            $('#dialogContent').load(this.href, function () {
+                $('#dialogDiv').modal({
+                    backdrop: 'static',
+                    keyboard: true
+                }, 'show');
+                //bindForm(this);
+            });
+            return false;
+        });
+
+    });
+</script>
+
+<div id='dialogDiv' class='modal hide fade in' style="width: 620px;margin-right: 10px">
+    <div id='dialogContent'></div>
+</div>
 
 @using (Html.BeginForm("CreateNeedAssessment", "NeedAssessment", FormMethod.Post, new { id = "frm_add_region" }))
 {
     @Html.ValidationSummary(true)
 
-        <legend>@Translator.Translate("Add New Need Assessment")</legend>
+        <legend>@Html.Translate("Add New Need Assessment")</legend>
         
         <div class="control-group form-horizontal well">
     <div class="row">
         <div class="span6">
             <div class="control-group">
                 <div class="control-label">
-                    @Html.LabelFor(m => m.Plan.PlanName,Translator.Translate("Plan"))
+                    @Html.LabelFor(m => m.Plan.PlanName, Html.Translate("Plan"))
                 </div>
                 <div class="controls">
                     @Html.TextBoxFor(m => m.Plan.PlanName)
@@ -63,6 +89,19 @@
         <div class="span4">
             <div class="control-group">
                 <div class="control-label">
+                    @Html.Label(Translator.Translate("Assessment From"), new { @class = "cats-date-pref" })
+                </div>
+                <div class="controls">
+                     @Html.TextBoxFor(m => m.Plan.StartDate, new { @class = "cats-datepicker2" })
+                    @Html.ValidationMessageFor(m => m.Plan.StartDate)
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span6">
+            <div class="control-group">
+                <div class="control-label">
                     @Html.Label(Translator.Translate("Assessment Type"))
                 </div>
                 <div class="controls">
@@ -72,32 +111,22 @@
                 </div>
 
             </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="span6">
-            <div class="control-group">
-                <div class="control-label">
-                    @Html.Label(Translator.Translate("Assessment From"), new { @class = "cats-date-pref" })
-                </div>
-                <div class="controls">
-                     @Html.TextBoxFor(m => m.Plan.StartDate, new { @class = "cats-datepicker2" })
-                    @Html.ValidationMessageFor(m => m.Plan.StartDate)
-                </div>
-            </div>
+            
         </div>
 
         <div class="span4">
-            <div class="control-group">
-                <div class="control-label">
-                    @Html.Label(Translator.Translate("To"), new { @class = "cats-date-pref" })
-                </div>
-                <div class="controls">
-                    @Html.TextBoxFor(m => m.Plan.EndDate, new { @class = "cats-datepicker2" })
-                    @Html.ValidationMessageFor(m => m.Plan.EndDate)
-                </div>
+             <div class="control-group">
+                        <div class="control-label">
+                            
+                            @Html.LabelFor(m => m.Plan.Duration, Translator.Translate("Duraton"))
+                        </div>
+                        <div class="controls">
+                            @Html.TextBoxFor(m => m.Plan.Duration)
+                            @Html.ValidationMessageFor(m => m.Plan.Duration)
+                            <a id="btnDateinterval"  href="@Url.Action("DateInterval", "HRD", new { area = "EarlyWarning", startDate = "4/15/2014", duration = 6 })">View Date Interval</a>
+                        </div>
 
-            </div>
+                    </div>
         </div>
     </div>
 </div>

@@ -120,16 +120,14 @@ namespace Cats.Areas.EarlyWarning.Controllers
              int typeOfNeedID = int.Parse(collection["TypeOfNeedID"].ToString(CultureInfo.InvariantCulture));
              string planName = collection["Plan.PlanName"].ToString(CultureInfo.InvariantCulture);
              DateTime startDate = DateTime.Parse(collection["Plan.StartDate"].ToString(CultureInfo.InvariantCulture));
-             DateTime endDate = DateTime.Parse(collection["Plan.EndDate"].ToString(CultureInfo.InvariantCulture));
+             var duration = int.Parse(collection["Plan.Duration"].ToString(CultureInfo.InvariantCulture));
+             //DateTime endDate = DateTime.Parse(collection["Plan.EndDate"].ToString(CultureInfo.InvariantCulture));
+            var endDate=startDate.AddMonths(duration);
              if (ModelState.IsValid)
              {
                  //_planService.AddNeedAssessmentPlan(needAssessment);
-                 if (startDate >= endDate)
-                 {
-                     ModelState.AddModelError("Errors", @"Start Date Can't be greater than OR Equal to  End Date!");
-                 }
-                 else
-                 {
+                
+                
                      try
                      {
                          _planService.AddPlan(planName, startDate, endDate);
@@ -152,7 +150,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                          ModelState.AddModelError("Errors", ViewBag.Error);
                          return View();
                      }
-                 }
+                 
                  //return RedirectToAction("Edit", new { id = regionID, typeOfNeed = typeOfNeedID });
              }
             ViewBag.Regions = new SelectList(_adminUnitService.FindBy(t => t.AdminUnitTypeID == 2), "AdminUnitID", "Name");

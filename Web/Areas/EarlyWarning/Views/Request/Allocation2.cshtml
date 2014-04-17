@@ -4,7 +4,7 @@
 @using Cats.Models
 @using Cats.Services.Security
 @using Kendo.Mvc.UI
-@using LanguageHelpers.Localization
+@using Cats.Helpers
 
 @{
     ViewBag.Title = "Regional Relief Requests";
@@ -17,23 +17,23 @@
         EarlyWarningConstants.Operation.View_request, "", "btn icon-reply", "btn_back_to_list")*@
 
     @*<button class="btn dropdown-toggle " data-toggle="dropdown">
-        @Translator.Translate("Actions")
+        @Html.Translate("Actions")
         <span class="caret"></span>
     </button>
     <ul class="dropdown-menu">
-        <li><a id="btnAddFDP" href="@Url.Action("AddBeneficary", "Request", new { id = Model.RegionalRequestID, programId = @ViewBag.programId })">@Translator.Translate("Add FDP")</a></li>
-        <li><a id="btnAddCommodity" href="@Url.Action("AddCommodity", "Request", new { id = Model.RegionalRequestID })">@Translator.Translate("Add Commodity")</a></li>
+        <li><a id="btnAddFDP" href="@Url.Action("AddBeneficary", "Request", new { id = Model.RegionalRequestID, programId = @ViewBag.programId })">@Html.Translate("Add FDP")</a></li>
+        <li><a id="btnAddCommodity" href="@Url.Action("AddCommodity", "Request", new { id = Model.RegionalRequestID })">@Html.Translate("Add Commodity")</a></li>
     </ul>*@
 
 <div class="btn-group" style="margin-right: 8px;">
     <button class="btn dropdown-toggle " data-toggle="dropdown">
-        @Translator.Translate("Actions")
+        @Html.Translate("Actions")
         <span class="caret"></span>
     </button>
     <ul class="dropdown-menu">
-        <li><a id="btnAddFDP" href="@Url.Action("AddBeneficary", "Request", new { id = Model.RegionalRequestID, programId = @ViewBag.programId })">@Translator.Translate("Add FDP")</a></li>
-        <li><a id="btnAddCommodity" href="@Url.Action("AddCommodity", "Request", new { id = Model.RegionalRequestID })">@Translator.Translate("Add Commodity")</a></li>
-       @* <li><a  href="@Url.Action("AddAllCommodity", "Request", new { id = Model.RegionalRequestID })">@Translator.Translate("Add All Commodity")</a></li>*@
+        <li><a id="btnAddFDP" href="@Url.Action("AddBeneficary", "Request", new { id = Model.RegionalRequestID, programId = @ViewBag.programId })">@Html.Translate("Add FDP")</a></li>
+        <li><a id="btnAddCommodity" href="@Url.Action("AddCommodity", "Request", new { id = Model.RegionalRequestID })">@Html.Translate("Add Commodity")</a></li>
+       @* <li><a  href="@Url.Action("AddAllCommodity", "Request", new { id = Model.RegionalRequestID })">@Html.Translate("Add All Commodity")</a></li>*@
     </ul>
 </div>
 
@@ -82,7 +82,7 @@
 
 <fieldset>
     <legend>
-        @Translator.Translate("Resource Allocation")
+        @Html.Translate("Resource Allocation")
     </legend>
 </fieldset>
 @Html.HiddenFor(m => m.RegionalRequestID)
@@ -91,7 +91,7 @@
         <tr>
             <td style="width: 40%">
                 <div class="control-label">
-                    @Html.LabelFor(model => model.ReferenceNumber, Translator.Translate("Reference Number"))
+                    @Html.LabelFor(model => model.ReferenceNumber, Html.Translate("Reference Number"))
                 </div>
                 <div class="controls">
                     @Html.TextBoxFor(model => model.ReferenceNumber, new { disabled = true })
@@ -99,7 +99,7 @@
             </td>
             <td style="width: 40%">
                 <div class="control-label">
-                    @Html.LabelFor(model => model.Program, Translator.Translate("Program"))
+                    @Html.LabelFor(model => model.Program, Html.Translate("Program"))
                 </div>
                 <div class="controls">
                     @Html.TextBoxFor(model => model.Program, new { disabled = true })
@@ -109,7 +109,7 @@
         <tr>
             <td style="width: 50%">
                 <div class="control-label">
-                    @Html.LabelFor(model => model.Region, Translator.Translate("Region"))
+                    @Html.LabelFor(model => model.Region, Html.Translate("Region"))
                 </div>
                 <div class="controls">
                     @Html.TextBoxFor(model => model.Region, new { disabled = true })
@@ -117,7 +117,7 @@
             </td>
             <td style="width: 50%">
                 <div class="control-label">
-                    @Html.LabelFor(model => model.MonthName, Translator.Translate("Month"))
+                    @Html.LabelFor(model => model.MonthName, Html.Translate("Month"))
                 </div>
                 <div class="controls">
                     @Html.TextBoxFor(model => model.MonthName, new { disabled = true })
@@ -127,7 +127,7 @@
         <tr>
             <td style="width: 50%">
                 <div class="control-label">
-                    @Html.LabelFor(model => model.RequestDate, Translator.Translate("Date of Request"))
+                    @Html.LabelFor(model => model.RequestDate, Html.Translate("Date of Request"))
                 </div>
                 <div class="controls">
                     @Html.TextBoxFor(model => model.RequestDate, new { disabled = true })
@@ -135,7 +135,7 @@
             </td>
             <td style="width: 50%">
                 <div class="control-label">
-                    @Html.LabelFor(model => model.Year, Translator.Translate("Year"))
+                    @Html.LabelFor(model => model.Year, Html.Translate("Year"))
                 </div>
                 <div class="controls">
                     @Html.TextBoxFor(model => model.Year, new { disabled = true })
@@ -145,7 +145,7 @@
         <tr>
             <td style="width: 50%">
                 <div class="control-label">
-                    @Html.LabelFor(model => model.Ration, Translator.Translate("Ration"))
+                    @Html.LabelFor(model => model.Ration, Html.Translate("Ration"))
                 </div>
                 <div class="controls">
                     @Html.TextBoxFor(model => model.Ration, new { disabled = true })
@@ -154,7 +154,7 @@
             </td>
             <td style="width: 50%">
                 <div class="control-label">
-                    @Html.LabelFor(model => model.Status, Translator.Translate("Status"))
+                    @Html.LabelFor(model => model.Status, Html.Translate("Status"))
                 </div>
                 <div class="controls">
                     @Html.TextBoxFor(model => model.Status, new { disabled = true })
@@ -203,7 +203,7 @@
                   .Name("commodityGrid")
                   .Columns(columns =>
                       {
-                          columns.Bound(p => p.Commodity).Title(Translator.Translate("Commodity"));
+                          columns.Bound(p => p.Commodity).Title(Html.Translate("Commodity"));
                           columns.Command(p => p.Custom("Delete").Click("onCommodityDelete")).Title("Action");
                       }
 
@@ -229,10 +229,10 @@
                   .Columns(columns =>
                       {
                           //columns.Template(t => { }).Title("No").ClientTemplate("#= renderNumber(data) #").Width(30);
-                          columns.Bound(p => p.Zone).Width(100).Title(Translator.Translate("Zone")).HtmlAttributes(new { style = "background-color:lightgray" });
-                          columns.Bound(p => p.Woreda).Width(100).Title(Translator.Translate("Woreda")).HtmlAttributes(new { style = "background-color:lightgray" });
-                          columns.Bound(p => p.FDP).Width(100).Title(Translator.Translate("FDP")).HtmlAttributes(new { style = "background-color:lightgray" });
-                          columns.Bound(p => p.Beneficiaries).Width(60).Title(Translator.Translate("Beneficiaries")).HtmlAttributes(new { align = "right" });
+                          columns.Bound(p => p.Zone).Width(100).Title(Html.Translate("Zone")).HtmlAttributes(new { style = "background-color:lightgray" });
+                          columns.Bound(p => p.Woreda).Width(100).Title(Html.Translate("Woreda")).HtmlAttributes(new { style = "background-color:lightgray" });
+                          columns.Bound(p => p.FDP).Width(100).Title(Html.Translate("FDP")).HtmlAttributes(new { style = "background-color:lightgray" });
+                          columns.Bound(p => p.Beneficiaries).Width(60).Title(Html.Translate("Beneficiaries")).HtmlAttributes(new { align = "right" });
                           //columns.Bound(p => p.PlannedBeneficiaries).Width(60).HtmlAttributes(new { align = "right" });
                           columns.Command(p => p.Custom("Delete").Click("onDelete")).Width(50);
 
