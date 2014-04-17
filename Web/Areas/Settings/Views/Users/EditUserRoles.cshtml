@@ -26,10 +26,11 @@
     <div class="control-group">
         <label class="control-label">User name:</label>
         <div class="controls">
-            @Html.TextBoxFor(m => m.UserName, new { @class = "input-xlarge", @required = "required" })
+            @Html.TextBoxFor(m => m.UserName, new { @class = "input-xlarge", @required = "required" , Disabled=true})
+            @Html.HiddenFor(m =>m.Email)
+            @Html.HiddenFor(m =>m.UserName)
         </div>
     </div>
-
         
     <!-- START -->
     
@@ -94,7 +95,7 @@
                                 </div> 
 
                             }
-                            <div class="well" id="hubselection" style="display: none">
+                            @*<div class="well" id="hubselection" style="display: none">
                                 <!-- Text input-->
                                 <div class="control-group">
                                     <label class="control-label">Default Hub:</label>
@@ -102,7 +103,7 @@
                                         @Html.DropDownList("Hub", ViewBag.hubs as SelectList,new {@class="controls span10"})
                                     </div>
                                 </div>
-                            </div>
+                            </div>*@
                         </div>    
                             
                         }
@@ -123,8 +124,6 @@
                         }
                     }
                 </div>
-
-
             </div>
             @*</div>*@
         </div>
@@ -142,7 +141,7 @@
     </div>
 }
 
-<script>
+@*<script>
     $(".hubSelect").on("click", function () {
         var n = $("input.hubSelect:checked ").length;
 
@@ -167,4 +166,4 @@
             $("#hubselection").hide("slow");
         }
     });
-</script>
+</script>*@

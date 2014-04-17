@@ -1,9 +1,10 @@
 ﻿@using Kendo.Mvc.UI
+@using Cats.Helpers
 
 
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-        <h3 id="myModalLabel">@LanguageHelpers.Localization.Translator.Translate("Print Gift Certificate")</h3>
+        <h3 id="myModalLabel">@Html.Translate("Print Gift Certificate")</h3>
     </div>
 
     @(Html.Kendo().Grid<Cats.Models.LetterTemplateViewModel>()

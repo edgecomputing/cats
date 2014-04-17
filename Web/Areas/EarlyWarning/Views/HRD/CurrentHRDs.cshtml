@@ -29,10 +29,10 @@
     .Name("grid")
     .Columns(columns =>
         {
-            columns.Bound(p => p.HRDName).Title(Translator.Translate("HRD Name")).ClientTemplate(
+            columns.Bound(p => p.HRDName).Title(Html.Translate("HRD Name")).ClientTemplate(
                                 @Html.EarlyWarningOperationButton(
                                     @Url.Action("Detail", "HRD", new { id = "#=HRDID#" }),
-                                    EarlyWarningConstants.Operation.New_HRD, "#=HRDName#").ToString());
+                                    EarlyWarningConstants.Operation.View_HRD_Detail, "#=HRDName#").ToString());
             columns.Bound(p => p.Plan);
             columns.Bound(p => p.Ration).Title("Ration No");
             //columns.Bound(p => p.Season);

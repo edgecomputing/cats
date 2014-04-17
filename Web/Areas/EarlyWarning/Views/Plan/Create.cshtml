@@ -1,4 +1,4 @@
-﻿
+﻿@using Cats.Helpers
 @using LanguageHelpers.Localization
 @model Cats.Models.Plan
 
@@ -53,7 +53,7 @@
         <div class="well form-horizontal">
             <div class="control-group">
                 <div class="control-label">
-                    @Html.LabelFor(m => m.PlanName,Translator.Translate("Plan Name"))
+                    @Html.LabelFor(m => m.PlanName, Html.Translate("Plan Name"))
                 </div>
                 <div class="controls">
                     @Html.TextBoxFor(m=>m.PlanName)
@@ -62,7 +62,7 @@
             </div>
             <div class="control-group">
                 <div class="control-label">
-                    @Html.Label(Translator.Translate("Program"))
+                    @Html.Label(Html.Translate("Program"))
                 </div>
                 <div class="controls">
                     @Html.DropDownList("ProgramID",String.Empty)
@@ -72,7 +72,7 @@
 
              <div class="control-group">
                 <div class="control-label">
-                    @Html.LabelFor(m => m.StartDate,Translator.Translate("From Date"))
+                    @Html.LabelFor(m => m.StartDate, Html.Translate("From Date"))
                 </div>
                 <div class="controls">
                     @* <input class="cats-datepicker" type="text" id="create" name="create" />*@

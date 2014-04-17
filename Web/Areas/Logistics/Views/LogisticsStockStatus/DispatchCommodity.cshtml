@@ -1,16 +1,17 @@
 ﻿@using Cats.Models.Hubs
 @using Kendo.Mvc.UI
-@using LanguageHelpers.Localization
+@using Cats.Helpers
+
 @{
     ViewBag.Title = "DispatchedCommodity";
     Layout = "~/Views/Shared/_MainLayoutWide.cshtml";
 }
 
-<h4 class="page-header">@Translator.Translate("Dispatch Commodity")</h4>
+<h4 class="page-header">@Html.Translate("Dispatch Commodity")</h4>
 <div class="row-fluid form-inline">
     <div class="control-group span2">
         <div class="control-label">
-            @Translator.Translate("Hub")
+            @Html.Translate("Hub")
         </div>
         <div class="">
             @Html.DropDownList("SelectHubID", (IEnumerable<SelectListItem>)ViewBag.SelectHubID, "Select Hub",new {@class="controls span11"})
@@ -18,7 +19,7 @@
     </div>
     <div class="control-group span2">
         <div class="control-label">
-            @Translator.Translate("Program")
+            @Html.Translate("Program")
         </div>
         <div class="">
             @Html.DropDownList("SelectProgramID", (IEnumerable<SelectListItem>)ViewBag.SelectProgramID, "Select Program",new {@class="controls span11"})
@@ -28,7 +29,7 @@
     
     <div class="control-group span2">
         <div class="control-label">
-            @Translator.Translate("Region")
+            @Html.Translate("Region")
         </div>
         <div class="">
             @Html.DropDownList("SelectRegionID", (IEnumerable<SelectListItem>)ViewBag.SelectRegionID, "Select Region",new {@class="controls span11"})
@@ -36,7 +37,7 @@
     </div>
     <div class="control-group span2">
         <div class="control-label">
-            @Translator.Translate("Zone")
+            @Html.Translate("Zone")
         </div>
         <div class="">
             <select id="zone" name="Zone"></select>
@@ -46,7 +47,7 @@
     
    @* <div class="control-group span2">
         <div class="control-label">
-            @Translator.Translate("Woreda")
+            @Html.Translate("Woreda")
         </div>
         <div class="">
             <select id="woreda" name="Woreda"></select>
@@ -54,7 +55,7 @@
     </div>
     <div class="control-group span2">
         <div class="control-label">
-            @Translator.Translate("FDP")
+            @Html.Translate("FDP")
         </div>
         <div class="">
            <select id="fdp" name="Fdp"></select>
@@ -66,17 +67,17 @@
 
                                                           
                                                            col.Bound(t => t.Commodity).Width(60);
-                                                           col.Bound(t => t.Beneficiery).HtmlAttributes(new { align = "right" }).Title(Translator.Translate("Benefiaciaries")).Width(50);
+                                                           col.Bound(t => t.Beneficiery).HtmlAttributes(new { align = "right" }).Title(Html.Translate("Benefiaciaries")).Width(50);
                                                           
                                                            col.Bound(t => t.ShippingInstruction).Width(50);
                                                            col.Bound(t => t.ProjectCode).Width(50);
                                                            col.Bound(t => t.Donor).Width(200);
                                                            col.Bound(t => t.Region).Width(50);
                                                            col.Bound(t => t.Zone).Width(50);
-                                                          
-                                                           col.Template(c => { }).ClientTemplate("#=toCatsPreferedUnit(data.Amount)#").HeaderHtmlAttributes(new { @class = "cats-unit-pref" }).HtmlAttributes(new { align = "right" }).Title(Translator.Translate("Donor Allocated")).Width(50);
-                                                           col.Template(c => { }).ClientTemplate("#=toCatsPreferedUnit(data.DispatchedAmountInMT)#").HeaderHtmlAttributes(new { @class = "cats-unit-pref" }).HtmlAttributes(new { align = "right" }).Title(Translator.Translate("Dispatched")).Width(50);
-                                                           col.Template(c => { }).ClientTemplate("#=toCatsPreferedUnit(data.RemainingInMT)#").HeaderHtmlAttributes(new { @class = "cats-unit-pref" }).HtmlAttributes(new { align = "right" }).Title(Translator.Translate("Remaining")).Width(50);
+
+                                                           col.Template(c => { }).ClientTemplate("#=toCatsPreferedUnit(data.Amount)#").HeaderHtmlAttributes(new { @class = "cats-unit-pref" }).HtmlAttributes(new { align = "right" }).Title(Html.Translate("Donor Allocated")).Width(50);
+                                                           col.Template(c => { }).ClientTemplate("#=toCatsPreferedUnit(data.DispatchedAmountInMT)#").HeaderHtmlAttributes(new { @class = "cats-unit-pref" }).HtmlAttributes(new { align = "right" }).Title(Html.Translate("Dispatched")).Width(50);
+                                                           col.Template(c => { }).ClientTemplate("#=toCatsPreferedUnit(data.RemainingInMT)#").HeaderHtmlAttributes(new { @class = "cats-unit-pref" }).HtmlAttributes(new { align = "right" }).Title(Html.Translate("Remaining")).Width(50);
                                                            
 
                                                        }).DataSource(datasource =>

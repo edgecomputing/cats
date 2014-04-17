@@ -1,6 +1,6 @@
 ﻿@using Cats.Helpers
-@using LanguageHelpers.Localization
 @using Cats.Services.Security
+
 @model IEnumerable<Cats.Models.ProjectCodeAllocation>
 
 @{
@@ -22,8 +22,8 @@
     
 <fieldset>
     <legend>
-        @Translator.Translate("Assigned project Code / SI for Requisition No"): @ViewBag.ReqNo<br/>
-         @Translator.Translate("Hub"): @ViewBag.Hub
+        @Html.Translate("Assigned project Code / SI for Requisition No"): @ViewBag.ReqNo<br/>
+         @Html.Translate("Hub"): @ViewBag.Hub
     </legend>
     
 </fieldset>
@@ -59,7 +59,7 @@
 <div class="row" >
     <div class ="span6">
         <div class="control-group">
-            <div class=control-label> @Translator.Translate("Allocated Amount")</div>
+            <div class=control-label> @Html.Translate("Allocated Amount")</div>
             <div class="controls">
                 <input type="text" id="allocated" name="allocated" value="@ViewBag.Allocated" readonly="readonly"/>
                
@@ -71,7 +71,7 @@
     <div class="span4">
         <div class="control-group">
             <div class="control-label">
-                @Translator.Translate("SI amount Allocated"): </div>
+                @Html.Translate("SI amount Allocated"): </div>
             <div class="controls">
                 <input type="text" id="si" name="si" value="@ViewBag.AmountSIAssined" readonly="readonly"/>
                
@@ -85,7 +85,7 @@
     <div class="span6">
         <div class="control-group">
             <div class="control-label">
-                @Translator.Translate("PC amount Allocated"): </div>
+                @Html.Translate("PC amount Allocated"): </div>
             <div class="controls">
                 <input type="text" id="pc" name="pc" value="@ViewBag.AmountPCAssigned" readonly="readonly"/>
                
@@ -97,7 +97,7 @@
     <div class="span4">
         <div class="control-group">
             <div class="control-label">
-                @Translator.Translate("Total Amount Assigned")</div>
+                @Html.Translate("Total Amount Assigned")</div>
             <div class="controls">
                 <input type="text" id="total" name="total" value="@ViewBag.Total" readonly="readonly" />
                
@@ -111,7 +111,7 @@
         <div class="span6">
             <div class="control-group">
                 <div class="control-label">
-                    @Translator.Translate("Requisition No") </div>
+                    @Html.Translate("Requisition No") </div>
                 <div class="controls">
                     <input type="text" id="ReqNo" name="ReqNo" value="@ViewBag.ReqNo" readonly="readonly"/>
                
@@ -123,7 +123,7 @@
         <div class="span4">
             <div class="control-group">
                 <div class="control-label">
-                    @Translator.Translate("Remaining") </div>
+                    @Html.Translate("Remaining") </div>
                 <div class="controls">
                     <input type="text" id="Remaining" name="Remaining" value="@ViewBag.Remaining" readonly="readonly"/>
                

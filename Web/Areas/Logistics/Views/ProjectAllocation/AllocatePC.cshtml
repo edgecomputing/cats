@@ -1,5 +1,5 @@
 ﻿@model IList<Cats.Models.RequisitionViewModel>
-@using LanguageHelpers.Localization
+@using Cats.Helpers
 @{
     
     Layout = "~/Views/Shared/_MainLayout.cshtml";
@@ -46,22 +46,22 @@
            </fieldset>
 	    
            <div class="control-group">
-               <label class="control-label">@Translator.Translate("Requisition No")</label>
+               <label class="control-label">@Html.Translate("Requisition No")</label>
                    <input type="text"  id="ReqNo" name="ReqNo" readonly="readonly">
            </div>
           
            <div class="control-group">
-               <label class="control-label">@Translator.Translate("Hub")</label>
+               <label class="control-label">@Html.Translate("Hub")</label>
               
                <input type="text" id="hub" name="hub"  readonly="readonly"/>
            </div>
            <div class="control-group">
-               <label class="control-label">@Translator.Translate("Requested Amount")</label>
+               <label class="control-label">@Html.Translate("Requested Amount")</label>
              
                <input type="text" id="ReqAmount" name="ReqAmount"  readonly="readonly"/>
            </div>
            <div class="control-group">
-               <label class="control-label">@Translator.Translate("Requested Date")</label>
+               <label class="control-label">@Html.Translate("Requested Date")</label>
                  
                    <input type="text" id="ReqDate" name="ReqDate"  readonly="readonly"/>
            </div>
@@ -92,19 +92,19 @@
                    <tr>
         
                        <th>
-                           @Translator.Translate("Commodity")
+                           @Html.Translate("Commodity")
                        </th>
                        <th>
-                           @Translator.Translate("Region")
+                           @Html.Translate("Region")
                        </th>
                        <th>
-                           @Translator.Translate("Zone")
+                           @Html.Translate("Zone")
                        </th>
                        <th>
-                           @Translator.Translate("Beneficiaries")
+                           @Html.Translate("Beneficiaries")
                        </th>
                        <th>
-                             @Translator.Translate("Requisition ID")
+                             @Html.Translate("Requisition ID")
                        </th>
         
                    </tr>

@@ -1,7 +1,8 @@
 ﻿@using Cats.Areas.Procurement.Models
 @using Cats.Models.Constant
 @using Kendo.Mvc.UI
-@using LanguageHelpers.Localization
+@using Cats.Helpers
+
 @model Cats.Areas.Procurement.Models.SelectedBidWinnerViewModel
 @{
     ViewBag.Title = "Index";
@@ -59,7 +60,7 @@
                       columns.Bound(t => t.TransporterName);
                       columns.Bound(t => t.SourceWarehouse);
                       columns.Bound(t => t.Woreda);
-                      columns.Bound(t => t.WinnerTariff).Title(Translator.Translate("Tariff"));
+                      columns.Bound(t => t.WinnerTariff).Title(Html.Translate("Tariff"));
                      
                   })
               .Scrollable()

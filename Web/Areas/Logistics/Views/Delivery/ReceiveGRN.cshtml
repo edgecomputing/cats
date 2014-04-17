@@ -1,5 +1,6 @@
 ﻿@model Cats.Areas.Logistics.Models.DeliveryViewModel
-@using LanguageHelpers.Localization
+@using Cats.Helpers
+
 @{
     ViewBag.Title = "ReceiveGRN";
     Layout = "~/Views/Shared/_MainLayoutWide.cshtml";
@@ -10,7 +11,7 @@
 
 }
 
-<div class="page-header">@Translator.Translate("Register Transport Goods Receiving Note")</div>
+<div class="page-header">@Html.Translate("Register Transport Goods Receiving Note")</div>
 @using (Html.BeginForm("ReceiveGRN", "Delivery", new { Area = "Logistics" }, FormMethod.Post, new { id = "frmCreate" }))
 {
     @Html.HiddenFor(model => model.DeliveryID)

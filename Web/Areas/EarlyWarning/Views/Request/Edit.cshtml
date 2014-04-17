@@ -1,5 +1,5 @@
 ﻿@model  Cats.Models.RegionalRequest
-@using LanguageHelpers.Localization
+@using Cats.Helpers
 
 @{
     ViewBag.Title = "Edit";
@@ -7,7 +7,7 @@
 }
 
 
-    <h4 class="page-header">@Translator.Translate( "Edit Regional Request")</h4>
+    <h4 class="page-header">@Html.Translate("Edit Regional Request")</h4>
 
 @section LeftBar
 {

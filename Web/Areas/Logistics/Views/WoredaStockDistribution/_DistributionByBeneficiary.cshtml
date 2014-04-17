@@ -1,6 +1,7 @@
 ﻿@using Cats.Areas.Logistics.Models
 @using Kendo.Mvc.UI
-@using LanguageHelpers.Localization
+@using Cats.Helpers
+
 @model Cats.Areas.Logistics.Models.WoredaStockDistributionWithDetailViewModel
 @{
     ViewBag.Title = "_DistributionByBenficiary";
@@ -13,9 +14,9 @@
 
                                        columns.Bound(m => m.FdpId).Hidden(true).ClientTemplate("#= FdpId #" +
                                        "<input type='hidden' name='WoredaDistributionDetailViewModels[#= index(data)#].FdpId' value='#= FdpId #' />");
-                                       
-                                       columns.Bound(p => p.FDP).Width(80).Title(Translator.Translate("FDP")).HtmlAttributes(new { style = "background-color:lightgray" });
-                                       columns.Bound(p => p.CommodityName).Width(100).Title(Translator.Translate("Commodity")).HtmlAttributes(new { style = "background-color:lightgray" });
+
+                                       columns.Bound(p => p.FDP).Width(80).Title(Html.Translate("FDP")).HtmlAttributes(new { style = "background-color:lightgray" });
+                                       columns.Bound(p => p.CommodityName).Width(100).Title(Html.Translate("Commodity")).HtmlAttributes(new { style = "background-color:lightgray" });
                                        columns.Bound(p => p.Round).Width(60).HtmlAttributes(new { style = "background-color:lightgray" });
                                        columns.Bound(p => p.Month).Width(80).HtmlAttributes(new { style = "background-color:lightgray" });
                                        columns.Bound(p => p.CommodityID).ClientTemplate("#= CommodityID #" +

@@ -1,6 +1,8 @@
 ﻿@using Cats.Areas.EarlyWarning.Models
 @using Kendo.Mvc.UI
 @using LanguageHelpers.Localization
+@using Cats.Helpers
+
 @model Cats.Models.HrdDonorCoverage
 @{
     ViewBag.Title = "Detail";
@@ -11,12 +13,12 @@
    
 
     <div class="btn-group" style="margin-right: 8px;">
-        <button class="btn dropdown-toggle " data-toggle="dropdown"> @Translator.Translate("Actions") 
+        <button class="btn dropdown-toggle " data-toggle="dropdown"> @Html.Translate("Actions") 
             <span class="caret"></span>
         </button>
         <ul class="dropdown-menu">
             
-            <li><a id="btnAddWoreda"  href="@Url.Action("AddWoreda", "DonorCoverage", new { id = Model.HRDDOnorCoverageID })" >@Translator.Translate("Add Woreda")</a></li>
+            <li><a id="btnAddWoreda"  href="@Url.Action("AddWoreda", "DonorCoverage", new { id = Model.HRDDOnorCoverageID })" >@Html.Translate("Add Woreda")</a></li>
         </ul>
 
     </div>

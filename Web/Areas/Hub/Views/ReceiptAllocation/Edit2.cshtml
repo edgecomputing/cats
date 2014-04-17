@@ -37,6 +37,17 @@
             </div>
         </div>
 
+
+    @if (allocationType == Cats.Models.Hubs.CommoditySource.Constants.DONATION)
+    {
+        <div class="control-group required commoditySource">
+            @Html.LabelFor(model => model.OtherDocumentationRef, Html.Translate("Memo Reference"),new { @class="control-label" })
+            <div class="controls">
+               @Html.TextBoxFor(model => model.OtherDocumentationRef)
+               @Html.ValidationMessageFor(model => model.OtherDocumentationRef)
+            </div>
+        </div>
+    }
         <!--PurchaseOrder-->
     @if (allocationType == Cats.Models.Hubs.CommoditySource.Constants.LOCALPURCHASE)
     {
@@ -48,16 +59,7 @@
             </div>
         </div>
     }
-    @if (allocationType == Cats.Models.Hubs.CommoditySource.Constants.DONATION)
-    {
-        <div class="control-group required commoditySource">
-            @Html.LabelFor(model => model.OtherDocumentationRef, Html.Translate("Memo Reference"),new { @class="control-label" })
-            <div class="controls">
-               @Html.TextBoxFor(model => model.OtherDocumentationRef)
-               @Html.ValidationMessageFor(model => model.OtherDocumentationRef)
-            </div>
-        </div>
-    }
+
     @if (allocationType != Cats.Models.Hubs.CommoditySource.Constants.DONATION &&
                     allocationType != Cats.Models.Hubs.CommoditySource.Constants.LOCALPURCHASE)
     {
@@ -78,16 +80,6 @@
             </div>
         </div>
 
-        <!--Commodity Name-->
-        <div class="control-group">
-            @Html.LabelFor(model => model.CommodityID, Html.Translate("Commodity"),new { @class="control-label" })
-            <div class="controls">
-                @Html.DisplayFor(model => model.CommodityID)
-            </div>
-        </div>
-
-
-
         <!--QuantityInMT-->
         <div class="control-group">
             @Html.LabelFor(model => model.QuantityInMT, Html.Translate("QuantityInMT"),new { @class="control-label" })
@@ -103,6 +95,13 @@
             <div class="controls">
                 @Html.DropDownListFor(model => model.HubID,HubID, new { @class="inputs-large"})
                 @Html.ValidationMessageFor(model => model.HubID)
+            </div>
+        </div>
+        <!--Commodity Name-->
+        <div class="control-group">
+            @Html.LabelFor(model => model.CommodityID, Html.Translate("Commodity"),new { @class="control-label" })
+            <div class="controls">
+                @Html.DisplayFor(model => model.CommodityID)
             </div>
         </div>
 

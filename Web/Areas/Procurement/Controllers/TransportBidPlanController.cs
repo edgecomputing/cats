@@ -29,7 +29,7 @@ namespace Cats.Areas.Procurement.Controllers
                                           , IAdminUnitService adminUnitServiceParam
                                           , IProgramService programServiceParam
                                           , ITransportBidPlanDetailService transportBidPlanDetailServiceParam
-                                            , IHubService hubServiceParam)
+                                          , IHubService hubServiceParam)
         {
             this._transportBidPlanService = transportBidPlanServiceParam;
             this._adminUnitService = adminUnitServiceParam;

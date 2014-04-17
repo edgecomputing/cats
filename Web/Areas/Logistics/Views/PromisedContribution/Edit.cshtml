@@ -1,14 +1,14 @@
 ﻿@using Cats.Helpers
 @using Cats.Services.Security
-@using LanguageHelpers.Localization
 @using Cats.Models;
+
 @model PromisedContribution
 @{
-    ViewBag.Title = Translator.Translate("Contributions");
+    ViewBag.Title = Html.Translate("Contributions");
     Layout = "~/Views/Shared/_MainLayout.cshtml";
     var user = (UserIdentity)System.Web.HttpContext.Current.User.Identity;
     var unitPreference = user.Profile.PreferedWeightMeasurment;
-    var UserUnit = @Translator.Translate(@Html.UserUnitPreference());
+    var UserUnit = Html.Translate(Html.UserUnitPreference());
     var unitsfx = " [" + UserUnit + "]";
 }
 @section Toolbar

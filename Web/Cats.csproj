@@ -1069,6 +1069,7 @@
     <Content Include="Content\assets\ico\apple-touch-icon-72-precomposed.png" />
     <Content Include="Content\assets\ico\favicon.ico" />
     <Content Include="Content\assets\ico\favicon.png" />
+    <Content Include="Content\assets\img\arrow.png" />
     <Content Include="Content\assets\img\bootstrap-docs-readme.png" />
     <Content Include="Content\assets\img\bootstrap-mdo-sfmoma-01.jpg" />
     <Content Include="Content\assets\img\bootstrap-mdo-sfmoma-02.jpg" />

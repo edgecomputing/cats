@@ -1,10 +1,11 @@
 ﻿@using Cats.Models
 @using Kendo.Mvc.UI
+@using Cats.Helpers
 @using LanguageHelpers.Localization
 @model Cats.Models.NeedAssessment
 
 @{
-    ViewBag.Title = Translator.Translate("Add New Need Assessment");
+    ViewBag.Title = Html.Translate("Add New Need Assessment");
     Layout = "~/Views/Shared/_MainLayout.cshtml";
     const string pageName = "EarlyWarning.NeedAssessment.CreateNeedAssessment";
 }
@@ -43,14 +44,14 @@
 {
     @Html.ValidationSummary(true)
 
-        <legend>@Translator.Translate("Add New Need Assessment")</legend>
+        <legend>@Html.Translate("Add New Need Assessment")</legend>
         
         <div class="control-group form-horizontal well">
     <div class="row">
         <div class="span6">
             <div class="control-group">
                 <div class="control-label">
-                    @Html.LabelFor(m => m.Plan.PlanName,Translator.Translate("Plan"))
+                    @Html.LabelFor(m => m.Plan.PlanName, Html.Translate("Plan"))
                 </div>
                 <div class="controls">
                     @Html.TextBoxFor(m => m.Plan.PlanName)
