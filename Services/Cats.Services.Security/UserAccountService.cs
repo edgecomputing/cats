@@ -292,7 +292,7 @@ namespace Cats.Services.Security
         {
             try
             {
-                var user = _unitOfWork.UserProfileRepository.FindBy(u => u.UserName == userName).SingleOrDefault();
+                var user = _unitOfWork.UserProfileRepository.FindBy(u => u.UserName == userName).FirstOrDefault();
                 if (user != null)
                 {
                     user.Disabled = !user.Disabled;

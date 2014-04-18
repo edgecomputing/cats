@@ -14,11 +14,18 @@
     @Html.Partial("_AdminLeftBar")
 }
 
-
+<style>
+    .cats_error {
+            color: #D8000C;
+            background-color: #FFBABA;
+        
+        }
+</style>
 
 <form class=" form-horizontal">
     <legend>User Profile</legend>
-
+    <div  style="font-weight: bold" class="cats_error">@ViewBag.Error</div>
+    
     <div class="row">
         <div class="span4">
             <div class="control-group">
@@ -104,11 +111,21 @@
     </div>
 
     <div class="form-actions">
-        <a class="btn" href="@Url.Action("Index","Users")">Cancel</a>
-        <a class="btn btn-warning" href="@Url.Action("DeactivateUser","Users",new {id = Model.UserProfileID})"><i class="icon-unlink"></i> Disable Account</a>
-         <a class="btn btn-warning" href="@Url.Action("ActivateUser","Users",new {id = Model.UserProfileID})"><i class="icon-unlink"></i> Enable Account</a>
+        
+        @{
+            if (Model.Disabled == false)
+            {
+                 <a class="btn btn-warning" href="@Url.Action("ActivateDeactivateUser","Users",new {id = Model.UserProfileID})"><i class="icon-unlink"></i> Disable Account</a>
+            }
+            else
+            {
+                <a class="btn btn-warning" href="@Url.Action("ActivateDeactivateUser","Users",new {id = Model.UserProfileID})"><i class="icon-unlink"></i> Enable Account</a>
+            }
+        }
+       
+         
         <a class="btn btn-danger" id="yesDelete" href="@Url.Action("DeleteAccount","Users",new {id = Model.UserProfileID})"><i class="icon-trash"></i> Delete Account</a>
-
+        <a class="btn btn-apply" href="@Url.Action("Index","Users")">Cancel</a>
     </div>
 </form>
 

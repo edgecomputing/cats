@@ -189,8 +189,19 @@ namespace Cats.Areas.Settings.Controllers
         }
         public ActionResult UserProfile(int id)
         {
+
             var user = _userService.GetUserInfo(id);
-            return View(user);
+            if(user!=null)
+            {
+                if (TempData["Error"]!=null)
+                {
+                    ModelState.AddModelError("Errors", TempData["Error"].ToString());
+                    ViewBag.Error = TempData["Error"].ToString();
+                }
+                
+                return View(user);
+            }
+            return View();
         }
 
         public JsonResult GetUsers()
@@ -219,7 +230,7 @@ namespace Cats.Areas.Settings.Controllers
                 }
                 catch (Exception)
                 {
-                    ViewBag.Error = "User can not be Deleted. There are related Transaction associated with the user!";
+                    TempData["Error"] = "User can not be Deleted. There are related Transaction associated with the user!";
                     return RedirectToAction("UserProfile", new {id = id});
                 }
             }
@@ -238,11 +249,12 @@ namespace Cats.Areas.Settings.Controllers
              return RedirectToAction("UserProfile", new { id = id });
         }
 
-        public ActionResult ActivateUser(int id)
+        public ActionResult ActivateDeactivateUser(int id)
         {
              var user = _userService.FindById(id);
              if (user != null)
              {
+                 
                  
                  _userService.EnableAccount(user.UserName);
                  return View("Index");
