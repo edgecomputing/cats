@@ -107,8 +107,30 @@
         <a class="btn" href="@Url.Action("Index","Users")">Cancel</a>
         <a class="btn btn-warning" href="@Url.Action("DeactivateUser","Users",new {id = Model.UserProfileID})"><i class="icon-unlink"></i> Disable Account</a>
          <a class="btn btn-warning" href="@Url.Action("ActivateUser","Users",new {id = Model.UserProfileID})"><i class="icon-unlink"></i> Enable Account</a>
-        <a class="btn btn-danger" href="@Url.Action("DeleteAccount","Users",new {id = Model.UserProfileID})"><i class="icon-trash"></i> Delete Account</a>
+        <a class="btn btn-danger" id="yesDelete" href="@Url.Action("DeleteAccount","Users",new {id = Model.UserProfileID})"><i class="icon-trash"></i> Delete Account</a>
 
     </div>
 </form>
 
+<div id='dialogDiv' class='modal hide fade in'>
+    <div id='dialogContent'></div>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+
+        //Optional: turn the chache off
+        $.ajaxSetup({ cache: false });
+
+        $('#yesDelete').click(function () {
+            $('#dialogContent').load(this.href, function () {
+                $('#dialogDiv').modal({
+                    backdrop: 'static',
+                    keyboard: true
+                }, 'show');
+                //bindForm(this);
+            });
+            return false;
+        });
+    });
+</script>

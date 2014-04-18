@@ -202,6 +202,14 @@ namespace Cats.Areas.Settings.Controllers
         public ActionResult DeleteAccount(int id)
         {
             var user = _userService.FindById(id);
+            if (user != null)
+                return View(user);
+            return View();
+        }
+
+        public ActionResult ConfirmDeleteAccount(int id)
+        {
+            var user = _userService.FindById(id);
             if (user!=null)
             {
                 try
