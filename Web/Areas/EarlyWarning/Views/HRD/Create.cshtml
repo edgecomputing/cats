@@ -101,6 +101,8 @@
                         </div>
                         <div class="controls">
                             @Html.TextBoxFor(m => m.Plan.Duration)
+                              <a id="btnDateinterval"  @*href="@Url.Action("DateInterval", "HRD", new { area = "EarlyWarning", startDate = "4/15/2014", duration = 6 })"*@>View Date Interval</a>
+                       
                             @Html.ValidationMessageFor(m => m.Plan.Duration)
                         </div>
 
@@ -131,15 +133,25 @@
 <script type="text/javascript">
     $(function () {
         
-        //Optional: turn the chache off
+       
         $.ajaxSetup({ cache: false });
 
         $('#btnDateinterval').click(function () {
 
-            //GetDateInterval();
+            
+            var startDate = $('#Plan_StartDate').val();
+            var duration = $('#Plan_Duration').val();
 
-            $('#dialogContent').load(this.href, function () {
-              
+            //var date = startDate.getDate();
+            //var month = startDate.getMonth() + 1;
+            //var year = startDate.getFullYear();
+
+            //var fullDate = date + "/" + month + "/" + year;
+           
+          
+           // var url = '@Url.Action("DateInterval", "HRD")" + "?duration=" + duration + "&startDate=" + starDate';
+            var url = '@Url.Action("DateInterval", "HRD")?duration=' + duration + '&startDate=' + '01/02/2009';
+            $('#dialogContent').load(url, function () {
                 $('#dialogDiv').modal({
                     
                     backdrop: 'static',
@@ -152,21 +164,18 @@
 
     });
 
- 
-    $(function () {
-        $('#Duration').blur(function () {
-            GetDateInterval();
-        });
-    });
 
-    function GetDateInterval() {
+
+  @*  function GetDateInterval() {
         var starDate = $('#Plan_StartDate').val();
         var duration = $('#Plan_Duration').val();
+        alert(startDate);
                 
-        document.getElementById('content').style.display = 'block';
-        document.getElementById('content').innerHTML = starDate + ", " + duration;
-
-       // window.location = "@Url.Action("DateInterval", "HRD")" + "?duration=" + duration + "&startDate=" + starDate;
-    }
+        //document.getElementById('content').style.display = 'block';
+        //document.getElementById('content').innerHTML = starDate + ", " + duration;
+        var url="@Url.Action("DateInterval", "HRD")" + "?duration=" + duration + "&startDate=" + starDate;
+      
+        
+    }*@
      
 </script>
