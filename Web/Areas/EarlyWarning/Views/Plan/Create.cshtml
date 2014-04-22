@@ -26,8 +26,13 @@
 
         $('#btnDateinterval').click(function () {
 
-            // alert("");
-            $('#dialogContent').load(this.href, function () {
+            var startDate = new Date($('#StartDate').val());
+            //var startDate = $('#Plan_StartDate').val();
+            var duration = $('#Duration').val();
+
+            var fullDate = startDate.getMonth() + 1 + '/' + startDate.getDate() + '/' + startDate.getFullYear();
+            var url = '@Url.Action("DateInterval", "HRD")?duration=' + duration + '&startDate=' + fullDate;
+            $('#dialogContent').load(url, function () {
                 $('#dialogDiv').modal({
                     backdrop: 'static',
                     keyboard: true
@@ -89,7 +94,7 @@
                     @* <input class="cats-datepicker" type="text" id="create" name="create" />*@
                     @Html.TextBoxFor(m=>m.Duration)
                     
-                     <a id="btnDateinterval"  href="@Url.Action("DateInterval", "HRD", new { area = "EarlyWarning", startDate = "4/15/2014", duration = 6 })">View Date Interval</a>
+                     <a id="btnDateinterval">View Date Interval</a>
                         @Html.ValidationMessageFor(m => m.Duration)
                 </div>
         
