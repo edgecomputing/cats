@@ -78,20 +78,31 @@ namespace Cats.Areas.EarlyWarning.Controllers
             var endDate = plan.StartDate.AddMonths(plan.Duration);
             if (ModelState.IsValid)
             {
-                
+                var existingPlan =
+                    _planService.FindBy(m => m.PlanName == plan.PlanName && m.ProgramID == plan.ProgramID)
+                                .FirstOrDefault();
+                if (existingPlan!=null)
+                {
+                    ModelState.AddModelError("Errors", @"Plan with this Name and Program already Exists please change Plan Name");
+                }
+                else
+                {
                     try
                     {
-                        plan.Status = (int) PlanStatus.Draft;
+                        plan.EndDate = endDate;
+                        plan.Status = (int)PlanStatus.Draft;
                         _planService.AddPlan(plan);
                         return RedirectToAction("Index");
                     }
                     catch (Exception ex)
                     {
 
-                        ModelState.AddModelError("Errors", "Plan with this name already Existed");
+                        ModelState.AddModelError("Errors", @"Plan with this name already Existed");
                         ViewBag.ProgramID = new SelectList(_planService.GetPrograms(), "ProgramID", "Name");
                         return View(plan);
-                    }
+                    } 
+                }
+                    
                 
 
             }

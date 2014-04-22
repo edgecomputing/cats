@@ -288,6 +288,27 @@ namespace Cats.Services.Security
             return false;
         }
 
+        public bool EnableAccount(string userName)
+        {
+            try
+            {
+                var user = _unitOfWork.UserProfileRepository.FindBy(u => u.UserName == userName).FirstOrDefault();
+                if (user != null)
+                {
+                    user.Disabled = !user.Disabled;
+                    _unitOfWork.Save();
+                    return true;
+                }
+            }
+            catch (Exception exception)
+            {
+                throw new ApplicationException("Error disabling/enabling user account", exception);
+
+            }
+
+            return false;
+        }
+
         #endregion
 
         #region Security Module Helper Methods
@@ -325,7 +346,7 @@ namespace Cats.Services.Security
         public UserProfile GetUserDetail(string userName)
         {
             //return _unitOfWork.UserRepository.Get(u => u.UserName == userName, null, "UserProfile,UserPreference").SingleOrDefault();
-            return _unitOfWork.UserProfileRepository.Get(u => u.UserName == userName).SingleOrDefault();
+            return _unitOfWork.UserProfileRepository.Get(u => u.UserName == userName).FirstOrDefault();
         }
 
         /// <summary>

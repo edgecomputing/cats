@@ -125,9 +125,14 @@ namespace Cats.Areas.EarlyWarning.Controllers
             var endDate=startDate.AddMonths(duration);
              if (ModelState.IsValid)
              {
-                 //_planService.AddNeedAssessmentPlan(needAssessment);
-                
-                
+                 var existingPlan = _planService.FindBy(m => m.PlanName == planName && m.ProgramID==1).FirstOrDefault();
+                 if (existingPlan != null)
+                 {
+                     ModelState.AddModelError("Errors", @"Needs Assessment Name already Exists Please Change the Name");
+                 }
+                 else
+                 {
+
                      try
                      {
                          _planService.AddPlan(planName, startDate, endDate);
@@ -150,7 +155,8 @@ namespace Cats.Areas.EarlyWarning.Controllers
                          ModelState.AddModelError("Errors", ViewBag.Error);
                          return View();
                      }
-                 
+                 }
+
                  //return RedirectToAction("Edit", new { id = regionID, typeOfNeed = typeOfNeedID });
              }
             ViewBag.Regions = new SelectList(_adminUnitService.FindBy(t => t.AdminUnitTypeID == 2), "AdminUnitID", "Name");

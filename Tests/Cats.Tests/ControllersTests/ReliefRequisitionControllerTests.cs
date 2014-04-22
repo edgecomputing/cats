@@ -178,14 +178,14 @@ namespace Cats.Tests.ControllersTests
             donorService.Setup(m => m.GetAllDonor()).Returns(donor);
 
             var notificationService = new Mock<INotificationService>();
-
+            var transactionSerivce = new Mock<Cats.Services.Transaction.ITransactionService>();
             _reliefRequisitionController = new ReliefRequisitionController(
                 mockReliefRequistionService.Object, 
                 workflowStatusService.Object, 
                 mockReliefRequistionDetailService.Object, 
                 userAccountService.Object,
                 rationService.Object,
-                donorService.Object, notificationService.Object,null);
+                donorService.Object, notificationService.Object, null, transactionSerivce.Object);
 
             _reliefRequisitionController.ControllerContext = controllerContext.Object; 
           //  _input = input;

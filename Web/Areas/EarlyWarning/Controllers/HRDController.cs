@@ -164,7 +164,9 @@ namespace Cats.Areas.EarlyWarning.Controllers
                             Status = _workflowStatusService.GetStatusName(WORKFLOW.HRD, hrd.Status.Value),
                             CreatedDatePref = hrd.CreatedDate.ToCTSPreferedDateFormat(datePref),
                             PublishedDatePref = hrd.PublishedDate.ToCTSPreferedDateFormat(datePref),
-                            Plan = hrd.Plan.PlanName
+                            Plan = hrd.Plan.PlanName,
+                            StartDate = hrd.Plan.StartDate.ToCTSPreferedDateFormat(datePref),
+                            EndDate = hrd.Plan.EndDate.ToCTSPreferedDateFormat(datePref)
 
                         });
         }
@@ -367,8 +369,14 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
             if (ModelState.IsValid)
             {
-                
-               
+
+                var existingPlan = _planService.FindBy(m => m.PlanName == planName && m.ProgramID==1).FirstOrDefault();
+                if (existingPlan!=null)
+                {
+                    ModelState.AddModelError("Errors", @"HRD Name already Exists Please Change HRD Name");
+                }
+                else
+                {
                     try
                     {
                         _planService.AddHRDPlan(planName, startDate, endDate);
@@ -381,10 +389,12 @@ namespace Cats.Areas.EarlyWarning.Controllers
                     {
                         var log = new Logger();
                         log.LogAllErrorsMesseges(exception, _log);
-                        ModelState.AddModelError("Errors", "Unable To Create New HRD");
+                        ModelState.AddModelError("Errors", @"Unable To Create New HRD");
                         //ViewBag.Error = "HRD for this Season and Year already Exists";
                     }
                 
+                }
+                   
 
             }
 

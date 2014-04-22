@@ -354,6 +354,9 @@ namespace Cats.Tests.ControllersTests
                                                                                              UserName = "x",
                                                                                              DatePreference = "en"
                                                                                          });
+
+            var transactionService = new Mock<Cats.Services.Transaction.ITransactionService>();
+
             var fakeContext = new Mock<HttpContextBase>();
             var identity = new GenericIdentity("User");
             var principal = new GenericPrincipal(identity,null);
@@ -367,7 +370,7 @@ namespace Cats.Tests.ControllersTests
             var hrdServiceDetail = new Mock<IHRDDetailService>();
             var RegionalPSNPPlanDetailService = new Mock<IRegionalPSNPPlanDetailService>();
             var RegionalPSNPPlanService = new Mock<IRegionalPSNPPlanService>();
-
+          
             _requestController = new RequestController(
                 mockRegionalRequestService.Object, 
                 fdpService.Object, requestDetailService.Object,
@@ -375,7 +378,7 @@ namespace Cats.Tests.ControllersTests
                 appService.Object, userAccountService.Object,
                 log.Object, hrdServiceDetail.Object, 
                 RegionalPSNPPlanDetailService.Object,
-                RegionalPSNPPlanService.Object,null,null,null);
+                RegionalPSNPPlanService.Object, null, null, null, transactionService.Object);
                _requestController.ControllerContext = controllerContext.Object; 
          
      
@@ -402,6 +405,11 @@ namespace Cats.Tests.ControllersTests
         [Test]
         public void CanApproveDraftRequest()
         {
+
+            
+
+
+
             //Act
             _requestController.ApproveRequest(1);
             // var reqStatus = regionalRequests[0].Status;
