@@ -7,9 +7,23 @@
 @section styles
 {
     <link href="~/Content/Dashboard/dashboardcomponents.css" rel="stylesheet" />
-}
 
-<div ng-app>
+}
+<style>
+    #containerPIE {
+        margin: 0 auto;
+        width: 100%;
+        height: 240px;
+    }
+    #container {
+        margin: 0 auto;
+        width: 100%;
+        height: 240px;
+    }
+</style>
+
+<div ng-app="myApp">
+
     <div ng-controller="ImportantNumbersController" class="container">
         <h3>Regional Dashboard for @ViewBag.RegionName</h3>
         <hr />
@@ -249,8 +263,10 @@
                         </div>
 
                         <!-- /.portlet-header -->
-
-                        <div class="portlet-content">
+                        <div class="portlet-content" ng-controller="stageController">
+                            <div id="containerPIE" draw-pie-chart=""></div>
+                        </div>
+                        @*<div class="portlet-content">
                            
                              <div class="progress-stat">
                                 <div class="stat-header">
@@ -288,11 +304,7 @@
                                 </div>
                                 <!-- /stat-header -->
 
-                                @*<div class="progress progress-bar-success">
-                                    <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="33" aria-valuemin="0" aria-valuemax="100" style="width: 33%">
-                                        <span class="sr-only">33% Approved</span>
-                                    </div>
-                                </div>*@
+                               
                                 <div class="progress progress-success">
                                     <div class="bar" style="width: {{Data.ApprovedRequests}}%"></div>
                                 </div>
@@ -354,7 +366,7 @@
                             </div>
                             <!-- /.progress-stat -->
                             <br>
-                        </div>
+                        </div>*@
                         <!-- /.portlet-content -->
 
                     </div>
@@ -507,8 +519,10 @@
                         </div>
 
                         <!-- /.portlet-header -->
-
-                        <div class="portlet-content">
+                        <div class="portlet-content" ng-controller="stageController">
+                            <div id="container" draw-requisitions-chart=""></div>
+                        </div>
+                        @*<div class="portlet-content">
                           
 
                             <div class="progress-stat">
@@ -587,7 +601,7 @@
                             <!-- /.progress-stat -->
 
                             <br>
-                        </div>
+                        </div>*@
                         <!-- /.portlet-content -->
 
                     </div>
@@ -992,6 +1006,7 @@
         $scope.Requisitions = [];
         $scope.Dispatches = [];
         $scope.Data = [];
+       
         
         var onRequestsSuccess = function (data) {
             $scope.Requests = data;
@@ -1053,4 +1068,139 @@
         $scope.getNumbers();
     }
 
+</script>
+
+<script>
+    'use strict';
+
+    // Declare app level module which depends on filters, and services
+    angular.module('myApp', ['myApp.directives']);
+
+
+    /* Controllers */
+    function stageController($scope,$http) {
+        $scope.type = 'Requests Percentage';
+        var onDashboardDataSuccess = function (d) {
+                      
+            $scope.data = [
+                ['Hub Assigned', d["HubAssignedRequests"]],
+                ['Pending', d["PendingRequests"]],
+                ['Approved', d["ApprovedRequests"]],
+                ['Federal Approved', d["FederalApproved"]]
+            ];
+
+            $scope.dataRequisition = [
+                ['Assigned', d["HubAssignedRequisitions"]],
+                ['Pending', d["PendingRequisitions"]],
+                ['Approved', d["ApprovedRequisitions"]]               
+            ];
+
+            };
+        $scope.initData = function () {
+            $http.post("@Url.Action("RegionalData", "FetchData", new { Area = "Regional" })", $scope.reqParam).success(onDashboardDataSuccess);
+        };
+        $scope.initData();
+    }
+
+    /* Directives */
+
+    angular.module('myApp.directives', []).
+    directive('drawRequisitionsChart', function () {
+      // return the directive link function. (compile function not needed)
+      return function (scope, element, attrs) {
+
+          var container = $(element).attr("id");
+          // watch the expression, and update the UI on change.
+          scope.$watch('dataRequisition', function () {
+              drawPlot();
+          }, true);
+
+          var drawPlot = function () {
+              var chart;
+              chart = new Highcharts.Chart({
+                  chart: {
+                      renderTo: container
+                  },
+                  credits: {
+                      enabled: false
+                  },
+                  title: {
+                      text: ''
+                  },
+                  exporting: {
+                      enabled: false
+                  },
+                  tooltip: {
+                      pointFormat: '{series.name}: <b>{point.percentage}%</b>',
+                      percentageDecimals: 1
+                  },
+                  plotOptions: {
+                      pie: {
+                          allowPointSelect: true,
+                          cursor: 'pointer',
+                          dataLabels: {
+                              enabled: false
+                          },
+                          showInLegend: true
+                      }
+                  },
+                  series: [{
+                      type: 'pie',
+                      name: 'Requisitions Percentage',
+                      data: scope.dataRequisition
+                  }]
+              });
+          }
+      }
+  });
+
+    angular.module('myApp.directives').
+    directive('drawPieChart', function () {
+        // return the directive link function. (compile function not needed)
+        return function (scope, element, attrs) {
+            var container = $(element).attr("id");
+            // watch the expression, and update the UI on change.
+            scope.$watch('data', function () {
+                drawPlot();
+            }, true);
+            var drawPlot = function () {
+                var chart;
+                chart = new Highcharts.Chart({
+                    chart: {
+                        renderTo: container
+                    },
+                    credits: {
+                        enabled: false
+                    },
+                    title: {
+                        text: ''
+                    },
+                    exporting: {
+                        enabled: false
+                    },
+                    tooltip: {
+                        pointFormat: '{series.name}: <b>{point.percentage}%</b>',
+                        percentageDecimals: 1
+                    },
+                    plotOptions: {
+                        pie: {
+                            allowPointSelect: true,
+                            cursor: 'pointer',
+                            dataLabels: {
+                                enabled: false
+                            },
+                            showInLegend: true
+                        }
+                    },
+                    series: [{
+                        type: 'pie',
+                        name: 'Requests Percentage',
+                        data: scope.data
+                    }]
+                });
+            }
+        }
+    });
+
+  
 </script>

@@ -376,14 +376,13 @@
                         <div class="portlet-header">
                             <h3>
                                 <i class=""></i>
-                                Utilizatin by Region
+                                Utilization by Region
                             </h3>
                             <ul class="portlet-tools pull-right">
                                 <li>
                                     <button class="btn btn-sm btn-default">
                                         Show more
                                     </button>
-
                                 </li>
                             </ul>
                         </div>
@@ -393,7 +392,7 @@
                             <div id="ctrls">
                                 <a class="btn btn-default" ng-click="utopia();">Utopia</a>
                                 <p class="btn btn-default" id="nightmare">Nightmare</p>
-                                <p class="btn btn-default" id="broken">Doesn't work</p>
+                                @*<p class="btn btn-default" id="broken">Doesn't work</p>*@
                                 <p class="btn btn-default" ng-click="initData();">Restore</p>
                             </div>
                           <!-- directive -->
@@ -495,15 +494,8 @@
     }
 </script>
 
-<style>
-    #containerPIE {
-    margin:0 auto;
-    width:150px;
-    height: 150px;
-}
-
-</style>
 <script src="~/Scripts/js/highcharts.js"></script>
+
 <script>
     $(function () {
         $('#container').highcharts({
@@ -600,6 +592,14 @@
     });
 </script>
 
+<style>
+    #containerPIE {
+        margin: 0 auto;
+        width: 150px;
+        height: 150px;
+    }
+</style>
+
 <script>
     //'use strict';
 
@@ -608,7 +608,6 @@
 
 
     /* Controllers */
-
     function stageController($scope) {
 
         $scope.type = 'Browser Market Share';
@@ -700,10 +699,8 @@
                     }]
                 });
             }
-
             $("#nightmare").on('click', nightmare);
             $("#broken").on('click', broken);
-
         }
     });
 </script>
