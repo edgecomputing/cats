@@ -10,16 +10,12 @@
 
 }
 <style>
-    #containerPIE {
+    .chartWrap {
         margin: 0 auto;
         width: 100%;
         height: 240px;
     }
-    #container {
-        margin: 0 auto;
-        width: 100%;
-        height: 240px;
-    }
+
 </style>
 
 <div ng-app="myApp">
@@ -264,7 +260,7 @@
 
                         <!-- /.portlet-header -->
                         <div class="portlet-content" ng-controller="stageController">
-                            <div id="containerPIE" draw-pie-chart=""></div>
+                            <div id="containerPIE" class="chartWrap" draw-pie-chart=""></div>
                         </div>
                         @*<div class="portlet-content">
                            
@@ -520,7 +516,7 @@
 
                         <!-- /.portlet-header -->
                         <div class="portlet-content" ng-controller="stageController">
-                            <div id="container" draw-requisitions-chart=""></div>
+                            <div id="container" class="chartWrap" draw-requisitions-chart=""></div>
                         </div>
                         @*<div class="portlet-content">
                           
@@ -854,8 +850,11 @@
                         </div>
 
                         <!-- /.portlet-header -->
+                        <div class="portlet-content" ng-controller="stageController">
+                            <div id="Age" class="chartWrap" draw-age-chart></div>
+                        </div>
 
-                        <div class="portlet-content">
+                        @*<div class="portlet-content">
                             <div class="progress-stat">
 
                                 <div class="stat-header">
@@ -930,9 +929,8 @@
 
                             </div>
                             <!-- /.progress-stat -->
-
                             <br>
-                        </div>
+                        </div>*@
                         <!-- /.portlet-content -->
 
                     </div>
@@ -1081,7 +1079,7 @@
     function stageController($scope,$http) {
         $scope.type = 'Requests Percentage';
         var onDashboardDataSuccess = function (d) {
-                      
+
             $scope.data = [
                 ['Hub Assigned', d["HubAssignedRequests"]],
                 ['Pending', d["PendingRequests"]],
@@ -1093,6 +1091,12 @@
                 ['Assigned', d["HubAssignedRequisitions"]],
                 ['Pending', d["PendingRequisitions"]],
                 ['Approved', d["ApprovedRequisitions"]]               
+            ];
+
+            $scope.age = [
+                ['Older than 18', d["Above18"]],
+                ['Between 5 and 8', d["Bet5And8"]],
+                ['Younger than 5', d["Below5"]]
             ];
 
             };
@@ -1201,6 +1205,54 @@
             }
         }
     });
+
+    angular.module('myApp.directives').
+   directive('drawAgeChart', function () {
+       // return the directive link function. (compile function not needed)
+       return function (scope, element, attrs) {
+           var container = $(element).attr("id");
+           // watch the expression, and update the UI on change.
+           scope.$watch('age', function () {
+               drawPlot();
+           }, true);
+           var drawPlot = function () {
+               var chart;
+               chart = new Highcharts.Chart({
+                   chart: {
+                       renderTo: container
+                   },
+                   credits: {
+                       enabled: false
+                   },
+                   title: {
+                       text: ''
+                   },
+                   exporting: {
+                       enabled: false
+                   },
+                   tooltip: {
+                       pointFormat: '{series.name}: <b>{point.percentage}%</b>',
+                       percentageDecimals: 1
+                   },
+                   plotOptions: {
+                       pie: {
+                           allowPointSelect: true,
+                           cursor: 'pointer',
+                           dataLabels: {
+                               enabled: false
+                           },
+                           showInLegend: true
+                       }
+                   },
+                   series: [{
+                       type: 'pie',
+                       name: 'Requests Percentage',
+                       data: scope.age
+                   }]
+               });
+           }
+       }
+   });
 
   
 </script>
