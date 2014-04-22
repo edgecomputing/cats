@@ -49,7 +49,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             ViewBag.DonorID =new SelectList(_donorService.GetAllDonor(),"DonorID","Name");
             var hrds = _hrdService.GetAllHRD().Where(m => m.Status != (int)HRDStatus.Draft).OrderByDescending(m=>m.HRDID);
             var hrd = (from item in hrds
-                       select new { item.HRDID, Name = string.Format("{0}-{1}", item.Season.Name, item.Year) }).ToList();
+                       select new { item.HRDID, Name = item.Plan.PlanName }).ToList();
             
             ViewBag.HRDID = new SelectList(hrd,"HRDID","Name");
             
@@ -101,7 +101,9 @@ namespace Cats.Areas.EarlyWarning.Controllers
                             Year = hrdDonorCoverage.Hrd.Year,
                             DonorName = hrdDonorCoverage.Donor.Name,
                             CreatedDate = hrdDonorCoverage.CreatedDate.ToCTSPreferedDateFormat(datePref),
-                            NoCoveredWoredas = _hrdDonorCoverageService.NumberOfCoveredWoredas(hrdDonorCoverage.HRDDOnorCoverageID)
+                            NoCoveredWoredas = _hrdDonorCoverageService.NumberOfCoveredWoredas(hrdDonorCoverage.HRDDOnorCoverageID),
+                            HRDName =hrdDonorCoverage.Hrd.Plan.PlanName,
+                            
                             
                         });
         }

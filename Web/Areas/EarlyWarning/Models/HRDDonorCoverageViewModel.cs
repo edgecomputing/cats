@@ -16,11 +16,12 @@ namespace Cats.Areas.EarlyWarning.Models
         //public string HRDName { get; set; }
         public string CreatedDate { get; set; }
         public int NoCoveredWoredas { get; set; }
+        public string HRDName { get; set; }
 
-        public string HRDName
-        {
-            get { return string.Format("{0} {1}", Season, Year); }
-        }
+        //public string HRDName
+        //{
+        //    get { return string.Format("{0} {1}", Season, Year); }
+        //}
     }
     public class HrdDonorCoverageDetailViewModel
     {
