@@ -23,17 +23,17 @@
 </div>
 @section LeftBar{
 
-    @Html.Partial("_HRDLeftBar");
+    @Html.Partial("_HRDLeftBar")
 }
 @(Html.Kendo().Grid<Cats.Models.ViewModels.HRD.HRDViewModel>()
     .Name("grid")
     .Columns(columns =>
         {
-            columns.Bound(p => p.HRDName).Title(Html.Translate("HRD Name")).ClientTemplate(
+            //columns.Bound(p => p.HRDName);
+            columns.Bound(p => p.Plan).Title(Html.Translate("HRD Name")).ClientTemplate(
                                 @Html.EarlyWarningOperationButton(
                                     @Url.Action("Detail", "HRD", new { id = "#=HRDID#" }),
-                                    EarlyWarningConstants.Operation.View_HRD_Detail, "#=HRDName#").ToString());
-            columns.Bound(p => p.Plan);
+                                    EarlyWarningConstants.Operation.View_HRD_Detail, "#=Plan#").ToString());
             columns.Bound(p => p.Ration).Title("Ration No");
             //columns.Bound(p => p.Season);
             //columns.Bound(p => p.Year);
