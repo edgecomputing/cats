@@ -138,19 +138,12 @@
 
         $('#btnDateinterval').click(function () {
 
-            
-            var startDate = $('#Plan_StartDate').val();
+            var startDate = new Date($('#Plan_StartDate').val());
+            //var startDate = $('#Plan_StartDate').val();
             var duration = $('#Plan_Duration').val();
-
-            //var date = startDate.getDate();
-            //var month = startDate.getMonth() + 1;
-            //var year = startDate.getFullYear();
-
-            //var fullDate = date + "/" + month + "/" + year;
-           
           
-           // var url = '@Url.Action("DateInterval", "HRD")" + "?duration=" + duration + "&startDate=" + starDate';
-            var url = '@Url.Action("DateInterval", "HRD")?duration=' + duration + '&startDate=' + '01/02/2009';
+           var fullDate= startDate.getMonth() + 1 + '/' + startDate.getDate() + '/' + startDate.getFullYear();
+            var url = '@Url.Action("DateInterval", "HRD")?duration=' + duration + '&startDate=' + fullDate;
             $('#dialogContent').load(url, function () {
                 $('#dialogDiv').modal({
                     
@@ -175,7 +168,8 @@
         //document.getElementById('content').innerHTML = starDate + ", " + duration;
         var url="@Url.Action("DateInterval", "HRD")" + "?duration=" + duration + "&startDate=" + starDate;
       
-        
+          
+
     }*@
      
 </script>
