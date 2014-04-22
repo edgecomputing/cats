@@ -223,6 +223,71 @@ namespace Cats.Services.Transaction
             return entries;
             
         }
+
+        public bool PostRequestAllocation(int requestId)//RRD
+        {
+            var result = new List<Models.Transaction>();
+            var allocationDetails =
+                _unitOfWork.ReliefRequisitionDetailRepository.FindBy(r => r.ReliefRequisition.RequisitionID == requestId);
+            if (allocationDetails == null) return false;
+
+            var transactionGroup = Guid.NewGuid();
+            var transactionDate = DateTime.Now;
+            _unitOfWork.TransactionGroupRepository.Add(new TransactionGroup() { PartitionID = 0, TransactionGroupID = transactionGroup });
+
+
+            foreach (var detail in allocationDetails)
+            {
+                
+
+
+                    var transaction = new Models.Transaction();
+                    transaction.TransactionID = Guid.NewGuid();
+                    transaction.TransactionGroupID = transactionGroup;
+                    transaction.TransactionDate = transactionDate;
+                    transaction.UnitID = 1;
+
+                    transaction.QuantityInMT = - detail.Amount;
+                        transaction.QuantityInUnit = - detail.Amount;
+                    transaction.LedgerID = Models.Ledger.Constants.PLEDGED_TO_FDP;
+                    transaction.CommodityID = detail.CommodityID;
+                    transaction.FDPID = detail.FDPID;
+                    transaction.ProgramID = detail.ReliefRequisition.ProgramID;
+                    transaction.RegionID = detail.ReliefRequisition.RegionID;
+                    transaction.PlanId = detail.ReliefRequisition.RegionalRequest.PlanID;
+
+                   transaction.Round = detail.ReliefRequisition.RegionalRequest.Round;
+                   transaction.Month = detail.ReliefRequisition.RegionalRequest.Month;
+                    _unitOfWork.TransactionRepository.Add(transaction);
+
+
+                    //for Register Doc
+                    transaction = new Models.Transaction();
+                    transaction.TransactionID = Guid.NewGuid();
+                    transaction.TransactionGroupID = transactionGroup;
+                    transaction.TransactionDate = transactionDate;
+                    transaction.UnitID = 1;
+
+                    transaction.QuantityInMT = detail.Amount;
+                    transaction.QuantityInUnit = detail.Amount;
+                    transaction.LedgerID = Models.Ledger.Constants.REQUIRMENT_DOCUMENT;
+                    transaction.CommodityID = detail.CommodityID;
+                    transaction.FDPID = detail.FDPID;
+                    transaction.ProgramID = detail.ReliefRequisition.ProgramID;
+                    transaction.RegionID = detail.ReliefRequisition.RegionID;
+                    transaction.PlanId = detail.ReliefRequisition.RegionalRequest.PlanID;
+
+                    transaction.Round = detail.ReliefRequisition.RegionalRequest.Round;
+                    transaction.Month = detail.ReliefRequisition.RegionalRequest.Month;
+                    _unitOfWork.TransactionRepository.Add(transaction);
+                
+            }
+
+            _unitOfWork.Save();
+            return true;
+        }
+
+
         public bool PostSIAllocation(int requisitionID)
         {
             var result = new List<Models.Transaction>();
@@ -242,6 +307,21 @@ namespace Cats.Services.Transaction
                 transaction.TransactionGroupID = transactionGroup;
                 transaction.TransactionDate = transactionDate;
                 transaction.UnitID = 1;
+
+                SIPCAllocation allocation = allocationDetail;
+
+                try
+                {
+                    transaction.HubID =
+                                        _unitOfWork.HubAllocationRepository.FindBy(r => r.RequisitionID == allocation.ReliefRequisitionDetail.RequisitionID).Select(
+                                                h => h.HubID).FirstOrDefault();
+                }
+                catch (Exception)
+                {
+                    
+                    
+                }
+                
 
                 transaction.QuantityInMT = -allocationDetail.AllocatedAmount;
                 transaction.QuantityInUnit = -allocationDetail.AllocatedAmount;
@@ -279,6 +359,19 @@ namespace Cats.Services.Transaction
                 transaction2.TransactionDate = transactionDate;
                 transaction2.UnitID = 1;
 
+                try
+                {
+                    transaction2.HubID =
+                                       _unitOfWork.HubAllocationRepository.FindBy(r => r.RequisitionID == allocation.ReliefRequisitionDetail.RequisitionID).Select(
+                                               h => h.HubID).FirstOrDefault();
+
+                }
+                catch (Exception)
+                {
+                    
+                    
+                }
+                
                 transaction2.QuantityInMT = allocationDetail.AllocatedAmount;
                 transaction2.QuantityInUnit = allocationDetail.AllocatedAmount;
                 transaction2.LedgerID = Models.Ledger.Constants.PLEDGED_TO_FDP;
@@ -286,8 +379,8 @@ namespace Cats.Services.Transaction
                 transaction2.FDPID = allocationDetail.ReliefRequisitionDetail.FDPID;
                 transaction2.ProgramID = (int)allocationDetail.ReliefRequisitionDetail.ReliefRequisition.ProgramID;
                 transaction2.RegionID = allocationDetail.ReliefRequisitionDetail.ReliefRequisition.RegionID;
-                transaction.PlanId = allocationDetail.ReliefRequisitionDetail.ReliefRequisition.RegionalRequest.PlanID;
-                transaction.Round = allocationDetail.ReliefRequisitionDetail.ReliefRequisition.Round;
+                transaction2.PlanId = allocationDetail.ReliefRequisitionDetail.ReliefRequisition.RegionalRequest.PlanID;
+                transaction2.Round = allocationDetail.ReliefRequisitionDetail.ReliefRequisition.Round;
 
                 if (allocationDetail.AllocationType == TransactionConstants.Constants.SHIPPNG_INSTRUCTION)
                 {

@@ -15,6 +15,7 @@ using Cats.Services.EarlyWarning;
 using Cats.Services.PSNP;
 using Cats.Helpers;
 using Cats.Services.Security;
+using Cats.Services.Transaction;
 using Cats.ViewModelBinder;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
@@ -46,6 +47,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         private readonly IAdminUnitService _adminUnitService;
         private readonly IPlanService _planService;
         private readonly IIDPSReasonTypeServices _idpsReasonTypeServices;
+        private readonly Cats.Services.Transaction.ITransactionService _transactionService;
         public RequestController(IRegionalRequestService reliefRequistionService,
                                 IFDPService fdpService,
                                 IRegionalRequestDetailService reliefRequisitionDetailService,
@@ -59,7 +61,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                                 IRegionalPSNPPlanService RegionalPSNPPlanService, 
             IAdminUnitService adminUnitService, 
             IPlanService planService, 
-            IIDPSReasonTypeServices idpsReasonTypeServices)
+            IIDPSReasonTypeServices idpsReasonTypeServices, ITransactionService transactionService)
         {
             _regionalRequestService = reliefRequistionService;
             _fdpService = fdpService;
@@ -75,7 +77,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             _adminUnitService = adminUnitService;
             _planService = planService;
             _idpsReasonTypeServices = idpsReasonTypeServices;
-           
+            _transactionService = transactionService;
         }
         public  ActionResult RegionalRequestsPieChart()
         {
@@ -256,6 +258,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         public ActionResult ApproveRequest(int id)
         {
             _regionalRequestService.ApproveRequest(id);
+           
             return RedirectToAction("Index");
         }
 

@@ -23,6 +23,8 @@
 @using (Html.BeginForm("EditUser", "Users", FormMethod.Post))
 {
     @Html.HiddenFor(m=>m.UserProfileID)
+    @Html.HiddenFor(m=>m.Password)
+     
     <div class="control-group form-horizontal">
         <div class="row">
             <div class="span4">
@@ -42,6 +44,7 @@
                     @Html.LabelFor(m => m.FirstName, new {@class = "control-label"})
                     <div class="controls">
                         @Html.TextBoxFor(m => m.FirstName, new {@size = 200})
+                         @Html.ValidationMessageFor(m => m.FirstName)
                     </div>
                 </div>
             </div>
@@ -53,6 +56,7 @@
                     @Html.LabelFor(m => m.LastName, new {@class = "control-label"})
                     <div class="controls">
                         @Html.TextBoxFor(m => m.LastName, new {@size = 200})
+                         @Html.ValidationMessageFor(m => m.LastName)
                     </div>
                 </div>
             </div>
