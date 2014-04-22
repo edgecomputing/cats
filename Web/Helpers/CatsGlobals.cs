@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Http;
 
 namespace Cats.Helpers
 {
@@ -9,19 +10,17 @@ namespace Cats.Helpers
     {
         public const string CATS = "CATS";
 
-
         public const string EARLY_WARNING = "Early Warning";
-        public const string EARLY_WARNING_PERMISSIONS = "EARLY_WARNING_PERMISSIONS";
+        public static string EARLY_WARNING_PERMISSIONS = "EARLY_WARNING_PERMISSIONS";
 
         public const string PSNP = "PSNP";
-        public const string PSNP_PERMISSIONS = "PSNP_PERMISSIONS";
+        public static string PSNP_PERMISSIONS = "PSNP_PERMISSIONS";
 
         public const string LOGISTICS = "Logistics";
         public const string LOGISTICS_PERMISSIONS = "LOGISTICS_PERMISSIONS";
 
         public const string PROCUREMENT = "Procurement";
         public const string PROCUREMENT_PERMISSIONS = "PROCUREMENT_PERMISSIONS";
-
 
         public const string FINANCE = "Finance";
         public const string FINANCE_PERMISSIONS = "FINANCE_PERMISSIONS";
