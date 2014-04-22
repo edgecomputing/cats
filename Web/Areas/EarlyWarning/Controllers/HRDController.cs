@@ -164,7 +164,9 @@ namespace Cats.Areas.EarlyWarning.Controllers
                             Status = _workflowStatusService.GetStatusName(WORKFLOW.HRD, hrd.Status.Value),
                             CreatedDatePref = hrd.CreatedDate.ToCTSPreferedDateFormat(datePref),
                             PublishedDatePref = hrd.PublishedDate.ToCTSPreferedDateFormat(datePref),
-                            Plan = hrd.Plan.PlanName
+                            Plan = hrd.Plan.PlanName,
+                            StartDate = hrd.Plan.StartDate.ToCTSPreferedDateFormat(datePref),
+                            EndDate = hrd.Plan.EndDate.ToCTSPreferedDateFormat(datePref)
 
                         });
         }

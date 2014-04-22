@@ -21,6 +21,8 @@ namespace Cats.Models.ViewModels.HRD
         public DateTime PublishedDate { get; set; }
         public string CreatedBy { get; set; }
         public string Plan { get; set; }
+        public string StartDate { get; set; }
+        public string EndDate { get; set; }
         public string Status { get; set; }
         public Nullable<int> StatusID { get; set; }
         public List<HRDDetailViewModel> HRDDetails { get; set; }
