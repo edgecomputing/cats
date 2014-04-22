@@ -128,7 +128,7 @@ namespace Cats.Areas.Logistics.Controllers
                             var detail = GetWoredaStockDistribution(fdpStockDistribution, reliefRequisition);
                             if (detail!=null)
                             {
-                                woredaDistributionDetailViewModels.Add(detail);
+                                woredaDistributionDetailViewModels.AddRange(detail);
                             }
                           
                         }
@@ -437,7 +437,7 @@ namespace Cats.Areas.Logistics.Controllers
                     foreach (var requisition in requisitions)
                     {
                         var detail = GetWoredaStockDistribution(fdpStockDistribution, requisition);
-                        woredaStockDistributionDetail.Add(detail);
+                        woredaStockDistributionDetail.AddRange(detail);
                     }
 
                     return Json(woredaStockDistributionDetail.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
@@ -475,7 +475,7 @@ namespace Cats.Areas.Logistics.Controllers
 
         }
 
-        private WoredaDistributionDetailViewModel GetWoredaStockDistribution(IEnumerable<FDP> fdps, ReliefRequisition reliefRequisition)
+        private List<WoredaDistributionDetailViewModel> GetWoredaStockDistribution(IEnumerable<FDP> fdps, ReliefRequisition reliefRequisition)
         {
             
             
@@ -504,7 +504,7 @@ namespace Cats.Areas.Logistics.Controllers
                             //    },
                             //GetRequisionInfo(reliefRequisition.RequisitionID, fdp.FDPID)
 
-                        }).FirstOrDefault();
+                        }).ToList();
             
             //return (from fdp in fdps
             //        select new WoredaDistributionDetailViewModel()
