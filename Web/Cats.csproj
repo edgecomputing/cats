@@ -1197,7 +1197,7 @@
     <Content Include="Content\images\glyphicons-halflings.png" />
     <Content Include="Content\assets\css\font-awesome.css" />
     <Content Include="Content\assets\font\fontawesome-webfont.svg" />
-    <Content Include="Content\images\Regions%27flags.png" />
+    <Content Include="Content\images\Regionsflags.png" />
     <Content Include="Content\images\Regionsflags_small.png" />
     <Content Include="Content\kendo\2013.1.319\Black\editor.png" />
     <Content Include="Content\kendo\2013.1.319\Black\imagebrowser.png" />
