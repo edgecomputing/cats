@@ -2,11 +2,10 @@
 @using Cats.Security
 @using Cats.Services.Security
 @using Kendo.Mvc.UI
-@using LanguageHelpers.Localization
 @model IEnumerable<Cats.Areas.GiftCertificate.Models.GiftCertificateViewModel>
 
 @{
-
+    
 
     Layout = "~/Views/Shared/_MainLayout.cshtml";
     var user = UserAccountHelper.GetUser(HttpContext.Current.User.Identity.Name);
@@ -18,7 +17,7 @@
     @Html.Partial("_giftLeftBar")
 }
 <h4 class="page-header">
-    @Html.Translate(ViewBag.Title)
+    @Html.Translate((string)ViewBag.Title)
 </h4>
 
 @section Toolbar
