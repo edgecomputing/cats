@@ -148,6 +148,37 @@ namespace Cats.Services.Common
         }
         #endregion
 
+        #region notification for Earlywarning"
+
+        public bool AddNotificationForEarlyWaringFromRegions(string destinationURl, int requestId, int regionId)
+        {
+            try
+            {
+                var notification = new Notification
+                {
+                    Text = "Request - " + requestId.ToString(),
+                    CreatedDate = DateTime.Now.Date,
+                    IsRead = false,
+                    Id = regionId,
+                    RecordId = requestId,
+                    Url = destinationURl,
+                    TypeOfNotification = "Request Creation from Regions",
+                    Application = Application.EARLY_WARNING
+                };
+
+                AddNotification(notification);
+                return true;
+
+            }
+            catch (Exception)
+            {
+                return false;
+
+            }
+
+        }
+        #endregion
+
         #region notification for Logistics"
 
         public bool AddNotificationForLogistcisFromEarlyWaring(string destinationURl,int requisitionID, int regionId, string requisitioNo)
