@@ -269,11 +269,11 @@ namespace Cats.Areas.EarlyWarning.Controllers
             var nationalBenficiaryNo = currentHrd.HRDDetails.Sum(m => m.NumberOfBeneficiaries);
              var requests = _eWDashboardService.FindByRequest(m => m.PlanID == currentHrd.PlanID);
             var requistions = _eWDashboardService.GetAllReliefRequisition();
-            
+            var totalCommodity = currentHrd.Ration.RationDetails.Sum(m => m.Amount);
             var hrdAndRequestViewModel = new HrdAndRequestViewModel
                 {
                     TotalHrdBeneficaryNumber = nationalBenficiaryNo,
-                    HrdTotalCommodity = currentHrd.Ration.RationDetails.Sum(m => m.Amount)*(nationalBenficiaryNo),
+                    HrdTotalCommodity = totalCommodity * nationalBenficiaryNo,
                     TotalRequest = requests.Count,
                     TotalRequisitionNumber = (from requistion in requistions
                                                   from request in requests
