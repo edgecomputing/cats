@@ -1,4 +1,5 @@
-﻿@using Cats.Helpers
+﻿@using System.Data
+@using Cats.Helpers
 @using Kendo.Mvc.UI
 @model  System.Data.DataTable
 
@@ -22,7 +23,14 @@
         width: 100%;
         height: 240px;
     }
-
+   
+    .table td.rightAlign   {
+    /*padding: 8px;
+    line-height: 20px;*/
+    text-align: center;
+    /*vertical-align: top;
+    border-top: 1px solid rgb(221, 221, 221);*/
+}
 </style>
 <div ng-app="myApp">
   <div ng-controller="ImportantNumbersController" class="container">
@@ -87,7 +95,6 @@
         </div>
         <hr />
     </div>
-
     <div ng-controller="EWDashboardController" class="container">
         
         <div>
@@ -152,11 +159,12 @@
                                                 if(cell.GetType()==typeof(decimal))
                                                 {
                                                     @*<td>@cell.ToString()</td>*@
-                                                    <td text-align: right;>@String.Format("{0:n0}",@cell)</td>
+                                                    <td>@String.Format("{0:n0}",@cell)</td>
                                                 }
                                                 else
                                                 {
-                                                    <td>@cell.ToString()</td>
+                                                    <td>@String.Format("{0:n0}",@cell)</td>@*
+                                                    <td>@cell.ToString()</td>*@
                                                 }
                                             }
                                         </tr>
@@ -778,9 +786,9 @@
                                             <td>{{giftCertificate.GiftDate}}</td>
                                             <td>{{giftCertificate.DclarationNumber}}</td>
                                             @*<td>{{giftCertificate.Commodity}}</td>*@
-                                            <td class="Alignment">{{giftCertificate.Wieght|number}} </td>
-                                            <td class="Alignment">{{giftCertificate.EstimatedPrice|number}} </td>
-                                            <td class="Alignment">{{giftCertificate.TotalEstimatedTax|number}} </td>
+                                            <td class="rightAlign">{{giftCertificate.Wieght|number}} </td>
+                                            <td class="rightAlign">{{giftCertificate.EstimatedPrice|number}} </td>
+                                            <td class="rightAlign">{{giftCertificate.TotalEstimatedTax|number}} </td>
                                             <td><span class="label label-success">{{giftCertificate.Status}}</span></td>
                                            @* <td>
                                                 <a href="javascript:;" class="btn btn-sm btn-default">View <i class="icon-chevron-right"></i>
@@ -856,12 +864,12 @@
             $scope.RequestedAmount = data;
         };
         
-        var onRequestStatusSuccess = function (data) {
-            $scope.RequestStatus = data;
-        };
-        var onRequisitionStatusSuccess = function (data) {
-            $scope.RequisitionStatus = data;
-        };
+        //var onRequestStatusSuccess = function (data) {
+        //    $scope.RequestStatus = data;
+        //};
+        //var onRequisitionStatusSuccess = function (data) {
+        //    $scope.RequisitionStatus = data;
+        //};
         var onRegionTotalSuccess = function (data) {
             $scope.Regions = data;
         };
@@ -885,14 +893,14 @@
             $http.post("@Url.Action("GetRequestedInfo", "EWDashboard", new { Area = "EarlyWarning" })").success(onRequestedAmoutSuccess);
 
         };
-        $scope.getStatusInPercentage = function () {
+        @*$scope.getStatusInPercentage = function () {
             $http.post("@Url.Action("GetStatusInPercentage", "EWDashboard", new { Area = "EarlyWarning" })").success(onRequestStatusSuccess);
 
-        };
-        $scope.getRequisitionStatusInPercentage = function () {
+        };*@
+        @*$scope.getRequisitionStatusInPercentage = function () {
             $http.post("@Url.Action("GetRequisitionStatusPercentage", "EWDashboard", new { Area = "EarlyWarning" })").success(onRequisitionStatusSuccess);
 
-        };
+        };*@
         $scope.getHrdRegionPercentage = function () {
             $http.post("@Url.Action("GetHrdRegionPercentage", "EWDashboard", new { Area = "EarlyWarning" })").success(onRegionTotalSuccess);
 
@@ -905,8 +913,8 @@
         $scope.getRequests();
         $scope.getRequisitions();
         $scope.getRequestedInfo();
-        $scope.getStatusInPercentage();
-        $scope.getRequisitionStatusInPercentage();
+        //$scope.getStatusInPercentage();
+        //$scope.getRequisitionStatusInPercentage();
         $scope.getHrdRegionPercentage();
         $scope.getRecentGiftCertificates();
     }
@@ -955,7 +963,7 @@
             ];
 
         };
-           
+        
        
         $scope.getStatusInPercentage = function () {
             $http.post("@Url.Action("GetStatusInPercentage", "EWDashboard", new { Area = "EarlyWarning" })").success(onRequestStatusSuccess);
@@ -965,8 +973,10 @@
             $http.post("@Url.Action("GetRequisitionStatusPercentage", "EWDashboard", new { Area = "EarlyWarning" })").success(onRequisitonStatusSucess);
 
         };
+    
         $scope.getStatusInPercentage();
         $scope.getRequisitionStatusInPercentage();
+       
     }
 
 
