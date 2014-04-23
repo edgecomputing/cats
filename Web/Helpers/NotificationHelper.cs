@@ -221,7 +221,7 @@ namespace Cats.Helpers
             }
             if (currentUser.RegionalUser)
             {
-                return Cats.Models.Constant.Application.EARLY_WARNING;
+                return Cats.Models.Constant.Application.REGIONAL;
             }
             switch (currentUser.CaseTeam)
             {

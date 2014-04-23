@@ -69,23 +69,46 @@ namespace Cats.Services.Common
 
         #region notification for hub managers
 
-        public bool AddNotificationForHubManagersFromTransportOrder(string destinationUrl,int transportOrderId, string transportOrderNo)
+        public bool AddNotificationForHubManagersFromTransportOrder(string destinationUrl,int transportOrderId, string transportOrderNo,List<int> hubId)
         {
             try
             {
-                
-                var notification = new Notification
+                Notification notification=null;
+                if (hubId!=null)
                 {
-                    Text = "Transport Order No:" + transportOrderNo,
-                    CreatedDate = DateTime.Now.Date,
-                    IsRead = false,
-                    Id = 1,
-                    RecordId = transportOrderId,
-                    Url = destinationUrl,
-                    TypeOfNotification = "New Transport Order",
-                    Application = Application.HUB
-                };
-                AddNotification(notification);
+                    foreach (var id in hubId)
+                    {
+                        notification = new Notification
+                        {
+                            Text = "Transport Order No:" + transportOrderNo,
+                            CreatedDate = DateTime.Now.Date,
+                            IsRead = false,
+                            Id = id,
+                            RecordId = transportOrderId,
+                            Url = destinationUrl,
+                            TypeOfNotification = "New Transport Order",
+                            Application = Application.HUB
+                        };
+                        AddNotification(notification);
+                    }
+                }
+
+                else
+                {
+                    notification = new Notification
+                    {
+                        Text = "Transport Order No:" + transportOrderNo,
+                        CreatedDate = DateTime.Now.Date,
+                        IsRead = false,
+                        Id = -1,
+                        RecordId = transportOrderId,
+                        Url = destinationUrl,
+                        TypeOfNotification = "New Transport Order",
+                        Application = Application.HUB
+                    };
+                    AddNotification(notification);
+                }
+                
                 return true;
             }
             catch (Exception)

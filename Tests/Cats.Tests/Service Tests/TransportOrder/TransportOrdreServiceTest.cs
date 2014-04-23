@@ -97,10 +97,10 @@ namespace Cats.Tests.Service_Tests.TransportOrder
                                              Status = 1,
                                              Remark = "Remark",
                                          };
-
+            var hubId = new List<int>(){1,2,3};
             var resultLogistics = _notificationService.AddNotificationForLogistcisFromEarlyWaring("",1, 1, "reg-001");
             var resultProcurement = _notificationService.AddNotificationForProcurementFromLogistics("",tranportRequsition);
-            var resultHubManager = _notificationService.AddNotificationForHubManagersFromTransportOrder("",1, "trans-001");
+            var resultHubManager = _notificationService.AddNotificationForHubManagersFromTransportOrder("",1, "trans-001",hubId);
 
 
             Assert.IsTrue(resultLogistics);
