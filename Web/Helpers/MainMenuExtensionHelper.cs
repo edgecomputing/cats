@@ -30,6 +30,7 @@ namespace Cats.Helpers
             if (null == ewCache)
             {
                 Signout();
+                return MvcHtmlString.Create(string.Empty);
             }
 
             var html = string.Empty;
@@ -49,6 +50,7 @@ namespace Cats.Helpers
             if (null == ewCache)
             {
                 Signout();
+                return MvcHtmlString.Create(string.Empty);
             }
 
             var html = string.Empty;
@@ -89,6 +91,7 @@ namespace Cats.Helpers
             if (null == ewCache)
             {
                 Signout();
+                return MvcHtmlString.Create(string.Empty);
             }
 
             var html = string.Empty;
@@ -109,6 +112,7 @@ namespace Cats.Helpers
             if (null == ewCache)
             {
                 Signout();
+                return MvcHtmlString.Create(string.Empty);
             }
             else if (ewCache.CheckAccess(constants.ItemName(operation), DateTime.Now) == AuthorizationType.Allow)
             {
@@ -148,6 +152,7 @@ namespace Cats.Helpers
             if (null == ewCache)
             {
                 Signout();
+                return MvcHtmlString.Create(string.Empty);
             }
             else if (ewCache.CheckAccess(constants.ItemName(operation), DateTime.Now) == AuthorizationType.Allow)
             {
@@ -165,6 +170,7 @@ namespace Cats.Helpers
             if (null == ewCache)
             {
                 Signout();
+                return MvcHtmlString.Create(string.Empty);
             }
             else if (ewCache.CheckAccess(constants.ItemName(operation), DateTime.Now) == AuthorizationType.Allow)
             {
@@ -203,6 +209,7 @@ namespace Cats.Helpers
             if (null == ewCache)
             {
                 Signout();
+                return MvcHtmlString.Create(string.Empty);
             }
             else if (ewCache.CheckAccess(constants.ItemName(operation), DateTime.Now) == AuthorizationType.Allow)
             {
@@ -221,6 +228,7 @@ namespace Cats.Helpers
             if (null == ewCache)
             {
                 Signout();
+                return MvcHtmlString.Create(string.Empty);
             }
             else if (ewCache.CheckAccess(constants.ItemName(operation), DateTime.Now) == AuthorizationType.Allow)
             {
@@ -259,6 +267,7 @@ namespace Cats.Helpers
             if (null == ewCache)
             {
                 Signout();
+                return MvcHtmlString.Create(string.Empty);
             }
             else if (ewCache.CheckAccess(constants.ItemName(operation), DateTime.Now) == AuthorizationType.Allow)
             {
@@ -277,7 +286,9 @@ namespace Cats.Helpers
             if (null == ewCache)
             {
                 Signout();
+                return MvcHtmlString.Create(string.Empty);
             }
+
            else if (ewCache.CheckAccess(constants.ItemName(operation), DateTime.Now) == AuthorizationType.Allow)
             {
                 html = "<a href=" + url;
@@ -315,6 +326,7 @@ namespace Cats.Helpers
             if (null == ewCache)
             {
                 Signout();
+                return MvcHtmlString.Create(string.Empty);
             }
             else if (ewCache.CheckAccess(constants.ItemName(operation), DateTime.Now) == AuthorizationType.Allow)
             {
@@ -333,6 +345,7 @@ namespace Cats.Helpers
             if (null == ewCache)
             {
                 Signout();
+                return MvcHtmlString.Create(string.Empty);
             }
             else if (ewCache.CheckAccess(constants.ItemName(operation), DateTime.Now) == AuthorizationType.Allow)
             {
@@ -371,6 +384,7 @@ namespace Cats.Helpers
             if (null == ewCache)
             {
                 Signout();
+                return MvcHtmlString.Create(string.Empty);
             }
             else if (ewCache.CheckAccess(constants.ItemName(operation), DateTime.Now) == AuthorizationType.Allow)
             {
@@ -389,6 +403,7 @@ namespace Cats.Helpers
             if (null == ewCache)
             {
                 Signout();
+                return MvcHtmlString.Create(string.Empty);
             }
             else if (ewCache.CheckAccess(constants.ItemName(operation), DateTime.Now) == AuthorizationType.Allow)
             {
