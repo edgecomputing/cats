@@ -18,20 +18,12 @@ namespace Cats.Helpers
             {
                 var accountService = (IUserAccountService)DependencyResolver.Current.GetService(typeof(IUserAccountService));
                 var user = HttpContext.Current.User.Identity.Name;
-                var roles = accountService.GetUserPermissionsNotification(user).Select(a => a.Roles).ToList();
-                var allUserRollsInAllApplications = new List<string>();
-
-                foreach (var app in roles)
-                {
-                    allUserRollsInAllApplications.AddRange(app.Select(role => role.RoleName));
-                }
-                var notificationService = (INotificationService)DependencyResolver.Current.GetService(typeof(INotificationService));
-                var totallUnread = notificationService.GetAllNotification().Where(n => n.IsRead == false && allUserRollsInAllApplications.Contains(n.RoleName)).OrderByDescending(n=>n.NotificationId).ToList();
-                
-
-                
+                var app = GetApplication(user);
                
 
+                var notificationService = (INotificationService)DependencyResolver.Current.GetService(typeof(INotificationService));
+                var totallUnread = notificationService.GetAllNotification().Where(n => n.IsRead == false && app.Contains(n.RoleName)).OrderByDescending(n=>n.NotificationId).ToList();
+                
                 return totallUnread.Count();
             }
             catch (Exception)
@@ -46,15 +38,10 @@ namespace Cats.Helpers
             {
                 var accountService = (IUserAccountService)DependencyResolver.Current.GetService(typeof(IUserAccountService));
                 var user = HttpContext.Current.User.Identity.Name;
-                var roles = accountService.GetUserPermissionsNotification(user).Select(a => a.Roles).ToList();
-                var allUserRollsInAllApplications = new List<string>();
+                var app = GetApplication(user);
 
-                foreach (var app in roles)
-                {
-                    allUserRollsInAllApplications.AddRange(app.Select(role => role.RoleName));
-                }
                 var notificationService = (INotificationService)DependencyResolver.Current.GetService(typeof(INotificationService));
-                var totallUnread = notificationService.GetAllNotification().Where(n => n.IsRead == false && allUserRollsInAllApplications.Contains(n.RoleName)).OrderByDescending(n => n.NotificationId).ToList();
+                var totallUnread = notificationService.GetAllNotification().Where(n => n.IsRead == false && app.Contains(n.RoleName)).OrderByDescending(n => n.NotificationId).ToList();
                 return totallUnread.Count();
             }
             catch (Exception)
@@ -71,18 +58,12 @@ namespace Cats.Helpers
               
                 var user = HttpContext.Current.User.Identity.Name;
 
-                var roles = accountService.GetUserPermissions(user).Select(a => a.Roles).ToList();
-                var allUserRollsInAllApplications = new List<string>();
-
-                foreach (var app in roles)
-                {
-                    allUserRollsInAllApplications.AddRange(app.Select(role => role.RoleName));
-                }
+                var app = GetApplication(user);
 
 
                 var str = "<ul>";
                 var notificationService = (INotificationService)DependencyResolver.Current.GetService(typeof(INotificationService));
-                var totallUnread = notificationService.GetAllNotification().Where(n => n.IsRead == false && allUserRollsInAllApplications.Contains(n.RoleName)).OrderByDescending(n => n.NotificationId).ToList();
+                var totallUnread = notificationService.GetAllNotification().Where(n => n.IsRead == false && app.Contains(n.RoleName)).OrderByDescending(n => n.NotificationId).ToList();
                 int max = 0;
 
                 if (totallUnread.Count < 1)
@@ -120,18 +101,12 @@ namespace Cats.Helpers
 
                 var user = HttpContext.Current.User.Identity.Name;
 
-                var roles = accountService.GetUserPermissions(user).Select(a => a.Roles).ToList();
-                var allUserRollsInAllApplications = new List<string>();
-
-                foreach (var app in roles)
-                {
-                    allUserRollsInAllApplications.AddRange(app.Select(role => role.RoleName));
-                }
+                var app = GetApplication(user);
 
 
                 var str = "<ul>";
                 var notificationService = (INotificationService)DependencyResolver.Current.GetService(typeof(INotificationService));
-                var totallUnread = notificationService.GetAllNotification().Where(n => n.IsRead == false && allUserRollsInAllApplications.Contains(n.RoleName)).ToList();
+                var totallUnread = notificationService.GetAllNotification().Where(n => n.IsRead == false && app.Contains(n.RoleName)).ToList();
                 int max = 0;
 
                 if (totallUnread.Count < 1)
@@ -180,6 +155,50 @@ namespace Cats.Helpers
                
             }
            
+        }
+
+
+        private static string GetApplication(string user)
+        {
+
+            var currentUser = UserAccountHelper.GetUser(user);
+            var userID = currentUser.UserProfileID;
+            if (currentUser.IsAdmin)
+            {
+                return Cats.Models.Constant.Application.EARLY_WARNING;
+            }
+            if (currentUser.DefaultHub != null)
+            {
+               
+                    return Cats.Models.Constant.Application.HUB;
+                   
+            }
+            if (currentUser.RegionalUser)
+            {
+                return Cats.Models.Constant.Application.EARLY_WARNING;
+            }
+            switch (currentUser.CaseTeam)
+            {
+                case 1://EarlyWarning
+                    return Cats.Models.Constant.Application.EARLY_WARNING;
+                    break;
+                case 2://PSNP
+                    return Cats.Models.Constant.Application.PSNP;
+                    break;
+                case 3://Logistics
+                    return Cats.Models.Constant.Application.LOGISTICS;
+                    break;
+                case 4://Procurement
+                    return Cats.Models.Constant.Application.PROCUREMENT;
+                    break;
+                case 5://Finance
+                    return Cats.Models.Constant.Application.FINANCE;
+                    break;
+                default:
+                    return "";
+
+            }
+
         }
 
     }

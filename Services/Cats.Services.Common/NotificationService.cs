@@ -83,7 +83,7 @@ namespace Cats.Services.Common
                     RecordId = transportOrderId,
                     Url = destinationUrl,
                     TypeOfNotification = "New Transport Order",
-                    RoleName = Application.HUB_MANAGER
+                    RoleName = Application.HUB
                 };
                 AddNotification(notification);
                 return true;
@@ -112,7 +112,7 @@ namespace Cats.Services.Common
                     RecordId = transportRequisition.TransportRequisitionID,
                     Url = destinationURl,
                     TypeOfNotification = "New Transport Requisition",
-                    RoleName = Application.TRANSPORT_ORDER_CREATER
+                    RoleName = Application.PROCUREMENT
                 };
                 AddNotification(notification);
                 return true;
@@ -140,7 +140,7 @@ namespace Cats.Services.Common
                                                RecordId = requisitionID,
                                                Url = destinationURl,
                                                TypeOfNotification = "Requisition Approval",
-                                               RoleName = Application.HUB_ALLOCATER
+                                               RoleName = Application.LOGISTICS
                                            };
 
                     AddNotification(notification);
