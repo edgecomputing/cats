@@ -48,6 +48,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         private readonly IPlanService _planService;
         private readonly IIDPSReasonTypeServices _idpsReasonTypeServices;
         private readonly Cats.Services.Transaction.ITransactionService _transactionService;
+        private readonly INotificationService _notificationService;
         public RequestController(IRegionalRequestService reliefRequistionService,
                                 IFDPService fdpService,
                                 IRegionalRequestDetailService reliefRequisitionDetailService,
@@ -61,7 +62,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                                 IRegionalPSNPPlanService RegionalPSNPPlanService, 
             IAdminUnitService adminUnitService, 
             IPlanService planService, 
-            IIDPSReasonTypeServices idpsReasonTypeServices, ITransactionService transactionService)
+            IIDPSReasonTypeServices idpsReasonTypeServices, ITransactionService transactionService, INotificationService notificationService)
         {
             _regionalRequestService = reliefRequistionService;
             _fdpService = fdpService;
@@ -78,6 +79,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             _planService = planService;
             _idpsReasonTypeServices = idpsReasonTypeServices;
             _transactionService = transactionService;
+            _notificationService = notificationService;
         }
         public  ActionResult RegionalRequestsPieChart()
         {
@@ -284,6 +286,15 @@ namespace Cats.Areas.EarlyWarning.Controllers
                         var model = getRequestDetai(req.RegionalRequestID);
                         ViewBag.message = "Request Created";
                         //RedirectToAction(@)
+                        try
+                        {
+                            SendNotification(req);
+                        }
+                        catch (Exception)
+                        {
+                            
+                           
+                        }
                         return RedirectToAction("Details" + "/" + req.RegionalRequestID);
                     }
                     else
@@ -303,6 +314,44 @@ namespace Cats.Areas.EarlyWarning.Controllers
             return View(hrdpsnpPlan);
         }
 
+        private void SendNotification(RegionalRequest regionalRequest)
+        {
+            try
+            {
+                string destinationURl;
+                if (Request.Url.Host != null)
+                {
+                    if (Request.Url.Host == "localhost")
+                    {
+                        destinationURl = "http://" + Request.Url.Authority +
+                                         "/EarlyWarning/Request/IndexFromNotification?recordId=" + regionalRequest.RegionalRequestID;
+                    }
+                    else
+                    {
+                        destinationURl = "http://" + Request.Url.Authority +
+                                        Request.ApplicationPath +
+                                         "/EarlyWarning/Request/IndexFromNotification?recordId=" + regionalRequest.RegionalRequestID;
+                    }
+
+                    _notificationService.AddNotificationForEarlyWaringFromRegions(destinationURl,
+                                                                                    regionalRequest.RegionalRequestID,
+                                                                                    (int)regionalRequest.RegionID);
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public ActionResult IndexFromNotification(int recordId)
+        {
+            
+            NotificationHelper.MakeNotificationRead(recordId);
+            return RedirectToAction("Details" + "/" + recordId);
+
+        }
 
         [HttpGet]
         public ActionResult NewIdps()

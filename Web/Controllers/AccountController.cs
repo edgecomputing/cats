@@ -259,7 +259,7 @@ namespace Cats.Controllers
                     return Json(true, JsonRequestBehavior.AllowGet);
                 }
             }
-            return Json(string.Format("The User name or Email address you provided doesnot exist. please try again."),
+            return Json(string.Format("The User name or Email address you provided does not exist. please try again."),
                         JsonRequestBehavior.AllowGet);
         }
         public ActionResult ForgetPassword(string key)

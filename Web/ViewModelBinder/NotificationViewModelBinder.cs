@@ -23,7 +23,7 @@ namespace Cats.ViewModelBinder
                                                          IsRead = notify.IsRead,
                                                          TypeOfNotification = notify.TypeOfNotification,
                                                          StrCreatedDate = notify.CreatedDate.ToCTSPreferedDateFormat(UserAccountHelper.UserCalendarPreference()),
-                                                         Role = notify.Role
+                                                         Role = notify.Id
                                                      });
         }
     }

@@ -14,7 +14,7 @@ namespace Cats.Models.Constant
        public static string PROCUREMENT = "Procurement";
        public static string PSNP = "PSNP";
        public static string HUB = "Hub";
-
+       public static string REGIONAL = "Regional";
 
        public static string HUB_MANAGER = "Hub Manager";
        public static string HUB_ALLOCATER = "LG-Allocation Award & Followup";

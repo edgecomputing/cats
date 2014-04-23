@@ -16,45 +16,26 @@ namespace Cats.Helpers
         {
             try
             {
-                var accountService = (IUserAccountService)DependencyResolver.Current.GetService(typeof(IUserAccountService));
-                var user = HttpContext.Current.User.Identity.Name;
-                var roles = accountService.GetUserPermissionsNotification(user).Select(a => a.Roles).ToList();
-                var allUserRollsInAllApplications = new List<string>();
-
-                foreach (var app in roles)
-                {
-                    allUserRollsInAllApplications.AddRange(app.Select(role => role.RoleName));
-                }
                 var notificationService = (INotificationService)DependencyResolver.Current.GetService(typeof(INotificationService));
-                var totallUnread = notificationService.GetAllNotification().Where(n => n.IsRead == false && allUserRollsInAllApplications.Contains(n.RoleName)).OrderByDescending(n=>n.NotificationId).ToList();
-                
-
-                
                
-
-                return totallUnread.Count();
-            }
-            catch (Exception)
-            {
-                return 0;
-            }
-        }
-
-        public static int GetUnreadNotifications()
-        {
-            try
-            {
-                var accountService = (IUserAccountService)DependencyResolver.Current.GetService(typeof(IUserAccountService));
                 var user = HttpContext.Current.User.Identity.Name;
-                var roles = accountService.GetUserPermissionsNotification(user).Select(a => a.Roles).ToList();
-                var allUserRollsInAllApplications = new List<string>();
-
-                foreach (var app in roles)
+                List<Cats.Models.Notification> totallUnread = null;
+                var currentUser = UserAccountHelper.GetUser(user);
+                var app = GetApplication(user);
+               
+                if (app == Models.Constant.Application.HUB)
                 {
-                    allUserRollsInAllApplications.AddRange(app.Select(role => role.RoleName));
+                    totallUnread = notificationService.GetAllNotification().Where(n => n.IsRead == false && n.Id ==currentUser.DefaultHub && app.Contains(n.Application)).OrderByDescending(n => n.NotificationId).ToList();   
                 }
-                var notificationService = (INotificationService)DependencyResolver.Current.GetService(typeof(INotificationService));
-                var totallUnread = notificationService.GetAllNotification().Where(n => n.IsRead == false && allUserRollsInAllApplications.Contains(n.RoleName)).OrderByDescending(n => n.NotificationId).ToList();
+                else if(app== Models.Constant.Application.REGIONAL)
+                {
+                    totallUnread = notificationService.GetAllNotification().Where(n => n.IsRead == false && n.Id == currentUser.RegionID && app.Contains(n.Application)).OrderByDescending(n => n.NotificationId).ToList();   
+                }
+                else
+                {
+                    totallUnread = notificationService.GetAllNotification().Where(n => n.IsRead == false  && app.Contains(n.Application)).OrderByDescending(n => n.NotificationId).ToList();   
+                }
+
                 return totallUnread.Count();
             }
             catch (Exception)
@@ -62,27 +43,56 @@ namespace Cats.Helpers
                 return 0;
             }
         }
+
+        //public static int GetUnreadNotifications()
+        //{
+        //    try
+        //    {
+               
+        //        var user = HttpContext.Current.User.Identity.Name;
+        //        var app = GetApplication(user);
+
+        //        var notificationService = (INotificationService)DependencyResolver.Current.GetService(typeof(INotificationService));
+        //        var totallUnread = notificationService.GetAllNotification().Where(n => n.IsRead == false && app.Contains(n.Application)).OrderByDescending(n => n.NotificationId).ToList();
+        //        return totallUnread.Count();
+        //    }
+        //    catch (Exception)
+        //    {
+        //        return 0;
+        //    }
+        //}
 
         public static HtmlString GetActiveNotifications(this HtmlHelper helper)
         {
             try
             {
-                var accountService = (IUserAccountService)DependencyResolver.Current.GetService(typeof(IUserAccountService));
+               
               
                 var user = HttpContext.Current.User.Identity.Name;
+                var notificationService = (INotificationService)DependencyResolver.Current.GetService(typeof(INotificationService));
 
-                var roles = accountService.GetUserPermissions(user).Select(a => a.Roles).ToList();
-                var allUserRollsInAllApplications = new List<string>();
+                List<Cats.Models.Notification> totallUnread = null;
+                var currentUser = UserAccountHelper.GetUser(user);
+                var app = GetApplication(user);
 
-                foreach (var app in roles)
+                if (app == Models.Constant.Application.HUB)
                 {
-                    allUserRollsInAllApplications.AddRange(app.Select(role => role.RoleName));
+                    totallUnread = notificationService.GetAllNotification().Where(n => n.IsRead == false && n.Id == currentUser.DefaultHub && app.Contains(n.Application)).OrderByDescending(n => n.NotificationId).ToList();
+                }
+                else if (app == Models.Constant.Application.REGIONAL)
+                {
+                    totallUnread = notificationService.GetAllNotification().Where(n => n.IsRead == false && n.Id == currentUser.RegionID && app.Contains(n.Application)).OrderByDescending(n => n.NotificationId).ToList();
+                }
+                else
+                {
+                    totallUnread = notificationService.GetAllNotification().Where(n => n.IsRead == false && app.Contains(n.Application)).OrderByDescending(n => n.NotificationId).ToList();
                 }
 
 
+
                 var str = "<ul>";
-                var notificationService = (INotificationService)DependencyResolver.Current.GetService(typeof(INotificationService));
-                var totallUnread = notificationService.GetAllNotification().Where(n => n.IsRead == false && allUserRollsInAllApplications.Contains(n.RoleName)).OrderByDescending(n => n.NotificationId).ToList();
+               
+               
                 int max = 0;
 
                 if (totallUnread.Count < 1)
@@ -116,22 +126,33 @@ namespace Cats.Helpers
         {
             try
             {
-                var accountService = (IUserAccountService)DependencyResolver.Current.GetService(typeof(IUserAccountService));
+               
 
                 var user = HttpContext.Current.User.Identity.Name;
+                var notificationService = (INotificationService)DependencyResolver.Current.GetService(typeof(INotificationService));
+                List<Cats.Models.Notification> totallUnread = null;
+                var currentUser = UserAccountHelper.GetUser(user);
+                var app = GetApplication(user);
 
-                var roles = accountService.GetUserPermissions(user).Select(a => a.Roles).ToList();
-                var allUserRollsInAllApplications = new List<string>();
-
-                foreach (var app in roles)
+                if (app == Models.Constant.Application.HUB)
                 {
-                    allUserRollsInAllApplications.AddRange(app.Select(role => role.RoleName));
+                    totallUnread = notificationService.GetAllNotification().Where(n => n.IsRead == false && n.Id == currentUser.DefaultHub && app.Contains(n.Application)).OrderByDescending(n => n.NotificationId).ToList();
+                }
+                else if (app == Models.Constant.Application.REGIONAL)
+                {
+                    totallUnread = notificationService.GetAllNotification().Where(n => n.IsRead == false && n.Id == currentUser.RegionID && app.Contains(n.Application)).OrderByDescending(n => n.NotificationId).ToList();
+                }
+                else
+                {
+                    totallUnread = notificationService.GetAllNotification().Where(n => n.IsRead == false && app.Contains(n.Application)).OrderByDescending(n => n.NotificationId).ToList();
                 }
 
 
+
+
                 var str = "<ul>";
-                var notificationService = (INotificationService)DependencyResolver.Current.GetService(typeof(INotificationService));
-                var totallUnread = notificationService.GetAllNotification().Where(n => n.IsRead == false && allUserRollsInAllApplications.Contains(n.RoleName)).ToList();
+              
+              
                 int max = 0;
 
                 if (totallUnread.Count < 1)
@@ -180,6 +201,50 @@ namespace Cats.Helpers
                
             }
            
+        }
+
+
+        private static string GetApplication(string user)
+        {
+
+            var currentUser = UserAccountHelper.GetUser(user);
+            var userID = currentUser.UserProfileID;
+            if (currentUser.IsAdmin)
+            {
+                return Cats.Models.Constant.Application.EARLY_WARNING;
+            }
+            if (currentUser.DefaultHub != null)
+            {
+               
+                    return Cats.Models.Constant.Application.HUB;
+                   
+            }
+            if (currentUser.RegionalUser)
+            {
+                return Cats.Models.Constant.Application.REGIONAL;
+            }
+            switch (currentUser.CaseTeam)
+            {
+                case 1://EarlyWarning
+                    return Cats.Models.Constant.Application.EARLY_WARNING;
+                    break;
+                case 2://PSNP
+                    return Cats.Models.Constant.Application.PSNP;
+                    break;
+                case 3://Logistics
+                    return Cats.Models.Constant.Application.LOGISTICS;
+                    break;
+                case 4://Procurement
+                    return Cats.Models.Constant.Application.PROCUREMENT;
+                    break;
+                case 5://Finance
+                    return Cats.Models.Constant.Application.FINANCE;
+                    break;
+                default:
+                    return "";
+
+            }
+
         }
 
     }

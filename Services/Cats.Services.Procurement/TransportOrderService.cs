@@ -410,7 +410,12 @@ namespace Cats.Services.Procurement
             {
                 try
                 {
-                    AddToNotification(transportOrder.TransportOrderID, transportOrder.TransportOrderNo);
+                    var hubId = new List<int>();
+                    var transport = transportOrder.TransportOrderDetails.Select(c => c.SourceWarehouseID).ToList().Distinct();
+                    {
+                        hubId.AddRange(transport);
+                    }
+                    AddToNotification(transportOrder.TransportOrderID, transportOrder.TransportOrderNo,hubId);
                 }
                 catch
                 {
@@ -492,7 +497,7 @@ namespace Cats.Services.Procurement
         }
 
 
-        private void AddToNotification(int transportOrderId, string transportOrderNo)
+        private void AddToNotification(int transportOrderId, string transportOrderNo,List<int> hubId )
         {
             try
             {
@@ -510,7 +515,7 @@ namespace Cats.Services.Procurement
                                      "/Hub/TransportOrder/NotificationIndex?recordId=" + transportOrderId;
                 }
                 _notificationService.AddNotificationForHubManagersFromTransportOrder(destinationURl, transportOrderId,
-                                                                                     transportOrderNo);
+                                                                                     transportOrderNo,hubId);
             }
             catch (Exception)
             {
