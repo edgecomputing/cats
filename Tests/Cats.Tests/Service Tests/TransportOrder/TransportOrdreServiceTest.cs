@@ -35,8 +35,8 @@ namespace Cats.Tests.Service_Tests.TransportOrder
                                                IsRead = false,
                                                TypeOfNotification = "New transport order",
                                                CreatedDate = DateTime.Now,
-                                               Role = 1,
-                                               RoleName = "Hub Managers"
+                                               Id = 1,
+                                               Application = "Hub Managers"
                                            },
                                            new Notification()
                                            {
@@ -46,8 +46,8 @@ namespace Cats.Tests.Service_Tests.TransportOrder
                                                IsRead = false,
                                                TypeOfNotification = "New transport order",
                                                CreatedDate = DateTime.Now,
-                                               Role = 1,
-                                               RoleName = "Hub Managers"
+                                               Id = 1,
+                                               Application = "Hub Managers"
                                            },
                                    };
 
@@ -82,8 +82,8 @@ namespace Cats.Tests.Service_Tests.TransportOrder
                                        IsRead = false,
                                        TypeOfNotification = "New transport order",
                                        CreatedDate = DateTime.Now,
-                                       Role = 1,
-                                       RoleName = "Hub Managers"
+                                       Id = 1,
+                                       Application = "Hub Managers"
                                    };
 
             var tranportRequsition = new TransportRequisition()

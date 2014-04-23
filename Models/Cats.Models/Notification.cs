@@ -18,8 +18,8 @@ namespace Cats.Models
         public bool IsRead { get; set; }
         public string TypeOfNotification { get; set; }
         public System.DateTime CreatedDate { get; set; }
-        public int Role { get; set; }
-        public string RoleName { get; set; }
+        public int Id { get; set; }
+        public string Application { get; set; }
        
     }
 }

@@ -79,11 +79,11 @@ namespace Cats.Services.Common
                     Text = "Transport Order No:" + transportOrderNo,
                     CreatedDate = DateTime.Now.Date,
                     IsRead = false,
-                    Role = 1,
+                    Id = 1,
                     RecordId = transportOrderId,
                     Url = destinationUrl,
                     TypeOfNotification = "New Transport Order",
-                    RoleName = Application.HUB
+                    Application = Application.HUB
                 };
                 AddNotification(notification);
                 return true;
@@ -108,11 +108,11 @@ namespace Cats.Services.Common
                     Text = "Transport Requisition No:" + transportRequisition.TransportRequisitionNo,
                     CreatedDate = DateTime.Now.Date,
                     IsRead = false,
-                    Role = 1,
+                    Id = 1,
                     RecordId = transportRequisition.TransportRequisitionID,
                     Url = destinationURl,
                     TypeOfNotification = "New Transport Requisition",
-                    RoleName = Application.PROCUREMENT
+                    Application = Application.PROCUREMENT
                 };
                 AddNotification(notification);
                 return true;
@@ -136,11 +136,11 @@ namespace Cats.Services.Common
                                                Text = "Approved Requistion" + requisitioNo,
                                                CreatedDate = DateTime.Now.Date,
                                                IsRead = false,
-                                               Role = 1,
+                                               Id = 1,
                                                RecordId = requisitionID,
                                                Url = destinationURl,
                                                TypeOfNotification = "Requisition Approval",
-                                               RoleName = Application.LOGISTICS
+                                               Application = Application.LOGISTICS
                                            };
 
                     AddNotification(notification);
@@ -167,11 +167,11 @@ namespace Cats.Services.Common
                     Text = "GRN with loss from transport order " + transportOrderNo,
                     CreatedDate = DateTime.Now.Date,
                     IsRead = false,
-                    Role = 1,
+                    Id = 1,
                     RecordId = transportOrderId,
                     Url = destinationURl,
                     TypeOfNotification = "GRN With loss",
-                    RoleName = Application.TRANSPORT_ORDER_CREATER
+                    Application = Application.TRANSPORT_ORDER_CREATER
                 };
 
                 AddNotification(notification);

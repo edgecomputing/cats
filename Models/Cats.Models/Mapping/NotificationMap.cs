@@ -36,7 +36,7 @@ namespace Cats.Models.Mapping
             this.Property(t => t.IsRead).HasColumnName("IsRead");
             this.Property(t => t.TypeOfNotification).HasColumnName("TypeOfNotification");
             this.Property(t => t.CreatedDate).HasColumnName("CreatedDate");
-            this.Property(t => t.Role).HasColumnName("Role");
+            this.Property(t => t.Application).HasColumnName("Application");
 
            
         }

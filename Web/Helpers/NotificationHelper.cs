@@ -16,13 +16,13 @@ namespace Cats.Helpers
         {
             try
             {
-                var accountService = (IUserAccountService)DependencyResolver.Current.GetService(typeof(IUserAccountService));
+                var notificationService = (INotificationService)DependencyResolver.Current.GetService(typeof(INotificationService));
                 var user = HttpContext.Current.User.Identity.Name;
                 var app = GetApplication(user);
                
 
-                var notificationService = (INotificationService)DependencyResolver.Current.GetService(typeof(INotificationService));
-                var totallUnread = notificationService.GetAllNotification().Where(n => n.IsRead == false && app.Contains(n.RoleName)).OrderByDescending(n=>n.NotificationId).ToList();
+              
+                var totallUnread = notificationService.GetAllNotification().Where(n => n.IsRead == false && app.Contains(n.Application)).OrderByDescending(n=>n.NotificationId).ToList();
                 
                 return totallUnread.Count();
             }
@@ -36,12 +36,12 @@ namespace Cats.Helpers
         {
             try
             {
-                var accountService = (IUserAccountService)DependencyResolver.Current.GetService(typeof(IUserAccountService));
+               
                 var user = HttpContext.Current.User.Identity.Name;
                 var app = GetApplication(user);
 
                 var notificationService = (INotificationService)DependencyResolver.Current.GetService(typeof(INotificationService));
-                var totallUnread = notificationService.GetAllNotification().Where(n => n.IsRead == false && app.Contains(n.RoleName)).OrderByDescending(n => n.NotificationId).ToList();
+                var totallUnread = notificationService.GetAllNotification().Where(n => n.IsRead == false && app.Contains(n.Application)).OrderByDescending(n => n.NotificationId).ToList();
                 return totallUnread.Count();
             }
             catch (Exception)
@@ -54,7 +54,7 @@ namespace Cats.Helpers
         {
             try
             {
-                var accountService = (IUserAccountService)DependencyResolver.Current.GetService(typeof(IUserAccountService));
+               
               
                 var user = HttpContext.Current.User.Identity.Name;
 
@@ -63,7 +63,7 @@ namespace Cats.Helpers
 
                 var str = "<ul>";
                 var notificationService = (INotificationService)DependencyResolver.Current.GetService(typeof(INotificationService));
-                var totallUnread = notificationService.GetAllNotification().Where(n => n.IsRead == false && app.Contains(n.RoleName)).OrderByDescending(n => n.NotificationId).ToList();
+                var totallUnread = notificationService.GetAllNotification().Where(n => n.IsRead == false && app.Contains(n.Application)).OrderByDescending(n => n.NotificationId).ToList();
                 int max = 0;
 
                 if (totallUnread.Count < 1)
@@ -97,7 +97,7 @@ namespace Cats.Helpers
         {
             try
             {
-                var accountService = (IUserAccountService)DependencyResolver.Current.GetService(typeof(IUserAccountService));
+               
 
                 var user = HttpContext.Current.User.Identity.Name;
 
@@ -106,7 +106,7 @@ namespace Cats.Helpers
 
                 var str = "<ul>";
                 var notificationService = (INotificationService)DependencyResolver.Current.GetService(typeof(INotificationService));
-                var totallUnread = notificationService.GetAllNotification().Where(n => n.IsRead == false && app.Contains(n.RoleName)).ToList();
+                var totallUnread = notificationService.GetAllNotification().Where(n => n.IsRead == false && app.Contains(n.Application)).ToList();
                 int max = 0;
 
                 if (totallUnread.Count < 1)
