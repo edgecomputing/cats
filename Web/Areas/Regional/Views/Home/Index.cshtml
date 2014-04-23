@@ -21,7 +21,11 @@
 <div ng-app="myApp">
 
     <div ng-controller="ImportantNumbersController" class="container">
-        <h3>Regional Dashboard for @ViewBag.RegionName</h3>
+        <div>
+            <div class="pull-left {{Flag}}"></div>
+            <div><h3>  Regional Dashboard for @ViewBag.RegionName</h3></div>
+        </div>
+        
         <hr />
         <div class="container row">
             <div class="span6">
@@ -1054,9 +1058,26 @@
     function ImportantNumbersController($scope, $http) {
         $scope.reqParam = { regionID: "@ViewBag.RegionID" };
         $scope.Numbers = [];
+        $scope.Flag;
         
+        var regionFlags = [
+                               "flag flag-federal",
+                               "flag flag-afar",
+                               "flag flag-amhara",
+                               "flag flag-benishangul",
+                               "flag flag-tigray",
+                               "flag flag-diredawa",
+                               "flag flag-gambella",
+                               "flag flag-harar",
+                               "flag flag-oromiya",
+                               "flag flag-SNNPR",
+                               "flag flag-somali"
+                          ];
+
         var onNumbersSuccess = function (data) {
             $scope.Numbers = data;
+            $scope.Flag = regionFlags['@ViewBag.RegionID'-1];
+            //alert($scope.Flag)
         };
 
         $scope.getNumbers = function () {
@@ -1253,6 +1274,5 @@
            }
        }
    });
-
-  
 </script>
+
