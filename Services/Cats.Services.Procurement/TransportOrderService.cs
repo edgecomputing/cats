@@ -325,11 +325,11 @@ namespace Cats.Services.Procurement
                 transportOrder.EndDate = DateTime.Today;
                 transportOrder.TransportOrderNo = Guid.NewGuid().ToString();
                 transportOrder.OrderExpiryDate = DateTime.Today.AddDays(10);
-                var currentBid = _unitOfWork.ApplicationSettingRepository.FindBy(t => t.SettingName == "CurrentBid");
+                var currentBid = _unitOfWork.BidRepository.FindBy(t => t.StatusID == 3).FirstOrDefault();
                 var transporterName = _unitOfWork.TransporterRepository.FindById(transportOrder.TransporterID).Name;
                 if (currentBid != null)
                 {
-                    var bidID = int.Parse(currentBid[0].SettingValue);
+                    var bidID = currentBid.BidID;
                     transportOrder.BidDocumentNo = _unitOfWork.BidRepository.FindById(bidID).BidNumber;
                 }
                 else
@@ -481,10 +481,10 @@ namespace Cats.Services.Procurement
                         t => t.RequisitionDetailID == requisitionDetail.RequisitionDetailID);
                 var si = sipc.Find(t => t.AllocationType == "SI");
                 if (si != null)
-                    dispatchAllocation.ProjectCodeID = si.Code;
+                    dispatchAllocation.ShippingInstructionID = si.Code;
                 var pc = sipc.Find(t => t.AllocationType == "PC");
                 if (pc != null)
-                    dispatchAllocation.ShippingInstructionID = pc.Code;
+                    dispatchAllocation.ProjectCodeID = pc.Code;
                 //dispatchAllocation.Unit //i have no idea where to get it
                 // dispatchAllocation.StoreID  //Would be set null and filled by user later
                 //dispatchAllocation.Year= requisition.Year ; //Year is not available 
