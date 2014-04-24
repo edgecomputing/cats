@@ -250,7 +250,8 @@
                                        
                                         <td><span class="label label-danger">Pending</span></td>
                                         <td class="align-center">
-                                            @*<a class="btn btn-sm btn-default" data-original-title="Approve" href="@Url.Action("AssignHubFromLogisticsDashboard", "DispatchAllocation", new { Area = "Logistics", paramRegionId =  )"> Assign Hub </a>*@
+                                           
+                                            <a class="btn btn-sm btn-default" data-original-title="Approve" ng-click="assignHub(req)" > Assign Hub </a>
                                         </td>
                                            
                                     </tr>
@@ -895,6 +896,13 @@
         $scope.requests = { };
         $http({ method: 'GET', url: '@Url.Action("GetRequiasitions","Home", new {id = 2})' }).success(function (data, status, headers, config) { $scope.requests.request = data; console.log($scope.requests.request); });
         $rootScope.regionName = "";
+
+        $scope.assignHub = function (url) {
+           
+            window.location = "@Url.Action("AssignHubFromLogisticsDashboard", "DispatchAllocation", new {Area = "Logistics" })" + "?paramRegionId=" + url.regionId;
+        };
+        
+        
     }]);
     
     myApp.controller('HubAllocationController', ['$scope', '$http','$rootScope', function ($scope, $http, $rootScope) {
