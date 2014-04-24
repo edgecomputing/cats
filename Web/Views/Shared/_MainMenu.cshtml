@@ -337,10 +337,10 @@
                                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Html.Translate2(PAGE_NAME, " Plans")<b class="caret"></b></a>
                                         <ul class="dropdown-menu">
                                             
-                                            <li>
+                                            @*<li>
                                                 @Html.EarlyWarningOperationMenuItem(@Url.Action("Index", "Plan", new { Area = "EarlyWarning" }),
                                                                     EarlyWarningConstants.Operation.View_Plans, @Html.Translate2(PAGE_NAME, "Plan"))
-                                            </li>
+                                            </li>*@
                                             <li>
                                                 @Html.EarlyWarningOperationMenuItem(@Url.Action("Index", "NeedAssessment", new { Area = "EarlyWarning" }),
                                                                     EarlyWarningConstants.Operation.View_Draft_Needs_Assessment, @Html.Translate2(PAGE_NAME, "Needs Assessment"))
