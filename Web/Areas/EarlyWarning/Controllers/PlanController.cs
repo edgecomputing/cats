@@ -65,7 +65,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         public ActionResult Create()
         {
             var plan = new Plan();
-            ViewBag.ProgramID = new SelectList(_planService.GetPrograms(),"ProgramID", "Name");
+            ViewBag.ProgramID = new SelectList(_planService.GetNonReliefProgram(),"ProgramID", "Name");
             plan.StartDate = DateTime.Now;
             plan.EndDate = DateTime.Now;
             return View(plan);
@@ -140,20 +140,6 @@ namespace Cats.Areas.EarlyWarning.Controllers
             }
             return RedirectToAction("index", "Plan", new {id = plan.Status});
         }
-        public ActionResult Detail(int id)
-        {
-            var plan = _planService.FindById(id);
-
-            var needAssessment = _needAssessmentService.FindBy(m => m.PlanID == plan.PlanID).ToList();
-            var hrd = _hrdService.FindBy(m => m.PlanID == plan.PlanID).ToList();
-            var planWithHrdViewModel = new PlanWithHRDViewModel()
-                {
-                    Plan = plan,
-                    HRDs = hrd,
-                    NeedAssessments = needAssessment
-                };
-
-            return View(plan);
-        }
+       
     }
 }

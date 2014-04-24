@@ -24,6 +24,7 @@ namespace Cats.Services.EarlyWarning
              string includeProperties = "");
 
        List<Program> GetPrograms();
+       List<Program> GetNonReliefProgram();
        void AddNeedAssessmentPlan(NeedAssessment needAssessment);
        void AddPlan(string planName, DateTime startDate, DateTime endDate);
        void AddHRDPlan(string planName, DateTime startDate, DateTime endDate);
