@@ -293,6 +293,7 @@ namespace Cats.Areas.Procurement.Controllers
             {
                 var regions = _adminUnitService.FindBy(t => t.AdminUnitTypeID == 2);
                 bid.StatusID = (int)BidStatus.Open;
+             
                 var bidDetails = (from detail in regions
                                   select new BidDetail()
                                       {
