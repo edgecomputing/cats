@@ -97,6 +97,10 @@ namespace Cats.Services.EarlyWarning
        {
            return _unitOfWork.ProgramRepository.GetAll();
        }
+       public List<Program> GetNonReliefProgram()
+       {
+           return _unitOfWork.ProgramRepository.FindBy(m => m.ProgramID != 1);
+       }
         public void Dispose()
         {
             _unitOfWork.Dispose();
