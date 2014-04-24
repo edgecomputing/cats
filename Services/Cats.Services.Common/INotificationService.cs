@@ -17,7 +17,8 @@ namespace Cats.Services.Common
         Notification FindById(int id);
         List<Notification> GetAllNotification();
         List<Notification> FindBy(Expression<Func<Notification, bool>> predicate);
-        bool AddNotificationForHubManagersFromTransportOrder(string destinationUrl, int transportOrderId, string transportOrderNo);
+        bool AddNotificationForHubManagersFromTransportOrder(string destinationUrl, int transportOrderId, string transportOrderNo, List<int> hubId);
+        bool AddNotificationForEarlyWaringFromRegions(string destinationURl, int requestId, int regionId);
         bool AddNotificationForProcurementFromLogistics(string destinationUrl, TransportRequisition transportRequisition);
         bool AddNotificationForLogistcisFromEarlyWaring(string destinationUrl, int requisitionID, int regionId, string requisitioNo);
 

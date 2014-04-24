@@ -69,23 +69,46 @@ namespace Cats.Services.Common
 
         #region notification for hub managers
 
-        public bool AddNotificationForHubManagersFromTransportOrder(string destinationUrl,int transportOrderId, string transportOrderNo)
+        public bool AddNotificationForHubManagersFromTransportOrder(string destinationUrl,int transportOrderId, string transportOrderNo,List<int> hubId)
         {
             try
             {
-                
-                var notification = new Notification
+                Notification notification=null;
+                if (hubId!=null)
                 {
-                    Text = "Transport Order No:" + transportOrderNo,
-                    CreatedDate = DateTime.Now.Date,
-                    IsRead = false,
-                    Role = 1,
-                    RecordId = transportOrderId,
-                    Url = destinationUrl,
-                    TypeOfNotification = "New Transport Order",
-                    RoleName = Application.HUB_MANAGER
-                };
-                AddNotification(notification);
+                    foreach (var id in hubId)
+                    {
+                        notification = new Notification
+                        {
+                            Text = "Transport Order No:" + transportOrderNo,
+                            CreatedDate = DateTime.Now.Date,
+                            IsRead = false,
+                            Id = id,
+                            RecordId = transportOrderId,
+                            Url = destinationUrl,
+                            TypeOfNotification = "New Transport Order",
+                            Application = Application.HUB
+                        };
+                        AddNotification(notification);
+                    }
+                }
+
+                else
+                {
+                    notification = new Notification
+                    {
+                        Text = "Transport Order No:" + transportOrderNo,
+                        CreatedDate = DateTime.Now.Date,
+                        IsRead = false,
+                        Id = -1,
+                        RecordId = transportOrderId,
+                        Url = destinationUrl,
+                        TypeOfNotification = "New Transport Order",
+                        Application = Application.HUB
+                    };
+                    AddNotification(notification);
+                }
+                
                 return true;
             }
             catch (Exception)
@@ -108,11 +131,11 @@ namespace Cats.Services.Common
                     Text = "Transport Requisition No:" + transportRequisition.TransportRequisitionNo,
                     CreatedDate = DateTime.Now.Date,
                     IsRead = false,
-                    Role = 1,
+                    Id = 1,
                     RecordId = transportRequisition.TransportRequisitionID,
                     Url = destinationURl,
                     TypeOfNotification = "New Transport Requisition",
-                    RoleName = Application.TRANSPORT_ORDER_CREATER
+                    Application = Application.PROCUREMENT
                 };
                 AddNotification(notification);
                 return true;
@@ -122,6 +145,37 @@ namespace Cats.Services.Common
 
                 return false;
             }
+        }
+        #endregion
+
+        #region notification for Earlywarning"
+
+        public bool AddNotificationForEarlyWaringFromRegions(string destinationURl, int requestId, int regionId)
+        {
+            try
+            {
+                var notification = new Notification
+                {
+                    Text = "Request - " + requestId.ToString(),
+                    CreatedDate = DateTime.Now.Date,
+                    IsRead = false,
+                    Id = regionId,
+                    RecordId = requestId,
+                    Url = destinationURl,
+                    TypeOfNotification = "Request Creation from Regions",
+                    Application = Application.EARLY_WARNING
+                };
+
+                AddNotification(notification);
+                return true;
+
+            }
+            catch (Exception)
+            {
+                return false;
+
+            }
+
         }
         #endregion
 
@@ -136,11 +190,11 @@ namespace Cats.Services.Common
                                                Text = "Approved Requistion" + requisitioNo,
                                                CreatedDate = DateTime.Now.Date,
                                                IsRead = false,
-                                               Role = 1,
+                                               Id = 1,
                                                RecordId = requisitionID,
                                                Url = destinationURl,
                                                TypeOfNotification = "Requisition Approval",
-                                               RoleName = Application.HUB_ALLOCATER
+                                               Application = Application.LOGISTICS
                                            };
 
                     AddNotification(notification);
@@ -167,11 +221,11 @@ namespace Cats.Services.Common
                     Text = "GRN with loss from transport order " + transportOrderNo,
                     CreatedDate = DateTime.Now.Date,
                     IsRead = false,
-                    Role = 1,
+                    Id = 1,
                     RecordId = transportOrderId,
                     Url = destinationURl,
                     TypeOfNotification = "GRN With loss",
-                    RoleName = Application.TRANSPORT_ORDER_CREATER
+                    Application = Application.TRANSPORT_ORDER_CREATER
                 };
 
                 AddNotification(notification);
