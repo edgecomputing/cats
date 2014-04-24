@@ -286,7 +286,7 @@ namespace Cats.Areas.Logistics.Controllers
                                                                                                       commodity = r.Commodity.Name,
                                                                                                       regionId  = r.RegionalRequest.RegionID,
                                                                                                       RegionName = r.AdminUnit.Name
-                                                                                                  });
+                                                                                                  }).Take(5);
             return Json(requestes, JsonRequestBehavior.AllowGet);
         }
 
@@ -302,7 +302,7 @@ namespace Cats.Areas.Logistics.Controllers
                                                                                     regionId = s.ReliefRequisitionDetail.ReliefRequisition.RegionID,
                                                                                     RegionName =s.ReliefRequisitionDetail.ReliefRequisition.AdminUnit.Name,
                                                                                     program = s.ReliefRequisitionDetail.ReliefRequisition.Program.Name
-                                                                                });
+                                                                                }).Take(5);
             return Json(siPcAllocated, JsonRequestBehavior.AllowGet);
         }
 
@@ -319,7 +319,7 @@ namespace Cats.Areas.Logistics.Controllers
                                                                                   zone = _adminUnitService.FindById(p.Transporter.Zone).Name,
                                                                                   transportOrderNo = p.TransportOrderNo,
                                                                                   mobileNo = p.Transporter.MobileNo
-                                                                              });
+                                                                              }).Take(5);
             return Json(transporters, JsonRequestBehavior.AllowGet);
         }
         #endregion

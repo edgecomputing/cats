@@ -40,6 +40,7 @@
 
 @using (Html.BeginForm("Save", "Donation", FormMethod.Post, new { id = "frmDonation" }))
 {
+    @Html.HiddenFor(h=>h.DonationHeaderPlanID)
     <div class="control-group form-horizontal well">
         <div class="row">
             <div class="span6">  

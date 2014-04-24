@@ -149,6 +149,7 @@ namespace Cats.Areas.Logistics.Controllers
                 donationViewModel.Programs.Add(giftCertificate.Program);
                 donationViewModel.ProgramID = giftCertificate.ProgramID;
                 donationViewModel.GiftCertificateID = giftCertificate.GiftCertificateID;
+              
                 donationViewModel.SINumber = siNumber;
                 donationViewModel.ETA = giftCertificate.ETA;
                 donationViewModel.CommodityTypeID = giftCertificate.GiftCertificateDetails[0].Commodity.CommodityTypeID;
@@ -187,6 +188,7 @@ namespace Cats.Areas.Logistics.Controllers
                 donationViewModel.EnteredBy = donation.EnteredBy;
                 donationViewModel.WieghtInMT = donation.DonatedAmount;
                 donationViewModel.ShippingInstructionId = donation.ShippingInstructionId;
+                donationViewModel.SINumber = donation.ShippingInstruction.Value;
                 donationViewModel.CommodityTypeID = (int) donation.CommodityTypeID;
                 donationViewModel.CommodityName = donation.Commodity.Name;
                 donationViewModel.DonorName = donation.Donor.Name;

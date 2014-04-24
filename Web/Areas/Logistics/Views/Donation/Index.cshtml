@@ -24,9 +24,8 @@
         columns.Bound(p => p.ProgramName).Title("Program").Width(200);
         columns.Bound(p => p.DonorName).Title("Donor").Width(200);
         columns.Bound(p => p.CommodityName).Title("Commodity").Width(200);
-        columns.Bound(p => p.ETA).Title("Commodity").Width(200);
-        columns.Bound(p => p.ModeOfTransport).Title("Commodity").Width(200);
-        columns.Bound(p => p.Vessel).Title("Commodity").Width(200);
+        columns.Bound(p => p.StrETA).Title("ETA").Width(200);
+       
         columns.Command(p =>
         {
             p.Custom("Edit").Click("Edit");

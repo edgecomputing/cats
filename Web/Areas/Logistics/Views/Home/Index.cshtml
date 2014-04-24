@@ -213,7 +213,7 @@
                             </h3>
                             <ul class="portlet-tools pull-right">
                                 <li>
-                                    <button class="btn btn-sm btn-default">
+                                    <button ng-click="Detail()" class="btn btn-sm btn-default">
                                         Detail
                                     </button>
                                    
@@ -901,8 +901,10 @@
            
             window.location = "@Url.Action("AssignHubFromLogisticsDashboard", "DispatchAllocation", new {Area = "Logistics" })" + "?paramRegionId=" + url.regionId;
         };
-        
-        
+
+        $scope.Detail = function() {
+            window.location = "@Url.Action("Index", "DispatchAllocation", new {Area = "Logistics" })";
+        };
     }]);
     
     myApp.controller('HubAllocationController', ['$scope', '$http','$rootScope', function ($scope, $http, $rootScope) {

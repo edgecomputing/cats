@@ -24,9 +24,11 @@ namespace Cats.Areas.Logistics.Models
         public Nullable<System.Guid> TransactionGroupID { get; set; }
         public Nullable<bool> IsCommited { get; set; }
         public Nullable<int> EnteredBy { get; set; }
+        public string strEnteredBy { get; set; }
         public string ProcessedBy { get; set; }
         public Nullable<System.DateTime> AllocationDate { get; set; }
         public string DateOfAllocation { get; set; }
+        public string StrETA { get; set; }
         public string Remark { get; set; }
     }
 }
