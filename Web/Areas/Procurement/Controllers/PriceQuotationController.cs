@@ -309,7 +309,7 @@ namespace Cats.Areas.Procurement.Controllers
 
         public ActionResult BidProposalHeader()
         {
-            if (TempData["CustomError"] != null) { ModelState.AddModelError("Errors", TempData["CustomError"].ToString()); }
+            if (TempData["CustomError"] != null) { ModelState.AddModelError("Success", TempData["CustomError"].ToString()); }
             return View();
         }
 
