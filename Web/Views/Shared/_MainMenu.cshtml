@@ -162,10 +162,19 @@
                                         @Html.RegionalOperationMenuItem(@Html.Translate("Requests"), @Url.Action("Index", "Request", new { Area = "EarlyWarning" }),
                                                                         RegionalConstants.Operation.View_requests )
                                     </li>
-                                      <li>
+                                    <li>
                                         @Html.RegionalOperationMenuItem(@Html.Translate("New Request"), @Url.Action("New", "Request", new { Area = "EarlyWarning" }),
                                                                         RegionalConstants.Operation.Add_new_regional_request )
                                     </li>
+                                    @* <li>
+                                        @Html.EarlyWarningOperationMenuItem()OperationMenuItem(@Html.Translate("New Request"), @Url.Action("New", "Request", new { Area = "EarlyWarning" }),
+                                                                        EarlyWarningConstants.Operation.add )
+                                    </li>*@
+                                    
+                                     <li>
+                                           @Html.EarlyWarningOperationMenuItem(@Url.Action("NewIdps", "Request", new { Area = "EarlyWarning" }),
+                                           EarlyWarningConstants.Operation.Add_New_IDPS_request, @Html.Translate2(PAGE_NAME, "Add New IDPS request"))
+                                     </li>
                                     @*<li><a href="@Url.Action("New", "Request", new { Area = "EarlyWarning" })">@Html.Translate("New Request") </a></li>*@
                                     @*<li><a href="@Url.Action("NewIdps", "Request", new { Area = "EarlyWarning" })">@Html.Translate("New IDPS Request")</a></li>*@
                                 </ul>
