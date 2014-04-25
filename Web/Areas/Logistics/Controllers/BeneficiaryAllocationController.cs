@@ -60,10 +60,10 @@ namespace Cats.Areas.Logistics.Controllers
 
             return Json(new SelectList(zones.ToArray(), "AdminUnitID", "Name"), JsonRequestBehavior.AllowGet);
         }
-        public FileResult Print()
+        public FileResult Print(int id)
         {
             var reportPath = Server.MapPath("~/Report/EarlyWarning/RRDDetail.rdlc");
-            var reportData = _beneficiaryAllocationService.GetBenficiaryAllocation().ToList();
+            var reportData = _beneficiaryAllocationService.GetBenficiaryAllocationPrintOut(id).ToList();
             var dataSourceName = "RRDDetail";
             var result = ReportHelper.PrintReport(reportPath, reportData, dataSourceName);
 
