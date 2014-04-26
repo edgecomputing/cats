@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 namespace Cats.Models.Constant
 {
+    
+
     public class UserType
     {
         public enum CASETEAM
@@ -15,7 +17,7 @@ namespace Cats.Models.Constant
             LOGISTICS = 3,
             PROCUREMENT = 4,
             FINANCE = 5,
-
         }
+        
     }
 }

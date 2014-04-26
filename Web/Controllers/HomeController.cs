@@ -119,14 +119,6 @@ namespace Cats.Controllers
             ViewBag.UnselectedDashbaords = unselectedDashbaords;
 
             var user = userService.GetUserDetail(HttpContext.User.Identity.Name);
-            //var userPreference = new UserPreferenceEditModel
-            //{
-            //    Language = user.LanguageCode,
-            //    KeyboardLanguage = user.Keyboard,
-            //    PreferedWeightMeasurement = user.PreferedWeightMeasurment,
-            //    DatePreference = user.DatePreference,
-            //    DefaultTheme = user.DefaultTheme
-            //};
             var userPreferenceViewModel = new UserPreferenceViewModel(user);
             ViewBag.Languages = new SelectList(userPreferenceViewModel.Languages, "StringID", "Name", userPreferenceViewModel.Language);
             ViewBag.DateFormatPreference = new SelectList(userPreferenceViewModel.DateFormatPreferences, "StringID", "Name", userPreferenceViewModel.DateFormatPreference);

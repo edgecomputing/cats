@@ -847,6 +847,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Areas\EarlyWarning\Views\Home\Index.cshtml" />
     <Content Include="Areas\Hub\Views\Dispatch\EditorTemplates\GridForeignKey.ascx" />
     <Content Include="Areas\Hub\Views\GiftCertificate\EditorTemplates\GridForeignKey.ascx" />
     <Content Include="Areas\Hub\Views\Receive\EditorTemplates\ComboBox.ascx" />
@@ -1624,7 +1625,6 @@
     <Content Include="Areas\EarlyWarning\Views\Currency\Index.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Currency\Create.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\index.cshtml" />
-    <Content Include="Areas\EarlyWarning\Views\Home\Index.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Currency\_CurrencyLeftBar.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Contribution\InkindDetails.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\HRD\Detail.cshtml" />

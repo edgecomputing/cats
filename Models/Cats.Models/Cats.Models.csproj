@@ -116,6 +116,7 @@
     <Compile Include="SupportType.cs" />
     <Compile Include="Transfer.cs" />
     <Compile Include="TransporterCheque.cs" />
+    <Compile Include="ViewModels\Dashboard\RecentRequests.cs" />
     <Compile Include="ViewModels\DistributionByAgeViewModel.cs" />
     <Compile Include="WoredaStockDistributionDetail.cs" />
     <Compile Include="Delivery.cs" />
