@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using Cats.Areas.Regional.Models;
 using Cats.Services.Dashboard;
 using Cats.Services.EarlyWarning;
+using Cats.Services.Logistics;
 
 namespace Cats.Areas.Regional.Controllers
 {
@@ -19,14 +20,17 @@ namespace Cats.Areas.Regional.Controllers
         private readonly IAdminUnitService _adminUnitService;
         private readonly IFDPService _fdpService;
         private readonly IHRDService _hrdService;
-        
+        private readonly IUtilizationHeaderSerivce _utilization;
+
 
         public FetchDataController(IRegionalDashboard regionalDashboard,
             IRegionalRequestService regionalRequestService,
             IReliefRequisitionService reliefRequisitionService,
             IAdminUnitService adminUnitService,
             IFDPService fdpService,
-            IHRDService hrdService
+            IHRDService hrdService,
+            IUtilizationHeaderSerivce utilization
+
             )
         {
             _regionalDashboard = regionalDashboard;
@@ -35,6 +39,7 @@ namespace Cats.Areas.Regional.Controllers
             _adminUnitService = adminUnitService;
             _fdpService = fdpService;
             _hrdService = hrdService;
+            _utilization = utilization;
         }
 
         public JsonResult Requests(int regionID)
@@ -64,10 +69,26 @@ namespace Cats.Areas.Regional.Controllers
 
         public JsonResult RegionalData(int regionID)
         {
-
             var requests = _regionalRequestService.FindBy(t => t.RegionID == regionID);
             var requisitions = _reliefRequisitionService.FindBy(t => t.RegionID == regionID);
             var totalRequests = requests.Count();
+            var currentPlan = _hrdService.FindBy(t => t.Status == 3).FirstOrDefault().PlanID;
+            var utilizations = _utilization.FindBy(t => t.PlanID == currentPlan);
+            
+            var sum18 = 0;
+            var sum518 = 0;
+            var sum5 = 0;
+            var female = 0;
+            var male = 0;
+
+            if(utilizations!=null){
+            foreach (var i in utilizations) {
+                sum18 = +(i.FemaleAbove18Years+i.MaleAbove18Years);
+                sum5 = +(i.FemaleLessThan5Years + i.MaleLessThan5Years);
+                sum518 = +(i.FemaleBetween5And18Years + i.MaleBetween5And18Years);
+                female = +(i.FemaleAbove18Years + i.FemaleBetween5And18Years + i.FemaleLessThan5Years);
+                male = +(i.MaleAbove18Years + i.MaleBetween5And18Years + i.MaleLessThan5Years);
+            }}
 
 
             var draft = (from r in requests
@@ -97,33 +118,38 @@ namespace Cats.Areas.Regional.Controllers
             var reqHub = (from r in requisitions
                           where r.Status >= 3
                           select r).Count();
-            
-            var d = new DashboardData()
-                {
-                    ApprovedRequests = (decimal)approved*100/totalRequests,
-                    PendingRequests = (decimal)(draft * 100) / totalRequests,
-                    HubAssignedRequests = (decimal)(closed * 100) / totalRequests,
-                    FederalApproved = (decimal)(federalApp * 100) / totalRequests,
 
-                    ApprovedRequisitions = ((decimal)(reqApp * 100) / requisitions.Count()),
-                    HubAssignedRequisitions = ((decimal)(reqHub * 100) / requisitions.Count()),
-                    PendingRequisitions = ((decimal)(reqDraft * 100) / requisitions.Count()),
+            var d = new DashboardData();
 
-                    Above18 = 45,
-                    Bet5And8 = 26,
-                    Below5 = 29,
-                    Female = 24152,
-                    Male = 21451,
-                    IncomingCommodity = 25131,
-                    IncomingDispatches = 2142
-                };
+            if (totalRequests != 0)
+            {
+                d.ApprovedRequests = (decimal)approved;
+                d.PendingRequests = (decimal)(draft);
+                d.HubAssignedRequests = (decimal)(closed);
+                d.FederalApproved = (decimal)(federalApp);
+
+            }
+            if (requisitions.Count() != 0)
+            {
+                d.ApprovedRequisitions = ((decimal)(reqApp));
+                d.HubAssignedRequisitions = ((decimal)(reqHub));
+                d.PendingRequisitions = ((decimal)(reqDraft));
+            }
+
+            d.Above18 = sum18;
+            d.Bet5And8 = sum518;
+            d.Below5 = sum5;
+            d.Female = female;
+            d.Male = male;
+
+            d.IncomingCommodity = 25131;
+            d.IncomingDispatches = 2142;
 
             return Json(d, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult ImportantNumbers(int regionID)
         {
-
             var requests = _regionalRequestService.FindBy(t => t.RegionID == regionID);
             var requisitions = _reliefRequisitionService.FindBy(t => t.RegionID == regionID);
             var fdps = _fdpService.FindBy(t => t.AdminUnit.AdminUnit2.AdminUnit2.AdminUnitID == regionID);
@@ -138,7 +164,6 @@ namespace Cats.Areas.Regional.Controllers
                 TotalPeople = bene,
                 TotalRequests = requests.Count,
                 TotalRequistions = requisitions.Count
-
             };
             return Json(d, JsonRequestBehavior.AllowGet);
         }

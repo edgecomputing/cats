@@ -15,7 +15,6 @@
         width: 100%;
         height: 240px;
     }
-
 </style>
 
 <div ng-app="myApp">
@@ -25,7 +24,7 @@
             <div class="pull-left {{Flag}}"></div>
             <div><h3>  Regional Dashboard for @ViewBag.RegionName</h3></div>
         </div>
-        
+
         <hr />
         <div class="container row">
             <div class="span6">
@@ -45,9 +44,9 @@
                     </div>
 
                     @*<div class="details column-divider-regional center">
-                        <span class="content">Required Commodity</span>
-                        <span class="value">{{Numbers.TotalCommodity|number}} QT </span>
-                    </div>*@
+                            <span class="content">Required Commodity</span>
+                            <span class="value">{{Numbers.TotalCommodity|number}} QT </span>
+                        </div>*@
 
                     <!-- /.details -->
 
@@ -85,7 +84,7 @@
                     <div class="details">
                         <span class="content">Beneficiaries in Current HRD</span>
                         <span class="value">{{Numbers.TotalPeople|number}}</span>
-                        
+
                     </div>
                     <!-- /.details -->
 
@@ -149,103 +148,34 @@
                                             <th>FDPS</th>
                                             <th>Beneficiaries</th>
                                             <th>Amount(QT)</th>
-                                            <th>Detail</th>
                                             <th>Status</th>
+                                            <th>Detail</th>
                                             @*<th class="align-center">Action</th>*@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        
+
                                         <tr class="" ng-repeat="request in Requests">
-                                            @*<td class="hidden-xs">{{request[1].Value}}</td>
-                                            <td>{{request[3].Value| date:'medium'}}</td>
-                                            <td><span class="label label-success">{{request[4].Value}}</span></td>
-                                            <td class="align-center">
-                                                <a class="btn btn-sm btn-default" data-original-title="Approve">
-                                                    <i class="icon-upload"></i>Approve
-                                                </a>
-                                            </td>*@
-                                            <td class="hidden-xs">{{request[1].Value}}</td>
-                                            <td>{{request[2].Value}}</td>
-                                            <td>{{25142|number}}</td>
-                                            <th>{{1442|number}} QT</th>
-                                            <th>
-                                                <a href="javascript:;" class="btn btn-sm btn-default">View <i class="icon-chevron-right"></i>
-                                                </a>
-                                            </th>
-                                            <td><span class="label label-success">{{request[4].Value}}</span></td>
-                                           @* <td class="align-center">
-                                                <a class="btn btn-sm btn-default" data-original-title="Approve">
-                                                    <i class="icon-upload"></i>Approve
-                                                </a>
-                                            </td>*@
-                                        </tr>
-
-                                        @*<tr class="">
-                                            <td class="hidden-xs">REF-15420</td>
-                                            <td>28</td>
-                                            <td>{{2800|number}}</td>
-                                            <th>{{14580|number}} QT</th>
-                                            <th>
-                                                <a href="javascript:;" class="btn btn-sm btn-default">View <i class="icon-chevron-right"></i>
-                                                </a>
-                                            </th>
-                                            <td><span class="label label-success">Approved</span></td>
-                                            <td class="align-center">
+                                            <td class="hidden-xs">{{request.RequestNumber}}</td>
+                                            <td>{{request.Month}}</td>
+                                            <td>{{request.Beneficiaries}}</td>
+                                            <th>{{request.Amount}} QT</th>
+                                            <td>
+                                                <div>
+                                                    <span>
+                                                        {{request.Status}}
+                                                    </span>
+                                                </div>
                                             </td>
-                                        </tr>
-
-                                        <tr class="">
-                                            <td class="hidden-xs">REF-00420</td>
-                                            <td>320</td>
-                                            <td>{{2514|number}}</td>
-                                            <th>{{30580|number}} QT</th>
                                             <th>
-                                                <a href="javascript:;" class="btn btn-sm btn-default">View <i class="icon-chevron-right"></i>
+                                                <a ng-click="viewRequest(request)" class="btn btn-sm btn-default">
+                                                    View <i class="icon-chevron-right"></i>
                                                 </a>
                                             </th>
-                                            <td><span class="label label-danger">Pending</span></td>
-                                            <td class="align-center">
-                                                <a class="btn btn-sm btn-default" data-original-title="Approve">Allocate
-                                                </a>
-                                            </td>
+                                           
                                         </tr>
-
-                                        <tr class="">
-                                            <td class="hidden-xs">REF-15420</td>
-                                            <td>28</td>
-                                            <td>{{2800|number}}</td>
-                                            <th>{{14580|number}} QT</th>
-                                            <th>
-                                                <a href="javascript:;" class="btn btn-sm btn-default">View <i class="icon-chevron-right"></i>
-                                                </a>
-                                            </th>
-                                            <td><span class="label label-warning">Allocated</span></td>
-                                            <td class="align-center">
-                                                <a class="btn btn-sm btn-default" data-original-title="Approve">Approve
-                                                </a>
-                                            </td>
-                                        </tr>
-
-                                        <tr class="">
-                                            <td class="hidden-xs">REF-15420</td>
-                                            <td>85</td>
-                                            <td>{{8547|number}}</td>
-                                            <th>{{54124|number}} QT</th>
-                                            <th>
-                                                <a href="javascript:;" class="btn btn-sm btn-default">View <i class="icon-chevron-right"></i>
-                                                </a>
-                                            </th>
-                                            <td><span class="label label-warning">Allocated</span></td>
-                                            <td class="align-center">
-                                                <a class="btn btn-sm btn-default" data-original-title="Approve">Approve
-                                                </a>
-                                            </td>
-                                        </tr>*@
-                                        
                                     </tbody>
                                 </table>
-
                         </div>
                         <!-- /.table-responsive -->
                     </div>
@@ -266,108 +196,6 @@
                         <div class="portlet-content" ng-controller="stageController">
                             <div id="containerPIE" class="chartWrap" draw-pie-chart=""></div>
                         </div>
-                        @*<div class="portlet-content">
-                           
-                             <div class="progress-stat">
-                                <div class="stat-header">
-                                    <div class="pull-left">
-                                        Draft Requests
-                                    </div>
-                                    <!-- /.stat-label -->
-                                    <div class="pull-right">
-                                         {{Data.PendingRequests|number:2}}%
-                                    </div>
-                                    <!-- /.stat-value -->
-                                </div>
-                                <!-- /stat-header -->
-                                <div class="progress progress-success">
-                                    <div class="bar" style="width: {{Data.PendingRequests}}%"></div>
-                                </div>
-                                <!-- /.progress -->
-                            </div>
-                            <!-- /.progress-stat -->
-
-                            <div class="progress-stat">
-
-                                <div class="stat-header">
-
-                                    <div class="pull-left">
-                                        Approved Requests
-                                    </div>
-                                    <!-- /.stat-label -->
-
-                                    <div class="pull-right">
-                                        {{Data.ApprovedRequests|number:2}}%
-                                    </div>
-                                    <!-- /.stat-value -->
-
-                                </div>
-                                <!-- /stat-header -->
-
-                               
-                                <div class="progress progress-success">
-                                    <div class="bar" style="width: {{Data.ApprovedRequests}}%"></div>
-                                </div>
-                                <!-- /.progress -->
-
-                            </div>
-                            <!-- /.progress-stat -->
-
-                           
-
-                            <div class="progress-stat">
-
-                                <div class="stat-header">
-
-                                    <div class="pull-left">
-                                        Closed
-                                    </div>
-                                    <!-- /.stat-label -->
-
-                                    <div class="pull-right">
-                                        {{Data.HubAssignedRequests|number:2}}%
-                                    </div>
-                                    <!-- /.stat-value -->
-
-                                </div>
-                                <!-- /stat-header -->
-
-                                <div class="progress progress-success">
-                                    <div class="bar" style="width: {{Data.HubAssignedRequests}}%"></div>
-                                </div>
-                                <!-- /.progress -->
-
-                            </div>
-                            <!-- /.progress-stat -->
-                            
-                            
-                            <div class="progress-stat">
-
-                                <div class="stat-header">
-
-                                    <div class="pull-left">
-                                        Approved by Federal
-                                    </div>
-                                    <!-- /.stat-label -->
-
-                                    <div class="pull-right">
-                                        {{Data.FederalApproved|number:2}}%
-                                    </div>
-                                    <!-- /.stat-value -->
-
-                                </div>
-                                <!-- /stat-header -->
-
-                                <div class="progress progress-success">
-                                    <div class="bar" style="width: {{Data.FederalApproved}}%"></div>
-                                </div>
-                                <!-- /.progress -->
-
-                            </div>
-                            <!-- /.progress-stat -->
-                            <br>
-                        </div>*@
-                        <!-- /.portlet-content -->
 
                     </div>
                     <!-- /.portlet -->
@@ -394,7 +222,7 @@
             </div>
             <div id="RequisitionContent" class="row">
                 <div>&nbsp;</div>
-                   <div class="span8">
+                <div class="span8">
                     <div class="portlet">
                         <div class="portlet-header">
                             <h3>
@@ -414,94 +242,36 @@
                         <!-- /.portlet-header -->
                         <div class="portlet-content">
                             <th class="table-responsive">
-                            <table id="" class="table table-striped table-checkable">
-                                <thead>
-                                    <tr>
-                                        <th class="hidden-xs">Number</th>
-                                        <th>Commodity</th>
-                                        <th>Beneficiaries</th>
-                                        <th>Amount(QT)</th>
-                                        <th>Status</th>
-                                        <th class="align-center">Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @* <tr class="">
-                                            <td class="hidden-xs">REQ-1206</td>
-                                            <td>Pulse</td>
-                                            <td>{{8000|number}}</td>
-                                            <th>{{120|number}} QT</th>
-                                            <td><span class="label label-success">Approved</span></td>
-                                            <td>
-                                                <a href="javascript:;" class="btn btn-sm btn-default">View <i class="icon-chevron-right"></i>
-                                                </a>
+                                <table id="" class="table table-striped table-checkable">
+                                    <thead>
+                                        <tr>
+                                            <th class="hidden-xs">Number</th>
+                                            <th>Commodity</th>
+                                            <th>Beneficiaries</th>
+                                            <th>Amount(QT)</th>
+                                            <th>Status</th>
+                                            <th class="align-center">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="" ng-repeat="requisition in Requisitions">
 
+                                            <td>{{requisition.RequisitionNo}}</td>
+                                            <th>{{requisition.Name}}</th>
+                                            <td>{{requisition.BenficiaryNo}}</td>
+                                            <th>{{requisition.Amount|number}} QT</th>
+
+                                            <td><span class="label label-danger">{{requisition.Status}}</span></td>
+                                            <td>
+                                                @* <a ng-href="@Url.Action("Allocation", "ReliefRequisition", new { Area = "EarlyWarning", id = 2 })" class="btn btn-sm btn-default">
+                                                    View <i class="icon-chevron-right"></i>
+                                                </a>*@
+                                                <a ng-click="viewRequistion(requisition)" class="btn btn-sm btn-default"> View <i class="icon-chevron-right"></i></a>
                                             </td>
                                         </tr>
 
-                                        <tr class="">
-                                            <td class="hidden-xs">REQ-1824</td>
-                                            <td>Cereal</td>
-                                            <td>{{7500|number}}</td>
-                                            <th>{{142|number}} QT</th>
-                                            <td><span class="label label-danger">Pending</span></td>
-                                            <td>
-                                                <a href="javascript:;" class="btn btn-sm btn-default">View <i class="icon-chevron-right"></i>
-                                                </a>
-                                                <a class="btn btn-sm btn-default" data-original-title="Approve">
-                                                    <i class="icon-upload"></i>Approve
-                                                </a>
-                                            </td>
-                                        </tr>
-
-                                        <tr class="">
-                                            <td class="hidden-xs">REQ-1325</td>
-                                            <td>Oil</td>
-                                            <td>{{5824|number}}</td>
-                                            <th>{{546|number}} QT</th>
-                                            <td><span class="label label-success">Approved</span></td>
-                                            <td>
-                                                <a href="javascript:;" class="btn btn-sm btn-default">View <i class="icon-chevron-right"></i>
-                                                </a>
-
-                                            </td>
-                                        </tr>
-
-                                        <tr class="">
-                                            <td class="hidden-xs">REQ-0026</td>
-                                            <td>Wheat</td>
-                                            <td>{{9251|number}}</td>
-                                            <th>{{280|number}} QT</th>
-                                            <td><span class="label label-danger">Pending</span></td>
-                                            <td>
-                                                <a href="javascript:;" class="btn btn-sm btn-default">View <i class="icon-chevron-right"></i>
-                                                </a>
-                                                <a class="btn btn-sm btn-default" data-original-title="Approve">
-                                                    <i class="icon-upload"></i>Approve
-                                                </a>
-                                            </td>
-                                        </tr>*@
-
-                                    <tr class="" ng-repeat="requisition in Requisitions">
-
-                                        <td>{{requisition[1].Value}}</td>
-                                        <th>{{requisition[7].Value}}</th>
-                                        <td>{{requisition[2].Value|number}}</td>
-                                        <th>{{requisition[3].Value|number}} QT</th>
-
-                                        <td><span class="label label-danger">{{requisition[4].Value}}</span></td>
-                                        <td>
-                                            <a ng-href="@Url.Action("Allocation", "ReliefRequisition", new { Area = "EarlyWarning", id = 2 })" class="btn btn-sm btn-default">View <i class="icon-chevron-right"></i>
-                                            </a>
-
-                                            @*<a class="btn btn-sm btn-default" data-original-title="Approve">
-                                                <i class="icon-upload"></i>Approve
-                                            </a>*@
-                                        </td>
-                                    </tr>
-
-                                </tbody>
-                            </table>
+                                    </tbody>
+                                </table>
 
                         </div>
                         <!-- /.table-responsive -->
@@ -522,87 +292,7 @@
                         <div class="portlet-content" ng-controller="stageController">
                             <div id="container" class="chartWrap" draw-requisitions-chart=""></div>
                         </div>
-                        @*<div class="portlet-content">
-                          
-
-                            <div class="progress-stat">
-
-                                <div class="stat-header">
-
-                                    <div class="pull-left">
-                                        Draft Requisitions
-                                    </div>
-                                    <!-- /.stat-label -->
-
-                                    <div class="pull-right">
-                                        {{Data.PendingRequisitions|number:2}}%
-                                    </div>
-                                    <!-- /.stat-value -->
-
-                                </div>
-                                <!-- /stat-header -->
-
-                                <div class="progress progress-success">
-                                    <div class="bar" style="width:  {{Data.PendingRequisitions}}%"></div>
-                                </div>
-                                <!-- /.progress -->
-
-                            </div>
-                            <!-- /.progress-stat -->
-                            
-                            <div class="progress-stat">
-
-                                <div class="stat-header">
-
-                                    <div class="pull-left">
-                                        Approved Requisitions
-                                    </div>
-                                    <!-- /.stat-label -->
-
-                                    <div class="pull-right">
-                                        {{Data.ApprovedRequisitions|number:2}}%
-                                    </div>
-                                    <!-- /.stat-value -->
-
-                                </div>
-                                <!-- /stat-header -->
-
-                                <div class="progress progress-success">
-                                    <div class="bar" style="width: {{Data.ApprovedRequisitions}}%"></div>
-                                </div>
-                                <!-- /.progress -->
-
-                            </div>
-                            <!-- /.progress-stat -->
-
-                            <div class="progress-stat">
-
-                                <div class="stat-header">
-
-                                    <div class="pull-left">
-                                        Hub Assigned
-                                    </div>
-                                    <!-- /.stat-label -->
-
-                                    <div class="pull-right">
-                                        {{Data.HubAssignedRequisitions|number:2}}%
-                                    </div>
-                                    <!-- /.stat-value -->
-
-                                </div>
-                                <!-- /stat-header -->
-
-                                <div class="progress progress-success">
-                                    <div class="bar" style="width: {{Data.HubAssignedRequisitions}}%"></div>
-                                </div>
-                                <!-- /.progress -->
-
-                            </div>
-                            <!-- /.progress-stat -->
-
-                            <br>
-                        </div>*@
-                        <!-- /.portlet-content -->
+                       
 
                     </div>
                     <!-- /.portlet -->
@@ -616,7 +306,7 @@
                 <div class="pull-left">
                     <h4>Dispatches</h4>
                 </div>
-                
+
                 <div class="pull-right">
                     <div class="btn-group">
                         <button id="DispatchHeader" type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
@@ -627,7 +317,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div id="DispatchContent" class="row">
                 <div>&nbsp;</div>
 
@@ -664,39 +354,16 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @*<tr class="">
-                                            <td class="hidden-xs">Adahar</td>
-                                            <td>Chefera</td>
-                                            <td>Pulse</td>
-                                            <td>{{510|number:2}}</td>
-                                            <th>Adama Hub</th>
-                                            <td>Weyra</td>
-                                        </tr>
-                                        <tr class="">
-                                            <td class="hidden-xs">Asayta</td>
-                                            <td>Asayta</td>
-                                            <td>Pulse</td>
-                                            <td>{{510|number:2}}</td>
-                                            <th>Adama Hub</th>
-                                            <td>Tana</td>
-                                        </tr>
-                                        <tr class="">
-                                            <td class="hidden-xs">Gagu</td>
-                                            <td>Mille</td>
-                                            <td>Cereal</td>
-                                            <td>{{451|number:2}}</td>
-                                            <th>Adama Hub</th>
-                                            <td>Trans</td>
-                                        </tr>*@
+                                        
 
-                                      <tr class="" ng-repeat="dispatch in Dispatches">
-                                        <td>{{dispatch[0].Value}}</td>
-                                        <th>{{dispatch[1].Value}}</th>
-                                        <td>{{dispatch[2].Value}}</td>
-                                        <th>{{dispatch[5].Value|number:2}} QT</th>
-                                        <td>{{dispatch[3].Value}}</td>
-                                        <th>{{dispatch[4].Value}}</th>
-                                    </tr>
+                                        <tr class="" ng-repeat="dispatch in Dispatches">
+                                            <td>{{dispatch[0].Value}}</td>
+                                            <th>{{dispatch[1].Value}}</th>
+                                            <td>{{dispatch[2].Value}}</td>
+                                            <th>{{dispatch[5].Value|number:2}} QT</th>
+                                            <td>{{dispatch[3].Value}}</td>
+                                            <th>{{dispatch[4].Value}}</th>
+                                        </tr>
 
                                     </tbody>
                                 </table>
@@ -795,7 +462,8 @@
                                             <td>{{80|number}}</td>
                                             <td><span class="label label-default">On process</span></td>
                                             <td>
-                                                <a href="javascript:;" class="btn btn-sm btn-default">View <i class="icon-chevron-right"></i>
+                                                <a href="javascript:;" class="btn btn-sm btn-default">
+                                                    View <i class="icon-chevron-right"></i>
                                                 </a>
                                             </td>
                                         </tr>
@@ -806,7 +474,8 @@
                                             <td>{{45|number}}</td>
                                             <td><span class="label label-success">Completed</span></td>
                                             <td>
-                                                <a href="javascript:;" class="btn btn-sm btn-default">View <i class="icon-chevron-right"></i>
+                                                <a href="javascript:;" class="btn btn-sm btn-default">
+                                                    View <i class="icon-chevron-right"></i>
                                                 </a>
                                             </td>
                                         </tr>
@@ -817,7 +486,8 @@
                                             <td>{{24|number}}</td>
                                             <td><span class="label label-success">Completed</span></td>
                                             <td>
-                                                <a href="javascript:;" class="btn btn-sm btn-default">View <i class="icon-chevron-right"></i>
+                                                <a href="javascript:;" class="btn btn-sm btn-default">
+                                                    View <i class="icon-chevron-right"></i>
                                                 </a>
                                             </td>
                                         </tr>
@@ -828,7 +498,8 @@
                                             <td>{{56|number}}</td>
                                             <td><span class="label label-success">Completed</span></td>
                                             <td>
-                                                <a href="javascript:;" class="btn btn-sm btn-default">View <i class="icon-chevron-right"></i>
+                                                <a href="javascript:;" class="btn btn-sm btn-default">
+                                                    View <i class="icon-chevron-right"></i>
                                                 </a>
                                             </td>
                                         </tr>
@@ -859,82 +530,82 @@
                         </div>
 
                         @*<div class="portlet-content">
-                            <div class="progress-stat">
+                                <div class="progress-stat">
 
-                                <div class="stat-header">
+                                    <div class="stat-header">
 
-                                    <div class="pull-left">
-                                        Older than 18 years
+                                        <div class="pull-left">
+                                            Older than 18 years
+                                        </div>
+                                        <!-- /.stat-label -->
+
+                                        <div class="pull-right">
+                                            {{Data.Above18}}%
+                                        </div>
+                                        <!-- /.stat-value -->
+
                                     </div>
-                                    <!-- /.stat-label -->
+                                    <!-- /stat-header -->
 
-                                    <div class="pull-right">
-                                        {{Data.Above18}}%
+                                    <div class="progress progress-info">
+                                        <div class="bar" style="width: {{Data.Above18}}%"></div>
                                     </div>
-                                    <!-- /.stat-value -->
+                                    <!-- /.progress -->
 
                                 </div>
-                                <!-- /stat-header -->
+                                <!-- /.progress-stat -->
 
-                                <div class="progress progress-info">
-                                    <div class="bar" style="width: {{Data.Above18}}%"></div>
-                                </div>
-                                <!-- /.progress -->
+                                <div class="progress-stat">
 
-                            </div>
-                            <!-- /.progress-stat -->
+                                    <div class="stat-header">
 
-                            <div class="progress-stat">
+                                        <div class="pull-left">
+                                            Between 5 and 18 years
+                                        </div>
+                                        <!-- /.stat-label -->
 
-                                <div class="stat-header">
+                                        <div class="pull-right">
+                                            {{Data.Bet5And8}}%
+                                        </div>
+                                        <!-- /.stat-value -->
 
-                                    <div class="pull-left">
-                                        Between 5 and 18 years
                                     </div>
-                                    <!-- /.stat-label -->
+                                    <!-- /stat-header -->
 
-                                    <div class="pull-right">
-                                        {{Data.Bet5And8}}%
+                                    <div class="progress progress-info">
+                                        <div class="bar" style="width: {{Data.Bet5And8}}%"></div>
                                     </div>
-                                    <!-- /.stat-value -->
+                                    <!-- /.progress -->
 
                                 </div>
-                                <!-- /stat-header -->
+                                <!-- /.progress-stat -->
 
-                                <div class="progress progress-info">
-                                    <div class="bar" style="width: {{Data.Bet5And8}}%"></div>
-                                </div>
-                                <!-- /.progress -->
+                                <div class="progress-stat">
 
-                            </div>
-                            <!-- /.progress-stat -->
+                                    <div class="stat-header">
 
-                            <div class="progress-stat">
+                                        <div class="pull-left">
+                                            Younger than 5 years
+                                        </div>
+                                        <!-- /.stat-label -->
 
-                                <div class="stat-header">
+                                        <div class="pull-right">
+                                            {{Data.Below5}}%
+                                        </div>
+                                        <!-- /.stat-value -->
 
-                                    <div class="pull-left">
-                                        Younger than 5 years
                                     </div>
-                                    <!-- /.stat-label -->
+                                    <!-- /stat-header -->
 
-                                    <div class="pull-right">
-                                        {{Data.Below5}}%
+                                    <div class="progress progress-info">
+                                        <div class="bar" style="width: {{Data.Below5}}%"></div>
                                     </div>
-                                    <!-- /.stat-value -->
+                                    <!-- /.progress -->
 
                                 </div>
-                                <!-- /stat-header -->
-
-                                <div class="progress progress-info">
-                                    <div class="bar" style="width: {{Data.Below5}}%"></div>
-                                </div>
-                                <!-- /.progress -->
-
-                            </div>
-                            <!-- /.progress-stat -->
-                            <br>
-                        </div>*@
+                                <!-- /.progress-stat -->
+                                <br>
+                            </div>*@
                         <!-- /.portlet-content -->
 
                     </div>
@@ -966,6 +637,16 @@
                                 <div class="details ">
                                     <span class="content">Male</span>
                                     <span class="value">{{Data.Male|number}} </span>
+                                </div>
+                            </a>
+                            <br>
+                        </div>
+
+                        <div class="">
+                            <a href="javascript:;" class="dashboard-stat">
+                                <div class="details ">
+                                    <span class="content">Total</span>
+                                    <span class="value">{{(Data.Male+Data.Female)|number}} </span>
                                 </div>
                             </a>
                             <br>
@@ -1008,8 +689,8 @@
         $scope.Requisitions = [];
         $scope.Dispatches = [];
         $scope.Data = [];
-       
-        
+
+
         var onRequestsSuccess = function (data) {
             $scope.Requests = data;
         };
@@ -1021,7 +702,7 @@
         var onDispatchesSuccess = function (data) {
             $scope.Dispatches = data;
         };
-        
+
         var onDashboardDataSuccess = function (data) {
             $scope.Data = data;
         };
@@ -1036,17 +717,25 @@
             $http.post("@Url.Action("Requisitions", "FetchData", new { Area = "Regional" })", $scope.reqParam).success(onRequisitionsSuccess);
         };
 
-        $scope.getDispatches = function() {
-            $http.post("@Url.Action("Dispatches", "FetchData", new { Area = "Regional" })", $scope.reqParam).success(onDispatchesSuccess);
-        };
-        
         $scope.getDispatches = function () {
             $http.post("@Url.Action("Dispatches", "FetchData", new { Area = "Regional" })", $scope.reqParam).success(onDispatchesSuccess);
         };
 
-        $scope.getRegionalData = function() {
+        $scope.getDispatches = function () {
+            $http.post("@Url.Action("Dispatches", "FetchData", new { Area = "Regional" })", $scope.reqParam).success(onDispatchesSuccess);
+        };
+        
+        $scope.getRegionalData = function () {
             $http.post("@Url.Action("RegionalData", "FetchData", new { Area = "Regional" })", $scope.reqParam).success(onDashboardDataSuccess);
         };
+
+        $scope.viewRequistion = function (item) {
+            window.location = "@Url.Action("Allocation","ReliefRequisition",new {Area="EarlyWarning"})" + "?id=" + +item.RequisitionID;
+        };
+        
+        $scope.viewRequest = function (item) {
+            window.location = "@Url.Action("Details","Request",new {Area="EarlyWarning"})" + "?id=" + +item.RegionalRequestID;
+         };
 
         $scope.getRequests();
         $scope.getRequisitions();
@@ -1059,7 +748,7 @@
         $scope.reqParam = { regionID: "@ViewBag.RegionID" };
         $scope.Numbers = [];
         $scope.Flag;
-        
+
         var regionFlags = [
                                "flag flag-federal",
                                "flag flag-afar",
@@ -1072,18 +761,18 @@
                                "flag flag-oromiya",
                                "flag flag-SNNPR",
                                "flag flag-somali"
-                          ];
+        ];
 
         var onNumbersSuccess = function (data) {
             $scope.Numbers = data;
-            $scope.Flag = regionFlags['@ViewBag.RegionID'-1];
+            $scope.Flag = regionFlags['@ViewBag.RegionID' - 1];
             //alert($scope.Flag)
         };
 
         $scope.getNumbers = function () {
             $http.post("@Url.Action("ImportantNumbers", "FetchData", new { Area = "Regional" })", $scope.reqParam).success(onNumbersSuccess);
         };
-        
+
         $scope.getNumbers();
     }
 
@@ -1097,7 +786,7 @@
 
 
     /* Controllers */
-    function stageController($scope,$http) {
+    function stageController($scope, $http) {
         $scope.type = 'Requests Percentage';
         var onDashboardDataSuccess = function (d) {
 
@@ -1111,7 +800,7 @@
             $scope.dataRequisition = [
                 ['Assigned', d["HubAssignedRequisitions"]],
                 ['Pending', d["PendingRequisitions"]],
-                ['Approved', d["ApprovedRequisitions"]]               
+                ['Approved', d["ApprovedRequisitions"]]
             ];
 
             $scope.age = [
@@ -1120,7 +809,7 @@
                 ['Younger than 5', d["Below5"]]
             ];
 
-            };
+        };
         $scope.initData = function () {
             $http.post("@Url.Action("RegionalData", "FetchData", new { Area = "Regional" })", $scope.reqParam).success(onDashboardDataSuccess);
         };
@@ -1131,53 +820,53 @@
 
     angular.module('myApp.directives', []).
     directive('drawRequisitionsChart', function () {
-      // return the directive link function. (compile function not needed)
-      return function (scope, element, attrs) {
+        // return the directive link function. (compile function not needed)
+        return function (scope, element, attrs) {
 
-          var container = $(element).attr("id");
-          // watch the expression, and update the UI on change.
-          scope.$watch('dataRequisition', function () {
-              drawPlot();
-          }, true);
+            var container = $(element).attr("id");
+            // watch the expression, and update the UI on change.
+            scope.$watch('dataRequisition', function () {
+                drawPlot();
+            }, true);
 
-          var drawPlot = function () {
-              var chart;
-              chart = new Highcharts.Chart({
-                  chart: {
-                      renderTo: container
-                  },
-                  credits: {
-                      enabled: false
-                  },
-                  title: {
-                      text: ''
-                  },
-                  exporting: {
-                      enabled: false
-                  },
-                  tooltip: {
-                      pointFormat: '{series.name}: <b>{point.percentage}%</b>',
-                      percentageDecimals: 1
-                  },
-                  plotOptions: {
-                      pie: {
-                          allowPointSelect: true,
-                          cursor: 'pointer',
-                          dataLabels: {
-                              enabled: false
-                          },
-                          showInLegend: true
-                      }
-                  },
-                  series: [{
-                      type: 'pie',
-                      name: 'Requisitions Percentage',
-                      data: scope.dataRequisition
-                  }]
-              });
-          }
-      }
-  });
+            var drawPlot = function () {
+                var chart;
+                chart = new Highcharts.Chart({
+                    chart: {
+                        renderTo: container
+                    },
+                    credits: {
+                        enabled: false
+                    },
+                    title: {
+                        text: ''
+                    },
+                    exporting: {
+                        enabled: false
+                    },
+                    tooltip: {
+                        pointFormat: '{series.name}: <b>{point.percentage}</b>%<b> ({point.y})</b> requisitions ',
+                        percentageDecimals: 1
+                    },
+                    plotOptions: {
+                        pie: {
+                            allowPointSelect: true,
+                            cursor: 'pointer',
+                            dataLabels: {
+                                enabled: false
+                            },
+                            showInLegend: true
+                        }
+                    },
+                    series: [{
+                        type: 'pie',
+                        name: 'Percentage',
+                        data: scope.dataRequisition
+                    }]
+                });
+            }
+        }
+    });
 
     angular.module('myApp.directives').
     directive('drawPieChart', function () {
@@ -1204,7 +893,7 @@
                         enabled: false
                     },
                     tooltip: {
-                        pointFormat: '{series.name}: <b>{point.percentage}%</b>',
+                        pointFormat: '{series.name}: <b>{point.percentage}</b>% <b>({point.y})</b> Requests',
                         percentageDecimals: 1
                     },
                     plotOptions: {
@@ -1219,7 +908,7 @@
                     },
                     series: [{
                         type: 'pie',
-                        name: 'Requests Percentage',
+                        name: 'Percentage',
                         data: scope.data
                     }]
                 });
@@ -1252,8 +941,7 @@
                        enabled: false
                    },
                    tooltip: {
-                       pointFormat: '{series.name}: <b>{point.percentage}%</b>',
-                       percentageDecimals: 1
+                       pointFormat: '{series.name}: <b>{point.percentage:.2f}%</b> ({point.y}) people',
                    },
                    plotOptions: {
                        pie: {
@@ -1267,7 +955,7 @@
                    },
                    series: [{
                        type: 'pie',
-                       name: 'Requests Percentage',
+                       name: 'Age Percentage',
                        data: scope.age
                    }]
                });
@@ -1275,4 +963,3 @@
        }
    });
 </script>
-
