@@ -1492,7 +1492,9 @@ namespace Cats.Services.Hub
         /// <returns></returns>
         public List<StartingBalanceViewModelDto> GetListOfStartingBalances(int hubID)
         {
-            return (from t in _unitOfWork.TransactionRepository.Get(null, null, "ProjectCode,Program,Commodity,Account,TransactionGroup.ReceiveDetails,TransactionGroup.DispatchDetails,TransactionGroup.InternalMovements,TransactionGroup.Adjustments")
+            
+
+            return (from t in _unitOfWork.TransactionRepository.Get(t=>t.Account!=null, null, "ProjectCode,Program,Commodity,Account,TransactionGroup.ReceiveDetails,TransactionGroup.DispatchDetails,TransactionGroup.InternalMovements,TransactionGroup.Adjustments")
                     where
                     !t.TransactionGroup.ReceiveDetails.Any()
                     &&
@@ -1503,6 +1505,7 @@ namespace Cats.Services.Hub
                     !t.TransactionGroup.Adjustments.Any()
                     &&
                     t.HubID == hubID
+                   
                     join d in _unitOfWork.DonorRepository.Get() on t.Account.EntityID equals d.DonorID
                     where t.Account.EntityType == "Donor"
                     select new StartingBalanceViewModelDto()
