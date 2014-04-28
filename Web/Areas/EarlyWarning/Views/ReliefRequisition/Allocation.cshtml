@@ -225,4 +225,14 @@
             return false;
         });
     });
+    
+</script>
+<script>
+    $(function () {
+        var requistionId = @Model.RequisitionID;
+        
+
+        var printurl = "@Url.Action("Print", "BeneficiaryAllocation",new {area="Logistics"})" +"/"+requistionId;
+        $("#toolbar_button_print").attr("href", printurl);
+    });
 </script>

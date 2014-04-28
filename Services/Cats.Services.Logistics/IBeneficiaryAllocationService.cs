@@ -13,6 +13,7 @@ namespace Cats.Services.Logistics
    {
 
        IEnumerable<BeneficiaryAllocation> GetBenficiaryAllocation(Expression<Func<BeneficiaryAllocation, bool>> predicate = null);
+       IEnumerable<BeneficiaryAllocation> GetBenficiaryAllocationPrintOut(int id,Expression<Func<BeneficiaryAllocation, bool>> predicate = null);
 
    }
 }
