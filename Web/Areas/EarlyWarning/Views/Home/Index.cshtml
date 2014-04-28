@@ -151,6 +151,7 @@
                                     </tr>
                                 </thead>
                                 <tbody >
+                                   
                                     @foreach(System.Data.DataRow row in Model.Rows)
                                     {
                                         <tr>
@@ -160,16 +161,43 @@
                                                 {
                                                     @*<td>@cell.ToString()</td>*@
                                                     <td>@String.Format("{0:n0}",@cell)</td>
+                                                
+                                                    //sum = sum + (int) cell.ToString();
                                                 }
                                                 else
                                                 {
                                                     <td>@String.Format("{0:n0}",@cell)</td>@*
+                                                    
                                                     <td>@cell.ToString()</td>*@
                                                 }
+                                                
                                             }
+                                            
                                         </tr>
+                                       
                                     } 
-                                    
+                                   @* @{decimal[] sum = new decimal[] {}}
+                                    @foreach(System.Data.DataRow row in Model.Rows)
+                                    {
+                                        <tr>
+                                            @for (int index = 0; index < row.ItemArray.Length; index++)
+                                            {
+                                                var cell = row.ItemArray[index];
+                                                if (cell.GetType() == typeof (decimal))
+                                                {
+                                                    
+
+                                                    sum[index] = sum[index] + (int) cell;
+                                                    <td> sum[0]</td>
+                                                }
+                                               
+                                            }
+                                            
+                                        </tr>
+                                       
+                                    } 
+                                    *@
+
                                 </tbody>
                             </table>
 
