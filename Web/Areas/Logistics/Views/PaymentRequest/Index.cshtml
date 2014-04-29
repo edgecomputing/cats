@@ -30,6 +30,7 @@
         <th>Transport Order</th>
         <th>Requested Amount</th>
         <th>Transported Quantity</th>
+        <th>Total Quantity</th>
         <th>Status</th>
         <th>Date</th>
         <th>Last modified By</th>
@@ -52,6 +53,9 @@
             </td>
             <td style="text-align: right">
                 @item.RequestedAmount
+            </td>
+            <td style="text-align: center">
+                @item.TransportedQuantityInQTL
             </td>
             <td style="text-align: center">
                 @item.TransportOrder.TransportOrderDetails.Sum(y => y.QuantityQtl)
