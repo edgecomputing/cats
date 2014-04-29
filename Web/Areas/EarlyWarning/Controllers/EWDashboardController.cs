@@ -270,7 +270,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             var nationalBenficiaryNo = currentHrd.HRDDetails.Sum(m => m.NumberOfBeneficiaries);
              var requests = _eWDashboardService.FindByRequest(m => m.PlanID == currentHrd.PlanID);
             var requistions = _eWDashboardService.GetAllReliefRequisition();
-            var totalCommodity = currentHrd.Ration.RationDetails.Sum(m => m.Amount);
+            //var totalCommodity = currentHrd.Ration.RationDetails.Sum(m => m.Amount);
             var regions = (from item in currentHrd.HRDDetails
                            select new { item.AdminUnit.AdminUnit2.AdminUnit2.AdminUnitID }
                           ).Distinct().ToList();
