@@ -19,6 +19,16 @@
     @Html.Partial("_AdminLeftBar")
 }
 
+@{
+    if (ViewData["error"]!=null)
+    {
+        <div>
+            
+            <br/>
+            @ViewData["error"]
+        </div>
+    }
+}
 
 @*<div class="row">
     

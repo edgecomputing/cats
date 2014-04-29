@@ -48,25 +48,52 @@ namespace Cats.Areas.Settings.Controllers
 
 
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult FDP_Create([DataSourceRequest] DataSourceRequest request, FDPViewModel fdpViewModel, int? adminUnitID)
+        public ActionResult FDP_Create([DataSourceRequest] DataSourceRequest request, [Bind(Prefix = "models")]IEnumerable<FDPViewModel> fdpViewModel , int? adminUnitID)
         {
+
+            var result = new List<FDPViewModel>();
+
+            
             if (fdpViewModel != null && ModelState.IsValid && adminUnitID.HasValue)
             {
                 try
                 {
-                    fdpViewModel.AdminUnitID = adminUnitID.Value;
-                    var fdp = FDPViewModelBinder.BindFDP(fdpViewModel);
-                    _fdpService.AddFDP(fdp);
-                    ModelState.AddModelError("Success", "Success: FDP Registered.");
+                    foreach (var viewModel in fdpViewModel)
+                    {
+
+                        if (CheckIfDFPExists((int) adminUnitID, viewModel.Name))
+                        {
+                            viewModel.AdminUnitID = adminUnitID.Value;
+                            var fdp = FDPViewModelBinder.BindFDP(viewModel);
+                            _fdpService.AddFDP(fdp);
+                            result.Add(viewModel);
+                        }
+                    }
                 }
                 catch (Exception ex)
                 {
                     ModelState.AddModelError("Errors", "Error: FDP not registered. All fields need to be filled.");
                 }
             }
-            return Json(new[] { fdpViewModel }.ToDataSourceResult(request, ModelState));
+            return Json(result.ToDataSourceResult(request, ModelState));
         }
 
+        private bool CheckIfDFPExists(int woredaId , string name)
+        {
+            try
+            {
+                if (_fdpService.FindBy(f => f.Name == name && f.AdminUnitID == woredaId).Any())
+                {
+                    return false;
+                }
+                else return true;
+            }
+            catch (Exception)
+            {
+
+                return true;
+            }
+        }
         public ActionResult FDP_Update(int fdpId)
         {
             var fdp = _fdpService.FindById(fdpId);

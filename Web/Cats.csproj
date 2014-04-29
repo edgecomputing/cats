@@ -620,6 +620,7 @@
     <Compile Include="Areas\Settings\Controllers\UnitController.cs" />
     <Compile Include="Areas\Settings\Controllers\UserPreferenceController.cs" />
     <Compile Include="Areas\Settings\Controllers\UsersController.cs" />
+    <Compile Include="Areas\Settings\Controllers\UserWarehouse.cs" />
     <Compile Include="Areas\Settings\Models\CaseTeam.cs" />
     <Compile Include="Areas\Settings\Models\ChangePasswordModel.cs" />
     <Compile Include="Areas\Settings\Models\ForgetPasswordRequestModel.cs" />
@@ -1857,6 +1858,7 @@
     <Content Include="Areas\Settings\Views\UserPreference\Index.cshtml" />
     <Content Include="Areas\Settings\Views\AdminUnit\ManageZones.cshtml" />
     <Content Include="Areas\Settings\Views\Users\DeleteAccount.cshtml" />
+    <Content Include="Areas\Settings\Views\UserWarehouse\Index.cshtml" />
     <None Include="dataset.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>dataset.Designer.cs</LastGenOutput>

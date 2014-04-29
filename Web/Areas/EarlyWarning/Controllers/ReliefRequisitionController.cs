@@ -180,6 +180,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             var commodityID = requisitionDetails.FirstOrDefault().CommodityID;
             var RationAmount = GetCommodityRation(id, commodityID);
             RationAmount = RationAmount.GetPreferedRation();
+            
             var requisitionDetailViewModels = RequisitionViewModelBinder.BindReliefRequisitionDetailListViewModel(requisitionDetails,RationAmount);
             return Json(requisitionDetailViewModels.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }

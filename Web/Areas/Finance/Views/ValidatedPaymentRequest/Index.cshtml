@@ -50,15 +50,28 @@
                     </div>
                 </div>
             </div>
-            <div class="">
+            @*<div class="">
                 <div class="span5">
                     <div class="control-group">
                         <div class="control-label">
-                            <label for="PaymentRequest_RequestedAmount">Requested Amount(In QTL)</label>
+                            <label for="PaymentRequest_RequestedAmount">Requested Amount</label>
                         </div>
                         <div class="controls">
                             <input type="text" value="{{SelectedLabourInfo.RequestedAmount}}" name="PaymentRequest.RequestedAmount" id="PaymentRequest_RequestedAmount" 
                                    data-ng-model="SelectedLabourInfo.RequestedAmount" disabled="disabled"/>
+                        </div>
+                    </div>
+                </div>
+            </div>*@
+            <div class="">
+                <div class="span5">
+                    <div class="control-group">
+                        <div class="control-label">
+                            <label for="PaymentRequest_TransportedQuantityInQtl">Transported Quanitity in QTL</label>
+                        </div>
+                        <div class="controls">
+                            <input type="text" value="{{SelectedLabourInfo.TransportedQuantityInQtl}}" name="PaymentRequest.TransportedQuantityInQtl" id="PaymentRequest_TransportedQuantityInQtl" 
+                                   data-ng-model="SelectedLabourInfo.TransportedQuantityInQtl" disabled="disabled"/>
                         </div>
                     </div>
                 </div>
@@ -276,6 +289,7 @@
                 <th>Transporter</th>
                 <th>Transport Order</th>
                 <th>Requested Amount</th>
+                <th> Transported Quantity(in QTL)</th>
                 <th>Status</th>
                 <th>Actions</th>
                 <th></th>
@@ -303,6 +317,9 @@
                     </td>
                     <td>
                         @item.RequestedAmount
+                    </td>
+                    <td>
+                        @item.TransportedQuantityInQTL
                     </td>
                     <td>
                         @state.Name
@@ -388,7 +405,7 @@
                 //called when key is pressed in textbox
                 $("#PaymentRequest_LabourCostRate").keypress(function (e) {
                     //if the letter is not digit then display error and don't type anything
-                    if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57) && e.which != 190) {
+                    if (e.which != 8 && e.which != 0 && (e.which < 46 || e.which > 57) && e.which != 190) {
                         //display error message
                         $("#errmsgPaymentRequest_LabourCostRate").html("Digits Only").show().fadeOut("slow");
                         return false;
@@ -478,7 +495,7 @@
                 $scope.labourCostRateKeyPressed = function () {
                     //alert("LabourCost: " + $scope.SelectedLabourInfo.LabourCost);
                     if ($scope.SelectedLabourInfo != []) {
-                        $scope.SelectedLabourInfo.LabourCost = $scope.SelectedLabourInfo.RequestedAmount * $scope.SelectedLabourInfo.LabourCostRate;
+                        $scope.SelectedLabourInfo.LabourCost = $scope.SelectedLabourInfo.TransportedQuantityInQtl * $scope.SelectedLabourInfo.LabourCostRate;
                         //alert("LabourCost: " + $scope.SelectedLabourInfo.LabourCost);
                     } else {
                     }

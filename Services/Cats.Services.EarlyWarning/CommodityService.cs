@@ -52,8 +52,8 @@ namespace Cats.Services.EarlyWarning
         }
         public List<Commodity> GetAllCommodity()
         {
-            return _unitOfWork.CommodityRepository.FindBy(c => c.ParentID != null);
-            //return _unitOfWork.CommodityRepository.GetAll();
+            //return _unitOfWork.CommodityRepository.FindBy(c => c.ParentID != null);
+            return _unitOfWork.CommodityRepository.GetAll();
         }
 
         public List<Commodity> GetCommonCommodity()
