@@ -54,7 +54,6 @@ namespace Cats.Areas.Hub.Controllers
         public ActionResult GetListOfStartingBalances()
         {
             var userProfile = _userProfileService.GetUser(User.Identity.Name);
-
             List<StartingBalanceViewModelDto> startBalanceDto = _transactionService.GetListOfStartingBalances(userProfile.DefaultHub.HubID);
             return View(new GridModel(startBalanceDto)); 
 

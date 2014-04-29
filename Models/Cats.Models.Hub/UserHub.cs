@@ -9,7 +9,7 @@ namespace Cats.Models.Hubs
     public partial class UserHub
     {
         
-       // [Key ,Column(Order=0)]
+        // [Key ,Column(Order=0)]
         public int UserProfileID { get; set; }
 
     // [Key, Column(Order = 1)]
