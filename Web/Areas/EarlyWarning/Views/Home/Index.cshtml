@@ -179,7 +179,7 @@
                     <!-- /.portlet-content -->
 
                 </div>
-                   <div class="span3">
+                <div class="span3">
 
                     <div class="portlet">
                         <!-- /.portlet-header -->
@@ -195,7 +195,7 @@
                                     <thead>
                                         <tr>
                                             <th class="hidden-xs">Commodity</th>
-                                           <th>Amount in MT</th>
+                                           <th>Ration (Kg/Beneficiary)</th>
                                            
                                         </tr>
                                     </thead>
@@ -212,7 +212,7 @@
                     </div>
                     <!-- /.portlet -->
                 </div>
-                   <div class="span3">
+                <div class="span11">
 
                     <div class="portlet">
                         <div class="portlet-header">
@@ -221,9 +221,14 @@
                                 @Html.Translate("HRD Percentage")
                             </h3>
                         </div>
-                         
-                        <div class="portlet-content">
-                            <div class="progress-stat" ng-repeat="region in Regions">
+
+                         <div class="portlet-content" ng-controller="stageController">
+                            <div id="containerHRD" class="chartWrap" draw-Percentage-Chart=""></div>
+                        </div> 
+
+                        @*<div class="portlet-content">
+                            
+                          <div class="progress-stat" ng-repeat="region in Regions">
 
                                 <div class="stat-header" style="height: 5px">
 
@@ -246,8 +251,10 @@
                                 <!-- /.progress -->
 
                             </div>
-                        </div>
-                        </div>
+                        </div>*@
+                        
+                         
+                    </div>
                         </div>
              
                 <!-- /.portlet --> 
@@ -915,7 +922,7 @@
         $scope.getRequestedInfo();
         //$scope.getStatusInPercentage();
         //$scope.getRequisitionStatusInPercentage();
-        $scope.getHrdRegionPercentage();
+        //$scope.getHrdRegionPercentage();
         $scope.getRecentGiftCertificates();
     }
     
@@ -961,9 +968,21 @@
                ['Transport Requistion Created', d['TransportRequistionCreated']],
                ['Transport Order Created', d['TransportOrderCreated']]
             ];
-
         };
         
+        var onRegionTotalSuccess = function (d) {
+
+            $scope.dataP = d;
+
+            $scope.Regions = [];
+
+            $scope.Figure = [];
+
+           for (var i in $scope.dataP) {
+               $scope.Regions.push($scope.dataP[i].RegionName);
+               $scope.Figure.push($scope.dataP[i].TotalBeneficary);
+            }
+        };
        
         $scope.getStatusInPercentage = function () {
             $http.post("@Url.Action("GetStatusInPercentage", "EWDashboard", new { Area = "EarlyWarning" })").success(onRequestStatusSuccess);
@@ -973,24 +992,26 @@
             $http.post("@Url.Action("GetRequisitionStatusPercentage", "EWDashboard", new { Area = "EarlyWarning" })").success(onRequisitonStatusSucess);
 
         };
+        
+        $scope.getHrdRegionPercentage = function () {
+            $http.post("@Url.Action("GetHrdRegionPercentage", "EWDashboard", new { Area = "EarlyWarning" })").success(onRegionTotalSuccess);
+
+         };
     
         $scope.getStatusInPercentage();
         $scope.getRequisitionStatusInPercentage();
-       
+        $scope.getHrdRegionPercentage();
     }
-
-
-
     angular.module('myApp.directives',[]).
-        directive('drawPieChart', function () {
+    directive('drawPieChart', function () {
             // return the directive link function. (compile function not needed)
-            return function (scope, element, attrs) {
+            return function(scope, element, attrs) {
                 var container = $(element).attr("id");
                 // watch the expression, and update the UI on change.
-                scope.$watch('data', function () {
+                scope.$watch('data', function() {
                     drawPlot();
                 }, true);
-                var drawPlot = function () {
+                var drawPlot = function() {
                     var chart;
                     chart = new Highcharts.Chart({
                         chart: {
@@ -1025,8 +1046,8 @@
                             data: scope.data
                         }]
                     });
-                }
-            }
+                };
+            };
         });
     
     angular.module('myApp.directives').
@@ -1078,5 +1099,68 @@
             }
         }
     });
+    
+    angular.module('myApp.directives').
+    directive('drawPercentageChart', function () {
+       // return the directive link function. (compile function not needed)
+        return function(scope, element, attrs) {
+
+            var container = $(element).attr("id");
+            // watch the expression, and update the UI on change.
+            scope.$watch('dataP', function() {
+                drawPlot();
+                //alert("Here");
+            }, true);
+
+            var drawPlot = function() {
+                var chart;
+                chart = new Highcharts.Chart({
+                    chart: {
+                        renderTo: container,
+                        type: 'column'
+                    },
+                    title: {
+                        text: 'Beneficiaries Comparision'
+                    },
+                    //subtitle: {
+                    //    text: 'Source: WorldClimate.com'
+                    //},
+                    credits: {
+                        enabled: false
+                    },
+                    exporting: {
+                        enabled: false
+                    },
+                    xAxis: {
+                        categories: scope.Regions
+                    },
+                    yAxis: {
+                        min: 0,
+                        title: {
+                            text: 'Beneficiaries'
+                        }
+                    },
+                    tooltip: {
+                        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                            '<td style="padding:0"><b>{point.y} </b></td></tr>',
+                        footerFormat: '</table>',
+                        shared: true,
+                        useHTML: true
+                    },
+                    plotOptions: {
+                        column: {
+                            pointPadding: 0.2,
+                            borderWidth: 0
+                        }
+                    },
+                    series: [{
+                        name: 'Beneficiaries Number',
+                        data: scope.Figure
+                    }]
+                });
+            };
+        };
+   });
 
 </script>

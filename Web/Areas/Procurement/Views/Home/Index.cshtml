@@ -68,7 +68,7 @@
 
     <div class="container">
         
-        <div>
+        @*<div>
             <div class="row" style="border-bottom-width: thin; border-bottom-color: #666; border-bottom-style: inset; margin-top: 5px">
 
                 <div class="pull-left">
@@ -180,9 +180,9 @@
                 </div>
                 <!-- /.portlet -->
             </div>
-        </div>
+        </div>*@
 
-        <div>
+        @*<div>
             <div class="row" style="border-bottom-width: thin; border-bottom-color: #666; border-bottom-style: inset; margin-top: 5px">
 
                 <div class="pull-left">
@@ -259,9 +259,9 @@
 
                 <!-- /.portlet -->
             </div>
-        </div>
+        </div>*@
 
-        <div>
+        @*<div>
             <div class="row" style="border-bottom-width: thin; border-bottom-color: #666; border-bottom-style: inset; margin-top: 5px">
 
                 <div class="pull-left">
@@ -291,12 +291,10 @@
                                     <button class="btn btn-sm btn-default">
                                         Show more
                                     </button>
-                                    @*<a class="btn btn-sm btn-default" href="@Url.Action("Index", "PaymentRequest", new { Area="Procurement", regionID= "" })">FDP Commodity Receipt</a>*@
                                 </li>
                             </ul>
                         </div>
 
-                        <!-- /.portlet-header -->
 
                         <div class="portlet-content">
                             <th class="table-responsive">
@@ -328,20 +326,15 @@
                                         </tr>
                                     </tbody>
                                 </table>
-
                         </div>
-                        <!-- /.table-responsive -->
                     </div>
-                    <!-- /.portlet-content -->
-
                 </div>
-                <!-- /.portlet -->
             </div>
-        </div>
+        </div>*@
         
-        <div>
+        @*<div>
             <div class="row" style="border-bottom-width: thin; border-bottom-color: #666; border-bottom-style: inset; margin-top: 5px">
-
+                
                 <div class="pull-left">
                     <h4>Verified Payment Requests</h4>
                 </div>
@@ -369,7 +362,6 @@
                                     <button class="btn btn-sm btn-default">
                                         Show more
                                     </button>
-                                    @*<a class="btn btn-sm btn-default" href="@Url.Action("Index", "PaymentRequest", new { Area="Procurement", regionID= "" })">FDP Commodity Receipt</a>*@
                                 </li>
                             </ul>
                         </div>
@@ -411,13 +403,12 @@
                         <!-- /.table-responsive -->
                     </div>
                     <!-- /.portlet-content -->
-
                 </div>
                 <!-- /.portlet -->
             </div>
-        </div>
+        </div>*@
         
-        <div>
+       @* <div>
             <div class="row" style="border-bottom-width: thin; border-bottom-color: #666; border-bottom-style: inset; margin-top: 5px">
 
                 <div class="pull-left">
@@ -447,7 +438,6 @@
                                     <button class="btn btn-sm btn-default">
                                         Show more
                                     </button>
-                                    @*<a class="btn btn-sm btn-default" href="@Url.Action("Index", "PaymentRequest", new { Area="Procurement", regionID= "" })">FDP Commodity Receipt</a>*@
                                 </li>
                             </ul>
                         </div>
@@ -493,10 +483,9 @@
                 </div>
                 <!-- /.portlet -->
             </div>
-        </div>
+        </div>*@
         
-        
-        <div>
+   @*     <div>
             <div class="row" style="border-bottom-width: thin; border-bottom-color: #666; border-bottom-style: inset; margin-top: 5px">
 
                 <div class="pull-left">
@@ -526,7 +515,6 @@
                                     <button class="btn btn-sm btn-default">
                                         Show more
                                     </button>
-                                    @*<a class="btn btn-sm btn-default" href="@Url.Action("Index", "PaymentRequest", new { Area="Procurement", regionID= "" })">FDP Commodity Receipt</a>*@
                                 </li>
                             </ul>
                         </div>
@@ -572,7 +560,7 @@
                 </div>
                 <!-- /.portlet -->
             </div>
-        </div>
+        </div>*@
         
         <div>
             <div class="row" style="border-bottom-width: thin; border-bottom-color: #666; border-bottom-style: inset; margin-top: 5px">
@@ -615,34 +603,34 @@
 
                         <div class="portlet-content">
                             <th class="table-responsive">
-                                <table id="" class="table table-striped table-checkable">
-                                    <thead>
-                                        <tr>
-                                            <th class="hidden-xs">Bid Number</th>
-                                            <th>Start Date</th>
-                                            <th>End Date</th>
-                                            <th>Opening Date</th>
-                                            <th>Status</th>
-                                            <th class="align-center">Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr data-ng-repeat="item in PaymentRequestAtLogistics">
-                                            <td class="hidden-xs">
-                                                <a href="@Url.Action("Index", "PaymentRequest", new { Area = "Procurement" })">{{item.ReferenceNo}}</a>
-                                            </td>
-                                            <td>{{item.TransportOrder.Transporter.Name}}</td>
-                                            <td>{{item.TransportOrder.TransportOrderNo}}</td>
-                                            <td>{{item.RequestedAmount}}</td>
-                                            <td><span class="label label-success">{{item.BusinessProcess.CurrentState.BaseStateTemplate.Name}}</span></td>
-                                            <td class="align-center">
-                                                <a class="btn btn-sm btn-default" data-original-title="Approve">
-                                                    <i class="icon-upload"></i>View
-                                                </a>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                            <table id="" class="table table-striped table-checkable">
+                                <thead>
+                                    <tr>
+                                        <th class="hidden-xs">Bid Number</th>
+                                        <th>Start Date</th>
+                                        <th>End Date</th>
+                                        <th>Opening Date</th>
+                                        <th>Status</th>
+                                        <th class="align-center">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr data-ng-repeat="item in PaymentRequestAtLogistics">
+                                        <td class="hidden-xs">
+                                            <a href="@Url.Action("Index", "PaymentRequest", new { Area = "Procurement" })">{{item.ReferenceNo}}</a>
+                                        </td>
+                                        <td>{{item.TransportOrder.Transporter.Name}}</td>
+                                        <td>{{item.TransportOrder.TransportOrderNo}}</td>
+                                        <td>{{item.RequestedAmount}}</td>
+                                        <td><span class="label label-success">{{item.BusinessProcess.CurrentState.BaseStateTemplate.Name}}</span></td>
+                                        <td class="align-center">
+                                            <a class="btn btn-sm btn-default" data-original-title="Approve">
+                                                <i class="icon-upload"></i>View
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
 
                         </div>
                         <!-- /.table-responsive -->
@@ -654,6 +642,7 @@
                 <!-- /.portlet -->
             </div>
         </div>
+
     </div>
 </div>
 
@@ -692,7 +681,7 @@
         $scope.getRequests = function () {
             $http.post("@Url.Action("ReadSummarizedNumbers", "FetchData", new { Area = "Procurement" })").success(onSuccess);
         };
-        $scope.getRequests();
+        //$scope.getRequests();
     }
 
     function PaymentRequestsStatusController($scope, $http) {
@@ -705,7 +694,7 @@
         $scope.getPrsRequests = function () {
             $http.post("@Url.Action("PaymentRequestsStatus", "FetchData", new { Area = "Procurement" })").success(onSuccessPrs);
         };
-        $scope.getPrsRequests();
+        //$scope.getPrsRequests();
         
         var onSuccessPercentage = function (data) {
             $scope.PaymentRequestsPercentage = data;
@@ -713,7 +702,7 @@
         $scope.getPercentage = function () {
             $http.post("@Url.Action("PaymentRequestsPercentage", "FetchData", new { Area = "Procurement" })").success(onSuccessPercentage);
         };
-        $scope.getPercentage();
+        //$scope.getPercentage();
     }
     
     function PaymentRequestController($scope, $http) {
@@ -725,7 +714,7 @@
         $scope.getPaymentRequest = function () {
             $http.post("@Url.Action("PaymentRequest", "FetchData", new { Area = "Procurement" })").success(onSuccessPaymentRequest);
         };
-        $scope.getPaymentRequest();
+        //$scope.getPaymentRequest();
     }
     
     function PaymentRequestAtLogisticsController($scope, $http) {
@@ -737,7 +726,7 @@
         $scope.getPaymentRequestAtLogistics = function () {
             $http.post("@Url.Action("PaymentRequestAtLogistics", "FetchData", new { Area = "Procurement" })").success(onSuccessPaymentRequestAtLogistics);
         };
-        $scope.getPaymentRequestAtLogistics();
+        //$scope.getPaymentRequestAtLogistics();
     }
     
     function VerifiedPaymentRequestController($scope, $http) {
@@ -749,7 +738,7 @@
         $scope.getVerifiedPaymentRequest = function () {
             $http.post("@Url.Action("VerifiedPaymentRequest", "FetchData", new { Area = "Procurement" })").success(onSuccessVerifiedPaymentRequest);
         };
-        $scope.getVerifiedPaymentRequest();
+        //$scope.getVerifiedPaymentRequest();
     }
     
     function CheckCashedPaymentRequestController($scope, $http) {
@@ -761,7 +750,7 @@
         $scope.getCheckCashedPaymentRequest = function () {
             $http.post("@Url.Action("CheckCashedPaymentRequest", "FetchData", new { Area = "Procurement" })").success(onSuccessCheckCashedPaymentRequest);
         };
-        $scope.getCheckCashedPaymentRequest();
+        //$scope.getCheckCashedPaymentRequest();
     }
     
     function LogisticsPaymentRequestController($scope, $http) {
@@ -777,7 +766,7 @@
         $scope.getRecentBids = function () {
             $http.post("@Url.Action("RecentBids", "FetchData", new { Area = "Procurement" })").success(onSuccessRecentBids);
         };
-        $scope.getRecentBids();
+        //$scope.getRecentBids();
     }
 
     $(document).ready(function () {
