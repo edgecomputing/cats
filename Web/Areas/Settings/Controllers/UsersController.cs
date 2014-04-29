@@ -39,6 +39,10 @@ namespace Cats.Areas.Settings.Controllers
 
         public ActionResult Index()
         {
+            if (TempData["error"]!=null)
+            {
+                ViewData["error"] = TempData["error"].ToString();
+            }
             return View();
         }
 
@@ -360,7 +364,7 @@ namespace Cats.Areas.Settings.Controllers
             return View(model);
         }
 
-        public JsonResult ChangePassword2(FormCollection values)
+        public ActionResult ChangePassword2(FormCollection values)
         {
             var userid = UserAccountHelper.GetUser(HttpContext.User.Identity.Name).UserProfileID;
             var oldpassword = _userService.HashPassword(values["OldPassword"]);
@@ -380,15 +384,15 @@ namespace Cats.Areas.Settings.Controllers
                         //ModelState.AddModelError("Errors", e.Message);
                     }
                     if (changePasswordSucceeded)
-                        ModelState.AddModelError("Success", "Password Successfully Changed.");
+                        TempData["error"] = "Success, Password Successfully Changed. Please logout and login with the new credential";
                     //return RedirectToAction("ChangePasswordSuccess");
                     else
-                        ModelState.AddModelError("Errors", "The new password is invalid.");
+                        TempData["error"] = "Errors, The new password is invalid.";
 
                 }
-                else ModelState.AddModelError("Errors", "The current password is incorrect ");
+                else TempData["error"] ="Errors, The current password is incorrect ";
             }
-            return new JsonResult();
+            return RedirectToAction("Index");
         }
         //public ActionResult ChangePasswordSuccess()
         //{
