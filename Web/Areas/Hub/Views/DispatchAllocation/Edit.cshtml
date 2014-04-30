@@ -52,7 +52,23 @@
                         @Html.ValidationMessageFor(model => model.BidRefNo)
                     </div>
                   </div>
-
+                   <div class="control-group required">
+                    @Html.LabelFor(model => model.FDPID, "FDP",new { @class="control-label" })
+                    <div class="controls">
+                        @Html.HiddenFor(model => model.FDPID)
+                        
+                        @Html.ValidationMessageFor(model => model.FDPID)
+                        <div class="input" id="FDPName">@Model.FDPName</div>
+                    </div>
+                  </div>
+            <div class="control-group required">
+                    @Html.LabelFor(model => model.ProgramID, Html.Translate("Program"),new { @class="control-label" })
+                    <div class="controls">
+                        @(Html.Kendo().ComboBox().Name("ProgramID").Filter("contains").BindTo((SelectList)ViewBag.Programs).Suggest(true).AutoBind(true))
+                        
+                         @Html.ValidationMessageFor(model => model.ProgramID)
+                    </div>
+                  </div>
                   <div class="control-group required">
                     @Html.LabelFor(model => model.CommodityTypeID, Html.Translate("Commodity Type"),new { @class="control-label" })
                    <div class="controls">
@@ -74,14 +90,7 @@
                     </div>
                   </div>
 
-                  <div class="control-group required">
-                    @Html.LabelFor(model => model.ProgramID, Html.Translate("Program"),new { @class="control-label" })
-                    <div class="controls">
-                        @(Html.Kendo().ComboBox().Name("ProgramID").Filter("contains").BindTo((SelectList)ViewBag.Programs).Suggest(true).AutoBind(true))
-                        
-                         @Html.ValidationMessageFor(model => model.ProgramID)
-                    </div>
-                  </div>
+                  
 
                   <div class="control-group required">
                     @Html.LabelFor(model => model.DonorID, Html.Translate("Donor"),new { @class="control-label" })
@@ -108,15 +117,7 @@
                     </div>
                   </div>
 
-                  <div class="control-group required">
-                    @Html.LabelFor(model => model.FDPID, "FDP",new { @class="control-label" })
-                    <div class="controls">
-                        @Html.HiddenFor(model => model.FDPID)
-                        
-                        @Html.ValidationMessageFor(model => model.FDPID)
-                        <div class="input" id="FDPName">@Model.FDPName</div>
-                    </div>
-                  </div>
+
 
                   <div class="control-group required">
                     @Html.LabelFor(model => model.Amount, Html.Translate("Amount"),new { @class="control-label" })

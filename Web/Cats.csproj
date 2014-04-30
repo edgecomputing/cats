@@ -1826,7 +1826,7 @@
     <Content Include="Areas\Hub\Views\DispatchAllocation\Copy of Edit.cshtml" />
     <Content Include="Areas\Hub\Views\DispatchAllocation\EditLoans2.cshtml" />
     <Content Include="Areas\Hub\Views\DispatchAllocation\EditOthers.cshtml" />
-    <Content Include="Areas\Hub\Views\Receive\Index2.cshtml" />
+    <Content Include="Areas\Hub\Views\Receive\Index.cshtml" />
     <Content Include="Areas\Logistics\Views\TransporterPerformance\TransportOrderPerformanceDetail.cshtml" />
     <Content Include="Areas\Hub\Views\Receive\Allocations2.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Request\Allocation2.cshtml" />
@@ -2124,7 +2124,7 @@
     <Content Include="Areas\Hub\Views\Receive\Delete.cshtml" />
     <Content Include="Areas\Hub\Views\Receive\Details.cshtml" />
     <Content Include="Areas\Hub\Views\Receive\Edit.cshtml" />
-    <Content Include="Areas\Hub\Views\Receive\Index.cshtml" />
+    <Content Include="Areas\Hub\Views\Receive\IndexOld.cshtml" />
     <Content Include="Areas\Hub\Views\Receive\Log.cshtml" />
     <Content Include="Areas\Hub\Views\Replication\Index.cshtml" />
     <Content Include="Areas\Hub\Views\Replication\PublicationTwo.cshtml" />
