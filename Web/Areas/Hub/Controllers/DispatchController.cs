@@ -122,7 +122,7 @@ namespace Cats.Areas.Hub.Controllers
             }
             return null;
         }
-        public ViewResult Index2()
+        public ViewResult Index_NEW()
         {
             if (this.UserProfile != null)
             {

@@ -1,0 +1,157 @@
+﻿@model Cats.Models.Hubs.ReceiptAllocationViewModel
+@using Cats.Web.Hub.Helpers
+@using Telerik.Web.Mvc.UI
+
+@{
+   // ViewBag.H = SelectList(Model.AllHubs, "HubID", "HubNameWithOwner");
+    SelectList HubID = new SelectList(Model.AllHubs, "HubID", "HubNameWithOwner", Model.HubID);
+    SelectList CommoditySourceID = new SelectList(Model.CommoditySources, "CommoditySourceID", "Name", Model.CommoditySourceID);
+    SelectList DonorID = new SelectList(Model.Donors, "DonorID", "Name", Model.DonorID);
+    SelectList ProgramID = new SelectList(Model.Programs, "ProgramID", "Name", Model.ProgramID);
+    
+    int allocationType = ViewBag.CommoditySourceType ?? 1;
+    bool allocationsUnder = ViewBag.receiveUnderAllocation != null;
+    var disableSetting = (allocationsUnder) ? new { @readonly = "readonly" } : null;    
+}
+
+<h3>@Html.Translate("Edit Allocation?")</h3>
+@using (Html.BeginForm("CloseAjax", "ReceiptAllocation", FormMethod.Post, new { @id = "frm_edit_inline" }))
+    {
+<div class="form-horizontal two-col-form">
+        <!--SI Number-->
+        <div class="control-group">
+            @Html.LabelFor(model => model.SINumber, Html.Translate("SINumber"),new { @class="control-label" })
+            <div class="controls">
+               @Html.TextBoxFor(model => model.SINumber,disableSetting)
+               @Html.ValidationMessageFor(model => model.SINumber)
+            </div>
+        </div>
+    
+        <!--ETA-->
+
+        <div class="control-group required">
+            @Html.LabelFor(model => model.ETA, Html.Translate("ETA"),new { @class="control-label" })
+            <div class="controls">
+               @Html.TextBoxFor(model => model.ETA)
+               @Html.ValidationMessageFor(model => model.ETA)
+            </div>
+        </div>
+
+
+    @if (allocationType == Cats.Models.Hubs.CommoditySource.Constants.DONATION)
+    {
+        <div class="control-group required commoditySource">
+            @Html.LabelFor(model => model.OtherDocumentationRef, Html.Translate("Memo Reference"),new { @class="control-label" })
+            <div class="controls">
+               @Html.TextBoxFor(model => model.OtherDocumentationRef)
+               @Html.ValidationMessageFor(model => model.OtherDocumentationRef)
+            </div>
+        </div>
+    }
+        <!--PurchaseOrder-->
+    @if (allocationType == Cats.Models.Hubs.CommoditySource.Constants.LOCALPURCHASE)
+    {
+        <div class="control-group required">
+            @Html.LabelFor(model => model.PurchaseOrder, Html.Translate("Purchase Order"),new { @class="control-label" })
+            <div class="controls">
+               @Html.TextBoxFor(model => model.PurchaseOrder)
+               @Html.ValidationMessageFor(model => model.PurchaseOrder)
+            </div>
+        </div>
+    }
+
+    @if (allocationType != Cats.Models.Hubs.CommoditySource.Constants.DONATION &&
+                    allocationType != Cats.Models.Hubs.CommoditySource.Constants.LOCALPURCHASE)
+    {
+        <div class="control-group required commoditySource">
+            @Html.LabelFor(model => model.SourceHubID, Html.Translate("Source Hub"),new { @class="control-label" })
+            <div class="controls">
+              @Html.DropDownListFor(model => model.SourceHubID,HubID, new { @class="inputs-large"})
+               @Html.ValidationMessageFor(model => model.SourceHubID)
+            </div>
+        </div>
+    }
+        <!--Project Number-->
+        <div class="control-group required">
+            @Html.LabelFor(model => model.ProjectNumber, Html.Translate("Project Number"),new { @class="control-label" })
+            <div class="controls">
+               @Html.TextBoxFor(model => model.ProjectNumber)
+               @Html.ValidationMessageFor(model => model.ProjectNumber)
+            </div>
+        </div>
+
+        <!--QuantityInMT-->
+        <div class="control-group">
+            @Html.LabelFor(model => model.QuantityInMT, Html.Translate("QuantityInMT"),new { @class="control-label" })
+            <div class="controls">
+               @Html.TextBoxFor(model => model.QuantityInMT)
+               @Html.ValidationMessageFor(model => model.QuantityInMT)
+            </div>
+        </div>
+
+        <!--Hub.Name-->
+        <div class="control-group">
+            @Html.LabelFor(model => model.HubID, Html.Translate("Hub"),new { @class="control-label" })
+            <div class="controls">
+                @Html.DropDownListFor(model => model.HubID,HubID, new { @class="inputs-large"})
+                @Html.ValidationMessageFor(model => model.HubID)
+            </div>
+        </div>
+        <!--Commodity Name-->
+        <div class="control-group">
+            @Html.LabelFor(model => model.CommodityID, Html.Translate("Commodity"),new { @class="control-label" })
+            <div class="controls">
+                @Html.DisplayFor(model => model.CommodityID)
+            </div>
+        </div>
+
+        <!--Donor.Name-->
+        <div class="control-group">
+            @Html.LabelFor(model => model.DonorID, Html.Translate("Donor"),new { @class="control-label" })
+            <div class="controls">
+                @Html.DropDownListFor(model => model.DonorID,DonorID, new { @class="inputs-large"})
+                @Html.ValidationMessageFor(model => model.DonorID)
+            </div>
+        </div>
+
+        <!--Program.Name-->
+        <div class="control-group">
+            @Html.LabelFor(model => model.ProgramID, Html.Translate("Program"),new { @class="control-label" })
+            <div class="controls">
+                @Html.DropDownListFor(model => model.ProgramID,ProgramID, new { @class="inputs-large"})
+                @Html.ValidationMessageFor(model => model.ProgramID)
+            </div>
+        </div>
+
+    <!--CommoditySource.Name-->
+        <div class="control-group">
+            @Html.LabelFor(model => model.CommoditySourceID, Html.Translate("CommoditySource"),new { @class="control-label" })
+            <div class="controls">
+                @Html.DropDownListFor(model => model.CommoditySourceID,CommoditySourceID, new { @class="inputs-large"})
+                @Html.ValidationMessageFor(model => model.CommoditySourceID)
+            </div>
+        </div>
+
+</div>
+
+
+           @Html.HiddenFor(model => model.ReceiptAllocationID)
+}
+<style>
+    /*
+.form-horizontal .control-group {
+  margin-bottom: 2px;
+  *zoom: 1;
+}
+    .control-group, .controls
+    {
+        margin:0px;
+        margin-top:5px;
+        background:#EEE;
+        
+    }
+        .control-group label
+        {
+            font-weight:bold;
+        }*/
+</style>

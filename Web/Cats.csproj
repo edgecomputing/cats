@@ -1817,7 +1817,7 @@
     <Content Include="Areas\Finance\Views\ValidatedPaymentRequest\Index.cshtml" />
     <Content Include="Areas\Finance\Views\ValidatedPaymentRequest\TransporterDetail.cshtml" />
     <Content Include="Areas\Finance\Views\ValidatedPaymentRequest\TransportOrderDetail.cshtml" />
-    <Content Include="Areas\Hub\Views\Dispatch\Index2.cshtml" />
+    <Content Include="Areas\Hub\Views\Dispatch\Index_NEW.cshtml" />
     <Content Include="Areas\Hub\Views\Dispatch\Edit2.cshtml" />
     <Content Include="Areas\WorkflowManager\Views\Shared\_workflowLeftBar.cshtml" />
     <Content Include="Areas\Logistics\Views\PaymentRequest\Create.cshtml" />
@@ -1826,7 +1826,7 @@
     <Content Include="Areas\Hub\Views\DispatchAllocation\Copy of Edit.cshtml" />
     <Content Include="Areas\Hub\Views\DispatchAllocation\EditLoans2.cshtml" />
     <Content Include="Areas\Hub\Views\DispatchAllocation\EditOthers.cshtml" />
-    <Content Include="Areas\Hub\Views\Receive\Index2.cshtml" />
+    <Content Include="Areas\Hub\Views\Receive\Index_NEW.cshtml" />
     <Content Include="Areas\Logistics\Views\TransporterPerformance\TransportOrderPerformanceDetail.cshtml" />
     <Content Include="Areas\Hub\Views\Receive\Allocations2.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Request\Allocation2.cshtml" />

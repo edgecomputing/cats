@@ -272,7 +272,7 @@ namespace Cats.Areas.Hub.Controllers
             List<Receive> receives = _receiveService.ByHubId(user.DefaultHub.HubID);
             return View(receives);
         }
-        public virtual ActionResult Index2()
+        public virtual ActionResult Index_NEW()
         {
             UserProfile user = _userProfileService.GetUser(User.Identity.Name);
             populateLookups(user);
