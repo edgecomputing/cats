@@ -15,6 +15,15 @@
     }
 </style>
 @{
+    SelectList HubID = new SelectList(Model.AllHubs, "HubID", "HubNameWithOwner", Model.HubID);
+    ViewBag.CommoditySourceID = new SelectList(Model.CommoditySources, "CommoditySourceID", "Name", Model.CommoditySourceID);
+    ViewBag.DonorID = new SelectList(Model.Donors, "DonorID", "Name", Model.DonorID);
+    ViewBag.ProgramID = new SelectList(Model.Programs, "ProgramID", "Name", Model.ProgramID);
+    ViewBag.CommodityTypeID=new SelectList(Model.CommodityTypes, "CommodityTypeID", "Name", Model.CommodityTypeID);
+    ViewBag.CommodityID = new SelectList(Model.Commodities, "CommodityID", "Name", Model.CommodityID);
+    
+     
+
     int allocationType = ViewBag.CommoditySourceType ?? 1;
     bool allocationsUnder = ViewBag.receiveUnderAllocation != null;
     var disableSetting = (allocationsUnder) ? new { @readonly = "readonly" } : null;
@@ -42,7 +51,7 @@
     <div class="control-group">
         @Html.LabelFor(model => model.ETA, Html.Translate("ETA"), new { @class = "control-label" })
             <div class="controls">
-               @(Html.EditorFor(model => model.ETA))
+               @Html.TextBoxFor(model => model.ETA, new { @class = "cats-datepicker-pop" })
                     @Html.ValidationMessageFor(model => model.ETA)
             </div>
     </div>
@@ -76,6 +85,7 @@
        @Html.LabelFor(model => model.SourceHubID, Html.Translate("Source Hub"), new { @class = "control-label" })
             <div class="controls">
                     @Html.EditorFor(model => model.SourceHubID)
+                   
                     @Html.ValidationMessageFor(model => model.SourceHubID)
             </div>
     </div>
@@ -84,7 +94,8 @@
      <div class="control-group">
        @Html.LabelFor(model => model.CommoditySourceID, Html.Translate("Commodity Source"), new { @class = "control-label" })
             <div class="controls">
-                    @Html.EditorFor(model => model.CommoditySourceID)
+                    
+                 @Html.DropDownList("CommoditySourceID", null, new { @class = "inputs-large" })
                     @Html.ValidationMessageFor(model => model.CommoditySourceID)
             </div>
     </div>
@@ -95,7 +106,8 @@
      <div class="control-group">
        @Html.LabelFor(model => model.DonorID, Html.Translate("Donor"), new { @class = "control-label" })
             <div class="controls">
-                    @Html.EditorFor(model => model.DonorID)
+                    
+                 @Html.DropDownList("DonorID", null, new { @class = "inputs-large" })
                     @Html.ValidationMessageFor(model => model.DonorID)
             </div>
     </div>
@@ -107,14 +119,14 @@
      <div class="control-group">
        @Html.LabelFor(model => model.CommodityTypeID, Html.Translate("Commodity Type"), new { @class = "control-label" })
             <div class="controls">
-                    @Html.EditorFor(model => model.CommodityTypeID)
+                     @Html.DropDownList("CommodityTypeID", null, new { @class = "inputs-large" })
                     @Html.ValidationMessageFor(model => model.CommodityTypeID)
             </div>
     </div>
     <div class="control-group">
        @Html.LabelFor(model => model.CommodityID, Html.Translate("Commodity"), new { @class = "control-label" })
             <div class="controls">
-                    @Html.EditorFor(model => model.CommodityID)
+                    @Html.DropDownList("CommodityID", null, new { @class = "inputs-large" })
                     @Html.ValidationMessageFor(model => model.CommodityID)
             </div>
     </div>     
@@ -124,18 +136,29 @@
      <div class="control-group">
        @Html.LabelFor(model => model.CommodityTypeID, Html.Translate("Commodity Type"), new { @class = "control-label" })
             <div class="controls">
-                   @Model.CommodityTypeID)
+                    @Html.TextBoxFor(model => model.CommodityTypeText, new { @readonly = "readonly" })
+                    @Html.HiddenFor(model=>model.CommodityTypeID)
 
             </div>
     </div>
     <div class="control-group">
        @Html.LabelFor(model => model.ProgramID, Html.Translate("Commodity"), new { @class = "control-label" })
             <div class="controls">
-                   @Html.EditorFor(model => model.ProgramID)
-                    @Html.ValidationMessageFor(model => model.ProgramID)
+                 @Html.TextBoxFor(model => model.CommodityText, new { @readonly = "readonly" })
+                @Html.HiddenFor(model=>model.CommodityID)
+                  
                    
             </div>
     </div> 
+ } 
+ <div class="control-group">
+       @Html.LabelFor(model => model.ProgramID, Html.Translate("Program"), new { @class = "control-label" })
+            <div class="controls">
+                   @Html.DropDownList("ProgramID", null, new { @class = "inputs-large" })
+                    @Html.ValidationMessageFor(model => model.ProgramID)
+                   
+            </div>
+</div>  
  <div class="control-group">
        @if (@Html.GetCurrentUser().PreferedWeightMeasurment == "qn")
        {
@@ -151,7 +174,7 @@
                    
             </div>
     </div>     
- }   
+  
      @if (allocationType == Cats.Models.Hubs.CommoditySource.Constants.LOCALPURCHASE)
 {
      <div class="control-group">
@@ -172,8 +195,8 @@
  <div class="control-group">
        @Html.LabelFor(model => model.ProjectNumber, Html.Translate("Project Code"), new { @class = "control-label" })
             <div class="controls">
-                    <button class="btn" onclick="return GenerateCode();"><i class="icon-refresh"></i></button>
-                
+                    
+                <a href="javascript:GenerateCode()" class="btn" ><i class="icon-refresh"></i></a>
                     @Html.EditorFor(model => model.ProjectNumber, disableSetting)
                     @Html.ValidationMessageFor(model => model.ProjectNumber)
             </div>
@@ -184,6 +207,12 @@
     
    
 }
+<script type="text/javascript">
+    $(function () { $(".cats-datepicker-pop").ethcal_datepicker(); });
+
+ 
+    </script>
+    <!--
 <script type="text/javascript">
 
     function GenerateCode() {
@@ -302,3 +331,4 @@
 
     });
 </script>
+-->
