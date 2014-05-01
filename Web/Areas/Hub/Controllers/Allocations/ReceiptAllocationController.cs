@@ -254,7 +254,7 @@ namespace Cats.Areas.Hub.Controllers.Allocations
                 receiptAllocation.ReceiptAllocationID = Guid.NewGuid();
                 _receiptAllocationService.AddReceiptAllocation(receiptAllocation);
 
-                return Json(new {gridId = typeOfGridToReload, CommodityTypeID = commType}, JsonRequestBehavior.AllowGet);
+                return Json(new { gridId = typeOfGridToReload, CommodityTypeID = commType, status =true}, JsonRequestBehavior.AllowGet);
                 //return RedirectToAction("Index");
             }
             //check this out later
