@@ -49,7 +49,8 @@
                 @item.TransportOrder.Transporter.Name
             </td>
             <td>
-                @item.TransportOrder.TransportOrderNo
+                <a href="@Url.Action("PaymentRequestDetail", "PaymentRequest",new {transportOrderID=@item.TransportOrderID})">
+                @item.TransportOrder.TransportOrderNo</a>
             </td>
             <td style="text-align: right">
                 @item.RequestedAmount
