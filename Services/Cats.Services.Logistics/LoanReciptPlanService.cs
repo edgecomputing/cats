@@ -59,6 +59,34 @@ namespace Cats.Services.Logistics
        {
            return _unitOfWork.LoanReciptPlanRepository.FindBy(predicate);
        }
+       public bool ApproveRecieptPlan(LoanReciptPlan loanReciptPlan)
+       {
+           if (loanReciptPlan != null)
+           {
+               loanReciptPlan.StatusID = (int)LocalPurchaseStatus.Approved;
+               _unitOfWork.LoanReciptPlanRepository.Edit(loanReciptPlan);
+               var reciptAllocaltion = new ReceiptAllocation()
+               {
+                   ReceiptAllocationID = Guid.NewGuid(),
+                   ProgramID = loanReciptPlan.ProgramID,
+                   CommodityID = loanReciptPlan.CommodityID,
+                   ETA = loanReciptPlan.CreatedDate,
+                   SINumber = loanReciptPlan.ShippingInstruction.Value,
+                   QuantityInMT = loanReciptPlan.Quantity,
+                   //HubID = loanReciptPlan.DestinationHubID,
+                   CommoditySourceID = loanReciptPlan.CommoditySourceID,
+                   ProjectNumber = loanReciptPlan.ProjectCode,
+                   //SourceHubID = loanReciptPlan.SourceHubID,
+                   PartitionID = 0,
+                   IsCommited = false
+               };
+               _unitOfWork.ReceiptAllocationReository.Add(reciptAllocaltion);
+               _unitOfWork.Save();
+               return true;
+
+           }
+           return false;
+       }
        #endregion
 
        public void Dispose()

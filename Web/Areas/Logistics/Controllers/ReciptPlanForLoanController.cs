@@ -141,16 +141,17 @@ namespace Cats.Areas.Logistics.Controllers
 
         }
 
-        //public ActionResult Approve(int id)
-        //{
-        //    var loanReciptPlan = _loanReciptPlanService.FindById(id);
-        //    if (loanReciptPlan==null)
-        //    {
-        //        return HttpNotFound();
+        public ActionResult Approve(int id)
+        {
+            var loanReciptPlan = _loanReciptPlanService.FindById(id);
+            if (loanReciptPlan == null)
+            {
+                return HttpNotFound();
 
-        //    }
-        //    _loanReciptPlanService.ApproveReciptPlan(loanReciptPlan);
-        //}
+            }
+            _loanReciptPlanService.ApproveRecieptPlan(loanReciptPlan);
+            return RedirectToAction("Index");
+        }
         public ActionResult Detail(int id)
         {
             var loanReciptPlan = _loanReciptPlanService.FindById(id);
