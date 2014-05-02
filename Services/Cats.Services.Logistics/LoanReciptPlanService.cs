@@ -65,23 +65,28 @@ namespace Cats.Services.Logistics
            {
                loanReciptPlan.StatusID = (int)LocalPurchaseStatus.Approved;
                _unitOfWork.LoanReciptPlanRepository.Edit(loanReciptPlan);
-               var reciptAllocaltion = new ReceiptAllocation()
+               foreach (var loan in loanReciptPlan.LoanReciptPlanDetails)
                {
-                   ReceiptAllocationID = Guid.NewGuid(),
-                   ProgramID = loanReciptPlan.ProgramID,
-                   CommodityID = loanReciptPlan.CommodityID,
-                   ETA = loanReciptPlan.CreatedDate,
-                   SINumber = loanReciptPlan.ShippingInstruction.Value,
-                   QuantityInMT = loanReciptPlan.Quantity,
-                   //HubID = loanReciptPlan.DestinationHubID,
-                   CommoditySourceID = loanReciptPlan.CommoditySourceID,
-                   ProjectNumber = loanReciptPlan.ProjectCode,
-                   //SourceHubID = loanReciptPlan.SourceHubID,
-                   PartitionID = 0,
-                   IsCommited = false
-               };
-               _unitOfWork.ReceiptAllocationReository.Add(reciptAllocaltion);
-               _unitOfWork.Save();
+
+                   var reciptAllocaltion = new ReceiptAllocation()
+                       {
+                           ReceiptAllocationID = Guid.NewGuid(),
+                           ProgramID = loanReciptPlan.ProgramID,
+                           CommodityID = loanReciptPlan.CommodityID,
+                           ETA = loanReciptPlan.CreatedDate,
+                           SINumber = loanReciptPlan.ShippingInstruction.Value,
+                           QuantityInMT = loan.RecievedQuantity,
+                           HubID = loan.HubID,
+                           CommoditySourceID = loanReciptPlan.CommoditySourceID,
+                           ProjectNumber = loanReciptPlan.ProjectCode,
+                           //SourceHubID = loanReciptPlan.SourceHubID,
+                           PartitionID = 0,
+                           IsCommited = false
+                       };
+
+                   _unitOfWork.ReceiptAllocationReository.Add(reciptAllocaltion);
+                   _unitOfWork.Save();
+               }
                return true;
 
            }
