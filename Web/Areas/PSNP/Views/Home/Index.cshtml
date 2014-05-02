@@ -18,7 +18,7 @@
 
 <div ng-app="myApp">
     <div ng-controller="PSNPDashboardController" class="container">
-        <div>
+       @* <div>
             <div id="DistributionContent" class="row">
                 <div>&nbsp;</div>
                 <div class="span11">
@@ -30,7 +30,7 @@
                             </h3>
                         </div>
 
-                        <!-- /.portlet-header -->
+                       
 
                         <div class="portlet-content">
                             <div class="shortcuts">
@@ -38,20 +38,16 @@
                                 <a href="@Url.Action("Index", "RegionalPSNPPlan", new { Area = "PSNP" })" class="shortcut"><i class="shortcut-icon icon-list-alt"></i>
                                     <span class="shortcut-label">Regional PSNP Plan</span>
                                 </a>
-                                @* <a href="@Url.Action("Index", "RegionalPSNPPledge", new { Area = "PSNP" })" class="shortcut"><i class="shortcut-icon icon-inbox"></i>
-                                    <span class="shortcut-label">Regional PSNP Pledge</span>
-                                </a>*@
+                               
                             </div>
                         </div>
-                        <!-- /.table-responsive -->
+                      
                     </div>
-                    <!-- /.portlet-content -->
+                    
                     <br />
                 </div>
-
-              <!-- /.portlet -->
             </div>
-        </div>
+        </div>*@
 
         <div>
             <div class="row" style="border-bottom-width: thin; border-bottom-color: #666; border-bottom-style: inset; margin-top: 5px">
@@ -103,7 +99,7 @@
                                             <td class="hidden-xs">{{request.Number}}</td>
                                             <td>{{request.fdps}}</td>
                                             <td>{{request.beneficiaries}}</td>
-                                            <td><span status-class="request.status">{{}}</span></td>
+                                            <td><span status-class="request.status">{{states[request.status-1]}}</span></td>
                                             <th>
                                                 <a href="javascript:;" class="btn btn-sm btn-default">View <i class="icon-chevron-right"></i>
                                                 </a>
@@ -221,8 +217,8 @@
                                             <th>{{requisition.Commodity}}</th>
                                             <td>{{requisition.Beneficicaries|number}}</td>
                                             <th>{{requisition.Amount|number}} QT</th>
-
-                                            <td><span class="label label-danger">{{requisition.Status}}</span></td>
+                                            <td><span status-class="requisition.Status">{{states[requisition.Status-1]}}</span></td>
+                                            @*<td><span class="label label-danger">{{requisition.Status}}</span></td>*@
                                             <td>
                                                 <a ng-href="@Url.Action("Allocation", "ReliefRequisition", new { Area = "EarlyWarning", id = 2 })" class="btn btn-sm btn-default">View <i class="icon-chevron-right"></i>
                                                 </a>
@@ -618,13 +614,13 @@
             scope.$watch(attrs.statusClass, function (value) {
                 elem.addClass("label");
                 if (value == '1') {
-                    elem.removeClass('label-warning');
-                    elem.removeClass('label-important');
-                    elem.addClass('label-success');
-                } else if (value == '2') {
                     elem.removeClass('label-success');
                     elem.removeClass('label-important');
                     elem.addClass('label-warning');
+                } else if (value == '2') {
+                    elem.removeClass('label-warning');
+                    elem.removeClass('label-important');
+                    elem.addClass('label-success');
                 } else if (value == '3') {
                     elem.removeClass('label-success');
                     elem.removeClass('label-important');

@@ -30,54 +30,56 @@ namespace SMS.Controllers
         {
             var smsevents = new SMSEvents();
 
-            if (request.action == "test")
+            switch (request.action)
             {
-
-            }
-
-            else if (request.action == "outgoing")
-            {
-                var msgs = SMSService.FindBy(s => s.Status == 1);
-                var messages = new List<SmsOutgoingMessage>();
-
-                if (msgs.Count>0)
-                {
-                    foreach (var msg in msgs)
+                case "test":
+                    break;
+                case "outgoing":
                     {
-                        var m = new SmsOutgoingMessage()
+                        var msgs = SMSService.FindBy(s => s.Status == 1);
+                        var messages = new List<SmsOutgoingMessage>();
+
+                        if (msgs.Count>0)
                         {
-                            id = msg.SMSID.ToString(),
-                            message = "\"" + msg.Text + "\"",
-                            to = msg.MobileNumber,
-                            priority = null,
-                            type = null
-                        };
+                            foreach (var msg in msgs)
+                            {
+                                var m = new SmsOutgoingMessage()
+                                    {
+                                        id = msg.SMSID.ToString(),
+                                        message = "\"" + msg.Text + "\"",
+                                        to = msg.MobileNumber,
+                                        priority = null,
+                                        type = null
+                                    };
 
-                       messages.Add(m);
+                                messages.Add(m);
+                            }
+                        }
+
+                        // messages.Add(messageTwo);
+                        var sendevents = new List<SmsEventSend>();
+
+                        var ev = new SmsEventSend()
+                            {
+                                @event = "send",
+                                messages = messages
+                            };
+                        sendevents.Add(ev);
+                        smsevents.events = sendevents;
+
+                        return Request.CreateResponse(HttpStatusCode.OK, smsevents);
                     }
-                }
-
-                var messageTwo = new SmsOutgoingMessage()
-                {
-                    id = "9c7c9cya5711b",
-                    message = "\"Hello Fish! You are selected to be man of the day again! CATS\"",
-                    to = "0911306248",
-                    priority = null,
-                    type = null
-                };
-
-               // messages.Add(messageTwo);
-                var sendevents = new List<SmsEventSend>();
-
-                var ev = new SmsEventSend()
-                {
-                    @event = "send",
-                    messages = messages
-                };
-                sendevents.Add(ev);
-                smsevents.events = sendevents;
-
-                return Request.CreateResponse(HttpStatusCode.OK, smsevents);
+                case "send_status":
+                    {
+                        if (request.status == "sent")
+                        {
+                            var id = Convert.ToInt32(request.id);
+                            var msg = SMSService.FindById(id);
+                            msg.Status = 2;
+                            SMSService.EditSMS(msg);
+                        }
+                        break;
+                    }
             }
 
             return Request.CreateResponse(HttpStatusCode.OK, smsevents);
