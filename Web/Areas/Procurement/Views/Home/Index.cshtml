@@ -592,9 +592,6 @@
                                     <button class="btn btn-sm btn-default">
                                         Show more
                                     </button>
-                                    <button class="btn btn-sm btn-default">
-                                        New Request
-                                    </button>
                                 </li>
                             </ul>
                         </div>
@@ -615,19 +612,15 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr data-ng-repeat="item in PaymentRequestAtLogistics">
+                                    <tr data-ng-repeat="item in RecentBids">
                                         <td class="hidden-xs">
                                             <a href="@Url.Action("Index", "PaymentRequest", new { Area = "Procurement" })">{{item.ReferenceNo}}</a>
                                         </td>
-                                        <td>{{item.TransportOrder.Transporter.Name}}</td>
-                                        <td>{{item.TransportOrder.TransportOrderNo}}</td>
-                                        <td>{{item.RequestedAmount}}</td>
-                                        <td><span class="label label-success">{{item.BusinessProcess.CurrentState.BaseStateTemplate.Name}}</span></td>
-                                        <td class="align-center">
-                                            <a class="btn btn-sm btn-default" data-original-title="Approve">
-                                                <i class="icon-upload"></i>View
-                                            </a>
-                                        </td>
+                                        <td>{{item.BidNumber}}</td>
+                                        <td>{{item.StartDate}}</td>
+                                        <td>{{item.EndDate}}</td>
+                                        <td>{{item.OpeningDate}}</td>
+                                        <td><span class="label label-success">{{item.StatusID}}</span></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -759,14 +752,13 @@
     
     function RecentBidsController($scope, $http) {
         $scope.RecentBids = [];
-
         var onSuccessRecentBids = function (data) {
             $scope.RecentBids = data;
         };
         $scope.getRecentBids = function () {
             $http.post("@Url.Action("RecentBids", "FetchData", new { Area = "Procurement" })").success(onSuccessRecentBids);
         };
-        //$scope.getRecentBids();
+        $scope.getRecentBids();
     }
 
     $(document).ready(function () {
