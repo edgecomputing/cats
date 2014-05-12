@@ -97,8 +97,8 @@
                                     <tbody>
                                         <tr ng-repeat="request in Requests">
                                             <td class="hidden-xs">{{request.Number}}</td>
-                                            <td>{{request.fdps}}</td>
-                                            <td>{{request.beneficiaries}}</td>
+                                            <td style="text-align: right">{{request.fdps|number}}</td>
+                                            <td style="text-align: right">{{request.beneficiaries|number}}</td>
                                             <td><span status-class="request.status">{{states[request.status-1]}}</span></td>
                                             <th>
                                                 <a href="javascript:;" class="btn btn-sm btn-default">View <i class="icon-chevron-right"></i>
@@ -200,12 +200,12 @@
                         <div class="portlet-content">
                             <th class="table-responsive">
                                 <table id="" class="table table-striped table-checkable">
-                                    <thead>
-                                        <tr>
+                                    <thead style="text-align: right">
+                                        <tr >
                                             <th class="hidden-xs">Number</th>
                                             <th>Commodity</th>
-                                            <th>Beneficiaries</th>
-                                            <th>Amount(QT)</th>
+                                            <th style="text-align: center">Beneficiaries</th>
+                                            <th style="text-align: center">Amount(QT)</th>
                                             <th>Status</th>
                                             <th class="align-center">Action</th>
                                         </tr>
@@ -215,8 +215,8 @@
 
                                             <td>{{requisition.Number}}</td>
                                             <th>{{requisition.Commodity}}</th>
-                                            <td>{{requisition.Beneficicaries|number}}</td>
-                                            <th>{{requisition.Amount|number}} QT</th>
+                                            <td style="text-align: right">{{requisition.Beneficicaries|number}}</td>
+                                            <th style="text-align: right">{{requisition.Amount|number}} QT</th>
                                             <td><span status-class="requisition.Status">{{states[requisition.Status-1]}}</span></td>
                                             @*<td><span class="label label-danger">{{requisition.Status}}</span></td>*@
                                             <td>
@@ -258,7 +258,7 @@
                         <div class="portlet-header">
                             <h3>
                                 <i class=""></i>
-                                Utilizatio by Age 
+                                Utilization by Age 
                             </h3>
                         </div>
 

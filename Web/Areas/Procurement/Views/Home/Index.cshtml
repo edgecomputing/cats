@@ -20,16 +20,16 @@
     }
 </style>
 <div ng-app>
-    <div class="container">
+   @* <div class="container">
         <h3>Procurement Dashboard</h3>
         <hr />
         <div ng-controller="SummarizedNumbersController" class="container row">
-            <div class="span13">
+           <div class="span13">
                 <a href="javascript:;" class="dashboard-stat">
                     <div class="visual">
-                        @*<i class="icon-star"></i>*@
+                        
                     </div>
-                    <!-- /.visual -->
+                    
 
                     <div class="details column-divider-regional center">
                         <span class="content">Payment Requests</span>
@@ -53,18 +53,14 @@
                         <span class="content">Check Cashed Requests</span>
                         <span class="value">{{SummarizedNumbers.CheckCashedPaymentRequests}}</span>
                     </div>
-                    <!-- /.details -->
+                   
                     
                 </a>
-                <!-- /.dashboard-stat -->
+                
             </div>
-            <!-- /.col-md-3 -->
-
-            
-            <!-- /.col-md-9 -->
         </div>
         <hr />
-    </div>
+    </div>*@
 
     <div class="container">
         
@@ -604,23 +600,23 @@
                                 <thead>
                                     <tr>
                                         <th class="hidden-xs">Bid Number</th>
-                                        <th>Start Date</th>
-                                        <th>End Date</th>
+                                        @*<th>Start Date</th>
+                                        <th>End Date</th>*@
                                         <th>Opening Date</th>
                                         <th>Status</th>
-                                        <th class="align-center">Action</th>
+                                        @*<th class="align-center">Action</th>*@
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr data-ng-repeat="item in RecentBids">
-                                        <td class="hidden-xs">
+                                        @*<td class="hidden-xs">
                                             <a href="@Url.Action("Index", "PaymentRequest", new { Area = "Procurement" })">{{item.ReferenceNo}}</a>
-                                        </td>
+                                        </td>*@
                                         <td>{{item.BidNumber}}</td>
-                                        <td>{{item.StartDate}}</td>
-                                        <td>{{item.EndDate}}</td>
+                                        @*<td>{{item.StartDate}}</td>*@
+                                        @*<td>{{item.EndDate}}</td>*@
                                         <td>{{item.OpeningDate}}</td>
-                                        <td><span class="label label-success">{{item.StatusID}}</span></td>
+                                        <td><span class="label label-success">{{states[item.StatusID-1]}}</span></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -759,6 +755,7 @@
             $http.post("@Url.Action("RecentBids", "FetchData", new { Area = "Procurement" })").success(onSuccessRecentBids);
         };
         $scope.getRecentBids();
+        $scope.states = ["Draft", "Approved", "Processed", "Closed", "Closed"];
     }
 
     $(document).ready(function () {
