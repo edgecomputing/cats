@@ -120,9 +120,10 @@ namespace Cats.Areas.EarlyWarning.Controllers
              int typeOfNeedID = int.Parse(collection["TypeOfNeedID"].ToString(CultureInfo.InvariantCulture));
              string planName = collection["Plan.PlanName"].ToString(CultureInfo.InvariantCulture);
              DateTime startDate = DateTime.Parse(collection["Plan.StartDate"].ToString(CultureInfo.InvariantCulture));
+             var firstDayOfTheMonth = startDate.AddDays(1 - startDate.Day);
              var duration = int.Parse(collection["Plan.Duration"].ToString(CultureInfo.InvariantCulture));
              //DateTime endDate = DateTime.Parse(collection["Plan.EndDate"].ToString(CultureInfo.InvariantCulture));
-            var endDate=startDate.AddMonths(duration);
+             var endDate = firstDayOfTheMonth.AddMonths(duration);
              if (ModelState.IsValid)
              {
                  var existingPlan = _planService.FindBy(m => m.PlanName == planName && m.ProgramID==1).FirstOrDefault();
@@ -135,7 +136,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
                      try
                      {
-                         _planService.AddPlan(planName, startDate, endDate);
+                         _planService.AddPlan(planName, firstDayOfTheMonth, endDate);
                          var plan = _planService.Get(p => p.PlanName == planName).Single();
                          var userID = _needAssessmentHeaderService.GetUserProfileId(HttpContext.User.Identity.Name);
                          _needAssessmentService.AddNeedAssessment(plan.PlanID, regionID, season, userID, typeOfNeedID);

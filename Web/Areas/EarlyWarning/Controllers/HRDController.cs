@@ -364,8 +364,10 @@ namespace Cats.Areas.EarlyWarning.Controllers
             
 
             var planName = hrd.Plan.PlanName;
+           
             var startDate = hrd.Plan.StartDate;
-            var endDate = hrd.Plan.StartDate.AddMonths(hrd.Plan.Duration);
+            var firstDayOfTheMonth = startDate.AddDays(1 - startDate.Day);
+            var endDate = firstDayOfTheMonth.AddMonths(hrd.Plan.Duration).AddDays(-1);
 
             if (ModelState.IsValid)
             {
@@ -379,7 +381,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                 {
                     try
                     {
-                        _planService.AddHRDPlan(planName, startDate, endDate);
+                        _planService.AddHRDPlan(planName, firstDayOfTheMonth, endDate);
                         var plan = _planService.FindBy(m => m.PlanName == planName).FirstOrDefault();
                         var planID = plan.PlanID;
                         _hrdService.AddHRD(year, userID, seasonID, rationID, planID);
@@ -641,21 +643,22 @@ namespace Cats.Areas.EarlyWarning.Controllers
        {
            if ( duration != null)
            {
-
+               var firstDayOfTheMonth = startDate.AddDays(1 - startDate.Day);
                var dateInterval = new DurationViewModel()
                    {
-                       StartDateGC = startDate.ToCTSPreferedDateFormat("GC"),
-                       EndDateGC = startDate.AddMonths((int) duration).ToCTSPreferedDateFormat("GC"),
-                       StartDateEC = startDate.ToCTSPreferedDateFormat("EC"),
-                       EndDateEC = startDate.AddMonths((int) duration).ToCTSPreferedDateFormat("EC")
+                       StartDateGC = firstDayOfTheMonth.ToCTSPreferedDateFormat("GC"),
+                       EndDateGC = firstDayOfTheMonth.AddMonths((int)duration).AddDays(-1).ToCTSPreferedDateFormat("GC"),
+                       StartDateEC = firstDayOfTheMonth.ToCTSPreferedDateFormat("EC"),
+                       EndDateEC = firstDayOfTheMonth.AddMonths((int)duration).ToCTSPreferedDateFormat("EC")
 
                    };
                return PartialView(dateInterval);
            }
            return PartialView(new DurationViewModel()
                {
-                   StartDateGC = DateTime.Now.ToCTSPreferedDateFormat("GC"),
-                   StartDateEC = DateTime.Now.ToCTSPreferedDateFormat("EC"),
+                   
+                   StartDateGC = DateTime.Now.AddDays(1 - DateTime.Now.Day).ToCTSPreferedDateFormat("GC"),
+                   StartDateEC = DateTime.Now.AddDays(1 - DateTime.Now.Day).ToCTSPreferedDateFormat("EC"),
                    EndDateGC = null,
                    EndDateEC = null
                });
