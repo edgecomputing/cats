@@ -89,7 +89,7 @@ namespace Cats.Models.Hubs.ViewModels
         {
             FDPID = fdp.FDPID;
             // Initalize the parents of the FDP.
-           
+            FDPName = fdp.Name;
             Woredas = fdp.AdminUnit.AdminUnit2.AdminUnit1.OrderBy(o=>o.Name).ToList();
             WoredaID = fdp.AdminUnit.AdminUnitID;
 
@@ -265,6 +265,15 @@ namespace Cats.Models.Hubs.ViewModels
         /// </value>
         [Required(ErrorMessage = "FDP is required")]
         public Int32 FDPID { get; set; }
+
+        /// <summary>
+        /// Gets or sets the FDPName.
+        /// </summary>
+        /// <value>
+        /// The FDPName.
+        /// </value>
+
+        public string FDPName { get; set; }
 
         /// <summary>
         /// Gets or sets the project code ID.

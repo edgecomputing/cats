@@ -1817,7 +1817,7 @@
     <Content Include="Areas\Finance\Views\ValidatedPaymentRequest\Index.cshtml" />
     <Content Include="Areas\Finance\Views\ValidatedPaymentRequest\TransporterDetail.cshtml" />
     <Content Include="Areas\Finance\Views\ValidatedPaymentRequest\TransportOrderDetail.cshtml" />
-    <Content Include="Areas\Hub\Views\Dispatch\Index2.cshtml" />
+    <Content Include="Areas\Hub\Views\Dispatch\Index.cshtml" />
     <Content Include="Areas\Hub\Views\Dispatch\Edit2.cshtml" />
     <Content Include="Areas\WorkflowManager\Views\Shared\_workflowLeftBar.cshtml" />
     <Content Include="Areas\Logistics\Views\PaymentRequest\Create.cshtml" />
@@ -1826,7 +1826,7 @@
     <Content Include="Areas\Hub\Views\DispatchAllocation\Copy of Edit.cshtml" />
     <Content Include="Areas\Hub\Views\DispatchAllocation\EditLoans2.cshtml" />
     <Content Include="Areas\Hub\Views\DispatchAllocation\EditOthers.cshtml" />
-    <Content Include="Areas\Hub\Views\Receive\Index2.cshtml" />
+    <Content Include="Areas\Hub\Views\Receive\Index.cshtml" />
     <Content Include="Areas\Logistics\Views\TransporterPerformance\TransportOrderPerformanceDetail.cshtml" />
     <Content Include="Areas\Hub\Views\Receive\Allocations2.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Request\Allocation2.cshtml" />
@@ -1859,6 +1859,10 @@
     <Content Include="Areas\Settings\Views\AdminUnit\ManageZones.cshtml" />
     <Content Include="Areas\Settings\Views\Users\DeleteAccount.cshtml" />
     <Content Include="Areas\Settings\Views\UserWarehouse\Index.cshtml" />
+    <Content Include="Areas\Hub\Views\ReceiptAllocation\Copy of EditPartial.cshtml" />
+    <Content Include="Areas\Hub\Views\ReceiptAllocation\EditPartial2.cshtml" />
+    <Content Include="Areas\Hub\Views\ReceiptAllocation\Copy %282%29 of EditPartial.cshtml" />
+    <Content Include="Areas\Hub\Views\ReceiptAllocation\Copy of Edit2.cshtml" />
     <None Include="dataset.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>dataset.Designer.cs</LastGenOutput>
@@ -2009,7 +2013,7 @@
     <Content Include="Areas\Hub\Views\Dispatch\Details.cshtml" />
     <Content Include="Areas\Hub\Views\Dispatch\DispatchPartial.cshtml" />
     <Content Include="Areas\Hub\Views\Dispatch\Edit.cshtml" />
-    <Content Include="Areas\Hub\Views\Dispatch\Index.cshtml" />
+    <Content Include="Areas\Hub\Views\Dispatch\IndexOld.cshtml" />
     <Content Include="Areas\Hub\Views\Dispatch\Log.cshtml" />
     <Content Include="Areas\Hub\Views\DispatchAllocation\AllocationList.cshtml" />
     <Content Include="Areas\Hub\Views\DispatchAllocation\Close.cshtml" />
@@ -2124,7 +2128,7 @@
     <Content Include="Areas\Hub\Views\Receive\Delete.cshtml" />
     <Content Include="Areas\Hub\Views\Receive\Details.cshtml" />
     <Content Include="Areas\Hub\Views\Receive\Edit.cshtml" />
-    <Content Include="Areas\Hub\Views\Receive\Index.cshtml" />
+    <Content Include="Areas\Hub\Views\Receive\IndexOld.cshtml" />
     <Content Include="Areas\Hub\Views\Receive\Log.cshtml" />
     <Content Include="Areas\Hub\Views\Replication\Index.cshtml" />
     <Content Include="Areas\Hub\Views\Replication\PublicationTwo.cshtml" />

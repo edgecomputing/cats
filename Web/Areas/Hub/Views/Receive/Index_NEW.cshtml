@@ -113,7 +113,7 @@
         <div class="modal-footer">
             <button class="btn btn-danger" data-dismiss="modal" aria-hidden="true"><i class="icon-white icon-remove"></i> @Html.Translate("Cancel")</button>
             <!--<button class="btn btn-primary" onclick="initValidation('frm_edit_inline')">Validate</button>-->
-            <button class="btn btn-primary" onclick="submitInlineForm('frm_edit_inline')"><i class="icon-white icon-ok"></i> @Html.Translate("Ok")</button>
+            <button class="btn btn-primary" onclick="submitInlineForm('#modal_body form')"><i class="icon-white icon-ok"></i> @Html.Translate("Ok")</button>
 
         </div>
 
@@ -154,10 +154,19 @@
 </p>
 <script>
     var sourceType = 1;
-    function CreateNewPlan(type) {
+    function getSourceName(type) {
         type = type ? type : sourceType;
+        var title;
+        if (type == 1)
+            title='@Html.Translate("Donation")';
+        if (type == 2)
+            title='@Html.Translate("Loan, Swap, Repayment Or Other")';
+        if (type == 3)
+            title='@Html.Translate("Local Purchase")';
+        return title;
+
         var url = '@Url.Action("LoadBySIPartial", "ReceiptAllocation")';
-        $("#modal_label").html("Create Plan for " + type);
+        $("#modal_label").html("Create Receipt Plan From " + title);
         $("#modal_body").html("...Loading");
         $('#modal_create_plan').modal();
         $.post(url, { type: type }, function (data) {
@@ -168,26 +177,30 @@
         sourceType = type;
     }
     function EditPlan(ReceiptAllocationID, type) {
+        var title = getSourceName(type);
         var url = '@Url.Action("Edit2", "ReceiptAllocation")';
         var attribs = { allocationId: ReceiptAllocationID, type: type };
-        var title = "Edit " + type;
+        var title = "Edit Receipt Plan - From " + title;
         showModalEditor(url, attribs, title)
     }
     function ClosePlanByID(ReceiptAllocationID, type) {
         var url = '@Url.Action("Close", "ReceiptAllocation")';
         var attribs = { id: ReceiptAllocationID, type: type };
-        var title = "Close " + type;
+        var title = "Close Receipt Plan";
         showModalEditor(url, attribs, title)
     }
     function CreateNewPlan(type) {
+        type = type ? type : sourceType;
+        var title = getSourceName(type)
+
         var url = '@Url.Action("LoadBySIPartial", "ReceiptAllocation")';
         var attribs = { type: type };
-        var title = "Create Plan " + type;
+        var title = "Create Receipt Plan - From " + title;
         showModalEditor(url, attribs, title)
     }
     function submitInlineForm(frmId) {
 
-        var $frm = $("#" + frmId);
+        var $frm = $(frmId);
         //alert($frm.valid());
         try {
             if (!$frm.valid()) {
@@ -272,13 +285,14 @@
     function dataRefresh(refreshGrids) {
         //alert();
         //return;
+        
         var gridUrl = '@Url.Action("AllocationListAjax", "Receive")';
         var gridTypes=[@Cats.Models.Hubs.CommoditySource.Constants.DONATION,
                         @Cats.Models.Hubs.CommoditySource.Constants.LOAN,
                         @Cats.Models.Hubs.CommoditySource.Constants.LOCALPURCHASE]
 
             var attribs = getFilterAttributes();
-            console.log("  attribs", attribs);
+            console.log("dataRefresh ", attribs);
             var urlParams = "";
             var sep = "&";
             for (var i in attribs) {

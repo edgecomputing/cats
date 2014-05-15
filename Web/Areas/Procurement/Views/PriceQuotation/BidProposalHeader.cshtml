@@ -67,11 +67,6 @@
     });
 </script>
 
-
-
-
-
-
 <div>
     <h4>Bid Proposals</h4>
 </div>
@@ -107,7 +102,7 @@
         .Sortable()
         .Events(e => e.DataBound("onDataBound"))
         .Filterable()
-        //.Groupable()
+        .Groupable()
         .DataSource(dataSource => dataSource
                .Ajax()
                //.Events(events => events.Error("error_handler"))

@@ -69,6 +69,7 @@ namespace Cats.Areas.Procurement.Controllers
                 (_paymentRequestService.Get(t => t.BusinessProcess.CurrentState.BaseStateTemplate.Name == "Check Issued").Count() / totalPaymentRequests) * 100;
             var checkCashedPaymentRequests = 
                 (_paymentRequestService.Get(t => t.BusinessProcess.CurrentState.BaseStateTemplate.Name == "Check Cashed").Count() / totalPaymentRequests) * 100;
+           
             var paymentRequestPercentage = new PaymentRequestPercentageViewModel()
                                                {
                                                    Requested = paymentRequestsFromTransporters,
