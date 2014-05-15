@@ -272,14 +272,30 @@ namespace Cats.Areas.EarlyWarning.Controllers
                 HRDPSNPPlanInfo psnphrdPlanInfo = _regionalRequestService.PlanToRequest(hrdpsnpPlan);
                 if (psnphrdPlanInfo != null)
                 {
-                    var exisiting = _regionalRequestService.FindBy(r => r.PlanID == psnphrdPlanInfo.HRDPSNPPlan.PSNPPlanID
-                                                                        &&
-                                                                        r.ProgramId ==
-                                                                        psnphrdPlanInfo.HRDPSNPPlan.ProgramID && r.RegionID==psnphrdPlanInfo.HRDPSNPPlan.RegionID
-                                                                        && r.Year == psnphrdPlanInfo.HRDPSNPPlan.Year
-                                                                        && r.Month == psnphrdPlanInfo.HRDPSNPPlan.Month)
-                        .Count;
-
+                    var exisiting = 0;
+                    if (psnphrdPlanInfo.HRDPSNPPlan.ProgramID == 1)
+                    {
+                         exisiting =
+                            _regionalRequestService.FindBy(r => r.PlanID == psnphrdPlanInfo.HRDPSNPPlan.PlanID
+                                                                &&
+                                                                r.ProgramId ==
+                                                                psnphrdPlanInfo.HRDPSNPPlan.ProgramID &&
+                                                                r.RegionID == psnphrdPlanInfo.HRDPSNPPlan.RegionID
+                                                                && r.Year == psnphrdPlanInfo.HRDPSNPPlan.Year
+                                                                && r.Month == psnphrdPlanInfo.HRDPSNPPlan.Month)
+                                                   .Count;
+                    }
+                    else
+                    {
+                        exisiting = _regionalRequestService.FindBy(r => r.PlanID == psnphrdPlanInfo.HRDPSNPPlan.PSNPPlanID
+                                                                &&
+                                                                r.ProgramId ==
+                                                                psnphrdPlanInfo.HRDPSNPPlan.ProgramID &&
+                                                                r.RegionID == psnphrdPlanInfo.HRDPSNPPlan.RegionID
+                                                                && r.Year == psnphrdPlanInfo.HRDPSNPPlan.Year
+                                                                && r.Month == psnphrdPlanInfo.HRDPSNPPlan.Month)
+                                                   .Count;
+                    }
                     if (exisiting == 0)
                     {
                         RegionalRequest req = CretaeRegionalRequest(psnphrdPlanInfo);
