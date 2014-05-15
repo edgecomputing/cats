@@ -207,6 +207,8 @@ namespace Cats.Areas.Hub.Controllers
                         UnitID = receiptAllocation.UnitID,
                         QuantityInUnit = receiptAllocation.QuantityInUnit ?? 0,
                         QuantityInMT = receiptAllocation.QuantityInMT,
+                        RemainingBalanceInMT = receiptAllocation.RemainingBalanceInMt,
+                        ReceivedQuantityInMT = receiptAllocation.ReceivedQuantityInMT,
                         DonorID = receiptAllocation.DonorID,
                         ProgramID = receiptAllocation.ProgramID,
                         CommoditySourceID = receiptAllocation.CommoditySourceID,
