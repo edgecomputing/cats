@@ -8,6 +8,14 @@
 {
     <link href="~/Content/Dashboard/dashboardcomponents.css" rel="stylesheet" />
 }
+<style>
+    .chartWrap {
+        margin: 0 auto;
+        width: 100%;
+        height: 290px;
+    }
+</style>
+
 <div ng-app="myApp">
     <div ng-controller="PSNPDashboardController" class="container">
         <div>
@@ -122,11 +130,7 @@
                         <!-- /.portlet-header -->
 
                         <div class="portlet-content">
-                            <div class="chart-wrapper">
-                                <div class="chart-inner">
-                                    <div id="container" style="width: 100%; height: 100%;"></div>
-                                </div>
-                            </div>
+                                    <div class="chartWrap" id="container"></div>
                         </div>
                         <!-- /.portlet-content -->
 
@@ -168,11 +172,9 @@
                         <!-- /.portlet-header -->
 
                         <div class="portlet-content">
-                            <div class="chart-wrapper">
-                                <div class="chart-inner">
-                                    <div id="containerRequisition" style="width: 100%; height: 100%;"></div>
-                                </div>
-                            </div>
+                          
+                                    <div id="containerRequisition" class="chartWrap"></div>
+                               
                             <!-- /.portlet-content -->
 
                         </div>
@@ -483,36 +485,34 @@
                 plotShadow: false
             },
 
-            tooltip: {
-                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-            },
+            //tooltip: {
+            //    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            //},
             plotOptions: {
                 pie: {
                     allowPointSelect: true,
                     cursor: 'pointer',
                     dataLabels: {
-                        enabled: true,
-                        color: '#000000',
-                        connectorColor: '#000000',
-                        format: '<b>{point.name}</b>: {point.percentage:.1f} %'
-                    }
+                        enabled: false
+                    },
+                    showInLegend: true
                 }
             },
             credits: {
                 enabled: false
             },
+            title: {
+                text: ''
+            },
+            exporting: {
+                enabled: false
+            },
             series: [{
                 type: 'pie',
-                name: 'Browser share',
+                name: 'Requests Percentage',
                 data: [
                     ['Afar', 45.0],
                     ['Oromiya', 26.8],
-                    {
-                        name: 'SNNPR',
-                        y: 12.8,
-                        sliced: true,
-                        selected: true
-                    },
                     ['Amhara', 8.5],
                     ['Somali', 6.2],
                     ['Benishangul', 0.7]
@@ -531,36 +531,34 @@
                 plotShadow: false
             },
 
-            tooltip: {
-                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-            },
-            credits: {
-                enabled: false
-            },
+            //tooltip: {
+            //    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            //},
             plotOptions: {
                 pie: {
                     allowPointSelect: true,
                     cursor: 'pointer',
                     dataLabels: {
-                        enabled: true,
-                        color: '#000000',
-                        connectorColor: '#000000',
-                        format: '<b>{point.name}</b>: {point.percentage:.1f} %'
-                    }
+                        enabled: false
+                    },
+                    showInLegend: true
                 }
+            },
+            credits: {
+                enabled: false
+            },
+            title: {
+                text: ''
+            },
+            exporting: {
+                enabled: false
             },
             series: [{
                 type: 'pie',
-                name: 'Browser share',
+                name: 'Requests Percentage',
                 data: [
                     ['Afar', 45.0],
                     ['Oromiya', 26.8],
-                    {
-                        name: 'SNNPR',
-                        y: 12.8,
-                        sliced: true,
-                        selected: true
-                    },
                     ['Amhara', 8.5],
                     ['Somali', 6.2],
                     ['Benishangul', 0.7]
