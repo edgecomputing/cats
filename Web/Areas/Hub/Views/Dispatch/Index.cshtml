@@ -1,369 +1,812 @@
 ﻿@using Cats.Models.Hubs
 @using Cats.Models.Hubs.ViewModels
 @using Cats.Web.Hub.Helpers
-@using Kendo.Mvc.UI
-
+@model Cats.Models.Hubs.ViewModels.Dispatch.DispatchHomeViewModel
 @{
+    ViewBag.Title = Html.Translate("Expected Dispatch");
 
     var mesure = Html.GetCurrentUser().PreferedWeightMeasurment;
-
+    ViewBag.Title = Html.Translate("Expected dispatches");
 
     string quanityColumnHeader = "MT";
-    if (mesure.ToUpperInvariant() == "MT")
+    if (mesure.ToUpperInvariant() == "MT" )
     {
-        quanityColumnHeader = "MT";
-    }
-    else
+          quanityColumnHeader = "MT";
+    }else
     {
-        quanityColumnHeader = "Qtl";
+         quanityColumnHeader = "Qtl";
     }
-    Layout = "~/Views/Shared/_MainLayout.cshtml";
+
 }
-@section Toolbar
-{
-
-    <a class="btn toolbar-btn" title="@Html.Translate("Recorded Dispatchs")" href="@Url.Action("Log")">@Html.Translate("Dispatch Log")</a>
-    
-    <!--Create New Plan-->
-    <div class="btn-group">
-        <button class="btn toolbar-btn" title="@Html.Translate("Create a new dispatch plan")" onclick="CreateNewPlan()">@Html.Translate("New Plan")</button>
-        <button class="btn dropdown-toggle " data-toggle="dropdown">
-            <span class="caret"></span>
-        </button>
-        <ul class="dropdown-menu">
-            <li>@Html.ActionLink(Html.Translate("Dispatch Planning"), "Index", "DispatchAllocation")</li>
-            <li><a href="javascript:CreateNewLoan(2)">@Html.Translate("Loan")</a></li>
-            <li><a href="javascript:CreateNewTransfer(3)">@Html.Translate("Transfer")</a></li>
-
-        </ul>
+@Html.Partial("DisplayHub")
+<p>
+    @Html.Translate("Please use this page to start from expected dispatches.")
+</p>
+@{
+    Html.Telerik().Window()
+            .Name("DispatchAllocationDialog")
+            .Title(Html.Translate("Edit/New Dispatch Allocation"))
+            .Content(@<text>
+    <div style="padding: 10px;" id="create-edit-form">
     </div>
-
-    <!--Create New Plan-->
-    <div class="btn-group">
-        <button class="btn toolbar-btn" title="@Html.Translate("Record new dispatch")">@Html.Translate("New Dispatch")</button>
-        <button class="btn dropdown-toggle " data-toggle="dropdown">
-            <span class="caret"></span>
-        </button>
-        <ul class="dropdown-menu">
-            <li>@Html.ActionLink(Html.Translate("To FDP"), "Create", "Dispatch", new { type = 1 }, null)</li>
-            <li>@Html.ActionLink(Html.Translate("Loan"), "Create", "Dispatch", new { type = 2 }, null)</li>
-            <li>@Html.ActionLink(Html.Translate("Transfer"), "Create", "Dispatch", new { type = 3 }, null)</li>
-        </ul>
-    </div>
+    </text>)
+            .Width(800)
+            .Height(350)
+            .Draggable(true)
+            .Modal(true)
+            .Visible(false)
+            .Render();
 }
-<div>
-    <h3 id="header_title">@Html.Translate("Dispatch")</h3>
-
-    <!--filter criteria-->
-    <div class="filter">
-        <div class="form-inline" style="margin: 0; padding: 0;">
-            <i class="icon-filter" style="margin-left: 10px;"></i>
-
-            <div class="input-prepend" style="margin-left: 20px;">
-                <label for="HubsID" class="add-on">Hub</label>
-                @Html.DropDownList("HubsID", null, new { @class = "inputs-large" })
-            </div>
-            <div class="input-prepend" style="margin-left: 50px;">
-                <label for="FilterCommodityTypeID" class="add-on">Commodity</label>
-                @Html.DropDownList("FilterCommodityTypeID", null, new { @class = "inputs-large" })
-            </div>
-
-            <label class="checkbox" style="margin-left: 50px;">
-                <input onchange="dataRefresh();" type="checkbox" id="chk_closed">
-                Show closed Plans
-            </label>
-
-            <label class="checkbox" style="margin-left: 20px;">
-            </label>
-            <button onclick="onToggleFilterAdmin('btn_filter_fdp')" id="btn_filter_fdp">Admin</button>
 
 
-            <button onclick="dataRefresh()">Refresh</button>
-        </div>
-
-    </div>
-
-    <!--Modal Editor-->
-    <div id="modal_edit_window" class="modal hide fade" style="width: 900px;" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-
-        <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-            <h3 id="modal_label">Create Plan</h3>
-        </div>
-
-        <div class="modal-body" id="modal_body">
-        </div>
-
-        <div class="modal-footer">
-            <button class="btn btn-danger" data-dismiss="modal" aria-hidden="true"><i class="icon-white icon-remove"></i> @Html.Translate("Cancel")</button>
-            <!--<button class="btn btn-primary" onclick="initValidation('frm_edit_inline')">Validate</button>-->
-            <button class="btn btn-primary" onclick="submitInlineForm('frm_edit_inline')"><i class="icon-white icon-ok"></i> @Html.Translate("Ok")</button>
-
-        </div>
-
-    </div>
-    <br />
-    
-    <!--Tab content-->
-    <div>
-    <ul id="myTab" class="nav nav-tabs">
-        <li class="active"><a href="#to_fdp" data-toggle="tab" onclick="onSourceTypeChange(@Cats.Models.Hubs.CommoditySource.Constants.DONATION)">@Html.Translate("Dispatch To FDPs")</a></li>
-        <li><a href="#to_loan" data-toggle="tab" onclick="onSourceTypeChange(@Cats.Models.Hubs.CommoditySource.Constants.LOAN)">@Html.Translate("Dispatch to Loans")</a></li>
-        <li><a href="#to_transfer" data-toggle="tab" onclick="onSourceTypeChange(@Cats.Models.Hubs.CommoditySource.Constants.LOCALPURCHASE)">@Html.Translate("Disaptch to Transfers")</a></li>
-    </ul>
-
-    <div id="myTabContent" class="tab-content">
-        <div class="tab-pane fade active in" id="to_fdp">
-            <div class="field-set">
-                @Html.Action("DispatchedToFDPList", "Dispatch", new { closed = false })
-            </div>
-        </div>
-
-        <div class="tab-pane fade" id="to_loan">
-            <div class="field-set" style="vertical-align: top">
-                @Html.Action("OtherDispatchAllocationsList", "Dispatch", new { allocationType = "Loan" })
-            </div>
-        </div>
-
-        <div class="tab-pane fade" id="to_transfer">
-            <div class="field-set">
-                @Html.Action("OtherDispatchAllocationsList", "Dispatch", new { allocationType = "Transfer" })
-            </div>
-        </div>
-    </div>
-    </div>
-
-    <!--Admin Region Selector-->
-
-    <div id="div_form_template" style="display: none;">
-        <button type="button" class="close" data-dismiss="popover" style="margin-top: -40px;" onclick="hidePopover()">×</button>
-        <div style="width: 276px; min-height: 100px; overflow: hidden;">
-            @Html.Partial("~/Views/Shared/_AdminUnitTree.cshtml")
-        </div>
-    </div>
 
 
-    <style>
-        .progress
-        {
-            margin:0;
-            height:16px;
-        }
-        .progress .bar
-        {
+    @Html.Hidden("AdminUnitIDSelector")
 
-            overflow:visible;
-         }
-        .progress .bar-label
-        {
-            font-size:11px;
-           /* color:rgb(3,55,95);*/
-           color:#00F;
-            line-height:16px;
-            overflow:visible;
-            text-shadow:1px 1px 1px #FFF;
-           
-            width:250px;
-            
-        }
-        .filter
-        {
-            background: #FFF;
-            border-radius: 4px;
-            border: solid 4px #FFF;
-            box-shadow: rgba(0,0,0,0.3) 0px 0px 2px;
-        }
 
-        .close_false
-        {
-        }
-
-        .close_true
-        {
-            display: none;
-        }
-
-        .two-col-form .control-group
-        {
-            float: left;
-            width: 49%;
-            /* background:#EEE;
-        border:solid 1px #ff6a00;
-    */
-        }
-
-        .required
-        {
-            color: #3d0101;
-        }
-    </style>
-
-    <script>
-        var filterAdmin = { RegionID: "", ZoneID: "", WoredaID: "", FDPID: "" };
-        var filterAdminUnitID = "";
-        function onToggleFilterAdmin() {
-            $("#btn_filter_fdp").popover('toggle');
-        }
-        function initFDPSelector() {
-            var htmlRenderer = function (htm) { return "<input  type='checkbox' onchange='onChk_showAllAdminChange()' id='chk_showAllAdmin' checked='checked'> Show For All" + htm };
-            showFDPSelector({ target: 'btn_filter_fdp', callback: "onfilterAdminChange", adminUnit: filterAdmin, htmlRenderer: htmlRenderer, noshow: 1 })
-
-        }
-        var onfilterAdminChange = function (type, selection, id) {
-            console.log("onfilterAdminChange", selection);
-
-            if (selection) {
-
-                filterAdmin = selection;
-            }
-            filterAdminUnitID = id;
-            if (!document.getElementById("chk_showAllAdmin").checked) {
-                dataRefresh({ DispatchToFDPGrid: "" });
-            }
-        }
-        function submitInlineForm(frmId) {
-
-            var $frm = $("#" + frmId);
-            //alert($frm.valid());
-            try{
-                if (!$frm.valid()) {
-                    // alert("Error");
-                    return;
-                }
-            }
-            catch (e) { }
-           // alert("valid");
-            //return;
-            // return;
-            var url = $frm.attr("action");
-            var attribs = {};
-            console.log("submitForm ", url);
-            $frm.hide();
-            /*
-            var $inputs = $("#" + frmId + " input");
-            $inputs.each(function (index, element) {
-                //console.log("   submitForm ", element);
-                if (element.name) {
-                    attribs[element.name] = element.value;
-                }
-            });
-            */
-            attribs = $frm.serialize();
-            //console.log(attribs);
-            $.post(url, attribs, function (data) {
-                $frm.show();
-                console.log("Submit Result", data);
-                var submitResult = data;
-                if (typeof (data) == "string") {
-                    eval("submitResult = " + data);
-                }
-                if (submitResult.status) {
-                    $('#modal_edit_window').modal(('hide'));
-                    dataRefresh();
-                }
-                //$("#modal_body").html(data);
-
-                //alert(data);
-            });
-        }
-        function onChk_showAllAdminChange() {
-            dataRefresh({ DispatchToFDPGrid: "" });
-        }
+    <script type="text/javascript">
         $(function () {
-            var onFilterChange = function () { dataRefresh() };
+            //load the regions tree
+            $('.t-in').siblings('span').click();
 
-            $("#FilterCommodityTypeID").change(onFilterChange);
-            $("#HubsID").change(onFilterChange);
-            initFDPSelector();
-            //$("#chk_showAllAdmin").click(function () { dataRefresh({ DispatchToFDPGrid: "" }) });
+            $("#showAllAdminUnits").change(function () {
+                if ($(this).attr('checked') == 'checked') {
+                    //remove the value from the hidden field
+                    $('#AdminUnitIDSelector').val(null);
+
+                    //remove the selected item from the tree
+                    //TODO fix this to specifically select  the tree elt
+                    $('.t-state-selected').removeClass('t-state-selected');
+
+                    //rebind the grid
+                    var gr = $('#DispatchAllocationGrid1').data('tGrid');
+                    gr.rebind();
+
+
+                }
+            });
         });
-        function showModalEditor(url, attribs, title) {
-            $("#modal_label").html(title);
-            $("#modal_body").html("...Loading");
-            $('#modal_edit_window').modal();
 
-            /*
-            $.post(url, attribs, function (data) {
-                $("#modal_body").html(data);
-            });
-            */
-            $.get(url, attribs, function (data) {
-                $("#modal_body").html(data);
-                setTimeout(function () {
-                    initValidation()
-                }, 1000);
-
-            });
-        }
-        function initValidation() {
-            $.validator.unobtrusive.parse(document);
-            console.log("validating");
-        }
-        function getFilterAttributes() {
-            var closed = "false";
-            if (document.getElementById("chk_closed").checked) {
-                closed = "true";
-            }
-            var commodityType = $("#FilterCommodityTypeID").val();
-            var HubID = $("#HubsID").val();
-
-            var AdminUnitID = filterAdminUnitID;
-            if (document.getElementById("chk_showAllAdmin") && document.getElementById("chk_showAllAdmin").checked) {
-                AdminUnitID = "";
-            }
-            return { closed: closed, commodityType: commodityType, HubID: HubID, AdminUnitID: AdminUnitID };
-        }
-
-
-
-        function onSourceTypeChange() {
-        }
-        function dataRefresh(refreshGrids) {
-            //alert();
-            //return;
-
-            var gridUrls = {
-                DispatchToFDPGrid: '@Url.Action("DispatchedToFDPListAjax", "Dispatch")'
-            , DispatchAllocationGrid_Loan: '@Url.Action("DispatchedToLoanListAjax", "Dispatch")'
-            , DispatchAllocationGrid_Transfer: '@Url.Action("DispatchedToTransferListAjax", "Dispatch")'
-            };
-        refreshGrids = refreshGrids ? refreshGrids : gridUrls;
-        var attribs = getFilterAttributes();
-        console.log("  attribs", attribs);
-        var urlParams = "";
-        var sep = "?";
-        for (var i in attribs) {
-            if (attribs[i] != "") {
-                urlParams += sep + i + "=" + attribs[i];
-                sep = "&";
-            }
-        }
-        for (var i in refreshGrids) {
-            var loadUrl = gridUrls[i] + urlParams;
-            console.log("   " + i, loadUrl);
-            var gr = $("#" + i).data("kendoGrid");
+        function TreeView_onSelect(e) {
+            // `this` is the DOM element of the treeview
+            var treeview = $(this).data('AdminUnitTree');
+            $("#showAllAdminUnits").removeAttr('checked');
+            var nodeElement = e.item;
+            //var firstNodeElement = $("li:first", nodeElement)[0];
+            var gr = $('#DispatchAllocationGrid1').data('tGrid');
+            var cal = $($($(nodeElement).children().children())[1]).val();
             if (gr != null) {
-                gr.dataSource.transport.options.read.url = loadUrl;
-                gr.dataSource.filter({});
+                var AdminUnitID = { AdminUnitID: $(nodeElement.getElementsByTagName('input')).val() };
+                $('#AdminUnitIDSelector').val($(nodeElement.getElementsByTagName('input')).val());
+                gr.rebind(AdminUnitID);
             }
+
         }
+    </script>
+<div class="field-set-title">
+    <h2>@Html.Translate("Dispatch To FDPs")</h2>
+    @Html.ActionLink(Html.Translate("Dispatch Planning"), "Index", "DispatchAllocation")
+    <span style="float: right">
+        @Html.ActionLink(Html.Translate("New Dispatch"), "Create", "Dispatch", new { type = 1 }, null)
+    </span>
+</div>
+<div class="field-set">
+<table width="100%" class="borderless">
+   
+    <tr>    
+        <td style="vertical-align: top">
+            <div style="max-height: 350px; overflow-y: auto;width: 215px">
+                @(Html.Telerik().TreeView().ClientEvents(events => events.OnSelect("TreeView_onSelect"))
+           .Name("AdminUnitTree")
+           .BindTo(Model.AdminUnits, (item, AdminUnits) =>
+                                         {
+                                             // bind initial data - can be omitted if there is none
+                                             item.Text = AdminUnits.Name;
+                                             item.Value = AdminUnits.AdminUnitID.ToString();
+                                             item.LoadOnDemand = AdminUnits.AdminUnit1.Count > 0;
+                                         }).ShowLines(true)
+           .DataBinding(dataBinding => dataBinding.Ajax().Select("GetTreeElts", "AdminUnit")))
+            </div>
+        </td>
+        <td style="vertical-align: top">
+
+            @(Html.Telerik().Grid<Cats.Models.Hubs.ViewModels.DispatchAllocationViewModelDto>().Name("DispatchAllocationGrid1")
+           .ToolBar(toolBar => toolBar.Template(
+               @<text>
+                    <label class="closed-label" for="Closed-input">
+                        @Html.Translate("Show closed Plans")  :
+                    </label>
+                    <input type="checkbox" class="chkBoxUnclosed" id="chk-closedtoo-FDP" data-val="FDP" />
+                    <script type="text/javascript">
+                        $(function () {
+                            $("#chk-closedtoo-FDP").change(function () {
+//                         var gridNum = $(this).attr('data-val');
+                                var gr = $('#DispatchAllocationGrid1').data('tGrid');
+                                if (gr != null) {
+                                    gr.rebind();
+                                }
+                            });
+                        });
+
+                        function dataBindingFDP(args) {
+                            var commType = $("#CommodityTypeSelector-1").val();
+                            if ($("#chk-closedtoo-FDP").attr('checked') == 'checked') {
+                                args.data = $.extend(args.data, { closed: true, AdminUnitID: $('#AdminUnitIDSelector').val(), CommodityType: commType });
+                            }else {
+                                args.data = $.extend(args.data, { closed: false, AdminUnitID: $('#AdminUnitIDSelector').val(), CommodityType: commType });
+                            }
+                            var gr = $('#DispatchAllocationGrid1').data('tGrid');
+                            if (commType == 1 || commType == null) {
+                                gr.hideColumn(5);
+                                gr.hideColumn(7);
+                                gr.hideColumn(9);
+                                gr.showColumn(4);
+                                gr.showColumn(6);
+                                gr.showColumn(8);
+                            }
+                            else {
+                                gr.hideColumn(4);
+                                gr.hideColumn(6);
+                                gr.hideColumn(8);
+                                gr.showColumn(5);
+                                gr.showColumn(7);
+                                gr.showColumn(9);
+
+                            }
+                        
+                        }
+
+                        function comTypeChange1(e) {
+                            var Params = { CommodityType: e.value, closedToo: $("#chk-closedtoo-FDP").attr('checked') == 'checked', AdminUnitID: $('#AdminUnitIDSelector').val() };
+                            var gr = $('#DispatchAllocationGrid1').data('tGrid');
+
+                            if (e.value == 1 || e.value == null) {
+                                gr.hideColumn(5);
+                                gr.hideColumn(7);
+                                gr.hideColumn(9);
+                                gr.showColumn(4);
+                                gr.showColumn(6);
+                                gr.showColumn(8);
+                            }
+                            else {
+                                gr.hideColumn(4);
+                                gr.hideColumn(6);
+                                gr.hideColumn(8);
+                                gr.showColumn(5);
+                                gr.showColumn(7);
+                                gr.showColumn(9);
+
+                            }
+
+                            
+                            if (gr != null) {
+                                gr.rebind(Params);
+                            }
+                        }
+                    </script>
+                    
+                <label class="customer-label" for="Customers-input" style="padding-left:10px ">
+                    Show Allocations for :
+                </label>
+                @(Html.Telerik().ComboBox()
+                                .Name("CommodityTypeSelector-" + 1)
+                                .BindTo(new SelectList(Model.CommodityTypes, "CommodityTypeID","Name",Model.CommodityTypeID))
+                               // .DataBinding(binding => binding.Ajax().Select("_GetCommodityTypes", "CommodityType"))
+                                .AutoFill(true)
+                                .Filterable(filtering =>
+                                {
+                                    filtering.FilterMode(AutoCompleteFilterMode.StartsWith);
+                                })
+                                .HtmlAttributes(new { style = "width: 300px" })
+                                .HighlightFirstMatch(true)
+                                .SelectedIndex(0)
+                                .ClientEvents(events => events.OnChange("comTypeChange" + 1)) //.OnLoad("onComboBoxLoad"))
+                )
+
+                </text>))
+           .ClientEvents(ev => ev.OnDataBinding("dataBindingFDP"))
+
+           .Columns(
+
+
+               col =>
+                   {
+
+                       col.Bound(dis => dis.DispatchAllocationID).
+                           ClientTemplate("<div style='min-width:120px'><a href='"
+                                          + @Url.Action("CreateDispatch", "Dispatch", new { @allocationId = "<#= DispatchAllocationID #>", @type = "<#= 1 #>" })
+                                          + "' >" + @Html.Translate("Dispatch") + "</a><span>   </span>  "
+
+                                          + "<a href='#' onclick='EditFDPAllocation(\"<#= DispatchAllocationID #>\")'"
+                                          + "' >" + @Html.Translate("Edit") + "</a>"
+                                          + "<span> </span>"
+                                          + "<# if (!IsClosed) {#>"
+                                          + "<a href='#' onclick='ClosePlanById(\"<#= DispatchAllocationID #>\")' >" + @Html.Translate("Close") + "</a>" +
+                                          " <#} else {#>"
+                                          + " <#}#>"
+                                          + "<span>  </span></div>"
+
+                           ).Title("Action");
+
+
+                       col.Bound(modelItem => modelItem.BidRefNo).HtmlAttributes(new { onclick = "return loadForm(this)" }).Title("BidRef #");
+                       col.Bound(modelitem => modelitem.RequisitionNo).Title(Html.Translate("Req #"));
+                       col.Bound(modelItem => modelItem.CommodityName).Title(Html.Translate("Commodity"));
+                       col.Bound(modelItem => modelItem.Amount).Format("{0:#,###.0}").Title(Html.Translate("Planned " + quanityColumnHeader)).Width(30).HtmlAttributes(new { align = "right" });
+                       col.Bound(modelItem => modelItem.AmountInUnit).Format("{0:#,###.0}").Title(Html.Translate("Planned Unt")).Width(30).HtmlAttributes(new { align = "right" });
+                       col.Bound(modelItem => modelItem.DispatchedAmount).Format("{0:#,##0.0}").Title(Html.Translate("Dispatched " + quanityColumnHeader)).Width(30).HtmlAttributes(new { align = "right" });
+                       col.Bound(modelItem => modelItem.DispatchedAmountInUnit).Format("{0:#,##0.0}").Title(Html.Translate("Dispatched Unt" )).Width(30).HtmlAttributes(new { align = "right" });
+                       col.Bound(modelitem => modelitem.RemainingQuantityInQuintals).Format("{0:#,##0.0}").Title(Html.Translate("Remaining " + quanityColumnHeader)).Width(30).HtmlAttributes(new { align = "right" });
+                       col.Bound(modelitem => modelitem.RemainingQuantityInUnit).Format("{0:#,##0.0}").Title(Html.Translate("Remaining Unt")).Width(30).HtmlAttributes(new { align = "right" });
+                       //col.Bound(modelItem => modelItem.Region).Title(Html.Translate("Region"));
+                       //col.Bound(modelItem => modelItem.Zone).Title(Html.Translate("Zone"));
+                       //col.Bound(modelItem => modelItem.Woreda).Title(Html.Translate("Woreda"));
+                       col.Bound(modelItem => modelItem.FDPName).Title(Html.Translate("FDP Name"));
+                               
+                      // col.Template(@<text></text>)
+                      //     .ClientTemplate("<input type='checkbox' disabled='disabled' name='excess' <#= ((RemainingQuantityInQuintals < 0) || (RemainingQuantityInUnit < 0))?\"checked='checked'\" : \"\" #> />").Title(Html.Translate("Excess"));
+
+                   })
+
+
+           .DetailView(details => details.ClientTemplate(
+               Html.Telerik().Grid<DispatchModelModelDto>()
+                   .Name("Dispatchs_<#= DispatchAllocationID #>")
+                   //    .ClientEvents(events => events.OnRowDataBound("Receives_onRowDataBound"))
+                   .Columns(dispCols =>
+                                {
+                                    dispCols.Bound(d => d.DispatchDate).Format("{0:d-MMM-yyyy}");
+                                    dispCols.Bound(d => d.GIN).ClientTemplate("<a href='" +
+                                                                              @Url.Action("Create", "Dispatch", new { @ginNo = "<#= GIN #>", @type = "<#= 1 #>" })
+                                                                              + "' >" + "<#= GIN #></a>");
+                                    dispCols.Bound(d => d.DispatchedByStoreMan);
+
+                                }
+
+                   ).Footer(true)
+                   .DetailView(ordersDetailView => ordersDetailView.ClientTemplate(
+                       Html.Telerik().Grid<DispatchDetailModelDto>()
+                           .Name("FDP_Dispatch_Details_<#= DispatchID #>")
+                           .Columns(c =>
+                                        {
+                                            c.Bound(com => com.CommodityName).Title(Html.Translate("Commodity"));
+                                            c.Bound(com => com.UnitName).Title(Html.Translate("Unit"));
+                                            c.Bound(com => com.RequestedQuantityInUnit).Title(Html.Translate("Requested Qty (Unit)")).HtmlAttributes(new { align = "right" }); 
+                                            c.Bound(com => com.DispatchedQuantityInUnit).Title("Dispatched Qty (Unit)").HtmlAttributes(new { align = "right" }); ;
+                                            c.Bound(com => com.RequestedQuantityMT).Title(Html.Translate("Requested Qty " + quanityColumnHeader)).HtmlAttributes(new { align = "right" }); ;
+                                            c.Bound(com => com.DispatchedQuantityMT).Title(Html.Translate("Dispatched Qty " + quanityColumnHeader)).HtmlAttributes(new { align = "right" }); ;
+                                        })
+                           .DataBinding(dataBinding => dataBinding.Ajax()
+                                                           .Select("DispatchListGridListGrid", "Dispatch", new { DispatchID = "<#= DispatchID #>" }))
+                           .Pageable()
+                           .Sortable().Footer(true)
+                           .ToHtmlString()
+                                                       )).Footer(true)
+                   .DataBinding(dataBinding => dataBinding.Ajax()
+                                                   .Select("DispatchListGrid", "Dispatch", new { DispatchAllocationID = "<#= DispatchAllocationID #>" }))
+                   .Pageable(paging =>
+                             paging.PageSize(10)
+                                 .Style(GridPagerStyles.NextPreviousAndNumeric)
+                                 .Position(GridPagerPosition.Bottom)
+                   )
+                   .Sortable()
+                   .ToHtmlString()
+                                      ))
+
+
+
+           .DataBinding(dataBinding => dataBinding.Ajax().Select("GetFdpAllocations", "Dispatch"))
+
+           .Footer(true).Pageable(paging =>
+                                  paging.PageSize(10)
+                                      .Style(GridPagerStyles.NextPreviousAndNumeric)
+                                      .Position(GridPagerPosition.Bottom)
+           ).Filterable()
+                  )
+        </td>
+    </tr>
+</table>
+</div>
+<br />
+
+
+<table width="100%" class="borderless">
+    <tr>
+        <td class="field-set-title">
+            <h2>
+                @Html.Translate("Dispatch to Loans")</h2>
+
+        
+            @* @Html.ActionLink(Html.Translate("Add new dispatch plan"), "ToOtherOwners", "DispatchAllocation")*@
+            <a href="javascript:createNewLoan();">@Html.Translate("Add new dispatch plan")</a>
+            <span style="float: right">
+                @Html.ActionLink(Html.Translate("New Dispatch"), "Create", "Dispatch", new { type = 2 }, null)
+            </span>
+        </td>
+    </tr>
+    <tr >
+        <td class="field-set">
+            @(Html.Telerik().Grid<OtherDispatchAllocationDto>().Name("DispatchAllocationGrid2")
+           .DataKeys(keys => keys.Add(co => co.OtherDispatchAllocationID)).
+           ToolBar(toolBar => toolBar.Template(
+               @<text>
+                    <label class="closed-label" for="Closed-input">
+                        @Html.Translate("Show closed Plans")  :
+                    </label>
+                    <input type="checkbox" class="chkBoxUnclosed" id="chk-closedtoo-Loan" data-val="Loan" />
+                    <script type="text/javascript">
+                        $(function () {
+                            $("#chk-closedtoo-Loan").change(function () {
+                                //var gridNum = $(this).attr('data-val');
+                                var gr = $('#DispatchAllocationGrid2').data('tGrid');
+                                if (gr != null) {
+                                    gr.rebind();
+                                }
+                            });
+                        });
+
+                        function dataBindingLoan(args) {
+                            var commType = $("#CommodityTypeSelector-2").val();
+                            if ($("#chk-closedtoo-Loan").attr('checked') == 'checked') {
+                                args.data = $.extend(args.data, { closed: true, CommodityType: commType }); 
+                            }else {
+                                args.data = $.extend(args.data, { closed: false, CommodityType: commType });
+                            }
+
+                            var gr = $('#DispatchAllocationGrid2').data('tGrid');
+                            if (commType == 1 || commType == null) {
+                                gr.hideColumn(4);
+                                gr.hideColumn(6);
+                                gr.showColumn(3);
+                                gr.showColumn(5);
+                            }
+                            else { 
+                                gr.hideColumn(3);
+                                gr.hideColumn(5);
+                                gr.showColumn(4);
+                                gr.showColumn(6);
+
+                            }
+                        }
+                        function comTypeChange2(e) {
+                            var Params = { CommodityType: e.value, closedToo: $("#chk-closedtoo-Loan").attr('checked') == 'checked' };
+                            var gr = $('#DispatchAllocationGrid2').data('tGrid');
+
+                            if (e.value == 1 || e.value == null) {
+                                gr.hideColumn(4);
+                                gr.hideColumn(6);
+                                gr.showColumn(3);
+                                gr.showColumn(5);
+                            }
+                            else {
+                                gr.showColumn(4);
+                                gr.showColumn(6);
+                                gr.hideColumn(3);
+                                gr.hideColumn(5);
+                            } 
+                            if (gr != null) {
+                                gr.rebind(Params);
+                            }
+                        }
+                    </script>
+                    
+               <label class="customer-label" for="Customers-input" style="padding-left:10px ">
+                    Show Allocations for :
+                </label>
+                @(Html.Telerik().ComboBox()
+                                .Name("CommodityTypeSelector-" + 2)
+                                .BindTo(new SelectList(Model.CommodityTypes, "CommodityTypeID", "Name", Model.CommodityTypeID))
+                               // .DataBinding(binding => binding.Ajax().Select("_GetCommodityTypes", "CommodityType"))
+                                .AutoFill(true)
+                                .Filterable(filtering =>
+                                {
+                                    filtering.FilterMode(AutoCompleteFilterMode.StartsWith);
+                                })
+                                .HtmlAttributes(new { style = "width: 300px" })
+                                .HighlightFirstMatch(true)
+                                .SelectedIndex(0)
+                                .ClientEvents(events => events.OnChange("comTypeChange" + 2)) //.OnLoad("onComboBoxLoad"))
+                )
+
+                </text>))
+           .ClientEvents(ev => ev.OnDataBinding("dataBindingLoan"))
+           .Columns(col =>
+                        {
+
+
+
+                            col.Bound(dis => dis.OtherDispatchAllocationID).
+                                ClientTemplate("<div style='min-width:120px'><a href='"
+                                               + @Url.Action("Create", "Dispatch", new { @allocationId = "<#= OtherDispatchAllocationID #>", @type = "<#= 2 #>" })
+                                               + "' >" + @Html.Translate("Dispatch") + "</a><span>   </span>  "
+                                               //editLoan
+                                               + "<a href='#' onclick='javascript:editLoan(\"<#= OtherDispatchAllocationID #>\")'"
+                                               + "' >" + @Html.Translate("Edit") + "</a>"
+                                               + "<span> </span>"
+                                               + "<# if (!IsClosed) {#>"
+                                               + "<a href='#' onclick='OtherClosePlanById(\"<#= OtherDispatchAllocationID #>\")' >" + @Html.Translate("Close") + "</a>" +
+                                               " <#} else {#>"
+                                               + " <#}#>"
+                                               + "<span> </span></div>"
+
+                                ).Title("Action");
+
+                            col.Bound(gc => gc.ReferenceNumber);
+                            col.Bound(gc => gc.AgreementDate).Title(Html.Translate("Agreement Date")).Format("{0:d-MMM-yyyy}"); ;
+                            col.Bound(gc => gc.QuantityInMT).Title(Html.Translate("Quantity In " + quanityColumnHeader)).HtmlAttributes(new { align = "right" });
+                            col.Bound(gc => gc.QuantityInUnit).Title(Html.Translate("Quantity In Unit")).HtmlAttributes(new { align = "right" });
+                            col.Bound(gc => gc.RemainingQuantityInMt).Title(Html.Translate("Reamining In " + quanityColumnHeader)).HtmlAttributes(new { align = "right" });
+                            col.Bound(gc => gc.RemainingQuantityInUnit).Title(Html.Translate("Reamining In Unit")).HtmlAttributes(new { align = "right" });
+                            col.Bound(gc => gc.CommodityName).Title(Html.Translate("Commodity"));
+                            col.Bound(gc => gc.EstimatedDispatchDate).Title(Html.Translate("Arival Date")).Format("{0:d-MMM-yyyy}"); ;
+                            col.Bound(gc => gc.SINumber).Title(Html.Translate("SI Number"));
+                            col.Bound(gc => gc.ProjectCode).Title(Html.Translate("Project Code"));
+
+                   //         col.Template(@<text></text>)
+                   //             .ClientTemplate("<input type='checkbox' disabled='disabled' name='excess' <#= ((RemainingQuantityInMt < 0) ||(RemainingQuantityInUnit < 0)) ?\"checked='checked'\" : \"\" #> />").Title(Html.Translate("Excess"));
+
+                        })
+
+           .DetailView(details => details.ClientTemplate(
+               Html.Telerik().Grid<DispatchModelModelDto>()
+                   .Name("Loan_Dispatchs_<#= OtherDispatchAllocationID #>")
+                   //    .ClientEvents(events => events.OnRowDataBound("Receives_onRowDataBound"))
+                   .Columns(dispCols =>
+                                {
+                                    dispCols.Bound(d => d.DispatchDate).Format("{0:d-MMM-yyyy}");
+                                    dispCols.Bound(d => d.GIN).ClientTemplate("<a href='" +
+                                                                              @Url.Action("Create", "Dispatch", new { @ginNo = "<#= GIN #>", @type = "<#= 2 #>" })
+                                                                              + "' >" + "<#= GIN #></a>");
+                                    dispCols.Bound(d => d.DispatchedByStoreMan);
+
+                                }
+
+                   ).Footer(true)
+                   .DetailView(ordersDetailView => ordersDetailView.ClientTemplate(
+                       Html.Telerik().Grid<DispatchDetailModelDto>()
+                           .Name("Loan_Dispatch_Details_<#= DispatchID #>")
+                           .Columns(c =>
+                                        {
+                                            c.Bound(com => com.CommodityName).Title(Html.Translate("Commodity"));
+                                            c.Bound(com => com.UnitName).Title(Html.Translate("Unit"));
+                                            c.Bound(com => com.RequestedQuantityInUnit).Title(Html.Translate("Requested Qty (Unit)")).HtmlAttributes(new { align = "right" }); ;
+                                            c.Bound(com => com.DispatchedQuantityInUnit).Title("Dispatched Qty (Unit)").HtmlAttributes(new { align = "right" }); ;
+                                            c.Bound(com => com.RequestedQuantityMT).Title(Html.Translate("Requested Qty " + quanityColumnHeader)).HtmlAttributes(new { align = "right" }); ;
+                                            c.Bound(com => com.DispatchedQuantityMT).Title(Html.Translate("Dispatched Qty " + quanityColumnHeader)).HtmlAttributes(new { align = "right" }); ;
+                                        })
+                           .DataBinding(dataBinding => dataBinding.Ajax()
+                                                           .Select("DispatchListGridListGrid", "Dispatch", new { DispatchID = "<#= DispatchID #>" }))
+                           .Pageable()
+                           .Sortable().Footer(true)
+                           .ToHtmlString()
+                                                       )).Footer(true)
+                   .DataBinding(dataBinding => dataBinding.Ajax()
+                                                   .Select("DispatchOtherListGrid", "Dispatch", new { OtherDispatchAllocationID = "<#= OtherDispatchAllocationID #>" }))
+                   .Pageable(paging =>
+                             paging.PageSize(10)
+                                 .Style(GridPagerStyles.NextPreviousAndNumeric)
+                                 .Position(GridPagerPosition.Top)
+                   )
+                   .Sortable()
+                   .ToHtmlString()
+                                      ))
+
+
+
+           .DataBinding(dataBinding => dataBinding.Ajax().Select("GetLoanAllocations", "Dispatch"))
+
+           .Filterable().Sortable().Footer(true).Pageable(paging =>
+                                                           paging.PageSize(10)
+                                                               .Style(GridPagerStyles.NextPreviousAndNumeric)
+                                                               .Position(GridPagerPosition.Bottom)
+           ))
+        </td>
+    </tr>
+</table>
+<br />
+
+
+<table width="100%" class="borderless">
+    <tr >
+        <td class="field-set-title">
+            <h2>@Html.Translate("Disaptch to Transfers")</h2>
+       
+            <a href="javascript:createNewTransfer();">@Html.Translate("Add new dispatch plan")</a>
+            <span style="float: right">
+                @Html.ActionLink(Html.Translate("New Dispatch"), "Create", "Dispatch", new { type = 3 }, null)
+            </span>
+        </td>
+    </tr>
+    <tr >
+        <td class="field-set">
+            @(Html.Telerik().Grid<OtherDispatchAllocationDto>().Name("DispatchAllocationGrid3")
+           .DataKeys(keys => keys.Add(co => co.OtherDispatchAllocationID)).
+                      ToolBar(toolBar => toolBar.Template(
+                @<text>
+             <label class="closed-label" for="Closed-input">
+                 @Html.Translate("Show closed Plans")  :
+             </label>
+             <input type="checkbox" class="chkBoxUnclosed" id="chk-closedtoo-Transfer" data-val="Transfer" />
+             <script type="text/javascript">
+                 $(function () {
+                     $("#chk-closedtoo-Transfer").change(function () {
+                         //                         var gridNum = $(this).attr('data-val');
+                         var gr = $('#DispatchAllocationGrid3').data('tGrid');
+                         if (gr != null) {
+                             gr.rebind();
+                         }
+                     });
+                 });
+
+                 function dataBindingTransfer(args) {
+                     var commType = $("#CommodityTypeSelector-3").val();
+                     if ($("#chk-closedtoo-Transfer").attr('checked') == 'checked') {
+                         args.data = $.extend(args.data, { closed: true, CommodityType: commType });
+                     }else {
+                         args.data = $.extend(args.data, { closed: false, CommodityType: commType });
+                     }
+                     var gr = $('#DispatchAllocationGrid3').data('tGrid');
+                     if (commType == 1 || commType == null) {
+                         gr.hideColumn(4);
+                         gr.hideColumn(6);
+                         gr.showColumn(3);
+                         gr.showColumn(5);
+                     }
+                     else {
+                         gr.hideColumn(3);
+                         gr.hideColumn(5);
+                         gr.showColumn(4);
+                         gr.showColumn(6);
+
+                     }
+                 }
+
+                 function comTypeChange3(e) {
+                     var Params = { CommodityType: e.value, closedToo: $("#chk-closedtoo-Transfer").attr('checked') == 'checked' };
+                     var gr = $('#DispatchAllocationGrid3').data('tGrid');
+                     
+                     if (e.value == 1 || e.value == null) {
+                         gr.hideColumn(4);
+                         gr.hideColumn(6);
+                         gr.showColumn(3);
+                         gr.showColumn(5);
+                     }
+                     else {
+                         gr.hideColumn(3);
+                         gr.hideColumn(5);
+                         gr.showColumn(4);
+                         gr.showColumn(6);
+
+                     }
+                     
+                     if (gr != null) {
+                         gr.rebind(Params);
+                     }
+                     
+                 }
+             </script>
+             
+             <label class="customer-label" for="Customers-input" style="padding-left:10px ">
+                    Show Allocations for :
+                </label>
+                @(Html.Telerik().ComboBox()
+                                .Name("CommodityTypeSelector-" + 3)
+                                .BindTo(new SelectList(Model.CommodityTypes, "CommodityTypeID", "Name", Model.CommodityTypeID))
+                               // .DataBinding(binding => binding.Ajax().Select("_GetCommodityTypes", "CommodityType"))
+                                .AutoFill(true)
+                                .Filterable(filtering =>
+                                {
+                                    filtering.FilterMode(AutoCompleteFilterMode.StartsWith);
+                                })
+                                .HtmlAttributes(new { style = "width: 300px" })
+                                .HighlightFirstMatch(true)
+                                .SelectedIndex(0)
+                                .ClientEvents(events => events.OnChange("comTypeChange" + 3)) //.OnLoad("onComboBoxLoad"))
+                )
+                 </text>))
+           .ClientEvents(ev => ev.OnDataBinding("dataBindingTransfer"))
+           .Columns(col =>
+           {
+
+               col.Bound(dis => dis.OtherDispatchAllocationID).
+            ClientTemplate("<div style='min-width:120px'><a href='"
+                       + @Url.Action("Create", "Dispatch", new { @allocationId = "<#= OtherDispatchAllocationID #>", @type = "<#= 2 #>" })
+                       + "' >" + @Html.Translate("Dispatch") + "</a><span>   </span>  "
+
+                       + "<a href='#' onclick='javascript:editTransfer(\"<#= OtherDispatchAllocationID #>\")'"
+                       + "' >" + @Html.Translate("Edit") + "</a>"
+                       + "<span> </span>"
+                       + "<# if (!IsClosed) {#>"
+                       + "<a href='#' onclick='OtherClosePlanById(\"<#= OtherDispatchAllocationID #>\")' >" + @Html.Translate("Close") + "</a>" +
+                       " <#} else {#>"
+                       + " <#}#>"
+                       + "<span> </span></div>"
+
+            ).Title("Action");
+
+               col.Bound(gc => gc.ReferenceNumber);
+               col.Bound(gc => gc.AgreementDate).Title(Html.Translate("Agreement Date")).Format("{0:d-MMM-yyyy}"); ;
+               col.Bound(gc => gc.QuantityInMT).Title(Html.Translate("Quantity In " + quanityColumnHeader)).HtmlAttributes(new { align = "right" });
+               col.Bound(gc => gc.QuantityInUnit).Title(Html.Translate("Quantity In Unit")).HtmlAttributes(new { align = "right" });
+               col.Bound(gc => gc.RemainingQuantityInMt).Title(Html.Translate("Reamining In " + quanityColumnHeader)).HtmlAttributes(new { align = "right" });
+               col.Bound(gc => gc.RemainingQuantityInUnit).Title(Html.Translate("Reamining In Unit")).HtmlAttributes(new { align = "right" });
+               col.Bound(gc => gc.CommodityName).Title(Html.Translate("Commodity"));
+               col.Bound(gc => gc.EstimatedDispatchDate).Title(Html.Translate("Arival Date")).Format("{0:d-MMM-yyyy}"); ;
+               col.Bound(gc => gc.SINumber).Title(Html.Translate("SI Number"));
+               col.Bound(gc => gc.ProjectCode).Title(Html.Translate("Project Code"));
+
+              // col.Template(@<text></text>)
+              // .ClientTemplate("<input type='checkbox' disabled='disabled' name='excess' <#= ((RemainingQuantityInMt < 0) ||(RemainingQuantityInUnit < 0))?\"checked='checked'\" : \"\" #> />").Title(Html.Translate("Excess"));
+
+
+           })
+
+                            .DetailView(details => details.ClientTemplate(
+                                    Html.Telerik().Grid<DispatchModelModelDto>()
+                                            .Name("Transfer_Dispatchs_<#= OtherDispatchAllocationID #>")
+                                //    .ClientEvents(events => events.OnRowDataBound("Receives_onRowDataBound"))
+                                    .Columns(dispCols =>
+                                    {
+                                        dispCols.Bound(d => d.DispatchDate).Format("{0:d-MMM-yyyy}");
+                                        dispCols.Bound(d => d.GIN).ClientTemplate("<a href='" +
+                                                   @Url.Action("Create", "Dispatch", new { @ginNo = "<#= GIN #>", @type = "<#= 2 #>" })
+                                              + "' >" + "<#= GIN #></a>");
+                                        dispCols.Bound(d => d.DispatchedByStoreMan);
+
+                                    }
+
+                                        ).Footer(true)
+                                                        .DetailView(ordersDetailView => ordersDetailView.ClientTemplate(
+                                                                        Html.Telerik().Grid<DispatchDetailModelDto>()
+                                                                .Name("Transfer_Dispatch_Details_<#= DispatchID #>")
+                                                            .Columns(c =>
+                                                            {
+                                                                c.Bound(com => com.CommodityName).Title(Html.Translate("Commodity"));
+                                                                c.Bound(com => com.UnitName).Title(Html.Translate("Unit"));
+                                                                c.Bound(com => com.RequestedQuantityInUnit).Title(Html.Translate("Requested Qty (Unit)")).HtmlAttributes(new { align = "right" }); ;
+                                                                c.Bound(com => com.DispatchedQuantityInUnit).Title("Dispatched Qty (Unit)").HtmlAttributes(new { align = "right" }); ;
+                                                                c.Bound(com => com.RequestedQuantityMT).Title(Html.Translate("Requested Qty " + quanityColumnHeader)).HtmlAttributes(new { align = "right" }); ;
+                                                                c.Bound(com => com.DispatchedQuantityMT).Title(Html.Translate("Dispatched Qty " + quanityColumnHeader)).HtmlAttributes(new { align = "right" }); ;
+                                                            })
+                                                                .DataBinding(dataBinding => dataBinding.Ajax()
+                                                                                      .Select("DispatchListGridListGrid", "Dispatch", new { DispatchID = "<#= DispatchID #>" }))
+                                                                                             .Pageable()
+                                                                .Sortable().Footer(true)
+                                                                .ToHtmlString()
+                                                         )).Footer(true)
+                                        .DataBinding(dataBinding => dataBinding.Ajax()
+                                                                                            .Select("DispatchOtherListGrid", "Dispatch", new { OtherDispatchAllocationID = "<#= OtherDispatchAllocationID #>" }))
+                                                                     .Pageable(paging =>
+                                                     paging.PageSize(10)
+                                                     .Style(GridPagerStyles.NextPreviousAndNumeric)
+                                                     .Position(GridPagerPosition.Bottom)
+                                                     )
+                                        .Sortable()
+                                        .ToHtmlString()
+                            ))
+
+
+            .DataBinding(dataBinding => dataBinding.Ajax().Select("GetTransferAllocations", "Dispatch"))
+
+            .Filterable().Sortable().Footer(true).Pageable(paging =>
+                                                     paging.PageSize(10)
+                                                     .Style(GridPagerStyles.NextPreviousAndNumeric)
+                                                     .Position(GridPagerPosition.Bottom)
+                                                     ))
+        </td>
+    </tr>
+</table>
+<div>
+  Click here to see @Html.ActionLink("Recorded Dispatchs.", "Log")
+</div>
+<script type="text/javascript">
+
+    function EditFDPAllocation(item) {
+        $('#DispatchAllocationDialog').data('tWindow').center().open();
+        var id = (item);
+        var url = '@Url.Action("Edit", "DispatchAllocation")';
+        url = url + '?id=' + id;
+        $('#create-edit-form').load(url);
+        $('#create-edit-form').show();
+    }
+
+    function ClosePlanById(DispatchAlloctionID) {
+
+        $('#DispatchAllocationDialog').data('tWindow').center().open().title("Close Allcation");
+        var url = '@Url.Action("Close", "DispatchAllocation")';
+        url = url + '?id=' + DispatchAlloctionID;
+        $('#create-edit-form').load(url, function () {
+            //            if ($('#SINumber').val() != "") {
+            //            }
+        });
 
     }
-    function EditOtherAllocation(id, type, title) {
-        console.log("EditOtherAllocation", id, type);
-        var url = '@Url.Action("Edit", "DispatchAllocation")';
-        url = url + type + '2';
-        if (id) {
-            url = url + '?id=' + id;
+
+    function OtherClosePlanById(DispatchAlloctionID) {
+
+        $('#DispatchAllocationDialog').data('tWindow').center().open().title("Close Allcation");;
+        var url = '@Url.Action("OtherClose", "DispatchAllocation")';
+        url = url + '?id=' + DispatchAlloctionID;
+        $('#create-edit-form').load(url, function () {
+        });
+
+    }
+
+    function CloseDispatchAllocationForm(button) {
+
+        var form = $(button).closest("form");
+        if (form.valid()) {
+            $.ajax({ type: 'POST', url: form.attr('action'), data: $(form).serialize(), success: function (response) {
+                //rebind the GRID
+                //                    var gr = $('#ReceiveAllocationGrid' + response).data('tGrid');
+                //                    gr.rebind();
+                //$.getJSON(updateUrl);
+                var gr = $('#DispatchAllocationGrid' + response.gridNum).data('tGrid');
+                gr.rebind();
+                $('#DispatchAllocationDialog').data('tWindow').close();
+            }
+            });
         }
-        title = title ? title : "Edit " + type;
-        showModalEditor(url, {}, title);
+        return false;
     }
-    function CreateNewLoan(type) {
-        EditOtherAllocation("", "Loan", "Create new Loan");
+
+    function cancel() {
+        $('#DispatchAllocationDialog').data('tWindow').close();
+        $('#create-edit-form').html("");
     }
-    function CreateNewTransfer(type) {
-        EditOtherAllocation("", "Transfer", "Create new Transfer");
+    function submitForm(button) {
+        var form = $(button).closest("form");
+        if (form.valid()) {
+            $.ajax({ type: 'POST', url: form.attr('action'), data: $(form).serialize(), success: function (response) {
+                $('#DispatchAllocationDialog').data('tWindow').close();
+                // reloadGrid();
+            }
+            });
+        }
+        return false;
     }
-    </script>
-</div>
+    function checkCombos(button) {
+    }
+</script>
+
+
+
+
+
+<script type="text/javascript">
+    function createNewLoan() {
+
+        $('#DispatchAllocationDialog').data('tWindow').center().open().title("Edit/New Loan Outs");
+        $('#create-edit-form').load('@Url.Action("CreateLoan", "DispatchAllocation")', onDialogLoaded); 
+    }
+
+    function onDialogLoaded() {
+
+    }
+
+    function editLoan(id) {
+
+        $('#DispatchAllocationDialog').data('tWindow').center().open().title("Edit/New Loan Outs");
+        $('#create-edit-form').load('@Url.Action("EditLoan", "DispatchAllocation")' + "?id=" + id, onDialogLoaded);
+    }
+
+</script>
+
+
+
+<script type="text/javascript">
+    function createNewTransfer() {
+        $('#DispatchAllocationDialog').data('tWindow').center().open().title("Edit/New (Transfer / Swap)");
+        $('#create-edit-form').load('@Url.Action("CreateTransfer", "DispatchAllocation")', onDialogLoaded);
+    }
+
+    function onDialogLoaded() {
+
+    }
+
+    function editTransfer(id) {
+        $('#DispatchAllocationDialog').data('tWindow').center().open().title("Edit/New (Transfer / Swap)");
+        $('#create-edit-form').load('@Url.Action("EditTransfer","DispatchAllocation")'+"?id="+ id, onDialogLoaded);
+    }
+
+</script>

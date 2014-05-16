@@ -134,14 +134,16 @@ namespace Cats.Areas.Hub.Controllers
             return PartialView("Allocations2", list);
         }
 
-        public ActionResult AllocationListAjax([DataSourceRequest] DataSourceRequest request, int type, bool? closedToo, int? CommodityType)
+        public ActionResult AllocationListAjax([DataSourceRequest] DataSourceRequest request,int? commodityType, int type=1, bool closed=false,int HubID=0 )
         {
             List<ReceiptAllocation> list = new List<ReceiptAllocation>();
             List<ReceiptAllocationViewModel> listViewModel = new List<ReceiptAllocationViewModel>();
             try
             {
                 UserProfile user = _userProfileService.GetUser(User.Identity.Name);
-                list = _receiptAllocationService.GetUnclosedAllocationsDetached(user.DefaultHub.HubID, type, closedToo, user.PreferedWeightMeasurment, CommodityType);
+                HubID=HubID>0?HubID:user.DefaultHub.HubID;
+                //HubID=user.DefaultHub.HubID
+                list = _receiptAllocationService.GetUnclosedAllocationsDetached(HubID, type, closed, user.PreferedWeightMeasurment, commodityType);
                 listViewModel = BindReceiptAllocationViewModels(list).ToList();
                 return Json(listViewModel.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
             }
@@ -266,13 +268,13 @@ namespace Cats.Areas.Hub.Controllers
         /// </summary>
         /// <returns></returns>
 
-        public virtual ActionResult IndexOld()
+        public virtual ActionResult Index()
         {
             UserProfile user = _userProfileService.GetUser(User.Identity.Name);
             List<Receive> receives = _receiveService.ByHubId(user.DefaultHub.HubID);
             return View(receives);
         }
-        public virtual ActionResult Index()
+        public virtual ActionResult Index_NEW()
         {
             UserProfile user = _userProfileService.GetUser(User.Identity.Name);
             populateLookups(user);
