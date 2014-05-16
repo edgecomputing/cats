@@ -53,7 +53,7 @@ namespace Cats.Models.Constant
     {
         Draft=1,
         Approved=2,
-        AllocationPlanCreated = 3,
+        Signed=3,
         Closed=4,
         Failed=5
     }

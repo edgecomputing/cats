@@ -23,8 +23,8 @@
             <li><a id="btnRecive" href="@Url.Action("ReciptPlan", "ReciptPlanForLoan", new { id = Model.LoanReciptPlanID})">@Html.Translate2(PAGE_NAME,"Recieve Plan")</a></li>
              @if(Model.StatusID==(int)LocalPurchaseStatus.Draft)
        {
-        <li><a id="btnEdit" href="@Url.Action("Edit", "ReciptPlanForLoan", new {id = Model.LoanReciptPlanID})">@Html.Translate2(PAGE_NAME, "Edit")</a></li>
-        <li><a id="btnApprove" href="@Url.Action("Approve", "ReciptPlanForLoan", new {id = Model.LoanReciptPlanID})">@Html.Translate2(PAGE_NAME, "Approve")</a></li>
+        <li><a id="btnEdit" href="@Url.Action("Edit", "ReciptPlanForLoan", new {id = Model.LoanReciptPlanID})">@Html.Translate2(PAGE_NAME, "Edit")</a></li>@*
+        <li><a id="btnApprove" href="@Url.Action("", "ReciptPlanForLoanAndOthers", new {id = Model.LoanReciptPlanID})">@Html.Translate2(PAGE_NAME, "Approve")</a></li>*@
       }
     </ul>
     <a class="btn toolbar-btn " href="@Url.Action("Index", "ReciptPlanForLoan")" data-buttontype="btn_back_to_list"></a>

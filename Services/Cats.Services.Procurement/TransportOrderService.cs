@@ -490,7 +490,7 @@ namespace Cats.Services.Procurement
                 //dispatchAllocation.Year= requisition.Year ; //Year is not available 
                 _unitOfWork.DispatchAllocationRepository.Add(dispatchAllocation);
             }
-            transportOrder.StatusID = (int)TransportOrderStatus.AllocationPlanCreated;
+            transportOrder.StatusID = (int)TransportOrderStatus.Closed;
             _unitOfWork.Save();
 
             return true;

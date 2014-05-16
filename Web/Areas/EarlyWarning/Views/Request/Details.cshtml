@@ -21,7 +21,6 @@
 
 @section Toolbar
 {
-
       @* <div class="btn-group" style="margin-right:8px;">
         <button class="btn">Action</button>
         @{
@@ -52,33 +51,32 @@
     @*<a class="btn toolbar-btn " href="@Url.Action("Index", "Request", new { Area = "EarlyWarning" })" data-buttontype="btn_back_to_list"></a>*@
     
     <div class="btn-group">
-        <button class="btn">Action</button>
-        @{
-            <button class="btn dropdown-toggle " data-toggle="dropdown">
-                <span class="caret"></span>
-            </button>
-        }
+                    <button class="btn">Action</button>
+                    @{
+                        <button class="btn dropdown-toggle " data-toggle="dropdown">
+                            <span class="caret"></span>
+                        </button>
+                    }
 
-        <ul class="dropdown-menu">
+                    <ul class="dropdown-menu">
             @*<li><a id="btnAddFDP"  href="@Url.Action("AddBeneficary", "Request", new { id = modelRequest.RegionalRequestID })" >ADD FDP </a></li>*@
-            @if (modelRequest.StatusID == (int)Cats.Models.Constant.RegionalRequestStatus.Draft)
-            {
-                <li><a href="@Url.Action("Edit", "Request", new { Area = "EarlyWarning", id = modelRequest.RegionalRequestID })">Edit</a></li>
-                <li><a href="@Url.Action("Allocation", "Request", new { Area = "EarlyWarning", id = modelRequest.RegionalRequestID })">Allocation</a></li>
-                <li><a href="@Url.Action("ApproveRequest", "Request", new { id = modelRequest.RegionalRequestID })">Approve</a></li>
-            }
-            @if (modelRequest.StatusID == (int)Cats.Models.Constant.RegionalRequestStatus.Approved && modelRequest.ProgramId == 3)
-            {
-                <li> <a id = "btnEditPlan" href="@Url.Action("CreateRequisitionForIDPS", "ReliefRequisition", new {Area = "EarlyWarning", id = modelRequest.RegionalRequestID,programId = modelRequest.ProgramId })"><i class="icon-plus"></i> IDPS Requisiton</a></li>                       
-            }
-            else if (modelRequest.StatusID == (int)Cats.Models.Constant.RegionalRequestStatus.Approved)
-            {
-                <li> <a href="@Url.Action("CreateRequisiton", "ReliefRequisition", new { Area = "EarlyWarning", id = modelRequest.RegionalRequestID })"><i class="icon-plus"></i> Requisiton</a></li>
-            }
-        </ul>
+                        @if (modelRequest.StatusID == (int)Cats.Models.Constant.RegionalRequestStatus.Draft)
+                        {
+                            <li><a href="@Url.Action("Edit", "Request", new { Area = "EarlyWarning", id = modelRequest.RegionalRequestID })">Edit</a></li>
+                            <li><a href="@Url.Action("Allocation", "Request", new { Area = "EarlyWarning", id = modelRequest.RegionalRequestID })">Allocation</a></li>
+                            <li><a href="@Url.Action("ApproveRequest", "Request", new { id = modelRequest.RegionalRequestID })">Approve</a></li>
+                        }
+                        @if (modelRequest.StatusID == (int)Cats.Models.Constant.RegionalRequestStatus.Approved && modelRequest.ProgramId == 3)
+                        {
+                            <li> <a id = "btnEditPlan" href="@Url.Action("CreateRequisitionForIDPS", "ReliefRequisition", new {Area = "EarlyWarning", id = modelRequest.RegionalRequestID,programId = modelRequest.ProgramId })"><i class="icon-plus"></i> IDPS Requisiton</a></li>                       
+                        }
+                        else if (modelRequest.StatusID == (int)Cats.Models.Constant.RegionalRequestStatus.Approved)
+                        {
+                            <li> <a href="@Url.Action("CreateRequisiton", "ReliefRequisition", new { Area = "EarlyWarning", id = modelRequest.RegionalRequestID })"><i class="icon-plus"></i> Requisiton</a></li>
+                        }
+            </ul>
 
-    </div>
-
+                </div>
 
     @* @if (modelRequest.StatusID == (int)Cats.Models.Constant.RegionalRequestStatus.Approved)
     {

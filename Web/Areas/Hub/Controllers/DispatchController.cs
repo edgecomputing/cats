@@ -103,7 +103,7 @@ namespace Cats.Areas.Hub.Controllers
             ViewBag.HubsID = new SelectList(_hubService.GetAllHub(), "HubID", "HubNameWithOwner", user.DefaultHub.HubID);
             ViewBag.RegionCollection = _adminUnitService.FindBy(t => t.AdminUnitTypeID == 2);
         }
-        public ViewResult Index()
+        public ViewResult IndexOld()
         {
             if (this.UserProfile != null)
             {
@@ -122,7 +122,7 @@ namespace Cats.Areas.Hub.Controllers
             }
             return null;
         }
-        public ViewResult Index_NEW()
+        public ViewResult Index()
         {
             if (this.UserProfile != null)
             {
