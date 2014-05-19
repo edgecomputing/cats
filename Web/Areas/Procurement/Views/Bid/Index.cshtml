@@ -94,8 +94,9 @@
                         {
                             //columns.Bound(b => b.BidDetailID).Title("ID").Width(56);
                             columns.Bound(b => b.Region).Width(120).HtmlAttributes(new { style = "background-color:lightgray" }); 
-                            columns.Bound(b => b.AmountForReliefProgram).Width(80).Title("Relief");
-                            columns.Bound(b => b.AmountForPSNPProgram).Width(80).Title("PSNP");
+                            columns.Bound(b => b.AmountForReliefProgram).Width(50).Title("Relief");
+                            columns.Bound(b => b.AmountForPSNPProgram).Width(50).Title("PSNP");
+                            columns.Bound(b => b.Total).Width(50);
                             columns.Bound(b => b.BidDocumentPrice).Width(80);
                             columns.Bound(b => b.CPO).Width(80);
 
