@@ -72,6 +72,7 @@
 
 </body>
 </html>*@
+@model  System.Data.DataTable
 
 @{
     ViewBag.Title = "Index";
@@ -398,37 +399,41 @@
 
                         <!-- /.portlet-header -->
 
-                        <div class="portlet-content">
-                            <th class="table-responsive">
-                            <table id="" class="table table-striped table-checkable">
+                         <div class="portlet-content"  >
+                            <th class="table-responsive" >
+                            <table id="" class="table table-striped table-checkable"  > 
+                                                         
                                 <thead>
                                     <tr>
-                                        <th class="hidden-xs">Number</th>
-                                        <th>Plan</th>
-                                        <th>Season</th>
-                                        <th>Year</th>
-                                        <th>Ration</th>
-                                        <th>Created By</th>
-                                        <th>Created Date</th>
-                                        <th>PublishedDate</th>
-
-                                        
+                                        @foreach (System.Data.DataColumn col in Model.Columns)
+                                        {
+                                      
+                                            <th>@col.Caption </th>
+                                            
+                                        }
+                                      
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <tr ng-repeat="req in currentHRD">
-                                        <td class="hidden-xs">{{$index + 1}}</td>
-                                        <td>{{req.Plan}}</td>
-                                        <td>{{req.Season}}</td>
-                                        <td>{{req.Year}}</td>
-                                        <td>{{req.Ration}}</td>
-                                        <td>{{req.CreatedBy}}</td>
-                                        <th>{{req.CreatedDatePref}}</th>
-                                        <th>{{req.PublishedDatePref}}</th>
-                                      
-                                       
-                                    </tr>
-
+                                <tbody >
+                                    @foreach(System.Data.DataRow row in Model.Rows)
+                                    {
+                                        <tr>
+                                            @foreach (var cell in row.ItemArray)
+                                            {
+                                                if(cell is decimal)
+                                                {
+                                                    @*<td>@cell.ToString()</td>*@
+                                                    <td>@String.Format("{0:n0}",@cell)</td>
+                                                }
+                                                else
+                                                {
+                                                    <td>@String.Format("{0:n0}",@cell)</td>@*
+                                                    <td>@cell.ToString()</td>*@
+                                                }
+                                            }
+                                        </tr>
+                                    } 
+                                    
                                 </tbody>
                             </table>
 
