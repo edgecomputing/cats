@@ -19,5 +19,6 @@ namespace Cats.Models.Hubs
         public Nullable<int> Attempts { get; set; }
         public Nullable<System.DateTime> LastAttemptDate { get; set; }
         public string EventTag { get; set; }
+        public int? PartitionId { get; set; }
     }
 }
