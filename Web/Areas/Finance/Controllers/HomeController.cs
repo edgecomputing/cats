@@ -54,7 +54,7 @@ namespace Cats.Areas.Finance.Controllers
                                                                                              {
                                                                                                  chequeNo = c.CheckNo,
                                                                                                  Transporter = c.PaymentRequest.TransportOrder.Transporter.Name,
-                                                                                                 Amount = c.Amount,
+                                                                                                 c.Amount,
                                                                                                  PreparedBy = c.UserProfile.FirstName + " " + c.UserProfile.LastName,
 
                                                                                                  ApprovedBy = c.AppovedBy != null ? _userProfileService.FindById((int)c.AppovedBy).FirstName + " " +
@@ -63,7 +63,8 @@ namespace Cats.Areas.Finance.Controllers
                                                                                                  transporterChequeId = c.TransporterChequeId,
                                                                                                  State = c.Status,
                                                                                                  Status = status((int) c.Status),
-                                                                                                 ButtonStatus = _status((int)c.Status)
+                                                                                                 ButtonStatus = _status((int)c.Status),
+                                                                                                 c.BankName
                                                                                              });
             return Json(cheques, JsonRequestBehavior.AllowGet);
         }

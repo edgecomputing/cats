@@ -4,9 +4,11 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Cats.Areas.Procurement.Models;
+using Cats.Helpers;
 using Cats.Models;
 using Cats.Services.Dashboard;
 using Cats.Services.Procurement;
+using Cats.Services.Security;
 using Kendo.Mvc.UI;
 
 namespace Cats.Areas.Procurement.Controllers
@@ -16,13 +18,15 @@ namespace Cats.Areas.Procurement.Controllers
 
         private readonly IPaymentRequestService _paymentRequestService;
         private readonly IBidService _bidService;
+        private readonly IUserAccountService _userAccountService;
         //
         // GET: /Procurement/FetchData/
 
-        public FetchDataController(IPaymentRequestService paymentRequestService, IBidService bidService)
+        public FetchDataController(IPaymentRequestService paymentRequestService, IBidService bidService, IUserAccountService userAccountService)
         {
             _paymentRequestService = paymentRequestService;
             _bidService = bidService;
+            _userAccountService = userAccountService;
         }
 
         public JsonResult ReadSummarizedNumbers([DataSourceRequest]DataSourceRequest request)
@@ -142,12 +146,13 @@ namespace Cats.Areas.Procurement.Controllers
 
         public List<BidsViewModel> BindBidViewModels(IEnumerable<Bid> bids)
         {
+            var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
             return bids.Select(bid => new BidsViewModel()
                                         {
                                             BidID = bid.BidID,
                                             BidNumber = bid.BidNumber,
                                             EndDate = bid.EndDate,
-                                            OpeningDate = bid.OpeningDate,
+                                            OpeningDate = bid.OpeningDate.ToCTSPreferedDateFormat(datePref),
                                             StartDate = bid.StartDate,
                                             StatusID = bid.StatusID
                                         }).ToList();

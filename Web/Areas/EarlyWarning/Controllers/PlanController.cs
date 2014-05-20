@@ -75,7 +75,8 @@ namespace Cats.Areas.EarlyWarning.Controllers
         public ActionResult Create(Plan plan)
         {
             var startDate = plan.StartDate;
-            var endDate = plan.StartDate.AddMonths(plan.Duration);
+            var firstDayOfTheMonth = startDate.AddDays(1 - startDate.Day);
+            var endDate = firstDayOfTheMonth.AddMonths(plan.Duration).AddDays(-1);
             if (ModelState.IsValid)
             {
                 var existingPlan =
@@ -89,6 +90,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                 {
                     try
                     {
+                        plan.StartDate = firstDayOfTheMonth;
                         plan.EndDate = endDate;
                         plan.Status = (int)PlanStatus.Draft;
                         _planService.AddPlan(plan);

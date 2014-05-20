@@ -1,3 +1,4 @@
+
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
@@ -5,10 +6,11 @@
 }
 
 @section styles
+
 {
     <link href="~/Content/Dashboard/dashboardcomponents.css" rel="stylesheet" />
-
 }
+
 <style>
     .chartWrap {
         margin: 0 auto;
@@ -917,7 +919,7 @@
     });
 
     angular.module('myApp.directives').
-   directive('drawAgeChart', function () {
+    directive('drawAgeChart', function () {
        // return the directive link function. (compile function not needed)
        return function (scope, element, attrs) {
            var container = $(element).attr("id");
