@@ -20,6 +20,7 @@ namespace Cats.Models.Mapping
             this.Property(t => t.AmountForPSNPProgram).HasColumnName("AmountForPSNPProgram");
             this.Property(t => t.BidDocumentPrice).HasColumnName("BidDocumentPrice");
             this.Property(t => t.CPO).HasColumnName("CPO");
+            this.Property(t => t.PartitionId).HasColumnName("PartitionId");
 
             // Relationships
             this.HasRequired(t => t.AdminUnit)

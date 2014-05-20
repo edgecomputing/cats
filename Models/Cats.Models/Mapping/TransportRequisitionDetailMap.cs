@@ -20,6 +20,7 @@ namespace Cats.Models.Mapping
             this.Property(t => t.TransportRequisitionDetailID).HasColumnName("TransportRequisitionDetailID");
             this.Property(t => t.TransportRequisitionID).HasColumnName("TransportRequisitionID");
             this.Property(t => t.RequisitionID).HasColumnName("RequisitionID");
+            this.Property(t => t.PartitionId).HasColumnName("PartitionId");
 
             // Relationships
             this.HasRequired(t => t.ReliefRequisition)
