@@ -33,6 +33,8 @@ namespace Cats.Models
         public int MaleAbove18Years { get; set; }
         public int FemaleAbove18Years { get; set; }
 
+        public int? PartitionId { get; set; }
+
         public Nullable<System.Guid> TransactionGroupID { get; set; }
         public virtual ICollection<WoredaStockDistributionDetail> WoredaStockDistributionDetails { get; set; }
         public virtual UserProfile UserProfile { get; set; }

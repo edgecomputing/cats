@@ -23,6 +23,7 @@ namespace Cats.Models.Mapping
            this.Property(t => t.AllocatedAmount).HasColumnName("AllocatedAmount");
            this.Property(t => t.RecievedAmount).HasColumnName("RecievedAmount");
            this.Property(t => t.PartitionId).HasColumnName("PartitionId");
+
            // Relationships
            this.HasRequired(t => t.LocalPurchase)
                .WithMany(t => t.LocalPurchaseDetails)
