@@ -44,7 +44,7 @@ namespace Cats.Models.Mapping
             this.Property(t => t.LossAmount).HasColumnName("LossAmount");
             this.Property(t => t.LossReason).HasColumnName("LossReason");
             this.Property(t => t.TransactionGroupID).HasColumnName("TransactionGroupID");
-
+            this.Property(t => t.PartitionId).HasColumnName("PartitionId");
             // Relationships
             this.HasRequired(t => t.Dispatch)
                 .WithMany(t => t.DeliveryReconciles)

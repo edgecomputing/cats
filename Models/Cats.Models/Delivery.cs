@@ -29,6 +29,7 @@ namespace Cats.Models
         public Nullable<System.DateTime> ReceivedDate { get; set; }
         public Nullable<System.DateTime> DocumentReceivedDate { get; set; }
         public Nullable<int> DocumentReceivedBy { get; set; }
+        public int? PartitionId { get; set; }
         public virtual Donor Donor { get; set; }
         public virtual FDP FDP { get; set; }
         public virtual Hub Hub { get; set; }
