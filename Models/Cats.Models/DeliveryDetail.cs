@@ -10,6 +10,7 @@ namespace Cats.Models
         public int UnitID { get; set; }
         public decimal SentQuantity { get; set; }
         public decimal ReceivedQuantity { get; set; }
+        public int? PartionId { get; set; }
         public System.Guid DeliveryID { get; set; }
         public virtual Commodity Commodity { get; set; }
         public virtual Delivery Delivery { get; set; }

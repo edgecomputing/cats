@@ -21,6 +21,7 @@ namespace Cats.Models
         public Nullable<decimal> LossAmount { get; set; }
         public string LossReason { get; set; }
         public Nullable<System.Guid> TransactionGroupID { get; set; }
+        public int? PartitionId { get; set; }
         public virtual Dispatch Dispatch { get; set; }
         public virtual FDP FDP { get; set; }
         public virtual Hub Hub { get; set; }
