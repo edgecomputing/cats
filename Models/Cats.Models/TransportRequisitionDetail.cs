@@ -13,6 +13,8 @@ namespace Cats.Models
         public int TransportRequisitionDetailID { get; set; }
         public int TransportRequisitionID { get; set; }
         public int RequisitionID { get; set; }
+        public int? PartitionId { get; set; }
+
         public virtual ReliefRequisition ReliefRequisition { get; set; }
         public virtual TransportRequisition TransportRequisition { get; set; }
         public virtual ICollection<TransReqWithoutTransporter> TransReqWithoutTransporters { get; set; } 
