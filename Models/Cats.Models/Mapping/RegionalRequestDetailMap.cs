@@ -21,6 +21,7 @@ namespace Cats.Models.Mapping
             this.Property(t => t.RegionalRequestID).HasColumnName("RegionalRequestID");
             this.Property(t => t.Fdpid).HasColumnName("FDPID");
             this.Property(t => t.Beneficiaries).HasColumnName("Beneficiaries");
+            this.Property(t => t.PartitionId).HasColumnName("PartitionId");
            
             
 
