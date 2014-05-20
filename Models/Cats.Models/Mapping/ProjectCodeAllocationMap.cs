@@ -24,6 +24,7 @@ namespace Cats.Models.Mapping
             this.Property(t => t.AlloccationDate).HasColumnName("AlloccationDate");
             this.Property(t => t.Amount_FromProject).HasColumnName("Amount_FromProject");
             this.Property(t => t.Amount_FromSI).HasColumnName("Amount_FromSI");
+            this.Property(t => t.PartitionId).HasColumnName("PartitionId");
             // Relationships
             this.HasOptional(t => t.ProjectCode)
                 .WithMany(t => t.ProjectCodeAllocations)

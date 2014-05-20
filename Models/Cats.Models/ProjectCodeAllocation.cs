@@ -17,6 +17,8 @@ namespace Cats.Models
         public Nullable<int> SINumberID { get; set; }
         public Nullable<int> Amount_FromSI { get; set; }
         public int AllocatedBy { get; set; }
+        public int? PartitionId { get; set; }
+
         public System.DateTime AlloccationDate { get; set; }
 
         //public ProjectCodeAllocationInput Input { get; set; }
