@@ -20,6 +20,7 @@ namespace Cats.Models
         public int Status { get; set; }
         public virtual AdminUnit AdminUnit { get; set; }
         public virtual Bid Bid { get; set; }
+        public int? PartitionId { get; set; }
         public virtual ICollection<TransportBidQuotation> TransportBidQuotations { get; set; }
         public virtual Transporter Transporter { get; set; }
     }
