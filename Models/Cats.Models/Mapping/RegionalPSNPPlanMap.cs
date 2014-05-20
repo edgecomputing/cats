@@ -14,7 +14,7 @@ namespace Cats.Models.Mapping
 
             this.Property(t => t.Duration).HasColumnName("Duration");
             this.Property(t => t.TransactionGroupID).HasColumnName("TransactionGroupID");
-            
+            this.Property(t => t.PartitionId).HasColumnName("PartitionId");
             this.HasRequired(t => t.Ration)
                    .WithMany(t => t.RegionalPSNPPlans)
                    .HasForeignKey(d => d.RationID);
