@@ -26,6 +26,7 @@ namespace Cats.Models.Mapping
             this.Property(t => t.IsWinner).HasColumnName("IsWinner");
             this.Property(t => t.Position).HasColumnName("Position");
             this.Property(t => t.Remark).HasColumnName("Remark");
+            this.Property(t => t.PartitionId).HasColumnName("PartitionId");
 
             // Relationships
             this.HasRequired(t => t.TransportBidQuotationHeader)
