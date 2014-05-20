@@ -26,6 +26,7 @@ namespace Cats.Models.Mapping
             this.Property(t => t.CommodityID).HasColumnName("CommodityID");
             this.Property(t => t.Amount).HasColumnName("Amount");
             this.Property(t => t.UnitID).HasColumnName("UnitID");
+            this.Property(t => t.PartitionId).HasColumnName("PartitionId");
 
             // Relationships
             this.HasRequired(t => t.Commodity)

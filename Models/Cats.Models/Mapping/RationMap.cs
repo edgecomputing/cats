@@ -28,6 +28,7 @@ namespace Cats.Models.Mapping
             this.Property(t => t.UpdatedBy).HasColumnName("UpdatedBy");
             this.Property(t => t.IsDefaultRation).HasColumnName("IsDefaultRation");
             this.Property(t => t.RefrenceNumber).HasColumnName("RefrenceNumber");
+            this.Property(t => t.PartitionId).HasColumnName("PartitionId");
             //this.HasOptional(t => t.UserProfile)
                // .WithMany(t => t.Rations)
                // .HasForeignKey(d => d.CreatedBy);

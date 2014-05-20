@@ -15,7 +15,7 @@ namespace Cats.Models
         public virtual Commodity Commodity { get; set; }
         public virtual Ration  Ration { get; set; }
         public virtual Unit Unit { get; set; }
-
+        public int? PartitionId { get; set; }
        
     }
 }
