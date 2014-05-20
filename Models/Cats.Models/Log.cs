@@ -16,5 +16,6 @@ namespace Cats.Models
         public string Message { get; set; }
         public string Exception { get; set; }
         public string LogUser { get; set; }
+        public int? PartitionId { get; set; }
     }
 }

@@ -47,6 +47,7 @@ namespace Cats.Models.Mapping
             this.Property(t => t.Message).HasColumnName("Message");
             this.Property(t => t.Exception).HasColumnName("Exception");
             this.Property(t => t.LogUser).HasColumnName("LogUser");
+            this.Property(t => t.PartitionId).HasColumnName("PartitionId");
         }
     }
 }
