@@ -82,10 +82,11 @@ namespace Cats.Areas.Procurement.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            LoadLookups();
-            var model = new PriceQuotationFilterViewModel();
+            //LoadLookups();
+            //var model = new PriceQuotationFilterViewModel();
             //return View(model);
-            return View();
+            return Redirect(@Url.Action("BidProposalHeader","PriceQuotation"));
+            //return View();
         }
 
         //[HttpPost]
