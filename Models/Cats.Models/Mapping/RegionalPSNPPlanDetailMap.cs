@@ -29,6 +29,8 @@ namespace Cats.Models.Mapping
 
             this.Property(t => t.Item4Ratio).HasColumnName("Item4Ratio");
 
+            this.Property(t => t.PartitionId).HasColumnName("PartitionId");
+
         }
     }
 }

@@ -21,5 +21,6 @@ namespace Cats.Models
         public string Remark { get; set; }
         public virtual GiftCertificateDetail GiftCertificateDetail { get; set; }
         public virtual ICollection<ReceiptPlanDetail> ReceiptPlanDetails { get; set; }
+        public int? PartitionId { get; set; }
     }
 }

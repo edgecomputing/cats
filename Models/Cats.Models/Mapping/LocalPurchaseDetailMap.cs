@@ -21,8 +21,9 @@ namespace Cats.Models.Mapping
            this.Property(t => t.LocalPurchaseID).HasColumnName("LocalPurchaseID");
            this.Property(t => t.HubID).HasColumnName("HubID");
            this.Property(t => t.AllocatedAmount).HasColumnName("AllocatedAmount");
-           this.Property(t => t.RecievedAmount).HasColumnName("RecievedAmount")
+           this.Property(t => t.RecievedAmount).HasColumnName("RecievedAmount");
            this.Property(t => t.PartitionId).HasColumnName("PartitionId");
+
            // Relationships
            this.HasRequired(t => t.LocalPurchase)
                .WithMany(t => t.LocalPurchaseDetails)

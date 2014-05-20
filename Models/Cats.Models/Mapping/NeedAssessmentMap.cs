@@ -27,6 +27,7 @@ namespace Cats.Models.Mapping
             this.Property(t => t.NeedAApprovedBy).HasColumnName("NeedAApprovedBy");
             this.Property(t => t.Remark).HasColumnName("Remark");
             this.Property(t => t.PlanID).HasColumnName("PlanID");
+            this.Property(t => t.PartitionId).HasColumnName("PartitionId");
 
             // Relationships
             this.HasRequired(t => t.AdminUnit)

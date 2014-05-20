@@ -18,6 +18,7 @@ namespace Cats.Models.Mapping
             this.Property(t => t.Allocated).HasColumnName("Allocated");
             this.Property(t => t.Received).HasColumnName("Received");
             this.Property(t => t.Balance).HasColumnName("Balance");
+            this.Property(t => t.PartitionId).HasColumnName("PartitionId");
 
             // Relationships
             this.HasRequired(t => t.Hub)
@@ -26,6 +27,7 @@ namespace Cats.Models.Mapping
             this.HasRequired(t => t.ReceiptPlan)
                 .WithMany(t => t.ReceiptPlanDetails)
                 .HasForeignKey(d => d.ReceiptHeaderId);
+
 
         }
     }

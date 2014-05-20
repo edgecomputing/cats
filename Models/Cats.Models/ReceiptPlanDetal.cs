@@ -16,5 +16,6 @@ namespace Cats.Models
         public Nullable<decimal> Balance { get; set; }
         public virtual Hub Hub { get; set; }
         public virtual ReceiptPlan ReceiptPlan { get; set; }
+        public int? PartitionId { get; set; }
     }
 }

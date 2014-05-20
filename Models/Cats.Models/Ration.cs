@@ -29,6 +29,7 @@ namespace Cats.Models
             public virtual  ICollection<RationDetail> RationDetails { get; set; }
             public virtual ICollection<HRD> HRDs { get; set; }
             public virtual ICollection<RegionalPSNPPlan> RegionalPSNPPlans { get; set; }
+            public int? PartitionId { get; set; }
            
         }
 }

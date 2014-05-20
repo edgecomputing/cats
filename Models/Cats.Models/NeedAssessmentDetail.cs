@@ -93,6 +93,8 @@ namespace Cats.Models
 
          [Display(Name = "Remark")]
         public string Remark { get; set; }
+
+        public int? PartitionId { get; set; }
          
         public virtual AdminUnit AdminUnit { get; set; }
         public virtual NeedAssessmentHeader NeedAssessmentHeader { get; set; }

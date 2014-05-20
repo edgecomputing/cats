@@ -40,6 +40,7 @@ namespace Cats.Models.Mapping
 
             this.Property(t => t.Remark).HasColumnName("Remark");
             this.Property(t => t.PartitionId).HasColumnName("PartitionId");
+
             // Relationships
             this.HasOptional(t => t.UserProfile)
                 .WithMany(t => t.UtilizationHeaders)

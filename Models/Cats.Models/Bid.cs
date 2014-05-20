@@ -12,7 +12,7 @@ namespace Cats.Models
            this.BidWinners=new List<BidWinner>();
            this.TransportBidQuotationHeaders = new List<TransportBidQuotationHeader>();
        }
-        public int? PartitionId { get; set; }
+        
         public int BidID { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
@@ -21,6 +21,7 @@ namespace Cats.Models
         public int StatusID { get; set; }
         public int TransportBidPlanID { get; set; }
         public int? PartitionId { get; set; }
+        
 
         #region Navigation Properties
         public Status Status { get; set; }
