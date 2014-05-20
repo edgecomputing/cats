@@ -13,6 +13,7 @@ namespace Cats.Models
        public int HubID { get; set; }
        public decimal AllocatedAmount { get; set; }
        public decimal RecievedAmount { get; set; }
+       public int? PartitionId { get; set; }
 
        public virtual LocalPurchase LocalPurchase { get; set; }
        public virtual Hub Hub { get; set; }

@@ -27,6 +27,7 @@ namespace Cats.Models
        public string ReferenceNumber { get; set; }
        public int StatusID { get; set; }
        public string Remark { get; set; }
+       public int? PartitionId { get; set; }
 
 
 
