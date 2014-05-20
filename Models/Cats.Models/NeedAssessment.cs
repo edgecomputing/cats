@@ -30,6 +30,8 @@ namespace Cats.Models
         public Nullable<bool> NeedAApproved { get; set; }
         public Nullable<int> NeedAApprovedBy { get; set; }
         public int PlanID { get; set; }
+        public int? PartitionId { get; set; }
+
         
        
         public int? TypeOfNeedAssessment { get; set; }

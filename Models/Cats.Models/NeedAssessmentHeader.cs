@@ -20,5 +20,6 @@ namespace Cats.Models
         public virtual AdminUnit AdminUnit { get; set; }
         public virtual NeedAssessment NeedAssessment { get; set; }
         public virtual ICollection<NeedAssessmentDetail> NeedAssessmentDetails { get; set; }
+        public int? PartitionId { get; set; }
     }
 }

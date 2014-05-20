@@ -31,6 +31,7 @@ namespace Cats.Models.Mapping
             this.Property(t => t.NonPSNPFromWoredasFemale).HasColumnName("NonPSNPFromWoredasFemale");
             this.Property(t => t.NonPSNPFromWoredasDOA).HasColumnName("NonPSNPFromWoredasDOA");
             this.Property(t => t.Remark).HasColumnName("Remark");
+            this.Property(t => t.PartitionId).HasColumnName("PartitionId");
 
             // Relationships
             this.HasOptional(t => t.AdminUnit)
