@@ -14,6 +14,7 @@ namespace Cats.Models
         public decimal AllocatedAmount { get; set; }
         public decimal ReceivedAmount { get; set; }
         public decimal Balance { get; set; }
+        public int? PartitionId { get; set; }
         public virtual DonationPlanHeader DonationPlanHeader { get; set; }
         public virtual Hub Hub { get; set; }
     }
