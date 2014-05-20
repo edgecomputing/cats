@@ -23,7 +23,7 @@ namespace Cats.Models.Mapping
             this.Property(t => t.AllocatedAmount).HasColumnName("AllocatedAmount");
             this.Property(t => t.ReceivedAmount).HasColumnName("ReceivedAmount");
             this.Property(t => t.Balance).HasColumnName("Balance");
-
+            this.Property(t => t.PartitionId).HasColumnName("PartitionId");
             // Relationships
             this.HasRequired(t => t.DonationPlanHeader)
                 .WithMany(t => t.DonationPlanDetails)

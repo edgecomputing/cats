@@ -43,6 +43,7 @@ namespace Cats.Models.Mapping
             this.Property(t => t.EnteredBy).HasColumnName("EnteredBy");
             this.Property(t => t.AllocationDate).HasColumnName("AllocationDate");
             this.Property(t => t.Remark).HasColumnName("Remark");
+            this.Property(t => t.PartitionId).HasColumnName("PartitionId");
 
             // Relationships
             this.HasRequired(t => t.Commodity)

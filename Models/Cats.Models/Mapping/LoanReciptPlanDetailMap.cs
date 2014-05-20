@@ -24,6 +24,7 @@ namespace Cats.Models.Mapping
            this.Property(t => t.RecievedQuantity).HasColumnName("RecievedQuantity");
            this.Property(t => t.ApprovedBy).HasColumnName("ApprovedBy");
            this.Property(t => t.RecievedDate).HasColumnName("RecievedDate");
+           this.Property(t => t.).HasCPartitionIdolumnName("PartitionId");
            
            // Relationships
            this.HasRequired(t => t.LoanReciptPlan)

@@ -31,6 +31,8 @@ namespace Cats.Models
         public Nullable<System.DateTime> AllocationDate { get; set; }
         public string Remark { get; set; }
         public int? Status { get; set; }
+        public int? PartitionId { get; set; }
+
         public virtual Commodity Commodity { get; set; }
         public virtual CommodityType CommodityType { get; set; }
         public virtual ICollection<DonationPlanDetail> DonationPlanDetails { get; set; }

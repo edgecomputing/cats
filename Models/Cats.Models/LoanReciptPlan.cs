@@ -25,6 +25,7 @@ namespace Cats.Models
        public int CommodityID { get; set; }
        public decimal Quantity { get; set; }
        public int StatusID { get; set; }
+       public int? PartitionId { get; set; }
 
       // public virtual Hub Hub  { get; set; }
        //public virtual Hub Hub { get; set; }

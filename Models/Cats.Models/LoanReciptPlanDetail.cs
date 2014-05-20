@@ -15,6 +15,7 @@ namespace Cats.Models
        public decimal RecievedQuantity { get; set; }
        public int ApprovedBy { get; set; }
        public DateTime RecievedDate { get; set; }
+       public int? PartitionId { get; set; }
 
 
        public virtual LoanReciptPlan LoanReciptPlan { get; set; }

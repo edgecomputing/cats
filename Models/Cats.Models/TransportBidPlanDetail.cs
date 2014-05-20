@@ -50,5 +50,6 @@ namespace Cats.Models
         //Quantity
         [Display(Name = "Quantity")]
         public decimal Quantity { get; set; }
+        public int? PartitionId { get; set; }
     }
 }

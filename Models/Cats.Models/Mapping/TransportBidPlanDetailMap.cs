@@ -12,6 +12,7 @@ namespace Cats.Models.Mapping
 
             this.Property(t => t.Quantity).HasColumnName("Quantity");
 
+            this.Property(t => t.PartitionId).HasColumnName("PartitionId");
             // Relationships
             this.HasRequired(t => t.BidPlan)
                 .WithMany(t => t.TransportBidPlanDetails)
