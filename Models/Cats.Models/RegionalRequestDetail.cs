@@ -17,6 +17,7 @@ namespace Cats.Models
         public int Fdpid { get; set; }
       
         public int Beneficiaries { get; set; }
+        public int? PartitionId { get; set; }
       
         #region Navigation Properties
         public virtual RegionalRequest RegionalRequest { get; set; }

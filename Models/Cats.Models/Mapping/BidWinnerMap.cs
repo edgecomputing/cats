@@ -23,6 +23,7 @@ namespace Cats.Models.Mapping
             this.Property(t => t.Position).HasColumnName("Position");
             this.Property(t => t.Status).HasColumnName("Status");
             this.Property(t => t.ExpiryDate).HasColumnName("expiryDate");
+            this.Property(t => t.PartitionId).HasColumnName("PartitionId");
 
             // Relationships
             this.HasRequired(t => t.AdminUnit)

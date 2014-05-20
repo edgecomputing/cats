@@ -43,6 +43,7 @@ namespace Cats.Models.Hubs.Mapping
             this.Property(t => t.Attempts).HasColumnName("Attempts");
             this.Property(t => t.LastAttemptDate).HasColumnName("LastAttemptDate");
             this.Property(t => t.EventTag).HasColumnName("EventTag");
+            this.Property(t => t.PartitionId).HasColumnName("PartitionId");
         }
     }
 }

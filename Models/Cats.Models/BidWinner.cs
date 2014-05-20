@@ -17,7 +17,7 @@ namespace Cats.Models
            public Nullable<int> Position { get; set; }
            public Nullable<int> Status { get; set; }
            public Nullable<System.DateTime> ExpiryDate { get; set; }
-           
+           public int? PartitionId { get; set; }
 
        public int BusinessProcessID { get; set; }
        //public int TransportOrderID { get; set; }
