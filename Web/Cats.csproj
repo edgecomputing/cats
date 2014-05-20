@@ -712,7 +712,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>dataset.xsd</DependentUpon>
     </Compile>
-    <Compile Include="Filters\LocalizationFilter.cs" />
+    <Compile Include="Content\Filters\LocalizationFilter.cs" />
     <Compile Include="Helpers\CatsAuthorize.cs" />
     <Compile Include="Helpers\CatsGlobals.cs" />
     <Compile Include="Helpers\DateHelpers.cs" />

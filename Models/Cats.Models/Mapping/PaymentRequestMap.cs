@@ -20,6 +20,7 @@ namespace Cats.Models.Mapping
             this.Property(t => t.LabourCost).HasColumnName("LabourCost");
             this.Property(t => t.RejectedAmount).HasColumnName("RejectedAmount");
             this.Property(t => t.RejectionReason).HasColumnName("RejectionReason");
+            this.Property(t => t.PartitionId).HasColumnName("PartitionId");
 
             this.HasRequired(t => t.BusinessProcess)
               .WithMany(t => t.PaymentRequests)

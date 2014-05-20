@@ -17,7 +17,7 @@
 
                 <div class="pull-left">
                     <h4>Finance Dashboard</h4>
-                </div>o
+                </div>
                 <div class="pull-right">
                     <div class="btn-group">
                         <button id="paymentRequestHeader" type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
@@ -144,9 +144,9 @@
                                         <th>Cheque No</th>
                                         <th>Transporter</th>
                                         <th>Amount</th>
-                                        <th>Date Approved</th>
+                                        <th>Bank</th>
                                         <th>Prepared By</th>
-                                        <th>Approved By</th>
+                                        @*<th>Approved By</th>*@
                                        
                                         <th></th>
                                         <th></th>
@@ -157,13 +157,11 @@
                                         <td class="hidden-xs">{{$index + 1}}</td>
                                         <td>{{req.chequeNo}}</td>
                                         <td>{{req.Transporter}}</td>
-                                        <th>{{req.Amount | number:2}}</th>
-                                        <th>{{req.DateApproved}}</th>
-                                        <th>{{req.ApprovedBy}}</th>
-                                        <th>{{req.PreparedBy}}</th>
-                                     
-                                        
-                                       @* <th> <a style="display: block;" ng-click="ShowURl(req)" > <button class="btn btn-sm btn-default">{{req.ButtonStatus}} </button></a></></th>*@
+                                        <td style="text-align: right">{{req.Amount | number:2}}</td>
+                                        <td style="text-align: right">{{req.BankName}}</td>
+                                        <td style="text-align: right">{{req.PreparedBy}}</td>
+                                        @*  <td>{{req.ApprovedBy}}</td>*@
+                                        @* <th> <a style="display: block;" ng-click="ShowURl(req)" > <button class="btn btn-sm btn-default">{{req.ButtonStatus}} </button></a></></th>*@
                                         @*<th> <a style="display: block;" ng-click="ShowURl(req)" ><button class="btn btn-sm btn-default"> {{req.Status}} </button> </a></th>*@
                                             
                                     </tr>
@@ -210,5 +208,4 @@
 
     }]);
     
-
 </script>

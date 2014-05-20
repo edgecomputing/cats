@@ -18,7 +18,7 @@
 
 <div ng-app="myApp">
     <div ng-controller="PSNPDashboardController" class="container">
-        <div>
+       @* <div>
             <div id="DistributionContent" class="row">
                 <div>&nbsp;</div>
                 <div class="span11">
@@ -30,7 +30,7 @@
                             </h3>
                         </div>
 
-                        <!-- /.portlet-header -->
+                       
 
                         <div class="portlet-content">
                             <div class="shortcuts">
@@ -38,20 +38,16 @@
                                 <a href="@Url.Action("Index", "RegionalPSNPPlan", new { Area = "PSNP" })" class="shortcut"><i class="shortcut-icon icon-list-alt"></i>
                                     <span class="shortcut-label">Regional PSNP Plan</span>
                                 </a>
-                                @* <a href="@Url.Action("Index", "RegionalPSNPPledge", new { Area = "PSNP" })" class="shortcut"><i class="shortcut-icon icon-inbox"></i>
-                                    <span class="shortcut-label">Regional PSNP Pledge</span>
-                                </a>*@
+                               
                             </div>
                         </div>
-                        <!-- /.table-responsive -->
+                      
                     </div>
-                    <!-- /.portlet-content -->
+                    
                     <br />
                 </div>
-
-              <!-- /.portlet -->
             </div>
-        </div>
+        </div>*@
 
         <div>
             <div class="row" style="border-bottom-width: thin; border-bottom-color: #666; border-bottom-style: inset; margin-top: 5px">
@@ -101,9 +97,9 @@
                                     <tbody>
                                         <tr ng-repeat="request in Requests">
                                             <td class="hidden-xs">{{request.Number}}</td>
-                                            <td>{{request.fdps}}</td>
-                                            <td>{{request.beneficiaries}}</td>
-                                            <td><span class="label label-success">{{request.status}}</span></td>
+                                            <td style="text-align: right">{{request.fdps|number}}</td>
+                                            <td style="text-align: right">{{request.beneficiaries|number}}</td>
+                                            <td><span status-class="request.status">{{states[request.status-1]}}</span></td>
                                             <th>
                                                 <a href="javascript:;" class="btn btn-sm btn-default">View <i class="icon-chevron-right"></i>
                                                 </a>
@@ -204,12 +200,12 @@
                         <div class="portlet-content">
                             <th class="table-responsive">
                                 <table id="" class="table table-striped table-checkable">
-                                    <thead>
-                                        <tr>
+                                    <thead style="text-align: right">
+                                        <tr >
                                             <th class="hidden-xs">Number</th>
                                             <th>Commodity</th>
-                                            <th>Beneficiaries</th>
-                                            <th>Amount(QT)</th>
+                                            <th style="text-align: center">Beneficiaries</th>
+                                            <th style="text-align: center">Amount(QT)</th>
                                             <th>Status</th>
                                             <th class="align-center">Action</th>
                                         </tr>
@@ -219,10 +215,10 @@
 
                                             <td>{{requisition.Number}}</td>
                                             <th>{{requisition.Commodity}}</th>
-                                            <td>{{requisition.Beneficicaries|number}}</td>
-                                            <th>{{requisition.Amount|number}} QT</th>
-
-                                            <td><span class="label label-danger">{{requisition.Status}}</span></td>
+                                            <td style="text-align: right">{{requisition.Beneficicaries|number}}</td>
+                                            <th style="text-align: right">{{requisition.Amount|number}} QT</th>
+                                            <td><span status-class="requisition.Status">{{states[requisition.Status-1]}}</span></td>
+                                            @*<td><span class="label label-danger">{{requisition.Status}}</span></td>*@
                                             <td>
                                                 <a ng-href="@Url.Action("Allocation", "ReliefRequisition", new { Area = "EarlyWarning", id = 2 })" class="btn btn-sm btn-default">View <i class="icon-chevron-right"></i>
                                                 </a>
@@ -262,7 +258,7 @@
                         <div class="portlet-header">
                             <h3>
                                 <i class=""></i>
-                                Utilizatio by Age 
+                                Utilization by Age 
                             </h3>
                         </div>
 
@@ -368,15 +364,10 @@
                         </div>
 
                         <!-- /.portlet-header -->
-                        <div class="portlet-content" ng-controller="stageController">
-                            <div id="ctrls">
-                                <a class="btn btn-default" ng-click="utopia();">Utopia</a>
-                                <p class="btn btn-default" id="nightmare">Nightmare</p>
-                                @*<p class="btn btn-default" id="broken">Doesn't work</p>*@
-                                <p class="btn btn-default" ng-click="initData();">Restore</p>
-                            </div>
+                        <div class="portlet-content">
+                           
                           <!-- directive -->
-                            <div id="containerPIE" draw-pie-chart=""></div>
+                            <div id="containerPIE"></div>
                             <th class="table-responsive">
                                 <table id="" class="table table-striped table-checkable">
                                     @* <thead>
@@ -474,8 +465,6 @@
     }
 </script>
 
-<script src="~/Scripts/js/highcharts.js"></script>
-
 <script>
     $(function () {
         $('#container').highcharts({
@@ -511,11 +500,11 @@
                 type: 'pie',
                 name: 'Requests Percentage',
                 data: [
-                    ['Afar', 45.0],
-                    ['Oromiya', 26.8],
-                    ['Amhara', 8.5],
-                    ['Somali', 6.2],
-                    ['Benishangul', 0.7]
+                    ['Afar', 25.0],
+                    ['Oromiya', 20.0],
+                    ['Amhara', 40.0],
+                    ['Somali', 5.0],
+                    ['Benishangul',10.0 ]
                 ]
             }]
         });
@@ -577,106 +566,75 @@
 </style>
 
 <script>
-    //'use strict';
+    var app = angular.module('myApp', []);
+    
+    app.controller('PSNPDashboardController', function ($scope,$http) {
+        $scope.reqParam = { regionID: 2 };
+        $scope.Requests = [];
+        $scope.Requisitions = [];
+        $scope.Data = [];
+        $scope.states = ["Draft", "Approved", "Closed"];
 
-    // Declare app level module which depends on filters, and services
-    angular.module('myApp', ['myApp.directives']);
+        //alert(scope.states);
+        var onRequestsSuccess = function (data) {
+            $scope.Requests = data;
+        };
 
+        var onRequisitionsSuccess = function (data) {
+            $scope.Requisitions = data;
+        };
 
-    /* Controllers */
-    function stageController($scope) {
+        var onDashboardDataSuccess = function (data) {
+            $scope.Data = data;
+        };
 
-        $scope.type = 'Browser Market Share';
+        $scope.getRequests = function () {
+            $http.post("@Url.Action("GetPsnpRequests", "Dashboard", new { Area = "PSNP" })", $scope.reqParam).success(onRequestsSuccess);
+        };
 
-        $scope.initData = function () {
-            $scope.data = [
-                ['Chrome', 47.0],
-                ['Firefox', 33.0],
-                ['IE', 20.0]
-            ];
-        }
+        $scope.getRequisitions = function () {
+            $http.post("@Url.Action("GetPsnpRequisitions", "Dashboard", new { Area = "PSNP" })", $scope.reqParam).success(onRequisitionsSuccess);
+        };
 
-        $scope.utopia = function () {
-            $scope.data = [
-                ['Chrome', 99.0],
-                ['Firefox', 1.0],
-                ['IE', 0.0]
-            ];
-        }
+        $scope.getUtilization = function () {
+            $http.post("@Url.Action("GetUtilizationReport", "Dashboard", new { Area = "PSNP" })", $scope.reqParam).success(onDispatchesSuccess);
+        };
 
-        $scope.initData();
+        $scope.getRegionalData = function () {
+            $http.post("@Url.Action("RegionalData", "FetchData", new { Area = "Regional" })", $scope.reqParam).success(onDashboardDataSuccess);
+        };
 
-    }
-
-
-    /* Directives */
-
-    angular.module('myApp.directives', []).
-
-    directive('drawPieChart', function () {
-        // return the directive link function. (compile function not needed)
-        return function (scope, element, attrs) {
-
-            var container = $(element).attr("id");
-
-            // watch the expression, and update the UI on change.
-            scope.$watch('data', function () {
-                drawPlot();
-            }, true);
-
-            var broken = function () {
-                scope.data = [
-                    ['Chrome', 33.3],
-                    ['Firefox', 33.3],
-                    ['IE', 33.3]
-                ];
-            };
-
-            var nightmare = function () {
-                scope.$apply(function () {
-                    scope.data = [
-                        ['Chrome', 0.0],
-                        ['Firefox', 1.0],
-                        ['IE', 99.0]
-                    ];
-                });
-            };
-
-            var drawPlot = function () {
-                var chart;
-                chart = new Highcharts.Chart({
-                    chart: {
-                        renderTo: container
-                    },
-                    credits: {
-                        enabled: false
-                    },
-                    title: {
-                        text: ''
-                    },
-                    exporting: {
-                        enabled: false
-                    },
-                    tooltip: {
-                        pointFormat: '{series.name}: <b>{point.percentage}%</b>',
-                        percentageDecimals: 1
-                    },
-                    plotOptions: {
-                        pie: {
-                            dataLabels: {
-                                enabled: false
-                            }
-                        }
-                    },
-                    series: [{
-                        type: 'pie',
-                        name: 'Browser share',
-                        data: scope.data
-                    }]
-                });
-            }
-            $("#nightmare").on('click', nightmare);
-            $("#broken").on('click', broken);
-        }
+        $scope.getRequests();
+        $scope.getRequisitions();
+        //alert(scope.states);
     });
+
+    app.directive('statusClass', function () {
+        return function (scope, elem, attrs) {
+            scope.$watch(attrs.statusClass, function (value) {
+                elem.addClass("label");
+                if (value == '1') {
+                    elem.removeClass('label-success');
+                    elem.removeClass('label-important');
+                    elem.addClass('label-warning');
+                } else if (value == '2') {
+                    elem.removeClass('label-warning');
+                    elem.removeClass('label-important');
+                    elem.addClass('label-success');
+                } else if (value == '3') {
+                    elem.removeClass('label-success');
+                    elem.removeClass('label-important');
+                    elem.addClass('label-danger');
+                } else {
+                    elem.removeClass('label-success');
+                    elem.removeClass('label-warning');
+                    elem.removeClass('label-important');
+                }
+            });
+        };
+    });
+
+
 </script>
+
+

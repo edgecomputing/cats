@@ -53,6 +53,7 @@ namespace Cats.Models.Security
         public bool RegionalUser { get; set; }
         public bool IsAdmin { get; set; }
         public string FullName { get { return string.Format("{0} {1} {2}", FirstName, LastName, GrandFatherName); } }
+        public int? PartitionId { get; set; }
 
         //public virtual ICollection<Adjustment> Adjustments { get; set; }
         //public virtual ICollection<Receive> Receives { get; set; }

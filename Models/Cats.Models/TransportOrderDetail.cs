@@ -21,6 +21,8 @@ namespace Cats.Models
         public int CommodityID { get; set; }
         public Nullable<int> ZoneID { get; set; }
         public Nullable<int> DonorID { get; set; }
+        public int? PartitionId { get; set; }
+
         public virtual AdminUnit AdminUnit { get; set; }
         public virtual Commodity Commodity { get; set; }
         public virtual Donor Donor { get; set; }

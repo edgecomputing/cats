@@ -54,7 +54,7 @@ namespace Cats.Models.Mapping
             this.Property(t => t.StatusID).HasColumnName("StatusID");
             this.Property(t => t.StartDate).HasColumnName("StartDate");
             this.Property(t => t.EndDate).HasColumnName("EndDate");
-
+            this.Property(t => t.PartitionId).HasColumnName("PartitionId");
             // Relationships
             this.HasRequired(t => t.Transporter)
                 .WithMany(t => t.TransportOrders)

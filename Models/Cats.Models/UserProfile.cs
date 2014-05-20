@@ -40,6 +40,7 @@ namespace Cats.Models
         public string MobileNumber { get; set; }
         public string Email { get; set; }
         public string DefaultTheme { get; set; }
+        public int? PartitionId { get; set; }
 
         public virtual ICollection<DonationPlanHeader> DonationPlanHeaders { get; set; }
 

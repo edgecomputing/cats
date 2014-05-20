@@ -124,7 +124,7 @@ namespace Cats.Areas.Finance.Controllers
 
         public ActionResult LoadLabourCost(int paymentRequestID)
         {
-            var paymentRequestObj = _paymentRequestservice.Get(t => t.PaymentRequestID == paymentRequestID, null, "TransportOrder, TransportOrder.Transporter").FirstOrDefault();
+            var paymentRequestObj = _paymentRequestservice.Get(t => t.PaymentRequestID == paymentRequestID,requests => null, "TransportOrder, TransportOrder.Transporter").FirstOrDefault();
             var paymentRequestViewModel = new Models.PaymentRequestViewModel();
             if (paymentRequestObj != null)
             {
