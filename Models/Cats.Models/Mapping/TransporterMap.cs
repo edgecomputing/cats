@@ -44,6 +44,7 @@ namespace Cats.Models.Mapping
             this.Property(t => t.ManagerMobile).HasColumnName("ManagerMobile");
             this.Property(t => t.ExperienceFrom).HasColumnName("ExperienceFrom");
             this.Property(t => t.ExperienceTo).HasColumnName("ExperienceTo");
+            this.Property(t => t.PartitionId).HasColumnName("PartitionId");
 
             // Relationships
             /*this.HasOptional(t => t.AdminUnit2)
