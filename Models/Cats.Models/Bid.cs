@@ -20,7 +20,7 @@ namespace Cats.Models
         public DateTime OpeningDate { get; set; }
         public int StatusID { get; set; }
         public int TransportBidPlanID { get; set; }
-        public int? PartitionId { get; set; }
+      
 
         #region Navigation Properties
         public Status Status { get; set; }
