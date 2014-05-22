@@ -577,7 +577,7 @@
         };
         
         $scope.viewRequisition = function (item) {
-            window.location = "@Url.Action("Details","ReliefRequisition",new {Area="EarlyWarning"})" + "?id=" + item.RequisitionId;
+            window.location = "@Url.Action("Allocation","ReliefRequisition",new {Area="EarlyWarning"})" + "?id=" + item.RequisitionId;
         };
         
         $scope.getRequests();
