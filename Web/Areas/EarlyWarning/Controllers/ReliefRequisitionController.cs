@@ -134,9 +134,10 @@ namespace Cats.Areas.EarlyWarning.Controllers
             
             foreach (var reliefRequisitionNew in input)
             {
-                var preferedDate = reliefRequisitionNew.RequestedDate??DateTime.Now;
-                preferedDate = reliefRequisitionNew.RequestedDate ?? DateTime.Now;
-                reliefRequisitionNew.RequestDatePref = preferedDate.ToCTSPreferedDateFormat(datePref);
+                //var preferedDate = reliefRequisitionNew.RequestedDate.GetValueOrDefault(DateTime.Now);
+                if (reliefRequisitionNew.RequestedDate.HasValue)
+                    reliefRequisitionNew.RequestDatePref = reliefRequisitionNew.RequestedDate.Value.ToCTSPreferedDateFormat(datePref);
+               // reliefRequisitionNew.RequestDatePref = preferedDate.ToCTSPreferedDateFormat(datePref);
             }
             return View(input);
         }

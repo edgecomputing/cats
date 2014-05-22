@@ -12,6 +12,8 @@ namespace Cats.Services.Finance
     public class TransporterChequeService : ITransporterChequeService
     {
         private readonly IUnitOfWork _unitOfWork;
+        
+        private int partitionID = 1;
 
 
         public TransporterChequeService(IUnitOfWork unitOfWork)

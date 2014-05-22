@@ -35,6 +35,7 @@ namespace Cats.Areas.PSNP.Controllers
                 f.fdps = regionalRequest.RegionalRequestDetails.Count;
                 f.beneficiaries = regionalRequest.RegionalRequestDetails.Sum(t => t.Beneficiaries);
                 f.status = regionalRequest.Status;
+                f.RequestId = regionalRequest.RegionalRequestID;
                 r.Add(f);
             }
             return Json(r, JsonRequestBehavior.AllowGet);
@@ -52,6 +53,7 @@ namespace Cats.Areas.PSNP.Controllers
                 f.Beneficicaries = regionalRequsition.ReliefRequisitionDetails.Sum(t => t.BenficiaryNo);
                 f.Amount = regionalRequsition.ReliefRequisitionDetails.Sum(t => t.Amount);
                 f.Status = regionalRequsition.Status;
+                f.RequisitionId = regionalRequsition.RequisitionID;
                 r.Add(f);
             }
             return Json(r, JsonRequestBehavior.AllowGet);
