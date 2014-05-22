@@ -26,6 +26,7 @@ namespace Cats.Models.ViewModels
         public string Zone { get; set; }
         public bool Selected { get; set; }
         public string RequisitionNo { get; set; }
+        
         public decimal Amount
         {
             get { return QuantityQtl*beneficiaryNumber; }
