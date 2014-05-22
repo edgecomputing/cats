@@ -18,7 +18,7 @@ namespace Cats.Data.Repository
 
         IEnumerable<T> Get(
         Expression<Func<T, bool>> filter = null,
-      Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
+        Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
         string includeProperties = "");
     }
 }
