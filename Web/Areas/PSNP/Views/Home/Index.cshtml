@@ -18,37 +18,7 @@
 
 <div ng-app="myApp">
     <div ng-controller="PSNPDashboardController" class="container">
-       @* <div>
-            <div id="DistributionContent" class="row">
-                <div>&nbsp;</div>
-                <div class="span11">
-                    <div class="portlet">
-                        <div class="portlet-header">
-                            <h3>
-                                <i class=""></i>
-                                Quick Actions
-                            </h3>
-                        </div>
-
-                       
-
-                        <div class="portlet-content">
-                            <div class="shortcuts">
-
-                                <a href="@Url.Action("Index", "RegionalPSNPPlan", new { Area = "PSNP" })" class="shortcut"><i class="shortcut-icon icon-list-alt"></i>
-                                    <span class="shortcut-label">Regional PSNP Plan</span>
-                                </a>
-                               
-                            </div>
-                        </div>
-                      
-                    </div>
-                    
-                    <br />
-                </div>
-            </div>
-        </div>*@
-
+       
         <div>
             <div class="row" style="border-bottom-width: thin; border-bottom-color: #666; border-bottom-style: inset; margin-top: 5px">
                 <div class="pull-left">
@@ -101,7 +71,8 @@
                                             <td style="text-align: right">{{request.beneficiaries|number}}</td>
                                             <td><span status-class="request.status">{{states[request.status-1]}}</span></td>
                                             <th>
-                                                <a href="javascript:;" class="btn btn-sm btn-default">View <i class="icon-chevron-right"></i>
+                                                <a ng-click="viewRequest(request)" class="btn btn-sm btn-default">
+                                                    View <i class="icon-chevron-right"></i>
                                                 </a>
                                             </th>
                                         </tr>
@@ -220,7 +191,8 @@
                                             <td><span status-class="requisition.Status">{{states[requisition.Status-1]}}</span></td>
                                             @*<td><span class="label label-danger">{{requisition.Status}}</span></td>*@
                                             <td>
-                                                <a ng-href="@Url.Action("Allocation", "ReliefRequisition", new { Area = "EarlyWarning", id = 2 })" class="btn btn-sm btn-default">View <i class="icon-chevron-right"></i>
+                                                <a ng-click="viewRequisition(requisition)" class="btn btn-sm btn-default">
+                                                    View <i class="icon-chevron-right"></i>
                                                 </a>
                                             </td>
                                         </tr>
@@ -427,7 +399,7 @@
 
 <script>
     function PSNPDashboardController($scope, $http) {
-        $scope.reqParam = { regionID: 2 };
+        
         $scope.Requests = [];
         $scope.Requisitions = [];
         $scope.Data = [];
@@ -445,21 +417,21 @@
         };
 
         $scope.getRequests = function () {
-            $http.post("@Url.Action("GetPsnpRequests", "Dashboard", new { Area = "PSNP" })", $scope.reqParam).success(onRequestsSuccess);
+            $http.post("@Url.Action("GetPsnpRequests", "Dashboard", new { Area = "PSNP" })", null).success(onRequestsSuccess);
         };
 
         $scope.getRequisitions = function () {
-            $http.post("@Url.Action("GetPsnpRequisitions", "Dashboard", new { Area = "PSNP" })", $scope.reqParam).success(onRequisitionsSuccess);
+            $http.post("@Url.Action("GetPsnpRequisitions", "Dashboard", new { Area = "PSNP" })", null).success(onRequisitionsSuccess);
         };
 
         $scope.getUtilization = function () {
-            $http.post("@Url.Action("GetUtilizationReport", "Dashboard", new { Area = "PSNP" })", $scope.reqParam).success(onDispatchesSuccess);
+            $http.post("@Url.Action("GetUtilizationReport", "Dashboard", new { Area = "PSNP" })", null).success(onDispatchesSuccess);
         };
 
-        $scope.getRegionalData = function () {
-            $http.post("@Url.Action("RegionalData", "FetchData", new { Area = "Regional" })", $scope.reqParam).success(onDashboardDataSuccess);
+        $scope.viewRequest = function () {
+            window.location = "@Url.Action("Details","Request",new {Area="EarlyWarning"})" + "?id=" + item.RequestId;
         };
-
+        
         $scope.getRequests();
         $scope.getRequisitions();
     }
@@ -569,7 +541,7 @@
     var app = angular.module('myApp', []);
     
     app.controller('PSNPDashboardController', function ($scope,$http) {
-        $scope.reqParam = { regionID: 2 };
+        
         $scope.Requests = [];
         $scope.Requisitions = [];
         $scope.Data = [];
@@ -589,24 +561,28 @@
         };
 
         $scope.getRequests = function () {
-            $http.post("@Url.Action("GetPsnpRequests", "Dashboard", new { Area = "PSNP" })", $scope.reqParam).success(onRequestsSuccess);
+            $http.post("@Url.Action("GetPsnpRequests", "Dashboard", new { Area = "PSNP" })", null).success(onRequestsSuccess);
         };
 
         $scope.getRequisitions = function () {
-            $http.post("@Url.Action("GetPsnpRequisitions", "Dashboard", new { Area = "PSNP" })", $scope.reqParam).success(onRequisitionsSuccess);
+            $http.post("@Url.Action("GetPsnpRequisitions", "Dashboard", new { Area = "PSNP" })", null).success(onRequisitionsSuccess);
         };
 
         $scope.getUtilization = function () {
-            $http.post("@Url.Action("GetUtilizationReport", "Dashboard", new { Area = "PSNP" })", $scope.reqParam).success(onDispatchesSuccess);
+            $http.post("@Url.Action("GetUtilizationReport", "Dashboard", new { Area = "PSNP" })", null).success(onDispatchesSuccess);
         };
 
-        $scope.getRegionalData = function () {
-            $http.post("@Url.Action("RegionalData", "FetchData", new { Area = "Regional" })", $scope.reqParam).success(onDashboardDataSuccess);
+        $scope.viewRequest = function (item) {
+            window.location = "@Url.Action("Details","Request",new {Area="EarlyWarning"})" + "?id=" + item.RequestId;
         };
-
+        
+        $scope.viewRequisition = function (item) {
+            window.location = "@Url.Action("Details","ReliefRequisition",new {Area="EarlyWarning"})" + "?id=" + item.RequisitionId;
+        };
+        
         $scope.getRequests();
         $scope.getRequisitions();
-        //alert(scope.states);
+        
     });
 
     app.directive('statusClass', function () {
