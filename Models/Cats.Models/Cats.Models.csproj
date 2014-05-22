@@ -79,6 +79,7 @@
     <Compile Include="Audit.cs" />
     <Compile Include="AllocationByRegion.cs" />
     <Compile Include="Constant\Application.cs" />
+    <Compile Include="Constant\Partition.cs" />
     <Compile Include="Constant\UserType.cs" />
     <Compile Include="Contact.cs" />
     <Compile Include="DeliveryReconcile.cs" />

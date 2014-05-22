@@ -12,5 +12,6 @@ namespace Cats.Areas.PSNP.Models
         public int Beneficicaries { get; set; }
         public decimal Amount { get; set; }
         public int? Status { get; set; }
+        public int RequisitionId { get; set; }
     }
 }
