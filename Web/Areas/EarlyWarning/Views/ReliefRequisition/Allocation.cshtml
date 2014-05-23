@@ -79,7 +79,7 @@
                     <div class="controls">@Html.TextBoxFor(model => model.Round, new {disabled = "true"})</div>
                 </div>
             }
-            @if (Model.ProgramID == 2)
+            else if (Model.ProgramID == 2)
             {
              <div class="control-group">
                     <div class="control-label">@Html.DisplayNameFor(model => model.Month)
