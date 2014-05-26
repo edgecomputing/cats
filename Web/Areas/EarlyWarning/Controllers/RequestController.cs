@@ -466,7 +466,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         {
             if (regionalRequestDetailViewModel != null && ModelState.IsValid)
             {
-                _regionalRequestDetailService.AddRegionalRequestDetail(BindRegionalRequestDetail(regionalRequestDetailViewModel));
+                _regionalRequestDetailService.AddCommodityFdp(BindRegionalRequestDetail(regionalRequestDetailViewModel));
             }
             return RedirectToAction("Allocation_Read", new {request=new DataSourceRequest(), id = regionalRequestDetailViewModel.RegionalRequestID });
             /*

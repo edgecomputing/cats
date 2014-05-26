@@ -8,7 +8,7 @@ namespace Cats.Models
 {
     public partial class TransporterCheque
     {
-
+        public int? PartitionId { get; set; }
         public System.Guid TransporterChequeId { get; set; }
         public int PaymentRequestID { get; set; }
         public string CheckNo { get; set; }
@@ -25,6 +25,6 @@ namespace Cats.Models
         public virtual PaymentRequest PaymentRequest { get; set; }
         public virtual UserProfile UserProfile { get; set; }
         public virtual UserProfile UserProfile1 { get; set; }
-        public int? PartitionId { get; set; }
+       
     }
 }

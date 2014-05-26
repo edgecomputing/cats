@@ -21,6 +21,7 @@ namespace Cats.Models
         public bool IsWinner { get; set; }
         public int Position { get; set; }
         public string Remark { get; set; }
+        public int? PartitionId { get; set; }
 
         public virtual AdminUnit AdminUnit { get; set; }
         public virtual Hub Hub { get; set; }

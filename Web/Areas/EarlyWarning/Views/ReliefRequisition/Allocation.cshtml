@@ -79,7 +79,7 @@
                     <div class="controls">@Html.TextBoxFor(model => model.Round, new {disabled = "true"})</div>
                 </div>
             }
-            @if (Model.ProgramID == 2)
+            else if (Model.ProgramID == 2)
             {
              <div class="control-group">
                     <div class="control-label">@Html.DisplayNameFor(model => model.Month)
@@ -167,7 +167,7 @@
                 model.Field(detail => detail.Zone).Editable(false);
                 model.Field(detail => detail.Woreda).Editable(false);
                 model.Field(detail => detail.Commodity).Editable(false);
-                //model.Field(detail => detail.Amount).Editable(false);
+                model.Field(detail => detail.Donor).Editable(false);
                 //model.Field(detail => detail.Contingency).Editable(false);
             })
         .Create(update => update.Action("Allocation_Create", "ReliefRequisition"))
