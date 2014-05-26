@@ -661,6 +661,57 @@ namespace Cats.Areas.EarlyWarning.Controllers
                    EndDateEC = null
                });
        }
+     public ActionResult AddWoreda(int id)
+     {
+         var hrd = _hrdService.FindById(id);
+         if (hrd==null)
+         {
+             return HttpNotFound();
+         }
+         ViewBag.RegionID = new SelectList(_adminUnitService.GetRegions(), "AdminUnitID", "Name");
+         ViewBag.ZoneID = new SelectList(_adminUnitService.FindBy(m => m.AdminUnitTypeID == 3), "AdminUnitID", "Name");
+         ViewBag.WoredaID = new SelectList(_adminUnitService.FindBy(m => m.AdminUnitTypeID == 4), "AdminUnitID", "Name");
+         var addWoredaViewModel = new HrdAddWoredaViewModel();
+         addWoredaViewModel.HRDID = id;
+         addWoredaViewModel.StartingMonth = hrd.Plan.StartDate.Month;
+         return PartialView(addWoredaViewModel);
+     }
+    [HttpPost]
+    public ActionResult AddWoreda(HrdAddWoredaViewModel addWoredaViewModel)
+    {
+        if (ModelState.IsValid)
+        {
+            try
+            {
+                var detail = GetDetail(addWoredaViewModel);
+                _hrdDetailService.AddHRDDetail(detail);
+                return RedirectToAction("HRDDetail", new { id = addWoredaViewModel.HRDID});
+            }
+
+            catch (Exception ex)
+            {
+                //ModelState.AddModelError("Errors", "Unable to Add new fpd");
+                //ViewBag.ZoneID = new SelectList(_commonService.GetAminUnits(t => t.AdminUnitTypeID == 3), "AdminUnitID", "Name");
+                //ViewBag.WoredaID = new SelectList(_commonService.GetAminUnits(t => t.AdminUnitTypeID == 4), "AdminUnitID", "Name");
+                //ViewBag.FDPID = new SelectList(_commonService.GetFDPs(2), "FDPID", "FDPName");
+                //return RedirectToAction("Allocation", new { id = requestDetail.RegionalRequestID, programId = _programId });
+            }
+
+        }
+        return PartialView(addWoredaViewModel);
+    }
+    private HRDDetail GetDetail(HrdAddWoredaViewModel addWoreda)
+    {
+        var detail = new HRDDetail()
+        {
+           HRDID=addWoreda.HRDID,
+           WoredaID = addWoreda.WoredaID,
+           DurationOfAssistance = addWoreda.Duration,
+           NumberOfBeneficiaries = addWoreda.Beneficiary,
+           StartingMonth = addWoreda.StartingMonth
+        };
+        return detail;
+    }
         
     }
 }
