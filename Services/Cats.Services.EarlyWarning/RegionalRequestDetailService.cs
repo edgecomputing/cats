@@ -219,7 +219,8 @@ namespace Cats.Services.EarlyWarning
             var ration =
                 _unitOfWork.RationDetailRepository.FindBy(t => t.RationID == rationID && t.CommodityID == commodityId).FirstOrDefault();
             if (ration == null) return 0;
-            return GetRationDependingOnPreference(ration.Amount);
+            return ration.Amount;
+            //return GetRationDependingOnPreference(ration.Amount);
         }
         public bool DeleteRequestDetailCommodity(int commodityId, int requestId)
         {
