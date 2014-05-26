@@ -144,6 +144,7 @@ namespace Cats.Models.Hubs
         private UserProfile _UserProfile = null;
 
         public List<Commodity> Commodities { get; set; }
+        public string CommodityName { get; set; }
         public List<Donor> Donors { get; set; }
         public List<Hub> Hubs { get; set; }
         public List<Hub> AllHubs { get; set; }

@@ -10,9 +10,11 @@ using Cats.Services.EarlyWarning;
 using Cats.Services.Logistics;
 using Cats.Services.Procurement;
 using Cats.Services.Security;
+using Cats.ViewModelBinder;
 using hub = Cats.Services.Hub;
 using Cats.Models;
 using Cats.Helpers;
+using System.Data;
 using TransporterViewModel = Cats.Models.ViewModels.TransporterViewModel;
 
 namespace Cats.Areas.Logistics.Controllers
@@ -31,7 +33,8 @@ namespace Cats.Areas.Logistics.Controllers
         private readonly Cats.Services.Logistics.ISIPCAllocationService _sipcAllocationService;
         private readonly IAdminUnitService _adminUnitService;
         private readonly IHRDService _hrdService;
-        
+        private readonly IHRDDetailService _hrdDetailService;
+        private readonly IRationDetailService _rationDetailService;
         private readonly IBidWinnerService _bidWinnerService;
         private readonly IBidService _bidService;
 
@@ -41,7 +44,7 @@ namespace Cats.Areas.Logistics.Controllers
             ITransportOrderService transportOrderService,
             ITransportOrderDetailService transportOrderDetailService,
             hub.DispatchService dispatchService,
-            hub.DispatchDetailService dispatchDetailService, ISIPCAllocationService sipcAllocationService, IAdminUnitService adminUnitService, IHRDService hrdService, IBidWinnerService bidWinnerService, IBidService bidService)
+            hub.DispatchDetailService dispatchDetailService, ISIPCAllocationService sipcAllocationService, IAdminUnitService adminUnitService, IHRDService hrdService, IBidWinnerService bidWinnerService, IBidService bidService, IHRDDetailService hrdDetailService, IRationDetailService rationDetailService)
         {
             this._reliefRequisitionService = reliefRequisitionService;
             _dispatchAllocationService = dispatchAllocationService;
@@ -55,13 +58,24 @@ namespace Cats.Areas.Logistics.Controllers
             _hrdService = hrdService;
             _bidWinnerService = bidWinnerService;
             _bidService = bidService;
+            _hrdDetailService = hrdDetailService;
+            _rationDetailService = rationDetailService;
         }
 
         public ActionResult Index()
         {
             var currentUser = UserAccountHelper.GetUser(HttpContext.User.Identity.Name);
             ViewBag.RegionName = currentUser.RegionID != null ? _adminUnitService.FindById(currentUser.RegionID ?? 0).Name : "";
-            return View();
+
+            var hrd = _hrdService.FindBy(m => m.Status == 3).FirstOrDefault();
+            if (hrd == null)
+            {
+                return HttpNotFound();
+            }
+
+            var summary = GetHRDSummary(hrd.HRDID);
+            return View(summary);
+           
         }
 
         public JsonResult GetRecievedRequisitions()
@@ -210,6 +224,18 @@ namespace Cats.Areas.Logistics.Controllers
             return Json(hrdsToDisplay, JsonRequestBehavior.AllowGet);
         }
 
+        private DataTable GetHRDSummary(int id)
+        {
+            var weightPref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).PreferedWeightMeasurment;
+            var hrd = _hrdService.FindById(id);
+            var hrdDetails =
+                _hrdDetailService.Get(t => t.HRDID == id, null,
+                                      "AdminUnit,AdminUnit.AdminUnit2,AdminUnit.AdminUnit2.AdminUnit2").ToList();
+            var rationDetails = _rationDetailService.Get(t => t.RationID == hrd.RationID, null, "Commodity");
+            var dt = HRDViewModelBinder.TransposeDataSummary(hrdDetails, rationDetails, weightPref);
+            return dt;
+        }
+
         #endregion
 
         #region Bid
@@ -323,6 +349,7 @@ namespace Cats.Areas.Logistics.Controllers
             return Json(transporters, JsonRequestBehavior.AllowGet);
         }
         #endregion
+
 
         #endregion
     }

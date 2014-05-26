@@ -19,7 +19,7 @@ namespace Cats.Models.Mapping
             this.Property(t => t.HubID).HasColumnName("HubID");
             this.Property(t => t.AllocationDate).HasColumnName("AllocationDate");
             this.Property(t => t.AllocatedBy).HasColumnName("AllocatedBy");
-
+            this.Property(t => t.PartitionId).HasColumnName("PartitionId");
              // Relationships
             this.HasRequired(t => t.Hub)
                 .WithMany(t => t.HubAllocations)

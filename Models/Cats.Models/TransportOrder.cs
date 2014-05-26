@@ -30,6 +30,7 @@ namespace Cats.Models
        public int? StatusID { get; set; }
        public DateTime StartDate { get; set; }
        public DateTime EndDate { get; set; }
+       public int? PartitionId { get; set; }
 
        public virtual Transporter Transporter { get; set; }
        public virtual ICollection<TransportOrderDetail> TransportOrderDetails { get; set; }

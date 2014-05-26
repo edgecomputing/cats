@@ -13,6 +13,7 @@ namespace Cats.Models
        public int HRDID { get; set; }
        public DateTime CreatedDate { get; set; }
        public string Remark { get; set; }
+       public int? PartitionId { get; set; }
 
        public virtual Donor Donor { get; set; }
        public virtual HRD Hrd { get; set; }

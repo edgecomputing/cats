@@ -30,7 +30,12 @@ namespace Cats.Areas.Settings.Controllers
 
         public ActionResult Index()
         {
-            ViewData["Commodities"] = _commodityService.GetAllCommodity();
+            if (TempData["error"] != null)
+            {
+                ViewData["error"] = TempData["error"].ToString();
+            }
+
+            ViewData["Commodities"] = _commodityService.GetAllCommodity().Where(c=>c.ParentID == null);
             ViewData["CommodityTypes"] = _commodityTypeService.GetAllCommodityType();
             return View();
         }
@@ -81,17 +86,19 @@ namespace Cats.Areas.Settings.Controllers
         //    return Json(ModelState.ToDataSourceResult());
         //}
 
+         
         public ActionResult Commodity_Destroy(int id)
         {
             var commodity = _commodityService.FindById(id);
             try
             {
                 _commodityService.DeleteCommodity(commodity);
+                TempData["error"] = "Commodity is Deleted!";
                 return RedirectToAction("Index");
             }
             catch (Exception e)
             {
-                ModelState.AddModelError("Errors", "Unable to delete commodity");
+                TempData["error"] = "Unable to delete commodity. This commodity is being used by the system.";
             }
             return RedirectToAction("Index");
         }

@@ -51,5 +51,7 @@ namespace Cats.Models
         {
             get { return this.Year + "-" + this.YearHalf; }
         }
+
+        public int? PartitionId { get; set; }
     }
 }
