@@ -10,6 +10,11 @@
     const string pageName = "EarlyWarning.Index";
 }
 
+@{
+                                        var ben =new[] {0.0,0.0,0.0,0.0,0.0,0.0} ;
+                                        int index = 0;
+}
+
 
 @section styles
 {
@@ -139,39 +144,57 @@
                             <th class="table-responsive" >
                             <table id="" class="table table-striped table-checkable"  > 
                                                          
-                                <thead>
-                                    <tr>
-                                        @foreach (System.Data.DataColumn col in Model.Columns)
-                                        {
+                                     <thead>
+                                         <tr>
+                                             @foreach (System.Data.DataColumn col in Model.Columns)
+                                             {
                                       
-                                            <th>@col.Caption </th>
+                                                 <th>@col.Caption </th>
                                             
-                                        }
+                                             }
                                       
-                                    </tr>
-                                </thead>
-                                <tbody >
-                                    @foreach(System.Data.DataRow row in Model.Rows)
-                                    {
-                                        <tr>
-                                            @foreach (var cell in row.ItemArray)
-                                            {
-                                                if(cell.GetType()==typeof(decimal))
-                                                {
-                                                    @*<td>@cell.ToString()</td>*@
-                                                    <td>@String.Format("{0:n0}",@cell)</td>
-                                                }
-                                                else
-                                                {
-                                                    <td>@String.Format("{0:n0}",@cell)</td>@*
-                                                    <td>@cell.ToString()</td>*@
-                                                }
-                                            }
-                                        </tr>
-                                    } 
+                                         </tr>
+                                     </thead>
+                                     <tbody >
                                     
-                                </tbody>
-                            </table>
+                                         @foreach(System.Data.DataRow row in Model.Rows)
+                                         {
+                                             <tr>
+                                                 @{ index = 0; }
+                                                 @foreach (var cell in row.ItemArray)
+                                                 {
+                                                     if(cell is decimal || cell is int)
+                                                     {
+                                                    
+                                                
+
+
+                                                         ben[index] = ben[index] + double.Parse(@String.Format("{0:n0}", @cell));
+                                                         index++;
+                                                
+
+                                                         <td>@String.Format("{0:n0}",@cell)</td>
+                                                     }
+                                                     else
+                                                     {
+                                                         <td>@String.Format("{0:n0}",@cell)</td>
+                                                    
+                                                     }
+                                               
+                                                 }
+                                             </tr>
+                                             
+                                         } 
+                                    
+                                     </tbody>
+                                     <tr>
+                                         <th>Total:</th>
+                                         @foreach (double t in @ben)
+                                         {
+                                             <th>@String.Format("{0:n0}",@t) </th>
+                                         }
+                                     </tr>
+                                 </table>
 
                         </div>
                         <!-- /.table-responsive -->

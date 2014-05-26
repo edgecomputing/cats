@@ -205,6 +205,7 @@ namespace Cats.Areas.Hub.Controllers
                         ProjectNumber = receiptAllocation.ProjectNumber,
                         GiftCertificateDetailID = receiptAllocation.GiftCertificateDetailID,
                         CommodityID = receiptAllocation.CommodityID,
+                        CommodityName = receiptAllocation.Commodity.Name,
                         SINumber = receiptAllocation.SINumber,
                         UnitID = receiptAllocation.UnitID,
                         QuantityInUnit = receiptAllocation.QuantityInUnit ?? 0,
