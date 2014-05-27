@@ -11,7 +11,7 @@
     <h3 id="myModalLabel">@Html.Translate("Add Woreda")</h3>
 </div>
 
-@using (Html.BeginForm("AddWoreda", "HRD", new { id = Model.HRDID }, FormMethod.Post, new { @class = "modal-form" }))
+@using (Html.BeginForm("AddWoreda", "HRD", new { id = Model.HRDID }, FormMethod.Post, new { @class = "modal-form", id = "myForm1" }))
 {
    
     @Html.HiddenFor(m=>m.HRDID)
@@ -25,7 +25,7 @@
                     @Html.Label(Html.Translate("Region"))
                 </div>
                 <div class="controls" id="div_region">
-                    @Html.DropDownList("RegionID",String.Empty)
+                    @Html.DropDownList("RegionID","--Select Region--")
                     @Html.ValidationMessageFor(m => m.RegionID)
                
                 </div>
@@ -37,7 +37,7 @@
                     @Html.Label(Html.Translate("Zone"))
                 </div>
                 <div class="controls" id="div_zone">
-                    @Html.DropDownList("ZoneID",String.Empty)
+                    @Html.DropDownList("ZoneID","--Select Zone--")
                     @Html.ValidationMessageFor(m => m.ZoneID)
                
                 </div>
@@ -87,11 +87,28 @@
 }
 <script>
 
+    $(document).ready(function () {
+
+        var allValidationRules = {
+            WoredaID: "required"
+
+        };
+        $("#myForm1").validate({
+            rules: allValidationRules,
+            showErrors: function (element, errorClass, validClass) {
+                for (var i in errorClass) {
+                    $(errorClass[i].element).popover('show');
+                }
+            }
+        });
+    });
+</script>
+<script>
     var admin_region_hash = {};
     var admin_zone_hash = {};
-
+    var id = '@Model.HRDID';
     $(function () {
-        $.getJSON("@Url.Action("GetAdminUnits", "DonorCoverage", new { Area = "EarlyWarning" })", {}, function (data) {
+        $.getJSON("@Url.Action("GetAdminUnits", "DonorCoverage", new { Area = "EarlyWarning" })" + "?id=" + id, {}, function (data) {
 
             document.getElementById("ZoneID").disabled = true;
             document.getElementById("WoredaID").disabled = true;

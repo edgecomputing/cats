@@ -22,5 +22,6 @@ namespace Cats.Services.EarlyWarning
                    Expression<Func<HRDDetail, bool>> filter = null,
                    Func<IQueryable<HRDDetail>, IOrderedQueryable<HRDDetail>> orderBy = null,
                    string includeProperties = "");
+        bool AddWoreda(HRDDetail hrdDetail);
     }
 }

@@ -84,6 +84,10 @@ namespace Cats.Areas.EarlyWarning.Controllers
             ViewBag.SeasonID = hrd.Season.Name;
             ViewBag.Year = hrd.Year;
             ViewBag.HRDID = id;
+            if (ViewBag.Errors==1)
+            {
+                ModelState.AddModelError("Errors", @"Woreda Already Existed in the HRD");
+            }
             if (hrd != null)
             {
                 return View(hrd);
@@ -684,20 +688,23 @@ namespace Cats.Areas.EarlyWarning.Controllers
             try
             {
                 var detail = GetDetail(addWoredaViewModel);
-                _hrdDetailService.AddHRDDetail(detail);
+ 
+                if(_hrdDetailService.AddWoreda(detail))
                 return RedirectToAction("HRDDetail", new { id = addWoredaViewModel.HRDID});
+                ViewBag.Errors = 1;
+                return RedirectToAction("HRDDetail", new { id = addWoredaViewModel.HRDID });
+                   
             }
 
             catch (Exception ex)
             {
-                //ModelState.AddModelError("Errors", "Unable to Add new fpd");
-                //ViewBag.ZoneID = new SelectList(_commonService.GetAminUnits(t => t.AdminUnitTypeID == 3), "AdminUnitID", "Name");
-                //ViewBag.WoredaID = new SelectList(_commonService.GetAminUnits(t => t.AdminUnitTypeID == 4), "AdminUnitID", "Name");
-                //ViewBag.FDPID = new SelectList(_commonService.GetFDPs(2), "FDPID", "FDPName");
-                //return RedirectToAction("Allocation", new { id = requestDetail.RegionalRequestID, programId = _programId });
+                var log = new Logger();
+                log.LogAllErrorsMesseges(ex, _log);
+               
             }
 
         }
+       
         return PartialView(addWoredaViewModel);
     }
     private HRDDetail GetDetail(HrdAddWoredaViewModel addWoreda)
@@ -711,6 +718,33 @@ namespace Cats.Areas.EarlyWarning.Controllers
            StartingMonth = addWoreda.StartingMonth
         };
         return detail;
+    }
+    public JsonResult GetAdminUnits(int id)
+    {
+        var hrd = _hrdService.FindById(id);
+        var r = (from region in _adminUnitService.GetRegions()
+                 select new
+                 {
+
+                     RegionID = region.AdminUnitID,
+                     RegionName = region.Name,
+                     Zones = from zone in _adminUnitService.GetZones(region.AdminUnitID)
+                             select new
+                             {
+                                 ZoneID = zone.AdminUnitID,
+                                 ZoneName = zone.Name,
+                                 Woredas = from woreda in _adminUnitService.GetWoreda(zone.AdminUnitID)
+                                           from detail in hrd.HRDDetails
+                                           where woreda.AdminUnitID!=detail.WoredaID
+                                           select new
+                                           {
+                                               WoredaID = woreda.AdminUnitID,
+                                               WoredaName = woreda.Name
+                                           }
+                             }
+                 }
+                );
+        return Json(r, JsonRequestBehavior.AllowGet);
     }
         
     }
