@@ -343,8 +343,6 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
         public ActionResult Requisition_Read([DataSourceRequest] DataSourceRequest request, int id = 0)
         {
-
-
             var requests = _reliefRequisitionService.Get(t => t.Status == id);
             var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
             var requestViewModels = RequisitionViewModelBinder.BindReliefRequisitionListViewModel(requests,

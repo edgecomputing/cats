@@ -213,7 +213,6 @@ namespace Cats.Areas.EarlyWarning.Controllers
         //
         // GET: /ReliefRequisitoin/Details/5
 
-
         [HttpGet]
         public ActionResult Edit(int id)
         {
