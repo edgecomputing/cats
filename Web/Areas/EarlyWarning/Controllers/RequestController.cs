@@ -466,8 +466,9 @@ namespace Cats.Areas.EarlyWarning.Controllers
         {
             if (regionalRequestDetailViewModel != null && ModelState.IsValid)
             {
+                
+                _regionalRequestDetailService.AddRegionalRequestDetail(BindRegionalRequestDetail(regionalRequestDetailViewModel));
                 _regionalRequestDetailService.AddCommodityFdp(BindRegionalRequestDetail(regionalRequestDetailViewModel));
-              //  _regionalRequestDetailService.AddRegionalRequestDetail(BindRegionalRequestDetail(regionalRequestDetailViewModel));
             }
             return RedirectToAction("Allocation_Read", new {request=new DataSourceRequest(), id = regionalRequestDetailViewModel.RegionalRequestID });
             /*
@@ -486,6 +487,8 @@ namespace Cats.Areas.EarlyWarning.Controllers
                     target.Fdpid = regionalRequestDetail.Fdpid;
 
                     _regionalRequestDetailService.EditRegionalRequestDetail(target);
+
+                    
                 }
             }
             var requestDetails = _regionalRequestDetailService.FindBy(t => t.RegionalRequestID == regionalRequestDetail.RegionalRequestID);
