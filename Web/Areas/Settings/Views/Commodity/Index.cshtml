@@ -17,8 +17,24 @@
     $(document).ready(function () {
         setAsActive("#Commodity");
     });
-</script>
 
+    function onDelete(e) {
+        e.preventDefault();
+
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        window.location = "@Url.Action("Commodity_Destroy", "Commodity")" + "/" + dataItem.CommodityID;
+    }
+</script>
+@{
+    if (TempData["error"] !=null)
+    {
+        
+        <div>
+            @ViewData["error"]
+        </div>
+    <hr/>
+    }
+}
 <h4 class="page-header">Commodity</h4>
 @(Html.Kendo().Grid<CommodityViewModel>()
     .Name("grid")
@@ -37,8 +53,8 @@
         columns.ForeignKey(t => t.CommodityTypeID, (IEnumerable<CommodityType>)ViewData["CommodityTypes"], "CommodityTypeID", "Name");
         columns.ForeignKey(t => t.ParentID, (IEnumerable<Commodity>)ViewData["Commodities"], "CommodityID", "Name");
         columns.Bound(t => t.NameAM);
-        columns.Command(command => command.Destroy());
-        // columns.Command(command => command.Custom("Delete").Click("OnDelete"));
+        //columns.Command(command => command.Destroy());
+        columns.Command(command => command.Custom("Delete").Click("onDelete"));
 
     })
     .DataSource(
@@ -47,5 +63,5 @@
             .Read("Commodity_Read", "Commodity")
             .Create("Commodity_Create", "Commodity")
             .Update("Commodity_Update", "Commodity")
-            .Destroy("Commodity_Delete", "Commodity")
+            
       ))

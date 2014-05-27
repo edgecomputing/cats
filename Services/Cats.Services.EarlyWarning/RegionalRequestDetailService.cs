@@ -46,9 +46,10 @@ namespace Cats.Services.EarlyWarning
             {
                 var rationAmount = GetCommodityRation(requestDetail.RegionalRequestID, requestCommodity.CommodityID);
                 var target = _unitOfWork.RequestDetailCommodityRepository.FindById(requestCommodity.RequestCommodityID);
-                decimal ration = 0;
-                ration = GetRationDependingOnPreference(rationAmount);
-                target.Amount = requestDetail.Beneficiaries * ration;
+                //decimal ration = 0;
+                //ration = GetRationDependingOnPreference(rationAmount);
+                target.Amount = requestDetail.Beneficiaries * rationAmount;
+               
             }
             return true;
         }
@@ -123,7 +124,7 @@ namespace Cats.Services.EarlyWarning
             decimal DurationOfAssistance = 1;
             decimal ration = 0;
             var rationAmount = GetCommodityRation(requestId, commodityId);
-            ration = GetRationDependingOnPreference(rationAmount);
+           // ration = GetRationDependingOnPreference(rationAmount);
 
             foreach (var regionalRequestDetail in requestDetail)
             {
@@ -136,7 +137,7 @@ namespace Cats.Services.EarlyWarning
                    regionalRequestDetail.RequestDetailCommodities.Add(new RequestDetailCommodity
                                                                           {
                                                                               CommodityID=commodityId ,
-                                                                              Amount = regionalRequestDetail.Beneficiaries * ration 
+                                                                              Amount = regionalRequestDetail.Beneficiaries * rationAmount 
                                                                               
                                                                           });
                }
@@ -219,8 +220,8 @@ namespace Cats.Services.EarlyWarning
             var ration =
                 _unitOfWork.RationDetailRepository.FindBy(t => t.RationID == rationID && t.CommodityID == commodityId).FirstOrDefault();
             if (ration == null) return 0;
-            return ration.Amount;
-            //return GetRationDependingOnPreference(ration.Amount);
+            //return ration.Amount;
+            return GetRationDependingOnPreference(ration.Amount);
         }
         public bool DeleteRequestDetailCommodity(int commodityId, int requestId)
         {
@@ -247,8 +248,9 @@ namespace Cats.Services.EarlyWarning
             var requestDetail =
                 _unitOfWork.RegionalRequestDetailRepository.FindById(requestDetailCommodity.RegionalRequestDetailID);
           
-            _unitOfWork.Save();  
+           
             CalculateAllocation(requestDetail);
+            _unitOfWork.Save();  
             return true;
         }
 

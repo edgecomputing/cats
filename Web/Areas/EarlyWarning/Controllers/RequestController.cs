@@ -180,7 +180,9 @@ namespace Cats.Areas.EarlyWarning.Controllers
         }
         private void PopulateLookup()
         {
-            ViewBag.RegionID = new SelectList(_commonService.GetAminUnits(t => t.AdminUnitTypeID == 2), "AdminUnitID", "Name");
+            var user = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name);
+            ViewBag.RegionID = user.RegionalUser ? new SelectList(_commonService.GetAminUnits(t => t.AdminUnitTypeID == 2 && t.AdminUnitID == user.RegionID), "AdminUnitID", "Name") : new SelectList(_commonService.GetAminUnits(t => t.AdminUnitTypeID == 2), "AdminUnitID", "Name");
+            
             ViewBag.ProgramId = new SelectList(_commonService.GetPrograms().Take(2), "ProgramID", "Name");
             ViewBag.Month = new SelectList(RequestHelper.GetMonthList(), "ID", "Name");
             ViewBag.RationID = new SelectList(_commonService.GetRations(), "RationID", "RefrenceNumber");
@@ -210,7 +212,6 @@ namespace Cats.Areas.EarlyWarning.Controllers
         }
         //
         // GET: /ReliefRequisitoin/Details/5
-
 
         [HttpGet]
         public ActionResult Edit(int id)
@@ -464,7 +465,9 @@ namespace Cats.Areas.EarlyWarning.Controllers
         {
             if (regionalRequestDetailViewModel != null && ModelState.IsValid)
             {
+                
                 _regionalRequestDetailService.AddRegionalRequestDetail(BindRegionalRequestDetail(regionalRequestDetailViewModel));
+                _regionalRequestDetailService.AddCommodityFdp(BindRegionalRequestDetail(regionalRequestDetailViewModel));
             }
             return RedirectToAction("Allocation_Read", new {request=new DataSourceRequest(), id = regionalRequestDetailViewModel.RegionalRequestID });
             /*
@@ -483,6 +486,8 @@ namespace Cats.Areas.EarlyWarning.Controllers
                     target.Fdpid = regionalRequestDetail.Fdpid;
 
                     _regionalRequestDetailService.EditRegionalRequestDetail(target);
+
+                    
                 }
             }
             var requestDetails = _regionalRequestDetailService.FindBy(t => t.RegionalRequestID == regionalRequestDetail.RegionalRequestID);

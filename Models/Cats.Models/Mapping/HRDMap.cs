@@ -30,6 +30,7 @@ namespace Cats.Models.Mapping
             this.Property(t => t.Status).HasColumnName("Status");
             this.Property(t => t.PlanID).HasColumnName("PlanID");
             this.Property(t => t.TransactionGroupID).HasColumnName("TransactionGroupID");
+            this.Property(t => t.PartitionId).HasColumnName("PartitionId");
             // Relationships
             //this.HasOptional(t => t.Season)
             //    .WithMany(t => t.Hrds)

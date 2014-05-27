@@ -31,6 +31,7 @@ namespace Cats.Models
         public int? Round { get; set; }
         public int PlanID { get; set; }
         public int? IDPSReasonType { get; set; }
+        public int? PartitionId { get; set; }
 
         public virtual ICollection<RegionalRequestDetail> RegionalRequestDetails { get; set; }
         public virtual ICollection<ReliefRequisition> ReliefRequisitions { get; set; }

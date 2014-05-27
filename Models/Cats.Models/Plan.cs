@@ -28,6 +28,8 @@ namespace Cats.Models
        [Required(ErrorMessage = "Enter Duration")]
        public int Duration { get; set; }
 
+       public int? PartitionId { get; set; }
+
        public virtual ICollection<HRD> Hrds { get; set; }
        public virtual ICollection<NeedAssessment> NeedAssessments { get; set;} 
        public virtual Program Program { get; set; }

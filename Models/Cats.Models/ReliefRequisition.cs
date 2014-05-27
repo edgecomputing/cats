@@ -33,6 +33,8 @@ namespace Cats.Models
         public Nullable<int> Status { get; set; }
         public int ProgramID { get; set; }
         public Nullable<int> RegionalRequestID { get; set; }
+        public int? PartitionId { get; set; }
+
         public virtual AdminUnit AdminUnit { get; set; }
         public virtual AdminUnit AdminUnit1 { get; set; }
         public virtual Commodity Commodity { get; set; }
