@@ -821,7 +821,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            SearchRequsetViewModel filter = new SearchRequsetViewModel();
+            var filter = new SearchRequsetViewModel();
             ViewBag.Filter = filter;
             PopulateLookup();
             ViewBag.ProgramId = new SelectList(_commonService.GetPrograms(), "ProgramID", "Name");

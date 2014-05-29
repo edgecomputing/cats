@@ -23,12 +23,9 @@
     @* <div class="btn-group" style="margin-right:8px;">
         <button class="btn">Action</button>
         @{
-            
             <button class="btn dropdown-toggle " data-toggle="dropdown">
                 <span class="caret"></span>
             </button>
-           
-           
         }
 
 
@@ -287,6 +284,7 @@
 
 
     function getPopoverContent(parameters) {
+
         var s;
         $.getJSON("@Url.Action("RationDetail", "Ration")" + "?id=" + 2011, function (data) {
             var tblbody = "<table>";
@@ -298,9 +296,8 @@
                 tblbody += "</tr>";
             }
             tblbody += "</table>";
-
             s = tblbody;
-            //return tblbody;
+            return tblbody;
         });
 
         alert(s);
