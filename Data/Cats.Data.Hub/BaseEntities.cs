@@ -269,8 +269,24 @@ namespace Cats.Data.Hub
             //}
 
             // Call the original SaveChanges(), which will save both the changes made and the audit records
-            return base.SaveChanges();
-          
+            //try
+            //{
+                return base.SaveChanges();
+            //}
+            //catch (System.Data.Entity.Validation.DbEntityValidationException e)
+            //{
+            //    var outputLines = new List<string>();
+            //    foreach (var eve in e.EntityValidationErrors)
+            //    {
+            //        outputLines.Add(string.Format(
+            //            "{0}: Entity of type \"{1}\" in state \"{2}\" has the following validation errors:",
+            //            DateTime.Now, eve.Entry.Entity.GetType().Name, eve.Entry.State));
+            //        outputLines.AddRange(
+            //            eve.ValidationErrors.Select(
+            //                ve => string.Format("- Property: \"{0}\", Error: \"{1}\"", ve.PropertyName, ve.ErrorMessage)));
+            //    }
+            //}
+            //return 0;
         }
         /// <summary>
         /// GetAuditRecordsForChange
