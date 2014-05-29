@@ -2393,6 +2393,10 @@ namespace Cats.Security
             {
                 return "Print requests";
             }
+            if (operation == Operation.Print_requisition)
+            {
+                return "Print Requisition";
+            }
             if ((operation == Operation.Vew_requests_menu_item))
             {
                 return "Vew requests menu item";
@@ -2530,6 +2534,9 @@ namespace Cats.Security
             /// Operation Print requests
             /// </summary>
             Print_requests,
+            /// Operation Print Requisition
+            /// </summary>
+            Print_requisition,
             /// <summary>
             /// Operation Vew requests menu item
             /// </summary>
