@@ -67,7 +67,19 @@ namespace Cats.Services.EarlyWarning
         {
             return _unitOfWork.HRDDetailRepository.Get(filter, orderBy, includeProperties);
         }
-
+        public bool AddWoreda(HRDDetail hrdDetail)
+        {
+            var detail =_unitOfWork.HRDDetailRepository.FindBy(
+                    m => m.HRDID == hrdDetail.HRDID && m.WoredaID == hrdDetail.WoredaID).FirstOrDefault();
+            if (detail == null)
+            {
+                _unitOfWork.HRDDetailRepository.Add(hrdDetail);
+                _unitOfWork.Save();
+                return true;
+            }
+            return false;
+        }
+        
         public void Dispose()
         {
             _unitOfWork.Dispose();

@@ -22,13 +22,37 @@
     @Html.EarlyWarningOperationButton(
                         @Url.Action("Detail", "HRD", new {id = ViewBag.HRDID}),
                         EarlyWarningConstants.Operation.View_HRD_Detail, "<i class=\"icon-list\"></i>", "btn", "btn_back_to_list")
+    <a id="btnAddWoreda" class="btn toolbar-btn " href="@Url.Action("AddWoreda", "HRD", new { id = Model.HRDID })">@Html.Translate("Add Woreda")</a>
 }
 
 @section LeftBar
 {
-    @Html.Partial("_HRDLeftBar");
+    @Html.Partial("_HRDLeftBar")
 }
+<script type="text/javascript">
+    $(function () {
 
+        //Optional: turn the chache off
+        $.ajaxSetup({ cache: false });
+
+        $('#btnAddWoreda').click(function () {
+
+            // alert("");
+            $('#dialogContent').load(this.href, function () {
+                $('#dialogDiv').modal({
+                    backdrop: 'static',
+                    keyboard: true
+                }, 'show');
+                //bindForm(this);
+            });
+            return false;
+        });
+    });
+</script>
+
+<div id='dialogDiv' class='modal hide fade in'>
+    <div id='dialogContent'></div>
+</div>
 <div>
     <h4>HRD Detail for @ViewBag.SeasonID @ViewBag.Year</h4>
    

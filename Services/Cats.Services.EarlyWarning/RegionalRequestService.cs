@@ -223,6 +223,7 @@ namespace Cats.Services.EarlyWarning
 
                     if (lastRequest != null)
                     {
+                        result.HRDPSNPPlan.RationID = hrd.RationID;
                         var requests = _unitOfWork.RegionalRequestRepository.FindBy(r => r.RegionID == plan.RegionID && r.ProgramId == 1 && r.PlanID == plan.PlanID);
                         var numberOfRequestsPerRegion = requests.Count;
                         var applicableWoredas = (from detail in hrd.HRDDetails
