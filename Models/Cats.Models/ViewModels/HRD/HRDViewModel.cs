@@ -35,4 +35,18 @@ namespace Cats.Models.ViewModels.HRD
 
         
     }
+    public class HrdAddWoredaViewModel
+    {
+        public int HRDID { get; set; }
+        public int HRDDetailID { get; set; }
+        public int WoredaID { get; set; }
+        public int Duration { get; set; }
+        public int Beneficiary { get; set; }
+        public int StartingMonth { get; set; }
+        [Required]
+         public int RegionID { get; set; }
+        [Required]
+        public int ZoneID { get; set; }
+        
+    }
 }

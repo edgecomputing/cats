@@ -84,6 +84,10 @@ namespace Cats.Areas.EarlyWarning.Controllers
             ViewBag.SeasonID = hrd.Season.Name;
             ViewBag.Year = hrd.Year;
             ViewBag.HRDID = id;
+            if (ViewBag.Errors==1)
+            {
+                ModelState.AddModelError("Errors", @"Woreda Already Existed in the HRD");
+            }
             if (hrd != null)
             {
                 return View(hrd);
@@ -661,6 +665,87 @@ namespace Cats.Areas.EarlyWarning.Controllers
                    EndDateEC = null
                });
        }
+     public ActionResult AddWoreda(int id)
+     {
+         var hrd = _hrdService.FindById(id);
+         if (hrd==null)
+         {
+             return HttpNotFound();
+         }
+         ViewBag.RegionID = new SelectList(_adminUnitService.GetRegions(), "AdminUnitID", "Name");
+         ViewBag.ZoneID = new SelectList(_adminUnitService.FindBy(m => m.AdminUnitTypeID == 3), "AdminUnitID", "Name");
+         ViewBag.WoredaID = new SelectList(_adminUnitService.FindBy(m => m.AdminUnitTypeID == 4), "AdminUnitID", "Name");
+         var addWoredaViewModel = new HrdAddWoredaViewModel();
+         addWoredaViewModel.HRDID = id;
+         addWoredaViewModel.StartingMonth = hrd.Plan.StartDate.Month;
+         return PartialView(addWoredaViewModel);
+     }
+    [HttpPost]
+    public ActionResult AddWoreda(HrdAddWoredaViewModel addWoredaViewModel)
+    {
+        if (ModelState.IsValid)
+        {
+            try
+            {
+                var detail = GetDetail(addWoredaViewModel);
+ 
+                if(_hrdDetailService.AddWoreda(detail))
+                return RedirectToAction("HRDDetail", new { id = addWoredaViewModel.HRDID});
+                ViewBag.Errors = 1;
+                return RedirectToAction("HRDDetail", new { id = addWoredaViewModel.HRDID });
+                   
+            }
+
+            catch (Exception ex)
+            {
+                var log = new Logger();
+                log.LogAllErrorsMesseges(ex, _log);
+               
+            }
+
+        }
+       
+        return PartialView(addWoredaViewModel);
+    }
+    private HRDDetail GetDetail(HrdAddWoredaViewModel addWoreda)
+    {
+        var detail = new HRDDetail()
+        {
+           HRDID=addWoreda.HRDID,
+           WoredaID = addWoreda.WoredaID,
+           DurationOfAssistance = addWoreda.Duration,
+           NumberOfBeneficiaries = addWoreda.Beneficiary,
+           StartingMonth = addWoreda.StartingMonth
+        };
+        return detail;
+    }
+    public JsonResult GetAdminUnits(int id)
+    {
+        var hrd = _hrdService.FindById(id);
+        var r = (from region in _adminUnitService.GetRegions()
+                 select new
+                 {
+
+                     RegionID = region.AdminUnitID,
+                     RegionName = region.Name,
+                     Zones = from zone in _adminUnitService.GetZones(region.AdminUnitID)
+                             select new
+                             {
+                                 ZoneID = zone.AdminUnitID,
+                                 ZoneName = zone.Name,
+                                 Woredas = from woreda in _adminUnitService.GetWoreda(zone.AdminUnitID)
+                                           from detail in hrd.HRDDetails
+                                           where woreda.AdminUnitID!=detail.WoredaID
+                                           select new
+                                           {
+                                               WoredaID = woreda.AdminUnitID,
+                                               WoredaName = woreda.Name
+                                           }
+                             }
+                 }
+                );
+        return Json(r, JsonRequestBehavior.AllowGet);
+    }
         
     }
 }
