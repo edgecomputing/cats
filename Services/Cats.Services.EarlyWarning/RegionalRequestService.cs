@@ -90,7 +90,9 @@ namespace Cats.Services.EarlyWarning
                 _unitOfWork.RationDetailRepository.FindBy(t => t.RationID == rationID && t.CommodityID == commodityId).
                     FirstOrDefault();
             if (ration == null) return 0;
-            return ration.Amount;
+            if (ration.Amount > 0)
+                return ration.Amount/1000;
+            return ration.Amount ;
         }
 
         public bool DeleteRegionalRequest(RegionalRequest reliefRequistion)
