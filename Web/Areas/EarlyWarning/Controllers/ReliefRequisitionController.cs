@@ -32,11 +32,12 @@ namespace Cats.Areas.EarlyWarning.Controllers
         private readonly IDonorService _donorService;
         private readonly INotificationService _notificationService;
         private readonly IPlanService _planService;
+        private readonly ICommonService _commonService;
         private readonly Cats.Services.Transaction.ITransactionService _transactionService;
         public ReliefRequisitionController(IReliefRequisitionService reliefRequisitionService, IWorkflowStatusService workflowStatusService, 
             IReliefRequisitionDetailService reliefRequisitionDetailService,
             IUserAccountService userAccountService,
-            IRationService rationService, IDonorService donorService, INotificationService notificationService, IPlanService planService, ITransactionService transactionService)
+            IRationService rationService, IDonorService donorService, INotificationService notificationService, IPlanService planService, ITransactionService transactionService, ICommonService commonService)
         {
             this._reliefRequisitionService = reliefRequisitionService;
             this._workflowStatusService = workflowStatusService;
@@ -47,12 +48,51 @@ namespace Cats.Areas.EarlyWarning.Controllers
             _notificationService = notificationService;
             _planService = planService;
             _transactionService = transactionService;
+            _commonService = commonService;
         }
 
-        public ViewResult Index(int id = 1)
+        public ViewResult Index()
         {
-            ViewBag.Status = id;
+            ViewBag.Status = 1;
+            var filter = new SearchRequistionViewModel();
+            ViewBag.Filter = filter;
+            Populatelookup();
+            //ViewBag.Status = id;
             return View();
+        }
+
+        [HttpPost]
+        public ActionResult Index(SearchRequistionViewModel filter)
+        {
+            ViewBag.Filter = filter;
+            Populatelookup();
+            return View(filter);
+        }
+
+        void Populatelookup()
+        {
+            var user = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name);
+            ViewBag.RegionID = user.RegionalUser ? new SelectList(_commonService.GetAminUnits(t => t.AdminUnitTypeID == 2 && t.AdminUnitID == user.RegionID), "AdminUnitID", "Name") : new SelectList(_commonService.GetAminUnits(t => t.AdminUnitTypeID == 2), "AdminUnitID", "Name");
+
+            ViewBag.ProgramId = new SelectList(_commonService.GetPrograms(), "ProgramID", "Name");
+            //ViewBag.Month = new SelectList(RequestHelper.GetMonthList(), "ID", "Name");
+            //ViewBag.RationID = new SelectList(_commonService.GetRations(), "RationID", "RefrenceNumber");
+            //ViewBag.DonorID = new SelectList(_commonService.GetDonors(), "DonorId", "Name");
+            //ViewBag.Round = new SelectList(RequestHelper.GetMonthList(), "ID", "ID");
+            //ViewBag.PlanID = new SelectList(_commonService.GetPlan(1), "PlanID", "PlanName");
+            //ViewBag.PSNPPlanID = new SelectList(_commonService.GetPlan(2), "PlanID", "PlanName");
+            //ViewBag.SeasonID = new SelectList(_commonService.GetSeasons(), "SeasonID", "Name");
+
+            var statuslist = new List<RequestStatus>();
+
+            statuslist.Add(new RequestStatus { StatusID = 1, StatusName = "Draft" });
+            statuslist.Add(new RequestStatus { StatusID = 2, StatusName = "Approved" });
+            statuslist.Add(new RequestStatus { StatusID = 3, StatusName = "Hub Assigned" });
+            statuslist.Add(new RequestStatus { StatusID = 4, StatusName = "Project Code Assigned" });
+            statuslist.Add(new RequestStatus { StatusID = 5, StatusName = "Transport Requisition Created" });
+            statuslist.Add(new RequestStatus { StatusID = 6, StatusName = "Transport Order Created" });
+
+            ViewBag.StatusID = new SelectList(statuslist, "StatusID", "StatusName");
         }
 
         [HttpGet]
@@ -350,6 +390,17 @@ namespace Cats.Areas.EarlyWarning.Controllers
                                                                                                       .GetStatus(
                                                                                                           WORKFLOW.
                                                                                                               RELIEF_REQUISITION),datePref).OrderByDescending(m=>m.RequisitionID);
+            return Json(requestViewModels.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult Requisition_Search([DataSourceRequest] DataSourceRequest request, int regionID, int programID, int id)// SearchRequsetViewModel filter)
+        {
+            var requests = _reliefRequisitionService.Get(t => t.Status == id && t.RegionID==regionID && t.ProgramID==programID);
+            var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
+            var requestViewModels = RequisitionViewModelBinder.BindReliefRequisitionListViewModel(requests,_workflowStatusService
+                                                                                                      .GetStatus(
+                                                                                                          WORKFLOW.
+                                                                                                              RELIEF_REQUISITION), datePref).OrderByDescending(m => m.RequisitionID);
             return Json(requestViewModels.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
 

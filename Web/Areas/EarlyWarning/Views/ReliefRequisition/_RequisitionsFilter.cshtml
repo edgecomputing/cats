@@ -1,30 +1,16 @@
-﻿@model Cats.Areas.EarlyWarning.Models.SearchRequsetViewModel
+﻿
+
+@model Cats.Areas.EarlyWarning.Models.SearchRequistionViewModel
 @using Cats.Helpers;
 
 @{
-    const string PAGE_NAME = "Requisitions.Index.RequestFilter";
+    const string PAGE_NAME = "Request.Index.RequestFilter";
 }
 
 @using (Html.BeginForm())
 {
-    <div class="form-vertical">
-
-        <div class="span3 form-vertical">
-
-            <div class="control-group">
-                <div class="control-label">
-                    <label>Request Date Between:</label>
-                </div>
-                <div class="controls">
-                    @Html.TextBoxFor(m => m.DateFrom, new { @class = "cats-datepicker2  input-small", @type = "text" })
-                    and
-                    @Html.TextBoxFor(m => m.DateTo, new { @class = "cats-datepicker2  input-small", @type = "text" })
-                    <!--<input name="dateFrom" type="" class="" /> and <input type="text" class="cats-datepicker2 input-small" />-->
-                </div>
-            </div>
-
-        </div>
-        <div class="span2 form-vertical">
+    <div class="">
+        <div class="span3">
             <div class="control-group">
                 <div class="control-label">
                     <label>Region:</label>
@@ -35,8 +21,7 @@
             </div>
 
         </div>
-
-        <div class="span2 form-vertical">
+        <div class="span3">
             <div class="control-group">
                 <div class="control-label">
                     <label>Program:</label>
@@ -46,7 +31,7 @@
                 </div>
             </div>
         </div>
-        <div class="span2 form-vertical">
+        <div class="span3">
             <div class="control-group">
                 <div class="control-label">
                     <label>Status:</label>
@@ -56,7 +41,7 @@
                 </div>
             </div>
         </div>
-        <div class="span2 form-vertical">
+        <div class="span3">
             <div class="control-group">
                 <div class="control-label">
                     <label>&nbsp;</label>
@@ -67,11 +52,8 @@
             </div>
 
         </div>
-
         <div style="clear:both;">
-
         </div>
     </div>
 
 }
-
