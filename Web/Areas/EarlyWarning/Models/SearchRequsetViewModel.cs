@@ -19,6 +19,13 @@ namespace Cats.Areas.EarlyWarning.Models
         public int? StatusID { get; set; }
     }
 
+    public class SearchRequistionViewModel
+    {
+        public int? RegionID { get; set; }
+        public int? ProgramID { get; set; }
+        public int? StatusID { get; set; }
+    }
+
     public class RequestStatus
     {
         public int StatusID { get; set; }

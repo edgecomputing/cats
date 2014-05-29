@@ -90,7 +90,6 @@ namespace Cats.Controllers
                 
                 return Request.CreateResponse(HttpStatusCode.OK, smsevents);
             }
-
             return Request.CreateResponse(HttpStatusCode.OK, smsevents);
         }
     }

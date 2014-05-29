@@ -11,7 +11,7 @@
 
 @section LeftBar
 {
-    @Html.Partial("_RequistionsLeftBar")
+    @*@Html.Partial("_RequistionsLeftBar")*@
 
 }
 @section Toolbar
@@ -20,6 +20,11 @@
 }
 
 <h4 class="page-header">Requistions</h4>
+
+
+<div id="div_filter">
+    @Html.Partial("_RequisitionsFilter")
+</div>
 
 @(Html.Kendo().Grid<Cats.Areas.EarlyWarning.Models.ReliefRequisitionViewModel>().Name("Grid").Columns(columns =>
 {
@@ -77,7 +82,11 @@ else
                 model.Field(r => r.Status).Editable(false);
             })
     
-        .Read(read => read.Action("Requisition_Read", "ReliefRequisition",new{id=ViewBag.Status}))
+        .Read(read => read.Action("Requisition_Search", "ReliefRequisition", new {
+                                    RegionID=@ViewBag.Filter.RegionID,
+                                    ProgramID=@ViewBag.Filter.ProgramID,
+                                    id=@ViewBag.Filter.StatusID
+                                    }))
         .Update(update => update.Action("Requisition_Update", "ReliefRequisition"))
         .Destroy(update => update.Action("Requisition_Destroy", "ReliefRequisition"))
     )
