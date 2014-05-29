@@ -65,7 +65,8 @@ namespace Cats.Areas.EarlyWarning.Controllers
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Currency_Create([DataSourceRequest] DataSourceRequest request, CurrencyViewModel currency)
         {
-            if (currency != null && ModelState.IsValid)
+            var curencyCodeExists = _currencyService.FindBy(m => m.Code == currency.CurrencyCode).Count;
+            if (currency != null && curencyCodeExists==0 && ModelState.IsValid)
             {
 
 
