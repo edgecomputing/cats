@@ -931,8 +931,8 @@ namespace Cats.Areas.EarlyWarning.Controllers
                                        zone = regionalRequestDetail.Fdp.AdminUnit.AdminUnit2.Name,
                                        Woreda = sw.Key.Name, 
                                        RequestedBeneficiaryNo = sw.Sum(m => m.Beneficiaries),
-                                       PlannedBeneficaryNo = hrd != null ? hrd.First().HRDDetails.First(m => m.AdminUnit.AdminUnitID == sw.Key.AdminUnitID).NumberOfBeneficiaries : 0,
-                                       Difference = ((hrd != null ? hrd.First().HRDDetails.First(m => m.AdminUnit.AdminUnitID == sw.Key.AdminUnitID).NumberOfBeneficiaries : 0) - (sw.Sum(m => m.Beneficiaries))),
+                                       PlannedBeneficaryNo = hrd != null ? hrd.Last().HRDDetails.First(m => m.AdminUnit.AdminUnitID == sw.Key.AdminUnitID).NumberOfBeneficiaries : 0,
+                                       Difference = ((hrd != null ? hrd.Last().HRDDetails.First(m => m.AdminUnit.AdminUnitID == sw.Key.AdminUnitID).NumberOfBeneficiaries : 0) - (sw.Sum(m => m.Beneficiaries))),
                                        RegionalRequestDetails = oneWoreda
                                    });
            }
