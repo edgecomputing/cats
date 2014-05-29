@@ -891,7 +891,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
            {
             
             var details = regionalRequest.RegionalRequestDetails;
-            var hrd = _hrdService.FindBy(m => m.PlanID == regionalRequest.PlanID).LastOrDefault();
+            var hrd = _hrdService.FindBy(m => m.PlanID == regionalRequest.PlanID);
             
             //var woredaGrouped = (from detail in details
             //                     group detail by detail.Fdp.AdminUnit
@@ -931,8 +931,8 @@ namespace Cats.Areas.EarlyWarning.Controllers
                                        zone = regionalRequestDetail.Fdp.AdminUnit.AdminUnit2.Name,
                                        Woreda = sw.Key.Name, 
                                        RequestedBeneficiaryNo = sw.Sum(m => m.Beneficiaries),
-                                       PlannedBeneficaryNo = hrd != null ? hrd.HRDDetails.First(m => m.AdminUnit.AdminUnitID == sw.Key.AdminUnitID).NumberOfBeneficiaries : 0,
-                                       Difference = ((hrd != null ? hrd.HRDDetails.First(m => m.AdminUnit.AdminUnitID == sw.Key.AdminUnitID).NumberOfBeneficiaries : 0) - (sw.Sum(m => m.Beneficiaries))),
+                                       PlannedBeneficaryNo = hrd != null ? hrd.Last().HRDDetails.First(m => m.AdminUnit.AdminUnitID == sw.Key.AdminUnitID).NumberOfBeneficiaries : 0,
+                                       Difference = ((hrd != null ? hrd.Last().HRDDetails.First(m => m.AdminUnit.AdminUnitID == sw.Key.AdminUnitID).NumberOfBeneficiaries : 0) - (sw.Sum(m => m.Beneficiaries))),
                                        RegionalRequestDetails = oneWoreda
                                    });
            }
