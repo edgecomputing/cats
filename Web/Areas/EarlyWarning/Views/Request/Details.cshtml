@@ -275,34 +275,47 @@
 
       )
 
-<script type="text/javascript">
+<script >
+    
+    var tblbody;
+    
     $("#pop").popover({
         placement: 'right', //placement of the popover. also can use top, bottom, left or     right
         html: 'true', //needed to show html of course
-        content: getPopoverContent(this)// hope this should be link
+        content: gett(this)// hope this should be link
     });
 
 
-    function getPopoverContent(parameters) {
+    
 
-        var s;
-        $.getJSON("@Url.Action("RationDetail", "Ration")" + "?id=" + 2011, function (data) {
-            var tblbody = "<table>";
-            for (var i = 0; i < data.length; i++) {
-                //tblbody += "<table>";
-                tblbody += "<tr>";
-                tblbody += "<td>" + data[i].Name + "</td>";
-                tblbody += "<td>" + data[i].Amount + "</td>";
-                tblbody += "</tr>";
-            }
-            tblbody += "</table>";
-            s = tblbody;
-            alert(s);
+   
+   function gett(t) {
+        
+       $.ajax({
+            async:false,
+            type: "POST",
+            url: "@Url.Action("RationDetail", "Ration")",
+            data: "{id:2011}",
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+
+            success: function (data) {
+                tblbody = "<table>";
+                for (var i = 0; i < data.length; i++) {
+                    //tblbody += "<table>";
+                    tblbody += "<tr>";
+                    tblbody += "<td>" + data[i].Name + "</td>";
+                    tblbody += "<td>" + data[i].Amount + "</td>";
+                    tblbody += "</tr>";
+                }
+                tblbody += "</table>";
+             
+            },
+           
         });
-
-        alert(s);
-        return s;
-    }
+       return tblbody;
+    };
+   
 
     function error_handler(e) {
         if (e.errors) {
@@ -314,13 +327,13 @@
                     });
                 }
             });
-            alert(message);
+            //alert(message);
         }
     }
 
 
     function onDataBound(e) {
-        alert("Hello");
+       
         check_planned();
         var grid = $("#grid").data("kendoGrid");
         $(grid.tbody).on("change", "td", function (e) {
