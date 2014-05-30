@@ -9,11 +9,11 @@
     var user = UserAccountHelper.GetUser(HttpContext.Current.User.Identity.Name);
 }
 
-@section LeftBar
+@*@section LeftBar
 {
-    @*@Html.Partial("_RequistionsLeftBar")*@
+    @Html.Partial("_RequistionsLeftBar")
 
-}
+}*@
 @section Toolbar
 {
     
@@ -21,7 +21,7 @@
 
 <h4 class="page-header">Requistions</h4>
 
-
+<div>
 <div id="div_filter">
     @Html.Partial("_RequisitionsFilter")
 </div>
@@ -91,4 +91,4 @@ else
         .Destroy(update => update.Action("Requisition_Destroy", "ReliefRequisition"))
     )
 )
-
+</div>

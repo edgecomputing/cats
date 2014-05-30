@@ -84,7 +84,7 @@
               
               columns.Bound(p => p.Region);
               columns.Bound(p => p.Transporter);
-              columns.Bound(p => p.BidBondAmount).Title("Bid Bond Amount(ETB)").HtmlAttributes(new { align = "Right" }).Format("{0:N}");;
+             // columns.Bound(p => p.BidBondAmount).Title("Bid Bond Amount(ETB)").HtmlAttributes(new { align = "Right" }).Format("{0:N}");;
               columns.Bound(p => p.OffersCount);
               columns.Bound(p => p.Status);
 
@@ -105,6 +105,11 @@
         .Groupable()
         .DataSource(dataSource => dataSource
                .Ajax()
+                .Group(group =>
+                {
+                    group.Add(m => m.BidNumber);
+                    group.Add(m => m.Region);
+                })
                //.Events(events => events.Error("error_handler"))
                .Model(model => model.Id(p => p.TransportBidQuotationHeaderID))
                .Read(read => read.Action("Read_BidProposals", "PriceQuotation",new {Area="Procurement"}))
