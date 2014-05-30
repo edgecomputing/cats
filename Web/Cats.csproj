@@ -593,6 +593,7 @@
     <Compile Include="Areas\PSNP\Controllers\RegionalPSNPPlanController.cs" />
     <Compile Include="Areas\Regional\Controllers\FetchDataController.cs" />
     <Compile Include="Areas\Regional\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Regional\Controllers\RegionRequisitionsController.cs" />
     <Compile Include="Areas\Regional\Models\DashboardData.cs" />
     <Compile Include="Areas\Regional\Models\ImportantNumbers.cs" />
     <Compile Include="Areas\Regional\RegionalAreaRegistration.cs" />
@@ -1864,7 +1865,12 @@
     <Content Include="Areas\Hub\Views\ReceiptAllocation\EditPartial2.cshtml" />
     <Content Include="Areas\Hub\Views\ReceiptAllocation\Copy %282%29 of EditPartial.cshtml" />
     <Content Include="Areas\Hub\Views\ReceiptAllocation\Copy of Edit2.cshtml" />
+
+    <Content Include="Areas\Regional\Views\RegionRequisitions\Index.cshtml" />
+    <Content Include="Areas\Regional\Views\RegionRequisitions\Allocation.cshtml" />
+
     <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\_RequisitionsFilter.cshtml" />
+
     <None Include="dataset.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>dataset.Designer.cs</LastGenOutput>
