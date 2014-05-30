@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Web.Mvc;
 using Cats.Areas.EarlyWarning.Controllers;
+using Cats.Areas.Settings.Controllers;
 using Cats.Services.EarlyWarning;
 using Kendo.Mvc.UI;
 using Moq;
