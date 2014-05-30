@@ -125,11 +125,43 @@ namespace Cats.Areas.Procurement.Controllers
         public JsonResult RecentBids([DataSourceRequest]DataSourceRequest request)
         {
             var recentBids =
-                _bidService.GetAllBid().OrderByDescending(t=>t.OpeningDate).Take(10).ToList();
+                _bidService.FindBy(t=>t.StatusID==5).OrderByDescending(t=>t.OpeningDate).Take(10).ToList();
             var recentBidViewModels =  BindBidViewModels(recentBids);
             return Json(recentBidViewModels, JsonRequestBehavior.AllowGet);
         }
 
+        public JsonResult PriceQoutation([DataSourceRequest]DataSourceRequest request)
+        {
+            var recentBids =
+                _bidService.FindBy(t => t.StatusID == 5).OrderByDescending(t => t.OpeningDate).Take(10).ToList();
+            var recentBidViewModels = BindBidViewModels(recentBids);
+            return Json(recentBidViewModels, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult FirstWinners([DataSourceRequest]DataSourceRequest request)
+        {
+            var recentBids =
+                _bidService.FindBy(t => t.StatusID == 5).OrderByDescending(t => t.OpeningDate).Take(10).ToList();
+            var recentBidViewModels = BindBidViewModels(recentBids);
+            return Json(recentBidViewModels, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult SecondWinners([DataSourceRequest]DataSourceRequest request)
+        {
+            var recentBids =
+                _bidService.FindBy(t => t.StatusID == 5).OrderByDescending(t => t.OpeningDate).Take(10).ToList();
+            var recentBidViewModels = BindBidViewModels(recentBids);
+            return Json(recentBidViewModels, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult Woredaswithoutoffer([DataSourceRequest]DataSourceRequest request)
+        {
+            var recentBids =
+                _bidService.FindBy(t => t.StatusID == 5).OrderByDescending(t => t.OpeningDate).Take(10).ToList();
+            var recentBidViewModels = BindBidViewModels(recentBids);
+            return Json(recentBidViewModels, JsonRequestBehavior.AllowGet);
+        }
+        
         public List<PaymentRequestViewModel> BindPaymentRequestViewModel(IEnumerable<PaymentRequest> paymentRequests)
         {
             return paymentRequests.Select(paymentRequest => new PaymentRequestViewModel()

@@ -231,10 +231,7 @@
             </div>
         </div>
         <div>
-            <a id="pop"
-                class="btn btn-sm"
-                href="#"
-                data-original-title="Ration Detail">
+            <a id="pop" class="btn btn-sm" href="#" data-original-title="Detail">
                 <i class="icon-question-sign"></i>
             </a>
         </div>
@@ -279,29 +276,75 @@
     $("#pop").popover({
         placement: 'right', //placement of the popover. also can use top, bottom, left or     right
         html: 'true', //needed to show html of course
-        content: getPopoverContent(this)// hope this should be link
+        content: function () {
+            
+            $.ajax({
+                type: "GET",
+                url: "@Url.Action("RationDetail", "Ration")" + "?id=" + 2011,
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    //var json = jQuery.parseJSON(data.d);
+                    var html = 'Please';
+                    $.each(data, function (i, item) {
+                        html = html + '<a href="#"><i class="icon-ok"></i>' + item.Name + '</a><br />';
+                    });
+                    alert (html);
+                }
+            });
+            
+            return html;
+        },
+        trigger: 'hover'
     });
+    
+    $('.pop').click(function(e) {
+        $(this).popover({ html: true, placement: 'top', title: $(this).html(), content: "loading..." }).popover('show');
+         $.ajax({url: "usps.cfc?method=tracking&returnformat=plain&trackingID="+$(this).html(), dataType: "html", cache:true, success: function(data){
+              $('.popover-content:visible').html(data)
+              }})
+         })
 
 
+    var rationd="";
+    
+    var ration = "jkj";
     function getPopoverContent(parameters) {
-
-        var s;
+        @*
         $.getJSON("@Url.Action("RationDetail", "Ration")" + "?id=" + 2011, function (data) {
-            var tblbody = "<table>";
-            for (var i = 0; i < data.length; i++) {
-                //tblbody += "<table>";
-                tblbody += "<tr>";
-                tblbody += "<td>" + data[i].Name + "</td>";
-                tblbody += "<td>" + data[i].Amount + "</td>";
-                tblbody += "</tr>";
-            }
-            tblbody += "</table>";
-            s = tblbody;
-            return tblbody;
+            //set(data);
+            rationd = data;
+            dataready();
         });
+        alert(ration);
+        //return ration;*@
+        $.ajax({
+            type: "GET",
+            url: "@Url.Action("RationDetail", "Ration")" + "?id=" + 2011,
+            contentType: "application/json; charset=utf-8",
+            success: function (data) { set(data); },
+            failure: function (errMsg) {
+                alert(errMsg);
+            }
+        });
+        alert(ration);
+    }
+    
+    function dataready() {
+        set(rationd);
+    }
 
-        //alert(s);
-        return s;
+    function set(data) {
+        var tblbody = "<table>";
+        for (var i = 0; i < data.length; i++) {
+            //tblbody += "<table>";
+            tblbody += "<tr>";
+            tblbody += "<td>" + data[i].Name + "</td>";
+            tblbody += "<td>" + data[i].Amount + "</td>";
+            tblbody += "</tr>";
+        }
+        tblbody += "</table>";
+        ration = tblbody;
+        //alert(tblbody);
     }
 
     function error_handler(e) {
