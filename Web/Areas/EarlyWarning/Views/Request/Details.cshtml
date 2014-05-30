@@ -295,7 +295,7 @@
             async:false,
             type: "POST",
             url: "@Url.Action("RationDetail", "Ration")",
-            data: "{id:2011}",
+           data: "{id:'@modelRequest.RationID'}",
             dataType: "json",
             contentType: "application/json; charset=utf-8",
 
