@@ -43,7 +43,7 @@ namespace Cats.Areas.Settings.Controllers
         public ActionResult Commodity_Read([DataSourceRequest]DataSourceRequest request)
         {
 
-            var commodities = _commodityService.GetAllCommodity();
+            var commodities = _commodityService.GetAllCommodity().Where(c=>c.ParentID != null).ToList();
             var commoditiesViewModel = CommodityViewModelBinder.BindListCommodityViewModel(commodities);
             return Json(commoditiesViewModel.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
@@ -66,8 +66,13 @@ namespace Cats.Areas.Settings.Controllers
             if (commodityViewModel != null && ModelState.IsValid)
             {
                 var target = _commodityService.FindById(commodityViewModel.CommodityID);
-                var commodity = CommodityViewModelBinder.BindCommodity(commodityViewModel, target);
-                _commodityService.EditCommodity(commodity);
+                target.ParentID = commodityViewModel.ParentID;
+                target.Name = commodityViewModel.Name;
+                target.NameAM = commodityViewModel.NameAM;
+                target.LongName = commodityViewModel.LongName;
+              //  var commodity = CommodityViewModelBinder.BindCommodity(commodityViewModel, target);
+                
+                _commodityService.EditCommodity(target);
             }
 
             return Json(new[] { commodityViewModel }.ToDataSourceResult(request, ModelState));
