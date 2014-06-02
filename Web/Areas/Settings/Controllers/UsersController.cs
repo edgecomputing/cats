@@ -392,7 +392,17 @@ namespace Cats.Areas.Settings.Controllers
                 }
                 else TempData["error"] ="Errors, The current password is incorrect ";
             }
-            return RedirectToAction("Index");
+            var urlReferrer = this.Request.UrlReferrer;
+            if (urlReferrer == null)
+            {
+                Session.Clear();
+                FormsAuthentication.SignOut();
+                return RedirectToAction("Index", "Home");
+            }
+            var url = urlReferrer.AbsolutePath;
+            ModelState.AddModelError("Sucess", @"Password Successfully Changed.");
+            return Redirect(url);
+           
         }
         //public ActionResult ChangePasswordSuccess()
         //{
