@@ -370,7 +370,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Areas\EarlyWarning\Controllers\ContributionController.cs" />
-    <Compile Include="Areas\EarlyWarning\Controllers\CurrencyController.cs" />
+    <Compile Include="Areas\Settings\Controllers\CurrencyController.cs" />
     <Compile Include="Areas\EarlyWarning\Controllers\DonorCoverageController.cs" />
     <Compile Include="Areas\EarlyWarning\Controllers\EWDashboardController.cs" />
     <Compile Include="Areas\EarlyWarning\Controllers\GiftCertificateController.cs" />
@@ -1624,10 +1624,10 @@
       <SubType>Code</SubType>
     </Content>
     <Content Include="Areas\EarlyWarning\Views\HRD\HRDPrintOut.cshtml" />
-    <Content Include="Areas\EarlyWarning\Views\Currency\Index.cshtml" />
-    <Content Include="Areas\EarlyWarning\Views\Currency\Create.cshtml" />
+    <Content Include="Areas\Settings\Views\Currency\Index.cshtml" />
+    <Content Include="Areas\Settings\Views\Currency\Create.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\index.cshtml" />
-    <Content Include="Areas\EarlyWarning\Views\Currency\_CurrencyLeftBar.cshtml" />
+    <Content Include="Areas\Settings\Views\Currency\_CurrencyLeftBar.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Contribution\InkindDetails.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\HRD\Detail.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Plan\Create.cshtml" />
@@ -1865,12 +1865,9 @@
     <Content Include="Areas\Hub\Views\ReceiptAllocation\EditPartial2.cshtml" />
     <Content Include="Areas\Hub\Views\ReceiptAllocation\Copy %282%29 of EditPartial.cshtml" />
     <Content Include="Areas\Hub\Views\ReceiptAllocation\Copy of Edit2.cshtml" />
-
     <Content Include="Areas\Regional\Views\RegionRequisitions\Index.cshtml" />
     <Content Include="Areas\Regional\Views\RegionRequisitions\Allocation.cshtml" />
-
     <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\_RequisitionsFilter.cshtml" />
-
     <None Include="dataset.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>dataset.Designer.cs</LastGenOutput>
