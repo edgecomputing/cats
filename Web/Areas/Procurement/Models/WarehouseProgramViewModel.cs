@@ -14,5 +14,7 @@ namespace Cats.Areas.Procurement.Models
         public int BidPlanID { get; set; }
         public int WoredaID { get; set; }
 
+        public decimal Total { get { return PSNP + Relief; } }
+
     }
 }

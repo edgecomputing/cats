@@ -45,7 +45,7 @@
         //columns.Bound(p => p.WarehouseName).Width(100);
         columns.Bound(p => p.PSNP).Width(100);
         columns.Bound(p => p.Relief).Width(100);
-        
+        columns.Bound(p => p.Total).Width(100);
         columns.Command(command => { 
             command.Edit(); 
             command.Custom("Delete").Click("deleteRecord");            
