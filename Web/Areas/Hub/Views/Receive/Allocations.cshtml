@@ -26,9 +26,9 @@
        .ToolBar(toolBar => toolBar.Template(
         @<text>
              <label class="closed-label" for="Closed-input">
-                 @Html.Translate("Show closed Plans")  :
+                 @Html.Translate("Show closed Plans") : <input type="checkbox" class="chkBoxUnclosed" id="chk-closedtoo-@allocationType" data-val="@allocationType" />
              </label>
-             <input type="checkbox" class="chkBoxUnclosed" id="chk-closedtoo-@allocationType" data-val="@allocationType" />
+             
              <script type="text/javascript">
                  $(function () {
                      $("#chk-closedtoo-@allocationType").change(function () {
@@ -46,9 +46,7 @@
              
              
      <label class="customer-label" for="Customers-input" style="padding-left:10px ">
-        Show Allocations for :
-    </label>
-    @(Html.Telerik().ComboBox()
+        Show Allocations for : @(Html.Telerik().ComboBox()
                     .Name("CommodityTypeSelector-" + @allocationType)
                     .BindTo((SelectList)ViewBag.CommodityTypes)
                //     .DataBinding(binding => binding.Ajax().Select("_GetCommodityTypes", "CommodityType"))
@@ -61,7 +59,9 @@
                     .HighlightFirstMatch(true)
                     .SelectedIndex(0)
                     .ClientEvents(events => events.OnChange("comTypeChange" + @allocationType)) //.OnLoad("onComboBoxLoad"))
-            )
+        )
+    </label>
+   
 
 
          </text>))
