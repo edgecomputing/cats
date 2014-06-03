@@ -177,14 +177,7 @@ namespace Cats.Areas.Procurement.Controllers
             return Json(groupedwinners, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult SecondWinners([DataSourceRequest]DataSourceRequest request)
-        {
-            var recentBids =
-                _bidService.FindBy(t => t.StatusID == 5).OrderByDescending(t => t.OpeningDate).Take(10).ToList();
-            var recentBidViewModels = BindBidViewModels(recentBids);
-            return Json(recentBidViewModels, JsonRequestBehavior.AllowGet);
-        }
-
+      
         public JsonResult Woredaswithoutoffer([DataSourceRequest]DataSourceRequest request)
         {
             var recentBids =
