@@ -17,11 +17,12 @@ namespace Cats.Models.Mapping
            
             // Table & Column Mappings
             this.ToTable("LoasReason");
-            this.Property(t => t.LossReasonId).HasColumnName("FDPID");
-            this.Property(t => t.LossReasonEg).HasColumnName("Name");
-            this.Property(t => t.LossReasonAm).HasColumnName("NameAM");
-            this.Property(t => t.LossReasonCodeEg).HasColumnName("AdminUnitID");
-            this.Property(t => t.LossReasonCodeAm).HasColumnName("Latitude");
+            this.Property(t => t.LossReasonId).HasColumnName("LossReasonId");
+            this.Property(t => t.LossReasonEg).HasColumnName("LossReasonEg");
+            this.Property(t => t.LossReasonAm).HasColumnName("LossReasonAm");
+            this.Property(t => t.LossReasonCodeEg).HasColumnName("LossReasonCodeEg");
+            this.Property(t => t.LossReasonCodeAm).HasColumnName("LossReasonCodeAm");
+            this.Property(t => t.Description).HasColumnName("Description");
         
 
         }

@@ -14,7 +14,7 @@ namespace Cats.Services.Administration
         bool DeleteLossReason(LossReason lossReason);
         bool DeleteById(int id);
         bool EditLossReason(LossReason lossReason);
-        FDP FindById(int id);
+        LossReason FindById(int id);
         List<LossReason> GetAllLossReason();
         List<LossReason> FindBy(Expression<Func<LossReason, bool>> predicate);
 

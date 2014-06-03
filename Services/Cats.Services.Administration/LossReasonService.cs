@@ -52,9 +52,9 @@ namespace Cats.Services.Administration
         {
             return _unitOfWork.LossReasonRepository.GetAll();
         }
-        public FDP FindById(int id)
+        public LossReason FindById(int id)
         {
-            return _unitOfWork.FDPRepository.FindById(id);
+            return _unitOfWork.LossReasonRepository.FindById(id);
         }
         public List<LossReason> FindBy(Expression<Func<LossReason, bool>> predicate)
         {

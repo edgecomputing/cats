@@ -13,6 +13,7 @@ namespace Cats.Models
        public string LossReasonAm { get; set; }
        public string LossReasonCodeEg { get; set; }
        public string LossReasonCodeAm { get; set; }
+       public string Description { get; set; }
 
     }
 }
