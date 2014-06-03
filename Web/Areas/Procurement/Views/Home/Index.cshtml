@@ -282,7 +282,7 @@
         $scope.Firstwinners = [];
         $scope.SecondWinners = [];
         $scope.WoredasWithoutoffer = [];
-        $scope.reqParam = { bidId: 1 };
+        $scope.reqParam = { bidId: 14, rank: 1 };
 
         $scope.states = ["Draft", "Approved", "Closed", "Closed1", "Active", "Closed3"];
 
@@ -291,7 +291,15 @@
         };
 
         var onSuccessBids = function (data) {
-            $scope.RecentBids = data;
+            //$scope.RecentBids = data;
+        };
+        
+        var firstwinners = function (data) {
+            //$scope.RecentBids = data;
+        };
+        
+        var secondwinners = function (data) {
+            //$scope.RecentBids = data;
         };
 
         $scope.getRecentBids = function () {
@@ -302,7 +310,12 @@
             $("#BidContent").hide("fast", "linear");
             $("#bar-title").text(item.BidNumber + " Detail");
             $("#biddetailContent").show("fast", "linear");
-            $http.post("@Url.Action("PriceQoutation", "FetchData", new { Area = "Procurement" })", $scope.reqParam).success(onSuccessBids);
+            var firstparam = { bidid: item.BidID, rank: 1 };
+            $http.post("@Url.Action("GroupedWinners", "FetchData", new { Area = "Procurement" })", param).success(firstWinners);
+            
+            var secondparam = { bidid: item.BidID, rank: 2 };
+            $http.post("@Url.Action("GroupedWinners", "FetchData", new { Area = "Procurement" })", param).success(secondWinners);
+
         };
 
         $scope.getRecentBids();
