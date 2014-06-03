@@ -8,7 +8,7 @@ using Cats.Models;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
 
-namespace Cats.Areas.EarlyWarning.Controllers
+namespace Cats.Areas.Settings.Controllers
 {
     public class CurrencyController : Controller
     {

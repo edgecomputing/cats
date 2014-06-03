@@ -180,7 +180,7 @@
                                 .Filterable(true);
                             columns.ForeignKey(o => o.DBudgetTypeID, (System.Collections.IEnumerable)ViewData["DBudgetTypes"], "DetailID", "Name").Width(10).Title(Html.Translate("Fund Type"))
                                 .Filterable(true);
-                            columns.Bound(o => o.ExpiryDate).Title(Html.Translate("Expiry Date")).Format("{0:dd-MMM-yyyy}").Width(10);
+                            columns.Bound(o => o.ExpiryDate).Title(Html.Translate("Expiry Date")).Format("{0:dd/MM/yyyy}").Width(10);
                             columns.Command(commands => commands.Destroy().HtmlAttributes(new { align = "center" })).Width(10).Title(Html.Translate("Commands"));
 
                         })
@@ -198,9 +198,9 @@
 
 
            .Navigatable()
-           
 
-                                            )
+
+                    )
                     @Html.ValidationMessageFor(model => model.rowCount)
                
     @*</div>*@
