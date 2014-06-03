@@ -144,8 +144,7 @@ namespace Cats.Areas.Procurement.Controllers
             var planID = _bidService.FindById(bidID).TransportBidPlanID;
 
             var bidPlanDetail =
-                _transportBidPlanDetailService.FindBy(t => t.Destination.AdminUnit2.AdminUnit2.AdminUnitID == 1
-                                                           && t.BidPlanID == planID);
+                _transportBidPlanDetailService.FindBy(t => t.BidPlanID == planID);
             var df = (from planDetail in bidPlanDetail
                       group planDetail by new
                       {
@@ -158,7 +157,7 @@ namespace Cats.Areas.Procurement.Controllers
 
             var detailPlans = df.Select(d => d.ToList()).Select(er => er.FirstOrDefault()).ToList();
 
-            var result = new List<PriceQuotationDetail>();
+            var result = new List<NoOfferWoreda>();
 
             foreach (var transportBidPlanDetail in detailPlans)
             {
@@ -169,21 +168,27 @@ namespace Cats.Areas.Procurement.Controllers
                                                                 && t.DestinationID == pdetail.DestinationID).FirstOrDefault();
                 if (detail == null)
                 {
-                    var n = new PriceQuotationDetail()
+                    var n = new NoOfferWoreda()
                     {
                         SourceWarehouse = pdetail.Source.Name,
                         Zone = pdetail.Destination.AdminUnit2.Name,
                         Woreda = pdetail.Destination.Name,
-                        Tariff = 0,
-                        Remark = String.Empty,
-                        BidID = bidID,
-                        DestinationID = pdetail.DestinationID,
-                        SourceID = pdetail.SourceID
+                        Region = pdetail.Destination.AdminUnit2.AdminUnit2.Name
                     };
                     result.Add(n);
                 }
             }
-            return Json(result, JsonRequestBehavior.AllowGet);
+
+            var re =  (from planDetail in result
+                      group planDetail by planDetail.Region
+                      into gr select new
+                          {
+                              gr.Key,
+                              Count = gr.Count()
+                          }
+                     );
+           
+            return Json(re, JsonRequestBehavior.AllowGet);
         }
 
         public List<BidWinnerViewingModel> ReadWoredasWithBidWinners(int bidID, int regionID, int rank, int hubID = 0)
