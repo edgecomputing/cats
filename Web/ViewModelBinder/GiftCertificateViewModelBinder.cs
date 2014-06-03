@@ -135,6 +135,7 @@ namespace Cats.ViewModelBinder
             model.ExpiryDate = giftCertificateDetail.ExpiryDate;
             model.FundSource = giftCertificateDetail.Detail.Name;
             model.CommodityName = giftCertificateDetail.Commodity.Name;
+            model.ExpiryDate = giftCertificateDetail.ExpiryDate;
 
             return model;
         }

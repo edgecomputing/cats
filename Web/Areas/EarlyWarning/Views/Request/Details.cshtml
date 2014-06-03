@@ -282,7 +282,8 @@
     $("#pop").popover({
         placement: 'right', //placement of the popover. also can use top, bottom, left or     right
         html: 'true', //needed to show html of course
-        content: gett(this)// hope this should be link
+        content: gett(this),// hope this should be link
+        trigger: 'hover'
     });
 
 
@@ -295,7 +296,7 @@
             async:false,
             type: "POST",
             url: "@Url.Action("RationDetail", "Ration")",
-            data: "{id:2011}",
+           data: "{id:'@modelRequest.RationID'}",
             dataType: "json",
             contentType: "application/json; charset=utf-8",
 

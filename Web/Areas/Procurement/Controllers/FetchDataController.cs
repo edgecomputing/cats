@@ -15,18 +15,21 @@ namespace Cats.Areas.Procurement.Controllers
 {
     public class FetchDataController : Controller
     {
-
         private readonly IPaymentRequestService _paymentRequestService;
         private readonly IBidService _bidService;
         private readonly IUserAccountService _userAccountService;
+        private readonly IBidWinnerService _bidWinnerService;
+        private readonly ITransportBidQuotationService _priceQuotataion;
+        
         //
         // GET: /Procurement/FetchData/
 
-        public FetchDataController(IPaymentRequestService paymentRequestService, IBidService bidService, IUserAccountService userAccountService)
+        public FetchDataController(IPaymentRequestService paymentRequestService, IBidService bidService, IUserAccountService userAccountService, IBidWinnerService bidWinnerService)
         {
             _paymentRequestService = paymentRequestService;
             _bidService = bidService;
             _userAccountService = userAccountService;
+            _bidWinnerService = bidWinnerService;
         }
 
         public JsonResult ReadSummarizedNumbers([DataSourceRequest]DataSourceRequest request)
@@ -65,15 +68,15 @@ namespace Cats.Areas.Procurement.Controllers
                 (_paymentRequestService.Get(t => t.BusinessProcess.CurrentState.BaseStateTemplate.Name == "Payment Requested").Count() / totalPaymentRequests) * 100;
             var paymentRequestsAtLogistics =
                 (_paymentRequestService.Get(t => t.BusinessProcess.CurrentState.BaseStateTemplate.Name == "Submitted for Approval").Count() / totalPaymentRequests) * 100;
-            var approvedPaymentRequests = 
+            var approvedPaymentRequests =
                 (_paymentRequestService.Get(t => t.BusinessProcess.CurrentState.BaseStateTemplate.Name == "Approved for Payment").Count() / totalPaymentRequests) * 100;
-            var rejectedPaymentRequests = 
+            var rejectedPaymentRequests =
                 (_paymentRequestService.Get(t => t.BusinessProcess.CurrentState.BaseStateTemplate.Name == "Rejected").Count() / totalPaymentRequests) * 100;
-            var checkIssuedPaymentRequests = 
+            var checkIssuedPaymentRequests =
                 (_paymentRequestService.Get(t => t.BusinessProcess.CurrentState.BaseStateTemplate.Name == "Check Issued").Count() / totalPaymentRequests) * 100;
-            var checkCashedPaymentRequests = 
+            var checkCashedPaymentRequests =
                 (_paymentRequestService.Get(t => t.BusinessProcess.CurrentState.BaseStateTemplate.Name == "Check Cashed").Count() / totalPaymentRequests) * 100;
-           
+
             var paymentRequestPercentage = new PaymentRequestPercentageViewModel()
                                                {
                                                    Requested = paymentRequestsFromTransporters,
@@ -125,8 +128,8 @@ namespace Cats.Areas.Procurement.Controllers
         public JsonResult RecentBids([DataSourceRequest]DataSourceRequest request)
         {
             var recentBids =
-                _bidService.FindBy(t=>t.StatusID==5).OrderByDescending(t=>t.OpeningDate).Take(10).ToList();
-            var recentBidViewModels =  BindBidViewModels(recentBids);
+                _bidService.FindBy(t => t.StatusID == 5).OrderByDescending(t => t.OpeningDate).Take(10).ToList();
+            var recentBidViewModels = BindBidViewModels(recentBids);
             return Json(recentBidViewModels, JsonRequestBehavior.AllowGet);
         }
 
@@ -138,20 +141,42 @@ namespace Cats.Areas.Procurement.Controllers
             return Json(recentBidViewModels, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult FirstWinners([DataSourceRequest]DataSourceRequest request)
+        public JsonResult GroupedWinners(int bidid , int rank)
         {
-            var recentBids =
-                _bidService.FindBy(t => t.StatusID == 5).OrderByDescending(t => t.OpeningDate).Take(10).ToList();
-            var recentBidViewModels = BindBidViewModels(recentBids);
-            return Json(recentBidViewModels, JsonRequestBehavior.AllowGet);
-        }
+            var winners = _bidWinnerService.FindBy(t => t.BidID == bidid && t.Position == rank);
+            //var recentBidViewModels = BindBidViewModels(recentBids);
+            var list = winners.Select(winner => new
+                {
+                    transporter = winner.Transporter.Name,
+                    //offers = firstwinners.Count
+                }).ToList();
 
-        public JsonResult SecondWinners([DataSourceRequest]DataSourceRequest request)
-        {
-            var recentBids =
-                _bidService.FindBy(t => t.StatusID == 5).OrderByDescending(t => t.OpeningDate).Take(10).ToList();
-            var recentBidViewModels = BindBidViewModels(recentBids);
-            return Json(recentBidViewModels, JsonRequestBehavior.AllowGet);
+            var grouped = (
+                            from r in winners
+                            group r by new
+                            {
+                                r.BidID,
+                                r.TransporterID
+                            }
+                                into g
+                                select g
+                            );
+            var groupedwinners = new List<Object>();
+
+            foreach (var transporter in grouped)
+            {
+                var detail = new
+                    {
+                        Name = transporter.First().Transporter.Name,
+                        Count = transporter.Count(),
+                        minoffer = transporter.Min(t=>t.Tariff),
+                        maxoffer = transporter.Max(t=>t.Tariff)
+                    };
+
+                groupedwinners.Add(detail);
+            }
+
+            return Json(groupedwinners, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult Woredaswithoutoffer([DataSourceRequest]DataSourceRequest request)
@@ -161,17 +186,17 @@ namespace Cats.Areas.Procurement.Controllers
             var recentBidViewModels = BindBidViewModels(recentBids);
             return Json(recentBidViewModels, JsonRequestBehavior.AllowGet);
         }
-        
+
         public List<PaymentRequestViewModel> BindPaymentRequestViewModel(IEnumerable<PaymentRequest> paymentRequests)
         {
             return paymentRequests.Select(paymentRequest => new PaymentRequestViewModel()
                                                                 {
-                                                                    BusinessProcessID = paymentRequest.BusinessProcessID, 
-                                                                    PaymentRequestID = paymentRequest.PaymentRequestID, 
-                                                                    ReferenceNo = paymentRequest.ReferenceNo, 
-                                                                    RequestedAmount = paymentRequest.RequestedAmount, 
-                                                                    TransportOrderID = paymentRequest.TransportOrderID, 
-                                                                    TransportOrderNo = paymentRequest.TransportOrder.TransportOrderNo, 
+                                                                    BusinessProcessID = paymentRequest.BusinessProcessID,
+                                                                    PaymentRequestID = paymentRequest.PaymentRequestID,
+                                                                    ReferenceNo = paymentRequest.ReferenceNo,
+                                                                    RequestedAmount = paymentRequest.RequestedAmount,
+                                                                    TransportOrderID = paymentRequest.TransportOrderID,
+                                                                    TransportOrderNo = paymentRequest.TransportOrder.TransportOrderNo,
                                                                     TransporterName = paymentRequest.TransportOrder.Transporter.Name
                                                                 }).ToList();
         }
