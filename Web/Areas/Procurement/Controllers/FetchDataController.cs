@@ -139,18 +139,18 @@ namespace Cats.Areas.Procurement.Controllers
             return Json(recentBidViewModels, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult FirstWinners(int bidid)
+        public JsonResult GroupedWinners(int bidid , int rank)
         {
-            var firstwinners = _bidWinnerService.FindBy(t => t.BidID == bidid && t.Position == 1);
+            var winners = _bidWinnerService.FindBy(t => t.BidID == bidid && t.Position == rank);
             //var recentBidViewModels = BindBidViewModels(recentBids);
-            var list = firstwinners.Select(firstwinner => new
+            var list = winners.Select(winner => new
                 {
-                    transporter = firstwinner.Transporter.Name,
+                    transporter = winner.Transporter.Name,
                     //offers = firstwinners.Count
                 }).ToList();
 
             var grouped = (
-                            from r in firstwinners
+                            from r in winners
                             group r by new
                             {
                                 r.BidID,
@@ -158,13 +158,11 @@ namespace Cats.Areas.Procurement.Controllers
                             }
                                 into g
                                 select g
-                             );
-            var winners = new List<Object>();
+                            );
+            var groupedwinners = new List<Object>();
 
             foreach (var transporter in grouped)
             {
-                var s = transporter.ToList();
-
                 var detail = new
                     {
                         Name = transporter.First().Transporter.Name,
@@ -173,10 +171,10 @@ namespace Cats.Areas.Procurement.Controllers
                         maxoffer = transporter.Max(t=>t.Tariff)
                     };
 
-                var count = s.Count();
+                groupedwinners.Add(detail);
             }
 
-            return Json(list, JsonRequestBehavior.AllowGet);
+            return Json(groupedwinners, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult SecondWinners([DataSourceRequest]DataSourceRequest request)
