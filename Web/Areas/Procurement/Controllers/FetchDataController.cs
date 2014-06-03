@@ -19,6 +19,8 @@ namespace Cats.Areas.Procurement.Controllers
         private readonly IBidService _bidService;
         private readonly IUserAccountService _userAccountService;
         private readonly IBidWinnerService _bidWinnerService;
+        private readonly ITransportBidQuotationService _priceQuotataion;
+        
         //
         // GET: /Procurement/FetchData/
 
@@ -177,7 +179,6 @@ namespace Cats.Areas.Procurement.Controllers
             return Json(groupedwinners, JsonRequestBehavior.AllowGet);
         }
 
-      
         public JsonResult Woredaswithoutoffer([DataSourceRequest]DataSourceRequest request)
         {
             var recentBids =
