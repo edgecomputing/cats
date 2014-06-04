@@ -170,7 +170,7 @@
                 </tr>
                 </thead>
                 <tbody class="k-grid-content">
-                <tr  ng-repeat="allocation in allocations">
+                <tr  ng-repeat="allocation in allocations | orderBy:'Zone'">
                     <td>{{$index+1}}</td>
                     
                     <td>{{allocation.Zone}}</td>
