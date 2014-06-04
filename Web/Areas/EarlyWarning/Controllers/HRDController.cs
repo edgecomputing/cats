@@ -110,7 +110,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         [EarlyWarningAuthorize(operation = EarlyWarningConstants.Operation.View_HRD_list)]
         public ActionResult HRD_Read([DataSourceRequest] DataSourceRequest request)
         {
-            var hrds = _hrdService.Get(m => m.Status == 1).OrderByDescending(m => m.HRDID);
+            var hrds = _hrdService.FindBy(m => m.Status == 1).OrderByDescending(m => m.HRDID);
             var hrdsToDisplay = GetHrds(hrds).ToList();
             return Json(hrdsToDisplay.ToDataSourceResult(request));
         }
