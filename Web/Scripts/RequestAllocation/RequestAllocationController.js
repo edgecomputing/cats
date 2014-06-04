@@ -1,28 +1,8 @@
 ﻿var $$scope;
 var requestMockdata = {
     request : { ReferenceNumber: "ref-00234", Region: "Afar", Program: "Relief" }
-    ,allocations:       
-        [
-            { RegionalRequestDetailID: 1, Zone: "Zone1", Woreda: "Adhar", FDP: "Adear", PlannedBeneficiaries: 200 }
-            , { RegionalRequestDetailID: 2, Zone: "Zone1", Woreda: "Adhar", FDP: "Eliwha", PlannedBeneficiaries: 300 }
-            , { RegionalRequestDetailID: 3, Zone: "Zone1", Woreda: "Chefera", FDP: "Chefera", PlannedBeneficiaries: 125 }
-
-        ]
-    ,commoditiesList:
-        [
-            { id: 7, name: "Ruby" },
-            { id: 11, name: "Python" },
-            { id: 13, name: "JavaScript" },
-            { id: 17, name: "ActionScript" },
-            { id: 19, name: "Scheme" },
-            { id: 23, name: "Lisp" },
-            { id: 29, name: "C#" },
-            { id: 31, name: "Fortran" },
-            { id: 37, name: "Visual Basic" },
-            { id: 41, name: "C" },
-            { id: 43, name: "C++" },
-            { id: 47, name: "Java" }
-        ]
+    ,allocations:[]
+    ,commoditiesList:[]
 };
 function RequestAllocationController($scope, $http, $timeout) {
     $scope.pendingRequests = 0;
@@ -32,9 +12,11 @@ function RequestAllocationController($scope, $http, $timeout) {
     $scope.newAllocation = {};
     $scope.ServerUrls = ServerUrls;
     $scope.RegionalRequestID = RegionalRequestID;
+    $scope.RationID = RequestRation;
 
     $scope.onFetchRequestSummaryDataSuccess = function (data) {
         $scope.request = data;
+        $scope.fetchCommodityListData($scope.RationID);
     };
 
     $scope.onFetchRequestAllocationDataSuccess = function (data) {
@@ -107,11 +89,12 @@ function RequestAllocationController($scope, $http, $timeout) {
         }, 3000);*/
     }
 
-    $scope.fetchCommodityListData = function () {
+    $scope.fetchCommodityListData = function (RationID) {
         //$timeout(function () {$scope.onFetchCommodityListDataSuccess(requestMockdata.commoditiesList);}, 1000);
         // return;
+        console.log("fetchCommodityListData", RationID);
         $scope.onRequestStart();
-        $http.get($scope.ServerUrls.getAllCommodities)
+        $http.get($scope.ServerUrls.getAllCommodities, { params: { RationID: RationID } })
                 .success(function (response, status, headers, config)
                 {
                     $scope.onRequestDone();
@@ -258,7 +241,7 @@ function RequestAllocationController($scope, $http, $timeout) {
     $scope.fetchAppData = function (id) {
         $scope.fetchRequestSummaryData(id);
         $scope.fetchRequestAllocationData(id);
-        $scope.fetchCommodityListData();
+        
     };
     $$scope = $scope;
     $scope.fetchAppData($scope.RegionalRequestID);

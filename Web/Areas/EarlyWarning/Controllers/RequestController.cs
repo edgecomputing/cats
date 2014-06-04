@@ -443,9 +443,9 @@ namespace Cats.Areas.EarlyWarning.Controllers
         }
 
         #region Regional Request Detail
-        public ActionResult getAllCommodities([DataSourceRequest] DataSourceRequest request)
+        public ActionResult getRationCommodities([DataSourceRequest] DataSourceRequest request,int RationId)
         {
-            var dt = new SelectList(_commonService.GetCommodities(), "CommodityID", "Name");
+            var dt = new SelectList(_commonService.GetRationCommodity(RationId), "CommodityID", "Name");
             //var dt=_commonService.GetCommodities();
             return Json(dt.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
