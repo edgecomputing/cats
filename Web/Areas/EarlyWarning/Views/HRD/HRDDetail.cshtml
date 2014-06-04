@@ -19,9 +19,12 @@
 }
 @section Toolbar
 {
+
     @Html.EarlyWarningOperationButton(
                         @Url.Action("Detail", "HRD", new {id = ViewBag.HRDID}),
                         EarlyWarningConstants.Operation.View_HRD_Detail, "<i class=\"icon-list\"></i>", "btn", "btn_back_to_list")
+     <a class="btn toolbar-btn " data-buttontype="btn_save" href="javascript:saverecords()"></a>
+    <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="javascript:cancelChanges()"></a>
     <a id="btnAddWoreda" class="btn toolbar-btn " href="@Url.Action("AddWoreda", "HRD", new { id = Model.HRDID })">@Html.Translate("Add Woreda")</a>
 }
 
@@ -103,7 +106,7 @@
              //ClientFooterTemplate("<div class=aright>#=sum#</div>").Format("{0:N}")
          })
          
-      .ToolBar(toolBar => toolBar.Save())
+      //.ToolBar(toolBar => toolBar.Save())
       .Editable(editable => editable.Mode(GridEditMode.InCell))
       .Events(events => events.DataBound("onDataBound"))
       //.Pageable()
@@ -184,6 +187,13 @@
             setTimeout(function () { input.select(); }, 100);
 
         });
+    }
+    function saverecords() {
+        $("#grid").data("kendoGrid").saveChanges();
+    }
+    
+    function cancelChanges() {
+        $("#grid").data("kendoGrid").dataSource.cancelChanges();
     }
 </script>
 
