@@ -146,7 +146,7 @@
                                         <th>Amount</th>
                                         <th>Bank</th>
                                         <th>Prepared By</th>
-                                        @*<th>Approved By</th>*@
+                                        <th>Status</th>
                                        
                                         <th></th>
                                         <th></th>
@@ -158,9 +158,16 @@
                                         <td>{{req.chequeNo}}</td>
                                         <td>{{req.Transporter}}</td>
                                         <td style="text-align: right">{{req.Amount | number:2}}</td>
-                                        <td style="text-align: right">{{req.BankName}}</td>
-                                        <td style="text-align: right">{{req.PreparedBy}}</td>
-                                        @*  <td>{{req.ApprovedBy}}</td>*@
+                                        <td >{{req.BankName}}</td>
+                                        <td>{{req.PreparedBy}}</td>
+                                        
+                                        <td ng-switch on="req.State">
+                                        <div ng-switch-when=1>Draft</div>  
+                                        <div ng-switch-when=2>Approved</div>
+                                        <div ng-switch-when=3>Cashed</div>
+                                        
+                                        </td>
+                                         
                                         @* <th> <a style="display: block;" ng-click="ShowURl(req)" > <button class="btn btn-sm btn-default">{{req.ButtonStatus}} </button></a></></th>*@
                                         @*<th> <a style="display: block;" ng-click="ShowURl(req)" ><button class="btn btn-sm btn-default"> {{req.Status}} </button> </a></th>*@
                                             
