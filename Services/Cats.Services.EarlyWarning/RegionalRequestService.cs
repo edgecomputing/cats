@@ -303,13 +303,12 @@ namespace Cats.Services.EarlyWarning
             List<BeneficiaryInfo> benficiaries = new List<BeneficiaryInfo>();
             foreach (var psnpPlan in plan.RegionalPSNPPlanDetails)
             {
-                List<FDP> WoredaFDPs = _unitOfWork.FDPRepository.FindBy(w => w.AdminUnitID == psnpPlan.PlanedWoredaID);
+                List<FDP> WoredaFDPs = _unitOfWork.FDPRepository.FindBy(w => w.AdminUnitID == psnpPlan.PlanedWoredaID 
+                    && w.AdminUnit.AdminUnit2.AdminUnit2.AdminUnitID==regionID);
                 ICollection<BeneficiaryInfo> woredaBeneficiaries =
-               (from RegionalPSNPPlanDetail pd in plan.RegionalPSNPPlanDetails
-                from FDP fdp in WoredaFDPs
-                where pd.PlanedWoreda.AdminUnit2.AdminUnit2.AdminUnitID == regionID
+               (from FDP fdp in WoredaFDPs
                 select
-                    new BeneficiaryInfo { FDPID = fdp.FDPID, FDPName = fdp.Name, Beneficiaries = pd.BeneficiaryCount })
+                    new BeneficiaryInfo { FDPID = fdp.FDPID, FDPName = fdp.Name, Beneficiaries = psnpPlan.BeneficiaryCount })
                    .ToList();
                 benficiaries.AddRange(woredaBeneficiaries);
                 
