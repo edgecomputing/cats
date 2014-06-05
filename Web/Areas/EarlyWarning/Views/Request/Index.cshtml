@@ -21,10 +21,10 @@
     @Html.Partial("_FilterRequestLeftBar")
 
 </div>
-<form class="form-search">
+<div class="form-search">
   <input id="search" type="text" class="input-medium search-query">
-  <button type="submit" class="btn">Search</button>
-</form>
+  <a class="btn ">Search</a>
+</div>
 
 @(Html.Kendo().Grid<RegionalRequestViewModel>()
     .Name("RequestListGrid")
@@ -111,7 +111,9 @@ else
 
     
     $("#search").change(function () {
-        applyFilter("RequisitionNo", $(this).val());
+        alert("Hi");
+       // applyFilter("RequisitionNo", $(this).val());
+        
     });
 
     // attach click event for Clear Filters button 
