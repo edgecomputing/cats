@@ -31,10 +31,10 @@
                     @Html.DisplayNameFor(model => model.Region)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Program)
+                    @Html.DisplayNameFor(model => model.Zone)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Zone)
+                    @Html.DisplayNameFor(model => model.Program)
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.Commodity)
@@ -76,10 +76,10 @@
                         @Html.DisplayFor(modelItem => item.Region)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Program)
+                        @Html.DisplayFor(modelItem => item.Zone)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Zone)
+                        @Html.DisplayFor(modelItem => item.Program)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Commodity)
@@ -88,7 +88,7 @@
                         @Html.DisplayFor(modelItem => item.Round)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.RequestDatePref)
+                        @Html.DisplayFor(modelItem => item.RequestedDate) | @Html.DisplayFor(modelItem => item.RequestDatePref)
                     </td>
                     @*<td>
                     @Html.DisplayFor(modelItem => item.RequestedBy)
