@@ -10,8 +10,8 @@ namespace Cats.Models.ViewModels.PSNP
     {
         public int RegionalPSNPPlanDetailID { get; set; }
         public int RegionalPSNPPlanID { get; set; }
-        public int PlannedFDPID { get; set; }
-        public string PlannedFDP { get; set; }
+        public int PlanedWoredaID { get; set; }
+        public string PlanedWoreda { get; set; }
         public int BeneficiaryCount { get; set; }
         public int FoodRatio { get; set; }
         public int CashRatio { get; set; }

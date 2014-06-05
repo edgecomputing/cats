@@ -670,13 +670,14 @@ namespace Cats.Areas.EarlyWarning.Controllers
         
         private int GetPlannedForPSNP(int year, int regionId, int fdpId)
         {
+            var woreda = _fdpService.FindById(fdpId);
             RegionalPSNPPlanDetail psnp = null;
             try
             {
 
                 psnp = _RegionalPSNPPlanDetailService.Get(
                     p =>
-                    p.RegionalPSNPPlan.Year == year  && p.PlanedFDPID == fdpId)
+                    p.RegionalPSNPPlan.Year == year && p.PlanedWoredaID == woreda.AdminUnit.AdminUnitID)
                     .SingleOrDefault();
 
             }catch (Exception)
@@ -972,8 +973,8 @@ namespace Cats.Areas.EarlyWarning.Controllers
                                    zone = regionalRequestDetail.Fdp.AdminUnit.AdminUnit2.Name,
                                    Woreda = sw.Key.Name,
                                    RequestedBeneficiaryNo = sw.Sum(m => m.Beneficiaries),
-                                   PlannedBeneficaryNo = psnp != null ? psnp.First().RegionalPSNPPlanDetails.TakeWhile(d=>d.PlanedFDP.AdminUnitID==sw.Key.AdminUnitID).Sum(a=>a.BeneficiaryCount) : 0,
-                                   Difference = ((psnp != null ? psnp.First().RegionalPSNPPlanDetails.TakeWhile(d => d.PlanedFDP.AdminUnitID == sw.Key.AdminUnitID).Sum(a => a.BeneficiaryCount) : 0) - (sw.Sum(m => m.Beneficiaries))),
+                                   PlannedBeneficaryNo = psnp != null ? psnp.First().RegionalPSNPPlanDetails.TakeWhile(d=>d.PlanedWoredaID==sw.Key.AdminUnitID).Sum(a=>a.BeneficiaryCount) : 0,
+                                   Difference = ((psnp != null ? psnp.First().RegionalPSNPPlanDetails.TakeWhile(d => d.PlanedWoredaID == sw.Key.AdminUnitID).Sum(a => a.BeneficiaryCount) : 0) - (sw.Sum(m => m.Beneficiaries))),
                                    RegionalRequestDetails = oneWoreda
                                });
 
