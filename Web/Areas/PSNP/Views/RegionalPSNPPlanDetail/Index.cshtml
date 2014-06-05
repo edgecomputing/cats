@@ -110,7 +110,8 @@
         columns.Bound(p => p.BeneficiaryCount).HtmlAttributes(new { align = "right" });
         columns.Bound(p => p.FoodRatio).HtmlAttributes(new { align = "right" });
         columns.Bound(p => p.CashRatio).HtmlAttributes(new { align = "right" });
-    })
+            columns.Bound(p => p.StartingMonthName);
+        })
     .DataSource(
         dataSource => dataSource
         .Ajax()

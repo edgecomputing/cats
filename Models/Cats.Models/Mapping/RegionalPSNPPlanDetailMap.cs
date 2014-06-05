@@ -10,6 +10,7 @@ namespace Cats.Models.Mapping
             this.ToTable("RegionalPSNPPlanDetail");
             this.Property(t => t.RegionalPSNPPlanDetailID).HasColumnName("RegionalPSNPPlanDetailID");
             this.Property(t => t.PlanedWoredaID).HasColumnName("PlanedWoredaID");
+            this.Property(t => t.StartingMonth).HasColumnName("StartingMonth");
 
             this.HasRequired(t => t.RegionalPSNPPlan)
                     .WithMany(t => t.RegionalPSNPPlanDetails)

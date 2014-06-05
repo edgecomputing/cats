@@ -21,17 +21,18 @@
     @Html.Partial("_FilterRequestLeftBar")
 
 </div>
-
+<div class="control-group">
+    <input class="input-large form-search" />
+</div>
 
 
 @(Html.Kendo().Grid<RegionalRequestViewModel>()
     .Name("RequestListGrid")
     .Columns(columns =>
                  {
-                    
                      columns.Template(t => { }).Title("No").ClientTemplate("#= renderNumber(data) #").Width(50);
                      columns.Bound(request => request.ReferenceNumber).ClientTemplate
-                         ("<a href='" + Url.Action("Details", "Request", new { id = "#=RegionalRequestID#" }) + " '>#=ReferenceNumber#</a>" );
+                         ("<a href='" + Url.Action("Details", "Request", new { id = "#=RegionalRequestID#" }) + " '>#=ReferenceNumber#</a>");
                      columns.Bound(request => request.Region);
                      columns.Bound(request => request.Year);
                      columns.Bound(request => request.MonthName).Title(Html.Translate("Month"));
@@ -41,11 +42,11 @@
                      }
                      columns.Bound(request => request.Program);
                      columns.Bound(request => request.RequestDate).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid" }).Width(160);
-                    
-    columns.Bound(request => request.Status).Template(
+
+                     columns.Bound(request => request.Status).Template(
 
 
-                         @<text>
+                                          @<text>
 @if (item.StatusID == (int)RegionalRequestStatus.Draft)
 {
     @Html.ActionLink("Approve", "ApproveRequest", "Request", new { Area = "EarlyWarning", id = @item.RegionalRequestID })
@@ -60,8 +61,8 @@ else
              ("<a href='" + Url.Action("Details", "Request", new { id = "#=RegionalRequestID#" }) + " '>Detail</a> &nbsp; " +
              "<a href='" + Url.Action("Allocation", "Request", new { id = "#=RegionalRequestID#" }) + " '>Allocate</a>  ");
 
-               
-                })
+
+                 })
     .Sortable()
     .Scrollable()
     .HtmlAttributes(new { style = "height:430px;" })
@@ -75,13 +76,14 @@ else
                 model.Id(p => p.RegionalRequestID);
             })
        .Read(read => read.Action("Request_Search", "Request",
-                                new {
-                                    DateFrom=@ViewBag.Filter.DateFrom,
-                                    DateTo=@ViewBag.Filter.DateTo,
-                                    RegionID=@ViewBag.Filter.RegionID,
-                                    ProgramID=@ViewBag.Filter.ProgramID,
-                                    StatusID=@ViewBag.Filter.StatusID
-                                    }
+                                new
+                                {
+                                    DateFrom = @ViewBag.Filter.DateFrom,
+                                    DateTo = @ViewBag.Filter.DateTo,
+                                    RegionID = @ViewBag.Filter.RegionID,
+                                    ProgramID = @ViewBag.Filter.ProgramID,
+                                    StatusID = @ViewBag.Filter.StatusID
+                                }
                                     ))
 
       )
@@ -89,13 +91,13 @@ else
 
 <script>
     $(function () {
-        var filterRegionId ="@ViewBag.Filter.RegionID";
+        var filterRegionId = "@ViewBag.Filter.RegionID";
         $("#div_filter").find("form").each(function (index, element) {
             console.log(" form ", filterRegionId, element);
             if (!filterRegionId) {
                 element.submit();
             }
-                //return;
+            //return;
         });
     });
 </script>
