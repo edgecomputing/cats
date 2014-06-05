@@ -97,6 +97,12 @@ namespace Cats.Models.PSNP
         //Item4Ratio
         [Display(Name = "Item4 Ratio")]
         public Nullable<int> Item4Ratio { get; set; }
+
+        [Display(Name = "Starting Month")]
+        public int SartingMonth { get; set; }
+
+         [Display(Name = "Starting Month")]
+        public string StartingMonthName { get; set; }
     }
     public class RegionalPSNPPlanDetailViewModel
     {
@@ -139,6 +145,9 @@ namespace Cats.Models.PSNP
         //Item4Ratio
         [Display(Name = "Item4 Ratio")]
         public int Item4Ratio { get; set; }
+
+        [Display(Name = "Starting Month")]
+        public int SartingMonth { get; set; }
 
 
     }
