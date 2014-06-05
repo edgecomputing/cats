@@ -35,7 +35,10 @@
                      columns.Bound(request => request.Region);
                      columns.Bound(request => request.Year);
                      columns.Bound(request => request.MonthName).Title(Html.Translate("Month"));
-                     if (Model.ProgramID == 1) columns.Bound(request => request.Round).Width(50).Title(Html.Translate("Round"));
+                     if (Model.ProgramID == 1)
+                     {
+                         columns.Bound(request => request.Round).Width(50).Title(Html.Translate("Round"));
+                     }
                      columns.Bound(request => request.Program);
                      columns.Bound(request => request.RequestDate).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid" }).Width(160);
                     
