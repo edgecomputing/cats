@@ -89,10 +89,10 @@ else
 
 <script>
     $(function () {
-        var filterRegionID ="@ViewBag.Filter.RegionID";
+        var filterRegionId ="@ViewBag.Filter.RegionID";
         $("#div_filter").find("form").each(function (index, element) {
-            console.log(" form ", filterRegionID, element);
-            if (!filterRegionID) {
+            console.log(" form ", filterRegionId, element);
+            if (!filterRegionId) {
                 element.submit();
             }
                 //return;
