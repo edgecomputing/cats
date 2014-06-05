@@ -35,7 +35,10 @@
                      columns.Bound(request => request.Region);
                      columns.Bound(request => request.Year);
                      columns.Bound(request => request.MonthName).Title(Html.Translate("Month"));
-                     if (Model.ProgramID == 1) columns.Bound(request => request.Round).Width(50).Title(Html.Translate("Round"));
+                     if (Model.ProgramID == 1)
+                     {
+                         columns.Bound(request => request.Round).Width(50).Title(Html.Translate("Round"));
+                     }
                      columns.Bound(request => request.Program);
                      columns.Bound(request => request.RequestDate).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid" }).Width(160);
                     
@@ -86,10 +89,10 @@ else
 
 <script>
     $(function () {
-        var filterRegionID ="@ViewBag.Filter.RegionID";
+        var filterRegionId ="@ViewBag.Filter.RegionID";
         $("#div_filter").find("form").each(function (index, element) {
-            console.log(" form ", filterRegionID, element);
-            if (!filterRegionID) {
+            console.log(" form ", filterRegionId, element);
+            if (!filterRegionId) {
                 element.submit();
             }
                 //return;

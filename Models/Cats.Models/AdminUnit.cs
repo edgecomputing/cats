@@ -25,6 +25,7 @@ namespace Cats.Models
             this.HrdDonorCoverageDetails = new List<HrdDonorCoverageDetail>();
             this.TransportBidQuotations = new List<TransportBidQuotation>();
             this.TransportBidQuotationHeaders = new List<TransportBidQuotationHeader>();
+            this.RegionalPSNPPlanDetails=new List<RegionalPSNPPlanDetail>();
         }
 
         public int AdminUnitID { get; set; }
@@ -56,7 +57,8 @@ namespace Cats.Models
         public virtual ICollection<WoredaHubLink> WoredaHubLinks { get; set; }
         public virtual ICollection<HrdDonorCoverageDetail> HrdDonorCoverageDetails { get; set; }
         public virtual ICollection<TransportBidQuotationHeader> TransportBidQuotationHeaders { get; set; }
-        public virtual ICollection<WoredaStockDistribution> WoredaStockDistributions { get; set; } 
+        public virtual ICollection<WoredaStockDistribution> WoredaStockDistributions { get; set; }
+        public virtual ICollection<RegionalPSNPPlanDetail> RegionalPSNPPlanDetails { get; set; }
 
     }
 }

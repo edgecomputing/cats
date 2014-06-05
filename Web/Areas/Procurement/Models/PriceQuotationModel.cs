@@ -125,4 +125,12 @@ namespace Cats.Areas.Procurement.Models
         public string BidNumber { get; set; }
         public int Year { get; set; }
     }
+
+    public class NoOfferWoreda
+    {
+        public string SourceWarehouse { get; set; }
+        public string Zone { get; set; }
+        public string Woreda { get; set; }
+        public string Region { get; set; }
+    }
 }

@@ -43,7 +43,7 @@
         columns.Bound(p => p.RegionName);
         columns.Bound(p => p.ZoneName);
         columns.Bound(p => p.WoredaName);
-        columns.Bound(p => p.FDPName);
+        //columns.Bound(p => p.FDPName);
         columns.Bound(p => p.BeneficiaryCount).HtmlAttributes(new { align = "Right" });
         columns.Bound(p => p.FoodRatio).HtmlAttributes(new { align = "Right" });
         columns.Bound(p => p.CashRatio).HtmlAttributes(new { align = "Right" });
@@ -61,7 +61,7 @@
         {
             model.Field(p => p.ZoneName).Editable(false);
             model.Field(p => p.WoredaName).Editable(false);
-            model.Field(p => p.FDPName).Editable(false);
+            //model.Field(p => p.FDPName).Editable(false);
         })
          .Group(group =>
            {

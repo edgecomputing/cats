@@ -92,8 +92,8 @@ namespace Cats.Areas.PSNP.Controllers
                     {
                         RegionalPSNPPlanDetailID = regionalPSNPPlanDetail.RegionalPSNPPlanDetailID,
                         RegionalPSNPPlanID = regionalPSNPPlanDetail.RegionalPSNPPlanID,
-                        PlannedFDPID = regionalPSNPPlanDetail.PlanedFDPID,
-                        PlannedFDP = regionalPSNPPlanDetail.PlanedFDP.Name,
+                        PlanedWoredaID = regionalPSNPPlanDetail.PlanedWoredaID,
+                        PlanedWoreda = regionalPSNPPlanDetail.PlanedWoreda.Name,
                         BeneficiaryCount = regionalPSNPPlanDetail.BeneficiaryCount,
                         FoodRatio = regionalPSNPPlanDetail.FoodRatio,
                         CashRatio = regionalPSNPPlanDetail.CashRatio,
