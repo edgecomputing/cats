@@ -5,6 +5,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Cats.Helpers;
 using Cats.Models;
 using Cats.Data;
 using Cats.Services.PSNP;
@@ -121,7 +122,7 @@ namespace Cats.Areas.PSNP.Controllers
             IEnumerable<Cats.Models.RegionalPSNPPlanDetail> filledData = new List<RegionalPSNPPlanDetail>();
             IEnumerable<PSNPPlanDetailView> allFDPData = new List<PSNPPlanDetailView>();
             RegionalPSNPPlan plan = _regionalPSNPPlanService.FindById(id);
-
+            ViewData["Month"] = RequestHelper.GetMonthList();
             if (plan != null)
             {
                 ViewBag.PsnpPlan = plan;
@@ -157,7 +158,9 @@ namespace Cats.Areas.PSNP.Controllers
                                  BeneficiaryCount = plandetail.BeneficiaryCount,
                                  RegionalPSNPPlanID = plan.RegionalPSNPPlanID,
                                  FoodRatio = plandetail.FoodRatio,
-                                 CashRatio = plandetail.CashRatio
+                                 CashRatio = plandetail.CashRatio,
+                                 StartingMonthName =  RequestHelper.MonthName(plandetail.StartingMonth)
+                                
                              };
             }
             return Json(allFDPData.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
@@ -224,7 +227,8 @@ namespace Cats.Areas.PSNP.Controllers
                                  RegionalPSNPPlanID = fdb.RegionalPSNPPlanID,
                                  FoodRatio = fdb.FoodRatio,
                                  CashRatio = fdb.CashRatio,
-                                 RegionName = woreda.AdminUnit2.AdminUnit2.Name
+                                 RegionName = woreda.AdminUnit2.AdminUnit2.Name,
+                                 SartingMonth = fdb.StartingMonth
                              };
             }
             return Json(allFDPData.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
@@ -234,6 +238,9 @@ namespace Cats.Areas.PSNP.Controllers
         public ActionResult EditAjax([DataSourceRequest] DataSourceRequest request, [Bind(Prefix = "models")]IEnumerable<PSNPPlanDetailView> items)
         {
             int planId = 0;
+            //var psnpPlan =
+            //    _regionalPSNPPlanService.FindBy(m => m.RegionalPSNPPlanID == items.FirstOrDefault().RegionalPSNPPlanID).
+            //        FirstOrDefault();
             List<PSNPPlanDetailView> updated = new List<PSNPPlanDetailView>();
             foreach (PSNPPlanDetailView item in items)
             {
@@ -245,6 +252,12 @@ namespace Cats.Areas.PSNP.Controllers
                     if (item.RegionalPSNPPlanDetailID >= 1)
                     {
                         bm = _regionalPSNPPlanDetailService.FindById(item.RegionalPSNPPlanDetailID);
+                        bm.StartingMonth = 1;  //set default month January
+                        if (item.SartingMonth!=0)
+                        {
+                            bm.StartingMonth = item.SartingMonth;
+                        }
+                        
                         bm.BeneficiaryCount = (int)item.BeneficiaryCount;
                         bm.FoodRatio = (int)item.FoodRatio;
                         bm.CashRatio = (int)item.CashRatio;
@@ -260,6 +273,11 @@ namespace Cats.Areas.PSNP.Controllers
                         bm.BeneficiaryCount = (int)item.BeneficiaryCount;
                         bm.FoodRatio = (int)item.FoodRatio;
                         bm.CashRatio = (int)item.CashRatio;
+                        bm.StartingMonth = 1;  //set default month January
+                        if (item.SartingMonth!=0)
+                        {
+                            bm.StartingMonth = item.SartingMonth;
+                        }
                         var psnpPlanExist =
                             _regionalPSNPPlanDetailService.FindBy(
                                 m => m.RegionalPSNPPlanID == item.RegionalPSNPPlanID && m.PlanedWoredaID == item.WoredaID).

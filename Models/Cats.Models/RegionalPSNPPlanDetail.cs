@@ -51,5 +51,8 @@ namespace Cats.Models
         [Display(Name = "Item4 Ratio")]
         public int Item4Ratio { get; set; }
 
+        [Display(Name = "Starting Month")]
+        public int StartingMonth { get; set; }
+
     }
 }
