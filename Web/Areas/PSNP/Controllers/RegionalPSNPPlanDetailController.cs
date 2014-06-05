@@ -10,6 +10,8 @@ using Cats.Models;
 using Cats.Data;
 using Cats.Services.PSNP;
 using Cats.Services.EarlyWarning;
+using Cats.Services.Security;
+using Cats.ViewModelBinder;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
 using Cats.Models.PSNP;
@@ -22,19 +24,25 @@ namespace Cats.Areas.PSNP.Controllers
         private readonly IFDPService _FDPService;
         private readonly IRegionalRequestService _reqService;
         private readonly IAdminUnitService _adminUnitService;
+        private readonly IRationDetailService _rationDetailService;
+        private readonly IUserAccountService _userAccountService;
 
         public RegionalPSNPPlanDetailController(
                             IRegionalPSNPPlanDetailService regionalPSNPPlanDetailServiceParam,
                             IRegionalPSNPPlanService regionalPSNPPlanServiceParam,
                             IRegionalRequestService regionalRequestServiceParam,
                             IFDPService FDPServiceParam,
-                            IAdminUnitService adminUnitService)
+                            IAdminUnitService adminUnitService,
+                            IRationDetailService rationDetailService,
+                            IUserAccountService userAccountService)
         {
             this._regionalPSNPPlanDetailService = regionalPSNPPlanDetailServiceParam;
             this._regionalPSNPPlanService = regionalPSNPPlanServiceParam;
             this._FDPService = FDPServiceParam;
             this._reqService = regionalRequestServiceParam;
             this._adminUnitService = adminUnitService;
+            this._rationDetailService = rationDetailService;
+            this._userAccountService = userAccountService;
         }
         public void loadLookups()
         {
@@ -108,10 +116,11 @@ namespace Cats.Areas.PSNP.Controllers
                 return RedirectToAction("Index", "RegionalPSNPPlan");
             }
 
-            IEnumerable<PSNPPlanDetailView> allFDPData = new List<PSNPPlanDetailView>();
-
+           // IEnumerable<PSNPPlanDetailView> allFDPData = new List<PSNPPlanDetailView>();
+            var preferedweight = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).PreferedWeightMeasurment;
+            var dt = GetTransposedPSNPPlan(id, preferedweight);
             ViewBag.PsnpPlan = plan;
-            return View(allFDPData);
+            return View(dt);
         }
         public ActionResult Edit(int id = 0)
         {
@@ -316,6 +325,15 @@ namespace Cats.Areas.PSNP.Controllers
         {
 
             base.Dispose(disposing);
+        }
+        private DataTable GetTransposedPSNPPlan(int id, string preferedweight)
+        {
+
+            var psnpPlan = _regionalPSNPPlanService.FindById(id);
+            var psnpPlanDetails = _regionalPSNPPlanDetailService.FindBy(t => t.RegionalPSNPPlanID == id).ToList();
+            var rationDetails = _rationDetailService.Get(t => t.RationID == psnpPlan.RationID, null, "Commodity");
+            var dt = PSNPPlanViewModelBinder.TransposeData(psnpPlanDetails, rationDetails, preferedweight);
+            return dt;
         }
     }
 }

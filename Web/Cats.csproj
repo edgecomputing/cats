@@ -836,6 +836,7 @@
     <Compile Include="ViewModelBinder\HubAllocationViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\NeedAssessmentViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\NotificationViewModelBinder.cs" />
+    <Compile Include="ViewModelBinder\PSNPPlanViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\ReceiptAllocationViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\RequestViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\RequisitionViewModelBinder.cs" />

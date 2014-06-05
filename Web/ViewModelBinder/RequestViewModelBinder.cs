@@ -43,7 +43,7 @@ namespace Cats.ViewModelBinder
             regionalRequestViewModel.Status = statuses.Find(t => t.WorkflowID == (int)WORKFLOW.REGIONAL_REQUEST && t.StatusID == regionalRequest.Status).Description;
             // regionalRequestViewModel. RequistionDate = regionalRequest.RequistionDate;
             regionalRequestViewModel.StatusID = regionalRequest.Status;
-            regionalRequestViewModel.Ration = regionalRequest.Ration.RefrenceNumber;
+            if (regionalRequest.Ration != null) regionalRequestViewModel.Ration = regionalRequest.Ration.RefrenceNumber;
             regionalRequestViewModel.RationID = regionalRequest.RationID;
             regionalRequestViewModel.Year = regionalRequest.Year;
             regionalRequestViewModel.PlanId = regionalRequest.PlanID;
