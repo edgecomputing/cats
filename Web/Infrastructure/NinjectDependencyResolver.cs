@@ -260,6 +260,7 @@ namespace Cats.Infrastructure
             kernel.Bind<IEWDashboardService>().To<EWDashboardService>();
             kernel.Bind<ITransporterChequeService>().To<TransporterChequeService>();
             kernel.Bind<Cats.Services.Administration.IUserProfileService>().To<Cats.Services.Administration.UserProfileService>();
+            kernel.Bind<ILossReasonService>().To<LossReasonService>();
         }
         private void AddBindingsHub()
         {

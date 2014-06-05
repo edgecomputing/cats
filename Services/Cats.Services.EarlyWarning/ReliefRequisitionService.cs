@@ -163,7 +163,7 @@ namespace Cats.Services.EarlyWarning
                 Month = regionalRequest.Month,
                 ProgramID = regionalRequest.ProgramId,
                 CommodityID = commodityId,
-                RequestedDate = DateTime.Today
+                RequestedDate = regionalRequest.RequistionDate
                 
                 //TODO:Please find another way how to specify Requistion No
                 ,
