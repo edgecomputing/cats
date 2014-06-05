@@ -23,12 +23,12 @@ namespace Cats.Models
 
 
         //PlanedFDP
-        [Display(Name = "FDP")]
-        public virtual FDP PlanedFDP { get; set; }
+        [Display(Name = "Woreda")]
+        public virtual AdminUnit PlanedWoreda { get; set; }
 
         //PlanedFDPID
-        [Display(Name = "FDP ID")]
-        public int  PlanedFDPID { get; set; }
+        [Display(Name = "Woreda ID")]
+        public int  PlanedWoredaID { get; set; }
 
 
         //BeneficiaryCount

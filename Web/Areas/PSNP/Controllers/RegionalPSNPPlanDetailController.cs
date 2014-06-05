@@ -20,17 +20,20 @@ namespace Cats.Areas.PSNP.Controllers
         private readonly IRegionalPSNPPlanService _regionalPSNPPlanService;
         private readonly IFDPService _FDPService;
         private readonly IRegionalRequestService _reqService;
+        private readonly IAdminUnitService _adminUnitService;
 
         public RegionalPSNPPlanDetailController(
                             IRegionalPSNPPlanDetailService regionalPSNPPlanDetailServiceParam,
                             IRegionalPSNPPlanService regionalPSNPPlanServiceParam,
                             IRegionalRequestService regionalRequestServiceParam,
-                            IFDPService FDPServiceParam)
+                            IFDPService FDPServiceParam,
+                            IAdminUnitService adminUnitService)
         {
             this._regionalPSNPPlanDetailService = regionalPSNPPlanDetailServiceParam;
             this._regionalPSNPPlanService = regionalPSNPPlanServiceParam;
             this._FDPService = FDPServiceParam;
             this._reqService = regionalRequestServiceParam;
+            this._adminUnitService = adminUnitService;
         }
         public void loadLookups()
         {
@@ -38,41 +41,41 @@ namespace Cats.Areas.PSNP.Controllers
             ViewBag.PlanedFDPID = new SelectList(_FDPService.GetAllFDP(), "FDPID", "Name");
 
         }
-        public IEnumerable<PSNPPlanDetailView> toViewModel(IEnumerable<Cats.Models.RegionalPSNPPlanDetail> list, IEnumerable<PSNPPlanDetailView> allFDPs)
+        public IEnumerable<PSNPPlanDetailView> toViewModel(IEnumerable<Cats.Models.RegionalPSNPPlanDetail> list, IEnumerable<PSNPPlanDetailView> allWoredas)
         {
             List<PSNPPlanDetailView> ret = new List<PSNPPlanDetailView>();
-            foreach (PSNPPlanDetailView fdp in allFDPs)
+            foreach (PSNPPlanDetailView woreda in allWoredas)
             {
                 foreach (RegionalPSNPPlanDetail pd in list)
                 {
 
                     //   fdp.FoodRatio = 1;
-                    if (fdp.FDPID == pd.PlanedFDPID)
+                    if (woreda.WoredaID == pd.PlanedWoredaID)
                     {
-                        fdp.RegionalPSNPPlanDetailID = pd.RegionalPSNPPlanDetailID;
-                        fdp.BeneficiaryCount = pd.BeneficiaryCount;
-                        fdp.CashRatio = pd.CashRatio;
-                        fdp.FoodRatio = pd.FoodRatio;
-                        fdp.Item3Ratio = pd.Item3Ratio;
-                        fdp.Item4Ratio = pd.Item4Ratio;
+                        woreda.RegionalPSNPPlanDetailID = pd.RegionalPSNPPlanDetailID;
+                        woreda.BeneficiaryCount = pd.BeneficiaryCount;
+                        woreda.CashRatio = pd.CashRatio;
+                        woreda.FoodRatio = pd.FoodRatio;
+                        woreda.Item3Ratio = pd.Item3Ratio;
+                        woreda.Item4Ratio = pd.Item4Ratio;
                     }
                 }
-                ret.Add(fdp);
+                ret.Add(woreda);
             }
             return ret;
         }
         public IEnumerable<PSNPPlanDetailView> getRegionFDPs(int planID)
         {
-            IEnumerable<FDP> list = _FDPService.GetAllFDP();
-            return (from fdp in list
+            IEnumerable<AdminUnit> list = _adminUnitService.FindBy(m=>m.ParentID==4);
+            return (from woreda in list
                    select new PSNPPlanDetailView
                     {
-                        ZoneID = fdp.AdminUnit.AdminUnit2.AdminUnitID,
-                        ZoneName = fdp.AdminUnit.AdminUnit2.Name,
-                        WoredaID = fdp.AdminUnit.AdminUnitID,
-                        WoredaName = fdp.AdminUnit.Name,
-                        FDPID = fdp.FDPID,
-                        FDPName = fdp.Name,
+                        ZoneID = woreda.AdminUnit2.AdminUnitID,
+                        ZoneName = woreda.AdminUnit2.Name,
+                        WoredaID = woreda.AdminUnitID,
+                        WoredaName = woreda.Name,
+                        //FDPID = fdp.FDPID,
+                        //FDPName = fdp.Name,
                         BeneficiaryCount = 0,
                         RegionalPSNPPlanID = planID
                     } 
@@ -87,7 +90,7 @@ namespace Cats.Areas.PSNP.Controllers
                     select new RegionalPSNPPlanDetail
                     {
                         RegionalPSNPPlanID = pd.RegionalPSNPPlanID,
-                        PlanedFDPID = pd.FDPID,
+                        PlanedWoredaID = pd.WoredaID,
                         RegionalPSNPPlanDetailID = pd.RegionalPSNPPlanDetailID,
                         BeneficiaryCount = (int)pd.BeneficiaryCount,
                         CashRatio = (int)pd.CashRatio,
@@ -136,20 +139,20 @@ namespace Cats.Areas.PSNP.Controllers
             RegionalPSNPPlan plan = _regionalPSNPPlanService.FindById(id);
             if (plan != null)
             {
-                IEnumerable<FDP> allFDPs = _FDPService.GetAllFDP();
+                IEnumerable<AdminUnit> allWoredas = _adminUnitService.FindBy(m=>m.AdminUnitTypeID==4);
                 filledData = plan.RegionalPSNPPlanDetails;
-                allFDPData = from fdp in allFDPs
-                             join plandetail in filledData on fdp.FDPID equals plandetail.PlanedFDPID
+                allFDPData = from woreda in allWoredas
+                             join plandetail in filledData on woreda.AdminUnitID equals plandetail.PlanedWoredaID
 
                              select new PSNPPlanDetailView
                              {
-                                 FDPID = fdp.FDPID,
-                                 FDPName = fdp.Name,
-                                 WoredaID = fdp.AdminUnit.AdminUnitID,
-                                 WoredaName = fdp.AdminUnit.Name,
-                                 ZoneID = fdp.AdminUnit.AdminUnit2.AdminUnitID,
-                                 ZoneName = fdp.AdminUnit.AdminUnit2.Name,
-                                 RegionName = fdp.AdminUnit.AdminUnit2.AdminUnit2.Name,
+                                 //FDPID = fdp.FDPID,
+                                 //FDPName = fdp.Name,
+                                 WoredaID = woreda.AdminUnitID,
+                                 WoredaName = woreda.Name,
+                                 ZoneID = woreda.AdminUnit2.AdminUnitID,
+                                 ZoneName = woreda.AdminUnit2.Name,
+                                 RegionName = woreda.AdminUnit2.AdminUnit2.Name,
                                  RegionalPSNPPlanDetailID = plandetail.RegionalPSNPPlanDetailID,
                                  BeneficiaryCount = plandetail.BeneficiaryCount,
                                  RegionalPSNPPlanID = plan.RegionalPSNPPlanID,
@@ -169,19 +172,19 @@ namespace Cats.Areas.PSNP.Controllers
 
                 ViewBag.PsnpPlan = plan;
                 filledData = plan.RegionalPSNPPlanDetails;
-                IEnumerable<FDP> allFDPs = _FDPService.GetAllFDP();
-                allFDPData = from fdp in allFDPs
-                             join plandetail in filledData on fdp.FDPID equals plandetail.PlanedFDPID
+                IEnumerable<AdminUnit> allWoredas = _adminUnitService.FindBy(m=>m.AdminUnitTypeID==4);
+                allFDPData = from woreda in allWoredas
+                             join plandetail in filledData on woreda.AdminUnitID equals plandetail.PlanedWoredaID
                              into fdpBeneficiary
                              from fdb in fdpBeneficiary.DefaultIfEmpty(new RegionalPSNPPlanDetail { RegionalPSNPPlanID = plan.RegionalPSNPPlanID })
                              select new PSNPPlanDetailView
                              {
-                                 FDPID = fdp.FDPID,
-                                 FDPName = fdp.Name,
-                                 WoredaID = fdp.AdminUnit.AdminUnitID,
-                                 WoredaName = fdp.AdminUnit.Name,
-                                 ZoneID = fdp.AdminUnit.AdminUnit2.AdminUnitID,
-                                 ZoneName = fdp.AdminUnit.AdminUnit2.Name,
+                                 //FDPID = fdp.FDPID,
+                                 //FDPName = fdp.Name,
+                                 WoredaID = woreda.AdminUnitID,
+                                 WoredaName = woreda.Name,
+                                 ZoneID =woreda.AdminUnit2.AdminUnitID,
+                                 ZoneName = woreda.AdminUnit2.Name,
                                  RegionalPSNPPlanDetailID = fdb.RegionalPSNPPlanDetailID,
                                  BeneficiaryCount = fdb.BeneficiaryCount,
                                  RegionalPSNPPlanID = fdb.RegionalPSNPPlanID,
@@ -202,25 +205,26 @@ namespace Cats.Areas.PSNP.Controllers
 
                 ViewBag.PsnpPlan = plan;
                 filledData = plan.RegionalPSNPPlanDetails;
-                IEnumerable<FDP> allFDPs = _FDPService.GetAllFDP();
-                allFDPData = from fdp in allFDPs
-                             join plandetail in filledData on fdp.FDPID equals plandetail.PlanedFDPID
+                var woredas = _adminUnitService.FindBy(m => m.AdminUnitTypeID == 4);
+                //IEnumerable<FDP> allFDPs = _FDPService.GetAllFDP();
+                allFDPData = from woreda in woredas
+                             join plandetail in filledData on woreda.AdminUnitID equals plandetail.PlanedWoredaID
                              into fdpBeneficiary
                              from fdb in fdpBeneficiary.DefaultIfEmpty(new RegionalPSNPPlanDetail { RegionalPSNPPlanID = plan.RegionalPSNPPlanID })
                              select new PSNPPlanDetailView
                              {
-                                 FDPID = fdp.FDPID,
-                                 FDPName = fdp.Name,
-                                 WoredaID = fdp.AdminUnit.AdminUnitID,
-                                 WoredaName = fdp.AdminUnit.Name,
-                                 ZoneID = fdp.AdminUnit.AdminUnit2.AdminUnitID,
-                                 ZoneName = fdp.AdminUnit.AdminUnit2.Name,
+                                 //FDPID = fdp.FDPID,
+                                 //FDPName = fdp.Name,
+                                 WoredaID = woreda.AdminUnitID,
+                                 WoredaName = woreda.Name,
+                                 ZoneID = woreda.AdminUnit2.AdminUnitID,
+                                 ZoneName = woreda.AdminUnit2.Name,
                                  RegionalPSNPPlanDetailID = fdb.RegionalPSNPPlanDetailID,
                                  BeneficiaryCount = fdb.BeneficiaryCount,
                                  RegionalPSNPPlanID = fdb.RegionalPSNPPlanID,
                                  FoodRatio = fdb.FoodRatio,
                                  CashRatio = fdb.CashRatio,
-                                 RegionName = fdp.AdminUnit.AdminUnit2.AdminUnit2.Name
+                                 RegionName = woreda.AdminUnit2.AdminUnit2.Name
                              };
             }
             return Json(allFDPData.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
@@ -252,13 +256,13 @@ namespace Cats.Areas.PSNP.Controllers
                        
                         bm = new RegionalPSNPPlanDetail();
                         bm.RegionalPSNPPlanID = item.RegionalPSNPPlanID;
-                        bm.PlanedFDPID = item.FDPID;
+                        bm.PlanedWoredaID = item.WoredaID;
                         bm.BeneficiaryCount = (int)item.BeneficiaryCount;
                         bm.FoodRatio = (int)item.FoodRatio;
                         bm.CashRatio = (int)item.CashRatio;
                         var psnpPlanExist =
                             _regionalPSNPPlanDetailService.FindBy(
-                                m => m.RegionalPSNPPlanID == item.RegionalPSNPPlanID && m.PlanedFDPID == item.FDPID).
+                                m => m.RegionalPSNPPlanID == item.RegionalPSNPPlanID && m.PlanedWoredaID == item.WoredaID).
                                 FirstOrDefault();
                         if (psnpPlanExist==null)
                         {
