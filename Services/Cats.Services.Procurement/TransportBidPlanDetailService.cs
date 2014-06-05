@@ -137,7 +137,7 @@ namespace Cats.Services.Procurement
                         }
                         var psnpPlanDetail = psnpDetail.RegionalPSNPPlanDetails;
                         var woredaGroup = (from groupedPsnp in psnpPlanDetail
-                                           group groupedPsnp by groupedPsnp.PlanedFDP.AdminUnit
+                                           group groupedPsnp by groupedPsnp.PlanedWoreda
                                            into woredaDtail
                                            select new
                                                {

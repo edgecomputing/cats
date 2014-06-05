@@ -36,6 +36,7 @@ namespace Cats.Areas.EarlyWarning.Models
         public int RationID { get; set; }
         public int RationName { get; set; }
 
+
        
 
 

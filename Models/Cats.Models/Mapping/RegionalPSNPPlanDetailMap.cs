@@ -9,15 +9,15 @@ namespace Cats.Models.Mapping
         {
             this.ToTable("RegionalPSNPPlanDetail");
             this.Property(t => t.RegionalPSNPPlanDetailID).HasColumnName("RegionalPSNPPlanDetailID");
-            this.Property(t => t.PlanedFDPID).HasColumnName("PlanedFDPID");
+            this.Property(t => t.PlanedWoredaID).HasColumnName("PlanedWoredaID");
 
             this.HasRequired(t => t.RegionalPSNPPlan)
                     .WithMany(t => t.RegionalPSNPPlanDetails)
                     .HasForeignKey(d => d.RegionalPSNPPlanID);
 
-            this.HasRequired(t => t.PlanedFDP)
+            this.HasRequired(t => t.PlanedWoreda)
                     .WithMany(t => t.RegionalPSNPPlanDetails)
-                    .HasForeignKey(d => d.PlanedFDPID);
+                    .HasForeignKey(d => d.PlanedWoredaID);
 
             this.Property(t => t.BeneficiaryCount).HasColumnName("BeneficiaryCount");
 
