@@ -19,13 +19,8 @@
 
 <div id="div_filter">
     @Html.Partial("_FilterRequestLeftBar")
-
 </div>
-
-<div class="form-search">
-    <input id="search" type="text" class="input-medium search-query" placeholder="Search ">
-</div>
-
+<hr>
 
 @(Html.Kendo().Grid<RegionalRequestViewModel>()
     .Name("RequestListGrid")
