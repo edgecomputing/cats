@@ -5,12 +5,14 @@
     using System.Linq;
     using System.Web;
     using System.Web.Mvc;
+    using Cats.Helpers;
     using Cats.Infrastructure;
     using Cats.Models;
     using Cats.Data;
     using Cats.Services.Procurement;
     using Cats.Services.EarlyWarning;
 using Cats.Areas.Procurement.Models;
+    using Cats.Services.Security;
     using Cats.ViewModelBinder;
 
 namespace Cats.Areas.Procurement.Controllers
@@ -26,6 +28,7 @@ namespace Cats.Areas.Procurement.Controllers
         private readonly ITransportBidQuotationService _bidQuotationService;
         private readonly IBidService _bidService;
         private readonly ITransporterService _transporterService;
+        private readonly IUserAccountService _userAccountService;
 
         public RFQController(ITransportBidPlanService transportBidPlanServiceParam
                                             , IAdminUnitService adminUnitServiceParam
@@ -34,7 +37,8 @@ namespace Cats.Areas.Procurement.Controllers
                                             ,IHubService hubServiceParam
                                             , ITransportBidQuotationService bidQuotationServiceParam
                                             , ITransporterService transporterServiceParam
-                                            , IBidService bidServiceParam)
+                                            , IBidService bidServiceParam
+                                            ,IUserAccountService userAccountService)
                                         
             {
                 this._transportBidPlanService = transportBidPlanServiceParam;
@@ -45,6 +49,7 @@ namespace Cats.Areas.Procurement.Controllers
                 this._bidQuotationService = bidQuotationServiceParam;
                 this._bidService = bidServiceParam;
                 this._transporterService = transporterServiceParam;
+                this._userAccountService = userAccountService;
             }
        
         [HttpGet]
@@ -90,6 +95,7 @@ namespace Cats.Areas.Procurement.Controllers
         public ActionResult Details(int BidID = 0, int RegionID = 0)
         {
             //ViewBag.RegionID = new SelectList(_adminUnitService.GetAllAdminUnit(), "AdminUnitID", "Name", RegionID);
+            var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
             var r = _adminUnitService.FindById(RegionID);
             ViewBag.SelectedRegion = r.Name;
            
@@ -100,7 +106,7 @@ namespace Cats.Areas.Procurement.Controllers
             var bid = _bidService.FindById(BidID);
             var bidPlanID = bid.TransportBidPlanID;
             ViewBag.BidReference = bid.BidNumber;
-
+            ViewBag.OpeningDate = bid.OpeningDate.ToCTSPreferedDateFormat(datePref);
             ViewBag.bid = BidID;
             ViewBag.reg = RegionID;
             

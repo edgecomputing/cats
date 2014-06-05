@@ -141,7 +141,7 @@
                 <tr>
                     <td class="fldlabel">@Html.Translate("Request Date") : </td><td class="fldvalue">@Model.RequestDate</td>
                     <td class="fldlabel">@Html.Translate("Year") : </td><td class="fldvalue">@Model.Year</td>
-                    <td class="fldlabel">@Html.Translate("Ration") : </td><td class="fldvalue">@Model.Ration</td>
+                    <td class="fldlabel">@Html.Translate("Ration") : </td><td class="fldvalue">@Model.Ration | @Model.RationID</td>
                 </tr>
             </table>
         </div>
@@ -170,7 +170,7 @@
                 </tr>
                 </thead>
                 <tbody class="k-grid-content">
-                <tr  ng-repeat="allocation in allocations">
+                <tr  ng-repeat="allocation in allocations | orderBy:'Zone'">
                     <td>{{$index+1}}</td>
                     
                     <td>{{allocation.Zone}}</td>
@@ -224,6 +224,7 @@
         //$("#tbl_allocation").kendoGrid();
     });
     var RegionalRequestID=@Model.RegionalRequestID;
+    var RequestRation=@Model.RationID;
     var ServerUrls =
         {
             Allocation_Read: "@Url.Action("Allocation_Read", "Request")"
@@ -231,7 +232,7 @@
             ,Allocation_Update: "@Url.Action("Allocation_Update2", "Request")"
             ,Allocation_Delete: "@Url.Action("Allocation_Delete", "Request")"
            
-            ,getAllCommodities:"@Url.Action("getAllCommodities", "Request")"
+            ,getAllCommodities:"@Url.Action("getRationCommodities", "Request")"
             ,getRequestedCommodities:"@Url.Action("Commodity_Read", "Request")"
             ,Commodity_Create:"@Url.Action("Commodity_Create2", "Request")"
             ,Commodity_Delete:"@Url.Action("Commodity_Destroy2", "Request")"

@@ -31,6 +31,11 @@ namespace Cats.Areas.EarlyWarning.Models
         public string Program { get; set; }
         public Nullable<int> RegionalRequestID { get; set; }
         public string Month { get; set; }
+
+        public string Ration { get; set; }
+        public int RationID { get; set; }
+        public int RationName { get; set; }
+
        
 
 
