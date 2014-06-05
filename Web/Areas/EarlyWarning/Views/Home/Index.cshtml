@@ -89,9 +89,6 @@
                         <span class="value">{{RequiredNumber.TotalHrdBeneficaryNumber|number}}</span>
                     </div>
                     <!-- /.details -->
-
-                    
-
                 </a>
                 <!-- /.dashboard-stat -->
 
@@ -167,8 +164,6 @@
                                                      {
                                                     
                                                 
-
-
                                                          ben[index] = ben[index] + double.Parse(@String.Format("{0:n0}", @cell));
                                                          index++;
                                                 
@@ -222,7 +217,7 @@
 
                 <div class="span3">
 
-                    <div class="portlet">
+                    <div class="portlet" style="margin-top: 5px">
                         <!-- /.portlet-header -->
                         <div class="portlet-header">
                             <h3>
@@ -232,22 +227,21 @@
                         </div>
                         <div class="portlet-content" >
                             <th class="table-responsive">
-                        <table id="" class="table table-striped table-checkable" >
-                                    <thead>
-                                        <tr>
-                                            <th class="hidden-xs">Commodity</th>
-                                           <th>Ration (Kg/Beneficiary)</th>
-                                           
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr ng-repeat="ration in Rations" class="">
-                                            <td class="hidden-xs">{{ration.Commodity}}</td>
-                                            <td>{{ration.Amount}}</td>
-                                          </tr>
-                                    </tbody>
-                        </table>
-                                </div>
+                            <table id="" class="table table-checkable" style="margin-bottom: 5px" >
+                                <thead>
+                                    <tr>
+                                        <th class="hidden-xs">Commodity</th>
+                                        <th>Ration (Kg/Beneficiary)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="ration in Rations" class="">
+                                        <td class="hidden-xs">{{ration.Commodity}}</td>
+                                        <td>{{ration.Amount}} </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                           <span class="text-success text-xl align-center"><i class="icon-info-sign"></i> For blended food the ration is calculated as 35%*0.45Kg</span></div>
                         <!-- /.portlet-content -->
 
                     </div>
@@ -769,9 +763,8 @@
                 <!-- /.portlet -->
             </div>
         </div>
-
     </div>
-</div>
+
 
 <script>
     $("#RequestHeader").click(function () {
