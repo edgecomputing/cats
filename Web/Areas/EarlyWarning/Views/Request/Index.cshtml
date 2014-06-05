@@ -13,7 +13,7 @@
 
 @section Toolbar
 {
-    <a data-buttontype="btn_new_record"  class="btn toolbar-btn " href="@Url.Action("New", "Request")"></a>
+    <a data-buttontype="btn_new_record"  class="btn" href="@Url.Action("New", "Request")"></a>
 }
 <h4 class="page-header">@Html.Translate("Regional Requests")</h4>
 
@@ -21,10 +21,11 @@
     @Html.Partial("_FilterRequestLeftBar")
 
 </div>
+
 <div class="form-search">
-  <input id="search" type="text" class="input-medium search-query">
-  <a class="btn ">Search</a>
+    <input id="search" type="text" class="input-medium search-query" placeholder="Search ">
 </div>
+
 
 @(Html.Kendo().Grid<RegionalRequestViewModel>()
     .Name("RequestListGrid")
@@ -104,28 +105,21 @@ else
 
 
 <script>
-    //// Initialize Kendo Grid from our table.
-    //$("#Grid").kendoGrid({
-    //    sortable: true
-    //});
-
-    
+   $("#search").keyup(function () {
+        $("#search").blur();
+        $("#search").focus();
+    });
+  
     $("#search").change(function () {
-        alert("Hi");
-       // applyFilter("RequisitionNo", $(this).val());
+        applyFilter("ReferenceNumber", $(this).val());
+    });
         
-    });
-
     // attach click event for Clear Filters button 
-    $("#clear").click(function () {
-        clearFilters();
-    });
-
     // applyFilter function accepts the Field Name and the new value to use for filter.
     function applyFilter(filterField, filterValue) {
 
         // get the kendoGrid element.
-        var gridData = $("#Grid").data("kendoGrid");
+        var gridData = $("#RequestListGrid").data("kendoGrid");
 
         // get currently applied filters from the Grid.
         var currFilterObj = gridData.dataSource.filter();
@@ -156,6 +150,10 @@ else
                 value: filterValue
             });
         }
+        
+        else {
+            clearFilters();
+        }
 
         // finally, the currentFilters array is applied back to the Grid, using "and" logic.
         gridData.dataSource.filter({
@@ -166,7 +164,7 @@ else
     }
 
     function clearFilters() {
-        var gridData = $("#Grid").data("kendoGrid");
+        var gridData = $("#RequestListGrid").data("kendoGrid");
         gridData.dataSource.filter({});
     }
 </script>

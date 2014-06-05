@@ -7,10 +7,9 @@
 
 @using (Html.BeginForm())
 {
-    <div class="form-vertical">
+    <div class="container row-fluid">
 
-        <div class="span3 form-vertical">
-
+        <div class="span3 ">
             <div class="control-group">
                 <div class="control-label">
                     <label>Request Date Between:</label>
@@ -24,39 +23,39 @@
             </div>
 
         </div>
-        <div class="span2 form-vertical">
+        <div class="span2 ">
             <div class="control-group">
                 <div class="control-label">
                     <label>Region:</label>
                 </div>
                 <div class="controls ">
-                    @Html.DropDownList("RegionID", null, new { @class = "input-large" })
+                    @Html.DropDownList("RegionID", null, new { @class = "input-small" })
                 </div>
             </div>
 
         </div>
 
-        <div class="span2 form-vertical">
+        <div class="span2 ">
             <div class="control-group">
                 <div class="control-label">
                     <label>Program:</label>
                 </div>
                 <div class="controls ">
-                    @Html.DropDownList("ProgramID", null, new { @class = "input-large" })
+                    @Html.DropDownList("ProgramID", null, new { @class = "input-small" })
                 </div>
             </div>
         </div>
-        <div class="span2 form-vertical">
+        <div class="span2 ">
             <div class="control-group">
                 <div class="control-label">
                     <label>Status:</label>
                 </div>
                 <div class="controls ">
-                    @Html.DropDownList("StatusID", null, new { @class = "input-large" })
+                    @Html.DropDownList("StatusID", null, new { @class = "input-small" })
                 </div>
             </div>
         </div>
-        <div class="span2 form-vertical">
+        <div class="span2 ">
             <div class="control-group">
                 <div class="control-label">
                     <label>&nbsp;</label>
