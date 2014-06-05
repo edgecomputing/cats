@@ -294,7 +294,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         {
             var hrd = new HRD();
             // hrd.HRDDetails = new List<HRDDetail>();
-            ViewBag.Year = DateTime.Today.Year;
+            //ViewBag.Year = DateTime.Today.Year;
             ViewBag.RationID = new SelectList(_rationService.GetAllRation(), "RationID", "RefrenceNumber", hrd.RationID = 1);
             ViewBag.NeedAssessmentID = new SelectList(_needAssessmentService.GetAllNeedAssessmentHeader().Where(m => m.NeedAssessment.NeedAApproved == true), "NAHeaderId",
                                                       "NeedACreatedDate");

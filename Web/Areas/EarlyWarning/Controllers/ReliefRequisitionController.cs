@@ -456,5 +456,19 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
         }
 
+
+        //public  JsonResult CancelChanges(List<DataFromGrid> input)
+        //{
+        //    List<int> ids = new List<int>();
+        //    if (input!=null)
+        //    {
+        //        foreach (var id in ids)
+        //        {
+                   
+        //        }
+                
+        //    }
+        //    return Json(ids, JsonRequestBehavior.AllowGet);
+        //}
     }
 }

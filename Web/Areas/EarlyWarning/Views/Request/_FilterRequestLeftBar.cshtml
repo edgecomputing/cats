@@ -7,7 +7,7 @@
 
 @using (Html.BeginForm())
 {
-    <div class="container row-fluid">
+    <div class="container row-fluid form-inline" >
 
         <div class="span3 ">
             <div class="control-group">
@@ -21,50 +21,40 @@
                     <!--<input name="dateFrom" type="" class="" /> and <input type="text" class="cats-datepicker2 input-small" />-->
                 </div>
             </div>
-
         </div>
-        <div class="span2 ">
-            <div class="control-group">
-                <div class="control-label">
-                    <label>Region:</label>
-                </div>
-                <div class="controls ">
-                    @Html.DropDownList("RegionID", null, new { @class = "input-small" })
-                </div>
+        
+        <div class="control-group">
+            <div class="control-label">
+                <label>Region:</label>
             </div>
-
-        </div>
-
-        <div class="span2 ">
-            <div class="control-group">
-                <div class="control-label">
-                    <label>Program:</label>
-                </div>
-                <div class="controls ">
-                    @Html.DropDownList("ProgramID", null, new { @class = "input-small" })
-                </div>
+            <div class="controls ">
+                @Html.DropDownList("RegionID", null, new { @class = "input-small" })
             </div>
         </div>
-        <div class="span2 ">
-            <div class="control-group">
-                <div class="control-label">
-                    <label>Status:</label>
-                </div>
-                <div class="controls ">
-                    @Html.DropDownList("StatusID", null, new { @class = "input-small" })
-                </div>
+
+        <div class="control-group">
+            <div class="control-label">
+                <label>Program:</label>
+            </div>
+            <div class="controls ">
+                @Html.DropDownList("ProgramID", null, new { @class = "input-large" })
             </div>
         </div>
-        <div class="span2 ">
-            <div class="control-group">
-                <div class="control-label">
-                    <label>&nbsp;</label>
-                </div>
-                <div class="controls">
-                    <button type="submit" class="btn btn-sm" value="Search"><i class="icon-search"></i></button>
-                </div>
+        <div class="control-group">
+            <div class="control-label">
+                <label>Status:</label>
             </div>
-
+            <div class="controls ">
+                @Html.DropDownList("StatusID", null, new { @class = "input-large" })
+            </div>
+        </div>
+        <div class="control-group">
+            <div class="control-label">
+                <label>&nbsp;</label>
+            </div>
+            <div class="controls">
+                <button type="submit" class="btn btn-sm" value="Search"><i class="icon-search"></i></button>
+            </div>
         </div>
 
         @*<div style="clear:both;">
