@@ -142,6 +142,10 @@
                             <div class="k-grid-header" style="padding-right: 17px;">
                                 <div class="k-grid-header-wrap">
                                     <table cellspacing="0" role="grid">
+                                        <tr>
+
+                                      @* Search    : <input type="search" data-field="Search"/>*@
+                                            </tr>
                                         <colgroup><col><col><col><col><col><col><col><col><col><col></colgroup>
                                         <thead>
                                             <tr>
@@ -463,6 +467,19 @@
                         </div>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="span7">
+                        <div class="control-group">
+                            <div class="control-label">
+                                <label for="DistributionViewModel_DiffrenceQuantity">Diffrence Qty.</label>
+                            </div>
+                            <div class="controls">
+                               <label for="DistributionViewModel_DiffrenceQuantity">{{GRNDetail.SentQuantity - GRNDetail.ReceivedQuantity}} </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="row">
                     <div class="span6">
                         <div class="control-group">
