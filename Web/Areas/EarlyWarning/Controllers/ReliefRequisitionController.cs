@@ -186,6 +186,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                 if (reliefRequisitionNew.RequestedDate.HasValue)
                 {
                     reliefRequisitionNew.RequestDatePref = reliefRequisitionNew.RequestedDate.Value.ToCTSPreferedDateFormat(datePref);
+                    reliefRequisitionNew.RegionalRequestId = id;
                 }
             }
             return View(input);
@@ -205,7 +206,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
         public ActionResult CancelChanges(int id)
         {
-            //var requisitionID = _regionalRequestService.FindById(id).ReliefRequisitions.First().RegionalRequestID;
+            
             var requisitions = _reliefRequisitionService.FindBy(t => t.RegionalRequestID == id);
             
             foreach (var reliefRequisition in requisitions)
@@ -217,6 +218,10 @@ namespace Cats.Areas.EarlyWarning.Controllers
                 }
                 _reliefRequisitionService.DeleteReliefRequisition(reliefRequisition);
             }
+
+            var request = _regionalRequestService.FindById(id);
+            request.Status = (int)RegionalRequestStatus.Approved;
+            _regionalRequestService.EditRegionalRequest(request);
 
             return RedirectToAction("Index", "ReliefRequisition");
         }
