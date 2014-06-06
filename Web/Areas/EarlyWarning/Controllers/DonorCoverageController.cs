@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -10,6 +11,7 @@ using Cats.Models.Constant;
 using Cats.Services.Administration;
 using Cats.Services.EarlyWarning;
 using Cats.Services.Security;
+using Cats.ViewModelBinder;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
 using IAdminUnitService = Cats.Services.EarlyWarning.IAdminUnitService;
@@ -27,10 +29,12 @@ namespace Cats.Areas.EarlyWarning.Controllers
         private IHrdDonorCoverageDetailService _hrdDonorCoverageDetailService;
         private IHrdDonorCoverageService _hrdDonorCoverageService;
         private IUserAccountService _userAccountService;
+        private IRationDetailService _rationDetailService;
 
         public DonorCoverageController(IDonorService donorService,IAdminUnitService adminUnitService,
                                       IHRDService hrdService,IHrdDonorCoverageDetailService hrdDonorCoverageDetailService,
-                                      IHrdDonorCoverageService hrdDonorCoverageService,IUserAccountService userAccountService)
+                                      IHrdDonorCoverageService hrdDonorCoverageService,IUserAccountService userAccountService
+                                      ,IRationDetailService rationDetailService)
         {
             _donorService = donorService;
             _adminUnitService = adminUnitService;
@@ -38,6 +42,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             _hrdDonorCoverageDetailService = hrdDonorCoverageDetailService;
             _hrdDonorCoverageService = hrdDonorCoverageService;
             _userAccountService = userAccountService;
+            _rationDetailService = rationDetailService;
         }
         public ActionResult Index()
         {
@@ -70,11 +75,27 @@ namespace Cats.Areas.EarlyWarning.Controllers
         public ActionResult Detail(int id)
         {
             var hrdDonorCoverage = _hrdDonorCoverageService.FindById(id);
+            ViewBag.DonorCoverageID = hrdDonorCoverage.HRDDOnorCoverageID;
+           // var preferedweight = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).PreferedWeightMeasurment;
+            
             if (hrdDonorCoverage==null)
             {
                 return HttpNotFound();
             }
+           // var dt = GetTransposedHRD(id, preferedweight);
             return View(hrdDonorCoverage);
+        }
+        private DataTable GetTransposedHRD(int id, string preferedweight)
+        {
+
+
+            var hrdDonorCoverage = _hrdDonorCoverageService.FindById(id);
+            var hrd = hrdDonorCoverage.Hrd;
+            var donorCoverageDetail = hrdDonorCoverage.HrdDonorCoverageDetails;
+                //_hrdDetailService.Get(t => t.HRDID == id, null, "AdminUnit,AdminUnit.AdminUnit2,AdminUnit.AdminUnit2.AdminUnit2").ToList();
+            var rationDetails = _rationDetailService.Get(t => t.RationID == hrd.RationID, null, "Commodity");
+            var dt = _hrdDonorCoverageService.TransposeData(donorCoverageDetail, rationDetails, preferedweight);
+            return dt;
         }
         public ActionResult DonorCoverage_Read([DataSourceRequest] DataSourceRequest request)
 
