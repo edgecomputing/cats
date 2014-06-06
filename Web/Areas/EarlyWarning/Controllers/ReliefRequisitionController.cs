@@ -223,7 +223,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             request.Status = (int)RegionalRequestStatus.Approved;
             _regionalRequestService.EditRegionalRequest(request);
 
-            return RedirectToAction("Index", "ReliefRequisition");
+            return RedirectToAction("Details", "Request", new {id=id});
         }
 
         [HttpGet]
