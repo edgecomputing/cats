@@ -20,10 +20,16 @@ input.borderless-input:focus {
 }
 /* ReSharper disable DeclarationIsEmpty */
 .cats-datepicker {
+
 }
 
 .amharic {
     border:solid 2px #73A6FF;  
     background:#DDF2FE;  
     color:#000;  
+}
+
+/* NUmber field */
+.number, td.number, div.number, th.number{
+    text-align: right;
 }

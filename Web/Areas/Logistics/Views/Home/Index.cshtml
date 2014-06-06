@@ -1,77 +1,5 @@
-﻿@*@using Cats.Helpers
+﻿@using Cats.Helpers
 
-@{
-    ViewBag.Title = "Index";
-    ViewBag.ViewWidth = "Wide";
-    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
-}
-
-<link href="~/Content/DashboardWidget.css" rel="stylesheet">
-
-<html>
-<body>
-    <div class="row">
-        <div class="span6">
-            <div class="widget stacked">
-                <div class="widget-header">
-                    <i class="icon-bookmark"></i>
-                    <h3>Welcome to Logistics</h3>
-                </div>
-                <div class="widget-content">
-
-                    <div class="shortcuts">
-                        <a href="@Url.Action("Index", "BeneficiariesAllocation", new { Area = "Logistics" })" class="shortcut"><i class="shortcut-icon icon-list-alt"></i>
-                            <span class="shortcut-label">Beneficiaries Allocation</span>
-                        </a>
-
-                        <a href="@Url.Action("Index", "HubAllocation", new { Area = "Logistics" })" class="shortcut"><i class="shortcut-icon icon-signal"></i>
-                            <span class="shortcut-label">Hub Allocation</span>
-                        </a>
-
-                        <a href="@Url.Action("Index", "ProjectAllocation", new { Area = "Logistics" })" class="shortcut"><i class="shortcut-icon icon-inbox"></i>
-                            <span class="shortcut-label">Project Allocation</span>
-                        </a>
-
-                        <a href="@Url.Action("Index", "TransportRequisition", new { Area = "Logistics" })" class="shortcut"><i class="shortcut-icon icon-tasks"></i>
-                            <span class="shortcut-label">Transport Requisition</span>
-                        </a>
-
-                    </div>
-
-                </div>
-            </div>
-        </div>
-
-        <div class="span6">
-            <div class="widget stacked">
-                <div class="widget-header">
-                    <i class="icon-bookmark"></i>
-                    <h3>Active Requisitions from Regions</h3>
-                </div>
-                <div class="widget-content">
-                    @Html.Partial("_ApprovedRequisitions")
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="span6">
-            <div class="widget stacked">
-                <div class="widget-header">
-                    <i class="icon-bookmark"></i>
-                    <h3>Transport Contract Execution</h3>
-                </div>
-                <div class="widget-content">
-                    @Html.Partial("_TransportContractsExecution")
-                </div>
-            </div>
-        </div>
-    </div>
-    @Html.Partial("_DispatchProgress")
-
-</body>
-</html>*@
 @model  System.Data.DataTable
 
 @{
@@ -81,15 +9,14 @@
 }
 
 @{
-                                        var ben =new[] {0.0,0.0,0.0,0.0,0.0,0.0} ;
-                                        int index = 0;
+    var ben =new[] {0.0,0.0,0.0,0.0,0.0,0.0} ;
+    int index = 0;
 }
 
 @section styles
 {
-   
     <link href="~/Content/Dashboard/dashboardcomponents.css" rel="stylesheet" />
-   }
+}
 <div ng-app="myApp">
     <div class="container">
         <div ng-controller="Regions" class="container row">
@@ -142,48 +69,7 @@
                 </a>
                 <!-- /.dashboard-stat -->
             </div>
-            <!-- /.col-md-3 -->
-
-           @* <div class="span2">
-
-                <a href="javascript:;" class="dashboard-stat">
-                    <div class="visual">
-                      
-                    </div>
-                   
-
-                    <div class="details">
-                        <span class="content">Total Plans</span>
-                        <span class="value">8</span>
-                    </div>
-                    
-
-                </a>
-               
-
-            </div>*@
-          
-
-           @* <div class="span2">
-
-                <a href="javascript:;" class="dashboard-stat">
-                    <div class="visual">
-                       
-                    </div>
-                
-
-                    <div class="details">
-                        <span class="content">Receipt Plan</span>
-                        <span class="value">5</span>
-                    </div>
-                   
-
-                    
-
-                </a>
-               
-
-            </div>*@
+            
            
         </div>
         <hr />
@@ -237,8 +123,8 @@
                                         <th class="hidden-xs">Number</th>
                                         <th>Req No</th>
                                         <th>Zone</th>
-                                        <th>Beneficiaries</th>
-                                        <th>Amount(mt)</th>
+                                        <th class="number">Beneficiaries</th>
+                                        <th class="number">Amount(mt)</th>
                                         <th>Commodity</th>
                                           
                                         <th class="align-center">Action</th>
@@ -249,9 +135,9 @@
                                         <td class="hidden-xs">{{$index + 1}}</td>
                                         <td>{{req.reqNo}}</td>
                                         <td>{{req.zone}}</td>
-                                        <th>{{req.beneficiaries | number}}</th>
-                                        <th>{{req.amount | number}}</th>
-                                        <th>{{req.commodity}}</th>
+                                        <td class="number">{{req.beneficiaries | number}}</td>
+                                        <td class="number">{{req.amount | number}}</td>
+                                        <td>{{req.commodity}}</td>
                                        
                                        
                                         <td><span class="label label-danger">Pending</span></td>
@@ -270,101 +156,6 @@
                     </div>  <!-- /.portlet-content -->
 
                 </div>
-                @*<div class="span3">
-
-                    <div class="portlet">
-                        <div class="portlet-header">
-                            <h3>
-                                <i class=""></i>
-                                Percentage
-                            </h3>
-                        </div>
-
-                       
-
-                        <div class="portlet-content">
-                            <div class="progress-stat">
-
-                                <div class="stat-header">
-
-                                    <div class="pull-left">
-                                        Approved Requests
-                                    </div>
-                                  
-                                    <div class="pull-right">
-                                        33%
-                                    </div>
-                                   
-
-                                </div>
-                              
-
-                               
-                                <div class="progress progress-success">
-                                    <div class="bar" style="width: 33%"></div>
-                                </div>
-                               
-
-                            </div>
-                         
-
-                            <div class="progress-stat">
-
-                                <div class="stat-header">
-
-                                    <div class="pull-left">
-                                        Pending Requests
-                                    </div>
-                                   
-
-                                    <div class="pull-right">
-                                        42%
-                                    </div>
-                                   
-
-                                </div>
-                               
-
-                                <div class="progress progress-danger">
-                                    <div class="bar" style="width: 42%"></div>
-                                </div>
-                               
-
-                            </div>
-                           
-
-                            <div class="progress-stat">
-
-                                <div class="stat-header">
-
-                                    <div class="pull-left">
-                                        Allocated
-                                    </div>
-                                   
-
-                                    <div class="pull-right">
-                                        25%
-                                    </div>
-                                  
-
-                                </div>
-                              
-
-                                <div class="progress progress-warning">
-                                    <div class="bar" style="width: 25%"></div>
-                                </div>
-                               
-
-                            </div>
-                          
-
-                            <br>
-                        </div>
-                       
-
-                    </div>
-                  
-                </div>*@
                
             </div>
         </div>
@@ -410,14 +201,16 @@
                                                          
                                      <thead>
                                          <tr>
-                                             @foreach (System.Data.DataColumn col in Model.Columns)
-                                             {
-                                      
-                                                 <th>@col.Caption </th>
-                                            
-                                             }
-                                      
-                                         </tr>
+
+                                            @foreach (System.Data.DataColumn col in Model.Columns)
+                                            {
+                                                if(col.IsNumeric()){
+                                                    <th class="number">@col.Caption </th>
+                                                }else{
+                                                    <th>@col.Caption </th>
+                                                }
+                                            }
+                                        </tr>
                                      </thead>
                                      <tbody >
                                     
@@ -429,22 +222,16 @@
                                                  {
                                                      if(cell is decimal || cell is int)
                                                      {
-                                                    
-                                                
-
-
                                                          ben[index] = ben[index] + double.Parse(@String.Format("{0:n0}", @cell));
                                                          index++;
-                                                
-
-                                                         <td>@String.Format("{0:n0}",@cell)</td>
+                                                        <td class="number">@String.Format("{0:n0}",@cell)</td>
                                                      }
                                                      else
                                                      {
-                                                         <td>@String.Format("{0:n0}",@cell)</td>
-                                                    
+                                                        <td >@String.Format("{0:n0}",@cell)</td>
+
                                                      }
-                                               
+
                                                  }
                                              </tr>
                                              
@@ -452,10 +239,10 @@
                                     
                                      </tbody>
                                      <tr>
-                                         <th>Total:</th>
+                                         <th class="number">Total:</th>
                                          @foreach (double t in @ben)
                                          {
-                                             <th>@String.Format("{0:n0}",@t) </th>
+                                            <th class="number">@String.Format("{0:n0}",@t) </th>
                                          }
                                      </tr>
                                  </table>
@@ -614,8 +401,8 @@
                                         <th>Req No</th>
                                         <th>Program</th>
                                         <th>Zone</th>
-                                        <th>Beneficiaries</th>
-                                        <th>Amount</th>
+                                        <th class="number">Beneficiaries</th>
+                                        <th class="number">Amount</th>
                                         <th>Commodity</th>
                                         <th>Allocation Type</th>
                                         
@@ -627,10 +414,10 @@
                                        <td>{{req.reqNo}}</td>
                                        <td>{{req.program}}</td>
                                         <td>{{req.zone}}</td>
-                                        <th>{{req.beneficiaries | number}}</th>
-                                        <th>{{req.amount | number}}</th>
+                                       <th class="number">{{req.beneficiaries | number}}</th>
+                                       <th class="number">{{req.amount | number}}</th>
                                        <th>{{req.commodity}}</th>
-                                        <th>{{req.allocationType}}</th>
+                                       <th>{{req.allocationType}}</th>
                                    
                                    
                                   
@@ -650,35 +437,7 @@
                     <!-- /.portlet-content -->
 
                 </div>
-                @*<div class="span3">
-
-                    <div class="portlet">
-                        <!-- /.portlet-header -->
-
-                        <div class="">
-                            <a href="javascript:;" class="dashboard-stat">
-                                <div class="details ">
-                                    <span class="content">Number of Incoming Dispatches</span>
-                                    <span class="value">98 </span>
-                                </div>
-                            </a>
-                            <br>
-                        </div>
-
-                        <div class="">
-                            <a href="javascript:;" class="dashboard-stat">
-                                <div class="details ">
-                                    <span class="content">Total Incoming Commodity</span>
-                                    <span class="value">200 QT </span>
-                                </div>
-                            </a>
-                            <br>
-                        </div>
-                        <!-- /.portlet-content -->
-
-                    </div>
-                    <!-- /.portlet -->
-                </div>*@
+               
                 <!-- /.portlet -->
             </div>
         </div>
@@ -803,8 +562,8 @@
                                         
                                         <th>Req No</th>
                                         <th>Zone</th>
-                                        <th>Beneficiaries</th>
-                                        <th>Amount</th>
+                                        <th class="number">Beneficiaries</th>
+                                        <th class="number">Amount</th>
                                         <th>Commodity</th>
                                             
                                     </tr>
@@ -814,8 +573,8 @@
                                         <td class="hidden-xs">{{$index + 1}}</td>
                                         <td>{{req.reqNo}}</td>
                                         <td>{{req.zone}}</td>
-                                        <th>{{req.beneficiaries}}</th>
-                                        <th>{{req.amount}}</th>
+                                         <th class="number">{{req.beneficiaries}}</th>
+                                         <th class="number">{{req.amount}}</th>
                                         <th>{{req.commodity}}</th>
                                        
                                     
