@@ -739,11 +739,13 @@
     <Compile Include="Helpers\Hub\StringExtensions.cs" />
     <Compile Include="Helpers\Hub\UserAccountHelper.cs" />
     <Compile Include="Helpers\Hub\VersionHelper.cs" />
+    <Compile Include="Helpers\LabelExtensions.cs" />
     <Compile Include="Helpers\LanguageHelper.cs" />
     <Compile Include="Helpers\Log.cs" />
     <Compile Include="Helpers\MainMenuExtensionHelper.cs" />
     <Compile Include="Helpers\MD5Hashing.cs" />
     <Compile Include="Helpers\NotificationHelper.cs" />
+    <Compile Include="Helpers\NumericHelpers.cs" />
     <Compile Include="Helpers\ReportMenuHelper.cs" />
     <Compile Include="Helpers\RoundMonthHelper.cs" />
     <Compile Include="Helpers\SendMail.cs" />
@@ -1872,6 +1874,8 @@
     <Content Include="Areas\Regional\Views\RegionRequisitions\Allocation.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\_RequisitionsFilter.cshtml" />
     <Content Include="Areas\Settings\Views\LossReason\Index.cshtml" />
+    <Content Include="Areas\Procurement\Views\Transporter\Copy of Edit.cshtml" />
+    <Content Include="Areas\Procurement\Views\Transporter\Copy of Create.cshtml" />
     <None Include="dataset.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>dataset.Designer.cs</LastGenOutput>

@@ -31,9 +31,15 @@ namespace Cats.Areas.Procurement.Controllers
             TransporterPOCO transporterPoco = new TransporterPOCO();
             transporterPoco.TransporterID = tm.TransporterID;
             transporterPoco.Name = tm.Name;
+            /*
             transporterPoco.Region = _adminUnitService.FindById(tm.Region).Name;
             transporterPoco.Zone = _adminUnitService.FindById(tm.Zone).Name;
             transporterPoco.Woreda = _adminUnitService.FindById(tm.Woreda).Name;
+            */
+            transporterPoco.Region = tm.Region.ToString();
+            transporterPoco.Zone = tm.Zone.ToString();
+            transporterPoco.Woreda = tm.Woreda.ToString();
+
             transporterPoco.SubCity = tm.SubCity;
             transporterPoco.Kebele = tm.Kebele;
             transporterPoco.HouseNo = tm.HouseNo;
