@@ -1,6 +1,7 @@
 ﻿@model Cats.Models.Hubs.ViewModels.ReceiveViewModel
 @using Cats.Models.Hubs
 @using Cats.Web.Hub.Helpers
+@using Cats.Helpers
 @using Telerik.Web.Mvc.UI
 @{
     var disableSetting = (Model.IsEditMode) ? new { @readonly = "readonly" } : null;
@@ -43,7 +44,7 @@
     <table class="borderless">
         <tr>
             <td style="width: 200px">
-                @Html.LabelFor(model => model.GRN, Html.Translate("GRN")) <span class="required">*</span>
+                <span class="required">*</span> @Html.LabelFor(model => model.GRN, Html.Translate("GRN")) 
             </td>
             <td>
                 @Html.EditorFor(model => model.GRN)
@@ -62,8 +63,7 @@
         </tr>
         <tr>
             <td style="width: 200px">
-                @Html.LabelFor(model => model.CommoditySourceID, Html.Translate("Commodity Source")) <span class="required">
-                    *</span>
+                <span class="required">*</span> @Html.LabelFor(model => model.CommoditySourceID, Html.Translate("Commodity Source")) 
             </td>
             <td>
                 @Html.TextBoxFor(model => model.CommoditySourceText, new { @readonly = "readonly" })
@@ -90,7 +90,7 @@
             {*@
            
                 <td class="SourceHubDonation" style="width: 200px;display: none">
-                    @Html.LabelFor(model => model.SourceHubID, Html.Translate("Source Hub")) <span class="required">*</span>
+                    <span class="required">*</span> @Html.LabelFor(model => model.SourceHubID, Html.Translate("Source Hub")) 
                 </td>
                 <td class="SourceHubDonation" style="width: 200px;display: none;">
                     @if (!Model.IsEditMode)
@@ -121,8 +121,7 @@
         </tr>
         <tr>
             <td style="width: 200px">
-                @Html.LabelFor(model => model.SINumber, Html.Translate("SI / Batch Number")) <span class="required">
-                    *</span>
+                <span class="required">*</span> @Html.LabelFor(model => model.SINumber, Html.Translate("SI / Batch Number")) 
             </td>
             <td>
                 @Html.TextBoxFor(model => model.SINumber, disableSetting)
@@ -130,8 +129,7 @@
                 @Html.ValidationMessageFor(model => model.SINumber)
             </td>
             <td style="width: 200px">
-                @Html.LabelFor(model => model.ProjectNumber, Html.Translate("Project Code")) <span class="required">
-                    *</span>
+                <span class="required">*</span> @Html.LabelFor(model => model.ProjectNumber, Html.Translate("Project Code")) 
             </td>
             <td>
                 <div id="projectError" style="display: none; color: red">
@@ -145,8 +143,7 @@
         { *@
                 <tr id="PurchaseFeilds" style="display: none;">
                     <td style="width: 200px">
-                        @Html.LabelFor(model => model.PurchaseOrder, Html.Translate("Puchase Order")) <span class="required">
-                            *</span>
+                        <span class="required">*</span> @Html.LabelFor(model => model.PurchaseOrder, Html.Translate("Puchase Order")) 
                     </td>
                     <td>
                         @Html.TextBoxFor(model => model.PurchaseOrder, disableSetting)

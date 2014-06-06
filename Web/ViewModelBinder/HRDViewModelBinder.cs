@@ -178,7 +178,7 @@ namespace Cats.ViewModelBinder
                     dt.Columns.Add(col);
                 }
 
-                var colTotal = new DataColumn("Total", typeof(decimal));
+                var colTotal = new DataColumn("Total"+ " in " + preferedWeight.ToUpper().Trim(), typeof(decimal));
                 colTotal.ExtendedProperties.Add("ID", "Total");
                 dt.Columns.Add(colTotal);
 

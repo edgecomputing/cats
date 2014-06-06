@@ -765,7 +765,7 @@
 </div>
 
 <div id="changePassword" class="modal hide" style="display: none; ">
-    @using (Html.BeginForm("ChangePassword2", "Users", new { Area = "Settings" }, FormMethod.Post))
+    @using (Html.BeginForm("ChangePassword2", "Users", new { Area = "Settings" }, FormMethod.Post, new { @class = "modal-form", id = "changePassword" }))
     {
         <div class="modal-header">
             <a class="close" data-dismiss="modal">×</a>
@@ -811,3 +811,22 @@
         window.location = "@Url.Action("ReportListing","Home",new {Area=""})";
     });
 </script>
+<script>
+    $(document).ready(function () {
+
+        var allValidationRules = {
+            OldPassword: "required",
+            NewPassword: "required",
+            ConfirmPassword: "required"
+
+        };
+        $("#changePassword").validate({
+            rules: allValidationRules,
+            showErrors: function (element, errorClass, validClass) {
+                for (var i in errorClass) {
+                    $(errorClass[i].element).popover('show');
+                }
+            }
+        });
+    });
+    </script>

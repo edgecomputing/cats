@@ -739,11 +739,13 @@
     <Compile Include="Helpers\Hub\StringExtensions.cs" />
     <Compile Include="Helpers\Hub\UserAccountHelper.cs" />
     <Compile Include="Helpers\Hub\VersionHelper.cs" />
+    <Compile Include="Helpers\LabelExtensions.cs" />
     <Compile Include="Helpers\LanguageHelper.cs" />
     <Compile Include="Helpers\Log.cs" />
     <Compile Include="Helpers\MainMenuExtensionHelper.cs" />
     <Compile Include="Helpers\MD5Hashing.cs" />
     <Compile Include="Helpers\NotificationHelper.cs" />
+    <Compile Include="Helpers\NumericHelpers.cs" />
     <Compile Include="Helpers\ReportMenuHelper.cs" />
     <Compile Include="Helpers\RoundMonthHelper.cs" />
     <Compile Include="Helpers\SendMail.cs" />
