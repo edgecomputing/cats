@@ -137,3 +137,13 @@ input.borderless-input:focus {
 }
 
 /* End of breadcrumb*/
+
+.chartWrap {
+        margin: 0 auto;
+        width: 100%;
+        height: 240px;
+    }
+
+.required {
+    color: red;
+}
