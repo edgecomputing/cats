@@ -143,11 +143,11 @@
                                     <tr>
                                         @foreach (System.Data.DataColumn col in Model.Columns)
                                              {
-                                                  if(col.IsNumeric()){
-                                                        <th class="number">@col.Caption </th>
-                                                  }else{
+                                                 //if(col.IsNumeric()){
+                                                        @*<th class="number">@col.Caption </th>*@
+                                                  //}else{
                                                         <th>@col.Caption </th>
-                                                  }
+                                                  @*}*@
                                              }
 
                                     </tr>

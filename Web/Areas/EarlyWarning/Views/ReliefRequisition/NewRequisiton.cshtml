@@ -12,11 +12,7 @@
         New  Requisiton For Distribution
     </legend>
 </fieldset>
-@*@section Toolbar
-{
-    <a class="btn toolbar-btn " data-buttontype="btn_save" data-submittedform="frm_create_Requistions"></a>
-    <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="@Url.Action("CancelChanges", "ReliefRequisition")" title="Cancel"></a>
-}*@
+
 
 @section LeftBar
 {
@@ -137,8 +133,8 @@
                 
                         }
                         @status
-                    <input type='hidden'  name="input[@index].Number" id="txtReqID" value="@item.Input.Number"/>
-                    <input type='hidden'  name="input[@index].RegionalRequestId" id="txtRegionalRequestId" value="@item.RegionalRequestId"/>
+                    <input type='hidden' name="input[@index].Number" id="txtReqID" value="@item.Input.Number"/>
+                    
                    @* </td>
 
                     <td>*@
