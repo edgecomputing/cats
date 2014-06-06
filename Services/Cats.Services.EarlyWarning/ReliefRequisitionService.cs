@@ -320,8 +320,6 @@ namespace Cats.Services.EarlyWarning
                 var requisitionDetail = _unitOfWork.ReliefRequisitionDetailRepository.FindById(alloction.Key);
                 if (requisitionDetail == null) return false;
                 requisitionDetail.Amount = alloction.Value;
-
-             
             }
 
            _unitOfWork.Save();
