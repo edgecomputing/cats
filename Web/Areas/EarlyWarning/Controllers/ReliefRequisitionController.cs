@@ -168,7 +168,6 @@ namespace Cats.Areas.EarlyWarning.Controllers
         [HttpGet]
         public ViewResult NewRequisiton(int id)
         {
-
             var input = _reliefRequisitionService.GetRequisitionByRequestId(id).ToList();
             var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
             
@@ -190,7 +189,6 @@ namespace Cats.Areas.EarlyWarning.Controllers
             {
                 var requisitionNumbers = input.ToDictionary(t => t.Number, t => t.RequisitionNo);
                 _reliefRequisitionService.AssignRequisitonNo(requisitionNumbers);
-
             }
             return RedirectToAction("Index", "ReliefRequisition");
         }
