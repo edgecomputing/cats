@@ -7,6 +7,10 @@ namespace Cats.Models.ViewModels
 {
     public class ReliefRequisitionNew
     {
+        public ReliefRequisitionNew()
+        {
+            this.RequestDatePref = "";
+        }
         public int RequisitionID { get; set; }
         public string Commodity { get; set; }
         public string Region { get; set; }

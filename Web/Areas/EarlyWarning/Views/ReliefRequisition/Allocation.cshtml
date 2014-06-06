@@ -1,4 +1,5 @@
-﻿@using Cats.Areas.EarlyWarning.Models
+﻿@using System.Collections
+@using Cats.Areas.EarlyWarning.Models
 @using Cats.Models
 @model Cats.Areas.EarlyWarning.Models.ReliefRequisitionViewModel
 @using Cats.Services.Security
@@ -68,7 +69,12 @@
                 </div>
                 <div class="controls">@Html.TextBoxFor(model => model.Commodity, new { disabled = "true" })</div>
             </div>
-
+            
+            <div class="control-group">
+                <div class="control-label">@Html.DisplayNameFor(model => model.Ration)
+                </div>
+                <div class="controls">@Html.TextBoxFor(model => model.Ration, new { disabled = "true" })</div>
+            </div>
         </div>
         <div class="span5">
             @if (Model.ProgramID == 1)
@@ -137,7 +143,10 @@
         //columns.Bound(p => p.Donor).Width(100).HtmlAttributes(new { style = "background-color:lightgray" });
         columns.Bound(p => p.Commodity).Width(100).HtmlAttributes(new { style = "background-color:lightgray" });
         //columns.ForeignKey(p => p.Donor, (IEnumerable<Cats.Models.Donor>)ViewData["donors"], "DonorID", "Name").Width(200);
-        if (Model.ProgramID == 2) { columns.Bound(p => p.Donor).Width(100).HtmlAttributes(new { style = "background-color:lightgray" }); }
+        if (Model.ProgramID == 2)
+        {
+            columns.ForeignKey(p => p.DonorID, (IEnumerable) ViewData["donors"], "DonorID", "Name").Width(100);
+        }
         columns.Bound(p => p.BenficiaryNo).Width(100).HtmlAttributes(new { align = "right" }).Format("{0:n0}");
         columns.Bound(p => p.Amount).Width(100).HtmlAttributes(new { style = "background-color:lightgray", align = "right" }).Format("{0:n2}").HeaderHtmlAttributes(new { @class = "cats-unit-pref-grid" });
         if (Model.ProgramID == 2)

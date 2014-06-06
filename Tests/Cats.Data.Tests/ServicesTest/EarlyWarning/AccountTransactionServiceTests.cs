@@ -500,7 +500,7 @@ namespace Cats.Data.Tests.ServicesTest.EarlyWarning
                                                                                         {
                                                                                             RegionalPSNPPlanDetailID = 1,
                                                                                             RegionalPSNPPlanID = 1,
-                                                                                            PlanedFDPID = 1,
+                                                                                            PlanedWoredaID = 1,
                                                                                             BeneficiaryCount = 200,
                                                                                             FoodRatio = 3,
                                                                                             CashRatio = 3,
@@ -834,7 +834,7 @@ namespace Cats.Data.Tests.ServicesTest.EarlyWarning
                                                                                             {
                                                                                                 RegionalPSNPPlanDetailID = 1,
                                                                                                 RegionalPSNPPlanID = 1,
-                                                                                                PlanedFDPID = 1,
+                                                                                                PlanedWoredaID = 1,
                                                                                                 BeneficiaryCount = 200,
                                                                                                 FoodRatio = 3,
                                                                                                 CashRatio = 3,

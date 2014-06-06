@@ -24,6 +24,10 @@
                 color: lime;
                 font-weight: bold;
             }
+            thead *
+            {
+                font-weight:normal;
+            }
         </style>
     </head>
     <body ng-controller="DispatchManagementController">
@@ -139,7 +143,7 @@
                 <div class="tab-content ">
                     <div id="tab0" class="tab-pane active">
                         <div id="gridWithoutGRN" class="k-widget k-grid" data-role="grid" style="">
-                            <div class="k-grid-header" style="padding-right: 17px;">
+                            <div class="k-grid-header" style="padding-right: 17px; display:none;">
                                 <div class="k-grid-header-wrap">
                                     <table cellspacing="0" role="grid">
                                         <tr>
@@ -158,6 +162,14 @@
                                                 <th scope="col" data-title="Program" data-field="Program" class="k-header">
                                                     <span class="k-link">Program</span>
                                                 </th>
+                                                
+                                                <th scope="col" data-title="Zone" data-field="Zone" class="k-header">
+                                                    <span class="k-link">Zone</span>
+                                                </th>
+                                                <th scope="col" data-title="Woreda" data-field="Woreda" class="k-header">
+                                                    <span class="k-link">Woreda</span>
+                                                </th>
+
                                                 <th scope="col" data-title="FDP" data-field="FDP" class="k-header">
                                                     <span class="k-link">FDP</span>
                                                 </th>
@@ -187,11 +199,53 @@
                             <div style="height:720px" class="k-grid-content">
                                 <table cellspacing="0" role="grid">
                                     <colgroup><col><col><col><col><col><col><col><col><col><col></colgroup>
+                                        <thead>
+                                            <tr>
+                                                <th style="overflow: visible; white-space: normal;" scope="col" data-title="GIN" data-field="GIN" class="k-header">
+                                                    <span class="k-link">GIN</span>
+                                                </th>
+                                                <th style="overflow: visible; white-space: normal;" scope="col" data-title="Requisition No" data-field="RequisitionNo" class="k-header">
+                                                    <span class="k-link">Requisition No</span>
+                                                </th>
+                                                <th scope="col" data-title="Program" data-field="Program" class="k-header">
+                                                    <span class="k-link">Program</span>
+                                                </th>
+                                                <th scope="col" data-title="Zone" data-field="Zone" class="k-header">
+                                                    <span class="k-link">Zone</span>
+                                                </th>
+                                                <th scope="col" data-title="Woreda" data-field="Woreda" class="k-header">
+                                                    <span class="k-link">Woreda</span>
+                                                </th>
+                                                <th scope="col" data-title="FDP" data-field="FDP" class="k-header">
+                                                    <span class="k-link">FDP</span>
+                                                </th>
+                                                <th scope="col" data-title="Bid Number" data-field="BidNumber" class="k-header">
+                                                    <span class="k-link">Bid Number</span>
+                                                </th>
+                                                <th style="overflow: visible; white-space: normal;" scope="col" data-title="Plate No. Prime" data-field="PlateNo_Prime" class="k-header">
+                                                    <span class="k-link">Plate No. Prime</span>
+                                                </th>
+                                                <th style="overflow: visible; white-space: normal;" scope="col" data-title="Plate No. Trailer" data-field="PlateNo_Trailer" class="k-header">
+                                                    <span class="k-link">Plate No. Trailer</span>
+                                                </th>
+                                                <th style="overflow: visible; white-space: normal;" scope="col" data-title="Received By (Driver Name)" data-field="DriverName" class="k-header">
+                                                    <span class="k-link">Received By (Driver Name)</span>
+                                                </th>
+                                                <th style="overflow: visible; white-space: normal;" scope="col" data-title="Dispatched Date" data-field="DispatchDatePref" class="k-header cats-date-pref-grid">
+                                                    <span class="k-link">Dispatched Date</span>
+                                                </th>
+                                                <th style="overflow: visible; white-space: normal;" scope="col" data-title="Created Date" data-field="CreatedDatePref" class="k-header cats-date-pref-grid">
+                                                    <span class="k-link">Created Date</span>
+                                                </th>
+                                            </tr>
+                                        </thead>
                                     <tbody>
                                         <tr ng-repeat="item in GetGINsWithoutGRN">
                                             <td><a data-dispatchID ="{{item.DispatchID}}" style="cursor:pointer;" data-ng-click="loadGRNPartial(item.DispatchID)">{{item.GIN}}</a></td>
                                             <td>{{item.RequisitionNo}}</td>
                                             <td>{{item.Program}}</td>
+                                            <td>{{item.Zone}}</td>
+                                            <td>{{item.Woreda}}</td>
                                             <td>{{item.FDP}}</td>
                                             <td>{{item.BidNumber}}</td>
                                             <td>{{item.PlateNo_Prime}}</td>
@@ -207,7 +261,7 @@
                     </div>
                     <div id="tab1" class="tab-pane">
                         <div id="gridWithGRN" class="k-widget k-grid" data-role="grid" style="">
-                            <div class="k-grid-header" style="padding-right: 17px;">
+                            <div class="k-grid-header" style="padding-right: 17px; display:none;">
                                 <div class="k-grid-header-wrap">
                                     <table cellspacing="0" role="grid">
                                         <colgroup><col><col><col><col><col><col><col><col><col><col></colgroup>
@@ -221,6 +275,12 @@
                                                 </th>
                                                 <th scope="col" data-title="Program" data-field="Program" class="k-header">
                                                     <span class="k-link">Program</span>
+                                                </th>
+                                                <th scope="col" data-title="Zone" data-field="Zone" class="k-header">
+                                                    <span class="k-link">Zone</span>
+                                                </th>
+                                                <th scope="col" data-title="Woreda" data-field="Woreda" class="k-header">
+                                                    <span class="k-link">Woreda</span>
                                                 </th>
                                                 <th scope="col" data-title="FDP" data-field="FDP" class="k-header">
                                                     <span class="k-link">FDP</span>
@@ -251,6 +311,48 @@
                             <div style="height:720px" class="k-grid-content">
                                 <table cellspacing="0" role="grid">
                                     <colgroup><col><col><col><col><col><col><col><col><col><col></colgroup>
+
+                                        <thead>
+                                            <tr>
+                                                <th style="overflow: visible; white-space: normal;" scope="col" data-title="GIN" data-field="GIN" class="k-header">
+                                                    <span class="k-link">GIN</span>
+                                                </th>
+                                                <th style="overflow: visible; white-space: normal;" scope="col" data-title="Requisition No" data-field="RequisitionNo" class="k-header">
+                                                    <span class="k-link">Requisition No</span>
+                                                </th>
+                                                <th scope="col" data-title="Program" data-field="Program" class="k-header">
+                                                    <span class="k-link">Program</span>
+                                                </th>
+                                                <th scope="col" data-title="Zone" data-field="Zone" class="k-header">
+                                                    <span class="k-link">Zone</span>
+                                                </th>
+                                                <th scope="col" data-title="Woreda" data-field="Woreda" class="k-header">
+                                                    <span class="k-link">Woreda</span>
+                                                </th>
+                                                <th scope="col" data-title="FDP" data-field="FDP" class="k-header">
+                                                    <span class="k-link">FDP</span>
+                                                </th>
+                                                <th scope="col" data-title="Bid Number" data-field="BidNumber" class="k-header">
+                                                    <span class="k-link">Bid Number</span>
+                                                </th>
+                                                <th style="overflow: visible; white-space: normal;" scope="col" data-title="Plate No. Prime" data-field="PlateNo_Prime" class="k-header">
+                                                    <span class="k-link">Plate No. Prime</span>
+                                                </th>
+                                                <th style="overflow: visible; white-space: normal;" scope="col" data-title="Plate No. Trailer" data-field="PlateNo_Trailer" class="k-header">
+                                                    <span class="k-link">Plate No. Trailer</span>
+                                                </th>
+                                                <th style="overflow: visible; white-space: normal;" scope="col" data-title="Received By (Driver Name)" data-field="DriverName" class="k-header">
+                                                    <span class="k-link">Received By (Driver Name)</span>
+                                                </th>
+                                                <th style="overflow: visible; white-space: normal;" scope="col" data-title="Dispatched Date" data-field="DispatchDatePref" class="k-header cats-date-pref-grid">
+                                                    <span class="k-link">Dispatched Date</span>
+                                                </th>
+                                                <th style="overflow: visible; white-space: normal;" scope="col" data-title="Created Date" data-field="CreatedDatePref" class="k-header cats-date-pref-grid">
+                                                    <span class="k-link">Created Date</span>
+                                                </th>
+                                            </tr>
+                                        </thead>
+
                                     <tbody>
                                         <tr ng-repeat="item in GetGINsWithGRN">
                                             <td>
@@ -258,6 +360,8 @@
                                             </td>
                                             <td>{{item.RequisitionNo}}</td>
                                             <td>{{item.Program}}</td>
+                                            <td>{{item.Zone}}</td>
+                                            <td>{{item.Woreda}}</td>
                                             <td>{{item.FDP}}</td>
                                             <td>{{item.BidNumber}}</td>
                                             <td>{{item.PlateNo_Prime}}</td>
@@ -273,7 +377,7 @@
                     </div>
                     <div id="tab2" class="tab-pane">
                         <div id="grid" class="k-widget k-grid" data-role="grid" style="">
-                            <div class="k-grid-header" style="padding-right: 17px;">
+                            <div class="k-grid-header" style="padding-right: 17px; display:none;">
                                 <div class="k-grid-header-wrap">
                                     <table cellspacing="0" role="grid">
                                         <colgroup><col><col><col><col><col><col><col><col><col><col></colgroup>
@@ -288,6 +392,13 @@
                                                 <th scope="col" data-title="Program" data-field="Program" class="k-header">
                                                     <span class="k-link">Program</span>
                                                 </th>
+                                                <th scope="col" data-title="Zone" data-field="Zone" class="k-header">
+                                                    <span class="k-link">Zone</span>
+                                                </th>
+                                                <th scope="col" data-title="Woreda" data-field="Woreda" class="k-header">
+                                                    <span class="k-link">Woreda</span>
+                                                </th>
+
                                                 <th scope="col" data-title="FDP" data-field="FDP" class="k-header">
                                                     <span class="k-link">FDP</span>
                                                 </th>
@@ -317,6 +428,48 @@
                             <div style="height:720px" class="k-grid-content">
                                 <table cellspacing="0" role="grid">
                                     <colgroup><col><col><col><col><col><col><col><col><col><col></colgroup>
+                                        <thead>
+                                            <tr>
+                                                <th style="overflow: visible; white-space: normal;" scope="col" data-title="GIN" data-field="GIN" class="k-header">
+                                                    <span class="k-link">GIN</span>
+                                                </th>
+                                                <th style="overflow: visible; white-space: normal;" scope="col" data-title="Requisition No" data-field="RequisitionNo" class="k-header">
+                                                    <span class="k-link">Requisition No</span>
+                                                </th>
+                                                <th scope="col" data-title="Program" data-field="Program" class="k-header">
+                                                    <span class="k-link">Program</span>
+                                                </th>
+                                                <th scope="col" data-title="Zone" data-field="Zone" class="k-header">
+                                                    <span class="k-link">Zone</span>
+                                                </th>
+                                                <th scope="col" data-title="Woreda" data-field="Woreda" class="k-header">
+                                                    <span class="k-link">Woreda</span>
+                                                </th>
+
+                                                <th scope="col" data-title="FDP" data-field="FDP" class="k-header">
+                                                    <span class="k-link">FDP</span>
+                                                </th>
+                                                <th scope="col" data-title="Bid Number" data-field="BidNumber" class="k-header">
+                                                    <span class="k-link">Bid Number</span>
+                                                </th>
+                                                <th style="overflow: visible; white-space: normal;" scope="col" data-title="Plate No. Prime" data-field="PlateNo_Prime" class="k-header">
+                                                    <span class="k-link">Plate No. Prime</span>
+                                                </th>
+                                                <th style="overflow: visible; white-space: normal;" scope="col" data-title="Plate No. Trailer" data-field="PlateNo_Trailer" class="k-header">
+                                                    <span class="k-link">Plate No. Trailer</span>
+                                                </th>
+                                                <th style="overflow: visible; white-space: normal;" scope="col" data-title="Received By (Driver Name)" data-field="DriverName" class="k-header">
+                                                    <span class="k-link">Received By (Driver Name)</span>
+                                                </th>
+                                                <th style="overflow: visible; white-space: normal;" scope="col" data-title="Dispatched Date" data-field="DispatchDatePref" class="k-header cats-date-pref-grid">
+                                                    <span class="k-link">Dispatched Date</span>
+                                                </th>
+                                                <th style="overflow: visible; white-space: normal;" scope="col" data-title="Created Date" data-field="CreatedDatePref" class="k-header cats-date-pref-grid">
+                                                    <span class="k-link">Created Date</span>
+                                                </th>
+                                            </tr>
+                                        </thead>
+
                                     <tbody>
                                         @*<tr role="row" data-uid="fc1fa826-1d46-4983-80a4-b7dc0ec37c27" class="alert-danger">*@
                                         <tr role="row" data-ng-repeat="item in DeliveryNotes">
@@ -325,6 +478,8 @@
                                             </td>
                                             <td>{{item.RequisitionNo}}</td>
                                             <td>{{item.Program}}</td>
+                                            <td>{{item.Zone}}</td>
+                                            <td>{{item.Woreda}}</td>
                                             <td>{{item.FDP}}</td>
                                             <td>{{item.BidNumber}}</td>
                                             <td>{{item.PlateNoPrimary}}</td>

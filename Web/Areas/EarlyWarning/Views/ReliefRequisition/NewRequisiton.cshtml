@@ -13,13 +13,14 @@
     </legend>
 </fieldset>
 
+
 @section LeftBar
 {
     @Html.Partial("_RequistionsLeftBar")
 
 }
 
-@using (Html.BeginForm("NewRequisiton", "ReliefRequisition", FormMethod.Post))
+@using (Html.BeginForm("NewRequisiton", "ReliefRequisition", FormMethod.Post, new { id = "frm_create_Requistions" }))
 {
     <table  id="kGrid">
         <thead>
@@ -31,10 +32,10 @@
                     @Html.DisplayNameFor(model => model.Region)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Program)
+                    @Html.DisplayNameFor(model => model.Zone)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Zone)
+                    @Html.DisplayNameFor(model => model.Program)
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.Commodity)
@@ -76,10 +77,10 @@
                         @Html.DisplayFor(modelItem => item.Region)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Program)
+                        @Html.DisplayFor(modelItem => item.Zone)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Zone)
+                        @Html.DisplayFor(modelItem => item.Program)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Commodity)
@@ -87,7 +88,7 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.Round)
                     </td>
-                    <td>
+                    <td class="cats-date-pref-grid">
                         @Html.DisplayFor(modelItem => item.RequestDatePref)
                     </td>
                     @*<td>
@@ -132,7 +133,8 @@
                 
                         }
                         @status
-                          <input type='hidden'  name="input[@index].Number" id="txtReqID" value="@item.Input.Number"/>
+                    <input type='hidden' name="input[@index].Number" id="txtReqID" value="@item.Input.Number"/>
+                    
                    @* </td>
 
                     <td>*@
@@ -150,6 +152,7 @@
     </table>
     <p>
         <input class="btn btn-success" type="submit" value="Save Change" />
+       @* <input class="btn btn-success" type="submit" value="Save Change" />*@
     </p>
 }
 <script>

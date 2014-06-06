@@ -169,15 +169,15 @@ namespace Cats.Areas.EarlyWarning.Controllers
         public ViewResult NewRequisiton(int id)
         {
 
-            var input = _reliefRequisitionService.GetRequisitionByRequestId(id);
+            var input = _reliefRequisitionService.GetRequisitionByRequestId(id).ToList();
             var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
             
             foreach (var reliefRequisitionNew in input)
             {
-                //var preferedDate = reliefRequisitionNew.RequestedDate.GetValueOrDefault(DateTime.Now);
                 if (reliefRequisitionNew.RequestedDate.HasValue)
+                {
                     reliefRequisitionNew.RequestDatePref = reliefRequisitionNew.RequestedDate.Value.ToCTSPreferedDateFormat(datePref);
-               // reliefRequisitionNew.RequestDatePref = preferedDate.ToCTSPreferedDateFormat(datePref);
+                }
             }
             return View(input);
         }
@@ -456,5 +456,19 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
         }
 
+
+        //public  JsonResult CancelChanges(List<DataFromGrid> input)
+        //{
+        //    List<int> ids = new List<int>();
+        //    if (input!=null)
+        //    {
+        //        foreach (var id in ids)
+        //        {
+                   
+        //        }
+                
+        //    }
+        //    return Json(ids, JsonRequestBehavior.AllowGet);
+        //}
     }
 }
