@@ -21,7 +21,8 @@ namespace Cats.Areas.EarlyWarning.Models
         public class ReleifRequisitionDetailEditInput
         {
             public int Number { get; set; }
-            public decimal Amount { get; set; } 
+            public decimal Amount { get; set; }
+            
         }
     }
 }
