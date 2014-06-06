@@ -1,4 +1,4 @@
-@using Cats.Models.Hubs.ViewModels
+﻿@using Cats.Models.Hubs.ViewModels
 @using Cats.Web.Hub.Helpers
 @using Telerik.Web.Mvc.UI
 
@@ -8,10 +8,11 @@
     <meta charset="utf-8" />
     <title>@Html.Translate("Commodity Tracking System : ")@ViewBag.Title</title>
     <link href="@Url.Content("~/Content/css/south-street/jquery-ui-1.8.18.custom.css")" rel="stylesheet" type="text/css" />
-    <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
+    
     <link href="~/Content/bootstrap.min.css" rel="stylesheet">
     <link href="~/Content/assets/css/bootstrap-responsive.css" rel="stylesheet" />
     <link href="~/Content/assets/css/font-awesome.css" rel="stylesheet" />
+    
     <style type="text/css">
         body {
             padding-top: 60px;
@@ -37,7 +38,7 @@
                                                  .Combined(false).CacheDurationInDays(365))
                       .jQueryValidation(false)
               )
-
+    <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
 </head>
 <body>
     <div class="span12">

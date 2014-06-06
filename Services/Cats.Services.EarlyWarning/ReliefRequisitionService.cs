@@ -301,7 +301,7 @@ namespace Cats.Services.EarlyWarning
                              // ApprovedBy = itm.ApprovedBy,
                              RequestedDate = itm.RequestedDate,
                              ApprovedDate = itm.ApprovedDate,
-
+                             RequestDatePref = itm.RequestedDate.ToString(),
                              Input = new ReliefRequisitionNew.ReliefRequisitionNewInput()
                              {
                                  Number = itm.RequisitionID,
