@@ -352,7 +352,8 @@ namespace Cats.Tests.ControllersTests
             userAccountService.Setup(t => t.GetUserInfo(It.IsAny<string>())).Returns(new UserInfo()
                                                                                          {
                                                                                              UserName = "x",
-                                                                                             DatePreference = "en"
+                                                                                             DatePreference = "en",
+                                                                                             PreferedWeightMeasurment = "mt"
                                                                                          });
 
             var transactionService = new Mock<Cats.Services.Transaction.ITransactionService>();
