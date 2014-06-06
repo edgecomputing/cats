@@ -146,4 +146,5 @@ input.borderless-input:focus {
 
 .required {
     color: red;
+    float: left;
 }

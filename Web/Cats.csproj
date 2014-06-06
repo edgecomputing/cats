@@ -739,6 +739,7 @@
     <Compile Include="Helpers\Hub\StringExtensions.cs" />
     <Compile Include="Helpers\Hub\UserAccountHelper.cs" />
     <Compile Include="Helpers\Hub\VersionHelper.cs" />
+    <Compile Include="Helpers\LabelExtensions.cs" />
     <Compile Include="Helpers\LanguageHelper.cs" />
     <Compile Include="Helpers\Log.cs" />
     <Compile Include="Helpers\MainMenuExtensionHelper.cs" />
