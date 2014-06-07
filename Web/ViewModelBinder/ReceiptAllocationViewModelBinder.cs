@@ -17,7 +17,7 @@ namespace Cats.ViewModelBinder
                                                           ProjectNumber = s.ProjectNumber,
                                                           ReceivedQuantity = s.ReceivedQuantityInMT,
                                                           AllocatedQuantity = s.QuantityInMT,
-                                                          Balance = s.RemainingBalanceInMt,
+                                                          Balance = s.RemainingBalanceInMT,
                                                           CommodityName = s.Commodity.Name,
                                                           SINumber = s.SINumber,
                                                           Hub = s.Hub.Name
