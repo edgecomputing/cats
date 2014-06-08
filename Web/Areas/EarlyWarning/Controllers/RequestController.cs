@@ -888,6 +888,10 @@ namespace Cats.Areas.EarlyWarning.Controllers
         {
            var result = new List<PLANWithRegionalRequestViewModel>();
 
+           if (regionalRequest.PlanID == 0)
+           {
+               return null;
+           } 
            if(regionalRequest.ProgramId==1)
            {
             
