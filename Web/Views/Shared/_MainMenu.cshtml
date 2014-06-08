@@ -273,20 +273,6 @@
                             </li>
 
                             <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Html.Translate2(PAGE_NAME, " Setting")<b class="caret"></b></a>
-                                <ul class="dropdown-menu">
-                                    <li>
-                                        @* Do we need this item here? All admin tasks should be done inside the main settings area *@
-                                        @Html.HubOperationMenuItem(@Html.Translate("Admin"),
-                                                                   @Url.Action("Home", "Admin", new { Area = "Hub" }),
-                                                                   HubConstants.Operation.View_adjustiments)
-                                    </li>
-
-                                </ul>
-                            </li>
-
-
-                            <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Html.Translate2(PAGE_NAME, "Hub Status")<b class="caret"></b></a>
                                 <ul class="dropdown-menu">
 
@@ -717,13 +703,6 @@
                                         </li>
                                     </ul>
                                 </li>
-
-                                @*<li class="dropdown">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Html.Translate2(PAGE_NAME, " Reports")<b class="caret"></b></a>
-        <ul class="dropdown-menu">
-            <li><a href="#">@Html.Translate("ITSH Report") </a></li>
-        </ul>
-    </li>*@
                             </ul>
                         </div>
                             break;
@@ -750,7 +729,10 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Html.GetUserName() <b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             <li><a href="@Url.Action("Preference", "Home", new { Area = "" })">@Html.Translate("Preference")</a></li>
-                            <li><a href="@Url.Action("Administration", "Account")">@Html.Translate("Administration")</a></li>
+                            @if (currentUser.IsAdmin)
+                            {
+                                <li><a href="@Url.Action("Administration", "Account")">@Html.Translate("Administration")</a></li>
+                            }
                             <li class="divider"></li>
                             <li><a href="#changePassword" data-toggle="modal">@Html.Translate("Change Password")</a></li>
                             @*<li><a href="@Url.Action("ChangePassword", "Users", new { Area = "Settings" })">@Html.Translate("Change Password")</a></li>*@
