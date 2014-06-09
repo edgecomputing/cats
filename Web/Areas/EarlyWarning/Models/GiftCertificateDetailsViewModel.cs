@@ -54,7 +54,7 @@ namespace Cats.Areas.GiftCertificate.Models
         [Required(ErrorMessage = "Year Purchased is required")]
         //[Range(2000, 3000)]
         [Display(Name="Year Purchased")]
-        public DateTime YearPurchased { get; set; }
+        public string YearPurchased { get; set; }
 
         [Required(ErrorMessage = "Fund Source is required")]
         public Int32 DFundSourceID { get; set; }
@@ -74,7 +74,7 @@ namespace Cats.Areas.GiftCertificate.Models
         public string FundSource { get; set; }
         public GiftCertificateDetailsViewModel()
         {
-            this.YearPurchased = DateTime.Now;
+            this.YearPurchased = DateTime.Now.ToString();
             this.DBudgetTypeID = 9;
             this.DFundSourceID = 5;
             this.DCurrencyID = 1;

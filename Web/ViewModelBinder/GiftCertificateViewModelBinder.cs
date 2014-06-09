@@ -110,12 +110,7 @@ namespace Cats.ViewModelBinder
             giftCertificateDetail.ExpiryDate = giftCertificateDetailsViewModel.ExpiryDate;
             return giftCertificateDetail;
         }
-
-        public static List<GiftCertificateDetailsViewModel> BindListOfGiftCertificateDetailsViewModel(List<GiftCertificateDetail> giftCertificateDetails)
-        {
-            return giftCertificateDetails.Select(BindGiftCertificateDetailsViewModel).ToList();
-        }
-
+        
         public static GiftCertificateDetailsViewModel BindGiftCertificateDetailsViewModel(GiftCertificateDetail giftCertificateDetail, string pref)
         {
             var model = new GiftCertificateDetailsViewModel();
@@ -138,6 +133,12 @@ namespace Cats.ViewModelBinder
             model.ExpiryDate = giftCertificateDetail.ExpiryDate;
 
             return model;
+        }
+
+        public static List<GiftCertificateDetailsViewModel> BindListOfGiftCertificateDetailsViewModel(List<GiftCertificateDetail> giftCertificateDetails,string pref)
+        {
+            //return giftCertificateDetails.Select(BindGiftCertificateDetailsViewModel).ToList();
+            return giftCertificateDetails.Select(giftCertificateDetail => BindGiftCertificateDetailsViewModel(giftCertificateDetail, pref)).ToList();
         }
     }
 }

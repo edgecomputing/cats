@@ -155,9 +155,9 @@ namespace Cats.Areas.EarlyWarning.Controllers
                 var gc = _giftCertificateService.FindById(id.Value);
                 if (gc != null)
                 {
+                    var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
                     var gC =
-                        GiftCertificateViewModelBinder.BindListOfGiftCertificateDetailsViewModel(
-                            gc.GiftCertificateDetails.ToList());
+                        GiftCertificateViewModelBinder.BindListOfGiftCertificateDetailsViewModel(gc.GiftCertificateDetails.ToList(), datePref);
 
                     return Json(gC.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
                 }
