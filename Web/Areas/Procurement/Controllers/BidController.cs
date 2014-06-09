@@ -325,7 +325,7 @@ namespace Cats.Areas.Procurement.Controllers
         public ActionResult Create(int id = 0)
         {
 
-            ViewBag.Regions = new SelectList(_adminUnitService.GetRegions(), "AdminUnitID", "Name");
+            ViewBag.RegionID = new SelectList(_adminUnitService.GetRegions(), "AdminUnitID", "Name");
             var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
             var bid = new Bid();
             bid.StartDate = DateTime.Now;
@@ -345,6 +345,12 @@ namespace Cats.Areas.Procurement.Controllers
         public ActionResult Create(Bid bid)
         {
 
+            if (IsBidMadeForThisForRegion(bid.RegionID,bid.BidNumber))
+            {
+                ModelState.AddModelError("Error","This Region is already registered with this Bid No. Please choose another Region!");
+                return View();
+            }
+            
             if (ModelState.IsValid)
             {
                 //var regions = _adminUnitService.FindBy(t => t.AdminUnitTypeID == 2);
@@ -375,6 +381,19 @@ namespace Cats.Areas.Procurement.Controllers
 
             //return View("Index", _bidService.GetAllBid());
         }
+
+
+        private  Boolean IsBidMadeForThisForRegion(int regionId,string BidNo)
+        {
+            var bidForThisRegion = _bidService.FindBy(b => b.RegionID == regionId && b.BidNumber == BidNo).ToList();
+            if (bidForThisRegion.Count > 0)
+            {
+                return false;
+            }
+            return true;
+        }
+
+
 
         public ActionResult Edit(int id)
         {
@@ -441,11 +460,18 @@ namespace Cats.Areas.Procurement.Controllers
             ViewBag.StatusID = new SelectList(_statusService.GetAllStatus(), "StatusID", "Name", bid.StatusID);
             ViewBag.TransportBidPlanID = new SelectList(_transportBidPlanService.GetAllTransportBidPlan(),
                                                         "TransportBidPlanID", "ShortName", bid.TransportBidPlanID);
+            ViewBag.RegionID = new SelectList(_adminUnitService.GetRegions(), "AdminUnitID", "Name");
             return View(bid);
         }
         [HttpPost]
         public ActionResult EditBidStatus(Bid bid)
         {
+            if (IsBidMadeForThisForRegion(bid.RegionID, bid.BidNumber))
+            {
+                ModelState.AddModelError("Error", "Can not edit. This Region is already registered with this Bid No. Please choose another Region!");
+                return View();
+            }
+
             if (ModelState.IsValid)
             {
                 _bidService.EditBid(bid);

@@ -19,7 +19,7 @@ namespace Cats.Models.MetaData
         [Display(Name = "Bid Number")]
         public string BidNumber { get; set; }
 
-        [Required (ErrorMessage = "Please Enter Region")]
+        [Required(ErrorMessage = "Please Enter Region", AllowEmptyStrings = false)]
         public int RegionID { get; set; }
         //[DisplayFormat(DataFormatString = "{0:dd MMM yyyy}")]
         [Display(Name = "Opening Date")]
