@@ -133,7 +133,7 @@ namespace Cats.Services.Hub
           
 
         var projectCodes = (from v in transactions
-                                where v.ParentCommodityID == parentCommodityId && v.HubID == hubID
+                                where v.ParentCommodityID == parentCommodityId && v.HubID == hubID && v.ProjectCodeID != null
                                 select
                                     new ProjectCodeViewModel { ProjectCodeId = v.ProjectCodeID.Value, ProjectName = v.ProjectCode.Value }).Distinct()
                 .ToList();
