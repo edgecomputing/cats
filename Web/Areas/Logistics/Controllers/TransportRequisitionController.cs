@@ -24,6 +24,7 @@ using Cats.Services.Security;
 using log4net;
 using IAdminUnitService = Cats.Services.EarlyWarning.IAdminUnitService;
 using IProgramService = Cats.Services.EarlyWarning.IProgramService;
+using System.Collections.ObjectModel;
 
 namespace Cats.Areas.Logistics.Controllers
 {
@@ -610,7 +611,7 @@ namespace Cats.Areas.Logistics.Controllers
             dataSources[2] = "details";
 
             var reportData = new IEnumerable[3];
-            reportData[0] = header;
+            reportData[0] = new Collection<TransportRequisitionViewModel> { transportRequisitonViewModel };
             reportData[1] = requisitionsSummary;
             reportData[2] = detailsT;
 

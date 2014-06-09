@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Cats.Data.UnitWork;
+using Cats.Models;
 
 namespace Cats.Services.EarlyWarning
 {
@@ -70,6 +72,120 @@ namespace Cats.Services.EarlyWarning
         {
             var donorCoverageDetail =_unitOfWork.HrdDonorCoverageDetailRepository.FindBy(m => m.HRDDonorCoverageID == donorCoverageID);
             return donorCoverageDetail.Count;
+        }
+        public  DataTable TransposeData(IEnumerable<HrdDonorCoverageDetail> donorCoverageDetails, IEnumerable<RationDetail> rationDetails, string preferedWeight)
+        {
+
+            var dt = new DataTable("Transpose");
+
+            var colRegion = new DataColumn("Region", typeof(string));
+            colRegion.ExtendedProperties["ID"] = -1;
+            dt.Columns.Add(colRegion);
+
+            var colZone = new DataColumn("Zone", typeof(string));
+            colZone.ExtendedProperties["ID"] = -1;
+            dt.Columns.Add(colZone);
+
+            var colWoreda = new DataColumn("Woreda", typeof(string));
+            colWoreda.ExtendedProperties["ID"] = -1;
+            dt.Columns.Add(colWoreda);
+
+
+            var colNoBeneficiary = new DataColumn("NoBeneficiary", typeof(int));
+            colNoBeneficiary.ExtendedProperties["ID"] = -1;
+            dt.Columns.Add(colNoBeneficiary);
+
+
+            var colDuration = new DataColumn("Duration", typeof(int));
+            colDuration.ExtendedProperties["ID"] = -1;
+            dt.Columns.Add(colDuration);
+
+            //var colStartingMonth = new DataColumn("Starting Month", typeof(string));
+            //colStartingMonth.ExtendedProperties["ID"] = -1;
+            //dt.Columns.Add(colStartingMonth);
+            var HRDID = donorCoverageDetails.FirstOrDefault().HrdDonorCoverage.HRDID;
+            if (rationDetails != null)
+            {
+                foreach (var ds in rationDetails)
+                {
+                    var col = new DataColumn(ds.Commodity.Name.Trim(), typeof(decimal));
+                    col.ExtendedProperties.Add("ID", ds.CommodityID);
+                    dt.Columns.Add(col);
+                }
+
+                var col1 = new DataColumn("Total", typeof(decimal));
+                col1.ExtendedProperties.Add("ID", "Total");
+                dt.Columns.Add(col1);
+                //int rowID = 0;
+                //bool addRow = false;
+                //var rowGroups = (from item in mydata select item.MyClassID).Distinct().ToList();
+                foreach (var donorcoverageDetail in donorCoverageDetails)
+                {
+                    var dr = dt.NewRow();
+                    //dr[colRequstDetailID] = requestDetail.RegionalRequestDetailID;
+                    var durationAndBeneficary = GetWoredaBeneficiaryNumber(HRDID, donorcoverageDetail.WoredaID);
+                    dr[colRegion] = donorcoverageDetail.AdminUnit.AdminUnit2.AdminUnit2.Name;
+                    dr[colZone] = donorcoverageDetail.AdminUnit.AdminUnit2.Name;
+                    dr[colWoreda] = donorcoverageDetail.AdminUnit.Name;
+                    dr[colNoBeneficiary] = durationAndBeneficary.NumberOfBeneficiaries;
+                    dr[colDuration] = durationAndBeneficary.DurationOfAssistance;
+                    //dr[colStartingMonth] = RequestHelper.MonthName(hrdDetail.StartingMonth);
+                    decimal total = 0;
+                    decimal ration = 0;
+
+
+
+                    var currentUnit = preferedWeight; ;
+
+
+                    foreach (var rationDetail in rationDetails)
+                    {
+
+                        DataColumn col = null;
+                        foreach (DataColumn column in dt.Columns)
+                        {
+                            if (rationDetail.CommodityID.ToString() ==
+                                column.ExtendedProperties["ID"].ToString())
+                            {
+                                col = column;
+                                break;
+                            }
+                        }
+                        if (col != null)
+                        {
+                            var currentUnitUpper = currentUnit.ToUpper().Trim();
+                            if (currentUnitUpper == "MT")
+                                ration = rationDetail.Amount / 1000;
+                            else
+                                ration = rationDetail.Amount / 100;
+
+
+                            total += ration * durationAndBeneficary.NumberOfBeneficiaries
+                                            * durationAndBeneficary.DurationOfAssistance;
+                            dr[col.ColumnName] = ration*durationAndBeneficary.NumberOfBeneficiaries
+                                                 *durationAndBeneficary.DurationOfAssistance;
+
+                        }
+                    }
+                    dr[col1] = total;
+                    dt.Rows.Add(dr);
+                }
+            }
+            //var dta = (from DataRow row in dt.Rows select new
+            //                                                  {
+
+            //                                                  }).ToList();
+
+            return dt;
+        }
+        public HRDDetail GetWoredaBeneficiaryNumber(int hrdID, int woredaID)
+        {
+            var hrdDetail = _unitOfWork.HRDDetailRepository.FindBy(m => m.HRDID == hrdID && m.WoredaID == woredaID).FirstOrDefault();
+            if (hrdDetail != null)
+            {
+                return hrdDetail;
+            }
+            return null;
         }
         public void Dispose()
         {

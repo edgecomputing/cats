@@ -578,10 +578,10 @@ namespace Cats.Areas.EarlyWarning.Controllers
             var requestModelView = RequestViewModelBinder.BindRegionalRequestViewModel(request, statuses, datePref);
             
             //var requestDetails = _regionalRequestDetailService.Get(t => t.RegionalRequestID == id, null, "RequestDetailCommodities,RequestDetailCommodities.Commodity").ToList();
-
+            var preferedweight = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).PreferedWeightMeasurment;
             var result = GetRequestWithPlan(request);
             //var dt = RequestViewModelBinder.TransposeData(requestDetails);
-            var dt = RequestViewModelBinder.TransposeDataNew(result,request.ProgramId);
+            var dt = RequestViewModelBinder.TransposeDataNew(result, request.ProgramId, preferedweight);
             ViewData["Request_main_data"] = requestModelView;
             return View(dt);
         }
@@ -888,6 +888,10 @@ namespace Cats.Areas.EarlyWarning.Controllers
         {
            var result = new List<PLANWithRegionalRequestViewModel>();
 
+           if (regionalRequest.PlanID == 0)
+           {
+               return null;
+           } 
            if(regionalRequest.ProgramId==1)
            {
             

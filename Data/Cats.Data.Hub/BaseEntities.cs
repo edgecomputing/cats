@@ -397,7 +397,7 @@ namespace Cats.Data.Hub
             foreach (var procParam in param)
             {
 
-                var dbParam = new SqlParameter(string.Format("@{0}",procParam.ParmName), procParam.Value);
+                var dbParam = new SqlParameter(string.Format("{0}",procParam.ParmName), procParam.Value);
 
 
                 cmd.Parameters.Add(dbParam);

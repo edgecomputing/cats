@@ -114,9 +114,8 @@
            .ToolBar(toolBar => toolBar.Template(
                @<text>
                     <label class="closed-label" for="Closed-input">
-                        @Html.Translate("Show closed Plans")  :
+                        @Html.Translate("Show closed Plans")  : <input type="checkbox" class="chkBoxUnclosed" id="chk-closedtoo-FDP" data-val="FDP" />
                     </label>
-                    <input type="checkbox" class="chkBoxUnclosed" id="chk-closedtoo-FDP" data-val="FDP" />
                     <script type="text/javascript">
                         $(function () {
                             $("#chk-closedtoo-FDP").change(function () {
@@ -185,9 +184,7 @@
                         }
                     </script>
                     
-                <label class="customer-label" for="Customers-input" style="padding-left:10px ">
-                    Show Allocations for :
-                </label>
+              
                 @(Html.Telerik().ComboBox()
                                 .Name("CommodityTypeSelector-" + 1)
                                 .BindTo(new SelectList(Model.CommodityTypes, "CommodityTypeID","Name",Model.CommodityTypeID))
@@ -331,9 +328,9 @@
            ToolBar(toolBar => toolBar.Template(
                @<text>
                     <label class="closed-label" for="Closed-input">
-                        @Html.Translate("Show closed Plans")  :
+                        @Html.Translate("Show closed Plans")  : <input type="checkbox" class="chkBoxUnclosed" id="chk-closedtoo-Loan" data-val="Loan" />
                     </label>
-                    <input type="checkbox" class="chkBoxUnclosed" id="chk-closedtoo-Loan" data-val="Loan" />
+                    
                     <script type="text/javascript">
                         $(function () {
                             $("#chk-closedtoo-Loan").change(function () {
@@ -389,10 +386,7 @@
                             }
                         }
                     </script>
-                    
-               <label class="customer-label" for="Customers-input" style="padding-left:10px ">
-                    Show Allocations for :
-                </label>
+           
                 @(Html.Telerik().ComboBox()
                                 .Name("CommodityTypeSelector-" + 2)
                                 .BindTo(new SelectList(Model.CommodityTypes, "CommodityTypeID", "Name", Model.CommodityTypeID))
@@ -409,6 +403,7 @@
                 )
 
                 </text>))
+
            .ClientEvents(ev => ev.OnDataBinding("dataBindingLoan"))
            .Columns(col =>
                         {
@@ -523,10 +518,11 @@
            .DataKeys(keys => keys.Add(co => co.OtherDispatchAllocationID)).
                       ToolBar(toolBar => toolBar.Template(
                 @<text>
-             <label class="closed-label" for="Closed-input">
-                 @Html.Translate("Show closed Plans")  :
-             </label>
-             <input type="checkbox" class="chkBoxUnclosed" id="chk-closedtoo-Transfer" data-val="Transfer" />
+            <label class="closed-label" for="Closed-input">
+                @Html.Translate("Show closed Plans")  :
+
+                <input type="checkbox" class="chkBoxUnclosed" id="chk-closedtoo-Transfer" data-val="Transfer" />
+            </label>
              <script type="text/javascript">
                  $(function () {
                      $("#chk-closedtoo-Transfer").change(function () {
@@ -585,10 +581,6 @@
                      
                  }
              </script>
-             
-             <label class="customer-label" for="Customers-input" style="padding-left:10px ">
-                    Show Allocations for :
-                </label>
                 @(Html.Telerik().ComboBox()
                                 .Name("CommodityTypeSelector-" + 3)
                                 .BindTo(new SelectList(Model.CommodityTypes, "CommodityTypeID", "Name", Model.CommodityTypeID))

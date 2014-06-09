@@ -86,7 +86,7 @@ namespace Cats.ViewModelBinder
             return request;
         }
 
-        public static DataTable TransposeDataNew(List<PLANWithRegionalRequestViewModel> woredaRequestDetail, int programID)
+        public static DataTable TransposeDataNew(List<PLANWithRegionalRequestViewModel> woredaRequestDetail, int programID, string preferedweight)
         {
             var dt = new DataTable("Transpose");
 
@@ -124,7 +124,7 @@ namespace Cats.ViewModelBinder
                 {
                     foreach (var ds in requestdetail.RequestDetailCommodities)
                     {
-                        var col = new DataColumn(ds.Commodity.Name.Trim(), typeof(decimal));
+                        var col = new DataColumn(ds.Commodity.Name.Trim() + " in " + preferedweight.ToUpper().Trim(), typeof(decimal));
                         col.ExtendedProperties.Add("ID", ds.CommodityID);
                         dt.Columns.Add(col);
                     }

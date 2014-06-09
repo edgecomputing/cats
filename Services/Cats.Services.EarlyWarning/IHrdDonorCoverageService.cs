@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
@@ -23,5 +24,8 @@ namespace Cats.Services.EarlyWarning
              Func<IQueryable<HrdDonorCoverage>, IOrderedQueryable<HrdDonorCoverage>> orderBy = null,
              string includeProperties = "");
        int NumberOfCoveredWoredas(int donorCoverageID);
+
+       DataTable TransposeData(IEnumerable<HrdDonorCoverageDetail> donorCoverageDetails,
+                               IEnumerable<RationDetail> rationDetails, string preferedWeight);
     }
 }
