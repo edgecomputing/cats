@@ -345,10 +345,14 @@ namespace Cats.Areas.Procurement.Controllers
         public ActionResult Create(Bid bid)
         {
 
-            if (IsBidMadeForThisForRegion(bid.RegionID,bid.BidNumber))
+            if (!IsBidMadeForThisForRegion(bid.RegionID,bid.BidNumber))
             {
                 ModelState.AddModelError("Error","This Region is already registered with this Bid No. Please choose another Region!");
-                return View();
+                ViewBag.StatusID = new SelectList(_statusService.GetAllStatus(), "StatusID", "Name");
+                ViewBag.BidPlanID = bid.TransportBidPlanID;
+                ViewBag.TransportBidPlanID = new SelectList(_transportBidPlanService.GetAllTransportBidPlan(), "TransportBidPlanID", "ShortName", bid.TransportBidPlanID);
+                ViewBag.RegionID = new SelectList(_adminUnitService.GetRegions(), "AdminUnitID", "Name");
+                return View(bid);
             }
             
             if (ModelState.IsValid)
@@ -376,7 +380,7 @@ namespace Cats.Areas.Procurement.Controllers
             ViewBag.StatusID = new SelectList(_statusService.GetAllStatus(), "StatusID", "Name");
             ViewBag.BidPlanID = bid.TransportBidPlanID;
             ViewBag.TransportBidPlanID = new SelectList(_transportBidPlanService.GetAllTransportBidPlan(), "TransportBidPlanID", "ShortName", bid.TransportBidPlanID);
-            ViewBag.Regions = new SelectList(_adminUnitService.GetRegions(), "AdminUnitID", "Name");
+            ViewBag.RegionID = new SelectList(_adminUnitService.GetRegions(), "AdminUnitID", "Name");
             return View(bid);
 
             //return View("Index", _bidService.GetAllBid());
@@ -466,11 +470,7 @@ namespace Cats.Areas.Procurement.Controllers
         [HttpPost]
         public ActionResult EditBidStatus(Bid bid)
         {
-            if (IsBidMadeForThisForRegion(bid.RegionID, bid.BidNumber))
-            {
-                ModelState.AddModelError("Error", "Can not edit. This Region is already registered with this Bid No. Please choose another Region!");
-                return View();
-            }
+           
 
             if (ModelState.IsValid)
             {
@@ -480,6 +480,7 @@ namespace Cats.Areas.Procurement.Controllers
             ViewBag.StatusID = new SelectList(_statusService.GetAllStatus(), "StatusID", "Name", bid.StatusID);
             ViewBag.TransportBidPlanID = new SelectList(_transportBidPlanService.GetAllTransportBidPlan(),
                                                         "TransportBidPlanID", "ShortName", bid.TransportBidPlanID);
+            ViewBag.RegionID = new SelectList(_adminUnitService.GetRegions(), "AdminUnitID", "Name");
            // return View("Index", _bidService.GetAllBid());
             return View(bid);
         }
