@@ -18,6 +18,7 @@ namespace Cats.Models.Mapping
             this.ToTable("Bid","procurement");
             this.Property(t => t.BidNumber).HasColumnName("BidNumber");
             this.Property(t => t.BidID).HasColumnName("BidID");
+            this.Property(t => t.RegionID).HasColumnName("RegionID");
             this.Property(t => t.StartDate).HasColumnName("StartDate");
             this.Property(t => t.EndDate).HasColumnName("EndDate");
             this.Property(t => t.OpeningDate).HasColumnName("OpeningDate");

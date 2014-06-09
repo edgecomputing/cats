@@ -14,6 +14,7 @@ namespace Cats.Models
        }
         public int? PartitionId { get; set; }
         public int BidID { get; set; }
+        public int? RegionID{get;set;}
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public string BidNumber { get; set; }
