@@ -404,6 +404,51 @@ namespace Cats.Areas.Settings.Controllers
             return Redirect(url);
            
         }
+        public ActionResult ChangePasswordAjax(FormCollection values)
+        {
+            var userid = UserAccountHelper.GetUser(HttpContext.User.Identity.Name).UserProfileID;
+            var oldpassword = _userService.HashPassword(values["OldPassword"]);
+            //TempData["error"] = "Unknown Error";
+            if (ModelState.IsValid)
+            {
+                bool changePasswordSucceeded;
+
+                if (_userService.GetUserDetail(userid).Password == oldpassword)
+                {
+                    try
+                    {
+                        changePasswordSucceeded = _userService.ChangePassword(userid, values["NewPassword"]);
+                    }
+                    catch (Exception e)
+                    {
+                        changePasswordSucceeded = false;
+                        //ModelState.AddModelError("Errors", e.Message);
+                    }
+                    if (changePasswordSucceeded)
+                        TempData["success"] = "Success, Password Successfully Changed. Please logout and login with the new credential";
+                    //return RedirectToAction("ChangePasswordSuccess");
+                    else
+                        TempData["error"] = "Errors, The new password is invalid.";
+
+                }
+                else TempData["error"] = "Errors, The current password is incorrect ";
+                return Json(TempData, JsonRequestBehavior.AllowGet);
+            }
+            return Json(TempData, JsonRequestBehavior.AllowGet);
+            /*
+            var urlReferrer = this.Request.UrlReferrer;
+            if (urlReferrer == null)
+            {
+                Session.Clear();
+                FormsAuthentication.SignOut();
+                return RedirectToAction("Index", "Home");
+            }
+            var url = urlReferrer.AbsolutePath;
+            ModelState.AddModelError("Sucess", @"Password Successfully Changed.");
+            return Redirect(url);
+            */
+        }
+
         //public ActionResult ChangePasswordSuccess()
         //{
         //    ModelState.AddModelError("Sucess", "Password Successfully Changed.");
