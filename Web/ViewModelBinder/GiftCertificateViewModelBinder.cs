@@ -124,7 +124,7 @@ namespace Cats.ViewModelBinder
             model.GiftCertificateDetailID = giftCertificateDetail.GiftCertificateDetailID;
             model.CommodityID = giftCertificateDetail.CommodityID;
             model.BillOfLoading = giftCertificateDetail.BillOfLoading;
-            model.YearPurchased = giftCertificateDetail.YearPurchased;
+            model.YearPurchased = giftCertificateDetail.YearPurchased;//ToCTSPreferedDateFormat(userPrefrence);
             model.AccountNumber = giftCertificateDetail.AccountNumber;
             model.WeightInMT = giftCertificateDetail.WeightInMT;
             model.EstimatedPrice = giftCertificateDetail.EstimatedPrice;
