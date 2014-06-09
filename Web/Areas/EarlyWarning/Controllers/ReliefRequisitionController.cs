@@ -27,6 +27,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         private readonly IReliefRequisitionService _reliefRequisitionService;
         private readonly IWorkflowStatusService _workflowStatusService;
         private readonly IReliefRequisitionDetailService _reliefRequisitionDetailService;
+        private readonly IRegionalRequestService _regionalRequestService;
         private readonly IUserAccountService _userAccountService;
         private readonly IRationService  _rationService;
         private readonly IDonorService _donorService;
@@ -34,10 +35,18 @@ namespace Cats.Areas.EarlyWarning.Controllers
         private readonly IPlanService _planService;
         private readonly ICommonService _commonService;
         private readonly Cats.Services.Transaction.ITransactionService _transactionService;
-        public ReliefRequisitionController(IReliefRequisitionService reliefRequisitionService, IWorkflowStatusService workflowStatusService, 
+        public ReliefRequisitionController(
+            IReliefRequisitionService reliefRequisitionService, 
+            IWorkflowStatusService workflowStatusService, 
             IReliefRequisitionDetailService reliefRequisitionDetailService,
             IUserAccountService userAccountService,
-            IRationService rationService, IDonorService donorService, INotificationService notificationService, IPlanService planService, ITransactionService transactionService, ICommonService commonService)
+            IRegionalRequestService regionalRequestService,
+            IRationService rationService, 
+            IDonorService donorService, 
+            INotificationService notificationService, 
+            IPlanService planService,
+            ITransactionService transactionService,
+            ICommonService commonService)
         {
             this._reliefRequisitionService = reliefRequisitionService;
             this._workflowStatusService = workflowStatusService;
@@ -49,6 +58,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             _planService = planService;
             _transactionService = transactionService;
             _commonService = commonService;
+            _regionalRequestService = regionalRequestService;
         }
 
         public ViewResult Index()
@@ -168,7 +178,6 @@ namespace Cats.Areas.EarlyWarning.Controllers
         [HttpGet]
         public ViewResult NewRequisiton(int id)
         {
-
             var input = _reliefRequisitionService.GetRequisitionByRequestId(id).ToList();
             var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
             
@@ -177,6 +186,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                 if (reliefRequisitionNew.RequestedDate.HasValue)
                 {
                     reliefRequisitionNew.RequestDatePref = reliefRequisitionNew.RequestedDate.Value.ToCTSPreferedDateFormat(datePref);
+                    reliefRequisitionNew.RegionalRequestId = id;
                 }
             }
             return View(input);
@@ -190,14 +200,40 @@ namespace Cats.Areas.EarlyWarning.Controllers
             {
                 var requisitionNumbers = input.ToDictionary(t => t.Number, t => t.RequisitionNo);
                 _reliefRequisitionService.AssignRequisitonNo(requisitionNumbers);
-
             }
             return RedirectToAction("Index", "ReliefRequisition");
         }
 
-        [HttpGet]
-        public ActionResult Allocation(int id)
+        public ActionResult CancelChanges(int id)
         {
+            
+            var requisitions = _reliefRequisitionService.FindBy(t => t.RegionalRequestID == id);
+            
+            foreach (var reliefRequisition in requisitions)
+            {
+               var deatils =  _reliefRequisitionDetailService.FindBy(t => t.RequisitionID == reliefRequisition.RequisitionID);
+                foreach (var detail in deatils)
+                {
+                    _reliefRequisitionDetailService.DeleteReliefRequisitionDetail(detail);
+                }
+                _reliefRequisitionService.DeleteReliefRequisition(reliefRequisition);
+            }
+
+            var request = _regionalRequestService.FindById(id);
+            request.Status = (int)RegionalRequestStatus.Approved;
+            _regionalRequestService.EditRegionalRequest(request);
+
+            return RedirectToAction("Details", "Request", new {id=id});
+        }
+
+        [HttpGet]
+        public ActionResult Allocation(int? id)
+        {
+            if (id == null)
+            {
+                return Redirect(Url.Action("Index", "ReliefRequisition"));
+            }
+
             var requisition =
                 _reliefRequisitionService.Get(t => t.RequisitionID == id, null, "ReliefRequisitionDetails").
                     FirstOrDefault();

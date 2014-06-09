@@ -128,13 +128,12 @@
               .DataSource(datasource =>
                           datasource
                               .Ajax()
-                              .Batch(true)
                               .PageSize(10)
                               .ServerOperation(false)
                               .Model(m => m.Id(t => t.FDPID))
                               .Read(read => read.Action("FDP_Read", "FDP").Data("selectedWoredaId"))
                               .Create(create => create.Action("FDP_Create", "FDP").Data("selectedWoredaId"))
-                              .Update("FDP_Save", "FDP")
+                              .Update("FDP_Update", "FDP")
                               .Destroy(update => update.Action("FDP_Destroy", "FDP"))
                 //.Destroy("FDP_Destroy","FDP")
               )

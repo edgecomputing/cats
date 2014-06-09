@@ -31,12 +31,12 @@ namespace Cats.Models.Hubs
 
         }
         [NotMapped]
-        public Decimal RemainingBalanceInMt { set; get; }
+        public Decimal RemainingBalanceInMT { set; get; }
         [NotMapped]
         public Decimal ReceivedQuantityInMT
         {
             set { ; }
-            get { return this.QuantityInMT - RemainingBalanceInMt; }
+            get { return this.QuantityInMT - RemainingBalanceInMT; }
             
         } // { return GetReceivedAlready(this); } 
         [NotMapped]

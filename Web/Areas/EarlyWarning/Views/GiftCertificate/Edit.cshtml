@@ -168,7 +168,7 @@
                                 .Filterable(true);
                             columns.Bound(o => o.BillOfLoading);
 
-                            columns.Bound(o => o.YearPurchased).HtmlAttributes(new { align = "right" });
+                            columns.Bound(o => o.YearPurchased).HtmlAttributes(new { align = "right" }).Title(Html.Translate("Year Purchased (EC)"));
                             columns.Bound(o => o.AccountNumber).HtmlAttributes(new { align = "right" });
                             columns.Bound(o => o.WeightInMT).Title(Html.Translate("Sent Qty (MT)")).HtmlAttributes(new { align = "right" }).Format("{0:N3}");
                             columns.Bound(o => o.EstimatedPrice).HtmlAttributes(new { align = "right" }).Format("{0:N2}");

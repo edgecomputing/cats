@@ -181,6 +181,8 @@ namespace Cats.Tests.ControllersTests
 
             var commonService = new Mock<ICommonService>();
 
+            var regionalRequestService = new Mock<IRegionalRequestService>();
+
             var transactionSerivce = new Mock<Cats.Services.Transaction.ITransactionService>();
             
             _reliefRequisitionController = new ReliefRequisitionController(
@@ -188,14 +190,12 @@ namespace Cats.Tests.ControllersTests
                 workflowStatusService.Object, 
                 mockReliefRequistionDetailService.Object, 
                 userAccountService.Object,
+                regionalRequestService.Object,
                 rationService.Object,
                 donorService.Object, notificationService.Object, null, transactionSerivce.Object, commonService.Object );
 
             _reliefRequisitionController.ControllerContext = controllerContext.Object; 
-          //  _input = input;
-
-
-
+            //_input = input;
         }
 
         [TearDown]
