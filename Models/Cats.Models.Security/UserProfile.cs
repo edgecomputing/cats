@@ -20,8 +20,11 @@ namespace Cats.Models.Security
         public int UserProfileID { get; set; }
          [Required]
         public string UserName { get; set; }
+         [Required]
         public string Password { get; set; }
+         [Required]
         public string FirstName { get; set; }
+         [Required]
         public string LastName { get; set; }
         public string GrandFatherName { get; set; }
         public bool ActiveInd { get; set; }
@@ -50,6 +53,7 @@ namespace Cats.Models.Security
         public bool RegionalUser { get; set; }
         public bool IsAdmin { get; set; }
         public string FullName { get { return string.Format("{0} {1} {2}", FirstName, LastName, GrandFatherName); } }
+        public int? PartitionId { get; set; }
 
         //public virtual ICollection<Adjustment> Adjustments { get; set; }
         //public virtual ICollection<Receive> Receives { get; set; }

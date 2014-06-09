@@ -54,8 +54,8 @@
           columns.ForeignKey(p => p.CommodityID, (System.Collections.IEnumerable)ViewData["commodities"], "CommodityID", "Name").Width(50);
           columns.Bound(p => p.RationID).Width(100).Visible(false);
           columns.Bound(p => p.RationDetailID).Visible(false);
-          columns.Bound(p => p.Amount).Width(100);
-          columns.ForeignKey(t => t.UnitID, (IEnumerable<Unit>)ViewData["UnitMeasures"], "UnitID", "Name").Width(100);
+          columns.Bound(p => p.Amount).Title("Amount (kg)").Width(50).HtmlAttributes(new { align = "right" }).Format("{0:N2}"); 
+          columns.ForeignKey(t => t.UnitID, (IEnumerable<Unit>)ViewData["UnitMeasures"], "UnitID", "Name").Width(100).Visible(false);
           columns.Command(command =>
                               {
                                   command.Destroy();

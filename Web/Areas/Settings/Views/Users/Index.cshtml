@@ -1,5 +1,7 @@
-﻿@using Kendo.Mvc.UI
+﻿@using System.Globalization
+@using Kendo.Mvc.UI
 @model IEnumerable<Cats.Models.Security.UserInfo>
+@using Cats.Helpers
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_MainLayout.cshtml";  
@@ -19,6 +21,16 @@
     @Html.Partial("_AdminLeftBar")
 }
 
+@{
+    if (ViewData["error"]!=null)
+    {
+        <div>
+            
+            <br/>
+            @ViewData["error"]
+        </div>
+    }
+}
 
 @*<div class="row">
     
@@ -42,7 +54,7 @@
         "<a href='" + Url.Action("UserProfile", "Users", new { id = "#=UserProfileID#" }) + " '>#=UserName#</a> "
         );
         columns.Bound(u => u.FullName).Title("Full Name");
-        columns.Bound(u => u.Disabled).Title("Disabled Account");
+        columns.Bound(u => u.Disabled).Title("Account").ClientTemplate("# if (Disabled == true) { #" + @Html.Label("Disabled") + "# }else {#" + @Html.Label("Enabled") + "#} #").HtmlAttributes(new { @style = "text-align:center" });
         columns.Bound(u => u.LogginDate).Title("Last Logged In").Format("{0:MMM dd yyyy}");
         columns.Bound(u => u.NumberOfLogins).Title("Total Logins");
         columns.Bound(u => u.LanguageCode).Title("UI Language");

@@ -1,7 +1,7 @@
 ﻿@using Cats.Helpers
 @using Cats.Services.Security
+
 @model IList<Cats.Models.RequisitionViewModel>
-@using LanguageHelpers.Localization
 @{
     
     Layout = "~/Views/Shared/_MainLayout.cshtml";
@@ -54,23 +54,23 @@
    {
        <div>
            <fieldset>
-               <legend>@Translator.Translate("Hub Allocation")</legend>
+               <legend>@Html.Translate("Hub Allocation")</legend>
            </fieldset>
 	    <div class="form-horizontal">
            <div class="control-group">
-               <label class="control-label  cats-date-pref">@Translator.Translate("Allocation Date")</label>
+               <label class="control-label  cats-date-pref">@Html.Translate("Allocation Date")</label>
                <div class="controls">
                    <input type="text" class="cats-datepicker2" id="datepicker" name="datepicker" >
                </div>
            </div>
            <div class="control-group ">
-               <label class="control-label"> @Translator.Translate("Allocation Reference No")</label>
+               <label class="control-label"> @Html.Translate("Allocation Reference No")</label>
                <div class="controls">
                    <input type="text" class="input-xlarge" id="rNumber" name="rNumber" placeholder="Reference Number">
                </div>
            </div>
            <div class="control-group">
-               <label class="control-label">@Translator.Translate("Hubs")</label>
+               <label class="control-label">@Html.Translate("Hubs")</label>
                <div class="controls">
 	                
                    @Html.Hidden("Selected")
@@ -110,31 +110,31 @@
                <thead>
                    <tr>
                       <th class="cats-date-pref-grid">
-                           @Translator.Translate("Requset Date")
+                           @Html.Translate("Requset Date")
                        </th>
                        <th>
-                           @Translator.Translate("Commodity")
+                           @Html.Translate("Commodity")
                        </th>
                        <th>
-                           @Translator.Translate("Region")
+                           @Html.Translate("Region")
                        </th>
                        <th>
-                           @Translator.Translate("Zone")
+                           @Html.Translate("Zone")
                        </th>
         
                        <th>
-                           @Translator.Translate("Requsition No")
+                           @Html.Translate("Requsition No")
                        </th>
        
 
                        <th>
-                           @Translator.Translate("Amount")
+                           @Html.Translate("Amount")
                        </th>
                        <th>
-                           @Translator.Translate("Beneficiaries")
+                           @Html.Translate("Beneficiaries")
                        </th>
                        <th>
-                           @Translator.Translate("id")
+                           @Html.Translate("id")
                        </th>
         
                    </tr>

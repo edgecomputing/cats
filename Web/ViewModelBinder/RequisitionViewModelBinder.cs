@@ -33,6 +33,8 @@ namespace Cats.ViewModelBinder
             requisition.Zone = reliefRequisition.AdminUnit1.Name;
             requisition.Commodity = reliefRequisition.Commodity.Name;
             requisition.Month = RequestHelper.MonthName(reliefRequisition.Month);
+            if (reliefRequisition.RegionalRequest != null && reliefRequisition.RegionalRequest.Ration != null)
+                requisition.Ration = reliefRequisition.RegionalRequest.Ration.RefrenceNumber;
             return requisition;
         }
 

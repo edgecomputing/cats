@@ -12,7 +12,6 @@ namespace Cats.Models
        {
            this.TransportOrderDetails=new List<TransportOrderDetail>();
            // this.BidWinners=new List<BidWinner>();
-
        }
        public int TransportOrderID { get; set; }
        public string  TransportOrderNo { get; set; }
@@ -31,6 +30,7 @@ namespace Cats.Models
        public int? StatusID { get; set; }
        public DateTime StartDate { get; set; }
        public DateTime EndDate { get; set; }
+       public int? PartitionId { get; set; }
 
        public virtual Transporter Transporter { get; set; }
        public virtual ICollection<TransportOrderDetail> TransportOrderDetails { get; set; }

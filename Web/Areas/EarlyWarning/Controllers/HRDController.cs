@@ -84,6 +84,10 @@ namespace Cats.Areas.EarlyWarning.Controllers
             ViewBag.SeasonID = hrd.Season.Name;
             ViewBag.Year = hrd.Year;
             ViewBag.HRDID = id;
+            if (ViewBag.Errors==1)
+            {
+                ModelState.AddModelError("Errors", @"Woreda Already Existed in the HRD");
+            }
             if (hrd != null)
             {
                 return View(hrd);
@@ -164,7 +168,9 @@ namespace Cats.Areas.EarlyWarning.Controllers
                             Status = _workflowStatusService.GetStatusName(WORKFLOW.HRD, hrd.Status.Value),
                             CreatedDatePref = hrd.CreatedDate.ToCTSPreferedDateFormat(datePref),
                             PublishedDatePref = hrd.PublishedDate.ToCTSPreferedDateFormat(datePref),
-                            Plan = hrd.Plan.PlanName
+                            Plan = hrd.Plan.PlanName,
+                            StartDate = hrd.Plan.StartDate.ToCTSPreferedDateFormat(datePref),
+                            EndDate = hrd.Plan.EndDate.ToCTSPreferedDateFormat(datePref)
 
                         });
         }
@@ -288,7 +294,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         {
             var hrd = new HRD();
             // hrd.HRDDetails = new List<HRDDetail>();
-            ViewBag.Year = DateTime.Today.Year;
+            //ViewBag.Year = DateTime.Today.Year;
             ViewBag.RationID = new SelectList(_rationService.GetAllRation(), "RationID", "RefrenceNumber", hrd.RationID = 1);
             ViewBag.NeedAssessmentID = new SelectList(_needAssessmentService.GetAllNeedAssessmentHeader().Where(m => m.NeedAssessment.NeedAApproved == true), "NAHeaderId",
                                                       "NeedACreatedDate");
@@ -354,13 +360,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         [EarlyWarningAuthorize(operation = EarlyWarningConstants.Operation.New_HRD)]
         public ActionResult Create(HRD hrd)
         {
-            //DateTime dateCreated = DateTime.Now;
-            //DateTime DatePublished = DateTime.Now;
-
-            //hrd.CreatedDate = dateCreated;
-            //hrd.PublishedDate = DatePublished;
-            //hrd.Status = 1;
-
+           
             var year = hrd.Year;
             var userID = _needAssessmentService.GetUserProfileId(HttpContext.User.Identity.Name);
             var seasonID = hrd.SeasonID.HasValue ? hrd.SeasonID.Value:0;
@@ -369,19 +369,22 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
             var planName = hrd.Plan.PlanName;
             var startDate = hrd.Plan.StartDate;
-            var endDate = hrd.Plan.EndDate;
+            var firstDayOfTheMonth = startDate.AddDays(1 - startDate.Day);
+            var endDate = firstDayOfTheMonth.AddMonths(hrd.Plan.Duration).AddDays(-1);
 
             if (ModelState.IsValid)
             {
-                if (startDate >= endDate)
+
+                var existingPlan = _planService.FindBy(m => m.PlanName == planName && m.ProgramID==1).FirstOrDefault();
+                if (existingPlan!=null)
                 {
-                    ModelState.AddModelError("Errors", @"Start Date Can't be greater than OR Equal to End Date!");
+                    ModelState.AddModelError("Errors", @"HRD Name already Exists Please Change HRD Name");
                 }
                 else
                 {
                     try
                     {
-                        _planService.AddHRDPlan(planName, startDate, endDate);
+                        _planService.AddHRDPlan(planName, firstDayOfTheMonth, endDate);
                         var plan = _planService.FindBy(m => m.PlanName == planName).FirstOrDefault();
                         var planID = plan.PlanID;
                         _hrdService.AddHRD(year, userID, seasonID, rationID, planID);
@@ -391,10 +394,12 @@ namespace Cats.Areas.EarlyWarning.Controllers
                     {
                         var log = new Logger();
                         log.LogAllErrorsMesseges(exception, _log);
-                        ModelState.AddModelError("Errors", "Unable To Create New HRD");
+                        ModelState.AddModelError("Errors", @"Unable To Create New HRD");
                         //ViewBag.Error = "HRD for this Season and Year already Exists";
                     }
+                
                 }
+                   
 
             }
 
@@ -559,7 +564,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                                       select new HRDDetail
                                           {
                                               WoredaID = detail.AdminUnitID,
-                                              StartingMonth = 1,
+                                              StartingMonth = dateCreated.Month,
                                               NumberOfBeneficiaries =
                                                   _needAssessmentDetailService.GetNeedAssessmentBeneficiaryNoFromPlan(
                                                       hrd.PlanID, detail.AdminUnitID),
@@ -637,5 +642,110 @@ namespace Cats.Areas.EarlyWarning.Controllers
             }
             return null;
         }
+       public PartialViewResult DateInterval(int ? duration, DateTime startDate)
+       {
+           if ( duration != null)
+           {
+               var firstDayOfTheMonth = startDate.AddDays(1 - startDate.Day);
+               var dateInterval = new DurationViewModel()
+                   {
+                       StartDateGC = firstDayOfTheMonth.ToCTSPreferedDateFormat("GC"),
+                       EndDateGC = firstDayOfTheMonth.AddMonths((int)duration).AddDays(-1).ToCTSPreferedDateFormat("GC"),
+                       StartDateEC = firstDayOfTheMonth.ToCTSPreferedDateFormat("EC"),
+                       EndDateEC = firstDayOfTheMonth.AddMonths((int)duration).ToCTSPreferedDateFormat("EC")
+
+                   };
+               return PartialView(dateInterval);
+           }
+           return PartialView(new DurationViewModel()
+               {
+                   StartDateGC = DateTime.Now.AddDays(1 - DateTime.Now.Day).ToCTSPreferedDateFormat("GC"),
+                   StartDateEC = DateTime.Now.AddDays(1 - DateTime.Now.Day).ToCTSPreferedDateFormat("EC"),
+                   EndDateGC = null,
+                   EndDateEC = null
+               });
+       }
+     public ActionResult AddWoreda(int id)
+     {
+         var hrd = _hrdService.FindById(id);
+         if (hrd==null)
+         {
+             return HttpNotFound();
+         }
+         ViewBag.RegionID = new SelectList(_adminUnitService.GetRegions(), "AdminUnitID", "Name");
+         ViewBag.ZoneID = new SelectList(_adminUnitService.FindBy(m => m.AdminUnitTypeID == 3), "AdminUnitID", "Name");
+         ViewBag.WoredaID = new SelectList(_adminUnitService.FindBy(m => m.AdminUnitTypeID == 4), "AdminUnitID", "Name");
+         var addWoredaViewModel = new HrdAddWoredaViewModel();
+         addWoredaViewModel.HRDID = id;
+         addWoredaViewModel.StartingMonth = hrd.Plan.StartDate.Month;
+         return PartialView(addWoredaViewModel);
+     }
+    [HttpPost]
+    public ActionResult AddWoreda(HrdAddWoredaViewModel addWoredaViewModel)
+    {
+        if (ModelState.IsValid)
+        {
+            try
+            {
+                var detail = GetDetail(addWoredaViewModel);
+ 
+                if(_hrdDetailService.AddWoreda(detail))
+                return RedirectToAction("HRDDetail", new { id = addWoredaViewModel.HRDID});
+                ViewBag.Errors = 1;
+                return RedirectToAction("HRDDetail", new { id = addWoredaViewModel.HRDID });
+                   
+            }
+
+            catch (Exception ex)
+            {
+                var log = new Logger();
+                log.LogAllErrorsMesseges(ex, _log);
+               
+            }
+
+        }
+       
+        return PartialView(addWoredaViewModel);
+    }
+    private HRDDetail GetDetail(HrdAddWoredaViewModel addWoreda)
+    {
+        var detail = new HRDDetail()
+        {
+           HRDID=addWoreda.HRDID,
+           WoredaID = addWoreda.WoredaID,
+           DurationOfAssistance = addWoreda.Duration,
+           NumberOfBeneficiaries = addWoreda.Beneficiary,
+           StartingMonth = addWoreda.StartingMonth
+        };
+        return detail;
+    }
+    public JsonResult GetAdminUnits(int id)
+    {
+        var hrd = _hrdService.FindById(id);
+        var r = (from region in _adminUnitService.GetRegions()
+                 select new
+                 {
+
+                     RegionID = region.AdminUnitID,
+                     RegionName = region.Name,
+                     Zones = from zone in _adminUnitService.GetZones(region.AdminUnitID)
+                             select new
+                             {
+                                 ZoneID = zone.AdminUnitID,
+                                 ZoneName = zone.Name,
+                                 Woredas = from woreda in _adminUnitService.GetWoreda(zone.AdminUnitID)
+                                           from detail in hrd.HRDDetails
+                                           where woreda.AdminUnitID!=detail.WoredaID
+                                           select new
+                                           {
+                                               WoredaID = woreda.AdminUnitID,
+                                               WoredaName = woreda.Name
+                                           }
+                             }
+                 }
+                );
+        return Json(r, JsonRequestBehavior.AllowGet);
+    }
+        
     }
 }

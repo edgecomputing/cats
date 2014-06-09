@@ -19,6 +19,7 @@ namespace Cats.Models
         }
 
         public int FDPID { get; set; }
+        
         public string Name { get; set; }
         public string NameAM { get; set; }
         public int AdminUnitID { get; set; }
@@ -33,7 +34,6 @@ namespace Cats.Models
         public virtual ICollection<RegionalRequestDetail> RegionalRequestDetails { get; set; }
         public virtual ICollection<ReliefRequisitionDetail> ReliefRequisitionDetails { get; set; }
         public virtual ICollection<TransportOrderDetail> TransportOrderDetails { get; set; }
-        public virtual ICollection<RegionalPSNPPlanDetail> RegionalPSNPPlanDetails { get; set; }
         public virtual ICollection<Delivery> Deliveries { get; set; }
         public virtual ICollection<DistributionByAgeDetail> DistributionByAgeDetails  { get; set; }
         public virtual ICollection<WoredaStockDistributionDetail> WoredaStockDistributionDetails { get; set; }

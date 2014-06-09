@@ -1,4 +1,4 @@
-﻿@using LanguageHelpers.Localization
+﻿@using Cats.Helpers
 
 <style>
     .sidebarForm, .sidebarForm form
@@ -17,7 +17,7 @@
 
         <div class="control-group">
             <div class="control-label">
-                @Html.Label(Translator.Translate("Region"))
+                @Html.Label(Html.Translate("Region"))
             </div>
             <div class="controls" id="div_region">
                 @Html.DropDownList("Region",ViewBag.Region as SelectList ,"--Select Region--",new {@id="RegionID"})
@@ -26,18 +26,18 @@
         </div> 
         <div class="control-group">
             <div class="control-label">
-                @Html.Label(Translator.Translate("Zone"))
+                @Html.Label(Html.Translate("Zone"))
             </div>
             <div class="controls" id="div_zone">
-                @Html.DropDownList("Zone",ViewBag.Zone as SelectList ,"",new {@id="ZoneID"})
+                @Html.DropDownList("Zone",ViewBag.Zone as SelectList ,"--Select Zone--",new {@id="ZoneID"})
             </div>
         </div>
         <div class="control-group">
             <div class="control-label">
-                @Html.Label(Translator.Translate("Woreda"))
+                @Html.Label(Html.Translate("Woreda"))
             </div>
             <div class="controls"  id="div_woreda">
-                @Html.DropDownList("Woreda",ViewBag.Woreda as SelectList,"",new {@id="WoredaID"})
+                @Html.DropDownList("Woreda",ViewBag.Woreda as SelectList,"--Select Woreda--",new {@id="WoredaID"})
                 @*@Html.DropDownListFor(m=>m.WoredaID,ViewBag.Woreda as SelectList,new {@id="WoredaID"})*@
                 @*@Html.ValidationMessageFor(m=>m.WoredaID)*@
             </div>
@@ -46,7 +46,7 @@
         <div class="control-group">
                         
             <div class="control-label">
-                @Html.Label(Translator.Translate("Program"))
+                @Html.Label(Html.Translate("Program"))
             </div>
             <div class="controls">
                 @Html.DropDownList("ProgramID",String.Empty)
@@ -55,17 +55,17 @@
         </div>
         <div class="control-group">
             <div class="control-label">
-                @Html.Label(Translator.Translate("Plan"))
+                @Html.Label(Html.Translate("Plan"))
             </div>
             <div class="controls">
-                @*@Html.Label(Translator.Translate("Plan"))*@
+                @*@Html.Label(Html.Translate("Plan"))*@
                 <select id="PlanID" name="PlanID"></select>
                 @* @Html.DropDownList("PlanID",String.Empty)*@
             </div>
         </div>
         <div class="control-group">
             <div class="control-label">
-                @Html.Label(Translator.Translate("Month /Round"))
+                @Html.Label(Html.Translate("Month /Round"))
             </div>
             <div class="controls">
                 <select id="month" name="month"></select>
@@ -108,6 +108,7 @@
             document.getElementById("ZoneID").disabled = false;
 
             //var msg = "";
+            
             var htm = "<select name='Zone' id ='ZoneID' > ";
             for (var z in zones) {
                 //htm += "<option value='" + zones[z].AdminUnitID + "'>" + zones[z].Name + "</option>";

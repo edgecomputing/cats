@@ -120,19 +120,23 @@ namespace Cats.Areas.EarlyWarning.Controllers
              int typeOfNeedID = int.Parse(collection["TypeOfNeedID"].ToString(CultureInfo.InvariantCulture));
              string planName = collection["Plan.PlanName"].ToString(CultureInfo.InvariantCulture);
              DateTime startDate = DateTime.Parse(collection["Plan.StartDate"].ToString(CultureInfo.InvariantCulture));
-             DateTime endDate = DateTime.Parse(collection["Plan.EndDate"].ToString(CultureInfo.InvariantCulture));
+             var firstDayOfTheMonth = startDate.AddDays(1 - startDate.Day);
+             var duration = int.Parse(collection["Plan.Duration"].ToString(CultureInfo.InvariantCulture));
+             //DateTime endDate = DateTime.Parse(collection["Plan.EndDate"].ToString(CultureInfo.InvariantCulture));
+             var endDate = firstDayOfTheMonth.AddMonths(duration);
              if (ModelState.IsValid)
              {
-                 //_planService.AddNeedAssessmentPlan(needAssessment);
-                 if (startDate >= endDate)
+                 var existingPlan = _planService.FindBy(m => m.PlanName == planName && m.ProgramID==1).FirstOrDefault();
+                 if (existingPlan != null)
                  {
-                     ModelState.AddModelError("Errors", @"Start Date Can't be greater than OR Equal to  End Date!");
+                     ModelState.AddModelError("Errors", @"Needs Assessment Name already Exists Please Change the Name");
                  }
                  else
                  {
+
                      try
                      {
-                         _planService.AddPlan(planName, startDate, endDate);
+                         _planService.AddPlan(planName, firstDayOfTheMonth, endDate);
                          var plan = _planService.Get(p => p.PlanName == planName).Single();
                          var userID = _needAssessmentHeaderService.GetUserProfileId(HttpContext.User.Identity.Name);
                          _needAssessmentService.AddNeedAssessment(plan.PlanID, regionID, season, userID, typeOfNeedID);
@@ -153,6 +157,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                          return View();
                      }
                  }
+
                  //return RedirectToAction("Edit", new { id = regionID, typeOfNeed = typeOfNeedID });
              }
             ViewBag.Regions = new SelectList(_adminUnitService.FindBy(t => t.AdminUnitTypeID == 2), "AdminUnitID", "Name");

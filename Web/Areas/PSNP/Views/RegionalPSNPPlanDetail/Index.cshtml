@@ -3,7 +3,7 @@
 @using Cats.Models;
 @using Cats.Models.PSNP;
 @using LanguageHelpers.Localization
-@model IEnumerable<Cats.Models.PSNP.PSNPPlanDetailView>
+@model System.Data.DataTable
 
 @{
     ViewBag.Title = "Index";
@@ -12,8 +12,8 @@
     //var index = 0;
     var plan = ViewBag.PsnpPlan;
     StateTemplate state = plan.AttachedBusinessProcess.CurrentState.BaseStateTemplate;
-     const string pageName = "PSNP.RegionalPSNPPlanDetail.Index";
-     ViewBag.TargetController = "RegionalPSNPPlan";
+    const string pageName = "PSNP.RegionalPSNPPlanDetail.Index";
+    ViewBag.TargetController = "RegionalPSNPPlan";
 }
 
 @section LeftBar
@@ -99,22 +99,51 @@
 
     </div>
 }
-@(Html.Kendo().Grid<Cats.Models.PSNP.PSNPPlanDetailView>()
+@(Html.Kendo().Grid(Model)
     .Name("grid")
     .Columns(columns =>
+    {
+        foreach (System.Data.DataColumn column in Model.Columns)
         {
+            if (column.DataType == typeof(decimal))
+            { columns.Bound(column.ColumnName).HtmlAttributes(new { align = "right" }).Format("{0:N2}"); }
+            else if (column.DataType == typeof(int))
+            {
+                columns.Bound(column.ColumnName).HtmlAttributes(new { align = "right" }).Format("{0:N0}"); 
+            }
+            else{
+                columns.Bound(column.ColumnName);
+            }
+
+        }
+    })
+    //.Pageable(t=>t.PageSizes(new []{10,15,20,30,50,100}))
+     
+    .HtmlAttributes(new { style = "height: 550px" })
+    .Sortable()
+   .Scrollable()
+   .Groupable()
+   
+   
+    )
+
+@*@(Html.Kendo().Grid<Cats.Models.PSNP.PSNPPlanDetailView>()
+    .Name("grid")
+    .Columns(columns =>
+    {
         columns.Bound(p => p.RegionName).Title(@Html.Translate2(pageName, "Region"));
         columns.Bound(p => p.ZoneName);
         columns.Bound(p => p.WoredaName);
-        columns.Bound(p => p.FDPName);
+        //columns.Bound(p => p.FDPName);
         columns.Bound(p => p.BeneficiaryCount).HtmlAttributes(new { align = "right" });
         columns.Bound(p => p.FoodRatio).HtmlAttributes(new { align = "right" });
         columns.Bound(p => p.CashRatio).HtmlAttributes(new { align = "right" });
+        columns.Bound(p => p.StartingMonthName);
     })
     .DataSource(
         dataSource => dataSource
         .Ajax()
-         .Group(g=>g.Add(m=>m.RegionName))
+         .Group(g => g.Add(m => m.RegionName))
         .Group(g => g.Add(m => m.ZoneName))
         .Model(model => model.Id(p => p.RegionalPSNPPlanDetailID))
         .Read(read => read.Action("GetDataListAjax", "RegionalPSNPPlanDetail").Data("filterInfo"))
@@ -127,9 +156,9 @@
     .HtmlAttributes(new { style = "width:100%; height:550px;" })
     .Groupable()
 
-)
+)*@
 <script>
-    var deleteURL="@Url.Action("DeleteAjax", "RegionalPSNPPlanDetail", new { Area = "PSNP" })";
+    @*var deleteURL="@Url.Action("DeleteAjax", "RegionalPSNPPlanDetail", new { Area = "PSNP" })";
     $(function()
     {
         var printurl= "@Url.Action("print", "RegionalPSNPPlan", new { Area = "PSNP", id = RegionalPSNPPlanID })";
@@ -157,7 +186,7 @@
     }
     function filterInfo() {
         return {id:@ViewBag.PsnpPlan.RegionalPSNPPlanID};
-    }
+    }*@
     function saverecords()
     {
         $("#grid").data("kendoGrid").dataSource.update();

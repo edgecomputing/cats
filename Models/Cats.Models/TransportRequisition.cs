@@ -29,6 +29,7 @@ namespace Cats.Models
         public System.DateTime CertifiedDate { get; set; }
         public string Remark { get; set; }
         public int Status { get; set; }
+        public int? PartitionId { get; set; }
         public virtual AdminUnit AdminUnit { get; set; }
         public virtual Program Program { get; set; }
         public virtual ICollection<TransportRequisitionDetail> TransportRequisitionDetails { get; set; }

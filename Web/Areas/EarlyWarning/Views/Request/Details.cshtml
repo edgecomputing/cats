@@ -4,7 +4,6 @@
 @using Cats.Helpers
 @using Cats.Services.Security
 @using Kendo.Mvc.UI
-@using LanguageHelpers.Localization
 
 @{
     ViewBag.Title = "Regional Relief Requests";
@@ -15,22 +14,18 @@
 }
 
 @{
-    
-    var user = (UserIdentity)System.Web.HttpContext.Current.User.Identity;
-    var unit = user.Profile.PreferedWeightMeasurment;
+    //var user = (UserIdentity)System.Web.HttpContext.Current.User.Identity;
+    //var unit = user.Profile.PreferedWeightMeasurment;
 }
 
 @section Toolbar
 {
-      @* <div class="btn-group" style="margin-right:8px;">
+    @* <div class="btn-group" style="margin-right:8px;">
         <button class="btn">Action</button>
         @{
-            
             <button class="btn dropdown-toggle " data-toggle="dropdown">
                 <span class="caret"></span>
             </button>
-           
-           
         }
 
 
@@ -50,34 +45,34 @@
 
     </div>*@
     @*<a class="btn toolbar-btn " href="@Url.Action("Index", "Request", new { Area = "EarlyWarning" })" data-buttontype="btn_back_to_list"></a>*@
-    
+
     <div class="btn-group">
-                    <button class="btn">Action</button>
-                    @{
-                        <button class="btn dropdown-toggle " data-toggle="dropdown">
-                            <span class="caret"></span>
-                        </button>
-                    }
+        <button class="btn">Action</button>
+        @{
+            <button class="btn dropdown-toggle " data-toggle="dropdown">
+                <span class="caret"></span>
+            </button>
+        }
 
-                    <ul class="dropdown-menu">
+        <ul class="dropdown-menu">
             @*<li><a id="btnAddFDP"  href="@Url.Action("AddBeneficary", "Request", new { id = modelRequest.RegionalRequestID })" >ADD FDP </a></li>*@
-                        @if (modelRequest.StatusID == (int)Cats.Models.Constant.RegionalRequestStatus.Draft)
-                        {
-                            <li><a href="@Url.Action("Edit", "Request", new { Area = "EarlyWarning", id = modelRequest.RegionalRequestID })">Edit</a></li>
-                            <li><a href="@Url.Action("Allocation", "Request", new { Area = "EarlyWarning", id = modelRequest.RegionalRequestID })">Allocation</a></li>
-                            <li><a href="@Url.Action("ApproveRequest", "Request", new { id = modelRequest.RegionalRequestID })">Approve</a></li>
-                        }
-                        @if (modelRequest.StatusID == (int)Cats.Models.Constant.RegionalRequestStatus.Approved && modelRequest.ProgramId == 3)
-                        {
-                            <li> <a id = "btnEditPlan" href="@Url.Action("CreateRequisitionForIDPS", "ReliefRequisition", new {Area = "EarlyWarning", id = modelRequest.RegionalRequestID,programId = modelRequest.ProgramId })"><i class="icon-plus"></i> IDPS Requisiton</a></li>                       
-                        }
-                        else if (modelRequest.StatusID == (int)Cats.Models.Constant.RegionalRequestStatus.Approved)
-                        {
-                            <li> <a href="@Url.Action("CreateRequisiton", "ReliefRequisition", new { Area = "EarlyWarning", id = modelRequest.RegionalRequestID })"><i class="icon-plus"></i> Requisiton</a></li>
-                        }
-            </ul>
+            @if (modelRequest.StatusID == (int)Cats.Models.Constant.RegionalRequestStatus.Draft)
+            {
+                <li><a href="@Url.Action("Edit", "Request", new { Area = "EarlyWarning", id = modelRequest.RegionalRequestID })">Edit</a></li>
+                <li><a href="@Url.Action("Allocation", "Request", new { Area = "EarlyWarning", id = modelRequest.RegionalRequestID })">Allocation</a></li>
+                <li><a href="@Url.Action("ApproveRequest", "Request", new { id = modelRequest.RegionalRequestID })">Approve</a></li>
+            }
+            @if (modelRequest.StatusID == (int)Cats.Models.Constant.RegionalRequestStatus.Approved && modelRequest.ProgramId == 3)
+            {
+                <li><a id = "btnEditPlan" href="@Url.Action("CreateRequisitionForIDPS", "ReliefRequisition", new { Area = "EarlyWarning", id = modelRequest.RegionalRequestID, programId = modelRequest.ProgramId })"><i class="icon-plus"></i>IDPS Requisiton</a></li>                       
+            }
+            else if (modelRequest.StatusID == (int)Cats.Models.Constant.RegionalRequestStatus.Approved)
+            {
+                <li><a href="@Url.Action("CreateRequisiton", "ReliefRequisition", new { Area = "EarlyWarning", id = modelRequest.RegionalRequestID })"><i class="icon-plus"></i>Requisiton</a></li>
+            }
+        </ul>
 
-                </div>
+    </div>
 
     @* @if (modelRequest.StatusID == (int)Cats.Models.Constant.RegionalRequestStatus.Approved)
     {
@@ -104,7 +99,7 @@
             });
             return false;
         });
-        
+
         $('#btnAddFDP').click(function () {
 
             // alert("");
@@ -118,7 +113,7 @@
             return false;
         });
     });
-    
+
 
 </script>
 
@@ -126,11 +121,11 @@
     <div id='dialogContent'></div>
 </div>
 
-@if (ViewBag.message!=null)
+@if (ViewBag.message != null)
 {
- <div class="alert alert-success">
-  @ViewBag.message
-</div>
+    <div class="alert alert-success">
+        @ViewBag.message
+    </div>
 }
 
 <h4 class="page-header">Regional Request Detail</h4>
@@ -151,17 +146,17 @@
             <div class="control-group">
                 <div class="control-label">
                     @Html.LabelFor(m => modelRequest.Program)
-                    @*@Html.Label(Translator.Translate("Dispatch Date"),new { @class = "cats-date-pref" })*@
+                    @*@Html.Label(Html.Translate("Dispatch Date"),new { @class = "cats-date-pref" })*@
                 </div>
                 <div class="controls">
                     @Html.TextBoxFor(m => modelRequest.Program, new { Disabled = true })
                     @*<td>
-                        <b>@Translator.Translate("Year"):</b>
-                        @modelRequest.Year*@
+    <b>@Html.Translate("Year"):</b>
+    @modelRequest.Year*@
                 </div>
             </div>
         </div>
-       @* <div class="span3">
+        @* <div class="span3">
             <div style="float: right">
                 
             </div>
@@ -203,7 +198,7 @@
         <div class="span4">
             <div class="control-group">
                 <div class="control-label">
-                    @Html.LabelFor(m => modelRequest.Year)
+                    @Html.Label("Year(EC)")
                 </div>
                 <div class="controls">
                     @Html.TextBoxFor(m => modelRequest.Year, new { Disabled = true })
@@ -215,27 +210,33 @@
         <div class="span4">
             <div class="control-group">
                 <div class="control-label">
-                    @Html.LabelFor(m => modelRequest.Ration)
-                </div>
-                <div class="controls">
-                    @Html.TextBoxFor(m => modelRequest.Ration, new { Disabled = true })
-                    <div>
-                        <a href="@Url.Action("Details", "Ration", new { id = modelRequest.RationID })">View Ration Detail
-                        </a>| <a href="@Url.Action("Edit", "Request", new { id = modelRequest.RegionalRequestID })">Change
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="span4">
-            <div class="control-group">
-                <div class="control-label">
                     @Html.LabelFor(m => modelRequest.Status)
                 </div>
                 <div class="controls">
                     @Html.TextBoxFor(m => modelRequest.Status, new { Disabled = true })
                 </div>
             </div>
+        </div>
+
+        <div class="span4">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(m => modelRequest.Ration)
+                </div>
+                <div class="controls">
+                    <div>
+                        @Html.TextBoxFor(m => modelRequest.Ration, new { Disabled = true })
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <a id="pop"
+                class="btn btn-sm"
+                href="#"
+                data-original-title="Ration Detail">
+                <i class="icon-question-sign"></i>
+            </a>
         </div>
     </div>
 </div>
@@ -271,11 +272,51 @@
     .Sortable()
     .Scrollable()
     .Groupable()
-    
+
       )
 
-<script type="text/javascript">
+<script >
+    
+    var tblbody;
+    
+    $("#pop").popover({
+        placement: 'right', //placement of the popover. also can use top, bottom, left or     right
+        html: 'true', //needed to show html of course
+        content: gett(this),// hope this should be link
+        trigger: 'hover'
+    });
 
+
+    
+
+   
+   function gett(t) {
+        
+       $.ajax({
+            async:false,
+            type: "POST",
+            url: "@Url.Action("RationDetail", "Ration")",
+           data: "{id:'@modelRequest.RationID'}",
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+
+            success: function (data) {
+                tblbody = "<table>";
+                for (var i = 0; i < data.length; i++) {
+                    //tblbody += "<table>";
+                    tblbody += "<tr>";
+                    tblbody += "<td>" + data[i].Name + "</td>";
+                    tblbody += "<td>" + data[i].Amount + "</td>";
+                    tblbody += "</tr>";
+                }
+                tblbody += "</table>";
+             
+            },
+           
+        });
+       return tblbody;
+    };
+   
 
     function error_handler(e) {
         if (e.errors) {
@@ -287,13 +328,13 @@
                     });
                 }
             });
-            alert(message);
+            //alert(message);
         }
     }
 
 
     function onDataBound(e) {
-        alert("Hello");
+       
         check_planned();
         var grid = $("#grid").data("kendoGrid");
         $(grid.tbody).on("change", "td", function (e) {
@@ -335,6 +376,7 @@
     .surplus * {
         color: red;
     }
+
     .surplus {
         color: red;
     }

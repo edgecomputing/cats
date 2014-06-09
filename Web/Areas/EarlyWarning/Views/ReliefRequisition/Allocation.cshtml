@@ -1,4 +1,5 @@
-﻿@using Cats.Areas.EarlyWarning.Models
+﻿@using System.Collections
+@using Cats.Areas.EarlyWarning.Models
 @using Cats.Models
 @model Cats.Areas.EarlyWarning.Models.ReliefRequisitionViewModel
 @using Cats.Services.Security
@@ -68,16 +69,32 @@
                 </div>
                 <div class="controls">@Html.TextBoxFor(model => model.Commodity, new { disabled = "true" })</div>
             </div>
-
+            
+            <div class="control-group">
+                <div class="control-label">@Html.DisplayNameFor(model => model.Ration)
+                </div>
+                <div class="controls">@Html.TextBoxFor(model => model.Ration, new { disabled = "true" })</div>
+            </div>
         </div>
         <div class="span5">
-            <div class="control-group">
-                <div class="control-label">@Html.DisplayNameFor(model => model.Round)
+            @if (Model.ProgramID == 1)
+            {
+                <div class="control-group">
+                    <div class="control-label">@Html.DisplayNameFor(model => model.Round)
+                    </div>
+                    <div class="controls">@Html.TextBoxFor(model => model.Round, new {disabled = "true"})</div>
                 </div>
-                <div class="controls">@Html.TextBoxFor(model => model.Round, new { disabled = "true" })</div>
-            </div>
+            }
+            else if (Model.ProgramID == 2)
+            {
+             <div class="control-group">
+                    <div class="control-label">@Html.DisplayNameFor(model => model.Month)
+                    </div>
+                    <div class="controls">@Html.TextBoxFor(model => model.Month, new { disabled = "true" })</div>
+                </div>
+            }
             <div class="control-group">
-                <div class="control-label">@Html.LabelFor(model => model.RequestedDateEt,new {@class="cats-date-pref"})
+                <div class="control-label">@Html.LabelFor(model => model.RequestedDateEt, new { @class = "cats-date-pref" })
                 </div>
                 <div class="controls">@Html.TextBoxFor(model => model.RequestedDateEt, new { disabled = "true" })</div>
             </div>
@@ -92,6 +109,7 @@
                 </div>
                 <div class="controls">@Html.TextBoxFor(model => model.Status, new { disabled = "true" })</div>
             </div>
+            
             @*@if (Model.StatusID == (int)Cats.Models.Constant.ReliefRequisitionStatus.Draft)
         { 
             @Html.ActionLink("Edit", "Edit", new { id = Model.RequisitionID })
@@ -124,24 +142,28 @@
         columns.Bound(p => p.FDP).Width(100).HtmlAttributes(new { style = "background-color:lightgray" });
         //columns.Bound(p => p.Donor).Width(100).HtmlAttributes(new { style = "background-color:lightgray" });
         columns.Bound(p => p.Commodity).Width(100).HtmlAttributes(new { style = "background-color:lightgray" });
-        columns.ForeignKey(p => p.Donor, (IEnumerable<Cats.Models.Donor>)ViewData["donors"], "DonorID", "Name").Width(200);
-        columns.Bound(p => p.BenficiaryNo).Width(100).HtmlAttributes(new { align = "right" }).Format("{0:n0}");
-        columns.Bound(p => p.Amount).Width(100).HtmlAttributes(new { style = "background-color:lightgray" , align = "right" }).Format("{0:n2}").HeaderHtmlAttributes(new { @class = "cats-unit-pref-grid" });
+        //columns.ForeignKey(p => p.Donor, (IEnumerable<Cats.Models.Donor>)ViewData["donors"], "DonorID", "Name").Width(200);
         if (Model.ProgramID == 2)
         {
-            columns.Bound(p => p.Contingency).Width(100).HtmlAttributes(new {style = "background-color:lightgray", align = "right"}).Format("{0:n2}").HeaderHtmlAttributes(new {@class = "cats-unit-pref-grid"});
+            columns.ForeignKey(p => p.DonorID, (IEnumerable) ViewData["donors"], "DonorID", "Name").Width(100);
+        }
+        columns.Bound(p => p.BenficiaryNo).Width(100).HtmlAttributes(new { align = "right" }).Format("{0:n0}");
+        columns.Bound(p => p.Amount).Width(100).HtmlAttributes(new { style = "background-color:lightgray", align = "right" }).Format("{0:n2}").HeaderHtmlAttributes(new { @class = "cats-unit-pref-grid" });
+        if (Model.ProgramID == 2)
+        {
+            columns.Bound(p => p.Contingency).Width(100).HtmlAttributes(new { style = "background-color:lightgray", align = "right" }).Format("{0:n2}").HeaderHtmlAttributes(new { @class = "cats-unit-pref-grid" });
         }
         columns.Bound(p => p.RationAmount).Hidden(true);
     })
     .ToolBar(toolbar => toolbar.Save())
     .Editable(editable => editable.Mode(GridEditMode.InCell))
-    //.Pageable()
+        //.Pageable()
     .Selectable(t => t.Mode(GridSelectionMode.Single))
-    // .Sortable()
+        // .Sortable()
     .Navigatable()
     .Scrollable()
     .HtmlAttributes(new { style = "height:430px;" })
-    // .Events(ev => ev.DataBound("resetRowNumber"))
+        // .Events(ev => ev.DataBound("resetRowNumber"))
       .Events(ev => ev.DataBound("onDataBound"))
     .DataSource(dataSource => dataSource
         .Ajax()
@@ -154,7 +176,7 @@
                 model.Field(detail => detail.Zone).Editable(false);
                 model.Field(detail => detail.Woreda).Editable(false);
                 model.Field(detail => detail.Commodity).Editable(false);
-                //model.Field(detail => detail.Amount).Editable(false);
+                model.Field(detail => detail.Donor).Editable(false);
                 //model.Field(detail => detail.Contingency).Editable(false);
             })
         .Create(update => update.Action("Allocation_Create", "ReliefRequisition"))
@@ -224,5 +246,15 @@
             });
             return false;
         });
+    });
+    
+</script>
+<script>
+    $(function () {
+        var requistionId = @Model.RequisitionID;
+        
+
+        var printurl = "@Url.Action("Print", "BeneficiaryAllocation",new {area="Logistics"})" +"/"+requistionId;
+        $("#toolbar_button_print").attr("href", printurl);
     });
 </script>

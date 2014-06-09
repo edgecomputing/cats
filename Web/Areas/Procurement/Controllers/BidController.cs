@@ -89,6 +89,9 @@ namespace Cats.Areas.Procurement.Controllers
             ViewBag.HubID = new SelectList(_hubService.GetAllHub(), "HubID", "Name", "Select Hub");
             return View("WoredasWithOutBidOffer",filter);
         }
+
+       
+
         public ActionResult ReadWoredasWithOutBidOffer([DataSourceRequest] DataSourceRequest request, int bidID, int regionID)
         {
             var planID = _bidService.FindById(bidID).TransportBidPlanID;
@@ -136,6 +139,57 @@ namespace Cats.Areas.Procurement.Controllers
             return Json(result.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult NoOfferWoredas(int bidID)
+        {
+            var planID = _bidService.FindById(bidID).TransportBidPlanID;
+
+            var bidPlanDetail =
+                _transportBidPlanDetailService.FindBy(t => t.BidPlanID == planID);
+            var df = (from planDetail in bidPlanDetail
+                      group planDetail by new
+                      {
+                          planDetail.DestinationID,
+                          planDetail.SourceID
+                      }
+                          into gr
+                          select gr
+                      );
+
+            var detailPlans = df.Select(d => d.ToList()).Select(er => er.FirstOrDefault()).ToList();
+
+            var result = new List<NoOfferWoreda>();
+
+            foreach (var transportBidPlanDetail in detailPlans)
+            {
+                var pdetail = transportBidPlanDetail;
+
+                var detail = _transportBidQuotationService.FindBy(t => t.BidID == bidID
+                                                                && t.SourceID == pdetail.SourceID
+                                                                && t.DestinationID == pdetail.DestinationID).FirstOrDefault();
+                if (detail == null)
+                {
+                    var n = new NoOfferWoreda()
+                    {
+                        SourceWarehouse = pdetail.Source.Name,
+                        Zone = pdetail.Destination.AdminUnit2.Name,
+                        Woreda = pdetail.Destination.Name,
+                        Region = pdetail.Destination.AdminUnit2.AdminUnit2.Name
+                    };
+                    result.Add(n);
+                }
+            }
+
+            var re =  (from planDetail in result
+                      group planDetail by planDetail.Region
+                      into gr select new
+                          {
+                              gr.Key,
+                              Count = gr.Count()
+                          }
+                     );
+           
+            return Json(re, JsonRequestBehavior.AllowGet);
+        }
 
         public List<BidWinnerViewingModel> ReadWoredasWithBidWinners(int bidID, int regionID, int rank, int hubID = 0)
         {
@@ -293,6 +347,7 @@ namespace Cats.Areas.Procurement.Controllers
             {
                 var regions = _adminUnitService.FindBy(t => t.AdminUnitTypeID == 2);
                 bid.StatusID = (int)BidStatus.Open;
+             
                 var bidDetails = (from detail in regions
                                   select new BidDetail()
                                       {

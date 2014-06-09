@@ -25,6 +25,8 @@ namespace Cats.Models
         public int DModeOfTransport { get; set; }
         public string PortName { get; set; }
         public int StatusID { get; set; }
+        public int? PartitionId { get; set; }
+
         public string DeclarationNumber { get; set; }
         public Nullable<Guid> TransactionGroupID { get; set; }
         public virtual Detail Detail { get; set; }

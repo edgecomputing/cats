@@ -14,11 +14,13 @@ namespace Cats.Models.Mapping
 
             this.Property(t => t.BusinessProcessID).HasColumnName("BusinessProcessID");
             this.Property(t => t.RequestedAmount).HasColumnName("RequestedAmount");
+            this.Property(t => t.TransportedQuantityInQTL).HasColumnName("TransportedQuantityInQTL");
             this.Property(t => t.ReferenceNo).HasColumnName("ReferenceNo");
             this.Property(t => t.LabourCostRate).HasColumnName("LabourCostRate");
             this.Property(t => t.LabourCost).HasColumnName("LabourCost");
             this.Property(t => t.RejectedAmount).HasColumnName("RejectedAmount");
             this.Property(t => t.RejectionReason).HasColumnName("RejectionReason");
+            this.Property(t => t.PartitionId).HasColumnName("PartitionId");
 
             this.HasRequired(t => t.BusinessProcess)
               .WithMany(t => t.PaymentRequests)

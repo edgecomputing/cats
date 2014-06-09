@@ -88,6 +88,7 @@ namespace Cats.Models.Security.Mapping
             this.Property(t => t.RegionID).HasColumnName("RegionID");
             this.Property(t => t.RegionalUser).HasColumnName("RegionalUser");
             this.Property(t => t.IsAdmin).HasColumnName("IsAdmin");
+            this.Property(t => t.PartitionId).HasColumnName("PartitionId");
 
         }
     }

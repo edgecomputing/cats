@@ -1,7 +1,8 @@
 ﻿@using Cats.Models
 @using Cats.Models.ViewModels
 @using Kendo.Mvc.UI
-@using LanguageHelpers.Localization
+@using Cats.Helpers
+
 @model Cats.Models.ViewModels.TransportRequisitionWithTransporter
 @{
     ViewBag.Title = "AssignTransporter";
@@ -61,7 +62,7 @@
                   columns.Bound(p => p.Commodity);
                   columns.Bound(p => p.FDP);
                   columns.Bound(P => P.OriginWarehouse);
-                  columns.Bound(p => p.QuantityQtl).Title(Translator.Translate("Quantity")).HtmlAttributes(new { align = "right" }).Format("{0:n2}").HeaderHtmlAttributes(new { @class = "cats-unit-pref-grid" });
+                  columns.Bound(p => p.QuantityQtl).Title(Html.Translate("Quantity")).HtmlAttributes(new { align = "right" }).Format("{0:n2}").HeaderHtmlAttributes(new { @class = "cats-unit-pref-grid" });
                   // columns.Bound(p => p.Amount);
                   //columns.Command(p => p.Custom("Assign Transporter").Click("onGenerate"));
               })

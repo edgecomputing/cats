@@ -119,14 +119,6 @@ namespace Cats.Controllers
             ViewBag.UnselectedDashbaords = unselectedDashbaords;
 
             var user = userService.GetUserDetail(HttpContext.User.Identity.Name);
-            //var userPreference = new UserPreferenceEditModel
-            //{
-            //    Language = user.LanguageCode,
-            //    KeyboardLanguage = user.Keyboard,
-            //    PreferedWeightMeasurement = user.PreferedWeightMeasurment,
-            //    DatePreference = user.DatePreference,
-            //    DefaultTheme = user.DefaultTheme
-            //};
             var userPreferenceViewModel = new UserPreferenceViewModel(user);
             ViewBag.Languages = new SelectList(userPreferenceViewModel.Languages, "StringID", "Name", userPreferenceViewModel.Language);
             ViewBag.DateFormatPreference = new SelectList(userPreferenceViewModel.DateFormatPreferences, "StringID", "Name", userPreferenceViewModel.DateFormatPreference);
@@ -213,7 +205,7 @@ namespace Cats.Controllers
                 allUserRollsInAllApplications.AddRange(app.Select(role => role.RoleName));
             }
 
-            var totalUnread = _notificationService.GetAllNotification().Where(n => n.IsRead == false && allUserRollsInAllApplications.Contains(n.RoleName)).ToList();
+            var totalUnread = _notificationService.GetAllNotification().Where(n => n.IsRead == false && allUserRollsInAllApplications.Contains(n.Application)).ToList();
 
             var notificationViewModel = Cats.ViewModelBinder.NotificationViewModelBinder.ReturnNotificationViewModel(totalUnread.ToList());
             return Json(notificationViewModel.ToDataSourceResult(request));

@@ -16,5 +16,6 @@ namespace Cats.Models.ViewModels.Bid
         public decimal AmountForPSNPProgram { get; set; }
         public decimal BidDocumentPrice { get; set; }
         public decimal CPO { get; set; }
+        public decimal Total { get { return AmountForReliefProgram + AmountForPSNPProgram; } }
     }
 }

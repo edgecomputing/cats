@@ -1,4 +1,5 @@
 ﻿@model Cats.Areas.Logistics.Models.TransportRequisitionViewModel
+@using Cats.Helpers
 
 @{
     ViewBag.Title = "Approve";
@@ -11,10 +12,10 @@
 }
 <div class="modal-header">
    @* <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>*@
-    <h4 id="myModalLabel">@LanguageHelpers.Localization.Translator.Translate("Generate Transport Order")</h4>
+    <h4 id="myModalLabel">@Html.Translate("Generate Transport Order")</h4>
 </div>
 
-<h5 class="offset1">@LanguageHelpers.Localization.Translator.Translate("Are you sure you want to generate transported order for selected Transport Requisition?")</h5>
+<h5 class="offset1">@Html.Translate("Are you sure you want to generate transported order for selected Transport Requisition?")</h5>
 
 @using (Html.BeginForm("CreateTransportOrder", "TransportOrder", new { Area = "Procurement", id = @ViewBag.RequisistionId }, FormMethod.Post, new { @class = "modal-form" }))
 

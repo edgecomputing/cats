@@ -36,6 +36,8 @@ namespace Cats.Tests.ControllersTests
            var planService = new Mock<IPlanService>();
            planService.Setup(m => m.GetAllPlan()).Returns(plan);
 
+           planService.Setup(t => t.FindBy(It.IsAny<Expression<Func<Plan, bool>>>())).Returns(plan);
+
            planService.Setup(t => t.GetPrograms()).Returns(new List<Program>()
                                                                      {
                                                                          new Program()
@@ -114,6 +116,7 @@ namespace Cats.Tests.ControllersTests
                    PlanName = "Mehere 2006",
                    StartDate = new DateTime(01 / 02 / 2006),
                    EndDate = new DateTime(02 / 12 / 2004),
+                   Duration = 6,
                    Status = 1
                };
            var result = _planController.Create(plan);

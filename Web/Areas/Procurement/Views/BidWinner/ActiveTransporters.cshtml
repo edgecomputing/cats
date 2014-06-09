@@ -2,7 +2,7 @@
 @using Cats.Security
 @using Cats.Services.Security
 @using Kendo.Mvc.UI
-@using LanguageHelpers.Localization
+
 @{
     ViewBag.Title = "ActiveTransporters";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
@@ -15,11 +15,11 @@
 @(Html.Kendo().Grid<Cats.Models.Transporter>()
     .Name("grid")
     .Columns(columns =>
-        {
-        columns.Bound(p => p.Name).Title(Translator.Translate("Transporter Name")).ClientTemplate(
+    {
+        columns.Bound(p => p.Name).Title(Html.Translate("Transporter Name")).ClientTemplate(
                             @Html.EarlyWarningOperationButton(
                                 @Url.Action("Details", "Transporter", new { id = "#=HRDID#" }),
-                                EarlyWarningConstants.Operation.New_HRD, "#=HRDName#").ToString());
+                                EarlyWarningConstants.Operation.View_HRD_Detail, "#=HRDName#").ToString());
         columns.Bound(p => p.OwnerName);
         columns.Bound(p => p.ManagerName);
        //columns.Command(command => command.Destroy());

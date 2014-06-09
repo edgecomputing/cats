@@ -70,6 +70,14 @@ namespace Cats.Services.Procurement
             return _unitOfWork.TransportBidPlanDetailRepository.FindBy(predicate);
 
         }
+
+        public IEnumerable<TransportBidPlanDetail> Get(System.Linq.Expressions.Expression<Func<TransportBidPlanDetail, bool>> filter = null,
+                                    Func<IQueryable<TransportBidPlanDetail>, IOrderedQueryable<TransportBidPlanDetail>> orderBy = null,
+                                    string includeProperties = "")
+        {
+            return _unitOfWork.TransportBidPlanDetailRepository.Get(filter, orderBy, includeProperties);
+        }
+
         public double GetRegionPlanTotal(int bidplanid, int regionId, int programId)
         {
             List<TransportBidPlanDetail> bidDetails = this.GetAllTransportBidPlanDetail();
@@ -137,7 +145,7 @@ namespace Cats.Services.Procurement
                         }
                         var psnpPlanDetail = psnpDetail.RegionalPSNPPlanDetails;
                         var woredaGroup = (from groupedPsnp in psnpPlanDetail
-                                           group groupedPsnp by groupedPsnp.PlanedFDP.AdminUnit
+                                           group groupedPsnp by groupedPsnp.PlanedWoreda
                                            into woredaDtail
                                            select new
                                                {

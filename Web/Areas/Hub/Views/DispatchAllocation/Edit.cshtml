@@ -9,7 +9,24 @@
     @Html.Translate("Please use this form to edit dispatch allocation for your hub.")
 </p>
 
-
+<style>
+    .input
+    {
+        border:solid 1px #888;
+        padding:2px;
+        border-radius:4px;
+    }
+    /*
+    .control-group
+    {
+        background:#EEE;
+    }
+    .controls
+    {
+        background:#0EE;
+    }
+        */
+</style>
 
 
 @using (Html.BeginForm("SaveFDPAllocationAjax", "DispatchAllocation", FormMethod.Post, new { @id = "frm_edit_inline" }))
@@ -35,7 +52,23 @@
                         @Html.ValidationMessageFor(model => model.BidRefNo)
                     </div>
                   </div>
-
+                   <div class="control-group required">
+                    @Html.LabelFor(model => model.FDPID, "FDP",new { @class="control-label" })
+                    <div class="controls">
+                        @Html.HiddenFor(model => model.FDPID)
+                        
+                        @Html.ValidationMessageFor(model => model.FDPID)
+                        <div class="input" id="FDPName">@Model.FDPName</div>
+                    </div>
+                  </div>
+            <div class="control-group required">
+                    @Html.LabelFor(model => model.ProgramID, Html.Translate("Program"),new { @class="control-label" })
+                    <div class="controls">
+                        @(Html.Kendo().ComboBox().Name("ProgramID").Filter("contains").BindTo((SelectList)ViewBag.Programs).Suggest(true).AutoBind(true))
+                        
+                         @Html.ValidationMessageFor(model => model.ProgramID)
+                    </div>
+                  </div>
                   <div class="control-group required">
                     @Html.LabelFor(model => model.CommodityTypeID, Html.Translate("Commodity Type"),new { @class="control-label" })
                    <div class="controls">
@@ -49,18 +82,15 @@
                   <div class="control-group required">
                      @Html.LabelFor(model => model.CommodityID, Html.Translate("Commodity"),new { @class="control-label" })
                     <div class="controls">
-                        @Html.EditorFor(model => model.CommodityID)
+                        
+                        @(Html.Kendo().ComboBox().Name("CommodityID").Filter("contains").BindTo((SelectList)ViewBag.Commodities).Suggest(true).AutoBind(true))
+                        
+                        
                         @Html.ValidationMessageFor(model => model.CommodityID)
                     </div>
                   </div>
 
-                  <div class="control-group required">
-                    @Html.LabelFor(model => model.ProgramID, Html.Translate("Program"),new { @class="control-label" })
-                    <div class="controls">
-                        @Html.EditorFor(model => model.ProgramID)
-                         @Html.ValidationMessageFor(model => model.ProgramID)
-                    </div>
-                  </div>
+                  
 
                   <div class="control-group required">
                     @Html.LabelFor(model => model.DonorID, Html.Translate("Donor"),new { @class="control-label" })
@@ -82,19 +112,12 @@
                   <div class="control-group required">
                     @Html.LabelFor(model => model.Beneficiery,new { @class="control-label" })
                     <div class="controls">
-                        @Html.EditorFor(model => model.Beneficiery)
+                        @Html.EditorFor( model => model.Beneficiery,new { @class="input-small" })
                         @Html.ValidationMessageFor(model => model.Beneficiery)
                     </div>
                   </div>
 
-                  <div class="control-group required">
-                    @Html.LabelFor(model => model.FDPID, "FDP",new { @class="control-label" })
-                    <div class="controls">
-                        @Html.EditorFor(model => model.FDPID)
-                        
-                        @Html.ValidationMessageFor(model => model.FDPID)
-                    </div>
-                  </div>
+
 
                   <div class="control-group required">
                     @Html.LabelFor(model => model.Amount, Html.Translate("Amount"),new { @class="control-label" })
@@ -107,7 +130,8 @@
                   <div class="control-group required">
                     @Html.LabelFor(model => model.Unit,new { @class="control-label" })
                     <div class="controls">
-                         @Html.EditorFor(model => model.Unit)
+                        @(Html.Kendo().ComboBox().Name("Unit").Filter("contains").BindTo((SelectList)ViewBag.Units).Suggest(true).AutoBind(true))
+                        
                         @Html.ValidationMessageFor(model => model.Unit)
                     </div>
                   </div>
@@ -123,7 +147,8 @@
                   <div class="control-group required">
                     @Html.LabelFor(model => model.Month,new { @class="control-label" })
                     <div class="controls">
-                        @Html.EditorFor(model => model.Month)
+                       
+                        @(Html.Kendo().ComboBox().Name("Month").Filter("contains").BindTo((SelectList)ViewBag.Months).Suggest(true).AutoBind(true))
                         @Html.ValidationMessageFor(model => model.Month)
                     </div>
                   </div>
@@ -170,13 +195,15 @@
         if (type != "fdp")
         { return;}
         $("#FDPID").val(selection.FDPID);
-        $("#div_FDPName").html(selection.fdpName);
+        $("#FDPName").html(selection.fdpName);
         selectedFDP=selection
     }
     $(document).ready(function () {
       //  $.validator.unobtrusive.parse('#frm_edit_inline');
         $(".form-horizontal label").addClass("control-label");
-        $("#FDPID").click(function () { showFDPSelector({ target: 'FDPID', callback: "onDispatchFDPChange",adminUnit:selectedFDP }) })
+        $("#FDPName").click(function () { showFDPSelector({ target: 'FDPName', callback: "onDispatchFDPChange",adminUnit:selectedFDP }) })
+        $("input").addClass("input-medium");
+        $(".input").addClass("input-medium");
     });
 
 </script>

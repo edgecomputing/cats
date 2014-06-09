@@ -111,6 +111,7 @@ namespace Cats.Areas.Finance.Controllers
                 paymentRequestViewModel.TransporterID = paymentRequestObj.TransportOrder.TransporterID;
                 paymentRequestViewModel.Transporter = paymentRequestObj.TransportOrder.Transporter.Name;
                 paymentRequestViewModel.RequestedAmount = paymentRequestObj.RequestedAmount;
+                paymentRequestViewModel.TransportedQuantityInQtl = paymentRequestObj.TransportedQuantityInQTL;
                 paymentRequestViewModel.ReferenceNo = paymentRequestObj.ReferenceNo;
                 paymentRequestViewModel.BusinessProcessID = paymentRequestObj.BusinessProcessID;
                 paymentRequestViewModel.LabourCostRate = paymentRequestObj.LabourCostRate;
@@ -123,7 +124,7 @@ namespace Cats.Areas.Finance.Controllers
 
         public ActionResult LoadLabourCost(int paymentRequestID)
         {
-            var paymentRequestObj = _paymentRequestservice.Get(t => t.PaymentRequestID == paymentRequestID, null, "TransportOrder, TransportOrder.Transporter").FirstOrDefault();
+            var paymentRequestObj = _paymentRequestservice.Get(t => t.PaymentRequestID == paymentRequestID,requests => null, "TransportOrder, TransportOrder.Transporter").FirstOrDefault();
             var paymentRequestViewModel = new Models.PaymentRequestViewModel();
             if (paymentRequestObj != null)
             {
@@ -133,6 +134,7 @@ namespace Cats.Areas.Finance.Controllers
                 paymentRequestViewModel.TransporterID = paymentRequestObj.TransportOrder.TransporterID;
                 paymentRequestViewModel.Transporter = paymentRequestObj.TransportOrder.Transporter.Name;
                 paymentRequestViewModel.RequestedAmount = paymentRequestObj.RequestedAmount;
+                paymentRequestViewModel.TransportedQuantityInQtl = paymentRequestObj.TransportedQuantityInQTL;
                 paymentRequestViewModel.ReferenceNo = paymentRequestObj.ReferenceNo;
                 paymentRequestViewModel.BusinessProcessID = paymentRequestObj.BusinessProcessID;
                 paymentRequestViewModel.LabourCostRate = paymentRequestObj.LabourCostRate;
@@ -158,6 +160,7 @@ namespace Cats.Areas.Finance.Controllers
                     paymentRequestViewModel.TransporterID = paymentRequest.TransportOrder.TransporterID;
                     paymentRequestViewModel.Transporter = paymentRequest.TransportOrder.Transporter.Name;
                     paymentRequestViewModel.RequestedAmount = paymentRequest.RequestedAmount;
+                    paymentRequestViewModel.TransportedQuantityInQtl = paymentRequest.TransportedQuantityInQTL;
                     paymentRequestViewModel.ReferenceNo = paymentRequest.ReferenceNo;
                     paymentRequestViewModel.BusinessProcessID = paymentRequest.BusinessProcessID;
                     paymentRequestViewModel.StateNo = paymentRequest.BusinessProcess.CurrentState.BaseStateTemplate.StateNo;

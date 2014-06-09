@@ -12,6 +12,11 @@
         New  Requisiton For Distribution
     </legend>
 </fieldset>
+@section Toolbar
+{
+    <a class="btn toolbar-btn " data-buttontype="btn_save" data-submittedform="frm_create_Requistions"></a>
+    <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="@Url.Action("CancelChanges", "ReliefRequisition", new { id = Model.First().RegionalRequestId})" title="Cancel"></a>
+}
 
 @section LeftBar
 {
@@ -19,7 +24,7 @@
 
 }
 
-@using (Html.BeginForm("NewRequisiton", "ReliefRequisition", FormMethod.Post))
+@using (Html.BeginForm("NewRequisiton", "ReliefRequisition", FormMethod.Post, new { id = "frm_create_Requistions" }))
 {
     <table  id="kGrid">
         <thead>
@@ -31,10 +36,10 @@
                     @Html.DisplayNameFor(model => model.Region)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Program)
+                    @Html.DisplayNameFor(model => model.Zone)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Zone)
+                    @Html.DisplayNameFor(model => model.Program)
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.Commodity)
@@ -42,19 +47,19 @@
                 <th>
                     @Html.DisplayNameFor(model => model.Round)
                 </th>
-                <th class="cats-date-pref-grid">
+                <th>
                     @Html.DisplayNameFor(model => model.RequestedDate)
                 </th>
                 @* <th>
                 @Html.DisplayNameFor(model => model.RequestedBy)
-            </th>
+                </th>
            
-            <th>
-                @Html.DisplayNameFor(model => model.ApprovedBy)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ApprovedDate)
-            </th>*@
+                <th>
+                    @Html.DisplayNameFor(model => model.ApprovedBy)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ApprovedDate)
+                </th>*@
                 <th>
                     @Html.DisplayNameFor(model => model.Status)
                 </th>
@@ -76,20 +81,18 @@
                         @Html.DisplayFor(modelItem => item.Region)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Program)
+                        @Html.DisplayFor(modelItem => item.Zone)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Zone)
+                        @Html.DisplayFor(modelItem => item.Program)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Commodity)
                     </td>
-
-
                     <td>
                         @Html.DisplayFor(modelItem => item.Round)
                     </td>
-                    <td>
+                    <td class="cats-date-pref-grid">
                         @Html.DisplayFor(modelItem => item.RequestDatePref)
                     </td>
                     @*<td>
@@ -134,7 +137,8 @@
                 
                         }
                         @status
-                          <input type='hidden'  name="input[@index].Number" id="txtReqID" value="@item.Input.Number"/>
+                    <input type='hidden'  name="input[@index].Number" id="txtReqID" value="@item.Input.Number"/>
+                    <input type='hidden'  name="input[@index].RegionalRequestId" id="txtRegionalRequestId" value="@item.RegionalRequestId"/>
                    @* </td>
 
                     <td>*@
@@ -151,14 +155,16 @@
         </tbody>
     </table>
     <p>
-        <input class="btn btn-success" type="submit" value="Save Change" />
+        @*<input class="btn btn-success" type="submit" value="Save Change" />*@
+       @* <input class="btn btn-success" type="submit" value="Save Change" />*@
     </p>
 }
 <script>
 
     $(document).ready(function() {
         $("#kGrid").kendoGrid({
-            pageable: true,
+            pageable: false,
+            scrollable: true,
             sortable: true
         });
         

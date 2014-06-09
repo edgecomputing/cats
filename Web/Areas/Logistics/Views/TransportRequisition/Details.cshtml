@@ -1,7 +1,8 @@
 ﻿@using Cats.Areas.Logistics.Models
 @using Kendo.Mvc.UI
 @using Cats.Localization;
-@using LanguageHelpers.Localization
+@using Cats.Helpers
+
 @model Cats.Areas.Logistics.Models.TransportRequisitionViewModel
 
 @{
@@ -9,11 +10,7 @@
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
 
-@section LeftBar
-{
-    @Html.Partial("_AllocationLeftBar")
-}
-<h4 class="page-header">@Translator.Translate("Transport Requisition Detail") </h4>
+<h4 class="page-header">@Html.Translate("Transport Requisition Detail") </h4>
 @section Toolbar
 {
     <a class="btn toolbar-btn " href="@Url.Action("Index", "TransportRequisition", new { Area = "Logistics" })" data-buttontype="btn_back_to_list"></a>
@@ -104,7 +101,7 @@
                               columns.Bound(trd => trd.Zone);
 
                               columns.Template(@<text>
-<a href="@Url.Action("Destinations", "TransportRequisition", new { id = item.RequisitionID, transportRequistionId = Model.TransportRequisitionID })">@Translator.Translate("Destinations") (@item.DestinationsCount) </a>
+<a href="@Url.Action("Destinations", "TransportRequisition", new { id = item.RequisitionID, transportRequistionId = Model.TransportRequisitionID })">@Html.Translate("Destinations") (@item.DestinationsCount) </a>
 </text>);
                           }).Scrollable()
                           .Groupable()

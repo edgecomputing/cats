@@ -160,7 +160,7 @@ namespace Cats.Infrastructure
 
             kernel.Bind<ILocalizedTextService>().To<LocalizedTextService>();
             kernel.Bind<LanguageHelpers.Localization.Services.ILanguageService>().To<LanguageHelpers.Localization.Services.LanguageService>();
-            //kernel.Bind<LanguageHelpers.Localization.Data.IUnitOfWork>().To<LanguageHelpers.Localization.Data.UnitOfWork>();
+            kernel.Bind<LanguageHelpers.Localization.Data.IUnitOfWork>().To<LanguageHelpers.Localization.Data.UnitOfWork>();
 
             kernel.Bind<Cats.Localization.Data.UnitOfWork.IUnitOfWork>().To<Cats.Localization.Data.UnitOfWork.UnitOfWork>();
             kernel.Bind<ILocalizationService>().To<LocalizationService>();
@@ -207,7 +207,7 @@ namespace Cats.Infrastructure
             kernel.Bind<IWoredaHubLinkService>().To<WoredaHubLinkService>();
             kernel.Bind<IWoredaHubService>().To<WoredaHubService>();
             kernel.Bind<ITransporterAgreementVersionService>().To<TransporterAgreementVersionService>();
-
+            kernel.Bind<Cats.Services.Administration.IUserHubService>().To<Cats.Services.Administration.UserHubService>();
             kernel.Bind<ITemplateService>().To<TemplateService>();
 
             kernel.Bind<IAzManStorage>().To<SqlAzManStorage>().WithConstructorArgument("connectionString",
@@ -260,6 +260,7 @@ namespace Cats.Infrastructure
             kernel.Bind<IEWDashboardService>().To<EWDashboardService>();
             kernel.Bind<ITransporterChequeService>().To<TransporterChequeService>();
             kernel.Bind<Cats.Services.Administration.IUserProfileService>().To<Cats.Services.Administration.UserProfileService>();
+            kernel.Bind<ILossReasonService>().To<LossReasonService>();
         }
         private void AddBindingsHub()
         {

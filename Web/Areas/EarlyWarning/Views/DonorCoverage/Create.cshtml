@@ -1,4 +1,6 @@
 ﻿@using LanguageHelpers.Localization
+@using Cats.Helpers
+
 @model Cats.Models.HrdDonorCoverage
 @{
     ViewBag.Title = "Create";
@@ -15,7 +17,7 @@
     <div class="well form-horizontal">
         <div class="control-group">
             <div class="control-label">
-                @Html.LabelFor(m => m.HRDID,Translator.Translate("HRD Name"))
+                @Html.LabelFor(m => m.HRDID,Html.Translate("HRD Name"))
             </div>
             <div class="controls">
                 @Html.DropDownList("HRDID",String.Empty)
@@ -26,7 +28,7 @@
         </div>
         <div class="control-group">
             <div class="control-label">
-                @Html.LabelFor(m => m.DonorID,Translator.Translate("Donor Name"))
+                @Html.LabelFor(m => m.DonorID,Html.Translate("Donor Name"))
             </div>
             <div class="controls">
                 @Html.DropDownList("DonorID", String.Empty)

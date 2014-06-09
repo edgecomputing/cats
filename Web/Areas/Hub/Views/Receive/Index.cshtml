@@ -35,14 +35,14 @@
         <div class="field-set-title">
             <h4 class="page-header">
                 From Donation</h4>
-                 <a href="#" onclick="CreateNewPlan(@Cats.Models.Hubs.CommoditySource.Constants.DONATION)">@Html.Translate("Make a new Plan")</a> 
+                  
             <span style="float: right">
                 @Html.ActionLink(Html.Translate("Record a new receipt"), "Create", "Receive", new { type = Cats.Models.Hubs.CommoditySource.Constants.DONATION },null)    
             </span>
         </div>
 
     
-        <div class="field-set">
+        <div class="l">
             @Html.Action("Allocationlist", "Receive", new { type = Cats.Models.Hubs.CommoditySource.Constants.DONATION })
         </div>
 <br />
@@ -50,7 +50,7 @@
         <div class="field-set-title">
             <h2>
                 @Html.Translate("From Loan, Swap,  Repayment Or Transfer")</h2>
-                <a href="#" onclick="CreateNewPlan(@Cats.Models.Hubs.CommoditySource.Constants.LOAN )">@Html.Translate("Make a new Plan")</a> 
+                
             <span style="float:right">
                 Record a new receipt 
                 @Html.ActionLink("From Loan", "Create", "Receive", new { type = Cats.Models.Hubs.CommoditySource.Constants.LOAN }, null)<span>  </span>
@@ -68,7 +68,7 @@
         <div class="field-set-title">
             <h2>
                 @Html.Translate("Local purchase")</h2> 
-                <a href="#" onclick="CreateNewPlan('@Cats.Models.Hubs.CommoditySource.Constants.LOCALPURCHASE')">Make a new Plan</a> 
+                 
                 <span style="float: right">
                     @Html.ActionLink("Record a new receipt", "Create", "Receive", new { type = Cats.Models.Hubs.CommoditySource.Constants.LOCALPURCHASE },null)
                 </span>

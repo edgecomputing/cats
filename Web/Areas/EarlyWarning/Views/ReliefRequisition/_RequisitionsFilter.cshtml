@@ -1,0 +1,59 @@
+﻿
+
+@model Cats.Areas.EarlyWarning.Models.SearchRequistionViewModel
+@using Cats.Helpers;
+
+@{
+    const string PAGE_NAME = "Request.Index.RequestFilter";
+}
+
+@using (Html.BeginForm())
+{
+    <div class="">
+        <div class="span3">
+            <div class="control-group">
+                <div class="control-label">
+                    <label>Region:</label>
+                </div>
+                <div class="controls ">
+                    @Html.DropDownList("RegionID", null, new { @class = "input-large" })
+                </div>
+            </div>
+
+        </div>
+        <div class="span3">
+            <div class="control-group">
+                <div class="control-label">
+                    <label>Program:</label>
+                </div>
+                <div class="controls ">
+                    @Html.DropDownList("ProgramID", null, new { @class = "input-large" })
+                </div>
+            </div>
+        </div>
+        <div class="span3">
+            <div class="control-group">
+                <div class="control-label">
+                    <label>Status:</label>
+                </div>
+                <div class="controls ">
+                    @Html.DropDownList("StatusID", null, new { @class = "input-large" })
+                </div>
+            </div>
+        </div>
+        <div class="span3">
+            <div class="control-group">
+                <div class="control-label">
+                    <label>&nbsp;</label>
+                </div>
+                <div class="controls">
+                    <button type="submit" class="btn btn-sm" value="Search"><i class="icon-search"></i></button>
+                </div>
+            </div>
+
+        </div>
+        <div style="clear:both;">
+        </div>
+    </div>
+
+}

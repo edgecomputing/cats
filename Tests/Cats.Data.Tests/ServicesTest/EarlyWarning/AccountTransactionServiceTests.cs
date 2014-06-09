@@ -500,7 +500,7 @@ namespace Cats.Data.Tests.ServicesTest.EarlyWarning
                                                                                         {
                                                                                             RegionalPSNPPlanDetailID = 1,
                                                                                             RegionalPSNPPlanID = 1,
-                                                                                            PlanedFDPID = 1,
+                                                                                            PlanedWoredaID = 1,
                                                                                             BeneficiaryCount = 200,
                                                                                             FoodRatio = 3,
                                                                                             CashRatio = 3,
@@ -732,6 +732,24 @@ namespace Cats.Data.Tests.ServicesTest.EarlyWarning
             donationPlanHeaderRepositoy.Setup(t => t.FindById(It.IsAny<int>())).Returns((int id) => donationPlanHeaders.
                                                                                                  FirstOrDefault(t => t.DonationHeaderPlanID == id));
 
+
+            var hubAllocation = new List<HubAllocation>()
+                                    {
+                                        new HubAllocation()
+                                            {
+                                                HubID = 1,
+                                                RequisitionID = 1455,
+
+
+                                            }
+                                    };
+
+            var hubAllocationRepository = new Mock<IGenericRepository<HubAllocation>>();
+            hubAllocationRepository.Setup(h => h.GetAll()).Returns(hubAllocation);
+            hubAllocationRepository.Setup(h => h.FindBy(It.IsAny<Expression<Func<HubAllocation, bool>>>())).Returns(
+                hubAllocation);
+
+
             var transactionRepository = new Mock<IGenericRepository<Models.Transaction>>();
             transactionRepository.Setup(t => t.Add(It.IsAny<Models.Transaction>())).Returns(true);
             var transactionGroupRepository = new Mock<IGenericRepository<TransactionGroup>>();
@@ -753,6 +771,7 @@ namespace Cats.Data.Tests.ServicesTest.EarlyWarning
             unitOfWork.Setup(t => t.WoredaStockDistributionRepository).Returns(woredaStockDistributionRepositoy.Object);
             unitOfWork.Setup(t => t.TransactionRepository).Returns(transactionRepository.Object);
             unitOfWork.Setup(t => t.TransactionGroupRepository).Returns(transactionGroupRepository.Object);
+            unitOfWork.Setup(t => t.HubAllocationRepository).Returns(hubAllocationRepository.Object);
             unitOfWork.Setup(t => t.Save());
             _accountTransactionService=new TransactionService(unitOfWork.Object);
         }
@@ -815,7 +834,7 @@ namespace Cats.Data.Tests.ServicesTest.EarlyWarning
                                                                                             {
                                                                                                 RegionalPSNPPlanDetailID = 1,
                                                                                                 RegionalPSNPPlanID = 1,
-                                                                                                PlanedFDPID = 1,
+                                                                                                PlanedWoredaID = 1,
                                                                                                 BeneficiaryCount = 200,
                                                                                                 FoodRatio = 3,
                                                                                                 CashRatio = 3,

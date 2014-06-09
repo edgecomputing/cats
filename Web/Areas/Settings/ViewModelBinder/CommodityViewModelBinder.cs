@@ -11,17 +11,19 @@ namespace Cats.Areas.Settings.ViewModelBinder
     {
         public static CommodityViewModel BindCommodityViewModel(Commodity commodity)
         {
-            return new CommodityViewModel()
-                       {
-                           CommodityID = commodity.CommodityID,
-                           Name = commodity.Name,
-                           CommodityCode = commodity.CommodityCode,
-                           NameAM = commodity.NameAM,
-                           LongName = commodity.LongName,
-                           CommodityTypeID = commodity.CommodityTypeID,
-                           ParentID = commodity.CommodityTypeID
+            if (commodity.ParentID != null)
+                return new CommodityViewModel()
+                           {
+                               CommodityID = commodity.CommodityID,
+                               Name = commodity.Name,
+                               CommodityCode = commodity.CommodityCode,
+                               NameAM = commodity.NameAM,
+                               LongName = commodity.LongName,
+                               CommodityTypeID = commodity.CommodityTypeID,
+                               ParentID = (int) commodity.ParentID
 
-                       };
+                           };
+            return null;
         }
 
         public static List<CommodityViewModel> BindListCommodityViewModel(List<Commodity> commodities)
@@ -30,7 +32,7 @@ namespace Cats.Areas.Settings.ViewModelBinder
         }
         public static Commodity BindCommodity(CommodityViewModel commodityViewModel, Commodity commodity = null)
         {
-            return commodity ?? new Commodity()
+            return  new Commodity()
             {
                 CommodityID = commodityViewModel.CommodityID,
                 Name = commodityViewModel.Name,
@@ -38,7 +40,7 @@ namespace Cats.Areas.Settings.ViewModelBinder
                 NameAM = commodityViewModel.NameAM,
                 LongName = commodityViewModel.LongName,
                 CommodityTypeID = commodityViewModel.CommodityTypeID,
-                ParentID = commodityViewModel.CommodityTypeID
+                ParentID = commodityViewModel.ParentID
 
             };
         }

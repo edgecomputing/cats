@@ -19,8 +19,9 @@ namespace Cats.Models
         public Nullable<int> CreatedBY { get; set; }
         public int RationID { get; set; }
         //public Nullable<int> NeedAssessmentID { get; set; }
-        public Nullable<int> Status { get; set; }
+        public int? Status { get; set; }
         public int PlanID { get; set; }
+        public int? PartitionId { get; set; }
         public Nullable<System.Guid> TransactionGroupID { get; set; }
         public virtual TransactionGroup TransactionGroup { get; set; }
         public virtual Ration Ration { get; set; }

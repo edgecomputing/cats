@@ -25,6 +25,7 @@ namespace Cats.Models.Mapping
            this.Property(t => t.HRDID).HasColumnName("HRDID");
            this.Property(t => t.DonorID).HasColumnName("DonorID");
            this.Property(t => t.CreatedDate).HasColumnName("CreatedDate");
+           this.Property(t => t.PartitionId).HasColumnName("PartitionId");
 
            // Relationships
            this.HasRequired(t => t.Hrd)

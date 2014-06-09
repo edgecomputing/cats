@@ -134,14 +134,16 @@ namespace Cats.Areas.Hub.Controllers
             return PartialView("Allocations2", list);
         }
 
-        public ActionResult AllocationListAjax([DataSourceRequest] DataSourceRequest request, int type, bool? closedToo, int? CommodityType)
+        public ActionResult AllocationListAjax([DataSourceRequest] DataSourceRequest request,int? commodityType, int type=1, bool closed=false,int HubID=0 )
         {
             List<ReceiptAllocation> list = new List<ReceiptAllocation>();
             List<ReceiptAllocationViewModel> listViewModel = new List<ReceiptAllocationViewModel>();
             try
             {
                 UserProfile user = _userProfileService.GetUser(User.Identity.Name);
-                list = _receiptAllocationService.GetUnclosedAllocationsDetached(user.DefaultHub.HubID, type, closedToo, user.PreferedWeightMeasurment, CommodityType);
+                HubID=HubID>0?HubID:user.DefaultHub.HubID;
+                //HubID=user.DefaultHub.HubID
+                list = _receiptAllocationService.GetUnclosedAllocationsDetached(HubID, type, closed, user.PreferedWeightMeasurment, commodityType);
                 listViewModel = BindReceiptAllocationViewModels(list).ToList();
                 return Json(listViewModel.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
             }
@@ -178,6 +180,9 @@ namespace Cats.Areas.Hub.Controllers
             {
                 UserProfile user = _userProfileService.GetUser(User.Identity.Name);
                 List<ReceiptAllocation> list = _receiptAllocationService.GetUnclosedAllocationsDetached(user.DefaultHub.HubID, type, closedToo, user.PreferedWeightMeasurment, CommodityType);
+                //newly added
+                list = list.Where(t => t.CommoditySourceID == type).ToList();
+                //newly added
                 var listViewModel = BindReceiptAllocationViewModels(list);
                 return View(new GridModel(listViewModel));
             }
@@ -203,10 +208,13 @@ namespace Cats.Areas.Hub.Controllers
                         ProjectNumber = receiptAllocation.ProjectNumber,
                         GiftCertificateDetailID = receiptAllocation.GiftCertificateDetailID,
                         CommodityID = receiptAllocation.CommodityID,
+                        CommodityName = receiptAllocation.Commodity.Name,
                         SINumber = receiptAllocation.SINumber,
                         UnitID = receiptAllocation.UnitID,
                         QuantityInUnit = receiptAllocation.QuantityInUnit ?? 0,
                         QuantityInMT = receiptAllocation.QuantityInMT,
+                        RemainingBalanceInMT = receiptAllocation.RemainingBalanceInMT,
+                        ReceivedQuantityInMT = receiptAllocation.ReceivedQuantityInMT,
                         DonorID = receiptAllocation.DonorID,
                         ProgramID = receiptAllocation.ProgramID,
                         CommoditySourceID = receiptAllocation.CommoditySourceID,
@@ -272,7 +280,7 @@ namespace Cats.Areas.Hub.Controllers
             List<Receive> receives = _receiveService.ByHubId(user.DefaultHub.HubID);
             return View(receives);
         }
-        public virtual ActionResult Index2()
+        public virtual ActionResult Index_NEW()
         {
             UserProfile user = _userProfileService.GetUser(User.Identity.Name);
             populateLookups(user);

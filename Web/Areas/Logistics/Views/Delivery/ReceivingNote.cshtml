@@ -6,7 +6,7 @@
     ViewBag.Title = "Goods Receving Note";
     Layout = "~/Views/Shared/_MainLayoutWide.cshtml";
 }
-<div class="page-header">@Translator.Translate("Transport Goods Receiving Note")</div>
+<div class="page-header">@Html.Translate("Transport Goods Receiving Note")</div>
 @Html.HiddenFor(model => model.DeliveryID)
 @Html.HiddenFor(model => model.DispatchID)
 @Html.HiddenFor(model => model.HubID)

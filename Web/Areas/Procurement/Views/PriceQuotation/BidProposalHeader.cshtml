@@ -2,7 +2,6 @@
 @using Cats.Security
 @using Cats.Services.Security
 @using Kendo.Mvc.UI
-@using LanguageHelpers.Localization
 
 @{
     ViewBag.Title = "Index";
@@ -68,11 +67,6 @@
     });
 </script>
 
-
-
-
-
-
 <div>
     <h4>Bid Proposals</h4>
 </div>
@@ -82,15 +76,15 @@
       .Columns(columns =>
           {
               //columns.Bound(p => p.BidNumber).ClientTemplate("<a href='" + Url.Action("Details", "PriceQuotation", new {id = "#=TransportBidQuotationHeaderID#"}) + " '>#=BidNumber#</a>  "); ;
-              
-              columns.Bound(p => p.BidNumber).Title(Translator.Translate("Bid Number")).ClientTemplate(
+
+              columns.Bound(p => p.BidNumber).Title(Html.Translate("Bid Number")).ClientTemplate(
                 @Html.EarlyWarningOperationButton(
                     @Url.Action("Details", "PriceQuotation", new { id = "#=TransportBidQuotationHeaderID#" }),
                     (EarlyWarningConstants.Operation)ProcurementConstants.Operation.Edit_bid_proposal_details, "#=BidNumber#").ToString());
               
               columns.Bound(p => p.Region);
               columns.Bound(p => p.Transporter);
-              columns.Bound(p => p.BidBondAmount).Title("Bid Bond Amount(ETB)").HtmlAttributes(new { align = "Right" }).Format("{0:N}");;
+             // columns.Bound(p => p.BidBondAmount).Title("Bid Bond Amount(ETB)").HtmlAttributes(new { align = "Right" }).Format("{0:N}");;
               columns.Bound(p => p.OffersCount);
               columns.Bound(p => p.Status);
 
@@ -108,9 +102,14 @@
         .Sortable()
         .Events(e => e.DataBound("onDataBound"))
         .Filterable()
-        //.Groupable()
+        .Groupable()
         .DataSource(dataSource => dataSource
                .Ajax()
+                .Group(group =>
+                {
+                    group.Add(m => m.BidNumber);
+                    group.Add(m => m.Region);
+                })
                //.Events(events => events.Error("error_handler"))
                .Model(model => model.Id(p => p.TransportBidQuotationHeaderID))
                .Read(read => read.Action("Read_BidProposals", "PriceQuotation",new {Area="Procurement"}))

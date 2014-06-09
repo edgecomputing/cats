@@ -109,7 +109,7 @@ namespace Cats.Controllers
             {
                 allUserRollsInAllApplications.AddRange(app.Select(role => role.RoleName));
             }
-            var totalUnread = _notificationService.GetAllNotification().Where(n => n.IsRead == false && allUserRollsInAllApplications.Contains(n.RoleName)).ToList();
+            var totalUnread = _notificationService.GetAllNotification().Where(n => n.IsRead == false && allUserRollsInAllApplications.Contains(n.Application)).ToList();
             return Json(totalUnread, JsonRequestBehavior.AllowGet);
         }
 

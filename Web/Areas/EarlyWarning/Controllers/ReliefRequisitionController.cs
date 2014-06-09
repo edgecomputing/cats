@@ -12,6 +12,7 @@ using Cats.Models.ViewModels;
 using Cats.Services.Common;
 using Cats.Services.EarlyWarning;
 using Cats.Services.Security;
+using Cats.Services.Transaction;
 using Cats.ViewModelBinder;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
@@ -26,16 +27,26 @@ namespace Cats.Areas.EarlyWarning.Controllers
         private readonly IReliefRequisitionService _reliefRequisitionService;
         private readonly IWorkflowStatusService _workflowStatusService;
         private readonly IReliefRequisitionDetailService _reliefRequisitionDetailService;
+        private readonly IRegionalRequestService _regionalRequestService;
         private readonly IUserAccountService _userAccountService;
         private readonly IRationService  _rationService;
         private readonly IDonorService _donorService;
         private readonly INotificationService _notificationService;
         private readonly IPlanService _planService;
-
-        public ReliefRequisitionController(IReliefRequisitionService reliefRequisitionService, IWorkflowStatusService workflowStatusService, 
+        private readonly ICommonService _commonService;
+        private readonly Cats.Services.Transaction.ITransactionService _transactionService;
+        public ReliefRequisitionController(
+            IReliefRequisitionService reliefRequisitionService, 
+            IWorkflowStatusService workflowStatusService, 
             IReliefRequisitionDetailService reliefRequisitionDetailService,
             IUserAccountService userAccountService,
-            IRationService rationService, IDonorService donorService, INotificationService notificationService, IPlanService planService)
+            IRegionalRequestService regionalRequestService,
+            IRationService rationService, 
+            IDonorService donorService, 
+            INotificationService notificationService, 
+            IPlanService planService,
+            ITransactionService transactionService,
+            ICommonService commonService)
         {
             this._reliefRequisitionService = reliefRequisitionService;
             this._workflowStatusService = workflowStatusService;
@@ -45,12 +56,53 @@ namespace Cats.Areas.EarlyWarning.Controllers
             _donorService = donorService;
             _notificationService = notificationService;
             _planService = planService;
+            _transactionService = transactionService;
+            _commonService = commonService;
+            _regionalRequestService = regionalRequestService;
         }
 
-        public ViewResult Index(int id = 1)
+        public ViewResult Index()
         {
-            ViewBag.Status = id;
+            ViewBag.Status = 1;
+            var filter = new SearchRequistionViewModel();
+            ViewBag.Filter = filter;
+            Populatelookup();
+            //ViewBag.Status = id;
             return View();
+        }
+
+        [HttpPost]
+        public ActionResult Index(SearchRequistionViewModel filter)
+        {
+            ViewBag.Filter = filter;
+            Populatelookup();
+            return View(filter);
+        }
+
+        void Populatelookup()
+        {
+            var user = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name);
+            ViewBag.RegionID = user.RegionalUser ? new SelectList(_commonService.GetAminUnits(t => t.AdminUnitTypeID == 2 && t.AdminUnitID == user.RegionID), "AdminUnitID", "Name") : new SelectList(_commonService.GetAminUnits(t => t.AdminUnitTypeID == 2), "AdminUnitID", "Name");
+
+            ViewBag.ProgramId = new SelectList(_commonService.GetPrograms(), "ProgramID", "Name");
+            //ViewBag.Month = new SelectList(RequestHelper.GetMonthList(), "ID", "Name");
+            //ViewBag.RationID = new SelectList(_commonService.GetRations(), "RationID", "RefrenceNumber");
+            //ViewBag.DonorID = new SelectList(_commonService.GetDonors(), "DonorId", "Name");
+            //ViewBag.Round = new SelectList(RequestHelper.GetMonthList(), "ID", "ID");
+            //ViewBag.PlanID = new SelectList(_commonService.GetPlan(1), "PlanID", "PlanName");
+            //ViewBag.PSNPPlanID = new SelectList(_commonService.GetPlan(2), "PlanID", "PlanName");
+            //ViewBag.SeasonID = new SelectList(_commonService.GetSeasons(), "SeasonID", "Name");
+
+            var statuslist = new List<RequestStatus>();
+
+            statuslist.Add(new RequestStatus { StatusID = 1, StatusName = "Draft" });
+            statuslist.Add(new RequestStatus { StatusID = 2, StatusName = "Approved" });
+            statuslist.Add(new RequestStatus { StatusID = 3, StatusName = "Hub Assigned" });
+            statuslist.Add(new RequestStatus { StatusID = 4, StatusName = "Project Code Assigned" });
+            statuslist.Add(new RequestStatus { StatusID = 5, StatusName = "Transport Requisition Created" });
+            statuslist.Add(new RequestStatus { StatusID = 6, StatusName = "Transport Order Created" });
+
+            ViewBag.StatusID = new SelectList(statuslist, "StatusID", "StatusName");
         }
 
         [HttpGet]
@@ -126,15 +178,16 @@ namespace Cats.Areas.EarlyWarning.Controllers
         [HttpGet]
         public ViewResult NewRequisiton(int id)
         {
-
-            var input = _reliefRequisitionService.GetRequisitionByRequestId(id);
+            var input = _reliefRequisitionService.GetRequisitionByRequestId(id).ToList();
             var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
             
             foreach (var reliefRequisitionNew in input)
             {
-                var preferedDate = reliefRequisitionNew.RequestedDate??DateTime.Now;
-                preferedDate = reliefRequisitionNew.RequestedDate ?? DateTime.Now;
-                reliefRequisitionNew.RequestDatePref = preferedDate.ToCTSPreferedDateFormat(datePref);
+                if (reliefRequisitionNew.RequestedDate.HasValue)
+                {
+                    reliefRequisitionNew.RequestDatePref = reliefRequisitionNew.RequestedDate.Value.ToCTSPreferedDateFormat(datePref);
+                    reliefRequisitionNew.RegionalRequestId = id;
+                }
             }
             return View(input);
         }
@@ -147,14 +200,40 @@ namespace Cats.Areas.EarlyWarning.Controllers
             {
                 var requisitionNumbers = input.ToDictionary(t => t.Number, t => t.RequisitionNo);
                 _reliefRequisitionService.AssignRequisitonNo(requisitionNumbers);
-
             }
             return RedirectToAction("Index", "ReliefRequisition");
         }
 
-        [HttpGet]
-        public ActionResult Allocation(int id)
+        public ActionResult CancelChanges(int id)
         {
+            
+            var requisitions = _reliefRequisitionService.FindBy(t => t.RegionalRequestID == id);
+            
+            foreach (var reliefRequisition in requisitions)
+            {
+               var deatils =  _reliefRequisitionDetailService.FindBy(t => t.RequisitionID == reliefRequisition.RequisitionID);
+                foreach (var detail in deatils)
+                {
+                    _reliefRequisitionDetailService.DeleteReliefRequisitionDetail(detail);
+                }
+                _reliefRequisitionService.DeleteReliefRequisition(reliefRequisition);
+            }
+
+            var request = _regionalRequestService.FindById(id);
+            request.Status = (int)RegionalRequestStatus.Approved;
+            _regionalRequestService.EditRegionalRequest(request);
+
+            return RedirectToAction("Details", "Request", new {id=id});
+        }
+
+        [HttpGet]
+        public ActionResult Allocation(int? id)
+        {
+            if (id == null)
+            {
+                return Redirect(Url.Action("Index", "ReliefRequisition"));
+            }
+
             var requisition =
                 _reliefRequisitionService.Get(t => t.RequisitionID == id, null, "ReliefRequisitionDetails").
                     FirstOrDefault();
@@ -178,6 +257,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             var commodityID = requisitionDetails.FirstOrDefault().CommodityID;
             var RationAmount = GetCommodityRation(id, commodityID);
             RationAmount = RationAmount.GetPreferedRation();
+            
             var requisitionDetailViewModels = RequisitionViewModelBinder.BindReliefRequisitionDetailListViewModel(requisitionDetails,RationAmount);
             return Json(requisitionDetailViewModels.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
@@ -297,6 +377,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             _reliefRequisitionService.EditReliefRequisition(requisition);
             //send notification
             SendNotification(requisition);
+            _transactionService.PostRequestAllocation(requisitionid);
             return RedirectToAction("Index", "ReliefRequisition");
         }
 
@@ -338,8 +419,6 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
         public ActionResult Requisition_Read([DataSourceRequest] DataSourceRequest request, int id = 0)
         {
-
-
             var requests = _reliefRequisitionService.Get(t => t.Status == id);
             var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
             var requestViewModels = RequisitionViewModelBinder.BindReliefRequisitionListViewModel(requests,
@@ -347,6 +426,17 @@ namespace Cats.Areas.EarlyWarning.Controllers
                                                                                                       .GetStatus(
                                                                                                           WORKFLOW.
                                                                                                               RELIEF_REQUISITION),datePref).OrderByDescending(m=>m.RequisitionID);
+            return Json(requestViewModels.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult Requisition_Search([DataSourceRequest] DataSourceRequest request, int regionID, int programID, int id)// SearchRequsetViewModel filter)
+        {
+            var requests = _reliefRequisitionService.Get(t => t.Status == id && t.RegionID==regionID && t.ProgramID==programID);
+            var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
+            var requestViewModels = RequisitionViewModelBinder.BindReliefRequisitionListViewModel(requests,_workflowStatusService
+                                                                                                      .GetStatus(
+                                                                                                          WORKFLOW.
+                                                                                                              RELIEF_REQUISITION), datePref).OrderByDescending(m => m.RequisitionID);
             return Json(requestViewModels.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
 
@@ -402,5 +492,19 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
         }
 
+
+        //public  JsonResult CancelChanges(List<DataFromGrid> input)
+        //{
+        //    List<int> ids = new List<int>();
+        //    if (input!=null)
+        //    {
+        //        foreach (var id in ids)
+        //        {
+                   
+        //        }
+                
+        //    }
+        //    return Json(ids, JsonRequestBehavior.AllowGet);
+        //}
     }
 }

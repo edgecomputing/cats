@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Cats.Models.Hubs.ReceiptAllocationViewModel>
+﻿@*@model IEnumerable<Cats.Models.Hubs.ReceiptAllocationViewModel>*@
 @*           @model IEnumerable<Cats.Web.Hub.Models.ReceiptAllocationViewModelDto>*@
 @using Cats.Models.Hubs
 @using Cats.Models.Hubs.ViewModels
@@ -26,9 +26,9 @@
        .ToolBar(toolBar => toolBar.Template(
         @<text>
              <label class="closed-label" for="Closed-input">
-                 @Html.Translate("Show closed Plans")  :
+                 @Html.Translate("Show closed Plans") : <input type="checkbox" class="chkBoxUnclosed" id="chk-closedtoo-@allocationType" data-val="@allocationType" />
              </label>
-             <input type="checkbox" class="chkBoxUnclosed" id="chk-closedtoo-@allocationType" data-val="@allocationType" />
+             
              <script type="text/javascript">
                  $(function () {
                      $("#chk-closedtoo-@allocationType").change(function () {
@@ -46,9 +46,7 @@
              
              
      <label class="customer-label" for="Customers-input" style="padding-left:10px ">
-        Show Allocations for :
-    </label>
-    @(Html.Telerik().ComboBox()
+        Show Allocations for : @(Html.Telerik().ComboBox()
                     .Name("CommodityTypeSelector-" + @allocationType)
                     .BindTo((SelectList)ViewBag.CommodityTypes)
                //     .DataBinding(binding => binding.Ajax().Select("_GetCommodityTypes", "CommodityType"))
@@ -61,7 +59,9 @@
                     .HighlightFirstMatch(true)
                     .SelectedIndex(0)
                     .ClientEvents(events => events.OnChange("comTypeChange" + @allocationType)) //.OnLoad("onComboBoxLoad"))
-            )
+        )
+    </label>
+   
 
 
          </text>))
@@ -99,7 +99,7 @@
         col.Bound(dis => dis.QuantityInUnit).Title(Html.Translate("Allocated Quantiy In Unit")).Format("{0:N3}");
         col.Bound(dis => dis.ReceivedQuantityInMT).Title(Html.Translate("Received in " + quanityColumnHeader)).Format("{0:N3}").HtmlAttributes(new { align = "right" });
         col.Bound(dis => dis.ReceivedQuantityInUnit).Title(Html.Translate("Received in Unit")).Format("{0:N3}").HtmlAttributes(new { align = "right" });
-        col.Bound(dis => dis.RemainingBalanceInMt).Title(Html.Translate("Remaining in "+ quanityColumnHeader)).Format("{0:N3}").HtmlAttributes(new { align = "right" });
+        col.Bound(dis => dis.RemainingBalanceInMT).Title(Html.Translate("Remaining in "+ quanityColumnHeader)).Format("{0:N3}").HtmlAttributes(new { align = "right" });
         col.Bound(dis => dis.RemainingBalanceInUnit).Title(Html.Translate("Remaining in Unit")).Format("{0:N3}").HtmlAttributes(new { align = "right" });
         col.Bound(dis => dis.IsClosed).Hidden(true).ClientTemplate("<input type='checkbox' disabled='disabled' name='closed' <#= IsClosed?\"checked='checked'\" : \"\" #> />");
         //col.Template(@<text></text>)
@@ -168,7 +168,9 @@
             //    filters.Add(o => o.IsClosed).IsEqualTo(false)))
 
 
-                    )
+      )
+
+
 <script type="text/javascript">
 
     $(function () {

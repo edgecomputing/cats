@@ -172,190 +172,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App_GlobalResources\EditorLocalization.bg-BG.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>EditorLocalization.bg-BG.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\EditorLocalization.da-DK.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>EditorLocalization.da-DK.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\EditorLocalization.de-DE.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>EditorLocalization.de-DE.resx</DependentUpon>
-    </Compile>
     <Compile Include="App_GlobalResources\EditorLocalization.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>EditorLocalization.resx</DependentUpon>
     </Compile>
-    <Compile Include="App_GlobalResources\EditorLocalization.en-US.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>EditorLocalization.en-US.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\EditorLocalization.fr-FR.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>EditorLocalization.fr-FR.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\EditorLocalization.nl-NL.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>EditorLocalization.nl-NL.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\EditorLocalization.pl-PL.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>EditorLocalization.pl-PL.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\EditorLocalization.pt-BR.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>EditorLocalization.pt-BR.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\EditorLocalization.pt-PT.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>EditorLocalization.pt-PT.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\EditorLocalization.ru-RU.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>EditorLocalization.ru-RU.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\EditorLocalization.uk-UA.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>EditorLocalization.uk-UA.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\EditorLocalization.zh-CN.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>EditorLocalization.zh-CN.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\GridLocalization.bg-BG.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>GridLocalization.bg-BG.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\GridLocalization.da-DK.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>GridLocalization.da-DK.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\GridLocalization.de-DE.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>GridLocalization.de-DE.resx</DependentUpon>
-    </Compile>
     <Compile Include="App_GlobalResources\GridLocalization.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>GridLocalization.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\GridLocalization.en-US.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>GridLocalization.en-US.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\GridLocalization.es-ES.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>GridLocalization.es-ES.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\GridLocalization.fr-FR.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>GridLocalization.fr-FR.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\GridLocalization.nl-NL.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>GridLocalization.nl-NL.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\GridLocalization.pl-PL.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>GridLocalization.pl-PL.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\GridLocalization.pt-BR.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>GridLocalization.pt-BR.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\GridLocalization.pt-PT.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>GridLocalization.pt-PT.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\GridLocalization.ru-RU.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>GridLocalization.ru-RU.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\GridLocalization.uk-UA.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>GridLocalization.uk-UA.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\GridLocalization.zh-CN.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>GridLocalization.zh-CN.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\UploadLocalization.bg-BG.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>UploadLocalization.bg-BG.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\UploadLocalization.da-DK.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>UploadLocalization.da-DK.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\UploadLocalization.en-US.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>UploadLocalization.en-US.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\UploadLocalization.fr-FR.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>UploadLocalization.fr-FR.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\UploadLocalization.nl-NL.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>UploadLocalization.nl-NL.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\UploadLocalization.pl-PL.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>UploadLocalization.pl-PL.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\UploadLocalization.pt-BR.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>UploadLocalization.pt-BR.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\UploadLocalization.pt-PT.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>UploadLocalization.pt-PT.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\UploadLocalization.ru-RU.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>UploadLocalization.ru-RU.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\UploadLocalization.zh-CN.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>UploadLocalization.zh-CN.resx</DependentUpon>
     </Compile>
     <Compile Include="App_Start\BundleConfig.cs">
       <SubType>Code</SubType>
@@ -370,7 +195,8 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Areas\EarlyWarning\Controllers\ContributionController.cs" />
-    <Compile Include="Areas\EarlyWarning\Controllers\CurrencyController.cs" />
+    <Compile Include="Areas\Settings\Controllers\AccountController.cs" />
+    <Compile Include="Areas\Settings\Controllers\CurrencyController.cs" />
     <Compile Include="Areas\EarlyWarning\Controllers\DonorCoverageController.cs" />
     <Compile Include="Areas\EarlyWarning\Controllers\EWDashboardController.cs" />
     <Compile Include="Areas\EarlyWarning\Controllers\GiftCertificateController.cs" />
@@ -593,6 +419,7 @@
     <Compile Include="Areas\PSNP\Controllers\RegionalPSNPPlanController.cs" />
     <Compile Include="Areas\Regional\Controllers\FetchDataController.cs" />
     <Compile Include="Areas\Regional\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Regional\Controllers\RegionRequisitionsController.cs" />
     <Compile Include="Areas\Regional\Models\DashboardData.cs" />
     <Compile Include="Areas\Regional\Models\ImportantNumbers.cs" />
     <Compile Include="Areas\Regional\RegionalAreaRegistration.cs" />
@@ -614,12 +441,14 @@
     <Compile Include="Areas\Settings\Controllers\HubOwnerController.cs" />
     <Compile Include="Areas\Settings\Controllers\HubsController.cs" />
     <Compile Include="Areas\Settings\Controllers\LogController.cs" />
+    <Compile Include="Areas\Settings\Controllers\LossReasonController.cs" />
     <Compile Include="Areas\Settings\Controllers\ProcessTemplateController.cs" />
     <Compile Include="Areas\Settings\Controllers\ProgramController.cs" />
     <Compile Include="Areas\Settings\Controllers\StoreController.cs" />
     <Compile Include="Areas\Settings\Controllers\UnitController.cs" />
     <Compile Include="Areas\Settings\Controllers\UserPreferenceController.cs" />
     <Compile Include="Areas\Settings\Controllers\UsersController.cs" />
+    <Compile Include="Areas\Settings\Controllers\UserWarehouse.cs" />
     <Compile Include="Areas\Settings\Models\CaseTeam.cs" />
     <Compile Include="Areas\Settings\Models\ChangePasswordModel.cs" />
     <Compile Include="Areas\Settings\Models\ForgetPasswordRequestModel.cs" />
@@ -640,6 +469,7 @@
     <Compile Include="Areas\Settings\Models\ViewModels\HubUserViewModel.cs" />
     <Compile Include="Areas\Settings\Models\ViewModels\HubViewModel.cs" />
     <Compile Include="Areas\Settings\Models\ViewModels\LoginModel.cs" />
+    <Compile Include="Areas\Settings\Models\ViewModels\LossReasonModel.cs" />
     <Compile Include="Areas\Settings\Models\ViewModels\ProgramViewModel.cs" />
     <Compile Include="Areas\Settings\Models\ViewModels\StoreViewModel.cs" />
     <Compile Include="Areas\Settings\Models\ViewModels\UnitViewModel.cs" />
@@ -711,7 +541,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>dataset.xsd</DependentUpon>
     </Compile>
-    <Compile Include="Filters\LocalizationFilter.cs" />
+    <Compile Include="Content\Filters\LocalizationFilter.cs" />
+    <Compile Include="Helpers\CaseHelper.cs" />
     <Compile Include="Helpers\CatsAuthorize.cs" />
     <Compile Include="Helpers\CatsGlobals.cs" />
     <Compile Include="Helpers\DateHelpers.cs" />
@@ -735,11 +566,13 @@
     <Compile Include="Helpers\Hub\StringExtensions.cs" />
     <Compile Include="Helpers\Hub\UserAccountHelper.cs" />
     <Compile Include="Helpers\Hub\VersionHelper.cs" />
+    <Compile Include="Helpers\LabelExtensions.cs" />
     <Compile Include="Helpers\LanguageHelper.cs" />
     <Compile Include="Helpers\Log.cs" />
     <Compile Include="Helpers\MainMenuExtensionHelper.cs" />
     <Compile Include="Helpers\MD5Hashing.cs" />
     <Compile Include="Helpers\NotificationHelper.cs" />
+    <Compile Include="Helpers\NumericHelpers.cs" />
     <Compile Include="Helpers\ReportMenuHelper.cs" />
     <Compile Include="Helpers\RoundMonthHelper.cs" />
     <Compile Include="Helpers\SendMail.cs" />
@@ -832,6 +665,7 @@
     <Compile Include="ViewModelBinder\HubAllocationViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\NeedAssessmentViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\NotificationViewModelBinder.cs" />
+    <Compile Include="ViewModelBinder\PSNPPlanViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\ReceiptAllocationViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\RequestViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\RequisitionViewModelBinder.cs" />
@@ -847,6 +681,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Areas\EarlyWarning\Views\Home\Index.cshtml" />
     <Content Include="Areas\Hub\Views\Dispatch\EditorTemplates\GridForeignKey.ascx" />
     <Content Include="Areas\Hub\Views\GiftCertificate\EditorTemplates\GridForeignKey.ascx" />
     <Content Include="Areas\Hub\Views\Receive\EditorTemplates\ComboBox.ascx" />
@@ -1069,6 +904,7 @@
     <Content Include="Content\assets\ico\apple-touch-icon-72-precomposed.png" />
     <Content Include="Content\assets\ico\favicon.ico" />
     <Content Include="Content\assets\ico\favicon.png" />
+    <Content Include="Content\assets\img\arrow.png" />
     <Content Include="Content\assets\img\bootstrap-docs-readme.png" />
     <Content Include="Content\assets\img\bootstrap-mdo-sfmoma-01.jpg" />
     <Content Include="Content\assets\img\bootstrap-mdo-sfmoma-02.jpg" />
@@ -1196,7 +1032,7 @@
     <Content Include="Content\images\glyphicons-halflings.png" />
     <Content Include="Content\assets\css\font-awesome.css" />
     <Content Include="Content\assets\font\fontawesome-webfont.svg" />
-    <Content Include="Content\images\Regions%27flags.png" />
+    <Content Include="Content\images\Regionsflags.png" />
     <Content Include="Content\images\Regionsflags_small.png" />
     <Content Include="Content\kendo\2013.1.319\Black\editor.png" />
     <Content Include="Content\kendo\2013.1.319\Black\imagebrowser.png" />
@@ -1620,11 +1456,10 @@
       <SubType>Code</SubType>
     </Content>
     <Content Include="Areas\EarlyWarning\Views\HRD\HRDPrintOut.cshtml" />
-    <Content Include="Areas\EarlyWarning\Views\Currency\Index.cshtml" />
-    <Content Include="Areas\EarlyWarning\Views\Currency\Create.cshtml" />
+    <Content Include="Areas\Settings\Views\Currency\Index.cshtml" />
+    <Content Include="Areas\Settings\Views\Currency\Create.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\index.cshtml" />
-    <Content Include="Areas\EarlyWarning\Views\Home\Index.cshtml" />
-    <Content Include="Areas\EarlyWarning\Views\Currency\_CurrencyLeftBar.cshtml" />
+    <Content Include="Areas\Settings\Views\Currency\_CurrencyLeftBar.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Contribution\InkindDetails.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\HRD\Detail.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Plan\Create.cshtml" />
@@ -1641,6 +1476,8 @@
     <Content Include="Areas\EarlyWarning\Views\DonorCoverage\Detail.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\DonorCoverage\Index.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\DonorCoverage\AddWoreda.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\HRD\DateInterval.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\HRD\AddWoreda.cshtml" />
     <None Include="Areas\EarlyWarning\Views\PrintableReports\HRD\HRDDatasetForPrint.xsd">
       <SubType>Designer</SubType>
       <Generator>MSDataSetGenerator</Generator>
@@ -1814,7 +1651,7 @@
     <Content Include="Areas\Finance\Views\ValidatedPaymentRequest\Index.cshtml" />
     <Content Include="Areas\Finance\Views\ValidatedPaymentRequest\TransporterDetail.cshtml" />
     <Content Include="Areas\Finance\Views\ValidatedPaymentRequest\TransportOrderDetail.cshtml" />
-    <Content Include="Areas\Hub\Views\Dispatch\Index2.cshtml" />
+    <Content Include="Areas\Hub\Views\Dispatch\Index.cshtml" />
     <Content Include="Areas\Hub\Views\Dispatch\Edit2.cshtml" />
     <Content Include="Areas\WorkflowManager\Views\Shared\_workflowLeftBar.cshtml" />
     <Content Include="Areas\Logistics\Views\PaymentRequest\Create.cshtml" />
@@ -1823,7 +1660,7 @@
     <Content Include="Areas\Hub\Views\DispatchAllocation\Copy of Edit.cshtml" />
     <Content Include="Areas\Hub\Views\DispatchAllocation\EditLoans2.cshtml" />
     <Content Include="Areas\Hub\Views\DispatchAllocation\EditOthers.cshtml" />
-    <Content Include="Areas\Hub\Views\Receive\Index2.cshtml" />
+    <Content Include="Areas\Hub\Views\Receive\Index.cshtml" />
     <Content Include="Areas\Logistics\Views\TransporterPerformance\TransportOrderPerformanceDetail.cshtml" />
     <Content Include="Areas\Hub\Views\Receive\Allocations2.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Request\Allocation2.cshtml" />
@@ -1844,9 +1681,7 @@
     <Content Include="Areas\Settings\Views\Shared\_MainLayoutMap.cshtml" />
     <Content Include="Areas\Settings\Views\ProcessTemplate\Detail.cshtml" />
     <Content Include="Areas\Settings\Views\ProcessTemplate\Index.cshtml" />
-
     <Content Include="Areas\Settings\Views\Users\EditUser.cshtml" />
-
     <Content Include="Areas\Hub\Views\ReceiptAllocation\Copy of Close.cshtml" />
     <Content Include="Areas\Hub\Views\ReceiptAllocation\Edit.cshtml" />
     <Content Include="Areas\Logistics\Views\WoredaStockDistribution\_LeftBar.cshtml" />
@@ -1856,6 +1691,19 @@
     <Content Include="Areas\Settings\Views\AdminUnit\Index.cshtml" />
     <Content Include="Areas\Settings\Views\UserPreference\Index.cshtml" />
     <Content Include="Areas\Settings\Views\AdminUnit\ManageZones.cshtml" />
+    <Content Include="Areas\Settings\Views\Users\DeleteAccount.cshtml" />
+    <Content Include="Areas\Settings\Views\UserWarehouse\Index.cshtml" />
+    <Content Include="Areas\Hub\Views\ReceiptAllocation\Copy of EditPartial.cshtml" />
+    <Content Include="Areas\Hub\Views\ReceiptAllocation\EditPartial2.cshtml" />
+    <Content Include="Areas\Hub\Views\ReceiptAllocation\Copy %282%29 of EditPartial.cshtml" />
+    <Content Include="Areas\Hub\Views\ReceiptAllocation\Copy of Edit2.cshtml" />
+    <Content Include="Areas\Regional\Views\RegionRequisitions\Index.cshtml" />
+    <Content Include="Areas\Regional\Views\RegionRequisitions\Allocation.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\ReliefRequisition\_RequisitionsFilter.cshtml" />
+    <Content Include="Areas\Settings\Views\LossReason\Index.cshtml" />
+    <Content Include="Areas\Procurement\Views\Transporter\Copy of Edit.cshtml" />
+    <Content Include="Areas\Procurement\Views\Transporter\Copy of Create.cshtml" />
+    <Content Include="Areas\Settings\Views\Account\Login.cshtml" />
     <None Include="dataset.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>dataset.Designer.cs</LastGenOutput>
@@ -2006,7 +1854,7 @@
     <Content Include="Areas\Hub\Views\Dispatch\Details.cshtml" />
     <Content Include="Areas\Hub\Views\Dispatch\DispatchPartial.cshtml" />
     <Content Include="Areas\Hub\Views\Dispatch\Edit.cshtml" />
-    <Content Include="Areas\Hub\Views\Dispatch\Index.cshtml" />
+    <Content Include="Areas\Hub\Views\Dispatch\IndexOld.cshtml" />
     <Content Include="Areas\Hub\Views\Dispatch\Log.cshtml" />
     <Content Include="Areas\Hub\Views\DispatchAllocation\AllocationList.cshtml" />
     <Content Include="Areas\Hub\Views\DispatchAllocation\Close.cshtml" />
@@ -2121,7 +1969,7 @@
     <Content Include="Areas\Hub\Views\Receive\Delete.cshtml" />
     <Content Include="Areas\Hub\Views\Receive\Details.cshtml" />
     <Content Include="Areas\Hub\Views\Receive\Edit.cshtml" />
-    <Content Include="Areas\Hub\Views\Receive\Index.cshtml" />
+    <Content Include="Areas\Hub\Views\Receive\IndexOld.cshtml" />
     <Content Include="Areas\Hub\Views\Receive\Log.cshtml" />
     <Content Include="Areas\Hub\Views\Replication\Index.cshtml" />
     <Content Include="Areas\Hub\Views\Replication\PublicationTwo.cshtml" />
@@ -2770,157 +2618,13 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_GlobalResources\UploadLocalization.zh-CN.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>UploadLocalization.zh-CN.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\UploadLocalization.ru-RU.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>UploadLocalization.ru-RU.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\UploadLocalization.pt-PT.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>UploadLocalization.pt-PT.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\UploadLocalization.pt-BR.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>UploadLocalization.pt-BR.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\UploadLocalization.pl-PL.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>UploadLocalization.pl-PL.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\UploadLocalization.nl-NL.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>UploadLocalization.nl-NL.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\UploadLocalization.fr-FR.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>UploadLocalization.fr-FR.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\UploadLocalization.en-US.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>UploadLocalization.en-US.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\UploadLocalization.da-DK.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>UploadLocalization.da-DK.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\UploadLocalization.bg-BG.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>UploadLocalization.bg-BG.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\GridLocalization.zh-CN.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>GridLocalization.zh-CN.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\GridLocalization.uk-UA.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>GridLocalization.uk-UA.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\GridLocalization.ru-RU.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>GridLocalization.ru-RU.designer.cs</LastGenOutput>
-    </Content>
     <Content Include="App_GlobalResources\GridLocalization.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>GridLocalization.designer.cs</LastGenOutput>
     </Content>
-    <Content Include="App_GlobalResources\GridLocalization.pt-PT.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>GridLocalization.pt-PT.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\GridLocalization.pt-BR.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>GridLocalization.pt-BR.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\GridLocalization.pl-PL.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>GridLocalization.pl-PL.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\GridLocalization.nl-NL.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>GridLocalization.nl-NL.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\GridLocalization.fr-FR.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>GridLocalization.fr-FR.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\GridLocalization.es-ES.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>GridLocalization.es-ES.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\GridLocalization.en-US.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>GridLocalization.en-US.designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="App_GlobalResources\GridLocalization.de-DE.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>GridLocalization.de-DE.designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="App_GlobalResources\GridLocalization.da-DK.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>GridLocalization.da-DK.designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="App_GlobalResources\GridLocalization.bg-BG.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>GridLocalization.bg-BG.designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="App_GlobalResources\EditorLocalization.zh-CN.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>EditorLocalization.zh-CN.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\EditorLocalization.uk-UA.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>EditorLocalization.uk-UA.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\EditorLocalization.ru-RU.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>EditorLocalization.ru-RU.designer.cs</LastGenOutput>
-    </Content>
     <Content Include="App_GlobalResources\EditorLocalization.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>EditorLocalization.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\EditorLocalization.pt-PT.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>EditorLocalization.pt-PT.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\EditorLocalization.pt-BR.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>EditorLocalization.pt-BR.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\EditorLocalization.pl-PL.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>EditorLocalization.pl-PL.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\EditorLocalization.nl-NL.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>EditorLocalization.nl-NL.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\EditorLocalization.fr-FR.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>EditorLocalization.fr-FR.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\EditorLocalization.en-US.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>EditorLocalization.en-US.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\EditorLocalization.de-DE.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>EditorLocalization.de-DE.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\EditorLocalization.da-DK.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>EditorLocalization.da-DK.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\EditorLocalization.bg-BG.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>EditorLocalization.bg-BG.designer.cs</LastGenOutput>
     </Content>
     <EmbeddedResource Include="Areas\EarlyWarning\Views\PrintableReports\HRD\AllHRD.rdlc" />
     <EmbeddedResource Include="Report\EarlyWarning\RRDDetail.rdlc" />

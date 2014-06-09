@@ -16,7 +16,7 @@
             <div class="row" style="border-bottom-width: thin; border-bottom-color: #666; border-bottom-style: inset; margin-top: 5px">
 
                 <div class="pull-left">
-                    <h4>Transporter Payment Requests</h4>
+                    <h4>Finance Dashboard</h4>
                 </div>
                 <div class="pull-right">
                     <div class="btn-group">
@@ -40,9 +40,9 @@
                             </h3>
                             <ul class="portlet-tools pull-right">
                                 <li>
-                                    <button class="btn btn-sm btn-default">
+                                    
                                         <a href="@Url.Action("Index","ValidatedPaymentRequest",new {Area ="Finance"})">Detail</a>   
-                                    </button>
+                                   
 
                                 </li>
                             </ul>
@@ -144,10 +144,10 @@
                                         <th>Cheque No</th>
                                         <th>Transporter</th>
                                         <th>Amount</th>
-                                        <th>Date Approved</th>
+                                        <th>Bank</th>
                                         <th>Prepared By</th>
-                                        <th>Approved By</th>
                                         <th>Status</th>
+                                       
                                         <th></th>
                                         <th></th>
                                     </tr>
@@ -157,13 +157,18 @@
                                         <td class="hidden-xs">{{$index + 1}}</td>
                                         <td>{{req.chequeNo}}</td>
                                         <td>{{req.Transporter}}</td>
-                                        <th>{{req.Amount | number:2}}</th>
-                                        <th>{{req.DateApproved}}</th>
-                                        <th>{{req.ApprovedBy}}</th>
-                                        <th>{{req.PreparedBy}}</th>
-                                        <th> {{req.Status}} </th>
+                                        <td style="text-align: right">{{req.Amount | number:2}}</td>
+                                        <td >{{req.BankName}}</td>
+                                        <td>{{req.PreparedBy}}</td>
                                         
-                                        <th> <a style="display: block;" ng-click="ShowURl(req)" > <button class="btn btn-sm btn-default">{{req.ButtonStatus}} </button></a></></th>
+                                        <td ng-switch on="req.State">
+                                        <div ng-switch-when=1>Draft</div>  
+                                        <div ng-switch-when=2>Approved</div>
+                                        <div ng-switch-when=3>Cashed</div>
+                                        
+                                        </td>
+                                         
+                                        @* <th> <a style="display: block;" ng-click="ShowURl(req)" > <button class="btn btn-sm btn-default">{{req.ButtonStatus}} </button></a></></th>*@
                                         @*<th> <a style="display: block;" ng-click="ShowURl(req)" ><button class="btn btn-sm btn-default"> {{req.Status}} </button> </a></th>*@
                                             
                                     </tr>
@@ -210,5 +215,4 @@
 
     }]);
     
-
 </script>

@@ -18,9 +18,11 @@ namespace Cats.Models
 
     public class PaymentRequestPOCO
     {
+        
         public int PaymentRequestID {get;set;}
         public int TransportOrderID {get;set;}
         public decimal RequestedAmount { get; set; }
+        public decimal TransportedQuantityInQTL { get; set; }
         public string ReferenceNo {get;set;}
         public int BusinessProcessID { get; set; }
         public Nullable<decimal> LabourCostRate { get; set; }
@@ -28,6 +30,7 @@ namespace Cats.Models
         public Nullable<decimal> RejectedAmount { get; set; }
         public string RejectionReason { get; set; }
         public virtual ICollection<TransporterCheque> TransporterCheques { get; set; }
+        public int? PartitionId { get; set; }
     }
 
 }

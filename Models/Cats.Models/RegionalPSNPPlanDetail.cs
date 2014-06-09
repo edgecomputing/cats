@@ -23,12 +23,12 @@ namespace Cats.Models
 
 
         //PlanedFDP
-        [Display(Name = "FDP")]
-        public virtual FDP PlanedFDP { get; set; }
+        [Display(Name = "Woreda")]
+        public virtual AdminUnit PlanedWoreda { get; set; }
 
         //PlanedFDPID
-        [Display(Name = "FDP ID")]
-        public int  PlanedFDPID { get; set; }
+        [Display(Name = "Woreda ID")]
+        public int  PlanedWoredaID { get; set; }
 
 
         //BeneficiaryCount
@@ -50,6 +50,9 @@ namespace Cats.Models
         //Item4Ratio
         [Display(Name = "Item4 Ratio")]
         public int Item4Ratio { get; set; }
+
+        [Display(Name = "Starting Month")]
+        public int StartingMonth { get; set; }
 
     }
 }

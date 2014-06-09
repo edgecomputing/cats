@@ -30,6 +30,7 @@
 </div>
 @(Html.Kendo().Grid<Cats.Web.Adminstration.Models.ViewModels.DonorModel>()
       .Name("grid")
+      .Editable(editable => editable.Mode(GridEditMode.InCell))
       .Columns(columns =>
           {
               columns.Bound(p => p.DonorCode);

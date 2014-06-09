@@ -1,0 +1,103 @@
+﻿
+@using Kendo.Mvc.UI
+
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";  
+}
+
+@section Toolbar
+{
+  @Html.Partial("_AdminGridCommands");    
+}
+@section LeftBar
+{
+   @Html.Partial("_AdminLeftBar");
+}
+
+<div id="modalWindow">
+    <h4>Are You Sure You Want to Delete this User Hub?</h4>
+    <button id="yes" class="k-button">Yes</button>
+    <button id="no" class="k-button">No</button>
+</div>
+<script>
+    var wnd;
+    $(document).ready(function () {
+        wnd = $("#modalWindow").kendoWindow({
+            title: "Delete confirmation",
+            modal: true,
+            visible: false,
+            resizable: false,
+            width: 300
+        }).data("kendoWindow");
+    });
+</script>
+
+<div>
+    <h4>List of users in Hub</h4>
+</div>
+
+<script>
+
+    function OnDelete(e) {
+        e.preventDefault();
+        var grid = this;
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var row = $(e.currentTarget).closest("tr");
+        wnd.center().open();
+
+        $("#yes").click(function () {
+            
+            window.location = "@Url.Action("Delete", "UserWarehouse")" + "/" + dataItem.UserHubID;
+            wnd.close();
+        });
+
+        $("#no").click(function () {
+            wnd.close();
+        });
+    }
+</script>
+@(Html.Kendo().Grid<Cats.Areas.Settings.Models.ViewModels.HubUserViewModel>()
+    .Name("grid")
+    .Columns(columns =>
+                 {
+        columns.Bound(p => p.UserHubID).Hidden(true);
+        columns.ForeignKey(p => p.UserProfileID, (System.Collections.IEnumerable)ViewData["UserProfile"], "UserProfileID", "UserName").Title("User").Width(150);
+        columns.ForeignKey(p => p.HubID, (System.Collections.IEnumerable)ViewData["Hub"], "HubID", "Name").Title("Hub").Width(150);
+        columns.Command(command => command.Edit()).Width(172);
+        columns.Command(command => command.Custom("Delete").Click("OnDelete"));
+    })
+    .ToolBar(toolbar => toolbar.Create())
+    .Editable(editable => editable.Mode(GridEditMode.InLine))
+   
+    .Sortable()
+    .Filterable()
+    .Scrollable()
+    .HtmlAttributes(new { style = "height:430px;" })
+    .DataSource(dataSource => dataSource
+        .Ajax()
+       
+        .Events(events => events.Error("error_handler"))
+        .Model(model => model.Id(p => p.UserHubID))
+        .Create(update => update.Action("Create", "UserWarehouse"))
+        .Read(read => read.Action("Read", "UserWarehouse"))
+        .Update(update => update.Action("Edit", "UserWarehouse"))
+        .Destroy(update => update.Action("Destroy", "UserWarehouse"))
+    )
+)
+<script type="text/javascript">
+    function error_handler(e) {
+        if (e.errors) {
+            var message = "Errors:\n";
+            $.each(e.errors, function (key, value) {
+                if ('errors' in value) {
+                    $.each(value.errors, function () {
+                        message += this + "\n";
+                    });
+                }
+            });
+            alert(message);
+        }
+    }
+</script>

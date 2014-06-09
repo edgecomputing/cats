@@ -1,10 +1,10 @@
-﻿@using LanguageHelpers.Localization
+﻿@using Cats.Helpers
 @model Cats.Areas.EarlyWarning.Models.AddFDPViewModel
 
 
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h3 id="myModalLabel">@Translator.Translate("Add FDP with Beneficaries")</h3>
+    <h3 id="myModalLabel">@Html.Translate("Add FDP with Beneficaries")</h3>
 </div>
 
 @using (Html.BeginForm("AddBeneficary", "Request", new { _programId = @ViewBag.programId }, FormMethod.Post, new { @class = "modal-form" }))
@@ -20,20 +20,20 @@
         <div class="form-horizontal">
             
            @* <div class="control-group" id="region">
-                <div class="control-label">
-                    @Html.Label(Translator.Translate("Region"))
-                </div>
-                <div class="controls" id="div_region">
-                    @Html.DropDownList("RegionID",String.Empty)
-                    @Html.ValidationMessageFor(m => m.RegionID)
-               
-                </div>
+        <div class="control-label">
+            @Html.Label(Html.Translate("Region"))
+        </div>
+        <div class="controls" id="div_region">
+            @Html.DropDownList("RegionID",String.Empty)
+            @Html.ValidationMessageFor(m => m.RegionID)
 
-            </div>*@
+        </div>
+
+    </div>*@
 
             <div class="control-group">
                 <div class="control-label">
-                    @Html.Label(Translator.Translate("Zone"))
+                    @Html.Label(Html.Translate("Zone"))
                 </div>
                 <div class="controls" id="div_zone">
                     @Html.DropDownList("ZoneID","--Select Zone--")
@@ -44,7 +44,7 @@
             </div>
             <div class="control-group">
                 <div class="control-label">
-                    @Html.LabelFor(m => m.WoredaID,Translator.Translate("Woreda"))
+                    @Html.LabelFor(m => m.WoredaID, Html.Translate("Woreda"))
                 </div>
                 <div class="controls" id="div_woreda" >
                     @Html.DropDownList( "Woreda",ViewBag.WoredaID as SelectList, new {@id="WoredaID"})
@@ -55,7 +55,7 @@
 
             <div class="control-group">
                 <div class="control-label">
-                    @Html.LabelFor(m => m.FDPID, Translator.Translate("FDP"))
+                    @Html.LabelFor(m => m.FDPID, Html.Translate("FDP"))
                 </div>
                 <div class="controls" id="div_fdp">
                     @Html.DropDownList( "FDP",ViewBag.FDPID as SelectList, new {@id="FDPID"})
@@ -64,7 +64,7 @@
             </div>
             <div class="control-group">
                 <div class="control-label">
-                    @Html.LabelFor(m => m.Beneficiaries,Translator.Translate("Beneficiaries"))
+                    @Html.LabelFor(m => m.Beneficiaries, Html.Translate("Beneficiaries"))
                 </div>
                 <div class="controls">
                     @Html.TextBoxFor(m=>m.Beneficiaries)

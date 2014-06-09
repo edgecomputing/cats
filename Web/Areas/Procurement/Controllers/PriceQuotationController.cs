@@ -82,10 +82,11 @@ namespace Cats.Areas.Procurement.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            LoadLookups();
-            var model = new PriceQuotationFilterViewModel();
+            //LoadLookups();
+            //var model = new PriceQuotationFilterViewModel();
             //return View(model);
-            return View();
+            return Redirect(@Url.Action("BidProposalHeader","PriceQuotation"));
+            //return View();
         }
 
         //[HttpPost]
@@ -309,7 +310,7 @@ namespace Cats.Areas.Procurement.Controllers
 
         public ActionResult BidProposalHeader()
         {
-            if (TempData["CustomError"] != null) { ModelState.AddModelError("Errors", TempData["CustomError"].ToString()); }
+            if (TempData["CustomError"] != null) { ModelState.AddModelError("Success", TempData["CustomError"].ToString()); }
             return View();
         }
 

@@ -48,6 +48,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             return Json(_rationService.GetAllRation(), JsonRequestBehavior.AllowGet);
         }
 
+       
         public ActionResult Details(int id)
         {
             ViewBag.RationID = id;
@@ -173,6 +174,13 @@ namespace Cats.Areas.EarlyWarning.Controllers
             var rationDetails = _rationDetailService.Get(t => t.RationID == id);
             var rationViewModels = (from item in rationDetails select BindRationDetailViewModel(item));
             return Json(rationViewModels.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult RationDetail(int id)
+        {
+            var rationDetails = _rationDetailService.Get(t => t.RationID == id);
+            var ration = (from item in rationDetails select new {item.Commodity.Name, item.Amount});
+            return Json(ration, JsonRequestBehavior.AllowGet);
         }
 
         [AcceptVerbs(HttpVerbs.Post)]

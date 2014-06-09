@@ -19,16 +19,43 @@
 }
 @section Toolbar
 {
+
     @Html.EarlyWarningOperationButton(
                         @Url.Action("Detail", "HRD", new {id = ViewBag.HRDID}),
-                        EarlyWarningConstants.Operation.New_HRD, "<i class=\"icon-list\"></i>", "btn", "btn_back_to_list")
+                        EarlyWarningConstants.Operation.View_HRD_Detail, "<i class=\"icon-list\"></i>", "btn", "btn_back_to_list")
+     <a class="btn toolbar-btn " data-buttontype="btn_save" href="javascript:saverecords()"></a>
+    <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="javascript:cancelChanges()"></a>
+    <a id="btnAddWoreda" class="btn toolbar-btn " href="@Url.Action("AddWoreda", "HRD", new { id = Model.HRDID })">@Html.Translate("Add Woreda")</a>
 }
 
 @section LeftBar
 {
-    @Html.Partial("_HRDLeftBar");
+    @Html.Partial("_HRDLeftBar")
 }
+<script type="text/javascript">
+    $(function () {
 
+        //Optional: turn the chache off
+        $.ajaxSetup({ cache: false });
+
+        $('#btnAddWoreda').click(function () {
+
+            // alert("");
+            $('#dialogContent').load(this.href, function () {
+                $('#dialogDiv').modal({
+                    backdrop: 'static',
+                    keyboard: true
+                }, 'show');
+                //bindForm(this);
+            });
+            return false;
+        });
+    });
+</script>
+
+<div id='dialogDiv' class='modal hide fade in'>
+    <div id='dialogContent'></div>
+</div>
 <div>
     <h4>HRD Detail for @ViewBag.SeasonID @ViewBag.Year</h4>
    
@@ -38,7 +65,7 @@
          <div class="span4">
          <div class="control-group">
              <div class="control-label">
-                 @Html.Label(Translator.Translate("Ration"))
+                 @Html.Label(Html.Translate("Ration"))
              </div>
              <div class="controls">
                  @Html.TextBoxFor(m=>m.Ration.RefrenceNumber)
@@ -49,7 +76,7 @@
          <div class="span6">
              <div class="control-group">
                  <div class="control-label">
-                     @Html.Label(Translator.Translate("Year"))
+                     @Html.Label(Html.Translate("Year"))
                  </div>
                  <div class="controls">
                      @Html.TextBoxFor(m=>m.Year)
@@ -68,7 +95,7 @@
              columns.Bound(p => p.Zone).Width(40).HtmlAttributes(new { style = "background-color:lightgray" });
              columns.Bound(p => p.Woreda).Width(40).HtmlAttributes(new { style = "background-color:lightgray" });
              columns.Bound(p => p.NumberOfBeneficiaries).Width(40).Title("Beneficiary").HtmlAttributes(new { align = "Right" });
-             columns.Bound(p => p.DurationOfAssistance).Width(40).Title(Translator.Translate("Duration")).HtmlAttributes(new { align = "Right" });
+             columns.Bound(p => p.DurationOfAssistance).Width(40).Title(Html.Translate("Duration")).HtmlAttributes(new { align = "Right" });
              columns.ForeignKey(p => p.StartingMonth, (IEnumerable) ViewData["Month"], "Id", "Name").Width(40);
              //columns.Bound(p => p.Cereal).Title("Cereal " + @unit).Format("{0:N}").HtmlAttributes(new { align = "Right" });
              //columns.Bound(p => p.BlendedFood).Title("BleendedFood " +@unit).Format("{0:N}").Title("B.Food").HtmlAttributes(new { align = "Right" });
@@ -79,7 +106,7 @@
              //ClientFooterTemplate("<div class=aright>#=sum#</div>").Format("{0:N}")
          })
          
-      .ToolBar(toolBar => toolBar.Save())
+      //.ToolBar(toolBar => toolBar.Save())
       .Editable(editable => editable.Mode(GridEditMode.InCell))
       .Events(events => events.DataBound("onDataBound"))
       //.Pageable()
@@ -160,6 +187,13 @@
             setTimeout(function () { input.select(); }, 100);
 
         });
+    }
+    function saverecords() {
+        $("#grid").data("kendoGrid").saveChanges();
+    }
+    
+    function cancelChanges() {
+        $("#grid").data("kendoGrid").dataSource.cancelChanges();
     }
 </script>
 

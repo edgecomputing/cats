@@ -39,7 +39,7 @@ namespace Cats.Models.Hubs
 
             receiptAllocationViewModelDto.CommodityName = receiptAllocation.CommodityName;
             receiptAllocationViewModelDto.ReceivedQuantityInMT = receiptAllocation.ReceivedQuantityInMT;
-            receiptAllocationViewModelDto.RemainingBalanceInMt = receiptAllocation.RemainingBalanceInMt;
+            receiptAllocationViewModelDto.RemainingBalanceInMt = receiptAllocation.RemainingBalanceInMT;
 
 
             return receiptAllocationViewModelDto;
@@ -144,6 +144,7 @@ namespace Cats.Models.Hubs
         private UserProfile _UserProfile = null;
 
         public List<Commodity> Commodities { get; set; }
+        public string CommodityName { get; set; }
         public List<Donor> Donors { get; set; }
         public List<Hub> Hubs { get; set; }
         public List<Hub> AllHubs { get; set; }
@@ -157,6 +158,8 @@ namespace Cats.Models.Hubs
         public Decimal ReceivedQuantityInMT { get; set; }
 
         public Decimal RemainingBalanceInMT { get; set; }
+        public decimal ReceivedQuantityInUnit { get; set; }
+        public decimal RemainingBalanceInUnit { get; set; }
         /// <summary>
         /// Initializes a new instance of the <see cref="ReceiptAllocationViewModel"/> class.
         /// </summary>

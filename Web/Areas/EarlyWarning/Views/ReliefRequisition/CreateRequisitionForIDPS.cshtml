@@ -19,7 +19,7 @@
             
                 <div class="control-group" id="PlanName">
                     <div class="control-label">
-                        @Html.Label(Translator.Translate("plan"))
+                        @Html.Label(Html.Translate("plan"))
                     </div>
                     <div class="controls" id="div_region">
                         @Html.TextBoxFor(m => m.PlanName)
@@ -31,7 +31,7 @@
 
                 <div class="control-group">
                     <div class="control-label">
-                        @Html.Label(Translator.Translate("start Date"))
+                        @Html.Label(Html.Translate("start Date"))
                     </div>
                     <div class="controls" >
                         @Html.TextBoxFor(m=>m.StartDate,new { @class = "cats-date-pref" })
@@ -43,7 +43,7 @@
 
                 <div class="control-group">
                     <div class="control-label">
-                        @Html.Label(Translator.Translate("End Date"))
+                        @Html.Label(Html.Translate("End Date"))
                     </div>
                     <div class="controls" >
                         @Html.TextBoxFor(m=>m.EndDate,new { @class = "cats-date-pref" })

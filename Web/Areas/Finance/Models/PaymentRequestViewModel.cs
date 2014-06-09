@@ -13,6 +13,7 @@ namespace Cats.Areas.Finance.Models
         public string Transporter { get; set; }
         public int TransporterID { get; set; }
         public decimal RequestedAmount { get; set; }
+        public decimal TransportedQuantityInQtl { get; set; }
         public string ReferenceNo { get; set; }
         public int BusinessProcessID { get; set; }
         public int StateNo { get; set; }

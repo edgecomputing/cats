@@ -43,7 +43,7 @@ namespace Cats.ViewModelBinder
             regionalRequestViewModel.Status = statuses.Find(t => t.WorkflowID == (int)WORKFLOW.REGIONAL_REQUEST && t.StatusID == regionalRequest.Status).Description;
             // regionalRequestViewModel. RequistionDate = regionalRequest.RequistionDate;
             regionalRequestViewModel.StatusID = regionalRequest.Status;
-            regionalRequestViewModel.Ration = regionalRequest.Ration.RefrenceNumber;
+            if (regionalRequest.Ration != null) regionalRequestViewModel.Ration = regionalRequest.Ration.RefrenceNumber;
             regionalRequestViewModel.RationID = regionalRequest.RationID;
             regionalRequestViewModel.Year = regionalRequest.Year;
             regionalRequestViewModel.PlanId = regionalRequest.PlanID;
@@ -86,7 +86,7 @@ namespace Cats.ViewModelBinder
             return request;
         }
 
-        public static DataTable TransposeDataNew(List<PLANWithRegionalRequestViewModel> woredaRequestDetail, int programID)
+        public static DataTable TransposeDataNew(List<PLANWithRegionalRequestViewModel> woredaRequestDetail, int programID, string preferedweight)
         {
             var dt = new DataTable("Transpose");
 
@@ -116,7 +116,7 @@ namespace Cats.ViewModelBinder
 
             //var requestdetail = requestDetails.FirstOrDefault();
 
-            if (woredaRequestDetail.Count != 0)
+            if (woredaRequestDetail != null && woredaRequestDetail.Count != 0)
             {
                 var requestdetail = woredaRequestDetail.FirstOrDefault().RegionalRequestDetails.FirstOrDefault();
 
@@ -124,7 +124,7 @@ namespace Cats.ViewModelBinder
                 {
                     foreach (var ds in requestdetail.RequestDetailCommodities)
                     {
-                        var col = new DataColumn(ds.Commodity.Name.Trim(), typeof(decimal));
+                        var col = new DataColumn(ds.Commodity.Name.Trim() + " in " + preferedweight.ToUpper().Trim(), typeof(decimal));
                         col.ExtendedProperties.Add("ID", ds.CommodityID);
                         dt.Columns.Add(col);
                     }

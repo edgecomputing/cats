@@ -5,7 +5,7 @@
 @using Cats.Models.Hubs
 @using Cats.Services.Security
 @using Kendo.Mvc.UI
-@using LanguageHelpers.Localization
+
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_MainLayoutWide.cshtml";
@@ -171,12 +171,12 @@
 </div>
 <div>
      <div style="float: left; width:600px; height:250px; border:1px solid #ececec; margin-top:20px;margin-right:20px;margin-bottom:20px;">
-        <div style="font-weight: bold;margin:10px;">@Translator.Translate("GRN with delivery discripancy")</div>
+        <div style="font-weight: bold;margin:10px;">@Html.Translate("GRN with delivery discripancy")</div>
         @(Html.Kendo().Grid<DeliveryViewModel>().Name("gridGRNWithDiscripancy")
                       .Columns(col =>
                                    {
                                        col.Bound(request => request.ReceivingNumber).ClientTemplate("<a href='" + Url.Action("EditGRN", "Delivery", new { id = "#=DistributionID#" }) + " '>#=ReceivingNumber#</a>  ").HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;" }); ;
-                                       col.Bound(t => t.InvoiceNo).Title(Translator.Translate("GIN"));
+                                       col.Bound(t => t.InvoiceNo).Title(Html.Translate("GIN"));
                                        col.Bound(t => t.RequisitionNo).HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;" });
                                        //col.Bound(t => t.Region);
                                        //col.Bound(t => t.Zone);

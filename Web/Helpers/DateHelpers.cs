@@ -119,5 +119,26 @@ namespace Cats.Helpers
                 return amount / 1000;
             return amount/100;
         }
+
+        public static float GetPreferedRation1(this decimal amount)
+        {
+            string currentUnit;
+            try
+            {
+                var user = UserAccountHelper.GetCurrentUser();
+                currentUnit = user.PreferedWeightMeasurment;
+            }
+            catch (Exception)
+            {
+
+                return (float) amount;
+            }
+
+
+            if (currentUnit.ToUpper().Trim() == "MT")
+                return (float) (amount / 1000);
+            return (float) (amount / 100);
+        }
+
     }
 }

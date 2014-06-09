@@ -1,7 +1,8 @@
 ﻿@using Cats.Areas.Procurement.Models
 @using Cats.Models.Hubs
 @using Kendo.Mvc.UI
-@using LanguageHelpers.Localization
+@using Cats.Helpers
+
 @{
     ViewBag.Title = "WoredasWithOutBidOffer";
     Layout = "~/Views/Shared/_MainLayoutWide.cshtml";
@@ -58,14 +59,14 @@
 <div class="row-fluid">
 <ul class="nav nav-tabs ">
     <li class="active">
-        <a href="#tab0" data-toggle="tab"><b>@Translator.Translate("Woredas With Fisrt Bid Winner(s)")</b></a>
+        <a href="#tab0" data-toggle="tab"><b>@Html.Translate("Woredas With Fisrt Bid Winner(s)")</b></a>
     </li>
 
     <li>
-        <a href="#tab1" data-toggle="tab"><b>@Translator.Translate("Woredas With Second Bid Winner(s)")</b></a>
+        <a href="#tab1" data-toggle="tab"><b>@Html.Translate("Woredas With Second Bid Winner(s)")</b></a>
     </li>
     <li>
-        <a href="#tab2" data-toggle="tab"><b>@Translator.Translate("Woredas Without Offer")</b></a>
+        <a href="#tab2" data-toggle="tab"><b>@Html.Translate("Woredas Without Offer")</b></a>
     </li>
 
 </ul>
@@ -204,7 +205,7 @@
                                                     )
                                                 )
                   )
-                  .HtmlAttributes(new { style = "height:250px;" })
+                  .HtmlAttributes(new { style = "height:500px;" })
                   )
         </div>
     </div>

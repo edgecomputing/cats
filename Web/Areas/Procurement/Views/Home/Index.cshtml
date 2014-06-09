@@ -11,7 +11,7 @@
     <link href="~/Content/Dashboard/dashboardcomponents.css" rel="stylesheet" />
     @*<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,800italic,400,600,800" type="text/css">*@
 }
-<style> 
+<style>
     .k-chart {
         height: 280px;
         padding: 37px;
@@ -19,17 +19,18 @@
         width: 390px;
     }
 </style>
+
 <div ng-app>
-    <div class="container">
-        <h3>Procurement Dashboard</h3>
+
+    @*     <h3>Procurement Dashboard</h3>
         <hr />
         <div ng-controller="SummarizedNumbersController" class="container row">
-            <div class="span13">
+           <div class="span13">
                 <a href="javascript:;" class="dashboard-stat">
                     <div class="visual">
-                        @*<i class="icon-star"></i>*@
+                        
                     </div>
-                    <!-- /.visual -->
+                    
 
                     <div class="details column-divider-regional center">
                         <span class="content">Payment Requests</span>
@@ -53,750 +54,305 @@
                         <span class="content">Check Cashed Requests</span>
                         <span class="value">{{SummarizedNumbers.CheckCashedPaymentRequests}}</span>
                     </div>
-                    <!-- /.details -->
-                    
                 </a>
-                <!-- /.dashboard-stat -->
             </div>
-            <!-- /.col-md-3 -->
-
-            
-            <!-- /.col-md-9 -->
         </div>
         <hr />
-    </div>
+    </div>*@
 
-    <div class="container">
-        
-        <div>
-            <div class="row" style="border-bottom-width: thin; border-bottom-color: #666; border-bottom-style: inset; margin-top: 5px">
-
-                <div class="pull-left">
-                    <h4>Payment Requests Status</h4>
-                </div>
-                <div class="pull-right">
-                    <div class="btn-group">
-                        <button id ="PaymentRequestsStatusHeader"type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
-                            <i class="icon-arrow-up"></i> 
-                            <i class="icon-arrow-down"></i> 
-                        </button>
-
-                    </div>
-                </div>
-            </div>
-            <div id="PaymentRequestsStatusContent"class="row">
+    <div class="container" ng-controller="RecentBidsController">
+       
+           <div class="row">
                 <div>&nbsp;</div>
-                <div data-ng-controller="PaymentRequestsStatusController" class="span7">
+                <div  class="span11">
                     <div class="portlet">
-                        <div class="portlet-header">
-                            <h3>
-                                <i class=""></i>
-                                Recent Payment Requests Status
+                        <div id="BidHeader" class="portlet-header">
+                            <h3 id="bar-title">Active Bids
                             </h3>
-                            <ul class="portlet-tools pull-right">
-                                <li>
-                                    <button class="btn btn-sm btn-default">
-                                        Show more
-                                    </button>
-                                    <button class="btn btn-sm btn-default">
-                                        New Request
-                                    </button>
-                                </li>
-                            </ul>
                         </div>
 
-                        <!-- /.portlet-header -->
-
-                        <div class="portlet-content">
+                        <div id="BidContent" class="portlet-content">
                             <th class="table-responsive">
-                                <table id="" class="table table-striped table-checkable">
-                                    <thead>
-                                        <tr>
-                                            <th class="hidden-xs">Reference No.</th>
-                                            <th>Transporter</th>
-                                            <th>Transport Order</th>
-                                            <th>Requested Amount</th>
-                                            <th>Status</th>
-                                            <th class="align-center">Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr data-ng-repeat="item in PaymentRequestsStatus">
-                                            <td class="hidden-xs">
-                                                <a href="@Url.Action("Index", "PaymentRequest", new { Area = "Procurement" })">{{item.ReferenceNo}}</a>
-                                            </td>
-                                            <td>{{item.TransportOrder.Transporter.Name}}</td>
-                                            <td>{{item.TransportOrder.TransportOrderNo}}</td>
-                                            <td>{{item.RequestedAmount}}</td>
-                                            <td><span class="label label-success">{{item.BusinessProcess.CurrentState.BaseStateTemplate.Name}}</span></td>
-                                            <td class="align-center">
-                                                <a class="btn btn-sm btn-default" data-original-title="Approve">
-                                                    <i class="icon-upload"></i>View
-                                                </a>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-
-                        </div>
-                        <!-- /.table-responsive -->
-                    </div>
-                    <!-- /.portlet-content -->
-
-                </div>
-                <div class="span4">
-
-                    <div class="portlet">
-                        <div class="portlet-header">
-                            <h3>
-                                <i class=""></i>
-                                Percentage
-                            </h3>
-                        </div>
-                        @(Html.Kendo().Chart()
-                            .Name("chart")
-                            .Legend(legend => legend
-                                .Position(ChartLegendPosition.Top)
-                            )
-                            .Series(series => series.Pie(new dynamic[] {
-                                                                           new {category = "Requested",value = 0},
-                                                                           new {category = "Submitted",value = 20},
-                                                                           new {category = "Approved",value = 20},
-                                                                           new {category = "Rejected",value = 20},
-                                                                           new {category = "Check Issued",value = 20},
-                                                                           new {category = "Check Cashed",value = 20}         
-                                                                       })
-                                                  .Labels(labels => labels
-                                                                        .Visible(true)
-                                                                        .Template("#= category # - #= kendo.format('{0:P}', percentage)#")
-                                                  ))
-                            .Tooltip(tooltip => tooltip
-                                .Visible(true)
-                                        .Template("#= category # - #= kendo.format('{0:P}', percentage)#")
-                            )
-                        ) 
-                    </div>
-                    <!-- /.portlet -->
-                </div>
-                <!-- /.portlet -->
-            </div>
-        </div>
-
-        <div>
-            <div class="row" style="border-bottom-width: thin; border-bottom-color: #666; border-bottom-style: inset; margin-top: 5px">
-
-                <div class="pull-left">
-                    <h4>Payment Requests From Transporters</h4>
-                </div>
-                <div class="pull-right">
-                    <div class="btn-group">
-                        <button id="PaymentRequestHeader"type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
-                             <i class="icon-arrow-up"></i> 
-                             <i class="icon-arrow-down"></i> 
-                        </button>
-
-                    </div>
-                </div>
-            </div>
-            <div id="PaymentRequestContent" class="row">
-                <div>&nbsp;</div>
-                <div data-ng-controller="PaymentRequestController" class="span11">
-                    <div class="portlet">
-                        <div class="portlet-header">
-                            <h3>
-                                <i class=""></i>
-                                Recent Payment Requests
-                            </h3>
-                            <ul class="portlet-tools pull-right">
-                                <li>
-                                    <button class="btn btn-sm btn-default">
-                                        Show more
-                                    </button>
-
-                                </li>
-                            </ul>
-                        </div>
-
-                        <!-- /.portlet-header -->
-
-                        <div class="portlet-content">
-                            <th class="table-responsive">
-                                <table id="" class="table table-striped table-checkable">
-                                    <thead>
-                                        <tr>
-                                            <th class="hidden-xs">Reference No.</th>
-                                            <th>Transporter</th>
-                                            <th>Transport Order</th>
-                                            <th>Requested Amount</th>
-                                            <th>Status</th>
-                                            <th class="align-center">Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr data-ng-repeat="item in PaymentRequest">
-                                            <td class="hidden-xs">
-                                                <a href="@Url.Action("Index", "PaymentRequest", new { Area = "Procurement" })">{{item.ReferenceNo}}</a>
-                                            </td>
-                                            <td>{{item.TransportOrder.Transporter.Name}}</td>
-                                            <td>{{item.TransportOrder.TransportOrderNo}}</td>
-                                            <td>{{item.RequestedAmount}}</td>
-                                            <td><span class="label label-success">{{item.BusinessProcess.CurrentState.BaseStateTemplate.Name}}</span></td>
-                                            <td class="align-center">
-                                                <a class="btn btn-sm btn-default" data-original-title="Approve">
-                                                    <i class="icon-upload"></i>View
-                                                </a>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-
-                        </div>
-                        <!-- /.table-responsive -->
-                    </div>
-                    <!-- /.portlet-content -->
-
-                </div>
-
-                <!-- /.portlet -->
-            </div>
-        </div>
-
-        <div>
-            <div class="row" style="border-bottom-width: thin; border-bottom-color: #666; border-bottom-style: inset; margin-top: 5px">
-
-                <div class="pull-left">
-                    <h4>Payment Requests at Logistics</h4>
-                </div>
-                <div class="pull-right">
-                    <div class="btn-group">
-                        <button id="DispatchHeader" type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
-                            <i class="icon-arrow-up"></i> 
-                            <i class="icon-arrow-down"></i> 
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <div id="PaymentRequestAtLogisticsContent"class="row">
-                <div>&nbsp;</div>
-
-                <div ng-controller="PaymentRequestAtLogisticsController" class="span11">
-                    <div class="portlet">
-                        <div class="portlet-header">
-                            <h3>
-                                <i class=""></i>
-                                Payment Requests at Logistics
-                            </h3>
-                            <ul class="portlet-tools pull-right">
-                                <li>
-                                    <button class="btn btn-sm btn-default">
-                                        Show more
-                                    </button>
-                                    @*<a class="btn btn-sm btn-default" href="@Url.Action("Index", "PaymentRequest", new { Area="Procurement", regionID= "" })">FDP Commodity Receipt</a>*@
-                                </li>
-                            </ul>
-                        </div>
-
-                        <!-- /.portlet-header -->
-
-                        <div class="portlet-content">
-                            <th class="table-responsive">
-                                <table id="" class="table table-striped table-checkable">
-                                    <thead>
-                                        <tr>
-                                            <th class="hidden-xs">Reference No.</th>
-                                            <th>Transporter</th>
-                                            <th>Transport Order</th>
-                                            <th>Requested Amount</th>
-                                            <th>Status</th>
-                                            <th class="align-center">Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr data-ng-repeat="item in PaymentRequestAtLogistics">
-                                            <td class="hidden-xs">
-                                                <a href="@Url.Action("Index", "PaymentRequest", new { Area = "Procurement" })">{{item.ReferenceNo}}</a>
-                                            </td>
-                                            <td>{{item.TransportOrder.Transporter.Name}}</td>
-                                            <td>{{item.TransportOrder.TransportOrderNo}}</td>
-                                            <td>{{item.RequestedAmount}}</td>
-                                            <td><span class="label label-success">{{item.BusinessProcess.CurrentState.BaseStateTemplate.Name}}</span></td>
-                                            <td class="align-center">
-                                                <a class="btn btn-sm btn-default" data-original-title="Approve">
-                                                    <i class="icon-upload"></i>View
-                                                </a>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-
-                        </div>
-                        <!-- /.table-responsive -->
-                    </div>
-                    <!-- /.portlet-content -->
-
-                </div>
-                <!-- /.portlet -->
-            </div>
-        </div>
-        
-        <div>
-            <div class="row" style="border-bottom-width: thin; border-bottom-color: #666; border-bottom-style: inset; margin-top: 5px">
-
-                <div class="pull-left">
-                    <h4>Verified Payment Requests</h4>
-                </div>
-                <div class="pull-right">
-                    <div class="btn-group">
-                        <button id="VerifiedPaymentRequestHeader" type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
-                            <i class="icon-arrow-up"></i> 
-                            <i class="icon-arrow-down"></i> 
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <div id="VerifiedPaymentRequestContent"class="row">
-                <div>&nbsp;</div>
-
-                <div ng-controller="VerifiedPaymentRequestController" class="span11">
-                    <div class="portlet">
-                        <div class="portlet-header">
-                            <h3>
-                                <i class=""></i>
-                                Verified Payment Requests
-                            </h3>
-                            <ul class="portlet-tools pull-right">
-                                <li>
-                                    <button class="btn btn-sm btn-default">
-                                        Show more
-                                    </button>
-                                    @*<a class="btn btn-sm btn-default" href="@Url.Action("Index", "PaymentRequest", new { Area="Procurement", regionID= "" })">FDP Commodity Receipt</a>*@
-                                </li>
-                            </ul>
-                        </div>
-
-                        <!-- /.portlet-header -->
-
-                        <div class="portlet-content">
-                            <th class="table-responsive">
-                                <table id="" class="table table-striped table-checkable">
-                                    <thead>
-                                        <tr>
-                                            <th class="hidden-xs">Reference No.</th>
-                                            <th>Transporter</th>
-                                            <th>Transport Order</th>
-                                            <th>Requested Amount</th>
-                                            <th>Status</th>
-                                            <th class="align-center">Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr data-ng-repeat="item in PaymentRequestAtLogistics">
-                                            <td class="hidden-xs">
-                                                <a href="@Url.Action("Index", "PaymentRequest", new { Area = "Procurement" })">{{item.ReferenceNo}}</a>
-                                            </td>
-                                            <td>{{item.TransportOrder.Transporter.Name}}</td>
-                                            <td>{{item.TransportOrder.TransportOrderNo}}</td>
-                                            <td>{{item.RequestedAmount}}</td>
-                                            <td><span class="label label-success">{{item.BusinessProcess.CurrentState.BaseStateTemplate.Name}}</span></td>
-                                            <td class="align-center">
-                                                <a class="btn btn-sm btn-default" data-original-title="Approve">
-                                                    <i class="icon-upload"></i>View
-                                                </a>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-
-                        </div>
-                        <!-- /.table-responsive -->
-                    </div>
-                    <!-- /.portlet-content -->
-
-                </div>
-                <!-- /.portlet -->
-            </div>
-        </div>
-        
-        <div>
-            <div class="row" style="border-bottom-width: thin; border-bottom-color: #666; border-bottom-style: inset; margin-top: 5px">
-
-                <div class="pull-left">
-                    <h4>Check Cashed Payment Requests</h4>
-                </div>
-                <div class="pull-right">
-                    <div class="btn-group">
-                        <button id="CheckCashedPaymentRequestsHeader" type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
-                            <i class="icon-arrow-up"></i> 
-                            <i class="icon-arrow-down"></i> 
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <div id="CheckCashedPaymentRequestContent"class="row">
-                <div>&nbsp;</div>
-
-                <div ng-controller="CheckCashedPaymentRequestController" class="span11">
-                    <div class="portlet">
-                        <div class="portlet-header">
-                            <h3>
-                                <i class=""></i>
-                                Check Cashed Payment Requests
-                            </h3>
-                            <ul class="portlet-tools pull-right">
-                                <li>
-                                    <button class="btn btn-sm btn-default">
-                                        Show more
-                                    </button>
-                                    @*<a class="btn btn-sm btn-default" href="@Url.Action("Index", "PaymentRequest", new { Area="Procurement", regionID= "" })">FDP Commodity Receipt</a>*@
-                                </li>
-                            </ul>
-                        </div>
-
-                        <!-- /.portlet-header -->
-
-                        <div class="portlet-content">
-                            <th class="table-responsive">
-                                <table id="" class="table table-striped table-checkable">
-                                    <thead>
-                                        <tr>
-                                            <th class="hidden-xs">Reference No.</th>
-                                            <th>Transporter</th>
-                                            <th>Transport Order</th>
-                                            <th>Requested Amount</th>
-                                            <th>Status</th>
-                                            <th class="align-center">Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr data-ng-repeat="item in PaymentRequestAtLogistics">
-                                            <td class="hidden-xs">
-                                                <a href="@Url.Action("Index", "PaymentRequest", new { Area = "Procurement" })">{{item.ReferenceNo}}</a>
-                                            </td>
-                                            <td>{{item.TransportOrder.Transporter.Name}}</td>
-                                            <td>{{item.TransportOrder.TransportOrderNo}}</td>
-                                            <td>{{item.RequestedAmount}}</td>
-                                            <td><span class="label label-success">{{item.BusinessProcess.CurrentState.BaseStateTemplate.Name}}</span></td>
-                                            <td class="align-center">
-                                                <a class="btn btn-sm btn-default" data-original-title="Approve">
-                                                    <i class="icon-upload"></i>View
-                                                </a>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-
-                        </div>
-                        <!-- /.table-responsive -->
-                    </div>
-                    <!-- /.portlet-content -->
-
-                </div>
-                <!-- /.portlet -->
-            </div>
-        </div>
-        
-        
-        <div>
-            <div class="row" style="border-bottom-width: thin; border-bottom-color: #666; border-bottom-style: inset; margin-top: 5px">
-
-                <div class="pull-left">
-                    <h4>Logistics Payment Requests</h4>
-                </div>
-                <div class="pull-right">
-                    <div class="btn-group">
-                        <button id="LogisticsPaymentRequestsHeader" type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
-                            <i class="icon-arrow-up"></i> 
-                            <i class="icon-arrow-down"></i> 
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <div id="LogisticsPaymentRequestContent"class="row">
-                <div>&nbsp;</div>
-
-                <div ng-controller="LogisticsPaymentRequestController" class="span11">
-                    <div class="portlet">
-                        <div class="portlet-header">
-                            <h3>
-                                <i class=""></i>
-                                Logistics Payment Requests for Regions
-                            </h3>
-                            <ul class="portlet-tools pull-right">
-                                <li>
-                                    <button class="btn btn-sm btn-default">
-                                        Show more
-                                    </button>
-                                    @*<a class="btn btn-sm btn-default" href="@Url.Action("Index", "PaymentRequest", new { Area="Procurement", regionID= "" })">FDP Commodity Receipt</a>*@
-                                </li>
-                            </ul>
-                        </div>
-
-                        <!-- /.portlet-header -->
-
-                        <div class="portlet-content">
-                            <th class="table-responsive">
-                                <table id="" class="table table-striped table-checkable">
-                                    <thead>
-                                        <tr>
-                                            <th class="hidden-xs">Reference No.</th>
-                                            <th>Transporter</th>
-                                            <th>Transport Order</th>
-                                            <th>Requested Amount</th>
-                                            <th>Status</th>
-                                            <th class="align-center">Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr data-ng-repeat="item in PaymentRequestAtLogistics">
-                                            <td class="hidden-xs">
-                                                <a href="@Url.Action("Index", "PaymentRequest", new { Area = "Procurement" })">{{item.ReferenceNo}}</a>
-                                            </td>
-                                            <td>{{item.TransportOrder.Transporter.Name}}</td>
-                                            <td>{{item.TransportOrder.TransportOrderNo}}</td>
-                                            <td>{{item.RequestedAmount}}</td>
-                                            <td><span class="label label-success">{{item.BusinessProcess.CurrentState.BaseStateTemplate.Name}}</span></td>
-                                            <td class="align-center">
-                                                <a class="btn btn-sm btn-default" data-original-title="Approve">
-                                                    <i class="icon-upload"></i>View
-                                                </a>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-
-                        </div>
-                        <!-- /.table-responsive -->
-                    </div>
-                    <!-- /.portlet-content -->
-
-                </div>
-                <!-- /.portlet -->
-            </div>
-        </div>
-        
-        <div>
-            <div class="row" style="border-bottom-width: thin; border-bottom-color: #666; border-bottom-style: inset; margin-top: 5px">
-
-                <div class="pull-left">
-                    <h4>Bid Status</h4>
-                </div>
-                <div class="pull-right">
-                    <div class="btn-group">
-                        <button id ="BidHeader"type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
-                            <i class="icon-arrow-up"></i> 
-                            <i class="icon-arrow-down"></i> 
-                        </button>
-
-                    </div>
-                </div>
-            </div>
-            <div id="BidContent"class="row">
-                <div>&nbsp;</div>
-                <div ng-controller="RecentBidsController" class="span11">
-                    <div class="portlet">
-                        <div class="portlet-header">
-                            <h3>
-                                <i class=""></i>
-                                Recent Bids
-                            </h3>
-                            <ul class="portlet-tools pull-right">
-                                <li>
-                                    <button class="btn btn-sm btn-default">
-                                        Show more
-                                    </button>
-                                    <button class="btn btn-sm btn-default">
-                                        New Request
-                                    </button>
-                                </li>
-                            </ul>
-                        </div>
-
-                        <!-- /.portlet-header -->
-
-                        <div class="portlet-content">
-                            <th class="table-responsive">
-                                <table id="" class="table table-striped table-checkable">
+                                <table id="" class="table table-hover table-checkable">
                                     <thead>
                                         <tr>
                                             <th class="hidden-xs">Bid Number</th>
-                                            <th>Start Date</th>
-                                            <th>End Date</th>
+                                            @*<th>Start Date</th>
+                                        <th>End Date</th>*@
                                             <th>Opening Date</th>
+                                            <th>Status</th>
+                                            <th class="align-center">Detail</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr data-ng-repeat="item in RecentBids">
+                                            @*<td class="hidden-xs">
+                                            <a href="@Url.Action("Index", "PaymentRequest", new { Area = "Procurement" })">{{item.ReferenceNo}}</a>
+                                        </td>*@
+                                            <td>{{item.BidNumber}}</td>
+                                            @*<td>{{item.StartDate}}</td>*@
+                                            @*<td>{{item.EndDate}}</td>*@
+                                            <td>{{item.OpeningDate}}</td>
+                                            <td><span class="label label-success">{{states[item.StatusID-1]}}</span></td>
+                                            <th>
+                                                <a ng-click="viewBidDetail(item)" class="btn btn-sm btn-default">View <i class="icon-chevron-right"></i>
+                                                </a>
+                                            </th>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+      
+
+        <div id="biddetailContent" style="display: none">
+
+            <div class="row">
+                <div>&nbsp;</div>
+                <div class="span4">
+                    <div class="portlet">
+                        <div class="portlet-header">
+                            <h3>
+                                <i class=""></i>
+                                Price Quotations
+                            </h3>
+                        </div>
+                        <div class="portlet-content">
+                            <div id="containerRequisition" class="chartWrap"></div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="span7">
+                    <div class="portlet">
+                        <div class="portlet-header">
+                            <h3>
+                                <i class=""></i>
+                                Price Quotations
+                            </h3>
+                            <ul class="portlet-tools pull-right">
+                                <li>
+                                    <button class="btn btn-sm btn-default">
+                                        Show more
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="portlet-content">
+                            <th class="table-responsive">
+                                <table id="" class="table table-striped table-checkable">
+                                    <thead style="text-align: right">
+                                        <tr>
+                                            <th class="hidden-xs">Number</th>
+                                            <th>Commodity</th>
+                                            <th style="text-align: center">Beneficiaries</th>
+                                            <th style="text-align: center">Amount(QT)</th>
                                             <th>Status</th>
                                             <th class="align-center">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr data-ng-repeat="item in PaymentRequestAtLogistics">
-                                            <td class="hidden-xs">
-                                                <a href="@Url.Action("Index", "PaymentRequest", new { Area = "Procurement" })">{{item.ReferenceNo}}</a>
-                                            </td>
-                                            <td>{{item.TransportOrder.Transporter.Name}}</td>
-                                            <td>{{item.TransportOrder.TransportOrderNo}}</td>
-                                            <td>{{item.RequestedAmount}}</td>
-                                            <td><span class="label label-success">{{item.BusinessProcess.CurrentState.BaseStateTemplate.Name}}</span></td>
-                                            <td class="align-center">
-                                                <a class="btn btn-sm btn-default" data-original-title="Approve">
-                                                    <i class="icon-upload"></i>View
+                                        <tr class="" ng-repeat="requisition in Requisitions">
+
+                                            <td>{{requisition.Number}}</td>
+                                            <th>{{requisition.Commodity}}</th>
+                                            <td style="text-align: right">{{requisition.Beneficicaries|number}}</td>
+                                            <th style="text-align: right">{{requisition.Amount|number}} QT</th>
+                                            <td><span status-class="requisition.Status">{{states[requisition.Status-1]}}</span></td>
+                                            <td>
+                                                <a ng-click="viewRequisition(requisition)" class="btn btn-sm btn-default">View <i class="icon-chevron-right"></i>
                                                 </a>
                                             </td>
                                         </tr>
                                     </tbody>
                                 </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div>&nbsp;</div>
+                <div class="span11">
+                    <div class="portlet">
+                        <div class="portlet-header">
+                            <h3>
+                                <i class=""></i>
+                                First winners
+                            </h3>
+                            <ul class="portlet-tools pull-right">
+                                <li>
+                                    <button class="btn btn-sm btn-default">
+                                        Show more
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="portlet-content">
+                             <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th class="hidden-xs">Transporter</th>
+                                            <th>Woredas</th>
+                                            <th>Min offer (ETB)</th>
+                                            <th>Max offer (ETB)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr data-ng-repeat="item in Firstwinners">
+                                            <td>{{item.Name}}</td>
+                                            <td>{{item.Count}}</td>
+                                            <td>{{item.minoffer | number:2}}</td>
+                                            <td>{{item.maxoffer | number:2}}</td>
+                                        </tr>
+                                    </tbody>
+                             </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div>&nbsp;</div>
+                <div class="span11">
+                    <div class="portlet">
+                        <div class="portlet-header">
+                            <h3>
+                                <i class=""></i>
+                                Second winners
+                            </h3>
+                            <ul class="portlet-tools pull-right">
+                                <li>
+                                    <button class="btn btn-sm btn-default">
+                                        Show more
+                                    </button>
+                                </li>
+                            </ul>
 
                         </div>
-                        <!-- /.table-responsive -->
+                        <div class="portlet-content">
+                             <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th class="hidden-xs">Transporter</th>
+                                            <th>Woredas</th>
+                                            <th>Min offer (ETB)</th>
+                                            <th>Max offer (ETB)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr data-ng-repeat="item in SecondWinners">
+                                            <td>{{item.Name}}</td>
+                                            <td>{{item.Count}}</td>
+                                            <td>{{item.minoffer | number:2}}</td>
+                                            <td>{{item.maxoffer | number:2}}</td>
+                                        </tr>
+                                    </tbody>
+                             </table>
+                        </div>
                     </div>
-                    <!-- /.portlet-content -->
-
                 </div>
-                
-                <!-- /.portlet -->
+            </div>
+
+            <div class="row">
+                <div>&nbsp;</div>
+                <div class="span11">
+                    <div class="portlet">
+                        <div class="portlet-header">
+                            <h3>
+                                <i class=""></i>
+                                Woredas without offer
+                            </h3>
+                            <ul class="portlet-tools pull-right">
+                                <li>
+                                    <button class="btn btn-sm btn-default">
+                                        Show more
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="portlet-content">
+                            @* <table id="" class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th class="hidden-xs">Transporter</th>
+                                            <th>Woredas</th>
+                                            <th>Min offer</th>
+                                            <th>Max offer</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr data-ng-repeat="item in Firstwinners">
+                                            <td>{{item.Name}}</td>
+                                            <td>{{item.Count}}</td>
+                                            <td>{{item.minoffer}}</td>
+                                            <td>{{item.maxoffer}}</td>
+                                        </tr>
+                                    </tbody>
+                             </table>*@
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
 <script>
-    $("#PaymentRequestsStatusHeader").click(function () {
-        $("#PaymentRequestsStatusContent").slideToggle("slow", "linear");
-    });
-
-    $("#PaymentRequestHeader").click(function () {
-        $("#PaymentRequestContent").slideToggle("slow", "linear");
-    });
-
-    $("#VerifiedPaymentRequestHeader").click(function () {
-        $("#VerifiedPaymentRequestContent").slideToggle("slow", "linear");
-    });
-
-    $("#CheckCashedPaymentRequestsHeader").click(function () {
-        $("#CheckCashedPaymentRequestsContent").slideToggle("slow", "linear");
-    });
-    
-    $("#LogisticsPaymentRequestsHeader").click(function () {
-        $("#LogisticsPaymentRequestContent").slideToggle("slow", "linear");
-    });
-    
     $("#BidHeader").click(function () {
-        $("#BidContent").slideToggle("slow", "linear");
+        $("#BidContent").slideDown("slow");
+        $("#bar-title").text("Active bids");
+        $("#biddetailContent").hide("fast", "linear");
     });
 </script>
 
 <script>
-    function SummarizedNumbersController($scope, $http) {
-        $scope.SummarizedNumbers = [];
-        var onSuccess = function (data) {
-            $scope.SummarizedNumbers = data;
-        };
-        $scope.getRequests = function () {
-            $http.post("@Url.Action("ReadSummarizedNumbers", "FetchData", new { Area = "Procurement" })").success(onSuccess);
-        };
-        $scope.getRequests();
-    }
 
-    function PaymentRequestsStatusController($scope, $http) {
-        $scope.PaymentRequestsStatus = [];
-        $scope.PaymentRequestsPercentage = [];
-        
-        var onSuccessPrs = function (data) {
-            $scope.PaymentRequestsStatus = data;
-        };
-        $scope.getPrsRequests = function () {
-            $http.post("@Url.Action("PaymentRequestsStatus", "FetchData", new { Area = "Procurement" })").success(onSuccessPrs);
-        };
-        $scope.getPrsRequests();
-        
-        var onSuccessPercentage = function (data) {
-            $scope.PaymentRequestsPercentage = data;
-        };
-        $scope.getPercentage = function () {
-            $http.post("@Url.Action("PaymentRequestsPercentage", "FetchData", new { Area = "Procurement" })").success(onSuccessPercentage);
-        };
-        $scope.getPercentage();
-    }
-    
-    function PaymentRequestController($scope, $http) {
-        $scope.PaymentRequest = [];
-
-        var onSuccessPaymentRequest = function (data) {
-            $scope.PaymentRequest = data;
-        };
-        $scope.getPaymentRequest = function () {
-            $http.post("@Url.Action("PaymentRequest", "FetchData", new { Area = "Procurement" })").success(onSuccessPaymentRequest);
-        };
-        $scope.getPaymentRequest();
-    }
-    
-    function PaymentRequestAtLogisticsController($scope, $http) {
-        $scope.PaymentRequestAtLogistics = [];
-
-        var onSuccessPaymentRequestAtLogistics = function (data) {
-            $scope.PaymentRequestAtLogistics = data;
-        };
-        $scope.getPaymentRequestAtLogistics = function () {
-            $http.post("@Url.Action("PaymentRequestAtLogistics", "FetchData", new { Area = "Procurement" })").success(onSuccessPaymentRequestAtLogistics);
-        };
-        $scope.getPaymentRequestAtLogistics();
-    }
-    
-    function VerifiedPaymentRequestController($scope, $http) {
-        $scope.VerifiedPaymentRequest = [];
-
-        var onSuccessVerifiedPaymentRequest = function (data) {
-            $scope.VerifiedPaymentRequest = data;
-        };
-        $scope.getVerifiedPaymentRequest = function () {
-            $http.post("@Url.Action("VerifiedPaymentRequest", "FetchData", new { Area = "Procurement" })").success(onSuccessVerifiedPaymentRequest);
-        };
-        $scope.getVerifiedPaymentRequest();
-    }
-    
-    function CheckCashedPaymentRequestController($scope, $http) {
-        $scope.CheckCashedPaymentRequest = [];
-
-        var onSuccessCheckCashedPaymentRequest = function (data) {
-            $scope.CheckCashedPaymentRequest = data;
-        };
-        $scope.getCheckCashedPaymentRequest = function () {
-            $http.post("@Url.Action("CheckCashedPaymentRequest", "FetchData", new { Area = "Procurement" })").success(onSuccessCheckCashedPaymentRequest);
-        };
-        $scope.getCheckCashedPaymentRequest();
-    }
-    
-    function LogisticsPaymentRequestController($scope, $http) {
-
-    } 
-    
     function RecentBidsController($scope, $http) {
         $scope.RecentBids = [];
+        $scope.PriceQuotatiton = [];
+        $scope.Firstwinners = [];
+        $scope.SecondWinners = [];
+        $scope.WoredasWithoutoffer = [];
+        $scope.reqParam = { bidId: 14, rank: 1 };
+
+        $scope.states = ["Draft", "Approved", "Closed", "Closed1", "Active", "Closed3"];
 
         var onSuccessRecentBids = function (data) {
             $scope.RecentBids = data;
         };
+
+        var onSuccessBids = function (data) {
+            //$scope.RecentBids = data;
+        };
+        
+        var firstwinners = function (data) {
+            $scope.Firstwinners  = data;
+        };
+        
+        var secondwinners = function (data) {
+            $scope.SecondWinners = data;
+        };
+
         $scope.getRecentBids = function () {
             $http.post("@Url.Action("RecentBids", "FetchData", new { Area = "Procurement" })").success(onSuccessRecentBids);
         };
+
+        $scope.viewBidDetail = function (item) {
+            $("#BidContent").hide("fast", "linear");
+            $("#bar-title").text(item.BidNumber + " Detail");
+            $("#biddetailContent").show("fast", "linear");
+            var firstparam = { bidid: item.BidID, rank: 1 };
+            $http.post("@Url.Action("GroupedWinners", "FetchData", new { Area = "Procurement" })", firstparam).success(firstwinners);
+            
+            var secondparam = { bidid: item.BidID, rank: 2 };
+            $http.post("@Url.Action("GroupedWinners", "FetchData", new { Area = "Procurement" })", secondparam).success(secondwinners);
+        };
+
         $scope.getRecentBids();
-    }
-
-    $(document).ready(function () {
-        $(".configuration").bind("change", refresh);
-    });
-
-    function refresh() {
-        var chart = $("#chart").data("kendoChart"),
-            pieSeries = chart.options.series[0],
-            labels = $("#labels").prop("checked"),
-            alignInputs = $("input[name='alignType']"),
-            alignLabels = alignInputs.filter(":checked").val();
-
-        chart.options.transitions = false;
-        pieSeries.labels.visible = labels;
-        pieSeries.labels.align = alignLabels;
-
-        alignInputs.attr("disabled", !labels);
-
-        chart.refresh();
     }
 </script>

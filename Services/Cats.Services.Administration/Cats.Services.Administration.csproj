@@ -87,11 +87,13 @@
     <Compile Include="IHubOwnerService.cs" />
     <Compile Include="IHubService.cs" />
     <Compile Include="IIDPSReasonTypeServices.cs" />
+    <Compile Include="ILossReasonService.cs" />
     <Compile Include="IProgramService.cs" />
     <Compile Include="IStoreService.cs" />
     <Compile Include="IUnitService.cs" />
     <Compile Include="IUserHubService.cs" />
     <Compile Include="IUserProfileService.cs" />
+    <Compile Include="LossReasonService.cs" />
     <Compile Include="ProgramService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StoreService.cs" />

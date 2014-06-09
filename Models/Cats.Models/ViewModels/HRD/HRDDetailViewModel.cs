@@ -8,16 +8,6 @@ namespace Cats.Models.ViewModels.HRD
 {
     public class HRDDetailViewModel
     {
-        //private HRDDetail _detail;
-        //public HRDDetailViewModel()
-        //{
-        //    _detail = new HRDDetail();
-        //}
-
-        //public HRDDetailViewModel(HRDDetail detail)
-        //{
-        //    _detail = detail;
-        //}
 
         public int HRDDetailID { get; set; }
         public int HRDID { get; set; }
@@ -34,10 +24,12 @@ namespace Cats.Models.ViewModels.HRD
         public string Region { get; set; }
         public int StartingMonth { get; set; }
 
-        //public decimal Cereal { get; set; }
-        //public decimal Pulse { get; set; }
-        //public decimal BlendedFood { get; set; }
-        //public decimal Oil { get; set; }
-        //public decimal Total { get { return BlendedFood + Cereal + Oil + Pulse; } }
+    }
+    public class DurationViewModel
+    {
+        public string StartDateGC { get; set; }
+        public string EndDateGC { get; set; }
+        public string StartDateEC { get; set; }
+        public string EndDateEC { get; set; }
     }
 }

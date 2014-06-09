@@ -79,12 +79,14 @@
     <Compile Include="Audit.cs" />
     <Compile Include="AllocationByRegion.cs" />
     <Compile Include="Constant\Application.cs" />
+    <Compile Include="Constant\Partition.cs" />
     <Compile Include="Constant\UserType.cs" />
     <Compile Include="Contact.cs" />
     <Compile Include="DeliveryReconcile.cs" />
     <Compile Include="Dispatch.cs" />
     <Compile Include="DispatchDetail.cs" />
     <Compile Include="DistributionByAgeDetail.cs" />
+    <Compile Include="LossReason.cs" />
     <Compile Include="Mapping\DeliveryReconcileMap.cs" />
     <Compile Include="DonationPlanDetail.cs" />
     <Compile Include="DonationPlanHeader.cs" />
@@ -103,6 +105,7 @@
     <Compile Include="Mapping\LoanReciptPlanDetailMap.cs" />
     <Compile Include="Mapping\LocalPurchaseDetailMap.cs" />
     <Compile Include="Mapping\LocalPurchaseMap.cs" />
+    <Compile Include="Mapping\LossReasonMap.cs" />
     <Compile Include="Mapping\ReceiptPlanDetailMap.cs" />
     <Compile Include="Mapping\ReceiptPlanMap.cs" />
     <Compile Include="Mapping\LoanReciptPlanMap.cs" />
@@ -116,6 +119,7 @@
     <Compile Include="SupportType.cs" />
     <Compile Include="Transfer.cs" />
     <Compile Include="TransporterCheque.cs" />
+    <Compile Include="ViewModels\Dashboard\RecentRequests.cs" />
     <Compile Include="ViewModels\DistributionByAgeViewModel.cs" />
     <Compile Include="WoredaStockDistributionDetail.cs" />
     <Compile Include="Delivery.cs" />

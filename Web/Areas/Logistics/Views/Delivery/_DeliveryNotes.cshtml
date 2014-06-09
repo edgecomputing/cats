@@ -1,6 +1,6 @@
 ﻿@using Cats.Areas.Logistics.Models
 @using Kendo.Mvc.UI
-@using LanguageHelpers.Localization
+@using Cats.Helpers
  
  @(Html.Kendo().Grid<DistributionViewModel>().Name("grid")
 .Columns(col =>
@@ -8,7 +8,7 @@
                  col.Template(
                      @<text>
 
-<a href="@Url.Action("ReceiveGRN", "Distribution", new { Area = "Logistics", dispatchId = item.DispatchID })">@Translator.Translate("Receive")</a>
+<a href="@Url.Action("ReceiveGRN", "Distribution", new { Area = "Logistics", dispatchId = item.DispatchID })">@Html.Translate("Receive")</a>
 
 </text>);
                  col.Bound(t => t.ReceivingNumber);

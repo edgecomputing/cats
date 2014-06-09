@@ -1,7 +1,9 @@
-﻿@model Cats.Areas.GiftCertificate.Models.GiftCertificateViewModel
+﻿@using Cats.Helpers
+
+@model Cats.Areas.GiftCertificate.Models.GiftCertificateViewModel
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h3 id="myModalLabel">@LanguageHelpers.Localization.Translator.Translate("Approve Gift Certificate")</h3>
+    <h3 id="myModalLabel">@Html.Translate("Approve Gift Certificate")</h3>
 </div>
 
 

@@ -352,8 +352,12 @@ namespace Cats.Tests.ControllersTests
             userAccountService.Setup(t => t.GetUserInfo(It.IsAny<string>())).Returns(new UserInfo()
                                                                                          {
                                                                                              UserName = "x",
-                                                                                             DatePreference = "en"
+                                                                                             DatePreference = "en",
+                                                                                             PreferedWeightMeasurment = "mt"
                                                                                          });
+
+            var transactionService = new Mock<Cats.Services.Transaction.ITransactionService>();
+
             var fakeContext = new Mock<HttpContextBase>();
             var identity = new GenericIdentity("User");
             var principal = new GenericPrincipal(identity,null);
@@ -367,6 +371,7 @@ namespace Cats.Tests.ControllersTests
             var hrdServiceDetail = new Mock<IHRDDetailService>();
             var RegionalPSNPPlanDetailService = new Mock<IRegionalPSNPPlanDetailService>();
             var RegionalPSNPPlanService = new Mock<IRegionalPSNPPlanService>();
+            var Notification = new Mock<INotificationService>();
 
             _requestController = new RequestController(
                 mockRegionalRequestService.Object, 
@@ -375,7 +380,7 @@ namespace Cats.Tests.ControllersTests
                 appService.Object, userAccountService.Object,
                 log.Object, hrdServiceDetail.Object, 
                 RegionalPSNPPlanDetailService.Object,
-                RegionalPSNPPlanService.Object,null,null,null);
+                RegionalPSNPPlanService.Object, null, null, null, transactionService.Object, Notification.Object);
                _requestController.ControllerContext = controllerContext.Object; 
          
      
@@ -402,6 +407,11 @@ namespace Cats.Tests.ControllersTests
         [Test]
         public void CanApproveDraftRequest()
         {
+
+            
+
+
+
             //Act
             _requestController.ApproveRequest(1);
             // var reqStatus = regionalRequests[0].Status;

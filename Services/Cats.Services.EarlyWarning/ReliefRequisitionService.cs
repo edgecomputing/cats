@@ -163,7 +163,7 @@ namespace Cats.Services.EarlyWarning
                 Month = regionalRequest.Month,
                 ProgramID = regionalRequest.ProgramId,
                 CommodityID = commodityId,
-                RequestedDate = DateTime.Today
+                RequestedDate = regionalRequest.RequistionDate
                 
                 //TODO:Please find another way how to specify Requistion No
                 ,
@@ -301,7 +301,7 @@ namespace Cats.Services.EarlyWarning
                              // ApprovedBy = itm.ApprovedBy,
                              RequestedDate = itm.RequestedDate,
                              ApprovedDate = itm.ApprovedDate,
-
+                             RequestDatePref = itm.RequestedDate.ToString(),
                              Input = new ReliefRequisitionNew.ReliefRequisitionNewInput()
                              {
                                  Number = itm.RequisitionID,
@@ -320,8 +320,6 @@ namespace Cats.Services.EarlyWarning
                 var requisitionDetail = _unitOfWork.ReliefRequisitionDetailRepository.FindById(alloction.Key);
                 if (requisitionDetail == null) return false;
                 requisitionDetail.Amount = alloction.Value;
-
-             
             }
 
            _unitOfWork.Save();

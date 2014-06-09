@@ -82,7 +82,8 @@ namespace Cats.Areas.EarlyWarning.Controllers
             var reliefRequisitions = _eWDashboardService.GetAllReliefRequisition();
             return (from reliefRequisition in reliefRequisitions
                     from request in requests
-                    where reliefRequisition.RegionalRequestID == request.RegionalRequestID && reliefRequisition.Status==(int)ReliefRequisitionStatus.Draft 
+                    where reliefRequisition.RegionalRequestID == request.RegionalRequestID 
+                    //&& reliefRequisition.Status==(int)ReliefRequisitionStatus.Draft 
                     select new ReliefRequisitionInfoViewModel
                         {
                             RequisitionID = reliefRequisition.RequisitionID,
@@ -269,11 +270,26 @@ namespace Cats.Areas.EarlyWarning.Controllers
             var nationalBenficiaryNo = currentHrd.HRDDetails.Sum(m => m.NumberOfBeneficiaries);
              var requests = _eWDashboardService.FindByRequest(m => m.PlanID == currentHrd.PlanID);
             var requistions = _eWDashboardService.GetAllReliefRequisition();
-            
+            //var totalCommodity = currentHrd.Ration.RationDetails.Sum(m => m.Amount);
+            var regions = (from item in currentHrd.HRDDetails
+                           select new { item.AdminUnit.AdminUnit2.AdminUnit2.AdminUnitID }
+                          ).Distinct().ToList();
+            decimal total = 0;
+            foreach (var region in regions)
+            {
+                foreach (var ration in GetCurrentHrd().Ration.RationDetails)
+                {
+                    var rationAmount = ration.Amount/1000; //todisplay in MT
+                    var regionSum = currentHrd.HRDDetails.Where(t => t.AdminUnit.AdminUnit2.AdminUnit2.AdminUnitID == region.AdminUnitID).Sum(t => t.NumberOfBeneficiaries * t.DurationOfAssistance * rationAmount);
+
+                    total += regionSum;
+
+                }
+            }
             var hrdAndRequestViewModel = new HrdAndRequestViewModel
                 {
                     TotalHrdBeneficaryNumber = nationalBenficiaryNo,
-                    HrdTotalCommodity = currentHrd.Ration.RationDetails.Sum(m => m.Amount)*(nationalBenficiaryNo),
+                    HrdTotalCommodity = total,
                     TotalRequest = requests.Count,
                     TotalRequisitionNumber = (from requistion in requistions
                                                   from request in requests

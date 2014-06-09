@@ -12,5 +12,6 @@ namespace Cats.Areas.PSNP.Models
         public int amount { get; set; }
         public int status { get; set; }
         public int beneficiaries { get; set; }
+        public int RequestId { get; set; }
     }
 }

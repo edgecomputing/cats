@@ -39,6 +39,10 @@ namespace Cats.Areas.Settings.Controllers
 
         public ActionResult Index()
         {
+            if (TempData["error"]!=null)
+            {
+                ViewData["error"] = TempData["error"].ToString();
+            }
             return View();
         }
 
@@ -88,23 +92,11 @@ namespace Cats.Areas.Settings.Controllers
         [HttpPost]
         public ActionResult New(UserViewModel userInfo)
         {
-            //var messages = new List<string>();
-            //// Check business rule and validations
-            //if (userInfo.UserName == string.Empty)
-            //    messages.Add("User name cannot be empty");
-            //if (userInfo.FirstName == string.Empty)
-            //    messages.Add("First name cannot be empty");
-            //if (userInfo.LastName == string.Empty)
-            //    messages.Add("Last Name cannot be empty");
-            //if (userInfo.Password == string.Empty)
-            //    messages.Add("Password cannot be empty");
-            //if (userInfo.Password != userInfo.PasswordConfirm)
-            //    messages.Add("Passwords do not match");
+            
 
-            //if (messages.Count > 0)
-            //    return View();
+            var user_ = _userService.FindBy(u=>u.UserName == userInfo.UserName).FirstOrDefault();
 
-            // If the supplied information is correct then persist it to the database
+           
             var user = new UserProfile();
 
             user.UserName = userInfo.UserName;
@@ -116,21 +108,9 @@ namespace Cats.Areas.Settings.Controllers
             user.ActiveInd = true;
             user.NumberOfLogins = 0;
 
-            //List<Cats.Models.Security.ViewModels.Application> app = userInfo.Applications;
+            
             Dictionary<string, List<string>> roles = new Dictionary<string, List<string>>();
-            //List<string> Roles;
-            //foreach (var application in app)
-            //{
-            //    Roles = new List<string>();
-            //    foreach (var role in application.Roles)
-            //    {
-            //        if (role.IsChecked)
-            //            Roles.Add(role.RoleName);
-            //    }
-            //    if (Roles.Count > 0)
-            //        roles.Add(application.ApplicationName, Roles);
-            //}
-
+           
             user.FirstName = userInfo.FirstName;
             user.LastName = userInfo.LastName;
             user.RegionalUser = userInfo.RegionalUser;
@@ -145,6 +125,14 @@ namespace Cats.Areas.Settings.Controllers
             user.FailedAttempts = 0;
             user.LoggedInInd = false;
             user.Email = userInfo.Email;
+
+
+            if (user_ != null)
+            {
+                ViewBag.Error = "User Name exits!.Please choose a different User Name!";
+                init();
+                return View();
+            }
 
             if(_userService.Add(user, roles))
             {
@@ -205,8 +193,19 @@ namespace Cats.Areas.Settings.Controllers
         }
         public ActionResult UserProfile(int id)
         {
+
             var user = _userService.GetUserInfo(id);
-            return View(user);
+            if(user!=null)
+            {
+                if (TempData["Error"]!=null)
+                {
+                    ModelState.AddModelError("Errors", TempData["Error"].ToString());
+                    ViewBag.Error = TempData["Error"].ToString();
+                }
+                
+                return View(user);
+            }
+            return View();
         }
 
         public JsonResult GetUsers()
@@ -215,13 +214,69 @@ namespace Cats.Areas.Settings.Controllers
             return Json(users.ToList(), JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult DeleteAccount(int id)
+        {
+            var user = _userService.FindById(id);
+            if (user != null)
+                return View(user);
+            return View();
+        }
+
+        public ActionResult ConfirmDeleteAccount(int id)
+        {
+            var user = _userService.FindById(id);
+            if (user!=null)
+            {
+                try
+                {
+                    _userService.DeleteById(id);
+                    
+                }
+                catch (Exception)
+                {
+                    TempData["Error"] = "User can not be Deleted. There are related Transaction associated with the user!";
+                    return RedirectToAction("UserProfile", new {id = id});
+                }
+            }
+            return View("Index");
+        }
+
+        public ActionResult DeactivateUser(int id)
+        {
+             var user = _userService.FindById(id);
+             if (user != null)
+             {
+                 
+                 _userService.DisableAccount(user.UserName);
+                 return View("Index");
+             }
+             return RedirectToAction("UserProfile", new { id = id });
+        }
+
+        public ActionResult ActivateDeactivateUser(int id)
+        {
+             var user = _userService.FindById(id);
+             if (user != null)
+             {
+                 
+                 
+                 _userService.EnableAccount(user.UserName);
+                 return View("Index");
+             }
+             return RedirectToAction("UserProfile", new { id = id });
+        }
+
+        
+
         [HttpGet]
         public ActionResult EditUserRoles(string UserName)
         {
             //var roles = new string[] { "EW Coordinator", "EW-Experts" };
             //userService.AddRoleSample("Rahel", "Early Warning", roles);
+            var user = UserAccountHelper.GetUser(HttpContext.User.Identity.Name);
             var model = new UserViewModel();
             model.UserName = UserName;
+            model.Email = user.Email;
             List<Application> Applications = _userService.GetUserPermissions(UserName);
             ViewBag.hubs = new SelectList(_hubService.GetAllHub(), "HubID", "Name");
             model.Applications = Applications;
@@ -238,7 +293,7 @@ namespace Cats.Areas.Settings.Controllers
             //var user = _userService.FindBy(u=>u.UserName == userInfo.UserName).SingleOrDefault();
             
             var user = _userService.GetUserDetail(userInfo.UserName);
-            user.DefaultHub = userInfo.DefaultHub;
+            //user.DefaultHub = userInfo.DefaultHub;
             _userService.UpdateUser(user);
 
             foreach (var application in app)
@@ -309,7 +364,7 @@ namespace Cats.Areas.Settings.Controllers
             return View(model);
         }
 
-        public JsonResult ChangePassword2(FormCollection values)
+        public ActionResult ChangePassword2(FormCollection values)
         {
             var userid = UserAccountHelper.GetUser(HttpContext.User.Identity.Name).UserProfileID;
             var oldpassword = _userService.HashPassword(values["OldPassword"]);
@@ -329,15 +384,25 @@ namespace Cats.Areas.Settings.Controllers
                         //ModelState.AddModelError("Errors", e.Message);
                     }
                     if (changePasswordSucceeded)
-                        ModelState.AddModelError("Success", "Password Successfully Changed.");
+                        TempData["error"] = "Success, Password Successfully Changed. Please logout and login with the new credential";
                     //return RedirectToAction("ChangePasswordSuccess");
                     else
-                        ModelState.AddModelError("Errors", "The new password is invalid.");
+                        TempData["error"] = "Errors, The new password is invalid.";
 
                 }
-                else ModelState.AddModelError("Errors", "The current password is incorrect ");
+                else TempData["error"] ="Errors, The current password is incorrect ";
             }
-            return new JsonResult();
+            var urlReferrer = this.Request.UrlReferrer;
+            if (urlReferrer == null)
+            {
+                Session.Clear();
+                FormsAuthentication.SignOut();
+                return RedirectToAction("Index", "Home");
+            }
+            var url = urlReferrer.AbsolutePath;
+            ModelState.AddModelError("Sucess", @"Password Successfully Changed.");
+            return Redirect(url);
+           
         }
         //public ActionResult ChangePasswordSuccess()
         //{

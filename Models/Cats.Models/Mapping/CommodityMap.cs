@@ -22,7 +22,7 @@ namespace Cats.Models.Mapping
                 .HasMaxLength(50);
 
             this.Property(t => t.CommodityCode)
-                .HasMaxLength(3);
+                .HasMaxLength(5);
 
             // Table & Column Mappings
             this.ToTable("Commodity");

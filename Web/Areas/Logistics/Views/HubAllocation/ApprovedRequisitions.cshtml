@@ -1,15 +1,14 @@
 ﻿@using Cats.Helpers
 @using Cats.Services.Security
-@model IList<Cats.Models.RequisitionViewModel>
-@using LanguageHelpers.Localization
 
+@model IList<Cats.Models.RequisitionViewModel>
 @{
     
     var user = (UserIdentity)System.Web.HttpContext.Current.User.Identity;
     var unitPreference = user.Profile.PreferedWeightMeasurment;
 }
 @{
-    ViewBag.Title = Translator.Translate("Approved Requisitions");
+    ViewBag.Title = Html.Translate("Approved Requisitions");
     Layout = "~/Views/Shared/_MainLayout.cshtml";
    
 }
@@ -25,7 +24,7 @@
 }
 <fieldset>
     <legend>
-       @Translator.Translate("Approved Requisitions")
+       @Html.Translate("Approved Requisitions")
     </legend>
 </fieldset>
 

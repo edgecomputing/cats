@@ -141,17 +141,38 @@ namespace Cats.Areas.Logistics.Controllers
         }
 
         #region ReceivedCommodityStockStatus
+
+        private SelectList AddFirstItem(SelectList list)
+        {
+            List<SelectListItem> _list = list.ToList();
+            _list.Insert(0, new SelectListItem() { Value = "-2", Text = "All" });
+            return new SelectList((IEnumerable<SelectListItem>)_list, "Value", "Text");
+        }
+
         public ActionResult ReceivedCommodity()
         {
-            ViewBag.SelectHubID = new SelectList(_stockStatusService.GetHubs(), "HubID", "Name");
+            var hubs = new SelectList(_stockStatusService.GetHubs(), "HubID", "Name");
+            var lsit = AddFirstItem(hubs);
+            ViewBag.SelectHubID = lsit;// new SelectList(_stockStatusService.GetHubs(), "HubID", "Name");
             ViewBag.SelectProgramID = new SelectList(_stockStatusService.GetPrograms(), "ProgramID", "Name");
             return View();
         }
         public JsonResult CommodityReceived_read([DataSourceRequest]DataSourceRequest request, int hubId = -1, int programId = -1)
         {
-            var data = (hubId == -1 || programId == -1)
-                           ? new List<VWCommodityReceived>()
+            List<VWCommodityReceived> data;
+            if (hubId==-2)
+            {
+               data = _stockStatusService.GetReceivedCommodity(t => t.ProgramID == programId);
+            }
+            else
+            {
+                data = (hubId == -1 || programId == -1)
+                ? new List<VWCommodityReceived>() 
                            : _stockStatusService.GetReceivedCommodity(t => t.HubID == hubId && t.ProgramID == programId);
+            }
+            
+
+            
             return Json(data.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
 
         }

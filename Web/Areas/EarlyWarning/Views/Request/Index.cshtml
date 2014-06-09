@@ -2,7 +2,6 @@
 @using Cats.Helpers
 @using Cats.Models.Constant
 @using Kendo.Mvc.UI
-@using LanguageHelpers.Localization
 
 @model Cats.Areas.EarlyWarning.Models.SearchRequsetViewModel
 
@@ -14,35 +13,36 @@
 
 @section Toolbar
 {
-    <a data-buttontype="btn_new_record"  class="btn toolbar-btn " href="@Url.Action("New", "Request")"></a>
+    <a data-buttontype="btn_new_record"  class="btn" href="@Url.Action("New", "Request")"></a>
 }
-<h4 class="page-header">@Translator.Translate( "Regional Requests")</h4>
+<h4 class="page-header">@Html.Translate("Regional Requests")</h4>
 
 <div id="div_filter">
     @Html.Partial("_FilterRequestLeftBar")
-
 </div>
-
-
+<hr>
 
 @(Html.Kendo().Grid<RegionalRequestViewModel>()
     .Name("RequestListGrid")
     .Columns(columns =>
                  {
-                    
                      columns.Template(t => { }).Title("No").ClientTemplate("#= renderNumber(data) #").Width(50);
                      columns.Bound(request => request.ReferenceNumber).ClientTemplate
-                         ("<a href='" + Url.Action("Details", "Request", new { id = "#=RegionalRequestID#" }) + " '>#=ReferenceNumber#</a>" );
+                         ("<a href='" + Url.Action("Details", "Request", new { id = "#=RegionalRequestID#" }) + " '>#=ReferenceNumber#</a>");
                      columns.Bound(request => request.Region);
                      columns.Bound(request => request.Year);
                      columns.Bound(request => request.MonthName).Title(Html.Translate("Month"));
+                     if (Model.ProgramID == 1)
+                     {
+                         columns.Bound(request => request.Round).Width(50).Title(Html.Translate("Round"));
+                     }
                      columns.Bound(request => request.Program);
                      columns.Bound(request => request.RequestDate).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid" }).Width(160);
-                    
-    columns.Bound(request => request.Status).Template(
+
+                     columns.Bound(request => request.Status).Template(
 
 
-                         @<text>
+                                          @<text>
 @if (item.StatusID == (int)RegionalRequestStatus.Draft)
 {
     @Html.ActionLink("Approve", "ApproveRequest", "Request", new { Area = "EarlyWarning", id = @item.RegionalRequestID })
@@ -57,8 +57,8 @@ else
              ("<a href='" + Url.Action("Details", "Request", new { id = "#=RegionalRequestID#" }) + " '>Detail</a> &nbsp; " +
              "<a href='" + Url.Action("Allocation", "Request", new { id = "#=RegionalRequestID#" }) + " '>Allocate</a>  ");
 
-               
-                })
+
+                 })
     .Sortable()
     .Scrollable()
     .HtmlAttributes(new { style = "height:430px;" })
@@ -72,13 +72,14 @@ else
                 model.Id(p => p.RegionalRequestID);
             })
        .Read(read => read.Action("Request_Search", "Request",
-                                new {
-                                    DateFrom=@ViewBag.Filter.DateFrom,
-                                    DateTo=@ViewBag.Filter.DateTo,
-                                    RegionID=@ViewBag.Filter.RegionID,
-                                    ProgramID=@ViewBag.Filter.ProgramID,
-                                    StatusID=@ViewBag.Filter.StatusID
-                                    }
+                                new
+                                {
+                                    DateFrom = @ViewBag.Filter.DateFrom,
+                                    DateTo = @ViewBag.Filter.DateTo,
+                                    RegionID = @ViewBag.Filter.RegionID,
+                                    ProgramID = @ViewBag.Filter.ProgramID,
+                                    StatusID = @ViewBag.Filter.StatusID
+                                }
                                     ))
 
       )
@@ -86,13 +87,79 @@ else
 
 <script>
     $(function () {
-        var filterRegionID ="@ViewBag.Filter.RegionID";
+        var filterRegionId = "@ViewBag.Filter.RegionID";
         $("#div_filter").find("form").each(function (index, element) {
-            console.log(" form ", filterRegionID, element);
-            if (!filterRegionID) {
+            console.log(" form ", filterRegionId, element);
+            if (!filterRegionId) {
                 element.submit();
             }
-                //return;
+            //return;
         });
     });
+</script>
+
+
+<script>
+   $("#search").keyup(function () {
+        $("#search").blur();
+        $("#search").focus();
+    });
+  
+    $("#search").change(function () {
+        applyFilter("ReferenceNumber", $(this).val());
+    });
+        
+    // attach click event for Clear Filters button 
+    // applyFilter function accepts the Field Name and the new value to use for filter.
+    function applyFilter(filterField, filterValue) {
+
+        // get the kendoGrid element.
+        var gridData = $("#RequestListGrid").data("kendoGrid");
+
+        // get currently applied filters from the Grid.
+        var currFilterObj = gridData.dataSource.filter();
+
+        // get current set of filters, which is supposed to be array.
+        // if the oject we obtained above is null/undefined, set this to an empty array
+        var currentFilters = currFilterObj ? currFilterObj.filters : [];
+
+        // iterate over current filters array. if a filter for "filterField" is already
+        // defined, remove it from the array
+        // once an entry is removed, we stop looking at the rest of the array.
+        if (currentFilters && currentFilters.length > 0) {
+            for (var i = 0; i < currentFilters.length; i++) {
+                if (currentFilters[i].field == filterField) {
+                    currentFilters.splice(i, 1);
+                    break;
+                }
+            }
+        }
+
+        // if "filterValue" is "0", meaning "-- select --" option is selected, we don't 
+        // do any further processing. That will be equivalent of removing the filter.
+        // if a filterValue is selected, we add a new object to the currentFilters array.
+        if (filterValue != null) {
+            currentFilters.push({
+                field: filterField,
+                operator: "contains",
+                value: filterValue
+            });
+        }
+        
+        else {
+            clearFilters();
+        }
+
+        // finally, the currentFilters array is applied back to the Grid, using "and" logic.
+        gridData.dataSource.filter({
+            logic: "and",
+            filters: currentFilters
+        });
+
+    }
+
+    function clearFilters() {
+        var gridData = $("#RequestListGrid").data("kendoGrid");
+        gridData.dataSource.filter({});
+    }
 </script>

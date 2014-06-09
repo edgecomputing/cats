@@ -1,7 +1,7 @@
 ﻿@model int?
 
 @using Kendo.Mvc.UI
-@using LanguageHelpers.Localization
+@using Cats.Helpers
 
 @(Html.Kendo().Grid<Cats.Models.HubAllocationByRegionViewModel>()
     .Name("grid_hub")
@@ -9,7 +9,7 @@
     .Columns(columns =>
 
 
-        columns.Bound(e => e.Hub).ClientTemplate("#=Hub#(#=kendo.toString(AllocatedAmount,'N')#)").HeaderHtmlAttributes(new { @class = "cats-unit-pref" }).Title(Translator.Translate("Hub Allocated Amount"))
+            columns.Bound(e => e.Hub).ClientTemplate("#=Hub#(#=kendo.toString(AllocatedAmount,'N')#)").HeaderHtmlAttributes(new { @class = "cats-unit-pref" }).Title(Html.Translate("Hub Allocated Amount"))
 
 
     )

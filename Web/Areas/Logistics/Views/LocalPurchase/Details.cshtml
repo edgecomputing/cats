@@ -1,6 +1,7 @@
 ﻿@using Cats.Areas.Logistics.Models
 @using Kendo.Mvc.UI
-@using LanguageHelpers.Localization
+@using Cats.Helpers
+
 @model Cats.Areas.Logistics.Models.LocalPurchaseWithDetailViewModel
 @{
     ViewBag.Title = "Details";
@@ -12,14 +13,14 @@
    
    
     <div class="btn-group" style="margin-right: 8px;">
-    <button class="btn dropdown-toggle " data-toggle="dropdown"> @Translator.Translate("Actions") 
+    <button class="btn dropdown-toggle " data-toggle="dropdown"> @Html.Translate("Actions") 
         <span class="caret"></span>
     </button>
          @if(Model.StatusID==1)
          {
              <ul class="dropdown-menu">
            
-                 <li><a  href="@Url.Action("Approve", "LocalPurchase", new {id = Model.LocalPurchaseID})" >@Translator.Translate("Approve(Send to Hub)")</a></li>
+                 <li><a  href="@Url.Action("Approve", "LocalPurchase", new {id = Model.LocalPurchaseID})" >@Html.Translate("Approve(Send to Hub)")</a></li>
              </ul>
               <a class="btn toolbar-btn " data-buttontype="btn_save" data-submittedform="frm_create_localPurchase" title="Save"></a>
          }
@@ -38,7 +39,7 @@
                 <td>
                
                     <div class="control-label">
-                        @Html.Label(Translator.Translate("SI Number"))
+                        @Html.Label(Html.Translate("SI Number"))
                     </div>
                     <div class="controls">
                         @(Html.Kendo().AutoComplete()
@@ -55,7 +56,7 @@
                 <td>
                 
                     <div class="control-label">
-                        @Html.Label(Translator.Translate("Commodity Type"))
+                        @Html.Label(Html.Translate("Commodity Type"))
                     </div>
                     <div class="controls">
                         @Html.DropDownList("CommodityTypeID")
@@ -67,7 +68,7 @@
                 <td>
                 
                     <div class="control-label">
-                        @Html.Label(Translator.Translate("Commodity Source"))
+                        @Html.Label(Html.Translate("Commodity Source"))
                     </div>
                     <div class="controls">
                         @Html.TextBoxFor(m => m.CommoditySource, new { Disabled = true })
@@ -77,7 +78,7 @@
                 <td>
                
                     <div class="control-label">
-                        @Html.Label(Translator.Translate("Commodity"))
+                        @Html.Label(Html.Translate("Commodity"))
                     </div>
                     <div class="controls">
                         @Html.DropDownList("CommodityID")
@@ -89,7 +90,7 @@
                 <td>
                 
                     <div class="control-label">
-                        @Html.Label(Translator.Translate("Project Code"))
+                        @Html.Label(Html.Translate("Project Code"))
                     </div>
                     <div class="controls">
                         @Html.TextBoxFor(m => m.ProjectCode)
@@ -99,7 +100,7 @@
                 <td>
                 
                     <div class="control-label">
-                        @Html.Label(Translator.Translate("Program"))
+                        @Html.Label(Html.Translate("Program"))
                     </div>
                     <div class="controls">
                         @Html.DropDownList("ProgramID")
@@ -111,7 +112,7 @@
                 <td>
                
                     <div class="control-label">
-                        @Html.Label(Translator.Translate("Supplier Name"))
+                        @Html.Label(Html.Translate("Supplier Name"))
                     </div>
                     <div class="controls">
                         @Html.TextBoxFor(m => m.SupplierName)
@@ -121,7 +122,7 @@
                 <td>
               
                     <div class="control-label">
-                        @Html.Label(Translator.Translate("Donor"))
+                        @Html.Label(Html.Translate("Donor"))
                     </div>
                     <div class="controls">
                         @Html.DropDownList("DonorID")
@@ -133,7 +134,7 @@
                 <td>
                 
                     <div class="control-label">
-                        @Html.Label(Translator.Translate("PurchaseOrder"))
+                        @Html.Label(Html.Translate("PurchaseOrder"))
                     </div>
                     <div class="controls">
                         @Html.TextBoxFor(m => m.PurchaseOrder)
@@ -143,7 +144,7 @@
                 <td>
                 
                     <div class="control-label">
-                        @Html.Label(Translator.Translate("Quantity in MT"))
+                        @Html.Label(Html.Translate("Quantity in MT"))
                     </div>
                     <div class="controls">
                         @Html.TextBoxFor(m => m.Quantity)
@@ -155,7 +156,7 @@
                 <td colspan="2">
                
                     <div class="control-label">
-                        @Html.Label(Translator.Translate("Reference Number"))
+                        @Html.Label(Html.Translate("Reference Number"))
                     </div>
                     <div class="controls" style="height: 10px">
                         @Html.TextBoxFor(m => m.ReferenceNumber)
@@ -172,15 +173,15 @@
               {
                   columns.Bound(m => m.HubID).Hidden(true).ClientTemplate("#= HubID #" +
                 "<input type='hidden' name='LocalPurchaseDetailViewModels[#= index(data)#].HubID' value='#= HubID #' />");
-                  columns.Bound(m => m.HubName).Title(Translator.Translate("Hub")).ClientTemplate("#= HubName #" +
+                  columns.Bound(m => m.HubName).Title(Html.Translate("Hub")).ClientTemplate("#= HubName #" +
                "<input type='hidden' name='LocalPurchaseDetailViewModels[#= index(data)#].HubName' value='#= HubName #' />");
-                  columns.Bound(m => m.AllocatedAmonut).Width(200).Title(Translator.Translate("Allocated Amonut in MT")).HtmlAttributes(new { align = "right" })
+                  columns.Bound(m => m.AllocatedAmonut).Width(200).Title(Html.Translate("Allocated Amonut in MT")).HtmlAttributes(new { align = "right" })
                   .ClientTemplate("#= AllocatedAmonut #" +
                 "<input type='hidden' name='LocalPurchaseDetailViewModels[#= index(data)#].AllocatedAmonut' value='#= AllocatedAmonut #' />");
-                  columns.Bound(m => m.RecievedAmonut).Width(200).Title(Translator.Translate("Recieved Amount in MT")).HtmlAttributes(new { align = "right" })
+                  columns.Bound(m => m.RecievedAmonut).Width(200).Title(Html.Translate("Recieved Amount in MT")).HtmlAttributes(new { align = "right" })
                   .ClientTemplate("#= RecievedAmonut #" +
                 "<input type='hidden' name='LocalPurchaseDetailViewModels[#= index(data)#].RecievedAmonut' value='#= RecievedAmonut #' />");
-                  columns.Bound(m => m.RemainingAmonut).Width(200).Title(Translator.Translate("Remaining Amonut in MT")).HtmlAttributes(new { align = "right" });
+                  columns.Bound(m => m.RemainingAmonut).Width(200).Title(Html.Translate("Remaining Amonut in MT")).HtmlAttributes(new { align = "right" });
 
                   columns.Bound(m => m.LocalPurchaseID).Hidden(true).ClientTemplate("#= LocalPurchaseID #" +
                 "<input type='hidden' name='LocalPurchaseDetailViewModels[#= index(data)#].LocalPurchaseID' value='#= LocalPurchaseID #' />");

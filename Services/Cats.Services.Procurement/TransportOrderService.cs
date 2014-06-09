@@ -325,11 +325,11 @@ namespace Cats.Services.Procurement
                 transportOrder.EndDate = DateTime.Today;
                 transportOrder.TransportOrderNo = Guid.NewGuid().ToString();
                 transportOrder.OrderExpiryDate = DateTime.Today.AddDays(10);
-                var currentBid = _unitOfWork.ApplicationSettingRepository.FindBy(t => t.SettingName == "CurrentBid");
+                var currentBid = _unitOfWork.BidRepository.FindBy(t => t.StatusID == 3).FirstOrDefault();
                 var transporterName = _unitOfWork.TransporterRepository.FindById(transportOrder.TransporterID).Name;
                 if (currentBid != null)
                 {
-                    var bidID = int.Parse(currentBid[0].SettingValue);
+                    var bidID = currentBid.BidID;
                     transportOrder.BidDocumentNo = _unitOfWork.BidRepository.FindById(bidID).BidNumber;
                 }
                 else
@@ -346,7 +346,14 @@ namespace Cats.Services.Procurement
                 transportOrder.ConsignerDate = DateTime.Today;
                 transportOrder.StatusID = (int)TransportOrderStatus.Draft;
                 var lastOrder = _unitOfWork.TransportOrderRepository.GetAll();
-                transportOrder.TransportOrderNo = string.Format("TRN-ORD-{0}", lastOrder.Last().TransportOrderID + 1);
+                if (lastOrder.Count!=0)
+                {
+                    transportOrder.TransportOrderNo = string.Format("TRN-ORD-{0}", lastOrder.Last().TransportOrderID + 1);
+                }
+                else
+                {
+                    transportOrder.TransportOrderNo = string.Format("TRN-ORD-{0}", 1);
+                }
                 transportOrder.ContractNumber = string.Format("{0}/{1}/{2}/{3}", "LTCD", DateTime.Today.Day,
                                                               DateTime.Today.Year, transporterName.Substring(0, 3));
                 foreach (var detail in transReqWithTransporter)
@@ -403,7 +410,12 @@ namespace Cats.Services.Procurement
             {
                 try
                 {
-                    AddToNotification(transportOrder.TransportOrderID, transportOrder.TransportOrderNo);
+                    var hubId = new List<int>();
+                    var transport = transportOrder.TransportOrderDetails.Select(c => c.SourceWarehouseID).ToList().Distinct();
+                    {
+                        hubId.AddRange(transport);
+                    }
+                    AddToNotification(transportOrder.TransportOrderID, transportOrder.TransportOrderNo,hubId);
                 }
                 catch
                 {
@@ -469,10 +481,10 @@ namespace Cats.Services.Procurement
                         t => t.RequisitionDetailID == requisitionDetail.RequisitionDetailID);
                 var si = sipc.Find(t => t.AllocationType == "SI");
                 if (si != null)
-                    dispatchAllocation.ProjectCodeID = si.Code;
+                    dispatchAllocation.ShippingInstructionID = si.Code;
                 var pc = sipc.Find(t => t.AllocationType == "PC");
                 if (pc != null)
-                    dispatchAllocation.ShippingInstructionID = pc.Code;
+                    dispatchAllocation.ProjectCodeID = pc.Code;
                 //dispatchAllocation.Unit //i have no idea where to get it
                 // dispatchAllocation.StoreID  //Would be set null and filled by user later
                 //dispatchAllocation.Year= requisition.Year ; //Year is not available 
@@ -485,7 +497,7 @@ namespace Cats.Services.Procurement
         }
 
 
-        private void AddToNotification(int transportOrderId, string transportOrderNo)
+        private void AddToNotification(int transportOrderId, string transportOrderNo,List<int> hubId )
         {
             try
             {
@@ -503,7 +515,7 @@ namespace Cats.Services.Procurement
                                      "/Hub/TransportOrder/NotificationIndex?recordId=" + transportOrderId;
                 }
                 _notificationService.AddNotificationForHubManagersFromTransportOrder(destinationURl, transportOrderId,
-                                                                                     transportOrderNo);
+                                                                                     transportOrderNo,hubId);
             }
             catch (Exception)
             {

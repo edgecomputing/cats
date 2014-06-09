@@ -52,6 +52,8 @@ namespace Cats.Models
         [Display(Name = "Plan ID")]
         public int PlanId { get; set; }
         public Nullable<System.Guid> TransactionGroupID { get; set; }
+        public int? PartitionId { get; set; }
+
         public virtual TransactionGroup TransactionGroup { get; set; }
        
         public virtual ICollection<RegionalPSNPPledge> RegionalPSNPPledges { get; set; }

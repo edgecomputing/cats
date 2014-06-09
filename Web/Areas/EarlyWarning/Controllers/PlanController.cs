@@ -65,7 +65,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         public ActionResult Create()
         {
             var plan = new Plan();
-            ViewBag.ProgramID = new SelectList(_planService.GetPrograms(),"ProgramID", "Name");
+            ViewBag.ProgramID = new SelectList(_planService.GetNonReliefProgram(),"ProgramID", "Name");
             plan.StartDate = DateTime.Now;
             plan.EndDate = DateTime.Now;
             return View(plan);
@@ -75,29 +75,37 @@ namespace Cats.Areas.EarlyWarning.Controllers
         public ActionResult Create(Plan plan)
         {
             var startDate = plan.StartDate;
-            var endDate = plan.EndDate;
+            var firstDayOfTheMonth = startDate.AddDays(1 - startDate.Day);
+            var endDate = firstDayOfTheMonth.AddMonths(plan.Duration).AddDays(-1);
             if (ModelState.IsValid)
             {
-                if (startDate >= endDate)
+                var existingPlan =
+                    _planService.FindBy(m => m.PlanName == plan.PlanName && m.ProgramID == plan.ProgramID)
+                                .FirstOrDefault();
+                if (existingPlan!=null)
                 {
-                    ModelState.AddModelError("Errors", @"Start Date Can't be greater than OR Equal to  End Date!");
+                    ModelState.AddModelError("Errors", @"Plan with this Name and Program already Exists please change Plan Name");
                 }
                 else
                 {
                     try
                     {
-                        plan.Status = (int) PlanStatus.Draft;
+                        plan.StartDate = firstDayOfTheMonth;
+                        plan.EndDate = endDate;
+                        plan.Status = (int)PlanStatus.Draft;
                         _planService.AddPlan(plan);
                         return RedirectToAction("Index");
                     }
                     catch (Exception ex)
                     {
 
-                        ModelState.AddModelError("Errors", "Plan with this name already Existed");
+                        ModelState.AddModelError("Errors", @"Plan with this name already Existed");
                         ViewBag.ProgramID = new SelectList(_planService.GetPrograms(), "ProgramID", "Name");
                         return View(plan);
-                    }
+                    } 
                 }
+                    
+                
 
             }
             ViewBag.ProgramID = new SelectList(_planService.GetPrograms(), "ProgramID", "Name");
@@ -134,20 +142,6 @@ namespace Cats.Areas.EarlyWarning.Controllers
             }
             return RedirectToAction("index", "Plan", new {id = plan.Status});
         }
-        public ActionResult Detail(int id)
-        {
-            var plan = _planService.FindById(id);
-
-            var needAssessment = _needAssessmentService.FindBy(m => m.PlanID == plan.PlanID).ToList();
-            var hrd = _hrdService.FindBy(m => m.PlanID == plan.PlanID).ToList();
-            var planWithHrdViewModel = new PlanWithHRDViewModel()
-                {
-                    Plan = plan,
-                    HRDs = hrd,
-                    NeedAssessments = needAssessment
-                };
-
-            return View(plan);
-        }
+       
     }
 }
