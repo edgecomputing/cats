@@ -60,13 +60,13 @@
         columns.Bound(u => u.LanguageCode).Title("UI Language");
         columns.Bound(u => u.Keyboard).Title("Keyboard Language");
         columns.Bound(u => u.DatePreference).Title("Calendar Preference");
-        columns.Bound(u => u.Email).Title("Email").Width(130);
-        columns.Bound(u => u.UserName).Title("User Name").ClientTemplate(
+        columns.Bound(u => u.Email).Title("Email").Width(170);
+        columns.Bound(u => u.UserName).Title("Edit Role").ClientTemplate(
 
 
            "<a href='" + Url.Action("EditUserRoles", "Users", new { UserName = "#=UserName#" }) + " '>Edit Role</a> "
            );
-        columns.Bound(u => u.UserName).Title("User Name").ClientTemplate(
+        columns.Bound(u => u.UserName).Title("Edit User").ClientTemplate(
 
 
            "<a href='" + Url.Action("EditUser", "Users", new { userId = "#=UserProfileID#" }) + " '>Edit User</a> "
