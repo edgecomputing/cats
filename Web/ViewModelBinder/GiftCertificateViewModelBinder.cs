@@ -116,7 +116,7 @@ namespace Cats.ViewModelBinder
             return giftCertificateDetails.Select(BindGiftCertificateDetailsViewModel).ToList();
         }
 
-        public static GiftCertificateDetailsViewModel BindGiftCertificateDetailsViewModel(GiftCertificateDetail giftCertificateDetail)
+        public static GiftCertificateDetailsViewModel BindGiftCertificateDetailsViewModel(GiftCertificateDetail giftCertificateDetail, string pref)
         {
             var model = new GiftCertificateDetailsViewModel();
 
@@ -124,7 +124,7 @@ namespace Cats.ViewModelBinder
             model.GiftCertificateDetailID = giftCertificateDetail.GiftCertificateDetailID;
             model.CommodityID = giftCertificateDetail.CommodityID;
             model.BillOfLoading = giftCertificateDetail.BillOfLoading;
-            model.YearPurchased = giftCertificateDetail.YearPurchased;//ToCTSPreferedDateFormat(userPrefrence);
+            model.YearPurchased = giftCertificateDetail.YearPurchased.ToCTSPreferedDateFormat(pref);
             model.AccountNumber = giftCertificateDetail.AccountNumber;
             model.WeightInMT = giftCertificateDetail.WeightInMT;
             model.EstimatedPrice = giftCertificateDetail.EstimatedPrice;
