@@ -1777,7 +1777,7 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>=Fields!ReliefAmount.Value</Value>
+                    <Value>=Sum(Fields!ReliefAmount.Value)</Value>
                     <Style />
                   </TextRun>
                 </TextRuns>
@@ -1807,7 +1807,7 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>=Fields!PsnpAmount.Value</Value>
+                    <Value>=Sum(Fields!PsnpAmount.Value)</Value>
                     <Style />
                   </TextRun>
                 </TextRuns>

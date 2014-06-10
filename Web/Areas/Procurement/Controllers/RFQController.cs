@@ -103,6 +103,8 @@ namespace Cats.Areas.Procurement.Controllers
                         Region = ac.Key.Region,
                         BidReference = bid.BidNumber,
                         Quantity = ac.Sum(m=>m.Quantity),
+                        //ReliefAmount = ac.First(m => m.ProgramID == 1).Quantity,
+                        //PsnpAmount = ac.First(m => m.ProgramID == 2).Quantity,
                         BidOpeningdate = bid.OpeningDate.ToCTSPreferedDateFormat(datePref),
                     });
             var reportData = rfqDetail;
