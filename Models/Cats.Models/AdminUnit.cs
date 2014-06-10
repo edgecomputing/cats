@@ -8,7 +8,8 @@ namespace Cats.Models
         public AdminUnit()
         {
             this.AdminUnit1 = new List<AdminUnit>();
-            this.BidDetails = new List<BidDetail>();
+            //this.BidDetails = new List<BidDetail>();
+            this.Bids =new List<Bid>();
             this.FDPs = new List<FDP>();
             this.RegionalRequests = new List<RegionalRequest>();
             this.ReliefRequisitions = new List<ReliefRequisition>();
@@ -36,7 +37,8 @@ namespace Cats.Models
         public virtual ICollection<AdminUnit> AdminUnit1 { get; set; }
         public virtual AdminUnit AdminUnit2 { get; set; }
         public virtual AdminUnitType AdminUnitType { get; set; }
-        public virtual ICollection<BidDetail> BidDetails { get; set; }
+        //public virtual ICollection<BidDetail> BidDetails { get; set; }
+        public virtual ICollection<Bid> Bids { get; set; } 
         public virtual ICollection<FDP> FDPs { get; set; }
         public virtual ICollection<NeedAssessment> NeedAssessments { get; set; }
         public virtual ICollection<NeedAssessmentDetail> NeedAssessmentDetails { get; set; }

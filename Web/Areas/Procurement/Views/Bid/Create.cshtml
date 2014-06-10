@@ -32,6 +32,15 @@
                 </div>
                 
             </div>
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.RegionID,"Region")
+                </div>
+                <div class="controls">
+                    @Html.DropDownList("RegionID",String.Empty)
+                    @Html.ValidationMessageFor(model=>model.RegionID)
+                </div>
+            </div>
             <div class="control-group" >
                 <div class="control-label">
                     @Html.LabelFor(model => model.BidNumber, "Bid Number")

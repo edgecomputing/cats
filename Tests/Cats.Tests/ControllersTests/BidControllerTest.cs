@@ -56,7 +56,6 @@ namespace Cats.Tests.ControllersTests
                       {
                           BidDetailID = 1,
                           BidID = 1,
-                          RegionID = 2,
                           AmountForPSNPProgram = 200,
                           AmountForReliefProgram = 300,
                           BidDocumentPrice = 10,
@@ -66,7 +65,6 @@ namespace Cats.Tests.ControllersTests
                   {
                       BidDetailID = 2,
                       BidID = 1,
-                      RegionID = 2,
                       AmountForPSNPProgram = 200,
                       AmountForReliefProgram = 300,
                       BidDocumentPrice = 10,

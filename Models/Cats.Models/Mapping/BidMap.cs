@@ -18,6 +18,7 @@ namespace Cats.Models.Mapping
             this.ToTable("Bid","procurement");
             this.Property(t => t.BidNumber).HasColumnName("BidNumber");
             this.Property(t => t.BidID).HasColumnName("BidID");
+            this.Property(t => t.RegionID).HasColumnName("RegionID");
             this.Property(t => t.StartDate).HasColumnName("StartDate");
             this.Property(t => t.EndDate).HasColumnName("EndDate");
             this.Property(t => t.OpeningDate).HasColumnName("OpeningDate");
@@ -25,6 +26,9 @@ namespace Cats.Models.Mapping
             this.Property(t => t.TransportBidPlanID).HasColumnName("TransportBidPlanID");
             this.Property(t => t.PartitionId).HasColumnName("PartitionId");
 
+            this.HasRequired(t => t.AdminUnit)
+               .WithMany(t => t.Bids)
+               .HasForeignKey(d => d.RegionID);
             
         }
     }

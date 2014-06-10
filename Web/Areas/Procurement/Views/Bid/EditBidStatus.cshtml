@@ -25,13 +25,24 @@
               @Html.HiddenFor(model=>model.StatusID)
             <div class="control-group">
                 <div class="control-label">
-                     @Html.LabelFor(model => model.TransportBidPlanID, "Bid Plan")
+                    @Html.LabelFor(model => model.TransportBidPlanID, "Bid Plan")
                 </div>
                 <div class="controls">
                     @Html.DropDownList("TransportBidPlanID",String.Empty)
                     @Html.ValidationMessageFor(model => model.TransportBidPlanID)
                 </div>
             </div>
+            
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.RegionID, "Region")
+                </div>
+                <div class="controls">
+                    @Html.DropDownList("RegionID",String.Empty)
+                    @Html.ValidationMessageFor(model => model.RegionID)
+                </div>
+            </div>
+
             <div class="control-group" >
                 <div class="control-label">
                     @Html.LabelFor(model => model.BidNumber, "Bid Number")
