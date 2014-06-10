@@ -53,7 +53,7 @@
             //columns.Bound(p => p.HRDName);
             columns.Bound(p => p.Plan).Title(Html.Translate("HRD Name")).ClientTemplate(
                             @Html.EarlyWarningOperationButton(
-                                @Url.Action("Detail", "HRD", new { id = "#=HRDID#" }),
+                                @Url.Action("Detail", "HRD", new { id = "#=HRDID#" })+"?Grid-group=Region-asc",
                                 EarlyWarningConstants.Operation.View_HRD_Detail, "#=Plan#").ToString());
             columns.Bound(p => p.Ration).Title("Ration No");
             columns.Bound(p => p.StartDate).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid" });
