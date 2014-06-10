@@ -103,7 +103,7 @@
             <div class="span4">
                 <div class="control-group">
                     <div class="control-label">
-                        @Html.LabelFor(model => model.WieghtInMT, @Html.Translate("Gift Certificate Amount")) 
+                        @Html.LabelFor(model => model.WieghtInMT, @Html.Translate("GC Amount")) 
                     </div>
                     <div class="controls" >
                         @(Html.TextBoxFor(model => model.WieghtInMT,new { @readonly = "readonly" }))
@@ -138,23 +138,13 @@
 
                            columns.Bound(p => p.AllocatedAmount).Title("Allocated").Width(30).Format("{0:n2}").ClientFooterTemplate("<div style='text-align: right'> Sum: #=sum#</div>").HtmlAttributes(new { align = "Right" }).HtmlAttributes(new { style = "text-align: right; font-size: 12px; " }).ClientTemplate("#= AllocatedAmount #" +
                     "<input type='hidden' name='DonationPlanDetails[#= index(data)#].AllocatedAmount' value='#= AllocatedAmount #' />"); 
-<<<<<<< HEAD
 
-                   //        columns.Bound(p => p.ReceivedAmount).Title("Received").Width(30).Format("{0:n2}").HtmlAttributes(new { align = "Right" }).HtmlAttributes(new { style = "text-align: right; font-size: 12px; " }).ClientTemplate("#= ReceivedAmount #" +
-                   // "<input type='hidden' name='DonationPlanDetails[#= index(data)#].ReceivedAmount' value='#= ReceivedAmount #' />"); 
-
-                   //        columns.Bound(p => p.Balance).Title("Balance").Width(30).Format("{0:n2}").HtmlAttributes(new { align = "Right" }).HtmlAttributes(new { style = "text-align: right; font-size: 12px; " }).ClientTemplate("#= Balance #" +
-                   //"<input type='hidden' name='DonationPlanDetails[#= index(data)#].Balance' value='#= Balance #' />");
-                           
-=======
-                           /*
                            columns.Bound(p => p.ReceivedAmount).Title("Received").Width(30).Format("{0:n2}").HtmlAttributes(new { align = "Right" }).HtmlAttributes(new { style = "text-align: right; font-size: 12px; " }).ClientTemplate("#= ReceivedAmount #" +
                     "<input type='hidden' name='DonationPlanDetails[#= index(data)#].ReceivedAmount' value='#= ReceivedAmount #' />"); 
 
                            columns.Bound(p => p.Balance).Title("Balance").Width(30).Format("{0:n2}").HtmlAttributes(new { align = "Right" }).HtmlAttributes(new { style = "text-align: right; font-size: 12px; " }).ClientTemplate("#= Balance #" +
                    "<input type='hidden' name='DonationPlanDetails[#= index(data)#].Balance' value='#= Balance #' />");
-                           */
->>>>>>> 72eaca45a96b8ccb33362f34b6fe44a8382c5f02
+                           
                        })
 
           .Editable(editable => editable.Mode(GridEditMode.InCell))
