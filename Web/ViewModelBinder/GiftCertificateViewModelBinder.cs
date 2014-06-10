@@ -47,7 +47,7 @@ namespace Cats.ViewModelBinder
             {
                 giftCertificateViewModel.GiftCertificateDetails =
                      BindListOfGiftCertificateDetailsViewModel(
-                         giftCertificateModel.GiftCertificateDetails.ToList());
+                         giftCertificateModel.GiftCertificateDetails.ToList(),userPrefrence);
             }
 
 
@@ -110,13 +110,8 @@ namespace Cats.ViewModelBinder
             giftCertificateDetail.ExpiryDate = giftCertificateDetailsViewModel.ExpiryDate;
             return giftCertificateDetail;
         }
-
-        public static List<GiftCertificateDetailsViewModel> BindListOfGiftCertificateDetailsViewModel(List<GiftCertificateDetail> giftCertificateDetails)
-        {
-            return giftCertificateDetails.Select(BindGiftCertificateDetailsViewModel).ToList();
-        }
-
-        public static GiftCertificateDetailsViewModel BindGiftCertificateDetailsViewModel(GiftCertificateDetail giftCertificateDetail)
+        
+        public static GiftCertificateDetailsViewModel BindGiftCertificateDetailsViewModel(GiftCertificateDetail giftCertificateDetail, string pref)
         {
             var model = new GiftCertificateDetailsViewModel();
 
@@ -124,7 +119,7 @@ namespace Cats.ViewModelBinder
             model.GiftCertificateDetailID = giftCertificateDetail.GiftCertificateDetailID;
             model.CommodityID = giftCertificateDetail.CommodityID;
             model.BillOfLoading = giftCertificateDetail.BillOfLoading;
-            model.YearPurchased = giftCertificateDetail.YearPurchased;
+            model.YearPurchased = giftCertificateDetail.YearPurchased;//.ToCTSPreferedDateFormat(pref);
             model.AccountNumber = giftCertificateDetail.AccountNumber;
             model.WeightInMT = giftCertificateDetail.WeightInMT;
             model.EstimatedPrice = giftCertificateDetail.EstimatedPrice;
@@ -136,8 +131,22 @@ namespace Cats.ViewModelBinder
             model.FundSource = giftCertificateDetail.Detail.Name;
             model.CommodityName = giftCertificateDetail.Commodity.Name;
             model.ExpiryDate = giftCertificateDetail.ExpiryDate;
+            model.YearPurchasedPrefered = giftCertificateDetail.YearPurchased.ToCTSPreferedDateFormat(pref);
 
             return model;
         }
+
+        public static List<GiftCertificateDetailsViewModel> BindListOfGiftCertificateDetailsViewModel(List<GiftCertificateDetail> giftCertificateDetails,string pref)
+        {
+            var s = new List<GiftCertificateDetailsViewModel>();
+            foreach (var giftCertificateDetail in giftCertificateDetails)
+            {
+                s.Add(BindGiftCertificateDetailsViewModel(giftCertificateDetail,pref));
+            }
+            //return giftCertificateDetails.Select(BindGiftCertificateDetailsViewModel).ToList();
+            return s;
+        }
+
+        
     }
 }

@@ -734,9 +734,9 @@
                                 <li><a href="@Url.Action("Administration", "Account")">@Html.Translate("Administration")</a></li>
                             }
                             <li class="divider"></li>
-                            <li><a href="#changePassword" data-toggle="modal">@Html.Translate("Change Password")</a></li>
+                            <li><a id="linkChangePassword" href="#changePasswordModal" data-toggle="modal">@Html.Translate("Change Password")</a></li>
                             @*<li><a href="@Url.Action("ChangePassword", "Users", new { Area = "Settings" })">@Html.Translate("Change Password")</a></li>*@
-                            <li><a href="@Url.RouteUrl("Logout")">@Html.Translate("Logout")</a></li>
+                            <li><a id="linkLogout" href="@Url.RouteUrl("Logout")">@Html.Translate("Logout")</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -746,8 +746,8 @@
     </div>
 </div>
 
-<div id="changePassword" class="modal hide" style="display: none; ">
-    @using (Html.BeginForm("ChangePassword2", "Users", new { Area = "Settings" }, FormMethod.Post, new { @class = "modal-form", id = "changePassword" }))
+<div id="changePasswordModal" class="modal hide" style="display: none; ">
+    @using (Html.BeginForm("ChangePasswordAjax", "Users", new { Area = "Settings" }, FormMethod.Post, new { @class = "modal-form", id = "changePassword" }))
     {
         <div class="modal-header">
             <a class="close" data-dismiss="modal">×</a>
@@ -780,7 +780,9 @@
                     </div>
                 </div>
             </div>
-
+            <div id="divChangePasswordMessage">
+                Message
+            </div>
         </div>
         <div class="modal-footer">
             <button type="submit" class="btn btn-success">Change password</button>
@@ -806,9 +808,67 @@
             rules: allValidationRules,
             showErrors: function (element, errorClass, validClass) {
                 for (var i in errorClass) {
-                    $(errorClass[i].element).popover('show');
+                    //$(errorClass[i].element).popover('show');
                 }
             }
+        });
+        $("#linkChangePassword").click(function () {
+            $("#OldPassword").val("");
+            $("#NewPassword").val("");
+            $("#ConfirmPassword").val("");
+            $("#divChangePasswordMessage").html("");
+
+        });
+
+        $("#changePassword").submit(function ()
+        {
+            var messages = [];
+            var is_valid = true;
+            var $form=$("#changePassword");
+            
+            if (!$("#OldPassword").val()) {
+                messages.push("Please input your current password");
+                is_valid = false;
+            }
+            if ($("#NewPassword").val() != $("#ConfirmPassword").val()) {
+                messages.push("Non Matching Paswords");
+                is_valid = false;
+                
+            }
+            var message = "";
+            for (var i in messages) {
+                    
+                message += "<div class='alert alert-error'>" + messages[i] + "</div>";
+  
+ 
+            }
+            $("#divChangePasswordMessage").html(message);
+            //alert($form.attr("action"));
+            var formData = $form.serialize();
+            console.log(formData);
+            if (is_valid) {
+                $.post($form.attr("action"), formData, function (data) {
+                    var success = true;
+                    console.log(data);
+                    message = "";
+                    for (var i in data) {
+                        
+                        message += "<div class='alert alert-" + data[i].Key + "'>" + data[i].Value + "</div>";
+                        if (data[i].Key == "error") {
+                            success = false;
+                        }
+                    }
+                    $("#divChangePasswordMessage").html(message);
+                    if (success) {
+                        setTimeout(function () {
+                            $("#changePasswordModal").modal('hide');
+                            window.location=$("#linkLogout").attr("href");
+                        }, 1500);
+
+                    }
+                });
+            }
+            return false;
         });
     });
     </script>

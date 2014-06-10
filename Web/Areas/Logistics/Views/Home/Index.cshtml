@@ -131,7 +131,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr ng-repeat="req in requests.request  | filter:{RegionName:regionName}">
+                                    <tr ng-repeat="req in requests.request   | filter:{RegionName:regionName} | limitTo:5">
                                         <td class="hidden-xs">{{$index + 1}}</td>
                                         <td>{{req.reqNo}}</td>
                                         <td>{{req.zone}}</td>
@@ -409,7 +409,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                   <tr ng-repeat="req in requestsSIPCAllocated.request |  filter:{RegionName:regionName}">
+                                   <tr ng-repeat="req in requestsSIPCAllocated.request  |  filter:{RegionName:regionName} | limitTo:2 ">
                                         <td class="hidden-xs">{{$index + 1}}</td>
                                        <td>{{req.reqNo}}</td>
                                        <td>{{req.program}}</td>
@@ -490,7 +490,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr ng-repeat="req in TransportOrder | filter:search">
+                                    <tr ng-repeat="req in TransportOrder | filter:search ">
                                         <td class="hidden-xs">{{$index + 1}}</td>
                                        
                                         <td>{{req.name}}</td>
@@ -569,7 +569,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                     <tr ng-repeat="req in TransportRequestion.request | filter:{RegionName:regionName}">
+                                     <tr ng-repeat="req in TransportRequestion.request | filter:{RegionName:regionName} | limitTo:2">
                                         <td class="hidden-xs">{{$index + 1}}</td>
                                         <td>{{req.reqNo}}</td>
                                         <td>{{req.zone}}</td>
