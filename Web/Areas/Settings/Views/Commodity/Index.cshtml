@@ -46,17 +46,17 @@
     .Navigatable()
     .Columns(columns =>
     {
+        columns.ForeignKey(t => t.CommodityTypeID, (IEnumerable<CommodityType>)ViewData["CommodityTypes"], "CommodityTypeID", "Name");
+        columns.ForeignKey(t => t.ParentID, (IEnumerable<Commodity>)ViewData["Commodities"], "CommodityID", "Name");
         columns.Bound(t => t.CommodityID).Visible(false);
         columns.Bound(t => t.CommodityCode);
         columns.Bound(t => t.Name);
         columns.Bound(t => t.LongName);
-        columns.ForeignKey(t => t.CommodityTypeID, (IEnumerable<CommodityType>)ViewData["CommodityTypes"], "CommodityTypeID", "Name");
-        columns.ForeignKey(t => t.ParentID, (IEnumerable<Commodity>)ViewData["Commodities"], "CommodityID", "Name");
         columns.Bound(t => t.NameAM);
         //columns.Command(command => command.Destroy());
         columns.Command(command => command.Custom("Delete").Click("onDelete"));
 
-    })
+    }).Groupable()
     .DataSource(
         datasource =>datasource.Ajax()
             .Model(model => model.Id(p => p.CommodityID))
