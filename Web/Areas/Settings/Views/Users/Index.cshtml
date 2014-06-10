@@ -22,13 +22,13 @@
 }
 
 @{
-    if (ViewData["error"]!=null)
+    if (ViewData["error"] != null)
     {
-        <div>
-            
-            <br/>
-            @ViewData["error"]
-        </div>
+    <div>
+
+        <br />
+        @ViewData["error"]
+    </div>
     }
 }
 
@@ -46,6 +46,16 @@
 <div>
     <h4>Manage Users</h4>
 </div>
+@*<div class="form-inline">
+    <input id="search" type="text" class="input-medium search-query" placeholder="Search ">
+    <button type="submit" class="btn btn-sm" value="Search"><i class="icon-search"></i></button>
+</div>*@
+<div class="input-prepend">
+    <span class="add-on">Search</span>
+   <input id="search" type="text" class="input-medium search-query" placeholder="Search ">
+</div>
+
+
 @(Html.Kendo().Grid(Model)
     .Name("Users")
     .Columns(columns =>
@@ -97,4 +107,70 @@
 
 </div>*@
 
+
+
+<script>
+   $("#search").keyup(function () {
+        $("#search").blur();
+        $("#search").focus();
+    });
+  
+    $("#search").change(function () {
+        applyFilter("Username", $(this).val());
+    });
+        
+    // attach click event for Clear Filters button 
+    // applyFilter function accepts the Field Name and the new value to use for filter.
+    function applyFilter(filterField, filterValue) {
+
+        // get the kendoGrid element.
+        var gridData = $("#Users").data("kendoGrid");
+
+        // get currently applied filters from the Grid.
+        var currFilterObj = gridData.dataSource.filter();
+
+        // get current set of filters, which is supposed to be array.
+        // if the oject we obtained above is null/undefined, set this to an empty array
+        var currentFilters = currFilterObj ? currFilterObj.filters : [];
+
+        // iterate over current filters array. if a filter for "filterField" is already
+        // defined, remove it from the array
+        // once an entry is removed, we stop looking at the rest of the array.
+        if (currentFilters && currentFilters.length > 0) {
+            for (var i = 0; i < currentFilters.length; i++) {
+                if (currentFilters[i].field == filterField) {
+                    currentFilters.splice(i, 1);
+                    break;
+                }
+            }
+        }
+
+        // if "filterValue" is "0", meaning "-- select --" option is selected, we don't 
+        // do any further processing. That will be equivalent of removing the filter.
+        // if a filterValue is selected, we add a new object to the currentFilters array.
+        if (filterValue != null) {
+            currentFilters.push({
+                field: filterField,
+                operator: "contains",
+                value: filterValue
+            });
+        }
+        
+        else {
+            clearFilters();
+        }
+
+        // finally, the currentFilters array is applied back to the Grid, using "and" logic.
+        gridData.dataSource.filter({
+            logic: "and",
+            filters: currentFilters
+        });
+
+    }
+
+    function clearFilters() {
+        var gridData = $("#RequestListGrid").data("kendoGrid");
+        gridData.dataSource.filter({});
+    }
+</script>
 
