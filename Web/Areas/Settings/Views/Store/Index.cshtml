@@ -33,7 +33,9 @@
         {
             columns.Bound(p => p.Name);
             columns.Bound(p => p.Number);
-            columns.ForeignKey(m => m.HubID, (IEnumerable)ViewBag.HubID, "HubID", "Name").Title("Hub Name");   
+            columns.ForeignKey(m => m.HubID, (IEnumerable)ViewBag.HubID, "HubID", "Name").Title("Hub Name");
+
+            
             columns.Bound(p => p.IsActive);
             columns.Bound(p => p.IsTemporary);
             columns.Bound(p => p.StackCount);

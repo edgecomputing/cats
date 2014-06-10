@@ -22,7 +22,7 @@ namespace Cats.Models
         public int AccountNumber { get; set; }
         public decimal EstimatedPrice { get; set; }
         public decimal EstimatedTax { get; set; }
-        public int YearPurchased { get; set; }
+        public DateTime YearPurchased { get; set; }
         public int DFundSourceID { get; set; }
         public int DCurrencyID { get; set; }
         public int DBudgetTypeID { get; set; }
