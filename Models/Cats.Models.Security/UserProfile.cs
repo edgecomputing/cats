@@ -14,6 +14,15 @@ namespace Cats.Models.Security
             //this.SessionHistories = new List<SessionHistory>();
             //this.UserHubs = new List<UserHub>();
             //this.UserRoles = new List<UserRole>();
+            //try
+            //{
+            //    this.LanguageCode = this.LanguageCode.ToUpper();
+            //    this.Keyboard = this.Keyboard.ToUpper();
+            //}
+            //catch
+            //{
+            //}
+            
         }
 
         [Key]
