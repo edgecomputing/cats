@@ -8,7 +8,7 @@ namespace Cats.Areas.Procurement.Models
         public string BidNumber { get; set; }
         public string Region { get; set; }
         public string Transporter { get; set; }
-        //public float BidBondAmount { get; set; }
+        public decimal BidBondAmount { get; set; }
         public string Status { get; set; }
         public int OffersCount { get; set; }
         public string EnteredBy { get; set; }
