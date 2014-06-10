@@ -53,7 +53,7 @@
                 dp.displayStyle="popup";
                 
                 $(this).data("eth_date_input", eth_date_input);
-                $(this).css({opacity: 0.5,display:"nones"});
+                $(this).css({opacity: 0.5,display:"none"});
                 
             }
             else

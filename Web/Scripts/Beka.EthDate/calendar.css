@@ -1,0 +1,35 @@
+.calendar_inline select,.calendar_inline .ui-datepicker-next,.calendar_inline .ui-datepicker-prev
+{
+    display:none;
+}
+.calendar_popup .year-month
+{
+    display: none;
+}
+.calendar_inline 
+{
+   display: inline-table;
+}
+.hover
+{
+    border:solid 1px #888;
+}
+.small-calendar .calendar_inline,.medium-calendar .calendar_inline
+{
+     margin-left:10px;
+    margin-top:5px;
+}
+.small-calendar .ui-ethdatepicker 
+{
+    width:250px;
+   
+}
+.medium-calendar .ui-ethdatepicker 
+{
+    width:350px;
+   
+}
+.medium-calendar .ui-datepicker-header
+{
+    height:40px;
+}

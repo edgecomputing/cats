@@ -28,7 +28,7 @@ function init_datepicker(calendar) {
                 .attr("placeholder","mm/dd/yyyy")
                 
 
-        if (calendar == "GC") 
+        if (calendar == "EC") 
         {
             $(".cats-datepicker2").ethcal_datepicker();
         }
