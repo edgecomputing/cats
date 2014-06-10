@@ -11,37 +11,32 @@
 {
     <div class="">
         <div class="span3">
-            <div class="control-group">
-                <div class="control-label">
-                    <label>Region:</label>
-                </div>
-                <div class="controls ">
-                    @Html.DropDownList("RegionID", null, new { @class = "input-large" })
-                </div>
-            </div>
-
-        </div>
-        <div class="span3">
-            <div class="control-group">
-                <div class="control-label">
-                    <label>Program:</label>
-                </div>
-                <div class="controls ">
-                    @Html.DropDownList("ProgramID", null, new { @class = "input-large" })
-                </div>
+            <div class="form-inline">
+                @*<button type="submit" class="btn btn-sm" value="Search"><i class="icon-search"></i></button>*@
+                <input id="search" type="text" class="input-large search-query" placeholder="Search by reference">
             </div>
         </div>
-        <div class="span3">
-            <div class="control-group">
-                <div class="control-label">
-                    <label>Status:</label>
-                </div>
-                <div class="controls ">
-                    @Html.DropDownList("StatusID", null, new { @class = "input-large" })
-                </div>
+        
+        <div class="span9">
+           
+            <div class="input-prepend">
+                <span class="add-on">Region</span>
+                @Html.DropDownList("RegionID", null, new { @class = "" })
             </div>
+            <div class="input-prepend">
+                <span class="add-on">Program</span>
+                @Html.DropDownList("ProgramID", null, new { @class = "" })
+            </div>
+            <div class="input-prepend">
+                <span class="add-on">Status</span>
+                @Html.DropDownList("StatusID", null, new { @class = "" })
+            </div>
+            <div class="input-append">
+               <button type="submit" class="btn btn-sm" value="Search"><i class="icon-search"></i></button>
+            </div>
+               
         </div>
-        <div class="span3">
+        @*<div class="span3">
             <div class="control-group">
                 <div class="control-label">
                     <label>&nbsp;</label>
@@ -51,9 +46,9 @@
                 </div>
             </div>
 
-        </div>
+        </div>*@
         <div style="clear:both;">
         </div>
     </div>
-
+    <hr>
 }
