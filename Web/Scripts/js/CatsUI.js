@@ -3,9 +3,39 @@
    
 
 });
-function init_datepicker() {
-    $(".cats-datepicker2").ethcal_datepicker();
-    
+function init_datepicker(calendar) {
+    calendar = calendar ? calendar : "EC";
+
+        var date = new Date();
+        $(".cats-datepicker2").each(function ()
+            {
+                if ($(this).val())
+                {
+                    date = new Date(Date.parse($(this).val()));
+                }
+                $(this).val(date.toLocaleDateString());
+                $(this).change(function () {
+                    var date2 = new Date(Date.parse($(this).val()));
+                    if (date2.toLocaleDateString() != $(this).val()) {
+                        var today= new Date();
+                        $(this).val(today.toLocaleDateString());
+                        $(this).tooltip('show');
+                    }
+                    console.log("Date Changed", date2);
+                });
+            })
+                .tooltip({ trigger: "hover manual", title: "mm/dd/yyyy" })
+                .attr("placeholder","mm/dd/yyyy")
+                
+
+        if (calendar == "GC") 
+        {
+            $(".cats-datepicker2").ethcal_datepicker();
+        }
+        else 
+        {
+            $(".cats-datepicker2").datepicker();
+        }
 }
 function init_toolbar_button() {
     var button_styles = {

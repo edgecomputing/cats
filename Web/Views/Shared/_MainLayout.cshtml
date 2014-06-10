@@ -265,39 +265,17 @@
     <script src="~/Content/assets/js/bootstrap-datepicker.js"></script>
 
 
-    <script type="text/javascript"></script>
+    <script type="text/javascript">
     @{
         var calendarPreference = Html.UserCalendarPreference();
+      }
+        init_datepicker("@calendarPreference");
 
-
-        if (calendarPreference != "EC")
-        {
-            <script>
-                $(function () {
-                    $(".cats-datepicker2").datepicker();
-                });
-            </script>
-        }
-        else
-        {
-            <script type='text/javascript'>
-                init_datepicker();
-            </script>
-        }
-        <script>
+        
             //Script to generate row number
-            $(function () {
-                var date = new Date();
-                $(".cats-datepicker2").each(function () {
-
-                    if ($(this).val() == "") {
-                        // $(this).val(new Date().toLocaleDateString());
-                    } else {
-                        date = new Date(Date.parse($(this).val()));
-                    }
-                    $(this).val(date.toLocaleDateString());
-                })
-            });
+            /*
+            
+            */
             var rowNumber = 0;
 
             function resetRowNumber(e) {
@@ -311,7 +289,7 @@
         </script>
 
 
-    }
+    
     <script type="text/javascript">
         var datepreferencedisplay = "@Html.Translate(@Html.UserCalendarPreference())";
         var unitpreferencedisplay = "@Html.Translate(@Html.UserUnitPreference())";
