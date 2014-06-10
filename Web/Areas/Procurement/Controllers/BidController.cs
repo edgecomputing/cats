@@ -376,6 +376,7 @@ namespace Cats.Areas.Procurement.Controllers
 
                 return RedirectToAction("Index");
             }
+
             ViewBag.StatusID = new SelectList(_statusService.GetAllStatus(), "StatusID", "Name");
             ViewBag.BidPlanID = bid.TransportBidPlanID;
             ViewBag.TransportBidPlanID = new SelectList(_transportBidPlanService.GetAllTransportBidPlan(), "TransportBidPlanID", "ShortName", bid.TransportBidPlanID);
