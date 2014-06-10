@@ -750,7 +750,7 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Html.GetUserName() <b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             <li><a href="@Url.Action("Preference", "Home", new { Area = "" })">@Html.Translate("Preference")</a></li>
-                            <li><a href="@Url.Action("Administration", "Account")">@Html.Translate("Administration")</a></li>
+                            @*<li><a href="@Url.Action("Administration", "Account")">@Html.Translate("Administration")</a></li>*@
                             <li class="divider"></li>
                             <li><a href="#changePassword" data-toggle="modal">@Html.Translate("Change Password")</a></li>
                             @*<li><a href="@Url.Action("ChangePassword", "Users", new { Area = "Settings" })">@Html.Translate("Change Password")</a></li>*@
