@@ -146,6 +146,10 @@
                             <div class="k-grid-header" style="padding-right: 17px; display:none;">
                                 <div class="k-grid-header-wrap">
                                     <table cellspacing="0" role="grid">
+                                        <tr>
+
+                                      @* Search    : <input type="search" data-field="Search"/>*@
+                                            </tr>
                                         <colgroup><col><col><col><col><col><col><col><col><col><col></colgroup>
                                         <thead>
                                             <tr>
@@ -236,6 +240,9 @@
                                             </tr>
                                         </thead>
                                     <tbody>
+                                        <tr>
+                                            <td colspan="12" class="GetGINsWithoutGRNMessage" style="font-size: x-large;color: hotpink"></td>
+                                        </tr>
                                         <tr ng-repeat="item in GetGINsWithoutGRN">
                                             <td><a data-dispatchID ="{{item.DispatchID}}" style="cursor:pointer;" data-ng-click="loadGRNPartial(item.DispatchID)">{{item.GIN}}</a></td>
                                             <td>{{item.RequisitionNo}}</td>
@@ -350,6 +357,9 @@
                                         </thead>
 
                                     <tbody>
+                                        <tr>
+                                            <td colspan="12" class="GetGINsWithGRNMessage" style="font-size: x-large;color: hotpink"></td>
+                                        </tr>
                                         <tr ng-repeat="item in GetGINsWithGRN">
                                             <td>
                                                 <a class="clickableLoader" style="cursor:pointer;" data-ng-click="loadGRNPartial(item.DispatchID)">{{item.GIN}}</a>
@@ -468,6 +478,9 @@
 
                                     <tbody>
                                         @*<tr role="row" data-uid="fc1fa826-1d46-4983-80a4-b7dc0ec37c27" class="alert-danger">*@
+                                        <tr>
+                                            <td colspan="12" class="DeliveryNotesMessage" style="font-size: x-large;color: hotpink"></td>
+                                        </tr>
                                         <tr role="row" data-ng-repeat="item in DeliveryNotes">
                                             <td>
                                                 <a class="clickableLoader" style="cursor:pointer;" data-ng-click="loadGRNPartial(item.DispatchID)">{{item.InvoiceNo}}</a>
@@ -619,6 +632,19 @@
                     </div>
                 </div>
                 <div class="row">
+                    <div class="span7">
+                        <div class="control-group">
+                            <div class="control-label">
+                                <label for="DistributionViewModel_DiffrenceQuantity">Diffrence Qty.</label>
+                            </div>
+                            <div class="controls">
+                               <label for="DistributionViewModel_DiffrenceQuantity">{{GRNDetail.SentQuantity - GRNDetail.ReceivedQuantity}} </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
                     <div class="span6">
                         <div class="control-group">
                             <div class="control-label">
@@ -707,18 +733,27 @@
                             
                         }).success(function(result) {
                             $scope.GetGINsWithGRN = result;
+                            if(result=="") {
+                                $(".GetGINsWithGRNMessage").html("No delivered Dispatch was found!");
+                            }
                         });
                         $http({
                             method: 'GET',
                             url: rootDir + 'Delivery/GetGINsWithoutGRN/' + @ViewBag.TransportOrderId
                         }).success(function(result) {
                             $scope.GetGINsWithoutGRN = result;
+                            if(result=="") {
+                                $(".GetGINsWithoutGRNMessage").html("No undelivered Dispatch was found!");
+                            }
                         });
                         $http({
                             method: 'GET',
                             url: rootDir + 'Delivery/ReadDeliveryNotesDiscripancy/' + @ViewBag.TransportOrderId
                         }).success(function(result) {
                             $scope.DeliveryNotes = result;
+                            if(result=="") {
+                                $(".DeliveryNotesMessage").html("No Received Dispatch with descripancy was found!");
+                            }
                         });
                     }).
                     error(function(data, status, headers, config) {
@@ -741,6 +776,9 @@
 
         }).success(function (result) {
             $scope.GetGINsWithGRN = result;
+            if(result=="") {
+                $(".GetGINsWithGRNMessage").html("No delivered Dispatch was found!");
+            }
         });
 
 
@@ -750,6 +788,9 @@
 
         }).success(function (result) {
             $scope.GetGINsWithoutGRN = result;
+            if(result=="") {
+                $(".GetGINsWithoutGRNMessage").html("No undelivered Dispatch was found!");
+            }
         });
 
         $http({
@@ -758,6 +799,9 @@
 
         }).success(function (result) {
             $scope.DeliveryNotes = result;
+            if(result=="") {
+                $(".DeliveryNotesMessage").html("No Received Dispatch with descripancy was found!");
+            }
         });
         
     });

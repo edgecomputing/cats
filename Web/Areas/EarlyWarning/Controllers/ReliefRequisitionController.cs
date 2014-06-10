@@ -227,8 +227,13 @@ namespace Cats.Areas.EarlyWarning.Controllers
         }
 
         [HttpGet]
-        public ActionResult Allocation(int id)
+        public ActionResult Allocation(int? id)
         {
+            if (id == null)
+            {
+                return Redirect(Url.Action("Index", "ReliefRequisition"));
+            }
+
             var requisition =
                 _reliefRequisitionService.Get(t => t.RequisitionID == id, null, "ReliefRequisitionDetails").
                     FirstOrDefault();

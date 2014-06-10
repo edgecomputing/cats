@@ -180,6 +180,9 @@ namespace Cats.Areas.Hub.Controllers
             {
                 UserProfile user = _userProfileService.GetUser(User.Identity.Name);
                 List<ReceiptAllocation> list = _receiptAllocationService.GetUnclosedAllocationsDetached(user.DefaultHub.HubID, type, closedToo, user.PreferedWeightMeasurment, CommodityType);
+                //newly added
+                list = list.Where(t => t.CommoditySourceID == type).ToList();
+                //newly added
                 var listViewModel = BindReceiptAllocationViewModels(list);
                 return View(new GridModel(listViewModel));
             }
@@ -210,7 +213,7 @@ namespace Cats.Areas.Hub.Controllers
                         UnitID = receiptAllocation.UnitID,
                         QuantityInUnit = receiptAllocation.QuantityInUnit ?? 0,
                         QuantityInMT = receiptAllocation.QuantityInMT,
-                        RemainingBalanceInMT = receiptAllocation.RemainingBalanceInMt,
+                        RemainingBalanceInMT = receiptAllocation.RemainingBalanceInMT,
                         ReceivedQuantityInMT = receiptAllocation.ReceivedQuantityInMT,
                         DonorID = receiptAllocation.DonorID,
                         ProgramID = receiptAllocation.ProgramID,

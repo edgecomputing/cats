@@ -313,7 +313,7 @@ namespace Cats.Services.Hub
                 
                // int si = _unitOfWork.ShippingInstructionRepository.Get(s=>s.ShippingInstructionID == receiptAllocation.si
                 int si = _ShippingInstructionService.GetShipingInstructionId(receiptAllocation.SINumber);
-                receiptAllocation.RemainingBalanceInMt = receiptAllocation.QuantityInMT -
+                receiptAllocation.RemainingBalanceInMT = receiptAllocation.QuantityInMT -
                                                           GetReceivedAlready(
                                                           receiptAllocation);
                 receiptAllocation.CommodityName = receiptAllocation.Commodity.Name;
@@ -330,7 +330,7 @@ namespace Cats.Services.Hub
                 if (weightMeasurmentCode == "qn")
                 {
                     receiptAllocation.QuantityInMT *= 10;
-                    receiptAllocation.RemainingBalanceInMt *= 10;
+                    receiptAllocation.RemainingBalanceInMT *= 10;
                     receiptAllocation.ReceivedQuantityInMT *= 10;
                 }
                 //modified Banty:24_5_2013 from db.Detach to ((IObjectContextAdapter)db).ObjectContext.Detach

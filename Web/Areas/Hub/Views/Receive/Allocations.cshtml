@@ -99,7 +99,7 @@
         col.Bound(dis => dis.QuantityInUnit).Title(Html.Translate("Allocated Quantiy In Unit")).Format("{0:N3}");
         col.Bound(dis => dis.ReceivedQuantityInMT).Title(Html.Translate("Received in " + quanityColumnHeader)).Format("{0:N3}").HtmlAttributes(new { align = "right" });
         col.Bound(dis => dis.ReceivedQuantityInUnit).Title(Html.Translate("Received in Unit")).Format("{0:N3}").HtmlAttributes(new { align = "right" });
-        col.Bound(dis => dis.RemainingBalanceInMt).Title(Html.Translate("Remaining in "+ quanityColumnHeader)).Format("{0:N3}").HtmlAttributes(new { align = "right" });
+        col.Bound(dis => dis.RemainingBalanceInMT).Title(Html.Translate("Remaining in "+ quanityColumnHeader)).Format("{0:N3}").HtmlAttributes(new { align = "right" });
         col.Bound(dis => dis.RemainingBalanceInUnit).Title(Html.Translate("Remaining in Unit")).Format("{0:N3}").HtmlAttributes(new { align = "right" });
         col.Bound(dis => dis.IsClosed).Hidden(true).ClientTemplate("<input type='checkbox' disabled='disabled' name='closed' <#= IsClosed?\"checked='checked'\" : \"\" #> />");
         //col.Template(@<text></text>)

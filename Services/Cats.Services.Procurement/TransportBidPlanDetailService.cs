@@ -70,6 +70,14 @@ namespace Cats.Services.Procurement
             return _unitOfWork.TransportBidPlanDetailRepository.FindBy(predicate);
 
         }
+
+        public IEnumerable<TransportBidPlanDetail> Get(System.Linq.Expressions.Expression<Func<TransportBidPlanDetail, bool>> filter = null,
+                                    Func<IQueryable<TransportBidPlanDetail>, IOrderedQueryable<TransportBidPlanDetail>> orderBy = null,
+                                    string includeProperties = "")
+        {
+            return _unitOfWork.TransportBidPlanDetailRepository.Get(filter, orderBy, includeProperties);
+        }
+
         public double GetRegionPlanTotal(int bidplanid, int regionId, int programId)
         {
             List<TransportBidPlanDetail> bidDetails = this.GetAllTransportBidPlanDetail();

@@ -140,10 +140,14 @@
                                 <thead>
                                     <tr>
                                         @foreach (System.Data.DataColumn col in Model.Columns)
+
                                             {
                                                  if(col.IsNumeric()){
+
                                                         <th class="number">@col.Caption </th>
-                                                  }else{
+                                                  }
+                                                  else
+                                                  {
                                                         <th>@col.Caption </th>
                                                   }
                                             }

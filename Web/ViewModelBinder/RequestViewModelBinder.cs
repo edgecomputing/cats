@@ -116,7 +116,7 @@ namespace Cats.ViewModelBinder
 
             //var requestdetail = requestDetails.FirstOrDefault();
 
-            if (woredaRequestDetail.Count != 0)
+            if (woredaRequestDetail != null && woredaRequestDetail.Count != 0)
             {
                 var requestdetail = woredaRequestDetail.FirstOrDefault().RegionalRequestDetails.FirstOrDefault();
 

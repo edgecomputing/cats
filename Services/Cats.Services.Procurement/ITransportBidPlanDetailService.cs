@@ -21,6 +21,10 @@ namespace Cats.Services.Procurement
         List<TransportBidPlanDetail> GetAllTransportBidPlanDetail();
         List<TransportBidPlanDetail> FindBy(Expression<Func<TransportBidPlanDetail, bool>> predicate);
 
+        IEnumerable<TransportBidPlanDetail> Get(
+            System.Linq.Expressions.Expression<Func<TransportBidPlanDetail, bool>> filter = null,
+            Func<IQueryable<TransportBidPlanDetail>, IOrderedQueryable<TransportBidPlanDetail>> orderBy = null,
+            string includeProperties = "");
         double GetRegionPlanTotal(int bidplanid, int regionId, int programId);
         decimal GetHrdCommodityAmount(int woredaID);
         List<PSNPCommodityAmmountViewModel> GetPsnpCommodityAmount();

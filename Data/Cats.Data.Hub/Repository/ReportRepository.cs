@@ -248,7 +248,6 @@ namespace Cats.Data.Hub.Repository
                      select new BinCardReport()
                         {
                             Transporter = each.Transporter,
-                            TransporterAM = each.TransporterAM,
                             DriverName = each.DriverName,
                             PlateNoPrime = each.PlateNoPrime,
                             Date = each.Date,

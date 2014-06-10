@@ -15,11 +15,11 @@ namespace Cats.Filters
             Translator.CurrentLanguage = Translator.defaultLanguage ?? "en";
             try
             {
-                UserIdentity user = (UserIdentity)HttpContext.Current.User.Identity;
-                if (user != null)
-                {
-                    Translator.CurrentLanguage = user.Profile.LanguageCode;
-                }
+                //UserIdentity user = (UserIdentity)HttpContext.Current.User.Identity;
+                //if (user != null)
+                //{
+                //    Translator.CurrentLanguage = user.Profile.LanguageCode;
+                //}
             }
             catch(Exception e){}
         }
