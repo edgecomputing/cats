@@ -64,6 +64,7 @@ namespace Cats.Areas.Procurement.Controllers
 
         public FileResult Print(int bidID, int regionID)
         {
+            var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
             var reportPath = Server.MapPath("~/Report/Procurment/RFQ.rdlc");
             
             var bid = _bidService.FindById(bidID);
@@ -74,18 +75,37 @@ namespace Cats.Areas.Procurement.Controllers
 
             List<TransportBidPlanDetail> regionalPlan = _transportBidPlanDetailService.FindBy(t => t.BidPlanID == planID && t.Destination.AdminUnit2.AdminUnit2.AdminUnitID == regionID);
 
-            var r = (from transportBidPlanDetail in regionalPlan 
-                     select new
+            var rfqDetail = (from transportBidPlanDetail in regionalPlan
+                     select new RfqPrintViewModel
                          {
-                             Source=transportBidPlanDetail.Source.Name,
+                             Source = transportBidPlanDetail.Source.Name,
                              Zone = transportBidPlanDetail.Destination.AdminUnit2.Name,
                              Woreda = transportBidPlanDetail.Destination.Name,
                              Region = transportBidPlanDetail.Destination.AdminUnit2.AdminUnit2.Name,
-                             BidReference = bid.BidNumber
+                             BidReference = bid.BidNumber,
+                             ProgramID = transportBidPlanDetail.ProgramID,
+                             Quantity = transportBidPlanDetail.Quantity/100,
+                             BidOpeningdate = bid.OpeningDate.ToCTSPreferedDateFormat(datePref),
                          }
-                    );
-
-            var reportData = r;
+                    ).Where(m=>m.Quantity>0)
+                   .GroupBy(ac => new
+                   {
+                       ac.Woreda,
+                       ac.Source,
+                       ac.Region,
+                       ac.Zone
+                   })
+                    .Select(ac => new RfqPrintViewModel
+                    {
+                        Source = ac.Key.Source,
+                        Zone = ac.Key.Zone,
+                        Woreda = ac.Key.Woreda,
+                        Region = ac.Key.Region,
+                        BidReference = bid.BidNumber,
+                        Quantity = ac.Sum(m=>m.Quantity),
+                        BidOpeningdate = bid.OpeningDate.ToCTSPreferedDateFormat(datePref),
+                    });
+            var reportData = rfqDetail;
 
             var dataSourceName = "RFQDataset";
             var result = ReportHelper.PrintReport(reportPath, reportData, dataSourceName);
@@ -129,7 +149,9 @@ namespace Cats.Areas.Procurement.Controllers
                                            SourceWarehouse = rg.Source.Name,
                                            DestinationZone = rg.Destination.AdminUnit2.Name,
                                            RegionName = rg.Destination.AdminUnit2.AdminUnit2.Name,
-                                           DestinationWoreda = rg.Destination.Name
+                                           DestinationWoreda = rg.Destination.Name,
+                                           Quantity = rg.Quantity/100  // since qunital is required
+                                           
                                        })
 
             .GroupBy(rg => new { rg.SourceWarehouse, rg.DestinationZone, rg.DestinationWoreda })
@@ -141,6 +163,7 @@ namespace Cats.Areas.Procurement.Controllers
             
             ViewBag.BidPlan = bidPlan;
             ViewBag.region = RegionID;
+            ViewBag.total = regionPlanDistinct.Sum(m => m.Quantity);
            // ViewBag.regionName= 
             return View(bidPlan);
         }
@@ -166,7 +189,8 @@ namespace Cats.Areas.Procurement.Controllers
                                           SourceWarehouse = rg.Source.Name,
                                           DestinationZone = rg.Destination.AdminUnit2.Name,
                                           RegionName = rg.Destination.AdminUnit2.AdminUnit2.Name,
-                                          DestinationWoreda = rg.Destination.Name
+                                          DestinationWoreda = rg.Destination.Name,
+                                          Quantity = rg.Quantity
                                       })
 
              .GroupBy(rg => new { rg.SourceWarehouse, rg.DestinationZone, rg.DestinationWoreda })
