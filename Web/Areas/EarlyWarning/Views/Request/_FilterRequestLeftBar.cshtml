@@ -8,26 +8,27 @@
 @using (Html.BeginForm())
 {
     <div class="container row-fluid">
-
         <div class="span3">
-            <div>
-                <div class="input-prepend">
-                    <span class="add-on">End</span>
-                    @Html.TextBoxFor(m => m.DateFrom, new { @class = "cats-datepicker2  input-small", @type = "text" })
-                </div>
-                to
-                <div class="input-prepend">
-                    <span class="add-on">Start</span>
-                    @Html.TextBoxFor(m => m.DateTo, new { @class = "cats-datepicker2  input-small", @type = "text" })
-                </div>
-               
+            <div class="form-inline">
+                <input id="search" type="text" class="input-large search-query" placeholder="Search by Reference Number ">
             </div>
         </div>
 
-        <div class="span5">
+        <div class="span8">
+
             <div class="input-prepend">
+                <span class="add-on">Start</span>
+                @Html.TextBoxFor(m => m.DateFrom, new { @class = "cats-datepicker2  input-small", @type = "text" })
+            </div>
+            to
+            <div class="input-append">
+                @Html.TextBoxFor(m => m.DateTo, new { @class = "cats-datepicker2  input-small", @type = "text" })
+                <span class="add-on">End</span>
+            </div>
+            
+            <div class="input-prepend " style="margin-right: 5px">
                 <span class="add-on">Region</span>
-                @Html.DropDownList("RegionID", null, new { @class = "input-small" })
+                @Html.DropDownList("RegionID", null, new { @class = "input-medium" })
             </div>
             <div class="input-prepend">
                 <span class="add-on">Program</span>
@@ -37,14 +38,13 @@
                 <span class="add-on">Status</span>
                 @Html.DropDownList("StatusID", null, new { @class = "input-small" })
             </div>
+            <div class="input-append">
+                <button type="submit" class="btn btn-sm" value="Search"><i class="icon-search"></i></button>
+            </div>
+
         </div>
 
-        <div class="span3">
-            <div class="form-inline">
-                <button type="submit" class="btn btn-sm" value="Search"><i class="icon-search"></i></button>
-                <input id="search" type="text" class="input-medium search-query" placeholder="Search ">
-            </div>
-        </div>
+
 
         @*<div style="clear:both;">
 
