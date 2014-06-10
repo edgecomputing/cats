@@ -47,7 +47,7 @@ namespace Cats.ViewModelBinder
             {
                 giftCertificateViewModel.GiftCertificateDetails =
                      BindListOfGiftCertificateDetailsViewModel(
-                         giftCertificateModel.GiftCertificateDetails.ToList());
+                         giftCertificateModel.GiftCertificateDetails.ToList(),userPrefrence);
             }
 
 
@@ -119,7 +119,7 @@ namespace Cats.ViewModelBinder
             model.GiftCertificateDetailID = giftCertificateDetail.GiftCertificateDetailID;
             model.CommodityID = giftCertificateDetail.CommodityID;
             model.BillOfLoading = giftCertificateDetail.BillOfLoading;
-            model.YearPurchased = giftCertificateDetail.YearPurchased.ToCTSPreferedDateFormat(pref);
+            model.YearPurchased = giftCertificateDetail.YearPurchased;//.ToCTSPreferedDateFormat(pref);
             model.AccountNumber = giftCertificateDetail.AccountNumber;
             model.WeightInMT = giftCertificateDetail.WeightInMT;
             model.EstimatedPrice = giftCertificateDetail.EstimatedPrice;
@@ -131,14 +131,22 @@ namespace Cats.ViewModelBinder
             model.FundSource = giftCertificateDetail.Detail.Name;
             model.CommodityName = giftCertificateDetail.Commodity.Name;
             model.ExpiryDate = giftCertificateDetail.ExpiryDate;
+            model.YearPurchasedPrefered = giftCertificateDetail.YearPurchased.ToCTSPreferedDateFormat(pref);
 
             return model;
         }
 
         public static List<GiftCertificateDetailsViewModel> BindListOfGiftCertificateDetailsViewModel(List<GiftCertificateDetail> giftCertificateDetails,string pref)
         {
+            var s = new List<GiftCertificateDetailsViewModel>();
+            foreach (var giftCertificateDetail in giftCertificateDetails)
+            {
+                s.Add(BindGiftCertificateDetailsViewModel(giftCertificateDetail,pref));
+            }
             //return giftCertificateDetails.Select(BindGiftCertificateDetailsViewModel).ToList();
-            return giftCertificateDetails.Select(giftCertificateDetail => BindGiftCertificateDetailsViewModel(giftCertificateDetail, pref)).ToList();
+            return s;
         }
+
+        
     }
 }
