@@ -160,7 +160,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                             HRDID = hrd.HRDID,
                             Season = hrd.Season.Name,
                             Year = hrd.Year,
-                            Ration = "",// hrd.Ration.RefrenceNumber,
+                            Ration = hrd.Ration.RefrenceNumber,
                             CreatedDate = hrd.CreatedDate,
                             CreatedBy = hrd.UserProfile.FirstName + " " + hrd.UserProfile.LastName,
                             PublishedDate = hrd.PublishedDate,
