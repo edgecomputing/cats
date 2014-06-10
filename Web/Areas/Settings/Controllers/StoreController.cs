@@ -45,7 +45,7 @@ namespace Cats.Areas.Settings.Controllers
                        Number = stores.Number,
                        Name = stores.Name,
                        HubID = stores.HubID,
-                       HubName = stores.Hub.Name,
+                       HubName = stores.Hub.HubNameWithOwner,
                        IsActive = stores.IsActive,
                        IsTemporary = stores.IsTemporary,
                        StackCount = stores.StackCount,
