@@ -345,9 +345,9 @@ namespace Cats.Areas.Procurement.Controllers
         public ActionResult Create(Bid bid)
         {
 
-            if (!IsBidMadeForThisForRegion(bid.RegionID,bid.BidNumber))
+            if (!IsBidMadeForThisRegion(bid.RegionID, bid.TransportBidPlanID))
             {
-                ModelState.AddModelError("Error","This Region is already registered with this Bid No. Please choose another Region!");
+                ModelState.AddModelError("Errors","This Region is already registered with this Bid Plan. Please choose another Region or Plan!");
                 ViewBag.StatusID = new SelectList(_statusService.GetAllStatus(), "StatusID", "Name");
                 ViewBag.BidPlanID = bid.TransportBidPlanID;
                 ViewBag.TransportBidPlanID = new SelectList(_transportBidPlanService.GetAllTransportBidPlan(), "TransportBidPlanID", "ShortName", bid.TransportBidPlanID);
@@ -387,9 +387,9 @@ namespace Cats.Areas.Procurement.Controllers
         }
 
 
-        private  Boolean IsBidMadeForThisForRegion(int regionId,string BidNo)
+        private  Boolean IsBidMadeForThisRegion(int regionId,int bidPlanId)
         {
-            var bidForThisRegion = _bidService.FindBy(b => b.RegionID == regionId && b.BidNumber == BidNo).ToList();
+            var bidForThisRegion = _bidService.FindBy(b => b.RegionID == regionId && b.TransportBidPlanID == bidPlanId).ToList();
             if (bidForThisRegion.Count > 0)
             {
                 return false;
@@ -464,7 +464,7 @@ namespace Cats.Areas.Procurement.Controllers
             ViewBag.StatusID = new SelectList(_statusService.GetAllStatus(), "StatusID", "Name", bid.StatusID);
             ViewBag.TransportBidPlanID = new SelectList(_transportBidPlanService.GetAllTransportBidPlan(),
                                                         "TransportBidPlanID", "ShortName", bid.TransportBidPlanID);
-            ViewBag.RegionID = new SelectList(_adminUnitService.GetRegions(), "AdminUnitID", "Name");
+            ViewBag.RegionID = new SelectList(_adminUnitService.GetRegions(), "AdminUnitID", "Name",bid.RegionID);
             return View(bid);
         }
         [HttpPost]
