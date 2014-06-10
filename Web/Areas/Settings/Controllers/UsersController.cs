@@ -435,18 +435,7 @@ namespace Cats.Areas.Settings.Controllers
                 return Json(TempData, JsonRequestBehavior.AllowGet);
             }
             return Json(TempData, JsonRequestBehavior.AllowGet);
-            /*
-            var urlReferrer = this.Request.UrlReferrer;
-            if (urlReferrer == null)
-            {
-                Session.Clear();
-                FormsAuthentication.SignOut();
-                return RedirectToAction("Index", "Home");
-            }
-            var url = urlReferrer.AbsolutePath;
-            ModelState.AddModelError("Sucess", @"Password Successfully Changed.");
-            return Redirect(url);
-            */
+
         }
 
         //public ActionResult ChangePasswordSuccess()
