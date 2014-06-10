@@ -33,7 +33,7 @@ namespace Cats.Areas.Settings.Controllers
 
         public ActionResult UsersList([DataSourceRequest] DataSourceRequest request)
         {
-            var users = _userService.GetUsers();
+            var users = _userService.GetUsers().OrderBy(m=>m.UserName);
             return Json(users.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
 
@@ -210,7 +210,7 @@ namespace Cats.Areas.Settings.Controllers
 
         public JsonResult GetUsers()
         {
-            var users = _userService.GetAll();
+            var users = _userService.GetAll().OrderBy(m=>m.UserName);
             return Json(users.ToList(), JsonRequestBehavior.AllowGet);
         }
 
