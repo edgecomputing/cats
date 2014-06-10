@@ -364,12 +364,11 @@ namespace Cats.Areas.Procurement.Controllers
                 var bidDetails = (from detail in regions
                                   select new BidDetail()
                                       {
-                                         
                                           AmountForReliefProgram = (decimal)_transportBidPlanDetailService.GetRegionPlanTotal(bid.TransportBidPlanID, detail.AdminUnitID, 1),
                                           AmountForPSNPProgram = (decimal)_transportBidPlanDetailService.GetRegionPlanTotal(bid.TransportBidPlanID, detail.AdminUnitID, 2),
                                           BidDocumentPrice = 0,
                                           CPO = 0,
-
+                                          RegionID = bid.RegionID
                                       }).ToList();
                 bid.BidDetails = bidDetails;
                 bid.RegionID = bid.RegionID;
