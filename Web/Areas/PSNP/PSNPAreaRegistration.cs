@@ -14,6 +14,10 @@ namespace Cats.Areas.PSNP
 
         public override void RegisterArea(AreaRegistrationContext context)
         {
+            context.MapRoute("PSNP_Request",
+                "PSNP/Request/",
+                new { action = "Index", area = "EarlyWarning", controller = "Request", id = UrlParameter.Optional });
+
             context.MapRoute(
                  "PSNP_default",
                  "PSNP/{controller}/{action}/{id}",
@@ -26,12 +30,18 @@ namespace Cats.Areas.PSNP
                 defaults:  new { controller="Home", action="Index"},
                 namespaces:  new []{"Cats.Areas.PSNP.Controllers"} 
                 );
+            
             context.MapRoute(
-                name: "PSNP_Request",
+                name: "PSNP_Request2",
                 url: "PSNP/Request/",
-                defaults: new { controller = "Request", action = "Index" },
+                defaults: new { area = "EarlyWarning", controller = "Request", action = "Index" },
                 namespaces: new[] { "Cats.Areas.EarlyWarning.Controllers" }
                 );
+            
+
+            
+
+
         }
     }
 }
