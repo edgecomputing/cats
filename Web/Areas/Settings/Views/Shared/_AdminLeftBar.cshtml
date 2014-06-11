@@ -89,7 +89,7 @@
             <a href="@Url.Action("Index","HubOwner")"><i class="icon-folder-open"></i> Hub Owners</a>
         </li>
         <li id="Store">
-            <a href="@Url.Action("Index","Store")"><i class="icon-folder-open"></i>Stores</a>
+            <a href="@Url.Action("Index","Store")?Grid-Group=HubName-acs"><i class="icon-folder-open"></i>Stores</a>
         </li>
         
 
@@ -102,7 +102,7 @@
             <a href="@Url.Action("Index","CommodityType")"><i class="icon-check"></i>Commodity Type</a>
         </li>
         <li id="Commodity">
-            <a href="@Url.Action("Index","Commodity")"><i class="icon-check"></i>Commodity</a>
+            <a href="@Url.Action("Index","Commodity")?Grid-Group=CommodityTypeID-asc~ParentID-asc"><i class="icon-check"></i>Commodity</a>
         </li>
         <li id="CommodityGrade">
             <a href="@Url.Action("Index","CommodityGrade")"><i class="icon-check"></i>Commodity Grade</a>

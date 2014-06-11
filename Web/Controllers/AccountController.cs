@@ -42,6 +42,113 @@ namespace Cats.Controllers
             ViewBag.returnUrl = returnUrl;
             return View();
         }
+        [HttpGet]
+        [AllowAnonymous]
+        public ActionResult Login2(string returnUrl, string UserName, string Password)
+        {
+            LoginModel model = new LoginModel { UserName = UserName, Password = Password };
+            ViewBag.HasError = false;
+            ViewBag.returnUrl = returnUrl;
+
+            // Create logger instance to record activities
+            var log = new Logger();
+
+            try
+            {
+                if (_userAccountService.Authenticate(model.UserName, model.Password))
+                {
+                    FormsAuthentication.SetAuthCookie(model.UserName,true);
+
+                    // Will be refactored                              
+                    var user = _userAccountService.GetUserDetail(model.UserName);
+                    user.LogginDate = DateTime.Now;
+                    user.NumberOfLogins += 1;
+                    // Session["USER_PROFILE"] = user;
+                    _userAccountService.UpdateUser(user);
+
+                    // Add user information to session variable to avoid frequent trip to the databas
+                    var service = (IUserAccountService)DependencyResolver.Current.GetService(typeof(IUserAccountService));
+                    var userInfo = service.GetUserInfo(model.UserName);
+                    Session["USER_INFO"] = userInfo;
+                    Session["USER_PROFILE"] = service.GetUserDetail(model.UserName);
+
+                    // Before trying to go and look for user permissions, check if the user is logged in or not
+                    
+                    //// Load user permissions
+                    IAzManStorage storage = new SqlAzManStorage(ConfigurationManager.ConnectionStrings["CatsContext"].ConnectionString);
+                    IAzManDBUser dbUser = storage.GetDBUser(user.UserName);
+
+                    // Early Warning user permissions
+                    UserPermissionCache earlyWarningPermissionCache = new UserPermissionCache(storage, CatsGlobals.CATS, CatsGlobals.EARLY_WARNING, dbUser, true, false);
+                    Session[CatsGlobals.EARLY_WARNING_PERMISSIONS] = earlyWarningPermissionCache;
+
+
+                    //PSNP user permission
+                    UserPermissionCache psnpPermissionCache = new UserPermissionCache(storage, CatsGlobals.CATS, CatsGlobals.PSNP, dbUser, true, false);
+                    Session[CatsGlobals.PSNP_PERMISSIONS] = psnpPermissionCache;
+
+                    // Logistics user permissions
+                    UserPermissionCache logisticsPermissionCache = new UserPermissionCache(storage, CatsGlobals.CATS, CatsGlobals.LOGISTICS, dbUser, true, false);
+                    Session[CatsGlobals.LOGISTICS_PERMISSIONS] = logisticsPermissionCache;
+
+                    // Procurement user permissions
+                    UserPermissionCache procurementPermissionCache = new UserPermissionCache(storage, CatsGlobals.CATS, CatsGlobals.PROCUREMENT, dbUser, true, false);
+                    Session[CatsGlobals.PROCUREMENT_PERMISSIONS] = procurementPermissionCache;
+
+                    // Hub user permissions
+                    UserPermissionCache hubPermissionCache = new UserPermissionCache(storage, CatsGlobals.CATS, CatsGlobals.HUB, dbUser, true, false);
+                    Session[CatsGlobals.HUB_PERMISSIONS] = hubPermissionCache;
+
+                    // Regional user permissions
+                    UserPermissionCache regionalPermissionCache = new UserPermissionCache(storage, CatsGlobals.CATS, CatsGlobals.REGION, dbUser, true, false);
+                    Session[CatsGlobals.REGION_PERMISSIONS] = regionalPermissionCache;
+
+                    // Regional user permissions
+                    UserPermissionCache financePermissionCache = new UserPermissionCache(storage, CatsGlobals.CATS, CatsGlobals.FINANCE, dbUser, true, false);
+                    Session[CatsGlobals.FINANCE_PERMISSIONS] = financePermissionCache;
+                    // Whatever permission we are going to have!
+                    _log.Info("Logged in User: " + user.UserName);
+                    // TODO: Review user permission code
+                    //string[] authorization = service.GetUserPermissions(service.GetUserInfo(model.UserName).UserAccountId, "Administrator", "Manage User Account");
+                    //service.GetUserPermissions(model.UserName, "CATS", "Finance");
+                    return RedirectToLocal(returnUrl);
+                }
+            }
+            catch (UserNotFoundException unfe)
+            {
+                log.LogAllErrorsMesseges(unfe, _log);
+                ViewBag.HasError = true;
+                ViewBag.Error = unfe.ToString();
+                ViewBag.ErrorMessage = "Your user name is not registered as a user on CATS. Please contact your system administrator.";
+            }
+            catch (DisabledUserException due)
+            {
+                log.LogAllErrorsMesseges(due, _log);
+                ViewBag.HasError = true;
+                ViewBag.Error = due.ToString();
+                ViewBag.ErrorMessage = "Your user account is disabled. Please contact your system administrator.";
+            }
+            catch (UnmatchingUsernameAndPasswordException uuape)
+            {
+                log.LogAllErrorsMesseges(uuape, _log);
+                ViewBag.HasError = true;
+                ViewBag.Error = uuape.ToString();
+                ViewBag.ErrorMessage = "The user name and password you provided do not match. Please try again with a correct combination.";
+            }
+            catch (Exception exception)
+            {
+                log.LogAllErrorsMesseges(exception, _log);
+
+                ViewBag.HasError = true;
+                ViewBag.Error = exception.ToString();
+                ViewBag.ErrorMessage = "Login failed. Try logging in with the right user name and password.";
+
+                ModelState.AddModelError("", exception.Message);
+            }
+            //ViewBag.HasError = false;
+            // If we got this far, something failed, redisplay form            
+            return View();
+        }
 
         [HttpPost]
         [AllowAnonymous]
