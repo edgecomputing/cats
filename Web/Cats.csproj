@@ -1705,6 +1705,7 @@
     <Content Include="Areas\Procurement\Views\Transporter\Copy of Edit.cshtml" />
     <Content Include="Areas\Procurement\Views\Transporter\Copy of Create.cshtml" />
     <Content Include="Areas\Settings\Views\Account\Login.cshtml" />
+    <Content Include="Areas\WorkflowManager\Views\ProcessTemplate\Print.cshtml" />
     <None Include="dataset.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>dataset.Designer.cs</LastGenOutput>
