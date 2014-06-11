@@ -26,6 +26,12 @@ namespace Cats.Areas.PSNP
                 defaults:  new { controller="Home", action="Index"},
                 namespaces:  new []{"Cats.Areas.PSNP.Controllers"} 
                 );
+            context.MapRoute(
+                name: "PSNP_Request",
+                url: "PSNP/Request/",
+                defaults: new { controller = "Request", action = "Index" },
+                namespaces: new[] { "Cats.Areas.EarlyWarning.Controllers" }
+                );
         }
     }
 }
