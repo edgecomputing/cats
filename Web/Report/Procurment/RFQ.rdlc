@@ -531,7 +531,7 @@
                             <TextRun>
                               <Value>=Fields!Quantity.Value</Value>
                               <Style>
-                                <Format>0;(0)</Format>
+                                <Format>#,0;(#,0)</Format>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -699,7 +699,7 @@
                               <Value>=Sum(Fields!Quantity.Value)</Value>
                               <Style>
                                 <FontWeight>Bold</FontWeight>
-                                <Format>0;(0)</Format>
+                                <Format>#,0;(#,0)</Format>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -869,7 +869,7 @@
                               <Value>=Sum(Fields!Quantity.Value)</Value>
                               <Style>
                                 <FontWeight>Bold</FontWeight>
-                                <Format>0;(0)</Format>
+                                <Format>#,0;(#,0)</Format>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -1188,7 +1188,7 @@
         <Top>2.80605in</Top>
         <Left>0.43457in</Left>
         <Height>1.34375in</Height>
-        <Width>6.73862in</Width>
+        <Width>6.73861in</Width>
         <ZIndex>2</ZIndex>
         <Style>
           <Border>
@@ -1666,10 +1666,10 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox78</rd:DefaultName>
-            <Top>0.41667in</Top>
-            <Left>0.125in</Left>
+            <Top>0.41319in</Top>
+            <Left>0.13541in</Left>
             <Height>0.25in</Height>
-            <Width>3.91106in</Width>
+            <Width>3.41358in</Width>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -1698,7 +1698,7 @@
             <Top>0.77083in</Top>
             <Left>0.11149in</Left>
             <Height>0.25in</Height>
-            <Width>3.92457in</Width>
+            <Width>3.4375in</Width>
             <ZIndex>1</ZIndex>
             <Style>
               <Border>
@@ -1777,8 +1777,11 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>=Sum(Fields!ReliefAmount.Value)</Value>
-                    <Style />
+                    <Value>=Fields!ReliefAmount.Value</Value>
+                    <Style>
+                      <FontWeight>Bold</FontWeight>
+                      <Format>#,0;(#,0)</Format>
+                    </Style>
                   </TextRun>
                 </TextRuns>
                 <Style />
@@ -1786,7 +1789,7 @@
             </Paragraphs>
             <rd:DefaultName>Textbox78</rd:DefaultName>
             <Top>0.41667in</Top>
-            <Left>4.11149in</Left>
+            <Left>3.61149in</Left>
             <Height>0.25in</Height>
             <Width>1.125in</Width>
             <ZIndex>4</ZIndex>
@@ -1807,8 +1810,11 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>=Sum(Fields!PsnpAmount.Value)</Value>
-                    <Style />
+                    <Value>=Fields!PsnpAmount.Value</Value>
+                    <Style>
+                      <FontWeight>Bold</FontWeight>
+                      <Format>#,0;(#,0)</Format>
+                    </Style>
                   </TextRun>
                 </TextRuns>
                 <Style />
@@ -1816,7 +1822,7 @@
             </Paragraphs>
             <rd:DefaultName>Textbox78</rd:DefaultName>
             <Top>0.77083in</Top>
-            <Left>4.11149in</Left>
+            <Left>3.61149in</Left>
             <Height>0.25in</Height>
             <Width>1.125in</Width>
             <ZIndex>5</ZIndex>
@@ -1977,9 +1983,9 @@
             </Paragraphs>
             <rd:DefaultName>Textbox88</rd:DefaultName>
             <Top>0.09375in</Top>
-            <Left>0.18397in</Left>
+            <Left>0.13541in</Left>
             <Height>0.25in</Height>
-            <Width>1in</Width>
+            <Width>1.04856in</Width>
             <ZIndex>12</ZIndex>
             <Style>
               <Border>
