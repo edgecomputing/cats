@@ -16,9 +16,11 @@ namespace Cats.Areas.Procurement.Models
     }
     public class RfqPrintViewModel
     {
+        public int BidPlanID { get; set; }
         public string Source { get; set; }
         public string Zone { get; set; }
         public string Woreda { get; set; }
+        public int WoredaID { get; set; }
         public string Region { get; set; }
         public string BidReference { get; set; }
         public int ProgramID { get; set; }
