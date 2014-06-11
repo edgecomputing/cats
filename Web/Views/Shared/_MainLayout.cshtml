@@ -160,12 +160,12 @@
             <!--/span-->
             <div class="@spanWidth">
                 <div>
-                    <div class="span7">
+                    <div class="span7" style="margin-top: -20px; ">
                         @RenderSection("Breadcrumb", required: false)
 
                         @Html.Partial("_BreadCrumb")
                     </div>
-                    <div class="span5" >
+                    <div class="span5" style="margin-top: -20px; ">
                         <div class="pull-right btn-toolbar toolbar">
                             @RenderSection("Toolbar", required: false)                           
                             @Html.Partial("_ToolbarCommon")
