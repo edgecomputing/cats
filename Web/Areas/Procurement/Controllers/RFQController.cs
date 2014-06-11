@@ -84,7 +84,7 @@ namespace Cats.Areas.Procurement.Controllers
                              Region = transportBidPlanDetail.Destination.AdminUnit2.AdminUnit2.Name,
                              BidReference = bid.BidNumber,
                              ProgramID = transportBidPlanDetail.ProgramID,
-                             Quantity = transportBidPlanDetail.Quantity/100,
+                             Quantity = transportBidPlanDetail.Quantity/10,
                              BidOpeningdate = bid.OpeningDate.ToCTSPreferedDateFormat(datePref),
                          }
                     ).Where(m=>m.Quantity>0)
@@ -152,7 +152,7 @@ namespace Cats.Areas.Procurement.Controllers
                                            DestinationZone = rg.Destination.AdminUnit2.Name,
                                            RegionName = rg.Destination.AdminUnit2.AdminUnit2.Name,
                                            DestinationWoreda = rg.Destination.Name,
-                                           Quantity = rg.Quantity/100  // since qunital is required
+                                           Quantity = rg.Quantity/10  // since qunital is required
                                            
                                        })
 
