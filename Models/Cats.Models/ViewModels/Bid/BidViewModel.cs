@@ -24,6 +24,7 @@ namespace Cats.Models.ViewModels.Bid
         public string Status { get; set; }
         public int TransportBidPlanID { get; set; }
         public int command { get; set; }
+        public decimal BidBondAmount { get; set; }
         public List<BidDetail> BidDetails { get; set; }
     }
 }

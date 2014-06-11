@@ -49,6 +49,7 @@
             columns.Bound(p => p.StartDatePref).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid" });
             columns.Bound(p => p.EndDatePref).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid" });
             columns.Bound(p => p.OpeningDatePref).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid" });
+            columns.Bound(p => p.BidBondAmount).Title("Bid Bond Amount").Format("{0:N2}").HtmlAttributes(new {align="Right"}); 
             columns.Bound(p => p.Status).Title("Status");
             columns.Command(p =>
                 {
