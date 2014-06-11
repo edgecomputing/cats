@@ -76,14 +76,14 @@ namespace Cats.Areas.EarlyWarning.Controllers
         {
             var hrdDonorCoverage = _hrdDonorCoverageService.FindById(id);
             ViewBag.DonorCoverageID = hrdDonorCoverage.HRDDOnorCoverageID;
-           // var preferedweight = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).PreferedWeightMeasurment;
+           var preferedweight = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).PreferedWeightMeasurment;
             
             if (hrdDonorCoverage==null)
             {
                 return HttpNotFound();
             }
-           // var dt = GetTransposedHRD(id, preferedweight);
-            return View(hrdDonorCoverage);
+           var dt = GetTransposedHRD(id, preferedweight);
+            return View(dt);
         }
         private DataTable GetTransposedHRD(int id, string preferedweight)
         {
@@ -91,10 +91,10 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
             var hrdDonorCoverage = _hrdDonorCoverageService.FindById(id);
             var hrd = hrdDonorCoverage.Hrd;
-            var donorCoverageDetail = hrdDonorCoverage.HrdDonorCoverageDetails;
+            var donorCoverageDetail = _hrdDonorCoverageDetailService.FindBy(m=>m.HRDDonorCoverageID==id);
                 //_hrdDetailService.Get(t => t.HRDID == id, null, "AdminUnit,AdminUnit.AdminUnit2,AdminUnit.AdminUnit2.AdminUnit2").ToList();
             var rationDetails = _rationDetailService.Get(t => t.RationID == hrd.RationID, null, "Commodity");
-            var dt = _hrdDonorCoverageService.TransposeData(donorCoverageDetail, rationDetails, preferedweight);
+            var dt = _hrdDonorCoverageService.TransposeData(donorCoverageDetail, rationDetails,hrd.HRDID, preferedweight);
             return dt;
         }
         public ActionResult DonorCoverage_Read([DataSourceRequest] DataSourceRequest request)
@@ -165,7 +165,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                 {
                     var donorCoverageDetail = GetCoverageDetail(addWoredaViewModel);
                     _hrdDonorCoverageDetailService.AddWoredas(donorCoverageDetail);
-                    return RedirectToAction("Detail", new {id = addWoredaViewModel.DonorCoverageID});
+                    return RedirectToAction("Detail", new { id = addWoredaViewModel.DonorCoverageID } + "?Grid-group=Region-asc");
                 }
                 catch (Exception e)
                 {

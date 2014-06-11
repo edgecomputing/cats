@@ -73,7 +73,7 @@ namespace Cats.Services.EarlyWarning
             var donorCoverageDetail =_unitOfWork.HrdDonorCoverageDetailRepository.FindBy(m => m.HRDDonorCoverageID == donorCoverageID);
             return donorCoverageDetail.Count;
         }
-        public  DataTable TransposeData(IEnumerable<HrdDonorCoverageDetail> donorCoverageDetails, IEnumerable<RationDetail> rationDetails, string preferedWeight)
+        public  DataTable TransposeData(IEnumerable<HrdDonorCoverageDetail> donorCoverageDetails, IEnumerable<RationDetail> rationDetails,int hrdID, string preferedWeight)
         {
 
             var dt = new DataTable("Transpose");
@@ -103,17 +103,17 @@ namespace Cats.Services.EarlyWarning
             //var colStartingMonth = new DataColumn("Starting Month", typeof(string));
             //colStartingMonth.ExtendedProperties["ID"] = -1;
             //dt.Columns.Add(colStartingMonth);
-            var HRDID = donorCoverageDetails.FirstOrDefault().HrdDonorCoverage.HRDID;
+            var HRDID = hrdID;
             if (rationDetails != null)
             {
                 foreach (var ds in rationDetails)
                 {
-                    var col = new DataColumn(ds.Commodity.Name.Trim(), typeof(decimal));
+                    var col = new DataColumn(ds.Commodity.Name.Trim() + "(" + preferedWeight.ToUpper().Trim() +")", typeof(decimal));
                     col.ExtendedProperties.Add("ID", ds.CommodityID);
                     dt.Columns.Add(col);
                 }
 
-                var col1 = new DataColumn("Total", typeof(decimal));
+                var col1 = new DataColumn("Total" + "(" + preferedWeight.ToUpper().Trim() + ")", typeof(decimal));
                 col1.ExtendedProperties.Add("ID", "Total");
                 dt.Columns.Add(col1);
                 //int rowID = 0;
