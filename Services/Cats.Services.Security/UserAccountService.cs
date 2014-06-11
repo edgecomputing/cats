@@ -711,20 +711,20 @@ namespace Cats.Services.Security
 
         public bool RemoveRole(string user, string application, string role)
         {
-            
-            
 
-            ////_provider.Initialize("AuthorizationRoleProvider", ConfigureAuthorizationRoleProvider("CATS", ""));
-            NetSqlAzMan.Providers.NetSqlAzManRoleProvider provider = ((NetSqlAzMan.Providers.NetSqlAzManRoleProvider)Roles.Provider);
-            ////var provider = new NetSqlAzManRoleProvider();
-            ////provider.Initialize("RoleProvider", ConfigureAuthorizationRoleProvider("CATS",""));
-                        //var users = new string[] { user };
-            //var userRoles = new string[] { role };  
 
-            //provider.ApplicationName = apication;
-            //provider.RemoveUsersFromRoles(users, userRoles);
-            
-            
+
+            //_provider.Initialize("AuthorizationRoleProvider", ConfigureAuthorizationRoleProvider("CATS", ""));
+            //var provider = ((NetSqlAzMan.Providers.NetSqlAzManRoleProvider)Roles.Provider);
+            var provider = new NetSqlAzManRoleProvider();
+            provider.Initialize("RoleProvider", ConfigureAuthorizationRoleProvider("CATS",""));
+            var users = new string[] { user };
+            var userRoles = new string[] { role };
+
+            provider.ApplicationName = application;
+            provider.RemoveUsersFromRoles(users, userRoles);
+
+
             //const string store = "CATS";
 
             //string connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["CatsContext"].ConnectionString;
@@ -733,12 +733,20 @@ namespace Cats.Services.Security
             //IAzManApplication myapp = mystore.GetApplication(application);
 
             //IAzManItem azManRole = myapp.GetItem(role);
-
-            //azManRole.DeleteDelegateAuthorization(
+            //try
+            //{
+            //    azManRole.DeleteDelegateAuthorization(
             //                                         mystore.GetDBUser(user),
             //                                         mystore.GetDBUser("Admin").CustomSid,
             //                                         RestrictedAuthorizationType.Allow
             //                                     );
+            //}
+            //catch(Exception ex)
+            //{
+                
+            //}
+            
+            
             //azManRole.DeleteDelegateAuthorization();
             //azManRole.DeleteDelegateAuthorization();
 
