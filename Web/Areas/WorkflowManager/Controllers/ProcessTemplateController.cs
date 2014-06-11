@@ -123,6 +123,15 @@ namespace Cats.Areas.WorkflowManager.Controllers
             ViewData["AccessLevelList"] = AccessLevels;
             ViewData["StateTemplateList"] = _StateTemplateService.GetAll();
         }
+        [HttpPost]
+        [ValidateInput(false)]
+        public ActionResult Print(string htm)
+        {
+            ViewBag.html = htm;
+            return View();
+
+        }
+
         public ActionResult Index()
         {
             loadLookups();

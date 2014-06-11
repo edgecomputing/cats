@@ -200,6 +200,7 @@
             var BenficiaryNo = firstItem.get('BenficiaryNo');
             var RationAmount = firstItem.get('RationAmount');
             firstItem.set('Amount', RationAmount * BenficiaryNo);
+            firstItem.set('Contingency', (RationAmount * BenficiaryNo)* 0.05);
         });
     }
 

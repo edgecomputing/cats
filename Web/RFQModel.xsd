@@ -23,6 +23,10 @@
               <xs:element name="Remark" msprop:Generator_ColumnVarNameInTable="columnRemark" msprop:Generator_ColumnPropNameInRow="Remark" msprop:Generator_ColumnPropNameInTable="RemarkColumn" msprop:Generator_UserColumnName="Remark" type="xs:string" minOccurs="0" />
               <xs:element name="Region" msprop:Generator_ColumnVarNameInTable="columnRegion" msprop:Generator_ColumnPropNameInRow="Region" msprop:Generator_ColumnPropNameInTable="RegionColumn" msprop:Generator_UserColumnName="Region" type="xs:string" minOccurs="0" />
               <xs:element name="BidReference" msprop:Generator_ColumnVarNameInTable="columnBidReference" msprop:Generator_ColumnPropNameInRow="BidReference" msprop:Generator_ColumnPropNameInTable="BidReferenceColumn" msprop:Generator_UserColumnName="BidReference" type="xs:string" minOccurs="0" />
+              <xs:element name="Quantity" msprop:Generator_ColumnVarNameInTable="columnQuantity" msprop:Generator_ColumnPropNameInRow="Quantity" msprop:Generator_ColumnPropNameInTable="QuantityColumn" msprop:Generator_UserColumnName="Quantity" type="xs:string" minOccurs="0" />
+              <xs:element name="BidOpeningdate" msprop:Generator_ColumnVarNameInTable="columnBidOpeningdate" msprop:Generator_ColumnPropNameInRow="BidOpeningdate" msprop:Generator_ColumnPropNameInTable="BidOpeningdateColumn" msprop:Generator_UserColumnName="BidOpeningdate" type="xs:string" minOccurs="0" />
+              <xs:element name="ReliefAmount" msprop:Generator_ColumnVarNameInTable="columnReliefAmount" msprop:Generator_ColumnPropNameInRow="ReliefAmount" msprop:Generator_ColumnPropNameInTable="ReliefAmountColumn" msprop:Generator_UserColumnName="ReliefAmount" type="xs:string" minOccurs="0" />
+              <xs:element name="PsnpAmount" msprop:Generator_ColumnVarNameInTable="columnPsnpAmount" msprop:Generator_ColumnPropNameInRow="PsnpAmount" msprop:Generator_ColumnPropNameInTable="PsnpAmountColumn" msprop:Generator_UserColumnName="PsnpAmount" type="xs:string" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>

@@ -26,6 +26,6 @@ namespace Cats.Services.EarlyWarning
        int NumberOfCoveredWoredas(int donorCoverageID);
 
        DataTable TransposeData(IEnumerable<HrdDonorCoverageDetail> donorCoverageDetails,
-                               IEnumerable<RationDetail> rationDetails, string preferedWeight);
+                               IEnumerable<RationDetail> rationDetails,int hrdID, string preferedWeight);
     }
 }

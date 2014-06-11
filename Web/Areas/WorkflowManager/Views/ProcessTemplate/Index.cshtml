@@ -8,6 +8,24 @@
 {
     @Html.Partial("_workflowLeftBar")
 }
+<div style="display:none;">
+
+@using (Html.BeginForm("Print", "ProcessTemplate", FormMethod.Post, new { id = "frm_edit_psnp" }))
+{
+    <textarea id="htm" name="htm">dsfgd</textarea>
+    <input type="button" id="button_submit" value="HTML"/>
+    <input type="submit"  />
+}
+</div>
+
+<script>
+    $(function () {
+        $("#button_submit").click(function () {
+            $("#htm").val($(document.body).html());
+        });
+    });
+
+</script>
 <h2>Business Processes</h2>
 @Html.Partial("_heirarchy")
 

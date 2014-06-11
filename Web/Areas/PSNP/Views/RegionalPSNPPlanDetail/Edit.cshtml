@@ -31,24 +31,43 @@
     duration = ViewBag.PsnpPlan.Duration;
     RegionalPSNPPlanID = ViewBag.PsnpPlan.RegionalPSNPPlanID;
     <div>
-    <h4><b>Edit PSNP Plan</b>:   <span>@ViewBag.PsnpPlan.Year</span> @ViewBag.psnpPlanID</h4>
+    <h4>
+        <b>Edit PSNP Plan</b>:   
+        <span>@ViewBag.PsnpPlan.Year</span> 
+        <span style="font-size:0.7em"> : Duration of Assistance [@ViewBag.PsnpPlan.Duration month]</span>
+
+    </h4>
    
     </div>
 }
+<style>
+    .error
+    {
+        color:#F00;
+    }
+    .success
+    {
+        color:#00F;
+    }
 
+</style>
 @(Html.Kendo().Grid<Cats.Models.PSNP.PSNPPlanDetailView>()
     .Name("grid")
     .Columns(columns =>
     {
-
+        columns.Template(c => { }).Title("No").ClientTemplate("<span class='rowCount' rowCount='#=rowCount#'>#=getRowNo(data)#");
+        
         columns.Bound(p => p.RegionName);
         columns.Bound(p => p.ZoneName);
         columns.Bound(p => p.WoredaName);
         //columns.Bound(p => p.FDPName);
         columns.Bound(p => p.BeneficiaryCount).HtmlAttributes(new { align = "Right" });
-        columns.Bound(p => p.FoodRatio).HtmlAttributes(new { align = "Right" });
-        columns.Bound(p => p.CashRatio).HtmlAttributes(new { align = "Right" });
         columns.ForeignKey(p => p.SartingMonth, (IEnumerable)ViewData["Month"], "Id", "Name");
+        columns.Bound(p => p.FoodRatio).HtmlAttributes(new { align = "Right",@class="FoodRatio" });
+        //columns.Template(c => { }).Title("Cash Ratio2").ClientTemplate("#=calculateCashRatio(data)#");        
+        columns.Bound(p => p.CashRatio).HtmlAttributes(new { align = "Right", @class = "CashRatio #=getRowStyle(data)#" });
+
+        
     })
     .DataSource(dataSource => dataSource
 
@@ -63,6 +82,7 @@
         {
             model.Field(p => p.ZoneName).Editable(false);
             model.Field(p => p.WoredaName).Editable(false);
+            model.Field(p => p.CashRatio).Editable(false);
             //model.Field(p => p.FDPName).Editable(false);
         })
          .Group(group =>
@@ -84,35 +104,114 @@
     .Filterable()
    .Groupable()
    .Navigatable()
+   
 
 )
 <script type="text/javascript">
+    var duration="@duration";   
+    var rowCount=0;
+    var gridData=[];
+    function calculateCashRatio(data) {
+        return duration-data.FoodRatio;
+    } 
+    function getRowStyle(data)
+    {
+        if(data.FoodRatio+data.CashRatio!=duration)
+        {
+            return "error";
+        }
+    }
+    function getRowNo(data)
+    {
+        gridData[rowCount]=data;
+        return 1+rowCount++;
+    }
     $(function()
     {
         var printurl= "@Url.Action("print", "RegionalPSNPPlan", new { Area = "PSNP", id = RegionalPSNPPlanID })";
         $("#toolbar_button_print").attr("href",printurl);
+        
     });
     
     function onDataBound(e) 
     {
-        
+        rowCount=0;
+       // gridData=[];
+        console.log("onDataBound");
         var grid = $("#grid").data("kendoGrid");
+        // $("[role='row']").css("color","#F00");
+
         $(grid.tbody).on("focus", "input", function (e) {
+            console.log("onDataBound","focus",$(this).attr("id"));
             var input = $(this);
-            setTimeout(function () { input.select(); },100);
-          
+            setTimeout(function () { input.select(); },50);
+            
+            if($(this).attr("id")=="FoodRatio")
+            {
+                $(this).change(function(){
+                    var CashRatio=duration -$(this).val();
+                    var $CashRatio=$(this).closest("tr").find(".CashRatio");
+                    var $rowCount=$(this).closest("tr").find(".rowCount");
+                    var rowCount=$rowCount.attr("rowCount");
+                    $CashRatio.removeClass("error").html("<span>" +CashRatio + "</span>" );
+                    gridData[rowCount].CashRatio=CashRatio;
+
+                    console.log("change",{rowCount:rowCount,CashRatio:CashRatio,data: gridData[rowCount]});
+                   // console.log("onDataBound",{data:$('#grid').data().kendoGrid.dataSource.data()})
+                });
+            }
         });
-        $(grid.tbody).on("change", "td", function (e) {
-            var duration="@duration"
-            var row = $(this).closest("tr");
+        return;
+        $(grid.tbody).on("change", ".FoodRatio>input", function (e) {
+            $(this).css("color","#F00");
+            var FoodRatio_div=this;
+            var $CashRatio = $(this).parent().find(".CashRatio");
+            $(this).parent().css("color","#00F");
+            $CashRatio.css("color","#F0F");
+
+            var FoodRatio = FoodRatio_div.innerText;
+            var innerHtml=FoodRatio_div.innerHTML;
+                
+            var CashRatio=duration -FoodRatio;
+            console.log("changed",{FoodRatio:FoodRatio,duration:duration,CashRatio:CashRatio,innerHtml:innerHtml,FoodRatio_div:FoodRatio_div});
+            $CashRatio.html(CashRatio);
+            return;
+
+            setTimeout(function () { 
+                var FoodRatio = FoodRatio_div.innerText;
+                var innerHtml=FoodRatio_div.innerHTML;
+                
+                var CashRatio=duration -FoodRatio;
+                console.log("changed",{FoodRatio:FoodRatio,duration:duration,CashRatio:CashRatio,innerHtml:innerHtml,FoodRatio_div:FoodRatio_div});
+                $CashRatio.html(CashRatio);
+            
+            
+            },100);
+            return;
+            
             var rowIdx = $("tr", grid.tbody).index(row);
             var firstItem = $('#grid').data().kendoGrid.dataSource.data()[rowIdx];
             var FoodRatio = firstItem.get('FoodRatio');
+            
             if(FoodRatio>0)
             {
                 firstItem.set('CashRatio',duration -FoodRatio);
             }
         });
+        /*
+        $(grid.tbody).on("change", ".FoodRatio", function (e) {
+            
+            var row = $(this).closest("[role='row']");
+            row.css("color","#F00");
+            var rowIdx = $("tr", grid.tbody).index(row);
+            var firstItem = $('#grid').data().kendoGrid.dataSource.data()[rowIdx];
+            var FoodRatio = firstItem.get('FoodRatio');
+            console.log("changed",{FoodRatio:FoodRatio,duration:duration,firstItem:firstItem});
+            if(FoodRatio>0)
+            {
+                firstItem.set('CashRatio',duration -FoodRatio);
+            }
+        });*/
      }
     var deleteURL="@Url.Action("DeleteAjax", "RegionalPSNPPlanDetail", new { Area = "PSNP" })"
     function deleteRecord(e) {
@@ -140,7 +239,14 @@
     }
     function saverecords()
     {
+        var timer;
         $("#grid").data("kendoGrid").saveChanges();
+        var msg = '<div class="cats_success">Success: PSNP Plan was updated successfully.</div>';
+        $(".message-window").html(msg).delay(800).hide().fadeIn();
+        clearTimeout(timer);
+        timer = setTimeout(function () {
+            $(".message-window").fadeOut("normal", function () { $(this).html(''); });
+        }, 5000);
     }
     function reloadrecords()
     {

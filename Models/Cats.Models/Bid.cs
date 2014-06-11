@@ -4,14 +4,15 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Cats.Models
 {
-   public partial class Bid
+    public partial class Bid
     {
-       public Bid()
-       {
-           this.BidDetails=new List<BidDetail>();
-           this.BidWinners=new List<BidWinner>();
-           this.TransportBidQuotationHeaders = new List<TransportBidQuotationHeader>();
-       }
+        public Bid()
+        {
+            this.BidDetails = new List<BidDetail>();
+            this.BidWinners = new List<BidWinner>();
+            this.TransportBidQuotationHeaders = new List<TransportBidQuotationHeader>();
+        }
+
         public int? PartitionId { get; set; }
         public int BidID { get; set; }
 
@@ -23,8 +24,13 @@ namespace Cats.Models
         public int StatusID { get; set; }
         public int TransportBidPlanID { get; set; }
         public decimal BidBond { get; set; }
+        public decimal BidBondAmount { get; set; }
+
+       
+
       
        #region Navigation Properties
+
         public virtual AdminUnit AdminUnit { get; set; }
         public Status Status { get; set; }
         public ICollection<BidDetail> BidDetails { get; set; }
@@ -32,6 +38,9 @@ namespace Cats.Models
         public ICollection<TransportBidQuotation> TransportBidQuotations { get; set; }
         public virtual ICollection<TransporterAgreementVersion> TransporterAgreementVersions { get; set; }
         public virtual ICollection<TransportBidQuotationHeader> TransportBidQuotationHeaders { get; set; }
+
         #endregion
+
+       
     }
 }
