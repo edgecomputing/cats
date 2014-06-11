@@ -432,7 +432,7 @@ namespace Cats.Areas.Procurement.Controllers
                 {
                     TransportBidQuotationHeaderID = d.TransportBidQuotationHeaderID,
                     BidNumber = d.Bid.BidNumber,
-                    BidBondAmount = d.Bid.BidBond,
+                    BidBondAmount = d.Bid.BidBondAmount,
                     OffersCount = d.TransportBidQuotations.Count,
                     Region = d.AdminUnit.Name,
                     Status = d.Status == 1 ? "Draft" : "Approved",
