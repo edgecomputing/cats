@@ -280,6 +280,7 @@ namespace Cats.Areas.Procurement.Controllers
                     {
                         BidID = bid.BidID,
                         BidNumber = bid.BidNumber,
+                        BidBondAmount = bid.BidBondAmount,
                         StartDate = bid.StartDate,
                         EndDate = bid.EndDate,
                         OpeningDate = bid.OpeningDate,
