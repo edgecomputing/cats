@@ -165,7 +165,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                 {
                     var donorCoverageDetail = GetCoverageDetail(addWoredaViewModel);
                     _hrdDonorCoverageDetailService.AddWoredas(donorCoverageDetail);
-                    return RedirectToAction("Detail", new { id = addWoredaViewModel.DonorCoverageID } + "?Grid-group=Region-asc");
+                    return RedirectToAction("Detail", new { id = addWoredaViewModel.DonorCoverageID });
                 }
                 catch (Exception e)
                 {
