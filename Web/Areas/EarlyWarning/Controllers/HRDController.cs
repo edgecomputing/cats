@@ -155,12 +155,14 @@ namespace Cats.Areas.EarlyWarning.Controllers
         {
             var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
             return (from hrd in hrds
+                    let ration = hrd.Ration
+                    where ration != null
                     select new HRDViewModel
                         {
                             HRDID = hrd.HRDID,
                             Season = hrd.Season.Name,
                             Year = hrd.Year,
-                            Ration = hrd.Ration.RefrenceNumber,
+                            Ration = ration.RefrenceNumber,
                             CreatedDate = hrd.CreatedDate,
                             CreatedBy = hrd.UserProfile.FirstName + " " + hrd.UserProfile.LastName,
                             PublishedDate = hrd.PublishedDate,
@@ -299,7 +301,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             ViewBag.NeedAssessmentID = new SelectList(_needAssessmentService.GetAllNeedAssessmentHeader().Where(m => m.NeedAssessment.NeedAApproved == true), "NAHeaderId",
                                                       "NeedACreatedDate");
             ViewBag.PlanID = new SelectList(_hrdService.GetPlans(), "PlanID", "PlanName");
-            ViewBag.SeasonID = new SelectList(_seasonService.GetAllSeason(), "SeasonID", "Name");
+            ViewBag.SeasonID = new SelectList(_seasonService.GetAllSeason(), "SeasonID", "Name",0);
             return View(hrd);
         }
         [EarlyWarningAuthorize(operation = EarlyWarningConstants.Operation.View_Ration_List)]
@@ -363,7 +365,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
            
             var year = hrd.Year;
             var userID = _needAssessmentService.GetUserProfileId(HttpContext.User.Identity.Name);
-            var seasonID = hrd.SeasonID.HasValue ? hrd.SeasonID.Value:0;
+            var seasonID = hrd.SeasonID.HasValue ? hrd.SeasonID.Value:1;
             var rationID = hrd.RationID;
             
 
