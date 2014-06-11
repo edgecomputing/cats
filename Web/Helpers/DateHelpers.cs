@@ -99,6 +99,32 @@ namespace Cats.Helpers
 
             return amount * 10;
         }
+        public static decimal ToPreferedWeightUnitForInsert(this decimal amount, string unit = "MT")
+        {
+            string currentUnit;
+
+            // Get current unit setting for the user.
+            // NOTE: Since we might call this method from public views where we might not have a signed-in
+            //       user, we must check for possible errors.
+            try
+            {
+
+                var user = UserAccountHelper.GetCurrentUser();
+                currentUnit = user.PreferedWeightMeasurment;
+            }
+            catch (Exception)
+            {
+                currentUnit = unit;
+            }
+
+            // If the current unit is 'Metric Tone' then return the  value (the passed value)            
+            if (currentUnit.ToUpper().Trim() == "MT")
+                return amount;
+
+            // For the other unit (quintal)  multiply by 10
+
+            return amount / 10;
+        }
 
         public static decimal GetPreferedRation(this decimal amount)
         {

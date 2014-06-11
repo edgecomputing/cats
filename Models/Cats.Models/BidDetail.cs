@@ -8,7 +8,7 @@ namespace Cats.Models
       
         public int BidDetailID { get; set; }
         public int BidID { get; set; }
-        public int RegionID { get; set; }
+        //public int RegionID { get; set; }
         public decimal AmountForReliefProgram { get; set; }
         public decimal AmountForPSNPProgram { get; set; }
         public decimal BidDocumentPrice { get; set; }
@@ -17,7 +17,7 @@ namespace Cats.Models
         #region Navigation Properties
 
         public virtual Bid Bid { get; set; }
-        public virtual AdminUnit AdminUnit { get; set; }
+        //public virtual AdminUnit AdminUnit { get; set; }
 
         #endregion
     }

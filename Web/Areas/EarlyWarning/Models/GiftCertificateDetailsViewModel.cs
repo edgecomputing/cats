@@ -54,7 +54,7 @@ namespace Cats.Areas.GiftCertificate.Models
         [Required(ErrorMessage = "Year Purchased is required")]
         [Range(2000, 3000)]
         [Display(Name="Year Purchased")]
-        public Int32 YearPurchased { get; set; }
+        public DateTime YearPurchased { get; set; }
 
         [Required(ErrorMessage = "Fund Source is required")]
         public Int32 DFundSourceID { get; set; }
@@ -65,16 +65,18 @@ namespace Cats.Areas.GiftCertificate.Models
         [Required(ErrorMessage = "Budget Type is required")]
         public Int32 DBudgetTypeID { get; set; }
 
-    
         [Display(Name="Expiry Date")]
         public DateTime? ExpiryDate { get; set; }
 
         [Display(Name="Commodiy")]
         public string CommodityName { get; set; }
         public string FundSource { get; set; }
+        [Display(Name = "Purchase Year")]
+        public string YearPurchasedPrefered { get; set; }
+
         public GiftCertificateDetailsViewModel()
         {
-            this.YearPurchased = DateTime.Now.Year;
+            this.YearPurchased = DateTime.Now;
             this.DBudgetTypeID = 9;
             this.DFundSourceID = 5;
             this.DCurrencyID = 1;

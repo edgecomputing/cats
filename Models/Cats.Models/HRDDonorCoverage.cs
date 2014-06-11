@@ -8,6 +8,10 @@ namespace Cats.Models
 {
    public class HrdDonorCoverage
     {
+       public HrdDonorCoverage()
+       {
+           this.HrdDonorCoverageDetails=new List<HrdDonorCoverageDetail>();
+       }
        public int HRDDOnorCoverageID { get; set; }
        public int DonorID { get; set; }
        public int HRDID { get; set; }
@@ -22,7 +26,7 @@ namespace Cats.Models
     }
 public class HrdDonorCoverageDetail
 {
-    public int HRDDonorCoverageDetailID { get; set; }
+   public int HRDDonorCoverageDetailID { get; set; }
     public int HRDDonorCoverageID { get; set; }
     public int WoredaID { get; set; }
 
