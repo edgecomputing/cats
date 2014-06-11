@@ -150,7 +150,6 @@ namespace Cats.Controllers
             return View();
         }
 
-         [HttpGet]
         [HttpPost]
         [AllowAnonymous]
         public ActionResult Login(LoginModel model, string returnUrl)
