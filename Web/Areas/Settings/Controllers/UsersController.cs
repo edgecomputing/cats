@@ -296,6 +296,18 @@ namespace Cats.Areas.Settings.Controllers
             //user.DefaultHub = userInfo.DefaultHub;
             _userService.UpdateUser(user);
 
+            using (var e1 = app.GetEnumerator())
+            using (var e2 = originalApps.GetEnumerator())
+            {
+                while (e1.MoveNext() && e2.MoveNext())
+                {
+                    var item1 = e1.Current;
+                    var item2 = e2.Current;
+
+                    
+                }
+            }
+
             foreach (var application in app)
             {
                 foreach (var role in application.Roles)
