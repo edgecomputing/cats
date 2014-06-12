@@ -134,25 +134,7 @@ namespace Cats.Areas.Hub.Controllers
             return PartialView("Allocations2", list);
         }
 
-        public ActionResult AllocationListAjax([DataSourceRequest] DataSourceRequest request,int? commodityType, int type=1, bool closed=false,int HubID=0 )
-        {
-            List<ReceiptAllocation> list = new List<ReceiptAllocation>();
-            List<ReceiptAllocationViewModel> listViewModel = new List<ReceiptAllocationViewModel>();
-            try
-            {
-                UserProfile user = _userProfileService.GetUser(User.Identity.Name);
-                HubID=HubID>0?HubID:user.DefaultHub.HubID;
-                //HubID=user.DefaultHub.HubID
-                list = _receiptAllocationService.GetUnclosedAllocationsDetached(HubID, type, closed, user.PreferedWeightMeasurment, commodityType);
-                listViewModel = BindReceiptAllocationViewModels(list).ToList();
-                return Json(listViewModel.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception ex)
-            {
-                return Json(listViewModel.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
-
-            }
-        }
+        
 
 
         public ActionResult ReceiveListAjax([DataSourceRequest] DataSourceRequest request, string ReceiptAllocationID)
@@ -182,6 +164,7 @@ namespace Cats.Areas.Hub.Controllers
                 HubID = HubID > 0 ? HubID : user.DefaultHub.HubID;
                 //HubID=user.DefaultHub.HubID
                 list = _receiptAllocationService.GetUnclosedAllocationsDetached(HubID, type, closed, user.PreferedWeightMeasurment, commodityType);
+                list = list.Where(t => t.CommoditySourceID == type).ToList();
                 listViewModel = BindReceiptAllocationViewModels(list).ToList();
                 return Json(listViewModel.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
             }
@@ -191,7 +174,28 @@ namespace Cats.Areas.Hub.Controllers
 
             }
         }
+        public ActionResult AllocationListAjax([DataSourceRequest] DataSourceRequest request, int? commodityType, int type = 1, bool closed = false, int HubID = 0)
+        {
+            List<ReceiptAllocation> list = new List<ReceiptAllocation>();
+            List<ReceiptAllocationViewModel> listViewModel = new List<ReceiptAllocationViewModel>();
+            try
+            {
+                UserProfile user = _userProfileService.GetUser(User.Identity.Name);
+                HubID = HubID > 0 ? HubID : user.DefaultHub.HubID;
+                //HubID=user.DefaultHub.HubID
+                list = _receiptAllocationService.GetUnclosedAllocationsDetached(HubID, type, closed, user.PreferedWeightMeasurment, commodityType);
+                //newly added
+                list = list.Where(t => t.CommoditySourceID == type).ToList();
+                
+                listViewModel = BindReceiptAllocationViewModels(list).ToList();
+                return Json(listViewModel.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(listViewModel.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
 
+            }
+        }
         [GridAction]
         public ActionResult AllocationListGrid(int type, bool? closedToo, int? CommodityType)
         {
