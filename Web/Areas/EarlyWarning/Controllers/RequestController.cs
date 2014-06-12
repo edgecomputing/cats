@@ -345,13 +345,11 @@ namespace Cats.Areas.EarlyWarning.Controllers
                     {
                         destinationURl = "http://" + Request.Url.Authority +
                                          "/EarlyWarning/Request/IndexFromNotification?recordId=" + regionalRequest.RegionalRequestID;
+                        return;
                     }
-                    else
-                    {
-                        destinationURl = "http://" + Request.Url.Authority +
-                                        Request.ApplicationPath +
-                                         "/EarlyWarning/Request/IndexFromNotification?recordId=" + regionalRequest.RegionalRequestID;
-                    }
+                    destinationURl = "http://" + Request.Url.Authority +
+                                     Request.ApplicationPath +
+                                     "/EarlyWarning/Request/IndexFromNotification?recordId=" + regionalRequest.RegionalRequestID;
 
                     _notificationService.AddNotificationForEarlyWaringFromRegions(destinationURl,
                                                                                     regionalRequest.RegionalRequestID,

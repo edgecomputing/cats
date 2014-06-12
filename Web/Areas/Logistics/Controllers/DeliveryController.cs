@@ -522,14 +522,12 @@ namespace Cats.Areas.Logistics.Controllers
                         destinationURl = "http://" + Request.Url.Authority +
                                          "/Logistics/Delivery/Dispatches/" +
                                          transportOrderId;
+                        return;
                     }
-                    else
-                    {
-                        destinationURl = "http://" + Request.Url.Authority +
-                                        Request.ApplicationPath +
-                                         "/Logistics/Delivery/Dispatches/" +
-                                         transportOrderId;
-                    }
+                    destinationURl = "http://" + Request.Url.Authority +
+                                     Request.ApplicationPath +
+                                     "/Logistics/Delivery/Dispatches/" +
+                                     transportOrderId;
 
                     _notificationService.AddNotificationForProcurmentForGRNDiscripancy(destinationURl, transportOrderId, transporterName);
                 }
