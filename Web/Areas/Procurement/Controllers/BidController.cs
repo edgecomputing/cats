@@ -365,12 +365,11 @@ namespace Cats.Areas.Procurement.Controllers
                 var bidDetails = (from detail in regions
                                   select new BidDetail()
                                       {
-                                         
                                           AmountForReliefProgram = (decimal)_transportBidPlanDetailService.GetRegionPlanTotal(bid.TransportBidPlanID, detail.AdminUnitID, 1),
                                           AmountForPSNPProgram = (decimal)_transportBidPlanDetailService.GetRegionPlanTotal(bid.TransportBidPlanID, detail.AdminUnitID, 2),
                                           BidDocumentPrice = 0,
                                           CPO = 0,
-
+                                          RegionID = bid.RegionID
                                       }).ToList();
                 bid.BidDetails = bidDetails;
                 bid.RegionID = bid.RegionID;
@@ -378,6 +377,7 @@ namespace Cats.Areas.Procurement.Controllers
 
                 return RedirectToAction("Index");
             }
+
             ViewBag.StatusID = new SelectList(_statusService.GetAllStatus(), "StatusID", "Name");
             ViewBag.BidPlanID = bid.TransportBidPlanID;
             ViewBag.TransportBidPlanID = new SelectList(_transportBidPlanService.GetAllTransportBidPlan(), "TransportBidPlanID", "ShortName", bid.TransportBidPlanID);

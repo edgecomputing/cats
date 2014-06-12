@@ -51,7 +51,7 @@ namespace Cats.Areas.Logistics.Controllers
         {
             LoadLookups();
             //var list = (IEnumerable<PaymentRequest>)_PaymentRequestservice.GetAll();
-            var list = (IEnumerable<PaymentRequest>)_PaymentRequestservice.FindBy(t=>t.BusinessProcess.CurrentState.BaseStateTemplate.StateNo<=2);
+            var list = (IEnumerable<PaymentRequest>)_PaymentRequestservice.Get(t=>t.BusinessProcess.CurrentState.BaseStateTemplate.StateNo<=2).OrderByDescending(t=>t.BusinessProcess.CurrentState.DatePerformed);
             return View(list);
         }
 

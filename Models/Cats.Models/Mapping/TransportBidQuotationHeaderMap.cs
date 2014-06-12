@@ -18,7 +18,7 @@ namespace Cats.Models.Mapping
             this.ToTable("TransportBidQuotationHeader", "Procurement");
             this.Property(t => t.TransportBidQuotationHeaderID).HasColumnName("TransportBidQuotationHeaderID");
             this.Property(t => t.BidQuotationDate).HasColumnName("BidQuotationDate");
-            this.Property(t => t.BidBondAmount).HasColumnName("BidBondAmount");
+            //this.Property(t => t.BidBondAmount).HasColumnName("BidBondAmount");
             this.Property(t => t.TransporterId).HasColumnName("TransporterId");
             this.Property(t => t.BidId).HasColumnName("BidId");
             this.Property(t => t.RegionID).HasColumnName("RegionID");
