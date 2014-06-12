@@ -11,6 +11,7 @@
 @section Toolbar
 {
     <a class="btn toolbar-btn " data-buttontype="btn_save" data-submittedform="frm_edit_gift"></a>
+    <a class="btn toolbar-btn " data-buttontype="btn_save" href="javascript:saverecords()"></a>
     <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="@Url.Action("Index", "GiftCertificate")"></a>
 }
 <h4 class="page-header">@Html.Translate("Edit Gift Certificate")</h4>
@@ -154,12 +155,7 @@
 
                     @(Html.Kendo().Grid<GiftCertificateDetailsViewModel>()
            .Name("Grid")
-           .ToolBar(commands =>
-                        {
-                            commands.Create();
-                            commands.Save();
-                        })
-
+           .ToolBar(commands => commands.Create())
            .Editable(editing => editing.Mode(GridEditMode.InCell))
            .Columns(columns =>
                         {
@@ -206,7 +202,7 @@
     @*</div>*@
    
 <script type="text/javascript">
-    //$(document).ready(function() {
+//$(document).ready(function() {
     //    $("#DModeOfTransports").OnChange(OnComChange);
     //    $("#ProgramID").OnChange(OnComChange);
     //    $("#DonorID").OnChange(OnComChange);
@@ -269,7 +265,7 @@
     //    }
     //}
 
-   @* function OnComOpen(e) {
+    @* function OnComOpen(e) {
         var combo = $('#CommodityID').data('tComboBox');
         var combot = $('#CommodityTypeID').data('tComboBox');
         var comboType = combot.value();
@@ -286,5 +282,10 @@
         }
 
     }*@
+    
+    function saverecords() {
+        $("#grid").data("kendoGrid").saveChanges();
+    }
+
 </script>
 
