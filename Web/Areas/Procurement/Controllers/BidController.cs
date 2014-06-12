@@ -392,11 +392,11 @@ namespace Cats.Areas.Procurement.Controllers
             var bid = new Bid()
                 {
                     RegionID = bidViewModel.RegionID,
-                    StartDate = bidViewModel.StartTime,
-                    EndDate = bidViewModel.EndTime,
+                    StartDate = bidViewModel.StartDate,
+                    EndDate = bidViewModel.EndDate,
                     BidNumber = bidViewModel.BidNumber,
                     BidBondAmount = bidViewModel.BidBondAmount,
-                    OpeningDate = bidViewModel.BidOpningTime,
+                    OpeningDate = bidViewModel.OpeningDate,
                     StatusID = bidViewModel.StatusID,
                     TransportBidPlanID = bidViewModel.TransportBidPlanID
 

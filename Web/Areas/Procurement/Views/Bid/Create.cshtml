@@ -70,10 +70,12 @@
                    @* <input class="cats-datepicker" type="text" id="start" name="start" />*@
                     @Html.TextBoxFor(model=>model.StartDate,new {@class="cats-datepicker2"})
                     @Html.ValidationMessageFor(model => model.StartDate)
-                   <div class="input-prepend " style="margin-right: 2px">
-                <span class="add-on">Time</span>
-                @Html.TextBoxFor(m=>m.StartTime, new { @class = "input-small" })
-            </div>
+                    <div class="input-append bootstrap-timepicker">
+                        <span class="add-on">Time</span>
+                         @Html.TextBoxFor(m=>m.StartTime, new { @class = "input-small" })
+                        <span class="add-on"><i class="icon-time"></i></span>
+                    </div>
+ 
                 </div>
             </div>
             <div class="control-group" >
@@ -88,6 +90,7 @@
                     <div class="input-prepend " style="margin-right: 2px">
                 <span class="add-on">Time</span>
                 @Html.TextBoxFor(m=>m.EndTime, new { @class = "input-small" })
+               <span class="add-on"><i class="icon-time"></i></span>
             </div>
                 </div>
             </div>
@@ -103,6 +106,7 @@
                      <div class="input-prepend " style="margin-right: 2px">
                 <span class="add-on">Time</span>
                 @Html.TextBoxFor(m=>m.BidOpningTime, new { @class = "input-small" })
+                <span class="add-on"><i class="icon-time"></i></span>
             </div>
                 </div>
                 
