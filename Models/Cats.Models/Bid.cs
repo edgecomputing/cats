@@ -23,12 +23,13 @@ namespace Cats.Models
         public DateTime OpeningDate { get; set; }
         public int StatusID { get; set; }
         public int TransportBidPlanID { get; set; }
+        //public decimal BidBond { get; set; }
         public decimal BidBondAmount { get; set; }
 
        
 
-
-        #region Navigation Properties
+      
+       #region Navigation Properties
 
         public virtual AdminUnit AdminUnit { get; set; }
         public Status Status { get; set; }
