@@ -107,7 +107,9 @@
             <h3 id="modal_label">Create Plan</h3>
         </div>
 
-        <div class="modal-body" id="modal_body">
+        <div class="modal-body" >
+            <div id="modal_body"></div>
+            <div id="modal_message"></div>
         </div>
 
         <div class="modal-footer">
@@ -225,6 +227,10 @@
         */
         attribs = $frm.serialize();
         //console.log(attribs);
+        $.ajaxError(function () {
+            $("#modal_message").html("Error");
+            //error handler
+        })
         $.post(url, attribs, function (data) {
             $frm.show();
             console.log("Submit Result", data);
@@ -243,7 +249,8 @@
     }
     function showModalEditor(url, attribs, title) {
         $("#modal_label").html(title);
-        $("#modal_body").html("...Loading");
+        $("#modal_message").html("...Loading");
+        $("#modal_body").html("");
         $('#modal_edit_window').modal();
 
         /*
