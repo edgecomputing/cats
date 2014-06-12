@@ -571,7 +571,7 @@ namespace Cats.Areas.Hub.Controllers.Allocations
                 }
                 //TODO:Check savechanges -> EditRecieptAllocation
                 _receiptAllocationService.EditReceiptAllocation(receiptAllocation);
-                return Json(new { gridId = typeOfGridToReload, CommodityTypeID = commType }, JsonRequestBehavior.AllowGet);
+                return Json(new {status=1, gridId = typeOfGridToReload, CommodityTypeID = commType }, JsonRequestBehavior.AllowGet);
                 //return RedirectToAction("Index");
             }
             //return this.Create(receiptAllocationViewModel.CommoditySourceID);
