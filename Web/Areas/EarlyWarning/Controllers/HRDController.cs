@@ -299,7 +299,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             ViewBag.NeedAssessmentID = new SelectList(_needAssessmentService.GetAllNeedAssessmentHeader().Where(m => m.NeedAssessment.NeedAApproved == true), "NAHeaderId",
                                                       "NeedACreatedDate");
             ViewBag.PlanID = new SelectList(_hrdService.GetPlans(), "PlanID", "PlanName");
-            ViewBag.SeasonID = new SelectList(_seasonService.GetAllSeason(), "SeasonID", "Name");
+            ViewBag.SeasonID = new SelectList(_seasonService.GetAllSeason().OrderByDescending(m=>m.SeasonID), "SeasonID", "Name");
             return View(hrd);
         }
         [EarlyWarningAuthorize(operation = EarlyWarningConstants.Operation.View_Ration_List)]
@@ -363,7 +363,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
            
             var year = hrd.Year;
             var userID = _needAssessmentService.GetUserProfileId(HttpContext.User.Identity.Name);
-            var seasonID = hrd.SeasonID.HasValue ? hrd.SeasonID.Value:0;
+            var seasonID = hrd.SeasonID.HasValue ? hrd.SeasonID.Value : 1001;
             var rationID = hrd.RationID;
             
 

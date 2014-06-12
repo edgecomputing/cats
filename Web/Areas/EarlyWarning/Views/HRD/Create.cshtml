@@ -2,7 +2,7 @@
 @using Kendo.Mvc.UI
 @using LanguageHelpers.Localization
 @using Cats.Helpers
-
+seas
 @model Cats.Models.HRD
 
 @{
@@ -85,8 +85,8 @@
                             @Html.LabelFor(m => m.SeasonID)
                         </div>
                         <div class="controls">
-                            @Html.DropDownList("SeasonID", String.Empty)
-                            @Html.ValidationMessageFor(m => m.SeasonID)
+                            @Html.DropDownList("SeasonID")
+                            @*@Html.ValidationMessageFor(m => m.SeasonID)*@
                         </div>
 
                     </div>
