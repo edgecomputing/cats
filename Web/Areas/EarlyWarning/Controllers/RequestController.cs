@@ -49,6 +49,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         private readonly IIDPSReasonTypeServices _idpsReasonTypeServices;
         private readonly Cats.Services.Transaction.ITransactionService _transactionService;
         private readonly INotificationService _notificationService;
+        private readonly IUserProfileService _userProfileService;
         public RequestController(IRegionalRequestService reliefRequistionService,
                                 IFDPService fdpService,
                                 IRegionalRequestDetailService reliefRequisitionDetailService,
@@ -62,7 +63,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                                 IRegionalPSNPPlanService RegionalPSNPPlanService, 
             IAdminUnitService adminUnitService, 
             IPlanService planService, 
-            IIDPSReasonTypeServices idpsReasonTypeServices, ITransactionService transactionService, INotificationService notificationService)
+            IIDPSReasonTypeServices idpsReasonTypeServices, ITransactionService transactionService, INotificationService notificationService, IUserProfileService userProfileService)
         {
             _regionalRequestService = reliefRequistionService;
             _fdpService = fdpService;
@@ -80,6 +81,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             _idpsReasonTypeServices = idpsReasonTypeServices;
             _transactionService = transactionService;
             _notificationService = notificationService;
+            _userProfileService = userProfileService;
         }
         public  ActionResult RegionalRequestsPieChart()
         {
@@ -112,6 +114,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         private RegionalRequest CretaeRegionalRequest(HRDPSNPPlanInfo hrdpsnpPlanInfo)
         {
             var regionalRequest = new RegionalRequest();
+            UserProfile user = _userProfileService.GetUser(User.Identity.Name);
 
             regionalRequest.Status = (int)RegionalRequestStatus.Draft;
             regionalRequest.RequistionDate = DateTime.Today;
@@ -130,6 +133,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             regionalRequest.RegionID = hrdpsnpPlanInfo.HRDPSNPPlan.RegionID;
             regionalRequest.ProgramId = hrdpsnpPlanInfo.HRDPSNPPlan.ProgramID;
             regionalRequest.DonorID = hrdpsnpPlanInfo.HRDPSNPPlan.DonorID;
+            regionalRequest.RequestedBy = user.UserProfileID;
             regionalRequest.RationID = hrdpsnpPlanInfo.HRDPSNPPlan.RationID.HasValue ? hrdpsnpPlanInfo.HRDPSNPPlan.RationID.Value : _applicationSettingService.getDefaultRation();
             regionalRequest.Round = hrdpsnpPlanInfo.HRDPSNPPlan.Round;
             regionalRequest.RegionalRequestDetails = (from item in hrdpsnpPlanInfo.BeneficiaryInfos
@@ -149,7 +153,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
             int regionId = Convert.ToInt32(collection["RegionId"].ToString(CultureInfo.InvariantCulture));
             var programId = 3;
-           
+            UserProfile user = _userProfileService.GetUser(User.Identity.Name);
             
             var regionalRequest = new RegionalRequest
                                       {
@@ -162,6 +166,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                                           RegionID = regionId,
                                           ProgramId = programId,
                                           DonorID = null,
+                                          RequestedBy = user.UserProfileID,
                                           RationID = hrdpsnpPlanInfo.HRDPSNPPlan.RationID.HasValue ? hrdpsnpPlanInfo.HRDPSNPPlan.RationID.Value : _applicationSettingService.getDefaultRation(),
                                           Round = null,
                                           IDPSReasonType = reasonTypeID,

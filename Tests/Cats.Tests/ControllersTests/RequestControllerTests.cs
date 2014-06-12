@@ -12,6 +12,7 @@ using Cats.Areas.EarlyWarning.Models;
 using Cats.Models;
 using Cats.Models.Constant;
 using Cats.Models.Security;
+using Cats.Services.Administration;
 using Cats.Services.Common;
 using Cats.Services.EarlyWarning;
 using Cats.Services.PSNP;
@@ -20,6 +21,8 @@ using Kendo.Mvc.UI;
 using Moq;
 using NUnit.Framework;
 using log4net;
+using IAdminUnitService = Cats.Services.EarlyWarning.IAdminUnitService;
+using IFDPService = Cats.Services.EarlyWarning.IFDPService;
 
 namespace Cats.Tests.ControllersTests
 {
@@ -372,7 +375,7 @@ namespace Cats.Tests.ControllersTests
             var RegionalPSNPPlanDetailService = new Mock<IRegionalPSNPPlanDetailService>();
             var RegionalPSNPPlanService = new Mock<IRegionalPSNPPlanService>();
             var Notification = new Mock<INotificationService>();
-
+            var userProfile = new Mock<IUserProfileService>();
             _requestController = new RequestController(
                 mockRegionalRequestService.Object, 
                 fdpService.Object, requestDetailService.Object,
@@ -380,7 +383,7 @@ namespace Cats.Tests.ControllersTests
                 appService.Object, userAccountService.Object,
                 log.Object, hrdServiceDetail.Object, 
                 RegionalPSNPPlanDetailService.Object,
-                RegionalPSNPPlanService.Object, null, null, null, transactionService.Object, Notification.Object);
+                RegionalPSNPPlanService.Object, null, null, null, transactionService.Object, Notification.Object, userProfile.Object);
                _requestController.ControllerContext = controllerContext.Object; 
          
      
