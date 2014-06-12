@@ -23,6 +23,7 @@ using NUnit.Framework;
 using log4net;
 using IAdminUnitService = Cats.Services.EarlyWarning.IAdminUnitService;
 using IFDPService = Cats.Services.EarlyWarning.IFDPService;
+using UserProfile = Cats.Models.UserProfile;
 
 namespace Cats.Tests.ControllersTests
 {
@@ -113,6 +114,29 @@ namespace Cats.Tests.ControllersTests
                                        };
 
          //   regionalRequests[0].RegionalRequestDetails.First().RequestDetailCommodities = requestDetailCommodity;
+
+
+
+            List<UserProfile> uProfile;
+            uProfile = new List<Cats.Models.UserProfile>()
+                              {
+                                  new Cats.Models.UserProfile()
+                                      {
+                                          UserProfileID = 1,
+                                          UserName = "demo",
+                                          FirstName = "catsF",
+                                          LastName = "catsL"
+
+                                      },
+                                  new Cats.Models.UserProfile()
+                                      {
+                                          UserProfileID = 1,
+                                          UserName = "demo1",
+                                          FirstName = "catsF1",
+                                          LastName = "catsL1"
+
+                                      }
+                              };
             var adminUnit = new List<AdminUnit>()
                                 {
                                     new AdminUnit
@@ -146,6 +170,27 @@ namespace Cats.Tests.ControllersTests
                                           WorkflowID = 1
                                       }
                               };
+
+
+               var userAccountService = new Mock<IUserAccountService>();
+               userAccountService.Setup(t => t.GetUserInfo(It.IsAny<string>())).Returns(new UserInfo()
+               {
+                   UserName = "x",
+                   DatePreference = "en",
+                   PreferedWeightMeasurment = "mt"
+               });
+
+               var transactionService = new Mock<Cats.Services.Transaction.ITransactionService>();
+
+               var fakeContext = new Mock<HttpContextBase>();
+               var identity = new GenericIdentity("User");
+               var principal = new GenericPrincipal(identity, null);
+               fakeContext.Setup(t => t.User).Returns(principal);
+               var controllerContext = new Mock<ControllerContext>();
+               controllerContext.Setup(t => t.HttpContext).Returns(fakeContext.Object);
+
+            
+
             var commonService = new Mock<ICommonService>();
             commonService.Setup(t => t.GetAminUnits(It.IsAny<Expression<Func<AdminUnit, bool>>>(),
                       It.IsAny<Func<IQueryable<AdminUnit>, IOrderedQueryable<AdminUnit>>>(),
@@ -174,7 +219,7 @@ namespace Cats.Tests.ControllersTests
                           });
             mockRegionalRequestService.Setup(t => t.FindById(It.IsAny<int>())).Returns(
                 (int requestId) => regionalRequests.Find(t => t.RegionalRequestID == requestId));
-            mockRegionalRequestService.Setup(t => t.ApproveRequest(It.IsAny<int>())).Returns((int reqId) =>
+            mockRegionalRequestService.Setup(t => t.ApproveRequest(It.IsAny<int>(),new  UserProfile() )).Returns((int reqId) =>
                                                                                                  {
                                                                                                      regionalRequests.
                                                                                                          Find
@@ -351,22 +396,7 @@ namespace Cats.Tests.ControllersTests
                 t =>
                 t.Get(It.IsAny<Expression<Func<HRD, bool>>>(), It.IsAny<Func<IQueryable<HRD>, IOrderedQueryable<HRD>>>(),
                       It.IsAny<string>())).Returns(hrds);
-            var userAccountService = new Mock<IUserAccountService>();
-            userAccountService.Setup(t => t.GetUserInfo(It.IsAny<string>())).Returns(new UserInfo()
-                                                                                         {
-                                                                                             UserName = "x",
-                                                                                             DatePreference = "en",
-                                                                                             PreferedWeightMeasurment = "mt"
-                                                                                         });
-
-            var transactionService = new Mock<Cats.Services.Transaction.ITransactionService>();
-
-            var fakeContext = new Mock<HttpContextBase>();
-            var identity = new GenericIdentity("User");
-            var principal = new GenericPrincipal(identity,null);
-            fakeContext.Setup(t => t.User).Returns(principal);
-            var controllerContext = new Mock<ControllerContext>();
-            controllerContext.Setup(t => t.HttpContext).Returns(fakeContext.Object);
+           
             var log = new Mock<ILog>();
             log.Setup(t => t.Error(It.IsAny<object>()));
 

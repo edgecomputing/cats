@@ -164,6 +164,8 @@ namespace Cats.Tests.ControllersTests
             fakeContext.Setup(t => t.User).Returns(principal);
             var controllerContext = new Mock<ControllerContext>();
             controllerContext.Setup(t => t.HttpContext).Returns(fakeContext.Object);
+
+
             var ration = new List<Ration>()
                 {
                     new Ration {RationID = 1,IsDefaultRation = true}
