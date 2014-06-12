@@ -53,9 +53,9 @@
                         .Columns(columns =>
                         {
                             columns.Bound(d => d.ReceiptDate).Format("{0:d-MMM-yyyy}");
-                            columns.Bound(d => d.GRN);
+                            columns.Bound(d => d.GRN).ClientTemplate("<a href='" + @Url.Action("Create", "Receive") + "?RecieveID=#=getRecieveID(data)#'> Recieve </a>");
                             columns.Bound(b => b.ReceivedByStoreMan);
-
+                            //columns.Template(c => { }).Title("Recieve").ClientTemplate("<span class='rowCount' rowCount='#=rowCount#'>#=getRowNo(data)#");
                         })
                         .DataSource(dataSource => dataSource
                             .Ajax()
@@ -111,6 +111,9 @@
                 
 </script>
 <script>
+    function getRecieveID(data) {
+        return data.RecieveID;
+    }
     function editRecord() {
     }
 </script>
