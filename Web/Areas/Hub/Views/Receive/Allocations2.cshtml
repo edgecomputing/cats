@@ -53,29 +53,23 @@
                         .Columns(columns =>
                         {
                             columns.Bound(d => d.ReceiptDate).Format("{0:d-MMM-yyyy}");
-                            columns.Bound(d => d.GRN).ClientTemplate("<a href='" + @Url.Action("Create", "Receive") + "?RecieveID=#=getRecieveID(data)#'> Recieve </a>");
+                            columns.Bound(d => d.GRN).ClientTemplate("<a href='" + @Url.Action("Create", "Receive", new { @ReceiveID = "\\#=ReceiveID\\#"}) + "'>\\#:GRN\\#</a> &nbsp; ");
                             columns.Bound(b => b.ReceivedByStoreMan);
-                            //columns.Template(c => { }).Title("Recieve").ClientTemplate("<span class='rowCount' rowCount='#=rowCount#'>#=getRowNo(data)#");
                         })
-                        .DataSource(dataSource => dataSource
-                            .Ajax()
-                           // .Batch(true)
-                            .ServerOperation(false)
-                            //.Events(events => events.Error("error_handler"))
-                            // .Events(events => events.Change("onGridKeydown"))
-                           /*.Model(model =>
-                              {
-                                  model.Id(p => p.ReceiveID);
-                              })*/
-                            .Read(read => read.Action("ReceiveListAjax", "Receive", new { ReceiptAllocationID = "#=ReceiptAllocationID#" }))
+                  .DataSource(dataSource => dataSource
+                      .Ajax()
+                      .ServerOperation(false)
+                      .Read(read => read.Action("ReceiveListAjax", "Receive", new { ReceiptAllocationID = "#=ReceiptAllocationID#" }))
 
-                        )
-                         .HtmlAttributes(new { style = "max-height:250px;" })
-                        .Scrollable()
-                        .Sortable()
-                        .ClientDetailTemplateId("template_receive_detail")
-                        .ToClientTemplate())
+                  )
+                   .HtmlAttributes(new { style = "max-height:250px;" })
+                  .Scrollable()
+                  .Sortable()
+                  .ClientDetailTemplateId("template_receive_detail")
+                  .ToClientTemplate())
                 
+</script>
+<script id="template_receive_GRN" type="text/kendo-tmpl">
 </script>
 <script id="template_receive_detail" type="text/kendo-tmpl">
     
@@ -112,7 +106,8 @@
 </script>
 <script>
     function getRecieveID(data) {
-        return data.RecieveID;
+        console.log("getRecieveID", data);
+        return data.GRN;
     }
     function editRecord() {
     }
