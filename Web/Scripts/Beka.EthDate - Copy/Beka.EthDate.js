@@ -16,11 +16,6 @@ month_name_amh=['መስከረም', 'ጥቅምት', 'ኅዳር', 'ታህሣሥ', 
 month_name_amh_short= ['መስከረም', 'ጥቅምት', 'ኅዳር', 'ታህሣሥ', 'ጥር', 'የካቲት','መጋቢት', 'ሚያዝያ', 'ግንቦት', 'ሰኔ', 'ሐምሌ', 'ነሐሴ', 'ጳጉሜ'];
 day_name_amh = ['ሰኞ', 'ማክሰኞ', 'ረቡዕ', 'ሓሙስ', 'ዓርብ', 'ቅዳሜ', 'እሑድ'];
 day_name_amh_short = ['ሰኞ', 'ማክ', 'ረቡ', 'ሐሙ', 'ዓር', 'ቅዳ', 'እሑ'];
-
-//Date.prototype.mGetDay=Date.prototype.getDay
-Date.prototype.mGetDay = function() {
-return (this.getDay() + 6) %7;
-}
 function EthDate(year,month,date)
 {
 	this.parse=function(txt)
@@ -30,25 +25,10 @@ function EthDate(year,month,date)
 		this.year=arr[2]/1;
 		this.month=arr[1]/1;
 		this.date=arr[0]/1;
-        this.month=this.month>13?13:this.month;
-        
-        if(this.month==13 && this.date>6)
-        {
-            this.date=5;
-        }
-        else if(this.date>30)
-        {
-            this.date=30;
-        }
 		return this;
 	}
 	this.fromGregStr = function (input_date) {
-	    if(!input_date)
-        {
-            input_date=new Date().toLocaleDateString();
-        }
-        var g = new Date();
-        
+	    var g = new Date();
 	    if (input_date) {
 	         g = new Date(Date.parse(input_date));
 	    }
@@ -63,9 +43,8 @@ function EthDate(year,month,date)
 	    return this;
 	}
 this.fromGreg = function (input_date) {
-        input_date.setHours(0,0,0,0);
-	    var elaspsed_date = Math.floor(1 + (input_date.getTime() - reference_date.getTime()) /day) ;
-       // console.log("fromGreg",elaspsed_date)
+    
+	    var elaspsed_date = 1 + (input_date - reference_date) /day ;
 	    var lipyear = Math.floor((elaspsed_date + 1) / (365 * 4 + 1));
 	    var elapsedYear = Math.floor((elaspsed_date - lipyear) / 365);
 	    lipyear = Math.floor((elaspsed_date) / (365 * 4 + 1))
@@ -98,9 +77,7 @@ this.fromGreg = function (input_date) {
 	this.date=date?date:1;
 	if(!year)
 	{
-	       
-		this.fromGreg(new Date());
-        //console.log("No Year",this.date);
+		this.fromGreg(Date.now());
 	}
 	this.toString=function(){return this.date + "/" + this.month + "/" + this.year}
 	

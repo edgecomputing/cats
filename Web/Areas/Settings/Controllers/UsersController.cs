@@ -291,10 +291,22 @@ namespace Cats.Areas.Settings.Controllers
             var Roles = new List<Role>();
 
             //var user = _userService.FindBy(u=>u.UserName == userInfo.UserName).SingleOrDefault();
-            
+            List<Application> originalApps = _userService.GetUserPermissions(userInfo.UserName);
             var user = _userService.GetUserDetail(userInfo.UserName);
             //user.DefaultHub = userInfo.DefaultHub;
             _userService.UpdateUser(user);
+
+            using (var e1 = app.GetEnumerator())
+            using (var e2 = originalApps.GetEnumerator())
+            {
+                while (e1.MoveNext() && e2.MoveNext())
+                {
+                    var item1 = e1.Current;
+                    var item2 = e2.Current;
+
+                    
+                }
+            }
 
             foreach (var application in app)
             {
@@ -306,7 +318,25 @@ namespace Cats.Areas.Settings.Controllers
                     }      
                     else if(!role.IsChecked)
                     {
-                        //userService.RemoveRole(userInfo.UserName, application.ApplicationName, role.RoleName);  
+                        var isRoleAuthorized = false;
+                        foreach(var originalApp in originalApps)
+                        {
+                            if (originalApp.ApplicationName == application.ApplicationName)
+                            {
+                                foreach (var originalRole in originalApp.Roles)
+                                {
+                                    if(originalRole.RoleName == role.RoleName)
+                                    {
+                                        if(originalRole.IsChecked)
+                                        {
+                                            isRoleAuthorized = true;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        if (isRoleAuthorized)
+                            _userService.RemoveRole(userInfo.UserName, application.ApplicationName, role.RoleName);  
                     }
                 }
                 

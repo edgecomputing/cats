@@ -1315,6 +1315,7 @@
     <Content Include="Scripts\angular\css\jquery-ui.css" />
     <Content Include="Scripts\angular\allocation-angular.js" />
     <Content Include="Scripts\Beka.EthDate\Beka.EthDate.js" />
+    <Content Include="Scripts\Beka.EthDate\calendar.css" />
     <Content Include="Scripts\Beka.EthDate\jquery-ui-1.9.2.custom.css" />
     <Content Include="Scripts\Beka.EthDate\jquery.Beka.EthCalDatePicker.js" />
     <Content Include="Scripts\bootbox.min.js" />
@@ -1704,6 +1705,7 @@
     <Content Include="Areas\Procurement\Views\Transporter\Copy of Edit.cshtml" />
     <Content Include="Areas\Procurement\Views\Transporter\Copy of Create.cshtml" />
     <Content Include="Areas\Settings\Views\Account\Login.cshtml" />
+    <Content Include="Areas\WorkflowManager\Views\ProcessTemplate\Print.cshtml" />
     <None Include="dataset.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>dataset.Designer.cs</LastGenOutput>

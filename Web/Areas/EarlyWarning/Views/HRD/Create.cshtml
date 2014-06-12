@@ -2,7 +2,7 @@
 @using Kendo.Mvc.UI
 @using LanguageHelpers.Localization
 @using Cats.Helpers
-seas
+
 @model Cats.Models.HRD
 
 @{
@@ -47,13 +47,13 @@ seas
 
                     </div>
                 </div>
-                <div class="span6">
+                <div class="span6" style="visibility:hidden">
                     <div class="control-group">
                         <div class="control-label">
                             @Html.LabelFor(m => m.Year, Translator.Translate("Year (EC)"))
                         </div>
                         <div class="controls">
-                            @Html.TextBox("Year")
+                            @Html.TextBox("Year", @DateTime.Now.Year - 8 )
                             @Html.ValidationMessageFor(m => m.Year)
                             @if (@ViewBag.Error != null)
                             {
@@ -79,21 +79,21 @@ seas
                     </div>
                 </div>
 
-                <div class="span4">
+                <div class="span4" style="visibility: hidden">
                     <div class="control-group">
                         <div class="control-label">
                             @Html.LabelFor(m => m.SeasonID)
                         </div>
                         <div class="controls">
-                            @Html.DropDownList("SeasonID")
-                            @*@Html.ValidationMessageFor(m => m.SeasonID)*@
+                            @Html.DropDownList("SeasonID",string.Empty)
+                            @Html.ValidationMessageFor(m => m.SeasonID)
                         </div>
 
                     </div>
                 </div>
             </div>
             <div class="row">
-                <div class="span6">
+                <div class="span7">
                     <div class="control-group">
                         <div class="control-label">
                             @*@Html.Label(Translator.Translate("To"), new { @class = "cats-date-pref" })*@
@@ -107,8 +107,7 @@ seas
                         </div>
 
                     </div>
-                </div>
-                <div class="span6">
+                
                     <div class="control-group">
                         <div class="control-label">
                             @Html.LabelFor(m => m.RationID, "Ration")

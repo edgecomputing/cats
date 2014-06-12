@@ -282,7 +282,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                 var target = _reliefRequisitionDetailService.FindById(reliefRequisitionDetailViewModel.RequisitionDetailID);
                 if (target != null)
                 {
-                    target.Amount = reliefRequisitionDetailViewModel.Amount;
+                    target.Amount = reliefRequisitionDetailViewModel.Amount.ToPreferedWeightUnitForInsert();
                     target.BenficiaryNo = reliefRequisitionDetailViewModel.BenficiaryNo;
                     if(reliefRequisitionDetailViewModel.DonorID.HasValue)
                     target.DonorID = reliefRequisitionDetailViewModel.DonorID.Value;

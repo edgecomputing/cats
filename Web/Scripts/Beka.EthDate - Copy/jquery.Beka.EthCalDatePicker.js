@@ -1,115 +1,61 @@
 
 (function ($) {
     var _ethdatepickerInitialized = false;
-    $.fn.ethcal_datepicker = function (options) {
+    $.fn.ethcal_datepicker = function (readonly) {
         _ethdatepicker_init();
-        this.each(function () { 
+        this.each(function () { //
             var that = this;
-            
-            //$(that).datepicker();
-            var geezStr="";
-            var eth_date = new EthDate();
-            var greg_date;
-            var tag=this.tagName;
-            //console.log(tag);
-            if(tag=="INPUT")
-            {
-                if (!$(that).val()) {
-                    greg_date = new Date();
-                    //$(that).val(greg_date.toLocaleDateString());
-                }
-                
-                eth_date.fromGregStr($(that).val());
-                if ($(that).val()) {
-                    geezStr=eth_date.toString();
-                }
-                
-                var eth_date_input = $($(that).clone()).insertAfter($(this));
-                
-                    eth_date_input.removeClass("cats-datepicker2").attr("name","")
-                    .val(geezStr)
-                    .click(function () { _ethdatepicker_show(this); })
-                    .change(function(){
-                        var $this=$(this);
-                        var selected_date = new EthDate();
-                            if ($this.val()) {
-                                var $gregInput=$this.attr("data-greg_input");
-                                selected_date.parse($this.val());
-                                if($this.val()!=selected_date.toString())
-                                {
-                                   $this.tooltip("show")
-                                   .val("");
-                                }
-                                //$this.val(selected_date.toString());
-                                $gregInput.val(selected_date.toGreg().toLocaleDateString());
-                            }
-                    })
-                    .tooltip({trigger:"hover manual",title:"dd/mm/yyyy"})
-                    .attr("placeholder","dd/mm/yyyy");
-   // .tooltip(options)
-                eth_date_input.data("greg_input", this);
-                eth_date_input.blur(function (e) { _handle_blur(e,this) });
-                var dp=_build_date_picker(eth_date_input);
-                dp.displayStyle="popup";
-                
-                $(this).data("eth_date_input", eth_date_input);
-                $(this).css({opacity: 0.5,display:"none"});
-                
-            }
-            else
-            {
-                var geezDate=[""];
-                if(options)
-                {
-                    if(typeof(options)!="object")
-                    {
-                       geezDate=options; 
-                    }
-                    else if(options.date)
-                    {
-                        geezDate=options.date;
-                        
-                        
-                    }
-                }
-                
-                
-                if(typeof(geezDate)!="object")
-                    {
-                        geezDate=[geezDate];
-                    }
-                 console.log(typeof(geezDate))   
-                for(var i in geezDate)
-                {
-                    var dp=_build_date_picker($(this));
-                    var eth_date_input = $("<input type='hidden' />").appendTo($(this))
-                        .val(geezDate[i])
-                        .data("greg_input", this);
-                   // $(this).data("eth_date_input", eth_date_input);
-                    $(this).data("eth_date_input", eth_date_input);
-                    dp.displayStyle="inline";
-                    dp.input=$(eth_date_input);
-                    dp.ui.container.appendTo($(this));
-                    dp.ui.container.css({position:"",display:"inline-table"});//.show();
-                    eth_date_input.data("date_picker",dp)
-                  //  $("<div>this is thdslkdjf</div>").appendTo($(this));
-                    //console.log(dp.ui.container);
-                    _ethdatepicker_show(eth_date_input);  
-                }
+            var htm = '<input/>';
+            $(that).datepicker();
 
+            var eth_date = new EthDate().fromGregStr($(that).val());
+            if (!$(that).val()) {
+                var greg_date = eth_date.toGreg();
+                $(that).val(greg_date.toLocaleDateString());
             }
+
+            var eth_date_input = $($(that).clone()).insertAfter($(this))
+                .removeClass("cats-datepicker2").attr("name","")
+                .val(eth_date.toString())
+                .click(function () { _ethdatepicker_show(this); });
+
+            /*
+            var eth_date_input = $(htm).insertAfter($(this))
+                .val(eth_date.toString())
+                .click(function () { _ethdatepicker_show(this); });
+            */
+            
+
+           /* if ($(that).attr("readonly") == "readonly") {
+                eth_date_input.attr("readonly", "readonly");
+
+            }*/
+           // if
+                
+            eth_date_input.data("greg_input", this);
+            eth_date_input.blur(function (e) { _handle_blur(e,this) });
+            _build_date_picker(eth_date_input);
+            $(this).data("eth_date_input", eth_date_input);
+
+            /*var copyClass = function (source, dest) {
+                var classList = source.attr('class').split(/\s+/);
+                $.each(classList, function (index, item) {
+                    if (item != 'someClass') {
+                        dest.addClass(item);
+                    }
+                });
+            }
+            copyClass($(this), eth_date_input);*/
 
         });
 
 
 
 
-        return this;
+        return this.filter('input:text')
+            .css('opacity', 0)
+            .css('display', 'none');
 
-    }
-    function getInputDate(options,input)
-    {
-        
     }
     var test_coutn = 0;
     var _handle_blur = function(evt,elem)
@@ -169,9 +115,8 @@
         var yearhtm = _write_year_option();
         var $month = $(monthhtm).appendTo($title);
         var $year = $(yearhtm).appendTo($title);
-        var yearmonth=$("<div class='year-month'>Month : Year</div>").appendTo($title);
-        
-        var eth_date_pickerdata = { ui: { container: eth_date_picker, body: $body, year: $year, month: $month,debug:$debug,yearmonth:yearmonth }, input: input,displayed:0 };
+
+        var eth_date_pickerdata = { ui: { container: eth_date_picker, body: $body, year: $year, month: $month,debug:$debug }, input: input,displayed:0 };
         $(input).data("date_picker", eth_date_pickerdata);
         $month.data("date_picker", eth_date_pickerdata);
         $year.data("date_picker", eth_date_pickerdata);
@@ -204,7 +149,7 @@
 
         });
         $year.change(function () {month_yr_changed($(this).data("date_picker"));});
-        return eth_date_pickerdata;
+        
     }
     var _write_month_option=function()
     {
@@ -216,7 +161,6 @@
             htm+="<option value='" + mi + "'>" + month_name_amh[i] + "</option>"
         }
         htm+="</select>";
-       
         return htm;
     }
     var _write_year_option = function () {
@@ -254,7 +198,6 @@
         }
          if (!dispdate) 
         {
-            datepicker.ui.yearmonth.html(month_name_amh[selected_date.month-1] + " - " + selected_date.year);
             datepicker.ui.year.val(selected_date.year);
             datepicker.ui.month.val(selected_date.month - 1);
          }
@@ -301,7 +244,7 @@
         var eth_date = new EthDate(diaplayed_date.year, diaplayed_date.month, 1);
         var greg_date = eth_date.toGreg();
         var startdayofmonth = eth_date;
-        var startdayofweek = greg_date.mGetDay();
+        var startdayofweek = greg_date.getDay();
 
         if (startdayofweek > 0) {
             greg_date.setTime(greg_date.getTime() - (startdayofweek) * day);
@@ -319,14 +262,11 @@
 
         var d = 1;
         var md = d - startdayofweek;
-        var today=(new Date()).toLocaleDateString();
         var monthCount = 0;
-        var weeksCount=0;
         var bodyHtm = '<tbody>';
         while (monthCount < 2) {
-            var rowhtm = "";
-            var displayedWeek=0;
-            rowhtm += '<tr>';
+            var rowhtm = ""
+            rowhtm += '<tr>'
             for (var i in day_name_amh_short) {
                 eth_date.fromGreg(greg_date);
                 md = d - startdayofweek;
@@ -336,18 +276,13 @@
                 if (eth_date.month == diaplayed_date.month) {
                     ancclass += " ui-state-default";
                     monthCount = 1;
-                    displayedWeek=1;
                 }
                 else {
                     tdcssclass += "  ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled";
 
                 }
-                if(eth_date.toGreg().toLocaleDateString()==today)
-                {
-                    tdcssclass +="ui-state-highlight"
-                }
                 if (selected_date.toString() == eth_date.toString()) {
-                    tdcssclass += " ui-datepicker-current-day "// ui-datepicker-today";
+                    tdcssclass += " ui-datepicker-current-day"// ui-datepicker-today";
                     ancclass += " ui-state-active";
                 }
                 cellHtm += '<td class="' + tdcssclass + '" data-month="' + eth_date.month + '" data-year="' + eth_date.year + '" >';
@@ -370,27 +305,14 @@
             }
             else {
                 monthCount = monthCount == 1 ? 2 : monthCount;
-                
             }
-            if(displayedWeek)
-            {
-                weeksCount++;
-                bodyHtm += rowhtm;
-            }
-            
-            
-        }
-        if(weeksCount==5)
-        {
-            bodyHtm+="<tr><td style='visibility:hidden;'><a class='ui-state-default' href='#'>&nbsp;</a></td></tr>";
+            bodyHtm += rowhtm;
         }
         bodyHtm += '</tbody>';
 
         var dtpicker_htm = headHtm + bodyHtm;
-        var className="ui-datepicker-calendar ";
-        var dtpicker_htm = '<table class="' + className + '">' + headHtm + bodyHtm + '</table>';
+        var dtpicker_htm = '<table class="ui-datepicker-calendar">' + headHtm + bodyHtm + '</table>';
         //					'<th class="ui-datepicker-week-end"><span title="Sunday">Su</span></th>'
-        $datepicker.ui.container.addClass("calendar_" + $datepicker.displayStyle)
         $datepicker.ui.body.html(dtpicker_htm);
         $datepicker.ui.body.find("td >a")
 				//.data("year", selected_date.year)
@@ -427,16 +349,9 @@
 															    var greg_date = selected_date.toGreg();
 															    $(target.data("greg_input")).val(greg_date.toLocaleDateString());
 															    cal.removeClass("hover");
+															    cal.hide();
 															 //   datepicker.displayed = 0;
-                                                            // console.log(selected_date.toString());
-                                                             cal.find(".ui-state-active").removeClass("ui-state-active");
-                                                             _this.find("a").addClass("ui-state-active")
-                                                                if(date_picker.displayStyle!="inline")
-                                                                {
-                                                                    
-                                                                    cal.hide();
-                                                                }
-															    
+															   
 															    
 															    //_ethdatepicker_show_month(cal);
 															}

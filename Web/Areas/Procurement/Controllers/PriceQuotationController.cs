@@ -322,7 +322,7 @@ namespace Cats.Areas.Procurement.Controllers
                      {
                          TransportBidQuotationHeaderID = proposal.TransportBidQuotationHeaderID,
                          BidNumber = proposal.Bid.BidNumber,
-                         BidBondAmount = proposal.BidBondAmount,
+                         //BidBondAmount = proposal.BidBondAmount,
                          OffersCount = proposal.TransportBidQuotations.Count,
                          Region = proposal.AdminUnit.Name,
                          Status = proposal.Status == 1 ? "Draft" : "Approved",
@@ -432,7 +432,7 @@ namespace Cats.Areas.Procurement.Controllers
                 {
                     TransportBidQuotationHeaderID = d.TransportBidQuotationHeaderID,
                     BidNumber = d.Bid.BidNumber,
-                    BidBondAmount = d.BidBondAmount,
+                    BidBondAmount = d.Bid.BidBondAmount,
                     OffersCount = d.TransportBidQuotations.Count,
                     Region = d.AdminUnit.Name,
                     Status = d.Status == 1 ? "Draft" : "Approved",
@@ -889,7 +889,7 @@ namespace Cats.Areas.Procurement.Controllers
             {
                 var e = _transportBidQuotationHeaderService.FindById(proposal.TransportBidQuotationHeaderID);
                 
-                e.BidBondAmount = proposal.BidBondAmount;
+//                e.BidBondAmount = proposal.BidBondAmount;
 
                 _transportBidQuotationHeaderService.UpdateTransportBidQuotationHeader(e);
                 ModelState.AddModelError("Success", "Proposal updated successfully");
@@ -908,7 +908,7 @@ namespace Cats.Areas.Procurement.Controllers
                      {
                          TransportBidQuotationHeaderID = proposal.TransportBidQuotationHeaderID,
                          BidNumber = proposal.Bid.BidNumber,
-                         BidBondAmount = proposal.BidBondAmount,
+                         //BidBondAmount = proposal.BidBondAmount,
                          OffersCount = proposal.TransportBidQuotations.Count,
                          Region = proposal.AdminUnit.Name,
                          Status = proposal.Status == 1 ? "Draft" : "Approved",

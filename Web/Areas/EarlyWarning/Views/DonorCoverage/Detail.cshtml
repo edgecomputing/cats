@@ -1,9 +1,10 @@
 ﻿@using Cats.Areas.EarlyWarning.Models
+@using Cats.Security
 @using Kendo.Mvc.UI
 @using LanguageHelpers.Localization
 @using Cats.Helpers
-
-@model Cats.Models.HrdDonorCoverage
+@model System.Data.DataTable
+@*@model Cats.Models.HrdDonorCoverage*@
 @{
     ViewBag.Title = "Detail";
     Layout = "~/Views/Shared/_MainLayout.cshtml";  
@@ -22,8 +23,10 @@
         </ul>
 
     </div>
-    <a class="btn toolbar-btn " href="@Url.Action("Index", "DonorCoverage")" data-buttontype="btn_back_to_list"></a>
-
+   @* //<a class="btn toolbar-btn " href="@Url.Action("Index", "DonorCoverage")" data-buttontype="btn_back_to_list"></a>*@
+     @Html.EarlyWarningOperationButton(
+                        @Url.Action("Index", "DonorCoverage", new { Area = "EarlyWarning" }),
+                        EarlyWarningConstants.Operation.View_HRD_list, "<i class=\"icon-list\"></i>", "btn", "btn_back_to_list")
 
 }
 
@@ -52,7 +55,7 @@
     <div id='dialogContent'></div>
 </div>
 <h4>Donor Coverage Detail</h4>
-@*@(Html.Kendo().Grid(Model)
+@(Html.Kendo().Grid(Model)
     .Name("Grid")
     .Columns(columns =>
     {
@@ -78,9 +81,9 @@
    .Groupable()
    
    
-    )*@
+    )
 
-@(Html.Kendo().Grid<HrdDonorCoverageDetailViewModel>()
+@*@(Html.Kendo().Grid<HrdDonorCoverageDetailViewModel>()
       .Name("grid")
           .Columns(columns =>
               {
@@ -102,4 +105,4 @@
             .Read(read => read.Action("HrdDonorCoverageDetail_Read", "DonorCoverage", new { id = Model.HRDDOnorCoverageID }))
            
             )
-      )
+      )*@

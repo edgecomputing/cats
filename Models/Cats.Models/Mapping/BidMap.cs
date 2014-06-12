@@ -24,7 +24,9 @@ namespace Cats.Models.Mapping
             this.Property(t => t.OpeningDate).HasColumnName("OpeningDate");
             this.Property(t => t.StatusID).HasColumnName("StatusID");
             this.Property(t => t.TransportBidPlanID).HasColumnName("TransportBidPlanID");
+            this.Property(t => t.BidBondAmount).HasColumnName("BidBondAmount");
             this.Property(t => t.PartitionId).HasColumnName("PartitionId");
+            //this.Property(t => t.BidBond).HasColumnName("BidBond");
 
             this.HasRequired(t => t.AdminUnit)
                .WithMany(t => t.Bids)
