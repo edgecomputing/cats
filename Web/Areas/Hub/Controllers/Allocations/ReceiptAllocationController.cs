@@ -495,6 +495,60 @@ namespace Cats.Areas.Hub.Controllers.Allocations
             return PartialView("Edit2", receiptAllocationViewModel);
 
         }
+        [HttpPost]
+        public ActionResult Edit2(ReceiptAllocationViewModel receiptAllocationViewModel)
+        {
+            if (receiptAllocationViewModel.CommoditySourceID == CommoditySource.Constants.DONATION)
+            {
+                ModelState.Remove("SourceHubID");
+                ModelState.Remove("SupplierName");
+                ModelState.Remove("PurchaseOrder");
+
+            }
+            else if (receiptAllocationViewModel.CommoditySourceID == CommoditySource.Constants.LOCALPURCHASE)
+            {
+                ModelState.Remove("DonorID");
+                ModelState.Remove("SourceHubID");
+            }
+            else
+            {
+                ModelState.Remove("DonorID");
+                ModelState.Remove("SupplierName");
+                ModelState.Remove("PurchaseOrder");
+            }
+
+
+            if (!(IsSIValid(receiptAllocationViewModel.SINumber, receiptAllocationViewModel.CommoditySourceID)))
+            {
+                ModelState.AddModelError("SINumber", "");
+            }
+
+            if (ModelState.IsValid)
+            {
+                ReceiptAllocation receiptAllocation = receiptAllocationViewModel.GenerateReceiptAllocation();
+                int typeOfGridToReload = receiptAllocation.CommoditySourceID;
+                int commType = _commodityService.FindById(receiptAllocation.CommodityID).CommodityTypeID;
+                //override to default hub
+                UserProfile user = _userProfileService.GetUser(User.Identity.Name);
+                receiptAllocation.HubID = user.DefaultHub.HubID;
+                if (typeOfGridToReload != Cats.Models.Hubs.CommoditySource.Constants.DONATION &&
+                    typeOfGridToReload != Cats.Models.Hubs.CommoditySource.Constants.LOCALPURCHASE)
+                {
+                    typeOfGridToReload = Cats.Models.Hubs.CommoditySource.Constants.LOAN;
+                }
+                //TODO:Check savechanges -> EditRecieptAllocation
+                _receiptAllocationService.EditReceiptAllocation(receiptAllocation);
+                return Json(new { gridId = typeOfGridToReload, CommodityTypeID = commType }, JsonRequestBehavior.AllowGet);
+                //return RedirectToAction("Index");
+            }
+            //return this.Create(receiptAllocationViewModel.CommoditySourceID);
+            //ModelState.Remove("SINumber");
+            //TODO:Check if commenting out has any effect
+            //================================================
+            // receiptAllocationViewModel.InitalizeViewModel();
+            //=============================================
+            return PartialView(receiptAllocationViewModel);
+        }
         public ActionResult SIMustBeInGift(string SINUmber, int? CommoditySourceID)
         {
             if (CommoditySourceID.HasValue && CommoditySourceID.Value ==CommoditySource.Constants.DONATION)
