@@ -233,7 +233,7 @@
             //error handler
         })*/
         $.post(url, attribs, function (data) {
-            $frm.show();
+            
             console.log("Submit Result", data);
             var submitResult = data;
             if (typeof (data) == "string") {
@@ -248,6 +248,7 @@
             //alert(data);
         }).error(function () {
             $("#modal_message").html("Error");
+            $frm.show();
             //error handler
         });
     }
