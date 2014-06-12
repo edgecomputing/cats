@@ -104,6 +104,7 @@
     .Filterable()
    .Groupable()
    .Navigatable()
+   
 
 )
 <script type="text/javascript">
@@ -238,7 +239,14 @@
     }
     function saverecords()
     {
+        var timer;
         $("#grid").data("kendoGrid").saveChanges();
+        var msg = '<div class="cats_success">Success: PSNP Plan was updated successfully.</div>';
+        $(".message-window").html(msg).delay(800).hide().fadeIn();
+        clearTimeout(timer);
+        timer = setTimeout(function () {
+            $(".message-window").fadeOut("normal", function () { $(this).html(''); });
+        }, 5000);
     }
     function reloadrecords()
     {

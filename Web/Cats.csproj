@@ -1534,6 +1534,7 @@
     <Content Include="Areas\Logistics\Views\Shared\_DispatchProgress.cshtml" />
     <Content Include="Areas\Logistics\Views\LogisticsStockStatus\ReceivedCommodity.cshtml" />
     <Content Include="Areas\Logistics\Views\LogisticsStockStatus\nghigh.cshtml" />
+    <Content Include="Scripts\js\bootstrap-timepicker.min.js" />
     <Content Include="Scripts\ng-google-chart.js" />
     <Content Include="Scripts\ng-highchart.js" />
     <Content Include="Scripts\HubScripts\Cascade.js" />

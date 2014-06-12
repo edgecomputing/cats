@@ -12,7 +12,7 @@ namespace Cats.Models
 
         public int TransportBidQuotationHeaderID { get; set; }
         public Nullable<System.DateTime> BidQuotationDate { get; set; }
-        public float BidBondAmount { get; set; }
+        //public float BidBondAmount { get; set; }
         public Nullable<int> TransporterId { get; set; }
         public Nullable<int> BidId { get; set; }
         public Nullable<int> RegionID { get; set; }
