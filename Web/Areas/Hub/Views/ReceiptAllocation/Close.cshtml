@@ -8,7 +8,7 @@
 <h4>@Html.Translate("Are you sure you want to Close this receipt Allocation?")</h4>
 <div class="form-horizontal two-col-form">
         <!--ETA-->
-        <div class="control-group required">
+        <div class="control-group">
             @Html.LabelFor(model => model.ETA, Html.Translate("ETA"),new { @class="control-label" })
             <div class="controls">
                 @Html.DisplayFor(model => model.ETA)
@@ -16,7 +16,7 @@
         </div>
 
         <!--Project Number-->
-        <div class="control-group required">
+        <div class="control-group">
             @Html.LabelFor(model => model.ProjectNumber, Html.Translate("Project Number"),new { @class="control-label" })
             <div class="controls">
                 @Html.DisplayFor(model => model.ProjectNumber)

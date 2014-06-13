@@ -38,12 +38,12 @@
     </div>
     <div class="btn-group">
         <button class="btn">Action</button>
-        
-           
+
+
         <button class="btn dropdown-toggle " data-toggle="dropdown">
             <span class="caret"></span>
         </button>
-           
+
         <ul class="dropdown-menu">
             @if (state.AllowedAccessLevel >= 2)
             {
@@ -55,8 +55,8 @@
             }
         </ul>
     </div>
-      <a class="btn toolbar-btn " data-buttontype="btn_back_to_list" href="@Url.Action("Index", "RegionalPSNPPlan")"></a>
-    
+    <a class="btn toolbar-btn " data-buttontype="btn_back_to_list" href="@Url.Action("Index", "RegionalPSNPPlan")"></a>
+
 }
 
 @if (ViewBag.psnpPlan != null)
@@ -109,22 +109,21 @@
             { columns.Bound(column.ColumnName).HtmlAttributes(new { align = "right" }).Format("{0:N2}"); }
             else if (column.DataType == typeof(int))
             {
-                columns.Bound(column.ColumnName).HtmlAttributes(new { align = "right" }).Format("{0:N0}"); 
+                columns.Bound(column.ColumnName).HtmlAttributes(new { align = "right" }).Format("{0:N0}");
             }
-            else{
+            else
+            {
                 columns.Bound(column.ColumnName);
             }
 
         }
     })
-    //.Pageable(t=>t.PageSizes(new []{10,15,20,30,50,100}))
-     
     .HtmlAttributes(new { style = "height: 550px" })
     .Sortable()
-   .Scrollable()
-   .Groupable()
-   
-   
+    .Scrollable()
+    .Groupable()
+
+
     )
 
 @*@(Html.Kendo().Grid<Cats.Models.PSNP.PSNPPlanDetailView>()
@@ -187,12 +186,10 @@
     function filterInfo() {
         return {id:@ViewBag.PsnpPlan.RegionalPSNPPlanID};
     }*@
-    function saverecords()
-    {
+    function saverecords() {
         $("#grid").data("kendoGrid").dataSource.update();
     }
-    function reloadrecords()
-    {
+    function reloadrecords() {
         $("#grid").data("kendoGrid").dataSource.read();
     }
 
@@ -203,9 +200,9 @@
         <h4 id="modalHistoryLabel">Activity History</h4>
     </div>
     <div class="modal-body" id="modalHistoryBody">History</div>
-        <div class="modal-footer">
-            <a href="@Url.Action("Details", "BusinessProcess", new { Area = "WorkflowManager", id = "0" })">View In New Window</a>
-        </div>
+    <div class="modal-footer">
+        <a href="@Url.Action("Details", "BusinessProcess", new { Area = "WorkflowManager", id = "0" })">View In New Window</a>
+    </div>
 </div>
 @Html.Partial("~/Views/Shared/_PromotWorkflow.cshtml")
 <script>

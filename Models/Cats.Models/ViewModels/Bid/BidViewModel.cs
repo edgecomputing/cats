@@ -40,14 +40,17 @@ namespace Cats.Models.ViewModels.Bid
         public int StatusID { get; set; }
         public int TransportBidPlanID { get; set; }
         public decimal BidBondAmount { get; set; }
-        [DataType(DataType.Time)]
-        public DateTime StartTime { get; set; }
+        [Required(ErrorMessage = "hour is required")] 
+        [Range(0, 12, ErrorMessage = "Hour can't be less than 0 and greater than 12!")]
+        public TimeSpan StartTime { get; set; }
 
-        [DataType(DataType.Time)]
-        public DateTime EndTime { get; set; }
+      
+        [Range(0, 12, ErrorMessage = "Hour can't be less than 0 and greater than 12!")]
+        public TimeSpan EndTime { get; set; }
 
-        [DataType(DataType.Time)]
-        public DateTime BidOpningTime { get; set; }
+       
+        [Range(0, 12, ErrorMessage = "Hour can't be less than 0 and greater than 12!")]
+        public TimeSpan BidOpningTime { get; set; }
 
 
         //[Required]
