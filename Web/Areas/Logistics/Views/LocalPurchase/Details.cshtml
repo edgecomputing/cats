@@ -178,10 +178,10 @@
                   columns.Bound(m => m.AllocatedAmonut).Width(200).Title(Html.Translate("Allocated Amonut in MT")).HtmlAttributes(new { align = "right" })
                   .ClientTemplate("#= AllocatedAmonut #" +
                 "<input type='hidden' name='LocalPurchaseDetailViewModels[#= index(data)#].AllocatedAmonut' value='#= AllocatedAmonut #' />");
-                  columns.Bound(m => m.RecievedAmonut).Width(200).Title(Html.Translate("Recieved Amount in MT")).HtmlAttributes(new { align = "right" })
-                  .ClientTemplate("#= RecievedAmonut #" +
-                "<input type='hidden' name='LocalPurchaseDetailViewModels[#= index(data)#].RecievedAmonut' value='#= RecievedAmonut #' />");
-                  columns.Bound(m => m.RemainingAmonut).Width(200).Title(Html.Translate("Remaining Amonut in MT")).HtmlAttributes(new { align = "right" });
+                //  columns.Bound(m => m.RecievedAmonut).Width(200).Title(Html.Translate("Recieved Amount in MT")).HtmlAttributes(new { align = "right" })
+                //  .ClientTemplate("#= RecievedAmonut #" +
+                //"<input type='hidden' name='LocalPurchaseDetailViewModels[#= index(data)#].RecievedAmonut' value='#= RecievedAmonut #' />");
+                //  columns.Bound(m => m.RemainingAmonut).Width(200).Title(Html.Translate("Remaining Amonut in MT")).HtmlAttributes(new { align = "right" });
 
                   columns.Bound(m => m.LocalPurchaseID).Hidden(true).ClientTemplate("#= LocalPurchaseID #" +
                 "<input type='hidden' name='LocalPurchaseDetailViewModels[#= index(data)#].LocalPurchaseID' value='#= LocalPurchaseID #' />");

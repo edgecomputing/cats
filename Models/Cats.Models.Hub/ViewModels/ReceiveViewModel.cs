@@ -65,6 +65,8 @@ namespace Cats.Models.Hubs.ViewModels
         {
             get
             {
+                return _stacks;
+                /*
                 //TODO:Make sure constractor stacks variable brings same data with the same logic
                 if (this.StoreID != 0)
                 {
@@ -81,7 +83,7 @@ namespace Cats.Models.Hubs.ViewModels
                     return stacks;
                 }
                 return new List<AdminUnitItem>();
-                return _stacks;
+                return _stacks;*/
             }
             set { _stacks = value; }
         }

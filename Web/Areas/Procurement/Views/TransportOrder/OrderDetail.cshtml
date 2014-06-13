@@ -135,6 +135,17 @@
 
                 </div>
             </div>
+              <div class="span4">
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.Label(Html.Translate("Transport Requisition No"))
+                    </div>
+                    <div class="controls">
+                        @Html.TextBoxFor(m => m.TransportOrderNo, new { Disabled = true })
+                    </div>
+
+                </div>
+            </div>
         </div>
     </div>
 
@@ -166,7 +177,7 @@
             columns.ForeignKey(p => p.HubID, (IEnumerable)ViewBag.HubID, "hubID", "Name").Width(100).Title(Html.Translate("Origin Warehouse")).ClientFooterTemplate(Html.Translate("Total")); 
            // columns.Bound(p => p.DistanceFromOrigin);
             columns.Bound(p => p.QuantityQtl).Title("Qantity").ClientFooterTemplate("<b>#=kendo.format('{0:N0}', sum)#</b>").HtmlAttributes(new { align = "right" }).Format("{0:n2}").HeaderHtmlAttributes(new { @class = "cats-unit-pref-grid" });
-            columns.Bound(p => p.TariffPerQtl).Title("Tariff").HtmlAttributes(new { style = "background-color:lightgray" }).Format("{0:n2}").Width(100).HtmlAttributes(new { align = "Right" });
+            columns.Bound(p => p.TariffPerQtl).Title("Tariff / Qtl").HtmlAttributes(new { style = "background-color:lightgray" }).Format("{0:n2}").Width(100).HtmlAttributes(new { align = "Right" });
             columns.Bound(p => p.TotalAmount).ClientFooterTemplate("<b>#=kendo.format('{0:N0}', sum)#</b>").Format("{0:N0}").HtmlAttributes(new {align="Right"}); 
 
         })   
