@@ -45,6 +45,12 @@ namespace Cats.Models.Mapping
             this.HasRequired(t => t.Plan)
                 .WithMany(t => t.RegionalRequests)
                 .HasForeignKey(d => d.PlanID);
+            this.HasOptional(t => t.UserProfile)
+                .WithMany(t => t.RegionalRequests)
+                .HasForeignKey(d => d.RequestedBy);
+            this.HasOptional(t => t.UserProfile1)
+                .WithMany(t => t.RegionalRequests1)
+                .HasForeignKey(d => d.ApprovedBy);
 
         }
     }

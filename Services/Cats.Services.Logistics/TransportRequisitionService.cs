@@ -146,13 +146,11 @@ namespace Cats.Services.Logistics
             {
                 destinationURl = "http://" + HttpContext.Current.Request.Url.Authority +
                                  "/Procurement/TransportOrder/NotificationNewRequisitions?recordId=" + transportRequisition.TransportRequisitionID;
+                return;
             }
-            else
-            {
-                destinationURl = "http://" + HttpContext.Current.Request.Url.Authority +
-                                 HttpContext.Current.Request.ApplicationPath +
-                                 "/Procurement/TransportOrder/NotificationNewRequisitions?recordId=" + transportRequisition.TransportRequisitionID;
-            }
+            destinationURl = "http://" + HttpContext.Current.Request.Url.Authority +
+                             HttpContext.Current.Request.ApplicationPath +
+                             "/Procurement/TransportOrder/NotificationNewRequisitions?recordId=" + transportRequisition.TransportRequisitionID;
             _notificationService.AddNotificationForProcurementFromLogistics(destinationURl, transportRequisition);
         }
         
