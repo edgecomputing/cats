@@ -1,6 +1,4 @@
-﻿@* @model IEnumerable<Cats.Models.Hubs.ReceiptAllocation>
-           @model IEnumerable<Cats.Web.Hub.Models.ReceiptAllocationViewModelDto>*@
-@using Cats.Models.Hubs
+﻿@using Cats.Models.Hubs
 @using Cats.Models.Hubs.ViewModels
 @using Cats.Web.Hub.Helpers
 @using Kendo.Mvc.UI
@@ -10,8 +8,8 @@
 @{
     int allocationType = ViewBag.CommoditySourceType;
     string quanityColumnHeader = "MT";
-    
-    if(@Html.GetCurrentUser().PreferedWeightMeasurment == "qn")
+
+    if (@Html.GetCurrentUser().PreferedWeightMeasurment == "qn")
     {
         quanityColumnHeader = "Quintals";
     }
@@ -40,37 +38,36 @@
         columns.Bound(dis => dis.RemainingBalanceInMT).Title(Html.Translate("Remaining in " + quanityColumnHeader)).Format("{0:N3}").HtmlAttributes(new { align = "right" });
         columns.Bound(dis => dis.ReceiptAllocationID).Title("").ClientTemplate("<a href='" +
             @Url.Action("Create", "Receive", new { @ReceiptAllocationID = "#=ReceiptAllocationID#", @type = allocationType }) +
-            "'>Recieve  </a> &nbsp; " + 
-            "<a href='javascript:EditPlan(\"#=ReceiptAllocationID#\"," + allocationType +")'>Edit</a> &nbsp; " +
+            "'>Recieve  </a> &nbsp; " +
+            "<a href='javascript:EditPlan(\"#=ReceiptAllocationID#\"," + allocationType + ")'>Edit</a> &nbsp; " +
             "<a  class='close_#=IsClosed#' href='javascript:ClosePlanByID(\"#=ReceiptAllocationID#\"," + allocationType + ")'>Close</a>"
             );
     })
 )
 <script id="template_receive" type="text/kendo-tmpl">
     
-                    @(Html.Kendo().Grid<ReceiveViewModelDto>()
-                         .Name("Receives_#=ReceiptAllocationID#")
-                        .Columns(columns =>
-                        {
-                            columns.Bound(d => d.ReceiptDate).Format("{0:d-MMM-yyyy}");
-                            columns.Bound(d => d.GRN).ClientTemplate("<a href='" + @Url.Action("Create", "Receive", new { @ReceiveID = "\\#=ReceiveID\\#"}) + "'>\\#:GRN\\#</a> &nbsp; ");
-                            columns.Bound(b => b.ReceivedByStoreMan);
-                        })
-                  .DataSource(dataSource => dataSource
-                      .Ajax()
-                      .ServerOperation(false)
-                      .Read(read => read.Action("ReceiveListAjax", "Receive", new { ReceiptAllocationID = "#=ReceiptAllocationID#" }))
+    @(Html.Kendo().Grid<ReceiveViewModelDto>()
+        .Name("Receives_#=ReceiptAllocationID#")
+        .Columns(columns =>
+        {
+            columns.Bound(d => d.ReceiptDate).Format("{0:d-MMM-yyyy}");
+            columns.Bound(d => d.GRN).ClientTemplate("<a href='" + @Url.Action("Create", "Receive", new { @ReceiveID = "\\#=ReceiveID\\#" }) + "'>\\#:GRN\\#</a> &nbsp; ");
+            columns.Bound(b => b.ReceivedByStoreMan);
+        })
+        .DataSource(dataSource => dataSource
+            .Ajax()
+            .ServerOperation(false)
+            .Read(read => read.Action("ReceiveListAjax", "Receive", new { ReceiptAllocationID = "#=ReceiptAllocationID#" }))
 
-                  )
-                   .HtmlAttributes(new { style = "max-height:250px;" })
-                  .Scrollable()
-                  .Sortable()
-                  .ClientDetailTemplateId("template_receive_detail")
-                  .ToClientTemplate())
+            )
+    .HtmlAttributes(new { style = "max-height:250px;" })
+    .Scrollable()
+    .Sortable()
+    .ClientDetailTemplateId("template_receive_detail")
+    .ToClientTemplate())
                 
 </script>
-<script id="template_receive_GRN" type="text/kendo-tmpl">
-</script>
+
 <script id="template_receive_detail" type="text/kendo-tmpl">
     
                     @(Html.Kendo().Grid<ReceiveDetailViewModelDto>()
@@ -87,14 +84,7 @@
                         })
                         .DataSource(dataSource => dataSource
                             .Ajax()
-                           // .Batch(true)
                             .ServerOperation(false)
-                            //.Events(events => events.Error("error_handler"))
-                            // .Events(events => events.Change("onGridKeydown"))
-                           /*.Model(model =>
-                              {
-                                  model.Id(p => p.ReceiveID);
-                              })*/
                             .Read(read => read.Action("ReceiveDetailAjax", "Receive", new { ReceiveID = "#=ReceiveID#" }))
 
                         )
@@ -103,12 +93,4 @@
                         .Sortable()
                         .ToClientTemplate())
                 
-</script>
-<script>
-    function getRecieveID(data) {
-        console.log("getRecieveID", data);
-        return data.GRN;
-    }
-    function editRecord() {
-    }
 </script>

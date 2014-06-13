@@ -65,9 +65,6 @@
         {
             float: left;
             width: 49%;
-            /* background:#EEE;
-        border:solid 1px #ff6a00;
-    */
         }
 </style>
 <h3>Reciept Allocation</h3>
@@ -92,11 +89,6 @@
 </form>
 </div>
 
-
-<div style="display:none;">
-    @Html.Translate("This page lists receipts and receipt allocations for the selected Hub. Please use the filters on the column headers to select any recipt plan.")
-    @Html.Translate("If you would like to see previously recorded receipts, please click")  @Html.ActionLink(@Html.Translate("Receipt Log"), "Log") 
-</div>
 
 
      <!--Modal Editor-->
@@ -217,21 +209,8 @@
         console.log("submitForm ", url);
         $frm.hide();
         $("#modal_message").html("...Saving");
-        /*
-        var $inputs = $("#" + frmId + " input");
-        $inputs.each(function (index, element) {
-            //console.log("   submitForm ", element);
-            if (element.name) {
-                attribs[element.name] = element.value;
-            }
-        });
-        */
         attribs = $frm.serialize();
-        //console.log(attribs);
-        /*$.ajaxError(function () {
-            $("#modal_message").html("Error");
-            //error handler
-        })*/
+        
         $.post(url, attribs, function (data) {
             
             console.log("Submit Result", data);
@@ -258,11 +237,6 @@
         $("#modal_body").html("");
         $('#modal_edit_window').modal();
 
-        /*
-        $.post(url, attribs, function (data) {
-            $("#modal_body").html(data);
-        });
-        */
         $.get(url, attribs, function (data) {
             $("#modal_message").html("");
             $("#modal_body").html(data);
@@ -326,117 +300,3 @@
 
         }
 </script>
-<!--
-<script type="text/javascript">
-    
-    function CreateNewPlan(type)
-    {
-        $('#ReceiptDialog').data('tWindow').center().open();
-        if(type == 1)
-            $('#ReceiptDialog').data('tWindow').title('@Html.Translate("Edit/New Receipt Plan From Donation")');
-        if (type == 2)
-            $('#ReceiptDialog').data('tWindow').title('@Html.Translate("Edit/New Recipt Plan From Loan, Swap, Repayment Or Other")');
-        if (type == 3)
-            $('#ReceiptDialog').data('tWindow').title('@Html.Translate("Edit/New Recipt Plan From Local Purchase")');
-       // $('#create-link').hide();
-       // $('#create-edit-form').show();
-        var url = '@Url.Action("LoadBySIPartial", "ReceiptAllocation")';
-        $('#create-edit-form').load(url, { type: type },function () {
-            //if($('#SINumber').val() != "")
-            {
-        }    
-        });
-
-    }
-    function editPlan(item, type) {
-        
-        $('#ReceiptDialog').data('tWindow').center().open();
-        if (type == 1)
-            $('#ReceiptDialog').data('tWindow').title('@Html.Translate("Edit/New Receipt Plan From Donation")');
-        else if (type == 3)
-            $('#ReceiptDialog').data('tWindow').title('@Html.Translate("Edit/New Recipt Plan From Local Purchase")');
-        else
-            $('#ReceiptDialog').data('tWindow').title('@Html.Translate("Edit/New Recipt Plan From Loan, Swap, Repayment Or Other")');
-
-
-        //$('#create-link').hide();
-        var id =item;
-        var url = '@Url.Action("Edit", "ReceiptAllocation")';
-        url = url + '?allocationId=' + id;
-        $('#create-edit-form').load(url);
-        $('#create-edit-form').show();
-    }
-
-    function ClosePlanById(receiveAlloctionID) {
-        
-        $('#ReceiptDialog').data('tWindow').center().open();
-        var url = '@Url.Action("Close", "ReceiptAllocation")';
-        url = url + '?id=' + receiveAlloctionID;
-        $('#create-edit-form').load(url, function () {
-//            if ($('#SINumber').val() != "") {
-//            }
-        });
-    
-    }
-
-    function OnComChange(e) {
-
-    }
-    function cancel() {
-        $('#ReceiptDialog').data('tWindow').close();
-        $('#create-edit-form').html("");
-    }
-
-    function OnBinding(e) {
-        var combo = $('#CommodityID').data('tComboBox');
-        if (combo) {
-        }
-        var control = $('#CommodityID').data('tComboBox');
-        if (control != undefined || control != null) {
-            control.dropDown._html = function (items, encode) {
-                var sb = new $.telerik.stringBuilder();
-                if (!items)
-                    return sb.string();
-
-                for (var i = 0, count = items.length; i < count; i++) {
-                    var html = " ", item = items[i];
-                    html = item.Text; // +"<small style='display: block'>" + item.Text + "</small>";
-                    var obj = { html: html, dataItem: item };
-                    if (this.onItemCreate) {
-                        this.onItemCreate(obj);
-                        }
-                    if (!(item.unselectable)) {
-                        sb.cat('<li unselectable="on" class="t-item"  style="pointer-events: none; cursor: default;background : #ccc;">').cat(obj.html).cat("</li>");
-                    } else {
-                        sb.cat('<li unselectable="on" class="t-item" style="padding-left : 10px;"  >').cat(obj.html).cat("</li>");
-                    }
-                }
-
-                return sb.string();
-            };
-            control.value(control.previousValue);
-        }
-    }
-
-    function OnComTypeChange(e) {
-
-        if (e.value != null) {
-
-            if(e.value == 1)
-            {
-                $('.nonFood').hide();
-                $('.Food').show();
-            }
-         else {
-
-            $('.nonFood').show();
-            $('.Food').hide();
-
-        }
-      }
-   }
-
- 
-</script>
-
--->
