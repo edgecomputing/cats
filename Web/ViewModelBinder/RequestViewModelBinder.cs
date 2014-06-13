@@ -47,7 +47,12 @@ namespace Cats.ViewModelBinder
             regionalRequestViewModel.RationID = regionalRequest.RationID;
             regionalRequestViewModel.Year = regionalRequest.Year;
             regionalRequestViewModel.PlanId = regionalRequest.PlanID;
-           
+            if (regionalRequest.UserProfile != null)
+                regionalRequestViewModel.RequestedBy = regionalRequest.UserProfile.FirstName + " " +
+                                                       regionalRequest.UserProfile.LastName;
+            if (regionalRequest.UserProfile1 != null)
+                regionalRequestViewModel.ApprovedBy = regionalRequest.UserProfile1.FirstName + " " +
+                                                      regionalRequest.UserProfile1.LastName;
             return regionalRequestViewModel;
         }
 

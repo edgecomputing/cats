@@ -37,6 +37,8 @@ namespace Cats.Models
 
         public virtual ICollection<RegionalRequestDetail> RegionalRequestDetails { get; set; }
         public virtual ICollection<ReliefRequisition> ReliefRequisitions { get; set; }
+        public virtual UserProfile UserProfile { get; set; }
+        public virtual UserProfile UserProfile1 { get; set; }
         public virtual AdminUnit AdminUnit { get; set; }
         public virtual Program Program { get; set; }
         public virtual Ration Ration { get; set; }

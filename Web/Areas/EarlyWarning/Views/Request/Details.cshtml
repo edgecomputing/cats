@@ -160,10 +160,10 @@
         <div class="span4">
             <div class="control-group">
                 <div class="control-label">
-                    @Html.LabelFor(m => modelRequest.ReferenceNumber)
+                    @Html.LabelFor(m => modelRequest.RequestedBy)
                 </div>
                 <div class="controls">
-                    @Html.TextBoxFor(m => modelRequest.ReferenceNumber, new { Disabled = true })
+                    @Html.TextBoxFor(m => modelRequest.RequestedBy, new { Disabled = true })
                 </div>
             </div>
         </div>
@@ -198,10 +198,10 @@
         <div class="span4">
             <div class="control-group">
                 <div class="control-label">
-                    @Html.LabelFor(m => modelRequest.MonthName)
+                    @Html.LabelFor(m => modelRequest.ApprovedBy)
                 </div>
                 <div class="controls">
-                    @Html.TextBoxFor(m => modelRequest.MonthName, new { Disabled = true })
+                    @Html.TextBoxFor(m => modelRequest.ApprovedBy, new { Disabled = true })
                 </div>
             </div>
         </div>
