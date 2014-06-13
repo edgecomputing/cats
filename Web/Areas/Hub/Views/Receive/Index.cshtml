@@ -264,6 +264,7 @@
         });
         */
         $.get(url, attribs, function (data) {
+            $("#modal_message").html("");
             $("#modal_body").html(data);
             setTimeout(function () {
                 initValidation()
