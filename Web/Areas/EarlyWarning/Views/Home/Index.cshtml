@@ -317,7 +317,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr ng-repeat="request in Requests" class="">
+                                        <tr ng-repeat="request in Requests | orderBy:['Region','Round']" class="">
                                             @*<td class="hidden-xs"><a ng-href="@Url.Action("Allocation", "Request", new { Area = "EarlyWarning", id = "{{request.Region}}"})"> {{request.Region}} </a> </td>*@
                                             <td class="hidden-xs"><a ng-href="@Url.Content("~/EarlyWarning/Request/Allocation/{{request.RegionalRequestID}}")">{{request.Region}}  </a></td>
                                             <td class="number">{{request.Beneficiary|number}}</td>
