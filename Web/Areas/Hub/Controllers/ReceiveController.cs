@@ -454,6 +454,8 @@ namespace Cats.Areas.Hub.Controllers
                 }
 
             }
+            if (receiveId!=null)
+                receiveViewModel.ReceiveID = Guid.Parse(receiveId);
             return View("Create", receiveViewModel);
         }
 
@@ -610,7 +612,7 @@ namespace Cats.Areas.Hub.Controllers
                     break;
             }
 
-            if (ModelState.IsValid && user != null)
+            if (user != null)
             {
                 if (receiveModels.ChangeStoreManPermanently != null && receiveModels.ChangeStoreManPermanently == true)
                 {
@@ -720,7 +722,7 @@ namespace Cats.Areas.Hub.Controllers
         /// </summary>
         /// <param name="SINumber">The SI number.</param>
         /// <returns></returns>
-        public ActionResult LoadDataBySI(int shippingInstructionID, string receiptAllocationID)
+        public ActionResult LoadDataBySI(int SINumber, string receiptAllocationID)
         {
             UserProfile user = _userProfileService.GetUser(User.Identity.Name);
 
@@ -734,9 +736,9 @@ namespace Cats.Areas.Hub.Controllers
             int? ResponsibleDonorID = null;
             int? SourceDonorID = null;
 
-            if (_giftCertificateService.FindBySINumber(shippingInstructionID) != null)
+            if (_giftCertificateService.FindBySINumber(SINumber) != null)
             {
-                Cats.Models.Hubs.GiftCertificate gCertificate = _giftCertificateService.FindBySINumber(shippingInstructionID);
+                Cats.Models.Hubs.GiftCertificate gCertificate = _giftCertificateService.FindBySINumber(SINumber);
                 var giftCertificateDetail = gCertificate.GiftCertificateDetails.FirstOrDefault();
                 if (giftCertificateDetail != null)
                 {
@@ -766,12 +768,12 @@ namespace Cats.Areas.Hub.Controllers
             }
             else
             {
-                if (_receiptAllocationService.FindBySINumber(_giftCertificateService.FindBySINumber(shippingInstructionID).ShippingInstruction.Value) != null &&
-                    _receiptAllocationService.FindBySINumber(_giftCertificateService.FindBySINumber(shippingInstructionID).ShippingInstruction.Value).Any())
+                if (_receiptAllocationService.FindBySINumber(_giftCertificateService.FindBySINumber(SINumber).ShippingInstruction.Value) != null &&
+                    _receiptAllocationService.FindBySINumber(_giftCertificateService.FindBySINumber(SINumber).ShippingInstruction.Value).Any())
                 {
                     ReceiptAllocation rAllocation =
                         _receiptAllocationService.GetAllReceiptAllocation().FirstOrDefault(
-                            p => p.SINumber == _giftCertificateService.FindBySINumber(shippingInstructionID).ShippingInstruction.Value && p.HubID == user.DefaultHub.HubID);
+                            p => p.SINumber == _giftCertificateService.FindBySINumber(SINumber).ShippingInstruction.Value && p.HubID == user.DefaultHub.HubID);
 
                     if (rAllocation != null)
                     {
