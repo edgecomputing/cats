@@ -265,7 +265,8 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
         public ActionResult ApproveRequest(int id)
         {
-            UserProfile user = _userProfileService.GetUser(User.Identity.Name);
+            var user = _userAccountService.GetUserInfo(User.Identity.Name);
+           
             _regionalRequestService.ApproveRequest(id, user);
            
             return RedirectToAction("Index");

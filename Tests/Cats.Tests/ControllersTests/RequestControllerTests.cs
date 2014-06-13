@@ -66,6 +66,8 @@ namespace Cats.Tests.ControllersTests
                                                    Year = DateTime.Today.Year
                                                    ,
                                                    Status=1,
+                                                   RequestedBy = 1,
+                                                   ApprovedBy = 2,
                                                    Program = new Program(){
                                                    Name="Program1",
                                                    ProgramID = 1
@@ -117,26 +119,7 @@ namespace Cats.Tests.ControllersTests
 
 
 
-            List<UserProfile> uProfile;
-            uProfile = new List<Cats.Models.UserProfile>()
-                              {
-                                  new Cats.Models.UserProfile()
-                                      {
-                                          UserProfileID = 1,
-                                          UserName = "demo",
-                                          FirstName = "catsF",
-                                          LastName = "catsL"
-
-                                      },
-                                  new Cats.Models.UserProfile()
-                                      {
-                                          UserProfileID = 1,
-                                          UserName = "demo1",
-                                          FirstName = "catsF1",
-                                          LastName = "catsL1"
-
-                                      }
-                              };
+           
             var adminUnit = new List<AdminUnit>()
                                 {
                                     new AdminUnit
@@ -177,17 +160,13 @@ namespace Cats.Tests.ControllersTests
                {
                    UserName = "x",
                    DatePreference = "en",
-                   PreferedWeightMeasurment = "mt"
+                   PreferedWeightMeasurment = "mt",
+                   UserProfileID = 80
                });
 
                var transactionService = new Mock<Cats.Services.Transaction.ITransactionService>();
 
-               var fakeContext = new Mock<HttpContextBase>();
-               var identity = new GenericIdentity("User");
-               var principal = new GenericPrincipal(identity, null);
-               fakeContext.Setup(t => t.User).Returns(principal);
-               var controllerContext = new Mock<ControllerContext>();
-               controllerContext.Setup(t => t.HttpContext).Returns(fakeContext.Object);
+             
 
             
 
@@ -219,7 +198,7 @@ namespace Cats.Tests.ControllersTests
                           });
             mockRegionalRequestService.Setup(t => t.FindById(It.IsAny<int>())).Returns(
                 (int requestId) => regionalRequests.Find(t => t.RegionalRequestID == requestId));
-            mockRegionalRequestService.Setup(t => t.ApproveRequest(It.IsAny<int>(),new  UserProfile() )).Returns((int reqId) =>
+            mockRegionalRequestService.Setup(t => t.ApproveRequest(It.IsAny<int>(),It.IsAny<UserInfo>() )).Returns((int reqId, UserInfo user) =>
                                                                                                  {
                                                                                                      regionalRequests.
                                                                                                          Find
@@ -347,7 +326,13 @@ namespace Cats.Tests.ControllersTests
             var requestDetailService = new Mock<IRegionalRequestDetailService>();
             requestDetailService.Setup(t => t.Get(It.IsAny<Expression<Func<RegionalRequestDetail, bool>>>(), null, It.IsAny<string>())).Returns(regionalRequests.First().RegionalRequestDetails);
 
-          
+            var fakeContext = new Mock<HttpContextBase>();
+            var identity = new GenericIdentity("User");
+            var principal = new GenericPrincipal(identity, null);
+            fakeContext.Setup(t => t.User).Returns(principal);
+            var controllerContext = new Mock<ControllerContext>();
+            controllerContext.Setup(t => t.HttpContext).Returns(fakeContext.Object);
+
             commonService.Setup(t => t.GetCommodities(It.IsAny<Expression<Func<Commodity, bool>>>(),
                       It.IsAny<Func<IQueryable<Commodity>, IOrderedQueryable<Commodity>>>(),
                       It.IsAny<string>())).Returns(new List<Commodity>() { new Commodity { CommodityID = 1, Name = "CSB" } });
@@ -441,11 +426,7 @@ namespace Cats.Tests.ControllersTests
         public void CanApproveDraftRequest()
         {
 
-            
-
-
-
-            //Act
+           //Act
             _requestController.ApproveRequest(1);
             // var reqStatus = regionalRequests[0].Status;
             var resut = (ViewResult)_requestController.Edit(1);
