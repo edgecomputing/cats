@@ -32,6 +32,7 @@ namespace Cats.Models.Hubs
         public decimal TotalFreestock { get; set; }
         public decimal TotalPhysicalStock { get; set; }
     }
+
     public class HubRecentDispachesViewModel
     {
         public string BidNumber { get; set; }
@@ -42,5 +43,7 @@ namespace Cats.Models.Hubs
         public string Commodity { get; set; }
         public string Transporter { get; set; }
         public decimal DispatchedAmount { get; set; }
+        public string Program { get; set; }
+        public Nullable<int> BeneficiaryNumber { get; set; }
     }
 }

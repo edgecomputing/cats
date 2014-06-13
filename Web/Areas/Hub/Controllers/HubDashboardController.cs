@@ -81,13 +81,25 @@ namespace Cats.Areas.Hub.Controllers
             if (currentUser.DefaultHub!=null)
             {
                 var result = _dispatchService.FindBy(m => m.HubID == currentUser.DefaultHub).OrderByDescending(m=>m.DispatchID);
-                var dispached = GetDispathced(result);
-                return Json(dispached, JsonRequestBehavior.AllowGet);
+                var dispatched = GetDispatch(result);
+                return Json(dispatched, JsonRequestBehavior.AllowGet);
             }
             
             return Json(null, JsonRequestBehavior.AllowGet);
         }
-        private IEnumerable<HubRecentDispachesViewModel> GetDispathced(IEnumerable<Dispatch> dispatchs)
+        public JsonResult RecentDispatchAllocation()
+        {
+            var currentUser = UserAccountHelper.GetUser(HttpContext.User.Identity.Name);
+            if (currentUser.DefaultHub != null)
+            {
+                var result = _dispatchAllocationService.FindBy(m => m.HubID == currentUser.DefaultHub).OrderByDescending(m => m.DispatchAllocationID);
+                var dispached = GetDispatchAllocation(result);
+                return Json(dispached, JsonRequestBehavior.AllowGet);
+            }
+
+            return Json(null, JsonRequestBehavior.AllowGet);
+        }
+        private IEnumerable<HubRecentDispachesViewModel> GetDispatch(IEnumerable<Dispatch> dispatchs)
         {
             return (from dispatch in dispatchs
                     select new HubRecentDispachesViewModel()
@@ -101,6 +113,21 @@ namespace Cats.Areas.Hub.Controllers
                             Transporter = dispatch.Transporter.Name
 
 
+                        }).Take(5);
+        }
+        private IEnumerable<HubRecentDispachesViewModel> GetDispatchAllocation(IEnumerable<DispatchAllocation> dispatchAllocations)
+        {
+            return (from dispatchAllocation in dispatchAllocations
+                    select new HubRecentDispachesViewModel()
+                        {
+                            BidNumber = dispatchAllocation.BidRefNo,
+                            FDPName = dispatchAllocation.FDP.Name,
+                            RequisitionNo = dispatchAllocation.RequisitionNo,
+                            //BeneficiaryNumber = dispatchAllocation.Beneficiery,
+                            Program = dispatchAllocation.Program.Name,
+                            Commodity = dispatchAllocation.Commodity.Name,
+                            DispatchedAmount = dispatchAllocation.Amount,
+                            Transporter = dispatchAllocation.Transporter.Name
                         }).Take(5);
         }
     }
