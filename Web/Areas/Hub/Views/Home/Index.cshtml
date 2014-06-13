@@ -145,22 +145,25 @@
                                 <table id="" class="table table-striped table-checkable">
                                     <thead>
                                         <tr>
-                                            <th class="hidden-xs">Bid</th>
+                                            <th class="hidden-xs">Bid Number</th>
                                             <th>Requisition</th>
+                                            <th>GIN</th>
                                             <th>FDP</th>
                                             <th>Commodity</th>
-                                            <th>Planned</th>
-                                            <th>Dispatched</th>
+                                            @*<th>Planned</th>*@
+                                            <th>Dispatched (MT)</th>
+                                             <th>Transporter Name</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr class="" ng-repeat="request in Requests">
-                                            <td class="hidden-xs">{{request[1].Value}}</td>
-                                            <td>{{request[2].Value}}</td>
-                                            <td>{{25142|number}}</td>
-                                            <th>{{1442|number}} QT</th>
-                                            <th>{{1442|number}} QT</th>
-                                            <th>{{1442|number}} QT</th>
+                                        <tr class="" ng-repeat="dispach in Dispatches">
+                                            <td class="hidden-xs">{{dispach.BidNumber}}</td>
+                                            <th>{{dispach.RequisitionNo}} QT</th>
+                                            <th>{{dispach.GIN}}</th>
+                                            <th>{{dispach.FDPName}}</th>
+                                            <th>{{dispach.Commodity}}</th>
+                                            <th>{{dispach.DispatchedAmount}}</th>
+                                            <th>{{dispach.Transporter}}</th>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -213,12 +216,12 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr class="" ng-repeat="dispatch in Dispatches">
-                                            <th>{{dispatch[1].Value}}</th>
-                                            <th>{{dispatch[2].Value}}</th>
-                                            <th>{{dispatch[5].Value|number:2}} QT</th>
-                                            <th>{{dispatch[3].Value}}</th>
-                                            <th>{{dispatch[4].Value}}</th>
+                                        <tr class="" ng-repeat="dispatchs in Dispatchesss">
+                                            <th>{{dispatchs.BidNumber}}</th>
+                                            <th>{{dispatchs.GIN}}</th>
+                                            <th>{{dispatchs.Value|number:2}} QT</th>
+                                            <th>{{dispatchs.Value}}</th>
+                                            <th>{{dispatchs.Value}}</th>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -255,11 +258,13 @@
     function HubDashboardController($scope, $http) {
         
         $scope.requestParam = { hub: '@ViewBag.HubID', program: 1, date: new Date() };
+        $scope.hubParm = { hub: 1 };
         $scope.reqParam = { regionID: 2 };
         $scope.CommodityStock = [];
         $scope.StockStatus = [];
         $scope.Dispatches = [];
         $scope.Data = [];
+       
 
         var onCommodityStkStatusSuccess = function (data) {
             $scope.CommodityStock = data;
@@ -282,12 +287,12 @@
         };
 
         $scope.getDispatches = function () {
-            $http.post("@Url.Action("Dispatches", "FetchData", new { Area = "Regional" })", $scope.reqParam).success(onDispatchesSuccess);
+            $http.post("@Url.Action("RecentDispatches", "HubDashboard", new { Area = "Hub" })").success(onDispatchesSuccess);
         };
 
-        $scope.getDispatches = function () {
+       @* $scope.getDispatches = function () {
             $http.post("@Url.Action("Dispatches", "FetchData", new { Area = "Regional" })", $scope.reqParam).success(onDispatchesSuccess);
-        };
+        };*@
         $scope.getCommodityStockStatus();
         $scope.getStockStatus();
         $scope.getDispatches();

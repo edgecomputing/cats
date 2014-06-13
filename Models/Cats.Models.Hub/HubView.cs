@@ -32,4 +32,15 @@ namespace Cats.Models.Hubs
         public decimal TotalFreestock { get; set; }
         public decimal TotalPhysicalStock { get; set; }
     }
+    public class HubRecentDispachesViewModel
+    {
+        public string BidNumber { get; set; }
+        public string GIN { get; set; }
+        public int FDPID { get; set; }
+        public string FDPName { get; set; }
+        public string RequisitionNo { get; set; }
+        public string Commodity { get; set; }
+        public string Transporter { get; set; }
+        public decimal DispatchedAmount { get; set; }
+    }
 }
