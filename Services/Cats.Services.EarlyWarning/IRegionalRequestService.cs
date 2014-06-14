@@ -29,7 +29,7 @@ namespace Cats.Services.EarlyWarning
         List<RegionalRequest> GetSubmittedRequest(int region, int month,int status);
         HRDPSNPPlanInfo PlanToRequest(HRDPSNPPlan plan);
 
-        bool ApproveRequest(int id);
+        bool ApproveRequest(int id, Cats.Models.Security.UserInfo userInfo);
    }
 }
 

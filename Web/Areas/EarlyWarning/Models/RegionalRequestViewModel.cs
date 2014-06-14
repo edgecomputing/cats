@@ -38,6 +38,9 @@ namespace Cats.Areas.EarlyWarning.Models
 
         public int Beneficiary { get; set; }
         public int NumberOfFDPS { get; set; }
+
+        public string RequestedBy { get; set; }
+        public string ApprovedBy { get; set; }
        
     }
 }
