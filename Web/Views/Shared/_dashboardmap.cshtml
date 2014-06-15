@@ -1,0 +1,25 @@
+﻿@using Cats.Services.Security
+@using LanguageHelpers.Localization
+@{
+    var user = (UserIdentity)HttpContext.Current.User.Identity;
+    
+    }
+<style>
+    .map
+    {
+        width:400px;
+        height:400px;
+    }
+
+</style>
+<script src="~/Content/MapResources/openlayers/lib/openlayers.js"></script>
+<script src="~/Content/MapResources/OpenlayersWrapper.js"></script>
+
+<div id="map1" class="map">
+</div>
+<script>
+        
+    $(function () {
+        CreateMap("div1");
+    });
+</script>
