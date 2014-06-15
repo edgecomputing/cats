@@ -1708,6 +1708,7 @@
     <Content Include="Areas\Settings\Views\Account\Login.cshtml" />
     <Content Include="Areas\WorkflowManager\Views\ProcessTemplate\Print.cshtml" />
     <Content Include="Areas\Hub\Views\Receive\Index_NEW.cshtml" />
+    <Content Include="Content\MapResources\MapData\tigray.json" />
     <None Include="dataset.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>dataset.Designer.cs</LastGenOutput>
@@ -2523,6 +2524,7 @@
     <Folder Include="Areas\Transaction\Views\Shared\" />
     <Folder Include="Areas\WorkflowManager\Models\" />
     <Folder Include="bin\" />
+    <Folder Include="Content\MapResources\openlayers\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
