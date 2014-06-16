@@ -9,17 +9,24 @@
     {
         width:400px;
         height:400px;
+        border:solid 1px #DDD;
     }
 
 </style>
-<script src="~/Content/MapResources/openlayers/lib/openlayers.js"></script>
+<link rel="stylesheet" href="~/Content/MapResources/openlayers/theme/default/style.css" type="text/css">
 <script src="~/Content/MapResources/OpenlayersWrapper.js"></script>
+<script src="~/Content/MapResources/openlayers/lib/OpenLayers.js"></script>
+
 
 <div id="map1" class="map">
 </div>
 <script>
         
     $(function () {
-        CreateMap("div1");
+        var layers = [
+                       { name: "Ethiopia", url: "/Content/MapResources/MapData/ethiopiaJson.js" }
+                       , { name: "Regions", url: "/Content/MapResources/MapData/ethiopiaRegions.js" }
+        ]
+        CreateMap("map1", { layers: layers });
     });
 </script>
