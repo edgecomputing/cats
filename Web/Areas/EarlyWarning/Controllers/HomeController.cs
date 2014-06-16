@@ -55,7 +55,19 @@ namespace Cats.Areas.EarlyWarning.Controllers
             var dt = HRDViewModelBinder.TransposeDataSummary(hrdDetails, rationDetails, weightPref);
             return dt;
         }
-
+        public ActionResult HRDSummaryJson()
+        {
+            //ModelState.AddModelError("Success", "Sample Error Message. Use in Your Controller: ModelState.AddModelError('Errors', 'Your Error Message.')");
+            var hrd = _hrdService.FindBy(m => m.Status == 3).FirstOrDefault();
+            if (hrd == null)
+            {
+                return HttpNotFound();
+            }
+           // ViewBag.PlanID = hrd.PlanID;
+           // ViewBag.HRDName = hrd.Plan.PlanName;
+            var summary = GetHRDSummary(hrd.HRDID);
+            return Json(summary, JsonRequestBehavior.AllowGet);
+        }
         
     }
 }
