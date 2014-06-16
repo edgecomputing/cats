@@ -11,6 +11,39 @@ var mapContex = {
             	, get_fontSize: function (feature) { return 8 + road_size * (2940 / map.getScale()); }
             	, get_display: function (feature) { return get_attribute_value(feature.attributes, "mapLevel", 0) == 1 ? "display" : "none"; }
 };
+function createStyle(rules) {
+    var context = {};
+    for (var r in rules) {
+        var symbolizer = rules[r];
+        for (var g in symbolizer) {
+            var geometry = symbolizer[g];
+            for (var s in geometry) {
+                var styleAtt = geometry[s];
+                if (typeof (styleAtt) == "function") {
+
+                    console.log("createStyle", { rule: r, geometry: g, style: s, val: styleAtt });
+                    var functionName = "get_" + r + g + s;
+                    context[functionName] = styleAtt;
+                    geometry[s] = "${" + functionName + "}";
+                }
+            }
+        }
+    }
+    console.log("createStyle-context", { context: context, rule: rules });
+
+    var StyleMaps = {};
+    for (var m in rules) {
+        var symbolizer = rules[m];
+        var style = new OpenLayers.Style(null, {
+            context: context,
+            rules: [new OpenLayers.Rule({ symbolizer: symbolizer })]
+        });
+        StyleMaps[m] = style;
+    }
+    var styles = new OpenLayers.StyleMap(StyleMaps);
+    return styles;
+}
+
 var styles = new OpenLayers.StyleMap({
     "default": new OpenLayers.Style(null, {
         context: mapContex,
