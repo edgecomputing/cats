@@ -82,13 +82,13 @@
         </div>
     </div>
 
-    <div class="control-group">
+    @*<div class="control-group" style="visibility: hidden">
         <label class="control-label">Program:</label>
         <div class="controls">
             @(Html.DropDownListFor(model => model.ProgramId, new SelectList(ViewBag.Programs, "ProgramID", "Name"),"No Program", new { @id = "Program" }))
             
         </div>
-    </div>
+    </div>*@
     
     <div class="control-group">
         @Html.Label("User Type", new { @class = "control-label" })
