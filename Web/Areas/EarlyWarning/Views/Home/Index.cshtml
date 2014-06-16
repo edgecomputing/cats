@@ -65,7 +65,7 @@
             </div>
     
 
-            <div class="span6">
+            <div class="span7">
 
                 <a href="javascript:;" class="dashboard-stat">
                     <div class="visual">
@@ -92,8 +92,30 @@
         </div>
         <hr />
     </div>
+     <div class="container">
+        <div id="dashboardMap" class="portlet">
+            <div class="row" style="border-bottom-width: thin; border-bottom-color: #666; border-bottom-style: inset; margin-top: 5px">
 
+                <div class="pull-left">
+                    <h4>Map</h4>
+                </div>
+            </div>
+            <div class="portlet">
+                        <div class="portlet-header">
+                            <h3>
+                                <i class=""></i>
+                                HRD By Region
+                            </h3>
+                        </div>
+            </div>
+         <div class="portlet-content">
+             @Html.Partial("_dashboardmap")
+
+             </div>
+        </div>
+    </div>
     <div ng-controller="EWDashboardController" class="container">
+
 
         <div>
             <div class="row" style="border-bottom-width: thin; border-bottom-color: #666; border-bottom-style: inset; margin-top: 5px">
