@@ -43,6 +43,15 @@ function createStyle(rules) {
     var styles = new OpenLayers.StyleMap(StyleMaps);
     return styles;
 }
+function colorValue(base, factor) {
+    return Math.min(Math.round(base * factor), 255);
+}
+function rgbColor(base, factor) {
+    var r = colorValue(base[0], factor);
+    var g = colorValue(base[1], factor);
+    var b = colorValue(base[2], factor);
+    return "rgb(" + r + "," + g + "," + b + ")";
+}
 
 var styles = new OpenLayers.StyleMap({
     "default": new OpenLayers.Style(null, {
