@@ -394,15 +394,13 @@ namespace Cats.Areas.EarlyWarning.Controllers
                                          "/Logistics/DispatchAllocation/IndexFromNotification?paramRegionId=" +
                                          requisition.RegionID +
                                          "&recordId=" + requisition.RequisitionID;
+                        return;
                     }
-                    else
-                    {
-                        destinationURl = "http://" + Request.Url.Authority +
-                                        Request.ApplicationPath +
-                                         "/Logistics/DispatchAllocation/IndexFromNotification?paramRegionId=" +
-                                         requisition.RegionID +
-                                         "&recordId=" + requisition.RequisitionID;
-                    }
+                    destinationURl = "http://" + Request.Url.Authority +
+                                     Request.ApplicationPath +
+                                     "/Logistics/DispatchAllocation/IndexFromNotification?paramRegionId=" +
+                                     requisition.RegionID +
+                                     "&recordId=" + requisition.RequisitionID;
 
                     _notificationService.AddNotificationForLogistcisFromEarlyWaring(destinationURl,
                                                                                     requisition.RequisitionID,
