@@ -23,9 +23,9 @@ namespace Cats.Models.Mapping
            .WithMany(t => t.RegionalPSNPPlans)
            .HasForeignKey(d => d.StatusID);
 
-            this.HasRequired(t => t.Plan)
-           .WithMany(t => t.RegionalPSNPPlans)
-           .HasForeignKey(d => d.PlanId);
+           // this.HasRequired(t => t.Plan)
+           //.WithMany(t => t.RegionalPSNPPlans)
+           //.HasForeignKey(d => d.PlanId);
 
             this.HasRequired(t => t.TransactionGroup)
                 .WithMany(t => t.RegionalPSNPPlans)
