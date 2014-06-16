@@ -4,7 +4,7 @@
 <div>
 
 @using (Html.BeginForm())
-    {
+{
      @Html.ValidationSummary("Please correct Errors")
     <table class="borderless">
         <tbody>
@@ -20,11 +20,13 @@
                                 .CascadeTo("ProjectCodeId")
                     )
                     @Html.ValidationMessageFor(model => model.Commodities)
+                    <span class="required" style="width:10px;">*</span>
                 </td>
                 <td>@Html.LabelFor(model => model.SelectedDate)</td>
                 <td>
                     @Html.EditorFor(model => model.SelectedDate)
                     @Html.ValidationMessageFor(model => model.SelectedDate)
+                    <span class="required" style="width:10px;">*</span>
                 </td>
             </tr>
             <tr>
@@ -33,20 +35,22 @@
                     @(Html.Telerik().ComboBoxFor(model => model.ProjectCodes)
                                 .Name("ProjectCodeId")
                                 .AutoFill(true)
-                                .BindTo(new SelectList (Model.ProjectCodes))
+                                .BindTo(new SelectList(Model.ProjectCodes))
                                 .HighlightFirstMatch(true)
                                 .Filterable(filtering => { filtering.FilterMode(AutoCompleteFilterMode.StartsWith); })
-                                .DataBinding(binding => binding.Ajax().Select("GetProjecCodetForCommodity","LossesAndAdjustments"))
+                                .DataBinding(binding => binding.Ajax().Select("GetProjecCodetForCommodity", "LossesAndAdjustments"))
                                 .ClientEvents(ev => ev.OnChange("clearStore"))
                                 .CascadeTo("ShippingInstructionId")
                       )   
                     @Html.ValidationMessageFor(model => model.ProjectCodes)
+                    <span class="required" style="width:10px;">*</span>
                 </td>
                 
                 <td>@Html.LabelFor(model => model.MemoNumber)</td>
                 <td>
                     @Html.EditorFor(model => model.MemoNumber)
                     @Html.ValidationMessageFor(model => model.MemoNumber)
+                    <span class="required" style="width:10px;">*</span>
                 </td>
                 <td rowspan="5">
                     <div style="margin-left: 20px;" id="BalanceContent">
@@ -62,10 +66,11 @@
                                 .AutoFill(true)
                                 .HighlightFirstMatch(true)
                                 .Filterable(filtering => { filtering.FilterMode(AutoCompleteFilterMode.StartsWith); })
-                                .DataBinding(binding => binding.Ajax().Select("GetSINumberForProjectCode","LossesAndAdjustments"))
+                                .DataBinding(binding => binding.Ajax().Select("GetSINumberForProjectCode", "LossesAndAdjustments"))
                                 .ClientEvents(ev => ev.OnChange("onShippingInstructionChange"))
                     )
                     @Html.ValidationMessageFor(model => model.ShippingInstructions)
+                    <span class="required" style="width:10px;">*</span>
                 </td>
                 <td>@Html.LabelFor(model => model.Programes)</td>
                 <td>@(Html.Telerik().ComboBox()
@@ -74,7 +79,8 @@
                                 .AutoFill(true)
                                 .HighlightFirstMatch(true)
                                 .Filterable(filtering => { filtering.FilterMode(AutoCompleteFilterMode.StartsWith); })
-                )
+                          )
+                    <span class="required" style="width:10px;">*</span>
                 </td>
             </tr>
             <tr>
@@ -90,6 +96,7 @@
                                 .ClientEvents(ev => ev.OnChange("onStoreComboChange"))
                     )
                     @Html.ValidationMessageFor(model => model.Stores)
+                    <span class="required" style="width:10px;">*</span>
                 </td>
             </tr>
             <tr>
@@ -97,6 +104,7 @@
                 <td>
                     @Html.EditorFor(model => model.StoreMan)
                     @Html.ValidationMessageFor(model => model.StoreMan)
+                    <span class="required" style="width:10px;">*</span>
                 </td>
             </tr>
             <tr>
@@ -110,6 +118,7 @@
                     )
 
                     @Html.ValidationMessageFor(model => model.Reasons)
+                    <span class="required" style="width:10px;">*</span>
                 </td>
             </tr>
             
@@ -123,6 +132,7 @@
                                 .HighlightFirstMatch(true)
                     )
                     @Html.ValidationMessageFor(model => Model.Units)
+                    <span class="required" style="width:10px;">*</span>
                 </td>
             </tr>
             <tr>
@@ -130,6 +140,7 @@
                 <td>
                     @Html.EditorFor(model => model.QuantityInUint)
                     @Html.ValidationMessageFor(model => model.QuantityInUint)
+                    <span class="required" style="width:10px;">*</span>
                 </td>
             </tr>
             <tr>
@@ -137,6 +148,7 @@
                 <td>
                     @Html.EditorFor(model => model.QuantityInMt)
                     @Html.ValidationMessageFor(model => model.QuantityInMt)
+                    <span class="required" style="width:10px;">*</span>
                 </td>
             </tr>
             <tr>
@@ -144,6 +156,7 @@
                 <td>
                     @Html.EditorFor(model => model.ApprovedBy)
                     @Html.ValidationMessageFor(model => model.ApprovedBy)
+                    <span class="required" style="width:10px;">*</span>
                 </td>
             </tr>
             <tr>
@@ -191,9 +204,10 @@
             dataType: 'json',
             success: function (data) {
                 StoreCombo.dataBind(data, true);
-                if (siId > 0) {
-                    $("#StoreId").data("tComboBox").enable();
-                }
+                //if (siId > 0) {
+                //    $("#StoreId").data("tComboBox").enable();
+                //}
+                $("#StoreId").data("tComboBox").enable();
             }
         });
         LoadBalance();
@@ -237,6 +251,6 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-        //$("#StoreId").data("tComboBox").disable();
+        $("#StoreId").data("tComboBox").disable();
     });
 </script>
