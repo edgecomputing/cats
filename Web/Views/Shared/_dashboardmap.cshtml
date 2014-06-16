@@ -7,8 +7,8 @@
 <style>
     .map
     {
-        width:400px;
-        height:400px;
+        width:600px;
+        height:600px;
         border:solid 1px #DDD;
     }
 
@@ -16,6 +16,7 @@
 <link rel="stylesheet" href="~/Content/MapResources/openlayers/theme/default/style.css" type="text/css">
 <script src="~/Content/MapResources/OpenlayersWrapper.js"></script>
 <script src="~/Content/MapResources/openlayers/lib/OpenLayers.js"></script>
+<script src="~/Content/MapResources/MapStyle.js"></script>
 
 
 <div id="map1" class="map">
@@ -46,13 +47,13 @@
                                                     var name = get_attribute_value(feature.attributes, "name", "");
                                                     var att = regionAttributes[name];
                                                     var blue = Math.round(50 * (100 - att) / 100) + 170;
-                                                    return "rgb(" + 100 + "," + blue + "," + blue + ")";
+                                                    return "rgb(" + blue + "," + 100 + "," + 100 + ")";
                                                 }
                                                 , strokeColor: function (feature) {
                                                     var name = get_attribute_value(feature.attributes, "name", "");
                                                     var att = regionAttributes[name];
                                                     var blue = Math.round(50 * (100 - att) / 100) + 170;
-                                                    return "rgb(" + 100 + "," + blue + "," + blue + ")";
+                                                    return "rgb(" + blue + "," + 100+ "," + 100+ ")";
                                                 }
                                                 }
                                         }
