@@ -551,7 +551,7 @@
 
     var theParam;
     function cancel() {
-        window.location = "@Url.Action("Index","Receive")';///Receive/";
+        window.location = "@Url.Action("Index","Receive")";
     }
 
     function Grid_onRowSelect() {
@@ -563,25 +563,6 @@
 
     function onEdit(e) {
         if ((e.mode == 'edit') && (e.dataItem.ReceiveDetailCounter > 0)) {
-            // $(e.row).find("td").click(function (edit) { edit.stopPropagation(); });       
-            //  $('t-grid-edit-cell t-widget t-combobox t-header t-dropdown-wrap t-state-default t-select t-header t-icon t-arrow-down').attr('disabled', 'disabled');
-            //  $(e.row).find('t-grid-edit-cell t-widget t-combobox t-header t-dropdown-wrap t-state-default t-select t-header t-icon t-arrow-down').attr('disabled', 'disabled');
-            //  $(e.row).find('td.t-last a.t-grid-action').attr('disabled', 'disabled');
-            // $('t-grid-edit-cell').attr('disabled', 'disabled');
-            // $('#Description').attr('disabled', 'disabled');
-            //e.dataItem.Readonly();
-            // var form = e.form;
-            //var mode = e.mode;
-
-            //if (mode == "edit") {
-            //var UnitID = form.UnitID; //Country is a public property of my Model
-            //UnitID.disabled = true;
-            //UnitID.Readonly();
-            // }
-            // var form = e.form;
-            // $(form).find("#UnitID").attr('disabled', 'disabled');
-
-            //console.warn($('#UnitID').data('tComboBox')
             if ($('#CommodityID').data('tComboBox') != null) {
                 $('#CommodityID').data('tComboBox').disable();
             }
