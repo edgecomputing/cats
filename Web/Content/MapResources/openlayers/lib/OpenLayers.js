@@ -73,14 +73,14 @@
                 if (src) {
                     
                     var m = src.match(r);
-                    console.log("getScriptLocation", { src: src, match: m });
+                    //console.log("getScriptLocation", { src: src, match: m });
                     if(m) {
                         l = m[1];
                         break;
                     }
                 }
             }
-            console.log("getScriptLocation", { location: l, singleFile: singleFile });
+           // console.log("getScriptLocation", { location: l, singleFile: singleFile });
             return (function() { return l; });
         })()
     };

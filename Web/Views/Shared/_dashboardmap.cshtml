@@ -7,8 +7,9 @@
 <style>
     .map
     {
-        width:400px;
-        height:400px;
+        float:left;
+        width:500px;
+        height:500px;
         border:solid 1px #DDD;
     }
 
@@ -16,17 +17,56 @@
 <link rel="stylesheet" href="~/Content/MapResources/openlayers/theme/default/style.css" type="text/css">
 <script src="~/Content/MapResources/OpenlayersWrapper.js"></script>
 <script src="~/Content/MapResources/openlayers/lib/OpenLayers.js"></script>
+<script src="~/Content/MapResources/MapStyle.js"></script>
 
 
 <div id="map1" class="map">
 </div>
+<div id="map2" class="map">
+</div>
 <script>
         
     $(function () {
+        var regionAttributes = { "Tigray": 10, "Amhara": 70, "Afar": 40, "Somali": 30, "Benishangul": 40, "oromia": 90, "AddisAbeba": 50, "Gambela": 50, "Debub": 80 }
+
         var layers = [
-                       { name: "Ethiopia", url: "/Content/MapResources/MapData/ethiopiaJson.js" }
-                       , { name: "Regions", url: "/Content/MapResources/MapData/ethiopiaRegions.js" }
+                       { name: "Ethiopia", url: "/Content/MapResources/MapData/ethiopiaJson.js", styleMap: stylePresets.outline }
+                       , {
+                           name: "Regions", url: "/Content/MapResources/MapData/ethiopiaRegions.js"
+                       , style:
+                                {
+                                    "default":
+                                        {
+                                            "Polygon":
+                                                {
+                                                    fillOpacity: 1
+                                                    ,strokeOpacity: 1
+                                                , label: function (feature) {
+                                                    var name = get_attribute_value(feature.attributes, "name", "");
+                                                    var att = regionAttributes[name];
+                                                    return name;
+                                                }
+                                                , fillColor: function (feature) {
+                                                    var name = get_attribute_value(feature.attributes, "name", "");
+                                                    var att = regionAttributes[name];
+                                                    var factor = 1 + (100 - att) / 80;
+                                                    return rgbColor([220, 80, 80], factor);
+                                                    return rgbColor([60, 90, 132], factor);
+                                                    
+                                                }
+                                                , strokeColor: function (feature) {
+                                                    var name = get_attribute_value(feature.attributes, "name", "");
+                                                    var att = regionAttributes[name];
+                                                    var factor = 1 + (100 - att) / 100;
+                                                    return rgbColor([220, 80, 80], factor);
+                                                    return rgbColor([60, 90, 132], factor);
+                                                }
+                                                }
+                                        }
+                                }
+                       }
         ]
-        CreateMap("map1", { layers: layers });
+       // CreateMap("map1", { layers: layers });
+        CreateMap("map2", { layers: layers });
     });
 </script>

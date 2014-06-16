@@ -10,10 +10,16 @@ function CreateMap(div, options) {
 
                 var layerData = options.layers[i];
                 console.log("Layer : ", layerData);
+                var styleMap = layerData.styleMap;
+                if (!styleMap) {
+                    styleMap = createStyle(layerData.style ? layerData.style : {});
+                }
+
                 var layer = new OpenLayers.Layer.Vector(layerData.name, {
                     strategies: [new OpenLayers.Strategy.Fixed()],
                     protocol: new OpenLayers.Protocol.HTTP({ url: layerData.url, format: new OpenLayers.Format.GeoJSON() }),
-                    isBaseLayer: isBaseLayer
+                    isBaseLayer: isBaseLayer,
+                    styleMap: styleMap
                 });
                 map.addLayer(layer);
                 isBaseLayer = false;
