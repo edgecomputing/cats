@@ -27,7 +27,29 @@
 <script>
         
     $(function () {
+        var hrdSummary = {};
+        var HRDUrl= "@Url.Action("HRDDetail_Read", "HRD", new { Area = "EarlyWarning" })";
+
+        function aggregateRegionBeneficiaries(data) {
+            var regionBen = {};
+            for (var i in data) {
+                var regionID = data[i].RegionID;
+
+                if (!regionBen["Region" + regionID]) {
+                    regionBen["Region" + regionID] = { RegionID: regionID, RegionName: data[i].Region, NumberOfBeneficiaries: 0 };
+                }
+                regionBen["Region" + regionID].NumberOfBeneficiaries += data[i].NumberOfBeneficiaries / 1;
+                
+            }
+            return regionBen;
+        }
+        $.post(HRDUrl, {}, function (data) {
+            var regionBen = aggregateRegionBeneficiaries(data.Data);
+            console.log("Fetch HRD", regionBen,data.Data);
+        });
+
         var regionAttributes = { "Tigray": 10, "Amhara": 70, "Afar": 40, "Somali": 30, "Benishangul": 40, "oromia": 90, "AddisAbeba": 50, "Gambela": 50, "Debub": 80 }
+        var regionAttributes2 = { "Tigray": 10, "Amhara": 20, "Afar": 30, "Somali": 40, "Benishangul": 50, "oromia": 60, "AddisAbeba": 70, "Gambela": 80, "Debub":90 }
 
         var layers = [
                        { name: "Ethiopia", url: "/Content/MapResources/MapData/ethiopiaJson.js", styleMap: stylePresets.outline }
@@ -40,10 +62,10 @@
                                             "Polygon":
                                                 {
                                                     fillOpacity: 1
-                                                    ,strokeOpacity: 1
+                                                    , strokeOpacity: 1
                                                 , label: function (feature) {
                                                     var name = get_attribute_value(feature.attributes, "name", "");
-                                                    var att = regionAttributes[name];
+                                                    
                                                     return name;
                                                 }
                                                 , fillColor: function (feature) {
@@ -52,7 +74,7 @@
                                                     var factor = 1 + (100 - att) / 80;
                                                     return rgbColor([220, 80, 80], factor);
                                                     return rgbColor([60, 90, 132], factor);
-                                                    
+
                                                 }
                                                 , strokeColor: function (feature) {
                                                     var name = get_attribute_value(feature.attributes, "name", "");
@@ -65,8 +87,48 @@
                                         }
                                 }
                        }
+        ];
+        var layers2 = [
+                       { name: "Ethiopia", url: "/Content/MapResources/MapData/ethiopiaJson.js", styleMap: stylePresets.outline }
+                       , {
+                           name: "Regions", url: "/Content/MapResources/MapData/ethiopiaRegions.js"
+                       , style:
+                                {
+                                    "default":
+                                        {
+                                            "Polygon":
+                                                {
+                                                    fillOpacity: 1
+                                                    , strokeOpacity: 1
+                                                , label: function (feature) {
+                                                    var name = get_attribute_value(feature.attributes, "name", "");
+                                                    var att = regionAttributes[name];
+                                                    return name;
+                                                }
+                                                , fillColor: function (feature) {
+                                                    var name = get_attribute_value(feature.attributes, "name", "");
+                                                    var att = regionAttributes2[name];
+                                                    
+                                                    return getRGBShade( "rgb(207,255,207)","rgb(30,159,30)", att / 100);
+                                                    //return rgbColor([60, 90, 132], factor);
+
+                                                }
+                                                   , strokeColor:"#FFF"
+                                                    /*
+                                                , strokeColor: function (feature) {
+                                                    var name = get_attribute_value(feature.attributes, "name", "");
+                                                    var att = regionAttributes[name];
+
+                                                    return getRGBShade("rgb(207,255,207)", "rgb(30,159,30)", att / 100);
+                                                }*/
+                                                }
+                                        }
+                                }
+                       }
         ]
-       // CreateMap("map1", { layers: layers });
-        CreateMap("map2", { layers: layers });
+        CreateMap("map1", { layers: layers });
+        var c = getRGBShade("rgb(207,255,207)","rgb(30,159,30)", 0.5);
+        console.log("CreateMap", c);
+        CreateMap("map2", { layers: layers2 });
     });
 </script>
