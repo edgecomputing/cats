@@ -28,7 +28,7 @@
                 Html.Telerik().DatePicker()
                     .Max(DateTime.Today.ToShortDateString()
                 )
-                .Format("dd-MMM-yyyy").Name(id)
+                .Format("yyyy/mm/dd").Name(id)
                 .OpenOnFocus(true).ShowButton(false)
                 .InputHtmlAttributes(new {  @name = id, @type = "hidden", @style = "visible:hidden;" })
                 .Value(Model)
@@ -44,7 +44,7 @@
                 //disableInput: true
             }).attr("readonly", "readonly").attr('style', 'background-color : #fff');
 
-            $.calendars.picker.setDefaults({ dateFormat: 'dd-MMM-yyyy' });
+            $.calendars.picker.setDefaults({ dateFormat: 'yyyy/mm/dd' });
             //set the receipt hidden date using the telrik date picker control
             var eCalendar = $.calendars.instance('ethiopian', 'am');
             var valueToset = new Date();
@@ -54,7 +54,7 @@
             var jstartdate = eCalendar.fromJSDate(valueToset).toJD();
             var edate = eCalendar.fromJD(jstartdate);
             //set the Amharic respective
-            $('#@am_id').val(edate.formatDate('dd-MMM-yyyy'));
+            $('#@am_id').val(edate.formatDate('yyyy/mm/dd'));
             $('#@id').val($.datepicker.formatDate('dd-M-yy', valueToset));
         });
     </script>
@@ -64,7 +64,7 @@ else
     @(Html.Telerik().DatePicker()
         //.Max(DateTime.Today.ToShortDateString())
         .Name(id)
-        .Format("dd-MMM-yyyy")
+        .Format("yyyy/MM/dd")
         .HtmlAttributes(new { id =  id + "_Wrapper" })
         .Value(Model)
     )                     
