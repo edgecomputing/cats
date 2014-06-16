@@ -164,7 +164,7 @@ namespace Cats.Areas.PSNP
             var planName = regionalpsnpplan.Plan.PlanName;
             var startDate = regionalpsnpplan.Plan.StartDate;
             var firstDayOfTheMonth = startDate.AddDays(1 - startDate.Day);
-            var endDate = firstDayOfTheMonth.AddMonths(regionalpsnpplan.Plan.Duration).AddDays(-1);
+            var endDate = firstDayOfTheMonth.AddMonths(regionalpsnpplan.Duration).AddDays(-1);
 
             //check if this psnp plan exitsts for this region
             var exists = _regionalPSNPPlanService.DoesPsnpPlanExistForThisRegion(regionalpsnpplan.PlanId,regionalpsnpplan.Year);

@@ -16,6 +16,37 @@
     <a class="btn toolbar-btn " data-buttontype="btn_save" data-submittedform="frm_create_psnp"></a>
     <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="@Url.Action("Index", "RegionalPSNPPlan")" title="save"></a>
 }
+<script type="text/javascript">
+    $(function () {
+
+        //Optional: turn the chache off
+        $.ajaxSetup({ cache: false });
+
+        $('#btnDateinterval').click(function () {
+          
+            var startDate = new Date($('#Plan_StartDate').val());
+            //var startDate = $('#Plan_StartDate').val();
+            var duration = $('#Duration').val();
+           
+            var fullDate = startDate.getMonth() + 1 + '/' + startDate.getDate() + '/' + startDate.getFullYear();
+            var url = '@Url.Action("DateInterval", "HRD",new {Area="EarlyWarning"})?duration=' + duration + '&startDate=' + fullDate;
+            $('#dialogContent').load(url, function () {
+               
+                $('#dialogDiv').modal({
+                    backdrop: 'static',
+                    keyboard: true
+                }, 'show');
+                //bindForm(this);
+            });
+            return false;
+        });
+
+    });
+</script>
+
+<div id='dialogDiv' class='modal hide fade in' style="width: 620px;margin-right: 10px">
+    <div id='dialogContent'></div>
+</div>
 
 <div class="form-horizontal">
     @if (@ViewBag.ErrorMessage1 != null)
@@ -39,9 +70,11 @@
 
 
             <div class="control-group">
+                 <div class="control-label">
                 @Html.Label(@Html.Translate2(pageName, "PSNP Plan Name"))
+                  </div>
                 <div class="controls">
-                    @Html.TextBoxFor(model => model.Plan.PlanName, new { @class = "input-xlarge", @placeholder = "Plan Name" })
+                    @Html.TextBoxFor(model => model.Plan.PlanName, new { @placeholder = "Plan Name" })
                     @Html.ValidationMessageFor(model => model.Plan.PlanName)
                 </div>
             </div>
@@ -56,11 +89,12 @@
             </div>
              <div class="control-group">
                         <div class="control-label">
-                            @Html.LabelFor(m => m.Plan.Duration, @Html.Translate2(pageName, "Duration"))
+                            @Html.LabelFor(m => m.Duration, @Html.Translate2(pageName, "Duration"))
                         </div>
                         <div class="controls">
-                            @Html.TextBoxFor(m => m.Plan.Duration)
-                              <a id="btnDateinterval">View Date Interval</a>
+                           @Html.TextBoxFor(m => m.Duration)
+                              <a id="btnDateinterval"  @*href="@Url.Action("DateInterval", "HRD", new { area = "EarlyWarning", startDate = "4/15/2014", duration = 6 })"*@>View Date Interval</a>
+                       
                             @Html.ValidationMessageFor(m => m.Plan.Duration)
                         </div>
 
@@ -68,7 +102,7 @@
             <div class="control-group">
                 @Html.LabelFor(model => model.Year, new { @class = "control-label" })
                 <div class="controls">
-                    @Html.TextBoxFor(model => model.Year, new { @class = "input-xlarge", @placeholder = "Year" })
+                    @Html.TextBoxFor(model => model.Year, new { @placeholder = "Year" })
                     @Html.ValidationMessageFor(model => model.Year)
                 </div>
             </div>
@@ -95,49 +129,18 @@
                 </div>
             </div>
 
-            <div class="control-group">
+@*            <div class="control-group">
                 @Html.LabelFor(model => model.Duration, new { @class = "control-label" })
                 <div class="controls">
-                    @Html.TextBoxFor(model => model.Duration, new { @class = "input-xlarge", @placeholder = "Duration" })
+                    @Html.TextBoxFor(model => model.Duration, new { @placeholder = "Duration" })
                     @Html.ValidationMessageFor(model => model.Duration)
                 </div>
-            </div>
+            </div>*@
 
 
             <!--
-        <p>
-            
-            <input type="submit" value="Create" class="btn btn-info"/>
-            <a href="@Url.Action("Index", "RegionalPSNPPlan")" class="btn btn-danger">Back to List</a> 
-        </p>
+       
     -->
         </fieldset>
     }
 </div>
-<script type="text/javascript">
-    $(function () {
-        
-       
-        $.ajaxSetup({ cache: false });
-
-        $('#btnDateinterval').click(function () {
-
-            var startDate = new Date($('#Plan_StartDate').val());
-            //var startDate = $('#Plan_StartDate').val();
-            var duration = $('#Plan_Duration').val();
-          
-           var fullDate= startDate.getMonth() + 1 + '/' + startDate.getDate() + '/' + startDate.getFullYear();
-            var url = '@Url.Action("DateInterval", "HRD")?duration=' + duration + '&startDate=' + fullDate;
-            $('#dialogContent').load(url, function () {
-                $('#dialogDiv').modal({
-                    
-                    backdrop: 'static',
-                    keyboard: true
-                }, 'show');
-                //bindForm(this);
-            });
-            return false;
-        });
-
-    });
-    </script>
