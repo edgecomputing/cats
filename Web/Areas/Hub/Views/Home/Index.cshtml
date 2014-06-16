@@ -14,6 +14,11 @@
         width: 100%;
         height: 300px;
     }
+       .table td.rightAlign {
+       
+        text-align: center;
+       
+    }
 </style>
 
 <div ng-app="myApp">
@@ -129,13 +134,13 @@
                                 <i class=""></i>
                                 Recent Dispatches
                             </h3>
-                            <ul class="portlet-tools pull-right">
+                           @* <ul class="portlet-tools pull-right">
                                 <li>
                                     <button class="btn btn-sm btn-default">
                                         Show more
                                     </button>
                                 </li>
-                            </ul>
+                            </ul>*@
                         </div>
 
                         <!-- /.portlet-header -->
@@ -145,22 +150,25 @@
                                 <table id="" class="table table-striped table-checkable">
                                     <thead>
                                         <tr>
-                                            <th class="hidden-xs">Bid</th>
+                                            <th class="hidden-xs">Bid Number</th>
                                             <th>Requisition</th>
+                                            <th>GIN</th>
                                             <th>FDP</th>
                                             <th>Commodity</th>
-                                            <th>Planned</th>
-                                            <th>Dispatched</th>
+                                            @*<th>Planned</th>*@
+                                            <th>Dispatched (MT)</th>
+                                             <th>Transporter Name</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr class="" ng-repeat="request in Requests">
-                                            <td class="hidden-xs">{{request[1].Value}}</td>
-                                            <td>{{request[2].Value}}</td>
-                                            <td>{{25142|number}}</td>
-                                            <th>{{1442|number}} QT</th>
-                                            <th>{{1442|number}} QT</th>
-                                            <th>{{1442|number}} QT</th>
+                                        <tr class="" ng-repeat="dispach in Dispatches">
+                                            <td class="hidden-xs">{{dispach.BidNumber}}</td>
+                                            <td>{{dispach.RequisitionNo}}</td>
+                                            <td>{{dispach.GIN}}</td>
+                                            <td>{{dispach.FDPName}}</td>
+                                            <td>{{dispach.Commodity}}</td>
+                                            <td  class="rightAlign">{{dispach.DispatchedAmount}}</td>
+                                            <td>{{dispach.Transporter}}</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -176,7 +184,7 @@
         <div>
             <div class="row" style="border-bottom-width: thin; border-bottom-color: #666; border-bottom-style: inset; margin-top: 5px">
                 <div class="pull-left">
-                    <h4>Transporters with active transport orders</h4>
+                    <h4>Dispatch Allocations</h4>
                 </div>
                 <div class="pull-right">
                     <div class="btn-group">
@@ -196,7 +204,7 @@
                         <div class="portlet-header">
                             <h3>
                                 <i class=""></i>
-                                Outgoing Dispatches
+                                Outgoing Dispatches 
                             </h3>
                         </div>
                         <!-- /.portlet-header -->
@@ -205,20 +213,23 @@
                                 <table id="" class="table table-striped table-checkable">
                                     <thead>
                                         <tr>
-                                            <th>Contract No.</th>
+                                            <th>BID Number</th>
+                                            <th>Requisition No</th>
+                                            <th>FDP</th>
+                                            <th>Commodity</th>
+                                            <th>Amount</th>
                                             <th>Transporter</th>
-                                            <th>Bid Document</th>
-                                            <th>Dispatch Date</th>
-                                            <th>Status</th>
+                                           
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr class="" ng-repeat="dispatch in Dispatches">
-                                            <th>{{dispatch[1].Value}}</th>
-                                            <th>{{dispatch[2].Value}}</th>
-                                            <th>{{dispatch[5].Value|number:2}} QT</th>
-                                            <th>{{dispatch[3].Value}}</th>
-                                            <th>{{dispatch[4].Value}}</th>
+                                        <tr class="" ng-repeat="dispatchAllocation in DispatchAllocations">
+                                            <td class="hidden-xs">{{dispatchAllocation.BidNumber}}</td>
+                                            <td>{{dispatchAllocation.RequisitionNo}}</td>
+                                            <td>{{dispatchAllocation.FDPName}}</td>
+                                            <td>{{dispatchAllocation.Commodity}}</td>
+                                            <td  class="rightAlign">{{dispatchAllocation.DispatchedAmount}}</td>
+                                            <td>{{dispatchAllocation.Transporter}}</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -255,11 +266,14 @@
     function HubDashboardController($scope, $http) {
         
         $scope.requestParam = { hub: '@ViewBag.HubID', program: 1, date: new Date() };
+        $scope.hubParm = { hub: 1 };
         $scope.reqParam = { regionID: 2 };
         $scope.CommodityStock = [];
         $scope.StockStatus = [];
         $scope.Dispatches = [];
         $scope.Data = [];
+        $scope.DispatchAllocations = [];
+       
 
         var onCommodityStkStatusSuccess = function (data) {
             $scope.CommodityStock = data;
@@ -272,6 +286,10 @@
         var onDispatchesSuccess = function (data) {
             $scope.Dispatches = data;
         };
+        var onDispatchAllocationSuccess = function (data) {
+            $scope.DispatchAllocations = data;
+        };
+        
 
         $scope.getCommodityStockStatus = function () {
             $http.post("@Url.Action("CommodityStockStatus", "HubDashboard", new { Area = "Hub" })", $scope.requestParam).success(onCommodityStkStatusSuccess);
@@ -282,15 +300,16 @@
         };
 
         $scope.getDispatches = function () {
-            $http.post("@Url.Action("Dispatches", "FetchData", new { Area = "Regional" })", $scope.reqParam).success(onDispatchesSuccess);
+            $http.post("@Url.Action("RecentDispatches", "HubDashboard", new { Area = "Hub" })").success(onDispatchesSuccess);
         };
 
-        $scope.getDispatches = function () {
-            $http.post("@Url.Action("Dispatches", "FetchData", new { Area = "Regional" })", $scope.reqParam).success(onDispatchesSuccess);
+        $scope.getDispatchAllocations = function () {
+            $http.post("@Url.Action("RecentDispatchAllocation", "HubDashboard", new { Area = "Hub" })").success(onDispatchAllocationSuccess);
         };
         $scope.getCommodityStockStatus();
         $scope.getStockStatus();
         $scope.getDispatches();
+        $scope.getDispatchAllocations();
     }
 </script>
 

@@ -34,7 +34,7 @@ namespace Cats.Areas.Hub.Controllers
         {
             var currentUser = UserAccountHelper.GetUser(HttpContext.User.Identity.Name);
             ViewBag.HubName = currentUser.DefaultHub != null ? _hubService.FindById(currentUser.DefaultHub ?? 1).Name : "";
-            ViewBag.HubID = currentUser.DefaultHub != null ? currentUser.DefaultHub : 0;
+            ViewBag.HubID = currentUser.DefaultHub ?? 0;
             return View();
         }
 

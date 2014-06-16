@@ -101,7 +101,7 @@
                         </div>
                         <div class="controls">
                             @Html.TextBoxFor(m => m.Plan.Duration)
-                              <a id="btnDateinterval"  @*href="@Url.Action("DateInterval", "HRD", new { area = "EarlyWarning", startDate = "4/15/2014", duration = 6 })"*@>View Date Interval</a>
+                              <a id="btnDate"  @*href="@Url.Action("DateInterval", "HRD", new { area = "EarlyWarning", startDate = "4/15/2014", duration = 6 })"*@>View Date Interval</a>
                        
                             @Html.ValidationMessageFor(m => m.Plan.Duration)
                         </div>
@@ -132,11 +132,11 @@
 <script type="text/javascript">
     $(function () {
         
-       
+        alert("here");
         $.ajaxSetup({ cache: false });
 
-        $('#btnDateinterval').click(function () {
-
+        $('#btnDate').click(function () {
+            
             var startDate = new Date($('#Plan_StartDate').val());
             //var startDate = $('#Plan_StartDate').val();
             var duration = $('#Plan_Duration').val();

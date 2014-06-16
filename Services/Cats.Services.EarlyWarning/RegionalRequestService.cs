@@ -191,10 +191,11 @@ namespace Cats.Services.EarlyWarning
         }
 
 
-        public bool ApproveRequest(int id)
+        public bool ApproveRequest(int id, Cats.Models.Security.UserInfo userInfo)
         {
             var req = _unitOfWork.RegionalRequestRepository.FindById(id);
             req.Status = (int) RegionalRequestStatus.Approved;
+            req.ApprovedBy = userInfo.UserProfileID;
             _unitOfWork.Save();
             return true;
         }

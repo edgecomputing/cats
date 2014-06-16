@@ -4,6 +4,7 @@ using System.Linq.Expressions;
 using System.Linq;
 using Cats.Data.UnitWork;
 using Cats.Models;
+using Cats.Models.Constant;
 
 namespace Cats.Services.PSNP
 {
@@ -69,6 +70,56 @@ namespace Cats.Services.PSNP
                  _unitOfWork.RegionalPSNPPlanRepository.Get(p => p.PlanId == planId && p.Year==year).Count();
             return psnp > 0;
         }
+        public void AddPsnpPlan(string planName, DateTime startDate, DateTime endDate)
+        {
+            var oldPlan = _unitOfWork.PlanRepository.FindBy(m => m.PlanName == planName).SingleOrDefault();
+            if (oldPlan == null)
+            {
+                var psnpProgram = _unitOfWork.ProgramRepository.FindBy(m => m.Name == "PSNP").SingleOrDefault();
+                var plan = new Plan
+                {
+                    PlanName = planName,
+                    StartDate = startDate,
+                    EndDate = endDate,
+                    Program = psnpProgram,
+                    Status = (int)PlanStatus.PSNPCreated
+
+                };
+                _unitOfWork.PlanRepository.Add(plan);
+                _unitOfWork.Save();
+            }
+
+        }
+        public RegionalPSNPPlan CreatePsnpPlan(int year,int duration,int ration,int statusID ,int planID)
+        {
+            var psnp = new RegionalPSNPPlan()
+                {
+                    PlanId = planID,
+                    Year = year,
+                    Duration = duration,
+                    RationID = ration,
+                    StatusID = statusID
+                };
+            _unitOfWork.RegionalPSNPPlanRepository.Add(psnp);
+            _unitOfWork.Save();
+            return psnp;
+
+        }
+      public  bool UpdatePsnpPlan(int year, int duration, int ration, int statusID, int planID)
+
+    {
+        var psnp = new RegionalPSNPPlan()
+        {
+            PlanId = planID,
+            Year = year,
+            Duration = duration,
+            RationID = ration,
+            StatusID = statusID
+        };
+        _unitOfWork.RegionalPSNPPlanRepository.Edit(psnp);
+        _unitOfWork.Save();
+        return true;
+    }
 
        
     }

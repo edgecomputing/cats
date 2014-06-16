@@ -5,21 +5,6 @@
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
 @section Toolbar    {
- 
-    @*<div class="btn-group" style="margin-right:8px;">
-        <button class="btn">Action</button>
-        @{
-            <button class="btn dropdown-toggle " data-toggle="dropdown">
-                <span class="caret"></span>
-            </button>
-           
-        }
-
-        <ul class="dropdown-menu">
-            <li><a  href="@Url.Action("ClearBidWinners", "PriceQuotation")" >Clear Winners</a></li>
-        </ul>
-
-    </div>  *@   
     
      <a data-toggle="modal" data-target="#myModal" class="btn toolbar-btn " >Generate</a>       
          
@@ -33,7 +18,7 @@
     @Html.Partial("_GenerateWinnersIgnitor")
 </div>
 
-<h6>Approved bid proposals to identify winners from </h6>
+<h3>Approved bid proposals to identify winners from </h3>
 <div class="row">
     @(Html.Kendo().Grid<TransportBidQuotationHeaderViewModel>()
           .Name("grid")

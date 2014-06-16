@@ -31,6 +31,7 @@
     @Html.HiddenFor(model => model.JSONDeletedCommodities)
     @Html.HiddenFor(model => model.JSONUpdatedCommodities)
     @Html.HiddenFor(model => model.ReceiptAllocationID)
+    @Html.HiddenFor(model => model.Stores)
     @{
         Model.ChangeStoreManPermanently = false;
      }
@@ -57,8 +58,10 @@
             </td>
             <td>
                 @Html.EditorFor(model => model.ReceiptDate)
+                @*@Html.TextBoxFor(model => model.ReceiptDate, new { @class = "cats-datepicker2" })*@
                 @Html.AuditTrial("Receive", "ReceiptDate", Model.ReceiveID)
                 @Html.ValidationMessageFor(model => model.ReceiptDate)
+                <span>YYYY-MM-DD</span>
             </td>
         </tr>
         <tr>
@@ -247,7 +250,7 @@
             <td>
                 @(Html.Telerik().ComboBox()
                    .Name("StackNumber")
-                   .BindTo(new SelectList(Model.Stacks, "Id", "Name", Model.StackNumber))
+                   //.BindTo(new SelectList(Model.Stacks, "Id", "Name", Model.StackNumber))
                    .DataBinding(bind => bind.Ajax().Select("StackNumbers", "Store", new {editModval = Model.StackNumber}).Enabled(true))
                    .HtmlAttributes(new { style = string.Format("width:{0}px", 200) })
                    .ClientEvents(ev => ev.OnChange("OnComChange"))
@@ -258,7 +261,7 @@
                    .HighlightFirstMatch(true)
                    .OpenOnFocus(true)
                    .AutoFill(true).Enable(!Model.IsEditMode)
-                      )
+                )
                 @Html.AuditTrial("Receive", "StackNumber", Model.ReceiveID)
                 @Html.ValidationMessageFor(model => model.StackNumber)
                
@@ -548,7 +551,7 @@
 
     var theParam;
     function cancel() {
-        window.location = "@Url.Action("Index","Receive")';///Receive/";
+        window.location = "@Url.Action("Index","Receive")";
     }
 
     function Grid_onRowSelect() {
@@ -560,25 +563,6 @@
 
     function onEdit(e) {
         if ((e.mode == 'edit') && (e.dataItem.ReceiveDetailCounter > 0)) {
-            // $(e.row).find("td").click(function (edit) { edit.stopPropagation(); });       
-            //  $('t-grid-edit-cell t-widget t-combobox t-header t-dropdown-wrap t-state-default t-select t-header t-icon t-arrow-down').attr('disabled', 'disabled');
-            //  $(e.row).find('t-grid-edit-cell t-widget t-combobox t-header t-dropdown-wrap t-state-default t-select t-header t-icon t-arrow-down').attr('disabled', 'disabled');
-            //  $(e.row).find('td.t-last a.t-grid-action').attr('disabled', 'disabled');
-            // $('t-grid-edit-cell').attr('disabled', 'disabled');
-            // $('#Description').attr('disabled', 'disabled');
-            //e.dataItem.Readonly();
-            // var form = e.form;
-            //var mode = e.mode;
-
-            //if (mode == "edit") {
-            //var UnitID = form.UnitID; //Country is a public property of my Model
-            //UnitID.disabled = true;
-            //UnitID.Readonly();
-            // }
-            // var form = e.form;
-            // $(form).find("#UnitID").attr('disabled', 'disabled');
-
-            //console.warn($('#UnitID').data('tComboBox')
             if ($('#CommodityID').data('tComboBox') != null) {
                 $('#CommodityID').data('tComboBox').disable();
             }
@@ -986,4 +970,25 @@
 
 
 
+</script>
+<script src="@Url.Content("~/Scripts/js/CatsUI.js")" type="text/javascript"></script>
+@{
+    var calendarPreference = Html.UserCalendarPreference();
+    }
+<script>
+    //alert("@calendarPreference");
+    init_datepicker("@calendarPreference");
+    $(function () {
+
+        //For label
+        $(".cats-date-pref").append(' (' + datepreferencedisplay + ')');
+        $(".cats-unit-pref").append(' (' + unitpreferencedisplay + ')');
+        //For grid
+        $(".cats-date-pref-grid >.k-link").append("(" + datepreferencedisplay + ")");
+        $(".cats-unit-pref-grid >.k-link").append("(" + unitpreferencedisplay + ")");
+        /*each(function () {
+            $(this).append("(" + datepeferencedisplay + ")");
+
+        });*/
+    });
 </script>

@@ -19,6 +19,8 @@ namespace Cats.Models
             this.LoanReciptPlanDetails = new List<LoanReciptPlanDetail>();
             this.TransporterCheques = new List<TransporterCheque>();
             this.TransporterCheques1 = new List<TransporterCheque>();
+            this.RegionalRequests = new List<RegionalRequest>();
+            this.RegionalRequests1 = new List<RegionalRequest>();
         }
 
         public int UserProfileID { get; set; }
@@ -54,7 +56,9 @@ namespace Cats.Models
         public virtual ICollection<HRD> Hrds { get; set; }
         public virtual ICollection<NeedAssessment> NeedAssessments { get; set; }
         public virtual ICollection<NeedAssessment> NeedAssessments1 { get; set; }
-        public virtual ICollection<LoanReciptPlanDetail> LoanReciptPlanDetails { get; set; } 
+        public virtual ICollection<LoanReciptPlanDetail> LoanReciptPlanDetails { get; set; }
+        public virtual ICollection<RegionalRequest> RegionalRequests { get; set; }
+        public virtual ICollection<RegionalRequest> RegionalRequests1 { get; set; }
        
         
     }
