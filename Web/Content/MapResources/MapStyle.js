@@ -52,7 +52,9 @@ function rgbColor(base, factor) {
     var b = colorValue(base[2], factor);
     return "rgb(" + r + "," + g + "," + b + ")";
 }
-
+var stylePresets = {
+    outline: createStyle({ "default": { "Polygon": { fill: 0, strokeWidth: 0, strokeColor: "#999" } } })
+}
 var styles = new OpenLayers.StyleMap({
     "default": new OpenLayers.Style(null, {
         context: mapContex,
