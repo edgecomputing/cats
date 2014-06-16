@@ -29,7 +29,7 @@ function createStyle(rules) {
             }
         }
     }
-    console.log("createStyle-context", { context: context, rule: rules });
+    //console.log("createStyle-context", { context: context, rule: rules });
 
     var StyleMaps = {};
     for (var m in rules) {
@@ -43,6 +43,24 @@ function createStyle(rules) {
     var styles = new OpenLayers.StyleMap(StyleMaps);
     return styles;
 }
+function rgb(r, g, b) {
+    return { r: r, g: g, b: b };
+}
+function middleValue(s, e, r) {
+    var diff = e - s;
+    return Math.round(s + diff * r);
+}
+function getRGBShade(colorFrom, colorTo, nv) {
+    var cFrom = {};
+    var cTo = {};
+    eval("cFrom=" + colorFrom);
+    eval("cTo=" + colorTo);
+    var r = middleValue(cFrom.r, cTo.r, nv);
+    var g = middleValue(cFrom.g, cTo.g, nv);
+    var b = middleValue(cFrom.b, cTo.b, nv);
+    var rgbstr = "rgb(" + r + "," + g + "," + b + ")";
+    return rgbstr;
+}
 function colorValue(base, factor) {
     return Math.min(Math.round(base * factor), 255);
 }
@@ -52,6 +70,7 @@ function rgbColor(base, factor) {
     var b = colorValue(base[2], factor);
     return "rgb(" + r + "," + g + "," + b + ")";
 }
+
 var stylePresets = {
     outline: createStyle({ "default": { "Polygon": { fill: 0, strokeWidth: 0, strokeColor: "#999" } } })
     ,solid: createStyle({ "default": { "Polygon": { fill: 0, strokeWidth: 0, strokeColor: "#999" } } })
