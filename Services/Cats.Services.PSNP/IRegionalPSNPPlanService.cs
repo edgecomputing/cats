@@ -22,7 +22,9 @@ namespace Cats.Services.PSNP
 
         List<vwPSNPAnnualPlan> GetAnnualPlanRpt(int id);
         bool DoesPsnpPlanExistForThisRegion(int planId,int year);
-
+        void AddPsnpPlan(string planName, DateTime startDate, DateTime endDate);
+        RegionalPSNPPlan CreatePsnpPlan(int year,int duration,int ration,int statusID ,int planID);
+        bool UpdatePsnpPlan(int year, int duration, int ration, int statusID, int planID);
 
     }
 }

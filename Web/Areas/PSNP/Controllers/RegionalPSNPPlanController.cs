@@ -161,7 +161,10 @@ namespace Cats.Areas.PSNP
         [HttpPost]
         public ActionResult Create(RegionalPSNPPlan regionalpsnpplan)
         {
-            //regionalpsnpplan.StatusID = 1;
+            var planName = regionalpsnpplan.Plan.PlanName;
+            var startDate = regionalpsnpplan.Plan.StartDate;
+            var firstDayOfTheMonth = startDate.AddDays(1 - startDate.Day);
+            var endDate = firstDayOfTheMonth.AddMonths(regionalpsnpplan.Plan.Duration).AddDays(-1);
 
             //check if this psnp plan exitsts for this region
             var exists = _regionalPSNPPlanService.DoesPsnpPlanExistForThisRegion(regionalpsnpplan.PlanId,regionalpsnpplan.Year);
@@ -182,14 +185,18 @@ namespace Cats.Areas.PSNP
                                                                     Comment = "Created workflow for PSNP Plan"
 
                                                                 };
-                        _regionalPSNPPlanService.AddRegionalPSNPPlan(regionalpsnpplan);
-                       _planService.ChangePlanStatus(regionalpsnpplan.PlanId);
+                        _regionalPSNPPlanService.AddPsnpPlan(planName, firstDayOfTheMonth, endDate);
+                        var plan = _planService.Get(m => m.PlanName == planName,null,"Program").FirstOrDefault();
+                         regionalpsnpplan.Plan = plan;
+
+                         var psnpPlan=  _regionalPSNPPlanService.CreatePsnpPlan(regionalpsnpplan.Year,regionalpsnpplan.Duration,regionalpsnpplan.RationID,regionalpsnpplan.StatusID,plan.PlanID);
+                        //_planService.ChangePlanStatus(regionalpsnpplan.PlanId);
                         BusinessProcess bp = _BusinessProcessService.CreateBusinessProcess(BP_PSNP,
                                                                                            regionalpsnpplan.
                                                                                                RegionalPSNPPlanID,
                                                                                            "PSNP", createdstate);
-                        regionalpsnpplan.StatusID = bp.BusinessProcessID;
-                        _regionalPSNPPlanService.UpdateRegionalPSNPPlan(regionalpsnpplan);
+                        psnpPlan.StatusID = bp.BusinessProcessID;
+                        _regionalPSNPPlanService.UpdateRegionalPSNPPlan(psnpPlan);
                         return RedirectToAction("Index");
 
                     }
