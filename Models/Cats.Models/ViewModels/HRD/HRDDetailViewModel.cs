@@ -20,7 +20,9 @@ namespace Cats.Models.ViewModels.HRD
         public int DurationOfAssistance { get; set; }
         public int WoredaID { get; set; }
         public string Woreda { get; set; }
+        public int ZoneID { get; set; }
         public string Zone { get; set; }
+        public int RegionID { get; set; }
         public string Region { get; set; }
         public int StartingMonth { get; set; }
 
