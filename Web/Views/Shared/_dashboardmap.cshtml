@@ -8,7 +8,7 @@
     .map
     {
         float:left;
-        width:500px;
+        width:700px;
         height:500px;
         border:solid 1px #DDD;
     }
@@ -22,10 +22,11 @@
 
 <div id="map1" class="map">
 </div>
-<div id="map2" class="map">
+<div id="map2" class="map2">
 </div>
 <script>
-        
+    var countryShapeURL = "/Content/MapResources/MapData/ethiopiaJson.js";
+    var regionShapeURL = "/Content/MapResources/MapData/ethiopiaRegions.js";
     $(function () {
         var hrdSummary = {};
         var HRDUrl= "@Url.Action("HRDDetail_Read", "HRD", new { Area = "EarlyWarning" })";
@@ -35,18 +36,58 @@
             for (var i in data) {
                 var regionID = data[i].RegionID;
 
-                if (!regionBen["Region" + regionID]) {
-                    regionBen["Region" + regionID] = { RegionID: regionID, RegionName: data[i].Region, NumberOfBeneficiaries: 0 };
+                if (!regionBen["row" + regionID]) {
+                    regionBen["row" + regionID] = { RegionID: regionID, RegionName: data[i].Region, NumberOfBeneficiaries: 0 };
                 }
-                regionBen["Region" + regionID].NumberOfBeneficiaries += data[i].NumberOfBeneficiaries / 1;
+                regionBen["row" + regionID].NumberOfBeneficiaries += data[i].NumberOfBeneficiaries / 1;
                 
             }
             return regionBen;
         }
         $.post(HRDUrl, {}, function (data) {
-            var regionBen = aggregateRegionBeneficiaries(data.Data);
-            console.log("Fetch HRD", regionBen,data.Data);
+            drawRegionBenficiaryMap(data.Data);
         });
+
+        function drawRegionBenficiaryMap(data) {
+            var regionBen = aggregateRegionBeneficiaries(data);
+
+            var dataTable = regionBen;
+            var key = "RegionID";
+            var indicator = "NumberOfBeneficiaries";
+            normalizeIndicator(dataTable, indicator);
+            console.log("drawRegionBenficiaryMap", regionBen);
+
+            var mapLayer = [
+                                   { name: "Ethiopia", url: countryShapeURL, styleMap: stylePresets.outline }
+                                   , {
+                                       name: "Regions", url: regionShapeURL
+                                        , style:
+                                            {
+                                                "default":
+                                                    {
+                                                        "Polygon":
+                                                            {
+                                                                fillOpacity: 1
+                                                                , strokeOpacity: 1
+                                                                , label: function (feature) { return get_attribute_value(feature.attributes, "name", ""); }
+                                                                , fillColor: function (feature) {
+                                                                    var keyVal = get_attribute_value(feature.attributes, key, "");
+                                                                    var row = dataTable["row" + keyVal];
+                                                                    if (row) {
+                                                                        var att = dataTable["row" + keyVal][indicator + "normalized"];
+                                                                        return getRGBShade("rgb(207,255,207)", "rgb(30,159,30)", att);
+                                                                    }
+                                                                    return "#CCC";
+                                                                }
+                                                               , strokeColor: "#FFF"
+
+                                                            }
+                                                    }
+                                            }
+                                   }
+            ];
+            CreateMap("map1", { layers: mapLayer });
+        }
 
         var regionAttributes = { "Tigray": 10, "Amhara": 70, "Afar": 40, "Somali": 30, "Benishangul": 40, "oromia": 90, "AddisAbeba": 50, "Gambela": 50, "Debub": 80 }
         var regionAttributes2 = { "Tigray": 10, "Amhara": 20, "Afar": 30, "Somali": 40, "Benishangul": 50, "oromia": 60, "AddisAbeba": 70, "Gambela": 80, "Debub":90 }
@@ -100,7 +141,7 @@
                                                 {
                                                     fillOpacity: 1
                                                     , strokeOpacity: 1
-                                                , label: function (feature) {
+                                                    , label: function (feature) {
                                                     var name = get_attribute_value(feature.attributes, "name", "");
                                                     var att = regionAttributes[name];
                                                     return name;
@@ -126,9 +167,9 @@
                                 }
                        }
         ]
-        CreateMap("map1", { layers: layers });
-        var c = getRGBShade("rgb(207,255,207)","rgb(30,159,30)", 0.5);
-        console.log("CreateMap", c);
-        CreateMap("map2", { layers: layers2 });
+        
+        //var c = getRGBShade("rgb(207,255,207)","rgb(30,159,30)", 0.5);
+        //console.log("CreateMap", c);
+       // CreateMap("map2", { layers: layers2 });
     });
 </script>
