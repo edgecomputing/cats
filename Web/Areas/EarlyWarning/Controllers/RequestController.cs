@@ -49,6 +49,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         private readonly IIDPSReasonTypeServices _idpsReasonTypeServices;
         private readonly Cats.Services.Transaction.ITransactionService _transactionService;
         private readonly INotificationService _notificationService;
+        private readonly IUserProfileService _userProfileService;
         public RequestController(IRegionalRequestService reliefRequistionService,
                                 IFDPService fdpService,
                                 IRegionalRequestDetailService reliefRequisitionDetailService,
@@ -62,7 +63,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                                 IRegionalPSNPPlanService RegionalPSNPPlanService, 
             IAdminUnitService adminUnitService, 
             IPlanService planService, 
-            IIDPSReasonTypeServices idpsReasonTypeServices, ITransactionService transactionService, INotificationService notificationService)
+            IIDPSReasonTypeServices idpsReasonTypeServices, ITransactionService transactionService, INotificationService notificationService, IUserProfileService userProfileService)
         {
             _regionalRequestService = reliefRequistionService;
             _fdpService = fdpService;
@@ -80,6 +81,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             _idpsReasonTypeServices = idpsReasonTypeServices;
             _transactionService = transactionService;
             _notificationService = notificationService;
+            _userProfileService = userProfileService;
         }
         public  ActionResult RegionalRequestsPieChart()
         {
@@ -112,6 +114,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         private RegionalRequest CretaeRegionalRequest(HRDPSNPPlanInfo hrdpsnpPlanInfo)
         {
             var regionalRequest = new RegionalRequest();
+            UserProfile user = _userProfileService.GetUser(User.Identity.Name);
 
             regionalRequest.Status = (int)RegionalRequestStatus.Draft;
             regionalRequest.RequistionDate = DateTime.Today;
@@ -130,6 +133,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             regionalRequest.RegionID = hrdpsnpPlanInfo.HRDPSNPPlan.RegionID;
             regionalRequest.ProgramId = hrdpsnpPlanInfo.HRDPSNPPlan.ProgramID;
             regionalRequest.DonorID = hrdpsnpPlanInfo.HRDPSNPPlan.DonorID;
+            regionalRequest.RequestedBy = user.UserProfileID;
             regionalRequest.RationID = hrdpsnpPlanInfo.HRDPSNPPlan.RationID.HasValue ? hrdpsnpPlanInfo.HRDPSNPPlan.RationID.Value : _applicationSettingService.getDefaultRation();
             regionalRequest.Round = hrdpsnpPlanInfo.HRDPSNPPlan.Round;
             regionalRequest.RegionalRequestDetails = (from item in hrdpsnpPlanInfo.BeneficiaryInfos
@@ -149,7 +153,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
             int regionId = Convert.ToInt32(collection["RegionId"].ToString(CultureInfo.InvariantCulture));
             var programId = 3;
-           
+            UserProfile user = _userProfileService.GetUser(User.Identity.Name);
             
             var regionalRequest = new RegionalRequest
                                       {
@@ -162,6 +166,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                                           RegionID = regionId,
                                           ProgramId = programId,
                                           DonorID = null,
+                                          RequestedBy = user.UserProfileID,
                                           RationID = hrdpsnpPlanInfo.HRDPSNPPlan.RationID.HasValue ? hrdpsnpPlanInfo.HRDPSNPPlan.RationID.Value : _applicationSettingService.getDefaultRation(),
                                           Round = null,
                                           IDPSReasonType = reasonTypeID,
@@ -180,10 +185,33 @@ namespace Cats.Areas.EarlyWarning.Controllers
         }
         private void PopulateLookup()
         {
-            var user = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name);
+            var user = _userAccountService.GetUserDetail(HttpContext.User.Identity.Name);
             ViewBag.RegionID = user.RegionalUser ? new SelectList(_commonService.GetAminUnits(t => t.AdminUnitTypeID == 2 && t.AdminUnitID == user.RegionID), "AdminUnitID", "Name") : new SelectList(_commonService.GetAminUnits(t => t.AdminUnitTypeID == 2), "AdminUnitID", "Name");
             
-            ViewBag.ProgramId = new SelectList(_commonService.GetPrograms().Take(2), "ProgramID", "Name");
+            if (user.CaseTeam!=null)
+            {
+                switch (user.CaseTeam)
+                {
+                    case 1://earlywarning
+                        ViewBag.ProgramId = new SelectList(_commonService.GetPrograms().Where(p=>p.ProgramID == (int)Programs.Releif).Take(2), "ProgramID", "Name");
+                        break;
+                    case 2: //PSNP
+                        ViewBag.ProgramId = new SelectList(_commonService.GetPrograms().Where(p=>p.ProgramID == (int)Programs.PSNP).Take(2), "ProgramID", "Name");
+                        break;
+                }
+            }
+            else if (user.RegionalUser)
+            {
+                ViewBag.ProgramId =
+                    new SelectList(
+                        _commonService.GetPrograms().Where(p => p.ProgramID == (int) Programs.Releif).Take(2),
+                        "ProgramID", "Name");
+            }
+            else
+            {
+                ViewBag.ProgramId = new SelectList(_commonService.GetPrograms().Take(2), "ProgramID", "Name");
+            }
+            //ViewBag.ProgramId = new SelectList(_commonService.GetPrograms().Take(2), "ProgramID", "Name");
             ViewBag.Month = new SelectList(RequestHelper.GetMonthList(), "ID", "Name");
             ViewBag.RationID = new SelectList(_commonService.GetRations(), "RationID", "RefrenceNumber");
             ViewBag.DonorID = new SelectList(_commonService.GetDonors(), "DonorId", "Name");
@@ -260,7 +288,9 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
         public ActionResult ApproveRequest(int id)
         {
-            _regionalRequestService.ApproveRequest(id);
+            var user = _userAccountService.GetUserInfo(User.Identity.Name);
+           
+            _regionalRequestService.ApproveRequest(id, user);
            
             return RedirectToAction("Index");
         }
@@ -345,13 +375,11 @@ namespace Cats.Areas.EarlyWarning.Controllers
                     {
                         destinationURl = "http://" + Request.Url.Authority +
                                          "/EarlyWarning/Request/IndexFromNotification?recordId=" + regionalRequest.RegionalRequestID;
+                        return;
                     }
-                    else
-                    {
-                        destinationURl = "http://" + Request.Url.Authority +
-                                        Request.ApplicationPath +
-                                         "/EarlyWarning/Request/IndexFromNotification?recordId=" + regionalRequest.RegionalRequestID;
-                    }
+                    destinationURl = "http://" + Request.Url.Authority +
+                                     Request.ApplicationPath +
+                                     "/EarlyWarning/Request/IndexFromNotification?recordId=" + regionalRequest.RegionalRequestID;
 
                     _notificationService.AddNotificationForEarlyWaringFromRegions(destinationURl,
                                                                                     regionalRequest.RegionalRequestID,
@@ -825,7 +853,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             var filter = new SearchRequsetViewModel();
             ViewBag.Filter = filter;
             PopulateLookup();
-            ViewBag.ProgramId = new SelectList(_commonService.GetPrograms(), "ProgramID", "Name");
+           // ViewBag.ProgramId = new SelectList(_commonService.GetPrograms(), "ProgramID", "Name");
             return View(filter);
         }
 
@@ -834,7 +862,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         {
             ViewBag.Filter = filter;
             PopulateLookup();
-            ViewBag.ProgramId = new SelectList(_commonService.GetPrograms(), "ProgramID", "Name");
+            //ViewBag.ProgramId = new SelectList(_commonService.GetPrograms(), "ProgramID", "Name");
             return View(filter);
         }
 

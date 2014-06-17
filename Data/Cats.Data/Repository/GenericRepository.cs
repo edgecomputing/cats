@@ -32,8 +32,15 @@ namespace Cats.Data.Repository
        
         public List<T> FindBy(System.Linq.Expressions.Expression<Func<T, bool>> predicate)
         {
-            IQueryable<T> query = _context.Set<T>().Where(predicate);
-            return query.ToList();
+            try
+            {
+                IQueryable<T> query = _context.Set<T>().Where(predicate);
+                return query.ToList();
+            }
+            catch (Exception e)
+            {
+                return new List<T>();
+            }
         }
        
         public virtual bool Add(T entity)

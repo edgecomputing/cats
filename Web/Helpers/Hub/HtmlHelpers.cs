@@ -149,8 +149,8 @@ namespace Cats.Web.Hub.Helpers
         /// <returns></returns>
         public static MvcHtmlString AuditTrial(this HtmlHelper htmlHelper, string tableName, string fieldName, object id)
         {
-            if (HttpContext.Current.User.IsInRole(Role.RoleEnum.Admin.ToString()))
-            {
+            //if (HttpContext.Current.User.IsInRole(Role.RoleEnum.Admin.ToString()))
+            //{
                 bool hasChange = Audit.HasUpdated(id, tableName, fieldName);
                 if (hasChange)
                 {
@@ -162,7 +162,7 @@ namespace Cats.Web.Hub.Helpers
                     builder.AddCssClass("auditLink");
                     return new MvcHtmlString(builder.ToString());
                 }
-            }
+            //}
             return null;
         }
 

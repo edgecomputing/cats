@@ -507,13 +507,11 @@ namespace Cats.Services.Procurement
                 {
                     destinationURl = "http://" + HttpContext.Current.Request.Url.Authority +
                                      "/Hub/TransportOrder/NotificationIndex?recordId=" + transportOrderId;
+                    return;
                 }
-                else
-                {
-                    destinationURl = "http://" + HttpContext.Current.Request.Url.Authority +
-                                     HttpContext.Current.Request.ApplicationPath +
-                                     "/Hub/TransportOrder/NotificationIndex?recordId=" + transportOrderId;
-                }
+                destinationURl = "http://" + HttpContext.Current.Request.Url.Authority +
+                                 HttpContext.Current.Request.ApplicationPath +
+                                 "/Hub/TransportOrder/NotificationIndex?recordId=" + transportOrderId;
                 _notificationService.AddNotificationForHubManagersFromTransportOrder(destinationURl, transportOrderId,
                                                                                      transportOrderNo,hubId);
             }

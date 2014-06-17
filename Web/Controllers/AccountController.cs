@@ -173,6 +173,8 @@ namespace Cats.Controllers
             }
         }
 
+        [HttpGet]
+        [AllowAnonymous]
         public ActionResult ForgetPasswordRequest()
         {
             //var UserName = UserAccountHelper.GetUser(HttpContext.User.Identity.Name).UserName;
@@ -183,6 +185,7 @@ namespace Cats.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous ]
         public ActionResult ForgetPasswordRequest(ForgetPasswordRequestModel model)
         {
             if (ModelState.IsValid)
