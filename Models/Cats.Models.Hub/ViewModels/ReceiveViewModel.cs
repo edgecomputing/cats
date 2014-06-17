@@ -55,6 +55,7 @@ namespace Cats.Models.Hubs.ViewModels
         public List<CommodityType> CommodityTypes { get; set; }
         public List<CommoditySource> CommoditySources { get; set; }
         public List<Donor> Donors { get; set; }
+
         public List<Store> Stores { get; set; }
         public List<Program> Programs { get; set; }
         public List<Hub> Hubs { get; set; }
@@ -69,7 +70,11 @@ namespace Cats.Models.Hubs.ViewModels
                 //TODO:Make sure constractor stacks variable brings same data with the same logic
                 if (this.StoreID != 0)
                 {
-                    Store store = null;//todo:refactor _Repository.StoreRepository.FindById(StoreID);
+                    var store = new Store();
+                    foreach (var store1 in Stores.Where(store1 => store1.StoreID == StoreID))
+                    {
+                        store = store1;
+                    }
                     var stacks = new List<AdminUnitItem>();
                     foreach (var i in store.Stacks)
                     {
@@ -129,13 +134,13 @@ namespace Cats.Models.Hubs.ViewModels
         public void InitializeEditLists(List<Commodity> commodities, List<CommodityGrade> commodityGrades, List<Transporter> transporters, List<CommodityType> commodityTypes,
             List<CommoditySource> commoditySources, List<Program> programs, List<Donor> donors, List<Hub> hubs, UserProfile user, List<Unit> units)
         {
-            //  _UserProfile = user;
+            //_UserProfile = user;
             Commodities = commodities;// _Repository.Commodity.GetAll().DefaultIfEmpty().OrderBy(o => o.Name).ToList();
             CommodityGrades = commodityGrades;// _Repository.CommodityGrade.GetAll().DefaultIfEmpty().OrderBy(o => o.Name).ToList();
             Transporters = transporters;// _Repository.Transporter.GetAll().DefaultIfEmpty().OrderBy(o => o.Name).ToList();
             CommoditySources = commoditySources;// _Repository.CommoditySource.GetAll().DefaultIfEmpty().OrderBy(o => o.Name).ToList();
             CommodityTypes = commodityTypes;// _Repository.CommodityType.GetAll().DefaultIfEmpty().OrderBy(o => o.Name).ToList();
-            Stores = _UserProfile.DefaultHub.Stores.DefaultIfEmpty().ToList();
+            Stores = user.DefaultHub.Stores.DefaultIfEmpty().ToList();
             Programs = programs;// _Repository.Program.GetAll().DefaultIfEmpty().OrderBy(o => o.Name).ToList();
             Donors = donors;// _Repository.Donor.GetAll().DefaultIfEmpty().OrderBy(o => o.Name).ToList();
             //=========================Old Comment============================================

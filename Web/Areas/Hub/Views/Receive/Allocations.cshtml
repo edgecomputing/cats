@@ -73,7 +73,7 @@
 
                              col.Bound(dis => dis.ReceiptAllocationID).
                                  ClientTemplate("<a href='"
-                                                + @Url.Action("Create", "Receive", new { @ReceiptAllocationID = "<#= ReceiptAllocationID #>", @type = "<#= CommoditySourceID #>" })
+                                                + @Url.Action("Create", "Receive", new { @receiveId = "<#= ReceiptAllocationID #>", @type = "<#= CommoditySourceID #>" })
                                                 + "' >" + @Html.Translate("Receive") + "</a><span>   </span>  "
 
                                                 + "<a href='#' onclick='editPlan(\"<#= ReceiptAllocationID #>\",<#= CommoditySourceID #>)'"

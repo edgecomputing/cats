@@ -14,11 +14,21 @@
     @Html.Partial("_AdminLeftBar")
 }
 
+
+
 <h4 class="page-header">New User</h4>
 
 @using (Html.BeginForm("New", "Users", FormMethod.Post, new { @class = "form-horizontal" }))
 {
     <!-- Text input-->
+    
+  
+    if (ViewBag.passworDoNotMatch!=null)
+     {
+          <div class="span12" style="color: red" id="msgerror">
+             <label class="control-label">@ViewBag.passworDoNotMatch</label>
+         </div>
+     }
     <div class="control-group">
         <label class="control-label">User name:</label>
         <div class="controls">
@@ -49,7 +59,7 @@
     <div class="control-group">
         <label class="control-label">Password:</label>
         <div class="controls">
-            @Html.PasswordFor(m => m.Password, new { @class = "input-xlarge", @required = "required" })
+            @Html.PasswordFor(m => m.Password, new { @class = "input-xlarge", @required = "required", id="pwd" })
              @Html.ValidationMessageFor(m=>m.Password)
         </div>
     </div>
@@ -58,7 +68,7 @@
     <div class="control-group">
         <label class="control-label">Retype Password:</label>
         <div class="controls">
-            @Html.PasswordFor(m => m.PasswordConfirm, new { @class = "input-xlarge", @required = "required" })
+            @Html.PasswordFor(m => m.PasswordConfirm, new { @class = "input-xlarge", @required = "required", id="confpwd" })
              @Html.ValidationMessageFor(m=>m.PasswordConfirm)
         </div>
     </div>
@@ -72,25 +82,33 @@
         </div>
     </div>
 
-
+    @*<div class="control-group" style="visibility: hidden">
+        <label class="control-label">Program:</label>
+        <div class="controls">
+            @(Html.DropDownListFor(model => model.ProgramId, new SelectList(ViewBag.Programs, "ProgramID", "Name"),"No Program", new { @id = "Program" }))
+            
+        </div>
+    </div>*@
+    
     <div class="control-group">
         @Html.Label("User Type", new { @class = "control-label" })
         <div class="controls">
-            @(Html.DropDownList("UserType", new SelectList(ViewBag.userTypes, "Text", "Value","User Type"),"--Select Type", new { @id = "UserType" }))
+            @(Html.DropDownList("UserType", new SelectList(ViewBag.userTypes, "Text", "Value","User Type"),"--Select Type---", new { @id = "UserType" }))
+             @Html.ValidationMessageFor(m=>m.UserType)
         </div>
     </div>
 
     <div id="div_hubs" class="control-group">
         @Html.Label("Hub", new { @class = "control-label" })
         <div class="controls">
-            @Html.DropDownListFor(model => model.DefaultHub, new SelectList(ViewBag.hubs, "HubID", "Name"), "--Select Hub")
+            @Html.DropDownListFor(model => model.DefaultHub, new SelectList(ViewBag.hubs, "HubID", "Name"), "--Select Hub---")
         </div>
     </div>
 
     <div id="div_regions" class="control-group">
         @Html.Label("Region", new { @class = "control-label" })
         <div class="controls">
-            @Html.DropDownListFor(model => model.RegionID, new SelectList(ViewBag.regions, "AdminUnitID", "Name"),"--Select Region")
+            @Html.DropDownListFor(model => model.RegionID, new SelectList(ViewBag.regions, "AdminUnitID", "Name"),"--Select Region---")
             @Html.HiddenFor(m => m.RegionalUser)
         </div>
     </div>
