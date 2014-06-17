@@ -34,7 +34,11 @@ namespace Cats.ViewModelBinder
             requisition.Commodity = reliefRequisition.Commodity.Name;
             requisition.Month = RequestHelper.MonthName(reliefRequisition.Month);
             if (reliefRequisition.RegionalRequest != null && reliefRequisition.RegionalRequest.Ration != null)
+            {
                 requisition.Ration = reliefRequisition.RegionalRequest.Ration.RefrenceNumber;
+                requisition.RationID = reliefRequisition.RegionalRequest.RationID;
+            }
+              
             return requisition;
         }
 

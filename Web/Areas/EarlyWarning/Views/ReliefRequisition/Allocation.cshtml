@@ -54,9 +54,7 @@
                 </div>
             </div>
             <div class="control-group">
-                <div class="control-label">
-                    @Html.DisplayNameFor(model => model.Region)
-                </div>
+                <div class="control-label">@Html.DisplayNameFor(model => model.Region)</div>
                 <div class="controls">@Html.TextBoxFor(model => model.Region, new { disabled = "true" })</div>
             </div>
             <div class="control-group">
@@ -71,10 +69,16 @@
             </div>
             
             <div class="control-group">
-                <div class="control-label">@Html.DisplayNameFor(model => model.Ration)
+                <div class="control-label">@Html.DisplayNameFor(model => model.Ration)</div>
+                <div class="controls">@Html.TextBoxFor(model => model.Ration, new { disabled = "true" })
+                    
+                   
+
                 </div>
-                <div class="controls">@Html.TextBoxFor(model => model.Ration, new { disabled = "true" })</div>
+                
             </div>
+             
+           
         </div>
         <div class="span5">
             @if (Model.ProgramID == 1)
@@ -87,7 +91,7 @@
             }
             else if (Model.ProgramID == 2)
             {
-             <div class="control-group">
+                <div class="control-group">
                     <div class="control-label">@Html.DisplayNameFor(model => model.Month)
                     </div>
                     <div class="controls">@Html.TextBoxFor(model => model.Month, new { disabled = "true" })</div>
@@ -120,8 +124,19 @@
                                          @Html.ActionLink("Approve", "SendToLogistics", new { id = Model.RequisitionID }) 
         
         }*@
+            <div class="control-group"> <a id="pop"
+                          class="btn btn-sm"
+                          href="#"
+                          data-original-title="Ration Detail">
+                           <i class="icon-question-sign"></i>
+                       </a>
+
+                </div>
         </div>
+
     </div>
+    
+
 </div>
 
 
@@ -188,6 +203,42 @@
 
 <script type="text/javascript">
 
+
+    var tblbody;
+    
+    $("#pop").popover({
+        placement: 'right', //placement of the popover. also can use top, bottom, left or     right
+        html: 'true', //needed to show html of course
+        content: get(this),// hope this should be link
+        trigger: 'hover'
+    });
+    
+    function get(t) {
+        
+        $.ajax({
+            async:false,
+            type: "POST",
+            url: "@Url.Action("RationDetail", "Ration")",
+            data: "{id:'@Model.RationID'}",
+           dataType: "json",
+           contentType: "application/json; charset=utf-8",
+
+           success: function (data) {
+               tblbody = "<table>";
+               for (var i = 0; i < data.length; i++) {
+                   //tblbody += "<table>";
+                   tblbody += "<tr>";
+                   tblbody += "<td>" + data[i].Name + "</td>";
+                   tblbody += "<td>" + data[i].Amount + "</td>";
+                   tblbody += "</tr>";
+               }
+               tblbody += "</table>";
+             
+           },
+           
+       });
+       return tblbody;
+   };
 
     function onDataBound(e) {
 
