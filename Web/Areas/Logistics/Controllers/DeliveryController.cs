@@ -151,7 +151,7 @@ namespace Cats.Areas.Logistics.Controllers
             {
                 deliveryViewModel = BindDeliveryViewModel(delivery);
                 var deliveryDetail =
-                    _deliveryDetailService.Get(t => t.DeliveryID == delivery.DeliveryID, null, "Commodity,Unit").
+                    _deliveryDetailService.Get(t => t.DeliveryID == delivery.DeliveryID, null, "Commodity,Unit,Delivery").
                         FirstOrDefault();
                 if (deliveryDetail != null)
                 {
@@ -162,6 +162,7 @@ namespace Cats.Areas.Logistics.Controllers
                     deliveryViewModel.ReceivedQuantity = deliveryDetail.ReceivedQuantity;
                     deliveryViewModel.Commodity = deliveryDetail.Commodity.Name;
                     deliveryViewModel.Unit = deliveryDetail.Unit.Name;
+                    deliveryViewModel.DeliveryBy = deliveryDetail.Delivery.DriverName;
                 }
             }
             else
@@ -173,6 +174,7 @@ namespace Cats.Areas.Logistics.Controllers
                     deliveryViewModel.CommodityID = dispatchObj.DispatchAllocation.CommodityID;
                     deliveryViewModel.Commodity = dispatchObj.DispatchAllocation.Commodity.Name;
                     deliveryViewModel.UnitID = dispatchObj.DispatchAllocation.Unit;
+                    deliveryViewModel.DeliveryBy = dispatchObj.DriverName;
                     deliveryViewModel.Unit = _unitService.FindById(int.Parse(dispatchObj.DispatchAllocation.Unit.ToString())).Name;
                 }
             }
@@ -343,6 +345,7 @@ namespace Cats.Areas.Logistics.Controllers
                     {
                         deliveryDetail.ReceivedQuantity = delivery.ReceivedQuantity;
                         _deliveryDetailService.EditDeliveryDetail(deliveryDetail);
+                        
                     }
                 }
             }
@@ -381,7 +384,7 @@ namespace Cats.Areas.Logistics.Controllers
                 deliveryDetail.UnitID = delivery.UnitID;
                 deliveryDetail.SentQuantity = delivery.SentQuantity;
                 deliveryDetail.ReceivedQuantity = delivery.ReceivedQuantity;
-                //deliveryDetail.Commodity = _commodityService.FindById(delivery.CommodityID);
+                //deliveryDetail.Delivery.DeliveryBy = _commodityService.FindById(delivery.CommodityID);
                 //deliveryDetail.Unit = _unitService.FindById(delivery.UnitID);
                 newdelivery.DeliveryDetails = new List<DeliveryDetail> { deliveryDetail };
                 _deliveryService.AddDelivery(newdelivery);
@@ -402,6 +405,7 @@ namespace Cats.Areas.Logistics.Controllers
                     deliveryViewModel.ReceivedQuantity = deliveryDetailWithComodityUnit.ReceivedQuantity;
                     deliveryViewModel.Commodity = deliveryDetailWithComodityUnit.Commodity.Name;
                     deliveryViewModel.Unit = deliveryDetailWithComodityUnit.Unit.Name;
+                    
                 }
             }
             
