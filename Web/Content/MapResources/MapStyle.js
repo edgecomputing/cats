@@ -21,7 +21,7 @@ function createStyle(rules) {
                 var styleAtt = geometry[s];
                 if (typeof (styleAtt) == "function") {
 
-                    console.log("createStyle", { rule: r, geometry: g, style: s, val: styleAtt });
+                    //console.log("createStyle", { rule: r, geometry: g, style: s, val: styleAtt });
                     var functionName = "get_" + r + g + s;
                     context[functionName] = styleAtt;
                     geometry[s] = "${" + functionName + "}";
