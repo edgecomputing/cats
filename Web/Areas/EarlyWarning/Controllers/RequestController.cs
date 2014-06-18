@@ -185,10 +185,33 @@ namespace Cats.Areas.EarlyWarning.Controllers
         }
         private void PopulateLookup()
         {
-            var user = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name);
+            var user = _userAccountService.GetUserDetail(HttpContext.User.Identity.Name);
             ViewBag.RegionID = user.RegionalUser ? new SelectList(_commonService.GetAminUnits(t => t.AdminUnitTypeID == 2 && t.AdminUnitID == user.RegionID), "AdminUnitID", "Name") : new SelectList(_commonService.GetAminUnits(t => t.AdminUnitTypeID == 2), "AdminUnitID", "Name");
             
-            ViewBag.ProgramId = new SelectList(_commonService.GetPrograms().Take(2), "ProgramID", "Name");
+            if (user.CaseTeam!=null)
+            {
+                switch (user.CaseTeam)
+                {
+                    case 1://earlywarning
+                        ViewBag.ProgramId = new SelectList(_commonService.GetPrograms().Where(p=>p.ProgramID == (int)Programs.Releif).Take(2), "ProgramID", "Name");
+                        break;
+                    case 2: //PSNP
+                        ViewBag.ProgramId = new SelectList(_commonService.GetPrograms().Where(p=>p.ProgramID == (int)Programs.PSNP).Take(2), "ProgramID", "Name");
+                        break;
+                }
+            }
+            else if (user.RegionalUser)
+            {
+                ViewBag.ProgramId =
+                    new SelectList(
+                        _commonService.GetPrograms().Where(p => p.ProgramID == (int) Programs.Releif).Take(2),
+                        "ProgramID", "Name");
+            }
+            else
+            {
+                ViewBag.ProgramId = new SelectList(_commonService.GetPrograms().Take(2), "ProgramID", "Name");
+            }
+            //ViewBag.ProgramId = new SelectList(_commonService.GetPrograms().Take(2), "ProgramID", "Name");
             ViewBag.Month = new SelectList(RequestHelper.GetMonthList(), "ID", "Name");
             ViewBag.RationID = new SelectList(_commonService.GetRations(), "RationID", "RefrenceNumber");
             ViewBag.DonorID = new SelectList(_commonService.GetDonors(), "DonorId", "Name");
@@ -830,7 +853,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             var filter = new SearchRequsetViewModel();
             ViewBag.Filter = filter;
             PopulateLookup();
-            ViewBag.ProgramId = new SelectList(_commonService.GetPrograms(), "ProgramID", "Name");
+           // ViewBag.ProgramId = new SelectList(_commonService.GetPrograms(), "ProgramID", "Name");
             return View(filter);
         }
 
@@ -839,7 +862,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         {
             ViewBag.Filter = filter;
             PopulateLookup();
-            ViewBag.ProgramId = new SelectList(_commonService.GetPrograms(), "ProgramID", "Name");
+            //ViewBag.ProgramId = new SelectList(_commonService.GetPrograms(), "ProgramID", "Name");
             return View(filter);
         }
 

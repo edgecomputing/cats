@@ -96,6 +96,20 @@
             </div>
         </div>
         
+   @*     <div class="row" style="visibility: hidden">
+            <div class="span6">
+                <div class="control-group">
+                    
+                    @Html.Label("Program", new {@class = "control-label"})
+                    <div class="controls">
+                        @(Html.DropDownListFor(model => model.ProgramId, new SelectList(ViewBag.Programs, "ProgramID", "Name",ViewBag.ProgramSelected),"No Program", new { @id = "Program" }))
+                        @Html.ValidationMessageFor(m=>m.ProgramId)
+                    </div>
+                </div>
+            </div>
+        </div>*@
+
+       
         
         <div class="row">
             <div class="span6">
@@ -103,6 +117,7 @@
                     @Html.Label("User Type", new {@class = "control-label"})
                     <div class="controls">
                         @(Html.DropDownList("UserType",new SelectList(ViewBag.userTypes, "Text", "Value",ViewBag.Selected),new { @id = "UserType"}))
+
                     </div>
                 </div>
             </div>

@@ -725,7 +725,7 @@ namespace Cats.Services.Hub
                 dispatchViewModel.DispatchDate = dispatch.DispatchDate;
                 dispatchViewModel.DispatchID = dispatch.DispatchID;
                 dispatchViewModel.DispatchedByStoreMan = dispatch.DispatchedByStoreMan;
-                dispatchViewModel.DriverName = string.Empty;
+                dispatchViewModel.DriverName = dispatch.DriverName;
                 if(dispatch.FDPID.HasValue)
                 dispatchViewModel.FDPID = dispatch.FDPID.Value;
                 dispatchViewModel.FDP = dispatch.FDP.Name;

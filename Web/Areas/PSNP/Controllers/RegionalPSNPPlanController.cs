@@ -166,28 +166,30 @@ namespace Cats.Areas.PSNP
             var firstDayOfTheMonth = startDate.AddDays(1 - startDate.Day);
             var endDate = firstDayOfTheMonth.AddMonths(regionalpsnpplan.Duration).AddDays(-1);
 
-            //check if this psnp plan exitsts for this region
-            var exists = _regionalPSNPPlanService.DoesPsnpPlanExistForThisRegion(regionalpsnpplan.PlanId,regionalpsnpplan.Year);
-
              if (ModelState.IsValid)
                 {
-                    if (!exists)
-                    {
-              
-
-                    int BP_PSNP = _ApplicationSettingService.getPSNPWorkflow();
-                    if (BP_PSNP != 0)
-                    {
-                        BusinessProcessState createdstate = new BusinessProcessState
-                                                                {
-                                                                    DatePerformed = DateTime.Now,
-                                                                    PerformedBy = "System",
-                                                                    Comment = "Created workflow for PSNP Plan"
-
-                                                                };
+                    
                         _regionalPSNPPlanService.AddPsnpPlan(planName, firstDayOfTheMonth, endDate);
                         var plan = _planService.Get(m => m.PlanName == planName,null,"Program").FirstOrDefault();
                          regionalpsnpplan.Plan = plan;
+
+                         //check if this psnp plan exitsts for this year and Plan
+                         var exists = plan != null && _regionalPSNPPlanService.DoesPsnpPlanExistForThisRegion(plan.PlanID, regionalpsnpplan.Year);
+
+                         if (!exists)
+                         {
+
+
+                             int BP_PSNP = _ApplicationSettingService.getPSNPWorkflow();
+                             if (BP_PSNP != 0)
+                             {
+                                 BusinessProcessState createdstate = new BusinessProcessState
+                                 {
+                                     DatePerformed = DateTime.Now,
+                                     PerformedBy = "System",
+                                     Comment = "Created workflow for PSNP Plan"
+
+                                 };
 
                          var psnpPlan=  _regionalPSNPPlanService.CreatePsnpPlan(regionalpsnpplan.Year,regionalpsnpplan.Duration,regionalpsnpplan.RationID,regionalpsnpplan.StatusID,plan.PlanID);
                         //_planService.ChangePlanStatus(regionalpsnpplan.PlanId);
@@ -204,7 +206,7 @@ namespace Cats.Areas.PSNP
                     ViewBag.ErrorMessage2 = "Please make sure the workflow is created and configured.";
                 }
                 LoadLookups();
-                ModelState.AddModelError("Errors", "PSNP plan already made for this period.");
+                ModelState.AddModelError("Errors", @"PSNP plan already made for this period and plan Name.");
                 return View(regionalpsnpplan);
             }
             LoadLookups();

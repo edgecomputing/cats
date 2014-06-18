@@ -146,10 +146,7 @@
                             <div class="k-grid-header" style="padding-right: 17px; display:none;">
                                 <div class="k-grid-header-wrap">
                                     <table cellspacing="0" role="grid">
-                                        <tr>
-
-                                      @* Search    : <input type="search" data-field="Search"/>*@
-                                            </tr>
+                                       
                                         <colgroup><col><col><col><col><col><col><col><col><col><col></colgroup>
                                         <thead>
                                             <tr>
@@ -201,6 +198,14 @@
                                     <colgroup><col><col><col><col><col><col><col><col><col><col></colgroup>
                                         <thead>
                                             <tr>
+                                                <td colspan="4">
+                                                 <div class="controls">     
+                                       Search    : <input type="search" data-ng-model="search"/>
+                                                     
+                                            </div>
+                                                    </td>
+                                            </tr>
+                                            <tr>
                                                 <th style="overflow: visible; white-space: normal;" scope="col" data-title="GIN" data-field="GIN" class="k-header">
                                                     <span class="k-link">GIN</span>
                                                 </th>
@@ -243,7 +248,7 @@
                                         <tr>
                                             <td colspan="12" class="GetGINsWithoutGRNMessage" style="font-size: x-large;color: hotpink"></td>
                                         </tr>
-                                        <tr ng-repeat="item in GetGINsWithoutGRN">
+                                        <tr ng-repeat="item in GetGINsWithoutGRN | filter:search">
                                             <td><a data-dispatchID ="{{item.DispatchID}}" style="cursor:pointer;" data-ng-click="loadGRNPartial(item.DispatchID)">{{item.GIN}}</a></td>
                                             <td>{{item.RequisitionNo}}</td>
                                             <td>{{item.Program}}</td>
@@ -317,6 +322,15 @@
 
                                         <thead>
                                             <tr>
+                                                
+<td colspan="4">
+                                                 <div class="controls">     
+                                       Search    : <input type="search" data-ng-model="searchT2"/>
+                                                     
+                                            </div>
+                                                    </td>
+                                                 </tr>
+                                            <tr>
                                                 <th style="overflow: visible; white-space: normal;" scope="col" data-title="GIN" data-field="GIN" class="k-header">
                                                     <span class="k-link">GIN</span>
                                                 </th>
@@ -360,7 +374,7 @@
                                         <tr>
                                             <td colspan="12" class="GetGINsWithGRNMessage" style="font-size: x-large;color: hotpink"></td>
                                         </tr>
-                                        <tr ng-repeat="item in GetGINsWithGRN">
+                                        <tr ng-repeat="item in GetGINsWithGRN|filter:searchT2">
                                             <td>
                                                 <a class="clickableLoader" style="cursor:pointer;" data-ng-click="loadGRNPartial(item.DispatchID)">{{item.GIN}}</a>
                                             </td>
@@ -435,7 +449,16 @@
                                 <table cellspacing="0" role="grid">
                                     <colgroup><col><col><col><col><col><col><col><col><col><col></colgroup>
                                         <thead>
-                                            <tr>
+                                           <tr>
+                                                <td colspan="4">
+                                                 <div class="controls">     
+                                       Search    : <input type="search" data-ng-model="searchT3"/>
+                                                     
+                                            </div>
+                                                    </td>
+                                                    </tr> <tr>
+                                                    
+                                                
                                                 <th style="overflow: visible; white-space: normal;" scope="col" data-title="GIN" data-field="GIN" class="k-header">
                                                     <span class="k-link">GIN</span>
                                                 </th>
@@ -481,7 +504,7 @@
                                         <tr>
                                             <td colspan="12" class="DeliveryNotesMessage" style="font-size: x-large;color: hotpink"></td>
                                         </tr>
-                                        <tr role="row" data-ng-repeat="item in DeliveryNotes">
+                                        <tr role="row" data-ng-repeat="item in DeliveryNotes |filter:searchT3">
                                             <td>
                                                 <a class="clickableLoader" style="cursor:pointer;" data-ng-click="loadGRNPartial(item.DispatchID)">{{item.InvoiceNo}}</a>
                                             </td>
@@ -578,7 +601,7 @@
                                 <label for="DistributionViewModel_DeliveryBy">Delivery By</label>
                             </div>
                             <div class="controls">
-                                <input type="text" value="{{GRNDetail.DeliveryBy}}" name="DistributionViewModel.DeliveryBy" id="DistributionViewModel_DeliveryBy" data-ng-model="GRNDetail.DeliveryBy">
+                                <input type="text" value="{{GRNDetail.DeliveryBy}}" name="DistributionViewModel.DeliveryBy" id="DistributionViewModel_DeliveryBy" data-ng-model="GRNDetail.DeliveryBy" disabled="disabled">
                             </div>
                         </div>
                     </div>
