@@ -129,48 +129,7 @@
                                 }
                        }
         ];
-        var layers2 = [
-                       { name: "Ethiopia", url: "/Content/MapResources/MapData/ethiopiaJson.js", styleMap: stylePresets.outline }
-                       , {
-                           name: "Regions", url: "/Content/MapResources/MapData/ethiopiaRegions.js"
-                       , style:
-                                {
-                                    "default":
-                                        {
-                                            "Polygon":
-                                                {
-                                                    fillOpacity: 1
-                                                    , strokeOpacity: 1
-                                                    , label: function (feature) {
-                                                    var name = get_attribute_value(feature.attributes, "name", "");
-                                                    var att = regionAttributes[name];
-                                                    return name;
-                                                }
-                                                , fillColor: function (feature) {
-                                                    var name = get_attribute_value(feature.attributes, "name", "");
-                                                    var att = regionAttributes2[name];
-                                                    
-                                                    return getRGBShade( "rgb(207,255,207)","rgb(30,159,30)", att / 100);
-                                                    //return rgbColor([60, 90, 132], factor);
 
-                                                }
-                                                   , strokeColor:"#FFF"
-                                                    /*
-                                                , strokeColor: function (feature) {
-                                                    var name = get_attribute_value(feature.attributes, "name", "");
-                                                    var att = regionAttributes[name];
-
-                                                    return getRGBShade("rgb(207,255,207)", "rgb(30,159,30)", att / 100);
-                                                }*/
-                                                }
-                                        }
-                                }
-                       }
-        ]
-        
-        //var c = getRGBShade("rgb(207,255,207)","rgb(30,159,30)", 0.5);
-        //console.log("CreateMap", c);
-       // CreateMap("map2", { layers: layers2 });
     });
     var colorRange = { colorFrom: "rgb(30,159,30)", colorTo: "rgb(207,255,207)" };
     function colorChanged(nam, val) {
