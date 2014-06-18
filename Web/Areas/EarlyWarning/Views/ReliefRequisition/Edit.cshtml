@@ -32,6 +32,7 @@
             @Html.HiddenFor(model => model.RegionID)
             @Html.HiddenFor(model => model.ZoneID)
             @Html.HiddenFor(model => model.RequestedDate)
+           
             <div class="control-group">
                 <div class="control-label">
                     @Html.LabelFor(model => model.RequisitionNo)
@@ -55,8 +56,19 @@
                 </div>
                 <div class="controls">
                     @Html.TextBoxFor(model => model.Round, null, new { disabled = "true" })
-             </div>
+                </div>
             </div>
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(m => m.RegionalRequest.RationID, "Ration")
+                </div>
+                <div class="controls">
+                    @Html.DropDownList("RationID", String.Empty)
+                    @Html.ValidationMessageFor(m => m.RegionalRequest.RationID)
+                </div>
+            </div>
+      
+           
             <div class="control-group">
             <div class="control-label">
                 @Html.LabelFor(model => model.RegionID)

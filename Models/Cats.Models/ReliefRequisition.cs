@@ -32,6 +32,7 @@ namespace Cats.Models
         public Nullable<System.DateTime> ApprovedDate { get; set; }
         public Nullable<int> Status { get; set; }
         public int ProgramID { get; set; }
+        public int? RationID { get; set; }
         public Nullable<int> RegionalRequestID { get; set; }
         public int? PartitionId { get; set; }
 
