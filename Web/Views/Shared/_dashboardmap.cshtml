@@ -172,4 +172,41 @@
         //console.log("CreateMap", c);
        // CreateMap("map2", { layers: layers2 });
     });
+    var colorRange = { colorFrom: "rgb(30,159,30)", colorTo: "rgb(207,255,207)" };
+    function colorChanged(nam, val) {
+        colorRange[nam] = val;
+        drawShades();
+    }
+    function rgb(r, g, b) {
+        return { r: r, g: g, b: b };
+    }
+    function middleValue(s, e, r) {
+        var diff = e - s;
+        return Math.round(s + diff * r);
+    }
+    function getRGBShade(colorFrom, colorTo, nv) {
+        var cFrom = {};
+        var cTo = {};
+        eval("cFrom=" + colorFrom);
+        eval("cTo=" + colorTo);
+        var r = middleValue(cFrom.r, cTo.r, nv);
+        var g = middleValue(cFrom.g, cTo.g, nv);
+        var b = middleValue(cFrom.b, cTo.b, nv);
+        var rgbstr = "rgb(" + r + "," + g + "," + b + ")";
+        return rgbstr;
+    }
+    function drawShades() {
+        for (var i in colorRange) {
+            document.getElementById(i).style.backgroundColor = colorRange[i];
+        }
+
+
+        var htm = "";
+        for (var i = 0; i < 10; i++) {
+            var rgbstr = getRGBShade(colorRange.colorFrom, colorRange.colorTo, i / 10)
+            htm += "<div class='color-pallet' style='background:" + rgbstr + ";'> " + rgbstr + "</div>";
+
+        }
+        document.getElementById("shadeDisp").innerHTML = htm;
+    }
 </script>
