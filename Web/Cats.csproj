@@ -1175,6 +1175,7 @@
     <Content Include="Content\kendo\2013.1.319\Uniform\sprite%402x.png" />
     <Content Include="Content\kendo\2013.1.319\Uniform\sprite.png" />
     <Content Include="Content\Login\App.js" />
+    <Content Include="Content\MapResources\MapStyle.js" />
     <Content Include="Content\MapResources\OpenlayersWrapper.js" />
     <Content Include="Content\MapResources\openlayers\img\blank.gif" />
     <Content Include="Content\MapResources\openlayers\img\cloud-popup-relative.png" />

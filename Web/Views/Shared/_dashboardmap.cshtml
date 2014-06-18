@@ -8,9 +8,9 @@
     .map
     {
         float:left;
-        width:500px;
+        width:700px;
         height:500px;
-        border:solid 1px #DDD;
+        border-right:solid 1px #DDD;
     }
 
 </style>
@@ -22,12 +22,75 @@
 
 <div id="map1" class="map">
 </div>
-<div id="map2" class="map">
+<div id="map2" class="map2">
 </div>
 <script>
-        
+    var countryShapeURL = "/Content/MapResources/MapData/ethiopiaJson.js";
+    var regionShapeURL = "/Content/MapResources/MapData/ethiopiaRegions.js";
     $(function () {
+        var hrdSummary = {};
+        var HRDUrl= "@Url.Action("HRDDetail_Read", "HRD", new { Area = "EarlyWarning" })";
+
+        function aggregateRegionBeneficiaries(data) {
+            var regionBen = {};
+            for (var i in data) {
+                var regionID = data[i].RegionID;
+
+                if (!regionBen["row" + regionID]) {
+                    regionBen["row" + regionID] = { RegionID: regionID, RegionName: data[i].Region, NumberOfBeneficiaries: 0 };
+                }
+                regionBen["row" + regionID].NumberOfBeneficiaries += data[i].NumberOfBeneficiaries / 1;
+                
+            }
+            return regionBen;
+        }
+        $.post(HRDUrl, {}, function (data) {
+            drawRegionBenficiaryMap(data.Data);
+        });
+
+        function drawRegionBenficiaryMap(data) {
+            var regionBen = aggregateRegionBeneficiaries(data);
+
+            var dataTable = regionBen;
+            var key = "RegionID";
+            var indicator = "NumberOfBeneficiaries";
+            normalizeIndicator(dataTable, indicator);
+            console.log("drawRegionBenficiaryMap", regionBen);
+
+            var mapLayer = [
+                                   { name: "Ethiopia", url: countryShapeURL, styleMap: stylePresets.outline }
+                                   , {
+                                       name: "Regions", url: regionShapeURL
+                                        , style:
+                                            {
+                                                "default":
+                                                    {
+                                                        "Polygon":
+                                                            {
+                                                                fillOpacity: 1
+                                                                , strokeOpacity: 1
+                                                                , label: function (feature) { return get_attribute_value(feature.attributes, "name", ""); }
+                                                                , fillColor: function (feature) {
+                                                                    var keyVal = get_attribute_value(feature.attributes, key, "");
+                                                                    var row = dataTable["row" + keyVal];
+                                                                    if (row) {
+                                                                        var att = dataTable["row" + keyVal][indicator + "normalized"];
+                                                                        return getRGBShade("rgb(207,255,207)", "rgb(30,159,30)", att);
+                                                                    }
+                                                                    return "#CCC";
+                                                                }
+                                                               , strokeColor: "#FFF"
+
+                                                            }
+                                                    }
+                                            }
+                                   }
+            ];
+            CreateMap("map1", { layers: mapLayer });
+        }
+
         var regionAttributes = { "Tigray": 10, "Amhara": 70, "Afar": 40, "Somali": 30, "Benishangul": 40, "oromia": 90, "AddisAbeba": 50, "Gambela": 50, "Debub": 80 }
+        var regionAttributes2 = { "Tigray": 10, "Amhara": 20, "Afar": 30, "Somali": 40, "Benishangul": 50, "oromia": 60, "AddisAbeba": 70, "Gambela": 80, "Debub":90 }
 
         var layers = [
                        { name: "Ethiopia", url: "/Content/MapResources/MapData/ethiopiaJson.js", styleMap: stylePresets.outline }
@@ -40,10 +103,10 @@
                                             "Polygon":
                                                 {
                                                     fillOpacity: 1
-                                                    ,strokeOpacity: 1
+                                                    , strokeOpacity: 1
                                                 , label: function (feature) {
                                                     var name = get_attribute_value(feature.attributes, "name", "");
-                                                    var att = regionAttributes[name];
+                                                    
                                                     return name;
                                                 }
                                                 , fillColor: function (feature) {
@@ -52,7 +115,7 @@
                                                     var factor = 1 + (100 - att) / 80;
                                                     return rgbColor([220, 80, 80], factor);
                                                     return rgbColor([60, 90, 132], factor);
-                                                    
+
                                                 }
                                                 , strokeColor: function (feature) {
                                                     var name = get_attribute_value(feature.attributes, "name", "");
@@ -65,8 +128,85 @@
                                         }
                                 }
                        }
+        ];
+        var layers2 = [
+                       { name: "Ethiopia", url: "/Content/MapResources/MapData/ethiopiaJson.js", styleMap: stylePresets.outline }
+                       , {
+                           name: "Regions", url: "/Content/MapResources/MapData/ethiopiaRegions.js"
+                       , style:
+                                {
+                                    "default":
+                                        {
+                                            "Polygon":
+                                                {
+                                                    fillOpacity: 1
+                                                    , strokeOpacity: 1
+                                                    , label: function (feature) {
+                                                    var name = get_attribute_value(feature.attributes, "name", "");
+                                                    var att = regionAttributes[name];
+                                                    return name;
+                                                }
+                                                , fillColor: function (feature) {
+                                                    var name = get_attribute_value(feature.attributes, "name", "");
+                                                    var att = regionAttributes2[name];
+                                                    
+                                                    return getRGBShade( "rgb(207,255,207)","rgb(30,159,30)", att / 100);
+                                                    //return rgbColor([60, 90, 132], factor);
+
+                                                }
+                                                   , strokeColor:"#FFF"
+                                                    /*
+                                                , strokeColor: function (feature) {
+                                                    var name = get_attribute_value(feature.attributes, "name", "");
+                                                    var att = regionAttributes[name];
+
+                                                    return getRGBShade("rgb(207,255,207)", "rgb(30,159,30)", att / 100);
+                                                }*/
+                                                }
+                                        }
+                                }
+                       }
         ]
-       // CreateMap("map1", { layers: layers });
-        CreateMap("map2", { layers: layers });
+        
+        //var c = getRGBShade("rgb(207,255,207)","rgb(30,159,30)", 0.5);
+        //console.log("CreateMap", c);
+       // CreateMap("map2", { layers: layers2 });
     });
+    var colorRange = { colorFrom: "rgb(30,159,30)", colorTo: "rgb(207,255,207)" };
+    function colorChanged(nam, val) {
+        colorRange[nam] = val;
+        drawShades();
+    }
+    function rgb(r, g, b) {
+        return { r: r, g: g, b: b };
+    }
+    function middleValue(s, e, r) {
+        var diff = e - s;
+        return Math.round(s + diff * r);
+    }
+    function getRGBShade(colorFrom, colorTo, nv) {
+        var cFrom = {};
+        var cTo = {};
+        eval("cFrom=" + colorFrom);
+        eval("cTo=" + colorTo);
+        var r = middleValue(cFrom.r, cTo.r, nv);
+        var g = middleValue(cFrom.g, cTo.g, nv);
+        var b = middleValue(cFrom.b, cTo.b, nv);
+        var rgbstr = "rgb(" + r + "," + g + "," + b + ")";
+        return rgbstr;
+    }
+    function drawShades() {
+        for (var i in colorRange) {
+            document.getElementById(i).style.backgroundColor = colorRange[i];
+        }
+
+
+        var htm = "";
+        for (var i = 0; i < 10; i++) {
+            var rgbstr = getRGBShade(colorRange.colorFrom, colorRange.colorTo, i / 10)
+            htm += "<div class='color-pallet' style='background:" + rgbstr + ";'> " + rgbstr + "</div>";
+
+        }
+        document.getElementById("shadeDisp").innerHTML = htm;
+    }
 </script>

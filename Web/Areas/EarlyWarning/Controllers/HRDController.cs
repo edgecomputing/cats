@@ -121,7 +121,17 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
 
             //var hrdDetail = _hrdService.GetHRDDetailByHRDID(id).OrderBy(m => m.AdminUnit.AdminUnit2.Name).OrderBy(m => m.AdminUnit.AdminUnit2.AdminUnit2.Name);
-            var hrd = _hrdService.Get(m => m.HRDID == id, null, "HRDDetails").FirstOrDefault();
+            HRD hrd;
+            if (id == 0)
+            {
+                hrd = _hrdService.FindBy(m => m.Status == 3).FirstOrDefault();
+                if (hrd != null)
+                {
+                    id = hrd.HRDID;
+                }
+            }
+
+            hrd = _hrdService.Get(m => m.HRDID == id, null, "HRDDetails").FirstOrDefault();
 
             if (hrd != null)
             {
@@ -276,8 +286,11 @@ namespace Cats.Areas.EarlyWarning.Controllers
                         HRDDetailID = hrdDetail.HRDDetailID,
                         HRDID = hrdDetail.HRDID,
                         WoredaID = hrdDetail.WoredaID,
+                        ZoneID = hrdDetail.AdminUnit.AdminUnit2.AdminUnitID,
                         Zone = hrdDetail.AdminUnit.AdminUnit2.Name,
-                        Region = hrdDetail.AdminUnit.AdminUnit2.AdminUnit2.Name,
+                        Region=hrdDetail.AdminUnit.AdminUnit2.AdminUnit2.Name,
+                        RegionID = hrdDetail.AdminUnit.AdminUnit2.AdminUnit2.AdminUnitID,
+
                         Woreda = hrdDetail.AdminUnit.Name,
                         NumberOfBeneficiaries = hrdDetail.NumberOfBeneficiaries,
                         //(int)GetTotalBeneficiaries(hrdDetail.HRDID, hrdDetail.AdminUnit.AdminUnit2.AdminUnit2.AdminUnitID),
