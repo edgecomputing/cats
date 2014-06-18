@@ -33,11 +33,11 @@ function CreateMap(div, _options) {
         }
 
     }
-    // map.setCenter(new OpenLayers.LonLat(39, 9), 5);
+     map.setCenter(new OpenLayers.LonLat(39, 9), 5);
 
     
 
-    map.zoomToMaxExtent();
+    //map.zoomToMaxExtent();
     return;
 }
 function addSelectControl(map, layer) {
