@@ -35,3 +35,24 @@ function deserialize() {
         element.value = 'Bad input ' + type;
     }
 }
+
+var in_options = {
+    'internalProjection': map.baseLayer.projection,
+    'externalProjection': new OpenLayers.Projection(OpenLayers.Util.getElement("inproj").value)
+};
+var out_options = {
+    'internalProjection': map.baseLayer.projection,
+    'externalProjection': new OpenLayers.Projection(OpenLayers.Util.getElement("outproj").value)
+};
+var gmlOptions = {
+    featureType: "feature",
+    featureNS: "http://example.com/feature"
+};
+var gmlOptionsIn = OpenLayers.Util.extend(
+    OpenLayers.Util.extend({}, gmlOptions),
+    in_options
+);
+var gmlOptionsOut = OpenLayers.Util.extend(
+    OpenLayers.Util.extend({}, gmlOptions),
+    out_options
+);
