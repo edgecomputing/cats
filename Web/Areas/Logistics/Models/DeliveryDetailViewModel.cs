@@ -18,5 +18,6 @@ namespace Cats.Areas.Logistics.Models
         public System.Guid DeliveryID { get; set; }
         public string Commodity { get; set; }
         public string Unit { get; set; }
+        public string DeliveryBy { get; set; }
     }
 }

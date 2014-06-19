@@ -21,13 +21,15 @@ namespace Cats.Areas.Settings.Controllers
         private readonly  IUserAccountService _userService;
         private readonly  IHubService _hubService;
         private readonly IAdminUnitService _adminUnitService;
+        private readonly IProgramService _programService;
        // private readonly IUserAccountService _userAccountService;
       
-        public UsersController(IUserAccountService service, IHubService hubService, IAdminUnitService adminUnitService)
+        public UsersController(IUserAccountService service, IHubService hubService, IAdminUnitService adminUnitService, IProgramService programService)
         {
             _userService = service;
             _hubService = hubService;
             _adminUnitService = adminUnitService;
+            _programService = programService;
             //_userAccountService = userAccountService;
         }
 
@@ -67,6 +69,7 @@ namespace Cats.Areas.Settings.Controllers
             ViewBag.CaseTeams = caseteams;
             ViewBag.hubs = _hubService.GetAllHub().ToList();
             ViewBag.regions = _adminUnitService.GetRegions();
+            ViewBag.Programs = _programService.GetAllProgram().Take(2);
         }
 
         public ActionResult New()
@@ -90,9 +93,23 @@ namespace Cats.Areas.Settings.Controllers
         }
 
         [HttpPost]
-        public ActionResult New(UserViewModel userInfo)
+        public ActionResult New(UserProfile userInfo)
         {
             
+
+            if (!ModelState.IsValid)
+            {
+
+                init();
+                return View();
+            }
+
+            if (userInfo.Password != userInfo.PasswordConfirm)
+            {
+                ViewBag.passworDoNotMatch = "Password must match!";
+                init();
+                return View();
+            }
 
             var user_ = _userService.FindBy(u=>u.UserName == userInfo.UserName).FirstOrDefault();
 
@@ -101,7 +118,7 @@ namespace Cats.Areas.Settings.Controllers
 
             user.UserName = userInfo.UserName;
             user.Password = _userService.HashPassword(userInfo.Password);
-
+            user.ProgramId = userInfo.ProgramId;
             // Set default values for required fields
             user.Disabled = false;
             user.LockedInInd = false;
@@ -154,6 +171,11 @@ namespace Cats.Areas.Settings.Controllers
                     ViewBag.Selected = 3;
                 else
                     ViewBag.Selected = 1;
+
+               
+                ViewBag.ProgramSelected = user.ProgramId;
+                
+
                 init();
                 return View(user);
             }
@@ -180,6 +202,7 @@ namespace Cats.Areas.Settings.Controllers
                 user.CaseTeam = userInfo.CaseTeam;
                 user.MobileNumber = userInfo.MobileNumber;
                 user.Email = userInfo.Email;
+                user.ProgramId= userInfo.ProgramId;
 
                 if (_userService.UpdateUser(user))
                 {
