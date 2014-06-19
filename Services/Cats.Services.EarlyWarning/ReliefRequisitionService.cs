@@ -163,7 +163,8 @@ namespace Cats.Services.EarlyWarning
                 Month = regionalRequest.Month,
                 ProgramID = regionalRequest.ProgramId,
                 CommodityID = commodityId,
-                RequestedDate = regionalRequest.RequistionDate
+                RequestedDate = regionalRequest.RequistionDate,
+                RationID = regionalRequest.RationID
                 
                 //TODO:Please find another way how to specify Requistion No
                 ,

@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Cats.Models.Security
 {
@@ -63,7 +64,9 @@ namespace Cats.Models.Security
         public bool IsAdmin { get; set; }
         public string FullName { get { return string.Format("{0} {1} {2}", FirstName, LastName, GrandFatherName); } }
         public int? PartitionId { get; set; }
-
+        public int? ProgramId { get; set; }
+        [NotMapped]
+        public string PasswordConfirm { get; set; }
         //public virtual ICollection<Adjustment> Adjustments { get; set; }
         //public virtual ICollection<Receive> Receives { get; set; }
         //public virtual ICollection<SessionAttempt> SessionAttempts { get; set; }
