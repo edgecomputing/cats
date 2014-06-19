@@ -33,55 +33,53 @@
 </div>
 
 <div>
-
     @(Html.Kendo().Grid(Model).Name("GiftCertificateGrid")
     .Columns(col =>
+        {
+            col.Bound(gc => gc.ReferenceNo).Title(Html.Translate("Reference No"));
+            col.Bound(gc => gc.Donor);
+            col.Bound(gc => gc.GiftDatePref).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid" });
+            col.Bound(gc => gc.SINumber);
+            col.Bound(gc => gc.DeclarationNumber);
+            col.Template(
+        @<text>
+
+    @if (item.StatusID == 1)
     {
-
-        col.Template(
-            @<text>
-
-
-                @if (item.StatusID == 1)
-                {
-                    @Html.EarlyWarningOperationButton(
+        @Html.EarlyWarningOperationButton(
                         @Url.Action("Edit", new { id = item.GiftCertificateID }),
-                        EarlyWarningConstants.Operation.Edit_Gift_Certificate, "<i class=\"icon-edit-sign\"></i> Edit")
-                    <i> </i>
-                    @Html.EarlyWarningOperationButton(
+                        EarlyWarningConstants.Operation.Edit_Gift_Certificate, "<i class=\"btn btn-sm btn-default icon-edit-sign\"></i>")
+                    <i></i>
+        @Html.EarlyWarningOperationButton(
+                        @Url.Action("Detail", new { id = item.GiftCertificateID }),
+                        EarlyWarningConstants.Operation.Edit_Gift_Certificate, "<i class=\"btn btn-default icon-list\"></i>")
+        <i></i>
+        @Html.EarlyWarningOperationButton(
                         @Url.Action("Approved", "GiftCertificate", new { id = item.GiftCertificateID }),
-                        EarlyWarningConstants.Operation.Approve_Gift_Certeficate, "<i class=\"icon-ok\"></i> Approve", "btn-Approve-Gift", "", "btnApprove")
-                }
-                else
-                {
-                    @Html.EarlyWarningOperationButton(
+                        EarlyWarningConstants.Operation.Approve_Gift_Certeficate, "<i class=\"btn btn-sm btn-default icon-ok\"></i>", "btn-Approve-Gift", "", "btnApprove")
+    }
+    else
+    {
+        @Html.EarlyWarningOperationButton(
                         @Url.Action("GenerateTemplate", new { id = item.GiftCertificateID }),
                         EarlyWarningConstants.Operation.Generate_Gift_Certificate_Template, "<i class=\"icon-print\"></i>", "btn-Print-gift")
-                }
-            </text>
-
-            ).Title("");
-
-
-
-        col.Bound(gc => gc.Donor);
-        col.Bound(gc => gc.GiftDatePref).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid" });
-        col.Bound(gc => gc.SINumber);
-        col.Bound(gc => gc.ReferenceNo);
-        col.Bound(gc => gc.DeclarationNumber);
-
-
     }
+    </text>
+
+        ).Title("");
+
+
+        }
                             ).DetailTemplate(detail =>
                                 Html.Kendo().Grid(detail.GiftCertificateDetails).Name("GCDetails" + detail.GiftCertificateID)
                                 .Columns(c =>
-                                             {
-                                                 c.Bound(com => com.CommodityName);
-                                                 c.Bound(gc => gc.WeightInMT).Format("{0:N2}").HtmlAttributes(new { align = "right" }).Title(Html.Translate("Weight in MT"));
-                                                 c.Bound(gc => gc.EstimatedPrice).Format("{0:N2}").HtmlAttributes(new { align = "right" }).Title(Html.Translate("Est. Price"));
-                                                 c.Bound(gc => gc.EstimatedTax).Format("{0:N2}").HtmlAttributes(new { align = "right" }).Title(Html.Translate("Est. Tax"));
-                                                 c.Bound(gc => gc.FundSource).Title(Html.Translate("Fund Source"));
-                                             })
+                                {
+                                    c.Bound(com => com.CommodityName);
+                                    c.Bound(gc => gc.WeightInMT).Format("{0:N2}").HtmlAttributes(new { align = "right" }).Title(Html.Translate("Weight in MT"));
+                                    c.Bound(gc => gc.EstimatedPrice).Format("{0:N2}").HtmlAttributes(new { align = "right" }).Title(Html.Translate("Est. Price"));
+                                    c.Bound(gc => gc.EstimatedTax).Format("{0:N2}").HtmlAttributes(new { align = "right" }).Title(Html.Translate("Est. Tax"));
+                                    c.Bound(gc => gc.FundSource).Title(Html.Translate("Fund Source"));
+                                })
                             ).Filterable().Sortable().Sortable().Scrollable().HtmlAttributes(new { style = "width:100%; height:550px;" })
     )
 </div>
