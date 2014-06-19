@@ -49,8 +49,7 @@ namespace Cats.Models.Hubs
         public Decimal EstimatedTax { get; set; }
 
         [Required(ErrorMessage = "Year Purchased is required")]
-        [Range(2000, 3000)]
-        public Int32 YearPurchased { get; set; }
+        public DateTime YearPurchased { get; set; }
 
         [Required(ErrorMessage = "Fund Source is required")]
         public Int32 DFundSourceID { get; set; }
@@ -67,7 +66,7 @@ namespace Cats.Models.Hubs
 
         public GiftCertificateDetailsViewModel()
         {
-            this.YearPurchased = DateTime.Now.Year;
+            this.YearPurchased = DateTime.Now;
             this.DBudgetTypeID = 9;
             this.DFundSourceID = 5;
             this.DCurrencyID = 1;

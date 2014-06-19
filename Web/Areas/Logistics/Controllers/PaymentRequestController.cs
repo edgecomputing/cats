@@ -85,6 +85,7 @@ namespace Cats.Areas.Logistics.Controllers
                         BusinessProcess bp = _BusinessProcessService.CreateBusinessProcess(BP_PR,request.PaymentRequestID,
                                                                                            "PaymentRequest", createdstate);
                         request.BusinessProcessID = bp.BusinessProcessID;
+                        request.RequestedDate = DateTime.Now;
                         _PaymentRequestservice.Create(request);
                         //_PaymentRequestservice.Update(request);
                         return RedirectToAction("Index");

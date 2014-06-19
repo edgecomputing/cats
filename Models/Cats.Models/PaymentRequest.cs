@@ -24,6 +24,7 @@ namespace Cats.Models
         public decimal RequestedAmount { get; set; }
         public decimal TransportedQuantityInQTL { get; set; }
         public string ReferenceNo {get;set;}
+        public DateTime RequestedDate { get; set; }
         public int BusinessProcessID { get; set; }
         public Nullable<decimal> LabourCostRate { get; set; }
         public Nullable<decimal> LabourCost { get; set; }
