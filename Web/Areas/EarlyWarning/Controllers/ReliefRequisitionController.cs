@@ -350,17 +350,24 @@ namespace Cats.Areas.EarlyWarning.Controllers
         [HttpGet]
         public ActionResult Edit(int id)
         {
+            
             var relifRequisition = _reliefRequisitionService.FindById(id);
-            if (relifRequisition == null)
+
+          
+           
+            if (relifRequisition != null)
             {
-                HttpNotFound();
+                ViewBag.RationSelected = relifRequisition.RationID;
+                ViewBag.RationID = _rationService.GetAllRation();
+                return View(relifRequisition);
             }
-         return View(relifRequisition);
+            return HttpNotFound();
         }
 
         [HttpPost]
-        public ActionResult Edit(ReliefRequisition reliefrequisition)
+        public ActionResult Edit(ReliefRequisition reliefrequisition,FormCollection collection)
         {
+
             if (ModelState.IsValid)
             {
                 _reliefRequisitionService.EditReliefRequisition(reliefrequisition);
