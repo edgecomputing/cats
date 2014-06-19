@@ -357,7 +357,8 @@ namespace Cats.Areas.EarlyWarning.Controllers
            
             if (relifRequisition != null)
             {
-                ViewBag.RationID = new SelectList(_rationService.GetAllRation(), "RationID", "RefrenceNumber", relifRequisition.RegionalRequest.RationID);
+                ViewBag.RationSelected = relifRequisition.RationID;
+                ViewBag.RationID = _rationService.GetAllRation();
                 return View(relifRequisition);
             }
             return HttpNotFound();
