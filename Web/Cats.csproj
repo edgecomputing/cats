@@ -1175,6 +1175,7 @@
     <Content Include="Content\kendo\2013.1.319\Uniform\sprite%402x.png" />
     <Content Include="Content\kendo\2013.1.319\Uniform\sprite.png" />
     <Content Include="Content\Login\App.js" />
+    <Content Include="Content\MapResources\MapLegend.js" />
     <Content Include="Content\MapResources\MapStyle.js" />
     <Content Include="Content\MapResources\OpenlayersWrapper.js" />
     <Content Include="Content\MapResources\openlayers\img\blank.gif" />
@@ -1524,6 +1525,7 @@
     <Content Include="Content\MapResources\openlayers\lib\OpenLayers\WPSProcess.js" />
     <Content Include="Content\MapResources\openlayers\lib\Rico\Color.js" />
     <Content Include="Content\MapResources\openlayers\lib\Rico\Corner.js" />
+    <Content Include="Content\MapResources\openlayers\MapStyle.js" />
     <Content Include="Content\MapResources\openlayers\theme\default\google.css" />
     <Content Include="Content\MapResources\openlayers\theme\default\google.tidy.css" />
     <Content Include="Content\MapResources\openlayers\theme\default\ie6-style.css" />
@@ -1871,7 +1873,6 @@
     <Content Include="Areas\EarlyWarning\Views\DonorCoverage\AddWoreda.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\HRD\DateInterval.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\HRD\AddWoreda.cshtml" />
-    <Content Include="Areas\EarlyWarning\Views\GiftCertificate\Copy of Detail.cshtml" />
     <None Include="Areas\EarlyWarning\Views\PrintableReports\HRD\HRDDatasetForPrint.xsd">
       <SubType>Designer</SubType>
       <Generator>MSDataSetGenerator</Generator>
