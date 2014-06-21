@@ -25,6 +25,14 @@
 <div id="map2" class="map2">
 </div>
 <script>
+        
+    function mapController($http, $scope, $timeout) {
+        $scope.countryShapeURL = "/Content/MapResources/MapData/ethiopiaJson.js";
+        $scope.regionShapeURL = "/Content/MapResources/MapData/ethiopiaRegions.js";
+        $scope.getData = function () {
+
+        }
+    }
     var countryShapeURL = "/Content/MapResources/MapData/ethiopiaJson.js";
     var regionShapeURL = "/Content/MapResources/MapData/ethiopiaRegions.js";
     $(function () {
