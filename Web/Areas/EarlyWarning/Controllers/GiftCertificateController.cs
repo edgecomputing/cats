@@ -172,7 +172,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         [EarlyWarningAuthorize(operation = EarlyWarningConstants.Operation.Edit_Gift_Certificate)]
         public ActionResult GiftCertificateDetail_Update([DataSourceRequest]DataSourceRequest request, GiftCertificateDetailsViewModel giftCertificateDetailsViewModel)
         {
-            if (giftCertificateDetailsViewModel != null && ModelState.IsValid)
+            if (giftCertificateDetailsViewModel != null )
             {
                 var target = _giftCertificateDetailService.FindById(giftCertificateDetailsViewModel.GiftCertificateDetailID);
                 if (target != null)
