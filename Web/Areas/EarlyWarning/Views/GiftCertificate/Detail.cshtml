@@ -36,7 +36,7 @@
                     @Html.LabelFor(model => model.GiftDate, Html.Translate("Gift Date"), new { @class = "cats-date-pref" })
                 </div>
                 <div class="controls">
-                    @Html.TextBoxFor(model => model.GiftDate, new { @class = " cats-datepicker2" ,Disabled=true})
+                    @Html.TextBoxFor(model => model.GiftDate, new { @class = " cats-datepicker2", Disabled = true })
                     @Html.ValidationMessageFor(model => model.GiftDate)
                 </div>
             </div>
@@ -46,7 +46,7 @@
                 </div>
                 <div class="controls">
 
-                    @Html.DropDownList("DModeOfTransport",null, string.Empty, new{ Disabled=true})
+                    @Html.DropDownList("DModeOfTransport", null, string.Empty, new { Disabled = true })
 
                     @Html.ValidationMessageFor(model => model.DModeOfTransport)
                 </div>
@@ -57,7 +57,7 @@
                 </div>
                 <div class="controls">
 
-                    @Html.DropDownList("ProgramID", null,string.Empty, new {Disabled=true})
+                    @Html.DropDownList("ProgramID", null, string.Empty, new { Disabled = true })
                     @Html.ValidationMessageFor(model => model.ProgramID)
                 </div>
             </div>
@@ -67,7 +67,7 @@
                 </div>
                 <div class="controls">
 
-                    @Html.DropDownList("DonorID",null, string.Empty,new{ Disabled=true})
+                    @Html.DropDownList("DonorID", null, string.Empty, new { Disabled = true })
                     @Html.ValidationMessageFor(model => model.DonorID)
                 </div>
             </div>
@@ -77,7 +77,7 @@
                 </div>
                 <div class="controls">
 
-                    @Html.TextBoxFor(model => model.DeclarationNumber, new {Disabled=true})
+                    @Html.TextBoxFor(model => model.DeclarationNumber, new { Disabled = true })
 
                     @Html.ValidationMessageFor(model => model.DeclarationNumber)
 
@@ -89,7 +89,7 @@
                 </div>
                 <div class="controls">
 
-                    @Html.DropDownList("CommodityTypeID",null, string.Empty, new {Disabled=true})
+                    @Html.DropDownList("CommodityTypeID", null, string.Empty, new { Disabled = true })
 
                     @Html.ValidationMessageFor(model => model.CommodityTypeID)
 
@@ -102,7 +102,7 @@
                     @Html.LabelFor(model => model.SINumber, Html.Translate("SI/Batch Number"))
                 </div>
                 <div class="controls">
-                    @Html.TextBoxFor(model => model.SINumber, new {Disabled=true})
+                    @Html.TextBoxFor(model => model.SINumber, new { Disabled = true })
                     @Html.ValidationMessageFor(model => model.SINumber)
                 </div>
             </div>
@@ -111,7 +111,7 @@
                     @Html.LabelFor(model => model.PortName, Html.Translate("Port Name"))
                 </div>
                 <div class="controls">
-                    @Html.TextBoxFor(model => model.PortName, new {Disabled=true})
+                    @Html.TextBoxFor(model => model.PortName, new { Disabled = true })
                     @Html.ValidationMessageFor(model => model.PortName)
                 </div>
             </div>
@@ -120,7 +120,7 @@
                     @Html.LabelFor(model => model.ReferenceNo, Html.Translate("Reference Number"))
                 </div>
                 <div class="controls">
-                    @Html.TextBoxFor(model => model.ReferenceNo, new {Disabled=true})
+                    @Html.TextBoxFor(model => model.ReferenceNo, new { Disabled = true })
                     @Html.ValidationMessageFor(model => model.ReferenceNo)
                 </div>
             </div>
@@ -129,7 +129,7 @@
                     @Html.LabelFor(model => model.Vessel, Html.Translate("Vessel"))
                 </div>
                 <div class="controls">
-                    @Html.TextBoxFor(model => model.Vessel, new {Disabled=true})
+                    @Html.TextBoxFor(model => model.Vessel, new { Disabled = true })
                     @Html.ValidationMessageFor(model => model.Vessel)
                 </div>
             </div>
@@ -139,19 +139,15 @@
                 </div>
 
                 <div class="controls">
-                    @Html.TextBoxFor(model => model.ETA, new { @class = "cats-datepicker2" ,Disabled=true})
+                    @Html.TextBoxFor(model => model.ETA, new { @class = "cats-datepicker2", Disabled = true })
                     @Html.ValidationMessageFor(model => model.ETA)
                 </div>
             </div>
         </div>
-
     </div>
-   
-
 }
 
 @* <div class="row-fluid" >*@
-
 
 @(Html.Kendo().Grid<GiftCertificateDetailsViewModel>()
            .Name("Grid")
@@ -164,7 +160,7 @@
                                 .Filterable(true);
                             columns.Bound(o => o.BillOfLoading);
 
-                            columns.Bound(o => o.YearPurchasedPrefered).HtmlAttributes(new { align = "right" }).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid" });
+                            columns.Bound(o => o.YearPurchasedPrefered).HtmlAttributes(new { align = "right" }).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid" }).Format("{0:dd/MM/yyyy}").Width(10); ;
                             columns.Bound(o => o.AccountNumber).HtmlAttributes(new { align = "right" });
                             columns.Bound(o => o.WeightInMT).Title(Html.Translate("Sent Qty (MT)")).HtmlAttributes(new { align = "right" }).Format("{0:N3}");
                             columns.Bound(o => o.EstimatedPrice).HtmlAttributes(new { align = "right" }).Format("{0:N2}");
@@ -190,15 +186,10 @@
                                            m.Id(t => t.GiftCertificateDetailID);
                                            m.Field(t => t.CommodityID).DefaultValue(-1);
                                        })
-                    //                              .Batch(true)
-                    //.ServerOperation(false)
-
-           )
-
-
+        //                              .Batch(true)
+        //.ServerOperation(false)
+        )
            .Navigatable()
-
-
                     )
 @Html.ValidationMessageFor(model => model.rowCount)
 
