@@ -132,7 +132,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         [EarlyWarningAuthorize(operation = EarlyWarningConstants.Operation.New_Gift_Certificate)]
         public ActionResult GiftCertificateDetail_Create([DataSourceRequest] DataSourceRequest request, GiftCertificateDetailsViewModel giftCertificateDetailsViewModel, int? id)
         {
-            if (giftCertificateDetailsViewModel != null && ModelState.IsValid && id.HasValue)
+            if (giftCertificateDetailsViewModel != null  && id.HasValue)
             {
                 giftCertificateDetailsViewModel.GiftCertificateID = id.Value;
                 var giftcertifiateDtail = GiftCertificateViewModelBinder.BindGiftCertificateDetail(giftCertificateDetailsViewModel);
