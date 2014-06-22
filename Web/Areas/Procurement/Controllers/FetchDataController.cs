@@ -9,6 +9,7 @@ using Cats.Models;
 using Cats.Services.Dashboard;
 using Cats.Services.Procurement;
 using Cats.Services.Security;
+using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
 
 namespace Cats.Areas.Procurement.Controllers
@@ -20,16 +21,19 @@ namespace Cats.Areas.Procurement.Controllers
         private readonly IUserAccountService _userAccountService;
         private readonly IBidWinnerService _bidWinnerService;
         private readonly ITransportBidQuotationService _priceQuotataion;
+        private readonly ITransportBidQuotationHeaderService _bidQuotationHeader;
         
         //
         // GET: /Procurement/FetchData/
 
-        public FetchDataController(IPaymentRequestService paymentRequestService, IBidService bidService, IUserAccountService userAccountService, IBidWinnerService bidWinnerService)
+        public FetchDataController(IPaymentRequestService paymentRequestService,
+            ITransportBidQuotationHeaderService bidQuotationHeader,IBidService bidService, IUserAccountService userAccountService, IBidWinnerService bidWinnerService)
         {
             _paymentRequestService = paymentRequestService;
             _bidService = bidService;
             _userAccountService = userAccountService;
             _bidWinnerService = bidWinnerService;
+            _bidQuotationHeader = bidQuotationHeader;
         }
 
         public JsonResult ReadSummarizedNumbers([DataSourceRequest]DataSourceRequest request)
@@ -133,12 +137,26 @@ namespace Cats.Areas.Procurement.Controllers
             return Json(recentBidViewModels, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult PriceQoutation([DataSourceRequest]DataSourceRequest request)
+        public JsonResult PriceQoutation(int bidID)
         {
-            var recentBids =
-                _bidService.FindBy(t => t.StatusID == 5).OrderByDescending(t => t.OpeningDate).Take(10).ToList();
-            var recentBidViewModels = BindBidViewModels(recentBids);
-            return Json(recentBidViewModels, JsonRequestBehavior.AllowGet);
+            var proposals = _bidQuotationHeader.FindBy(e=>e.BidId==bidID).OrderByDescending(t => t.TransportBidQuotationHeaderID);
+            var r = (from proposal in proposals
+                     select new TransportBidQuotationHeaderViewModel()
+                     {
+                         TransportBidQuotationHeaderID = proposal.TransportBidQuotationHeaderID,
+                         //BidNumber = proposal.Bid.BidNumber,
+                         //BidBondAmount = proposal.BidBondAmount,
+                         OffersCount = proposal.TransportBidQuotations.Count,
+                         //Region = proposal.AdminUnit.Name,
+                         Status = proposal.Status == 1 ? "Draft" : "Approved",
+                         Transporter = proposal.Transporter.Name,
+                         EnteredBy = proposal.EnteredBy,
+                         //BidID = proposal.Bid.BidID,
+                         //RegionId = proposal.AdminUnit.AdminUnitID,
+                         TransporterId = proposal.Transporter.TransporterID
+                     });
+
+           return Json(r, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult GroupedWinners(int bidid , int rank)
@@ -211,9 +229,11 @@ namespace Cats.Areas.Procurement.Controllers
                                             EndDate = bid.EndDate,
                                             OpeningDate = bid.OpeningDate.ToCTSPreferedDateFormat(datePref),
                                             StartDate = bid.StartDate,
-                                            Time = bid.OpeningDate.ToLocalTime(),
+                                            Time = bid.OpeningDate.ToShortTimeString(),
                                             StatusID = bid.StatusID
                                         }).ToList();
         }
+
+       
     }
 }

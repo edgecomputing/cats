@@ -701,6 +701,10 @@ ul.icons-list {
     font-weight: 600;
 }
 
+.tight-table {
+    margin-bottom: 2px;
+}
+
 .fileupload-preview {
     line-height: 0 !important;
 }
