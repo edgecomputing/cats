@@ -2166,6 +2166,18 @@
     <Content Include="Scripts\ng-grid.js" />
     <Content Include="Scripts\ng-table.js" />
     <Content Include="Scripts\RequestAllocation\RequestAllocationController.js" />
+    <Content Include="Scripts\timepicker\.gitignore" />
+    <Content Include="Scripts\timepicker\GruntFile.js" />
+    <Content Include="Scripts\timepicker\index.html" />
+    <Content Include="Scripts\timepicker\jquery.timepicker.css" />
+    <Content Include="Scripts\timepicker\jquery.timepicker.js" />
+    <Content Include="Scripts\timepicker\jquery.timepicker.min.js" />
+    <Content Include="Scripts\timepicker\lib\bootstrap-datepicker.css" />
+    <Content Include="Scripts\timepicker\lib\bootstrap-datepicker.js" />
+    <Content Include="Scripts\timepicker\lib\glyphicons-halflings.png" />
+    <Content Include="Scripts\timepicker\lib\screenshot.png" />
+    <Content Include="Scripts\timepicker\lib\site.css" />
+    <Content Include="Scripts\timepicker\lib\site.js" />
     <Content Include="Views\Account\ForgetPassword.cshtml" />
     <Content Include="Areas\Localization\Views\Translation\Index.cshtml" />
     <Content Include="Areas\Localization\Views\Translation\Details.cshtml" />
@@ -2903,6 +2915,10 @@
     <Content Include="Views\Shared\_MainMenuOld.cshtml" />
     <Content Include="Views\Account\ForgotPassword.cshtml" />
     <Content Include="Views\Shared\_dashboardmap.cshtml" />
+    <Content Include="Scripts\timepicker\component.json" />
+    <Content Include="Scripts\timepicker\jt.timepicker.jquery.json" />
+    <Content Include="Scripts\timepicker\package.json" />
+    <Content Include="Scripts\timepicker\README.md" />
     <None Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

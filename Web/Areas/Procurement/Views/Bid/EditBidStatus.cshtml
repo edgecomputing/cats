@@ -60,7 +60,11 @@
                    @* <input class="cats-datepicker" type="text" id="start" name="start" value="@Model.StartDate"/>*@
                     @Html.TextBoxFor(model=>model.StartDate,new {@class="cats-datepicker2"})
                     @Html.ValidationMessageFor(model => model.StartDate)
-
+                     <div class="input-append bootstrap-timepicker">
+                        <span class="add-on">Time</span>
+                        @Html.TextBoxFor(model=>model.startTime,new { @class = "input-small", id="startTime" })
+                       
+                    </div>
                 </div>
 
             </div>
@@ -73,18 +77,26 @@
                      @*<input class="cats-datepicker" type="text" id="end" name="end" value="@Model.EndDate" />*@
                     @Html.TextBoxFor(model=>model.EndDate,new {@class="cats-datepicker2"})
                     @Html.ValidationMessageFor(model => model.EndDate)
-                </div>
+                    <div class="input-prepend " style="margin-right: 2px">
+                        <span class="add-on">Time</span>
+                        @Html.TextBoxFor(m=>m.endTime, new { @class = "input-small", id="endTime" })
+                    </div>
                 
             </div>
             <div class="control-group">
                 <div class="control-label">
-                    @Html.LabelFor(model => model.EndDate, "Opening Date",new {@class="cats-date-pref"})
+                    @Html.LabelFor(model => model.OpeningDate, "Opening Date",new {@class="cats-date-pref"})
                 </div>
                 
                 <div class="controls">
                     @* <input class="cats-datepicker" type="text" id="open" name="open" value="@Model.OpeningDate"/>*@
                     @Html.TextBoxFor(model=>model.OpeningDate,new {@class="cats-datepicker2"})
                     @Html.ValidationMessageFor(model => model.OpeningDate)
+                    <div class="input-prepend " style="margin-right: 2px">
+                        <span class="add-on">Time</span>
+                        @Html.TextBoxFor(m => m.BidOpeningTime, new { @class = "input-small" })
+             
+                    </div>
                 </div>
                
             </div>
@@ -100,3 +112,32 @@
         </fieldset>
             </div>
     }
+<link href="~/Scripts/timepicker/jquery.timepicker.css" rel="stylesheet"/>
+<script src="~/Scripts/timepicker/jquery.timepicker.js"></script>
+<script src="~/Scripts/timepicker/jquery.timepicker.min.js"></script>     
+
+
+
+<script>
+   
+    
+    $('#startTime').timepicker({
+        'minTime': '8:00am',
+        'maxTime': '1:30pm',
+        'showDuration': true
+    });
+    
+    $('#endTime').timepicker({
+        'minTime': '8:00am',
+        'maxTime': '1:30pm',
+        'showDuration': true
+    });
+    
+    $('#BidOpeningTime').timepicker({
+        'minTime': '8:00am',
+        'maxTime': '1:30pm',
+        'showDuration': true
+    });
+    
+   
+</script>

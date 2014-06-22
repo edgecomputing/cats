@@ -7,7 +7,7 @@ namespace Cats.Models
     {
         public int BidDetailID { get; set; }
         public int BidID { get; set; }
-        public int RegionID { get; set; }
+        //public int RegionID { get; set; }
         public decimal AmountForReliefProgram { get; set; }
         public decimal AmountForPSNPProgram { get; set; }
         public decimal BidDocumentPrice { get; set; }
