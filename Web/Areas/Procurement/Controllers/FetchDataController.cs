@@ -211,6 +211,7 @@ namespace Cats.Areas.Procurement.Controllers
                                             EndDate = bid.EndDate,
                                             OpeningDate = bid.OpeningDate.ToCTSPreferedDateFormat(datePref),
                                             StartDate = bid.StartDate,
+                                            Time = bid.OpeningDate.ToLocalTime(),
                                             StatusID = bid.StatusID
                                         }).ToList();
         }

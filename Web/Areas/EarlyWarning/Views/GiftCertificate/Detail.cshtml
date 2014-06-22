@@ -139,7 +139,7 @@
                 </div>
 
                 <div class="controls">
-                    @Html.TextBoxFor(model => model.ETA, new { @class = "cats-datepicker2", Disabled = true })
+                    @Html.TextBoxFor(model => model.ETA, new { @class = "cats-datepicker2" })
                     @Html.ValidationMessageFor(model => model.ETA)
                 </div>
             </div>
@@ -158,10 +158,10 @@
                             columns.AutoGenerate(false);
                             columns.ForeignKey(o => o.CommodityID, (IEnumerable<Commodity>)ViewData["Commodities"], "CommodityID", "Name").Width(10).Title(Html.Translate("Commodity"))
                                 .Filterable(true);
-                            columns.Bound(o => o.BillOfLoading);
+                            columns.Bound(o => o.BillOfLoading).Width(13);
 
-                            //columns.Bound(o => o.YearPurchasedPrefered).Format("{0:yyyy}").Width(10).HtmlAttributes(new { align = "right" }).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid" });
-                            columns.Bound(o => o.YearPurchasedPrefered).Format("{0:yyyy}").Width(10);
+                            columns.Bound(o => o.YearPurchased).HtmlAttributes(new { align = "right" }).Format("{0:yyyy}").Width(10).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid" });
+                            //columns.Bound(o => o.YearPurchasedPrefered).Format("{0:yyyy}").Width(10);
                             columns.Bound(o => o.AccountNumber).HtmlAttributes(new { align = "right" });
                             columns.Bound(o => o.WeightInMT).Title(Html.Translate("Sent Qty (MT)")).HtmlAttributes(new { align = "right" }).Format("{0:N3}");
                             columns.Bound(o => o.EstimatedPrice).HtmlAttributes(new { align = "right" }).Format("{0:N2}");

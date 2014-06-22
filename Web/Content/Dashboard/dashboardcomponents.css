@@ -1732,7 +1732,7 @@ label {
         .dashboard-stat .details {
             position: relative;
             z-index: 11;
-            float: left;
+            float: right;
             margin-top: -10px;
             text-align: left;
         }

@@ -19,264 +19,258 @@
         width: 390px;
     }
 </style>
-
-<div ng-app>
-
-    @*     <h3>Procurement Dashboard</h3>
-        <hr />
-        <div ng-controller="SummarizedNumbersController" class="container row">
-           <div class="span13">
-                <a href="javascript:;" class="dashboard-stat">
-                    <div class="visual">
-                        
+<div ng-app="">
+    <div class="container" ng-controller="RecentBidsController">
+        <div class="row container">
+            <div class="span12">
+                <div class="heading">
+                    <h3>Procurement Dashboard</h3>
+                </div>
+                <div class="center">
+                    <div class="span4">
+                        <a href="javascript:;" class="dashboard-stat align-center" >
+                            <div class="details" style="float: right">
+                                <span class="content number">Active Bids</span>
+                                <span class="value number">14</span>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="span4">
+                        <a href="javascript:;" class="dashboard-stat">
+                            <div class="details" style="float: right">
+                                <span class="content number">Transporters</span>
+                                <span class="value number">50</span>
+                            </div>
+                        </a>
                     </div>
                     
-
-                    <div class="details column-divider-regional center">
-                        <span class="content">Payment Requests</span>
-                        <span class="value">{{SummarizedNumbers.PaymentRequests}}</span>
+                    <div class="span4">
+                        <a href="javascript:;" class="dashboard-stat">
+                            <div class="details" style="float: right">
+                                <span class="content number">Current bid plan</span>
+                                <span class="value number">2006-2</span>
+                            </div>
+                        </a>
                     </div>
-
-                    <div class="details column-divider-regional center">
-                        <span class="content">Payment Request at Logistics</span>
-                        <span class="value">{{SummarizedNumbers.PaymentRequestsAtLogistics}}</span>
-                    </div>
-
-                    <div class="details column-divider-regional center">
-                        <span class="content">Verified Payment Requests</span>
-                        <span class="value">{{SummarizedNumbers.ApprovedPaymentRequests}}</span>
-                    </div>
-                    <div class="details column-divider-regional center">
-                        <span class="content">Rejected Requests</span>
-                        <span class="value">{{SummarizedNumbers.PaymentRequests}}</span>
-                    </div>
-                    <div class="details column-divider-regional center">
-                        <span class="content">Check Cashed Requests</span>
-                        <span class="value">{{SummarizedNumbers.CheckCashedPaymentRequests}}</span>
-                    </div>
-                </a>
+                </div>
             </div>
         </div>
-        <hr />
-    </div>*@
-
-    <div class="container" ng-controller="RecentBidsController">
-       
-           <div class="row">
-                <div>&nbsp;</div>
-                <div  class="span11">
-                    <div class="portlet">
-                        <div id="BidHeader" class="portlet-header">
-                            <h3 id="bar-title">Active Bids
-                            </h3>
-                        </div>
-
-                        <div id="BidContent" class="portlet-content">
-                            <th class="table-responsive">
-                                <table id="" class="table table-hover table-checkable">
-                                    <thead>
-                                        <tr>
-                                            <th class="hidden-xs">Bid Number</th>
-                                            @*<th>Start Date</th>
-                                        <th>End Date</th>*@
-                                            <th>Opening Date</th>
-                                            <th>Status</th>
-                                            <th class="align-center">Detail</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr data-ng-repeat="item in RecentBids">
-                                            @*<td class="hidden-xs">
-                                            <a href="@Url.Action("Index", "PaymentRequest", new { Area = "Procurement" })">{{item.ReferenceNo}}</a>
-                                        </td>*@
-                                            <td>{{item.BidNumber}}</td>
-                                            @*<td>{{item.StartDate}}</td>*@
-                                            @*<td>{{item.EndDate}}</td>*@
-                                            <td>{{item.OpeningDate}}</td>
-                                            <td><span class="label label-success">{{states[item.StatusID-1]}}</span></td>
-                                            <th>
-                                                <a ng-click="viewBidDetail(item)" class="btn btn-sm btn-default">View <i class="icon-chevron-right"></i>
-                                                </a>
-                                            </th>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-      
-
-        <div id="biddetailContent" style="display: none">
-
-            <div class="row">
-                <div>&nbsp;</div>
-                <div class="span4">
-                    <div class="portlet">
-                        <div class="portlet-header">
-                            <h3>
-                                <i class=""></i>
-                                Price Quotations
-                            </h3>
-                        </div>
-                        <div class="portlet-content">
-                            <div id="containerRequisition" class="chartWrap"></div>
-                        </div>
+        <div class="row container" style="margin-top: 15px">
+            <div class="span12">
+                <div class="portlet">
+                    <div id="BidHeader" class="portlet-header">
+                        <h3 id="bar-title">Active Bids</h3>
+                        <ul style="display: none" id="back" class="portlet-tools pull-right">
+                            <li>
+                                <a class="btn btn-sm btn-default">
+                                    <i class="icon-chevron-sign-left"> Back</i>
+                                </a>
+                            </li>
+                        </ul>
                     </div>
 
-                </div>
-                <div class="span7">
-                    <div class="portlet">
-                        <div class="portlet-header">
-                            <h3>
-                                <i class=""></i>
-                                Price Quotations
-                            </h3>
-                            <ul class="portlet-tools pull-right">
-                                <li>
-                                    <button class="btn btn-sm btn-default">
-                                        Show more
-                                    </button>
-                                </li>
-                            </ul>
-                        </div>
-
-                        <div class="portlet-content">
-                            <th class="table-responsive">
-                                <table id="" class="table table-striped table-checkable">
-                                    <thead style="text-align: right">
-                                        <tr>
-                                            <th class="hidden-xs">Number</th>
-                                            <th>Commodity</th>
-                                            <th style="text-align: center">Beneficiaries</th>
-                                            <th style="text-align: center">Amount(QT)</th>
-                                            <th>Status</th>
-                                            <th class="align-center">Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr class="" ng-repeat="requisition in Requisitions">
-
-                                            <td>{{requisition.Number}}</td>
-                                            <th>{{requisition.Commodity}}</th>
-                                            <td style="text-align: right">{{requisition.Beneficicaries|number}}</td>
-                                            <th style="text-align: right">{{requisition.Amount|number}} QT</th>
-                                            <td><span status-class="requisition.Status">{{states[requisition.Status-1]}}</span></td>
-                                            <td>
-                                                <a ng-click="viewRequisition(requisition)" class="btn btn-sm btn-default">View <i class="icon-chevron-right"></i>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                        </div>
+                    <div id="BidContent" class="portlet-content" style="padding-top: 2px">
+                        <table ng-show="(RecentBids).length" class="table table-hover" style="margin-bottom: 2px">
+                            <thead>
+                                <tr class="">
+                                    <th># No.</th>
+                                    <th>Bid Number</th>
+                                    <th>Start Date</th>
+                                    <th>Opening Date</th>
+                                    <th>Opening Time</th>
+                                    <th class="align-center">Detail</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr data-ng-repeat="item in RecentBids">
+                                    <th>{{$index + 1}}</th>
+                                    <td>{{item.BidNumber}}</td>
+                                    <td>{{item.OpeningDate}}</td>
+                                    <td>{{item.OpeningDate}}</td>
+                                    <td>{{item.Time}}</td>
+                                    <td><span class="label label-success">{{states[item.StatusID-1]}}</span></td>
+                                    <th>
+                                        <a ng-click="viewBidDetail(item)" class="btn btn-sm btn-default">View <i class="icon-chevron-right"></i>
+                                        </a>
+                                    </th>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
-            </div>
 
-            <div class="row">
-                <div>&nbsp;</div>
-                <div class="span11">
-                    <div class="portlet">
-                        <div class="portlet-header">
-                            <h3>
-                                <i class=""></i>
-                                First winners
-                            </h3>
-                            <ul class="portlet-tools pull-right">
-                                <li>
-                                    <button class="btn btn-sm btn-default">
-                                        Show more
-                                    </button>
-                                </li>
-                            </ul>
+                <div class="center" id="biddetailContent" style="display: none">
+
+                    <div class="container row" style="margin-top: 10px;">
+                        <div class=" span6">
+                            <div class="portlet">
+                                <div class="portlet-header">
+                                    <h3>
+                                        <i class=""></i>
+                                        First winners
+                                    </h3>
+                                    
+                                    <ul  ng-show="(Firstwinners).length" class="portlet-tools pull-right">
+                                        <li>
+                                            <button class="btn btn-sm btn-default">
+                                                Show more
+                                            </button>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <div class="portlet-content">
+                                    <div ng-show="(Firstwinners).length==0" class="align-center">
+                                        <p>There are no first winners for this bid</p>
+                                        <a class="btn btn-success" href="@Url.Action("GenerateWinners","PriceQuotation")">Generate Winners now <i class="icon-caret-right"> </i></a>
+                                    </div>
+
+                                    <table ng-show="(Firstwinners).length" class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th class="hidden-xs">Transporter</th>
+                                                <th>Woredas</th>
+                                                <th>Min offer (ETB)</th>
+                                                <th>Max offer (ETB)</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr data-ng-repeat="item in Firstwinners">
+                                                <td>{{item.Name}}</td>
+                                                <td>{{item.Count}}</td>
+                                                <td>{{item.minoffer | number:2}}</td>
+                                                <td>{{item.maxoffer | number:2}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
+                        <div class="span6">
+                            <div class="portlet">
+                                <div class="portlet-header">
+                                    <h3>
+                                        <i class=""></i>
+                                        Second winners
+                                    </h3>
+                                    <ul ng-show="(SecondWinners).length" class="portlet-tools pull-right">
+                                        <li>
+                                            <button class="btn btn-sm btn-default">
+                                                Show more
+                                            </button>
+                                        </li>
+                                    </ul>
 
-                        <div class="portlet-content">
-                             <table class="table table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th class="hidden-xs">Transporter</th>
-                                            <th>Woredas</th>
-                                            <th>Min offer (ETB)</th>
-                                            <th>Max offer (ETB)</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr data-ng-repeat="item in Firstwinners">
-                                            <td>{{item.Name}}</td>
-                                            <td>{{item.Count}}</td>
-                                            <td>{{item.minoffer | number:2}}</td>
-                                            <td>{{item.maxoffer | number:2}}</td>
-                                        </tr>
-                                    </tbody>
-                             </table>
+                                </div>
+                                <div class="portlet-content">
+                                    <div ng-show="(SecondWinners).length==0" class="align-center">
+                                        <p>There are no second winners for this bid</p>
+                                        <a class="btn btn-success" href="@Url.Action("GenerateWinners","PriceQuotation")">Generate Winners now <i class="icon-caret-right"> </i></a>
+                                    </div>
+                                    <table ng-show="(SecondWinners).length" class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th class="hidden-xs">Transporter</th>
+                                                <th>Woredas</th>
+                                                <th>Min offer (ETB)</th>
+                                                <th>Max offer (ETB)</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr data-ng-repeat="item in SecondWinners">
+                                                <td>{{item.Name}}</td>
+                                                <td>{{item.Count}}</td>
+                                                <td>{{item.minoffer | number:2}}</td>
+                                                <td>{{item.maxoffer | number:2}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div>&nbsp;</div>
-                <div class="span11">
-                    <div class="portlet">
-                        <div class="portlet-header">
-                            <h3>
-                                <i class=""></i>
-                                Second winners
-                            </h3>
-                            <ul class="portlet-tools pull-right">
-                                <li>
-                                    <button class="btn btn-sm btn-default">
-                                        Show more
-                                    </button>
-                                </li>
-                            </ul>
+                    <div class="container row" style="margin-top: 10px;">
+                        <div class="span4">
+                            <div class="portlet">
+                                <div class="portlet-header">
+                                    <h3>
+                                        <i class=""></i>
+                                        Price Quotations
+                                    </h3>
+                                </div>
+                                <div class="portlet-content">
+                                    <div id="containerRequisition" class="chartWrap"></div>
+                                </div>
+                            </div>
 
                         </div>
-                        <div class="portlet-content">
-                             <table class="table table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th class="hidden-xs">Transporter</th>
-                                            <th>Woredas</th>
-                                            <th>Min offer (ETB)</th>
-                                            <th>Max offer (ETB)</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr data-ng-repeat="item in SecondWinners">
-                                            <td>{{item.Name}}</td>
-                                            <td>{{item.Count}}</td>
-                                            <td>{{item.minoffer | number:2}}</td>
-                                            <td>{{item.maxoffer | number:2}}</td>
-                                        </tr>
-                                    </tbody>
-                             </table>
+                        <div class="span8">
+                            <div class="portlet">
+                                <div class="portlet-header">
+                                    <h3>
+                                        <i class=""></i>
+                                        Price Quotations
+                                    </h3>
+                                    <ul class="portlet-tools pull-right">
+                                        <li>
+                                            <button class="btn btn-sm btn-default">
+                                                Show more
+                                            </button>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <div class="portlet-content">
+                                    <th class="table-responsive">
+                                        <table id="" class="table table-striped table-checkable">
+                                            <thead style="text-align: right">
+                                                <tr>
+                                                    <th class="hidden-xs">Number</th>
+                                                    <th>Commodity</th>
+                                                    <th style="text-align: center">Beneficiaries</th>
+                                                    <th style="text-align: center">Amount(QT)</th>
+                                                    <th>Status</th>
+                                                    <th class="align-center">Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr class="" ng-repeat="requisition in Requisitions">
+
+                                                    <td>{{requisition.Number}}</td>
+                                                    <th>{{requisition.Commodity}}</th>
+                                                    <td style="text-align: right">{{requisition.Beneficicaries|number}}</td>
+                                                    <th style="text-align: right">{{requisition.Amount|number}} QT</th>
+                                                    <td><span status-class="requisition.Status">{{states[requisition.Status-1]}}</span></td>
+                                                    <td>
+                                                        <a ng-click="viewRequisition(requisition)" class="btn btn-sm btn-default">View <i class="icon-chevron-right"></i>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
 
-            <div class="row">
-                <div>&nbsp;</div>
-                <div class="span11">
-                    <div class="portlet">
-                        <div class="portlet-header">
-                            <h3>
-                                <i class=""></i>
-                                Woredas without offer
-                            </h3>
-                            <ul class="portlet-tools pull-right">
-                                <li>
-                                    <button class="btn btn-sm btn-default">
-                                        Show more
-                                    </button>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="portlet-content">
-                            @* <table id="" class="table table-hover">
+                    <div class="container row" style="margin-top: 10px">
+                        <div class="span12">
+                            <div class="portlet">
+                                <div class="portlet-header">
+                                    <h3>
+                                        <i class=""></i>
+                                        Woredas without offer
+                                    </h3>
+                                    <ul class="portlet-tools pull-right">
+                                        <li>
+                                            <button class="btn btn-sm btn-default">
+                                                Show more
+                                            </button>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="portlet-content">
+                                    @* <table id="" class="table table-hover">
                                     <thead>
                                         <tr>
                                             <th class="hidden-xs">Transporter</th>
@@ -294,22 +288,31 @@
                                         </tr>
                                     </tbody>
                              </table>*@
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
     </div>
+
+    <script>
+        $("#BidHeader").click(function () {
+            $("#BidContent").slideDown("slow");
+            $("#bar-title").text("Active bids");
+            $("#biddetailContent").hide("fast", "linear");
+            $("#back").hide();
+        });
+        $("#back").click(function () {
+            $("#BidContent").slideDown("slow");
+            $("#bar-title").text("Active bids");
+            $("#biddetailContent").hide("fast", "linear");
+            $("#back").hide();
+        });
+    </script>
 </div>
-
-<script>
-    $("#BidHeader").click(function () {
-        $("#BidContent").slideDown("slow");
-        $("#bar-title").text("Active bids");
-        $("#biddetailContent").hide("fast", "linear");
-    });
-</script>
-
 <script>
 
     function RecentBidsController($scope, $http) {
@@ -329,11 +332,11 @@
         var onSuccessBids = function (data) {
             //$scope.RecentBids = data;
         };
-        
+
         var firstwinners = function (data) {
-            $scope.Firstwinners  = data;
+            $scope.Firstwinners = data;
         };
-        
+
         var secondwinners = function (data) {
             $scope.SecondWinners = data;
         };
@@ -346,11 +349,18 @@
             $("#BidContent").hide("fast", "linear");
             $("#bar-title").text(item.BidNumber + " Detail");
             $("#biddetailContent").show("fast", "linear");
+            $("#back").show();
             var firstparam = { bidid: item.BidID, rank: 1 };
             $http.post("@Url.Action("GroupedWinners", "FetchData", new { Area = "Procurement" })", firstparam).success(firstwinners);
-            
+
             var secondparam = { bidid: item.BidID, rank: 2 };
             $http.post("@Url.Action("GroupedWinners", "FetchData", new { Area = "Procurement" })", secondparam).success(secondwinners);
+        };
+
+        $scope.itemNumber = 0;
+        $scope.increment = function () {
+            $scope.itemNumber = $scope.itemNumber + 1;
+            return $scope.itemNumber;
         };
 
         $scope.getRecentBids();
