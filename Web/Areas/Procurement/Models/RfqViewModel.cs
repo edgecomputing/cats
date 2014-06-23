@@ -29,6 +29,7 @@ namespace Cats.Areas.Procurement.Models
         public decimal Total { get; set; }
         public decimal Quantity { get; set; }
         public string BidOpeningdate { get; set; }
+        public string BidOpeningTime { get; set; }
         //public string BidSUbmissionDate { get; set; }
 
                             

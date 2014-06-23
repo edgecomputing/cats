@@ -12,7 +12,7 @@
   <xs:element name="RFQModel" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="RFQModel" msprop:Generator_UserDSName="RFQModel">
     <xs:complexType>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
-        <xs:element name="DataTable1" msprop:Generator_TableClassName="DataTable1DataTable" msprop:Generator_TableVarName="tableDataTable1" msprop:Generator_TablePropName="DataTable1" msprop:Generator_RowDeletingName="DataTable1RowDeleting" msprop:Generator_RowChangingName="DataTable1RowChanging" msprop:Generator_RowEvHandlerName="DataTable1RowChangeEventHandler" msprop:Generator_RowDeletedName="DataTable1RowDeleted" msprop:Generator_UserTableName="DataTable1" msprop:Generator_RowChangedName="DataTable1RowChanged" msprop:Generator_RowEvArgName="DataTable1RowChangeEvent" msprop:Generator_RowClassName="DataTable1Row">
+        <xs:element name="DataTable1" msprop:Generator_TableClassName="DataTable1DataTable" msprop:Generator_TableVarName="tableDataTable1" msprop:Generator_RowChangedName="DataTable1RowChanged" msprop:Generator_TablePropName="DataTable1" msprop:Generator_RowDeletingName="DataTable1RowDeleting" msprop:Generator_RowChangingName="DataTable1RowChanging" msprop:Generator_RowEvHandlerName="DataTable1RowChangeEventHandler" msprop:Generator_RowDeletedName="DataTable1RowDeleted" msprop:Generator_RowClassName="DataTable1Row" msprop:Generator_UserTableName="DataTable1" msprop:Generator_RowEvArgName="DataTable1RowChangeEvent">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="Source" msprop:Generator_ColumnVarNameInTable="columnSource" msprop:Generator_ColumnPropNameInRow="Source" msprop:Generator_ColumnPropNameInTable="SourceColumn" msprop:Generator_UserColumnName="Source" type="xs:string" minOccurs="0" />
@@ -27,6 +27,7 @@
               <xs:element name="BidOpeningdate" msprop:Generator_ColumnVarNameInTable="columnBidOpeningdate" msprop:Generator_ColumnPropNameInRow="BidOpeningdate" msprop:Generator_ColumnPropNameInTable="BidOpeningdateColumn" msprop:Generator_UserColumnName="BidOpeningdate" type="xs:string" minOccurs="0" />
               <xs:element name="ReliefAmount" msprop:Generator_ColumnVarNameInTable="columnReliefAmount" msprop:Generator_ColumnPropNameInRow="ReliefAmount" msprop:Generator_ColumnPropNameInTable="ReliefAmountColumn" msprop:Generator_UserColumnName="ReliefAmount" type="xs:string" minOccurs="0" />
               <xs:element name="PsnpAmount" msprop:Generator_ColumnVarNameInTable="columnPsnpAmount" msprop:Generator_ColumnPropNameInRow="PsnpAmount" msprop:Generator_ColumnPropNameInTable="PsnpAmountColumn" msprop:Generator_UserColumnName="PsnpAmount" type="xs:string" minOccurs="0" />
+              <xs:element name="BidOpeningTime" msprop:Generator_ColumnVarNameInTable="columnBidOpeningTime" msprop:Generator_ColumnPropNameInRow="BidOpeningTime" msprop:Generator_ColumnPropNameInTable="BidOpeningTimeColumn" msprop:Generator_UserColumnName="BidOpeningTime" type="xs:string" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>
