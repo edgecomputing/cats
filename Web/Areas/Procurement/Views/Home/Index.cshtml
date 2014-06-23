@@ -331,21 +331,18 @@
 
         var onSuccessRecentBids = function (data) {
             $scope.RecentBids = data;
-            $scope.QuotationPIE = [
-              ['Hub Assigned', 25],
-              ['Pending', 50],
-              ['Approved', 10],
-              ['Federal Approved', 15]
-            ];
-
         };
 
         var onSuccesspqs = function (data) {
             $scope.PriceQuotatitons = data;
             $scope.QuotationPIE = [];
-            //for (var i in $scope.PriceQuotatitons) {
-            //    $scope.QuotationPIE.push($scope.PriceQuotatitons[i].Transporter, $scope.PriceQuotatitons[i].OffersCount);
-            //}
+            
+            for (var i in $scope.PriceQuotatitons) {
+                var key = $scope.PriceQuotatitons[i].Transporter;
+                //var value = $scope.PriceQuotatitons[i].OffersCount;
+                //$scope.QuotationPIE.push['key'] = value;
+                $scope.QuotationPIE.push([  key,  $scope.PriceQuotatitons[i].OffersCount ]);
+            }
         };
 
         var firstwinners = function (data) {
@@ -373,7 +370,9 @@
         };
 
         $scope.viewPQDetail = function (item) {
-            alert("Show Detail");
+            // alert("Show Detail");
+            var id = item.TransportBidQuotationHeaderID;
+            window.open("@Url.Action("Details","PriceQuotation")"+"/"+id, "_blank");
         };
 
        $scope.getRecentBids();
@@ -386,7 +385,7 @@
            return function (scope, element, attrs) {
                var container = $(element).attr("id");
                // watch the expression, and update the UI on change.
-               scope.$watch('RecentBids', function () {
+               scope.$watch('PriceQuotatitons', function () {
                    drawPlot();
                }, true);
                var drawPlot = function () {
