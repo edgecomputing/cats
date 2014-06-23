@@ -8,6 +8,10 @@
     @Html.Partial("_RFQFilterPartial")
 }
 
+@section Toolbar
+{
+    <a btn class="icon-print " href="@Url.Action("Print", "RFQ", new { Area = "Procurement", bidID =@ViewBag.bid,regionID=@ViewBag.reg })"></a>
+}
 <style>
     th {
         text-align: center;
@@ -19,7 +23,7 @@
 
 <p>Transport Quotation Delivery Datasheet for Region <b>@ViewBag.SelectedRegion</b></p>
 <p>Bid Reference Number <b>@ViewBag.BidReference</b></p>
-<p>Bid Opening Date <b>@ViewBag.OpeningDate</b></p>
+<p>Bid Opening Date <b>@ViewBag.OpeningDate Time: @ViewBag.bidOpeningTime</b></p>
 <p>Transporter Name:_________________________________</p>
 
 <div>
@@ -82,7 +86,7 @@
     }
 </table>
 
-<script>
+@*<script>
     $(function () {
         var b = @ViewBag.bid;
         var r = @ViewBag.reg;
@@ -90,4 +94,4 @@
         var printurl = "@Url.Action("Print", "RFQ")" + "?bidID="+ b + "&regionID="+r;
         $("#toolbar_button_print").attr("href", printurl);
     });
-</script>
+</script>*@
