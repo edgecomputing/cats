@@ -125,7 +125,7 @@
         background:#EEE;
     }
 </style>
-@ViewBag.RequestID
+
 <div ng-app ng-controller="RequestAllocationController">
 
         <div class="section-hilite summaryview" style="width:90%; background:#FFF">
@@ -141,7 +141,7 @@
                 <tr>
                     <td class="fldlabel">@Html.Translate("Request Date") : </td><td class="fldvalue">@Model.RequestDate</td>
                     <td class="fldlabel">@Html.Translate("Year") : </td><td class="fldvalue">@Model.Year</td>
-                    <td class="fldlabel">@Html.Translate("Ration") : </td><td class="fldvalue">@Model.Ration | @Model.RationID</td>
+                    <td class="fldlabel">@Html.Translate("Ration") : </td><td class="fldvalue">@Model.Ration</td>
                 </tr>
             </table>
         </div>
@@ -179,7 +179,7 @@
                         <a ng-click="onFdpListShow($index)" id="fdp_selector_button{{$index}}" class="edit_button" href="javascript:_Void()">{{allocation.FDP}}</a>
                     </td>
                     <!--<td>{{allocation.PlannedBeneficiaries}}</td>-->
-                    <td><input class="flat-input txt_beneficiaries"  onchange="onAllocationBeneficiaryChange({{$index}})" ng-model="allocation.Beneficiaries"  /></td>
+                    <td><input class="flat-input txt_beneficiaries" onfocus="onGridInputFocus(this)"  onchange="onAllocationBeneficiaryChange({{$index}})" ng-model="allocation.Beneficiaries"  /></td>
                     <td><button class="edit_button btn btn-danger"  ng-click="deleteRequestedFDP($index)"><i class="icon-trash icon-white"></i> Delete</button></td>
                 </tr>
                 <tr id="newAllocationEdit" style="display:none;">
@@ -226,6 +226,10 @@
         $(".onAllocatoinChange").change(function(){});
         //$("#tbl_allocation").kendoGrid();
     });
+    function onGridInputFocus(input)
+    {
+        setTimeout(function () { $(input).select(); },50);
+    }
     var RegionalRequestID=@ViewBag.RequestID;//@Model.RegionalRequestID;
     var RequestRation=@Model.RationID;
     var ServerUrls =
