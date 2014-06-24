@@ -755,6 +755,10 @@ namespace Cats.Areas.EarlyWarning.Controllers
                     target.Beneficiaries = regionalRequestDetail.Beneficiaries;
                     _regionalRequestDetailService.EditRegionalRequestDetail(target);
                 }
+                else
+                {
+                    return View();
+                }
             }
 
             return Json(new[] { regionalRequestDetail }.ToDataSourceResult(request, ModelState));
