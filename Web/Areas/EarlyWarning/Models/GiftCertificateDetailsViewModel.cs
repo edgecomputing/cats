@@ -52,7 +52,7 @@ namespace Cats.Areas.GiftCertificate.Models
         public Decimal EstimatedTax { get; set; }
 
         [Required(ErrorMessage = "Year Purchased is required")]
-        [Range(2000, 3000)]
+        //[Range(2000, 3000)]
         [Display(Name="Year Purchased")]
         public DateTime YearPurchased { get; set; }
 

@@ -368,8 +368,8 @@ namespace Cats.Areas.Procurement.Controllers
                                           AmountForReliefProgram = (decimal)_transportBidPlanDetailService.GetRegionPlanTotal(bid.TransportBidPlanID, detail.AdminUnitID, 1),
                                           AmountForPSNPProgram = (decimal)_transportBidPlanDetailService.GetRegionPlanTotal(bid.TransportBidPlanID, detail.AdminUnitID, 2),
                                           BidDocumentPrice = 0,
-                                          CPO = 0,
-                                          RegionID = bid.RegionID
+                                          CPO = 0
+                                          //RegionID = bid.RegionID
                                       }).ToList();
                 bid.BidDetails = bidDetails;
                 bid.RegionID = bid.RegionID;
@@ -389,14 +389,21 @@ namespace Cats.Areas.Procurement.Controllers
 
         private Bid GetBid(CreateBidViewModel bidViewModel)
         {
+           
+
             var bid = new Bid()
                 {
+                    
+
                     RegionID = bidViewModel.RegionID,
                     StartDate = bidViewModel.StartDate,
+                    startTime = bidViewModel.StartTime,
                     EndDate = bidViewModel.EndDate,
+                    endTime = bidViewModel.EndTime,
                     BidNumber = bidViewModel.BidNumber,
                     BidBondAmount = bidViewModel.BidBondAmount,
                     OpeningDate = bidViewModel.OpeningDate,
+                    BidOpeningTime = bidViewModel.BidOpningTime,
                     StatusID = bidViewModel.StatusID,
                     TransportBidPlanID = bidViewModel.TransportBidPlanID
 
