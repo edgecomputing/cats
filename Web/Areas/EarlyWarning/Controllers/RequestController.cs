@@ -645,7 +645,8 @@ namespace Cats.Areas.EarlyWarning.Controllers
         {
 
             var requestDetails = _regionalRequestDetailService.FindBy(t => t.RegionalRequestID == id);
-            var requestDetailViewModels = (from dtl in requestDetails select BindRegionalRequestDetailViewModel(dtl));
+            RegionalRequestDetailViewModel requestDetailViewModels = (from dtl in requestDetails select BindRegionalRequestDetailViewModel(dtl));
+            requestDetailViewModels.RegionalRequestID = id;
             return Json(requestDetailViewModels.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
         
