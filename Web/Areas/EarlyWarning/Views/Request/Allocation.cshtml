@@ -125,7 +125,7 @@
         background:#EEE;
     }
 </style>
-
+@ViewBag.RequestID
 <div ng-app ng-controller="RequestAllocationController">
 
         <div class="section-hilite summaryview" style="width:90%; background:#FFF">
@@ -202,7 +202,7 @@
                 </tr>
                     </tbody>
             </table>
-            <div style="height:200px;"></div>
+            <div style="height:350px; background:#F88;"></div>
         </div>
     
     <div id="div_form_template" style="display:none;">
@@ -216,6 +216,7 @@
         <div class="activity_indicator" show="{{pendingRequests>0}}"><img src="~/Content/images/loading.gif" /></div>
 
     </div>
+    <div style="height:200px;"></div>
 </div>
 
 <script>
@@ -223,7 +224,7 @@
         $(".onAllocatoinChange").change(function(){});
         //$("#tbl_allocation").kendoGrid();
     });
-    var RegionalRequestID=@Model.RegionalRequestID;
+    var RegionalRequestID=@ViewBag.RequestID;//@Model.RegionalRequestID;
     var RequestRation=@Model.RationID;
     var ServerUrls =
         {
