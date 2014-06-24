@@ -26,7 +26,10 @@ namespace Cats.ViewModelBinder
         {
             var regionalRequestViewModel = new RegionalRequestViewModel();
 
-
+            if (regionalRequest == null)
+            {
+                return regionalRequestViewModel;
+            }
             regionalRequestViewModel.ProgramId = regionalRequest.ProgramId;
             regionalRequestViewModel.Program = regionalRequest.Program.Name;
             regionalRequestViewModel.Region = regionalRequest.AdminUnit.Name;
