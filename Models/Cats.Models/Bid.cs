@@ -25,6 +25,9 @@ namespace Cats.Models
         public int TransportBidPlanID { get; set; }
         //public decimal BidBond { get; set; }
         public decimal BidBondAmount { get; set; }
+        public string startTime { get; set; }
+        public string endTime { get; set; }
+        public string BidOpeningTime { get; set; }
 
        
 
