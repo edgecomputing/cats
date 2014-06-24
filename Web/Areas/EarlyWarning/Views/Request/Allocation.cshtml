@@ -175,7 +175,9 @@
                     
                     <td>{{allocation.Zone}}</td>
                     <td>{{allocation.Woreda}}</td>
-                    <td><a ng-click="onFdpListShow($index)" id="fdp_selector_button{{$index}}" class="edit_button" href="#">{{allocation.FDP}}</a></td>
+                    <td>
+                        <a ng-click="onFdpListShow($index)" id="fdp_selector_button{{$index}}" class="edit_button" href="javascript:_Void()">{{allocation.FDP}}</a>
+                    </td>
                     <!--<td>{{allocation.PlannedBeneficiaries}}</td>-->
                     <td><input class="flat-input txt_beneficiaries"  onchange="onAllocationBeneficiaryChange({{$index}})" ng-model="allocation.Beneficiaries"  /></td>
                     <td><button class="edit_button btn btn-danger"  ng-click="deleteRequestedFDP($index)"><i class="icon-trash icon-white"></i> Delete</button></td>
@@ -202,7 +204,7 @@
                 </tr>
                     </tbody>
             </table>
-            <div style="height:350px; background:#F88;"></div>
+            <div style="height:350px; "></div>
         </div>
     
     <div id="div_form_template" style="display:none;">
