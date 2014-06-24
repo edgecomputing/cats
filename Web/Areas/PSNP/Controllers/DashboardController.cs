@@ -15,14 +15,17 @@ namespace Cats.Areas.PSNP.Controllers
         private readonly IRegionalRequestService _regionalRequestService;
         private readonly IRegionalRequestDetailService _regionalRequestDetailService;
         private readonly IReliefRequisitionService _reliefRequisitionService;
+        private readonly IHRDService _hrdService;
 
         public DashboardController(IRegionalRequestService regionalRequestService,
             IRegionalRequestDetailService reliefRequisitionDetailService,
-            IReliefRequisitionService reliefRequisitionService)
+            IReliefRequisitionService reliefRequisitionService,
+            IHRDService hrdService)
         {
             _regionalRequestService = regionalRequestService;
             _regionalRequestDetailService = reliefRequisitionDetailService;
             _reliefRequisitionService = reliefRequisitionService;
+            _hrdService = hrdService;
         }
         public JsonResult GetPsnpRequests()
         {
@@ -38,6 +41,21 @@ namespace Cats.Areas.PSNP.Controllers
                 f.RequestId = regionalRequest.RegionalRequestID;
                 r.Add(f);
             }
+            return Json(r, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult RequestPie()
+        {
+            var currentPlan = _hrdService.FindBy(t => t.Status == 3).FirstOrDefault().PlanID;
+            var requests = _regionalRequestService.FindBy(t=>t.PlanID==currentPlan);
+
+            var r = (from request in requests
+                     group request by request.AdminUnit.AdminUnitID into g
+                     select new
+                     {
+                         Region = g.First().AdminUnit.Name,
+                         Count = g.Count()
+                     });
             return Json(r, JsonRequestBehavior.AllowGet);
         }
         
