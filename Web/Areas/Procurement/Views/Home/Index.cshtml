@@ -65,6 +65,12 @@
                                     
 
                     <div id="BidContent" class="portlet-content" style="padding-top: 2px">
+                        
+                        <div ng-show="(RecentBids).length==0" class="align-center">
+                            <br />
+                            <p style="font-size: 15px">There are no active bids</p>
+                        </div>
+
                         <table ng-show="(RecentBids).length" class="table table-hover table-condensed" style="margin-bottom: 2px">
                             <thead>
                                 <tr class="">
