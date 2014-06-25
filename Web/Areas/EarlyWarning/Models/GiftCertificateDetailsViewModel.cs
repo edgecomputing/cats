@@ -24,7 +24,6 @@ namespace Cats.Areas.GiftCertificate.Models
         //public Decimal GrossWeightInMT { get; set; }
 
         [Required(ErrorMessage = "Weight In MT is required")]
-        [Range(0.5, 999999.99)]
         public Decimal WeightInMT { get; set; }
 
         private string _billOfLoading;
@@ -52,7 +51,6 @@ namespace Cats.Areas.GiftCertificate.Models
         public Decimal EstimatedTax { get; set; }
 
         [Required(ErrorMessage = "Year Purchased is required")]
-        [Range(2000, 3000)]
         [Display(Name="Year Purchased")]
         public DateTime YearPurchased { get; set; }
 

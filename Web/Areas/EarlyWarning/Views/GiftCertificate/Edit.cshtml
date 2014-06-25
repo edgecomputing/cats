@@ -159,12 +159,12 @@
            .Editable(editing => editing.Mode(GridEditMode.InCell))
            .Columns(columns =>
                         {
-                            columns.AutoGenerate(false);
+                            //columns.AutoGenerate(false);
                             columns.ForeignKey(o => o.CommodityID, (IEnumerable<Commodity>)ViewData["Commodities"], "CommodityID", "Name").Width(10).Title(Html.Translate("Commodity"))
                                 .Filterable(true);
                             columns.Bound(o => o.BillOfLoading);
 
-                            columns.Bound(o => o.YearPurchasedPrefered).HtmlAttributes(new { align = "right" }).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid" });
+                            columns.Bound(o => o.YearPurchased).Title(Html.Translate("Year Purchased")).Format("{0:dd/MM/yyyy}").Width(5);
                             columns.Bound(o => o.AccountNumber).HtmlAttributes(new { align = "right" });
                             columns.Bound(o => o.WeightInMT).Title(Html.Translate("Sent Qty (MT)")).HtmlAttributes(new { align = "right" }).Format("{0:N3}");
                             columns.Bound(o => o.EstimatedPrice).HtmlAttributes(new { align = "right" }).Format("{0:N2}");
@@ -290,6 +290,7 @@
 
         $("#Grid").data("kendoGrid").saveChanges();
         //document.forms["frm_edit_gift"].submit();
+        //alert();
         }
 
 </script>

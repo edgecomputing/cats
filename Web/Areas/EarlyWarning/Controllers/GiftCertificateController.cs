@@ -130,11 +130,11 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
         [AcceptVerbs(HttpVerbs.Post)]
         [EarlyWarningAuthorize(operation = EarlyWarningConstants.Operation.New_Gift_Certificate)]
-        public ActionResult GiftCertificateDetail_Create([DataSourceRequest] DataSourceRequest request, GiftCertificateDetailsViewModel giftCertificateDetailsViewModel, int? id)
+        public ActionResult GiftCertificateDetail_Create([DataSourceRequest] DataSourceRequest request, GiftCertificateDetailsViewModel giftCertificateDetailsViewModel)
         {
-            if (giftCertificateDetailsViewModel != null && ModelState.IsValid && id.HasValue)
+            if (giftCertificateDetailsViewModel != null && ModelState.IsValid)
             {
-                giftCertificateDetailsViewModel.GiftCertificateID = id.Value;
+                //giftCertificateDetailsViewModel.GiftCertificateID = id.Value;
                 var giftcertifiateDtail = GiftCertificateViewModelBinder.BindGiftCertificateDetail(giftCertificateDetailsViewModel);
                 _giftCertificateDetailService.AddGiftCertificateDetail(giftcertifiateDtail);
             }
