@@ -97,7 +97,7 @@
                         <!-- /.portlet-header -->
 
                         <div class="portlet-content">
-                                    <div class="chartWrap" id="container"></div>
+                                    <div class="chartWrap" id="container" draw-request-pie=""></div>
                         </div>
                         <!-- /.portlet-content -->
 
@@ -437,7 +437,7 @@
     }
 </script>
 
-<script>
+@*<script>
     $(function () {
         $('#container').highcharts({
             chart: {
@@ -481,7 +481,7 @@
             }]
         });
     });
-</script>
+</script>*@
 
 <script>
     $(function () {
@@ -544,6 +544,7 @@
         
         $scope.Requests = [];
         $scope.Requisitions = [];
+        $scope.RequestPie = [];
         $scope.Data = [];
         $scope.states = ["Draft", "Approved", "Closed"];
     
@@ -557,14 +558,25 @@
         var onRequisitionsSuccess = function (data) {
             $scope.Requisitions = data;
         };
-        
 
+        var onRequestPieSuccess = function (data) {
+            // $scope.RequestPie = data;
+           
+            for (var i in data) {
+              $scope.RequestPie.push([data[i].Region, data[i].Count]);
+            }
+        };
+        
         var onDashboardDataSuccess = function (data) {
             $scope.Data = data;
         };
 
         $scope.getRequests = function () {
             $http.post("@Url.Action("GetPsnpRequests", "Dashboard", new { Area = "PSNP" })", null).success(onRequestsSuccess);
+        };
+
+        $scope.getRequestPie = function () {
+            $http.post("@Url.Action("RequestPie", "Dashboard", new { Area = "PSNP" })", null).success(onRequestPieSuccess);
         };
 
         $scope.getRequisitions = function () {
@@ -585,6 +597,7 @@
         
         $scope.getRequests();
         $scope.getRequisitions();
+        $scope.getRequestPie();
         
     });
 
@@ -613,6 +626,53 @@
         };
     });
 
+    /* Directives */
+    app.directive('drawRequestPie', function () {
+           // return the directive link function. (compile function not needed)
+           return function (scope, element, attrs) {
+               var container = $(element).attr("id");
+               // watch the expression, and update the UI on change.
+               scope.$watch('RequestPie', function () {
+                   drawPlot();
+               }, true);
+               var drawPlot = function () {
+                   var chart;
+                   chart = new Highcharts.Chart({
+                       chart: {
+                           renderTo: container
+                       },
+                       credits: {
+                           enabled: false
+                       },
+                       title: {
+                           text: ''
+                       },
+                       exporting: {
+                           enabled: false
+                       },
+                       tooltip: {
+                           pointFormat: '{series.name}: <b>{point.percentage}</b>% <b>({point.y})</b> Requests',
+                           percentageDecimals: 1
+                       },
+                       plotOptions: {
+                           pie: {
+                               allowPointSelect: true,
+                               cursor: 'pointer',
+                               dataLabels: {
+                                   enabled: false
+                               },
+                               showInLegend: true
+                           }
+                       },
+                       series: [{
+                           type: 'pie',
+                           name: 'Percentage',
+                           data: scope.RequestPie
+                       }]
+                   });
+               }
+           }
+       });
 
 </script>
 

@@ -58,6 +58,15 @@ namespace Cats.Areas.PSNP.Controllers
                      });
             return Json(r, JsonRequestBehavior.AllowGet);
         }
+
+        //public JsonResult RequisitionPie()
+        //{
+        //    //var currentPlan = _hrdService.FindBy(t => t.Status == 3).FirstOrDefault().PlanID;
+        //    //var requests = _reliefRequisitionService.FindBy(t => t. == currentPlan);
+
+            
+        //    //return Json(r, JsonRequestBehavior.AllowGet);
+        //}
         
         public ActionResult GetPsnpRequisitions()
         {
