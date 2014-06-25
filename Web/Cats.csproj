@@ -975,6 +975,7 @@
     <Content Include="Content\images\CATS.png" />
     <Content Include="Content\images\CatsLogo.ico" />
     <Content Include="Content\images\CATS_Blue.ico" />
+    <Content Include="Content\loading-bar.css" />
     <Content Include="Content\Login\App.css" />
     <Content Include="Content\Login\bootstrap.min.css" />
     <Content Include="Content\Login\bootstrab.min.js" />
@@ -1175,6 +1176,7 @@
     <Content Include="Content\kendo\2013.1.319\Uniform\sprite%402x.png" />
     <Content Include="Content\kendo\2013.1.319\Uniform\sprite.png" />
     <Content Include="Content\Login\App.js" />
+    <Content Include="Content\MapResources\MapLegend.js" />
     <Content Include="Content\MapResources\MapStyle.js" />
     <Content Include="Content\MapResources\OpenlayersWrapper.js" />
     <Content Include="Content\MapResources\openlayers\img\blank.gif" />
@@ -1524,6 +1526,7 @@
     <Content Include="Content\MapResources\openlayers\lib\OpenLayers\WPSProcess.js" />
     <Content Include="Content\MapResources\openlayers\lib\Rico\Color.js" />
     <Content Include="Content\MapResources\openlayers\lib\Rico\Corner.js" />
+    <Content Include="Content\MapResources\openlayers\MapStyle.js" />
     <Content Include="Content\MapResources\openlayers\theme\default\google.css" />
     <Content Include="Content\MapResources\openlayers\theme\default\google.tidy.css" />
     <Content Include="Content\MapResources\openlayers\theme\default\ie6-style.css" />
@@ -1567,8 +1570,6 @@
     <Content Include="Content\MapResources\openlayers\theme\default\style.mobile.css" />
     <Content Include="Content\MapResources\openlayers\theme\default\style.mobile.tidy.css" />
     <Content Include="Content\MapResources\openlayers\theme\default\style.tidy.css" />
-    <Content Include="Content\ng-grid.css" />
-    <Content Include="Content\ng-table.css" />
     <Content Include="Content\PrintReport.css" />
     <Content Include="Content\Site.css" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
@@ -1927,6 +1928,7 @@
     <Content Include="Areas\Logistics\Views\LogisticsStockStatus\ReceivedCommodity.cshtml" />
     <Content Include="Areas\Logistics\Views\LogisticsStockStatus\nghigh.cshtml" />
     <Content Include="Scripts\js\bootstrap-timepicker.min.js" />
+    <Content Include="Scripts\loading-bar.js" />
     <Content Include="Scripts\ng-google-chart.js" />
     <Content Include="Scripts\ng-highchart.js" />
     <Content Include="Scripts\HubScripts\Cascade.js" />
@@ -2164,6 +2166,18 @@
     <Content Include="Scripts\ng-grid.js" />
     <Content Include="Scripts\ng-table.js" />
     <Content Include="Scripts\RequestAllocation\RequestAllocationController.js" />
+    <Content Include="Scripts\timepicker\.gitignore" />
+    <Content Include="Scripts\timepicker\GruntFile.js" />
+    <Content Include="Scripts\timepicker\index.html" />
+    <Content Include="Scripts\timepicker\jquery.timepicker.css" />
+    <Content Include="Scripts\timepicker\jquery.timepicker.js" />
+    <Content Include="Scripts\timepicker\jquery.timepicker.min.js" />
+    <Content Include="Scripts\timepicker\lib\bootstrap-datepicker.css" />
+    <Content Include="Scripts\timepicker\lib\bootstrap-datepicker.js" />
+    <Content Include="Scripts\timepicker\lib\glyphicons-halflings.png" />
+    <Content Include="Scripts\timepicker\lib\screenshot.png" />
+    <Content Include="Scripts\timepicker\lib\site.css" />
+    <Content Include="Scripts\timepicker\lib\site.js" />
     <Content Include="Views\Account\ForgetPassword.cshtml" />
     <Content Include="Areas\Localization\Views\Translation\Index.cshtml" />
     <Content Include="Areas\Localization\Views\Translation\Details.cshtml" />
@@ -2901,6 +2915,10 @@
     <Content Include="Views\Shared\_MainMenuOld.cshtml" />
     <Content Include="Views\Account\ForgotPassword.cshtml" />
     <Content Include="Views\Shared\_dashboardmap.cshtml" />
+    <Content Include="Scripts\timepicker\component.json" />
+    <Content Include="Scripts\timepicker\jt.timepicker.jquery.json" />
+    <Content Include="Scripts\timepicker\package.json" />
+    <Content Include="Scripts\timepicker\README.md" />
     <None Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

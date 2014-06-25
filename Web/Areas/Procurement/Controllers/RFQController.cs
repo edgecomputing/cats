@@ -89,6 +89,7 @@ namespace Cats.Areas.Procurement.Controllers
                              ProgramID = transportBidPlanDetail.ProgramID,
                              Quantity = transportBidPlanDetail.Quantity/10,
                              BidOpeningdate = bid.OpeningDate.ToCTSPreferedDateFormat(datePref),
+                             BidOpeningTime = bid.startTime
                          }
                     ).Where(m=>m.Quantity>0)
                    .GroupBy(ac => new
@@ -109,6 +110,7 @@ namespace Cats.Areas.Procurement.Controllers
                         ReliefAmount = totalReliefAmount/10,
                         PsnpAmount = totalPsnpAmount/10,
                         BidOpeningdate = bid.OpeningDate.ToCTSPreferedDateFormat(datePref),
+                        BidOpeningTime = bid.startTime
                     });
             var reportData = rfqDetail;
 
@@ -118,18 +120,24 @@ namespace Cats.Areas.Procurement.Controllers
             return File(result.RenderBytes, result.MimeType);
         }
        
-        public ActionResult Details(int BidID = 0, int RegionID = 0)
+        public ActionResult Details(int BidID = 0)
         {
             //ViewBag.RegionID = new SelectList(_adminUnitService.GetAllAdminUnit(), "AdminUnitID", "Name", RegionID);
             var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
-            var r = _adminUnitService.FindById(RegionID);
+            var bid = _bidService.FindById(BidID);
+            if (bid == null)
+            {
+                return HttpNotFound();
+            }
+            var RegionID = bid.RegionID;
+            var r = _adminUnitService.FindById(bid.RegionID);
             ViewBag.SelectedRegion = r.Name;
            
 
             ViewBag.BidID = new SelectList(_bidService.GetAllBid(), "BidID", "BidNumber", BidID);
             ViewBag.RegionID = new SelectList(_adminUnitService.FindBy(t => t.AdminUnitTypeID == 2), "AdminUnitID", "Name", RegionID);
 
-            var bid = _bidService.FindById(BidID);
+            
             var bidPlanID = bid.TransportBidPlanID;
             ViewBag.BidReference = bid.BidNumber;
             ViewBag.OpeningDate = bid.OpeningDate.ToCTSPreferedDateFormat(datePref);
@@ -182,7 +190,7 @@ namespace Cats.Areas.Procurement.Controllers
             ViewBag.BidPlan = bidPlan;
             ViewBag.region = RegionID;
             ViewBag.total = regionPlanDistinct.Sum(m => m.Quantity);
-           // ViewBag.regionName= 
+            ViewBag.bidOpeningTime = bid.startTime; 
             return View(bidPlan);
         }
 

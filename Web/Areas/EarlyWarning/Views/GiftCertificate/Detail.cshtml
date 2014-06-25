@@ -10,160 +10,161 @@
 }
 @section Toolbar
 {
-    <a class="btn toolbar-btn " data-buttontype="btn_save" data-submittedform="frm_edit_gift"></a>
+    @*<a class="btn toolbar-btn " data-buttontype="btn_save" data-submittedform="frm_edit_gift"></a>*@
+    <a class="btn toolbar-btn " data-buttontype="btn_save" href="javascript:saverecords()"></a>
     <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="@Url.Action("Index", "GiftCertificate")"></a>
 }
-<h2>@Html.Translate(" Gift Certificate")</h2>
+<h4 class="page-header">@Html.Translate("Gift Certificate Detail")</h4>
+@section LeftBar
+{
+    @Html.Partial("_giftLeftBar")}
 
-@*<p>
-        @Html.Translate("Use this form to create new or edit gift certificates.")  @Html.Translate(" marks required fields.")
-    </p>*@
 
 @{ViewBag.IsInEditMode = true; }
-@using (Html.BeginForm("Edit","GiftCertificate",FormMethod.Post,new{id="frm_edit_gift"}))
+@using (Html.BeginForm("Edit", "GiftCertificate", FormMethod.Post, new { id = "frm_edit_gift" }))
 {
     @Html.ValidationSummary(true)
            
     @Html.HiddenFor(model => model.GiftCertificateID)
     @Html.HiddenFor(model => model.rowCount)
  
-    <div class="form-horizontal">
-        <table  style="vertical-align: top">
-            <tr>
-                <td style="vertical-align: top">
-                    <div class="control-group">
-                        <div class="control-label">
-                            @Html.LabelFor(model => model.GiftDate, Html.Translate("Gift Date"))*
-                        </div>
-                        <div class="controls">
-                           @Html.DisplayFor(model => model.GiftDate, new { @class = "input-xlarge cats-datepicker2", @placeholder = "0" })  
-                          
-                        </div>
-                    </div>
-                    <div class="control-group">
-                        <div class="control-label">
-                            @Html.LabelFor(model => model.DModeOfTransport, Html.Translate("Mode Of transport")) 
-                        </div>
-                        <div class="controls">
+    <div class="form-horizontal row-fluid">
 
-                            @Html.DisplayFor(model=>model.DModeOfTransportName)
+        <div class="span6" style="vertical-align: top">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.GiftDate, Html.Translate("Gift Date"), new { @class = "cats-date-pref" })
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(model => model.GiftDate, new { @class = " cats-datepicker2", Disabled = true })
+                    @Html.ValidationMessageFor(model => model.GiftDate)
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.DModeOfTransport, Html.Translate("Mode Of transport"))
+                </div>
+                <div class="controls">
 
-                           
-                        </div>
-                    </div>
-                    <div class="control-group">
-                        <div class="control-label">
-                            @Html.LabelFor(model => model.ProgramID, Html.Translate("Program")) 
-                        </div>
-                        <div class="controls">
+                    @Html.DropDownList("DModeOfTransport", null, string.Empty, new { Disabled = true })
 
-                            @Html.DropDownList("ProgramID", string.Empty)
-                            @Html.ValidationMessageFor(model => model.ProgramID)
-                        </div>
-                    </div>
-                    <div class="control-group">
-                        <div class="control-label">
-                            @Html.LabelFor(model => model.DonorID, Html.Translate("Donor")) 
-                        </div>
-                        <div class="controls">
+                    @Html.ValidationMessageFor(model => model.DModeOfTransport)
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.ProgramID, Html.Translate("Program"))
+                </div>
+                <div class="controls">
 
-                            @Html.DropDownList("DonorID", string.Empty)
-                            @Html.ValidationMessageFor(model => model.DonorID)
-                        </div>
-                    </div>
-                    <div class="control-group">
-                        <div class="control-label">
-                            @Html.LabelFor(model => model.CommodityTypeID, Html.Translate("Commodity Type")) 
-                        </div>
-                        <div class="controls">
+                    @Html.DropDownList("ProgramID", null, string.Empty, new { Disabled = true })
+                    @Html.ValidationMessageFor(model => model.ProgramID)
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.DonorID, Html.Translate("Donor"))
+                </div>
+                <div class="controls">
 
-                            @Html.DropDownList("CommodityTypeID", string.Empty)
+                    @Html.DropDownList("DonorID", null, string.Empty, new { Disabled = true })
+                    @Html.ValidationMessageFor(model => model.DonorID)
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.DeclarationNumber)
+                </div>
+                <div class="controls">
 
-                            @Html.ValidationMessageFor(model => model.CommodityTypeID)
+                    @Html.TextBoxFor(model => model.DeclarationNumber, new { Disabled = true })
 
-                        </div>
-                    </div>
-                </td>
-                <td style="vertical-align: top">
-                    <div class="control-group">
-                        <div class="control-label">
-                            @Html.LabelFor(model => model.SINumber, Html.Translate("SI/Batch Number")) 
-                        </div>
-                        <div class="controls">
-                            @Html.EditorFor(model => model.SINumber)
-                            @Html.ValidationMessageFor(model => model.SINumber)
-                        </div>
-                    </div>
-                    <div class="control-group">
-                        <div class="control-label">
-                            @Html.LabelFor(model => model.PortName, Html.Translate("Port Name"))
-                        </div>
-                        <div class="controls">
-                            @Html.EditorFor(model => model.PortName)
-                            @Html.ValidationMessageFor(model => model.PortName)
-                        </div>
-                    </div>
-                    <div class="control-group">
-                        <div class="control-label">
-                            @Html.LabelFor(model => model.ReferenceNo, Html.Translate("Reference Number")) 
-                        </div>
-                        <div class="controls">
-                            @Html.EditorFor(model => model.ReferenceNo)
-                            @Html.ValidationMessageFor(model => model.ReferenceNo)
-                        </div>
-                    </div>
-                    <div class="control-group">
-                        <div class="control-label">
-                            @Html.LabelFor(model => model.Vessel, Html.Translate("Vessel")) 
-                        </div>
-                        <div class="controls">
-                            @Html.EditorFor(model => model.Vessel)
-                            @Html.ValidationMessageFor(model => model.Vessel)
-                        </div>
-                    </div>
-                    <div class="control-group">
-                        <div class="control-label">
-                            @Html.LabelFor(model => model.ETA, Html.Translate("ETA")) 
-                        </div>
+                    @Html.ValidationMessageFor(model => model.DeclarationNumber)
 
-                        <div class="controls">
-                         @Html.TextBoxFor(model => model.ETA, new { @class = "input-xlarge cats-datepicker2", @placeholder = "0" })  
-                            @Html.ValidationMessageFor(model => model.ETA)
-                        </div>
-                    </div>
-                </td>
-            </tr>
-        </table>
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.CommodityTypeID, Html.Translate("Commodity Type"))
+                </div>
+                <div class="controls">
+
+                    @Html.DropDownList("CommodityTypeID", null, string.Empty, new { Disabled = true })
+
+                    @Html.ValidationMessageFor(model => model.CommodityTypeID)
+
+                </div>
+            </div>
+        </div>
+        <div class="span6" style="vertical-align: top">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.SINumber, Html.Translate("SI/Batch Number"))
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(model => model.SINumber, new { Disabled = true })
+                    @Html.ValidationMessageFor(model => model.SINumber)
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.PortName, Html.Translate("Port Name"))
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(model => model.PortName, new { Disabled = true })
+                    @Html.ValidationMessageFor(model => model.PortName)
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.ReferenceNo, Html.Translate("Reference Number"))
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(model => model.ReferenceNo, new { Disabled = true })
+                    @Html.ValidationMessageFor(model => model.ReferenceNo)
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.Vessel, Html.Translate("Vessel"))
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(model => model.Vessel, new { Disabled = true })
+                    @Html.ValidationMessageFor(model => model.Vessel)
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.ETA, Html.Translate("ETA"), new { @class = "cats-date-pref" })
+                </div>
+
+                <div class="controls">
+                    @Html.TextBoxFor(model => model.ETA, new { @class = "cats-datepicker2" })
+                    @Html.ValidationMessageFor(model => model.ETA)
+                </div>
+            </div>
+        </div>
     </div>
-   
+}
 
-   }     
-    <div class="clear"></div>
-    <div class="field-set">
-        <table>
-            <tr>
-                <td>
+@* <div class="row-fluid" >*@
 
-                    @(Html.Kendo().Grid<GiftCertificateDetailsViewModel>()
+@(Html.Kendo().Grid<GiftCertificateDetailsViewModel>()
            .Name("Grid")
-           .ToolBar(commands =>
-                        {
-                            commands.Create();
-                            commands.Save();
-                        })
-
+           .ToolBar(commands => commands.Create())
            .Editable(editing => editing.Mode(GridEditMode.InCell))
            .Columns(columns =>
                         {
                             columns.AutoGenerate(false);
                             columns.ForeignKey(o => o.CommodityID, (IEnumerable<Commodity>)ViewData["Commodities"], "CommodityID", "Name").Width(10).Title(Html.Translate("Commodity"))
                                 .Filterable(true);
-                            columns.Bound(o => o.BillOfLoading).Width(80).Title(Html.Translate("Bill of Loading"));
+                            columns.Bound(o => o.BillOfLoading).Width(13);
 
-                            columns.Bound(o => o.YearPurchased).Width(100).Title(Html.Translate("Year Purchased")).Width(80).HtmlAttributes(new { align = "right" });
-                            columns.Bound(o => o.AccountNumber).Width(10).Title(Html.Translate("Acc. No")).Width(80).HtmlAttributes(new { align = "right" });
-                            columns.Bound(o => o.WeightInMT).Title(Html.Translate("Sent Qty (MT)")).Width(10).HtmlAttributes(new { align = "right" }).Format("{0:N3}");
-                            columns.Bound(o => o.EstimatedPrice).Title(Html.Translate("Est. Price")).Width(10).HtmlAttributes(new { align = "right" }).Format("{0:N2}");
+                            columns.Bound(o => o.YearPurchased).HtmlAttributes(new { align = "right" }).Format("{0:yyyy}").Width(10).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid" });
+                            //columns.Bound(o => o.YearPurchasedPrefered).Format("{0:yyyy}").Width(10);
+                            columns.Bound(o => o.AccountNumber).HtmlAttributes(new { align = "right" });
+                            columns.Bound(o => o.WeightInMT).Title(Html.Translate("Sent Qty (MT)")).HtmlAttributes(new { align = "right" }).Format("{0:N3}");
+                            columns.Bound(o => o.EstimatedPrice).HtmlAttributes(new { align = "right" }).Format("{0:N2}");
                             columns.Bound(o => o.EstimatedTax).Title(Html.Translate("Est. Tax")).Width(10).HtmlAttributes(new { align = "right" }).Format("{0:N2}");
 
                             columns.ForeignKey(o => o.DCurrencyID, (System.Collections.IEnumerable)ViewData["DCurrencies"], "DetailID", "Name").Width(10).Title(Html.Translate("Currency"))
@@ -172,7 +173,7 @@
                                 .Filterable(true);
                             columns.ForeignKey(o => o.DBudgetTypeID, (System.Collections.IEnumerable)ViewData["DBudgetTypes"], "DetailID", "Name").Width(10).Title(Html.Translate("Fund Type"))
                                 .Filterable(true);
-                            columns.Bound(o => o.ExpiryDate).Title(Html.Translate("Expiry Date")).Format("{0:dd-MMM-yyyy}").Width(10);
+                            columns.Bound(o => o.ExpiryDate).Title(Html.Translate("Expiry Date")).Format("{0:dd/MM/yyyy}").Width(10);
                             columns.Command(commands => commands.Destroy().HtmlAttributes(new { align = "center" })).Width(10).Title(Html.Translate("Commands"));
 
                         })
@@ -181,17 +182,107 @@
                                        .Create(create => create.Action("GiftCertificateDetail_Create", "GiftCertificate", new { id = Model.GiftCertificateID }))
                                        .Update(update => update.Action("GiftCertificateDetail_Update", "GiftCertificate"))
                                        .Destroy(destroy => destroy.Action("GiftCertificateDetail_Destroy", "GiftCertificate"))
-                                       .Model(m => m.Id(t => t.GiftCertificateDetailID))
-
-           )
-
-
+                                       .Model(m =>
+                                       {
+                                           m.Id(t => t.GiftCertificateDetailID);
+                                           m.Field(t => t.CommodityID).DefaultValue(-1);
+                                       })
+        //                              .Batch(true)
+        //.ServerOperation(false)
+        )
            .Navigatable()
-           
+                    )
+@Html.ValidationMessageFor(model => model.rowCount)
 
-                                            )
-                    @Html.ValidationMessageFor(model => model.rowCount)
-                </td>
-            </tr>
-        </table>
-    </div>
+@*</div>*@
+
+<script type="text/javascript">
+    //$(document).ready(function() {
+    //    $("#DModeOfTransports").OnChange(OnComChange);
+    //    $("#ProgramID").OnChange(OnComChange);
+    //    $("#DonorID").OnChange(OnComChange);
+    //    $("#CommodityTypeID").OnChange(OnComChange);
+
+
+    //});
+    //function onEdit(e) {
+    //    if ((e.mode == 'edit' || e.mode == 'insert') && (e.dataItem.GiftCertificateDetailID <= 0)) {
+    //        if($('#AccountNumber').val() == '0')
+    //            $('#AccountNumber').val(null);
+
+    //        if ($('#WeightInMT').val() == '0')
+    //            $('#WeightInMT').val(null);
+
+    //        if ($('#EstimatedPrice').val() == '0')
+    //            $('#EstimatedPrice').val(null);
+
+    //        if ($('#EstimatedTax').val() == '0')
+    //            $('#EstimatedTax').val(null);
+
+
+    //    }
+    //}
+
+    //function cancel() {
+    //    window.location = "/GiftCertificate/";
+    //}
+    //function OnComChange(e) {
+    //    $(this).valid();
+    //}
+
+    //function OnSubCommodityGridLoad(e) {
+    //    var combo = $('#CommodityID').data('tComboBox');
+    //    if (combo) {
+    //    }
+    //    var control = $('#CommodityID').data('tComboBox');
+    //    if (control != undefined || control != null) {
+    //        control.dropDown._html = function (items, encode) {
+    //            var sb = new $.kendo.stringBuilder();
+    //            if (!items)
+    //                return sb.string();
+
+    //            for (var i = 0, count = items.length; i < count; i++) {
+    //                var html = " ", item = items[i];
+    //                html = item.Text; // +"<small style='display: block'>" + item.Text + "</small>";
+    //                var obj = { html: html, dataItem: item };
+    //                if (this.onItemCreate) {
+    //                    this.onItemCreate(obj);
+    //                }
+    //                if (!(item.unselectable)) {
+    //                    sb.cat('<li unselectable="on" class="t-item" style="background : #ccc">').cat(obj.html).cat("</li>");
+    //                } else {
+    //                    sb.cat('<li unselectable="on" class="t-item" style="padding-left : 10px;" >').cat(obj.html).cat("</li>");
+    //                }
+    //            }
+
+    //            return sb.string();
+    //        };
+    //    }
+    //}
+
+    @* function OnComOpen(e) {
+        var combo = $('#CommodityID').data('tComboBox');
+        var combot = $('#CommodityTypeID').data('tComboBox');
+        var comboType = combot.value();
+        if (combo && combot && comboType != '') {
+            var params = { };
+            params["commodityTypeId"] = comboType;
+            $.getJSON('@Url.Action("AvailbaleCommodities", "Receive")', params, function (comodities) {
+                combo.dataBind(comodities);
+                combot.disable();
+            });
+        } else if(combo){
+            var comodities = { };
+            combo.dataBind(comodities);
+        }
+
+    }*@
+
+    function saverecords() {
+
+        $("#Grid").data("kendoGrid").saveChanges();
+        //document.forms["frm_edit_gift"].submit();
+    }
+
+</script>
+

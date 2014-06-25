@@ -14,7 +14,8 @@ namespace Cats.Services.Logistics
        LoanReciptPlan FindById(int id);
        List<LoanReciptPlan> GetAllLoanReciptPlan();
        List<LoanReciptPlan> FindBy(Expression<Func<LoanReciptPlan, bool>> predicate);
-      
+       bool ApproveRecieptPlan(LoanReciptPlan loanReciptPlan);
+
 
 
    }

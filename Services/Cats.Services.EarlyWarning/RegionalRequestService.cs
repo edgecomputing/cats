@@ -214,8 +214,25 @@ namespace Cats.Services.EarlyWarning
 
                     if (psnpplan != null)
                     {
-                        result.HRDPSNPPlan.RationID = psnpplan.RationID;
-                        beneficiaryInfos = PSNPToRequest(psnpplan,plan.RegionID);
+                        var lastPsnpRequest = _unitOfWork.RegionalRequestRepository.FindBy(r => r.RegionID == plan.RegionID && r.ProgramId ==2 && r.PlanID == plan.PSNPPlanID).LastOrDefault();
+                        if (lastPsnpRequest!=null)
+                        {
+                            result.HRDPSNPPlan.RationID = psnpplan.RationID;
+                             var noOfPsnprequests = _unitOfWork.RegionalRequestRepository.FindBy(r => r.RegionID == plan.RegionID && r.ProgramId == 2 && r.PlanID == plan.PSNPPlanID).Count;
+                            var psnpApplicationWoredas = (from psnpDetail in psnpplan.RegionalPSNPPlanDetails
+                                                          where
+                                                              psnpDetail.PlanedWoreda.AdminUnit2.AdminUnit2.AdminUnitID ==
+                                                              plan.RegionID
+                                                              && psnpDetail.FoodRatio > noOfPsnprequests
+                                                          select psnpDetail.PlanedWoredaID).ToList();
+                            beneficiaryInfos = LastReliefRequest(lastPsnpRequest, psnpApplicationWoredas);
+                        }
+                        else
+                        {
+                            result.HRDPSNPPlan.RationID = psnpplan.RationID;
+                            beneficiaryInfos = PSNPToRequest(psnpplan, plan.RegionID);
+                        }
+                     
                     }
                 }
                 else if (plan.ProgramID == 1)
@@ -309,7 +326,7 @@ namespace Cats.Services.EarlyWarning
                 ICollection<BeneficiaryInfo> woredaBeneficiaries =
                (from FDP fdp in WoredaFDPs
                 select
-                    new BeneficiaryInfo { FDPID = fdp.FDPID, FDPName = fdp.Name, Beneficiaries = psnpPlan.BeneficiaryCount })
+                    new BeneficiaryInfo { FDPID = fdp.FDPID, FDPName = fdp.Name, Beneficiaries = 0 })
                    .ToList();
                 benficiaries.AddRange(woredaBeneficiaries);
                 

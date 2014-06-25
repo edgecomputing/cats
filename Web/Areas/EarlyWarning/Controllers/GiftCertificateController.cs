@@ -130,11 +130,11 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
         [AcceptVerbs(HttpVerbs.Post)]
         [EarlyWarningAuthorize(operation = EarlyWarningConstants.Operation.New_Gift_Certificate)]
-        public ActionResult GiftCertificateDetail_Create([DataSourceRequest] DataSourceRequest request, GiftCertificateDetailsViewModel giftCertificateDetailsViewModel)
+        public ActionResult GiftCertificateDetail_Create([DataSourceRequest] DataSourceRequest request, GiftCertificateDetailsViewModel giftCertificateDetailsViewModel, int? id)
         {
-            if (giftCertificateDetailsViewModel != null && ModelState.IsValid)
+            if (giftCertificateDetailsViewModel != null  && id.HasValue)
             {
-                //giftCertificateDetailsViewModel.GiftCertificateID = id.Value;
+                giftCertificateDetailsViewModel.GiftCertificateID = id.Value;
                 var giftcertifiateDtail = GiftCertificateViewModelBinder.BindGiftCertificateDetail(giftCertificateDetailsViewModel);
                 _giftCertificateDetailService.AddGiftCertificateDetail(giftcertifiateDtail);
             }
@@ -172,7 +172,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         [EarlyWarningAuthorize(operation = EarlyWarningConstants.Operation.Edit_Gift_Certificate)]
         public ActionResult GiftCertificateDetail_Update([DataSourceRequest]DataSourceRequest request, GiftCertificateDetailsViewModel giftCertificateDetailsViewModel)
         {
-            if (giftCertificateDetailsViewModel != null && ModelState.IsValid)
+            if (giftCertificateDetailsViewModel != null )
             {
                 var target = _giftCertificateDetailService.FindById(giftCertificateDetailsViewModel.GiftCertificateDetailID);
                 if (target != null)
@@ -201,6 +201,16 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
         [EarlyWarningAuthorize(operation = EarlyWarningConstants.Operation.Edit_Gift_Certificate)]
         public ActionResult Edit(int id)
+        {
+            var giftcertificate = _giftCertificateService.Get(t => t.GiftCertificateID == id, null, "GiftCertificateDetails,GiftCertificateDetails.Commodity").FirstOrDefault();
+            PopulateLookup(false, giftcertificate);
+            var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
+            var giftCertificateViewModel = GiftCertificateViewModelBinder.BindGiftCertificateViewModel(giftcertificate, datePref);
+            return View(giftCertificateViewModel);
+        }
+        
+        [EarlyWarningAuthorize(operation = EarlyWarningConstants.Operation.Edit_Gift_Certificate)]
+        public ActionResult Detail(int id)
         {
             var giftcertificate = _giftCertificateService.Get(t => t.GiftCertificateID == id, null, "GiftCertificateDetails,GiftCertificateDetails.Commodity").FirstOrDefault();
             PopulateLookup(false, giftcertificate);

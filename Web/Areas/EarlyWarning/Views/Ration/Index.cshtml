@@ -17,7 +17,8 @@
 </div>
 
 <h4 class="page-header">Rations</h4>
-@(Html.Kendo().Grid<RationViewModel>().Name("grid")
+@(Html.Kendo().Grid<RationViewModel>()
+.Name("grid")
 .Columns(columns =>
              {
                  columns.Template(t => { }).Title("No").ClientTemplate("#= renderNumber(data) #").Width(10);
