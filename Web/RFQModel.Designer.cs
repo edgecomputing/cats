@@ -303,6 +303,8 @@ namespace Cats {
             
             private global::System.Data.DataColumn columnPsnpAmount;
             
+            private global::System.Data.DataColumn columnBidOpeningTime;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public DataTable1DataTable() {
@@ -434,6 +436,14 @@ namespace Cats {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn BidOpeningTimeColumn {
+                get {
+                    return this.columnBidOpeningTime;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -469,7 +479,7 @@ namespace Cats {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public DataTable1Row AddDataTable1Row(string Source, string Zone, string Woreda, string Birr, string cent, string Remark, string Region, string BidReference, string Quantity, string BidOpeningdate, string ReliefAmount, string PsnpAmount) {
+            public DataTable1Row AddDataTable1Row(string Source, string Zone, string Woreda, string Birr, string cent, string Remark, string Region, string BidReference, string Quantity, string BidOpeningdate, string ReliefAmount, string PsnpAmount, string BidOpeningTime) {
                 DataTable1Row rowDataTable1Row = ((DataTable1Row)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         Source,
@@ -483,7 +493,8 @@ namespace Cats {
                         Quantity,
                         BidOpeningdate,
                         ReliefAmount,
-                        PsnpAmount};
+                        PsnpAmount,
+                        BidOpeningTime};
                 rowDataTable1Row.ItemArray = columnValuesArray;
                 this.Rows.Add(rowDataTable1Row);
                 return rowDataTable1Row;
@@ -518,6 +529,7 @@ namespace Cats {
                 this.columnBidOpeningdate = base.Columns["BidOpeningdate"];
                 this.columnReliefAmount = base.Columns["ReliefAmount"];
                 this.columnPsnpAmount = base.Columns["PsnpAmount"];
+                this.columnBidOpeningTime = base.Columns["BidOpeningTime"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -547,6 +559,8 @@ namespace Cats {
                 base.Columns.Add(this.columnReliefAmount);
                 this.columnPsnpAmount = new global::System.Data.DataColumn("PsnpAmount", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnPsnpAmount);
+                this.columnBidOpeningTime = new global::System.Data.DataColumn("BidOpeningTime", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnBidOpeningTime);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -881,6 +895,22 @@ namespace Cats {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string BidOpeningTime {
+                get {
+                    try {
+                        return ((string)(this[this.tableDataTable1.BidOpeningTimeColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'BidOpeningTime\' in table \'DataTable1\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableDataTable1.BidOpeningTimeColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public bool IsSourceNull() {
                 return this.IsNull(this.tableDataTable1.SourceColumn);
             }
@@ -1021,6 +1051,18 @@ namespace Cats {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public void SetPsnpAmountNull() {
                 this[this.tableDataTable1.PsnpAmountColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsBidOpeningTimeNull() {
+                return this.IsNull(this.tableDataTable1.BidOpeningTimeColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetBidOpeningTimeNull() {
+                this[this.tableDataTable1.BidOpeningTimeColumn] = global::System.Convert.DBNull;
             }
         }
         

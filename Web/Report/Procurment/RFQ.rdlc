@@ -1908,24 +1908,12 @@
               <PaddingBottom>2pt</PaddingBottom>
             </Style>
           </Textbox>
-          <Line Name="Line10">
-            <Top>1.39583in</Top>
-            <Left>3.59934in</Left>
-            <Height>0in</Height>
-            <Width>1.01215in</Width>
-            <ZIndex>9</ZIndex>
-            <Style>
-              <Border>
-                <Style>Solid</Style>
-              </Border>
-            </Style>
-          </Line>
           <Line Name="Line11">
             <Top>1.77083in</Top>
             <Left>3.59934in</Left>
             <Height>0in</Height>
             <Width>1.01215in</Width>
-            <ZIndex>10</ZIndex>
+            <ZIndex>9</ZIndex>
             <Style>
               <Border>
                 <Style>Solid</Style>
@@ -1951,7 +1939,7 @@
             <Left>1.42399in</Left>
             <Height>0.25in</Height>
             <Width>1.125in</Width>
-            <ZIndex>11</ZIndex>
+            <ZIndex>10</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -1986,6 +1974,38 @@
             <Left>0.13541in</Left>
             <Height>0.25in</Height>
             <Width>1.04856in</Width>
+            <ZIndex>11</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+          </Textbox>
+          <Textbox Name="Textbox3">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>=First(Fields!BidOpeningTime.Value, "RFQDataset")</Value>
+                    <Style>
+                      <FontWeight>Bold</FontWeight>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox3</rd:DefaultName>
+            <Top>1.14583in</Top>
+            <Left>3.60063in</Left>
+            <Height>0.25in</Height>
+            <Width>1in</Width>
             <ZIndex>12</ZIndex>
             <Style>
               <Border>
@@ -2091,6 +2111,10 @@
         </Field>
         <Field Name="PsnpAmount">
           <DataField>PsnpAmount</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="BidOpeningTime">
+          <DataField>BidOpeningTime</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
       </Fields>

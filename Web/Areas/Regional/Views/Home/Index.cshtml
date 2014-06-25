@@ -696,7 +696,6 @@
     // Declare app level module which depends on filters, and services
     angular.module('myApp', ['myApp.directives']);
 
-
     /* Controllers */
     function stageController($scope, $http) {
         $scope.type = 'Requests Percentage';
@@ -821,7 +820,13 @@
                     series: [{
                         type: 'pie',
                         name: 'Percentage',
-                        data: scope.data
+                        data: [
+                    ['Afar', 25.0],
+                    ['Oromiya', 20.0],
+                    ['Amhara', 40.0],
+                    ['Somali', 5.0],
+                    ['Benishangul', 10.0]
+                        ]
                     }]
                 });
             }

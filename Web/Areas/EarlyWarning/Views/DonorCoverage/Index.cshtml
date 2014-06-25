@@ -17,7 +17,7 @@
       .Name("grid")
           .Columns(columns =>
               {
-                  columns.Bound(m => m.DonorName).ClientTemplate("<a href='" + Url.Action("Detail", "DonorCoverage", new { id = "#=HrdDonorCovarageID#" }) + " '>#=DonorName#</a>  ");
+                  columns.Bound(m => m.DonorName).Title("Donor/Partner Name").ClientTemplate("<a href='" + Url.Action("Detail", "DonorCoverage", new { id = "#=HrdDonorCovarageID#" }) + " '>#=DonorName#</a>  ");
                   columns.Bound(m => m.HRDName);
                   columns.Bound(m => m.CreatedDate);
                   columns.Bound(m => m.NoCoveredWoredas).Title(Html.Translate("Number of Woredas"));

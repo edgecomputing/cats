@@ -701,6 +701,10 @@ ul.icons-list {
     font-weight: 600;
 }
 
+.tight-table {
+    margin-bottom: 2px;
+}
+
 .fileupload-preview {
     line-height: 0 !important;
 }
@@ -1732,7 +1736,7 @@ label {
         .dashboard-stat .details {
             position: relative;
             z-index: 11;
-            float: left;
+            float: right;
             margin-top: -10px;
             text-align: left;
         }
