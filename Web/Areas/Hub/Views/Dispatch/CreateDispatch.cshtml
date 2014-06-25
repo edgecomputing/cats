@@ -168,7 +168,7 @@
                     @Html.LabelFor(model => model.Quantity,new {@class="cats-unit-pref"})
                 </div>
                 <div class="controls">
-                    @Html.TextBoxFor(model => model.Quantity)
+                    @Html.TextBoxFor(model => model.Quantity,new {Disabled=true})
                 </div>
             </div>
         </div>
@@ -277,6 +277,7 @@
                 <div class="controls">
                     @Html.TextBoxFor(model => model.PlateNo_Trailer)
                 </div>
+               
             </div>
 
         </div>
@@ -287,3 +288,63 @@
 
 
 }
+<script type="text/javascript">
+   
+    function CalculateQuantityMT() {
+       
+        var unit = $('#UnitID').val();
+        var quantityInUnit = $('#QuantityInUnit').val();
+        if (unit == 8) {
+            var quantity = quantityInUnit / 1000;
+            $('#Quantity').val(quantity);
+        }
+        if (unit == 9) {
+            var total = quantityInUnit / 100;
+            $('#Quantity').val(total);
+        }
+        
+    };
+
+    function CalculateQuantityQTL() {
+
+        var unit = $('#UnitID').val();
+        var quantityInUnit = $('#QuantityInUnit').val();
+        if (unit == 8) {
+            var quantity = quantityInUnit / 100;
+            $('#Quantity').val(quantity);
+        }
+        if (unit == 9) {
+            var total = quantityInUnit;
+            $('#Quantity').val(total);
+        }
+
+    };
+
+   
+    $(document).ready(function() {
+        var unitPreference = '@ViewBag.UnitPreference';
+        $('#UnitID').change(function () {
+            if (unitPreference = 'MT') {
+                CalculateQuantityMT();
+            }
+            else {
+                CalculateQuantityQTL();
+            }
+            
+
+        });
+    });
+    $(document).ready(function () {
+        var unitPreference = '@ViewBag.UnitPreference';
+        $('#QuantityInUnit').change(function () {
+            if (unitPreference ='MT') {
+                
+                    CalculateQuantityMT();
+                }
+                else {
+                CalculateQuantityQTL();
+                }
+
+        });
+    });
+</script>

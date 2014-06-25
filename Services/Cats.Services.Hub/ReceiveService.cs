@@ -117,6 +117,50 @@ namespace Cats.Services.Hub
             ports.Insert(0, new PortViewModel { PortName = "All Ports" });
             return ports;
         }
+       public void Update(List<ReceiveDetail> inserted, List<ReceiveDetail> updated, List<ReceiveDetail> deleted, Receive receive)
+        {
+            
+            if (receive != null)
+            {
+
+                _unitOfWork.ReceiveRepository.Edit(receive);
+                _unitOfWork.Save();
+
+
+                foreach (ReceiveDetail insert in inserted)
+                {
+                    //TODO THIS should be in transaction 
+                    insert.ReceiveDetailID = Guid.NewGuid();
+                     receive.ReceiveDetails.Add(insert);
+                }
+
+                foreach (ReceiveDetail delete in deleted)
+                {
+                    ReceiveDetail deletedCommodity = _unitOfWork.ReceiveDetailRepository.FindBy(p => p.ReceiveDetailID == delete.ReceiveDetailID).FirstOrDefault();
+                    if (deletedCommodity != null)
+                    {
+                             _unitOfWork.ReceiveDetailRepository.Delete(deletedCommodity);
+                    }
+                }
+
+                foreach (ReceiveDetail update in updated)
+                {
+                    ReceiveDetail updatedCommodity = _unitOfWork.ReceiveDetailRepository.FindBy(p => p.ReceiveDetailID == update.ReceiveDetailID).FirstOrDefault();
+                    if (updatedCommodity != null)
+                    {
+                        updatedCommodity.CommodityID = update.CommodityID;
+                        updatedCommodity.Description = update.Description;
+                        updatedCommodity.ReceiveID = update.ReceiveID;
+                        updatedCommodity.SentQuantityInMT = update.SentQuantityInMT;
+                       // updatedCommodity.QuantityInMT = updatedCommodity.QuantityInMT;
+                        updatedCommodity.SentQuantityInUnit = update.SentQuantityInUnit;
+                        updatedCommodity.UnitID = update.UnitID;
+                    }
+                }
+                _unitOfWork.Save();
+            }
+            
+        }
 
     }
 }
