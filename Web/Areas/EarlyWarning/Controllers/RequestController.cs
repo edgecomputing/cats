@@ -647,6 +647,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
             var requestDetails = _regionalRequestDetailService.FindBy(t => t.RegionalRequestID == id);
             var requestDetailViewModels = (from dtl in requestDetails select BindRegionalRequestDetailViewModel(dtl));
+            //requestDetailViewModels.RegionalRequestID = id;
             return Json(requestDetailViewModels.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
         
@@ -664,6 +665,8 @@ namespace Cats.Areas.EarlyWarning.Controllers
                     Woreda = regionalRequestDetail.Fdp.AdminUnit.Name,
                     WoredaId = regionalRequestDetail.Fdp.AdminUnit.AdminUnitID,
                     Zone = regionalRequestDetail.Fdp.AdminUnit.AdminUnit2.Name,
+                    ZoneId = regionalRequestDetail.Fdp.AdminUnit.AdminUnit2.AdminUnitID,
+                    RegionId = regionalRequestDetail.Fdp.AdminUnit.AdminUnit2.AdminUnit2.AdminUnitID,
                     //PlannedBeneficiaries = GetPlanned(regionalRequestDetail.RegionalRequest.Year,
                         //(int)regionalRequestDetail.RegionalRequest.Season,
                         //regionalRequestDetail.Fdp.AdminUnit.AdminUnitID)
@@ -752,6 +755,10 @@ namespace Cats.Areas.EarlyWarning.Controllers
                 {
                     target.Beneficiaries = regionalRequestDetail.Beneficiaries;
                     _regionalRequestDetailService.EditRegionalRequestDetail(target);
+                }
+                else
+                {
+                    return View();
                 }
             }
 
