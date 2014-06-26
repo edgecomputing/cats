@@ -215,7 +215,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             ViewBag.Month = new SelectList(RequestHelper.GetMonthList(), "ID", "Name");
             ViewBag.RationID = new SelectList(_commonService.GetRations(), "RationID", "RefrenceNumber");
             ViewBag.DonorID = new SelectList(_commonService.GetDonors(), "DonorId", "Name");
-            ViewBag.Round = new SelectList(RequestHelper.GetMonthList(), "ID", "ID");
+            ViewBag.Round = new SelectList(RequestHelper.GetMonthList().Where(m=>m.Id>0), "ID", "ID");
             ViewBag.PlanID = new SelectList(_commonService.GetPlan(1), "PlanID", "PlanName");
             ViewBag.PSNPPlanID = new SelectList(_commonService.GetPlan(2), "PlanID", "PlanName");
             ViewBag.SeasonID = new SelectList(_commonService.GetSeasons(), "SeasonID", "Name");
@@ -236,6 +236,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             ViewBag.ProgramId = new SelectList(_commonService.GetPrograms(), "ProgramID", "Name", regionalRequest.ProgramId);
             ViewBag.Month = new SelectList(RequestHelper.GetMonthList(), "ID", "Name", regionalRequest.Month);
             ViewBag.RationID = new SelectList(_commonService.GetRations(), "RationID", "RefrenceNumber", regionalRequest.RationID);
+            ViewBag.Round = new SelectList(RequestHelper.GetMonthList().Where(m=>m.Id>0), "ID", "ID", regionalRequest.Round);
             //ViewBag.PlanID = new SelectList(_commonService.GetPlan(), "PlanID", "PlanName", regionalRequest.PlanID);
         }
         //
