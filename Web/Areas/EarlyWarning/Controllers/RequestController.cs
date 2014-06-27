@@ -598,6 +598,11 @@ namespace Cats.Areas.EarlyWarning.Controllers
             var request =
                _regionalRequestService.Get(t => t.RegionalRequestID == id, null, "AdminUnit,Program,Ration").FirstOrDefault();
 
+            if (TempData["error"] != null)
+            {
+                ModelState.AddModelError("Errors", TempData["error"].ToString());
+            }
+
             if (request == null)
             {
                 return HttpNotFound();
