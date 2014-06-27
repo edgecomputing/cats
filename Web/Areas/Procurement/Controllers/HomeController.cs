@@ -31,11 +31,20 @@ namespace Cats.Areas.Procurement.Controllers
 
         public ActionResult Index()
         {
-            ViewBag.ActiveBids = _bidService.FindBy(t => t.StatusID == 5).Count;
-            ViewBag.Transporters = _transporterService.GetAllTransporter().Count;
-            ViewBag.CurrentBidPlan =
-                _transportBidPlanService.GetAllTransportBidPlan().OrderByDescending(t => t.TransportBidPlanID).First().ShortName;
-            return View();
+            try
+            {
+                ViewBag.ActiveBids = _bidService.FindBy(t => t.StatusID == 5).Count;
+                ViewBag.Transporters = _transporterService.GetAllTransporter().Count;
+                ViewBag.CurrentBidPlan =
+                    _transportBidPlanService.GetAllTransportBidPlan().OrderByDescending(t => t.TransportBidPlanID).First().ShortName;
+                return View();
+            }
+            catch (Exception)
+            {
+
+                return View();
+            }
+           
         }
 
     }
