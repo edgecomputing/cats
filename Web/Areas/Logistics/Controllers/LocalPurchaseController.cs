@@ -35,14 +35,13 @@ namespace Cats.Areas.Logistics.Controllers
 
         public ActionResult Index()
         {
+            if (TempData["success"] != null)
+                ModelState.AddModelError("Success", TempData["success"].ToString());
             return View();
         }
         public ActionResult Create()
         {
-            ViewBag.ProgramID = new SelectList(_commonService.GetPrograms(),"ProgramID","Name");
-            ViewBag.CommodityID =new SelectList( _commonService.GetCommodities(),"CommodityID","Name");
-            ViewBag.CommodityTypeID =new SelectList( _commonService.GetCommodityTypes(),"CommodityTypeID","Name");
-            ViewBag.DonorID = new SelectList( _commonService.GetDonors(),"DonorID","Name");
+            PopulateLookUps();
             var localpurchase = new LocalPurchaseWithDetailViewModel
                 {
                     CommoditySource=_commonService.GetCommditySourceName(3),//commodity source for local purchase
@@ -77,23 +76,32 @@ namespace Cats.Areas.Logistics.Controllers
                         LocalPurchaseDetailViewModels = GetLocalPurchaseDetail(localPurchase.LocalPurchaseDetails)
 
                     };
+                if (TempData["CustomError"] != null)
+                {
+                    ModelState.AddModelError("Errors", TempData["CustomError"].ToString());
+                }
+                if (TempData["success"] != null)
+                    ModelState.AddModelError("Success", TempData["success"].ToString());
                 return View(localPurchaseWithDetailViewModel);
+
             }
             return RedirectToAction("Index");
         }
-        public ActionResult SaveLocalPurchase(LocalPurchaseWithDetailViewModel localPurchaseWithDetailViewModel)
+        [HttpPost]
+        public ActionResult Create(LocalPurchaseWithDetailViewModel localPurchaseWithDetailViewModel)
         {
-            if(localPurchaseWithDetailViewModel!=null)
+            if (localPurchaseWithDetailViewModel != null && localPurchaseWithDetailViewModel.Quantity >= localPurchaseWithDetailViewModel.LocalPurchaseDetailViewModels.Sum(m => m.AllocatedAmonut))
             {
                 var shippingInstractionID = CheckAvilabilityOfSiNumber(localPurchaseWithDetailViewModel.SINumber);
                 if (shippingInstractionID != 0)
                 {
-                    if (!CheckAvailabilityOfSiInLocalPurchase(localPurchaseWithDetailViewModel.SINumber))
-                    {
-
-                        SaveNewLocalPurchase(localPurchaseWithDetailViewModel, shippingInstractionID);
-                    }
                     
+                    if (!CheckAvailabilityOfSiInLocalPurchase(localPurchaseWithDetailViewModel.SINumber))
+                        {
+
+                            SaveNewLocalPurchase(localPurchaseWithDetailViewModel, shippingInstractionID);
+                        }
+                  
                 }
                 else
                 {
@@ -101,8 +109,12 @@ namespace Cats.Areas.Logistics.Controllers
                     if (si != -1)
                         SaveNewLocalPurchase(localPurchaseWithDetailViewModel, si);// second in doation table
                 }
+                TempData["success"] = "Local Purchase Sucessfully Saved";
+                return RedirectToAction("Index");
             }
-            return RedirectToAction("Index");
+            ModelState.AddModelError("Errors", @"Total Allocated Amount Can't Exceed Planned Quantity"); 
+            PopulateLookUps();
+            return View(localPurchaseWithDetailViewModel);
         }
 
         private bool SaveNewLocalPurchase(LocalPurchaseWithDetailViewModel localPurchaseWithDetailViewModel, int sippingInstractionID)
@@ -150,7 +162,7 @@ namespace Cats.Areas.Logistics.Controllers
         public ActionResult UpdateLocalPurchase(LocalPurchaseWithDetailViewModel localPurchaseDetailViewModel)
         {
             var localPurchase = _localPurchaseService.FindById(localPurchaseDetailViewModel.LocalPurchaseID);
-            if (localPurchase!=null)
+            if (localPurchase != null && localPurchaseDetailViewModel.LocalPurchaseDetailViewModels.Sum(m=>m.AllocatedAmonut) <= localPurchase.Quantity)
             {
                 localPurchase.CommodityID = localPurchaseDetailViewModel.CommodityID;
                 localPurchase.DonorID = localPurchaseDetailViewModel.DonorID;
@@ -172,10 +184,12 @@ namespace Cats.Areas.Logistics.Controllers
                     }
 
                 }
-                ModelState.AddModelError("Success", @"Local Purchase Sucessfully Updated");
+                TempData["success"] = "Local Purchase Sucessfully Updated";
+                //ModelState.AddModelError("Success", @"Local Purchase Sucessfully Updated");
                 return RedirectToAction("Details", new {id = localPurchase.LocalPurchaseID});
             }
-            return RedirectToAction("Index");
+            TempData["CustomError"] = "Total Allocated Amount Can't Exceed Planned Quantity";
+            return RedirectToAction("Details", new { id = localPurchaseDetailViewModel.LocalPurchaseID });
         }
         public ActionResult LocalPurchase_Read([DataSourceRequest] DataSourceRequest request)
         {
@@ -328,9 +342,16 @@ namespace Cats.Areas.Logistics.Controllers
             {
                 //localPurchase.StatusID = (int) LocalPurchaseStatus.Approved;
                 _localPurchaseService.Approve(localPurchase);
-                return RedirectToAction("details", new {id = localPurchase.LocalPurchaseID});
+                return RedirectToAction("Details", new {id = localPurchase.LocalPurchaseID});
             }
             return RedirectToAction("Index");
+        }
+        public void PopulateLookUps()
+        {
+            ViewBag.ProgramID = new SelectList(_commonService.GetPrograms(), "ProgramID", "Name");
+            ViewBag.CommodityID = new SelectList(_commonService.GetCommodities(), "CommodityID", "Name");
+            ViewBag.CommodityTypeID = new SelectList(_commonService.GetCommodityTypes(), "CommodityTypeID", "Name");
+            ViewBag.DonorID = new SelectList(_commonService.GetDonors(), "DonorID", "Name");
         }
     }
 }
