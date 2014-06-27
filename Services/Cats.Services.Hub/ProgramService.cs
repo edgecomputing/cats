@@ -77,7 +77,8 @@ namespace Cats.Services.Hub
 
             var prog = _unitOfWork.ProgramRepository.GetAll();
             var programs = (from c in prog select new ProgramViewModel() { ProgramId = c.ProgramID, ProgramName = c.Name }).ToList();
-            programs.Insert(0, new ProgramViewModel { ProgramName = "All Programs" });
+            
+            //programs.Insert(0, new ProgramViewModel { ProgramName = "All Programs" });
             return programs;
         }
 
