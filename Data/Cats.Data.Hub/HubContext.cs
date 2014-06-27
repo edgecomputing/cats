@@ -85,6 +85,8 @@ namespace Cats.Data.Hub
         public DbSet<VWFreePhysicalStock> VWFreePhysicalStocks { get; set; }
         public DbSet<VWTransferredStock> VWTransferredStocks { get; set; }
 
+        public DbSet<FreeStockStatus> FreeStockStatus { get; set; }
+
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

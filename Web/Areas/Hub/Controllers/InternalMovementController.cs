@@ -262,7 +262,7 @@ namespace Cats.Areas.Hub.Controllers
                 viewModel.StackNumberB = StackId.Value.ToString();
             }
 
-            return PartialView("SINumberBalance", viewModel);
+            return View("SINumberBalance", viewModel);
         }
 
 
