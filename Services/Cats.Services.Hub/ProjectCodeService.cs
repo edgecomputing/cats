@@ -134,12 +134,21 @@ namespace Cats.Services.Hub
 
         var projectCodes = (from v in transactions
                                 where v.ParentCommodityID == parentCommodityId && v.HubID == hubID && v.ProjectCodeID != null
-                                select
-                                    new ProjectCodeViewModel { ProjectCodeId = v.ProjectCodeID.Value, ProjectName = v.ProjectCode.Value }).Distinct()
-                .ToList();
+                                select new ProjectCodeViewModel { ProjectCodeId = v.ProjectCodeID.Value, ProjectName = v.ProjectCode.Value }).Distinct()
+                               .GroupBy(ac => new
+                   {
+                       ac.ProjectCodeId,
+                       ac.ProjectName,
+                   })
+                    .Select(ac => new ProjectCodeViewModel
+                    {
+                        ProjectCodeId = ac.Key.ProjectCodeId,
+                        ProjectName = ac.Key.ProjectName,
+
+                    }).ToList();
+                               
             return projectCodes;
         }
-
 
 
     }
