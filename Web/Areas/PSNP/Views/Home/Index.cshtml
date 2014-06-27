@@ -397,7 +397,7 @@
     });
 </script>
 
-<script>
+@*<script>
     function PSNPDashboardController($scope, $http) {
         
         $scope.Requests = [];
@@ -435,7 +435,7 @@
         $scope.getRequests();
         $scope.getRequisitions();
     }
-</script>
+</script>*@
 
 @*<script>
     $(function () {
@@ -650,9 +650,13 @@
                        exporting: {
                            enabled: false
                        },
+                       //tooltip: {
+                       //    pointFormat: '{series.name}: <b>{point.percentage}</b>% <b>({point.y})</b> Requests',
+                       //    percentageDecimals: 1
+                       //},
+                       
                        tooltip: {
-                           pointFormat: '{series.name}: <b>{point.percentage}</b>% <b>({point.y})</b> Requests',
-                           percentageDecimals: 1
+                           pointFormat: '{series.name}: <b>{point.percentage:.2f}%</b> ({point.y}) Requests',
                        },
                        plotOptions: {
                            pie: {
