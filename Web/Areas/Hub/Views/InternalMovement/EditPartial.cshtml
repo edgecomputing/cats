@@ -108,7 +108,7 @@
                             .Placeholder(Html.Translate("Select Stack"))
                             .Filterable(filtering => { filtering.FilterMode(AutoCompleteFilterMode.StartsWith); })
                             .HighlightFirstMatch(true)
-                            .DataBinding(binding => binding.Ajax().Select("GetStacksForFromStore", "InternalMovement"))
+                            //.DataBinding(binding => binding.Ajax().Select("GetStacksForFromStore", "InternalMovement"))
                             .ClientEvents(ev => ev.OnChange("onToStoreChange"))
 
                 )
@@ -168,7 +168,7 @@
                                     .BindTo(new SelectList(Model.ToStack))
                                     .Filterable(filtering => { filtering.FilterMode(AutoCompleteFilterMode.StartsWith); })
                                     .HighlightFirstMatch(true)
-                                    .DataBinding(binding => binding.Ajax().Select("GetStacksForToStore", "InternalMovement"))
+                                    //.DataBinding(binding => binding.Ajax().Select("GetStacksForToStore", "InternalMovement"))
                         )
                         @Html.ValidationMessageFor(model => model.ToStack)
                     </td>

@@ -172,6 +172,14 @@ namespace Cats.Tests.ControllersTests
                 };
             var rationService = new Mock<IRationService>();
             rationService.Setup(m => m.GetAllRation()).Returns(ration);
+
+            var rationDetail = new List<RationDetail>()
+                {
+                    new RationDetail {RationDetailID = 1,RationID = 1, CommodityID = 1}
+                };
+            var rationDetailService = new Mock<IRationDetailService>();
+            rationDetailService.Setup(m => m.GetAllRationDetail()).Returns(rationDetail);
+
             var donor = new List<Donor>()
                 {
                     new Donor {DonorID = 1,Name = "UK"}
@@ -194,7 +202,7 @@ namespace Cats.Tests.ControllersTests
                 userAccountService.Object,
                 regionalRequestService.Object,
                 rationService.Object,
-                donorService.Object, notificationService.Object, null, transactionSerivce.Object, commonService.Object );
+                donorService.Object, notificationService.Object, null, transactionSerivce.Object, commonService.Object, rationDetailService.Object);
 
             _reliefRequisitionController.ControllerContext = controllerContext.Object; 
             //_input = input;

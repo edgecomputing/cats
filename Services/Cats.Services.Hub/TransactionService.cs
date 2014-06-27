@@ -173,11 +173,11 @@ namespace Cats.Services.Hub
         /// <param name="si">The SI.</param>
         /// <param name="project">The project.</param>
         /// <returns></returns>
-        public decimal GetCommodityBalanceForStack(int storeId, int stack, int parentCommodityId, int si, int project)
+        public decimal GetCommodityBalanceForStack(int storeId, int stack, int CommodityId, int si, int project)
         {
             var balance = _unitOfWork.TransactionRepository.FindBy(t =>
                                                                    t.StoreID == storeId &&
-                                                                   t.ParentCommodityID == parentCommodityId &&
+                                                                   t.CommodityID == CommodityId &&
                                                                    t.ShippingInstructionID == si &&
                                                                    t.ProjectCodeID == project && t.Stack == stack &&
                                                                    t.LedgerID ==
@@ -1108,6 +1108,7 @@ namespace Cats.Services.Hub
             transactionGroup.Transactions.Add(transactionToStore);
             transactionGroup.PartitionID = 0;
 
+            internalMovement.InternalMovementID = Guid.NewGuid();
             internalMovement.PartitionID = 0;
             internalMovement.TransactionGroupID = transactionGroupId;
             internalMovement.TransactionGroup = transactionGroup;
@@ -1116,6 +1117,7 @@ namespace Cats.Services.Hub
             internalMovement.Notes = viewModel.Note;
             internalMovement.ApprovedBy = viewModel.ApprovedBy;
             internalMovement.ReferenceNumber = viewModel.ReferenceNumber;
+            internalMovement.HubID = user.DefaultHub.HubID;
 
 
 
