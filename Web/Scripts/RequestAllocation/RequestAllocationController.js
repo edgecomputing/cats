@@ -187,6 +187,8 @@ function RequestAllocationController($scope, $http, $timeout) {
     };
     $scope.onFdpListShow=function(index )
     {
+        //document.getElementById("tbl_allocation").style.marginTop=(index*-50)+"px";
+        //console.log("Table Top",$("#tbl_allocation").css("top"),document.getElementById("tbl_allocation"));
         var element=document.getElementById("fdp_selector_button" + index);
         $scope.selectedAllocationIndex = index;
         var selectedAlloc = $scope.allocations[$scope.selectedAllocationIndex];
@@ -198,7 +200,7 @@ function RequestAllocationController($scope, $http, $timeout) {
         selectedAlloc = selectedAlloc ? selectedAlloc : {};
 
         console.log("$scope.showFDPSelector",selectedAlloc);
-        var selectedFDP = { RegionID: selectedAlloc.RegionID, ZoneID: selectedAlloc.ZoneID, WoredaID: selectedAlloc.WoredaId, FDPID: selectedAlloc.Fdpid };
+        var selectedFDP = { RegionID: selectedAlloc.RegionId, ZoneID: selectedAlloc.ZoneId, WoredaID: selectedAlloc.WoredaId, FDPID: selectedAlloc.Fdpid };
         showFDPSelector({ target: element, callback: "onAllocationFDPChange", adminUnit: selectedFDP });
         //{RegionID:@Model.RegionID , ZoneID: @Model.ZoneID ,WoredaID: @Model.WoredaID ,FDPID: @Model.FDPID }
     };

@@ -51,7 +51,7 @@ function init_toolbar_button() {
         btn_forward: { icon: "icon-arrow-right", tooltip: "Continue" },
         btn_back: { icon: "icon-arrow-left", tooltip: "Back" }
     }
-    
+    console.log("init_toolbar_button");
     $(".toolbar-btn").each(function () {
         var $that = $(this);
         var htm = '<input/>';

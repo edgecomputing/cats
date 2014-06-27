@@ -55,7 +55,7 @@
     .Name("grid")
     .Columns(columns =>
     {
-        columns.Template(c => { }).Title("No").ClientTemplate("<span class='rowCount' rowCount='#=rowCount#'>#=getRowNo(data)#");
+        //columns.Template(c => { }).Title("No").ClientTemplate("<span class='rowCount' rowCount='#=rowCount#'>#=getRowNo(data)#");
         
         columns.Bound(p => p.RegionName);
         columns.Bound(p => p.ZoneName);

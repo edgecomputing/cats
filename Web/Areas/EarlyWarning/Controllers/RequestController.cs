@@ -215,7 +215,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             ViewBag.Month = new SelectList(RequestHelper.GetMonthList(), "ID", "Name");
             ViewBag.RationID = new SelectList(_commonService.GetRations(), "RationID", "RefrenceNumber");
             ViewBag.DonorID = new SelectList(_commonService.GetDonors(), "DonorId", "Name");
-            ViewBag.Round = new SelectList(RequestHelper.GetMonthList(), "ID", "ID");
+            ViewBag.Round = new SelectList(RequestHelper.GetMonthList().Where(m=>m.Id>0), "ID", "ID");
             ViewBag.PlanID = new SelectList(_commonService.GetPlan(1), "PlanID", "PlanName");
             ViewBag.PSNPPlanID = new SelectList(_commonService.GetPlan(2), "PlanID", "PlanName");
             ViewBag.SeasonID = new SelectList(_commonService.GetSeasons(), "SeasonID", "Name");
@@ -236,6 +236,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             ViewBag.ProgramId = new SelectList(_commonService.GetPrograms(), "ProgramID", "Name", regionalRequest.ProgramId);
             ViewBag.Month = new SelectList(RequestHelper.GetMonthList(), "ID", "Name", regionalRequest.Month);
             ViewBag.RationID = new SelectList(_commonService.GetRations(), "RationID", "RefrenceNumber", regionalRequest.RationID);
+            ViewBag.Round = new SelectList(RequestHelper.GetMonthList().Where(m=>m.Id>0), "ID", "ID", regionalRequest.Round);
             //ViewBag.PlanID = new SelectList(_commonService.GetPlan(), "PlanID", "PlanName", regionalRequest.PlanID);
         }
         //
@@ -646,6 +647,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
             var requestDetails = _regionalRequestDetailService.FindBy(t => t.RegionalRequestID == id);
             var requestDetailViewModels = (from dtl in requestDetails select BindRegionalRequestDetailViewModel(dtl));
+            //requestDetailViewModels.RegionalRequestID = id;
             return Json(requestDetailViewModels.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
         
@@ -663,6 +665,8 @@ namespace Cats.Areas.EarlyWarning.Controllers
                     Woreda = regionalRequestDetail.Fdp.AdminUnit.Name,
                     WoredaId = regionalRequestDetail.Fdp.AdminUnit.AdminUnitID,
                     Zone = regionalRequestDetail.Fdp.AdminUnit.AdminUnit2.Name,
+                    ZoneId = regionalRequestDetail.Fdp.AdminUnit.AdminUnit2.AdminUnitID,
+                    RegionId = regionalRequestDetail.Fdp.AdminUnit.AdminUnit2.AdminUnit2.AdminUnitID,
                     //PlannedBeneficiaries = GetPlanned(regionalRequestDetail.RegionalRequest.Year,
                         //(int)regionalRequestDetail.RegionalRequest.Season,
                         //regionalRequestDetail.Fdp.AdminUnit.AdminUnitID)
@@ -751,6 +755,10 @@ namespace Cats.Areas.EarlyWarning.Controllers
                 {
                     target.Beneficiaries = regionalRequestDetail.Beneficiaries;
                     _regionalRequestDetailService.EditRegionalRequestDetail(target);
+                }
+                else
+                {
+                    return View();
                 }
             }
 
