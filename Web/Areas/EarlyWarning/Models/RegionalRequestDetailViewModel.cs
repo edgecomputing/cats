@@ -14,6 +14,8 @@ namespace Cats.Areas.EarlyWarning.Models
         public int Fdpid { get; set; }
         public string FDP { get; set; }
         public int WoredaId { get; set; }
+        public int ZoneId { get; set; }
+        public int RegionId { get; set; }
         public int Beneficiaries { get; set; }
         public int PlannedBeneficiaries { get; set; }
     }

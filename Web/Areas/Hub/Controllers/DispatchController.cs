@@ -293,6 +293,7 @@ namespace Cats.Areas.Hub.Controllers
         public ActionResult CreateDispatch(string allocationId, int type, string ginNo)
        {
            ViewBag.UnitID = new SelectList(_unitService.GetAllUnit(), "UnitID", "Name");
+            ViewBag.UnitPreference = _userProfileService.GetUser(this.UserProfile.UserName).PreferedWeightMeasurment;
            var id = Guid.Parse(allocationId);
            DispatchViewModel dispatch = _dispatchService.CreateDispatchFromDispatchAllocation(id, 0);
 

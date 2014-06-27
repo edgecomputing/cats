@@ -49,10 +49,10 @@
             {
                 <li><a href="@Url.Action("Edit", "RegionalPSNPPlanDetail", new { Area = "PSNP", id = plan.RegionalPSNPPlanID })">@Html.Translate2(pageName, "Edit")</a></li>
             }
-            @if (state.AllowedAccessLevel >= 3)
+           @* @if (state.AllowedAccessLevel >= 3)
             {
                 <li><a href="@Url.Action("Delete", "RegionalPSNPPlan", new { Area = "PSNP", id = plan.RegionalPSNPPlanID })">@Html.Translate2(pageName, "Delete")</a></li>
-            }
+            }*@
         </ul>
     </div>
     <a class="btn toolbar-btn " data-buttontype="btn_back_to_list" href="@Url.Action("Index", "RegionalPSNPPlan")"></a>
