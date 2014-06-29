@@ -74,6 +74,7 @@ namespace Cats.Services.Transaction
             return entries;
         }
 
+#region HRD / PSNP Post
         public List<Models.Transaction> PostHRDPlan(HRD hrd, Ration ration)
         {
             List<Models.Transaction> entries = new List<Models.Transaction>();
@@ -154,6 +155,9 @@ namespace Cats.Services.Transaction
             }
             return entries;
         }
+        
+        //TODO: Check if this method is being called, 
+        //Where in PSNP workflow did this get posted. 
         public List<Models.Transaction> PostPSNPPlan(RegionalPSNPPlan plan, Ration ration)
         {
             List<Models.Transaction> entries = new List<Models.Transaction>();
@@ -223,7 +227,10 @@ namespace Cats.Services.Transaction
             return entries;
             
         }
+#endregion
 
+#region Post RRD
+        //TODO: check if this is called for PSNP. It must be called for both programs
         public bool PostRequestAllocation(int requestId)//RRD
         {
             var result = new List<Models.Transaction>();
@@ -239,8 +246,6 @@ namespace Cats.Services.Transaction
             foreach (var detail in allocationDetails)
             {
                 
-
-
                     var transaction = new Models.Transaction();
                     transaction.TransactionID = Guid.NewGuid();
                     transaction.TransactionGroupID = transactionGroup;
@@ -287,7 +292,9 @@ namespace Cats.Services.Transaction
             return true;
         }
 
+#endregion
 
+#region Post Dispatch Plan
         public bool PostSIAllocation(int requisitionID)
         {
             var result = new List<Models.Transaction>();
@@ -409,6 +416,7 @@ namespace Cats.Services.Transaction
               //return result;
             return true;
         }
+#endregion
 
         public bool PostDonationPlan(DonationPlanHeader donationPlanHeader)
         {

@@ -161,7 +161,17 @@ namespace Cats.Services.Hub
                                             {
                                                 ShippingInstructionId = v.ShippingInstructionID.Value,
                                                 ShippingInstructionName = v.ShippingInstruction.Value
-                                            }).Distinct().
+                                            }).GroupBy(ac => new
+                                            {
+                                                ac.ShippingInstructionId,
+                                                ac.ShippingInstructionName,
+                                            })
+                    .Select(ac => new ShippingInstructionViewModel
+                    {
+                        ShippingInstructionId = ac.Key.ShippingInstructionId,
+                        ShippingInstructionName = ac.Key.ShippingInstructionName
+
+                    }).
                 ToList();
             return shippingInstructions;
         }

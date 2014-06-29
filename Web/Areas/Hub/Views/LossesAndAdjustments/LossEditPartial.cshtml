@@ -75,6 +75,7 @@
                 <td>@Html.LabelFor(model => model.Programes)</td>
                 <td>@(Html.Telerik().ComboBox()
                                 .Name("ProgramId")
+                                .SelectedIndex(0)
                                 .BindTo(new SelectList(Model.Programes, "ProgramId", "ProgramName"))
                                 .AutoFill(true)
                                 .HighlightFirstMatch(true)

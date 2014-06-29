@@ -42,7 +42,7 @@ namespace Cats.Services.Hub
                     }
                 //TODO:Since user cration doesn't assign default hub by default we will add here default hub for current user;
           
-            user.DefaultHub = hub;
+            user.DefaultHub = user.DefaultHub ?? hub;
 
 
 

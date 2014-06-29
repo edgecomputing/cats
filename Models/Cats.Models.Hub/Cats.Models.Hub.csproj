@@ -96,6 +96,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Contact.cs" />
+    <Compile Include="FreeStockStatus.cs" />
     <Compile Include="Mapping\VWFreePhysicalStockMap.cs" />
     <Compile Include="SummaryFreeAndPhysicalStockModel.cs" />
     <Compile Include="Mapping\VWTransferredStockMap.cs" />
