@@ -125,7 +125,7 @@ namespace Cats.Services.Hub
             var allocationSum = _unitOfWork.TransactionRepository.FindBy(t => t.ShippingInstructionID == siNumber
                                          && t.HubID == hubId
                                        && t.ParentCommodityID == commodityId
-                                       && t.LedgerID == Cats.Models.Ledger.Constants.GOODS_ON_HAND_UNCOMMITED
+                                       && t.LedgerID == Cats.Models.Ledger.Constants.GOODS_ON_HAND
                                        && t.QuantityInMT > 0).Select(t => t.QuantityInMT).ToList();
 
 
@@ -152,7 +152,7 @@ namespace Cats.Services.Hub
                                                                    t.ShippingInstructionID == si &&
                                                                    t.ProjectCodeID == project &&
                                                                    t.LedgerID ==
-                                                                  Cats.Models.Ledger.Constants.GOODS_ON_HAND_UNCOMMITED
+                                                                  Cats.Models.Ledger.Constants.GOODS_ON_HAND
 
                 ).Select(t => t.QuantityInMT).ToList();
 
@@ -181,7 +181,7 @@ namespace Cats.Services.Hub
                                                                    t.ShippingInstructionID == si &&
                                                                    t.ProjectCodeID == project && t.Stack == stack &&
                                                                    t.LedgerID ==
-                                                                   Cats.Models.Ledger.Constants.GOODS_ON_HAND_UNCOMMITED
+                                                                   Cats.Models.Ledger.Constants.GOODS_ON_HAND
 
                 ).Select(t => t.QuantityInMT).ToList();
 
@@ -201,7 +201,7 @@ namespace Cats.Services.Hub
                                                                    t.ShippingInstructionID == si &&
                                                                    t.ProjectCodeID == project &&
                                                                    t.LedgerID ==
-                                                                   Cats.Models.Ledger.Constants.GOODS_ON_HAND_UNCOMMITED
+                                                                   Cats.Models.Ledger.Constants.GOODS_ON_HAND
 
                 ).Select(t => t.QuantityInMT).ToList();
 
@@ -272,7 +272,7 @@ namespace Cats.Services.Hub
                 transaction.TransactionDate = DateTime.Now;
                 transaction.ParentCommodityID = _unitOfWork.CommodityRepository.FindById(c.CommodityID).ParentID ?? c.CommodityID;
                 transaction.CommodityID = c.CommodityID;
-                transaction.LedgerID = Cats.Models.Ledger.Constants.GOODS_ON_HAND_UNCOMMITED;
+                transaction.LedgerID = Cats.Models.Ledger.Constants.GOODS_ON_HAND;
                 transaction.HubOwnerID = user.DefaultHub.HubOwnerID;
 
                 
@@ -470,7 +470,7 @@ namespace Cats.Services.Hub
         /// <returns></returns>
         public List<TransporationReport> GetTransportationReports(OperationMode mode, DateTime? fromDate, DateTime? toDate)
         {
-            int ledgerId = (mode == OperationMode.Dispatch) ? Cats.Models.Ledger.Constants.GOODS_IN_TRANSIT : Cats.Models.Ledger.Constants.GOODS_ON_HAND_UNCOMMITED;
+            int ledgerId = (mode == OperationMode.Dispatch) ? Cats.Models.Ledger.Constants.GOODS_IN_TRANSIT : Cats.Models.Ledger.Constants.GOODS_ON_HAND;
             var list = _unitOfWork.TransactionRepository.Get(item =>
                         (item.LedgerID == ledgerId && (item.QuantityInMT > 0 || item.QuantityInUnit > 0))
                               &&
@@ -786,38 +786,8 @@ namespace Cats.Services.Hub
                     transaction.TransactionDate = DateTime.Now;
                     transaction.UnitID = dispatchViewModel.UnitID;
                     transaction.TransactionGroupID = group.TransactionGroupID;
-
-
-                    // group.Transactions.Add(transaction);
-               // }
-                //else
-                //{
-                //    Transaction transaction2 = GetPositiveHUBTransaction(dispatchModel, dispatch, detail);
-                //    group.Transactions.Add(transaction2);
-
-                //    Transaction transaction = GetNegativeHUBTransaction(dispatchModel, dispatch, detail);
-                //    group.Transactions.Add(transaction);
-                //}
-
-
-
-
-
-
-
-
-           
-
-            
-           
-
-
                 dispatch.DispatchDetails.Add(dispatchDetail);
-
-           // }
-            // Try to save this transaction
-            //    db.Database.Connection.Open();
-            //  DbTransaction dbTransaction = db.Database.Connection.BeginTransaction();
+       
             try
             {
                 _unitOfWork.TransactionGroupRepository.Add(group);
@@ -825,8 +795,7 @@ namespace Cats.Services.Hub
                 _unitOfWork.TransactionRepository.Add(transaction);
                 _unitOfWork.DispatchRepository.Add(dispatch);
                 _unitOfWork.Save();
-                //repository.Dispatch.Add(dispatch);
-                //dbTransaction.Commit();
+
             }
                 
             catch (Exception exp)
@@ -836,11 +805,6 @@ namespace Cats.Services.Hub
                 throw new Exception("The Dispatch Transaction Cannot be saved. <br />Detail Message :" + exp.Message);
             }
 
-            //if (dispatchViewModel.Type == 1)
-            //{
-            //    string sms = dispatchViewModel.GetSMSText();
-            //    SMS.SendSMS(dispatchViewModel.FDPID.Value, sms);
-            //}
         }
 
         #region dispatch transaction helpers
@@ -1176,14 +1140,11 @@ namespace Cats.Services.Hub
 
 
             // Try to save this transaction
-            //db.Database.Connection.Open();
-            //DbTransaction dbTransaction = db.Database.Connection.BeginTransaction();
+            
             try
             {
                 _unitOfWork.InternalMovementRepository.Add(internalMovement);
                 _unitOfWork.Save();
-                //   repository.InternalMovement.Add(internalMovement);
-                // dbTransaction.Commit();
             }
             catch (Exception exp)
             {
@@ -1278,14 +1239,10 @@ namespace Cats.Services.Hub
 
 
             // Try to save this transaction
-            //db.Database.Connection.Open();
-            //DbTransaction dbTransaction = db.Database.Connection.BeginTransaction();
             try
             {
                 _unitOfWork.AdjustmentRepository.Add(lossAndAdjustment);
                 _unitOfWork.Save();
-                //repository.Adjustment.Add(lossAndAdjustment);
-                //dbTransaction.Commit();
             }
             catch (Exception exp)
             {
@@ -1373,14 +1330,10 @@ namespace Cats.Services.Hub
             lossAndAdjustment.StoreManName = viewModel.StoreMan;
 
             // Try to save this transaction
-            //db.Database.Connection.Open();
-            //DbTransaction dbTransaction = db.Database.Connection.BeginTransaction();
             try
             {
                 _unitOfWork.AdjustmentRepository.Add(lossAndAdjustment);
                 _unitOfWork.Save();
-                //repository.Adjustment.Add(lossAndAdjustment);
-                //dbTransaction.Commit();
             }
             catch (Exception exp)
             {
@@ -1515,12 +1468,7 @@ namespace Cats.Services.Hub
             transactionTwo.TransactionDate = DateTime.Now;
 
             transactionGroup.PartitionID = 0;
-            //transactionGroup.Transactions.Add(transactionOne);
-            //transactionGroup.Transactions.Add(transactionTwo);
-            //db.SaveChanges();
-            // Try to save this transaction
-            //db.Database.Connection.Open();
-            //DbTransaction dbTransaction = db.Database.Connection.BeginTransaction();
+            
             try
             {
                 transactionGroup.TransactionGroupID = transactionGroupId;
@@ -1528,16 +1476,14 @@ namespace Cats.Services.Hub
                 transactionGroup.Transactions.Add(transactionTwo);
                 _unitOfWork.TransactionGroupRepository.Add(transactionGroup);
                 _unitOfWork.Save();
-                //repository.TransactionGroup.Add(transactionGroup);
-                //dbTransaction.Commit();
+           
             }
             catch (Exception exp)
             {
-                //dbTransaction.Rollback();
+              
                 //TODO: Save the detail of this exception somewhere
                 throw new Exception("The Starting Balance Transaction Cannot be saved. <br />Detail Message :" + exp.Message);
             }
-            //throw new NotImplementedException();
         }
 
 
@@ -1662,46 +1608,6 @@ namespace Cats.Services.Hub
                             }).ToList()
 
                         }).ToList();
-            //return (from t in db.Dispatches.Where(p=>p.DispatchAllocationID != null)
-            //                 .Select(q=>q.DispatchDetails.FirstOrDefault().TransactionGroup.Transactions.FirstOrDefault())
-            //                 .Where(p => p.HubID == hubID
-            //                    && p.LedgerID == Ledger.Constants.GOODS_DISPATCHED
-            //                    && p.QuantityInMT > 0
-            //                    ).ToList()
-
-            //        group t by new {t.Program,
-            //                        t.Hub,
-            //                        t.TransactionGroup.DispatchDetails.FirstOrDefault().Dispatch,
-            //                        t.TransactionGroup.DispatchDetails.FirstOrDefault().Dispatch.DispatchAllocation}
-            //        into b
-            //        select new OffloadingReport()
-            //                   {
-            //                       ContractNumber = b.Key.DispatchAllocation.BidRefNo,
-            //                       EndDate = "today",
-            //                       HubName = b.Key.Hub.HubNameWithOwner, 
-            //                       StartDate = "yesterday",
-            //                       Month = Convert.ToString(b.Key.Dispatch.PeriodMonth),
-            //                       Round = Convert.ToString(b.Key.DispatchAllocation.Round),
-            //                       Year = (b.Key.Dispatch.PeriodYear),
-            //                       OffloadingDetails = b.Select(t1 => new OffloadingDetail()
-            //                       {
-            //                           RequisitionNumber = b.Key.DispatchAllocation.BidRefNo,
-            //                           Product = t1.Commodity.Name,
-            //                           Zone = b.Key.DispatchAllocation.FDP.AdminUnit.AdminUnit2.Name,
-            //                           Woreda = b.Key.DispatchAllocation.FDP.AdminUnit.Name,
-            //                           Destination = b.Key.DispatchAllocation.FDP.Name,
-            //                           Allocation = b.Key.DispatchAllocation.Amount*10,
-            //                           Dispatched = b.Key.DispatchAllocation.DispatchedAmount*10,
-            //                           Remaining = b.Key.DispatchAllocation.RemainingQuantityInQuintals * 10,
-            //                           Transporter = b.Key.Dispatch.Transporter.Name,
-            //                           Donor = "DOn",//b.Key.DispatchAllocation.DonorID
-
-            //                       }).ToList(),
-            //                       Region = "afar",
-            //                       Program = b.Key.Program.Name,
-
-            //                   }).ToList();
-
         }
 
 
@@ -1817,27 +1723,6 @@ namespace Cats.Services.Hub
         {
             return _unitOfWork.TransactionRepository.FindBy(d => d.TransactionDate <= date);
         }
-
-        //public IEnumerable<Object> FreeStockStatus()
-        //{
-        //    var allTransactions = getTransactionsAsof(DateTime.Now);
-
-        //    var r = from all in allTransactions
-        //            group all by all.ParentCommodityID into hubstockstatus
-        //            select new
-        //            {
-        //                Commodity = hubstockstatus.Key,
-        //                detail = hubstockstatus
-        //            };
-
-        //   foreach(var d in r){
-        //        foreach(var h in d.detail){
-        //            return (from u in h select new { });
-        //        }
-        //    }
-
-        //    return s;
-        //}
 
         public bool DeleteById(System.Guid id)
         {
