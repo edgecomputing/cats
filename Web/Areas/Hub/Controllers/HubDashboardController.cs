@@ -40,8 +40,8 @@ namespace Cats.Areas.Hub.Controllers
             //st.Take()
             var value = st.Find(t => t.HubID == hub);
 
-            var free = (value.TotalFreestock / value.TotalPhysicalStock) * 100;
-            var commited = ((value.TotalPhysicalStock - value.TotalFreestock) / value.TotalPhysicalStock) * 100;
+            var free = (value.TotalPhysicalStock == 0)? 0: ((value.TotalFreestock / value.TotalPhysicalStock) * 100);
+            var commited = ((value.TotalPhysicalStock - value.TotalFreestock) / ((value.TotalPhysicalStock == 0)? 1.0M : value.TotalPhysicalStock)) * 100;
 
             var q = (from s in st
                      where s.HubID == hub
