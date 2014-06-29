@@ -596,8 +596,13 @@ namespace Cats.Services.Transaction
             var transactionGroup = Guid.NewGuid();
             var transactionDate = DateTime.Now;
             _unitOfWork.TransactionGroupRepository.Add(new TransactionGroup() { PartitionID = 0, TransactionGroupID = transactionGroup });
-             var transaction = new Models.Transaction();
+
+
+
+
+            var transaction = new Models.Transaction();
             transaction.TransactionID = Guid.NewGuid();
+
             var reliefRequisition = _unitOfWork.ReliefRequisitionRepository.Get(t => t.RequisitionNo == deliveryReconcile.RequsitionNo).FirstOrDefault();
             if (reliefRequisition != null)
                 transaction.ProgramID = reliefRequisition.ProgramID;
@@ -629,6 +634,12 @@ namespace Cats.Services.Transaction
             var @default = _unitOfWork.UnitRepository.Get(t => t.Name == "Quintal").FirstOrDefault();
             transaction.UnitID = @default != null ? @default.UnitID : 1;
             _unitOfWork.TransactionRepository.Add(transaction);
+
+
+
+
+
+
 
             transaction = new Models.Transaction();
             transaction.TransactionID = Guid.NewGuid();

@@ -736,7 +736,7 @@ namespace Cats.Areas.Hub.Controllers
                         }
                     }
                     //InsertDispatch(dispatchModel, user);
-                    _transactionService.SaveDispatchTransaction(dispatchModel, user);
+                   // _transactionService.SaveDispatchTransaction(dispatchModel, user);
                 }
                 else
                 {
@@ -766,13 +766,7 @@ namespace Cats.Areas.Hub.Controllers
             } //PrepareEdit(dispatchModel.GenerateDipatch(), user,dispatchModel.Type);
             return View(dispatchModel);
         }
-        //TODO remove this function later
-        private void InsertDispatch(DispatchModel dispatchModel, UserProfile user)
-        {
-            List<DispatchDetailModel> commodities = GetSelectedCommodities(dispatchModel.JSONInsertedCommodities);
-            dispatchModel.DispatchDetails = commodities;
-            _transactionService.SaveDispatchTransaction(dispatchModel,user);
-        }
+        
 
        
        
