@@ -182,7 +182,7 @@ namespace Cats.Services.Hub
             var com = _unitOfWork.CommodityRepository.FindById(commodityId);
             var tempSis =
                     _unitOfWork.TransactionRepository.FindBy(
-                        t => t.HubID == hubID && t.LedgerID == Ledger.Constants.GOODS_ON_HAND_UNCOMMITED &&
+                        t => t.HubID == hubID && t.LedgerID == Cats.Models.Ledger.Constants.GOODS_ON_HAND_UNCOMMITED &&
                              t.ParentCommodityID == commodityId);
             if (com.CommodityTypeID == 1)
             {
@@ -241,7 +241,7 @@ namespace Cats.Services.Hub
 
             ShippingInstruction si = _unitOfWork.ShippingInstructionRepository.FindById(shippingInstructionID);
             var availableBalance = (from v in si.Transactions
-                                    where v.LedgerID == Ledger.Constants.GOODS_ON_HAND_UNCOMMITED && commodityId == v.ParentCommodityID
+                                    where v.LedgerID == Cats.Models.Ledger.Constants.GOODS_ON_HAND_UNCOMMITED && commodityId == v.ParentCommodityID
                                     select v.QuantityInMT).DefaultIfEmpty().Sum();
 
             var firstOrDefaultans = si.Transactions.FirstOrDefault();
@@ -336,7 +336,7 @@ namespace Cats.Services.Hub
 
             ShippingInstruction si = _unitOfWork.ShippingInstructionRepository.FindById(shippingInstructionID);
             var availableBalance = (from v in si.Transactions
-                                    where v.LedgerID == Ledger.Constants.GOODS_ON_HAND_UNCOMMITED && commodityId == v.ParentCommodityID
+                                    where v.LedgerID == Cats.Models.Ledger.Constants.GOODS_ON_HAND_UNCOMMITED && commodityId == v.ParentCommodityID
                                     select v.QuantityInUnit).DefaultIfEmpty().Sum();
 
             var firstOrDefaultans = si.Transactions.FirstOrDefault();

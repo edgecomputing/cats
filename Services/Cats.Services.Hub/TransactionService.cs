@@ -95,7 +95,7 @@ namespace Cats.Services.Hub
                 t => t.ShippingInstructionID == siNumber
                      && t.HubID == hubId
                      && (t.ParentCommodityID == commodityId || t.CommodityID == commodityId)
-                     && t.LedgerID == Ledger.Constants.GIFT_CERTIFICATE
+                     && t.LedgerID == Cats.Models.Ledger.Constants.GIFT_CERTIFICATE
                      && t.QuantityInMT > 0
                 ).Select(t => t.QuantityInMT).ToList();
 
@@ -125,7 +125,7 @@ namespace Cats.Services.Hub
             var allocationSum = _unitOfWork.TransactionRepository.FindBy(t => t.ShippingInstructionID == siNumber
                                          && t.HubID == hubId
                                        && t.ParentCommodityID == commodityId
-                                       && t.LedgerID == Ledger.Constants.GOODS_ON_HAND_UNCOMMITED
+                                       && t.LedgerID == Cats.Models.Ledger.Constants.GOODS_ON_HAND_UNCOMMITED
                                        && t.QuantityInMT > 0).Select(t => t.QuantityInMT).ToList();
 
 
@@ -152,7 +152,7 @@ namespace Cats.Services.Hub
                                                                    t.ShippingInstructionID == si &&
                                                                    t.ProjectCodeID == project &&
                                                                    t.LedgerID ==
-                                                                   Ledger.Constants.GOODS_ON_HAND_UNCOMMITED
+                                                                  Cats.Models.Ledger.Constants.GOODS_ON_HAND_UNCOMMITED
 
                 ).Select(t => t.QuantityInMT).ToList();
 
@@ -181,7 +181,7 @@ namespace Cats.Services.Hub
                                                                    t.ShippingInstructionID == si &&
                                                                    t.ProjectCodeID == project && t.Stack == stack &&
                                                                    t.LedgerID ==
-                                                                   Ledger.Constants.GOODS_ON_HAND_UNCOMMITED
+                                                                   Cats.Models.Ledger.Constants.GOODS_ON_HAND_UNCOMMITED
 
                 ).Select(t => t.QuantityInMT).ToList();
 
@@ -201,7 +201,7 @@ namespace Cats.Services.Hub
                                                                    t.ShippingInstructionID == si &&
                                                                    t.ProjectCodeID == project &&
                                                                    t.LedgerID ==
-                                                                   Ledger.Constants.GOODS_ON_HAND_UNCOMMITED
+                                                                   Cats.Models.Ledger.Constants.GOODS_ON_HAND_UNCOMMITED
 
                 ).Select(t => t.QuantityInMT).ToList();
 
@@ -272,7 +272,7 @@ namespace Cats.Services.Hub
                 transaction.TransactionDate = DateTime.Now;
                 transaction.ParentCommodityID = _unitOfWork.CommodityRepository.FindById(c.CommodityID).ParentID ?? c.CommodityID;
                 transaction.CommodityID = c.CommodityID;
-                transaction.LedgerID = Ledger.Constants.GOODS_ON_HAND_UNCOMMITED;
+                transaction.LedgerID = Cats.Models.Ledger.Constants.GOODS_ON_HAND_UNCOMMITED;
                 transaction.HubOwnerID = user.DefaultHub.HubOwnerID;
 
                 
@@ -300,7 +300,7 @@ namespace Cats.Services.Hub
                 transaction.TransactionDate = DateTime.Now;
                 transaction.ParentCommodityID = _unitOfWork.CommodityRepository.FindById(c.CommodityID).ParentID ?? c.CommodityID;
                 transaction.CommodityID = c.CommodityID;
-                transaction.LedgerID = Ledger.Constants.STATISTICS_FREE_STOCK;
+                transaction.LedgerID = Cats.Models.Ledger.Constants.STATISTICS_FREE_STOCK;
                 transaction.HubOwnerID = user.DefaultHub.HubOwnerID;
 
                 transaction.AccountID = _accountService.GetAccountIdWithCreate(Account.Constants.HUB, receive.HubID);
@@ -332,7 +332,7 @@ namespace Cats.Services.Hub
                 transaction2.CommodityID = c.CommodityID;
                 transaction2.HubOwnerID = user.DefaultHub.HubOwnerID;
 
-                transaction2.LedgerID = Ledger.Constants.GOODS_UNDER_CARE;
+                transaction2.LedgerID = Cats.Models.Ledger.Constants.GOODS_UNDER_CARE;
                 if (receive.ResponsibleDonorID != null)
                     transaction2.AccountID = _accountService.GetAccountIdWithCreate(Account.Constants.DONOR, receive.ResponsibleDonorID.Value);
 
@@ -345,17 +345,17 @@ namespace Cats.Services.Hub
                 #region "commented out"
                 if (receiveModels.CommoditySourceID == CommoditySource.Constants.DONATION || receiveModels.CommoditySourceID == CommoditySource.Constants.LOCALPURCHASE)
                 {
-                    transaction2.LedgerID = Ledger.Constants.GOODS_UNDER_CARE;
+                    transaction2.LedgerID = Cats.Models.Ledger.Constants.GOODS_UNDER_CARE;
                     transaction2.AccountID = _accountService.GetAccountIdWithCreate(Account.Constants.DONOR, receive.ResponsibleDonorID.Value);
                 }
                 else if (receiveModels.CommoditySourceID == CommoditySource.Constants.REPAYMENT)
                 {
-                    transaction2.LedgerID = Ledger.Constants.GOODS_RECIEVABLE;
+                    transaction2.LedgerID = Cats.Models.Ledger.Constants.GOODS_RECIEVABLE;
                     transaction2.AccountID = _accountService.GetAccountIdWithCreate(Account.Constants.HUB, receiveModels.SourceHubID.Value);
                 }
                 else
                 {
-                    transaction2.LedgerID = Ledger.Constants.LIABILITIES;
+                    transaction2.LedgerID = Cats.Models.Ledger.Constants.LIABILITIES;
                     transaction2.AccountID = _accountService.GetAccountIdWithCreate(Account.Constants.HUB, receiveModels.SourceHubID.Value);
                 }
 #endregion
@@ -391,7 +391,7 @@ namespace Cats.Services.Hub
                 transaction2.CommodityID = c.CommodityID;
                 transaction2.HubOwnerID = user.DefaultHub.HubOwnerID;
 
-                transaction2.LedgerID = Ledger.Constants.GOODS_RECIEVABLE;
+                transaction2.LedgerID = Cats.Models.Ledger.Constants.GOODS_RECIEVABLE;
                 if (receive.ResponsibleDonorID != null)
                     transaction2.AccountID = _accountService.GetAccountIdWithCreate(Account.Constants.DONOR, receive.ResponsibleDonorID.Value);
 
@@ -404,17 +404,17 @@ namespace Cats.Services.Hub
                 #region "commented out"
                 if (receiveModels.CommoditySourceID == CommoditySource.Constants.DONATION || receiveModels.CommoditySourceID == CommoditySource.Constants.LOCALPURCHASE)
                 {
-                    transaction2.LedgerID = Ledger.Constants.GOODS_UNDER_CARE;
+                    transaction2.LedgerID = Cats.Models.Ledger.Constants.GOODS_UNDER_CARE;
                     transaction2.AccountID = _accountService.GetAccountIdWithCreate(Account.Constants.DONOR, receive.ResponsibleDonorID.Value);
                 }
                 else if (receiveModels.CommoditySourceID == CommoditySource.Constants.REPAYMENT)
                 {
-                    transaction2.LedgerID = Ledger.Constants.GOODS_RECIEVABLE;
+                    transaction2.LedgerID = Cats.Models.Ledger.Constants.GOODS_RECIEVABLE;
                     transaction2.AccountID = _accountService.GetAccountIdWithCreate(Account.Constants.HUB, receiveModels.SourceHubID.Value);
                 }
                 else
                 {
-                    transaction2.LedgerID = Ledger.Constants.LIABILITIES;
+                    transaction2.LedgerID = Cats.Models.Ledger.Constants.LIABILITIES;
                     transaction2.AccountID = _accountService.GetAccountIdWithCreate(Account.Constants.HUB, receiveModels.SourceHubID.Value);
                 }
                 #endregion
@@ -470,7 +470,7 @@ namespace Cats.Services.Hub
         /// <returns></returns>
         public List<TransporationReport> GetTransportationReports(OperationMode mode, DateTime? fromDate, DateTime? toDate)
         {
-            int ledgerId = (mode == OperationMode.Dispatch) ? Ledger.Constants.GOODS_IN_TRANSIT : Ledger.Constants.GOODS_ON_HAND_UNCOMMITED;
+            int ledgerId = (mode == OperationMode.Dispatch) ? Cats.Models.Ledger.Constants.GOODS_IN_TRANSIT : Cats.Models.Ledger.Constants.GOODS_ON_HAND_UNCOMMITED;
             var list = _unitOfWork.TransactionRepository.Get(item =>
                         (item.LedgerID == ledgerId && (item.QuantityInMT > 0 || item.QuantityInUnit > 0))
                               &&
@@ -536,7 +536,7 @@ namespace Cats.Services.Hub
                                                                                       && v.HubID == hubId
                                                                                       &&
                                                                                       v.LedgerID ==
-                                                                                      Ledger.Constants.
+                                                                                      Cats.Models.Ledger.Constants.
                                                                                           GOODS_ON_HAND_UNCOMMITED
                                                                                       && v.QuantityInMT > 0).Select(
                                                                                           v => v.QuantityInMT).Sum()));
@@ -696,7 +696,7 @@ namespace Cats.Services.Hub
                     transaction2.FDPID = dispatchViewModel.FDPID;
                     transaction2.HubID = dispatchViewModel.HubID;
                     transaction2.HubOwnerID = _unitOfWork.HubRepository.FindById(dispatchViewModel.HubID).HubOwnerID;
-                    transaction2.LedgerID = Ledger.Constants.GOODS_IN_TRANSIT;
+                    transaction2.LedgerID = Cats.Models.Ledger.Constants.GOODS_IN_TRANSIT;
                     transaction2.QuantityInMT = +dispatchViewModel.Quantity;
                     transaction2.QuantityInUnit = +dispatchViewModel.QuantityInUnit;
                     transaction2.ShippingInstructionID = dispatchViewModel.ShippingInstructionID;
@@ -721,7 +721,7 @@ namespace Cats.Services.Hub
                     transaction.FDPID = dispatchViewModel.FDPID;
                     transaction.HubID = dispatchViewModel.HubID;
                     transaction.HubOwnerID = _unitOfWork.HubRepository.FindById(dispatchViewModel.HubID).HubOwnerID;
-                    transaction.LedgerID = Ledger.Constants.GOODS_ON_HAND;
+                    transaction.LedgerID = Cats.Models.Ledger.Constants.GOODS_ON_HAND;
                     transaction.QuantityInMT = -dispatchViewModel.Quantity;
                     transaction.QuantityInUnit = -dispatchViewModel.QuantityInUnit;
                     transaction.ShippingInstructionID = dispatchViewModel.ShippingInstructionID;
@@ -747,7 +747,7 @@ namespace Cats.Services.Hub
                     transaction2.FDPID = dispatchViewModel.FDPID;
                     transaction2.HubID = dispatchViewModel.HubID;
                     transaction2.HubOwnerID = _unitOfWork.HubRepository.FindById(dispatchViewModel.HubID).HubOwnerID;
-                    transaction2.LedgerID = Ledger.Constants.COMMITED_TO_FDP;
+                    transaction2.LedgerID = Cats.Models.Ledger.Constants.COMMITED_TO_FDP;
                     transaction2.QuantityInMT = +dispatchViewModel.Quantity;
                     transaction2.QuantityInUnit = +dispatchViewModel.QuantityInUnit;
                     transaction2.ShippingInstructionID = dispatchViewModel.ShippingInstructionID;
@@ -774,7 +774,7 @@ namespace Cats.Services.Hub
                     transaction.FDPID = dispatchViewModel.FDPID;
                     transaction.HubID = dispatchViewModel.HubID;
                     transaction.HubOwnerID = _unitOfWork.HubRepository.FindById(dispatchViewModel.HubID).HubOwnerID;
-                    transaction.LedgerID = Ledger.Constants.STATISTICS_FREE_STOCK;
+                    transaction.LedgerID = Cats.Models.Ledger.Constants.STATISTICS_FREE_STOCK;
                     transaction.QuantityInMT = -dispatchViewModel.Quantity;
                     transaction.QuantityInUnit = -dispatchViewModel.QuantityInUnit;
                     transaction.ShippingInstructionID = dispatchViewModel.ShippingInstructionID;
@@ -861,7 +861,7 @@ namespace Cats.Services.Hub
             transaction2.CommodityID = detail.CommodityID;
             transaction2.HubID = dispatch.HubID;
             transaction2.HubOwnerID = _unitOfWork.HubRepository.FindById(dispatch.HubID).HubOwnerID;
-            transaction2.LedgerID = Ledger.Constants.GOODS_IN_TRANSIT;
+            transaction2.LedgerID = Cats.Models.Ledger.Constants.GOODS_IN_TRANSIT;
             transaction2.QuantityInMT = +detail.DispatchedQuantityMT.Value;
             transaction2.QuantityInUnit = +detail.DispatchedQuantity.Value;
             transaction2.ShippingInstructionID = _shippingInstructionService.GetShipingInstructionId(dispatchModel.SINumber);
@@ -889,7 +889,7 @@ namespace Cats.Services.Hub
             transaction.CommodityID = detail.CommodityID;
             transaction.HubID = dispatch.HubID;
             transaction.HubOwnerID = _unitOfWork.HubRepository.FindById(dispatch.HubID).HubOwnerID;
-            transaction.LedgerID = Ledger.Constants.GOODS_ON_HAND; //previously GOODS_ON_HAND_UNCOMMITED
+            transaction.LedgerID = Cats.Models.Ledger.Constants.GOODS_ON_HAND; //previously GOODS_ON_HAND_UNCOMMITED
             transaction.QuantityInMT = -detail.DispatchedQuantityMT.Value;
             transaction.QuantityInUnit = -detail.DispatchedQuantity.Value;
             transaction.ShippingInstructionID = _shippingInstructionService.GetShipingInstructionId(dispatchModel.SINumber);
@@ -910,7 +910,7 @@ namespace Cats.Services.Hub
             transaction.CommodityID = detail.CommodityID;
             transaction.HubID = dispatch.HubID;
             transaction.HubOwnerID = _unitOfWork.HubRepository.FindById(dispatch.HubID).HubOwnerID;
-            transaction.LedgerID = Ledger.Constants.STATISTICS_FREE_STOCK;
+            transaction.LedgerID = Cats.Models.Ledger.Constants.STATISTICS_FREE_STOCK;
             transaction.QuantityInMT = -detail.DispatchedQuantityMT.Value;
             transaction.QuantityInUnit = -detail.DispatchedQuantity.Value;
             transaction.ShippingInstructionID = _shippingInstructionService.GetShipingInstructionId(dispatchModel.SINumber);
@@ -931,7 +931,7 @@ namespace Cats.Services.Hub
             transaction.CommodityID = detail.CommodityID;
             transaction.HubID = dispatch.HubID;
             transaction.HubOwnerID = _unitOfWork.HubRepository.FindById(dispatch.HubID).HubOwnerID;
-            transaction.LedgerID = Ledger.Constants.COMMITED_TO_FDP;
+            transaction.LedgerID = Cats.Models.Ledger.Constants.COMMITED_TO_FDP;
             transaction.QuantityInMT = +detail.DispatchedQuantityMT.Value;
             transaction.QuantityInUnit = +detail.DispatchedQuantity.Value;
             transaction.ShippingInstructionID = _shippingInstructionService.GetShipingInstructionId(dispatchModel.SINumber);
@@ -959,7 +959,7 @@ namespace Cats.Services.Hub
             transaction2.CommodityID = detail.CommodityID;
             transaction2.HubID = dispatch.HubID;
             transaction2.HubOwnerID = _unitOfWork.HubRepository.FindById(dispatch.HubID).HubOwnerID;
-            transaction2.LedgerID = Ledger.Constants.GOODS_IN_TRANSIT;
+            transaction2.LedgerID = Cats.Models.Ledger.Constants.GOODS_IN_TRANSIT;
             transaction2.QuantityInMT = +detail.DispatchedQuantityMT.Value;
             transaction2.QuantityInUnit = +detail.DispatchedQuantity.Value;
             transaction2.ShippingInstructionID = _shippingInstructionService.GetShipingInstructionId(dispatchModel.SINumber);
@@ -981,7 +981,7 @@ namespace Cats.Services.Hub
             transaction2.CommodityID = detail.CommodityID;
             transaction2.HubID = dispatch.HubID;
             transaction2.HubOwnerID = _unitOfWork.HubRepository.FindById(dispatch.HubID).HubOwnerID;
-            transaction2.LedgerID = Ledger.Constants.GOODS_ON_HAND; //Previously GOODS_ON_HAND_UNCOMMITED
+            transaction2.LedgerID = Cats.Models.Ledger.Constants.GOODS_ON_HAND; //Previously GOODS_ON_HAND_UNCOMMITED
             transaction2.QuantityInMT = -detail.DispatchedQuantityMT.Value;
             transaction2.QuantityInUnit = -detail.DispatchedQuantity.Value;
             transaction2.ShippingInstructionID = _shippingInstructionService.GetShipingInstructionId(dispatchModel.SINumber);
@@ -1010,7 +1010,7 @@ namespace Cats.Services.Hub
             transaction.CommodityID = detail.CommodityID;
             transaction.HubID = dispatch.HubID;
             transaction.HubOwnerID = _unitOfWork.HubRepository.FindById(dispatch.HubID).HubOwnerID;
-            transaction.LedgerID = Ledger.Constants.STATISTICS_FREE_STOCK;
+            transaction.LedgerID = Cats.Models.Ledger.Constants.STATISTICS_FREE_STOCK;
             transaction.QuantityInMT = -detail.DispatchedQuantityMT.Value;
             transaction.QuantityInUnit = -detail.DispatchedQuantity.Value;
             transaction.ShippingInstructionID = _shippingInstructionService.GetShipingInstructionId(dispatchModel.SINumber);
@@ -1031,7 +1031,7 @@ namespace Cats.Services.Hub
             transaction.CommodityID = detail.CommodityID;
             transaction.HubID = dispatch.HubID;
             transaction.HubOwnerID = _unitOfWork.HubRepository.FindById(dispatch.HubID).HubOwnerID;
-            transaction.LedgerID = Ledger.Constants.STATISTICS_FREE_STOCK;
+            transaction.LedgerID = Cats.Models.Ledger.Constants.STATISTICS_FREE_STOCK;
             transaction.QuantityInMT = -detail.DispatchedQuantityMT.Value;
             transaction.QuantityInUnit = -detail.DispatchedQuantity.Value;
             transaction.ShippingInstructionID = _shippingInstructionService.GetShipingInstructionId(dispatchModel.SINumber);
@@ -1437,7 +1437,7 @@ namespace Cats.Services.Hub
                                                                 v.ParentCommodityID == parentCommodityId &&
                                                                 v.ShippingInstructionID == si &&
                                                                 v.ProjectCodeID == project &&
-                                                                v.LedgerID == Ledger.Constants.GOODS_ON_HAND_UNCOMMITED)
+                                                                v.LedgerID == Cats.Models.Ledger.Constants.GOODS_ON_HAND_UNCOMMITED)
                 .Select(v => v.QuantityInMT).ToList();
             if (balance.Any())
             {
@@ -1470,7 +1470,7 @@ namespace Cats.Services.Hub
             transactionOne.TransactionID = Guid.NewGuid();
             transactionOne.TransactionGroupID = transactionGroupId;
             transactionOne.PartitionID = 0;
-            transactionOne.LedgerID = Ledger.Constants.GOODS_UNDER_CARE;
+            transactionOne.LedgerID = Cats.Models.Ledger.Constants.GOODS_UNDER_CARE;
             transactionOne.HubOwnerID = user.DefaultHub.HubOwner.HubOwnerID;
             transactionOne.AccountID = repositoryAccountGetAccountIDWithCreateNegative;
             transactionOne.HubID = user.DefaultHub.HubID;
@@ -1495,7 +1495,7 @@ namespace Cats.Services.Hub
             transactionTwo.TransactionID = Guid.NewGuid();
             transactionTwo.TransactionGroupID = transactionGroupId;
             transactionTwo.PartitionID = 0;
-            transactionTwo.LedgerID = Ledger.Constants.GOODS_ON_HAND_UNCOMMITED;
+            transactionTwo.LedgerID = Cats.Models.Ledger.Constants.GOODS_ON_HAND;
             transactionTwo.HubOwnerID = user.DefaultHub.HubOwnerID;
             transactionTwo.AccountID = repositoryAccountGetAccountIDWithCreatePosetive;
             transactionTwo.HubID = user.DefaultHub.HubID;

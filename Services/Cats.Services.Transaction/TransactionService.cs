@@ -118,7 +118,7 @@ namespace Cats.Services.Transaction
                                                             UnitID = 1,
                                                             QuantityInMT = amount,
                                                             LedgerID =
-                                                                Cats.Models.Ledger.Constants.REQUIRMENT_DOCUMENT_PALN,
+                                                                Cats.Models.Ledger.Constants.REQUIRMENT_DOCUMENT_PLAN,
                                                             // previously 200
                                                             TransactionDate = transactionDate,
                                                             TransactionGroupID = transactionGroupID,
@@ -193,7 +193,7 @@ namespace Cats.Services.Transaction
                             QuantityInUnit = amount,
                             UnitID=1,
                             QuantityInMT = amount,
-                            LedgerID = Cats.Models.Ledger.Constants.REQUIRMENT_DOCUMENT_PALN, // previously 200
+                            LedgerID = Cats.Models.Ledger.Constants.REQUIRMENT_DOCUMENT_PLAN, // previously 200
                             TransactionDate = transactionDate,
                             TransactionGroupID = transactionGroupID,
                             PlanId = plan.PlanId,
