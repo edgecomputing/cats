@@ -461,7 +461,7 @@ namespace Cats.Services.Transaction
                                      CommodityID = donationPlanHeader.CommodityID,
                                      ShippingInstructionID = donationPlanHeader.ShippingInstructionId,
                                      HubID = donationPlanDetail.HubID,
-                                     LedgerID = Ledger.Constants.GOODS_PROMISSED_GIFT_CERTIFICATE_COMMITED //good promissed - pledged is not in ledger list // Former LedgerID = 4
+                                     LedgerID = Ledger.Constants.GIFT_CERTIFICATE //good promissed - pledged is not in ledger list // Former LedgerID = 4
                                  };
 
                 _unitOfWork.TransactionRepository.Add(transaction);
@@ -560,7 +560,7 @@ namespace Cats.Services.Transaction
                 transaction.TransactionGroupID = transactionGroup;
                 transaction.TransactionDate = transactionDate;
                 transaction.UnitID = 1;
-                transaction.LedgerID = Ledger.Constants.GOODS_PROMISSED_GIFT_CERTIFICATE_COMMITED;//Goods Promised - Gift Certificate - Commited not found in ledger list
+                transaction.LedgerID = Ledger.Constants.GIFT_CERTIFICATE;//Goods Promised - Gift Certificate - Commited not found in ledger list
                 transaction.CommodityID = giftCertificateDetail.CommodityID;
                // transaction.ShippingInstructionID = giftCertificate.SINumber;
                 _unitOfWork.TransactionRepository.Add(transaction);
@@ -574,7 +574,7 @@ namespace Cats.Services.Transaction
                 transaction.TransactionDate = transactionDate;
                 transaction.QuantityInUnit = giftCertificateDetail.WeightInMT;
                 transaction.UnitID = 1;
-                transaction.LedgerID = Ledger.Constants.GOODS_PROMISSED_PLEDGE;//Goods Promised - Pledge	 not found in ledger list
+                transaction.LedgerID = Ledger.Constants.PLEDGE;//Goods Promised - Pledge	 not found in ledger list
 
                 _unitOfWork.TransactionRepository.Add(transaction);
 

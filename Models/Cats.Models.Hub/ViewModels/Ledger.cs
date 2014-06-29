@@ -44,18 +44,11 @@ namespace Cats.Models.Hubs
             public const int GOODS_RECIEVABLE = 3;
 
 
-
-
             // Not part of the normal workflow.
-            public const int LIABILITIES = 4;
-            public const int ADJUSTMENT = 6;
-            public const int DELIVERY_IN_TRANSIT = 9;
-            public const int DAMAGED = 14;
-            public const int GOODS_PROMISSED_AS_PART_OF_LOAN_COMMITED = 17;
-            public const int GOODS_PROMISSED_AS_PART_OF_LOAN_UNCOMMITED = 18;
-            public const int GOODS_PROMISSED_GIFT_CERTIFICATE_UNCOMMITED = 19;
             public const int GOODS_ON_HAND_UNCOMMITED = 20;
-            
+            public const int LIABILITIES = 4;
+
+            public const int DELIVERY_IN_TRANSIT = 9;
         }
 
     }
