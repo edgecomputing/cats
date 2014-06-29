@@ -95,7 +95,7 @@ namespace Cats.Services.Hub
                 t => t.ShippingInstructionID == siNumber
                      && t.HubID == hubId
                      && (t.ParentCommodityID == commodityId || t.CommodityID == commodityId)
-                     && t.LedgerID == Ledger.Constants.GOODS_PROMISSED_GIFT_CERTIFICATE_COMMITED
+                     && t.LedgerID == Ledger.Constants.GIFT_CERTIFICATE
                      && t.QuantityInMT > 0
                 ).Select(t => t.QuantityInMT).ToList();
 
@@ -300,7 +300,7 @@ namespace Cats.Services.Hub
                 transaction.TransactionDate = DateTime.Now;
                 transaction.ParentCommodityID = _unitOfWork.CommodityRepository.FindById(c.CommodityID).ParentID ?? c.CommodityID;
                 transaction.CommodityID = c.CommodityID;
-                transaction.LedgerID = Ledger.Constants.STATISTICS;
+                transaction.LedgerID = Ledger.Constants.STATISTICS_FREE_STOCK;
                 transaction.HubOwnerID = user.DefaultHub.HubOwnerID;
 
                 transaction.AccountID = _accountService.GetAccountIdWithCreate(Account.Constants.HUB, receive.HubID);
@@ -856,7 +856,7 @@ namespace Cats.Services.Hub
             transaction.CommodityID = detail.CommodityID;
             transaction.HubID = dispatch.HubID;
             transaction.HubOwnerID = _unitOfWork.HubRepository.FindById(dispatch.HubID).HubOwnerID;
-            transaction.LedgerID = Ledger.Constants.STATISTICS;
+            transaction.LedgerID = Ledger.Constants.STATISTICS_FREE_STOCK;
             transaction.QuantityInMT = -detail.DispatchedQuantityMT.Value;
             transaction.QuantityInUnit = -detail.DispatchedQuantity.Value;
             transaction.ShippingInstructionID = _shippingInstructionService.GetShipingInstructionId(dispatchModel.SINumber);
@@ -956,7 +956,7 @@ namespace Cats.Services.Hub
             transaction.CommodityID = detail.CommodityID;
             transaction.HubID = dispatch.HubID;
             transaction.HubOwnerID = _unitOfWork.HubRepository.FindById(dispatch.HubID).HubOwnerID;
-            transaction.LedgerID = Ledger.Constants.STATISTICS;
+            transaction.LedgerID = Ledger.Constants.STATISTICS_FREE_STOCK;
             transaction.QuantityInMT = -detail.DispatchedQuantityMT.Value;
             transaction.QuantityInUnit = -detail.DispatchedQuantity.Value;
             transaction.ShippingInstructionID = _shippingInstructionService.GetShipingInstructionId(dispatchModel.SINumber);
@@ -977,7 +977,7 @@ namespace Cats.Services.Hub
             transaction.CommodityID = detail.CommodityID;
             transaction.HubID = dispatch.HubID;
             transaction.HubOwnerID = _unitOfWork.HubRepository.FindById(dispatch.HubID).HubOwnerID;
-            transaction.LedgerID = Ledger.Constants.STATISTICS;
+            transaction.LedgerID = Ledger.Constants.STATISTICS_FREE_STOCK;
             transaction.QuantityInMT = -detail.DispatchedQuantityMT.Value;
             transaction.QuantityInUnit = -detail.DispatchedQuantity.Value;
             transaction.ShippingInstructionID = _shippingInstructionService.GetShipingInstructionId(dispatchModel.SINumber);
