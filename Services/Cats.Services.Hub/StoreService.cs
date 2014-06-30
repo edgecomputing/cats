@@ -95,7 +95,7 @@ namespace Cats.Services.Hub
             foreach (var store in hub.Stores)
             {
                 var balance = _unitOfWork.TransactionRepository.FindBy(s => s.StoreID == store.StoreID && parentCommodityId == s.ParentCommodityID &&
-                                s.LedgerID == Ledger.Constants.GOODS_ON_HAND_UNCOMMITED && s.ShippingInstructionID == SINumber).Select(q => q.QuantityInMT);
+                                s.LedgerID == Cats.Models.Ledger.Constants.GOODS_ON_HAND && s.ShippingInstructionID == SINumber).Select(q => q.QuantityInMT);
                     
                 if (balance.Any() && balance.Sum() > 0)
                 {           
@@ -112,7 +112,7 @@ namespace Cats.Services.Hub
             foreach (var store in hub.Stores)
             {
                 var balance = ( _unitOfWork.TransactionRepository.FindBy(s => s.StoreID == store.StoreID && parentCommodityId == s.ParentCommodityID &&
-                                s.LedgerID == Ledger.Constants.GOODS_ON_HAND_UNCOMMITED).Select(q => q.QuantityInMT));
+                                s.LedgerID == Cats.Models.Ledger.Constants.GOODS_ON_HAND).Select(q => q.QuantityInMT));
 
                 if (balance.Any() && balance.Sum() > 0)
                 {
@@ -130,7 +130,7 @@ namespace Cats.Services.Hub
             {
 
                 var balance = (_unitOfWork.TransactionRepository.FindBy(s => s.StoreID == store.StoreID && siNumber == s.ShippingInstructionID &&
-                               s.LedgerID == Ledger.Constants.GOODS_ON_HAND_UNCOMMITED  && s.Stack == stack).Select(q => q.QuantityInMT));
+                               s.LedgerID == Cats.Models.Ledger.Constants.GOODS_ON_HAND && s.Stack == stack).Select(q => q.QuantityInMT));
 
                
                 if (balance.Any() && balance.Sum() > 0)

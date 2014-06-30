@@ -258,7 +258,7 @@ namespace Cats.Models.Hubs.ViewModels.Dispatch
        /// <param name="repository">The repository.</param>
        public void InitTransfer(UserProfile user, List<Hub> hubs ,List<Commodity> commodities,List<CommodityType> commodityTypes  ,List<Program> programs,List<Unit> units )
        {
-           FromHubID = user.DefaultHub.HubID;
+           FromHubID = user.DefaultHub;
            ToHubs = hubs;// repository.Hub.GetOthersHavingSameOwner(user.DefaultHub);
            FromHubs = user.UserAllowedHubs;
            Commodities = commodities;// repository.Commodity.GetAllParents();
@@ -280,7 +280,7 @@ namespace Cats.Models.Hubs.ViewModels.Dispatch
        /// <param name="repository">The repository.</param>
        public void InitLoan(UserProfile user, List<Hub> hubs, List<Commodity> commodities, List<CommodityType> commodityTypes, List<Program> programs, List<Unit> units)
        {
-           FromHubID = user.DefaultHub.HubID;
+           FromHubID = user.DefaultHub;
            ToHubs = hubs;// repository.Hub.GetOthersWithDifferentOwner(user.DefaultHub);
            FromHubs = user.UserAllowedHubs;
            Commodities = commodities;// repository.Commodity.GetAllParents();

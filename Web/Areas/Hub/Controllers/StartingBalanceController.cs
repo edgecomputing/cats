@@ -54,7 +54,7 @@ namespace Cats.Areas.Hub.Controllers
         public ActionResult GetListOfStartingBalances()
         {
             var userProfile = _userProfileService.GetUser(User.Identity.Name);
-            List<StartingBalanceViewModelDto> startBalanceDto = _transactionService.GetListOfStartingBalances(userProfile.DefaultHub.HubID);
+            List<StartingBalanceViewModelDto> startBalanceDto = _transactionService.GetListOfStartingBalances(userProfile.DefaultHub.Value);
             return View(new GridModel(startBalanceDto)); 
 
            
@@ -84,7 +84,7 @@ namespace Cats.Areas.Hub.Controllers
 
             Commodities = _commodityService.GetAllCommodity().Where(c=>c.ParentID != null).ToList();
             Programs = _programService.GetAllProgram().ToList();
-            Stores =_storeService.GetAllStore().Where(h=>h.HubID == user.DefaultHub.HubID).ToList();
+            Stores =_storeService.GetAllStore().Where(h=>h.HubID == user.DefaultHub.Value).ToList();
             Units = _unitService.GetAllUnit().ToList();
             Donors = _donorSerivce.GetAllDonor().ToList();
 

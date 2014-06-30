@@ -140,7 +140,7 @@ namespace Cats.Models.Hubs.ViewModels
             Transporters = transporters;// _Repository.Transporter.GetAll().DefaultIfEmpty().OrderBy(o => o.Name).ToList();
             CommoditySources = commoditySources;// _Repository.CommoditySource.GetAll().DefaultIfEmpty().OrderBy(o => o.Name).ToList();
             CommodityTypes = commodityTypes;// _Repository.CommodityType.GetAll().DefaultIfEmpty().OrderBy(o => o.Name).ToList();
-            Stores = user.DefaultHub.Stores.DefaultIfEmpty().ToList();
+            Stores = user.DefaultHubObj.Stores.DefaultIfEmpty().ToList();
             Programs = programs;// _Repository.Program.GetAll().DefaultIfEmpty().OrderBy(o => o.Name).ToList();
             Donors = donors;// _Repository.Donor.GetAll().DefaultIfEmpty().OrderBy(o => o.Name).ToList();
             //=========================Old Comment============================================

@@ -27,7 +27,7 @@ namespace Cats.Areas.Hub.Controllers.Allocations
 
         public ActionResult ListRequisitions()
         {
-            return PartialView(_dispatchAllocationService.GetSummaryForUncommitedAllocations(GetCurrentUserProfile().DefaultHub.HubID));
+            return PartialView(_dispatchAllocationService.GetSummaryForUncommitedAllocations(GetCurrentUserProfile().DefaultHub.Value));
         }
 
         public ActionResult RequistionDetails(int req)

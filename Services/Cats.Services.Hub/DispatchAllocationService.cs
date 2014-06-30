@@ -84,7 +84,7 @@ namespace Cats.Services.Hub
         public decimal GetUncommitedBalance(int siNumber, int commodityId, int hubId)
         {
             var total = (from tr in _unitOfWork.TransactionRepository.GetAll()
-                         where tr.LedgerID == Ledger.Constants.GOODS_ON_HAND_UNCOMMITED
+                         where tr.LedgerID == Cats.Models.Ledger.Constants.GOODS_ON_HAND_UNCOMMITED
                      && tr.ShippingInstructionID == siNumber && (tr.CommodityID == commodityId || tr.ParentCommodityID == commodityId) && tr.HubID == hubId
                          select tr.QuantityInMT);
             if (total.Any())
@@ -170,7 +170,7 @@ namespace Cats.Services.Hub
             var tempTransactions =
                 _unitOfWork.TransactionRepository.Get(
                     t => (t.CommodityID == commodityID || t.ParentCommodityID == commodityID)
-                         && t.LedgerID == Ledger.Constants.GOODS_ON_HAND_UNCOMMITED
+                         && t.LedgerID == Cats.Models.Ledger.Constants.GOODS_ON_HAND_UNCOMMITED
                          && t.HubID == hubID);
             var SIs = (from tr in tempTransactions
                        group tr by new {tr.ShippingInstruction}
@@ -201,7 +201,7 @@ namespace Cats.Services.Hub
                 _unitOfWork.TransactionRepository.Get(
                     tr =>
                     (tr.CommodityID == commodityID || tr.ParentCommodityID == commodityID) &&
-                    tr.LedgerID == Ledger.Constants.GOODS_ON_HAND_UNCOMMITED
+                    tr.LedgerID == Cats.Models.Ledger.Constants.GOODS_ON_HAND_UNCOMMITED
                     && tr.ShippingInstructionID == shipingInstructionID && tr.HubID == hubID).
                     FirstOrDefault();
 
@@ -249,7 +249,7 @@ namespace Cats.Services.Hub
         {
             var tempTransactions =
                 _unitOfWork.TransactionRepository.Get(
-                    t => t.LedgerID == Ledger.Constants.GOODS_ON_HAND_UNCOMMITED && t.HubID == hubID);
+                    t => t.LedgerID == Cats.Models.Ledger.Constants.GOODS_ON_HAND_UNCOMMITED && t.HubID == hubID);
             var list = (from ls in tempTransactions
                         group ls by new { ls.ShippingInstruction, ls.ProjectCode, ls.Commodity, ls.Program } into si
                         select new SIBalance()
