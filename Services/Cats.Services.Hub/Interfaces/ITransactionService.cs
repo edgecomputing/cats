@@ -58,7 +58,7 @@ namespace Cats.Services.Hub
         /// </summary>
         /// <param name="dispatchModel">The dispatch model.</param>
         /// <param name="user">The user.</param>
-        //bool SaveDispatchTransaction(DispatchModel dispatchModel, UserProfile user);
+        bool SaveDispatchTransaction(DispatchModel dispatchModel, UserProfile user);
         void SaveDispatchTransaction(DispatchViewModel dispatchModel);
 
         /// <summary>

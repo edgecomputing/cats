@@ -736,7 +736,7 @@ namespace Cats.Areas.Hub.Controllers
                         }
                     }
                     //InsertDispatch(dispatchModel, user);
-                   // _transactionService.SaveDispatchTransaction(dispatchModel, user);
+                   _transactionService.SaveDispatchTransaction(dispatchModel, user);
                 }
                 else
                 {
