@@ -541,6 +541,20 @@ namespace Cats.Models.Hubs
 
         }
 
+        public DispatchModel()
+        {
+            this.DispatchID = null;
+            this.DispatchDate = DateTime.Now;
+            this._commodities = null;
+            this._transporters = null;
+            this._units = null;
+            this._FDPs = null;
+            this._programs = null;
+            this.Regions = null;
+            this.Zones = null;
+            this._stores = null;
+        }
+
         /// <summary>
         /// Validates this instance.
         /// </summary>

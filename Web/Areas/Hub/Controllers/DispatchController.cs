@@ -714,7 +714,7 @@ namespace Cats.Areas.Hub.Controllers
             
             if (ModelState.IsValid && user != null)
             {
-
+                
                 if (dispatchModel.ChangeStoreManPermanently)
                 {
                     var storeTobeChanged = _storeService.FindById(dispatchModel.StoreID);
@@ -736,7 +736,7 @@ namespace Cats.Areas.Hub.Controllers
                         }
                     }
                     //InsertDispatch(dispatchModel, user);
-                   // _transactionService.SaveDispatchTransaction(dispatchModel, user);
+                   _transactionService.SaveDispatchTransaction(dispatchModel, user);
                 }
                 else
                 {
