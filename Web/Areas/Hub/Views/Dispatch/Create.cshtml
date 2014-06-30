@@ -14,7 +14,7 @@
 
 @Html.Partial("DisplayHub")
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("Create", "Dispatch", FormMethod.Post, new { id = "frmCreate" }))
 {
     @Html.ValidationSummary(true)
     

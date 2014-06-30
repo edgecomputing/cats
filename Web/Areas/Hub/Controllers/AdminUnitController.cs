@@ -390,7 +390,7 @@ namespace Cats.Areas.Hub.Controllers
                 // TODO: Here implement a null argument exception
                 return null;
             }
-            var thelist = _adminUnitService.GetTreeElts(parentId.Value, user.DefaultHub.HubID);
+            var thelist = _adminUnitService.GetTreeElts(parentId.Value, user.DefaultHub.Value);
             IEnumerable nodes = from item in thelist
                                 // where item.ParentID == parentId || (parentId == null && item.ParentID == null)
                                 group item by new {item.Value, item.Name, item.LoadOnDemand}
@@ -414,7 +414,7 @@ namespace Cats.Areas.Hub.Controllers
             var user = _userProfileService.GetUser(User.Identity.Name);
             var unclosed = (from dAll in _dispatchAllocationService.GetAllDispatchAllocation()
                             where dAll.ShippingInstructionID.HasValue && dAll.ProjectCodeID.HasValue
-                                  && user.DefaultHub.HubID == dAll.HubID && dAll.IsClosed == false
+                                  && user.DefaultHub.Value == dAll.HubID && dAll.IsClosed == false
                             select dAll);
 
             var adminUnit = _adminUnitService.FindById(adminUnitId);

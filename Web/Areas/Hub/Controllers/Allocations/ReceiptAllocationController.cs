@@ -114,7 +114,7 @@ namespace Cats.Areas.Hub.Controllers.Allocations
            UserProfile user = _userProfileService.GetUser(User.Identity.Name);
             var list =
                 _receiptAllocationService.GetAllByTypeMerged(type).Where(
-                    p => p.SINumber == SInumber && p.HubID == user.DefaultHub.HubID);
+                    p => p.SINumber == SInumber && p.HubID == user.DefaultHub.Value);
             //foreach (ReceiptAllocation receiptAllocation in list)
             //{
             //    if (user.UserAllowedHubs.Any(x => x.HubID == receiptAllocation.HubID))
@@ -195,7 +195,7 @@ namespace Cats.Areas.Hub.Controllers.Allocations
             if (user != null)
             {
                 //Hubs = new List<Hub>() { user.DefaultHub };
-                hubs = _hubService.GetAllWithoutId(user.DefaultHub.HubID).DefaultIfEmpty().OrderBy(o => o.Name)
+                hubs = _hubService.GetAllWithoutId(user.DefaultHub.Value).DefaultIfEmpty().OrderBy(o => o.Name)
                     .ToList();
             }
             else
@@ -208,7 +208,7 @@ namespace Cats.Areas.Hub.Controllers.Allocations
             var commoditySources = _commoditySourceService.GetAllCommoditySource().DefaultIfEmpty().OrderBy(o => o.Name).ToList();
             var commodityTypes = _commodityTypeService.GetAllCommodityType().DefaultIfEmpty().OrderBy(o => o.Name).ToList();
             var viewModel = new ReceiptAllocationViewModel(commodities, donors, hubs, programs, commoditySources, commodityTypes, user);
-            viewModel.HubID = user.DefaultHub.HubID;
+            viewModel.HubID = user.DefaultHub.Value;
             return viewModel;
         }
         //
@@ -275,7 +275,7 @@ namespace Cats.Areas.Hub.Controllers.Allocations
                 int commType = _commodityService.FindById(receiptAllocation.CommodityID).CommodityTypeID;
                 //override to default hub
                UserProfile user = _userProfileService.GetUser(User.Identity.Name);
-                receiptAllocation.HubID = user.DefaultHub.HubID;
+                receiptAllocation.HubID = user.DefaultHub.Value;
 
                 if (typeOfGridToReload != Cats.Models.Hubs.CommoditySource.Constants.DONATION &&
                     typeOfGridToReload != Cats.Models.Hubs.CommoditySource.Constants.LOCALPURCHASE)
@@ -563,7 +563,7 @@ namespace Cats.Areas.Hub.Controllers.Allocations
                 int commType = _commodityService.FindById(receiptAllocation.CommodityID).CommodityTypeID;
                 //override to default hub
                 UserProfile user = _userProfileService.GetUser(User.Identity.Name);
-                receiptAllocation.HubID = user.DefaultHub.HubID;
+                receiptAllocation.HubID = user.DefaultHub.Value;
                 if (typeOfGridToReload != Cats.Models.Hubs.CommoditySource.Constants.DONATION &&
                     typeOfGridToReload != Cats.Models.Hubs.CommoditySource.Constants.LOCALPURCHASE)
                 {
@@ -666,7 +666,7 @@ namespace Cats.Areas.Hub.Controllers.Allocations
                 int commType = _commodityService.FindById(receiptAllocation.CommodityID).CommodityTypeID;
                 //override to default hub
                UserProfile user = _userProfileService.GetUser(User.Identity.Name);
-                receiptAllocation.HubID = user.DefaultHub.HubID;
+                receiptAllocation.HubID = user.DefaultHub.Value;
                 if (typeOfGridToReload != Cats.Models.Hubs.CommoditySource.Constants.DONATION &&
                     typeOfGridToReload != Cats.Models.Hubs.CommoditySource.Constants.LOCALPURCHASE)
                 {
@@ -696,7 +696,7 @@ namespace Cats.Areas.Hub.Controllers.Allocations
            UserProfile user = _userProfileService.GetUser(User.Identity.Name);
            
             var receiptAllocationViewModel = BindReceiptAllocaitonViewModel();;
-            receiptAllocationViewModel.HubID = user.DefaultHub.HubID;
+            receiptAllocationViewModel.HubID = user.DefaultHub.Value;
             if (SInumber != null)
             {
                 var shippingInstruction = _shippingInstructionService.FindBy(t => t.Value == SInumber).FirstOrDefault();
@@ -738,7 +738,7 @@ namespace Cats.Areas.Hub.Controllers.Allocations
                     //    receiptAllocationViewModel.Hubs.Clear();
                     //    receiptAllocationViewModel.Hubs = hubs;
                     //}
-                    hubs.Add(user.DefaultHub);
+                    hubs.Add(user.DefaultHubObj);
                     receiptAllocationViewModel.Hubs = hubs;
 
                     receiptAllocationViewModel.ETA = GC.ETA;
