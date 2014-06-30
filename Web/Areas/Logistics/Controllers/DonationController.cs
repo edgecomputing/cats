@@ -368,57 +368,60 @@ namespace Cats.Areas.Logistics.Controllers
         public ActionResult Save(DonationViewModel donationViewModel)
         {
 
-            if (ModelState.IsValid)
+            var program = _commonService.GetPrograms().ToList();
+            var donor = _commonService.GetDonors().ToList();
+            var hub = _hubService.GetAllHub().ToList();
+            var commodityType = _commodityTypeService.GetAllCommodityType();
+            var commodity = _commodityService.GetAllCommodity();
+
+            if (ModelState.IsValid && donationViewModel != null && donationViewModel.WieghtInMT >=donationViewModel.DonationPlanDetails.Sum(m=>m.AllocatedAmount))
             {
 
 
-                if (donationViewModel != null)
+                var siId = DoesSIExistInShippingInstruction(donationViewModel.SINumber);
+                if (siId != 0)
                 {
-                    var siId = DoesSIExistInShippingInstruction(donationViewModel.SINumber);
-                    if (siId != 0)
+                    if (!DoesSIExistInDonationHeader(donationViewModel.SINumber))
                     {
-                        if (!DoesSIExistInDonationHeader(donationViewModel.SINumber))
-                        {
 
-                            SaveNewDonationPlan(donationViewModel, siId);
-                            
-                        }
-                        else
-                        {
+                        SaveNewDonationPlan(donationViewModel, siId);
 
-                            UpdateDonationPlan(donationViewModel, siId);
-                        }
                     }
                     else
                     {
-                        var si = InsertInToShippingInstructionTable(donationViewModel.SINumber);
-                            //first in shippins instruction table
-                        if (si != -1)
-                            SaveNewDonationPlan(donationViewModel, si); // second in doation table
+
+                        UpdateDonationPlan(donationViewModel, siId);
                     }
-
-
+                }
+                else
+                {
+                    var si = InsertInToShippingInstructionTable(donationViewModel.SINumber);
+                    //first in shippins instruction table
+                    if (si != -1)
+                        SaveNewDonationPlan(donationViewModel, si); // second in doation table
                 }
 
 
-                var program = _commonService.GetPrograms().ToList();
-                var donor = _commonService.GetDonors().ToList();
-                var hub = _hubService.GetAllHub().ToList();
-                var commodityType = _commodityTypeService.GetAllCommodityType();
-                var commodity = _commodityService.GetAllCommodity();
+            
 
                 donationViewModel.Donors = donor;
                 donationViewModel.Commodities = commodity;
                 donationViewModel.Programs = program;
                 donationViewModel.CommodityTypes = commodityType;
 
-                ModelState.AddModelError("Success", "Receipt Plan has been saved");
+                ModelState.AddModelError("Success", @"Receipt Plan has been saved");
                 return View("AddNewDonationPlan", donationViewModel);
 
             }
-
-            var model = InitDonationViewModel();
-           return View("AddNewDonationPlan",model);
+          
+            ModelState.AddModelError("Errors", @"Total Allocated Amount Can't Exceed Gift Certificate Amount");
+            donationViewModel.Donors = donor;
+            donationViewModel.Commodities = commodity;
+            donationViewModel.Programs = program;
+            donationViewModel.CommodityTypes = commodityType;
+           return View("AddNewDonationPlan",donationViewModel);
+           
+           
         }
 
         private bool SaveNewDonationPlan(DonationViewModel donationViewModel,int siId)
