@@ -227,7 +227,7 @@ namespace Cats.Services.Hub
 
             Receive receive = receiveModels.GenerateReceive();
             receive.CreatedDate = DateTime.Now;
-            receive.HubID = user.DefaultHub.HubID;
+            receive.HubID = user.DefaultHub.Value;
             receive.UserProfileID = user.UserProfileID;
             var commType = _unitOfWork.CommodityTypeRepository.FindById(receiveModels.CommodityTypeID);
            
@@ -273,7 +273,7 @@ namespace Cats.Services.Hub
                 transaction.ParentCommodityID = _unitOfWork.CommodityRepository.FindById(c.CommodityID).ParentID ?? c.CommodityID;
                 transaction.CommodityID = c.CommodityID;
                 transaction.LedgerID = Ledger.Constants.GOODS_ON_HAND_UNCOMMITED;
-                transaction.HubOwnerID = user.DefaultHub.HubOwnerID;
+                transaction.HubOwnerID = user.DefaultHubObj.HubOwnerID;
 
                 
                 
@@ -281,7 +281,7 @@ namespace Cats.Services.Hub
                 transaction.ShippingInstructionID =_shippingInstructionService.GetSINumberIdWithCreate(receiveModels.SINumber).ShippingInstructionID;
 
                 transaction.ProjectCodeID = _projectCodeService.GetProjectCodeIdWIthCreate(receiveModels.ProjectNumber).ProjectCodeID;
-                transaction.HubID = user.DefaultHub.HubID;
+                transaction.HubID = user.DefaultHub;
                 transaction.UnitID = c.UnitID;
                 if (c.ReceivedQuantityInMT != null) transaction.QuantityInMT = c.ReceivedQuantityInMT.Value;
                 if (c.ReceivedQuantityInUnit != null) transaction.QuantityInUnit = c.ReceivedQuantityInUnit.Value;
@@ -301,13 +301,13 @@ namespace Cats.Services.Hub
                 transaction.ParentCommodityID = _unitOfWork.CommodityRepository.FindById(c.CommodityID).ParentID ?? c.CommodityID;
                 transaction.CommodityID = c.CommodityID;
                 transaction.LedgerID = Ledger.Constants.STATISTICS;
-                transaction.HubOwnerID = user.DefaultHub.HubOwnerID;
+                transaction.HubOwnerID = user.DefaultHubObj.HubOwnerID;
 
                 transaction.AccountID = _accountService.GetAccountIdWithCreate(Account.Constants.HUB, receive.HubID);
                 transaction.ShippingInstructionID = _shippingInstructionService.GetSINumberIdWithCreate(receiveModels.SINumber).ShippingInstructionID;
 
                 transaction.ProjectCodeID = _projectCodeService.GetProjectCodeIdWIthCreate(receiveModels.ProjectNumber).ProjectCodeID;
-                transaction.HubID = user.DefaultHub.HubID;
+                transaction.HubID = user.DefaultHub.Value;
                 transaction.UnitID = c.UnitID;
                 if (c.ReceivedQuantityInMT != null) transaction.QuantityInMT = c.ReceivedQuantityInMT.Value;
                 if (c.ReceivedQuantityInUnit != null) transaction.QuantityInUnit = c.ReceivedQuantityInUnit.Value;
@@ -330,7 +330,7 @@ namespace Cats.Services.Hub
                 //TAKEs the PARENT FROM THE FIRST TRANSACTION
                 transaction2.ParentCommodityID = transaction.ParentCommodityID;
                 transaction2.CommodityID = c.CommodityID;
-                transaction2.HubOwnerID = user.DefaultHub.HubOwnerID;
+                transaction2.HubOwnerID = user.DefaultHubObj.HubOwnerID;
 
                 transaction2.LedgerID = Ledger.Constants.GOODS_UNDER_CARE;
                 if (receive.ResponsibleDonorID != null)
@@ -364,7 +364,7 @@ namespace Cats.Services.Hub
 
                 transaction2.ShippingInstructionID = _shippingInstructionService.GetSINumberIdWithCreate(receiveModels.SINumber).ShippingInstructionID;
                 transaction2.ProjectCodeID = _projectCodeService.GetProjectCodeIdWIthCreate(receiveModels.ProjectNumber).ProjectCodeID;
-                transaction2.HubID = user.DefaultHub.HubID;
+                transaction2.HubID = user.DefaultHub.Value;
                 transaction2.UnitID = c.UnitID;
                 // this is the credit part, so make it Negative
                 if (c.ReceivedQuantityInMT != null) transaction2.QuantityInMT = -c.ReceivedQuantityInMT.Value;
@@ -389,7 +389,7 @@ namespace Cats.Services.Hub
                 //TAKEs the PARENT FROM THE FIRST TRANSACTION
                 transaction2.ParentCommodityID = transaction.ParentCommodityID;
                 transaction2.CommodityID = c.CommodityID;
-                transaction2.HubOwnerID = user.DefaultHub.HubOwnerID;
+                transaction2.HubOwnerID = user.DefaultHubObj.HubOwnerID;
 
                 transaction2.LedgerID = Ledger.Constants.GOODS_RECIEVABLE;
                 if (receive.ResponsibleDonorID != null)
@@ -423,7 +423,7 @@ namespace Cats.Services.Hub
 
                 transaction2.ShippingInstructionID = _shippingInstructionService.GetSINumberIdWithCreate(receiveModels.SINumber).ShippingInstructionID;
                 transaction2.ProjectCodeID = _projectCodeService.GetProjectCodeIdWIthCreate(receiveModels.ProjectNumber).ProjectCodeID;
-                transaction2.HubID = user.DefaultHub.HubID;
+                transaction2.HubID = user.DefaultHub.Value;
                 transaction2.UnitID = c.UnitID;
                 // this is the credit part, so make it Negative
                 if (c.ReceivedQuantityInMT != null) transaction2.QuantityInMT = -c.ReceivedQuantityInMT.Value;
@@ -562,7 +562,7 @@ namespace Cats.Services.Hub
         {
             Dispatch dispatch = dispatchModel.GenerateDipatch(user);
 
-            dispatch.HubID = user.DefaultHub.HubID;
+            dispatch.HubID = user.DefaultHub.Value;
             dispatch.UserProfileID = user.UserProfileID;
             dispatch.DispatchAllocationID = dispatchModel.DispatchAllocationID;
             dispatch.OtherDispatchAllocationID = dispatchModel.OtherDispatchAllocationID;
@@ -1057,10 +1057,10 @@ namespace Cats.Services.Hub
             transactionFromStore.TransactionID = Guid.NewGuid();
             transactionFromStore.TransactionGroupID = transactionGroupId;
             transactionFromStore.LedgerID = 2;
-            transactionFromStore.HubOwnerID = user.DefaultHub.HubOwner.HubOwnerID;
+            transactionFromStore.HubOwnerID = user.DefaultHubObj.HubOwner.HubOwnerID;
             //trasaction.AccountID
-            transactionFromStore.AccountID = _accountService.GetAccountIdWithCreate(Account.Constants.HUB, user.DefaultHub.HubID); // 
-            transactionFromStore.HubID = user.DefaultHub.HubID;
+            transactionFromStore.AccountID = _accountService.GetAccountIdWithCreate(Account.Constants.HUB, user.DefaultHub.Value); // 
+            transactionFromStore.HubID = user.DefaultHub.Value;
             transactionFromStore.StoreID = viewModel.FromStoreId;  //
             transactionFromStore.Stack = viewModel.FromStackId; //
             transactionFromStore.ProjectCodeID = viewModel.ProjectCodeId;
@@ -1083,10 +1083,10 @@ namespace Cats.Services.Hub
             transactionToStore.TransactionID = Guid.NewGuid();
             transactionToStore.TransactionGroupID = transactionGroupId;
             transactionToStore.LedgerID = 2;
-            transactionToStore.HubOwnerID = user.DefaultHub.HubOwner.HubOwnerID;
+            transactionToStore.HubOwnerID = user.DefaultHubObj.HubOwner.HubOwnerID;
             //transactionToStore.AccountID
-            transactionToStore.AccountID = _accountService.GetAccountIdWithCreate(Account.Constants.HUB, user.DefaultHub.HubID); // 
-            transactionToStore.HubID = user.DefaultHub.HubID;
+            transactionToStore.AccountID = _accountService.GetAccountIdWithCreate(Account.Constants.HUB, user.DefaultHub.Value); // 
+            transactionToStore.HubID = user.DefaultHub.Value;
             transactionToStore.StoreID = viewModel.ToStoreId;  //
             transactionToStore.Stack = viewModel.ToStackId; //
             transactionToStore.ProjectCodeID = viewModel.ProjectCodeId;
@@ -1158,9 +1158,9 @@ namespace Cats.Services.Hub
             transactionOne.TransactionID = Guid.NewGuid();
             transactionOne.TransactionGroupID = transactionGroupId;
             transactionOne.LedgerID = 2;
-            transactionOne.HubOwnerID = user.DefaultHub.HubOwner.HubOwnerID;
-            transactionOne.AccountID = _accountService.GetAccountIdWithCreate(Account.Constants.HUB, user.DefaultHub.HubID); // 
-            transactionOne.HubID = user.DefaultHub.HubID;
+            transactionOne.HubOwnerID = user.DefaultHubObj.HubOwner.HubOwnerID;
+            transactionOne.AccountID = _accountService.GetAccountIdWithCreate(Account.Constants.HUB, user.DefaultHub.Value); // 
+            transactionOne.HubID = user.DefaultHub.Value;
             transactionOne.StoreID = viewModel.StoreId;  //
             transactionOne.ProjectCodeID = viewModel.ProjectCodeId;
             transactionOne.ShippingInstructionID = viewModel.ShippingInstructionId;
@@ -1183,9 +1183,9 @@ namespace Cats.Services.Hub
             transactionTwo.TransactionID = Guid.NewGuid();
             transactionTwo.TransactionGroupID = transactionGroupId;
             transactionTwo.LedgerID = 14;
-            transactionTwo.HubOwnerID = user.DefaultHub.HubOwnerID;
-            transactionTwo.AccountID = _accountService.GetAccountIdWithCreate(Account.Constants.HUB, user.DefaultHub.HubID); // 
-            transactionTwo.HubID = user.DefaultHub.HubID;
+            transactionTwo.HubOwnerID = user.DefaultHubObj.HubOwnerID;
+            transactionTwo.AccountID = _accountService.GetAccountIdWithCreate(Account.Constants.HUB, user.DefaultHub.Value); // 
+            transactionTwo.HubID = user.DefaultHub.Value;
             transactionTwo.StoreID = viewModel.StoreId;  //
             transactionTwo.ProjectCodeID = viewModel.ProjectCodeId;
             transactionTwo.ShippingInstructionID = viewModel.ShippingInstructionId;
@@ -1209,7 +1209,7 @@ namespace Cats.Services.Hub
             lossAndAdjustment.AdjustmentID = Guid.NewGuid();
             lossAndAdjustment.TransactionGroupID = transactionGroupId;
             lossAndAdjustment.TransactionGroup = transactionGroup;
-            lossAndAdjustment.HubID = user.DefaultHub.HubID;
+            lossAndAdjustment.HubID = user.DefaultHub.Value;
             lossAndAdjustment.AdjustmentReasonID = viewModel.ReasonId;
             lossAndAdjustment.AdjustmentDirection = "L";
             lossAndAdjustment.AdjustmentDate = viewModel.SelectedDate;
@@ -1257,9 +1257,9 @@ namespace Cats.Services.Hub
             transactionOne.TransactionID = Guid.NewGuid();
             transactionOne.TransactionGroupID = transactionGroupId;
             transactionOne.LedgerID = 14;
-            transactionOne.HubOwnerID = user.DefaultHub.HubOwner.HubOwnerID;
-            transactionOne.AccountID = _accountService.GetAccountIdWithCreate(Account.Constants.HUB, user.DefaultHub.HubID); // 
-            transactionOne.HubID = user.DefaultHub.HubID;
+            transactionOne.HubOwnerID = user.DefaultHubObj.HubOwner.HubOwnerID;
+            transactionOne.AccountID = _accountService.GetAccountIdWithCreate(Account.Constants.HUB, user.DefaultHub.Value); // 
+            transactionOne.HubID = user.DefaultHub.Value;
             transactionOne.StoreID = viewModel.StoreId;  //
             transactionOne.ProjectCodeID = viewModel.ProjectCodeId;
             transactionOne.ShippingInstructionID = viewModel.ShippingInstructionId;
@@ -1281,9 +1281,9 @@ namespace Cats.Services.Hub
             transactionTwo.TransactionID = Guid.NewGuid();
             transactionTwo.TransactionGroupID = transactionGroupId;
             transactionTwo.LedgerID = 2;
-            transactionTwo.HubOwnerID = user.DefaultHub.HubOwnerID;
-            transactionTwo.AccountID = _accountService.GetAccountIdWithCreate(Account.Constants.HUB, user.DefaultHub.HubID); // 
-            transactionTwo.HubID = user.DefaultHub.HubID;
+            transactionTwo.HubOwnerID = user.DefaultHubObj.HubOwnerID;
+            transactionTwo.AccountID = _accountService.GetAccountIdWithCreate(Account.Constants.HUB, user.DefaultHub.Value); // 
+            transactionTwo.HubID = user.DefaultHub;
             transactionTwo.StoreID = viewModel.StoreId;  //
             transactionTwo.ProjectCodeID = viewModel.ProjectCodeId;
             transactionTwo.ShippingInstructionID = viewModel.ShippingInstructionId;
@@ -1306,7 +1306,7 @@ namespace Cats.Services.Hub
             lossAndAdjustment.AdjustmentID = Guid.NewGuid();
             lossAndAdjustment.PartitionID = 0;
             lossAndAdjustment.TransactionGroup = transactionGroup;
-            lossAndAdjustment.HubID = user.DefaultHub.HubID;
+            lossAndAdjustment.HubID = user.DefaultHub.Value;
             lossAndAdjustment.AdjustmentReasonID = viewModel.ReasonId;
             lossAndAdjustment.AdjustmentDirection = "A";
             lossAndAdjustment.AdjustmentDate = viewModel.SelectedDate;
@@ -1403,7 +1403,7 @@ namespace Cats.Services.Hub
 
             int repositoryProjectCodeGetProjectCodeIdWIthCreateProjectCodeID = _projectCodeService.GetProjectCodeIdWIthCreate(startingBalance.ProjectNumber).ProjectCodeID; ;
             int repositoryShippingInstructionGetSINumberIdWithCreateShippingInstructionID = _shippingInstructionService.GetSINumberIdWithCreate(startingBalance.SINumber).ShippingInstructionID; ;
-            int repositoryAccountGetAccountIDWithCreatePosetive = _accountService.GetAccountIdWithCreate(Account.Constants.HUB, user.DefaultHub.HubID); ;
+            int repositoryAccountGetAccountIDWithCreatePosetive = _accountService.GetAccountIdWithCreate(Account.Constants.HUB, user.DefaultHub.Value); ;
 
             TransactionGroup transactionGroup = new TransactionGroup();
 
@@ -1415,9 +1415,9 @@ namespace Cats.Services.Hub
             transactionOne.TransactionGroupID = transactionGroupId;
             transactionOne.PartitionID = 0;
             transactionOne.LedgerID = Ledger.Constants.GOODS_UNDER_CARE;
-            transactionOne.HubOwnerID = user.DefaultHub.HubOwner.HubOwnerID;
+            transactionOne.HubOwnerID = user.DefaultHubObj.HubOwner.HubOwnerID;
             transactionOne.AccountID = repositoryAccountGetAccountIDWithCreateNegative;
-            transactionOne.HubID = user.DefaultHub.HubID;
+            transactionOne.HubID = user.DefaultHub.Value;
             transactionOne.StoreID = startingBalance.StoreID;
             transactionOne.Stack = startingBalance.StackNumber;
             transactionOne.ProjectCodeID = repositoryProjectCodeGetProjectCodeIdWIthCreateProjectCodeID;
@@ -1440,9 +1440,9 @@ namespace Cats.Services.Hub
             transactionTwo.TransactionGroupID = transactionGroupId;
             transactionTwo.PartitionID = 0;
             transactionTwo.LedgerID = Ledger.Constants.GOODS_ON_HAND_UNCOMMITED;
-            transactionTwo.HubOwnerID = user.DefaultHub.HubOwnerID;
+            transactionTwo.HubOwnerID = user.DefaultHubObj.HubOwnerID;
             transactionTwo.AccountID = repositoryAccountGetAccountIDWithCreatePosetive;
-            transactionTwo.HubID = user.DefaultHub.HubID;
+            transactionTwo.HubID = user.DefaultHub.Value;
             transactionTwo.StoreID = startingBalance.StoreID;
             transactionTwo.Stack = startingBalance.StackNumber;
             transactionTwo.ProjectCodeID = repositoryProjectCodeGetProjectCodeIdWIthCreateProjectCodeID;

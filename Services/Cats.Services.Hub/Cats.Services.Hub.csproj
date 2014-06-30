@@ -183,6 +183,10 @@
       <Project>{1467c728-3071-4798-997c-61314b26ef2e}</Project>
       <Name>Cats.Models.Hub</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Models\Cats.Models.Security\Cats.Models.Security.csproj">
+      <Project>{e3c4d9fc-ad84-4e19-a475-6adbd134af68}</Project>
+      <Name>Cats.Models.Security</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />

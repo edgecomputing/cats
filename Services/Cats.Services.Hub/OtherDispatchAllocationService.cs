@@ -186,7 +186,7 @@ namespace Cats.Services.Hub
         public List<OtherDispatchAllocation> GetAllToCurrentOwnerHubs(UserProfile user)
         {
             return (from v in _unitOfWork.OtherDispatchAllocationRepository.Get()
-                    where v.HubID == user.DefaultHub.HubID && v.Hub1.HubOwnerID == user.DefaultHub.HubOwnerID
+                    where v.HubID == user.DefaultHub && v.Hub1.HubOwnerID == user.DefaultHub
                     select v
                    ).OrderByDescending(o => o.AgreementDate).ToList();
         }
@@ -194,14 +194,14 @@ namespace Cats.Services.Hub
         public List<OtherDispatchAllocation> GetAllToOtherOwnerHubs(UserProfile user)
         {
             return (from v in _unitOfWork.OtherDispatchAllocationRepository.Get()
-                    where v.HubID == user.DefaultHub.HubID && v.Hub1.HubOwnerID != user.DefaultHub.HubOwnerID
+                    where v.HubID == user.DefaultHub.Value && v.Hub1.HubOwnerID != user.DefaultHub.Value
                     select v
                    ).OrderByDescending(o => o.AgreementDate).ToList();
         }
 
         public List<OtherDispatchAllocationDto> GetCommitedLoanAllocationsDetached(UserProfile user, bool? closedToo, int? CommodityType)
         {
-            return GetCommitedLoanAllocationsDetached(user, user.DefaultHub.HubID, closedToo, CommodityType);
+            return GetCommitedLoanAllocationsDetached(user, user.DefaultHub.Value, closedToo, CommodityType);
         }
         public List<OtherDispatchAllocationDto> GetCommitedLoanAllocationsDetached(UserProfile user, int hubId, bool? closedToo, int? CommodityType)
         {
@@ -266,7 +266,7 @@ namespace Cats.Services.Hub
 
         public List<OtherDispatchAllocationDto> GetCommitedTransferAllocationsDetached(UserProfile user, bool? closedToo, int? CommodityType)
         {
-            return GetCommitedTransferAllocationsDetached(user, user.DefaultHub.HubID, closedToo, CommodityType);
+            return GetCommitedTransferAllocationsDetached(user, user.DefaultHub.Value, closedToo, CommodityType);
         }
         public List<OtherDispatchAllocationDto> GetCommitedTransferAllocationsDetached(UserProfile user, int hubId, bool? closedToo, int? CommodityType)
         {

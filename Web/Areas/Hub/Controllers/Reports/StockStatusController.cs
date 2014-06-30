@@ -34,7 +34,7 @@ namespace Cats.Areas.Hub.Controllers.Reports
            // ViewBag.Stock = db.GetStockStatusReport(user.DefaultHub.HubID,).ToList();
 
             ViewBag.Commodity = _commodityService.GetAllParents();
-            ViewBag.Stock = _hubService.GetStockStatusReport(user.DefaultHub.HubID, 1);
+            ViewBag.Stock = _hubService.GetStockStatusReport(user.DefaultHub.Value, 1);
             ViewBag.CommodityID = 1;
             return View();
         }
@@ -44,7 +44,7 @@ namespace Cats.Areas.Hub.Controllers.Reports
             if (id != null)
             {
                 UserProfile user =_userProfileService.GetUser(User.Identity.Name);
-                ViewBag.Stock = _hubService.GetStockStatusReport(user.DefaultHub.HubID,id.Value);
+                ViewBag.Stock = _hubService.GetStockStatusReport(user.DefaultHub.Value,id.Value);
                 
                 ViewBag.Commodity = _commodityService.GetAllParents();
                 ViewBag.CommodityID = id;
@@ -56,21 +56,21 @@ namespace Cats.Areas.Hub.Controllers.Reports
          public ActionResult FreeStock()
          {
              UserProfile user = _userProfileService.GetUser(User.Identity.Name);
-             ViewBag.Stock = _hubService.GetStatusReportBySI(user.DefaultHub.HubID).ToList();
+             ViewBag.Stock = _hubService.GetStatusReportBySI(user.DefaultHub.Value).ToList();
              return View();
          }
 
          public ActionResult Receipts()
          {
              UserProfile user = _userProfileService.GetUser(User.Identity.Name);
-             ViewBag.Stock = _hubService.GetStatusReportBySI(user.DefaultHub.HubID).ToList();
+             ViewBag.Stock = _hubService.GetStatusReportBySI(user.DefaultHub.Value).ToList();
              return View();
          }
 
          public ActionResult Dispatch()
          {
              UserProfile user = _userProfileService.GetUser(User.Identity.Name);
-             ViewBag.Stock = _hubService.GetDispatchFulfillmentStatus(user.DefaultHub.HubID).ToList();
+             ViewBag.Stock = _hubService.GetDispatchFulfillmentStatus(user.DefaultHub.Value).ToList();
              //var report = new DispatchReport();
              //ViewBag.Report = report;
              //report.DataSource = ViewBag.Stock;

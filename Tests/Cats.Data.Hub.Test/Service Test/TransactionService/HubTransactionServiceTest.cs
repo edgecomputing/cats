@@ -404,7 +404,7 @@ Commodities = new List<Commodity>()
                                               UserProfileID = 1,
                                               UserName = "Admin",
                                               FirstName = "Admin",
-                                              DefaultHub = new Models.Hubs.Hub()
+                                              DefaultHubObj = new Models.Hubs.Hub()
                                                                {
                                                                    HubID = 1,
                                                                    Name = "DireDawa"
