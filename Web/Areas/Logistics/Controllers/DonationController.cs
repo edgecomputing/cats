@@ -573,7 +573,7 @@ namespace Cats.Areas.Logistics.Controllers
                                                     IsCommited = false,
                                                     ETA =
                                                         detail.DonationPlanHeader.ETA,
-                                                    ProjectNumber = "12-12",
+                                                    ProjectNumber = "PC",
                                                     SINumber =
                                                         detail.DonationPlanHeader.ShippingInstruction.Value,
                                                         
