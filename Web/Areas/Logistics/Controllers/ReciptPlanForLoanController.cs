@@ -99,7 +99,7 @@ namespace Cats.Areas.Logistics.Controllers
                 var loanReciptPlan = new LoanReciptPlan()
                     {
                         ProgramID = loanReciptPlanViewModel.ProgramID,
-                        CommodityID = loanReciptPlanViewModel.ProgramID,
+                        CommodityID = loanReciptPlanViewModel.CommodityID,
                         CommoditySourceID = 2,//only for loan
                         ShippingInstructionID = _commonService.GetShippingInstruction(loanReciptPlanViewModel.SiNumber),
                         LoanSource = loanReciptPlanViewModel.LoanSource,

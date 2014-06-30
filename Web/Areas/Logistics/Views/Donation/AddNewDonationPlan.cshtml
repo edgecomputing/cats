@@ -24,7 +24,7 @@
             <span class="caret"></span>
         </button>
         <ul class="dropdown-menu">
-             <li><a id="btnReceiptDispatch"  href="@Url.Action("CloseLocalPlan", "Donation", new { donationPlanHeaderId = @headerId })" >@Html.Translate("Receive")</a></li>
+             <li><a id="btnReceiptDispatch"  href="@Url.Action("CloseLocalPlan", "Donation", new { donationPlanHeaderId = @headerId })" >@Html.Translate("Send to Hub")</a></li>
             
         </ul>
 
@@ -34,99 +34,108 @@
     <a id="btnAddProposal" data-buttontype="btn_back_to_list" class="btn toolbar-btn " href="@Url.Action("Index", "Donation")"></a>
 }
 
+@section LeftBar {
+    
+
+}
   
-<h4>Receive Plan</h4>
+<fieldset>
+    <legend>
+        Receive Plan for Donation
+    </legend>
+</fieldset>  
+
 
 
 @using (Html.BeginForm("Save", "Donation", FormMethod.Post, new { id = "frmDonation" }))
 {
     @Html.HiddenFor(h=>h.DonationHeaderPlanID)
-    <div class="control-group form-horizontal well">
-        <div class="row">
-            <div class="span6">  
-                <div class="control-group">
-                    <div class="control-label">
-                        @Html.LabelFor(model => model.SINumber, @Html.Translate("SI / Batch Number"))
-                    </div>
-                    <div class="controls">
-                        @Html.TextBoxFor(model => model.SINumber, "SINumber",new { @readonly = "readonly" })
-                        @Html.ValidationMessageFor(model => model.SINumber)
-                    </div>
+
+     @Html.HiddenFor(h=>h.CommodityID)
+     @Html.HiddenFor(h=>h.ProgramID)
+     @Html.HiddenFor(h=>h.CommodityTypeID)
+     @Html.HiddenFor(h=>h.DonorID)
+    
+    <table border="0" class="form-horizontal">
+        <tr style="width: 500px">
+            <td  style="width:50%" >
+                
+                <div class="control-label">
+                    @Html.LabelFor(model => model.SINumber, @Html.Translate("SI / Batch Number"))
                 </div>
-            </div>
-            <div class="span4">
-                <div class="control-group">
-                    <div class="control-label">
-                        @Html.LabelFor(model => model.ETA, @Html.Translate("ETA"))
-                    </div>
-                    <div class="controls" >
-                        @(Html.TextBoxFor(model => model.ETA,new {@readonly = "readonly" }))
-                        @Html.ValidationMessageFor(model => model.ETA)
-                    </div>
+                <div class="controls">
+                    @Html.TextBoxFor(model => model.SINumber, "SINumber",new { @readonly = "readonly" })
+                    @Html.ValidationMessageFor(model => model.SINumber)
                 </div>
 
-            </div>
-        </div>
-        <div class="row">
-            <div class="span6">
-                <div class="control-group">
-                    <div class="control-label">
-                        @Html.Label(@Html.Translate("Donor")) 
-                    </div>
-                    <div class="controls">
-                        @(Html.DropDownListFor(model => model.DonorID, new SelectList(Model.Donors, "DonorID", "Name"),new { @readonly = "readonly" }))
-                    </div>
+                <div class="control-label">
+                    @Html.LabelFor(model => model.ETA, @Html.Translate("ETA"))
                 </div>
-            </div>
-            <div class="span4">
-                <div class="control-group">
-                    <div class="control-label">
-                        @Html.Label(@Html.Translate("Commodity Type")) 
-                    </div>
-                    <div class="controls" >
-                        @(Html.DropDownListFor(model => model.CommodityTypeID, new SelectList(Model.CommodityTypes, "CommodityTypeID", "Name"),new { @readonly = "readonly" }))
-                    </div>
+                <div class="controls" >
+                    @(Html.TextBoxFor(model => model.ETA,new {@readonly = "readonly" }))
+                    @Html.ValidationMessageFor(model => model.ETA)
                 </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="span6">
-                <div class="control-group">
-                    <div class="control-label">
-                        @Html.Label(@Html.Translate("Commodity")) 
-                    </div>
-                    <div class="controls" >
-                        @(Html.DropDownListFor(model => model.CommodityID, new SelectList(Model.Commodities, "CommodityID", "Name"),new { @readonly = "readonly" }))
-                    </div>
+            
+                <div class="control-label">
+                    @Html.Label(@Html.Translate("Donor")) 
                 </div>
-            </div>
-            <div class="span4">
-                <div class="control-group">
-                    <div class="control-label">
-                        @Html.LabelFor(model => model.WieghtInMT, @Html.Translate("Gift Certificate Amount")) 
-                    </div>
-                    <div class="controls" >
-                        @(Html.TextBoxFor(model => model.WieghtInMT,new { @readonly = "readonly" }))
-                    </div>
+                <div class="controls">
+                    @Html.TextBoxFor(model => model.DonorName,new { @readonly = "readonly" })
+                    @*  @(Html.DropDownListFor(model => model.DonorID, new SelectList(Model.Donors, "DonorID", "Name"),new { @readonly = "readonly" }))*@
                 </div>
-            </div>
-        
-        </div>
-        <div class="row">
-            <div class="span4">
-                <div class="control-group">
-                    <div class="control-label">
-                        @Html.Label(@Html.Translate("Program")) 
-                    </div>
-                    <div class="controls">
-                        @(Html.DropDownListFor(model => model.ProgramID, new SelectList(Model.Programs, "ProgramID", "Name"),new { @readonly = "readonly" }))
-                    </div>
-                </div>
-            </div>
+                
            
-        </div>
-    </div>
+      
+        
+        
+      
+                
+            </td>
+            
+            <td style="width:50%">
+                
+                
+            <div class="control-label">
+                @Html.Label(@Html.Translate("Commodity Type")) 
+            </div>
+                <div class="controls" >
+                    @Html.TextBoxFor(model => model.CommomdityTypeName,new { @readonly = "readonly" })
+                    @* @(Html.DropDownListFor(model => model.CommodityTypeID, new SelectList(Model.CommodityTypes, "CommodityTypeID", "Name"),new { @readonly = "readonly" }))*@
+                </div>
 
+                <div class="control-label">
+                    @Html.Label(@Html.Translate("Commodity")) 
+                </div>
+                <div class="controls" >
+                    @Html.TextBoxFor(model=>model.CommodityName,new { @readonly = "readonly" })
+                    @*@(Html.DropDownListFor(model => model.CommodityID, new SelectList(Model.Commodities, "CommodityID", "Name"),new { @readonly = "readonly" }))*@
+                </div>
+               
+                
+                <div class="control-label">
+                    @Html.Label(@Html.Translate("Program")) 
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(model=>model.ProgramName,new { @readonly = "readonly" })
+                    @* @(Html.DropDownListFor(model => model.ProgramID, new SelectList(Model.Programs, "ProgramID", "Name"),new { @readonly = "readonly" }))*@
+                </div>
+                
+                 <div class="control-label">
+                    @Html.LabelFor(model => model.WieghtInMT, @Html.Translate("Gift Certificate Amount")) 
+                </div>
+                <div class="controls" >
+                    @(Html.TextBoxFor(model => model.WieghtInMT,new { @readonly = "readonly" }))
+                </div>
+
+            </td>
+            
+        </tr>
+       
+
+    </table>
+   
+    <h4> Hubs </h4>
+    
     @(Html.Kendo().Grid(Model.DonationPlanDetails)
           .Name("grid")
           .Columns(columns =>
