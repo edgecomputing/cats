@@ -19,6 +19,7 @@ namespace Cats.Models.Hubs
         public Nullable<int> ProjectCodeID { get; set; }
         public Nullable<int> ShippingInstructionID { get; set; }
         public int ProgramID { get; set; }
+        public Nullable<int> FDPID { get; set; }
         public Nullable<int> ParentCommodityID { get; set; }
         public Nullable<int> CommodityID { get; set; }
         public Nullable<int> CommodityGradeID { get; set; }

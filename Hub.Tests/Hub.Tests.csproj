@@ -58,10 +58,6 @@
       <Project>{b311922a-4002-40b1-aa96-e005b6d436dd}</Project>
       <Name>Cats.Data.Hub</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Models\Cats.Models.Hub\Cats.Models.Hub.csproj">
-      <Project>{1467c728-3071-4798-997c-61314b26ef2e}</Project>
-      <Name>Cats.Models.Hub</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Services\Cats.Services.Hub\Cats.Services.Hub.csproj">
       <Project>{9fba0283-ee84-49f2-8305-f038bbf29658}</Project>
       <Name>Cats.Services.Hub</Name>
