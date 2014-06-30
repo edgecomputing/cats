@@ -1135,7 +1135,7 @@ namespace Cats.Services.Hub
             internalMovement.Notes = viewModel.Note;
             internalMovement.ApprovedBy = viewModel.ApprovedBy;
             internalMovement.ReferenceNumber = viewModel.ReferenceNumber;
-            internalMovement.HubID = user.DefaultHub.HubID;
+            internalMovement.HubID = user.DefaultHub.Value;
 
 
 

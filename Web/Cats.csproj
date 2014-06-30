@@ -2971,6 +2971,10 @@
       <Project>{9e3489ee-1fd7-458f-8729-63b07a919be7}</Project>
       <Name>Cats.Exceptions</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Models\Cats.Models.Hub\Cats.Models.Hub.csproj">
+      <Project>{1467c728-3071-4798-997c-61314b26ef2e}</Project>
+      <Name>Cats.Models.Hub</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Models\Cats.Models.Security\Cats.Models.Security.csproj">
       <Project>{e3c4d9fc-ad84-4e19-a475-6adbd134af68}</Project>
       <Name>Cats.Models.Security</Name>
