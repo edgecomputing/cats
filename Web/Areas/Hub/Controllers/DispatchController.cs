@@ -714,7 +714,7 @@ namespace Cats.Areas.Hub.Controllers
             
             if (ModelState.IsValid && user != null)
             {
-
+                
                 if (dispatchModel.ChangeStoreManPermanently)
                 {
                     var storeTobeChanged = _storeService.FindById(dispatchModel.StoreID);

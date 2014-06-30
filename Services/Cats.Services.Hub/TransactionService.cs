@@ -561,7 +561,7 @@ namespace Cats.Services.Hub
         public bool SaveDispatchTransaction(DispatchModel dispatchModel, UserProfile user) //used to return void
         {
             Dispatch dispatch = dispatchModel.GenerateDipatch(user);
-
+            dispatch.DispatchID = Guid.NewGuid();
             dispatch.HubID = user.DefaultHub.HubID;
             dispatch.UserProfileID = user.UserProfileID;
             dispatch.DispatchAllocationID = dispatchModel.DispatchAllocationID;
@@ -578,7 +578,7 @@ namespace Cats.Services.Hub
                 }
 
                 TransactionGroup group = new TransactionGroup();
-
+                group.TransactionGroupID = Guid.NewGuid();
                 if (dispatchModel.Type == 1)
                 {
                     Transaction transaction = GetGoodsOnHandFDPTransaction(dispatchModel, dispatch, detail);
@@ -609,6 +609,7 @@ namespace Cats.Services.Hub
                 }
 
                 DispatchDetail dispatchDetail = GenerateDispatchDetail(detail);
+                dispatchDetail.DispatchDetailID = Guid.NewGuid();
                 dispatchDetail.TransactionGroup = group;
 
 
@@ -801,6 +802,7 @@ namespace Cats.Services.Hub
         private Transaction GetGoodsInTransitFDPTransaction(DispatchModel dispatchModel, Dispatch dispatch, DispatchDetailModel detail)
         {
             Transaction transaction2 = new Transaction();
+            transaction2.TransactionID = Guid.NewGuid();
             transaction2.AccountID = _accountService.GetAccountIdWithCreate(Account.Constants.FDP, dispatchModel.FDPID.Value);
             transaction2.ProgramID = dispatchModel.ProgramID;
             transaction2.ParentCommodityID = detail.CommodityID;
@@ -829,6 +831,7 @@ namespace Cats.Services.Hub
         private Transaction GetGoodsOnHandFDPTransaction(DispatchModel dispatchModel, Dispatch dispatch, DispatchDetailModel detail)
         {
             Transaction transaction = new Transaction();
+            transaction.TransactionID = Guid.NewGuid();
             transaction.AccountID = _accountService.GetAccountIdWithCreate(Account.Constants.FDP, dispatch.FDPID.Value);
             transaction.ProgramID = dispatchModel.ProgramID;
             transaction.ParentCommodityID = detail.CommodityID;
@@ -850,6 +853,7 @@ namespace Cats.Services.Hub
         private Transaction GetStatisticsFDPTransaction(DispatchModel dispatchModel, Dispatch dispatch, DispatchDetailModel detail)
         {
             Transaction transaction = new Transaction();
+            transaction.TransactionID = Guid.NewGuid();
             transaction.AccountID = _accountService.GetAccountIdWithCreate(Account.Constants.FDP, dispatch.FDPID.Value);
             transaction.ProgramID = dispatchModel.ProgramID;
             transaction.ParentCommodityID = detail.CommodityID;
@@ -871,6 +875,7 @@ namespace Cats.Services.Hub
         private Transaction GetCommitedToFDPTransaction(DispatchModel dispatchModel, Dispatch dispatch, DispatchDetailModel detail)
         {
             Transaction transaction = new Transaction();
+            transaction.TransactionID = Guid.NewGuid();
             transaction.AccountID = _accountService.GetAccountIdWithCreate(Account.Constants.FDP, dispatch.FDPID.Value);
             transaction.ProgramID = dispatchModel.ProgramID;
             transaction.ParentCommodityID = detail.CommodityID;
@@ -899,6 +904,7 @@ namespace Cats.Services.Hub
         private Transaction GetGoodInTransitHUBTransaction(DispatchModel dispatchModel, Dispatch dispatch, DispatchDetailModel detail)
         {
             Transaction transaction2 = new Transaction();
+            transaction2.TransactionID = Guid.NewGuid();
             transaction2.AccountID = _accountService.GetAccountIdWithCreate(Account.Constants.HUB, dispatchModel.ToHubID.Value);
             transaction2.ProgramID = dispatchModel.ProgramID;
             transaction2.ParentCommodityID = detail.CommodityID;
@@ -921,6 +927,7 @@ namespace Cats.Services.Hub
         private Transaction GetGoodsOnHandHUBTransaction(DispatchModel dispatchModel, Dispatch dispatch, DispatchDetailModel detail)
         {
             Transaction transaction2 = new Transaction();
+            transaction2.TransactionID = Guid.NewGuid();
             transaction2.AccountID = _accountService.GetAccountIdWithCreate(Account.Constants.HUB, dispatchModel.ToHubID.Value);
             transaction2.ProgramID = dispatchModel.ProgramID;
             transaction2.ParentCommodityID = detail.CommodityID;
@@ -950,6 +957,7 @@ namespace Cats.Services.Hub
         private Transaction GetStatisticsHUBTransaction(DispatchModel dispatchModel, Dispatch dispatch, DispatchDetailModel detail)
         {
             Transaction transaction = new Transaction();
+            transaction.TransactionID = Guid.NewGuid();
             transaction.AccountID = _accountService.GetAccountIdWithCreate(Account.Constants.HUB, dispatch.HubID);
             transaction.ProgramID = dispatchModel.ProgramID;
             transaction.ParentCommodityID = detail.CommodityID;
@@ -971,6 +979,7 @@ namespace Cats.Services.Hub
         private Transaction GetCommittedToFDPHUBTransaction(DispatchModel dispatchModel, Dispatch dispatch, DispatchDetailModel detail)
         {
             Transaction transaction = new Transaction();
+            transaction.TransactionID = Guid.NewGuid();
             transaction.AccountID = _accountService.GetAccountIdWithCreate(Account.Constants.HUB, dispatch.HubID);
             transaction.ProgramID = dispatchModel.ProgramID;
             transaction.ParentCommodityID = detail.CommodityID;
