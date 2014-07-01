@@ -547,7 +547,8 @@ namespace Cats.Areas.Hub.Controllers
             MembershipProvider membership = new MembershipProvider();
             UserProfile user = _userProfileService.GetUser(User.Identity.Name);
 
-
+            var grnExists = _receiveService.FindBy(m => m.GRN == receiveModels.GRN).FirstOrDefault();
+            
             var commodities = _commodityService.GetAllCommodity().DefaultIfEmpty().OrderBy(o => o.Name).ToList();
             var commodityGrades = _commodityGradeService.GetAllCommodityGrade().DefaultIfEmpty().OrderBy(o => o.Name).ToList();
             var transporters = _transporterService.GetAllTransporter().DefaultIfEmpty().OrderBy(o => o.Name).ToList();
@@ -563,128 +564,143 @@ namespace Cats.Areas.Hub.Controllers
             var insertCommodities = new List<ReceiveDetailViewModel>();
             var updateCommodities = new List<ReceiveDetailViewModel>();
             var prevCommodities = new List<ReceiveDetailViewModel>();
-            if (receiveModels.JSONPrev != null)
-            {
-                prevCommodities = GetSelectedCommodities(receiveModels.JSONPrev);
+           
 
-                //Even though they are updated they are not saved so move them in to the inserted at the end of a succcessful submit
-                int count = 0;
-                foreach (var receiveDetailAllViewModels in prevCommodities)
+                if (receiveModels.JSONPrev != null)
                 {
-                    if (receiveDetailAllViewModels.ReceiveDetailID == null)
+                    prevCommodities = GetSelectedCommodities(receiveModels.JSONPrev);
+                    
+                    if (grnExists != null)
                     {
-                        count--;
-                        receiveDetailAllViewModels.ReceiveDetailCounter = count;
-                        insertCommodities.Add(receiveDetailAllViewModels);
-                    }
-                    else
-                    {
-                        receiveDetailAllViewModels.ReceiveDetailCounter = 1;
-                        updateCommodities.Add(receiveDetailAllViewModels);
-                    }
-                }
-
-                ViewBag.ReceiveDetails = prevCommodities;
-                receiveModels.ReceiveDetails = prevCommodities;
-                bool isValid = ModelState.IsValid;
-
-                //this check need's to be revisited
-                if (prevCommodities.Count() == 0)
-                {
-                    ModelState.AddModelError("ReceiveDetails", "Please add atleast one commodity to save this Reciept");
-                }
-
-                //TODO add check against the commodity type for each commodity 
-                string errorMessage = null;
-                foreach (var receiveDetailViewModel in prevCommodities)
-                {
-                    var validationContext = new ValidationContext(receiveDetailViewModel, null, null);
-                    IEnumerable<ValidationResult> validationResults = receiveDetailViewModel.Validate(validationContext);
-                    foreach (var v in validationResults)
-                    {
-                        errorMessage = string.Format("{0}, {1}", errorMessage, v.ErrorMessage);
-                    }
-                    Commodity comms = _commodityService.FindById(receiveDetailViewModel.CommodityID);
-                    CommodityType commType = _commodityTypeService.FindById(receiveModels.CommodityTypeID);
-                    if (receiveModels.CommodityTypeID != comms.CommodityTypeID)
-                        ModelState.AddModelError("ReceiveDetails", comms.Name + " is not of type " + commType.Name);
-                }
-                if (errorMessage != null)
-                {
-                    ModelState.AddModelError("ReceiveDetails", errorMessage);
-                }
-            }
-            else
-            {
-                ModelState.AddModelError("ReceiveDetails", "Please add atleast one commodity to save this Reciept");
-            }
-            switch (receiveModels.CommoditySourceID)
-            {
-                case CommoditySource.Constants.DONATION:
-                    ModelState.Remove("SourceHubID");
-                    ModelState.Remove("SupplierName");
-                    ModelState.Remove("PurchaseOrder");
-                    break;
-                case CommoditySource.Constants.LOCALPURCHASE:
-                    //ModelState.Remove("DonorID");
-                    ModelState.Remove("SourceHubID");
-                    //ModelState.Remove("ResponsibleDonorID");
-                    break;
-                default:
-                    ModelState.Remove("DonorID");
-                    ModelState.Remove("ResponsibleDonorID");
-                    ModelState.Remove("SupplierName");
-                    ModelState.Remove("PurchaseOrder");
-                    break;
-            }
-
-            if (user != null)
-            {
-                if (receiveModels.ChangeStoreManPermanently != null && receiveModels.ChangeStoreManPermanently == true)
-                {
-                    Store storeTobeChanged = _storeService.FindById(receiveModels.StoreID);
-                    if (storeTobeChanged != null && receiveModels.ChangeStoreManPermanently == true)
-                        storeTobeChanged.StoreManName = receiveModels.ReceivedByStoreMan;
-                    //repository.Store.SaveChanges(storeTobeChanged);
-                }
-
-                Receive receive = receiveModels.GenerateReceive();
-                //if (receive.ReceiveID == null )
-                if (receiveModels.ReceiveID == null)
-                {
-                    //List<ReceiveDetailViewModel> commodities = GetSelectedCommodities(receiveModels.JSONInsertedCommodities);
-                    receiveModels.ReceiveDetails = prevCommodities;
-                    foreach (var gridCommodities in prevCommodities)
-                    {
-                        if (user.PreferedWeightMeasurment.Equals("qn"))
+                        receiveModels.ReceiveDetails = prevCommodities;     
+                       receiveModels.InitializeEditLists(commodities,commodityGrades,transporters,commodityTypes,commoditySources,programs,donors,hubs,user,units);
+                        if (receiveModels.ReceiveID!=null)
                         {
-                            gridCommodities.ReceivedQuantityInMT /= 10;
-                            gridCommodities.SentQuantityInMT /= 10;
+                            receiveModels.IsEditMode = true;
+                        }
+                        ModelState.AddModelError("Errors", @"GRN Already Existed Please Change GRN Number");
+                        return View(receiveModels);
+                    }
+                    //Even though they are updated they are not saved so move them in to the inserted at the end of a succcessful submit
+                    int count = 0;
+                    foreach (var receiveDetailAllViewModels in prevCommodities)
+                    {
+                        if (receiveDetailAllViewModels.ReceiveDetailID == null)
+                        {
+                            count--;
+                            receiveDetailAllViewModels.ReceiveDetailCounter = count;
+                            insertCommodities.Add(receiveDetailAllViewModels);
+                        }
+                        else
+                        {
+                            receiveDetailAllViewModels.ReceiveDetailCounter = 1;
+                            updateCommodities.Add(receiveDetailAllViewModels);
                         }
                     }
-                    _transactionService.SaveReceiptTransaction(receiveModels, user);
+
+                    ViewBag.ReceiveDetails = prevCommodities;
+                    receiveModels.ReceiveDetails = prevCommodities;
+                    bool isValid = ModelState.IsValid;
+
+                    //this check need's to be revisited
+                    if (prevCommodities.Count() == 0)
+                    {
+                        ModelState.AddModelError("ReceiveDetails",
+                                                 "Please add atleast one commodity to save this Reciept");
+                    }
+
+                    //TODO add check against the commodity type for each commodity 
+                    string errorMessage = null;
+                    foreach (var receiveDetailViewModel in prevCommodities)
+                    {
+                        var validationContext = new ValidationContext(receiveDetailViewModel, null, null);
+                        IEnumerable<ValidationResult> validationResults =
+                            receiveDetailViewModel.Validate(validationContext);
+                        foreach (var v in validationResults)
+                        {
+                            errorMessage = string.Format("{0}, {1}", errorMessage, v.ErrorMessage);
+                        }
+                        Commodity comms = _commodityService.FindById(receiveDetailViewModel.CommodityID);
+                        CommodityType commType = _commodityTypeService.FindById(receiveModels.CommodityTypeID);
+                        if (receiveModels.CommodityTypeID != comms.CommodityTypeID)
+                            ModelState.AddModelError("ReceiveDetails", comms.Name + " is not of type " + commType.Name);
+                    }
+                    if (errorMessage != null)
+                    {
+                        ModelState.AddModelError("ReceiveDetails", errorMessage);
+                    }
                 }
                 else
                 {
-                    //List<ReceiveDetailViewModel>
-                    //insertCommodities = GetSelectedCommodities(receiveModels.JSONInsertedCommodities);
-                    List<ReceiveDetailViewModel> deletedCommodities = GetSelectedCommodities(receiveModels.JSONDeletedCommodities);
-                    // List<ReceiveDetailViewModel> updateCommodities = GetSelectedCommodities(receiveModels.JSONUpdatedCommodities);
-                    receive.HubID = user.DefaultHub.Value;
-                    receive.UserProfileID = user.UserProfileID;
-                    receive.Update(GenerateReceiveDetail(insertCommodities),
-                        GenerateReceiveDetail(updateCommodities),
-                        GenerateReceiveDetail(deletedCommodities));
-
+                    ModelState.AddModelError("ReceiveDetails", "Please add atleast one commodity to save this Reciept");
+                }
+                switch (receiveModels.CommoditySourceID)
+                {
+                    case CommoditySource.Constants.DONATION:
+                        ModelState.Remove("SourceHubID");
+                        ModelState.Remove("SupplierName");
+                        ModelState.Remove("PurchaseOrder");
+                        break;
+                    case CommoditySource.Constants.LOCALPURCHASE:
+                        //ModelState.Remove("DonorID");
+                        ModelState.Remove("SourceHubID");
+                        //ModelState.Remove("ResponsibleDonorID");
+                        break;
+                    default:
+                        ModelState.Remove("DonorID");
+                        ModelState.Remove("ResponsibleDonorID");
+                        ModelState.Remove("SupplierName");
+                        ModelState.Remove("PurchaseOrder");
+                        break;
                 }
 
-                return RedirectToAction("Index");
-            }
+                if (user != null)
+                {
+                    if (receiveModels.ChangeStoreManPermanently != null &&
+                        receiveModels.ChangeStoreManPermanently == true)
+                    {
+                        Store storeTobeChanged = _storeService.FindById(receiveModels.StoreID);
+                        if (storeTobeChanged != null && receiveModels.ChangeStoreManPermanently == true)
+                            storeTobeChanged.StoreManName = receiveModels.ReceivedByStoreMan;
+                        //repository.Store.SaveChanges(storeTobeChanged);
+                    }
+
+                    Receive receive = receiveModels.GenerateReceive();
+                    //if (receive.ReceiveID == null )
+                    if (receiveModels.ReceiveID == null)
+                    {
+                        //List<ReceiveDetailViewModel> commodities = GetSelectedCommodities(receiveModels.JSONInsertedCommodities);
+                        receiveModels.ReceiveDetails = prevCommodities;
+                        foreach (var gridCommodities in prevCommodities)
+                        {
+                            if (user.PreferedWeightMeasurment.Equals("qn"))
+                            {
+                                gridCommodities.ReceivedQuantityInMT /= 10;
+                                gridCommodities.SentQuantityInMT /= 10;
+                            }
+                        }
+                        _transactionService.SaveReceiptTransaction(receiveModels, user);
+                    }
+                    else
+                    {
+                        //List<ReceiveDetailViewModel>
+                        //insertCommodities = GetSelectedCommodities(receiveModels.JSONInsertedCommodities);
+                        List<ReceiveDetailViewModel> deletedCommodities =
+                            GetSelectedCommodities(receiveModels.JSONDeletedCommodities);
+                        // List<ReceiveDetailViewModel> updateCommodities = GetSelectedCommodities(receiveModels.JSONUpdatedCommodities);
+                        receive.HubID = user.DefaultHub.Value;
+                        receive.UserProfileID = user.UserProfileID;
+                        receive.Update(GenerateReceiveDetail(insertCommodities),
+                                       GenerateReceiveDetail(updateCommodities),
+                                       GenerateReceiveDetail(deletedCommodities));
+
+                    }
+
+                    return RedirectToAction("Index");
+                }
+            
+          
             receiveModels.InitializeEditLists(commodities, commodityGrades, transporters, commodityTypes, commoditySources, programs, donors, hubs, user, units);
-            if (receiveModels.ReceiveID != null)
-            {
-                receiveModels.IsEditMode = true;
-            }
             return View(receiveModels);
         }
 
