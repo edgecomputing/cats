@@ -70,3 +70,29 @@ function createShadedMap(div, _options) {
     var options = { dataTable: [], key: "", indicator: "", url: "" };
     CreateMap("map2", { layers: layers2 });
 }
+function deserialize(text) {
+
+    var element = document.getElementById('text');
+    var type = document.getElementById("formatType").value;
+    var features = formats['in'][type].read(text);
+    var bounds;
+    if (features) {
+        if (features.constructor != Array) {
+            features = [features];
+        }
+        for (var i = 0; i < features.length; ++i) {
+            if (!bounds) {
+                bounds = features[i].geometry.getBounds();
+            } else {
+                bounds.extend(features[i].geometry.getBounds());
+            }
+
+        }
+        vectors.addFeatures(features);
+        map.zoomToExtent(bounds);
+        var plural = (features.length > 1) ? 's' : '';
+        element.value = features.length + ' feature' + plural + ' added';
+    } else {
+        element.value = 'Bad input ' + type;
+    }
+}

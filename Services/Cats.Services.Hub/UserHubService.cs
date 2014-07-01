@@ -111,12 +111,14 @@ namespace Cats.Services.Hub
                     var userHub = new UserHub
                                       {
                                           UserProfileID = uProfile.UserProfileID,
-                                          HubID = warehouseID
+                                          HubID = warehouseID,
+                                          IsDefault = "1"
                                       };
                     AddUserHub(userHub);
                 }
             }
         }
+
         public void RemoveUserHub(int warehouseID, int userID)
         {
           

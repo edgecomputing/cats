@@ -695,8 +695,7 @@ namespace Cats.Areas.Hub.Controllers
                                        GenerateReceiveDetail(deletedCommodities));
 
                     }
-
-                    return RedirectToAction("Index");
+                return RedirectToAction(receiveModels.ContinueAdding ? "Create" : "Index");
                 }
             
           

@@ -170,6 +170,9 @@ namespace Cats.Models.Hubs.ViewModels
         /// </value>
         public bool IsEditMode { get; set; }
 
+
+
+        public bool ContinueAdding { get; set; }
         /// <summary>
         /// Gets or sets the SI number.
         /// </summary>
