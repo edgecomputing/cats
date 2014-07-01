@@ -939,19 +939,9 @@ namespace Cats.Areas.EarlyWarning.Controllers
            {
             
             var details = regionalRequest.RegionalRequestDetails;
-            var hrd = _hrdService.FindBy(m => m.PlanID == regionalRequest.PlanID);
+            var hrd = _hrdService.FindBy(m => m.PlanID == regionalRequest.PlanID).FirstOrDefault();
             
-            //var woredaGrouped = (from detail in details
-            //                     group detail by detail.Fdp.AdminUnit
-            //                     into woredaDetail
-            //                     select new
-            //                    {
-            //                        Woreda = woredaDetail.Key,
-            //                        NoOfBeneficiaries = woredaDetail.Sum(m => m.Beneficiaries),
-            //                        hrdBeneficiary = hrd != null ? hrd.First().HRDDetails.First(m => m.AdminUnit.AdminUnitID == woredaDetail.Key.AdminUnitID).NumberOfBeneficiaries : 0,
-            //                        //PsnpBeneficiary = psnp != null ? psnp.First().RegionalPSNPPlanDetails.First(m => m.PlanedFDP.AdminUnit.AdminUnitID == woredaDetail.Key.AdminUnitID).BeneficiaryCount : 0,
-            //                        detailsf = woredaDetail,
-            //                    });
+          
 
             var woredaG = (from detail in details
                                  group detail by detail.Fdp.AdminUnit
@@ -971,16 +961,17 @@ namespace Cats.Areas.EarlyWarning.Controllers
             //            }).ToList();
 
                result.AddRange(from sw in woredaG
+                               from hrdDetails in hrd.HRDDetails
                                let oneWoreda = sw.ToList()
                                let regionalRequestDetail = oneWoreda.FirstOrDefault()
-                               where regionalRequestDetail != null
+                               where regionalRequestDetail != null && hrdDetails.AdminUnit.AdminUnitID==sw.Key.AdminUnitID
                                select new PLANWithRegionalRequestViewModel()
                                    {
                                        zone = regionalRequestDetail.Fdp.AdminUnit.AdminUnit2.Name,
                                        Woreda = sw.Key.Name, 
                                        RequestedBeneficiaryNo = sw.Sum(m => m.Beneficiaries),
-                                       PlannedBeneficaryNo = hrd != null ? hrd.Last().HRDDetails.First(m => m.AdminUnit.AdminUnitID == sw.Key.AdminUnitID).NumberOfBeneficiaries : 0,
-                                       Difference = ((hrd != null ? hrd.Last().HRDDetails.First(m => m.AdminUnit.AdminUnitID == sw.Key.AdminUnitID).NumberOfBeneficiaries : 0) - (sw.Sum(m => m.Beneficiaries))),
+                                       PlannedBeneficaryNo = hrd != null ? hrd.HRDDetails.First(m => m.AdminUnit.AdminUnitID == sw.Key.AdminUnitID).NumberOfBeneficiaries : 0,
+                                       Difference = ((hrd != null ? hrd.HRDDetails.First(m => m.AdminUnit.AdminUnitID == sw.Key.AdminUnitID).NumberOfBeneficiaries : 0) - (sw.Sum(m => m.Beneficiaries))),
                                        RegionalRequestDetails = oneWoreda
                                    });
            }
@@ -988,8 +979,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
            if(regionalRequest.ProgramId==2)
            {
                var details = regionalRequest.RegionalRequestDetails;
-               var psnp = _RegionalPSNPPlanService.FindBy(m => m.PlanId == regionalRequest.PlanID);
-              
+               var psnp = _RegionalPSNPPlanService.FindBy(m => m.PlanId == regionalRequest.PlanID).FirstOrDefault();
                //var psnpBeneficiary = psnp != null
                //                          ? psnp.First().RegionalPSNPPlanDetails.First(
                //                              m => m.PlanedFDPID == 16).BeneficiaryCount
@@ -1007,21 +997,24 @@ namespace Cats.Areas.EarlyWarning.Controllers
                //                         });
 
                var woredaG = (from detail in details
+                              from psnpDetail in psnp.RegionalPSNPPlanDetails
+                              where detail.Fdp.AdminUnit==psnpDetail.PlanedWoreda
                               group detail by detail.Fdp.AdminUnit
                                   into woredaDetail
                                   select woredaDetail);
 
                result.AddRange(from sw in woredaG
+                               from pnspDetail in psnp.RegionalPSNPPlanDetails
                                let oneWoreda = sw.ToList()
                                let regionalRequestDetail = oneWoreda.FirstOrDefault()
-                               where regionalRequestDetail != null
+                               where regionalRequestDetail != null && pnspDetail.PlanedWoredaID==sw.Key.AdminUnitID
                                select new PLANWithRegionalRequestViewModel()
                                {
                                    zone = regionalRequestDetail.Fdp.AdminUnit.AdminUnit2.Name,
                                    Woreda = sw.Key.Name,
                                    RequestedBeneficiaryNo = sw.Sum(m => m.Beneficiaries),
-                                   PlannedBeneficaryNo = psnp != null ? psnp.First().RegionalPSNPPlanDetails.First(d=>d.PlanedWoredaID==sw.Key.AdminUnitID).BeneficiaryCount: 0,
-                                   Difference = ((psnp != null ? psnp.First().RegionalPSNPPlanDetails.First(d => d.PlanedWoredaID == sw.Key.AdminUnitID).BeneficiaryCount : 0) - (sw.Sum(m => m.Beneficiaries))),
+                                   PlannedBeneficaryNo = psnp != null ? psnp.RegionalPSNPPlanDetails.First(d=>d.PlanedWoredaID==sw.Key.AdminUnitID).BeneficiaryCount: 0,
+                                   Difference = ((psnp != null ? psnp.RegionalPSNPPlanDetails.First(d => d.PlanedWoredaID == sw.Key.AdminUnitID).BeneficiaryCount : 0) - (sw.Sum(m => m.Beneficiaries))),
                                    RegionalRequestDetails = oneWoreda
                                });
 
