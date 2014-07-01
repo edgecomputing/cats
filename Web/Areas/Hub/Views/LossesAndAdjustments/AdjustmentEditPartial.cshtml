@@ -5,8 +5,12 @@
 
 @using (Html.BeginForm())
     {
+    
+     <div class="alert-error" >
+            @Html.ValidationSummary("Please correct Errors")
+        </div>
    
-    <table class="borderless">
+    <table class="container grid-table">
         <tbody>
             <tr>
                 <td>@Html.LabelFor(model => model.Commodities)</td>

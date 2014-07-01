@@ -185,14 +185,7 @@ namespace Cats.Areas.Hub.Controllers
                 //HubID=user.DefaultHub.HubID
                 list = _receiptAllocationService.GetUnclosedAllocationsDetached(HubID, type, closed, user.PreferedWeightMeasurment, commodityType);
                 //newly added
-                if (type == CommoditySource.Constants.LOAN)
-                {
-                    list = list.Where(t => t.CommoditySourceID == CommoditySource.Constants.LOAN || t.CommoditySourceID == CommoditySource.Constants.SWAP || t.CommoditySourceID == CommoditySource.Constants.TRANSFER || t.CommoditySourceID == CommoditySource.Constants.REPAYMENT).ToList();
-                }
-                else
-                {
-                    list = list.Where(t => t.CommoditySourceID == type).ToList();
-                }
+                list = type == CommoditySource.Constants.LOAN ? list.Where(t => t.CommoditySourceID == CommoditySource.Constants.LOAN || t.CommoditySourceID == CommoditySource.Constants.SWAP || t.CommoditySourceID == CommoditySource.Constants.TRANSFER || t.CommoditySourceID == CommoditySource.Constants.REPAYMENT).ToList() : list.Where(t => t.CommoditySourceID == type).ToList();
                 listViewModel = BindReceiptAllocationViewModels(list).ToList();
                 return Json(listViewModel.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
             }
