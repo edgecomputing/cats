@@ -677,8 +677,7 @@ namespace Cats.Areas.Hub.Controllers
                         GenerateReceiveDetail(deletedCommodities));
 
                 }
-
-                return RedirectToAction("Index");
+                return RedirectToAction(receiveModels.ContinueAdding ? "Create" : "Index");
             }
             receiveModels.InitializeEditLists(commodities, commodityGrades, transporters, commodityTypes, commoditySources, programs, donors, hubs, user, units);
             if (receiveModels.ReceiveID != null)
