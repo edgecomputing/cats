@@ -17,6 +17,9 @@ namespace Cats.Models.Hubs
         public int UserHubID { get; set; }
         public string IsDefault { get; set; }
         public virtual Hub Hub { get; set; }
+
         public virtual UserProfile UserProfile { get; set; }
+        //ToDo: we have to merge with securit module... Model Redundency 
+        //public virtual Cats.Models.Security.UserProfile UserProfile { get; set; }
     }
 }

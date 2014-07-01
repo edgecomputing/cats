@@ -8,8 +8,9 @@ namespace Cats.Models.Hubs.Mapping
     {
         public UserHubMap()
         {  // Primary Key
-            this.HasKey(t => new { t.UserProfileID, t.HubID });
+            //this.HasKey(t => new { t.UserProfileID, t.HubID });
 
+            this.HasKey(t => t.UserHubID);
             // Properties
             this.Property(t => t.UserHubID);
               //  .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
