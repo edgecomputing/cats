@@ -7,7 +7,6 @@
 <style>
     .map
     {
-        float:left;
         width:700px;
         height:500px;
         border-right:solid 1px #DDD;
@@ -18,10 +17,12 @@
 <script src="~/Content/MapResources/OpenlayersWrapper.js"></script>
 <script src="~/Content/MapResources/openlayers/lib/OpenLayers.js"></script>
 <script src="~/Content/MapResources/MapStyle.js"></script>
+<script src="~/Content/MapResources/MapLegend.js"></script>
 
 
 <div id="map1" class="map">
 </div>
+<div id="divLegend">Legend</div>
 <div id="map2" class="map2">
 </div>
 <script>
@@ -36,6 +37,7 @@
     var countryShapeURL = "/Content/MapResources/MapData/ethiopiaJson.js";
     var regionShapeURL = "/Content/MapResources/MapData/ethiopiaRegions.txt";
     $(function () {
+        ShowLegend();
         var hrdSummary = {};
         var HRDUrl= "@Url.Action("HRDDetail_Read", "HRD", new { Area = "EarlyWarning" })";
 
@@ -77,6 +79,7 @@
                     { name: "Regions", url: regionShapeURL, style: getPolygonShadingStyle(key, dataTable, indicator, shadingOption) }
                 ];
             CreateMap("map1", { layers: mapLayer });
+            
         }
 
 
