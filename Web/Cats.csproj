@@ -195,6 +195,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Areas\EarlyWarning\Controllers\ContributionController.cs" />
+    <Compile Include="Areas\Hub\Models\StoreViewModel.cs" />
     <Compile Include="Areas\Settings\Controllers\AccountController.cs" />
     <Compile Include="Areas\Settings\Controllers\CurrencyController.cs" />
     <Compile Include="Areas\EarlyWarning\Controllers\DonorCoverageController.cs" />
@@ -1180,6 +1181,7 @@
     <Content Include="Content\MapResources\MapData\Afar.txt" />
     <Content Include="Content\MapResources\MapData\Amhara.txt" />
     <Content Include="Content\MapResources\MapData\Benishangul Gumuz.txt" />
+    <Content Include="Content\MapResources\MapData\ethiopiaRegions.txt" />
     <Content Include="Content\MapResources\MapData\Dire Dawa.txt" />
     <Content Include="Content\MapResources\MapData\Gambela.txt" />
     <Content Include="Content\MapResources\MapData\Harari.txt" />
@@ -1883,6 +1885,7 @@
     <Content Include="Areas\EarlyWarning\Views\DonorCoverage\AddWoreda.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\HRD\DateInterval.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\HRD\AddWoreda.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Home\EWMaps.cshtml" />
     <None Include="Areas\EarlyWarning\Views\PrintableReports\HRD\HRDDatasetForPrint.xsd">
       <SubType>Designer</SubType>
       <Generator>MSDataSetGenerator</Generator>
@@ -2116,7 +2119,7 @@
     <Content Include="Content\MapResources\MapData\tigray.json" />
     <Content Include="Content\MapResources\MapData\afar.js" />
     <Content Include="Content\MapResources\MapData\ethiopiaJson.js" />
-    <Content Include="Content\MapResources\MapData\ethiopiaRegions.js" />
+    <Content Include="Content\MapResources\MapData\ethiopiaRegions-old.txt" />
     <None Include="dataset.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>dataset.Designer.cs</LastGenOutput>
