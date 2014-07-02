@@ -7,10 +7,53 @@
 <style>
     .map
     {
+       position:absolute;
+        top:10px;
+        left:10px;
         width:700px;
-        height:500px;
-        border-right:solid 1px #DDD;
+        bottom:10px;
+        
+       
     }
+    .map-container
+    {
+         position:absolute;
+        top:100px;
+        left:10px;
+        bottom:20px;
+        right:50px;
+        
+        border:solid 1px #DDD;
+    }
+    .map-legend
+    {
+       position:absolute;
+        top:10px;
+        left:720px;
+        right:5px;
+        bottom:10px;
+        
+       
+    }
+        .map-legend .title
+        {
+            font-size:20px;
+            line-height:40px;
+        }
+        .map-legend .item
+        {
+            line-height:40px;
+            border-bottom:solid 1px #EEE;
+        }
+        .map-legend .pallet
+        {
+            line-height:40px;
+            padding:4px;
+            padding-left:10px;
+            padding-right:10px;
+            border-radius:6px;
+        }
+
 
 </style>
 <link rel="stylesheet" href="~/Content/MapResources/openlayers/theme/default/style.css" type="text/css">
@@ -19,12 +62,15 @@
 <script src="~/Content/MapResources/MapStyle.js"></script>
 <script src="~/Content/MapResources/MapLegend.js"></script>
 
+<div class="map-container">
+<div id="map1" class="map"></div>
+<div id="divLegend" class="map-legend">Legend</div>
 
-<div id="map1" class="map">
+
 </div>
-<div id="divLegend">Legend</div>
 <div id="map2" class="map2">
 </div>
+<div style="height:600px;"></div>
 <script>
         
     function mapController($http, $scope, $timeout) {
@@ -37,6 +83,7 @@
     var countryShapeURL = "/Content/MapResources/MapData/ethiopiaJson.js";
     var regionShapeURL = "/Content/MapResources/MapData/ethiopiaRegions.txt";
     $(function () {
+        var shadingOption = { h: 226, s: 59, b1: 220, b2: 150, sample: 5, noValColor: "rgb(240,240,240)" };
         ShowLegend();
         var hrdSummary = {};
         var HRDUrl= "@Url.Action("HRDDetail_Read", "HRD", new { Area = "EarlyWarning" })";
@@ -66,17 +113,18 @@
             var indicator = "NumberOfBeneficiaries";
             
             console.log("drawRegionBenficiaryMap", regionBen);
-            var shadingOption = { minColor: "rgb(255,200,200)", maxColor: "rgb(255,100,100)", noValColor: "rgb(240,240,240)" };
-            /*
+           /* var shadingOption = {h:226,s:59, b1:220, b2:150, sample:5, noValColor: "rgb(240,240,240)" };
+            
             var mapLayer =
                 [
                     { name: "Ethiopia", url: countryShapeURL, styleMap: stylePresets.outline }
                    ,{ name: "Regions", url: regionShapeURL, style: getPolygonShadingStyle(key, dataTable, indicator, shadingOption) }
                 ];
             */
+            var shadingOption2 = {};
             var mapLayer =
                 [
-                    { name: "Regions", url: regionShapeURL, style: getPolygonShadingStyle(key, dataTable, indicator, shadingOption) }
+                    { name: "Regions", url: regionShapeURL, style: getPolygonShadingStyle(key, dataTable, indicator, shadingOption2) }
                 ];
             CreateMap("map1", { layers: mapLayer });
             
