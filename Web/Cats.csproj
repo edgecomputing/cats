@@ -1177,6 +1177,18 @@
     <Content Include="Content\kendo\2013.1.319\Uniform\sprite%402x.png" />
     <Content Include="Content\kendo\2013.1.319\Uniform\sprite.png" />
     <Content Include="Content\Login\App.js" />
+    <Content Include="Content\MapResources\MapData\Addis Ababa.txt" />
+    <Content Include="Content\MapResources\MapData\Afar.txt" />
+    <Content Include="Content\MapResources\MapData\Amhara.txt" />
+    <Content Include="Content\MapResources\MapData\Benishangul Gumuz.txt" />
+    <Content Include="Content\MapResources\MapData\ethiopiaRegions.txt" />
+    <Content Include="Content\MapResources\MapData\Dire Dawa.txt" />
+    <Content Include="Content\MapResources\MapData\Gambela.txt" />
+    <Content Include="Content\MapResources\MapData\Harari.txt" />
+    <Content Include="Content\MapResources\MapData\Oromiya.txt" />
+    <Content Include="Content\MapResources\MapData\SNNP.txt" />
+    <Content Include="Content\MapResources\MapData\Somali.txt" />
+    <Content Include="Content\MapResources\MapData\Tigray.txt" />
     <Content Include="Content\MapResources\MapLegend.js" />
     <Content Include="Content\MapResources\MapStyle.js" />
     <Content Include="Content\MapResources\OpenlayersWrapper.js" />
@@ -1873,6 +1885,7 @@
     <Content Include="Areas\EarlyWarning\Views\DonorCoverage\AddWoreda.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\HRD\DateInterval.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\HRD\AddWoreda.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\Home\EWMaps.cshtml" />
     <None Include="Areas\EarlyWarning\Views\PrintableReports\HRD\HRDDatasetForPrint.xsd">
       <SubType>Designer</SubType>
       <Generator>MSDataSetGenerator</Generator>
@@ -2106,7 +2119,7 @@
     <Content Include="Content\MapResources\MapData\tigray.json" />
     <Content Include="Content\MapResources\MapData\afar.js" />
     <Content Include="Content\MapResources\MapData\ethiopiaJson.js" />
-    <Content Include="Content\MapResources\MapData\ethiopiaRegions.js" />
+    <Content Include="Content\MapResources\MapData\ethiopiaRegions-old.txt" />
     <None Include="dataset.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>dataset.Designer.cs</LastGenOutput>

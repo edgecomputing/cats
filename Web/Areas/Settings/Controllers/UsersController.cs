@@ -22,14 +22,17 @@ namespace Cats.Areas.Settings.Controllers
         private readonly  IHubService _hubService;
         private readonly IAdminUnitService _adminUnitService;
         private readonly IProgramService _programService;
+        private readonly Cats.Services.Hub.IUserHubService _userHubServcie;
+
        // private readonly IUserAccountService _userAccountService;
       
-        public UsersController(IUserAccountService service, IHubService hubService, IAdminUnitService adminUnitService, IProgramService programService)
+        public UsersController(IUserAccountService service, IHubService hubService, IAdminUnitService adminUnitService, IProgramService programService, Cats.Services.Hub.IUserHubService userHubService)
         {
             _userService = service;
             _hubService = hubService;
             _adminUnitService = adminUnitService;
             _programService = programService;
+            _userHubServcie = userHubService;
             //_userAccountService = userAccountService;
         }
 
@@ -143,7 +146,9 @@ namespace Cats.Areas.Settings.Controllers
             user.LoggedInInd = false;
             user.Email = userInfo.Email;
 
+            user.DefaultHub = userInfo.DefaultHub ?? userInfo.DefaultHub;
 
+            
             if (user_ != null)
             {
                 ViewBag.Error = "User Name exits!.Please choose a different User Name!";
@@ -153,6 +158,11 @@ namespace Cats.Areas.Settings.Controllers
 
             if(_userService.Add(user, roles))
             {
+                if (user.DefaultHub.HasValue)
+                {
+                    var _savedUser = _userService.FindBy(u => u.UserName == userInfo.UserName).FirstOrDefault();
+                    _userHubServcie.AddUserHub(user.DefaultHub.Value, _savedUser.UserProfileID);
+                }
                 return View("Index");
             }
             return View();
