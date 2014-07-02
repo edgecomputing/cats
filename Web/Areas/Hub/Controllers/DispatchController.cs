@@ -1063,5 +1063,46 @@ namespace Cats.Areas.Hub.Controllers
             }
             return Json( "" , JsonRequestBehavior.AllowGet);
         }
+
+        public ActionResult JsonSIStores(string siNumber, int? editModval)
+        {
+            var user = _userProfileService.GetUser(this.UserProfile.UserName);
+            var firstOrDefault = _shippingInstructionService.FindBy(t => t.Value == siNumber).FirstOrDefault();
+            if (firstOrDefault != null)
+            {
+                var siNumberID = firstOrDefault.ShippingInstructionID;
+                var tempTransactions =
+                    _transactionService.Get(
+                        t => t.LedgerID == Cats.Models.Ledger.Constants.GOODS_ON_HAND_UNCOMMITED
+                             && t.HubID == user.DefaultHubObj.HubID && t.ShippingInstructionID == siNumberID);
+                var stores = (from tr in tempTransactions
+                              group tr by new { tr.StoreID }
+                              into store
+                              select
+                                  new
+                                      {
+                                          STORE = store.Key.StoreID,
+                                          AvailableBalance = store.Sum(p => p.QuantityInMT),
+                                          AvailableBalanceInUnit = store.Sum(q => q.QuantityInUnit)
+                                      });
+
+                var storeList =  (from store in stores
+                                  where store.AvailableBalance > 0 || store.AvailableBalanceInUnit > 0
+                                  select store.STORE).ToList();
+                var storeObjs = (from store in storeList let i = store where i != null where i != null select _storeService.FindById(i.Value)).ToList();
+                //var storeObjs = (from store in storeList
+                //                 let i = store
+                //                 where i != null
+                //                 where i != null
+                //                 select _storeService.FindById(i.Value)
+                //                 into storeObj select new StoreViewModel()
+                //                                          {
+                //                                              StoreId = storeObj.StoreID, StoreName = storeObj.Name
+                //                                          }).ToList();
+                var storesSelectList = new SelectList(storeObjs, "StoreID", "Name", editModval);
+                return Json(storesSelectList, JsonRequestBehavior.AllowGet);
+            }
+            return Json(null, JsonRequestBehavior.AllowGet);
+        }
     }
 }
