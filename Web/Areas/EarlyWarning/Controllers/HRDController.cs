@@ -114,7 +114,31 @@ namespace Cats.Areas.EarlyWarning.Controllers
             var hrdsToDisplay = GetHrds(hrds).ToList();
             return Json(hrdsToDisplay.ToDataSourceResult(request));
         }
+        public ActionResult BeneficiaryByRegion_Read([DataSourceRequest] DataSourceRequest request, int id = 0)
+        {
 
+
+            //var hrdDetail = _hrdService.GetHRDDetailByHRDID(id).OrderBy(m => m.AdminUnit.AdminUnit2.Name).OrderBy(m => m.AdminUnit.AdminUnit2.AdminUnit2.Name);
+            HRD hrd;
+            if (id == 0)
+            {
+                hrd = _hrdService.FindBy(m => m.Status == 3).FirstOrDefault();
+                if (hrd != null)
+                {
+                    id = hrd.HRDID;
+                }
+            }
+
+            hrd = _hrdService.Get(m => m.HRDID == id, null, "HRDDetails").FirstOrDefault();
+
+            if (hrd != null)
+            {
+                var detailsToDisplay = GetSummary(hrd).ToList();
+
+                return Json(detailsToDisplay.ToDataSourceResult(request));
+            }
+            return RedirectToAction("Index");
+        }
         [EarlyWarningAuthorize(operation = EarlyWarningConstants.Operation.View_HRD_Detail)]
         public ActionResult HRDDetail_Read([DataSourceRequest] DataSourceRequest request, int id = 0)
         {
@@ -245,6 +269,8 @@ namespace Cats.Areas.EarlyWarning.Controllers
                     select new RegionalSummaryViewModel
                         {
                             RegionName = total.Region.Name,
+                            AdminUnitID = total.Region.AdminUnitID,
+                            AdminUnitName=total.Region.Name,
                             NumberOfBeneficiaries = total.NumberOfBeneficiaries,
                             Cereal = cerealCoefficient * total.Duration,
                             BlededFood = blendFoodCoefficient * total.Duration,
