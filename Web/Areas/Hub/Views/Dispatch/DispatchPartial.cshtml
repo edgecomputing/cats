@@ -252,7 +252,7 @@
            .ClientEvents(events => events.OnChange("storeChanged"))
                           )
                     @Html.ValidationMessageFor(model => model.StoreID)*@
-                    <select id="StoreID"></select>
+                    <select id="StoreID" name="StoreID"></select>
                 </td>
                 <td style="width: 200px">
                     @Html.LabelFor(model => model.StackNumber,Html.Translate("Stack Number")) <span class="required">*</span>
@@ -268,7 +268,7 @@
                           )
                     @Html.AuditTrial("Dispatch", "StackNumber", Model.DispatchID)
                     @Html.ValidationMessageFor(model => model.StackNumber)*@
-                <select id="StackNumber"></select>
+                <select id="StackNumber" name="StackNumber"></select>
                 </td>
             </tr>
 
