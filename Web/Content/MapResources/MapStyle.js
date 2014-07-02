@@ -30,12 +30,26 @@ function getPolygonShadingStyle(key, dataTable, indicator, colorOptions) {
             {
                 fillOpacity: 1
                 , strokeOpacity: 1
-                , label: function (feature) { return get_attribute_value(feature.attributes, "name", ""); }
-                , fillColor: function (feature) {
+               // , label: function (feature) { return get_attribute_value(feature.attributes, "name", ""); }
+                , label: function (feature) {
                     var keyVal = get_attribute_value(feature.attributes, key, "");
                     var row = dataTable["row" + keyVal];
                     if (row) {
                         var att = dataTable["row" + keyVal][indicator + "normalized"];
+                        att = Math.round(att * 5);
+                        return get_attribute_value(feature.attributes, "name", "") + " " + att;
+                    }
+                    return get_attribute_value(feature.attributes, "name", "") + " - ";
+                }
+                , fillColor: function (feature) {
+                    var keyVal = get_attribute_value(feature.attributes, key, "");
+                    var name=get_attribute_value(feature.attributes, "name", "");
+                    var row = dataTable["row" + keyVal];
+                    if (row) {
+                        var att = dataTable["row" + keyVal][indicator + "normalized"];
+                       // att = Math.round(att * 5) + "";
+                       // att = att / 5;
+                        return getRGBValue(207, 180, 220, 150,5, att,name);
                         return getRGBShade(colorOptions.minColor, colorOptions.maxColor, att);
                     }
                     return colorOptions.noValColor;
@@ -45,6 +59,40 @@ function getPolygonShadingStyle(key, dataTable, indicator, colorOptions) {
             }
         }
     }
+}
+function getRGBValue(h, s, b1, b2, segments, v,name) {
+    v = Math.round(v * (segments)) + "";
+    v = v / segments;
+    var bDiff = (b2 - b1);
+    var b = b1 + bDiff * v;
+    var color = HSVtoRGB(h / 240, s / 240, b / 240);
+    console.log("getRGBValue",name,v,b);
+    return "rgb(" + color.r + ", " + color.g + ", " + color.b + ")";
+}
+
+function HSVtoRGB(h, s, v) {
+    var r, g, b, i, f, p, q, t;
+    if (h && s === undefined && v === undefined) {
+        s = h.s, v = h.v, h = h.h;
+    }
+    i = Math.floor(h * 6);
+    f = h * 6 - i;
+    p = v * (1 - s);
+    q = v * (1 - f * s);
+    t = v * (1 - (1 - f) * s);
+    switch (i % 6) {
+        case 0: r = v, g = t, b = p; break;
+        case 1: r = q, g = v, b = p; break;
+        case 2: r = p, g = v, b = t; break;
+        case 3: r = p, g = q, b = v; break;
+        case 4: r = t, g = p, b = v; break;
+        case 5: r = v, g = p, b = q; break;
+    }
+    return {
+        r: Math.floor(r * 255),
+        g: Math.floor(g * 255),
+        b: Math.floor(b * 255)
+    };
 }
 function createStyle(rules) {
     var context = {};
