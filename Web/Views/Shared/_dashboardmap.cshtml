@@ -8,10 +8,10 @@
     .map
     {
        position:absolute;
-        top:10px;
-        left:10px;
-        width:700px;
-        bottom:10px;
+        top:0px;
+        left:0px;
+        right:0px;
+        bottom:0px;
         
        
     }
@@ -20,19 +20,22 @@
          position:absolute;
         top:100px;
         left:10px;
-        bottom:20px;
+        bottom:5px;
         right:50px;
         
         border:solid 1px #DDD;
+        border-radius:6px;
     }
     .map-legend
     {
        position:absolute;
         top:10px;
-        left:720px;
-        right:5px;
-        bottom:10px;
-        
+        right:10px;
+        bottom:100px;
+        width:300px;
+        background:rgba(255,255,255,0.6);
+        padding:20px;
+        box-shadow: 2px 2px 2px #444;
        
     }
         .map-legend .title
@@ -82,12 +85,29 @@
     }
     var countryShapeURL = "/Content/MapResources/MapData/ethiopiaJson.js";
     var regionShapeURL = "/Content/MapResources/MapData/ethiopiaRegions.txt";
-    $(function () {
-        var shadingOption = { h: 226, s: 59, b1: 220, b2: 150, sample: 5, noValColor: "rgb(240,240,240)" };
-        ShowLegend();
-        var hrdSummary = {};
-        var HRDUrl= "@Url.Action("HRDDetail_Read", "HRD", new { Area = "EarlyWarning" })";
 
+
+
+    $(function () {
+        HRDUrl = "@Url.Action("BeneficiaryByRegion_Read", "HRD", new { Area = "EarlyWarning" })";
+
+        dataSource = { url: HRDUrl, indicator: "NumberOfBeneficiaries", postData: {} };
+        adminUnitInfo = { level: "Region" };
+        renderingInfo = { shadingOption: {}, div: "map1" };
+        CreateMapForData(dataSource, adminUnitInfo, renderingInfo);
+        return;
+
+
+
+
+
+
+        var shadingOption = { h: 226, s: 59, b1: 230, b2: 100, sample:7, noValColor: "rgb(240,240,240)" };
+        ShowLegend(shadingOption);
+        var hrdSummary = {};
+        var HRDUrl = "@Url.Action("HRDDetail_Read", "HRD", new { Area = "EarlyWarning" })";
+        
+        
         function aggregateRegionBeneficiaries(data) {
             var regionBen = {};
             for (var i in data) {
@@ -102,6 +122,7 @@
             return regionBen;
         }
         $.post(HRDUrl, {}, function (data) {
+            console.log("HRD", data.Data);
             drawRegionBenficiaryMap(data.Data);
         });
 
@@ -113,18 +134,11 @@
             var indicator = "NumberOfBeneficiaries";
             
             console.log("drawRegionBenficiaryMap", regionBen);
-           /* var shadingOption = {h:226,s:59, b1:220, b2:150, sample:5, noValColor: "rgb(240,240,240)" };
-            
-            var mapLayer =
-                [
-                    { name: "Ethiopia", url: countryShapeURL, styleMap: stylePresets.outline }
-                   ,{ name: "Regions", url: regionShapeURL, style: getPolygonShadingStyle(key, dataTable, indicator, shadingOption) }
-                ];
-            */
+           
             var shadingOption2 = {};
             var mapLayer =
                 [
-                    { name: "Regions", url: regionShapeURL, style: getPolygonShadingStyle(key, dataTable, indicator, shadingOption2) }
+                    { name: "Regions", url: regionShapeURL, style: getPolygonShadingStyle(key, dataTable, indicator, shadingOption) }
                 ];
             CreateMap("map1", { layers: mapLayer });
             
@@ -134,3 +148,11 @@
     });
     
 </script>
+<style>
+    .olControlMousePosition
+    {
+        background:#000;
+        color:#FFF;
+    }
+
+</style>
