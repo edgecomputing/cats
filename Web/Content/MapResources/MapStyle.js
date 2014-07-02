@@ -12,17 +12,9 @@ var mapContex = {
             	, get_display: function (feature) { return get_attribute_value(feature.attributes, "mapLevel", 0) == 1 ? "display" : "none"; }
 };
 function getPolygonShadingStyle(key, dataTable, indicator, colorOptions) {
-    var _colorOptions = { minColor: "rgb(0,200,0)", maxColor: "rgb(255,128,128)", noValColor: "rgb(200,200,200)" };
-    if (!colorOptions) {
-        colorOptions = {};
-    }
-    for (var i in _colorOptions) {
-        if (typeof (colorOptions[i]) == "undefined") {
-            colorOptions[i] = _colorOptions[i];
-        }
-    }
+    colorOptions = extendColorOption(colorOptions);
 
-    normalizeIndicator(dataTable, indicator);
+    
     return {
         "default":
         {
@@ -36,7 +28,7 @@ function getPolygonShadingStyle(key, dataTable, indicator, colorOptions) {
                     var row = dataTable["row" + keyVal];
                     if (row) {
                         var att = dataTable["row" + keyVal][indicator + "normalized"];
-                        att = Math.round(att * 5);
+                        att = Math.round(att * (colorOptions.sample-1));
                         return get_attribute_value(feature.attributes, "name", "") + " " + att;
                     }
                     return get_attribute_value(feature.attributes, "name", "") + " - ";
@@ -49,7 +41,7 @@ function getPolygonShadingStyle(key, dataTable, indicator, colorOptions) {
                         var att = dataTable["row" + keyVal][indicator + "normalized"];
                        // att = Math.round(att * 5) + "";
                        // att = att / 5;
-                        return getRGBValue(226, 59, 220, 150, 5, att, name);
+                        return getRGBValue(colorOptions.h, colorOptions.s, colorOptions.b1, colorOptions.b2, colorOptions.sample-1, att, name);
                         return getRGBShade(colorOptions.minColor, colorOptions.maxColor, att);
                     }
                     return colorOptions.noValColor;
@@ -60,7 +52,21 @@ function getPolygonShadingStyle(key, dataTable, indicator, colorOptions) {
         }
     }
 }
-function getRGBValue(h, s, b1, b2, segments, v,name) {
+function extendColorOption(colorOptions) {
+    var _colorOptions = { h: 70, s: 38, b1: 230, b2: 100, sample: 5, noValColor: "rgb(240,240,240)" };
+    if (!colorOptions) {
+        colorOptions = {};
+    }
+    for (var i in _colorOptions) {
+        if (typeof (colorOptions[i]) == "undefined") {
+            colorOptions[i] = _colorOptions[i];
+        }
+    }
+    return colorOptions;
+}
+function getRGBValue(h, s, b1, b2, segments, v, name) {
+
+
     v = Math.round(v * (segments)) + "";
     v = v / segments;
     var bDiff = (b2 - b1);
