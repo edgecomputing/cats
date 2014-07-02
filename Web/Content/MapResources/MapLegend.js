@@ -1,18 +1,14 @@
-function ShowLegend() {
-    var baseColor = { h: 0, s: 240, b: 65 }
-    var segments = 5;
-    var brightnessInitial = 65;
-    var brightnessFinal = 226;
+function ShowLegend(colorOptions) {
+    colorOptions = extendColorOption(colorOptions);
     var htm = "<div class='title'>Legend</div>";
-    var b = brightnessInitial ;
-    var bDiff = (brightnessFinal - brightnessInitial) / segments;
-    for (var i = 0; i < segments; i++) {
-        var color = HSVtoRGB(baseColor.h / 240, baseColor.s / 240, b / 240);
-        var style = "background:rgb(" + color.r + "," + color.g + "," + color.b + ");";
-        htm += "<div class='item'><i class='pallet' style='" + style + "'>&nbsp;</i> From HSB(" + baseColor.h + "," + baseColor.s + "," + Math.floor(b) + ")</div>";
-        b += bDiff;
+    for (var i = 0; i < colorOptions.sample; i++) {
+        var color = getRGBValue(colorOptions.h, colorOptions.s, colorOptions.b1, colorOptions.b2, colorOptions.sample-1, i / colorOptions.sample);
+        var style = "background:"+color +";";
+        htm += "<div class='item'><i class='pallet' style='" + style + "'>&nbsp;</i> From " + i + "</div>";
     }
     $("#divLegend").html(htm);
+    
+    
 }
 /*
 function serialize(feature) {
