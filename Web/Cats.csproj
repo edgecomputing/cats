@@ -1180,7 +1180,7 @@
     <Content Include="Content\MapResources\MapData\Afar.txt" />
     <Content Include="Content\MapResources\MapData\Amhara.txt" />
     <Content Include="Content\MapResources\MapData\Benishangul Gumuz.txt" />
-    <Content Include="Content\MapResources\MapData\ethiopiaRegions.js" />
+    <Content Include="Content\MapResources\MapData\ethiopiaRegions.txt" />
     <Content Include="Content\MapResources\MapData\Dire Dawa.txt" />
     <Content Include="Content\MapResources\MapData\Gambela.txt" />
     <Content Include="Content\MapResources\MapData\Harari.txt" />
@@ -2118,7 +2118,7 @@
     <Content Include="Content\MapResources\MapData\tigray.json" />
     <Content Include="Content\MapResources\MapData\afar.js" />
     <Content Include="Content\MapResources\MapData\ethiopiaJson.js" />
-    <Content Include="Content\MapResources\MapData\ethiopiaRegions-old.js" />
+    <Content Include="Content\MapResources\MapData\ethiopiaRegions-old.txt" />
     <None Include="dataset.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>dataset.Designer.cs</LastGenOutput>
