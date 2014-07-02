@@ -3,13 +3,13 @@ function ShowLegend() {
     var segments = 5;
     var brightnessInitial = 65;
     var brightnessFinal = 226;
-    var htm = "";
+    var htm = "<div class='title'>Legend</div>";
     var b = brightnessInitial ;
     var bDiff = (brightnessFinal - brightnessInitial) / segments;
     for (var i = 0; i < segments; i++) {
         var color = HSVtoRGB(baseColor.h / 240, baseColor.s / 240, b / 240);
         var style = "background:rgb(" + color.r + "," + color.g + "," + color.b + ");";
-        htm += "<div style='height:70px;width:70px;" + style + "'>HSB(" + baseColor.h + "," + baseColor.s + "," + Math.floor(b) + ")</div>";
+        htm += "<div class='item'><i class='pallet' style='" + style + "'>&nbsp;</i> From HSB(" + baseColor.h + "," + baseColor.s + "," + Math.floor(b) + ")</div>";
         b += bDiff;
     }
     $("#divLegend").html(htm);
