@@ -22,6 +22,7 @@ function CreateMapForData(dataSource, adminUnitInfo, renderingInfo) {
         var dataTable = createHash(data, key);
 
         normalizeIndicator(dataTable, indicator);
+        ShowLegend(renderingInfo.shadingOption, renderingInfo.div + "Legend", dataTable, indicator, renderingInfo.div + "Legend");
         console.log("drawDatayMap", dataTable);
         var ShapesURL = { Region: "/Content/MapResources/MapData/ethiopiaRegions2.txt" };
         var shapeURL = ShapesURL[adminUnitInfo.level];
@@ -35,7 +36,8 @@ function CreateMapForData(dataSource, adminUnitInfo, renderingInfo) {
     }
 
     $.post(dataSource.url, dataSource.postData, function (data) {
-        console.log("CreateMapForData", "data-fetched",data);
+        console.log("CreateMapForData", "data-fetched", data);
+       
         drawDatayMap(data.Data);
 
     });
