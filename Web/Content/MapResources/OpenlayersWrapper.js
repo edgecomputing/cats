@@ -1,3 +1,48 @@
+function createHash(data, key) {
+    var hash = {};
+    for (var i in data) {
+        var v = data[i];
+        var kv = v[key];
+        hash["row" + kv] = v;
+        
+    }
+    return hash;
+}
+function CreateMapForData(dataSource, adminUnitInfo, renderingInfo) {
+  /*  dataSource = { url: "", indicator: "", postData: {} };
+    adminUnitInfo = { level: "Region" };
+    renderingInfo = { shadingOption: {}, div: "" };
+    */
+    console.log("CreateMapForData", dataSource);
+
+    var drawDatayMap = function (data)
+    {
+        var key = "AdminUnitID";
+        var indicator = dataSource.indicator;
+        var dataTable = createHash(data, key);
+
+        normalizeIndicator(dataTable, indicator);
+        ShowLegend(renderingInfo.shadingOption, renderingInfo.div + "Legend", dataTable, indicator, renderingInfo.div + "Legend");
+        console.log("drawDatayMap", dataTable);
+        var ShapesURL = { Region: "/Content/MapResources/MapData/ethiopiaRegions2.txt" };
+        var shapeURL = ShapesURL[adminUnitInfo.level];
+
+       
+        var mapLayer =
+            [
+                { name: adminUnitInfo.level, url: shapeURL, style: getPolygonShadingStyle(key, dataTable, indicator, renderingInfo.shadingOption) }
+            ];
+        CreateMap(renderingInfo.div, { layers: mapLayer });
+    }
+
+    $.post(dataSource.url, dataSource.postData, function (data) {
+        console.log("CreateMapForData", "data-fetched", data);
+       
+        drawDatayMap(data.Data);
+
+    });
+ //   <img src="~/Content/images/loading.gif" /></div>
+}
 function CreateMap(div, _options) {
     var options = {};
     options=$.extend(options, _options);
