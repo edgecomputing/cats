@@ -1,4 +1,4 @@
-function ShowLegend(colorOptions) {
+function ShowLegend(colorOptions, div) {
     colorOptions = extendColorOption(colorOptions);
     var htm = "<div class='title'>Legend</div>";
     for (var i = 0; i < colorOptions.sample; i++) {
@@ -6,7 +6,7 @@ function ShowLegend(colorOptions) {
         var style = "background:"+color +";";
         htm += "<div class='item'><i class='pallet' style='" + style + "'>&nbsp;</i> From " + i + "</div>";
     }
-    $("#divLegend").html(htm);
+    $("#" + div).html(htm);
     
     
 }
