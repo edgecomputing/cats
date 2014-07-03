@@ -67,6 +67,26 @@ namespace Cats.Areas.EarlyWarning.Controllers
         {
             ViewBag.Status = 1;
             var filter = new SearchRequistionViewModel();
+            var user = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name);
+            var firstOrDefault = _commonService.GetAminUnits(t => t.AdminUnitTypeID == 2 && t.AdminUnitID == user.RegionID).FirstOrDefault();
+            if (firstOrDefault != null)
+                filter.RegionID = firstOrDefault.AdminUnitID;
+            else
+                filter.RegionID = 2;
+            switch (user.CaseTeam)
+            {
+                case 1://earlywarning
+                    var orDefault = _commonService.GetPrograms().FirstOrDefault(p => p.ProgramID == (int) Programs.Releif);
+                    if (orDefault != null)
+                        filter.ProgramID = orDefault.ProgramID;
+                    break;
+                case 2: //PSNP
+                    var @default = _commonService.GetPrograms().FirstOrDefault(p => p.ProgramID == (int) Programs.PSNP);
+                    if (@default != null)
+                        filter.ProgramID = @default.ProgramID;
+                    break;
+            }
+            filter.StatusID = 1;
             ViewBag.Filter = filter;
             Populatelookup();
             //ViewBag.Status = id;
@@ -407,6 +427,8 @@ namespace Cats.Areas.EarlyWarning.Controllers
                     }
                 }
                 requisition.RationID = reliefrequisition.RationID;
+                requisition.RequisitionNo = reliefrequisition.RequisitionNo;
+                requisition.RequestedDate = reliefrequisition.RequestedDate;
                 _reliefRequisitionService.EditReliefRequisition(requisition);
                 return RedirectToAction("Index", "ReliefRequisition");
             }

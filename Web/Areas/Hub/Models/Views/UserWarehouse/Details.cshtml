@@ -1,0 +1,30 @@
+﻿@model Cats.Models.Hubs.UserHub
+@using Cats.Web.Hub.Helpers
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>@Html.Translate("UserWarehouse")</legend>
+
+    <div class="display-label">@Html.Translate("UserProfile")</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.UserProfile.UserName)
+    </div>
+
+    <div class="display-label">@Html.Translate("Warehouse")</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Hub.Name)
+    </div>
+
+    <div class="display-label">@Html.Translate("IsDefault")</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.IsDefault)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink(Html.Translate("Edit"), "Edit", new { id = Model.UserHubID }) |
+    @Html.ActionLink(Html.Translate("Back to List"), "Index")
+</p>

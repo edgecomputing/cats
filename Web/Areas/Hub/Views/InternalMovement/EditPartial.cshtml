@@ -38,8 +38,8 @@
                             .HighlightFirstMatch(true)
                             .Filterable(filtering => { filtering.FilterMode(AutoCompleteFilterMode.StartsWith); })
                             .DataBinding(binding => binding.Ajax().Select("GetProjecCodetForCommodity","InternalMovement"))
-                            .ClientEvents(ev => ev.OnChange("clearStore"))
-                            .CascadeTo("ShippingInstructionId")
+                            .ClientEvents(ev => ev.OnChange("onProjectCodeChange"))
+                            //.CascadeTo("ShippingInstructionId")
                 )
                 @Html.ValidationMessageFor(model => model.ProjectCodes)
             </td>
@@ -66,6 +66,8 @@
                             .Filterable(filtering => { filtering.FilterMode(AutoCompleteFilterMode.StartsWith); })
                             .DataBinding(binding => binding.Ajax().Select("GetSINumberForProjectCode","InternalMovement"))
                             .ClientEvents(ev => ev.OnChange("onShippingInstructionChange"))
+                             .ClientEvents(ev => ev.OnDataBinding("onProjectCodeDatabinding"))
+                            
                             //.CascadeTo("FromStoreId")
                 )
                 @Html.ValidationMessageFor(model => model.ShippingInstructions)
@@ -224,6 +226,13 @@
          
 
     }
+    function onProjectCodeDatabinding() {
+        var CommodityId = $("#CommodityId").data("tComboBox").value();
+        var projectCodeId = $("#ProjectCodeId").data("tComboBox").value();
+        var SICombo = $("#ShippingInstructionId").data("tComboBox");
+
+
+    }
 
     function onShippingInstructionChange() {
         
@@ -279,7 +288,24 @@
         clearBalance();
     }
 
-    
+    function onProjectCodeChange() {
+        var CommodityId = $("#CommodityId").data("tComboBox").value();
+        var projectCodeId = $("#ProjectCodeId").data("tComboBox").value();
+        var SICombo = $("#ShippingInstructionId").data("tComboBox");
+
+        $.ajax({
+            type: 'POST',
+            url: '/InternalMovement/GetSINumberForProjectCode',
+            data: { ProjectCodeId: projectCodeId, parentCommodityId: CommodityId },
+            dataType: 'json',
+            success: function (data) {
+                SICombo.dataBind(data, true);
+                if (projectCodeId > 0) {
+                    $("#ShippingInstructionId").data("tComboBox").enable();
+                }
+            }
+        });
+    }
 
     function onToStoreChange() {
 
@@ -334,5 +360,6 @@
         $("#FromStoreId").data("tComboBox").disable();
         $("#ToStackId").data("tComboBox").disable();
         $("#FromStackId").data("tComboBox").disable();
+        $("#ShippingInstructionId").data("tComboBox").disable();
     });
 </script>

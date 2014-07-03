@@ -128,12 +128,12 @@ namespace Cats.Services.Hub
 
         public List<ProjectCodeViewModel> GetProjectCodesForCommodity(int hubID, int parentCommodityId)
         {
-            var transactions = _unitOfWork.TransactionRepository.Get();
+            var transactions = _unitOfWork.TransactionRepository.FindBy(m=>m.HubID==hubID && m.ParentCommodityID==parentCommodityId);
 
           
 
         var projectCodes = (from v in transactions
-                                where v.ParentCommodityID == parentCommodityId && v.HubID == hubID && v.ProjectCodeID != null
+                                where v.ProjectCodeID != null && v.StoreID!=null
                                 select new ProjectCodeViewModel { ProjectCodeId = v.ProjectCodeID.Value, ProjectName = v.ProjectCode.Value }).Distinct()
                                .GroupBy(ac => new
                    {

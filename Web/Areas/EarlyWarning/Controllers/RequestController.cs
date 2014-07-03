@@ -948,18 +948,6 @@ namespace Cats.Areas.EarlyWarning.Controllers
                                  into woredaDetail 
                                  select woredaDetail);
 
-            //var res =  (from woredaDetail in woredaGrouped
-            //           let regionalRequestDetail = woredaDetail.detailsf.FirstOrDefault()
-            //           where regionalRequestDetail != null
-            //           select new PLANWithRegionalRequestViewModel
-            //            {
-            //                zone = regionalRequestDetail.Fdp.AdminUnit.AdminUnit2.Name,
-            //                Woreda = woredaDetail.Woreda.Name,
-            //                RequestedBeneficiaryNo = woredaDetail.NoOfBeneficiaries,
-            //                PlannedBeneficaryNo = woredaDetail.hrdBeneficiary,
-            //                Difference = woredaDetail.hrdBeneficiary - woredaDetail.NoOfBeneficiaries,
-            //            }).ToList();
-
                result.AddRange(from sw in woredaG
                                from hrdDetails in hrd.HRDDetails
                                let oneWoreda = sw.ToList()
@@ -980,25 +968,8 @@ namespace Cats.Areas.EarlyWarning.Controllers
            {
                var details = regionalRequest.RegionalRequestDetails;
                var psnp = _RegionalPSNPPlanService.FindBy(m => m.PlanId == regionalRequest.PlanID).FirstOrDefault();
-               //var psnpBeneficiary = psnp != null
-               //                          ? psnp.First().RegionalPSNPPlanDetails.First(
-               //                              m => m.PlanedFDPID == 16).BeneficiaryCount
-               //                          : 0;
-
-               //var woredaGrouped = (from detail in details
-               //                     group detail by detail.Fdp.AdminUnit
-               //                         into woredaDetail
-               //                         select new
-               //                         {
-               //                             Woreda = woredaDetail.Key,
-               //                             NoOfBeneficiaries = woredaDetail.Sum(m => m.Beneficiaries),
-               //                             psnpBeneficiary = psnp != null ? psnp.First().RegionalPSNPPlanDetails.First(m => m.PlanedFDPID == woredaDetail.Key.AdminUnitID).BeneficiaryCount : 0,
-               //                             detailsf = woredaDetail
-               //                         });
-
+               
                var woredaG = (from detail in details
-                              from psnpDetail in psnp.RegionalPSNPPlanDetails
-                              where detail.Fdp.AdminUnit==psnpDetail.PlanedWoreda
                               group detail by detail.Fdp.AdminUnit
                                   into woredaDetail
                                   select woredaDetail);
@@ -1007,7 +978,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                                from pnspDetail in psnp.RegionalPSNPPlanDetails
                                let oneWoreda = sw.ToList()
                                let regionalRequestDetail = oneWoreda.FirstOrDefault()
-                               where regionalRequestDetail != null && pnspDetail.PlanedWoredaID==sw.Key.AdminUnitID
+                               where regionalRequestDetail != null && pnspDetail.PlanedWoreda.AdminUnitID==sw.Key.AdminUnitID
                                select new PLANWithRegionalRequestViewModel()
                                {
                                    zone = regionalRequestDetail.Fdp.AdminUnit.AdminUnit2.Name,
@@ -1017,18 +988,6 @@ namespace Cats.Areas.EarlyWarning.Controllers
                                    Difference = ((psnp != null ? psnp.RegionalPSNPPlanDetails.First(d => d.PlanedWoredaID == sw.Key.AdminUnitID).BeneficiaryCount : 0) - (sw.Sum(m => m.Beneficiaries))),
                                    RegionalRequestDetails = oneWoreda
                                });
-
-              //result = (from woredaDetail in woredaGrouped
-              //         select new PLANWithRegionalRequestViewModel
-              //         {
-              //             zone = woredaDetail.detailsf.FirstOrDefault().Fdp.AdminUnit.AdminUnit2.Name,
-              //             Woreda = woredaDetail.Woreda.Name,
-              //             RequestedBeneficiaryNo = woredaDetail.NoOfBeneficiaries,
-              //             PlannedBeneficaryNo = woredaDetail.psnpBeneficiary,
-              //             //PlannedBeneficaryNo = 52,
-              //             Difference = woredaDetail.psnpBeneficiary - woredaDetail.NoOfBeneficiaries
-              //             //Difference =  woredaDetail.NoOfBeneficiaries
-              //         }).ToList();
                 }
 
            else if (regionalRequest.ProgramId == 3)

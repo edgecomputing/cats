@@ -39,8 +39,8 @@
                                 .HighlightFirstMatch(true)
                                 .Filterable(filtering => { filtering.FilterMode(AutoCompleteFilterMode.StartsWith); })
                                 .DataBinding(binding => binding.Ajax().Select("GetProjecCodetForCommodity", "LossesAndAdjustments"))
-                                .ClientEvents(ev => ev.OnChange("clearStore"))
-                                .CascadeTo("ShippingInstructionId")
+                                 .ClientEvents(ev => ev.OnChange("onProjectCodeChange"))
+                                //.CascadeTo("ShippingInstructionId")
                       )   
                     @Html.ValidationMessageFor(model => model.ProjectCodes)
                     <span class="required" style="width:10px;">*</span>
@@ -68,6 +68,7 @@
                                 .Filterable(filtering => { filtering.FilterMode(AutoCompleteFilterMode.StartsWith); })
                                 .DataBinding(binding => binding.Ajax().Select("GetSINumberForProjectCode", "LossesAndAdjustments"))
                                 .ClientEvents(ev => ev.OnChange("onShippingInstructionChange"))
+                                 .ClientEvents(ev => ev.OnDataBinding("onProjectCodeDatabinding"))
                     )
                     @Html.ValidationMessageFor(model => model.ShippingInstructions)
                     <span class="required" style="width:10px;">*</span>
@@ -213,7 +214,30 @@
         });
         LoadBalance();
     }
+    function onProjectCodeDatabinding() {
+        var CommodityId = $("#CommodityId").data("tComboBox").value();
+        var projectCodeId = $("#ProjectCodeId").data("tComboBox").value();
+        var SICombo = $("#ShippingInstructionId").data("tComboBox");
 
+    }
+    function onProjectCodeChange() {
+        var CommodityId = $("#CommodityId").data("tComboBox").value();
+        var projectCodeId = $("#ProjectCodeId").data("tComboBox").value();
+        var SICombo = $("#ShippingInstructionId").data("tComboBox");
+        $.ajax({
+            type: 'POST',
+            url: '/LossesAndAdjustments/GetSINumberForProjectCode',
+            data: { ProjectCodeId: projectCodeId, parentCommodityId: CommodityId },
+            dataType: 'json',
+            success: function (data) {
+                SICombo.dataBind(data, true);
+                if (projectCodeId > 0) {
+                    alert("here");
+                    $("#ShippingInstructionId").data("tComboBox").enable();
+                }
+            }
+        });
+    }
     function clearStore() {
         $("#StoreId").data("tComboBox").select(0);
         $("#StoreId").data("tComboBox").disable();
@@ -253,5 +277,6 @@
 <script type="text/javascript">
     $(document).ready(function () {
         $("#StoreId").data("tComboBox").disable();
+        $("#ShippingInstructionId").data("tComboBox").disable();
     });
 </script>

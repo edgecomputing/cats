@@ -144,7 +144,17 @@
             @Html.EditorFor(model => model.SINumber)
             @Html.ValidationMessageFor(model => model.SINumber)
         </div>
-
+       <div class="editor-label">
+            @Html.LabelFor(model => model.UnitID, Html.Translate("Unit")) <span class="required">*</span>
+        </div>
+        <div class="editor-field">
+            @(Html.Telerik().ComboBox()
+            .Name("UnitID")
+            .BindTo(new SelectList(Model.Units, "UnitID", "Name", Model.UnitID))
+            .HtmlAttributes(new { style = string.Format("width:{0}px", 200) })
+            )
+            @Html.ValidationMessageFor(model => model.UnitID)
+        </div>
         <div class="editor-label">
             @Html.LabelFor(model => model.QuantityInUnit, Html.Translate("Quantity In Unit"))
                     <span class="required">
@@ -165,17 +175,7 @@
             @Html.ValidationMessageFor(model => model.QuantityInMT)
         </div>
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.UnitID, Html.Translate("Unit")) <span class="required">*</span>
-        </div>
-        <div class="editor-field">
-            @(Html.Telerik().ComboBox()
-            .Name("UnitID")
-            .BindTo(new SelectList(Model.Units, "UnitID", "Name", Model.UnitID))
-            .HtmlAttributes(new { style = string.Format("width:{0}px", 200) })
-            )
-            @Html.ValidationMessageFor(model => model.UnitID)
-        </div>
+        
 
     <br />
     <p style="clear: both">

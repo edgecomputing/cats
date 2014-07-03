@@ -578,7 +578,7 @@ namespace Cats.Areas.Hub.Controllers
                         {
                             receiveModels.IsEditMode = true;
                         }
-                        ModelState.AddModelError("Errors", @"GRN Already Existed Please Change GRN Number");
+                        ModelState.AddModelError("GRN", @"GRN Already Existed");
                         return View(receiveModels);
                     }
                     //Even though they are updated they are not saved so move them in to the inserted at the end of a succcessful submit
