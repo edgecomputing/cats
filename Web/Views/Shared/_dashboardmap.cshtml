@@ -48,7 +48,8 @@
         renderingInfo = { shadingOption: {}, div: "map1" };
         CreateMapForData(dataSource, adminUnitInfo, renderingInfo);
 
-        CreateMapForData({ url: HRDUrl, indicator: "Total", postData: {} }, { level: "Region" }, { shadingOption: {h:170,s:164}, div: "map2" });
+        
+        CreateMapForData({ url: HRDUrl, indicator: "Total", postData: {} }, { level: "Region" }, { shadingOption: {h:170,s:164,sample:8}, div: "map2" });
 
         return;
 
@@ -73,22 +74,24 @@
          position:relative;
         margin-top:10px;
         left:10px;
-        height:400px;
-        right:50px;
+        height:500px;
+        width:80%;
         
         border:solid 1px #DDD;
         border-radius:6px;
-    }
+        
+        background: #7abcff; /* Old browsers */
+background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,#aad4ff), color-stop(44%,#60abf8), color-stop(100%,#a3c8ed));    }
     .map-legend
     {
        position:absolute;
-        top:10px;
-        right:10px;
-        bottom:100px;
+        top:0px;
+        right:0px;
         width:300px;
         background:rgba(255,255,255,0.6);
         padding:20px;
-        box-shadow: 2px 2px 2px #444;
+        padding-top:0;
+        box-shadow: -2px 2px 2px #444;
        
     }
         .map-legend .title
@@ -112,12 +115,14 @@
     .map-title
     {
         position:absolute;
-        top:10px;
+        top:0px;
         left:100px;
         width:300px;
-        background:rgba(255,255,255,0.6);
+        /*background:rgba(255,255,255,0.6);*/
+        color:#FFF;
         padding:20px;
         font-size:20px;
+        text-shadow:2px 2px 2px #44A;
 
     }
     .olControlMousePosition
