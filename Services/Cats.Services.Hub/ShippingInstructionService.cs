@@ -154,9 +154,9 @@ namespace Cats.Services.Hub
         public List<ShippingInstructionViewModel> GetShippingInstructionsForProjectCode(int hubId, int projectCodeId)
         {
             var tempShippingInstructions =
-                _unitOfWork.TransactionRepository.FindBy(t => t.HubID == hubId && t.ProjectCodeID == projectCodeId);
+                _unitOfWork.TransactionRepository.FindBy(t => t.HubID == hubId && t.ProjectCodeID == projectCodeId );
             var shippingInstructions = (from v in tempShippingInstructions
-                                        where v.LedgerID==Cats.Models.Ledger.Constants.GOODS_ON_HAND 
+                                        where v.LedgerID==Cats.Models.Ledger.Constants.GOODS_ON_HAND_UNCOMMITED 
                                         select
                                             new ShippingInstructionViewModel
                                             {
@@ -394,6 +394,31 @@ namespace Cats.Services.Hub
                                           (siBalance.CommitedToFDP + siBalance.CommitedToOthers);
             return siBalance;
 
+        }
+        public List<ShippingInstructionViewModel> GetShippingInstructionsForProjectCode(int hubId, int projectCodeId, int ParentCommodityID)
+        {
+            var tempShippingInstructions =
+                _unitOfWork.TransactionRepository.FindBy(t => t.HubID == hubId && t.ProjectCodeID == projectCodeId && t.ParentCommodityID == ParentCommodityID);
+            var shippingInstructions = (from v in tempShippingInstructions
+                                        where v.StoreID != null && v.LedgerID == Cats.Models.Ledger.Constants.GOODS_ON_HAND
+                                        select
+                                            new ShippingInstructionViewModel
+                                            {
+                                                ShippingInstructionId = v.ShippingInstructionID.Value,
+                                                ShippingInstructionName = v.ShippingInstruction.Value
+                                            }).GroupBy(ac => new
+                                            {
+                                                ac.ShippingInstructionId,
+                                                ac.ShippingInstructionName,
+                                            })
+                    .Select(ac => new ShippingInstructionViewModel
+                    {
+                        ShippingInstructionId = ac.Key.ShippingInstructionId,
+                        ShippingInstructionName = ac.Key.ShippingInstructionName
+
+                    }).
+                ToList();
+            return shippingInstructions;
         }
 
     }
