@@ -189,8 +189,15 @@ namespace Cats.Areas.EarlyWarning.Controllers
             if (rationDetailViewModel != null && ModelState.IsValid)
             {
                 rationDetailViewModel.RationID = id;
+                var rationCommodity =_rationDetailService.FindBy(
+                                m => m.RationID == id && m.CommodityID == rationDetailViewModel.CommodityID).
+                                FirstOrDefault();
+                if (rationCommodity==null)
+                {
+                    _rationDetailService.AddRationDetail(BindRationDetail(rationDetailViewModel));
+                }
                
-                _rationDetailService.AddRationDetail(BindRationDetail(rationDetailViewModel));
+               
             }
 
             return Json(new[] { rationDetailViewModel }.ToDataSourceResult(request, ModelState));
