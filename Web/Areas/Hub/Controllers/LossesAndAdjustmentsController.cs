@@ -225,6 +225,18 @@ namespace Cats.Areas.Hub.Controllers
                 return Json(new SelectList(new List<ShippingInstructionViewModel>()));
             }
         }
+        public ActionResult GetAdjustmentsSINumberForProjectCode(int? ProjectCodeId)
+        {
+            if (ProjectCodeId.HasValue)
+            {
+                UserProfile user = _userProfileService.GetUser(User.Identity.Name);
+                return Json(new SelectList(_shippingInstructionService.GetShippingInstructionsForProjectCode(user.DefaultHub.Value, ProjectCodeId.Value), "ShippingInstructionId", "ShippingInstructionName"), JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json(new SelectList(new List<ShippingInstructionViewModel>()));
+            }
+        }
 
         public ActionResult ViewDetial(string TransactionId)
         {
