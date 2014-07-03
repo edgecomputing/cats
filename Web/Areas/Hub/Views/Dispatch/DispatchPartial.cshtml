@@ -236,10 +236,10 @@
                     @Html.LabelFor(model => model.StoreID,Html.Translate("Store")) <span class="required">*</span>
                 </td>
                 <td class="editor">
-                    @(Html.Telerik().ComboBox()
+                    @*@(Html.Telerik().ComboBox()
            .Name("StoreID")
            .AutoFill(true)
-           .BindTo((SelectList)ViewBag.StoreID)
+           //.BindTo((SelectList)ViewBag.StoreID)
            .HtmlAttributes(new { style = string.Format("width:{0}px", 200) })
            .ClientEvents(ev => ev.OnChange("OnComChange"))
            .Filterable(filtering =>
@@ -251,13 +251,14 @@
            .HighlightFirstMatch(true).CascadeTo("StackNumber")
            .ClientEvents(events => events.OnChange("storeChanged"))
                           )
-                    @Html.ValidationMessageFor(model => model.StoreID)
+                    @Html.ValidationMessageFor(model => model.StoreID)*@
+                    <select id="StoreID" name="StoreID"></select>
                 </td>
                 <td style="width: 200px">
                     @Html.LabelFor(model => model.StackNumber,Html.Translate("Stack Number")) <span class="required">*</span>
                 </td>
                 <td class="editor">
-                    @(Html.Telerik().ComboBox().Name("StackNumber")
+           @*         @(Html.Telerik().ComboBox().Name("StackNumber")
            .BindTo((SelectList)ViewBag.StoreID)
            .DataBinding(bind => bind.Ajax().Select("StackNumbers", "Store"))
            .HtmlAttributes(new { style = string.Format("width:{0}px", 200) })
@@ -266,8 +267,8 @@
            .OpenOnFocus(true)
                           )
                     @Html.AuditTrial("Dispatch", "StackNumber", Model.DispatchID)
-                    @Html.ValidationMessageFor(model => model.StackNumber)
-                
+                    @Html.ValidationMessageFor(model => model.StackNumber)*@
+                <select id="StackNumber" name="StackNumber"></select>
                 </td>
             </tr>
 
@@ -505,14 +506,28 @@
     var selectedRegion = '';
     var selectedZone = '';
     
-    function storeChanged(e) {
-        if (e.value != "") {
-            var url = "/Store/StoreManName";
-            $.getJSON(url, { storeId: e.value }, function (name) {
+    function storeChanged(id) {
+        if (id != "") {
+            var url = "@Url.Action("StoreManName", "Store", new {Area = "Hub"})";
+            $.getJSON(url, { storeId: id }, function (name) {
                 if (name != "" )//|| $('#DispatchedByStoreMan').val() == "Please Specify") 
                 $('#DispatchedByStoreMan').val(name);
                 $('#DispatchedByStoreMan').valid();
             });
+            $.getJSON("@Url.Action("StackNumbers", "Store", new {Area = "Hub"})", { StoreID: id, editModval: '@Model.StackNumber' }, function (result) {
+                if (result != "" && result != null) {
+                    //$('#StoreID').data('tComboBox').value(result[0]);
+                    var options = '<option value="">-- Select a Stack</option>';
+                    for (var i = 0; i < result.length; i++) {
+                        options += '<option value="' + result[i].Value + '">' + result[i].Text + '</option>';
+                    }
+                    $("#StackNumber").html(options);
+
+                }
+            });
+        }
+        else {
+            $('#DispatchedByStoreMan').val("");
         }
     }
 
@@ -703,7 +718,25 @@
         // initDispatchCascade();
         wireUpAuditLinks();
         $('#SINumber').blur(function () {
+            var url = '@Url.Action("JsonSIStores","Dispatch")';
+            $.getJSON(url, { siNumber: $('#SINumber').val(), editModval: '@Model.SINumber' }, function (result) {
+                //for (var i = 0; i < 2; i++)
+                //    alert(result[i].Text);
+                if (result != "" && result != null) {
+                    //$('#StoreID').data('tComboBox').value(result[0]);
+                    var options = '<option value="">-- Select a Store</option>';
+                    for (var i = 0; i < result.length; i++) {
+                        options += '<option value="' + result[i].Value + '">' + result[i].Text + '</option>';
+                    }
+                    $("#StoreID").html(options);
+                    
+                }
+            });
             loadFdpBalance();
+        });
+        $('#StoreID').change(function () {
+            var storeID = $('#StoreID').val();
+            storeChanged(storeID);
         });
     });
     function OnComChange() {

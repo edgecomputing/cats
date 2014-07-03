@@ -33,6 +33,7 @@
     @Html.HiddenFor(model => model.ReceiptAllocationID)
     @Html.HiddenFor(model => model.Stores)
     @Html.HiddenFor(model => model.CommodityTypeID)
+
     @{
         Model.ChangeStoreManPermanently = false;
      }
@@ -502,6 +503,14 @@
                 <td colspan="3">
                     @Html.EditorFor(model => model.Remark, new { cols = "60" })
                     @Html.AuditTrial("Receive", "Remark", Model.ReceiveID)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Continue adding receipts
+                </td>
+                <td colspan="3">
+                     @Html.EditorFor(model => model.ContinueAdding)
                 </td>
             </tr>
             <tr>

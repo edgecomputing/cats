@@ -1,0 +1,41 @@
+﻿@model Cats.Models.Hubs.Transporter
+@using Cats.Web.Hub.Helpers
+
+@using (Html.BeginForm())
+    {
+    @Html.ValidationSummary(true)
+    
+        @Html.HiddenFor(model => model.TransporterID)
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Name,Html.Translate("Name"))
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Name)
+            @Html.ValidationMessageFor(model => model.Name)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.NameAM, Html.Translate("Name (Amharic)"))
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.NameAM)
+            @Html.ValidationMessageFor(model => model.NameAM)
+        </div>
+    
+        <div class="editor-label">
+            @Html.LabelFor(model => model.LongName, Html.Translate("Long Name"))
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.LongName,Html.Translate("Transporter Long Name"))
+            @Html.ValidationMessageFor(model => model.LongName)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.BiddingSystemID)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.BiddingSystemID)
+            @Html.ValidationMessageFor(model => model.BiddingSystemID)
+        </div>
+}

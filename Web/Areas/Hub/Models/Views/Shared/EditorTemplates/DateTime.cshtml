@@ -1,0 +1,72 @@
+@using Cats.Web.Hub.Helpers
+@model DateTime?
+
+@{
+    var id = ViewData.TemplateInfo.GetFullHtmlFieldName(string.Empty);
+    var am_id = id + "_am";
+}
+      
+@if (@Html.GetCurrentUser().DatePreference == "am")
+{
+   
+                <link href="@Url.Content("~/Scripts/js/humanity.calendars.picker.css")" rel="stylesheet" type="text/css" />
+                
+                <script type="text/javascript" src="@Url.Content("~/Scripts/2012.1.419/telerik.calendar.min.js")"> </script>
+                <script type="text/javascript" src="@Url.Content("~/Scripts/2012.1.419/telerik.datepicker.min.js")"> </script>
+                <script type="text/javascript" src="@Url.Content("~/Scripts/js/jquery.calendars.js")"> </script>
+                <script type="text/javascript" src="@Url.Content("~/Scripts/js/jquery.calendars.js")"> </script>
+                <script type="text/javascript" src="@Url.Content("~/Scripts/js/jquery.calendars.plus.js")"> </script>
+                <script type="text/javascript" src="@Url.Content("~/Scripts/js/jquery.calendars.picker.js")"> </script>
+               
+                <script type="text/javascript" src="@Url.Content("~/Scripts/js/jquery.calendars.ethiopian.js")"> </script>
+              
+                <script type="text/javascript" src="@Url.Content("~/Scripts/js/jquery.calendars.picker-am.js")"> </script>
+                <script type="text/javascript" src="@Url.Content("~/Scripts/js/jquery.calendars.ethiopian-am.js")"> </script>
+  
+                <input id="@am_id" class="calendarspicker t-input" type="input" data-gregorian-field="input[name=@id]" />
+    @(
+                Html.Telerik().DatePicker()
+                    .Max(DateTime.Today.ToShortDateString()
+                )
+                .Format("yyyy/mm/dd").Name(id)
+                .OpenOnFocus(true).ShowButton(false)
+                .InputHtmlAttributes(new {  @name = id, @type = "hidden", @style = "visible:hidden;" })
+                .Value(Model)
+                 )
+//@readonly = "readonly",
+    <script type="text/javascript">
+
+
+        $(function () {
+
+            $('.calendarspicker').calendarsPicker({
+                calendar: $.calendars.instance('ethiopian', 'am')
+                //disableInput: true
+            }).attr("readonly", "readonly").attr('style', 'background-color : #fff');
+
+            $.calendars.picker.setDefaults({ dateFormat: 'yyyy/mm/dd' });
+            //set the receipt hidden date using the telrik date picker control
+            var eCalendar = $.calendars.instance('ethiopian', 'am');
+            var valueToset = new Date();
+            if ($("#@id").data("tDatePicker").value() != null) {
+                valueToset = $("#@id").data("tDatePicker").value();
+            }
+            var jstartdate = eCalendar.fromJSDate(valueToset).toJD();
+            var edate = eCalendar.fromJD(jstartdate);
+            //set the Amharic respective
+            $('#@am_id').val(edate.formatDate('yyyy/mm/dd'));
+            $('#@id').val($.datepicker.formatDate('dd-M-yy', valueToset));
+        });
+    </script>
+}
+else
+{
+    @(Html.Telerik().DatePicker()
+        //.Max(DateTime.Today.ToShortDateString())
+        .Name(id)
+        .Format("yyyy/MM/dd")
+        .HtmlAttributes(new { id =  id + "_Wrapper" })
+        .Value(Model)
+    )                     
+                     
+}
