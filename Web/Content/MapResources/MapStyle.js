@@ -20,15 +20,16 @@ function getPolygonShadingStyle(key, dataTable, indicator, colorOptions) {
         {
             "Polygon":
             {
-                fillOpacity: 1
+                fillOpacity: 0.8
                 , strokeOpacity: 1
                // , label: function (feature) { return get_attribute_value(feature.attributes, "name", ""); }
                 , label: function (feature) {
+                    return "";
                     var keyVal = get_attribute_value(feature.attributes, key, "");
                     var row = dataTable["row" + keyVal];
                     if (row) {
-                        var att = dataTable["row" + keyVal][indicator + "normalized"];
-                        att = Math.round(att * (colorOptions.sample-1));
+                        var att = dataTable["row" + keyVal][indicator];
+                      //  att = Math.round(att * (colorOptions.sample-1));
                         return get_attribute_value(feature.attributes, "name", "") + " " + att;
                     }
                     return get_attribute_value(feature.attributes, "name", "") + " - ";
@@ -53,7 +54,7 @@ function getPolygonShadingStyle(key, dataTable, indicator, colorOptions) {
     }
 }
 function extendColorOption(colorOptions) {
-    var _colorOptions = { h: 70, s: 38, b1: 230, b2: 100, sample: 5, noValColor: "rgb(240,240,240)" };
+    var _colorOptions = { h: 220, s: 200, b1: 200, b2: 100, sample: 5, noValColor: "rgb(64,64,64)" };
     if (!colorOptions) {
         colorOptions = {};
     }
