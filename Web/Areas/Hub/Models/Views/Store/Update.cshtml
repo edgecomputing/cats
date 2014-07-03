@@ -1,0 +1,80 @@
+﻿@using Cats.Web.Hub.Helpers
+@model IEnumerable<Cats.Models.Hubs.Store>
+<table width="100%">
+    <tr>
+        <th style="width: 20px">
+        </th>
+        <th>
+            @Html.Translate("Name")
+        </th>
+        <th>
+            @Html.Translate("Hub")
+        </th>
+        <th>
+            @Html.Translate("Hub Owner")
+        </th>
+        <th>
+            @Html.Translate("Stack count")
+        </th>
+        <th>
+            @Html.Translate("Store Man Name")
+        </th>
+        <th style="text-align: center">
+            @Html.Translate("Temporary")
+        </th>
+        <th style="text-align: center">
+            @Html.Translate("Active")
+        </th>
+        <th>
+        </th>
+    </tr>
+    @{
+        var i = 1;
+    }
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@i
+            </td>
+            <td>
+                @Html.DialogFormLink(@Html.DisplayFor(modelItem => item.Name).ToString(), Url.Action("Edit/" + item.StoreID), Html.Translate("Edit warehouse"), "storelist", Url.Action("Update"))
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Hub.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Hub.HubOwner.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StackCount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StoreManName)
+            </td>
+            <td style="text-align: center">
+                @if (item.IsTemporary == true)
+                {             
+                    <img src="@Url.Content("~/images/tick.png")" alt=""/>
+                }
+                else
+                {
+                    <img src="@Url.Content("~/images/x.png")" alt=""/>
+                }
+            </td>
+            <td style="text-align: center">
+                @if (item.IsActive == true)
+                {             
+                    <img src="@Url.Content("~/images/tick.png")" alt=""/>
+                }
+                else
+                {
+                    <img src="@Url.Content("~/images/x.png")" alt=""/>
+                }
+            </td>
+            <td>
+                @Html.ActionLink(Html.Translate("Delete"), "Delete", new { id = item.StoreID })
+            </td>
+        </tr>
+                i = i + 1;
+    }
+</table>

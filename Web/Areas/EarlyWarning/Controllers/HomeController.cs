@@ -43,7 +43,10 @@ namespace Cats.Areas.EarlyWarning.Controllers
             var summary = GetHRDSummary(hrd.HRDID);
             return View(summary);
         }
-
+        public ActionResult EWMaps()
+        {
+            return View();
+        }
         private DataTable GetHRDSummary(int id)
         {
             var weightPref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).PreferedWeightMeasurment;
