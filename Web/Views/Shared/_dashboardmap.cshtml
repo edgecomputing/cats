@@ -17,12 +17,12 @@
 
 <div class="map-container">
     <div id="map1" class="map"></div>
-    <div id="map1Legend" class="map-legend">Legend</div>
+    <div id="map1Legend" class="map-legend"></div>
     <div class="map-title">Number of Beneficiaries</div>
 </div>
 <div class="map-container">
     <div id="map2" class="map"></div>
-    <div id="map2Legend" class="map-legend">Legend</div>
+    <div id="map2Legend" class="map-legend"></div>
     <div class="map-title">Total Commoditiy Required</div>
 </div>
 <div style="height:600px;"></div>
@@ -49,7 +49,7 @@
         CreateMapForData(dataSource, adminUnitInfo, renderingInfo);
 
         
-        CreateMapForData({ url: HRDUrl, indicator: "Total", postData: {} }, { level: "Region" }, { shadingOption: {h:170,s:164,sample:8}, div: "map2" });
+        CreateMapForData({ url: HRDUrl, indicator: "Total", postData: {} }, { level: "Zone" }, { shadingOption: { h: 170, s: 164, sample: 8 }, div: "map2" });
 
         return;
 
