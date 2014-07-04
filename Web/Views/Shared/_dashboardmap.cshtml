@@ -5,25 +5,27 @@
     
     }
 <style>
-    .map
-    {
-        float:left;
-        width:700px;
-        height:500px;
-        border-right:solid 1px #DDD;
-    }
+
+
 
 </style>
 <link rel="stylesheet" href="~/Content/MapResources/openlayers/theme/default/style.css" type="text/css">
 <script src="~/Content/MapResources/OpenlayersWrapper.js"></script>
 <script src="~/Content/MapResources/openlayers/lib/OpenLayers.js"></script>
 <script src="~/Content/MapResources/MapStyle.js"></script>
+<script src="~/Content/MapResources/MapLegend.js"></script>
 
-
-<div id="map1" class="map">
+<div class="map-container">
+    <div id="map1" class="map"></div>
+    <div id="map1Legend" class="map-legend"></div>
+    <div class="map-title">Number of Beneficiaries</div>
 </div>
-<div id="map2" class="map2">
+<div class="map-container">
+    <div id="map2" class="map"></div>
+    <div id="map2Legend" class="map-legend"></div>
+    <div class="map-title">Total Commoditiy Required</div>
 </div>
+<div style="height:600px;"></div>
 <script>
         
     function mapController($http, $scope, $timeout) {
@@ -35,51 +37,99 @@
     }
     var countryShapeURL = "/Content/MapResources/MapData/ethiopiaJson.js";
     var regionShapeURL = "/Content/MapResources/MapData/ethiopiaRegions.txt";
+
+
+
     $(function () {
-        var hrdSummary = {};
-        var HRDUrl= "@Url.Action("HRDDetail_Read", "HRD", new { Area = "EarlyWarning" })";
+        HRDUrl = "@Url.Action("BeneficiaryByRegion_Read", "HRD", new { Area = "EarlyWarning" })";
+        var ZoneHRDUrl = "@Url.Action("BeneficiaryByZone_Read", "HRD", new { Area = "EarlyWarning" })";
 
-        function aggregateRegionBeneficiaries(data) {
-            var regionBen = {};
-            for (var i in data) {
-                var regionID = data[i].RegionID;
+        dataSource = { url: HRDUrl, indicator: "NumberOfBeneficiaries", postData: {} };
+        adminUnitInfo = { level: "Region" };
+        renderingInfo = { shadingOption: {}, div: "map1" };
+        CreateMapForData(dataSource, adminUnitInfo, renderingInfo);
 
-                if (!regionBen["row" + regionID]) {
-                    regionBen["row" + regionID] = { RegionID: regionID, RegionName: data[i].Region, NumberOfBeneficiaries: 0 };
-                }
-                regionBen["row" + regionID].NumberOfBeneficiaries += data[i].NumberOfBeneficiaries / 1;
-                
-            }
-            return regionBen;
-        }
-        $.post(HRDUrl, {}, function (data) {
-            drawRegionBenficiaryMap(data.Data);
-        });
+        
+        CreateMapForData({ url: ZoneHRDUrl, indicator: "Total", postData: {} }, { level: "Zone" }, { shadingOption: { h: 170, s: 164, sample: 8 }, div: "map2" });
 
-        function drawRegionBenficiaryMap(data) {
-            var regionBen = aggregateRegionBeneficiaries(data);
+        return;
 
-            var dataTable = regionBen;
-            var key = "RegionID";
-            var indicator = "NumberOfBeneficiaries";
-            
-            console.log("drawRegionBenficiaryMap", regionBen);
-            var shadingOption = { minColor: "rgb(255,200,200)", maxColor: "rgb(255,100,100)", noValColor: "rgb(240,240,240)" };
-            /*
-            var mapLayer =
-                [
-                    { name: "Ethiopia", url: countryShapeURL, styleMap: stylePresets.outline }
-                   ,{ name: "Regions", url: regionShapeURL, style: getPolygonShadingStyle(key, dataTable, indicator, shadingOption) }
-                ];
-            */
-            var mapLayer =
-                [
-                    { name: "Regions", url: regionShapeURL, style: getPolygonShadingStyle(key, dataTable, indicator, shadingOption) }
-                ];
-            CreateMap("map1", { layers: mapLayer });
-        }
 
 
     });
     
 </script>
+<style>
+    .map
+    {
+       position:absolute;
+        top:0px;
+        left:0px;
+        right:0px;
+        bottom:0px;
+        
+       
+    }
+    .map-container
+    {
+         position:relative;
+        margin-top:10px;
+        left:10px;
+        height:500px;
+        width:80%;
+        
+        border:solid 1px #DDD;
+        border-radius:6px;
+        
+        background: #7abcff; /* Old browsers */
+background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,#aad4ff), color-stop(44%,#60abf8), color-stop(100%,#a3c8ed));    }
+    .map-legend
+    {
+       position:absolute;
+        top:0px;
+        right:0px;
+        width:300px;
+        background:rgba(255,255,255,0.6);
+        padding:20px;
+        padding-top:0;
+        box-shadow: -2px 2px 2px #444;
+       
+    }
+        .map-legend .title
+        {
+            font-size:20px;
+            line-height:40px;
+        }
+        .map-legend .item
+        {
+            line-height:40px;
+            border-bottom:solid 1px #EEE;
+        }
+        .map-legend .pallet
+        {
+            line-height:40px;
+            padding:4px;
+            padding-left:10px;
+            padding-right:10px;
+            border-radius:6px;
+        }
+    .map-title
+    {
+        position:absolute;
+        top:0px;
+        left:100px;
+        width:300px;
+        /*background:rgba(255,255,255,0.6);*/
+        color:#FFF;
+        padding:20px;
+        font-size:20px;
+        text-shadow:2px 2px 2px #44A;
+
+    }
+    .olControlMousePosition
+    {
+        background:#000;
+        color:#FFF;
+    }
+
+</style>

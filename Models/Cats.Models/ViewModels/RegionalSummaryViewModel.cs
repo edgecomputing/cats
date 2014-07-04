@@ -20,6 +20,8 @@ namespace Cats.Models.ViewModels
         public decimal Pulse { get; set; }
         public decimal Oil { get; set; }
         public decimal Total { get { return Cereal + Pulse + Oil + BlededFood; } }
+        public int AdminUnitID { get; set; }
+        public string AdminUnitName { get; set; }
     }
     public class CompareHrdViewModel
     {

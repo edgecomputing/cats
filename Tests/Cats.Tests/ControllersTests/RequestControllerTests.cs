@@ -428,13 +428,16 @@ namespace Cats.Tests.ControllersTests
 
            //Act
             _requestController.ApproveRequest(1);
+            var noCommdodityOrBeneficiary = _requestController.CheckBeneficiaryNoAndCommodity(1);
+
             // var reqStatus = regionalRequests[0].Status;
             var resut = (ViewResult)_requestController.Edit(1);
 
             //Assert
 
             Assert.IsInstanceOf<RegionalRequest>(resut.Model);
-            Assert.AreEqual((int)RegionalRequestStatus.Approved, ((RegionalRequest)resut.Model).Status);
+            Assert.IsFalse(noCommdodityOrBeneficiary);
+            //Assert.AreEqual((int)RegionalRequestStatus.Approved, ((RegionalRequest)resut.Model).Status);
         }
         [Test]
         public void CanGetRequestForEdit()

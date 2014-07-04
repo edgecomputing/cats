@@ -132,4 +132,14 @@ namespace Cats.Models.Constant
         ChequeApproved = 2020,
         ChequeCollected = 2019
     }
+
+    public enum PSNPWorkFlow
+    {
+        Draft = 1,
+        SubmittedForApproval = 2,
+        UnderRevision = 3,
+        Approved = 4,
+        Completed = 5
+
+    }
 }

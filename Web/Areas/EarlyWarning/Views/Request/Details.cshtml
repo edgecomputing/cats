@@ -60,7 +60,9 @@
             {
                 <li><a href="@Url.Action("Edit", "Request", new { Area = "EarlyWarning", id = modelRequest.RegionalRequestID })">Edit</a></li>
                 <li><a href="@Url.Action("Allocation", "Request", new { Area = "EarlyWarning", id = modelRequest.RegionalRequestID })">Allocation</a></li>
-                <li><a href="@Url.Action("ApproveRequest", "Request", new { id = modelRequest.RegionalRequestID })">Approve</a></li>
+                <li><a href="@Url.Action("ApproveRequest", "Request", new {id = modelRequest.RegionalRequestID})">Approve</a></li>
+                
+                
             }
             @if (modelRequest.StatusID == (int)Cats.Models.Constant.RegionalRequestStatus.Approved && modelRequest.ProgramId == 3)
             {
@@ -128,6 +130,12 @@
     </div>
 }
 
+@if(ViewBag.msg!=null)
+{
+    <div class="alert alert-error">
+        @ViewBag.msg
+    </div>
+}
 <h4 class="page-header">Regional Request Detail</h4>
 
 <div class="control-group form-horizontal well">

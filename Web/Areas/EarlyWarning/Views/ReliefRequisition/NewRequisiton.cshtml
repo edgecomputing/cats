@@ -44,9 +44,19 @@
                 <th>
                     @Html.DisplayNameFor(model => model.Commodity)
                 </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Round)
-                </th>
+                @if(Model.FirstOrDefault().Program=="PSNP")
+                {
+                    <th>
+                    @Html.DisplayNameFor(model => model.Month)
+                </th> 
+                }
+               else
+                {
+                    <th>
+                        @Html.DisplayNameFor(model => model.Round)
+                    </th>
+                }
+               
                 <th>
                     @Html.DisplayNameFor(model => model.RequestedDate)
                 </th>
@@ -89,9 +99,18 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.Commodity)
                     </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Round)
-                    </td>
+                    @if(item.Program=="PSNP")
+                    {
+                        <td>
+                            @Html.DisplayFor(modelItem => item.MonthName)
+                        </td>
+                    }
+                    else
+                    {
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Round)
+                        </td>
+                    }
                     <td class="cats-date-pref-grid">
                         @Html.DisplayFor(modelItem => item.RequestDatePref)
                     </td>

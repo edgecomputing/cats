@@ -140,8 +140,8 @@ namespace Cats.Services.EarlyWarning
             if (regionalRequest == null) return null;
             
             var reliefRequistions = CreateRequistionFromRequest(regionalRequest);
-            if (reliefRequistions.Count < 1)
-                return GetRequisitionByRequestId(requestId);
+            //if (reliefRequistions.Count < 1)
+            //    return GetRequisitionByRequestId(requestId);
             AddReliefRequisions(reliefRequistions);
             regionalRequest.Status = (int)RegionalRequestStatus.Closed;
             _unitOfWork.Save();
