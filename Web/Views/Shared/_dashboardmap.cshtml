@@ -42,6 +42,7 @@
 
     $(function () {
         HRDUrl = "@Url.Action("BeneficiaryByRegion_Read", "HRD", new { Area = "EarlyWarning" })";
+        var ZoneHRDUrl = "@Url.Action("BeneficiaryByZone_Read", "HRD", new { Area = "EarlyWarning" })";
 
         dataSource = { url: HRDUrl, indicator: "NumberOfBeneficiaries", postData: {} };
         adminUnitInfo = { level: "Region" };
@@ -49,7 +50,7 @@
         CreateMapForData(dataSource, adminUnitInfo, renderingInfo);
 
         
-        CreateMapForData({ url: HRDUrl, indicator: "Total", postData: {} }, { level: "Zone" }, { shadingOption: { h: 170, s: 164, sample: 8 }, div: "map2" });
+        CreateMapForData({ url: ZoneHRDUrl, indicator: "Total", postData: {} }, { level: "Zone" }, { shadingOption: { h: 170, s: 164, sample: 8 }, div: "map2" });
 
         return;
 
