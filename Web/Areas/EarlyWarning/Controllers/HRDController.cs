@@ -158,7 +158,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
             if (hrd != null)
             {
-                var detailsToDisplay = GetSummary(hrd).ToList();
+                var detailsToDisplay = GetSummary(hrd,"Zone").ToList();
 
                 return Json(detailsToDisplay.ToDataSourceResult(request));
             }
@@ -269,7 +269,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             return dt;
         }
 
-        private IEnumerable<RegionalSummaryViewModel> GetSummary(HRD hrd)
+        private IEnumerable<RegionalSummaryViewModel> GetSummary(HRD hrd,string adminLevel="Region")
         {
             var details = hrd.HRDDetails;
             //var hrd = _hrdService.FindById(id);
@@ -280,16 +280,27 @@ namespace Cats.Areas.EarlyWarning.Controllers
             var oilCoefficient = hrd.Ration.RationDetails.First(m => m.Commodity.CommodityID == 4).Amount;
             ViewBag.SeasonID = hrd.Season.Name;
             ViewBag.Year = hrd.Year;
-
             var groupedTotal = from detail in details
-                               group detail by detail.AdminUnit.AdminUnit2 into regionalDetail
-                               select new
-                               {
-                                   Region = regionalDetail.Key,
-                                   NumberOfBeneficiaries = regionalDetail.Sum(m => m.NumberOfBeneficiaries),
-                                   Duration = regionalDetail.Sum(m => (m.NumberOfBeneficiaries * m.DurationOfAssistance))
-                               };
+                               group detail by detail.AdminUnit.AdminUnit2.AdminUnit2 into regionalDetail
+                                   select new
+                                   {
+                                       Region = regionalDetail.Key,
+                                       NumberOfBeneficiaries = regionalDetail.Sum(m => m.NumberOfBeneficiaries),
+                                       Duration = regionalDetail.Sum(m => (m.NumberOfBeneficiaries * m.DurationOfAssistance))
+                                   };
+            if (adminLevel == "Zone")
+            {
 
+                groupedTotal = from detail in details
+                                   group detail by detail.AdminUnit.AdminUnit2 into regionalDetail
+                                   select new
+                                   {
+                                       Region = regionalDetail.Key,
+                                       NumberOfBeneficiaries = regionalDetail.Sum(m => m.NumberOfBeneficiaries),
+                                       Duration = regionalDetail.Sum(m => (m.NumberOfBeneficiaries * m.DurationOfAssistance))
+                                   };
+               
+            }
             return (from total in groupedTotal
                     select new RegionalSummaryViewModel
                         {
