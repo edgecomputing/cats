@@ -50,8 +50,7 @@ namespace Cats.Areas.Transaction.Controllers
            // IEnumerable<Cats.Models.Transaction> list = (IEnumerable<Cats.Models.Transaction>)_accountTransactionService.GetAllTransaction();
             loadLookups();
 
-
-
+            
             RegionalPSNPPlan plan= _regionalPSNPPlanService.FindById(RegionalPSNPPlanID);
             Ration ration = _rationService.FindById(RationID);
 

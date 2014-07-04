@@ -290,7 +290,12 @@ namespace Cats.Areas.EarlyWarning.Controllers
         public ActionResult ApproveRequest(int id)
         {
             var user = _userAccountService.GetUserInfo(User.Identity.Name);
-           
+
+            if (!CheckBeneficiaryNoAndCommodity(id))
+            {
+               TempData["msg"] = "Request can not be Approved. No Beneficiary number or No Commodity is allocated!";
+                return RedirectToAction("Details",new {id = id});
+            }
             _regionalRequestService.ApproveRequest(id, user);
            
             return RedirectToAction("Index");
@@ -603,7 +608,10 @@ namespace Cats.Areas.EarlyWarning.Controllers
             {
                 ModelState.AddModelError("Errors", TempData["error"].ToString());
             }
-
+            if (TempData["msg"] != null)
+            {
+                ModelState.AddModelError("Errors", TempData["msg"].ToString());
+            }
             if (request == null)
             {
                 return HttpNotFound();
@@ -616,9 +624,56 @@ namespace Cats.Areas.EarlyWarning.Controllers
             var result = GetRequestWithPlan(request);
             //var dt = RequestViewModelBinder.TransposeData(requestDetails);
             var dt = RequestViewModelBinder.TransposeDataNew(result, request.ProgramId, preferedweight);
+            
             ViewData["Request_main_data"] = requestModelView;
             return View(dt);
         }
+
+
+        private bool CheckBeneficiaryNoAndCommodity(int id)
+        {
+            try
+            {
+                var request =
+              _regionalRequestService.Get(t => t.RegionalRequestID == id, null, "AdminUnit,Program,Ration").FirstOrDefault();
+                var preferedweight = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).PreferedWeightMeasurment;
+                var result = GetRequestWithPlan(request);
+                
+                var dt = RequestViewModelBinder.TransposeDataNew(result, request.ProgramId, preferedweight);
+
+
+
+                Boolean commdoditySelected = false;
+                var beneficiaryNo = 0;
+                if (result != null && result.Count != 0)
+                {
+                    var requestdetail = result.FirstOrDefault().RegionalRequestDetails.FirstOrDefault();
+
+                    if (requestdetail != null)
+                    {
+                        if (requestdetail.RequestDetailCommodities.Count > 0)
+                        {
+                            commdoditySelected = true;
+                        }
+                           
+                    }
+                }
+
+                beneficiaryNo = dt.Rows.Cast<DataRow>().Sum(row => int.Parse(row["Beneficiaries"].ToString()));
+
+                if (beneficiaryNo == 0 || commdoditySelected == false)
+                    return false;
+
+                return true;
+            }
+            catch (Exception)
+            {
+                return true;
+
+            }
+        }
+
+
 
        public ActionResult Details_Read([DataSourceRequest] DataSourceRequest request, int id)
         {
