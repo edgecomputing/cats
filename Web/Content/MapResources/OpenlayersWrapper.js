@@ -24,8 +24,15 @@ function CreateMapForData(dataSource, adminUnitInfo, renderingInfo) {
         normalizeIndicator(dataTable, indicator);
         ShowLegend(renderingInfo.shadingOption, renderingInfo.div + "Legend", dataTable, indicator, renderingInfo.div + "Legend");
         console.log("drawDatayMap", dataTable);
-        var ShapesURL = { Region: "/Content/MapResources/MapData/ethiopiaRegions2.txt" };
-        var shapeURL = ShapesURL[adminUnitInfo.level];
+        var shapeFile = adminUnitInfo.shapeFile;
+        if (!shapeFile) {
+            var shapeFiles = {
+                                Region: "ethiopiaRegions2.txt"
+                                , Zone: "AllZones.txt"
+                             };
+            shapeFile = shapeFiles[adminUnitInfo.level];
+        }
+        var shapeURL = "/Content/MapResources/MapData/"+shapeFile;
 
        
         var mapLayer =
@@ -61,7 +68,7 @@ function CreateMap(div, _options) {
    isBaseLayer = false;
     if (options) {
         if (options.layers) {
-            var isBaseLayer = true;
+            //var isBaseLayer = true;
             for (var i in options.layers) {
 
                 var layerData = options.layers[i];
@@ -116,11 +123,12 @@ function CreateMap(div, _options) {
     return;
 }
 function addSelectControl(map, layer) {
+    console.log("addSelectControl");
     selectControl = new OpenLayers.Control.SelectFeature(layer);
     map.addControl(selectControl);
     selectControl.activate();
     layer.events.on({
-        'featureselected': function () { },
+        'featureselected': function () { console.log("feature selected");},
         'featureunselected': function () { }
     });
 }
