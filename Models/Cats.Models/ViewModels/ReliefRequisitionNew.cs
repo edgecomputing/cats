@@ -36,6 +36,7 @@ namespace Cats.Models.ViewModels
         public int RegionalRequestId { get; set; }
         public ReliefRequisitionNewInput Input { get; set; }
         public int Month { get; set; }
+        public string MonthName { get; set; }
         public class ReliefRequisitionNewInput
         {
             [Display(Name="Requisition No")]

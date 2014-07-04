@@ -241,6 +241,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                     reliefRequisitionNew.RequestDatePref = reliefRequisitionNew.RequestedDate.Value.ToCTSPreferedDateFormat(datePref);
                     reliefRequisitionNew.RegionalRequestId = id;
                 }
+                reliefRequisitionNew.MonthName = RequestHelper.MonthName(reliefRequisitionNew.Month);
             }
             return View(input);
         }
