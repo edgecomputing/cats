@@ -630,7 +630,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         }
 
 
-        private bool CheckBeneficiaryNoAndCommodity(int id)
+        public bool CheckBeneficiaryNoAndCommodity(int id)
         {
             try
             {
