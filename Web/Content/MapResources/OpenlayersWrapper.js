@@ -68,7 +68,7 @@ function CreateMap(div, _options) {
    isBaseLayer = false;
     if (options) {
         if (options.layers) {
-            var isBaseLayer = true;
+            //var isBaseLayer = true;
             for (var i in options.layers) {
 
                 var layerData = options.layers[i];
@@ -123,11 +123,12 @@ function CreateMap(div, _options) {
     return;
 }
 function addSelectControl(map, layer) {
+    console.log("addSelectControl");
     selectControl = new OpenLayers.Control.SelectFeature(layer);
     map.addControl(selectControl);
     selectControl.activate();
     layer.events.on({
-        'featureselected': function () { },
+        'featureselected': function () { console.log("feature selected");},
         'featureunselected': function () { }
     });
 }
