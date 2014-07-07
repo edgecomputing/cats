@@ -21,6 +21,9 @@
     .Columns(columns =>
     {
         columns.Bound(e => e.RequisitionNo).Width(120).Title("Requisition No");
+        columns.Bound(e => e.Program).Width(120).Title("Program");
+        columns.Bound(e => e.Month).Width(120).Title("Month");
+        columns.Bound(e => e.Round).Width(120).Title("Round");
         columns.Bound(e => e.Region).Width(120).Title("Region");
         columns.Bound(e => e.Zone).Width(120).Title("Zone");
         columns.Bound(e => e.Commodity).Width(110);

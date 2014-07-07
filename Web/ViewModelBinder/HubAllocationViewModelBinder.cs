@@ -28,9 +28,10 @@ namespace Cats.ViewModelBinder
                                         Region = req.AdminUnit.Name,
                                         RegionId = (int) req.RegionID,
                                         Zone = req.AdminUnit1.Name,
-                                        ProgramID = req.ProgramID,
-                                        Program = req.Program.Name,
-                                        Round = req.Round.ToString(),
+                                        Program  = req.Program.Name,
+                                        ProgramId = req.ProgramID,
+                                        Round = req.Round,
+                                        Month = req.Month,
                                         AmountAllocated = req.ReliefRequisitionDetails.Sum(a=>a.Amount),
                                         StrRequisitionDate = req.RequestedDate.Value.ToCTSPreferedDateFormat(UserAccountHelper.UserCalendarPreference())
                                       });
@@ -51,7 +52,9 @@ namespace Cats.ViewModelBinder
                  n.Region = req.AdminUnit.Name;
                  n.RegionId = (int)req.RegionID;
                  n.Zone = req.AdminUnit1.Name;
-
+                 n.Program = req.Program.Name;
+                 n.Round = req.Round;
+                 n.Month = req.Month;
                  n.AmountAllocated = req.ReliefRequisitionDetails.Sum(a => a.Amount);
                  n.StrRequisitionDate = req.RequestedDate.Value.ToCTSPreferedDateFormat(UserAccountHelper.UserCalendarPreference());
 

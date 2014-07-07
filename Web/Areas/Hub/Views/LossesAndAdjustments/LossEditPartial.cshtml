@@ -1,66 +1,70 @@
 ﻿@model Cats.Models.Hubs.ViewModels.LossesAndAdjustmentsViewModel
-@using Cats.Web.Hub.Helpers           
+@using Cats.Web.Hub.Helpers
 
 <div>
 
-@using (Html.BeginForm())
-{
-     @Html.ValidationSummary("Please correct Errors")
-    <table class="borderless">
-        <tbody>
-            <tr>
-                <td>@Html.LabelFor(model => model.Commodities)</td>
-                <td>
-                    @(Html.Telerik().ComboBoxFor(model => model.Commodities)
+    @using (Html.BeginForm())
+    {
+        <div class="alert-error">
+            @Html.ValidationSummary()
+        </div>
+       
+        <table class="container grid-table">
+            <tbody>
+                <tr>
+                    <td>@Html.LabelFor(model => model.Commodities)</td>
+                    <td>
+                        @(Html.Telerik().ComboBoxFor(model => model.Commodities)
                                 .Name("CommodityId")
                                 .BindTo(new SelectList(Model.Commodities, "CommodityId", "Name"))
                                 .Filterable(filtering => { filtering.FilterMode(AutoCompleteFilterMode.StartsWith); })
                                 .HighlightFirstMatch(true)
                                 .ClientEvents(ev => ev.OnChange("clearStore"))
                                 .CascadeTo("ProjectCodeId")
+            //.HtmlAttributes(new { @class = "form-control" })
                     )
-                    @Html.ValidationMessageFor(model => model.Commodities)
-                    <span class="required" style="width:10px;">*</span>
-                </td>
-                <td>@Html.LabelFor(model => model.SelectedDate)</td>
-                <td>
-                    @Html.EditorFor(model => model.SelectedDate)
-                    @Html.ValidationMessageFor(model => model.SelectedDate)
-                    <span class="required" style="width:10px;">*</span>
-                </td>
-            </tr>
-            <tr>
-                <td>@Html.LabelFor(model => model.ProjectCodes)</td>
-                <td>
-                    @(Html.Telerik().ComboBoxFor(model => model.ProjectCodes)
+                        @Html.ValidationMessageFor(model => model.Commodities)
+                        <span class="required" style="width: 10px;">*</span>
+                    </td>
+                    <td>@Html.LabelFor(model => model.SelectedDate)</td>
+                    <td>
+                        @Html.EditorFor(model => model.SelectedDate)
+                        @Html.ValidationMessageFor(model => model.SelectedDate)
+                        <span class="required" style="width: 10px;">*</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>@Html.LabelFor(model => model.ProjectCodes)</td>
+                    <td>
+                        @(Html.Telerik().ComboBoxFor(model => model.ProjectCodes)
                                 .Name("ProjectCodeId")
                                 .AutoFill(true)
                                 .BindTo(new SelectList(Model.ProjectCodes))
                                 .HighlightFirstMatch(true)
                                 .Filterable(filtering => { filtering.FilterMode(AutoCompleteFilterMode.StartsWith); })
                                 .DataBinding(binding => binding.Ajax().Select("GetProjecCodetForCommodity", "LossesAndAdjustments"))
-                                 .ClientEvents(ev => ev.OnChange("onProjectCodeChange"))
-                                //.CascadeTo("ShippingInstructionId")
-                      )   
-                    @Html.ValidationMessageFor(model => model.ProjectCodes)
-                    <span class="required" style="width:10px;">*</span>
-                </td>
-                
-                <td>@Html.LabelFor(model => model.MemoNumber)</td>
-                <td>
-                    @Html.EditorFor(model => model.MemoNumber)
-                    @Html.ValidationMessageFor(model => model.MemoNumber)
-                    <span class="required" style="width:10px;">*</span>
-                </td>
-                <td rowspan="5">
-                    <div style="margin-left: 20px;" id="BalanceContent">
-                </div>
-            </td>
-            </tr>
-            <tr>
-                <td>@Html.LabelFor(model => model.ShippingInstructions)</td>
-                <td>
-                     @(Html.Telerik().ComboBoxFor(model => model.ShippingInstructions)
+            //.ClientEvents(ev => ev.OnChange("clearStore"))
+                                .CascadeTo("ShippingInstructionId")
+                      )
+                        @Html.ValidationMessageFor(model => model.ProjectCodes)
+                        <span class="required" style="width: 10px;">*</span>
+                    </td>
+
+                    <td>@Html.LabelFor(model => model.MemoNumber)</td>
+                    <td>
+                        @Html.EditorFor(model => model.MemoNumber)
+                        @Html.ValidationMessageFor(model => model.MemoNumber)
+                        <span class="required" style="width: 10px;">*</span>
+                    </td>
+                    @* <td rowspan="5">
+                        <div style="margin-left: 20px;" id="BalanceContent">
+                        </div>
+                    </td>*@
+                </tr>
+                <tr>
+                    <td>@Html.LabelFor(model => model.ShippingInstructions)</td>
+                    <td>
+                        @(Html.Telerik().ComboBoxFor(model => model.ShippingInstructions)
                                 .Name("ShippingInstructionId")
                                 .BindTo(new SelectList(Model.ShippingInstructions))
                                 .AutoFill(true)
@@ -68,13 +72,13 @@
                                 .Filterable(filtering => { filtering.FilterMode(AutoCompleteFilterMode.StartsWith); })
                                 .DataBinding(binding => binding.Ajax().Select("GetSINumberForProjectCode", "LossesAndAdjustments"))
                                 .ClientEvents(ev => ev.OnChange("onShippingInstructionChange"))
-                                 .ClientEvents(ev => ev.OnDataBinding("onProjectCodeDatabinding"))
+                                .ClientEvents(ev => ev.OnDataBinding("onProjectCodeDatabinding"))
                     )
-                    @Html.ValidationMessageFor(model => model.ShippingInstructions)
-                    <span class="required" style="width:10px;">*</span>
-                </td>
-                <td>@Html.LabelFor(model => model.Programes)</td>
-                <td>@(Html.Telerik().ComboBox()
+                        @Html.ValidationMessageFor(model => model.ShippingInstructions)
+                        <span class="required" style="width: 10px;">*</span>
+                    </td>
+                    <td>@Html.LabelFor(model => model.Programes)</td>
+                    <td>@(Html.Telerik().ComboBox()
                                 .Name("ProgramId")
                                 .SelectedIndex(0)
                                 .BindTo(new SelectList(Model.Programes, "ProgramId", "ProgramName"))
@@ -82,13 +86,13 @@
                                 .HighlightFirstMatch(true)
                                 .Filterable(filtering => { filtering.FilterMode(AutoCompleteFilterMode.StartsWith); })
                           )
-                    <span class="required" style="width:10px;">*</span>
-                </td>
-            </tr>
-            <tr>
-                <td>@Html.LabelFor(model => model.Stores)</td>
-                <td>
-                    @(Html.Telerik().ComboBoxFor(model => model.Stores)
+                        <span class="required" style="width: 10px;">*</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>@Html.LabelFor(model => model.Stores)</td>
+                    <td>
+                        @(Html.Telerik().ComboBoxFor(model => model.Stores)
                                 .Name("StoreId")
                                 .BindTo(new SelectList(Model.Stores, "StoreId", "StoreName"))
                                 .Filterable(filtering => { filtering.FilterMode(AutoCompleteFilterMode.StartsWith); })
@@ -97,85 +101,84 @@
                                 .SelectedIndex(0)
                                 .ClientEvents(ev => ev.OnChange("onStoreComboChange"))
                     )
-                    @Html.ValidationMessageFor(model => model.Stores)
-                    <span class="required" style="width:10px;">*</span>
-                </td>
-            </tr>
-            <tr>
-                <td>@Html.LabelFor(model => model.StoreMan)</td>
-                <td>
-                    @Html.EditorFor(model => model.StoreMan)
-                    @Html.ValidationMessageFor(model => model.StoreMan)
-                    <span class="required" style="width:10px;">*</span>
-                </td>
-            </tr>
-            <tr>
-                <td>@Html.LabelFor(model => model.Reasons)</td>
-                <td>
-                    @(Html.Telerik().ComboBoxFor(model => model.Reasons)
+                        @Html.ValidationMessageFor(model => model.Stores)
+                        <span class="required" style="width: 10px;">*</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>@Html.LabelFor(model => model.StoreMan)</td>
+                    <td>
+                        @Html.EditorFor(model => model.StoreMan)
+                        @Html.ValidationMessageFor(model => model.StoreMan)
+                        <span class="required" style="width: 10px;">*</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>@Html.LabelFor(model => model.Reasons)</td>
+                    <td>
+                        @(Html.Telerik().ComboBoxFor(model => model.Reasons)
                                 .Name("ReasonId")
                                 .BindTo(new SelectList(Model.Reasons, "AdjustmentReasonId", "Name"))
                                 .Filterable(filtering => { filtering.FilterMode(AutoCompleteFilterMode.StartsWith); })
                                 .HighlightFirstMatch(true)
                     )
 
-                    @Html.ValidationMessageFor(model => model.Reasons)
-                    <span class="required" style="width:10px;">*</span>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>@Html.LabelFor(model => model.Units)</td>
-                <td>
-                    @(Html.Telerik().ComboBoxFor(model => model.Units)
+                        @Html.ValidationMessageFor(model => model.Reasons)
+                        <span class="required" style="width: 10px;">*</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>@Html.LabelFor(model => model.Units)</td>
+                    <td>
+                        @(Html.Telerik().ComboBoxFor(model => model.Units)
                                 .Name("UnitId")
                                 .BindTo(new SelectList(Model.Units, "UnitId", "Name"))
                                 .Filterable(filtering => { filtering.FilterMode(AutoCompleteFilterMode.StartsWith); })
                                 .HighlightFirstMatch(true)
                     )
-                    @Html.ValidationMessageFor(model => Model.Units)
-                    <span class="required" style="width:10px;">*</span>
-                </td>
-            </tr>
-            <tr>
-                <td>@Html.LabelFor(model => model.QuantityInUint)</td>
-                <td>
-                    @Html.EditorFor(model => model.QuantityInUint)
-                    @Html.ValidationMessageFor(model => model.QuantityInUint)
-                    <span class="required" style="width:10px;">*</span>
-                </td>
-            </tr>
-            <tr>
-                <td>@Html.LabelFor(model => model.QuantityInMt)</td>
-                <td>
-                    @Html.EditorFor(model => model.QuantityInMt)
-                    @Html.ValidationMessageFor(model => model.QuantityInMt)
-                    <span class="required" style="width:10px;">*</span>
-                </td>
-            </tr>
-            <tr>
-                <td>@Html.LabelFor(model => model.ApprovedBy)</td>
-                <td>
-                    @Html.EditorFor(model => model.ApprovedBy)
-                    @Html.ValidationMessageFor(model => model.ApprovedBy)
-                    <span class="required" style="width:10px;">*</span>
-                </td>
-            </tr>
-            <tr>
-                <td>@Html.LabelFor(model => model.Description)</td>
-                <td>
-                    @Html.EditorFor(model => model.Description)
-                    @Html.ValidationMessageFor(model => model.Description)
-                </td>
-            </tr>
-        </tbody>
-    </table>
+                        @Html.ValidationMessageFor(model => Model.Units)
+                        <span class="required" style="width: 10px;">*</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>@Html.LabelFor(model => model.QuantityInUint)</td>
+                    <td>
+                        @Html.EditorFor(model => model.QuantityInUint)
+                        @Html.ValidationMessageFor(model => model.QuantityInUint)
+                        <span class="required" style="width: 10px;">*</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>@Html.LabelFor(model => model.QuantityInMt)</td>
+                    <td>
+                        @Html.EditorFor(model => model.QuantityInMt)
+                        @Html.ValidationMessageFor(model => model.QuantityInMt)
+                        <span class="required" style="width: 10px;">*</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>@Html.LabelFor(model => model.ApprovedBy)</td>
+                    <td>
+                        @Html.EditorFor(model => model.ApprovedBy)
+                        @Html.ValidationMessageFor(model => model.ApprovedBy)
+                        <span class="required" style="width: 10px;">*</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>@Html.LabelFor(model => model.Description)</td>
+                    <td>
+                        @Html.EditorFor(model => model.Description)
+                        @Html.ValidationMessageFor(model => model.Description)
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     
-     <div style="margin-left:100px; margin-top:50px;" >
-        <input type="submit" class="t-button" value="@Html.Translate("Save")" /> <input type="button" value="@Html.Translate("Cancel")" class="t-button"/>
-    </div>
-}
-
+        <div style="margin-left: 100px; margin-top: 50px;">
+            <input type="submit" class="t-button" value="@Html.Translate("Save")" />
+            <input type="button" value="@Html.Translate("Cancel")" class="t-button"/>
+        </div>
+    }
 
 </div>
 
@@ -195,14 +198,14 @@
 
     function onShippingInstructionChange() {
 
-        var CommodityId = $("#CommodityId").data("tComboBox").value();
+        var commodityId = $("#CommodityId").data("tComboBox").value();
         var siId = $("#ShippingInstructionId").data("tComboBox").value();
         var StoreCombo = $("#StoreId").data("tComboBox");
 
         $.ajax({
             type: 'POST',
             url: '/LossesAndAdjustments/GetStoreForParentCommodity',
-            data: { commodityParentId: CommodityId, SINumber: siId },
+            data: { commodityParentId: commodityId, SINumber: siId },
             dataType: 'json',
             success: function (data) {
                 StoreCombo.dataBind(data, true);
@@ -214,20 +217,23 @@
         });
         LoadBalance();
     }
+
     function onProjectCodeDatabinding() {
         var CommodityId = $("#CommodityId").data("tComboBox").value();
         var projectCodeId = $("#ProjectCodeId").data("tComboBox").value();
         var SICombo = $("#ShippingInstructionId").data("tComboBox");
 
     }
+
     function onProjectCodeChange() {
-        var CommodityId = $("#CommodityId").data("tComboBox").value();
+        var commodityId = $("#CommodityId").data("tComboBox").value();
         var projectCodeId = $("#ProjectCodeId").data("tComboBox").value();
         var SICombo = $("#ShippingInstructionId").data("tComboBox");
+
         $.ajax({
             type: 'POST',
             url: '/LossesAndAdjustments/GetSINumberForProjectCode',
-            data: { ProjectCodeId: projectCodeId, parentCommodityId: CommodityId },
+            data: { ProjectCodeId: projectCodeId, parentCommodityId: commodityId },
             dataType: 'json',
             success: function (data) {
                 SICombo.dataBind(data, true);
@@ -238,6 +244,7 @@
             }
         });
     }
+
     function clearStore() {
         $("#StoreId").data("tComboBox").select(0);
         $("#StoreId").data("tComboBox").disable();
@@ -251,7 +258,7 @@
         var siId = $("#ShippingInstructionId").data("tComboBox").value();
         var StoreId = $("#StoreId").data("tComboBox").value();
         var StackId = null;
-//        var FromStackId = $("#FromStackId").data("tComboBox").value();
+        //        var FromStackId = $("#FromStackId").data("tComboBox").value();
         if (CommodityId != "" && projectId != "" && siId != "") {
             $.ajax({
                 type: 'POST',
@@ -263,13 +270,11 @@
                 }
             });
         }
-
     }
 
     function clearBalance() {
         $('#BalanceContent').empty();
     }
-
 </script>
 
 
