@@ -346,7 +346,7 @@ namespace Cats.Areas.Hub.Controllers
 
             var commodities = _commodityService.GetAllCommodity().DefaultIfEmpty().OrderBy(o => o.Name).ToList();
             var commodityGrades = _commodityGradeService.GetAllCommodityGrade().DefaultIfEmpty().OrderBy(o => o.Name).ToList();
-            var transporters = _transporterService.GetAllTransporter()  != null ? _transporterService.GetAllTransporter().DefaultIfEmpty().OrderBy(o => o.Name).ToList() : null;
+            var transporters = _transporterService.GetAllTransporter()  != null ? _transporterService.GetAllTransporter().DefaultIfEmpty().OrderBy(o => o.Name).ToList() : new List<Transporter>();
             var commoditySources = _commoditySourceService.GetAllCommoditySource().DefaultIfEmpty().OrderBy(o => o.Name).ToList();
             var commodityTypes = _commodityTypeService.GetAllCommodityType().DefaultIfEmpty().OrderBy(o => o.Name).ToList();
 
@@ -363,7 +363,7 @@ namespace Cats.Areas.Hub.Controllers
                 var stacks = new List<AdminUnitItem>();
                 if (receive != null && (receive.HubID == user.DefaultHub.Value))
                 {
-                    var rViewModel = ReceiveViewModel.GenerateReceiveModel(receive, commodities, commodityGrades, transporters,
+                    var rViewModel = ReceiveViewModel.GenerateReceiveModel(receive, commodities, commodityGrades,  transporters,
                                                             commodityTypes, commoditySources, programs, donors, hubs, user, units);
 
                     //TODO:=====================================Refactored from viewmodel needs refactor============================
