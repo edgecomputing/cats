@@ -13,5 +13,6 @@ namespace Cats.Areas.Settings.Models.ViewModels
         public string AdminUnitType { get; set; }
         public int ParentID { get; set; }
         public string Parent { get; set; }
+        public int code { get; set; }
     }
 }
