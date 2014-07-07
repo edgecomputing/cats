@@ -5,11 +5,10 @@
 
     @using (Html.BeginForm())
     {
-        <div class="alert-error" >
-            @Html.ValidationSummary("Please correct Errors")
+        <div class="alert-error">
+            @Html.ValidationSummary()
         </div>
        
-    
         <table class="container grid-table">
             <tbody>
                 <tr>
@@ -22,7 +21,7 @@
                                 .HighlightFirstMatch(true)
                                 .ClientEvents(ev => ev.OnChange("clearStore"))
                                 .CascadeTo("ProjectCodeId")
-                                .HtmlAttributes(new { @class = "form-control" })
+            //.HtmlAttributes(new { @class = "form-control" })
                     )
                         @Html.ValidationMessageFor(model => model.Commodities)
                         <span class="required" style="width: 10px;">*</span>
@@ -44,7 +43,7 @@
                                 .HighlightFirstMatch(true)
                                 .Filterable(filtering => { filtering.FilterMode(AutoCompleteFilterMode.StartsWith); })
                                 .DataBinding(binding => binding.Ajax().Select("GetProjecCodetForCommodity", "LossesAndAdjustments"))
-                                .ClientEvents(ev => ev.OnChange("clearStore"))
+            //.ClientEvents(ev => ev.OnChange("clearStore"))
                                 .CascadeTo("ShippingInstructionId")
                       )
                         @Html.ValidationMessageFor(model => model.ProjectCodes)
@@ -73,7 +72,7 @@
                                 .Filterable(filtering => { filtering.FilterMode(AutoCompleteFilterMode.StartsWith); })
                                 .DataBinding(binding => binding.Ajax().Select("GetSINumberForProjectCode", "LossesAndAdjustments"))
                                 .ClientEvents(ev => ev.OnChange("onShippingInstructionChange"))
-                                 .ClientEvents(ev => ev.OnDataBinding("onProjectCodeDatabinding"))
+                                .ClientEvents(ev => ev.OnDataBinding("onProjectCodeDatabinding"))
                     )
                         @Html.ValidationMessageFor(model => model.ShippingInstructions)
                         <span class="required" style="width: 10px;">*</span>
@@ -199,14 +198,14 @@
 
     function onShippingInstructionChange() {
 
-        var CommodityId = $("#CommodityId").data("tComboBox").value();
+        var commodityId = $("#CommodityId").data("tComboBox").value();
         var siId = $("#ShippingInstructionId").data("tComboBox").value();
         var StoreCombo = $("#StoreId").data("tComboBox");
 
         $.ajax({
             type: 'POST',
             url: '/LossesAndAdjustments/GetStoreForParentCommodity',
-            data: { commodityParentId: CommodityId, SINumber: siId },
+            data: { commodityParentId: commodityId, SINumber: siId },
             dataType: 'json',
             success: function (data) {
                 StoreCombo.dataBind(data, true);
@@ -218,30 +217,34 @@
         });
         LoadBalance();
     }
+
     function onProjectCodeDatabinding() {
         var CommodityId = $("#CommodityId").data("tComboBox").value();
         var projectCodeId = $("#ProjectCodeId").data("tComboBox").value();
         var SICombo = $("#ShippingInstructionId").data("tComboBox");
 
     }
+
     function onProjectCodeChange() {
-        var CommodityId = $("#CommodityId").data("tComboBox").value();
+        var commodityId = $("#CommodityId").data("tComboBox").value();
         var projectCodeId = $("#ProjectCodeId").data("tComboBox").value();
         var SICombo = $("#ShippingInstructionId").data("tComboBox");
+
         $.ajax({
             type: 'POST',
             url: '/LossesAndAdjustments/GetSINumberForProjectCode',
-            data: { ProjectCodeId: projectCodeId, parentCommodityId: CommodityId },
+            data: { ProjectCodeId: projectCodeId, parentCommodityId: commodityId },
             dataType: 'json',
             success: function (data) {
                 SICombo.dataBind(data, true);
                 if (projectCodeId > 0) {
-                    alert("here");
+                    //alert("here");
                     $("#ShippingInstructionId").data("tComboBox").enable();
                 }
             }
         });
     }
+
     function clearStore() {
         $("#StoreId").data("tComboBox").select(0);
         $("#StoreId").data("tComboBox").disable();
@@ -267,13 +270,11 @@
                 }
             });
         }
-
     }
 
     function clearBalance() {
         $('#BalanceContent').empty();
     }
-
 </script>
 
 

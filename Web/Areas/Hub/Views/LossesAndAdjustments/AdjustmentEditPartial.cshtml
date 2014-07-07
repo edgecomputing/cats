@@ -7,7 +7,7 @@
     {
     
      <div class="alert-error" >
-            @Html.ValidationSummary("Please correct Errors")
+            @Html.ValidationSummary("")
         </div>
    
     <table class="container grid-table">
@@ -153,8 +153,9 @@
         </tbody>
     </table>
     
-     <div style="margin-left:100px; margin-top:50px;" >
-        <input type="submit" class="t-button" value="@Html.Translate("Save")" /> <input type="button" value="@Html.Translate("Cancel")" class="t-button"/>
+     <div style="margin-left:100px; margin-top:10px;" >
+         <input type="submit" class="t-button" value="@Html.Translate("Save")" /> 
+         <input type="button" value="@Html.Translate("Cancel")" class="t-button"/>
     </div>
 }
 
