@@ -31,7 +31,7 @@ namespace Cats.Models
 
 
         public int AdminUnitID { get; set; }
-        public int code { get; set; }
+        public int? code { get; set; }
         public string Name { get; set; }
         public string NameAM { get; set; }
         public Nullable<int> AdminUnitTypeID { get; set; }
