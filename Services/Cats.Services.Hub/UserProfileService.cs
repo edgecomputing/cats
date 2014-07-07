@@ -27,25 +27,30 @@ namespace Cats.Services.Hub
         }
 
         public UserProfile GetUser(string userName)
-        { var user= _unitOfWork.UserProfileRepository.Get(u => u.UserName == userName && !u.LockedInInd && u.ActiveInd).SingleOrDefault();
-
-            var hub =
-                _unitOfWork.UserHubRepository.FindBy(
-                    w => w.UserProfileID == user.UserProfileID && w.IsDefault.Trim().Equals("1")).Select(t => t.Hub).FirstOrDefault();
-                              
-                    if (hub == null)
-                    {
-                        hub =
-                            _unitOfWork.UserHubRepository.FindBy(w => w.UserProfileID == user.UserProfileID).Select(
-                                t => t.Hub).FirstOrDefault();
-                              
-                    }
-                //TODO:Since user cration doesn't assign default hub by default we will add here default hub for current user;
-          
-            user.DefaultHub = hub;
+        {
+            var user = _unitOfWork.UserProfileRepository.Get(u => u.UserName == userName && !u.LockedInInd && u.ActiveInd).SingleOrDefault();
 
 
+            //This will be used when the user can be assigned to multiple hub 
+            //var hub =
+            //    _unitOfWork.UserHubRepository.FindBy(
+            //        w => w.UserProfileID == user.UserProfileID && w.IsDefault.Trim().Equals("1")).Select(t => t.Hub).FirstOrDefault();
 
+            //        if (hub == null)
+            //        {
+            //            hub =
+            //                _unitOfWork.UserHubRepository.FindBy(w => w.UserProfileID == user.UserProfileID).Select(
+            //                    t => t.Hub).FirstOrDefault();
+
+            //        }
+            //TODO:Since user cration doesn't assign default hub by default we will add here default hub for current user;
+
+            var hub = _unitOfWork.HubRepository.FindBy(x => x.HubID == user.DefaultHub).SingleOrDefault();
+
+            if (hub != null)
+            {
+                user.DefaultHubObj = hub;
+            }
 
             var userAllowedHub =
                 _unitOfWork.UserHubRepository.FindBy(w => w.UserProfileID == user.UserProfileID).Select(t => t.Hub).

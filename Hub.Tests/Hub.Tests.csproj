@@ -32,6 +32,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Kendo.Mvc">
+      <HintPath>..\lib\KENDOUIMVC\2013.1.319.340\Kendo.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="Moq">
       <HintPath>..\packages\Moq.4.2.1312.1622\lib\net40\Moq.dll</HintPath>
     </Reference>
@@ -48,10 +51,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ControllerTest\CommoidtyTypeControllerTests.cs" />
+    <Compile Include="ControllerTest\DonorControllerTest.cs" />
+    <Compile Include="ControllerTest\HubControllerTest.cs" />
+    <Compile Include="ControllerTest\HubOwnerControllerTest.cs" />
+    <Compile Include="ControllerTest\ProgramControllerTest.cs" />
+    <Compile Include="ControllerTest\StoreControllerTest.cs" />
+    <Compile Include="ControllerTest\UserWarehouseControllerTest.cs" />
     <Compile Include="HubTransactionServiceTest.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ControllerTest\UnitControllerTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Data\Cats.Data.Hub\Cats.Data.Hub.csproj">
@@ -62,9 +73,17 @@
       <Project>{1467c728-3071-4798-997c-61314b26ef2e}</Project>
       <Name>Cats.Models.Hub</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Models\Cats.Models\Cats.Models.csproj">
+      <Project>{abfb63d2-89fc-45bc-aa4e-5d9b21094b85}</Project>
+      <Name>Cats.Models</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Services\Cats.Services.Hub\Cats.Services.Hub.csproj">
       <Project>{9fba0283-ee84-49f2-8305-f038bbf29658}</Project>
       <Name>Cats.Services.Hub</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Web\Cats.csproj">
+      <Project>{f8991e39-b399-4baf-8515-f62b28a604be}</Project>
+      <Name>Cats</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -193,16 +193,16 @@ namespace Cats.Areas.Hub.Controllers
         public ActionResult GetProjecCodetForCommodity(int? CommodityId)
         {
             UserProfile user = _userProfileService.GetUser(User.Identity.Name);
-            var projectCodes = _projectCodeService.GetProjectCodesForCommodity(user.DefaultHub.HubID, CommodityId.Value);
+            var projectCodes = _projectCodeService.GetProjectCodesForCommodity(user.DefaultHub.Value, CommodityId.Value);
             return Json(new SelectList(projectCodes, "ProjectCodeId", "ProjectName"), JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult GetSINumberForProjectCode(int? ProjectCodeId)
+        public ActionResult GetSINumberForProjectCode(int? ProjectCodeId,int?parentCommodityId)
         {
             if (ProjectCodeId.HasValue)
             {
                 UserProfile user = _userProfileService.GetUser(User.Identity.Name);
-                return Json(new SelectList(_shippingInstructionService.GetShippingInstructionsForProjectCode(user.DefaultHub.HubID, ProjectCodeId.Value), "ShippingInstructionId", "ShippingInstructionName"), JsonRequestBehavior.AllowGet);
+                return Json(new SelectList(_shippingInstructionService.GetShippingInstructionsForProjectCode(user.DefaultHub.Value, ProjectCodeId.Value,parentCommodityId.Value), "ShippingInstructionId", "ShippingInstructionName"), JsonRequestBehavior.AllowGet);
             }
             else
             {
@@ -216,7 +216,7 @@ namespace Cats.Areas.Hub.Controllers
             if (commodityParentId.HasValue && SINumber.HasValue)
             {
                 UserProfile user = _userProfileService.GetUser(User.Identity.Name);
-                return Json(new SelectList(ConvertStoreToStoreViewModel(_storeService.GetStoresWithBalanceOfCommodityAndSINumber(commodityParentId.Value, SINumber.Value, user.DefaultHub.HubID)), "StoreId", "StoreName"));
+                return Json(new SelectList(ConvertStoreToStoreViewModel(_storeService.GetStoresWithBalanceOfCommodityAndSINumber(commodityParentId.Value, SINumber.Value, user.DefaultHub.Value)), "StoreId", "StoreName"));
             }
             else
             {
@@ -239,7 +239,7 @@ namespace Cats.Areas.Hub.Controllers
                 viewModel.ParentCommodityNameB = _commodityService.FindById(parentCommodityId.Value).Name;
                 viewModel.ProjectCodeNameB = _projectCodeService.FindById(projectcode.Value).Value;
                 viewModel.ShppingInstructionNumberB = _shippingInstructionService.FindById(SINumber.Value).Value;
-                viewModel.QtBalance = _transactionService.GetCommodityBalanceForHub(user.DefaultHub.HubID, parentCommodityId.Value, SINumber.Value, projectcode.Value);
+                viewModel.QtBalance = _transactionService.GetCommodityBalanceForHub(user.DefaultHub.Value, parentCommodityId.Value, SINumber.Value, projectcode.Value);
             }
             else if (StoreId.HasValue && !StackId.HasValue && parentCommodityId.HasValue && projectcode.HasValue && SINumber.HasValue)
             {
@@ -262,7 +262,7 @@ namespace Cats.Areas.Hub.Controllers
                 viewModel.StackNumberB = StackId.Value.ToString();
             }
 
-            return PartialView("SINumberBalance", viewModel);
+            return View("SINumberBalance", viewModel);
         }
 
 

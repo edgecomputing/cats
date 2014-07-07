@@ -140,6 +140,8 @@ namespace Cats.Services.EarlyWarning
             if (regionalRequest == null) return null;
             
             var reliefRequistions = CreateRequistionFromRequest(regionalRequest);
+            //if (reliefRequistions.Count < 1)
+            //    return GetRequisitionByRequestId(requestId);
             AddReliefRequisions(reliefRequistions);
             regionalRequest.Status = (int)RegionalRequestStatus.Closed;
             _unitOfWork.Save();
@@ -285,6 +287,8 @@ namespace Cats.Services.EarlyWarning
             var reliefRequistions =
                _unitOfWork.ReliefRequisitionRepository.Get(t => t.RegionalRequestID == requestId, null, "Program,AdminUnit1,AdminUnit.AdminUnit2,Commodity").ToList();
 
+            if (reliefRequistions.Count < 1)
+                return null;
             var input = (from itm in reliefRequistions
                          orderby itm.ZoneID
                          select new ReliefRequisitionNew()

@@ -78,6 +78,7 @@ namespace Cats.Services.Hub
         SIBalance GetBalance(int hubID, int commodityId, int shippingInstructionID);
 
         SIBalance GetBalanceInUnit(int hubID, int commodityId, int shippingInstructionID);
+        List<ShippingInstructionViewModel> GetShippingInstructionsForProjectCode(int hubId, int projectCodeId, int parentCommodityID);
 
     }
 }

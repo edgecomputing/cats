@@ -34,7 +34,7 @@ namespace Cats.Models.Hubs
         public string MobileNumber { get; set; }
         public string Email { get; set; }
         public string DefaultTheme { get; set; }
-        //public int? DefaultHub { get; set; }
+        public int? DefaultHub { get; set; }
 
         public bool Disabled { get; set; }
         public string[] Roles { get; set; }

@@ -30,6 +30,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         private readonly IRegionalRequestService _regionalRequestService;
         private readonly IUserAccountService _userAccountService;
         private readonly IRationService  _rationService;
+        private readonly IRationDetailService _rationDetailService;
         private readonly IDonorService _donorService;
         private readonly INotificationService _notificationService;
         private readonly IPlanService _planService;
@@ -46,7 +47,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             INotificationService notificationService, 
             IPlanService planService,
             ITransactionService transactionService,
-            ICommonService commonService)
+            ICommonService commonService, IRationDetailService rationDetailService)
         {
             this._reliefRequisitionService = reliefRequisitionService;
             this._workflowStatusService = workflowStatusService;
@@ -58,6 +59,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             _planService = planService;
             _transactionService = transactionService;
             _commonService = commonService;
+            _rationDetailService = rationDetailService;
             _regionalRequestService = regionalRequestService;
         }
 
@@ -65,6 +67,26 @@ namespace Cats.Areas.EarlyWarning.Controllers
         {
             ViewBag.Status = 1;
             var filter = new SearchRequistionViewModel();
+            var user = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name);
+            var firstOrDefault = _commonService.GetAminUnits(t => t.AdminUnitTypeID == 2 && t.AdminUnitID == user.RegionID).FirstOrDefault();
+            if (firstOrDefault != null)
+                filter.RegionID = firstOrDefault.AdminUnitID;
+            else
+                filter.RegionID = 2;
+            switch (user.CaseTeam)
+            {
+                case 1://earlywarning
+                    var orDefault = _commonService.GetPrograms().FirstOrDefault(p => p.ProgramID == (int) Programs.Releif);
+                    if (orDefault != null)
+                        filter.ProgramID = orDefault.ProgramID;
+                    break;
+                case 2: //PSNP
+                    var @default = _commonService.GetPrograms().FirstOrDefault(p => p.ProgramID == (int) Programs.PSNP);
+                    if (@default != null)
+                        filter.ProgramID = @default.ProgramID;
+                    break;
+            }
+            filter.StatusID = 1;
             ViewBag.Filter = filter;
             Populatelookup();
             //ViewBag.Status = id;
@@ -198,6 +220,11 @@ namespace Cats.Areas.EarlyWarning.Controllers
         public ActionResult CreateRequisiton(int id)
         {
             var input = _reliefRequisitionService.CreateRequisition(id);
+            //if (input == null)
+            //{
+                //TempData["error"] = "You haven't selected any commodity. Please add at least one commodity and try again!";
+                //return RedirectToAction("Details", "Request", new { id = id, Area = "EarlyWarning" });
+            //}
             return RedirectToAction("NewRequisiton", "ReliefRequisition", new { id = id });
         }
 
@@ -214,6 +241,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                     reliefRequisitionNew.RequestDatePref = reliefRequisitionNew.RequestedDate.Value.ToCTSPreferedDateFormat(datePref);
                     reliefRequisitionNew.RegionalRequestId = id;
                 }
+                reliefRequisitionNew.MonthName = RequestHelper.MonthName(reliefRequisitionNew.Month);
             }
             return View(input);
         }
@@ -272,7 +300,8 @@ namespace Cats.Areas.EarlyWarning.Controllers
             }
             var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
             var requisitionViewModel = RequisitionViewModelBinder.BindReliefRequisitionViewModel(requisition, _workflowStatusService.GetStatus(WORKFLOW.RELIEF_REQUISITION),datePref);
-
+            if (requisition != null && (requisition.RationID != null && requisition.RationID > 0))
+                requisitionViewModel.Ration = _rationService.FindById((int) requisition.RationID).RefrenceNumber;
             return View(requisitionViewModel);
         }
 
@@ -357,8 +386,9 @@ namespace Cats.Areas.EarlyWarning.Controllers
            
             if (relifRequisition != null)
             {
-                ViewBag.RationSelected = relifRequisition.RationID;
-                ViewBag.RationID = _rationService.GetAllRation();
+                //ViewBag.RationSelected = relifRequisition.RationID;
+                //ViewBag.RationID = _rationService.GetAllRation();
+                ViewBag.RationID = new SelectList(_rationService.Get(t => t.RationDetails.Select(m => m.CommodityID).Contains((int)relifRequisition.CommodityID)), "RationID", "RefrenceNumber", relifRequisition.RationID);
                 return View(relifRequisition);
             }
             return HttpNotFound();
@@ -370,7 +400,37 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
             if (ModelState.IsValid)
             {
-                _reliefRequisitionService.EditReliefRequisition(reliefrequisition);
+                var requisition = _reliefRequisitionService.FindById(reliefrequisition.RequisitionID);
+                if (requisition.ReliefRequisitionDetails.Count > 0)
+                {
+                    foreach (var oldRequisitionDetail in requisition.ReliefRequisitionDetails)
+                    {
+                        var commodityAmount = (decimal)0.00;
+                        if (reliefrequisition.RationID != null)
+                        {
+                            var detail = oldRequisitionDetail;
+                            var ration = _rationDetailService.FindBy(t => t.RationID == (int)reliefrequisition.RationID && t.CommodityID == detail.CommodityID).FirstOrDefault();
+                            if (ration != null) commodityAmount = ration.Amount/1000;
+                        }
+                        var newRequisitionDetail = new ReliefRequisitionDetail()
+                                                    {
+                                                        RequisitionID = oldRequisitionDetail.RequisitionID,
+                                                        RequisitionDetailID = oldRequisitionDetail.RequisitionDetailID,
+                                                        CommodityID = oldRequisitionDetail.CommodityID,
+                                                        BenficiaryNo = oldRequisitionDetail.BenficiaryNo,
+                                                        Amount = oldRequisitionDetail.BenficiaryNo * commodityAmount,
+                                                        FDPID = oldRequisitionDetail.FDPID,
+                                                        DonorID = oldRequisitionDetail.DonorID
+                                                    };
+                        //oldRequisitionDetail.Amount = oldRequisitionDetail.BenficiaryNo*commodityAmount;
+                        _reliefRequisitionDetailService.DeleteById(oldRequisitionDetail.RequisitionDetailID);
+                        _reliefRequisitionDetailService.AddReliefRequisitionDetail(newRequisitionDetail);
+                    }
+                }
+                requisition.RationID = reliefrequisition.RationID;
+                requisition.RequisitionNo = reliefrequisition.RequisitionNo;
+                requisition.RequestedDate = reliefrequisition.RequestedDate;
+                _reliefRequisitionService.EditReliefRequisition(requisition);
                 return RedirectToAction("Index", "ReliefRequisition");
             }
             return View(reliefrequisition);

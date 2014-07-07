@@ -73,7 +73,7 @@ namespace Cats.Areas.Hub.Controllers
         {
 
             ViewBag.FilterCommodityTypeID = new SelectList(_commodityTypeService.GetAllCommodityType(), "CommodityTypeID", "Name");
-            ViewBag.HubsID = new SelectList(_hubService.GetAllHub(), "HubID", "HubNameWithOwner", user.DefaultHub.HubID);
+            ViewBag.HubsID = new SelectList(_hubService.GetAllHub(), "HubID", "HubNameWithOwner", user.DefaultHub.Value);
          //   ViewBag.RegionCollection = _adminUnitService.FindBy(t => t.AdminUnitTypeID == 2);
         }
         public ActionResult SINotUnique(int ShippingInstruction, int CommoditySourceID)
@@ -110,7 +110,7 @@ namespace Cats.Areas.Hub.Controllers
         public ActionResult NotFoundSI(String SINumber, int CommodityID)
         {
             return
-                Json(_receiptAllocationService.GetAvailableCommodities(SINumber, _userProfileService.GetUser(User.Identity.Name).DefaultHub.HubID).Select(
+                Json(_receiptAllocationService.GetAvailableCommodities(SINumber, _userProfileService.GetUser(User.Identity.Name).DefaultHub.Value).Select(
                     p => p.CommodityID == CommodityID).Any(), JsonRequestBehavior.AllowGet);
 
         }
@@ -141,7 +141,7 @@ namespace Cats.Areas.Hub.Controllers
         {
             UserProfile user = _userProfileService.GetUser(User.Identity.Name);
             //TODO cascade using allocation id
-            List<ReceiveViewModelDto> receives = _receiveService.ByHubIdAndAllocationIDetached(user.DefaultHub.HubID, Guid.Parse(ReceiptAllocationID));
+            List<ReceiveViewModelDto> receives = _receiveService.ByHubIdAndAllocationIDetached(user.DefaultHub.Value, Guid.Parse(ReceiptAllocationID));
             return Json(receives.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
 
@@ -161,7 +161,7 @@ namespace Cats.Areas.Hub.Controllers
             try
             {
                 UserProfile user = _userProfileService.GetUser(User.Identity.Name);
-                HubID = HubID > 0 ? HubID : user.DefaultHub.HubID;
+                HubID = HubID > 0 ? HubID : user.DefaultHub.Value;
                 //HubID=user.DefaultHub.HubID
                 list = _receiptAllocationService.GetUnclosedAllocationsDetached(HubID, type, closed, user.PreferedWeightMeasurment, commodityType);
                 list = list.Where(t => t.CommoditySourceID == type).ToList();
@@ -181,7 +181,7 @@ namespace Cats.Areas.Hub.Controllers
             try
             {
                 UserProfile user = _userProfileService.GetUser(User.Identity.Name);
-                HubID = HubID > 0 ? HubID : user.DefaultHub.HubID;
+                HubID = HubID > 0 ? HubID : user.DefaultHub.Value;
                 //HubID=user.DefaultHub.HubID
                 list = _receiptAllocationService.GetUnclosedAllocationsDetached(HubID, type, closed, user.PreferedWeightMeasurment, commodityType);
                 //newly added
@@ -201,7 +201,7 @@ namespace Cats.Areas.Hub.Controllers
             try
             {
                 UserProfile user = _userProfileService.GetUser(User.Identity.Name);
-                List<ReceiptAllocation> list = _receiptAllocationService.GetUnclosedAllocationsDetached(user.DefaultHub.HubID, type, closedToo, user.PreferedWeightMeasurment, CommodityType);
+                List<ReceiptAllocation> list = _receiptAllocationService.GetUnclosedAllocationsDetached(user.DefaultHub.Value, type, closedToo, user.PreferedWeightMeasurment, CommodityType);
                 //newly added
                 list = list.Where(t => t.CommoditySourceID == type).ToList();
                 //newly added
@@ -278,7 +278,7 @@ namespace Cats.Areas.Hub.Controllers
             else
             {
 
-                if (receive.HubID == user.DefaultHub.HubID)
+                if (receive.HubID == user.DefaultHub.Value)
                 {
                     return Json(string.Format("{0} is invalid, there is an existing record with the same GRN", grn),
                         JsonRequestBehavior.AllowGet);
@@ -299,7 +299,7 @@ namespace Cats.Areas.Hub.Controllers
         public virtual ActionResult IndexOld()
         {
             UserProfile user = _userProfileService.GetUser(User.Identity.Name);
-            List<Receive> receives = _receiveService.ByHubId(user.DefaultHub.HubID);
+            List<Receive> receives = _receiveService.ByHubId(user.DefaultHub.Value);
             return View(receives);
         }
          
@@ -309,12 +309,12 @@ namespace Cats.Areas.Hub.Controllers
         {
             UserProfile user = _userProfileService.GetUser(User.Identity.Name);
             populateLookups(user);
-            List<Receive> receives = _receiveService.ByHubId(user.DefaultHub.HubID);
+            List<Receive> receives = _receiveService.ByHubId(user.DefaultHub.Value);
             return View(receives);
         }
         public virtual ActionResult Log()
         {
-            List<Receive> receives = _receiveService.ByHubId(GetCurrentUserProfile().DefaultHub.HubID);
+            List<Receive> receives = _receiveService.ByHubId(GetCurrentUserProfile().DefaultHub.Value);
             return View(receives);
         }
 
@@ -323,7 +323,7 @@ namespace Cats.Areas.Hub.Controllers
         {
             UserProfile user = _userProfileService.GetUser(User.Identity.Name);
             //TODO cascade using allocation id
-            List<ReceiveViewModelDto> receives = _receiveService.ByHubIdAndAllocationIDetached(user.DefaultHub.HubID, Guid.Parse(ReceiptAllocationID));
+            List<ReceiveViewModelDto> receives = _receiveService.ByHubIdAndAllocationIDetached(user.DefaultHub.Value, Guid.Parse(ReceiptAllocationID));
             return View(new GridModel(receives));
         }
 
@@ -354,13 +354,13 @@ namespace Cats.Areas.Hub.Controllers
             var units = _unitService.GetAllUnit().OrderBy(o => o.Name).ToList();
 
 
-            var hubs = _hubService.GetAllWithoutId(user.DefaultHub.HubID).DefaultIfEmpty().OrderBy(o => o.Name).ToList();
+            var hubs = _hubService.GetAllWithoutId(user.DefaultHub.Value).DefaultIfEmpty().OrderBy(o => o.Name).ToList();
 
             if (receiveId != "" && receiveId != null)
             {
                 Receive receive = _receiveService.FindById(Guid.Parse(receiveId));
                 var stacks = new List<AdminUnitItem>();
-                if (receive != null && (receive.HubID == user.DefaultHub.HubID))
+                if (receive != null && (receive.HubID == user.DefaultHub.Value))
                 {
                     var rViewModel = ReceiveViewModel.GenerateReceiveModel(receive, commodities, commodityGrades, transporters,
                                                             commodityTypes, commoditySources, programs, donors, hubs, user, units);
@@ -383,7 +383,7 @@ namespace Cats.Areas.Hub.Controllers
 
                     return View("Create", rViewModel);
                 }
-                else if (receive != null && (receive.HubID != user.DefaultHub.HubID))
+                else if (receive != null && (receive.HubID != user.DefaultHub.Value))
                 {
                     ViewBag.Message =
                         string.Format(
@@ -447,7 +447,7 @@ namespace Cats.Areas.Hub.Controllers
                         receiveViewModel.VesselName = gCertificate.Vessel;
                     }
 
-                    if (rAllocation.HubID == user.DefaultHub.HubID)
+                    if (rAllocation.HubID == user.DefaultHub.Value)
                     {
                         //if the allocation is for the current hub allocation 
                         receiveViewModel.ReceiptAllocationID = rAllocation.ReceiptAllocationID;
@@ -498,14 +498,14 @@ namespace Cats.Areas.Hub.Controllers
             var units = _unitService.GetAllUnit().OrderBy(o => o.Name).ToList();
 
             UserProfile user = _userProfileService.GetUser(User.Identity.Name);
-            var hubs = _hubService.GetAllWithoutId(user.DefaultHub.HubID).DefaultIfEmpty().OrderBy(o => o.Name).ToList();
+            var hubs = _hubService.GetAllWithoutId(user.DefaultHub.Value).DefaultIfEmpty().OrderBy(o => o.Name).ToList();
 
             Receive receive = Receive.GetReceiveByGRN(grnNo);
-            if (receive != null && (receive.HubID == user.DefaultHub.HubID))
+            if (receive != null && (receive.HubID == user.DefaultHub.Value))
             {
                 return PartialView("_ReceivePartial", ReceiveViewModel.GenerateReceiveModel(receive, commodities, commodityGrades, transporters, commodityTypes, commoditySources, programs, donors, hubs, user, units));
             }
-            else if (receive != null && (receive.HubID != user.DefaultHub.HubID))
+            else if (receive != null && (receive.HubID != user.DefaultHub.Value))
             {
                 ViewBag.Message = string.Format("The selected GRN Number {0} doesn't exist in your default warehouse. Try changing your default warehouse.", grnNo);
             }
@@ -546,7 +546,8 @@ namespace Cats.Areas.Hub.Controllers
             MembershipProvider membership = new MembershipProvider();
             UserProfile user = _userProfileService.GetUser(User.Identity.Name);
 
-
+            var grnExists = _receiveService.FindBy(m => m.GRN == receiveModels.GRN).FirstOrDefault();
+            
             var commodities = _commodityService.GetAllCommodity().DefaultIfEmpty().OrderBy(o => o.Name).ToList();
             var commodityGrades = _commodityGradeService.GetAllCommodityGrade().DefaultIfEmpty().OrderBy(o => o.Name).ToList();
             var transporters = _transporterService.GetAllTransporter().DefaultIfEmpty().OrderBy(o => o.Name).ToList();
@@ -556,134 +557,148 @@ namespace Cats.Areas.Hub.Controllers
             var programs = _programService.GetAllProgram().DefaultIfEmpty().OrderBy(o => o.Name).ToList();
             var donors = _donorService.GetAllDonor().DefaultIfEmpty().OrderBy(o => o.Name).ToList();
 
-            var hubs = _hubService.GetAllWithoutId(user.DefaultHub.HubID).DefaultIfEmpty().OrderBy(o => o.Name).ToList();
+            var hubs = _hubService.GetAllWithoutId(user.DefaultHub.Value).DefaultIfEmpty().OrderBy(o => o.Name).ToList();
 
             var units = _unitService.GetAllUnit().OrderBy(o => o.Name).ToList();
             var insertCommodities = new List<ReceiveDetailViewModel>();
             var updateCommodities = new List<ReceiveDetailViewModel>();
             var prevCommodities = new List<ReceiveDetailViewModel>();
-            if (receiveModels.JSONPrev != null)
-            {
-                prevCommodities = GetSelectedCommodities(receiveModels.JSONPrev);
+           
 
-                //Even though they are updated they are not saved so move them in to the inserted at the end of a succcessful submit
-                int count = 0;
-                foreach (var receiveDetailAllViewModels in prevCommodities)
+                if (receiveModels.JSONPrev != null)
                 {
-                    if (receiveDetailAllViewModels.ReceiveDetailID == null)
+                    prevCommodities = GetSelectedCommodities(receiveModels.JSONPrev);
+                    
+                    if (grnExists != null)
                     {
-                        count--;
-                        receiveDetailAllViewModels.ReceiveDetailCounter = count;
-                        insertCommodities.Add(receiveDetailAllViewModels);
-                    }
-                    else
-                    {
-                        receiveDetailAllViewModels.ReceiveDetailCounter = 1;
-                        updateCommodities.Add(receiveDetailAllViewModels);
-                    }
-                }
-
-                ViewBag.ReceiveDetails = prevCommodities;
-                receiveModels.ReceiveDetails = prevCommodities;
-                bool isValid = ModelState.IsValid;
-
-                //this check need's to be revisited
-                if (prevCommodities.Count() == 0)
-                {
-                    ModelState.AddModelError("ReceiveDetails", "Please add atleast one commodity to save this Reciept");
-                }
-
-                //TODO add check against the commodity type for each commodity 
-                string errorMessage = null;
-                foreach (var receiveDetailViewModel in prevCommodities)
-                {
-                    var validationContext = new ValidationContext(receiveDetailViewModel, null, null);
-                    IEnumerable<ValidationResult> validationResults = receiveDetailViewModel.Validate(validationContext);
-                    foreach (var v in validationResults)
-                    {
-                        errorMessage = string.Format("{0}, {1}", errorMessage, v.ErrorMessage);
-                    }
-                    Commodity comms = _commodityService.FindById(receiveDetailViewModel.CommodityID);
-                    CommodityType commType = _commodityTypeService.FindById(receiveModels.CommodityTypeID);
-                    if (receiveModels.CommodityTypeID != comms.CommodityTypeID)
-                        ModelState.AddModelError("ReceiveDetails", comms.Name + " is not of type " + commType.Name);
-                }
-                if (errorMessage != null)
-                {
-                    ModelState.AddModelError("ReceiveDetails", errorMessage);
-                }
-            }
-            else
-            {
-                ModelState.AddModelError("ReceiveDetails", "Please add atleast one commodity to save this Reciept");
-            }
-            switch (receiveModels.CommoditySourceID)
-            {
-                case CommoditySource.Constants.DONATION:
-                    ModelState.Remove("SourceHubID");
-                    ModelState.Remove("SupplierName");
-                    ModelState.Remove("PurchaseOrder");
-                    break;
-                case CommoditySource.Constants.LOCALPURCHASE:
-                    //ModelState.Remove("DonorID");
-                    ModelState.Remove("SourceHubID");
-                    //ModelState.Remove("ResponsibleDonorID");
-                    break;
-                default:
-                    ModelState.Remove("DonorID");
-                    ModelState.Remove("ResponsibleDonorID");
-                    ModelState.Remove("SupplierName");
-                    ModelState.Remove("PurchaseOrder");
-                    break;
-            }
-
-            if (user != null)
-            {
-                if (receiveModels.ChangeStoreManPermanently != null && receiveModels.ChangeStoreManPermanently == true)
-                {
-                    Store storeTobeChanged = _storeService.FindById(receiveModels.StoreID);
-                    if (storeTobeChanged != null && receiveModels.ChangeStoreManPermanently == true)
-                        storeTobeChanged.StoreManName = receiveModels.ReceivedByStoreMan;
-                    //repository.Store.SaveChanges(storeTobeChanged);
-                }
-
-                Receive receive = receiveModels.GenerateReceive();
-                //if (receive.ReceiveID == null )
-                if (receiveModels.ReceiveID == null)
-                {
-                    //List<ReceiveDetailViewModel> commodities = GetSelectedCommodities(receiveModels.JSONInsertedCommodities);
-                    receiveModels.ReceiveDetails = prevCommodities;
-                    foreach (var gridCommodities in prevCommodities)
-                    {
-                        if (user.PreferedWeightMeasurment.Equals("qn"))
+                        receiveModels.ReceiveDetails = prevCommodities;     
+                       receiveModels.InitializeEditLists(commodities,commodityGrades,transporters,commodityTypes,commoditySources,programs,donors,hubs,user,units);
+                        if (receiveModels.ReceiveID!=null)
                         {
-                            gridCommodities.ReceivedQuantityInMT /= 10;
-                            gridCommodities.SentQuantityInMT /= 10;
+                            receiveModels.IsEditMode = true;
+                        }
+                        ModelState.AddModelError("GRN", @"GRN Already Existed");
+                        return View(receiveModels);
+                    }
+                    //Even though they are updated they are not saved so move them in to the inserted at the end of a succcessful submit
+                    int count = 0;
+                    foreach (var receiveDetailAllViewModels in prevCommodities)
+                    {
+                        if (receiveDetailAllViewModels.ReceiveDetailID == null)
+                        {
+                            count--;
+                            receiveDetailAllViewModels.ReceiveDetailCounter = count;
+                            insertCommodities.Add(receiveDetailAllViewModels);
+                        }
+                        else
+                        {
+                            receiveDetailAllViewModels.ReceiveDetailCounter = 1;
+                            updateCommodities.Add(receiveDetailAllViewModels);
                         }
                     }
-                    _transactionService.SaveReceiptTransaction(receiveModels, user);
+
+                    ViewBag.ReceiveDetails = prevCommodities;
+                    receiveModels.ReceiveDetails = prevCommodities;
+                    bool isValid = ModelState.IsValid;
+
+                    //this check need's to be revisited
+                    if (prevCommodities.Count() == 0)
+                    {
+                        ModelState.AddModelError("ReceiveDetails",
+                                                 "Please add atleast one commodity to save this Reciept");
+                    }
+
+                    //TODO add check against the commodity type for each commodity 
+                    string errorMessage = null;
+                    foreach (var receiveDetailViewModel in prevCommodities)
+                    {
+                        var validationContext = new ValidationContext(receiveDetailViewModel, null, null);
+                        IEnumerable<ValidationResult> validationResults =
+                            receiveDetailViewModel.Validate(validationContext);
+                        foreach (var v in validationResults)
+                        {
+                            errorMessage = string.Format("{0}, {1}", errorMessage, v.ErrorMessage);
+                        }
+                        Commodity comms = _commodityService.FindById(receiveDetailViewModel.CommodityID);
+                        CommodityType commType = _commodityTypeService.FindById(receiveModels.CommodityTypeID);
+                        if (receiveModels.CommodityTypeID != comms.CommodityTypeID)
+                            ModelState.AddModelError("ReceiveDetails", comms.Name + " is not of type " + commType.Name);
+                    }
+                    if (errorMessage != null)
+                    {
+                        ModelState.AddModelError("ReceiveDetails", errorMessage);
+                    }
                 }
                 else
                 {
-                    //List<ReceiveDetailViewModel>
-                    //insertCommodities = GetSelectedCommodities(receiveModels.JSONInsertedCommodities);
-                    List<ReceiveDetailViewModel> deletedCommodities = GetSelectedCommodities(receiveModels.JSONDeletedCommodities);
-                    // List<ReceiveDetailViewModel> updateCommodities = GetSelectedCommodities(receiveModels.JSONUpdatedCommodities);
-                    receive.HubID = user.DefaultHub.HubID;
-                    receive.UserProfileID = user.UserProfileID;
-                    receive.Update(GenerateReceiveDetail(insertCommodities),
-                        GenerateReceiveDetail(updateCommodities),
-                        GenerateReceiveDetail(deletedCommodities));
-
+                    ModelState.AddModelError("ReceiveDetails", "Please add atleast one commodity to save this Reciept");
+                }
+                switch (receiveModels.CommoditySourceID)
+                {
+                    case CommoditySource.Constants.DONATION:
+                        ModelState.Remove("SourceHubID");
+                        ModelState.Remove("SupplierName");
+                        ModelState.Remove("PurchaseOrder");
+                        break;
+                    case CommoditySource.Constants.LOCALPURCHASE:
+                        //ModelState.Remove("DonorID");
+                        ModelState.Remove("SourceHubID");
+                        //ModelState.Remove("ResponsibleDonorID");
+                        break;
+                    default:
+                        ModelState.Remove("DonorID");
+                        ModelState.Remove("ResponsibleDonorID");
+                        ModelState.Remove("SupplierName");
+                        ModelState.Remove("PurchaseOrder");
+                        break;
                 }
 
-                return RedirectToAction("Index");
-            }
+                if (user != null)
+                {
+                    if (receiveModels.ChangeStoreManPermanently != null &&
+                        receiveModels.ChangeStoreManPermanently == true)
+                    {
+                        Store storeTobeChanged = _storeService.FindById(receiveModels.StoreID);
+                        if (storeTobeChanged != null && receiveModels.ChangeStoreManPermanently == true)
+                            storeTobeChanged.StoreManName = receiveModels.ReceivedByStoreMan;
+                        //repository.Store.SaveChanges(storeTobeChanged);
+                    }
+
+                    Receive receive = receiveModels.GenerateReceive();
+                    //if (receive.ReceiveID == null )
+                    if (receiveModels.ReceiveID == null)
+                    {
+                        //List<ReceiveDetailViewModel> commodities = GetSelectedCommodities(receiveModels.JSONInsertedCommodities);
+                        receiveModels.ReceiveDetails = prevCommodities;
+                        foreach (var gridCommodities in prevCommodities)
+                        {
+                            if (user.PreferedWeightMeasurment.Equals("qn"))
+                            {
+                                gridCommodities.ReceivedQuantityInMT /= 10;
+                                gridCommodities.SentQuantityInMT /= 10;
+                            }
+                        }
+                        _transactionService.SaveReceiptTransaction(receiveModels, user);
+                    }
+                    else
+                    {
+                        //List<ReceiveDetailViewModel>
+                        //insertCommodities = GetSelectedCommodities(receiveModels.JSONInsertedCommodities);
+                        List<ReceiveDetailViewModel> deletedCommodities =
+                            GetSelectedCommodities(receiveModels.JSONDeletedCommodities);
+                        // List<ReceiveDetailViewModel> updateCommodities = GetSelectedCommodities(receiveModels.JSONUpdatedCommodities);
+                        receive.HubID = user.DefaultHub.Value;
+                        receive.UserProfileID = user.UserProfileID;
+                        receive.Update(GenerateReceiveDetail(insertCommodities),
+                                       GenerateReceiveDetail(updateCommodities),
+                                       GenerateReceiveDetail(deletedCommodities));
+
+                    }
+                return RedirectToAction(receiveModels.ContinueAdding ? "Create" : "Index");
+                }
+            
+          
             receiveModels.InitializeEditLists(commodities, commodityGrades, transporters, commodityTypes, commoditySources, programs, donors, hubs, user, units);
-            if (receiveModels.ReceiveID != null)
-            {
-                receiveModels.IsEditMode = true;
-            }
             return View(receiveModels);
         }
 
@@ -798,7 +813,7 @@ namespace Cats.Areas.Hub.Controllers
                 {
                     ReceiptAllocation rAllocation =
                         _receiptAllocationService.GetAllReceiptAllocation().FirstOrDefault(
-                            p => p.SINumber == _giftCertificateService.FindBySINumber(SINumber).ShippingInstruction.Value && p.HubID == user.DefaultHub.HubID);
+                            p => p.SINumber == _giftCertificateService.FindBySINumber(SINumber).ShippingInstruction.Value && p.HubID == user.DefaultHub.Value);
 
                     if (rAllocation != null)
                     {
@@ -879,7 +894,7 @@ namespace Cats.Areas.Hub.Controllers
 
             if (receive != null && user.DefaultHub != null)
             {
-                if (receive.HubID == user.DefaultHub.HubID)
+                if (receive.HubID == user.DefaultHub.Value)
                 {
                     return Json(new { success = true, defaultWareHouse = true }, JsonRequestBehavior.AllowGet);
                 }
@@ -1015,7 +1030,7 @@ namespace Cats.Areas.Hub.Controllers
                 comms = _receiptAllocationService.GetAvailableCommodities(SINumber,
                                                                                  _userProfileService.GetUser(
                                                                                      User.Identity.Name).DefaultHub.
-                                                                                     HubID);
+                                                                                     Value);
             if (comms.Any())
             {
                 foreach (var availableCommodity in comms)
@@ -1153,7 +1168,7 @@ namespace Cats.Areas.Hub.Controllers
                     if (!commodities.Any())
                         commodities = _receiptAllocationService.GetAvailableCommoditiesFromUnclosed(SINumber,
                                                                                                        user.DefaultHub.
-                                                                                                           HubID, CommoditySourceID);
+                                                                                                           Value, CommoditySourceID);
                     //TODO: make this work for all commodities that are available in the gift certificate
 
                     if (commodities.Any())
@@ -1162,7 +1177,7 @@ namespace Cats.Areas.Hub.Controllers
                         {
                             decimal tAllocation = _receiptAllocationService.GetTotalAllocation(SINumber,
                                                                                                   commodity1.CommodityID,
-                                                                                                  user.DefaultHub.HubID, CommoditySourceID);
+                                                                                                  user.DefaultHub.Value, CommoditySourceID);
 
                             int sI = _shippingInstructionService.GetShipingInstructionId(SINumber);
 
@@ -1170,14 +1185,14 @@ namespace Cats.Areas.Hub.Controllers
                             decimal sum = 0;
                             if (commodity1.CommodityTypeID == 1)
                             {
-                                foreach (ReceiptAllocation rAllocates in commodity1.ReceiptAllocations.Where(p => p.HubID == user.DefaultHub.HubID && p.CommoditySourceID == CommoditySourceID && p.IsClosed == false))
+                                foreach (ReceiptAllocation rAllocates in commodity1.ReceiptAllocations.Where(p => p.HubID == user.DefaultHub.Value && p.CommoditySourceID == CommoditySourceID && p.IsClosed == false))
                                 {
                                     sum = sum + _receiptAllocationService.GetReceivedAlready(rAllocates);
                                 }
                             }
                             else
                             {
-                                foreach (ReceiptAllocation rAllocates in commodity1.ReceiptAllocations.Where(p => p.HubID == user.DefaultHub.HubID && p.CommoditySourceID == CommoditySourceID && p.IsClosed == false))
+                                foreach (ReceiptAllocation rAllocates in commodity1.ReceiptAllocations.Where(p => p.HubID == user.DefaultHub.Value && p.CommoditySourceID == CommoditySourceID && p.IsClosed == false))
                                 {
                                     sum = sum + _receiptAllocationService.GetReceivedAlreadyInUnit(rAllocates);
                                 }

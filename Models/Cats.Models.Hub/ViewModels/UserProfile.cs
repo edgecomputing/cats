@@ -64,7 +64,7 @@ namespace Cats.Models.Hubs
             return null;
         }
         [NotMapped]
-        public Hub DefaultHub { get; set; }
+        public Hub DefaultHubObj { get; set; }
         //public Hub DefaultHub
         //{
         //    get

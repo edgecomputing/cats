@@ -12,6 +12,12 @@
 @*    <li class="nav-header">Tasks</li>
     <li><a href="@Url.Action("Requistions", "ReliefRequisition", new { Area = "EarlyWarning" })"><i class="icon-chevron-left"></i>Back to requisitions</a></li>*@
 }
+@section Toolbar
+{
+    <a class="btn toolbar-btn " data-buttontype="btn_save" data-submittedform="frm_Edit_requisition"></a>
+    <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="@Url.Action("Index", "ReliefRequisition")" title="cancel"></a>
+   
+}
 
 <fieldset>
     <legend>
@@ -19,7 +25,7 @@
     </legend>
 </fieldset> 
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("Edit", "ReliefRequisition", FormMethod.Post, new { id = "frm_Edit_requisition" }))
 {
     <div class="form-horizontal ">
         <fieldset>
@@ -31,8 +37,8 @@
             @Html.HiddenFor(model => model.Round)
             @Html.HiddenFor(model => model.RegionID)
             @Html.HiddenFor(model => model.ZoneID)
-            @Html.HiddenFor(model => model.RequestedDate)
-            @Html.HiddenFor(model => model.RationID)
+            @*@Html.HiddenFor(model => model.RequestedDate)*@
+            @*@Html.HiddenFor(model => model.RationID)*@
             
 
             <div class="control-group">
@@ -65,7 +71,8 @@
                     @Html.LabelFor(m => m.RationID, "Ration")
                 </div>
                 <div class="controls">
-                    @Html.DropDownListFor(m => m.RationID, new SelectList(ViewBag.RationID, "RationID", "RefrenceNumber", ViewBag.RationSelected),string.Empty)
+                    @Html.DropDownList("RationID",String.Empty)
+                    @*@Html.DropDownListFor(m => m.RationID, new SelectList(ViewBag.RationID, "RationID", "RefrenceNumber", ViewBag.RationSelected),string.Empty)*@
                     @Html.ValidationMessageFor(m => m.RationID)
                 </div>
             </div>
@@ -93,18 +100,18 @@
                     @Html.LabelFor(model => model.RequestedDate,new {@class="cats-date-pref"})
                 </div>
                 <div class="controls">
-                        <input class="cats-datepicker2 disabled" type="text" id="RequestedDate" name="RequistionDate"/>
+                        <input class="cats-datepicker2 disabled" type="text" id="RequestedDate" name="RequestedDate"/>
                  
                 </div>
 
             </div>
 
-          <div class="control-group">
+          @*<div class="control-group">
             <div class="controls">
                 <input type="submit" value="Save Changes" class="btn btn-success" />
                 <a class="btn btn-success" href="@Url.Action("Index", "ReliefRequisition", new { Area = "EarlyWarning"})">Cancel</a>
             </div>
-            </div>
+            </div>*@
         </fieldset>
 
 

@@ -100,8 +100,8 @@ namespace Cats.Services.Hub
         public Transaction GetUncommitedAllocationTransaction(int CommodityID, int ShipingInstructionID, int HubID)
         {
             return (_unitOfWork.TransactionRepository.FindBy(
-                    t=>t.CommodityID == CommodityID 
-                    && t.LedgerID == Ledger.Constants.GOODS_ON_HAND_UNCOMMITED 
+                    t=>t.CommodityID == CommodityID
+                    && t.LedgerID == Cats.Models.Ledger.Constants.GOODS_ON_HAND_UNCOMMITED 
                     && t.ShippingInstructionID == ShipingInstructionID 
                     && t.HubID ==HubID).FirstOrDefault());
            

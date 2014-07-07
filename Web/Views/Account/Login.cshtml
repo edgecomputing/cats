@@ -104,12 +104,17 @@
                     </div>                      
 
                 }
-                 @using (Html.BeginForm("ForgetPasswordRequest","Account",FormMethod.Get))
+                @using (Html.BeginForm("ForgetPasswordRequest","Account",FormMethod.Get))
                 {
-                     <button class="btn btn-default" type="submit"  name="Forgot Password?" id="btnForgotPassword">Forgot Password?</button>
+                     <button class="btn btn-default" type="submit"  name="Forgot Password" id="btnForgotPassword">Forgot Password?</button>
                 }
                
-
+                <div class="alert alert-danger">
+                    <i class="icon-exclamation-sign"></i>
+                    <h4>Notice: To all CATS users.</h4>
+                    Today on Friday July 04, 2014 CATS system will go down and will be unavailable due to maintenance 
+                    starting from 11:30 in the afternoon.
+                </div>
             </div>
 
         </div>

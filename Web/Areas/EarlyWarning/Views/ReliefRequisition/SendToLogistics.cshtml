@@ -50,7 +50,9 @@
                 </div>
             </div>
             <div class="span6">
-                <div class="control-group">
+                @if (Model.ProgramID==1)
+                {
+                   <div class="control-group">
                     <div class="control-label span4">
                         @Html.DisplayNameFor(model => model.Round)
                     </div>
@@ -58,6 +60,18 @@
                         @Html.TextBoxFor(model => model.Round, null, new { disabled = "true" ,@class="span10"})
                     </div>
                 </div>
+                }
+                else
+                {
+                  <div class="control-group">
+                    <div class="control-label span4">
+                        @Html.DisplayNameFor(model => model.Month)
+                    </div>
+                    <div class="controls span6">
+                        @Html.TextBoxFor(model => model.Month, null, new { disabled = "true" ,@class="span10"})
+                    </div>
+                </div>
+                } 
                 <div class="control-group">
                     <div class="control-label span4">
                         @Html.LabelFor(model => model.RequestedDateEt,new {@class="cats-date-pref"})

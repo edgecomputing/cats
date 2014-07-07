@@ -22,8 +22,8 @@ namespace Cats.Models.Hubs
         public CurrentUserModel(UserProfile user)
         {
            // this.Owner = user.DefaultHub.HubOwner.Name;
-            this.Name = user.DefaultHub.Name;
-            this.DefaultHubId = user.DefaultHub.HubID;
+            this.Name = user.DefaultHubObj.Name;
+            this.DefaultHubId = user.DefaultHubObj.HubID;
             PossibleHubs = user.UserAllowedHubs;
         }
     }

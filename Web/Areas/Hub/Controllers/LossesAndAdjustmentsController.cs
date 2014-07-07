@@ -60,7 +60,7 @@ namespace Cats.Areas.Hub.Controllers
         public ActionResult Index()
         {
 
-            return View(_adjustmentService.GetAllLossAndAdjustmentLog(UserProfile.DefaultHub.HubID).OrderByDescending(c => c.Date));
+            return View(_adjustmentService.GetAllLossAndAdjustmentLog(UserProfile.DefaultHub.Value).OrderByDescending(c => c.Date));
         }
 
         public ActionResult CreateLoss()
@@ -157,7 +157,7 @@ namespace Cats.Areas.Hub.Controllers
         public ActionResult Log()
         {
 
-            return View(_adjustmentService.GetAllLossAndAdjustmentLog(UserProfile.DefaultHub.HubID));
+            return View(_adjustmentService.GetAllLossAndAdjustmentLog(UserProfile.DefaultHub.Value));
         }
 
         public ActionResult Filter()
@@ -174,16 +174,28 @@ namespace Cats.Areas.Hub.Controllers
 
         public ActionResult GetProjecCodetForCommodity(int? CommodityId)
         {
-            var projectCodes = _projectCodeService.GetProjectCodesForCommodity(UserProfile.DefaultHub.HubID, CommodityId.Value);
+            var projectCodes = _projectCodeService.GetProjectCodesForCommodity(UserProfile.DefaultHub.Value, CommodityId.Value);
             return Json(new SelectList(projectCodes, "ProjectCodeId", "ProjectName"), JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult GetSINumberForProjectCode(int? ProjectCodeId)
+        public ActionResult GetSINumberForProjectCode(int? ProjectCodeId, int? parentCommodityId)
         {
             if (ProjectCodeId.HasValue)
             {
                 UserProfile user = _userProfileService.GetUser(User.Identity.Name);
-                return Json(new SelectList(_shippingInstructionService.GetShippingInstructionsForProjectCode(user.DefaultHub.HubID, ProjectCodeId.Value), "ShippingInstructionId", "ShippingInstructionName"), JsonRequestBehavior.AllowGet);
+               return Json(new SelectList(_shippingInstructionService.GetShippingInstructionsForProjectCode(user.DefaultHub.Value, ProjectCodeId.Value, parentCommodityId.Value), "ShippingInstructionId", "ShippingInstructionName"), JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json(new SelectList(new List<ShippingInstructionViewModel>()));
+            }
+        }
+        public ActionResult GetAdjustmentsSINumberForProjectCode(int? ProjectCodeId)
+        {
+            if (ProjectCodeId.HasValue)
+            {
+                UserProfile user = _userProfileService.GetUser(User.Identity.Name);
+                return Json(new SelectList(_shippingInstructionService.GetShippingInstructionsForProjectCode(user.DefaultHub.Value, ProjectCodeId.Value), "ShippingInstructionId", "ShippingInstructionName"), JsonRequestBehavior.AllowGet);
             }
             else
             {
@@ -193,7 +205,7 @@ namespace Cats.Areas.Hub.Controllers
 
         public ActionResult ViewDetial(string TransactionId)
         {
-            var lossAndAdjustment = _adjustmentService.GetAllLossAndAdjustmentLog(UserProfile.DefaultHub.HubID).FirstOrDefault(c => c.TransactionId == Guid.Parse(TransactionId));
+            var lossAndAdjustment = _adjustmentService.GetAllLossAndAdjustmentLog(UserProfile.DefaultHub.Value).FirstOrDefault(c => c.TransactionId == Guid.Parse(TransactionId));
             return PartialView(lossAndAdjustment);
         }
         [HttpPost]
@@ -210,10 +222,10 @@ namespace Cats.Areas.Hub.Controllers
 
             if (filterId != null && filterId != string.Empty)
             {
-                var lossAndAdjustmentLogViewModel = _adjustmentService.GetAllLossAndAdjustmentLog(UserProfile.DefaultHub.HubID).Where(c => c.Type == filterId).OrderByDescending(c => c.Date);
+                var lossAndAdjustmentLogViewModel = _adjustmentService.GetAllLossAndAdjustmentLog(UserProfile.DefaultHub.Value).Where(c => c.Type == filterId).OrderByDescending(c => c.Date);
                 return View(new GridModel(lossAndAdjustmentLogViewModel));
             }
-            return View(new GridModel(_adjustmentService.GetAllLossAndAdjustmentLog(UserProfile.DefaultHub.HubID).OrderByDescending(c => c.Date)));
+            return View(new GridModel(_adjustmentService.GetAllLossAndAdjustmentLog(UserProfile.DefaultHub.Value).OrderByDescending(c => c.Date)));
         }
 
 
@@ -222,7 +234,7 @@ namespace Cats.Areas.Hub.Controllers
             if (commodityParentId.HasValue && SINumber.HasValue)
             {
                 UserProfile user = _userProfileService.GetUser(User.Identity.Name);
-                return Json(new SelectList(ConvertStoreToStoreViewModel(_storeService.GetStoresWithBalanceOfCommodityAndSINumber(commodityParentId.Value, SINumber.Value, user.DefaultHub.HubID)), "StoreId", "StoreName"));
+                return Json(new SelectList(ConvertStoreToStoreViewModel(_storeService.GetStoresWithBalanceOfCommodityAndSINumber(commodityParentId.Value, SINumber.Value, user.DefaultHub.Value)), "StoreId", "StoreName"));
             }
             else
             {
@@ -240,7 +252,7 @@ namespace Cats.Areas.Hub.Controllers
                 viewModel.ParentCommodityNameB = _commodityService.FindById(parentCommodityId.Value).Name;
                 viewModel.ProjectCodeNameB = _projectCodeService.FindById(projectcode.Value).Value;
                 viewModel.ShppingInstructionNumberB = _shippingInstructionService.FindById(SINumber.Value).Value;
-                viewModel.QtBalance = _TransactionService.GetCommodityBalanceForHub(user.DefaultHub.HubID, parentCommodityId.Value, SINumber.Value, projectcode.Value);
+                viewModel.QtBalance = _TransactionService.GetCommodityBalanceForHub(user.DefaultHub.Value, parentCommodityId.Value, SINumber.Value, projectcode.Value);
             }
             else if (StoreId.HasValue && !StackId.HasValue && parentCommodityId.HasValue && projectcode.HasValue && SINumber.HasValue)
             {

@@ -31,13 +31,13 @@ namespace Cats.Areas.Hub.Controllers.Reports
 
         public ActionResult Index(int? StoreID, int? CommodityID, string ProjectID )
         {
-            ViewBag.StoreID = new SelectList(GetCurrentUserProfile().DefaultHub.Stores,"StoreID","Name",StoreID);
+            ViewBag.StoreID = new SelectList(GetCurrentUserProfile().DefaultHubObj.Stores,"StoreID","Name",StoreID);
             //var StoreI = new SelectList(GetCurrentUserProfile().DefaultHub.Stores,"StoreID","Name", StoreID);
 
             ViewBag.CommodityID = new SelectList(_commodityService.GetAllParents(), "CommodityID", "Name",CommodityID);
             ViewBag.ProjectID =
                 new SelectList(
-                    _projectCodeService.GetProjectCodesForCommodity(GetCurrentUserProfile().DefaultHub.HubID,
+                    _projectCodeService.GetProjectCodesForCommodity(GetCurrentUserProfile().DefaultHub.Value,
                                                                        (CommodityID.HasValue) ? CommodityID.Value : 1),"ProjectCodeId","ProjectName");
             //UserProfile user =UserProfile.GetUser(User.Identity.Name);
             //var projectInputReceives = db.Receives.FirstOrDefault(p => p.ProjectNumber == ProjectID);
@@ -52,7 +52,7 @@ namespace Cats.Areas.Hub.Controllers.Reports
             //    projectSelected = projectInputDispatches.ProjectNumber;
             //}
 
-            ViewBag.BinCards = _storeService.GetBinCard(UserProfile.DefaultHub.HubID, StoreID, CommodityID, ProjectID).ToList();
+            ViewBag.BinCards = _storeService.GetBinCard(UserProfile.DefaultHub.Value, StoreID, CommodityID, ProjectID).ToList();
             //ViewBag.StoreID = new SelectList(db.Stores.Where(s => s.HubID == user.DefaultWarehouse.HubID), "StoreID", "Name");
             //ViewBag.CommodityID = new SelectList(db.Commodities, "CommodityID", "Name");
 

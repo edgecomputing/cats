@@ -59,13 +59,13 @@ namespace Cats.Areas.Hub.Controllers.Allocations
         public ActionResult Index()
         {
             var user = _userProfileService.GetUser(User.Identity.Name);
-            return View(_dispatchAllocationService.GetAvailableRequisionNumbers(user.DefaultHub.HubID, true));
+            return View(_dispatchAllocationService.GetAvailableRequisionNumbers(user.DefaultHub.Value, true));
         }
 
         public ActionResult AllocationList()
         {
             UserProfile user = _userProfileService.GetUser(User.Identity.Name);
-            Cats.Models.Hubs.Hub hub = user.DefaultHub;
+            Cats.Models.Hubs.Hub hub = user.DefaultHubObj;
             var list = _dispatchAllocationService.GetUncommitedAllocationsByHub(hub.HubID);
             var listViewModel = (from item in list select BindDispatchAllocationViewModelDto(item));
 
@@ -118,7 +118,7 @@ namespace Cats.Areas.Hub.Controllers.Allocations
           UserProfile user = _userProfileService.GetUser(User.Identity.Name);
             if (CommodityID.HasValue)
             {
-                var nums = from si in _dispatchAllocationService.GetAvailableSINumbersWithUncommitedBalance(CommodityID.Value,user.DefaultHub.HubID)
+                var nums = from si in _dispatchAllocationService.GetAvailableSINumbersWithUncommitedBalance(CommodityID.Value,user.DefaultHub.Value)
                            select new { Name = si.Value, Id = si.ShippingInstructionID };
 
                 return Json(new SelectList(nums, "Id", "Name"), JsonRequestBehavior.AllowGet);
@@ -143,7 +143,7 @@ namespace Cats.Areas.Hub.Controllers.Allocations
             // TODO: check if has to be that way.
            var user = _userProfileService.GetUser(User.Identity.Name);
             Commodity commodity = _dispatchAllocationService.GetAvailableCommodities(requisition).FirstOrDefault();
-            List<SIBalance> sis = _dispatchAllocationService.GetUncommitedSIBalance(UserProfile.DefaultHub.HubID, commodity.CommodityID,user.PreferedWeightMeasurment);
+            List<SIBalance> sis = _dispatchAllocationService.GetUncommitedSIBalance(UserProfile.DefaultHub.Value, commodity.CommodityID,user.PreferedWeightMeasurment);
             ViewBag.UnitType = commodity.CommodityTypeID;
             return PartialView("SIBalance", sis);
         }
@@ -154,7 +154,7 @@ namespace Cats.Areas.Hub.Controllers.Allocations
             {
                 UserProfile user = _userProfileService.GetUser(User.Identity.Name);
                 List<SIBalance> si = (from v in _dispatchAllocationService.GetUncommitedSIBalance(
-                                              UserProfile.DefaultHub.HubID,
+                                              UserProfile.DefaultHub.Value,
                                               commodityId.Value,user.PreferedWeightMeasurment)
                                       select v).ToList();
                 
@@ -181,11 +181,11 @@ namespace Cats.Areas.Hub.Controllers.Allocations
             UserProfile user = _userProfileService.GetUser(User.Identity.Name);
             if (!string.IsNullOrEmpty(RquisitionNo) && CommodityID.HasValue)
             {
-                list = _dispatchAllocationService.GetAllocations(RquisitionNo, CommodityID.Value, user.DefaultHub.HubID, Uncommited, user.PreferedWeightMeasurment);
+                list = _dispatchAllocationService.GetAllocations(RquisitionNo, CommodityID.Value, user.DefaultHub.Value, Uncommited, user.PreferedWeightMeasurment);
             }
             else if (!string.IsNullOrEmpty(RquisitionNo))
             {
-                list = _dispatchAllocationService.GetAllocations(RquisitionNo, user.DefaultHub.HubID, Uncommited);
+                list = _dispatchAllocationService.GetAllocations(RquisitionNo, user.DefaultHub.Value, Uncommited);
             }
 
             List<DispatchAllocationViewModelDto> FDPAllocations = new List<DispatchAllocationViewModelDto>();
@@ -243,11 +243,11 @@ namespace Cats.Areas.Hub.Controllers.Allocations
             UserProfile user = _userProfileService.GetUser(User.Identity.Name);
             if (!string.IsNullOrEmpty(RquisitionNo) && CommodityID.HasValue)
             {
-                list = _dispatchAllocationService.GetAllocations(RquisitionNo, CommodityID.Value, user.DefaultHub.HubID, commitStatus, user.PreferedWeightMeasurment);
+                list = _dispatchAllocationService.GetAllocations(RquisitionNo, CommodityID.Value, user.DefaultHub.Value, commitStatus, user.PreferedWeightMeasurment);
             }
             else if (!string.IsNullOrEmpty(RquisitionNo))
             {
-                list = _dispatchAllocationService.GetAllocations(RquisitionNo, user.DefaultHub.HubID, commitStatus);
+                list = _dispatchAllocationService.GetAllocations(RquisitionNo, user.DefaultHub.Value, commitStatus);
             }
             List<DispatchAllocationViewModelDto> FDPAllocations = new List<DispatchAllocationViewModelDto>();
             foreach (var dispatchAllocation in list)
@@ -297,14 +297,14 @@ namespace Cats.Areas.Hub.Controllers.Allocations
         public ActionResult GetSIBalances()
         {
             UserProfile user = _userProfileService.GetUser(User.Identity.Name);
-            var list = _dispatchAllocationService.GetSIBalances(user.DefaultHub.HubID);
+            var list = _dispatchAllocationService.GetSIBalances(user.DefaultHub.Value);
             return PartialView("SIBalance", list);
         }
 
         public ActionResult AvailableRequistions(bool UnCommited)
         {
             UserProfile user = _userProfileService.GetUser(User.Identity.Name);
-            return Json(_dispatchAllocationService.GetAvailableRequisionNumbers(user.DefaultHub.HubID, UnCommited), JsonRequestBehavior.AllowGet);
+            return Json(_dispatchAllocationService.GetAvailableRequisionNumbers(user.DefaultHub.Value, UnCommited), JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult Create()
@@ -332,7 +332,7 @@ namespace Cats.Areas.Hub.Controllers.Allocations
                 var user = _userProfileService.GetUser(User.Identity.Name);
                 var alloc = GetAllocationModel(allocation);
                 alloc.DispatchAllocationID = Guid.NewGuid();
-                alloc.HubID = user.DefaultHub.HubID;
+                alloc.HubID = user.DefaultHub.Value;
                 _dispatchAllocationService.AddDispatchAllocation(alloc);
                 if (this.Request.UrlReferrer != null) return Redirect(Request.UrlReferrer.PathAndQuery);
                 else return RedirectToAction("Index");
@@ -565,7 +565,7 @@ namespace Cats.Areas.Hub.Controllers.Allocations
         private OtherDispatchAllocationViewModel InitTransfer(OtherDispatchAllocationViewModel otherDispatchAllocationViewModel)
         {
             var user = _userProfileService.GetUser(User.Identity.Name);
-            var tohubs = _hubService.GetOthersHavingSameOwner(user.DefaultHub);
+            var tohubs = _hubService.GetOthersHavingSameOwner(user.DefaultHubObj);
 
             var commodities = _commonService.GetAllParents();
             var commodityTypes = _commodityTypeService.GetAllCommodityType();
@@ -599,7 +599,7 @@ namespace Cats.Areas.Hub.Controllers.Allocations
         public ActionResult SaveTransfer(OtherDispatchAllocationViewModel model)
         {
             UserProfile user = _userProfileService.GetUser(User.Identity.Name);
-            model.FromHubID = user.DefaultHub.HubID;
+            model.FromHubID = user.DefaultHub.Value;
             if (ModelState.IsValid)
             {
                 _otherDispatchAllocationService.Save(model);
@@ -625,7 +625,7 @@ namespace Cats.Areas.Hub.Controllers.Allocations
         private OtherDispatchAllocationViewModel InitLoan(OtherDispatchAllocationViewModel otherDispatchAllocationViewModel)
         {
             var user = _userProfileService.GetUser(User.Identity.Name);
-            var tohubs = _hubService.GetOthersWithDifferentOwner(user.DefaultHub);
+            var tohubs = _hubService.GetOthersWithDifferentOwner(user.DefaultHubObj);
 
             var commodities = _commonService.GetAllParents();
             var commodityTypes = _commodityTypeService.GetAllCommodityType();
@@ -654,7 +654,7 @@ namespace Cats.Areas.Hub.Controllers.Allocations
         public ActionResult SaveTransferAjax(OtherDispatchAllocationViewModel model)
         {
             UserProfile user = _userProfileService.GetUser(User.Identity.Name);
-            model.FromHubID = user.DefaultHub.HubID;
+            model.FromHubID = user.DefaultHub.Value;
             if (ModelState.IsValid)
             {
                 _otherDispatchAllocationService.Save(model);
@@ -682,7 +682,7 @@ namespace Cats.Areas.Hub.Controllers.Allocations
         public ActionResult SaveLoan(OtherDispatchAllocationViewModel model)
         {
            UserProfile user = _userProfileService.GetUser(User.Identity.Name);
-            model.FromHubID = user.DefaultHub.HubID;
+           model.FromHubID = user.DefaultHub.Value;
             if (ModelState.IsValid)
             {
                 _otherDispatchAllocationService.Save(model);
@@ -749,7 +749,7 @@ namespace Cats.Areas.Hub.Controllers.Allocations
             {
                 _otherDispatchAllocationService.CloseById(Guid.Parse(OtherDispatchAllocationID));
                 int? gridNum = null;
-                if (closeAllocation.Hub1.HubOwnerID == user.DefaultHub.HubOwnerID)
+                if (closeAllocation.Hub1.HubOwnerID == user.DefaultHubObj.HubOwnerID)
                 {
                     gridNum = 3;
                 }

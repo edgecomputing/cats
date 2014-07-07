@@ -17,10 +17,11 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <script>
+        /*
         window.onerror = function (e) {
            // e.preventDefault();
             return true;
-        }
+        }*/
     </script>
         <script src="~/Scripts/kendo/2013.1.319/jquery.min.js"></script>
         <script type="text/javascript" src="~/Scripts/Beka.EthDate/Beka.EthDate.js"> </script>
@@ -135,11 +136,11 @@
 
         $(function () {
 
-            var timer = 3000;
+            var timer = 10000;
             clearTimeout(timer);
             timer = setTimeout(function () {
                 $(".message-window").html('');
-            }, 3000);
+            }, 10000);
             //alert(timer);
 
         });

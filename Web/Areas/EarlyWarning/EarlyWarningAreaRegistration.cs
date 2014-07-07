@@ -21,7 +21,12 @@ namespace Cats.Areas.EarlyWarning
                 defaults: new { controller = "Home", action = "Index" },
                 namespaces: new[] { "Cats.Areas.EarlyWarning.Controllers" }
                );
-
+            context.MapRoute(
+               name: "EarlyWarning_maps",
+               url: "EarlyWarning/EWMaps",
+               defaults: new { controller = "Home", action = "EWMaps" },
+               namespaces: new[] { "Cats.Areas.EarlyWarning.Controllers" }
+              );
             context.MapRoute(
                 "EarlyWarning_default",
                 "EarlyWarning/{controller}/{action}/{id}",

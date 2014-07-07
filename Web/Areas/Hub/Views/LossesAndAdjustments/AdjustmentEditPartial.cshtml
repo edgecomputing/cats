@@ -60,7 +60,7 @@
                                 .AutoFill(true)
                                 .HighlightFirstMatch(true)
                                 .Filterable(filtering => { filtering.FilterMode(AutoCompleteFilterMode.StartsWith); })
-                                .DataBinding(binding => binding.Ajax().Select("GetSINumberForProjectCode","LossesAndAdjustments"))
+                                .DataBinding(binding => binding.Ajax().Select("GetAdjustmentsSINumberForProjectCode","LossesAndAdjustments"))
                     )
                     @Html.ValidationMessageFor(model => model.ShippingInstructions)
                 </td>

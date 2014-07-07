@@ -11,6 +11,7 @@ using Cats.Models.PSNP;
 using Cats.Data;
 using Cats.Services.PSNP;
 using Cats.Services.Security;
+using Cats.Services.Transaction;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
 using Cats.Services.EarlyWarning;
@@ -32,7 +33,7 @@ namespace Cats.Areas.PSNP
         private readonly ILog _log;
         private readonly IPlanService _planService;
         private readonly IUserAccountService _userAccountService;
-        
+        private readonly Cats.Services.Transaction.ITransactionService _transactionService;
 
         public RegionalPSNPPlanController(IRegionalPSNPPlanService regionalPSNPPlanServiceParam
                                           , IRationService rationServiceParam
@@ -42,8 +43,7 @@ namespace Cats.Areas.PSNP
                                           , IApplicationSettingService ApplicationSettingParam
                                           , ILog log
                                           , IPlanService planService
-                                          ,IUserAccountService userAccountService
-                                         )
+                                          ,IUserAccountService userAccountService, ITransactionService transactionService)
         {
             this._regionalPSNPPlanService = regionalPSNPPlanServiceParam;
             this._rationService = rationServiceParam;
@@ -54,6 +54,7 @@ namespace Cats.Areas.PSNP
             this._log = log;
             this._planService = planService;
             this._userAccountService = userAccountService;
+            _transactionService = transactionService;
         }
 
         public IEnumerable<RegionalPSNPPlanViewModel> toViewModel(IEnumerable<Cats.Models.RegionalPSNPPlan> list)
@@ -137,14 +138,36 @@ namespace Cats.Areas.PSNP
             return RedirectToAction("Index");
 
         }
+
         public ActionResult promotWorkflow(int id, int nextState)
         {
 
             RegionalPSNPPlan item = _regionalPSNPPlanService.FindById(id);
             item.StatusID = nextState;
             _regionalPSNPPlanService.UpdateRegionalPSNPPlan(item);
+
+            if (item.StatusID == (int) Cats.Models.Constant.PSNPWorkFlow.Completed)
+                PostPSNP(item);
             return RedirectToAction("Index");
         }
+
+
+        public void PostPSNP(RegionalPSNPPlan plan)
+        {
+            try
+            {
+                var ration = _rationService.FindBy(r => r.RationID == plan.RationID).FirstOrDefault();
+                _transactionService.PostPSNPPlan(plan, ration);
+            }
+            catch (Exception ex)
+            {
+                
+                _log.Error("Error in posting psnp:",new Exception(ex.Message));
+            }
+           
+        }
+
+
         //
         // GET: /PSNP/RegionalPSNPPlan/Create
 

@@ -6,7 +6,6 @@ using System.Text;
 using Cats.Data.Hub;
 using Cats.Data.Hub.UnitWork;
 using Cats.Models.Hubs;
-using Cats.Models;
 using Cats.Models.Hubs.ViewModels.Common;
 using Cats.Models.Hubs.ViewModels.Report;
 using Cats.Models.Hubs.ViewModels.Report.Data;
@@ -83,7 +82,7 @@ namespace Cats.Services.Hub
            
             //=======================modified by banty=================================
             //var stores = (from c in _unitOfWork.StoreRepository.GetStoreByHub(user.DefaultHub.HubID) select new ViewModels.Common.StoreViewModel { StoreId = c.StoreID, StoreName = string.Format("{0} - {1} ", c.Name, c.StoreManName) }).OrderBy(c => c.StoreName).ToList();
-            var stores = (from c in _unitOfWork.StoreRepository.Get(t=>t.HubID==user.DefaultHub.HubID) select new StoreViewModel { StoreId = c.StoreID, StoreName = string.Format("{0} - {1} ", c.Name, c.StoreManName) }).OrderBy(c => c.StoreName).ToList();
+            var stores = (from c in _unitOfWork.StoreRepository.Get(t=>t.HubID==user.DefaultHub) select new StoreViewModel { StoreId = c.StoreID, StoreName = string.Format("{0} - {1} ", c.Name, c.StoreManName) }).OrderBy(c => c.StoreName).ToList();
             
             //==============================end
             

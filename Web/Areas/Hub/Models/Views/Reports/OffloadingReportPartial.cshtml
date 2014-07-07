@@ -1,0 +1,15 @@
+﻿@using Cats.Web.Hub.Reports
+@using DevExpress.Web.Mvc.UI
+@Html.DevExpress().ReportViewer(
+    settings => {
+        settings.Name = "ReportViewer1";
+        //settings.Report = ViewBag.Report;
+        settings.Report = (MasterReportBound)Model;
+        settings.CallbackRouteValues = new { Controller = "Reports", Action = "OffloadingReportPartial" };
+        settings.ExportRouteValues = new { Controller = "Reports", Action = "OffloadingReportViewerExportTo" };
+        //settings.ClientSideEvents.BeforeExportRequest = "function ( args, e ) { alert(args); alert(e); args.data = $.extend(args.data, { closed: true }); }";
+        settings.ClientSideEvents.BeginCallback = "CallFilterCallBack"; //$('#policyZoneId').val();
+        //settings.Properties.EnableClientSideAPI = true;
+      
+    }
+).GetHtml()

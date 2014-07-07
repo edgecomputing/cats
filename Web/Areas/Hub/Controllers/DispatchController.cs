@@ -100,7 +100,7 @@ namespace Cats.Areas.Hub.Controllers
         {
             
             ViewBag.FilterCommodityTypeID = new SelectList(_commodityTypeService.GetAllCommodityType(), "CommodityTypeID", "Name");
-            ViewBag.HubsID = new SelectList(_hubService.GetAllHub(), "HubID", "HubNameWithOwner", user.DefaultHub.HubID);
+            ViewBag.HubsID = new SelectList(_hubService.GetAllHub(), "HubID", "HubNameWithOwner", user.DefaultHub.Value);
             ViewBag.RegionCollection = _adminUnitService.FindBy(t => t.AdminUnitTypeID == 2);
         }
         public ViewResult Index()
@@ -112,7 +112,7 @@ namespace Cats.Areas.Hub.Controllers
                     _userProfileService.GetUser(this.UserProfile.UserName).PreferedWeightMeasurment.ToUpperInvariant();
                 var toFdps =
                     _dispatchAllocationService.GetCommitedAllocationsByHubDetached(
-                        user.DefaultHub.HubID, prefWeight, null, null, null);
+                        user.DefaultHub.Value, prefWeight, null, null, null);
                 var loans = _otherDispatchAllocationService.GetAllToOtherOwnerHubs(user);
                 var transfer = _otherDispatchAllocationService.GetAllToCurrentOwnerHubs(user);
                 var adminUnit = new List<AdminUnit> { _adminUnitService.FindById(1) };
@@ -150,7 +150,7 @@ namespace Cats.Areas.Hub.Controllers
         {
             var user = _userProfileService.GetUser(User.Identity.Name);
             //HubID=HubID??HubID:user.DefaultHub.HubID; user.DefaultHub.HubID
-            int hub = (int)(HubID.HasValue ? HubID : user.DefaultHub.HubID);
+            int hub = (int)(HubID.HasValue ? HubID : user.DefaultHub.Value);
             var fdpAllocations = _dispatchAllocationService.GetCommitedAllocationsByHubDetached(hub, user.PreferedWeightMeasurment, closed, adminUnitID, commodityType);
             //return View(new List<DispatchAllocationViewModelDto>());
             return Json(fdpAllocations.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
@@ -159,7 +159,7 @@ namespace Cats.Areas.Hub.Controllers
         {
             var user = _userProfileService.GetUser(User.Identity.Name);
             //TODO cascade using allocation id
-            var dispatchs = _dispatchService.ByHubIdAndAllocationIDetached(user.DefaultHub.HubID, Guid.Parse(dispatchAllocationID));
+            var dispatchs = _dispatchService.ByHubIdAndAllocationIDetached(user.DefaultHub.Value, Guid.Parse(dispatchAllocationID));
             return Json(dispatchs.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
         public ActionResult DispatchListGridListGridAjax([DataSourceRequest] DataSourceRequest request, string dispatchID)
@@ -172,7 +172,7 @@ namespace Cats.Areas.Hub.Controllers
         public ActionResult DispatchedToLoanListAjax([DataSourceRequest] DataSourceRequest request, int? HubID, bool? closed, int? commodityType)
         {
             var user = _userProfileService.GetUser(User.Identity.Name);
-            int hub = (int)(HubID.HasValue ? HubID : user.DefaultHub.HubID);
+            int hub = (int)(HubID.HasValue ? HubID : user.DefaultHub.Value);
             var loanAllocations = _otherDispatchAllocationService.GetCommitedLoanAllocationsDetached(user,hub, closed, commodityType);
             return Json(loanAllocations.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
@@ -181,7 +181,7 @@ namespace Cats.Areas.Hub.Controllers
         public ActionResult DispatchedToTransferListAjax([DataSourceRequest] DataSourceRequest request, int? HubID, bool? closed, int? commodityType)
         {
             var user = _userProfileService.GetUser(User.Identity.Name);
-            int hub = (int)(HubID.HasValue ? HubID : user.DefaultHub.HubID);
+            int hub = (int)(HubID.HasValue ? HubID : user.DefaultHub.Value);
             var transferAllocations = _otherDispatchAllocationService.GetCommitedTransferAllocationsDetached(user,hub,  closed, commodityType);
             foreach (var t in transferAllocations)
             {
@@ -207,7 +207,7 @@ namespace Cats.Areas.Hub.Controllers
         public ActionResult GetFdpAllocations(bool? closed, int? adminUnitID, int? commodityType)
         {
             var user = _userProfileService.GetUser(User.Identity.Name);
-            var fdpAllocations = _dispatchAllocationService.GetCommitedAllocationsByHubDetached(user.DefaultHub.HubID, user.PreferedWeightMeasurment, closed, adminUnitID, commodityType);
+            var fdpAllocations = _dispatchAllocationService.GetCommitedAllocationsByHubDetached(user.DefaultHub.Value, user.PreferedWeightMeasurment, closed, adminUnitID, commodityType);
             return View(new GridModel(fdpAllocations));
         }
 
@@ -232,7 +232,7 @@ namespace Cats.Areas.Hub.Controllers
         {
             var user = _userProfileService.GetUser(User.Identity.Name);
             //TODO cascade using allocation id
-            var dispatchs = _dispatchService.ByHubIdAndAllocationIDetached(user.DefaultHub.HubID, Guid.Parse(dispatchAllocationID));
+            var dispatchs = _dispatchService.ByHubIdAndAllocationIDetached(user.DefaultHub.Value, Guid.Parse(dispatchAllocationID));
             return View(new GridModel(dispatchs));
         }
 
@@ -241,7 +241,7 @@ namespace Cats.Areas.Hub.Controllers
         {
             UserProfile user = _userProfileService.GetUser(User.Identity.Name);
             //TODO cascade using allocation id
-            List<DispatchModelModelDto> otherDispatchs = _dispatchService.ByHubIdAndOtherAllocationIDetached(user.DefaultHub.HubID, Guid.Parse(otherDispatchAllocationID));
+            List<DispatchModelModelDto> otherDispatchs = _dispatchService.ByHubIdAndOtherAllocationIDetached(user.DefaultHub.Value, Guid.Parse(otherDispatchAllocationID));
             return View(new GridModel(otherDispatchs));
         }
         
@@ -257,7 +257,7 @@ namespace Cats.Areas.Hub.Controllers
         {
             var dispatches = _dispatchService.GetAllDispatch();
             var user = _userProfileService.GetUser(User.Identity.Name);
-            return View(dispatches.Where(p => p.HubID == user.DefaultHub.HubID).ToList());
+            return View(dispatches.Where(p => p.HubID == user.DefaultHub.Value).ToList());
         }
         public virtual ActionResult CheckDeliveredQuanity(decimal receivedQuantity, decimal sentQuantity)
         {
@@ -283,7 +283,7 @@ namespace Cats.Areas.Hub.Controllers
             {
                 return Json(true, JsonRequestBehavior.AllowGet);
             }
-            return Json(dispatch.HubID == user.DefaultHub.HubID ? 
+            return Json(dispatch.HubID == user.DefaultHub.Value ? 
                 string.Format("{0} is invalid, there is an existing record with the same GIN", gin) : 
                 string.Format("{0} is invalid, there is an existing record with the same GIN at another Warehouse", gin), 
                 JsonRequestBehavior.AllowGet);
@@ -417,7 +417,7 @@ namespace Cats.Areas.Hub.Controllers
             var user = _userProfileService.GetUser(User.Identity.Name);
             if (dispatch != null)
             {
-                if (user.DefaultHub != null && user.DefaultHub.HubID == dispatch.HubID)
+                if (user.DefaultHub != null && user.DefaultHub.Value == dispatch.HubID)
                 {
                     PrepareEdit(dispatch, user, type);
                     var transaction = _dispatchService.GetDispatchTransaction(dispatch.DispatchID);
@@ -609,7 +609,7 @@ namespace Cats.Areas.Hub.Controllers
             var user = _userProfileService.GetUser(User.Identity.Name);
 
             ViewBag.CommodityTypeID = new SelectList(_commodityTypeService.GetAllCommodityType(), "CommodityTypeID", "Name");
-            ViewBag.StoreID = new SelectList(_storeService.GetStoreByHub(user.DefaultHub.HubID), "StoreID", "Name");
+            ViewBag.StoreID = new SelectList(_storeService.GetStoreByHub(user.DefaultHub.Value), "StoreID", "Name");
             ViewBag.ProgramID = new SelectList(_programService.GetAllProgram(), "ProgramID", "Name");
 
             ViewData["Commodities"] = _commodityService.GetAllParents().Select(c => new CommodityModel { Id = c.CommodityID, Name = c.Name }).ToList();
@@ -621,7 +621,7 @@ namespace Cats.Areas.Hub.Controllers
             else if (type == 2)
             {
                 var hub = _hubService.GetAllHub();
-                hub.Remove(user.DefaultHub);
+                hub.Remove(user.DefaultHubObj);
                 ViewBag.ToHUBs = new SelectList(hub.Select(p => new { Name = string.Format("{0} - {1}", p.Name, p.HubOwner.Name), p.HubID }), "HubID", "Name");
             }
 
@@ -714,7 +714,7 @@ namespace Cats.Areas.Hub.Controllers
             
             if (ModelState.IsValid && user != null)
             {
-
+                
                 if (dispatchModel.ChangeStoreManPermanently)
                 {
                     var storeTobeChanged = _storeService.FindById(dispatchModel.StoreID);
@@ -736,7 +736,7 @@ namespace Cats.Areas.Hub.Controllers
                         }
                     }
                     //InsertDispatch(dispatchModel, user);
-                    _transactionService.SaveDispatchTransaction(dispatchModel, user);
+                   _transactionService.SaveDispatchTransaction(dispatchModel, user);
                 }
                 else
                 {
@@ -744,7 +744,7 @@ namespace Cats.Areas.Hub.Controllers
                    // List<Models.DispatchDetailModel> insertCommodities = GetSelectedCommodities(dispatchModel.JSONInsertedCommodities);
                     var deletedCommodities = GetSelectedCommodities(dispatchModel.JSONDeletedCommodities);
                    // List<Models.DispatchDetailModel> updateCommodities = GetSelectedCommodities(dispatchModel.JSONUpdatedCommodities);
-                    dispatch.HubID = user.DefaultHub.HubID;
+                    dispatch.HubID = user.DefaultHub.Value;
                     dispatch.Update(GenerateDispatchDetail(insertCommodities),
                         GenerateDispatchDetail(updateCommodities),
                         GenerateDispatchDetail(deletedCommodities));
@@ -766,13 +766,7 @@ namespace Cats.Areas.Hub.Controllers
             } //PrepareEdit(dispatchModel.GenerateDipatch(), user,dispatchModel.Type);
             return View(dispatchModel);
         }
-        //TODO remove this function later
-        private void InsertDispatch(DispatchModel dispatchModel, UserProfile user)
-        {
-            List<DispatchDetailModel> commodities = GetSelectedCommodities(dispatchModel.JSONInsertedCommodities);
-            dispatchModel.DispatchDetails = commodities;
-            _transactionService.SaveDispatchTransaction(dispatchModel,user);
-        }
+        
 
        
        
@@ -837,7 +831,7 @@ namespace Cats.Areas.Hub.Controllers
             if (dispatch != null)
             {
                 type = dispatch.Type;//override the type by the data type coming from the DB(i.e. load the DB data by overriding the type)
-                if (user.DefaultHub != null && user.DefaultHub.HubID == dispatch.HubID)
+                if (user.DefaultHub != null && user.DefaultHub.Value == dispatch.HubID)
                 {
                     PrepareEdit(dispatch, user, type);
                     var transaction = _dispatchService.GetDispatchTransaction(dispatch.DispatchID);
@@ -880,7 +874,7 @@ namespace Cats.Areas.Hub.Controllers
 
             if (transaction != null)
             {
-                ViewBag.StoreID = new SelectList(_storeService.GetStoreByHub(user.DefaultHub.HubID), "StoreID", "Name", transaction.StoreID);
+                ViewBag.StoreID = new SelectList(_storeService.GetStoreByHub(user.DefaultHub.Value), "StoreID", "Name", transaction.StoreID);
                 ViewBag.ProgramID = new SelectList(_programService.GetAllProgram(), "ProgramID", "Name", transaction.ProgramID);
                 if (transaction.Stack != null)
                     ViewBag.StackNumbers = new SelectList(transaction.Store.Stacks.Select(p => new { Name = p, Id = p }), "Id", "Name", transaction.Stack.Value);
@@ -889,7 +883,7 @@ namespace Cats.Areas.Hub.Controllers
             }
             else
             {
-                ViewBag.StoreID = new SelectList(_storeService.GetStoreByHub(user.DefaultHub.HubID), "StoreID",
+                ViewBag.StoreID = new SelectList(_storeService.GetStoreByHub(user.DefaultHub.Value), "StoreID",
                                                  "Name"); //, transaction.StoreID);
                 ViewBag.ProgramID = new SelectList(_programService.GetAllProgram(), "ProgramID", "Name");
                     //, transaction.ProgramID);
@@ -958,7 +952,7 @@ namespace Cats.Areas.Hub.Controllers
             }
             ViewBag.PeriodID = new SelectList(_periodService.GetAllPeriod(), "PeriodID", "PeriodID", _periodService.GetPeriod(dispatch.PeriodYear, dispatch.PeriodMonth).PeriodID);
             var user = _userProfileService.GetUser(User.Identity.Name);
-            ViewBag.StoreID = new SelectList(_storeService.GetStoreByHub(user.DefaultHub.HubID), "StoreID", "Name");
+            ViewBag.StoreID = new SelectList(_storeService.GetStoreByHub(user.DefaultHub.Value), "StoreID", "Name");
             ViewBag.TransporterID = new SelectList(_transporterService.GetAllTransporter(), "TransporterID", "Name", dispatch.TransporterID);
             ViewBag.HubID = new SelectList(user.UserHubs, "HubID", "Name", dispatch.HubID);
             ViewBag.CommodityTypeID = new SelectList(_commodityTypeService.GetAllCommodityType(), "CommodityTypeID", "Name");
@@ -1050,7 +1044,7 @@ namespace Cats.Areas.Hub.Controllers
 
         public ActionResult AvailbaleCommodities(string siNumber)
         {
-            return Json(_dispatchService.GetAvailableCommodities(siNumber, _userProfileService.GetUser(User.Identity.Name).DefaultHub.HubID).Select(p => new { Value = p.CommodityID, Text = p.Name })
+            return Json(_dispatchService.GetAvailableCommodities(siNumber, _userProfileService.GetUser(User.Identity.Name).DefaultHub.Value).Select(p => new { Value = p.CommodityID, Text = p.Name })
                 , JsonRequestBehavior.AllowGet);
         }
 
@@ -1068,6 +1062,47 @@ namespace Cats.Areas.Hub.Controllers
                 }
             }
             return Json( "" , JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult JsonSIStores(string siNumber, int? editModval)
+        {
+            var user = _userProfileService.GetUser(this.UserProfile.UserName);
+            var firstOrDefault = _shippingInstructionService.FindBy(t => t.Value == siNumber).FirstOrDefault();
+            if (firstOrDefault != null)
+            {
+                var siNumberID = firstOrDefault.ShippingInstructionID;
+                var tempTransactions =
+                    _transactionService.Get(
+                        t => t.LedgerID == Cats.Models.Ledger.Constants.GOODS_ON_HAND_UNCOMMITED
+                             && t.HubID == user.DefaultHubObj.HubID && t.ShippingInstructionID == siNumberID);
+                var stores = (from tr in tempTransactions
+                              group tr by new { tr.StoreID }
+                              into store
+                              select
+                                  new
+                                      {
+                                          STORE = store.Key.StoreID,
+                                          AvailableBalance = store.Sum(p => p.QuantityInMT),
+                                          AvailableBalanceInUnit = store.Sum(q => q.QuantityInUnit)
+                                      });
+
+                var storeList =  (from store in stores
+                                  where store.AvailableBalance > 0 || store.AvailableBalanceInUnit > 0
+                                  select store.STORE).ToList();
+                var storeObjs = (from store in storeList let i = store where i != null where i != null select _storeService.FindById(i.Value)).ToList();
+                //var storeObjs = (from store in storeList
+                //                 let i = store
+                //                 where i != null
+                //                 where i != null
+                //                 select _storeService.FindById(i.Value)
+                //                 into storeObj select new StoreViewModel()
+                //                                          {
+                //                                              StoreId = storeObj.StoreID, StoreName = storeObj.Name
+                //                                          }).ToList();
+                var storesSelectList = new SelectList(storeObjs, "StoreID", "Name", editModval);
+                return Json(storesSelectList, JsonRequestBehavior.AllowGet);
+            }
+            return Json(null, JsonRequestBehavior.AllowGet);
         }
     }
 }

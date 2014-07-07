@@ -114,7 +114,56 @@ namespace Cats.Areas.EarlyWarning.Controllers
             var hrdsToDisplay = GetHrds(hrds).ToList();
             return Json(hrdsToDisplay.ToDataSourceResult(request));
         }
+        public ActionResult BeneficiaryByRegion_Read([DataSourceRequest] DataSourceRequest request, int id = 0)
+        {
 
+
+            //var hrdDetail = _hrdService.GetHRDDetailByHRDID(id).OrderBy(m => m.AdminUnit.AdminUnit2.Name).OrderBy(m => m.AdminUnit.AdminUnit2.AdminUnit2.Name);
+            HRD hrd;
+            if (id == 0)
+            {
+                hrd = _hrdService.FindBy(m => m.Status == 3).FirstOrDefault();
+                if (hrd != null)
+                {
+                    id = hrd.HRDID;
+                }
+            }
+
+            hrd = _hrdService.Get(m => m.HRDID == id, null, "HRDDetails").FirstOrDefault();
+
+            if (hrd != null)
+            {
+                var detailsToDisplay = GetSummary(hrd).ToList();
+
+                return Json(detailsToDisplay.ToDataSourceResult(request));
+            }
+            return RedirectToAction("Index");
+        }
+        public ActionResult BeneficiaryByZone_Read([DataSourceRequest] DataSourceRequest request, int id = 0)
+        {
+
+
+            //var hrdDetail = _hrdService.GetHRDDetailByHRDID(id).OrderBy(m => m.AdminUnit.AdminUnit2.Name).OrderBy(m => m.AdminUnit.AdminUnit2.AdminUnit2.Name);
+            HRD hrd;
+            if (id == 0)
+            {
+                hrd = _hrdService.FindBy(m => m.Status == 3).FirstOrDefault();
+                if (hrd != null)
+                {
+                    id = hrd.HRDID;
+                }
+            }
+
+            hrd = _hrdService.Get(m => m.HRDID == id, null, "HRDDetails").FirstOrDefault();
+
+            if (hrd != null)
+            {
+                var detailsToDisplay = GetSummary(hrd,"Zone").ToList();
+
+                return Json(detailsToDisplay.ToDataSourceResult(request));
+            }
+            return RedirectToAction("Index");
+        }
         [EarlyWarningAuthorize(operation = EarlyWarningConstants.Operation.View_HRD_Detail)]
         public ActionResult HRDDetail_Read([DataSourceRequest] DataSourceRequest request, int id = 0)
         {
@@ -220,7 +269,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             return dt;
         }
 
-        private IEnumerable<RegionalSummaryViewModel> GetSummary(HRD hrd)
+        private IEnumerable<RegionalSummaryViewModel> GetSummary(HRD hrd,string adminLevel="Region")
         {
             var details = hrd.HRDDetails;
             //var hrd = _hrdService.FindById(id);
@@ -231,20 +280,33 @@ namespace Cats.Areas.EarlyWarning.Controllers
             var oilCoefficient = hrd.Ration.RationDetails.First(m => m.Commodity.CommodityID == 4).Amount;
             ViewBag.SeasonID = hrd.Season.Name;
             ViewBag.Year = hrd.Year;
-
             var groupedTotal = from detail in details
                                group detail by detail.AdminUnit.AdminUnit2.AdminUnit2 into regionalDetail
-                               select new
-                               {
-                                   Region = regionalDetail.Key,
-                                   NumberOfBeneficiaries = regionalDetail.Sum(m => m.NumberOfBeneficiaries),
-                                   Duration = regionalDetail.Sum(m => (m.NumberOfBeneficiaries * m.DurationOfAssistance))
-                               };
+                                   select new
+                                   {
+                                       Region = regionalDetail.Key,
+                                       NumberOfBeneficiaries = regionalDetail.Sum(m => m.NumberOfBeneficiaries),
+                                       Duration = regionalDetail.Sum(m => (m.NumberOfBeneficiaries * m.DurationOfAssistance))
+                                   };
+            if (adminLevel == "Zone")
+            {
 
+                groupedTotal = from detail in details
+                                   group detail by detail.AdminUnit.AdminUnit2 into regionalDetail
+                                   select new
+                                   {
+                                       Region = regionalDetail.Key,
+                                       NumberOfBeneficiaries = regionalDetail.Sum(m => m.NumberOfBeneficiaries),
+                                       Duration = regionalDetail.Sum(m => (m.NumberOfBeneficiaries * m.DurationOfAssistance))
+                                   };
+               
+            }
             return (from total in groupedTotal
                     select new RegionalSummaryViewModel
                         {
                             RegionName = total.Region.Name,
+                            AdminUnitID = total.Region.AdminUnitID,
+                            AdminUnitName=total.Region.Name,
                             NumberOfBeneficiaries = total.NumberOfBeneficiaries,
                             Cereal = cerealCoefficient * total.Duration,
                             BlededFood = blendFoodCoefficient * total.Duration,

@@ -74,6 +74,7 @@ namespace Cats.Services.Transaction
             return entries;
         }
 
+#region HRD / PSNP Post
         public List<Models.Transaction> PostHRDPlan(HRD hrd, Ration ration)
         {
             List<Models.Transaction> entries = new List<Models.Transaction>();
@@ -117,7 +118,7 @@ namespace Cats.Services.Transaction
                                                             UnitID = 1,
                                                             QuantityInMT = amount,
                                                             LedgerID =
-                                                                Cats.Models.Ledger.Constants.REQUIRMENT_DOCUMENT_PALN,
+                                                                Cats.Models.Ledger.Constants.REQUIRMENT_DOCUMENT_PLAN,
                                                             // previously 200
                                                             TransactionDate = transactionDate,
                                                             TransactionGroupID = transactionGroupID,
@@ -154,6 +155,9 @@ namespace Cats.Services.Transaction
             }
             return entries;
         }
+        
+        //TODO: Check if this method is being called, 
+        //Where in PSNP workflow did this get posted. 
         public List<Models.Transaction> PostPSNPPlan(RegionalPSNPPlan plan, Ration ration)
         {
             List<Models.Transaction> entries = new List<Models.Transaction>();
@@ -189,7 +193,7 @@ namespace Cats.Services.Transaction
                             QuantityInUnit = amount,
                             UnitID=1,
                             QuantityInMT = amount,
-                            LedgerID = Cats.Models.Ledger.Constants.REQUIRMENT_DOCUMENT_PALN, // previously 200
+                            LedgerID = Cats.Models.Ledger.Constants.REQUIRMENT_DOCUMENT_PLAN, // previously 200
                             TransactionDate = transactionDate,
                             TransactionGroupID = transactionGroupID,
                             PlanId = plan.PlanId,
@@ -223,7 +227,10 @@ namespace Cats.Services.Transaction
             return entries;
             
         }
+#endregion
 
+#region Post RRD
+        //TODO: check if this is called for PSNP. It must be called for both programs
         public bool PostRequestAllocation(int requestId)//RRD
         {
             var result = new List<Models.Transaction>();
@@ -239,8 +246,6 @@ namespace Cats.Services.Transaction
             foreach (var detail in allocationDetails)
             {
                 
-
-
                     var transaction = new Models.Transaction();
                     transaction.TransactionID = Guid.NewGuid();
                     transaction.TransactionGroupID = transactionGroup;
@@ -287,7 +292,9 @@ namespace Cats.Services.Transaction
             return true;
         }
 
+#endregion
 
+#region Post Dispatch Plan
         public bool PostSIAllocation(int requisitionID)
         {
             var result = new List<Models.Transaction>();
@@ -409,6 +416,7 @@ namespace Cats.Services.Transaction
               //return result;
             return true;
         }
+#endregion
 
         public bool PostDonationPlan(DonationPlanHeader donationPlanHeader)
         {
@@ -453,7 +461,7 @@ namespace Cats.Services.Transaction
                                      CommodityID = donationPlanHeader.CommodityID,
                                      ShippingInstructionID = donationPlanHeader.ShippingInstructionId,
                                      HubID = donationPlanDetail.HubID,
-                                     LedgerID = Ledger.Constants.GOODS_PROMISSED_GIFT_CERTIFICATE_COMMITED //good promissed - pledged is not in ledger list // Former LedgerID = 4
+                                     LedgerID = Ledger.Constants.GIFT_CERTIFICATE //good promissed - pledged is not in ledger list // Former LedgerID = 4
                                  };
 
                 _unitOfWork.TransactionRepository.Add(transaction);
@@ -552,7 +560,7 @@ namespace Cats.Services.Transaction
                 transaction.TransactionGroupID = transactionGroup;
                 transaction.TransactionDate = transactionDate;
                 transaction.UnitID = 1;
-                transaction.LedgerID = Ledger.Constants.GOODS_PROMISSED_GIFT_CERTIFICATE_COMMITED;//Goods Promised - Gift Certificate - Commited not found in ledger list
+                transaction.LedgerID = Ledger.Constants.GIFT_CERTIFICATE;//Goods Promised - Gift Certificate - Commited not found in ledger list
                 transaction.CommodityID = giftCertificateDetail.CommodityID;
                // transaction.ShippingInstructionID = giftCertificate.SINumber;
                 _unitOfWork.TransactionRepository.Add(transaction);
@@ -566,7 +574,7 @@ namespace Cats.Services.Transaction
                 transaction.TransactionDate = transactionDate;
                 transaction.QuantityInUnit = giftCertificateDetail.WeightInMT;
                 transaction.UnitID = 1;
-                transaction.LedgerID = Ledger.Constants.GOODS_PROMISSED_PLEDGE;//Goods Promised - Pledge	 not found in ledger list
+                transaction.LedgerID = Ledger.Constants.PLEDGE;//Goods Promised - Pledge	 not found in ledger list
 
                 _unitOfWork.TransactionRepository.Add(transaction);
 
@@ -588,8 +596,13 @@ namespace Cats.Services.Transaction
             var transactionGroup = Guid.NewGuid();
             var transactionDate = DateTime.Now;
             _unitOfWork.TransactionGroupRepository.Add(new TransactionGroup() { PartitionID = 0, TransactionGroupID = transactionGroup });
-             var transaction = new Models.Transaction();
+
+
+
+
+            var transaction = new Models.Transaction();
             transaction.TransactionID = Guid.NewGuid();
+
             var reliefRequisition = _unitOfWork.ReliefRequisitionRepository.Get(t => t.RequisitionNo == deliveryReconcile.RequsitionNo).FirstOrDefault();
             if (reliefRequisition != null)
                 transaction.ProgramID = reliefRequisition.ProgramID;
@@ -621,6 +634,12 @@ namespace Cats.Services.Transaction
             var @default = _unitOfWork.UnitRepository.Get(t => t.Name == "Quintal").FirstOrDefault();
             transaction.UnitID = @default != null ? @default.UnitID : 1;
             _unitOfWork.TransactionRepository.Add(transaction);
+
+
+
+
+
+
 
             transaction = new Models.Transaction();
             transaction.TransactionID = Guid.NewGuid();

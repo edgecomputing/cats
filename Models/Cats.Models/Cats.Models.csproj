@@ -86,6 +86,9 @@
     <Compile Include="Dispatch.cs" />
     <Compile Include="DispatchDetail.cs" />
     <Compile Include="DistributionByAgeDetail.cs" />
+    <Compile Include="Ledger.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="LossReason.cs" />
     <Compile Include="Mapping\DeliveryReconcileMap.cs" />
     <Compile Include="DonationPlanDetail.cs" />
@@ -152,7 +155,6 @@
     <Compile Include="ViewModels\PSNPCommodityAmmountViewModel.cs" />
     <Compile Include="ViewModels\SmsOutgoingMessage.cs" />
     <Compile Include="ViewModels\TransporterViewModel.cs" />
-    <Compile Include="Ledger.cs" />
     <Compile Include="Mapping\NotificationMap.cs" />
     <Compile Include="Mapping\SIPCAllocationMap.cs" />
     <Compile Include="Mapping\TransporterAgreementVersionMap.cs" />
