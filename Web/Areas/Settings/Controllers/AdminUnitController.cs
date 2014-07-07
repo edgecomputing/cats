@@ -41,6 +41,10 @@ namespace Cats.Areas.Settings.Controllers
             return Json(adminUnitViewModel.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult GISMapping()
+        {
+            return View();
+        }
 
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult AdminUnit_Create([DataSourceRequest] DataSourceRequest request, AdminUnitViewModel adminUnitViewModel, int? paramParentID, int? paramAdminUnitTypeID)
