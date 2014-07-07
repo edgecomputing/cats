@@ -346,7 +346,7 @@ namespace Cats.Areas.Hub.Controllers
 
             var commodities = _commodityService.GetAllCommodity().DefaultIfEmpty().OrderBy(o => o.Name).ToList();
             var commodityGrades = _commodityGradeService.GetAllCommodityGrade().DefaultIfEmpty().OrderBy(o => o.Name).ToList();
-            var transporters = _transporterService.GetAllTransporter().DefaultIfEmpty().OrderBy(o => o.Name).ToList();
+            var transporters = _transporterService.GetAllTransporter()  != null ? _transporterService.GetAllTransporter().DefaultIfEmpty().OrderBy(o => o.Name).ToList() : null;
             var commoditySources = _commoditySourceService.GetAllCommoditySource().DefaultIfEmpty().OrderBy(o => o.Name).ToList();
             var commodityTypes = _commodityTypeService.GetAllCommodityType().DefaultIfEmpty().OrderBy(o => o.Name).ToList();
 
