@@ -2934,6 +2934,7 @@
     <Content Include="Scripts\timepicker\jt.timepicker.jquery.json" />
     <Content Include="Scripts\timepicker\package.json" />
     <Content Include="Scripts\timepicker\README.md" />
+    <Content Include="Views\Shared\_shapefileDBMap.cshtml" />
     <None Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
