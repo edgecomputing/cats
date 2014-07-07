@@ -18,6 +18,7 @@ function CreateMapForData(dataSource, adminUnitInfo, renderingInfo) {
     var drawDatayMap = function (data)
     {
         var key = "AdminUnitID";
+        key = "code";
         var indicator = dataSource.indicator;
         var dataTable = createHash(data, key);
 
@@ -65,6 +66,7 @@ function CreateMap(div, _options) {
         isBaseLayer: true
    });
    map.addLayer(base);
+   var mapLayers={};
    isBaseLayer = false;
     if (options) {
         if (options.layers) {
@@ -87,6 +89,7 @@ function CreateMap(div, _options) {
                 });
                 */
                 var layer = new OpenLayers.Layer.Vector(layerData.name, { styleMap: styleMap });
+                mapLayers[i]=layer;
                 map.addLayer(layer);
                 if (!isBaseLayer) {
                     addSelectControl(map, layer)
@@ -120,7 +123,7 @@ function CreateMap(div, _options) {
     
 
     //map.zoomToMaxExtent();
-    return;
+    return { map: map, layers: mapLayers };
 }
 function addSelectControl(map, layer) {
     console.log("addSelectControl");
