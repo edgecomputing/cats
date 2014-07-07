@@ -283,7 +283,7 @@ namespace Cats.Services.Hub
         {
             List<ReceiptAllocation> GetDetachecedList = new List<ReceiptAllocation>();
 
-            var x = GetListOfSource(commoditySoureType);
+            //var x = GetListOfSource(commoditySoureType);
             var receiptAll = _unitOfWork.ReceiptAllocationRepository.Get().ToList();
             var unclosed = (from rAll in receiptAll
                             where hubId == rAll.HubID

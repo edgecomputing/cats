@@ -16,6 +16,10 @@ namespace Cats.Models
         public string Commodity { get; set; }
         public int BenficiaryNo { get; set; }
         public decimal Amount { get; set; }
+        public int? ProgramId { get; set; }
+        public string Program { get; set; }
+        public int? Round { get; set; }
+        public int? Month { get; set; }
         public int Status { get; set; }
         public int RegionId { get; set; }
         public string Region { get; set; }

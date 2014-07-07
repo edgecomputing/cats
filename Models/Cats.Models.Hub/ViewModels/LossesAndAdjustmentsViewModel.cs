@@ -12,102 +12,108 @@ namespace Cats.Models.Hubs.ViewModels
     /// </summary>
     public class LossesAndAdjustmentsViewModel
     {
-        [Required(ErrorMessage="Commodity is Required")]
-        [Display(Name="Commodity")]
+        //[Required(ErrorMessage = "Commodity is Required")]
+        [Display(Name = "Commodity")]
         public List<Commodity> Commodities { get; set; }
 
-        [Required(ErrorMessage="Project Code")]
-        [Display(Name="Project Code")]
+        //[Required(ErrorMessage = "Project Code")]
+        [Display(Name = "Project Code")]
         public List<ProjectCodeViewModel> ProjectCodes { get; set; }
 
-        [Required(ErrorMessage="Program is Required")]
-        [Display(Name="Program")]
+        //[Required(ErrorMessage = "Program is Required")]
+        [Display(Name = "Program")]
         public List<ProgramViewModel> Programes { get; set; }
 
-        [Required(ErrorMessage="SI Number is Required")]
-        [Display(Name="SI Number")]
+        //[Required(ErrorMessage = "SI Number is Required")]
+        [Display(Name = "SI Number")]
         public List<ShippingInstructionViewModel> ShippingInstructions { get; set; }
 
-        [Required(ErrorMessage="Store is Required")]
-        [Display(Name="Store")]
+        //[Required(ErrorMessage = "Store is Required")]
+        [Display(Name = "Store")]
         public List<StoreViewModel> Stores { get; set; }
 
-        [Required(ErrorMessage="Reason is Required")]
-        [Display(Name="Reason")]
+        //[Required(ErrorMessage = "Reason is Required")]
+        [Display(Name = "Reason")]
         public List<AdjustmentReason> Reasons { get; set; }
 
-        [Required(ErrorMessage="Unit is required")]
-        [Display(Name="Unit")]
+        //[Required(ErrorMessage = "Unit is required")]
+        [Display(Name = "Unit")]
         public List<Unit> Units { get; set; }
 
-        [Required(ErrorMessage="Chose Loss or Adjustment")]
-        [Display(Name="Loss")]
+        //[Required(ErrorMessage = "Chose Loss or Adjustment")]
+        [Display(Name = "Loss")]
         public bool IsLoss { get; set; }
 
-        
-        [Display(Name="Is Adjustment")]
+
+        [Display(Name = "Is Adjustment")]
         public bool IsAdjustment { get; set; }
 
+        [Required(ErrorMessage = "Commodity should be selected")]
         public int CommodityId { get; set; }
 
-        [Required(ErrorMessage="Date")]
-        [Display(Name="Date")]
+        //[Required(ErrorMessage = "Date is required")]
+        [Display(Name = "Date")]
         [DataType(DataType.Date)]
         public DateTime SelectedDate { get; set; }
+
+        [Required(ErrorMessage = "Project Code should be selected")]
         public int ProjectCodeId { get; set; }
 
         public int ProgramId { get; set; }
 
 
-        [Required(ErrorMessage="Memo Number")]
-        [Display(Name="Memo Number")]
+        [Required(ErrorMessage = "Memo Number")]
+        [Display(Name = "Memo Number")]
         public string MemoNumber { get; set; }
+
+        [Required(ErrorMessage = "Shipping Instruction should be selected")]
         public int ShippingInstructionId { get; set; }
+
+        [Required(ErrorMessage = "Store should be selected")]
         public int StoreId { get; set; }
 
-        [Required(ErrorMessage="Store Man")]
-        [Display(Name="Store Man")]
+        [Required(ErrorMessage = "Store can't be empty")]
+        [Display(Name = "Store Man")]
         [UIHint("AmharicTextBox")]
         public string StoreMan { get; set; }
 
+        [Required(ErrorMessage = "The reason type should be specified")]
         public int ReasonId { get; set; }
 
-        
-        [Display(Name="Description")]
+        [Display(Name = "Description")]
         [DataType(DataType.MultilineText)]
         [UIHint("AmharicTextArea")]
         public string Description { get; set; }
-        
+
+        [Required(ErrorMessage = "The measurement unit should be specified")]
         public int UnitId { get; set; }
 
         [Display(Name = "Quantity In Unit")]
-        [Required]
-        [Range(0, double.MaxValue, ErrorMessage = "invalid quantity number")]
-        
+        [Required(ErrorMessage = "The unit quantity should be specified")]
+        [Range(0, double.MaxValue, ErrorMessage = "Invalid quantity number")]
         public decimal QuantityInUint { get; set; }
+
         [Display(Name = "Quntity in Mt")]
-        [Required]
-        [Range(0, double.MaxValue,ErrorMessage="invalid quantity number")]
-        
+        [Required(ErrorMessage = "The quantity in MT should be specified")]
+        [Range(0, double.MaxValue, ErrorMessage = "Invalid quantity number")]
         public decimal QuantityInMt { get; set; }
+
         [UIHint("AmharicTextBox")]
         public string ApprovedBy { get; set; }
 
-
         ///Methods 
-
-
         public LossesAndAdjustmentsViewModel()
         {
         }
 
         public LossesAndAdjustmentsViewModel(List<Commodity> commodity,
-                                                List<StoreViewModel> stores,
-                                                List<AdjustmentReason> adjustmentReasonMinus,
-                                                List<AdjustmentReason> adjustmentReasonPlus,
-                                                List<Unit> units,
-                                                List <ProgramViewModel> programs,
-                                                UserProfile user, int type)
+                                             List<StoreViewModel> stores,
+                                             List<AdjustmentReason> adjustmentReasonMinus,
+                                             List<AdjustmentReason> adjustmentReasonPlus,
+                                             List<Unit> units,
+                                             List<ProgramViewModel> programs,
+                                             UserProfile user, 
+                                             int type)
         {
             if (type == 1)
             {
@@ -118,7 +124,7 @@ namespace Cats.Models.Hubs.ViewModels
                 this.ShippingInstructions = new List<ShippingInstructionViewModel>();
                 this.Stores = stores;
                 //this.StoreMan = ;
-                this.Reasons =adjustmentReasonMinus;
+                this.Reasons = adjustmentReasonMinus;
                 //this.Description =
                 this.Units = units;
                 //this.QuantityInMt = 
@@ -141,7 +147,7 @@ namespace Cats.Models.Hubs.ViewModels
                 //this.QuantityInMt = 
                 //this.QuantityInUint
                 //this.ApprovedBy
-                this.Programes =programs;
+                this.Programes = programs;
             }
         }
     }

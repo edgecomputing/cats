@@ -220,11 +220,11 @@ namespace Cats.Areas.EarlyWarning.Controllers
         public ActionResult CreateRequisiton(int id)
         {
             var input = _reliefRequisitionService.CreateRequisition(id);
-            if (input == null)
-            {
-                TempData["error"] = "You haven't selected any commodity. Please add at least one commodity and try again!";
-                return RedirectToAction("Details", "Request", new { id = id, Area = "EarlyWarning" });
-            }
+            //if (input == null)
+            //{
+                //TempData["error"] = "You haven't selected any commodity. Please add at least one commodity and try again!";
+                //return RedirectToAction("Details", "Request", new { id = id, Area = "EarlyWarning" });
+            //}
             return RedirectToAction("NewRequisiton", "ReliefRequisition", new { id = id });
         }
 
@@ -241,6 +241,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                     reliefRequisitionNew.RequestDatePref = reliefRequisitionNew.RequestedDate.Value.ToCTSPreferedDateFormat(datePref);
                     reliefRequisitionNew.RegionalRequestId = id;
                 }
+                reliefRequisitionNew.MonthName = RequestHelper.MonthName(reliefRequisitionNew.Month);
             }
             return View(input);
         }
