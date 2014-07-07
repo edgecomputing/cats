@@ -19,6 +19,7 @@ namespace Cats.Models.Mapping
 
             // Table & Column Mappings
             this.ToTable("AdminUnit");
+            this.Property(t => t.code);
             this.Property(t => t.AdminUnitID).HasColumnName("AdminUnitID");
             this.Property(t => t.Name).HasColumnName("Name");
             this.Property(t => t.NameAM).HasColumnName("NameAM");

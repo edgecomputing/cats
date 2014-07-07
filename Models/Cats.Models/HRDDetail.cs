@@ -20,7 +20,7 @@ namespace Cats.Models
         public int DurationOfAssistance { get; set; }
         public int StartingMonth { get; set; }
         public int? PartitionId { get; set; }
-
+        public int code {get; set;}
         public virtual HRD HRD { get; set; }
         public virtual AdminUnit AdminUnit { get; set; }
         //public virtual ICollection<HRDCommodityDetail> HRDCommodityDetails { get; set; }
