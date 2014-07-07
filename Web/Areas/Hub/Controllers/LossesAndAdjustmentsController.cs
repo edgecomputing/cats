@@ -12,11 +12,11 @@ using Cats.Services.Hub;
 
 namespace Cats.Areas.Hub.Controllers
 {
-   
+
     [Authorize]
     public class LossesAndAdjustmentsController : BaseController
     {
-        
+
         private readonly IUserProfileService _userProfileService;
         private readonly ICommodityService _commodityService;
         private readonly IStoreService _storeService;
@@ -55,7 +55,7 @@ namespace Cats.Areas.Hub.Controllers
             _shippingInstructionService = shippingInstructionService;
 
         }
-                
+
         [Authorize]
         public ActionResult Index()
         {
@@ -65,102 +65,68 @@ namespace Cats.Areas.Hub.Controllers
 
         public ActionResult CreateLoss()
         {
-            List<Commodity> commodity;
-            List<StoreViewModel> stores;
-            List<AdjustmentReason> adjustmentReasonMinus;
-            List<AdjustmentReason> adjustmentReasonPlus;
-            List<Unit> units;
-            List<ProgramViewModel> programs;
+            var user = _userProfileService.GetUser(User.Identity.Name);
 
-           UserProfile user = _userProfileService.GetUser(User.Identity.Name);
+            var commodity = _commodityService.GetAllParents();
+            var stores = _hubService.GetAllStoreByUser(user);
+            var adjustmentReasonMinus = _adjustmentReasonService.GetAllAdjustmentReason().Where(c => c.Direction == "-").ToList();
+            var adjustmentReasonPlus = _adjustmentReasonService.GetAllAdjustmentReason().Where(c => c.Direction == "+").ToList();
+            var units = _unitService.GetAllUnit().ToList();
+            var programs = _programService.GetAllProgramsForReport();
 
-            commodity = _commodityService.GetAllParents();
-            stores = _hubService.GetAllStoreByUser(user);
-            adjustmentReasonMinus = _adjustmentReasonService.GetAllAdjustmentReason().Where(c => c.Direction == "-").ToList();
-            adjustmentReasonPlus = _adjustmentReasonService.GetAllAdjustmentReason().Where(c => c.Direction == "+").ToList();
-            units = _unitService.GetAllUnit().ToList();
-            programs = _programService.GetAllProgramsForReport();
-
-
-            
-            LossesAndAdjustmentsViewModel viewModel = new LossesAndAdjustmentsViewModel(commodity, stores, adjustmentReasonMinus, adjustmentReasonPlus,units, programs, user, 1);
-
+            var viewModel = new LossesAndAdjustmentsViewModel(commodity, stores, adjustmentReasonMinus, adjustmentReasonPlus, units, programs, user, 1);
             return View(viewModel);
         }
 
         public ActionResult CreateAdjustment()
         {
-            List<Commodity> commodity;
-            List<StoreViewModel> stores;
-            List<AdjustmentReason> adjustmentReasonMinus;
-            List<AdjustmentReason> adjustmentReasonPlus;
-            List<Unit> units;
-            List<ProgramViewModel> programs;
-
-           UserProfile user = _userProfileService.GetUser(User.Identity.Name);
-
-            commodity = _commodityService.GetAllParents();
-            stores = _hubService.GetAllStoreByUser(user);
-            adjustmentReasonMinus = _adjustmentReasonService.GetAllAdjustmentReason().Where(c => c.Direction == "-").ToList();
-            adjustmentReasonPlus = _adjustmentReasonService.GetAllAdjustmentReason().Where(c => c.Direction == "+").ToList();
-            units = _unitService.GetAllUnit().ToList();
-            programs = _programService.GetAllProgramsForReport();
-
-
-           
-            LossesAndAdjustmentsViewModel viewModel = new LossesAndAdjustmentsViewModel(commodity, stores, adjustmentReasonMinus, adjustmentReasonPlus, units, programs, user, 2);
-
+            var user = _userProfileService.GetUser(User.Identity.Name);
+            var commodity = _commodityService.GetAllParents();
+            var stores = _hubService.GetAllStoreByUser(user);
+            var adjustmentReasonMinus = _adjustmentReasonService.GetAllAdjustmentReason().Where(c => c.Direction == "-").ToList();
+            var adjustmentReasonPlus = _adjustmentReasonService.GetAllAdjustmentReason().Where(c => c.Direction == "+").ToList();
+            var units = _unitService.GetAllUnit().ToList();
+            var programs = _programService.GetAllProgramsForReport();
+            var viewModel = new LossesAndAdjustmentsViewModel(commodity, stores, adjustmentReasonMinus, adjustmentReasonPlus, units, programs, user, 2);
             return View(viewModel);
         }
 
         [HttpPost]
         public ActionResult CreateLoss(LossesAndAdjustmentsViewModel viewModel)
         {
-            List<Commodity> commodity;
-            List<StoreViewModel> stores;
-            List<AdjustmentReason> adjustmentReasonMinus;
-            List<AdjustmentReason> adjustmentReasonPlus;
-            List<Unit> units;
-            List<ProgramViewModel> programs;
+            var user = _userProfileService.GetUser(User.Identity.Name);
 
-           UserProfile user = _userProfileService.GetUser(User.Identity.Name);
-
-            commodity = _commodityService.GetAllParents();
-            stores = _hubService.GetAllStoreByUser(user);
-            adjustmentReasonMinus = _adjustmentReasonService.GetAllAdjustmentReason().Where(c => c.Direction == "-").ToList();
-            adjustmentReasonPlus = _adjustmentReasonService.GetAllAdjustmentReason().Where(c => c.Direction == "+").ToList();
-            units = _unitService.GetAllUnit().ToList();
-            programs = _programService.GetAllProgramsForReport();
+            var commodity = _commodityService.GetAllParents();
+            var stores = _hubService.GetAllStoreByUser(user);
+            var adjustmentReasonMinus = _adjustmentReasonService.GetAllAdjustmentReason().Where(c => c.Direction == "-").ToList();
+            var adjustmentReasonPlus = _adjustmentReasonService.GetAllAdjustmentReason().Where(c => c.Direction == "+").ToList();
+            var units = _unitService.GetAllUnit().ToList();
+            var programs = _programService.GetAllProgramsForReport();
 
             //if (ModelState.IsValid)
             //{
 
-                LossesAndAdjustmentsViewModel newViewModel = new LossesAndAdjustmentsViewModel(commodity, stores,
-                                                                                               adjustmentReasonMinus,
-                                                                                               adjustmentReasonPlus,
-                                                                                               units, programs, user, 1);
+            var newViewModel = new LossesAndAdjustmentsViewModel(commodity, stores,adjustmentReasonMinus,adjustmentReasonPlus,units, programs, user, 1);
+            
+            if (viewModel.QuantityInMt >
+                _TransactionService.GetCommodityBalanceForStore(viewModel.StoreId, viewModel.CommodityId,
+                                                                viewModel.ShippingInstructionId,
+                                                                viewModel.ProjectCodeId))
+            {
+                ModelState.AddModelError("QuantityInMT", "You have nothing to loss");
+                return View(newViewModel);
+            }
 
+            if (viewModel.QuantityInMt <= 0)
+            {
+                ModelState.AddModelError("QuantityInMT", "You have nothing to loss");
 
+                return View(newViewModel);
+            }
 
-
-                if (viewModel.QuantityInMt >
-                    _TransactionService.GetCommodityBalanceForStore(viewModel.StoreId, viewModel.CommodityId,
-                                                                    viewModel.ShippingInstructionId,
-                                                                    viewModel.ProjectCodeId))
-                {
-                    ModelState.AddModelError("QuantityInMT", "You have nothing to loss");
-                    return View(newViewModel);
-                }
-
-                if (viewModel.QuantityInMt <= 0)
-                {
-                    ModelState.AddModelError("QuantityInMT", "You have nothing to loss");
-
-                    return View(newViewModel);
-                }
-                viewModel.IsLoss = true;
-                _adjustmentService.AddNewLossAndAdjustment(viewModel, user);
-                return RedirectToAction("Index");
+            viewModel.IsLoss = true;
+            _adjustmentService.AddNewLossAndAdjustment(viewModel, user);
+            return RedirectToAction("Index");
             //}
             //return View();
         }
@@ -168,9 +134,8 @@ namespace Cats.Areas.Hub.Controllers
         [HttpPost]
         public ActionResult CreateAdjustment(LossesAndAdjustmentsViewModel viewModel)
         {
-            LossesAndAdjustmentsViewModel newViewModel = new LossesAndAdjustmentsViewModel();
-           UserProfile user = _userProfileService.GetUser(User.Identity.Name);
-
+            var newViewModel = new LossesAndAdjustmentsViewModel();
+            var user = _userProfileService.GetUser(User.Identity.Name);
             viewModel.IsLoss = false;
             _adjustmentService.AddNewLossAndAdjustment(viewModel, user);
             return RedirectToAction("Index");
@@ -217,7 +182,7 @@ namespace Cats.Areas.Hub.Controllers
         {
             if (ProjectCodeId.HasValue)
             {
-               UserProfile user = _userProfileService.GetUser(User.Identity.Name);
+                UserProfile user = _userProfileService.GetUser(User.Identity.Name);
                return Json(new SelectList(_shippingInstructionService.GetShippingInstructionsForProjectCode(user.DefaultHub.Value, ProjectCodeId.Value, parentCommodityId.Value), "ShippingInstructionId", "ShippingInstructionName"), JsonRequestBehavior.AllowGet);
             }
             else
@@ -247,14 +212,14 @@ namespace Cats.Areas.Hub.Controllers
         public ActionResult GetFilters()
         {
             var filters = new List<SelectListItem>();
-            filters.Add(new SelectListItem { Value = "L", Text = "Loss"});
-            filters.Add(new SelectListItem { Value ="A", Text ="Adjustment"});
+            filters.Add(new SelectListItem { Value = "L", Text = "Loss" });
+            filters.Add(new SelectListItem { Value = "A", Text = "Adjustment" });
             return Json(new SelectList(filters, "Value", "Text"));
         }
         [GridAction]
         public ActionResult FilteredGrid(string filterId)
         {
-            
+
             if (filterId != null && filterId != string.Empty)
             {
                 var lossAndAdjustmentLogViewModel = _adjustmentService.GetAllLossAndAdjustmentLog(UserProfile.DefaultHub.Value).Where(c => c.Type == filterId).OrderByDescending(c => c.Date);
@@ -263,12 +228,12 @@ namespace Cats.Areas.Hub.Controllers
             return View(new GridModel(_adjustmentService.GetAllLossAndAdjustmentLog(UserProfile.DefaultHub.Value).OrderByDescending(c => c.Date)));
         }
 
-        
+
         public ActionResult GetStoreForParentCommodity(int? commodityParentId, int? SINumber)
         {
             if (commodityParentId.HasValue && SINumber.HasValue)
             {
-               UserProfile user = _userProfileService.GetUser(User.Identity.Name);
+                UserProfile user = _userProfileService.GetUser(User.Identity.Name);
                 return Json(new SelectList(ConvertStoreToStoreViewModel(_storeService.GetStoresWithBalanceOfCommodityAndSINumber(commodityParentId.Value, SINumber.Value, user.DefaultHub.Value)), "StoreId", "StoreName"));
             }
             else
@@ -281,11 +246,11 @@ namespace Cats.Areas.Hub.Controllers
         public ActionResult SINumberBalance(int? parentCommodityId, int? projectcode, int? SINumber, int? StoreId, int? StackId)
         {
             StoreBalanceViewModel viewModel = new StoreBalanceViewModel();
-           UserProfile user = _userProfileService.GetUser(User.Identity.Name);
+            UserProfile user = _userProfileService.GetUser(User.Identity.Name);
             if (!StoreId.HasValue && !StackId.HasValue && parentCommodityId.HasValue && projectcode.HasValue && SINumber.HasValue)
             {
                 viewModel.ParentCommodityNameB = _commodityService.FindById(parentCommodityId.Value).Name;
-                viewModel.ProjectCodeNameB =_projectCodeService.FindById(projectcode.Value).Value;
+                viewModel.ProjectCodeNameB = _projectCodeService.FindById(projectcode.Value).Value;
                 viewModel.ShppingInstructionNumberB = _shippingInstructionService.FindById(SINumber.Value).Value;
                 viewModel.QtBalance = _TransactionService.GetCommodityBalanceForHub(user.DefaultHub.Value, parentCommodityId.Value, SINumber.Value, projectcode.Value);
             }
@@ -323,6 +288,6 @@ namespace Cats.Areas.Hub.Controllers
 
             return viewModel;
         }
-         
+
     }
 }
