@@ -91,8 +91,9 @@ function CreateMap(div, _options) {
                 var layer = new OpenLayers.Layer.Vector(layerData.name, { styleMap: styleMap });
                 mapLayers[i]=layer;
                 map.addLayer(layer);
+
                 if (!isBaseLayer) {
-                    addSelectControl(map, layer)
+                    addSelectControl(map, layer, options.selectionCallback)
                 }
                 isBaseLayer = false;
                /* $.get(layerData.url, function (data) {
@@ -125,14 +126,27 @@ function CreateMap(div, _options) {
     //map.zoomToMaxExtent();
     return { map: map, layers: mapLayers };
 }
-function addSelectControl(map, layer) {
+function addSelectControl(map, layer,cb) {
     console.log("addSelectControl");
     selectControl = new OpenLayers.Control.SelectFeature(layer);
     map.addControl(selectControl);
     selectControl.activate();
     layer.events.on({
-        'featureselected': function () { console.log("feature selected");},
-        'featureunselected': function () { }
+        'featureselected': function (feature)
+        {
+            console.log("feature selected");
+            if (cb)
+            {
+                cb(feature, 'featureselected')
+            } 
+        },
+        'featureunselected': function (feature)
+        {
+            console.log("feature featureunselected");
+            if (cb) {
+                cb(feature, 'featureunselected')
+            }
+        }
     });
 }
 function normalizeIndicator(data, fld) {
