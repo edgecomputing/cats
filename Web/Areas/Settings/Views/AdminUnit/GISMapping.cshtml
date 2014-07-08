@@ -31,7 +31,7 @@
         <div class="admin_data">
             <div ng-repeat="adminRegion in adminRegions">
                  <input class="input-small" ng-model="adminRegion.code"  ng-change="onMappingChange();"/>
-                <button ng-click="loadChildren(adminRegion.AdminUnitID)">Down</button> {{adminRegion.AdminUnitName}}
+                <button ng-click="loadChildren(adminRegion)">Down</button> {{adminRegion.AdminUnitName}}
             </div>
 
         </div>
@@ -58,6 +58,7 @@
             {
                 Region: "/Content/MapResources/MapData/ethiopiaRegions2.txt"
                 , Zone: "/Content/MapResources/MapData/AllZones.txt"
+                , Woreda: "/Content/MapResources/MapData/AllWoredas.txt"
             };
         $scope.ServerUrls = { adminUnit: "@Url.Action("AdminUnit_Read", "AdminUnit", new { Area = "Settings" })" }
 
@@ -66,12 +67,12 @@
         }
         $scope.getAdminUnit = function (level, parent) {
             $scope.adminUnitLevel = level;
-            parent = level == "Region" ? 1 : parent;
-            $http.get($scope.ServerUrls.adminUnit, { params: { parentAdminUnitID: parent } })
+            parent = level == "Region" ? { AdminUnitID: 1 } : parent;
+            $http.get($scope.ServerUrls.adminUnit, { params: { parentAdminUnitID: parent.AdminUnitID } })
                 .success(function (response, status, headers, config) {
                     console.log("Regions",level, response);
                     $scope.adminRegions = response.Data;
-                    $scope.CreateMap($scope.adminRegions, level);
+                    $scope.CreateMap($scope.adminRegions, level,parent.code);
                 })
                 .error(function (data, status, headers, config) {
                     console.log("Regions fetch error", response);
@@ -81,11 +82,11 @@
            // $scope.adminUnitLevel = "Region";
             $scope.getAdminUnit("Region");
         }
-        $scope.loadChildren = function (parentId) {
+        $scope.loadChildren = function (parent) {
             var childName={Region:"Zone",Zone:"Woreda"};
             var newLevel=childName[$scope.adminUnitLevel];
             if (newLevel) {
-                $scope.getAdminUnit(newLevel, parentId);
+                $scope.getAdminUnit(newLevel, parent);
             }
         }
         var findBy = function (key,val) {
@@ -95,15 +96,25 @@
                 }
             }
         }
-        $scope.mapStyle = function (data) {
+        $scope.mapStyle = function (data,parent) {
            return {
                 "default":
                 {
                     "Polygon":
                     {
-                        fillOpacity: 0.8
-                        , strokeOpacity: 1
-                        , label: function (feature) { return get_attribute_value(feature.attributes, "name", "") + "\n" + get_attribute_value(feature.attributes, "code", ""); }
+                        //fillOpacity: 0.8
+                         strokeOpacity: 1
+                        , label: function (feature) {
+                            var parentCode = get_attribute_value(feature.attributes, "parentCode", "");
+                            if (parentCode && parentCode != parent) {
+                                return "";
+                            }
+                            //if(parent+""+code
+                            //return parentCode + "-" + parent;
+                            return get_attribute_value(feature.attributes, "name", "") + "\n" + get_attribute_value(feature.attributes, "code", "");
+                        
+                            
+                         }
                        
                         , fillColor: function (feature) {
                             var code = get_attribute_value(feature.attributes, "code", "");
@@ -121,23 +132,31 @@
                                 return colorOptions.noValColor;
                         }
                        , strokeColor: "${get_defaultPolygonfillColor}"
-
+                        , fillOpacity: function (feature) {
+                            var parentCode = get_attribute_value(feature.attributes, "parentCode", "");
+                            if (parentCode && parentCode != parent) {
+                                return 0.2;
+                            }
+                            return 0.8;
+                        }
                     }
                 }
             }
         }
-        $scope.CreateMap = function (dataTable,level) {
+        $scope.CreateMap = function (dataTable, level, parent) {
+            var filterAdminRegions = function (data) {
 
+            }
 
             var key="code";
             var indicator = "code";
             var shapeUrl = $scope.shapeUrls[level];
             var mapLayer = 
             [
-                { name: "Regions", url: shapeUrl, style: $scope.mapStyle() }//getPolygonShadingStyle(key, dataTable, indicator, {}) }
+                { name: "Regions", url: shapeUrl, style: $scope.mapStyle(dataTable,parent) }//getPolygonShadingStyle(key, dataTable, indicator, {}) }
             ];
             $("#map1").html("");
-            $scope.renderedMap=CreateMap("map1", { layers: mapLayer });
+            $scope.renderedMap=CreateMap("map1", { layers: mapLayer,preProcessor:filterAdminRegions});
         }
         $scope.getRegionData();
     }
