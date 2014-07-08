@@ -32,7 +32,8 @@ namespace Cats.Areas.Settings.ViewModelBinder
                 AdminUnitID = adminUnitViewModel.AdminUnitID,
                 Name = adminUnitViewModel.AdminUnitName,
                 AdminUnitTypeID = adminUnitViewModel.AdminUnitTypeID,
-                ParentID = adminUnitViewModel.ParentID
+                ParentID = adminUnitViewModel.ParentID,
+                code=adminUnitViewModel.code
             };
         } 
     }
