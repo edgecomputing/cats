@@ -31,7 +31,9 @@
         <div class="admin_data">
             <div ng-repeat="adminRegion in adminRegions">
                  <input class="input-small" ng-model="adminRegion.code"  ng-change="onMappingChange();"/>
-                <button ng-click="loadChildren(adminRegion)">Down</button> {{adminRegion.AdminUnitName}}
+                <button ng-click="loadChildren(adminRegion)">Down</button> 
+                
+                <span class="match-{{suggestedAdminID==adminRegion.AdminUnitID}}">{{adminRegion.AdminUnitName}}</span>
             </div>
 
         </div>
@@ -123,8 +125,9 @@
 
                                 return "#8FD";
                             }
-                            if (findBy("AdminUnitName", get_attribute_value(feature.attributes, "name", "--"))) {
-
+                            var mapedAR=findBy("AdminUnitName", get_attribute_value(feature.attributes, "name", "--"))
+                            if (mapedAR) {
+                                feature.attributes.AdminUnitID = mapedAR.AdminUnitID;
                                 return "#FF8";
                             }
 
@@ -144,8 +147,12 @@
             }
         }
         $scope.CreateMap = function (dataTable, level, parent) {
-            var filterAdminRegions = function (data) {
-
+            var OnFeatureSelect = function (event) {
+                console.log("OnFeatureSelect", event.type, event.feature);
+                $timeout(
+                    function () {
+                        $scope.suggestedAdminID = get_attribute_value(event.feature.attributes, "AdminUnitID", "");
+                    }, 50);
             }
 
             var key="code";
@@ -156,7 +163,7 @@
                 { name: "Regions", url: shapeUrl, style: $scope.mapStyle(dataTable,parent) }//getPolygonShadingStyle(key, dataTable, indicator, {}) }
             ];
             $("#map1").html("");
-            $scope.renderedMap=CreateMap("map1", { layers: mapLayer,preProcessor:filterAdminRegions});
+            $scope.renderedMap = CreateMap("map1", { layers: mapLayer, selectionCallback: OnFeatureSelect });
         }
         $scope.getRegionData();
     }
@@ -175,6 +182,10 @@
                 background: #7abcff; /* Old browsers */
 background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,#aad4ff), color-stop(44%,#60abf8), color-stop(100%,#a3c8ed));    
        
+    }
+    .match-true
+    {
+        font-weight:bold;
     }
     .admin_data
     {
