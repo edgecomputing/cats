@@ -40,7 +40,7 @@
                 <button class="map-suggestion" ng-click="doMapping(adminRegion,suggestedAdmin.code)"><i class=" icon-map-marker"></i></button>
                 <span >{{adminRegion.AdminUnitName}}</span>
             </div>
-            <div ng-repeat="modified in modifiedData">{{modified.code}} | {{adminRegion.modified}}</div>
+            <div ng-repeat="modified in modifiedData">{{modified.code}} | {{adminRegion.AdminUnitName}}</div>
         </div>
         <div id="map1" class="map"></div>
         <div id="map1Legend0" class="map-legend" style="display:none;"></div>
@@ -77,8 +77,11 @@
             $scope.onMappingChange(adminRegion);
         }
         $scope.save = function () {
-
-            $http.get($scope.ServerUrls.adminUnitSave, { params: { adminUnits: $scope.modifiedData } })
+            var modifeidArray = [];
+            for (var i in $scope.modifiedData) {
+                modifeidArray.push($scope.modifiedData[i]);
+            }
+            $http.post($scope.ServerUrls.adminUnitSave, { adminUnits: modifeidArray  })
                             .success(function (response, status, headers, config) {
                                 console.log("Saved", response);
                                 $scope.modifiedData={};
