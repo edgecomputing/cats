@@ -81,7 +81,64 @@
            // $scope.adminUnitLevel = "Region";
             $scope.getAdminUnit("Region");
         }
-        
+        $scope.loadChildren = function (parentId) {
+            var childName={Region:"Zone",Zone:"Woreda"};
+            var newLevel=childName[$scope.adminUnitLevel];
+            if (newLevel) {
+                $scope.getAdminUnit(newLevel, parentId);
+            }
+        }
+        var findBy = function (key,val) {
+            for (var i in $scope.adminRegions) {
+                if ($scope.adminRegions[i][key] == val) {
+                    return $scope.adminRegions[i];
+                }
+            }
+        }
+        $scope.mapStyle = function (data) {
+           return {
+                "default":
+                {
+                    "Polygon":
+                    {
+                        fillOpacity: 0.8
+                        , strokeOpacity: 1
+                        , label: function (feature) { return get_attribute_value(feature.attributes, "name", "") + "\n" + get_attribute_value(feature.attributes, "code", ""); }
+                       
+                        , fillColor: function (feature) {
+                            var code = get_attribute_value(feature.attributes, "code", "");
+                            if(findBy("code",code))
+                            {
+
+                                return "#8FD";
+                            }
+                            if (findBy("AdminUnitName", get_attribute_value(feature.attributes, "name", "--"))) {
+
+                                return "#FF8";
+                            }
+
+                            return "#F88";
+                                return colorOptions.noValColor;
+                        }
+                       , strokeColor: "${get_defaultPolygonfillColor}"
+
+                    }
+                }
+            }
+        }
+        $scope.CreateMap = function (dataTable,level) {
+
+
+            var key="code";
+            var indicator = "code";
+            var shapeUrl = $scope.shapeUrls[level];
+            var mapLayer = 
+            [
+                { name: "Regions", url: shapeUrl, style: $scope.mapStyle() }//getPolygonShadingStyle(key, dataTable, indicator, {}) }
+            ];
+            $("#map1").html("");
+            $scope.renderedMap=CreateMap("map1", { layers: mapLayer });
+        }
         $scope.getRegionData();
     }
    
