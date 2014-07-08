@@ -309,6 +309,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                             AdminUnitName=total.Region.Name,
                             NumberOfBeneficiaries = total.NumberOfBeneficiaries,
                             Cereal = cerealCoefficient * total.Duration,
+                            code=total.Region.code,
                             BlededFood = blendFoodCoefficient * total.Duration,
                             Oil = oilCoefficient * total.Duration,
                             Pulse = pulseCoefficient * total.Duration
