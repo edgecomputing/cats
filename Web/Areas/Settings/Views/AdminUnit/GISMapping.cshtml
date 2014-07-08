@@ -9,4 +9,165 @@
 <!--
 @Html.Translate("Early Warning Maps")
     -->
-@Html.Partial("_dashboardmap")
+@using Cats.Services.Security
+@using LanguageHelpers.Localization
+@{
+    var user = (UserIdentity)HttpContext.Current.User.Identity;
+    
+    }
+<style>
+
+
+
+</style>
+<link rel="stylesheet" href="~/Content/MapResources/openlayers/theme/default/style.css" type="text/css">
+<script src="~/Content/MapResources/OpenlayersWrapper.js"></script>
+<script src="~/Content/MapResources/openlayers/lib/OpenLayers.js"></script>
+<script src="~/Content/MapResources/MapStyle.js"></script>
+<script src="~/Content/MapResources/MapLegend.js"></script>
+
+<div ng-app ng-controller="mapController">
+    <div class="map-container">
+        <div class="admin_data">
+            <div ng-repeat="adminRegion in adminRegions">
+                 <input class="input-small" ng-model="adminRegion.code"  ng-change="onMappingChange();"/>
+                <button ng-click="loadChildren(adminRegion.AdminUnitID)">Down</button> {{adminRegion.AdminUnitName}}
+            </div>
+
+        </div>
+        <div id="map1" class="map"></div>
+        <div id="map1Legend0" class="map-legend" style="display:none;"></div>
+        <div class="map-title" style="display:none";>Admin Unit</div>
+    </div>
+    </div>
+
+
+<div class="map-container">
+    <div id="map2" class="map"></div>
+    <div id="map2Legend" class="map-legend"></div>
+    <div class="map-title">Total Commoditiy Required</div>
+</div>
+<div style="height:600px;"></div>
+<script>
+        
+    function mapController($http, $scope, $timeout) {
+        $scope.adminRegions = [];
+        $scope.renderedMap = {};
+        $scope.adminUnitLevel = "";
+        $scope.shapeUrls =
+            {
+                Region: "/Content/MapResources/MapData/ethiopiaRegions2.txt"
+                , Zone: "/Content/MapResources/MapData/AllZones.txt"
+            };
+        $scope.ServerUrls = { adminUnit: "@Url.Action("AdminUnit_Read", "AdminUnit", new { Area = "Settings" })" }
+
+        $scope.onMappingChange = function () {
+            $scope.renderedMap.layers[0].redraw();
+        }
+        $scope.getAdminUnit = function (level, parent) {
+            $scope.adminUnitLevel = level;
+            parent = level == "Region" ? 1 : parent;
+            $http.get($scope.ServerUrls.adminUnit, { params: { parentAdminUnitID: parent } })
+                .success(function (response, status, headers, config) {
+                    console.log("Regions",level, response);
+                    $scope.adminRegions = response.Data;
+                    $scope.CreateMap($scope.adminRegions, level);
+                })
+                .error(function (data, status, headers, config) {
+                    console.log("Regions fetch error", response);
+                });
+        }
+        $scope.getRegionData = function () {
+           // $scope.adminUnitLevel = "Region";
+            $scope.getAdminUnit("Region");
+        }
+        
+        $scope.getRegionData();
+    }
+   
+
+    
+</script>
+<style>
+    .map
+    {
+       position:absolute;
+        top:0px;
+        left:300px;
+        right:0px;
+        bottom:0px;
+                background: #7abcff; /* Old browsers */
+background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,#aad4ff), color-stop(44%,#60abf8), color-stop(100%,#a3c8ed));    
+       
+    }
+    .admin_data
+    {
+        position:absolute;
+        top:0px;
+        width:300px;
+        left:0px;
+        bottom:0px;
+        background:#EEE;
+    }
+    .map-container
+    {
+         position:relative;
+        margin-top:10px;
+        left:10px;
+        height:500px;
+        width:100%;
+        
+        border:solid 1px #DDD;
+        border-radius:6px;
+        
+}
+    .map-legend
+    {
+       position:absolute;
+        top:0px;
+        right:0px;
+        width:300px;
+        background:rgba(255,255,255,0.6);
+        padding:20px;
+        padding-top:0;
+        box-shadow: -2px 2px 2px #444;
+       
+    }
+        .map-legend .title
+        {
+            font-size:20px;
+            line-height:40px;
+        }
+        .map-legend .item
+        {
+            line-height:40px;
+            border-bottom:solid 1px #EEE;
+        }
+        .map-legend .pallet
+        {
+            line-height:40px;
+            padding:4px;
+            padding-left:10px;
+            padding-right:10px;
+            border-radius:6px;
+        }
+    .map-title
+    {
+        position:absolute;
+        top:0px;
+        left:100px;
+        width:300px;
+        /*background:rgba(255,255,255,0.6);*/
+        color:#FFF;
+        padding:20px;
+        font-size:20px;
+        text-shadow:2px 2px 2px #44A;
+
+    }
+    .olControlMousePosition
+    {
+        background:#000;
+        color:#FFF;
+    }
+
+</style>
