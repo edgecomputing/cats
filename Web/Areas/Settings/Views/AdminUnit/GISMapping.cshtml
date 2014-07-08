@@ -29,15 +29,18 @@
 <div ng-app ng-controller="mapController">
     <div class="map-container">
         <div class="admin_data">
-            {{parent}}
-            <div ><button ng-click="goUp()" class="visible-{{AdminLevels[adminUnitLevel].up!=''}}">Up</button></div>
+            
+            <div>
+                <button ng-click="save()">Save</button>
+                <button ng-click="goUp()" class="visible-{{AdminLevels[adminUnitLevel].up!=''}}">Up</button>
+            </div>
             <div  ng-repeat="adminRegion in adminRegions" class="match-{{suggestedAdmin.AdminUnitID==adminRegion.AdminUnitID}}">
-                 <input class="input-small" ng-model="adminRegion.code"  ng-change="onMappingChange();"/>
+                 <input class="input-small" ng-model="adminRegion.code"  ng-change="onMappingChange(adminRegion);"/>
                 <button ng-click="loadChildren(adminRegion)" class="visible-{{AdminLevels[adminUnitLevel].down!=''}}">Down</button> 
                 <button class="map-suggestion" ng-click="doMapping(adminRegion,suggestedAdmin.code)"><i class=" icon-map-marker"></i></button>
                 <span >{{adminRegion.AdminUnitName}}</span>
             </div>
-
+            <div ng-repeat="modified in modifiedData">{{modified.code}} | {{adminRegion.modified}}</div>
         </div>
         <div id="map1" class="map"></div>
         <div id="map1Legend0" class="map-legend" style="display:none;"></div>
@@ -52,6 +55,7 @@
         $scope.adminRegions = [];
         $scope.renderedMap = {};
         $scope.adminUnitLevel = "";
+        $scope.modifiedData = {};
         $scope.AdminLevels = { Region: { up: "", down: "Zone" }, Zone: { up: "Region", down: "Woreda" }, Woreda: { up: "Zone", down: "" } };
         $scope.shapeUrls =
             {
@@ -59,14 +63,30 @@
                 , Zone: "/Content/MapResources/MapData/AllZones.txt"
                 , Woreda: "/Content/MapResources/MapData/AllWoredas.txt"
             };
-        $scope.ServerUrls = { adminUnit: "@Url.Action("AdminUnit_Read", "AdminUnit", new { Area = "Settings" })" }
+        $scope.ServerUrls = { 
+            adminUnitSave:"@Url.Action("AdminUnit_UpdateMapping", "AdminUnit", new { Area = "Settings" })",
+            adminUnit: "@Url.Action("AdminUnit_Read", "AdminUnit", new { Area = "Settings" })" }
 
-        $scope.onMappingChange = function () {
+        $scope.onMappingChange = function (adminRegion) {
+            $scope.modifiedData["A" + adminRegion.AdminUnitID] = adminRegion;
             $scope.renderedMap.layers[0].redraw();
+                
         }
         $scope.doMapping = function (adminRegion, code) {
             adminRegion.code = code;
-            $scope.onMappingChange;
+            $scope.onMappingChange(adminRegion);
+        }
+        $scope.save = function () {
+
+            $http.get($scope.ServerUrls.adminUnitSave, { params: { adminUnits: $scope.modifiedData } })
+                            .success(function (response, status, headers, config) {
+                                console.log("Saved", response);
+                                $scope.modifiedData={};
+                            })
+                            .error(function (data, status, headers, config) {
+                                console.log("Error Saving", status);
+                            });
+            
         }
         $scope.getAdminUnit = function (level, parent) {
 
