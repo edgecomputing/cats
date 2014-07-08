@@ -14,14 +14,14 @@
     @*@Html.ProcurementOperationButton(
                         @Url.Action("Create", "HRD", new { Area = "EarlyWarning" }),
                         EarlyWarningConstants.Operation.New_HRD, "<i class=\"icon-plus\"></i>", "btn", "btn_new_record")*@
-   
+
     @*@Html.ProcurementOperationButton(
                        
                         @Url.Action("Create", "PriceQuotation", new { Area = "Procurement" }),
                         ProcurementCheckAccess.Operation.Create_New_Bid_Proposal,
                         "<i class=\"icon-plus\"></i>", "btn", "btn_new_record"
                         )*@
-   
+
     <a id="btnAddProposal" data-buttontype="btn_new_record" class="btn toolbar-btn " href="@Url.Action("Create", "PriceQuotation")"></a>
 }
 <script type="text/javascript">
@@ -81,10 +81,10 @@
                 @Html.EarlyWarningOperationButton(
                     @Url.Action("Details", "PriceQuotation", new { id = "#=TransportBidQuotationHeaderID#" }),
                     (EarlyWarningConstants.Operation)ProcurementConstants.Operation.Edit_bid_proposal_details, "#=BidNumber#").ToString());
-              
+
               columns.Bound(p => p.Region);
               columns.Bound(p => p.Transporter);
-             // columns.Bound(p => p.BidBondAmount).Title("Bid Bond Amount(ETB)").HtmlAttributes(new { align = "Right" }).Format("{0:N}");;
+              // columns.Bound(p => p.BidBondAmount).Title("Bid Bond Amount(ETB)").HtmlAttributes(new { align = "Right" }).Format("{0:N}");;
               columns.Bound(p => p.OffersCount);
               columns.Bound(p => p.Status);
 
@@ -92,7 +92,7 @@
               {
                   p.Custom("Edit").Click("edit_Proposal");
                   p.Custom("Approve").Click("approve_Proposal");
-                 // p.Custom("Delete").Click("delete_proposal");
+                  // p.Custom("Delete").Click("delete_proposal");
 
               }).Width(250);
               //columns.Command(command =>command.Custom("Delete").Click("OnDelete"));
@@ -105,16 +105,16 @@
         .Groupable()
         .DataSource(dataSource => dataSource
                .Ajax()
-                .Group(group =>
+               .Group(group =>
                 {
                     group.Add(m => m.BidNumber);
                     group.Add(m => m.Region);
                 })
-               //.Events(events => events.Error("error_handler"))
+            //.Events(events => events.Error("error_handler"))
                .Model(model => model.Id(p => p.TransportBidQuotationHeaderID))
-               .Read(read => read.Action("Read_BidProposals", "PriceQuotation",new {Area="Procurement"}))
-               //.Update(update => update.Action("BidProposalHeader_update", "PriceQuotation", new{id=12}))
-               //.Create(create => create.Action("BidProposalHeader_create", "PriceQuotation"))
+               .Read(read => read.Action("Read_BidProposals", "PriceQuotation", new { Area = "Procurement" }))
+        //.Update(update => update.Action("BidProposalHeader_update", "PriceQuotation", new{id=12}))
+        //.Create(create => create.Action("BidProposalHeader_create", "PriceQuotation"))
          )
       )
 
@@ -125,7 +125,7 @@
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
         //window.location = "@Url.Action("Edit_proposal", "PriceQuotation")" + "/" + dataItem.TransportBidQuotationHeaderID;
 
-        var url = "@Url.Action("Edit_proposal", "PriceQuotation")" + "/" + dataItem.TransportBidQuotationHeaderID; 
+        var url = "@Url.Action("Edit_proposal", "PriceQuotation")" + "/" + dataItem.TransportBidQuotationHeaderID;
 
         // alert("");
         $('#dialogContent').load(url, function () {
@@ -136,14 +136,18 @@
             //bindForm(this);
         });
         return false;
-        
-       
+
+
         //alert("Editing");
     }
 </script>
 
 <script>
-
+    function onSuccessRecentBids() {
+        window.location = "@Url.Action("Index", "PriceQuotation")";
+        wnd.close();
+    }
+    
     function approve_Proposal(e) {
         e.preventDefault();
         var grid = this;
@@ -152,33 +156,35 @@
         wnd.center().open();
 
         $("#yes").click(function () {
-
-            window.location = "@Url.Action("ApproveProposal", "PriceQuotation")" + "/" + dataItem.TransportBidQuotationHeaderID;
-            //alert("Approved");
-            wnd.close();
+            $.post("@Url.Action("ApproveProposal", "PriceQuotation", new { Area = "Procurement" })"+ "/" + dataItem.TransportBidQuotationHeaderID).success                  (onSuccessRecentBids);
         });
 
         $("#no").click(function () {
             wnd.close();
         });
     }
-    
+
     function onDataBound(e) {
         var grid = $("#grid").data("kendoGrid");
         var gridData = grid.dataSource.view();
-
+        alert(gridData.length);
         for (var i = 0; i < gridData.length; i++) {
             var currentUid = gridData[i].uid;
+            alert(gridData[i].Status);
             if (gridData[i].Status == "Approved") {
+               
                 var currentRow = grid.table.find("tr[data-uid='" + currentUid + "']");
-                var editButton = $(currentRow).find(".k-grid-Approve");
+
+                var approveButton = $(currentRow).find(".k-grid-Approve");
+                approveButton.hide();
+                var editButton = $(currentRow).find(".k-grid-Edit");
                 editButton.hide();
             }
         }
     }
-    
+
 </script>
 
 
-    
+
 
