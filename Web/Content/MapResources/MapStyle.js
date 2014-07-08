@@ -22,8 +22,8 @@ function getPolygonShadingStyle(key, dataTable, indicator, colorOptions) {
             {
                 fillOpacity: 0.8
                 , strokeOpacity: 1
-               // , label: function (feature) { return get_attribute_value(feature.attributes, "name", ""); }
-                , label: function (feature) {
+                , label: function (feature) { return get_attribute_value(feature.attributes, "name", "") + "\n" + get_attribute_value(feature.attributes, "code", ""); }
+                , label2: function (feature) {
                     return "";
                     var keyVal = get_attribute_value(feature.attributes, key, "");
                     var row = dataTable["row" + keyVal];
@@ -73,7 +73,7 @@ function getRGBValue(h, s, b1, b2, segments, v, name) {
     var bDiff = (b2 - b1);
     var b = b1 + bDiff * v;
     var color = hslToRgb(h / 240, s / 240, b / 240);
-    console.log("getRGBValue",name,v,b);
+   // console.log("getRGBValue",name,v,b);
     return "rgb(" + color.r + ", " + color.g + ", " + color.b + ")";
 }
 function hslToRgb(h, s, l) {
