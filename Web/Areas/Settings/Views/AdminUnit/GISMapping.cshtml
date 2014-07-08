@@ -29,11 +29,11 @@
 <div ng-app ng-controller="mapController">
     <div class="map-container">
         <div class="admin_data">
-            <div ng-repeat="adminRegion in adminRegions">
+            <div  ng-repeat="adminRegion in adminRegions" class="match-{{suggestedAdmin.AdminUnitID==adminRegion.AdminUnitID}}">
                  <input class="input-small" ng-model="adminRegion.code"  ng-change="onMappingChange();"/>
                 <button ng-click="loadChildren(adminRegion)">Down</button> 
-                
-                <span class="match-{{suggestedAdminID==adminRegion.AdminUnitID}}">{{adminRegion.AdminUnitName}}</span>
+                <button class="map-suggestion" ng-click="doMapping(adminRegion,suggestedAdmin.code)"><i class=" icon-map-marker"></i></button>
+                <span >{{adminRegion.AdminUnitName}}</span>
             </div>
 
         </div>
@@ -43,12 +43,6 @@
     </div>
     </div>
 
-
-<div class="map-container">
-    <div id="map2" class="map"></div>
-    <div id="map2Legend" class="map-legend"></div>
-    <div class="map-title">Total Commoditiy Required</div>
-</div>
 <div style="height:600px;"></div>
 <script>
         
@@ -66,6 +60,10 @@
 
         $scope.onMappingChange = function () {
             $scope.renderedMap.layers[0].redraw();
+        }
+        $scope.doMapping = function (adminRegion, code) {
+            adminRegion.code = code;
+            $scope.onMappingChange;
         }
         $scope.getAdminUnit = function (level, parent) {
             $scope.adminUnitLevel = level;
@@ -151,7 +149,12 @@
                 console.log("OnFeatureSelect", event.type, event.feature);
                 $timeout(
                     function () {
-                        $scope.suggestedAdminID = get_attribute_value(event.feature.attributes, "AdminUnitID", "");
+                        if (event.type == "featureselected") {
+                            $scope.suggestedAdmin = event.feature.attributes;// get_attribute_value(event.feature.attributes, "AdminUnitID", "");
+                        }
+                        else {
+                            $scope.suggestedAdmin = {};
+                        }
                     }, 50);
             }
 
@@ -183,9 +186,19 @@
 background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,#aad4ff), color-stop(44%,#60abf8), color-stop(100%,#a3c8ed));    
        
     }
+    .map-suggestion
+    {
+        visibilitys:hidden;
+    }
+
     .match-true
     {
         font-weight:bold;
+    }
+    .match-true .map-suggestion
+    {
+        background:#FF0;
+        visibility:visible;
     }
     .admin_data
     {
