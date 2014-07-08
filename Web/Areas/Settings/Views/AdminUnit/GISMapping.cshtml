@@ -29,9 +29,11 @@
 <div ng-app ng-controller="mapController">
     <div class="map-container">
         <div class="admin_data">
+            {{parent}}
+            <div ><button ng-click="goUp()" class="visible-{{AdminLevels[adminUnitLevel].up!=''}}">Up</button></div>
             <div  ng-repeat="adminRegion in adminRegions" class="match-{{suggestedAdmin.AdminUnitID==adminRegion.AdminUnitID}}">
                  <input class="input-small" ng-model="adminRegion.code"  ng-change="onMappingChange();"/>
-                <button ng-click="loadChildren(adminRegion)">Down</button> 
+                <button ng-click="loadChildren(adminRegion)" class="visible-{{AdminLevels[adminUnitLevel].down!=''}}">Down</button> 
                 <button class="map-suggestion" ng-click="doMapping(adminRegion,suggestedAdmin.code)"><i class=" icon-map-marker"></i></button>
                 <span >{{adminRegion.AdminUnitName}}</span>
             </div>
@@ -50,6 +52,7 @@
         $scope.adminRegions = [];
         $scope.renderedMap = {};
         $scope.adminUnitLevel = "";
+        $scope.AdminLevels = { Region: { up: "", down: "Zone" }, Zone: { up: "Region", down: "Woreda" }, Woreda: { up: "Zone", down: "" } };
         $scope.shapeUrls =
             {
                 Region: "/Content/MapResources/MapData/ethiopiaRegions2.txt"
@@ -66,6 +69,7 @@
             $scope.onMappingChange;
         }
         $scope.getAdminUnit = function (level, parent) {
+
             $scope.adminUnitLevel = level;
             parent = level == "Region" ? { AdminUnitID: 1 } : parent;
             $http.get($scope.ServerUrls.adminUnit, { params: { parentAdminUnitID: parent.AdminUnitID } })
@@ -82,7 +86,14 @@
            // $scope.adminUnitLevel = "Region";
             $scope.getAdminUnit("Region");
         }
+        $scope.goUp = function () {
+            var up = $scope.AdminLevels[$scope.adminUnitLevel].up;
+            if (up) {
+                $scope.getAdminUnit(up, $scope.parent);
+            }
+        }
         $scope.loadChildren = function (parent) {
+            $scope.parent = parent;
             var childName={Region:"Zone",Zone:"Woreda"};
             var newLevel=childName[$scope.adminUnitLevel];
             if (newLevel) {
@@ -185,6 +196,10 @@
                 background: #7abcff; /* Old browsers */
 background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,#aad4ff), color-stop(44%,#60abf8), color-stop(100%,#a3c8ed));    
        
+    }
+    .visible-false
+    {
+        visibility:hidden;
     }
     .map-suggestion
     {
