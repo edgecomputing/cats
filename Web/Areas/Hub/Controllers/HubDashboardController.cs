@@ -39,28 +39,31 @@ namespace Cats.Areas.Hub.Controllers
                 var st = _stockStatusService.GetStockSummaryD(1, DateTime.Now);
 
                 //st.Take()
-                var value = st.Find(t => t.HubID == hub);
-
-                var free = (value.TotalPhysicalStock == 0) ? 0 : ((value.TotalFreestock / value.TotalPhysicalStock) * 100);
-                var commited = ((value.TotalPhysicalStock - value.TotalFreestock) / ((value.TotalPhysicalStock == 0) ? 1.0M : value.TotalPhysicalStock)) * 100;
-
-                var q = (from s in st
-                         where s.HubID == hub
-                         select s);
-
-                //var free = q.First;
-                // return Json(q, JsonRequestBehavior.AllowGet);
-
-                var j = new StockStatusViewModel()
+                if(st.Count > 0)
                 {
-                    freeStockAmount = value.TotalFreestock,
-                    freestockPercent = free,
-                    physicalStockAmount = (value.TotalPhysicalStock - value.TotalFreestock),
-                    physicalStockPercent = commited,
-                    totalStock = value.TotalPhysicalStock
-                };
+                    var value = st.Find(t => t.HubID == hub);
 
-                return Json(j, JsonRequestBehavior.AllowGet);
+                    var free = (value.TotalPhysicalStock == 0) ? 0 : ((value.TotalFreestock / value.TotalPhysicalStock) * 100);
+                    var commited = ((value.TotalPhysicalStock - value.TotalFreestock) / ((value.TotalPhysicalStock == 0) ? 1.0M : value.TotalPhysicalStock)) * 100;
+
+                    var q = (from s in st
+                             where s.HubID == hub
+                             select s);
+
+                    //var free = q.First;
+                    // return Json(q, JsonRequestBehavior.AllowGet);
+
+                    var j = new StockStatusViewModel()
+                    {
+                        freeStockAmount = value.TotalFreestock,
+                        freestockPercent = free,
+                        physicalStockAmount = (value.TotalPhysicalStock - value.TotalFreestock),
+                        physicalStockPercent = commited,
+                        totalStock = value.TotalPhysicalStock
+                    };
+
+                    return Json(j, JsonRequestBehavior.AllowGet);
+                }
             }
             return Json(new StockStatusViewModel(), JsonRequestBehavior.AllowGet);
         }

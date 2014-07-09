@@ -185,8 +185,7 @@ namespace Cats.Areas.Hub.Controllers
                 //HubID=user.DefaultHub.HubID
                 list = _receiptAllocationService.GetUnclosedAllocationsDetached(HubID, type, closed, user.PreferedWeightMeasurment, commodityType);
                 //newly added
-                list = list.Where(t => t.CommoditySourceID == type).ToList();
-                
+                list = type == CommoditySource.Constants.LOAN ? list.Where(t => t.CommoditySourceID == CommoditySource.Constants.LOAN || t.CommoditySourceID == CommoditySource.Constants.SWAP || t.CommoditySourceID == CommoditySource.Constants.TRANSFER || t.CommoditySourceID == CommoditySource.Constants.REPAYMENT).ToList() : list.Where(t => t.CommoditySourceID == type).ToList();
                 listViewModel = BindReceiptAllocationViewModels(list).ToList();
                 return Json(listViewModel.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
             }
@@ -346,7 +345,7 @@ namespace Cats.Areas.Hub.Controllers
 
             var commodities = _commodityService.GetAllCommodity().DefaultIfEmpty().OrderBy(o => o.Name).ToList();
             var commodityGrades = _commodityGradeService.GetAllCommodityGrade().DefaultIfEmpty().OrderBy(o => o.Name).ToList();
-            var transporters = _transporterService.GetAllTransporter().DefaultIfEmpty().OrderBy(o => o.Name).ToList();
+            var transporters = _transporterService.GetAllTransporter()  != null ? _transporterService.GetAllTransporter().DefaultIfEmpty().OrderBy(o => o.Name).ToList() : new List<Transporter>();
             var commoditySources = _commoditySourceService.GetAllCommoditySource().DefaultIfEmpty().OrderBy(o => o.Name).ToList();
             var commodityTypes = _commodityTypeService.GetAllCommodityType().DefaultIfEmpty().OrderBy(o => o.Name).ToList();
 
@@ -363,7 +362,7 @@ namespace Cats.Areas.Hub.Controllers
                 var stacks = new List<AdminUnitItem>();
                 if (receive != null && (receive.HubID == user.DefaultHub.Value))
                 {
-                    var rViewModel = ReceiveViewModel.GenerateReceiveModel(receive, commodities, commodityGrades, transporters,
+                    var rViewModel = ReceiveViewModel.GenerateReceiveModel(receive, commodities, commodityGrades,  transporters,
                                                             commodityTypes, commoditySources, programs, donors, hubs, user, units);
 
                     //TODO:=====================================Refactored from viewmodel needs refactor============================
