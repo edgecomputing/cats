@@ -335,6 +335,8 @@ namespace Cats.Areas.EarlyWarning.Controllers
                         if (psnphrdPlanInfo.HRDPSNPPlan.PSNPPlanID == 0)
                         {
                             ModelState.AddModelError("PlanID", @"Plan Can not be Empty");
+                            PopulateLookup();
+                            return View(hrdpsnpPlan);
                         }
                         exisiting =
                            _regionalRequestService.FindBy(r => r.PlanID == psnphrdPlanInfo.HRDPSNPPlan.PSNPPlanID
