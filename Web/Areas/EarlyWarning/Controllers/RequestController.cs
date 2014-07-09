@@ -310,9 +310,16 @@ namespace Cats.Areas.EarlyWarning.Controllers
                 if (psnphrdPlanInfo != null)
                 {
                     var exisiting = 0;
-
+                  
                     if (psnphrdPlanInfo.HRDPSNPPlan.ProgramID == 1)
                     {
+                        if (psnphrdPlanInfo.HRDPSNPPlan.PlanID==0)
+                        {
+                            ModelState.AddModelError("PlanID", @"Plan Can not be Empty");
+                            PopulateLookup();
+                            return View(hrdpsnpPlan);
+                        }
+
                         exisiting =
                             _regionalRequestService.FindBy(r => r.PlanID == psnphrdPlanInfo.HRDPSNPPlan.PlanID
                                                                 &&
@@ -325,6 +332,10 @@ namespace Cats.Areas.EarlyWarning.Controllers
                     }
                     else
                     {
+                        if (psnphrdPlanInfo.HRDPSNPPlan.PSNPPlanID == 0)
+                        {
+                            ModelState.AddModelError("PlanID", @"Plan Can not be Empty");
+                        }
                         exisiting =
                            _regionalRequestService.FindBy(r => r.PlanID == psnphrdPlanInfo.HRDPSNPPlan.PSNPPlanID
                                                                &&
