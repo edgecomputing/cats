@@ -44,15 +44,32 @@ namespace Cats.ViewModelBinder
             colStartingMonth.ExtendedProperties["ID"] = -1;
             dt.Columns.Add(colStartingMonth);
 
+            
+
             if (rationDetails != null)
             {
+                var woredaContingency = new DataColumn("Woreda Contingency (5%)", typeof(decimal));
+                woredaContingency.ExtendedProperties.Add("ID", "WoredaContingency");
+
+                var regionContingency = new DataColumn("Regional  Contingency (15%)", typeof(decimal));
+                regionContingency.ExtendedProperties.Add("ID", "RegionalContingency");
+
                 foreach (var ds in rationDetails)
                 {
                     var col = new DataColumn(ds.Commodity.Name.Trim()+ " in " + preferedWeight.ToUpper().Trim(), typeof(decimal));
+                    
                     col.ExtendedProperties.Add("ID", ds.CommodityID);
                     dt.Columns.Add(col);
+
+                   
+                    dt.Columns.Add(woredaContingency);
+
+                   
+                    dt.Columns.Add(regionContingency);
+                   
                 }
 
+              
                 var col1 = new DataColumn("Total", typeof(decimal));
                 col1.ExtendedProperties.Add("ID", "Total");
                 dt.Columns.Add(col1);
@@ -72,6 +89,7 @@ namespace Cats.ViewModelBinder
                     dr[colStartingMonth] = RequestHelper.MonthName(psnpPlan.StartingMonth);
                     decimal total = 0;
                     decimal ration = 0;
+                    
 
 
 
@@ -82,6 +100,8 @@ namespace Cats.ViewModelBinder
                     {
 
                         DataColumn col = null;
+                        
+                       
                         foreach (DataColumn column in dt.Columns)
                         {
                             if (rationDetail.CommodityID.ToString() ==
@@ -102,6 +122,8 @@ namespace Cats.ViewModelBinder
 
                             total += ration * psnpPlan.BeneficiaryCount * psnpPlan.FoodRatio;
                             dr[col.ColumnName] = ration * psnpPlan.BeneficiaryCount * psnpPlan.FoodRatio;
+                            dr[woredaContingency] = ration * psnpPlan.BeneficiaryCount * psnpPlan.FoodRatio * (decimal)0.05;
+                            dr[regionContingency.ColumnName] = ration * psnpPlan.BeneficiaryCount * psnpPlan.FoodRatio * (decimal)0.15;
 
                         }
                     }
