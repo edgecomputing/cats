@@ -34,10 +34,10 @@
                 <button ng-click="save()">Save</button>
                 <button ng-click="goUp()" class="visible-{{AdminLevels[adminUnitLevel].up!=''}}">Up</button>
             </div>
-            <div  ng-repeat="adminRegion in adminRegions" class="match-{{suggestedAdmin.AdminUnitID==adminRegion.AdminUnitID}}">
+            <div  ng-repeat="adminRegion in adminRegions" class="match-{{selectedFeature.attributes.code==adminRegion.code}}">
                  <input class="input-small" ng-model="adminRegion.code"  ng-change="onMappingChange(adminRegion);"/>
                 <button ng-click="loadChildren(adminRegion)" class="visible-{{AdminLevels[adminUnitLevel].down!=''}}">Down</button> 
-                <button class="map-suggestion" ng-click="doMapping(adminRegion,suggestedAdmin.code)"><i class=" icon-map-marker"></i></button>
+                <button class="map-suggestion suggested-{{selectedFeature.attributes.name==adminRegion.AdminUnitName}}" ng-click="doMapping(adminRegion,selectedFeature.attributes.code)"><i class=" icon-map-marker "></i></button>
                 <span >{{adminRegion.AdminUnitName}}</span>
             </div>
             <div ng-repeat="modified in modifiedData">{{modified.code}} | {{adminRegion.AdminUnitName}}</div>
@@ -139,18 +139,28 @@
                         //fillOpacity: 0.8
                          strokeOpacity: 1
                         , label: function (feature) {
+                            var code=get_attribute_value(feature.attributes, "code", "");
+                            var lbl=get_attribute_value(feature.attributes, "name", "") + "\n" + code;
+                            if (code.indexOf(parent) == 0) {
+                                return lbl;
+                            }
+                            
+                            return parent?"":lbl;
+                            var s = new String();
+                            s.indexOf(parent);
                             var parentCode = get_attribute_value(feature.attributes, "parentCode", "");
                             if (parentCode && parentCode != parent) {
                                 return "";
                             }
                             //if(parent+""+code
                             //return parentCode + "-" + parent;
-                            return get_attribute_value(feature.attributes, "name", "") + "\n" + get_attribute_value(feature.attributes, "code", "");
+                            return get_attribute_value(feature.attributes, "name", "") + "\n" + code;
                         
                             
                          }
                        
                         , fillColor: function (feature) {
+                            
                             var code = get_attribute_value(feature.attributes, "code", "");
                             if(findBy("code",code))
                             {
@@ -166,8 +176,15 @@
                             return "#F88";
                                 return colorOptions.noValColor;
                         }
-                       , strokeColor: "${get_defaultPolygonfillColor}"
+                       , strokeColor: "#AAA"//"${get_defaultPolygonfillColor}"
                         , fillOpacity: function (feature) {
+                            var code = get_attribute_value(feature.attributes, "code", "");
+                            if (code.indexOf(parent) == 0) {
+                                return 0.8;
+
+                            }
+                            return parent ? 0.2 : 0.8;
+                            return 0.2;
                             var parentCode = get_attribute_value(feature.attributes, "parentCode", "");
                             if (parentCode && parentCode != parent) {
                                 return 0.2;
@@ -184,10 +201,11 @@
                 $timeout(
                     function () {
                         if (event.type == "featureselected") {
-                            $scope.suggestedAdmin = event.feature.attributes;// get_attribute_value(event.feature.attributes, "AdminUnitID", "");
+                            $scope.selectedFeature = event.feature;
+                           // $scope.suggestedAdmin = event.feature.attributes;// get_attribute_value(event.feature.attributes, "AdminUnitID", "");
                         }
                         else {
-                            $scope.suggestedAdmin = {};
+                            $scope.selectedFeature = {};
                         }
                     }, 50);
             }
@@ -232,11 +250,16 @@ background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,#aad4
     .match-true
     {
         font-weight:bold;
+        color:#09888d;
     }
-    .match-true .map-suggestion
+    .match-trudde .map-suggestion
+    {
+        background:#09888d;
+        visibility:visible;
+    }
+    .match-false .suggested-true
     {
         background:#FF0;
-        visibility:visible;
     }
     .admin_data
     {
