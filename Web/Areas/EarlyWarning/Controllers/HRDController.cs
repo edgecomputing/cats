@@ -301,6 +301,19 @@ namespace Cats.Areas.EarlyWarning.Controllers
                                    };
                
             }
+            if (adminLevel == "Woreda")
+            {
+
+                groupedTotal = from detail in details
+                               group detail by detail.AdminUnit into regionalDetail
+                               select new
+                               {
+                                   Region = regionalDetail.Key,
+                                   NumberOfBeneficiaries = regionalDetail.Sum(m => m.NumberOfBeneficiaries),
+                                   Duration = regionalDetail.Sum(m => (m.NumberOfBeneficiaries * m.DurationOfAssistance))
+                               };
+
+            }
             return (from total in groupedTotal
                     select new RegionalSummaryViewModel
                         {
