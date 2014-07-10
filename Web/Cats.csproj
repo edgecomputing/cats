@@ -1190,6 +1190,7 @@
     <Content Include="Content\MapResources\MapData\Somali.txt" />
     <Content Include="Content\MapResources\MapData\Tigray.txt" />
     <Content Include="Content\MapResources\MapData\AllZones.txt" />
+    <Content Include="Content\MapResources\MapData\AllWoredas.txt" />
     <Content Include="Content\MapResources\MapLegend.js" />
     <Content Include="Content\MapResources\MapStyle.js" />
     <Content Include="Content\MapResources\OpenlayersWrapper.js" />
@@ -2121,6 +2122,7 @@
     <Content Include="Content\MapResources\MapData\afar.js" />
     <Content Include="Content\MapResources\MapData\ethiopiaJson.js" />
     <Content Include="Content\MapResources\MapData\ethiopiaRegions-old.txt" />
+    <Content Include="Areas\Settings\Views\AdminUnit\GISMapping.cshtml" />
     <None Include="dataset.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>dataset.Designer.cs</LastGenOutput>
@@ -2934,6 +2936,7 @@
     <Content Include="Scripts\timepicker\jt.timepicker.jquery.json" />
     <Content Include="Scripts\timepicker\package.json" />
     <Content Include="Scripts\timepicker\README.md" />
+    <Content Include="Views\Shared\_shapefileDBMap.cshtml" />
     <None Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

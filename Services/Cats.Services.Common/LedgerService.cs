@@ -150,11 +150,13 @@ namespace Cats.Services.Common
             List<Transaction> listOfTrans=new List<Transaction>();
             if (hubId > 0)
             {
-                listOfTrans = _unitOfWork.TransactionRepository.FindBy(t => t.HubID == hubId && t.CommodityID == commodityId && t.LedgerID == 20);//Goods On Hand - unCommited
+                //listOfTrans = _unitOfWork.TransactionRepository.FindBy(t => t.HubID == hubId && t.CommodityID == commodityId && t.LedgerID == 20);//Goods On Hand - unCommited
+                listOfTrans = _unitOfWork.TransactionRepository.FindBy(t => t.HubID == hubId && t.CommodityID == commodityId && t.LedgerID == 21);//Changed the above ledgerID into this one
             }
             else
             {
-                listOfTrans = _unitOfWork.TransactionRepository.FindBy(t => t.CommodityID == commodityId && t.LedgerID == 20);//Goods On Hand - unCommited
+                //listOfTrans = _unitOfWork.TransactionRepository.FindBy(t => t.CommodityID == commodityId && t.LedgerID == 20);//Goods On Hand - unCommited
+                listOfTrans = _unitOfWork.TransactionRepository.FindBy(t => t.CommodityID == commodityId && t.LedgerID == 21);//Changed the above ledgerID into this one
             }
             var listOfSICodes =
                 listOfTrans.GroupBy(t => t.ShippingInstructionID).Select(
@@ -235,11 +237,13 @@ namespace Cats.Services.Common
             List<Transaction> listOfTrans = new List<Transaction>();
             if (hubId > 0)
             {
-                _unitOfWork.TransactionRepository.FindBy(t => t.HubID == hubId && t.CommodityID == commodityId && t.LedgerID == 2);//Goods On Hand - unCommited
+                //_unitOfWork.TransactionRepository.FindBy(t => t.HubID == hubId && t.CommodityID == commodityId && t.LedgerID == 2);//Goods On Hand - unCommited
+                _unitOfWork.TransactionRepository.FindBy(t => t.HubID == hubId && t.CommodityID == commodityId && t.LedgerID == 21);//Changed the above ledgerID into this one
             }
             else
             {
-                _unitOfWork.TransactionRepository.FindBy(t => t.CommodityID == commodityId && t.LedgerID == 2);//Goods On Hand - unCommited
+                //_unitOfWork.TransactionRepository.FindBy(t => t.CommodityID == commodityId && t.LedgerID == 2);//Goods On Hand - unCommited
+                _unitOfWork.TransactionRepository.FindBy(t => t.CommodityID == commodityId && t.LedgerID == 21);//Changed the above ledgerID into this one
             }
             var listOfSICodes =
                 listOfTrans.GroupBy(t => t.ProjectCodeID).Select(
