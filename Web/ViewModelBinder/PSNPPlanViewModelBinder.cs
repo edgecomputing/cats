@@ -48,23 +48,25 @@ namespace Cats.ViewModelBinder
 
             if (rationDetails != null)
             {
-                var woredaContingency = new DataColumn("Woreda Contingency (5%)", typeof(decimal));
-                woredaContingency.ExtendedProperties.Add("ID", "WoredaContingency");
-
-                var regionContingency = new DataColumn("Regional  Contingency (15%)", typeof(decimal));
-                regionContingency.ExtendedProperties.Add("ID", "RegionalContingency");
-
+                DataColumn woredaContingency = null;
+                DataColumn regionContingency = null;
                 foreach (var ds in rationDetails)
                 {
+                    
                     var col = new DataColumn(ds.Commodity.Name.Trim()+ " in " + preferedWeight.ToUpper().Trim(), typeof(decimal));
                     
                     col.ExtendedProperties.Add("ID", ds.CommodityID);
                     dt.Columns.Add(col);
 
-                   
+                    woredaContingency = new DataColumn("WC(5%)" + ds.Commodity.Name.Trim(), typeof(decimal));
+
+
+                    regionContingency = new DataColumn("RC(15%)" + ds.Commodity.Name.Trim(), typeof(decimal));
+
+                    woredaContingency.ExtendedProperties.Add("ID", ds.CommodityID);
                     dt.Columns.Add(woredaContingency);
 
-                   
+                    regionContingency.ExtendedProperties.Add("ID", ds.CommodityID);
                     dt.Columns.Add(regionContingency);
                    
                 }
@@ -100,7 +102,7 @@ namespace Cats.ViewModelBinder
                     {
 
                         DataColumn col = null;
-                        
+                       
                        
                         foreach (DataColumn column in dt.Columns)
                         {
@@ -119,11 +121,11 @@ namespace Cats.ViewModelBinder
                             else
                                 ration = rationDetail.Amount / 100;
 
-
-                            total += ration * psnpPlan.BeneficiaryCount * psnpPlan.FoodRatio;
-                            dr[col.ColumnName] = ration * psnpPlan.BeneficiaryCount * psnpPlan.FoodRatio;
-                            dr[woredaContingency] = ration * psnpPlan.BeneficiaryCount * psnpPlan.FoodRatio * (decimal)0.05;
-                            dr[regionContingency.ColumnName] = ration * psnpPlan.BeneficiaryCount * psnpPlan.FoodRatio * (decimal)0.15;
+                            var allocatedAmount = ration*psnpPlan.BeneficiaryCount*psnpPlan.FoodRatio;
+                            total += allocatedAmount + allocatedAmount * (decimal)0.05 + allocatedAmount * (decimal)0.15;
+                            dr[col.ColumnName] = allocatedAmount;
+                            dr[woredaContingency] = allocatedAmount * (decimal)0.05;
+                            dr[regionContingency] = allocatedAmount * (decimal)0.15;
 
                         }
                     }
