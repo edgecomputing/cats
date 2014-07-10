@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using Cats.Areas.GiftCertificate.Models;
+using Cats.Areas.EarlyWarning.Models;
 using Cats.Helpers;
 using Cats.Models;
+using GiftCertificateViewModel = Cats.Areas.GiftCertificate.Models.GiftCertificateViewModel;
 
 namespace Cats.ViewModelBinder
 {
