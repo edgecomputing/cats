@@ -31,8 +31,8 @@
         columns.Bound(e => e.StrRequisitionDate).Title("Requested On").Width(140);
         columns.Bound(e => e.BenficiaryNo).Title("Beneficiaries").Width(120).HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;", title = "Benficiary No" }).Format("{0:n0}").HtmlAttributes(new { align = "Right" }).HtmlAttributes(new { style = "text-align: right; font-size: 12px; " });
         columns.Bound(e => e.Status).Title("").ClientTemplate("<a class='action-link assign-code#=Status#' href='" + @Url.Action("Index", "FDPSIAllocation", new { Area = "Logistics", regionid = ViewBag.regionId }) + "&RequisitionID=#=RequisitionId#'>PC/SI Allocate</a>  ");
-        columns.Bound(e => e.Program).Width(120).Title("Program");
-        columns.Bound(e => e.Round).Width(120).Title("Round");
+        //columns.Bound(e => e.Program).Width(120).Title("Program");
+        //columns.Bound(e => e.Round).Width(120).Title("Round");
     })
     .DataSource(dataSource => dataSource
         .Ajax()
