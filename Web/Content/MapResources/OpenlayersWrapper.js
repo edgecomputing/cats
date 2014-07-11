@@ -30,6 +30,7 @@ function CreateMapForData(dataSource, adminUnitInfo, renderingInfo) {
             var shapeFiles = {
                                 Region: "ethiopiaRegions2.txt"
                                 , Zone: "AllZones.txt"
+                , Woreda: "AllWoredas.txt"
                              };
             shapeFile = shapeFiles[adminUnitInfo.level];
         }

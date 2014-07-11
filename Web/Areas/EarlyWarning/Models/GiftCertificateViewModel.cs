@@ -5,6 +5,7 @@ using System.Data.Objects.DataClasses;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Cats.Areas.EarlyWarning.Models;
 using Cats.Models;
 
 namespace Cats.Areas.GiftCertificate.Models

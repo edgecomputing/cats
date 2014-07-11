@@ -1190,6 +1190,7 @@
     <Content Include="Content\MapResources\MapData\Somali.txt" />
     <Content Include="Content\MapResources\MapData\Tigray.txt" />
     <Content Include="Content\MapResources\MapData\AllZones.txt" />
+    <Content Include="Content\MapResources\MapData\AllWoredas.txt" />
     <Content Include="Content\MapResources\MapLegend.js" />
     <Content Include="Content\MapResources\MapStyle.js" />
     <Content Include="Content\MapResources\OpenlayersWrapper.js" />

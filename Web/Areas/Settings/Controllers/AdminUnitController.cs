@@ -73,6 +73,23 @@ namespace Cats.Areas.Settings.Controllers
             return Json(new[] { adminUnitViewModel }.ToDataSourceResult(request, ModelState));
         }
 
+        public ActionResult AdminUnit_UpdateMapping(IEnumerable<AdminUnitViewModel> adminUnits)
+        {
+            List<AdminUnitViewModel> unsaved = new List<AdminUnitViewModel>();
+            foreach (AdminUnitViewModel au in adminUnits)
+            {
+                try
+                {
+                    var adminUnit = AdminUnitViewModelBinder.BindAdminUnit(au);
+                    _adminUnitService.EditAdminUnit(adminUnit);
+                }
+                catch (Exception ex)
+                {
+                    unsaved.Add(au);
+                }
+            }
+            return Json(new {adminUnits=adminUnits, unsaved = unsaved }, JsonRequestBehavior.AllowGet);
+        }
 
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult AdminUnit_Update([DataSourceRequest] DataSourceRequest request, AdminUnitViewModel adminUnitViewModel)

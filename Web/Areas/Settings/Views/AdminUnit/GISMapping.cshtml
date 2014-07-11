@@ -29,13 +29,18 @@
 <div ng-app ng-controller="mapController">
     <div class="map-container">
         <div class="admin_data">
-            <div  ng-repeat="adminRegion in adminRegions" class="match-{{suggestedAdmin.AdminUnitID==adminRegion.AdminUnitID}}">
-                 <input class="input-small" ng-model="adminRegion.code"  ng-change="onMappingChange();"/>
-                <button ng-click="loadChildren(adminRegion)">Down</button> 
-                <button class="map-suggestion" ng-click="doMapping(adminRegion,suggestedAdmin.code)"><i class=" icon-map-marker"></i></button>
+            
+            <div>
+                <button ng-click="save()">Save</button>
+                <button ng-click="goUp()" class="visible-{{AdminLevels[adminUnitLevel].up!=''}}">Up</button>
+            </div>
+            <div  ng-repeat="adminRegion in adminRegions" class="match-{{selectedFeature.attributes.code==adminRegion.code}}">
+                 <input class="input-small" ng-model="adminRegion.code"  ng-change="onMappingChange(adminRegion);"/>
+                <button ng-click="loadChildren(adminRegion)" class="visible-{{AdminLevels[adminUnitLevel].down!=''}}">Down</button> 
+                <button class="map-suggestion suggested-{{selectedFeature.attributes.name==adminRegion.AdminUnitName}}" ng-click="doMapping(adminRegion,selectedFeature.attributes.code)"><i class=" icon-map-marker "></i></button>
                 <span >{{adminRegion.AdminUnitName}}</span>
             </div>
-
+            <div ng-repeat="modified in modifiedData">{{modified.code}} | {{adminRegion.AdminUnitName}}</div>
         </div>
         <div id="map1" class="map"></div>
         <div id="map1Legend0" class="map-legend" style="display:none;"></div>
@@ -50,22 +55,44 @@
         $scope.adminRegions = [];
         $scope.renderedMap = {};
         $scope.adminUnitLevel = "";
+        $scope.modifiedData = {};
+        $scope.AdminLevels = { Region: { up: "", down: "Zone" }, Zone: { up: "Region", down: "Woreda" }, Woreda: { up: "Zone", down: "" } };
         $scope.shapeUrls =
             {
                 Region: "/Content/MapResources/MapData/ethiopiaRegions2.txt"
                 , Zone: "/Content/MapResources/MapData/AllZones.txt"
                 , Woreda: "/Content/MapResources/MapData/AllWoredas.txt"
             };
-        $scope.ServerUrls = { adminUnit: "@Url.Action("AdminUnit_Read", "AdminUnit", new { Area = "Settings" })" }
+        $scope.ServerUrls = { 
+            adminUnitSave:"@Url.Action("AdminUnit_UpdateMapping", "AdminUnit", new { Area = "Settings" })",
+            adminUnit: "@Url.Action("AdminUnit_Read", "AdminUnit", new { Area = "Settings" })" }
 
-        $scope.onMappingChange = function () {
+        $scope.onMappingChange = function (adminRegion) {
+            $scope.modifiedData["A" + adminRegion.AdminUnitID] = adminRegion;
             $scope.renderedMap.layers[0].redraw();
+                
         }
         $scope.doMapping = function (adminRegion, code) {
             adminRegion.code = code;
-            $scope.onMappingChange;
+            $scope.onMappingChange(adminRegion);
+        }
+        $scope.save = function () {
+            var modifeidArray = [];
+            for (var i in $scope.modifiedData) {
+                modifeidArray.push($scope.modifiedData[i]);
+            }
+            $http.post($scope.ServerUrls.adminUnitSave, { adminUnits: modifeidArray  })
+                            .success(function (response, status, headers, config) {
+                                console.log("Saved", response);
+                                $scope.modifiedData={};
+                            })
+                            .error(function (data, status, headers, config) {
+                                console.log("Error Saving", status);
+                            });
+            
         }
         $scope.getAdminUnit = function (level, parent) {
+
             $scope.adminUnitLevel = level;
             parent = level == "Region" ? { AdminUnitID: 1 } : parent;
             $http.get($scope.ServerUrls.adminUnit, { params: { parentAdminUnitID: parent.AdminUnitID } })
@@ -82,7 +109,14 @@
            // $scope.adminUnitLevel = "Region";
             $scope.getAdminUnit("Region");
         }
+        $scope.goUp = function () {
+            var up = $scope.AdminLevels[$scope.adminUnitLevel].up;
+            if (up) {
+                $scope.getAdminUnit(up, $scope.parent);
+            }
+        }
         $scope.loadChildren = function (parent) {
+            $scope.parent = parent;
             var childName={Region:"Zone",Zone:"Woreda"};
             var newLevel=childName[$scope.adminUnitLevel];
             if (newLevel) {
@@ -105,18 +139,28 @@
                         //fillOpacity: 0.8
                          strokeOpacity: 1
                         , label: function (feature) {
+                            var code=get_attribute_value(feature.attributes, "code", "");
+                            var lbl=get_attribute_value(feature.attributes, "name", "") + "\n" + code;
+                            if (code.indexOf(parent) == 0) {
+                                return lbl;
+                            }
+                            
+                            return parent?"":lbl;
+                            var s = new String();
+                            s.indexOf(parent);
                             var parentCode = get_attribute_value(feature.attributes, "parentCode", "");
                             if (parentCode && parentCode != parent) {
                                 return "";
                             }
                             //if(parent+""+code
                             //return parentCode + "-" + parent;
-                            return get_attribute_value(feature.attributes, "name", "") + "\n" + get_attribute_value(feature.attributes, "code", "");
+                            return get_attribute_value(feature.attributes, "name", "") + "\n" + code;
                         
                             
                          }
                        
                         , fillColor: function (feature) {
+                            
                             var code = get_attribute_value(feature.attributes, "code", "");
                             if(findBy("code",code))
                             {
@@ -132,8 +176,15 @@
                             return "#F88";
                                 return colorOptions.noValColor;
                         }
-                       , strokeColor: "${get_defaultPolygonfillColor}"
+                       , strokeColor: "#AAA"//"${get_defaultPolygonfillColor}"
                         , fillOpacity: function (feature) {
+                            var code = get_attribute_value(feature.attributes, "code", "");
+                            if (code.indexOf(parent) == 0) {
+                                return 0.8;
+
+                            }
+                            return parent ? 0.2 : 0.8;
+                            return 0.2;
                             var parentCode = get_attribute_value(feature.attributes, "parentCode", "");
                             if (parentCode && parentCode != parent) {
                                 return 0.2;
@@ -150,10 +201,11 @@
                 $timeout(
                     function () {
                         if (event.type == "featureselected") {
-                            $scope.suggestedAdmin = event.feature.attributes;// get_attribute_value(event.feature.attributes, "AdminUnitID", "");
+                            $scope.selectedFeature = event.feature;
+                           // $scope.suggestedAdmin = event.feature.attributes;// get_attribute_value(event.feature.attributes, "AdminUnitID", "");
                         }
                         else {
-                            $scope.suggestedAdmin = {};
+                            $scope.selectedFeature = {};
                         }
                     }, 50);
             }
@@ -186,6 +238,10 @@
 background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,#aad4ff), color-stop(44%,#60abf8), color-stop(100%,#a3c8ed));    
        
     }
+    .visible-false
+    {
+        visibility:hidden;
+    }
     .map-suggestion
     {
         visibilitys:hidden;
@@ -194,11 +250,16 @@ background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,#aad4
     .match-true
     {
         font-weight:bold;
+        color:#09888d;
     }
-    .match-true .map-suggestion
+    .match-trudde .map-suggestion
+    {
+        background:#09888d;
+        visibility:visible;
+    }
+    .match-false .suggested-true
     {
         background:#FF0;
-        visibility:visible;
     }
     .admin_data
     {

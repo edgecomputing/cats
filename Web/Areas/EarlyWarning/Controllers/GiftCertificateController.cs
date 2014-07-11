@@ -4,7 +4,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using Cats.Areas.GiftCertificate.Models;
+using Cats.Areas.EarlyWarning.Models;
 using Cats.Services.EarlyWarning;
 using System.Web.Mvc;
 using Cats.Services.Security;
@@ -18,6 +18,7 @@ using Cats.Helpers;
 using Cats.Data.UnitWork;
 using System.Reflection;
 using Cats.Security;
+using GiftCertificateViewModel = Cats.Areas.GiftCertificate.Models.GiftCertificateViewModel;
 
 namespace Cats.Areas.EarlyWarning.Controllers
 {
