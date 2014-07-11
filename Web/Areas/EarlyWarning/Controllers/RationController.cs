@@ -39,7 +39,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         public ActionResult Index()
         {
             var rations = _rationService.GetAllRation();
-            var rationViewModels = (from item in rations select BindRationViewModel(item));
+            var rationViewModels = (from item in rations select BindRationViewModel(item)).OrderBy(o=>o.ReferenceNumber);
             return View(rationViewModels);
         }
 
