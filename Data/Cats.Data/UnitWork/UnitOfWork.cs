@@ -37,6 +37,8 @@ namespace Cats.Data.UnitWork
         private IGenericRepository<Store> storeRepository;
         private readonly ILog _log;
 
+        public Database Database { get { return _context.Database; } }
+
         public UnitOfWork()
         {
             this._context = new CatsContext();
