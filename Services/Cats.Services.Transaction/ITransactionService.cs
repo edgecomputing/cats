@@ -23,10 +23,7 @@ namespace Cats.Services.Transaction
         List<Models.Transaction> PostHRDPlan(HRD plan, Ration ration);
         bool PostGiftCertificate(int giftCertificateId);
         bool PostDeliveryReconcileReceipt(int deliveryID);
-        List<ProjectCode> getAllProjectByHubCommodity(int hubId, int commodityId);
-        List<ShippingInstruction> getAllSIByHubCommodity(int hubId, int commodityId);
-        List<ReceiptAllocation> getSIBalance(int hubId, int commodityId);
-        List<ReceiptAllocation> getProjectBalance(int hubId, int commodityId);
+       
         bool PostRequestAllocation(int requestId);
         bool PostSIAllocation(int requisitionID);
         bool PostDonationPlan(DonationPlanHeader donationPlanDetail);
