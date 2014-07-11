@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data.Entity;
 using Cats.Data.Hub.Repository;
 using Cats.Models.Hubs;
 
@@ -120,6 +121,7 @@ namespace Cats.Data.Hub.UnitWork
            //IUserRoleRepository UserRole { get; set; }
             #endregion
 
+            Database Database { get; }
 		    void Save();
 
             IGenericRepository<Account> AccountRepository { get; }
