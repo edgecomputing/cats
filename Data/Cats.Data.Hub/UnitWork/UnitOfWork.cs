@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Data.Entity;
 using System.Data.Entity.Validation;
 using System.Data.Objects.DataClasses;
 using Cats.Data.Hub.Repository;
@@ -689,6 +690,7 @@ namespace Cats.Data.Hub
        }
        #endregion
 
+       public Database Database { get { return _context.Database; } }
 
        public IReportRepository ReportRepository
        {

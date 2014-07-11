@@ -1,4 +1,5 @@
 using System;
+using System.Data.Entity;
 using Cats.Models;
 using Cats.Data.Repository;
 
@@ -7,6 +8,8 @@ namespace Cats.Data.UnitWork
     public interface IUnitOfWork : IDisposable
     {
         // TODO: Add properties to be implemented by UnitOfWork class for each repository
+
+        Database Database { get; }
 
         IGenericRepository<DashboardWidget> DashboardWidgetRepository { get; }
         IGenericRepository<UserDashboardPreference> UserDashboardPreferenceRepository { get; }

@@ -50,11 +50,11 @@ namespace Cats.Models.Hubs
         [Required(ErrorMessage="required")]
         public int UnitID { get; set; }
 
-        [Required(ErrorMessage = "required")]
+        [Required(ErrorMessage = "Sent quantity required")]
         [Range(1, 9999999.9)]
         public decimal? SentQuantityInUnit { get; set; }
 
-        [Required(ErrorMessage = "required")]
+        [Required(ErrorMessage = "Recieved quantity is required")]
         [Range(1, 9999999.9)]
         public decimal? ReceivedQuantityInUnit { get; set; }
 
@@ -91,7 +91,7 @@ namespace Cats.Models.Hubs
 
         public static ReceiveDetailViewModel GenerateReceiveDetailModel(ReceiveDetail ReceiveDetailModel)
         {
-            ReceiveDetailViewModel model = new ReceiveDetailViewModel();
+            var model = new ReceiveDetailViewModel();
             model.ReceiveDetailID = ReceiveDetailModel.ReceiveDetailID;
             model.UnitID = ReceiveDetailModel.UnitID;
             model.Description = ReceiveDetailModel.Description;

@@ -16,7 +16,8 @@ namespace Cats.Areas.Settings.ViewModelBinder
                 AdminUnitID = adminUnit.AdminUnitID,
                 AdminUnitName = adminUnit.Name,
                 AdminUnitTypeID = adminUnit.AdminUnitTypeID ?? 0,
-                ParentID = adminUnit.ParentID ?? 0 
+                ParentID = adminUnit.ParentID ?? 0,
+                code = adminUnit.code ?? 0
             };
         }
         public static List<AdminUnitViewModel> BindListAdminUnitViewModel(List<AdminUnit> adminUnits)
@@ -31,7 +32,8 @@ namespace Cats.Areas.Settings.ViewModelBinder
                 AdminUnitID = adminUnitViewModel.AdminUnitID,
                 Name = adminUnitViewModel.AdminUnitName,
                 AdminUnitTypeID = adminUnitViewModel.AdminUnitTypeID,
-                ParentID = adminUnitViewModel.ParentID
+                ParentID = adminUnitViewModel.ParentID,
+                code=adminUnitViewModel.code
             };
         } 
     }

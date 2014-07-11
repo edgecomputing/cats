@@ -25,10 +25,8 @@ function init_datepicker(calendar) {
                 });
             })
                 .tooltip({ trigger: "hover manual", title: "mm/dd/yyyy" })
-                .attr("placeholder","mm/dd/yyyy")
-                
-
-        if (calendar == "EC") 
+                .attr("placeholder","mm/dd/yyyy");
+    if (calendar == "EC") 
         {
             $(".cats-datepicker2").ethcal_datepicker();
         }
@@ -50,7 +48,7 @@ function init_toolbar_button() {
         btn_reload: { icon: "icon-retweet", tooltip: "Reload Data" },
         btn_forward: { icon: "icon-arrow-right", tooltip: "Continue" },
         btn_back: { icon: "icon-arrow-left", tooltip: "Back" }
-    }
+    };
     console.log("init_toolbar_button");
     $(".toolbar-btn").each(function () {
         var $that = $(this);

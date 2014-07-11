@@ -49,128 +49,33 @@ namespace Cats.Services.Hub
             );
         }
 
+        //TODO: use the date parameter in the query. 
         public List<HubFreeStockView> GetFreeStockStatusD(int hub, int program, DateTime date)
         {
+            string query =
+                string.Format(
+                    @"SELECT GOH.CommodityID, GOH.QuantityInMT PhysicalStock, Commited.QuantityInMT Commited, (GOH.QuantityInMT - ISNULL(Commited.QuantityInMT,0) ) FreeStock, Commodity.Name CommodityName FROM 
+
+                                                (SELECT SUM(QuantityInMT) QuantityInMT, CommodityID 
+	                                                FROM [Transaction]
+	                                                WHERE LedgerID = {0} and HubID  = {2} and ProgramID = {3}
+	                                                GROUP BY CommodityID) GOH
+	                                                LEFT JOIN
+		                                                (SELECT ABS(SUM(QuantityInMT)) QuantityInMT, CommodityID 
+			                                                FROM [Transaction]
+			                                                WHERE LedgerID = {1} and HubID  = {2} and ProgramID = {3}
+			                                                GROUP BY CommodityID) Commited
+
+			                                                ON GOH.CommodityID = Commited.CommodityID
+			                                                JOIN Commodity on Commodity.CommodityID = GOH.CommodityID", Cats.Models.Ledger.Constants.GOODS_ON_HAND, Cats.Models.Ledger.Constants.COMMITED_TO_FDP, hub, program);
             
-            var status = _transactionService.Get(t => t.HubID == hub && t.ProgramID == program && t.TransactionDate <= date);
-            var grouped = (
-                            from s in status
-                            group s by s.ParentCommodityID into g
-                            select new { CommodityId = g.Key, Transactions = g }
-                          );
-
-            var result = new List<HubFreeStockView>();
-
-            foreach (var i in grouped)
-            {
-
-                //var d = i.Select(p => p.LedgerID == 3);
-                //var phys = i.TakeWhile(r => r.LedgerID == 3).Sum(p => p.QuantityInMT);
-                //TODO: && s.LedgerID =2 && s.LedgerID=12
-                //var phys = i.Sum(p=>p.QuantityInMT=-40);
-                //var free = i.Sum(f => f.LedgerID=3);
-                //var u = (
-                //            from n in i.Transactions
-                //            where  (n.LedgerID == 0)
-                //            select n
-                //        );
-                //var free =  u.Sum(a => a.QuantityInMT);
-                //var phys =  i.Transactions.Sum(f => f.QuantityInMT);
-                decimal phys = 0;
-                decimal free = 0;
-                //var free = i.Sum(a=>a.Select(a.QuantityInMT).Where(a.LedgerID==3));
-                //var free = i.Sum(i.Select(a => a.QuantityInMT));
-
-                var Commodity = "";
-
-                foreach (var s in i.Transactions)
-                {
-                    Commodity = s.Commodity.Name;
-
-                    if (s.LedgerID == 2 || s.LedgerID == 3 || s.LedgerID == 12)
-                    {
-                        phys = phys + Math.Abs(s.QuantityInMT);
-                    }
-
-                    if (s.LedgerID == 2)
-                    {
-                        free = free + Math.Abs(s.QuantityInMT);
-                    }
-                }
-
-                var item = new HubFreeStockView()
-                {
-                    CommodityName = Commodity,
-                    PhysicalStock = phys,
-                    FreeStock = free
-                };
-
-                result.Add(item);
-            }
-            return result.ToList();
+            return _unitOfWork.Database.SqlQuery<HubFreeStockView>(query).ToList();
         }
 
         public List<HubFreeStockView> GetFreeStockStatus(int hub, int program, string date)
         {
             DateTime _date = Convert.ToDateTime(date);
-
-            var status = _transactionService.Get(t => t.HubID == hub && t.ProgramID == program && DateTime.Compare(t.TransactionDate, _date) <= 0);
-
-            var grouped = (
-                           from s in status
-                           group s by s.ParentCommodityID into g
-                           select new { CommodityId = g.Key, Transactions = g }
-                         );
-
-            var result = new List<HubFreeStockView>();
-
-            foreach (var i in grouped)
-            {
-
-                //var d = i.Select(p => p.LedgerID == 3);
-                //var phys = i.TakeWhile(r => r.LedgerID == 3).Sum(p => p.QuantityInMT);
-                //TODO: && s.LedgerID =2 && s.LedgerID=12
-                //var phys = i.Sum(p=>p.QuantityInMT=-40);
-                //var free = i.Sum(f => f.LedgerID=3);
-                //var u = (
-                //            from n in i.Transactions
-                //            where  (n.LedgerID == 0)
-                //            select n
-                //        );
-                //var free =  u.Sum(a => a.QuantityInMT);
-                //var phys =  i.Transactions.Sum(f => f.QuantityInMT);
-                decimal phys = 0;
-                decimal free = 0;
-                //var free = i.Sum(a=>a.Select(a.QuantityInMT).Where(a.LedgerID==3));
-                //var free = i.Sum(i.Select(a => a.QuantityInMT));
-
-                var Commodity = "";
-
-                foreach (var s in i.Transactions)
-                {
-                    Commodity = s.Commodity.Name;
-
-                    if (s.LedgerID == 2 || s.LedgerID == 3 || s.LedgerID == 12)
-                    {
-                        phys = phys + Math.Abs(s.QuantityInMT);
-                    }
-
-                    if (s.LedgerID == 2)
-                    {
-                        free = free + Math.Abs(s.QuantityInMT);
-                    }
-                }
-
-                var item = new HubFreeStockView()
-                {
-                    CommodityName = Commodity,
-                    PhysicalStock = phys,
-                    FreeStock = free
-                };
-
-                result.Add(item);
-            }
-            return result.ToList();
+            return GetFreeStockStatusD(hub, program, _date);
         }
 
         public List<HubFreeStockSummaryView> GetStockSummary(int program, string date)

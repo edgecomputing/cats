@@ -239,12 +239,19 @@ namespace Cats.Services.EarlyWarning
                 {
                     HRD hrd = _unitOfWork.HRDRepository.FindBy(r => r.PlanID == plan.PlanID).LastOrDefault();
 
-                    var lastRequest =_unitOfWork.RegionalRequestRepository.FindBy(r => r.RegionID == plan.RegionID && r.ProgramId == 1 && r.PlanID == plan.PlanID).LastOrDefault();
+                    if (hrd != null)
+                    {
 
+                        var lastRequest =
+                            _unitOfWork.RegionalRequestRepository.FindBy(
+                                r => r.RegionID == plan.RegionID && r.ProgramId == 1 && r.PlanID == plan.PlanID).
+                                LastOrDefault();
                     if (lastRequest != null)
                     {
                         result.HRDPSNPPlan.RationID = hrd.RationID;
-                        var requests = _unitOfWork.RegionalRequestRepository.FindBy(r => r.RegionID == plan.RegionID && r.ProgramId == 1 && r.PlanID == plan.PlanID);
+                        var requests =
+                            _unitOfWork.RegionalRequestRepository.FindBy(
+                                r => r.RegionID == plan.RegionID && r.ProgramId == 1 && r.PlanID == plan.PlanID);
                         var numberOfRequestsPerRegion = requests.Count;
                         var applicableWoredas = (from detail in hrd.HRDDetails
                                                  where
@@ -252,7 +259,7 @@ namespace Cats.Services.EarlyWarning
                                                      detail.DurationOfAssistance > numberOfRequestsPerRegion
                                                  select detail.WoredaID).ToList();
                         beneficiaryInfos = LastReliefRequest(lastRequest, applicableWoredas);
-                       // var lastRequestDetail = LastReliefRequest(lastRequest);
+                        // var lastRequestDetail = LastReliefRequest(lastRequest);
 
 
 
@@ -262,11 +269,14 @@ namespace Cats.Services.EarlyWarning
                         result.HRDPSNPPlan.RationID = hrd.RationID;
                         List<HRDDetail> hrddetail =
                             (from woreda in hrd.HRDDetails
-                             where woreda.AdminUnit.AdminUnit2.AdminUnit2.AdminUnitID == plan.RegionID && woreda.DurationOfAssistance>0
+                             where
+                                 woreda.AdminUnit.AdminUnit2.AdminUnit2.AdminUnitID == plan.RegionID &&
+                                 woreda.DurationOfAssistance > 0
                              select woreda).ToList();
                         beneficiaryInfos = HRDToRequest(hrddetail);
                     }
                 }
+            }
                 else
                 {
                     //if program is IDPS

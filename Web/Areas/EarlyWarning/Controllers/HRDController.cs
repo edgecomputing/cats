@@ -164,6 +164,31 @@ namespace Cats.Areas.EarlyWarning.Controllers
             }
             return RedirectToAction("Index");
         }
+        public ActionResult BeneficiaryByWoreda_Read([DataSourceRequest] DataSourceRequest request, int id = 0)
+        {
+
+
+            //var hrdDetail = _hrdService.GetHRDDetailByHRDID(id).OrderBy(m => m.AdminUnit.AdminUnit2.Name).OrderBy(m => m.AdminUnit.AdminUnit2.AdminUnit2.Name);
+            HRD hrd;
+            if (id == 0)
+            {
+                hrd = _hrdService.FindBy(m => m.Status == 3).FirstOrDefault();
+                if (hrd != null)
+                {
+                    id = hrd.HRDID;
+                }
+            }
+
+            hrd = _hrdService.Get(m => m.HRDID == id, null, "HRDDetails").FirstOrDefault();
+
+            if (hrd != null)
+            {
+                var detailsToDisplay = GetSummary(hrd, "Zone").ToList();
+
+                return Json(detailsToDisplay.ToDataSourceResult(request));
+            }
+            return RedirectToAction("Index");
+        }
         [EarlyWarningAuthorize(operation = EarlyWarningConstants.Operation.View_HRD_Detail)]
         public ActionResult HRDDetail_Read([DataSourceRequest] DataSourceRequest request, int id = 0)
         {
@@ -301,6 +326,19 @@ namespace Cats.Areas.EarlyWarning.Controllers
                                    };
                
             }
+            if (adminLevel == "Woreda")
+            {
+
+                groupedTotal = from detail in details
+                               group detail by detail.AdminUnit into regionalDetail
+                               select new
+                               {
+                                   Region = regionalDetail.Key,
+                                   NumberOfBeneficiaries = regionalDetail.Sum(m => m.NumberOfBeneficiaries),
+                                   Duration = regionalDetail.Sum(m => (m.NumberOfBeneficiaries * m.DurationOfAssistance))
+                               };
+
+            }
             return (from total in groupedTotal
                     select new RegionalSummaryViewModel
                         {
@@ -309,6 +347,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                             AdminUnitName=total.Region.Name,
                             NumberOfBeneficiaries = total.NumberOfBeneficiaries,
                             Cereal = cerealCoefficient * total.Duration,
+                            code=total.Region.code,
                             BlededFood = blendFoodCoefficient * total.Duration,
                             Oil = oilCoefficient * total.Duration,
                             Pulse = pulseCoefficient * total.Duration

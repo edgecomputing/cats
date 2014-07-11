@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using Cats.Models;
 
-namespace Cats.Areas.GiftCertificate.Models
+namespace Cats.Areas.EarlyWarning.Models
 {
     public class GiftCertificateDetailsViewModel
     {
