@@ -1,0 +1,111 @@
+﻿@model Cats.Areas.EarlyWarning.Models.ReliefRequisitionViewModel
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+@section LeftBar
+{
+    @Html.Partial("_RequistionsLeftBar")
+}
+<fieldset>
+    <legend>
+        Requisition Detail
+    </legend>
+</fieldset> 
+<div class="row-fluid">
+    <div class="span4">
+        <div class="form-horizontal ">
+
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.DisplayNameFor(model => model.RequisitionNo)
+                </div>
+                <div class="controls">
+                    @Html.DisplayFor(model => model.RequisitionNo)
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.DisplayNameFor(model => model.Commodity)
+                </div>
+                <div class="controls">
+                    @Html.DisplayFor(model => model.Commodity)
+                </div>
+            </div>
+
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.DisplayNameFor(model => model.Region)
+                </div>
+                <div class="controls">
+                    @Html.DisplayFor(model => model.Region)
+                </div>
+            </div>
+
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.DisplayNameFor(model => model.Zone)
+                </div>
+                <div class="controls">
+                    @Html.DisplayFor(model => model.Zone)
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.DisplayNameFor(model => model.Round)
+                </div>
+                <div class="controls">
+                    @Html.DisplayFor(model => model.Round)
+                </div>
+            </div>
+
+
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.DisplayNameFor(model => model.RequestedDateEt)
+                </div>
+                <div class="controls">
+                    @Html.DisplayFor(model => model.RequestedDateEt)
+                </div>
+            </div>
+
+
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.DisplayNameFor(model => model.Status)
+                </div>
+                <div class="controls">
+                    @Html.DisplayFor(model => model.Status)
+                </div>
+            </div>
+
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.DisplayNameFor(model => model.Program)
+                </div>
+                <div class="controls">
+                    @Html.DisplayFor(model => model.Program)
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="span4">
+        <ul class="nav nav-list">
+            <li class="nav-header">Detail Actions</li>
+            <li>@Html.ActionLink("Edit", "Edit", new { id = Model.RequisitionID })</li>
+            <li>@Html.ActionLink("Allocation", "Allocation", new { id = Model.RequisitionID })</li>
+            <li>@Html.ActionLink("Approve", "SendToLogistics", new { id = Model.RequisitionID })</li>
+            <li> @Html.ActionLink("Back to List", "Index")</li>
+          
+
+
+            
+           
+        </ul>
+    </div>
+</div>
+
+

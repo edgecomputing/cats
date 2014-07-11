@@ -1,0 +1,33 @@
+﻿@using Cats.Helpers
+@using Cats.Security
+@using Cats.Services.Security
+<ul class="nav nav-list">
+    <li class="nav-header">HRD Management</li>
+    <li>
+        @Html.EarlyWarningOperationButton(
+                            @Url.Action("Index", "HRD"),
+                            EarlyWarningConstants.Operation.View_HRD_list, "<i class=\"icon-inbox\"></i> HRD Lists")
+    </li>
+    <li>
+        @Html.EarlyWarningOperationButton(
+                            @Url.Action("ApprovedHRDs", "HRD"),
+                            EarlyWarningConstants.Operation.View_Approved_HRD, "<i class=\"icon-inbox\"></i> Approved HRD")
+    </li>
+    <li>
+        @Html.EarlyWarningOperationButton(
+                            @Url.Action("CurrentHRDs", "HRD"),
+                            EarlyWarningConstants.Operation.View_Current_HRD, "<i class=\"icon-inbox\"></i> Current HRD")
+    </li>
+    <li>
+        @Html.EarlyWarningOperationButton(
+                            @Url.Action("Compare", "HRD"),
+                            EarlyWarningConstants.Operation.View_Current_HRD, "<i class=\"icon-inbox\"></i> Compare HRD ")
+    </li>
+   
+     <li class="divider"></li>
+    <li>
+        @Html.EarlyWarningOperationButton(
+                            @Url.Action("Index", "Contribution"),
+                            EarlyWarningConstants.Operation.View_Current_HRD, "<i class=\"icon-plus\"></i> Donors Contribution")
+    </li>  
+</ul>

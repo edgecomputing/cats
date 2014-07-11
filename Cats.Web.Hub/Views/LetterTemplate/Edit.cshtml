@@ -1,0 +1,96 @@
+﻿@model Cats.Models.Hubs.LetterTemplate
+@using Cats.Web.Hub.Helpers
+@{
+    ViewBag.Title = Html.Translate("Edit");
+}
+
+<h2>@Html.Translate("Edit Gift Certificate Letter Template")</h2>
+
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+    
+
+        @Html.HiddenFor(model => model.LetterTemplateID)
+        <table width="100%">
+        <tr>
+        <td style="width:200px;">
+            @Html.LabelFor(model => model.Name)
+        </td>
+        <td>
+            @Html.EditorFor(model => model.Name)
+            @Html.ValidationMessageFor(model => model.Name)
+        </td>
+        </tr>
+        <tr>
+        <td>
+            @Html.LabelFor(model => model.Template)
+        </td>
+        <td>
+            @{Html.Telerik().EditorFor(model => model.Template).Name("template").HtmlAttributes(new {style="height:450px;"})
+            .Tools(tools =>
+            {
+
+                tools.Snippets(
+                                    sn => { 
+                                        sn.Add(Html.Translate("Gift Certeficate Details"), new Cats.Web.Hub.Helpers.LetterTemplateHelper().GetDefaultGiftDetail()); 
+                                     }
+                               );
+                tools.Custom(cust => cust.Template(() =>
+                    {
+                        Html.Telerik().DropDownList().Name("certificateFields")
+                            .Items(s =>
+                                {
+                                    s.Add().Text(Html.Translate("-- Select Variables --")).Value(Cats.Web.Hub.Helpers.CertificateFields.DONOR);
+                                    s.Add().Text(Html.Translate("Donor")).Value(Cats.Web.Hub.Helpers.CertificateFields.DONOR);
+                                    s.Add().Text(Html.Translate("ETA")).Value(Cats.Web.Hub.Helpers.CertificateFields.ETA);
+                                    s.Add().Text(Html.Translate("Gift Date")).Value(Cats.Web.Hub.Helpers.CertificateFields.GIFTDATE);
+                                    s.Add().Text(Html.Translate("Reference No")).Value(Cats.Web.Hub.Helpers.CertificateFields.REFERENCENO);
+                                    s.Add().Text(Html.Translate("SI Number")).Value(Cats.Web.Hub.Helpers.CertificateFields.SINUMBER);
+                                    s.Add().Text(Html.Translate("Vessel")).Value(Cats.Web.Hub.Helpers.CertificateFields.VESSEL);
+                                }).ClientEvents(ev => ev.OnChange("certFieldsChanged"))
+                                .Render();
+
+                        Html.Telerik().DropDownList().Name("certificateDetailFields")
+                            .Items(s =>
+                                {
+                                    s.Add().Text(Html.Translate("Account Number")).Value(Cats.Web.Hub.Helpers.CertificateDetailFields.ACCOUNTNUMBER);
+                                    s.Add().Text(Html.Translate("Bill of Loading")).Value(Cats.Web.Hub.Helpers.CertificateDetailFields.BILLOFLOADING);
+                                    s.Add().Text(Html.Translate("Budget Type")).Value(Cats.Web.Hub.Helpers.CertificateDetailFields.BUDGETTYPE);
+                                    s.Add().Text(Html.Translate("Currency")).Value(Cats.Web.Hub.Helpers.CertificateDetailFields.CURRENCY);
+                                    s.Add().Text(Html.Translate("Fund Source")).Value(Cats.Web.Hub.Helpers.CertificateDetailFields.FUNDSOURCE);
+                                    s.Add().Text(Html.Translate("Estimated Price")).Value(Cats.Web.Hub.Helpers.CertificateDetailFields.ESTIMATEDPRICE);
+                                    s.Add().Text(Html.Translate("Estimated Tax")).Value(Cats.Web.Hub.Helpers.CertificateDetailFields.ESTIMATEDTAX);
+                                    s.Add().Text(Html.Translate("Fund Source")).Value(Cats.Web.Hub.Helpers.CertificateDetailFields.FUNDSOURCE);
+                                    s.Add().Text(Html.Translate("Weight in MT")).Value(Cats.Web.Hub.Helpers.CertificateDetailFields.WEIGHTINMT);
+                                    s.Add().Text(Html.Translate("Year Purchased")).Value(Cats.Web.Hub.Helpers.CertificateDetailFields.YEARPURCHASED);
+                                }).ClientEvents(ev => ev.OnChange("certFieldsChanged"))
+                                .Render(); 
+                    }
+            ));
+
+            }).Render();
+
+
+            }
+            @Html.ValidationMessageFor(model => model.Name)
+        </td>
+        </tr>
+        
+        <tr>
+            <td></td>
+            <td>  
+                <input class="t-button" type="submit" value="@Html.Translate("Save")" /></td>
+        </tr>
+        
+        </table>
+}
+<div class="clear"></div>
+<div>
+ <script type="text/javascript">
+     function certFieldsChanged(e) {
+         var edit = $('#template').data('tEditor');
+         edit.exec('insertHtml', { value: e.value });
+     }
+    </script>
+    @Html.ActionLink(Html.Translate("Back to List"), "Index")
+</div>

@@ -1,0 +1,735 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{1467C728-3071-4798-997C-61314B26EF2E}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Cats.Models.Hubs</RootNamespace>
+    <AssemblyName>Cats.Models.Hubs</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Helpers, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.1.0.20105.408\lib\net40\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.AspNet.Mvc.3.0.20105.1\lib\net40\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.AspNet.Razor.1.0.20105.408\lib\net40\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.1.0.20105.408\lib\net40\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.1.0.20105.408\lib\net40\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.1.0.20105.408\lib\net40\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Telerik.Web.Mvc">
+      <HintPath>..\..\packages\TelerikMvcExtensions.2013.1.219\lib\net40\Telerik.Web.Mvc.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Account.cs" />
+    <Compile Include="Adjustment.cs" />
+    <Compile Include="AdjustmentReason.cs" />
+    <Compile Include="AdminUnit.cs" />
+    <Compile Include="AdminUnitType.cs" />
+    <Compile Include="Audit.cs" />
+    <Compile Include="BinCardReport.cs" />
+    <Compile Include="Commodity.cs" />
+    <Compile Include="CommodityGrade.cs" />
+    <Compile Include="CommoditySource.cs" />
+    <Compile Include="CommodityType.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Contact.cs" />
+    <Compile Include="FreeStockStatus.cs" />
+    <Compile Include="Mapping\VWFreePhysicalStockMap.cs" />
+    <Compile Include="SummaryFreeAndPhysicalStockModel.cs" />
+    <Compile Include="Mapping\VWTransferredStockMap.cs" />
+    <Compile Include="ViewModels\DispatchReportViewModel.cs" />
+    <Compile Include="VWTransferredStock.cs" />
+    <Compile Include="VWCarryOver.cs" />
+    <Compile Include="Detail.cs" />
+    <Compile Include="Dispatch.cs" />
+    <Compile Include="DispatchAllocation.cs" />
+    <Compile Include="DispatchDetail.cs" />
+    <Compile Include="DispatchFulfillmentStatus_Result.cs" />
+    <Compile Include="Donor.cs" />
+    <Compile Include="ErrorLog.cs" />
+    <Compile Include="FDP.cs" />
+    <Compile Include="ForgetPasswordRequest.cs" />
+    <Compile Include="GiftCertificate.cs" />
+    <Compile Include="GiftCertificateDetail.cs" />
+    <Compile Include="Hub.cs" />
+    <Compile Include="HubOwner.cs" />
+    <Compile Include="HubSetting.cs" />
+    <Compile Include="HubSettingValue.cs" />
+    <Compile Include="HubView.cs" />
+    <Compile Include="InternalMovement.cs" />
+    <Compile Include="Ledger.cs" />
+    <Compile Include="LedgerType.cs" />
+    <Compile Include="LetterTemplate.cs" />
+    <Compile Include="Mapping\AccountMap.cs" />
+    <Compile Include="Mapping\AdjustmentMap.cs" />
+    <Compile Include="Mapping\AdjustmentReasonMap.cs" />
+    <Compile Include="Mapping\AdminUnitMap.cs" />
+    <Compile Include="Mapping\AdminUnitTypeMap.cs" />
+    <Compile Include="Mapping\AuditMap.cs" />
+    <Compile Include="Mapping\CommodityGradeMap.cs" />
+    <Compile Include="Mapping\CommodityMap.cs" />
+    <Compile Include="Mapping\CommoditySourceMap.cs" />
+    <Compile Include="Mapping\CommodityTypeMap.cs" />
+    <Compile Include="Mapping\ContactMap.cs" />
+    <Compile Include="Mapping\VWCarryOverMap.cs" />
+    <Compile Include="Mapping\DetailMap.cs" />
+    <Compile Include="Mapping\DispatchAllocationMap.cs" />
+    <Compile Include="Mapping\DispatchDetailMap.cs" />
+    <Compile Include="Mapping\DispatchMap.cs" />
+    <Compile Include="Mapping\DonorMap.cs" />
+    <Compile Include="Mapping\ErrorLogMap.cs" />
+    <Compile Include="Mapping\FDPMap.cs" />
+    <Compile Include="Mapping\ForgetPasswordRequestMap.cs" />
+    <Compile Include="Mapping\GiftCertificateDetailMap.cs" />
+    <Compile Include="Mapping\GiftCertificateMap.cs" />
+    <Compile Include="Mapping\HubMap.cs" />
+    <Compile Include="Mapping\HubOwnerMap.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Mapping\HubSettingMap.cs" />
+    <Compile Include="Mapping\HubSettingValueMap.cs" />
+    <Compile Include="Mapping\InternalMovementMap.cs" />
+    <Compile Include="Mapping\LedgerMap.cs" />
+    <Compile Include="Mapping\LedgerTypeMap.cs" />
+    <Compile Include="Mapping\LetterTemplateMap.cs" />
+    <Compile Include="Mapping\MasterMap.cs" />
+    <Compile Include="Mapping\OtherDispatchAllocationMap.cs" />
+    <Compile Include="Mapping\PartitionMap.cs" />
+    <Compile Include="Mapping\PeriodMap.cs" />
+    <Compile Include="Mapping\ProgramMap.cs" />
+    <Compile Include="Mapping\ProjectCodeMap.cs" />
+    <Compile Include="Mapping\ReceiptAllocationMap.cs" />
+    <Compile Include="Mapping\ReceiveDetailMap.cs" />
+    <Compile Include="Mapping\ReceiveMap.cs" />
+    <Compile Include="Mapping\ReleaseNoteMap.cs" />
+    <Compile Include="Mapping\RoleMap.cs" />
+    <Compile Include="Mapping\SessionAttemptMap.cs" />
+    <Compile Include="Mapping\SessionHistoryMap.cs" />
+    <Compile Include="Mapping\SettingMap.cs" />
+    <Compile Include="Mapping\ShippingInstructionMap.cs" />
+    <Compile Include="Mapping\SMSMap.cs" />
+    <Compile Include="Mapping\StackEventMap.cs" />
+    <Compile Include="Mapping\StackEventTypeMap.cs" />
+    <Compile Include="Mapping\StoreMap.cs" />
+    <Compile Include="Mapping\sysdiagramMap.cs" />
+    <Compile Include="Mapping\TransactionGroupMap.cs" />
+    <Compile Include="Mapping\TransactionMap.cs" />
+    <Compile Include="Mapping\TranslationMap.cs" />
+    <Compile Include="Mapping\TransporterMap.cs" />
+    <Compile Include="Mapping\UnitMap.cs" />
+    <Compile Include="Mapping\UserHubMap.cs" />
+    <Compile Include="Mapping\UserProfileMap.cs" />
+    <Compile Include="Mapping\UserRoleMap.cs" />
+    <Compile Include="Mapping\VWCommodityReceivedMap.cs" />
+    <Compile Include="Mapping\VWDispatchCommodityMap.cs" />
+    <Compile Include="Master.cs" />
+    <Compile Include="MetaModels\AccountMetaModel.cs" />
+    <Compile Include="MetaModels\AdjustmentMetaModel.cs" />
+    <Compile Include="MetaModels\AdjustmentReasonMetaModel.cs" />
+    <Compile Include="MetaModels\AdminUnit.cs" />
+    <Compile Include="MetaModels\AdminUnitMetaModel.cs" />
+    <Compile Include="MetaModels\AdminUnitTypeMetaModel.cs" />
+    <Compile Include="MetaModels\AuditMetaModel.cs" />
+    <Compile Include="MetaModels\CommodityGradeMetaModel.cs" />
+    <Compile Include="MetaModels\CommodityMetaModel.cs" />
+    <Compile Include="MetaModels\CommoditySourceMetaModel.cs" />
+    <Compile Include="MetaModels\CommodityTypeMetaModel.cs" />
+    <Compile Include="MetaModels\ContactMetaModel.cs" />
+    <Compile Include="MetaModels\DetailMetaModel.cs" />
+    <Compile Include="MetaModels\DispatchAllocationMetaModel.cs" />
+    <Compile Include="MetaModels\DispatchDetailMetaModel.cs" />
+    <Compile Include="MetaModels\DispatchMetaModel.cs" />
+    <Compile Include="MetaModels\DonorMetaModel.cs" />
+    <Compile Include="MetaModels\ErrorLogMetaModel.cs" />
+    <Compile Include="MetaModels\FDPMetaModel.cs" />
+    <Compile Include="MetaModels\ForgetPasswordRequestMetaModel.cs" />
+    <Compile Include="MetaModels\GiftCertificateDetailMetaModel.cs" />
+    <Compile Include="MetaModels\GiftCertificateMetaModel.cs" />
+    <Compile Include="MetaModels\HubMetaModel.cs" />
+    <Compile Include="MetaModels\HubOwnerMetaModel.cs" />
+    <Compile Include="MetaModels\HubSettingMetaModel.cs" />
+    <Compile Include="MetaModels\HubSettingValueMetaModel.cs" />
+    <Compile Include="MetaModels\InternalMovementMetaModel.cs" />
+    <Compile Include="MetaModels\LedgerMetaModel.cs" />
+    <Compile Include="MetaModels\LedgerTypeMetaModel.cs" />
+    <Compile Include="MetaModels\LetterTemplateMetaModel.cs" />
+    <Compile Include="MetaModels\MasterMetaModel.cs" />
+    <Compile Include="MetaModels\MetadataGenerator.cs" />
+    <Compile Include="MetaModels\OtherDispatchAllocationMetaModel.cs" />
+    <Compile Include="MetaModels\PeriodMetaModel.cs" />
+    <Compile Include="MetaModels\ProgramMetaModel.cs" />
+    <Compile Include="MetaModels\ProjectCodeMetaModel.cs" />
+    <Compile Include="MetaModels\ReceiptAllocationMetaModel.cs" />
+    <Compile Include="MetaModels\ReceiveDetailMetaModel.cs" />
+    <Compile Include="MetaModels\ReceiveMetaModel.cs" />
+    <Compile Include="MetaModels\ReleaseNoteMetaModel.cs" />
+    <Compile Include="MetaModels\RoleMetaModel.cs" />
+    <Compile Include="MetaModels\SessionAttemptMetaModel.cs" />
+    <Compile Include="MetaModels\SessionHistoryMetaModel.cs" />
+    <Compile Include="MetaModels\SettingMetaModel.cs" />
+    <Compile Include="MetaModels\ShippingInstructionMetaModel.cs" />
+    <Compile Include="MetaModels\SMSMetaModel.cs" />
+    <Compile Include="MetaModels\StackEventMetaModel.cs" />
+    <Compile Include="MetaModels\StackEventTypeMetaModel.cs" />
+    <Compile Include="MetaModels\StoreMetaModel.cs" />
+    <Compile Include="MetaModels\TransactionGroupMetaModel.cs" />
+    <Compile Include="MetaModels\TransactionMetaModel.cs" />
+    <Compile Include="MetaModels\TranslationMetaModel.cs" />
+    <Compile Include="MetaModels\TransporterMetaModel.cs" />
+    <Compile Include="MetaModels\UnitMetaModel.cs" />
+    <Compile Include="MetaModels\UserHubMetaModel.cs" />
+    <Compile Include="MetaModels\UserProfileMetaModel.cs" />
+    <Compile Include="MetaModels\UserRoleMetaModel.cs" />
+    <Compile Include="OtherDispatchAllocation.cs" />
+    <Compile Include="Partials\Account.cs" />
+    <Compile Include="Partials\AdminUnit.cs" />
+    <Compile Include="Partials\AdminUnitType.cs" />
+    <Compile Include="Partials\Audit.cs" />
+    <Compile Include="Partials\Commodity.cs" />
+    <Compile Include="Partials\CommodityGrade.cs" />
+    <Compile Include="Partials\CommoditySource.cs" />
+    <Compile Include="Partials\CommodityType.cs" />
+    <Compile Include="Partials\Contact.cs" />
+    <Compile Include="Partials\Detail.cs" />
+    <Compile Include="Partials\Dispatch.cs" />
+    <Compile Include="Partials\DispatchAllocation.cs" />
+    <Compile Include="Partials\DispatchDetail.cs" />
+    <Compile Include="Partials\Donor.cs" />
+    <Compile Include="Partials\ErrorLog.cs" />
+    <Compile Include="Partials\FDP.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Partials\ForgetPasswordRequest.cs" />
+    <Compile Include="Partials\Hub.cs" />
+    <Compile Include="Partials\HubOwner.cs" />
+    <Compile Include="Partials\HubSetting.cs" />
+    <Compile Include="Partials\HubSettingValue.cs" />
+    <Compile Include="Partials\Ledger.cs" />
+    <Compile Include="Partials\LedgerType.cs" />
+    <Compile Include="Partials\LetterTemplate.cs" />
+    <Compile Include="Partials\Master.cs" />
+    <Compile Include="Partials\Period.cs" />
+    <Compile Include="Partials\Program.cs" />
+    <Compile Include="Partials\ProjectCode.cs" />
+    <Compile Include="Partials\ReceiptAllocation.cs" />
+    <Compile Include="Partials\Receive.cs" />
+    <Compile Include="Partials\ReceiveDetail.cs" />
+    <Compile Include="Partials\ReleaseNote.cs" />
+    <Compile Include="Partials\Role.cs" />
+    <Compile Include="Partials\SessionAttempt.cs" />
+    <Compile Include="Partials\SessionHistory.cs" />
+    <Compile Include="Partials\Setting.cs" />
+    <Compile Include="Partials\ShippingInstruction.cs" />
+    <Compile Include="Partials\Store.cs" />
+    <Compile Include="Partials\Transaction.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Partials\TransactionGroup.cs" />
+    <Compile Include="Partials\Translation.cs" />
+    <Compile Include="Partials\Transporter.cs" />
+    <Compile Include="Partials\Unit.cs" />
+    <Compile Include="Partials\UserHub.cs" />
+    <Compile Include="Partials\UserProfile.cs" />
+    <Compile Include="Partials\UserRole.cs" />
+    <Compile Include="Partition.cs" />
+    <Compile Include="Period.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="ProjectCode.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReceiptAllocation.cs" />
+    <Compile Include="Receive.cs" />
+    <Compile Include="ReceiveDetail.cs" />
+    <Compile Include="ReleaseNote.cs" />
+    <Compile Include="ReportBinCard.cs" />
+    <Compile Include="Role.cs" />
+    <Compile Include="RPT_Distribution_Result.cs" />
+    <Compile Include="RPT_MonthGiftSummary_Result.cs" />
+    <Compile Include="RPT_MonthlyGiftSummary_Result.cs" />
+    <Compile Include="RPT_Offloading_Result.cs" />
+    <Compile Include="RPT_ReceiptReport_Result.cs" />
+    <Compile Include="SessionAttempt.cs" />
+    <Compile Include="SessionHistory.cs" />
+    <Compile Include="Setting.cs" />
+    <Compile Include="ShippingInstruction.cs" />
+    <Compile Include="SM.cs" />
+    <Compile Include="SMS.cs" />
+    <Compile Include="StackEvent.cs" />
+    <Compile Include="StackEventType.cs" />
+    <Compile Include="StatusReportBySI_Result.cs" />
+    <Compile Include="StockStatusReport.cs" />
+    <Compile Include="StockStatusViewModel.cs" />
+    <Compile Include="Store.cs" />
+    <Compile Include="sysdiagram.cs" />
+    <Compile Include="Transaction.cs" />
+    <Compile Include="TransactionGroup.cs" />
+    <Compile Include="Translation.cs" />
+    <Compile Include="Transporter.cs" />
+    <Compile Include="Unit.cs" />
+    <Compile Include="UserHub.cs" />
+    <Compile Include="UserProfile.cs" />
+    <Compile Include="UserRole.cs" />
+    <Compile Include="util_GetDispatchedAllocationFromSI_Result.cs" />
+    <Compile Include="ViewModels\Account.cs" />
+    <Compile Include="ViewModels\AccountModels.cs" />
+    <Compile Include="ViewModels\AdminUnitModel.cs" />
+    <Compile Include="ViewModels\AdminUnitType.cs" />
+    <Compile Include="ViewModels\Audit.cs" />
+    <Compile Include="ViewModels\AvailableReceiptAllocations.cs" />
+    <Compile Include="ViewModels\BinCardModels.cs" />
+    <Compile Include="ViewModels\CommoditySource.cs" />
+    <Compile Include="ViewModels\Common\BidRefViewModel.cs" />
+    <Compile Include="ViewModels\Common\CommodityTypeViewModel.cs" />
+    <Compile Include="ViewModels\Common\CommodityViewModel.cs" />
+    <Compile Include="ViewModels\Common\ProgramViewModel.cs" />
+    <Compile Include="ViewModels\Common\ProjectCodeViewModel.cs" />
+    <Compile Include="ViewModels\Common\ReasonViewModel.cs" />
+    <Compile Include="ViewModels\Common\ShippingInstructionViewModel.cs" />
+    <Compile Include="ViewModels\Common\StoreBalanceViewModel.cs" />
+    <Compile Include="ViewModels\Common\StoreViewModel.cs" />
+    <Compile Include="ViewModels\DateStartAttribute.cs" />
+    <Compile Include="ViewModels\Dispatch\Dispatch.cs" />
+    <Compile Include="ViewModels\Dispatch\DispatchAllocation.cs" />
+    <Compile Include="ViewModels\Dispatch\DispatchAllocationViewModel.cs" />
+    <Compile Include="ViewModels\Dispatch\DispatchDetailViewModel.cs" />
+    <Compile Include="ViewModels\Dispatch\DispatchHomeViewModel.cs" />
+    <Compile Include="ViewModels\Dispatch\DispatchViewModel.cs" />
+    <Compile Include="ViewModels\Dispatch\OtherDispatchAllocation.cs" />
+    <Compile Include="ViewModels\Dispatch\OtherDispatchAllocationViewModel.cs" />
+    <Compile Include="ViewModels\Dispatch\RequisitionSummary.cs" />
+    <Compile Include="ViewModels\ErrorModels.cs" />
+    <Compile Include="ViewModels\FDPBalance.cs" />
+    <Compile Include="ViewModels\FDPViewModel.cs" />
+    <Compile Include="ViewModels\GiftCertificateDetailsViewModel.cs" />
+    <Compile Include="ViewModels\GiftCertificateModel.cs" />
+    <Compile Include="ViewModels\GiftCertificateViewModel.cs" />
+    <Compile Include="ViewModels\GroupedTransportation.cs" />
+    <Compile Include="ViewModels\Hub.cs" />
+    <Compile Include="ViewModels\InternalMovementLogViewModel.cs" />
+    <Compile Include="ViewModels\InternalMovementViewModel.cs" />
+    <Compile Include="ViewModels\Ledger.cs" />
+    <Compile Include="ViewModels\LookupViewModel.cs" />
+    <Compile Include="ViewModels\LossAndAdjustmentLogViewModel.cs" />
+    <Compile Include="ViewModels\LossesAndAdjustmentsViewModel.cs" />
+    <Compile Include="ViewModels\Master.cs" />
+    <Compile Include="ViewModels\Period.cs" />
+    <Compile Include="ViewModels\ReceiptAllocation.cs" />
+    <Compile Include="ViewModels\ReceiptAllocationViewModel.cs" />
+    <Compile Include="ViewModels\Receive.cs" />
+    <Compile Include="ViewModels\ReceiveDetailViewModel.cs" />
+    <Compile Include="ViewModels\ReceiveViewModel.cs" />
+    <Compile Include="ViewModels\ReplicationViewModel.cs" />
+    <Compile Include="ViewModels\Report\AreaPartialViewModel.cs" />
+    <Compile Include="ViewModels\Report\Data\BaseReport.cs" />
+    <Compile Include="ViewModels\Report\Data\BinCardViewModel.cs" />
+    <Compile Include="ViewModels\Report\Data\DeliveryReport.cs" />
+    <Compile Include="ViewModels\Report\Data\DistributionReport.cs" />
+    <Compile Include="ViewModels\Report\Data\FreeStockReport.cs" />
+    <Compile Include="ViewModels\Report\Data\OffloadingReport.cs" />
+    <Compile Include="ViewModels\Report\Data\ReceiveReport.cs" />
+    <Compile Include="ViewModels\Report\Filters\AreaViewModel.cs" />
+    <Compile Include="ViewModels\Report\Filters\ArrivalsVsReceiptsViewModel.cs" />
+    <Compile Include="ViewModels\Report\Filters\BinCardReportViewModel.cs" />
+    <Compile Include="ViewModels\Report\Filters\CodesViewModel.cs" />
+    <Compile Include="ViewModels\Report\Filters\CommittedVsDispatchedViewModel.cs" />
+    <Compile Include="ViewModels\Report\Filters\CommoditySourceViewModel.cs" />
+    <Compile Include="ViewModels\Report\Filters\DeliveryAgainstDispatchViewModel.cs" />
+    <Compile Include="ViewModels\Report\Filters\DispatchesViewModel.cs" />
+    <Compile Include="ViewModels\Report\Filters\DistributionByOwnerViewModel.cs" />
+    <Compile Include="ViewModels\Report\Filters\DistributionDeliveryDispatchViewModel.cs" />
+    <Compile Include="ViewModels\Report\Filters\DistributionViewModel.cs" />
+    <Compile Include="ViewModels\Report\Filters\DonorViewModel.cs" />
+    <Compile Include="ViewModels\Report\Filters\FreeStockFilter.cs" />
+    <Compile Include="ViewModels\Report\Filters\InTransitViewModel.cs" />
+    <Compile Include="ViewModels\Report\Filters\PeriodViewModel.cs" />
+    <Compile Include="ViewModels\Report\Filters\PortViewModel.cs" />
+    <Compile Include="ViewModels\Report\Filters\ReceiptsViewModel.cs" />
+    <Compile Include="ViewModels\Report\Filters\StockBalanceViewModel.cs" />
+    <Compile Include="ViewModels\Report\Filters\TypeViewModel.cs" />
+    <Compile Include="ViewModels\Role.cs" />
+    <Compile Include="ViewModels\RoleModel.cs" />
+    <Compile Include="ViewModels\SelectListItemModel.cs" />
+    <Compile Include="ViewModels\SelectTemplateModel.cs" />
+    <Compile Include="ViewModels\Setting.cs" />
+    <Compile Include="ViewModels\SIBalance.cs" />
+    <Compile Include="ViewModels\SIReportModel.cs" />
+    <Compile Include="ViewModels\SMTPConfig.cs" />
+    <Compile Include="ViewModels\StackEventLogViewModel.cs" />
+    <Compile Include="ViewModels\StackEventViewModel.cs" />
+    <Compile Include="ViewModels\StartingBalanceViewModel.cs" />
+    <Compile Include="ViewModels\Store.cs" />
+    <Compile Include="ViewModels\TreeViewModel.cs" />
+    <Compile Include="ViewModels\Unit.cs" />
+    <Compile Include="ViewModels\UnitModel.cs" />
+    <Compile Include="ViewModels\UserHubsModel.cs" />
+    <Compile Include="ViewModels\UserPreferenceViewModel.cs" />
+    <Compile Include="ViewModels\UserProfile.cs" />
+    <Compile Include="ViewModels\UserRolesModel.cs" />
+    <Compile Include="ViewModels\UserWarehouseModel.cs" />
+    <Compile Include="ViewModels\Warehouse.cs" />
+    <Compile Include="VWCommodityReceived.cs" />
+    <Compile Include="VWFreePhysicalStock.cs" />
+    <Compile Include="VWDispatchCommodity.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Helpers\" />
+    <Folder Include="Partials\Generator\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\2013.1.219\Black\editor.png" />
+    <Content Include="Content\2013.1.219\Black\imagebrowser.png" />
+    <Content Include="Content\2013.1.219\Black\loading.gif" />
+    <Content Include="Content\2013.1.219\Black\slider-h.gif" />
+    <Content Include="Content\2013.1.219\Black\slider-v.gif" />
+    <Content Include="Content\2013.1.219\Black\sprite-vertical.png" />
+    <Content Include="Content\2013.1.219\Black\sprite.png" />
+    <Content Include="Content\2013.1.219\Black\treeview-line.png" />
+    <Content Include="Content\2013.1.219\Black\treeview-nodes-rtl.png" />
+    <Content Include="Content\2013.1.219\Black\treeview-nodes.png" />
+    <Content Include="Content\2013.1.219\Default\editor.png" />
+    <Content Include="Content\2013.1.219\Default\imagebrowser.png" />
+    <Content Include="Content\2013.1.219\Default\loading.gif" />
+    <Content Include="Content\2013.1.219\Default\slider-h.gif" />
+    <Content Include="Content\2013.1.219\Default\slider-v.gif" />
+    <Content Include="Content\2013.1.219\Default\sprite-vertical.png" />
+    <Content Include="Content\2013.1.219\Default\sprite.png" />
+    <Content Include="Content\2013.1.219\Default\treeview-line.png" />
+    <Content Include="Content\2013.1.219\Default\treeview-nodes-rtl.png" />
+    <Content Include="Content\2013.1.219\Default\treeview-nodes.png" />
+    <Content Include="Content\2013.1.219\Forest\editor.png" />
+    <Content Include="Content\2013.1.219\Forest\imagebrowser.png" />
+    <Content Include="Content\2013.1.219\Forest\loading.gif" />
+    <Content Include="Content\2013.1.219\Forest\slider-h.gif" />
+    <Content Include="Content\2013.1.219\Forest\slider-v.gif" />
+    <Content Include="Content\2013.1.219\Forest\sprite-vertical.png" />
+    <Content Include="Content\2013.1.219\Forest\sprite.png" />
+    <Content Include="Content\2013.1.219\Forest\treeview-line.png" />
+    <Content Include="Content\2013.1.219\Forest\treeview-nodes-rtl.png" />
+    <Content Include="Content\2013.1.219\Forest\treeview-nodes.png" />
+    <Content Include="Content\2013.1.219\Hay\editor.png" />
+    <Content Include="Content\2013.1.219\Hay\imagebrowser.png" />
+    <Content Include="Content\2013.1.219\Hay\loading.gif" />
+    <Content Include="Content\2013.1.219\Hay\slider-h.gif" />
+    <Content Include="Content\2013.1.219\Hay\slider-v.gif" />
+    <Content Include="Content\2013.1.219\Hay\sprite-vertical.png" />
+    <Content Include="Content\2013.1.219\Hay\sprite.png" />
+    <Content Include="Content\2013.1.219\Hay\treeview-line.png" />
+    <Content Include="Content\2013.1.219\Hay\treeview-nodes-rtl.png" />
+    <Content Include="Content\2013.1.219\Hay\treeview-nodes.png" />
+    <Content Include="Content\2013.1.219\Metro\editor.png" />
+    <Content Include="Content\2013.1.219\Metro\imagebrowser.png" />
+    <Content Include="Content\2013.1.219\Metro\loading.gif" />
+    <Content Include="Content\2013.1.219\Metro\slider-h.gif" />
+    <Content Include="Content\2013.1.219\Metro\slider-v.gif" />
+    <Content Include="Content\2013.1.219\Metro\sprite.png" />
+    <Content Include="Content\2013.1.219\Office2007\editor.png" />
+    <Content Include="Content\2013.1.219\Office2007\imagebrowser.png" />
+    <Content Include="Content\2013.1.219\Office2007\loading.gif" />
+    <Content Include="Content\2013.1.219\Office2007\slider-h.gif" />
+    <Content Include="Content\2013.1.219\Office2007\slider-v.gif" />
+    <Content Include="Content\2013.1.219\Office2007\sprite-vertical.png" />
+    <Content Include="Content\2013.1.219\Office2007\sprite.png" />
+    <Content Include="Content\2013.1.219\Office2007\treeview-line.png" />
+    <Content Include="Content\2013.1.219\Office2007\treeview-nodes-rtl.png" />
+    <Content Include="Content\2013.1.219\Office2007\treeview-nodes.png" />
+    <Content Include="Content\2013.1.219\Office2010Black\editor.png" />
+    <Content Include="Content\2013.1.219\Office2010Black\imagebrowser.png" />
+    <Content Include="Content\2013.1.219\Office2010Black\loading.gif" />
+    <Content Include="Content\2013.1.219\Office2010Black\slider-h.gif" />
+    <Content Include="Content\2013.1.219\Office2010Black\slider-v.gif" />
+    <Content Include="Content\2013.1.219\Office2010Black\sprite-vertical.png" />
+    <Content Include="Content\2013.1.219\Office2010Black\sprite.png" />
+    <Content Include="Content\2013.1.219\Office2010Black\treeview-line.png" />
+    <Content Include="Content\2013.1.219\Office2010Black\treeview-nodes-rtl.png" />
+    <Content Include="Content\2013.1.219\Office2010Black\treeview-nodes.png" />
+    <Content Include="Content\2013.1.219\Office2010Blue\editor.png" />
+    <Content Include="Content\2013.1.219\Office2010Blue\gradient.png" />
+    <Content Include="Content\2013.1.219\Office2010Blue\imagebrowser.png" />
+    <Content Include="Content\2013.1.219\Office2010Blue\loading.gif" />
+    <Content Include="Content\2013.1.219\Office2010Blue\slider-h.gif" />
+    <Content Include="Content\2013.1.219\Office2010Blue\slider-v.gif" />
+    <Content Include="Content\2013.1.219\Office2010Blue\sprite-vertical.png" />
+    <Content Include="Content\2013.1.219\Office2010Blue\sprite.png" />
+    <Content Include="Content\2013.1.219\Office2010Silver\editor.png" />
+    <Content Include="Content\2013.1.219\Office2010Silver\gradient.png" />
+    <Content Include="Content\2013.1.219\Office2010Silver\imagebrowser.png" />
+    <Content Include="Content\2013.1.219\Office2010Silver\loading.gif" />
+    <Content Include="Content\2013.1.219\Office2010Silver\slider-h.gif" />
+    <Content Include="Content\2013.1.219\Office2010Silver\slider-v.gif" />
+    <Content Include="Content\2013.1.219\Office2010Silver\sprite-vertical.png" />
+    <Content Include="Content\2013.1.219\Office2010Silver\sprite.png" />
+    <Content Include="Content\2013.1.219\Outlook\editor.png" />
+    <Content Include="Content\2013.1.219\Outlook\imagebrowser.png" />
+    <Content Include="Content\2013.1.219\Outlook\loading.gif" />
+    <Content Include="Content\2013.1.219\Outlook\slider-h.gif" />
+    <Content Include="Content\2013.1.219\Outlook\slider-v.gif" />
+    <Content Include="Content\2013.1.219\Outlook\sprite-vertical.png" />
+    <Content Include="Content\2013.1.219\Outlook\sprite.png" />
+    <Content Include="Content\2013.1.219\Outlook\treeview-line.png" />
+    <Content Include="Content\2013.1.219\Outlook\treeview-nodes-rtl.png" />
+    <Content Include="Content\2013.1.219\Outlook\treeview-nodes.png" />
+    <Content Include="Content\2013.1.219\Simple\editor.png" />
+    <Content Include="Content\2013.1.219\Simple\imagebrowser.png" />
+    <Content Include="Content\2013.1.219\Simple\loading.gif" />
+    <Content Include="Content\2013.1.219\Simple\slider-h.gif" />
+    <Content Include="Content\2013.1.219\Simple\slider-v.gif" />
+    <Content Include="Content\2013.1.219\Simple\sprite.png" />
+    <Content Include="Content\2013.1.219\Simple\treeview-line.png" />
+    <Content Include="Content\2013.1.219\Simple\treeview-nodes-rtl.png" />
+    <Content Include="Content\2013.1.219\Simple\treeview-nodes.png" />
+    <Content Include="Content\2013.1.219\Sitefinity\editor.png" />
+    <Content Include="Content\2013.1.219\Sitefinity\imagebrowser.png" />
+    <Content Include="Content\2013.1.219\Sitefinity\loading.gif" />
+    <Content Include="Content\2013.1.219\Sitefinity\slider-h.gif" />
+    <Content Include="Content\2013.1.219\Sitefinity\slider-v.gif" />
+    <Content Include="Content\2013.1.219\Sitefinity\sprite-vertical.png" />
+    <Content Include="Content\2013.1.219\Sitefinity\sprite.png" />
+    <Content Include="Content\2013.1.219\Sitefinity\treeview-line.png" />
+    <Content Include="Content\2013.1.219\Sitefinity\treeview-nodes-rtl.png" />
+    <Content Include="Content\2013.1.219\Sitefinity\treeview-nodes.png" />
+    <Content Include="Content\2013.1.219\Sunset\editor.png" />
+    <Content Include="Content\2013.1.219\Sunset\imagebrowser.png" />
+    <Content Include="Content\2013.1.219\Sunset\loading.gif" />
+    <Content Include="Content\2013.1.219\Sunset\slider-h.gif" />
+    <Content Include="Content\2013.1.219\Sunset\slider-v.gif" />
+    <Content Include="Content\2013.1.219\Sunset\sprite-vertical.png" />
+    <Content Include="Content\2013.1.219\Sunset\sprite.png" />
+    <Content Include="Content\2013.1.219\Sunset\treeview-line.png" />
+    <Content Include="Content\2013.1.219\Sunset\treeview-nodes-rtl.png" />
+    <Content Include="Content\2013.1.219\Sunset\treeview-nodes.png" />
+    <Content Include="Content\2013.1.219\telerik.black.min.css" />
+    <Content Include="Content\2013.1.219\telerik.common.min.css" />
+    <Content Include="Content\2013.1.219\telerik.default.min.css" />
+    <Content Include="Content\2013.1.219\telerik.forest.min.css" />
+    <Content Include="Content\2013.1.219\telerik.hay.min.css" />
+    <Content Include="Content\2013.1.219\telerik.metro.min.css" />
+    <Content Include="Content\2013.1.219\telerik.office2007.min.css" />
+    <Content Include="Content\2013.1.219\telerik.office2010black.min.css" />
+    <Content Include="Content\2013.1.219\telerik.office2010blue.min.css" />
+    <Content Include="Content\2013.1.219\telerik.office2010silver.min.css" />
+    <Content Include="Content\2013.1.219\telerik.outlook.min.css" />
+    <Content Include="Content\2013.1.219\telerik.rtl.min.css" />
+    <Content Include="Content\2013.1.219\telerik.simple.min.css" />
+    <Content Include="Content\2013.1.219\telerik.sitefinity.min.css" />
+    <Content Include="Content\2013.1.219\telerik.sunset.min.css" />
+    <Content Include="Content\2013.1.219\telerik.telerik.min.css" />
+    <Content Include="Content\2013.1.219\telerik.transparent.min.css" />
+    <Content Include="Content\2013.1.219\telerik.vista.min.css" />
+    <Content Include="Content\2013.1.219\telerik.web20.min.css" />
+    <Content Include="Content\2013.1.219\telerik.webblue.min.css" />
+    <Content Include="Content\2013.1.219\telerik.windows7.min.css" />
+    <Content Include="Content\2013.1.219\Telerik\editor.png" />
+    <Content Include="Content\2013.1.219\Telerik\imagebrowser.png" />
+    <Content Include="Content\2013.1.219\Telerik\loading.gif" />
+    <Content Include="Content\2013.1.219\Telerik\slider-h.gif" />
+    <Content Include="Content\2013.1.219\Telerik\slider-v.gif" />
+    <Content Include="Content\2013.1.219\Telerik\sprite-vertical.png" />
+    <Content Include="Content\2013.1.219\Telerik\sprite.png" />
+    <Content Include="Content\2013.1.219\Telerik\treeview-line.png" />
+    <Content Include="Content\2013.1.219\Telerik\treeview-nodes-rtl.png" />
+    <Content Include="Content\2013.1.219\Telerik\treeview-nodes.png" />
+    <Content Include="Content\2013.1.219\Transparent\active.png" />
+    <Content Include="Content\2013.1.219\Transparent\editor.png" />
+    <Content Include="Content\2013.1.219\Transparent\gradient.png" />
+    <Content Include="Content\2013.1.219\Transparent\group.png" />
+    <Content Include="Content\2013.1.219\Transparent\hover.png" />
+    <Content Include="Content\2013.1.219\Transparent\imagebrowser.png" />
+    <Content Include="Content\2013.1.219\Transparent\loading.gif" />
+    <Content Include="Content\2013.1.219\Transparent\selected.png" />
+    <Content Include="Content\2013.1.219\Transparent\slider-h.gif" />
+    <Content Include="Content\2013.1.219\Transparent\slider-v.gif" />
+    <Content Include="Content\2013.1.219\Transparent\sprite-vertical.png" />
+    <Content Include="Content\2013.1.219\Transparent\sprite.png" />
+    <Content Include="Content\2013.1.219\Transparent\toolbar.png" />
+    <Content Include="Content\2013.1.219\Transparent\widget.png" />
+    <Content Include="Content\2013.1.219\Vista\editor.png" />
+    <Content Include="Content\2013.1.219\Vista\imagebrowser.png" />
+    <Content Include="Content\2013.1.219\Vista\loading.gif" />
+    <Content Include="Content\2013.1.219\Vista\slider-h.gif" />
+    <Content Include="Content\2013.1.219\Vista\slider-v.gif" />
+    <Content Include="Content\2013.1.219\Vista\sprite-vertical.png" />
+    <Content Include="Content\2013.1.219\Vista\sprite.png" />
+    <Content Include="Content\2013.1.219\Web20\editor.png" />
+    <Content Include="Content\2013.1.219\Web20\imagebrowser.png" />
+    <Content Include="Content\2013.1.219\Web20\loading.gif" />
+    <Content Include="Content\2013.1.219\Web20\slider-h.gif" />
+    <Content Include="Content\2013.1.219\Web20\slider-v.gif" />
+    <Content Include="Content\2013.1.219\Web20\sprite-vertical.png" />
+    <Content Include="Content\2013.1.219\Web20\sprite.png" />
+    <Content Include="Content\2013.1.219\Web20\treeview-line.png" />
+    <Content Include="Content\2013.1.219\Web20\treeview-nodes-rtl.png" />
+    <Content Include="Content\2013.1.219\Web20\treeview-nodes.png" />
+    <Content Include="Content\2013.1.219\WebBlue\editor.png" />
+    <Content Include="Content\2013.1.219\WebBlue\imagebrowser.png" />
+    <Content Include="Content\2013.1.219\WebBlue\loading.gif" />
+    <Content Include="Content\2013.1.219\WebBlue\slider-h.gif" />
+    <Content Include="Content\2013.1.219\WebBlue\slider-v.gif" />
+    <Content Include="Content\2013.1.219\WebBlue\sprite-vertical.png" />
+    <Content Include="Content\2013.1.219\WebBlue\sprite.png" />
+    <Content Include="Content\2013.1.219\WebBlue\treeview-line.png" />
+    <Content Include="Content\2013.1.219\WebBlue\treeview-nodes-rtl.png" />
+    <Content Include="Content\2013.1.219\WebBlue\treeview-nodes.png" />
+    <Content Include="Content\2013.1.219\Windows7\editor.png" />
+    <Content Include="Content\2013.1.219\Windows7\imagebrowser.png" />
+    <Content Include="Content\2013.1.219\Windows7\loading.gif" />
+    <Content Include="Content\2013.1.219\Windows7\slider-h.gif" />
+    <Content Include="Content\2013.1.219\Windows7\slider-v.gif" />
+    <Content Include="Content\2013.1.219\Windows7\sprite-vertical.png" />
+    <Content Include="Content\2013.1.219\Windows7\sprite.png" />
+    <Content Include="Scripts\2013.1.219\jquery-1.7.1.min.js" />
+    <Content Include="Scripts\2013.1.219\jquery.validate.min.js" />
+    <Content Include="Scripts\2013.1.219\telerik.all.min.js" />
+    <Content Include="Scripts\2013.1.219\telerik.autocomplete.min.js" />
+    <Content Include="Scripts\2013.1.219\telerik.calendar.min.js" />
+    <Content Include="Scripts\2013.1.219\telerik.chart.min.js" />
+    <Content Include="Scripts\2013.1.219\telerik.combobox.min.js" />
+    <Content Include="Scripts\2013.1.219\telerik.common.min.js" />
+    <Content Include="Scripts\2013.1.219\telerik.datepicker.min.js" />
+    <Content Include="Scripts\2013.1.219\telerik.datetimepicker.min.js" />
+    <Content Include="Scripts\2013.1.219\telerik.draganddrop.min.js" />
+    <Content Include="Scripts\2013.1.219\telerik.editor.min.js" />
+    <Content Include="Scripts\2013.1.219\telerik.grid.editing.min.js" />
+    <Content Include="Scripts\2013.1.219\telerik.grid.filtering.min.js" />
+    <Content Include="Scripts\2013.1.219\telerik.grid.grouping.min.js" />
+    <Content Include="Scripts\2013.1.219\telerik.grid.min.js" />
+    <Content Include="Scripts\2013.1.219\telerik.grid.reordering.min.js" />
+    <Content Include="Scripts\2013.1.219\telerik.grid.resizing.min.js" />
+    <Content Include="Scripts\2013.1.219\telerik.imagebrowser.min.js" />
+    <Content Include="Scripts\2013.1.219\telerik.list.min.js" />
+    <Content Include="Scripts\2013.1.219\telerik.menu.min.js" />
+    <Content Include="Scripts\2013.1.219\telerik.panelbar.min.js" />
+    <Content Include="Scripts\2013.1.219\telerik.slider.min.js" />
+    <Content Include="Scripts\2013.1.219\telerik.splitter.min.js" />
+    <Content Include="Scripts\2013.1.219\telerik.tabstrip.min.js" />
+    <Content Include="Scripts\2013.1.219\telerik.textbox.min.js" />
+    <Content Include="Scripts\2013.1.219\telerik.timepicker.min.js" />
+    <Content Include="Scripts\2013.1.219\telerik.treeview.min.js" />
+    <Content Include="Scripts\2013.1.219\telerik.upload.min.js" />
+    <Content Include="Scripts\2013.1.219\telerik.window.min.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="App_GlobalResources\EditorLocalization.bg-BG.resx" />
+    <EmbeddedResource Include="App_GlobalResources\EditorLocalization.da-DK.resx" />
+    <EmbeddedResource Include="App_GlobalResources\EditorLocalization.de-DE.resx" />
+    <EmbeddedResource Include="App_GlobalResources\EditorLocalization.en-US.resx" />
+    <EmbeddedResource Include="App_GlobalResources\EditorLocalization.fr-FR.resx" />
+    <EmbeddedResource Include="App_GlobalResources\EditorLocalization.nl-NL.resx" />
+    <EmbeddedResource Include="App_GlobalResources\EditorLocalization.pl-PL.resx" />
+    <EmbeddedResource Include="App_GlobalResources\EditorLocalization.pt-BR.resx" />
+    <EmbeddedResource Include="App_GlobalResources\EditorLocalization.pt-PT.resx" />
+    <EmbeddedResource Include="App_GlobalResources\EditorLocalization.resx" />
+    <EmbeddedResource Include="App_GlobalResources\EditorLocalization.ru-RU.resx" />
+    <EmbeddedResource Include="App_GlobalResources\EditorLocalization.uk-UA.resx" />
+    <EmbeddedResource Include="App_GlobalResources\EditorLocalization.zh-CN.resx" />
+    <EmbeddedResource Include="App_GlobalResources\GridLocalization.bg-BG.resx" />
+    <EmbeddedResource Include="App_GlobalResources\GridLocalization.da-DK.resx" />
+    <EmbeddedResource Include="App_GlobalResources\GridLocalization.de-DE.resx" />
+    <EmbeddedResource Include="App_GlobalResources\GridLocalization.en-US.resx" />
+    <EmbeddedResource Include="App_GlobalResources\GridLocalization.es-ES.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="App_GlobalResources\GridLocalization.fr-FR.resx" />
+    <EmbeddedResource Include="App_GlobalResources\GridLocalization.nl-NL.resx" />
+    <EmbeddedResource Include="App_GlobalResources\GridLocalization.pl-PL.resx" />
+    <EmbeddedResource Include="App_GlobalResources\GridLocalization.pt-BR.resx" />
+    <EmbeddedResource Include="App_GlobalResources\GridLocalization.pt-PT.resx" />
+    <EmbeddedResource Include="App_GlobalResources\GridLocalization.resx" />
+    <EmbeddedResource Include="App_GlobalResources\GridLocalization.ru-RU.resx" />
+    <EmbeddedResource Include="App_GlobalResources\GridLocalization.uk-UA.resx" />
+    <EmbeddedResource Include="App_GlobalResources\GridLocalization.zh-CN.resx" />
+    <EmbeddedResource Include="App_GlobalResources\UploadLocalization.bg-BG.resx" />
+    <EmbeddedResource Include="App_GlobalResources\UploadLocalization.da-DK.resx" />
+    <EmbeddedResource Include="App_GlobalResources\UploadLocalization.en-US.resx" />
+    <EmbeddedResource Include="App_GlobalResources\UploadLocalization.fr-FR.resx" />
+    <EmbeddedResource Include="App_GlobalResources\UploadLocalization.nl-NL.resx" />
+    <EmbeddedResource Include="App_GlobalResources\UploadLocalization.pl-PL.resx" />
+    <EmbeddedResource Include="App_GlobalResources\UploadLocalization.pt-BR.resx" />
+    <EmbeddedResource Include="App_GlobalResources\UploadLocalization.pt-PT.resx" />
+    <EmbeddedResource Include="App_GlobalResources\UploadLocalization.ru-RU.resx" />
+    <EmbeddedResource Include="App_GlobalResources\UploadLocalization.zh-CN.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Cats.Models.Security\Cats.Models.Security.csproj">
+      <Project>{e3c4d9fc-ad84-4e19-a475-6adbd134af68}</Project>
+      <Name>Cats.Models.Security</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,156 @@
+﻿@model Cats.Models.Hubs.ViewModels.Dispatch.OtherDispatchAllocationViewModel
+ @using Cats.Web.Hub.Helpers
+
+
+    @{
+        SelectList ToHubID = new SelectList(Model.ToHubs, "HubID", "HubNameWithOwner", Model.ToHubID);
+        SelectList UnitID = new SelectList(Model.Units, "UnitID", "Name", Model.UnitID);
+        SelectList CommodityTypeID = new SelectList(Model.CommodityTypes, "CommodityTypeID", "Name", Model.CommodityTypeID);
+        SelectList ProgramID = new SelectList(Model.Programs, "ProgramID", "Name", Model.ProgramID);
+        SelectList ReasonID = new SelectList(Model.Reasons, "ID", "Name", Model.ReasonID);
+    }
+
+@using (Html.BeginForm("SaveLoanAjax", "DispatchAllocation", FormMethod.Post, new { @id = "frm_edit_inline" }))
+{
+    @Html.HiddenFor(model => model.PartitionID)
+    @Html.HiddenFor(model => model.OtherDispatchAllocationID)
+    @Html.HiddenFor(model => model.FromHubID) 
+    <input type="submit" />
+    <div class="form-horizontal two-col-form">
+        <!--AgreementDate-->
+        <div class="control-group required">
+            @Html.LabelFor(model => model.AgreementDate,new { @class="control-label" })
+            <div class="controls">
+                @Html.TextBoxFor(model => model.AgreementDate)
+                @Html.ValidationMessageFor(model => model.AgreementDate)
+            </div>
+        </div>
+
+        <!--EstimatedDispatchDate-->
+        <div class="control-group required">
+            @Html.LabelFor(model => model.EstimatedDispatchDate,new { @class="control-label" })
+            <div class="controls">
+                @Html.TextBoxFor(model => model.EstimatedDispatchDate)
+                @Html.ValidationMessageFor(model => model.EstimatedDispatchDate)
+            </div>
+        </div>
+
+        <!--ReasonID-->
+        <div class="control-group required">
+            @Html.LabelFor(model => model.ReasonID ,new { @class="control-label" })
+            <div class="controls">
+                @Html.DropDownListFor(model => model.ReasonID,ReasonID, new { @class="inputs-large"})
+                @Html.ValidationMessageFor(model => model.ReasonID)
+            </div>
+        </div>
+
+        <!--ReferenceNumber-->
+        <div class="control-group required">
+             @Html.LabelFor(model => model.ReferenceNumber ,new { @class="control-label" })
+            <div class="controls">
+                @Html.EditorFor(model => model.ReferenceNumber)
+                @Html.ValidationMessageFor(model => model.ReferenceNumber)
+            </div>
+        </div>
+
+        <!--ToHubID-->
+        <div class="control-group required">
+            @Html.LabelFor(model => model.ToHubID,new { @class="control-label" })
+            <div class="controls">
+                @Html.DropDownListFor(model => model.ToHubID,ToHubID, new { @class="inputs-large"})
+                @Html.ValidationMessageFor(model => model.ToHubID)
+            </div>
+        </div>
+            
+        <!--ProgramID-->
+        <div class="control-group required">
+            @Html.LabelFor(model => model.ProgramID,new { @class="control-label" })
+            <div class="controls">
+                @Html.DropDownListFor(model => model.ProgramID,ProgramID, new { @class="inputs-large"})
+                @Html.ValidationMessageFor(model => model.ProgramID)
+            </div>
+        </div>
+            
+        <!--ProjectCode-->
+        <div class="control-group required">
+            @Html.LabelFor(model => model.ProjectCode,new { @class="control-label" })
+            <div class="controls">
+                @Html.EditorFor(model => model.ProjectCode)
+                @Html.ValidationMessageFor(model => model.ProjectCode)
+            </div>
+        </div>
+
+        <!--ShippingInstruction-->
+        <div class="control-group required">
+            @Html.LabelFor(model => model.ShippingInstruction,new { @class="control-label" })
+            <div class="controls">
+                @Html.EditorFor(model => model.ShippingInstruction)
+                @Html.ValidationMessageFor(model => model.ShippingInstruction)
+            </div>
+        </div>
+
+        <!--CommodityTypeID-->
+        <div class="control-group required">
+            @Html.LabelFor(model => model.CommodityTypeID,new { @class="control-label" })
+            <div class="controls">
+                @Html.DropDownListFor(model => model.CommodityTypeID,CommodityTypeID, new { @class="inputs-large"})
+                @Html.ValidationMessageFor(model => model.CommodityTypeID)
+                @Html.AuditTrial("OtherDispatchAllocation", "CommodityTypeID", Model.OtherDispatchAllocationID)
+            </div>
+        </div>
+
+        <!--CommodityID-->
+        <div class="control-group required">
+            @Html.LabelFor(model => model.CommodityID,new { @class="control-label" })
+            <div class="controls">
+                @Html.EditorFor(model => model.CommodityID)
+                @Html.ValidationMessageFor(model => model.CommodityID)
+            </div>
+        </div>
+
+        <!--UnitID-->
+        <div class="control-group required">
+            @Html.LabelFor(model => model.UnitID,new { @class="control-label" })
+            <div class="controls">
+                @Html.DropDownListFor(model => model.UnitID,UnitID, new { @class="inputs-large"})
+                @Html.ValidationMessageFor(model => model.UnitID)
+            </div>
+        </div>
+
+        <!--QuantityInUnit-->
+        <div class="control-group required">
+            @Html.LabelFor(model => model.QuantityInUnit,new { @class="control-label" })
+            <div class="controls">
+                @Html.EditorFor(model => model.QuantityInUnit)
+                @Html.ValidationMessageFor(model => model.QuantityInUnit)
+            </div>
+        </div>
+
+        <!--QuantityInMT-->
+        <div class="control-group required">
+            @Html.LabelFor(model => model.QuantityInMT,new { @class="control-label" })
+            <div class="controls">
+                @Html.EditorFor(model => model.QuantityInMT)
+                @Html.ValidationMessageFor(model => model.QuantityInMT)
+            </div>
+        </div>
+
+        <!--IsClosed-->
+        <div class="control-group required">
+            @Html.LabelFor(model => model.IsClosed,new { @class="control-label" })
+            <div class="controls">
+                @Html.CheckBoxFor(model => model.IsClosed)
+                    @Html.ValidationMessageFor(model => model.IsClosed)
+            </div>
+        </div>
+    </div>
+    <div style="clear:both;"></div>
+    
+}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+       
+    });
+
+</script>

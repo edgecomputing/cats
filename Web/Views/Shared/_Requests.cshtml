@@ -1,0 +1,66 @@
+﻿@model IEnumerable<Cats.Models.RegionalRequest>
+
+@{
+    ViewBag.Title = "Requests";
+}
+
+@foreach (var item in Model)
+{
+    <div class="widget-content" style="border-color:#5F9EA0">
+        <table style="width: 100%">
+            <tr>
+                <td class="data">
+                    <b>Region:</b>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AdminUnit.Name)
+                </td>
+                <td>
+                    <b>Year:</b>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Year)
+                </td>
+                <td>
+                    <b>Month:</b>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MonthName)
+                </td>
+            </tr>
+            <tr>
+
+            </tr>
+            <tr>
+                <td>
+                    <b>Program:</b>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Program.Name)
+                </td>
+
+                <td>
+                    <b>Reference No.: </b>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReferenceNumber)
+                </td>
+                <td>
+                    <b>Status:</b>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+            </tr>
+        </table>
+    </div>
+    <br/>        
+    
+}
+
+<style>
+    .td
+    {
+        text-align: left;
+    }
+</style>

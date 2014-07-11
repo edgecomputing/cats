@@ -1,0 +1,190 @@
+﻿@using Kendo.Mvc.UI
+@model IEnumerable<Cats.Procurement.Models.TransporterPOCO>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+
+}
+
+@section LeftBar
+{
+    @Html.Partial("_TransporterLeftBar")
+}
+@section Toolbar
+{
+        <a data-buttontype="btn_new_record"  class="btn toolbar-btn " href="@Url.Action("Create", "Transporter")"></a>
+}
+<div>
+    <h3>Transporter List</h3>
+</div>
+
+@(Html.Kendo().Grid<Cats.Procurement.Models.TransporterPOCO>()
+    .Name("grid")
+    .Columns(columns =>
+    {
+        columns.Bound(p => p.Name);
+        columns.Bound(p => p.Region).Width(100);
+        columns.Bound(p => p.SubCity).Width(100);
+        columns.Bound(p => p.TelephoneNo).Width(100);
+  
+        
+        columns.Command(command => { 
+            //command.Edit(); 
+          //  command.Custom("Edit").Click("editRecordAjax");
+            command.Custom("Edit").Click("editRecord");
+            command.Destroy(); }).Width(330);
+    })
+    
+   
+    .Editable(editable => editable.Mode(GridEditMode.PopUp))
+    
+    .Sortable()
+    .Scrollable()
+    .HtmlAttributes(new { style = "height:430px;" })
+    .DataSource(dataSource => dataSource
+        .Ajax()
+       
+        .Events(events => events.Error("error_handler"))
+        .Model(model => model.Id(p => p.TransporterID))
+        .Read(read => read.Action("EditingInline_Read", "Transporter"))
+        .Destroy(update => update.Action("EditingInline_Destroy", "Transporter"))
+        //.Update(update => update.Action("EditingInline_Update", "Transporter"))
+        //.Create(update => update.Action("EditingInline_Create", "Transporter"))
+        
+        .Update(update => update.Action("Edit", "Transporter"))
+        .Create(update => update.Action("Create", "Transporter"))
+    )
+)
+
+@(Html.Kendo().Window()
+    .Name("transporter_edit_window")
+    .Title("Transporter")
+    .Content("loading user info...")
+   
+    .Iframe(false)
+    .Draggable()
+    .Resizable()
+    .Width(1000)
+    .Height(500)
+    .Modal(true).Visible(false)
+    .Actions(actions => actions.Refresh().Close())
+)
+
+<div id="transporter_edit_window2"></div>
+<script type="text/javascript">
+    function error_handler(e) {
+        if (e.errors) {
+            var message = "Errors:\n";
+            $.each(e.errors, function (key, value) {
+                if ('errors' in value) {
+                    $.each(value.errors, function () {
+                        message += this + "\n";
+                    });
+                }
+            });
+            alert(message);
+        }
+    }
+
+    function onClose(e) {
+       // e.preventDefault();
+       // $("#window").data("kendoWindow").hide();
+    }
+    
+    var editorWindow;
+    function editRecordAjax(e) {
+        e.preventDefault();
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+
+        var url = "/Procurement/Transporter/Edit?id=" + dataItem.TransporterID + "&ispartial=1";
+        
+        var wnd = $("#transporter_edit_window").data("kendoWindow");
+        editorWindow = wnd;
+        wnd.content("Loading...");
+        wnd.title(dataItem.Name);
+        wnd.refresh({ url: url });
+        wnd.center().open();
+      //  window.location = "/Procurement/Transporter/Edit/" + dataItem.TransporterID
+    }
+    
+    function editRecord(e) {
+        e.preventDefault();
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var url = "@Url.Action("Edit","Transporter",new {area="Procurement"})"+ "/" + dataItem.TransporterID;
+            //"/Procurement/Transporter/Edit/" + dataItem.TransporterID;
+        window.location = url;
+    }
+</script>
+<!--
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table table-striped table-bordered">
+
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Region)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SubCity)
+        </th>
+        <th>
+            Tel
+        </th>
+        <th>
+            Mob
+        </th>
+        <th>
+           Capacity
+        </th>
+        <th>
+            Capital
+        </th>
+        <th>
+            Employees
+        </th>
+       
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Region)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SubCity)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TelephoneNo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MobileNo)
+        </td>
+       
+        <td>
+            @Html.DisplayFor(modelItem => item.LiftCapacityTotal)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Capital)
+        </td>
+        <td>
+            @{var empcount = item.EmployeeCountMale + item.EmployeeCountFemale;}
+            @empcount
+        </td>
+       
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.TransporterID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.TransporterID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.TransporterID })
+        </td>
+    </tr>
+}
+</table>
+-->

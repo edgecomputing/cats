@@ -1,0 +1,454 @@
+﻿<script type="text/javascript" src="~/Scripts/js/highcharts.js"></script>
+<script type="text/javascript" src="~/Scripts/js/exporting.js"></script>
+
+
+<div class="row">
+
+    <div class="span5">
+        <div class="widget stacked">
+            <div class="widget-header">
+                <i class="icon-bookmark"></i>
+                <h3>Quick Shortcuts</h3>
+            </div>
+            <div class="widget-content">
+
+                <div class="shortcuts">
+                    <a href="javascript:;" class="shortcut"><i class="shortcut-icon icon-list-alt"></i>
+                        <span class="shortcut-label">Apps</span>
+                    </a>
+
+                    <a href="javascript:;" class="shortcut"><i class="shortcut-icon icon-signal"></i>
+                        <span class="shortcut-label">Reports</span>
+                    </a>
+
+                    <a href="javascript:;" class="shortcut"><i class="shortcut-icon icon-inbox"></i>
+                        <span class="shortcut-label">Inbox</span>
+                    </a>
+
+                    <a href="javascript:;" class="shortcut"><i class="shortcut-icon icon-tasks"></i>
+                        <span class="shortcut-label">Tasks</span>
+                    </a>
+
+                    <a href="javascript:;" class="shortcut"><i class="shortcut-icon icon-bell"></i>
+                        <span class="shortcut-label">Alerts</span>
+                    </a>
+
+                    <a href="@Url.Action("Index", "AdminDashboard", new { Area = "Settings" })" class="shortcut"><i class="shortcut-icon icon-cog"></i>
+                        <span class="shortcut-label">Preferences</span>
+                    </a>
+                    <!--
+						<a href="javascript:;" class="shortcut"><i class="shortcut-icon icon-calendar"></i>
+							<span class="shortcut-label">My Calendar</span>								
+						</a>
+ 
+                                                       						
+						<a href="javascript:;" class="shortcut"><i class="shortcut-icon icon-bookmark"></i>
+							<span class="shortcut-label">Bookmarks</span>								
+						</a>
+                        -->
+                </div>
+
+            </div>
+        </div>
+
+        <div class="widget stacked widget-table action-table">
+
+            <div class="widget-header">
+                <i class="icon-th-list"></i>
+                <h3>Exceptions</h3>
+            </div>
+
+            <!-- /widget-header -->
+
+            <div class="widget-content">
+
+                <table class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Activity</th>
+                            <th>Description</th>
+                            <th class="td-actions">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Overdue requests</td>
+                            <td>Monthly request from Afar Region</td>
+                            <td class="td-actions">
+                                <a href="javascript:;" class="btn btn-small btn-warning">
+                                    <i class="btn-icon-only icon-ok"></i>
+                                </a>
+
+                                <a href="javascript:;" class="btn btn-small">
+                                    <i class="btn-icon-only icon-remove"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        @*                        <tr>
+                            <td>Trident</td>
+                            <td>Internet
+									Explorer 5.0</td>
+                            <td class="td-actions">
+                                <a href="javascript:;" class="btn btn-small btn-warning">
+                                    <i class="btn-icon-only icon-ok"></i>
+                                </a>
+
+                                <a href="javascript:;" class="btn btn-small">
+                                    <i class="btn-icon-only icon-remove"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Trident</td>
+                            <td>Internet
+									Explorer 5.5</td>
+                            <td class="td-actions">
+                                <a href="javascript:;" class="btn btn-small btn-warning">
+                                    <i class="btn-icon-only icon-ok"></i>
+                                </a>
+
+                                <a href="javascript:;" class="btn btn-small">
+                                    <i class="btn-icon-only icon-remove"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Trident</td>
+                            <td>Internet
+									Explorer 5.5</td>
+                            <td class="td-actions">
+                                <a href="javascript:;" class="btn btn-small btn-warning">
+                                    <i class="btn-icon-only icon-ok"></i>
+                                </a>
+
+                                <a href="javascript:;" class="btn btn-small">
+                                    <i class="btn-icon-only icon-remove"></i>
+                                </a>
+                            </td>
+                        </tr>*@
+
+                    </tbody>
+                </table>
+
+            </div>
+            <!-- /widget-content -->
+
+        </div>
+
+    </div>
+
+    <div class="span5">
+
+        <div class="span5">
+            <div class="widget stacked">
+                <div class="widget-header">
+                    <i class="icon-bar-chart"></i>
+                    <h3>Charts</h3>
+                </div>
+                <div class="widget-content">
+                    @Html.Partial("_BarBeneficiaries")
+                    <br />
+                    @Html.Partial("_PieRequests")
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+
+    <div class="span5">
+        <div class="widget stacked">
+            <div class="widget-header">
+                <i class="icon-bar-chart"></i>
+                <h3>Regional Monthly Requests For The Last 6 Months</h3>
+            </div>
+            <div class="widget-content" style="height: 140px; overflow-y:scroll;">
+                @Html.Action("Requests", "Dashboard")
+            </div>
+        </div>
+    </div>
+
+    <div class="span5">
+        <div class="widget stacked">
+            <div class="widget-header">
+                <i class="icon-pencil"></i>
+                <h3>For Your Action</h3>
+            </div>
+            <div class="widget-content">
+                <ul class="news-items">
+                    <li>
+                        <div class="news-item-detail">
+                            <a href="@Url.Action("ApprovedRequesitions", "HubAllocation", new { Area = "Logistics" })" class="news-item-title">Pending Request allocations</a>
+                            <p class="news-item-preview">Please review and approve this urgent request.</p>
+                            <p class="news-item-foot">July-24 [Early Warning Expert]</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="news-item-detail">
+                            <!-- @Url.Action("Allocation", "Request", new { id = 2, Area = "EarlyWarning" }) -->
+                            <a href="javascript:" class="news-item-title">Diredawa Request-Urgent</a>
+                            <p class="news-item-preview">Please review and approve this urgent request.</p>
+                            <p class="news-item-foot">July-24 [Early Warning Expert]</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <br />
+    </div>
+
+    </div>
+
+<div class="row">
+       <div class="span5">
+            <div class="widget stacked">
+                <div class="widget-header">
+                    <i class="icon-bar-chart"></i>
+                    <h3>Need Assessment Bar Graph</h3>
+                </div>
+                <div class="widget-content">
+                    @Html.Partial("_BarNeedAssessment")
+                </div>
+            </div>
+        </div>
+</div>
+
+          
+
+  <h3>Beneficiaries Comparison for the Last 6 Months</h3>
+                </div>
+                <div class="widget-content">
+                    @Html.Partial("_BarRegionalReqDetailCommodity")
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+<style>
+    .widget {
+        position: relative;
+        clear: both;
+        width: auto;
+        margin-bottom: 2em;
+        /* Clearfix Hack */
+        /* Widget Table */
+        /* Widget Plain */
+        /* Widget Box */
+    }
+
+        .widget .widget-header {
+            position: relative;
+            height: 40px;
+            line-height: 40px;
+            background: #E9E9E9;
+            background: -moz-linear-gradient(top, #fafafa 0%, #e9e9e9 100%);
+            /* FF3.6+ */
+            background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #fafafa), color-stop(100%, #e9e9e9));
+            /* Chrome,Safari4+ */
+            background: -webkit-linear-gradient(top, #fafafa 0%, #e9e9e9 100%);
+            /* Chrome10+,Safari5.1+ */
+            background: -o-linear-gradient(top, #fafafa 0%, #e9e9e9 100%);
+            /* Opera11.10+ */
+            background: -ms-linear-gradient(top, #fafafa 0%, #e9e9e9 100%);
+            /* IE10+ */
+            background: linear-gradient(top, #fafafa 0%, #e9e9e9 100%);
+            /* W3C */
+            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FAFAFA', endColorstr='#E9E9E9');
+            -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#FAFAFA', endColorstr='#E9E9E9')";
+            border: 1px solid #D5D5D5;
+            -webkit-border-top-left-radius: 4px;
+            -webkit-border-top-right-radius: 4px;
+            -moz-border-radius-topleft: 4px;
+            -moz-border-radius-topright: 4px;
+            border-top-left-radius: 4px;
+            border-top-right-radius: 4px;
+            -webkit-background-clip: padding-box;
+        }
+
+            .widget .widget-header h3 {
+                top: 2px;
+                position: relative;
+                left: 10px;
+                display: inline-block;
+                margin-right: 3em;
+                font-size: 14px;
+                font-weight: 600;
+                color: #555;
+                line-height: 18px;
+                text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5);
+            }
+
+            .widget .widget-header [class^="icon-"],
+            .widget .widget-header [class*=" icon-"] {
+                display: inline-block;
+                margin-left: 13px;
+                margin-right: -2px;
+                font-size: 16px;
+                color: #555;
+                vertical-align: middle;
+            }
+
+        .widget .widget-content {
+            padding: 20px 15px 15px;
+            background: #FFF;
+            border: 1px solid #D5D5D5;
+            -moz-border-radius: 5px;
+            -webkit-border-radius: 5px;
+            border-radius: 5px;
+        }
+
+        .widget .widget-header + .widget-content {
+            border-top: none;
+            -webkit-border-top-left-radius: 0;
+            -webkit-border-top-right-radius: 0;
+            -moz-border-radius-topleft: 0;
+            -moz-border-radius-topright: 0;
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+        }
+
+        .widget.widget-nopad .widget-content {
+            padding: 0;
+        }
+
+        .widget .widget-content {
+            *zoom: 1;
+        }
+
+            .widget .widget-content:before,
+            .widget .widget-content:after {
+                display: table;
+                content: "";
+                line-height: 0;
+            }
+
+            .widget .widget-content:after {
+                clear: both;
+            }
+
+        .widget.widget-table .widget-content {
+            padding: 0;
+        }
+
+        .widget.widget-table .table {
+            margin-bottom: 0;
+            border: none;
+        }
+
+            .widget.widget-table .table tr td:first-child,
+            .widget.widget-table .table tr th:first-child {
+                border-left: none;
+            }
+
+        .widget.widget-plain {
+            background: transparent;
+            border: none;
+        }
+
+            .widget.widget-plain .widget-content {
+                padding: 0;
+                background: transparent;
+                border: none;
+            }
+
+        .widget.widget-box .widget-content {
+            background: #E3E3E3;
+            background: #FFF;
+        }
+
+    .shortcuts {
+        text-align: center;
+    }
+
+        .shortcuts .shortcut {
+            width: 110px;
+            display: inline-block;
+            padding: 12px 0;
+            margin: 0 5px 1em;
+            vertical-align: top;
+            text-decoration: none;
+            background: #F3F3F3;
+            background-color: #f8f8f8;
+            background-image: -moz-linear-gradient(top, #ffffff, #eeeeee);
+            background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ffffff), to(#eeeeee));
+            background-image: -webkit-linear-gradient(top, #ffffff, #eeeeee);
+            background-image: -o-linear-gradient(top, #ffffff, #eeeeee);
+            background-image: linear-gradient(to bottom, #ffffff, #eeeeee);
+            background-repeat: repeat-x;
+            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffffff', endColorstr='#ffeeeeee', GradientType=0);
+            border: 1px solid #ddd;
+            box-sizing: border-box;
+            border-radius: 5px;
+        }
+
+            .shortcuts .shortcut .shortcut-icon {
+                width: 100%;
+                margin-top: .25em;
+                margin-bottom: .35em;
+                font-size: 32px;
+                color: #555;
+            }
+
+            .shortcuts .shortcut:hover {
+                background: #E8E8E8;
+                background-color: #f0f0f0;
+                background-image: -moz-linear-gradient(top, #fafafa, #e1e1e1);
+                background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#fafafa), to(#e1e1e1));
+                background-image: -webkit-linear-gradient(top, #fafafa, #e1e1e1);
+                background-image: -o-linear-gradient(top, #fafafa, #e1e1e1);
+                background-image: linear-gradient(to bottom, #fafafa, #e1e1e1);
+                background-repeat: repeat-x;
+                filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fffafafa', endColorstr='#ffe1e1e1', GradientType=0);
+            }
+
+                .shortcuts .shortcut:hover .shortcut-icon {
+                    color: #666;
+                }
+
+        .shortcuts .shortcut-label {
+            display: block;
+            font-weight: 400;
+            color: #666;
+        }
+
+    .stacked {
+        position: relative;
+    }
+
+        .stacked:after,
+        .stacked:before {
+            content: '';
+            position: absolute;
+            display: block;
+            height: 1px;
+            bottom: -2px;
+            left: 3px;
+            right: 3px;
+            background-color: #ffffff;
+            -webkit-border-radius: 0 0 3px 3px;
+            -moz-border-radius: 0 0 3px 3px;
+            border-radius: 0 0 3px 3px;
+            border: 1px solid #d3d3d3;
+            border-top: 0;
+        }
+
+        .stacked:before {
+            bottom: -4px;
+            left: 6px;
+            right: 6px;
+        }
+
+    .news-item-foot {
+        font-size: 11px;
+        font-style: italic;
+        text-align: right;
+        margin-top: 2px;
+    }
+
+    .news-item-preview {
+        margin-bottom: 0;
+    }
+</style>

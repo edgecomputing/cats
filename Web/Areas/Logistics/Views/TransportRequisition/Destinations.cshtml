@@ -1,0 +1,69 @@
+﻿@using Cats.Areas.EarlyWarning.Models
+@using Cats.Helpers
+@using Cats.Security
+@using Cats.Services.Security
+@using Kendo.Mvc.UI
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+@section LeftBar
+{
+    @Html.Partial("_AllocationLeftBar")
+}
+@{
+    ViewBag.Title = "Destinations";
+}
+@section Toolbar
+{
+   @Html.LogisticsOperationButton(
+                        @Url.Action("Details", "TransportRequisition", new { id=ViewBag.TransportRequisitonID }),
+                        LogisticsConstants.Operation.View_transport_requisition_destinations, "<i class=\"icon-list\"></i>", "btn", "btn_back_to_list")
+    
+}
+@{
+    
+    var user = (UserIdentity)System.Web.HttpContext.Current.User.Identity;
+    var unit = user.Profile.PreferedWeightMeasurment;
+}
+
+<h4 class="page-header">Transport Requisiton Destinations</h4>
+@(Html.Kendo().Grid<ReliefRequisitionDetailViewModel>()
+    .Name("grid")
+    .Columns(columns =>
+    {
+        columns.Template(t => { }).Title("No").ClientTemplate("#= renderNumber(data) #").Width(50);
+        columns.Bound(p => p.Zone).Width(100);
+        columns.Bound(p => p.Woreda).Width(100);
+        columns.Bound(p => p.FDP).Width(100);
+        columns.Bound(p => p.Donor).Width(100);
+        columns.Bound(p => p.Commodity).Width(100);
+        columns.Bound(p => p.Amount).Width(100).HtmlAttributes(new { align = "right" }).Format("{0:n2}").HeaderHtmlAttributes(new { @class = "cats-unit-pref-grid" });
+        columns.Bound(p => p.RationAmount).Hidden(true);
+       
+        
+    })
+  
+   
+   .Groupable()
+    .Sortable()
+    .Navigatable()
+    .Scrollable()
+    .HtmlAttributes(new { style = "height:430px;" })
+     .Events(ev => ev.DataBound("resetRowNumber"))
+    
+    .DataSource(dataSource => dataSource
+        .Ajax()
+        .PageSize(20)
+        // .Aggregates(t=>t.Add(x=>x.Amount).Sum())
+        .Read(read => read.Action("Allocation_Read", "ReliefRequisition", new {Area="EarlyWarning" ,id = ViewBag.RequisitionID  }))
+    )
+)
+
+<script>    
+$(function () {
+        var printurl = "@Url.Action("PrintAttachment", "TransportRequisition",new{id= ViewBag.RequisitionID })";
+        $("#toolbar_button_print").attr("href", printurl);
+    });
+</script>

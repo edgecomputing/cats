@@ -1,0 +1,34 @@
+﻿@model IEnumerable<Cats.Models.Hubs.ViewModels.ReplicationViewModel>
+
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div style="min-height: 500px; padding-top:50px;">
+
+    
+
+
+    <div>
+        @{ Html.Telerik().TabStrip()
+            .Name("ReplicationTab")
+            .Items(parent =>
+            {
+                parent.Add()
+                    .Text("Publication One")
+                    .LoadContentFrom("PublicatonOne", "Replication")
+                    .Selected(true);
+                parent.Add()
+                    .Text("Publication Two")
+                    .LoadContentFrom("PublicationTwo", "Replication")
+                    .Selected(true);
+            })
+            .Render();
+ }
+    </div>
+
+
+</div>

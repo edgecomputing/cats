@@ -1,0 +1,21 @@
+﻿@model Cats.Models.Hubs.UserHubsModel
+
+
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+
+
+@using (Html.BeginForm())
+{
+    foreach (var item in Model.UserHubs)
+    {
+        
+        @Html.Hidden(string.Format("[{0}].WarehouseID", item.HubID), item.HubID)
+         @Html.CheckBox(string.Format("[{0}].Selected", item.HubID),item.Selected)
+         
+        @Html.Label(string.Format("[{0}].Name", item.HubID), item.Name)
+        <br />
+    }
+}
+
+

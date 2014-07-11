@@ -1,0 +1,9 @@
+﻿@using Cats.Models.Constant
+<ul class="nav nav-list">
+    <li class="nav-header">Plan Management</li>
+    <li><a href="@Url.Action("Index", "Plan",new {id=(int)PlanStatus.Draft})"><i class="icon-inbox"></i> draft </a></li>
+    <li><a href="@Url.Action("index", "Plan",new {id=(int)PlanStatus.AssessmentCreated})"><i class="icon-inbox"></i> Assessment Created </a></li>
+    <li><a href="@Url.Action("index", "Plan",new {id=(int)PlanStatus.PSNPCreated})"><i class="icon-inbox"></i> PSNP Created </a></li>
+    <li><a href="@Url.Action("index", "Plan",new {id=(int)PlanStatus.HRDCreated})"><i class="icon-inbox"></i> HRD Created </a></li>
+    <li><a href="@Url.Action("index", "Plan",new {id=(int)PlanStatus.Closed})"><i class="icon-inbox"></i> Closed </a></li>
+</ul>

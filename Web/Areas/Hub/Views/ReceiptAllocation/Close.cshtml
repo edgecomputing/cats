@@ -1,0 +1,104 @@
+﻿@model Cats.Models.Hubs.ReceiptAllocation
+@using Cats.Web.Hub.Helpers
+
+@{
+    ViewBag.Title = Html.Translate("Close Allocation");
+}
+
+<h4>@Html.Translate("Are you sure you want to Close this receipt Allocation?")</h4>
+<div class="form-horizontal two-col-form">
+        <!--ETA-->
+        <div class="control-group">
+            @Html.LabelFor(model => model.ETA, Html.Translate("ETA"),new { @class="control-label" })
+            <div class="controls">
+                @Html.DisplayFor(model => model.ETA)
+            </div>
+        </div>
+
+        <!--Project Number-->
+        <div class="control-group">
+            @Html.LabelFor(model => model.ProjectNumber, Html.Translate("Project Number"),new { @class="control-label" })
+            <div class="controls">
+                @Html.DisplayFor(model => model.ProjectNumber)
+            </div>
+        </div>
+
+        <!--Commodity Name-->
+        <div class="control-group">
+            @Html.LabelFor(model => model.Commodity.Name, Html.Translate("Commodity"),new { @class="control-label" })
+            <div class="controls">
+                @Html.DisplayFor(model => model.Commodity.Name)
+            </div>
+        </div>
+
+        <!--SI Number-->
+        <div class="control-group">
+            @Html.LabelFor(model => model.SINumber, Html.Translate("SINumber"),new { @class="control-label" })
+            <div class="controls">
+                @Html.DisplayFor(model => model.SINumber)
+            </div>
+        </div>
+
+        <!--QuantityInMT-->
+        <div class="control-group">
+            @Html.LabelFor(model => model.QuantityInMT, Html.Translate("QuantityInMT"),new { @class="control-label" })
+            <div class="controls">
+                @Html.DisplayFor(model => model.QuantityInMT)
+            </div>
+        </div>
+
+        <!--Hub.Name-->
+        <div class="control-group">
+            @Html.LabelFor(model => model.Hub.Name, Html.Translate("Hub"),new { @class="control-label" })
+            <div class="controls">
+                @Html.DisplayFor(model => model.Hub.Name)
+            </div>
+        </div>
+
+        <!--Donor.Name-->
+        <div class="control-group">
+            @Html.LabelFor(model => model.Donor.Name, Html.Translate("Donor"),new { @class="control-label" })
+            <div class="controls">
+                @Html.DisplayFor(model => model.Donor.Name)
+            </div>
+        </div>
+
+        <!--Program.Name-->
+        <div class="control-group">
+            @Html.LabelFor(model => model.Program.Name, Html.Translate("Program"),new { @class="control-label" })
+            <div class="controls">
+                @Html.DisplayFor(model => model.Program.Name)
+            </div>
+        </div>
+
+    <!--CommoditySource.Name-->
+        <div class="control-group">
+            @Html.LabelFor(model => model.CommoditySource.Name, Html.Translate("CommoditySource"),new { @class="control-label" })
+            <div class="controls">
+                @Html.DisplayFor(model => model.CommoditySource.Name)
+            </div>
+        </div>
+
+</div>
+
+@using (Html.BeginForm("CloseAjax", "ReceiptAllocation", FormMethod.Post, new { @id = "frm_edit_inline" }))
+    {
+           @Html.HiddenFor(model => model.ReceiptAllocationID)
+}
+<style>
+.form-horizontal .control-group {
+  margin-bottom: 2px;
+
+}
+    .control-group, .controls
+    {
+        margin:0px;
+        margin-top:5px;
+        
+        
+    }
+        .control-group label
+        {
+            font-weight:bold;
+        }
+</style>

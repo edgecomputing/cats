@@ -1,0 +1,94 @@
+﻿@using Kendo.Mvc.UI
+@model List<Cats.Areas.Procurement.Models.TransportBidPlanViewModel>
+
+
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+
+}
+@section LeftBar
+{
+    @Html.Partial("_BidPlanLeftBar")
+}
+@section Toolbar
+{
+    <a data-buttontype="btn_new_record"  class="btn toolbar-btn " href="@Url.Action("Create", "TransportBidPlan")"></a>
+}
+    <h3>List of Bid Plans</h3>
+
+
+@(Html.Kendo().Grid<Cats.Models.TransportBidPlan>()
+    .Name("grid")
+    .Columns(columns =>
+    {
+        columns.Bound(p => p.ShortName);
+        columns.Bound(p => p.Year).Width(100);
+        columns.Bound(p => p.YearHalf).Width(100);
+
+        columns.Command(command => { 
+           command.Custom("Edit").Click("editRecord");
+           command.Custom("Warehouse Selection").Click("selectWarehouse");
+           command.Custom("Delete").Click("deleteRecord");
+        });
+    })
+    
+    .Editable(editable => editable.Mode(GridEditMode.PopUp))
+    .Pageable()
+    .Sortable()
+    .Scrollable()
+    .HtmlAttributes(new { style = "height:430px;" })
+    .DataSource(dataSource => dataSource
+        .Ajax()
+        .PageSize(20)
+        .Events(events => events.Error("error_handler"))
+        .Model(model => model.Id(p => p.TransportBidPlanID))
+        .Read(read => read.Action("GetListJson", "TransportBidPlan"))
+        .Destroy(update => update.Action("DeleteAjax", "TransportBidPlan"))
+        //.Update(update => update.Action("EditingInline_Update", "Transporter"))
+        //.Create(update => update.Action("EditingInline_Create", "Transporter"))
+        
+        .Update(update => update.Action("UpdateAjax", "TransportBidPlan"))
+        .Create(update => update.Action("CreateAjax", "TransportBidPlan"))
+    )
+)
+<script type="text/javascript">
+    function error_handler(e) {
+        if (e.errors) {
+            var message = "Errors:\n";
+            $.each(e.errors, function (key, value) {
+                if ('errors' in value) {
+                    $.each(value.errors, function () {
+                        message += this + "\n";
+                    });
+                }
+            });
+            alert(message);
+        }
+    }
+    function editRecord(e) {
+        e.preventDefault();
+
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        
+        window.location = "@Url.Action("Edit", "TransportBidPlan")" + "/" + dataItem.TransportBidPlanID;
+        //window.location = "/Procurement/TransportBidPlan/Edit/" + dataItem.TransportBidPlanID
+    }
+    function deleteRecord(e) {
+        e.preventDefault();
+
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+
+        window.location = "@Url.Action("DeleteBidPlan", "TransportBidPlan")" + "/" + dataItem.TransportBidPlanID;
+    }
+    function selectWarehouse(e) {
+        e.preventDefault();
+
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        window.location = "@Url.Action("WarehouseSelection", "TransportBidPlan")" + "/" + dataItem.TransportBidPlanID;
+        //window.location = "/Procurement/TransportBidPlan/WarehouseSelection/" + dataItem.TransportBidPlanID
+
+       
+    }
+</script>

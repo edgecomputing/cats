@@ -1,0 +1,41 @@
+﻿@model Cats.Areas.Procurement.Models.SelectedBidWinnerViewModel
+@using Cats.Areas.Procurement.Models
+@using Kendo.Mvc.UI
+@{
+    ViewBag.Title = "_BidPlanDetail";
+}
+@(Html.Kendo().Grid<BidPlanDetailViewModel>()
+             .Name("bidPlanDetail")
+             .Columns(columns =>
+                 {
+
+                     //columns.Bound(t => t.BidPlanDetailID);
+                     columns.Bound(t => t.Region);
+                     //columns.Bound(t => t.SourceID);
+                     columns.Bound(t => t.Warehouse);
+                     //columns.Bound(t => t.DestinationID);
+                     columns.Bound(t => t.Woreda);
+                     columns.Bound(t => t.Quantity);
+                     //columns.Bound(t => t.Program);
+                     
+                 })
+             .Scrollable()
+             .HtmlAttributes(new {style = "height:510px;"})
+             .Events(events => events.DataBound("collapse"))
+             .DataSource(datasource =>
+                         datasource
+                             .Ajax()
+                            // .Model(model => model.Id(p => p.BidPlanDetailID))
+                             .Group(group => group.Add(m => m.Region))
+                             .Group(group => group.Add(m => m.Program))
+             .Read("BidPlanDetail_Read","BidAdministration",new{id=Model.Bidwinners.First().BidPlanID})
+
+      ))
+    
+<script type="text/javascript">
+    function collapse() {
+        var grid = $("#bidPlanDetail").data("kendoGrid");
+        grid.collapseGroup(grid.tbody.find(">tr.k-grouping-row"));
+        $('tr[role*="row"]').hide();
+    }
+</script>

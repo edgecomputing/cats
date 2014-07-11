@@ -1,0 +1,55 @@
+﻿@using Cats.Areas.Procurement.Models
+@model Cats.Models.BidWinner
+@using Cats.Helpers
+@using Cats.Security
+@using Cats.Services.Security
+@using Kendo.Mvc.UI
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+@section Toolbar    {
+ 
+    <div class="btn-group" style="margin-right:8px;">
+        <button class="btn">Action</button>
+        @{
+            
+            <button class="btn dropdown-toggle " data-toggle="dropdown">
+                <span class="caret"></span>
+            </button>
+           
+           
+        }
+        <ul class="dropdown-menu">
+            <li><a  href="@Url.Action("BidWinningTransporters", "BidWinner")" >All Agreements </a></li>
+            <li><a  href="@Url.Action("SignedTransporterContract", "BidWinner")" >Signed Agrrements </a></li>
+             <li><a href="@Url.Action("GenerateWinners", "PriceQuotation")" >Generate Winners </a></li>
+        </ul>
+
+    </div>            
+          
+}
+
+<h4 >List of Bids</h4>
+@(Html.Kendo().Grid<BidWithWinnerViewModel>()
+    .Name("grid")
+    .Columns(columns=>
+        {
+            columns.Bound(t => t.BidNumber).ClientTemplate(
+                @Html.EarlyWarningOperationButton(
+                    @Url.Action("ListOfWinners", "BidWinner", new { id = "#=BidID#" }),
+                    EarlyWarningConstants.Operation.View_Bid_Winners, "#=BidNumber#").ToString()); 
+        columns.Bound(t => t.Year);
+        columns.Bound(t => t.OpeningDate).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid" }); 
+
+        })
+     .Scrollable()
+     .HtmlAttributes(new { style = "height:430px;" })
+        .DataSource(datasource=>
+            datasource                 
+            .Ajax()
+    .Model(model=>model.Id(p=>p.BidID))
+    .Read("Bid_Read","BidWinner")
+    
+      ))

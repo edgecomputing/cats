@@ -1,0 +1,46 @@
+﻿@using Cats.Models
+@using Kendo.Mvc.UI
+@model List<Cats.Models.Contribution>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";  
+}
+
+@section LeftBar
+{
+    @Html.Partial("_ContributionLeftBar");
+}
+@section Toolbar
+{
+    <a data-buttontype="btn_new_record" class="btn toolbar-btn " href="@Url.Action("Create", "Contribution")"></a>
+}
+
+<div>
+    <h4>List of Donor Contributions</h4>
+</div>
+@(Html.Kendo().Grid<Cats.Areas.EarlyWarning.Models.ContributionViewModel>()
+    .Name("grid")
+    .Columns(columns =>
+        {
+            columns.Bound(p => p.Donor).ClientTemplate("# if (ContributionType == 'In-Kind') { #" +
+            "<a href='" + Url.Action("InkindDetails", "Contribution", new { id = "#=ContributionID#" }) + " '>#=Donor#</a>  "+
+            "# } else { #" +
+                   "<a href='" + Url.Action("Details", "Contribution", new { id = "#=ContributionID#" }) + " '>#=Donor#</a>  " +
+                "# } #");
+        columns.Bound(p => p.HRD);
+            columns.Bound(p => p.ContributionType);
+
+        })
+    .Pageable()
+    .Sortable()
+    .Filterable()
+    .DataSource(dataSource => dataSource
+          .Ajax()
+          .PageSize(8)
+            .Model(model => model.Id(p => p.ContributionID))
+           .Read(read => read.Action("Contribution_Read", "Contribution"))
+ 
+     )
+   
+      )

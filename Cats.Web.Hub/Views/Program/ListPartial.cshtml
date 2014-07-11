@@ -1,0 +1,40 @@
+﻿@model IEnumerable<Cats.Models.Hubs.Program>
+@using Cats.Web.Hub.Helpers
+
+<table width="60%">
+    <tr>
+    <th style="width: 20px"></th>
+        <th>
+            @Html.Translate("Name")
+        </th>
+        <th>
+            @Html.Translate("Description")
+        </th>
+        <th>
+            @Html.Translate("Long Name")
+        </th>
+        <th></th>
+    </tr>
+    @{
+        var i = 1;
+    }
+@foreach (var item in Model) {
+    <tr>
+        <td>@i</td>
+        <td>
+            @Html.DialogFormLink(@Html.DisplayFor(modelItem => item.Name).ToString(), Url.Action("Edit/" + item.ProgramID), Html.Translate("Edit Program"), "programlist", Url.Action("ListPartial"))
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LongName)
+        </td>
+        <td>
+            @Html.ActionLink(Html.Translate("Delete"), "Delete", new { id=item.ProgramID })
+        </td>
+    </tr>
+    i++;
+}
+
+</table>

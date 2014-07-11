@@ -1,0 +1,117 @@
+﻿@using Cats.Helpers
+@using LanguageHelpers.Localization
+@model Cats.Models.Plan
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";  
+}
+@section LeftBar
+{
+   
+    
+   
+}
+
+@section Toolbar
+{
+    <a class="btn toolbar-btn " data-buttontype="btn_save" data-submittedform="frm_create_plan"></a>
+    <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="@Url.Action("Index", "Plan")" title="save"></a>
+}
+<script type="text/javascript">
+    $(function () {
+
+        //Optional: turn the chache off
+        $.ajaxSetup({ cache: false });
+
+        $('#btnDateinterval').click(function () {
+
+            var startDate = new Date($('#StartDate').val());
+            //var startDate = $('#Plan_StartDate').val();
+            var duration = $('#Duration').val();
+
+            var fullDate = startDate.getMonth() + 1 + '/' + startDate.getDate() + '/' + startDate.getFullYear();
+            var url = '@Url.Action("DateInterval", "HRD")?duration=' + duration + '&startDate=' + fullDate;
+            $('#dialogContent').load(url, function () {
+                $('#dialogDiv').modal({
+                    backdrop: 'static',
+                    keyboard: true
+                }, 'show');
+                //bindForm(this);
+            });
+            return false;
+        });
+
+    });
+</script>
+
+<div id='dialogDiv' class='modal hide fade in' style="width: 620px;margin-right: 10px">
+    <div id='dialogContent'></div>
+</div>
+<div>
+    <h4>Create Plan</h4>
+</div>
+    @using (Html.BeginForm("Create", "Plan", FormMethod.Post, new { id = "frm_create_plan" }))
+
+    {
+      
+        <div class="well form-horizontal">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(m => m.PlanName, Html.Translate("Plan Name"))
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(m=>m.PlanName)
+                    @Html.ValidationMessageFor(m=>m.PlanName)
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.Label(Html.Translate("Program"))
+                </div>
+                <div class="controls">
+                    @Html.DropDownList("ProgramID")
+                    @Html.ValidationMessageFor(m=>m.ProgramID)
+                </div>
+            </div>
+
+             <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(m => m.StartDate, Html.Translate("From Date(EC)"))
+                </div>
+                <div class="controls">
+                    @* <input class="cats-datepicker" type="text" id="create" name="create" />*@
+                    @Html.TextBoxFor(m=>m.StartDate,new {@class="cats-datepicker2"})
+                    @Html.ValidationMessageFor(m => m.StartDate)
+                </div>
+        
+            </div>
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(m => m.Duration,Translator.Translate("Duration"))
+                </div>
+                <div class="controls">
+                    @* <input class="cats-datepicker" type="text" id="create" name="create" />*@
+                    @Html.TextBoxFor(m=>m.Duration)
+                    
+                     <a id="btnDateinterval">View Date Interval</a>
+                        @Html.ValidationMessageFor(m => m.Duration)
+                </div>
+        
+            </div>
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(m => m.Remark)
+                </div>
+                <div class="controls">
+                    @* <input class="cats-datepicker" type="text" id="create" name="create" />*@
+                    @Html.TextAreaFor(m=>m.Remark)
+                    @Html.ValidationMessageFor(m => m.Remark)
+                </div>
+        
+            </div>
+        </div>
+    }
+
+
+

@@ -1,0 +1,77 @@
+﻿@using Cats.Models.ViewModels
+@using Cats.Services.Security
+@using Kendo.Mvc.UI
+@model  List<Cats.Models.Contribution>
+
+
+@{
+    ViewBag.Title = "ContributionSummary";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";  
+}
+@section Toolbar
+{
+        <a data-buttontype="btn_new_record"  class="btn toolbar-btn " href="@Url.Action("Create", "Contribution")"></a>
+}
+
+@section LeftBar{
+
+    @Html.Partial("_ContributionLeftBar");
+}
+
+@{
+    
+    var user = (UserIdentity)System.Web.HttpContext.Current.User.Identity;
+    var unit = user.Profile.PreferedWeightMeasurment;
+}
+<div class="form-horizontal">
+    <table>
+        <tr>
+            <td>
+                Select Year to View Contribution Summary  :    
+            </td>
+            
+            <td> 
+                @Html.DropDownList("HRDID", string.Empty)
+                @*@Html.DropDownList("Year", Enumerable.Range(2010, DateTime.Now.Year).Select(i => new SelectListItem { Value = i.ToString(), Text = i.ToString()}), "--Select Year --")
+                *@ 
+
+            </td>
+        </tr>
+    </table>
+
+</div>
+@(Html.Kendo().Grid<Cats.Areas.EarlyWarning.Models.ContributionSummaryViewModel>()
+
+    .Name("grid")
+    .Columns(columns =>
+        {
+            columns.Bound(p => p.Donor);
+            columns.Bound(p => p.Currency);
+            columns.Bound(p => p.Ammount).Title("Amount ").ClientGroupFooterTemplate("Total: #=sum#");
+
+        })
+        .Pageable()
+    .DataSource(datasource => datasource.Ajax()
+        .Aggregates(aggregates => aggregates.Add(p => p.Ammount).Sum())
+        .Group(group => group.Add(m => m.Donor))
+        .PageSize(8)
+     .Read(read => read.Action("ContributionSummary_Read", "Contribution").Data("filterData")))
+      .Groupable())
+
+<script type="text/javascript">
+
+    function filterData() {
+
+        return {
+            id: $("#HRDID").val()
+          
+        };
+    }
+
+    $(document).ready(function () {
+        $("#HRDID").change(function () {
+            var grid = $("#grid").data("kendoGrid");
+            grid.dataSource.read();
+        });
+    });
+</script>

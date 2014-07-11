@@ -1,0 +1,95 @@
+﻿<script id="requests" type="text/html">
+    <hr />
+    <div class="contanier" style="float: left; height: 70px;">
+
+        <div class="content">
+            <div class="flag {{regionFlag}}"></div>
+            <div style="text-align: center; vertical-align: central">{{region}}</div>
+        </div>
+
+        <div class="content">
+            <div style="font-size: xx-large; color: black;">{{daysago}} </div>
+            days ago,{{month}}
+        </div>
+        
+        <div class="content">
+            <a data-buttontype="btn_detail"  class="btn toolbar-btn " 
+                href="@Url.Action("Details", "Request", new { Area = "EarlyWarning" })/{{RequestID}}">
+                <i class="icon-folder-open"></i>
+            </a>
+        </div>
+
+         <div
+            class="content">
+            {{reference}}
+        </div>
+    </div>
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $.getJSON('/Dashboard/RegionalMonthlyRequests', function (data) {
+
+            var regionFlags = {
+                region1: "flag-federal",
+                region2: "flag-afar",
+                region3: "flag-amhara",
+                region4: "flag-benishangul",
+                region5: "flag-tigray",
+                region6: "flag-diredawa",
+                region7: "flag-gambella",
+                region8: "flag-harar",
+                region9: "flag-oromiya",
+                region10: "flag-debub",
+                region11: "flag-somali"
+            };
+
+            $.each(data, function (i, details) {
+
+                var user_data = {
+                    RequestID: details.RequestID,
+                    regionID: details.RegionId,
+                    regionFlag: regionFlags["region" + details.RegionId],
+                    region: details.RegionName,
+                    month: details.Month,
+                    daysago: details.daysAgo,
+                    reference: details.ReferenceNumber
+                }
+                $('#request').append(ich.requests(user_data))
+            });
+        });
+    });
+</script>
+
+<div id="request" class="block">
+    <div class="header">Region </div>
+    <div class="header">Requested </div>
+    <div class="header">Reference Number </div>
+</div>
+
+
+<style>
+    div.block {
+        overflow: hidden;
+        display: inline-block;
+        height: 220px;
+        overflow-y: scroll;
+    }
+
+        div.block .header {
+            width: 180px;
+            text-align: center;
+            font-family: Candara;
+            color: #FF8C00;
+            float: left;
+        }
+
+        div.block .content {
+            width: 180px;
+            text-align: center;
+            float: left;
+            border: thin;
+            border-color: aquamarine;
+        }
+</style>

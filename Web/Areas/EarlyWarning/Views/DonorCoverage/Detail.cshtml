@@ -1,0 +1,108 @@
+﻿@using Cats.Areas.EarlyWarning.Models
+@using Cats.Security
+@using Kendo.Mvc.UI
+@using LanguageHelpers.Localization
+@using Cats.Helpers
+@model System.Data.DataTable
+@*@model Cats.Models.HrdDonorCoverage*@
+@{
+    ViewBag.Title = "Detail";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";  
+}
+
+@section Toolbar    {
+   
+
+    <div class="btn-group" style="margin-right: 8px;">
+        <button class="btn dropdown-toggle " data-toggle="dropdown"> @Html.Translate("Actions") 
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu">
+            
+            <li><a id="btnAddWoreda"  href="@Url.Action("AddWoreda", "DonorCoverage", new { id = ViewBag.DonorCoverageID })" >@Html.Translate("Add Woreda")</a></li>
+        </ul>
+
+    </div>
+   @* //<a class="btn toolbar-btn " href="@Url.Action("Index", "DonorCoverage")" data-buttontype="btn_back_to_list"></a>*@
+     @Html.EarlyWarningOperationButton(
+                        @Url.Action("Index", "DonorCoverage", new { Area = "EarlyWarning" }),
+                        EarlyWarningConstants.Operation.View_HRD_list, "<i class=\"icon-list\"></i>", "btn", "btn_back_to_list")
+
+}
+
+<script type="text/javascript">
+    $(function () {
+
+        //Optional: turn the chache off
+        $.ajaxSetup({ cache: false });
+
+        $('#btnAddWoreda').click(function () {
+
+            // alert("");
+            $('#dialogContent').load(this.href, function () {
+                $('#dialogDiv').modal({
+                    backdrop: 'static',
+                    keyboard: true
+                }, 'show');
+                //bindForm(this);
+            });
+            return false;
+        });
+    });
+</script>
+
+<div id='dialogDiv' class='modal hide fade in'>
+    <div id='dialogContent'></div>
+</div>
+<h4>Donor Coverage Detail</h4>
+@(Html.Kendo().Grid(Model)
+    .Name("Grid")
+    .Columns(columns =>
+    {
+        foreach (System.Data.DataColumn column in Model.Columns)
+        {
+            if (column.DataType == typeof(decimal))
+            { columns.Bound(column.ColumnName).HtmlAttributes(new { align = "right" }).Format("{0:N2}"); }
+            else if (column.DataType == typeof(int))
+            {
+                columns.Bound(column.ColumnName).HtmlAttributes(new { align = "right" }).Format("{0:N0}"); 
+            }
+            else{
+                columns.Bound(column.ColumnName);
+            }
+
+        }
+    })
+    //.Pageable(t=>t.PageSizes(new []{10,15,20,30,50,100}))
+     
+    .HtmlAttributes(new { style = "height: 430px" })
+    .Sortable()
+   .Scrollable()
+   .Groupable()
+   
+   
+    )
+
+@*@(Html.Kendo().Grid<HrdDonorCoverageDetailViewModel>()
+      .Name("grid")
+          .Columns(columns =>
+              {
+                  columns.Bound(m => m.Region);
+                  columns.Bound(m => m.Zone);
+                  columns.Bound(m => m.Woreda);
+                  columns.Bound(m => m.BebeficiaryNumber);
+
+              }
+
+      )
+           
+              .Scrollable()
+              .HtmlAttributes(new { style = "height:430px;" })
+              .DataSource(dataSource => dataSource
+             .Ajax()
+             .Group(group=>group.Add(m=>m.Region))
+            .Model(model => model.Id(p => p.HrdDonorCoverageDetailID))
+            .Read(read => read.Action("HrdDonorCoverageDetail_Read", "DonorCoverage", new { id = Model.HRDDOnorCoverageID }))
+           
+            )
+      )*@

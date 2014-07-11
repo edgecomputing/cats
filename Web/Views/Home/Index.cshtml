@@ -1,0 +1,16 @@
+﻿﻿@using Cats.Helpers
+
+@{
+    ViewBag.Title = "Index";
+    ViewBag.ViewWidth = "Wide";
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+    const string PAGE_NAME = "Home.Index";
+    
+}
+
+
+  
+<div class=" span12">
+    <h4 class="page-header">Welcome @Html.GetUserName()</h4>
+    @Html.Partial("_DashboardDynamic")
+</div>

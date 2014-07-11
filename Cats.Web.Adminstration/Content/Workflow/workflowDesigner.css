@@ -1,0 +1,109 @@
+*
+{
+    font-family:'Century Gothic';
+}
+.small_form input, .small_form select
+{
+    width:200px;
+}
+.designer_window
+{
+    position:fixed;border:solid 1px #CCC;left:18%;right:10px;top:100px;bottom:40px;
+}
+.left_bar
+{
+    position:fixed; 
+    top:60px; 
+    bottom:40px; 
+    
+    left:10px; 
+    width:16%;
+    border:solid 1px #CCC;
+    background:#FFF;
+}
+.state,.flow
+{
+    position:absolute;
+    height:32px;
+    
+
+}
+.flow
+{
+   height:22px;
+}
+    .state .content, .flow .content
+    {
+       
+        border:solid 1px #444;
+        line-height:30px;
+        
+        text-align:center;
+        border-radius:4px;
+        background:#FFF;
+       /*
+            
+           */ 
+        font-size:12px;
+        padding-left:10px;
+        padding-right:10px;
+        
+    }
+    .flow .content
+    {
+         line-height:20px;
+         font-size:10px;
+         border-radius:8px;
+         color:#08F;
+          border:solid 1px #DDF;
+    }
+
+ .statetype-0 .content
+{
+    background:#b6ff00;
+}
+.statetype-2 .content
+{
+    background:#ffa5a5;
+}
+.state .connector
+{
+    width:6px;
+    height:6px;
+    
+    position:absolute;
+}
+.state .left-connector, .state .right-connector
+{
+    top: 18px;
+}
+.state .top-connector, .state .bottom-connector
+{
+    left: 102px;
+}
+.state .left-connector
+{
+    left:0;
+}
+.state .right-connector
+{
+    right:0;
+}
+.state .top-connector
+{
+    top:0;
+}
+.state .bottom-connector
+{
+    bottom:0;
+}
+
+.right_bar
+{
+    
+}
+.footer
+{
+    position:fixed;
+    bottom:0px;
+}

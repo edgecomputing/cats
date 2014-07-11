@@ -1,0 +1,117 @@
+﻿@using Cats.Models
+@using Cats.Models.ViewModels
+@using Kendo.Mvc.UI
+@using Cats.Helpers
+
+@model Cats.Models.ViewModels.TransportRequisitionWithTransporter
+@{
+    ViewBag.Title = "AssignTransporter";
+}
+<div style="display: none;">
+ @using (Html.BeginForm("AssignTransporter", "TransportOrder", FormMethod.Post, new { id = "frm_assign_transporter" }))
+ {    
+     
+     @Html.HiddenFor(model => model.SelectedTransporterID)
+     for (int i = 0; i < Model.TransReqwithOutTransporters.Count; i++)
+     {
+
+         @Html.TextBoxFor(model => model.TransReqwithOutTransporters[i].TransReqWithoutTransporterID)
+         @Html.TextBoxFor(model => model.TransReqwithOutTransporters[i].Selected)
+         @Html.HiddenFor(model => model.TransReqwithOutTransporters[i].Woreda)
+         @Html.HiddenFor(model => model.TransReqwithOutTransporters[i].CommodityID)
+         @Html.HiddenFor(model => model.TransReqwithOutTransporters[i].FdpID)
+         @Html.HiddenFor(model => model.TransReqwithOutTransporters[i].QuantityQtl)
+         @Html.HiddenFor(model =>model.TransReqwithOutTransporters[i].RequisitionID)
+         @Html.HiddenFor(model =>model.TransReqwithOutTransporters[i].HubID)
+         
+         <br />
+     }
+
+ }  
+</div>  
+<div id="div_select" >
+    <h5> Transport Requisitions Without Winner Transporter</h5> 
+    @Html.DropDownList("TransporterID", String.Empty)
+
+@* @(Html.Kendo().DropDownList()
+            .Name("TransporterID")
+            .DataTextField("Text")
+            .DataValueField("Value")
+            .Events(p=>p.Change("update_selected_transporter"))
+            .AutoBind(false)
+            .BindTo(ViewBag.TransporterID))*@
+   @* @(Html.Kendo().ComboBox().Name("cmbTransportersList").DataTextField("Name").DataValueField("TransporterID").BindTo(ViewBag.TransporterID))*@
+    @* new List<TransporterViewModel>
+        {
+            new TransporterViewModel {TransporterID = 1,Name = "MK"}
+        
+        })*@
+          
+    <a class="btn toolbar-btn" data-buttontype=" " id="btnAssign"  data-submittedform="frm_assign_transporter">Assign Transporter</a>
+    
+    @*<input type="submit" value="Assign Transporter" formtarget="frm_assign_transporter"  class="btn btn-success"/>*@
+    @(Html.Kendo().Grid(Model.TransReqwithOutTransporters)
+          .Name("grid")
+          .Columns(columns =>
+              {
+                  //columns.Bound(p => p.Select).
+                  //    //ClientTemplate("<input type='checkbox'/>");
+                  //    ClientTemplate("<input type='checkbox' #= Select ? checked='checked' : '' # ></input>");
+                  columns.Bound(p => p.Woreda);
+                  columns.Bound(p => p.RequisitionNo);
+                  columns.Bound(p => p.Commodity);
+                  columns.Bound(p => p.FDP);
+                  columns.Bound(P => P.OriginWarehouse);
+                  columns.Bound(p => p.QuantityQtl).Title(Html.Translate("Quantity")).HtmlAttributes(new { align = "right" }).Format("{0:n2}").HeaderHtmlAttributes(new { @class = "cats-unit-pref-grid" });
+                  // columns.Bound(p => p.Amount);
+                  //columns.Command(p => p.Custom("Assign Transporter").Click("onGenerate"));
+              })
+          .Scrollable()
+          .DataSource(datasource => datasource.Server()
+           
+                                        .Model(model => model.Id(p => p.TransReqWithoutTransporterID))
+
+          ))
+</div>
+     
+     <script>
+    $(function() {
+        $("#div_select tbody tr").prepend("<td class='checker'><i class='icon-ok'></i></td>");
+        $("#div_select thead tr").prepend("<th class='k-header'></th>");
+        $("#div_select tfoot tr").prepend("<td class='k-header'></td>");
+        $("#div_select tbody .checker").click(
+            function (event) {
+                $(this).parent().toggleClass("k-state-selected");
+                update_selection_data();
+               // update_selected_transporter();
+            });
+    }
+    );
+
+    function update_selection_data() {
+        var i = 0;
+        $("#div_select tbody tr").each(function () {
+            var inp = $("#TransReqwithOutTransporters_" + i + "__Selected");
+            if ($(this).hasClass("k-state-selected")) {
+                inp.val(true);
+                //alert("Selected");
+            } else {
+                inp.val(false);
+            }
+            i++;
+        });
+    }
+
+    $("#TransporterID").change(function () {
+        var selected = $("#TransporterID").val();
+        $("#SelectedTransporterID").val(selected);
+    });
+   
+    
+    
+</script>
+<style>
+    .table-compact {
+    }
+</style>
+

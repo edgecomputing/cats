@@ -1,0 +1,26 @@
+﻿@{
+    ViewBag.Title = "rfq";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+@section LeftBar
+{
+    @using (Html.BeginForm("Details", "RFQ"))
+    {
+        <div class="control-group">
+            <label class="control-label">Bid</label>
+            <div class="controls">
+               @Html.DropDownList("BidPlanID");
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">Region</label>
+            <div class="controls">
+               @* @Html.ListBox("myListBox", new SelectList(new[] {""})); @Html.ListBox("RegionID");*@
+                @Html.DropDownList("RegionID");
+                
+            </div>
+        </div>
+        <input type="submit" value="Select" class="btn btn-primary"/>
+    }
+}
+<h2>rfq</h2>

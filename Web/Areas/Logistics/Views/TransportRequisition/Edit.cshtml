@@ -1,0 +1,99 @@
+﻿@model Cats.Areas.Logistics.Models.TransportRequisitionViewModel
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+@section LeftBar
+{
+    @Html.Partial("_AllocationLeftBar")
+}
+@section Toolbar
+{
+     <a class="btn toolbar-btn " data-buttontype="btn_save" data-submittedform="frmEdit"></a>
+   <a class="btn toolbar-btn " href="@Url.Action("Index", "TransportRequisition", new { Area = "Logistics" })" data-buttontype="btn_back_to_list"></a>
+}
+
+<h4>Edit Transport Requisition</h4>
+
+@using (Html.BeginForm("Edit","TransportRequisition",FormMethod.Post,new {id="frmEdit"}))
+{
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend></legend>
+
+        @Html.HiddenFor(model => model.TransportRequisitionID)
+        @Html.HiddenFor(model=>model.Status)
+        <div class="form-horizontal">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.TransportRequisitionNo)
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(model => model.TransportRequisitionNo)
+                    @Html.ValidationMessageFor(model => model.TransportRequisitionNo)
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.RequestedBy)
+                </div>
+                <div class="controls">
+                    @Html.DropDownList("RequestedBy", string.Empty)
+                    @Html.ValidationMessageFor(model => model.RequestedBy)
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.RequestedDate,new {@class="cats-date-pref"})
+                </div>
+                <div class="controls">
+                     @Html.TextBoxFor(model => model.RequestedDate, new { @class = " cats-datepicker2", @placeholder = "0" })
+                    @Html.ValidationMessageFor(model => model.RequestedDate)
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.CertifiedBy)
+                </div>
+                <div class="controls">
+                    @Html.DropDownList("CertifiedBy", string.Empty)
+                    @Html.ValidationMessageFor(model => model.CertifiedBy)
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.CertifiedDate,new {@class="cats-date-pref"})
+                </div>
+                <div class="controls">
+                   @Html.TextBoxFor(model => model.CertifiedDate, new { @class = " cats-datepicker2", @placeholder = "0" })
+                    @Html.ValidationMessageFor(model => model.CertifiedDate)
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.Remark)
+                </div>
+                <div class="controls">
+                    @Html.TextAreaFor(model => model.Remark)
+                    @Html.ValidationMessageFor(model => model.Remark)
+                </div>
+            </div>
+            
+
+@*            <div class="controls">
+                <input type="submit" value="Save" />
+            </div>*@
+        </div>
+    </fieldset>
+}
+
+@*<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>*@
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

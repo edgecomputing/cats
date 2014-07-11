@@ -1,0 +1,137 @@
+﻿@using Cats.Services.Security
+@using LanguageHelpers.Localization
+@{
+    var user = (UserIdentity)HttpContext.Current.User.Identity;
+    
+    }
+<style>
+
+
+
+</style>
+<link rel="stylesheet" href="~/Content/MapResources/openlayers/theme/default/style.css" type="text/css">
+<script src="~/Content/MapResources/OpenlayersWrapper.js"></script>
+<script src="~/Content/MapResources/openlayers/lib/OpenLayers.js"></script>
+<script src="~/Content/MapResources/MapStyle.js"></script>
+<script src="~/Content/MapResources/MapLegend.js"></script>
+
+<div class="map-container">
+    <div id="map1" class="map"></div>
+    <div id="map1Legend" class="map-legend"></div>
+    <div class="map-title">Number of Beneficiaries</div>
+</div>
+<div class="map-container">
+    <div id="map2" class="map"></div>
+    <div id="map2Legend" class="map-legend"></div>
+    <div class="map-title">Total Commoditiy Required</div>
+</div>
+<div style="height:600px;"></div>
+<script>
+        
+    function mapController($http, $scope, $timeout) {
+        $scope.countryShapeURL = "/Content/MapResources/MapData/ethiopiaJson.js";
+        $scope.regionShapeURL = "/Content/MapResources/MapData/ethiopiaRegions.js";
+        $scope.getData = function () {
+
+        }
+    }
+    var countryShapeURL = "/Content/MapResources/MapData/ethiopiaJson.js";
+    var regionShapeURL = "/Content/MapResources/MapData/ethiopiaRegions.txt";
+
+
+
+    $(function () {
+        HRDUrl = "@Url.Action("BeneficiaryByRegion_Read", "HRD", new { Area = "EarlyWarning" })";
+        var ZoneHRDUrl = "@Url.Action("BeneficiaryByZone_Read", "HRD", new { Area = "EarlyWarning" })";
+        var WoredaHRDUrl = "@Url.Action("BeneficiaryByWoreda_Read", "HRD", new { Area = "EarlyWarning" })";
+
+        dataSource = { url: HRDUrl, indicator: "NumberOfBeneficiaries", postData: {} };
+        adminUnitInfo = { level: "Region" };
+        renderingInfo = { shadingOption: {}, div: "map1" };
+        CreateMapForData(dataSource, adminUnitInfo, renderingInfo);
+
+        
+      //  CreateMapForData({ url: ZoneHRDUrl, indicator: "Total", postData: {} }, { level: "Zone" }, { shadingOption: { h: 170, s: 164, sample: 8 }, div: "map2" });
+        CreateMapForData({ url: WoredaHRDUrl, indicator: "Total", postData: {} }, { level: "Woreda" }, { shadingOption: { h: 170, s: 164, sample: 8 }, div: "map2" });
+
+        return;
+
+
+
+    });
+    
+</script>
+<style>
+    .map
+    {
+       position:absolute;
+        top:0px;
+        left:0px;
+        right:0px;
+        bottom:0px;
+        
+       
+    }
+    .map-container
+    {
+         position:relative;
+        margin-top:10px;
+        left:10px;
+        height:500px;
+        width:80%;
+        
+        border:solid 1px #DDD;
+        border-radius:6px;
+        
+        background: #7abcff; /* Old browsers */
+background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,#aad4ff), color-stop(44%,#60abf8), color-stop(100%,#a3c8ed));    }
+    .map-legend
+    {
+       position:absolute;
+        top:0px;
+        right:0px;
+        width:300px;
+        background:rgba(255,255,255,0.6);
+        padding:20px;
+        padding-top:0;
+        box-shadow: -2px 2px 2px #444;
+       
+    }
+        .map-legend .title
+        {
+            font-size:20px;
+            line-height:40px;
+        }
+        .map-legend .item
+        {
+            line-height:40px;
+            border-bottom:solid 1px #EEE;
+        }
+        .map-legend .pallet
+        {
+            line-height:40px;
+            padding:4px;
+            padding-left:10px;
+            padding-right:10px;
+            border-radius:6px;
+        }
+    .map-title
+    {
+        position:absolute;
+        top:0px;
+        left:100px;
+        width:300px;
+        /*background:rgba(255,255,255,0.6);*/
+        color:#FFF;
+        padding:20px;
+        font-size:20px;
+        text-shadow:2px 2px 2px #44A;
+
+    }
+    .olControlMousePosition
+    {
+        background:#000;
+        color:#FFF;
+    }
+
+</style>

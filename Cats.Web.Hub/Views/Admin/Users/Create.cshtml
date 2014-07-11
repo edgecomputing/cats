@@ -1,0 +1,142 @@
+﻿@model Cats.Models.Hubs.UserProfile
+          @using Cats.Web.Hub.Helpers
+
+
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+   
+    <div class="editor-label">
+        @Html.LabelFor(model => model.UserName)
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(model => model.UserName)
+        @Html.ValidationMessageFor(model => model.UserName)
+    </div>
+        <div class="editor-label">
+            @Html.Translate("First Name")
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.FirstName)
+            @Html.ValidationMessageFor(model => model.FirstName)
+        </div>
+
+        <div class="editor-label">
+            @Html.Translate("Last Name")
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.LastName)
+            @Html.ValidationMessageFor(model => model.LastName)
+        </div>
+
+        <div class="editor-label">
+            @Html.Translate("Grand Father's Name")
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Password)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Password)
+            @Html.ValidationMessageFor(model => model.Password)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.FirstName)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.FirstName)
+            @Html.ValidationMessageFor(model => model.FirstName)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.LastName)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.LastName)
+            @Html.ValidationMessageFor(model => model.LastName)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.GrandFatherName)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.GrandFatherName)
+            @Html.ValidationMessageFor(model => model.GrandFatherName)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ActiveInd)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.ActiveInd)
+            @Html.ValidationMessageFor(model => model.ActiveInd)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.LogginDate)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.LogginDate)
+            @Html.ValidationMessageFor(model => model.LogginDate)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.LogOutDate)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.LogOutDate)
+            @Html.ValidationMessageFor(model => model.LogOutDate)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.FailedAttempts)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.FailedAttempts)
+            @Html.ValidationMessageFor(model => model.FailedAttempts)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.LockedInInd)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.LockedInInd)
+            @Html.ValidationMessageFor(model => model.LockedInInd)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.LanguageCode)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.LanguageCode)
+            @Html.ValidationMessageFor(model => model.LanguageCode)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.MobileNumber)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.MobileNumber)
+            @Html.ValidationMessageFor(model => model.MobileNumber)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Email)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Email)
+            @Html.ValidationMessageFor(model => model.Email)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.LoggedInInd)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.LoggedInInd)
+            @Html.ValidationMessageFor(model => model.LoggedInInd)
+        </div>      
+}

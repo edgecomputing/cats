@@ -1,0 +1,136 @@
+﻿@model Cats.Models.ViewModels.UserPreferenceViewModel
+@using Kendo.Mvc.UI
+@using Cats.Areas.Settings.Models
+@using Cats.Models
+@{
+    ViewBag.Title = "Preference";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<style>
+    #sortable1, #sortable2, #sortable3 { list-style-type: none; margin: 0; padding: 0; float: left; margin-right: 10px; background: #eee; padding: 5px; width: 143px;}
+    #sortable1 li, #sortable2 li, #sortable3 li { margin: 5px; padding: 5px; font-size: 1.2em; width: 120px; cursor: pointer}
+    #tabs ul{ background-color: #ececec;-moz-border-radius-topleft: 5px; -moz-border-radius-topright: 5px}
+
+    .unselectedTitle { font-size: 20px;background-color: #ececec;width: 390px;text-align: center;padding: 10px;}
+
+    .selectedTitle { font-size: 20px;background-color: #ececec;width: 390px;text-align: center;padding: 10px; }
+</style>
+<script src="~/Scripts/jquery-ui.js"></script>
+<script>
+    $(function () {
+        $("ul.droptrue").sortable({
+            connectWith: "ul",
+
+        });
+
+        $("ul.dropfalse").sortable({
+            connectWith: "ul",
+            dropOnEmpty: false
+        });
+        $("#tabs").tabs();
+        $("#sortable1, #sortable2, #sortable3").disableSelection();
+
+    });
+
+    $(".saveChanges").click(function (e) {
+        preventDefault();
+        saveChanges();
+    });
+    function saveChanges() {
+
+        var selectedDashboards = new Array();
+        var i = 0;
+        $('#sortable2 li').each(function (index, obj) {
+            selectedDashboards[i] = $(this).attr("id");
+            i++;
+        });
+        $.ajax({
+            type: "POST",
+            url: "/Home/SavePreference",
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify(selectedDashboards),
+            dataType: "json",
+            beforeSend:BeforeSendActivity,
+            success: PreferenceSaveCompleted,
+            error: PreferenceSaveFailed
+        });
+    }
+    var timer;
+    function BeforeSendActivity() {
+        //alert();
+        //var msg = '<div class="cats_success">Loading...</div>';
+        //$(".message-window").html(msg).delay(800).hide().fadeIn();
+    }
+    function PreferenceSaveCompleted(results) {
+        if (results) {
+            var msg = '<div class="cats_success">Success: Dashboard preference updated.</div>';
+            $(".message-window").html(msg).delay(800).hide().fadeIn();
+            clearTimeout(timer);
+            timer = setTimeout(function () {
+                $(".message-window").fadeOut("normal", function () { $(this).html(''); });
+            }, 5000);
+        }
+    }
+
+    function PreferenceSaveFailed(request, status, error) {
+        //var msg = '<div class="cats_error">Error: ' + error + '. Status: ' + status + '</div>';
+        var msg = '<div class="cats_error">Error: Dashboard preference not updated.';
+        $(".message-window").html(msg).delay(800).hide().fadeIn();
+        clearTimeout(timer);
+        timer = setTimeout(function () {
+            $(".message-window").fadeOut("normal", function () { $(this).html(''); });
+        }, 5000);
+    }
+</script>
+<h4>Preference</h4>
+<div>
+    <div id="tabs">
+        <ul>
+            
+            <li><a href="#tabs-1">General</a></li>
+            <li><a href="#tabs-2">Dashboard</a></li>
+            <li><a href="#tabs-3">Advanced</a></li>
+        </ul>
+        <div id="tabs-1">
+
+                    @Html.Partial("Edit",Model)
+        </div>
+        <div id="tabs-2">
+            <table>
+                <tr>
+                    <td style="vertical-align: top">
+                        <div class="unselectedTitle">Unselected Dashboards</div>
+                        <ul id="sortable1" class="droptrue" style="width:400px">
+                            @foreach (DashboardWidget dashboardWidget1 in ViewBag.UnselectedDashbaords)
+                            {
+                                <li class="ui-state-default unselected" style="width:350px" id="@dashboardWidget1.DashboardWidgetID">@dashboardWidget1.Title</li>
+                            }
+                        </ul>
+                    </td>
+                    <td>
+                        <img src="../../Content/images/exchange.png" width="50px" height="50px" alt="<-->"/>
+                    </td>
+                    <td style="vertical-align: top">
+                        <div class="selectedTitle">Selected Dashboards (Viewed in this Order)</div>
+                        <ul id="sortable2" class="droptrue" style="width:400px">
+                            @foreach (DashboardWidget dashboardWidget2 in ViewBag.SelectedDashboards)
+                            {
+                                <li class="ui-state-default selected" style="width:350px" id="@dashboardWidget2.DashboardWidgetID">@dashboardWidget2.Title</li>
+                            }
+                        </ul>
+                    </td>
+                </tr>
+            </table>
+            <div class="controls">
+                <input type="button" class="btn btn-primary" value="Save Preference" onclick="saveChanges()"/>
+                <a href="@Url.Action("Index", "Home")" class="btn" id="cancel">Cancel</a>
+            </div>
+        </div>
+        
+
+        <div id="tabs-3"></div>
+    </div>
+    
+</div>
+

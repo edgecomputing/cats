@@ -1,0 +1,154 @@
+﻿/*
+    Style to create a vertical line between two columns in Bootstrap grid
+    Usage: Always apply this on the most left column
+    */
+
+.column-divider {
+    padding-right: 20px;
+    border-right: 1px solid #ccc;
+}
+
+input.borderless-input:focus {
+    border: blue;
+    background-color: white;
+}
+
+.borderless-input {
+    border: 0;
+    outline: 0;
+    outline-offset: 0;
+}
+/* ReSharper disable DeclarationIsEmpty */
+.cats-datepicker {
+
+}
+
+.amharic {
+    border:solid 2px #73A6FF;  
+    background:#DDF2FE;  
+    color:#000;  
+}
+
+/* Number field */
+.number, td.number, div.number, th.number{
+    text-align: right;
+}
+
+/* The bread crumb section */
+.wizard a {
+    padding: 10px 12px 10px;
+    margin-right: 5px;
+    background: #efefef;
+    position: relative;
+    display: inline-block;
+}
+.wizard a:before {
+    width: 0;
+    height: 0;
+    border-top: 20px inset transparent;
+    border-bottom: 20px inset transparent;
+    border-left: 20px solid #fff;
+    position: absolute;
+    content: "";
+    top: 0;
+    left: 0;
+}
+.wizard a:after {
+    width: 0;
+    height: 0;
+    border-top: 20px inset transparent;
+    border-bottom: 20px inset transparent;
+    border-left: 20px solid #efefef;
+    position: absolute;
+    content: "";
+    top: 0;
+    right: -20px;
+    z-index: 2;
+}
+.wizard a:first-child:before,
+.wizard a:last-child:after {
+    border: none;
+}
+.wizard a:first-child {
+    -webkit-border-radius: 4px 0 0 4px;
+       -moz-border-radius: 4px 0 0 4px;
+            border-radius: 4px 0 0 4px;
+}
+.wizard a:last-child {
+    -webkit-border-radius: 0 4px 4px 0;
+       -moz-border-radius: 0 4px 4px 0;
+            border-radius: 0 4px 4px 0;
+}
+.wizard .badge {
+    margin: 0 5px 0 18px;
+    position: relative;
+    top: -1px;
+}
+.wizard a:first-child .badge {
+    margin-left: 0;
+}
+.wizard .current {
+    background: #007ACC;
+    color: #fff;
+}
+.wizard .current:after {
+    border-left-color: #007ACC;
+}
+
+
+/* ff anti-aliasing bug - http://coderwall.com/p/tpmsta */
+.mywizard li {
+    position: relative;
+    background: #f5f5f5;
+    padding-right: 30px;
+    padding-left: 5px;
+}
+
+.mywizard li a:after, .mywizard li a:before {
+    left: 100%;
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+}
+
+.mywizard li a:after {
+    border-color: rgba(245, 245, 245, 0);
+    border-left-color: #f5f5f5;
+    border-width: 20px;
+    top: 50%;
+    margin-top: -20px;
+    margin-left: -30px;
+}
+
+.mywizard li a:before {
+    border-color: rgba(255, 255, 255, 0);
+    border-left-color: #fff;
+    border-width: 30px;
+    top: 50%;
+    margin-top: -30px;
+    margin-left: -30px;
+}
+.mywizard li .badge {
+    vertical-align: text-bottom;
+    padding-top: 3px;
+}
+
+/* End of breadcrumb*/
+
+.chartWrap {
+        margin: 0 auto;
+        width: 100%;
+        height: 240px;
+    }
+
+.chartWrap2 {
+        margin: 0 auto;
+        width: 300px;
+        height: 240px;
+    }
+.required {
+    color: red;
+}

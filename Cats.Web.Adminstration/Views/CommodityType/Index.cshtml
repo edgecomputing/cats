@@ -1,0 +1,72 @@
+﻿@using Cats.Web.Adminstration.Models.ViewModels
+@using Kendo.Mvc.UI
+@{
+    ViewBag.Title = "Commodity Type";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+<div id="modalWindow">
+    <h4>Are You Sure You Want to Delete this Hub?</h4>
+    <button id="yes" class="k-button">Yes</button>
+    <button id="no" class="k-button">No</button>
+</div>
+<script>
+    var wnd;
+    $(document).ready(function () {
+        wnd = $("#modalWindow").kendoWindow({
+            title: "Delete confirmation",
+            modal: true,
+            visible: false,
+            resizable: false,
+            width: 300
+        }).data("kendoWindow");
+    });
+</script>
+<h4 class="page-header">Commodity Type</h4>
+
+@(Html.Kendo().Grid<CommodityTypeViewModel>()
+.Name("grid")
+.Columns(columns=>
+        {
+            columns.Bound(c => c.Name);
+            columns.Bound(c => c.CommodityTypeId).Visible(false);
+            columns.Command(command => command.Custom("Delete").Click("OnDelete")).Width(100);
+        }).ToolBar(toolbar =>
+                         {
+                             toolbar.Save();
+                             toolbar.Create();
+                         })
+             .Editable(edit => edit.Mode(GridEditMode.InCell))
+             .Pageable()
+            .Selectable(t => t.Mode(GridSelectionMode.Single))
+             .Navigatable()
+             .DataSource(datasource=>
+                 datasource
+                    .Ajax()
+            .PageSize(10)
+     .Model(m=>m.Id(t=>t.CommodityTypeId))
+    .Read("CommodityType_Read","CommodityType")
+    .Create("CommodityType_Create","CommodityType")
+    .Update("CommodityType_Update","CommodityType")
+    //.Destroy("CommodityType_Destroy","CommodityType")
+    )
+      )
+<script>
+
+    function OnDelete(e) {
+        e.preventDefault();
+        var grid = this;
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var row = $(e.currentTarget).closest("tr");
+        wnd.center().open();
+
+        $("#yes").click(function () {
+
+            window.location = "@Url.Action("CommodityType_Destroy", "CommodityType")" + "/" + dataItem.CommodityTypeId;
+            wnd.close();
+        });
+
+        $("#no").click(function () {
+            wnd.close();
+        });
+    }
+</script>

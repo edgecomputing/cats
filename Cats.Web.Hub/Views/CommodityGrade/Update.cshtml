@@ -1,0 +1,57 @@
+﻿@model IEnumerable<Cats.Models.Hubs.CommodityGrade>
+@using Cats.Web.Hub.Helpers
+
+@{
+    ViewBag.Title = Html.Translate("Index");
+}
+
+@*<h2>List Of Commodity Grades</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>*@
+<div id="list">
+<table width="60%">
+    <tr style="width: 20px;">
+        <th>
+        </th>
+        <th>
+            @Html.Translate("Name")
+        </th>
+        <th>
+            @Html.Translate("Description")
+        </th>
+        <th>
+            @Html.Translate("Sort Order")
+        </th>
+        <th></th>
+    </tr>
+     @{
+         var i = 1;
+    }
+
+@foreach (var item in Model)
+{
+    <tr>
+        <td>@i</td>
+        <td>
+            @Html.DialogFormLink(@Html.DisplayFor(modelItem => item.Name).ToString(), Url.Action("Edit/" + item.CommodityGradeID), Html.Translate("Edit Commodity Grade"), "list", Url.Action("Update"))
+            @*@Html.DisplayFor(modelItem => item.Name)*@
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SortOrder)
+        </td>
+        <td>
+@*          @Html.ActionLink("Edit", "Edit", new { id=item.CommodityGradeID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.CommodityGradeID }) |*@
+            @Html.ActionLink(Html.Translate("Delete"), "Delete", new { id = item.CommodityGradeID })
+        </td>
+    </tr>
+    i++;
+}
+
+</table>
+</div>

@@ -1,0 +1,13 @@
+﻿@model Cats.Models.Hubs.UserProfile
+@using Cats.Web.Hub.Helpers
+@if (Request.IsAuthenticated && Model != null)
+    {
+   
+    <text>@Html.Translate("Welcome ") <strong>@Model.GetFullName()</strong> ! 
+     @Html.ActionLink(Html.Translate("LogOff"), "LogOff", "Account") | </text>
+    }
+else
+    {
+    @:[ @Html.ActionLink("LogOn", "LogOn", "Account") ]
+   
+}

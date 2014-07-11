@@ -1,0 +1,172 @@
+﻿@using Cats.Models
+@using Kendo.Mvc.UI
+@using Cats.Helpers
+@using LanguageHelpers.Localization
+@model Cats.Models.NeedAssessment
+
+@{
+    ViewBag.Title = Html.Translate("Add New Need Assessment");
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+    const string pageName = "EarlyWarning.NeedAssessment.CreateNeedAssessment";
+}
+@section Toolbar
+{
+    <a class="btn toolbar-btn " data-buttontype="btn_save" data-submittedform="frm_add_region"></a>
+    <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="@Url.Action("Index", "NeedAssessment")" title="save"></a>
+}
+<script type="text/javascript">
+    $(function () {
+
+        //Optional: turn the chache off
+        $.ajaxSetup({ cache: false });
+
+        $('#btnDateinterval').click(function () {
+
+            var startDate = new Date($('#Plan_StartDate').val());
+            //var startDate = $('#Plan_StartDate').val();
+            var duration = $('#Plan_Duration').val();
+
+            var fullDate = startDate.getMonth() + 1 + '/' + startDate.getDate() + '/' + startDate.getFullYear();
+            var url = '@Url.Action("DateInterval", "HRD")?duration=' + duration + '&startDate=' + fullDate;
+            $('#dialogContent').load(url, function () {
+                $('#dialogDiv').modal({
+                    backdrop: 'static',
+                    keyboard: true
+                }, 'show');
+                //bindForm(this);
+            });
+            return false;
+        });
+
+    });
+</script>
+
+<div id='dialogDiv' class='modal hide fade in' style="width: 620px;margin-right: 10px">
+    <div id='dialogContent'></div>
+</div>
+
+@using (Html.BeginForm("CreateNeedAssessment", "NeedAssessment", FormMethod.Post, new { id = "frm_add_region" }))
+{
+    @Html.ValidationSummary(true)
+
+        <legend>@Html.Translate("Add New Need Assessment")</legend>
+        
+        <div class="control-group form-horizontal well">
+    <div class="row">
+        <div class="span6">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(m => m.Plan.PlanName, Html.Translate("Plan"))
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(m => m.Plan.PlanName)
+                   @Html.ValidationMessageFor(m =>m.Plan.PlanName)
+                </div>
+            </div>
+        </div>
+
+        <div class="span4">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(m => m.Region)
+                </div>
+                <div class="controls">
+                   @Html.DropDownList("RegionID", ViewBag.Regions as SelectList, new { id = "Region" })
+                    @Html.ValidationMessageFor(model => model.Region)
+                </div>
+
+            </div>
+        </div>
+    </div>
+   <div class="row">
+        <div class="span6">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(m => m.Season)
+                </div>
+                <div class="controls">
+                   @Html.DropDownList("SeasonID", ViewBag.Season as SelectList, new { id = "Season" })
+                    @Html.ValidationMessageFor(model => model.Season)
+                </div>
+            </div>
+        </div>
+
+        <div class="span4">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.Label(Translator.Translate("Assessment From"), new { @class = "cats-date-pref" })
+                </div>
+                <div class="controls">
+                     @Html.TextBoxFor(m => m.Plan.StartDate, new { @class = "cats-datepicker2" })
+                    @Html.ValidationMessageFor(m => m.Plan.StartDate)
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span6">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.Label(Translator.Translate("Assessment Type"))
+                </div>
+                <div class="controls">
+                   @Html.DropDownList("TypeOfNeedID", ViewBag.TypeOfNeed as SelectList, new { id = "TypeOfNeed" })
+                    
+                    @Html.ValidationMessageFor(model => model.TypeOfNeedAssessment1.TypeOfNeedAssessmentID)
+                </div>
+
+            </div>
+            
+        </div>
+
+        <div class="span4">
+             <div class="control-group">
+                        <div class="control-label">
+                            
+                            @Html.LabelFor(m => m.Plan.Duration, Translator.Translate("Duraton"))
+                        </div>
+                        <div class="controls">
+                            @Html.TextBoxFor(m => m.Plan.Duration)
+                            @Html.ValidationMessageFor(m => m.Plan.Duration)
+                            <a id="btnDateinterval">View Date Interval</a>
+                        </div>
+
+                    </div>
+        </div>
+    </div>
+</div>
+        
+}
+
+@*<script>
+    function onOpen() {
+        if ("kendoConsole" in window) {
+            kendoConsole.log("event :: open");
+        }
+    }
+
+    function onClose() {
+        if ("kendoConsole" in window) {
+            kendoConsole.log("event :: close");
+        }
+    }
+
+    function onChange() {
+        if ("kendoConsole" in window) {
+            kendoConsole.log("event :: change");
+        }
+    }
+
+    function onSelect(e) {
+        if ("kendoConsole" in window) {
+            var dataItem = this.dataItem(e.item.index());
+            kendoConsole.log("event :: select (" + dataItem + ")");
+        }
+    }
+
+    function onDataBound(e) {
+        if ("kendoConsole" in window) {
+            kendoConsole.log("event :: dataBound");
+        }
+    }
+</script>*@

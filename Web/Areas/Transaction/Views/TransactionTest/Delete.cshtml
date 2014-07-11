@@ -1,0 +1,144 @@
+﻿@model Cats.Models.Transaction
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<fieldset>
+    <legend>Transaction</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.PartitionID)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.PartitionID)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.TransactionGroupID)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.TransactionGroupID)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.LedgerID)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.LedgerID)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.HubOwnerID)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.HubOwnerID)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.AccountID)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.AccountID)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.HubID)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.HubID)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.StoreID)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.StoreID)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Stack)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Stack)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.ProjectCodeID)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.ProjectCodeID)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.ShippingInstructionID)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.ShippingInstructionID)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.ProgramID)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.ProgramID)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.ParentCommodityID)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.ParentCommodityID)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.CommodityID)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.CommodityID)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.CommodityGradeID)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.CommodityGradeID)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.QuantityInMT)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.QuantityInMT)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.QuantityInUnit)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.QuantityInUnit)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.UnitID)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.UnitID)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.TransactionDate)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.TransactionDate)
+    </div>
+</fieldset>
+@using (Html.BeginForm()) {
+    <p>
+        <input type="submit" value="Delete" /> |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+}

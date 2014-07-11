@@ -1,0 +1,20 @@
+﻿@model IEnumerable<Cats.Models.Hubs.AdminUnitType>
+@using Cats.Web.Hub.Helpers
+@{
+    ViewBag.Title = Html.Translate("UnitTypes");
+}
+
+<h2>@Html.Translate("Unit Types")</h2>
+
+
+<div id="tabs">
+    <ul id="mne">
+        @foreach (var item in Model)
+        {
+    <li>@Html.DialogFormLink(item.Name, @Url.Action("Edit", new { typeid = item.AdminUnitTypeID }), Html.Translate("Edit Unit"), "tabs",
+            @Url.Action(Html.Translate("AdminUnits"), new { typeid = item.AdminUnitTypeID }))</li> 
+        }
+
+    </ul>
+</div>
+

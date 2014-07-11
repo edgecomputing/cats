@@ -1,0 +1,74 @@
+﻿
+@using Cats.Helpers
+@using Cats.Services.Security
+@using Kendo.Mvc.UI
+@model Cats.Models.HRD
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";  
+}
+@section LeftBar
+{
+   
+    @Html.Partial("_HRDLeftBar");
+   
+}
+@section Toolbar
+{
+    <a class="btn toolbar-btn " data-buttontype="btn_save" data-submittedform="frm_Edit_hrd"></a>
+    <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="@Url.Action("Index", "HRD")" title="cancel"></a>
+   
+}
+<div><h4>Edit HRD</h4></div>
+    @using (Html.BeginForm("Edit", "HRD", FormMethod.Post, new { id = "frm_Edit_hrd" }))
+    {
+        @Html.ValidationSummary(true)
+        @Html.HiddenFor(m=>m.HRDID)
+        @Html.HiddenFor(m=>m.PlanID)
+        @Html.HiddenFor(m=>m.Status)
+        <div class="well form-horizontal">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(m => m.Year,"Year (Specified in EC)")
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(m => m.Year)
+                    @Html.ValidationMessageFor(m=>m.Year)
+                </div>
+        
+            </div>
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(m => m.SeasonID)
+                </div>
+                <div class="controls">
+                    @Html.DropDownList("SeasonID",String.Empty)
+                    @Html.ValidationMessageFor(m=>m.SeasonID)
+                </div>
+        
+            </div>
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(m => m.RationID,"Ration")
+                </div>
+                <div class="controls">
+                    @Html.DropDownList("RationID",String.Empty)
+                    @Html.ValidationMessageFor(m=>m.RationID)
+                </div>
+        
+            </div>
+             <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(m => m.CreatedDate,"Created Date",new {@class="cats-date-pref"})
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(m=>m.CreatedDate,new {@class="cats-datepicker2"})
+                    @Html.ValidationMessageFor(m => m.CreatedDate)
+                </div>
+            </div>
+        </div>
+    }
+ 
+
+

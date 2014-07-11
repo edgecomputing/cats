@@ -1,0 +1,113 @@
+
+.small_form input, .small_form select
+{
+    width:200px;
+}
+.designer_window
+{
+    position:absolute;border:solid 1px #CCC;left:10px;right:10px;top:100px;bottom:10px;
+    background:#FFF;
+    overflow:scroll;
+    
+}
+.canvas
+{
+    background:rgba(255,248,200,0);
+
+}
+.left_bar
+{
+    position:fixed; 
+    top:60px; 
+    bottom:100px; 
+    
+    left:10px; 
+    width:150px;
+    /*border:solid 1px #CCC;*/
+    background:#FFF;
+}
+.state,.flow
+{
+    position:absolute;
+    height:32px;
+    
+
+}
+.flow
+{
+   height:22px;
+}
+    .state .content, .flow .content
+    {
+       
+        border:solid 1px #AAA;
+        line-height:30px;
+        
+        text-align:center;
+        border-radius:4px;
+        background:rgba(255,255,255,.9);
+       /*
+            
+           */ 
+        font-size:12px;
+        padding-left:10px;
+        padding-right:10px;
+        
+    }
+    .flow .content
+    {
+         line-height:20px;
+         font-size:10px;
+         border-radius:8px;
+         color:#08F;
+          border:solid 1px #DDF;
+    }
+
+
+.state .connector
+{
+    width:6px;
+    height:6px;
+    
+    position:absolute;
+}
+.state .left-connector, .state .right-connector
+{
+    top: 18px;
+}
+.state .top-connector, .state .bottom-connector
+{
+    left: 102px;
+}
+.state .left-connector
+{
+    left:0;
+}
+.state .right-connector
+{
+    right:0;
+}
+.state .top-connector
+{
+    top:0;
+}
+.state .bottom-connector
+{
+    bottom:0;
+}
+
+.right_bar
+{
+    
+}
+.footer
+{
+    position:fixed;
+    bottom:0px;
+}
+
+.saving,.saving .content, .saving .content
+{
+    background:#ffff83;
+    color: #F0F;
+}

@@ -1,0 +1,209 @@
+﻿@using Kendo.Mvc.UI
+@using LanguageHelpers.Localization
+@using Cats.Helpers
+
+@model Cats.Models.Plan
+@{
+    ViewBag.Title = "Detail";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";  
+}
+
+@section Toolbar
+{
+
+   @* <a class="btn toolbar-btn " href="@Url.Action("AddNeedAssessment", "NeedAssessment" ,new {id=Model.PlanID})"data-buttontype="">Add Assessment</a>
+    <a class="btn toolbar-btn " href="@Url.Action("CreateHRD", "HRD" ,new {id=Model.PlanID})"data-buttontype="">Create HRD</a>
+    *@
+    <div class="btn-group" style="margin-right: 8px;">
+    <button class="btn dropdown-toggle " data-toggle="dropdown">
+        @Html.Translate("Actions")
+        <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu">
+        <li><a id="btnAddAssessment" href="@Url.Action("AddNeedAssessment", "NeedAssessment", new { id = Model.PlanID })">@Html.Translate("Add Assessment")</a></li>
+        <li><a id="btnCreateHrd" href="@Url.Action("CreateHRD", "HRD", new { id = Model.PlanID })">@Html.Translate("Create HRD")</a></li>
+    </ul>
+</div>
+}
+<script type="text/javascript">
+    $(function () {
+
+        //Optional: turn the chache off
+        $.ajaxSetup({ cache: false });
+
+        $('#btnAddAssessment').click(function () {
+
+            // alert("");
+            $('#dialogContent').load(this.href, function () {
+                $('#dialogDiv').modal({
+                    backdrop: 'static',
+                    keyboard: true
+                }, 'show');
+                //bindForm(this);
+            });
+            return false;
+        });
+
+    });
+</script>
+<div id='dialogDiv' class='modal hide fade in'>
+    <div id='dialogContent'></div>
+</div>
+<h4>list of Need Assessments</h4>
+
+<div class="control-group form-horizontal well">
+    <div class="row">
+        <div class="span6">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.Label(Html.Translate("Assessment Name"))
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(m => m.PlanName,new {Disabled=true})
+                   @Html.ValidationMessageFor(m =>m.PlanName)
+                </div>
+            </div>
+        </div>
+
+       @* <div class="span6">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(m => m.Year)
+                </div>
+                <div class="controls">
+                   @Html.TextBoxFor(m=>m.Year,new {Disabled=true})
+                    @Html.ValidationMessageFor(model => model.Year)
+                </div>
+
+            </div>
+        </div>*@
+    </div>
+   <div class="row">
+       @* <div class="span6">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(m => m.Season)
+                </div>
+                <div class="controls">
+                   @Html.DropDownList("SeasonID", ViewBag.Season as SelectList, new { id = "Season" })
+                    @Html.ValidationMessageFor(model => model.Season)
+                </div>
+            </div>
+        </div>*@
+
+@*        <div class="span4">
+        <div class="control-group">
+            <div class="control-label">
+                @Html.Label(Html.Translate("Assessment Type"))
+            </div>
+            <div class="controls">
+               @Html.DropDownList("TypeOfNeedID", ViewBag.TypeOfNeed as SelectList, new { id = "TypeOfNeed" })
+
+                @Html.ValidationMessageFor(model => model.TypeOfNeedAssessment1.TypeOfNeedAssessmentID)
+            </div>
+
+        </div>
+    </div>*@
+    </div>
+    <div class="row">
+        <div class="span6">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.Label(Html.Translate("Assessment From"), new { @class = "cats-date-pref" })
+                </div>
+                <div class="controls">
+                     @Html.TextBoxFor(m => m.StartDate, new { @class = "cats-datepicker2" })
+                    @Html.ValidationMessageFor(m => m.StartDate)
+                </div>
+            </div>
+        </div>
+
+        <div class="span4">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.Label(Html.Translate("To"), new { @class = "cats-date-pref" })
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(m => m.EndDate, new { @class = "cats-datepicker2" })
+                    @Html.ValidationMessageFor(m => m.EndDate)
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@(Html.Kendo().Grid<Cats.Models.NeedAssessmentHeaderViewModel>()
+    .Name("grid")
+    .Columns(columns =>
+    {
+        columns.Bound(p => p.RegionName).Title("Region");
+        columns.Bound(p => p.SeasonName).Visible(true).Width(100).Title("Season");
+        columns.Bound(p => p.Date).Title(Html.Translate("Need Assessment Created Date")).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid", style = "overflow: visible; white-space: normal;", title = "Need Assessment Created Date" });
+        columns.Bound(p => p.NeedACreaterName).Width(100).Title("Created By").HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;", title = "Created By" });
+        columns.Bound(p => p.IsApproved).Visible(false);
+        columns.Command(p =>
+        {   
+            p.Custom("Edit").Click("NeedAssessmentEdit");
+            p.Custom("Delete").Click("DeleteNeedAssessment");
+
+        });
+    })
+    .HtmlAttributes(new { style = "height: 300px" })
+    .Sortable()
+    .Scrollable()
+    .DataSource(dataSource => dataSource
+        .Ajax()
+        .PageSize(10)
+        .Model(model => model.Id(p => p.NeedAID))
+        .Read(read=>read.Action("PlannedNeedAssessmentInfo_Read","NeedAssessment",new {id=Model.PlanID}))
+    )
+)
+
+<script>
+    function NeedAssessmentEdit(e) {
+        e.preventDefault();
+
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        window.location = null;
+        window.location = "@Url.Action("EditNeedAssessment", "NeedAssessment")" + "?id=" + dataItem.NeedAID;
+    }
+
+    function DeleteNeedAssessment(e) {
+        e.preventDefault();
+
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        wn.center().open();
+        $("#yesDelete").click(function () {
+            window.location = "@Url.Action("DeleteNeedAssessment", "NeedAssessment",new {Area="EarlyWarning"})" + "?id=" + dataItem.NeedAID;
+            wn.close();
+        });
+
+        $("#noDelete").click(function () {
+            wn.close();
+        });
+    }
+
+</script>
+<div id="modalWindowDelete">
+    <h6>Delete Need Assessment?<br />
+        This will delete all the related records with this Region!</h6>
+    <button id="yesDelete" class="k-button">Yes</button>
+    <button id="noDelete" class="k-button">No</button>
+</div>
+<script>
+    var wn;
+    $(document).ready(function () {
+        wn = $("#modalWindowDelete").kendoWindow({
+            title: "Delete confirmation",
+            modal: true,
+            visible: false,
+            resizable: false,
+            width: 300
+        }).data("kendoWindow");
+    });
+
+
+</script>

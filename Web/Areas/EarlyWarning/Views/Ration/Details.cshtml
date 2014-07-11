@@ -1,0 +1,142 @@
+﻿@using System.Collections
+@using Cats.Areas.EarlyWarning.Models
+@using Cats.Helpers
+@using Cats.Models
+@using Kendo.Mvc.UI
+@model RationViewModel
+
+@{
+
+    ViewBag.Title = "Beneficiary Ration";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+@section LeftBar
+{
+    <ul class="nav nav-list">
+        <li class="nav-header">Ration</li>
+        <li><a id="btnEdit" href="@Url.Action("Edit", "Ration", new { Area = "EarlyWarning", id = Model.RationID })"><i class="icon-edit"></i>Edit Ration</a></li>
+        <li><a  href="@Url.Action("Index", "Ration", new { Area = "EarlyWarning" })"><i class="icon-edit"></i>Rations</a></li>
+        <li class="divider"></li>
+        <li><a href="#"><i class="icon-print"></i>Print</a></li>
+        <li><a href="#"><i class="icon-share"></i>Export</a></li>
+
+    </ul>
+}
+
+<h4 class="page-header">Rations</h4>
+<div>
+    @Html.DisplayNameFor(model => model.ReferenceNumber):
+    <b>@Html.DisplayFor(model => model.ReferenceNumber)</b>
+</div>
+<div>
+
+    @if (Html.UserCalendarPreference()=="EC")
+    {
+        @Html.DisplayNameFor(model => model.CreatedDateEC)
+        <b>@Html.DisplayFor(model => model.CreatedDateEC)</b>
+    }
+    else
+    {
+        <b>@Html.DisplayNameFor(model => model.DateCreated):</b>
+        @Html.DisplayFor(model => model.DateCreated)
+    }
+</div>
+
+
+
+
+@(Html.Kendo().Grid<RationDetailViewModel>()
+      .Name("grid")
+      .Columns(columns =>
+      {
+          columns.Template(t => { }).Title("No").ClientTemplate("#= renderNumber(data) #").Width(30);
+          columns.ForeignKey(p => p.CommodityID, (System.Collections.IEnumerable)ViewData["commodities"], "CommodityID", "Name").Width(50);
+          columns.Bound(p => p.RationID).Width(100).Visible(false);
+          columns.Bound(p => p.RationDetailID).Visible(false);
+          columns.Bound(p => p.Amount).Title("Amount (kg)").Width(50).HtmlAttributes(new { align = "right" }).Format("{0:N2}"); 
+          columns.ForeignKey(t => t.UnitID, (IEnumerable<Unit>)ViewData["UnitMeasures"], "UnitID", "Name").Width(100).Visible(false);
+          columns.Command(command =>
+                              {
+                                  command.Destroy();
+                              }).Width(100);
+      })
+          .ToolBar(toolbar =>
+          {
+              toolbar.Save();
+              toolbar.Create();
+          })
+      .Editable(editable => editable.Mode(GridEditMode.InCell))
+      .Pageable()
+      .Sortable()
+      .Scrollable()
+      .Selectable(t => t.Mode(GridSelectionMode.Single))
+      .Navigatable()
+      .HtmlAttributes(new { style = "height:430px;" })
+      .Events(ev => ev.DataBound("resetRowNumber"))
+      .DataSource(dataSource => dataSource
+                                    .Ajax()
+                                    .PageSize(20)
+                                    .Model(
+
+        model =>
+        {
+            model.Id(p => p.RationID);
+            //model.Field(ration => ration.Commodity).Editable(false);
+        }
+    )
+                                    .Create(update => update.Action("RationDetail_Create", "Ration", new { id = Model.RationID }))
+                                    .Read(read => read.Action("RationDetail_Read", "Ration", new { id = Model.RationID }))
+                                    .Update(update => update.Action("RationDetail_Update", "Ration"))
+                                    .Destroy(update => update.Action("RationDetail_Destroy", "Ration"))
+          ).Pageable())
+
+@section Scripts
+{
+
+}
+<div id='dialogDiv' class='modal hide fade in'>
+    <div id='dialogContent'></div>
+</div>
+
+<script type="text/javascript">
+
+    $(function () {
+
+        //Optional: turn the chache off
+        $.ajaxSetup({ cache: false });
+
+        $('#btnEdit').click(function () {
+            $('#dialogContent').load(this.href, function () {
+                $('#dialogDiv').modal({
+                    backdrop: 'static',
+                    keyboard: true
+                }, 'show');
+                bindForm(this);
+            });
+            return false;
+        });
+    });
+
+    function bindForm(dialog) {
+        $('form', dialog).submit(function () {
+            $.ajax({
+                url: this.action,
+                type: this.method,
+                data: $(this).serialize(),
+                success: function (result) {
+                    if (result.success) {
+                        $('#dialogDiv').modal('hide');
+                        // Refresh:
+                        // location.reload();
+                    } else {
+                        $('#dialogContent').html(result);
+                        bindForm();
+                    }
+                }
+            });
+            return false;
+        });
+    }
+
+</script>

@@ -1,0 +1,113 @@
+﻿@using System.Collections
+@using Kendo.Mvc.UI
+@model List<Cats.Models.Store>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";  
+}
+
+@section LeftBar
+{
+   
+}
+<div id="modalWindow">
+    <h4>Are You Sure You Want to Delete this Store?</h4>
+    <button id="yes" class="k-button">Yes</button>
+    <button id="no" class="k-button">No</button>
+</div>
+<script>
+    var wnd;
+    $(document).ready(function () {
+        wnd = $("#modalWindow").kendoWindow({
+            title: "Delete confirmation",
+            modal: true,
+            visible: false,
+            resizable: false,
+            width: 300
+        }).data("kendoWindow");
+    });
+</script>
+
+<div>
+    <h4>List of Stores</h4>
+</div>
+@(Html.Kendo().Grid<Cats.Web.Adminstration.Models.ViewModels.StoreViewModel>()
+    .Name("grid")
+    .Columns(columns =>
+        {
+        columns.Bound(p => p.Name);
+        columns.Bound(p => p.Number);
+        columns.ForeignKey(m => m.HubID, (IEnumerable)ViewBag.HubID, "HubID", "Name").Title("Hub Name");   
+        columns.Bound(p => p.IsActive);
+        columns.Bound(p => p.IsTemporary);
+        columns.Bound(p => p.StackCount);
+            columns.Bound(p => p.StoreManName);
+       //columns.Command(command => command.Destroy());
+            columns.Command(command =>
+                {
+                    command.Edit();
+                    command.Custom("Delete").Click("OnDelete");
+
+                });
+        })
+    .ToolBar(toolbar =>toolbar.Create())
+    .Editable(editable => editable.Mode(GridEditMode.InLine))
+    .Pageable()
+    .Sortable()
+    .Filterable()
+    .DataSource(dataSource => dataSource
+          .Ajax()
+          .PageSize(8)
+            .Model(model => model.Id(p => p.StoreID))
+           .Read(read => read.Action("Store_Read", "Store"))
+           .Update(update => update.Action("Store_Update", "Store"))
+           .Create(create => create.Action("Store_Create", "Store"))
+           .Destroy(destroy => destroy.Action("Store_Destroy", "Store"))
+ 
+     )
+   
+      )
+  <script>
+
+    function OnDelete(e) {
+        e.preventDefault();
+        var grid = this;
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var row = $(e.currentTarget).closest("tr");
+        wnd.center().open();
+
+        $("#yes").click(function () {
+
+            window.location = "@Url.Action("Delete", "Store")" + "/" + dataItem.StoreID;
+            wnd.close();
+        });
+
+        $("#no").click(function () {
+            wnd.close();
+        });
+    }
+</script>
+<script type="text/javascript">
+
+    //register custom validation rules
+    (function ($, kendo) {
+        $.extend(true, kendo.ui.validator, {
+            rules: { // custom rules
+                productnamevalidation: function (input, params) {
+                    //check for the rule attribute 
+                    if (input.filter("[data-val-productnamevalidation]").length && input.val()) {
+                        return /^[A-Z]/.test(input.val());
+                    }
+                    return true;
+                }
+            },
+            messages: { //custom rules messages
+                productnamevalidation: function (input) {
+                    // return the message text
+                    return input.attr("data-val-productnamevalidation");
+                }
+            }
+        });
+    })(jQuery, kendo);
+    </script>

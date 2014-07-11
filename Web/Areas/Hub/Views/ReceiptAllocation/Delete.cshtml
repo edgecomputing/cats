@@ -1,0 +1,63 @@
+﻿@model Cats.Models.Hubs.ReceiptAllocation
+ @using Cats.Web.Hub.Helpers
+@{
+    ViewBag.Title = Html.Translate("Delete");
+}
+
+<h2>@Html.Translate("Delete")</h2>
+
+<h3>@Html.Translate("Are you sure you want to delete this?")</h3>
+<fieldset>
+    <legend>@Html.Translate("ReceiptAllocation")</legend>
+
+    <div class="display-label">@Html.Translate("ETA")</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.ETA)
+    </div>
+
+    <div class="display-label">@Html.Translate("ProjectNumber")</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.ProjectNumber)
+    </div>
+
+    <div class="display-label">@Html.Translate("Commodity")</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Commodity.Name)
+    </div>
+
+    <div class="display-label">@Html.Translate("SINumber")</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.SINumber)
+    </div>
+
+    <div class="display-label">@Html.Translate("QuantityInMT")</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.QuantityInMT)
+    </div>
+
+    <div class="display-label">@Html.Translate("Hub")</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Hub.HubNameWithOwner)
+    </div>
+
+    <div class="display-label">@Html.Translate("DonorID")</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Donor.Name)
+    </div>
+
+    <div class="display-label">@Html.Translate("Program")</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Program.Name)
+    </div>
+
+    <div class="display-label">@Html.Translate("Commodity Source")</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.CommoditySource.Name)
+    </div>
+</fieldset>
+@using (Html.BeginForm()) {
+    <p>
+        <input type="submit" value="@Html.Translate("Delete")" /> |
+        @Html.ActionLink(Html.Translate("Back to List"), "Index", "ReceiptAllocation",new{ type = Model.CommoditySourceID},null)
+    </p>
+}

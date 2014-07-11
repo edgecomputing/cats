@@ -1,0 +1,102 @@
+﻿@using Cats.Web.Hub.Helpers
+@using Cats.Services.Security
+@*@using LanguageHelpers.Localization*@
+@using Early_Warning.Security
+
+@{
+   
+    var user = (UserIdentity)HttpContext.Current.User.Identity;
+    //var role = UserRoleHelper.GetUserRole(user.Profile.UserName);
+    EarlyWarningCheckAccess accessHelper = new EarlyWarningCheckAccess("");
+    var lang = user.Profile.LanguageCode;
+    ViewBag.CurrentUser = user;
+    //  Translator.CurrentLanguage = lang;
+    //   Translator.LoadTexts();
+
+    var _checkAccessHelper = DependencyResolver.Current.GetService<IEarlyWarningCheckAccess>();
+    var db_user = _checkAccessHelper.Storage.GetDBUser(user.Profile.UserName).CustomSid;
+}
+
+<div class="navbar navbar-fixed-top navbar">
+    <div class="navbar-inner">
+        <div class="container">
+            <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="brand" href="~/">CATS</a>
+            <div class="nav-collapse collapse">
+                <ul class="nav">
+                    <!--
+                        ************************************************************************************************ 
+                        PLEASE WATCH THE SPACE BETWEEN TOP MENU ITEMS AND THE CARET
+                        ************************************************************************************************
+                    -->
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Html.Translate("Stock") <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="@Url.Action("Index", "StartingBalance")">@Html.Translate("Starting Balance")</a></li>
+                            <li><a href="@Url.Action("Index", "Receive")">@Html.Translate("Receipts")</a></li>
+                            <li><a href="@Url.Action("Index", "Dispatch")">@Html.Translate("Dispatch") </a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Html.Translate("Warehouse Actions") <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="@Url.Action("Index", "InternalMovement")">@Html.Translate("Internal Movemnets")</a></li>
+                            <li><a href="@Url.Action("Index", "LossesAndAdjustments")">@Html.Translate("Losses and Adjustments")</a></li>
+                            <li><a href="@Url.Action("Index", "StackEvent")">@Html.Translate("Stack Events")</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="@Url.Action("Index", "BinCard")">@Html.Translate("Bin Card")</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Html.Translate("Report") <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+
+
+
+
+                            <li><a href="@Url.Action("Index", "StockStatus")">@Html.Translate("Store Report")</a></li>
+                            <li><a href="@Url.Action("FreeStock", "StockStatus")">@Html.Translate("Free Stock")</a></li>
+                            <li><a href="@Url.Action("Receipts", "StockStatus")">@Html.Translate("Receipt Status")</a></li>
+                            <li><a href="@Url.Action("Dispatch", "StockStatus")">@Html.Translate("Dispatch Status")</a></li>
+                            <li class="divider" />
+                            <li><a href="@Url.Action("Index", "TransportationReport")">@Html.Translate("Transportation Reports")</a></li>
+
+
+                        </ul>
+                    </li>
+
+                    <li><a href="@Url.Action("Home", "Admin")">@Html.Translate("Settings")</a></li>
+
+
+
+
+                </ul>
+                <ul class="nav pull-right">
+                    <li class="divider-vertical"></li>
+
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-envelope icon-white"></i><b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li>@Html.Translate("Messages")</li>
+                        </ul>
+                    </li>
+
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Html.GetUserName() <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="@Url.Action("Index", "Setting")">@Html.Translate("Preference")</a></li>
+
+                            <li class="divider"></li>
+                            <li><a href="@Url.Action("ChangePassword", "Account")">@Html.Translate("Change Password")</a></li>
+                            <li><a href="@Url.Action("LogOff", "Account")">@Html.Translate("Logout")</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <!--/.nav-collapse -->
+        </div>
+    </div>
+</div>

@@ -1,0 +1,29 @@
+﻿
+CREATE PROCEDURE [sp_sel_Receive]
+AS
+  SELECT 
+    [ReceiveID],
+    [PartitionID],
+    [HubID],
+    [GRN],
+    [CommodityTypeID],
+    [SourceDonorID],
+    [ResponsibleDonorID],
+    [TransporterID],
+    [PlateNo_Prime],
+    [PlateNo_Trailer],
+    [DriverName],
+    [WeightBridgeTicketNumber],
+    [WeightBeforeUnloading],
+    [WeightAfterUnloading],
+    [ReceiptDate],
+    [UserProfileID],
+    [CreatedDate],
+    [WayBillNo],
+    [CommoditySourceID],
+    [Remark],
+    [VesselName],
+    [ReceivedByStoreMan],
+    [PortName]
+  FROM 
+    [dbo].[Receive]

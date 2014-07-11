@@ -1,0 +1,94 @@
+﻿<div class="chart-wrapper">
+    @*@(Html.Kendo().DropDownList()
+                    .Name("CurrentYear")
+                    .DataSource(d => d.Read("getYears", "Dashboard"))
+                    .Events(e => e.Change("refresh"))
+                    )*@
+    <div class="chart-inner">
+        <div id="containerNA" style="width: 100%; height: 100%;">
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+   
+    $(document).ready(function () {
+        drawBar("2013");
+    });
+    function drawBar(year) {
+        $.getJSON('@Url.Action("BarNeedAssessmentbY", "Dashboard")' + "?year=" + year, {},
+            function (data) {
+                var json = data;
+
+                var jsonRegions = [];
+                var jsonBelg = [];
+                var jsonMeher = [];
+
+                for (var i in json) {
+                    jsonRegions.push(json[i].RegionName);
+                    jsonBelg.push(json[i].Belg_Beneficiaries);
+                    jsonMeher.push(json[i].Meher_Beneficiaries);
+                }
+
+                chart = new Highcharts.Chart({
+                    chart: {
+                        renderTo: 'containerNA',
+                        type: 'column',
+                    },
+                    title: {
+                        text: 'Total Beneficiaries'
+                    },
+
+                    xAxis: {
+                        categories: jsonRegions
+                    },
+                    yAxis: {
+                        min: 0,
+                        title: {
+                            text: 'Beneficiaries'
+                        },
+                    },
+
+                    tooltip: {
+                        headerFormat: '<span style="font-size:10px">{point.key}</span><table><br/>',
+                        footerFormat: '</table>',
+                        shared: true,
+                        useHTML: true
+                    },
+                    exporting: false,
+                        plotOptions: {
+                        column: {
+                            pointPadding: 0.2,
+                            borderWidth: 0
+                            
+                        }
+                    },
+                    series: [
+                            {
+                                name: 'Belg',
+                                data: jsonBelg
+                            },
+                            {
+                                name: 'Meher',
+                                data: jsonMeher
+                            }]
+                });
+            });
+    }
+</script>
+
+
+<style>
+    .chart-wrapper {
+        position: relative;
+        padding-bottom: 40%;
+        width: 100%;
+        float: left;
+    }
+
+    .chart-inner {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+    }
+</style>

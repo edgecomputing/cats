@@ -1,0 +1,76 @@
+﻿<script type="text/javascript">
+    $(function () {
+        $.getJSON('@Url.Action("PieRequests", "Dashboard")', {}, function (data) {
+        //$.getJSON('/Dashboard/PieRequests', {}, function (data) {
+             var json = data;
+             var jsondata = [];
+             for (var i in json) {
+                 // var serie = new Array(json[i].Projects, json[i].Bugs);
+                 jsondata.push([json[i].RegionName, json[i].RequestsCount]);
+             }
+
+             var chart = new Highcharts.Chart({
+                 chart: {
+                     renderTo: 'container',
+                     type: 'pie',
+                     plotBackgroundColor: null,
+                     plotBorderWidth: null,
+                     plotShadow: false
+                 },
+                 title: {
+                     text: 'Percentage of Requests per Region'
+                 },
+                 plotOptions: {
+                     pie: {
+                         showInLegend: true,
+                         animation: false,
+                         allowPointSelect: true,
+                         cursor: 'pointer',
+
+                         dataLabels: {
+                             enabled: true,
+                             color: '#000000',
+                             connectorColor: '#000000',
+                             formatter: function () {
+                                 var percent = this.percentage;
+                                 return '<b>' + this.point.name + '</b>: ' + percent.toFixed(2) + ' %';
+                             }
+                         }
+                     }
+                 },
+                 legend: {
+                     enabled: true
+                 },
+                 series: [{
+                     name: 'Requests',
+                     type: 'pie',
+                     data: jsondata
+
+                 }]
+             });
+         });
+     });
+</script>
+
+<div class="chart-wrapper">
+    <div class="chart-inner">
+        <div id="container" style="width: 100%; height: 100%;"></div>
+    </div>
+</div>
+
+<style>
+    .chart-wrapper
+    {
+        position: relative;
+        padding-bottom: 50%;
+        width: 100%;
+        float: left;
+    }
+
+    .chart-inner
+    {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+    }
+</style>

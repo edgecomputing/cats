@@ -1,0 +1,54 @@
+﻿
+
+@model Cats.Areas.EarlyWarning.Models.SearchRequistionViewModel
+@using Cats.Helpers;
+
+@{
+    const string PAGE_NAME = "Request.Index.RequestFilter";
+}
+
+@using (Html.BeginForm())
+{
+    <div class="">
+        <div class="span3">
+            <div class="form-inline">
+                @*<button type="submit" class="btn btn-sm" value="Search"><i class="icon-search"></i></button>*@
+                <input id="search" type="text" class="input-large search-query" placeholder="Search by reference">
+            </div>
+        </div>
+        
+        <div class="span9">
+           
+            <div class="input-prepend">
+                <span class="add-on">Region</span>
+                @Html.DropDownList("RegionID", null, new { @class = "" })
+            </div>
+            <div class="input-prepend">
+                <span class="add-on">Program</span>
+                @Html.DropDownList("ProgramID", null, new { @class = "" })
+            </div>
+            <div class="input-prepend">
+                <span class="add-on">Status</span>
+                @Html.DropDownList("StatusID", null, new { @class = "" })
+            </div>
+            <div class="input-append">
+               <button type="submit" class="btn btn-sm" value="Search"><i class="icon-search"></i></button>
+            </div>
+               
+        </div>
+        @*<div class="span3">
+            <div class="control-group">
+                <div class="control-label">
+                    <label>&nbsp;</label>
+                </div>
+                <div class="controls">
+                    <button type="submit" class="btn btn-sm" value="Search"><i class="icon-search"></i></button>
+                </div>
+            </div>
+
+        </div>*@
+        <div style="clear:both;">
+        </div>
+    </div>
+    <hr>
+}

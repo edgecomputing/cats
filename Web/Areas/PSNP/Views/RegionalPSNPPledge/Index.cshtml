@@ -1,0 +1,237 @@
+﻿@using Kendo.Mvc.UI
+@model List<Cats.Models.ViewModels.PSNP.RegionalPSNPPlanViewModel>
+
+@{
+    ViewBag.Title = "FDPsCoveredByDonors";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+    var index = 0;
+}
+@section LeftBar
+{
+    @Html.Partial("_RegionalPSNPPledgeLeftBar");
+}
+<div id="modalWindow">
+    <div class="control-group">
+        <div class="control-label">
+            Donor
+        </div>
+        <div class="controls">
+            @Html.DropDownList("DonorID",String.Empty)
+        </div>
+    </div>
+    <div class="control-group">
+        <div class="control-label">
+            Commodity
+        </div>
+        <div class="controls">
+            @Html.DropDownList("CommodityID",String.Empty)
+        </div>
+    </div>
+    <div class="control-group">
+        <div class="control-label">
+            Quanity
+        </div>
+        <div class="controls">
+            @Html.Editor("Quantity")
+        </div>
+    </div>
+    <div class="control-group">
+        <div class="control-label">
+            Unit
+        </div>
+        <div class="controls">
+            @Html.DropDownList("UnitID",String.Empty)
+        </div>
+    </div>
+    <div class="control-group">
+        <div class="control-label">
+            Pledge Date
+        </div>
+        <div class="controls">
+            <input class="cats-datepicker" type="text" id="PledgeDate" name="PledgeDate" />
+        </div>
+    </div>
+    <button id="pledge" class="k-button">Pledge</button>
+    <button id="cancel" class="k-button">Cancel</button>
+</div>
+<script>
+    var wnd;
+    $(document).ready(function () {
+        wnd = $("#modalWindow").kendoWindow({
+            title: "Issue Pledge",
+            modal: true,
+            visible: false,
+            resizable: false,
+            width: 500
+        }).data("kendoWindow");
+    });
+</script>
+<script>
+
+    function pledge4AllPlanDetail(e) {
+        e.preventDefault();
+        var grid = this;
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var row = $(e.currentTarget).closest("tr");
+        wnd.center().open();
+
+        $("#pledge").click(function () {
+           
+            // Launch AJAX request.
+
+            $.ajax(
+                {
+                    // The link we are accessing.
+                    url: "RegionalPSNPPledge/Issue",
+
+                    // The type of request.
+                    type: "post",
+
+                    // The type of data that is getting returned.
+                    dataType: "html",
+
+                    error: function () {
+                        //window.ShowStatus("AJAX - error()");
+
+                        //// Load the content in to the page.
+                        //$("#modalWindow").html("<p>Page Not Found!!</p>");
+                    },
+
+                    beforeSend: function () {
+                        //window.ShowStatus("AJAX - beforeSend()");
+                    },
+
+                    complete: function () {
+                        //window.ShowStatus("AJAX - complete()");
+                    },
+
+                    data: {
+                        "RegionalPSNPPlanDetailID": dataItem.RegionalPSNPPlanDetailID,
+                        
+                    },
+
+                    success: function (strData) {
+                        //window.ShowStatus("AJAX - success()");
+
+                        // Load the content in to the page.
+                        $("#modalWindow").html(strData);
+                    }
+                }
+            );
+            
+            //window.location = "bid/ApproveBid/" + dataItem.BidID;
+            wnd.close();
+        });
+        
+        $("#cancel").click(function () {
+            wnd.close();
+        });
+    }
+    
+    function pledge4PlanDetail(e) {
+        e.preventDefault();
+        var grid = this;
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var row = $(e.currentTarget).closest("tr");
+        wnd.center().open();
+
+        $("#pledge").click(function () {
+
+            window.location = "bid/ApproveBid/" + dataItem.BidID;
+            wnd.close();
+        });
+
+        $("#cancel").click(function () {
+            wnd.close();
+        });
+    }
+</script>
+
+<div  style="margin-top: 50px;">
+    <div style="width:400px;" align="left">
+        <h2>Issue PSNP Pledge</h2>
+    </div>
+</div>
+
+@(Html.Kendo().Grid<Cats.Models.ViewModels.PSNP.RegionalPSNPPlanViewModel>()
+    .Name("RegionalPSNPPlan")
+    .Columns(columns =>
+        {
+            columns.Bound(p => p.Region);
+            columns.Bound(p => p.Year);
+            columns.Bound(p => p.Duration);
+            columns.Command(p => p.Custom("Pledge For All").Click("pledge4AllPlanDetail"));
+        })
+    .Pageable()
+    .Sortable()
+    .Filterable()
+    .ClientDetailTemplateId("template")
+        //.HtmlAttributes(new { style = "height:430px;" })
+    .Editable(editable => editable.Mode(GridEditMode.PopUp))
+    .Navigatable()
+    .DataSource(dataSource => dataSource
+          .Ajax()
+          .PageSize(5)
+            .Model(model => model.Id(p => p.RegionalPSNPPlanID))
+            .Read(read => read.Action("RegionalPSNPPlan_Read", "RegionalPSNPPledge"))
+ 
+     )
+     .Events(events => events.DataBound("dataBound"))
+      )
+
+<script id="template" type="text/kendo-tmpl">
+    
+                    @(Html.Kendo().Grid<Cats.Models.ViewModels.PSNP.RegionalPSNPPlanDetailViewModel>()
+                          .Name("regionalPSNPPlan_#=RegionalPSNPPlanID#")
+                          .Columns(columns =>
+                              {
+                                  columns.Bound(b => b.PlannedFDP).Title("FDP");
+                                  columns.Bound(b => b.BeneficiaryCount).Title("Beneficiary Count");
+                                  columns.Bound(b => b.FoodRatio).Title("Food Ratio");
+                                  columns.Bound(b => b.CashRatio).Title("Food Ratio");
+                                  columns.Bound(b => b.Item3Ratio).Title("Item 3 Ratio");
+                                  columns.Bound(b => b.Item4Ratio).Title("Item 4 Ratio");
+                                  columns.Command(p => p.Custom("Pledge").Click("pledge4PlanDetail"));
+                              })
+                          .DataSource(dataSource => dataSource
+                                                        .Ajax()
+                                                        .Batch(true)
+                                                        .ServerOperation(false)
+                                                        .Events(events => events.Error("error_handler"))
+                                                        .PageSize(5)
+                                                        .Model(model => model.Id(p => p.RegionalPSNPPlanDetailID))
+                                                        .Read(read => read.Action("RegionalPSNPPlanDetail_Read", "RegionalPSNPPledge", new { regionalPSNPPlanID = "#=RegionalPSNPPlanID#" }))
+
+                          )
+                          .Pageable()
+                          .Sortable()
+                          .ToClientTemplate())
+                
+</script>
+
+<script>
+    function dataBound() {
+        this.expandRow(this.tbody.find("tr.k-master-row").first());
+    }
+</script>
+
+<script type="text/javascript">
+    function error_handler(e) {
+        if (e.errors) {
+            var message = "Errors:\n";
+            $.each(e.errors, function (key, value) {
+                if ('errors' in value) {
+                    $.each(value.errors, function () {
+                        message += this + "\n";
+                    });
+                }
+            });
+            alert(message);
+        }
+    }
+</script>

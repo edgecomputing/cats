@@ -1,0 +1,44 @@
+﻿@using Kendo.Mvc.UI
+@using Cats.Models
+@(Html.Kendo().Grid<BusinessProcessPOCO>()
+    .Name("BusinessProcessGrid")
+    .Columns(columns =>
+    {
+         
+        columns.ForeignKey(t => t.ProcessTypeID, (IEnumerable<ProcessTemplate>)ViewData["ProcessTemplateList"], "ProcessTemplateID", "Name");  
+        
+       // columns.Bound(p => p.DocumentID).Width(100);  
+        
+        columns.Bound(p => p.DocumentType).Width(150);
+        columns.Bound(p => p.CurrentStateName).Width(250);
+        columns.Bound(p => p.BusinessProcessID)
+            .Title("")
+            .ClientTemplate("<a class='btn' href='" + Url.Action("Details", "BusinessProcess", new { id = "#=BusinessProcessID#" }) + " '>Detail</a>  ")
+            .Sortable(false)
+            .Filterable(false);
+       /* columns.Command(
+            command => { 
+             //   command.Edit().Text("Modify");
+             //   command.Destroy().Text("Destroy"); 
+             
+            }
+            ).Width(300);*/
+    })
+    .ToolBar(toolbar => toolbar.Create().Text("New"))
+    .Editable(editable => editable.Mode(GridEditMode.InLine))
+    .Pageable()
+    .Sortable()
+    .Scrollable()
+    .HtmlAttributes(new { style = "height:430px;" })
+    .DataSource(dataSource => dataSource
+        .Ajax()
+        .PageSize(20)
+        //.Batch(true)
+        .Model(model => model.Id(p => p.BusinessProcessID))
+        .Create(update => update.Action("CreateKendo", "BusinessProcess"))
+        .Read(read => read.Action("ReadKendo", "BusinessProcess"))
+        .Update(update => update.Action("EditKendo", "BusinessProcess"))
+        .Destroy(update => update.Action("DeleteKendo", "BusinessProcess"))
+    )
+    
+)

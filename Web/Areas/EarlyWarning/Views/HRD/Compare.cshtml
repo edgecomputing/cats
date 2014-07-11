@@ -1,0 +1,163 @@
+﻿@using Cats.Areas.EarlyWarning.Models
+@using Cats.Models.ViewModels
+@using Kendo.Mvc.UI
+@{
+    ViewBag.Title = "Compare";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+@*@section LeftBar{
+
+    @Html.Partial("_HRDLeftBar");
+}*@
+<h4>Select HRD to Compare</h4>
+<div class="form-horizontal">
+    <table style="width: 100%;">
+        <tr>
+            <td style="width: 50%">
+                <div class="control-label">
+                    @Html.Label("HRD:")
+                </div>
+                <div class="controls">
+                @Html.DropDownList("firstHrd", string.Empty)
+                    </div>
+            </td>
+            
+              <td style="width: 50%">
+                  <div class="control-label span3">
+                      @Html.Label("HRD To Compare:")
+                  </div>
+                  <div class="controls span3">
+                @Html.DropDownList("secondHrd", string.Empty)
+                      </div>
+            </td>
+           @* <td>Region:
+       
+            @Html.DropDownList("regionId", string.Empty)
+            </td>*@
+        </tr>
+    </table>
+
+</div>
+@*@(Html.Kendo().Grid<HRDCompareViewModel>().Name("grid").Columns(columns =>
+                                                       {
+                                                           columns.Bound(t => t.Zone);
+                                                           columns.Bound(t => t.Woreda);
+                                                           columns.Bound(t => t.DurationOfAssistance).Title("Duration").HtmlAttributes(new { align = "Right" }); 
+                                                           columns.Bound(t => t.RefrenceDuration).Title("Duration Ref").HtmlAttributes(new { style = "background-color:lightgray",align="Right" });
+                                                           columns.Bound(t => t.StartingMonth).Title("Beg. Month");
+                                                           columns.Bound(t => t.StartingMonthReference).Title("Beg. Month Ref").HtmlAttributes(new { style = "background-color:lightgray"  }); ;
+                                                           columns.Bound(t => t.Beneficiaries).HtmlAttributes(new { align="Right"});
+                                                           columns.Bound(t => t.BeneficiariesRefrence).Title("Beneficiaries Ref").HtmlAttributes(new { style = "background-color:lightgray",align="Right" }); ;
+
+                                                       }).DataSource(datasource => datasource.Ajax().Read(read => read.Action("Compare_HRD", "HRD").Data("filterData")))
+                                                       .Groupable())
+<script type="text/javascript">
+
+    function filterData() {
+
+        return {
+            firstHrd: $("#firstHrd").val(),
+            secondHrd: $("#secondHrd").val(),
+            regionId: $("#regionId").val()
+        };
+    }
+
+    $(document).ready(function () {
+        $("#firstHrd").change(function () {
+            var grid = $("#grid").data("kendoGrid");
+            grid.dataSource.read();
+        });
+        $("#secondHrd").change(function () {
+            var grid = $("#grid").data("kendoGrid");
+
+            grid.dataSource.read();
+        });
+        $("#regionId").change(function () {
+            var grid = $("#grid").data("kendoGrid");
+
+            grid.dataSource.read();
+        });
+    });
+</script>*@
+
+
+
+
+<div id="div_firstHrd" style=" display:none; float: left; width:600px; height:350px; border:1px solid #ececec; margin-top:10px;margin-right:20px;margin-bottom:20px;">
+        @(Html.Kendo().Grid<CompareHrdViewModel>()
+              .Name("grid1")
+              .Columns(columns =>
+                  {
+
+                      columns.Bound(t => t.Region);
+                      columns.Bound(t => t.BeneficiaryNumber).HtmlAttributes(new { align = "Right" }); 
+                      columns.Bound(t => t.Percentage).HtmlAttributes(new { align = "Center" }).Format("{0:N0}%");
+                     
+                     
+                  })
+              .Scrollable()
+               .HtmlAttributes(new {style = "height:340px;"})
+              .DataSource(datasource =>
+                          datasource
+                              .Ajax()
+                              .Model(model => model.Id(p => p.HrdID))            
+              .Read(read=>read.Action("HRDComaparison_Read","HRD").Data("filterData"))))
+              
+
+             
+    </div>
+    <div id="div_SecondHrd" style="display: none; float: left; width:600px; height:350px; border:1px solid #ececec; margin-top:10px;margin-right:20px;margin-bottom:20px;">
+        
+         @(Html.Kendo().Grid<CompareHrdViewModel>()
+        .Name("Grid2")
+       .Columns(columns =>
+                  {
+
+                      columns.Bound(t => t.Region);
+                      columns.Bound(t => t.BeneficiaryNumber).HtmlAttributes(new { align = "Right" });
+                      columns.Bound(t => t.Percentage).HtmlAttributes(new { align = "Center"}).Format("{0:N0}%");
+                     
+                     
+                  })
+              .Scrollable()
+               .HtmlAttributes(new {style = "height:340px;"})
+              .DataSource(datasource =>
+                          datasource
+                              .Ajax()
+                              .Model(model => model.Id(p => p.HrdID))            
+              .Read(read=>read.Action("HRDComaparisonTo_Read","HRD").Data("filterSecondData"))))
+         
+       
+    </div> 
+
+<script type="text/javascript">
+
+    function filterData() {
+
+        return {
+            firstHrd: $("#firstHrd").val()
+           
+           
+        };
+    }
+    function filterSecondData() {
+
+        return {
+          
+            secondHrd: $("#secondHrd").val()
+
+        };
+    }
+
+    $(document).ready(function () {
+        $("#firstHrd").change(function () {
+            $("#div_firstHrd").show();
+            $("#grid1").data("kendoGrid").dataSource.read();
+       
+        });
+        $("#secondHrd").change(function () {
+            $("#div_SecondHrd").show();
+            $("#Grid2").data("kendoGrid").dataSource.read();
+        });
+    });
+</script>

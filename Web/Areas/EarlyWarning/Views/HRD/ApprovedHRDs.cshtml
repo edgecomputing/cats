@@ -1,0 +1,106 @@
+﻿@using Cats.Helpers
+@using Cats.Security
+@using Kendo.Mvc.UI
+@using Cats.Services.Security
+@using LanguageHelpers.Localization
+@model List<Cats.Models.HRD>
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";  
+}
+
+@section Toolbar
+{
+    @Html.EarlyWarningOperationButton(
+                        @Url.Action("Create", "HRD", new { Area = "EarlyWarning" }),
+                        EarlyWarningConstants.Operation.New_HRD, "<i class=\"icon-plus\"></i>", "btn", "btn_new_record")
+}
+<div>
+    <h4 class="page-header">Approved HRD</h4>
+</div>
+@section LeftBar{
+
+    @Html.Partial("_HRDLeftBar")
+}
+@(Html.Kendo().Grid<Cats.Models.ViewModels.HRD.HRDViewModel>()
+    .Name("grid")
+    .Columns(columns =>
+        {
+            //columns.Bound(p => p.HRDName);
+            columns.Bound(p => p.Plan).Title(Html.Translate("HRD Name")).ClientTemplate(
+                                @Html.EarlyWarningOperationButton(
+                                    @Url.Action("Detail", "HRD", new { id = "#=HRDID#" }),
+                                    EarlyWarningConstants.Operation.New_HRD, "#=Plan#").ToString());
+            columns.Bound(p => p.Ration).Title("Ration No");
+            columns.Bound(p => p.StartDate).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid" });
+            columns.Bound(p => p.EndDate).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid" });
+            columns.Bound(p => p.CreatedBy).Width(130);
+            columns.Bound(p => p.CreatedDatePref).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid" }).Width(120);
+            // columns.Bound(p => p.PublishedDate).Format("{0:MM/dd/yyyy}");
+            columns.Bound(p => p.Status);
+
+            columns.Command(p =>
+                {
+                    p.Custom("Edit").Click("hrdEdit");
+                    p.Custom("Publish").Click("publishHRD");
+                    p.Custom("Summary").Click("showSummary");
+
+                }).Width(250);     
+
+        })
+    .Scrollable()
+    .Sortable()
+     .HtmlAttributes(new { style = "height:430px;" })
+    .DataSource(dataSource => dataSource
+          .Ajax()
+            .Model(model => model.Id(p => p.HRDID))
+            .Read(read => read.Action("ApprovedHRD_Read", "HRD"))
+ 
+     )
+   
+      )
+
+
+
+<script>
+    function showSummary(e) {
+        e.preventDefault();
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        window.location = "@Url.Action("RegionalSummary", "HRD")" + "/" + dataItem.HRDID;  
+    }
+    
+</script>
+<script>
+    function hrdEdit(e) {
+        e.preventDefault();
+
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        window.location = "@Url.Action("Edit", "HRD")" + "/" + dataItem.HRDID;         
+    }
+</script>
+
+<script>
+    function publishHRD(e) {
+        e.preventDefault();
+
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        window.location = "@Url.Action("PublishHRD", "HRD")" + "/" + dataItem.HRDID;       
+    }
+</script>
+
+<script type="text/javascript">
+    function error_handler(e) {
+        if (e.errors) {
+            var message = "Errors:\n";
+            $.each(e.errors, function (key, value) {da
+                if ('errors' in value) {
+                    $.each(value.errors, function () {
+                        message += this + "\n";
+                    });
+                }
+            });
+            alert(message);
+        }
+    }
+</script>

@@ -1,0 +1,102 @@
+﻿@using Cats.Areas.Logistics.Models
+@using Cats.Areas.Procurement.Models
+@using Cats.Models.Constant
+@using Kendo.Mvc.UI
+@using Cats.Helpers
+
+@model Cats.Models.ViewModels.TransportRequisitionWithTransporter
+
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+
+<h4 class="page-header">@ViewBag.TransportOrderTitle Transport Orders</h4>
+@section Toolbar
+{
+    <a data-buttontype="btn_new_record"  class="btn toolbar-btn "  href="@Url.Action("TransportRequisitions","TransportOrder",new {Area="Procurement"})"></a>
+    <div class="btn-group" style="margin-right:8px;">
+        <button class="btn">Action</button>
+        @{
+            
+            <button class="btn dropdown-toggle " data-toggle="dropdown">
+                <span class="caret"></span>
+            </button>
+           
+           
+        }
+        <ul class="dropdown-menu">
+            @if (@ViewBag.TransportOrderTitle != "Draft")
+            {
+                <li><a   href="@Url.Action("Index", "TransportOrder", new {area = "Procurement", id = (int) TransportOrderStatus.Draft})" > View Draft </a></li>
+            }
+            else
+            {
+                <li><a   href="@Url.Action("Index", "TransportOrder", new {area = "Procurement", id = (int) TransportOrderStatus.Approved})" >View Approved </a></li>
+            }
+        </ul>
+
+    </div>
+           
+}
+<div>
+@(Html.Kendo().Grid<TransportOrderViewModel>().Name("Grid").Columns(columns =>
+      {
+          columns.Bound(to => to.ContractNumber).Width(150).ClientTemplate("<a href='" + Url.Action("OrderDetail", "TransportOrder", new { Area = "Procurement", id = "#=TransportOrderID#" }) + " '>#=ContractNumber#</a>  ").HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;" });
+    //columns.Bound(to => to.TransportOrderNo).ClientTemplate("<a href='" + Url.Action("Details", "TransportOrder", new { Area = "Procurement", id = "#=TransportOrderID#" }) + " '>#=TransportOrderNo#</a>  ").HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;" });
+    columns.Bound(to => to.Transporter);
+    columns.Bound(to => to.BidDocumentNo).Width(100).Title(Html.Translate("Bid Document #"));
+    //columns.Bound(to => to.OrderDateET).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid" });
+    columns.Bound(to => to.OrderExpiryDateET).Width(120).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid", style = "overflow: visible; white-space: normal;" });
+    columns.Bound(to => to.StartDate).Width(120).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid", style = "overflow: visible; white-space: normal;" });
+    columns.Bound(to => to.EndDate).Width(120).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid", style = "overflow: visible; white-space: normal;" });
+    columns.Bound(to => to.RequestedDispatchDateET).Width(120).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid", style = "overflow: visible; white-space: normal;" });
+    columns.Bound(to => to.TransportOrderNo).Width(150);
+    columns.Bound(to => to.Status);
+          columns.Command(p =>
+              {
+                 
+                  if (@ViewBag.TransportOrderTitle == "Draft") //TransportRequisitionStatus.Draft
+                  {
+                      p.Custom("Approve").Click("onApprove");
+                  }
+                  p.Custom("Edit").Click("onEdit");
+                 
+
+              }).Width(200);
+
+
+
+      })
+     .Scrollable()
+    .DataSource(dataSource => dataSource
+        .Ajax()
+        .Model(model =>model.Id(p => p.TransportOrderID))
+        .Read(read => read.Action("TransportOrder_Read", "TransportOrder",new {id=ViewBag.TransportOrdrStatus}))
+    )
+      )
+    </div>
+<div>
+    <hr/>
+</div>
+@if (@ViewBag.TransportOrderTitle == "Draft") 
+{
+ @Html.Partial("AssignTransporter",Model)
+}
+<script>
+    function onEdit(e) {
+        e.preventDefault();
+
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        window.location = "@Url.Action("Edit", "TransportOrder")" + "/" + dataItem.TransportOrderID;
+
+    }
+    function onApprove(e) {
+        e.preventDefault();
+
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        window.location = "@Url.Action("Approve","TransportOrder")" + "/" + dataItem.TransportOrderID;
+    }
+</script>

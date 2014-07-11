@@ -1,0 +1,159 @@
+﻿@model Cats.Models.TransportOrder
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+@section LeftBar{
+    @Html.Partial("_TransportOrderLeftBar");
+}
+
+@section Toolbar
+{
+    <a class="btn toolbar-btn " data-buttontype="btn_save" data-submittedform="frm_edit_Order"></a>
+}
+    <h4 >Edit Transport Order</h4>
+    @using (Html.BeginForm("Edit", "TransportOrder", FormMethod.Post, new {id = "frm_edit_Order"}))
+    {
+
+        @Html.ValidationSummary(true)
+         @Html.HiddenFor(model => model.TransportOrderID)
+     <div class="form-horizontal row-fluid">
+          <div class="span6" style="vertical-align: top">     
+               
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.TransportOrderNo)
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(model => model.TransportOrderNo)
+                    @Html.ValidationMessageFor(model => model.TransportOrderNo)
+                </div>
+            </div>
+
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.ContractNumber)
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(model => model.ContractNumber)
+                    @Html.ValidationMessageFor(model => model.ContractNumber)
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.OrderDate)
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(model => model.OrderDate, new {@class = "cats-datepicker2"})
+                    @Html.ValidationMessageFor(model => model.OrderDate)
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.RequestedDispatchDate)
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(model => model.RequestedDispatchDate, new {@class = "cats-datepicker2"})
+                    @Html.ValidationMessageFor(model => model.RequestedDispatchDate)
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.OrderExpiryDate)
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(model => model.OrderExpiryDate, new {@class = "cats-datepicker2"})
+                    @Html.ValidationMessageFor(model => model.OrderExpiryDate)
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.StartDate)
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(model => model.StartDate, new {@class = "cats-datepicker2"})
+                    @Html.ValidationMessageFor(model => model.StartDate)
+                </div>
+            </div>
+                 <div class="control-group">
+                     <div class="control-label">
+                         @Html.LabelFor(model => model.EndDate)
+                     </div>
+                     <div class="controls">
+                         @Html.TextBoxFor(model => model.EndDate, new {@class = "cats-datepicker2"})
+                         @Html.ValidationMessageFor(model => model.EndDate)
+                     </div>
+                 </div>
+                 </div>
+        <div class="span6" style="vertical-align: top">
+          
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.BidDocumentNo)
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(model => model.BidDocumentNo)
+                    @Html.ValidationMessageFor(model => model.BidDocumentNo)
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.PerformanceBondReceiptNo)
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(model => model.PerformanceBondReceiptNo)
+                    @Html.ValidationMessageFor(model => model.PerformanceBondReceiptNo)
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.PerformanceBondAmount)
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(model => model.PerformanceBondAmount)
+                    @Html.ValidationMessageFor(model => model.PerformanceBondAmount)
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.ConsignerName)
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(model => model.ConsignerName)
+                    @Html.ValidationMessageFor(model => model.ConsignerName)
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.TransporterSignedName)
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(model => model.TransporterSignedName)
+                    @Html.ValidationMessageFor(model => model.TransporterSignedName)
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.ConsignerDate)
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(model => model.ConsignerDate, new {@class = "cats-datepicker2"})
+                    @Html.ValidationMessageFor(model => model.ConsignerDate)
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.TransporterSignedDate)
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(model => model.TransporterSignedDate, new {@class = "cats-datepicker2"})
+                    @Html.ValidationMessageFor(model => model.TransporterSignedDate)
+                </div>
+            </div>
+
+          </div>
+    </div>
+    }
+

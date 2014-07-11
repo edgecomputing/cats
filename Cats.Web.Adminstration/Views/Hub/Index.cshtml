@@ -1,0 +1,77 @@
+﻿@using Cats.Models
+@using Cats.Web.Adminstration.Models
+@using Cats.Web.Adminstration.Models.ViewModels
+@using Kendo.Mvc.UI
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+<div id="modalWindow">
+    <h4>Are You Sure You Want to Delete this Hub?</h4>
+    <button id="yes" class="k-button">Yes</button>
+    <button id="no" class="k-button">No</button>
+</div>
+<script>
+    var wnd;
+    $(document).ready(function () {
+        wnd = $("#modalWindow").kendoWindow({
+            title: "Delete confirmation",
+            modal: true,
+            visible: false,
+            resizable: false,
+            width: 300
+        }).data("kendoWindow");
+    });
+</script>
+
+<div>
+    <h4>List of Hubs</h4>
+</div>
+@(Html.Kendo().Grid<Cats.Web.Adminstration.Models.ViewModels.HubViewModel>()
+      .Name("grid")
+      .Columns(columns =>
+          {
+              columns.Bound(p => p.HubName);
+              columns.ForeignKey(t => t.HubOwnerID, (IEnumerable<HubOwner>)ViewData["HubOwners"], "HubOwnerID", "Name");
+              columns.Command(command =>
+                  {
+                      command.Edit();
+                      command.Custom("Delete").Click("OnDelete");
+                  });
+          })
+      .ToolBar(toolbar => toolbar.Create())
+    .Editable(editable => editable.Mode(GridEditMode.InLine))
+    .Pageable()
+    .Sortable()
+    .Filterable()
+    .DataSource(dataSource => dataSource
+           .Ajax()
+           .PageSize(8)
+           .Model(model => model.Id(p => p.HubID))
+           .Read(read => read.Action("Hub_Read", "Hub"))
+           .Update(update => update.Action("Hub_Update", "Hub"))
+           .Create(create => create.Action("Hub_Create", "Hub"))
+ 
+     )
+   
+      )
+<script>
+
+    function OnDelete(e) {
+        e.preventDefault();
+        var grid = this;
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var row = $(e.currentTarget).closest("tr");
+        wnd.center().open();
+
+        $("#yes").click(function () {
+
+            window.location = "@Url.Action("Hub_Destroy", "Hub")" + "/" + dataItem.HubID;
+            wnd.close();
+        });
+
+        $("#no").click(function () {
+            wnd.close();
+        });
+    }
+</script>

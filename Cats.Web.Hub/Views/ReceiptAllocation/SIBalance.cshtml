@@ -1,0 +1,25 @@
+﻿@model IEnumerable<Cats.Models.Hubs.SIBalance>
+@using Cats.Web.Hub.Helpers
+<table>
+    <tr>
+        <th>
+            @Html.Translate("S/I Number")
+        </th>
+        <th>
+            @Html.Translate("Qty in MT")
+        </th>
+    </tr>
+
+@foreach (var item in Model)
+    {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.SINumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AvailableBalance)
+        </td>
+    </tr>
+}
+
+</table>

@@ -1,0 +1,44 @@
+﻿
+@using Kendo.Mvc.UI
+@model LanguageHelpers.Localization.Models.Language
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";  
+}
+@section LeftBar
+{
+  @Html.Partial("LanguageLeftBar");
+}
+@section Toolbar
+{
+    <a class="btn toolbar-btn " data-buttontype="btn_save" data-submittedform="frm_edit_language"></a>
+     <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="@Url.Action("Index", "Language")" title="save"></a>
+}
+<div><h4>Edit</h4></div>
+   @using (Html.BeginForm("Edit", "Language", FormMethod.Post, new { id = "frm_edit_language" }))
+    {
+        @Html.ValidationSummary(true)
+        @Html.HiddenFor(m=>m.LanguageID)
+        <div class="well form-horizontal">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(m => m.LanguageCode)
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(m =>m.LanguageCode)
+                    @Html.ValidationMessageFor(m=>m.LanguageCode)
+                </div>
+        
+            </div>
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(m => m.LanguageName)
+                </div>
+                <div class="controls">
+                   @Html.TextBoxFor(m => m.LanguageName)
+                    @Html.ValidationMessageFor(m=>m.LanguageName)
+                </div>
+            </div>
+        </div>
+    }

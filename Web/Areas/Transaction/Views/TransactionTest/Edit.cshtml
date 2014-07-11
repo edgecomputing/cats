@@ -1,0 +1,175 @@
+﻿@model Cats.Models.Transaction
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>Transaction</legend>
+
+        @Html.HiddenFor(model => model.TransactionID)
+         @Html.HiddenFor(model => model.TransactionGroupID)
+
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.PartitionID)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.PartitionID)
+            @Html.ValidationMessageFor(model => model.PartitionID)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.TransactionGroupID)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.TransactionGroupID)
+            @Html.ValidationMessageFor(model => model.TransactionGroupID)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.LedgerID)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.LedgerID)
+            @Html.ValidationMessageFor(model => model.LedgerID)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.HubOwnerID)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.HubOwnerID)
+            @Html.ValidationMessageFor(model => model.HubOwnerID)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.AccountID)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.AccountID)
+            @Html.ValidationMessageFor(model => model.AccountID)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.HubID)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.HubID)
+            @Html.ValidationMessageFor(model => model.HubID)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.StoreID)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.StoreID)
+            @Html.ValidationMessageFor(model => model.StoreID)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Stack)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Stack)
+            @Html.ValidationMessageFor(model => model.Stack)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ProjectCodeID)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.ProjectCodeID)
+            @Html.ValidationMessageFor(model => model.ProjectCodeID)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ShippingInstructionID)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.ShippingInstructionID)
+            @Html.ValidationMessageFor(model => model.ShippingInstructionID)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ProgramID)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.ProgramID)
+            @Html.ValidationMessageFor(model => model.ProgramID)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ParentCommodityID)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.ParentCommodityID)
+            @Html.ValidationMessageFor(model => model.ParentCommodityID)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.CommodityID)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.CommodityID)
+            @Html.ValidationMessageFor(model => model.CommodityID)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.CommodityGradeID)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.CommodityGradeID)
+            @Html.ValidationMessageFor(model => model.CommodityGradeID)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.QuantityInMT)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.QuantityInMT)
+            @Html.ValidationMessageFor(model => model.QuantityInMT)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.QuantityInUnit)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.QuantityInUnit)
+            @Html.ValidationMessageFor(model => model.QuantityInUnit)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.UnitID)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.UnitID)
+            @Html.ValidationMessageFor(model => model.UnitID)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.TransactionDate)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.TransactionDate)
+            @Html.ValidationMessageFor(model => model.TransactionDate)
+        </div>
+
+        <p>
+            <input type="submit" value="Save" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

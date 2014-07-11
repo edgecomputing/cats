@@ -1,0 +1,567 @@
+﻿@using Kendo.Mvc.UI
+@using Kendo.Mvc.UI
+@using Cats.Models.PSNP
+@using Cats.Models
+@using Cats.Services.Security;
+@using Cats.Helpers
+@model IEnumerable<PaymentRequest>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+@{
+    int index = 0;
+}
+<html data-ng-app="PaymentRequestManagementModule">
+    <head>
+        <style>
+            .errorText
+            {
+                color: red;
+            }
+            #messageboxPayDeduct {
+                color: springgreen;
+                font-weight: bold;
+                font-size: 16px;
+            }
+            #messageboxPayDeductCheque {
+                color: springgreen;
+                font-weight: bold;
+                font-size: 16px;
+            }
+        </style>
+    </head>
+    <body data-ng-controller="PaymentRequestManagementController">
+        @*<div id='dialogDiv' class='modal hide fade in'>
+            
+        </div>*@
+        <div id="modalLabourCostInfo" class="form-horizontal" style="margin-top:30px;width:520px;height:380px;">
+            <div class="">
+                <div class="span5">
+                    <div class="control-group">
+                        <div class="control-label">
+                            <label for="PaymentRequest_ReferenceNo">Referrence No.</label>
+                        </div>
+                        <div class="controls">
+                            <input type="text" value="{{SelectedLabourInfo.ReferenceNo}}" name="PaymentRequest.ReferenceNo" id="PaymentRequest_ReferenceNo" 
+                                   data-ng-model="SelectedLabourInfo.ReferenceNo" disabled="disabled"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @*<div class="">
+                <div class="span5">
+                    <div class="control-group">
+                        <div class="control-label">
+                            <label for="PaymentRequest_RequestedAmount">Requested Amount</label>
+                        </div>
+                        <div class="controls">
+                            <input type="text" value="{{SelectedLabourInfo.RequestedAmount}}" name="PaymentRequest.RequestedAmount" id="PaymentRequest_RequestedAmount" 
+                                   data-ng-model="SelectedLabourInfo.RequestedAmount" disabled="disabled"/>
+                        </div>
+                    </div>
+                </div>
+            </div>*@
+            <div class="">
+                <div class="span5">
+                    <div class="control-group">
+                        <div class="control-label">
+                            <label for="PaymentRequest_TransportedQuantityInQtl">Transported Quanitity in QTL</label>
+                        </div>
+                        <div class="controls">
+                            <input type="text" value="{{SelectedLabourInfo.TransportedQuantityInQtl}}" name="PaymentRequest.TransportedQuantityInQtl" id="PaymentRequest_TransportedQuantityInQtl" 
+                                   data-ng-model="SelectedLabourInfo.TransportedQuantityInQtl" disabled="disabled"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="">
+                <div class="span5">
+                    <div class="control-group">
+                        <div class="control-label">
+                            <label for="PaymentRequest_LabourCostRate">Labour Cost Rate (per QTL)</label>
+                        </div>
+                        <div class="controls">
+                            <input type="text" name="PaymentRequest.LabourCostRate" id="PaymentRequest_LabourCostRate" value="{{SelectedLabourInfo.LabourCostRate}}"  data-ng-change="labourCostRateKeyPressed()" data-ng-model="SelectedLabourInfo.LabourCostRate"/>&nbsp;<span id="errmsgPaymentRequest_LabourCostRate" class="errorText"></span>
+                            @*<input type="text" value="{{SelectedLabourInfo.LabourCostRate}}" name="PaymentRequest.LabourCostRate" id="PaymentRequest_LabourCostRate" 
+                                   data-ng-model="SelectedLabourInfo.LabourCostRate" data-ng-change="labourCostRateKeyPressed()"/>*@
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="">
+                <div class="span5">
+                    <div class="control-group">
+                        <div class="control-label">
+                            <label for="PaymentRequest_LabourCost">Labour Cost</label>
+                        </div>
+                        <div class="controls">
+                            <input type="text" value="{{SelectedLabourInfo.LabourCost}}" name="PaymentRequest.LabourCost" id="PaymentRequest_LabourCost" 
+                                   data-ng-model="SelectedLabourInfo.LabourCost" disabled="disabled"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="">
+                <div class="span5">
+                    <div class="control-group">
+                        <div class="control-label">
+                            <label for="PaymentRequest_RejectedAmount">Rejected Amount</label>
+                        </div>
+                        <div class="controls">
+                            <input type="text" name="PaymentRequest.RejectedAmount" id="PaymentRequest_RejectedAmount" value="{{SelectedLabourInfo.RejectedAmount}}" data-ng-model="SelectedLabourInfo.RejectedAmount"/>&nbsp;<span id="errmsgPaymentRequest_RejectedAmount" class="errorText"></span>
+                            @*<input type="text" value="{{SelectedLabourInfo.RejectedAmount}}" name="PaymentRequest.RejectedAmount" id="PaymentRequest_RejectedAmount" 
+                                   data-ng-model="SelectedLabourInfo.RejectedAmount"/>*@
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="">
+                <div class="span5">
+                    <div class="control-group">
+                        <div class="control-label">
+                            <label for="PaymentRequest_RejectionReason">Rejection Reason</label>
+                        </div>
+                        <div class="controls">
+                            <input type="text" value="{{SelectedLabourInfo.RejectionReason}}" name="PaymentRequest.RejectionReason" id="PaymentRequest_RejectionReason" 
+                                   data-ng-model="SelectedLabourInfo.RejectionReason"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="">
+                <div class="span5" style="width:400px;">
+                    <div class="control-group message-box" style="float: left;" id="messageboxPayDeduct"></div>
+                    <div class="control-group" style="float: right;">
+                        <button id="btnSavePaymentDeductions" class="btn" data-ng-click="editLabourCostInfo()">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            var wndLabourCostInfo;
+            $(document).ready(function () {
+                wndLabourCostInfo = $("#modalLabourCostInfo").kendoWindow({
+                    title: "Edit Payment Deductions",
+                    modal: true,
+                    visible: false,
+                    resizable: false,
+                    width: 525,
+                    height: 420
+                }).data("kendoWindow");
+            });
+        </script>
+        <div id="modalChequeInfo" class="form-horizontal" style="margin-top:30px;width:530px;height:480px;">
+            <div class="">
+                <div class="span5">
+                    <div class="control-group">
+                        <div class="control-label">
+                            <label for="PaymentRequestRefNo">Referrence No.</label>
+                        </div>
+                        <div class="controls">
+                            <input type="text" value="{{SelectedCheckInfo.PaymentRequestRefNo}}" name="PaymentRequest.PaymentRequestRefNo" id="PaymentRequestRefNo" 
+                                   data-ng-model="SelectedCheckInfo.PaymentRequestRefNo" disabled="disabled"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="">
+                <div class="span5">
+                    <div class="control-group">
+                        <div class="control-label">
+                            <label for="CheckInfo_CheckNo">Check No.</label>
+                        </div>
+                        <div class="controls">
+                            <input type="text" value="{{SelectedCheckInfo.CheckNo}}" name="CheckInfo.CheckNo" id="CheckInfo_CheckNo" 
+                                   data-ng-model="SelectedCheckInfo.CheckNo"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="">
+                <div class="span5">
+                    <div class="control-group">
+                        <div class="control-label">
+                            <label for="CheckInfo_PaymentVoucherNo">Payment Voucher No.</label>
+                        </div>
+                        <div class="controls">
+                            <input type="text" value="{{SelectedCheckInfo.PaymentVoucherNo}}" name="CheckInfo.PaymentVoucherNo" id="CheckInfo_PaymentVoucherNo" 
+                                   data-ng-model="SelectedCheckInfo.PaymentVoucherNo"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="">
+                <div class="span5">
+                    <div class="control-group">
+                        <div class="control-label">
+                            <label for="CheckInfo_BankName">Bank Name</label>
+                        </div>
+                        <div class="controls">
+                            <input type="text" value="{{SelectedCheckInfo.BankName}}" name="CheckInfo.BankName" id="CheckInfo_BankName" 
+                                   data-ng-model="SelectedCheckInfo.BankName"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="">
+                <div class="span5">
+                    <div class="control-group">
+                        <div class="control-label">
+                            <label for="CheckInfo_Amount">Amount</label>
+                        </div>
+                        <div class="controls">
+                            @*<input type="text" value="{{SelectedCheckInfo.Amount}}" name="CheckInfo.Amount" id="CheckInfo_Amount" 
+                                   data-ng-model="SelectedCheckInfo.Amount"/>*@
+                            <input type="text" name="CheckInfo.Amount" id="CheckInfo_Amount" value="{{SelectedCheckInfo.Amount}}" data-ng-model="SelectedCheckInfo.Amount"/>&nbsp;<span id="errmsgCheckInfo_Amount" class="errorText"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="">
+                <div class="span5">
+                    <div class="control-group">
+                        <div class="control-label">
+                            <label for="CheckInfo_PreparedBy">Prepared By</label>
+                        </div>
+                        <div class="controls">
+                            <input type="text" value="{{SelectedCheckInfo.PreparedBy}}" name="CheckInfo.PreparedBy" id="CheckInfo_PreparedBy" 
+                                   data-ng-model="SelectedCheckInfo.PreparedBy" disabled="disabled"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="">
+                <div class="span5">
+                    <div class="control-group">
+                        <div class="control-label">
+                            <label for="CheckInfo_AppovedBy">Appoved By</label>
+                        </div>
+                        <div class="controls">
+                            <input type="text" value="{{SelectedCheckInfo.AppovedBy}}" name="CheckInfo.AppovedBy" id="CheckInfo_AppovedBy" 
+                                   data-ng-model="SelectedCheckInfo.AppovedBy" disabled="disabled"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="">
+                <div class="span5">
+                    <div class="control-group">
+                        <div class="control-label">
+                            <label for="datepicker">Appoved Date</label>
+                        </div>
+                        <div class="controls">
+                            <input type="text" value="{{SelectedCheckInfo.Transporter}}" name="CheckInfo.AppovedDate"
+                                   data-ng-model="SelectedCheckInfo.AppovedDate" disabled="disabled"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                
+            <div class="">
+                <div class="span5" style="width:400px;">
+                    <div class="control-group message-box" style="float: left;" id="messageboxPayDeductCheque"></div>
+                    <div class="control-group" style="float: right;">
+                        <button id="btnSaveChequeInfo" class="btn" data-ng-click="editChequeInfo()">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            var wndChequeInfo;
+            $(document).ready(function () {
+                wndChequeInfo = $("#modalChequeInfo").kendoWindow({
+                    title: "Edit Cheque Info.",
+                    modal: true,
+                    visible: false,
+                    resizable: false,
+                    width: 550,
+                    height: 520
+                }).data("kendoWindow");
+            });
+        </Script>
+        <h3>Payment Request</h3>
+
+        <table class="table table-striped">
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.ReferenceNo)</th>
+                <th>Transporter</th>
+                <th>Transport Order</th>
+                <th>Requested Amount</th>
+                <th> Transported Quantity(in QTL)</th>
+                <th>Status</th>
+                <th>Actions</th>
+                <th></th>
+            </tr>
+
+            @foreach (PaymentRequest item in Model)
+            {
+                index++;
+                var state = item.BusinessProcess.CurrentState.BaseStateTemplate;
+                //if (state.Name == "Approved by finance" || state.Name == "Cheque Issued" || state.Name == "Cheque Cashed")
+                //{
+                <tr>
+                    <td>
+                        @item.ReferenceNo
+                    </td>
+                    <td>
+                        <a href="@Url.Action("TransporterDetail", "ValidatedPaymentRequest", new {transporterID = item.TransportOrder.Transporter.TransporterID})">
+                            @item.TransportOrder.Transporter.Name
+                        </a>
+                    </td>
+                    <td>
+                        <a href="@Url.Action("TransportOrderDetail", "ValidatedPaymentRequest", new {transportOrderID = item.TransportOrder.TransportOrderID})">
+                            @item.TransportOrder.TransportOrderNo
+                        </a>
+                    </td>
+                    <td>
+                        @item.RequestedAmount
+                    </td>
+                    <td>
+                        @item.TransportedQuantityInQTL
+                    </td>
+                    <td>
+                        @state.Name
+                    </td>
+                    <td>
+                        <a href="@Url.Action("ViewContractAgreement", "ValidatedPaymentRequest", new { transporterID = item.TransportOrder.Transporter.TransporterID })">Contract Agreement</a> &nbsp;&nbsp;
+                        <button class="btn" data-ng-click="loadLabourCost(@item.PaymentRequestID,@state.StateNo)">Payment Deductions</button>
+                        @*<a href="@Url.Action("LabourCost", "ValidatedPaymentRequest")">Labour Cost</a>*@
+                        @if (@state.StateNo >= 4)
+                        {
+                            <button class="btn" data-ng-click="loadChequeInfo(@item.PaymentRequestID, @state.StateNo)">Cheque Info</button>
+                        }
+                    </td>
+                    <td>
+                        <div class="btn-group">
+                            <button class="btn edit_button" id="action_@index">Workflow</button>
+                            <button class="btn  dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
+                            <ul class="dropdown-menu">
+                                @foreach (FlowTemplate actions in state.InitialStateFlowTemplates)
+                                {
+                                    <li class="edit_button"><a href="javascript:promot_workflow(@item.BusinessProcessID ,@actions.FinalStateID,'@actions.Name',@item.PaymentRequestID)" title="@actions.Name">@actions.Name</a></li>            
+                                }
+                                <li class="divider"></li>
+                                <li class="edit_button"><a href="javascript:workflow_history(@item.BusinessProcessID)">History</a></li>
+                            </ul>
+                        </div>
+
+
+                    </td>
+                </tr> 
+                //}
+
+            }
+        </table>
+
+        <div id="modalHistory" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false" style="width:600px;" >
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 id="modalHistoryLabel">Activity History</h4>
+            </div>
+            <div class="modal-body" id="modalHistoryBody">History</div>
+
+        </div>
+        @Html.Partial("~/Views/Shared/_PromotWorkflow.cshtml")
+        <script>
+            var history_link = "@Url.Action("History", "BusinessProcess", new { Area = "WorkflowManager", id = "0" })";
+
+            function promot_workflow(BusinessProcessID, nextstate, actionname, PaymentRequestID) {
+                //alert(PaymentRequestID);
+                $('#ParentBusinessProcessID').val(BusinessProcessID);
+                $('#stateID').val(nextstate);
+                $('#modalPromotionLabel').html(actionname);
+                $('#PaymentRequestID').val(PaymentRequestID);
+                $('#modalPromotion').modal();
+                $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("ApproveChequeInfo", "ValidatedPaymentRequest")",
+                        data: "{id:1}",
+                        dataType: json
+                    });
+                //alert("nextstate: " + nextstate);
+                if (nextstate == "2021") {
+                    //alert("nextstate: " + nextstate);
+                    @*var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+                    window.location = "@Url.Action("ApproveChequeInfo", "ValidatedPaymentRequest")" + "/" + dataItem.TransportBidQuotationHeaderID;*@
+                    
+                }
+            }
+            function workflow_history(BusinessProcessID) {
+                $('#modalHistory').modal();
+                $('#modalHistoryBody').html("<div style='text-align:center;'> <img src='/content/images/loading.gif'/></div>");
+                $.post(history_link + BusinessProcessID, {},
+                    function (data) {
+                        $("#modalHistoryBody").html(data);
+                    }
+                );
+
+            }
+        </script>
+
+        <script>
+            $(document).ready(function () {
+                //called when key is pressed in textbox
+                $("#PaymentRequest_LabourCostRate").keypress(function (e) {
+                    //if the letter is not digit then display error and don't type anything
+                    if (e.which != 8 && e.which != 0 && (e.which < 46 || e.which > 57) && e.which != 190) {
+                        //display error message
+                        $("#errmsgPaymentRequest_LabourCostRate").html("Digits Only").show().fadeOut("slow");
+                        return false;
+                    }
+                });
+                $("#PaymentRequest_RejectedAmount").keypress(function (e) {
+                    //if the letter is not digit then display error and don't type anything
+                    if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57) && e.which != 190) {
+                        //display error message
+                        $("#errmsgPaymentRequest_RejectedAmount").html("Digits Only").show().fadeOut("slow");
+                        return false;
+                    }
+                });
+                $("#CheckInfo_Amount").keypress(function (e) {
+                    //if the letter is not digit then display error and don't type anything
+                    if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57) && e.which != 190) {
+                        //display error message
+                        $("#errmsgCheckInfo_Amount").html("Digits Only").show().fadeOut("slow");
+                        return false;
+                    }
+                });
+            });
+            angular.module('PaymentRequestManagementModule', []).controller('PaymentRequestManagementController', function ($scope, $http) {
+                $scope.SelectedLabourInfo = [];
+                $scope.SelectedCheckInfo = [];
+
+                $scope.loadLabourCost = function (id, stateNo) {
+                    var paymentRequestId = { "paymentRequestID": id };
+                    //$("#" + dispatchId).addClass("selected");
+                    //alert(paymentRequestId);
+                    //alert("paymentRequestId: " + paymentRequestId);
+                    $http.post(rootDir + 'Finance/ValidatedPaymentRequest/LoadLabourCost/', paymentRequestId).
+                        success(function(data, status, headers, config) {
+                            //alert(data["ReceivedBy"]);
+                            $scope.SelectedLabourInfo = data;
+                            //$scope.GRNDetail.DispatchID = id;
+                        }).
+                        error(function(data, status, headers, config) {
+                            alert("#ERROR - Can't load the GRN for the selected dispatch.");
+                        });
+                    if (stateNo >= 4) {
+                        $("#PaymentRequest_LabourCostRate").attr("disabled", "disabled");
+                        $("#PaymentRequest_RejectedAmount").attr("disabled", "disabled");
+                        $("#PaymentRequest_RejectionReason").attr("disabled", "disabled");
+                        $("#btnSavePaymentDeductions").hide();
+                    }
+                    else {
+                        $("#PaymentRequest_LabourCostRate").removeAttr("disabled");
+                        $("#PaymentRequest_RejectedAmount").removeAttr("disabled");
+                        $("#PaymentRequest_RejectionReason").removeAttr("disabled");
+                        $("#btnSavePaymentDeductions").show();
+                    }
+                    wndLabourCostInfo.center().open();
+                    //$('#dialogContent').load(rootDir + 'Finance/ValidatedPaymentRequest/PaymentDeductionsPartialView/', function () {
+                    //    $('#dialogDiv').modal({
+                    //        backdrop: 'static',
+                    //        keyboard: true
+                    //    }, 'show');
+                    //    //bindForm(this);
+                    //});
+                };
+
+                $scope.editLabourCostInfo = function () {
+                    //alert("ReceivedBy: " + $scope.GRNDetail.ReceivedBy);
+                    if ($scope.SelectedLabourInfo != []) {
+                        $http.post(rootDir + 'Finance/ValidatedPaymentRequest/EditLabourCostInfo/', $scope.SelectedLabourInfo).
+                            success(function (data, status, headers, config) {
+                                $("#messageboxPayDeduct").html("Saved Successfully!");
+                                var timer = 3000;
+                                clearTimeout(timer);
+                                timer = setTimeout(function () {
+                                    $("#messageboxPayDeduct").html('');
+                                }, 3000);
+                            }).
+                            error(function (data, status, headers, config) {
+                                $("#messageboxPayDeduct").html("Saving is Unsuccessfully!");
+                                var timer = 3000;
+                                clearTimeout(timer);
+                                timer = setTimeout(function () {
+                                    $("#messageboxPayDeduct").html('');
+                                }, 3000);
+                            });
+                    } else {
+                    }
+                };
+                
+                $scope.labourCostRateKeyPressed = function () {
+                    //alert("LabourCost: " + $scope.SelectedLabourInfo.LabourCost);
+                    if ($scope.SelectedLabourInfo != []) {
+                        $scope.SelectedLabourInfo.LabourCost = $scope.SelectedLabourInfo.TransportedQuantityInQtl * $scope.SelectedLabourInfo.LabourCostRate;
+                        //alert("LabourCost: " + $scope.SelectedLabourInfo.LabourCost);
+                    } else {
+                    }
+                    //alert("LabourCost: " + $scope.SelectedLabourInfo.LabourCost);
+                };
+                
+                $scope.loadChequeInfo = function (id, stateNo) {
+                    var paymentRequestId = { "paymentRequestID": id };
+                    //$("#" + dispatchId).addClass("selected");
+                    //alert(paymentRequestId);
+                    $http.post(rootDir + 'ValidatedPaymentRequest/LoadCheque/', paymentRequestId).
+                        success(function (data, status, headers, config) {
+                            //alert(data["ReceivedBy"]);
+                            $scope.SelectedCheckInfo = data;
+                            if (data.AppovedBy == null || data.AppovedBy == "")
+                                $scope.SelectedCheckInfo.AppovedDate = "";
+                            if ($scope.SelectedCheckInfo.Amount==null)
+                                $scope.SelectedCheckInfo.Amount = $scope.SelectedLabourInfo.RequestedAmount - $scope.SelectedLabourInfo.LabourCost - $scope.SelectedLabourInfo.RejectedAmount;
+                            
+                        }).
+                        error(function (data, status, headers, config) {
+                            alert("#ERROR - Can't load the GRN for the selected dispatch.");
+                        });
+                    if (stateNo!=4) {
+                        $("#CheckInfo_CheckNo").attr("disabled", "disabled");
+                        $("#CheckInfo_PaymentVoucherNo").attr("disabled", "disabled");
+                        $("#CheckInfo_BankName").attr("disabled", "disabled");
+                        $("#CheckInfo_Amount").attr("disabled", "disabled"); 
+                        $("#btnSaveChequeInfo").hide();
+                    }
+                    else {
+                        $("#CheckInfo_CheckNo").removeAttr("disabled");
+                        $("#CheckInfo_PaymentVoucherNo").removeAttr("disabled");
+                        $("#CheckInfo_BankName").removeAttr("disabled");
+                        $("#CheckInfo_Amount").removeAttr("disabled");
+                        $("#btnSaveChequeInfo").show();
+                    }
+                    wndChequeInfo.center().open();
+                };
+
+                $scope.editChequeInfo = function () {
+                    //alert("ReceivedBy: " + $scope.GRNDetail.ReceivedBy);
+                    if ($scope.SelectedCheckInfo != []) {
+                        $http.post(rootDir + 'ValidatedPaymentRequest/EditChequeInfo/', $scope.SelectedCheckInfo).
+                            success(function (data, status, headers, config) {
+                                //alert("success");
+                                $("#messageboxPayDeductCheque").html("Saved Successfully!");
+                                var timer = 3000;
+                                clearTimeout(timer);
+                                timer = setTimeout(function () {
+                                    $("#messageboxPayDeductCheque").html('');
+                                }, 3000);
+                            }).
+                            error(function (data, status, headers, config) {
+                                $("#messageboxPayDeductCheque").html("Saving is Unsuccessfully!");
+                                var timer = 3000;
+                                clearTimeout(timer);
+                                timer = setTimeout(function () {
+                                    $("#messageboxPayDeductCheque").html('');
+                                }, 3000);
+                            });
+                    } else {
+                    }
+                };
+            });
+            init_datepicker();
+        </script>
+    </body>
+</html>

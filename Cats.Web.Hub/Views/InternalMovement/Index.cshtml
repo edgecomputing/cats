@@ -1,0 +1,70 @@
+﻿@model IEnumerable<Cats.Models.Hubs.ViewModels.InternalMovementLogViewModel>
+@using Cats.Web.Hub.Helpers
+@{
+    ViewBag.Title = Html.Translate("Internal Movment");
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+@Html.Partial("DisplayHub")
+
+<p>
+    List of Internal Movments in your current warehouse, Please click @Html.ActionLink("New internal movement", "Create", "InternalMovement") to move itmes.
+</p>
+<div style="margin-bottom:20px;">
+        
+</div>
+@{Html.Telerik().Window()
+            .Name("internalMovementWindow")
+            .Title("Internal Movment Detail")
+            .Draggable(true)
+            .Modal(true)
+            .Visible(false)
+            .Height(530)
+            .Width(600)
+            .Render();
+    
+}
+
+
+@(Html.Telerik().Grid(Model)
+            .Name("InternalMovementGrid")
+            .Columns(columns =>
+            {
+                columns.Bound(o => o.TransactionId).Hidden(true);
+                columns.Bound(o => o.SelectedDate).Width(100);
+                columns.Bound(o => o.CommodityName).Width(70);
+                columns.Bound(o => o.FromStore);
+                columns.Bound(o => o.FromStack).Width(20);
+                columns.Bound(o => o.ToStore);
+                columns.Bound(o => o.ToStack).Width(20);
+                columns.Bound(o => o.Unit).Width(60);
+                columns.Bound(o => o.QuantityInUnit).Width(70).Format("{0:N3}").HtmlAttributes(new { align = "right" }); ;
+                columns.Bound(o => o.QuantityInMt).Width(70).Format("{0:N3}").HtmlAttributes(new { align = "right" });
+                columns.Template(@<text> <input type="button" value="Detail" onclick="onDetailClick('@item.TransactionId')" />  </text>);
+                //columns.Command(commands => commands
+                //            .Custom("ViewDetails")
+                //            .Text("Detail")
+                //            .DataRouteValues(route => route.Add(o => o.TransactionId).RouteKey("TransactionId"))
+                //            .Ajax(true)
+                //    );
+                
+            })
+            .Pageable(pagger => pagger.Enabled(true))
+            .Sortable(sorting => sorting.Enabled(true))
+            .Footer(true)
+)
+
+
+
+<script type="text/javascript">
+    function onDetailClick(id) {
+        var window = $('#internalMovementWindow').data('tWindow');
+        window.ajaxRequest("@Url.Action("ViewDetial","InternalMovement")", { TransactionId: id });
+        window.center().open();
+    }
+
+   
+</script>
+

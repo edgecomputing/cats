@@ -1,0 +1,76 @@
+﻿@model Cats.Models.ViewModels.UserPreferenceViewModel
+@using Cats.Areas.Settings.Models;
+
+@using (Html.BeginForm("Edit", "UserPreference", FormMethod.Post, new { @class = "form-horizontal" }))
+          {              
+              <!-- Start -->
+              
+    <div class="control-group">
+        <label class="control-label">Language:</label>
+        <div class="controls">
+            @Html.DropDownList("Languages",String.Empty)
+            @Html.ValidationMessageFor(m=>m.Languages)
+        </div>
+    </div>
+
+
+    <div class="control-group">
+        <label class="control-label">Keyboard:</label>
+        <div class="controls">
+            @Html.DropDownList("KeyboardLanguage",String.Empty)
+            @Html.ValidationMessageFor(m=>m.KeyboardLanguage)
+        </div>
+    </div>
+    
+      <div class="control-group">
+        <label class="control-label">Weight Unit:</label>
+        <div class="controls">
+            @Html.DropDownList("WeightPrefernce", String.Empty)
+            @Html.ValidationMessageFor(m => m.WeightPrefernce)
+        </div>
+    </div>
+    
+    @*<div class="control-group">
+        <label class="control-label">Weight Unit:</label>
+        <div class="controls">
+           @Html.DropDownList("WeightPrefernce")
+           @Html.ValidationMessageFor(m=>m.WeightPrefernce)
+        </div>
+    </div>*@
+
+
+    <div class="control-group">
+        <label class="control-label">Date Preference:</label>
+        <div class="controls">
+            @Html.DropDownList("DateFormatPreference",String.Empty)
+           @Html.ValidationMessageFor(m=>m.DateFormatPreference)
+        </div>
+    </div>
+
+    <div class="control-group">
+        <label class="control-label">Default Theme:</label>
+        <div class="controls">
+            @Html.DropDownList("ThemePreference",String.Empty)
+           @Html.ValidationMessageFor(m=>m.ThemePreference)
+        </div>
+    </div>
+                           
+              <!-- End -->
+               <div class="control-group">
+        <label class="control-label"></label>
+        <div class="controls">
+            <input type="submit" name="EditPreference" class="btn btn-primary" value="Save Preference" />
+            <a href="JavaScript:" class="btn" id="cancel">Cancel</a>
+        </div>
+    </div>            
+          }
+
+<script type="text/javascript">
+
+    $('#cancel').click(function () {
+        location.reload();
+    });
+
+</script>
+
+

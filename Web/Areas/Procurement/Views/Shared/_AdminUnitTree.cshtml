@@ -1,0 +1,82 @@
+﻿@using Kendo.Mvc.UI
+<div id="div_tree_log">
+    
+</div>
+<div id="div_tree_view">
+
+@(Html.Kendo().TreeView()
+        .Name("treeview")
+        
+        .Events(events => events
+           
+            .Select("onSelect")
+            )
+        .Items(treeview =>
+        {
+           
+            treeview.Add().Text("Regions")
+                .SpriteCssClasses("folder")
+                .Expanded(true)
+                .Items(root =>
+                {
+                    foreach (var region in ViewBag.RegionCollection)
+                    {
+                        root.Add().Text((string)region.Name)
+                            .SpriteCssClasses("folder")
+                           // .Expanded(true)
+                            .Items(zones =>
+                            {
+                                foreach( var zone in region.AdminUnit1)
+                                {
+                                    zones.Add().Text((string)zone.Name)
+                                    
+                                    .SpriteCssClasses("image")
+                                    .Items(woredas =>
+                                    {
+                                        foreach (var woreda in zone.AdminUnit1)
+                                        {
+                                            woredas.Add().Text((string)woreda.Name)
+                                           .Id(woreda.AdminUnitID + "")
+                                           
+                                           .SpriteCssClasses("pdf");
+                                           
+                                        }
+                                    }); 
+                                }
+                                
+                            });
+                    } 
+                   
+                   
+                    
+                });
+        })
+    )
+</div>
+
+<style scoped>
+    .demo-section {
+        width: 200px;
+    }
+
+    #treeview .k-sprite {
+        background-image: url("@Url.Content("~/Content/web/treeview/coloricons-sprite.png")");
+    }
+
+    .rootfolder { background-position: 0 0; }
+    .folder { background-position: 0 -16px; }
+    .pdf { background-position: 0 -32px; }
+    .html { background-position: 0 -48px; }
+    .image { background-position: 0 -64px; }
+</style>
+<script>
+    
+    function show_obj(obj, name) {
+        var htm = "<ul>";
+        for (var i in obj) {
+            htm += "<li>" + i + ":"  +  typeof (obj[i]) + "</li>";
+        }
+        htm += "</ul>";
+        return htm;
+    }
+</script>

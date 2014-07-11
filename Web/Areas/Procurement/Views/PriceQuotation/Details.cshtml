@@ -1,0 +1,181 @@
+﻿@using Cats.Areas.Procurement.Models
+@using Kendo.Mvc.UI
+@using LanguageHelpers.Localization
+@model TransportBidQuotationHeaderViewModel
+
+@{
+    ViewBag.Title = "OrderDetail";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+    var headerID = Model.TransportBidQuotationHeaderID;   
+}
+
+@section Toolbar{
+    <a class="btn toolbar-btn " data-buttontype="btn_save" href="javascript:saverecords()"></a>
+    <a id="btnAddProposal" data-buttontype="btn_back_to_list" class="btn toolbar-btn " href="@Url.Action("BidProposalHeader", "PriceQuotation")"></a>
+}
+
+<h4>Bid Proposal Data Entry</h4>
+
+<div class="control-group form-horizontal well" id="ContractHeader">
+    <div class="row">
+        <div class="span6">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(m => m.BidNumber)
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(m => m.BidNumber, new { Disabled = true })
+                </div>
+            </div>
+        </div>
+
+        <div class="span4">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(m => m.Region)
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(m => m.Region, new { Disabled = true })
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="span6">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(m => m.Transporter)
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(m => m.Transporter, new { Disabled = true })
+                </div>
+            </div>
+        </div>
+        <div class="span4">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(m=>m.OffersCount)
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(m => m.OffersCount, new { Disabled = true })
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span6">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(m=>m.EnteredBy)
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(m => m.EnteredBy, new { Disabled = true })
+                </div>
+            </div>
+        </div>
+
+              
+        <div class="span4">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(m=>m.BidBondAmount)
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(m => m.BidBondAmount, new { Disabled = true })
+                </div>
+            </div>
+        </div>
+    
+    </div>
+    <div class="row">
+        <div class="span6">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(m=>m.Status)
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(m=>m.Status, new { Disabled = true })
+                </div>
+            </div>
+        </div>
+
+        <div class="span4">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.Label("BID Proposal ID")
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(m=>m.TransportBidQuotationHeaderID, new { Disabled = true })
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@(Html.Kendo().Grid<PriceQuotationDetail>()
+                .Name("grid")
+                .Columns(columns =>
+                    {
+                        columns.Bound(p => p.SourceWarehouse);
+                        columns.Bound(p => p.Zone);
+                        columns.Bound(p => p.Woreda);
+                        columns.Bound(p => p.Tariff).Title("Tariff").HtmlAttributes(new { align = "Right" }).Format("{0:N}"); ;
+                        columns.Bound(p => p.Remark);
+                    })
+                .Scrollable()
+                .Filterable()
+                .Navigatable()
+                .Events(events => events.Change("onDataBound"))
+                //.ToolBar(toolBar => toolBar.Save())
+                .Groupable()
+                .Editable(editable => editable.Mode(GridEditMode.InCell))
+                .Events(events => events.DataBound("onDataBound"))
+                .HtmlAttributes(new { style = "height:430px;" })
+                .DataSource(dataSource => dataSource
+                                              .Ajax()
+                                              .Group(group => group.Add(m => m.SourceWarehouse))
+                                              //.PageSize(8)
+                                              .Model(model =>
+                                                  {
+                                                      model.Id(p => p.TransportBidQuotationID);
+                                                      model.Field(r => r.Tariff).Editable(true);
+                                                      model.Field(r => r.Remark).Editable(true);
+                                                      model.Field(r => r.Woreda).Editable(false);
+                                                      model.Field(r => r.Zone).Editable(false);
+                                                      model.Field(r => r.SourceWarehouse).Editable(false);
+                                                  })
+                                              .Read(read => read.Action("Read_Proposals", "PriceQuotation", new {bidProposalId = @headerID}))
+                                              .Update(update => update.Action("SaveBidProposals", "PriceQuotation"))
+          ))
+
+<script>
+    function onDataBound(e) {
+        var grid = $("#grid").data("kendoGrid");
+        $(grid.tbody).on("focus", "input", function (e) {
+            var input = $(this);
+            setTimeout(function () { input.select(); }, 100);
+        });
+    }
+    function saverecords() {
+        $("#grid").data("kendoGrid").saveChanges();
+    }
+
+    //function onGridKeydown(e) {
+    //    if (e.keyCode === kendo.keys.TAB) {
+    //        var grid = $(this).closest("[data-role=grid]").data("kendoGrid");
+    //        var current = grid.current();
+    //        if (!current.hasClass("editable-cell")) {
+    //            var nextCell = current.nextAll(".editable-cell");
+    //            if (!nextCell[0]) {
+    //                //search the next row
+    //                var nextRow = current.parent().next();
+    //                var nextCell = current.parent().next().children(".editable-cell:first");
+    //            }
+    //            grid.current(nextCell);
+    //            grid.editCell(nextCell[0])
+    //        }
+    //    }
+    //};
+</script>

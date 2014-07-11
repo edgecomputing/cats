@@ -1,0 +1,151 @@
+﻿@model Cats.Areas.GiftCertificate.Models.GiftCertificateViewModel
+@using Cats.Areas.GiftCertificate.Models
+@using Cats.Helpers
+@using Cats.Models
+@using Kendo.Mvc.UI
+@using LanguageHelpers.Localization
+@{
+    ViewBag.Title = Html.Translate("Gift Certificate");
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+@section Toolbar
+{
+    <a class="btn toolbar-btn " data-buttontype="btn_save" data-submittedform="frm_edit_gift"></a>
+    <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="@Url.Action("Index", "GiftCertificate")"></a>
+}
+<h4 class="page-header">@Html.Translate("Edit Gift Certificate")</h4>
+@section LeftBar
+{
+    @Html.Partial("_giftLeftBar")}
+
+
+@{ViewBag.IsInEditMode = true; }
+@using (Html.BeginForm("Edit", "GiftCertificate", FormMethod.Post, new { id = "frm_edit_gift" }))
+{
+    @Html.ValidationSummary(true)
+           
+    @Html.HiddenFor(model => model.GiftCertificateID)
+    @Html.HiddenFor(model => model.rowCount)
+ 
+    <div class="form-horizontal row-fluid">
+
+        <div class="span6" style="vertical-align: top">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.GiftDate, Html.Translate("Gift Date"), new { @class = "cats-date-pref" })
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(model => model.GiftDate, new { @class = " cats-datepicker2" })
+                    @Html.ValidationMessageFor(model => model.GiftDate)
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.DModeOfTransport, Html.Translate("Mode Of transport"))
+                </div>
+                <div class="controls">
+
+                    @Html.DropDownList("DModeOfTransport", string.Empty)
+
+                    @Html.ValidationMessageFor(model => model.DModeOfTransport)
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.ProgramID, Html.Translate("Program"))
+                </div>
+                <div class="controls">
+
+                    @Html.DropDownList("ProgramID", string.Empty)
+                    @Html.ValidationMessageFor(model => model.ProgramID)
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.DonorID, Html.Translate("Donor"))
+                </div>
+                <div class="controls">
+
+                    @Html.DropDownList("DonorID", string.Empty)
+                    @Html.ValidationMessageFor(model => model.DonorID)
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.DeclarationNumber)
+                </div>
+                <div class="controls">
+
+                    @Html.TextBoxFor(model => model.DeclarationNumber)
+
+                    @Html.ValidationMessageFor(model => model.DeclarationNumber)
+
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.CommodityTypeID, Html.Translate("Commodity Type"))
+                </div>
+                <div class="controls">
+
+                    @Html.DropDownList("CommodityTypeID", string.Empty)
+
+                    @Html.ValidationMessageFor(model => model.CommodityTypeID)
+
+                </div>
+            </div>
+        </div>
+        <div class="span6" style="vertical-align: top">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.SINumber, Html.Translate("SI/Batch Number"))
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(model => model.SINumber)
+                    @Html.ValidationMessageFor(model => model.SINumber)
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.PortName, Html.Translate("Port Name"))
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(model => model.PortName)
+                    @Html.ValidationMessageFor(model => model.PortName)
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.ReferenceNo, Html.Translate("Reference Number"))
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(model => model.ReferenceNo)
+                    @Html.ValidationMessageFor(model => model.ReferenceNo)
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.Vessel, Html.Translate("Vessel"))
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(model => model.Vessel)
+                    @Html.ValidationMessageFor(model => model.Vessel)
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.ETA, Html.Translate("ETA"), new { @class = "cats-date-pref" })
+                </div>
+
+                <div class="controls">
+                    @Html.TextBoxFor(model => model.ETA, new { @class = "cats-datepicker2" })
+                    @Html.ValidationMessageFor(model => model.ETA)
+                </div>
+            </div>
+        </div>
+
+    </div>
+   
+
+}
+

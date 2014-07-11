@@ -1,0 +1,148 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{EEF1DDEB-A6E9-493D-975D-C551A73A79B9}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Cats.Services.Logistics</RootNamespace>
+    <AssemblyName>Cats.Services.Logistics</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'UAT|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\UAT\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'PILOT|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\PILOT\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="log4net">
+      <HintPath>..\..\packages\log4net.2.0.0\lib\net40-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BeneficiaryAllocationService.cs" />
+    <Compile Include="DeliveryReconcileService.cs" />
+    <Compile Include="DistributionByAgeDetailService.cs" />
+    <Compile Include="IDeliveryReconcileService.cs" />
+    <Compile Include="DonationPlanDetail.cs" />
+    <Compile Include="DonationPlanDetailService.cs" />
+    <Compile Include="IDistributionByAgeDetailService.cs" />
+    <Compile Include="IDonationPlanDetail.cs" />
+    <Compile Include="IDonationPlanHeaderService.cs" />
+    <Compile Include="ILoanReciptPlanDetailService.cs" />
+    <Compile Include="ILoanReciptPlanService.cs" />
+    <Compile Include="ILocalPurchaseDetailService.cs" />
+    <Compile Include="ILocalPurchaseService.cs" />
+    <Compile Include="IReceiptPlanDetailService.cs" />
+    <Compile Include="IReceiptPlanService.cs" />
+    <Compile Include="ITransferService.cs" />
+    <Compile Include="LoanReciptPlanDetailService.cs" />
+    <Compile Include="LoanReciptPlanService.cs" />
+    <Compile Include="LocalPurchaseDetailService.cs" />
+    <Compile Include="LocalPurchaseService.cs" />
+    <Compile Include="ReceiptPlanDetailService.cs" />
+    <Compile Include="ReceiptPlanService.cs" />
+    <Compile Include="ISupportTypeService.cs" />
+    <Compile Include="SupportTypeService.cs" />
+    <Compile Include="TransferService.cs" />
+    <Compile Include="UtilizationDetailSerivce.cs" />
+    <Compile Include="DeliveryDetailService.cs" />
+    <Compile Include="DeliveryService.cs" />
+    <Compile Include="UtilizationHeaderSerivce.cs" />
+    <Compile Include="IUtilizationDetailSerivce.cs" />
+    <Compile Include="IDeliveryDetailService.cs" />
+    <Compile Include="IDeliveryService.cs" />
+    <Compile Include="IUtilizationHeaderSerivce.cs" />
+    <Compile Include="SIPCAllocationService.cs" />
+    <Compile Include="ISIPCAllocationService.cs" />
+    <Compile Include="IBeneficiaryAllocationService.cs" />
+    <Compile Include="IPromisedContributionService.cs" />
+    <Compile Include="ITransportRequisitionService.cs" />
+    <Compile Include="PromisedContributionService.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TransportRequisitionService.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Data\Cats.Data.Hub\Cats.Data.Hub.csproj">
+      <Project>{b311922a-4002-40b1-aa96-e005b6d436dd}</Project>
+      <Name>Cats.Data.Hub</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Data\Cats.Data\Cats.Data.csproj">
+      <Project>{7cf78855-5a90-441f-9acc-fafbd1cad68a}</Project>
+      <Name>Cats.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Models\Cats.Models\Cats.Models.csproj">
+      <Project>{abfb63d2-89fc-45bc-aa4e-5d9b21094b85}</Project>
+      <Name>Cats.Models</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Cats.Services.Common\Cats.Services.Common.csproj">
+      <Project>{083d007c-dd3b-42c0-b11c-a7015a909085}</Project>
+      <Name>Cats.Services.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Cats.Services.EarlyWarning\Cats.Services.EarlyWarning.csproj">
+      <Project>{a08cf415-6299-41ab-9d69-c3ce9b49ccd6}</Project>
+      <Name>Cats.Services.EarlyWarning</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

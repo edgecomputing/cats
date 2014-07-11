@@ -1,0 +1,15 @@
+﻿@model IEnumerable<Cats.Models.Hubs.Program>
+@using Cats.Web.Hub.Helpers
+
+@{
+    ViewBag.Title = Html.Translate("Programs");
+}
+
+<h2>@Html.Translate("List of Programs")</h2>
+
+<p>
+    @Html.DialogFormLink(Html.Translate("Create New Program"), Url.Action("Create"), Html.Translate("Create New Program"), "programlist", Url.Action("ListPartial"))
+</p>
+<div id="programlist">
+    @Html.Partial("ListPartial")
+</div>

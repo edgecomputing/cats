@@ -1,0 +1,148 @@
+﻿@model Cats.Models.Hubs.Dispatch
+@using Cats.Web.Hub.Helpers
+@{
+    ViewBag.Title = Html.Translate("Edit");
+}
+
+<h2>Edit</h2>
+
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+
+@using (Html.BeginForm())
+    {
+    @Html.ValidationSummary(true)
+    <fieldset>
+        <legend>@Html.Translate("Dispatch")</legend>
+
+        @Html.HiddenFor(model => model.DispatchID)
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.FDPID)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.FDPID)
+            @Html.ValidationMessageFor(model => model.FDPID)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.WarehouseID, Html.Translate("Warehouse"))
+        </div>
+        <div class="editor-field">
+            @Html.DropDownList("WarehouseID", String.Empty)
+            @Html.ValidationMessageFor(model => model.WarehouseID)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.StoreID, Html.Translate("Store"))
+        </div>
+        <div class="editor-field">
+            @Html.DropDownList("StoreID", String.Empty)
+            @Html.ValidationMessageFor(model => model.StoreID)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.StackNumber)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.StackNumber)
+            @Html.ValidationMessageFor(model => model.StackNumber)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.UserProfileID)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.UserProfileID)
+            @Html.ValidationMessageFor(model => model.UserProfileID)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.DispatchDate)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.DispatchDate)
+            @Html.ValidationMessageFor(model => model.DispatchDate)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.CreatedDate)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.CreatedDate)
+            @Html.ValidationMessageFor(model => model.CreatedDate)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.RequisitionNo)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.RequisitionNo)
+            @Html.ValidationMessageFor(model => model.RequisitionNo)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.GIN)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.GIN)
+            @Html.ValidationMessageFor(model => model.GIN)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.BidNumber)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.BidNumber)
+            @Html.ValidationMessageFor(model => model.BidNumber)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.TransporterID, Html.Translate("Transporter"))
+        </div>
+        <div class="editor-field">
+            @Html.DropDownList("TransporterID", String.Empty)
+            @Html.ValidationMessageFor(model => model.TransporterID)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.DriverName)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.DriverName)
+            @Html.ValidationMessageFor(model => model.DriverName)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.PlateNo_Prime)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.PlateNo_Prime)
+            @Html.ValidationMessageFor(model => model.PlateNo_Prime)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.PlateNo_Trailer)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.PlateNo_Trailer)
+            @Html.ValidationMessageFor(model => model.PlateNo_Trailer)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.PeriodID, Html.Translate("Period"))
+        </div>
+        <div class="editor-field">
+            @Html.DropDownList("PeriodID", String.Empty)
+            @Html.ValidationMessageFor(model => model.PeriodID)
+        </div>
+
+        <p>
+            <input type="submit" value="@Html.Translate("Save")" />
+        </p>
+    </fieldset>
+    }
+
+<div>
+    @Html.ActionLink(Html.Translate("Back to List"), "Index")
+</div>

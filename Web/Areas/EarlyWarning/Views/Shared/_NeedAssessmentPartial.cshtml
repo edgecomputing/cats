@@ -1,0 +1,44 @@
+﻿@using Cats.Helpers
+@using Cats.Security
+@using Cats.Services.Security
+<ul class="nav nav-list">
+    <li class="nav-header">Need Assessment</li>
+    <li>
+        @Html.EarlyWarningOperationButton(
+                        @Url.Action("Index", "NeedAssessment"),
+                        EarlyWarningConstants.Operation.Create_new_needs_assessment, "<i class=\"icon-plus\"></i>", "btn", "btn_new_record")
+    </li>
+    <li>
+        @* TODO:Needs a check *@
+        @Html.EarlyWarningOperationButton(
+            @Url.Action("NeedAssessmentToBeApproved", "NeedAssessment", new { Area = "EarlyWarning" }),
+            EarlyWarningConstants.Operation.View_approved_needs_assesment, "<i class=\"icon-check\"></i>Approved Assessments")
+    </li>
+    <li>
+        @Html.EarlyWarningOperationButton(
+                        @Url.Action("Approved", "NeedAssessment", new { Area = "EarlyWarning" }),
+                        EarlyWarningConstants.Operation.View_approved_needs_assesment, "<i class=\"icon-bullseye\"></i> Completed")
+    </li>
+    
+    <li class="nav-header">HRD</li>
+    <li>
+        @Html.EarlyWarningOperationButton(
+                        @Url.Action("CreateHRD", "HRD", new { Area = "EarlyWarning" }),
+                        EarlyWarningConstants.Operation.New_HRD, "<i class=\"icon-inbox\"></i>Create HRD")
+    </li>
+    
+    <li class="divider"></li>
+    <li>
+        @*TODO:Needs a check*@
+        @Html.EarlyWarningOperationButton(
+            @Url.Action("PrintNeedAssessment", "NeedAssessment", new { Area = "EarlyWarning" }),
+            EarlyWarningConstants.Operation.Print_needs_assessment, "<i class=\"icon-print\"></i> Print")
+    </li>
+    <li>
+        @*TODO:Needs a check*@
+        @Html.EarlyWarningOperationButton(
+            @Url.Action("ExportNeedAssessment", "NeedAssessment", new { Area = "EarlyWarning" }),
+            EarlyWarningConstants.Operation.Export_needs_assessment, "<i class=\"icon-share\"></i> Export")
+    </li>
+
+</ul>

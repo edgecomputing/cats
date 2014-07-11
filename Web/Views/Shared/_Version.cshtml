@@ -1,0 +1,6 @@
+﻿@using Cats.Helpers;
+@{
+    var assemblyDate = File.GetCreationTime(ViewContext.Controller.GetType().Assembly.Location);
+    
+}
+<p>CATS &copy; DRMFSS @DateTime.Now.Year.ToString() | Version: @Html.ApplicationVersion() | Created at: @assemblyDate.ToString()</p>

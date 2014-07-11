@@ -1,0 +1,1042 @@
+﻿@model Cats.Models.Hubs.ViewModels.ReceiveViewModel
+@using Cats.Models.Hubs
+@using Cats.Web.Hub.Helpers
+@using Telerik.Web.Mvc.UI
+@{
+    var disableSetting = (Model.IsEditMode) ? new { @readonly = "readonly" } : null;
+
+    string quanityColumnHeader = "MT";
+    int Multiplier = 1;
+    if (@Html.GetCurrentUser().PreferedWeightMeasurment.ToUpperInvariant() == "QN")
+    {
+        quanityColumnHeader = "Qtl";
+        Multiplier = 10;
+    }
+} 
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+@if (ViewBag.Message != null)
+{
+    <div class="ui-state-error ui-corner-all" style="margin: 1em; padding: 10px;">
+        <span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
+        @ViewBag.Message
+    </div>
+}
+<div id="receive_form">
+    
+    @Html.HiddenFor(model => model.ReceiveID)
+    @Html.HiddenFor(model => model.JSONInsertedCommodities)
+    @Html.HiddenFor(model => model.JSONPrev)
+    @Html.HiddenFor(model => model.JSONDeletedCommodities)
+    @Html.HiddenFor(model => model.JSONUpdatedCommodities)
+    @Html.HiddenFor(model => model.ReceiptAllocationID)
+    @{
+        Model.ChangeStoreManPermanently = false;
+     }
+    @Html.HiddenFor(model => model.ChangeStoreManPermanently)    
+    <div  class="field-set-title">
+        <h2>GRN Details</h2>
+    </div>
+    <div id="si-balance" style="display: none; width: 300px; float: right;">
+    </div>
+    <div class="field-set" style="padding:10px;" >
+    <table class="borderless">
+        <tr>
+            <td style="width: 200px">
+                @Html.LabelFor(model => model.GRN, Html.Translate("GRN")) <span class="required">*</span>
+            </td>
+            <td>
+                @Html.EditorFor(model => model.GRN)
+                <img id="ajax_loading" src="/images/ajax-loader.gif" style="display: none" />
+                @Html.AuditTrial("Receive", "GRN", Model.ReceiveID)
+                @Html.ValidationMessageFor(model => model.GRN)
+            </td>
+            <td>
+                @Html.LabelFor(model => model.ReceiptDate, Html.Translate("Receipt Date")) <span class="required">*</span>
+            </td>
+            <td>
+                @Html.EditorFor(model => model.ReceiptDate)
+                @Html.AuditTrial("Receive", "ReceiptDate", Model.ReceiveID)
+                @Html.ValidationMessageFor(model => model.ReceiptDate)
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 200px">
+                @Html.LabelFor(model => model.CommoditySourceID, Html.Translate("Commodity Source")) <span class="required">
+                    *</span>
+            </td>
+            <td>
+                @Html.TextBoxFor(model => model.CommoditySourceText, new { @readonly = "readonly" })
+                @Html.HiddenFor(model => model.CommoditySourceID)
+                @*@(Html.Telerik().ComboBox()
+           .Name("CommoditySourceID")
+           .AutoFill(true)
+           .ClientEvents(ev => ev.OnChange("showTheRespectivefeilds"))
+           .BindTo(new SelectList(Model.CommoditySources, "CommoditySourceID", "Name", Model.CommoditySourceID))
+           .HtmlAttributes(new { style = string.Format("width:{0}px", 200) })
+           .InputHtmlAttributes(new { @readonly = "readonly" })
+           .Filterable(filtering =>
+                           {
+                               filtering.FilterMode(AutoCompleteFilterMode.Contains);
+                           })
+           .HighlightFirstMatch(true)
+           .OpenOnFocus(true)
+                      )
+                @Html.AuditTrial("Receive", "CommoditySourceID", Model.ReceiveID)
+                *@@Html.ValidationMessageFor(model => model.CommoditySourceID)
+            </td>
+@*            @if ((Model.CommoditySourceID != Cats.Models.Hubs.CommoditySource.Constants.LOCALPURCHASE) &&
+                (Model.CommoditySourceID != Cats.Models.Hubs.CommoditySource.Constants.DONATION))
+            {*@
+           
+                <td class="SourceHubDonation" style="width: 200px;display: none">
+                    @Html.LabelFor(model => model.SourceHubID, Html.Translate("Source Hub")) <span class="required">*</span>
+                </td>
+                <td class="SourceHubDonation" style="width: 200px;display: none;">
+                    @if (!Model.IsEditMode)
+                    {
+                        @(Html.Telerik().ComboBox()
+                   .Name("SourceHubID")
+           .AutoFill(true)
+           .ClientEvents(ev => ev.OnChange("OnComChange"))
+           .BindTo(new SelectList(Model.Hubs, "HubID", "HubNameWithOwner", Model.SourceHubID))
+                            //.HtmlAttributes(new { style = string.Format("width:{0}px", 200),type = "readonly" })
+           .Filterable(filtering =>
+           {
+               filtering.FilterMode(AutoCompleteFilterMode.Contains);
+           })
+           .HighlightFirstMatch(true)
+           .OpenOnFocus(true)
+                          )
+                    @Html.AuditTrial("Receive", "SourceHubID", Model.ReceiveID)
+                    @Html.ValidationMessageFor(model => model.SourceHubID)
+                    }
+                    else
+                    {
+                        @Html.TextBoxFor(model => model.SourceHubText, new { @readonly = "readonly" })
+                        @Html.HiddenFor(model => model.SourceHubID)
+                    }
+                </td>
+          @*  }*@
+        </tr>
+        <tr>
+            <td style="width: 200px">
+                @Html.LabelFor(model => model.SINumber, Html.Translate("SI / Batch Number")) <span class="required">
+                    *</span>
+            </td>
+            <td>
+                @Html.TextBoxFor(model => model.SINumber, disableSetting)
+                @Html.AuditTrial("Receive", "SINumber", Model.ReceiveID)
+                @Html.ValidationMessageFor(model => model.SINumber)
+            </td>
+            <td style="width: 200px">
+                @Html.LabelFor(model => model.ProjectNumber, Html.Translate("Project Code")) <span class="required">
+                    *</span>
+            </td>
+            <td>
+                <div id="projectError" style="display: none; color: red">
+                @Html.Translate("Project not Found for the given SI Number")</div>
+                @Html.TextBoxFor(model => model.ProjectNumber, disableSetting)
+                @Html.AuditTrial("Receive", "ProjectNumber", Model.ReceiveID)
+                @Html.ValidationMessageFor(model => model.ProjectNumber)
+            </td>
+        </tr>
+     @*   @if (Model.CommoditySourceID == Cats.Models.Hubs.CommoditySource.Constants.LOCALPURCHASE)
+        { *@
+                <tr id="PurchaseFeilds" style="display: none;">
+                    <td style="width: 200px">
+                        @Html.LabelFor(model => model.PurchaseOrder, Html.Translate("Puchase Order")) <span class="required">
+                            *</span>
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(model => model.PurchaseOrder, disableSetting)
+                        @Html.AuditTrial("Receive", "Puchase Order", Model.ReceiveID)
+                        @Html.ValidationMessageFor(model => model.PurchaseOrder)
+                    </td>
+                    <td style="width: 200px">
+                        @Html.LabelFor(model => model.SupplierName, Html.Translate("Supplier Name")) <span class="required">
+                            *</span>
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(model => model.SupplierName, disableSetting)
+                        @Html.AuditTrial("Receive", "Supplier Name", Model.ReceiveID)
+                        @Html.ValidationMessageFor(model => model.SupplierName)
+                    </td>
+                </tr>
+        @*}*@
+        <tr>
+            <td>
+                @Html.LabelFor(model => model.ProgramID, Html.Translate("Program")) <span class="required">*</span>
+            </td>
+            <td>
+                @(Html.Telerik().ComboBox()
+                       .Name("ProgramID")
+                       .AutoFill(true)
+                       .BindTo(new SelectList(Model.Programs, "ProgramID", "Name", Model.ProgramID))
+                        .ClientEvents(ev => ev.OnChange("OnComChange"))
+                        .HtmlAttributes(new { style = string.Format("width:{0}px", 200) })
+                       .Filterable(filtering =>
+                       {
+
+                           filtering.FilterMode(AutoCompleteFilterMode.Contains);
+
+                       })
+           .HighlightFirstMatch(true)
+           .AutoFill(true)
+            .OpenOnFocus(true).Enable(!Model.IsEditMode)
+                      )
+                @{
+                    if (Model.IsEditMode)
+                    {
+                        Html.HiddenFor(model => model.ProgramID);
+                    }
+                }
+                @Html.AuditTrial("Receive", "ProgramID", Model.ReceiveID)
+                @Html.ValidationMessageFor(model => model.ProgramID)
+            </td>
+            <td>
+                @Html.LabelFor(model => model.WayBillNo, Html.Translate("Way Bill No")) <span class="required">*</span>
+            </td>
+            <td>
+                @Html.EditorFor(model => model.WayBillNo)
+                @Html.AuditTrial("Receive", "WayBillNo", Model.ReceiveID)
+                @Html.ValidationMessageFor(model => model.WayBillNo)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.LabelFor(model => model.CommodityTypeID, Html.Translate("Commodity Type")) <span class="required">
+                    *</span>
+            </td>
+            <td>
+                @(Html.Telerik().ComboBox()
+
+           .Name("CommodityTypeID")
+           .AutoFill(true)
+           .BindTo(new SelectList(Model.CommodityTypes, "CommodityTypeID", "Name", Model.CommodityTypeID))
+           .HtmlAttributes(new { style = string.Format("width:{0}px", 200) })
+                   .ClientEvents(ev => ev.OnChange("OnCommodityTypeChange").OnDataBinding("OnCommodityTypeChange"))
+                        //.CascadeTo("CommodityID")
+           .Filterable(filtering =>
+           {
+
+               filtering.FilterMode(AutoCompleteFilterMode.Contains);
+
+           })
+           .HighlightFirstMatch(true)
+           .AutoFill(true).Enable(!Model.IsEditMode)
+           .OpenOnFocus(true)
+                      )
+                @{
+                    if (Model.IsEditMode)
+                    {
+                        Html.HiddenFor(model => model.CommodityTypeID);
+                    }
+                }
+                @Html.AuditTrial("Receive", "CommodityTypeID", Model.ReceiveID)
+                @Html.ValidationMessageFor(model => model.CommodityTypeID)
+            </td>
+            @*            <td>
+                @Html.LabelFor(model => model.TransporterID, "Transporter") <span class="required">*</span>
+            </td>
+            <td>
+                @(Html.Telerik().ComboBox()
+                           .Name("TransporterID")
+                           .AutoFill(true)
+                           .BindTo(new SelectList(Model.Transporters, "TransporterID", "Name", Model.TransporterID))
+                           .HtmlAttributes(new { style = string.Format("width:{0}px", 200) })
+                            .ClientEvents(ev => ev.OnChange("OnComChange"))
+                           .Filterable(filtering =>
+                           {
+
+                               filtering.FilterMode(AutoCompleteFilterMode.Contains);
+
+                           })
+                                    .HighlightFirstMatch(true)
+                                    .AutoFill(true)
+                                    .OpenOnFocus(true)
+                              )
+                @Html.AuditTrial("Receive", "TransporterID", Model.ReceiveID)
+                @Html.ValidationMessageFor(model => model.TransporterID)
+            </td>*@
+        </tr>
+        <tr>
+            <td>
+                @Html.LabelFor(model => model.StoreID, Html.Translate("Store")) <span class="required">*</span>
+            </td>
+            <td>
+                @(Html.Telerik().ComboBox()
+           .Name("StoreID")
+           .AutoFill(true)
+           .BindTo(new SelectList(Model.Stores, "StoreID", "Name", Model.StoreID))
+           .HtmlAttributes(new { style = string.Format("width:{0}px", 200) })
+           .ClientEvents(ev => ev.OnChange("OnComChange"))
+           .Filterable(filtering =>
+                           {
+
+                               filtering.FilterMode(AutoCompleteFilterMode.Contains);
+
+                           })
+           .HighlightFirstMatch(true).CascadeTo("StackNumber")
+           .AutoFill(true)
+           .OpenOnFocus(true).ClientEvents(e => e.OnChange("storeChanged")).Enable(!Model.IsEditMode)
+                      )
+                @{
+                    if (Model.IsEditMode)
+                    {
+                        Html.HiddenFor(model => model.CommoditySourceID);
+                    }
+                }
+                @Html.AuditTrial("Receive", "StoreID", Model.ReceiveID)
+                @Html.ValidationMessageFor(model => model.StoreID)
+            </td>
+            <td>
+                @Html.LabelFor(model => model.StackNumber, Html.Translate("Stack Number")) <span class="required">*</span>
+            </td>
+            <td>
+                @(Html.Telerik().ComboBox()
+           .Name("StackNumber")
+           .BindTo(new SelectList(Model.Stacks, "Id", "Name", Model.StackNumber))
+           .DataBinding(bind => bind.Ajax().Select("StackNumbers", "Store", new {editModval = Model.StackNumber}).Enabled(true))
+           .HtmlAttributes(new { style = string.Format("width:{0}px", 200) })
+           .ClientEvents(ev => ev.OnChange("OnComChange"))
+           .Filterable(filtering =>
+                           {
+                               filtering.FilterMode(AutoCompleteFilterMode.Contains);
+                           })
+           .HighlightFirstMatch(true)
+           .OpenOnFocus(true)
+           .AutoFill(true).Enable(!Model.IsEditMode)
+                      )
+                @Html.AuditTrial("Receive", "StackNumber", Model.ReceiveID)
+                @Html.ValidationMessageFor(model => model.StackNumber)
+                @*            @Html.EditorFor(model => model.StackNumber)
+            @Html.ValidationMessageFor(model => model.StackNumber)*@
+            </td>
+        </tr>
+         <tr>
+                <td>@Html.LabelFor(model => model.ReceivedByStoreMan, Html.Translate("Received By Store Man")) <span class="required">*</span>
+                </td>
+                <td>
+                    @Html.EditorFor(model => model.ReceivedByStoreMan)
+                    @Html.AuditTrial("Receive", "ReceivedByStoreMan", Model.ReceiveID)
+                    @Html.ValidationMessageFor(model => model.ReceivedByStoreMan)
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+            </tr>
+    </table>
+    </div>
+        @(Html.Telerik().Grid(new List<ReceiveDetailViewModel>())
+                       .Name("Grid").Resizable(resizing => resizing.Columns(true))
+
+
+               .DataKeys(keys => keys.Add(p => p.ReceiveDetailID))
+               .ToolBar(commands => commands.Insert())
+
+               .Editable(editing => editing.Mode(GridEditMode.InCell))
+               .Columns(columns =>
+               {
+                   columns.ForeignKey(o => o.CommodityID, Model.Commodities, "CommodityID", "Name").Width(150).Title(Html.Translate("Commodity Name"));
+                   columns.Bound(o => o.Description).Title(Html.Translate("Description"));
+                   columns.ForeignKey(o => o.UnitID, Model.Units, "UnitID", "Name").Title(Html.Translate("Units"));
+                   columns.Bound(o => o.SentQuantityInUnit).Title(Html.Translate("Sent Qty(Unit)")).HtmlAttributes(new { align = "right" });
+                   columns.Bound(o => o.ReceivedQuantityInUnit).Title(Html.Translate("Received Qty (Unit)")).HtmlAttributes(new { align = "right" });
+                   //columns.Template(o => o.ReceivedQuantityInMT.Value.ToPreferedWeightMeasurment("qn"));
+                   columns.Bound(o => o.SentQuantityInMT).Title(Html.Translate("Sent Quantity " + quanityColumnHeader))
+.Width(5).HtmlAttributes(new { align = "right" }).Format("{0:N3}");
+                   columns.Bound(o => o.ReceivedQuantityInMT).Title(Html.Translate("Received Quantity " + quanityColumnHeader)).HtmlAttributes(new { align = "right" }).Format("{0:N3}");
+                  // columns.ForeignKey(o => o.CommodityGradeID, Model.CommodityGrades, "CommodityGradeID", "Name").Width(5).Title(Html.Translate("Quality"));
+                   columns.Bound(c => c.ReceiveDetailID).Hidden(true); //.ClientTemplate("<div id='group-row-<#= ReceiveDetailID#>'  class='group-row-receive' ></div>"); //i will find this <td> by the <div> id;
+                   columns.Bound(c => c.ReceiveDetailCounter).Hidden(true).ClientTemplate("<div id='group-row-<#= ReceiveDetailCounter#>'  class='group-row-receive' ></div>"); //i will find this <td> by the <div> id;
+
+                   columns.Command(commands =>
+                   {
+                       commands.Delete().ButtonType(GridButtonType.Text);
+                   }).Title(Html.Translate("Commands"));
+
+               })
+                                        .DataBinding(binding => binding.Ajax()
+                                        .Select("SelectReceivedCommodities", "Receive", new { receiveId = Model.ReceiveID })
+                                        .Insert("Create", "Receive")
+                                        .Delete("Delete", "Receive").OperationMode(GridOperationMode.Client)
+
+               ).Footer(false)
+            //.OnComplete("function (e){e.data = {prev : $('#JSONPrev').val()};}")
+                           .ClientEvents(e => e.OnDataBinding("function (e){e.data = {prev : $('#JSONPrev').val()}; OnCommodityTypeChangeValue("+Model.CommodityTypeID+");}")
+                                  .OnDataBound("function (e){e.data = {prev : $('#JSONPrev').val()};}")
+                                  .OnRowDataBound("hideEdit")
+                                  .OnEdit("onEdit")
+                                  .OnRowSelect("Grid_onRowSelect")
+                
+                                  )
+           .KeyboardNavigation(configurator => configurator.EditOnTab(true)))
+    
+    <div id="gridEmptyError" style="display: none; color: red">
+        @Html.Translate("Please add atleast one commodity to save this Reciept")
+    </div>
+    <br />
+    @Html.ValidationMessageFor(model => model.ReceiveDetails)
+
+    <div id="div.error" class="div.error">
+        
+    </div>
+    <div class="field-set-title">
+        <h2>
+            Transportation Details
+        </h2>
+    </div>
+    <div style="padding:10px;" class="field-set">
+        <table class="borderless">
+            @* @if (Model.CommoditySourceID == Cats.Models.Hubs.CommoditySource.Constants.DONATION || Model.CommoditySourceID == Cats.Models.Hubs.CommoditySource.Constants.LOCALPURCHASE)
+        {*@
+            <tr id="donationAndPurchaseFields">
+                <td style="width: 200px">
+                    @Html.LabelFor(model => model.ResponsibleDonorID, Html.Translate("Responsible Donor (Implementer)")) <span class="required">
+                                                                                                               *</span>
+                </td>
+                <td>
+                    @(Html.Telerik().ComboBox()
+           .Name("ResponsibleDonorID")
+           .AutoFill(true)
+           .BindTo(new SelectList(Model.Donors, "DonorID", "Name", Model.ResponsibleDonorID))
+           .HtmlAttributes(new { style = string.Format("width:{0}px", 200) })
+           .ClientEvents(ev => ev.OnChange("OnComChange"))
+           .Filterable(filtering =>
+                           {
+                               filtering.FilterMode(AutoCompleteFilterMode.Contains);
+
+                           })
+           .HighlightFirstMatch(true)
+           .AutoFill(true)
+           .OpenOnFocus(true)
+                          )
+                    @Html.AuditTrial("Receive", "ResponsibleDonorID", Model.ReceiveID)
+                    @Html.ValidationMessageFor(model => model.ResponsibleDonorID)
+                </td>
+                <td style="width: 200px">
+                    @Html.LabelFor(model => model.ResponsibleDonorID, Html.Translate("Source Donor"))
+                </td>
+                <td>
+                    @(Html.Telerik().ComboBox()
+           .Name("SourceDonorID")
+           .AutoFill(true)
+           .BindTo(new SelectList(Model.Donors, "DonorID", "Name", Model.SourceDonorID))
+           .HtmlAttributes(new { style = string.Format("width:{0}px", 200) })
+           .ClientEvents(ev => ev.OnChange("OnComChange"))
+           .Filterable(filtering =>
+                           {
+
+                               filtering.FilterMode(AutoCompleteFilterMode.Contains);
+
+                           })
+           .HighlightFirstMatch(true)
+           .AutoFill(true)
+           .OpenOnFocus(true)
+                          )
+                    @Html.AuditTrial("Receive", "SourceDonorID", Model.ReceiveID)
+                    @Html.ValidationMessageFor(model => model.SourceDonorID)
+                </td>
+            </tr>
+            @*}*@
+            <tr>
+                <td style="width: 200px">
+                    @Html.LabelFor(model => model.TicketNumber, Html.Translate("Weight Bridge Ticket Number"))
+                </td>
+                <td>
+                    @Html.EditorFor(model => model.TicketNumber)
+                    @Html.AuditTrial("Receive", "TicketNumber", Model.ReceiveID)
+                    @Html.ValidationMessageFor(model => model.TicketNumber)
+                </td>
+                <td style="width: 200px">
+                </td>
+                <td>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.LabelFor(model => model.WeightBeforeUnloading, Html.Translate("Weight Before Unloading"))
+                </td>
+                <td>
+                    @Html.EditorFor(model => model.WeightBeforeUnloading)
+                    @Html.AuditTrial("Receive", "WeightBeforeUnloading", Model.ReceiveID)
+                    @Html.ValidationMessageFor(model => model.WeightBeforeUnloading)
+                </td>
+                <td>
+                    @Html.LabelFor(model => model.WeightAfterUnloading, Html.Translate("Weight After Unloading"))
+                </td>
+                <td>
+                    @Html.EditorFor(model => model.WeightAfterUnloading)
+                    @Html.AuditTrial("Receive", "WeightAfterUnloading", Model.ReceiveID)
+                    @Html.ValidationMessageFor(model => model.WeightAfterUnloading)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.LabelFor(model => model.TransporterID, Html.Translate("Transporter")) <span class="required">*</span>
+                </td>
+                <td>
+                    @(Html.Telerik().ComboBox()
+           .Name("TransporterID")
+           .AutoFill(true)
+           .BindTo(new SelectList(Model.Transporters, "TransporterID", "Name", Model.TransporterID))
+           .HtmlAttributes(new { style = string.Format("width:{0}px", 200) })
+           .ClientEvents(ev => ev.OnChange("OnComChange"))
+           .Filterable(filtering =>
+                           {
+
+                               filtering.FilterMode(AutoCompleteFilterMode.Contains);
+
+                           })
+           .HighlightFirstMatch(true)
+           .AutoFill(true)
+           .OpenOnFocus(true)
+                          )
+                    @Html.AuditTrial("Receive", "TransporterID", Model.ReceiveID)
+                    @Html.ValidationMessageFor(model => model.TransporterID)
+                </td>
+                <td>
+                    @Html.LabelFor(model => model.DriverName, Html.Translate("Delivered By (Driver Name)")) <span class="required">*</span>
+                </td>
+                <td>
+                    @Html.EditorFor(model => model.DriverName)
+                    @Html.AuditTrial("Receive", "DriverName", Model.ReceiveID)
+                    @Html.ValidationMessageFor(model => model.DriverName)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.LabelFor(model => model.PlateNo_Prime, Html.Translate("Plate No Prime")) <span class="required">
+                                                                                                       *</span>
+                </td>
+                <td>
+                    @Html.EditorFor(model => model.PlateNo_Prime)
+                    @Html.AuditTrial("Receive", "PlateNo_Prime", Model.ReceiveID)
+                    @Html.ValidationMessageFor(model => model.PlateNo_Prime)
+                </td>
+                <td>
+                    @Html.LabelFor(model => model.PlateNo_Trailer, Html.Translate("Plate No Trailer"))
+                </td>
+                <td>
+                    @Html.EditorFor(model => model.PlateNo_Trailer)
+                    @Html.AuditTrial("Receive", "PlateNo_Trailer", Model.ReceiveID)
+                    @Html.ValidationMessageFor(model => model.PlateNo_Trailer)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.LabelFor(model => model.PortName, Html.Translate("Port Name"))
+                </td>
+                <td>
+                    @Html.EditorFor(model => model.PortName)
+                    @Html.AuditTrial("Receive", "PortName", Model.ReceiveID)
+                    @Html.ValidationMessageFor(model => model.PortName)
+                </td>
+                <td>
+                    @Html.LabelFor(model => model.VesselName, Html.Translate("Vessel"))
+                </td>
+                <td>
+                    @Html.EditorFor(model => model.VesselName)
+                    @Html.AuditTrial("Receive", "VesselName", Model.ReceiveID)
+                    @Html.ValidationMessageFor(model => model.VesselName)
+                </td>
+            </tr>
+           
+            <tr>
+                <td>
+                    @Html.LabelFor(model => model.Remark, Html.Translate("Remark"))<br />
+                </td>
+                <td colspan="3">
+                    @Html.EditorFor(model => model.Remark, new { cols = "60" })
+                    @Html.AuditTrial("Receive", "Remark", Model.ReceiveID)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                </td>
+                <td>
+                    <input type="submit" style="width: 80px; height: 25px;" class="t-button" value="@Html.Translate("Save")"
+                           onclick="return submitGridandData()" />
+                    <input type="reset" style="width: 80px; height: 25px;" class="t-button" value="@Html.Translate("Cancel")"
+                           onclick="cancel()" />
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+<script type="text/javascript">
+
+//    $(document).ready(function () {
+//        $.validator.unobtrusive.parse('#receiveDetail');
+//    });
+
+    function hideEdit(e) {
+        //if (e.dataItem.ReceiveDetailID >= 0) {
+        //if (e.dataItem.ReceiveDetailID > 0) {
+        if (e.dataItem.ReceiveDetailCounter > 0) {
+            $(e.row).find('a.t-grid-delete').remove();
+        } else {
+            var xcv = $(e.row).attr("id", "grid-row-receive" + e.dataItem.ReceiveDetailCounter);
+            //var xcv = $(e.row).attr("id", "grid-row-receive" + e.dataItem.ReceiveDetailID);
+        }
+     }
+
+
+    function storeChanged(e) {
+        //var combobox = $('#StoreID').data('tComboBox');
+        if (e.value != null && e.value != "") {
+            var url = '@Url.Action("StoreManName","Store")';//"/Store/StoreManName";
+            $.getJSON(url, { storeId: e.value }, function (name) {
+               if (name != "" )//|| $('#ReceivedByStoreMan').val(name) == "Please Specify") 
+                 $('#ReceivedByStoreMan').val(name);
+            });
+        }
+    }
+
+    var theParam;
+    function cancel() {
+        window.location = "@Url.Action("Index","Receive")';///Receive/";
+    }
+
+    function Grid_onRowSelect() {
+        var row = e.row;
+        $(row).attr('disabled', 'disabled');
+        $(row).find('t-grid-edit-cell t-widget t-combobox t-header t-dropdown-wrap t-state-default t-select t-header t-icon t-arrow-down').attr('disabled', 'disabled');
+
+    }
+
+    function onEdit(e) {
+        if ((e.mode == 'edit') && (e.dataItem.ReceiveDetailCounter > 0)) {
+            // $(e.row).find("td").click(function (edit) { edit.stopPropagation(); });       
+            //  $('t-grid-edit-cell t-widget t-combobox t-header t-dropdown-wrap t-state-default t-select t-header t-icon t-arrow-down').attr('disabled', 'disabled');
+            //  $(e.row).find('t-grid-edit-cell t-widget t-combobox t-header t-dropdown-wrap t-state-default t-select t-header t-icon t-arrow-down').attr('disabled', 'disabled');
+            //  $(e.row).find('td.t-last a.t-grid-action').attr('disabled', 'disabled');
+            // $('t-grid-edit-cell').attr('disabled', 'disabled');
+            // $('#Description').attr('disabled', 'disabled');
+            //e.dataItem.Readonly();
+            // var form = e.form;
+            //var mode = e.mode;
+
+            //if (mode == "edit") {
+            //var UnitID = form.UnitID; //Country is a public property of my Model
+            //UnitID.disabled = true;
+            //UnitID.Readonly();
+            // }
+            // var form = e.form;
+            // $(form).find("#UnitID").attr('disabled', 'disabled');
+
+            //console.warn($('#UnitID').data('tComboBox')
+            if ($('#CommodityID').data('tComboBox') != null) {
+                $('#CommodityID').data('tComboBox').disable();
+            }
+            if ($('#UnitID').data('tComboBox') != null) {
+                $('#UnitID').data('tComboBox').disable();
+            }
+            if ($('#CommodityGradeID').data('tComboBox') != null) {
+                $('#CommodityGradeID').data('tComboBox').disable();
+            }
+            $('#SentQuantityInUnit').attr('disabled', 'disabled');
+            $('#ReceivedQuantityInUnit').attr('disabled', 'disabled');
+            $('#SentQuantityInMT').attr('disabled', 'disabled');
+            //$('#SentQuantityInMT_qt').attr('disabled', 'disabled'); 
+            $('#ReceivedQuantityInMT').attr('disabled', 'disabled');
+            //$('#ReceivedQuantityInMT_qt').attr('disabled', 'disabled'); 
+        }
+        //SO FAnCY THAT WE CANT SUPPORT THIS
+//        if ((e.mode == 'edit') && (e.dataItem.ReceiveDetailID < 0)) {
+//            //check id the 
+//            $(e.cell).parent().attr("id", "grid-row-receive" + e.dataItem.ReceiveDetailID);
+//        }
+        //|| (e.mode == 'edit') && (e.dataItem.ReceiveDetailID < 0
+
+        if ((e.mode == 'insert') && (e.dataItem.ReceiveDetailCounter == 0)) {
+            var min = null;
+            var insertData = $.grep($('#Grid').data().tGrid.changeLog.inserted, function (toins) { return (toins); });
+            var gr = $('#Grid').data('tGrid').data;
+
+
+            $.each(gr, function (j) {
+                if (gr[j].ReceiveDetailCounter < min && (j == 0 || min == null)) {
+                    min = gr[j].ReceiveDetailCounter;
+                }
+            });
+            
+            $.each(insertData, function (i) {
+                if ((insertData[i].ReceiveDetailCounter < min) || (i == 0 && min == null)) {
+                    min = insertData[i].ReceiveDetailCounter;
+                }
+            });
+
+            if(min == null){
+                e.dataItem.ReceiveDetailCounter = -1;
+            }
+            else{
+                e.dataItem.ReceiveDetailCounter = min - 1;
+            }
+            var xcv = $(e.cell).parent().attr("id", "grid-row-receive" + e.dataItem.ReceiveDetailCounter);
+            //$('#Grid').attr('style', 'border : none');
+            $('#gridEmptyError').hide();
+           
+        }
+        
+    }
+    
+    function parseJsonDate(jsonDate) {
+        var offset = new Date().getTimezoneOffset() * 60000;
+        var parts = /\/Date\((-?\d+)([+-]\d{2})?(\d{2})?.*/.exec(jsonDate);
+
+        if (parts[2] == undefined)
+            parts[2] = 0;
+
+        if (parts[3] == undefined)
+            parts[3] = 0;
+
+        return new Date(+parts[1] + offset + parts[2] * 3600000 + parts[3] * 60000);
+    }
+
+    function showtable(e) {
+
+            var SelectedComm = $(e).attr('data-id');
+            var req = $('#commodityList :selected');
+            SelectedComm = req.val();
+            $('.classCommodity table').addClass('hideTable');
+            $('#commodity' + SelectedComm).removeAttr('style','display:none');
+            $('#commodity' + SelectedComm).removeClass('hideTable');
+    
+        return true;
+    }
+
+    function showTheRespectivefeilds() {
+        $.validator.unobtrusive.parse('form');
+        if ($('#CommoditySourceID').val() == '@Cats.Models.Hubs.CommoditySource.Constants.DONATION'){
+            $('#donationAndPurchaseFields').show();
+            $('#PurchaseFeilds').hide();
+            $('.SourceHubDonation').hide();
+
+            //$('#SourceDonorID').rules("add", "required");
+            $('#ResponsibleDonorID').rules("add", "required");
+
+            //from other
+            $('#SourceHubID').rules("remove");
+
+            //from purchase
+            $('#PurchaseOrder').rules("remove");
+            $('#SupplierName').rules("remove");
+            
+        } else if ($('#CommoditySourceID').val() == '@Cats.Models.Hubs.CommoditySource.Constants.LOCALPURCHASE') {
+            $('#donationAndPurchaseFields').show();
+            $('#PurchaseFeilds').show();
+            $('.SourceHubDonation').hide();
+
+            //from purchase
+            $('#PurchaseOrder').rules("add", "required");
+            $('#SupplierName').rules("add", "required");
+
+            //$('#SourceDonorID').rules("add", "required");
+            $('#ResponsibleDonorID').rules("add", "required");
+
+            //from other
+            $('#SourceHubID').rules("remove");
+            
+        } else {
+            $('.SourceHubDonation').show();
+            $('#PurchaseFeilds').hide();
+            $('#donationAndPurchaseFields').hide();
+
+            $('#SourceHubID').rules("add", "required");
+
+            //from purchase
+            $('#PurchaseOrder').rules("remove");
+            $('#SupplierName').rules("remove");
+            
+            //from donation
+            //$('#SourceDonorID').rules("remove");
+            $('#ResponsibleDonorID').rules("remove");
+        }
+
+    }
+
+    $(function () {
+
+        $('#GRN').change(function () {
+            if ($(this).val() != "") {
+
+                isReceiveNull($('#GRN').val());
+            }
+        });
+
+        $('#ReceivedByStoreMan').change(function () {
+            if ($(this).val() != "" && $('#StoreID').attr('disabled') != "disabled") {
+
+                $("<div id='Dialog_Store_Man'><strong>Are you sure you want to change the Store Man Permanently ?</strong><br/>Press Cancel for changes to the current receipt only, Press yes to change the store man Permanently.</div>").dialog({
+                    autoOpen: true,
+                    modal: true,
+                    title: "Confirm Pemanent Change Of Store Man",
+                    content: "",
+                    buttons: {
+                        "Yes": function () {
+                            $('#ChangeStoreManPermanently').val(true);
+                            $(this).dialog("close");
+                        },
+                        "Cancel": function () {
+                            $('#ChangeStoreManPermanently').val(false);
+                            $(this).dialog("close");
+                        }
+                    }
+                });
+            }
+        });
+        
+        showTheRespectivefeilds();
+        
+       if ($('#SINumber').val() != "") {
+            loadDataBySI($('#SINumber').val());
+       }
+
+        $('#ProjectNumber').change(function () {
+            if ($(this).val() != "") {
+                $('#projectError').hide();
+            }
+        });
+
+        //        $('#CommoditySourceID').data('tComboBox').change(function () {
+        //            showTheRespectivefeilds();
+        //        });
+
+        $('#SINumber').change(function () {
+            if ($(this).val() != "" && $('#SINumber').attr('readonly') == null) {
+                loadDataBySI($('#SINumber').val());
+            }
+        });
+
+        wireUpAuditLinks();
+        function onThobberLoad(e) {
+            //var x = 
+        }
+        //            $('#StoreID-input').cascade({
+        //                url: '/Store/StackNumbers/',
+        //                paramName: 'storeId',
+        //                childSelect: $('#StackNumber')
+        //            });
+    });
+
+    function OnComError() { }
+    function OnComOpen() {
+
+    }
+    function OnSubCommodityGridLoad(e) {
+    var combo = $('#CommodityID').data('tComboBox');
+    if (combo) {
+    }
+    var control = $('#CommodityID').data('tComboBox');
+        if(control != undefined || control != null) {
+            control.dropDown._html = function(items, encode) {
+                var sb = new $.telerik.stringBuilder();
+                if (!items)
+                    return sb.string();
+
+                for (var i = 0, count = items.length; i < count; i++) {
+                    var html = " ", item = items[i];
+                    html = item.Text; // +"<small style='display: block'>" + item.Text + "</small>";
+                    var obj = { html: html, dataItem: item };
+                    if (this.onItemCreate) {
+                        this.onItemCreate(obj);
+                    }
+                    if (!(item.unselectable)) {
+                        sb.cat('<li unselectable="on" class="t-item" style="background : #ccc">').cat(obj.html).cat("</li>");
+                    } else {
+                        sb.cat('<li unselectable="on" class="t-item" style="padding-left : 10px;" >').cat(obj.html).cat("</li>");
+                    }
+                }
+
+                return sb.string();
+            };
+        }
+    }
+    function OnComDataBound(e) {
+
+//        var list = $(this).data("tComboBox").dropDown.$element.find("li");
+//        $.each(list, function (i) {
+//            if ($(list[i]).text().search('--') == -1) {
+//                $(list[i]).addClass('parent');
+//                $(list[i]).attr("unselectable", "off");
+//                $(list[i]).attr('style', 'background : #ccc');
+//            }
+//        });
+
+
+    }
+    function OnComClose() {
+
+    }
+
+    var theElement;
+    function OnComChange(e) {
+        //  console.warn("event fired on cha(nge  ");
+        theElement = e;
+        if (e.target != undefined) {
+            $(e.target).valid();
+        }
+        $(this).valid();
+    }
+    
+    function OnCommodityTypeChange(e) {
+      //  OnCommodityTypeChange(e);
+        OnCommodityTypeChangeValue(e.value);
+    }
+    
+    function OnCommodityTypeChangeValue(val) {
+            if(val == 1 ) {
+            var gr = $('#Grid').data('tGrid');
+            if(gr!=null) {
+                gr.showColumn(5);
+                gr.showColumn(6);
+            }
+
+        }else if(val == 2 ){
+            var gr = $('#Grid').data('tGrid');
+            if(gr!=null) {
+                gr.hideColumn(5);
+                gr.hideColumn(6);
+            }
+        }
+    
+    }
+
+    function onColumnHidden(sender) {
+        var masterTableView = sender.get_masterTableView().get_element();
+        masterTableView.style.tableLayout = "auto";
+        window.setTimeout(function () { masterTableView.style.tableLayout = "fixed"; },0);
+    }
+
+    function OnCommodityChange() {
+
+    }
+    function onComBinding() {
+    }
+
+    function OnComOpen(e) {
+        var combo = $('#CommodityID').data('tComboBox');
+        var comboType = $('#CommodityTypeID').data('tComboBox').value();
+        if (combo) {
+            var siText = $('#SINumber');
+            if (siText) { // && $(siText).val() != '') {
+
+                var params = {};
+                params["SINumber"] = $(siText).val();
+                params["commodityTypeId"] = comboType;
+                params["receiptAllocationID"] = $('#ReceiptAllocationID').val();
+                params["CommoditySourceID"] = $('#CommoditySourceID').val();
+                $.getJSON('@Url.Action("AvailbaleCommodities", "Receive")', params, function (comodities) {
+                    combo.dataBind(comodities);
+                });
+            }
+        }
+    }
+
+    function loadDataBySI(SINumber) {
+        var params = {};
+        params['SINumber'] = SINumber;
+        params["receiptAllocationID"] = $('#ReceiptAllocationID').val();
+        params["CommoditySourceID"] = $('#CommoditySourceID').val();
+        if ($('#SINumber').val() != "" && $('#SINumber').attr('readonly') == null) {
+
+            $.getJSON('@Url.Action("LoadDataBySI", "Receive")', params, function (results) {
+                $('#ajax_loading').hide();
+                //$('#si-balance').hide(); 
+                wireUpAuditLinks();
+                
+                if ($('#ResponsibleDonorID').data('tComboBox').value() == null && results.ResponsibleDonorID != null)
+                    $('#ResponsibleDonorID').data('tComboBox').value(results.ResponsibleDonorID);
+                
+                if ( $('#SourceDonorID').data('tComboBox').value() == null && results.SourceDonorID != null)
+                    $('#SourceDonorID').data('tComboBox').value(results.SourceDonorID);
+                
+                if ( $('#SourceHubID').data('tComboBox').value() == null && results.SourceHubID != null)
+                    $('#SourceHubID').data('tComboBox').value(results.SourceHubID);
+
+                if ($('#PurchaseOrder') != undefined) {
+                    $('#PurchaseOrder').val(results.PurchaseOrder);
+                }
+
+                if ($('#SupplierName') != undefined) {
+                    $('#SupplierName').val(results.SupplierName);
+                }
+
+                if ( $('#ProgramID').data('tComboBox').value() == null && results.ProgramID != null)
+                    $('#ProgramID').data('tComboBox').value(results.ProgramID);
+                
+               if ( $('#CommodityTypeID').data('tComboBox').value() == null && results.CommodityTypeID != null)
+                    $('#CommodityTypeID').data('tComboBox').value(results.CommodityTypeID);
+                
+                $('#WayBillNo').val(results.WayBillNo);
+
+                if (results.ProjectCode != null) {
+                    $('#projectError').hide();
+                    $('#ProjectNumber').val(results.ProjectCode);
+                    $('#ProjectNumber').attr('readonly', 'readonly');
+                }
+                else {
+                    $('#si-balance').hide();
+                    $('#projectError').show();
+                    $('#ProjectNumber').removeAttr('readonly');
+                    $('#ProjectNumber').val("");
+                }
+                params["receiptAllocationID"] = $('#ReceiptAllocationID').val();
+                $.getJSON('@Url.Action("AllocationStatus", "Receive")', params, function (result) {
+                    if (result != null && result.length > 0) {
+
+                        var links = 'Avaliable Commoditites';
+                        if (result.length <= 1) {
+                            links += "<select id='commodityList' onChange='showtable()'  size=" + result.length + ">";
+                        } else {
+                            links += "<select id='commodityList' onChange='showtable()'  size='1'>";
+                        }
+                        var str = "";
+                        $.each(result, function (i) {
+                            if (i == 0) {
+                                links += '<option selected="selected" value=' + i + ' >' + result[i].commodity + '</option>';
+                            } else {
+                                links += '<option value=' + i + ' >' + result[i].commodity + '</option>';
+                            }
+                            if (i == 0) {
+                                str += "<table id='commodity" + i + "' ><tr><td style='width:130px;'>Commodity</td> <td style='width:100px;'><b>" + result[i].commodity + "</b></td></tr><tr><td>Allocated In "+ (result[i].mesure)+ "</td><td style='font-weight:bold;text-align:right'> " + formatNumber( (result[i].totalAllocation*result[i].multiplier).toFixed(3)) +
+                                    "</td></tr><tr><td>Received so far</td><td style='font-weight:bold;text-align:right'>" + formatNumber((result[i].receivedAllocation*result[i].multiplier).toFixed(3)) +
+                                        "</td></tr><td>Remainig</td><td style='font-weight:bold;text-align:right'>" + formatNumber((result[i].remainingAllocation*result[i].multiplier).toFixed(3)) + "</td></tr></table>";
+                            } else {
+                                str += "<table id='commodity" + i + "' style='display:none;margin:4px;' class='hideTable'><tr><td style='width:130px;'>Commodity</td> <td style='width:100px;'><b>" + result[i].commodity + "</b></td></tr><tr><td >Allocated Qty " + (result[i].mesure) + "</td><td style='font-weight:bold;text-align:right'> " + formatNumber((result[i].totalAllocation * result[i].multiplier).toFixed(3)) +
+                                    "</td></tr><tr><td>Received so far</td><td style='font-weight:bold;text-align:right'>" + formatNumber((result[i].receivedAllocation*result[i].multiplier).toFixed(3)) +
+                                        "</td></tr><td>Remainig</td><td style='font-weight:bold;text-align:right'>" + formatNumber( (result[i].remainingAllocation*result[i].multiplier).toFixed(3)) + "</td></tr></table>";
+                            }
+
+                        });
+                        str = "<div style='margin:5px;' class='classCommodity'>" + str + "</div>";
+                        links += '</select> <br/>';
+                        $('#si-balance').html(links + str);
+                        $('#si-balance').show();
+
+                    }
+                    else if (result != null || result.length == 0) {
+                        $('#si-balance').html("No Allocations were found for the given SI number");
+                        $('#si-balance').show();
+                    }
+                });
+                //$('form').valid();
+            });
+        } else {
+            $('#si-balance').hide();
+            // $('#projectError').show();
+            // $('#ProjectNumber').val("");
+        }
+        //onComBinding();
+    }
+
+
+
+</script>

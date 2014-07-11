@@ -1,0 +1,78 @@
+﻿@model IEnumerable<Cats.Models.HubAllocation>
+
+@{
+    ViewBag.Title = "HubAllocationDetail";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+<div class="well"> 
+    <h2>Hub Allocation Detail</h2>
+</div>
+
+@section LeftBar
+{
+   @* @Html.Partial("~/Areas/Logistics/Views/ProjectAllocation/_HubAllocatedRequisitons.cshtml", ViewData["RequisitionList"])*@
+
+    @using (Html.BeginForm("HubAllocationDetail", "ProjectAllocation", FormMethod.Post))
+    {
+        <div class="control-group">
+            <label class="control-label">Region</label>
+            <div class="controls">
+                     @Html.DropDownList("HubId")
+            </div>
+        </div>
+        <div class="control-group">
+            <div class="controls">
+                <input type="submit" value="Filter" class="btn btn-primary"/>
+            </div>
+        </div> 
+    }
+}
+    <table class="table table-bordered table-condensed table-striped">
+        
+        <tr>
+            <th>
+                Requisition Number
+            </th>
+            <th>
+                Hub
+            </th>
+            <th>
+                Commodity
+            </th>
+            <th>
+                Requested Quantity
+            </th>
+            <th>
+                Date Hub Allocated 
+            </th>
+               
+        </tr>
+        @{ int index = 0; }
+        
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RequisitionID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.HubID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.HubAllocationID)
+                </td>
+                <td>
+                    @*@Html.DisplayFor(modelItem => item.)*@
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AllocationDate)
+                </td>
+                <td>
+                    <input type="hidden" value="@item.HubAllocationID" name="@("input[" + index + "].Number")" />
+                </td>
+                <td>
+                    @Html.ActionLink("Project/SI", "ProjectCodeAllocation" ,"ProjectAllocation", new { id=item.HubAllocationID }, null)
+            </tr>
+            index++;
+        }
+    </table>

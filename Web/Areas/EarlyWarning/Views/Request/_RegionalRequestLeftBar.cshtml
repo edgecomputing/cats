@@ -1,0 +1,28 @@
+﻿@using Cats.Helpers
+@using Cats.Models.Constant
+@using Cats.Security
+@using Cats.Services.Security
+<ul class="nav nav-list">
+
+    <li>
+        @Html.EarlyWarningOperationButton(
+                        @Url.Action("Index", "Request", new{id=(int)RegionalRequestStatus.Draft}),
+                        EarlyWarningConstants.Operation.View_Draft_requests, "<i class=\"icon-inbox\"></i> Draft ")
+    </li>
+    <li>
+        @Html.EarlyWarningOperationButton(
+                        @Url.Action("Index", "Request", new{id=(int)RegionalRequestStatus.Approved}),
+                        EarlyWarningConstants.Operation.View_submitted_requests, "<i class=\"icon-envelope\"></i> Submited ")
+    </li>
+    <li>
+        @Html.EarlyWarningOperationButton(
+                        @Url.Action("Index", "Request", new{id=(int)RegionalRequestStatus.FederalApproved}),
+                        EarlyWarningConstants.Operation.View_Approved_Request, "<i class=\"icon-check-sign\"></i> Approved ")
+    </li>
+    <li>
+        @Html.EarlyWarningOperationButton(
+                        @Url.Action("Index", "Request", new{id=-1}),
+                        EarlyWarningConstants.Operation.View_request, "<i class=\"icon-list-ul\"></i> All ")
+    </li>
+   
+</ul>

@@ -1,0 +1,414 @@
+﻿@using System.Collections
+@using Cats.Areas.EarlyWarning.Models
+@model System.Data.DataTable
+@using Cats.Helpers
+@using Cats.Services.Security
+@using Kendo.Mvc.UI
+
+@{
+    ViewBag.Title = "Regional Relief Requests";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+@{
+    var modelRequest = (RegionalRequestViewModel)ViewData["Request_main_data"];
+}
+
+@{
+    //var user = (UserIdentity)System.Web.HttpContext.Current.User.Identity;
+    //var unit = user.Profile.PreferedWeightMeasurment;
+}
+
+@section Toolbar
+{
+    @* <div class="btn-group" style="margin-right:8px;">
+        <button class="btn">Action</button>
+        @{
+            <button class="btn dropdown-toggle " data-toggle="dropdown">
+                <span class="caret"></span>
+            </button>
+        }
+
+
+        <ul class="dropdown-menu">
+            
+            @if (modelRequest.StatusID == (int)Cats.Models.Constant.RegionalRequestStatus.Draft)
+            {
+         
+                <li><a href="@Url.Action("Edit", "Request", new { Area = "EarlyWarning", id = modelRequest.RegionalRequestID })">Edit</a></li>
+                <li><a href="@Url.Action("Allocation", "Request", new { Area = "EarlyWarning", id = modelRequest.RegionalRequestID })">Allocation</a></li>
+                <li><a href="@Url.Action("ApproveRequest", "Request", new { id = modelRequest.RegionalRequestID })">Approve</a></li>
+            }
+
+
+            <li><a href="#"></a></li>
+        </ul>
+
+    </div>*@
+    @*<a class="btn toolbar-btn " href="@Url.Action("Index", "Request", new { Area = "EarlyWarning" })" data-buttontype="btn_back_to_list"></a>*@
+
+    <div class="btn-group">
+        <button class="btn">Action</button>
+        @{
+            <button class="btn dropdown-toggle " data-toggle="dropdown">
+                <span class="caret"></span>
+            </button>
+        }
+
+        <ul class="dropdown-menu">
+            @*<li><a id="btnAddFDP"  href="@Url.Action("AddBeneficary", "Request", new { id = modelRequest.RegionalRequestID })" >ADD FDP </a></li>*@
+            @if (modelRequest.StatusID == (int)Cats.Models.Constant.RegionalRequestStatus.Draft)
+            {
+                <li><a href="@Url.Action("Edit", "Request", new { Area = "EarlyWarning", id = modelRequest.RegionalRequestID })">Edit</a></li>
+                <li><a href="@Url.Action("Allocation", "Request", new { Area = "EarlyWarning", id = modelRequest.RegionalRequestID })">Allocation</a></li>
+                <li><a href="@Url.Action("ApproveRequest", "Request", new {id = modelRequest.RegionalRequestID})">Approve</a></li>
+                
+                
+            }
+            @if (modelRequest.StatusID == (int)Cats.Models.Constant.RegionalRequestStatus.Approved && modelRequest.ProgramId == 3)
+            {
+                <li><a id = "btnEditPlan" href="@Url.Action("CreateRequisitionForIDPS", "ReliefRequisition", new { Area = "EarlyWarning", id = modelRequest.RegionalRequestID, programId = modelRequest.ProgramId })"><i class="icon-plus"></i>IDPS Requisiton</a></li>                       
+            }
+            else if (modelRequest.StatusID == (int)Cats.Models.Constant.RegionalRequestStatus.Approved)
+            {
+                <li><a href="@Url.Action("CreateRequisiton", "ReliefRequisition", new { Area = "EarlyWarning", id = modelRequest.RegionalRequestID })"><i class="icon-plus"></i>Requisiton</a></li>
+            }
+        </ul>
+
+    </div>
+
+    @* @if (modelRequest.StatusID == (int)Cats.Models.Constant.RegionalRequestStatus.Approved)
+    {
+        <a class="btn toolbar-btn "   href="@Url.Action("CreateRequisiton", "ReliefRequisition", new { Area = "EarlyWarning", id = modelRequest.RegionalRequestID })" data-buttontype=""><i class="icon-plus"></i>Requisiton</a>
+    }*@
+
+
+}
+<script type="text/javascript">
+    $(function () {
+
+        //Optional: turn the chache off
+        $.ajaxSetup({ cache: false });
+
+        $('#btnEditPlan').click(function () {
+
+            // alert("");
+            $('#dialogContent').load(this.href, function () {
+                $('#dialogDiv').modal({
+                    backdrop: 'static',
+                    keyboard: true
+                }, 'show');
+                //bindForm(this);
+            });
+            return false;
+        });
+
+        $('#btnAddFDP').click(function () {
+
+            // alert("");
+            $('#dialogContent').load(this.href, function () {
+                $('#dialogDiv').modal({
+                    backdrop: 'static',
+                    keyboard: true
+                }, 'show');
+                //bindForm(this);
+            });
+            return false;
+        });
+    });
+
+
+</script>
+
+<div id='dialogDiv' class='modal hide fade in'>
+    <div id='dialogContent'></div>
+</div>
+
+@if (ViewBag.message != null)
+{
+    <div class="alert alert-success">
+        @ViewBag.message
+    </div>
+}
+
+@if(ViewBag.msg!=null)
+{
+    <div class="alert alert-error">
+        @ViewBag.msg
+    </div>
+}
+<h4 class="page-header">Regional Request Detail</h4>
+
+<div class="control-group form-horizontal well">
+    <div class="row">
+        <div class="span4">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(m => modelRequest.ReferenceNumber)
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(m => modelRequest.ReferenceNumber, new { Disabled = true })
+                </div>
+            </div>
+        </div>
+        <div class="span4">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(m => modelRequest.Program)
+                    @*@Html.Label(Html.Translate("Dispatch Date"),new { @class = "cats-date-pref" })*@
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(m => modelRequest.Program, new { Disabled = true })
+                    @*<td>
+    <b>@Html.Translate("Year"):</b>
+    @modelRequest.Year*@
+                </div>
+            </div>
+        </div>
+        
+        <div class="span4">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(m => modelRequest.RequestedBy)
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(m => modelRequest.RequestedBy, new { Disabled = true })
+                </div>
+            </div>
+        </div>
+        @* <div class="span3">
+            <div style="float: right">
+                
+            </div>
+        </div>*@
+    </div>
+    <div class="row">
+        <div class="span4">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(m => modelRequest.Region)
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(m => modelRequest.Region, new { Disabled = true })
+                </div>
+            </div>
+        </div>
+        <div class="span4">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(m => modelRequest.MonthName)
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(m => modelRequest.MonthName, new { Disabled = true })
+                </div>
+            </div>
+        </div>
+        
+        <div class="span4">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(m => modelRequest.ApprovedBy)
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(m => modelRequest.ApprovedBy, new { Disabled = true })
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span4">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(m => modelRequest.RequestDate)
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(m => modelRequest.RequestDate, new { Disabled = true, @class = "cats-date-pref" })
+                </div>
+            </div>
+        </div>
+        <div class="span4">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.Label("Year(EC)")
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(m => modelRequest.Year, new { Disabled = true })
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span4">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(m => modelRequest.Status)
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(m => modelRequest.Status, new { Disabled = true })
+                </div>
+            </div>
+        </div>
+
+        <div class="span4">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(m => modelRequest.Ration)
+                </div>
+                <div class="controls">
+                    <div>
+                        @Html.TextBoxFor(m => modelRequest.Ration, new { Disabled = true })
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <a id="pop"
+                class="btn btn-sm"
+                href="#"
+                data-original-title="Ration Detail">
+                <i class="icon-question-sign"></i>
+            </a>
+        </div>
+    </div>
+</div>
+
+
+@*<div id='dialogDiv' class='modal hide fade in'>
+    <div id='dialogContent'></div>
+</div>*@
+
+@(Html.Kendo().Grid(Model)
+    .Name("Grid")
+    .Columns(columns =>
+    {
+        foreach (System.Data.DataColumn column in Model.Columns)
+        {
+            if (column.DataType == typeof(decimal))
+            {
+                columns.Bound(column.ColumnName).HtmlAttributes(new { align = "right" }).Format("{0:N2}");
+                //.HeaderHtmlAttributes(new { @class = "cats-unit-pref-grid" })
+
+            }
+            else if (column.DataType == typeof(int))
+            {
+                columns.Bound(column.ColumnName).HtmlAttributes(new { align = "right" });
+
+            }
+            else
+            {
+                columns.Bound(column.ColumnName);
+            }
+
+        }
+    })
+    .Sortable()
+    .Scrollable()
+    .Groupable()
+
+      )
+
+<script >
+    
+    var tblbody;
+    
+    $("#pop").popover({
+        placement: 'right', //placement of the popover. also can use top, bottom, left or     right
+        html: 'true', //needed to show html of course
+        content: gett(this),// hope this should be link
+        trigger: 'hover'
+    });
+
+
+    
+
+   
+   function gett(t) {
+        
+       $.ajax({
+            async:false,
+            type: "POST",
+            url: "@Url.Action("RationDetail", "Ration")",
+           data: "{id:'@modelRequest.RationID'}",
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+
+            success: function (data) {
+                tblbody = "<table>";
+                for (var i = 0; i < data.length; i++) {
+                    //tblbody += "<table>";
+                    tblbody += "<tr>";
+                    tblbody += "<td>" + data[i].Name + "</td>";
+                    tblbody += "<td>" + data[i].Amount + "</td>";
+                    tblbody += "</tr>";
+                }
+                tblbody += "</table>";
+             
+            },
+           
+        });
+       return tblbody;
+    };
+   
+
+    function error_handler(e) {
+        if (e.errors) {
+            var message = "Errors:\n";
+            $.each(e.errors, function (key, value) {
+                if ('errors' in value) {
+                    $.each(value.errors, function () {
+                        message += this + "\n";
+                    });
+                }
+            });
+            //alert(message);
+        }
+    }
+
+
+    function onDataBound(e) {
+       
+        check_planned();
+        var grid = $("#grid").data("kendoGrid");
+        $(grid.tbody).on("change", "td", function (e) {
+
+            var row = $(this).closest("tr");
+            var rowIdx = $("tr", grid.tbody).index(row);
+            update_ui(rowIdx, row);
+        }
+        );
+    }
+
+    function update_ui(rowIdx, row) {
+        var grid = $("#grid").data("kendoGrid");
+        var firstItem = $('#grid').data().kendoGrid.dataSource.data()[rowIdx];
+        var plannedBeneficiaries = firstItem.get('PlannedBeneficiaries');
+        var beneficiaries = firstItem.get('Beneficiaries');
+
+        alert("planned: " + plannedBeneficiaries);
+        alert("Benefi : " + beneficiaries);
+        if (plannedBeneficiaries < beneficiaries) {
+            row.addClass("surplus");
+        } else {
+            row.removeClass("surplus");
+        }
+    }
+
+    function check_planned() {
+        var grid = $("#grid").data("kendoGrid");
+        var rowIdx = 0;
+        $(grid.tbody).find("tr").each(function () {
+            //$(this).addClass("surplus");
+            update_ui(rowIdx, $(this));
+            rowIdx++;
+        });
+    }
+</script>
+
+<style>
+    .surplus * {
+        color: red;
+    }
+
+    .surplus {
+        color: red;
+    }
+</style>

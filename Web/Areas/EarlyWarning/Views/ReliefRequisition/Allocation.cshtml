@@ -1,0 +1,312 @@
+﻿@using System.Collections
+@using Cats.Areas.EarlyWarning.Models
+@using Cats.Models
+@model Cats.Areas.EarlyWarning.Models.ReliefRequisitionViewModel
+@using Cats.Services.Security
+@using Cats.Helpers;
+@using Kendo.Mvc.UI
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";    
+}
+@{
+    
+    var user = (UserIdentity)System.Web.HttpContext.Current.User.Identity;
+    var unit = user.Profile.PreferedWeightMeasurment;
+}
+@section Toolbar
+{
+    <a class="btn toolbar-btn " data-buttontype="btn_back_to_list" href="@Url.Action("Index", "ReliefRequisition")"></a>
+    @if (Model.StatusID == (int)Cats.Models.Constant.ReliefRequisitionStatus.Draft)
+    {
+        <a class="btn toolbar-btn " data-buttontype="btn_edit" href="@Url.Action("Edit", "ReliefRequisition", new { id = Model.RequisitionID })"></a>
+
+        <a href="@Url.Action("SendToLogistics", "ReliefRequisition", new { id = Model.RequisitionID })" class="btn toolbar-btn btn-Approve-allocation"><i class=""></i>Approve</a>
+    }
+}
+
+@{
+    if (Model!=null)
+    {
+        if (Model.ProgramID == 3 ) //i.e. IDPS
+        {
+            <h5 class="page-header">   @Html.DisplayFor(model => model.Program) Requisition Resource Allocation </h5>
+        }
+        else
+        {
+            <h5 class="page-header">Monthly   @Html.DisplayFor(model => model.Program) Requisition Resource Allocation </h5>
+        }
+    }
+}
+
+        
+
+<div id='dialogDiv' class='modal hide fade in'>
+    <div id='dialogContent'></div>
+</div>
+<div class="row-fluid form-horizontal  ">
+    <div class="well  span12 ">
+        <div class="span5">
+            <div class="control-group">
+                <div class="control-label">@Html.DisplayNameFor(model => model.RequisitionNo)</div>
+                <div class="controls">
+                    @Html.TextBoxFor(model => model.RequisitionNo, new { disabled = "true" })
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="control-label">@Html.DisplayNameFor(model => model.Region)</div>
+                <div class="controls">@Html.TextBoxFor(model => model.Region, new { disabled = "true" })</div>
+            </div>
+            <div class="control-group">
+                <div class="control-label">@Html.DisplayNameFor(model => model.Zone)
+                </div>
+                <div class="controls">@Html.TextBoxFor(model => model.Zone, new { disabled = "true" })</div>
+            </div>
+            <div class="control-group">
+                <div class="control-label">@Html.DisplayNameFor(model => model.Commodity)
+                </div>
+                <div class="controls">@Html.TextBoxFor(model => model.Commodity, new { disabled = "true" })</div>
+            </div>
+            
+            <div class="control-group">
+                <div class="control-label">@Html.DisplayNameFor(model => model.Ration)</div>
+                <div class="controls">@Html.TextBoxFor(model => model.Ration, new { disabled = "true" })
+                    
+                   
+
+                </div>
+                
+            </div>
+             
+           
+        </div>
+        <div class="span5">
+            @if (Model.ProgramID == 1)
+            {
+                <div class="control-group">
+                    <div class="control-label">@Html.DisplayNameFor(model => model.Round)
+                    </div>
+                    <div class="controls">@Html.TextBoxFor(model => model.Round, new {disabled = "true"})</div>
+                </div>
+            }
+            else if (Model.ProgramID == 2)
+            {
+                <div class="control-group">
+                    <div class="control-label">@Html.DisplayNameFor(model => model.Month)
+                    </div>
+                    <div class="controls">@Html.TextBoxFor(model => model.Month, new { disabled = "true" })</div>
+                </div>
+            }
+            <div class="control-group">
+                <div class="control-label">@Html.LabelFor(model => model.RequestedDateEt, new { @class = "cats-date-pref" })
+                </div>
+                <div class="controls">@Html.TextBoxFor(model => model.RequestedDateEt, new { disabled = "true" })</div>
+            </div>
+            <div class="control-group">
+                <div class="control-label">@Html.DisplayNameFor(model => model.Program)
+                </div>
+                <div class="controls">@Html.TextBoxFor(model => model.Program, new { disabled = "true" })</div>
+            </div>
+            <div class="control-group">
+                <div class="control-label">
+                    Status
+                </div>
+                <div class="controls">@Html.TextBoxFor(model => model.Status, new { disabled = "true" })</div>
+            </div>
+            
+            @*@if (Model.StatusID == (int)Cats.Models.Constant.ReliefRequisitionStatus.Draft)
+        { 
+            @Html.ActionLink("Edit", "Edit", new { id = Model.RequisitionID })
+        
+        }
+        @if (Model.StatusID == (int)Cats.Models.Constant.ReliefRequisitionStatus.Draft)
+        {  @Html.ActionLink("Approve", "SendToLogistics", new { id = Model.RequisitionID }) 
+                                         @Html.ActionLink("Approve", "SendToLogistics", new { id = Model.RequisitionID }) 
+        
+        }*@
+            <div class="control-group"> <a id="pop"
+                          class="btn btn-sm"
+                          href="#"
+                          data-original-title="Ration Detail">
+                           <i class="icon-question-sign"></i>
+                       </a>
+
+                </div>
+        </div>
+
+    </div>
+    
+
+</div>
+
+
+@section LeftBar
+{
+    @Html.Partial("_RequistionsLeftBar")
+
+}
+<div style="color: lightgray"></div>
+
+@(Html.Kendo().Grid<ReliefRequisitionDetailViewModel>()
+    .Name("grid")
+    .Columns(columns =>
+    {
+        columns.Template(t => { }).Title("No").ClientTemplate("#= renderNumber(data) #").Width(50);
+        columns.Bound(p => p.Zone).Width(100).HtmlAttributes(new { style = "background-color:lightgray" });
+        columns.Bound(p => p.Woreda).Width(100).HtmlAttributes(new { style = "background-color:lightgray" });
+        columns.Bound(p => p.FDP).Width(100).HtmlAttributes(new { style = "background-color:lightgray" });
+        //columns.Bound(p => p.Donor).Width(100).HtmlAttributes(new { style = "background-color:lightgray" });
+        //columns.Bound(p => p.Commodity).Width(100).HtmlAttributes(new { style = "background-color:lightgray" });
+        //columns.ForeignKey(p => p.Donor, (IEnumerable<Cats.Models.Donor>)ViewData["donors"], "DonorID", "Name").Width(200);
+        if (Model.ProgramID == 2)
+        {
+            columns.ForeignKey(p => p.DonorID, (IEnumerable) ViewData["donors"], "DonorID", "Name").Title("Donor").Width(100);
+        }
+        columns.Bound(p => p.BenficiaryNo).Width(100).HtmlAttributes(new { align = "right" }).Format("{0:n0}");
+        columns.Bound(p => p.Amount).Width(100).HtmlAttributes(new { style = "background-color:lightgray", align = "right" }).Format("{0:n2}").HeaderHtmlAttributes(new { @class = "cats-unit-pref-grid" });
+        if (Model.ProgramID == 2)
+        {
+            columns.Bound(p => p.Contingency).Width(100).HtmlAttributes(new { style = "background-color:lightgray", align = "right" }).Format("{0:n2}").HeaderHtmlAttributes(new { @class = "cats-unit-pref-grid" });
+        }
+        columns.Bound(p => p.RationAmount).Hidden(true);
+    })
+    .ToolBar(toolbar => toolbar.Save())
+    .Editable(editable => editable.Mode(GridEditMode.InCell))
+        //.Pageable()
+    .Selectable(t => t.Mode(GridSelectionMode.Single))
+        // .Sortable()
+    .Navigatable()
+    .Scrollable()
+    .HtmlAttributes(new { style = "height:430px;" })
+        // .Events(ev => ev.DataBound("resetRowNumber"))
+      .Events(ev => ev.DataBound("onDataBound"))
+    .DataSource(dataSource => dataSource
+        .Ajax()
+        .PageSize(20)
+        .Events(events => events.Change("onGridKeydown"))
+            .Model(model =>
+            {
+                model.Id(p => p.RequisitionDetailID);
+                model.Field(detail => detail.FDP).Editable(false);
+                model.Field(detail => detail.Zone).Editable(false);
+                model.Field(detail => detail.Woreda).Editable(false);
+                model.Field(detail => detail.Commodity).Editable(false);
+                model.Field(detail => detail.Donor).Editable(false);
+                //model.Field(detail => detail.Contingency).Editable(false);
+            })
+        .Create(update => update.Action("Allocation_Create", "ReliefRequisition"))
+        .Read(read => read.Action("Allocation_Read", "ReliefRequisition", new { id = Model.RequisitionID }))
+        .Update(update => update.Action("Allocation_Update", "ReliefRequisition"))
+        .Destroy(update => update.Action("Allocation_Destroy", "ReliefRequisition"))
+    )
+)
+
+<script type="text/javascript">
+
+
+    var tblbody;
+    
+    $("#pop").popover({
+        placement: 'right', //placement of the popover. also can use top, bottom, left or     right
+        html: 'true', //needed to show html of course
+        content: get(this),// hope this should be link
+        trigger: 'hover'
+    });
+    
+    function get(t) {
+        
+        $.ajax({
+            async:false,
+            type: "POST",
+            url: "@Url.Action("RationDetail", "Ration")",
+            data: "{id:'@Model.RationID'}",
+           dataType: "json",
+           contentType: "application/json; charset=utf-8",
+
+           success: function (data) {
+               tblbody = "<table>";
+               for (var i = 0; i < data.length; i++) {
+                   //tblbody += "<table>";
+                   tblbody += "<tr>";
+                   tblbody += "<td>" + data[i].Name + "</td>";
+                   tblbody += "<td>" + data[i].Amount + "</td>";
+                   tblbody += "</tr>";
+               }
+               tblbody += "</table>";
+             
+           },
+           
+       });
+       return tblbody;
+   };
+
+    function onDataBound(e) {
+
+        var grid = $("#grid").data("kendoGrid");
+        $(grid.tbody).on("change", "td", function (e) {
+            //var Ration = 5;
+            var row = $(this).closest("tr");
+            var rowIdx = $("tr", grid.tbody).index(row);
+            var firstItem = $('#grid').data().kendoGrid.dataSource.data()[rowIdx];
+            var BenficiaryNo = firstItem.get('BenficiaryNo');
+            var RationAmount = firstItem.get('RationAmount');
+            firstItem.set('Amount', RationAmount * BenficiaryNo);
+            firstItem.set('Contingency', (RationAmount * BenficiaryNo)* 0.05);
+        });
+    }
+
+    function onGridKeydown(e) {
+        if (e.keyCode === kendo.keys.TAB) {
+            var grid = $(this).closest("[data-role=grid]").data("kendoGrid");
+            var current = grid.current();
+            if (!current.hasClass("editable-cell")) {
+                var nextCell = current.nextAll(".editable-cell");
+                if (!nextCell[0]) {
+                    //search the next row
+                    var nextRow = current.parent().next();
+                    var nextCell = current.parent().next().children(".editable-cell:first");
+                }
+                grid.current(nextCell);
+                grid.editCell(nextCell[0]);
+            }
+        }
+    };
+
+    function onBound(e) {
+
+        var grid = $("#grid").data("kendoGrid");
+        $(grid.tbody).on("focus", "input", function (e) {
+            var input = $(this);
+            setTimeout(function () { input.select(); }, 100);
+
+        });
+    }
+</script>
+<script type="text/javascript">
+    $(function () {
+
+        //Optional: turn the chache off
+        $.ajaxSetup({ cache: false });
+
+        $('.btn-Approve-allocation').click(function () {
+            $('#dialogContent').load(this.href, function () {
+                $('#dialogDiv').modal({
+                    backdrop: 'static',
+                    keyboard: true
+                }, 'show');
+                //bindForm(this);
+            });
+            return false;
+        });
+    });
+    
+</script>
+<script>
+    $(function () {
+        var requistionId = @Model.RequisitionID;
+        
+
+        var printurl = "@Url.Action("Print", "BeneficiaryAllocation",new {area="Logistics"})" +"/"+requistionId;
+        $("#toolbar_button_print").attr("href", printurl);
+    });
+</script>

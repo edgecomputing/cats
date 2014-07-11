@@ -1,0 +1,168 @@
+﻿@using Cats.Helpers
+@using Kendo.Mvc.UI
+@using LanguageHelpers.Localization
+@using Cats.Helpers
+
+@model Cats.Models.HRD
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+    const string pageName="EarlyWarning.HRD.Create";
+}
+@section LeftBar
+{
+   
+    @Html.Partial("_HRDLeftBar")
+   
+}
+
+@section Toolbar
+{
+    <a id="btn-save" class="btn toolbar-btn " data-buttontype="btn_save" data-submittedform="frm_create_hrd"></a>
+    <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="@Url.Action("Index", "HRD")" title="cancel" ></a>
+}
+
+<div id='dialogDiv' class='modal hide fade in' style="width: 620px;margin-right: 10px">
+    <div id='dialogContent'></div>
+</div>
+
+<div>
+    <h4>Create HRD</h4>
+</div>
+    @using (Html.BeginForm("Create", "HRD", FormMethod.Post, new { id = "frm_create_hrd" }))
+    {
+
+        <div class="well form-horizontal">
+            <div class="row">
+                <div class="span6">
+                    <div class="control-group">
+                        <div class="control-label">
+                            @Html.Label(@Html.Translate2(pageName, "HRD Name"))
+                        </div>
+                        <div class="controls">
+                            @Html.TextBoxFor(m => m.Plan.PlanName)
+                            @Html.ValidationMessageFor(m => m.Plan.PlanName)
+                        </div>
+
+                    </div>
+                </div>
+                <div class="span6" style="visibility:hidden">
+                    <div class="control-group">
+                        <div class="control-label">
+                            @Html.LabelFor(m => m.Year, Translator.Translate("Year (EC)"))
+                        </div>
+                        <div class="controls">
+                            @Html.TextBox("Year", @DateTime.Now.Year - 8 )
+                            @Html.ValidationMessageFor(m => m.Year)
+                            @if (@ViewBag.Error != null)
+                            {
+                                <span class="alert alert-error">
+                                    @ViewBag.Error
+                                </span>
+                            }
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="span6">
+                    <div class="control-group">
+                        <div class="control-label">
+                            @Html.Label(Translator.Translate("HRD From"), new { @class = "cats-date-pref" })
+                        </div>
+                        <div class="controls">
+                            @Html.TextBoxFor(m => m.Plan.StartDate, new { @class = "cats-datepicker2" })
+                            @Html.ValidationMessageFor(m => m.Plan.StartDate)
+                        </div>
+                    </div>
+                </div>
+
+                <div class="span4" style="visibility: hidden">
+                    <div class="control-group">
+                        <div class="control-label">
+                            @Html.LabelFor(m => m.SeasonID)
+                        </div>
+                        <div class="controls">
+                            @Html.DropDownList("SeasonID",string.Empty)
+                            @Html.ValidationMessageFor(m => m.SeasonID)
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="span7">
+                    <div class="control-group">
+                        <div class="control-label">
+                            @*@Html.Label(Translator.Translate("To"), new { @class = "cats-date-pref" })*@
+                            @Html.LabelFor(m => m.Plan.Duration, @Html.Translate2(pageName, "Duration"))
+                        </div>
+                        <div class="controls">
+                            @Html.TextBoxFor(m => m.Plan.Duration)
+                              <a id="btnDate"  @*href="@Url.Action("DateInterval", "HRD", new { area = "EarlyWarning", startDate = "4/15/2014", duration = 6 })"*@>View Date Interval</a>
+                       
+                            @Html.ValidationMessageFor(m => m.Plan.Duration)
+                        </div>
+
+                    </div>
+                
+                    <div class="control-group">
+                        <div class="control-label">
+                            @Html.LabelFor(m => m.RationID, "Ration")
+                        </div>
+                        <div class="controls">
+                            @Html.DropDownList("RationID", String.Empty)
+                            @Html.ValidationMessageFor(m => m.RationID)
+                        </div>
+                    </div>
+                </div> 
+                
+
+                <div id="content" style="display: none">
+                    
+                </div>    
+            </div>
+    </div>
+    }
+
+
+
+<script type="text/javascript">
+    $(function () {
+        
+        
+        $.ajaxSetup({ cache: false });
+
+        $('#btnDate').click(function () {
+            
+            var startDate = new Date($('#Plan_StartDate').val());
+            //var startDate = $('#Plan_StartDate').val();
+            var duration = $('#Plan_Duration').val();
+          
+           var fullDate= startDate.getMonth() + 1 + '/' + startDate.getDate() + '/' + startDate.getFullYear();
+            var url = '@Url.Action("DateInterval", "HRD")?duration=' + duration + '&startDate=' + fullDate;
+            $('#dialogContent').load(url, function () {
+                $('#dialogDiv').modal({
+                    
+                    backdrop: 'static',
+                    keyboard: true
+                }, 'show');
+                //bindForm(this);
+            });
+            return false;
+        });
+
+    });
+
+    @*function GetDateInterval() {
+        var starDate = $('#Plan_StartDate').val();
+        var duration = $('#Plan_Duration').val();
+        alert(startDate);
+                
+        //document.getElementById('content').style.display = 'block';
+        //document.getElementById('content').innerHTML = starDate + ", " + duration;
+        var url="@Url.Action("DateInterval", "HRD")" + "?duration=" + duration + "&startDate=" + starDate;
+    }*@
+</script>
