@@ -339,22 +339,15 @@ namespace Cats.Services.Transaction
                 transaction.RegionID = allocationDetail.ReliefRequisitionDetail.ReliefRequisition.RegionID;
                 transaction.PlanId = allocationDetail.ReliefRequisitionDetail.ReliefRequisition.RegionalRequest.PlanID;
                 transaction.Round = allocationDetail.ReliefRequisitionDetail.ReliefRequisition.Round;
+                
 
                 if (allocationDetail.AllocationType == TransactionConstants.Constants.SHIPPNG_INSTRUCTION)
                 {
-                    var siCode = allocationDetail.Code.ToString();
-                    var shippingInstruction =
-                        _unitOfWork.ShippingInstructionRepository.Get(t => t.Value == siCode).
-                            FirstOrDefault();
-                    if (shippingInstruction != null) transaction.ShippingInstructionID = shippingInstruction.ShippingInstructionID;
+                    transaction.ShippingInstructionID = allocationDetail.Code;
                 }
                 else
                 {
-                    var detail = allocationDetail;
-                    var projectCode =
-                        _unitOfWork.ProjectCodeRepository.Get(t => t.Value == detail.Code.ToString()).
-                            FirstOrDefault();
-                    if (projectCode != null) transaction.ProjectCodeID = projectCode.ProjectCodeID;
+                    transaction.ProjectCodeID = allocationDetail.Code;
                 }
                 _unitOfWork.TransactionRepository.Add(transaction);
                // result.Add(transaction);

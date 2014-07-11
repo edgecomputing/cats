@@ -9,11 +9,11 @@ using Cats.Data.UnitWork;
 namespace Cats.Services.Common
 {
 
-   public class LedgerService:ILedgerService
+   public class LedgerService : ILedgerService
     {
 
 #region "SI Struct"
-       public struct AvailableShippingCodes
+       public class AvailableShippingCodes
        {
            private decimal _amount;
            private int? _siCodeId;
@@ -53,7 +53,7 @@ namespace Cats.Services.Common
 #endregion
 
 #region "PC Struct"
-       public struct AvailableProjectCodes
+       public class AvailableProjectCodes
        {
            private decimal _amount;
            private int? _pcCodeId;
@@ -147,40 +147,27 @@ namespace Cats.Services.Common
         /// <returns>available amount,shipping Instruction Id, and Shipping Instruction Code</returns>
         public List<AvailableShippingCodes> GetFreeSICodesByCommodity(int hubId, int commodityId)
         {
-            List<Transaction> listOfTrans=new List<Transaction>();
-            if (hubId > 0)
-            {
-                //listOfTrans = _unitOfWork.TransactionRepository.FindBy(t => t.HubID == hubId && t.CommodityID == commodityId && t.LedgerID == 20);//Goods On Hand - unCommited
-                listOfTrans = _unitOfWork.TransactionRepository.FindBy(t => t.HubID == hubId && t.CommodityID == commodityId && t.LedgerID == 21);//Changed the above ledgerID into this one
-            }
-            else
-            {
-                //listOfTrans = _unitOfWork.TransactionRepository.FindBy(t => t.CommodityID == commodityId && t.LedgerID == 20);//Goods On Hand - unCommited
-                listOfTrans = _unitOfWork.TransactionRepository.FindBy(t => t.CommodityID == commodityId && t.LedgerID == 21);//Changed the above ledgerID into this one
-            }
-            var listOfSICodes =
-                listOfTrans.GroupBy(t => t.ShippingInstructionID).Select(
-                    a => new
-                    {
-                        availableAmount = a.Sum(t => t.QuantityInMT),
-                        SICodeId = a.Select(t => t.ShippingInstructionID),
-                        SICode = a.Select(t => t.ShippingInstruction.Value),
-                        HubID = a.Select(t => t.HubID),
+            String HubFilter = (hubId > 0) ? string.Format(" And HubID = {0}", hubId) : "";
 
-                    }).Where(s => s.availableAmount > 0);
+            String query = String.Format(@"SELECT SOH.QuantityInMT - ABS(ISNULL(Commited.QuantityInMT, 0)) as amount, SOH.ShippingInstructionID siCodeId, ShippingInstruction.Value SIcode, SOH.HubID as HubId, Hub.Name HubName 
+                                                        from (SELECT SUM(QuantityInMT) QuantityInMT , ShippingInstructionID, HubID from [Transaction] 
+					                                        WHERE LedgerID = {0} and CommodityID = {2} {3}
+					                                        GROUP BY HubID, ShippingInstructionID) AS SOH
+	                                            LEFT JOIN (SELECT SUM(QuantityInMT) QuantityInMT, ShippingInstructionID, HubID from [Transaction]
+					                                        WHERE LedgerID = {1} and CommodityID = {2} {3}
+					                                        GROUP By HubID, ShippingInstructionID) AS Commited	
+		                                            ON SOH.ShippingInstructionID = Commited.ShippingInstructionID and SOH.HubId = Commited.HubId
+	                                            JOIN ShippingInstruction 
+		                                            ON SOH.ShippingInstructionID = ShippingInstruction.ShippingInstructionID 
+                                                JOIN Hub
+                                                    ON Hub.HubID = SOH.HubID
+                                                WHERE 
+                                                 SOH.QuantityInMT - ISNULL(Commited.QuantityInMT, 0) > 0    
+                                                ", Ledger.Constants.GOODS_ON_HAND,Ledger.Constants.COMMITED_TO_FDP, commodityId, HubFilter);
 
-            var siCodeList = new List<AvailableShippingCodes>();
-            foreach (var listOfSICode in listOfSICodes)
-            {
-                var freeSILists = new AvailableShippingCodes();
-                freeSILists.amount = listOfSICode.availableAmount;
-                freeSILists.siCodeId = listOfSICode.SICodeId.FirstOrDefault();
-                freeSILists.SIcode = listOfSICode.SICode.FirstOrDefault();
-                freeSILists.HubId = (int)listOfSICode.HubID.FirstOrDefault();
-                siCodeList.Add(freeSILists);
-            }
-
-            return siCodeList;
+            var availableShippingCodes = _unitOfWork.Database.SqlQuery<AvailableShippingCodes>(query);
+           
+            return availableShippingCodes.ToList();
         }
 
         /// <summary>
@@ -193,8 +180,9 @@ namespace Cats.Services.Common
         /// <returns>available amount,shipping Instruction Id, and Shipping Instruction Code</returns>
         public decimal GetFreeSICodesAmount(int hubId,int siCode)
         {
-            var listOfTrans = _unitOfWork.TransactionRepository.FindBy(t => t.HubID == hubId && t.ShippingInstructionID == siCode && t.LedgerID == 20);//Goods On Hand - unCommited
-            return listOfTrans.Sum(s => s.QuantityInMT);
+            var goodsOnHand = _unitOfWork.TransactionRepository.FindBy(t => t.HubID == hubId && t.ShippingInstructionID == siCode && t.LedgerID == Ledger.Constants.GOODS_ON_HAND);//Goods On Hand - unCommited
+            var commitedToFDP = _unitOfWork.TransactionRepository.FindBy(t => t.HubID == hubId && t.ShippingInstructionID == siCode && t.LedgerID == Ledger.Constants.COMMITED_TO_FDP);
+            return goodsOnHand.Sum(s => s.QuantityInMT) - commitedToFDP.Sum(c => c.QuantityInMT);
 
         }
 
@@ -234,43 +222,33 @@ namespace Cats.Services.Common
 
         public List<AvailableProjectCodes> GetFreePCCodesByCommodity(int hubId, int commodityId)
         {
-            List<Transaction> listOfTrans = new List<Transaction>();
-            if (hubId > 0)
-            {
-                //_unitOfWork.TransactionRepository.FindBy(t => t.HubID == hubId && t.CommodityID == commodityId && t.LedgerID == 2);//Goods On Hand - unCommited
-                _unitOfWork.TransactionRepository.FindBy(t => t.HubID == hubId && t.CommodityID == commodityId && t.LedgerID == 21);//Changed the above ledgerID into this one
-            }
-            else
-            {
-                //_unitOfWork.TransactionRepository.FindBy(t => t.CommodityID == commodityId && t.LedgerID == 2);//Goods On Hand - unCommited
-                _unitOfWork.TransactionRepository.FindBy(t => t.CommodityID == commodityId && t.LedgerID == 21);//Changed the above ledgerID into this one
-            }
-            var listOfSICodes =
-                listOfTrans.GroupBy(t => t.ProjectCodeID).Select(
-                    a => new
-                    {
-                        availableAmount = a.Sum(t => t.QuantityInMT),
-                        PCCodeId = a.Select(t => t.ProjectCodeID),
-                        PCCode = a.Select(t => t.ProjectCode.Value)
-                    }).Where(s => s.availableAmount > 0);
+            String HubFilter = (hubId > 0) ? string.Format(" And HubID = {0}", hubId) : "";
 
-            var pcCodeList = new List<AvailableProjectCodes>();
-            foreach (var listOfSICode in listOfSICodes)
-            {
-                var freePCLists = new AvailableProjectCodes();
-                freePCLists.amount = listOfSICode.availableAmount;
-                freePCLists.pcCodeId = listOfSICode.PCCodeId.FirstOrDefault();
-                freePCLists.PCcode = listOfSICode.PCCode.FirstOrDefault();
-                pcCodeList.Add(freePCLists);
-            }
+            String query = String.Format(@"SELECT SOH.QuantityInMT - ABS(ISNULL(Commited.QuantityInMT, 0)) as amount, SOH.ProjectCodeID pcCodeId, ProjectCode.Value PCcode, SOH.HubID as HubId, Hub.Name HubName 
+                                                        from (SELECT SUM(QuantityInMT) QuantityInMT , ProjectCodeID, HubID from [Transaction] 
+					                                        WHERE LedgerID = {0} and CommodityID = {2} {3}
+					                                        GROUP BY HubID, ProjectCodeID) AS SOH
+	                                            LEFT JOIN (SELECT SUM(QuantityInMT) QuantityInMT, ProjectCodeID, HubID from [Transaction]
+					                                        WHERE LedgerID = {1} and CommodityID = {2} {3}
+					                                        GROUP By HubID, ProjectCodeID) AS Commited	
+		                                            ON SOH.ProjectCodeID = Commited.ProjectCodeID and SOH.HubId = Commited.HubId
+	                                            JOIN ProjectCode 
+		                                            ON SOH.ProjectCodeID = ProjectCode.ProjectCodeID 
+                                                JOIN Hub
+                                                    ON Hub.HubID = SOH.HubID
+                                                WHERE 
+                                                 SOH.QuantityInMT - ISNULL(Commited.QuantityInMT, 0) > 0    
+                                                ", Ledger.Constants.GOODS_ON_HAND, Ledger.Constants.COMMITED_TO_FDP, commodityId, HubFilter);
 
-            return pcCodeList;
+            var availableShippingCodes = _unitOfWork.Database.SqlQuery<AvailableProjectCodes>(query);
+
+            return availableShippingCodes.ToList();
         }
 
 
         public decimal GetFreePCCodes(int hubId, int pcCode)
         {
-            var listOfTrans = _unitOfWork.TransactionRepository.FindBy(t => t.HubID == hubId && t.ProjectCodeID == pcCode && t.LedgerID == 3);//Goods On Hand - unCommited
+            var listOfTrans = _unitOfWork.TransactionRepository.FindBy(t => t.HubID == hubId && t.ProjectCodeID == pcCode && t.LedgerID == Ledger.Constants.GOODS_ON_HAND);//Goods On Hand - unCommited
 
             return listOfTrans.Sum(s => s.QuantityInMT);
 
