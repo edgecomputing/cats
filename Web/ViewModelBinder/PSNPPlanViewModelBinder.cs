@@ -63,10 +63,12 @@ namespace Cats.ViewModelBinder
 
                     regionContingency = new DataColumn("RC(15%)" + ds.Commodity.Name.Trim(), typeof(decimal));
 
-                    woredaContingency.ExtendedProperties.Add("ID", ds.CommodityID);
+                    //woredaContingency.ExtendedProperties.Add("WCID", ds.CommodityID);
+                    woredaContingency.ExtendedProperties["ID"] = "WC"+ds.CommodityID;
                     dt.Columns.Add(woredaContingency);
 
-                    regionContingency.ExtendedProperties.Add("ID", ds.CommodityID);
+                    //regionContingency.ExtendedProperties.Add("RCID", ds.CommodityID);
+                    regionContingency.ExtendedProperties["ID"] = "RC"+ds.CommodityID;
                     dt.Columns.Add(regionContingency);
                    
                 }
@@ -95,21 +97,41 @@ namespace Cats.ViewModelBinder
 
 
 
-                    var currentUnit = preferedWeight; ;
+                    var currentUnit = preferedWeight; 
 
 
                     foreach (var rationDetail in rationDetails)
                     {
 
                         DataColumn col = null;
+                        DataColumn woredaContCol = null;
+                        DataColumn regionalContCol = null;
                        
-                       
+                        //DataColumn[] contingencyColumns = dt.Columns.Cast<DataColumn>()
+                        //                       .Where(m => m.ExtendedProperties["ID"].ToString() == rationDetail.CommodityID.ToString()
+                        //                         )   
+                        //                      .ToArray();
+                        
+
                         foreach (DataColumn column in dt.Columns)
                         {
                             if (rationDetail.CommodityID.ToString() ==
                                 column.ExtendedProperties["ID"].ToString())
                             {
                                 col = column;
+                                foreach (DataColumn contingencyColumn in dt.Columns)
+                                {
+                                    if ("WC"+rationDetail.CommodityID.ToString() ==
+                                           contingencyColumn.ExtendedProperties["ID"].ToString())
+                                    {
+                                        woredaContCol = contingencyColumn;
+                                    }
+                                    else if ("RC"+rationDetail.CommodityID.ToString() ==
+                                           contingencyColumn.ExtendedProperties["ID"].ToString())
+                                    {
+                                        regionalContCol = contingencyColumn;
+                                    }
+                                }
                                 break;
                             }
                         }
@@ -124,9 +146,9 @@ namespace Cats.ViewModelBinder
                             var allocatedAmount = ration*psnpPlan.BeneficiaryCount*psnpPlan.FoodRatio;
                             total += allocatedAmount + allocatedAmount * (decimal)0.05 + allocatedAmount * (decimal)0.15;
                             dr[col.ColumnName] = allocatedAmount;
-                            dr[woredaContingency] = allocatedAmount * (decimal)0.05;
-                            dr[regionContingency] = allocatedAmount * (decimal)0.15;
-
+                            if (woredaContCol != null) dr[woredaContCol.ColumnName] = allocatedAmount * (decimal)0.05;
+                            if (regionalContCol != null)
+                                dr[regionalContCol.ColumnName] = allocatedAmount * (decimal)0.15;
                         }
                     }
                     dr[col1] = total;
