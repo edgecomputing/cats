@@ -17,6 +17,8 @@ namespace Cats.Services.Transaction
         {
             this._unitOfWork = unitOfWork;
         }
+
+        #region generic methods
         public bool AddTransaction(Models.Transaction item)
         {
             _unitOfWork.TransactionRepository.Add(item);
@@ -56,6 +58,8 @@ namespace Cats.Services.Transaction
             return _unitOfWork.TransactionRepository.FindBy(predicate);
 
         }
+#endregion
+        
         public IEnumerable<Models.Transaction> PostTransaction(IEnumerable<Models.Transaction> entries)
         {
             Guid transactionGroupID = Guid.NewGuid();
@@ -317,6 +321,11 @@ namespace Cats.Services.Transaction
 
                 SIPCAllocation allocation = allocationDetail;
 
+                // I see some logical error here
+                // what happens when hub x was selected and the allocation was made from hub y? 
+                //TOFIX: 
+                // Hub is required for this transaction
+                // Try catch is danger!! Either throw the exception or use conditional statement. 
                 try
                 {
                     transaction.HubID =
@@ -359,6 +368,7 @@ namespace Cats.Services.Transaction
                 transaction2.TransactionDate = transactionDate;
                 transaction2.UnitID = 1;
 
+                //TOFIX: do not use try catch
                 try
                 {
                     transaction2.HubID =
@@ -503,8 +513,6 @@ namespace Cats.Services.Transaction
 
                     _unitOfWork.TransactionRepository.Add(transaction);
 
-
-
                     transaction = new Models.Transaction
                     {
 
@@ -573,7 +581,6 @@ namespace Cats.Services.Transaction
                 _unitOfWork.TransactionRepository.Add(transaction);
 
 
-
             }
            
             giftCertificate.StatusID = 2;
@@ -632,9 +639,6 @@ namespace Cats.Services.Transaction
 
 
 
-
-
-
             transaction = new Models.Transaction();
             transaction.TransactionID = Guid.NewGuid();
             //var reliefRequisition = _unitOfWork.ReliefRequisitionRepository.Get(t => t.RequisitionNo == distribution.RequisitionNo).FirstOrDefault();
@@ -672,123 +676,6 @@ namespace Cats.Services.Transaction
             deliveryReconcile.TransactionGroupID = transactionGroup;
             _unitOfWork.Save();
             return true;
-        }
-        
-        public List<ProjectCode> getAllProjectByHubCommodity(int hubId, int commodityId)
-        {
-            var receiptAllocation = ReceiptAllocationFindBy(t => t.HubID == hubId && t.CommodityID == commodityId);
-            var transaction = FindBy(t => t.CommodityID == commodityId && t.HubID == hubId);
-            //var projectCode=(from receipt in receiptAllocation
-            //                 where receipt.QuantityInMT >= (from t in transaction
-            //                                                where receipt.ProjectNumber == _unitOfWork.ProjectCodeRepository.FindById(t.ProjectCodeID).Value
-            //                                                        && t.LedgerID == 2
-            //                                                        && t.QuantityInMT > 0
-            //                                                select t.QuantityInMT).Sum()
-            //                 select receipt);
-            var projectCodeList = new List<ProjectCode>();
-            foreach (var receiv in receiptAllocation)
-            {
-                int projectCodeID = 0;
-                try
-                {
-                    projectCodeID = _unitOfWork.ProjectCodeRepository.FindBy(t => t.Value == receiv.ProjectNumber).FirstOrDefault().ProjectCodeID;
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e);
-                }
-                var transactionQuantity = transaction.FindAll(t => t.ProjectCodeID == projectCodeID && t.LedgerID == 2 && t.QuantityInMT > 0).Sum(t => t.QuantityInMT);
-                if (receiv.QuantityInMT > transactionQuantity)
-                    projectCodeList.Add(new ProjectCode { ProjectCodeID = projectCodeID, Value = receiv.ProjectNumber });
-            }
-            return projectCodeList;
-        }
-        public List<ShippingInstruction> getAllSIByHubCommodity(int hubId, int commodityId)
-        {
-            var transaction = FindBy(t => t.CommodityID == commodityId && t.HubID == hubId);
-            var receiptAllocation = ReceiptAllocationFindBy(t => t.HubID == hubId && t.CommodityID == commodityId);
-
-            var ShippingInstructionList = new List<ShippingInstruction>();
-            foreach (var receiv in receiptAllocation)
-            {
-                int SiId = 0;
-                try
-                {
-                    SiId = _unitOfWork.ShippingInstructionRepository.FindBy(t => t.Value == receiv.SINumber).FirstOrDefault().ShippingInstructionID;
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e);
-                }
-                var transactionQuantity = transaction.FindAll(t => t.ProjectCodeID == SiId && t.LedgerID == 2 && t.QuantityInMT > 0).Sum(t => t.QuantityInMT);
-                if (receiv.QuantityInMT > transactionQuantity)
-                    ShippingInstructionList.Add(new ShippingInstruction { ShippingInstructionID = SiId, Value = receiv.SINumber });
-            }
-            return ShippingInstructionList;
-        }
-
-        public List<ReceiptAllocation> getSIBalance(int hubId, int commodityId)
-        {
-            var transaction = FindBy(t => t.CommodityID == commodityId && t.HubID == hubId);
-            var receiptAllocation = ReceiptAllocationFindBy(t => t.HubID == hubId && t.CommodityID == commodityId);
-
-            var ShippingInstructionList = new List<ReceiptAllocation>();
-            decimal balance = 0;
-            foreach (var receiv in receiptAllocation)
-            {
-                int SiId = 0;
-                try
-                {
-                    SiId = _unitOfWork.ShippingInstructionRepository.FindBy(t => t.Value == receiv.SINumber).FirstOrDefault().ShippingInstructionID;
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e);
-                }
-                var transactionQuantity = transaction.FindAll(t => t.ProjectCodeID == SiId && t.LedgerID == 2 && t.QuantityInMT > 0).Sum(t => t.QuantityInMT);
-                if (receiv.QuantityInMT > transactionQuantity)
-                {
-                    balance = receiv.QuantityInMT - transactionQuantity;
-                    ShippingInstructionList.Add(new ReceiptAllocation { SINumber = receiv.SINumber, QuantityInMT = balance });
-                }
-                //else
-                //{
-                //    ShippingInstructionList.Add(new ReceiptAllocation { SINumber = receiv.SINumber, QuantityInMT = 0 });
-                //}
-            }
-            return ShippingInstructionList;
-        }
-        public List<ReceiptAllocation> getProjectBalance(int hubId, int commodityId)
-        {
-            var receiptAllocation = ReceiptAllocationFindBy(t => t.HubID == hubId && t.CommodityID == commodityId);
-            var transaction = FindBy(t => t.CommodityID == commodityId && t.HubID == hubId);
-            var projectCodeList = new List<ReceiptAllocation>();
-            decimal balance = 0;
-            foreach (var receiv in receiptAllocation)
-            {
-
-                int projectCodeID = 0;
-                try
-                {
-                    projectCodeID = _unitOfWork.ProjectCodeRepository.FindBy(t => t.Value == receiv.ProjectNumber).FirstOrDefault().ProjectCodeID;
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e);
-                }
-                var transactionQuantity = transaction.FindAll(t => t.ProjectCodeID == projectCodeID && t.LedgerID == 2 && t.QuantityInMT > 0).Sum(t => t.QuantityInMT);
-                if (receiv.QuantityInMT > transactionQuantity)
-                {
-                    balance = receiv.QuantityInMT - transactionQuantity;
-                    projectCodeList.Add(new ReceiptAllocation { ProjectNumber = receiv.ProjectNumber, QuantityInMT = balance });
-                }
-                //else
-                //{
-                //    projectCodeList.Add(new ReceiptAllocation { ProjectNumber = receiv.ProjectNumber, QuantityInMT = 0 });
-                //}
-            }
-
-            return projectCodeList;
         }
 
         public List<ReceiptAllocation> ReceiptAllocationFindBy(Expression<Func<ReceiptAllocation, bool>> predicate)
