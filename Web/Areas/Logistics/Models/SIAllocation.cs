@@ -19,6 +19,7 @@ namespace Cats.Areas.Logistics.Models
         public int HubAllocationID { get; set; }
         public string HubName { get; set; }
         public List<FDPRequestViewModel> FDPRequests { get; set; }
+        //public int Code { get; set; }
     }
     public class FDPRequestViewModel
     {

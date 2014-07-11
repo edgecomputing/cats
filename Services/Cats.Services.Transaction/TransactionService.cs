@@ -393,8 +393,9 @@ namespace Cats.Services.Transaction
                 else
                 {
                     var detail = allocationDetail;
+                    var code = detail.Code.ToString();
                     var projectCode =
-                        _unitOfWork.ProjectCodeRepository.Get(t => t.Value == detail.Code.ToString()).
+                        _unitOfWork.ProjectCodeRepository.Get(t => t.Value == code).
                             FirstOrDefault();
                     if (projectCode != null) transaction.ProjectCodeID = projectCode.ProjectCodeID;
                 }
