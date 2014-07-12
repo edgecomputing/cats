@@ -421,6 +421,8 @@ namespace Cats.Services.Transaction
         }
 #endregion
 
+#region Post Donation Plan
+
         public bool PostDonationPlan(DonationPlanHeader donationPlanHeader)
         {
             var transactionGroup = Guid.NewGuid();
@@ -479,6 +481,82 @@ namespace Cats.Services.Transaction
 
         }
 
+        #endregion
+
+        #region Post Local Purchase
+
+        public bool PostLocalPurchase(List<LocalPurchaseDetail> localPurchaseDetail)
+        {
+            var transactionGroup = Guid.NewGuid();
+            var transactionDate = DateTime.Now;
+
+            _unitOfWork.TransactionGroupRepository.Add(new TransactionGroup()
+            {
+                PartitionID = 0,
+                TransactionGroupID = transactionGroup
+            });
+
+            if (localPurchaseDetail != null)
+                foreach (var detail in localPurchaseDetail)
+                {
+                    var transaction = new Models.Transaction
+                                          {
+                                              CommoditySourceID =
+                                                  Models.Constant.CommoditySourceConst.Constants.LOCALPURCHASE,
+                                              CommodityID = detail.LocalPurchase.CommodityID,
+                                              DonorID = detail.LocalPurchase.DonorID,
+                                              HubID = detail.HubID,
+                                              ProgramID = detail.LocalPurchase.ProgramID,
+                                             
+                                              QuantityInMT = detail.AllocatedAmount,
+                                              QuantityInUnit = detail.AllocatedAmount,
+                                              ShippingInstructionID = detail.LocalPurchase.ShippingInstructionID,
+                                              TransactionDate = transactionDate,
+                                              TransactionGroupID = transactionGroup
+                                              //LedgerID =  Models.Ledger.Constants
+                                          };
+
+                  
+                    _unitOfWork.TransactionRepository.Add(transaction);
+
+
+
+                    transaction = new Models.Transaction
+                    {
+                        CommoditySourceID =
+                            Models.Constant.CommoditySourceConst.Constants.LOCALPURCHASE,
+                        CommodityID = detail.LocalPurchase.CommodityID,
+                        DonorID = detail.LocalPurchase.DonorID,
+                        HubID = detail.HubID,
+                        ProgramID = detail.LocalPurchase.ProgramID,
+                       
+                        QuantityInMT = detail.AllocatedAmount,
+                        QuantityInUnit = detail.AllocatedAmount,
+                        ShippingInstructionID = detail.LocalPurchase.ShippingInstructionID,
+                        TransactionDate = transactionDate,
+                        TransactionGroupID = transactionGroup
+                        //LedgerID =  Models.Ledger.Constants
+                    };
+
+                    _unitOfWork.TransactionRepository.Add(transaction);
+
+                }
+            try
+            {
+                _unitOfWork.Save();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+                
+            }
+           
+
+        }
+        #endregion
+
+        #region Post Distribution
         public bool PostDistribution(int distributionId)
         {
             var woredaStcokDistribution = _unitOfWork.WoredaStockDistributionRepository.FindById(distributionId);
@@ -537,6 +615,9 @@ namespace Cats.Services.Transaction
             }
             return true;
         }
+
+        #endregion
+
         public bool PostGiftCertificate(int giftCertificateId)
         {
             var giftCertificate = _unitOfWork.GiftCertificateRepository.Get(t => t.GiftCertificateID == giftCertificateId, null,"GiftCertificateDetails").FirstOrDefault();
