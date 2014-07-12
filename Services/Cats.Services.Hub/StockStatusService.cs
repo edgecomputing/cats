@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
@@ -58,16 +59,16 @@ namespace Cats.Services.Hub
 
                                                 (SELECT SUM(QuantityInMT) QuantityInMT, CommodityID 
 	                                                FROM [Transaction]
-	                                                WHERE LedgerID = {0} and HubID  = {2} and ProgramID = {3}
+	                                                WHERE LedgerID = {0} and HubID  = {2} and ProgramID = {3} 
 	                                                GROUP BY CommodityID) GOH
 	                                                LEFT JOIN
 		                                                (SELECT ABS(SUM(QuantityInMT)) QuantityInMT, CommodityID 
 			                                                FROM [Transaction]
-			                                                WHERE LedgerID = {1} and HubID  = {2} and ProgramID = {3}
+			                                                WHERE LedgerID = {1} and HubID  = {2} and ProgramID = {3} AND TransactionDate > =  {4} AND TransactionDate < =  {5}
 			                                                GROUP BY CommodityID) Commited
 
 			                                                ON GOH.CommodityID = Commited.CommodityID
-			                                                JOIN Commodity on Commodity.CommodityID = GOH.CommodityID", Cats.Models.Ledger.Constants.GOODS_ON_HAND, Cats.Models.Ledger.Constants.COMMITED_TO_FDP, hub, program);
+			                                                JOIN Commodity on Commodity.CommodityID = GOH.CommodityID", Cats.Models.Ledger.Constants.GOODS_ON_HAND, Cats.Models.Ledger.Constants.COMMITED_TO_FDP, hub, program, "'" + date.ToString(CultureInfo.InvariantCulture) + "'", "'" + date.AddDays(1).ToString(CultureInfo.InvariantCulture) + "'");
             
             return _unitOfWork.Database.SqlQuery<HubFreeStockView>(query).ToList();
         }
@@ -81,187 +82,232 @@ namespace Cats.Services.Hub
         public List<HubFreeStockSummaryView> GetStockSummary(int program, string date)
         {
             DateTime _date = Convert.ToDateTime(date);
-            var status = _transactionService.Get(t => t.HubID != null && t.ProgramID == program && DateTime.Compare(t.TransactionDate, _date) <= 0);
-            var grouped = (
-                           from s in status
-                           group s by s.HubID into g
-                           select new { CommodityId = g.Key, Transactions = g }
-                         );
-
-            var result = new List<HubFreeStockSummaryView>();
-
-             foreach (var i in grouped)
-            {
-
-                decimal phys = 0;
-                decimal free = 0;
-
-                var hubName = "";
-
-                foreach (var s in i.Transactions)
-                {
-                    hubName = s.Hub.Name;
-
-                    if (s.LedgerID == 2 || s.LedgerID == 3 || s.LedgerID == 12)
-                    {
-                        phys = phys + Math.Abs(s.QuantityInMT);
-                    }
-
-                    if (s.LedgerID == 2)
-                    {
-                        free = free + Math.Abs(s.QuantityInMT);
-                    }
-                }
-
-                var item = new HubFreeStockSummaryView()
-                {
-                    HubName = hubName,
-                    TotalPhysicalStock = phys,
-                    TotalFreestock = free
-                };
-
-                result.Add(item);
-            }
-            return result.ToList();
-
-            //var _date = Convert.ToDateTime(date);
-
-            //var summary = _transactionService.Get(s => s.ProgramID == program && DateTime.Compare(s.TransactionDate, _date) <= 0);
-
+            return GetStockSummaryD(program, _date);
+            //DateTime _date = Convert.ToDateTime(date);
+            //var status = _transactionService.Get(t => t.HubID != null && t.ProgramID == program && DateTime.Compare(t.TransactionDate, _date) <= 0);
             //var grouped = (
-            //                   from s in summary
-            //                   group s by s.ParentCommodityID into g
-            //                   select g
-            //              );
+            //               from s in status
+            //               group s by s.HubID into g
+            //               select new { CommodityId = g.Key, Transactions = g }
+            //             );
+
+            //var result = new List<HubFreeStockSummaryView>();
+
+            // foreach (var i in grouped)
+            //{
+
+            //    decimal phys = 0;
+            //    decimal free = 0;
+
+            //    var hubName = "";
+
+            //    foreach (var s in i.Transactions)
+            //    {
+            //        hubName = s.Hub.Name;
+
+            //        if (s.LedgerID == 2 || s.LedgerID == 3 || s.LedgerID == 12)
+            //        {
+            //            phys = phys + Math.Abs(s.QuantityInMT);
+            //        }
+
+            //        if (s.LedgerID == 2)
+            //        {
+            //            free = free + Math.Abs(s.QuantityInMT);
+            //        }
+            //    }
+
+            //    var item = new HubFreeStockSummaryView()
+            //    {
+            //        HubName = hubName,
+            //        TotalPhysicalStock = phys,
+            //        TotalFreestock = free
+            //    };
+
+            //    result.Add(item);
+            //}
+            //return result.ToList();
+
+            ////var _date = Convert.ToDateTime(date);
+
+            ////var summary = _transactionService.Get(s => s.ProgramID == program && DateTime.Compare(s.TransactionDate, _date) <= 0);
+
+            ////var grouped = (
+            ////                   from s in summary
+            ////                   group s by s.ParentCommodityID into g
+            ////                   select g
+            ////              );
+
+            ////var result = new List<HubFreeStockSummaryView>();
+
+            ////foreach (var i in grouped)
+            ////{
+            ////    var phys = i.Sum(s => s.LedgerID = Ledger.Constants.GOODS_ON_HAND_UNCOMMITED);
+            ////    var free = i.Sum(f => f.LedgerID = Ledger.Constants.GOODS_ON_HAND_UNCOMMITED);
+            ////    var Hub = "";
+
+            ////    foreach (var s in i)
+            ////    {
+            ////        Hub = i.Key.ToString();
+
+            ////        var item = new HubFreeStockSummaryView()
+            ////        {
+            ////            HubName = Hub,
+            ////            TotalPhysicalStock = phys,
+            ////            TotalFreestock = free
+            ////        };
+
+            ////        result.Add(item);
+
+            ////    }
+            ////}
+            ////return result.ToList();
+        }
+
+        public List<SummaryFreeAndPhysicalStockModel> GetFreeAndPhysicalStockSummary()
+        {
+
+
+            string query = string.Format(@"SELECT GOH.CommodityID, GOH.ProgramID, GOH.HubID, GOH.QuantityInMT PhysicalStock, Commited.QuantityInMT Commited, (GOH.QuantityInMT - ISNULL(Commited.QuantityInMT,0) ) FreeStock,
+                                                Commodity.Name CommodityName, Program.Name Program,Hub.Name HubName FROM 
+
+                                                (SELECT SUM(QuantityInMT) QuantityInMT, CommodityID, ProgramID, HubID
+	                                                FROM [Transaction]
+	                                                WHERE LedgerID = {0} AND  TransactionDate < =  GETDATE()
+	                                                GROUP BY CommodityID,ProgramID,HubID) GOH
+	                                                LEFT JOIN
+		                                                (SELECT ABS(SUM(QuantityInMT)) QuantityInMT, CommodityID, ProgramID, HubID
+			                                                FROM [Transaction]
+			                                                WHERE LedgerID = {1} AND TransactionDate < =  GETDATE()
+			                                                GROUP BY CommodityID,ProgramID,HubID) Commited
+
+			                                                ON GOH.CommodityID = Commited.CommodityID
+			                                                JOIN Commodity on Commodity.CommodityID = GOH.CommodityID
+															JOIN Program on Program.ProgramID = GOH.ProgramID
+															JOIN Hub on Hub.HubID = GOH.HubID",Cats.Models.Ledger.Constants.GOODS_ON_HAND,Cats.Models.Ledger.Constants.COMMITED_TO_FDP);
+            return _unitOfWork.Database.SqlQuery<SummaryFreeAndPhysicalStockModel>(query).ToList();
+
+
+
+            //var status = _transactionService.Get(t => DateTime.Compare(t.TransactionDate, DateTime.Now) <= 0, null, "Hub,Program,Commodity");
+
+            //var grouped = from c in status
+            //                group c by new
+            //                {
+            //                    c.HubID,
+            //                    c.Hub,
+            //                    c.ProgramID,
+            //                    c.Program,
+            //                    c.ParentCommodityID,
+            //                    c.Commodity1
+            //                } into g
+            //                select new { HubID = g.Key.HubID, Hub = g.Key.Hub, ProgramID = g.Key.ProgramID, Program = g.Key.Program, 
+            //                    CommodityId = g.Key.ParentCommodityID, ParentCommodity = g.Key.Commodity1, Transactions = g };
+
+            //var result = new List<SummaryFreeAndPhysicalStockModel>();
+
+            //foreach (var i in grouped)
+            //{
+            //    decimal phys = 0;
+            //    decimal free = 0;
+
+            //    var hubName = i.Hub.Name;
+            //    var program = i.Program.Name;
+            //    var commodity = "";
+
+            //    foreach (var s in i.Transactions)
+            //    {
+            //        commodity = s.Commodity.Name;
+
+            //        if (s.LedgerID == 2 || s.LedgerID == 3 || s.LedgerID == 12)
+            //        {
+            //            phys = phys + Math.Abs(s.QuantityInMT);
+            //        }
+
+            //        if (s.LedgerID == 2)
+            //        {
+            //            free = free + Math.Abs(s.QuantityInMT);
+            //        }
+            //    }
+
+            //    var item = new SummaryFreeAndPhysicalStockModel()
+            //    {
+            //        HubName = hubName,
+            //        Program = program,
+            //        CommodityName = commodity,
+            //        PhysicalStock = phys,
+            //        FreeStock = free
+            //    };
+
+            //    result.Add(item);
+            //}
+            //return result.ToList();
+        }
+
+      public List<HubFreeStockSummaryView> GetStockSummaryD(int program, DateTime date)
+        {
+
+            string query = string.Format(@"SELECT  GOH.HubID, GOH.QuantityInMT TotalPhysicalStock, (GOH.QuantityInMT - ISNULL(Commited.QuantityInMT,0) ) TotalFreestock, 
+                                                Hub.Name HubName FROM 
+
+                                                (SELECT SUM(QuantityInMT) QuantityInMT, ProgramID, HubID
+	                                                FROM [Transaction]
+	                                                WHERE LedgerID = {0}  AND ProgramID = {4}
+	                                                GROUP BY ProgramID,HubID) GOH
+	                                                LEFT JOIN
+		                                                (SELECT ABS(SUM(QuantityInMT)) QuantityInMT, ProgramID, HubID
+			                                                FROM [Transaction]
+			                                                WHERE LedgerID = {1} AND TransactionDate > =  {2} AND TransactionDate < =  {3} AND ProgramID = {4}
+			                                                GROUP BY ProgramID,HubID) Commited
+
+			                                                ON GOH.ProgramID = Commited.ProgramID
+			                                               
+															JOIN Program on Program.ProgramID = GOH.ProgramID
+															JOIN Hub on Hub.HubID = GOH.HubID", Cats.Models.Ledger.Constants.GOODS_ON_HAND, Cats.Models.Ledger.Constants.COMMITED_TO_FDP, "'" + date.ToString(CultureInfo.InvariantCulture) + "'","'" + date.AddDays(1).ToString(CultureInfo.InvariantCulture) + "'", program);
+            return _unitOfWork.Database.SqlQuery<HubFreeStockSummaryView>(query).ToList();
+
+            //var status = _transactionService.Get(t => t.HubID != null && t.ProgramID == program && DateTime.Compare(t.TransactionDate, date) <= 0);
+            //var grouped = (
+            //               from s in status
+            //               group s by s.HubID into g
+            //               select new { CommodityId = g.Key, Transactions = g }
+            //             );
 
             //var result = new List<HubFreeStockSummaryView>();
 
             //foreach (var i in grouped)
             //{
-            //    var phys = i.Sum(s => s.LedgerID = Ledger.Constants.GOODS_ON_HAND_UNCOMMITED);
-            //    var free = i.Sum(f => f.LedgerID = Ledger.Constants.GOODS_ON_HAND_UNCOMMITED);
-            //    var Hub = "";
+            //    decimal phys = 0;
+            //    decimal free = 0;
 
-            //    foreach (var s in i)
+            //    var hubName = "";
+            //    var hubID = 0;
+
+            //    foreach (var s in i.Transactions)
             //    {
-            //        Hub = i.Key.ToString();
+            //        hubName = s.Hub.Name;
+            //        hubID = s.HubID??0;
 
-            //        var item = new HubFreeStockSummaryView()
+            //        if (s.LedgerID == 2 || s.LedgerID == 3 || s.LedgerID == 12)
             //        {
-            //            HubName = Hub,
-            //            TotalPhysicalStock = phys,
-            //            TotalFreestock = free
-            //        };
+            //            phys = phys + Math.Abs(s.QuantityInMT);
+            //        }   
 
-            //        result.Add(item);
-
+            //        if (s.LedgerID == 2)
+            //        {
+            //            free = free + Math.Abs(s.QuantityInMT);
+            //        }
             //    }
+            //    var item = new HubFreeStockSummaryView()
+            //    {
+            //        HubID = hubID,
+            //        HubName = hubName,
+            //        TotalPhysicalStock = phys,
+            //        TotalFreestock = free
+            //    };
+
+            //    result.Add(item);
             //}
             //return result.ToList();
-        }
-
-        public List<SummaryFreeAndPhysicalStockModel> GetFreeAndPhysicalStockSummary()
-        {
-            var status = _transactionService.Get(t => DateTime.Compare(t.TransactionDate, DateTime.Now) <= 0, null, "Hub,Program,Commodity");
-
-            var grouped = from c in status
-                            group c by new
-                            {
-                                c.HubID,
-                                c.Hub,
-                                c.ProgramID,
-                                c.Program,
-                                c.ParentCommodityID,
-                                c.Commodity1
-                            } into g
-                            select new { HubID = g.Key.HubID, Hub = g.Key.Hub, ProgramID = g.Key.ProgramID, Program = g.Key.Program, 
-                                CommodityId = g.Key.ParentCommodityID, ParentCommodity = g.Key.Commodity1, Transactions = g };
-
-            var result = new List<SummaryFreeAndPhysicalStockModel>();
-
-            foreach (var i in grouped)
-            {
-                decimal phys = 0;
-                decimal free = 0;
-
-                var hubName = i.Hub.Name;
-                var program = i.Program.Name;
-                var commodity = "";
-
-                foreach (var s in i.Transactions)
-                {
-                    commodity = s.Commodity.Name;
-                    
-                    if (s.LedgerID == 2 || s.LedgerID == 3 || s.LedgerID == 12)
-                    {
-                        phys = phys + Math.Abs(s.QuantityInMT);
-                    }
-
-                    if (s.LedgerID == 2)
-                    {
-                        free = free + Math.Abs(s.QuantityInMT);
-                    }
-                }
-
-                var item = new SummaryFreeAndPhysicalStockModel()
-                {
-                    HubName = hubName,
-                    Program = program,
-                    CommodityName = commodity,
-                    PhysicalStock = phys,
-                    FreeStock = free
-                };
-
-                result.Add(item);
-            }
-            return result.ToList();
-        }
-
-      public List<HubFreeStockSummaryView> GetStockSummaryD(int program, DateTime date)
-        {
-            var status = _transactionService.Get(t => t.HubID != null && t.ProgramID == program && DateTime.Compare(t.TransactionDate, date) <= 0);
-            var grouped = (
-                           from s in status
-                           group s by s.HubID into g
-                           select new { CommodityId = g.Key, Transactions = g }
-                         );
-
-            var result = new List<HubFreeStockSummaryView>();
-
-            foreach (var i in grouped)
-            {
-                decimal phys = 0;
-                decimal free = 0;
-
-                var hubName = "";
-                var hubID = 0;
-
-                foreach (var s in i.Transactions)
-                {
-                    hubName = s.Hub.Name;
-                    hubID = s.HubID??0;
-
-                    if (s.LedgerID == 2 || s.LedgerID == 3 || s.LedgerID == 12)
-                    {
-                        phys = phys + Math.Abs(s.QuantityInMT);
-                    }   
-
-                    if (s.LedgerID == 2)
-                    {
-                        free = free + Math.Abs(s.QuantityInMT);
-                    }
-                }
-                var item = new HubFreeStockSummaryView()
-                {
-                    HubID = hubID,
-                    HubName = hubName,
-                    TotalPhysicalStock = phys,
-                    TotalFreestock = free
-                };
-
-                result.Add(item);
-            }
-            return result.ToList();
         }
 
 
