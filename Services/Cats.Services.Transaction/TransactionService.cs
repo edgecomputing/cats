@@ -501,6 +501,7 @@ namespace Cats.Services.Transaction
                 {
                     var transaction = new Models.Transaction
                                           {
+                                              TransactionID = Guid.NewGuid(),
                                               CommoditySourceID =
                                                   Models.Constant.CommoditySourceConst.Constants.LOCALPURCHASE,
                                               CommodityID = detail.LocalPurchase.CommodityID,
@@ -523,6 +524,7 @@ namespace Cats.Services.Transaction
 
                     transaction = new Models.Transaction
                     {
+                        TransactionID = Guid.NewGuid(),
                         CommoditySourceID =
                             Models.Constant.CommoditySourceConst.Constants.LOCALPURCHASE,
                         CommodityID = detail.LocalPurchase.CommodityID,
@@ -555,6 +557,71 @@ namespace Cats.Services.Transaction
 
         }
         #endregion
+
+        #region Post Loan
+
+        public bool PostLoan(LoanReciptPlan loanReciptPlan)
+        {
+            var transactionGroup = Guid.NewGuid();
+            var transactionDate = DateTime.Now;
+
+            _unitOfWork.TransactionGroupRepository.Add(new TransactionGroup()
+            {
+                PartitionID = 0,
+                TransactionGroupID = transactionGroup
+            });
+
+            foreach (var loan in loanReciptPlan.LoanReciptPlanDetails)
+            {
+
+                var transaction = new Models.Transaction()
+                                            {
+                                                TransactionID = Guid.NewGuid(),
+                                                CommoditySourceID =Models.Constant.CommoditySourceConst.Constants.LOAN,
+                                                CommodityID = loan.LoanReciptPlan.CommodityID,
+                                                ShippingInstructionID = loanReciptPlan.ShippingInstruction.ShippingInstructionID,
+                                                QuantityInMT = loan.RecievedQuantity,
+                                                HubID = loan.HubID,
+                                                TransactionDate = transactionDate,
+                                                TransactionGroupID = transactionGroup
+                                               // LedgerID = Cats.Models.Ledger.Constants
+                                            };
+
+                _unitOfWork.TransactionRepository.Add(transaction);
+
+
+                transaction = new Models.Transaction()
+                {
+                    TransactionID = Guid.NewGuid(),
+                    CommoditySourceID = Models.Constant.CommoditySourceConst.Constants.LOAN,
+                    CommodityID = loan.LoanReciptPlan.CommodityID,
+                    ShippingInstructionID = loanReciptPlan.ShippingInstruction.ShippingInstructionID,
+                    QuantityInMT = loan.RecievedQuantity,
+                    HubID = loan.HubID,
+                    TransactionDate = transactionDate,
+                    TransactionGroupID = transactionGroup
+                    // LedgerID = Cats.Models.Ledger.Constants
+                };
+
+                _unitOfWork.TransactionRepository.Add(transaction);
+
+
+            }
+
+            try
+            {
+                _unitOfWork.Save();
+                return true;
+            }
+            catch (Exception)
+            {
+
+                return false;
+            }
+            return true;
+        }
+        #endregion
+
 
         #region Post Distribution
         public bool PostDistribution(int distributionId)
