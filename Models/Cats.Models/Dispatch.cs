@@ -12,7 +12,7 @@ namespace Cats.Models
         }
         [Key]
         public System.Guid DispatchID { get; set; }
-        public int PartitionID { get; set; }
+        public int? PartitionID { get; set; }
         public int HubID { get; set; }
         public string GIN { get; set; }
         public Nullable<int> FDPID { get; set; }

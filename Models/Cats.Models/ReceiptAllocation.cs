@@ -13,7 +13,7 @@ namespace Cats.Models
         }
 
         public System.Guid ReceiptAllocationID { get; set; }
-        public int PartitionID { get; set; }
+        public int? PartitionID { get; set; }
         public bool IsCommited { get; set; }
         public System.DateTime ETA { get; set; }
         public string ProjectNumber { get; set; }
