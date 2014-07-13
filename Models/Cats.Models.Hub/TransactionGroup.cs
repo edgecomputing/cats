@@ -16,7 +16,7 @@ namespace Cats.Models.Hubs
         }
         [Key]
         public System.Guid TransactionGroupID { get; set; }
-        public int PartitionID { get; set; }
+        public int? PartitionID { get; set; }
         public virtual ICollection<Adjustment> Adjustments { get; set; }
         public virtual ICollection<DispatchDetail> DispatchDetails { get; set; }
         public virtual ICollection<InternalMovement> InternalMovements { get; set; }

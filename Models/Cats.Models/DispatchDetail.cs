@@ -8,7 +8,7 @@ namespace Cats.Models
     {
         [Key]
         public System.Guid DispatchDetailID { get; set; }
-        public int PartitionID { get; set; }
+        public int? PartitionID { get; set; }
         public Nullable<System.Guid> TransactionGroupID { get; set; }
         public Nullable<System.Guid> DispatchID { get; set; }
         public int CommodityID { get; set; }
