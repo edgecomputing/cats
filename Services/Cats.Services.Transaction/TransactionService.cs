@@ -483,7 +483,7 @@ namespace Cats.Services.Transaction
 
         #endregion
 
-        #region Post Local Purchase
+#region Post Local Purchase
 
         public bool PostLocalPurchase(List<LocalPurchaseDetail> localPurchaseDetail)
         {
@@ -558,7 +558,7 @@ namespace Cats.Services.Transaction
         }
         #endregion
 
-        #region Post Loan
+#region Post Loan
 
         public bool PostLoan(LoanReciptPlan loanReciptPlan)
         {
@@ -622,8 +622,7 @@ namespace Cats.Services.Transaction
         }
         #endregion
 
-
-        #region Post Distribution
+#region Post Distribution
         public bool PostDistribution(int distributionId)
         {
             var woredaStcokDistribution = _unitOfWork.WoredaStockDistributionRepository.FindById(distributionId);
@@ -651,6 +650,7 @@ namespace Cats.Services.Transaction
                         FDPID = woredaStockDistributionDetail.FdpId,
                         Month = woredaStcokDistribution.Month,
                         PlanId = woredaStcokDistribution.PlanID,
+                        CommodityID = woredaStockDistributionDetail.CommodityID,
                         //add commodity
                        LedgerID = Ledger.Constants.GOODS_UNDER_CARE
                     };
@@ -668,6 +668,7 @@ namespace Cats.Services.Transaction
                         FDPID = woredaStockDistributionDetail.FdpId,
                         Month = woredaStcokDistribution.Month,
                         PlanId = woredaStcokDistribution.PlanID,
+                        CommodityID = woredaStockDistributionDetail.CommodityID,
                         //add commodity
                         LedgerID = Ledger.Constants.DELIVERY_RECEIPT
                     };
@@ -684,6 +685,8 @@ namespace Cats.Services.Transaction
         }
 
         #endregion
+
+#region Post GiftCeritifficate
 
         public bool PostGiftCertificate(int giftCertificateId)
         {
@@ -735,6 +738,9 @@ namespace Cats.Services.Transaction
             _unitOfWork.Save();
             return true;
         }
+#endregion
+
+#region Post Delivery Reconcile
 
         public bool PostDeliveryReconcileReceipt(int deliveryReconcileID)
         {
@@ -788,35 +794,28 @@ namespace Cats.Services.Transaction
 
             transaction = new Models.Transaction();
             transaction.TransactionID = Guid.NewGuid();
-            //var reliefRequisition = _unitOfWork.ReliefRequisitionRepository.Get(t => t.RequisitionNo == distribution.RequisitionNo).FirstOrDefault();
             if (reliefRequisition != null)
                 transaction.ProgramID = reliefRequisition.ProgramID;
-            //var orDefault = _unitOfWorkhub.DispatchRepository.Get(t => t.DispatchID == distribution.DispatchID).FirstOrDefault();
+            
             if (orDefault != null)
                 transaction.DonorID = orDefault.DispatchAllocation.DonorID;
             transaction.TransactionGroupID = transactionGroup;
             transaction.TransactionDate = transactionDate;
-            //var dispatch = _unitOfWorkhub.DispatchRepository.Get(t => t.DispatchID == distribution.DispatchID).FirstOrDefault();
             if (dispatch != null)
                 transaction.ShippingInstructionID = dispatch.DispatchAllocation.ShippingInstructionID;
             if (reliefRequisition != null) transaction.PlanId = reliefRequisition.RegionalRequest.PlanID;
             if (reliefRequisition != null) transaction.Round = reliefRequisition.RegionalRequest.Round;
-            //transaction.LedgerID = Ledger.Constants.GOODS_IN_TRANSIT;
-            //transaction.HubID = delivery.HubID;
-            //transaction.FDPID = delivery.FDPID;
-
             transaction.LedgerID = Models.Ledger.Constants.GOODS_IN_TRANSIT;
             transaction.HubID = deliveryReconcile.HubID;
             transaction.FDPID = deliveryReconcile.FDPID;
 
-            //var firstOrDefault = distribution.DeliveryDetails.FirstOrDefault();
+            
             if (firstOrDefault != null)
             {
                 transaction.CommodityID = firstOrDefault.CommodityID;
             }
-            transaction.QuantityInMT = deliveryReconcile.ReceivedAmount / 10;
-            transaction.QuantityInUnit = deliveryReconcile.ReceivedAmount;
-            var @default1 = _unitOfWork.UnitRepository.Get(t => t.Name == "Quintal").FirstOrDefault();
+            transaction.QuantityInMT = -deliveryReconcile.ReceivedAmount / 10;
+            transaction.QuantityInUnit = -deliveryReconcile.ReceivedAmount;
             transaction.UnitID = @default != null ? @default.UnitID : 1;
             _unitOfWork.TransactionRepository.Add(transaction);
 
@@ -824,6 +823,8 @@ namespace Cats.Services.Transaction
             _unitOfWork.Save();
             return true;
         }
+
+        #endregion
 
         public List<ReceiptAllocation> ReceiptAllocationFindBy(Expression<Func<ReceiptAllocation, bool>> predicate)
         {
