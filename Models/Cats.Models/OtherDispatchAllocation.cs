@@ -12,7 +12,7 @@ namespace Cats.Models
         }
         [Key]
         public System.Guid OtherDispatchAllocationID { get; set; }
-        public int PartitionID { get; set; }
+        public int? PartitionID { get; set; }
         public System.DateTime AgreementDate { get; set; }
         public int CommodityID { get; set; }
         public System.DateTime EstimatedDispatchDate { get; set; }
