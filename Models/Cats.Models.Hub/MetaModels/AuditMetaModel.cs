@@ -14,8 +14,8 @@ namespace Cats.Models.Hubs.MetaModels
 
     		public Int32 HubID { get; set; }
 
-			[Required(ErrorMessage="Partition is required")]
-    		public Int32 PartitionID { get; set; }
+            //[Required(ErrorMessage="Partition is required")]
+            //public Int32 PartitionId { get; set; }
 
 			[Required(ErrorMessage="Login is required")]
     		public Int32 LoginID { get; set; }

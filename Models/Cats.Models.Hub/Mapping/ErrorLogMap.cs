@@ -45,7 +45,7 @@ namespace Cats.Models.Hubs.Mapping
             // Table & Column Mappings
             this.ToTable("ErrorLog");
             this.Property(t => t.ErrorLogID).HasColumnName("ErrorLogID");
-            this.Property(t => t.PartitionID).HasColumnName("PartitionID");
+            this.Property(t => t.PartitionId).HasColumnName("PartitionId");
             this.Property(t => t.Application).HasColumnName("Application");
             this.Property(t => t.Host).HasColumnName("Host");
             this.Property(t => t.Type).HasColumnName("Type");

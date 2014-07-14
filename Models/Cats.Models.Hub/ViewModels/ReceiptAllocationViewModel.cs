@@ -46,8 +46,8 @@ namespace Cats.Models.Hubs
 
         }
 
-        [Required(ErrorMessage = "Partition is required")]
-        public Int32 PartitionID { get; set; }
+        //[Required(ErrorMessage = "Partition is required")]
+        public Int32 PartitionId { get; set; }
 
         [Required(ErrorMessage = "Receipt Allocation is required")]
         public Guid ReceiptAllocationID { get; set; }
@@ -228,7 +228,7 @@ namespace Cats.Models.Hubs
                 ETA = this.ETA,
                 DonorID = this.DonorID == null ? (int?)null : this.DonorID.Value,
                 GiftCertificateDetailID = this.GiftCertificateDetailID,
-                PartitionID = this.PartitionID,
+                PartitionId = this.PartitionId,
                 ProgramID = this.ProgramID,
                 CommoditySourceID = this.CommoditySourceID,
                 IsCommited = this.IsCommited,
@@ -284,7 +284,7 @@ namespace Cats.Models.Hubs
 
         }
         // [Required(ErrorMessage = "Partition is required")]
-        public Int32 PartitionID { get; set; }
+        public Int32 PartitionId { get; set; }
 
         //   [Required(ErrorMessage = "Receipt Allocation is required")]
         public Guid? ReceiptAllocationID { get; set; }

@@ -8,7 +8,7 @@ namespace Cats.Models.Hubs
     {
         [Key]
         public System.Guid ErrorLogID { get; set; }
-        public int? PartitionID { get; set; }
+        public int? PartitionId { get; set; }
         public string Application { get; set; }
         public string Host { get; set; }
         public string Type { get; set; }

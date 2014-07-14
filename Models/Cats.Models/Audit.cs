@@ -7,7 +7,7 @@ namespace Cats.Models
     {
         public System.Guid AuditID { get; set; }
         public Nullable<int> HubID { get; set; }
-        public int? PartitionID { get; set; }
+        public int? PartitionId { get; set; }
         public int LoginID { get; set; }
         public DateTime DateTime { get; set; }
         public string Action { get; set; }

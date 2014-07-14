@@ -1130,10 +1130,10 @@ namespace Cats.Services.Hub
             transactionGroup.TransactionGroupID = transactionGroupId;
             transactionGroup.Transactions.Add(transactionFromStore);
             transactionGroup.Transactions.Add(transactionToStore);
-            transactionGroup.PartitionID = 0;
+            transactionGroup.PartitionId = 0;
 
             internalMovement.InternalMovementID = Guid.NewGuid();
-            internalMovement.PartitionID = 0;
+            internalMovement.PartitionId = 0;
             internalMovement.TransactionGroupID = transactionGroupId;
             internalMovement.TransactionGroup = transactionGroup;
             internalMovement.TransferDate = viewModel.SelectedDate;
@@ -1228,7 +1228,7 @@ namespace Cats.Services.Hub
             transactionGroup.Transactions.Add(transactionTwo);
 
 
-            lossAndAdjustment.PartitionID = 0;
+            lossAndAdjustment.PartitionId = 0;
             lossAndAdjustment.AdjustmentID = Guid.NewGuid();
             lossAndAdjustment.TransactionGroupID = transactionGroupId;
             lossAndAdjustment.TransactionGroup = transactionGroup;
@@ -1323,7 +1323,7 @@ namespace Cats.Services.Hub
 
             lossAndAdjustment.TransactionGroupID = transactionGroupId;
             lossAndAdjustment.AdjustmentID = Guid.NewGuid();
-            lossAndAdjustment.PartitionID = 0;
+            lossAndAdjustment.PartitionId = 0;
             lossAndAdjustment.TransactionGroup = transactionGroup;
             lossAndAdjustment.HubID = user.DefaultHub.Value;
             lossAndAdjustment.AdjustmentReasonID = viewModel.ReasonId;
@@ -1428,7 +1428,7 @@ namespace Cats.Services.Hub
 
             transactionOne.TransactionID = Guid.NewGuid();
             transactionOne.TransactionGroupID = transactionGroupId;
-            transactionOne.PartitionID = 0;
+            transactionOne.PartitionId = 0;
             transactionOne.LedgerID = Cats.Models.Ledger.Constants.GOODS_UNDER_CARE;
             transactionOne.HubOwnerID = user.DefaultHubObj.HubOwner.HubOwnerID;
             transactionOne.AccountID = repositoryAccountGetAccountIDWithCreateNegative;
@@ -1453,7 +1453,7 @@ namespace Cats.Services.Hub
 
             transactionTwo.TransactionID = Guid.NewGuid();
             transactionTwo.TransactionGroupID = transactionGroupId;
-            transactionTwo.PartitionID = 0;
+            transactionTwo.PartitionId = 0;
             transactionTwo.LedgerID = Cats.Models.Ledger.Constants.GOODS_ON_HAND;
             transactionTwo.HubOwnerID = user.DefaultHubObj.HubOwnerID;
             transactionTwo.AccountID = repositoryAccountGetAccountIDWithCreatePosetive;
@@ -1473,7 +1473,7 @@ namespace Cats.Services.Hub
             transactionTwo.UnitID = startingBalance.UnitID;
             transactionTwo.TransactionDate = DateTime.Now;
 
-            transactionGroup.PartitionID = 0;
+            transactionGroup.PartitionId = 0;
             
             try
             {

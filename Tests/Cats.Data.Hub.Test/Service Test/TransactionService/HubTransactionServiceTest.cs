@@ -32,7 +32,7 @@ namespace Cats.Data.Tests.Hub.Transaction
                                   new Receive()
                                       {
                                           ReceiveID = Guid.NewGuid(),
-                                          PartitionID = 0,
+                                          PartitionId = 0,
                                           GRN = "001",
                                           CommodityTypeID = 1,
                                           SourceDonorID = 1,
@@ -77,7 +77,7 @@ namespace Cats.Data.Tests.Hub.Transaction
                                                                    new ReceiveDetail()
                                                                        {
                                                                            ReceiveDetailID = Guid.NewGuid(),
-                                                                           PartitionID = 0,
+                                                                           PartitionId = 0,
                                                                            ReceiveID = Guid.NewGuid(),
                                                                            //should be given the 
                                                                            TransactionGroupID = null,

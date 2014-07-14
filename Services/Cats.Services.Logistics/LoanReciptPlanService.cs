@@ -82,7 +82,7 @@ namespace Cats.Services.Logistics
                        CommoditySourceID = loanReciptPlan.CommoditySourceID,
                        ProjectNumber = loanReciptPlan.ProjectCode,
                        //SourceHubID = loanReciptPlan.SourceHubID,
-                       PartitionID = 0,
+                       PartitionId = 0,
                        IsCommited = false
                    };
 

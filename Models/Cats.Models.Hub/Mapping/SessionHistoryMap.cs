@@ -29,7 +29,7 @@ namespace Cats.Models.Hubs.Mapping
             // Table & Column Mappings
             this.ToTable("SessionHistory");
             this.Property(t => t.SessionHistoryID).HasColumnName("SessionHistoryID");
-            this.Property(t => t.PartitionID).HasColumnName("PartitionID");
+            this.Property(t => t.PartitionId).HasColumnName("PartitionId");
             this.Property(t => t.UserProfileID).HasColumnName("UserProfileID");
             this.Property(t => t.RoleID).HasColumnName("RoleID");
             this.Property(t => t.LoginDate).HasColumnName("LoginDate");

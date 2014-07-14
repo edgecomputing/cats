@@ -17,7 +17,7 @@ namespace Cats.Models.Hubs.Mapping
             // Table & Column Mappings
             this.ToTable("GiftCertificateDetail");
             this.Property(t => t.GiftCertificateDetailID).HasColumnName("GiftCertificateDetailID");
-            this.Property(t => t.PartitionID).HasColumnName("PartitionID");
+            this.Property(t => t.PartitionId).HasColumnName("PartitionId");
             this.Property(t => t.TransactionGroupID).HasColumnName("TransactionGroupID");
             this.Property(t => t.GiftCertificateID).HasColumnName("GiftCertificateID");
             this.Property(t => t.CommodityID).HasColumnName("CommodityID");

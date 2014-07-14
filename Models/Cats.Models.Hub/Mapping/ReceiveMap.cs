@@ -52,7 +52,7 @@ namespace Cats.Models.Hubs.Mapping
             // Table & Column Mappings
             this.ToTable("Receive");
             this.Property(t => t.ReceiveID).HasColumnName("ReceiveID");
-            this.Property(t => t.PartitionID).HasColumnName("PartitionID");
+            this.Property(t => t.PartitionId).HasColumnName("PartitionId");
             this.Property(t => t.HubID).HasColumnName("HubID");
             this.Property(t => t.GRN).HasColumnName("GRN");
             this.Property(t => t.CommodityTypeID).HasColumnName("CommodityTypeID");

@@ -8,7 +8,7 @@ namespace Cats.Models.Hubs
     {
         [Key]
         public System.Guid ReceiveDetailID { get; set; }
-        public int? PartitionID { get; set; }
+        public int? PartitionId { get; set; }
         public Nullable<System.Guid> ReceiveID { get; set; }
         public Nullable<System.Guid> TransactionGroupID { get; set; }
         public int CommodityID { get; set; }

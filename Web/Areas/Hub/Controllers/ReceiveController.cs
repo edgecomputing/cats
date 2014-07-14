@@ -224,7 +224,7 @@ namespace Cats.Areas.Hub.Controllers
                 var receiptAllocationViewModel = new ReceiptAllocationViewModel
                     {
                         ReceiptAllocationID = receiptAllocation.ReceiptAllocationID,
-                        PartitionID = receiptAllocation.PartitionID,
+                        PartitionId = receiptAllocation.PartitionId,
                         IsCommited = receiptAllocation.IsCommited,
                         ETA = receiptAllocation.ETA,
                         ProjectNumber = receiptAllocation.ProjectNumber,

@@ -118,7 +118,7 @@ namespace Cats.Services.Hub
             }
             else
             {
-                oAllocation.PartitionID = (model.PartitionID.HasValue) ? model.PartitionID.Value : 0;
+                oAllocation.PartitionId = (model.PartitionId.HasValue) ? model.PartitionId.Value : 0;
                 if (model.OtherDispatchAllocationID.HasValue)
                 {
                     oAllocation.OtherDispatchAllocationID = model.OtherDispatchAllocationID.Value;
@@ -158,7 +158,7 @@ namespace Cats.Services.Hub
             {
                 var val = new OtherDispatchAllocationViewModel()
                 {
-                    PartitionID = 0,
+                    PartitionId = 0,
                     OtherDispatchAllocationID = model.OtherDispatchAllocationID,
                     ProgramID = model.ProgramID,
                     FromHubID = model.HubID,

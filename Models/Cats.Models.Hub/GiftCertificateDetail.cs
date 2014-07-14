@@ -12,7 +12,7 @@ namespace Cats.Models.Hubs
         }
         [Key]
         public int GiftCertificateDetailID { get; set; }
-        public int? PartitionID { get; set; }
+        public int? PartitionId { get; set; }
         public int TransactionGroupID { get; set; }
         public int GiftCertificateID { get; set; }
         public int CommodityID { get; set; }

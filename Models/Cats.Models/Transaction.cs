@@ -7,7 +7,7 @@ namespace Cats.Models
     public partial class Transaction
     {
         public System.Guid TransactionID { get; set; }
-        public Nullable<int> PartitionID { get; set; }
+        public Nullable<int> PartitionId { get; set; }
         public System.Guid TransactionGroupID { get; set; }
         public int LedgerID { get; set; }
         public Nullable<int> HubOwnerID { get; set; }
