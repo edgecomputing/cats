@@ -16,40 +16,52 @@
 { 
     <a class="btn toolbar-btn " data-buttontype="btn_back_to_list" href="@Url.Action("Detail","NeedAssessment",new {id=Model.PlanID})"></a>
 }
-<fieldset>
-    <legend>
-        <h5>@Html.Translate("Region"):  @ViewData["RegionName"]</h5> 
-       <h5> @Html.Translate("Need assessment type"): @ViewData["TypeOfNeedAssessment"]</h5>
-        <br/>
-    </legend>
-</fieldset>
-
+<style>
+    .calculated
+    {
+        color:#888;
+        text-align:right;
+        font-weight:bold;
+    }
+</style>
+<div style="float:left; width:45%;">
+    @Html.Translate("Region"):  @ViewData["RegionName"]
+</div>  
+<div style="float:left; width:45%;">
+    @Html.Translate("Need assessment type"): @ViewData["TypeOfNeedAssessment"]
+</div>      
+<div style="clear:both;padding:5px;"></div>
 @(Html.Kendo().Grid<Cats.Models.NeedAssessmentWoredaDao>()
       .Name("grid")
       .Columns(columns =>
                    {
 
-                       columns.Bound(o => o.WoredaName).Width("200").HtmlAttributes(new { style = "background-color:lightgray" }).ClientTemplate("<span id='#=ZoneName#'>#=WoredaName#</span>");
+                       columns.Bound(o => o.WoredaName).Width("200").HtmlAttributes(new { style = "background-color:rgb(250,250,250);" }).ClientTemplate("<span id='#=ZoneName#'>#=WoredaName#</span>");
                        columns.Bound(p => p.ProjectedMale).Title("Projected Male").HeaderHtmlAttributes(new {style = "overflow: visible; white-space: normal;", title = "Projecgted Male"}).Format("{0:n0}").HtmlAttributes(new {align = "Right"}).HtmlAttributes(new {style = "text-align: right; font-size: 12px; "});
                        columns.Bound(p => p.ProjectedFemale).Title("Projected Female").HeaderHtmlAttributes(new {style = "overflow: visible; white-space: normal;", title = "Projected Female"}).Format("{0:n0}").HtmlAttributes(new {align = "Right"}).HtmlAttributes(new {style = "text-align: right; font-size: 12px; "});
+
+                       columns.Template(c => { }).Title("Projected Total").HtmlAttributes(new { @class = "calculated" }).ClientTemplate("<span class='rowCount totalProjected' rowCount='#=rowCount#' nextRow='#=getRowNo(data)#'>#=calculateTotalProjected(data)# </span>");
+
                        columns.Bound(p => p.RegularPSNP).Title("Regular PSNP").HeaderHtmlAttributes(new {style = "overflow: visible; white-space: normal;", title = "Regular PSNP"}).Format("{0:n0}").HtmlAttributes(new {align = "Right"}).HtmlAttributes(new {style = "text-align: right; font-size: 12px; "});
                        columns.Bound(p => p.PSNP).Title("PSNP").HeaderHtmlAttributes(new {style = "overflow: visible; white-space: normal;", title = "PSNP"}).Format("{0:n0}").HtmlAttributes(new {align = "Right"}).HtmlAttributes(new {style = "text-align: right; font-size: 12px; "});
                        columns.Bound(p => p.NonPSNP).Title("Non PSNP").HeaderHtmlAttributes(new {style = "overflow: visible; white-space: normal;", title = "Non PSNP"}).Format("{0:n0}").HtmlAttributes(new {align = "Right"}).HtmlAttributes(new {style = "text-align: right; font-size: 12px; "});
                        columns.Bound(p => p.Total).Title("Total").HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;", title = "Total" }).Format("{0:n0}").HtmlAttributes(new { align = "Right" }).HtmlAttributes(new { style = "text-align: right; font-size: 12px; " }).HtmlAttributes(new { style = "text-align: right; font-size: 12px; " });
                        columns.Bound(p => p.Contingencybudget).Title("Contingency budget").HeaderHtmlAttributes(new {style = "overflow: visible; white-space: normal;", title = "Contingency budget"}).Format("{0:n0}").HtmlAttributes(new {align = "Right"}).HtmlAttributes(new {style = "text-align: right; font-size: 12px; "}).HtmlAttributes(new {style = "text-align: right; font-size: 12px; "});
                        columns.Bound(p => p.TotalBeneficiaries).Title("Total Beneficiaries").HeaderHtmlAttributes(new {style = "overflow: visible; white-space: normal;", title = "Total Beneficiaries"}).Format("{0:n0}").HtmlAttributes(new {align = "Right"}).HtmlAttributes(new {style = "text-align: right; font-size: 12px; "}).HtmlAttributes(new {style = "text-align: right; font-size: 12px; "});
-                       columns.Bound(p => p.PSNPFromWoredasMale).Title("PSNP From Woredas Male").HeaderHtmlAttributes(new {style = "overflow: visible; white-space: normal;", title = "PSNP From Woredas Male"}).Format("{0:n0}").HtmlAttributes(new {align = "Right"}).ClientFooterTemplate("#=kendo.format('{0:n0}', sum)#").ClientGroupFooterTemplate("#=kendo.format('{0:n0}', sum)#").FooterHtmlAttributes(new {style = "text-align: right; font-size: 12px; font-weight: bold;"});
+                     @*  columns.Bound(p => p.PSNPFromWoredasMale).Title("PSNP From Woredas Male").HeaderHtmlAttributes(new {style = "overflow: visible; white-space: normal;", title = "PSNP From Woredas Male"}).Format("{0:n0}").HtmlAttributes(new {align = "Right"}).ClientFooterTemplate("#=kendo.format('{0:n0}', sum)#").ClientGroupFooterTemplate("#=kendo.format('{0:n0}', sum)#").FooterHtmlAttributes(new {style = "text-align: right; font-size: 12px; font-weight: bold;"});
                        columns.Bound(p => p.PSNPFromWoredasFemale).Title("PSNP From Woredas Female").HeaderHtmlAttributes(new {style = "overflow: visible; white-space: normal;", title = "PSNP From Woredas Female"}).Format("{0:n0}").HtmlAttributes(new {align = "Right"}).ClientFooterTemplate(" #=kendo.format('{0:n0}', sum)#").ClientGroupFooterTemplate(" #=kendo.format('{0:n0}', sum)#").FooterHtmlAttributes(new {style = "text-align: right; font-size: 12px; font-weight: bold;"});
                        columns.Bound(p => p.PSNPFromWoredasDOA).Title("PSNP From Woredas DOA").HeaderHtmlAttributes(new {style = "overflow: visible; white-space: normal;", title = "PSNP From Woredas DOA"}).Format("{0:n0}").HtmlAttributes(new {align = "Right"});
                        columns.Bound(p => p.NonPSNPFromWoredasMale).Title("Non PSNP From Woredas Male").HeaderHtmlAttributes(new {style = "overflow: visible; white-space: normal;", title = "Non PSNP From Woredas Male"}).Format("{0:n0}").HtmlAttributes(new {align = "Right"}).ClientFooterTemplate(" #=kendo.format('{0:n0}', sum)#").ClientGroupFooterTemplate(" #=kendo.format('{0:n0}', sum)#").FooterHtmlAttributes(new {style = "text-align: right; font-size: 12px; font-weight: bold;"});
                        columns.Bound(p => p.NonPSNPFromWoredasFemale).Title("Non PSNP From Woredas Female").HeaderHtmlAttributes(new {style = "overflow: visible; white-space: normal;", title = "Non PSNP From Woredas Female"}).Format("{0:n0}").HtmlAttributes(new {align = "Right"}).ClientFooterTemplate(" #=kendo.format('{0:n0}', sum)#").ClientGroupFooterTemplate(" #=kendo.format('{0:n0}', sum)#").FooterHtmlAttributes(new {style = "text-align: right; font-size: 12px; font-weight: bold;"});
                        columns.Bound(p => p.NonPSNPFromWoredasDOA).Title("Non PSNP From Woredas DOA").HeaderHtmlAttributes(new {style = "overflow: visible; white-space: normal;", title = "Non PSNP From Woredas DOA"}).Format("{0:n0}").HtmlAttributes(new {align = "Right"});
-                   })
+    *@               
+    })
 
       .ToolBar(toolbar => toolbar.Save())
 
       .HtmlAttributes(new {style = "height: 400px"})
-      .Pageable()
+      .Scrollable()
+   //   .Pageable()
       .Sortable()
       .Navigatable()
       .Events(events => events.Change("onDataBound"))
@@ -66,7 +78,7 @@
                                                         aggregates.Add(p => p.NonPSNPFromWoredasFemale).Sum();
                                                     })
                                     .Batch(true)
-                                    .PageSize(20)
+                                    //.PageSize(20)
                                     .ServerOperation(false)
                                     .Events(events => events.Error("error_handler"))
                                     .Group(groups => groups.Add(p => p.ZoneName))
@@ -84,6 +96,17 @@
 )
 
 <script>
+    var rowCount = 0;
+    var gridData = [];
+    function calculateTotalProjected(data) {
+        return data.ProjectedMale * 1 + data.ProjectedFemale*1;
+    }
+
+    function getRowNo(data) {
+        gridData[rowCount] = data;
+        return 1 + rowCount++;
+    }
+
     function onGridKeydown(e) {
         //if (e.keyCode === kendo.keys.TAB) {
         //    var grid = $(this).closest("[data-role=grid]").data("kendoGrid");
@@ -107,7 +130,23 @@
         var grid = $("#grid").data("kendoGrid");
         $(grid.tbody).on("focus", "input", function (e) {
             var input = $(this);
-            setTimeout(function () { input.select(); },100);
+            setTimeout(function () { input.select(); }, 100);
+            
+                $(this).change(function () {
+                    var $rowCount = $(this).closest("tr").find(".rowCount");
+                    var $totalProjected = $(this).closest("tr").find(".totalProjected");
+                    var rowCount = $rowCount.attr("rowCount");
+                    var data = gridData[rowCount];
+
+                    console.log("changed ", data);
+                    var totalProjected = calculateTotalProjected(data);
+
+                    $totalProjected.html(totalProjected);
+                    //gridData[rowCount].CashRatio = CashRatio;
+
+                   // console.log("change", { rowCount: rowCount, CashRatio: CashRatio, data: gridData[rowCount] });
+                    // console.log("onDataBound",{data:$('#grid').data().kendoGrid.dataSource.data()})
+                });
         });
         
        
