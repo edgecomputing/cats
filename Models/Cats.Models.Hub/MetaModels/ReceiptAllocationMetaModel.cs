@@ -13,7 +13,7 @@ namespace Cats.Models.Hubs.MetaModels
     		public Guid ReceiptAllocationID { get; set; }
 
             //[Required(ErrorMessage="Partition is required")]
-            //public Int32 PartitionId { get; set; }
+            public Int32? PartitionId { get; set; }
 
 			[Required(ErrorMessage="Is Commited is required")]
     		public Boolean IsCommited { get; set; }
