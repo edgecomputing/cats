@@ -512,9 +512,10 @@ namespace Cats.Areas.EarlyWarning.Controllers
         {
             if (regionalRequestDetailViewModel != null && ModelState.IsValid)
             {
-                
-                //_regionalRequestDetailService.AddRegionalRequestDetail(BindRegionalRequestDetail(regionalRequestDetailViewModel));
-                _regionalRequestDetailService.AddCommodityFdp(BindRegionalRequestDetail(regionalRequestDetailViewModel));
+                RegionalRequestDetail model = BindRegionalRequestDetail(regionalRequestDetailViewModel);
+                _regionalRequestDetailService.AddCommodityFdp(model);
+                regionalRequestDetailViewModel.RegionalRequestDetailID = model.RegionalRequestDetailID;
+                return Json(new { success = 1, record = regionalRequestDetailViewModel }, JsonRequestBehavior.AllowGet); 
             }
             return RedirectToAction("Allocation_Read", new {request=new DataSourceRequest(), id = regionalRequestDetailViewModel.RegionalRequestID });
             /*
@@ -533,14 +534,16 @@ namespace Cats.Areas.EarlyWarning.Controllers
                     target.Fdpid = regionalRequestDetail.Fdpid;
 
                     _regionalRequestDetailService.EditRegionalRequestDetail(target);
-
+                    return Json(new { success = 1, record = regionalRequestDetail }, JsonRequestBehavior.AllowGet); 
                     
                 }
             }
+            return Json(new { success = 0, record = regionalRequestDetail }, JsonRequestBehavior.AllowGet); 
+            /*
             var requestDetails = _regionalRequestDetailService.FindBy(t => t.RegionalRequestID == regionalRequestDetail.RegionalRequestID);
             var requestDetailViewModels = (from dtl in requestDetails select BindRegionalRequestDetailViewModel(dtl));
             return Json(requestDetailViewModels, JsonRequestBehavior.AllowGet);
-
+            */
             //return Json(new[] { regionalRequestDetail }.ToDataSourceResult(request, ModelState));
         }
         public ActionResult Allocation_Delete([DataSourceRequest] DataSourceRequest request, int id)
