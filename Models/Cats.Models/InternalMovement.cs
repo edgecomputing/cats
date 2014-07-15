@@ -9,7 +9,7 @@ namespace Cats.Models
     public partial class InternalMovement
     {
         public System.Guid InternalMovementID { get; set; }
-        public int? PartitionID { get; set; }
+        public int? PartitionId { get; set; }
         public int HubID { get; set; }
         public Nullable<System.Guid> TransactionGroupID { get; set; }
         public System.DateTime TransferDate { get; set; }

@@ -588,7 +588,7 @@ namespace Cats.Areas.Logistics.Controllers
                                                     GiftCertificateDetailID = detail.DonationPlanHeader.GiftCertificateID,
                                                     CommoditySourceID = 1,
                                                     IsClosed = false,
-                                                    PartitionID = 0
+                                                    PartitionId = 0
                                                 };
 
                     _receiptAllocationService.AddReceiptAllocation(receiptAllocation);

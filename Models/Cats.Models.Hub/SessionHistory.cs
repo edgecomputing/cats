@@ -8,7 +8,7 @@ namespace Cats.Models.Hubs
     {
         [Key]
         public System.Guid SessionHistoryID { get; set; }
-        public int? PartitionID { get; set; }
+        public int? PartitionId { get; set; }
         public Nullable<int> UserProfileID { get; set; }
         public Nullable<int> RoleID { get; set; }
         public System.DateTime LoginDate { get; set; }

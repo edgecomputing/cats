@@ -29,7 +29,7 @@ namespace Cats.Models.Mapping
             this.ToTable("Audit");
             this.Property(t => t.AuditID).HasColumnName("AuditID");
             this.Property(t => t.HubID).HasColumnName("HubID");
-            this.Property(t => t.PartitionID).HasColumnName("PartitionID");
+            this.Property(t => t.PartitionId).HasColumnName("PartitionId");
             this.Property(t => t.LoginID).HasColumnName("LoginID");
             this.Property(t => t.DateTime).HasColumnName("DateTime");
             this.Property(t => t.Action).HasColumnName("Action");

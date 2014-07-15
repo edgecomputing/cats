@@ -273,7 +273,7 @@ namespace Cats.Services.Hub
             dispatch.ShippingInstructionID = dispatchAllocation.ShippingInstructionID;
             dispatch.ProjectCodeID = dispatchAllocation.ProjectCodeID;
 
-           // dispatch.PartitionID = 0;
+           // dispatch.PartitionId = 0;
 
             //dispatch.DispatchDetails.Add(dispatchDetail);
 

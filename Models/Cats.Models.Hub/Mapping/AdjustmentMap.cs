@@ -34,7 +34,7 @@ namespace Cats.Models.Hubs.Mapping
             // Table & Column Mappings
             this.ToTable("Adjustment");
             this.Property(t => t.AdjustmentID).HasColumnName("AdjustmentID");
-            this.Property(t => t.PartitionID).HasColumnName("PartitionID");
+            this.Property(t => t.PartitionId).HasColumnName("PartitionId");
             this.Property(t => t.TransactionGroupID).HasColumnName("TransactionGroupID");
             this.Property(t => t.HubID).HasColumnName("HubID");
             this.Property(t => t.AdjustmentReasonID).HasColumnName("AdjustmentReasonID");

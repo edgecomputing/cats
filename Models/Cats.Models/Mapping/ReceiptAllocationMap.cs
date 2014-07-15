@@ -33,7 +33,7 @@ namespace Cats.Models.Mapping
             // Table & Column Mappings
             this.ToTable("ReceiptAllocation");
             this.Property(t => t.ReceiptAllocationID).HasColumnName("ReceiptAllocationID");
-            this.Property(t => t.PartitionID).HasColumnName("PartitionId");
+            this.Property(t => t.PartitionId).HasColumnName("PartitionId");
             this.Property(t => t.IsCommited).HasColumnName("IsCommited");
             this.Property(t => t.ETA).HasColumnName("ETA");
             this.Property(t => t.ProjectNumber).HasColumnName("ProjectNumber");

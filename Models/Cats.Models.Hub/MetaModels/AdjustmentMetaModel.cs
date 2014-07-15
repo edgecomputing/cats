@@ -12,8 +12,8 @@ namespace Cats.Models.Hubs.MetaModels
 			[Required(ErrorMessage="Adjustment is required")]
     		public Guid AdjustmentID { get; set; }
 
-			[Required(ErrorMessage="Partition is required")]
-    		public Int32 PartitionID { get; set; }
+            ////[Required(ErrorMessage="Partition is required")]
+            //public Int32 PartitionId { get; set; }
 
     		public Guid TransactionGroupID { get; set; }
 

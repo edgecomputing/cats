@@ -272,8 +272,8 @@
         
         var gridUrl = '@Url.Action("AllocationListJson", "Receive")';
         var gridTypes= [@Cats.Models.Hubs.CommoditySource.Constants.DONATION
-            @Cats.Models.Hubs.CommoditySource.Constants.LOAN
-            @Cats.Models.Hubs.CommoditySource.Constants.LOCALPURCHASE];
+           , @Cats.Models.Hubs.CommoditySource.Constants.LOAN
+           , @Cats.Models.Hubs.CommoditySource.Constants.LOCALPURCHASE];
         var attribs = getFilterAttributes();
             console.log("dataRefresh ", attribs);
             var urlParams = "";

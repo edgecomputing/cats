@@ -11,8 +11,8 @@ namespace Cats.Models
     {
        
       public Guid DispatchAllocationID {get; set;}
-       
-      public int? PartitionID {get; set;}
+
+      public int? PartitionId { get; set; }
       public int? HubID {get; set;}
         
       public int? StoreID {get; set;}

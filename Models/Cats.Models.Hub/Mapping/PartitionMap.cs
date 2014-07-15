@@ -8,7 +8,7 @@ namespace Cats.Models.Hubs.Mapping
         public PartitionMap()
         {
             // Primary Key
-            this.HasKey(t => t.PartitionID);
+            this.HasKey(t => t.PartitionId);
 
             // Properties
             this.Property(t => t.ServerUserName)
@@ -17,7 +17,7 @@ namespace Cats.Models.Hubs.Mapping
 
             // Table & Column Mappings
             this.ToTable("Partition");
-            this.Property(t => t.PartitionID).HasColumnName("PartitionID");
+            this.Property(t => t.PartitionId).HasColumnName("PartitionId");
             this.Property(t => t.HubID).HasColumnName("HubID");
             this.Property(t => t.ServerUserName).HasColumnName("ServerUserName");
             this.Property(t => t.PartitionCreatedDate).HasColumnName("PartitionCreatedDate");

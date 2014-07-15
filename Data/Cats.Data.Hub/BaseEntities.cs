@@ -133,7 +133,7 @@ namespace Cats.Data.Hub
                           audit.LoginID = UserId;
                           audit.HubID = cuUser.DefaultHub.HubID;
                           //TODO: fix this partion id
-                          audit.PartitionID = 0;
+                          audit.PartitionId = 0;
                           // this means the value is changed
                           audit.OldValue = null;
                           audit.NewValue = entry.CurrentValues[propName.Name].ToString();
@@ -155,7 +155,7 @@ namespace Cats.Data.Hub
                       audit.LoginID = UserId;
                       audit.HubID = cuUser.DefaultHub.HubID;
                       //TODO: fix this partion id
-                      audit.PartitionID = 0;
+                      audit.PartitionId = 0;
                       //Dispose the second context 
                       audit.Action = AuditActions.D.ToString();
                       audit.PrimaryKey = entry.EntityKey.EntityKeyValues[0].Value.ToString();
@@ -188,7 +188,7 @@ namespace Cats.Data.Hub
                                   audit.LoginID = UserId;
                                   audit.HubID = cuUser.DefaultHub.HubID;
                                   //TODO: fix this partion id
-                                  audit.PartitionID = 0;
+                                  audit.PartitionId = 0;
                                   // this means the value is changed
                                   audit.OldValue = oldEntry.CurrentValues[propName].ToString();
                                   audit.NewValue = entry.CurrentValues[propName].ToString();
@@ -327,7 +327,7 @@ namespace Cats.Data.Hub
                     NewValue = dbEntry.CurrentValues.ToObject().ToString(),
                     HubID = 1,
                     //TODO: fix this partion id
-                    PartitionID = 0
+                    PartitionId = 0
                 }
                     );
             }
@@ -346,7 +346,7 @@ namespace Cats.Data.Hub
                     NewValue = dbEntry.OriginalValues.ToObject().ToString(),
                     HubID = 1,
                     //TODO: fix this partion id
-                    PartitionID = 0
+                    PartitionId = 0
                 }
                     );
             }
@@ -370,7 +370,7 @@ namespace Cats.Data.Hub
                             NewValue = dbEntry.CurrentValues.GetValue<object>(propertyName) == null ? null : dbEntry.CurrentValues.GetValue<object>(propertyName).ToString(),
                             HubID = 1,
                             //TODO: fix this partion id
-                            PartitionID = 0
+                            PartitionId = 0
                         }
                             );
                     }

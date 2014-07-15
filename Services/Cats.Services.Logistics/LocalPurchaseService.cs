@@ -98,7 +98,7 @@ namespace Cats.Services.Logistics
                            CommoditySourceID = 3, //Local Purchase
                            ProjectNumber = localPurchase.ProjectCode,
                            //PurchaseOrder = localPurchase.PurchaseOrder, 
-                           PartitionID = 0,
+                           PartitionId = 0,
                            IsCommited = false
                        };
                    _unitOfWork.ReceiptAllocationReository.Add(reciptAllocaltion);
