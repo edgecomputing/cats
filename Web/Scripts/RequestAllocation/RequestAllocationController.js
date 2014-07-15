@@ -165,10 +165,14 @@ function RequestAllocationController($scope, $http, $timeout) {
                 
                 console.log("saveAllocation Success",response);
                 $scope.onRequestDone();
-                if (isNew) {
-                    $('#newAllocationEdit').hide();
-                    $("#cmdAddAllocation").show();
 
+                if (isNew) {
+                    if (response.success) {
+
+                        $('#newAllocationEdit').hide();
+                        $("#cmdAddAllocation").show();
+                        $scope.allocations.push(response.record);
+                    }
                     //$scope.onFetchRequestAllocationDataSuccess(response.Data);
                     //console.log(" Is New", response.Data);
                     //$scope.allocations.push(allocation);
