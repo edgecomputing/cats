@@ -517,7 +517,8 @@ namespace Cats.Areas.EarlyWarning.Controllers
                 regionalRequestDetailViewModel.RegionalRequestDetailID = model.RegionalRequestDetailID;
                 return Json(new { success = 1, record = regionalRequestDetailViewModel }, JsonRequestBehavior.AllowGet); 
             }
-            return RedirectToAction("Allocation_Read", new {request=new DataSourceRequest(), id = regionalRequestDetailViewModel.RegionalRequestID });
+            return Json(new { success = 0, record = regionalRequestDetailViewModel,message="Invalid input" }, JsonRequestBehavior.AllowGet); 
+           // return RedirectToAction("Allocation_Read", new {request=new DataSourceRequest(), id = regionalRequestDetailViewModel.RegionalRequestID });
             /*
             var requestDetails = _regionalRequestDetailService.FindBy(t => t.RegionalRequestID == regionalRequestDetailViewModel.RegionalRequestID);
             var requestDetailViewModels = (from dtl in requestDetails select BindRegionalRequestDetailViewModel(dtl));
