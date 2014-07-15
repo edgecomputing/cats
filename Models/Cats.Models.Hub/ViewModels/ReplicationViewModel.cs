@@ -9,7 +9,7 @@ namespace Cats.Models.Hubs.ViewModels
     public class ReplicationViewModel
     {
         [Display(Name="Partition")]
-        public int PartitionId { get; set; }
+        public int? PartitionId { get; set; }
         [Display(Name="Hub")]
         public string HubName { get; set; }
         [Display(Name = "Partition Created")]
