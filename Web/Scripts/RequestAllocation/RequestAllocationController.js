@@ -169,12 +169,12 @@ function RequestAllocationController($scope, $http, $timeout) {
                     $('#newAllocationEdit').hide();
                     $("#cmdAddAllocation").show();
 
-                    $scope.onFetchRequestAllocationDataSuccess(response.Data);
-                    console.log(" Is New", response.Data);
+                    //$scope.onFetchRequestAllocationDataSuccess(response.Data);
+                    //console.log(" Is New", response.Data);
                     //$scope.allocations.push(allocation);
                 }
                 else {
-                    $scope.onFetchRequestAllocationDataSuccess(response);
+                    //$scope.onFetchRequestAllocationDataSuccess(response);
                 }
             })
             .error(function (data2, status, headers, config) {
