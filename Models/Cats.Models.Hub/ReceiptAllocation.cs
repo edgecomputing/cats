@@ -12,7 +12,7 @@ namespace Cats.Models.Hubs
         }
         [Key]
         public System.Guid ReceiptAllocationID { get; set; }
-        public int PartitionId { get; set; }
+        public int? PartitionId { get; set; }
         public bool IsCommited { get; set; }
         public System.DateTime ETA { get; set; }
         public string ProjectNumber { get; set; }
