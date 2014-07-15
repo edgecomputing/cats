@@ -9,7 +9,7 @@ namespace Cats.Models.Hubs
         [Key]
         public System.Guid SessionAttemptID { get; set; }
         public int UserProfileID { get; set; }
-        public int? PartitionID { get; set; }
+        public int? PartitionId { get; set; }
         public Nullable<int> RoleID { get; set; }
         public System.DateTime LoginDate { get; set; }
         public string UserName { get; set; }

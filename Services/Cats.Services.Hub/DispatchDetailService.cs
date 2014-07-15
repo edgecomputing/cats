@@ -68,7 +68,7 @@ namespace Cats.Services.Hub
         /// </summary>
         /// <param name="dispatchId">The dispatch id.</param>
         /// <returns></returns>
-        public List<DispatchDetail> GetDispatchDetail(int partitionID, Guid dispatchId)
+        public List<DispatchDetail> GetDispatchDetail(int PartitionId, Guid dispatchId)
         {
             return _unitOfWork.DispatchDetailRepository.FindBy(t => t.DispatchID == dispatchId);
 

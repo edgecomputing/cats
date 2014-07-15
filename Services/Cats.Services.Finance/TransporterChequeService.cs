@@ -13,7 +13,7 @@ namespace Cats.Services.Finance
     {
         private readonly IUnitOfWork _unitOfWork;
         
-        private int partitionID = 1;
+        private int PartitionId = 1;
 
 
         public TransporterChequeService(IUnitOfWork unitOfWork)

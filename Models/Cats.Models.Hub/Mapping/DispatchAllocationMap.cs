@@ -21,7 +21,7 @@ namespace Cats.Models.Hubs.Mapping
             // Table & Column Mappings
             this.ToTable("DispatchAllocation");
             this.Property(t => t.DispatchAllocationID).HasColumnName("DispatchAllocationID");
-            this.Property(t => t.PartitionID).HasColumnName("PartitionID");
+            this.Property(t => t.PartitionId).HasColumnName("PartitionId");
             this.Property(t => t.HubID).HasColumnName("HubID");
             this.Property(t => t.StoreID).HasColumnName("StoreID");
             this.Property(t => t.Year).HasColumnName("Year");

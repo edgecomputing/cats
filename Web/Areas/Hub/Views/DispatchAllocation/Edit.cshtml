@@ -32,7 +32,7 @@
 @using (Html.BeginForm("SaveFDPAllocationAjax", "DispatchAllocation", FormMethod.Post, new { @id = "frm_edit_inline" }))
     {
     @Html.ValidationSummary(true)
-        @Html.HiddenFor(model => model.PartitionID)
+        @Html.HiddenFor(model => model.PartitionId)
         @Html.HiddenFor(model => model.DispatchAllocationID)
         @Html.HiddenFor(model => model.HubID)
         @Html.HiddenFor(model => model.ShippingInstructionID)

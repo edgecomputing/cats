@@ -35,7 +35,7 @@ namespace Cats.Tests.Service_Tests
                                            new Dispatch()
                                                 {
                                                     DispatchID = Guid.NewGuid(),
-                                                    PartitionID = 1,
+                                                    PartitionId = 1,
                                                     HubID = 1,
                                                     GIN = "GIN-123",
                                                     FDPID = 1,

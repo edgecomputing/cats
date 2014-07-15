@@ -12,8 +12,8 @@ namespace Cats.Models.Hubs
         }
         [Key]
         public System.Guid ReceiveID { get; set; }
-        public Nullable<int> PartitionID { get; set; }
-        public int HubID { get; set; }
+        public int? PartitionID { get; set; }
+		public int HubID { get; set; }
         public string GRN { get; set; }
         public int CommodityTypeID { get; set; }
         public Nullable<int> SourceDonorID { get; set; }

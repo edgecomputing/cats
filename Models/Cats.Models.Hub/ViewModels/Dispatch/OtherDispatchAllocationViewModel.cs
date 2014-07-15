@@ -25,7 +25,7 @@ namespace Cats.Models.Hubs.ViewModels.Dispatch
         /// <value>
         /// The partition ID.
         /// </value>
-       public int? PartitionID { get; set; }
+       public int? PartitionId { get; set; }
        /// <summary>
        /// Gets or sets the dispatch allocation to hub ID.
        /// </summary>

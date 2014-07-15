@@ -47,7 +47,7 @@ namespace Cats.Models.Hubs
         }
 
         //[Required(ErrorMessage = "Partition is required")]
-        public Nullable<int> PartitionID { get; set; }
+        public Int32? PartitionId { get; set; }
 
         [Required(ErrorMessage = "Receipt Allocation is required")]
         public Guid ReceiptAllocationID { get; set; }
@@ -220,6 +220,7 @@ namespace Cats.Models.Hubs
         {
             ReceiptAllocation receiptAllocation = new ReceiptAllocation()
             {
+                
                 ProjectNumber = this.ProjectNumber,
                 SINumber = this.SINumber,
                 QuantityInMT = this.QuantityInMT,
@@ -228,7 +229,7 @@ namespace Cats.Models.Hubs
                 ETA = this.ETA,
                 DonorID = this.DonorID == null ? (int?)null : this.DonorID.Value,
                 GiftCertificateDetailID = this.GiftCertificateDetailID,
-                PartitionID = this.PartitionID,
+                PartitionId = this.PartitionId,
                 ProgramID = this.ProgramID,
                 CommoditySourceID = this.CommoditySourceID,
                 IsCommited = this.IsCommited,
@@ -284,7 +285,7 @@ namespace Cats.Models.Hubs
 
         }
         // [Required(ErrorMessage = "Partition is required")]
-        public Nullable<int> PartitionID { get; set; }
+        public Int32? PartitionId { get; set; }
 
         //   [Required(ErrorMessage = "Receipt Allocation is required")]
         public Guid? ReceiptAllocationID { get; set; }

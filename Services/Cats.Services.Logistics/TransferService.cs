@@ -78,7 +78,7 @@ namespace Cats.Services.Logistics
                        CommoditySourceID = transfer.CommoditySourceID, 
                        ProjectNumber = transfer.ProjectCode,
                        SourceHubID = transfer.SourceHubID, 
-                       PartitionID = 0,
+                       PartitionId = 0,
                        IsCommited = false
                    };
                    _unitOfWork.ReceiptAllocationReository.Add(reciptAllocaltion);

@@ -6,7 +6,7 @@
 <div style="padding:20px;">
 @using (Html.BeginForm("SaveTransfer", "DispatchAllocation"))
     {
-    @Html.HiddenFor(model => model.PartitionID)
+    @Html.HiddenFor(model => model.PartitionId)
     @Html.HiddenFor(model => model.OtherDispatchAllocationID)
     @Html.HiddenFor(model => model.FromHubID) 
     

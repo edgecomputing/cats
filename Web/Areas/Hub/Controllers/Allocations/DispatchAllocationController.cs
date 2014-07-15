@@ -489,7 +489,7 @@ namespace Cats.Areas.Hub.Controllers.Allocations
             model.FDPID = dispatch.FDPID;
             model.HubID = dispatch.HubID;
             model.Month = dispatch.Month;
-            model.PartitionID = dispatch.PartitionID;
+            model.PartitionId = dispatch.PartitionId;
             model.ProgramID = dispatch.ProgramID;
             model.ProjectCodeID = dispatch.ProjectCodeID;
             model.RequisitionNo = dispatch.RequisitionNo;
@@ -523,7 +523,7 @@ namespace Cats.Areas.Hub.Controllers.Allocations
             model.FDPID = dispatch.FDPID;
             model.HubID = dispatch.HubID;
             model.Month = dispatch.Month;
-            model.PartitionID = dispatch.PartitionID;
+            model.PartitionId = dispatch.PartitionId;
             model.ProgramID = dispatch.ProgramID;
             model.ProjectCodeID = dispatch.ProjectCodeID;
             model.RequisitionNo = dispatch.RequisitionNo;

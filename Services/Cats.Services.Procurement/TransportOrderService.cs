@@ -475,7 +475,7 @@ namespace Cats.Services.Procurement
                 dispatchAllocation.ProgramID = requisition.ProgramID;
                 dispatchAllocation.RequisitionNo = requisition.RequisitionNo;
                 dispatchAllocation.RequisitionId = requisition.RequisitionID;
-                dispatchAllocation.PartitionID = 0;
+                dispatchAllocation.PartitionId = 0;
                 var sipc =
                     _unitOfWork.SIPCAllocationRepository.FindBy(
                         t => t.RequisitionDetailID == requisitionDetail.RequisitionDetailID);

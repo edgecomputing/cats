@@ -84,7 +84,7 @@ namespace Cats.Services.Logistics
                 var reciptAllocaltion = new ReceiptAllocation()
                     {
                         ReceiptAllocationID = Guid.NewGuid(),
-                        PartitionID = 0,
+                        PartitionId = 0,
                         IsCommited = false,
                         ETA = loanReciptPlan.CreatedDate,
                         ProjectNumber = loanReciptPlan.ProjectCode,
