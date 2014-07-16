@@ -165,16 +165,20 @@ function RequestAllocationController($scope, $http, $timeout) {
                 
                 console.log("saveAllocation Success",response);
                 $scope.onRequestDone();
-                if (isNew) {
-                    $('#newAllocationEdit').hide();
-                    $("#cmdAddAllocation").show();
 
-                    $scope.onFetchRequestAllocationDataSuccess(response.Data);
-                    console.log(" Is New", response.Data);
+                if (isNew) {
+                    if (response.success) {
+
+                        $('#newAllocationEdit').hide();
+                        $("#cmdAddAllocation").show();
+                        $scope.allocations.push(response.record);
+                    }
+                    //$scope.onFetchRequestAllocationDataSuccess(response.Data);
+                    //console.log(" Is New", response.Data);
                     //$scope.allocations.push(allocation);
                 }
                 else {
-                    $scope.onFetchRequestAllocationDataSuccess(response);
+                    //$scope.onFetchRequestAllocationDataSuccess(response);
                 }
             })
             .error(function (data2, status, headers, config) {
