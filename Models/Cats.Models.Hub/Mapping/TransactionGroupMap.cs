@@ -14,7 +14,7 @@ namespace Cats.Models.Hubs.Mapping
             // Table & Column Mappings
             this.ToTable("TransactionGroup");
             this.Property(t => t.TransactionGroupID).HasColumnName("TransactionGroupID");
-            this.Property(t => t.PartitionId).HasColumnName("PartitionId");
+            this.Property(t => t.PartitionId).HasColumnName("PartitionID");
         }
     }
 }
