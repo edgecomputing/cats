@@ -64,7 +64,7 @@ namespace Cats.Areas.Hub.Controllers.Allocations
 
             
                    // ReceiptAllocationID = receiptAllocation.ReceiptAllocationID,
-                    entityModel.PartitionID = viewModel.PartitionID;
+                    entityModel.PartitionId = viewModel.PartitionId;
                     entityModel.IsCommited = viewModel.IsCommited;
                     entityModel.ETA = viewModel.ETA;
                     entityModel.ProjectNumber = viewModel.ProjectNumber;
@@ -309,7 +309,7 @@ namespace Cats.Areas.Hub.Controllers.Allocations
             {
                 receiptAllocationViewModel.IsCommited = receiptAllocation.IsCommited;
                 receiptAllocationViewModel.ReceiptAllocationID = receiptAllocation.ReceiptAllocationID;
-                receiptAllocationViewModel.PartitionID = receiptAllocation.PartitionID;
+                receiptAllocationViewModel.PartitionId = receiptAllocation.PartitionId;
                 receiptAllocationViewModel.ProjectNumber = receiptAllocation.ProjectNumber;
                 receiptAllocationViewModel.CommodityID = receiptAllocation.CommodityID;
                 //LOAD THE respective type and 
@@ -423,7 +423,7 @@ namespace Cats.Areas.Hub.Controllers.Allocations
             {
                 receiptAllocationViewModel.IsCommited = receiptAllocation.IsCommited;
                 receiptAllocationViewModel.ReceiptAllocationID = receiptAllocation.ReceiptAllocationID;
-                receiptAllocationViewModel.PartitionID = receiptAllocation.PartitionID;
+                receiptAllocationViewModel.PartitionId = receiptAllocation.PartitionId;
                 receiptAllocationViewModel.ProjectNumber = receiptAllocation.ProjectNumber;
                 receiptAllocationViewModel.CommodityID = receiptAllocation.CommodityID;
                 //LOAD THE respective type and 

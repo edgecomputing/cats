@@ -30,7 +30,7 @@ namespace Cats.Models.Hubs.Mapping
             this.ToTable("SessionAttempts");
             this.Property(t => t.SessionAttemptID).HasColumnName("SessionAttemptID");
             this.Property(t => t.UserProfileID).HasColumnName("UserProfileID");
-            this.Property(t => t.PartitionID).HasColumnName("PartitionID");
+            this.Property(t => t.PartitionId).HasColumnName("PartitionId");
             this.Property(t => t.RoleID).HasColumnName("RoleID");
             this.Property(t => t.LoginDate).HasColumnName("LoginDate");
             this.Property(t => t.UserName).HasColumnName("UserName");

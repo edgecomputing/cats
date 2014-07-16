@@ -287,8 +287,9 @@ namespace Cats.Areas.Procurement.Controllers
                     transportBidQuotation.IsWinner = false;
                     _transportBidQuotationService.UpdateTransportBidQuotation(transportBidQuotation);
                 }
+                return RedirectToAction("Index");
             }
-
+            
             return Json(new[] { bidProposal }.ToDataSourceResult(request, ModelState));
             //return Json(ModelState.ToDataSourceResult());
         }

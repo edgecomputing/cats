@@ -12,8 +12,8 @@ namespace Cats.Models.Hubs.MetaModels
 			[Required(ErrorMessage="Error Log is required")]
     		public Guid ErrorLogID { get; set; }
 
-			[Required(ErrorMessage="Partition is required")]
-    		public Int32 PartitionID { get; set; }
+            //[Required(ErrorMessage="Partition is required")]
+            //public Int32 PartitionId { get; set; }
 
 			[Required(ErrorMessage="Application is required")]
 			[StringLength(60)]

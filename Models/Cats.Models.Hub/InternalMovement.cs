@@ -8,7 +8,7 @@ namespace Cats.Models.Hubs
     {
         [Key]
         public System.Guid InternalMovementID { get; set; }
-        public int? PartitionID { get; set; }
+        public int? PartitionId { get; set; }
         public int HubID { get; set; }
         public Nullable<System.Guid> TransactionGroupID { get; set; }
         public System.DateTime TransferDate { get; set; }

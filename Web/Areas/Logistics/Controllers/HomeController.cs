@@ -291,12 +291,12 @@ namespace Cats.Areas.Logistics.Controllers
         public JsonResult ImportantNumbers (string id)
         {
             var requests =
-                _reliefRequisitionService.GetAllReliefRequisition().Where(d=>d.AdminUnit.Name == id).GroupBy(s => s.Status).Select(c => new
+                _reliefRequisitionService.GetAllReliefRequisition().Where(d => d.AdminUnit.Name == id).GroupBy(s => s.Status).Select(c => new
                                                                                                            {
                                                                                                                Status = c.Key,
                                                                                                                Count = c.Count(),
 
-                                                                                                           }).Distinct();
+                                                                                                           });
             return Json(requests, JsonRequestBehavior.AllowGet);
         }
 

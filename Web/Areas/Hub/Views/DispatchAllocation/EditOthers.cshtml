@@ -12,7 +12,7 @@
 
 @using (Html.BeginForm("SaveTransferAjax", "DispatchAllocation", FormMethod.Post, new { @id = "frm_edit_inline" }))
 {
-    @Html.HiddenFor(model => model.PartitionID)
+    @Html.HiddenFor(model => model.PartitionId)
     @Html.HiddenFor(model => model.OtherDispatchAllocationID)
     @Html.HiddenFor(model => model.FromHubID) 
     <div class="form-horizontal two-col-form">

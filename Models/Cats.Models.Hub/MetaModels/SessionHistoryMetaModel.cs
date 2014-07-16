@@ -12,8 +12,8 @@ namespace Cats.Models.Hubs.MetaModels
 			[Required(ErrorMessage="Session History is required")]
     		public Guid SessionHistoryID { get; set; }
 
-			[Required(ErrorMessage="Partition is required")]
-    		public Int32 PartitionID { get; set; }
+            //[Required(ErrorMessage="Partition is required")]
+            //public Int32 PartitionId { get; set; }
 
     		public Int32 UserProfileID { get; set; }
 

@@ -12,8 +12,8 @@ namespace Cats.Models.Hubs.MetaModels
 			[Required(ErrorMessage="Other Dispatch Allocation is required")]
     		public Guid OtherDispatchAllocationID { get; set; }
 
-			[Required(ErrorMessage="Partition is required")]
-    		public Int32 PartitionID { get; set; }
+            //[Required(ErrorMessage="Partition is required")]
+            //public Int32 PartitionId { get; set; }
 
 			[Required(ErrorMessage="Agreement Date is required")]
 			[DataType(DataType.DateTime)]

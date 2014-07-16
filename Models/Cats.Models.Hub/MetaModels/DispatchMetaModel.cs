@@ -12,8 +12,8 @@ namespace Cats.Models.Hubs.MetaModels
 			[Required(ErrorMessage="Dispatch is required")]
     		public Guid DispatchID { get; set; }
 
-			[Required(ErrorMessage="Partition is required")]
-    		public Int32 PartitionID { get; set; }
+            //[Required(ErrorMessage="Partition is required")]
+            //public Int32 PartitionId { get; set; }
 
 			[Required(ErrorMessage="Hub is required")]
     		public Int32 HubID { get; set; }

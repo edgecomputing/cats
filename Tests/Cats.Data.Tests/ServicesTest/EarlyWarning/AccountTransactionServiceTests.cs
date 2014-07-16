@@ -85,7 +85,7 @@ namespace Cats.Data.Tests.ServicesTest.EarlyWarning
                                                    TransactionGroupID = sampleGUID,
                                                    Dispatch = new Dispatch() {
                                                                     DispatchID = sampleGUID,
-                                                                    PartitionID = 0,
+                                                                    PartitionId = 0,
                                                                     HubID = 1,
                                                                     GIN = "159",
                                                                     FDPID = 1,
@@ -109,7 +109,7 @@ namespace Cats.Data.Tests.ServicesTest.EarlyWarning
                                                                     DispatchAllocation = new DispatchAllocation()
                                                                                              {
                                                                                                  DispatchAllocationID = sampleGUID,
-                                                                                                 PartitionID = 0,
+                                                                                                 PartitionId = 0,
                                                                                                  HubID = 1,
                                                                                                  StoreID = 1,
                                                                                                  Year = 2014,
@@ -136,7 +136,7 @@ namespace Cats.Data.Tests.ServicesTest.EarlyWarning
                                                                                               new DispatchDetail()
                                                                                                   {
                                                                                                       DispatchDetailID = sampleGUID,
-                                                                                                      PartitionID = 0,
+                                                                                                      PartitionId = 0,
                                                                                                       TransactionGroupID = sampleGUID,
                                                                                                       DispatchID = sampleGUID,
                                                                                                       CommodityID = 1,
@@ -149,7 +149,7 @@ namespace Cats.Data.Tests.ServicesTest.EarlyWarning
                                                                                               new DispatchDetail()
                                                                                                   {
                                                                                                       DispatchDetailID = sampleGUID,
-                                                                                                      PartitionID = 0,
+                                                                                                      PartitionId = 0,
                                                                                                       TransactionGroupID = sampleGUID,
                                                                                                       DispatchID = sampleGUID,
                                                                                                       CommodityID = 1,
@@ -264,7 +264,7 @@ namespace Cats.Data.Tests.ServicesTest.EarlyWarning
                                        {
                                            new Dispatch() {
                                                     DispatchID = sampleGUID,
-                                                    PartitionID = 0,
+                                                    PartitionId = 0,
                                                     HubID = 1,
                                                     GIN = "159",
                                                     FDPID = 1,
@@ -288,7 +288,7 @@ namespace Cats.Data.Tests.ServicesTest.EarlyWarning
                                                     DispatchAllocation = new DispatchAllocation()
                                                                                 {
                                                                                     DispatchAllocationID = sampleGUID,
-                                                                                    PartitionID = 0,
+                                                                                    PartitionId = 0,
                                                                                     HubID = 1,
                                                                                     StoreID = 1,
                                                                                     Year = 2014,
@@ -315,7 +315,7 @@ namespace Cats.Data.Tests.ServicesTest.EarlyWarning
                                                                                 new DispatchDetail()
                                                                                     {
                                                                                         DispatchDetailID = sampleGUID,
-                                                                                        PartitionID = 0,
+                                                                                        PartitionId = 0,
                                                                                         TransactionGroupID = sampleGUID,
                                                                                         DispatchID = sampleGUID,
                                                                                         CommodityID = 1,
@@ -328,7 +328,7 @@ namespace Cats.Data.Tests.ServicesTest.EarlyWarning
                                                                                 new DispatchDetail()
                                                                                     {
                                                                                         DispatchDetailID = sampleGUID,
-                                                                                        PartitionID = 0,
+                                                                                        PartitionId = 0,
                                                                                         TransactionGroupID = sampleGUID,
                                                                                         DispatchID = sampleGUID,
                                                                                         CommodityID = 1,

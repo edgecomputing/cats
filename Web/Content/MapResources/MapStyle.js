@@ -22,7 +22,7 @@ function getPolygonShadingStyle(key, dataTable, indicator, colorOptions) {
             {
                 fillOpacity: 0.8
                 , strokeOpacity: 1
-                , label: function (feature) { return get_attribute_value(feature.attributes, "name", "") + "\n" + get_attribute_value(feature.attributes, "code", ""); }
+                //, label: function (feature) { return get_attribute_value(feature.attributes, "name", "") + "\n" + get_attribute_value(feature.attributes, "code", ""); }
                 , label2: function (feature) {
                     return "";
                     var keyVal = get_attribute_value(feature.attributes, key, "");

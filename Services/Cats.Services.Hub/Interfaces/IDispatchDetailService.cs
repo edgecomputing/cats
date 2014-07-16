@@ -19,7 +19,7 @@ namespace Cats.Services.Hub
         List<DispatchDetail> GetAllDispatchDetail();
         List<DispatchDetail> FindBy(Expression<Func<DispatchDetail, bool>> predicate);
 
-        List<DispatchDetail> GetDispatchDetail(int partitionId, Guid dispatchId);
+        List<DispatchDetail> GetDispatchDetail(int PartitionId, Guid dispatchId);
 
         /// <summary>
         /// Gets the dispatch detail.

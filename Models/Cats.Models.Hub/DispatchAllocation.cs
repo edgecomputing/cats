@@ -12,7 +12,7 @@ namespace Cats.Models.Hubs
         }
         [Key]
         public System.Guid DispatchAllocationID { get; set; }
-        public int PartitionID { get; set; }
+        public int? PartitionId { get; set; }
         public int HubID { get; set; }
         public Nullable<int> StoreID { get; set; }
         public Nullable<int> Year { get; set; }
