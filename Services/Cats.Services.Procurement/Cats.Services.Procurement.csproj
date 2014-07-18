@@ -72,6 +72,7 @@
     <Compile Include="BidDetailService.cs" />
     <Compile Include="BidService.cs" />
     <Compile Include="BidWinnerService.cs" />
+    <Compile Include="Properties\Annotations.cs" />
     <Compile Include="TransportBidQuotationHeaderService.cs" />
     <Compile Include="ITransportBidQuotationHeaderService.cs" />
     <Compile Include="IBidDetailService.cs" />

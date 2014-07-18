@@ -26,6 +26,10 @@ namespace Cats.Services.Procurement
                    Expression<Func<TransportOrder, bool>> filter = null,
                    Func<IQueryable<TransportOrder>, IOrderedQueryable<TransportOrder>> orderBy = null,
                    string includeProperties = "");
+        IEnumerable<TransportOrder> GetByHub(
+                   Expression<Func<TransportOrder, bool>> filter = null,
+                   Func<IQueryable<TransportOrder>, IOrderedQueryable<TransportOrder>> orderBy = null,
+                   string includeProperties = "", int hubId = 0, int statusId = 0);
 
         //IEnumerable<RequisitionToDispatch> GetRequisitionToDispatch();
         //IEnumerable<ReliefRequisition> GetProjectCodeAssignedRequisitions();
