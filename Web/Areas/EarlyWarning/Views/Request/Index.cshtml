@@ -74,6 +74,7 @@ else
        .Read(read => read.Action("Request_Search", "Request",
                                 new
                                 {
+                                    Area = "EarlyWarning",
                                     DateFrom = @ViewBag.Filter.DateFrom,
                                     DateTo = @ViewBag.Filter.DateTo,
                                     RegionID = @ViewBag.Filter.RegionID,

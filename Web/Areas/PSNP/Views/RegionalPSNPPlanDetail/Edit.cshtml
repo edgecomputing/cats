@@ -55,7 +55,6 @@
     .Name("grid")
     .Columns(columns =>
     {
-        //columns.Template(c => { }).Title("No").ClientTemplate("<span class='rowCount' rowCount='#=rowCount#'>#=getRowNo(data)#");
         
         columns.Bound(p => p.RegionName);
         columns.Bound(p => p.ZoneName);
@@ -64,8 +63,9 @@
         columns.Bound(p => p.BeneficiaryCount).HtmlAttributes(new { align = "Right" });
         columns.ForeignKey(p => p.SartingMonth, (IEnumerable)ViewData["Month"], "Id", "Name");
         columns.Bound(p => p.FoodRatio).HtmlAttributes(new { align = "Right",@class="FoodRatio" });
-        //columns.Template(c => { }).Title("Cash Ratio2").ClientTemplate("#=calculateCashRatio(data)#");        
-        columns.Bound(p => p.CashRatio).HtmlAttributes(new { align = "Right", @class = "CashRatio #=getRowStyle(data)#" });
+        columns.Template(c => { }).Title("Cash Ratio").ClientTemplate("<span class='rowCount' rowCount='#=rowCount#' nextRow='#=getRowNo(data)#'>#=calculateCashRatio(data)# </span>").HtmlAttributes(new { align = "Right", @class = "CashRatio #=getRowStyle(data)#" });     
+      //  columns.Bound(p => p.CashRatio).HtmlAttributes(new { align = "Right", @class = "CashRatio #=getRowStyle(data)#" });
+       // columns.Template(c => { }).Title("").ClientTemplate("<span class='rowCount' rowCount='#=rowCount#'>#=getRowNo(data)#");
 
         
     })

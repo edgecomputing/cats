@@ -65,7 +65,7 @@ namespace Cats.Services.Transaction
             Guid transactionGroupID = Guid.NewGuid();
             DateTime TransactionDate = DateTime.Now;
             _unitOfWork.TransactionGroupRepository.Add(new TransactionGroup
-                                                           {PartitionId = 0, TransactionGroupID = transactionGroupID});
+                                                           {PartitionID = 0, TransactionGroupID = transactionGroupID});
             foreach (Models.Transaction entry in entries)
             {
                 entry.TransactionDate = TransactionDate;
@@ -106,7 +106,7 @@ namespace Cats.Services.Transaction
                     Guid transactionGroupID = Guid.NewGuid();
                     DateTime transactionDate = DateTime.Now;
 
-                    _unitOfWork.TransactionGroupRepository.Add(new TransactionGroup() { PartitionId = 0, TransactionGroupID = transactionGroupID });
+                    _unitOfWork.TransactionGroupRepository.Add(new TransactionGroup() { PartitionID = 0, TransactionGroupID = transactionGroupID });
 
                     foreach (RationDetail rd in ration.RationDetails)
                     {
@@ -244,7 +244,7 @@ namespace Cats.Services.Transaction
 
             var transactionGroup = Guid.NewGuid();
             var transactionDate = DateTime.Now;
-            _unitOfWork.TransactionGroupRepository.Add(new TransactionGroup() { PartitionId = 0, TransactionGroupID = transactionGroup });
+            _unitOfWork.TransactionGroupRepository.Add(new TransactionGroup() { PartitionID = 0, TransactionGroupID = transactionGroup });
 
 
             foreach (var detail in allocationDetails)
@@ -308,7 +308,7 @@ namespace Cats.Services.Transaction
 
             var transactionGroup = Guid.NewGuid();
             var transactionDate = DateTime.Now;
-            _unitOfWork.TransactionGroupRepository.Add(new TransactionGroup() { PartitionId = 0, TransactionGroupID = transactionGroup });
+            _unitOfWork.TransactionGroupRepository.Add(new TransactionGroup() { PartitionID = 0, TransactionGroupID = transactionGroup });
 
             //ProjectCodeID	ShippingInstructionID ProgramID QuantityInMT	QuantityInUnit	UnitID	TransactionDate	RegionID	Month	Round	DonorID	CommoditySourceID	GiftTypeID	FDP
             
@@ -429,7 +429,7 @@ namespace Cats.Services.Transaction
 
             _unitOfWork.TransactionGroupRepository.Add(new TransactionGroup()
             {
-                PartitionId = 0,
+                PartitionID = 0,
                 TransactionGroupID = transactionGroup
             });
 
@@ -490,7 +490,7 @@ namespace Cats.Services.Transaction
 
                 _unitOfWork.TransactionGroupRepository.Add(new TransactionGroup()
                 {
-                    PartitionId = 0,
+                    PartitionID = 0,
                     TransactionGroupID = transactionGroup
                 });
 
@@ -547,7 +547,7 @@ namespace Cats.Services.Transaction
             var transactionDate = DateTime.Now;
             _unitOfWork.TransactionGroupRepository.Add(new TransactionGroup()
                                                            {
-                                                               PartitionId = 0, TransactionGroupID = transactionGroup
+                                                               PartitionID = 0, TransactionGroupID = transactionGroup
                                                            });
             foreach (var giftCertificateDetail in giftCertificate.GiftCertificateDetails)
             {
@@ -596,7 +596,7 @@ namespace Cats.Services.Transaction
 
             var transactionGroup = Guid.NewGuid();
             var transactionDate = DateTime.Now;
-            _unitOfWork.TransactionGroupRepository.Add(new TransactionGroup() { PartitionId = 0, TransactionGroupID = transactionGroup });
+            _unitOfWork.TransactionGroupRepository.Add(new TransactionGroup() { PartitionID = 0, TransactionGroupID = transactionGroup });
 
 
 

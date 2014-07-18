@@ -281,18 +281,27 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult NeedAssessmentUpdate([DataSourceRequest] DataSourceRequest request,
-            [Bind(Prefix = "models")]IEnumerable<NeedAssessmentDetail> needAssessmentlDetails)
+            [Bind(Prefix = "models")]List<NeedAssessmentDetail> needAssessmentlDetails)
         {
-
+            List<NeedAssessmentDetail> result = new List<NeedAssessmentDetail>();
             if (needAssessmentlDetails != null && ModelState.IsValid)
             {
-                foreach (var details in needAssessmentlDetails)
+                foreach (NeedAssessmentDetail details in needAssessmentlDetails)
                 {
+                   // details.
                     _needAssessmentDetailService.EditNeedAssessmentDetail(details);
+                    //details.
+                    NeedAssessmentDetail record = _needAssessmentDetailService.FindById(details.NAId);
+                    if (record != null)
+                    {
+                        result.Add(record);
+                    }
                 }
             }
-
-            return Json(ModelState.ToDataSourceResult());
+            var needAssesmentsViewModel = NeedAssessmentViewModelBinder.ReturnNeedAssessmentDetailViewModel(result);
+            return Json(needAssesmentsViewModel.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+            //return Json(needAssessmentlDetails.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+           // return Json(ModelState.ToDataSourceResult());
         }
 
 
