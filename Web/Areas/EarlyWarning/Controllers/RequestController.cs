@@ -966,7 +966,6 @@ namespace Cats.Areas.EarlyWarning.Controllers
         public ActionResult Request_Search([DataSourceRequest] DataSourceRequest request, int RegionID, int ProgramID, int StatusID, DateTime DateFrom, DateTime DateTo)// SearchRequsetViewModel filter)
         {
 
-
             var requests = StatusID == -1 ? _regionalRequestService.GetAllRegionalRequest().OrderByDescending(m => m.RegionalRequestID) : _regionalRequestService.Get( m=>m.RegionID==RegionID && m.ProgramId==ProgramID &&m.Status == StatusID
                                                                                                                      && m.RequistionDate >= DateFrom && m.RequistionDate <= DateTo);
             var statuses = _commonService.GetStatus(WORKFLOW.REGIONAL_REQUEST);

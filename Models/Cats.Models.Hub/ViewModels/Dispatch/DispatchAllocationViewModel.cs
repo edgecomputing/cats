@@ -138,7 +138,7 @@ namespace Cats.Models.Hubs.ViewModels
         /// The partition ID.
         /// </value>
         //[Required(ErrorMessage = "Partition is required")]
-        public Int32 PartitionId { get; set; }
+        public Int32? PartitionId { get; set; }
 
         /// <summary>
         /// Gets or sets the dispatch allocation ID.
