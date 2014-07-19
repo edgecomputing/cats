@@ -182,7 +182,6 @@
       .Events(ev => ev.DataBound("onDataBound"))
     .DataSource(dataSource => dataSource
         .Ajax()
-        .PageSize(20)
         .Events(events => events.Change("onGridKeydown"))
             .Model(model =>
             {
