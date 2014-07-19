@@ -9,7 +9,9 @@
     ViewBag.Title = Html.Translate("Expected dispatches");
 
     string quanityColumnHeader = "MT ";
-    if (System.String.Compare(mesure.ToString(), quanityColumnHeader, System.StringComparison.OrdinalIgnoreCase) == 0)
+
+    if (mesure.ToUpperInvariant() == "MT " )
+
     {
         quanityColumnHeader = "MT";
     }
@@ -231,11 +233,11 @@
                        col.Bound(modelItem => modelItem.BidRefNo).HtmlAttributes(new { onclick = "return loadForm(this)" }).Title("BidRef #");
                        col.Bound(modelitem => modelitem.RequisitionNo).Title(Html.Translate("Req #"));
                        col.Bound(modelItem => modelItem.CommodityName).Title(Html.Translate("Commodity"));
-                       col.Bound(modelItem => modelItem.Amount).Format("{0:#,###.0}").Title(Html.Translate("Planned " + quanityColumnHeader)).Width(30).HtmlAttributes(new { align = "right" });
+                       col.Bound(modelItem => modelItem.Amount).Format("{0:#,##0.0}").Title(Html.Translate("Planned " + quanityColumnHeader)).Width(30).HtmlAttributes(new { align = "right" });
                        col.Bound(modelItem => modelItem.AmountInUnit).Format("{0:#,###.0}").Title(Html.Translate("Planned Unt")).Width(30).HtmlAttributes(new { align = "right" });
                        col.Bound(modelItem => modelItem.DispatchedAmount).Format("{0:#,##0.0}").Title(Html.Translate("Dispatched " + quanityColumnHeader)).Width(30).HtmlAttributes(new { align = "right" });
                        col.Bound(modelItem => modelItem.DispatchedAmountInUnit).Format("{0:#,##0.0}").Title(Html.Translate("Dispatched Unt" )).Width(30).HtmlAttributes(new { align = "right" });
-                       col.Bound(modelitem => modelitem.RemainingQuantityInUnit).Format("{0:#,##0.0}").Title(Html.Translate("Remaining " + quanityColumnHeader)).Width(30).HtmlAttributes(new { align = "right" });
+                       col.Bound(modelitem => modelitem.RemainingQuantityInQuintals).Format("{0:#,##0.0}").Title(Html.Translate("Remaining " + quanityColumnHeader)).Width(30).HtmlAttributes(new { align = "right" });
                        //col.Bound(modelitem => modelitem.RemainingQuantityInQuintals).Format("{0:#,##0.0}").Title(Html.Translate("Remaining " + quanityColumnHeader)).Width(30).HtmlAttributes(new { align = "right" });
                        col.Bound(modelitem => modelitem.RemainingQuantityInUnit).Format("{0:#,##0.0}").Title(Html.Translate("Remaining Unt")).Width(30).HtmlAttributes(new { align = "right" });
                        //col.Bound(modelItem => modelItem.Region).Title(Html.Translate("Region"));
