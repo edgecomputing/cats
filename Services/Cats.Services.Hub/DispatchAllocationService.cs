@@ -364,7 +364,7 @@ namespace Cats.Services.Hub
             foreach (var dispatchAllocation in unclosed)
             {
                 var DAVMD = new DispatchAllocationViewModelDto();
-                if (PreferedWeightMeasurment.ToUpperInvariant() == "MT" && dispatchAllocation.Commodity.CommodityTypeID == 1) //only for food
+                if (PreferedWeightMeasurment.ToUpperInvariant() == "MT " && dispatchAllocation.Commodity.CommodityTypeID == 1) //only for food
                 {
                     DAVMD.Amount = dispatchAllocation.Amount / 10;
                     DAVMD.DispatchedAmount = dispatchAllocation.DispatchedAmount / 10;
