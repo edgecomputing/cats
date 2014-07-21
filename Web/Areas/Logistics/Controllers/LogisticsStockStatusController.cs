@@ -30,6 +30,8 @@ namespace Cats.Areas.Logistics.Controllers
         private IDashboardWidgetService _dashboardWidgetService;
         private IUserAccountService _userService;
         private IAdminUnitService _adminUnitService;
+        private IProgramService _programService;
+        private IDonorService _donorService;
         
         public LogisticsStockStatusController
         (
@@ -38,7 +40,7 @@ namespace Cats.Areas.Logistics.Controllers
             IDashboardWidgetService dashboardWidgetservice,
             IUserAccountService userService,
             IHubService hubService,
-            IStockStatusService stockStatusService, IAdminUnitService adminUnitService)
+            IStockStatusService stockStatusService, IAdminUnitService adminUnitService, IProgramService programService, IDonorService donorService)
         {
             _unitOfWork = unitOfWork;
             _userDashboardPreferenceService = userDashboardPreferenceService;
@@ -47,6 +49,8 @@ namespace Cats.Areas.Logistics.Controllers
             _hubService = hubService;
             _stockStatusService = stockStatusService;
             _adminUnitService = adminUnitService;
+            _programService = programService;
+            _donorService = donorService;
         }
 
         // GET:/Logistics/StockStatus/
@@ -167,7 +171,7 @@ namespace Cats.Areas.Logistics.Controllers
             else
             {
                 data = (hubId == -1 || programId == -1)
-                ? new List<VWCommodityReceived>() 
+                ? new List<VWCommodityReceived>()
                            : _stockStatusService.GetReceivedCommodity(t => t.HubID == hubId && t.ProgramID == programId);
             }
             
@@ -177,6 +181,33 @@ namespace Cats.Areas.Logistics.Controllers
 
         }
 
+        private List<VWCommodityReceived> Bind(List<VWCommodityReceived> receiveds )
+        {
+
+            
+            var receivedList = new List<VWCommodityReceived>();
+            foreach (var commodityReceived in receiveds)
+            {
+                var receive = new VWCommodityReceived();
+                receive.Commited = commodityReceived.Commited;
+                receive.CommodityID = commodityReceived.CommodityID;
+                receive.Commodity = commodityReceived.Commodity;
+                receive.DonorAll = commodityReceived.DonorAll;
+                receive.DonorID = commodityReceived.DonorID;
+                receive.HubID = commodityReceived.HubID;
+                receive.ProgramID = commodityReceived.ProgramID;
+                receive.Received = commodityReceived.Received;
+                receive.ShippingInstruction = commodityReceived.ShippingInstruction;
+
+                receive.Hub = _hubService.FindById((int) commodityReceived.HubID).Name;
+                receive.Program = _programService.FindById((int) commodityReceived.ProgramID).Name;
+                receive.Donor = _donorService.FindById((int) commodityReceived.DonorID).Name;
+
+                receivedList.Add(receive);
+
+            }
+            return receivedList;
+        }
        public ActionResult PrintSummaryFreePhysicalStock()
        {
            return GetSummaryFreePhysicalStock(true, false);

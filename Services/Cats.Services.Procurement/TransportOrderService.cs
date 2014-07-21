@@ -74,8 +74,22 @@ namespace Cats.Services.Procurement
             Func<IQueryable<TransportOrder>, IOrderedQueryable<TransportOrder>> orderBy = null,
             string includeProperties = "")
         {
+            var test = _unitOfWork.TransportOrderRepository.Get(filter, orderBy, includeProperties);
             return _unitOfWork.TransportOrderRepository.Get(filter, orderBy, includeProperties);
         }
+
+        public IEnumerable<TransportOrder> GetByHub(Expression<Func<TransportOrder, bool>> filter = null, 
+            Func<IQueryable<TransportOrder>, IOrderedQueryable<TransportOrder>> orderBy = null,
+            string includeProperties = "", int hubId = 0, int statusId = 0)
+        {
+        //    var transportOrderDetail =
+        //        ;
+            var transportOrder = (
+                from c in _unitOfWork.TransportOrderDetailRepository.FindBy(x => x.SourceWarehouseID == hubId)
+                select c.TransportOrder).Where(x => x.StatusID == statusId);
+            return transportOrder;
+        }
+
         #endregion
 
         public void Dispose()
