@@ -259,10 +259,11 @@ namespace Cats.Services.Hub
 			                                                WHERE LedgerID = {1}  AND TransactionDate < =  {2} AND ProgramID = {3}
 			                                                GROUP BY ProgramID,HubID) Commited
 
-			                                                ON GOH.ProgramID = Commited.ProgramID
-			                                               
-															JOIN Program on Program.ProgramID = GOH.ProgramID
-															JOIN Hub on Hub.HubID = GOH.HubID", Cats.Models.Ledger.Constants.GOODS_ON_HAND, Cats.Models.Ledger.Constants.COMMITED_TO_FDP, "'"  + date.AddDays(1).ToString(CultureInfo.InvariantCulture) + "'", program);
+			                                                ON GOH.HubID = Commited.HubID
+			                                               														
+															JOIN Hub on Hub.HubID = GOH.HubID
+															JOin Program on Program.ProgramID =GOH.ProgramID
+															", Cats.Models.Ledger.Constants.GOODS_ON_HAND, Cats.Models.Ledger.Constants.COMMITED_TO_FDP, "'"  + date.AddDays(1).ToString(CultureInfo.InvariantCulture) + "'", program);
             return _unitOfWork.Database.SqlQuery<HubFreeStockSummaryView>(query).ToList();
 
             //var status = _transactionService.Get(t => t.HubID != null && t.ProgramID == program && DateTime.Compare(t.TransactionDate, date) <= 0);
