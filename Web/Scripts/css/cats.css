@@ -1,0 +1,15 @@
+﻿body {
+    padding-top: 60px;
+    background: #EEE;
+}
+.navbar-logo {
+    float:left;
+    height:30px;
+    margin:10px;
+}
+.bdy {
+    background: #FFF;
+    border: 1px solid #CCC;
+    border-radius: 5px;
+    padding-top: 10px;
+}
