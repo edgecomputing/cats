@@ -135,6 +135,7 @@
                 .HtmlAttributes(new { style = "height:430px;" })
                 .DataSource(dataSource => dataSource
                                               .Ajax()
+                                              .Batch(true)
                                               .Group(group => group.Add(m => m.SourceWarehouse))
                                               //.PageSize(8)
                                               .Model(model =>

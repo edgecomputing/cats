@@ -59,8 +59,16 @@ namespace Cats.Areas.Hub.Controllers
 
         public ActionResult TransportOrder_Read([DataSourceRequest] DataSourceRequest request, int id = 0)
         {
-            var transportOrders = id == 0 ? _transportOrderService.Get(t => t.StatusID == (int)TransportOrderStatus.Draft).OrderByDescending(m => m.TransportOrderID).ToList() : _transportOrderService.Get(t => t.StatusID == id).ToList();
             var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
+            var hubId = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DefaultHub.HasValue ? _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DefaultHub.Value : 0 ;
+            var transportOrders = id == 0 ? _transportOrderService.GetByHub(t => t.StatusID == (int)TransportOrderStatus.Draft, includeProperties: "TransportOrderDetails", hubId: hubId, statusId: (int)TransportOrderStatus.Draft)
+                .OrderByDescending(m => m.TransportOrderID)
+                .ToList() : _transportOrderService.GetByHub(t => t.StatusID == id, includeProperties: "TransportOrderDetails", hubId: hubId, statusId: id).ToList();
+
+            //var transportOrders = id == 0 ? _transportOrderService.Get(t => t.StatusID == (int)TransportOrderStatus.Draft, includeProperties: "TransportOrderDetails")
+            //    .OrderByDescending(m => m.TransportOrderID)
+            //    .ToList() : _transportOrderService.Get(t => t.StatusID == id).ToList();
+            
             var statuses = _workflowStatusService.GetStatus(WORKFLOW.TRANSPORT_ORDER);
             var transportOrderViewModels = TransportOrderViewModelBinder.BindListTransportOrderViewModel(
                 transportOrders, datePref, statuses);

@@ -41,7 +41,7 @@
                                                            col.Template(c => c.Commited).ClientTemplate("#=toCatsPreferedUnit(data.Commited)#").HeaderHtmlAttributes(new { @class = "cats-unit-pref" }).HtmlAttributes(new { align = "right" }).Title(Html.Translate("Commited"));
 
                                                            col.Template(c => { }).ClientTemplate("#=calculateUnCommitedStock(data)#").Title(Html.Translate("Un Commited")).HeaderHtmlAttributes(new { @class = "cats-unit-pref" }).HtmlAttributes(new { align = "right" });
-                                                           col.Template(c => c.Dispatched).ClientTemplate("#=toCatsPreferedUnit(data.Dispatched)#").HeaderHtmlAttributes(new { @class = "cats-unit-pref" }).HtmlAttributes(new { align = "right" }).Title(Html.Translate("Dispatched"));
+                                                           //col.Template(c => c.Dispatched).ClientTemplate("#=toCatsPreferedUnit(data.Dispatched)#").HeaderHtmlAttributes(new { @class = "cats-unit-pref" }).HtmlAttributes(new { align = "right" }).Title(Html.Translate("Dispatched"));
 
                                                            col.Template(c => { }).ClientTemplate("#=calculatePhysicalStock(data)#").Title(Html.Translate("Physical Stock")).HeaderHtmlAttributes(new { @class = "cats-unit-pref" }).HtmlAttributes(new { align = "right" });
 

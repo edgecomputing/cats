@@ -75,9 +75,9 @@ namespace Cats.Helpers
                         var transporterAgreementViewModel = new Dictionary<string, string>()
                             {
                                 {"TransporterName", transporter.Name.ToString()},
-                                {"SubCity", transporter.SubCity.ToString()},
-                                {"Kebele", transporter.Kebele.ToString()},
-                                {"HouseNo", transporter.HouseNo.ToString()},
+                                {"SubCity", transporter.SubCity!=null ? transporter.SubCity.ToString() : ""},
+                                {"Kebele", transporter.Kebele!=null ? transporter.Kebele.ToString() : ""},
+                                {"HouseNo", transporter.HouseNo!=null? transporter.HouseNo.ToString() : ""},
                                 {"ContractNo", "LTCD/"+ bidObj.BidID.ToString() + "/" + DateTime.Today.Year.ToString() + "/" + transporter.Name},
                                 {"ContractDate", DateTime.Now.ToString()},
                             };

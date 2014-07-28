@@ -33,8 +33,8 @@ namespace Cats.Areas.Finance.Controllers
 
         public JsonResult ReadPaymentRequest()
         {
-            
-            var requests = _paymentRequestServvice.GetAll().Select(p => _transporterChequeService != null ? new
+
+            var requests = _paymentRequestServvice.Get(t => t.BusinessProcess.CurrentState.BaseStateTemplate.StateNo >= 2, null, "BusinessProcess").Select(p => _transporterChequeService != null ? new
                                                                                                                 {
                                                                                                                     Transporter = p.TransportOrder.Transporter.Name,
                                                                                                                     RequestedAmount = p.RequestedAmount,

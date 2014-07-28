@@ -64,11 +64,11 @@ namespace Cats.Services.Hub
 	                                                LEFT JOIN
 		                                                (SELECT ABS(SUM(QuantityInMT)) QuantityInMT, CommodityID 
 			                                                FROM [Transaction]
-			                                                WHERE LedgerID = {1} and HubID  = {2} and ProgramID = {3} AND TransactionDate > =  {4} AND TransactionDate < =  {5}
+			                                                WHERE LedgerID = {1} and HubID  = {2} and ProgramID = {3} AND TransactionDate < =  {4}
 			                                                GROUP BY CommodityID) Commited
 
 			                                                ON GOH.CommodityID = Commited.CommodityID
-			                                                JOIN Commodity on Commodity.CommodityID = GOH.CommodityID", Cats.Models.Ledger.Constants.GOODS_ON_HAND, Cats.Models.Ledger.Constants.COMMITED_TO_FDP, hub, program, "'" + date.ToString(CultureInfo.InvariantCulture) + "'", "'" + date.AddDays(1).ToString(CultureInfo.InvariantCulture) + "'");
+			                                                JOIN Commodity on Commodity.CommodityID = GOH.CommodityID", Cats.Models.Ledger.Constants.GOODS_ON_HAND, Cats.Models.Ledger.Constants.COMMITED_TO_FDP, hub, program, "'" + date.AddDays(1).ToString(CultureInfo.InvariantCulture) + "'");
             
             return _unitOfWork.Database.SqlQuery<HubFreeStockView>(query).ToList();
         }
@@ -251,18 +251,19 @@ namespace Cats.Services.Hub
 
                                                 (SELECT SUM(QuantityInMT) QuantityInMT, ProgramID, HubID
 	                                                FROM [Transaction]
-	                                                WHERE LedgerID = {0}  AND ProgramID = {4}
+	                                                WHERE LedgerID = {0}  AND ProgramID = {3}
 	                                                GROUP BY ProgramID,HubID) GOH
 	                                                LEFT JOIN
 		                                                (SELECT ABS(SUM(QuantityInMT)) QuantityInMT, ProgramID, HubID
 			                                                FROM [Transaction]
-			                                                WHERE LedgerID = {1} AND TransactionDate > =  {2} AND TransactionDate < =  {3} AND ProgramID = {4}
+			                                                WHERE LedgerID = {1}  AND TransactionDate < =  {2} AND ProgramID = {3}
 			                                                GROUP BY ProgramID,HubID) Commited
 
-			                                                ON GOH.ProgramID = Commited.ProgramID
-			                                               
-															JOIN Program on Program.ProgramID = GOH.ProgramID
-															JOIN Hub on Hub.HubID = GOH.HubID", Cats.Models.Ledger.Constants.GOODS_ON_HAND, Cats.Models.Ledger.Constants.COMMITED_TO_FDP, "'" + date.ToString(CultureInfo.InvariantCulture) + "'","'" + date.AddDays(1).ToString(CultureInfo.InvariantCulture) + "'", program);
+			                                                ON GOH.HubID = Commited.HubID
+			                                               														
+															JOIN Hub on Hub.HubID = GOH.HubID
+															JOin Program on Program.ProgramID =GOH.ProgramID
+															", Cats.Models.Ledger.Constants.GOODS_ON_HAND, Cats.Models.Ledger.Constants.COMMITED_TO_FDP, "'"  + date.AddDays(1).ToString(CultureInfo.InvariantCulture) + "'", program);
             return _unitOfWork.Database.SqlQuery<HubFreeStockSummaryView>(query).ToList();
 
             //var status = _transactionService.Get(t => t.HubID != null && t.ProgramID == program && DateTime.Compare(t.TransactionDate, date) <= 0);

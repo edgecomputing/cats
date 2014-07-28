@@ -168,7 +168,7 @@
                     @Html.LabelFor(model => model.Quantity,new {@class="cats-unit-pref"})
                 </div>
                 <div class="controls">
-                    @Html.TextBoxFor(model => model.Quantity,new {Disabled=true})
+                    @Html.TextBoxFor(model => model.Quantity)
                 </div>
             </div>
         </div>
@@ -288,7 +288,8 @@
 
 
 }
-<script type="text/javascript">
+
+@*<script type="text/javascript">
    
     function CalculateQuantityMT() {
        
@@ -327,7 +328,8 @@
             if (unitPreference = 'MT') {
                 CalculateQuantityMT();
             }
-            else {
+            if (unitPreference = 'QTL') {
+                alert("here");
                 CalculateQuantityQTL();
             }
             
@@ -336,15 +338,17 @@
     });
     $(document).ready(function () {
         var unitPreference = '@ViewBag.UnitPreference';
+        alert(unitPreference);
         $('#QuantityInUnit').change(function () {
             if (unitPreference ='MT') {
                 
                     CalculateQuantityMT();
                 }
-                else {
+            if (unitPreference = 'QTL') {
+                alert("here");
                 CalculateQuantityQTL();
                 }
 
         });
     });
-</script>
+</script>*@

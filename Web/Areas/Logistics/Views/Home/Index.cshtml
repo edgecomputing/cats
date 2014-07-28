@@ -18,7 +18,7 @@
     <link href="~/Content/Dashboard/dashboardcomponents.css" rel="stylesheet" />
 }
 <div ng-app="myApp">
-    <div class="container">
+    <div class="container" style="display:none;">
         <div ng-controller="Regions" class="container row">
             
             <div class="span12" > <h4>Region:</h4> 
@@ -32,7 +32,7 @@
     </div>
     <div class="container">
        
-        <hr />
+       
 
         <div ng-controller="ImportantNumbers" class="container row">
             
@@ -64,6 +64,14 @@
                         <span class="value">{{pendingTransportOrder}} </span>
                     </div>
 
+                                        <div ng-controller="Regions"  class="details column-divider-regional center">
+                        <span class="content">Region</span>
+                        <div class="value">
+                            <select ng-change="onChange(regionName)"   ng-model="regionName" ng-options="r.name as r.name for r in regions" >
+                    <option > Choose a Region </option>
+                </select>
+                        </div>
+                    </div>
                     <!-- /.details -->
                     
                 </a>
@@ -72,12 +80,16 @@
             
            
         </div>
-        <hr />
+      
     </div>
 
     <div class="container">
+        <div class="dashboard-widget">
+            <div class="header"> </div>
+        </div>
 
         <div>
+            <!--
             <div class="row" style="border-bottom-width: thin; border-bottom-color: #666; border-bottom-style: inset; margin-top: 5px">
 
                 <div class="pull-left">
@@ -93,7 +105,8 @@
                     </div>
                 </div>
             </div>
-            <div id="ApprovedRequestContent"class="row">
+                -->
+            <div id="ApprovedRequestContent" class="row">
                 <div>&nbsp;</div>
                 <div ng-controller="ApprovedRequestsController" class="span11">
                     <div class="portlet">
@@ -165,6 +178,7 @@
         
         
         <div>
+            <!--
             <div class="row" style="border-bottom-width: thin; border-bottom-color: #666; border-bottom-style: inset; margin-top: 5px">
 
                 <div class="pull-left">
@@ -180,6 +194,7 @@
                     </div>
                 </div>
             </div>
+                -->
             <div id="CurrentHRDContent" class="row">
                 <div>&nbsp;</div>
 
@@ -262,6 +277,7 @@
         
         
         <div>
+            <!--
             <div class="row" style="border-bottom-width: thin; border-bottom-color: #666; border-bottom-style: inset; margin-top: 5px">
 
                 <div class="pull-left">
@@ -277,6 +293,7 @@
                     </div>
                 </div>
             </div>
+                -->
             <div id="BidWinnerContent" class="row">
                 <div>&nbsp;</div>
 
@@ -355,6 +372,7 @@
         
 
         <div>
+            <!--
             <div class="row" style="border-bottom-width: thin; border-bottom-color: #666; border-bottom-style: inset; margin-top: 5px">
 
                 <div class="pull-left">
@@ -370,6 +388,7 @@
                     </div>
                 </div>
             </div>
+                -->
             <div id="SIPCContent"class="row">
                 <div>&nbsp;</div>
 
@@ -443,6 +462,7 @@
         </div>
         
         <div>
+            <!--
             <div class="row" style="border-bottom-width: thin; border-bottom-color: #666; border-bottom-style: inset; margin-top: 5px">
 
                 <div class="pull-left">
@@ -458,6 +478,7 @@
                     </div>
                 </div>
             </div>
+                -->
             <div id="TransportOrderContent"class="row">
                 <div>&nbsp;</div>
 
@@ -516,6 +537,7 @@
         </div>
 
         <div>
+            <!--
             <div class="row" style="border-bottom-width: thin; border-bottom-color: #666; border-bottom-style: inset; margin-top: 5px">
 
                 <div class="pull-left">
@@ -531,6 +553,7 @@
                     </div>
                 </div>
             </div>
+                -->
             <div id="TransportRequisitionContent"class="row">
                 <div>&nbsp;</div>
 
@@ -601,8 +624,50 @@
 
     </div>
 </div>
-
+<style>
+    .portlet .collapser .down
+    {
+        display:none;
+    }
+    .portlet-collapsed .collapser .down
+    {
+        display:inline-block;
+    }
+    .portlet-collapsed .collapser .up
+    {
+        display:none;
+    }
+    .collapser ,.collapser :hover, .collapser:active, .collapser:visited
+    {
+        text-decoration:none;
+    }
+    .collapser :hover
+    {
+        /*background:#ffd800;*/
+    }
+    .portlet-collapsed .portlet-content
+    {
+    }
+    .hovered
+    {
+        
+    }
+</style>
 <script>
+    $(".portlet").hover(function () { $(this).addClass("hovered"); });
+    $(".portlet").mouseleave(function () { $(this).removeClass("hovered"); });
+
+    $(".portlet-header h3").each(function (elem) {
+        $(this).html("<a class='collapser' href=''><i class='icon-chevron-down down'/><i class='icon-chevron-up up'/></a>" + $(this).html());
+
+    });
+    $(".portlet-header .collapser").click(function (elem) {
+        //alert();
+        $(".hovered").toggleClass("portlet-collapsed");
+        $(".hovered .portlet-content").slideToggle("slow", "linear");;
+
+    });
+
     $("#ApprovedRequestHeader").click(function () {
         $("#ApprovedRequestContent").slideToggle("slow", "linear");
     });
