@@ -121,7 +121,7 @@ namespace Cats.Areas.Procurement.Controllers
             //viewModel.Transporters = allTransporters;
             if (TempData["CustomError"] != null)
             {
-                ModelState.AddModelError(string.Empty, TempData["CustomError"].ToString());
+                ModelState.AddModelError("Errors", TempData["CustomError"].ToString());
             }
             return View(viewModel);
         }
@@ -537,7 +537,7 @@ namespace Cats.Areas.Procurement.Controllers
                     _transportOrderService.ApproveTransportOrder(transportOrder);
                     return RedirectToAction("Index");
                 }
-                TempData["CustomError"] = "Transport Order Without Tariff can not be approved!";
+                TempData["CustomError"] = "Transport Order Without Tariff can not be approved! Please Specify Tariff for each transport order detail! ";
                 return RedirectToAction("Index");
                 //ModelState.AddModelError("Errors", @"Transport Order Without Tariff can not be approved!");
             }
