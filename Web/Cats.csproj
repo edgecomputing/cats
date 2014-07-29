@@ -251,7 +251,6 @@
       <DependentUpon>HRDDatasetForPrint.xsd</DependentUpon>
     </Compile>
     <Compile Include="Areas\Hub\Controllers\AboutController.cs" />
-    <Compile Include="Areas\Hub\Controllers\AdminController.cs" />
     <Compile Include="Areas\Hub\Controllers\AdminUnitController.cs" />
     <Compile Include="Areas\Hub\Controllers\Allocations\DispatchAllocationController.cs" />
     <Compile Include="Areas\Hub\Controllers\Allocations\DispatchPlanController.cs" />
@@ -260,7 +259,6 @@
     <Compile Include="Areas\Hub\Controllers\CommodityController.cs" />
     <Compile Include="Areas\Hub\Controllers\CommodityGradeController.cs" />
     <Compile Include="Areas\Hub\Controllers\CommoditySourceController.cs" />
-    <Compile Include="Areas\Hub\Controllers\CommodityTypeController.cs" />
     <Compile Include="Areas\Hub\Controllers\ContactController.cs" />
     <Compile Include="Areas\Hub\Controllers\CurrentHubController.cs" />
     <Compile Include="Areas\Hub\Controllers\DispatchController.cs" />
@@ -275,14 +273,12 @@
     <Compile Include="Areas\Hub\Controllers\HubSettingController.cs" />
     <Compile Include="Areas\Hub\Controllers\InternalMovementController.cs" />
     <Compile Include="Areas\Hub\Controllers\LanguageController.cs" />
-    <Compile Include="Areas\Hub\Controllers\LedgerController.cs" />
     <Compile Include="Areas\Hub\Controllers\LetterTemplateController.cs" />
     <Compile Include="Areas\Hub\Controllers\LossesAndAdjustmentsController.cs" />
     <Compile Include="Areas\Hub\Controllers\PlannerController.cs" />
     <Compile Include="Areas\Hub\Controllers\ProgramController.cs" />
     <Compile Include="Areas\Hub\Controllers\ReceiveCommodityController.cs" />
     <Compile Include="Areas\Hub\Controllers\ReceiveController.cs" />
-    <Compile Include="Areas\Hub\Controllers\ReleaseNotesController.cs" />
     <Compile Include="Areas\Hub\Controllers\ReplicationController.cs" />
     <Compile Include="Areas\Hub\Controllers\Reports\BinCardController.cs" />
     <Compile Include="Areas\Hub\Controllers\Reports\StackCardController.cs" />
@@ -2219,24 +2215,6 @@
     <Content Include="Areas\Logistics\Views\TransportRequisition\panel.cshtml" />
     <Content Include="Areas\Hub\Views\_ViewStart.cshtml" />
     <Content Include="Areas\Hub\Views\About\Index.cshtml" />
-    <Content Include="Areas\Hub\Views\Account\_Standalone.cshtml" />
-    <Content Include="Areas\Hub\Views\Account\ChangePassword.cshtml" />
-    <Content Include="Areas\Hub\Views\Account\ChangePasswordSuccess.cshtml" />
-    <Content Include="Areas\Hub\Views\Account\ConfirmPasswordChange.cshtml" />
-    <Content Include="Areas\Hub\Views\Account\ForgetPassword.cshtml" />
-    <Content Include="Areas\Hub\Views\Account\ForgetPasswordRequest.cshtml" />
-    <Content Include="Areas\Hub\Views\Account\LogOn.cshtml" />
-    <Content Include="Areas\Hub\Views\Account\Register.cshtml" />
-    <Content Include="Areas\Hub\Views\Admin\Users\Create.cshtml" />
-    <Content Include="Areas\Hub\Views\Admin\Users\Delete.cshtml" />
-    <Content Include="Areas\Hub\Views\Admin\Users\Details.cshtml" />
-    <Content Include="Areas\Hub\Views\Admin\Users\Edit.cshtml" />
-    <Content Include="Areas\Hub\Views\Admin\Users\Home.cshtml" />
-    <Content Include="Areas\Hub\Views\Admin\Users\Index.cshtml" />
-    <Content Include="Areas\Hub\Views\Admin\Users\Preferences.cshtml" />
-    <Content Include="Areas\Hub\Views\Admin\Users\Update.cshtml" />
-    <Content Include="Areas\Hub\Views\Admin\Users\UserHubs.cshtml" />
-    <Content Include="Areas\Hub\Views\Admin\Users\UserRoles.cshtml" />
     <Content Include="Areas\Hub\Views\AdminUnit\AdminUnits.cshtml" />
     <Content Include="Areas\Hub\Views\AdminUnit\Create.cshtml" />
     <Content Include="Areas\Hub\Views\AdminUnit\CreateRegion.cshtml" />
@@ -2270,20 +2248,12 @@
     <Content Include="Areas\Hub\Views\CommoditySource\Edit.cshtml" />
     <Content Include="Areas\Hub\Views\CommoditySource\Index.cshtml" />
     <Content Include="Areas\Hub\Views\CommoditySource\Update.cshtml" />
-    <Content Include="Areas\Hub\Views\CommodityType\Create.cshtml" />
-    <Content Include="Areas\Hub\Views\CommodityType\Delete.cshtml" />
-    <Content Include="Areas\Hub\Views\CommodityType\Details.cshtml" />
-    <Content Include="Areas\Hub\Views\CommodityType\Edit.cshtml" />
-    <Content Include="Areas\Hub\Views\CommodityType\Index.cshtml" />
-    <Content Include="Areas\Hub\Views\CommodityType\Update.cshtml" />
     <Content Include="Areas\Hub\Views\Contact\Create.cshtml" />
     <Content Include="Areas\Hub\Views\Contact\Delete.cshtml" />
     <Content Include="Areas\Hub\Views\Contact\Details.cshtml" />
     <Content Include="Areas\Hub\Views\Contact\Edit.cshtml" />
     <Content Include="Areas\Hub\Views\Contact\Index.cshtml" />
     <Content Include="Areas\Hub\Views\Dispatch\Create.cshtml" />
-    <Content Include="Areas\Hub\Views\Dispatch\Delete.cshtml" />
-    <Content Include="Areas\Hub\Views\Dispatch\Details.cshtml" />
     <Content Include="Areas\Hub\Views\Dispatch\DispatchPartial.cshtml" />
     <Content Include="Areas\Hub\Views\Dispatch\Edit.cshtml" />
     <Content Include="Areas\Hub\Views\Dispatch\IndexOld.cshtml" />
@@ -2360,7 +2330,6 @@
     <Content Include="Areas\Hub\Views\InternalMovement\Index.cshtml" />
     <Content Include="Areas\Hub\Views\InternalMovement\SINumberBalance.cshtml" />
     <Content Include="Areas\Hub\Views\InternalMovement\ViewDetial.cshtml" />
-    <Content Include="Areas\Hub\Views\Ledger\Index.cshtml" />
     <Content Include="Areas\Hub\Views\LetterTemplate\Create.cshtml" />
     <Content Include="Areas\Hub\Views\LetterTemplate\Delete.cshtml" />
     <Content Include="Areas\Hub\Views\LetterTemplate\Details.cshtml" />
@@ -2946,6 +2915,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Finance\Views\Shared\" />
     <Folder Include="Areas\Hub\Models\generated\" />
+    <Folder Include="Areas\Hub\Views\Account\" />
     <Folder Include="Areas\Hub\Views\ReleaseNotes\" />
     <Folder Include="Areas\Localization\Models\" />
     <Folder Include="Areas\PSNP\Views\Shared\" />

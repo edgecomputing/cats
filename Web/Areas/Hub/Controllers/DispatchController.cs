@@ -122,29 +122,30 @@ namespace Cats.Areas.Hub.Controllers
             }
             return null;
         }
-        public ViewResult Index_NEW()
-        {
-            if (this.UserProfile != null)
-            {
-                UserProfile user = _userProfileService.GetUser(this.UserProfile.UserName);
-                populateLookups(user);
-                return View();
-                /*var prefWeight =
-                    _userProfileService.GetUser(this.UserProfile.UserName).PreferedWeightMeasurment.ToUpperInvariant();
-                var toFdps =
-                    _dispatchAllocationService.GetCommitedAllocationsByHubDetached(
-                        user.DefaultHub.HubID, prefWeight, null, null, null);
-                var loans = _otherDispatchAllocationService.GetAllToOtherOwnerHubs(user);
-                var transfer = _otherDispatchAllocationService.GetAllToCurrentOwnerHubs(user);
-                var adminUnit = new List<AdminUnit> { _adminUnitService.FindById(1) };
-                var commodityTypes = _commodityTypeService.GetAllCommodityType();
-                var model = new DispatchHomeViewModel(toFdps, loans, transfer, commodityTypes, adminUnit, user);
-                return View(model);
+        //Cleanup: Unused Action
+        //public ViewResult Index_NEW()
+        //{
+        //    if (this.UserProfile != null)
+        //    {
+        //        UserProfile user = _userProfileService.GetUser(this.UserProfile.UserName);
+        //        populateLookups(user);
+        //        return View();
+        //        /*var prefWeight =
+        //            _userProfileService.GetUser(this.UserProfile.UserName).PreferedWeightMeasurment.ToUpperInvariant();
+        //        var toFdps =
+        //            _dispatchAllocationService.GetCommitedAllocationsByHubDetached(
+        //                user.DefaultHub.HubID, prefWeight, null, null, null);
+        //        var loans = _otherDispatchAllocationService.GetAllToOtherOwnerHubs(user);
+        //        var transfer = _otherDispatchAllocationService.GetAllToCurrentOwnerHubs(user);
+        //        var adminUnit = new List<AdminUnit> { _adminUnitService.FindById(1) };
+        //        var commodityTypes = _commodityTypeService.GetAllCommodityType();
+        //        var model = new DispatchHomeViewModel(toFdps, loans, transfer, commodityTypes, adminUnit, user);
+        //        return View(model);
             
-                 */
-                }
-            return null;
-        }
+        //         */
+        //        }
+        //    return null;
+        //}
 
         public ActionResult DispatchedToFDPListAjax([DataSourceRequest] DataSourceRequest request,int? HubID, bool? closed, int? adminUnitID, int? commodityType)
         {
