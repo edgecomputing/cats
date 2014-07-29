@@ -119,6 +119,10 @@ namespace Cats.Areas.Procurement.Controllers
             ViewBag.TransporterID = new SelectList(allTransporters, "TransporterID", "Name");
             var viewModel = GetRequisitionsWithoutTransporter();
             //viewModel.Transporters = allTransporters;
+            if (TempData["CustomError"] != null)
+            {
+                ModelState.AddModelError(string.Empty, TempData["CustomError"].ToString());
+            }
             return View(viewModel);
         }
 
@@ -515,10 +519,27 @@ namespace Cats.Areas.Procurement.Controllers
         public ActionResult Approve(int id)
         {
             var transportOrder = _transportOrderService.FindById(id);
+           int orderDetailWithoutTarrif = 0;
             try
             {
-                _transportOrderService.ApproveTransportOrder(transportOrder);
+                foreach (var transportOrderDetail in transportOrder.TransportOrderDetails)
+                {
+                    if (transportOrderDetail.TariffPerQtl<= 0)
+                    {
+                        orderDetailWithoutTarrif = 1;
+                        break;
+                    }
+                }
+                if (orderDetailWithoutTarrif == 0)
+                {
+
+
+                    _transportOrderService.ApproveTransportOrder(transportOrder);
+                    return RedirectToAction("Index");
+                }
+                TempData["CustomError"] = "Transport Order Without Tariff can not be approved!";
                 return RedirectToAction("Index");
+                //ModelState.AddModelError("Errors", @"Transport Order Without Tariff can not be approved!");
             }
             catch (Exception ex)
             {
@@ -526,6 +547,7 @@ namespace Cats.Areas.Procurement.Controllers
                 log.LogAllErrorsMesseges(ex, _log);
                 ModelState.AddModelError("Errors", "Unable to approve");
             }
+           
             return RedirectToAction("Index");
         }
         public ActionResult GenerateDispatchAllocation(int id)
