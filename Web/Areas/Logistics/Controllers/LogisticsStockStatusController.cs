@@ -122,7 +122,7 @@ namespace Cats.Areas.Logistics.Controllers
                      {
                          CommodityName = s.CommodityName,
                          HubName = s.HubName,
-                         Program = s.Program,
+                         ProgramName = s.ProgramName,
                          FreeStock = s.FreeStock.ToPreferedWeightUnit(),
                          PhysicalStock = s.PhysicalStock.ToPreferedWeightUnit()
                      });
