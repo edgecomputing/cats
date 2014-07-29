@@ -9,13 +9,17 @@
     ViewBag.Title = Html.Translate("Expected dispatches");
 
     string quanityColumnHeader = "MT ";
+
     if (mesure.ToUpperInvariant() == "MT " )
+
     {
-          quanityColumnHeader = "MT";
-    }else
-    {
-         quanityColumnHeader = "Qtl";
+        quanityColumnHeader = "MT";
     }
+    else
+    {
+        quanityColumnHeader = "Qtl";
+    }
+    
 
 }
 @Html.Partial("DisplayHub")
