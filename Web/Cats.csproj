@@ -971,6 +971,9 @@
     <Content Include="Content\images\CATS.png" />
     <Content Include="Content\images\CatsLogo.ico" />
     <Content Include="Content\images\CATS_Blue.ico" />
+    <Content Include="Content\images\info.png" />
+    <Content Include="Content\images\success.png" />
+    <Content Include="Content\images\warning.png" />
     <Content Include="Content\loading-bar.css" />
     <Content Include="Content\Login\App.css" />
     <Content Include="Content\Login\bootstrap.min.css" />
