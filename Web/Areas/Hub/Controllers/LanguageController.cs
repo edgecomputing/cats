@@ -18,14 +18,6 @@ namespace Cats.Areas.Hub.Controllers
             
         }
         //
-        // GET: /Language/
-
-        public  ActionResult Index()
-        {
-            return View();
-        }
-
-        //
         // GET: /Language/SetLanguage/en
 
         public virtual ActionResult SetLanguage(string lang)

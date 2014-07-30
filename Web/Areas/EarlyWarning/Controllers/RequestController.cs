@@ -635,6 +635,16 @@ namespace Cats.Areas.EarlyWarning.Controllers
             }
             var statuses = _commonService.GetStatus(WORKFLOW.REGIONAL_REQUEST);
             var requestModelView = RequestViewModelBinder.BindRegionalRequestViewModel(request, statuses, datePref);
+
+
+            if (TempData["CustomError"] != null)
+            {
+                ModelState.AddModelError("Errors", TempData["CustomError"].ToString());
+            }
+            if (TempData["CustomMsg"] != null)
+            {
+                ModelState.AddModelError("Success", TempData["CustomMsg"].ToString());
+            }
             
             //var requestDetails = _regionalRequestDetailService.Get(t => t.RegionalRequestID == id, null, "RequestDetailCommodities,RequestDetailCommodities.Commodity").ToList();
             var preferedweight = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).PreferedWeightMeasurment;
@@ -1283,6 +1293,17 @@ namespace Cats.Areas.EarlyWarning.Controllers
                 return RedirectToAction("Allocation", new { id = requestID });
             }
             return RedirectToAction("Allocation", new { id = requestID });
+        }
+        public ActionResult RevertRequestStatus(int id)
+        {
+        
+            if (_regionalRequestService.RevertRequestStatus(id))
+            {
+                TempData["CustomMsg"] = "Status has been successfully  Reverted!!";
+                return RedirectToAction("Details", new {id = id});
+            }
+          TempData["CustomError"] = "Status Can not be Reverted !Requistions from this Request has been Created and Used in Logistics Caseteam!";
+          return RedirectToAction("Details", new { id = id });
         }
     }
 }

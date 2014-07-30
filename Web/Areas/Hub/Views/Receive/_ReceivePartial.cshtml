@@ -314,7 +314,7 @@
                                         .DataBinding(binding => binding.Ajax()
                                         .Select("SelectReceivedCommodities", "Receive", new { receiveId = Model.ReceiveID })
                                         .Insert("Create", "Receive")
-                                        .Delete("Delete", "Receive").OperationMode(GridOperationMode.Client)
+                                        //.Delete("Delete", "Receive").OperationMode(GridOperationMode.Client)
 
                            ).Footer(false)
             //.OnComplete("function (e){e.data = {prev : $('#JSONPrev').val()};}")
