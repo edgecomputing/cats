@@ -926,43 +926,8 @@ namespace Cats.Areas.Hub.Controllers
                 ViewBag.SelectedZoneId = new SelectList(Enumerable.Empty<SelectListItem>(), "Id", "Name");
             }
         }
-        
-        //
-        // GET: /Dispatch/Edit/5
 
-        public   ActionResult Edit(string id)
-        {
-            Dispatch dispatch = _dispatchService.FindById(Guid.Parse(id));
-            //ViewBag.PeriodID = new SelectList(db.Periods, "PeriodID", "PeriodID", dispatch.PeriodID);
-            ViewBag.StoreID = new SelectList(_storeService.GetAllStore(), "StoreID", "Name");
-            ViewBag.TransporterID = new SelectList(_transporterService.GetAllTransporter(), "TransporterID", "Name", dispatch.TransporterID);
-            ViewBag.HubID = new SelectList(_hubService.GetAllHub(), "WarehouseID", "Name", dispatch.HubID);
-            return View("Edit", dispatch);
-        }
 
-        //
-        // POST: /Dispatch/Edit/5
-
-        [HttpPost]
-        public   ActionResult Edit(Dispatch dispatch)
-        {
-            if (ModelState.IsValid)
-            {
-                _dispatchService.EditDispatch(dispatch);
-                return RedirectToAction("Index");
-            }
-            ViewBag.PeriodID = new SelectList(_periodService.GetAllPeriod(), "PeriodID", "PeriodID", _periodService.GetPeriod(dispatch.PeriodYear, dispatch.PeriodMonth).PeriodID);
-            var user = _userProfileService.GetUser(User.Identity.Name);
-            ViewBag.StoreID = new SelectList(_storeService.GetStoreByHub(user.DefaultHub.Value), "StoreID", "Name");
-            ViewBag.TransporterID = new SelectList(_transporterService.GetAllTransporter(), "TransporterID", "Name", dispatch.TransporterID);
-            ViewBag.HubID = new SelectList(user.UserHubs, "HubID", "Name", dispatch.HubID);
-            ViewBag.CommodityTypeID = new SelectList(_commodityTypeService.GetAllCommodityType(), "CommodityTypeID", "Name");
-            return View(dispatch);
-        }
-
-     
-
-        
         public List<AdminUnitItem> GetChildren(int parentId)
         {
             var units = from item in _adminUnitService.GetChildren(parentId)

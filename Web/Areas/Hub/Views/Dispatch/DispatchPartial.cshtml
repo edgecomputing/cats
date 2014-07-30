@@ -346,7 +346,7 @@
             //.OperationMode(GridOperationMode.Client)
                     .Select("SelectDispatchsCommodities", "Dispatch", new { dispatchId = Model.DispatchID })
                     .Insert("Create", "Dispatch")
-                    .Delete("Delete", "Dispatch").OperationMode(GridOperationMode.Client)
+                    //.Delete("Delete", "Dispatch").OperationMode(GridOperationMode.Client)
 
                 )
                 .ClientEvents(e => e.OnDataBinding("function (e){e.data = {prev : $('#JSONPrev').val()};  OnCommodityTypeChangeValue(" + Model.CommodityTypeID + ");}")
