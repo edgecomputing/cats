@@ -292,7 +292,6 @@
     <Compile Include="Areas\Hub\Controllers\TransportOrderController.cs" />
     <Compile Include="Areas\Hub\Controllers\UnitController.cs" />
     <Compile Include="Areas\Hub\Controllers\UserAccountHelper.cs" />
-    <Compile Include="Areas\Hub\Controllers\UserWarehouseController.cs" />
     <Compile Include="Areas\Hub\Controllers\Utilities\TranslationController.cs" />
     <Compile Include="Areas\Hub\HubAreaRegistration.cs" />
     <Compile Include="Areas\Hub\Models\CommodityTypeViewModel.cs" />
@@ -2452,12 +2451,6 @@
     <Content Include="Areas\Hub\Views\Unit\Edit.cshtml" />
     <Content Include="Areas\Hub\Views\Unit\Index.cshtml" />
     <Content Include="Areas\Hub\Views\Unit\Update.cshtml" />
-    <Content Include="Areas\Hub\Views\UserWarehouse\Create.cshtml" />
-    <Content Include="Areas\Hub\Views\UserWarehouse\Delete.cshtml" />
-    <Content Include="Areas\Hub\Views\UserWarehouse\Details.cshtml" />
-    <Content Include="Areas\Hub\Views\UserWarehouse\Edit.cshtml" />
-    <Content Include="Areas\Hub\Views\UserWarehouse\Index.cshtml" />
-    <Content Include="Areas\Hub\Views\UserWarehouse\Update.cshtml" />
     <None Include="CatsMasterDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>CatsMasterDataSet.Designer.cs</LastGenOutput>
