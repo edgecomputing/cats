@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using Cats.Areas.Settings.Controllers;
 using Cats.Models;
 using Kendo.Mvc.UI;
 using Moq;

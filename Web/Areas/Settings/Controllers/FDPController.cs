@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Cats.Models;
+using Cats.Models.Hubs;
 using Cats.Services.Administration;
 using Cats.Areas.Settings.Models.ViewModels;
 using Cats.Areas.Settings.ViewModelBinder;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
+using FDP = Cats.Models.FDP;
 
 namespace Cats.Areas.Settings.Controllers
 {
@@ -223,6 +224,14 @@ namespace Cats.Areas.Settings.Controllers
                 ModelState.AddModelError("Errors", "Unable to delete FDP");
             }
             return RedirectToAction("Index");
+        }
+
+        public ActionResult GetFdps(int woredaId)
+        {
+            var fdps = from p in _fdpService.FindBy(x => x.AdminUnitID == woredaId)
+                       select new AdminUnitItem { Id = p.FDPID, Name = p.Name };
+
+            return Json(new SelectList(fdps.OrderBy(o => o.Name), "Id", "Name"), JsonRequestBehavior.AllowGet);
         }
     }
 }

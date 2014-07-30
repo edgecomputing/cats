@@ -27,11 +27,6 @@ namespace Cats.Areas.Hub.Controllers
             _dispatchAllocationService = dispatchAllocationService;
         }
 
-        public ActionResult Index()
-        {
-            return View();
-        }
-
         public JsonResult StockStatus(int hub, int program)
         {
             if(hub!=0)
@@ -46,13 +41,7 @@ namespace Cats.Areas.Hub.Controllers
                     var free = (value.TotalPhysicalStock == 0) ? 0 : ((value.TotalFreestock / value.TotalPhysicalStock) * 100);
                     var commited = ((value.TotalPhysicalStock - value.TotalFreestock) / ((value.TotalPhysicalStock == 0) ? 1.0M : value.TotalPhysicalStock)) * 100;
 
-                    var q = (from s in st
-                             where s.HubID == hub
-                             select s);
-
-                    //var free = q.First;
-                    // return Json(q, JsonRequestBehavior.AllowGet);
-
+                    
                     var j = new StockStatusViewModel()
                     {
                         freeStockAmount = value.TotalFreestock,

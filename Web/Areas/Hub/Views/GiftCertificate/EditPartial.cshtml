@@ -92,13 +92,19 @@
 
             </td>
             <td style="vertical-align: top">
-                <div class="editor-label">
+                @*<div class="editor-label">
                     @Html.LabelFor(model => model.SINumber, Html.Translate("SI/Batch Number")) <span class="required">*</span>
                 </div>
                 <div class="editor-field">
                     @Html.EditorFor(model => model.SINumber)
                     @Html.ValidationMessageFor(model => model.SINumber)
+                </div>*@ @*<div class="editor-label">
+                    @Html.LabelFor(model => model.SINumber, Html.Translate("SI/Batch Number")) <span class="required">*</span>
                 </div>
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.SINumber)
+                    @Html.ValidationMessageFor(model => model.SINumber)
+                </div>*@
                 <div class="editor-label">
                     @Html.LabelFor(model => model.PortName, Html.Translate("Port Name"))
                 </div>
