@@ -13,6 +13,7 @@
 <h4 class="page-header">@Html.Translate("Transport Requisition Detail") </h4>
 @section Toolbar
 {
+    <a class="btn toolbar-btn" href="#" style="display:none1;" target="_blank" id="toolbar_button_print"  title="Print"><i class="icon-print"></i></a>
     <a class="btn toolbar-btn " href="@Url.Action("Index", "TransportRequisition", new { Area = "Logistics" })" data-buttontype="btn_back_to_list"></a>
     @if (Model.StatusID == (int)Cats.Models.Constant.TransportRequisitionStatus.Draft)
     {
