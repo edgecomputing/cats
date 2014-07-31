@@ -2359,7 +2359,6 @@
     <Content Include="Areas\Hub\Views\Setting\SysSettings.cshtml" />
     <Content Include="Areas\Hub\Views\Shared\_Language.cshtml" />
     <Content Include="Areas\Hub\Views\Shared\_Layout.cshtml" />
-    <Content Include="Areas\Hub\Views\Shared\_LogOnPartial.cshtml" />
     <Content Include="Areas\Hub\Views\Shared\AdminUnit.cshtml" />
     <Content Include="Areas\Hub\Views\Shared\DisplayHub.cshtml" />
     <Content Include="Areas\Hub\Views\Shared\DisplayTemplates\CommodityId.cshtml" />
