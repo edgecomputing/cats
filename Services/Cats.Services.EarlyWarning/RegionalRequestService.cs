@@ -427,6 +427,7 @@ namespace Cats.Services.EarlyWarning
                     _unitOfWork.Save();
                     return true;
                 }
+                return true;
             }
             return false;
         }
