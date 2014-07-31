@@ -2349,6 +2349,23 @@
     <Content Include="Areas\Hub\Views\Replication\Index.cshtml" />
     <Content Include="Areas\Hub\Views\Replication\PublicationTwo.cshtml" />
     <Content Include="Areas\Hub\Views\Replication\PublicatonOne.cshtml" />
+
+    <Content Include="Areas\Hub\Views\Replication\Reports\AreaPartial.cshtml" />
+    <Content Include="Areas\Hub\Views\Replication\Reports\DistributionReport.cshtml" />
+    <Content Include="Areas\Hub\Views\Replication\Reports\DistributionReportFilters.cshtml" />
+    <Content Include="Areas\Hub\Views\Replication\Reports\DistributionReportPartial.cshtml" />
+    <Content Include="Areas\Hub\Views\Replication\Reports\FreeStock.cshtml" />
+    <Content Include="Areas\Hub\Views\Replication\Reports\FreeStockFilters.cshtml" />
+    <Content Include="Areas\Hub\Views\Replication\Reports\FreeStockPartial.cshtml" />
+    <Content Include="Areas\Hub\Views\Replication\Reports\Index.cshtml" />
+    <Content Include="Areas\Hub\Views\Replication\Reports\OffloadingFilters.cshtml" />
+    <Content Include="Areas\Hub\Views\Replication\Reports\OffloadingReport.cshtml" />
+    <Content Include="Areas\Hub\Views\Replication\Reports\OffloadingReportPartial.cshtml" />
+    <Content Include="Areas\Hub\Views\Replication\Reports\Receive.cshtml" />
+    <Content Include="Areas\Hub\Views\Replication\Reports\ReceiveFilters.cshtml" />
+    <Content Include="Areas\Hub\Views\Replication\Reports\ReceivePartial.cshtml" />
+    <Content Include="Areas\Hub\Views\Replication\Reports\SIReport.cshtml" />
+
     <Content Include="Areas\Hub\Views\Roles\Create.cshtml" />
     <Content Include="Areas\Hub\Views\Roles\Delete.cshtml" />
     <Content Include="Areas\Hub\Views\Roles\Details.cshtml" />

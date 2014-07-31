@@ -72,6 +72,10 @@
             {
                 <li><a href="@Url.Action("CreateRequisiton", "ReliefRequisition", new { Area = "EarlyWarning", id = modelRequest.RegionalRequestID })"><i class="icon-plus"></i>Requisiton</a></li>
             }
+             else if (modelRequest.StatusID == (int)Cats.Models.Constant.RegionalRequestStatus.Closed)
+            {
+                <li><a href="@Url.Action("RevertRequestStatus", "Request", new { Area = "EarlyWarning", id = modelRequest.RegionalRequestID })">Revert Status</a></li>
+            }
         </ul>
 
     </div>
