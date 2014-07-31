@@ -466,6 +466,7 @@ namespace Cats.Areas.Hub.Controllers
                         receiveViewModel.SupplierName = rAllocation.SupplierName;
                         receiveViewModel.SourceHubID = rAllocation.SourceHubID;
                         receiveViewModel.PurchaseOrder = rAllocation.PurchaseOrder;
+                        receiveViewModel.CommoditySourceText = rAllocation.CommoditySource.Name;
 
                         if (rAllocation.Commodity.ParentID != null)
                         {
