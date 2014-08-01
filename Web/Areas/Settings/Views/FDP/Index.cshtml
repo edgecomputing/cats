@@ -101,7 +101,7 @@
     </div>
 
     <div class="span7">
-        @(Html.Kendo().Grid<FDPViewModel>()
+        @(Html.Kendo().Grid<Cats.Areas.Settings.Models.ViewModels.FDPViewModel>()
               .Name("grid")
               .Columns(columns =>
                   {
@@ -129,7 +129,7 @@
                           datasource
                               .Ajax()
                               .PageSize(10)
-                              .ServerOperation(false)
+                              //.ServerOperation(false)
                               .Model(m => m.Id(t => t.FDPID))
                               .Read(read => read.Action("FDP_Read", "FDP").Data("selectedWoredaId"))
                               .Create(create => create.Action("FDP_Create", "FDP").Data("selectedWoredaId"))

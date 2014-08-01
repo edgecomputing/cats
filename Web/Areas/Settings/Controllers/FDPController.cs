@@ -49,7 +49,7 @@ namespace Cats.Areas.Settings.Controllers
 
 
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult FDP_Create([DataSourceRequest] DataSourceRequest request, [Bind(Prefix = "models")]IEnumerable<FDPViewModel> fdpViewModel , int? adminUnitID)
+        public ActionResult FDP_Create([DataSourceRequest] DataSourceRequest request, FDPViewModel fdpViewModel , int? adminUnitID)
         {
 
             var result = new List<FDPViewModel>();
@@ -59,17 +59,17 @@ namespace Cats.Areas.Settings.Controllers
             {
                 try
                 {
-                    foreach (var viewModel in fdpViewModel)
-                    {
+                    //foreach (var viewModel in fdpViewModel)
+                    //{
 
-                        if (CheckIfDFPExists((int) adminUnitID, viewModel.Name))
+                    if (CheckIfDFPExists((int)adminUnitID, fdpViewModel.Name))
                         {
-                            viewModel.AdminUnitID = adminUnitID.Value;
-                            var fdp = FDPViewModelBinder.BindFDP(viewModel);
+                            fdpViewModel.AdminUnitID = adminUnitID.Value;
+                            var fdp = FDPViewModelBinder.BindFDP(fdpViewModel);
                             _fdpService.AddFDP(fdp);
-                            result.Add(viewModel);
+                            //result.Add(fdpViewModel);
                         }
-                    }
+                   // }
                 }
                 catch (Exception ex)
                 {
