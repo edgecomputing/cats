@@ -47,44 +47,56 @@
                                         <a href="#">Warehouses</a>
                                     </li>
                                     <li>
-                                        <a href="#">Hubs</a>
+                                        @Html.AdminOperationMenuItem(@Html.Translate("Hubs"),
+                                        @Url.Action("Index", "Hubs", new { Area = "Settings" }))
                                     </li>
                                     <li>
-                                        <a href="#">Hub Owners</a>
+                                        @Html.AdminOperationMenuItem(@Html.Translate("Hub Owners"),
+                                        @Url.Action("Index", "HubOwner", new { Area = "Settings" }))
                                     </li>
                                     <li>
-                                        <a href="#">Stores</a>
+                                        @Html.AdminOperationMenuItem(@Html.Translate("Stores"),
+                                        @Url.Action("Index", "Store", new { Area = "Settings" }))
                                     </li>
                                     <li class="divider"></li>
                                     <li>
-                                        <a href="#">Commodity Type</a>
+                                        @Html.AdminOperationMenuItem(@Html.Translate("Commodity Type"),
+                                        @Url.Action("Index", "CommodityType", new { Area = "Settings" }))
                                     </li>
                                     <li>
-                                        <a href="#">Commodity</a>
+                                        @Html.AdminOperationMenuItem(@Html.Translate("Commodity"),
+                                        @Url.Action("Index", "Commodity", new { Area = "Settings" }))
                                     </li>
                                     <li>
-                                        <a href="#">Commodity Grade</a>
+                                        @Html.AdminOperationMenuItem(@Html.Translate("Commodity Grade"),
+                                        @Url.Action("Index", "CommodityGrade", new { Area = "Settings" }))
                                     </li>
                                     <li>
-                                        <a href="#">Commodity Source</a>
+                                        @Html.AdminOperationMenuItem(@Html.Translate("Commodity Source"),
+                                        @Url.Action("Index", "CommoditySource", new { Area = "Settings" }))
                                     </li>
                                     <li>
-                                        <a href="#">Program</a>
+                                        @Html.AdminOperationMenuItem(@Html.Translate("Program"),
+                                        @Url.Action("Index", "Program", new { Area = "Settings" }))
                                     </li>
                                     <li>
-                                        <a href="#">Donors</a>
+                                        @Html.AdminOperationMenuItem(@Html.Translate("Donors"),
+                                        @Url.Action("Index", "Donor", new { Area = "Settings" }))
                                     </li>
                                     <li>
-                                        <a href="#">Units</a>
+                                        @Html.AdminOperationMenuItem(@Html.Translate("Units"),
+                                        @Url.Action("Index", "Unit", new { Area = "Settings" }))
                                     </li>
 
                                     <li class="divider"></li>
 
                                     <li>
-                                        <a href="#">Administrative Units</a>
+                                        @Html.AdminOperationMenuItem(@Html.Translate("Administrative Units"),
+                                        @Url.Action("Index", "AdminUnit", new { Area = "Settings" }))
                                     </li>
                                     <li>
-                                        <a href="#">FDPs</a>
+                                        @Html.AdminOperationMenuItem(@Html.Translate("FDPs"),
+                                        @Url.Action("Index", "FDP", new { Area = "Settings" }))
                                     </li>
                                 </ul>
                             </li>
@@ -103,10 +115,12 @@
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Translations <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     <li>
-                                        <a href="#">Languages</a>
+                                        @Html.AdminOperationMenuItem(@Html.Translate("Languages"),
+                                        @Url.Action("Index", "Language", new { Area = "Localization" }))
                                     </li>
                                     <li>
-                                        <a href="#">Translation Terms</a>
+                                        @Html.AdminOperationMenuItem(@Html.Translate("Translation Terms"),
+                                        @Url.Action("Index", "Translation", new { Area = "Localization" }))
                                     </li>
                                 </ul>
                             </li>
@@ -114,7 +128,8 @@
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Users<b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     <li>
-                                        <a href="@Url.Action("Index","Users")">Users</a>
+                                        @Html.AdminOperationMenuItem(@Html.Translate("Users"),
+                                        @Url.Action("Index", "Users", new { Area = "Settings" }))
                                     </li>
                                     <li>
                                         <a href="#">Groups</a>

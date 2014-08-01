@@ -1,4 +1,4 @@
-@using Cats.Models.Hubs.ViewModels
+﻿@using Cats.Models.Hubs.ViewModels
 @using Cats.Web.Hub.Helpers
 <!DOCTYPE HTML>
 <html>
@@ -59,7 +59,7 @@
                                     .Name("Window")
                                     .Title(Html.Translate("Change Preferences"))
                                     .Content(@<text>
-                            @Html.Partial("../Admin/Users/Preferences", new UserPreferenceViewModel(UserProfile))
+                            @*@Html.Partial("../Admin/Users/Preferences", new UserPreferenceViewModel(UserProfile))*@
                             </text>)
                                     .Width(400)
                                     .Draggable(true)
