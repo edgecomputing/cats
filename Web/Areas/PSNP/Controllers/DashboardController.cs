@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using Cats.Services.EarlyWarning;
 using Cats.Areas.PSNP.Models;
+using Cats.Services.PSNP;
 
 namespace Cats.Areas.PSNP.Controllers
 {
@@ -16,16 +17,18 @@ namespace Cats.Areas.PSNP.Controllers
         private readonly IRegionalRequestDetailService _regionalRequestDetailService;
         private readonly IReliefRequisitionService _reliefRequisitionService;
         private readonly IHRDService _hrdService;
+        private readonly IRegionalPSNPPlanService _regionalPsnpPlanService;
 
         public DashboardController(IRegionalRequestService regionalRequestService,
             IRegionalRequestDetailService reliefRequisitionDetailService,
             IReliefRequisitionService reliefRequisitionService,
-            IHRDService hrdService)
+            IHRDService hrdService, IRegionalPSNPPlanService regionalPsnpPlanService)
         {
             _regionalRequestService = regionalRequestService;
             _regionalRequestDetailService = reliefRequisitionDetailService;
             _reliefRequisitionService = reliefRequisitionService;
             _hrdService = hrdService;
+            _regionalPsnpPlanService = regionalPsnpPlanService;
         }
         public JsonResult GetPsnpRequests()
         {
@@ -46,8 +49,11 @@ namespace Cats.Areas.PSNP.Controllers
 
         public JsonResult RequestPie()
         {
-            var currentPlan = _hrdService.FindBy(t => t.Status == 3).FirstOrDefault().PlanID;
-            var requests = _regionalRequestService.FindBy(t=>t.PlanID==currentPlan);
+            var psnpRecentPlan =
+                _regionalPsnpPlanService.GetAllRegionalPSNPPlan().OrderByDescending(i => i.RegionalPSNPPlanID).
+                    FirstOrDefault();
+          
+            var requests = _regionalRequestService.FindBy(t=>t.PlanID==psnpRecentPlan.PlanId);
 
             var r = (from request in requests
                      group request by request.AdminUnit.AdminUnitID into g
