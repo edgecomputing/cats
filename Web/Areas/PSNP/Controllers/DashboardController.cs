@@ -65,6 +65,25 @@ namespace Cats.Areas.PSNP.Controllers
             return Json(r, JsonRequestBehavior.AllowGet);
         }
 
+        public JsonResult RequestPieByStatus()
+        {
+             var psnpRecentPlan =
+                _regionalPsnpPlanService.GetAllRegionalPSNPPlan().OrderByDescending(i => i.RegionalPSNPPlanID).
+                    FirstOrDefault();
+          
+            var requests = _regionalRequestService.FindBy(t=>t.PlanID==psnpRecentPlan.PlanId);
+
+            var r = (from request in requests
+                     group request by request.Status into g
+                     select new
+                     {
+                         g.First().Status,
+                         Count = g.Count()
+                     });
+            return Json(r, JsonRequestBehavior.AllowGet);
+        }
+
+
         //public JsonResult RequisitionPie()
         //{
         //    //var currentPlan = _hrdService.FindBy(t => t.Status == 3).FirstOrDefault().PlanID;
@@ -76,7 +95,7 @@ namespace Cats.Areas.PSNP.Controllers
         
         public ActionResult GetPsnpRequisitions()
         {
-            var requests = _reliefRequisitionService.GetAllReliefRequisition().OrderByDescending(t => t.RequestedDate).Take(5);
+            var requests = _reliefRequisitionService.GetAllReliefRequisition().OrderByDescending(t => t.RequestedDate);
             var r = new List<PSNPRequisitionViewModel>();
             foreach (var regionalRequsition in requests)
             {
