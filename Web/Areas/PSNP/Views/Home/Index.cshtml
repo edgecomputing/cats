@@ -397,92 +397,6 @@
     });
 </script>
 
-@*<script>
-    function PSNPDashboardController($scope, $http) {
-        
-        $scope.Requests = [];
-        $scope.Requisitions = [];
-        $scope.Data = [];
-
-        var onRequestsSuccess = function (data) {
-            $scope.Requests = data;
-        };
-
-        var onRequisitionsSuccess = function (data) {
-            $scope.Requisitions = data;
-        };
-
-        var onDashboardDataSuccess = function (data) {
-            $scope.Data = data;
-        };
-
-        $scope.getRequests = function () {
-            $http.post("@Url.Action("GetPsnpRequests", "Dashboard", new { Area = "PSNP" })", null).success(onRequestsSuccess);
-        };
-
-        $scope.getRequisitions = function () {
-            $http.post("@Url.Action("GetPsnpRequisitions", "Dashboard", new { Area = "PSNP" })", null).success(onRequisitionsSuccess);
-        };
-
-        $scope.getUtilization = function () {
-            $http.post("@Url.Action("GetUtilizationReport", "Dashboard", new { Area = "PSNP" })", null).success(onDispatchesSuccess);
-        };
-
-        $scope.viewRequest = function () {
-            window.location = "@Url.Action("Details","Request",new {Area="EarlyWarning"})" + "?id=" + item.RequestId;
-        };
-        
-        $scope.getRequests();
-        $scope.getRequisitions();
-    }
-</script>*@
-
-@*<script>
-    $(function () {
-        $('#container').highcharts({
-            chart: {
-                plotBackgroundColor: null,
-                plotBorderWidth: null,
-                plotShadow: false
-            },
-
-            //tooltip: {
-            //    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-            //},
-            plotOptions: {
-                pie: {
-                    allowPointSelect: true,
-                    cursor: 'pointer',
-                    dataLabels: {
-                        enabled: false
-                    },
-                    showInLegend: true
-                }
-            },
-            credits: {
-                enabled: false
-            },
-            title: {
-                text: ''
-            },
-            exporting: {
-                enabled: false
-            },
-            series: [{
-                type: 'pie',
-                name: 'Requests Percentage',
-                data: [
-                    ['Afar', 25.0],
-                    ['Oromiya', 20.0],
-                    ['Amhara', 40.0],
-                    ['Somali', 5.0],
-                    ['Benishangul',10.0 ]
-                ]
-            }]
-        });
-    });
-</script>*@
-
 <script>
     $(function () {
         $('#containerRequisition').highcharts({
@@ -631,6 +545,7 @@
            // return the directive link function. (compile function not needed)
            return function (scope, element, attrs) {
                var container = $(element).attr("id");
+               alert(container);
                // watch the expression, and update the UI on change.
                scope.$watch('RequestPie', function () {
                    drawPlot();
@@ -677,6 +592,63 @@
                }
            }
        });
+
+
+
+    /* Directives */
+    app.directive('drawRequestPieByStatus', function () {
+        // return the directive link function. (compile function not needed)
+        return function (scope, element, attrs) {
+            var container = $(element).attr("id");
+            //alert(container);
+            
+            // watch the expression, and update the UI on change.
+            scope.$watch('RequestPie', function () {
+                drawPlot();
+            }, true);
+            var drawPlot = function () {
+                var chart;
+                chart = new Highcharts.Chart({
+                    chart: {
+                        renderTo: container
+                    },
+                    credits: {
+                        enabled: false
+                    },
+                    title: {
+                        text: ''
+                    },
+                    exporting: {
+                        enabled: false
+                    },
+                    //tooltip: {
+                    //    pointFormat: '{series.name}: <b>{point.percentage}</b>% <b>({point.y})</b> Requests',
+                    //    percentageDecimals: 1
+                    //},
+
+                    tooltip: {
+                        pointFormat: '{series.name}: <b>{point.percentage:.2f}%</b> ({point.y}) Requests',
+                    },
+                    plotOptions: {
+                        pie: {
+                            allowPointSelect: true,
+                            cursor: 'pointer',
+                            dataLabels: {
+                                enabled: false
+                            },
+                            showInLegend: true
+                        }
+                    },
+                    series: [{
+                        type: 'pie',
+                        name: 'Percentage',
+                        data: scope.RequestPie
+                    }]
+                });
+            }
+        }
+    });
+    
 
 </script>
 
