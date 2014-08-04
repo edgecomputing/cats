@@ -140,7 +140,7 @@
 
                         <div class="portlet-content">
                           
-                                    <div id="containerRequisition" class="chartWrap"></div>
+                                    <div id="containerRequisition" class="chartWrap" draw-request-pie-Status=""></div>
                                
                             <!-- /.portlet-content -->
 
@@ -484,49 +484,49 @@
 </script>*@
 
 <script>
-    $(function () {
-        $('#containerRequisition').highcharts({
-            chart: {
-                plotBackgroundColor: null,
-                plotBorderWidth: null,
-                plotShadow: false
-            },
+    //$(function () {
+    //    $('#containerRequisition').highcharts({
+    //        chart: {
+    //            plotBackgroundColor: null,
+    //            plotBorderWidth: null,
+    //            plotShadow: false
+    //        },
 
-            //tooltip: {
-            //    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-            //},
-            plotOptions: {
-                pie: {
-                    allowPointSelect: true,
-                    cursor: 'pointer',
-                    dataLabels: {
-                        enabled: false
-                    },
-                    showInLegend: true
-                }
-            },
-            credits: {
-                enabled: false
-            },
-            title: {
-                text: ''
-            },
-            exporting: {
-                enabled: false
-            },
-            series: [{
-                type: 'pie',
-                name: 'Requests Percentage',
-                data: [
-                    ['Afar', 45.0],
-                    ['Oromiya', 26.8],
-                    ['Amhara', 8.5],
-                    ['Somali', 6.2],
-                    ['Benihsangul', 0.7]
-                ]
-            }]
-        });
-    });
+    //        //tooltip: {
+    //        //    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+    //        //},
+    //        plotOptions: {
+    //            pie: {
+    //                allowPointSelect: true,
+    //                cursor: 'pointer',
+    //                dataLabels: {
+    //                    enabled: false
+    //                },
+    //                showInLegend: true
+    //            }
+    //        },
+    //        credits: {
+    //            enabled: false
+    //        },
+    //        title: {
+    //            text: ''
+    //        },
+    //        exporting: {
+    //            enabled: false
+    //        },
+    //        series: [{
+    //            type: 'pie',
+    //            name: 'Requests Percentage',
+    //            data: [
+    //                ['Afar', 45.0],
+    //                ['Oromiya', 26.8],
+    //                ['Amhara', 8.5],
+    //                ['Somali', 6.2],
+    //                ['Benihsangul', 0.7]
+    //            ]
+    //        }]
+    //    });
+    //});
 </script>
 
 <style>
@@ -677,6 +677,58 @@
                }
            }
        });
+
+    /* Directives */
+    app.directive('drawRequestPieStatus', function () {
+        // return the directive link function. (compile function not needed)
+        return function (scope, element, attrs) {
+            var container = $(element).attr("id");
+            // watch the expression, and update the UI on change.
+            scope.$watch('RequestPie', function () {
+                drawPlot();
+            }, true);
+            var drawPlot = function () {
+                var chart;
+                chart = new Highcharts.Chart({
+                    chart: {
+                        renderTo: container
+                    },
+                    credits: {
+                        enabled: false
+                    },
+                    title: {
+                        text: ''
+                    },
+                    exporting: {
+                        enabled: false
+                    },
+                    //tooltip: {
+                    //    pointFormat: '{series.name}: <b>{point.percentage}</b>% <b>({point.y})</b> Requests',
+                    //    percentageDecimals: 1
+                    //},
+
+                    tooltip: {
+                        pointFormat: '{series.name}: <b>{point.percentage:.2f}%</b> ({point.y}) Requests',
+                    },
+                    plotOptions: {
+                        pie: {
+                            allowPointSelect: true,
+                            cursor: 'pointer',
+                            dataLabels: {
+                                enabled: false
+                            },
+                            showInLegend: true
+                        }
+                    },
+                    series: [{
+                        type: 'pie',
+                        name: 'Percentage',
+                        data: scope.RequestPie
+                    }]
+                });
+            }
+        }
+    });
 
 </script>
 
