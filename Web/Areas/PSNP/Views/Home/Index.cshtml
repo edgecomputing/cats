@@ -545,6 +545,7 @@
         $scope.Requests = [];
         $scope.Requisitions = [];
         $scope.RequestPie = [];
+        $scope.equestByStatus = [];
         $scope.Data = [];
         $scope.states = ["Draft", "Approved", "Closed"];
     
@@ -567,6 +568,11 @@
             }
         };
         
+        var onRequestPieByStatusSuccess = function (data) {
+            for(var i in data) {
+                $scope.RequestByStatus.push([data[i].Status, data[i].Count]);
+            }
+        }
         var onDashboardDataSuccess = function (data) {
             $scope.Data = data;
         };
@@ -579,6 +585,9 @@
             $http.post("@Url.Action("RequestPie", "Dashboard", new { Area = "PSNP" })", null).success(onRequestPieSuccess);
         };
 
+        $scope.getRequestPieByStatus= function () {
+            $http.post("@Url.Action("RequestPieByStatus", "Dashboard", new { Area = "PSNP" })", null).success(onRequestPieByStatusSuccess);
+        }
         $scope.getRequisitions = function () {
             $http.post("@Url.Action("GetPsnpRequisitions", "Dashboard", new { Area = "PSNP" })", null).success(onRequisitionsSuccess);
         };
