@@ -42,6 +42,8 @@ namespace Cats.Areas.PSNP.Controllers
                 f.beneficiaries = regionalRequest.RegionalRequestDetails.Sum(t => t.Beneficiaries);
                 f.status = regionalRequest.Status;
                 f.RequestId = regionalRequest.RegionalRequestID;
+                f.PlanId = regionalRequest.PlanID;
+                f.PlanName = regionalRequest.Plan.PlanName;
                 r.Add(f);
             }
             return Json(r, JsonRequestBehavior.AllowGet);
