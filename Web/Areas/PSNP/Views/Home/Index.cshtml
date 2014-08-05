@@ -199,7 +199,7 @@
                                 <tbody>
                                     <tr class="" ng-repeat="requisition in Requisitions | filter:{PlanId:Id} | limitTo:5 ">
                                         
-                                         <td>{{requisition.PlanId}}</td>
+                                        
                                         <td>{{requisition.Number}}</td>
                                         <th>{{requisition.Commodity}}</th>
                                         <td style="text-align: right">{{requisition.Beneficicaries|number}}</td>
@@ -556,16 +556,15 @@
 <script>
     var app = angular.module('myApp', []);
     
-    app.controller('PSNPDashboardController', function ($scope,$http) {
+    app.controller('PSNPDashboardController',  ['$scope', '$http', '$rootScope', function ($scope, $http, $rootScope) {
         
         $scope.Requests = [];
         $scope.Requisitions = [];
-        $scope.RequestPie = [];
-        $scope.RequestByStatus = [];
+       
         $scope.Data = [];
         $scope.states = ["Draft", "Approved", "Closed"];
-    
-        //alert(scope.states);
+
+        var id = $rootScope.Id;
         var onRequestsSuccess = function (data) {
             $scope.Requests = data;
         };
@@ -576,21 +575,7 @@
             $scope.Requisitions = data;
         };
 
-        var onRequestPieSuccess = function (data) {
-            // $scope.RequestPie = data;
-           
-            for (var i in data) {
-              $scope.RequestPie.push([data[i].Region, data[i].Count]);
-            }
-        };
-        
-        var onRequestPieByStatusSuccess = function (data) {
-            for(var i in data) {
-                $scope.RequestByStatus.push([data[i], data[i][1]]);
-                console.log(data[i].Status, data[i].Count);
-            }
-            
-        }
+       
         var onDashboardDataSuccess = function (data) {
             $scope.Data = data;
         };
@@ -599,13 +584,7 @@
             $http.post("@Url.Action("GetPsnpRequests", "Dashboard", new { Area = "PSNP" })", null).success(onRequestsSuccess);
         };
 
-        $scope.getRequestPie = function () {
-            $http.post("@Url.Action("RequestPie", "Dashboard", new { Area = "PSNP" })", null).success(onRequestPieSuccess);
-        };
-
-        $scope.getRequestPieByStatus= function () {
-            $http.post("@Url.Action("RequestPieByStatus", "Dashboard", new { Area = "PSNP" })", null).success(onRequestPieByStatusSuccess);
-        }
+       
         $scope.getRequisitions = function () {
             $http.post("@Url.Action("GetPsnpRequisitions", "Dashboard", new { Area = "PSNP" })", null).success(onRequisitionsSuccess);
         };
@@ -624,26 +603,63 @@
         
         $scope.getRequests();
         $scope.getRequisitions();
-        $scope.getRequestPie();
-        $scope.getRequestPieByStatus();
+       
         
-    });
+    }]);
     
 
 
     app.controller('AnnualPlan', ['$scope', '$http', '$rootScope', function ($scope, $http, $rootScope) {
 
         $scope.plans = [];
+       
         $http({ method: 'GET', url: '@Url.Action("GetPlans", "Dashboard", new { Area = "PSNP" })' }).success(function (data, status, headers, config) { $scope.plans = data; })
         .error(function (data, status, headers, config) {
 
         });
 
+        var planId;
 
         $scope.onChange = function (id) {
+            $rootScope.RequestPie = [];
+            $rootScope.RequestByStatus = [];
             $rootScope.Id = id;
-            alert($rootScope.Id);
+            planId = id;
+            alert(planId);
+            $scope.getRequestPie();
+            $scope.getRequestPieByStatus();
             };
+
+        $scope.getRequestPie = function () {
+            $http.post("@Url.Action("RequestPie", "Dashboard", new { Area = "PSNP"})" + "?planId=" + planId, null).success(onRequestPieSuccess);
+         };
+
+        $scope.getRequestPieByStatus = function() {
+            $http.post("@Url.Action("RequestPieByStatus", "Dashboard", new { Area = "PSNP" })" + "?planId=" + planId, null).success(onRequestPieByStatusSuccess);
+        };
+        
+       
+        
+
+
+
+        var onRequestPieSuccess = function (data) {
+            // $scope.RequestPie = data;
+
+            for (var i in data) {
+                $scope.RequestPie.push([data[i].Region, data[i].Count]);
+                console.log([data[i].Region, data[i].Count]);
+            }
+        };
+
+        var onRequestPieByStatusSuccess = function (data) {
+            for (var i in data) {
+                $scope.RequestByStatus.push([data[i], data[i][1]]);
+                console.log(data[i].Status, data[i].Count);
+            }
+
+        }
+        
 
        }]);
 

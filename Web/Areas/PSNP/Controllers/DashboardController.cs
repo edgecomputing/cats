@@ -49,15 +49,13 @@ namespace Cats.Areas.PSNP.Controllers
             return Json(r, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult RequestPie()
+        public JsonResult RequestPie(int planId=-1)
         {
-            var psnpRecentPlan =
-                _regionalPsnpPlanService.GetAllRegionalPSNPPlan().OrderByDescending(i => i.RegionalPSNPPlanID).
-                    FirstOrDefault();
+           
 
-            var requests = _regionalRequestService.FindBy(t => t.PlanID == psnpRecentPlan.PlanId);
+            var requests = _regionalRequestService.FindBy(t => t.PlanID == planId);
 
-            var r = (from request in requests
+            var req = (from request in requests
                      group request by request.AdminUnit.AdminUnitID into g 
                      let firstOrDefault = g.FirstOrDefault() 
                      where firstOrDefault != null select new
@@ -67,16 +65,13 @@ namespace Cats.Areas.PSNP.Controllers
                          PlanId = g.First().PlanID,
                          firstOrDefault.Plan.PlanName
                      });
-            return Json(r, JsonRequestBehavior.AllowGet);
+            return Json(req, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult RequestPieByStatus()
+        public JsonResult RequestPieByStatus(int planId = -1)
         {
-             var psnpRecentPlan =
-                _regionalPsnpPlanService.GetAllRegionalPSNPPlan().OrderByDescending(i => i.RegionalPSNPPlanID).
-                    FirstOrDefault();
-
-             var requests = _regionalRequestService.FindBy(t => t.PlanID == psnpRecentPlan.PlanId);
+            
+             var requests = _regionalRequestService.FindBy(t => t.PlanID == planId);
 
             var r = (from request in requests
                      group request by request.Status into g
@@ -125,14 +120,21 @@ namespace Cats.Areas.PSNP.Controllers
             var r = new List<PSNPRequisitionViewModel>();
             foreach (var regionalRequsition in requests)
             {
-                var f = new PSNPRequisitionViewModel();
-                f.Number = regionalRequsition.RequisitionNo;
-                f.Commodity = regionalRequsition.Commodity.Name;
-                f.Beneficicaries = regionalRequsition.ReliefRequisitionDetails.Sum(t => t.BenficiaryNo);
-                f.Amount = regionalRequsition.ReliefRequisitionDetails.Sum(t => t.Amount);
-                f.Status = regionalRequsition.Status;
-                f.RequisitionId = regionalRequsition.RequisitionID;
-                r.Add(f);
+                var psnpReqistions = new PSNPRequisitionViewModel
+                            {
+                                Number = regionalRequsition.RequisitionNo,
+                                Commodity = regionalRequsition.Commodity.Name,
+                                Beneficicaries = regionalRequsition.ReliefRequisitionDetails.Sum(t => t.BenficiaryNo),
+                                Amount = regionalRequsition.ReliefRequisitionDetails.Sum(t => t.Amount),
+                                Status = regionalRequsition.Status,
+                                RequisitionId = regionalRequsition.RequisitionID
+                            };
+                if (regionalRequsition.RegionalRequest != null)
+                {
+                    psnpReqistions.PlanId = regionalRequsition.RegionalRequest.PlanID;
+                    psnpReqistions.PlanName = regionalRequsition.RegionalRequest.Plan.PlanName;
+                }
+                r.Add(psnpReqistions);
             }
             return Json(r, JsonRequestBehavior.AllowGet);
         }
