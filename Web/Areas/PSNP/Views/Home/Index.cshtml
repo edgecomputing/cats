@@ -19,14 +19,17 @@
 <div ng-app="myApp">
     
     <div ng-controller="AnnualPlan" class="container row">
+        <div class="row" style="border-bottom-width: thin; border-bottom-color: #666; border-bottom-style: inset; margin-left: 60px">
+            <div class="span7" > <h4>Annual Plan:</h4> 
+                <select ng-change="onChange(PlanName.planId)"   ng-model="PlanName" ng-options="r as r.planName for r in plans" >
+                    <option > Choose a Plan </option>
+                </select>
+                
+             
+               
+            </div>
             
-        <div class="span12" > <h4>Annual Plan:</h4> 
-            <select ng-change="onChange(PlanName)"   ng-model="PlanName" ng-options="r.PlanName as r.name for r in plans" >
-                <option > Choose a Plan </option>
-            </select>
-            <pre>Annual Plan: {{Plan}}</pre>   
         </div>
-        <hr />
     </div>
 
     <div ng-controller="PSNPDashboardController" class="container">
@@ -77,7 +80,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr ng-repeat="request in Requests">
+                                    <tr ng-repeat="request in Requests | filter:{PlanId:Id} | limitTo:5">
                                         <td class="hidden-xs">{{request.Number}}</td>
                                         <td style="text-align: right">{{request.fdps|number}}</td>
                                         <td style="text-align: right">{{request.beneficiaries|number}}</td>
@@ -194,8 +197,9 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr class="" ng-repeat="requisition in Requisitions | limitTo:5">
-
+                                    <tr class="" ng-repeat="requisition in Requisitions | filter:{PlanId:Id} | limitTo:5 ">
+                                        
+                                         <td>{{requisition.PlanId}}</td>
                                         <td>{{requisition.Number}}</td>
                                         <th>{{requisition.Commodity}}</th>
                                         <td style="text-align: right">{{requisition.Beneficicaries|number}}</td>
@@ -627,7 +631,7 @@
     
 
 
-    myApp.controller('AnnualPlan', ['$scope', '$http', '$rootScope', function ($scope, $http, $rootScope) {
+    app.controller('AnnualPlan', ['$scope', '$http', '$rootScope', function ($scope, $http, $rootScope) {
 
         $scope.plans = [];
         $http({ method: 'GET', url: '@Url.Action("GetPlans", "Dashboard", new { Area = "PSNP" })' }).success(function (data, status, headers, config) { $scope.plans = data; })
@@ -636,9 +640,9 @@
         });
 
 
-        $scope.onChange = function (name) {
-            $rootScope.PlanName = name;
-            alert(name);
+        $scope.onChange = function (id) {
+            $rootScope.Id = id;
+            alert($rootScope.Id);
             };
 
        }]);
