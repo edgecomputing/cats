@@ -86,7 +86,8 @@ namespace Cats.Areas.PSNP.Controllers
                      });
 
             Dictionary<string, int> _request = new Dictionary<string, int>();
-          
+            
+
             foreach (var req in r )
             {
                 if (req.Status == (decimal)Cats.Models.Constant.RegionalRequestStatus.Draft)

@@ -625,7 +625,7 @@
             $rootScope.RequestByStatus = [];
             $rootScope.Id = id;
             planId = id;
-            alert(planId);
+          
             $scope.getRequestPie();
             $scope.getRequestPieByStatus();
             };
@@ -644,21 +644,19 @@
 
 
         var onRequestPieSuccess = function (data) {
-            // $scope.RequestPie = data;
-
             for (var i in data) {
                 $scope.RequestPie.push([data[i].Region, data[i].Count]);
                 console.log([data[i].Region, data[i].Count]);
             }
         };
 
-        var onRequestPieByStatusSuccess = function (data) {
-            for (var i in data) {
-                $scope.RequestByStatus.push([data[i], data[i][1]]);
-                console.log(data[i].Status, data[i].Count);
-            }
+        var onRequestPieByStatusSuccess = function(data) {
 
-        }
+            for (var key in data) {
+                $scope.RequestByStatus.push([key, data[key]]);
+                console.log([key, data[key]]);
+            }
+        };
         
 
        }]);
