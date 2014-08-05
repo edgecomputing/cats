@@ -17,6 +17,18 @@
 </style>
 
 <div ng-app="myApp">
+    
+    <div ng-controller="AnnualPlan" class="container row">
+            
+        <div class="span12" > <h4>Annual Plan:</h4> 
+            <select ng-change="onChange(PlanName)"   ng-model="PlanName" ng-options="r.PlanName as r.name for r in plans" >
+                <option > Choose a Plan </option>
+            </select>
+            <pre>Annual Plan: {{Plan}}</pre>   
+        </div>
+        <hr />
+    </div>
+
     <div ng-controller="PSNPDashboardController" class="container">
         
         <div>
@@ -54,30 +66,30 @@
 
                         <div class="portlet-content">
                             <th class="table-responsive">
-                                <table id="" class="table table-striped table-checkable">
-                                    <thead>
-                                        <tr>
-                                            <th class="hidden-xs">Number</th>
-                                            <th>FDPS</th>
-                                            <th>Beneficiaries</th>
-                                            <th>Status</th>
-                                            <th>Detail</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr ng-repeat="request in Requests">
-                                            <td class="hidden-xs">{{request.Number}}</td>
-                                            <td style="text-align: right">{{request.fdps|number}}</td>
-                                            <td style="text-align: right">{{request.beneficiaries|number}}</td>
-                                            <td><span status-class="request.status">{{states[request.status-1]}}</span></td>
-                                            <th>
-                                                <a ng-click="viewRequest(request)" class="btn btn-sm btn-default">
-                                                    View <i class="icon-chevron-right"></i>
-                                                </a>
-                                            </th>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                            <table id="" class="table table-striped table-checkable">
+                                <thead>
+                                    <tr>
+                                        <th class="hidden-xs">Number</th>
+                                        <th>FDPS</th>
+                                        <th>Beneficiaries</th>
+                                        <th>Status</th>
+                                        <th>Detail</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="request in Requests">
+                                        <td class="hidden-xs">{{request.Number}}</td>
+                                        <td style="text-align: right">{{request.fdps|number}}</td>
+                                        <td style="text-align: right">{{request.beneficiaries|number}}</td>
+                                        <td><span status-class="request.status">{{states[request.status-1]}}</span></td>
+                                        <th>
+                                            <a ng-click="viewRequest(request)" class="btn btn-sm btn-default">
+                                                View <i class="icon-chevron-right"></i>
+                                            </a>
+                                        </th>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                         <!-- /.table-responsive -->
                     </div>
@@ -97,7 +109,7 @@
                         <!-- /.portlet-header -->
 
                         <div class="portlet-content">
-                                    <div class="chartWrap" id="container" draw-request-pie=""></div>
+                            <div class="chartWrap" id="container" draw-request-pie=""></div>
                         </div>
                         <!-- /.portlet-content -->
 
@@ -140,7 +152,7 @@
 
                         <div class="portlet-content">
                           
-                                    <div id="containerRequisition" class="chartWrap" draw-request-pie-Status=""></div>
+                            <div id="containerRequisition" class="chartWrap" draw-request-pie-Status=""></div>
                                
                             <!-- /.portlet-content -->
 
@@ -170,34 +182,34 @@
                         <!-- /.portlet-header -->
                         <div class="portlet-content">
                             <th class="table-responsive">
-                                <table id="" class="table table-striped table-checkable">
-                                    <thead style="text-align: right">
-                                        <tr >
-                                            <th class="hidden-xs">Number</th>
-                                            <th>Commodity</th>
-                                            <th style="text-align: center">Beneficiaries</th>
-                                            <th style="text-align: center">Amount(QT)</th>
-                                            <th>Status</th>
-                                            <th class="align-center">Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr class="" ng-repeat="requisition in Requisitions">
+                            <table id="" class="table table-striped table-checkable">
+                                <thead style="text-align: right">
+                                    <tr >
+                                        <th class="hidden-xs">Number</th>
+                                        <th>Commodity</th>
+                                        <th style="text-align: center">Beneficiaries</th>
+                                        <th style="text-align: center">Amount(QT)</th>
+                                        <th>Status</th>
+                                        <th class="align-center">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="" ng-repeat="requisition in Requisitions | limitTo:5">
 
-                                            <td>{{requisition.Number}}</td>
-                                            <th>{{requisition.Commodity}}</th>
-                                            <td style="text-align: right">{{requisition.Beneficicaries|number}}</td>
-                                            <th style="text-align: right">{{requisition.Amount|number}} QT</th>
-                                            <td><span status-class="requisition.Status">{{states[requisition.Status-1]}}</span></td>
-                                            @*<td><span class="label label-danger">{{requisition.Status}}</span></td>*@
-                                            <td>
-                                                <a ng-click="viewRequisition(requisition)" class="btn btn-sm btn-default">
-                                                    View <i class="icon-chevron-right"></i>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                                        <td>{{requisition.Number}}</td>
+                                        <th>{{requisition.Commodity}}</th>
+                                        <td style="text-align: right">{{requisition.Beneficicaries|number}}</td>
+                                        <th style="text-align: right">{{requisition.Amount|number}} QT</th>
+                                        <td><span status-class="requisition.Status">{{states[requisition.Status-1]}}</span></td>
+                                        @*<td><span class="label label-danger">{{requisition.Status}}</span></td>*@
+                                        <td>
+                                            <a ng-click="viewRequisition(requisition)" class="btn btn-sm btn-default">
+                                                View <i class="icon-chevron-right"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                         <!-- /.table-responsive -->
                     </div>
@@ -338,11 +350,11 @@
                         <!-- /.portlet-header -->
                         <div class="portlet-content">
                            
-                          <!-- directive -->
+                            <!-- directive -->
                             <div id="containerPIE"></div>
                             <th class="table-responsive">
-                                <table id="" class="table table-striped table-checkable">
-                                    @* <thead>
+                            <table id="" class="table table-striped table-checkable">
+                                @* <thead>
                                         <tr>
                                             <th class="hidden-xs">Number</th>
                                             <th>Commodity</th>
@@ -372,7 +384,7 @@
                                         </tr>
 
                                     </tbody>*@
-                                </table>
+                            </table>
 
                         </div>
                         <!-- /.table-responsive -->
@@ -386,7 +398,7 @@
 
     </div>
 
-    </div>
+</div>
 
 <script>
     $("#RequestHeader").click(function () {
@@ -545,7 +557,7 @@
         $scope.Requests = [];
         $scope.Requisitions = [];
         $scope.RequestPie = [];
-        $scope.equestByStatus = [];
+        $scope.RequestByStatus = [];
         $scope.Data = [];
         $scope.states = ["Draft", "Approved", "Closed"];
     
@@ -570,8 +582,10 @@
         
         var onRequestPieByStatusSuccess = function (data) {
             for(var i in data) {
-                $scope.RequestByStatus.push([data[i].Status, data[i].Count]);
+                $scope.RequestByStatus.push([data[i], data[i][1]]);
+                console.log(data[i].Status, data[i].Count);
             }
+            
         }
         var onDashboardDataSuccess = function (data) {
             $scope.Data = data;
@@ -607,8 +621,29 @@
         $scope.getRequests();
         $scope.getRequisitions();
         $scope.getRequestPie();
+        $scope.getRequestPieByStatus();
         
     });
+    
+
+
+    myApp.controller('AnnualPlan', ['$scope', '$http', '$rootScope', function ($scope, $http, $rootScope) {
+
+        $scope.plans = [];
+        $http({ method: 'GET', url: '@Url.Action("GetPlans", "Dashboard", new { Area = "PSNP" })' }).success(function (data, status, headers, config) { $scope.plans = data; })
+        .error(function (data, status, headers, config) {
+
+        });
+
+
+        $scope.onChange = function (name) {
+            $rootScope.PlanName = name;
+            alert(name);
+            };
+
+       }]);
+
+
 
     app.directive('statusClass', function () {
         return function (scope, elem, attrs) {
@@ -690,13 +725,13 @@
     /* Directives */
     app.directive('drawRequestPieStatus', function () {
         // return the directive link function. (compile function not needed)
-        return function (scope, element, attrs) {
+        return function(scope, element, attrs) {
             var container = $(element).attr("id");
             // watch the expression, and update the UI on change.
-            scope.$watch('RequestPie', function () {
+            scope.$watch('RequestByStatus', function () {
                 drawPlot();
             }, true);
-            var drawPlot = function () {
+            var drawPlot = function() {
                 var chart;
                 chart = new Highcharts.Chart({
                     chart: {
@@ -732,11 +767,11 @@
                     series: [{
                         type: 'pie',
                         name: 'Percentage',
-                        data: scope.RequestPie
+                        data: scope.RequestByStatus
                     }]
                 });
-            }
-        }
+            };
+        };
     });
 
 </script>

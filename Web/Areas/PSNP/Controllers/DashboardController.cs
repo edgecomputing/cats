@@ -52,8 +52,8 @@ namespace Cats.Areas.PSNP.Controllers
             var psnpRecentPlan =
                 _regionalPsnpPlanService.GetAllRegionalPSNPPlan().OrderByDescending(i => i.RegionalPSNPPlanID).
                     FirstOrDefault();
-          
-            var requests = _regionalRequestService.FindBy(t=>t.PlanID==psnpRecentPlan.PlanId);
+
+            var requests = _regionalRequestService.FindBy(t => t.PlanID == 1001);
 
             var r = (from request in requests
                      group request by request.AdminUnit.AdminUnitID into g
@@ -70,8 +70,8 @@ namespace Cats.Areas.PSNP.Controllers
              var psnpRecentPlan =
                 _regionalPsnpPlanService.GetAllRegionalPSNPPlan().OrderByDescending(i => i.RegionalPSNPPlanID).
                     FirstOrDefault();
-          
-            var requests = _regionalRequestService.FindBy(t=>t.PlanID==psnpRecentPlan.PlanId);
+
+             var requests = _regionalRequestService.FindBy(t => t.PlanID == 1001);
 
             var r = (from request in requests
                      group request by request.Status into g
@@ -80,12 +80,32 @@ namespace Cats.Areas.PSNP.Controllers
                          g.First().Status,
                          Count = g.Count()
                      });
-            return Json(r, JsonRequestBehavior.AllowGet);
+
+            Dictionary<string, int> _request = new Dictionary<string, int>();
+          
+            foreach (var req in r )
+            {
+                if (req.Status == (decimal)Cats.Models.Constant.RegionalRequestStatus.Draft)
+                    _request.Add("Draft", req.Count);
+                else if (req.Status == (decimal)Cats.Models.Constant.RegionalRequestStatus.Approved)
+                    _request.Add("Approved", req.Count);
+                else if (req.Status == (decimal)Cats.Models.Constant.RegionalRequestStatus.Closed)
+                    _request.Add("Closed", req.Count);
+               
+            }
+            return Json(_request, JsonRequestBehavior.AllowGet);
         }
 
+        public JsonResult GetPlans()
+        {
+            var plans =
+                _regionalPsnpPlanService.FindBy(p => p.StatusID == (int) Cats.Models.Constant.PlanStatus.Approved).
+                    Select(n => n.Plan.PlanName).Distinct();
+            return Json(plans, JsonRequestBehavior.AllowGet);
+        }
 
         //public JsonResult RequisitionPie()
-        //{
+        //{ 
         //    //var currentPlan = _hrdService.FindBy(t => t.Status == 3).FirstOrDefault().PlanID;
         //    //var requests = _reliefRequisitionService.FindBy(t => t. == currentPlan);
 
