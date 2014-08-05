@@ -26,5 +26,7 @@ namespace Cats.Services.Logistics
         IEnumerable<RequisitionToDispatch> GetRequisitionToDispatch();
         bool ApproveTransportRequisition(int id,int approvedBy);
         List<RequisitionToDispatch> GetTransportRequisitionDetail(List<int> requIds);
+        List<TransportRequisitionDetail> GetTransportRequsitionDetails(int programId);
+        List<TransportRequisitionDetail> GetTransportRequsitionDetails();
     }
 }

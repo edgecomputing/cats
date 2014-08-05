@@ -250,6 +250,19 @@ namespace Cats.Services.Logistics
             }
             return result;
         }
+        public List<TransportRequisitionDetail> GetTransportRequsitionDetails(int programId)
+        {
+            return
+                _unitOfWork.TransportRequisitionDetailRepository.FindBy(
+                    m => m.TransportRequisition.ProgramID == programId
+                         && m.TransportRequisition.Status == (int) TransportRequisitionStatus.Closed).ToList();
+        }
+        public List<TransportRequisitionDetail> GetTransportRequsitionDetails()
+        {
+            return
+                _unitOfWork.TransportRequisitionDetailRepository.FindBy(
+                    m => m.TransportRequisition.Status == (int)TransportRequisitionStatus.Closed).ToList();
+        }
     }
 }
 

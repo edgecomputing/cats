@@ -15,5 +15,6 @@ namespace Cats.Areas.Procurement.Models
         public int BidID { get; set; }
         public int TransporterId { get; set; }
         public int RegionId { get; set; }
+        public bool CanApprove { get; set; }
     }
 }
