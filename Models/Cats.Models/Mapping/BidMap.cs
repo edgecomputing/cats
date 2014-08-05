@@ -31,7 +31,11 @@ namespace Cats.Models.Mapping
             this.HasRequired(t => t.AdminUnit)
                .WithMany(t => t.Bids)
                .HasForeignKey(d => d.RegionID);
-            
+
+            this.HasRequired(t => t.UserProfile)
+                .WithMany(t => t.Bids)
+                .HasForeignKey(d => d.UserProfileId);
+
         }
     }
 }

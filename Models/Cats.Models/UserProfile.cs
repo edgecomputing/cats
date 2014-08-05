@@ -59,6 +59,7 @@ namespace Cats.Models
         public virtual ICollection<LoanReciptPlanDetail> LoanReciptPlanDetails { get; set; }
         public virtual ICollection<RegionalRequest> RegionalRequests { get; set; }
         public virtual ICollection<RegionalRequest> RegionalRequests1 { get; set; }
+        public virtual ICollection<Bid> Bids { get; set; }
        
         
     }

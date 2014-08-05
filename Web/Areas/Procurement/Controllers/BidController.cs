@@ -373,6 +373,8 @@ namespace Cats.Areas.Procurement.Controllers
                                       }).ToList();
                 bid.BidDetails = bidDetails;
                 bid.RegionID = bid.RegionID;
+                var user = (UserIdentity)System.Web.HttpContext.Current.User.Identity;
+                bid.UserProfileId = user.Profile.UserProfileID;
                 _bidService.AddBid(bid);
 
                 return RedirectToAction("Index");
