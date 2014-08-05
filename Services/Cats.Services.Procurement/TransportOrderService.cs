@@ -96,7 +96,7 @@ namespace Cats.Services.Procurement
                 (from order in
                      _unitOfWork.TransportOrderDetailRepository.FindBy(
                          m => transportRequistionDetail.Contains(m.RequisitionID))
-                 select order.TransportOrder).Where(m=>m.StatusID==statusId);
+                 select order.TransportOrder).Where(m => m.StatusID == statusId).Distinct().ToList();
             return transportOrder;
         }
         public List<Program> GetPrograms()
