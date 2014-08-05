@@ -58,11 +58,14 @@ namespace Cats.Areas.PSNP.Controllers
             var requests = _regionalRequestService.FindBy(t => t.PlanID == 1001);
 
             var r = (from request in requests
-                     group request by request.AdminUnit.AdminUnitID into g
-                     select new
+                     group request by request.AdminUnit.AdminUnitID into g 
+                     let firstOrDefault = g.FirstOrDefault() 
+                     where firstOrDefault != null select new
                      {
                          Region = g.First().AdminUnit.Name,
-                         Count = g.Count()
+                         Count = g.Count(),
+                         PlanId = g.First().PlanID,
+                         firstOrDefault.Plan.PlanName
                      });
             return Json(r, JsonRequestBehavior.AllowGet);
         }
