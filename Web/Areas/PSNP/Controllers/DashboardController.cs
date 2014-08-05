@@ -55,7 +55,7 @@ namespace Cats.Areas.PSNP.Controllers
                 _regionalPsnpPlanService.GetAllRegionalPSNPPlan().OrderByDescending(i => i.RegionalPSNPPlanID).
                     FirstOrDefault();
 
-            var requests = _regionalRequestService.FindBy(t => t.PlanID == 1001);
+            var requests = _regionalRequestService.FindBy(t => t.PlanID == psnpRecentPlan.PlanId);
 
             var r = (from request in requests
                      group request by request.AdminUnit.AdminUnitID into g 
@@ -76,14 +76,18 @@ namespace Cats.Areas.PSNP.Controllers
                 _regionalPsnpPlanService.GetAllRegionalPSNPPlan().OrderByDescending(i => i.RegionalPSNPPlanID).
                     FirstOrDefault();
 
-             var requests = _regionalRequestService.FindBy(t => t.PlanID == 1001);
+             var requests = _regionalRequestService.FindBy(t => t.PlanID == psnpRecentPlan.PlanId);
 
             var r = (from request in requests
                      group request by request.Status into g
+                      let firstOrDefault = g.FirstOrDefault() 
+                     where firstOrDefault != null 
                      select new
                      {
                          g.First().Status,
-                         Count = g.Count()
+                         Count = g.Count(),
+                         PlanId = g.First().PlanID,
+                         firstOrDefault.Plan.PlanName
                      });
 
             Dictionary<string, int> _request = new Dictionary<string, int>();
