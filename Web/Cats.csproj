@@ -251,14 +251,10 @@
       <DependentUpon>HRDDatasetForPrint.xsd</DependentUpon>
     </Compile>
     <Compile Include="Areas\Hub\Controllers\AboutController.cs" />
-    <Compile Include="Areas\Hub\Controllers\AdminUnitController.cs" />
     <Compile Include="Areas\Hub\Controllers\Allocations\DispatchAllocationController.cs" />
     <Compile Include="Areas\Hub\Controllers\Allocations\DispatchPlanController.cs" />
     <Compile Include="Areas\Hub\Controllers\Allocations\ReceiptAllocationController.cs" />
     <Compile Include="Areas\Hub\Controllers\AuditController.cs" />
-    <Compile Include="Areas\Hub\Controllers\CommodityController.cs" />
-    <Compile Include="Areas\Hub\Controllers\CommodityGradeController.cs" />
-    <Compile Include="Areas\Hub\Controllers\CommoditySourceController.cs" />
     <Compile Include="Areas\Hub\Controllers\ContactController.cs" />
     <Compile Include="Areas\Hub\Controllers\CurrentHubController.cs" />
     <Compile Include="Areas\Hub\Controllers\DispatchController.cs" />
@@ -292,7 +288,6 @@
     <Compile Include="Areas\Hub\Controllers\TransportOrderController.cs" />
     <Compile Include="Areas\Hub\Controllers\UnitController.cs" />
     <Compile Include="Areas\Hub\Controllers\UserAccountHelper.cs" />
-    <Compile Include="Areas\Hub\Controllers\Utilities\TranslationController.cs" />
     <Compile Include="Areas\Hub\HubAreaRegistration.cs" />
     <Compile Include="Areas\Hub\Models\CommodityTypeViewModel.cs" />
     <Compile Include="Areas\Localization\Controllers\LanguageController.cs" />
@@ -2211,39 +2206,7 @@
     <Content Include="Areas\Logistics\Views\TransportRequisition\panel.cshtml" />
     <Content Include="Areas\Hub\Views\_ViewStart.cshtml" />
     <Content Include="Areas\Hub\Views\About\Index.cshtml" />
-    <Content Include="Areas\Hub\Views\AdminUnit\AdminUnits.cshtml" />
-    <Content Include="Areas\Hub\Views\AdminUnit\Create.cshtml" />
-    <Content Include="Areas\Hub\Views\AdminUnit\CreateRegion.cshtml" />
-    <Content Include="Areas\Hub\Views\AdminUnit\CreateWoreda.cshtml" />
-    <Content Include="Areas\Hub\Views\AdminUnit\CreateZone.cshtml" />
-    <Content Include="Areas\Hub\Views\AdminUnit\Delete.cshtml" />
-    <Content Include="Areas\Hub\Views\AdminUnit\Edit.cshtml" />
-    <Content Include="Areas\Hub\Views\AdminUnit\Index.cshtml" />
-    <Content Include="Areas\Hub\Views\AdminUnit\Lists\AdminUnits.1.cshtml" />
-    <Content Include="Areas\Hub\Views\AdminUnit\Lists\AdminUnits.2.cshtml" />
-    <Content Include="Areas\Hub\Views\AdminUnit\Lists\AdminUnits.3.cshtml" />
-    <Content Include="Areas\Hub\Views\AdminUnit\Lists\AdminUnits.4.cshtml" />
-    <Content Include="Areas\Hub\Views\AdminUnit\UnitTypes.cshtml" />
     <Content Include="Areas\Hub\Views\BinCard\Index.cshtml" />
-    <Content Include="Areas\Hub\Views\Commodity\_CommodityPartial.cshtml" />
-    <Content Include="Areas\Hub\Views\Commodity\Create.cshtml" />
-    <Content Include="Areas\Hub\Views\Commodity\Delete.cshtml" />
-    <Content Include="Areas\Hub\Views\Commodity\Details.cshtml" />
-    <Content Include="Areas\Hub\Views\Commodity\Edit.cshtml" />
-    <Content Include="Areas\Hub\Views\Commodity\Index.cshtml" />
-    <Content Include="Areas\Hub\Views\Commodity\Update.cshtml" />
-    <Content Include="Areas\Hub\Views\CommodityGrade\Create.cshtml" />
-    <Content Include="Areas\Hub\Views\CommodityGrade\Delete.cshtml" />
-    <Content Include="Areas\Hub\Views\CommodityGrade\Details.cshtml" />
-    <Content Include="Areas\Hub\Views\CommodityGrade\Edit.cshtml" />
-    <Content Include="Areas\Hub\Views\CommodityGrade\Index.cshtml" />
-    <Content Include="Areas\Hub\Views\CommodityGrade\Update.cshtml" />
-    <Content Include="Areas\Hub\Views\CommoditySource\Create.cshtml" />
-    <Content Include="Areas\Hub\Views\CommoditySource\Delete.cshtml" />
-    <Content Include="Areas\Hub\Views\CommoditySource\Details.cshtml" />
-    <Content Include="Areas\Hub\Views\CommoditySource\Edit.cshtml" />
-    <Content Include="Areas\Hub\Views\CommoditySource\Index.cshtml" />
-    <Content Include="Areas\Hub\Views\CommoditySource\Update.cshtml" />
     <Content Include="Areas\Hub\Views\Contact\Create.cshtml" />
     <Content Include="Areas\Hub\Views\Contact\Delete.cshtml" />
     <Content Include="Areas\Hub\Views\Contact\Details.cshtml" />
@@ -2349,23 +2312,6 @@
     <Content Include="Areas\Hub\Views\Replication\Index.cshtml" />
     <Content Include="Areas\Hub\Views\Replication\PublicationTwo.cshtml" />
     <Content Include="Areas\Hub\Views\Replication\PublicatonOne.cshtml" />
-
-    <Content Include="Areas\Hub\Views\Replication\Reports\AreaPartial.cshtml" />
-    <Content Include="Areas\Hub\Views\Replication\Reports\DistributionReport.cshtml" />
-    <Content Include="Areas\Hub\Views\Replication\Reports\DistributionReportFilters.cshtml" />
-    <Content Include="Areas\Hub\Views\Replication\Reports\DistributionReportPartial.cshtml" />
-    <Content Include="Areas\Hub\Views\Replication\Reports\FreeStock.cshtml" />
-    <Content Include="Areas\Hub\Views\Replication\Reports\FreeStockFilters.cshtml" />
-    <Content Include="Areas\Hub\Views\Replication\Reports\FreeStockPartial.cshtml" />
-    <Content Include="Areas\Hub\Views\Replication\Reports\Index.cshtml" />
-    <Content Include="Areas\Hub\Views\Replication\Reports\OffloadingFilters.cshtml" />
-    <Content Include="Areas\Hub\Views\Replication\Reports\OffloadingReport.cshtml" />
-    <Content Include="Areas\Hub\Views\Replication\Reports\OffloadingReportPartial.cshtml" />
-    <Content Include="Areas\Hub\Views\Replication\Reports\Receive.cshtml" />
-    <Content Include="Areas\Hub\Views\Replication\Reports\ReceiveFilters.cshtml" />
-    <Content Include="Areas\Hub\Views\Replication\Reports\ReceivePartial.cshtml" />
-    <Content Include="Areas\Hub\Views\Replication\Reports\SIReport.cshtml" />
-
     <Content Include="Areas\Hub\Views\Roles\Create.cshtml" />
     <Content Include="Areas\Hub\Views\Roles\Delete.cshtml" />
     <Content Include="Areas\Hub\Views\Roles\Details.cshtml" />
@@ -2454,9 +2400,6 @@
     <Content Include="Areas\Hub\Views\Transaction\Journal.cshtml" />
     <Content Include="Areas\Hub\Views\Transaction\Ledger.cshtml" />
     <Content Include="Areas\Hub\Views\Transaction\LedgerPartial.cshtml" />
-    <Content Include="Areas\Hub\Views\Transactions\Index.cshtml" />
-    <Content Include="Areas\Hub\Views\Translation\Edit.cshtml" />
-    <Content Include="Areas\Hub\Views\Translation\Index.cshtml" />
     <Content Include="Areas\Hub\Views\TransportationReport\DateRangeErrorPage.cshtml" />
     <Content Include="Areas\Hub\Views\TransportationReport\EmptyPage.cshtml" />
     <Content Include="Areas\Hub\Views\TransportationReport\Index.cshtml" />
