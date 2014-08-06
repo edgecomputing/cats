@@ -160,6 +160,8 @@
                 approveButton.hide();
                 var signedButton = $(currentRow).find(".k-grid-Signed");
                 signedButton.hide();
+                var editButton = $(currentRow).find(".k-grid-Edit");
+                editButton.hide();
             }
             else if (gridData[i].Status == "Approved") {
                 var approveButton1 = $(currentRow).find(".k-grid-Approve");

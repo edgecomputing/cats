@@ -13,5 +13,7 @@ namespace Cats.Areas.PSNP.Models
         public decimal Amount { get; set; }
         public int? Status { get; set; }
         public int RequisitionId { get; set; }
+        public int PlanId { get; set; }
+        public string PlanName { get; set; }
     }
 }
