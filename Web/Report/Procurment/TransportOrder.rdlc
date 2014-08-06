@@ -327,7 +327,7 @@
                                           <Paragraph>
                                             <TextRuns>
                                               <TextRun>
-                                                <Value />
+                                                <Value>=RowNumber("TransportOrders")</Value>
                                                 <Style />
                                               </TextRun>
                                             </TextRuns>
@@ -346,6 +346,7 @@
                                           <PaddingBottom>2pt</PaddingBottom>
                                         </Style>
                                       </Textbox>
+                                      <rd:Selected>true</rd:Selected>
                                     </CellContents>
                                   </TablixCell>
                                   <TablixCell>
@@ -1834,7 +1835,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=First(Fields!ConsignerName.Value)</Value>
+                                  <Value />
                                   <Style>
                                     <FontSize>9pt</FontSize>
                                   </Style>
@@ -1881,7 +1882,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=First(Fields!ConsignerDate.Value)</Value>
+                                  <Value />
                                   <Style>
                                     <FontFamily>nyala</FontFamily>
                                     <Format>dd MMMM, yyyy</Format>
@@ -2512,7 +2513,6 @@
                         </Border>
                       </Style>
                     </Rectangle>
-                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
               </TablixCells>
