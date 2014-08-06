@@ -340,7 +340,8 @@ namespace Cats.Areas.Procurement.Controllers
                          EnteredBy = proposal.EnteredBy,
                          BidID = proposal.Bid.BidID,
                          RegionId = proposal.AdminUnit.AdminUnitID,
-                         TransporterId = proposal.Transporter.TransporterID
+                         TransporterId = proposal.Transporter.TransporterID,
+                         CanApprove = CanApprove(proposal.Bid)
                      });
 
             //var r = new List<TransportBidQuotationHeaderViewModel>
@@ -359,6 +360,12 @@ namespace Cats.Areas.Procurement.Controllers
             //    };
 
             return Json(r.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+        }
+
+        public bool CanApprove(Bid bid)
+        {
+             var user = (UserIdentity)System.Web.HttpContext.Current.User.Identity;
+            return bid.UserProfileId == user.Profile.UserProfileID;
         }
 
         public ActionResult BidProposalHeader_delete(int id)

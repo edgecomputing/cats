@@ -28,6 +28,7 @@ namespace Cats.Models
         public string startTime { get; set; }
         public string endTime { get; set; }
         public string BidOpeningTime { get; set; }
+        public int UserProfileId { get; set; }
 
        
 
@@ -41,7 +42,7 @@ namespace Cats.Models
         public ICollection<TransportBidQuotation> TransportBidQuotations { get; set; }
         public virtual ICollection<TransporterAgreementVersion> TransporterAgreementVersions { get; set; }
         public virtual ICollection<TransportBidQuotationHeader> TransportBidQuotationHeaders { get; set; }
-
+        public virtual UserProfile UserProfile { get; set; }
         #endregion
 
        
