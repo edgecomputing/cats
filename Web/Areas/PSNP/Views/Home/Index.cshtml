@@ -17,6 +17,21 @@
 </style>
 
 <div ng-app="myApp">
+    
+    <div ng-controller="AnnualPlan" class="container row">
+        <div class="row" style="border-bottom-width: thin; border-bottom-color: #666; border-bottom-style: inset; margin-left: 60px">
+            <div class="span7" > <h4>Annual Plan:</h4> 
+                <select ng-change="onChange(PlanName.planId)"   ng-model="PlanName" ng-options="r as r.planName for r in plans" >
+                    <option > Choose a Plan </option>
+                </select>
+                
+             
+               
+            </div>
+            
+        </div>
+    </div>
+
     <div ng-controller="PSNPDashboardController" class="container">
         
         <div>
@@ -54,30 +69,30 @@
 
                         <div class="portlet-content">
                             <th class="table-responsive">
-                                <table id="" class="table table-striped table-checkable">
-                                    <thead>
-                                        <tr>
-                                            <th class="hidden-xs">Number</th>
-                                            <th>FDPS</th>
-                                            <th>Beneficiaries</th>
-                                            <th>Status</th>
-                                            <th>Detail</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr ng-repeat="request in Requests">
-                                            <td class="hidden-xs">{{request.Number}}</td>
-                                            <td style="text-align: right">{{request.fdps|number}}</td>
-                                            <td style="text-align: right">{{request.beneficiaries|number}}</td>
-                                            <td><span status-class="request.status">{{states[request.status-1]}}</span></td>
-                                            <th>
-                                                <a ng-click="viewRequest(request)" class="btn btn-sm btn-default">
-                                                    View <i class="icon-chevron-right"></i>
-                                                </a>
-                                            </th>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                            <table id="" class="table table-striped table-checkable">
+                                <thead>
+                                    <tr>
+                                        <th class="hidden-xs">Number</th>
+                                        <th>FDPS</th>
+                                        <th>Beneficiaries</th>
+                                        <th>Status</th>
+                                        <th>Detail</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="request in Requests | filter:{PlanId:Id} | limitTo:5">
+                                        <td class="hidden-xs">{{request.Number}}</td>
+                                        <td style="text-align: right">{{request.fdps|number}}</td>
+                                        <td style="text-align: right">{{request.beneficiaries|number}}</td>
+                                        <td><span status-class="request.status">{{states[request.status-1]}}</span></td>
+                                        <th>
+                                            <a ng-click="viewRequest(request)" class="btn btn-sm btn-default">
+                                                View <i class="icon-chevron-right"></i>
+                                            </a>
+                                        </th>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                         <!-- /.table-responsive -->
                     </div>
@@ -97,7 +112,7 @@
                         <!-- /.portlet-header -->
 
                         <div class="portlet-content">
-                                    <div class="chartWrap" id="container" draw-request-pie=""></div>
+                            <div class="chartWrap" id="container" draw-request-pie=""></div>
                         </div>
                         <!-- /.portlet-content -->
 
@@ -140,7 +155,7 @@
 
                         <div class="portlet-content">
                           
-                                    <div id="containerRequisition" class="chartWrap"></div>
+                            <div id="containerRequisition" class="chartWrap" draw-request-pie-Status=""></div>
                                
                             <!-- /.portlet-content -->
 
@@ -170,34 +185,35 @@
                         <!-- /.portlet-header -->
                         <div class="portlet-content">
                             <th class="table-responsive">
-                                <table id="" class="table table-striped table-checkable">
-                                    <thead style="text-align: right">
-                                        <tr >
-                                            <th class="hidden-xs">Number</th>
-                                            <th>Commodity</th>
-                                            <th style="text-align: center">Beneficiaries</th>
-                                            <th style="text-align: center">Amount(QT)</th>
-                                            <th>Status</th>
-                                            <th class="align-center">Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr class="" ng-repeat="requisition in Requisitions">
-
-                                            <td>{{requisition.Number}}</td>
-                                            <th>{{requisition.Commodity}}</th>
-                                            <td style="text-align: right">{{requisition.Beneficicaries|number}}</td>
-                                            <th style="text-align: right">{{requisition.Amount|number}} QT</th>
-                                            <td><span status-class="requisition.Status">{{states[requisition.Status-1]}}</span></td>
-                                            @*<td><span class="label label-danger">{{requisition.Status}}</span></td>*@
-                                            <td>
-                                                <a ng-click="viewRequisition(requisition)" class="btn btn-sm btn-default">
-                                                    View <i class="icon-chevron-right"></i>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                            <table id="" class="table table-striped table-checkable">
+                                <thead style="text-align: right">
+                                    <tr >
+                                        <th class="hidden-xs">Number</th>
+                                        <th>Commodity</th>
+                                        <th style="text-align: center">Beneficiaries</th>
+                                        <th style="text-align: center">Amount(QT)</th>
+                                        <th>Status</th>
+                                        <th class="align-center">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="" ng-repeat="requisition in Requisitions | filter:{PlanId:Id} | limitTo:5 ">
+                                        
+                                        
+                                        <td>{{requisition.Number}}</td>
+                                        <th>{{requisition.Commodity}}</th>
+                                        <td style="text-align: right">{{requisition.Beneficicaries|number}}</td>
+                                        <th style="text-align: right">{{requisition.Amount|number}} QT</th>
+                                        <td><span status-class="requisition.Status">{{states[requisition.Status-1]}}</span></td>
+                                        @*<td><span class="label label-danger">{{requisition.Status}}</span></td>*@
+                                        <td>
+                                            <a ng-click="viewRequisition(requisition)" class="btn btn-sm btn-default">
+                                                View <i class="icon-chevron-right"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                         <!-- /.table-responsive -->
                     </div>
@@ -338,11 +354,11 @@
                         <!-- /.portlet-header -->
                         <div class="portlet-content">
                            
-                          <!-- directive -->
+                            <!-- directive -->
                             <div id="containerPIE"></div>
                             <th class="table-responsive">
-                                <table id="" class="table table-striped table-checkable">
-                                    @* <thead>
+                            <table id="" class="table table-striped table-checkable">
+                                @* <thead>
                                         <tr>
                                             <th class="hidden-xs">Number</th>
                                             <th>Commodity</th>
@@ -372,7 +388,7 @@
                                         </tr>
 
                                     </tbody>*@
-                                </table>
+                            </table>
 
                         </div>
                         <!-- /.table-responsive -->
@@ -386,7 +402,7 @@
 
     </div>
 
-    </div>
+</div>
 
 <script>
     $("#RequestHeader").click(function () {
@@ -484,49 +500,49 @@
 </script>*@
 
 <script>
-    $(function () {
-        $('#containerRequisition').highcharts({
-            chart: {
-                plotBackgroundColor: null,
-                plotBorderWidth: null,
-                plotShadow: false
-            },
+    //$(function () {
+    //    $('#containerRequisition').highcharts({
+    //        chart: {
+    //            plotBackgroundColor: null,
+    //            plotBorderWidth: null,
+    //            plotShadow: false
+    //        },
 
-            //tooltip: {
-            //    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-            //},
-            plotOptions: {
-                pie: {
-                    allowPointSelect: true,
-                    cursor: 'pointer',
-                    dataLabels: {
-                        enabled: false
-                    },
-                    showInLegend: true
-                }
-            },
-            credits: {
-                enabled: false
-            },
-            title: {
-                text: ''
-            },
-            exporting: {
-                enabled: false
-            },
-            series: [{
-                type: 'pie',
-                name: 'Requests Percentage',
-                data: [
-                    ['Afar', 45.0],
-                    ['Oromiya', 26.8],
-                    ['Amhara', 8.5],
-                    ['Somali', 6.2],
-                    ['Benihsangul', 0.7]
-                ]
-            }]
-        });
-    });
+    //        //tooltip: {
+    //        //    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+    //        //},
+    //        plotOptions: {
+    //            pie: {
+    //                allowPointSelect: true,
+    //                cursor: 'pointer',
+    //                dataLabels: {
+    //                    enabled: false
+    //                },
+    //                showInLegend: true
+    //            }
+    //        },
+    //        credits: {
+    //            enabled: false
+    //        },
+    //        title: {
+    //            text: ''
+    //        },
+    //        exporting: {
+    //            enabled: false
+    //        },
+    //        series: [{
+    //            type: 'pie',
+    //            name: 'Requests Percentage',
+    //            data: [
+    //                ['Afar', 45.0],
+    //                ['Oromiya', 26.8],
+    //                ['Amhara', 8.5],
+    //                ['Somali', 6.2],
+    //                ['Benihsangul', 0.7]
+    //            ]
+    //        }]
+    //    });
+    //});
 </script>
 
 <style>
@@ -540,15 +556,15 @@
 <script>
     var app = angular.module('myApp', []);
     
-    app.controller('PSNPDashboardController', function ($scope,$http) {
+    app.controller('PSNPDashboardController',  ['$scope', '$http', '$rootScope', function ($scope, $http, $rootScope) {
         
         $scope.Requests = [];
         $scope.Requisitions = [];
-        $scope.RequestPie = [];
+       
         $scope.Data = [];
         $scope.states = ["Draft", "Approved", "Closed"];
-    
-        //alert(scope.states);
+
+        var id = $rootScope.Id;
         var onRequestsSuccess = function (data) {
             $scope.Requests = data;
         };
@@ -559,14 +575,7 @@
             $scope.Requisitions = data;
         };
 
-        var onRequestPieSuccess = function (data) {
-            // $scope.RequestPie = data;
-           
-            for (var i in data) {
-              $scope.RequestPie.push([data[i].Region, data[i].Count]);
-            }
-        };
-        
+       
         var onDashboardDataSuccess = function (data) {
             $scope.Data = data;
         };
@@ -575,10 +584,7 @@
             $http.post("@Url.Action("GetPsnpRequests", "Dashboard", new { Area = "PSNP" })", null).success(onRequestsSuccess);
         };
 
-        $scope.getRequestPie = function () {
-            $http.post("@Url.Action("RequestPie", "Dashboard", new { Area = "PSNP" })", null).success(onRequestPieSuccess);
-        };
-
+       
         $scope.getRequisitions = function () {
             $http.post("@Url.Action("GetPsnpRequisitions", "Dashboard", new { Area = "PSNP" })", null).success(onRequisitionsSuccess);
         };
@@ -597,9 +603,65 @@
         
         $scope.getRequests();
         $scope.getRequisitions();
-        $scope.getRequestPie();
+       
         
-    });
+    }]);
+    
+
+
+    app.controller('AnnualPlan', ['$scope', '$http', '$rootScope', function ($scope, $http, $rootScope) {
+
+        $scope.plans = [];
+       
+        $http({ method: 'GET', url: '@Url.Action("GetPlans", "Dashboard", new { Area = "PSNP" })' }).success(function (data, status, headers, config) { $scope.plans = data; })
+        .error(function (data, status, headers, config) {
+
+        });
+
+        var planId;
+
+        $scope.onChange = function (id) {
+            $rootScope.RequestPie = [];
+            $rootScope.RequestByStatus = [];
+            $rootScope.Id = id;
+            planId = id;
+          
+            $scope.getRequestPie();
+            $scope.getRequestPieByStatus();
+            };
+
+        $scope.getRequestPie = function () {
+            $http.post("@Url.Action("RequestPie", "Dashboard", new { Area = "PSNP"})" + "?planId=" + planId, null).success(onRequestPieSuccess);
+         };
+
+        $scope.getRequestPieByStatus = function() {
+            $http.post("@Url.Action("RequestPieByStatus", "Dashboard", new { Area = "PSNP" })" + "?planId=" + planId, null).success(onRequestPieByStatusSuccess);
+        };
+        
+       
+        
+
+
+
+        var onRequestPieSuccess = function (data) {
+            for (var i in data) {
+                $scope.RequestPie.push([data[i].Region, data[i].Count]);
+                console.log([data[i].Region, data[i].Count]);
+            }
+        };
+
+        var onRequestPieByStatusSuccess = function(data) {
+
+            for (var key in data) {
+                $scope.RequestByStatus.push([key, data[key]]);
+                console.log([key, data[key]]);
+            }
+        };
+        
+
+       }]);
+
+
 
     app.directive('statusClass', function () {
         return function (scope, elem, attrs) {
@@ -677,6 +739,58 @@
                }
            }
        });
+
+    /* Directives */
+    app.directive('drawRequestPieStatus', function () {
+        // return the directive link function. (compile function not needed)
+        return function(scope, element, attrs) {
+            var container = $(element).attr("id");
+            // watch the expression, and update the UI on change.
+            scope.$watch('RequestByStatus', function () {
+                drawPlot();
+            }, true);
+            var drawPlot = function() {
+                var chart;
+                chart = new Highcharts.Chart({
+                    chart: {
+                        renderTo: container
+                    },
+                    credits: {
+                        enabled: false
+                    },
+                    title: {
+                        text: ''
+                    },
+                    exporting: {
+                        enabled: false
+                    },
+                    //tooltip: {
+                    //    pointFormat: '{series.name}: <b>{point.percentage}</b>% <b>({point.y})</b> Requests',
+                    //    percentageDecimals: 1
+                    //},
+
+                    tooltip: {
+                        pointFormat: '{series.name}: <b>{point.percentage:.2f}%</b> ({point.y}) Requests',
+                    },
+                    plotOptions: {
+                        pie: {
+                            allowPointSelect: true,
+                            cursor: 'pointer',
+                            dataLabels: {
+                                enabled: false
+                            },
+                            showInLegend: true
+                        }
+                    },
+                    series: [{
+                        type: 'pie',
+                        name: 'Percentage',
+                        data: scope.RequestByStatus
+                    }]
+                });
+            };
+        };
+    });
 
 </script>
 
