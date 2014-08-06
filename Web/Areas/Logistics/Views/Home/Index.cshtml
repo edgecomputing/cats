@@ -9,7 +9,7 @@
 }
 
 @{
-    var ben =new[] {0.0,0.0,0.0,0.0,0.0,0.0} ;
+    var ben = new[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
     int index = 0;
 }
 
@@ -19,25 +19,27 @@
 }
 <div ng-app="myApp">
     <div class="container" style="display:none;">
-        <div ng-controller="Regions" class="container row">limit
-            
-            <div class="span12" > <h4>Region:</h4> 
-                <select ng-change="onChange(regionName)"   ng-model="regionName" ng-options="r.name as r.name for r in regions" >
-                    <option > Choose a Region </option>
+        <div ng-controller="Regions" class="container row">
+            limit
+
+            <div class="span12">
+                <h4>Region:</h4>
+                <select ng-change="onChange(regionName)" ng-model="regionName" ng-options="r.name as r.name for r in regions">
+                    <option> Choose a Region </option>
                 </select>
-                 <pre>Region: {{regionName}}</pre>   
+                <pre>Region: {{regionName}}</pre>
             </div>
             <hr />
         </div>
     </div>
     <div class="container">
-       
-       
+
+
 
         <div ng-controller="ImportantNumbers" class="container row">
-            
-           
-            <div class="span11">
+
+
+            <div class="span12">
                 <a href="javascript:;" class="dashboard-stat">
                     <div class="visual">
                         @*<i class="icon-star"></i>*@
@@ -63,24 +65,36 @@
                         <span class="content">transport Requisition(s)</span>
                         <span class="value">{{pendingTransportOrder}} </span>
                     </div>
-
-                                        <div ng-controller="Regions"  class="details column-divider-regional center">
-                        <span class="content">Region</span>
-                        <div class="value">
-                            <select ng-change="onChange(regionName)"   ng-model="regionName" ng-options="r.name as r.name for r in regions" >
-                    <option > Choose a Region </option>
-                </select>
+                    
+                    <div ng-controller="Regions">
+                        <div>
+                            <span class="content">Region</span>
+                            <div class="value">
+                                <select ng-change="onChange(regionName)" ng-model="regionName" ng-options="r.name as r.name for r in regions">
+                                    <option> Choose a Region </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div>
+                            <span class="content">Request Type</span>
+                            <div class="value">
+                                <select ng-change="onRequestTypeChange(requestName)" ng-model="requestName" ng-options="p.name as p.name for p in requestType">
+                                    <option value=''> All </option>
+                                </select>
+                            </div>
                         </div>
                     </div>
-                    <!-- /.details -->
                     
+
+                    <!-- /.details -->
+
                 </a>
                 <!-- /.dashboard-stat -->
             </div>
-            
-           
+
+
         </div>
-      
+
     </div>
 
     <div class="container">
@@ -98,8 +112,8 @@
                 <div class="pull-right">
                     <div class="btn-group">
                         <button id ="ApprovedRequestHeader"type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
-                            <i class="icon-arrow-up"></i> 
-                            <i class="icon-arrow-down"></i> 
+                            <i class="icon-arrow-up"></i>
+                            <i class="icon-arrow-down"></i>
                         </button>
 
                     </div>
@@ -112,7 +126,7 @@
                     <div class="portlet">
                         <div class="portlet-header">
                             <h3>
-                              
+
                                 <i class=""></i>
                                 Approved Requests
                             </h3>
@@ -121,7 +135,7 @@
                                     <button ng-click="Detail()" class="btn btn-sm btn-default">
                                         Detail
                                     </button>
-                                   
+
                                 </li>
                             </ul>
                         </div>
@@ -130,53 +144,49 @@
 
                         <div class="portlet-content">
                             <th class="table-responsive">
-                            <table id="" class="table table-striped table-checkable">
-                                <thead>
-                                    <tr>
-                                        <th class="hidden-xs">Number</th>
-                                        <th>Req No</th>
-                                        <th>Zone</th>
-                                        <th class="number">Beneficiaries</th>
-                                        <th class="number">Amount(mt)</th>
-                                        <th>Commodity</th>
-                                          
-                                        <th class="align-center">Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr ng-repeat="req in requests.request   | filter:{RegionName:regionName} | limitTo:5">
-                                        <td class="hidden-xs">{{$index + 1}}</td>
-                                        <td>{{req.reqNo}}</td>
-                                        <td>{{req.zone}}</td>
-                                        <td class="number">{{req.beneficiaries | number}}</td>
-                                        <td class="number">{{req.amount | number}}</td>
-                                        <td>{{req.commodity}}</td>
-                                       
-                                       
-                                        <td><span class="label label-danger">Pending</span></td>
-                                        <td class="align-center">
-                                           
-                                            <a class="btn btn-sm btn-default" data-original-title="Approve" ng-click="assignHub(req)" > Assign Hub </a>
-                                        </td>
-                                           
-                                    </tr>
-                                    
-                                </tbody>
-                            </table>
+                                <table id="" class="table table-striped table-checkable">
+                                    <thead>
+                                        <tr>
+                                            <th class="hidden-xs">Number</th>
+                                            <th>Req No</th>
+                                            <th>Zone</th>
+                                            <th class="number">Beneficiaries</th>
+                                            <th class="number">Amount(mt)</th>
+                                            <th>Commodity</th>
+
+                                            <th class="align-center">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="req in requests.request   | filter:{RegionName:regionName} | limitTo:5">
+                                            <td class="hidden-xs">{{$index + 1}}</td>
+                                            <td>{{req.reqNo}}</td>
+                                            <td>{{req.zone}}</td>
+                                            <td class="number">{{req.beneficiaries | number}}</td>
+                                            <td class="number">{{req.amount | number}}</td>
+                                            <td>{{req.commodity}}</td>
+
+
+                                            <td><span class="label label-danger">Pending</span></td>
+                                            <td class="align-center">
+
+                                                <a class="btn btn-sm btn-default" data-original-title="Approve" ng-click="assignHub(req)"> Assign Hub </a>
+                                            </td>
+
+                                        </tr>
+
+                                    </tbody>
+                                </table>
 
                         </div>
-                        
+
                     </div>  <!-- /.portlet-content -->
 
                 </div>
-               
+
             </div>
         </div>
 
-        
-        
-        
-        
         <div>
             <!--
             <div class="row" style="border-bottom-width: thin; border-bottom-color: #666; border-bottom-style: inset; margin-top: 5px">
@@ -187,8 +197,8 @@
                 <div class="pull-right">
                     <div class="btn-group">
                         <button id="CurrentHRDHeader"type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
-                            <i class="icon-arrow-up"></i> 
-                            <i class="icon-arrow-down"></i> 
+                            <i class="icon-arrow-up"></i>
+                            <i class="icon-arrow-down"></i>
                         </button>
 
                     </div>
@@ -205,65 +215,65 @@
                                 <i class=""></i>
                                 Current HRD
                             </h3>
-                            
+
                         </div>
 
                         <!-- /.portlet-header -->
 
-                         <div class="portlet-content"  >
-                             <th class="table-responsive" >
-                                 <table id="" class="table table-striped table-checkable"  > 
-                                                         
-                                     <thead>
-                                         <tr>
+                        <div class="portlet-content">
+                            <th class="table-responsive">
+                                <table id="" class="table table-striped table-checkable">
+
+                                    <thead>
+                                        <tr>
 
                                             @foreach (System.Data.DataColumn col in Model.Columns)
                                             {
                                                 if(col.IsNumeric()){
-                                                    <th class="number">@col.Caption </th>
+                                            <th class="number">@col.Caption </th>
                                                 }else{
-                                                    <th>@col.Caption </th>
+                                            <th>@col.Caption </th>
                                                 }
                                             }
                                         </tr>
-                                     </thead>
-                                     <tbody >
-                                    
-                                         @foreach(System.Data.DataRow row in Model.Rows)
+                                    </thead>
+                                    <tbody>
+
+                                        @foreach(System.Data.DataRow row in Model.Rows)
                                          {
-                                             <tr>
-                                                 @{ index = 0; }
-                                                 @foreach (var cell in row.ItemArray)
+                                        <tr>
+                                            @{ index = 0; }
+                                            @foreach (var cell in row.ItemArray)
                                                  {
                                                      if(cell is decimal || cell is int)
                                                      {
                                                          ben[index] = ben[index] + double.Parse(@String.Format("{0:n0}", @cell));
                                                          index++;
-                                                        <td class="number">@String.Format("{0:n0}",@cell)</td>
+                                                <td class="number">@String.Format("{0:n0}",@cell)</td>
                                                      }
                                                      else
                                                      {
-                                                        <td >@String.Format("{0:n0}",@cell)</td>
+                                                <td>@String.Format("{0:n0}",@cell)</td>
 
                                                      }
 
                                                  }
-                                             </tr>
-                                             
-                                         } 
-                                    
-                                     </tbody>
-                                     <tr>
-                                         <th class="number">Total:</th>
-                                         @foreach (double t in @ben)
-                                         {
-                                            <th class="number">@String.Format("{0:n0}",@t) </th>
+                                        </tr>
+
                                          }
-                                     </tr>
-                                 </table>
-                                
-                             </th>   
-                                   
+
+                                    </tbody>
+                                    <tr>
+                                        <th class="number">Total:</th>
+                                        @foreach (double t in @ben)
+                                         {
+                                        <th class="number">@String.Format("{0:n0}",@t) </th>
+                                         }
+                                    </tr>
+                                </table>
+
+                            </th>
+
                         </div>
                         <!-- /.table-responsive -->
                     </div>
@@ -274,8 +284,7 @@
                 <!-- /.portlet -->
             </div>
         </div>
-        
-        
+
         <div>
             <!--
             <div class="row" style="border-bottom-width: thin; border-bottom-color: #666; border-bottom-style: inset; margin-top: 5px">
@@ -286,8 +295,8 @@
                 <div class="pull-right">
                     <div class="btn-group">
                         <button id="BidWinnersHeader"type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
-                            <i class="icon-arrow-up"></i> 
-                            <i class="icon-arrow-down"></i> 
+                            <i class="icon-arrow-up"></i>
+                            <i class="icon-arrow-down"></i>
                         </button>
 
                     </div>
@@ -304,60 +313,60 @@
                                 <i class=""></i>
                                 Bid Winners
                             </h3>
-                            
+
                         </div>
 
                         <!-- /.portlet-header -->
 
                         <div class="portlet-content">
                             <th class="table-responsive">
-                            <table id="" class="table table-striped table-checkable">
-                                <thead>
-                                    <tr>
-                                       
-            
-                                             Bid:
-                                                <select ng-change="onChange(bid)"   ng-model="bid" ng-options="bid.BidNo as bid.BidNo for bid in bids" >
-                                                    <option > Choose a Bid </option>
-                                                </select>
-                                                <pre>Bid: {{bid}}</pre>   
-                                            
-                                           
-                                       
-                                    </tr>
-                                    <tr>
-                                        <th class="hidden-xs">Number</th>
-                                        <th>Transporter Name</th>
-                                        <th>Capital</th>
-                                        <th>Sub City</th>
-                                        <th>Mobile No</th>
-                                         <th>FDP</th>
-                                        <th>Zone</th>
-                                        <th>Region</th>
-                                        
-                                        
-                                       
-                                        
-                                        
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr ng-repeat="req in bidWinners.bid | filter:{RegioName:regionName}">
-                                        <td class="hidden-xs">{{$index + 1}}</td>
-                                        <td>{{req.Name}}</td>
-                                        <td>{{req.Capital}}</td>
-                                        <td>{{req.SubCity}}</td>
-                                         <th>{{req.MobileNo}}</th>
-                                         <th>{{req.Fdp}}</th>
-                                        <th>{{req.ZoneName}}</th>
-                                        <th>{{req.RegioName}}</th>
-                                       
-                                        
-                                       
-                                     </tr>
+                                <table id="" class="table table-striped table-checkable">
+                                    <thead>
+                                        <tr>
 
-                                </tbody>
-                            </table>
+
+                                            Bid:
+                                            <select ng-change="onChange(bid)" ng-model="bid" ng-options="bid.BidNo as bid.BidNo for bid in bids">
+                                                <option> Choose a Bid </option>
+                                            </select>
+                                            <pre>Bid: {{bid}}</pre>
+
+
+
+                                        </tr>
+                                        <tr>
+                                            <th class="hidden-xs">Number</th>
+                                            <th>Transporter Name</th>
+                                            <th>Capital</th>
+                                            <th>Sub City</th>
+                                            <th>Mobile No</th>
+                                            <th>FDP</th>
+                                            <th>Zone</th>
+                                            <th>Region</th>
+
+
+
+
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="req in bidWinners.bid | filter:{RegioName:regionName}">
+                                            <td class="hidden-xs">{{$index + 1}}</td>
+                                            <td>{{req.Name}}</td>
+                                            <td>{{req.Capital}}</td>
+                                            <td>{{req.SubCity}}</td>
+                                            <th>{{req.MobileNo}}</th>
+                                            <th>{{req.Fdp}}</th>
+                                            <th>{{req.ZoneName}}</th>
+                                            <th>{{req.RegioName}}</th>
+
+
+
+                                        </tr>
+
+                                    </tbody>
+                                </table>
 
                         </div>
                         <!-- /.table-responsive -->
@@ -369,7 +378,6 @@
                 <!-- /.portlet -->
             </div>
         </div>
-        
 
         <div>
             <!--
@@ -381,15 +389,15 @@
                 <div class="pull-right">
                     <div class="btn-group">
                         <button id="SIPCHeader" type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
-                            <i class="icon-arrow-up"></i> 
-                            <i class="icon-arrow-down"></i> 
+                            <i class="icon-arrow-up"></i>
+                            <i class="icon-arrow-down"></i>
                         </button>
 
                     </div>
                 </div>
             </div>
                 -->
-            <div id="SIPCContent"class="row">
+            <div id="SIPCContent" class="row">
                 <div>&nbsp;</div>
 
                 <div ng-controller="SIPCController" class="span11">
@@ -413,42 +421,42 @@
 
                         <div class="portlet-content">
                             <th class="table-responsive">
-                            <table id="" class="table table-striped table-checkable">
-                                <thead>
-                                    <tr>
-                                        <th class="hidden-xs">Number</th>
-                                        <th>Req No</th>
-                                        <th>Program</th>
-                                        <th>Zone</th>
-                                        <th class="number">Beneficiaries</th>
-                                        <th class="number">Amount</th>
-                                        <th>Commodity</th>
-                                        <th>Allocation Type</th>
-                                        
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                   <tr ng-repeat="req in requestsSIPCAllocated.request  |  filter:{RegionName:regionName} | limitTo:2 ">
-                                        <td class="hidden-xs">{{$index + 1}}</td>
-                                       <td>{{req.reqNo}}</td>
-                                       <td>{{req.program}}</td>
-                                        <td>{{req.zone}}</td>
-                                       <th class="number">{{req.beneficiaries | number}}</th>
-                                       <th class="number">{{req.amount | number}}</th>
-                                       <th>{{req.commodity}}</th>
-                                       <th>{{req.allocationType}}</th>
-                                   
-                                   
-                                  
+                                <table id="" class="table table-striped table-checkable">
+                                    <thead>
+                                        <tr>
+                                            <th class="hidden-xs">Number</th>
+                                            <th>Req No</th>
+                                            <th>Program</th>
+                                            <th>Zone</th>
+                                            <th class="number">Beneficiaries</th>
+                                            <th class="number">Amount</th>
+                                            <th>Commodity</th>
+                                            <th>Allocation Type</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="req in requestsSIPCAllocated.request  |  filter:{RegionName:regionName} | limitTo:2 ">
+                                            <td class="hidden-xs">{{$index + 1}}</td>
+                                            <td>{{req.reqNo}}</td>
+                                            <td>{{req.program}}</td>
+                                            <td>{{req.zone}}</td>
+                                            <th class="number">{{req.beneficiaries | number}}</th>
+                                            <th class="number">{{req.amount | number}}</th>
+                                            <th>{{req.commodity}}</th>
+                                            <th>{{req.allocationType}}</th>
+
+
+
                                             <td><span class="label label-danger">Pending</span></td>
                                             @*<td class="align-center">
-                                                <a class="btn btn-sm btn-default" data-original-title="Approve">Create Transport Requisition</a>
-                                            </td>*@
-                                </tr>
+                                                    <a class="btn btn-sm btn-default" data-original-title="Approve">Create Transport Requisition</a>
+                                                </td>*@
+                                        </tr>
 
 
-                                </tbody>
-                            </table>
+                                    </tbody>
+                                </table>
 
                         </div>
                         <!-- /.table-responsive -->
@@ -456,11 +464,11 @@
                     <!-- /.portlet-content -->
 
                 </div>
-               
+
                 <!-- /.portlet -->
             </div>
         </div>
-        
+
         <div>
             <!--
             <div class="row" style="border-bottom-width: thin; border-bottom-color: #666; border-bottom-style: inset; margin-top: 5px">
@@ -471,15 +479,15 @@
                 <div class="pull-right">
                     <div class="btn-group">
                         <button id="TransportOrderHeader"type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
-                            <i class="icon-arrow-up"></i> 
-                            <i class="icon-arrow-down"></i> 
+                            <i class="icon-arrow-up"></i>
+                            <i class="icon-arrow-down"></i>
                         </button>
 
                     </div>
                 </div>
             </div>
                 -->
-            <div id="TransportOrderContent"class="row">
+            <div id="TransportOrderContent" class="row">
                 <div>&nbsp;</div>
 
                 <div ng-controller="TransportOrderController" class="span11">
@@ -487,52 +495,52 @@
                         <div class="portlet-header">
                             <h3>
                                 <i class=""></i>
-                               Transporters
+                                Transporters
                             </h3>
-                           
+
                         </div>
 
                         <!-- /.portlet-header -->
 
                         <div class="portlet-content">
                             <label>Search by Transport order</label>
-                           <input type="text" ng-model="search.transportOrderNo" />
+                            <input type="text" ng-model="search.transportOrderNo" />
                             <table id="" class="table table-striped table-checkable">
                                 <thead>
                                     <tr>
                                         <th class="hidden-xs">Number</th>
-                                        
+
                                         <th>Transporter</th>
                                         <th>Tranport Order</th>
                                         <th>Region</th>
                                         <th>Zone</th>
                                         <th>Mobile No</th>
-                                            
+
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr ng-repeat="req in TransportOrder | filter:search ">
                                         <td class="hidden-xs">{{$index + 1}}</td>
-                                       
+
                                         <td>{{req.name}}</td>
                                         <td>{{req.transportOrderNo}}</td>
                                         <th>{{req.region}}</th>
                                         <th>{{req.zone}}</th>
                                         <th>{{req.mobileNo}}</th>
-                                       
+
                                     </tr>
                                 </tbody>
                             </table>
 
                         </div>
-                       
+
                     </div>
-                   
+
 
                 </div>
-                
-                
-                
+
+
+
             </div>
         </div>
 
@@ -546,15 +554,15 @@
                 <div class="pull-right">
                     <div class="btn-group">
                         <button id="TransportRequisitionHeader"type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
-                            <i class="icon-arrow-up"></i> 
-                            <i class="icon-arrow-down"></i> 
+                            <i class="icon-arrow-up"></i>
+                            <i class="icon-arrow-down"></i>
                         </button>
 
                     </div>
                 </div>
             </div>
                 -->
-            <div id="TransportRequisitionContent"class="row">
+            <div id="TransportRequisitionContent" class="row">
                 <div>&nbsp;</div>
 
                 <div ng-controller="TransportRequisitionController" class="span11">
@@ -578,37 +586,38 @@
 
                         <div class="portlet-content">
                             <th class="table-responsive">
-                            <table id="" class="table table-striped table-checkable">
-                                <thead>
-                                    <tr>
-                                        <th class="hidden-xs">Number</th>
-                                        
-                                        <th>Req No</th>
-                                        <th>Zone</th>
-                                        <th class="number">Beneficiaries</th>
-                                        <th class="number">Amount</th>
-                                        <th>Commodity</th>
-                                            
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                     <tr ng-repeat="req in TransportRequestion.request | filter:{RegionName:regionName} | limitTo:2">
-                                        <td class="hidden-xs">{{$index + 1}}</td>
-                                        <td>{{req.reqNo}}</td>
-                                        <td>{{req.zone}}</td>
-                                         <th class="number">{{req.beneficiaries}}</th>
-                                         <th class="number">{{req.amount}}</th>
-                                        <th>{{req.commodity}}</th>
-                                       
-                                    
-                                        <td><span class="label label-default">On process</span></td>
-                                        <td>
-                                            <a href="javascript:;" class="btn btn-sm btn-default">View <i class="icon-chevron-right"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
+                                <table id="" class="table table-striped table-checkable">
+                                    <thead>
+                                        <tr>
+                                            <th class="hidden-xs">Number</th>
+
+                                            <th>Req No</th>
+                                            <th>Zone</th>
+                                            <th class="number">Beneficiaries</th>
+                                            <th class="number">Amount</th>
+                                            <th>Commodity</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="req in TransportRequestion.request | filter:{RegionName:regionName} | limitTo:2">
+                                            <td class="hidden-xs">{{$index + 1}}</td>
+                                            <td>{{req.reqNo}}</td>
+                                            <td>{{req.zone}}</td>
+                                            <th class="number">{{req.beneficiaries}}</th>
+                                            <th class="number">{{req.amount}}</th>
+                                            <th>{{req.commodity}}</th>
+
+
+                                            <td><span class="label label-default">On process</span></td>
+                                            <td>
+                                                <a href="javascript:;" class="btn btn-sm btn-default">
+                                                    View <i class="icon-chevron-right"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
                                     </tbody>
-                            </table>
+                                </table>
 
                         </div>
                         <!-- /.table-responsive -->
@@ -616,8 +625,8 @@
                     <!-- /.portlet-content -->
 
                 </div>
-                
-                
+
+
                 <!-- /.portlet -->
             </div>
         </div>
@@ -650,7 +659,7 @@
     }
     .hovered
     {
-        
+
     }
 </style>
 <script>
@@ -671,37 +680,37 @@
     $("#ApprovedRequestHeader").click(function () {
         $("#ApprovedRequestContent").slideToggle("slow", "linear");
     });
-    
+
     $("#CurrentHRDHeader").click(function () {
         $("#CurrentHRDContent").slideToggle("slow", "linear");
     });
-    
+
 
     $("#BidWinnersHeader").click(function () {
         $("#BidWinnerContent").slideToggle("slow", "linear");
     });
-    
+
     $("#SIPCHeader").click(function () {
         $("#SIPCContent").slideToggle("slow", "linear");
     });
-    
+
     $("#TransportRequisitionHeader").click(function () {
         $("#TransportRequisitionContent").slideToggle("slow", "linear");
     });
-    
+
     $("#TransportOrderHeader").click(function () {
         $("#TransportOrderContent").slideToggle("slow", "linear");
     });
-    
-    
+
+
 </script>
 
 <script>
-    
+
 
     var myApp = angular.module('myApp', []);
-    
-    myApp.controller('ImportantNumbers', ['$scope', '$http','$rootScope', function ($scope, $http, $rootScope) {
+
+    myApp.controller('ImportantNumbers', ['$scope', '$http', '$rootScope', function ($scope, $http, $rootScope) {
         $rootScope.totalRequisitions = 0;
         $rootScope.totalApproved = 0;
         $rootScope.pendingHubAloocation = 0;
@@ -715,112 +724,121 @@
         $scope.currentHRD = {};
         $http({ method: 'GET', url: '@Url.Action("CurrentHrdRead","Home")' }).success(function (data, status, headers, config) {
             $.each(data, function (i, item) {
-              
+
                 $scope.currentHRD[i] = item;
             });
-            
+
         });
         $rootScope.regionName = "";
     }]);
-    
+
     myApp.controller('BidWinnersController', ['$scope', '$http', '$rootScope', function ($scope, $http, $rootScope) {
 
-       
+
         $scope.bidWinners = {};
         $rootScope.regionName = "";
-        
+
         $scope.bids = [];
-        $http({ method: 'GET', url: '@Url.Action("GetBids","Home")' }).success(function (data, status, headers, config) { $scope.bids = data;
-             });
+        $http({ method: 'GET', url: '@Url.Action("GetBids","Home")' }).success(function (data, status, headers, config) {
+            $scope.bids = data;
+        });
 
 
 
         $scope.onChange = function (bidId) {
-           
-            $http({ method: 'GET', params: { id: bidId }, url: '@Url.Action("GetListOfBidWinners","Home")' }).success(function (data, status, headers, config) {$scope.bidWinners.bid = data;});
-        };
-        
-     }]);
 
- 
+            $http({ method: 'GET', params: { id: bidId }, url: '@Url.Action("GetListOfBidWinners","Home")' }).success(function (data, status, headers, config) { $scope.bidWinners.bid = data; });
+        };
+
+    }]);
+
+
 
     myApp.controller('ApprovedRequestsController', ['$scope', '$http', '$rootScope', function ($scope, $http, $rootScope) {
 
         $scope.qty = 6;
-        $scope.requests = { };
+        $scope.requests = {};
         $http({ method: 'GET', url: '@Url.Action("GetRequiasitions","Home", new {id = 2})' }).success(function (data, status, headers, config) { $scope.requests.request = data; console.log($scope.requests.request); });
         $rootScope.regionName = "";
 
         $scope.assignHub = function (url) {
-           
+
             window.location = "@Url.Action("AssignHubFromLogisticsDashboard", "DispatchAllocation", new {Area = "Logistics" })" + "?paramRegionId=" + url.regionId;
         };
 
-        $scope.Detail = function() {
+        $scope.Detail = function () {
             window.location = "@Url.Action("Index", "DispatchAllocation", new {Area = "Logistics" })";
         };
     }]);
-    
-    myApp.controller('HubAllocationController', ['$scope', '$http','$rootScope', function ($scope, $http, $rootScope) {
+
+    myApp.controller('HubAllocationController', ['$scope', '$http', '$rootScope', function ($scope, $http, $rootScope) {
         $scope.qty = 6;
         $scope.requestsApproved = {};
-        $http({method: 'GET',url: '@Url.Action("GetRequiasitions","Home", new {id = 3})'}).success(function (data, status, headers, config) {$scope.requestsApproved.request = data;})
+        $http({ method: 'GET', url: '@Url.Action("GetRequiasitions","Home", new {id = 3})' }).success(function (data, status, headers, config) { $scope.requestsApproved.request = data; })
         $rootScope.regionName = "";
     }]);
     myApp.controller('SIPCController', ['$scope', '$http', '$rootScope', function ($scope, $http, $rootScope) {
-        
+
         $scope.qty = 6;
         $scope.requestsSIPCAllocated = {};
-        $http({ method: 'GET', url: '@Url.Action("GetSiPcAllocation","Home")' }).success(function (data, status, headers, config) { $scope.requestsSIPCAllocated.request = data;
-            console.log(data);})
+        $http({ method: 'GET', url: '@Url.Action("GetSiPcAllocation","Home")' }).success(function (data, status, headers, config) {
+            $scope.requestsSIPCAllocated.request = data;
+            console.log(data);
+        })
         .error(function (data, status, headers, config) {
-           });
-        
+        });
+
 
         $rootScope.regionName = "";
     }]);
-    
+
 
     myApp.controller('TransportOrderController', ['$scope', '$http', '$rootScope', function ($scope, $http, $rootScope) {
 
-       
+
         $scope.TransportOrder = [];
         $http({ method: 'GET', url: '@Url.Action("GetTransporters","Home")' }).success(function (data, status, headers, config) {
             $.each(data, function (i, item) {
 
                 $scope.TransportOrder[i] = item;
-               
+
             });
 
         });
-        
-     }]);
+
+    }]);
 
     myApp.controller('TransportRequisitionController', ['$scope', '$http', '$rootScope', function ($scope, $http, $rootScope) {
-        
+
         $scope.qty = 6;
         $scope.TransportRequestion = {};
-        $http({method: 'GET',url: '@Url.Action("GetRequiasitions","Home", new {id = 5})'}).success(function (data, status, headers, config) {$scope.TransportRequestion.request = data;})
+        $http({ method: 'GET', url: '@Url.Action("GetRequiasitions","Home", new {id = 5})' }).success(function (data, status, headers, config) { $scope.TransportRequestion.request = data; })
         .error(function (data, status, headers, config) {
-           
+
         });
 
         $rootScope.regionName = "";
     }]);
-    
+
 
     myApp.controller('Regions', ['$scope', '$http', '$rootScope', function ($scope, $http, $rootScope) {
 
         $scope.regions = [];
-        $http({method: 'GET',url: '@Url.Action("GetRegions","Home")'}).success(function (data, status, headers, config) {$scope.regions = data;})
+        $scope.requestType = [];
+        $http({ method: 'GET', url: '@Url.Action("GetRegions","Home")' }).success(function (data, status, headers, config) { $scope.regions = data; })
         .error(function (data, status, headers, config) {
-           
+
         });
-        
+
+        $http({ method: 'GET', url: '@Url.Action("GetRequestType", "Home")' })
+            .success(function (data, status, headers, config) { $scope.requestType = data; })
+            .error(function (data, status, headers, config) {
+
+            });
 
         $scope.onChange = function (name) {
             $rootScope.regionName = name;
-            
+
             $http({ method: 'GET', params: { id: name }, url: '@Url.Action("ImportantNumbers","Home")' }).success(function (data, status, headers, config) {
 
                 $rootScope.totalRequisitions = 0;
@@ -828,41 +846,84 @@
                 $rootScope.pendingHubAloocation = 0;
                 $rootScope.pendingSIPCAllocation = 0;
                 $rootScope.pendingTransportOrder = 0;
-            $.each(data, function (i, item) {
-              
-                switch (item.Status) {
-                    case 1:
-                        $rootScope.totalRequisitions = item.Count;
-                        break;
-                    case 2:
-                        $rootScope.totalApproved = item.Count;
-                        break;
-                    case 3:
-                        $rootScope.pendingHubAloocation = item.Count;
-                        break;
-                    case 4:
-                        $rootScope.pendingSIPCAllocation = item.Count;
-                        break;
-                    case 5:
-                        $rootScope.pendingTransportOrder = item.Count;
-                        break;
-                    case 6:
-                        break;
-                    default:
-                }
+                $.each(data, function (i, item) {
 
-            });
+                    switch (item.Status) {
+                        case 1:
+                            $rootScope.totalRequisitions = item.Count;
+                            break;
+                        case 2:
+                            $rootScope.totalApproved = item.Count;
+                            break;
+                        case 3:
+                            $rootScope.pendingHubAloocation = item.Count;
+                            break;
+                        case 4:
+                            $rootScope.pendingSIPCAllocation = item.Count;
+                            break;
+                        case 5:
+                            $rootScope.pendingTransportOrder = item.Count;
+                            break;
+                        case 6:
+                            break;
+                        default:
+                    }
+
+                });
 
 
 
-        })
+            })
         .error(function (data, status, headers, config) {
-           
-        });          
+
+        });
+        };
+
+        $scope.onRequestTypeChange = function (name) {
+            $rootScope.requestName = name;
+
+            $http({ method: 'GET', params: { id: $rootScope.regionName, requestName: name }, url: '@Url.Action("ImportantNumbers","Home")' }).success(function (data, status, headers, config) {
+
+                $rootScope.totalRequisitions = 0;
+                $rootScope.totalApproved = 0;
+                $rootScope.pendingHubAloocation = 0;
+                $rootScope.pendingSIPCAllocation = 0;
+                $rootScope.pendingTransportOrder = 0;
+                $.each(data, function (i, item) {
+
+                    switch (item.Status) {
+                        case 1:
+                            $rootScope.totalRequisitions = item.Count;
+                            break;
+                        case 2:
+                            $rootScope.totalApproved = item.Count;
+                            break;
+                        case 3:
+                            $rootScope.pendingHubAloocation = item.Count;
+                            break;
+                        case 4:
+                            $rootScope.pendingSIPCAllocation = item.Count;
+                            break;
+                        case 5:
+                            $rootScope.pendingTransportOrder = item.Count;
+                            break;
+                        case 6:
+                            break;
+                        default:
+                    }
+
+                });
+
+
+
+            })
+        .error(function (data, status, headers, config) {
+
+        });
         };
 
     }]);
-    
-    
+
+
 </script>
 
