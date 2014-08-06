@@ -50,7 +50,7 @@
                                     <span>Free Stock {{ StockStatus.freestockPercent|number:2; }}%</span>
                                     </div>
                                     <div class="bar bar-warning" style="width:{{ StockStatus.physicalStockPercent; }}%;">
-                                        <span>Committed Stock {{ StockStatus.physicalStockPercent|number:2; }}%</span>
+                                        <span>Physical Stock {{ StockStatus.physicalStockPercent|number:2; }}%</span>
                                     </div>
                                 </div>
                             </div>
@@ -281,6 +281,10 @@
 
         var onStockStatusSuccess = function (data) {
             $scope.StockStatus = data;
+            
+            console.log(data);
+            console.log($scope.StockStatus.physicalStockPercent);
+            console.log($scope.StockStatus.freestockPercent);
         };
 
         var onDispatchesSuccess = function (data) {
@@ -423,7 +427,7 @@
                       name: 'Free Stock',
                       data: scope.freestock
                   }, {
-                      name: 'Committed Stock',
+                      name: 'Physical Stock',
                       data: scope.committedstock
                   }]
               });
