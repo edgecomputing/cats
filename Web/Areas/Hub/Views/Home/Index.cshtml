@@ -50,7 +50,7 @@
                                     <span>Free Stock {{ StockStatus.freestockPercent|number:2; }}%</span>
                                     </div>
                                     <div class="bar bar-warning" style="width:{{ StockStatus.physicalStockPercent; }}%;">
-                                        <span>Committed Stock {{ StockStatus.physicalStockPercent|number:2; }}%</span>
+                                        <span>Physical Stock {{ StockStatus.physicalStockPercent|number:2; }}%</span>
                                     </div>
                                 </div>
                             </div>
@@ -281,6 +281,10 @@
 
         var onStockStatusSuccess = function (data) {
             $scope.StockStatus = data;
+            
+            console.log(data);
+            console.log($scope.StockStatus.physicalStockPercent);
+            console.log($scope.StockStatus.freestockPercent);
         };
 
         var onDispatchesSuccess = function (data) {
@@ -406,29 +410,24 @@
                       shadow: false
                   },
                   tooltip: {
-                      formatter: function () {
-                          return '<b>' + this.x + '</b><br/>' +
-                              this.series.name + ': ' + this.y + '<br/>' +
-                              'Physical Stock: ' + this.point.stackTotal;
-                      }
+                      headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                      pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                          '<td style="padding:0"><b>{point.y:.1f} mm</b></td></tr>',
+                      footerFormat: '</table>',
+                      shared: true,
+                      useHTML: true
                   },
                   plotOptions: {
                       column: {
-                          stacking: 'normal',
-                          dataLabels: {
-                              enabled: true,
-                              color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white',
-                              style: {
-                                  textShadow: '0 0 3px black, 0 0 3px black'
-                              }
-                          }
+                          pointPadding: 0.2,
+                          borderWidth: 0
                       }
                   },
                   series: [{
                       name: 'Free Stock',
                       data: scope.freestock
                   }, {
-                      name: 'Committed Stock',
+                      name: 'Physical Stock',
                       data: scope.committedstock
                   }]
               });
