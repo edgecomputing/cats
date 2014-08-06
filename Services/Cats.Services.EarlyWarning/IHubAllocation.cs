@@ -12,6 +12,8 @@ namespace Cats.Services.EarlyWarning
     {
 
         bool AddHubAllocation(HubAllocation hubAllocation);
+
+        void AddHubAllocations(IEnumerable<Allocation> allocations, int userProfileId);
         bool DeleteHubAllocation(HubAllocation hubAllocation);
         bool DeleteById(int id);
         bool EditHubAllocation(HubAllocation hubAllocation);
