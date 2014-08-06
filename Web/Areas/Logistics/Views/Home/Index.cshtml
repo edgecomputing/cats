@@ -33,12 +33,7 @@
         </div>
     </div>
     <div class="container">
-
-
-
         <div ng-controller="ImportantNumbers" class="container row">
-
-
             <div class="span12">
                 <a href="javascript:;" class="dashboard-stat">
                     <div class="visual">
@@ -65,7 +60,7 @@
                         <span class="content">transport Requisition(s)</span>
                         <span class="value">{{pendingTransportOrder}} </span>
                     </div>
-                    
+
                     <div ng-controller="Regions">
                         <div>
                             <span class="content">Region</span>
@@ -84,19 +79,15 @@
                             </div>
                         </div>
                     </div>
-                    
+
 
                     <!-- /.details -->
 
                 </a>
                 <!-- /.dashboard-stat -->
             </div>
-
-
         </div>
-
     </div>
-
     <div class="container">
         <div class="dashboard-widget">
             <div class="header"> </div>
@@ -150,6 +141,9 @@
                                             <th class="hidden-xs">Number</th>
                                             <th>Req No</th>
                                             <th>Zone</th>
+                                            <th>Round</th>
+                                            <th>Year</th>
+                                            <th>Month</th>
                                             <th class="number">Beneficiaries</th>
                                             <th class="number">Amount(mt)</th>
                                             <th>Commodity</th>
@@ -158,10 +152,13 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr ng-repeat="req in requests.request   | filter:{RegionName:regionName} | limitTo:5">
+                                        <tr ng-repeat="req in requests.request   | filter:{RegionName:regionName  }  | limitTo:5">
                                             <td class="hidden-xs">{{$index + 1}}</td>
                                             <td>{{req.reqNo}}</td>
                                             <td>{{req.zone}}</td>
+                                            <td>{{req.round}}</td>
+                                            <td>{{req.year}}</td>
+                                            <td>{{req.month}}</td>
                                             <td class="number">{{req.beneficiaries | number}}</td>
                                             <td class="number">{{req.amount | number}}</td>
                                             <td>{{req.commodity}}</td>
@@ -229,9 +226,12 @@
 
                                             @foreach (System.Data.DataColumn col in Model.Columns)
                                             {
-                                                if(col.IsNumeric()){
+                                                if (col.IsNumeric())
+                                                {
                                             <th class="number">@col.Caption </th>
-                                                }else{
+                                                }
+                                                else
+                                                {
                                             <th>@col.Caption </th>
                                                 }
                                             }
@@ -239,36 +239,36 @@
                                     </thead>
                                     <tbody>
 
-                                        @foreach(System.Data.DataRow row in Model.Rows)
-                                         {
+                                        @foreach (System.Data.DataRow row in Model.Rows)
+                                        {
                                         <tr>
                                             @{ index = 0; }
                                             @foreach (var cell in row.ItemArray)
-                                                 {
-                                                     if(cell is decimal || cell is int)
-                                                     {
-                                                         ben[index] = ben[index] + double.Parse(@String.Format("{0:n0}", @cell));
-                                                         index++;
-                                                <td class="number">@String.Format("{0:n0}",@cell)</td>
-                                                     }
-                                                     else
-                                                     {
-                                                <td>@String.Format("{0:n0}",@cell)</td>
+                                                {
+                                                    if (cell is decimal || cell is int)
+                                                    {
+                                                        ben[index] = ben[index] + double.Parse(@String.Format("{0:n0}", @cell));
+                                                        index++;
+                                                <td class="number">@String.Format("{0:n0}", @cell)</td>
+                                                    }
+                                                    else
+                                                    {
+                                                <td>@String.Format("{0:n0}", @cell)</td>
 
-                                                     }
+                                                    }
 
-                                                 }
+                                                }
                                         </tr>
 
-                                         }
+                                        }
 
                                     </tbody>
                                     <tr>
                                         <th class="number">Total:</th>
                                         @foreach (double t in @ben)
-                                         {
-                                        <th class="number">@String.Format("{0:n0}",@t) </th>
-                                         }
+                                        {
+                                        <th class="number">@String.Format("{0:n0}", @t) </th>
+                                        }
                                     </tr>
                                 </table>
 
@@ -634,32 +634,30 @@
     </div>
 </div>
 <style>
-    .portlet .collapser .down
-    {
-        display:none;
+    .portlet .collapser .down {
+        display: none;
     }
-    .portlet-collapsed .collapser .down
-    {
-        display:inline-block;
-    }
-    .portlet-collapsed .collapser .up
-    {
-        display:none;
-    }
-    .collapser ,.collapser :hover, .collapser:active, .collapser:visited
-    {
-        text-decoration:none;
-    }
-    .collapser :hover
-    {
-        /*background:#ffd800;*/
-    }
-    .portlet-collapsed .portlet-content
-    {
-    }
-    .hovered
-    {
 
+    .portlet-collapsed .collapser .down {
+        display: inline-block;
+    }
+
+    .portlet-collapsed .collapser .up {
+        display: none;
+    }
+
+    .collapser, .collapser :hover, .collapser:active, .collapser:visited {
+        text-decoration: none;
+    }
+
+        .collapser :hover {
+            /*background:#ffd800;*/
+        }
+
+    .portlet-collapsed .portlet-content {
+    }
+
+    .hovered {
     }
 </style>
 <script>
@@ -758,8 +756,11 @@
 
         $scope.qty = 6;
         $scope.requests = {};
-        $http({ method: 'GET', url: '@Url.Action("GetRequiasitions","Home", new {id = 2})' }).success(function (data, status, headers, config) { $scope.requests.request = data; console.log($scope.requests.request); });
+        $http({ method: 'GET', url: '@Url.Action("GetRequisitions","Home", new {id = 2})' })
+            .success(function (data, status, headers, config) { $scope.requests.request = data; console.log($scope.requests.request); });
         $rootScope.regionName = "";
+        $rootScope.requestType = "";
+        
 
         $scope.assignHub = function (url) {
 
@@ -774,7 +775,7 @@
     myApp.controller('HubAllocationController', ['$scope', '$http', '$rootScope', function ($scope, $http, $rootScope) {
         $scope.qty = 6;
         $scope.requestsApproved = {};
-        $http({ method: 'GET', url: '@Url.Action("GetRequiasitions","Home", new {id = 3})' }).success(function (data, status, headers, config) { $scope.requestsApproved.request = data; })
+        $http({ method: 'GET', url: '@Url.Action("GetRequisitions","Home", new {id = 3})' }).success(function (data, status, headers, config) { $scope.requestsApproved.request = data; })
         $rootScope.regionName = "";
     }]);
     myApp.controller('SIPCController', ['$scope', '$http', '$rootScope', function ($scope, $http, $rootScope) {
@@ -812,7 +813,7 @@
 
         $scope.qty = 6;
         $scope.TransportRequestion = {};
-        $http({ method: 'GET', url: '@Url.Action("GetRequiasitions","Home", new {id = 5})' }).success(function (data, status, headers, config) { $scope.TransportRequestion.request = data; })
+        $http({ method: 'GET', url: '@Url.Action("GetRequisitions","Home", new {id = 5})' }).success(function (data, status, headers, config) { $scope.TransportRequestion.request = data; })
         .error(function (data, status, headers, config) {
 
         });

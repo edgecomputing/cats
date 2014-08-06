@@ -343,18 +343,24 @@ namespace Cats.Areas.Logistics.Controllers
         }
 
 
-        public JsonResult GetRequiasitions(int id)
+        public JsonResult GetRequisitions(int id)
         {
-            var requestes = _reliefRequisitionService.GetAllReliefRequisition().Where(s => s.Status == id).Select(r => new
-                                                                                                  {
-                                                                                                      reqNo = r.RequisitionNo,
-                                                                                                      zone = r.AdminUnit1.Name,
-                                                                                                      beneficiaries = r.ReliefRequisitionDetails.Sum(d => d.BenficiaryNo),
-                                                                                                      amount = r.ReliefRequisitionDetails.Sum(d => d.Amount),
-                                                                                                      commodity = r.Commodity.Name,
-                                                                                                      regionId = r.RegionalRequest.RegionID,
-                                                                                                      RegionName = r.AdminUnit.Name
-                                                                                                  });
+            var requestes = _reliefRequisitionService.GetAllReliefRequisition()
+                .Where(s => s.Status == id)
+                .Select(r => new
+                {
+                    reqNo = r.RequisitionNo,
+                    zone = r.AdminUnit1.Name,
+                    beneficiaries = r.ReliefRequisitionDetails.Sum(d => d.BenficiaryNo),
+                    amount = r.ReliefRequisitionDetails.Sum(d => d.Amount),
+                    commodity = r.Commodity.Name,
+                    regionId = r.RegionalRequest.RegionID,
+                    RegionName = r.AdminUnit.Name,
+                    RequestType = r.Program.Name,
+                    round = r.RegionalRequest.Round,
+                    month = r.RegionalRequest.Month,
+                    year = r.RegionalRequest.Year,
+                });
             return Json(requestes, JsonRequestBehavior.AllowGet);
         }
 
