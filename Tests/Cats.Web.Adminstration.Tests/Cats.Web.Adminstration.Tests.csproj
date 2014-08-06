@@ -35,6 +35,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Cats.Web.Adminstration">
+      <HintPath>..\..\Cats.Web.Adminstration\bin\Cats.Web.Adminstration.dll</HintPath>
+    </Reference>
     <Reference Include="Kendo.Mvc">
       <HintPath>..\..\lib\KENDOUIMVC\2013.1.319.340\Kendo.Mvc.dll</HintPath>
     </Reference>
@@ -131,10 +134,6 @@
     <ProjectReference Include="..\..\Services\Cats.Services.Administration\Cats.Services.Administration.csproj">
       <Project>{2f5baa46-25c9-4b3b-aaf6-7df39e9a696a}</Project>
       <Name>Cats.Services.Administration</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Cats.Web.Adminstration\Cats.Web.Adminstration.csproj">
-      <Project>{7d69aec0-4ce9-4bfe-bb34-9b92e78db6e5}</Project>
-      <Name>Cats.Web.Adminstration</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
