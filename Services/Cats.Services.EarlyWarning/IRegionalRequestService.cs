@@ -30,6 +30,7 @@ namespace Cats.Services.EarlyWarning
         HRDPSNPPlanInfo PlanToRequest(HRDPSNPPlan plan);
 
         bool ApproveRequest(int id, Cats.Models.Security.UserInfo userInfo);
+        bool RevertRequestStatus(int id);
    }
 }
 

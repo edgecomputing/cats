@@ -12,6 +12,9 @@ footer {
     text-align: center;
 
 }
+.navbar-default {
+    background-image: linear-gradient(to bottom, #fff, #eee);
+}
 .navbar-logo {
    float: left;
     cursor: pointer;
@@ -29,6 +32,15 @@ border-right-color: #222222;
 border-left-color: #111111;
 }
 
+.navbar .dropdown-menu > li > a:hover {
+    background-color: #3c8dbc;
+    color: #FFF;
+    text-decoration: none;
+}
+.navbar .navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:hover, .navbar-default .navbar-nav > .open > a:focus {
+     background-color: #3c8dbc;
+    color: #FFF;
+}
 @media (max-width: 767px) {
 .navbar-collapse .nav > .divider-vertical {
     display: none;

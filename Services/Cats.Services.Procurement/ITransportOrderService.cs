@@ -41,6 +41,9 @@ namespace Cats.Services.Procurement
        List<Hub> GetHubs();
         bool GeneratDispatchPlan(int transportOrderId);
 
+        IEnumerable<TransportOrder> GetFilteredTransportOrder(
+            IEnumerable<TransportRequisitionDetail> transportRequsitionDetails, int statusId);
+        List<Program> GetPrograms();
     }
 }
 

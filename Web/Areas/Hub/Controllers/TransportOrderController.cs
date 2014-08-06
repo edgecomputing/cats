@@ -98,7 +98,9 @@ namespace Cats.Areas.Hub.Controllers
 
         private IEnumerable<TransportOrderDetailViewModel> GetTransportContract(TransportOrder transportOrder)
         {
-            var transportContractDetail = transportOrder.TransportOrderDetails;
+            var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
+            var hubId = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DefaultHub.HasValue ? _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DefaultHub.Value : 0;
+            var transportContractDetail = transportOrder.TransportOrderDetails.Where(m=>m.SourceWarehouseID==hubId);
             return (from detail in transportContractDetail
                     select new TransportOrderDetailViewModel()
                     {

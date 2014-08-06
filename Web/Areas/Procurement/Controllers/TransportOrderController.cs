@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Cats.Areas.EarlyWarning.Models;
 using Cats.Areas.Procurement.Models;
 using Cats.Helpers;
 using Cats.Infrastructure;
@@ -119,12 +120,26 @@ namespace Cats.Areas.Procurement.Controllers
             ViewBag.TransporterID = new SelectList(allTransporters, "TransporterID", "Name");
             var viewModel = GetRequisitionsWithoutTransporter();
             //viewModel.Transporters = allTransporters;
+            if (TempData["CustomError"] != null)
+            {
+                ModelState.AddModelError("Errors", TempData["CustomError"].ToString());
+            }
+            ViewBag.ProgramID = new SelectList(_transportOrderService.GetPrograms(), "ProgramID", "Name");
+            var transportOrderStatus = new List<RequestStatus>
+                {
+                    new RequestStatus() {StatusID = 1, StatusName = "Draft"},
+                    new RequestStatus() {StatusID = 2, StatusName = "Approved"}
+                };
+            ViewBag.StatusID = new SelectList(transportOrderStatus, "StatusID", "StatusName");
             return View(viewModel);
         }
 
-        public ActionResult TransportOrder_Read([DataSourceRequest] DataSourceRequest request, int id = 0)
+        public ActionResult TransportOrder_Read([DataSourceRequest] DataSourceRequest request, int id = 0,int programId=0)
         {
-            var transportOrders = id == 0 ? _transportOrderService.Get(t => t.StatusID == (int)TransportOrderStatus.Draft).OrderByDescending(m => m.TransportOrderID).ToList() : _transportOrderService.Get(t => t.StatusID == id).ToList();            
+            var transportRequistions = programId==0 ?_transportRequisitionService.GetTransportRequsitionDetails(): _transportRequisitionService.GetTransportRequsitionDetails(programId);
+            //var filteredTransportOrder=_transportOrderDetailService.FindBy(m=>m.RequisitionID=)
+            var transportOrders = id == 0 ? _transportOrderService.GetFilteredTransportOrder(transportRequistions, (int)TransportOrderStatus.Draft ).OrderByDescending(m => m.TransportOrderID).ToList()
+                                          : _transportOrderService.GetFilteredTransportOrder(transportRequistions,id).ToList();            
             var datePref = UserAccountHelper.GetUser(User.Identity.Name).DatePreference;
             var statuses = _workflowStatusService.GetStatus(WORKFLOW.TRANSPORT_ORDER);
             var transportOrderViewModels = TransportOrderViewModelBinder.BindListTransportOrderViewModel(
@@ -515,10 +530,27 @@ namespace Cats.Areas.Procurement.Controllers
         public ActionResult Approve(int id)
         {
             var transportOrder = _transportOrderService.FindById(id);
+           int orderDetailWithoutTarrif = 0;
             try
             {
-                _transportOrderService.ApproveTransportOrder(transportOrder);
+                foreach (var transportOrderDetail in transportOrder.TransportOrderDetails)
+                {
+                    if (transportOrderDetail.TariffPerQtl<= 0)
+                    {
+                        orderDetailWithoutTarrif = 1;
+                        break;
+                    }
+                }
+                if (orderDetailWithoutTarrif == 0)
+                {
+
+
+                    _transportOrderService.ApproveTransportOrder(transportOrder);
+                    return RedirectToAction("Index");
+                }
+                TempData["CustomError"] = "Transport Order Without Tariff can not be approved! Please Specify Tariff for each transport order detail! ";
                 return RedirectToAction("Index");
+                //ModelState.AddModelError("Errors", @"Transport Order Without Tariff can not be approved!");
             }
             catch (Exception ex)
             {
@@ -526,6 +558,7 @@ namespace Cats.Areas.Procurement.Controllers
                 log.LogAllErrorsMesseges(ex, _log);
                 ModelState.AddModelError("Errors", "Unable to approve");
             }
+           
             return RedirectToAction("Index");
         }
         public ActionResult GenerateDispatchAllocation(int id)

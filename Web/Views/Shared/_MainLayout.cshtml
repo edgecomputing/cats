@@ -14,7 +14,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <link rel="shortcut icon" type="image/ico" href="~/Content/images/CATS_Blue.ico">
-    <title>@ViewBag.Title @Html.Translate("- CATS")</title>
+    <title>@RenderSection("Title") @Html.Translate("- CATS")</title>
 
 
     <link href="~/Scripts/css/bootstrap.min.css" rel="stylesheet" />
@@ -26,7 +26,7 @@
     <link href="~/Content/kendo/2013.1.319/kendo.common.min.css" rel="stylesheet" />
     <link href="@Url.Content("~/Content/kendo/2013.1.319/kendo.default.min.css")" rel="stylesheet" type="text/css" />
     <link href="@Url.Content("~/Content/kendo/2013.1.319/kendo.bootstrap.min.css")" rel="stylesheet" type="text/css" />
-    <link href="~/Content/kendo/2013.1.319/kendo.common.min.css" rel="stylesheet" />
+    @*<link href="~/Content/kendo/2013.1.319/kendo.common.min.css" rel="stylesheet" />*@
 
     @RenderSection("styles", required: false)
 

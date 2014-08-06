@@ -364,85 +364,95 @@
                     case (int)UserType.CASETEAM.EARLYWARNING:
 
                 
-                    <ul class="nav navbar-nav">
-                        <li>
-                            <a href="@Url.Action("Index", "Home", new { Area = "EarlyWarning" })" >Home</a>
-                        </li>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Html.Translate2(PAGE_NAME, "Gift Certificate")<b class="caret"></b></a>
-                            <ul class="dropdown-menu">
-                                <li>
-                                    @Html.EarlyWarningOperationMenuItem(@Url.Action("Index", "GiftCertificate", new { Area = "EarlyWarning" }),
-                                                                    EarlyWarningConstants.Operation.View_Gift_Certificate_list, @Html.Translate2(PAGE_NAME, "Gift Certificate"))
-                                </li>
+ 
 
-                            </ul>
-                        </li>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Html.Translate2(PAGE_NAME, " Plans")<b class="caret"></b></a>
-                            <ul class="dropdown-menu">
 
-                               
-                                <li>
-                                    @Html.EarlyWarningOperationMenuItem(@Url.Action("Index", "NeedAssessment", new { Area = "EarlyWarning" }),
+    <ul class="nav navbar-nav">
+        <li>
+            <a href="@Url.Action("Index", "Home", new { Area = "EarlyWarning" })" >Home</a>
+        </li>
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Html.Translate2(PAGE_NAME, "Gift Certificate")<b class="caret"></b></a>
+            <ul class="dropdown-menu">
+
+                <li>
+                    @Html.EarlyWarningOperationButton(
+                        @Url.Action("Index", "GiftCertificate", new { id = 1 }),
+                        EarlyWarningConstants.Operation.View_Gift_Certificate_list, "Draft Gifts")
+                </li>
+                <li>
+                    @Html.EarlyWarningOperationButton(
+                        @Url.Action("Index", "GiftCertificate", new { id = 2 }),
+                        EarlyWarningConstants.Operation.View_Approved_Gift_Certificate, "Approved Gifts")
+                </li>
+
+            </ul>
+        </li>
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Html.Translate2(PAGE_NAME, " Plans")<b class="caret"></b></a>
+            <ul class="dropdown-menu">
+
+
+                <li>
+                    @Html.EarlyWarningOperationMenuItem(@Url.Action("Index", "NeedAssessment", new { Area = "EarlyWarning" }),
                                                                     EarlyWarningConstants.Operation.View_Draft_Needs_Assessment, @Html.Translate2(PAGE_NAME, "Needs Assessment"))
-                                </li>
-                                <li>
-                                    @Html.EarlyWarningOperationMenuItem(@Url.Action("Index", "HRD", new { Area = "EarlyWarning" }),
+                </li>
+                <li>
+                    @Html.EarlyWarningOperationMenuItem(@Url.Action("Index", "HRD", new { Area = "EarlyWarning" }),
                                              EarlyWarningConstants.Operation.View_HRD_list, @Html.Translate("HRD"))
-                                </li>
-                            </ul>
-                        </li>
+                </li>
+            </ul>
+        </li>
 
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Html.Translate2(PAGE_NAME, " Requisition")<b class="caret"></b></a>
-                            <ul class="dropdown-menu">
-                                <li>
-                                    @Html.EarlyWarningOperationMenuItem(@Url.Action("Index", "ReliefRequisition", new { Area = "EarlyWarning" }),
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Html.Translate2(PAGE_NAME, " Requisition")<b class="caret"></b></a>
+            <ul class="dropdown-menu">
+                <li>
+                    @Html.EarlyWarningOperationMenuItem(@Url.Action("Index", "ReliefRequisition", new { Area = "EarlyWarning" }),
                                              EarlyWarningConstants.Operation.View_Requisition, @Html.Translate("Requisitions"))
-                                </li>
-                                <li class="divider"></li>
+                </li>
+                <li class="divider"></li>
 
-                                <li>
-                                    @Html.EarlyWarningOperationMenuItem(@Url.Action("Index", "Request", new { Area = "EarlyWarning" }),
+                <li>
+                    @Html.EarlyWarningOperationMenuItem(@Url.Action("Index", "Request", new { Area = "EarlyWarning" }),
                                                      EarlyWarningConstants.Operation.View_request, @Html.Translate("Requests"))
-                                </li>
+                </li>
 
-                                <li>
-                                    @Html.EarlyWarningOperationMenuItem(@Url.Action("NewIdps", "Request", new { Area = "EarlyWarning" }),
+                <li>
+                    @Html.EarlyWarningOperationMenuItem(@Url.Action("NewIdps", "Request", new { Area = "EarlyWarning" }),
                                                      EarlyWarningConstants.Operation.Add_New_IDPS_request, @Html.Translate("New IDPS Request"))
-                                </li>
-                               </ul>
-                        </li>
+                </li>
+            </ul>
+        </li>
 
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Html.Translate2(PAGE_NAME, " Donors")<b class="caret"></b></a>
-                            <ul class="dropdown-menu">
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Html.Translate2(PAGE_NAME, " Donors")<b class="caret"></b></a>
+            <ul class="dropdown-menu">
 
-                                <li>
-                                    @Html.EarlyWarningOperationMenuItem(@Url.Action("Index", "DonorCoverage", new { Area = "EarlyWarning" }),
+                <li>
+                    @Html.EarlyWarningOperationMenuItem(@Url.Action("Index", "DonorCoverage", new { Area = "EarlyWarning" }),
                                              EarlyWarningConstants.Operation.View_HRD_list, @Html.Translate("Donor Coverage"))
-                                </li>
+                </li>
 
-                                <li>
-                                    @Html.EarlyWarningOperationMenuItem(@Url.Action("Index", "Contribution", new { Area = "EarlyWarning" }),
+                <li>
+                    @Html.EarlyWarningOperationMenuItem(@Url.Action("Index", "Contribution", new { Area = "EarlyWarning" }),
                                              EarlyWarningConstants.Operation.View_HRD_list, @Html.Translate("Donor Contribution"))
-                                </li>
-                            </ul>
-                        </li>
+                </li>
+            </ul>
+        </li>
 
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Html.Translate2(PAGE_NAME, " Ration")<b class="caret"></b></a>
-                            <ul class="dropdown-menu">
-                                <li>
-                                    @Html.EarlyWarningOperationMenuItem(@Url.Action("Index", "Ration", new { Area = "EarlyWarning" }),
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Html.Translate2(PAGE_NAME, " Ration")<b class="caret"></b></a>
+            <ul class="dropdown-menu">
+                <li>
+                    @Html.EarlyWarningOperationMenuItem(@Url.Action("Index", "Ration", new { Area = "EarlyWarning" }),
                                              EarlyWarningConstants.Operation.View_Ration_List, @Html.Translate("Rations"))
-                                </li>
-                            </ul>
-                        </li>
+                </li>
+            </ul>
+        </li>
 
-                      
-                    </ul>
+
+    </ul>
                
                         break;
                     case (int)UserType.CASETEAM.PSNP:

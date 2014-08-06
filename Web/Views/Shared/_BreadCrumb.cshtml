@@ -19,12 +19,12 @@
         item_url += current_page + "/";
         if (i < page_url.Length - 1)
         {
-    <li><span class="divider icon-chevron-right"></span><a href="@item_url">@current_page.ToTitle()</a>  </li>
+    <li><a href="@item_url">@current_page.ToTitle()</a>  </li>
         }
         else
         {
 
-    <li><span class="divider icon-chevron-right"></span>@current_page.ToTitle()</li>
+    <li>@current_page.ToTitle()</li>
         }
     }
 }

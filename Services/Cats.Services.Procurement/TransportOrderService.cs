@@ -86,8 +86,22 @@ namespace Cats.Services.Procurement
         //        ;
             var transportOrder = (
                 from c in _unitOfWork.TransportOrderDetailRepository.FindBy(x => x.SourceWarehouseID == hubId)
-                select c.TransportOrder).Where(x => x.StatusID == statusId);
+                select c.TransportOrder).Where(x => x.StatusID == statusId).Distinct().ToList();
             return transportOrder;
+        }
+        public IEnumerable<TransportOrder> GetFilteredTransportOrder(IEnumerable<TransportRequisitionDetail> transportRequsitionDetails ,int statusId)
+        {
+            var transportRequistionDetail = transportRequsitionDetails.Select(m => m.RequisitionID).Distinct();
+            var transportOrder =
+                (from order in
+                     _unitOfWork.TransportOrderDetailRepository.FindBy(
+                         m => transportRequistionDetail.Contains(m.RequisitionID))
+                 select order.TransportOrder).Where(m => m.StatusID == statusId).Distinct().ToList();
+            return transportOrder;
+        }
+        public List<Program> GetPrograms()
+        {
+            return _unitOfWork.ProgramRepository.GetAll();
         }
 
         #endregion

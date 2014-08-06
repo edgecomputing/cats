@@ -277,5 +277,10 @@ namespace Cats.Areas.Hub.Controllers
             return viewModel;
         }
 
+        public ActionResult GetFromStoreForSiNumber()
+        {
+            //Get From store for SI Number 
+            throw new NotImplementedException();
+        }
     }
 }

@@ -341,7 +341,8 @@ namespace Cats.Areas.Procurement.Controllers
                     DestinationID = selectedWoreda,
                     SourceID = warehouseAllocation.WarehouseID,
                     ProgramID = 1,
-                    Quantity = _transportBidPlanDetailService.GetHrdCommodityAmount(selectedWoreda),
+                    Quantity = warehouseAllocation.Relief
+                    //_transportBidPlanDetailService.GetHrdCommodityAmount(selectedWoreda),
                 };
                 UpdateBidPlanDetail(reliefDetail);
                 var psnpDetail = new TransportBidPlanDetail()
@@ -350,7 +351,8 @@ namespace Cats.Areas.Procurement.Controllers
                     DestinationID = selectedWoreda,
                     SourceID = warehouseAllocation.WarehouseID,
                     ProgramID = 2,
-                    Quantity = _transportBidPlanDetailService.GetWoredaGroupedPsnpAmount(selectedWoreda),
+                    Quantity = warehouseAllocation.PSNP
+                    //_transportBidPlanDetailService.GetWoredaGroupedPsnpAmount(selectedWoreda),
                 };
                 UpdateBidPlanDetail(psnpDetail);
             }

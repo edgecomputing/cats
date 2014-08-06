@@ -431,5 +431,62 @@ namespace Cats.Helpers
             }
             return MvcHtmlString.Create(html);
         }
+
+        public static MvcHtmlString AdminOperationMenuItem(this HtmlHelper helper, string text, string url, string ccsClass = "", string dataButtontype = "")
+        {
+            var ewCache = UserAccountHelper.GetUserPermissionCache(CatsGlobals.Applications.Finance);
+
+            var html = string.Empty;
+            // If cache is null then force the user to sign-in again
+            if (null == ewCache)
+            {
+                Signout();
+                return MvcHtmlString.Create(string.Empty);
+            }
+            else 
+            {
+                html = @"<a data-buttontype=" + dataButtontype + "  class=" + ccsClass + " href=" + url + ">" + text + "</a>";
+            }
+
+            return MvcHtmlString.Create(html);
+        }
+
+        public static MvcHtmlString AdminOperationButton(this HtmlHelper helper, string url, string text = "", string ccsClass = "", string dataButtontype = "", string id = "")
+        {
+            var ewCache = UserAccountHelper.GetUserPermissionCache(CatsGlobals.Applications.Finance);
+
+            string html = string.Empty;
+            // If cache is null then force the user to sign-in again
+            if (null == ewCache)
+            {
+                Signout();
+                return MvcHtmlString.Create(string.Empty);
+            }
+            else
+            {
+                html = "<a href=" + url;
+                if (ccsClass != "")
+                {
+                    html += " class=" + ccsClass;
+                }
+                if (id != "")
+                {
+                    html += " id=" + id;
+                }
+                if (dataButtontype != "")
+                {
+                    html += " data-buttontype=" + dataButtontype;
+                }
+                if (text != "")
+                {
+                    html += " >" + text + "</a>";
+                }
+                else
+                {
+                    html += " ></a>";
+                }
+            }
+            return MvcHtmlString.Create(html);
+        }
     }
 }

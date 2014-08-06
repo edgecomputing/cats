@@ -408,6 +408,7 @@
 }
 .small-box > .inner {
   padding: 10px;
+   min-height: 83px;
 }
 .small-box > .small-box-footer {
   position: relative;

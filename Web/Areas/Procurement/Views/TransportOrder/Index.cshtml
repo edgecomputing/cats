@@ -13,11 +13,11 @@
 }
 
 
-<h4 class="page-header">@ViewBag.TransportOrderTitle Transport Orders</h4>
+<h4 class="page-header">List Of Transport Orders</h4>
 @section Toolbar
 {
     <a data-buttontype="btn_new_record"  class="btn toolbar-btn "  href="@Url.Action("TransportRequisitions","TransportOrder",new {Area="Procurement"})"></a>
-    <div class="btn-group" style="margin-right:8px;">
+   @* <div class="btn-group" style="margin-right:8px;">
         <button class="btn">Action</button>
         @{
             
@@ -38,15 +38,25 @@
             }
         </ul>
 
-    </div>
+    </div>*@
            
 }
 <div>
+    <div class="input-prepend">
+        <span class="add-on">Program</span>
+        @Html.DropDownList("ProgramID", null, new { @class = "input-small" })
+    </div>
+    <div class="input-prepend">
+                <span class="add-on">Status</span>
+               @Html.DropDownList("StatusID", null, new { @class = "input-small" })
+            </div>
+</div>
+<div>
 @(Html.Kendo().Grid<TransportOrderViewModel>().Name("Grid").Columns(columns =>
       {
-          columns.Bound(to => to.ContractNumber).Width(150).ClientTemplate("<a href='" + Url.Action("OrderDetail", "TransportOrder", new { Area = "Procurement", id = "#=TransportOrderID#" }) + " '>#=ContractNumber#</a>  ").HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;" });
+          columns.Bound(to => to.ContractNumber).Width(130).ClientTemplate("<a href='" + Url.Action("OrderDetail", "TransportOrder", new { Area = "Procurement", id = "#=TransportOrderID#" }) + " '>#=ContractNumber#</a>  ").HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;" });
     //columns.Bound(to => to.TransportOrderNo).ClientTemplate("<a href='" + Url.Action("Details", "TransportOrder", new { Area = "Procurement", id = "#=TransportOrderID#" }) + " '>#=TransportOrderNo#</a>  ").HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;" });
-    columns.Bound(to => to.Transporter);
+    columns.Bound(to => to.Transporter).Width(150);
     columns.Bound(to => to.BidDocumentNo).Width(100).Title(Html.Translate("Bid Document #"));
     //columns.Bound(to => to.OrderDateET).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid" });
     columns.Bound(to => to.OrderExpiryDateET).Width(120).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid", style = "overflow: visible; white-space: normal;" });
@@ -54,14 +64,14 @@
     columns.Bound(to => to.EndDate).Width(120).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid", style = "overflow: visible; white-space: normal;" });
     columns.Bound(to => to.RequestedDispatchDateET).Width(120).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid", style = "overflow: visible; white-space: normal;" });
     columns.Bound(to => to.TransportOrderNo).Width(150);
-    columns.Bound(to => to.Status);
+    columns.Bound(to => to.Status).Width(90);
           columns.Command(p =>
               {
                  
-                  if (@ViewBag.TransportOrderTitle == "Draft") //TransportRequisitionStatus.Draft
-                  {
+                  //if (@ViewBag.TransportOrderTitle == "Draft") //TransportRequisitionStatus.Draft
+                  //{
                       p.Custom("Approve").Click("onApprove");
-                  }
+                  //}
                   p.Custom("Edit").Click("onEdit");
                  
 
@@ -71,10 +81,11 @@
 
       })
      .Scrollable()
+     .Events(e => e.DataBound("onDataBound"))
     .DataSource(dataSource => dataSource
         .Ajax()
         .Model(model =>model.Id(p => p.TransportOrderID))
-        .Read(read => read.Action("TransportOrder_Read", "TransportOrder",new {id=ViewBag.TransportOrdrStatus}))
+        .Read(read => read.Action("TransportOrder_Read", "TransportOrder").Data("filterData"))
     )
       )
     </div>
@@ -98,5 +109,50 @@
 
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
         window.location = "@Url.Action("Approve","TransportOrder")" + "/" + dataItem.TransportOrderID;
+    }
+
+
+    function filterData() {
+
+        return {
+            id: $("#StatusID").val(),
+            programId: $("#ProgramID").val(),
+
+
+        };
+    }
+
+    $(document).ready(function () {
+       
+        $('#ProgramID').change(function () {
+
+            $("#Grid").data("kendoGrid").dataSource.read();
+        });
+    });
+    $(document).ready(function () {
+
+        $('#StatusID').change(function () {
+
+            $("#Grid").data("kendoGrid").dataSource.read();
+        });
+    });
+    
+
+
+    function onDataBound(e) {
+        var grid = $("#Grid").data("kendoGrid");
+        var gridData = grid.dataSource.view();
+        //alert(gridData.length);
+        for (var i = 0; i < gridData.length; i++) {
+            var currentUid = gridData[i].uid;
+            //alert(gridData[i].Status);
+            if (gridData[i].Status == "Approved") {
+                var currentRow = grid.table.find("tr[data-uid='" + currentUid + "']");
+                var approveButton = $(currentRow).find(".k-grid-Approve");
+                approveButton.hide();
+                //var editButton = $(currentRow).find(".k-grid-Edit");
+                //editButton.hide();
+            }
+        }
     }
 </script>

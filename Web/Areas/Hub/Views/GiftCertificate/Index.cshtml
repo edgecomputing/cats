@@ -30,7 +30,7 @@
         col.Template(@<text>
                          @item.GiftDate.ToCTSPreferedDateFormat(@Html.GetCurrentUser().DatePreference)
                       </text>).Title(Html.Translate("Gift Date")); 
-        col.Bound(gc => gc.SINumber).Title(Html.Translate("SI Number"));
+        //col.Bound(gc => gc.SINumber).Title(Html.Translate("SI Number"));
         col.Bound(gc => gc.ReferenceNo).Title(Html.Translate("Reference No"));
     }
         ).DetailView((detail => detail.Template(d =>
