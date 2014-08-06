@@ -34,20 +34,7 @@
         //columns.Bound(e => e.Program).Width(120).Title("Program");
         //columns.Bound(e => e.Round).Width(120).Title("Round");
     })
-    @*.ToolBar(toolbar =>
-    {
-        toolbar.Template(@<text>
-            <div class="toolbar">
-                <label>@Html.Translate("Round"):</label>
-                @(Html.Kendo().DropDownList()
-                .Name("Round")
-                .OptionLabel("All")
-                .BindTo(new SelectList(Enumerable.Range(1,12)))
-                .AutoBind(false)
-                        .Events(e => e.Change("roundChange")))
-            </div>
-        </text>);
-    })*@
+   
                         .DataSource(dataSource => dataSource
                             .Ajax()
                             .Read(read => read.Action("AllocateProjectCode", "DispatchAllocation", new { regionId = Model[0], status = Model[1] }))
