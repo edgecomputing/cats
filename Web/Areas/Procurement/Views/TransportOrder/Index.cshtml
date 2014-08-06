@@ -72,6 +72,7 @@
                   //{
                       p.Custom("Approve").Click("onApprove");
                   //}
+                      p.Custom("Signed").Click("onSigned");
                   p.Custom("Edit").Click("onEdit");
                  
 
@@ -111,6 +112,13 @@
         window.location = "@Url.Action("Approve","TransportOrder")" + "/" + dataItem.TransportOrderID;
     }
 
+    function onSigned(e) {
+        e.preventDefault();
+
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        window.location = "@Url.Action("Signed","TransportOrder")" + "/" + dataItem.TransportOrderID;
+    }
+
 
     function filterData() {
 
@@ -146,12 +154,20 @@
         for (var i = 0; i < gridData.length; i++) {
             var currentUid = gridData[i].uid;
             //alert(gridData[i].Status);
-            if (gridData[i].Status == "Approved") {
-                var currentRow = grid.table.find("tr[data-uid='" + currentUid + "']");
+            var currentRow = grid.table.find("tr[data-uid='" + currentUid + "']");
+            if (gridData[i].Status == "Signed") {
                 var approveButton = $(currentRow).find(".k-grid-Approve");
                 approveButton.hide();
-                //var editButton = $(currentRow).find(".k-grid-Edit");
-                //editButton.hide();
+                var signedButton = $(currentRow).find(".k-grid-Signed");
+                signedButton.hide();
+            }
+            else if (gridData[i].Status == "Approved") {
+                var approveButton1 = $(currentRow).find(".k-grid-Approve");
+                approveButton1.hide();
+            }
+            else if (gridData[i].Status == "Draft") {
+                var signedButton1 = $(currentRow).find(".k-grid-Signed");
+                signedButton1.hide();
             }
         }
     }

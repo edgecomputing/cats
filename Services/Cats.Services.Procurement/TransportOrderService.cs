@@ -463,6 +463,20 @@ namespace Cats.Services.Procurement
 
         }
 
+        public bool SignTransportOrder(TransportOrder transportOrder)
+        {
+            if (transportOrder != null)
+            {
+                transportOrder.StatusID = (int)TransportOrderStatus.Signed;
+                _unitOfWork.TransportOrderRepository.Edit(transportOrder);
+                _unitOfWork.Save();
+
+                return true;
+            }
+            return false;
+
+        }
+
         public bool GeneratDispatchPlan(int transportOrderId)
         {
 
