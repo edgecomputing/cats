@@ -16,138 +16,154 @@ Edit Gift Certificate
 
 @section PageTitle
 {
-    <h1 class="hdr-blck big col-md-6">
-      Edit Gift Certificate
+    <h1 class="hdr-blck big col-md-6">Edit Gift Certificate
     </h1>
 }
 
-@{ViewBag.IsInEditMode = true; }
-@using (Html.BeginForm("Edit", "GiftCertificate", FormMethod.Post, new { id = "frm_edit_gift" }))
-{
-    @Html.ValidationSummary(true)
+
+<div class="row">
+    <div class="col-md-12">
+        @{ViewBag.IsInEditMode = true; }
+        @using (Html.BeginForm("Edit", "GiftCertificate", FormMethod.Post, new { id = "frm_edit_gift" }))
+        {
+            <div class="box box-primary">
+
+                <div class="col-md-12 box-body" style="display: block;">
+
+                    @Html.ValidationSummary(true)
+
+                    @Html.HiddenFor(model => model.GiftCertificateID)
+                    @Html.HiddenFor(model => model.rowCount)
+
+                    <div class="col-md-6 col-sm-6 form-horizontal">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.GiftDate, Html.Translate("Gift Date"), new { @class = "col-sm-4 control-label cats-date-pref" })
+                            <div class="col-sm-8">
+
+                                @Html.TextBoxFor(model => model.GiftDate, new { @class = " form-control cats-datepicker2" })
+                                @Html.ValidationMessageFor(model => model.GiftDate)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.DModeOfTransport, Html.Translate("Mode Of transport"), new { @class = "col-sm-4 control-label" })
+                            <div class="col-sm-8">
+                                @Html.DropDownList("DModeOfTransport", null, String.Empty, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.DModeOfTransport)
+                            </div>
+                        </div>
+                        <div class="form-group">
+
+                            @Html.LabelFor(model => model.ProgramID, Html.Translate("Program"), new { @class = "col-sm-4 control-label" })
+
+                            <div class="col-sm-8">
+
+                                @Html.DropDownList("ProgramID", null, String.Empty, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.ProgramID)
+                            </div>
+                        </div>
+                        <div class="form-group">
+
+                            @Html.LabelFor(model => model.DonorID, Html.Translate("Donor"), new { @class = "col-sm-4 control-label" })
+
+                            <div class="col-sm-8">
+
+                                @Html.DropDownList("DonorID", null, String.Empty, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.DonorID)
+                            </div>
+                        </div>
+                        <div class="form-group">
+
+                            @Html.LabelFor(model => model.DeclarationNumber, Html.Translate("Declaration Number"), new { @class = "col-sm-4 control-label" })
+
+                            <div class="col-sm-8">
+
+                                @Html.TextBoxFor(model => model.DeclarationNumber, new { @class = " form-control" })
+
+                                @Html.ValidationMessageFor(model => model.DeclarationNumber)
+
+                            </div>
+                        </div>
+                        <div class="form-group">
+
+                            @Html.LabelFor(model => model.CommodityTypeID, Html.Translate("Commodity Type"), new { @class = "col-sm-4 control-label" })
+
+                            <div class="col-sm-8">
+
+                                @Html.DropDownList("CommodityTypeID", null, String.Empty, new { @class = "form-control" })
+
+                                @Html.ValidationMessageFor(model => model.CommodityTypeID)
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-6 col-sm-6 form-horizontal">
+                        <div class="form-group">
+
+                            @Html.LabelFor(model => model.SINumber, Html.Translate("SI/Batch Number"), new { @class = "col-sm-4 control-label" })
+
+                            <div class="col-sm-8">
+                                @Html.TextBoxFor(model => model.SINumber, new { @class = " form-control" })
+                                @Html.ValidationMessageFor(model => model.SINumber)
+                            </div>
+                        </div>
+                        <div class="form-group">
+
+                            @Html.LabelFor(model => model.PortName, Html.Translate("Port Name"), new { @class = "col-sm-4 control-label" })
+
+                            <div class="col-sm-8">
+                                @Html.TextBoxFor(model => model.PortName, new { @class = " form-control" })
+                                @Html.ValidationMessageFor(model => model.PortName)
+                            </div>
+                        </div>
+                        <div class="form-group">
+
+                            @Html.LabelFor(model => model.ReferenceNo, Html.Translate("Reference Number"), new { @class = "col-sm-4 control-label" })
+
+                            <div class="col-sm-8">
+                                @Html.TextBoxFor(model => model.ReferenceNo, new { @class = " form-control" })
+                                @Html.ValidationMessageFor(model => model.ReferenceNo)
+                            </div>
+                        </div>
+                        <div class="form-group">
+
+                            @Html.LabelFor(model => model.Vessel, Html.Translate("Vessel"), new { @class = "col-sm-4 control-label" })
+
+                            <div class="col-sm-8">
+                                @Html.TextBoxFor(model => model.Vessel, new { @class = " form-control" })
+                                @Html.ValidationMessageFor(model => model.Vessel)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="control-label">
+                                @Html.LabelFor(model => model.ETA, Html.Translate("ETA"), new { @class = "col-sm-4 control-label cats-date-pref" })
+                            </div>
+
+                            <div class="col-sm-8">
+                                @Html.TextBoxFor(model => model.ETA, new { @class = "form-control cats-datepicker2" })
+                                @Html.ValidationMessageFor(model => model.ETA)
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                </div>
+                <div class="box-footer text-center">
+                    <button class="btn btn-primary " type="submit" data-submittedform="frm_edit_gift"><span class="fa fa-save"></span> Save</button>
+                    <a class="btn  btn-default"  href="@Url.Action("Index", "GiftCertificate")"><span class="fa fa-lg fa-times-circle"></span> Cancle</a>
+                </div>
+            </div>
            
-    @Html.HiddenFor(model => model.GiftCertificateID)
-    @Html.HiddenFor(model => model.rowCount)
- 
-    <div class="form-horizontal row-fluid">
 
-        <div class="span6" style="vertical-align: top">
-            <div class="control-group">
-                <div class="control-label">
-                    @Html.LabelFor(model => model.GiftDate, Html.Translate("Gift Date"), new { @class = "cats-date-pref" })
-                </div>
-                <div class="controls">
-                    @Html.TextBoxFor(model => model.GiftDate, new { @class = " cats-datepicker2" })
-                    @Html.ValidationMessageFor(model => model.GiftDate)
-                </div>
-            </div>
-            <div class="control-group">
-                <div class="control-label">
-                    @Html.LabelFor(model => model.DModeOfTransport, Html.Translate("Mode Of transport"))
-                </div>
-                <div class="controls">
-
-                    @Html.DropDownList("DModeOfTransport", string.Empty)
-
-                    @Html.ValidationMessageFor(model => model.DModeOfTransport)
-                </div>
-            </div>
-            <div class="control-group">
-                <div class="control-label">
-                    @Html.LabelFor(model => model.ProgramID, Html.Translate("Program"))
-                </div>
-                <div class="controls">
-
-                    @Html.DropDownList("ProgramID", string.Empty)
-                    @Html.ValidationMessageFor(model => model.ProgramID)
-                </div>
-            </div>
-            <div class="control-group">
-                <div class="control-label">
-                    @Html.LabelFor(model => model.DonorID, Html.Translate("Donor"))
-                </div>
-                <div class="controls">
-
-                    @Html.DropDownList("DonorID", string.Empty)
-                    @Html.ValidationMessageFor(model => model.DonorID)
-                </div>
-            </div>
-            <div class="control-group">
-                <div class="control-label">
-                    @Html.LabelFor(model => model.DeclarationNumber)
-                </div>
-                <div class="controls">
-
-                    @Html.TextBoxFor(model => model.DeclarationNumber)
-
-                    @Html.ValidationMessageFor(model => model.DeclarationNumber)
-
-                </div>
-            </div>
-            <div class="control-group">
-                <div class="control-label">
-                    @Html.LabelFor(model => model.CommodityTypeID, Html.Translate("Commodity Type"))
-                </div>
-                <div class="controls">
-
-                    @Html.DropDownList("CommodityTypeID", string.Empty)
-
-                    @Html.ValidationMessageFor(model => model.CommodityTypeID)
-
-                </div>
-            </div>
-        </div>
-        <div class="span6" style="vertical-align: top">
-            <div class="control-group">
-                <div class="control-label">
-                    @Html.LabelFor(model => model.SINumber, Html.Translate("SI/Batch Number"))
-                </div>
-                <div class="controls">
-                    @Html.TextBoxFor(model => model.SINumber)
-                    @Html.ValidationMessageFor(model => model.SINumber)
-                </div>
-            </div>
-            <div class="control-group">
-                <div class="control-label">
-                    @Html.LabelFor(model => model.PortName, Html.Translate("Port Name"))
-                </div>
-                <div class="controls">
-                    @Html.TextBoxFor(model => model.PortName)
-                    @Html.ValidationMessageFor(model => model.PortName)
-                </div>
-            </div>
-            <div class="control-group">
-                <div class="control-label">
-                    @Html.LabelFor(model => model.ReferenceNo, Html.Translate("Reference Number"))
-                </div>
-                <div class="controls">
-                    @Html.TextBoxFor(model => model.ReferenceNo)
-                    @Html.ValidationMessageFor(model => model.ReferenceNo)
-                </div>
-            </div>
-            <div class="control-group">
-                <div class="control-label">
-                    @Html.LabelFor(model => model.Vessel, Html.Translate("Vessel"))
-                </div>
-                <div class="controls">
-                    @Html.TextBoxFor(model => model.Vessel)
-                    @Html.ValidationMessageFor(model => model.Vessel)
-                </div>
-            </div>
-            <div class="control-group">
-                <div class="control-label">
-                    @Html.LabelFor(model => model.ETA, Html.Translate("ETA"), new { @class = "cats-date-pref" })
-                </div>
-
-                <div class="controls">
-                    @Html.TextBoxFor(model => model.ETA, new { @class = "cats-datepicker2" })
-                    @Html.ValidationMessageFor(model => model.ETA)
-                </div>
-            </div>
-        </div>
-
+        }
     </div>
-   
 
-}
+</div>
+
+
+
+
+
+
 

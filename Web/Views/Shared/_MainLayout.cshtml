@@ -23,10 +23,12 @@
     <link href="~/Scripts/css/cats.css" rel="stylesheet" />
     <link href="~/Scripts/css/utility.css" rel="stylesheet" />
 
-    <link href="~/Content/kendo/2013.1.319/kendo.common.min.css" rel="stylesheet" />
+  
     <link href="@Url.Content("~/Content/kendo/2013.1.319/kendo.default.min.css")" rel="stylesheet" type="text/css" />
     <link href="@Url.Content("~/Content/kendo/2013.1.319/kendo.bootstrap.min.css")" rel="stylesheet" type="text/css" />
-    @*<link href="~/Content/kendo/2013.1.319/kendo.common.min.css" rel="stylesheet" />*@
+    <link href="~/Content/kendo/2013.1.319/kendo.common.min.css" rel="stylesheet" />
+
+
 
     @RenderSection("styles", required: false)
 
@@ -40,6 +42,16 @@
     <script src="~/Scripts/angular/angular.js"></script>
     <script src="~/Scripts/angular/angular-resource.js"></script>
     <script src="~/Scripts/js/app.js"></script>
+    
+    <script src="~/Scripts/Beka.EthDate/Beka.EthDate.js"></script>
+    <script src="~/Scripts/Beka.EthDate/jquery.Beka.EthCalDatePicker.js"></script>
+    <script src="~/Scripts/js/CatsUI.js"></script>
+    
+    <link href="~/Scripts/jquery_ui/jquery-ui.min.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery_ui/jquery-ui.min.js"></script>
+    <link href="~/Scripts/jquery_ui/jquery-ui.structure.min.css" rel="stylesheet" />
+    <link href="~/Scripts/jquery_ui/jquery-ui.theme.min.css" rel="stylesheet" />
+
 </head>
 <body>
     <header>
@@ -79,21 +91,8 @@
                     {
                         <div class="row action-menu-cnt">
                             <div class="action-menu">
-                                <button type="button" class="btn btn-success"><span class="fa fa-lg fa-plus"></span>Add</button>
-                                <button type="button" class="btn btn-warning"><span class="fa fa-lg fa-pencil-square-o"></span>Update</button>
-                                <button type="button" class="btn btn-danger"><span class="fa fa-lg fa-times"></span>Delete</button>
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                                        More Action <span class="caret"></span>
-                                    </button>
-                                    <ul class="dropdown-menu dropdown-menu-right" role="menu">
-                                        <li><a href="#">Action</a></li>
-                                        <li><a href="#">Another action</a></li>
-                                        <li><a href="#">Something else here</a></li>
-                                        <li class="divider"></li>
-                                        <li><a href="#">Separated link</a></li>
-                                    </ul>
-                                </div>
+                                 @RenderSection("ActionBar", required: false)
+                              
                             </div>
                         </div>
                     

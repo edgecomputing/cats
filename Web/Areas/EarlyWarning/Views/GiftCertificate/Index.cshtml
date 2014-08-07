@@ -58,15 +58,15 @@ Gift Certificate
             {
                 @Html.EarlyWarningOperationButton(
                         @Url.Action("Edit", new { id = item.GiftCertificateID }),
-                        EarlyWarningConstants.Operation.Edit_Gift_Certificate, " <button type=\"button\" class=\"btn btn-xs btn-warning\"><span class=\"fa fa-lg fa-pencil-square-o\"></span>Edit</button> ")
+                        EarlyWarningConstants.Operation.Edit_Gift_Certificate, " <button type=\"button\" class=\"btn btn-xs btn-warning\"><span class=\"fa fa-pencil-square-o\"></span> Edit</button> ")
                 
                 @Html.EarlyWarningOperationButton(
                         @Url.Action("Detail", new { id = item.GiftCertificateID }),
-                        EarlyWarningConstants.Operation.Edit_Gift_Certificate, " <button type=\"button\" class=\"btn btn-xs btn-primary\"><span class=\"fa fa-lg fa-eye\"></span>Detail</button> ")
+                        EarlyWarningConstants.Operation.Edit_Gift_Certificate, " <button type=\"button\" class=\"btn btn-xs btn-primary\"><span class=\"fa fa-list\"></span> Detail</button> ")
                
                 @Html.EarlyWarningOperationButton(
                         @Url.Action("Approved", "GiftCertificate", new { id = item.GiftCertificateID }),
-                        EarlyWarningConstants.Operation.Approve_Gift_Certeficate, " <button type=\"button\" class=\"btn btn-xs btn-success\"><span class=\"fa fa-lg fa-check\"></span>Approve</button> ", "btn-Approve-Gift", "", "btnApprove")
+                        EarlyWarningConstants.Operation.Approve_Gift_Certeficate, " <button type=\"button\" class=\"btn btn-xs btn-success\"><span class=\"fa fa-check\"></span> Approve</button> ", "btn-Approve-Gift", "", "btnApprove")
             }
             else
             {
@@ -96,25 +96,23 @@ Gift Certificate
 
 
 
-<div id='dialogDiv' class='modal hide fade in'>
-    <div id='dialogContent'></div>
+<div id="cats-modal" class="modal hide fade" tabindex="-1" role="dialog">
+    
 </div>
-
-
 <script type="text/javascript">
+    
+
+
     $(function () {
 
         //Optional: turn the chache off
         $.ajaxSetup({ cache: false });
+       
 
         $('.btn-Approve-Gift').click(function () {
-            $('#dialogContent').load(this.href, function () {
-                $('#dialogDiv').modal({
-                    backdrop: 'static',
-                    keyboard: true
-                }, 'show');
-                //bindForm(this);
-            });
+         $('#cats-modal').load(this.href, function () {
+             $('#cats-modal').modal({ show: true });
+          });
             return false;
         });
         $('.btn-Print-gift').click(function () {
@@ -128,7 +126,6 @@ Gift Certificate
             return false;
         });
     });
-
 
 </script>
 
