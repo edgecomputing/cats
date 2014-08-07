@@ -40,7 +40,8 @@ namespace Cats.Models.Constant
         HubAssigned=3,
         ProjectCodeAssigned=4,
         TransportRequisitionCreated=5,
-        TransportOrderCreated=6
+        TransportOrderCreated=6,
+        Rejected=7
     }
     public enum TransportRequisitionStatus
     {
