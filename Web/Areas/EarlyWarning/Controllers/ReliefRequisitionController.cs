@@ -149,7 +149,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             statuslist.Add(new RequestStatus { StatusID = 4, StatusName = "Project Code Assigned" });
             statuslist.Add(new RequestStatus { StatusID = 5, StatusName = "Transport Requisition Created" });
             statuslist.Add(new RequestStatus { StatusID = 6, StatusName = "Transport Order Created" });
-
+            statuslist.Add(new RequestStatus { StatusID = 7, StatusName = "Rejected" });
             ViewBag.StatusID = new SelectList(statuslist, "StatusID", "StatusName");
         }
 

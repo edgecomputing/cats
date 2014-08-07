@@ -250,7 +250,18 @@ namespace Cats.Areas.Logistics.Controllers
 
         }
 
-       
+      public ActionResult RejectRequsition(int id)
+      {
+          var requistion = _reliefRequisitionService.FindById(id);
+          if (requistion!=null)
+          {
+              requistion.Status = (int) ReliefRequisitionStatus.Rejected;
+              _reliefRequisitionService.EditReliefRequisition(requistion);
+
+              return RedirectToAction("Index", new { regionId = requistion.RegionID });
+          }
+          return RedirectToAction("Index");
+      }
 
     }
 }
