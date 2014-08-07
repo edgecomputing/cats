@@ -250,7 +250,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>HRDDatasetForPrint.xsd</DependentUpon>
     </Compile>
-    <Compile Include="Areas\Hub\Controllers\AboutController.cs" />
     <Compile Include="Areas\Hub\Controllers\Allocations\DispatchAllocationController.cs" />
     <Compile Include="Areas\Hub\Controllers\Allocations\DispatchPlanController.cs" />
     <Compile Include="Areas\Hub\Controllers\Allocations\ReceiptAllocationController.cs" />
