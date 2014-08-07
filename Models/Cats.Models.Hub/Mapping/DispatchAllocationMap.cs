@@ -35,7 +35,7 @@ namespace Cats.Models.Hubs.Mapping
             this.Property(t => t.ContractStartDate).HasColumnName("ContractStartDate");
             this.Property(t => t.ContractEndDate).HasColumnName("ContractEndDate");
             this.Property(t => t.Beneficiery).HasColumnName("Beneficiery");
-            this.Property(t => t.Amount).HasColumnName("Amount");
+            this.Property(t => t.Amount).HasColumnName("Amount").HasPrecision(18,4);
             this.Property(t => t.Unit).HasColumnName("Unit");
             this.Property(t => t.TransporterID).HasColumnName("TransporterID");
             this.Property(t => t.FDPID).HasColumnName("FDPID");

@@ -21,9 +21,9 @@ namespace Cats.Models.Hubs.Mapping
             this.Property(t => t.ReceiveID).HasColumnName("ReceiveID");
             this.Property(t => t.TransactionGroupID).HasColumnName("TransactionGroupID");
             this.Property(t => t.CommodityID).HasColumnName("CommodityID");
-            this.Property(t => t.SentQuantityInUnit).HasColumnName("SentQuantityInUnit");
+            this.Property(t => t.SentQuantityInUnit).HasColumnName("SentQuantityInUnit").HasPrecision(18, 4); 
             this.Property(t => t.UnitID).HasColumnName("UnitID");
-            this.Property(t => t.SentQuantityInMT).HasColumnName("SentQuantityInMT");
+            this.Property(t => t.SentQuantityInMT).HasColumnName("SentQuantityInMT").HasPrecision(18, 4); 
             this.Property(t => t.Description).HasColumnName("Description");
 
             // Relationships
