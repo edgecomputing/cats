@@ -30,7 +30,8 @@ namespace Cats.Models.Constant
         Draft=1,
         Approved=2, 
         Closed=3,
-        FederalApproved=4
+        FederalApproved=4,
+        Reject = 5
     }
 
     public  enum ReliefRequisitionStatus
