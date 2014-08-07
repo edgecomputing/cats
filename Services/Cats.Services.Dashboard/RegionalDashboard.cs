@@ -8,6 +8,7 @@ using Cats.Data.Micro.Models;
 using Cats.Data.UnitWork;
 using Cats.Models;
 using Cats.Models.ViewModels.Dashboard;
+using RegionalRequest = Cats.Models.RegionalRequest;
 
 
 namespace Cats.Services.Dashboard
@@ -51,6 +52,37 @@ namespace Cats.Services.Dashboard
                 r.Add(n);
             }
 
+            return r;
+        }
+
+        public List<RegionalRequestAllocationChange> GetAllocationChange(int regionID)
+        {
+            var r = new List<RegionalRequestAllocationChange>();
+            var currentHRD = _unitOfWork.HRDRepository.FindBy(m => m.Status == 3).FirstOrDefault();
+            var requests = _unitOfWork.RegionalRequestRepository.FindBy(t => t.RegionID == regionID && t.PlanID == currentHRD.PlanID).OrderByDescending(t => t.RegionalRequestID).Take(5);
+
+            foreach (var regionalRequest in requests)
+            {
+                var requestedAmount = regionalRequest.RegionalRequestDetails.Sum(t => t.RequestDetailCommodities.Sum(s => s.Amount));
+                var request = regionalRequest;
+                var requisition = _unitOfWork.ReliefRequisitionRepository.FindBy(t => t.RegionID == regionID && t.RegionalRequest.PlanID == currentHRD.PlanID && t.RegionalRequestID == request.RegionalRequestID).ToList();
+                var allocatedAmount = requisition.Sum(reliefRequisition => reliefRequisition.ReliefRequisitionDetails.Sum(reliefRequisitionDetail => reliefRequisitionDetail.Amount));
+                if(requestedAmount != allocatedAmount)
+                {
+                    var n = new RegionalRequestAllocationChange
+                    {
+                        RegionalRequestID = regionalRequest.RegionalRequestID,
+                        RequestNumber = regionalRequest.ReferenceNumber,
+                        Month = regionalRequest.RegionalRequestDetails.Count(),
+                        Status = regionalRequest.Status,
+                        RequestDate = regionalRequest.RequistionDate,
+                        Beneficiaries = regionalRequest.RegionalRequestDetails.Sum(t => t.Beneficiaries),
+                        RequestedAmount = regionalRequest.RegionalRequestDetails.Sum(t => t.RequestDetailCommodities.Sum(s => s.Amount)),
+                        AllocatedAmount = allocatedAmount
+                    };
+                    r.Add(n);
+                }
+            }
             return r;
         }
 
