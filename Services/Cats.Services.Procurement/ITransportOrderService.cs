@@ -36,6 +36,7 @@ namespace Cats.Services.Procurement
        bool CreateTransportOrder(int requisitionId);
        bool ReAssignTransporter(IEnumerable<TransportRequisitionWithoutWinnerModel> transReqWithTransporter,int transporterID);
        bool ApproveTransportOrder(TransportOrder transportOrder);
+       bool SignTransportOrder(TransportOrder transportOrder);
        List<vwTransportOrder> GeTransportOrderRpt(int id);
        List<Transporter> GetTransporter();
        List<Hub> GetHubs();

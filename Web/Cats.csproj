@@ -2312,6 +2312,21 @@
     <Content Include="Areas\Hub\Views\Replication\Index.cshtml" />
     <Content Include="Areas\Hub\Views\Replication\PublicationTwo.cshtml" />
     <Content Include="Areas\Hub\Views\Replication\PublicatonOne.cshtml" />
+    <Content Include="Areas\Hub\Views\Replication\Reports\AreaPartial.cshtml" />
+    <Content Include="Areas\Hub\Views\Replication\Reports\DistributionReport.cshtml" />
+    <Content Include="Areas\Hub\Views\Replication\Reports\DistributionReportFilters.cshtml" />
+    <Content Include="Areas\Hub\Views\Replication\Reports\DistributionReportPartial.cshtml" />
+    <Content Include="Areas\Hub\Views\Replication\Reports\FreeStock.cshtml" />
+    <Content Include="Areas\Hub\Views\Replication\Reports\FreeStockFilters.cshtml" />
+    <Content Include="Areas\Hub\Views\Replication\Reports\FreeStockPartial.cshtml" />
+    <Content Include="Areas\Hub\Views\Replication\Reports\Index.cshtml" />
+    <Content Include="Areas\Hub\Views\Replication\Reports\OffloadingFilters.cshtml" />
+    <Content Include="Areas\Hub\Views\Replication\Reports\OffloadingReport.cshtml" />
+    <Content Include="Areas\Hub\Views\Replication\Reports\OffloadingReportPartial.cshtml" />
+    <Content Include="Areas\Hub\Views\Replication\Reports\Receive.cshtml" />
+    <Content Include="Areas\Hub\Views\Replication\Reports\ReceiveFilters.cshtml" />
+    <Content Include="Areas\Hub\Views\Replication\Reports\ReceivePartial.cshtml" />
+    <Content Include="Areas\Hub\Views\Replication\Reports\SIReport.cshtml" />
     <Content Include="Areas\Hub\Views\Roles\Create.cshtml" />
     <Content Include="Areas\Hub\Views\Roles\Delete.cshtml" />
     <Content Include="Areas\Hub\Views\Roles\Details.cshtml" />
@@ -2929,6 +2944,10 @@
     <ProjectReference Include="..\Services\Cats.Services.Transaction\Cats.Services.Transaction.csproj">
       <Project>{9b741d92-4b67-4863-bf38-a1adcae40870}</Project>
       <Name>Cats.Services.Transaction</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tests\Cats.Web.Adminstration.Tests\Cats.Web.Adminstration.Tests.csproj">
+      <Project>{6b42ca40-4be0-4122-8050-7df94a5bd40c}</Project>
+      <Name>Cats.Web.Adminstration.Tests</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
