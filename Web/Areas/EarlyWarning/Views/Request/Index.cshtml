@@ -13,7 +13,7 @@
 
 @section Toolbar
 {
-    <a data-buttontype="btn_new_record"  class="btn toolbar-btn" href="@Url.Action("New", "Request")"></a>
+    <a data-buttontype="btn_new_record" class="btn toolbar-btn" href="@Url.Action("New", "Request")"></a>
 }
 <h4 class="page-header">@Html.Translate("Regional Requests")</h4>
 
@@ -28,63 +28,66 @@
                  {
                      columns.Template(t => { }).Title("No").ClientTemplate("#= renderNumber(data) #").Width(50);
                      columns.Bound(request => request.ReferenceNumber).ClientTemplate
-                         ("<a href='" + Url.Action("Details", "Request", new { id = "#=RegionalRequestID#" }) + " '>#=ReferenceNumber#</a>");
-                     columns.Bound(request => request.Region);
-                     columns.Bound(request => request.Year);
-                     columns.Bound(request => request.MonthName).Title(Html.Translate("Month"));
+                         ("<a href='" + Url.Action("Details", "Request", new { id = "#=RegionalRequestID#" }) + " '>#=ReferenceNumber#</a>").Width(160);
+                     columns.Bound(request => request.Region).Width(100);
+                     columns.Bound(request => request.Year).Width(70);
+                     columns.Bound(request => request.MonthName).Title(Html.Translate("Month")).Width(70);
                      if (Model.ProgramID == 1)
                      {
                          columns.Bound(request => request.Round).Width(50).Title(Html.Translate("Round"));
                      }
-                     columns.Bound(request => request.Program);
+                     columns.Bound(request => request.Program).Width(160);
                      columns.Bound(request => request.RequestDate).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid" }).Width(160);
-
                      columns.Bound(request => request.Status).Template(
 
 
-                                          @<text>
-@if (item.StatusID == (int)RegionalRequestStatus.Draft)
-{
-    @Html.ActionLink("Approve", "ApproveRequest", "Request", new { Area = "EarlyWarning", id = @item.RegionalRequestID })
-}
-else
-{
-    @item.Status
-    @Html.ActionLink("Approve", "ApproveRequest", "Request", new { Area = "EarlyWarning", id = @item.RegionalRequestID })
-}
-</text>);
-                     columns.Bound(request => request.PlanId).Title(Html.Translate("Action")).ClientTemplate
-             ("<a href='" + Url.Action("Details", "Request", new { id = "#=RegionalRequestID#" }) + " '>Detail</a> &nbsp; " +
-             "<a href='" + Url.Action("Allocation", "Request", new { id = "#=RegionalRequestID#" }) + " '>Allocate</a>  ");
+                        @<text>
+                            @if (item.StatusID == (int)RegionalRequestStatus.Draft)
+                            {
+                                @Html.ActionLink("Approve", "ApproveRequest", "Request", new { Area = "EarlyWarning", id = @item.RegionalRequestID })
+                            }
+                            else
+                            {
+                                @item.Status
+                                @Html.ActionLink("Approve", "ApproveRequest", "Request", new { Area = "EarlyWarning", id = @item.RegionalRequestID })
+                            }
+                        </text>);
+                     columns.Bound(request => request.PlanId).Title(
+                         Html.Translate("Action"))
+                         .ClientTemplate(
+                             "<a href='" + Url.Action("Details", "Request", new { id = "#=RegionalRequestID#" }) + " '>Detail</a> &nbsp; " +
+                         "<a href='" + Url.Action("Allocation", "Request", new { id = "#=RegionalRequestID#" }) + " '>Allocate</a>  " 
+                         );
+
 
 
                  })
-    .Sortable()
-    .Scrollable()
-    .HtmlAttributes(new { style = "height:430px;" })
-    .Events(ev => ev.DataBound("resetRowNumber"))
-    .DataSource(dataSource => dataSource
-        .Ajax()
-        //.PageSize(20)
+                                    .Sortable()
+                                    .Scrollable()
+                                    .HtmlAttributes(new { style = "height:430px;" })
+                                    .Events(ev => ev.DataBound("resetRowNumber"))
+                                    .DataSource(dataSource => dataSource
+                                        .Ajax()
+                                        //.PageSize(20)
 
-            .Model(model =>
-            {
-                model.Id(p => p.RegionalRequestID);
-            })
-       .Read(read => read.Action("Request_Search", "Request",
-                                new
-                                {
-                                    Area = "EarlyWarning",
-                                    DateFrom = @ViewBag.Filter.DateFrom,
-                                    DateTo = @ViewBag.Filter.DateTo,
-                                    RegionID = @ViewBag.Filter.RegionID,
-                                    ProgramID = @ViewBag.Filter.ProgramID,
-                                    StatusID = @ViewBag.Filter.StatusID
-                                }
-                                    ))
+                                            .Model(model =>
+                                            {
+                                                model.Id(p => p.RegionalRequestID);
+                                            })
+                                       .Read(read => read.Action("Request_Search", "Request",
+                                                                new
+                                                                {
+                                                                    Area = "EarlyWarning",
+                                                                    DateFrom = @ViewBag.Filter.DateFrom,
+                                                                    DateTo = @ViewBag.Filter.DateTo,
+                                                                    RegionID = @ViewBag.Filter.RegionID,
+                                                                    ProgramID = @ViewBag.Filter.ProgramID,
+                                                                    StatusID = @ViewBag.Filter.StatusID
+                                                                }
+                                                                    ))
 
-      )
-      )
+                                      )
+)
 
 <script>
     $(function () {
@@ -101,16 +104,16 @@ else
 
 
 <script>
-   $("#search").keyup(function () {
+    $("#search").keyup(function () {
         $("#search").blur();
         $("#search").focus();
     });
-  
+
     $("#search").change(function () {
         applyFilter("ReferenceNumber", $(this).val());
     });
-        
-    // attach click event for Clear Filters button 
+
+    // attach click event for Clear Filters button
     // applyFilter function accepts the Field Name and the new value to use for filter.
     function applyFilter(filterField, filterValue) {
 
@@ -136,7 +139,7 @@ else
             }
         }
 
-        // if "filterValue" is "0", meaning "-- select --" option is selected, we don't 
+        // if "filterValue" is "0", meaning "-- select --" option is selected, we don't
         // do any further processing. That will be equivalent of removing the filter.
         // if a filterValue is selected, we add a new object to the currentFilters array.
         if (filterValue != null) {
@@ -146,7 +149,7 @@ else
                 value: filterValue
             });
         }
-        
+
         else {
             clearFilters();
         }

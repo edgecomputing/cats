@@ -35,9 +35,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Cats.Web.Adminstration">
-      <HintPath>..\..\Cats.Web.Adminstration\bin\Cats.Web.Adminstration.dll</HintPath>
-    </Reference>
     <Reference Include="Kendo.Mvc">
       <HintPath>..\..\lib\KENDOUIMVC\2013.1.319.340\Kendo.Mvc.dll</HintPath>
     </Reference>
@@ -127,6 +124,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Cats.Web.Adminstration\Cats.Web.Adminstration.csproj">
+      <Project>{7d69aec0-4ce9-4bfe-bb34-9b92e78db6e5}</Project>
+      <Name>Cats.Web.Adminstration</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Models\Cats.Models\Cats.Models.csproj">
       <Project>{abfb63d2-89fc-45bc-aa4e-5d9b21094b85}</Project>
       <Name>Cats.Models</Name>

@@ -4,6 +4,7 @@
 
     @*<li><a href="@Url.Action("Approved", "NeedAssessment")"><i class="icon-plus"></i> Approved  </a></li>*@
     <li><a href="@Url.Action("Index", "NeedAssessment",new {id=(int)PlanStatus.AssessmentCreated})"><i class="icon-pencil"></i> Draft  </a></li>
-    <li><a href="@Url.Action("Index", "NeedAssessment",new {id=(int)PlanStatus.HRDCreated})"><i class="icon-pencil"></i> HRD Created Assessments </a></li>
+    <li><a href="@Url.Action("ApprovedNeedAssessment", "NeedAssessment",new {id=(int)PlanStatus.Approved})"><i class="icon-pencil"></i> Approved Assessment  </a></li>
+    <li><a href="@Url.Action("HRDCreateAssessment", "NeedAssessment", new { id = (int)PlanStatus.HRDCreated })"><i class="icon-pencil"></i> HRD Created Assessments </a></li>
     
 </ul>

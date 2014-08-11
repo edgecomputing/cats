@@ -128,7 +128,8 @@ namespace Cats.Areas.Procurement.Controllers
             var transportOrderStatus = new List<RequestStatus>
                 {
                     new RequestStatus() {StatusID = 1, StatusName = "Draft"},
-                    new RequestStatus() {StatusID = 2, StatusName = "Approved"}
+                    new RequestStatus() {StatusID = 2, StatusName = "Approved"},
+                    new RequestStatus() {StatusID = 3, StatusName = "Signed"}
                 };
             ViewBag.StatusID = new SelectList(transportOrderStatus, "StatusID", "StatusName");
             return View(viewModel);
@@ -561,6 +562,40 @@ namespace Cats.Areas.Procurement.Controllers
                 ModelState.AddModelError("Errors", "Unable to approve");
             }
            
+            return RedirectToAction("Index");
+        }
+        public ActionResult Signed(int id)
+        {
+            var transportOrder = _transportOrderService.FindById(id);
+            int orderDetailWithoutTarrif = 0;
+            try
+            {
+                foreach (var transportOrderDetail in transportOrder.TransportOrderDetails)
+                {
+                    if (transportOrderDetail.TariffPerQtl <= 0)
+                    {
+                        orderDetailWithoutTarrif = 1;
+                        break;
+                    }
+                }
+                if (orderDetailWithoutTarrif == 0)
+                {
+
+
+                    _transportOrderService.SignTransportOrder(transportOrder);
+                    return RedirectToAction("Index");
+                }
+                TempData["CustomError"] = "Transport Order Without Tariff can not be signed! Please Specify Tariff for each transport order detail! ";
+                return RedirectToAction("Index");
+                //ModelState.AddModelError("Errors", @"Transport Order Without Tariff can not be approved!");
+            }
+            catch (Exception ex)
+            {
+                var log = new Logger();
+                log.LogAllErrorsMesseges(ex, _log);
+                ModelState.AddModelError("Errors", "Unable to sign");
+            }
+
             return RedirectToAction("Index");
         }
         public ActionResult GenerateDispatchAllocation(int id)

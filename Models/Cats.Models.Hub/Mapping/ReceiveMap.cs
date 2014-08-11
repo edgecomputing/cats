@@ -63,8 +63,8 @@ namespace Cats.Models.Hubs.Mapping
             this.Property(t => t.PlateNo_Trailer).HasColumnName("PlateNo_Trailer");
             this.Property(t => t.DriverName).HasColumnName("DriverName");
             this.Property(t => t.WeightBridgeTicketNumber).HasColumnName("WeightBridgeTicketNumber");
-            this.Property(t => t.WeightBeforeUnloading).HasColumnName("WeightBeforeUnloading");
-            this.Property(t => t.WeightAfterUnloading).HasColumnName("WeightAfterUnloading");
+            this.Property(t => t.WeightBeforeUnloading).HasColumnName("WeightBeforeUnloading").HasPrecision(18, 4);
+            this.Property(t => t.WeightAfterUnloading).HasColumnName("WeightAfterUnloading").HasPrecision(18, 4); 
             this.Property(t => t.ReceiptDate).HasColumnName("ReceiptDate");
             this.Property(t => t.UserProfileID).HasColumnName("UserProfileID");
             this.Property(t => t.CreatedDate).HasColumnName("CreatedDate");

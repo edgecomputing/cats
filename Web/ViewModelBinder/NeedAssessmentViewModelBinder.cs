@@ -128,18 +128,34 @@ namespace Cats.ViewModelBinder
         public static IEnumerable<NeedAssessmentPlanViewModel> GetNeedAssessmentPlanInfo(IEnumerable<Plan> plans, List<WorkflowStatus> statuses)
         {
             
-            return plans.Select(viewModel => new NeedAssessmentPlanViewModel
-                {
-                    AssessmentName = viewModel.PlanName,
-                    PlanID = viewModel.PlanID,
-                    //NeedAssessmentID = viewModel.NeedAssessments.First().NeedAID,
-                    StartDate = viewModel.StartDate.ToCTSPreferedDateFormat(UserAccountHelper.UserCalendarPreference()),
-                    EndDate = viewModel.EndDate.ToCTSPreferedDateFormat(UserAccountHelper.UserCalendarPreference()),
-                    StatuID = viewModel.Status,
-                    //Status = statuses.Find(t => t.WorkflowID == (int)WORKFLOW.Plan && t.StatusID == viewModel.Status).Description
-                    //Year = (int) viewModel.NeedAssessments.First().Year
+            return plans.Select(viewModel =>
+            {
+                var firstOrDefault = viewModel.NeedAssessments.FirstOrDefault();
+                return firstOrDefault != null ? new NeedAssessmentPlanViewModel
+                                                 {
+                                                     AssessmentName = viewModel.PlanName,
+                                                     PlanID = viewModel.PlanID,
+                                                     NeedAssessmentID = firstOrDefault.NeedAID,
+                                                     //NeedAssessmentID = viewModel.NeedAssessments.First().NeedAID,
+                                                     StartDate = viewModel.StartDate.ToCTSPreferedDateFormat(UserAccountHelper.UserCalendarPreference()),
+                                                     EndDate = viewModel.EndDate.ToCTSPreferedDateFormat(UserAccountHelper.UserCalendarPreference()),
+                                                     StatuID = viewModel.Status,
+                                                     Status = statuses.Find(t => t.WorkflowID == (int)WORKFLOW.Plan && t.StatusID == viewModel.Status).Description
+                                                     //Year = (int) viewModel.NeedAssessments.First().Year
 
-                });
+                                                 }: new NeedAssessmentPlanViewModel
+                                                 {
+                                                     AssessmentName = viewModel.PlanName,
+                                                     PlanID = viewModel.PlanID,
+                                                     //NeedAssessmentID = viewModel.NeedAssessments.First().NeedAID,
+                                                     StartDate = viewModel.StartDate.ToCTSPreferedDateFormat(UserAccountHelper.UserCalendarPreference()),
+                                                     EndDate = viewModel.EndDate.ToCTSPreferedDateFormat(UserAccountHelper.UserCalendarPreference()),
+                                                     StatuID = viewModel.Status,
+                                                     //Status = statuses.Find(t => t.WorkflowID == (int)WORKFLOW.Plan && t.StatusID == viewModel.Status).Description
+                                                     //Year = (int) viewModel.NeedAssessments.First().Year
+
+                                                 };
+            });
 
 
         }

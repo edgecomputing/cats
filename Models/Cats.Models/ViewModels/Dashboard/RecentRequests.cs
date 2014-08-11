@@ -28,4 +28,16 @@ namespace Cats.Models.ViewModels.Dashboard
         public string Name { get; set; }
         
     }
+
+    public class RegionalRequestAllocationChange
+    {
+        public int RegionalRequestID { get; set; }
+        public string RequestNumber { get; set; }
+        public int Month { get; set; }
+        public DateTime RequestDate { get; set; }
+        public int Status { get; set; }
+        public int Beneficiaries { get; set; }
+        public decimal RequestedAmount { get; set; }
+        public decimal AllocatedAmount { get; set; }
+    }
 }
