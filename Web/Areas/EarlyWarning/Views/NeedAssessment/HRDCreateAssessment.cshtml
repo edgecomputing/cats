@@ -13,13 +13,13 @@
     @Html.Partial("_NeedAssessmentMainLeftBar")
 
 }
-@section Toolbar
+@*@section Toolbar
 {
 
     @Html.EarlyWarningOperationButton(
                         @Url.Action("CreateNeedAssessment", "NeedAssessment"),
                         EarlyWarningConstants.Operation.Create_new_needs_assessment, "<i class=\"icon-plus\"></i>", "btn", "btn_new_record")
-}
+}*@
 
 <h4>List of Planned Need Assessment</h4>
 @(Html.Kendo().Grid<Cats.Areas.EarlyWarning.Models.NeedAssessmentPlanViewModel>()
@@ -33,10 +33,6 @@
             columns.Bound(p => p.StartDate);
             columns.Bound(p => p.EndDate);
             columns.Bound(p => p.Status);
-            columns.Command(p =>
-            {
-                p.Custom("Approve").Click("approveNeedAssessment");
-            }).Width(150);
         })
     .HtmlAttributes(new { style = "height: 430px" })
     .Pageable()
@@ -47,44 +43,6 @@
         .PageSize(30)
         .ServerOperation(false)
         .Model(model => model.Id(p => p.PlanID))
-        .Read(read=>read.Action("NeedAssessment_Plan", "NeedAssessment",new {id=ViewBag.AssessmentStatus}))
+        .Read(read => read.Action("NeedAssessment_Plan", "NeedAssessment", new { id = ViewBag.AssessmentStatus }))
     )
-      )
-
-<div id="modalWindow">
-    <h4>Are you sure do you want to approve Need Assesssment?</h4>
-    <button id="yes" class="k-button">Yes</button>
-    <button id="no" class="k-button">No</button>
-</div>
-
-<script>
-    var wnd;
-    $(document).ready(function () {
-        wnd = $("#modalWindow").kendoWindow({
-            title: "Approve confirmation",
-            modal: true,
-            visible: false,
-            resizable: false,
-            width: 300
-        }).data("kendoWindow");
-    });
-</script>
-
-<script>
-    function approveNeedAssessment(e) {
-        e.preventDefault();
-        var grid = this;
-        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
-        var row = $(e.currentTarget).closest("tr");
-        wnd.center().open();
-
-        $("#yes").click(function() {
-            window.location = "@Url.Action("ApproveNeedAssessment","NeedAssessment")" + "/" + dataItem.PlanID;
-            wnd.close();
-        });
-
-        $("#no").click(function() {
-            wnd.close();
-        });
-    }
-</script>
+)

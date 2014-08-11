@@ -1878,6 +1878,8 @@
     <Content Include="Areas\EarlyWarning\Views\HRD\AddWoreda.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Home\EWMaps.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\NeedAssessment\Copy of Edit.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\NeedAssessment\ApprovedNeedAssessment.cshtml" />
+    <Content Include="Areas\EarlyWarning\Views\NeedAssessment\HRDCreateAssessment.cshtml" />
     <None Include="Areas\EarlyWarning\Views\PrintableReports\HRD\HRDDatasetForPrint.xsd">
       <SubType>Designer</SubType>
       <Generator>MSDataSetGenerator</Generator>
