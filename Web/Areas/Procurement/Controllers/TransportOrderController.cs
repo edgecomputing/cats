@@ -455,6 +455,8 @@ namespace Cats.Areas.Procurement.Controllers
                             Woreda = detail.FDP.AdminUnit.Name,
                             FDP = detail.FDP.Name,
                             RequisitionNo = detail.ReliefRequisition.RequisitionNo
+                           // Donor=detail.Donor.Name
+	
 
                         });
 

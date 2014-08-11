@@ -241,7 +241,12 @@ namespace Cats.Services.Procurement
                         transportOrderDetail.QuantityQtl = reliefRequisitionDetail.Amount;
                         transportOrderDetail.TariffPerQtl = transReq.TariffPerQtl;
                         transportOrderDetail.SourceWarehouseID = transReq.HubID;
+                        if (reliefRequisitionDetail.ReliefRequisition.ProgramID == (int)Programs.PSNP)
+                        {
+                            transportOrderDetail.DonorID = reliefRequisitionDetail.DonorID;
+                        }
                         transportOrder.TransportOrderDetails.Add(transportOrderDetail);
+                        
                     }
 
                 }
@@ -273,7 +278,7 @@ namespace Cats.Services.Procurement
             {
                 var transporterName = _unitOfWork.TransporterRepository.FindById(transportOrder.TransporterID).Name;
                 transportOrder.TransportOrderNo = string.Format("TRN-ORD-{0}", transportOrder.TransportOrderID);
-                transportOrder.ContractNumber = string.Format("{0}/{1}/{2}/{3}", "LTCD", DateTime.Today.Day, DateTime.Today.Year, transporterName.Substring(0, 2));
+                transportOrder.ContractNumber = string.Format("{0}/{1}/{2}/{3}/{4}", "LTCD", requisition.RegionID, DateTime.Today.Year, transporterName.Substring(0, 2),requisition.TransportRequisitionNo);
             }
 
             _unitOfWork.Save();
@@ -365,6 +370,8 @@ namespace Cats.Services.Procurement
                     transportOrder.BidDocumentNo = "Bid-Number";
 
                 }
+
+                var transRequisition = _unitOfWork.TransportRequisitionDetailRepository.FindById(transReqWithTransporter.SingleOrDefault().TransportRequisitionID).TransportRequisition;
                 transportOrder.PerformanceBondReceiptNo = "PERFORMANCE-BOND-NO";
                 //var transporterName = _unitOfWork.TransporterRepository.FindById(transporter).Name;
                 transportOrder.ContractNumber = Guid.NewGuid().ToString();
@@ -382,8 +389,9 @@ namespace Cats.Services.Procurement
                 {
                     transportOrder.TransportOrderNo = string.Format("TRN-ORD-{0}", 1);
                 }
-                transportOrder.ContractNumber = string.Format("{0}/{1}/{2}/{3}", "LTCD", DateTime.Today.Day,
-                                                              DateTime.Today.Year, transporterName.Substring(0, 3));
+                transportOrder.ContractNumber = string.Format("{0}/{1}/{2}/{3}/{4}", "LTCD", transRequisition.RegionID,
+                                                              DateTime.Today.Year, transporterName.Substring(0, 3),transRequisition.TransportRequisitionNo);
+
                 foreach (var detail in transReqWithTransporter)
                 {
                     var transportOrderDetail = new TransportOrderDetail();
