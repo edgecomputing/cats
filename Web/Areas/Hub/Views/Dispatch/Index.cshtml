@@ -89,10 +89,10 @@
     </script>
 <div class="field-set-title">
     <h2>@Html.Translate("Dispatch To FDPs")</h2>
-    @Html.ActionLink(Html.Translate("Dispatch Planning"), "Index", "DispatchAllocation")
+    @*@Html.ActionLink(Html.Translate("Dispatch Planning"), "Index", "DispatchAllocation")
     <span style="float: right">
         @Html.ActionLink(Html.Translate("New Dispatch"), "Create", "Dispatch", new { type = 1 }, null)
-    </span>
+    </span>*@
 </div>
 <div class="field-set">
 <table width="100%" class="borderless">
@@ -233,13 +233,13 @@
                        col.Bound(modelItem => modelItem.BidRefNo).HtmlAttributes(new { onclick = "return loadForm(this)" }).Title("BidRef #");
                        col.Bound(modelitem => modelitem.RequisitionNo).Title(Html.Translate("Req #"));
                        col.Bound(modelItem => modelItem.CommodityName).Title(Html.Translate("Commodity"));
-                       col.Bound(modelItem => modelItem.Amount).Format("{0:#,##0.0}").Title(Html.Translate("Planned " + quanityColumnHeader)).Width(30).HtmlAttributes(new { align = "right" });
-                       col.Bound(modelItem => modelItem.AmountInUnit).Format("{0:#,###.0}").Title(Html.Translate("Planned Unt")).Width(30).HtmlAttributes(new { align = "right" });
-                       col.Bound(modelItem => modelItem.DispatchedAmount).Format("{0:#,##0.0}").Title(Html.Translate("Dispatched " + quanityColumnHeader)).Width(30).HtmlAttributes(new { align = "right" });
-                       col.Bound(modelItem => modelItem.DispatchedAmountInUnit).Format("{0:#,##0.0}").Title(Html.Translate("Dispatched Unt" )).Width(30).HtmlAttributes(new { align = "right" });
-                       col.Bound(modelitem => modelitem.RemainingQuantityInQuintals).Format("{0:#,##0.0}").Title(Html.Translate("Remaining " + quanityColumnHeader)).Width(30).HtmlAttributes(new { align = "right" });
+                       col.Bound(modelItem => modelItem.Amount).Format("{0:#,##0.00}").Title(Html.Translate("Planned " + quanityColumnHeader)).Width(30).HtmlAttributes(new { align = "right" });
+                       col.Bound(modelItem => modelItem.AmountInUnit).Format("{0:#,###.00}").Title(Html.Translate("Planned Unt")).Width(30).HtmlAttributes(new { align = "right" });
+                       col.Bound(modelItem => modelItem.DispatchedAmount).Format("{0:#,##0.00}").Title(Html.Translate("Dispatched " + quanityColumnHeader)).Width(30).HtmlAttributes(new { align = "right" });
+                       col.Bound(modelItem => modelItem.DispatchedAmountInUnit).Format("{0:#,##0.00}").Title(Html.Translate("Dispatched Unt" )).Width(30).HtmlAttributes(new { align = "right" });
+                       col.Bound(modelitem => modelitem.RemainingQuantityInQuintals).Format("{0:#,##0.00}").Title(Html.Translate("Remaining " + quanityColumnHeader)).Width(30).HtmlAttributes(new { align = "right" });
                        //col.Bound(modelitem => modelitem.RemainingQuantityInQuintals).Format("{0:#,##0.0}").Title(Html.Translate("Remaining " + quanityColumnHeader)).Width(30).HtmlAttributes(new { align = "right" });
-                       col.Bound(modelitem => modelitem.RemainingQuantityInUnit).Format("{0:#,##0.0}").Title(Html.Translate("Remaining Unt")).Width(30).HtmlAttributes(new { align = "right" });
+                       col.Bound(modelitem => modelitem.RemainingQuantityInUnit).Format("{0:#,##0.00}").Title(Html.Translate("Remaining Unt")).Width(30).HtmlAttributes(new { align = "right" });
                        //col.Bound(modelItem => modelItem.Region).Title(Html.Translate("Region"));
                        //col.Bound(modelItem => modelItem.Zone).Title(Html.Translate("Zone"));
                        //col.Bound(modelItem => modelItem.Woreda).Title(Html.Translate("Woreda"));

@@ -11,6 +11,10 @@
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
 
+@section Toolbar
+{
+     <a class="btn toolbar-btn " data-buttontype="btn_back_to_list" href="@Url.Action("Index", "Ration")"></a>
+}
 @section LeftBar
 {
     <ul class="nav nav-list">
