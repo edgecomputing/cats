@@ -177,7 +177,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             if (id == 0)
                 plans =
                     _planService.FindBy(
-                        m => m.Program.Name == "Relief" && m.Status == (int) PlanStatus.AssessmentCreated)
+                        m => m.Program.Name == "Relief" && m.Status == (int) PlanStatus.Draft)
                         .OrderByDescending(m => m.PlanID)
                         .ToList();
             else
