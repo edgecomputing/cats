@@ -151,10 +151,10 @@ namespace Cats.Services.Common
 
             String query = String.Format(@"SELECT SOH.QuantityInMT - ABS(ISNULL(Commited.QuantityInMT, 0)) as amount, SOH.ProjectCodeID pcCodeId, ProjectCode.Value PCcode, SOH.HubID as HubId, Hub.Name HubName 
                                                         from (SELECT SUM(QuantityInMT) QuantityInMT , ProjectCodeID, HubID from [Transaction] 
-					                                        WHERE LedgerID = {0} and CommodityID = {2} {3}
+					                                        WHERE LedgerID = {0} and CommodityID = {2} {3} and ShippingInstructionID = NULL
 					                                        GROUP BY HubID, ProjectCodeID) AS SOH
 	                                            LEFT JOIN (SELECT SUM(QuantityInMT) QuantityInMT, ProjectCodeID, HubID from [Transaction]
-					                                        WHERE LedgerID = {1} and CommodityID = {2} {3}
+					                                        WHERE LedgerID = {1} and CommodityID = {2} {3} and ShippingInstructionID = NULL
 					                                        GROUP By HubID, ProjectCodeID) AS Commited	
 		                                            ON SOH.ProjectCodeID = Commited.ProjectCodeID and SOH.HubId = Commited.HubId
 	                                            JOIN ProjectCode 

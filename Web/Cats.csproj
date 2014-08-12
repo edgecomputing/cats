@@ -195,6 +195,8 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Areas\EarlyWarning\Controllers\ContributionController.cs" />
+    <Compile Include="Areas\Hub\Controllers\AdminUnitController.cs" />
+    <Compile Include="Areas\Hub\Controllers\CommodityController.cs" />
     <Compile Include="Areas\Hub\Models\StoreViewModel.cs" />
     <Compile Include="Areas\Settings\Controllers\AccountController.cs" />
     <Compile Include="Areas\Settings\Controllers\CurrencyController.cs" />

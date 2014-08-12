@@ -571,6 +571,10 @@ namespace Cats.Areas.EarlyWarning.Controllers
             ViewBag.programId = programId;
             ViewBag.RequestID = id;
 
+            var user = _userAccountService.GetUserInfo(User.Identity.Name);
+
+            _regionalRequestService.DraftRequest(id, user);
+
             RegionalRequest request =
                 _regionalRequestService.Get(t => t.RegionalRequestID == id, null, "AdminUnit,Program,Ration").FirstOrDefault();
             var statuses = _commonService.GetStatus(WORKFLOW.REGIONAL_REQUEST);
