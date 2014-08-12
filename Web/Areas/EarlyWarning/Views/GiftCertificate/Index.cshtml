@@ -24,97 +24,115 @@ Gift Certificate
 }
 
 
-@section Toolbar
-{
-    @Html.EarlyWarningOperationButton(
-                        @Url.Action("Create", "GiftCertificate", new { Area = "EarlyWarning" }),
-                        EarlyWarningConstants.Operation.New_Gift_Certificate, "<span class=\"icon-plus\"></span>", "btn", "btn_new_record")
-}
 <div class="box box-primary">
 
     <div class="col-md-12 box-body" style="display: block;">
-        <div class="input-group mrgn10-b col-md-4">
-            <div class="input-group-btn">
-                <button class="btn btn-primary" type="button">Search</button>
+        <div class="row">
+            <div class="mrgn5-v col-md-4">
+                <div class="input-group ">
+                    <div class="input-group-btn">
+                        <button class="btn btn-primary" type="button">Search</button>
+                    </div>
+
+                    <input type="text" id="search" class="form-control col-md-4"></input>
+                </div>
+
             </div>
-            
-            <input type="text" id="search" class="form-control col-md-4"></input>
+            <div class="text-right col-md-8">
+
+                @Html.EarlyWarningOperationButton(
+                @Url.Action("Create", "GiftCertificate", new { Area = "EarlyWarning" }),
+                EarlyWarningConstants.Operation.New_Gift_Certificate, "<button type=\"button\" class=\"btn btn-success\"><span class=\"fa fa-plus\"></span> Add Gift Certificate</button>" , "btn btn-success", "btn_new_record")
+
+
+            </div>
+
         </div>
 
 
         <div class="table-responsive">
             @(Html.Kendo().Grid(Model).Name("GiftCertificateGrid")
-    .Columns(col =>
-    {
-        col.Bound(gc => gc.ReferenceNo).Title(Html.Translate("Reference N<u>o</u>"));
-        col.Bound(gc => gc.Donor);
-        col.Bound(gc => gc.GiftDatePref).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid" });
-        col.Bound(gc => gc.SINumber).Title("SI N<u>o</u>");
-        col.Bound(gc => gc.DeclarationNumber).Title("Declaration N<u>o</u>");
-        col.Template(
-    @<text>
+                  .Columns(col =>
+                               {
+                                   col.Bound(gc => gc.ReferenceNo).Title(Html.Translate("Reference N<u>o</u>"));
+                                   col.Bound(gc => gc.Donor);
+                                   col.Bound(gc => gc.GiftDatePref).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid" });
+                                   col.Bound(gc => gc.SINumber).Title("SI N<u>o</u>");
+                                   col.Bound(gc => gc.DeclarationNumber).Title("Declaration N<u>o</u>");
+                                   col.Template(
+                                       @<text>
 
             @if (item.StatusID == 1)
             {
                 @Html.EarlyWarningOperationButton(
-                        @Url.Action("Edit", new { id = item.GiftCertificateID }),
-                        EarlyWarningConstants.Operation.Edit_Gift_Certificate, " <button type=\"button\" class=\"btn btn-xs btn-warning\"><span class=\"fa fa-pencil-square-o\"></span> Edit</button> ")
+                                                    @Url.Action("Edit", new { id = item.GiftCertificateID }),
+                                                    EarlyWarningConstants.Operation.Edit_Gift_Certificate, " <button type=\"button\" class=\"btn btn-xs btn-warning\"><span class=\"fa fa-pencil-square-o\"></span> Edit</button> ")
                 
                 @Html.EarlyWarningOperationButton(
-                        @Url.Action("Detail", new { id = item.GiftCertificateID }),
-                        EarlyWarningConstants.Operation.Edit_Gift_Certificate, " <button type=\"button\" class=\"btn btn-xs btn-primary\"><span class=\"fa fa-list\"></span> Detail</button> ")
+                                                    @Url.Action("Detail", new { id = item.GiftCertificateID }),
+                                                    EarlyWarningConstants.Operation.Edit_Gift_Certificate, " <button type=\"button\" class=\"btn btn-xs btn-primary\"><span class=\"fa fa-list\"></span> Detail</button> ")
                
                 @Html.EarlyWarningOperationButton(
-                        @Url.Action("Approved", "GiftCertificate", new { id = item.GiftCertificateID }),
-                        EarlyWarningConstants.Operation.Approve_Gift_Certeficate, " <button type=\"button\" class=\"btn btn-xs btn-success\"><span class=\"fa fa-check\"></span> Approve</button> ", "btn-Approve-Gift", "", "btnApprove")
+                                                    @Url.Action("Approved", "GiftCertificate", new { id = item.GiftCertificateID }),
+                                                    EarlyWarningConstants.Operation.Approve_Gift_Certeficate, " <button type=\"button\" class=\"btn btn-xs btn-success\"><span class=\"fa fa-check\"></span> Approve</button> ", "btn-Approve-Gift", "", "btnApprove")
             }
             else
             {
-               <div class="label label-success">Approved</div>
+                <div class="label label-success">Approved</div>
             }
             </text>
 
-    ).Title("Action").Width("30%");
+                                       ).Title("Action").Width("30%");
 
 
-    }
-                            ).DetailTemplate(detail =>
-                                Html.Kendo().Grid(detail.GiftCertificateDetails).Name("GCDetails" + detail.GiftCertificateID)
-                                .Columns(c =>
-                                {
-                                    c.Bound(com => com.CommodityName);
-                                    c.Bound(gc => gc.WeightInMT).Format("{0:N2}").HtmlAttributes(new { align = "right" }).Title(Html.Translate("Weight in MT"));
-                                    c.Bound(gc => gc.EstimatedPrice).Format("{0:N2}").HtmlAttributes(new { align = "right" }).Title(Html.Translate("Est. Price"));
-                                    c.Bound(gc => gc.EstimatedTax).Format("{0:N2}").HtmlAttributes(new { align = "right" }).Title(Html.Translate("Est. Tax"));
-                                    c.Bound(gc => gc.FundSource).Title(Html.Translate("Fund Source"));
-                                })
-                            ).Filterable().Sortable().Scrollable().HtmlAttributes(new { style = "width:100%; height:550px;" })
-    )
+                               }
+                  ).DetailTemplate(detail =>
+                                   Html.Kendo().Grid(detail.GiftCertificateDetails).Name("GCDetails" + detail.GiftCertificateID)
+                                       .Columns(c =>
+                                                    {
+                                                        c.Bound(com => com.CommodityName);
+                                                        c.Bound(gc => gc.WeightInMT).Format("{0:N2}").HtmlAttributes(new { align = "right" }).Title(Html.Translate("Weight in MT"));
+                                                        c.Bound(gc => gc.EstimatedPrice).Format("{0:N2}").HtmlAttributes(new { align = "right" }).Title(Html.Translate("Est. Price"));
+                                                        c.Bound(gc => gc.EstimatedTax).Format("{0:N2}").HtmlAttributes(new { align = "right" }).Title(Html.Translate("Est. Tax"));
+                                                        c.Bound(gc => gc.FundSource).Title(Html.Translate("Fund Source"));
+                                                    })
+                  ).Filterable().Sortable().Scrollable().HtmlAttributes(new { style = "width:100%; height:550px;" })
+                  )
         </div>
     </div>
 </div>
 
 
 
-<div id="cats-modal" class="modal hide fade" tabindex="-1" role="dialog">
-    
-</div>
-<script type="text/javascript">
-    
+<div id="cats-modal"></div>
 
+<script type="text/javascript">
+    $('.btn-Approve-Gift').on('click',
+                 function (e) {
+                     $('#cats-modal').remove();
+                     e.preventDefault();
+                     var $this = $(this)
+                       , $remote = $this.data('remote') || $this.attr('href')
+                       , $modal = $('<div class="modal" id="cats-modal"><div class="modal-body"></div></div>');
+                     console.log($remote);
+                     $('body').append($modal);
+                     $modal.modal({ backdrop: 'static', keyboard: false });
+                     $modal.load($remote);
+                 }
+               );
 
     $(function () {
 
         //Optional: turn the chache off
         $.ajaxSetup({ cache: false });
-       
 
-        $('.btn-Approve-Gift').click(function () {
-         $('#cats-modal').load(this.href, function () {
-             $('#cats-modal').modal({ show: true });
-          });
-            return false;
-        });
+
+        //$('.btn-Approve-Gift').click(function () {
+        //    $('#cats-modal').load(this.href, function () {
+        //        $('#cats-modal').modal({ show: true });
+        //    });
+        //    return false;
+        //});
         $('.btn-Print-gift').click(function () {
             $('#dialogContent').load(this.href, function () {
                 $('#dialogDiv').modal({

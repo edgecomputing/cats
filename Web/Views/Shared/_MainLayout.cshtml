@@ -14,7 +14,10 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <link rel="shortcut icon" type="image/ico" href="~/Content/images/CATS_Blue.ico">
-    <title>@RenderSection("Title") @Html.Translate("- CATS")</title>
+    <title>
+        @RenderSection("Title", required: false)
+        @Html.Translate("- CATS")
+    </title>
 
 
     <link href="~/Scripts/css/bootstrap.min.css" rel="stylesheet" />
@@ -23,7 +26,7 @@
     <link href="~/Scripts/css/cats.css" rel="stylesheet" />
     <link href="~/Scripts/css/utility.css" rel="stylesheet" />
 
-  
+
     <link href="@Url.Content("~/Content/kendo/2013.1.319/kendo.default.min.css")" rel="stylesheet" type="text/css" />
     <link href="@Url.Content("~/Content/kendo/2013.1.319/kendo.bootstrap.min.css")" rel="stylesheet" type="text/css" />
     <link href="~/Content/kendo/2013.1.319/kendo.common.min.css" rel="stylesheet" />
@@ -31,6 +34,7 @@
 
 
     @RenderSection("styles", required: false)
+
 
     <script src="~/Scripts/jquery-1.9.1.min.js"></script>
     <script src="~/Scripts/js/bootstrap.min.js"></script>
@@ -42,11 +46,11 @@
     <script src="~/Scripts/angular/angular.js"></script>
     <script src="~/Scripts/angular/angular-resource.js"></script>
     <script src="~/Scripts/js/app.js"></script>
-    
+
     <script src="~/Scripts/Beka.EthDate/Beka.EthDate.js"></script>
     <script src="~/Scripts/Beka.EthDate/jquery.Beka.EthCalDatePicker.js"></script>
     <script src="~/Scripts/js/CatsUI.js"></script>
-    
+
     <link href="~/Scripts/jquery_ui/jquery-ui.min.css" rel="stylesheet" />
     <script src="~/Scripts/jquery_ui/jquery-ui.min.js"></script>
     <link href="~/Scripts/jquery_ui/jquery-ui.structure.min.css" rel="stylesheet" />
@@ -61,8 +65,7 @@
 
 
     <div class="row cats-breadcrumb">
-         @RenderSection("PageTitle")
-                      
+        <div class="col-md-6">@RenderSection("PageTitle", required: false)</div>
         <ol class="col-md-6 breadcrumb">
             <li><span class="fa fa-lg fa-home"></span><a href="#">Home</a></li>
             @RenderSection("Breadcrumb", required: false)
@@ -89,22 +92,22 @@
                 @{
                     if (IsSectionDefined("ActionBar"))
                     {
-                        <div class="row action-menu-cnt">
-                            <div class="action-menu">
-                                 @RenderSection("ActionBar", required: false)
-                              
-                            </div>
+                    <div class="row action-menu-cnt">
+                        <div class="action-menu">
+                            @RenderSection("ActionBar", required: false)
+
                         </div>
+                    </div>
                     
                     }
                     
                     
                 }
-               
-                
-                    @RenderBody()
-                
-               
+
+
+                @RenderBody()
+
+
             </div>
 
 

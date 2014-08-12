@@ -19,6 +19,7 @@ namespace Cats.Services.EarlyWarning
         {
             this._unitOfWork = unitOfWork;
         }
+
         #region Default Service Implementation
         public bool AddHubAllocation(HubAllocation hubAllocation)
         {
@@ -26,15 +27,27 @@ namespace Cats.Services.EarlyWarning
 
             var requisition = _unitOfWork.ReliefRequisitionRepository.FindBy(r => r.RequisitionID == hubAllocation.RequisitionID).Single();
             requisition.Status = 3;
-         
-            
 
             _unitOfWork.Save();
             return true;
-
-           
-
         }
+
+        public void AddHubAllocations(IEnumerable<Allocation> allocations, int userProfileId)
+        {
+            foreach (var appRequisition in allocations)
+            {
+                var newHubAllocation = new HubAllocation
+                {
+                    AllocatedBy = userProfileId,
+                    RequisitionID = appRequisition.ReqId,
+                    AllocationDate = DateTime.Now.Date,
+                    ReferenceNo = "001",
+                    HubID = appRequisition.HubId
+                };
+                AddHubAllocation(newHubAllocation);
+            }
+        }
+
         public bool EditHubAllocation(HubAllocation hubAllocation)
         {
             _unitOfWork.HubAllocationRepository.Edit(hubAllocation);

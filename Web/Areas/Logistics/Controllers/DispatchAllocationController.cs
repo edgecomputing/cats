@@ -187,27 +187,13 @@ namespace Cats.Areas.Logistics.Controllers
 
             try
             {
-                foreach (Allocation appRequisition in allocation)
-                {
+                _HubAllocationService.AddHubAllocations(allocation, user.UserProfileID);
 
-                    var newHubAllocation = new HubAllocation();
-
-                    newHubAllocation.AllocatedBy = user.UserProfileID;
-                    newHubAllocation.RequisitionID = appRequisition.ReqId;
-                    newHubAllocation.AllocationDate = DateTime.Now.Date;
-                    newHubAllocation.ReferenceNo = "001";
-                    newHubAllocation.HubID = appRequisition.HubId;
-
-
-                    _HubAllocationService.AddHubAllocation(newHubAllocation);
-
-                }
                 ModelState.AddModelError("Success","Allocation is Saved.");
                 return Json(new { success = true });
             }
             catch (Exception ex)
             {
-
                 return Json(new { success = false, errorMessage = ex.Message });
             }
 
@@ -264,7 +250,18 @@ namespace Cats.Areas.Logistics.Controllers
 
         }
 
-       
+      public ActionResult RejectRequsition(int id)
+      {
+          var requistion = _reliefRequisitionService.FindById(id);
+          if (requistion!=null)
+          {
+              requistion.Status = (int) ReliefRequisitionStatus.Rejected;
+              _reliefRequisitionService.EditReliefRequisition(requistion);
+
+              return RedirectToAction("Index", new { regionId = requistion.RegionID });
+          }
+          return RedirectToAction("Index");
+      }
 
     }
 }
