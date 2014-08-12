@@ -111,7 +111,7 @@ namespace Cats.Areas.Logistics.Controllers
         }
         public FreeSIPC getSIPCLists(int reqId, int CommodityID)
         {
-            var hubId = 0;// _hubAllocationService.GetAllocatedHubId(reqId);
+            var hubId = _hubAllocationService.GetAllocatedHubId(reqId);
             List<LedgerService.AvailableShippingCodes> freeSICodes = _ledgerService.GetFreeSICodesByCommodity(hubId, CommodityID);
             List<LedgerService.AvailableProjectCodes> freePCCodes = _ledgerService.GetFreePCCodesByCommodity(hubId, CommodityID);
             FreeSIPC free = new FreeSIPC { FreePCCodes = freePCCodes, FreeSICodes = freeSICodes };
