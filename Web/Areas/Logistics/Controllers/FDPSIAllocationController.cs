@@ -20,7 +20,6 @@ namespace Cats.Areas.Logistics.Controllers
         private readonly IReliefRequisitionService _requisitionService;
         private readonly ILedgerService _ledgerService;
         private readonly IHubAllocationService _hubAllocationService;
-        private readonly IProjectCodeAllocationService _projectCodeAllocationService;
         private readonly IHubService _hubService;
         private readonly ISIPCAllocationService _allocationService;
         private readonly ITransactionService _transactionService;
@@ -29,9 +28,7 @@ namespace Cats.Areas.Logistics.Controllers
             (
              IReliefRequisitionService requisitionService
             , ILedgerService ledgerService
-            , IHubAllocationService hubAllocationService
-            , IProjectCodeAllocationService projectCodeAllocationService
-            , IHubService hubService
+            , IHubAllocationService hubAllocationService, IHubService hubService
             ,ISIPCAllocationService allocationService
             ,ITransactionService transactionService
             )
@@ -39,8 +36,7 @@ namespace Cats.Areas.Logistics.Controllers
                 this._requisitionService = requisitionService;
                 this._ledgerService = ledgerService;
                 this._hubAllocationService = hubAllocationService;
-                this._projectCodeAllocationService = projectCodeAllocationService;
-                this._hubService = hubService;
+            this._hubService = hubService;
                 this._allocationService = allocationService;
                 this._transactionService = transactionService;
             }

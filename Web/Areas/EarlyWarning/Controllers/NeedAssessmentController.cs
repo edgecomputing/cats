@@ -7,6 +7,7 @@ using Cats.Models;
 using Cats.Models.Constant;
 using Cats.Services.Common;
 using Cats.Services.EarlyWarning;
+using Cats.Services.Procurement.Annotations;
 using Cats.Services.Security;
 using Kendo.Mvc.UI;
 using Kendo.Mvc.Extensions;
@@ -107,7 +108,6 @@ namespace Cats.Areas.EarlyWarning.Controllers
             return View(needAssessement);
         }
 
-
         [HttpPost]
         public ActionResult CreateNeedAssessment(NeedAssessment needAssessment, FormCollection collection)
         {
@@ -173,8 +173,19 @@ namespace Cats.Areas.EarlyWarning.Controllers
         public ActionResult NeedAssessment_Plan([DataSourceRequest] DataSourceRequest request,int id=0)
         {
             var needAssessment = _needAssessmentService.GetAllNeedAssessment().Select(m => m.PlanID).Distinct();
-            var plans = id == 0 ? _planService.FindBy(m => m.Program.Name == "Relief" && m.Status == (int)PlanStatus.AssessmentCreated).OrderByDescending(m => m.PlanID).ToList()
-                : _planService.FindBy(m => needAssessment.Contains(m.PlanID) && m.Program.Name == "Relief" && m.Status == id).OrderByDescending(m => m.PlanID).ToList();
+            List<Plan> plans;
+            if (id == 0)
+                plans =
+                    _planService.FindBy(
+                        m => m.Program.Name == "Relief" && m.Status == (int) PlanStatus.Draft)
+                        .OrderByDescending(m => m.PlanID)
+                        .ToList();
+            else
+                plans =
+                    _planService.FindBy(
+                        m => needAssessment.Contains(m.PlanID) && m.Program.Name == "Relief" && m.Status == id)
+                        .OrderByDescending(m => m.PlanID)
+                        .ToList();
             var statuses = _commonService.GetStatus(WORKFLOW.Plan);
             var needAssesmentsViewModel = NeedAssessmentViewModelBinder.GetNeedAssessmentPlanInfo(plans,statuses);
             return Json(needAssesmentsViewModel.ToDataSourceResult(request));
@@ -222,11 +233,28 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
         public ActionResult ApproveNeedAssessment(int id)
         {
-            var needAssessment = _needAssessmentService.FindById(id);
-            needAssessment.NeedAApproved = true;
-            _needAssessmentService.EditNeedAssessment(needAssessment);
+            var plan = _planService.FindById(id);
+            plan.Status = (int) PlanStatus.Approved;
+            _planService.EditPlan(plan);
             return RedirectToAction("Index");
         }
+
+        public ActionResult ApprovedNeedAssessment()
+        {
+            ViewBag.AssessmentStatus = (int) PlanStatus.Approved;
+            ViewData["zones"] = _adminUnitService.FindBy(t => t.AdminUnitTypeID == 3);
+            ViewData["woredas"] = _adminUnitService.FindBy(t => t.AdminUnitTypeID == 4);
+            return View();
+        }
+
+        public ActionResult HRDCreateAssessment()
+        {
+            ViewBag.AssessmentStatus = (int)PlanStatus.HRDCreated;
+            ViewData["zones"] = _adminUnitService.FindBy(t => t.AdminUnitTypeID == 3);
+            ViewData["woredas"] = _adminUnitService.FindBy(t => t.AdminUnitTypeID == 4);
+            return View();
+        }
+
         public ActionResult EditNeedAssessment(int id)
         {
             try

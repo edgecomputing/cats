@@ -7,16 +7,12 @@ using System.Web.Mvc;
 using Cats.Helpers;
 using Cats.Models;
 using Cats.Models.Constant;
-using Cats.Services.Common;
 using Cats.Services.EarlyWarning;
 using Cats.Services.Security;
 using Cats.Services.Transaction;
 using Cats.ViewModelBinder;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
-
-using log4net;
-
 using Cats.Helpers;
 using IAdminUnitService = Cats.Services.EarlyWarning.IAdminUnitService;
 using IHubService = Cats.Services.EarlyWarning.IHubService;
@@ -29,30 +25,29 @@ namespace Cats.Areas.Logistics.Controllers
         //
         // GET: /Logistics/DispatchAllocation/
 
-        private readonly IReliefRequisitionDetailService _reliefRequisitionDetailService;
         private readonly IReliefRequisitionService _reliefRequisitionService;
         private readonly IHubService _hubService;
-        private readonly IHubAllocationService _HubAllocationService;
+        private readonly IHubAllocationService _hubAllocationService;
         private readonly IAdminUnitService _adminUnitService;
         private readonly INeedAssessmentService _needAssessmentService;
-        private readonly IAllocationByRegionService _AllocationByRegionService;
-        private readonly INotificationService _notificationService;
-        private readonly ILog _log;
+        private readonly IAllocationByRegionService _allocationByRegionService;
         private readonly IUserAccountService _userAccountService;
 
 
-        public DispatchAllocationController(IReliefRequisitionService reliefRequisitionService, IReliefRequisitionDetailService reliefRequisitionDetailService, IHubService hubService, IAdminUnitService adminUnitService, INeedAssessmentService needAssessmentService, IHubAllocationService hubAllocationService, IUserAccountService userAccountService, ILog log, IAllocationByRegionService allocationByRegionService, INotificationService notification)
+        public DispatchAllocationController(IReliefRequisitionService reliefRequisitionService,
+            IHubService hubService, IAdminUnitService adminUnitService,
+            INeedAssessmentService needAssessmentService,
+            IHubAllocationService hubAllocationService,
+            IUserAccountService userAccountService,
+            IAllocationByRegionService allocationByRegionService)
         {
             _reliefRequisitionService = reliefRequisitionService;
-            _reliefRequisitionDetailService = reliefRequisitionDetailService;
             _hubService = hubService;
             _adminUnitService = adminUnitService;
             _needAssessmentService = needAssessmentService;
-            _HubAllocationService = hubAllocationService;
+            _hubAllocationService = hubAllocationService;
             _userAccountService = userAccountService;
-            _log = log;
-            _AllocationByRegionService = allocationByRegionService;
-            _notificationService = notification;
+            _allocationByRegionService = allocationByRegionService;
         }
 
 
@@ -117,7 +112,7 @@ namespace Cats.Areas.Logistics.Controllers
         {
             List<AllocationByRegion> requisititions = null;
             requisititions = regionId != -1
-                                 ? _AllocationByRegionService.FindBy(
+                                 ? _allocationByRegionService.FindBy(
                                      r =>
                                      r.Status == (int)ReliefRequisitionStatus.HubAssigned && r.RegionID == regionId)
                                  : null;// _AllocationByRegionService.FindBy(r => r.Status == (int)ReliefRequisitionStatus.HubAssigned);
@@ -134,7 +129,7 @@ namespace Cats.Areas.Logistics.Controllers
             if (regionId == -1 || status == -1) return Json((new List<RequisitionViewModel>()).ToDataSourceResult(request));
             requisititions = _reliefRequisitionService.FindBy(
                 r =>
-                r.Status == status && r.RegionID == regionId).OrderByDescending(t=>t.RequisitionID).ToList();
+                r.Status == status && r.RegionID == regionId).OrderByDescending(t => t.RequisitionID).ToList();
 
 
             var requisitionViewModel = HubAllocationViewModelBinder.ReturnRequisitionGroupByReuisitionNo(requisititions);
@@ -153,7 +148,7 @@ namespace Cats.Areas.Logistics.Controllers
         public ActionResult AssignHubFromLogisticsDashboard(int paramRegionId)
         {
             ViewBag.regionId = paramRegionId;
-           return RedirectToAction("Hub", new { regionId = paramRegionId });
+            return RedirectToAction("Hub", new { regionId = paramRegionId });
 
         }
         public ActionResult Hub(int regionId)
@@ -187,9 +182,9 @@ namespace Cats.Areas.Logistics.Controllers
 
             try
             {
-                _HubAllocationService.AddHubAllocations(allocation, user.UserProfileID);
+                _hubAllocationService.AddHubAllocations(allocation, user.UserProfileID);
 
-                ModelState.AddModelError("Success","Allocation is Saved.");
+                ModelState.AddModelError("Success", "Allocation is Saved.");
                 return Json(new { success = true });
             }
             catch (Exception ex)
@@ -231,10 +226,10 @@ namespace Cats.Areas.Logistics.Controllers
                     var allc = new HubAllocationByRegionViewModel();
 
                     allc.Region = allocationByRegion.Name;
-                    allc.RegionId = (int) allocationByRegion.RegionID;
-                    allc.AdminUnitID = (int) allocationByRegion.RegionID;
+                    allc.RegionId = (int)allocationByRegion.RegionID;
+                    allc.AdminUnitID = (int)allocationByRegion.RegionID;
                     allc.Hub = allocationByRegion.Hub;
-                    allc.AllocatedAmount = ((decimal) allocationByRegion.Amount).ToPreferedWeightUnit();
+                    allc.AllocatedAmount = ((decimal)allocationByRegion.Amount).ToPreferedWeightUnit();
 
                     r.Add(allc);
                 }
@@ -250,18 +245,18 @@ namespace Cats.Areas.Logistics.Controllers
 
         }
 
-      public ActionResult RejectRequsition(int id)
-      {
-          var requistion = _reliefRequisitionService.FindById(id);
-          if (requistion!=null)
-          {
-              requistion.Status = (int) ReliefRequisitionStatus.Rejected;
-              _reliefRequisitionService.EditReliefRequisition(requistion);
+        public ActionResult RejectRequsition(int id)
+        {
+            var requistion = _reliefRequisitionService.FindById(id);
+            if (requistion != null)
+            {
+                requistion.Status = (int)ReliefRequisitionStatus.Rejected;
+                _reliefRequisitionService.EditReliefRequisition(requistion);
 
-              return RedirectToAction("Index", new { regionId = requistion.RegionID });
-          }
-          return RedirectToAction("Index");
-      }
+                return RedirectToAction("Index", new { regionId = requistion.RegionID });
+            }
+            return RedirectToAction("Index");
+        }
 
     }
 }

@@ -17,9 +17,9 @@ namespace Cats.Models.Mapping
             this.Property(t => t.TransportOrderID).HasColumnName("TransportOrderID");
             this.Property(t => t.FdpID).HasColumnName("FdpID");
             this.Property(t => t.SourceWarehouseID).HasColumnName("SourceWarehouseID");
-            this.Property(t => t.QuantityQtl).HasColumnName("QuantityQtl");
-            this.Property(t => t.DistanceFromOrigin).HasColumnName("DistanceFromOrigin");
-            this.Property(t => t.TariffPerQtl).HasColumnName("TariffPerQtl");
+            this.Property(t => t.QuantityQtl).HasColumnName("QuantityQtl").HasPrecision(18,4);
+            this.Property(t => t.DistanceFromOrigin).HasColumnName("DistanceFromOrigin").HasPrecision(18, 4); 
+            this.Property(t => t.TariffPerQtl).HasColumnName("TariffPerQtl").HasPrecision(18,4);
             this.Property(t => t.RequisitionID).HasColumnName("RequisitionID");
             this.Property(t => t.CommodityID).HasColumnName("CommodityID");
             this.Property(t => t.ZoneID).HasColumnName("ZoneID");
