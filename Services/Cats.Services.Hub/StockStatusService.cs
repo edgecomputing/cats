@@ -191,6 +191,34 @@ namespace Cats.Services.Hub
           return _unitOfWork.VWTransferredStock.Get(filter, null, string.Empty).ToList();
 
       }
+     public List<HubDispatchAllocationViewModel> GetHubDispatchAllocation(int program, DateTime date)
+
+    {
+        string query = string.Format(@" SELECT  GOH.HubID, GOH.QuantityInMT TotalPhysicalStock, (GOH.QuantityInMT - ISNULL(Commited.QuantityInMT,0) ) TotalFreestock, (ISNULL(DispatchedQuantity.QuantityInMT,0)) Dispatched,
+                                                Hub.Name HubName ,(GOH.QuantityInMT -ISNULL(DispatchedQuantity.QuantityInMT,0)) Remaining
+												FROM 
+
+                                                (SELECT SUM(QuantityInMT) QuantityInMT, ProgramID, HubID
+	                                                FROM  [CatsMaster].[dbo].[Transaction]
+	                                                WHERE LedgerID = {0}  AND ProgramID = {4}
+	                                                GROUP BY ProgramID,HubID) GOH
+	                                                LEFT JOIN
+		                                                (SELECT ABS(SUM(QuantityInMT)) QuantityInMT, ProgramID, HubID
+			                                                FROM  [CatsMaster].[dbo].[Transaction]
+			                                                WHERE LedgerID = {1}  AND TransactionDate < =  {3} AND ProgramID = {4}
+			                                                GROUP BY ProgramID,HubID) Commited
+															  ON GOH.HubID = Commited.HubID
+													LEFt JOIN (SELECT ABS(SUM(QuantityInMT)) QuantityInMT, ProgramID, HubID
+			                                                FROM  [CatsMaster].[dbo].[Transaction]
+			                                                WHERE LedgerID = {2}  AND TransactionDate < =  {3} AND ProgramID = {4}
+															 GROUP BY ProgramID,HubID) DispatchedQuantity
+
+			                                                ON GOH.HubID = DispatchedQuantity.HubID
+
+															JOIN [CatsMaster].[dbo].Hub on Hub.HubID = GOH.HubID
+															", Cats.Models.Ledger.Constants.GOODS_ON_HAND, Cats.Models.Ledger.Constants.COMMITED_TO_FDP, Cats.Models.Ledger.Constants.GOODS_IN_TRANSIT, "'" + date.AddDays(1).ToString(CultureInfo.InvariantCulture) + "'", program);
+        return _unitOfWork.Database.SqlQuery<HubDispatchAllocationViewModel>(query).ToList();
+    }
         public void Dispose()
         {
             _unitOfWork.Dispose();

@@ -5,8 +5,10 @@ using System.Web;
 using System.Web.Mvc;
 using Cats.Areas.Procurement.Models;
 using Cats.Models.Constant;
+using Cats.Models.Hubs;
 using Cats.Models.ViewModels.HRD;
 using Cats.Services.EarlyWarning;
+using Cats.Services.Hub.Interfaces;
 using Cats.Services.Logistics;
 using Cats.Services.Procurement;
 using Cats.Services.Security;
@@ -38,6 +40,7 @@ namespace Cats.Areas.Logistics.Controllers
         private readonly IProgramService _programService;
         private readonly IBidWinnerService _bidWinnerService;
         private readonly IBidService _bidService;
+        private readonly IStockStatusService _stockStatusService;
 
         public HomeController(IReliefRequisitionService reliefRequisitionService,
             hub.IDispatchAllocationService dispatchAllocationService,
@@ -53,7 +56,8 @@ namespace Cats.Areas.Logistics.Controllers
             IBidService bidService,
             IHRDDetailService hrdDetailService,
             IRationDetailService rationDetailService,
-            IProgramService programService)
+            IProgramService programService,
+            IStockStatusService stockStatusService)
         {
             this._reliefRequisitionService = reliefRequisitionService;
             _dispatchAllocationService = dispatchAllocationService;
@@ -70,6 +74,7 @@ namespace Cats.Areas.Logistics.Controllers
             _hrdDetailService = hrdDetailService;
             _rationDetailService = rationDetailService;
             _programService = programService;
+            _stockStatusService = stockStatusService;
         }
 
         public ActionResult Index()
@@ -305,7 +310,7 @@ namespace Cats.Areas.Logistics.Controllers
             }
             return Json(selectedBidWinners, JsonRequestBehavior.AllowGet);
         }
-
+       
 
         #endregion
 
@@ -399,7 +404,39 @@ namespace Cats.Areas.Logistics.Controllers
         }
         #endregion
 
+        #region Dispatch Allocations
 
+        //public JsonResult GetRecentDispatchAllocations(int regionId )
+        //{
+        //    var dispatchAllocation =
+        //        _dispatchAllocationService.FindBy(m=>m.DispatchedAmount > 0 && m.FDP.AdminUnit.AdminUnit2.AdminUnit2.AdminUnitID==regionId).OrderByDescending(m => m.DispatchAllocationID).
+        //            Select(p => new
+        //                {
+        //                    hub=p.Hub.Name,
+        //                    bidNumber=p.BidRefNo,
+        //                    fdpName=p.FDP.Name,
+        //                    dispatched=p.DispatchedAmount,
+        //                    remaining=p.RemainingQuantityInQuintals
+        //                }).Take(10);
+        //    return Json(dispatchAllocation, JsonRequestBehavior.AllowGet);
+        //}
+        #endregion
+        public JsonResult GetDispatchAllocation(int program, DateTime date)
+        {
+            var st = _stockStatusService.GetHubDispatchAllocation(program, date);
+
+            var q = (from s in st
+                     select new HubDispatchAllocationViewModel()
+                     {
+                         HubName = s.HubName,
+                         TotalFreestock = s.TotalFreestock.ToPreferedWeightUnit(),
+                         TotalPhysicalStock = s.TotalPhysicalStock.ToPreferedWeightUnit(),
+                         DispatchedAmount = s.DispatchedAmount.ToPreferedWeightUnit(),
+                         Remaining = s.Remaining.ToPreferedWeightUnit()
+                         
+                     });
+            return Json(q, JsonRequestBehavior.AllowGet);
+        }
         #endregion
     }
 }
