@@ -9,24 +9,24 @@
 
     List<UIWidget> widgets = new List<UIWidget>{
         
-        new UIWidget {Title = "Configurations", Icon = "icon-setting", Source= "Dashboard/_Configuration"},
-        new UIWidget {Title = "Commodities", Icon = "icon-bullhorm", Source= "Dashboard/_Commodity"},
-        new UIWidget {Title = "Locations and FDPs", Icon = "icon-setting", Source= "Dashboard/_Locations_FDPs"},
-        new UIWidget {Title = "Business Process", Icon = "icon-bullhorm", Source= "Dashboard/_BusineesProcess"},
-        new UIWidget {Title = "Transaction and Journals", Icon = "icon-setting", Source= "Dashboard/_TransactionAndJournals"},
-        new UIWidget {Title = "Translation", Icon = "icon-bullhorm", Source= "Dashboard/_Translation"},
-        new UIWidget {Title = "Users and Roles", Icon = "icon-bullhorm", Source= "Dashboard/_UsersAndRoles"},
-        new UIWidget {Title = "System log", Icon = "icon-bullhorm", Source= "Dashboard/_Systemlog"}
+        new UIWidget {Title = "Configurations", Icon = "fa  fa-setting", Source= "Dashboard/_Configuration"},
+        new UIWidget {Title = "Commodities", Icon = "fa fa-bullhorm", Source= "Dashboard/_Commodity"},
+        new UIWidget {Title = "Locations and FDPs", Icon = "fa fa-setting", Source= "Dashboard/_Locations_FDPs"},
+        new UIWidget {Title = "Business Process", Icon = "fa fa-bullhorm", Source= "Dashboard/_BusineesProcess"},
+        new UIWidget {Title = "Transaction and Journals", Icon = "fa fa-setting", Source= "Dashboard/_TransactionAndJournals"},
+        new UIWidget {Title = "Translation", Icon = "fa fa-bullhorm", Source= "Dashboard/_Translation"},
+        new UIWidget {Title = "Users and Roles", Icon = "fa fa-bullhorm", Source= "Dashboard/_UsersAndRoles"},
+        new UIWidget {Title = "System log", Icon = "fa fa-bullhorm", Source= "Dashboard/_Systemlog"}
     };
     var cols = 2;
     int i = 0;   
 }
 
 <link href="~/Content/DashboardWidget.css" rel="stylesheet">
-<div class="row">
+
     @for (int c = 0; c < cols; c++)
     { 
-        <div class="span6">
+        <div class="col-md-6">
             @foreach (UIWidget widget in widgets)
             {
                 //int cc = i % cols;
@@ -48,4 +48,4 @@
             }
         </div> 
     }
-</div>
+

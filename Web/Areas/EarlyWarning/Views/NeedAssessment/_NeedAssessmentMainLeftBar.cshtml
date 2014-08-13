@@ -1,10 +1,25 @@
 ﻿@using Cats.Models.Constant
-<ul class="nav nav-list">
-    <li class="nav-header">Need Assessment Management</li>
+<div class="col-md-2 skin-blue ">
+    <div class="row sidebar left-side">
+        <div class="hdr-blck ">Sidebar Menu</div>
+        <ul class="sidebar-menu">
+            <li>
+                <a href="@Url.Action("Index", "NeedAssessment", new { id = (int)PlanStatus.Draft })">
+                    <i class="fa fa-dashboard"></i><span>Draft Need Assessment</span>
+                </a>
+            </li>
+            <li>
+                <a href="@Url.Action("ApprovedNeedAssessment", "NeedAssessment", new { id = (int)PlanStatus.Approved })">
+                    <i class="fa fa-th"></i><span>Approved Need Assessment</span>
+                </a>
+            </li>
+            <li>
+                <a href="@Url.Action("HRDCreateAssessment", "NeedAssessment", new { id = (int)PlanStatus.HRDCreated })">
+                    <i class="fa fa-th"></i><span>HRD Created Assessments</span>
+                </a>
+            </li>
 
-    @*<li><a href="@Url.Action("Approved", "NeedAssessment")"><i class="icon-plus"></i> Approved  </a></li>*@
-    <li><a href="@Url.Action("Index", "NeedAssessment",new {id=(int)PlanStatus.Draft})"><i class="icon-pencil"></i> Draft  </a></li>
-    <li><a href="@Url.Action("ApprovedNeedAssessment", "NeedAssessment",new {id=(int)PlanStatus.Approved})"><i class="icon-pencil"></i> Approved Assessment  </a></li>
-    <li><a href="@Url.Action("HRDCreateAssessment", "NeedAssessment", new { id = (int)PlanStatus.HRDCreated })"><i class="icon-pencil"></i> HRD Created Assessments </a></li>
-    
-</ul>
+        </ul>
+    </div>
+
+</div>
