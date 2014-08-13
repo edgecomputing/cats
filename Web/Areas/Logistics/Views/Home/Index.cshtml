@@ -595,35 +595,119 @@ Detail Gift Certificate
 
                         <div class="portlet-content">
                             <th class="table-responsive">
+                            <table id="" class="table table-striped table-checkable">
+                                <thead>
+                                    <tr>
+                                        <th class="hidden-xs">Number</th>
+
+                                        <th>Req No</th>
+                                        <th>Zone</th>
+                                        <th class="number">Beneficiaries</th>
+                                        <th class="number">Amount</th>
+                                        <th>Commodity</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="req in TransportRequestion.request | filter:{RegionName:regionName} | limitTo:2">
+                                        <td class="hidden-xs">{{$index + 1}}</td>
+                                        <td>{{req.reqNo}}</td>
+                                        <td>{{req.zone}}</td>
+                                        <th class="number">{{req.beneficiaries}}</th>
+                                        <th class="number">{{req.amount}}</th>
+                                        <th>{{req.commodity}}</th>
+
+
+                                        <td><span class="label label-default">On process</span></td>
+                                        <td>
+                                            <a href="javascript:;" class="btn btn-sm btn-default">
+                                                View <i class="icon-chevron-right"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+                        <!-- /.table-responsive -->
+                    </div>
+                    <!-- /.portlet-content -->
+
+                </div>
+
+
+                <!-- /.portlet -->
+            </div>
+               <div id="DispatchAllocationContent" class="row">
+                <div>&nbsp;</div>
+
+                <div ng-controller="SummaryController" class="span11">
+                    <div class="portlet">
+                        <div class="portlet-header">
+                            <h3>
+                                <i class=""></i>
+                                Hubs Diapatch Allocation
+                            </h3>
+                           @* <ul class=" pull-right portlet-tools ">
+                                <li>
+                                    <button class="btn btn-sm btn-default">
+                                        Show more
+                                    </button>
+
+                                </li>
+                            </ul>*@
+                        </div>
+
+
+                        <div class="portlet-content">
+                            <th class="table-responsive">
+                                
+                      <div class="row-fluid form-horizontal ">
+                    <div class="form-control span12">
+                        <div class="span3">
+
+                            <label>Select As of Date</label>
+                            <input id="txtDate1" class="cats-datepicker2  input-medium" type="text" placeholder="As of date">
+                        </div>
+
+                        <div class="span3">
+                            <div class="control-group">
+                                <div class="toolbar">
+                                    <label class="category-label" for="category">Select a Program</label>
+                                    <select ng-model="reqParam.program">
+                                        <option ng-repeat="pr in ProgramsCollection" value="{{pr.ProgramId}}">{{pr.Name}}</option>
+                                    </select>
+                                    @*<select ng-model="selectedProgram" ng-options="p.Name for p in ProgramsCollection">*@
+                                </div>
+                                <div class="controls">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="span3">
+                            <button type="button" class="btn btn-default btn-lg" style="margin-top: 23px;" ng-click="getSummary()">Get</button>
+                        </div>
+                    </div>
+                </div>
                                 <table id="" class="table table-striped table-checkable">
                                     <thead>
                                         <tr>
-                                            <th class="hidden-xs">Number</th>
-
-                                            <th>Req No</th>
-                                            <th>Zone</th>
-                                            <th class="number">Beneficiaries</th>
-                                            <th class="number">Amount</th>
-                                            <th>Commodity</th>
-
+                                            <th>HUb</th>
+                                            <th class="number">Total Free Stock</th>
+                                             <th class="number">Total Physical Stock</th>
+                                             <th class="number">Dispatched</th>
+                                             <th class="number">Remaining</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr ng-repeat="req in TransportRequestion.request | filter:{RegionName:regionName} | limitTo:2">
-                                            <td class="hidden-xs">{{$index + 1}}</td>
-                                            <td>{{req.reqNo}}</td>
-                                            <td>{{req.zone}}</td>
-                                            <th class="number">{{req.beneficiaries}}</th>
-                                            <th class="number">{{req.amount}}</th>
-                                            <th>{{req.commodity}}</th>
+                                        <tr ng-repeat="sd in summaryData">
+                                           
+                                            <td>{{sd.HubName}}</td>
+                                            <td class="number">{{sd.TotalFreestock |number:2}}</td>
+                                            <td class="number">{{sd.TotalPhysicalStock |number:2}}</td>
+                                            <td class="number">{{sd.DispatchedAmount |number:2}}</td>
+                                            <td class="number">{{sd.Remaining |number:2}}</td>
 
-
-                                            <td><span class="label label-default">On process</span></td>
-                                            <td>
-                                                <a href="javascript:;" class="btn btn-sm btn-default">
-                                                    View <i class="icon-chevron-right"></i>
-                                                </a>
-                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -934,6 +1018,45 @@ Detail Gift Certificate
 
     }]);
 
+
+
+    function SummaryController($scope, $http) {
+
+        $scope.reqParam = { program: 1, date: new Date() };
+        $scope.requestRows = [];
+
+
+        var onSuccess = function (data) {
+            $scope.summaryData = data;
+            var f = 0;
+            var p = 0;
+            for (var i = 0; i < $scope.summaryData.length; i++) {
+                f = f + $scope.summaryData[i].TotalFreestock;
+                p = p + $scope.summaryData[i].TotalPhysicalStock;
+            }
+            $scope.freeStockSum = f;
+            $scope.physicalStockSum = p;
+        };
+
+        var onProgramGetSuccess = function (data) {
+            $scope.ProgramsCollection = data;
+        };
+
+        $scope.getSummary = function () {
+            
+            $scope.reqParam.date = $("#txtDate1").val();
+            $http.post("@Url.Action("GetDispatchAllocation", "Home", new { Area = "Logistics" })", $scope.reqParam).success(onSuccess);
+        };
+
+        $scope.getPrograms = function () {
+
+           
+            $http.post("@Url.Action("GetPrograms", "LogisticsStockStatus", new { Area = "Logistics" })", null).success(onProgramGetSuccess);
+        };
+
+        $scope.getSummary();
+        $scope.getPrograms();
+    }
 
 </script>
 
