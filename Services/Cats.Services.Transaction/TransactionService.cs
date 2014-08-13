@@ -302,25 +302,26 @@ namespace Cats.Services.Transaction
 
         public bool PostSIAllocation(int requisitionID)
         {
-            var result = new List<Models.Transaction>();
             var allocationDetails = _unitOfWork.SIPCAllocationRepository.Get(t => t.ReliefRequisitionDetail.RequisitionID == requisitionID);
             if (allocationDetails == null) return false;
 
             var transactionGroup = Guid.NewGuid();
             var transactionDate = DateTime.Now;
-            _unitOfWork.TransactionGroupRepository.Add(new TransactionGroup() { PartitionID = 0, TransactionGroupID = transactionGroup });
+            _unitOfWork.TransactionGroupRepository.Add(new TransactionGroup { PartitionID = 0, TransactionGroupID = transactionGroup });
 
             //ProjectCodeID	ShippingInstructionID ProgramID QuantityInMT	QuantityInUnit	UnitID	TransactionDate	RegionID	Month	Round	DonorID	CommoditySourceID	GiftTypeID	FDP
             
             foreach (var allocationDetail in allocationDetails)
             {
-                var transaction = new Models.Transaction();
-                transaction.TransactionID = Guid.NewGuid();
-                transaction.TransactionGroupID = transactionGroup;
-                transaction.TransactionDate = transactionDate;
-                transaction.UnitID = 1;
+                var transaction = new Models.Transaction
+                {
+                    TransactionID = Guid.NewGuid(),
+                    TransactionGroupID = transactionGroup,
+                    TransactionDate = transactionDate,
+                    UnitID = 1
+                };
 
-                SIPCAllocation allocation = allocationDetail;
+                var allocation = allocationDetail;
 
                 // I see some logical error here
                 // what happens when hub x was selected and the allocation was made from hub y? 
@@ -342,7 +343,7 @@ namespace Cats.Services.Transaction
 
                 transaction.QuantityInMT = -allocationDetail.AllocatedAmount;
                 transaction.QuantityInUnit = -allocationDetail.AllocatedAmount;
-                transaction.LedgerID = Models.Ledger.Constants.COMMITED_TO_FDP;
+                transaction.LedgerID = Ledger.Constants.COMMITED_TO_FDP;
                 transaction.CommodityID = allocationDetail.ReliefRequisitionDetail.CommodityID;
                 transaction.FDPID = allocationDetail.ReliefRequisitionDetail.FDPID;
                 transaction.ProgramID = (int)allocationDetail.ReliefRequisitionDetail.ReliefRequisition.ProgramID;
@@ -363,11 +364,13 @@ namespace Cats.Services.Transaction
                // result.Add(transaction);
 
                 /*post Debit-Pledged To FDP*/
-                var transaction2 = new Models.Transaction();
-                transaction2.TransactionID = Guid.NewGuid();
-                transaction2.TransactionGroupID = transactionGroup;
-                transaction2.TransactionDate = transactionDate;
-                transaction2.UnitID = 1;
+                var transaction2 = new Models.Transaction
+                {
+                    TransactionID = Guid.NewGuid(),
+                    TransactionGroupID = transactionGroup,
+                    TransactionDate = transactionDate,
+                    UnitID = 1
+                };
 
                 //TOFIX: do not use try catch
                 try
@@ -385,7 +388,7 @@ namespace Cats.Services.Transaction
                 
                 transaction2.QuantityInMT = allocationDetail.AllocatedAmount;
                 transaction2.QuantityInUnit = allocationDetail.AllocatedAmount;
-                transaction2.LedgerID = Models.Ledger.Constants.PLEDGED_TO_FDP;
+                transaction2.LedgerID = Ledger.Constants.PLEDGED_TO_FDP;
                 transaction2.CommodityID = allocationDetail.ReliefRequisitionDetail.CommodityID;
                 transaction2.FDPID = allocationDetail.ReliefRequisitionDetail.FDPID;
                 transaction2.ProgramID = (int)allocationDetail.ReliefRequisitionDetail.ReliefRequisition.ProgramID;
@@ -415,8 +418,9 @@ namespace Cats.Services.Transaction
                 _unitOfWork.SIPCAllocationRepository.Edit(allocationDetail);
                 //result.Add(transaction);
             }
-            ReliefRequisition requisition = _unitOfWork.ReliefRequisitionRepository.FindById(requisitionID);
+            var requisition = _unitOfWork.ReliefRequisitionRepository.FindById(requisitionID);
             requisition.Status = 4;
+            _unitOfWork.ReliefRequisitionRepository.Edit(requisition);
            _unitOfWork.Save();
               //return result;
             return true;

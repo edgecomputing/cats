@@ -5,7 +5,9 @@ using System.Linq.Expressions;
 using Cats.Data.UnitWork;
 using Cats.Models;
 using Cats.Models.Constant;
+using Cats.Models.Security;
 using Cats.Models.ViewModels;
+using UserProfile = Cats.Models.Security.UserProfile;
 
 
 namespace Cats.Services.EarlyWarning
@@ -195,6 +197,25 @@ namespace Cats.Services.EarlyWarning
         {
             var req = _unitOfWork.RegionalRequestRepository.FindById(id);
             req.Status = (int)RegionalRequestStatus.Approved;
+            req.ApprovedBy = userInfo.UserProfileID;
+            _unitOfWork.Save();
+            return true;
+        }
+
+        public bool RejectRequest(int id, UserInfo userInfo)
+        {
+            var req = _unitOfWork.RegionalRequestRepository.FindById(id);
+            req.Status = (int)RegionalRequestStatus.Reject;
+            req.ApprovedBy = userInfo.UserProfileID;
+            _unitOfWork.Save();
+            return true;
+        }
+
+        public bool DraftRequest(int id, UserInfo userInfo)
+        {
+            var req = _unitOfWork.RegionalRequestRepository.FindById(id);
+            if (req.Status == (int) RegionalRequestStatus.Approved) return true;
+            req.Status = (int)RegionalRequestStatus.Draft;
             req.ApprovedBy = userInfo.UserProfileID;
             _unitOfWork.Save();
             return true;

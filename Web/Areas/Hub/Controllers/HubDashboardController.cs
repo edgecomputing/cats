@@ -31,15 +31,15 @@ namespace Cats.Areas.Hub.Controllers
         {
             if(hub!=0)
             {
-                var st = _stockStatusService.GetStockSummaryD(1, DateTime.Now);
+                var st = _stockStatusService.GetStockSummaryHubDahsBoard(hub, DateTime.Now);
 
                 //st.Take()
                 if(st.Count > 0)
                 {
                     var value = st.Find(t => t.HubID == hub);
 
-                    var free = (value.TotalPhysicalStock == 0) ? 0 : ((value.TotalFreestock / value.TotalPhysicalStock) * 100);
-                    var commited = ((value.TotalPhysicalStock - value.TotalFreestock) / ((value.TotalPhysicalStock == 0) ? 1.0M : value.TotalPhysicalStock)) * 100;
+                    var free = (value.TotalPhysicalStock == 0) ? 0 : ((value.TotalFreestock / (value.TotalPhysicalStock + value.TotalFreestock)) * 100);
+                    var commited = ((value.TotalPhysicalStock) / ((value.TotalPhysicalStock == 0) ? 1.0M : value.TotalPhysicalStock + value.TotalFreestock)) * 100;
 
                     
                     var j = new StockStatusViewModel()

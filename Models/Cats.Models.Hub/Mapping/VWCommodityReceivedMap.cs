@@ -13,7 +13,7 @@ namespace Cats.Models.Hubs.Mapping
         public VWCommodityReceivedMap()
         {
             // Primary Key
-            this.HasKey(t => new { t.ProgramID, t.DonorAll, t.Received, t.Expected, t.Commited,t.Dispatched });
+            this.HasKey(t => new { t.ProgramID, t.DonorAll, t.Received, t.Expected, t.Commited, t.Dispatched });
 
             // Properties
             this.Property(t => t.ProgramID);
@@ -44,7 +44,7 @@ namespace Cats.Models.Hubs.Mapping
 
             this.Property(t => t.Commited);
 
-           // this.Property(t => t.Dispatched);
+            this.Property(t => t.Dispatched);
 
             // Table & Column Mappings
             this.ToTable("VWCommodityReceived");
