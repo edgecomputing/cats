@@ -30,6 +30,8 @@ namespace Cats.Services.Hub.Interfaces
         List<VWCarryOver> GetCarryOverStock(Expression<Func<VWCarryOver, bool>> filter = null);
         List<VWFreePhysicalStock> GetSummaryFreePhysicalStock(Expression<Func<VWFreePhysicalStock, bool>> filter = null);
         List<VWTransferredStock> GetTransferredStock(Expression<Func<VWTransferredStock, bool>> filter = null);
+        List<HubFreeStockSummaryView> GetStockSummaryHubDahsBoard(int hubId, DateTime date);
+        List<HubDispatchAllocationViewModel> GetHubDispatchAllocation(int program, DateTime date);
 
     }
 }

@@ -59,16 +59,25 @@
                     @Html.ValidationMessageFor(model => model.RequestedDispatchDate)
                 </div>
             </div>
-            <div class="control-group">
+              <div class="control-group">
+                  <div class="control-label">
+                      @Html.LabelFor(model => model.OrderExpiryDate)
+                  </div>
+                  <div class="controls">
+                      @Html.TextBoxFor(model => model.OrderExpiryDate, new {@class = "cats-datepicker2"})
+                      @Html.ValidationMessageFor(model => model.OrderExpiryDate)
+                  </div>
+              </div>
+               <div class="control-group">
                 <div class="control-label">
-                    @Html.LabelFor(model => model.OrderExpiryDate)
+                    @Html.LabelFor(model => model.TransporterSignedName)
                 </div>
                 <div class="controls">
-                    @Html.TextBoxFor(model => model.OrderExpiryDate, new {@class = "cats-datepicker2"})
-                    @Html.ValidationMessageFor(model => model.OrderExpiryDate)
+                    @Html.TextBoxFor(model => model.TransporterSignedName)
+                    @Html.ValidationMessageFor(model => model.TransporterSignedName)
                 </div>
             </div>
-            <div class="control-group">
+              @* <div class="control-group">
                 <div class="control-label">
                     @Html.LabelFor(model => model.StartDate)
                 </div>
@@ -85,7 +94,7 @@
                          @Html.TextBoxFor(model => model.EndDate, new {@class = "cats-datepicker2"})
                          @Html.ValidationMessageFor(model => model.EndDate)
                      </div>
-                 </div>
+                 </div>*@
                  </div>
         <div class="span6" style="vertical-align: top">
           
@@ -125,7 +134,7 @@
                     @Html.ValidationMessageFor(model => model.ConsignerName)
                 </div>
             </div>
-            <div class="control-group">
+           @* <div class="control-group">
                 <div class="control-label">
                     @Html.LabelFor(model => model.TransporterSignedName)
                 </div>
@@ -133,7 +142,7 @@
                     @Html.TextBoxFor(model => model.TransporterSignedName)
                     @Html.ValidationMessageFor(model => model.TransporterSignedName)
                 </div>
-            </div>
+            </div>*@
             <div class="control-group">
                 <div class="control-label">
                     @Html.LabelFor(model => model.ConsignerDate)

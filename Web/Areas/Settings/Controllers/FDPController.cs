@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Cats.Models;
+using Cats.Models.Hubs;
 using Cats.Services.Administration;
 using Cats.Areas.Settings.Models.ViewModels;
 using Cats.Areas.Settings.ViewModelBinder;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
+using FDP = Cats.Models.FDP;
 
 namespace Cats.Areas.Settings.Controllers
 {
@@ -48,7 +49,7 @@ namespace Cats.Areas.Settings.Controllers
 
 
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult FDP_Create([DataSourceRequest] DataSourceRequest request, [Bind(Prefix = "models")]IEnumerable<FDPViewModel> fdpViewModel , int? adminUnitID)
+        public ActionResult FDP_Create([DataSourceRequest] DataSourceRequest request, FDPViewModel fdpViewModel , int? adminUnitID)
         {
 
             var result = new List<FDPViewModel>();
@@ -58,17 +59,17 @@ namespace Cats.Areas.Settings.Controllers
             {
                 try
                 {
-                    foreach (var viewModel in fdpViewModel)
-                    {
+                    //foreach (var viewModel in fdpViewModel)
+                    //{
 
-                        if (CheckIfDFPExists((int) adminUnitID, viewModel.Name))
+                    if (CheckIfDFPExists((int)adminUnitID, fdpViewModel.Name))
                         {
-                            viewModel.AdminUnitID = adminUnitID.Value;
-                            var fdp = FDPViewModelBinder.BindFDP(viewModel);
+                            fdpViewModel.AdminUnitID = adminUnitID.Value;
+                            var fdp = FDPViewModelBinder.BindFDP(fdpViewModel);
                             _fdpService.AddFDP(fdp);
-                            result.Add(viewModel);
+                            //result.Add(fdpViewModel);
                         }
-                    }
+                   // }
                 }
                 catch (Exception ex)
                 {
@@ -223,6 +224,14 @@ namespace Cats.Areas.Settings.Controllers
                 ModelState.AddModelError("Errors", "Unable to delete FDP");
             }
             return RedirectToAction("Index");
+        }
+
+        public ActionResult GetFdps(int woredaId)
+        {
+            var fdps = from p in _fdpService.FindBy(x => x.AdminUnitID == woredaId)
+                       select new AdminUnitItem { Id = p.FDPID, Name = p.Name };
+
+            return Json(new SelectList(fdps.OrderBy(o => o.Name), "Id", "Name"), JsonRequestBehavior.AllowGet);
         }
     }
 }

@@ -49,4 +49,15 @@ namespace Cats.Models.Hubs
         public string Program { get; set; }
         public Nullable<int> BeneficiaryNumber { get; set; }
     }
+    public class HubDispatchAllocationViewModel
+
+{
+    public int HubID { get; set; }
+        public string HubName { get; set; }
+        public decimal TotalFreestock { get; set; }
+        public decimal TotalPhysicalStock { get; set; }
+        public decimal DispatchedAmount { get; set; }
+        public decimal Remaining { get; set; }
+        //public decimal Remaining { get { return TotalPhysicalStock - DispatchedAmount; } }
+}
 }

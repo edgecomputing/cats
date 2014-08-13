@@ -53,6 +53,17 @@
                         <ul class="dropdown-menu">
                             <li>
                                 <a href="#">Warehouses</a>
+
+                                    <li>
+                                        @Html.AdminOperationMenuItem(@Html.Translate("Administrative Units"),
+                                        @Url.Action("Index", "AdminUnit", new { Area = "Settings" }))
+                                    </li>
+                                    <li>
+                                        @Html.AdminOperationMenuItem(@Html.Translate("FDPs"),
+                                        @Url.Action("Index", "FDP", new { Area = "Settings" }))
+                                    </li>
+                                </ul>
+
                             </li>
                             <li>
                                 <a href="#">Hubs</a>
@@ -62,6 +73,32 @@
                             </li>
                             <li>
                                 <a href="#">Stores</a>
+
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Translations <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        @Html.AdminOperationMenuItem(@Html.Translate("Languages"),
+                                        @Url.Action("Index", "Language", new { Area = "Localization" }))
+                                    </li>
+                                    <li>
+                                        @Html.AdminOperationMenuItem(@Html.Translate("Translation Terms"),
+                                        @Url.Action("Index", "Translation", new { Area = "Localization" }))
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Users<b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        @Html.AdminOperationMenuItem(@Html.Translate("Users"),
+                                        @Url.Action("Index", "Users", new { Area = "Settings" }))
+                                    </li>
+                                    <li>
+                                        <a href="#">Groups</a>
+                                    </li>
+                                </ul>
+
                             </li>
                             <li class="divider"></li>
                             <li>

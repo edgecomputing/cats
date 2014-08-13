@@ -14,7 +14,7 @@
 @section Toolbar
 {
     <a class="btn" href="@Url.Action("Log")">@Html.Translate("Receipt Log")</a>
-    <div class="btn-group">
+    @*<div class="btn-group">
         
         <button class="btn toolbar-btn" title="Make a new Plan" onclick="CreateNewPlan()">New Plan</button>
             <button class="btn dropdown-toggle " data-toggle="dropdown">
@@ -26,9 +26,9 @@
             <li><a href="javascript:CreateNewPlan(@Cats.Models.Hubs.CommoditySource.Constants.LOCALPURCHASE)">@Html.Translate("From Local Purchase")</a></li>
 
         </ul>
-   </div>  
+   </div>*@  
 
-    <div class="btn-group">
+    @*<div class="btn-group">
         <button class="btn toolbar-btn" title="Record a new receipt">Receipt</button>
             <button class="btn dropdown-toggle " data-toggle="dropdown">
                 <span class="caret"></span>
@@ -39,7 +39,7 @@
             <li>@Html.ActionLink("From Swap", "Create", "Receive", new { type = Cats.Models.Hubs.CommoditySource.Constants.SWAP }, null)</li>
             <li>@Html.ActionLink("From Transfer", "Create", "Receive", new { type = Cats.Models.Hubs.CommoditySource.Constants.TRANSFER }, null)</li>
         </ul>
-    </div>
+    </div>*@
 }
 <style>
     .filter

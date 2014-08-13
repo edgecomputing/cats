@@ -32,7 +32,12 @@
             background-color: #crimson;
         }
     </style>
-   
+   @section Toolbar
+{
+    <a class="btn toolbar-btn" href="#"  target="_blank" id="toolbar_button_print"  title="Print"><i class="icon-print"></i></a>
+    <a class="btn toolbar-btn " href="@Url.Action("Index", "TransportOrder", new { Area = "Procurement" })" data-buttontype="btn_back_to_list"></a>
+
+}
     <div id="statusWindow" style="font-size: large;color: darkred;text-align: center;"></div>
     
     <div class="control-group form-horizontal well" id="ContractHeader">
@@ -52,7 +57,7 @@
             <div class="span4">
                 <div class="control-group">
                     <div class="control-label">
-                        @Html.LabelFor(m => m.BidDocumentNo)
+                        @Html.Label(Html.Translate("Bid DocumentN No"))
                     </div>
                     <div class="controls">
                         @Html.TextBoxFor(m => m.BidDocumentNo, new { Disabled = true })
@@ -149,7 +154,7 @@
         </div>
     </div>
 
-    <div>
+    @*<div>
     <table>
         <tr>
             <td>
@@ -163,7 +168,7 @@
             </td>
         </tr>
     </table>
-    </div>
+    </div>*@
 
 @(Html.Kendo().Grid<Cats.Areas.Procurement.Models.TransportOrderDetailViewModel>()
     .Name("grid")
@@ -500,3 +505,4 @@
         }
     </script>
 </html>
+

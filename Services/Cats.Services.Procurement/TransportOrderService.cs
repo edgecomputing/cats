@@ -86,8 +86,22 @@ namespace Cats.Services.Procurement
         //        ;
             var transportOrder = (
                 from c in _unitOfWork.TransportOrderDetailRepository.FindBy(x => x.SourceWarehouseID == hubId)
-                select c.TransportOrder).Where(x => x.StatusID == statusId);
+                select c.TransportOrder).Where(x => x.StatusID == statusId).Distinct().ToList();
             return transportOrder;
+        }
+        public IEnumerable<TransportOrder> GetFilteredTransportOrder(IEnumerable<TransportRequisitionDetail> transportRequsitionDetails ,int statusId)
+        {
+            var transportRequistionDetail = transportRequsitionDetails.Select(m => m.RequisitionID).Distinct();
+            var transportOrder =
+                (from order in
+                     _unitOfWork.TransportOrderDetailRepository.FindBy(
+                         m => transportRequistionDetail.Contains(m.RequisitionID))
+                 select order.TransportOrder).Where(m => m.StatusID == statusId).Distinct().ToList();
+            return transportOrder;
+        }
+        public List<Program> GetPrograms()
+        {
+            return _unitOfWork.ProgramRepository.GetAll();
         }
 
         #endregion
@@ -227,7 +241,12 @@ namespace Cats.Services.Procurement
                         transportOrderDetail.QuantityQtl = reliefRequisitionDetail.Amount;
                         transportOrderDetail.TariffPerQtl = transReq.TariffPerQtl;
                         transportOrderDetail.SourceWarehouseID = transReq.HubID;
+                        if (reliefRequisitionDetail.ReliefRequisition.ProgramID == (int)Programs.PSNP)
+                        {
+                            transportOrderDetail.DonorID = reliefRequisitionDetail.DonorID;
+                        }
                         transportOrder.TransportOrderDetails.Add(transportOrderDetail);
+                        
                     }
 
                 }
@@ -259,7 +278,7 @@ namespace Cats.Services.Procurement
             {
                 var transporterName = _unitOfWork.TransporterRepository.FindById(transportOrder.TransporterID).Name;
                 transportOrder.TransportOrderNo = string.Format("TRN-ORD-{0}", transportOrder.TransportOrderID);
-                transportOrder.ContractNumber = string.Format("{0}/{1}/{2}/{3}", "LTCD", DateTime.Today.Day, DateTime.Today.Year, transporterName.Substring(0, 2));
+                transportOrder.ContractNumber = string.Format("{0}/{1}/{2}/{3}/{4}", "LTCD", requisition.RegionID, DateTime.Today.Year, transporterName.Substring(0, 2),requisition.TransportRequisitionNo);
             }
 
             _unitOfWork.Save();
@@ -351,6 +370,8 @@ namespace Cats.Services.Procurement
                     transportOrder.BidDocumentNo = "Bid-Number";
 
                 }
+
+                var transRequisition = _unitOfWork.TransportRequisitionDetailRepository.FindById(transReqWithTransporter.SingleOrDefault().TransportRequisitionID).TransportRequisition;
                 transportOrder.PerformanceBondReceiptNo = "PERFORMANCE-BOND-NO";
                 //var transporterName = _unitOfWork.TransporterRepository.FindById(transporter).Name;
                 transportOrder.ContractNumber = Guid.NewGuid().ToString();
@@ -368,8 +389,9 @@ namespace Cats.Services.Procurement
                 {
                     transportOrder.TransportOrderNo = string.Format("TRN-ORD-{0}", 1);
                 }
-                transportOrder.ContractNumber = string.Format("{0}/{1}/{2}/{3}", "LTCD", DateTime.Today.Day,
-                                                              DateTime.Today.Year, transporterName.Substring(0, 3));
+                transportOrder.ContractNumber = string.Format("{0}/{1}/{2}/{3}/{4}", "LTCD", transRequisition.RegionID,
+                                                              DateTime.Today.Year, transporterName.Substring(0, 3),transRequisition.TransportRequisitionNo);
+
                 foreach (var detail in transReqWithTransporter)
                 {
                     var transportOrderDetail = new TransportOrderDetail();
@@ -440,6 +462,20 @@ namespace Cats.Services.Procurement
                 }
 
                 transportOrder.StatusID = (int)TransportOrderStatus.Approved;
+                _unitOfWork.TransportOrderRepository.Edit(transportOrder);
+                _unitOfWork.Save();
+
+                return true;
+            }
+            return false;
+
+        }
+
+        public bool SignTransportOrder(TransportOrder transportOrder)
+        {
+            if (transportOrder != null)
+            {
+                transportOrder.StatusID = (int)TransportOrderStatus.Signed;
                 _unitOfWork.TransportOrderRepository.Edit(transportOrder);
                 _unitOfWork.Save();
 

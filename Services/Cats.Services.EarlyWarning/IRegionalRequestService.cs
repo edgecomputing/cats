@@ -6,6 +6,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
       using Cats.Models;
+      using Cats.Models.Security;
 
 namespace Cats.Services.EarlyWarning
 {
@@ -30,6 +31,9 @@ namespace Cats.Services.EarlyWarning
         HRDPSNPPlanInfo PlanToRequest(HRDPSNPPlan plan);
 
         bool ApproveRequest(int id, Cats.Models.Security.UserInfo userInfo);
+        bool RejectRequest(int id, Cats.Models.Security.UserInfo userInfo);
+        bool DraftRequest(int id, Models.Security.UserInfo userInfo);
+        bool RevertRequestStatus(int id);
    }
 }
 

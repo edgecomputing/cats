@@ -25,10 +25,6 @@ namespace Cats.Areas.Hub.Controllers
         //
         // GET: /Setting/
 
-        public ActionResult Index()
-        {
-            return View();
-        }
 
         public ActionResult SysSettings()
         {
@@ -93,7 +89,8 @@ namespace Cats.Areas.Hub.Controllers
             this.Response.Cache.SetCacheability(HttpCacheability.NoCache);
             this.Response.Cache.SetNoStore();
 
-            return PartialView(smtp_info);
+            //return  PartialView(smtp_info);
+            return Json(smtp_info);
         }
 
         public ActionResult EditConfigSMTP()

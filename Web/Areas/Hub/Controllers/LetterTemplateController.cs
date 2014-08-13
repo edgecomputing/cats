@@ -132,7 +132,7 @@ namespace Cats.Areas.Hub.Controllers
 
                 return RedirectToAction("LetterPreview",new {certificateId = model.SelectedCertificateId, templateId = model.SelctedTemplateId});
             }
-            return View();
+            return PartialView("SelectTemplatePartial", model);
         }
 
 

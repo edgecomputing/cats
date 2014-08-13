@@ -16,7 +16,7 @@ namespace Cats.Models.Mapping
             this.Property(t => t.RequisitionID).HasColumnName("RequisitionID");
             this.Property(t => t.CommodityID).HasColumnName("CommodityID");
             this.Property(t => t.BenficiaryNo).HasColumnName("BenficiaryNo");
-            this.Property(t => t.Amount).HasColumnName("Amount");
+            this.Property(t => t.Amount).HasColumnName("Amount").HasPrecision(18,4);
             this.Property(t => t.FDPID).HasColumnName("FDPID");
             this.Property(t => t.DonorID).HasColumnName("DonorID");
 

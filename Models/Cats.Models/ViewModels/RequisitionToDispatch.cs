@@ -22,7 +22,8 @@ namespace Cats.Models.ViewModels
        public string CommodityName { get; set; }
        public int RegionID { get; set; }
        public string RegionName { get; set; }
-     
+       public int ProgramID { get; set; }
+       public string Program { get; set; }
 
     }
 }

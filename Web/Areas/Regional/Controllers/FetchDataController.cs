@@ -42,6 +42,12 @@ namespace Cats.Areas.Regional.Controllers
             _utilization = utilization;
         }
 
+        public JsonResult AllocationChanges(int regionID)
+        {
+            var allocationChanges = _regionalDashboard.GetAllocationChange(regionID);
+            return Json(allocationChanges, JsonRequestBehavior.AllowGet);
+        }
+
         public JsonResult Requests(int regionID)
         {
             var requests = _regionalDashboard.GetRecentRequests(regionID);

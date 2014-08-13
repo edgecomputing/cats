@@ -30,7 +30,8 @@ namespace Cats.Models.Constant
         Draft=1,
         Approved=2, 
         Closed=3,
-        FederalApproved=4
+        FederalApproved=4,
+        Reject = 5
     }
 
     public  enum ReliefRequisitionStatus
@@ -40,7 +41,8 @@ namespace Cats.Models.Constant
         HubAssigned=3,
         ProjectCodeAssigned=4,
         TransportRequisitionCreated=5,
-        TransportOrderCreated=6
+        TransportOrderCreated=6,
+        Rejected=7
     }
     public enum TransportRequisitionStatus
     {

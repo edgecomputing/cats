@@ -119,7 +119,7 @@ namespace Cats.Services.EarlyWarning
                     StartDate = startDate,
                     EndDate = endDate,
                     Program = reliefProgram,
-                    Status = (int)PlanStatus.AssessmentCreated
+                    Status = (int)PlanStatus.Draft
                     
                 };
                 _unitOfWork.PlanRepository.Add(plan);

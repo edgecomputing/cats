@@ -117,7 +117,7 @@
         <div class="tab-content ">
             <div id="tab0" class="tab-pane active">
                 <div id="ApprovedRequisitionPartial">
-                    @Html.Partial("AllocateProjectCode", new List<int?>() { { ViewBag.regionId }, { (int)Cats.Models.Constant.ReliefRequisitionStatus.Approved } })
+                    @Html.Partial("_ApprovedRequisitions", new List<int?>() { { ViewBag.regionId }, { (int)Cats.Models.Constant.ReliefRequisitionStatus.Approved } })
                 </div>
             </div>
             <div id="tab1" class="tab-pane">

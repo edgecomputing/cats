@@ -35,11 +35,11 @@ using IShippingInstructionService = Cats.Services.Hub.IShippingInstructionServic
 using IUnitService = Cats.Services.Hub.IUnitService;
 
 namespace Cats.Areas.Hub.Controllers
-{ 
+{
     [Authorize]
     public class DispatchController : BaseController
     {
-        
+
         private readonly IDispatchAllocationService _dispatchAllocationService;
         private readonly IDispatchService _dispatchService;
         private readonly IUserProfileService _userProfileService;
@@ -66,10 +66,10 @@ namespace Cats.Areas.Hub.Controllers
         public DispatchController(IDispatchAllocationService dispatchAllocationService, IDispatchService dispatchService,
             IUserProfileService userProfileService, IOtherDispatchAllocationService otherDispatchAllocationService,
             IDispatchDetailService dispatchDetailService, IUnitService unitService, ICommodityTypeService commodityTypeService,
-            IProgramService programService, ITransporterService transporterService, IPeriodService periodService, 
+            IProgramService programService, ITransporterService transporterService, IPeriodService periodService,
             ICommodityService commodityService, ITransactionService transactionService, IStoreService storeService,
             IAdminUnitService adminUnitService, IHubService hubService, IFDPService fdpService,
-            IProjectCodeService projectCodeService, IShippingInstructionService shippingInstructionService, 
+            IProjectCodeService projectCodeService, IShippingInstructionService shippingInstructionService,
             ISMSGatewayService smsGatewayService, IContactService contactService, ISMSService smsService, IReliefRequisitionService reliefRequisitionService)
             : base(userProfileService)
         {
@@ -98,7 +98,7 @@ namespace Cats.Areas.Hub.Controllers
         }
         public void populateLookups(UserProfile user)
         {
-            
+
             ViewBag.FilterCommodityTypeID = new SelectList(_commodityTypeService.GetAllCommodityType(), "CommodityTypeID", "Name");
             ViewBag.HubsID = new SelectList(_hubService.GetAllHub(), "HubID", "HubNameWithOwner", user.DefaultHub.Value);
             ViewBag.RegionCollection = _adminUnitService.FindBy(t => t.AdminUnitTypeID == 2);
@@ -122,31 +122,32 @@ namespace Cats.Areas.Hub.Controllers
             }
             return null;
         }
-        public ViewResult Index_NEW()
-        {
-            if (this.UserProfile != null)
-            {
-                UserProfile user = _userProfileService.GetUser(this.UserProfile.UserName);
-                populateLookups(user);
-                return View();
-                /*var prefWeight =
-                    _userProfileService.GetUser(this.UserProfile.UserName).PreferedWeightMeasurment.ToUpperInvariant();
-                var toFdps =
-                    _dispatchAllocationService.GetCommitedAllocationsByHubDetached(
-                        user.DefaultHub.HubID, prefWeight, null, null, null);
-                var loans = _otherDispatchAllocationService.GetAllToOtherOwnerHubs(user);
-                var transfer = _otherDispatchAllocationService.GetAllToCurrentOwnerHubs(user);
-                var adminUnit = new List<AdminUnit> { _adminUnitService.FindById(1) };
-                var commodityTypes = _commodityTypeService.GetAllCommodityType();
-                var model = new DispatchHomeViewModel(toFdps, loans, transfer, commodityTypes, adminUnit, user);
-                return View(model);
-            
-                 */
-                }
-            return null;
-        }
+        //Cleanup: Unused Action
+        //public ViewResult Index_NEW()
+        //{
+        //    if (this.UserProfile != null)
+        //    {
+        //        UserProfile user = _userProfileService.GetUser(this.UserProfile.UserName);
+        //        populateLookups(user);
+        //        return View();
+        //        /*var prefWeight =
+        //            _userProfileService.GetUser(this.UserProfile.UserName).PreferedWeightMeasurment.ToUpperInvariant();
+        //        var toFdps =
+        //            _dispatchAllocationService.GetCommitedAllocationsByHubDetached(
+        //                user.DefaultHub.HubID, prefWeight, null, null, null);
+        //        var loans = _otherDispatchAllocationService.GetAllToOtherOwnerHubs(user);
+        //        var transfer = _otherDispatchAllocationService.GetAllToCurrentOwnerHubs(user);
+        //        var adminUnit = new List<AdminUnit> { _adminUnitService.FindById(1) };
+        //        var commodityTypes = _commodityTypeService.GetAllCommodityType();
+        //        var model = new DispatchHomeViewModel(toFdps, loans, transfer, commodityTypes, adminUnit, user);
+        //        return View(model);
 
-        public ActionResult DispatchedToFDPListAjax([DataSourceRequest] DataSourceRequest request,int? HubID, bool? closed, int? adminUnitID, int? commodityType)
+        //         */
+        //        }
+        //    return null;
+        //}
+
+        public ActionResult DispatchedToFDPListAjax([DataSourceRequest] DataSourceRequest request, int? HubID, bool? closed, int? adminUnitID, int? commodityType)
         {
             var user = _userProfileService.GetUser(User.Identity.Name);
             //HubID=HubID??HubID:user.DefaultHub.HubID; user.DefaultHub.HubID
@@ -173,7 +174,7 @@ namespace Cats.Areas.Hub.Controllers
         {
             var user = _userProfileService.GetUser(User.Identity.Name);
             int hub = (int)(HubID.HasValue ? HubID : user.DefaultHub.Value);
-            var loanAllocations = _otherDispatchAllocationService.GetCommitedLoanAllocationsDetached(user,hub, closed, commodityType);
+            var loanAllocations = _otherDispatchAllocationService.GetCommitedLoanAllocationsDetached(user, hub, closed, commodityType);
             return Json(loanAllocations.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
 
@@ -182,10 +183,10 @@ namespace Cats.Areas.Hub.Controllers
         {
             var user = _userProfileService.GetUser(User.Identity.Name);
             int hub = (int)(HubID.HasValue ? HubID : user.DefaultHub.Value);
-            var transferAllocations = _otherDispatchAllocationService.GetCommitedTransferAllocationsDetached(user,hub,  closed, commodityType);
+            var transferAllocations = _otherDispatchAllocationService.GetCommitedTransferAllocationsDetached(user, hub, closed, commodityType);
             foreach (var t in transferAllocations)
             {
-              //  t.OtherDispatchAllocationID =Guid.NewGuid();
+                //  t.OtherDispatchAllocationID =Guid.NewGuid();
             }
             return Json(transferAllocations.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
@@ -193,14 +194,14 @@ namespace Cats.Areas.Hub.Controllers
         {
             //var user = _userProfileService.GetUser(User.Identity.Name);
             //var fdpAllocations = _dispatchAllocationService.GetCommitedAllocationsByHubDetached(user.DefaultHub.HubID, user.PreferedWeightMeasurment, closed, adminUnitID, commodityType);
-           // return View(new List<DispatchAllocationViewModelDto>());
+            // return View(new List<DispatchAllocationViewModelDto>());
             return PartialView("DispatchedToFDPList", new List<DispatchAllocationViewModelDto>());
         }
         public ActionResult OtherDispatchAllocationsList(string allocationType, bool? closed, int? adminUnitID, int? commodityType)
         {
             ViewBag.allocationType = allocationType;
             return PartialView("OtherDispatchAllocationsList", new List<OtherDispatchAllocationDto>());
-        }        
+        }
 
 
         [GridAction]
@@ -244,7 +245,7 @@ namespace Cats.Areas.Hub.Controllers
             List<DispatchModelModelDto> otherDispatchs = _dispatchService.ByHubIdAndOtherAllocationIDetached(user.DefaultHub.Value, Guid.Parse(otherDispatchAllocationID));
             return View(new GridModel(otherDispatchs));
         }
-        
+
         [GridAction]
         public ActionResult DispatchListGridListGrid(string dispatchID)
         {
@@ -272,7 +273,7 @@ namespace Cats.Areas.Hub.Controllers
 
             var dispatch = _dispatchService.GetDispatchByGIN(gin);
             var user = _userProfileService.GetUser(User.Identity.Name);
-            
+
             Guid guidParse;
             if (Guid.TryParse(dispatchID, out guidParse))
             {
@@ -283,67 +284,67 @@ namespace Cats.Areas.Hub.Controllers
             {
                 return Json(true, JsonRequestBehavior.AllowGet);
             }
-            return Json(dispatch.HubID == user.DefaultHub.Value ? 
-                string.Format("{0} is invalid, there is an existing record with the same GIN", gin) : 
-                string.Format("{0} is invalid, there is an existing record with the same GIN at another Warehouse", gin), 
+            return Json(dispatch.HubID == user.DefaultHub.Value ?
+                string.Format("{0} is invalid, there is an existing record with the same GIN", gin) :
+                string.Format("{0} is invalid, there is an existing record with the same GIN at another Warehouse", gin),
                 JsonRequestBehavior.AllowGet);
         }
         //
         // GET: /Dispatch/Create
         public ActionResult CreateDispatch(string allocationId, int type, string ginNo)
-       {
-           ViewBag.UnitID = new SelectList(_unitService.GetAllUnit(), "UnitID", "Name");
+        {
+            ViewBag.UnitID = new SelectList(_unitService.GetAllUnit(), "UnitID", "Name");
             ViewBag.UnitPreference = _userProfileService.GetUser(this.UserProfile.UserName).PreferedWeightMeasurment;
-           var id = Guid.Parse(allocationId);
-           DispatchViewModel dispatch = _dispatchService.CreateDispatchFromDispatchAllocation(id, 0);
+            var id = Guid.Parse(allocationId);
+            DispatchViewModel dispatch = _dispatchService.CreateDispatchFromDispatchAllocation(id, 0);
 
-            var fdp = _fdpService.Get(t => t.FDPID == dispatch.FDPID,null,"AdminUnit,AdminUnit.AdminUnit2,AdminUnit.AdminUnit2.AdminUnit2").FirstOrDefault();
-           dispatch.UserProfileID = UserProfile.UserProfileID;
-           dispatch.Region = fdp.AdminUnit.AdminUnit2.AdminUnit2.Name;
-           dispatch.Zone = fdp.AdminUnit.AdminUnit2.Name;
-           dispatch.Woreda = fdp.AdminUnit.Name;
-           dispatch.FDP = fdp.Name;
+            var fdp = _fdpService.Get(t => t.FDPID == dispatch.FDPID, null, "AdminUnit,AdminUnit.AdminUnit2,AdminUnit.AdminUnit2.AdminUnit2").FirstOrDefault();
+            dispatch.UserProfileID = UserProfile.UserProfileID;
+            dispatch.Region = fdp.AdminUnit.AdminUnit2.AdminUnit2.Name;
+            dispatch.Zone = fdp.AdminUnit.AdminUnit2.Name;
+            dispatch.Woreda = fdp.AdminUnit.Name;
+            dispatch.FDP = fdp.Name;
             var transporter = _transporterService.FindById(dispatch.TransporterID);
-           
+
             dispatch.Transporter = transporter.Name;
             var dispatchAllocation =
                 _dispatchAllocationService.Get(t => t.DispatchAllocationID == dispatch.DispatchAllocationID, null,
                                                "ShippingInstruction,ProjectCode").FirstOrDefault();
-           
+
             if (dispatchAllocation.ShippingInstruction != null)
                 dispatch.SINumber = dispatchAllocation.ShippingInstruction.Value;
             if (dispatchAllocation.ProjectCode != null)
                 dispatch.ProjectNumber = dispatchAllocation.ProjectCode.Value;
-           
-            Commodity commodity=null;
-          
-                var id1 = dispatch.CommodityID;
-                 commodity = _commodityService.FindById(id1);
-            
 
-            
+            Commodity commodity = null;
 
-                //DispatchViewModel dispatchViewModel = DispatchViewModelBinder.BindDispatchViewModelBinder(dispatch);
-          if(commodity!=null)
-          {
-              dispatch.Commodity = commodity.Name;
-          }
-
-           return View(dispatch);
+            var id1 = dispatch.CommodityID;
+            commodity = _commodityService.FindById(id1);
 
 
-       }
+
+
+            //DispatchViewModel dispatchViewModel = DispatchViewModelBinder.BindDispatchViewModelBinder(dispatch);
+            if (commodity != null)
+            {
+                dispatch.Commodity = commodity.Name;
+            }
+
+            return View(dispatch);
+
+
+        }
         [HttpPost]
         public ActionResult CreateDispatch(DispatchViewModel dispatchviewmodel)
         {
             ViewBag.UnitID = new SelectList(_unitService.GetAllUnit(), "UnitID", "Name", dispatchviewmodel.UnitID);
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                
+
                 var reliefReq =
                     _reliefRequisitionService.FindBy(n => n.RequisitionID == dispatchviewmodel.RequisitionId).
                         FirstOrDefault();
-              
+
 
 
                 DispatchViewModel dispatch = _dispatchService.CreateDispatchFromDispatchAllocation(dispatchviewmodel.DispatchAllocationID, 0);
@@ -368,7 +369,7 @@ namespace Cats.Areas.Hub.Controllers
                 dispatch.Quantity = UserProfile.PreferedWeightMeasurment.ToLower() == "mt" ? dispatchviewmodel.Quantity : dispatchviewmodel.Quantity / 10;
                 _transactionService.SaveDispatchTransaction(dispatch);
 
-                var contacts = _contactService.FindBy(c=>c.FDPID == dispatch.FDPID);
+                var contacts = _contactService.FindBy(c => c.FDPID == dispatch.FDPID);
 
                 foreach (var contact in contacts)
                 {
@@ -377,8 +378,8 @@ namespace Cats.Areas.Hub.Controllers
                     {
                         //id = Guid.NewGuid().ToString(),
                         to = contact.PhoneNo,
-                        message = "Hello," + contact.FirstName + " There is a new dispatch with GIN " +dispatch.GIN+ " from " + hub + " hub. COMMODITY: " + dispatch.Commodity + " QUT: " + dispatch.Quantity + " MT." + "Transporter: '" + dispatch.Transporter + "' Plate No.: "
-                        + dispatch.PlateNo_Prime + "-" + dispatch.PlateNo_Trailer + " Date: " +DateTime.Today.ToShortDateString(),
+                        message = "Hello," + contact.FirstName + " There is a new dispatch with GIN " + dispatch.GIN + " from " + hub + " hub. COMMODITY: " + dispatch.Commodity + " QUT: " + dispatch.Quantity + " MT." + "Transporter: '" + dispatch.Transporter + "' Plate No.: "
+                        + dispatch.PlateNo_Prime + "-" + dispatch.PlateNo_Trailer + " Date: " + DateTime.Today.ToShortDateString(),
                     };
 
                     var sms = new SMS()
@@ -393,15 +394,15 @@ namespace Cats.Areas.Hub.Controllers
                     _smsService.AddSMS(sms);
                     //var result = _smsGatewayService.SendSMS(message);
                 }
-                
+
                 return RedirectToAction("Index", "Dispatch");
             }
 
             return View(dispatchviewmodel);
         }
-        public   ActionResult Create(string ginNo, int type)
+        public ActionResult Create(string ginNo, int type)
         {
-            
+
             var commodities = _commodityService.GetAllCommodity();
             var transporters = _transporterService.GetAllTransporter();
             var units = _unitService.GetAllUnit();
@@ -421,21 +422,14 @@ namespace Cats.Areas.Hub.Controllers
                 {
                     PrepareEdit(dispatch, user, type);
                     var transaction = _dispatchService.GetDispatchTransaction(dispatch.DispatchID);
-                    var dis = DispatchModel.GenerateDispatchModel(dispatch, transaction, commodities,
-            transporters,
-            units,
-            fdps,
-            programs,
-           regions,
-            zones,
-          stores);
+                    var dis = DispatchModel.GenerateDispatchModel(dispatch, transaction, commodities, transporters, units, fdps, programs, regions, zones, stores);
                     return View(dis);
                 }
                 PrepareCreate(type);
                 var comms = new List<DispatchDetailModel>();
                 ViewBag.SelectedCommodities = comms;
-                var  theViewModel = new DispatchModel(commodities,transporters,units,
-                    fdps,programs,regions,zones,stores) {Type = type, DispatchDetails = comms};
+                var theViewModel = new DispatchModel(commodities, transporters, units,
+                    fdps, programs, regions, zones, stores) { Type = type, DispatchDetails = comms };
                 ViewBag.Message = "The selected GIN Number doesn't exist on your default warehouse. Try changing your default warehouse.";
                 return View(theViewModel);
             }
@@ -449,24 +443,24 @@ namespace Cats.Areas.Hub.Controllers
 
                 if (Request["type"] != null && Request["allocationId"] != null)
                 {
-                    var allocationId= Guid.Parse(Request["allocationId"]);
+                    var allocationId = Guid.Parse(Request["allocationId"]);
                     var allocationTypeId = Convert.ToInt32(Request["type"]);
 
-                    if(allocationTypeId == 1)//to FDP
+                    if (allocationTypeId == 1)//to FDP
                     {
                         DispatchAllocation toFDPDispatchAllocation = _dispatchAllocationService.FindById(allocationId);
-                        
+
                         theViewModel.FDPID = toFDPDispatchAllocation.FDPID;
                         PrepareFDPForEdit(toFDPDispatchAllocation.FDPID);
-                        
+
                         theViewModel.RequisitionNo = toFDPDispatchAllocation.RequisitionNo;
                         theViewModel.BidNumber = toFDPDispatchAllocation.BidRefNo;
                         theViewModel.SINumber = toFDPDispatchAllocation.ShippingInstruction.Value;
                         theViewModel.ProjectNumber = toFDPDispatchAllocation.ProjectCode.Value;
 
                         theViewModel.CommodityTypeID = toFDPDispatchAllocation.Commodity.CommodityTypeID;
-                        ViewBag.CommodityTypeID = new SelectList(_commodityTypeService.GetAllCommodityType(), "CommodityTypeID", "Name",toFDPDispatchAllocation.Commodity.CommodityTypeID);
-                       
+                        ViewBag.CommodityTypeID = new SelectList(_commodityTypeService.GetAllCommodityType(), "CommodityTypeID", "Name", toFDPDispatchAllocation.Commodity.CommodityTypeID);
+
                         if (toFDPDispatchAllocation.ProgramID.HasValue)
                         {
                             theViewModel.ProgramID = toFDPDispatchAllocation.ProgramID.Value;
@@ -474,13 +468,13 @@ namespace Cats.Areas.Hub.Controllers
                         }
                         if (toFDPDispatchAllocation.TransporterID.HasValue)
                             theViewModel.TransporterID = toFDPDispatchAllocation.TransporterID.Value;
-                            ViewBag.TransporterID = new SelectList(_transporterService.GetAllTransporter(), "TransporterID", "Name", theViewModel.TransporterID);
+                        ViewBag.TransporterID = new SelectList(_transporterService.GetAllTransporter(), "TransporterID", "Name", theViewModel.TransporterID);
                         if (toFDPDispatchAllocation.Year.HasValue)
                             theViewModel.Year = toFDPDispatchAllocation.Year.Value;
-                                    var years = (from y in _periodService.GetYears()
-                         select new { Name = y, Id = y }).ToList();
-                            ViewBag.Year = new SelectList(years, "Id", "Name"); 
-                            ViewBag.Year = new SelectList(years, "Id", "Name",theViewModel.Year);            
+                        var years = (from y in _periodService.GetYears()
+                                     select new { Name = y, Id = y }).ToList();
+                        ViewBag.Year = new SelectList(years, "Id", "Name");
+                        ViewBag.Year = new SelectList(years, "Id", "Name", theViewModel.Year);
                         if (toFDPDispatchAllocation.Month.HasValue)
                             theViewModel.Month = toFDPDispatchAllocation.Month.Value;
                         var months = (from y in _periodService.GetMonths(theViewModel.Year)
@@ -510,19 +504,19 @@ namespace Cats.Areas.Hub.Controllers
 
                 return View(theViewModel);
             }
-        } 
+        }
 
         //
         // POST: /Dispatch/Create
 
         [GridAction]
-        public   ActionResult SelectDispatchsCommodities(string dispatchId)
+        public ActionResult SelectDispatchsCommodities(string dispatchId)
         {
             var commodities = new List<DispatchDetailModel>();
             if (dispatchId != null)
             {
                 var user = _userProfileService.GetUser(User.Identity.Name);
-                
+
                 commodities = DispatchDetailModel.GenerateDispatchDetailModels(_dispatchService.FindById(Guid.Parse(dispatchId)).DispatchDetails);
                 //commodities = (from c in repository.DispatchDetail.GetDispatchDetail(Guid.Parse(dispatchId))
                 //              select new Models.DispatchDetailModel()
@@ -565,7 +559,7 @@ namespace Cats.Areas.Hub.Controllers
                         //
                         // TODO the lines below are too nice to have but we need to look into the performance issue and 
                         // policies (i.e. editing should not be allowed ) may be only for quanitities 
-                         //
+                        //
                         else //replace the commodity read from the db by what's comming from the user
                         {
                             commodities.Remove(commodities.Find(p => p.Id == dispatchDetailViewModelComms.Id));
@@ -590,7 +584,7 @@ namespace Cats.Areas.Hub.Controllers
                     }
                 }
             }
-                
+
             ViewBag.Commodities = _commodityService.GetAllParents().Select(c => new CommodityModel() { Id = c.CommodityID, Name = c.Name }).ToList();
             //TODO do we really need the line below 
             //PrepareCreate(1);
@@ -601,7 +595,7 @@ namespace Cats.Areas.Hub.Controllers
         {
             var years = (from y in _periodService.GetYears()
                          select new { Name = y, Id = y }).ToList();
-            ViewBag.Year = new SelectList(years, "Id", "Name"); 
+            ViewBag.Year = new SelectList(years, "Id", "Name");
             ViewBag.Month = new SelectList(Enumerable.Empty<SelectListItem>(), "Id", "Name");
             ViewBag.TransporterID = new SelectList(_transporterService.GetAllTransporter(), "TransporterID", "Name");
 
@@ -632,16 +626,16 @@ namespace Cats.Areas.Hub.Controllers
 
         private void PrepareFDPCreate()
         {
-            ViewBag.SelectedRegionId = new SelectList(_adminUnitService.GetRegions().Select(p => new{Id = p.AdminUnitID, p.Name}), "Id", "Name");
+            ViewBag.SelectedRegionId = new SelectList(_adminUnitService.GetRegions().Select(p => new { Id = p.AdminUnitID, p.Name }), "Id", "Name");
             ViewBag.SelectedWoredaId = new SelectList(Enumerable.Empty<SelectListItem>(), "Id", "Name");
             ViewBag.FDPID = new SelectList(Enumerable.Empty<SelectListItem>(), "Id", "Name");
             ViewBag.SelectedZoneId = new SelectList(Enumerable.Empty<SelectListItem>(), "Id", "Name");
         }
 
         [HttpPost]
-        public   ActionResult Create(DispatchModel dispatchModel)
+        public ActionResult Create(DispatchModel dispatchModel)
         {
-            
+
             var user = _userProfileService.GetUser(User.Identity.Name);
 
             var insertCommodities = new List<DispatchDetailModel>();
@@ -649,7 +643,7 @@ namespace Cats.Areas.Hub.Controllers
             var prevCommodities = new List<DispatchDetailModel>();
             if (dispatchModel.JSONPrev != null)
             {
-                 prevCommodities = GetSelectedCommodities(dispatchModel.JSONPrev);
+                prevCommodities = GetSelectedCommodities(dispatchModel.JSONPrev);
 
                 //Even though they are updated they are not saved so move them in to the inserted at the end of a succcessful submit
                 int count = 0;
@@ -691,7 +685,8 @@ namespace Cats.Areas.Hub.Controllers
                 {
                     ModelState.AddModelError("DispatchDetails", errorMessage);
                 }
-            }else
+            }
+            else
             {
                 ModelState.AddModelError("DispatchDetails", @"Please add atleast one commodity to save this Dispatch");
             }
@@ -711,10 +706,10 @@ namespace Cats.Areas.Hub.Controllers
             {
                 ModelState.Remove("ToHubID");
             }
-            
+
             if (ModelState.IsValid && user != null)
             {
-                
+
                 if (dispatchModel.ChangeStoreManPermanently)
                 {
                     var storeTobeChanged = _storeService.FindById(dispatchModel.StoreID);
@@ -723,7 +718,7 @@ namespace Cats.Areas.Hub.Controllers
                 }
                 var dispatch = dispatchModel.GenerateDipatch(user);
                 //if (dispatch.DispatchID == null )
-                if(dispatchModel.DispatchID == null)
+                if (dispatchModel.DispatchID == null)
                 {
 
                     dispatchModel.DispatchDetails = prevCommodities;
@@ -736,23 +731,23 @@ namespace Cats.Areas.Hub.Controllers
                         }
                     }
                     //InsertDispatch(dispatchModel, user);
-                   _transactionService.SaveDispatchTransaction(dispatchModel, user);
+                    _transactionService.SaveDispatchTransaction(dispatchModel, user);
                 }
                 else
                 {
 
-                   // List<Models.DispatchDetailModel> insertCommodities = GetSelectedCommodities(dispatchModel.JSONInsertedCommodities);
+                    // List<Models.DispatchDetailModel> insertCommodities = GetSelectedCommodities(dispatchModel.JSONInsertedCommodities);
                     var deletedCommodities = GetSelectedCommodities(dispatchModel.JSONDeletedCommodities);
-                   // List<Models.DispatchDetailModel> updateCommodities = GetSelectedCommodities(dispatchModel.JSONUpdatedCommodities);
+                    // List<Models.DispatchDetailModel> updateCommodities = GetSelectedCommodities(dispatchModel.JSONUpdatedCommodities);
                     dispatch.HubID = user.DefaultHub.Value;
                     dispatch.Update(GenerateDispatchDetail(insertCommodities),
                         GenerateDispatchDetail(updateCommodities),
                         GenerateDispatchDetail(deletedCommodities));
 
                 }
-                
+
                 return RedirectToAction("Index");
-             }
+            }
             //List<Models.DispatchDetailModel> details = GetSelectedCommodities(dispatchModel.JSONInsertedCommodities);
             //Session["SELCOM"] = details;
 
@@ -766,10 +761,10 @@ namespace Cats.Areas.Hub.Controllers
             } //PrepareEdit(dispatchModel.GenerateDipatch(), user,dispatchModel.Type);
             return View(dispatchModel);
         }
-        
 
-       
-       
+
+
+
 
         private static List<DispatchDetail> GenerateDispatchDetail(IEnumerable<DispatchDetailModel> c)
         {
@@ -782,28 +777,28 @@ namespace Cats.Areas.Hub.Controllers
                         where requestedQuantity != null
                         select new DispatchDetail
                             {
-                        CommodityID = m.CommodityID,
-                        Description = m.Description,
-                        //DispatchDetailID = m.Id,
-                        RequestedQuantityInMT = requestedQuantityMt.Value,
-                        //DispatchedQuantityInMT = c.DispatchedQuantityMT,
-                        //DispatchedQuantityInUnit = c.DispatchedQuantity,
-                        RequestedQunatityInUnit = requestedQuantity.Value,
-                        UnitID = m.Unit
-                    }).ToList();
-                }
+                                CommodityID = m.CommodityID,
+                                Description = m.Description,
+                                //DispatchDetailID = m.Id,
+                                RequestedQuantityInMT = requestedQuantityMt.Value,
+                                //DispatchedQuantityInMT = c.DispatchedQuantityMT,
+                                //DispatchedQuantityInUnit = c.DispatchedQuantity,
+                                RequestedQunatityInUnit = requestedQuantity.Value,
+                                UnitID = m.Unit
+                            }).ToList();
+            }
             return new List<DispatchDetail>();
         }
 
-        public   ActionResult Months(int year)
+        public ActionResult Months(int year)
         {
-            var months = _periodService.GetMonths(year) ;
+            var months = _periodService.GetMonths(year);
             var monthList = MonthHelper.GetMonth(months);
             return Json(new SelectList(monthList, "Id", "Name"), JsonRequestBehavior.AllowGet);
         }
 
 
-        public   ActionResult JsonDispatch(string ginNo)
+        public ActionResult JsonDispatch(string ginNo)
         {
             var dispatch = _dispatchService.GetDispatchByGIN(ginNo);
             if (dispatch != null)
@@ -813,7 +808,7 @@ namespace Cats.Areas.Hub.Controllers
             return new EmptyResult();
         }
 
-        public   ActionResult _DispatchPartial(string ginNo, int type)
+        public ActionResult _DispatchPartial(string ginNo, int type)
         {
             var commodities = _commodityService.GetAllCommodity();
             var transporters = _transporterService.GetAllTransporter();
@@ -825,7 +820,7 @@ namespace Cats.Areas.Hub.Controllers
             var stores = _storeService.GetAllStore();
 
             ViewBag.Units = _unitService.GetAllUnit();
-            
+
             var dispatch = _dispatchService.GetDispatchByGIN(ginNo);
             var user = _userProfileService.GetUser(User.Identity.Name);
             if (dispatch != null)
@@ -853,12 +848,12 @@ namespace Cats.Areas.Hub.Controllers
             var years = (from y in _periodService.GetYears()
                          select new { Name = y, Id = y }).ToList();
             var months = (from y in _periodService.GetMonths(dispatch.PeriodYear)
-                         select new { Name = y, Id = y }).ToList();
+                          select new { Name = y, Id = y }).ToList();
             ViewBag.Year = new SelectList(years, "Id", "Name", dispatch.PeriodYear);
             ViewBag.Month = new SelectList(months, "Id", "Name", dispatch.PeriodMonth);
-            ViewData["Units"] = _unitService.GetAllUnit().Select(p => new { Id = p.UnitID, p.Name}).ToList();
+            ViewData["Units"] = _unitService.GetAllUnit().Select(p => new { Id = p.UnitID, p.Name }).ToList();
             var transaction = _dispatchService.GetDispatchTransaction(dispatch.DispatchID);
-            
+
 
             ViewBag.TransporterID = new SelectList(_transporterService.GetAllTransporter(), "TransporterID", "Name", dispatch.TransporterID);
             if (type == 1)
@@ -869,7 +864,7 @@ namespace Cats.Areas.Hub.Controllers
             {
                 var tran = _dispatchService.GetDispatchTransaction(dispatch.DispatchID);
                 //TODO I think there need's to be a check for this one 
-                ViewBag.ToHUBs = tran != null ? new SelectList(_hubService.GetAllHub().Select(p => new {Name = string.Format("{0} - {1}",p.Name,p.HubOwner.Name), HubID = p.HubID}), "HubID", "Name", tran.Account.EntityID) : null;
+                ViewBag.ToHUBs = tran != null ? new SelectList(_hubService.GetAllHub().Select(p => new { Name = string.Format("{0} - {1}", p.Name, p.HubOwner.Name), HubID = p.HubID }), "HubID", "Name", tran.Account.EntityID) : null;
             }
 
             if (transaction != null)
@@ -879,23 +874,23 @@ namespace Cats.Areas.Hub.Controllers
                 if (transaction.Stack != null)
                     ViewBag.StackNumbers = new SelectList(transaction.Store.Stacks.Select(p => new { Name = p, Id = p }), "Id", "Name", transaction.Stack.Value);
                 ViewData["Commodities"] = _commodityService.GetAllParents().Select(c => new CommodityModel { Id = c.CommodityID, Name = c.Name }).ToList();
-                ViewBag.CommodityTypeID = new SelectList(_commodityTypeService.GetAllCommodityType(), "CommodityTypeID", "Name",transaction.Commodity.CommodityTypeID);
+                ViewBag.CommodityTypeID = new SelectList(_commodityTypeService.GetAllCommodityType(), "CommodityTypeID", "Name", transaction.Commodity.CommodityTypeID);
             }
             else
             {
                 ViewBag.StoreID = new SelectList(_storeService.GetStoreByHub(user.DefaultHub.Value), "StoreID",
                                                  "Name"); //, transaction.StoreID);
                 ViewBag.ProgramID = new SelectList(_programService.GetAllProgram(), "ProgramID", "Name");
-                    //, transaction.ProgramID);
+                //, transaction.ProgramID);
                 //TODO i'm not so sure about the next line
                 var firstOrDefault = _storeService.GetAllStore().FirstOrDefault();
                 if (firstOrDefault != null)
                     ViewBag.StackNumbers =
-                        new SelectList(firstOrDefault.Stacks.Select(p => new {Name = p, Id = p}), "Id",
+                        new SelectList(firstOrDefault.Stacks.Select(p => new { Name = p, Id = p }), "Id",
                                        "Name"); //, transaction.Stack.Value); )//transaction.Store.Stacks
                 ViewData["Commodities"] =
                     _commodityService.GetAllParents().Select(
-                        c => new CommodityModel {Id = c.CommodityID, Name = c.Name}).ToList();
+                        c => new CommodityModel { Id = c.CommodityID, Name = c.Name }).ToList();
                 ViewBag.CommodityTypeID = new SelectList(_commodityTypeService.GetAllCommodityType(), "CommodityTypeID", "Name");
             }
             var comms = new List<DispatchDetailModel>();
@@ -912,7 +907,7 @@ namespace Cats.Areas.Hub.Controllers
                 if (fdp.AdminUnit.ParentID != null) unitModel.SelectedZoneId = fdp.AdminUnit.ParentID.Value;
 
                 unitModel.SelectedRegionId = _adminUnitService.GetRegionByZoneId(unitModel.SelectedZoneId);
-                ViewBag.SelectedRegionId = new SelectList(_adminUnitService.GetRegions().Select(p => new { Id = p.AdminUnitID, p.Name}).OrderBy(o => o.Name), "Id", "Name", unitModel.SelectedRegionId);
+                ViewBag.SelectedRegionId = new SelectList(_adminUnitService.GetRegions().Select(p => new { Id = p.AdminUnitID, p.Name }).OrderBy(o => o.Name), "Id", "Name", unitModel.SelectedRegionId);
                 ViewBag.SelectedZoneId = new SelectList(GetChildren(unitModel.SelectedRegionId).OrderBy(o => o.Name), "Id", "Name", unitModel.SelectedZoneId);
                 ViewBag.SelectedWoredaId = new SelectList(GetChildren(unitModel.SelectedZoneId).OrderBy(o => o.Name), "Id", "Name", unitModel.SelectedWoredaId);
                 ViewBag.FDPID = new SelectList(GetFdps(unitModel.SelectedWoredaId).OrderBy(o => o.Name), "Id", "Name", fdp.FDPID);
@@ -925,43 +920,8 @@ namespace Cats.Areas.Hub.Controllers
                 ViewBag.SelectedZoneId = new SelectList(Enumerable.Empty<SelectListItem>(), "Id", "Name");
             }
         }
-        
-        //
-        // GET: /Dispatch/Edit/5
 
-        public   ActionResult Edit(string id)
-        {
-            Dispatch dispatch = _dispatchService.FindById(Guid.Parse(id));
-            //ViewBag.PeriodID = new SelectList(db.Periods, "PeriodID", "PeriodID", dispatch.PeriodID);
-            ViewBag.StoreID = new SelectList(_storeService.GetAllStore(), "StoreID", "Name");
-            ViewBag.TransporterID = new SelectList(_transporterService.GetAllTransporter(), "TransporterID", "Name", dispatch.TransporterID);
-            ViewBag.HubID = new SelectList(_hubService.GetAllHub(), "WarehouseID", "Name", dispatch.HubID);
-            return View("Edit", dispatch);
-        }
 
-        //
-        // POST: /Dispatch/Edit/5
-
-        [HttpPost]
-        public   ActionResult Edit(Dispatch dispatch)
-        {
-            if (ModelState.IsValid)
-            {
-                _dispatchService.EditDispatch(dispatch);
-                return RedirectToAction("Index");
-            }
-            ViewBag.PeriodID = new SelectList(_periodService.GetAllPeriod(), "PeriodID", "PeriodID", _periodService.GetPeriod(dispatch.PeriodYear, dispatch.PeriodMonth).PeriodID);
-            var user = _userProfileService.GetUser(User.Identity.Name);
-            ViewBag.StoreID = new SelectList(_storeService.GetStoreByHub(user.DefaultHub.Value), "StoreID", "Name");
-            ViewBag.TransporterID = new SelectList(_transporterService.GetAllTransporter(), "TransporterID", "Name", dispatch.TransporterID);
-            ViewBag.HubID = new SelectList(user.UserHubs, "HubID", "Name", dispatch.HubID);
-            ViewBag.CommodityTypeID = new SelectList(_commodityTypeService.GetAllCommodityType(), "CommodityTypeID", "Name");
-            return View(dispatch);
-        }
-
-     
-
-        
         public List<AdminUnitItem> GetChildren(int parentId)
         {
             var units = from item in _adminUnitService.GetChildren(parentId)
@@ -985,7 +945,7 @@ namespace Cats.Areas.Hub.Controllers
             List<DispatchDetailModel> commodities = null;
             if (!string.IsNullOrEmpty(jsonArray))
             {
-                    commodities = JsonConvert.DeserializeObject<List<DispatchDetailModel>>(jsonArray);      
+                commodities = JsonConvert.DeserializeObject<List<DispatchDetailModel>>(jsonArray);
             }
             return commodities;
         }
@@ -1000,14 +960,15 @@ namespace Cats.Areas.Hub.Controllers
         public ActionResult IsSIValid(string siNumber, int? fdpid)
         {
             bool result;
-            if(fdpid != null)
+            if (fdpid != null)
             {
-                result=  _shippingInstructionService.HasBalance(siNumber, fdpid.Value);
-            }else
+                result = _shippingInstructionService.HasBalance(siNumber, fdpid.Value);
+            }
+            else
             {
                 result = _shippingInstructionService.GetShipingInstructionId(siNumber) > 0;
             }
-             
+
             return (Json(result, JsonRequestBehavior.AllowGet));
         }
 
@@ -1034,7 +995,7 @@ namespace Cats.Areas.Hub.Controllers
                 repositoryDispatchGetFDPBalance.TotalAllocation *= 10;
                 repositoryDispatchGetFDPBalance.CurrentBalance *= 10;
                 //TODO fix the line below it's not corrcet for some cases
-                
+
                 repositoryDispatchGetFDPBalance.mesure = "Unit";
                 repositoryDispatchGetFDPBalance.multiplier = 1;
             }
@@ -1051,17 +1012,17 @@ namespace Cats.Areas.Hub.Controllers
         public ActionResult JsonRegionZones(string requisitionNumber)
         {
             List<DispatchAllocation> allocations = _dispatchAllocationService.GetAllocations(requisitionNumber);
-            if(allocations.Count > 0)
+            if (allocations.Count > 0)
             {
                 var firstOrDefault = allocations.FirstOrDefault();
                 if (firstOrDefault != null)
                 {
                     var region = firstOrDefault.FDP.AdminUnit.AdminUnit2.AdminUnit2.AdminUnitID;
                     var zone = firstOrDefault.FDP.AdminUnit.AdminUnit2.AdminUnitID;
-                    return Json(new {region, zone}, JsonRequestBehavior.AllowGet);
+                    return Json(new { region, zone }, JsonRequestBehavior.AllowGet);
                 }
             }
-            return Json( "" , JsonRequestBehavior.AllowGet);
+            return Json("", JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult JsonSIStores(string siNumber, int? editModval)
@@ -1077,18 +1038,18 @@ namespace Cats.Areas.Hub.Controllers
                              && t.HubID == user.DefaultHubObj.HubID && t.ShippingInstructionID == siNumberID);
                 var stores = (from tr in tempTransactions
                               group tr by new { tr.StoreID }
-                              into store
-                              select
-                                  new
-                                      {
-                                          STORE = store.Key.StoreID,
-                                          AvailableBalance = store.Sum(p => p.QuantityInMT),
-                                          AvailableBalanceInUnit = store.Sum(q => q.QuantityInUnit)
-                                      });
+                                  into store
+                                  select
+                                      new
+                                          {
+                                              STORE = store.Key.StoreID,
+                                              AvailableBalance = store.Sum(p => p.QuantityInMT),
+                                              AvailableBalanceInUnit = store.Sum(q => q.QuantityInUnit)
+                                          });
 
-                var storeList =  (from store in stores
-                                  where store.AvailableBalance > 0 || store.AvailableBalanceInUnit > 0
-                                  select store.STORE).ToList();
+                var storeList = (from store in stores
+                                 where store.AvailableBalance > 0 || store.AvailableBalanceInUnit > 0
+                                 select store.STORE).ToList();
                 var storeObjs = (from store in storeList let i = store where i != null where i != null select _storeService.FindById(i.Value)).ToList();
                 //var storeObjs = (from store in storeList
                 //                 let i = store

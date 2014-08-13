@@ -181,8 +181,13 @@ namespace Cats.Areas.Hub.Controllers
             try
             {
                 UserProfile user = _userProfileService.GetUser(User.Identity.Name);
-                HubID = HubID > 0 ? HubID : user.DefaultHub.Value;
-                //HubID=user.DefaultHub.HubID
+                if (user.DefaultHub != null)
+                {
+                    if (HubID <= 0)
+                    {
+                        HubID = user.DefaultHub.Value;
+                    }
+                }
                 list = _receiptAllocationService.GetUnclosedAllocationsDetached(HubID, type, closed, user.PreferedWeightMeasurment, commodityType);
                 //newly added
                 list = type == CommoditySource.Constants.LOAN ? list.Where(t => t.CommoditySourceID == CommoditySource.Constants.LOAN || t.CommoditySourceID == CommoditySource.Constants.SWAP || t.CommoditySourceID == CommoditySource.Constants.TRANSFER || t.CommoditySourceID == CommoditySource.Constants.REPAYMENT).ToList() : list.Where(t => t.CommoditySourceID == type).ToList();
@@ -461,6 +466,7 @@ namespace Cats.Areas.Hub.Controllers
                         receiveViewModel.SupplierName = rAllocation.SupplierName;
                         receiveViewModel.SourceHubID = rAllocation.SourceHubID;
                         receiveViewModel.PurchaseOrder = rAllocation.PurchaseOrder;
+                        receiveViewModel.CommoditySourceText = rAllocation.CommoditySource.Name;
 
                         if (rAllocation.Commodity.ParentID != null)
                         {

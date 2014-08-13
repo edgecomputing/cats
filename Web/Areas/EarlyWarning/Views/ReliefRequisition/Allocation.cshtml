@@ -17,7 +17,7 @@
 @section Toolbar
 {
     <a class="btn toolbar-btn " data-buttontype="btn_back_to_list" href="@Url.Action("Index", "ReliefRequisition")"></a>
-    @if (Model.StatusID == (int)Cats.Models.Constant.ReliefRequisitionStatus.Draft)
+    @if (Model.StatusID == (int)Cats.Models.Constant.ReliefRequisitionStatus.Draft || Model.StatusID == (int)Cats.Models.Constant.ReliefRequisitionStatus.Rejected)
     {
         <a class="btn toolbar-btn " data-buttontype="btn_edit" href="@Url.Action("Edit", "ReliefRequisition", new { id = Model.RequisitionID })"></a>
 

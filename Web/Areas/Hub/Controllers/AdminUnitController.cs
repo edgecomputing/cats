@@ -29,12 +29,12 @@ namespace Cats.Areas.Hub.Controllers
             _dispatchAllocationService = dispatchAllocationService;
         }
 
-        [Authorize]
-        public ActionResult Index()
-        {
-            var types = _adminUnitService.GetAdminUnitTypes();
-            return View("Index", types);
-        }
+        //[Authorize]
+        //public ActionResult Index()
+        //{
+        //    var types = _adminUnitService.GetAdminUnitTypes();
+        //    return View("Index", types);
+        //}
 
         [Authorize]
         public ActionResult AdminUnits(int? id)
@@ -65,146 +65,146 @@ namespace Cats.Areas.Hub.Controllers
 
         //
         // GET: /AdminUnit/Create
-        [Authorize]
-        public ActionResult Create(int typeid)
-        {
-            var model = new AdminUnitModel();
-            switch (typeid)
-            {
-                case 2:
-                    model.SelectedAdminUnitTypeId = Cats.Web.Hub.Infrastructure.Configuration.RegionTypeId;
-                    return PartialView("CreateRegion", model);
-                case 3:
-                    model.SelectedAdminUnitTypeId = Cats.Web.Hub.Infrastructure.Configuration.ZoneTypeId;
-                    return PartialView("CreateZone", model);
-                case 4:
-                    model.SelectedAdminUnitTypeId = Cats.Web.Hub.Infrastructure.Configuration.WoredaTypeId;
-                    return View("CreateWoreda", model);
-                default:
-                    model.SelectedAdminUnitTypeId = Cats.Web.Hub.Infrastructure.Configuration.RegionTypeId;
-                    return PartialView("CreateRegion", model);
-            }
+        //[Authorize]
+        //public ActionResult Create(int typeid)
+        //{
+        //    var model = new AdminUnitModel();
+        //    switch (typeid)
+        //    {
+        //        case 2:
+        //            model.SelectedAdminUnitTypeId = Cats.Web.Hub.Infrastructure.Configuration.RegionTypeId;
+        //            return PartialView("CreateRegion", model);
+        //        case 3:
+        //            model.SelectedAdminUnitTypeId = Cats.Web.Hub.Infrastructure.Configuration.ZoneTypeId;
+        //            return PartialView("CreateZone", model);
+        //        case 4:
+        //            model.SelectedAdminUnitTypeId = Cats.Web.Hub.Infrastructure.Configuration.WoredaTypeId;
+        //            return View("CreateWoreda", model);
+        //        default:
+        //            model.SelectedAdminUnitTypeId = Cats.Web.Hub.Infrastructure.Configuration.RegionTypeId;
+        //            return PartialView("CreateRegion", model);
+        //    }
 
-        }
+        //}
 
-        [Authorize]
-        public ActionResult CreateRegion()
-        {
-            var model = new AdminUnitModel { SelectedAdminUnitTypeId = Web.Hub.Infrastructure.Configuration.RegionTypeId };
-            return PartialView("CreateRegion", model);
-        }
+        //[Authorize]
+        //public ActionResult CreateRegion()
+        //{
+        //    var model = new AdminUnitModel { SelectedAdminUnitTypeId = Web.Hub.Infrastructure.Configuration.RegionTypeId };
+        //    return PartialView("CreateRegion", model);
+        //}
 
-        [Authorize]
-        public ActionResult CreateZone(int? regionId)
-        {
-            var model = new AdminUnitModel();
-            if (regionId.HasValue)
-            {
-                var region = _adminUnitService.FindById(regionId.Value);
-                model.SelectedRegionId = region.AdminUnitID;
-                model.SelectedRegionName = region.Name;
-            }
-            model.SelectedAdminUnitTypeId = Web.Hub.Infrastructure.Configuration.ZoneTypeId;
-            return PartialView("CreateZone", model);
-        }
+        //[Authorize]
+        //public ActionResult CreateZone(int? regionId)
+        //{
+        //    var model = new AdminUnitModel();
+        //    if (regionId.HasValue)
+        //    {
+        //        var region = _adminUnitService.FindById(regionId.Value);
+        //        model.SelectedRegionId = region.AdminUnitID;
+        //        model.SelectedRegionName = region.Name;
+        //    }
+        //    model.SelectedAdminUnitTypeId = Web.Hub.Infrastructure.Configuration.ZoneTypeId;
+        //    return PartialView("CreateZone", model);
+        //}
 
-        public ActionResult CreateWoreda(int? zoneId)
-        {
-            var model = new AdminUnitModel { SelectedAdminUnitTypeId = Web.Hub.Infrastructure.Configuration.WoredaTypeId };
+        //public ActionResult CreateWoreda(int? zoneId)
+        //{
+        //    var model = new AdminUnitModel { SelectedAdminUnitTypeId = Web.Hub.Infrastructure.Configuration.WoredaTypeId };
 
-            if (zoneId.HasValue)
-            {
-                var zone = _adminUnitService.FindById(zoneId.Value);
-                model.SelectedZoneName = zone.Name;
-                model.SelectedZoneId = zone.AdminUnitID;
-                model.SelectedRegionId = zone.AdminUnit2.AdminUnitID;
-                model.SelectedRegionName = zone.AdminUnit2.Name;
-            }
-            return PartialView("CreateWoreda", model);
-        }
+        //    if (zoneId.HasValue)
+        //    {
+        //        var zone = _adminUnitService.FindById(zoneId.Value);
+        //        model.SelectedZoneName = zone.Name;
+        //        model.SelectedZoneId = zone.AdminUnitID;
+        //        model.SelectedRegionId = zone.AdminUnit2.AdminUnitID;
+        //        model.SelectedRegionName = zone.AdminUnit2.Name;
+        //    }
+        //    return PartialView("CreateWoreda", model);
+        //}
 
         //
         // POST: /AdminUnit/Create
 
-        [HttpPost]
-        public ActionResult Create(AdminUnitModel unit)
-        {
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    var aunit = new AdminUnit {AdminUnitTypeID = unit.SelectedAdminUnitTypeId};
-                    if (aunit.AdminUnitTypeID == Web.Hub.Infrastructure.Configuration.ZoneTypeId)
-                    {
-                        aunit.ParentID = unit.SelectedRegionId;
-                    }
-                    else if (aunit.AdminUnitTypeID == Web.Hub.Infrastructure.Configuration.WoredaTypeId)
-                    {
-                        aunit.ParentID = unit.SelectedZoneId;
-                    }
-                    aunit.Name = unit.UnitName;
-                    aunit.NameAM = unit.UnitNameAM;
+        //[HttpPost]
+        //public ActionResult Create(AdminUnitModel unit)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        try
+        //        {
+        //            var aunit = new AdminUnit {AdminUnitTypeID = unit.SelectedAdminUnitTypeId};
+        //            if (aunit.AdminUnitTypeID == Web.Hub.Infrastructure.Configuration.ZoneTypeId)
+        //            {
+        //                aunit.ParentID = unit.SelectedRegionId;
+        //            }
+        //            else if (aunit.AdminUnitTypeID == Web.Hub.Infrastructure.Configuration.WoredaTypeId)
+        //            {
+        //                aunit.ParentID = unit.SelectedZoneId;
+        //            }
+        //            aunit.Name = unit.UnitName;
+        //            aunit.NameAM = unit.UnitNameAM;
 
-                    _adminUnitService.AddAdminUnit(aunit);
-                    return Json(new {success = true});
-                }
-                catch (Exception)
-                {
-                    return View();
-                }
-            }
-            return View("Create");
-        }
+        //            _adminUnitService.AddAdminUnit(aunit);
+        //            return Json(new {success = true});
+        //        }
+        //        catch (Exception)
+        //        {
+        //            return View();
+        //        }
+        //    }
+        //    return View("Create");
+        //}
 
-        //
-        // GET: /AdminUnit/Edit/5
+        ////
+        //// GET: /AdminUnit/Edit/5
 
-        public ActionResult Edit(int id)
-        {
-            var unit = _adminUnitService.FindById(id);
-            return PartialView("Edit", unit);
-        }
+        //public ActionResult Edit(int id)
+        //{
+        //    var unit = _adminUnitService.FindById(id);
+        //    return PartialView("Edit", unit);
+        //}
 
-        //
-        // POST: /AdminUnit/Edit/5
+        ////
+        //// POST: /AdminUnit/Edit/5
 
-        [HttpPost]
-        public ActionResult Edit(int id, AdminUnit unit)
-        {
+        //[HttpPost]
+        //public ActionResult Edit(int id, AdminUnit unit)
+        //{
 
-            if (ModelState.IsValid)
-            {
-                _adminUnitService.EditAdminUnit(unit);
-                return Json(new {success = true});
-            }
-            return PartialView("Edit", unit);
-        }
+        //    if (ModelState.IsValid)
+        //    {
+        //        _adminUnitService.EditAdminUnit(unit);
+        //        return Json(new {success = true});
+        //    }
+        //    return PartialView("Edit", unit);
+        //}
 
-        //
-        // GET: /AdminUnit/Delete/5
+        ////
+        //// GET: /AdminUnit/Delete/5
 
-        public ActionResult Delete(int id)
-        {
-            var unit = _adminUnitService.FindById(id);
-            return View("Delete", unit);
-        }
+        //public ActionResult Delete(int id)
+        //{
+        //    var unit = _adminUnitService.FindById(id);
+        //    return View("Delete", unit);
+        //}
 
-        //
-        // POST: /AdminUnit/Delete/5
+        ////
+        //// POST: /AdminUnit/Delete/5
 
-        [HttpPost]
-        public ActionResult Delete(int id, AdminUnit unit)
-        {
-            try
-            {
-                _adminUnitService.DeleteAdminUnit(unit);
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View("Delete");
-            }
-        }
+        //[HttpPost]
+        //public ActionResult Delete(int id, AdminUnit unit)
+        //{
+        //    try
+        //    {
+        //        _adminUnitService.DeleteAdminUnit(unit);
+        //        return RedirectToAction("Index");
+        //    }
+        //    catch
+        //    {
+        //        return View("Delete");
+        //    }
+        //}
 
         public ActionResult GetRegions()
         {

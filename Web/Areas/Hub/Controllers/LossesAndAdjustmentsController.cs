@@ -160,12 +160,6 @@ namespace Cats.Areas.Hub.Controllers
             return View(_adjustmentService.GetAllLossAndAdjustmentLog(UserProfile.DefaultHub.Value));
         }
 
-        public ActionResult Filter()
-        {
-            return PartialView();
-        }
-
-
 
         public ActionResult GetStacksForToStore(int? ToStoreId)
         {

@@ -62,16 +62,28 @@
                 <li><a href="@Url.Action("Allocation", "Request", new { Area = "EarlyWarning", id = modelRequest.RegionalRequestID })">Allocation</a></li>
                 <li><a href="@Url.Action("ApproveRequest", "Request", new {id = modelRequest.RegionalRequestID})">Approve</a></li>
                 
-                
             }
             @if (modelRequest.StatusID == (int)Cats.Models.Constant.RegionalRequestStatus.Approved && modelRequest.ProgramId == 3)
             {
                 <li><a id = "btnEditPlan" href="@Url.Action("CreateRequisitionForIDPS", "ReliefRequisition", new { Area = "EarlyWarning", id = modelRequest.RegionalRequestID, programId = modelRequest.ProgramId })"><i class="icon-plus"></i>IDPS Requisiton</a></li>                       
+                <li><a href="@Url.Action("RejectRequest", "Request", new {id = modelRequest.RegionalRequestID})">Reject</a></li>
             }
             else if (modelRequest.StatusID == (int)Cats.Models.Constant.RegionalRequestStatus.Approved)
             {
                 <li><a href="@Url.Action("CreateRequisiton", "ReliefRequisition", new { Area = "EarlyWarning", id = modelRequest.RegionalRequestID })"><i class="icon-plus"></i>Requisiton</a></li>
+                <li><a href="@Url.Action("RejectRequest", "Request", new {id = modelRequest.RegionalRequestID})">Reject</a></li>
             }
+             else if (modelRequest.StatusID == (int)Cats.Models.Constant.RegionalRequestStatus.Closed)
+            {
+                <li><a href="@Url.Action("RevertRequestStatus", "Request", new { Area = "EarlyWarning", id = modelRequest.RegionalRequestID })">Revert Status</a></li>
+            }
+            else if (modelRequest.StatusID == (int) Cats.Models.Constant.RegionalRequestStatus.Reject)
+            {
+                <li><a href="@Url.Action("Edit", "Request", new { Area = "EarlyWarning", id = modelRequest.RegionalRequestID })">Edit</a></li>
+                <li><a href="@Url.Action("Allocation", "Request", new { Area = "EarlyWarning", id = modelRequest.RegionalRequestID })">Allocation</a></li>
+                <li><a href="@Url.Action("ApproveRequest", "Request", new {id = modelRequest.RegionalRequestID})">Approve</a></li>
+            }
+            
         </ul>
 
     </div>

@@ -221,7 +221,7 @@ namespace Cats.Services.EarlyWarning
                     NeedAApprovedBy = userID,
                     TypeOfNeedAssessment = needAssessmentTypeID,
                     NeedAApproved = false,
-                    NeedADate = DateTime.Now
+                    NeedADate = DateTime.Now,
                 };
             _unitOfWork.NeedAssessmentRepository.Add(needAssessment);
             foreach (var adminUnit in zones)
