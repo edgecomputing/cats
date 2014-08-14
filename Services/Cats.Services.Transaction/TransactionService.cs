@@ -539,10 +539,13 @@ namespace Cats.Services.Transaction
                             FirstOrDefault();
                     if (projectCode != null) transaction.ProjectCodeID = projectCode.ProjectCodeID;
                 }
+
+                var newAllocation = new SIPCAllocation();
+                newAllocation = allocationDetail;
                 _unitOfWork.TransactionRepository.Add(transaction2);
                 allocationDetail.TransactionGroupID = transactionGroup;
-                allocationDetail.CommitType = false;
-                _unitOfWork.SIPCAllocationRepository.Edit(allocationDetail);
+                newAllocation.CommitType = false;
+                _unitOfWork.SIPCAllocationRepository.Add(newAllocation);
                 //result.Add(transaction);
             }
             var requisition = _unitOfWork.ReliefRequisitionRepository.FindById(requisitionID);
