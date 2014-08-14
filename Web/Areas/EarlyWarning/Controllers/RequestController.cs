@@ -321,7 +321,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                 {
                     var exisiting = 0;
 
-                    if (psnphrdPlanInfo.HRDPSNPPlan.ProgramID == 1)
+                    if (psnphrdPlanInfo.HRDPSNPPlan.ProgramID == (int)Programs.Releif)
                     {
                         if (psnphrdPlanInfo.HRDPSNPPlan.PlanID == 0)
                         {
