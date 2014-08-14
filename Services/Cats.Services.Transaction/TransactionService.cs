@@ -425,6 +425,133 @@ namespace Cats.Services.Transaction
               //return result;
             return true;
         }
+
+        public bool PostSIAllocationUncommit(int requisitionID)
+        {
+            var allocationDetails = _unitOfWork.SIPCAllocationRepository.Get(t => t.ReliefRequisitionDetail.RequisitionID == requisitionID);
+            if (allocationDetails == null) return false;
+
+            var transactionGroup = Guid.NewGuid();
+            var transactionDate = DateTime.Now;
+            _unitOfWork.TransactionGroupRepository.Add(new TransactionGroup { PartitionID = 0, TransactionGroupID = transactionGroup });
+
+            //ProjectCodeID	ShippingInstructionID ProgramID QuantityInMT	QuantityInUnit	UnitID	TransactionDate	RegionID	Month	Round	DonorID	CommoditySourceID	GiftTypeID	FDP
+
+            foreach (var allocationDetail in allocationDetails)
+            {
+                var transaction = new Models.Transaction
+                {
+                    TransactionID = Guid.NewGuid(),
+                    TransactionGroupID = transactionGroup,
+                    TransactionDate = transactionDate,
+                    UnitID = 1
+                };
+
+                var allocation = allocationDetail;
+
+                // I see some logical error here
+                // what happens when hub x was selected and the allocation was made from hub y? 
+                //TOFIX: 
+                // Hub is required for this transaction
+                // Try catch is danger!! Either throw the exception or use conditional statement. 
+                try
+                {
+                    transaction.HubID =
+                                        _unitOfWork.HubAllocationRepository.FindBy(r => r.RequisitionID == allocation.ReliefRequisitionDetail.RequisitionID).Select(
+                                                h => h.HubID).FirstOrDefault();
+                }
+                catch (Exception)
+                {
+
+
+                }
+
+
+                transaction.QuantityInMT = allocationDetail.AllocatedAmount;
+                transaction.QuantityInUnit = allocationDetail.AllocatedAmount;
+                transaction.LedgerID = Ledger.Constants.COMMITED_TO_FDP;
+                transaction.CommodityID = allocationDetail.ReliefRequisitionDetail.CommodityID;
+                transaction.FDPID = allocationDetail.ReliefRequisitionDetail.FDPID;
+                transaction.ProgramID = (int)allocationDetail.ReliefRequisitionDetail.ReliefRequisition.ProgramID;
+                transaction.RegionID = allocationDetail.ReliefRequisitionDetail.ReliefRequisition.RegionID;
+                transaction.PlanId = allocationDetail.ReliefRequisitionDetail.ReliefRequisition.RegionalRequest.PlanID;
+                transaction.Round = allocationDetail.ReliefRequisitionDetail.ReliefRequisition.Round;
+
+
+                if (allocationDetail.AllocationType == TransactionConstants.Constants.SHIPPNG_INSTRUCTION)
+                {
+                    transaction.ShippingInstructionID = allocationDetail.Code;
+                }
+                else
+                {
+                    transaction.ProjectCodeID = allocationDetail.Code;
+                }
+                _unitOfWork.TransactionRepository.Add(transaction);
+                // result.Add(transaction);
+
+                /*post Debit-Pledged To FDP*/
+                var transaction2 = new Models.Transaction
+                {
+                    TransactionID = Guid.NewGuid(),
+                    TransactionGroupID = transactionGroup,
+                    TransactionDate = transactionDate,
+                    UnitID = 1
+                };
+
+                //TOFIX: do not use try catch
+                try
+                {
+                    transaction2.HubID =
+                                       _unitOfWork.HubAllocationRepository.FindBy(r => r.RequisitionID == allocation.ReliefRequisitionDetail.RequisitionID).Select(
+                                               h => h.HubID).FirstOrDefault();
+
+                }
+                catch (Exception)
+                {
+
+
+                }
+
+                transaction2.QuantityInMT = -allocationDetail.AllocatedAmount;
+                transaction2.QuantityInUnit = -allocationDetail.AllocatedAmount;
+                transaction2.LedgerID = Ledger.Constants.PLEDGED_TO_FDP;
+                transaction2.CommodityID = allocationDetail.ReliefRequisitionDetail.CommodityID;
+                transaction2.FDPID = allocationDetail.ReliefRequisitionDetail.FDPID;
+                transaction2.ProgramID = (int)allocationDetail.ReliefRequisitionDetail.ReliefRequisition.ProgramID;
+                transaction2.RegionID = allocationDetail.ReliefRequisitionDetail.ReliefRequisition.RegionID;
+                transaction2.PlanId = allocationDetail.ReliefRequisitionDetail.ReliefRequisition.RegionalRequest.PlanID;
+                transaction2.Round = allocationDetail.ReliefRequisitionDetail.ReliefRequisition.Round;
+
+                if (allocationDetail.AllocationType == TransactionConstants.Constants.SHIPPNG_INSTRUCTION)
+                {
+                    var siCode = allocationDetail.Code.ToString();
+                    var shippingInstruction =
+                        _unitOfWork.ShippingInstructionRepository.Get(t => t.Value == siCode).
+                            FirstOrDefault();
+                    if (shippingInstruction != null) transaction.ShippingInstructionID = shippingInstruction.ShippingInstructionID;
+                }
+                else
+                {
+                    var detail = allocationDetail;
+                    var code = detail.Code.ToString();
+                    var projectCode =
+                        _unitOfWork.ProjectCodeRepository.Get(t => t.Value == code).
+                            FirstOrDefault();
+                    if (projectCode != null) transaction.ProjectCodeID = projectCode.ProjectCodeID;
+                }
+                _unitOfWork.TransactionRepository.Add(transaction2);
+                allocationDetail.TransactionGroupID = transactionGroup;
+                allocationDetail.CommitType = false;
+                _unitOfWork.SIPCAllocationRepository.Edit(allocationDetail);
+                //result.Add(transaction);
+            }
+            var requisition = _unitOfWork.ReliefRequisitionRepository.FindById(requisitionID);
+            requisition.Status = 4;
+            _unitOfWork.ReliefRequisitionRepository.Edit(requisition);
+            _unitOfWork.Save();
+            //return result;
+            return true;
+        }
 #endregion
 
 #region Post Donation Plan
