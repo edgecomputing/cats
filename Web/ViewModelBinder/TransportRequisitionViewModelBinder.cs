@@ -61,8 +61,8 @@ namespace Cats.ViewModelBinder
                 transportRequisitionDetailViewModel.Zone = requisitionToDispatch.Zone;
                 transportRequisitionDetailViewModel.RequisitionNo = requisitionToDispatch.RequisitionNo;
                 transportRequisitionDetailViewModel.RequisitionID = requisitionToDispatch.RequisitionID;
-                //transportRequisitionDetailViewModel.DonorID = requisitionToDispatch.DonorID;
-                //transportRequisitionDetailViewModel.Donor = requisitionToDispatch.Donor;
+                transportRequisitionDetailViewModel.ProgramID = requisitionToDispatch.ProgramID;
+                transportRequisitionDetailViewModel.Program = requisitionToDispatch.Program;
             }
             return transportRequisitionDetailViewModel;
         }

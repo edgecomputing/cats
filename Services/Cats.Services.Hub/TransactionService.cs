@@ -642,155 +642,165 @@ namespace Cats.Services.Hub
         public void SaveDispatchTransaction(DispatchViewModel dispatchViewModel)
         {
 
+            var dispatch = new Dispatch
+            {
+                BidNumber = dispatchViewModel.BidNumber,
+                CreatedDate = dispatchViewModel.CreatedDate,
+                DispatchAllocationID = dispatchViewModel.DispatchAllocationID,
+                DispatchDate = dispatchViewModel.DispatchDate,
+                DispatchID = Guid.NewGuid(),
+                DispatchedByStoreMan = dispatchViewModel.DispatchedByStoreMan,
+                DriverName = dispatchViewModel.DriverName,
+                FDPID = dispatchViewModel.FDPID,
+                GIN = dispatchViewModel.GIN,
+                HubID = dispatchViewModel.HubID,
+                PeriodMonth = dispatchViewModel.Month,
+                PeriodYear = dispatchViewModel.Year,
+                PlateNo_Prime = dispatchViewModel.PlateNo_Prime,
+                PlateNo_Trailer = dispatchViewModel.PlateNo_Trailer,
+                Remark = dispatchViewModel.Remark,
+                RequisitionNo = dispatchViewModel.RequisitionNo,
+                Round = dispatchViewModel.Round,
+                TransporterID = dispatchViewModel.TransporterID,
+                UserProfileID = dispatchViewModel.UserProfileID,
+                WeighBridgeTicketNumber = dispatchViewModel.WeighBridgeTicketNumber
+            };
 
-
-            var dispatch = new Dispatch();
-            dispatch.BidNumber = dispatchViewModel.BidNumber;
-            dispatch.CreatedDate = dispatchViewModel.CreatedDate;
-            dispatch.DispatchAllocationID = dispatchViewModel.DispatchAllocationID;
-            dispatch.DispatchDate = dispatchViewModel.DispatchDate;
-            dispatch.DispatchID = Guid.NewGuid();
-            dispatch.DispatchedByStoreMan = dispatchViewModel.DispatchedByStoreMan;
-            dispatch.DriverName = dispatchViewModel.DriverName;
-            dispatch.FDPID = dispatchViewModel.FDPID;
-            dispatch.GIN = dispatchViewModel.GIN;
-            dispatch.HubID = dispatchViewModel.HubID;
-            dispatch.PeriodMonth = dispatchViewModel.Month;
-            dispatch.PeriodYear = dispatchViewModel.Year;
-            dispatch.PlateNo_Prime = dispatchViewModel.PlateNo_Prime;
-            dispatch.PlateNo_Trailer = dispatchViewModel.PlateNo_Trailer;
-            dispatch.Remark = dispatchViewModel.Remark;
-            dispatch.RequisitionNo = dispatchViewModel.RequisitionNo;
-            dispatch.Round = dispatchViewModel.Round;
-
-            dispatch.TransporterID = dispatchViewModel.TransporterID;
             //dispatch.Type = dispatchViewModel.Type;
-            dispatch.UserProfileID = dispatchViewModel.UserProfileID;
-            dispatch.WeighBridgeTicketNumber = dispatchViewModel.WeighBridgeTicketNumber;
 
-            TransactionGroup group = new TransactionGroup();
+            var group = new TransactionGroup();
             group.TransactionGroupID = Guid.NewGuid();
 
-            DispatchDetail dispatchDetail = new DispatchDetail();
-            dispatchDetail.DispatchID = dispatch.DispatchID;
-            dispatchDetail.CommodityID = dispatchViewModel.CommodityID;
-            dispatchDetail.Description = dispatchViewModel.Commodity;
-            dispatchDetail.DispatchDetailID = Guid.NewGuid();
-            dispatchDetail.RequestedQuantityInMT = dispatchViewModel.Quantity;
-            dispatchDetail.RequestedQunatityInUnit = dispatchViewModel.QuantityInUnit;
-            dispatchDetail.QuantityPerUnit = dispatchViewModel.QuantityPerUnit;
-            dispatchDetail.UnitID = dispatchViewModel.UnitID;
-            dispatchDetail.TransactionGroupID = group.TransactionGroupID;
-
+            var dispatchDetail = new DispatchDetail
+            {
+                DispatchID = dispatch.DispatchID,
+                CommodityID = dispatchViewModel.CommodityID,
+                Description = dispatchViewModel.Commodity,
+                DispatchDetailID = Guid.NewGuid(),
+                RequestedQuantityInMT = dispatchViewModel.Quantity,
+                RequestedQunatityInUnit = dispatchViewModel.QuantityInUnit,
+                QuantityPerUnit = dispatchViewModel.QuantityPerUnit,
+                UnitID = dispatchViewModel.UnitID,
+                TransactionGroupID = @group.TransactionGroupID
+            };
 
 
             // Physical movement of stock
-            Transaction transaction2 = new Transaction();
-            transaction2.TransactionID = Guid.NewGuid();
-            transaction2.AccountID = _accountService.GetAccountIdWithCreate(Account.Constants.FDP, dispatchViewModel.FDPID);
-            transaction2.ProgramID = dispatchViewModel.ProgramID;
-            transaction2.ParentCommodityID = dispatchViewModel.CommodityID;
-            transaction2.CommodityID = dispatchViewModel.CommodityID;
-            transaction2.FDPID = dispatchViewModel.FDPID;
-            transaction2.HubID = dispatchViewModel.HubID;
-            transaction2.HubOwnerID = _unitOfWork.HubRepository.FindById(dispatchViewModel.HubID).HubOwnerID;
-            transaction2.LedgerID = Cats.Models.Ledger.Constants.GOODS_IN_TRANSIT;
-            transaction2.QuantityInMT = +dispatchViewModel.Quantity;
-            transaction2.QuantityInUnit = +dispatchViewModel.QuantityInUnit;
-            transaction2.ShippingInstructionID = dispatchViewModel.ShippingInstructionID;
-            transaction2.ProjectCodeID = dispatchViewModel.ProjectCodeID;
-            transaction2.Round = dispatchViewModel.Round;
-            transaction2.PlanId = dispatchViewModel.PlanId;
+            var transactionInTransit = new Transaction
+            {
+                TransactionID = Guid.NewGuid(),
+                AccountID = _accountService.GetAccountIdWithCreate(Account.Constants.FDP, dispatchViewModel.FDPID),
+                ProgramID = dispatchViewModel.ProgramID,
+                ParentCommodityID = dispatchViewModel.CommodityID,
+                CommodityID = dispatchViewModel.CommodityID,
+                FDPID = dispatchViewModel.FDPID,
+                HubID = dispatchViewModel.HubID,
+                HubOwnerID = _unitOfWork.HubRepository.FindById(dispatchViewModel.HubID).HubOwnerID,
+                LedgerID = Models.Ledger.Constants.GOODS_IN_TRANSIT,
+                QuantityInMT = +dispatchViewModel.Quantity,
+                QuantityInUnit = +dispatchViewModel.QuantityInUnit,
+                ShippingInstructionID = dispatchViewModel.ShippingInstructionID,
+                ProjectCodeID = dispatchViewModel.ProjectCodeID,
+                Round = dispatchViewModel.Round,
+                PlanId = dispatchViewModel.PlanId,
+                TransactionDate = DateTime.Now,
+                UnitID = dispatchViewModel.UnitID,
+                TransactionGroupID = @group.TransactionGroupID
+            };
             //transaction2.Stack = dispatchModel.StackNumber;
             //transaction2.StoreID = dispatchModel.StoreID;
-            transaction2.TransactionDate = DateTime.Now;
-            transaction2.UnitID = dispatchViewModel.UnitID;
-            transaction2.TransactionGroupID = group.TransactionGroupID;
             //group.Transactions.Add(transaction2);
 
 
 
-            Transaction transaction = new Transaction();
-            transaction.TransactionID = Guid.NewGuid();
-            transaction.AccountID = _accountService.GetAccountIdWithCreate(Account.Constants.FDP, dispatchViewModel.FDPID);
-            transaction.ProgramID = dispatchViewModel.ProgramID;
-            transaction.ParentCommodityID = dispatchViewModel.CommodityID;
-            transaction.CommodityID = dispatchViewModel.CommodityID;
-            transaction.FDPID = dispatchViewModel.FDPID;
-            transaction.HubID = dispatchViewModel.HubID;
-            transaction.HubOwnerID = _unitOfWork.HubRepository.FindById(dispatchViewModel.HubID).HubOwnerID;
-            transaction.LedgerID = Cats.Models.Ledger.Constants.GOODS_ON_HAND;
-            transaction.QuantityInMT = -dispatchViewModel.Quantity;
-            transaction.QuantityInUnit = -dispatchViewModel.QuantityInUnit;
-            transaction.ShippingInstructionID = dispatchViewModel.ShippingInstructionID;
-            transaction.ProjectCodeID = dispatchViewModel.ProjectCodeID;
-            transaction.Round = dispatchViewModel.Round;
-            transaction.PlanId = dispatchViewModel.PlanId;
+            var transactionGoh = new Transaction
+            {
+                TransactionID = Guid.NewGuid(),
+                AccountID = _accountService.GetAccountIdWithCreate(Account.Constants.FDP, dispatchViewModel.FDPID),
+                ProgramID = dispatchViewModel.ProgramID,
+                ParentCommodityID = dispatchViewModel.CommodityID,
+                CommodityID = dispatchViewModel.CommodityID,
+                FDPID = dispatchViewModel.FDPID,
+                HubID = dispatchViewModel.HubID,
+                HubOwnerID = _unitOfWork.HubRepository.FindById(dispatchViewModel.HubID).HubOwnerID,
+                LedgerID = Models.Ledger.Constants.GOODS_ON_HAND,
+                QuantityInMT = -dispatchViewModel.Quantity,
+                QuantityInUnit = -dispatchViewModel.QuantityInUnit,
+                ShippingInstructionID = dispatchViewModel.ShippingInstructionID,
+                ProjectCodeID = dispatchViewModel.ProjectCodeID,
+                Round = dispatchViewModel.Round,
+                PlanId = dispatchViewModel.PlanId,
+                TransactionDate = DateTime.Now,
+                UnitID = dispatchViewModel.UnitID,
+                TransactionGroupID = @group.TransactionGroupID
+            };
             //transaction.Stack = dispatch.StackNumber;
             //transaction.StoreID = dispatch.StoreID;
-            transaction.TransactionDate = DateTime.Now;
-            transaction.UnitID = dispatchViewModel.UnitID;
-            transaction.TransactionGroupID = group.TransactionGroupID;
-
 
 
             // plan side of the transaction (Red Border)
 
-            transaction2 = new Transaction();
-            transaction2.TransactionID = Guid.NewGuid();
-            transaction2.AccountID = _accountService.GetAccountIdWithCreate(Account.Constants.FDP, dispatchViewModel.FDPID);
-            transaction2.ProgramID = dispatchViewModel.ProgramID;
-            transaction2.ParentCommodityID = dispatchViewModel.CommodityID;
-            transaction2.CommodityID = dispatchViewModel.CommodityID;
-            transaction2.FDPID = dispatchViewModel.FDPID;
-            transaction2.HubID = dispatchViewModel.HubID;
-            transaction2.HubOwnerID = _unitOfWork.HubRepository.FindById(dispatchViewModel.HubID).HubOwnerID;
-            transaction2.LedgerID = Cats.Models.Ledger.Constants.COMMITED_TO_FDP;
-            transaction2.QuantityInMT = +dispatchViewModel.Quantity;
-            transaction2.QuantityInUnit = +dispatchViewModel.QuantityInUnit;
-            transaction2.ShippingInstructionID = dispatchViewModel.ShippingInstructionID;
-            transaction2.ProjectCodeID = dispatchViewModel.ProjectCodeID;
-            transaction2.Round = dispatchViewModel.Round;
-            transaction2.PlanId = dispatchViewModel.PlanId;
+            var transactionComitedToFdp = new Transaction
+            {
+                TransactionID = Guid.NewGuid(),
+                AccountID = _accountService.GetAccountIdWithCreate(Account.Constants.FDP, dispatchViewModel.FDPID),
+                ProgramID = dispatchViewModel.ProgramID,
+                ParentCommodityID = dispatchViewModel.CommodityID,
+                CommodityID = dispatchViewModel.CommodityID,
+                FDPID = dispatchViewModel.FDPID,
+                HubID = dispatchViewModel.HubID,
+                HubOwnerID = _unitOfWork.HubRepository.FindById(dispatchViewModel.HubID).HubOwnerID,
+                LedgerID = Models.Ledger.Constants.COMMITED_TO_FDP,
+                QuantityInMT = +dispatchViewModel.Quantity,
+                QuantityInUnit = +dispatchViewModel.QuantityInUnit,
+                ShippingInstructionID = dispatchViewModel.ShippingInstructionID,
+                ProjectCodeID = dispatchViewModel.ProjectCodeID,
+                Round = dispatchViewModel.Round,
+                PlanId = dispatchViewModel.PlanId,
+                TransactionDate = DateTime.Now,
+                UnitID = dispatchViewModel.UnitID,
+                TransactionGroupID = @group.TransactionGroupID
+            };
             //transaction2.Stack = dispatchModel.StackNumber;
             //transaction2.StoreID = dispatchModel.StoreID;
-            transaction2.TransactionDate = DateTime.Now;
-            transaction2.UnitID = dispatchViewModel.UnitID;
-            transaction2.TransactionGroupID = group.TransactionGroupID;
             //group.Transactions.Add(transaction2);
 
 
 
 
 
-            transaction = new Transaction();
-            transaction.TransactionID = Guid.NewGuid();
-            transaction.AccountID = _accountService.GetAccountIdWithCreate(Account.Constants.FDP, dispatchViewModel.FDPID);
-            transaction.ProgramID = dispatchViewModel.ProgramID;
-            transaction.ParentCommodityID = dispatchViewModel.CommodityID;
-            transaction.CommodityID = dispatchViewModel.CommodityID;
-            transaction.FDPID = dispatchViewModel.FDPID;
-            transaction.HubID = dispatchViewModel.HubID;
-            transaction.HubOwnerID = _unitOfWork.HubRepository.FindById(dispatchViewModel.HubID).HubOwnerID;
-            transaction.LedgerID = Cats.Models.Ledger.Constants.STATISTICS_FREE_STOCK;
-            transaction.QuantityInMT = -dispatchViewModel.Quantity;
-            transaction.QuantityInUnit = -dispatchViewModel.QuantityInUnit;
-            transaction.ShippingInstructionID = dispatchViewModel.ShippingInstructionID;
-            transaction.ProjectCodeID = dispatchViewModel.ProjectCodeID;
-            transaction.Round = dispatchViewModel.Round;
-            transaction.PlanId = dispatchViewModel.PlanId;
+            var transactionInTansitFreeStock = new Transaction
+            {
+                TransactionID = Guid.NewGuid(),
+                AccountID = _accountService.GetAccountIdWithCreate(Account.Constants.FDP, dispatchViewModel.FDPID),
+                ProgramID = dispatchViewModel.ProgramID,
+                ParentCommodityID = dispatchViewModel.CommodityID,
+                CommodityID = dispatchViewModel.CommodityID,
+                FDPID = dispatchViewModel.FDPID,
+                HubID = dispatchViewModel.HubID,
+                HubOwnerID = _unitOfWork.HubRepository.FindById(dispatchViewModel.HubID).HubOwnerID,
+                LedgerID = Cats.Models.Ledger.Constants.STATISTICS_FREE_STOCK,
+                QuantityInMT = -dispatchViewModel.Quantity,
+                QuantityInUnit = -dispatchViewModel.QuantityInUnit,
+                ShippingInstructionID = dispatchViewModel.ShippingInstructionID,
+                ProjectCodeID = dispatchViewModel.ProjectCodeID,
+                Round = dispatchViewModel.Round,
+                PlanId = dispatchViewModel.PlanId,
+                TransactionDate = DateTime.Now,
+                UnitID = dispatchViewModel.UnitID,
+                TransactionGroupID = @group.TransactionGroupID
+            };
             //transaction.Stack = dispatch.StackNumber;
             //transaction.StoreID = dispatch.StoreID;
-            transaction.TransactionDate = DateTime.Now;
-            transaction.UnitID = dispatchViewModel.UnitID;
-            transaction.TransactionGroupID = group.TransactionGroupID;
             dispatch.DispatchDetails.Add(dispatchDetail);
 
             try
             {
                 _unitOfWork.TransactionGroupRepository.Add(group);
-                _unitOfWork.TransactionRepository.Add(transaction2);
-                _unitOfWork.TransactionRepository.Add(transaction);
+                _unitOfWork.TransactionRepository.Add(transactionInTransit);
+                _unitOfWork.TransactionRepository.Add(transactionGoh);
+                _unitOfWork.TransactionRepository.Add(transactionInTansitFreeStock);
+                _unitOfWork.TransactionRepository.Add(transactionComitedToFdp);
                 _unitOfWork.DispatchRepository.Add(dispatch);
                 _unitOfWork.Save();
 
