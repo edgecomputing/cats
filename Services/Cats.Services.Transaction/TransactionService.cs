@@ -545,11 +545,12 @@ namespace Cats.Services.Transaction
                 _unitOfWork.TransactionRepository.Add(transaction2);
                 allocationDetail.TransactionGroupID = transactionGroup;
                 newAllocation.CommitType = false;
+                newAllocation.AllocatedAmount = -allocationDetail.AllocatedAmount;
                 _unitOfWork.SIPCAllocationRepository.Add(newAllocation);
                 //result.Add(transaction);
             }
             var requisition = _unitOfWork.ReliefRequisitionRepository.FindById(requisitionID);
-            requisition.Status = 4;
+            requisition.Status = (int) Cats.Models.Constant.ReliefRequisitionStatus.Approved;
             _unitOfWork.ReliefRequisitionRepository.Edit(requisition);
             _unitOfWork.Save();
             //return result;
