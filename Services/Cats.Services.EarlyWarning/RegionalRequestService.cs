@@ -228,18 +228,18 @@ namespace Cats.Services.EarlyWarning
                 HRDPSNPPlanInfo result = new HRDPSNPPlanInfo();
                 List<BeneficiaryInfo> beneficiaryInfos = new List<BeneficiaryInfo>();
                 result.HRDPSNPPlan = plan;
-                if (plan.ProgramID == 2)
+                if (plan.ProgramID == (int)Programs.PSNP)
                 {
                     RegionalPSNPPlan psnpplan =
                         _unitOfWork.RegionalPSNPPlanRepository.FindBy(r => r.PlanId == plan.PSNPPlanID).FirstOrDefault();
 
                     if (psnpplan != null)
                     {
-                        var lastPsnpRequest = _unitOfWork.RegionalRequestRepository.FindBy(r => r.RegionID == plan.RegionID && r.ProgramId == 2 && r.PlanID == plan.PSNPPlanID).LastOrDefault();
+                        var lastPsnpRequest = _unitOfWork.RegionalRequestRepository.FindBy(r => r.RegionID == plan.RegionID && r.ProgramId == (int)Programs.PSNP && r.PlanID == plan.PSNPPlanID).LastOrDefault();
                         if (lastPsnpRequest != null)
                         {
                             result.HRDPSNPPlan.RationID = psnpplan.RationID;
-                            var noOfPsnprequests = _unitOfWork.RegionalRequestRepository.FindBy(r => r.RegionID == plan.RegionID && r.ProgramId == 2 && r.PlanID == plan.PSNPPlanID).Count;
+                            var noOfPsnprequests = _unitOfWork.RegionalRequestRepository.FindBy(r => r.RegionID == plan.RegionID && r.ProgramId == (int)Programs.PSNP && r.PlanID == plan.PSNPPlanID).Count;
                             var psnpApplicationWoredas = (from psnpDetail in psnpplan.RegionalPSNPPlanDetails
                                                           where
                                                               psnpDetail.PlanedWoreda.AdminUnit2.AdminUnit2.AdminUnitID ==
@@ -256,7 +256,7 @@ namespace Cats.Services.EarlyWarning
 
                     }
                 }
-                else if (plan.ProgramID == 1)
+                else if (plan.ProgramID == (int)Programs.Releif)
                 {
                     HRD hrd = _unitOfWork.HRDRepository.FindBy(r => r.PlanID == plan.PlanID).LastOrDefault();
 
@@ -265,7 +265,7 @@ namespace Cats.Services.EarlyWarning
 
                         var lastRequest =
                             _unitOfWork.RegionalRequestRepository.FindBy(
-                                r => r.RegionID == plan.RegionID && r.ProgramId == 1 && r.PlanID == plan.PlanID).
+                                r => r.RegionID == plan.RegionID && r.ProgramId == (int)Programs.Releif && r.PlanID == plan.PlanID).
                                 LastOrDefault();
                         if (lastRequest != null)
                         {
@@ -383,14 +383,14 @@ namespace Cats.Services.EarlyWarning
 
         private bool CheckDurationOfAssisstance(HRDPSNPPlan plan)
         {
-            if (plan.ProgramID == 1)
+            if (plan.ProgramID == (int) Programs.Releif)
             {
 
                 var hrd = _unitOfWork.HRDRepository.FindBy(m => m.PlanID == plan.PlanID).LastOrDefault();
                 //var woredas=new List<>();
                 if (hrd != null)
                 {
-                    var requests = _unitOfWork.RegionalRequestRepository.FindBy(r => r.RegionID == plan.RegionID && r.ProgramId == 1 && r.PlanID == plan.PlanID);
+                    var requests = _unitOfWork.RegionalRequestRepository.FindBy(r => r.RegionID == plan.RegionID && r.ProgramId == (int) Programs.Releif && r.PlanID == plan.PlanID);
 
                     var hrdDetails = (from region in hrd.HRDDetails
                                       where region.AdminUnit.AdminUnit2.AdminUnit2.AdminUnitID == plan.RegionID
@@ -401,6 +401,25 @@ namespace Cats.Services.EarlyWarning
                                           }).ToList();
 
                     if (requests.Count >= hrdDetails.Max(m => m.DurationOfAssistance))
+                        return false;
+                    return true;
+                }
+
+            }
+            else if (plan.ProgramID== (int)Programs.PSNP)
+            {
+                var psnpPlan = _unitOfWork.RegionalPSNPPlanRepository.FindBy(m => m.PlanId == plan.PSNPPlanID).LastOrDefault();
+                if (psnpPlan !=null)
+                {
+                    var psnpRequests =_unitOfWork.RegionalRequestRepository.FindBy( r => r.RegionID == plan.RegionID && r.ProgramId == (int) Programs.PSNP && r.PlanID == plan.PSNPPlanID);
+                    var psnpPlanDetails = (from detail in psnpPlan.RegionalPSNPPlanDetails
+                                           where detail.PlanedWoreda.AdminUnit2.AdminUnit2.AdminUnitID == plan.RegionID
+                                           select new
+                                               {
+                                                   detail.PlanedWoredaID,
+                                                   detail.FoodRatio
+                                               }).ToList();
+                    if (psnpRequests.Count >= psnpPlanDetails.Max(m => m.FoodRatio))
                         return false;
                     return true;
                 }

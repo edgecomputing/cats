@@ -196,7 +196,6 @@
                   .Ajax()
                   .Aggregates(aggregates =>aggregates.Add(p => p.QuantityQtl).Sum())
                   .Aggregates(aggregates =>aggregates.Add(p => p.TotalAmount).Sum())
-                  .PageSize(8)
                     .Model(model =>
                         {
                             model.Id(p => p.TransportOrderID);
