@@ -334,7 +334,23 @@ namespace Cats.Services.Procurement
                 }
 
             }
-            return transportSourceDestination;
+            var groupedTransportSourceDestination = transportSourceDestination.GroupBy(ac => new
+                {
+                    ac.HubID,
+                    ac.RequisitionID,
+                    ac.TransporterID,
+                    ac.TransportRequisitionDetailID,
+                    ac.WoredaID
+                }).Select(ac=>new TransporterRequisition
+                    {
+                        HubID = ac.Key.HubID,
+                        RequisitionID = ac.Key.RequisitionID,
+                        TariffPerQtl = ac.FirstOrDefault().TariffPerQtl,
+                        TransporterID = ac.Key.TransporterID,
+                        TransportRequisitionDetailID=ac.Key.TransportRequisitionDetailID,
+                        WoredaID = ac.Key.WoredaID
+                    }).ToList();
+            return groupedTransportSourceDestination;
         }
 
         public List<vwTransportOrder> GeTransportOrderRpt(int id)

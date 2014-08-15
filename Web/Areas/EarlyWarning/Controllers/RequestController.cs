@@ -193,7 +193,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                 switch (user.CaseTeam)
                 {
                     case 1://earlywarning
-                        ViewBag.ProgramId = new SelectList(_commonService.GetPrograms().Where(p => p.ProgramID == (int)Programs.Releif).Take(2), "ProgramID", "Name");
+                        ViewBag.ProgramId = new SelectList(_commonService.GetPrograms().Where(p => p.ProgramID == (int)Programs.Releif || p.ProgramID==(int)Programs.IDPS).Take(2), "ProgramID", "Name");
                         break;
                     case 2: //PSNP
                         ViewBag.ProgramId = new SelectList(_commonService.GetPrograms().Where(p => p.ProgramID == (int)Programs.PSNP).Take(2), "ProgramID", "Name");
@@ -321,7 +321,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                 {
                     var exisiting = 0;
 
-                    if (psnphrdPlanInfo.HRDPSNPPlan.ProgramID == 1)
+                    if (psnphrdPlanInfo.HRDPSNPPlan.ProgramID == (int)Programs.Releif)
                     {
                         if (psnphrdPlanInfo.HRDPSNPPlan.PlanID == 0)
                         {

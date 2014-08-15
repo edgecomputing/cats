@@ -243,7 +243,8 @@ namespace Cats.Services.Logistics
                 requisitionToDispatch.CommodityName = requisition.Commodity.Name;
                 requisitionToDispatch.Zone = requisition.AdminUnit1.Name;
                 if (requisition.RegionID != null) requisitionToDispatch.RegionID = requisition.RegionID.Value;
-
+                requisitionToDispatch.ProgramID = requisition.ProgramID;
+                requisitionToDispatch.Program = requisition.Program.Name;
                 requisitionToDispatch.RegionName = requisition.AdminUnit.Name;
                 if (status != null) requisitionToDispatch.RequisitionStatusName = status.Description;
                 result.Add(requisitionToDispatch);

@@ -500,9 +500,10 @@ namespace Cats.Areas.Logistics.Controllers
                          Warehouse = transportRequisitionDetail.OrignWarehouse,
                          Region = transportRequisitionDetail.Region,
                          Zone = transportRequisitionDetail.Zone,
+                         Program = transportRequisitionDetail.Program,
                          Donor = "WFP",
                          transportRequisitionDetail.RequisitionID,
-                         fromSIPC = (from projectCodeAllocation in _projectCodeAllocationService.FindBy(p => p.HubAllocationID == 3/*_hubAllocationService.GetAllocatedHubId(transportRequisitionDetail.RequisitionID)*/)
+                         fromSIPC = (from projectCodeAllocation in _projectCodeAllocationService.FindBy(p => p.HubAllocationID == _hubAllocationService.GetAllocatedHubId(transportRequisitionDetail.RequisitionID))
                                      select new
                                          {
                                              CommodityName = transportRequisitionDetail.CommodityName,
