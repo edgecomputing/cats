@@ -543,8 +543,8 @@ namespace Cats.Services.Transaction
                 var newAllocation = new SIPCAllocation();
                 newAllocation = allocationDetail;
                 _unitOfWork.TransactionRepository.Add(transaction2);
-                allocationDetail.TransactionGroupID = transactionGroup;
                 newAllocation.CommitType = false;
+                newAllocation.TransactionGroupID = allocationDetail.TransactionGroupID;
                 newAllocation.AllocatedAmount = -allocationDetail.AllocatedAmount;
                 _unitOfWork.SIPCAllocationRepository.Add(newAllocation);
                 //result.Add(transaction);
