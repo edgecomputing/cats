@@ -24,12 +24,12 @@
             </td>
              <td style="width: 50%">
                  <div class="control-label">
-                    @Html.LabelFor(m=>m.CommodityID,@Html.Translate2(pageName,"Commodity Type"))
-                </div>
-                <div class="controls">
-                    @Html.DropDownList("CommodityTypeID")
-                    @*@Html.ValidationMessageFor(m=>m.CommodityID)*@
-                </div>
+                    @Html.LabelFor(m=>m.CommodityTypeID,@Html.Translate2(pageName,"Commodity Type"))
+                 </div>
+                 <div class="controls">
+                     @Html.DropDownList("CommodityTypeID")
+                     @*@Html.ValidationMessageFor(m=>m.CommodityID)*@
+                 </div>
                 
             </td>
            @* <td style="width: 50%">
@@ -54,12 +54,13 @@
             </td>
              <td>
                <div class="control-label">
-                    @Html.LabelFor(m=>m.CommodityID,@Html.Translate2(pageName,"Commodity"))
+                    @Html.LabelFor(m=>m.ParentCommodityID,@Html.Translate2(pageName,"Parent Commodity"))
                 </div>
-                <div class="controls">
-                    @Html.DropDownList("CommodityID")
-                    @Html.ValidationMessageFor(m=>m.CommodityID)
-                </div>
+                 <div class="controls">
+                     <select id="ParentCommodityID" name="ParentCommodityID"></select>
+                     @*@Html.DropDownList("ParentCommodityID")
+                    @Html.ValidationMessageFor(m=>m.ParentCommodityID)*@
+                 </div>
             </td>
         </tr>
         <tr>
@@ -73,12 +74,13 @@
                 </div>
             </td>
             <td>
-                <div class="control-label">
-                    @Html.LabelFor(m=>m.ReferenceNumber,@Html.Translate2(pageName,"Reference Number"))
+               <div class="control-label">
+                    @Html.LabelFor(m=>m.CommodityID,@Html.Translate2(pageName,"Commodity"))
                 </div>
                 <div class="controls">
-                    @Html.TextBoxFor(m=>m.ReferenceNumber)
-                    @Html.ValidationMessageFor(m=>m.ReferenceNumber)
+                    <select id="CommodityID" name="CommodityID"></select>
+                    @*@Html.DropDownList("CommodityID")
+                    @Html.ValidationMessageFor(m=>m.CommodityID)*@
                 </div>
             </td>
         </tr>
@@ -123,6 +125,17 @@
                 </div>
             </td>
         </tr>
+        <tr>
+            <td>
+                <div class="control-label">
+                    @Html.LabelFor(m=>m.ReferenceNumber,@Html.Translate2(pageName,"Reference Number"))
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(m=>m.ReferenceNumber)
+                    @Html.ValidationMessageFor(m=>m.ReferenceNumber)
+                </div>
+            </td>
+        </tr>
     </table>
     
     <div class="modal-footer"> <button class="btn btn-primary" type="submit">Save</button>
@@ -148,6 +161,55 @@ $(document).ready(function () {
                     $(errorClass[i].element).popover('show');
                 }
             }
+        });
+    
+        $.getJSON('@Url.Action("JsonParentCommodities","Transfer")', { commodityTypeID: 1, editModval: '@Model.CommodityTypeID' }, function (result) {
+            //for (var i = 0; i < 2; i++)
+            //    alert(result[i].Text);
+            if (result != "" && result != null) {
+                //$('#StoreID').data('tComboBox').value(result[0]);
+                var options = '<option value="">-- Select a Parent Commodity</option>';
+                for (var i = 0; i < result.length; i++) {
+                    options += '<option value="' + result[i].Value + '">' + result[i].Text + '</option>';
+                }
+                $("#ParentCommodityID").html(options);
+
+            }
+        });
+    
+        $('#CommodityTypeID').change(function () {
+            var url = '@Url.Action("JsonParentCommodities","Transfer")';
+            $.getJSON(url, { commodityTypeID: $('#CommodityTypeID').val(), editModval: '@Model.CommodityTypeID' }, function (result) {
+                //for (var i = 0; i < 2; i++)
+                //    alert(result[i].Text);
+                if (result != "" && result != null) {
+                    //$('#StoreID').data('tComboBox').value(result[0]);
+                    var options = '<option value="">-- Select a Parent Commodity</option>';
+                    for (var i = 0; i < result.length; i++) {
+                        options += '<option value="' + result[i].Value + '">' + result[i].Text + '</option>';
+                    }
+                    $("#ParentCommodityID").html(options);
+
+                }
+            });
+            $("#CommodityID").html('');
+        });
+    
+        $('#ParentCommodityID').change(function () {
+            var url = '@Url.Action("JsonCommodities","Transfer")';
+            $.getJSON(url, { parentCommodityID: $('#ParentCommodityID').val(), editModval: '@Model.ParentCommodityID' }, function (result) {
+                //for (var i = 0; i < 2; i++)
+                //    alert(result[i].Text);
+                if (result != "" && result != null) {
+                    //$('#StoreID').data('tComboBox').value(result[0]);
+                    var options = '<option value="">-- Select a Commodity</option>';
+                    for (var i = 0; i < result.length; i++) {
+                        options += '<option value="' + result[i].Value + '">' + result[i].Text + '</option>';
+                    }
+                    $("#CommodityID").html(options);
+
+                }
+            });
         });
 });
 
