@@ -197,6 +197,7 @@
     <Compile Include="Areas\EarlyWarning\Controllers\ContributionController.cs" />
     <Compile Include="Areas\Hub\Controllers\AdminUnitController.cs" />
     <Compile Include="Areas\Hub\Controllers\CommodityController.cs" />
+    <Compile Include="Areas\Hub\Controllers\ReceiveNewController.cs" />
     <Compile Include="Areas\Hub\Models\StoreViewModel.cs" />
     <Compile Include="Areas\Settings\Controllers\AccountController.cs" />
     <Compile Include="Areas\Settings\Controllers\CurrencyController.cs" />
@@ -2115,6 +2116,7 @@
     <Content Include="Content\MapResources\MapData\ethiopiaRegions-old.txt" />
     <Content Include="Areas\Settings\Views\AdminUnit\GISMapping.cshtml" />
     <Content Include="Areas\Logistics\Views\DispatchAllocation\_ApprovedRequisitions.cshtml" />
+    <Content Include="Areas\Hub\Views\ReceiveNew\Create.cshtml" />
     <None Include="dataset.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>dataset.Designer.cs</LastGenOutput>

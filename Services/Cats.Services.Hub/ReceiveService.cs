@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using System.Text;
 using Cats.Data.Hub;
 using Cats.Data.Hub.UnitWork;
 using Cats.Models.Hubs.ViewModels;
@@ -80,7 +81,7 @@ namespace Cats.Services.Hub
         public List<Receive> ByHubId(int hubId)
         {
             return _unitOfWork.ReceiveRepository.FindBy(r => r.HubID == hubId);
-           
+
         }
 
         public Receive FindById(System.Guid id)
@@ -117,9 +118,9 @@ namespace Cats.Services.Hub
             ports.Insert(0, new PortViewModel { PortName = "All Ports" });
             return ports;
         }
-       public void Update(List<ReceiveDetail> inserted, List<ReceiveDetail> updated, List<ReceiveDetail> deleted, Receive receive)
+        public void Update(List<ReceiveDetail> inserted, List<ReceiveDetail> updated, List<ReceiveDetail> deleted, Receive receive)
         {
-            
+
             if (receive != null)
             {
 
@@ -131,7 +132,7 @@ namespace Cats.Services.Hub
                 {
                     //TODO THIS should be in transaction 
                     insert.ReceiveDetailID = Guid.NewGuid();
-                     receive.ReceiveDetails.Add(insert);
+                    receive.ReceiveDetails.Add(insert);
                 }
 
                 foreach (ReceiveDetail delete in deleted)
@@ -139,7 +140,7 @@ namespace Cats.Services.Hub
                     ReceiveDetail deletedCommodity = _unitOfWork.ReceiveDetailRepository.FindBy(p => p.ReceiveDetailID == delete.ReceiveDetailID).FirstOrDefault();
                     if (deletedCommodity != null)
                     {
-                             _unitOfWork.ReceiveDetailRepository.Delete(deletedCommodity);
+                        _unitOfWork.ReceiveDetailRepository.Delete(deletedCommodity);
                     }
                 }
 
@@ -152,18 +153,41 @@ namespace Cats.Services.Hub
                         updatedCommodity.Description = update.Description;
                         updatedCommodity.ReceiveID = update.ReceiveID;
                         updatedCommodity.SentQuantityInMT = update.SentQuantityInMT;
-                       // updatedCommodity.QuantityInMT = updatedCommodity.QuantityInMT;
+                        // updatedCommodity.QuantityInMT = updatedCommodity.QuantityInMT;
                         updatedCommodity.SentQuantityInUnit = update.SentQuantityInUnit;
                         updatedCommodity.UnitID = update.UnitID;
                     }
                 }
                 _unitOfWork.Save();
             }
-            
+
         }
 
+        public ReceiveNewViewModel ReceiptAllocationToReceive(ReceiptAllocation receiptAllocation)
+        {
+            var viewModel = new ReceiveNewViewModel
+            {
+                ReceiptAllocationID = receiptAllocation.ReceiptAllocationID,
+                SiNumber = receiptAllocation.SINumber,
+                ProjectCode = receiptAllocation.ProjectNumber,
+                Program = _unitOfWork.ProgramRepository.FindById(receiptAllocation.ProgramID).Name,
+                CommodityType =  _unitOfWork.CommodityTypeRepository.FindById(receiptAllocation.Commodity.CommodityTypeID).Name,
+
+                SourceHub = _unitOfWork.HubRepository.FindById(receiptAllocation.SourceHubID.GetValueOrDefault(0)).Name,
+
+                SupplierName = receiptAllocation.SupplierName,
+                PurchaseOrder =  receiptAllocation.PurchaseOrder,
+
+                CommoditySource = receiptAllocation.CommoditySource.Name,
+
+                CommoditySourceTypeId = receiptAllocation.CommoditySourceID,
+
+                ReceiveDetailNewViewModels = new List<ReceiveDetailNewViewModel>()
+            };
+            return viewModel;
+        }
     }
 }
 
- 
-      
+
+
