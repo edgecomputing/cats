@@ -540,13 +540,10 @@ namespace Cats.Services.Transaction
                     if (projectCode != null) transaction.ProjectCodeID = projectCode.ProjectCodeID;
                 }
 
-                var newAllocation = new SIPCAllocation();
-                newAllocation = allocationDetail;
+                
                 _unitOfWork.TransactionRepository.Add(transaction2);
-                newAllocation.CommitType = false;
-                newAllocation.TransactionGroupID = allocationDetail.TransactionGroupID;
-                newAllocation.AllocatedAmount = -allocationDetail.AllocatedAmount;
-                _unitOfWork.SIPCAllocationRepository.Add(newAllocation);
+
+                _unitOfWork.SIPCAllocationRepository.Delete(allocationDetail);
                 //result.Add(transaction);
             }
             var requisition = _unitOfWork.ReliefRequisitionRepository.FindById(requisitionID);
@@ -556,6 +553,7 @@ namespace Cats.Services.Transaction
             //return result;
             return true;
         }
+
 #endregion
 
 #region Post Donation Plan
