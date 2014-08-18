@@ -225,7 +225,7 @@ namespace Cats.Services.Hub
             // Populate more details of the reciept object 
             // Save it when you are done.
             
-            Receive receive = receiveModels.GenerateReceive();
+            var receive = receiveModels.GenerateReceive();
             receive.CreatedDate = DateTime.Now;
             receive.HubID = user.DefaultHubObj.HubID;
             receive.UserProfileID = user.UserProfileID;
@@ -269,7 +269,7 @@ namespace Cats.Services.Hub
 
 #region physical stock movement
                 //transaction for goods on hand // previously it was GOODS_ON_HAND_UNCOMMITED
-                Transaction transaction = new Transaction();
+                var transaction = new Transaction();
                 transaction.TransactionID = Guid.NewGuid();
                 transaction.TransactionGroupID = transactionGroupId;
                 transaction.TransactionDate = DateTime.Now;

@@ -1,0 +1,238 @@
+﻿@using Cats.Helpers
+@using Cats.Models.Hubs
+@using Kendo.Mvc.UI
+@model Cats.Models.Hubs.ViewModels.ReceiveNewViewModel
+
+@{
+    ViewBag.Title = Html.Translate("Receive");
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+@section Toolbar
+{
+    <a class="btn toolbar-btn " data-buttontype="btn_save" data-submittedform="frm_receive"></a>
+    <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="#" title="Cancel"></a>
+}
+
+<h4 class="page-header">@Html.Translate("Receive")</h4>
+
+@using (Html.BeginForm("Create", "ReceiveNew", FormMethod.Post, new { id = "frm_receive", @class = "form-horizontal" }))
+{
+    @Html.ValidationSummary(true)
+    @Html.HiddenFor(model => model.ReceiveId)
+
+    <div class="form-horizontal row-fluid">
+        <div class="row">
+            <div class="span4" style="vertical-align: top">
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.LabelFor(model => model.Grn)
+                    </div>
+                    <div class="controls">
+                        @Html.TextBoxFor(model => model.Grn)
+                        @Html.ValidationMessageFor(model => model.Grn)
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.LabelFor(model => model.CommoditySource)
+                    </div>
+                    <div class="controls">
+                        @Html.TextBoxFor(model => model.CommoditySource)
+                        @Html.ValidationMessageFor(model => model.CommoditySource)
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.LabelFor(model => model.SiNumber)
+                    </div>
+                    <div class="controls">
+                        @Html.TextBoxFor(model => model.SiNumber)
+                        @Html.ValidationMessageFor(model => model.SiNumber)
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.LabelFor(model => model.Program)
+                    </div>
+                    <div class="controls">
+                        @Html.TextBoxFor(model => model.Program)
+                        @Html.ValidationMessageFor(model => model.Program)
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.LabelFor(model => model.CommodityType)
+                    </div>
+                    <div class="controls">
+                        @Html.TextBoxFor(model => model.CommodityType)
+                        @Html.ValidationMessageFor(model => model.CommodityType)
+                    </div>
+                </div>
+
+                @if (CommoditySource.Constants.LOCALPURCHASE == Model.CommoditySourceTypeId)
+                {
+                    <div class="control-group">
+                        <div class="control-label">
+                            @Html.LabelFor(model => model.PurchaseOrder)
+                        </div>
+                        <div class="controls">
+                            @Html.TextBoxFor(model => model.PurchaseOrder)
+                            @Html.ValidationMessageFor(model => model.PurchaseOrder)
+                        </div>
+                    </div>
+                }
+
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.LabelFor(model => model.StoreId)
+                    </div>
+                    <div class="controls">
+                        @*@(Html.Kendo().ComboBoxFor(model => model.Stores)
+                            .BindTo(new SelectList(Model.Stores, "StoreID", "Name", Model.StoreId))
+                            )*@
+
+                        @Html.ValidationMessageFor(model => model.StoreId)
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.LabelFor(model => model.ReceivedByStoreMan)
+                    </div>
+                    <div class="controls">
+                        @Html.TextAreaFor(model => model.ReceivedByStoreMan)
+                        @Html.ValidationMessageFor(model => model.ReceivedByStoreMan)
+                    </div>
+                </div>
+            </div>
+            <div class="span4" style="vertical-align: top">
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.LabelFor(model => model.ReceiptDate, new { @class = "cats-date-pref" })
+                    </div>
+                    <div class="controls">
+                        @Html.TextBoxFor(model => model.ReceiptDate, new { @class = "cats-datepicker2" })
+                        @Html.ValidationMessageFor(model => model.ReceiptDate)
+                    </div>
+                </div>
+                @if (CommoditySource.Constants.LOAN == Model.CommoditySourceTypeId
+                 || CommoditySource.Constants.SWAP == Model.CommoditySourceTypeId
+                 || CommoditySource.Constants.TRANSFER == Model.CommoditySourceTypeId
+                 || CommoditySource.Constants.REPAYMENT == Model.CommoditySourceTypeId)
+                {
+                    <div class="control-group">
+                        <div class="control-label">
+                            @Html.LabelFor(model => model.SourceHub)
+                        </div>
+                        <div class="controls">
+                            @Html.TextBoxFor(model => model.SourceHub)
+                            @Html.ValidationMessageFor(model => model.SourceHub)
+                        </div>
+                    </div>
+                }
+
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.LabelFor(model => model.ProjectCode)
+                    </div>
+                    <div class="controls">
+                        @Html.TextBoxFor(model => model.ProjectCode)
+                        @Html.ValidationMessageFor(model => model.ProjectCode)
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.LabelFor(model => model.WayBillNo)
+                    </div>
+                    <div class="controls">
+                        @Html.TextBoxFor(model => model.WayBillNo)
+                        @Html.ValidationMessageFor(model => model.WayBillNo)
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="control-label">
+                    </div>
+                    <div class="controls">
+                    </div>
+                </div>
+                @if (CommoditySource.Constants.LOCALPURCHASE == Model.CommoditySourceTypeId)
+                {
+                    <div class="control-group">
+                        <div class="control-label">
+                            @Html.LabelFor(model => model.SupplierName)
+                        </div>
+                        <div class="controls">
+                            @Html.TextBoxFor(model => model.SupplierName)
+                            @Html.ValidationMessageFor(model => model.SupplierName)
+                        </div>
+                    </div>
+                }
+
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.LabelFor(model => model.StackNumber)
+                    </div>
+                    <div class="controls">
+                        @Html.TextBoxFor(model => model.StackNumber)
+                        @Html.ValidationMessageFor(model => model.StackNumber)
+                    </div>
+                </div>
+            </div>
+            <div class="span4" style="vertical-align: top">
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="span1"></div>
+            <div class="span9">
+                @(Html.Kendo().Grid(Model.ReceiveDetailNewViewModels)
+                      .Name("ReceiveDetailGrid")
+                      .Editable(editable => editable.Mode(Kendo.Mvc.UI.GridEditMode.InCell).CreateAt(Kendo.Mvc.UI.GridInsertRowPosition.Bottom))
+                      .ToolBar(tools => tools.Create().Text("Add new item"))
+                      .Columns(columns =>
+                      {
+                          columns.Bound(p => p.ReceiveDetailId)
+                              .Hidden()
+                              .ClientTemplate("#= ReceiveDetailId #" + "<input type='hidden' name='ReceiveDetailGrid[#= index(data)#].ReceiveDetailId' value='#= ReceiveDetailId #' />");
+                          columns.Bound(p => p.CommodityId)
+                              .ClientTemplate("#= CommodityID #" + "<input type='hidden' name='ReceiveDetailGrid[#= index(data)#].CommodityID' value='#= CommodityID #' />");
+                          columns.Bound(p => p.Description)
+                              .ClientTemplate("#= Description #" + "<input type='hidden' name='ReceiveDetailGrid[#= index(data)#].Description' value='#= Description #' />");
+                          columns.Bound(p => p.UnitId)
+                              .ClientTemplate("#= UnitId #" + "<input type='hidden' name='ReceiveDetailGrid[#= index(data)#].UnitId' value='#= UnitId #' />");
+                          columns.Bound(p => p.SentQuantityInUnit)
+                              .ClientTemplate("#= SentQuantityInUnit #" + "<input type='hidden' name='ReceiveDetailGrid[#= index(data)#].SentQuantityInUnit' value='#= SentQuantityInUnit #' />");
+                          columns.Bound(p => p.ReceivedQuantityInUnit)
+                              .ClientTemplate("#= ReceivedQuantityInUnit #" + "<input type='hidden' name='ReceiveDetailGrid[#= index(data)#].ReceivedQuantityInUnit' value='#= ReceivedQuantityInUnit #' />");
+                          columns.Bound(p => p.SentQuantityInMt)
+                              .ClientTemplate("#= SentQuantityInMt #" + "<input type='hidden' name='ReceiveDetailGrid[#= index(data)#].SentQuantityInMt' value='#= SentQuantityInMt #' />");
+                          columns.Bound(p => p.ReceivedQuantityInMt)
+                              .ClientTemplate("#= ReceivedQuantityInMt #" + "<input type='hidden' name='ReceiveDetailGrid[#= index(data)#].ReceivedQuantityInMt' value='#= ReceivedQuantityInMt #' />");
+                          columns.Command(command => command.Destroy()).Width(100);
+                      })
+                      .DataSource(dataSource => dataSource.Ajax()
+                          .Model(model =>
+                          {
+                              model.Id(rd => rd.ReceiveDetailId);
+                              model.Field(rd => rd.ReceiveDetailId).Editable(false);
+                          }).ServerOperation(false))
+                )
+            </div>
+        </div>
+    </div>
+}
+
+
+
+
+
+
+<script>
+
+    function index(dataItem) {
+        var data = $("#ReceiveDetailGrid").data("kendoGrid").dataSource.data();
+
+        return data.indexOf(dataItem);
+    }
+
+</script>

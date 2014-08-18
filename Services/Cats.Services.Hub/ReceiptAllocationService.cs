@@ -298,15 +298,7 @@ namespace Cats.Services.Hub
                 unclosed = unclosed.Where(p => p.IsClosed == true).ToList();
             }
 
-
-            if (CommodityType.HasValue)
-            {
-                unclosed = unclosed.Where(p => p.Commodity.CommodityTypeID == CommodityType.Value).ToList();
-            }
-            else
-            {
-                unclosed = unclosed.Where(p => p.Commodity.CommodityTypeID == 1).ToList();//by default
-            }
+            unclosed = CommodityType.HasValue ? unclosed.Where(p => p.Commodity.CommodityTypeID == CommodityType.Value).ToList() : unclosed.Where(p => p.Commodity.CommodityTypeID == 1).ToList();
 
             foreach (ReceiptAllocation receiptAllocation in unclosed)
             {
