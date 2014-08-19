@@ -62,7 +62,7 @@ namespace Cats.Areas.Finance.Controllers
                                                                                                  DateApproved = c.AppovedDate.Date.ToCTSPreferedDateFormat(UserAccountHelper.UserCalendarPreference()),
                                                                                                  transporterChequeId = c.TransporterChequeId,
                                                                                                  State = c.Status,
-                                                                                                 Status = status((int) c.Status),
+                                                                                                  Status = status((int) c.Status),
                                                                                                  ButtonStatus = _status((int)c.Status),
                                                                                                  c.BankName
                                                                                              });
@@ -86,6 +86,7 @@ namespace Cats.Areas.Finance.Controllers
         private string status (int status)
         {
             string statusText = "";
+
             switch(status)
             {
                 case 1:
@@ -101,6 +102,7 @@ namespace Cats.Areas.Finance.Controllers
                     statusText = "";
                     break;
             }
+
             return statusText;
         }
         private string _status(int status)
