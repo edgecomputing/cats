@@ -200,7 +200,7 @@ namespace Cats.Areas.Procurement.Controllers
                 _bidWinnerService.SignContract(bidWinner);
                 return RedirectToAction("SignedTransporterContract", "BidWinner");
             }
-            ModelState.AddModelError("Errors","Unable to change status");
+            ModelState.AddModelError("Errors",@"Unable to change status");
             return RedirectToAction("Index");
         }
 
@@ -212,7 +212,7 @@ namespace Cats.Areas.Procurement.Controllers
                 _bidWinnerService.Disqualified(bidWinner);
                 return RedirectToAction("Details", "BidWinner", new { id = bidWinner.BidID });
             }
-            ModelState.AddModelError("Errors","Unable to change Status");
+            ModelState.AddModelError("Errors",@"Unable to change Status");
             return RedirectToAction("Index");
         }
 

@@ -115,7 +115,7 @@ namespace Cats.Areas.Logistics.Controllers
                         deliveryReconcile.LossAmount = dispatchViewModelForReconcile.LossAmount;
                         deliveryReconcile.LossReason = dispatchViewModelForReconcile.LossReason;
                         _deliveryReconcileService.EditDeliveryReconcile(deliveryReconcile);
-                        ModelState.AddModelError("Success", "Success: Delivery Reconcilation Data Updated.");
+                        ModelState.AddModelError("Success", @"Success: Delivery Reconcilation Data Updated.");
                     }
                     else
                     {
@@ -141,7 +141,7 @@ namespace Cats.Areas.Logistics.Controllers
                             };
                             _deliveryReconcileService.AddDeliveryReconcile(deliveryReconcile);
                             _transactionService.PostDeliveryReconcileReceipt(deliveryReconcile.DeliveryReconcileID);
-                            ModelState.AddModelError("Success", "Success: Delivery Reconcilation Data Added.");
+                            ModelState.AddModelError("Success", @"Success: Delivery Reconcilation Data Added.");
                         }
                     }
                     
@@ -149,7 +149,7 @@ namespace Cats.Areas.Logistics.Controllers
                 }
                 catch (Exception ex)
                 {
-                    ModelState.AddModelError("Errors", "Error: FDP not registered. All fields need to be filled.");
+                    ModelState.AddModelError("Errors", @"Error: FDP not registered. All fields need to be filled.");
                 }
             }
             return Json(new[] { dispatchViewModelForReconcile }.ToDataSourceResult(request, ModelState));

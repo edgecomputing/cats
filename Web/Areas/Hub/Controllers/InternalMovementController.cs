@@ -88,12 +88,12 @@ namespace Cats.Areas.Hub.Controllers
             var newViewModel = new InternalMovementViewModel(fromStore, commodities, programs, units, toStore, reasons);
             if (viewModel.QuantityInMt > _transactionService.GetCommodityBalanceForStack(viewModel.FromStoreId, viewModel.FromStackId, viewModel.CommodityId, viewModel.ShippingInstructionId, viewModel.ProjectCodeId))
             {
-                ModelState.AddModelError("QuantityInMt", "you dont have sufficent ammout to transfer");
+                ModelState.AddModelError("QuantityInMt", @"you dont have sufficent ammout to transfer");
                 return View(newViewModel);
             }
             if (viewModel.QuantityInMt <= 0)
             {
-                ModelState.AddModelError("QuantityInMt", "You have nothing to transfer");
+                ModelState.AddModelError("QuantityInMt", @"You have nothing to transfer");
                 return View(newViewModel);
             }
 
@@ -115,12 +115,12 @@ namespace Cats.Areas.Hub.Controllers
             var newViewModel = new InternalMovementViewModel(fromStore, commodities, programs, units, toStore, reasons);
             if (viewModel.QuantityInMt > _transactionService.GetCommodityBalanceForStack(viewModel.FromStoreId, viewModel.FromStackId, viewModel.CommodityId, viewModel.ShippingInstructionId, viewModel.ProjectCodeId))
             {
-                ModelState.AddModelError("QuantityInMt", "you dont have sufficent ammout to transfer");
+                ModelState.AddModelError("QuantityInMt", @"you dont have sufficent ammout to transfer");
                 return View(newViewModel);
             }
             if (viewModel.QuantityInMt <= 0)
             {
-                ModelState.AddModelError("QuantityInMt", "You have nothing to transfer");
+                ModelState.AddModelError("QuantityInMt", @"You have nothing to transfer");
                 return View(newViewModel);
             }
             _transactionService.SaveInternalMovementTrasnsaction(viewModel,user);

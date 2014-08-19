@@ -298,7 +298,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             {
                 var log = new Logger();
                 log.LogAllErrorsMesseges(exception, _log);
-                ModelState.AddModelError("Errors", "Unable to delete this need Assessment");
+                ModelState.AddModelError("Errors", @"Unable to delete this need Assessment");
                 return RedirectToAction("Index");
             }
 

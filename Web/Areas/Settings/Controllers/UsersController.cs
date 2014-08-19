@@ -416,13 +416,13 @@ namespace Cats.Areas.Settings.Controllers
                         //ModelState.AddModelError("Errors", e.Message);
                     }
                     if (changePasswordSucceeded)
-                        ModelState.AddModelError("Success", "Password Successfully Changed.");
+                        ModelState.AddModelError("Success", @"Password Successfully Changed.");
                     //return RedirectToAction("ChangePasswordSuccess");
                     else
-                        ModelState.AddModelError("Errors", "The new password is invalid.");
+                        ModelState.AddModelError("Errors", @"The new password is invalid.");
 
                 }
-                else ModelState.AddModelError("Errors", "The current password is incorrect ");
+                else ModelState.AddModelError("Errors", @"The current password is incorrect ");
             }
             return View(model);
         }

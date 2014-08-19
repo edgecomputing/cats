@@ -63,6 +63,8 @@ namespace Cats.Services.Hub
         
         List<CommodityViewModel> GetAllCommodityForReprot();
 
+        List<CommodityViewModel> GetAllCommodityViewModelsByParent(int parentCommodity);
+
     }
 }
 

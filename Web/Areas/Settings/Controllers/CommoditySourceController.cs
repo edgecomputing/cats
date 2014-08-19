@@ -82,7 +82,7 @@ namespace Cats.Areas.Settings.Controllers
             }
             catch (Exception e)
             {
-                ModelState.AddModelError("Errors", "Unable to delete CommoditySource");
+                ModelState.AddModelError("Errors", @"Unable to delete CommoditySource");
             }
             return RedirectToAction("Index");
         }

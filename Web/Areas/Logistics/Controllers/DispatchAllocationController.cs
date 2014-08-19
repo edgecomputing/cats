@@ -184,7 +184,7 @@ namespace Cats.Areas.Logistics.Controllers
             {
                 _hubAllocationService.AddHubAllocations(allocation, user.UserProfileID);
 
-                ModelState.AddModelError("Success", "Allocation is Saved.");
+                ModelState.AddModelError("Success", @"Allocation is Saved.");
                 return Json(new { success = true });
             }
             catch (Exception ex)

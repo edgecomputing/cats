@@ -1,4 +1,5 @@
-﻿@using Cats.Helpers
+﻿@using System.Collections
+@using Cats.Helpers
 @using Cats.Models.Hubs
 @using Kendo.Mvc.UI
 @model Cats.Models.Hubs.ViewModels.ReceiveNewViewModel
@@ -20,6 +21,8 @@
 {
     @Html.ValidationSummary(true)
     @Html.HiddenFor(model => model.ReceiveId)
+    @Html.HiddenFor(model => model.ReceiptAllocationId)
+    @Html.HiddenFor(model => model.CommoditySourceTypeId)
 
     <div class="form-horizontal row-fluid">
         <div class="row">
@@ -88,10 +91,13 @@
                         @Html.LabelFor(model => model.StoreId)
                     </div>
                     <div class="controls">
-                        @*@(Html.Kendo().ComboBoxFor(model => model.Stores)
-                            .BindTo(new SelectList(Model.Stores, "StoreID", "Name", Model.StoreId))
-                            )*@
-
+                        @(Html.Kendo().ComboBox()
+                        .Name("StoreId")
+                        .Placeholder("Select store")
+                        .DataTextField("Name")
+                        .DataValueField("StoreId")
+                        .Filter(FilterType.Contains)
+                        .DataSource(source => source.Read(read => read.Action("GetStroes", "ReceiveNew", new { @hubId = Model.CurrentHub }))))
                         @Html.ValidationMessageFor(model => model.StoreId)
                     </div>
                 </div>
@@ -173,7 +179,17 @@
                         @Html.LabelFor(model => model.StackNumber)
                     </div>
                     <div class="controls">
-                        @Html.TextBoxFor(model => model.StackNumber)
+                        @(Html.Kendo().ComboBox()
+                        .Name("StackNumber")
+                        .Placeholder("Select stack")
+                        .DataTextField("Name")
+                        .DataValueField("Id")
+                        .Filter(FilterType.Contains)
+                        .DataSource(source => source.Read(read => read.Action("GetStacks", "ReceiveNew").Data("filterStacks"))
+                            .ServerFiltering(true))
+                        .Enable(false)
+                        .AutoBind(false)
+                        .CascadeFrom("StoreId"))
                         @Html.ValidationMessageFor(model => model.StackNumber)
                     </div>
                 </div>
@@ -187,19 +203,21 @@
             <div class="span9">
                 @(Html.Kendo().Grid(Model.ReceiveDetailNewViewModels)
                       .Name("ReceiveDetailGrid")
-                      .Editable(editable => editable.Mode(Kendo.Mvc.UI.GridEditMode.InCell).CreateAt(Kendo.Mvc.UI.GridInsertRowPosition.Bottom))
+                      .Editable(editable => editable.Mode(Kendo.Mvc.UI.GridEditMode.InLine).CreateAt(Kendo.Mvc.UI.GridInsertRowPosition.Bottom))
                       .ToolBar(tools => tools.Create().Text("Add new item"))
                       .Columns(columns =>
                       {
-                          columns.Bound(p => p.ReceiveDetailId)
+                          columns.Bound(p => p.ReceiveDetailId2)
                               .Hidden()
-                              .ClientTemplate("#= ReceiveDetailId #" + "<input type='hidden' name='ReceiveDetailGrid[#= index(data)#].ReceiveDetailId' value='#= ReceiveDetailId #' />");
-                          columns.Bound(p => p.CommodityId)
-                              .ClientTemplate("#= CommodityID #" + "<input type='hidden' name='ReceiveDetailGrid[#= index(data)#].CommodityID' value='#= CommodityID #' />");
+                              .ClientTemplate("#= ReceiveDetailId2 #" + "<input type='hidden' name='ReceiveDetailGrid[#= index(data)#].ReceiveDetailId2' value='#= ReceiveDetailId2 #' />");
+                          //columns.ForeignKey(k => k.CommodityId,(IEnumerable)ViewData["commodities"], "CommodityId", "CommodityName")
+                          //    .ClientTemplate("#= CommodityId #" + "<input type='hidden' name='ReceiveDetailGrid[#= index(data)#].CommodityId' value='#= CommodityId #' />");
+                          columns.Bound(p => p.CommodityViewModel);
                           columns.Bound(p => p.Description)
                               .ClientTemplate("#= Description #" + "<input type='hidden' name='ReceiveDetailGrid[#= index(data)#].Description' value='#= Description #' />");
-                          columns.Bound(p => p.UnitId)
-                              .ClientTemplate("#= UnitId #" + "<input type='hidden' name='ReceiveDetailGrid[#= index(data)#].UnitId' value='#= UnitId #' />");
+                          columns.Bound(p => p.UnitViewModel);
+                          //columns.Bound(p => p.UnitId)
+                          //    .ClientTemplate("#= UnitId #" + "<input type='hidden' name='ReceiveDetailGrid[#= index(data)#].UnitId' value='#= UnitId #' />");
                           columns.Bound(p => p.SentQuantityInUnit)
                               .ClientTemplate("#= SentQuantityInUnit #" + "<input type='hidden' name='ReceiveDetailGrid[#= index(data)#].SentQuantityInUnit' value='#= SentQuantityInUnit #' />");
                           columns.Bound(p => p.ReceivedQuantityInUnit)
@@ -213,18 +231,134 @@
                       .DataSource(dataSource => dataSource.Ajax()
                           .Model(model =>
                           {
-                              model.Id(rd => rd.ReceiveDetailId);
-                              model.Field(rd => rd.ReceiveDetailId).Editable(false);
-                          }).ServerOperation(false))
+                              model.Id(rd => rd.ReceiveDetailId2);
+                              model.Field(rd => rd.ReceiveDetailId2).Editable(false);
+
+                          })
+                          .Batch(true)
+                          .ServerOperation(false)
+                          .Update("upd", "upd")
+                          .Destroy("del", "del")
+                          .Create("cre", "cre")
+                      )
                 )
+            </div>
+        </div>
+
+        <br />
+
+        @*Temporary*@
+        <div class="row">
+            <div class="span4" style="vertical-align: top">
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.LabelFor(model => model.ReceiveDetailNewViewModel.CommodityId)
+                    </div>
+                    <div class="controls">
+                        @(Html.Kendo().DropDownListFor(m => m.ReceiveDetailNewViewModel.CommodityViewModel)
+                              .Name("CommodityViewModel")
+                              .DataTextField("CommodityName")
+                              .DataValueField("CommodityId")
+                              .BindTo((IEnumerable)ViewData["commodities"]))
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.LabelFor(m => m.ReceiveDetailNewViewModel.Description)
+                    </div>
+                    <div class="controls">
+                        @Html.EditorFor(m => m.ReceiveDetailNewViewModel.Description)
+                        @Html.ValidationMessageFor(m => m.ReceiveDetailNewViewModel.Description)
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.LabelFor(model => model.ReceiveDetailNewViewModel.UnitId)
+                    </div>
+                    <div class="controls">
+                        @(Html.Kendo().DropDownListFor(m => m.ReceiveDetailNewViewModel.UnitId)
+                              .Name("UnitId")
+                              .DataTextField("Name")
+                              .DataValueField("UnitId")
+                              .BindTo((IEnumerable)ViewData["units"]))
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.LabelFor(m => m.ReceiveDetailNewViewModel.SentQuantityInUnit)
+                    </div>
+                    <div class="controls">
+                        @Html.EditorFor(m => m.ReceiveDetailNewViewModel.SentQuantityInUnit)
+                        @Html.ValidationMessageFor(m => m.ReceiveDetailNewViewModel.SentQuantityInUnit)
+                    </div>
+                </div>
+            </div>
+            <div class="span4" style="vertical-align: top">
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.LabelFor(m => m.ReceiveDetailNewViewModel.ReceivedQuantityInUnit)
+                    </div>
+                    <div class="controls">
+                        @Html.EditorFor(m => m.ReceiveDetailNewViewModel.ReceivedQuantityInUnit)
+                        @Html.ValidationMessageFor(m => m.ReceiveDetailNewViewModel.ReceivedQuantityInUnit)
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.LabelFor(m => m.ReceiveDetailNewViewModel.SentQuantityInMt)
+                    </div>
+                    <div class="controls">
+                        @Html.EditorFor(m => m.ReceiveDetailNewViewModel.SentQuantityInMt)
+                        @Html.ValidationMessageFor(m => m.ReceiveDetailNewViewModel.SentQuantityInMt)
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.LabelFor(m => m.ReceiveDetailNewViewModel.ReceivedQuantityInMt)
+                    </div>
+                    <div class="controls">
+                        @Html.EditorFor(m => m.ReceiveDetailNewViewModel.ReceivedQuantityInMt)
+                        @Html.ValidationMessageFor(m => m.ReceiveDetailNewViewModel.ReceivedQuantityInMt)
+                    </div>
+                </div>
+            </div>
+            <div class="span4" style="vertical-align: top">
+                
+            </div>
+        </div>
+        
+
+        <div class="row">
+            <div class="span4" style="vertical-align: top">
+                <div class="control-group">
+                    <div class="control-label">
+
+                    </div>
+                    <div class="controls">
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="control-label">
+
+                    </div>
+                    <div class="controls">
+                    </div>
+                </div>
+            </div>
+            <div class="span4" style="vertical-align: top">
+                <div class="control-group">
+                    <div class="control-label">
+                    </div>
+                    <div class="controls">
+                    </div>
+                </div>
+            </div>
+            <div class="span4" style="vertical-align: top">
+
             </div>
         </div>
     </div>
 }
-
-
-
-
 
 
 <script>
@@ -233,6 +367,35 @@
         var data = $("#ReceiveDetailGrid").data("kendoGrid").dataSource.data();
 
         return data.indexOf(dataItem);
+    }
+
+    function filterStacks() {
+        return {
+            storeId: $("#StoreId").val(),
+        };
+    }
+
+    kendo.data.DataSource.prototype.GetUnsavedData = function () {
+        var that = this,
+            idx,
+            length,
+            created = [],
+            updated = [],
+            destroyed = that._destroyed,
+        allRows = [],
+            data = that._flatData(that._data);
+
+        for (idx = 0, length = data.length; idx < length; idx++) {
+            if (data[idx].isNew()) {
+                created.push(data[idx]);
+            } else if (data[idx].dirty) {
+                updated.push(data[idx]);
+            }
+        }
+
+        allRows = created.concat(updated).concat(destroyed);
+        var allRowsJson = JSON.stringify(allRows);
+        return allRowsJson;
     }
 
 </script>

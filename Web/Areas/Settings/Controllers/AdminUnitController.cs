@@ -63,11 +63,11 @@ namespace Cats.Areas.Settings.Controllers
                     }
                     var adminUnit = AdminUnitViewModelBinder.BindAdminUnit(adminUnitViewModel);
                     _adminUnitService.AddAdminUnit(adminUnit);
-                    ModelState.AddModelError("Success", "Success: Admin Unit Registered.");
+                    ModelState.AddModelError("Success", @"Success: Admin Unit Registered.");
                 }
                 catch (Exception ex)
                 {
-                    ModelState.AddModelError("Errors", "Error: FDP not registered. All fields need to be filled.");
+                    ModelState.AddModelError("Errors", @"Error: FDP not registered. All fields need to be filled.");
                 }
             }
             return Json(new[] { adminUnitViewModel }.ToDataSourceResult(request, ModelState));
@@ -105,7 +105,7 @@ namespace Cats.Areas.Settings.Controllers
                 }
                 catch (Exception ex)
                 {
-                    ModelState.AddModelError("Errors", "Error: not registered. All fields need to be filled.");
+                    ModelState.AddModelError("Errors", @"Error: not registered. All fields need to be filled.");
                 }
             }
             return Json(new[] { adminUnitViewModel }.ToDataSourceResult(request, ModelState));
@@ -121,7 +121,7 @@ namespace Cats.Areas.Settings.Controllers
             }
             catch (Exception e)
             {
-                ModelState.AddModelError("Errors", "Unable to delete Admin Unit");
+                ModelState.AddModelError("Errors", @"Unable to delete Admin Unit");
             }
             return RedirectToAction("Index");
         }
@@ -136,7 +136,7 @@ namespace Cats.Areas.Settings.Controllers
             }
             catch (Exception e)
             {
-                ModelState.AddModelError("Errors", "Unable to delete Admin Unit");
+                ModelState.AddModelError("Errors", @"Unable to delete Admin Unit");
             }
             return RedirectToAction("ManageZones");
         }
@@ -157,7 +157,7 @@ namespace Cats.Areas.Settings.Controllers
             }
             catch (Exception e)
             {
-                ModelState.AddModelError("Errors", "Unable to delete FDP");
+                ModelState.AddModelError("Errors", @"Unable to delete FDP");
             }
             return Json(ModelState.ToDataSourceResult());
         }

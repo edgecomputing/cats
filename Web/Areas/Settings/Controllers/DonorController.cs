@@ -119,7 +119,7 @@ namespace Cats.Areas.Settings.Controllers
             }
             catch (Exception e)
             {
-               ModelState.AddModelError("Errors","Unable to delete Donor");
+               ModelState.AddModelError("Errors",@"Unable to delete Donor");
             }
             return RedirectToAction("Index");
         }

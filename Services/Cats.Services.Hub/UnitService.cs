@@ -2,10 +2,12 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using Cats.Data.Hub;
 using Cats.Data.Hub.UnitWork;
 using Cats.Models.Hubs;
+using Cats.Models.Hubs.ViewModels.Common;
 
 
 namespace Cats.Services.Hub
@@ -62,6 +64,17 @@ namespace Cats.Services.Hub
         {
             return _unitOfWork.UnitRepository.FindBy(predicate);
         }
+
+        public List<UnitViewModel> GetAllUnitViewModels()
+        {
+            return (from c in _unitOfWork.UnitRepository.GetAll()
+                select new UnitViewModel
+                {
+                    UnitId = c.UnitID,
+                    Name = c.Name
+                }).ToList();
+        }
+
         #endregion
 
         public void Dispose()

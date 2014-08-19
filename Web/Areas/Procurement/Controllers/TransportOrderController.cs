@@ -525,7 +525,7 @@ namespace Cats.Areas.Procurement.Controllers
             {
                 var log = new Logger();
                 log.LogAllErrorsMesseges(ex, _log);
-                ModelState.AddModelError("Errors", "Unable to create transport order");
+                ModelState.AddModelError("Errors", @"Unable to create transport order");
             }
 
             return RedirectToAction("Index");
@@ -559,7 +559,7 @@ namespace Cats.Areas.Procurement.Controllers
             {
                 var log = new Logger();
                 log.LogAllErrorsMesseges(ex, _log);
-                ModelState.AddModelError("Errors", "Unable to approve");
+                ModelState.AddModelError("Errors", @"Unable to approve");
             }
            
             return RedirectToAction("Index");
@@ -593,7 +593,7 @@ namespace Cats.Areas.Procurement.Controllers
             {
                 var log = new Logger();
                 log.LogAllErrorsMesseges(ex, _log);
-                ModelState.AddModelError("Errors", "Unable to sign");
+                ModelState.AddModelError("Errors", @"Unable to sign");
             }
 
             return RedirectToAction("Index");
@@ -609,7 +609,7 @@ namespace Cats.Areas.Procurement.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError("Errors", "Unable to generate dispatch allocation.");
+                    ModelState.AddModelError("Errors", @"Unable to generate dispatch allocation.");
                     return RedirectToAction("Index", "TransportOrder", new { Area = "Hub" });
                 }
             }
@@ -617,7 +617,7 @@ namespace Cats.Areas.Procurement.Controllers
             {
                  var log = new Logger();
                 log.LogAllErrorsMesseges(ex, _log);
-                ModelState.AddModelError("Errors", "Unable to generate dispatch allocation.");
+                ModelState.AddModelError("Errors", @"Unable to generate dispatch allocation.");
                
             }
            return RedirectToAction("Index", "TransportOrder", new { Area = "Hub" });

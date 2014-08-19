@@ -56,7 +56,7 @@ namespace Cats.Areas.Settings.Controllers
             }
             catch (Exception e)
             {
-                ModelState.AddModelError("Errors", "Unable to delete contact");
+                ModelState.AddModelError("Errors", @"Unable to delete contact");
             }
             return RedirectToAction("Index");
         }
@@ -96,7 +96,7 @@ namespace Cats.Areas.Settings.Controllers
                 }
                 catch (Exception ex)
                 {
-                    ModelState.AddModelError("Errors","Check");
+                    ModelState.AddModelError("Errors",@"Check");
                 }
             }
             return RedirectToAction("Index","FDP");

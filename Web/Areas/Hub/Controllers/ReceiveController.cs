@@ -574,10 +574,13 @@ namespace Cats.Areas.Hub.Controllers
             {
                 prevCommodities = GetSelectedCommodities(receiveModels.JSONPrev);
 
+                #region GRN Validation 
+
                 if (grnExists != null)
                 {
                     receiveModels.ReceiveDetails = prevCommodities;
-                    receiveModels.InitializeEditLists(commodities, commodityGrades, transporters, commodityTypes, commoditySources, programs, donors, hubs, user, units);
+                    receiveModels.InitializeEditLists(commodities, commodityGrades, transporters, commodityTypes,
+                        commoditySources, programs, donors, hubs, user, units);
                     if (receiveModels.ReceiveID != null)
                     {
                         receiveModels.IsEditMode = true;
@@ -585,6 +588,9 @@ namespace Cats.Areas.Hub.Controllers
                     ModelState.AddModelError("GRN", @"GRN Already Existed");
                     return View(receiveModels);
                 }
+
+                #endregion
+
                 //Even though they are updated they are not saved so move them in to the inserted at the end of a succcessful submit
                 var count = 0;
                 foreach (var receiveDetailAllViewModels in prevCommodities)
@@ -661,6 +667,8 @@ namespace Cats.Areas.Hub.Controllers
 
             if (user != null)
             {
+                #region change store mane permanently 
+
                 if (receiveModels.ChangeStoreManPermanently == true)
                 {
                     Store storeTobeChanged = _storeService.FindById(receiveModels.StoreID);
@@ -668,6 +676,9 @@ namespace Cats.Areas.Hub.Controllers
                         storeTobeChanged.StoreManName = receiveModels.ReceivedByStoreMan;
                     //repository.Store.SaveChanges(storeTobeChanged);
                 }
+
+                #endregion
+
 
                 Receive receive = receiveModels.GenerateReceive();
                 //if (receive.ReceiveID == null )
