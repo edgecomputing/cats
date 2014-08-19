@@ -32,14 +32,14 @@ namespace Cats.Areas.Logistics.Controllers
         private readonly INeedAssessmentService _needAssessmentService;
         private readonly IAllocationByRegionService _allocationByRegionService;
         private readonly IUserAccountService _userAccountService;
-
+        private readonly ITransactionService _transactionService;
 
         public DispatchAllocationController(IReliefRequisitionService reliefRequisitionService,
             IHubService hubService, IAdminUnitService adminUnitService,
             INeedAssessmentService needAssessmentService,
             IHubAllocationService hubAllocationService,
             IUserAccountService userAccountService,
-            IAllocationByRegionService allocationByRegionService)
+            IAllocationByRegionService allocationByRegionService, ITransactionService transactionService)
         {
             _reliefRequisitionService = reliefRequisitionService;
             _hubService = hubService;
@@ -48,6 +48,7 @@ namespace Cats.Areas.Logistics.Controllers
             _hubAllocationService = hubAllocationService;
             _userAccountService = userAccountService;
             _allocationByRegionService = allocationByRegionService;
+            _transactionService = transactionService;
         }
 
 
@@ -253,6 +254,19 @@ namespace Cats.Areas.Logistics.Controllers
                 requistion.Status = (int)ReliefRequisitionStatus.Rejected;
                 _reliefRequisitionService.EditReliefRequisition(requistion);
 
+                return RedirectToAction("Index", new { regionId = requistion.RegionID });
+            }
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult UncommitRequsition(int id)
+        {
+            var requistion = _reliefRequisitionService.FindById(id);
+            if (requistion != null)
+            {
+
+
+                _transactionService.PostSIAllocationUncommit(id);
                 return RedirectToAction("Index", new { regionId = requistion.RegionID });
             }
             return RedirectToAction("Index");

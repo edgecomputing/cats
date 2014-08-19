@@ -1,35 +1,30 @@
 ﻿@using Cats.Helpers
 
-        <div class="span11" style="padding-left: 20px; padding-top:10px;">
-            <ul class="breadcrumb" data-role="main">
-                <li><a href="~/">Home</a> </li>
-                @{
-                    string home = Url.Action("Index", "Home", new {Area = ""});
 
-                    string[] page_url = PageContext.Page.Context.Request.Url.Segments;
-                    string item_url = home;
-                    string vertual_dir = home.Replace("/", "");
-                    int startindex = 1;
-                    if (vertual_dir!="")
-                    {
-                        startindex = 2;
-                    }
+@{
+    string home = Url.Action("Index", "Home", new { Area = "" });
 
-                    for (int i = startindex; i <= page_url.Length - 1; i++)
-                    {
-                        string current_page=page_url[i].Replace("/", "");
-                        item_url += current_page + "/";
-                        if (i < page_url.Length-1)
-                        {
-                            <li><span class="divider icon-chevron-right"></span><a href="@item_url">@current_page.ToTitle()</a>  </li>
-                        }
-                        else
-                        {
+    string[] page_url = PageContext.Page.Context.Request.Url.Segments;
+    string item_url = home;
+    string vertual_dir = home.Replace("/", "");
+    int startindex = 1;
+    if (vertual_dir != "")
+    {
+        startindex = 2;
+    }
 
-                            <li><span class="divider icon-chevron-right"></span>@current_page.ToTitle()</li>
-                        }
-                    }
-                }
-            </ul>
-        </div>
+    for (int i = startindex; i <= page_url.Length - 1; i++)
+    {
+        string current_page = page_url[i].Replace("/", "");
+        item_url += current_page + "/";
+        if (i < page_url.Length - 1)
+        {
+    <li><a href="@item_url">@current_page.ToTitle()</a>  </li>
+        }
+        else
+        {
 
+    <li>@current_page.ToTitle()</li>
+        }
+    }
+}

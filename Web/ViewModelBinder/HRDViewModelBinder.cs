@@ -164,7 +164,7 @@ namespace Cats.ViewModelBinder
             colRegion.ExtendedProperties["ID"] = -1;
             dt.Columns.Add(colRegion);
 
-            var colNoBeneficiary = new DataColumn("NoBeneficiary", typeof(int));
+            var colNoBeneficiary = new DataColumn("No. Beneficiary", typeof(int));
             colNoBeneficiary.ExtendedProperties["ID"] = -1;
             dt.Columns.Add(colNoBeneficiary);
 
@@ -173,12 +173,12 @@ namespace Cats.ViewModelBinder
             {
                 foreach (var ds in rationDetails)
                 {
-                    var col = new DataColumn(ds.Commodity.Name.Trim() + " in " + preferedWeight.ToUpper().Trim(), typeof(decimal));
+                    var col = new DataColumn(ds.Commodity.Name.Trim() + " (" + preferedWeight.ToUpper().Trim()+")", typeof(decimal));
                     col.ExtendedProperties.Add("ID", ds.CommodityID);
                     dt.Columns.Add(col);
                 }
 
-                var colTotal = new DataColumn("Total"+ " in " + preferedWeight.ToUpper().Trim(), typeof(decimal));
+                var colTotal = new DataColumn("Total"+ " (" + preferedWeight.ToUpper().Trim()+")", typeof(decimal));
                 colTotal.ExtendedProperties.Add("ID", "Total");
                 dt.Columns.Add(colTotal);
 

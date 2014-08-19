@@ -1,3 +1,106 @@
+<<<<<<< HEAD
+﻿<script>
+    function onRun() {
+        var command = $("#txt_command").val();
+        var grid = $("#grid").data("kendoGrid");
+        console.log(grid, command);
+
+        eval("grid." + command);
+
+    }
+    function setAsActive(id) {
+        $(id).addClass("active");
+
+    }
+
+</script>
+
+
+
+<ul class="nav nav-pills nav-stacked">
+    <li class="nav-header">Dashboard</li>
+    <li>
+        <a href="@Url.Action("Index", "AdminDashboard", new { Area = "Settings" })"><span class="fa fa-white fa-home"></span>Home</a>
+    </li>
+
+    <li class="nav-header">Configuration</li>
+
+    <li id="Hubs">
+        <a href="@Url.Action("Index", "Hubs")"><span class="fa fa-folder-open"></span> Hubs</a>
+    </li>
+    <li id="HubOwner">
+        <a href="@Url.Action("Index", "HubOwner")"><span class="fa fa-folder-open"></span> Hub Owners</a>
+    </li>
+    <li id="Store">
+        <a href="@Url.Action("Index", "Store")?Grid-Group=HubName-acs"><span class="fa fa-folder-open"></span> Stores</a>
+    </li>
+
+
+    <li id="Currency">
+        <a href="@Url.Action("Index", "Currency")"><span class="fa fa-folder-open"></span> Currency</a>
+    </li>
+
+    <li class="nav-header">Commodity</li>
+    <li id="CommodityType">
+        <a href="@Url.Action("Index", "CommodityType")"><span class="fa fa-check"></span> Commodity Type</a>
+    </li>
+    <li id="Commodity">
+        <a href="@Url.Action("Index", "Commodity")?Grid-Group=CommodityTypeID-asc~ParentID-asc"><span class="fa fa-check"></span> Commodity</a>
+    </li>
+    <li id="CommodityGrade">
+        <a href="@Url.Action("Index", "CommodityGrade")"><span class="fa fa-check"></span> Commodity Grade</a>
+    </li>
+    <li id="CommoditySource">
+        <a href="@Url.Action("Index", "CommoditySource")"><span class="fa fa-check"></span> Commodity Source</a>
+    </li>
+    <li id="Program">
+        <a href="@Url.Action("Index", "Program")"><span class="fa fa-check"></span> Program</a>
+    </li>
+    <li id="Donor">
+        <a href="@Url.Action("Index", "Donor")"><span class="fa fa-envelope"></span> Donors</a>
+    </li>
+    <li id="Unit">
+        <a href="@Url.Action("Index", "Unit")"><span class="fa fa-check"></span> Units</a>
+    </li>
+    <li id="LossReason">
+        <a href="@Url.Action("Index", "LossReason")"><span class="fa fa-check"></span> Loss Reasons</a>
+    </li>
+    <li
+        class="nav-header">Locations & FDPs
+    </li>
+    <li id="FDP">
+        <a href="@Url.Action("Index", "AdminUnit", new { Area = "Settings" })"><span  class="fa fa-file"></span> Administrative Units</a>
+    </li>
+    <li id="FDP">
+        <a href="@Url.Action("GISMapping", "AdminUnit", new { Area = "Settings" })"><span class="fa fa-file"></span> Admin Unit Maps</a>
+    </li>
+    <li>
+        <a href="@Url.Action("Index", "FDP", new { Area = "Settings" })"><span class="fa fa-file"></span> FDPs</a>
+    </li>
+
+    <li class="nav-header">Business Process</li>
+    <li id="ProcessTemplate">
+        <a href="@Url.Action("Index", "ProcessTemplate")"><span class="fa fa-list-alt"></span> Workflow Definition</a>
+    </li>
+    <li class="nav-header">Translations
+    </li>
+    <li>
+        <a href="@Url.Action("Index", "Language", new { Area = "Localization" })"><span class="fa fa-user"></span> Languages</a>
+    </li>
+    <li>
+        <a href="@Url.Action("Details", "Language", new { Area = "Localization" })"><span class="fa fa-cog"></span> Translation Terms</a>
+
+    </li>
+    <li class="divider"></li>
+    <li class="nav-header"> Users & Roles</li>
+    <li>
+        <a href="@Url.Action("Index", "Users")"><span class="fa fa-user"></span> Users</a>
+    </li>
+    <li>
+        <a href="#"><span class="fa fa-group"></span> Roles </a>
+    </li>
+    <li>
+=======
 ﻿    <style>
         .active
         {
@@ -157,24 +260,23 @@
             <a href="#"><i class="icon-group"></i>Roles </a>
         </li>
         <li>
+>>>>>>> ec3d7923a4f2229db37b2d3b74e5234257c30c03
         <a href="@Url.Action("New", "Users", new { Area = "Settings" })">
-            <i class="shortcut-icon icon-inbox"></i>
+            <span class="fa shortcut-fa fa-inbox"></span>
             <span class="shortcut-label"> Create New User</span>
         </a>
 
-        </li>
-        <li class="divider"></li>
+    </li>
+    <li class="divider"></li>
 
-        <li class="nav-header">System Logs</li>
-        <li>
-            <a href="#"><i class="icon-picture"></i>Error Log</a>
-        </li>
-        <li>
-            <a href="#"><i class="icon-camera-retro"></i>Audit Log</a>
-        </li>
-        <li>
-            <a href="#"><i class="icon-info-sign"></i>Help </a>
-        </li>
-    </ul>
-
-  </div> 
+    <li class="nav-header">System Logs</li>
+    <li>
+        <a href="#"><span class="fa fa-file-text"></span> Error Log</a>
+    </li>
+    <li>
+        <a href="#"><span class="fa fa-file-text"></span> Audit Log</a>
+    </li>
+    <li>
+        <a href="#"><span class="fa fa-question-circle"></span> Help </a>
+    </li>
+</ul>

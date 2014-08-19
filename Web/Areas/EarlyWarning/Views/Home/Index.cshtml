@@ -4,8 +4,8 @@
 @model  System.Data.DataTable
 
 @{
-    ViewBag.Title = "Index";
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Home";
+
     Layout = "~/Views/Shared/_MainLayout.cshtml";
     const string pageName = "EarlyWarning.Index";
 }
@@ -15,635 +15,455 @@
     int index = 0;
 }
 
-
-@section styles
+@section Title
 {
-    @*<link href="~/Content/Login/bootstrap.min.css" rel="stylesheet" />*@
-    <link href="~/Content/Dashboard/dashboardcomponents.css" rel="stylesheet" />
+    Early Warning Dashboard
 }
 
-<style>
-    .chartWrap {
-        margin: 0 auto;
-        width: 100%;
-        height: 240px;
-    }
+@section PageTitle
+{
 
-    .table td.rightAlign {
-        /*padding: 8px;
-    line-height: 20px;*/
-        text-align: center;
-        /*vertical-align: top;
-    border-top: 1px solid rgb(221, 221, 221);*/
-    }
-</style>
+    <h1 class="hdr-blck big ">
+        @Html.Translate("Early Warning Dashboard") |
+        <small class="text-info"><span class="fa fa-info-circle"></span> @Html.Translate(" All figures below are for the current HRD")</small>
+    </h1>
+}
+
+
 <div ng-app="myApp">
-    <div ng-controller="ImportantNumbersController" class="container">
-        <h3>@Html.Translate("Early Warning Dashboard")</h3>
-        <hr />
-
-        <div class="container row">
-            <div class="span5">
-                <a href="javascript:;" class="dashboard-stat">
-                    <div class="visual">
-                        @*<i class="icon-star"></i>*@
+    <div ng-controller="ImportantNumbersController" class="">
+        <div class="row">
+                        <div class="col-lg-3 col-xs-6">
+                            <!-- small box -->
+                            <div class="small-box bg-aqua">
+                                <div class="inner">
+                                    <h3>
+                                       {{RequiredNumber.TotalRequest}}
+                                    </h3>
+                                    <p>
+                                       @Html.Translate("Total Requests")
+                                    </p>
+                                </div>
+                                <div class="icon">
+                                    <span class="fa fa-file-text"></span>
+                                </div>
+                               
+                            </div>
+                        </div><!-- ./col -->
+                        <div class="col-lg-3 col-xs-6">
+                            <!-- small box -->
+                            <div class="small-box bg-aqua">
+                                <div class="inner">
+                                    <h3>
+                                        {{RequiredNumber.TotalRequisitionNumber}}
+                                    </h3>
+                                    <p>
+                                        @Html.Translate("Total Requisitions")
+                                    </p>
+                                </div>
+                                <div class="icon">
+                                     <span class="fa fa-file"></span>
+                                </div>
+                               
+                            </div>
+                        </div><!-- ./col -->
+                        <div class="col-lg-3 col-xs-6">
+                            <!-- small box -->
+                            <div class="small-box bg-aqua">
+                                <div class="inner">
+                                    <h3>
+                                       {{RequiredNumber.HrdTotalCommodity|number:0}}
+                                    </h3>
+                                    <p>
+                                       @Html.Translate("Required Commodity")
+                                    </p>
+                                </div>
+                                <div class="icon">
+                                    <span class="fa fa-shopping-cart"></span>
+                                </div>
+                               
+                            </div>
+                        </div><!-- ./col -->
+                        <div class="col-lg-3 col-xs-6">
+                            <!-- small box -->
+                            <div class="small-box bg-aqua">
+                                <div class="inner">
+                                    <h3>
+                                       {{RequiredNumber.TotalHrdBeneficaryNumber|number}}
+                                    </h3>
+                                    <p>
+                                       @Html.Translate("People in Need")
+                                    </p>
+                                </div>
+                                <div class="icon">
+                                    <span class="fa fa-users"></span>
+                                </div>
+                                
+                            </div>
+                        </div><!-- ./col -->
                     </div>
-                    <!-- /.visual -->
-                    <div class="details column-divider-regional center">
-                        <span class="content">@Html.Translate("Total Requests")</span>
-                        <span class="value">{{RequiredNumber.TotalRequest}}</span>
-                    </div>
+        
 
-                    <div class="details column-divider-regional center">
-                        <span class="content">@Html.Translate("Total Requisitions")</span>
-                        <span class="value">{{RequiredNumber.TotalRequisitionNumber}}</span>
-                    </div>
-                    <!-- /.details -->
-                </a>
-                <span class="text-info text-xl align-center"><i class="icon-info-sign"></i> All the figures above are for the current HRD</span>
-                <!-- /.dashboard-stat -->
-            </div>
-    
-
-            <div class="span7">
-
-                <a href="javascript:;" class="dashboard-stat">
-                    <div class="visual">
-                        @*<i class="icon-money"></i>*@
-                    </div>
-                    <!-- /.visual -->
-                    
-                     <div class="details column-divider-regional center">
-                        <span class="content">@Html.Translate("Required Commodity") (MT)</span>
-                        <span class="value">{{RequiredNumber.HrdTotalCommodity|number:0}}</span>
-                    </div>
-
-                    <div class="details column-divider-regional center">
-                        <span class="content">@Html.Translate("People in Need in Current HRD")</span>
-                        <span class="value">{{RequiredNumber.TotalHrdBeneficaryNumber|number}}</span>
-                    </div>
-                    
-                    <!-- /.details -->
-                </a>
-                <!-- /.dashboard-stat -->
-
-            </div>
-            <!-- /.col-md-9 -->
-        </div>
-        <hr />
-    </div>
-     <div class="container">
-        <div id="dashboardMap" class="portlet">
-            <div class="row" style="border-bottom-width: thin; border-bottom-color: #666; border-bottom-style: inset; margin-top: 5px">
-
-                <div class="pull-left">
-                    <h4>Map</h4>
-                </div>
-            </div>
-            <div class="portlet">
-                        <div class="portlet-header">
-                            <h3>
-                                <i class=""></i>
-                                Number of Beneficiaries by Region
-                            </h3>
+        <div class="row">
+            <div  class="col-md-12">
+               
+                <div class="box box-primary">
+                    <div class="box-header">
+                        <h3 class="box-title">@Html.Translate("Maps")</h3>
+                        <div class="box-tools pull-right">
+                            <button data-widget="collapse" class="btn btn-primary btn-xs"><i class="fa fa-minus"></i></button>
+                            <button data-widget="remove" class="btn btn-primary btn-xs"><i class="fa fa-times"></i></button>
                         </div>
-            </div>
-         <div class="portlet-content" style="padding:0;">
-             @Html.Partial("_dashboardmap")
-
-             </div>
-        </div>
-    </div>
-    <div ng-controller="EWDashboardController" class="container">
-
-
-        <div>
-            <div class="row" style="border-bottom-width: thin; border-bottom-color: #666; border-bottom-style: inset; margin-top: 5px">
-
-                <div class="pull-left">
-                    <h4>@Html.Translate("Current HRD")</h4>
-                </div>
-                <div class="pull-right">
-                    <div class="btn-group">
-                        <button id="DispatchHeader" type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
-                            <i class="icon-arrow-up"></i>
-                            <i class="icon-arrow-down"></i>
-                        </button>
-
+                    </div>
+                    <div class="col-md-12 box-body" style="display: block;">
+                        @Html.Partial("_dashboardmap")
                     </div>
                 </div>
+              
+
+
             </div>
+            
+        </div>
 
-            <div id="DispatchContent" class="row">
-                <div>&nbsp;</div>
+        <div class="row" ng-controller="EWDashboardController">
+            <div class="col-md-8">
 
-                <div class="span8">
-                    <div class="portlet">
-                        <div class="portlet-header">
-                            <h3>
-                                <i class=""></i>
-                                @ViewBag.HRDName
-
-                            </h3>
-                            <ul class="portlet-tools pull-right">
-                                @*<li>
-                                    <button class="btn btn-sm btn-default">
-                                        @Html.Translate("Show more")
-                                    </button>
-                                </li>*@
-                            </ul>
+                <div class="box box-solid box-primary">
+                    <div class="box-header">
+                        <h3 class="box-title">@ViewBag.HRDName</h3>
+                        <div class="box-tools pull-right">
+                            <button data-widget="collapse" class="btn btn-primary btn-sm"><i class="fa fa-minus"></i></button>
+                            <button data-widget="remove" class="btn btn-primary btn-sm"><i class="fa fa-times"></i></button>
                         </div>
+                    </div>
+                    <div class="box-body table-responsive" style="display: block;">
+                        <table id="" class="table table-striped table-checkable">
 
-                        <!-- /.portlet-header -->
-                        <div class="portlet-content">
-                            <th class="table-responsive">
-                                <table id="" class="table table-striped table-checkable">
+                            <thead>
+                                <tr>
+                                    @foreach (System.Data.DataColumn col in Model.Columns)
+                                    {
+                                        if (col.IsNumeric())
+                                        {
 
-                                <thead>
+                                            <th class="number">@col.Caption </th>
+                                        }
+                                        else
+                                        {
+                                            <th>@col.Caption </th>
+                                        }
+                                    }
+
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                @foreach (System.Data.DataRow row in Model.Rows)
+                                {
                                     <tr>
-                                        @foreach (System.Data.DataColumn col in Model.Columns)
-
+                                        @{ index = 0; }
+                                        @foreach (var cell in row.ItemArray)
+                                        {
+                                            if (cell is decimal || cell is int)
                                             {
-                                                 if(col.IsNumeric()){
-
-                                                        <th class="number">@col.Caption </th>
-                                                  }
-                                                  else
-                                                  {
-                                                        <th>@col.Caption </th>
-                                                  }
+                                                ben[index] = ben[index] + double.Parse(@String.Format("{0:n0}", @cell));
+                                                index++;
+                                                <td class="number">@String.Format("{0:n0}", @cell)</td>
                                             }
-
-                                    </tr>
-                                </thead>
-                                    <tbody>
-
-                                        @foreach (System.Data.DataRow row in Model.Rows)
-                                        {
-                                            <tr>
-                                                @{ index = 0; }
-                                                @foreach (var cell in row.ItemArray)
-                                                {
-                                                    if (cell is decimal || cell is int)
-                                                    {
-                                                        ben[index] = ben[index] + double.Parse(@String.Format("{0:n0}", @cell));
-                                                        index++;
-                                                         <td class="number">@String.Format("{0:n0}",@cell)</td>
-                                                    }
-                                                    else
-                                                    {
-                                                    <td>@String.Format("{0:n0}", @cell)</td>
-                                                    }
-                                                }
-                                            </tr>
-                                        }
-                                    </tbody>
-                                    <tr>
-                                        <th>Total:</th>
-                                        @foreach (double t in @ben)
-                                        {
-                                             <th class="number">@String.Format("{0:n0}",@t) </th>
+                                            else
+                                            {
+                                                <td>@String.Format("{0:n0}", @cell)</td>
+                                            }
                                         }
                                     </tr>
-                                </table>
-
-                        </div>
-                        <!-- /.table-responsive -->
-                    </div>
-                    <!-- /.portlet-content -->
-
-                </div>
-
-
-                <div class="span3">
-
-                    <div class="portlet">
-                        <div class="portlet-header">
-                            <h3>
-                                <i class=""></i>
-                                Requisitions Percentage 
-                            </h3>
-                        </div>
-                        <div class="portlet-content" ng-controller="stageController">
-                            <div id="container" class="chartWrap" draw-requisitions-chart=""></div>
-                        </div>
-                    </div>
-                </div>
-                <br />
-
-                <div class="span3">
-
-                    <div class="portlet" style="margin-top: 5px">
-                        <!-- /.portlet-header -->
-                        <div class="portlet-header">
-                            <h3>
-                                <i class=""></i>
-                                @Html.Translate("Ration Detail")
-                            </h3>
-                        </div>
-                        <div class="portlet-content">
-                            <th class="table-responsive">
-                                <table id="" class="table table-checkable" style="margin-bottom: 5px">
-                                    <thead>
-                                        <tr>
-                                            <th class="hidden-xs">Commodity</th>
-                                            <th>Ration (Kg/Beneficiary)</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr ng-repeat="ration in Rations" class="">
-                                            <td class="hidden-xs">{{ration.Commodity}}</td>
-                                        <td class="number">{{ration.Amount}} </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                <span class="text-success text-xl align-center"><i class="icon-info-sign"></i>For blended food the ration is calculated as 35%*0.45Kg</span>
-                        </div>
-                        <!-- /.portlet-content -->
+                                }
+                            </tbody>
+                            <tr>
+                                <th>Total:</th>
+                                @foreach (double t in @ben)
+                                {
+                                    <th class="number">@String.Format("{0:n0}", @t) </th>
+                                }
+                            </tr>
+                        </table>
 
                     </div>
-                    <!-- /.portlet -->
+                    <!-- /.box-body -->
                 </div>
-                <!--Chart-Number of beneficiaries-->
-                <div class="span11" style="padding-top: 20px;">
-                    <div class="portlet">
-                        <div class="portlet-header">
-                            <h3>
-                                <i class=""></i>
-                                @Html.Translate("Number of Beneficiaries")
-                                <span style="font-size:.8em;">( @Html.Translate("from current HRD") )</span>
-                            </h3>
+                <div class="box box-solid box-primary">
+                    <div class="box-header">
+                        <h3 class="box-title">@Html.Translate("Number of Beneficiaries")</h3>
+                        <div class="box-tools pull-right">
+                            <button data-widget="collapse" class="btn btn-primary btn-sm"><i class="fa fa-minus"></i></button>
+                            <button data-widget="remove" class="btn btn-primary btn-sm"><i class="fa fa-times"></i></button>
                         </div>
-
-                        <div class="portlet-content" ng-controller="stageController">
-                            <div id="containerHRD" class="chartWrap" draw-percentage-chart=""></div>
-                        </div>
-
                     </div>
-                </div>
+                    <div class="box-body table-responsive" style="display: block;" ng-controller="stageController">
+                        <div id="containerHRD" class="chartWrap" draw-percentage-chart=""></div>
+                    </div>
 
-                <!-- /.portlet -->
+                </div>
+                <div class="box box-solid box-primary">
+                    <div class="box-header">
+                        <h3 class="box-title">Recent Requests</h3>
+                        <div class="box-tools pull-right">
+                            <button data-widget="collapse" class="btn btn-primary btn-sm"><i class="fa fa-minus"></i></button>
+                            <button data-widget="remove" class="btn btn-primary btn-sm"><i class="fa fa-times"></i></button>
+                        </div>
+                    </div>
+                    <div class="box-body table-responsive" style="display: block;">
+                        <table class="table table-striped table-checkable">
+                            <thead>
+                                <tr>
+                                    <th class="hidden-xs">Region</th>
+                                    <th class="number">N<u>o</u> of Beneficaries</th>
+                                    <th class="number">Total N<u>o</u> of FDPS</th>
+                                    <th class="number">Round</th>
+                                    <th>Month</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="request in Requests | orderBy:['Region','Round']" class="">
+                                    @*<td class="hidden-xs"><a ng-href="@Url.Action("Allocation", "Request", new { Area = "EarlyWarning", id = "{{request.Region}}"})"> {{request.Region}} </a> </td>*@
+                                    <td class="hidden-xs"><a ng-href="@Url.Content("~/EarlyWarning/Request/Allocation/{{request.RegionalRequestID}}")">{{request.Region}}  </a></td>
+                                    <td class="number">{{request.Beneficiary|number}}</td>
+                                    <td class="number">{{request.NumberOfFDPS|number}}</td>
+                                    <th class="number">{{request.Round}}</th>
+                                    <th>{{request.MonthName}}</th>
+                                    <td><span class="label" ng-class="{'label-warning':request.Status == 'Draft', 'label-success':request.Status == 'Approved', 'label-danger':request.Status == 'Closed'}">{{request.Status}}</span></td>
+                                   
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+                <div class="box box-solid box-primary">
+                    <div class="box-header">
+                        <h3 class="box-title">Recent Requisitions</h3>
+                        <div class="box-tools pull-right">
+                            <button data-widget="collapse" class="btn btn-primary btn-sm"><i class="fa fa-minus"></i></button>
+                            <button data-widget="remove" class="btn btn-primary btn-sm"><i class="fa fa-times"></i></button>
+                        </div>
+                    </div>
+                    <div class="box-body table-responsive" style="display: block;">
+                        <table id="" class="table table-striped table-checkable">
+                            <thead>
+                                <tr>
+                                    <th class="hidden-xs">Requisition N<u>o</u></th>
+                                    <th>Region</th>
+                                    <th>Zone</th>
+                                    <th>Commodity</th>
+                                    <th class="number">Beneficiaries</th>
+                                    <th class="number">Amount (MT)</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="requisition in Requisitions" class="">
+                                    <td class="hidden-xs"><a ng-href= "@Url.Content("~/EarlyWarning/ReliefRequisition/Allocation/{{requisition.RequisitionID}}")">{{requisition.RequisitonNumber}} </a></td>
+                                    <td>{{requisition.Region}}</td>
+                                    <td>{{requisition.Zone}}</td>
+                                    <td>{{requisition.Commodity}}</td>
+                                    <td class="number">{{requisition.Beneficiary|number}}</td>
+                                    <td class="number">{{requisition.Amount|number}} </td>
+                                    <td><span class="label" ng-class="{'label-warning':requisition.Status == 'Draft', 'label-success':requisition.Status == 'Approved', 'label-danger':requisition.Status == 'Closed'}">{{requisition.Status}}</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+                <div class="box box-solid box-primary">
+                    <div class="box-header">
+                        <h3 class="box-title">Recent Gift Certificates</h3>
+                        <div class="box-tools pull-right">
+                            <button data-widget="collapse" class="btn btn-primary btn-sm"><i class="fa fa-minus"></i></button>
+                            <button data-widget="remove" class="btn btn-primary btn-sm"><i class="fa fa-times"></i></button>
+                        </div>
+                    </div>
+                    <div class="box-body table-responsive" style="display: block;">
+                        <table id="" class="table table-striped table-checkable">
+                            <thead>
+                                <tr>
+                                    <th class="hidden-xs">SI N<u>o</u></th>
+                                    <th>Donor</th>
+                                    <th>Gift Date</th>
+                                    <th>Declaration N<u>o</u></th>
+                                    <th class="number">Total Weight (MT)</th>
+                                    <th class="number">Total Estimated Price(Birr)</th>
+                                    <th class="number">Total Estimated Tax (Birr)</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="giftCertificate in GiftCertificates" class="">
+                                    <td class="hidden-xs"><a ng-href= "@Url.Content("~/EarlyWarning/GiftCertificate/Edit/{{giftCertificate.GiftCertificateID}}")">{{giftCertificate.SINumber}}</a></td>
+                                    <td>{{giftCertificate.DonorName}}</td>
+                                    <td>{{giftCertificate.GiftDate}}</td>
+                                    <td>{{giftCertificate.DclarationNumber}}</td>
+                                    <td class="number">{{giftCertificate.Wieght|number}} </td>
+                                    <td class="number">{{giftCertificate.EstimatedPrice|number}} </td>
+                                    <td class="number">{{giftCertificate.TotalEstimatedTax|number}} </td>
+                                    <td><span class="label" ng-class="{'label-warning':giftCertificate.Status == 'Draft', 'label-sucess':giftCertificate.Status == 'Approved'}">{{giftCertificate.Status}}</span></td>
+                                </tr>
+
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
 
             </div>
+
+
+            <div class="col-md-4">
+
+                <div class="box box-solid">
+                    <div class="box-header">
+                        <h3 class="box-title">Requisitions Percentage </h3>
+                        <div class="box-tools pull-right">
+                            <button data-widget="collapse" class="btn btn-default btn-sm"><i class="fa fa-minus"></i></button>
+                            <button data-widget="remove" class="btn btn-default btn-sm"><i class="fa fa-times"></i></button>
+                        </div>
+                    </div>
+                    <div class="box-body" ng-controller="stageController">
+                        <div id="container" class="chartWrap" draw-requisitions-chart=""></div>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+                <div class="box box-solid">
+                    <div class="box-header">
+                        <h3 class="box-title">@Html.Translate("Ration Detail") </h3>
+                        <div class="box-tools pull-right">
+                            <button data-widget="collapse" class="btn btn-default btn-sm"><i class="fa fa-minus"></i></button>
+                            <button data-widget="remove" class="btn btn-default btn-sm"><i class="fa fa-times"></i></button>
+                        </div>
+                    </div>
+                    <div class="box-body" ng-controller="stageController">
+                        <table id="" class="table table-checkable" style="margin-bottom: 5px">
+                            <thead>
+                                <tr>
+                                    <th class="hidden-xs">Commodity</th>
+                                    <th class="number">Ration (Kg/Beneficiary)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="ration in Rations" class="">
+                                    <td class="hidden-xs">{{ration.Commodity}}</td>
+                                    <td class="number">{{ration.Amount}} </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <span class="text-info align-center"> <span class="fa fa-info-circle"> </span> For blended food the ration is calculated as 35%*0.45Kg</span>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+                <div class="box box-solid">
+                    <div class="box-header">
+                        <h3 class="box-title">Requested So far</h3>
+                        <div class="box-tools pull-right">
+                            <button data-widget="collapse" class="btn btn-default btn-sm"><i class="fa fa-minus"></i></button>
+                            <button data-widget="remove" class="btn btn-default btn-sm"><i class="fa fa-times"></i></button>
+                        </div>
+                    </div>
+                    <div class="box-body" ng-controller="stageController">
+                        <table class="table table-striped table-checkable">
+                            <thead>
+                                <tr>
+                                    <th class="hidden-xs">Region</th>
+                                    <th class="number">Requested</th>
+                                    <th class="number">Remaining</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="requested in RequestedAmount">
+                                    <td class="hidden-xs">{{requested.RegionName}}</td>
+                                    <td class="number">{{requested.NoOfRequests| number}}</td>
+                                    <td class="number">{{requested.Remaining | number}}</td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+            </div>
+            <!-- /.col -->
+
+
         </div>
-        <div>
-            <div class="row" style="border-bottom-width: thin; border-bottom-color: #666; border-bottom-style: inset; margin-top: 5px">
-
-                <div class="pull-left">
-                    <h4>Requests</h4>
-                </div>
-                <div class="pull-right">
-                    <div class="btn-group">
-                        <button id="RequestHeader" type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
-                            <i class="icon-arrow-up"></i>
-                            <i class="icon-arrow-down"></i>
-                        </button>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div>
-            <div id="RequestContent" class="row">
-                <div>&nbsp;</div>
-                <div class="span8">
-                    <div class="portlet">
-                        <div class="portlet-header">
-                            <h3>
-                                <i class=""></i>
-                                Recent Requests
-                            </h3>
-                            <ul class="portlet-tools pull-right">
-                                @* <li>
-                                    <button class="btn btn-sm btn-default">
-                                        Show more
-                                    </button>
-                                </li>*@
-                            </ul>
-                        </div>
-
-                        <!-- /.portlet-header -->
-
-                        <div class="portlet-content">
-                            <div>
-                                <table class="table table-striped table-checkable">
-                                    <thead>
-                                        <tr>
-                                            <th class="hidden-xs">Region</th>
-                                            <th class="number">No of Beneficaries</th>
-                                            <th class="number">Total Number of FDPS</th>
-                                            <th class="number">Round</th>
-                                            <th>Month</th>
-                                            <th>Status</th>
-                                            <th class="align-center">Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr ng-repeat="request in Requests | orderBy:['Region','Round']" class="">
-                                            @*<td class="hidden-xs"><a ng-href="@Url.Action("Allocation", "Request", new { Area = "EarlyWarning", id = "{{request.Region}}"})"> {{request.Region}} </a> </td>*@
-                                            <td class="hidden-xs"><a ng-href="@Url.Content("~/EarlyWarning/Request/Allocation/{{request.RegionalRequestID}}")">{{request.Region}}  </a></td>
-                                            <td class="number">{{request.Beneficiary|number}}</td>
-                                            <td class="number">{{request.NumberOfFDPS|number}}</td>
-                                            <th class="number">{{request.Round}}</th>
-                                            <th>{{request.MonthName}}</th>
-                                            <td><span class="label label-success">{{request.Status}}</span></td>
-                                            <td class="align-center">
-                                                @*<a class="btn btn-sm btn-default" data-original-title="Approve">
-                                                    <i class="icon-upload"></i>Approve
-                                                </a>*@
-                                            </td>
-                                        </tr>
-
-                                    </tbody>
-                                </table>
-
-                        </div>
-                        <!-- /.table-responsive -->
-                    </div>
-                    <!-- /.portlet-content -->
-
-                </div>
-                </div>
-                <div class="span3">
-
-                    <div class="portlet">
-                        <div class="portlet-header">
-                            <h3>
-                                <i class=""></i>
-                                Requested So far
-                            </h3>
-                        </div>
-
-                        <!-- /.portlet-header -->
-                        <div class="portlet-content">
-                            <th class="table-responsive">
-                                <table class="table table-striped table-checkable">
-                                    <thead>
-                                        <tr>
-                                            <th class="hidden-xs">Region</th>
-                                            <th>Requested</th>
-                                            <th>Remaining</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr ng-repeat="requested in RequestedAmount">
-                                            <td class="hidden-xs">{{requested.RegionName}}</td>
-                                            <td class="number">{{requested.NoOfRequests| number}}</td>
-                                            <td class="number">{{requested.Remaining | number}}</td>
-
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </th>
-                        </div>
-                        <!-- /.portlet -->
-                    </div>
-                    <!-- /.portlet -->
-
-                </div>
-              </div>  
-            <div>
-                <div class="row" style="border-bottom-width: thin; border-bottom-color: #666; border-bottom-style: inset; margin-top: 5px">
-                    <div class="pull-left">
-                        <h4>Requisitions</h4>
-                    </div>
-                    <div class="pull-right">
-                        <div class="btn-group">
-                            <button id="RequisitionHeader"type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
-                                 <i class="icon-arrow-up"></i> 
-                                <i class="icon-arrow-down"></i> 
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <div id="RequisitionContent" class="row">
-                    <div>&nbsp;</div>
-                    <div class="span11">
-                        <div class="portlet">
-                            <div class="portlet-header">
-                                <h3>
-                                    <i class=""></i>
-                                    Recent Requisitions
-                                </h3>
-                                <ul class="portlet-tools pull-right">
-                                @*<li>
-                                        <button class="btn btn-sm btn-default">
-                                            Show more
-                                        </button>
-
-                                </li>*@
-                                </ul>
-                            </div>
-
-                            <!-- /.portlet-header -->
-
-                            <div class="portlet-content">
-                                <th class="table-responsive">
-                                    <table id="" class="table table-striped table-checkable">
-                                        <thead>
-                                            <tr>
-                                                <th class="hidden-xs">Requisition Number</th>
-                                                <th>Region</th>
-                                                <th>Zone</th>
-                                                <th>Commodity</th>
-                                                <th class="number">Beneficiaries</th>
-                                                <th class="number">Amount(MT)</th>
-                                                <th>Status</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr ng-repeat="requisition in Requisitions" class="">
-                                                 <td class="hidden-xs"><a ng-href= "@Url.Content("~/EarlyWarning/ReliefRequisition/Allocation/{{requisition.RequisitionID}}")"> {{requisition.RequisitonNumber}} </a> </td>
-                                                <td>{{requisition.Region}}</td>
-                                                <td>{{requisition.Zone}}</td>
-                                                <td>{{requisition.Commodity}}</td>
-                                                <td class="number">{{requisition.Beneficiary|number}}</td>
-                                                <td class="number">{{requisition.Amount|number}} </td>
-                                                <td><span class="label label-success">{{requisition.Status}}</span></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-
-                            </div>
-                            <!-- /.table-responsive -->
-                        </div>
-                        <!-- /.portlet-content -->
-
-                    </div>
-                  </div>
-             
-            </div>
-
-        <div>
-            <div class="row" style="border-bottom-width: thin; border-bottom-color: #666; border-bottom-style: inset; margin-top: 5px">
-
-                <div class="pull-left">
-                    <h4>Recent Gift Certificates</h4>
-                </div>
-                <div class="pull-right">
-                    <div class="btn-group">
-                        <button id="GiftCertificateHeader" type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
-                            <i class="icon-arrow-up"></i>
-                            <i class="icon-arrow-down"></i>
-                        </button>
-
-                    </div>
-                </div>
-            </div>
-            <div id="GiftCertificateContent" class="row">
-                <div>&nbsp;</div>
-
-                <div class="span11">
-                    <div class="portlet">
-                        <div class="portlet-header">
-                            <h3>
-                                <i class=""></i>
-                                Recent Gift Certificates
-                            </h3>
-                            <ul class="portlet-tools pull-right">
-                                @*<li>
-                                    <button class="btn btn-sm btn-default">
-                                        Show more
-                                    </button>
-
-                                </li>*@
-                            </ul>
-                        </div>
-
-                        <!-- /.portlet-header -->
-
-                        <div class="portlet-content">
-                            <th class="table-responsive">
-                                <table id="" class="table table-striped table-checkable">
-                                    <thead>
-                                        <tr>
-                                            <th class="hidden-xs">SI Number</th>
-                                            <th>Donor</th>
-                                            <th>Gift Date</th>
-                                            <th>Declaration Number</th>
-                                            @* <th>Commodity</th>*@
-                                            <th class="number">Total Weight in MT</th>
-                                            <th class="number">Total Estimated Price(in Birr)</th>
-                                            <th class="number">Total Estimated Tax(in Birr)</th>
-                                            <th>Status</th>
-                                            @*  <th class="align-center">Action</th>*@
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr ng-repeat="giftCertificate in GiftCertificates" class="">
-                                            <td class="hidden-xs"><a ng-href= "@Url.Content("~/EarlyWarning/GiftCertificate/Edit/{{giftCertificate.GiftCertificateID}}")">{{giftCertificate.SINumber}}</a></td>
-                                            <td>{{giftCertificate.DonorName}}</td>
-                                            <td>{{giftCertificate.GiftDate}}</td>
-                                            <td>{{giftCertificate.DclarationNumber}}</td>
-                                            @*<td>{{giftCertificate.Commodity}}</td>*@
-                                            <td class="number">{{giftCertificate.Wieght|number}} </td>
-                                            <td class="number">{{giftCertificate.EstimatedPrice|number}} </td>
-                                            <td class="number">{{giftCertificate.TotalEstimatedTax|number}} </td>
-                                            <td><span class="label label-success">{{giftCertificate.Status}}</span></td>
-                                            @* <td>
-                                                <a href="javascript:;" class="btn btn-sm btn-default">View <i class="icon-chevron-right"></i>
-                                                </a>
-
-                                            </td>*@
-                                        </tr>
 
 
-                                    </tbody>
-                                </table>
+        
 
-                        </div>
-                        <!-- /.table-responsive -->
-                    </div>
-                    <!-- /.portlet-content -->
-
-                </div>
-
-                <!-- /.portlet -->
-            </div>
-        </div>
     </div>
-
-
 </div>
 
+    <script>
+        function EWDashboardController($scope, $http) {
 
-<script>
-    $("#RequestHeader").click(function () {
-        $("#RequestContent").slideToggle("slow", "linear");
-    });
+            $scope.Rations = [];
+            $scope.Requests = [];
+            $scope.Requisitions = [];
+            $scope.RequestedAmount = [];
+            $scope.RequestStatus = [];
+            $scope.RequisitionStatus = [];
+            $scope.Regions = [];
+            $scope.GiftCertificates = [];
 
-    $("#RequisitionHeader").click(function () {
-        $("#RequisitionContent").slideToggle("slow", "linear");
-    });
+            var onRequestsSuccess = function (data) {
+                $scope.Requests = data;
+            };
 
-    $("#DispatchHeader").click(function () {
-        $("#DispatchContent").slideToggle("slow", "linear");
-    });
-    $("#GiftCertificateHeader").click(function () {
-        $("#GiftCertificateContent").slideToggle("slow", "linear");
-    });
+            var onRationSuccess = function (data) {
+                $scope.Rations = data;
+            };
 
+            var onRequisitionSuccess = function (data) {
+                $scope.Requisitions = data;
+            };
 
-</script>
+            var onRequestedAmoutSuccess = function (data) {
+                $scope.RequestedAmount = data;
+            };
 
-<script>
-    function EWDashboardController($scope, $http) {
+            //var onRequestStatusSuccess = function (data) {
+            //    $scope.RequestStatus = data;
+            //};
+            //var onRequisitionStatusSuccess = function (data) {
+            //    $scope.RequisitionStatus = data;
+            //};
+            var onRegionTotalSuccess = function (data) {
+                $scope.Regions = data;
+            };
+            var onGiftCertificateSuccess = function (data) {
+                $scope.GiftCertificates = data;
+                $scope.isApproved = true;
+                $scope.isDraft = false;
+            };
 
-        $scope.Rations = [];
-        $scope.Requests = [];
-        $scope.Requisitions = [];
-        $scope.RequestedAmount = [];
-        $scope.RequestStatus = [];
-        $scope.RequisitionStatus = [];
-        $scope.Regions = [];
-        $scope.GiftCertificates = [];
+            $scope.getRequests = function () {
+                $http.post("@Url.Action("GetRegionalRequests", "EWDashboard", new { Area = "EarlyWarning" })").success(onRequestsSuccess);
+            };
 
-        var onRequestsSuccess = function (data) {
-            $scope.Requests = data;
-        };
+            $scope.getRations = function () {
+                $http.post("@Url.Action("GetRation", "EWDashboard", new { Area = "EarlyWarning" })").success(onRationSuccess);
 
-        var onRationSuccess = function (data) {
-            $scope.Rations = data;
-        };
-
-        var onRequisitionSuccess = function (data) {
-            $scope.Requisitions = data;
-        };
-
-        var onRequestedAmoutSuccess = function (data) {
-            $scope.RequestedAmount = data;
-        };
-
-        //var onRequestStatusSuccess = function (data) {
-        //    $scope.RequestStatus = data;
-        //};
-        //var onRequisitionStatusSuccess = function (data) {
-        //    $scope.RequisitionStatus = data;
-        //};
-        var onRegionTotalSuccess = function (data) {
-            $scope.Regions = data;
-        };
-        var onGiftCertificateSuccess = function (data) {
-            $scope.GiftCertificates = data;
-        };
-
-        $scope.getRequests = function () {
-            $http.post("@Url.Action("GetRegionalRequests", "EWDashboard", new { Area = "EarlyWarning" })").success(onRequestsSuccess);
-        };
-
-        $scope.getRations = function () {
-            $http.post("@Url.Action("GetRation", "EWDashboard", new { Area = "EarlyWarning" })").success(onRationSuccess);
-
-        };
-        $scope.getRequisitions = function () {
-            $http.post("@Url.Action("GetRequisition", "EWDashboard", new { Area = "EarlyWarning" })").success(onRequisitionSuccess);
+            };
+            $scope.getRequisitions = function () {
+                $http.post("@Url.Action("GetRequisition", "EWDashboard", new { Area = "EarlyWarning" })").success(onRequisitionSuccess);
 
         };
         $scope.getRequestedInfo = function () {
             $http.post("@Url.Action("GetRequestedInfo", "EWDashboard", new { Area = "EarlyWarning" })").success(onRequestedAmoutSuccess);
 
         };
-        @*$scope.getStatusInPercentage = function () {
+            @*$scope.getStatusInPercentage = function () {
             $http.post("@Url.Action("GetStatusInPercentage", "EWDashboard", new { Area = "EarlyWarning" })").success(onRequestStatusSuccess);
 
         };*@
@@ -651,21 +471,21 @@
             $http.post("@Url.Action("GetRequisitionStatusPercentage", "EWDashboard", new { Area = "EarlyWarning" })").success(onRequisitionStatusSuccess);
 
         };*@
-        $scope.getHrdRegionPercentage = function () {
-            $http.post("@Url.Action("GetHrdRegionPercentage", "EWDashboard", new { Area = "EarlyWarning" })").success(onRegionTotalSuccess);
+            $scope.getHrdRegionPercentage = function () {
+                $http.post("@Url.Action("GetHrdRegionPercentage", "EWDashboard", new { Area = "EarlyWarning" })").success(onRegionTotalSuccess);
 
-        };
-        $scope.getRecentGiftCertificates = function () {
-            $http.post("@Url.Action("GetRecentGiftCertificates", "EWDashboard", new { Area = "EarlyWarning" })").success(onGiftCertificateSuccess);
+            };
+            $scope.getRecentGiftCertificates = function () {
+                $http.post("@Url.Action("GetRecentGiftCertificates", "EWDashboard", new { Area = "EarlyWarning" })").success(onGiftCertificateSuccess);
 
         };
         $scope.getRations();
         $scope.getRequests();
         $scope.getRequisitions();
         $scope.getRequestedInfo();
-        //$scope.getStatusInPercentage();
-        //$scope.getRequisitionStatusInPercentage();
-        //$scope.getHrdRegionPercentage();
+            //$scope.getStatusInPercentage();
+            //$scope.getRequisitionStatusInPercentage();
+            //$scope.getHrdRegionPercentage();
         $scope.getRecentGiftCertificates();
     }
 
@@ -685,59 +505,59 @@
         $scope.getRequiredNumber();
     }
 
-</script>
-<script>
+    </script>
+    <script>
 
-    angular.module('myApp', ['myApp.directives']);
+        angular.module('myApp', ['myApp.directives']);
 
 
-    /* Controllers */
-    function stageController($scope, $http) {
-        $scope.type = 'Requests Percentage';
-        var onRequestStatusSuccess = function (d) {
-            $scope.data = [
-                ['Pending', d["Pending"]],
-                ['Approved', d["Approved"]],
-                ['Requisition Created', d["RequisitionCreated"]]
-            ];
+        /* Controllers */
+        function stageController($scope, $http) {
+            $scope.type = 'Requests Percentage';
+            var onRequestStatusSuccess = function (d) {
+                $scope.data = [
+                    ['Pending', d["Pending"]],
+                    ['Approved', d["Approved"]],
+                    ['Requisition Created', d["RequisitionCreated"]]
+                ];
 
-        };
-        var onRequisitonStatusSucess = function (d) {
-            $scope.dataRequisition = [
-               ['Pending', d["Pending"]],
-               ['Approved', d["Approved"]],
-               ['Hub Assigned', d["HubAssigned"]],
-               ['Project Code Assigned', d['ProjectCodeAssigned']],
-               ['Transport Requistion Created', d['TransportRequistionCreated']],
-               ['Transport Order Created', d['TransportOrderCreated']]
-            ];
-        };
+            };
+            var onRequisitonStatusSucess = function (d) {
+                $scope.dataRequisition = [
+                   ['Pending', d["Pending"]],
+                   ['Approved', d["Approved"]],
+                   ['Hub Assigned', d["HubAssigned"]],
+                   ['Project Code Assigned', d['ProjectCodeAssigned']],
+                   ['Transport Requistion Created', d['TransportRequistionCreated']],
+                   ['Transport Order Created', d['TransportOrderCreated']]
+                ];
+            };
 
-        var onRegionTotalSuccess = function (d) {
+            var onRegionTotalSuccess = function (d) {
 
-            $scope.dataP = d;
+                $scope.dataP = d;
 
-            $scope.Regions = [];
+                $scope.Regions = [];
 
-            $scope.Figure = [];
+                $scope.Figure = [];
 
-            for (var i in $scope.dataP) {
-                $scope.Regions.push($scope.dataP[i].RegionName);
-                $scope.Figure.push($scope.dataP[i].TotalBeneficary);
-            }
-        };
+                for (var i in $scope.dataP) {
+                    $scope.Regions.push($scope.dataP[i].RegionName);
+                    $scope.Figure.push($scope.dataP[i].TotalBeneficary);
+                }
+            };
 
-        $scope.getStatusInPercentage = function () {
-            $http.post("@Url.Action("GetStatusInPercentage", "EWDashboard", new { Area = "EarlyWarning" })").success(onRequestStatusSuccess);
-        };
+            $scope.getStatusInPercentage = function () {
+                $http.post("@Url.Action("GetStatusInPercentage", "EWDashboard", new { Area = "EarlyWarning" })").success(onRequestStatusSuccess);
+            };
 
-        $scope.getRequisitionStatusInPercentage = function () {
-            $http.post("@Url.Action("GetRequisitionStatusPercentage", "EWDashboard", new { Area = "EarlyWarning" })").success(onRequisitonStatusSucess);
+            $scope.getRequisitionStatusInPercentage = function () {
+                $http.post("@Url.Action("GetRequisitionStatusPercentage", "EWDashboard", new { Area = "EarlyWarning" })").success(onRequisitonStatusSucess);
 
-        };
+            };
 
-        $scope.getHrdRegionPercentage = function () {
-            $http.post("@Url.Action("GetHrdRegionPercentage", "EWDashboard", new { Area = "EarlyWarning" })").success(onRegionTotalSuccess);
+            $scope.getHrdRegionPercentage = function () {
+                $http.post("@Url.Action("GetHrdRegionPercentage", "EWDashboard", new { Area = "EarlyWarning" })").success(onRegionTotalSuccess);
 
         };
 
@@ -906,4 +726,4 @@
         };
     });
 
-</script>
+    </script>

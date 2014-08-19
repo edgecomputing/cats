@@ -1,0 +1,137 @@
+﻿body {
+    padding-top: 50px;
+   
+}
+header {
+    
+}
+footer {
+    height: 40px;
+    line-height: 40px;
+    background: #EEE;
+    text-align: center;
+
+}
+.navbar-default {
+    background-image: linear-gradient(to bottom, #fff, #eee);
+}
+.navbar-logo {
+   float: left;
+    cursor: pointer;
+}
+.navbar .divider-vertical {
+height: 50px;
+margin: 0 9px;
+border-right: 1px solid #ffffff;
+border-left: 1px solid #f2f2f2;
+    float: left;
+}
+
+.navbar-inverse .divider-vertical {
+border-right-color: #222222;
+border-left-color: #111111;
+}
+
+.navbar .dropdown-menu > li > a:hover {
+    background-color: #3c8dbc;
+    color: #FFF;
+    text-decoration: none;
+}
+.navbar .navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:hover, .navbar-default .navbar-nav > .open > a:focus {
+     background-color: #3c8dbc;
+    color: #FFF;
+}
+@media (max-width: 767px) {
+.navbar-collapse .nav > .divider-vertical {
+    display: none;
+  }
+}
+
+.cats-breadcrumb {
+    margin: 5px 0;
+     background: #f7f7f7;
+     border-top: 1px solid #e7e7e7;
+      border-bottom: 1px solid #e7e7e7;
+}
+.cats-breadcrumb .breadcrumb {
+    /*background-image: linear-gradient(to bottom, #17568c, #1a3867);
+     background: -moz-linear-gradient(center top , #ffffff 0%, #ededed 100%) repeat scroll 0 0 rgba(0, 0, 0, 0);
+   
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+        ;*/
+    border-radius: 0;
+    background: #f7f7f7;
+    font-weight: bold;
+    color: #444;
+     margin-bottom:0;
+    text-align: right;
+   
+}
+.cats-breadcrumb a {
+    font-weight: normal;
+    color: #000;
+}
+.action-menu-cnt {
+    padding: 0 10px;
+    margin-bottom: 10px;
+  
+}
+.action-menu {
+    float: right;
+    padding: 5px;
+}
+.left-bar {
+    background: #EEE;
+    padding-top: 20px;
+}
+.left-bar .nav-header {
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.dashboard-stat {
+   
+    text-align: center;
+     font-weight: bold;
+}
+.dashboard-stat .details {
+   
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+.dashboard-stat .details .content {
+   border-bottom: 1px solid #ccc;
+    padding-bottom: 5px;
+}
+.dashboard-stat .details .value {
+     font-size: 24px;
+    
+}
+td.number,th.number {
+    text-align: right;
+}
+
+
+.body-cnt  .content-header {
+  position: relative;
+  padding: 15px 15px 10px 20px;
+}
+.body-cnt  .content-header > h1 {
+  margin: 0;
+  font-size: 24px;
+}
+.body-cnt  .content-header > h1 > small {
+  font-size: 15px;
+  display: inline-block;
+  padding-left: 4px;
+  font-weight: 300;
+}
+.body-cnt .content-header {
+    background: none repeat scroll 0 0 #fbfbfb;
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+.field-validation-error {
+    color: #F00;
+}
+
+

@@ -683,6 +683,7 @@
     <Content Include="Areas\Hub\Views\Shared\EditorTemplates\Number.ascx" />
     <Content Include="Areas\Hub\Views\Shared\EditorTemplates\Time.ascx" />
     <!--<Content Include="ClientBin\EWdispatchAllocationList.xap" />-->
+    <None Include="Areas\Logistics\Views\DispatchAllocation\_AllocateProjectCode.cshtml" />
     <Content Include="Content\2013.1.219\Black\editor.png" />
     <Content Include="Content\2013.1.219\Black\imagebrowser.png" />
     <Content Include="Content\2013.1.219\Black\loading.gif" />
@@ -1723,6 +1724,7 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\cats-print-script.js" />
+    <Content Include="Scripts\css\cats.css" />
     <Content Include="Scripts\gridmvc.js" />
     <Content Include="Scripts\gridmvc.lang.ru.js" />
     <Content Include="Scripts\gridmvc.min.js" />
