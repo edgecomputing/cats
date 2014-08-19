@@ -48,7 +48,7 @@
                     @Html.LabelFor(m => m.WoredaID, Html.Translate("Woreda"))
                 </div>
                 <div class="controls" id="div_woreda" >
-                    @*@Html.DropDownList( "WoredaID",ViewBag.WoredaID as SelectList, new {@id="WoredaID"})*@
+               
                      @Html.DropDownList("WoredaID",String.Empty)
                     @Html.ValidationMessageFor(m => m.WoredaID)
                 </div>
