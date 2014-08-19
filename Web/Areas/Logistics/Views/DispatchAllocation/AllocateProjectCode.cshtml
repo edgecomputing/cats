@@ -3,6 +3,7 @@
 @using Cats.Helpers
 
 @{
+
     var gridid = Guid.NewGuid().ToString();
 }
 <style>
@@ -31,7 +32,8 @@
         //columns.Bound(e => e.StrRequisitionDate).Title("Requested On").Width(140);
         columns.Bound(e => e.BenficiaryNo).Title("Beneficiaries").Width(120).HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;", title = "Benficiary No" }).Format("{0:n0}").HtmlAttributes(new { align = "Right" }).HtmlAttributes(new { style = "text-align: right; font-size: 12px; " }).Filterable(false);
         columns.Bound(e => e.Status).Title("").Width(120).ClientTemplate("<a class='action-link assign-code#=Status#' href='" + @Url.Action("Index", "FDPSIAllocation", new { Area = "Logistics", regionid = ViewBag.regionId }) + "&RequisitionID=#=RequisitionId#'>PC/SI Allocate</a>  ").Filterable(false);
-        columns.Bound(e => e.Status).Width(120).Title("Status");
+       
+
         //columns.Bound(e => e.Round).Width(120).Title("Round");
     })
    
@@ -42,6 +44,7 @@
                            // .PageSize(5)
                          )
                          .Scrollable(scroll => scroll.Height(350))
+                         
                          .Selectable(select => select.Mode(GridSelectionMode.Single))
                          .Navigatable()
                          .Filterable(filterable => filterable
@@ -60,6 +63,8 @@
 
 
 <script>
+   
+
     function roundChange(e) {
         e.preventDefault();
         var value = this.value();
@@ -69,6 +74,33 @@
 
         } else {
             grid.dataSource.filter({});
+        }
+    }
+    
+    function onUnCommit(e) {
+        e.preventDefault();
+
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        window.location = "@Url.Action("UncommitRequsition","DispatchAllocation")" + "/" + dataItem.RequisitionId;
+    }
+    
+    function onDataBound(e) {
+       
+        var grid = $("#ProjectCodegrid" + '@gridid').data("kendoGrid");
+        var gridData = grid.dataSource.view();
+
+        
+        for (var i = 0; i < gridData.length; i++) {
+            var currentUid = gridData[i].uid;
+            
+            if (gridData[i].Status == 3) {
+                var currentRow = grid.table.find("tr[data-uid='" + currentUid + "']");
+                var uncommitButton = $(currentRow).find(".k-grid-Uncommmit");
+                uncommitButton.hide();
+               
+            }
+
+            
         }
     }
 </script>

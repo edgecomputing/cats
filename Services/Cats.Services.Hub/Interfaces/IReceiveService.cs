@@ -27,7 +27,7 @@ namespace Cats.Services.Hub
         List<ReceiveViewModelDto> ByHubIdAndAllocationIDetached(int hubId, Guid receiptAllocationId);
         void Update(List<ReceiveDetail> inserted, List<ReceiveDetail> updated, List<ReceiveDetail> deleted,Receive receive);
 
-
+        ReceiveNewViewModel ReceiptAllocationToReceive(ReceiptAllocation receiptAllocation);
 
 
 

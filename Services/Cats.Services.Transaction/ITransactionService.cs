@@ -26,6 +26,7 @@ namespace Cats.Services.Transaction
        
         bool PostRequestAllocation(int requestId);
         bool PostSIAllocation(int requisitionID);
+        bool PostSIAllocationUncommit(int requisitionID);
         bool PostDonationPlan(DonationPlanHeader donationPlanDetail);
         bool PostDistribution(int distributionId);
     }

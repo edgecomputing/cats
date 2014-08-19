@@ -85,13 +85,23 @@ namespace Cats.Areas.Finance.Controllers
 
         private string status (int status)
         {
-            if (status == 1)
-                return "Prepared";
-            if (status == 2)
-                return "Signed";
-            if (status == 3)
-                return "Paid";
-            return "";
+            string statusText = "";
+            switch(status)
+            {
+                case 1:
+                    statusText = "Prepared";
+                    break;
+                case 2:
+                    statusText = "Signed";
+                    break;
+                case 3:
+                    statusText = "Paid";
+                    break;
+                default:
+                    statusText = "";
+                    break;
+            }
+            return statusText;
         }
         private string _status(int status)
         {

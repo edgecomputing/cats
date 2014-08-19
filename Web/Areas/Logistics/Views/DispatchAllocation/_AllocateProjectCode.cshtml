@@ -3,6 +3,7 @@
 @using Cats.Helpers
 
 @{
+
     var gridid = Guid.NewGuid().ToString();
 }
 <style>
@@ -17,14 +18,13 @@
 
 
 @(Html.Kendo().Grid<Cats.Models.RequisitionViewModel>()
-    .Name("ApprovedRequsitions")
+    .Name("ProjectCodegrid" + gridid)
     .Columns(columns =>
     {
-        
         columns.Bound(e => e.RequisitionNo).Width(120).Title("Requisition No").Filterable(false);
         columns.Bound(e => e.Program).Width(120).Title("Program").Filterable(true);
         columns.Bound(e => e.Month).Width(120).Title("Month").Filterable(true);
-        columns.Bound(e => e.Round).Width(80).Title("Round");
+        columns.Bound(e => e.Round).Width(120).Title("Round");
         columns.Bound(e => e.Region).Width(120).Title("Region").Filterable(false);
         columns.Bound(e => e.Zone).Width(120).Title("Zone").Filterable(false);
         columns.Bound(e => e.Commodity).Width(110).Filterable(false);
@@ -32,14 +32,13 @@
         //columns.Bound(e => e.StrRequisitionDate).Title("Requested On").Width(140);
         columns.Bound(e => e.BenficiaryNo).Title("Beneficiaries").Width(120).HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;", title = "Benficiary No" }).Format("{0:n0}").HtmlAttributes(new { align = "Right" }).HtmlAttributes(new { style = "text-align: right; font-size: 12px; " }).Filterable(false);
         //columns.Bound(e => e.Status).Title("").Width(120).ClientTemplate("<a class='action-link assign-code#=Status#' href='" + @Url.Action("Index", "FDPSIAllocation", new { Area = "Logistics", regionid = ViewBag.regionId }) + "&RequisitionID=#=RequisitionId#'>PC/SI Allocate</a>  ").Filterable(false);
-        //columns.Bound(e => e.Status).Width(90).Title("Status");
-        columns.Command(p => p.Custom("Reject").Click("onReject")).Width(100);
-        
+        columns.Command(e=>e.Custom("Uncommmit").Click("onUnCommit")).Width(120);
+
+        //columns.Bound(e => e.Round).Width(120).Title("Round");
     })
    
                         .DataSource(dataSource => dataSource
                             .Ajax()
-                             .Model(model => model.Id(p => p.RequisitionId))
                             .Read(read => read.Action("AllocateProjectCode", "DispatchAllocation", new { regionId = Model[0], status = Model[1] }))
 
                            // .PageSize(5)
@@ -47,14 +46,14 @@
                          .Scrollable(scroll => scroll.Height(350))
                          .Selectable(select => select.Mode(GridSelectionMode.Single))
                          .Navigatable()
-                             .Filterable(filterable => filterable
-                                 .Extra(false)
-                                 .Operators(operators => operators
-                                     .ForString(str => str.Clear()
-                                         .StartsWith("Starts with")
-                                         .IsEqualTo("Is equal to")
-                                         .IsNotEqualTo("Is not equal to")
-                              )))
+                         .Filterable(filterable => filterable
+                             .Extra(false)
+                             .Operators(operators => operators
+                                 .ForString(str => str.Clear()
+                                     .StartsWith("Starts with")
+                                     .IsEqualTo("Is equal to")
+                                     .IsNotEqualTo("Is not equal to")
+                          )))
         //.Filterable()
                          .Sortable()
                          .HtmlAttributes(new { style = "height:350px;" })
@@ -63,6 +62,8 @@
 
 
 <script>
+   
+
     function roundChange(e) {
         e.preventDefault();
         var value = this.value();
@@ -75,10 +76,30 @@
         }
     }
     
-    function onReject(e) {
+    function onUnCommit(e) {
         e.preventDefault();
 
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
-        window.location = "@Url.Action("RejectRequsition","DispatchAllocation")" + "/" + dataItem.RequisitionId;
+        window.location = "@Url.Action("UncommitRequsition","DispatchAllocation")" + "/" + dataItem.RequisitionId;
+    }
+    
+    function onDataBound(e) {
+       
+        var grid = $("#ProjectCodegrid" + '@gridid').data("kendoGrid");
+        var gridData = grid.dataSource.view();
+
+        
+        for (var i = 0; i < gridData.length; i++) {
+            var currentUid = gridData[i].uid;
+            
+            if (gridData[i].Status == 3) {
+                var currentRow = grid.table.find("tr[data-uid='" + currentUid + "']");
+                var uncommitButton = $(currentRow).find(".k-grid-Uncommmit");
+                uncommitButton.hide();
+               
+            }
+
+            
+        }
     }
 </script>

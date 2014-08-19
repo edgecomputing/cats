@@ -15,6 +15,10 @@ namespace Cats.Areas.Logistics.Models
         public string Program { get; set; }
         public int CommoditySourceID { get; set; }
         public string CommoditySource { get; set; }
+        public int CommodityTypeID { get; set; }
+        public string CommodityType { get; set; }
+        public int ParentCommodityID { get; set; }
+        public string ParentCommodity { get; set; }
         public int CommodityID { get; set; }
         public string Commodity { get; set; }
         public int DestinationHubID { get; set; }

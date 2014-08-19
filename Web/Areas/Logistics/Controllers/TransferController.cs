@@ -8,6 +8,7 @@ using Cats.Helpers;
 using Cats.Models;
 using Cats.Models.Constant;
 using Cats.Services.Common;
+using Cats.Services.EarlyWarning;
 using Cats.Services.Logistics;
 using Cats.Services.Security;
 using Kendo.Mvc.Extensions;
@@ -22,12 +23,14 @@ namespace Cats.Areas.Logistics.Controllers
         private readonly ITransferService _transferService;
         private readonly ICommonService _commonService;
         private readonly IUserAccountService _userAccountService;
+        private readonly ICommodityService _commodityService;
         
-        public TransferController(ITransferService transferService,ICommonService commonService,IUserAccountService userAccountService )
+        public TransferController(ITransferService transferService,ICommonService commonService,IUserAccountService userAccountService, ICommodityService commodityService)
         {
             _transferService = transferService;
             _commonService = commonService;
             _userAccountService = userAccountService;
+            _commodityService = commodityService;
         }
 
         public ActionResult Index()
@@ -40,7 +43,8 @@ namespace Cats.Areas.Logistics.Controllers
             transfer.CommoditySource = _commonService.GetCommditySourceName(5);//commodity source for transfer
             ViewBag.ProgramID = new SelectList(_commonService.GetPrograms(), "ProgramID", "Name");
             ViewBag.SourceHubID = new SelectList(_commonService.GetAllHubs(), "HubID", "Name");
-            ViewBag.CommodityID = new SelectList(_commonService.GetCommodities(), "CommodityID", "Name");
+            ViewBag.CommodityID = new SelectList(_commonService.GetCommodities(t=>t.ParentID!=null), "CommodityID", "Name");
+            ViewBag.ParentCommodityID = new SelectList(_commonService.GetCommodities(t => t.ParentID == null), "CommodityID", "Name");
             ViewBag.CommodityTypeID = new SelectList(_commonService.GetCommodityTypes(), "CommodityTypeID", "Name");
             ViewBag.DestinationHubID = new SelectList(_commonService.GetAllHubs(), "HubID", "Name");
             return View(transfer);
@@ -170,6 +174,30 @@ namespace Cats.Areas.Logistics.Controllers
             }
             ModelState.AddModelError("Errors",@"Unable to Approve the given Transfer");
             return RedirectToAction("Index");
+        }
+
+        public ActionResult JsonParentCommodities(int commodityTypeID, int? editModval)
+        {
+            var parentCommodities =
+                _commodityService.Get(t => t.ParentID == null && t.CommodityTypeID == commodityTypeID);
+            if (parentCommodities!=null)
+            {
+                var parentCommoditiesSelectList = new SelectList(parentCommodities.ToList(), "CommodityID", "Name", editModval);
+                return Json(parentCommoditiesSelectList, JsonRequestBehavior.AllowGet);
+            }
+            return Json(null, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult JsonCommodities(int parentCommodityID, int? editModval)
+        {
+            var commodities =
+                _commodityService.Get(t => t.ParentID == parentCommodityID);
+            if (commodities != null)
+            {
+                var commoditiesSelectList = new SelectList(commodities.ToList(), "CommodityID", "Name", editModval);
+                return Json(commoditiesSelectList, JsonRequestBehavior.AllowGet);
+            }
+            return Json(null, JsonRequestBehavior.AllowGet);
         }
     }
 }
