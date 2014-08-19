@@ -6,7 +6,7 @@ namespace Cats.Models.Hubs.ViewModels
 {
     public class ReceiveNewViewModel
     {
-        #region Properties 
+        #region View Properties 
 
         public Guid ReceiveId { get; set; }
 
@@ -67,14 +67,39 @@ namespace Cats.Models.Hubs.ViewModels
         [UIHint("AmharicTextBox")]
         public string ReceivedByStoreMan { get; set; }
 
-        public Guid? ReceiptAllocationID { get; set; }
+        public Guid ReceiptAllocationId { get; set; }
 
 
         public int CommoditySourceTypeId { get; set; }
+        
+
+        public int CurrentHub { get; set; }
 
         public IEnumerable<ReceiveDetailNewViewModel> ReceiveDetailNewViewModels { get; set; }
 
+        public ReceiveDetailNewViewModel ReceiveDetailNewViewModel { get; set; }
+
         #endregion
 
+        #region Properties 
+
+        public int CommodityTypeId { get; set; }
+        public int? SourceDonorId { get; set; }
+        public int? ResponsibleDonorId { get; set; }
+        public int TransporterId { get; set; }
+        public string PlateNoPrime { get; set; }
+        public string PlateNoTrailer { get; set; }
+        public string DriverName { get; set; }
+        public string WeightBridgeTicketNumber { get; set; }
+        public decimal? WeightBeforeUnloading { get; set; }
+        public decimal? WeightAfterUnloading { get; set; }
+
+        public string VesselName { get; set; }
+        public string PortName { get; set; }
+        public string Remark { get; set; }
+        public int ProgramId { get; set; }
+        public int? SourceHubId { get; set; }
+
+        #endregion 
     }
 }

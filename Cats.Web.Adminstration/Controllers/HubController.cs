@@ -74,7 +74,7 @@ namespace Cats.Web.Adminstration.Controllers
             }
             catch (Exception e)
             {
-                ModelState.AddModelError("Errors", "Unable to delete Hub");
+                ModelState.AddModelError("Errors", @"Unable to delete Hub");
             }
             return RedirectToAction("Index");
         }

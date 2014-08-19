@@ -29,7 +29,9 @@ namespace Cats.Services.Hub
 
         ReceiveNewViewModel ReceiptAllocationToReceive(ReceiptAllocation receiptAllocation);
 
+        bool IsGrnUnique(string grn);
 
+        bool IsReceiveExcedeAllocation(ReceiveDetailNewViewModel receiveDetailNewViewModel, Guid receiptAllocationId);
 
     }
 }

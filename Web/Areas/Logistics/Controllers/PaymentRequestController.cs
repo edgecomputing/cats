@@ -94,7 +94,7 @@ namespace Cats.Areas.Logistics.Controllers
                     ViewBag.ErrorMessage2 = "Please make sure the workflow is created and configured.";
                 }
                 LoadLookups();
-                ModelState.AddModelError("Errors", "Could not create Request Plan.");
+                ModelState.AddModelError("Errors", @"Could not create Request Plan.");
                 return View(request);
             }
 

@@ -170,7 +170,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                 catch (Exception e)
                 {
                     
-                    ModelState.AddModelError("Errors","Unable to Add Woreda");
+                    ModelState.AddModelError("Errors",@"Unable to Add Woreda");
                 }
             }
             return RedirectToAction("Detail", new { id = addWoredaViewModel.DonorCoverageID });

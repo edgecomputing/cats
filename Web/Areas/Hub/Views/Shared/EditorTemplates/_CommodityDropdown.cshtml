@@ -1,0 +1,7 @@
+﻿@using System.Collections
+@using Kendo.Mvc.UI
+@(Html.Kendo().DropDownList()
+    .Name("CommodityViewModel")
+    .DataTextField("CommodityName")
+    .DataValueField("CommodityId")
+        .BindTo((IEnumerable)ViewData["commodities"]))

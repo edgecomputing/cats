@@ -171,7 +171,7 @@ namespace Cats.Controllers
                 orderNo++;
             }
 
-            ModelState.AddModelError("Success", "Preference Saved.");
+            ModelState.AddModelError("Success", @"Preference Saved.");
             return Json(true, JsonRequestBehavior.AllowGet);
         }
 

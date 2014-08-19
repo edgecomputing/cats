@@ -113,13 +113,13 @@ namespace Cats.Areas.Hub.Controllers
                                                                 viewModel.ShippingInstructionId,
                                                                 viewModel.ProjectCodeId))
             {
-                ModelState.AddModelError("QuantityInMT", "You have nothing to loss");
+                ModelState.AddModelError("QuantityInMT", @"You have nothing to loss");
                 return View(newViewModel);
             }
 
             if (viewModel.QuantityInMt <= 0)
             {
-                ModelState.AddModelError("QuantityInMT", "You have nothing to loss");
+                ModelState.AddModelError("QuantityInMT", @"You have nothing to loss");
 
                 return View(newViewModel);
             }

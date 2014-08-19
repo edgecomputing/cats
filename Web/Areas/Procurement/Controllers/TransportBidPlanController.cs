@@ -420,7 +420,7 @@ namespace Cats.Areas.Procurement.Controllers
                 _transportBidPlanDetailService.DeleteByBidPlanID(bidPlan.TransportBidPlanID);
                 return RedirectToAction("Index");
             }
-           ModelState.AddModelError("Errors","Unable to delete Bid Plan");
+           ModelState.AddModelError("Errors",@"Unable to delete Bid Plan");
            return RedirectToAction("Index");
         }
         

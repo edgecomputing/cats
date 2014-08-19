@@ -72,7 +72,7 @@ namespace Cats.Web.Adminstration.Controllers
             }
             catch (Exception e)
             {
-                ModelState.AddModelError("Errors", "Unable to Commoditytype");
+                ModelState.AddModelError("Errors", @"Unable to Commoditytype");
             }
             return RedirectToAction("Index");
         }

@@ -167,24 +167,53 @@ namespace Cats.Services.Hub
         {
             var viewModel = new ReceiveNewViewModel
             {
-                ReceiptAllocationID = receiptAllocation.ReceiptAllocationID,
+                ReceiptAllocationId = receiptAllocation.ReceiptAllocationID,
                 SiNumber = receiptAllocation.SINumber,
                 ProjectCode = receiptAllocation.ProjectNumber,
                 Program = _unitOfWork.ProgramRepository.FindById(receiptAllocation.ProgramID).Name,
-                CommodityType =  _unitOfWork.CommodityTypeRepository.FindById(receiptAllocation.Commodity.CommodityTypeID).Name,
-
-                SourceHub = _unitOfWork.HubRepository.FindById(receiptAllocation.SourceHubID.GetValueOrDefault(0)).Name,
-
-                SupplierName = receiptAllocation.SupplierName,
-                PurchaseOrder =  receiptAllocation.PurchaseOrder,
-
-                CommoditySource = receiptAllocation.CommoditySource.Name,
-
-                CommoditySourceTypeId = receiptAllocation.CommoditySourceID,
-
-                ReceiveDetailNewViewModels = new List<ReceiveDetailNewViewModel>()
+                CommodityType = _unitOfWork.CommodityTypeRepository.FindById(receiptAllocation.Commodity.CommodityTypeID).Name
             };
+
+            if (CommoditySource.Constants.LOAN == receiptAllocation.CommoditySourceID
+                || CommoditySource.Constants.SWAP == receiptAllocation.CommoditySourceID
+                || CommoditySource.Constants.TRANSFER == receiptAllocation.CommoditySourceID
+                || CommoditySource.Constants.REPAYMENT == receiptAllocation.CommoditySourceID)
+            {
+                if (receiptAllocation.SourceHubID.HasValue)
+                {
+                    viewModel.SourceHub = _unitOfWork.HubRepository.FindById(receiptAllocation.SourceHubID.GetValueOrDefault(0)).Name; 
+                }
+            }
+
+            if (CommoditySource.Constants.LOCALPURCHASE == receiptAllocation.CommoditySourceID)
+            {
+                viewModel.SupplierName = receiptAllocation.SupplierName;
+                viewModel.PurchaseOrder = receiptAllocation.PurchaseOrder;
+            }
+
+            viewModel.CommoditySource = receiptAllocation.CommoditySource.Name;
+            viewModel.CommoditySourceTypeId = receiptAllocation.CommoditySourceID;
+            viewModel.ReceiveDetailNewViewModels = new List<ReceiveDetailNewViewModel> { };
             return viewModel;
+        }
+
+        public bool IsGrnUnique(string grn)
+        {
+            var result = FindBy(p => p.GRN == grn).FirstOrDefault();
+            return result == null;
+        }
+
+        public bool IsReceiveExcedeAllocation(ReceiveDetailNewViewModel receiveDetailNewViewModel, Guid receiptAllocationId)
+        {
+            var allocation = _unitOfWork.ReceiptAllocationRepository.FindBy(t => t.ReceiptAllocationID == receiptAllocationId).FirstOrDefault();
+            decimal sum = 0;
+            if (allocation != null && allocation.Receives != null)
+                sum = allocation.Receives.Aggregate(sum, (current1, r) => r.ReceiveDetails.Aggregate(current1, (current, rd) => current + Math.Abs(rd.QuantityInMT)));
+            var received = sum;
+
+            if (allocation == null) return false;
+            var remaining = allocation.QuantityInMT - received;
+            return receiveDetailNewViewModel.ReceivedQuantityInMt > remaining;
         }
     }
 }

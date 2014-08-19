@@ -231,7 +231,7 @@ namespace Cats.Areas.Logistics.Controllers
 
             if (Remaining < PCodeqty + SICodeqty)
             {
-                ModelState.AddModelError("Errors","Amount entered is greater than the remaining quantity ");
+                ModelState.AddModelError("Errors",@"Amount entered is greater than the remaining quantity ");
                 TempData["ModelState"] = ModelState;
                 return RedirectToAction("Assign", "ProjectAllocation", new { ReqId= RequisitionId, Remaining = Remaining});
 
@@ -267,14 +267,14 @@ namespace Cats.Areas.Logistics.Controllers
 
             if (isProjectCodeSelected == false && isSICodeSelected == false)
             {
-                ModelState.AddModelError("Errors", "SI code or Project Code is not selected.");
+                ModelState.AddModelError("Errors", @"SI code or Project Code is not selected.");
                 TempData["ModelState"] = ModelState;
                 return RedirectToAction("Assign", "ProjectAllocation", new { ReqId = RequisitionId, Remaining = Remaining });
             }
 
             if ((isProjectCodeSelected && PCodeqty == 0) || (isSICodeSelected && SICodeqty == 0))
             {
-                ModelState.AddModelError("Errors", "Value entered for Projecte Code/SI Code is zero or Invalid. ");
+                ModelState.AddModelError("Errors", @"Value entered for Projecte Code/SI Code is zero or Invalid. ");
                 TempData["ModelState"] = ModelState;
                 return RedirectToAction("Assign", "ProjectAllocation", new { ReqId = RequisitionId, Remaining = Remaining });
             }
@@ -306,7 +306,7 @@ namespace Cats.Areas.Logistics.Controllers
 
                 var log = new Logger();
                 log.LogAllErrorsMesseges(exception,_log);
-                ModelState.AddModelError("Errors","Can't add new project code allocation");
+                ModelState.AddModelError("Errors",@"Can't add new project code allocation");
 
             }
 

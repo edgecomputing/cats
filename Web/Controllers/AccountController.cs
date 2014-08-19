@@ -235,7 +235,7 @@ namespace Cats.Controllers
                             // send the email using the utilty method in the shared dll.
                             Cats.Helpers.SendMail mail = new Helpers.SendMail(from, to, subject, body, null, true, smtp, userName, password, port);
 
-                            ModelState.AddModelError("Sucess", "Email has Sent to your email Address.");
+                            ModelState.AddModelError("Sucess", @"Email has Sent to your email Address.");
                             //return RedirectToAction("ConfirmPasswordChange");
                         }
                         catch (Exception e)
@@ -245,7 +245,7 @@ namespace Cats.Controllers
 
                     }
 
-                    ModelState.AddModelError("Sucess", "Email has Sent to your email Address.");
+                    ModelState.AddModelError("Sucess", @"Email has Sent to your email Address.");
                 }
 
                 // ModelState.AddModelError("Errors", "Invalid User Name " + model.UserName);

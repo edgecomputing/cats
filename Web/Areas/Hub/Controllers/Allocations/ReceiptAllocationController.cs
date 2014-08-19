@@ -238,7 +238,7 @@ namespace Cats.Areas.Hub.Controllers.Allocations
 
             if (!(IsSIValid(receiptAllocationViewModel.SINumber, receiptAllocationViewModel.CommoditySourceID)))
             {
-                ModelState.AddModelError("SINumber", "");
+                ModelState.AddModelError("SINumber", @"");
             }
 
             if (ModelState.IsValid)
@@ -551,7 +551,7 @@ namespace Cats.Areas.Hub.Controllers.Allocations
 
             if (!(IsSIValid(receiptAllocationViewModel.SINumber, receiptAllocationViewModel.CommoditySourceID)))
             {
-                ModelState.AddModelError("SINumber", "");
+                ModelState.AddModelError("SINumber", @"");
             }
 
             if (ModelState.IsValid)
@@ -656,7 +656,7 @@ namespace Cats.Areas.Hub.Controllers.Allocations
 
             if (!(IsSIValid(receiptAllocationViewModel.SINumber, receiptAllocationViewModel.CommoditySourceID)))
             {
-                ModelState.AddModelError("SINumber", "");
+                ModelState.AddModelError("SINumber", @"");
             }
 
             if (ModelState.IsValid)

@@ -81,7 +81,7 @@ namespace Cats.Areas.Settings.Controllers
             }
             catch (Exception e)
             {
-                ModelState.AddModelError("Errors", "Unable to delete CommodityGrade");
+                ModelState.AddModelError("Errors", @"Unable to delete CommodityGrade");
             }
             return RedirectToAction("Index");
         }

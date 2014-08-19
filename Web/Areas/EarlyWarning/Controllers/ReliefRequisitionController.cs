@@ -205,7 +205,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                     _planService.EditPlan(planToBeEdited);
                     return RedirectToAction("CreateRequisiton", new { id = id });
                 }
-                ModelState.AddModelError("Error", errorMessage: "Can not edit Plan");
+                ModelState.AddModelError("Error", errorMessage: @"Can not edit Plan");
                 return null;
             }
             catch (Exception)
