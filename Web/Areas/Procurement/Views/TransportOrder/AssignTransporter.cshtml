@@ -32,8 +32,26 @@
 <div id="div_select" >
     <h5> Transport Requisitions Without Winner Transporter</h5> 
     @Html.DropDownList("TransporterID", String.Empty)
+   
+    @{
 
-@* @(Html.Kendo().DropDownList()
+
+    var ddl = Html.Kendo().DropDownList()
+        .Name("Req No")
+        .OptionLabel("Select a Req No...")
+        .DataTextField("ReqNo")
+        .DataValueField("ReqID")
+        .HtmlAttributes(new { style = "width:200px" })
+        .Events(e => e.Change("ReqNoChange"))
+        .DataSource(source => source.Read("GetReq", "TransportOrder"));
+
+
+    ddl.Render(); //displays the dropdown list
+
+    var selected = ddl.ToComponent().Value;//gets the selected value
+}
+
+    @* @(Html.Kendo().DropDownList()
             .Name("TransporterID")
             .DataTextField("Text")
             .DataValueField("Value")
@@ -107,7 +125,26 @@
         $("#SelectedTransporterID").val(selected);
     });
    
-    
+    function ReqNoChange(e) {
+        e.preventDefault();
+
+
+        var value = this.value();
+        var reqNo = this.name();
+
+        if (value == "") {
+
+            window.location = null;
+            window.location = "@Url.Action("LoadUnAssinedByReqNo", "TransportOrder")" + "?id=" + -1;
+
+        }
+        else {
+            window.location = null;
+            window.location = "@Url.Action("LoadUnAssinedByReqNo", "TransportOrder")" + "?id=" + value;
+        }
+
+    }
+
     
 </script>
 <style>

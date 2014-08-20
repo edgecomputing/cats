@@ -106,6 +106,25 @@ namespace Cats.Services.Procurement
 
         #endregion
 
+        public  IEnumerable<RequisiionNoViewModel> GetRequisisions()
+        {
+            var requisition =
+               _unitOfWork.TransReqWithoutTransporterRepository.FindBy(m => m.IsAssigned == false).OrderByDescending(
+                   t => t.TransportRequisitionDetailID).Select(s => new
+                   {
+                       ReqNo =
+                   s.ReliefRequisitionDetail.ReliefRequisition.
+                   RequisitionNo,
+                       ReqID =
+                   s.ReliefRequisitionDetail.ReliefRequisition.
+                   RequisitionID
+                   }).ToList();
+            return requisition.Select(req => new RequisiionNoViewModel
+                                                 {
+                                                     ReqID = req.ReqID,
+                                                     ReqNo = req.ReqNo
+                                                 });
+        }
         public void Dispose()
         {
             _unitOfWork.Dispose();

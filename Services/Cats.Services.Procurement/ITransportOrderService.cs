@@ -41,7 +41,7 @@ namespace Cats.Services.Procurement
        List<Transporter> GetTransporter();
        List<Hub> GetHubs();
         bool GeneratDispatchPlan(int transportOrderId);
-
+        IEnumerable<RequisiionNoViewModel> GetRequisisions();
         IEnumerable<TransportOrder> GetFilteredTransportOrder(
             IEnumerable<TransportRequisitionDetail> transportRequsitionDetails, int statusId);
         List<Program> GetPrograms();

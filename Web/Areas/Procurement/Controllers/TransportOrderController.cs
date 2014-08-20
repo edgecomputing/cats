@@ -109,7 +109,7 @@ namespace Cats.Areas.Procurement.Controllers
             return RedirectToAction("TransportRequisitions");//get newly created transport requisitions
 
         }
-        public ViewResult Index(int id = 0)
+        public ViewResult Index(int id = 0, string reqNo="")
         {
             ViewBag.Month = new SelectList(RequestHelper.GetMonthList(), "Id", "Name");
             ViewBag.TransportOrdrStatus = id;
@@ -117,8 +117,13 @@ namespace Cats.Areas.Procurement.Controllers
                                               ? "Draft"
                                               : _workflowStatusService.GetStatusName(WORKFLOW.TRANSPORT_ORDER, id);
             var allTransporters = _transportOrderService.GetTransporter();
+
             ViewBag.TransporterID = new SelectList(allTransporters, "TransporterID", "Name");
-            var viewModel = GetRequisitionsWithoutTransporter();
+
+            var viewModel = GetRequisitionsWithoutTransporter(reqNo);
+
+
+           
             //viewModel.Transporters = allTransporters;
             if (TempData["CustomError"] != null)
             {
@@ -135,6 +140,17 @@ namespace Cats.Areas.Procurement.Controllers
             return View(viewModel);
         }
 
+        public ActionResult GetReq()
+        {
+
+
+            var requisiionNo = (IOrderedEnumerable<RequisiionNoViewModel>) _transportOrderService.GetRequisisions();
+            return Json(requisiionNo, JsonRequestBehavior.AllowGet);
+        }
+        public  ActionResult LoadUnAssinedByReqNo(int id,string reqNo)
+        {
+            return RedirectToAction("Index", new {id = id, reqNo = reqNo});
+        }
         public ActionResult TransportOrder_Read([DataSourceRequest] DataSourceRequest request, int id = 0,int programId=0)
         {
             var transportRequistions = programId==0 ?_transportRequisitionService.GetTransportRequsitionDetails(): _transportRequisitionService.GetTransportRequsitionDetails(programId);
@@ -148,11 +164,15 @@ namespace Cats.Areas.Procurement.Controllers
             return Json(transportOrderViewModels.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
 
-        public TransportRequisitionWithTransporter GetRequisitionsWithoutTransporter()
+        public TransportRequisitionWithTransporter GetRequisitionsWithoutTransporter(string reqNo)
         {
             var req = new TransportRequisitionWithTransporter();
-            //req.Transporters = _transportOrderService.GetTransporter();
-            var transReqWithoutTransport = _transReqWithoutTransporterService.FindBy(m => m.IsAssigned == false).OrderByDescending(t=>t.TransportRequisitionDetailID);
+           
+            if (reqNo == "")
+            {
+                return new TransportRequisitionWithTransporter();
+            }
+            var transReqWithoutTransport = _transReqWithoutTransporterService.FindBy(m => m.ReliefRequisitionDetail != null && (m.IsAssigned == false && m.ReliefRequisitionDetail.ReliefRequisition.RequisitionNo == reqNo)).OrderByDescending(t => t.TransportRequisitionDetailID);
             if (transReqWithoutTransport != null)
             {
                 req.TransReqwithOutTransporters = GetTransReqWithoutTransporter(transReqWithoutTransport).ToList();
