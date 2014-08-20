@@ -54,9 +54,12 @@
                         </text>);
                      columns.Bound(request => request.PlanId).Title(
                          Html.Translate("Action"))
-                         .ClientTemplate(
+                         .ClientTemplate("# if (StatusID == 1 || StatusID==5) { #" +
                              "<a href='" + Url.Action("Details", "Request", new { id = "#=RegionalRequestID#" }) + " '>Detail</a> &nbsp; " +
-                         "<a href='" + Url.Action("Allocation", "Request", new { id = "#=RegionalRequestID#" }) + " '>Allocate</a>  " 
+                         "<a href='" + Url.Action("Allocation", "Request", new { id = "#=RegionalRequestID#" }) + " '>Allocate</a>  " +
+                          "# } else { #" +
+                           "<a href='" + Url.Action("Details", "Request", new { id = "#=RegionalRequestID#" }) + " '>Detail</a> &nbsp; "+
+                           "# } #"
                          );
 
 
