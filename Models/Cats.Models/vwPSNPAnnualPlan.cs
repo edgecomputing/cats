@@ -11,7 +11,7 @@ namespace Cats.Models
         public Nullable<int> FoodRatio { get; set; }
         public Nullable<int> CashRatio { get; set; }
         public Nullable<int> BeneficiaryCount { get; set; }
-        //public Nullable<int> PlanedFDPID { get; set; }
+        //public Nullable<int> PlanedWoredaID { get; set; }
         public Nullable<int> Duration { get; set; }
         //public Nullable<int> RegionID { get; set; }
         public Nullable<int> Year { get; set; }
