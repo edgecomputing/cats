@@ -302,7 +302,7 @@ namespace Cats.Areas.Logistics.Controllers
         public JsonResult GetListOfBidWinners(string id)
         {
             var selectedBidWinners = new List<TransporterViewModel>();
-            var bid = _bidService.FindBy(t => t.BidNumber == id).SingleOrDefault();
+            var bid = _bidService.FindBy(t => t.BidNumber == id).FirstOrDefault();
             var bidWinner = _bidWinnerService.FindBy(m => m.BidID == bid.BidID);
             if (bidWinner != null)
             {

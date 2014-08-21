@@ -323,39 +323,7 @@ namespace Cats.Services.Procurement
         }
 
 
-        public bool CheckIfBidIsCreatedForAnOrder(int transportRequisitionId)
-        {
-
-            bool created = false;
-            var transportRequision = _unitOfWork.TransportRequisitionDetailRepository.Get(
-                t => t.TransportRequisitionID == transportRequisitionId, null, null).Select(t => t.RequisitionID);
-
-            var reqDetails =
-                _unitOfWork.ReliefRequisitionDetailRepository.Get(t => transportRequision.Contains(t.RequisitionID));
-
-            foreach (var reliefRequisitionDetail in reqDetails)
-            {
-                var detail = reliefRequisitionDetail;
-                var firstOrDefault = _unitOfWork.HubAllocationRepository.FindBy(t => t.RequisitionID == detail.RequisitionID).FirstOrDefault();
-                if (firstOrDefault != null)
-                {
-                    var hubID =
-                        firstOrDefault.HubID;
-
-                    var woredaID = reliefRequisitionDetail.FDP.AdminUnitID;
-                    var transportBidWinner = _transporterService.GetCurrentBidWinner(hubID, woredaID);
-
-                    if (transportBidWinner != null)
-
-                    {
-                        created = true;
-                    }
-                }
-
-            }
-            return created;
-
-        }
+       
 
 
         private List<TransporterRequisition> AssignTransporterForEachWoreda(int transportRequisitionId)
