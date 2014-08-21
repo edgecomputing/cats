@@ -49,7 +49,7 @@ namespace Cats.Models.Mapping
             this.Property(t => t.WoredaID).HasColumnName("WoredaID");
             this.Property(t => t.ZoneID).HasColumnName("ZoneID");
             this.Property(t => t.ZoneName).HasColumnName("ZoneName");
-            this.Property(t => t.RegionName).HasColumnName("RegionName");
+            this.Property(t => t.RegionName).HasColumnName("Region");
         }
     }
 }
