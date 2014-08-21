@@ -32,6 +32,7 @@ namespace Cats.ViewModelBinder
                                         ProgramId = req.ProgramID,
                                         Round = req.Round,
                                         Month = req.Month,
+                                        MonthName = RequestHelper.GetMonthList().Find(t => t.Id == req.Month).Name,
                                         AmountAllocated = req.ReliefRequisitionDetails.Sum(a=>a.Amount),
                                         StrRequisitionDate = req.RequestedDate.Value.ToCTSPreferedDateFormat(UserAccountHelper.UserCalendarPreference())
                                       });
@@ -55,6 +56,7 @@ namespace Cats.ViewModelBinder
                  n.Program = req.Program.Name;
                  n.Round = req.Round;
                  n.Month = req.Month;
+                 n.MonthName = RequestHelper.GetMonthList().Find(t => t.Id == req.Month).Name;
                  n.AmountAllocated = req.ReliefRequisitionDetails.Sum(a => a.Amount);
                  n.StrRequisitionDate = req.RequestedDate.Value.ToCTSPreferedDateFormat(UserAccountHelper.UserCalendarPreference());
 
