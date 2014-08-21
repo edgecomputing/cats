@@ -79,13 +79,23 @@ namespace Cats.Areas.Procurement.Controllers
         }
 
        
-        public ActionResult CreateTransportOrder(int id)
+        public ActionResult CreateTransportOrder(string saveButton, string cancelButton,int id)
         {
             try
             {
+                if (saveButton != null)
+                {
 
-                _transportOrderService.CreateTransportOrder(id);
-                return RedirectToAction("Index", "TransportOrder");
+
+                    _transportOrderService.CreateTransportOrder(id);
+                    return RedirectToAction("Index", "TransportOrder");
+                }
+                if (cancelButton != null)
+                {
+                    return RedirectToAction("TransportRequisitions");
+
+                }
+                return RedirectToAction("TransportRequisitions");
             }
             catch (Exception exception)
             {
