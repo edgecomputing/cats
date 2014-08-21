@@ -106,7 +106,7 @@ namespace Cats.Services.Procurement
 
         #endregion
 
-        public  IEnumerable<RequisiionNoViewModel> GetRequisisions()
+        public  IOrderedEnumerable<RequisiionNoViewModel> GetRequisisions()
         {
             var requisition =
                _unitOfWork.TransReqWithoutTransporterRepository.FindBy(m => m.IsAssigned == false).OrderByDescending(
@@ -118,13 +118,26 @@ namespace Cats.Services.Procurement
                        ReqID =
                    s.ReliefRequisitionDetail.ReliefRequisition.
                    RequisitionID
-                   }).ToList();
-            return requisition.Select(req => new RequisiionNoViewModel
-                                                 {
-                                                     ReqID = req.ReqID,
-                                                     ReqNo = req.ReqNo
-                                                 });
+                   }).Distinct().ToList();
+           return requisition.Select(req=>new RequisiionNoViewModel
+                                         {
+                                             ReqID = req.ReqID,
+                                             ReqNo = req.ReqNo
+                                         }).OrderBy(r=>r.ReqNo);
         }
+
+        public IOrderedEnumerable<RegionsViewModel> GetRegions()
+        {
+            var regions = _unitOfWork.AdminUnitRepository.FindBy(t => t.AdminUnitTypeID == 2).ToList();
+
+            return regions.Select(adminUnit => new RegionsViewModel
+            {
+                Name = adminUnit.Name,
+                AdminUnitID = adminUnit.AdminUnitID
+            }).OrderBy(e => e.Name);
+
+        }
+
         public void Dispose()
         {
             _unitOfWork.Dispose();
@@ -309,6 +322,40 @@ namespace Cats.Services.Procurement
             return true;
         }
 
+
+        public bool CheckIfBidIsCreatedForAnOrder(int transportRequisitionId)
+        {
+
+            bool created = false;
+            var transportRequision = _unitOfWork.TransportRequisitionDetailRepository.Get(
+                t => t.TransportRequisitionID == transportRequisitionId, null, null).Select(t => t.RequisitionID);
+
+            var reqDetails =
+                _unitOfWork.ReliefRequisitionDetailRepository.Get(t => transportRequision.Contains(t.RequisitionID));
+
+            foreach (var reliefRequisitionDetail in reqDetails)
+            {
+                var detail = reliefRequisitionDetail;
+                var firstOrDefault = _unitOfWork.HubAllocationRepository.FindBy(t => t.RequisitionID == detail.RequisitionID).FirstOrDefault();
+                if (firstOrDefault != null)
+                {
+                    var hubID =
+                        firstOrDefault.HubID;
+
+                    var woredaID = reliefRequisitionDetail.FDP.AdminUnitID;
+                    var transportBidWinner = _transporterService.GetCurrentBidWinner(hubID, woredaID);
+
+                    if (transportBidWinner != null)
+
+                    {
+                        created = true;
+                    }
+                }
+
+            }
+            return created;
+
+        }
 
 
         private List<TransporterRequisition> AssignTransporterForEachWoreda(int transportRequisitionId)

@@ -109,7 +109,7 @@ namespace Cats.Areas.Procurement.Controllers
             return RedirectToAction("TransportRequisitions");//get newly created transport requisitions
 
         }
-        public ViewResult Index(int id = 0, string reqNo="")
+        public ViewResult Index(int id = 0, int reqId = 0)
         {
             ViewBag.Month = new SelectList(RequestHelper.GetMonthList(), "Id", "Name");
             ViewBag.TransportOrdrStatus = id;
@@ -120,7 +120,7 @@ namespace Cats.Areas.Procurement.Controllers
 
             ViewBag.TransporterID = new SelectList(allTransporters, "TransporterID", "Name");
 
-            var viewModel = GetRequisitionsWithoutTransporter(reqNo);
+            var viewModel = GetRequisitionsWithoutTransporter(reqId);
 
 
            
@@ -144,12 +144,12 @@ namespace Cats.Areas.Procurement.Controllers
         {
 
 
-            var requisiionNo = (IOrderedEnumerable<RequisiionNoViewModel>) _transportOrderService.GetRequisisions();
+            var requisiionNo = _transportOrderService.GetRequisisions();
             return Json(requisiionNo, JsonRequestBehavior.AllowGet);
         }
-        public  ActionResult LoadUnAssinedByReqNo(int id,string reqNo)
+        public ActionResult LoadUnAssinedByReqNo(int id, int reqId)
         {
-            return RedirectToAction("Index", new {id = id, reqNo = reqNo});
+            return RedirectToAction("Index", new { id = id, reqId = reqId });
         }
         public ActionResult TransportOrder_Read([DataSourceRequest] DataSourceRequest request, int id = 0,int programId=0)
         {
@@ -164,15 +164,12 @@ namespace Cats.Areas.Procurement.Controllers
             return Json(transportOrderViewModels.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
 
-        public TransportRequisitionWithTransporter GetRequisitionsWithoutTransporter(string reqNo)
+        public TransportRequisitionWithTransporter GetRequisitionsWithoutTransporter(int reqID)
         {
             var req = new TransportRequisitionWithTransporter();
-           
-            if (reqNo == "")
-            {
-                return new TransportRequisitionWithTransporter();
-            }
-            var transReqWithoutTransport = _transReqWithoutTransporterService.FindBy(m => m.ReliefRequisitionDetail != null && (m.IsAssigned == false && m.ReliefRequisitionDetail.ReliefRequisition.RequisitionNo == reqNo)).OrderByDescending(t => t.TransportRequisitionDetailID);
+
+            
+            var transReqWithoutTransport = _transReqWithoutTransporterService.FindBy(m => m.ReliefRequisitionDetail != null && (m.IsAssigned == false && m.ReliefRequisitionDetail.ReliefRequisition.RequisitionID == reqID)).OrderByDescending(t => t.TransportRequisitionDetailID);
             if (transReqWithoutTransport != null)
             {
                 req.TransReqwithOutTransporters = GetTransReqWithoutTransporter(transReqWithoutTransport).ToList();

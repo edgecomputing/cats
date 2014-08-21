@@ -135,17 +135,18 @@
 
 
         var value = this.value();
-        var reqNo = this.name();
+        //var reqNo = this.name();
 
         if (value == "") {
 
             window.location = null;
-            window.location = "@Url.Action("LoadUnAssinedByReqNo", "TransportOrder")" + "?id=" + -1;
+            window.location = "@Url.Action("LoadUnAssinedByReqNo", "TransportOrder")" + "?id=" + 0 + "&reqId=" + value;
 
         }
         else {
+           
             window.location = null;
-            window.location = "@Url.Action("LoadUnAssinedByReqNo", "TransportOrder")" + "?id=" + value;
+            window.location = "@Url.Action("LoadUnAssinedByReqNo", "TransportOrder")" + "?id=" + 0 + "&reqId=" + value;
         }
 
     }
