@@ -318,7 +318,7 @@ namespace Cats.Areas.Logistics.Controllers
 
                 var log = new Logger();
                 log.LogAllErrorsMesseges(exception, _log);
-                ModelState.AddModelError("Errors", "Gift certificate detail information is not available.");
+                ModelState.AddModelError("Errors", @"Gift certificate detail information is not available.");
                 return null;
             }
         }

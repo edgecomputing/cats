@@ -140,7 +140,7 @@ namespace Cats.Areas.Logistics.Controllers
 
             if (requisitionDetail == null)
             {
-                ModelState.AddModelError("Error","No approved requisitions or no requisition is selected.");
+                ModelState.AddModelError("Error",@"No approved requisitions or no requisition is selected.");
                 TempData["ModelState"] = ModelState;
                 return RedirectToAction("ApprovedRequisitions");
             }

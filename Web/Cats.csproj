@@ -197,6 +197,8 @@
     <Compile Include="Areas\EarlyWarning\Controllers\ContributionController.cs" />
     <Compile Include="Areas\Hub\Controllers\AdminUnitController.cs" />
     <Compile Include="Areas\Hub\Controllers\CommodityController.cs" />
+    <Compile Include="Areas\Hub\Controllers\ReceiveNewController.cs" />
+    <Compile Include="Areas\Hub\Models\StackViewModel.cs" />
     <Compile Include="Areas\Hub\Models\StoreViewModel.cs" />
     <Compile Include="Areas\Settings\Controllers\AccountController.cs" />
     <Compile Include="Areas\Settings\Controllers\CurrencyController.cs" />
@@ -681,6 +683,7 @@
     <Content Include="Areas\Hub\Views\Shared\EditorTemplates\Number.ascx" />
     <Content Include="Areas\Hub\Views\Shared\EditorTemplates\Time.ascx" />
     <!--<Content Include="ClientBin\EWdispatchAllocationList.xap" />-->
+    <None Include="Areas\Logistics\Views\DispatchAllocation\_AllocateProjectCode.cshtml" />
     <Content Include="Content\2013.1.219\Black\editor.png" />
     <Content Include="Content\2013.1.219\Black\imagebrowser.png" />
     <Content Include="Content\2013.1.219\Black\loading.gif" />
@@ -2115,6 +2118,9 @@
     <Content Include="Content\MapResources\MapData\ethiopiaRegions-old.txt" />
     <Content Include="Areas\Settings\Views\AdminUnit\GISMapping.cshtml" />
     <Content Include="Areas\Logistics\Views\DispatchAllocation\_ApprovedRequisitions.cshtml" />
+    <Content Include="Areas\Hub\Views\ReceiveNew\Create.cshtml" />
+    <Content Include="Areas\Hub\Views\Shared\EditorTemplates\_CommodityDropdown.cshtml" />
+    <Content Include="Areas\Hub\Views\Shared\EditorTemplates\_UnitDropdown.cshtml" />
     <None Include="dataset.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>dataset.Designer.cs</LastGenOutput>

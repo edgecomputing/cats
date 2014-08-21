@@ -89,7 +89,7 @@ namespace Cats.Web.Adminstration.Controllers
             }
             catch (Exception e)
             {
-                ModelState.AddModelError("Errors", "Unable to delete commodity");
+                ModelState.AddModelError("Errors", @"Unable to delete commodity");
             }
             return RedirectToAction("Index");
         }

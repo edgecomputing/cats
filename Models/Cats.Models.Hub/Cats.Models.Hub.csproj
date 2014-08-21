@@ -100,8 +100,12 @@
     <Compile Include="Mapping\VWFreePhysicalStockMap.cs" />
     <Compile Include="SummaryFreeAndPhysicalStockModel.cs" />
     <Compile Include="Mapping\VWTransferredStockMap.cs" />
+    <Compile Include="ViewModels\Common\UnitViewModel.cs" />
     <Compile Include="ViewModels\DispatchReportViewModel.cs" />
     <Compile Include="ViewModels\ReceiptAllocationViewModelDto.cs" />
+    <Compile Include="ViewModels\ReceiveDetailNewViewModel.cs" />
+    <Compile Include="ViewModels\ReceiveNewViewModel.cs" />
+    <Compile Include="ViewModels\ReceiveViewModelDto.cs" />
     <Compile Include="VWTransferredStock.cs" />
     <Compile Include="VWCarryOver.cs" />
     <Compile Include="Detail.cs" />

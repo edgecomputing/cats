@@ -273,7 +273,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                     RequestViewModelBinder.BindRegionalRequest(regionalRequest, target);
 
                     _regionalRequestService.EditRegionalRequest(target);
-                    ModelState.AddModelError("Success", "Regional Request updated successfully.");
+                    ModelState.AddModelError("Success", @"Regional Request updated successfully.");
                     return RedirectToAction("Details", "Request", new { id = regionalRequest.RegionalRequestID });
                 }
                 catch (Exception ex)
@@ -1165,7 +1165,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
                 catch (Exception ex)
                 {
-                    ModelState.AddModelError("Errors", "Unable to Add new fpd");
+                    ModelState.AddModelError("Errors", @"Unable to Add new fpd");
                     ViewBag.ZoneID = new SelectList(_commonService.GetAminUnits(t => t.AdminUnitTypeID == 3), "AdminUnitID", "Name");
                     ViewBag.WoredaID = new SelectList(_commonService.GetAminUnits(t => t.AdminUnitTypeID == 4), "AdminUnitID", "Name");
                     ViewBag.FDPID = new SelectList(_commonService.GetFDPs(2), "FDPID", "FDPName");
@@ -1184,7 +1184,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                 _regionalRequestDetailService.DeleteRegionalRequestDetail(requestDetail);
                 return RedirectToAction("Allocation", new { id = requestDetail.RegionalRequestID });
             }
-            ModelState.AddModelError("Errors", "unable to delete fdp");
+            ModelState.AddModelError("Errors", @"unable to delete fdp");
             return RedirectToAction("Index");
         }
 

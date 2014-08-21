@@ -399,7 +399,7 @@ namespace Cats.Areas.Procurement.Controllers
             var proposal = _transportBidQuotationHeaderService.FindById(id);
             proposal.Status = 2;
             _transportBidQuotationHeaderService.UpdateTransportBidQuotationHeader(proposal);
-            ModelState.AddModelError("Success", "Bid proposal approved");
+            ModelState.AddModelError("Success", @"Bid proposal approved");
             return RedirectToAction("BidProposalHeader");
         }
 
@@ -794,15 +794,15 @@ namespace Cats.Areas.Procurement.Controllers
         {
             if (ViewBag.Status==1)
             {
-                ModelState.AddModelError("Error", "There are no new proposals, winners may have already been identified");
+                ModelState.AddModelError("Error", @"There are no new proposals, winners may have already been identified");
             }
             else if(ViewBag.Status==2)
             {
-                ModelState.AddModelError("Success", "Winners Successfully identified!");
+                ModelState.AddModelError("Success", @"Winners Successfully identified!");
             }
             else
             {
-                ModelState.AddModelError("info", "Showing already generated winners");   
+                ModelState.AddModelError("info", @"Showing already generated winners");   
             }
 
             //ViewBag.filter = filter;
@@ -909,7 +909,7 @@ namespace Cats.Areas.Procurement.Controllers
 //                e.BidBondAmount = proposal.BidBondAmount;
 
                 _transportBidQuotationHeaderService.UpdateTransportBidQuotationHeader(e);
-                ModelState.AddModelError("Success", "Proposal updated successfully");
+                ModelState.AddModelError("Success", @"Proposal updated successfully");
                 return RedirectToAction("BidProposalHeader");               
             }
            return View(proposal);

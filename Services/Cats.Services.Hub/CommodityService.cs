@@ -106,7 +106,7 @@ namespace Cats.Services.Hub
         public List<Commodity> GetAllSubCommoditiesByParantId(int Id)
         {
             return _unitOfWork.CommodityRepository.FindBy(t => t.ParentID == Id);
-           
+
         }
         /// <summary>
         /// Determines whether name is valid for the specified commodity ID.
@@ -119,7 +119,7 @@ namespace Cats.Services.Hub
         public bool IsNameValid(int? CommodityID, string Name)
         {
             return !_unitOfWork.CommodityRepository.FindBy(t => t.Name == Name && t.CommodityID != CommodityID).Any();
-           
+
         }
         /// <summary>
         /// Determines whether [commodity code is valid] for [the specified commodity ID].
@@ -135,7 +135,7 @@ namespace Cats.Services.Hub
                 !_unitOfWork.CommodityRepository.FindBy(
                     t => t.CommodityCode == CommodityCode && t.CommodityID != CommodityID).Any();
 
-           
+
         }
         /// <summary>
         /// GetAllCommodityForReport
@@ -144,9 +144,21 @@ namespace Cats.Services.Hub
         public List<CommodityViewModel> GetAllCommodityForReprot()
         {
             var tempComodities = _unitOfWork.CommodityRepository.FindBy(t => t.ParentID == null);
-            var commodities = (from c in tempComodities  select new CommodityViewModel() { CommodityId = c.CommodityID, CommodityName = c.Name }).ToList();
+            var commodities = (from c in tempComodities select new CommodityViewModel() { CommodityId = c.CommodityID, CommodityName = c.Name }).ToList();
             commodities.Insert(0, new CommodityViewModel { CommodityName = "All Commodities" });
             return commodities;
+        }
+
+        public List<CommodityViewModel> GetAllCommodityViewModelsByParent(int parentCommodity)
+        {
+            return (from c in GetAllSubCommoditiesByParantId(parentCommodity)
+                    select new CommodityViewModel
+                    {
+                        CommodityId = c.CommodityID,
+                        CommodityName = c.Name
+                    })
+                    .OrderBy(p => p.CommodityName)
+                    .ToList();
         }
     }
 }

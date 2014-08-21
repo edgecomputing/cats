@@ -57,11 +57,11 @@ namespace Cats.Web.Adminstration.Controllers
                     fdpViewModel.AdminUnitID = adminUnitID.Value;
                     var fdp = FDPViewModelBinder.BindFDP(fdpViewModel);
                     _fdpService.AddFDP(fdp);
-                    ModelState.AddModelError("Success", "Success: FDP Registered.");
+                    ModelState.AddModelError("Success", @"Success: FDP Registered.");
                 }
                 catch (Exception ex)
                 {
-                    ModelState.AddModelError("Errors", "Error: FDP not registered. All fields need to be filled.");
+                    ModelState.AddModelError("Errors", @"Error: FDP not registered. All fields need to be filled.");
                 }
             }
             return Json(new[] { fdpViewModel }.ToDataSourceResult(request, ModelState));
@@ -83,12 +83,12 @@ namespace Cats.Web.Adminstration.Controllers
                 {
                     var fdp = FDPViewModelBinder.BindFDP(fdpViewModel);
                     _fdpService.EditFDP(fdp);
-                    ModelState.AddModelError("Success", "Success: FDP Updated.");
+                    ModelState.AddModelError("Success", @"Success: FDP Updated.");
                     return RedirectToAction("Index");
                 }
                 catch (Exception ex)
                 {
-                    ModelState.AddModelError("Errors", "Error: FDP not registered. All fields need to be filled.");
+                    ModelState.AddModelError("Errors", @"Error: FDP not registered. All fields need to be filled.");
                 }
             }
             return Json(new[] { fdpViewModel }.ToDataSourceResult(request, ModelState));
@@ -193,7 +193,7 @@ namespace Cats.Web.Adminstration.Controllers
             }
             catch (Exception e)
             {
-                ModelState.AddModelError("Errors", "Unable to delete FDP");
+                ModelState.AddModelError("Errors", @"Unable to delete FDP");
             }
             return RedirectToAction("Index");
         }

@@ -348,7 +348,7 @@ namespace Cats.Areas.Procurement.Controllers
             var bid = GetBid(bidViewModel);
             if (!IsBidMadeForThisRegion(bid.RegionID, bid.TransportBidPlanID))
             {
-                ModelState.AddModelError("Errors","This Region is already registered with this Bid Plan. Please choose another Region or Plan!");
+                ModelState.AddModelError("Errors",@"This Region is already registered with this Bid Plan. Please choose another Region or Plan!");
                 ViewBag.StatusID = new SelectList(_statusService.GetAllStatus(), "StatusID", "Name");
                 ViewBag.BidPlanID = bid.TransportBidPlanID;
                 ViewBag.TransportBidPlanID = new SelectList(_transportBidPlanService.GetAllTransportBidPlan(), "TransportBidPlanID", "ShortName", bid.TransportBidPlanID);
