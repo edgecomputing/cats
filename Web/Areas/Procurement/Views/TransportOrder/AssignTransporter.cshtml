@@ -12,19 +12,24 @@
  {    
      
      @Html.HiddenFor(model => model.SelectedTransporterID)
-     for (int i = 0; i < Model.TransReqwithOutTransporters.Count; i++)
+     if (Model.TransReqwithOutTransporters != null)
      {
+         for (int i = 0; i < Model.TransReqwithOutTransporters.Count; i++)
+         {
 
-         @Html.TextBoxFor(model => model.TransReqwithOutTransporters[i].TransReqWithoutTransporterID)
-         @Html.TextBoxFor(model => model.TransReqwithOutTransporters[i].Selected)
-         @Html.HiddenFor(model => model.TransReqwithOutTransporters[i].Woreda)
-         @Html.HiddenFor(model => model.TransReqwithOutTransporters[i].CommodityID)
-         @Html.HiddenFor(model => model.TransReqwithOutTransporters[i].FdpID)
-         @Html.HiddenFor(model => model.TransReqwithOutTransporters[i].QuantityQtl)
-         @Html.HiddenFor(model =>model.TransReqwithOutTransporters[i].RequisitionID)
-         @Html.HiddenFor(model =>model.TransReqwithOutTransporters[i].HubID)
-          @Html.HiddenFor(model =>model.TransReqwithOutTransporters[i].TransportRequisitionID)
-         <br />
+             @Html.TextBoxFor(model => model.TransReqwithOutTransporters[i].TransReqWithoutTransporterID)
+             @Html.TextBoxFor(model => model.TransReqwithOutTransporters[i].Selected)
+             @Html.HiddenFor(model => model.TransReqwithOutTransporters[i].Woreda)
+             @Html.HiddenFor(model => model.TransReqwithOutTransporters[i].CommodityID)
+             @Html.HiddenFor(model => model.TransReqwithOutTransporters[i].FdpID)
+             @Html.HiddenFor(model => model.TransReqwithOutTransporters[i].QuantityQtl)
+             @Html.HiddenFor(model => model.TransReqwithOutTransporters[i].RequisitionID)
+             @Html.HiddenFor(model => model.TransReqwithOutTransporters[i].HubID)
+             @Html.HiddenFor(model => model.TransReqwithOutTransporters[i].TransportRequisitionID)
+             <br />
+
+
+         }
      }
 
  }  
@@ -37,7 +42,7 @@
 
 
     var ddl = Html.Kendo().DropDownList()
-        .Name("Req No")
+        .Name("ReqNo")
         .OptionLabel("Select a Req No...")
         .DataTextField("ReqNo")
         .DataValueField("ReqID")
