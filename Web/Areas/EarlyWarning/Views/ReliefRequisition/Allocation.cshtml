@@ -160,13 +160,13 @@
         //columns.ForeignKey(p => p.Donor, (IEnumerable<Cats.Models.Donor>)ViewData["donors"], "DonorID", "Name").Width(200);
         if (Model.ProgramID == 2)
         {
-            columns.ForeignKey(p => p.DonorID, (IEnumerable) ViewData["donors"], "DonorID", "Name").Title("Donor").Width(100);
+            columns.ForeignKey(p => p.DonorID, (IEnumerable)ViewData["donors"], "DonorID", "Name").Title("Donor").Width(100).ClientFooterTemplate("<div style='text-align: right;'><b>TOTAL: </b></div>"); ;
         }
-        columns.Bound(p => p.BenficiaryNo).Width(100).HtmlAttributes(new { align = "right" }).Format("{0:n0}");
-        columns.Bound(p => p.Amount).Width(100).HtmlAttributes(new { style = "background-color:lightgray", align = "right" }).Format("{0:n2}").HeaderHtmlAttributes(new { @class = "cats-unit-pref-grid" });
+        columns.Bound(p => p.BenficiaryNo).ClientFooterTemplate("<div style='text-align: right;'><b>#=kendo.format('{0:N0}', sum)#</b></div>").Format("{0:N0}").Width(100).HtmlAttributes(new { align = "right" }).Format("{0:n0}");
+        columns.Bound(p => p.Amount).ClientFooterTemplate("<div style='text-align: right;'><b>#=kendo.format('{0:N0}', sum)#</b></div>").Format("{0:N0}").Width(100).HtmlAttributes(new { style = "background-color:lightgray", align = "right" }).Format("{0:n2}").HeaderHtmlAttributes(new { @class = "cats-unit-pref-grid" });
         if (Model.ProgramID == 2)
         {
-            columns.Bound(p => p.Contingency).Width(100).HtmlAttributes(new { style = "background-color:lightgray", align = "right" }).Format("{0:n2}").HeaderHtmlAttributes(new { @class = "cats-unit-pref-grid" });
+            columns.Bound(p => p.Contingency).ClientFooterTemplate("<div style='text-align: right;'><b>#=kendo.format('{0:N0}', sum)#</b></div>").Format("{0:N0}").Width(100).HtmlAttributes(new { style = "background-color:lightgray", align = "right" }).Format("{0:n2}").HeaderHtmlAttributes(new { @class = "cats-unit-pref-grid" });
         }
         columns.Bound(p => p.RationAmount).Hidden(true);
     })
@@ -182,6 +182,9 @@
       .Events(ev => ev.DataBound("onDataBound"))
     .DataSource(dataSource => dataSource
         .Ajax()
+            .Aggregates(aggregates => aggregates.Add(p => p.BenficiaryNo).Sum())
+            .Aggregates(aggregates => aggregates.Add(p => p.Amount).Sum())
+            .Aggregates(aggregates => aggregates.Add(p => p.Contingency).Sum())   
         .Events(events => events.Change("onGridKeydown"))
             .Model(model =>
             {
@@ -191,6 +194,10 @@
                 model.Field(detail => detail.Woreda).Editable(false);
                 model.Field(detail => detail.Commodity).Editable(false);
                 model.Field(detail => detail.Donor).Editable(false);
+                if (Model.Status == "HubAssigned")
+                {
+                    model.Field(detail => detail.BenficiaryNo).Editable(false);
+                }
                 //model.Field(detail => detail.Contingency).Editable(false);
             })
         .Create(update => update.Action("Allocation_Create", "ReliefRequisition"))
