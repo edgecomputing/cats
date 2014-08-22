@@ -466,6 +466,7 @@ namespace Cats.Services.Hub
 
             var receive = new Receive
             {
+                
                 ReceiveID = Guid.NewGuid(),
 
                 GRN = viewModel.Grn,
@@ -498,6 +499,7 @@ namespace Cats.Services.Hub
 
                 ReceiptAllocationID = viewModel.ReceiptAllocationId,
                 HubID = viewModel.CurrentHub,
+                UserProfileID =  viewModel.UserProfileId
 
             };
 
@@ -505,239 +507,241 @@ namespace Cats.Services.Hub
 
             //Todo: Construct ReceiveDetail from the viewModel Transaction 
 
-            var transactionGroup = new TransactionGroup {TransactionGroupID = new Guid()};
+            var transactionGroup = new TransactionGroup { TransactionGroupID = Guid.NewGuid() };
 
-            #region transaction for receiveDetail 
+            #region transaction for receiveDetail
 
-            foreach (var receiveDetailNewViewModel in viewModel.ReceiveDetailNewViewModels)
+            //foreach (var receiveDetailNewViewModel in viewModel.ReceiveDetailNewViewModels)
+            //{
+            //    ReceiveSingleTransaction(viewModel, receiveDetailNewViewModel, receive, transactionGroup);
+            //}
+
+            //Tem implantation for one Receive 
+
+            //check for non food 
+
+            #region
+
+            if (viewModel.CommodityTypeId == 2)
             {
-                //check for non food 
-
-                #region
-
-                if (viewModel.CommodityTypeId == 2)
-                {
-                    receiveDetailNewViewModel.ReceivedQuantityInMt = 0;
-                    receiveDetailNewViewModel.SentQuantityInMt = 0;
-                }
-
-                #endregion
-
-                //Construct receive detail from viewModel 
-
-                #region
-
-                var receiveDetail = new ReceiveDetail
-                {
-                    ReceiveDetailID = Guid.NewGuid(), //Todo: if there is existing id dont give new one  
-
-                    CommodityID = receiveDetailNewViewModel.CommodityId,
-                    Description = receiveDetailNewViewModel.Description,
-                    SentQuantityInMT = receiveDetailNewViewModel.SentQuantityInMt,
-                    SentQuantityInUnit = receiveDetailNewViewModel.SentQuantityInUnit,
-                    UnitID = receiveDetailNewViewModel.UnitId,
-                    ReceiveID = receive.ReceiveID,
-                    TransactionGroupID = transactionGroup.TransactionGroupID,
-                };
-
-                #endregion
-
-                //add to receive 
-
-                receive.ReceiveDetails.Add(receiveDetail);
-
-                //physical stock movement 
-
-                #region
-
-                //transaction for goods on hand 
-
-                #region On Positive Side
-
-                var transactionOne = new Transaction
-                {
-                    TransactionID = Guid.NewGuid(),
-                    TransactionGroupID = transactionGroup.TransactionGroupID,
-                    TransactionDate = DateTime.Now,
-                    ParentCommodityID =
-                        _unitOfWork.CommodityRepository.FindById(receiveDetailNewViewModel.CommodityId).ParentID ??
-                        receiveDetailNewViewModel.CommodityId,
-                    CommodityID = receiveDetailNewViewModel.CommodityId,
-                    LedgerID = Ledger.Constants.GOODS_ON_HAND,
-                    //HubOwnerID = 
-                    DonorID = receive.SourceDonorID,
-                    AccountID = _accountService.GetAccountIdWithCreate(Account.Constants.HUB, receive.HubID),
-                    ShippingInstructionID =
-                        _shippingInstructionService.GetSINumberIdWithCreate(viewModel.SiNumber).ShippingInstructionID,
-                    ProjectCodeID = _projectCodeService.GetProjectCodeIdWIthCreate(viewModel.ProjectCode).ProjectCodeID,
-                    HubID = viewModel.CurrentHub,
-
-                    UnitID = receiveDetailNewViewModel.UnitId,
-                    QuantityInMT = receiveDetailNewViewModel.ReceivedQuantityInMt,
-                    QuantityInUnit = receiveDetailNewViewModel.ReceivedQuantityInUnit,
-
-                    //CommodityGradeID = 
-                    ProgramID = viewModel.ProgramId,
-                    StoreID = viewModel.StoreId,
-                    Stack = viewModel.StackNumber,
-                };
-                transactionGroup.Transactions.Add(transactionOne);
-
-                #endregion
-
-                // transaction for goods under care, receivable, liabilities 
-
-                #region Negative Side
-
-                var transactionTwo = new Transaction
-                {
-                    TransactionID = Guid.NewGuid(),
-                    TransactionGroupID = transactionGroup.TransactionGroupID,
-                    TransactionDate = DateTime.Now,
-                    ParentCommodityID =
-                        _unitOfWork.CommodityRepository.FindById(receiveDetailNewViewModel.CommodityId).ParentID ??
-                        receiveDetailNewViewModel.CommodityId,
-                    CommodityID = receiveDetailNewViewModel.CommodityId,
-                    LedgerID = Ledger.Constants.GOODS_UNDER_CARE,
-
-                    //HubOwnerID = 
-                    DonorID = receive.SourceDonorID, //
-
-                    ShippingInstructionID =
-                        _shippingInstructionService.GetSINumberIdWithCreate(viewModel.SiNumber).ShippingInstructionID,
-                    ProjectCodeID = _projectCodeService.GetProjectCodeIdWIthCreate(viewModel.ProjectCode).ProjectCodeID,
-                    HubID = viewModel.CurrentHub,
-
-                    UnitID = receiveDetailNewViewModel.UnitId,
-                    QuantityInMT = -receiveDetailNewViewModel.ReceivedQuantityInMt,
-                    QuantityInUnit = -receiveDetailNewViewModel.ReceivedQuantityInUnit,
-
-                    //CommodityGradeID = 
-                    ProgramID = viewModel.ProgramId,
-                    StoreID = viewModel.StoreId,
-                    Stack = viewModel.StackNumber,
-                };
-
-                switch (viewModel.CommoditySourceTypeId)
-                {
-                    case CommoditySource.Constants.LOCALPURCHASE:
-                    case CommoditySource.Constants.DONATION:
-                        transactionTwo.LedgerID = Ledger.Constants.GOODS_UNDER_CARE;
-                        transactionTwo.AccountID = _accountService.GetAccountIdWithCreate(Account.Constants.DONOR,
-                            receive.ResponsibleDonorID.GetValueOrDefault(0));
-                        break;
-                    case CommoditySource.Constants.REPAYMENT:
-                        transactionTwo.LedgerID = Ledger.Constants.GOODS_RECIEVABLE;
-                        transactionTwo.AccountID = _accountService.GetAccountIdWithCreate(Account.Constants.HUB,
-                            viewModel.SourceHubId.GetValueOrDefault(0));
-                        break;
-                    default:
-                        transactionTwo.LedgerID = Ledger.Constants.LIABILITIES;
-                        transactionTwo.AccountID = _accountService.GetAccountIdWithCreate(Account.Constants.HUB,
-                            viewModel.SourceHubId.GetValueOrDefault(0));
-                        break;
-                }
-
-                transactionGroup.Transactions.Add(transactionTwo);
-
-                #endregion
-
-                #endregion
-
-                // plan side
-
-                #region
-
-                #region Positive Side
-
-                //statstics free
-
-                var transactionThree = new Transaction
-                {
-                    TransactionID = Guid.NewGuid(),
-                    TransactionGroupID = transactionGroup.TransactionGroupID,
-                    TransactionDate = DateTime.Now,
-                    ParentCommodityID =
-                        _unitOfWork.CommodityRepository.FindById(receiveDetailNewViewModel.CommodityId).ParentID ??
-                        receiveDetailNewViewModel.CommodityId,
-                    CommodityID = receiveDetailNewViewModel.CommodityId,
-                    LedgerID = Ledger.Constants.STATISTICS_FREE_STOCK,
-                    //HubOwnerID = 
-                    DonorID = receive.SourceDonorID,
-                    AccountID = _accountService.GetAccountIdWithCreate(Account.Constants.HUB, receive.HubID),
-                    ShippingInstructionID =
-                        _shippingInstructionService.GetSINumberIdWithCreate(viewModel.SiNumber).ShippingInstructionID,
-                    ProjectCodeID = _projectCodeService.GetProjectCodeIdWIthCreate(viewModel.ProjectCode).ProjectCodeID,
-                    HubID = viewModel.CurrentHub,
-
-                    UnitID = receiveDetailNewViewModel.UnitId,
-                    QuantityInMT = receiveDetailNewViewModel.ReceivedQuantityInMt,
-                    QuantityInUnit = receiveDetailNewViewModel.ReceivedQuantityInUnit,
-
-                    //CommodityGradeID = 
-                    ProgramID = viewModel.ProgramId,
-                    StoreID = viewModel.StoreId,
-                    Stack = viewModel.StackNumber,
-                };
-
-                transactionGroup.Transactions.Add(transactionThree);
-
-                #endregion
-
-                #region Negative Side
-
-                var transactionFour = new Transaction
-                {
-                    TransactionID = Guid.NewGuid(),
-                    TransactionGroupID = transactionGroup.TransactionGroupID,
-                    TransactionDate = DateTime.Now,
-                    ParentCommodityID =
-                        _unitOfWork.CommodityRepository.FindById(receiveDetailNewViewModel.CommodityId).ParentID ??
-                        receiveDetailNewViewModel.CommodityId,
-                    CommodityID = receiveDetailNewViewModel.CommodityId,
-                    //HubOwnerID = 
-                    DonorID = receive.SourceDonorID,
-                    ShippingInstructionID =
-                        _shippingInstructionService.GetSINumberIdWithCreate(viewModel.SiNumber).ShippingInstructionID,
-                    ProjectCodeID = _projectCodeService.GetProjectCodeIdWIthCreate(viewModel.ProjectCode).ProjectCodeID,
-                    HubID = viewModel.CurrentHub,
-
-                    UnitID = receiveDetailNewViewModel.UnitId,
-                    QuantityInMT = -receiveDetailNewViewModel.ReceivedQuantityInMt,
-                    QuantityInUnit = -receiveDetailNewViewModel.ReceivedQuantityInUnit,
-
-                    //CommodityGradeID = 
-                    ProgramID = viewModel.ProgramId,
-                    StoreID = viewModel.StoreId,
-                    Stack = viewModel.StackNumber,
-                };
-
-                if (transactionFour.CommoditySourceID == CommoditySource.Constants.DONATION ||
-                    viewModel.CommoditySourceTypeId == CommoditySource.Constants.LOCALPURCHASE)
-                {
-                    transactionFour.LedgerID = Ledger.Constants.GOODS_UNDER_CARE;
-                    transactionFour.AccountID = _accountService.GetAccountIdWithCreate(Account.Constants.DONOR,
-                        receive.ResponsibleDonorID.GetValueOrDefault(0));
-                }
-                else if (transactionFour.CommoditySourceID == CommoditySource.Constants.REPAYMENT)
-                {
-                    transactionFour.LedgerID = Ledger.Constants.GOODS_RECIEVABLE;
-                    transactionFour.AccountID = _accountService.GetAccountIdWithCreate(Account.Constants.HUB,
-                        viewModel.SourceHubId.GetValueOrDefault(0));
-                }
-                else
-                {
-                    transactionFour.LedgerID = Ledger.Constants.LIABILITIES;
-                    transactionFour.AccountID = _accountService.GetAccountIdWithCreate(Account.Constants.HUB,
-                        viewModel.SourceHubId.GetValueOrDefault(0));
-                }
-
-                transactionGroup.Transactions.Add(transactionFour);
-
-                #endregion
-
-                #endregion
+                viewModel.ReceiveDetailNewViewModel.ReceivedQuantityInMt = 0;
+                viewModel.ReceiveDetailNewViewModel.SentQuantityInMt = 0;
             }
+
+            #endregion
+
+            //Construct receive detail from viewModel 
+
+            #region
+
+            var receiveDetail = new ReceiveDetail
+            {
+                ReceiveDetailID = Guid.NewGuid(), //Todo: if there is existing id dont give new one  
+
+                CommodityID = viewModel.ReceiveDetailNewViewModel.CommodityId,
+                Description = viewModel.ReceiveDetailNewViewModel.Description,
+                SentQuantityInMT = viewModel.ReceiveDetailNewViewModel.SentQuantityInMt,
+                SentQuantityInUnit = viewModel.ReceiveDetailNewViewModel.SentQuantityInUnit,
+                UnitID = viewModel.ReceiveDetailNewViewModel.UnitId,
+                ReceiveID = receive.ReceiveID,
+                TransactionGroupID = transactionGroup.TransactionGroupID,
+                TransactionGroup = transactionGroup
+            };
+
+
+            #endregion
+
+            //add to receive 
+
+            receive.ReceiveDetails.Add(receiveDetail);
+
+            //physical stock movement 
+
+            #region
+
+            //transaction for goods on hand 
+
+            #region On Positive Side
+
+            var transactionOne = new Transaction
+            {
+                TransactionID = Guid.NewGuid(),
+                TransactionGroupID = transactionGroup.TransactionGroupID,
+                TransactionDate = DateTime.Now,
+                ParentCommodityID =
+                    _unitOfWork.CommodityRepository.FindById(viewModel.ReceiveDetailNewViewModel.CommodityId).ParentID ??
+                    viewModel.ReceiveDetailNewViewModel.CommodityId,
+                CommodityID = viewModel.ReceiveDetailNewViewModel.CommodityId,
+                LedgerID = Ledger.Constants.GOODS_ON_HAND,
+                //HubOwnerID = 
+                DonorID = receive.SourceDonorID,
+                AccountID = _accountService.GetAccountIdWithCreate(Account.Constants.HUB, receive.HubID),
+                ShippingInstructionID =
+                    _shippingInstructionService.GetSINumberIdWithCreate(viewModel.SiNumber).ShippingInstructionID,
+                ProjectCodeID = _projectCodeService.GetProjectCodeIdWIthCreate(viewModel.ProjectCode).ProjectCodeID,
+                HubID = viewModel.CurrentHub,
+                UnitID = viewModel.ReceiveDetailNewViewModel.UnitId,
+                QuantityInMT = viewModel.ReceiveDetailNewViewModel.ReceivedQuantityInMt,
+                QuantityInUnit = viewModel.ReceiveDetailNewViewModel.ReceivedQuantityInUnit,
+
+                //CommodityGradeID = 
+                ProgramID = viewModel.ProgramId,
+                StoreID = viewModel.StoreId,
+                Stack = viewModel.StackNumber,
+            };
+            transactionGroup.Transactions.Add(transactionOne);
+
+            #endregion
+
+            // transaction for goods under care, receivable, liabilities 
+
+            #region Negative Side
+
+            var transactionTwo = new Transaction
+            {
+                TransactionID = Guid.NewGuid(),
+                TransactionGroupID = transactionGroup.TransactionGroupID,
+                TransactionDate = DateTime.Now,
+                ParentCommodityID =
+                    _unitOfWork.CommodityRepository.FindById(viewModel.ReceiveDetailNewViewModel.CommodityId).ParentID ??
+                    viewModel.ReceiveDetailNewViewModel.CommodityId,
+                CommodityID = viewModel.ReceiveDetailNewViewModel.CommodityId,
+                LedgerID = Ledger.Constants.GOODS_UNDER_CARE,
+
+                //HubOwnerID = 
+                DonorID = receive.SourceDonorID, //
+
+                ShippingInstructionID =
+                    _shippingInstructionService.GetSINumberIdWithCreate(viewModel.SiNumber).ShippingInstructionID,
+                ProjectCodeID = _projectCodeService.GetProjectCodeIdWIthCreate(viewModel.ProjectCode).ProjectCodeID,
+                HubID = viewModel.CurrentHub,
+                UnitID = viewModel.ReceiveDetailNewViewModel.UnitId,
+                QuantityInMT = -viewModel.ReceiveDetailNewViewModel.ReceivedQuantityInMt,
+                QuantityInUnit = -viewModel.ReceiveDetailNewViewModel.ReceivedQuantityInUnit,
+
+                //CommodityGradeID = 
+                ProgramID = viewModel.ProgramId,
+                StoreID = viewModel.StoreId,
+                Stack = viewModel.StackNumber,
+            };
+
+            switch (viewModel.CommoditySourceTypeId)
+            {
+                case CommoditySource.Constants.LOCALPURCHASE:
+                case CommoditySource.Constants.DONATION:
+                    transactionTwo.LedgerID = Ledger.Constants.GOODS_UNDER_CARE;
+                    transactionTwo.AccountID = _accountService.GetAccountIdWithCreate(Account.Constants.DONOR,
+                        receive.ResponsibleDonorID.GetValueOrDefault(0));
+                    break;
+                case CommoditySource.Constants.REPAYMENT:
+                    transactionTwo.LedgerID = Ledger.Constants.GOODS_RECIEVABLE;
+                    transactionTwo.AccountID = _accountService.GetAccountIdWithCreate(Account.Constants.HUB,
+                        viewModel.SourceHubId.GetValueOrDefault(0));
+                    break;
+                default:
+                    transactionTwo.LedgerID = Ledger.Constants.LIABILITIES;
+                    transactionTwo.AccountID = _accountService.GetAccountIdWithCreate(Account.Constants.HUB,
+                        viewModel.SourceHubId.GetValueOrDefault(0));
+                    break;
+            }
+
+            transactionGroup.Transactions.Add(transactionTwo);
+
+            #endregion
+
+            #endregion
+
+            // plan side
+
+            #region
+
+            #region Positive Side
+
+            //statstics free
+
+            var transactionThree = new Transaction
+            {
+                TransactionID = Guid.NewGuid(),
+                TransactionGroupID = transactionGroup.TransactionGroupID,
+                TransactionDate = DateTime.Now,
+                ParentCommodityID =
+                    _unitOfWork.CommodityRepository.FindById(viewModel.ReceiveDetailNewViewModel.CommodityId).ParentID ??
+                    viewModel.ReceiveDetailNewViewModel.CommodityId,
+                CommodityID = viewModel.ReceiveDetailNewViewModel.CommodityId,
+                LedgerID = Ledger.Constants.STATISTICS_FREE_STOCK,
+                //HubOwnerID = 
+                DonorID = receive.SourceDonorID,
+                AccountID = _accountService.GetAccountIdWithCreate(Account.Constants.HUB, receive.HubID),
+                ShippingInstructionID =
+                    _shippingInstructionService.GetSINumberIdWithCreate(viewModel.SiNumber).ShippingInstructionID,
+                ProjectCodeID = _projectCodeService.GetProjectCodeIdWIthCreate(viewModel.ProjectCode).ProjectCodeID,
+                HubID = viewModel.CurrentHub,
+                UnitID = viewModel.ReceiveDetailNewViewModel.UnitId,
+                QuantityInMT = viewModel.ReceiveDetailNewViewModel.ReceivedQuantityInMt,
+                QuantityInUnit = viewModel.ReceiveDetailNewViewModel.ReceivedQuantityInUnit,
+
+                //CommodityGradeID = 
+                ProgramID = viewModel.ProgramId,
+                StoreID = viewModel.StoreId,
+                Stack = viewModel.StackNumber,
+            };
+
+            transactionGroup.Transactions.Add(transactionThree);
+
+            #endregion
+
+            #region Negative Side
+
+            var transactionFour = new Transaction
+            {
+                TransactionID = Guid.NewGuid(),
+                TransactionGroupID = transactionGroup.TransactionGroupID,
+                TransactionDate = DateTime.Now,
+                ParentCommodityID =
+                    _unitOfWork.CommodityRepository.FindById(viewModel.ReceiveDetailNewViewModel.CommodityId).ParentID ??
+                    viewModel.ReceiveDetailNewViewModel.CommodityId,
+                CommodityID = viewModel.ReceiveDetailNewViewModel.CommodityId,
+                //HubOwnerID = 
+                DonorID = receive.SourceDonorID,
+                ShippingInstructionID =
+                    _shippingInstructionService.GetSINumberIdWithCreate(viewModel.SiNumber).ShippingInstructionID,
+                ProjectCodeID = _projectCodeService.GetProjectCodeIdWIthCreate(viewModel.ProjectCode).ProjectCodeID,
+                HubID = viewModel.CurrentHub,
+                UnitID = viewModel.ReceiveDetailNewViewModel.UnitId,
+                QuantityInMT = -viewModel.ReceiveDetailNewViewModel.ReceivedQuantityInMt,
+                QuantityInUnit = -viewModel.ReceiveDetailNewViewModel.ReceivedQuantityInUnit,
+
+                //CommodityGradeID = 
+                ProgramID = viewModel.ProgramId,
+                StoreID = viewModel.StoreId,
+                Stack = viewModel.StackNumber,
+            };
+
+            if (transactionFour.CommoditySourceID == CommoditySource.Constants.DONATION ||
+                viewModel.CommoditySourceTypeId == CommoditySource.Constants.LOCALPURCHASE)
+            {
+                transactionFour.LedgerID = Ledger.Constants.GOODS_UNDER_CARE;
+                transactionFour.AccountID = _accountService.GetAccountIdWithCreate(Account.Constants.DONOR,
+                    receive.ResponsibleDonorID.GetValueOrDefault(0));
+            }
+            else if (transactionFour.CommoditySourceID == CommoditySource.Constants.REPAYMENT)
+            {
+                transactionFour.LedgerID = Ledger.Constants.GOODS_RECIEVABLE;
+                transactionFour.AccountID = _accountService.GetAccountIdWithCreate(Account.Constants.HUB,
+                    viewModel.SourceHubId.GetValueOrDefault(0));
+            }
+            else
+            {
+                transactionFour.LedgerID = Ledger.Constants.LIABILITIES;
+                transactionFour.AccountID = _accountService.GetAccountIdWithCreate(Account.Constants.HUB,
+                    viewModel.SourceHubId.GetValueOrDefault(0));
+            }
+
+            transactionGroup.Transactions.Add(transactionFour);
+
+            #endregion
+
+            #endregion
 
             #endregion
 
@@ -751,10 +755,9 @@ namespace Cats.Services.Hub
             }
             catch (Exception exception)
             {
-                throw  new Exception();
+                throw new Exception();
             }
         }
-
 
         /// <summary>
         /// Gets the transportation reports.

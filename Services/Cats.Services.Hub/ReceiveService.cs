@@ -167,11 +167,15 @@ namespace Cats.Services.Hub
         {
             var viewModel = new ReceiveNewViewModel
             {
+                ReceiptDate = DateTime.Now,
                 ReceiptAllocationId = receiptAllocation.ReceiptAllocationID,
                 SiNumber = receiptAllocation.SINumber,
                 ProjectCode = receiptAllocation.ProjectNumber,
                 Program = _unitOfWork.ProgramRepository.FindById(receiptAllocation.ProgramID).Name,
-                CommodityType = _unitOfWork.CommodityTypeRepository.FindById(receiptAllocation.Commodity.CommodityTypeID).Name
+                ProgramId = receiptAllocation.ProgramID,
+                CommodityType = _unitOfWork.CommodityTypeRepository.FindById(receiptAllocation.Commodity.CommodityTypeID).Name,
+                CommodityTypeId = receiptAllocation.Commodity.CommodityTypeID,
+                
             };
 
             if (CommoditySource.Constants.LOAN == receiptAllocation.CommoditySourceID

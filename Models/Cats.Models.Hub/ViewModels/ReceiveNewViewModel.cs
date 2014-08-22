@@ -55,7 +55,6 @@ namespace Cats.Models.Hubs.ViewModels
         [Display(Name = "Store")]
         public int StoreId { get; set; }
 
-        public List<Store> Stores { get; set; }
 
         [Required(ErrorMessage = "Stack number is required")]
         [Display(Name = "Stack Number")]
@@ -99,6 +98,8 @@ namespace Cats.Models.Hubs.ViewModels
         public string Remark { get; set; }
         public int ProgramId { get; set; }
         public int? SourceHubId { get; set; }
+
+        public int UserProfileId { get; set; }
 
         #endregion 
     }
