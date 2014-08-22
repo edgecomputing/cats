@@ -18,3 +18,4 @@ namespace Cats.Areas.Hub.Models
         //public string StoreManName { get; set; }
     }
 }
+
