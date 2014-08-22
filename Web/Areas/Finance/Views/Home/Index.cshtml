@@ -160,11 +160,11 @@
                                         <td style="text-align: right">{{req.Amount | number:2}}</td>
                                         <td >{{req.BankName}}</td>
                                         <td>{{req.PreparedBy}}</td>
-                                        
-                                        <td ng-switch on="req.State">
+                                        <td>{{req.Status}}</td>
+                                        @*<td ng-switch on="req.State">
                                         <div ng-switch-when=1>Draft</div>  
                                         <div ng-switch-when=2>Approved</div>
-                                        <div ng-switch-when=3>Cashed</div>
+                                        <div ng-switch-when=3>Cashed</div>*@
                                         
                                         </td>
                                          
