@@ -295,8 +295,7 @@ namespace Cats.Areas.Procurement.Controllers
                 }
             }
             return Json(models.ToDataSourceResult(request, ModelState));
-//            return Json(new[] { bidProposal }.ToDataSourceResult(request, ModelState));
-            //return Json(ModelState.ToDataSourceResult());
+
         }
 
         public ActionResult bidProposals()
