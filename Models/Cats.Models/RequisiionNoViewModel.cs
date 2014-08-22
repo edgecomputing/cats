@@ -8,8 +8,8 @@ namespace Cats.Models
 {
     public class RequisiionNoViewModel
     {
-        public string ReqNo { get; set; }
-        public int ReqID { get; set; }
+        public int ZoneId { get; set; }
+        public string ZoneName { get; set; }
 
     }
 }

@@ -37,57 +37,26 @@
 <div id="div_select" >
     <h5> Transport Requisitions Without Winner Transporter</h5> 
     @Html.DropDownList("TransporterID", String.Empty)
-   
-    @{
+    @Html.DropDownList("Zones",null,"Select zone")
+    <select id="Woredas" name="Woredas" onchange="onWoredaChange(this.value);"></select>
 
-
-    var ddl = Html.Kendo().DropDownList()
-        .Name("ReqNo")
-        .OptionLabel("Select a Req No...")
-        .DataTextField("ReqNo")
-        .DataValueField("ReqID")
-        .HtmlAttributes(new { style = "width:200px" })
-        .Events(e => e.Change("ReqNoChange"))
-        .DataSource(source => source.Read("GetReq", "TransportOrder"));
-
-
-    ddl.Render(); //displays the dropdown list
-
-    var selected = ddl.ToComponent().Value;//gets the selected value
-}
-
-    @* @(Html.Kendo().DropDownList()
-            .Name("TransporterID")
-            .DataTextField("Text")
-            .DataValueField("Value")
-            .Events(p=>p.Change("update_selected_transporter"))
-            .AutoBind(false)
-            .BindTo(ViewBag.TransporterID))*@
-   @* @(Html.Kendo().ComboBox().Name("cmbTransportersList").DataTextField("Name").DataValueField("TransporterID").BindTo(ViewBag.TransporterID))*@
-    @* new List<TransporterViewModel>
-        {
-            new TransporterViewModel {TransporterID = 1,Name = "MK"}
-        
-        })*@
+  
           
     <a class="btn toolbar-btn" data-buttontype=" " id="btnAssign"  data-submittedform="frm_assign_transporter">Assign Transporter</a>
     
-    @*<input type="submit" value="Assign Transporter" formtarget="frm_assign_transporter"  class="btn btn-success"/>*@
+    
     @(Html.Kendo().Grid(Model.TransReqwithOutTransporters)
           .Name("grid")
           .Columns(columns =>
               {
-                  //columns.Bound(p => p.Select).
-                  //    //ClientTemplate("<input type='checkbox'/>");
-                  //    ClientTemplate("<input type='checkbox' #= Select ? checked='checked' : '' # ></input>");
+                  
                   columns.Bound(p => p.Woreda);
                   columns.Bound(p => p.RequisitionNo);
                   columns.Bound(p => p.Commodity);
                   columns.Bound(p => p.FDP);
                   columns.Bound(P => P.OriginWarehouse);
                   columns.Bound(p => p.QuantityQtl).Title(Html.Translate("Quantity")).HtmlAttributes(new { align = "right" }).Format("{0:n2}").HeaderHtmlAttributes(new { @class = "cats-unit-pref-grid" });
-                  // columns.Bound(p => p.Amount);
-                  //columns.Command(p => p.Custom("Assign Transporter").Click("onGenerate"));
+                 
               })
           .Scrollable()
           .DataSource(datasource => datasource.Server()
@@ -106,7 +75,7 @@
             function (event) {
                 $(this).parent().toggleClass("k-state-selected");
                 update_selection_data();
-               // update_selected_transporter();
+              
             });
     }
     );
@@ -117,7 +86,7 @@
             var inp = $("#TransReqwithOutTransporters_" + i + "__Selected");
             if ($(this).hasClass("k-state-selected")) {
                 inp.val(true);
-                //alert("Selected");
+                
             } else {
                 inp.val(false);
             }
@@ -129,24 +98,39 @@
         var selected = $("#TransporterID").val();
         $("#SelectedTransporterID").val(selected);
     });
+
    
-    function ReqNoChange(e) {
-        e.preventDefault();
+   
+        $(function () {
+            $('#Zones').change(function () {
+                $.getJSON('@Url.Action("GetWoredas", "TransportOrder")' + "?ZoneId=" + $('#Zones').val(), function (data) {
+                    var items = '<option>Select a Woreda</option>';
+                    $.each(data, function (i, woreda) {
+                        items += "<option value='" + woreda.Value + "'>" + woreda.Text + "</option>";
+                    });
+                    $('#Woredas').html(items);
+                });
+            });
+        });
+
+  
+         function onWoredaChange(e) {
+      
 
 
-        var value = this.value();
-        //var reqNo = this.name();
+        var value = e;
 
+             alert(value);
         if (value == "") {
 
             window.location = null;
-            window.location = "@Url.Action("LoadUnAssinedByReqNo", "TransportOrder")" + "?id=" + 0 + "&reqId=" + value;
+            window.location = "@Url.Action("LoadUnAssinedByReqNo", "TransportOrder")" + "?id=" + 0 + "&woredaId=" + value;
 
         }
         else {
            
             window.location = null;
-            window.location = "@Url.Action("LoadUnAssinedByReqNo", "TransportOrder")" + "?id=" + 0 + "&reqId=" + value;
+            window.location = "@Url.Action("LoadUnAssinedByReqNo", "TransportOrder")" + "?id=" + 0 + "&woredaId=" + value;
         }
 
     }

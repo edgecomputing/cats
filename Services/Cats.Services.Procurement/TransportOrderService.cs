@@ -106,26 +106,25 @@ namespace Cats.Services.Procurement
 
         #endregion
 
-        public  IOrderedEnumerable<RequisiionNoViewModel> GetRequisisions()
+        public  IOrderedEnumerable<RequisiionNoViewModel> GetZone()
         {
             var requisition =
                _unitOfWork.TransReqWithoutTransporterRepository.FindBy(m => m.IsAssigned == false).OrderByDescending(
                    t => t.TransportRequisitionDetailID).Select(s => new
                    {
-                       ReqNo =
-                   s.ReliefRequisitionDetail.ReliefRequisition.
-                   RequisitionNo,
-                       ReqID =
-                   s.ReliefRequisitionDetail.ReliefRequisition.
-                   RequisitionID
+                       ZoneId =
+                   s.ReliefRequisitionDetail.ReliefRequisition.ZoneID,
+                       ZoneName =
+                   s.ReliefRequisitionDetail.ReliefRequisition.AdminUnit1.Name
                    }).Distinct().ToList();
            return requisition.Select(req=>new RequisiionNoViewModel
                                          {
-                                             ReqID = req.ReqID,
-                                             ReqNo = req.ReqNo
-                                         }).OrderBy(r=>r.ReqNo);
+                                             ZoneId = (int) req.ZoneId,
+                                             ZoneName = req.ZoneName
+                                         }).OrderBy(r=>r.ZoneId);
         }
 
+       
         public IOrderedEnumerable<RegionsViewModel> GetRegions()
         {
             var regions = _unitOfWork.AdminUnitRepository.FindBy(t => t.AdminUnitTypeID == 2).ToList();
