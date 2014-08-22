@@ -34,12 +34,35 @@
 
  }  
 </div>  
-<div id="div_select" >
-    <h5> Transport Requisitions Without Winner Transporter</h5> 
-    @Html.DropDownList("TransporterID", String.Empty)
-    @Html.DropDownList("Zones",null,"Select zone")
-    <select id="Woredas" name="Woredas" onchange="onWoredaChange(this.value);"></select>
 
+      <h5> Transport Requisitions Without Winner Transporter</h5> 
+    <table class="table-striped">
+        <tr>
+            <td>
+                Transporter:
+            </td>
+            <td>
+                @Html.DropDownList("TransporterID", String.Empty)
+            </td>
+            <td>
+                  <label id="zone">Zone</label>
+            </td>
+            <td>
+                @Html.DropDownList("Zones",null,"Select zone")
+            </td>
+            <td>
+                <label id="worda">Woreda</label>
+                
+            </td>
+            <td>
+                 <select id="Woredas" name="Woredas" onchange="onWoredaChange(this.value);"></select>
+            </td>
+        </tr>
+    </table>
+  
+<div id="div_select" >
+    
+  
   
           
     <a class="btn toolbar-btn" data-buttontype=" " id="btnAssign"  data-submittedform="frm_assign_transporter">Assign Transporter</a>
@@ -48,16 +71,16 @@
     @(Html.Kendo().Grid(Model.TransReqwithOutTransporters)
           .Name("grid")
           .Columns(columns =>
-              {
+                       {
                   
-                  columns.Bound(p => p.Woreda);
-                  columns.Bound(p => p.RequisitionNo);
-                  columns.Bound(p => p.Commodity);
-                  columns.Bound(p => p.FDP);
-                  columns.Bound(P => P.OriginWarehouse);
-                  columns.Bound(p => p.QuantityQtl).Title(Html.Translate("Quantity")).HtmlAttributes(new { align = "right" }).Format("{0:n2}").HeaderHtmlAttributes(new { @class = "cats-unit-pref-grid" });
+                           columns.Bound(p => p.Woreda);
+                           columns.Bound(p => p.RequisitionNo);
+                           columns.Bound(p => p.Commodity);
+                           columns.Bound(p => p.FDP);
+                           columns.Bound(P => P.OriginWarehouse);
+                           columns.Bound(p => p.QuantityQtl).Title(Html.Translate("Quantity")).HtmlAttributes(new { align = "right" }).Format("{0:n2}").HeaderHtmlAttributes(new { @class = "cats-unit-pref-grid" });
                  
-              })
+                       })
           .Scrollable()
           .DataSource(datasource => datasource.Server()
            
@@ -120,7 +143,7 @@
 
         var value = e;
 
-             alert(value);
+            
         if (value == "") {
 
             window.location = null;

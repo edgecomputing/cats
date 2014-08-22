@@ -420,7 +420,7 @@ namespace Cats.Services.Procurement
 
                 }
 
-                var transRequisition = _unitOfWork.TransportRequisitionDetailRepository.FindById(transReqWithTransporter.SingleOrDefault().TransportRequisitionID).TransportRequisition;
+                var transRequisition = _unitOfWork.TransportRequisitionDetailRepository.FindById(transReqWithTransporter.FirstOrDefault().TransportRequisitionID).TransportRequisition;
                 transportOrder.PerformanceBondReceiptNo = "PERFORMANCE-BOND-NO";
                 //var transporterName = _unitOfWork.TransporterRepository.FindById(transporter).Name;
                 transportOrder.ContractNumber = Guid.NewGuid().ToString();
