@@ -149,5 +149,13 @@ namespace Cats.Areas.Hub.Controllers
             return transportContract;
         }
 
+        public ActionResult ReturnSignedTransportOrders()
+        {
+
+
+            return RedirectToAction("Index", new { id = (int)TransportOrderStatus.Signed });
+
+        }
+
     }
 }

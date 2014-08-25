@@ -248,7 +248,7 @@
                                 <ul class="dropdown-menu">
                                     <li>
                                         @Html.HubOperationMenuItem(@Html.Translate("Incoming Transport Orders"),
-                                                                   @Url.Action("ReturnListOfApprovedListFromMainMenu", "TransportOrder", new { Area = "Hub" }),
+                                                                   @Url.Action("ReturnSignedTransportOrders", "TransportOrder", new { Area = "Hub" }),
                                                                    HubConstants.Operation.View_transport_order_list)
                                     </li>
                                 </ul>
