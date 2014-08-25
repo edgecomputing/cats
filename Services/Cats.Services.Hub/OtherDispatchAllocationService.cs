@@ -123,6 +123,10 @@ namespace Cats.Services.Hub
                 {
                     oAllocation.OtherDispatchAllocationID = model.OtherDispatchAllocationID.Value;
                 }
+                else
+                {
+                    oAllocation.OtherDispatchAllocationID = Guid.NewGuid();
+                }
                 oAllocation.ProgramID = model.ProgramID.Value;
                 oAllocation.HubID = model.FromHubID.Value;
                 oAllocation.ToHubID = model.ToHubID.Value;
