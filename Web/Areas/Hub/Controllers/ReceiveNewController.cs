@@ -45,7 +45,7 @@ namespace Cats.Areas.Hub.Controllers
             _transporterService = transporterService;
         }
 
-        #region Action 
+        #region Action
 
         public ActionResult Create(string receiptAllocationId)
         {
@@ -99,7 +99,12 @@ namespace Cats.Areas.Hub.Controllers
 
             #endregion
 
-            if (!ModelState.IsValid) return View(viewModel);
+            if (!ModelState.IsValid)
+            {
+                viewModel.AllocationStatusViewModel = _receiveService.GetAllocationStatus(_receiptAllocationId);
+                return View(viewModel);
+            }
+
 
             //check if the detail are not null 
             if (viewModel.ReceiveDetailNewViewModel != null)
@@ -109,16 +114,18 @@ namespace Cats.Areas.Hub.Controllers
                 if (!_receiveService.IsGrnUnique(viewModel.Grn))
                 {
                     ModelState.AddModelError("GRN", @"GRN already existed");
+                    viewModel.AllocationStatusViewModel = _receiveService.GetAllocationStatus(_receiptAllocationId);
                     return View(viewModel);
                 }
 
                 #endregion
 
-                #region Validate receive amount 
+                #region Validate receive amount
 
                 if (_receiveService.IsReceiveExcedeAllocation(viewModel.ReceiveDetailNewViewModel,
                     viewModel.ReceiptAllocationId))
                 {
+                    viewModel.AllocationStatusViewModel = _receiveService.GetAllocationStatus(_receiptAllocationId);
                     ModelState.AddModelError("ReceiveId", "Hey you are trying to receive more than allocated");
                     return View(viewModel);
                 }
@@ -132,8 +139,10 @@ namespace Cats.Areas.Hub.Controllers
             }
             else
             {
+                viewModel.AllocationStatusViewModel = _receiveService.GetAllocationStatus(_receiptAllocationId);
                 ModelState.AddModelError("ReceiveDetails", "Please add at least one commodity");
             }
+            viewModel.AllocationStatusViewModel = _receiveService.GetAllocationStatus(_receiptAllocationId);
             return View(viewModel);
         }
 
@@ -145,7 +154,7 @@ namespace Cats.Areas.Hub.Controllers
         #endregion
 
 
-        #region Combobox 
+        #region Combobox
 
         public JsonResult GetUnities()
         {
@@ -167,11 +176,11 @@ namespace Cats.Areas.Hub.Controllers
         public JsonResult GetStroes(int hubId)
         {
             return Json((from c in _storeService.GetStoreByHub(hubId)
-                select new StoreViewModel
-                {
-                    StoreId = c.StoreID,
-                    Name = c.Name
-                }), JsonRequestBehavior.AllowGet);
+                         select new StoreViewModel
+                         {
+                             StoreId = c.StoreID,
+                             Name = c.Name
+                         }), JsonRequestBehavior.AllowGet);
         }
         [HttpGet]
         public JsonResult GetStacks(int? storeId)
@@ -180,21 +189,21 @@ namespace Cats.Areas.Hub.Controllers
                 return Json(new SelectList(Enumerable.Empty<StackViewModel>()), JsonRequestBehavior.AllowGet);
             var store = _storeService.FindById(storeId.Value);
             var stacks = new List<StackViewModel>();
-            stacks.AddRange(store.Stacks.Select(i => new StackViewModel {Name = i.ToString(), Id = i}));
+            stacks.AddRange(store.Stacks.Select(i => new StackViewModel { Name = i.ToString(), Id = i }));
             return Json(stacks, JsonRequestBehavior.AllowGet);
         }
         [HttpGet]
         public JsonResult GetResponsibleDonor()
         {
-            return Json( from c in _donorService.GetAllDonor()
-                             .Where(p => p.IsResponsibleDonor == true)
-                             .DefaultIfEmpty()
-                             .OrderBy(p => p.Name)
-                             select new DonorViewModel
-                             {
-                                 DonorId = c.DonorID,
-                                 Name =  c.Name
-                             }, JsonRequestBehavior.AllowGet);
+            return Json(from c in _donorService.GetAllDonor()
+                            .Where(p => p.IsResponsibleDonor == true)
+                            .DefaultIfEmpty()
+                            .OrderBy(p => p.Name)
+                        select new DonorViewModel
+                        {
+                            DonorId = c.DonorID,
+                            Name = c.Name
+                        }, JsonRequestBehavior.AllowGet);
         }
         [HttpGet]
         public JsonResult GetSourceDonor()
@@ -231,7 +240,7 @@ namespace Cats.Areas.Hub.Controllers
         }
         #endregion
 
-        #region Private Method 
+        #region Private Method
 
         private void PopulateCombox(int parentCommodity)
         {
