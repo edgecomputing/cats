@@ -83,23 +83,37 @@ namespace Cats.Models.Hubs.ViewModels
         #region Properties 
 
         public int CommodityTypeId { get; set; }
+        [Display(Name = "Source Donor")]
         public int? SourceDonorId { get; set; }
+        [Display(Name = "Responsible Donor / Implementor")]
         public int? ResponsibleDonorId { get; set; }
+        [Display(Name = "Transporter")]
         public int TransporterId { get; set; }
+        [Display(Name = "Plate Number (Prime)")]
         public string PlateNoPrime { get; set; }
+        [Display(Name = "Plate No Trailer")]
         public string PlateNoTrailer { get; set; }
+        [Display(Name = "Delivered By (Driver Name))")]
         public string DriverName { get; set; }
+        [Display(Name = "Weight Bridge Ticket Number")]
         public string WeightBridgeTicketNumber { get; set; }
+        [Display(Name = "Weight Before Unloading")]
         public decimal? WeightBeforeUnloading { get; set; }
+        [Display(Name = "Weight After Unloading")]
         public decimal? WeightAfterUnloading { get; set; }
-
+        [Display(Name = "Vessel Name")]
         public string VesselName { get; set; }
+        [Display(Name = "Port Name")]
         public string PortName { get; set; }
+        [Display(Name = "Remark")]
         public string Remark { get; set; }
+
         public int ProgramId { get; set; }
         public int? SourceHubId { get; set; }
 
         public int UserProfileId { get; set; }
+
+        public AllocationStatusViewModel AllocationStatusViewModel { get; set; }
 
         #endregion 
     }

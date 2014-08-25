@@ -100,6 +100,7 @@
     <Compile Include="Mapping\VWFreePhysicalStockMap.cs" />
     <Compile Include="SummaryFreeAndPhysicalStockModel.cs" />
     <Compile Include="Mapping\VWTransferredStockMap.cs" />
+    <Compile Include="ViewModels\AllocationStatusViewModel.cs" />
     <Compile Include="ViewModels\Common\UnitViewModel.cs" />
     <Compile Include="ViewModels\DispatchReportViewModel.cs" />
     <Compile Include="ViewModels\ReceiptAllocationViewModelDto.cs" />
