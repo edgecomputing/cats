@@ -63,9 +63,9 @@ namespace Cats.Areas.Hub.Controllers
             viewModel.CurrentHub = user.DefaultHub.Value;
             viewModel.UserProfileId = user.UserProfileID;
 
-            var commodities = _commodityService.GetAllCommodityViewModelsByParent(receiptAllocation.CommodityID);
-            ViewData["commodities"] = commodities;
-            ViewData["units"] = _unitService.GetAllUnitViewModels();
+            //var commodities = _commodityService.GetAllCommodityViewModelsByParent(receiptAllocation.CommodityID);
+            //ViewData["commodities"] = commodities;
+            //ViewData["units"] = _unitService.GetAllUnitViewModels();
             return View(viewModel);
         }
 
@@ -109,7 +109,6 @@ namespace Cats.Areas.Hub.Controllers
                 if (!_receiveService.IsGrnUnique(viewModel.Grn))
                 {
                     ModelState.AddModelError("GRN", @"GRN already existed");
-                    PopulateCombox(receiptAllocation.CommodityID);
                     return View(viewModel);
                 }
 
@@ -121,7 +120,6 @@ namespace Cats.Areas.Hub.Controllers
                     viewModel.ReceiptAllocationId))
                 {
                     ModelState.AddModelError("ReceiveId", "Hey you are trying to receive more than allocated");
-                    PopulateCombox(receiptAllocation.CommodityID);
                     return View(viewModel);
                 }
 
@@ -136,7 +134,6 @@ namespace Cats.Areas.Hub.Controllers
             {
                 ModelState.AddModelError("ReceiveDetails", "Please add at least one commodity");
             }
-            PopulateCombox(receiptAllocation.CommodityID);
             return View(viewModel);
         }
 
@@ -144,15 +141,20 @@ namespace Cats.Areas.Hub.Controllers
 
         #region Combobox 
 
-        [HttpGet]
-        public JsonResult GetCommodities(int hubId)
+        public JsonResult GetUnities()
         {
-            return Json((from c in _storeService.GetStoreByHub(hubId)
-                         select new StoreViewModel
-                         {
-                             StoreId = c.StoreID,
-                             Name = c.Name
-                         }), JsonRequestBehavior.AllowGet);
+            return Json(_unitService.GetAllUnitViewModels(), JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public JsonResult GetCommodities(string receiptAllocationId)
+        {
+            _receiptAllocationId = Guid.Parse(receiptAllocationId);
+
+            var receiptAllocation = _receiptAllocationService.FindById(_receiptAllocationId);
+
+            return Json(_commodityService.GetAllCommodityViewModelsByParent(receiptAllocation.CommodityID),
+                JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
