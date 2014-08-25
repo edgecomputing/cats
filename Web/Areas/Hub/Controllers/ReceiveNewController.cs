@@ -62,7 +62,7 @@ namespace Cats.Areas.Hub.Controllers
             var viewModel = _receiveService.ReceiptAllocationToReceive(receiptAllocation);
             viewModel.CurrentHub = user.DefaultHub.Value;
             viewModel.UserProfileId = user.UserProfileID;
-
+            viewModel.AllocationStatusViewModel = _receiveService.GetAllocationStatus(_receiptAllocationId);
             //var commodities = _commodityService.GetAllCommodityViewModelsByParent(receiptAllocation.CommodityID);
             //ViewData["commodities"] = commodities;
             //ViewData["units"] = _unitService.GetAllUnitViewModels();
@@ -137,7 +137,13 @@ namespace Cats.Areas.Hub.Controllers
             return View(viewModel);
         }
 
+        public JsonResult AllocationStatus(string receiptAllocationId)
+        {
+            _receiptAllocationId = Guid.Parse(receiptAllocationId);
+            return Json(_receiveService.GetAllocationStatus(_receiptAllocationId), JsonRequestBehavior.AllowGet);
+        }
         #endregion
+
 
         #region Combobox 
 

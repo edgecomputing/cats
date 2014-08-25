@@ -199,10 +199,12 @@
                 </div>
             </div>
             <div class="span4" style="vertical-align: top">
-
+                <p>Allocated InMT: <span class="text-success">@Model.AllocationStatusViewModel.TotalAllocation</span></p>
+                <p>Receive so far: <span class="text-success">@Model.AllocationStatusViewModel.ReceivedAllocation</span></p>
+                <p>Remaining: <span class="text-success">@Model.AllocationStatusViewModel.RemainingAllocation</span></p>
             </div>
         </div>
-        <div class="row">
+        @*<div class="row">
             <div class="span1"></div>
             <div class="span9">
                 @(Html.Kendo().Grid(Model.ReceiveDetailNewViewModels)
@@ -247,7 +249,10 @@
                       )
                 )
             </div>
-        </div>
+        </div>*@
+        <br/>
+        
+        <h5 class="page-header">@Html.Translate("Receive Details")</h5>
 
         <br />
 
@@ -501,6 +506,13 @@
 
 
 <script>
+
+    @*$(document).ready(function () {
+        var param = $('#ReceiptAllocationId').val();
+        $.getJSON('@Url.Action("AllocationStatus","ReceiveNew")', param, function(result) {
+            
+        });
+    });*@
 
     function index(dataItem) {
         var data = $("#ReceiveDetailGrid").data("kendoGrid").dataSource.data();

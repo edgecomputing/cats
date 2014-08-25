@@ -32,7 +32,7 @@ namespace Cats.Services.Hub
         bool IsGrnUnique(string grn);
 
         bool IsReceiveExcedeAllocation(ReceiveDetailNewViewModel receiveDetailNewViewModel, Guid receiptAllocationId);
-
+        AllocationStatusViewModel GetAllocationStatus(Guid receiptAllocationId);
     }
 }
 
