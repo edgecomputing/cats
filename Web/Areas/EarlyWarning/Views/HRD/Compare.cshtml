@@ -90,12 +90,11 @@
                   {
 
                       columns.Bound(t => t.Region);
-                      columns.Bound(t => t.BeneficiaryNumber).HtmlAttributes(new { align = "Right" }); 
+                      columns.Bound(t => t.BeneficiaryNumber).HtmlAttributes(new { align = "Right" });
                       columns.Bound(t => t.Percentage).HtmlAttributes(new { align = "Center" }).Format("{0:N0}%");
-                     
-                     
                   })
               .Scrollable()
+              .Sortable()
                .HtmlAttributes(new {style = "height:340px;"})
               .DataSource(datasource =>
                           datasource
@@ -116,10 +115,9 @@
                       columns.Bound(t => t.Region);
                       columns.Bound(t => t.BeneficiaryNumber).HtmlAttributes(new { align = "Right" });
                       columns.Bound(t => t.Percentage).HtmlAttributes(new { align = "Center"}).Format("{0:N0}%");
-                     
-                     
                   })
               .Scrollable()
+              .Sortable()
                .HtmlAttributes(new {style = "height:340px;"})
               .DataSource(datasource =>
                           datasource
