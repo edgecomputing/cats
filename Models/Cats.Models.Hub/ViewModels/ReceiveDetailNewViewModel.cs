@@ -22,27 +22,34 @@ namespace Cats.Models.Hubs.ViewModels
         public Guid? ReceiveId { get; set; }
 
         //[Required(ErrorMessage = "required")]
+        [Display(Name = "Commodity")]
         public int CommodityId { get; set; }
 
+        [Display(Name = "Description")]
         public string Description { get; set; }
 
         [Required(ErrorMessage = "required")]
+        [Display(Name = "Unit")]
         public int UnitId { get; set; }
 
         [Required(ErrorMessage = "Sent quantity required")]
         [Range(1, 9999999.9)]
+        [Display(Name = "Sent Quantity (Unit)")]
         public decimal SentQuantityInUnit { get; set; }
 
         [Required(ErrorMessage = "Recieved quantity is required")]
         [Range(1, 9999999.9)]
+        [Display(Name = "Received Quantity (Unit)")]
         public decimal ReceivedQuantityInUnit { get; set; }
 
         [Required(ErrorMessage = "required")]
         [Range(0.1, 999999.99)]
+        [Display(Name = "Received Quantity (MT)")]
         public decimal ReceivedQuantityInMt { get; set; }
 
         [Required(ErrorMessage = "required")]
         [Range(0.1, 999999.99)]
+        [Display(Name = "Sent Quantity (MT)")]
         public decimal SentQuantityInMt { get; set; }
 
         #endregion

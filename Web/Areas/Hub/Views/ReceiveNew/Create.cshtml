@@ -46,7 +46,7 @@
                         @Html.LabelFor(model => model.CommoditySource)
                     </div>
                     <div class="controls">
-                        @Html.TextBoxFor(model => model.CommoditySource)
+                        @Html.TextBoxFor(model => model.CommoditySource, new { @readonly = "readonly" })
                         @Html.ValidationMessageFor(model => model.CommoditySource)
                     </div>
                 </div>
@@ -55,7 +55,7 @@
                         @Html.LabelFor(model => model.SiNumber)
                     </div>
                     <div class="controls">
-                        @Html.TextBoxFor(model => model.SiNumber)
+                        @Html.TextBoxFor(model => model.SiNumber, new { @readonly = "readonly" })
                         @Html.ValidationMessageFor(model => model.SiNumber)
                     </div>
                 </div>
@@ -64,7 +64,7 @@
                         @Html.LabelFor(model => model.Program)
                     </div>
                     <div class="controls">
-                        @Html.TextBoxFor(model => model.Program)
+                        @Html.TextBoxFor(model => model.Program, new { @readonly = "readonly" })
                         @Html.ValidationMessageFor(model => model.Program)
                     </div>
                 </div>
@@ -73,7 +73,7 @@
                         @Html.LabelFor(model => model.CommodityType)
                     </div>
                     <div class="controls">
-                        @Html.TextBoxFor(model => model.CommodityType)
+                        @Html.TextBoxFor(model => model.CommodityType, new { @readonly = "readonly" })
                         @Html.ValidationMessageFor(model => model.CommodityType)
                     </div>
                 </div>
@@ -135,7 +135,7 @@
                             @Html.LabelFor(model => model.SourceHub)
                         </div>
                         <div class="controls">
-                            @Html.TextBoxFor(model => model.SourceHub)
+                            @Html.TextBoxFor(model => model.SourceHub, new { @readonly = "readonly" })
                             @Html.ValidationMessageFor(model => model.SourceHub)
                         </div>
                     </div>
@@ -146,7 +146,7 @@
                         @Html.LabelFor(model => model.ProjectCode)
                     </div>
                     <div class="controls">
-                        @Html.TextBoxFor(model => model.ProjectCode)
+                        @Html.TextBoxFor(model => model.ProjectCode, new { @readonly = "readonly" })
                         @Html.ValidationMessageFor(model => model.ProjectCode)
                     </div>
                 </div>
@@ -199,10 +199,12 @@
                 </div>
             </div>
             <div class="span4" style="vertical-align: top">
-
+                <p>Allocated InMT: <span class="text-success">@Model.AllocationStatusViewModel.TotalAllocation</span></p>
+                <p>Receive so far: <span class="text-success">@Model.AllocationStatusViewModel.ReceivedAllocation</span></p>
+                <p>Remaining: <span class="text-success">@Model.AllocationStatusViewModel.RemainingAllocation</span></p>
             </div>
         </div>
-        <div class="row">
+        @*<div class="row">
             <div class="span1"></div>
             <div class="span9">
                 @(Html.Kendo().Grid(Model.ReceiveDetailNewViewModels)
@@ -247,7 +249,10 @@
                       )
                 )
             </div>
-        </div>
+        </div>*@
+        <br/>
+        
+        <h5 class="page-header">@Html.Translate("Receive Details")</h5>
 
         <br />
 
@@ -264,17 +269,8 @@
                               .DataTextField("CommodityName")
                               .DataValueField("CommodityId")
                               .Filter(FilterType.Contains)
-                              .BindTo((IEnumerable)ViewData["commodities"]))
+                              .DataSource(source => source.Read(read => read.Action("GetCommodities", "ReceiveNew", new { @receiptAllocationId = Model.ReceiptAllocationId }))))
                         @Html.ValidationMessageFor(model => model.ReceiveDetailNewViewModel.CommodityId)
-                    </div>
-                </div>
-                <div class="control-group">
-                    <div class="control-label">
-                        @Html.LabelFor(m => m.ReceiveDetailNewViewModel.Description)
-                    </div>
-                    <div class="controls">
-                        @Html.TextAreaFor(m => m.ReceiveDetailNewViewModel.Description)
-                        @Html.ValidationMessageFor(m => m.ReceiveDetailNewViewModel.Description)
                     </div>
                 </div>
                 <div class="control-group">
@@ -287,21 +283,11 @@
                               .DataTextField("Name")
                               .DataValueField("UnitId")
                               .Filter(FilterType.Contains)
-                              .BindTo((IEnumerable)ViewData["units"]))
+                              .DataSource(source => source.Read(read => read.Action("GetUnities", "ReceiveNew")))
+                        )
                         @Html.ValidationMessageFor(model => model.ReceiveDetailNewViewModel.UnitId)
                     </div>
                 </div>
-                <div class="control-group">
-                    <div class="control-label">
-                        @Html.LabelFor(m => m.ReceiveDetailNewViewModel.SentQuantityInUnit)
-                    </div>
-                    <div class="controls">
-                        @Html.EditorFor(m => m.ReceiveDetailNewViewModel.SentQuantityInUnit)
-                        @Html.ValidationMessageFor(m => m.ReceiveDetailNewViewModel.SentQuantityInUnit)
-                    </div>
-                </div>
-            </div>
-            <div class="span4" style="vertical-align: top">
                 <div class="control-group">
                     <div class="control-label">
                         @Html.LabelFor(m => m.ReceiveDetailNewViewModel.ReceivedQuantityInUnit)
@@ -309,15 +295,6 @@
                     <div class="controls">
                         @Html.EditorFor(m => m.ReceiveDetailNewViewModel.ReceivedQuantityInUnit)
                         @Html.ValidationMessageFor(m => m.ReceiveDetailNewViewModel.ReceivedQuantityInUnit)
-                    </div>
-                </div>
-                <div class="control-group">
-                    <div class="control-label">
-                        @Html.LabelFor(m => m.ReceiveDetailNewViewModel.SentQuantityInMt)
-                    </div>
-                    <div class="controls">
-                        @Html.EditorFor(m => m.ReceiveDetailNewViewModel.SentQuantityInMt)
-                        @Html.ValidationMessageFor(m => m.ReceiveDetailNewViewModel.SentQuantityInMt)
                     </div>
                 </div>
                 <div class="control-group">
@@ -331,53 +308,83 @@
                 </div>
             </div>
             <div class="span4" style="vertical-align: top">
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.LabelFor(m => m.ReceiveDetailNewViewModel.Description)
+                    </div>
+                    <div class="controls">
+                        @Html.TextAreaFor(m => m.ReceiveDetailNewViewModel.Description)
+                        @Html.ValidationMessageFor(m => m.ReceiveDetailNewViewModel.Description)
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.LabelFor(m => m.ReceiveDetailNewViewModel.SentQuantityInUnit)
+                    </div>
+                    <div class="controls">
+                        @Html.EditorFor(m => m.ReceiveDetailNewViewModel.SentQuantityInUnit)
+                        @Html.ValidationMessageFor(m => m.ReceiveDetailNewViewModel.SentQuantityInUnit)
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.LabelFor(m => m.ReceiveDetailNewViewModel.SentQuantityInMt)
+                    </div>
+                    <div class="controls">
+                        @Html.EditorFor(m => m.ReceiveDetailNewViewModel.SentQuantityInMt)
+                        @Html.ValidationMessageFor(m => m.ReceiveDetailNewViewModel.SentQuantityInMt)
+                    </div>
+                </div>
+                
+            </div>
+            <div class="span4" style="vertical-align: top">
 
             </div>
         </div>
-        
+
         <h5 class="page-header">@Html.Translate("Transportation Details")</h5>
 
-        
+
         @if (CommoditySource.Constants.LOAN != Model.CommoditySourceTypeId)
         {
-             <div class="row">
-            <div class="span4" style="vertical-align: top">
-                <div class="control-group">
-                    <div class="control-label">
-                        @Html.LabelFor(m => m.ResponsibleDonorId)
-                    </div>
-                    <div class="controls">
-                        @(Html.Kendo().ComboBox()
+            <div class="row">
+                <div class="span4" style="vertical-align: top">
+                    <div class="control-group">
+                        <div class="control-label">
+                            @Html.LabelFor(m => m.ResponsibleDonorId)
+                        </div>
+                        <div class="controls">
+                            @(Html.Kendo().ComboBox()
                               .Name("ResponsibleDonorId")
                               .Placeholder("Select Responsible Donor")
                               .DataTextField("Name")
                               .DataValueField("DonorId")
                               .Filter(FilterType.Contains)
                               .DataSource(source => source.Read(read => read.Action("GetResponsibleDonor", "ReceiveNew"))))
-                        @Html.ValidationMessageFor(model => model.ResponsibleDonorId)
+                            @Html.ValidationMessageFor(model => model.ResponsibleDonorId)
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="span4" style="vertical-align: top">
-                <div class="control-group">
-                    <div class="control-label">
-                        @Html.LabelFor(m => m.SourceDonorId)
-                    </div>
-                    <div class="controls">
-                        @(Html.Kendo().ComboBox()
+                <div class="span4" style="vertical-align: top">
+                    <div class="control-group">
+                        <div class="control-label">
+                            @Html.LabelFor(m => m.SourceDonorId)
+                        </div>
+                        <div class="controls">
+                            @(Html.Kendo().ComboBox()
                               .Name("SourceDonorId")
                               .Placeholder("Select Source Donor")
                               .DataTextField("Name")
                               .DataValueField("DonorId")
                               .Filter(FilterType.Contains)
                               .DataSource(source => source.Read(read => read.Action("GetSourceDonor", "ReceiveNew"))))
-                        @Html.ValidationMessageFor(model => model.SourceDonorId)
+                            @Html.ValidationMessageFor(model => model.SourceDonorId)
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
         }
-       
+
 
         <div class="row">
             <div class="span4" style="vertical-align: top">
@@ -494,11 +501,18 @@
         </div>
     </div>
 
-    
+
 }
 
 
 <script>
+
+    @*$(document).ready(function () {
+        var param = $('#ReceiptAllocationId').val();
+        $.getJSON('@Url.Action("AllocationStatus","ReceiveNew")', param, function(result) {
+            
+        });
+    });*@
 
     function index(dataItem) {
         var data = $("#ReceiveDetailGrid").data("kendoGrid").dataSource.data();
