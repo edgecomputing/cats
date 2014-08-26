@@ -175,7 +175,6 @@ namespace Cats.Services.Hub
                 ProgramId = receiptAllocation.ProgramID,
                 CommodityType = _unitOfWork.CommodityTypeRepository.FindById(receiptAllocation.Commodity.CommodityTypeID).Name,
                 CommodityTypeId = receiptAllocation.Commodity.CommodityTypeID,
-                
             };
 
             if (CommoditySource.Constants.LOAN == receiptAllocation.CommoditySourceID

@@ -75,8 +75,8 @@ namespace Cats.Areas.Hub.Controllers
         {
             //Todo: change to support multiple receive detail 
 
-            var receiptAllocation = _receiptAllocationService.FindById(viewModel.ReceiptAllocationId);
-
+            //var receiptAllocation = _receiptAllocationService.FindById(viewModel.ReceiptAllocationId);
+            _receiptAllocationId = viewModel.ReceiptAllocationId;
             #region Fix to ModelState
 
             switch (viewModel.CommoditySourceTypeId)
