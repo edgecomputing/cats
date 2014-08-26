@@ -132,6 +132,15 @@ namespace Cats.Areas.Hub.Controllers
 
                 #endregion
 
+
+                if (_receiveService.IsReceiveGreaterThanSent(viewModel.ReceiveDetailNewViewModel))
+                {
+                    viewModel.AllocationStatusViewModel = _receiveService.GetAllocationStatus(_receiptAllocationId);
+                    ModelState.AddModelError("ReceiveId", "You can't receive more than sent item");
+                    return View(viewModel);
+                }
+                
+
                 //Save transaction 
                 _transactionService.ReceiptTransaction(viewModel);
 
