@@ -20,7 +20,7 @@
             </tr>
             <tr>
                 <td>@Html.LabelFor(model => model.ReasonID) <span class="required">*</span></td>
-                <td>@Html.Telerik().ComboBox().Name("ReasonID").BindTo(new SelectList(Model.Reasons, "ID", "Name", Model.ReasonID))</td>
+                <td>@Html.Telerik().ComboBox().Name("ReasonID").BindTo(new SelectList(Model.Reasons, "ID", "Name", Model.ReasonID)).SelectedIndex(0)</td>
 
                 <td>@Html.LabelFor(model => model.ReferenceNumber) <span class="required">*</span></td>
                 <td>@Html.EditorFor(model => model.ReferenceNumber)</td>
@@ -29,11 +29,12 @@
                 @*<td>@Html.LabelFor(model => model.FromHubID) <span class="required">*</span></td>
         <td>@Html.Telerik().ComboBox().Name("FromHubID").BindTo(new SelectList(Model.FromHubs, "HubID", "HubNameWithOwner", Model.FromHubID))</td>*@
                 <td>@Html.LabelFor(model => model.ToHubID) <span class="required">*</span></td>
-                <td>@Html.Telerik().ComboBox().Name("ToHubID").BindTo(new SelectList(Model.ToHubs, "HubID", "HubNameWithOwner", Model.ToHubID))</td>
+                <td>@Html.Telerik().ComboBox().Name("ToHubID").BindTo(new SelectList(Model.ToHubs, "HubID", "HubNameWithOwner", Model.ToHubID)).SelectedIndex(0)
+                </td>
             </tr>
             <tr>
                 <td>@Html.LabelFor(model => model.ProgramID) <span class="required">*</span></td>
-                <td>@Html.Telerik().ComboBox().Name("ProgramID").BindTo(new SelectList(Model.Programs, "ProgramID", "Name", Model.ProgramID))</td>
+                <td>@Html.Telerik().ComboBox().Name("ProgramID").BindTo(new SelectList(Model.Programs, "ProgramID", "Name", Model.ProgramID)).SelectedIndex(0)</td>
                 <td></td>
                 <td></td>
             </tr>
@@ -64,6 +65,7 @@
                           .HtmlAttributes(new { style = string.Format("width:{0}px", 200) })
                           //.ClientEvents(ev => ev.OnChange("OnComChange"))
                           .HighlightFirstMatch(true).CascadeTo("CommodityID")
+                          .SelectedIndex(0)
                           //.CascadeTo("CommodityID")
                           .Filterable(filtering =>
                               {
@@ -84,6 +86,7 @@
                     @(Html.Telerik().ComboBox()
                           .Name("CommodityID")
                           .BindTo(new SelectList(Model.Commodities, "CommodityID", "Name", Model.CommodityID))
+                          .SelectedIndex(0)
                           .DataBinding(bind => bind.Ajax().Select("CommodityParentListByType", "Commodity", new { CommodityTypeID = Model.CommodityTypeID, editModeVal = Model.CommodityID})
                                                    .Enabled(true)))
                 </td>
