@@ -45,7 +45,7 @@ namespace Cats.Areas.Hub.Controllers
             _transporterService = transporterService;
         }
 
-        #region Action 
+        #region Action
 
         public ActionResult Create(string receiptAllocationId)
         {
@@ -62,10 +62,10 @@ namespace Cats.Areas.Hub.Controllers
             var viewModel = _receiveService.ReceiptAllocationToReceive(receiptAllocation);
             viewModel.CurrentHub = user.DefaultHub.Value;
             viewModel.UserProfileId = user.UserProfileID;
-
-            var commodities = _commodityService.GetAllCommodityViewModelsByParent(receiptAllocation.CommodityID);
-            ViewData["commodities"] = commodities;
-            ViewData["units"] = _unitService.GetAllUnitViewModels();
+            viewModel.AllocationStatusViewModel = _receiveService.GetAllocationStatus(_receiptAllocationId);
+            //var commodities = _commodityService.GetAllCommodityViewModelsByParent(receiptAllocation.CommodityID);
+            //ViewData["commodities"] = commodities;
+            //ViewData["units"] = _unitService.GetAllUnitViewModels();
             return View(viewModel);
         }
 
@@ -75,8 +75,8 @@ namespace Cats.Areas.Hub.Controllers
         {
             //Todo: change to support multiple receive detail 
 
-            var receiptAllocation = _receiptAllocationService.FindById(viewModel.ReceiptAllocationId);
-
+            //var receiptAllocation = _receiptAllocationService.FindById(viewModel.ReceiptAllocationId);
+            _receiptAllocationId = viewModel.ReceiptAllocationId;
             #region Fix to ModelState
 
             switch (viewModel.CommoditySourceTypeId)
@@ -99,7 +99,12 @@ namespace Cats.Areas.Hub.Controllers
 
             #endregion
 
-            if (!ModelState.IsValid) return View(viewModel);
+            if (!ModelState.IsValid)
+            {
+                viewModel.AllocationStatusViewModel = _receiveService.GetAllocationStatus(_receiptAllocationId);
+                return View(viewModel);
+            }
+
 
             //check if the detail are not null 
             if (viewModel.ReceiveDetailNewViewModel != null)
@@ -109,19 +114,19 @@ namespace Cats.Areas.Hub.Controllers
                 if (!_receiveService.IsGrnUnique(viewModel.Grn))
                 {
                     ModelState.AddModelError("GRN", @"GRN already existed");
-                    PopulateCombox(receiptAllocation.CommodityID);
+                    viewModel.AllocationStatusViewModel = _receiveService.GetAllocationStatus(_receiptAllocationId);
                     return View(viewModel);
                 }
 
                 #endregion
 
-                #region Validate receive amount 
+                #region Validate receive amount
 
                 if (_receiveService.IsReceiveExcedeAllocation(viewModel.ReceiveDetailNewViewModel,
                     viewModel.ReceiptAllocationId))
                 {
+                    viewModel.AllocationStatusViewModel = _receiveService.GetAllocationStatus(_receiptAllocationId);
                     ModelState.AddModelError("ReceiveId", "Hey you are trying to receive more than allocated");
-                    PopulateCombox(receiptAllocation.CommodityID);
                     return View(viewModel);
                 }
 
@@ -134,18 +139,41 @@ namespace Cats.Areas.Hub.Controllers
             }
             else
             {
+                viewModel.AllocationStatusViewModel = _receiveService.GetAllocationStatus(_receiptAllocationId);
                 ModelState.AddModelError("ReceiveDetails", "Please add at least one commodity");
             }
-            PopulateCombox(receiptAllocation.CommodityID);
+            viewModel.AllocationStatusViewModel = _receiveService.GetAllocationStatus(_receiptAllocationId);
             return View(viewModel);
         }
 
+        public JsonResult AllocationStatus(string receiptAllocationId)
+        {
+            _receiptAllocationId = Guid.Parse(receiptAllocationId);
+            return Json(_receiveService.GetAllocationStatus(_receiptAllocationId), JsonRequestBehavior.AllowGet);
+        }
         #endregion
 
-        #region Combobox 
+
+        #region Combobox
+
+        public JsonResult GetUnities()
+        {
+            return Json(_unitService.GetAllUnitViewModels(), JsonRequestBehavior.AllowGet);
+        }
 
         [HttpGet]
-        public JsonResult GetCommodities(int hubId)
+        public JsonResult GetCommodities(string receiptAllocationId)
+        {
+            _receiptAllocationId = Guid.Parse(receiptAllocationId);
+
+            var receiptAllocation = _receiptAllocationService.FindById(_receiptAllocationId);
+
+            return Json(_commodityService.GetAllCommodityViewModelsByParent(receiptAllocation.CommodityID),
+                JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public JsonResult GetStroes(int hubId)
         {
             return Json((from c in _storeService.GetStoreByHub(hubId)
                          select new StoreViewModel
@@ -154,17 +182,6 @@ namespace Cats.Areas.Hub.Controllers
                              Name = c.Name
                          }), JsonRequestBehavior.AllowGet);
         }
-
-        [HttpGet]
-        public JsonResult GetStroes(int hubId)
-        {
-            return Json((from c in _storeService.GetStoreByHub(hubId)
-                select new StoreViewModel
-                {
-                    StoreId = c.StoreID,
-                    Name = c.Name
-                }), JsonRequestBehavior.AllowGet);
-        }
         [HttpGet]
         public JsonResult GetStacks(int? storeId)
         {
@@ -172,21 +189,21 @@ namespace Cats.Areas.Hub.Controllers
                 return Json(new SelectList(Enumerable.Empty<StackViewModel>()), JsonRequestBehavior.AllowGet);
             var store = _storeService.FindById(storeId.Value);
             var stacks = new List<StackViewModel>();
-            stacks.AddRange(store.Stacks.Select(i => new StackViewModel {Name = i.ToString(), Id = i}));
+            stacks.AddRange(store.Stacks.Select(i => new StackViewModel { Name = i.ToString(), Id = i }));
             return Json(stacks, JsonRequestBehavior.AllowGet);
         }
         [HttpGet]
         public JsonResult GetResponsibleDonor()
         {
-            return Json( from c in _donorService.GetAllDonor()
-                             .Where(p => p.IsResponsibleDonor == true)
-                             .DefaultIfEmpty()
-                             .OrderBy(p => p.Name)
-                             select new DonorViewModel
-                             {
-                                 DonorId = c.DonorID,
-                                 Name =  c.Name
-                             }, JsonRequestBehavior.AllowGet);
+            return Json(from c in _donorService.GetAllDonor()
+                            .Where(p => p.IsResponsibleDonor == true)
+                            .DefaultIfEmpty()
+                            .OrderBy(p => p.Name)
+                        select new DonorViewModel
+                        {
+                            DonorId = c.DonorID,
+                            Name = c.Name
+                        }, JsonRequestBehavior.AllowGet);
         }
         [HttpGet]
         public JsonResult GetSourceDonor()
@@ -223,7 +240,7 @@ namespace Cats.Areas.Hub.Controllers
         }
         #endregion
 
-        #region Private Method 
+        #region Private Method
 
         private void PopulateCombox(int parentCommodity)
         {

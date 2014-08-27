@@ -21,7 +21,7 @@
     </tr>
     <tr>
         <td>@Html.LabelFor(model => model.ReasonID) <span class="required">*</span></td>
-        <td>@Html.Telerik().ComboBox().Name("ReasonID").BindTo(new SelectList(Model.Reasons, "ID", "Name", Model.ReasonID))</td>
+        <td>@Html.Telerik().ComboBox().Name("ReasonID").BindTo(new SelectList(Model.Reasons, "ID", "Name", Model.ReasonID)).SelectedIndex(0)</td>
 
         <td>@Html.LabelFor(model => model.ReferenceNumber) <span class="required">*</span></td>
         <td>@Html.EditorFor(model => model.ReferenceNumber)</td>
@@ -31,11 +31,11 @@
         <td>@Html.Telerik().ComboBox().Name("FromHubID").BindTo(new SelectList(Model.FromHubs, "HubID", "HubNameWithOwner", Model.FromHubID))</td>*@
         
         <td>@Html.LabelFor(model => model.ToHubID) <span class="required">*</span></td>
-        <td>@Html.Telerik().ComboBox().Name("ToHubID").BindTo(new SelectList(Model.ToHubs, "HubID", "HubNameWithOwner", Model.ToHubID))</td>
+        <td>@Html.Telerik().ComboBox().Name("ToHubID").BindTo(new SelectList(Model.ToHubs, "HubID", "HubNameWithOwner", Model.ToHubID)).SelectedIndex(0)</td>
     </tr>
     <tr>
         <td>@Html.LabelFor(model => model.ProgramID) <span class="required">*</span></td>
-        <td>@Html.Telerik().ComboBox().Name("ProgramID").BindTo(new SelectList(Model.Programs, "ProgramID", "Name", Model.ProgramID))</td>
+        <td>@Html.Telerik().ComboBox().Name("ProgramID").BindTo(new SelectList(Model.Programs, "ProgramID", "Name", Model.ProgramID)).SelectedIndex(0)</td>
         <td></td>
         <td></td>
     </tr>
@@ -64,6 +64,7 @@
            .AutoFill(true)
            .BindTo(new SelectList(Model.CommodityTypes, "CommodityTypeID", "Name", Model.CommodityTypeID))
            .HtmlAttributes(new { style = string.Format("width:{0}px", 200) })
+           .SelectedIndex(0)
            //.ClientEvents(ev => ev.OnChange("OnComChange"))
            .HighlightFirstMatch(true).CascadeTo("CommodityID")
            //.CascadeTo("CommodityID")
@@ -86,11 +87,12 @@
             @(Html.Telerik().ComboBox()
            .Name("CommodityID")
            .BindTo(new SelectList(Model.Commodities, "CommodityID", "Name", Model.CommodityID))
+           .SelectedIndex(0)
            .DataBinding(bind => bind.Ajax().Select("CommodityParentListByType", "Commodity", new { CommodityTypeID = Model.CommodityTypeID, editModeVal = Model.CommodityID})
            .Enabled(true)))
         </td>
         <td>@Html.LabelFor(model => model.UnitID) <span class="required">*</span></td>
-        <td>@Html.Telerik().ComboBox().Name("UnitID").BindTo(new SelectList(Model.Units, "UnitID", "Name", Model.UnitID))</td>
+        <td>@Html.Telerik().ComboBox().Name("UnitID").BindTo(new SelectList(Model.Units, "UnitID", "Name", Model.UnitID)).SelectedIndex(0)</td>
     </tr>
 
     <tr>
@@ -127,7 +129,7 @@
         <td></td>
         <td></td>
         <td colspan="2">
-            <input type="submit" value="@Html.Translate("Save")" onclick=" return $('form').valid();" class="t-button button" />
+            <input type="submit" value="@Html.Translate("Save")" class="t-button button" />
             <input type="button" value="@Html.Translate("Cancel")" class="t-button button" onclick="cancel();" />
         </td>
        

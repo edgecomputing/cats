@@ -735,26 +735,25 @@ namespace Cats.Areas.EarlyWarning.Controllers
         {
             if (hrd!=null)
             {
-                var totalBeneficary =1;
+                decimal totalBeneficary =1;
                 if ( hrd.HRDDetails.Sum(m => m.NumberOfBeneficiaries)>0)
                 {
                     totalBeneficary = hrd.HRDDetails.Sum(m => m.NumberOfBeneficiaries);
                 }
-                  var groupedTotal = from detail in hrd.HRDDetails
+                var groupedTotal = from detail in hrd.HRDDetails
                                group detail by detail.AdminUnit.AdminUnit2.AdminUnit2 into regionalDetail
                                select new
                                {
                                    Region = regionalDetail.Key,
                                    NumberOfBeneficiaries = regionalDetail.Sum(m => m.NumberOfBeneficiaries)
                                };
-                   return (from total in groupedTotal
-                    select new CompareHrdViewModel
-                        {
-                            Region = total.Region.Name,
-                            BeneficiaryNumber = total.NumberOfBeneficiaries,
-                            Percentage = (total.NumberOfBeneficiaries/totalBeneficary) *100
-                        });
-                
+                return (from total in groupedTotal
+                              select new CompareHrdViewModel
+                                         {
+                                             Region = total.Region.Name,
+                                             BeneficiaryNumber = total.NumberOfBeneficiaries,
+                                             Percentage =(decimal) (total.NumberOfBeneficiaries*100.0) /totalBeneficary
+                                         });
             }
             return null;
         }

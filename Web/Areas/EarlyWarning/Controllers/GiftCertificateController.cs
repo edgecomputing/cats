@@ -327,7 +327,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         [EarlyWarningAuthorize(operation = EarlyWarningConstants.Operation.Generate_Gift_Certificate_Template)]
        public ActionResult ShowLetterTemplates([DataSourceRequest] DataSourceRequest request)
        {
-           return Json(_letterTemplateService.GetAllLetterTemplates().ToDataSourceResult(request));
+           return Json(_letterTemplateService.GetAllLetterTemplates().ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
 
        }
         public void ShowTemplate(string fileName, int giftCertificateId)

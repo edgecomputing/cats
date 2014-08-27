@@ -354,7 +354,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                                                                r.ProgramId ==
                                                                psnphrdPlanInfo.HRDPSNPPlan.ProgramID &&
                                                                r.RegionID == psnphrdPlanInfo.HRDPSNPPlan.RegionID
-                                                               && r.Year == psnphrdPlanInfo.HRDPSNPPlan.Year
+                                                               //&& r.Year == psnphrdPlanInfo.HRDPSNPPlan.Year
                                                                && r.Month == psnphrdPlanInfo.HRDPSNPPlan.Month)
                                                   .Count;
                     }

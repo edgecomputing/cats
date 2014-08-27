@@ -3,7 +3,7 @@
 @{
     var user = (UserIdentity)HttpContext.Current.User.Identity;
     
-    }
+}
 <style>
 
 
@@ -15,19 +15,31 @@
 <script src="~/Content/MapResources/MapStyle.js"></script>
 <script src="~/Content/MapResources/MapLegend.js"></script>
 
-<div class="map-container">
-    <div id="map1" class="map"></div>
-    <div id="map1Legend" class="map-legend"></div>
-    <div class="map-title">Number of Beneficiaries</div>
+<div class="col-md-12">
+    <div class="row">
+        <div class="col-md-6 col-xs-12">
+            <div class="hdr-blck">Number of Beneficiaries</div>
+            <div class="col-md-12 map-container">
+                <div id="map1" class="map"></div>
+                <div id="map1Legend" class="map-legend"></div>
+                
+            </div>
+
+        </div>
+
+        <div class="col-md-6 col-xs-12">
+             <div class="hdr-blck">Total Commoditiy Required</div>
+            <div class="col-md-12 map-container">
+                <div id="map2" class="map"></div>
+                <div id="map2Legend" class="map-legend"></div>
+               
+            </div>
+
+        </div>
+    </div>
 </div>
-<div class="map-container">
-    <div id="map2" class="map"></div>
-    <div id="map2Legend" class="map-legend"></div>
-    <div class="map-title">Total Commoditiy Required</div>
-</div>
-<div style="height:600px;"></div>
 <script>
-        
+
     function mapController($http, $scope, $timeout) {
         $scope.countryShapeURL = "/Content/MapResources/MapData/ethiopiaJson.js";
         $scope.regionShapeURL = "/Content/MapResources/MapData/ethiopiaRegions.js";
@@ -56,8 +68,8 @@
         renderingInfo = { shadingOption: {}, div: "map1" };
         CreateMapForData(dataSource, adminUnitInfo, renderingInfo);
 
-        
-      //  CreateMapForData({ url: ZoneHRDUrl, indicator: "Total", postData: {} }, { level: "Zone" }, { shadingOption: { h: 170, s: 164, sample: 8 }, div: "map2" });
+
+        //  CreateMapForData({ url: ZoneHRDUrl, indicator: "Total", postData: {} }, { level: "Zone" }, { shadingOption: { h: 170, s: 164, sample: 8 }, div: "map2" });
         CreateMapForData({ url: ZoneHRDUrl, indicator: "Total", postData: {} }, { level: "Zone" }, { shadingOption: { h: 170, s: 164, sample: 8 }, div: "map2" });
 
         return;
@@ -65,79 +77,55 @@
 
 
     });
-    
+
 </script>
 <style>
-    .map
-    {
-       position:absolute;
-        top:0px;
-        left:0px;
-        right:0px;
-        bottom:0px;
-        
-       
+    .map {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        right: 0px;
+        bottom: 0px;
     }
-    .map-container
-    {
-         position:relative;
-        margin-top:10px;
-        left:10px;
-        height:500px;
-        width:80%;
-        
-        border:solid 1px #DDD;
-        border-radius:6px;
-        
+
+    .map-container {
+        position: relative;
+        height: 500px;
         background: #7abcff; /* Old browsers */
-background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,#aad4ff), color-stop(44%,#60abf8), color-stop(100%,#a3c8ed));    }
-    .map-legend
-    {
-       position:absolute;
-        top:0px;
-        right:0px;
-        width:300px;
-        background:rgba(255,255,255,0.6);
-        padding:20px;
-        padding-top:0;
+    }
+
+    .map-legend {
+        position: absolute;
+        top: 0px;
+        right: 0px;
+        background: rgba(255,255,255,0.6);
+        padding: 20px;
+        padding-top: 0;
         box-shadow: -2px 2px 2px #444;
-       
-    }
-        .map-legend .title
-        {
-            font-size:20px;
-            line-height:40px;
-        }
-        .map-legend .item
-        {
-            line-height:40px;
-            border-bottom:solid 1px #EEE;
-        }
-        .map-legend .pallet
-        {
-            line-height:40px;
-            padding:4px;
-            padding-left:10px;
-            padding-right:10px;
-            border-radius:6px;
-        }
-    .map-title
-    {
-        position:absolute;
-        top:0px;
-        left:100px;
-        width:300px;
-        /*background:rgba(255,255,255,0.6);*/
-        color:#FFF;
-        padding:20px;
-        font-size:20px;
-        text-shadow:2px 2px 2px #44A;
-
-    }
-    .olControlMousePosition
-    {
-        background:#000;
-        color:#FFF;
     }
 
+        .map-legend .title {
+            font-size: 20px;
+            line-height: 40px;
+        }
+
+        .map-legend .item {
+            line-height: 40px;
+            border-bottom: solid 1px #EEE;
+        }
+
+        .map-legend .pallet {
+            line-height: 40px;
+            padding: 4px;
+            padding-left: 10px;
+            padding-right: 10px;
+            border-radius: 6px;
+        }
+
+    
+
+    .olControlMousePosition {
+        background: #000;
+        color: #FFF;
+    }
 </style>

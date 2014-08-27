@@ -692,10 +692,9 @@ namespace Cats.Areas.Hub.Controllers.Allocations
             }
             else
             {
-                //model.InitLoan(_userProfileService.GetUser(User.Identity.Name), repository);
-               
-                //return PartialView("EditLoans", InitLoan(model));
-                return PartialView("EditLoans2",  _otherDispatchAllocationService.GetViewModelByID((Guid)model.OtherDispatchAllocationID));
+                
+                return PartialView("EditLoans", InitLoan(model));
+                //return PartialView("EditLoans", _otherDispatchAllocationService.GetViewModelByID((Guid)model.OtherDispatchAllocationID));
             }
         }
 
