@@ -14,14 +14,9 @@
     const string PAGE_NAME = "MainMenu";
 
 }
-<link href="~/Scripts/css/bootstrap-navbar.css" rel="stylesheet" />
 
    
-<style>
-    #reportMenuAnchor {
-        cursor: pointer;
-    }
-</style>
+
 <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
     <div class="container-fluid">
 
@@ -766,8 +761,6 @@
     $('#reportMenuAnchor').click(function () {
         window.location = "@Url.Action("ReportListing", "Home", new { Area = "" })";
     });
-</script>
-<script>
     $(document).ready(function () {
 
         var allValidationRules = {
