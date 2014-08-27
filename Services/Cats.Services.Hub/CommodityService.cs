@@ -151,14 +151,25 @@ namespace Cats.Services.Hub
 
         public List<CommodityViewModel> GetAllCommodityViewModelsByParent(int parentCommodity)
         {
-            return (from c in GetAllSubCommoditiesByParantId(parentCommodity)
-                    select new CommodityViewModel
-                    {
-                        CommodityId = c.CommodityID,
-                        CommodityName = c.Name
-                    })
+            var commodities = GetAllSubCommoditiesByParantId(parentCommodity);
+            if (commodities.Any())
+            {
+                return (from c in GetAllSubCommoditiesByParantId(parentCommodity)
+                        select new CommodityViewModel
+                        {
+                            CommodityId = c.CommodityID,
+                            CommodityName = c.Name
+                        })
                     .OrderBy(p => p.CommodityName)
                     .ToList();
+            }
+            return (from c in _unitOfWork.CommodityRepository.Get(x => x.CommodityID == parentCommodity)
+                select new CommodityViewModel
+                {
+                    CommodityId = c.CommodityID,
+                    CommodityName = c.Name
+                }).OrderBy(p => p.CommodityName)
+                .ToList();
         }
     }
 }

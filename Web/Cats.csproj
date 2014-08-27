@@ -198,8 +198,10 @@
     <Compile Include="Areas\Hub\Controllers\AdminUnitController.cs" />
     <Compile Include="Areas\Hub\Controllers\CommodityController.cs" />
     <Compile Include="Areas\Hub\Controllers\ReceiveNewController.cs" />
+    <Compile Include="Areas\Hub\Models\DonorViewModel.cs" />
     <Compile Include="Areas\Hub\Models\StackViewModel.cs" />
     <Compile Include="Areas\Hub\Models\StoreViewModel.cs" />
+    <Compile Include="Areas\Hub\Models\TransporterViewModel.cs" />
     <Compile Include="Areas\Settings\Controllers\AccountController.cs" />
     <Compile Include="Areas\Settings\Controllers\CurrencyController.cs" />
     <Compile Include="Areas\EarlyWarning\Controllers\DonorCoverageController.cs" />

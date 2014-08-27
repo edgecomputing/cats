@@ -167,11 +167,14 @@ namespace Cats.Services.Hub
         {
             var viewModel = new ReceiveNewViewModel
             {
+                ReceiptDate = DateTime.Now,
                 ReceiptAllocationId = receiptAllocation.ReceiptAllocationID,
                 SiNumber = receiptAllocation.SINumber,
                 ProjectCode = receiptAllocation.ProjectNumber,
                 Program = _unitOfWork.ProgramRepository.FindById(receiptAllocation.ProgramID).Name,
-                CommodityType = _unitOfWork.CommodityTypeRepository.FindById(receiptAllocation.Commodity.CommodityTypeID).Name
+                ProgramId = receiptAllocation.ProgramID,
+                CommodityType = _unitOfWork.CommodityTypeRepository.FindById(receiptAllocation.Commodity.CommodityTypeID).Name,
+                CommodityTypeId = receiptAllocation.Commodity.CommodityTypeID,
             };
 
             if (CommoditySource.Constants.LOAN == receiptAllocation.CommoditySourceID
@@ -214,6 +217,29 @@ namespace Cats.Services.Hub
             if (allocation == null) return false;
             var remaining = allocation.QuantityInMT - received;
             return receiveDetailNewViewModel.ReceivedQuantityInMt > remaining;
+        }
+
+        public AllocationStatusViewModel GetAllocationStatus(Guid receiptAllocationId)
+        {
+            var allocation = _unitOfWork.ReceiptAllocationRepository.FindBy(t => t.ReceiptAllocationID == receiptAllocationId).FirstOrDefault();
+            decimal sum = 0;
+            if (allocation != null && allocation.Receives != null)
+                sum = allocation.Receives.Aggregate(sum, (current1, r) => r.ReceiveDetails.Aggregate(current1, (current, rd) => current + Math.Abs(rd.QuantityInMT)));
+            var received = sum;
+
+            if (allocation == null) return new AllocationStatusViewModel
+            {
+                TotalAllocation = 0,
+                RemainingAllocation = 0,
+                ReceivedAllocation = 0
+            };
+            var remaining = allocation.QuantityInMT - received;
+            return new AllocationStatusViewModel
+            {
+                TotalAllocation = allocation.QuantityInMT,
+                ReceivedAllocation = received,
+                RemainingAllocation = remaining
+            };
         }
     }
 }

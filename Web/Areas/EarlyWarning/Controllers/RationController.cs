@@ -166,7 +166,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         {
          
             var rations = _rationService.GetAllRation();
-            var rationViewModels = (from item in rations select BindRationViewModel(item));
+            var rationViewModels = (from item in rations select BindRationViewModel(item)).OrderBy(o=>o.ReferenceNumber);
             return Json(rationViewModels.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
         public ActionResult RationDetail_Read([DataSourceRequest] DataSourceRequest request, int id)

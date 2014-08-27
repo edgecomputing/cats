@@ -23,6 +23,7 @@ namespace Cats.Services.Logistics
                    Func<IQueryable<TransportRequisition>, IOrderedQueryable<TransportRequisition>> orderBy = null,
                    string includeProperties = "");
         bool CreateTransportRequisition(List<List<int>> reliefRequisitions,int requestedBy);
+        bool CheckIfBidIsCreatedForAnOrder(int transportRequisitionId);
         IEnumerable<RequisitionToDispatch> GetRequisitionToDispatch();
         bool ApproveTransportRequisition(int id,int approvedBy);
         List<RequisitionToDispatch> GetTransportRequisitionDetail(List<int> requIds);

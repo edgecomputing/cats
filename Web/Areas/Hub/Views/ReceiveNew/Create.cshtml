@@ -20,9 +20,14 @@
 @using (Html.BeginForm("Create", "ReceiveNew", FormMethod.Post, new { id = "frm_receive", @class = "form-horizontal" }))
 {
     @Html.ValidationSummary(true)
+    @Html.ValidationMessageFor(m => m.ReceiveId)
     @Html.HiddenFor(model => model.ReceiveId)
     @Html.HiddenFor(model => model.ReceiptAllocationId)
     @Html.HiddenFor(model => model.CommoditySourceTypeId)
+    @Html.HiddenFor(model => model.CurrentHub)
+    @Html.HiddenFor(model => model.ProgramId)
+    @Html.HiddenFor(model => model.CommodityTypeId)
+    @Html.HiddenFor(model => model.UserProfileId)
 
     <div class="form-horizontal row-fluid">
         <div class="row">
@@ -41,7 +46,7 @@
                         @Html.LabelFor(model => model.CommoditySource)
                     </div>
                     <div class="controls">
-                        @Html.TextBoxFor(model => model.CommoditySource)
+                        @Html.TextBoxFor(model => model.CommoditySource, new { @readonly = "readonly" })
                         @Html.ValidationMessageFor(model => model.CommoditySource)
                     </div>
                 </div>
@@ -50,7 +55,7 @@
                         @Html.LabelFor(model => model.SiNumber)
                     </div>
                     <div class="controls">
-                        @Html.TextBoxFor(model => model.SiNumber)
+                        @Html.TextBoxFor(model => model.SiNumber, new { @readonly = "readonly" })
                         @Html.ValidationMessageFor(model => model.SiNumber)
                     </div>
                 </div>
@@ -59,7 +64,7 @@
                         @Html.LabelFor(model => model.Program)
                     </div>
                     <div class="controls">
-                        @Html.TextBoxFor(model => model.Program)
+                        @Html.TextBoxFor(model => model.Program, new { @readonly = "readonly" })
                         @Html.ValidationMessageFor(model => model.Program)
                     </div>
                 </div>
@@ -68,7 +73,7 @@
                         @Html.LabelFor(model => model.CommodityType)
                     </div>
                     <div class="controls">
-                        @Html.TextBoxFor(model => model.CommodityType)
+                        @Html.TextBoxFor(model => model.CommodityType, new { @readonly = "readonly" })
                         @Html.ValidationMessageFor(model => model.CommodityType)
                     </div>
                 </div>
@@ -91,13 +96,12 @@
                         @Html.LabelFor(model => model.StoreId)
                     </div>
                     <div class="controls">
-                        @(Html.Kendo().ComboBox()
-                        .Name("StoreId")
-                        .Placeholder("Select store")
-                        .DataTextField("Name")
-                        .DataValueField("StoreId")
-                        .Filter(FilterType.Contains)
-                        .DataSource(source => source.Read(read => read.Action("GetStroes", "ReceiveNew", new { @hubId = Model.CurrentHub }))))
+                        @(Html.Kendo().ComboBoxFor(m => m.StoreId)
+                              .Placeholder("Select store")
+                              .DataTextField("Name")
+                              .DataValueField("StoreId")
+                              .Filter(FilterType.Contains)
+                              .DataSource(source => source.Read(read => read.Action("GetStroes", "ReceiveNew", new { @hubId = Model.CurrentHub }))))
                         @Html.ValidationMessageFor(model => model.StoreId)
                     </div>
                 </div>
@@ -122,16 +126,16 @@
                     </div>
                 </div>
                 @if (CommoditySource.Constants.LOAN == Model.CommoditySourceTypeId
-                 || CommoditySource.Constants.SWAP == Model.CommoditySourceTypeId
-                 || CommoditySource.Constants.TRANSFER == Model.CommoditySourceTypeId
-                 || CommoditySource.Constants.REPAYMENT == Model.CommoditySourceTypeId)
+                     || CommoditySource.Constants.SWAP == Model.CommoditySourceTypeId
+                     || CommoditySource.Constants.TRANSFER == Model.CommoditySourceTypeId
+                     || CommoditySource.Constants.REPAYMENT == Model.CommoditySourceTypeId)
                 {
                     <div class="control-group">
                         <div class="control-label">
                             @Html.LabelFor(model => model.SourceHub)
                         </div>
                         <div class="controls">
-                            @Html.TextBoxFor(model => model.SourceHub)
+                            @Html.TextBoxFor(model => model.SourceHub, new { @readonly = "readonly" })
                             @Html.ValidationMessageFor(model => model.SourceHub)
                         </div>
                     </div>
@@ -142,7 +146,7 @@
                         @Html.LabelFor(model => model.ProjectCode)
                     </div>
                     <div class="controls">
-                        @Html.TextBoxFor(model => model.ProjectCode)
+                        @Html.TextBoxFor(model => model.ProjectCode, new { @readonly = "readonly" })
                         @Html.ValidationMessageFor(model => model.ProjectCode)
                     </div>
                 </div>
@@ -180,25 +184,27 @@
                     </div>
                     <div class="controls">
                         @(Html.Kendo().ComboBox()
-                        .Name("StackNumber")
-                        .Placeholder("Select stack")
-                        .DataTextField("Name")
-                        .DataValueField("Id")
-                        .Filter(FilterType.Contains)
-                        .DataSource(source => source.Read(read => read.Action("GetStacks", "ReceiveNew").Data("filterStacks"))
-                            .ServerFiltering(true))
-                        .Enable(false)
-                        .AutoBind(false)
-                        .CascadeFrom("StoreId"))
+                              .Name("StackNumber")
+                              .Placeholder("Select stack")
+                              .DataTextField("Name")
+                              .DataValueField("Id")
+                              .Filter(FilterType.Contains)
+                              .DataSource(source => source.Read(read => read.Action("GetStacks", "ReceiveNew").Data("filterStacks"))
+                                  .ServerFiltering(true))
+                              .Enable(false)
+                              .AutoBind(false)
+                              .CascadeFrom("StoreId"))
                         @Html.ValidationMessageFor(model => model.StackNumber)
                     </div>
                 </div>
             </div>
             <div class="span4" style="vertical-align: top">
-
+                <p>Allocated InMT: <span class="text-success">@Model.AllocationStatusViewModel.TotalAllocation</span></p>
+                <p>Receive so far: <span class="text-success">@Model.AllocationStatusViewModel.ReceivedAllocation</span></p>
+                <p>Remaining: <span class="text-success">@Model.AllocationStatusViewModel.RemainingAllocation</span></p>
             </div>
         </div>
-        <div class="row">
+        @*<div class="row">
             <div class="span1"></div>
             <div class="span9">
                 @(Html.Kendo().Grid(Model.ReceiveDetailNewViewModels)
@@ -243,7 +249,10 @@
                       )
                 )
             </div>
-        </div>
+        </div>*@
+        <br/>
+        
+        <h5 class="page-header">@Html.Translate("Receive Details")</h5>
 
         <br />
 
@@ -255,20 +264,13 @@
                         @Html.LabelFor(model => model.ReceiveDetailNewViewModel.CommodityId)
                     </div>
                     <div class="controls">
-                        @(Html.Kendo().DropDownListFor(m => m.ReceiveDetailNewViewModel.CommodityViewModel)
-                              .Name("CommodityViewModel")
+                        @(Html.Kendo().ComboBoxFor(m => m.ReceiveDetailNewViewModel.CommodityId)
+                              .Placeholder("Select Commodity")
                               .DataTextField("CommodityName")
                               .DataValueField("CommodityId")
-                              .BindTo((IEnumerable)ViewData["commodities"]))
-                    </div>
-                </div>
-                <div class="control-group">
-                    <div class="control-label">
-                        @Html.LabelFor(m => m.ReceiveDetailNewViewModel.Description)
-                    </div>
-                    <div class="controls">
-                        @Html.EditorFor(m => m.ReceiveDetailNewViewModel.Description)
-                        @Html.ValidationMessageFor(m => m.ReceiveDetailNewViewModel.Description)
+                              .Filter(FilterType.Contains)
+                              .DataSource(source => source.Read(read => read.Action("GetCommodities", "ReceiveNew", new { @receiptAllocationId = Model.ReceiptAllocationId }))))
+                        @Html.ValidationMessageFor(model => model.ReceiveDetailNewViewModel.CommodityId)
                     </div>
                 </div>
                 <div class="control-group">
@@ -276,24 +278,16 @@
                         @Html.LabelFor(model => model.ReceiveDetailNewViewModel.UnitId)
                     </div>
                     <div class="controls">
-                        @(Html.Kendo().DropDownListFor(m => m.ReceiveDetailNewViewModel.UnitId)
-                              .Name("UnitId")
+                        @(Html.Kendo().ComboBoxFor(m => m.ReceiveDetailNewViewModel.UnitId)
+                              .Placeholder("Select Unit")
                               .DataTextField("Name")
                               .DataValueField("UnitId")
-                              .BindTo((IEnumerable)ViewData["units"]))
+                              .Filter(FilterType.Contains)
+                              .DataSource(source => source.Read(read => read.Action("GetUnities", "ReceiveNew")))
+                        )
+                        @Html.ValidationMessageFor(model => model.ReceiveDetailNewViewModel.UnitId)
                     </div>
                 </div>
-                <div class="control-group">
-                    <div class="control-label">
-                        @Html.LabelFor(m => m.ReceiveDetailNewViewModel.SentQuantityInUnit)
-                    </div>
-                    <div class="controls">
-                        @Html.EditorFor(m => m.ReceiveDetailNewViewModel.SentQuantityInUnit)
-                        @Html.ValidationMessageFor(m => m.ReceiveDetailNewViewModel.SentQuantityInUnit)
-                    </div>
-                </div>
-            </div>
-            <div class="span4" style="vertical-align: top">
                 <div class="control-group">
                     <div class="control-label">
                         @Html.LabelFor(m => m.ReceiveDetailNewViewModel.ReceivedQuantityInUnit)
@@ -301,15 +295,6 @@
                     <div class="controls">
                         @Html.EditorFor(m => m.ReceiveDetailNewViewModel.ReceivedQuantityInUnit)
                         @Html.ValidationMessageFor(m => m.ReceiveDetailNewViewModel.ReceivedQuantityInUnit)
-                    </div>
-                </div>
-                <div class="control-group">
-                    <div class="control-label">
-                        @Html.LabelFor(m => m.ReceiveDetailNewViewModel.SentQuantityInMt)
-                    </div>
-                    <div class="controls">
-                        @Html.EditorFor(m => m.ReceiveDetailNewViewModel.SentQuantityInMt)
-                        @Html.ValidationMessageFor(m => m.ReceiveDetailNewViewModel.SentQuantityInMt)
                     </div>
                 </div>
                 <div class="control-group">
@@ -323,25 +308,102 @@
                 </div>
             </div>
             <div class="span4" style="vertical-align: top">
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.LabelFor(m => m.ReceiveDetailNewViewModel.Description)
+                    </div>
+                    <div class="controls">
+                        @Html.TextAreaFor(m => m.ReceiveDetailNewViewModel.Description)
+                        @Html.ValidationMessageFor(m => m.ReceiveDetailNewViewModel.Description)
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.LabelFor(m => m.ReceiveDetailNewViewModel.SentQuantityInUnit)
+                    </div>
+                    <div class="controls">
+                        @Html.EditorFor(m => m.ReceiveDetailNewViewModel.SentQuantityInUnit)
+                        @Html.ValidationMessageFor(m => m.ReceiveDetailNewViewModel.SentQuantityInUnit)
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.LabelFor(m => m.ReceiveDetailNewViewModel.SentQuantityInMt)
+                    </div>
+                    <div class="controls">
+                        @Html.EditorFor(m => m.ReceiveDetailNewViewModel.SentQuantityInMt)
+                        @Html.ValidationMessageFor(m => m.ReceiveDetailNewViewModel.SentQuantityInMt)
+                    </div>
+                </div>
                 
             </div>
+            <div class="span4" style="vertical-align: top">
+
+            </div>
         </div>
-        
+
+        <h5 class="page-header">@Html.Translate("Transportation Details")</h5>
+
+
+        @if (CommoditySource.Constants.LOAN != Model.CommoditySourceTypeId)
+        {
+            <div class="row">
+                <div class="span4" style="vertical-align: top">
+                    <div class="control-group">
+                        <div class="control-label">
+                            @Html.LabelFor(m => m.ResponsibleDonorId)
+                        </div>
+                        <div class="controls">
+                            @(Html.Kendo().ComboBox()
+                              .Name("ResponsibleDonorId")
+                              .Placeholder("Select Responsible Donor")
+                              .DataTextField("Name")
+                              .DataValueField("DonorId")
+                              .Filter(FilterType.Contains)
+                              .DataSource(source => source.Read(read => read.Action("GetResponsibleDonor", "ReceiveNew"))))
+                            @Html.ValidationMessageFor(model => model.ResponsibleDonorId)
+                        </div>
+                    </div>
+                </div>
+                <div class="span4" style="vertical-align: top">
+                    <div class="control-group">
+                        <div class="control-label">
+                            @Html.LabelFor(m => m.SourceDonorId)
+                        </div>
+                        <div class="controls">
+                            @(Html.Kendo().ComboBox()
+                              .Name("SourceDonorId")
+                              .Placeholder("Select Source Donor")
+                              .DataTextField("Name")
+                              .DataValueField("DonorId")
+                              .Filter(FilterType.Contains)
+                              .DataSource(source => source.Read(read => read.Action("GetSourceDonor", "ReceiveNew"))))
+                            @Html.ValidationMessageFor(model => model.SourceDonorId)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+
 
         <div class="row">
             <div class="span4" style="vertical-align: top">
                 <div class="control-group">
                     <div class="control-label">
-
+                        @Html.LabelFor(m => m.WeightBridgeTicketNumber)
                     </div>
                     <div class="controls">
+                        @Html.EditorFor(m => m.WeightBridgeTicketNumber)
+                        @Html.ValidationMessageFor(m => m.WeightBridgeTicketNumber)
                     </div>
                 </div>
                 <div class="control-group">
                     <div class="control-label">
-
+                        @Html.LabelFor(m => m.WeightBeforeUnloading)
                     </div>
                     <div class="controls">
+                        @Html.EditorFor(m => m.WeightBeforeUnloading)
+                        @Html.ValidationMessageFor(m => m.WeightBeforeUnloading)
                     </div>
                 </div>
             </div>
@@ -350,6 +412,15 @@
                     <div class="control-label">
                     </div>
                     <div class="controls">
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.LabelFor(m => m.WeightAfterUnloading)
+                    </div>
+                    <div class="controls">
+                        @Html.EditorFor(m => m.WeightAfterUnloading)
+                        @Html.ValidationMessageFor(m => m.WeightAfterUnloading)
                     </div>
                 </div>
             </div>
@@ -357,11 +428,91 @@
 
             </div>
         </div>
+
+        <div class="row">
+            <div class="span4" style="vertical-align: top">
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.LabelFor(m => m.TransporterId)
+                    </div>
+                    <div class="controls">
+                        @(Html.Kendo().ComboBoxFor(m => m.TransporterId)
+                              .Placeholder("Select Transporter")
+                              .DataTextField("Name")
+                              .DataValueField("TransporterId")
+                              .Filter(FilterType.Contains)
+                              .DataSource(source => source.Read(read => read.Action("GetTransporter", "ReceiveNew"))))
+                        @Html.ValidationMessageFor(model => model.TransporterId)
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.LabelFor(m => m.PlateNoPrime)
+                    </div>
+                    <div class="controls">
+                        @Html.EditorFor(m => m.PlateNoPrime)
+                        @Html.ValidationMessageFor(m => m.PlateNoPrime)
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.LabelFor(m => m.PortName)
+                    </div>
+                    <div class="controls">
+                        @Html.EditorFor(m => m.PortName)
+                        @Html.ValidationMessageFor(m => m.PortName)
+                    </div>
+                </div>
+
+
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.LabelFor(m => m.Remark)
+                    </div>
+                    <div class="controls">
+                        @Html.TextAreaFor(m => m.Remark)
+                        @Html.ValidationMessageFor(m => m.Remark)
+                    </div>
+                </div>
+            </div>
+            <div class="span4" style="vertical-align: top">
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.LabelFor(m => m.DriverName)
+                    </div>
+                    <div class="controls">
+                        @Html.EditorFor(m => m.DriverName)
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.LabelFor(m => m.PlateNoTrailer)
+                    </div>
+                    <div class="controls">
+                        @Html.EditorFor(m => m.PlateNoTrailer)
+                        @Html.ValidationMessageFor(m => m.PlateNoTrailer)
+                    </div>
+                </div>
+                <div class="span4" style="vertical-align: top">
+
+                </div>
+            </div>
+        </div>
     </div>
+
+
 }
 
 
 <script>
+
+    @*$(document).ready(function () {
+        var param = $('#ReceiptAllocationId').val();
+        $.getJSON('@Url.Action("AllocationStatus","ReceiveNew")', param, function(result) {
+            
+        });
+    });*@
 
     function index(dataItem) {
         var data = $("#ReceiveDetailGrid").data("kendoGrid").dataSource.data();

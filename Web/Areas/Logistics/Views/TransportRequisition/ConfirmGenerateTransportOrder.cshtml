@@ -16,6 +16,11 @@
 </div>
 
 <h5 class="offset1">@Html.Translate("Are you sure you want to generate transported order for selected Transport Requisition?")</h5>
+@if (ViewBag.Msg!=null)
+{
+    <h5 class="offset1">@ViewBag.Msg</h5>
+}
+
 
 @using (Html.BeginForm("CreateTransportOrder", "TransportOrder", new { Area = "Procurement", id = @ViewBag.RequisistionId }, FormMethod.Post, new { @class = "modal-form" }))
 
@@ -85,9 +90,8 @@
     @Html.HiddenFor(model => model.TransportRequisitionID)
     <div class="modal-footer">
      
-            <button class="btn btn-primary" type="submit">Yes</button>
-        
-        <button class="btn" data-dismiss="modal" aria-hidden="true">No</button>
+        <button class="btn btn-primary" name="saveButton" type="submit">Yes</button>
+        <button class="btn" data-dismiss="modal" name="cancelButton" aria-hidden="true">No</button>
 
     </div>
 

@@ -119,6 +119,7 @@
     <Compile Include="Mapping\OtherDispatchAllocationMap.cs" />
     <Compile Include="Mapping\SupportTypeMap.cs" />
     <Compile Include="OtherDispatchAllocation.cs" />
+    <Compile Include="RequisiionNoViewModel.cs" />
     <Compile Include="SupportType.cs" />
     <Compile Include="Transfer.cs" />
     <Compile Include="TransporterCheque.cs" />

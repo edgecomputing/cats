@@ -84,7 +84,7 @@
         </div>
     </div>
     <div class="modal-footer">
-        @if (Model.StatusID == (int)Cats.Models.Constant.ReliefRequisitionStatus.Draft)
+        @if (Model.StatusID == (int)Cats.Models.Constant.ReliefRequisitionStatus.Draft || Model.StatusID==(int)Cats.Models.Constant.ReliefRequisitionStatus.Rejected )
         {
             <button class="btn btn-primary" type="submit">Yes</button>
         }

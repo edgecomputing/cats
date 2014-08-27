@@ -213,7 +213,7 @@ namespace Cats.Areas.Finance.Controllers
                     transporterChequeViewModel.AppovedBy = transporterChequeObj.AppovedBy != null ? 
                         _userProfileService.FindById((int)transporterChequeObj.AppovedBy).FirstName + " " +
                         _userProfileService.FindById((int)transporterChequeObj.AppovedBy).LastName : null;
-                    transporterChequeViewModel.AppovedDate = transporterChequeObj.AppovedDate;
+                    transporterChequeViewModel.AppovedDateString = transporterChequeObj.AppovedDate.ToCTSPreferedDateFormat(UserAccountHelper.UserCalendarPreference());
                     transporterChequeViewModel.Status = (int) transporterChequeObj.Status;
                 }
                 else

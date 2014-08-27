@@ -282,25 +282,20 @@ namespace Cats.Areas.Procurement.Controllers
                         catch (Exception e) { }
                     }
 
-                    int region = _adminUnitService.FindById(bidProposal.DestinationID).AdminUnit2.AdminUnit2.AdminUnitID;
-                    var changeable = _transportBidQuotationService.FindBy(t =>
-                                                                         t.BidID == bidProposal.BidID
-                        /* && t.Destination.AdminUnit2.AdminUnit2.AdminUnitID == region*/);
-
+                    //int region = _adminUnitService.FindById(bidProposal.DestinationID).AdminUnit2.AdminUnit2.AdminUnitID;
                     //var changeable = _transportBidQuotationService.FindBy(t =>
-                    //                                                     t.BidID == bidProposal.BidID
-                    //                                                     && t.Destination.AdminUnit2.AdminUnit2.AdminUnitID == region);
+                    //                                                     t.BidID == bidProposal.BidID);
+                       
 
-                    foreach (var transportBidQuotation in changeable)
-                    {
-                        transportBidQuotation.IsWinner = false;
-                        _transportBidQuotationService.UpdateTransportBidQuotation(transportBidQuotation);
-                    }
+                    //foreach (var transportBidQuotation in changeable)
+                    //{
+                    //    transportBidQuotation.IsWinner = false;
+                    //    _transportBidQuotationService.UpdateTransportBidQuotation(transportBidQuotation);
+                    //}
                 }
             }
             return Json(models.ToDataSourceResult(request, ModelState));
-//            return Json(new[] { bidProposal }.ToDataSourceResult(request, ModelState));
-            //return Json(ModelState.ToDataSourceResult());
+
         }
 
         public ActionResult bidProposals()

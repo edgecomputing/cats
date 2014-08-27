@@ -79,12 +79,23 @@ namespace Cats.Areas.Procurement.Controllers
         }
 
        
-        public ActionResult CreateTransportOrder(int id)
+        public ActionResult CreateTransportOrder(string saveButton, string cancelButton,int id)
         {
             try
             {
-                _transportOrderService.CreateTransportOrder(id);
-                return RedirectToAction("Index", "TransportOrder");
+                if (saveButton != null)
+                {
+
+
+                    _transportOrderService.CreateTransportOrder(id);
+                    return RedirectToAction("Index", "TransportOrder");
+                }
+                if (cancelButton != null)
+                {
+                    return RedirectToAction("TransportRequisitions");
+
+                }
+                return RedirectToAction("TransportRequisitions");
             }
             catch (Exception exception)
             {
@@ -109,7 +120,7 @@ namespace Cats.Areas.Procurement.Controllers
             return RedirectToAction("TransportRequisitions");//get newly created transport requisitions
 
         }
-        public ViewResult Index(int id = 0)
+        public ViewResult Index(int id = 0, int woredaId = 0)
         {
             ViewBag.Month = new SelectList(RequestHelper.GetMonthList(), "Id", "Name");
             ViewBag.TransportOrdrStatus = id;
@@ -117,8 +128,13 @@ namespace Cats.Areas.Procurement.Controllers
                                               ? "Draft"
                                               : _workflowStatusService.GetStatusName(WORKFLOW.TRANSPORT_ORDER, id);
             var allTransporters = _transportOrderService.GetTransporter();
+
             ViewBag.TransporterID = new SelectList(allTransporters, "TransporterID", "Name");
-            var viewModel = GetRequisitionsWithoutTransporter();
+            ViewBag.Zones = new SelectList(_transportOrderService.GetZone(), "ZoneId", "ZoneName");
+            var viewModel = GetRequisitionsWithoutTransporter(woredaId);
+
+
+           
             //viewModel.Transporters = allTransporters;
             if (TempData["CustomError"] != null)
             {
@@ -135,6 +151,18 @@ namespace Cats.Areas.Procurement.Controllers
             return View(viewModel);
         }
 
+
+
+        public JsonResult GetWoredas(int zoneId)
+        {
+            var result = _adminUnitService.GetWoreda(zoneId);
+            return Json(new SelectList(result.ToArray(), "AdminUnitID", "Name"), JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult LoadUnAssinedByReqNo(int id, int woredaId)
+        {
+            return RedirectToAction("Index", new { id = id, woredaId = woredaId });
+        }
         public ActionResult TransportOrder_Read([DataSourceRequest] DataSourceRequest request, int id = 0,int programId=0)
         {
             var transportRequistions = programId==0 ?_transportRequisitionService.GetTransportRequsitionDetails(): _transportRequisitionService.GetTransportRequsitionDetails(programId);
@@ -148,11 +176,12 @@ namespace Cats.Areas.Procurement.Controllers
             return Json(transportOrderViewModels.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
 
-        public TransportRequisitionWithTransporter GetRequisitionsWithoutTransporter()
+        public TransportRequisitionWithTransporter GetRequisitionsWithoutTransporter(int woredaId)
         {
             var req = new TransportRequisitionWithTransporter();
-            //req.Transporters = _transportOrderService.GetTransporter();
-            var transReqWithoutTransport = _transReqWithoutTransporterService.FindBy(m => m.IsAssigned == false).OrderByDescending(t=>t.TransportRequisitionDetailID);
+
+
+            var transReqWithoutTransport = _transReqWithoutTransporterService.FindBy(m => m.ReliefRequisitionDetail != null && (m.IsAssigned == false && m.ReliefRequisitionDetail.FDP.AdminUnit.AdminUnitID == woredaId)).OrderByDescending(t => t.TransportRequisitionDetailID);
             if (transReqWithoutTransport != null)
             {
                 req.TransReqwithOutTransporters = GetTransReqWithoutTransporter(transReqWithoutTransport).ToList();

@@ -22,5 +22,6 @@ namespace Cats.Areas.Finance.Models
         public string AppovedBy { get; set; }
         public int Status { get; set; }
         public DateTime? AppovedDate { get; set; }
+        public string AppovedDateString { get; set; }
     }
 }

@@ -106,6 +106,37 @@ namespace Cats.Services.Procurement
 
         #endregion
 
+        public  IOrderedEnumerable<RequisiionNoViewModel> GetZone()
+        {
+            var requisition =
+               _unitOfWork.TransReqWithoutTransporterRepository.FindBy(m => m.IsAssigned == false).OrderByDescending(
+                   t => t.TransportRequisitionDetailID).Select(s => new
+                   {
+                       ZoneId =
+                   s.ReliefRequisitionDetail.ReliefRequisition.ZoneID,
+                       ZoneName =
+                   s.ReliefRequisitionDetail.ReliefRequisition.AdminUnit1.Name
+                   }).Distinct().ToList();
+           return requisition.Select(req=>new RequisiionNoViewModel
+                                         {
+                                             ZoneId = (int) req.ZoneId,
+                                             ZoneName = req.ZoneName
+                                         }).OrderBy(r=>r.ZoneId);
+        }
+
+       
+        public IOrderedEnumerable<RegionsViewModel> GetRegions()
+        {
+            var regions = _unitOfWork.AdminUnitRepository.FindBy(t => t.AdminUnitTypeID == 2).ToList();
+
+            return regions.Select(adminUnit => new RegionsViewModel
+            {
+                Name = adminUnit.Name,
+                AdminUnitID = adminUnit.AdminUnitID
+            }).OrderBy(e => e.Name);
+
+        }
+
         public void Dispose()
         {
             _unitOfWork.Dispose();
@@ -291,6 +322,8 @@ namespace Cats.Services.Procurement
         }
 
 
+       
+
 
         private List<TransporterRequisition> AssignTransporterForEachWoreda(int transportRequisitionId)
         {
@@ -387,7 +420,7 @@ namespace Cats.Services.Procurement
 
                 }
 
-                var transRequisition = _unitOfWork.TransportRequisitionDetailRepository.FindById(transReqWithTransporter.SingleOrDefault().TransportRequisitionID).TransportRequisition;
+                var transRequisition = _unitOfWork.TransportRequisitionDetailRepository.FindById(transReqWithTransporter.FirstOrDefault().TransportRequisitionID).TransportRequisition;
                 transportOrder.PerformanceBondReceiptNo = "PERFORMANCE-BOND-NO";
                 //var transporterName = _unitOfWork.TransporterRepository.FindById(transporter).Name;
                 transportOrder.ContractNumber = Guid.NewGuid().ToString();

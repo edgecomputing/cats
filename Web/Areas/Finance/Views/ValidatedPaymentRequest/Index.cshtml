@@ -252,8 +252,8 @@
                             <label for="datepicker">Appoved Date</label>
                         </div>
                         <div class="controls">
-                            <input type="text" value="{{SelectedCheckInfo.Transporter}}" name="CheckInfo.AppovedDate"
-                                   data-ng-model="SelectedCheckInfo.AppovedDate" disabled="disabled"/>
+                            <input type="text" value="{{SelectedCheckInfo.ApprovedDateString}}" name="CheckInfo.AppovedDateString"
+                                   data-ng-model="SelectedCheckInfo.AppovedDateString" disabled="disabled"/>
                         </div>
                     </div>
                 </div>
@@ -511,7 +511,7 @@
                             //alert(data["ReceivedBy"]);
                             $scope.SelectedCheckInfo = data;
                             if (data.AppovedBy == null || data.AppovedBy == "")
-                                $scope.SelectedCheckInfo.AppovedDate = "";
+                                $scope.SelectedCheckInfo.AppovedDateString = "";
                             if ($scope.SelectedCheckInfo.Amount==null)
                                 $scope.SelectedCheckInfo.Amount = $scope.SelectedLabourInfo.RequestedAmount - $scope.SelectedLabourInfo.LabourCost - $scope.SelectedLabourInfo.RejectedAmount;
                             

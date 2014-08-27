@@ -18,6 +18,7 @@ namespace Cats.Services.Logistics
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly INotificationService _notificationService;
+     
 
         public TransportRequisitionService(IUnitOfWork unitOfWork, INotificationService notificationService)
         {
@@ -153,7 +154,66 @@ namespace Cats.Services.Logistics
                              "/Procurement/TransportOrder/NotificationNewRequisitions?recordId=" + transportRequisition.TransportRequisitionID;
             _notificationService.AddNotificationForProcurementFromLogistics(destinationURl, transportRequisition);
         }
-        
+
+        public bool CheckIfBidIsCreatedForAnOrder(int transportRequisitionId)
+        {
+
+            bool created = false;
+            var transportRequision = _unitOfWork.TransportRequisitionDetailRepository.Get(
+                t => t.TransportRequisitionID == transportRequisitionId, null, null).Select(t => t.RequisitionID);
+
+            var reqDetails =
+                _unitOfWork.ReliefRequisitionDetailRepository.Get(t => transportRequision.Contains(t.RequisitionID));
+
+            foreach (var reliefRequisitionDetail in reqDetails)
+            {
+                var detail = reliefRequisitionDetail;
+                var firstOrDefault = _unitOfWork.HubAllocationRepository.FindBy(t => t.RequisitionID == detail.RequisitionID).FirstOrDefault();
+                if (firstOrDefault != null)
+                {
+                    var hubID =
+                        firstOrDefault.HubID;
+
+                    var woredaID = reliefRequisitionDetail.FDP.AdminUnitID;
+                    var transportBidWinner = GetBidWinner_(hubID, woredaID);
+
+                    if (transportBidWinner != null)
+                    {
+                        created = true;
+                    }
+                }
+
+            }
+            return created;
+
+        }
+
+        private List<BidWinner> GetBidWinner_(int sourceID, int DestinationID)
+        {
+            List<BidWinner> Winners = new List<BidWinner>();
+
+            var bidWinner =
+                _unitOfWork.BidWinnerRepository.Get(
+                    t => t.SourceID == sourceID && t.DestinationID == DestinationID && t.Position == 1 &&
+                        t.Bid.StatusID == 5).FirstOrDefault();
+
+            if (bidWinner == null)
+            {
+                return Winners;
+            }
+            var bidIdstr = bidWinner.BidID.ToString();
+            if (bidIdstr == "")
+            {
+                return Winners;
+            }
+            if (bidIdstr != "")
+            {
+                var currentBidId = int.Parse(bidIdstr);
+                Winners = _unitOfWork.BidWinnerRepository.FindBy(q => q.BidID == currentBidId && q.SourceID == sourceID && q.DestinationID == DestinationID && q.Position == 1);
+                Winners.OrderBy(t => t.Position);
+            }
+            return Winners.OrderBy(t => t.Position).ToList();
+        }
 
         public void Dispose()
         {
