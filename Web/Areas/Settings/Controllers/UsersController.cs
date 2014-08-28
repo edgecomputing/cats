@@ -66,6 +66,7 @@ namespace Cats.Areas.Settings.Controllers
                            new SelectListItem {Text = "Regional", Value = "1"},
                            new SelectListItem {Text = "Hub", Value = "2"},
                            new SelectListItem {Text = "Case team", Value = "3"},
+                          new SelectListItem {Text = "Administrator", Value = "4"}
                        }, "Text", "Value");
 
             ViewBag.userTypes = userTypes;
@@ -136,6 +137,7 @@ namespace Cats.Areas.Settings.Controllers
             user.RegionalUser = userInfo.RegionalUser;
             user.RegionID = userInfo.RegionID;
             user.CaseTeam = userInfo.CaseTeam;
+            user.IsAdmin = userInfo.IsAdmin;
 
             user.LanguageCode = "EN";
             user.Keyboard = "AM";
