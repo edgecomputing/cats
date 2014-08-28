@@ -364,17 +364,17 @@ namespace Cats.Services.Hub
             foreach (var dispatchAllocation in unclosed)
             {
                 var DAVMD = new DispatchAllocationViewModelDto();
-                if (PreferedWeightMeasurment.ToUpperInvariant() == "QTL" && dispatchAllocation.Commodity.CommodityTypeID == 1) //only for food
-                {
-                    DAVMD.Amount = dispatchAllocation.Amount / 10;
-                    DAVMD.DispatchedAmount = dispatchAllocation.DispatchedAmount / 10;
-                    DAVMD.RemainingQuantityInQuintals = dispatchAllocation.RemainingQuantityInQuintals / 10;
-                }
-                else
+                if (PreferedWeightMeasurment.ToUpperInvariant() == "MT " && dispatchAllocation.Commodity.CommodityTypeID == 1) //only for food
                 {
                     DAVMD.Amount = dispatchAllocation.Amount;
                     DAVMD.DispatchedAmount = dispatchAllocation.DispatchedAmount;
                     DAVMD.RemainingQuantityInQuintals = dispatchAllocation.RemainingQuantityInQuintals;
+                }
+                else
+                {
+                    DAVMD.Amount = dispatchAllocation.Amount * 10;
+                    DAVMD.DispatchedAmount = dispatchAllocation.DispatchedAmount * 10;
+                    DAVMD.RemainingQuantityInQuintals = dispatchAllocation.RemainingQuantityInQuintals * 10;
                 }
                 DAVMD.DispatchAllocationID = dispatchAllocation.DispatchAllocationID;
                 DAVMD.CommodityName = dispatchAllocation.Commodity.Name;
