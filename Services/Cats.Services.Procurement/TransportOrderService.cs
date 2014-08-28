@@ -600,7 +600,7 @@ namespace Cats.Services.Procurement
             var transportOrder =
                             _unitOfWork.TransportOrderRepository.Get(
                                 t =>
-                                t.TransportOrderID == transportOrderId && t.StatusID == (int)TransportOrderStatus.Approved).FirstOrDefault();
+                                t.TransportOrderID == transportOrderId && t.StatusID == (int)TransportOrderStatus.Signed).FirstOrDefault();
             if (transportOrder == null) return false;
 
             var transportOrderDetails =
