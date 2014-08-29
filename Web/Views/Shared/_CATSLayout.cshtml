@@ -1,0 +1,279 @@
+﻿
+@using Cats.Services.Security;
+@using Cats.Helpers;
+
+@{
+    UserIdentity user = (UserIdentity)HttpContext.Current.User.Identity;
+    string theme = "default";
+    var colWidth = "col-md-12";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="shortcut icon" type="image/ico" href="~/Content/images/CATS_Blue.ico">
+    <title>
+        @RenderSection("Title", required: false)
+        @Html.Translate("- CATS")
+    </title>
+
+
+    <link href="~/Scripts/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Scripts/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/Scripts/css/box.css" rel="stylesheet" />
+    <link href="~/Scripts/css/cats.css" rel="stylesheet" />
+    <link href="~/Scripts/css/utility.css" rel="stylesheet" />
+
+    <link href="~/Scripts/css/kendo.common.min.css" rel="stylesheet" />
+    <link href="~/Scripts/css/kendo.bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Scripts/css/kendo.dataviz.min.css" rel="stylesheet" />
+    <link href="~/Scripts/css/kendo.dataviz.bootstrap.min.css" rel="stylesheet" />
+   
+    
+    
+
+    @*<link href="@Url.Content("~/Content/kendo/2013.1.319/kendo.default.min.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/kendo/2013.1.319/kendo.bootstrap.min.css")" rel="stylesheet" type="text/css" />
+    <link href="~/Content/kendo/2013.1.319/kendo.common.min.css" rel="stylesheet" />*@
+
+
+
+ 
+
+
+    <script src="~/Scripts/jquery-1.9.1.min.js"></script>
+    <script src="~/Scripts/js/bootstrap.min.js"></script>
+    <script src="~/Scripts/css/kendo.all.min.js"></script>
+    
+       @RenderSection("styles", required: false)
+
+    @*  <script src="~/Scripts/kendo/2013.1.319/kendo.all.min.js"></script>
+    <script src="~/Scripts/kendo/2013.1.319/kendo.aspnetmvc.min.js" type="text/javascript"></script>*@
+
+    <script src="~/Scripts/angular/angular.js"></script>
+    <script src="~/Scripts/angular/angular-resource.js"></script>
+    <script src="~/Scripts/js/app.js"></script>
+    
+    
+    
+    
+    
+     <link href="~/Scripts/Beka.EthDate/jquery-ui-1.9.2.custom.css" rel="stylesheet" type="text/css" />
+    <link href="~/Scripts/Beka.EthDate/calendar.css" rel="stylesheet" type="text/css" />
+
+    <script src="~/Scripts/Beka.EthDate/Beka.EthDate.js"></script>
+    <script src="~/Scripts/Beka.EthDate/jquery.Beka.EthCalDatePicker.js"></script>
+    <script src="~/Scripts/js/CatsUI.js"></script>
+
+  @*  <link href="~/Scripts/jquery_ui/jquery-ui.min.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery_ui/jquery-ui.min.js"></script>
+    <link href="~/Scripts/jquery_ui/jquery-ui.structure.min.css" rel="stylesheet" />
+    <link href="~/Scripts/jquery_ui/jquery-ui.theme.min.css" rel="stylesheet" />*@
+
+</head>
+<body>
+    <header>
+        @Html.Partial("_Menu")
+    </header>
+
+
+
+    <div class="row cats-breadcrumb">
+        <div class="col-md-6">@RenderSection("PageTitle", required: false)</div>
+        <ol class="col-md-6 breadcrumb">
+            <li><span class="fa fa-lg fa-home"></span><a href="#">Home</a></li>
+            @RenderSection("Breadcrumb", required: false)
+            @Html.Partial("_BreadCrumbNew")
+        </ol>
+    </div>
+
+
+    <div class="bdy container-fluid">
+        <div class="row">
+            @{
+                if (IsSectionDefined("LeftBar"))
+                {
+                    colWidth = "col-xs-12 col-md-10";
+                   
+                <div class="left-bar col-xs-12 col-md-2">
+                    @RenderSection("LeftBar", required: false)
+                </div>
+                }
+               
+            }
+
+            <div class="body-cnt @colWidth">
+                @{
+                    if (IsSectionDefined("ActionBar"))
+                    {
+                    <div class="row action-menu-cnt">
+                        <div class="action-menu">
+                            @RenderSection("ActionBar", required: false)
+
+                        </div>
+                    </div>
+                    
+                    }
+                    
+                    
+                }
+
+
+                @RenderBody()
+
+
+            </div>
+
+
+        </div>
+
+
+
+        <div class="">
+
+
+            <!--/span-->
+            <div class="">
+                <div>
+                    <div class="span7" style="margin-top: -20px;">
+                    </div>
+                    <div class="span5" style="margin-top: -20px;">
+                        <div class="pull-right btn-toolbar toolbar">
+                            @RenderSection("Toolbar", required: false)
+                            @Html.Partial("_ToolbarCommon")
+                        </div>
+                    </div>
+
+                </div>
+                <div style="clear: both;" class="message-window">@RenderSection("Errors", required: false)@Html.CustomValidationSummary()</div>
+                <div style="clear: both;">
+                </div>
+            </div>
+            <!--/span-->
+        </div>
+        <!--/row-->
+
+
+        <div id="div_help_panel" style="display: none;">
+            <style>
+                .left_panel {
+                    position: fixed;
+                    left: -510px;
+                    top: 0px;
+                    border: solid 1px #ccc;
+                    width: 25%;
+                    bottom: 0px;
+                    background: rgba(0,0,0,0.8);
+                }
+
+                    .left_panel * {
+                        color: #FFF;
+                    }
+
+                    .left_panel .content {
+                        margin-top: 60px;
+                        padding: 4px;
+                    }
+            </style>
+            <script>
+                $(document).ready(function () {
+
+                    $("#toolbar_btn_help").click(function () {
+                        var curPosition = $("#div_content_panel").css("left");
+                        if (curPosition == '0px') {
+                            $("#div_content_panel").animate({ "left": "-=510px" }, "slow");
+                        }
+                        if (curPosition == '-510px') {
+                            $("#div_content_panel").animate({ "left": "+=510px" }, "slow");
+                        }
+                    });
+
+                });
+
+            </script>
+            <div id="div_content_panel" class="left_panel">
+                <div class="content">
+                    Help Content
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        @Html.Partial("_Version")
+    </footer>
+
+    @RenderSection("Scripts", required: false)
+
+    <script src="~/Content/assets/js/jquery.validate.min.js"></script>
+    <script src="~/Content/assets/js/jquery.validate.js"></script>
+
+    <script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+
+    <script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+
+   
+
+
+    <script type="text/javascript" src="~/Scripts/js/highcharts.js"></script>
+    <script type="text/javascript" src="~/Scripts/js/exporting.js"></script>
+
+
+
+    <script type="text/javascript">
+    @{
+        var calendarPreference = Html.UserCalendarPreference();
+      }
+        init_datepicker("@calendarPreference");
+
+
+        //Script to generate row number
+        /*
+        
+        */
+        var rowNumber = 0;
+
+        function resetRowNumber(e) {
+            rowNumber = 0;
+        }
+
+        function renderNumber(data) {
+            return ++rowNumber;
+        }
+
+    </script>
+
+
+
+    <script type="text/javascript">
+        var datepreferencedisplay = "@Html.Translate(@Html.UserCalendarPreference())";
+        var unitpreferencedisplay = "@Html.Translate(@Html.UserUnitPreference())";
+
+        $(function () {
+
+            //For label
+            $(".cats-date-pref").append(' (' + datepreferencedisplay + ')');
+            $(".cats-unit-pref").append(' (' + unitpreferencedisplay + ')');
+            //For grid
+            $(".cats-date-pref-grid >.k-link").append("(" + datepreferencedisplay + ")");
+            $(".cats-unit-pref-grid >.k-link").append("(" + unitpreferencedisplay + ")");
+            /*each(function () {
+                $(this).append("(" + datepeferencedisplay + ")");
+
+            });*/
+        });
+
+        function toCatsPreferedUnit(data) {
+            if (unitpreferencedisplay.toLowerCase() != "mt") {
+                return data / 10;
+            } else {
+                return data;
+            }
+        }
+
+    </script>
+
+</body>
+</html>

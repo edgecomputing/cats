@@ -2,25 +2,25 @@
 @using Cats.Helpers
 
 
-    <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-        <h3 id="myModalLabel">@Html.Translate("Print Gift Certificate")</h3>
-    </div>
+<div class="modal-dialog modal-lg">
+    <div class="modal-content">
 
-    @(Html.Kendo().Grid<Cats.Models.LetterTemplateViewModel>()
+        <div class="modal-header">
+            <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+            <h4 id="myModalLabel" class="modal-title">@Html.Translate("Print Gift Certificate")</h4>
+        </div>
+         <div class="modal-body">
+        @(Html.Kendo().Grid<Cats.Models.LetterTemplateViewModel>()
           .Name("gridselect")
           .Columns(columns =>
                        {
-                           columns.Bound(p => p.LetterTemplateID).Title("Select a template").ClientTemplate("<a href='" + Url.Action("ShowTemplate", "GiftCertificate", new {fileName = "#=FileName#", giftCertificateId = int.Parse(ViewData["giftcertficateId"].ToString())}) + " '>Select</a>  ");
+                           columns.Bound(p => p.LetterTemplateID).Title("Select a template").ClientTemplate("<a href='" + Url.Action("ShowTemplate", "GiftCertificate", new { fileName = "#=FileName#", giftCertificateId = int.Parse(ViewData["giftcertficateId"].ToString()) }) + " '>Select</a>  ");
                            columns.Bound(p => p.Name);
                            columns.Bound(p => p.FileName);
 
 
                        })
-          .Pageable()
           .Sortable()
-          .Filterable()
-
           .DataSource(dataSource => dataSource
                                         .Ajax()
                                         .PageSize(5)
@@ -29,38 +29,14 @@
 
           ).Selectable(select => select.Mode(GridSelectionMode.Single)))
 
+            </div>
+
+        <div class="modal-footer">
+            <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+            @*<button  id="btnprintgift" class="btn btn-primary " type="submit">Print</button>*@
+        </div>
 
 
-    <div class="modal-footer">
-        <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
-        @*<button  id="btnprintgift" class="btn btn-primary " type="submit">Print</button>*@
     </div>
+</div>
 
-
-
-<script type="text/javascript">
-    //$(document).ready(function() {
-    //$('#btnprintgift').click(function() {
-  @*  function printgiftCertificate() {
-  
-    
-            var entityGrid = $("#gridselect").data("kendoGrid");
-            var selectedItem = entityGrid.dataItem(entityGrid.select());
-            FileName = selectedItem.data("FileName");
-        alert(FileName);
-            var giftId = '@Html.ViewData["giftcertficateId"]';
-            alert(giftId);
-              $.ajax({
-                url: 'EarlyWarning/GiftCertificate/ShowTemplate',
-                data: { fileName: FileName, giftCertificateId: giftId },
-                success: function () {
-                    alert('Added');
-                }
-            });
-        }*@
-
-        
-
-       
-    //});
-</script>

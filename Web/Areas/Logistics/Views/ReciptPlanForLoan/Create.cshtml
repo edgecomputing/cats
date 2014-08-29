@@ -12,7 +12,8 @@
 </div>
 @using (Html.BeginForm("Create", "ReciptPlanForLoan", FormMethod.Post, new { @class = "modal-form",id="myForm1" }))
 {
-    <table border="0" class="form-horizontal">
+    @Html.ValidationSummary(true)
+     <table border="0" class="form-horizontal">
         <tr style="width: 300px">
             <td style="width:50%">
                 <div class="control-label">

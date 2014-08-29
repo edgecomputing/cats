@@ -36,5 +36,7 @@ namespace Cats.Areas.Settings.Models
         public string Email { get; set; }
          [Required (ErrorMessage = "Program is Required!",AllowEmptyStrings = false)]
         public int? ProgramId { get; set; }
+
+         public bool IsAdmin { get; set; }
     }    
 }
