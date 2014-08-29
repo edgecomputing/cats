@@ -20,6 +20,7 @@ namespace Cats.Areas.Hub.Controllers
         private readonly IStoreService _storeService;
         private readonly ITransactionService _transactionService;
         private readonly IDonorService _donorService;
+        private readonly IHubService _hub;
         private readonly ITransporterService _transporterService;
         private Guid _receiptAllocationId;
 
@@ -31,6 +32,7 @@ namespace Cats.Areas.Hub.Controllers
             IStoreService storeService,
             ITransactionService transactionService,
             IDonorService donorService,
+            IHubService hub,
             ITransporterService transporterService)
             : base(userProfileService)
         {
@@ -42,6 +44,7 @@ namespace Cats.Areas.Hub.Controllers
             _storeService = storeService;
             _transactionService = transactionService;
             _donorService = donorService;
+            _hub = hub;
             _transporterService = transporterService;
         }
 
@@ -62,6 +65,8 @@ namespace Cats.Areas.Hub.Controllers
             var viewModel = _receiveService.ReceiptAllocationToReceive(receiptAllocation);
             viewModel.CurrentHub = user.DefaultHub.Value;
             viewModel.UserProfileId = user.UserProfileID;
+            var hubOwner = _hub.FindById(user.DefaultHub.Value);
+            viewModel.IsTransporterDetailVisible = !hubOwner.HubOwner.Name.Contains("WFP");
             viewModel.AllocationStatusViewModel = _receiveService.GetAllocationStatus(_receiptAllocationId);
             //var commodities = _commodityService.GetAllCommodityViewModelsByParent(receiptAllocation.CommodityID);
             //ViewData["commodities"] = commodities;
@@ -75,6 +80,8 @@ namespace Cats.Areas.Hub.Controllers
         {
             //Todo: change to support multiple receive detail 
 
+            var user = _userProfileService.GetUser(User.Identity.Name);
+            var hubOwner = _hub.FindById(user.DefaultHub.Value);
             //var receiptAllocation = _receiptAllocationService.FindById(viewModel.ReceiptAllocationId);
             _receiptAllocationId = viewModel.ReceiptAllocationId;
             #region Fix to ModelState
@@ -102,6 +109,7 @@ namespace Cats.Areas.Hub.Controllers
             if (!ModelState.IsValid)
             {
                 viewModel.AllocationStatusViewModel = _receiveService.GetAllocationStatus(_receiptAllocationId);
+                viewModel.IsTransporterDetailVisible = !hubOwner.HubOwner.Name.Contains("WFP");
                 return View(viewModel);
             }
 
@@ -115,6 +123,7 @@ namespace Cats.Areas.Hub.Controllers
                 {
                     ModelState.AddModelError("GRN", @"GRN already existed");
                     viewModel.AllocationStatusViewModel = _receiveService.GetAllocationStatus(_receiptAllocationId);
+                    viewModel.IsTransporterDetailVisible = !hubOwner.HubOwner.Name.Contains("WFP");
                     return View(viewModel);
                 }
 
@@ -127,6 +136,19 @@ namespace Cats.Areas.Hub.Controllers
                 {
                     viewModel.AllocationStatusViewModel = _receiveService.GetAllocationStatus(_receiptAllocationId);
                     ModelState.AddModelError("ReceiveId", "Hey you are trying to receive more than allocated");
+                    viewModel.IsTransporterDetailVisible = !hubOwner.HubOwner.Name.Contains("WFP");
+                    return View(viewModel);
+                }
+
+                #endregion
+
+                #region Validate Receive Amount not excide Sent one 
+
+                if (_receiveService.IsReceiveGreaterThanSent(viewModel.ReceiveDetailNewViewModel))
+                {
+                    viewModel.AllocationStatusViewModel = _receiveService.GetAllocationStatus(_receiptAllocationId);
+                    ModelState.AddModelError("ReceiveId", "You can't receive more than sent item");
+                    viewModel.IsTransporterDetailVisible = !hubOwner.HubOwner.Name.Contains("WFP");
                     return View(viewModel);
                 }
 
@@ -140,9 +162,11 @@ namespace Cats.Areas.Hub.Controllers
             else
             {
                 viewModel.AllocationStatusViewModel = _receiveService.GetAllocationStatus(_receiptAllocationId);
+                viewModel.IsTransporterDetailVisible = !hubOwner.HubOwner.Name.Contains("WFP");
                 ModelState.AddModelError("ReceiveDetails", "Please add at least one commodity");
             }
             viewModel.AllocationStatusViewModel = _receiveService.GetAllocationStatus(_receiptAllocationId);
+            viewModel.IsTransporterDetailVisible = !hubOwner.HubOwner.Name.Contains("WFP");
             return View(viewModel);
         }
 
@@ -152,7 +176,6 @@ namespace Cats.Areas.Hub.Controllers
             return Json(_receiveService.GetAllocationStatus(_receiptAllocationId), JsonRequestBehavior.AllowGet);
         }
         #endregion
-
 
         #region Combobox
 

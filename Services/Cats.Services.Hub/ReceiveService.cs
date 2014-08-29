@@ -241,6 +241,12 @@ namespace Cats.Services.Hub
                 RemainingAllocation = remaining
             };
         }
+
+        public bool IsReceiveGreaterThanSent(ReceiveDetailNewViewModel receiveDetailNewViewModel)
+        {
+            return receiveDetailNewViewModel.ReceivedQuantityInMt > receiveDetailNewViewModel.SentQuantityInMt &&
+                receiveDetailNewViewModel.ReceivedQuantityInUnit >= receiveDetailNewViewModel.SentQuantityInUnit;
+        }
     }
 }
 
