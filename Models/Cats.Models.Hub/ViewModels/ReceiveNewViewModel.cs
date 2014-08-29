@@ -73,7 +73,7 @@ namespace Cats.Models.Hubs.ViewModels
         
 
         public int CurrentHub { get; set; }
-
+        public bool IsTransporterDetailVisible { get; set;}
         public IEnumerable<ReceiveDetailNewViewModel> ReceiveDetailNewViewModels { get; set; }
 
         public ReceiveDetailNewViewModel ReceiveDetailNewViewModel { get; set; }
