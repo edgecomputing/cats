@@ -5,44 +5,54 @@
 @using LanguageHelpers.Localization
 @{
     ViewBag.Title = "NeedAssessmentPlan";
-    Layout = "~/Views/Shared/_MainLayout.cshtml";
+    Layout = "~/Views/Shared/_CATSLayout.cshtml";
+
+}
+@section Title
+{
+Plans
 }
 
-@section LeftBar{
-
+@section PageTitle
+{
+    <h1 class="hdr-blck big ">
+        @Html.Translate("HRD Created Assessments")
+    </h1>
+}
+<div class="row">
     @Html.Partial("_NeedAssessmentMainLeftBar")
 
-}
-@*@section Toolbar
-{
+    <div class="col-md-10  col-sm-9">
+        <div class="box box-primary">
+            <div class="box-body ">
+                @(Html.Kendo().Grid<Cats.Areas.EarlyWarning.Models.NeedAssessmentPlanViewModel>()
+                  .Name("grid")
+                  .Columns(columns =>
+                               {
+                                   columns.Bound(p => p.AssessmentName).Title(Html.Translate("Assessment Name")).ClientTemplate(
+                                       @Html.EarlyWarningOperationButton(
+                                           @Url.Action("Detail", "NeedAssessment", new { id = "#=PlanID#" }),
+                                           EarlyWarningConstants.Operation.View_Need_Assessment_Detail, "#=AssessmentName#").ToString());
+                                   columns.Bound(p => p.StartDate);
+                                   columns.Bound(p => p.EndDate);
+                                   columns.Bound(p => p.Status).Title("Status"); ;
+                               })
+                  .HtmlAttributes(new { style = "height: 430px" })
+                  .Pageable()
+                  .Sortable()
+                  .Scrollable()
+                  .DataSource(dataSource => dataSource
+                                                .Ajax()
+                                                .PageSize(30)
+                                                .ServerOperation(false)
+                                                .Model(model => model.Id(p => p.PlanID))
+                                                .Read(read => read.Action("NeedAssessment_Plan", "NeedAssessment", new { id = ViewBag.AssessmentStatus }))
+                  )
+                  )
 
-    @Html.EarlyWarningOperationButton(
-                        @Url.Action("CreateNeedAssessment", "NeedAssessment"),
-                        EarlyWarningConstants.Operation.Create_new_needs_assessment, "<i class=\"icon-plus\"></i>", "btn", "btn_new_record")
-}*@
+            </div>
 
-<h4>List of Planned Need Assessment</h4>
-@(Html.Kendo().Grid<Cats.Areas.EarlyWarning.Models.NeedAssessmentPlanViewModel>()
-    .Name("grid")
-    .Columns(columns =>
-        {
-            columns.Bound(p => p.AssessmentName).Title(Html.Translate("Assessment Name")).ClientTemplate(
-                @Html.EarlyWarningOperationButton(
-                    @Url.Action("Detail", "NeedAssessment", new { id = "#=PlanID#" }),
-                    EarlyWarningConstants.Operation.View_Need_Assessment_Detail, "#=AssessmentName#").ToString());
-            columns.Bound(p => p.StartDate);
-            columns.Bound(p => p.EndDate);
-            columns.Bound(p => p.Status);
-        })
-    .HtmlAttributes(new { style = "height: 430px" })
-    .Pageable()
-    .Sortable()
-    .Scrollable()
-    .DataSource(dataSource => dataSource
-        .Ajax()
-        .PageSize(30)
-        .ServerOperation(false)
-        .Model(model => model.Id(p => p.PlanID))
-        .Read(read => read.Action("NeedAssessment_Plan", "NeedAssessment", new { id = ViewBag.AssessmentStatus }))
-    )
-)
+        </div>
+    </div>
+</div>
+

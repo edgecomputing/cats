@@ -58,28 +58,18 @@
             columns.Bound(p => p.Ration).Title("Ration No");
             columns.Bound(p => p.StartDate).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid" });
             columns.Bound(p => p.EndDate).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid" });
-            columns.Bound(p => p.CreatedBy).Width(130);
-            columns.Bound(p => p.CreatedDatePref).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid" }).Width(120);
-            // columns.Bound(p => p.PublishedDate).Format("{0:MM/dd/yyyy}");
+            columns.Bound(p => p.CreatedBy)
+            columns.Bound(p => p.CreatedDatePref).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid" });
             columns.Bound(p => p.Status);
-
             columns.Command(p =>
             {
                 p.Custom("Edit").Click("hrdEdit");
                 p.Custom("Approve").Click("approveHRD");
                 p.Custom("Summary").Click("showSummary");
 
-            }).Width(250);
+            });
             
-            //{
-            //   // p.Custom("ViewDetails").Click("showDetails");
-            //    p.Custom("Edit").Click("hrdEdit");
-            //});
-            //columns.Command(p =>
-            //{
-            //    p.Custom("Edit").Click("hrdEdit");
-            //    p.Custom("ViewDetails").Click("showDetails");
-            //});
+          
 
         })
             .Sortable()

@@ -1729,6 +1729,7 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\cats-print-script.js" />
     <Content Include="Scripts\css\cats.css" />
+    <Content Include="Scripts\css\telerik.css" />
     <Content Include="Scripts\gridmvc.js" />
     <Content Include="Scripts\gridmvc.lang.ru.js" />
     <Content Include="Scripts\gridmvc.min.js" />

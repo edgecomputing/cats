@@ -188,7 +188,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                         .ToList();
             var statuses = _commonService.GetStatus(WORKFLOW.Plan);
             var needAssesmentsViewModel = NeedAssessmentViewModelBinder.GetNeedAssessmentPlanInfo(plans,statuses);
-            return Json(needAssesmentsViewModel.ToDataSourceResult(request));
+            return Json(needAssesmentsViewModel.ToDataSourceResult(request),JsonRequestBehavior.AllowGet);
 
         }
         
