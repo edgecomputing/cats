@@ -475,7 +475,7 @@ namespace Cats.Services.Hub
                 SourceDonorID = viewModel.SourceDonorId,
                 ResponsibleDonorID = viewModel.ResponsibleDonorId,
 
-                TransporterID = viewModel.TransporterId,
+                TransporterID = viewModel.TransporterId > 0 ? viewModel.TransporterId : 1,
                 PlateNo_Prime = viewModel.PlateNoPrime,
                 PlateNo_Trailer = viewModel.PlateNoTrailer,
                 DriverName = viewModel.DriverName,
@@ -755,7 +755,7 @@ namespace Cats.Services.Hub
             }
             catch (Exception exception)
             {
-                throw new Exception();
+                throw exception;
             }
         }
 

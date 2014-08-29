@@ -3,88 +3,132 @@
 @using Cats.Services.Security
 @using Kendo.Mvc.UI
 @using LanguageHelpers.Localization
+@using Cats.Models.Constant
 @{
     ViewBag.Title = "NeedAssessmentPlan";
-    Layout = "~/Views/Shared/_MainLayout.cshtml";
+    Layout = "~/Views/Shared/_CATSLayout.cshtml";
 }
 
-@section LeftBar{
+@section Title
+{
+Plans
+}
 
+@section PageTitle
+{
+    <h1 class="hdr-blck big ">
+        @Html.Translate("Draft Need Assessment")
+    </h1>
+}
+
+<div class="row">
     @Html.Partial("_NeedAssessmentMainLeftBar")
 
-}
-@section Toolbar
-{
+    <div class="col-md-10  col-sm-9">
+        <div class=" box box-primary ">
+            <div class="box-body row">
+                <div class="text-right col-md-12">
 
-    @Html.EarlyWarningOperationButton(
-                        @Url.Action("CreateNeedAssessment", "NeedAssessment"),
-                        EarlyWarningConstants.Operation.Create_new_needs_assessment, "<i class=\"icon-plus\"></i>", "btn", "btn_new_record")
-}
+                    @Html.EarlyWarningOperationButton(
+                @Url.Action("CreateNeedAssessment", "NeedAssessment", new { Area = "EarlyWarning" }),
+                EarlyWarningConstants.Operation.Create_new_needs_assessment, "<button type=\"button\" class=\"btn btn-success\"><span class=\"fa fa-plus\"></span> New Need Assessment</button>", "btn btn-success", "btn_new_record")
 
-<h4>List of Planned Need Assessment</h4>
-@(Html.Kendo().Grid<Cats.Areas.EarlyWarning.Models.NeedAssessmentPlanViewModel>()
-    .Name("grid")
-    .Columns(columns =>
-        {
-            columns.Bound(p => p.AssessmentName).Title(Html.Translate("Assessment Name")).ClientTemplate(
-                @Html.EarlyWarningOperationButton(
-                    @Url.Action("Detail", "NeedAssessment", new { id = "#=PlanID#" }),
-                    EarlyWarningConstants.Operation.View_Need_Assessment_Detail, "#=AssessmentName#").ToString());
-            columns.Bound(p => p.StartDate);
-            columns.Bound(p => p.EndDate);
-            columns.Bound(p => p.Status);
-            columns.Command(p =>
-            {
-                p.Custom("Approve").Click("approveNeedAssessment");
-            }).Width(150);
-        })
-    .HtmlAttributes(new { style = "height: 430px" })
-    .Pageable()
-    .Sortable()
-    .Scrollable()
-    .DataSource(dataSource => dataSource
-        .Ajax()
-        .PageSize(30)
-        .ServerOperation(false)
-        .Model(model => model.Id(p => p.PlanID))
-        .Read(read=>read.Action("NeedAssessment_Plan", "NeedAssessment",new {id=ViewBag.AssessmentStatus}))
-    )
-      )
 
-<div id="modalWindow">
-    <h4>Are you sure do you want to approve Need Assesssment?</h4>
-    <button id="yes" class="k-button">Yes</button>
-    <button id="no" class="k-button">No</button>
+                </div>
+                <div class="col-md-12">
+                    <div class="table-responsive">
+                        @(Html.Kendo().Grid<Cats.Areas.EarlyWarning.Models.NeedAssessmentPlanViewModel>()
+                      .Name("grid")
+                      .Columns(columns =>
+                                   {
+                                       columns.Bound(p => p.AssessmentName).Title(Html.Translate("Assessment Name")).ClientTemplate(
+                                           @Html.EarlyWarningOperationButton(
+                                               @Url.Action("Detail", "NeedAssessment", new { id = "#=PlanID#" }),
+                                               EarlyWarningConstants.Operation.View_Need_Assessment_Detail, "#=AssessmentName#").ToString());
+                                       columns.Bound(p => p.StartDate);
+                                       columns.Bound(p => p.EndDate);
+                                       columns.Bound(p => p.Status).Title("Status"); ;
+                                       columns.Command(
+                                           p => p.Custom("Approve")
+                                               .Click("approveNeedAssessment")
+                                               .Text("<span class=\"fa fa-check\"></span> Approve ")
+                                           );
+                                   })
+                      .HtmlAttributes(new { style = "height: 430px" })
+                      .Pageable()
+                      .Sortable()
+                      .Scrollable()
+                      .Events(e => e.DataBound("onDataBound"))
+                      .DataSource(dataSource => dataSource
+                                                    .Ajax()
+                                                    .PageSize(30)
+                                                    .ServerOperation(false)
+                                                    .Model(model => model.Id(p => p.PlanID))
+                                                    .Read(read => read.Action("NeedAssessment_Plan", "NeedAssessment", new { id = ViewBag.AssessmentStatus }))
+                      )
+                      )
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
 </div>
+<div class="modal" id="cats-modal">
+<div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      
+        <div class="modal-header">
+          <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+          <h4 id="myModalLabel" class="modal-title">@Html.Translate("Approve Gift Certificate")</h4>
+        </div>
+
+
+            <div class="modal-body">
+              
+                <p>
+                   Are you sure do you want to approve Need Assesssment?
+                </p>
+
+            </div>
+            <div class="modal-footer">
+                <button id="yes" class="btn btn-primary" type="submit">Yes</button>
+                <button id="no"class="btn" data-dismiss="modal" aria-hidden="true">No</button>
+            </div>
+   
+       
+    </div>
+</div>
+    </div>
+
 
 <script>
-    var wnd;
-    $(document).ready(function () {
-        wnd = $("#modalWindow").kendoWindow({
-            title: "Approve confirmation",
-            modal: true,
-            visible: false,
-            resizable: false,
-            width: 300
-        }).data("kendoWindow");
-    });
+    function onDataBound(e) {
+        console.log('on data baound');
+        $(".table-responsive .k-button").removeClass("k-button").addClass("btn btn-xs mrgn3-b col-md-11");
+        $(".k-grid-Edit").addClass("btn-warning");
+        $(".k-grid-Approve").addClass("btn-success");
+        $(".k-grid-Summary").addClass("btn-primary");
+    }
+
 </script>
+
 
 <script>
     function approveNeedAssessment(e) {
-        e.preventDefault();
+         e.preventDefault();
         var grid = this;
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
         var row = $(e.currentTarget).closest("tr");
-        wnd.center().open();
-
-        $("#yes").click(function() {
-            window.location = "@Url.Action("ApproveNeedAssessment","NeedAssessment")" + "/" + dataItem.PlanID;
-            wnd.close();
+        $('#cats-modal').modal('show');
+        console.log("@Url.Action("ApproveNeedAssessment", "NeedAssessment")" + "/" + dataItem.PlanID);
+        $("#yes").click(function () {
+            window.location = "@Url.Action("ApproveNeedAssessment", "NeedAssessment")" + "/" + dataItem.PlanID;
+          
         });
 
-        $("#no").click(function() {
-            wnd.close();
+        $("#no").click(function () {
         });
     }
 </script>

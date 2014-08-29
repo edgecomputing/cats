@@ -33,6 +33,7 @@ namespace Cats.Services.Hub
 
         bool IsReceiveExcedeAllocation(ReceiveDetailNewViewModel receiveDetailNewViewModel, Guid receiptAllocationId);
         AllocationStatusViewModel GetAllocationStatus(Guid receiptAllocationId);
+        bool IsReceiveGreaterThanSent(ReceiveDetailNewViewModel receiveDetailNewViewModel);
     }
 }
 

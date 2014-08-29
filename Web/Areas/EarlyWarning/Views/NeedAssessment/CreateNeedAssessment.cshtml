@@ -6,137 +6,150 @@
 
 @{
     ViewBag.Title = Html.Translate("Add New Need Assessment");
-    Layout = "~/Views/Shared/_MainLayout.cshtml";
+    Layout = "~/Views/Shared/_CATSLayout.cshtml";
     const string pageName = "EarlyWarning.NeedAssessment.CreateNeedAssessment";
 }
-@section Toolbar
+
+@section Title
 {
-    <a class="btn toolbar-btn " data-buttontype="btn_save" data-submittedform="frm_add_region"></a>
-    <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="@Url.Action("Index", "NeedAssessment")" title="save"></a>
+Add Need Assessment
 }
+
+@section PageTitle
+{
+    <h1 class="hdr-blck big col-md-6">Add Need Assessment</h1>
+}
+
+<div class="row">
+    @Html.Partial("_NeedAssessmentMainLeftBar")
+    <div class="col-md-10  col-sm-9">
+        @using (Html.BeginForm("CreateNeedAssessment", "NeedAssessment", FormMethod.Post, new { id = "frm_add_region" }))
+        {
+            @Html.ValidationSummary(true)
+            <div class="box box-primary">
+                <div class="box-body ">
+
+                    <div class="col-md-6 col-sm-6 form-horizontal">
+
+                        <div class="form-group">
+                            <div class="col-sm-4 control-label">
+                                @Html.LabelFor(m => m.Plan.PlanName, Html.Translate("Plan"))
+                            </div>
+                            <div class="col-sm-8">
+                                @Html.TextBoxFor(m => m.Plan.PlanName, new { @class = " form-control" })
+                                @Html.ValidationMessageFor(m => m.Plan.PlanName)
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <div class="col-sm-4 control-label">
+                                @Html.LabelFor(m => m.Season)
+                            </div>
+                            <div class="col-sm-8">
+                                @Html.DropDownList("SeasonID", ViewBag.Season as SelectList, new { id = "Season", @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.Season)
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <div class="col-sm-4 control-label">
+                                @Html.Label(Translator.Translate("Assessment Type"))
+                            </div>
+                            <div class="col-sm-8">
+                                @Html.DropDownList("TypeOfNeedID", ViewBag.TypeOfNeed as SelectList, new { id = "TypeOfNeed", @class = "form-control" })
+
+                                @Html.ValidationMessageFor(model => model.TypeOfNeedAssessment1.TypeOfNeedAssessmentID)
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                    <div class="col-md-6 col-sm-6 form-horizontal">
+
+                        <div class="form-group">
+                            <div class="col-sm-4 control-label">
+                                @Html.LabelFor(m => m.Region)
+                            </div>
+                            <div class="col-sm-8">
+                                @Html.DropDownList("RegionID", ViewBag.Regions as SelectList, new { id = "Region", @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.Region)
+                            </div>
+
+                        </div>
+
+
+                        <div class="form-group">
+                            <div class="col-sm-4 control-label">
+                                @Html.Label(Translator.Translate("Assessment From"), new { @class = "cats-date-pref" })
+                            </div>
+                            <div class="col-sm-8">
+                                @Html.TextBoxFor(m => m.Plan.StartDate, new { @class = "form-control cats-datepicker2" })
+                                @Html.ValidationMessageFor(m => m.Plan.StartDate)
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <div class="col-sm-4 control-label">
+
+                                @Html.LabelFor(m => m.Plan.Duration, Translator.Translate("Duraton"))
+                            </div>
+                            <div class="col-sm-8">
+                                @Html.TextBoxFor(m => m.Plan.Duration, new { @class = " form-control" })
+                                @Html.ValidationMessageFor(m => m.Plan.Duration)
+                                <a id="btnDateinterval">View Date Interval</a>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="box-footer text-center">
+                    <button class="btn btn-primary" data-buttontype="btn_save" type="submit" data-submittedform="frm_add_region"><span class="fa fa-save"></span> Save</button>
+                    <a class="btn  btn-default"  data-buttontype="btn_cancel"  href="@Url.Action("Index", "NeedAssessment")"><span class="fa fa-lg fa-times-circle"></span> Cancel</a>
+                </div>
+            </div>
+   
+          }
+    </div>
+</div>
+<div id="cats-modal"></div>
 <script type="text/javascript">
     $(function () {
 
         //Optional: turn the chache off
         $.ajaxSetup({ cache: false });
 
-        $('#btnDateinterval').click(function () {
 
-            var startDate = new Date($('#Plan_StartDate').val());
-            //var startDate = $('#Plan_StartDate').val();
-            var duration = $('#Plan_Duration').val();
 
-            var fullDate = startDate.getMonth() + 1 + '/' + startDate.getDate() + '/' + startDate.getFullYear();
-            var url = '@Url.Action("DateInterval", "HRD")?duration=' + duration + '&startDate=' + fullDate;
-            $('#dialogContent').load(url, function () {
-                $('#dialogDiv').modal({
-                    backdrop: 'static',
-                    keyboard: true
-                }, 'show');
-                //bindForm(this);
-            });
-            return false;
-        });
+        $('#btnDateinterval').on('click',
+             function (e) {
+                 $('#cats-modal').remove();
+                 e.preventDefault();
+                 var startDate = new Date($('#Plan_StartDate').val());
+                 //var startDate = $('#Plan_StartDate').val();
+                 var duration = $('#Plan_Duration').val();
+
+                 var fullDate = startDate.getMonth() + 1 + '/' + startDate.getDate() + '/' + startDate.getFullYear();
+                 var url = '@Url.Action("DateInterval", "HRD")?duration=' + duration + '&startDate=' + fullDate;
+                 var $modal = $('<div class="modal" id="cats-modal"><div class="modal-body"></div></div>');
+                 console.log(url);
+                 $('body').append($modal);
+                 $modal.modal({ backdrop: 'static', keyboard: false });
+                 $modal.load(url);
+             }
+           );
 
     });
 </script>
 
-<div id='dialogDiv' class='modal hide fade in' style="width: 620px;margin-right: 10px">
+<div id='dialogDiv' class='modal hide fade in' style="width: 620px; margin-right: 10px">
     <div id='dialogContent'></div>
 </div>
 
-@using (Html.BeginForm("CreateNeedAssessment", "NeedAssessment", FormMethod.Post, new { id = "frm_add_region" }))
-{
-    @Html.ValidationSummary(true)
-
-        <legend>@Html.Translate("Add New Need Assessment")</legend>
-        
-        <div class="control-group form-horizontal well">
-    <div class="row">
-        <div class="span6">
-            <div class="control-group">
-                <div class="control-label">
-                    @Html.LabelFor(m => m.Plan.PlanName, Html.Translate("Plan"))
-                </div>
-                <div class="controls">
-                    @Html.TextBoxFor(m => m.Plan.PlanName)
-                   @Html.ValidationMessageFor(m =>m.Plan.PlanName)
-                </div>
-            </div>
-        </div>
-
-        <div class="span4">
-            <div class="control-group">
-                <div class="control-label">
-                    @Html.LabelFor(m => m.Region)
-                </div>
-                <div class="controls">
-                   @Html.DropDownList("RegionID", ViewBag.Regions as SelectList, new { id = "Region" })
-                    @Html.ValidationMessageFor(model => model.Region)
-                </div>
-
-            </div>
-        </div>
-    </div>
-   <div class="row">
-        <div class="span6">
-            <div class="control-group">
-                <div class="control-label">
-                    @Html.LabelFor(m => m.Season)
-                </div>
-                <div class="controls">
-                   @Html.DropDownList("SeasonID", ViewBag.Season as SelectList, new { id = "Season" })
-                    @Html.ValidationMessageFor(model => model.Season)
-                </div>
-            </div>
-        </div>
-
-        <div class="span4">
-            <div class="control-group">
-                <div class="control-label">
-                    @Html.Label(Translator.Translate("Assessment From"), new { @class = "cats-date-pref" })
-                </div>
-                <div class="controls">
-                     @Html.TextBoxFor(m => m.Plan.StartDate, new { @class = "cats-datepicker2" })
-                    @Html.ValidationMessageFor(m => m.Plan.StartDate)
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="span6">
-            <div class="control-group">
-                <div class="control-label">
-                    @Html.Label(Translator.Translate("Assessment Type"))
-                </div>
-                <div class="controls">
-                   @Html.DropDownList("TypeOfNeedID", ViewBag.TypeOfNeed as SelectList, new { id = "TypeOfNeed" })
-                    
-                    @Html.ValidationMessageFor(model => model.TypeOfNeedAssessment1.TypeOfNeedAssessmentID)
-                </div>
-
-            </div>
-            
-        </div>
-
-        <div class="span4">
-             <div class="control-group">
-                        <div class="control-label">
-                            
-                            @Html.LabelFor(m => m.Plan.Duration, Translator.Translate("Duraton"))
-                        </div>
-                        <div class="controls">
-                            @Html.TextBoxFor(m => m.Plan.Duration)
-                            @Html.ValidationMessageFor(m => m.Plan.Duration)
-                            <a id="btnDateinterval">View Date Interval</a>
-                        </div>
-
-                    </div>
-        </div>
-    </div>
-</div>
-        
-}
 
 @*<script>
     function onOpen() {
