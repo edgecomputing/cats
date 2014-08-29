@@ -133,6 +133,12 @@
                 .Editable(editable => editable.Mode(GridEditMode.InCell))
                 .Events(events => events.DataBound("onDataBound"))
                 .HtmlAttributes(new { style = "height:430px;" })
+                .Events(ev => ev.Save(@"function(e){
+                    setTimeout(function(){
+                        $('#grid').data('kendoGrid').dataSource.sync()
+                    }
+            )}"))
+
                 .DataSource(dataSource => dataSource
                                               .Ajax()
                                               .Batch(true)
