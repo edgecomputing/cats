@@ -30,9 +30,11 @@ namespace Cats.Areas.EarlyWarning.Controllers
             _userAccountService = userAccountService;
         }
 
-        public ActionResult Index()
+        public ActionResult Index(int hrdId = 0)
         {
+            ViewBag.HRDList = new SelectList(_hrdService.GetHrds(), "HRDID", "HRDName");
             //ModelState.AddModelError("Success", "Sample Error Message. Use in Your Controller: ModelState.AddModelError('Errors', 'Your Error Message.')");
+            if (hrdId == 0) { }
             var hrd = _hrdService.FindBy(m => m.Status == 3).FirstOrDefault();
             if (hrd == null)
             {

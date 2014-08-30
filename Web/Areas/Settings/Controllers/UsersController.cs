@@ -215,6 +215,7 @@ namespace Cats.Areas.Settings.Controllers
                 user.MobileNumber = userInfo.MobileNumber;
                 user.Email = userInfo.Email;
                 user.ProgramId= userInfo.ProgramId;
+                user.IsAdmin = userInfo.IsAdmin;
 
                 if (_userService.UpdateUser(user))
                 {

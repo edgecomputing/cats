@@ -225,6 +225,7 @@
             document.getElementById("RegionalUser").value = true;
             document.getElementById("DefaultHub").value = '';
             document.getElementById("CaseTeam").value = '';
+            document.getElementById("IsAdmin").value = false;
            
         } else if (this.value == "2") {
             
@@ -235,6 +236,7 @@
             document.getElementById("RegionalUser").value = false;
             document.getElementById("RegionID").value = '';
             document.getElementById("CaseTeam").value = '';
+            document.getElementById("IsAdmin").value = false;
             
         } else if (this.value == "3") {
             
@@ -245,9 +247,26 @@
             document.getElementById("RegionalUser").value = false;
             document.getElementById("DefaultHub").value = '';
             document.getElementById("RegionID").value = '';
+            document.getElementById("IsAdmin").value = false;
             
         }
-        
+        else if (this.value == "4") {
+            $("#div_regions").hide();
+            $("#div_hubs").hide();
+            $("#div_caseTeam").hide();
+
+            document.getElementById("IsAdmin").value = true;
+            document.getElementById("RegionalUser").value = false;
+            document.getElementById("DefaultHub").value = '';
+            document.getElementById("RegionID").value = '';
+
+
+        }
+        else {
+            $("#div_regions").hide();
+            $("#div_hubs").hide();
+            $("#div_caseTeam").hide();
+        }
        
     });
 </script>
