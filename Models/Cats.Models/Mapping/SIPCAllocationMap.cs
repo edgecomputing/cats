@@ -20,7 +20,7 @@ namespace Cats.Models.Mapping
             this.Property(t => t.AllocationType).HasColumnName("AllocationType");
             this.Property(t => t.TransactionGroupID).HasColumnName("TransactionGroupID");
             this.Property(t => t.PartitionId).HasColumnName("PartitionId");
-            this.Property(t => t.CommitType).HasColumnName("CommitType");
+          
             // Relationships
             this.HasRequired(t => t.ReliefRequisitionDetail)
                 .WithMany(t => t.SIPCAllocations)
