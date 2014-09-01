@@ -15,7 +15,7 @@ namespace Cats.Models
         public decimal AllocatedAmount { get; set; }
         public string AllocationType { get; set; }
         public int? PartitionId { get; set; }
-        public bool? CommitType { get; set; }
+       
         public Nullable<System.Guid> TransactionGroupID { get; set; }
         public virtual ReliefRequisitionDetail ReliefRequisitionDetail { get; set; }
         public virtual TransactionGroup TransactionGroup { get; set; }
