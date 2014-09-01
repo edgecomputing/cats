@@ -555,6 +555,10 @@ namespace Cats.Services.Hub
 
             receive.ReceiveDetails.Add(receiveDetail);
 
+            var parentCommodityId =
+                _unitOfWork.CommodityRepository.FindById(viewModel.ReceiveDetailNewViewModel.CommodityId).ParentID ??
+                viewModel.ReceiveDetailNewViewModel.CommodityId;
+
             //physical stock movement 
 
             #region
@@ -571,7 +575,7 @@ namespace Cats.Services.Hub
                 ParentCommodityID =
                     _unitOfWork.CommodityRepository.FindById(viewModel.ReceiveDetailNewViewModel.CommodityId).ParentID ??
                     viewModel.ReceiveDetailNewViewModel.CommodityId,
-                CommodityID = viewModel.ReceiveDetailNewViewModel.CommodityId,
+                CommodityID = parentCommodityId,
                 LedgerID = Ledger.Constants.GOODS_ON_HAND,
                 //HubOwnerID = 
                 DonorID = receive.SourceDonorID,
@@ -605,7 +609,7 @@ namespace Cats.Services.Hub
                 ParentCommodityID =
                     _unitOfWork.CommodityRepository.FindById(viewModel.ReceiveDetailNewViewModel.CommodityId).ParentID ??
                     viewModel.ReceiveDetailNewViewModel.CommodityId,
-                CommodityID = viewModel.ReceiveDetailNewViewModel.CommodityId,
+                CommodityID = parentCommodityId,
                 LedgerID = Ledger.Constants.GOODS_UNDER_CARE,
 
                 //HubOwnerID = 
@@ -667,7 +671,7 @@ namespace Cats.Services.Hub
                 ParentCommodityID =
                     _unitOfWork.CommodityRepository.FindById(viewModel.ReceiveDetailNewViewModel.CommodityId).ParentID ??
                     viewModel.ReceiveDetailNewViewModel.CommodityId,
-                CommodityID = viewModel.ReceiveDetailNewViewModel.CommodityId,
+                CommodityID = parentCommodityId,
                 LedgerID = Ledger.Constants.STATISTICS_FREE_STOCK,
                 //HubOwnerID = 
                 DonorID = receive.SourceDonorID,
@@ -700,7 +704,7 @@ namespace Cats.Services.Hub
                 ParentCommodityID =
                     _unitOfWork.CommodityRepository.FindById(viewModel.ReceiveDetailNewViewModel.CommodityId).ParentID ??
                     viewModel.ReceiveDetailNewViewModel.CommodityId,
-                CommodityID = viewModel.ReceiveDetailNewViewModel.CommodityId,
+                CommodityID = parentCommodityId,
                 //HubOwnerID = 
                 DonorID = receive.SourceDonorID,
                 ShippingInstructionID =
