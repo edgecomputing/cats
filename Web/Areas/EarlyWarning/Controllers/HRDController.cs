@@ -112,7 +112,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         {
             var hrds = _hrdService.Get(m => m.Status == 1).OrderByDescending(m => m.HRDID);
             var hrdsToDisplay = GetHrds(hrds).ToList();
-            return Json(hrdsToDisplay.ToDataSourceResult(request));
+            return Json(hrdsToDisplay.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
         public ActionResult BeneficiaryByRegion_Read([DataSourceRequest] DataSourceRequest request, int id = 0)
         {
@@ -221,7 +221,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
             var hrds = _hrdService.Get(m => m.Status == 2).OrderByDescending(m => m.HRDID);
             var hrdsToDisplay = GetHrds(hrds).ToList();
-            return Json(hrdsToDisplay.ToDataSourceResult(request));
+            return Json(hrdsToDisplay.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
 
         //get published hrds information
@@ -231,7 +231,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             var hrds = _hrdService.FindBy(m => m.Status == 3 && m.PublishedDate == latestDate);
             //.OrderBy(m => m.PublishedDate);
             var hrdsToDisplay = GetHrds(hrds).ToList();
-            return Json(hrdsToDisplay.ToDataSourceResult(request));
+            return Json(hrdsToDisplay.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
 
         //gets hrd information
