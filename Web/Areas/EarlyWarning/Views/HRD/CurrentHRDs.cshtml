@@ -5,26 +5,35 @@
 @using Kendo.Mvc.UI
 @using LanguageHelpers.Localization
 @model List<Cats.Models.HRD>
-
 @{
-    ViewBag.Title = "CurrentHRDs";
-    Layout = "~/Views/Shared/_MainLayout.cshtml";  
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_CATSLayout.cshtml";
 }
 
-
-@section Toolbar
+@section Title
 {
-    @Html.EarlyWarningOperationButton(
-                        @Url.Action("Create", "HRD", new { Area = "EarlyWarning" }),
-                        EarlyWarningConstants.Operation.New_HRD, "<i class=\"icon-plus\"></i>", "btn", "btn_new_record")
+    Plans
 }
-<div>
-    <h4 class="page-header">Current HRD</h4>
-</div>
-@section LeftBar{
 
-    @Html.Partial("_HRDLeftBar")
+@section PageTitle
+{
+    <h1 class="hdr-blck big ">
+        @Html.Translate("Current HRD")
+    </h1>
 }
+
+<div class="row">
+    @Html.Partial("_HRDLeftBar")
+    <div class="col-md-10  col-sm-9">
+        <div class=" box box-primary ">
+            <div class="box-body row">
+                <div class="text-right col-md-12">
+                    @Html.EarlyWarningOperationButton(
+                        @Url.Action("Create", "HRD", new { Area = "EarlyWarning" }),
+                        EarlyWarningConstants.Operation.New_HRD, "<button type=\"button\" class=\"btn btn-success\"><span class=\"fa fa-plus\"></span> New HRD</button>", "btn", "btn_new_record")
+                </div>
+                <div class="col-md-12">
+                    <div class="table-responsive">
 @(Html.Kendo().Grid<Cats.Models.ViewModels.HRD.HRDViewModel>()
     .Name("grid")
     .Columns(columns =>
@@ -37,21 +46,23 @@
             columns.Bound(p => p.Ration).Title("Ration No");
             columns.Bound(p => p.StartDate).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid" });
             columns.Bound(p => p.EndDate).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid" });
-            columns.Bound(p => p.CreatedBy).Width(160);
+            columns.Bound(p => p.CreatedBy);
             columns.Bound(p => p.CreatedDatePref).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid" }).Width(100);
             // columns.Bound(p => p.PublishedDate).Format("{0:MM/dd/yyyy}");
             columns.Bound(p => p.Status);
 
             columns.Command(p =>
                 {
-                    p.Custom("Edit").Click("hrdEdit");
-                    p.Custom("Summary").Click("showSummary");
+                    p.Custom("Edit").Click("hrdEdit").Text("<span class=\"fa fa-pencil-square-o\"></span> Edit ");
+                    p.Custom("Summary").Click("showSummary").Text("<span class=\"fa fa-list\"></span> Summary ");
 
-                }).Width(200);     
+                });     
 
         })
     .Scrollable()
     .Sortable()
+     .Pageable()
+      .Events(e => e.DataBound("onDataBound"))
     .DataSource(dataSource => dataSource
           .Ajax()
             .Model(model => model.Id(p => p.HRDID))
@@ -61,17 +72,31 @@
    
       )
 
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
 
 
 <script>
+    function onDataBound(e) {
+
+        $(".table-responsive .k-button").removeClass("k-button").addClass("btn btn-xs mrgn3-b col-md-11");
+        $(".k-grid-Edit").addClass("btn-warning");
+        $(".k-grid-Publish").addClass("btn-success");
+        $(".k-grid-Summary").addClass("btn-primary");
+    }
     function showSummary(e) {
         e.preventDefault();
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
         window.location = "@Url.Action("RegionalSummary", "HRD")" + "/" + dataItem.HRDID;  
     }
     
-</script>
-<script>
+
     function hrdEdit(e) {
         e.preventDefault();
 
