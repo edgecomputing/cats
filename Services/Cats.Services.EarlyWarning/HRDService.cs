@@ -167,5 +167,25 @@ namespace Cats.Services.EarlyWarning
            }
            return 0;
        }
+
+        public IEnumerable<HRDViewModel> GetHrds()
+        {
+            var hrds = GetAllHRD();
+            return (from hrd in hrds
+                    let ration = hrd.Ration
+                    where ration != null
+                    select new HRDViewModel
+                    {
+                        HRDID = hrd.HRDID,
+                        Season = hrd.Season.Name,
+                        Year = hrd.Year,
+                        Ration = ration.RefrenceNumber,
+                        CreatedDate = hrd.CreatedDate,
+                        CreatedBy = hrd.UserProfile.FirstName + " " + hrd.UserProfile.LastName,
+                        PublishedDate = hrd.PublishedDate,
+                        StatusID = hrd.Status,
+                        Plan = hrd.Plan.PlanName,
+                    });
+        }
     }
 }

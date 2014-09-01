@@ -32,6 +32,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
         public ActionResult Index()
         {
+            ViewBag.HRDList = new SelectList(_hrdService.GetHrds(), "HRDID", "HRDName");
             //ModelState.AddModelError("Success", "Sample Error Message. Use in Your Controller: ModelState.AddModelError('Errors', 'Your Error Message.')");
             var hrd = _hrdService.FindBy(m => m.Status == 3).FirstOrDefault();
             if (hrd == null)
