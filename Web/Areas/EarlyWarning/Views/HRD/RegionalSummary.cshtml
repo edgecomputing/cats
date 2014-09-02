@@ -7,60 +7,68 @@
 
 
 @{
-    ViewBag.Title = "RegionalSummary";
-    Layout = "~/Views/Shared/_MainLayout.cshtml";  
-}
-@section Toolbar
-{
-    @Html.EarlyWarningOperationButton(
-                        @Url.Action("Index", "HRD", new {Area = "EarlyWarning"}),
-                        EarlyWarningConstants.Operation.View_HRD_list, "<i class=\"icon-list\"></i>", "btn", "btn_back_to_list")
-}
-
-<div>
-    <h4>Summary for  @ViewBag.SeasonID  @ViewBag.Year </h4>
-</div>
-@section LeftBar{
-
-    @Html.Partial("_HRDLeftBar");
-}
-@{
     
     var user = (UserIdentity)System.Web.HttpContext.Current.User.Identity;
     var unit = user.Profile.PreferedWeightMeasurment;
 }
-@*@(Html.Kendo().Grid<Cats.Models.ViewModels.RegionalSummaryViewModel>()
-          
-    .Name("grid")
-    .Columns(columns =>
-        {
-        columns.Bound(p => p.RegionName).ClientFooterTemplate("Total");
-        columns.Bound(p => p.NumberOfBeneficiaries).ClientFooterTemplate("Sub Total  #=kendo.format('{0:N0}', sum)#").HtmlAttributes(new { align = "Right" });
-        columns.Bound(p => p.Cereal).Title("Cereal " +@unit).ClientFooterTemplate("Sub Total  #=kendo.format('{0:N}', sum)#").Format("{0:N}").HtmlAttributes(new { align = "Right" });
-        columns.Bound(p => p.BlededFood).Title("BlendedFood " +@unit).ClientFooterTemplate("Sub Total  #=kendo.format('{0:N}', sum)#").Format("{0:N}").HtmlAttributes(new { align = "Right" });
-        columns.Bound(p => p.Pulse).Title("Pulse "+@unit).ClientFooterTemplate("Sub Total  #=kendo.format('{0:N}', sum)#").Format("{0:N}").HtmlAttributes(new { align = "Right" });
-        columns.Bound(p => p.Oil).Title("Oil " +@unit).ClientFooterTemplate("Sub Total  #=kendo.format('{0:N}', sum)#").Format("{0:N}").HtmlAttributes(new { align = "Right" });
-        columns.Bound(p => p.Total).ClientFooterTemplate("Total  #=kendo.format('{0:N}', sum)#").Format("{0:N}").HtmlAttributes(new { align = "Right" });
-            
-        })
-    .Pageable()
-    .Sortable()
-    .Filterable()
-    .DataSource(dataSource => dataSource
-          .Ajax()
-           .Aggregates(aggregates =>aggregates.Add(p => p.NumberOfBeneficiaries).Sum())
-           .Aggregates(aggregates =>aggregates.Add(p => p.Cereal).Sum())
-           .Aggregates(aggregates =>aggregates.Add(p => p.BlededFood).Sum())
-           .Aggregates(aggregates =>aggregates.Add(p => p.Pulse).Sum())
-           .Aggregates(aggregates =>aggregates.Add(p => p.Oil).Sum())
-           .Aggregates(aggregates =>aggregates.Add(p => p.Total).Sum())
-          .PageSize(12)
-              .Model(model => model.Id(p => p.HRDID))
-            .Read(read => read.Action("RegionalSummary_Read", "HRD",new{id=Model.HRDID}))
- 
-     )
-   
-      )*@
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_CATSLayout.cshtml";
+}
+
+@section Title
+{
+Plans
+}
+
+@section PageTitle
+{
+    <h1 class="hdr-blck big ">
+        @Html.Translate("Regional Summary")
+    </h1>
+}
+<div class="row">
+    @Html.Partial("_HRDLeftBar")
+    <div class="col-md-10  col-sm-9">
+        <div class=" box box-primary ">
+            <div class="box-body row">
+                <div class="col-md-12">
+                    <div class="table-responsive">
+                        @(Html.Kendo().Grid(Model)
+
+                          .Name("grid")
+                          .Columns(columns =>
+                                       {
+                                           foreach (System.Data.DataColumn column in Model.Columns)
+                                           {
+                                               if (column.DataType == typeof(decimal))
+                                               { columns.Bound(column.ColumnName).HtmlAttributes(new { align = "right" }).Format("{0:N2}"); }
+                                               else if (column.DataType == typeof(int))
+                                               {
+                                                   columns.Bound(column.ColumnName).HtmlAttributes(new { align = "right" }).Format("{0:N0}");
+                                               }
+                                               else
+                                               {
+                                                   columns.Bound(column.ColumnName);
+                                               }
+
+                                           }
+                                       })
+                          .Pageable(t => t.PageSizes(new[] { 10, 15, 20, 30, 50, 100 }))
+                          .Sortable()
+                          .Groupable()
+                          )
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="modal" id="cats-modal"></div>
+
+
 
 
 <script>
@@ -69,28 +77,3 @@
         $("#toolbar_button_print").attr("href", printurl);
     });
 </script>
-
-@(Html.Kendo().Grid(Model)
-          
-    .Name("grid")
-    .Columns(columns =>
-    {
-        foreach (System.Data.DataColumn column in Model.Columns)
-        {
-            if (column.DataType == typeof(decimal))
-            { columns.Bound(column.ColumnName).HtmlAttributes(new { align = "right" }).Format("{0:N2}"); }
-            else if (column.DataType == typeof(int))
-            {
-                columns.Bound(column.ColumnName).HtmlAttributes(new { align = "right" }).Format("{0:N0}"); 
-            }
-            else{
-                columns.Bound(column.ColumnName);
-            }
-
-        }
-    })
-        .Pageable(t => t.PageSizes(new[] { 10, 15, 20, 30, 50, 100 }))
-        .Sortable()
-        //.Scrollable()
-       .Groupable()
-    )

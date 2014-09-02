@@ -4,28 +4,36 @@
 @using Kendo.Mvc.UI
 @model System.Data.DataTable
 @{
-    ViewBag.Title = "Detail";
-    Layout = "~/Views/Shared/_MainLayout.cshtml";
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_CATSLayout.cshtml";
 }
 
-<h4 class="page-header">HRD Detail for  @ViewBag.SeasonID  @ViewBag.Year</h4>
+@section Title
+{
+Plans
+}
 
-@section LeftBar{
-
+@section PageTitle
+{
+    <h1 class="hdr-blck big ">
+        @Html.Translate("HRD Detail")
+    </h1>
+}
+<div class="row">
     @Html.Partial("_HRDLeftBar")
-    
-}
-@section Toolbar
-{ 
-    @Html.EarlyWarningOperationButton(
-                        @Url.Action("Index", "HRD", new { Area = "EarlyWarning" }),
-                        EarlyWarningConstants.Operation.View_HRD_list, "<i class=\"icon-list\"></i>", "btn", "btn_back_to_list")
+    <div class="col-md-10  col-sm-9">
+        <div class=" box box-primary ">
+            <div class="box-body row">
+                <div class="text-right col-md-12">
 
-    @Html.EarlyWarningOperationButton(
-                        @Url.Action("HRDDetail", "HRD", new {id = ViewBag.HRDID}),
-                        EarlyWarningConstants.Operation.Modify_HRD, "<i class=\"icon-edit\"></i>", "btn", "btn_edit")
-}
-@(Html.Kendo().Grid(Model)
+                    @Html.EarlyWarningOperationButton(
+                        @Url.Action("HRDDetail", "HRD", new { id = ViewBag.HRDID }),
+                        EarlyWarningConstants.Operation.Modify_HRD, "<button type=\"button\" class=\"btn btn-primary\"><span class=\"fa fa-list\"></span> HRD Detail</button>", "btn", "btn_edit")
+                </div>
+
+                <div class="col-md-12">
+                    <div class="table-responsive">
+                        @(Html.Kendo().Grid(Model)
     .Name("Grid")
     .Columns(columns =>
     {
@@ -35,16 +43,17 @@
             { columns.Bound(column.ColumnName).HtmlAttributes(new { align = "right" }).Format("{0:N2}"); }
             else if (column.DataType == typeof(int))
             {
-                columns.Bound(column.ColumnName).HtmlAttributes(new { align = "right" }).Format("{0:N0}"); 
+                columns.Bound(column.ColumnName).HtmlAttributes(new { align = "right" }).Format("{0:N0}");
             }
-            else{
+            else
+            {
                 columns.Bound(column.ColumnName);
             }
 
         }
     })
-    //.Pageable(t=>t.PageSizes(new []{10,15,20,30,50,100}))
-     
+                                //.Pageable(t=>t.PageSizes(new []{10,15,20,30,50,100}))
+
     .HtmlAttributes(new { style = "height: 430px" })
     .Sortable()
    .Scrollable()
@@ -54,4 +63,10 @@
     )
 
 
- 
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
