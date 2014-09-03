@@ -318,6 +318,13 @@ namespace Cats.Services.Logistics
                     m => m.TransportRequisition.ProgramID == programId
                          && m.TransportRequisition.Status == (int) TransportRequisitionStatus.Closed).ToList();
         }
+        public List<TransportRequisitionDetail> GetTransportRequsitionDetailsByRegion(int regionid)
+        {
+            return
+                _unitOfWork.TransportRequisitionDetailRepository.FindBy(
+                    m => m.TransportRequisition.RegionID == regionid
+                         && m.TransportRequisition.Status == (int)TransportRequisitionStatus.Closed).ToList();
+        }
         public List<TransportRequisitionDetail> GetTransportRequsitionDetails()
         {
             return

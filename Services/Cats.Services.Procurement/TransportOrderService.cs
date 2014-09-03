@@ -99,6 +99,15 @@ namespace Cats.Services.Procurement
                  select order.TransportOrder).Where(m => m.StatusID == statusId).Distinct().ToList();
             return transportOrder;
         }
+        public IEnumerable<TransportOrder> GetFilteredTransportOrder(IEnumerable<TransportOrderDetail> transportOrderDetails, int statusId)
+        {
+            
+            var transportOrder =
+                (from order in
+                     transportOrderDetails
+                 select order.TransportOrder).Where(m => m.StatusID == statusId).Distinct().ToList();
+            return transportOrder;
+        }
         public List<Program> GetPrograms()
         {
             return _unitOfWork.ProgramRepository.GetAll();

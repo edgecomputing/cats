@@ -131,6 +131,7 @@ namespace Cats.Areas.Procurement.Controllers
 
             ViewBag.TransporterID = new SelectList(allTransporters, "TransporterID", "Name");
             ViewBag.Zones = new SelectList(_transportOrderService.GetZone(), "ZoneId", "ZoneName");
+            ViewBag.RegionID = new SelectList(_adminUnitService.GetRegions(), "AdminUnitID", "Name");
             var viewModel = GetRequisitionsWithoutTransporter(woredaId);
 
 
@@ -163,16 +164,31 @@ namespace Cats.Areas.Procurement.Controllers
         {
             return RedirectToAction("Index", new { id = id, woredaId = woredaId });
         }
-        public ActionResult TransportOrder_Read([DataSourceRequest] DataSourceRequest request, int id = 0,int programId=0)
+        public ActionResult TransportOrder_Read([DataSourceRequest] DataSourceRequest request, int id = 0,int programId=0,int regionId = 0)
         {
             var transportRequistions = programId==0 ?_transportRequisitionService.GetTransportRequsitionDetails(): _transportRequisitionService.GetTransportRequsitionDetails(programId);
+             List<TransportOrder> transportRequisitionRegion;
+            
             //var filteredTransportOrder=_transportOrderDetailService.FindBy(m=>m.RequisitionID=)
-            var transportOrders = id == 0 ? _transportOrderService.GetFilteredTransportOrder(transportRequistions, (int)TransportOrderStatus.Draft ).OrderByDescending(m => m.TransportOrderID).ToList()
-                                          : _transportOrderService.GetFilteredTransportOrder(transportRequistions,id).ToList();            
+            var transportOrders = id == 0 ? _transportOrderService.GetFilteredTransportOrder(transportRequistions, (int)TransportOrderStatus.Draft).OrderByDescending(m => m.TransportOrderID).ToList()
+                                          : _transportOrderService.GetFilteredTransportOrder(transportRequistions, id).ToList();
+
+
+            transportRequisitionRegion = regionId == 0
+                                             ? transportOrders
+                                             : (from detail in transportOrders
+                                                let orDefault = detail.TransportOrderDetails.FirstOrDefault()
+                                                where
+                                                    orDefault != null &&
+                                                    orDefault.FDP.AdminUnit.AdminUnit2.AdminUnit2.AdminUnitID ==
+                                                    regionId
+                                                select detail).ToList();
+
+
             var datePref = UserAccountHelper.GetUser(User.Identity.Name).DatePreference;
             var statuses = _workflowStatusService.GetStatus(WORKFLOW.TRANSPORT_ORDER);
             var transportOrderViewModels = TransportOrderViewModelBinder.BindListTransportOrderViewModel(
-                transportOrders, datePref, statuses);
+                transportRequisitionRegion, datePref, statuses);
             return Json(transportOrderViewModels.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
 

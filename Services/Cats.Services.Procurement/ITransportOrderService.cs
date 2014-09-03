@@ -45,6 +45,9 @@ namespace Cats.Services.Procurement
         IOrderedEnumerable<RegionsViewModel> GetRegions();
         IEnumerable<TransportOrder> GetFilteredTransportOrder(
             IEnumerable<TransportRequisitionDetail> transportRequsitionDetails, int statusId);
+
+        IEnumerable<TransportOrder> GetFilteredTransportOrder(IEnumerable<TransportOrderDetail> transportOrderDetails,
+                                                              int statusId);
         List<Program> GetPrograms();
     }
 }
