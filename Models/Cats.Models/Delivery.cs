@@ -37,5 +37,6 @@ namespace Cats.Models
         public string ActionTypeRemark { get; set; }
         public Nullable<Guid> TransactionGroupID { get; set; }
         public virtual ICollection<DeliveryDetail> DeliveryDetails { get; set; }
+        public virtual ICollection<TransporterPaymentRequest> TransporterPaymentRequests { get; set; }
     }
 }

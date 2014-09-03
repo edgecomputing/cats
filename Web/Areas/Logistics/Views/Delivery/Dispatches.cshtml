@@ -759,6 +759,9 @@
                             if(result=="") {
                                 $(".GetGINsWithGRNMessage").html("No delivered Dispatch was found!");
                             }
+                            else {
+                                $(".GetGINsWithGRNMessage").html("");
+                            }
                         });
                         $http({
                             method: 'GET',
@@ -768,6 +771,9 @@
                             if(result=="") {
                                 $(".GetGINsWithoutGRNMessage").html("No undelivered Dispatch was found!");
                             }
+                            else {
+                                $(".GetGINsWithoutGRNMessage").html("");
+                            }
                         });
                         $http({
                             method: 'GET',
@@ -776,6 +782,9 @@
                             $scope.DeliveryNotes = result;
                             if(result=="") {
                                 $(".DeliveryNotesMessage").html("No Received Dispatch with descripancy was found!");
+                            }
+                            else {
+                                $(".DeliveryNotesMessage").html("");
                             }
                         });
                     }).

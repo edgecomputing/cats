@@ -6,7 +6,7 @@
 }
 @section Toolbar
 { 
-    <a href="@Url.Action("PaymentRequests", "ValidatedPaymentRequest", new { Area = "Finance", transporterID = Model.TransporterID })" class="btn" data-buttontype="btn_back_to_list" title="Back to List"><i class="icon-list"></i></a>
+    <a href="@Url.Action("PaymentRequests", "TransporterPaymentRequest", new { Area = "Logistics", transporterID = Model.TransporterID })" class="btn" data-buttontype="btn_back_to_list" title="Back to List"><i class="icon-list"></i></a>
 }
 
 <div class="form-horizontal">
