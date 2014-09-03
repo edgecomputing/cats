@@ -30,7 +30,7 @@ namespace Cats.Models.Mapping
             // Table & Column Mappings
             this.ToTable("TransporterCheque");
             this.Property(t => t.TransporterChequeId).HasColumnName("TransporterChequeId");
-            this.Property(t => t.PaymentRequestID).HasColumnName("PaymentRequestID");
+            this.Property(t => t.TransporterPaymentRequestID).HasColumnName("TransporterPaymentRequestID");
             this.Property(t => t.CheckNo).HasColumnName("CheckNo");
             this.Property(t => t.PaymentVoucherNo).HasColumnName("PaymentVoucherNo");
             this.Property(t => t.BankName).HasColumnName("BankName");

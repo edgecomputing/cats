@@ -16,7 +16,7 @@
     .Columns(columns =>
     {
         columns.Bound(p => p.TransporterName).Title(Html.Translate("Transporter Name"))
-            .ClientTemplate("<a href='" + Url.Action("PaymentRequests", "ValidatedPaymentRequest",
+            .ClientTemplate("<a href='" + Url.Action("PaymentRequests", "TransporterPaymentRequest",
                         new { transporterID = "#=TransporterID#" }) + " '>#=TransporterName#</a>  ");
         columns.Bound(p => p.BidContract).Title(Html.Translate("Bid Number"));
         //columns.Command(command => command.Custom("SignContract").Click("OnSignContract"));
@@ -29,6 +29,6 @@
             .Ajax()
             //.PageSize(8)
             //.Model(model => model.Id(p => p.WoredaHubID))
-            .Read(read => read.Action("BidWinningTransporters_read", "ValidatedPaymentRequest"))
+            .Read(read => read.Action("BidWinningTransporters_read", "TransporterPaymentRequest"))
     )
 )

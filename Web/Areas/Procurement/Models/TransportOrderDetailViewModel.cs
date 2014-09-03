@@ -29,7 +29,7 @@ namespace Cats.Areas.Procurement.Models
         public Nullable<int> DonorID { get; set; }
         public string Donor { get; set; }
         public string Region { get; set; }
-
+        public bool? WinnerAssignedByLogistics { get; set; }
         public decimal TotalAmount
         {
             get { return QuantityQtl*TariffPerQtl; }

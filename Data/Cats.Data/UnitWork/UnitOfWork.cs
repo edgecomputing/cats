@@ -50,6 +50,16 @@ namespace Cats.Data.UnitWork
             _log = log;
         }
 
+        private IGenericRepository<TransporterPaymentRequest> _TransporterPaymentRequestRepository;
+        public IGenericRepository<TransporterPaymentRequest> TransporterPaymentRequestRepository
+        {
+            get
+            {
+                return this._TransporterPaymentRequestRepository ??
+                       (this._TransporterPaymentRequestRepository = new GenericRepository<TransporterPaymentRequest>(_context));
+            }
+        }
+
         private IGenericRepository<TransporterCheque> _TransporterChequeRepository; 
         public IGenericRepository<TransporterCheque> TransporterChequeRepository
         {
