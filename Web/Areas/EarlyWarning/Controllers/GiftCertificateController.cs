@@ -143,7 +143,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             return Json(new[] { giftCertificateDetailsViewModel }.ToDataSourceResult(request, ModelState));
         }
 
-        [AcceptVerbs(HttpVerbs.Post)]
+        //[AcceptVerbs(HttpVerbs.Post)]
         [EarlyWarningAuthorize(operation = EarlyWarningConstants.Operation.View_Gift_Certificate_list)]
         public ActionResult GiftCertificateDetail_Read([DataSourceRequest] DataSourceRequest request, int? id)
         {

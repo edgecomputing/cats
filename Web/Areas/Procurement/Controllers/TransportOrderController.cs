@@ -500,7 +500,8 @@ namespace Cats.Areas.Procurement.Controllers
                             HubID = detail.Hub.HubID,
                             Woreda = detail.FDP.AdminUnit.Name,
                             FDP = detail.FDP.Name,
-                            RequisitionNo = detail.ReliefRequisition.RequisitionNo
+                            RequisitionNo = detail.ReliefRequisition.RequisitionNo,
+                            WinnerAssignedByLogistics = detail.WinnerAssignedByLogistics
                            // Donor=detail.Donor.Name
 	
 
