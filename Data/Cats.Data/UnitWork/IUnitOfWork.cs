@@ -10,7 +10,7 @@ namespace Cats.Data.UnitWork
         // TODO: Add properties to be implemented by UnitOfWork class for each repository
 
         Database Database { get; }
-
+        IGenericRepository<TransporterPaymentRequest> TransporterPaymentRequestRepository { get; }
         IGenericRepository<DashboardWidget> DashboardWidgetRepository { get; }
         IGenericRepository<UserDashboardPreference> UserDashboardPreferenceRepository { get; }
         IGenericRepository<HubOwner> HubOwnerRepository { get; }

@@ -3,10 +3,14 @@
 @{
     var user = (UserIdentity)HttpContext.Current.User.Identity;
     var TargetController=ViewBag.TargetController;//?"RegionalPSNPPlan";
-    }
+}
 <div id="modalPromotion" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
     <form style="margin:0;" action="@Url.Action("Promote", TargetController)" method="post">
-
+        @if (ViewBag.TransporterID != null)
+        {
+            <input type="text" id="transporterID" name="transporterID" style="display: none" value="@ViewBag.TransporterID"/>
+        }
+        
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
             <h3 id="modalPromotionLabel">Modal header</h3>
@@ -19,7 +23,7 @@
                 <input type="hidden" id="stateID" name="StateID" class="input-xlarge " />
                 <input type="hidden" id="PaymentRequestID" name="PaymentRequestID" class="input-xlarge " />
 
-            <div class="control-group" style="display: none;">
+                <div class="control-group" style="display: none;">
                     <div class="control-label">Date</div>
                     <div class="controls">
                         <input  name="DatePerformed" class="input-xlarge cats-datepicker2" value="" />
@@ -50,6 +54,6 @@
 <script>
     $("#modalPromotion").submit(function () {
         $("#promotionFooter").html("<div style='text-align:center;'> <img src='/content/images/loading.gif'/></div>");
-       
+
     });
 </script>
