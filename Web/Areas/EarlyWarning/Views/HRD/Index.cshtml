@@ -8,45 +8,33 @@
 
 @{
     ViewBag.Title = "Create";
-    Layout = "~/Views/Shared/_MainLayout.cshtml";  
+    Layout = "~/Views/Shared/_CATSLayout.cshtml";
 }
 
-
-<div>
-    <h4>List of HRD</h4>
-</div>
-
-<div id="modalWindow">
-    <h4>Approve HRD?</h4>
-    <button id="yes" class="k-button">Yes</button>
-    <button id="no" class="k-button">No</button>
-</div>
-
-<script>
-    var wnd;
-    $(document).ready(function () {
-        wnd = $("#modalWindow").kendoWindow({
-            title: "Approve confirmation",
-            modal: true,
-            visible: false,
-            resizable: false,
-            width: 300
-        }).data("kendoWindow");
-    });
-</script>
-@section Toolbar
+@section Title
 {
-    @Html.EarlyWarningOperationButton(
-                        @Url.Action("Create", "HRD", new { Area = "EarlyWarning" }),
-                        EarlyWarningConstants.Operation.New_HRD, "<i class=\"icon-plus\" ></i>", "btn", "btn_new_record")
+Plans
 }
-@section LeftBar{
 
+@section PageTitle
+{
+    <h1 class="hdr-blck big ">
+        @Html.Translate("Humanitarian Requirement Document")
+    </h1>
+}
+<div class="row">
     @Html.Partial("_HRDLeftBar")
-
-}
-
-@(Html.Kendo().Grid<Cats.Models.ViewModels.HRD.HRDViewModel>()
+    <div class="col-md-10  col-sm-9">
+        <div class=" box box-primary ">
+            <div class="box-body row">
+                <div class="text-right col-md-12">
+                    @Html.EarlyWarningOperationButton(
+                        @Url.Action("Create", "HRD", new { Area = "EarlyWarning" }),
+                        EarlyWarningConstants.Operation.New_HRD, "<button type=\"button\" class=\"btn btn-success\"><span class=\"fa fa-plus\"></span> New HRD</button>", "btn", "btn_new_record")
+                </div>
+                <div class="col-md-12">
+                    <div class="table-responsive">
+                        @(Html.Kendo().Grid<Cats.Models.ViewModels.HRD.HRDViewModel>()
     .Name("grid")
     .Columns(columns =>
         {
@@ -58,14 +46,14 @@
             columns.Bound(p => p.Ration).Title("Ration No");
             columns.Bound(p => p.StartDate).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid" });
             columns.Bound(p => p.EndDate).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid" });
-            columns.Bound(p => p.CreatedBy)
+            columns.Bound(p => p.CreatedBy);
             columns.Bound(p => p.CreatedDatePref).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid" });
             columns.Bound(p => p.Status);
             columns.Command(p =>
             {
-                p.Custom("Edit").Click("hrdEdit");
-                p.Custom("Approve").Click("approveHRD");
-                p.Custom("Summary").Click("showSummary");
+                p.Custom("Edit").Click("hrdEdit").Text("<span class=\"fa fa-pencil-square-o\"></span> Edit ");
+                p.Custom("Approve").Click("approveHRD").Text("<span class=\"fa fa-check\"></span> Approve ");
+                p.Custom("Summary").Click("showSummary").Text("<span class=\"fa fa-list\"></span> Summary ");
 
             });
             
@@ -74,7 +62,8 @@
         })
             .Sortable()
             .Scrollable()
-            .HtmlAttributes(new { style = "height:430px;" })
+             .Pageable()
+              .Events(e => e.DataBound("onDataBound"))
             .DataSource(dataSource => dataSource
                   .Ajax()
                     .Model(model => model.Id(p => p.HRDID))
@@ -83,17 +72,70 @@
              )
 
       )
+                    </div>
+                </div>
+            </div>
 
+
+        </div>
+    </div>
+</div>
+<div class="modal" id="cats-modal">
+<div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      
+        <div class="modal-header">
+          <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+          <h4 id="myModalLabel" class="modal-title">@Html.Translate("Approve Gift Certificate")</h4>
+        </div>
+
+
+            <div class="modal-body">
+              
+                <p>
+                   Are you sure do you want to approve HRD?
+                </p>
+
+            </div>
+            <div class="modal-footer">
+                <button id="yes" class="btn btn-primary" type="submit">Yes</button>
+                <button id="no"class="btn" data-dismiss="modal" aria-hidden="true">No</button>
+            </div>
+   
+       
+    </div>
+</div>
+    </div>
 <script>
+    function onDataBound(e) {
+        
+        $(".table-responsive .k-button").removeClass("k-button").addClass("btn btn-xs mrgn3-b col-md-11");
+        $(".k-grid-Edit").addClass("btn-warning");
+        $(".k-grid-Approve").addClass("btn-success");
+        $(".k-grid-Summary").addClass("btn-primary");
+    }
+    
+    function approveHRD(e) {
+        e.preventDefault();
+        var grid = this;
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var row = $(e.currentTarget).closest("tr");
+        $('#cats-modal').modal('show');
+
+        $("#yes").click(function () {
+
+            window.location = "@Url.Action("ApproveHRD", "HRD")" + "/" + dataItem.HRDID;
+
+        });
+
+    }
+
     function showSummary(e) {
         e.preventDefault();
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
         window.location = "@Url.Action("RegionalSummary", "HRD")" + "/" + dataItem.HRDID;
     }
 
-</script>
-
-<script>
     function hrdEdit(e) {
         e.preventDefault();
 
@@ -102,36 +144,6 @@
 
     }
 </script>
-
-<script>
-
-    function approveHRD(e) {
-        e.preventDefault();
-        var grid = this;
-        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
-        var row = $(e.currentTarget).closest("tr");
-        wnd.center().open();
-
-        $("#yes").click(function () {
-
-            window.location = "@Url.Action("ApproveHRD", "HRD")" + "/" + dataItem.HRDID;
-            wnd.close();
-        });
-
-        $("#no").click(function () {
-            wnd.close();
-        });
-    }
-</script>
-
-@*<script>
-    function approveHRD(e) {
-        e.preventDefault();
-
-        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
-        window.location = "HRD/ApproveHRD/" + dataItem.HRDID;
-    }
-</script>*@
 
 <script type="text/javascript">
     function error_handler(e) {

@@ -364,7 +364,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
       {
           var needAssessment = _needAssessmentService.FindBy(m=>m.PlanID==id).OrderByDescending(m => m.NeedAID).ToList(); 
           var needAssesmentsViewModel = NeedAssessmentViewModelBinder.ReturnViewModel(needAssessment);
-          return Json(needAssesmentsViewModel.ToDataSourceResult(request));
+          return Json(needAssesmentsViewModel.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
       }
      public ActionResult AddNeedAssessment(int id)
      {

@@ -1,168 +1,154 @@
 ﻿@using Kendo.Mvc.UI
 @using LanguageHelpers.Localization
 @using Cats.Helpers
-
 @model Cats.Models.Plan
+
 @{
-    ViewBag.Title = "Detail";
-    Layout = "~/Views/Shared/_MainLayout.cshtml";  
+    ViewBag.Title = "NeedAssessmentPlan";
+    Layout = "~/Views/Shared/_CATSLayout.cshtml";
 }
 
-@section Toolbar
+@section Title
 {
-
-   @* <a class="btn toolbar-btn " href="@Url.Action("AddNeedAssessment", "NeedAssessment" ,new {id=Model.PlanID})"data-buttontype="">Add Assessment</a>
-    <a class="btn toolbar-btn " href="@Url.Action("CreateHRD", "HRD" ,new {id=Model.PlanID})"data-buttontype="">Create HRD</a>
-    *@
-    <div class="btn-group" style="margin-right: 8px;">
-    <button class="btn dropdown-toggle " data-toggle="dropdown">
-        @Html.Translate("Actions")
-        <span class="caret"></span>
-    </button>
-    <ul class="dropdown-menu">
-        <li><a id="btnAddAssessment" href="@Url.Action("AddNeedAssessment", "NeedAssessment", new { id = Model.PlanID })">@Html.Translate("Add Assessment")</a></li>
-        <li><a id="btnCreateHrd" href="@Url.Action("CreateHRD", "HRD", new { id = Model.PlanID })">@Html.Translate("Create HRD")</a></li>
-    </ul>
-</div>
+Plans
 }
-<script type="text/javascript">
-    $(function () {
 
-        //Optional: turn the chache off
-        $.ajaxSetup({ cache: false });
+@section PageTitle
+{
+    <h1 class="hdr-blck big ">
+        @Html.Translate("Detail Need Assessments")
+    </h1>
+}
 
-        $('#btnAddAssessment').click(function () {
+<div class="row">
+    @Html.Partial("_NeedAssessmentMainLeftBar")
 
-            // alert("");
-            $('#dialogContent').load(this.href, function () {
-                $('#dialogDiv').modal({
-                    backdrop: 'static',
-                    keyboard: true
-                }, 'show');
-                //bindForm(this);
-            });
-            return false;
-        });
-
-    });
-</script>
-<div id='dialogDiv' class='modal hide fade in'>
-    <div id='dialogContent'></div>
-</div>
-<h4>list of Need Assessments</h4>
-
-<div class="control-group form-horizontal well">
-    <div class="row">
-        <div class="span6">
-            <div class="control-group">
-                <div class="control-label">
-                    @Html.Label(Html.Translate("Assessment Name"))
+    <div class="col-md-10  col-sm-9">
+        <div class=" box box-primary ">
+            <div class="box-body row">
+                <div class="text-right col-md-12">
+                    <a id="btnAddAssessment" href="@Url.Action("AddNeedAssessment", "NeedAssessment", new { id = Model.PlanID })">
+                        <button type="button" class="btn btn-success"><span class="fa fa-plus"></span> New Assessment</button></a>
+                    <a id="btnCreateHrd" href="@Url.Action("CreateHRD", "HRD", new { id = Model.PlanID })">
+                        <button type="button" class="btn btn-success"><span class="fa fa-plus"></span> New HRD</button></a>
                 </div>
-                <div class="controls">
-                    @Html.TextBoxFor(m => m.PlanName,new {Disabled=true})
-                   @Html.ValidationMessageFor(m =>m.PlanName)
-                </div>
-            </div>
-        </div>
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-6 col-xs-12 form-horizontal">
+                                <div class="form-group">
+                                   
+                                        @Html.Label(Html.Translate("Assessment Name"), new { @class = "col-sm-4 control-label" })
+                                    
+                                    <div class="col-sm-8">
+                                        @Html.TextBoxFor(m => m.PlanName, new { @class = "form-control",Disabled = true })
+                                        @Html.ValidationMessageFor(m => m.PlanName)
+                                    </div>
+                                </div>
+                         
+                                <div class="form-group">
+                                    
+                                        @Html.Label(Html.Translate("Assessment From"), new { @class = "col-sm-4 control-label cats-date-pref" })
+                                    
+                                    <div class="col-sm-8">
+                                        @Html.TextBoxFor(m => m.StartDate, new { @class = "form-control cats-datepicker2" })
+                                        @Html.ValidationMessageFor(m => m.StartDate)
+                                    </div>
+                                </div>
+                           
+                                <div class="form-group">
+                                    
+                                        @Html.Label(Html.Translate("To"), new { @class = "col-sm-4 control-label cats-date-pref" })
+                                   
+                                    <div class="col-sm-8">
+                                        @Html.TextBoxFor(m => m.EndDate, new { @class = "form-control cats-datepicker2" })
+                                        @Html.ValidationMessageFor(m => m.EndDate)
+                                    </div>
 
-       @* <div class="span6">
-            <div class="control-group">
-                <div class="control-label">
-                    @Html.LabelFor(m => m.Year)
-                </div>
-                <div class="controls">
-                   @Html.TextBoxFor(m=>m.Year,new {Disabled=true})
-                    @Html.ValidationMessageFor(model => model.Year)
-                </div>
+                                </div>
+                            </div>
+                    </div>
+                            
+                      
 
-            </div>
-        </div>*@
-    </div>
-   <div class="row">
-       @* <div class="span6">
-            <div class="control-group">
-                <div class="control-label">
-                    @Html.LabelFor(m => m.Season)
-                </div>
-                <div class="controls">
-                   @Html.DropDownList("SeasonID", ViewBag.Season as SelectList, new { id = "Season" })
-                    @Html.ValidationMessageFor(model => model.Season)
-                </div>
-            </div>
-        </div>*@
+                    <div class="table-responsive">
 
-@*        <div class="span4">
-        <div class="control-group">
-            <div class="control-label">
-                @Html.Label(Html.Translate("Assessment Type"))
-            </div>
-            <div class="controls">
-               @Html.DropDownList("TypeOfNeedID", ViewBag.TypeOfNeed as SelectList, new { id = "TypeOfNeed" })
-
-                @Html.ValidationMessageFor(model => model.TypeOfNeedAssessment1.TypeOfNeedAssessmentID)
-            </div>
-
-        </div>
-    </div>*@
-    </div>
-    <div class="row">
-        <div class="span6">
-            <div class="control-group">
-                <div class="control-label">
-                    @Html.Label(Html.Translate("Assessment From"), new { @class = "cats-date-pref" })
-                </div>
-                <div class="controls">
-                     @Html.TextBoxFor(m => m.StartDate, new { @class = "cats-datepicker2" })
-                    @Html.ValidationMessageFor(m => m.StartDate)
-                </div>
-            </div>
-        </div>
-
-        <div class="span4">
-            <div class="control-group">
-                <div class="control-label">
-                    @Html.Label(Html.Translate("To"), new { @class = "cats-date-pref" })
-                </div>
-                <div class="controls">
-                    @Html.TextBoxFor(m => m.EndDate, new { @class = "cats-datepicker2" })
-                    @Html.ValidationMessageFor(m => m.EndDate)
-                </div>
-
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
-@(Html.Kendo().Grid<Cats.Models.NeedAssessmentHeaderViewModel>()
+                        @(Html.Kendo().Grid<Cats.Models.NeedAssessmentHeaderViewModel>()
     .Name("grid")
     .Columns(columns =>
     {
         columns.Bound(p => p.RegionName).Title("Region");
         columns.Bound(p => p.SeasonName).Visible(true).Width(100).Title("Season");
         columns.Bound(p => p.Date).Title(Html.Translate("Need Assessment Created Date")).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid", style = "overflow: visible; white-space: normal;", title = "Need Assessment Created Date" });
-        columns.Bound(p => p.NeedACreaterName).Width(100).Title("Created By").HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;", title = "Created By" });
+        columns.Bound(p => p.NeedACreaterName).Title("Created By").HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;", title = "Created By" });
         columns.Bound(p => p.IsApproved).Visible(false);
         columns.Command(p =>
-        {   
-            p.Custom("Edit").Click("NeedAssessmentEdit");
-            p.Custom("Delete").Click("DeleteNeedAssessment");
+        {
+            p.Custom("Edit").Click("NeedAssessmentEdit").Text("<span class=\"fa fa-pencil-square-o\"></span> Edit ");
+            p.Custom("Delete").Click("DeleteNeedAssessment").Text("<span class=\"fa fa-times\"></span> Delete ");
 
         });
     })
     .HtmlAttributes(new { style = "height: 300px" })
     .Sortable()
     .Scrollable()
+     .Events(e => e.DataBound("onDataBound"))
     .DataSource(dataSource => dataSource
         .Ajax()
         .PageSize(10)
         .Model(model => model.Id(p => p.NeedAID))
-        .Read(read=>read.Action("PlannedNeedAssessmentInfo_Read","NeedAssessment",new {id=Model.PlanID}))
+        .Read(read => read.Action("PlannedNeedAssessmentInfo_Read", "NeedAssessment", new { id = Model.PlanID }))
     )
-)
+      )
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="cats-modal"></div>
+<script type="text/javascript">
+    $(function () {
+
+        //Optional: turn the chache off
+        $.ajaxSetup({ cache: false });
+        $('#btnAddAssessment').on('click',
+                function (e) {
+                    $('#cats-modal').remove();
+                    e.preventDefault();
+                    var $this = $(this)
+                      , $remote = $this.data('remote') || $this.attr('href')
+                      , $modal = $('<div class="modal" id="cats-modal"><div class="modal-body"></div></div>');
+                    console.log($remote);
+                    $('body').append($modal);
+                    $modal.modal({ backdrop: 'static', keyboard: false });
+                    $modal.load($remote);
+                }
+              );
+        //$('#btnAddAssessment').click(function () {
+
+        //    // alert("");
+        //    $('#dialogContent').load(this.href, function () {
+        //        $('#dialogDiv').modal({
+        //            backdrop: 'static',
+        //            keyboard: true
+        //        }, 'show');
+        //        //bindForm(this);
+        //    });
+        //    return false;
+        //});
+
+    });
+</script>
+
 
 <script>
+    function onDataBound(e) {
+
+        $(".table-responsive .k-button").removeClass("k-button").addClass("btn btn-xs mrgn3 ");
+        $(".k-grid-Edit").addClass("btn-warning");
+        $(".k-grid-Delete").addClass("btn-danger");
+        $(".k-grid-Summary").addClass("btn-primary");
+    }
     function NeedAssessmentEdit(e) {
         e.preventDefault();
 

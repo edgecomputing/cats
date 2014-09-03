@@ -419,8 +419,12 @@ namespace Cats.Services.EarlyWarning
                                                    detail.PlanedWoredaID,
                                                    detail.FoodRatio
                                                }).ToList();
-                    if (psnpRequests.Count >= psnpPlanDetails.Max(m => m.FoodRatio))
-                        return false;
+                    if (psnpPlanDetails.Count!=0)
+                    {
+                        if (psnpRequests.Count >= psnpPlanDetails.Max(m => m.FoodRatio))
+                            return false;
+                    }
+                    
                     return true;
                 }
 
