@@ -115,14 +115,16 @@ namespace Cats.Services.Common
         /// <returns>available amount,shipping Instruction Id, and Shipping Instruction Code</returns>
         public List<AvailableShippingCodes> GetFreeSICodesByCommodity(int hubId, int commodityId)
         {
-            String HubFilter = (hubId > 0) ? string.Format(" And HubID = {0}", hubId) : "";
+            var hubs=_unitOfWork.HubAllocationRepository.GetAll().Select(m=>m.HubID).Distinct();
+            var listHubs=string.Join(", ", from item in hubs select item);
+            String HubFilter = (hubId > 0) ? string.Format(" And HubID IN ({0},{1},{2})", 1,2,3) : "";
 
             String query = String.Format(@"SELECT SOH.QuantityInMT - ABS(ISNULL(Commited.QuantityInMT, 0)) as amount, SOH.ShippingInstructionID siCodeId, ShippingInstruction.Value SIcode, SOH.HubID as HubId, Hub.Name HubName 
                                                         from (SELECT SUM(QuantityInMT) QuantityInMT , ShippingInstructionID, HubID from [Transaction] 
-					                                        WHERE LedgerID = {0} and CommodityID = {2} {3}
+					                                        WHERE LedgerID = {0} and CommodityID = {2} and HubID IN({3})
 					                                        GROUP BY HubID, ShippingInstructionID) AS SOH
 	                                            LEFT JOIN (SELECT SUM(QuantityInMT) QuantityInMT, ShippingInstructionID, HubID from [Transaction]
-					                                        WHERE LedgerID = {1} and CommodityID = {2} {3}
+					                                        WHERE LedgerID = {1} and CommodityID = {2} and HubID IN ({3})
 					                                        GROUP By HubID, ShippingInstructionID) AS Commited	
 		                                            ON SOH.ShippingInstructionID = Commited.ShippingInstructionID and SOH.HubId = Commited.HubId
 	                                            JOIN ShippingInstruction 
@@ -131,7 +133,7 @@ namespace Cats.Services.Common
                                                     ON Hub.HubID = SOH.HubID
                                                 WHERE 
                                                  SOH.QuantityInMT - ISNULL(Commited.QuantityInMT, 0) > 0    
-                                                ", Ledger.Constants.GOODS_ON_HAND,Ledger.Constants.COMMITED_TO_FDP, commodityId, HubFilter);
+                                                ", Ledger.Constants.GOODS_ON_HAND, Ledger.Constants.COMMITED_TO_FDP, commodityId, listHubs);
 
             var availableShippingCodes = _unitOfWork.Database.SqlQuery<AvailableShippingCodes>(query);
            
@@ -147,14 +149,15 @@ namespace Cats.Services.Common
 
         public List<AvailableProjectCodes> GetFreePCCodesByCommodity(int hubId, int commodityId)
         {
-            String HubFilter = (hubId > 0) ? string.Format(" And HubID = {0}", hubId) : "";
-
+            String HubFilter = (hubId > 0) ? string.Format(" And HubID IN ({0},{1},{2})", 1,2,3) : "";
+            var hubs = _unitOfWork.HubAllocationRepository.GetAll().Select(m => m.HubID).Distinct();
+            var listHubs = string.Join(", ", from item in hubs select item);
             String query = String.Format(@"SELECT SOH.QuantityInMT - ABS(ISNULL(Commited.QuantityInMT, 0)) as amount, SOH.ProjectCodeID pcCodeId, ProjectCode.Value PCcode, SOH.HubID as HubId, Hub.Name HubName 
                                                         from (SELECT SUM(QuantityInMT) QuantityInMT , ProjectCodeID, HubID from [Transaction] 
-					                                        WHERE LedgerID = {0} and CommodityID = {2} {3} and ShippingInstructionID = NULL
+					                                        WHERE LedgerID = {0} and CommodityID = {2} AND HubID IN ({3}) and ShippingInstructionID = NULL
 					                                        GROUP BY HubID, ProjectCodeID) AS SOH
 	                                            LEFT JOIN (SELECT SUM(QuantityInMT) QuantityInMT, ProjectCodeID, HubID from [Transaction]
-					                                        WHERE LedgerID = {1} and CommodityID = {2} {3} and ShippingInstructionID = NULL
+					                                        WHERE LedgerID = {1} and CommodityID = {2} and HubID IN ({3}) and ShippingInstructionID = NULL
 					                                        GROUP By HubID, ProjectCodeID) AS Commited	
 		                                            ON SOH.ProjectCodeID = Commited.ProjectCodeID and SOH.HubId = Commited.HubId
 	                                            JOIN ProjectCode 
@@ -163,7 +166,7 @@ namespace Cats.Services.Common
                                                     ON Hub.HubID = SOH.HubID
                                                 WHERE 
                                                  SOH.QuantityInMT - ISNULL(Commited.QuantityInMT, 0) > 0    
-                                                ", Ledger.Constants.GOODS_ON_HAND, Ledger.Constants.COMMITED_TO_FDP, commodityId, HubFilter);
+                                                ", Ledger.Constants.GOODS_ON_HAND, Ledger.Constants.COMMITED_TO_FDP, commodityId, listHubs);
 
             var availableShippingCodes = _unitOfWork.Database.SqlQuery<AvailableProjectCodes>(query);
 
