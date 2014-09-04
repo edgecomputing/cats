@@ -333,7 +333,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                         var donorCoveredWoredas = _planService.GetDonorCoverage(m => m.HRDID == hrd.HRDID, null,
                                                                                 "HrdDonorCoverageDetails").ToList();
                               
-                        if(donorCoveredWoredas!=null)
+                        if(donorCoveredWoredas.Count!=0)
                         {
                             return (from reliefRequisitionDetailViewModel in reliefRequisitionDetailViewModels
 
