@@ -2,6 +2,7 @@
 @using Cats.Areas.EarlyWarning.Models
 @using Cats.Models
 @model Cats.Areas.EarlyWarning.Models.ReliefRequisitionViewModel
+@using Cats.Models.Constant
 @using Cats.Services.Security
 @using Cats.Helpers;
 @using Kendo.Mvc.UI
@@ -155,16 +156,18 @@
         columns.Bound(p => p.Zone).Width(100).HtmlAttributes(new { style = "background-color:lightgray" });
         columns.Bound(p => p.Woreda).Width(100).HtmlAttributes(new { style = "background-color:lightgray" });
         columns.Bound(p => p.FDP).Width(100).HtmlAttributes(new { style = "background-color:lightgray" });
-        //columns.Bound(p => p.Donor).Width(100).HtmlAttributes(new { style = "background-color:lightgray" });
-        //columns.Bound(p => p.Commodity).Width(100).HtmlAttributes(new { style = "background-color:lightgray" });
-        //columns.ForeignKey(p => p.Donor, (IEnumerable<Cats.Models.Donor>)ViewData["donors"], "DonorID", "Name").Width(200);
-        if (Model.ProgramID == 2)
+        if (Model.ProgramID == (int)Programs.Releif)
         {
+            columns.Bound(p => p.Donor).Title("Covered By").Width(100).HtmlAttributes(new {style = "background-color:lightgray"});
+        }
+        else
+        {
+  
             columns.ForeignKey(p => p.DonorID, (IEnumerable)ViewData["donors"], "DonorID", "Name").Title("Donor").Width(100).ClientFooterTemplate("<div style='text-align: right;'><b>TOTAL: </b></div>"); ;
         }
         columns.Bound(p => p.BenficiaryNo).ClientFooterTemplate("<div style='text-align: right;'><b>#=kendo.format('{0:N0}', sum)#</b></div>").Format("{0:N0}").Width(100).HtmlAttributes(new { align = "right" }).Format("{0:n0}");
         columns.Bound(p => p.Amount).ClientFooterTemplate("<div style='text-align: right;'><b>#=kendo.format('{0:0.00}', sum)#</b></div>").Format("{0:0.00}").Width(100).HtmlAttributes(new { style = "background-color:lightgray", align = "right" }).Format("{0:n2}").HeaderHtmlAttributes(new { @class = "cats-unit-pref-grid" });
-        if (Model.ProgramID == 2)
+        if (Model.ProgramID == (int)Programs.PSNP)
         {
             columns.Bound(p => p.Contingency).ClientFooterTemplate("<div style='text-align: right;'><b>#=kendo.format('{0:0.00}', sum)#</b></div>").Format("{0:0.00}").Width(100).HtmlAttributes(new { style = "background-color:lightgray", align = "right" }).Format("{0:n2}").HeaderHtmlAttributes(new { @class = "cats-unit-pref-grid" });
         }

@@ -312,12 +312,59 @@ namespace Cats.Areas.EarlyWarning.Controllers
             var commodityID = requisitionDetails.FirstOrDefault().CommodityID;
             var RationAmount = GetCommodityRation(id, commodityID);
             RationAmount = RationAmount.GetPreferedRation();
-            
+       
             var requisitionDetailViewModels = RequisitionViewModelBinder.BindReliefRequisitionDetailListViewModel(requisitionDetails,RationAmount);
-            return Json(requisitionDetailViewModels.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+            return Json(GetDonorCoveredWoredas(requisitionDetailViewModels,id).ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
 
+        private IEnumerable<ReliefRequisitionDetailViewModel> GetDonorCoveredWoredas(IEnumerable<ReliefRequisitionDetailViewModel> reliefRequisitionDetailViewModels, int requisitionID)
+        {
+            var requisition = _reliefRequisitionService.FindById(requisitionID);
+            
 
+            if (requisition!=null && requisition.ProgramID==(int)Programs.Releif)
+            {
+                var regionalRequest = _regionalRequestService.FindBy(m=>m.RegionalRequestID==requisition.RegionalRequestID).FirstOrDefault();
+                if (regionalRequest!=null)
+                {
+                    var hrd = _planService.GetHrd(regionalRequest.PlanID);
+                    if (hrd!=null)
+                    {
+                        var donorCoveredWoredas = _planService.GetDonorCoverage(m => m.HRDID == hrd.HRDID, null,
+                                                                                "HrdDonorCoverageDetails").ToList();
+                              
+                        if(donorCoveredWoredas!=null)
+                        {
+                            return (from reliefRequisitionDetailViewModel in reliefRequisitionDetailViewModels
+
+                                    select new ReliefRequisitionDetailViewModel()
+                                        {
+                                            Zone = reliefRequisitionDetailViewModel.Zone,
+                                            Woreda = reliefRequisitionDetailViewModel.Woreda,
+                                            FDP = reliefRequisitionDetailViewModel.FDP,
+                                            Donor = _planService.FindHrdDonorCoverage(donorCoveredWoredas, reliefRequisitionDetailViewModel.FDPID) ?? "DRMFSS",
+                                            //_.DonorID.HasValue ? reliefRequisitionDetail.Donor.Name : "-",
+                                            Commodity = reliefRequisitionDetailViewModel.Commodity,
+                                            BenficiaryNo = reliefRequisitionDetailViewModel.BenficiaryNo,
+                                            Amount = reliefRequisitionDetailViewModel.Amount,
+                                            RequisitionID = reliefRequisitionDetailViewModel.RequisitionID,
+                                            RequisitionDetailID = reliefRequisitionDetailViewModel.RequisitionDetailID,
+                                            CommodityID = reliefRequisitionDetailViewModel.CommodityID,
+                                            FDPID = reliefRequisitionDetailViewModel.FDPID,
+                                            //DonorID = reliefRequisitionDetailViewModel.DonorID,
+                                            //RationAmount =RationAmount,
+                                            Contingency = reliefRequisitionDetailViewModel.Contingency
+                                        }
+
+                                   );
+                        }
+                    }
+                }
+            }
+
+            return reliefRequisitionDetailViewModels;
+        }
+            
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Allocation_Create([DataSourceRequest] DataSourceRequest request, ReliefRequisitionDetailViewModel reliefRequisitionDetailViewModel)
         {
