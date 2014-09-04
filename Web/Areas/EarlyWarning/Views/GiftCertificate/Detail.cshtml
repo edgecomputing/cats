@@ -171,7 +171,7 @@ Gift Certificate
                                 .Filterable(true);
                             columns.Bound(o => o.BillOfLoading);
 
-                            columns.Bound(o => o.YearPurchased).HtmlAttributes(new { align = "right" }).Format("{0:yyyy}").HeaderHtmlAttributes(new { @class = "cats-date-pref-grid" });
+                            columns.Bound(o => o.YearPurchased).HtmlAttributes(new { align = "right" });//.HeaderHtmlAttributes(new { @class = "cats-date-pref-grid" });
 
                             columns.Bound(o => o.AccountNumber).HtmlAttributes(new { align = "right" });
                             columns.Bound(o => o.WeightInMT).Title(Html.Translate("Sent Qty (MT)")).HtmlAttributes(new { align = "right" }).Format("{0:N3}");
@@ -210,7 +210,8 @@ Gift Certificate
             <div class="box-footer text-center">
 
                 <a class="btn btn btn-primary " data-buttontype="btn_save" href="javascript:saverecords()"><span class="fa fa-save"></span> Save</a>
-                <a class="btn btn-default " data-buttontype="btn_cancel" href="@Url.Action("Index", "GiftCertificate")"><span class="fa fa-lg fa-times-circle"></span> Cancel</a>
+                <a class="btn btn btn-primary " data-buttontype="btn_cancel" href="javascript:history.go(0)"><span class="fa fa-save"></span> Cancel</a>
+                <a class="btn btn-default " data-buttontype="btn_cancel" href="@Url.Action("Index", "GiftCertificate")"><span class="fa fa-lg fa-times-circle"></span> Back to List</a>
             </div>
         </div>
 
