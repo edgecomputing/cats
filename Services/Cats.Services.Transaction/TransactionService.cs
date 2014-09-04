@@ -323,22 +323,7 @@ namespace Cats.Services.Transaction
 
                 var allocation = allocationDetail;
 
-                // I see some logical error here
-                // what happens when hub x was selected and the allocation was made from hub y? 
-                //TOFIX: 
-                // Hub is required for this transaction
-                // Try catch is danger!! Either throw the exception or use conditional statement. 
-                try
-                {
-                    transaction.HubID =
-                                        _unitOfWork.HubAllocationRepository.FindBy(r => r.RequisitionID == allocation.ReliefRequisitionDetail.RequisitionID).Select(
-                                                h => h.HubID).FirstOrDefault();
-                }
-                catch (Exception)
-                {
-                    
-                    
-                }
+                
                 
 
                 transaction.QuantityInMT = -allocationDetail.AllocatedAmount;
@@ -350,16 +335,40 @@ namespace Cats.Services.Transaction
                 transaction.RegionID = allocationDetail.ReliefRequisitionDetail.ReliefRequisition.RegionID;
                 transaction.PlanId = allocationDetail.ReliefRequisitionDetail.ReliefRequisition.RegionalRequest.PlanID;
                 transaction.Round = allocationDetail.ReliefRequisitionDetail.ReliefRequisition.Round;
-                
 
+                int hubID1=0 ;
                 if (allocationDetail.AllocationType == TransactionConstants.Constants.SHIPPNG_INSTRUCTION)
                 {
                     transaction.ShippingInstructionID = allocationDetail.Code;
+                    hubID1= (int) _unitOfWork.TransactionRepository.FindBy(m=>m.ShippingInstructionID==allocationDetail.Code && m.LedgerID==Ledger.Constants.GOODS_ON_HAND).Select(m=>m.HubID).FirstOrDefault();
                 }
                 else
                 {
                     transaction.ProjectCodeID = allocationDetail.Code;
+                    hubID1 = (int)_unitOfWork.TransactionRepository.FindBy(m => m.ProjectCodeID == allocationDetail.Code && m.LedgerID == Ledger.Constants.GOODS_ON_HAND).Select(m => m.HubID).FirstOrDefault();
+                
                 }
+
+                // I see some logical error here
+                // what happens when hub x was selected and the allocation was made from hub y? 
+                //TOFIX: 
+                // Hub is required for this transaction
+                // Try catch is danger!! Either throw the exception or use conditional statement. 
+
+                if (hubID1!=0)
+                {
+                    transaction.HubID = hubID1;
+                }
+                else
+                {
+                      transaction.HubID =
+                                        _unitOfWork.HubAllocationRepository.FindBy(r => r.RequisitionID == allocation.ReliefRequisitionDetail.RequisitionID).Select(
+                                                h => h.HubID).FirstOrDefault();
+                }
+                
+
+
+
                 _unitOfWork.TransactionRepository.Add(transaction);
                // result.Add(transaction);
 
@@ -372,19 +381,7 @@ namespace Cats.Services.Transaction
                     UnitID = 1
                 };
 
-                //TOFIX: do not use try catch
-                try
-                {
-                    transaction2.HubID =
-                                       _unitOfWork.HubAllocationRepository.FindBy(r => r.RequisitionID == allocation.ReliefRequisitionDetail.RequisitionID).Select(
-                                               h => h.HubID).FirstOrDefault();
-
-                }
-                catch (Exception)
-                {
-                    
-                    
-                }
+                
                 
                 transaction2.QuantityInMT = allocationDetail.AllocatedAmount;
                 transaction2.QuantityInUnit = allocationDetail.AllocatedAmount;
@@ -396,6 +393,7 @@ namespace Cats.Services.Transaction
                 transaction2.PlanId = allocationDetail.ReliefRequisitionDetail.ReliefRequisition.RegionalRequest.PlanID;
                 transaction2.Round = allocationDetail.ReliefRequisitionDetail.ReliefRequisition.Round;
 
+                int hubID2 = 0;
                 if (allocationDetail.AllocationType == TransactionConstants.Constants.SHIPPNG_INSTRUCTION)
                 {
                     var siCode = allocationDetail.Code.ToString();
@@ -403,6 +401,11 @@ namespace Cats.Services.Transaction
                         _unitOfWork.ShippingInstructionRepository.Get(t => t.Value == siCode).
                             FirstOrDefault();
                     if (shippingInstruction != null) transaction.ShippingInstructionID = shippingInstruction.ShippingInstructionID;
+
+                    hubID2=(int) _unitOfWork.TransactionRepository.FindBy(m => m.ShippingInstructionID == allocationDetail.Code &&
+                           m.LedgerID == Ledger.Constants.GOODS_ON_HAND).Select(m => m.HubID).FirstOrDefault();
+               
+
                 }
                 else
                 {
@@ -412,7 +415,26 @@ namespace Cats.Services.Transaction
                         _unitOfWork.ProjectCodeRepository.Get(t => t.Value == code).
                             FirstOrDefault();
                     if (projectCode != null) transaction.ProjectCodeID = projectCode.ProjectCodeID;
+
+                    hubID2 = (int)_unitOfWork.TransactionRepository.FindBy(m => m.ProjectCodeID == allocationDetail.Code && 
+                               m.LedgerID == Ledger.Constants.GOODS_ON_HAND).Select(m => m.HubID).FirstOrDefault();
+               
                 }
+
+
+                if (hubID2!=0)
+                {
+                    transaction2.HubID = hubID2;
+                }
+
+                else
+                {
+                    transaction2.HubID =
+                                       _unitOfWork.HubAllocationRepository.FindBy(r => r.RequisitionID == allocation.ReliefRequisitionDetail.RequisitionID).Select(
+                                               h => h.HubID).FirstOrDefault();
+
+                }
+               
                 _unitOfWork.TransactionRepository.Add(transaction2);
                 allocationDetail.TransactionGroupID = transactionGroup;
                 _unitOfWork.SIPCAllocationRepository.Edit(allocationDetail);

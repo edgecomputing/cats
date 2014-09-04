@@ -35,30 +35,24 @@
  }  
 </div>  
 
-      <h5> Transport Requisitions Without Winner Transporter</h5> 
-    <table class="table-striped">
-        <tr>
-            <td>
-                Transporter:
-            </td>
-            <td>
-                @Html.DropDownList("TransporterID", String.Empty)
-            </td>
-            <td>
-                  <label id="zone">Zone</label>
-            </td>
-            <td>
-                @Html.DropDownList("Zones",null,"Select zone")
-            </td>
-            <td>
-                <label id="worda">Woreda</label>
-                
-            </td>
-            <td>
-                 <select id="Woredas" name="Woredas" onchange="onWoredaChange(this.value);"></select>
-            </td>
-        </tr>
-    </table>
+<h5> Transport Requisitions Without Winner Transporter</h5> 
+<div class="input-prepend">
+    <span class="add-on">Transporter</span>
+     @Html.DropDownList("TransporterID", null, new { @class = "input-small" })
+   
+</div>
+<div class="input-prepend">
+    <span class="add-on">Zone</span>
+    @Html.DropDownList("Zones",null, new { @class = "input-small" })
+    
+</div>
+<div class="input-prepend">
+    <span class="add-on">Woreda</span>
+
+    <select id="Woredas" name="Woredas" onchange="onWoredaChange(this.value);"></select>
+</div>
+
+
   
 <div id="div_select" >
     

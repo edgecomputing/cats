@@ -180,7 +180,9 @@ namespace Cats.Tests.ControllersTests
                 });
 
 
-
+            var businessProcessService = new Mock<IBusinessProcessService>();
+            var applicationSettingService = new Mock<IApplicationSettingService>();
+            var transporterPaymentRequest = new Mock<ITransporterPaymentRequestService>();
             _distributionController =
                new DeliveryController(
                    transportOrderService.Object,
@@ -190,7 +192,8 @@ namespace Cats.Tests.ControllersTests
                    dispatchService.Object,
                    deliveryDetailService.Object,
                    notificationService.Object, actionTypesService.Object,
-                   userAccountService.Object, commodityService.Object, unitService.Object, transactionService.Object
+                   userAccountService.Object, commodityService.Object, unitService.Object, transactionService.Object,
+                   businessProcessService.Object,applicationSettingService.Object,transporterPaymentRequest.Object
                );
             _distributionController.ControllerContext = controllerContext.Object;
 

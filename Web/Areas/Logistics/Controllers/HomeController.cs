@@ -41,6 +41,10 @@ namespace Cats.Areas.Logistics.Controllers
         private readonly IBidWinnerService _bidWinnerService;
         private readonly IBidService _bidService;
         private readonly IStockStatusService _stockStatusService;
+        private readonly IReceiptPlanDetailService _receiptPlanDetailService;
+
+        private readonly IGiftCertificateDetailService _giftCertificateDetailService;
+        private readonly hub.IReceiptAllocationService _receiptAllocationService;
 
         public HomeController(IReliefRequisitionService reliefRequisitionService,
             hub.IDispatchAllocationService dispatchAllocationService,
@@ -57,7 +61,7 @@ namespace Cats.Areas.Logistics.Controllers
             IHRDDetailService hrdDetailService,
             IRationDetailService rationDetailService,
             IProgramService programService,
-            IStockStatusService stockStatusService)
+            IStockStatusService stockStatusService, IReceiptPlanDetailService receiptPlanDetailService, IGiftCertificateDetailService giftCertificateDetailService, hub.IReceiptAllocationService receiptAllocationService)
         {
             this._reliefRequisitionService = reliefRequisitionService;
             _dispatchAllocationService = dispatchAllocationService;
@@ -75,6 +79,9 @@ namespace Cats.Areas.Logistics.Controllers
             _rationDetailService = rationDetailService;
             _programService = programService;
             _stockStatusService = stockStatusService;
+            _receiptPlanDetailService = receiptPlanDetailService;
+            _giftCertificateDetailService = giftCertificateDetailService;
+            _receiptAllocationService = receiptAllocationService;
         }
 
         public ActionResult Index()
@@ -421,6 +428,19 @@ namespace Cats.Areas.Logistics.Controllers
         //    return Json(dispatchAllocation, JsonRequestBehavior.AllowGet);
         //}
         #endregion
+
+        public JsonResult GetDonation()
+        {
+            var siInReceiptAllocaion =
+                _receiptAllocationService.GetAllReceiptAllocation().Select(s => s.SINumber).Distinct().ToList();
+            var donationAmount =
+                _giftCertificateDetailService.GetAllGiftCertificateDetail().Select(
+                    g => g.GiftCertificate.ShippingInstruction.Value).Except(siInReceiptAllocaion).Distinct().Count();
+            return Json(donationAmount, JsonRequestBehavior.AllowGet);
+
+        }
+
+
         public JsonResult GetDispatchAllocation(int program, DateTime date)
         {
             var st = _stockStatusService.GetHubDispatchAllocation(program, date);

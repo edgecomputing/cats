@@ -38,7 +38,7 @@ namespace Cats.Models
         public virtual ICollection<BidWinner> BidWinners { get; set; }
 
         public virtual ICollection<BusinessProcessState> BusinessProcessStates { get; set; }
-        
+        public virtual ICollection<TransporterPaymentRequest> TransporterPaymentRequests { get; set; }
     }
     public class BusinessProcessPOCO
     {

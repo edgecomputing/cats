@@ -183,8 +183,8 @@
            // columns.Bound(p => p.DistanceFromOrigin);
             columns.Bound(p => p.QuantityQtl).Title("Qantity").ClientFooterTemplate("<b>#=kendo.format('{0:N0}', sum)#</b>").HtmlAttributes(new { align = "right" }).Format("{0:n2}").HeaderHtmlAttributes(new { @class = "cats-unit-pref-grid" });
             columns.Bound(p => p.TariffPerQtl).Title("Tariff / Qtl").HtmlAttributes(new { style = "background-color:lightgray" }).Format("{0:n2}").Width(100).HtmlAttributes(new { align = "Right" });
-            columns.Bound(p => p.TotalAmount).ClientFooterTemplate("<b>#=kendo.format('{0:N0}', sum)#</b>").Format("{0:N0}").HtmlAttributes(new {align="Right"}); 
-
+            columns.Bound(p => p.TotalAmount).ClientFooterTemplate("<b>#=kendo.format('{0:N0}', sum)#</b>").Format("{0:N0}").HtmlAttributes(new {align="Right"});
+            columns.Bound(p => p.WinnerAssignedByLogistics).Hidden(true);
         })   
              .ToolBar(toolBar => toolBar.Save())
              .Editable(editable => editable.Mode(GridEditMode.InCell))
@@ -192,6 +192,7 @@
             .Scrollable()
             .Sortable()
             .Filterable()
+            .Events(events => events.Edit("onEdit"))
             .DataSource(dataSource => dataSource
                   .Ajax()
                   .Aggregates(aggregates =>aggregates.Add(p => p.QuantityQtl).Sum())
@@ -220,6 +221,28 @@
 </script>
     <script>
         var woredaWithTransportersStanding = null;
+        
+        function onEdit(e) {
+            var fieldName = e.container.find("input").attr("name");
+           
+
+            if (!isEditable(fieldName, e.model)) {
+                this.closeCell(); // prevent editing
+            }
+        }
+        
+        function isEditable(fieldName, model)  {
+            //alert(fieldName);
+            if (fieldName === "TariffPerQtl") {
+              
+                
+                return model.WinnerAssignedByLogistics;
+            }
+              
+
+            return true; // default to editable
+        }
+        
         $(function () {
             var printurl = "@Url.Action("Print", "TransportOrder", new{id= ViewBag.TransportOrderID })";
             $("#toolbar_button_print").attr("href", printurl);

@@ -99,6 +99,15 @@ namespace Cats.Services.Procurement
                  select order.TransportOrder).Where(m => m.StatusID == statusId).Distinct().ToList();
             return transportOrder;
         }
+        public IEnumerable<TransportOrder> GetFilteredTransportOrder(IEnumerable<TransportOrderDetail> transportOrderDetails, int statusId)
+        {
+            
+            var transportOrder =
+                (from order in
+                     transportOrderDetails
+                 select order.TransportOrder).Where(m => m.StatusID == statusId).Distinct().ToList();
+            return transportOrder;
+        }
         public List<Program> GetPrograms()
         {
             return _unitOfWork.ProgramRepository.GetAll();
@@ -272,6 +281,7 @@ namespace Cats.Services.Procurement
                         transportOrderDetail.QuantityQtl = reliefRequisitionDetail.Amount;
                         transportOrderDetail.TariffPerQtl = transReq.TariffPerQtl;
                         transportOrderDetail.SourceWarehouseID = transReq.HubID;
+                        transportOrderDetail.WinnerAssignedByLogistics = false;
                         if (reliefRequisitionDetail.ReliefRequisition.ProgramID == (int)Programs.PSNP)
                         {
                             transportOrderDetail.DonorID = reliefRequisitionDetail.DonorID;
@@ -416,6 +426,7 @@ namespace Cats.Services.Procurement
                        transportOrderDetail.QuantityQtl = detail.QuantityQtl;
                        transportOrderDetail.TariffPerQtl = 0;
                        transportOrderDetail.SourceWarehouseID = detail.HubID;
+                       transportOrderDetail.WinnerAssignedByLogistics = true;
                        transportOrder.TransportOrderDetails.Add(transportOrderDetail);
                    }
                }
@@ -508,6 +519,7 @@ namespace Cats.Services.Procurement
                         //since users don't specify tariff value
                         transportOrderDetail.TariffPerQtl = 0;
                         transportOrderDetail.SourceWarehouseID = detail.HubID;
+                        transportOrderDetail.WinnerAssignedByLogistics = false;
                         transportOrder.TransportOrderDetails.Add(transportOrderDetail);
                     }
                     bool isSaved = _unitOfWork.TransportOrderRepository.Add(transportOrder);

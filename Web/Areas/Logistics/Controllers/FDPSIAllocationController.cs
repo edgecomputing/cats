@@ -119,7 +119,7 @@ namespace Cats.Areas.Logistics.Controllers
             ViewBag.RequisitionID = RequisitionID;
             ViewBag.Hubs = _hubService.GetAllHub();
             ViewBag.AllocatedHub = _hubAllocationService.GetAllocatedHubId(RequisitionID);
-          //  ViewBag.Allocations = _allocationService.GetAll();
+            //ViewBag.Allocations = _hubAllocationService.GetAllHubAllocation().Select(m => m.HubID);
             return View();
         }
 
