@@ -24,5 +24,7 @@ namespace Cats.Services.Procurement
             System.Linq.Expressions.Expression<Func<TransportBidQuotationHeader, bool>> filter = null,
             Func<IQueryable<TransportBidQuotationHeader>, IOrderedQueryable<TransportBidQuotationHeader>> orderBy = null,
             string includeProperties = "");
+
+        string GetStatus(int id);
     }
 }
