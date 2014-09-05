@@ -23,5 +23,7 @@ namespace Cats.Models
         public int ZoneID { get; set; }
         public string ZoneName { get; set; }
         public string RegionName { get; set; }
+        public int StatusID { get; set; }
+        public string Status { get; set; }
     }
 }
