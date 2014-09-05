@@ -129,7 +129,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             return Create(); //GiftCertificateViewModel.GiftCertificateModel(giftcertificate));
         }
 
-        [AcceptVerbs(HttpVerbs.Post)]
+        //[AcceptVerbs(HttpVerbs.Post)]
         [EarlyWarningAuthorize(operation = EarlyWarningConstants.Operation.New_Gift_Certificate)]
         public ActionResult GiftCertificateDetail_Create([DataSourceRequest] DataSourceRequest request, GiftCertificateDetailsViewModel giftCertificateDetailsViewModel, int? id)
         {
@@ -169,7 +169,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             }
         }
 
-        [AcceptVerbs(HttpVerbs.Post)]
+        //[AcceptVerbs(HttpVerbs.Post)]
         [EarlyWarningAuthorize(operation = EarlyWarningConstants.Operation.Edit_Gift_Certificate)]
         public ActionResult GiftCertificateDetail_Update([DataSourceRequest]DataSourceRequest request, GiftCertificateDetailsViewModel giftCertificateDetailsViewModel)
         {
@@ -187,7 +187,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             return Json(new[] { giftCertificateDetailsViewModel }.ToDataSourceResult(request, ModelState));
         }
 
-        [AcceptVerbs(HttpVerbs.Post)]
+        [AcceptVerbs(HttpVerbs.Get)]
         [EarlyWarningAuthorize(operation = EarlyWarningConstants.Operation.Delete_needs_assessment)]
         public ActionResult GiftCertificateDetail_Destroy([DataSourceRequest] DataSourceRequest request,
                                                   GiftCertificateDetailsViewModel giftCertificateDetailsViewModel)
@@ -291,7 +291,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             ViewBag.DBudgetTypes = _commonService.GetDetails(d => d.MasterID == Master.Constants.BUDGET_TYPE, t => t.OrderBy(o => o.SortOrder));
 
              var giftCertificateDetails = new List<GiftCertificateDetailsViewModel>();
-            ViewBag.GiftCertificateDetails = giftCertificateDetails;
+             ViewBag.GiftCertificateDetails = giftCertificateDetails;
             if (isNew && giftCertificate == null)
             {
                 ViewBag.DonorID = new SelectList(_commonService.GetDonors(null, t => t.OrderBy(o => o.Name)), "DonorID",

@@ -65,5 +65,22 @@ namespace Cats.Services.Procurement
             return _unitOfWork.TransportBidQuotationHeaderRepository.Get(filter, orderBy, includeProperties);
         }
         //public 
+        public string GetStatus(int id)
+        {
+            var priceQuotation =
+                _unitOfWork.TransportBidQuotationHeaderRepository.FindBy(b => b.TransportBidQuotationHeaderID == id).FirstOrDefault();
+            if (priceQuotation!=null)
+            {
+                if (priceQuotation.Status == 1)
+                    return "Draft";
+                if (priceQuotation.Status == 2)
+                    return "Approved";
+                return "Winner Generated";
+            }
+            return "";
+        }
+
+        
+
     }
 }

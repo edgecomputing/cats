@@ -330,7 +330,7 @@ namespace Cats.Areas.Procurement.Controllers
                          //BidBondAmount = proposal.BidBondAmount,
                          OffersCount = proposal.TransportBidQuotations.Count,
                          Region = proposal.AdminUnit.Name,
-                         Status = proposal.Status == 1 ? "Draft" : "Approved",
+                         Status = _transportBidQuotationHeaderService.GetStatus(proposal.TransportBidQuotationHeaderID),//  proposal.Status == 1 ? "Draft" : "Approved",
                          Transporter = proposal.Transporter.Name,
                          EnteredBy = proposal.EnteredBy,
                          BidID = proposal.Bid.BidID,
