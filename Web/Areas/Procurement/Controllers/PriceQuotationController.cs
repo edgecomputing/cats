@@ -316,6 +316,9 @@ namespace Cats.Areas.Procurement.Controllers
         public ActionResult BidProposalHeader()
         {
             if (TempData["CustomError"] != null) { ModelState.AddModelError("Errors", TempData["CustomError"].ToString()); }
+
+            if (TempData["CustomMessage"] != null) { ModelState.AddModelError("Success", TempData["CustomMessage"].ToString()); }
+            
             return View();
         }
 
@@ -417,7 +420,7 @@ namespace Cats.Areas.Procurement.Controllers
                     bidProposal.Status = 1;
                     bidProposal.BidQuotationDate = DateTime.Now;
                     _transportBidQuotationHeaderService.AddTransportBidQuotationHeader(bidProposal);
-                    TempData["CustomError"] = "Bid proposal successfully created";
+                    TempData["CustomMessage"] = "Bid proposal successfully created";
                     return RedirectToAction("BidProposalHeader");
                 }
                 else
