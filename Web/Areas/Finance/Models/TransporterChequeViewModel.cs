@@ -8,7 +8,7 @@ namespace Cats.Areas.Finance.Models
     public class TransporterChequeViewModel
     {
         public Guid TransporterChequeId { get; set; }
-        public int PaymentRequestID { get; set; }
+        public int TransporterPaymentRequestID { get; set; }
         public string PaymentRequestRefNo { get; set; }
         public string CheckNo { get; set; }
         public string PaymentVoucherNo { get; set; }

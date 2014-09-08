@@ -5,8 +5,8 @@
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
 @section Toolbar
-{
-    <a href="@Url.Action("Index", "ValidatedPaymentRequest", new { Area = "Finance" })" class="btn" data-buttontype="btn_back_to_list" title="Back to List"><i class="icon-list"></i></a>
+{ 
+    <a href="@Url.Action("PaymentRequests", "ValidatedPaymentRequest", new { Area = "Finance", transporterID = Model.TransporterID })" class="btn" data-buttontype="btn_back_to_list" title="Back to List"><i class="icon-list"></i></a>
 }
 
 <div class="form-horizontal">

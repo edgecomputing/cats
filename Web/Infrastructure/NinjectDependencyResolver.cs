@@ -204,6 +204,8 @@ namespace Cats.Infrastructure
             kernel.Bind<IIDPSReasonTypeServices>().To<IDPSReasonTypeServices>();
             kernel.Bind<IActionTypesService>().To<ActionTypesService>();
 
+            kernel.Bind<ITransporterPaymentRequestService>().To<TransporterPaymentRequestService>();
+
             kernel.Bind<IWoredaHubLinkService>().To<WoredaHubLinkService>();
             kernel.Bind<IWoredaHubService>().To<WoredaHubService>();
             kernel.Bind<ITransporterAgreementVersionService>().To<TransporterAgreementVersionService>();

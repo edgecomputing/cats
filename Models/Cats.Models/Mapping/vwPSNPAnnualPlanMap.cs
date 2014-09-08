@@ -50,6 +50,8 @@ namespace Cats.Models.Mapping
             this.Property(t => t.ZoneID).HasColumnName("ZoneID");
             this.Property(t => t.ZoneName).HasColumnName("ZoneName");
             this.Property(t => t.RegionName).HasColumnName("Region");
+            this.Property(t => t.StatusID).HasColumnName("StatusID");
+            this.Property(t => t.Status).HasColumnName("Status");
         }
     }
 }

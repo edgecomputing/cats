@@ -392,13 +392,9 @@ namespace Cats {
             
             private global::System.Data.DataColumn columnDuration;
             
-            private global::System.Data.DataColumn columnRegionID;
-            
             private global::System.Data.DataColumn columnYear;
             
             private global::System.Data.DataColumn columnRegionalPSNPPlanID;
-            
-            private global::System.Data.DataColumn columnRegionName;
             
             private global::System.Data.DataColumn columnWoredaName;
             
@@ -407,6 +403,12 @@ namespace Cats {
             private global::System.Data.DataColumn columnZoneID;
             
             private global::System.Data.DataColumn columnZoneName;
+            
+            private global::System.Data.DataColumn columnRegionName;
+            
+            private global::System.Data.DataColumn columnStatus;
+            
+            private global::System.Data.DataColumn columnStatusID;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
@@ -475,14 +477,6 @@ namespace Cats {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn RegionIDColumn {
-                get {
-                    return this.columnRegionID;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public global::System.Data.DataColumn YearColumn {
                 get {
                     return this.columnYear;
@@ -494,14 +488,6 @@ namespace Cats {
             public global::System.Data.DataColumn RegionalPSNPPlanIDColumn {
                 get {
                     return this.columnRegionalPSNPPlanID;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn RegionNameColumn {
-                get {
-                    return this.columnRegionName;
                 }
             }
             
@@ -534,6 +520,30 @@ namespace Cats {
             public global::System.Data.DataColumn ZoneNameColumn {
                 get {
                     return this.columnZoneName;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn RegionNameColumn {
+                get {
+                    return this.columnRegionName;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn StatusColumn {
+                get {
+                    return this.columnStatus;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn StatusIDColumn {
+                get {
+                    return this.columnStatusID;
                 }
             }
             
@@ -574,21 +584,22 @@ namespace Cats {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public vwPSNPAnnualPlanRow AddvwPSNPAnnualPlanRow(int FoodRatio, int CashRatio, int BeneficiaryCount, int Duration, int RegionID, int Year, int RegionalPSNPPlanID, string RegionName, string WoredaName, int WoredaID, int ZoneID, string ZoneName) {
+            public vwPSNPAnnualPlanRow AddvwPSNPAnnualPlanRow(int FoodRatio, int CashRatio, int BeneficiaryCount, int Duration, int Year, int RegionalPSNPPlanID, string WoredaName, int WoredaID, int ZoneID, string ZoneName, string RegionName, string Status, int StatusID) {
                 vwPSNPAnnualPlanRow rowvwPSNPAnnualPlanRow = ((vwPSNPAnnualPlanRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         FoodRatio,
                         CashRatio,
                         BeneficiaryCount,
                         Duration,
-                        RegionID,
                         Year,
                         RegionalPSNPPlanID,
-                        RegionName,
                         WoredaName,
                         WoredaID,
                         ZoneID,
-                        ZoneName};
+                        ZoneName,
+                        RegionName,
+                        Status,
+                        StatusID};
                 rowvwPSNPAnnualPlanRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowvwPSNPAnnualPlanRow);
                 return rowvwPSNPAnnualPlanRow;
@@ -615,14 +626,15 @@ namespace Cats {
                 this.columnCashRatio = base.Columns["CashRatio"];
                 this.columnBeneficiaryCount = base.Columns["BeneficiaryCount"];
                 this.columnDuration = base.Columns["Duration"];
-                this.columnRegionID = base.Columns["RegionID"];
                 this.columnYear = base.Columns["Year"];
                 this.columnRegionalPSNPPlanID = base.Columns["RegionalPSNPPlanID"];
-                this.columnRegionName = base.Columns["RegionName"];
                 this.columnWoredaName = base.Columns["WoredaName"];
                 this.columnWoredaID = base.Columns["WoredaID"];
                 this.columnZoneID = base.Columns["ZoneID"];
                 this.columnZoneName = base.Columns["ZoneName"];
+                this.columnRegionName = base.Columns["RegionName"];
+                this.columnStatus = base.Columns["Status"];
+                this.columnStatusID = base.Columns["StatusID"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -636,14 +648,10 @@ namespace Cats {
                 base.Columns.Add(this.columnBeneficiaryCount);
                 this.columnDuration = new global::System.Data.DataColumn("Duration", typeof(int), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnDuration);
-                this.columnRegionID = new global::System.Data.DataColumn("RegionID", typeof(int), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnRegionID);
                 this.columnYear = new global::System.Data.DataColumn("Year", typeof(int), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnYear);
                 this.columnRegionalPSNPPlanID = new global::System.Data.DataColumn("RegionalPSNPPlanID", typeof(int), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnRegionalPSNPPlanID);
-                this.columnRegionName = new global::System.Data.DataColumn("RegionName", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnRegionName);
                 this.columnWoredaName = new global::System.Data.DataColumn("WoredaName", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnWoredaName);
                 this.columnWoredaID = new global::System.Data.DataColumn("WoredaID", typeof(int), null, global::System.Data.MappingType.Element);
@@ -652,12 +660,20 @@ namespace Cats {
                 base.Columns.Add(this.columnZoneID);
                 this.columnZoneName = new global::System.Data.DataColumn("ZoneName", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnZoneName);
+                this.columnRegionName = new global::System.Data.DataColumn("RegionName", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnRegionName);
+                this.columnStatus = new global::System.Data.DataColumn("Status", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnStatus);
+                this.columnStatusID = new global::System.Data.DataColumn("StatusID", typeof(int), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnStatusID);
                 this.columnRegionalPSNPPlanID.AllowDBNull = false;
-                this.columnRegionName.MaxLength = 50;
                 this.columnWoredaName.MaxLength = 50;
                 this.columnWoredaID.AllowDBNull = false;
                 this.columnZoneID.AllowDBNull = false;
                 this.columnZoneName.MaxLength = 50;
+                this.columnRegionName.MaxLength = 50;
+                this.columnStatus.MaxLength = 50;
+                this.columnStatusID.AllowDBNull = false;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -2620,22 +2636,6 @@ namespace Cats {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public int RegionID {
-                get {
-                    try {
-                        return ((int)(this[this.tablevwPSNPAnnualPlan.RegionIDColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'RegionID\' in table \'vwPSNPAnnualPlan\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tablevwPSNPAnnualPlan.RegionIDColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public int Year {
                 get {
                     try {
@@ -2658,22 +2658,6 @@ namespace Cats {
                 }
                 set {
                     this[this.tablevwPSNPAnnualPlan.RegionalPSNPPlanIDColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string RegionName {
-                get {
-                    try {
-                        return ((string)(this[this.tablevwPSNPAnnualPlan.RegionNameColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'RegionName\' in table \'vwPSNPAnnualPlan\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tablevwPSNPAnnualPlan.RegionNameColumn] = value;
                 }
             }
             
@@ -2733,6 +2717,49 @@ namespace Cats {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string RegionName {
+                get {
+                    try {
+                        return ((string)(this[this.tablevwPSNPAnnualPlan.RegionNameColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'RegionName\' in table \'vwPSNPAnnualPlan\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tablevwPSNPAnnualPlan.RegionNameColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string Status {
+                get {
+                    try {
+                        return ((string)(this[this.tablevwPSNPAnnualPlan.StatusColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Status\' in table \'vwPSNPAnnualPlan\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tablevwPSNPAnnualPlan.StatusColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public int StatusID {
+                get {
+                    return ((int)(this[this.tablevwPSNPAnnualPlan.StatusIDColumn]));
+                }
+                set {
+                    this[this.tablevwPSNPAnnualPlan.StatusIDColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public bool IsFoodRatioNull() {
                 return this.IsNull(this.tablevwPSNPAnnualPlan.FoodRatioColumn);
             }
@@ -2781,18 +2808,6 @@ namespace Cats {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsRegionIDNull() {
-                return this.IsNull(this.tablevwPSNPAnnualPlan.RegionIDColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetRegionIDNull() {
-                this[this.tablevwPSNPAnnualPlan.RegionIDColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public bool IsYearNull() {
                 return this.IsNull(this.tablevwPSNPAnnualPlan.YearColumn);
             }
@@ -2801,18 +2816,6 @@ namespace Cats {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public void SetYearNull() {
                 this[this.tablevwPSNPAnnualPlan.YearColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsRegionNameNull() {
-                return this.IsNull(this.tablevwPSNPAnnualPlan.RegionNameColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetRegionNameNull() {
-                this[this.tablevwPSNPAnnualPlan.RegionNameColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -2837,6 +2840,30 @@ namespace Cats {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public void SetZoneNameNull() {
                 this[this.tablevwPSNPAnnualPlan.ZoneNameColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsRegionNameNull() {
+                return this.IsNull(this.tablevwPSNPAnnualPlan.RegionNameColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetRegionNameNull() {
+                this[this.tablevwPSNPAnnualPlan.RegionNameColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsStatusNull() {
+                return this.IsNull(this.tablevwPSNPAnnualPlan.StatusColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetStatusNull() {
+                this[this.tablevwPSNPAnnualPlan.StatusColumn] = global::System.Convert.DBNull;
             }
         }
         
@@ -4404,14 +4431,15 @@ namespace Cats.CTSDataSetTableAdapters {
             tableMapping.ColumnMappings.Add("CashRatio", "CashRatio");
             tableMapping.ColumnMappings.Add("BeneficiaryCount", "BeneficiaryCount");
             tableMapping.ColumnMappings.Add("Duration", "Duration");
-            tableMapping.ColumnMappings.Add("RegionID", "RegionID");
             tableMapping.ColumnMappings.Add("Year", "Year");
             tableMapping.ColumnMappings.Add("RegionalPSNPPlanID", "RegionalPSNPPlanID");
-            tableMapping.ColumnMappings.Add("RegionName", "RegionName");
             tableMapping.ColumnMappings.Add("WoredaName", "WoredaName");
             tableMapping.ColumnMappings.Add("WoredaID", "WoredaID");
             tableMapping.ColumnMappings.Add("ZoneID", "ZoneID");
             tableMapping.ColumnMappings.Add("ZoneName", "ZoneName");
+            tableMapping.ColumnMappings.Add("Region", "RegionName");
+            tableMapping.ColumnMappings.Add("Status", "Status");
+            tableMapping.ColumnMappings.Add("StatusID", "StatusID");
             this._adapter.TableMappings.Add(tableMapping);
         }
         
@@ -4419,7 +4447,7 @@ namespace Cats.CTSDataSetTableAdapters {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         private void InitConnection() {
             this._connection = new global::System.Data.SqlClient.SqlConnection();
-            this._connection.ConnectionString = System.Configuration.ConfigurationManager.ConnectionStrings["CatsContext"].ConnectionString;
+            this._connection.ConnectionString = System.Configuration.ConfigurationManager.ConnectionStrings["elmah-sql"].ConnectionString;
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -4428,9 +4456,9 @@ namespace Cats.CTSDataSetTableAdapters {
             this._commandCollection = new global::System.Data.SqlClient.SqlCommand[1];
             this._commandCollection[0] = new global::System.Data.SqlClient.SqlCommand();
             this._commandCollection[0].Connection = this.Connection;
-            this._commandCollection[0].CommandText = "SELECT FoodRatio, CashRatio, BeneficiaryCount, Duration, RegionID, Year, Regional" +
-                "PSNPPlanID, RegionName, WoredaName, WoredaID, ZoneID, ZoneName FROM vwPSNPAnnual" +
-                "Plan";
+            this._commandCollection[0].CommandText = "SELECT        FoodRatio, CashRatio, BeneficiaryCount, Duration, Year, RegionalPSN" +
+                "PPlanID, WoredaName, ZoneID, ZoneName, Region, WoredaID, Status, StatusID\r\nFROM " +
+                "           vwPSNPAnnualPlan";
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
         }
         

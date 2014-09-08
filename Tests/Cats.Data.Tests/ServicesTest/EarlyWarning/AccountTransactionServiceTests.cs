@@ -749,9 +749,21 @@ namespace Cats.Data.Tests.ServicesTest.EarlyWarning
             hubAllocationRepository.Setup(h => h.FindBy(It.IsAny<Expression<Func<HubAllocation, bool>>>())).Returns(
                 hubAllocation);
 
+            var transaction = new List<Transaction>
+                {
+                    new Transaction()
+                        {
+                            HubID = 1,
+                            ShippingInstructionID = 1,
+                            ProjectCodeID = 2,
+                            LedgerID = 1
+                        }
+                };
 
             var transactionRepository = new Mock<IGenericRepository<Models.Transaction>>();
             transactionRepository.Setup(t => t.Add(It.IsAny<Models.Transaction>())).Returns(true);
+            transactionRepository.Setup(h => h.FindBy(It.IsAny<Expression<Func<Models.Transaction, bool>>>())).Returns(
+                transaction);
             var transactionGroupRepository = new Mock<IGenericRepository<TransactionGroup>>();
             transactionGroupRepository.Setup(t => t.Add(It.IsAny<TransactionGroup>())).Returns(true);
 

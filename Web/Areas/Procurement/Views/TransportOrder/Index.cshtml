@@ -47,9 +47,13 @@
         @Html.DropDownList("ProgramID", null, new { @class = "input-small" })
     </div>
     <div class="input-prepend">
-                <span class="add-on">Status</span>
-               @Html.DropDownList("StatusID", null, new { @class = "input-small" })
-            </div>
+        <span class="add-on">Status</span>
+        @Html.DropDownList("StatusID", null, new { @class = "input-small" })
+    </div>
+    <div class="input-prepend">
+        <span class="add-on">Region</span>
+        @Html.DropDownList("RegionID", null, new { @class = "input-small" })
+    </div>
 </div>
 <div>
 @(Html.Kendo().Grid<TransportOrderViewModel>().Name("Grid").Columns(columns =>
@@ -125,6 +129,7 @@
         return {
             id: $("#StatusID").val(),
             programId: $("#ProgramID").val(),
+            regionId: $("#RegionID").val()
 
 
         };
@@ -140,12 +145,19 @@
             $("#Grid").data("kendoGrid").dataSource.read();
         });
     });
+    
     $(document).ready(function () {
 
         $('#StatusID').change(function () {
 
             $("#Grid").data("kendoGrid").dataSource.read();
         });
+        
+        $('#RegionID').change(function () {
+           
+            $("#Grid").data("kendoGrid").dataSource.read();
+        });
+
     });
     
 
