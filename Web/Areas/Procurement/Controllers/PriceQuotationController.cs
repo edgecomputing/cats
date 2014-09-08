@@ -678,11 +678,25 @@ namespace Cats.Areas.Procurement.Controllers
                     BidID = bidNumber,
                     RegionID = regionID
                 };
-
-            var comparable = _transportBidQuotationHeaderService.FindBy(m => m.RegionID == regionID && m.BidId == bidNumber && m.Status == 2);
+            var comparable = new List<TransportBidQuotationHeader>();
+            
+            var bidWinners = _bidWinnerService.FindBy(m=>m.BidID==bidNumber);
+            if (bidWinners != null)
+            {
+                comparable = _transportBidQuotationHeaderService.FindBy(m => m.RegionID == regionID && m.BidId == bidNumber && m.Status >=2);
+                foreach (var winner in bidWinners)
+                {
+                    _bidWinnerService.DeleteBidWinner(winner);
+                }
+                
+            }
+            else
+            {
+                comparable = _transportBidQuotationHeaderService.FindBy(m => m.RegionID == regionID && m.BidId == bidNumber && m.Status == 2);
            
+            }
             ViewBag.Status = comparable==null ? 1 : 2;
-          
+
             
             //TempData["Error"] = "There are no new proposals, winners may already have been identified";
             var tr = new List<TransportBidQuotation>();
@@ -693,17 +707,9 @@ namespace Cats.Areas.Procurement.Controllers
                 //transportBidQuotationHeader.TransportBidQuotations
             }
 
-            //var rawData = _transportBidQuotationService.FindBy(
-            //                                    t => t.BidID == bidNumber 
-            //                                    && t.AdminUnit.AdminUnit2.AdminUnit2.AdminUnitID == regionID
-            //                                    && !t.IsWinner);
-
+          
             var rawData = tr;
 
-            //var rawData = _transportBidQuotationService.FindBy(
-            //                                    t => t.BidID == bidNumber
-            //                                    && t.Destination.AdminUnit2.AdminUnit2.AdminUnitID == regionID
-            //                                    && !t.IsWinner);
 
             if (rawData.Count > 0)
             {
@@ -760,11 +766,6 @@ namespace Cats.Areas.Procurement.Controllers
 
                 }
 
-                //foreach (var transportBidQuotation in rawData)
-                //{
-                //     transportBidQuotation.IsWinner = true;
-                //    _transportBidQuotationService.UpdateTransportBidQuotationHeader(transportBidQuotation);
-                //}
 
                 foreach (var transportBidQuotationHeader in comparable)
                 {
@@ -779,13 +780,8 @@ namespace Cats.Areas.Procurement.Controllers
             
             _bidWinnerService.Save();
             
-            //return RedirectToAction("Winners",new {filter=f});
-            //return RedirectToAction("Winners", "PriceQuotation",new{filter=f});
             return RedirectToAction("Winners", new {BidID = bidNumber, RegionID=regionID});
-            //return RedirectToAction()
-
-            // _BusinessProcessService.Save();
-            //return result;
+          
         }
 
         public ActionResult Winners(int BidID , int RegionID)
