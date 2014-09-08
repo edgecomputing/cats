@@ -1,13 +1,19 @@
 ﻿@using Cats.Models.Constant
-<ul class="nav nav-list">
-    <li class="nav-header">Requistions</li>        
-    <li><a href="@Url.Action("Index","ReliefRequisition",new{id=(int)ReliefRequisitionStatus.Draft})"><i class="icon-inbox"></i> Draft</a></li>
-    <li><a href="@Url.Action("Index","ReliefRequisition",new{id=(int)ReliefRequisitionStatus.Approved})"><i class="icon-check"></i> Approved</a></li>
-    <li><a href="@Url.Action("Index","ReliefRequisition",new{id=(int)ReliefRequisitionStatus.HubAssigned})"><i class="icon-check"></i> Hub Assigned</a></li>
-    <li><a href="@Url.Action("Index","ReliefRequisition",new{id=(int)ReliefRequisitionStatus.ProjectCodeAssigned})"><i class="icon-check"></i>Project Code Assigned</a></li>
-    <li><a href="@Url.Action("Index","ReliefRequisition",new{id=(int)ReliefRequisitionStatus.TransportRequisitionCreated})"><i class="icon-check"></i> Transport Requisition</a></li>
-    <li><a href="@Url.Action("Index","ReliefRequisition",new{id=(int)ReliefRequisitionStatus.TransportOrderCreated})"><i class="icon-check"></i> Transport Order</a></li>
+<div class="col-md-2  col-sm-3 skin-blue ">
+    <div class="row sidebar left-side">
+        <div class="hdr-blck ">Sidebar Menu</div>
+        <ul class="sidebar-menu">
+              
+            <li><a href="@Url.Action("Index","ReliefRequisition",new{id=(int)ReliefRequisitionStatus.Draft})"><i class="fa fa-inbox"></i> Draft</a></li>
+            <li><a href="@Url.Action("Index","ReliefRequisition",new{id=(int)ReliefRequisitionStatus.Approved})"><i class="fa fa-check"></i> Approved</a></li>
+            <li><a href="@Url.Action("Index","ReliefRequisition",new{id=(int)ReliefRequisitionStatus.HubAssigned})"><i class="fa fa-check"></i> Hub Assigned</a></li>
+            <li><a href="@Url.Action("Index","ReliefRequisition",new{id=(int)ReliefRequisitionStatus.ProjectCodeAssigned})"><i class="fa fa-check"></i>Project Code Assigned</a></li>
+            <li><a href="@Url.Action("Index","ReliefRequisition",new{id=(int)ReliefRequisitionStatus.TransportRequisitionCreated})"><i class="fa fa-check"></i> Transport Requisition</a></li>
+            <li><a href="@Url.Action("Index","ReliefRequisition",new{id=(int)ReliefRequisitionStatus.TransportOrderCreated})"><i class="fa fa-check"></i> Transport Order</a></li>
     
    
     
-</ul>
+        </ul>
+    </div>
+
+</div>

@@ -9,46 +9,35 @@
 
 @using (Html.BeginForm())
 {
-    <div class="">
-        <div class="span3">
+   
+        <div class="form-group col-md-3">
             <div class="form-inline">
                 @*<button type="submit" class="btn btn-sm" value="Search"><i class="icon-search"></i></button>*@
                 <input id="search" type="text" class="input-large search-query" placeholder="Search by reference">
             </div>
         </div>
         
-        <div class="span9">
+        <div class="text-right col-md-9">
            
-            <div class="input-prepend">
+            <div class="form-group">
                 <span class="add-on">Region</span>
-                @Html.DropDownList("RegionID", null, new { @class = "" })
+                @Html.DropDownList("RegionID", null, new { @class = "form-control" })
             </div>
-            <div class="input-prepend">
+            <div class="form-group">
                 <span class="add-on">Program</span>
-                @Html.DropDownList("ProgramID", null, new { @class = "" })
+                @Html.DropDownList("ProgramID", null, new { @class = "form-control" })
             </div>
-            <div class="input-prepend">
+            <div class="form-group">
                 <span class="add-on">Status</span>
-                @Html.DropDownList("StatusID", null, new { @class = "" })
+                @Html.DropDownList("StatusID", null, new { @class = "form-control" })
             </div>
-            <div class="input-append">
-               <button type="submit" class="btn btn-sm" value="Search"><i class="icon-search"></i></button>
+            <div class="form-group">
+               <button type="submit" class="btn btn-sm btn-primary" value="Search"><i class="fa fa-search"></i> Search</button>
             </div>
                
         </div>
-        @*<div class="span3">
-            <div class="control-group">
-                <div class="control-label">
-                    <label>&nbsp;</label>
-                </div>
-                <div class="controls">
-                    <button type="submit" class="btn btn-sm" value="Search"><i class="icon-search"></i></button>
-                </div>
-            </div>
-
-        </div>*@
+       
         <div style="clear:both;">
         </div>
-    </div>
-    <hr>
-}
+   
+    }
