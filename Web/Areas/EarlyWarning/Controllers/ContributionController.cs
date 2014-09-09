@@ -224,7 +224,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
             var contributions = _contributionService.GetAllContribution().OrderByDescending(m => m.ContributionID);
             var hrdsToDisplay = GetContribution(contributions).ToList();
-            return Json(hrdsToDisplay.ToDataSourceResult(request));
+            return Json(hrdsToDisplay.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
 
         private IEnumerable<ContributionDetailViewModel> GetContributionDetail(Contribution contribution)
