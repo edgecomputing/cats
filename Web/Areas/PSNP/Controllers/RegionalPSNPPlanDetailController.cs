@@ -8,6 +8,7 @@ using System.Web.Mvc;
 using Cats.Helpers;
 using Cats.Models;
 using Cats.Data;
+using Cats.Services.Administration;
 using Cats.Services.PSNP;
 using Cats.Services.EarlyWarning;
 using Cats.Services.Security;
@@ -15,6 +16,9 @@ using Cats.ViewModelBinder;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
 using Cats.Models.PSNP;
+using IAdminUnitService = Cats.Services.EarlyWarning.IAdminUnitService;
+using IFDPService = Cats.Services.EarlyWarning.IFDPService;
+
 namespace Cats.Areas.PSNP.Controllers
 {
     public class RegionalPSNPPlanDetailController : Controller
@@ -26,7 +30,7 @@ namespace Cats.Areas.PSNP.Controllers
         private readonly IAdminUnitService _adminUnitService;
         private readonly IRationDetailService _rationDetailService;
         private readonly IUserAccountService _userAccountService;
-
+        private readonly IUserProfileService _userProfileService;
         public RegionalPSNPPlanDetailController(
                             IRegionalPSNPPlanDetailService regionalPSNPPlanDetailServiceParam,
                             IRegionalPSNPPlanService regionalPSNPPlanServiceParam,
@@ -34,7 +38,7 @@ namespace Cats.Areas.PSNP.Controllers
                             IFDPService FDPServiceParam,
                             IAdminUnitService adminUnitService,
                             IRationDetailService rationDetailService,
-                            IUserAccountService userAccountService)
+                            IUserAccountService userAccountService, IUserProfileService userProfileService)
         {
             this._regionalPSNPPlanDetailService = regionalPSNPPlanDetailServiceParam;
             this._regionalPSNPPlanService = regionalPSNPPlanServiceParam;
@@ -43,6 +47,7 @@ namespace Cats.Areas.PSNP.Controllers
             this._adminUnitService = adminUnitService;
             this._rationDetailService = rationDetailService;
             this._userAccountService = userAccountService;
+            this._userProfileService = userProfileService;
         }
         public void loadLookups()
         {
@@ -120,6 +125,9 @@ namespace Cats.Areas.PSNP.Controllers
             var preferedweight = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).PreferedWeightMeasurment;
             var dt = GetTransposedPSNPPlan(id, preferedweight);
             ViewBag.PsnpPlan = plan;
+            UserProfile user = _userProfileService.GetUser(User.Identity.Name);
+            ViewBag.plan_user = plan.User;
+            ViewBag.current_user = user.UserProfileID;
             return View(dt);
         }
         public ActionResult Edit(int id = 0)
@@ -132,12 +140,15 @@ namespace Cats.Areas.PSNP.Controllers
             IEnumerable<PSNPPlanDetailView> allFDPData = new List<PSNPPlanDetailView>();
             RegionalPSNPPlan plan = _regionalPSNPPlanService.FindById(id);
             ViewData["Month"] = RequestHelper.GetMonthList();
+            UserProfile user = _userProfileService.GetUser(User.Identity.Name);
             if (plan != null)
             {
                 ViewBag.PsnpPlan = plan;
                 filledData = plan.RegionalPSNPPlanDetails;
                 IEnumerable<PSNPPlanDetailView> allFDPs = getRegionFDPs(id);
                 allFDPData = toViewModel(filledData, allFDPs);
+                ViewBag.plan_user = plan.User;
+                ViewBag.current_user = user.UserProfileID;
             }
             return View(allFDPData);
         }
