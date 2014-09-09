@@ -33,6 +33,7 @@ namespace Cats.Areas.Procurement.Controllers
         private readonly IBidWinnerService _bidWinnerService;
         private readonly IBusinessProcessService _BusinessProcessService;
         private readonly IApplicationSettingService _ApplicationSettingService;
+        private readonly ITransportOrderService _transportOrderService;
         public PriceQuotationController(ITransportBidPlanService transportBidPlanServiceParam
                                             , IAdminUnitService adminUnitServiceParam
                                             , IProgramService programServiceParam
@@ -45,7 +46,8 @@ namespace Cats.Areas.Procurement.Controllers
                                             , IBidWinnerService bidWinnerService
                                             , IBusinessProcessService businessProcessService
                                             , IApplicationSettingService applicationSettingService
-                                            , ITransportBidQuotationHeaderService transportBidQuotationHeaderService)
+                                            , ITransportBidQuotationHeaderService transportBidQuotationHeaderService
+                                            , ITransportOrderService transportOrderService  )
         {
             this._transportBidPlanService = transportBidPlanServiceParam;
             this._adminUnitService = adminUnitServiceParam;
@@ -60,6 +62,7 @@ namespace Cats.Areas.Procurement.Controllers
             this._BusinessProcessService = businessProcessService;
             this._transportBidQuotationHeaderService = transportBidQuotationHeaderService;
             this._ApplicationSettingService = applicationSettingService;
+            _transportOrderService = transportOrderService;
         }
 
         public void LoadLookups()
@@ -467,6 +470,7 @@ namespace Cats.Areas.Procurement.Controllers
             ViewBag.filter = filter;
             ViewBag.BidID = new SelectList(_bidService.GetAllBid(), "BidID", "BidNumber");
             ViewBag.RegionID = new SelectList(_adminUnitService.FindBy(t => t.AdminUnitTypeID == 2), "AdminUnitID", "Name");
+            if (TempData["CustomErrorMessage"] != null) { ModelState.AddModelError("Errors", TempData["CustomErrorMessage"].ToString()); }
             return View(filter);
         }
 
@@ -679,6 +683,18 @@ namespace Cats.Areas.Procurement.Controllers
                     RegionID = regionID
                 };
             var comparable = new List<TransportBidQuotationHeader>();
+            var bid = _bidService.FindById(bidNumber);
+            if (bid!=null)
+            {
+                var transportOrderCreated =
+                    _transportOrderService.FindBy(m => m.BidDocumentNo == bid.BidNumber).FirstOrDefault();
+                if (transportOrderCreated!=null)
+                {
+                    TempData["CustomErrorMessage"] = "Bid Winner Can not be generated (Transport Order already created from this bid)";
+                    return RedirectToAction("GenerateWinners", "PriceQuotation");
+                }
+            }
+            
             
             var bidWinners = _bidWinnerService.FindBy(m=>m.BidID==bidNumber);
             if (bidWinners != null)
