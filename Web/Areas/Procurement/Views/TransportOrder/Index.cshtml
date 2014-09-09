@@ -170,7 +170,7 @@
             var currentUid = gridData[i].uid;
             //alert(gridData[i].Status);
             var currentRow = grid.table.find("tr[data-uid='" + currentUid + "']");
-            if (gridData[i].Status == "Signed") {
+            if (gridData[i].Status == "Signed" || gridData[i].Status == "Closed") {
                 var approveButton = $(currentRow).find(".k-grid-Approve");
                 approveButton.hide();
                 var signedButton = $(currentRow).find(".k-grid-Signed");
