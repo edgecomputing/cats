@@ -7,49 +7,45 @@
 
 @using (Html.BeginForm())
 {
-    <div class="container row-fluid">
-        <div class="span3">
+  
+        <div class="form-group col-md-2">
             <div class="form-inline">
                 <input id="search" type="text" class="input-large search-query" placeholder="Search by Reference Number ">
             </div>
         </div>
 
-        <div class="span8">
+        <div class="text-right col-md-10">
 
-            <div class="input-prepend">
+            <div class="form-group">
                 <span class="add-on">Start</span>
-                @Html.TextBoxFor(m => m.DateFrom, new { @class = "cats-datepicker2  input-small", @type = "text" })
-            </div>
-            to
-            <div class="input-append">
-                @Html.TextBoxFor(m => m.DateTo, new { @class = "cats-datepicker2  input-small", @type = "text" })
-                <span class="add-on">End</span>
+                @Html.TextBoxFor(m => m.DateFrom, new { @class = "form-control input-sm cats-datepicker2  ", @type = "text" ,@style="width: 100px;"})
             </div>
             
-            <div class="input-prepend " style="margin-right: 5px">
+            <div class="form-group">
+                <span class="add-on">End</span>
+                @Html.TextBoxFor(m => m.DateTo, new { @class = "form-control input-sm cats-datepicker2  ", @type = "text",@style="width: 100px;" })
+                
+            </div>
+            
+            <div class="form-group ">
                 <span class="add-on">Region</span>
-                @Html.DropDownList("RegionID", null, new { @class = "input-medium" })
+                @Html.DropDownList("RegionID", null, new { @class = "form-control input-sm " })
             </div>
-            <div class="input-prepend">
+            <div class="form-group">
                 <span class="add-on">Program</span>
-                @Html.DropDownList("ProgramID", null, new { @class = "input-small" })
+                @Html.DropDownList("ProgramID", null, new { @class = "form-control input-sm" })
             </div>
-            <div class="input-prepend">
+            <div class="form-group">
                 <span class="add-on">Status</span>
-                @Html.DropDownList("StatusID", null, new { @class = "input-small" })
+                @Html.DropDownList("StatusID", null, new { @class = "form-control input-small" })
             </div>
-            <div class="input-append">
-                <button type="submit" class="btn btn-sm" value="Search"><i class="icon-search"></i></button>
+            <div class="form-group">
+                <button type="submit" class="btn btn-sm btn-primary" value="Search"><i class="fa fa-search"></i> Search</button>
             </div>
-
+            
+            
         </div>
 
-
-
-        @*<div style="clear:both;">
-
-        </div>*@
-    </div>
 
 }
 

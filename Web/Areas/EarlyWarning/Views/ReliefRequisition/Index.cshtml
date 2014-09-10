@@ -2,38 +2,47 @@
 @using Cats.Models.Constant
 @using Kendo.Mvc.UI
 
-
 @{
     ViewBag.Title = "Requistions";
-    Layout = "~/Views/Shared/_MainLayout.cshtml";
+    Layout = "~/Views/Shared/_CATSLayout.cshtml";
     var user = UserAccountHelper.GetUser(HttpContext.Current.User.Identity.Name);
+
 }
 
-@*@section LeftBar
+@section Title
 {
-    @Html.Partial("_RequistionsLeftBar")
-
-}*@
-@section Toolbar
-{
-    
+Requistions
 }
 
-<h4 class="page-header">Requistions</h4>
+@section PageTitle
+{
+    <h1 class="hdr-blck big col-md-6">
 
-<div>
-<div id="div_filter">
-    @Html.Partial("_RequisitionsFilter")
-</div>
+      Requistions
+    </h1>
+}
 
+<div class="box box-primary">
+
+    <div class="col-md-12 box-body" style="display: block;">
+        <div class="row">
+            <div id="div_filter" class="col-md-12 form-inline mrgn5-v">
+                @Html.Partial("_RequisitionsFilter")
+
+            </div>
+           
+            
+        </div>
+        <div class="table-responsive">
+                
 @(Html.Kendo().Grid<Cats.Areas.EarlyWarning.Models.ReliefRequisitionViewModel>().Name("Grid").Columns(columns =>
 {
-    columns.Template(t => { }).Title("No").ClientTemplate("#= renderNumber(data) #").Width(50);
-    columns.Bound(requisition => requisition.RequisitionNo).ClientTemplate("<a href='" + Url.Action("Allocation", "ReliefRequisition", new { id = "#=RequisitionID#" }) + " '>#=RequisitionNo#</a>  ");
+    columns.Template(t => { }).Title("N<u>o</u>").ClientTemplate("#= renderNumber(data) #").Width(50);
+    columns.Bound(requisition => requisition.RequisitionNo).Title("Requisition N<u>o</u>").ClientTemplate("<a href='" + Url.Action("Allocation", "ReliefRequisition", new { id = "#=RequisitionID#" }) + " '>#=RequisitionNo#</a>  ");
     columns.Bound(requisition => requisition.Commodity);
     columns.Bound(requisition => requisition.Region);
     columns.Bound(requisition => requisition.Zone);
-    columns.Bound(requisition => requisition.MonthRound).Title("Round/Month");
+    columns.Bound(requisition => requisition.MonthRound).Title("Round/Month").HeaderHtmlAttributes(new { @class = "number" });
     columns.Bound(requisiton => requisiton.Program);
     columns.Bound(t => t.RequestedDateEt).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid" }).Width(160);
     columns.Bound(requisition => requisition.Status).Template(
@@ -41,24 +50,20 @@
 @<text>
 @if (item.StatusID == (int)ReliefRequisitionStatus.Draft)
 {
-    <a  href="@Url.Action("Edit", "ReliefRequisition", new { Area = "EarlyWarning", id = item.RequisitionID })"><i class="icon-edit"></i></a>
-    <a href="@Url.Action("SendToLogistics", "ReliefRequisition", new { Area = "EarlyWarning", id = item.RequisitionID })"><i class="icon-ok"></i></a>
-    <a  href="@Url.Action("RequistionDetailEdit", "ReliefRequisition", new { Area = "EarlyWarning", id = item.RequisitionID })"><i class="icon-pencil"></i></a>
+    <a  href="@Url.Action("Edit", "ReliefRequisition", new { Area = "EarlyWarning", id = item.RequisitionID })"><i class="fa fa-edit"></i></a>
+    <a href="@Url.Action("SendToLogistics", "ReliefRequisition", new { Area = "EarlyWarning", id = item.RequisitionID })"><i class="fa fa-ok"></i></a>
+    <a  href="@Url.Action("RequistionDetailEdit", "ReliefRequisition", new { Area = "EarlyWarning", id = item.RequisitionID })"><i class="fa fa-pencil"></i></a>
 }
 else
 {
     @item.Status 
 }
 </text>);
-                     //columns.Command(command =>
-                     //                    {
-                     //                        command.Edit().Text(" ");
-                     //                        command.Destroy().Text(" ");
-                     //                    }).Width(60);
+                    
 
                  })
     .Editable(editable => editable.Mode(GridEditMode.PopUp))
-    //.Pageable(t=>t.PageSizes(new int[]{10,30,50}))
+    .Pageable(t=>t.PageSizes(new int[]{10,30,50}))
     .Groupable()
     .Sortable()
     .Scrollable()
@@ -91,7 +96,12 @@ else
         .Destroy(update => update.Action("Requisition_Destroy", "ReliefRequisition"))
     )
 )
+            </div>
+    </div>
 </div>
+
+
+
 
 
 <script>

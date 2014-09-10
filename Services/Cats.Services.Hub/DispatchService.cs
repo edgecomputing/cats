@@ -287,12 +287,35 @@ namespace Cats.Services.Hub
             return _unitOfWork.DispatchRepository.Get(filter, null, includeProperties);
         }
 
+
+
+        public decimal GetFDPDispatch(int transportOrderId, int fdpId)
+        {
+            var dispatchAllocation =
+                _unitOfWork.DispatchAllocationRepository.FindBy(
+                    m => m.TransportOrderID == transportOrderId && m.FDPID == fdpId).FirstOrDefault();
+            if (dispatchAllocation!=null)
+            {
+                var dispatch =
+                    _unitOfWork.DispatchRepository.FindBy(
+                        m => m.DispatchAllocationID == dispatchAllocation.DispatchAllocationID).FirstOrDefault();
+                if (dispatch!=null)
+                {
+                    return dispatch.DispatchDetails.Sum(m => m.DispatchedQuantityInMT*10); //return dispatched amount in quintal
+                }
+
+            }
+            return 0;
+        }
+
+
         #endregion
         public void Dispose()
         {
             _unitOfWork.Dispose();
 
         }
+
 
     }
 }

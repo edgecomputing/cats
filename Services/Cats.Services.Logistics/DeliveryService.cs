@@ -70,6 +70,34 @@ namespace Cats.Services.Logistics
         {
             return _unitOfWork.DeliveryRepository.Get(filter, orderBy, includeProperties);
         }
+
+
+
+        public decimal GetFDPDelivery(int transportOrderId, int fdpId)
+        {
+            var dispatchAllocation =
+               _unitOfWork.DispatchAllocationRepository.FindBy(
+                   m => m.TransportOrderID == transportOrderId && m.FDPID == fdpId).FirstOrDefault();
+            if (dispatchAllocation != null)
+            {
+                var dispatch =
+                    _unitOfWork.DispatchRepository.FindBy(
+                        m => m.DispatchAllocationID == dispatchAllocation.DispatchAllocationID).FirstOrDefault();
+                if (dispatch != null)
+                {
+                    var delivery =
+                        _unitOfWork.DeliveryRepository.FindBy(m => m.DispatchID == dispatch.DispatchID).FirstOrDefault();
+                    if (delivery!=null)
+                    {
+                        return delivery.DeliveryDetails.Sum(m => m.ReceivedQuantity*10);//return Delivered amount in quintal
+                    }
+                   
+                }
+
+            }
+            return 0;
+        }
+
         #endregion
 
         public void Dispose()
@@ -80,7 +108,8 @@ namespace Cats.Services.Logistics
 
 
 
-       
+
+
     }
 }
 
