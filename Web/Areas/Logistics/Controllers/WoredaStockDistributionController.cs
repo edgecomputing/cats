@@ -6,14 +6,16 @@ using Cats.Areas.Logistics.Models;
 using Cats.Helpers;
 using Cats.Models;
 using Cats.Models.Constant;
-using Cats.Services.Common;
+using Cats.Services.Hub;
 using Cats.Services.Logistics;
 using Cats.Services.EarlyWarning;
 using Cats.Services.Security;
 using Cats.ViewModelBinder;
 using Kendo.Mvc.UI;
 using Kendo.Mvc.Extensions;
-using Cats.Services.Transaction;
+using ICommonService = Cats.Services.Common.ICommonService;
+using ITransactionService = Cats.Services.Transaction.ITransactionService;
+
 namespace Cats.Areas.Logistics.Controllers
 {
     public class WoredaStockDistributionController : Controller
@@ -27,6 +29,8 @@ namespace Cats.Areas.Logistics.Controllers
         private readonly IRegionalRequestService _regionalRequestService;
         private readonly IReliefRequisitionDetailService _reliefRequisitionDetailService;
         private readonly ITransactionService _transactionService;
+        private readonly IDispatchService _dispatchService;
+        private readonly IDeliveryService _deliveryService;
         public WoredaStockDistributionController(
             IUtilizationHeaderSerivce utilizationService,
             IUtilizationDetailSerivce utilizationDetailSerivce, 
@@ -35,7 +39,7 @@ namespace Cats.Areas.Logistics.Controllers
             IRegionalRequestService regionalRequestService,
             IReliefRequisitionDetailService reliefRequisitionDetailService,
             IReliefRequisitionService reliefRequisitionService,
-            ITransactionService transactionService)
+            ITransactionService transactionService, IDispatchService dispatchService, IDeliveryService deliveryService)
         {
             _utilizationService = utilizationService;
             _utilizationDetailSerivce = utilizationDetailSerivce;
@@ -45,6 +49,8 @@ namespace Cats.Areas.Logistics.Controllers
             _reliefRequisitionDetailService = reliefRequisitionDetailService;
             _reliefRequisitionService = reliefRequisitionService;
             _transactionService = transactionService;
+            _dispatchService = dispatchService;
+            _deliveryService = deliveryService;
         }
 
         //
@@ -169,6 +175,8 @@ namespace Cats.Areas.Logistics.Controllers
                                                                   AllocatedAmount = GetRequisionInfo(reliefRequisition.RequisitionID, woredaDistributionDetail.FdpId).AllocatedAmount,
                                                                   NumberOfBeneficiaries = GetRequisionInfo(reliefRequisition.RequisitionID, woredaDistributionDetail.FdpId).BeneficaryNumber,
                                                                   //RequisitionDetailViewModel = GetRequisionInfo(reliefRequisition.RequisitionID, woredaDistributionDetail.FdpId),
+                                                                  dispatched = GetDispatchAllocation(reliefRequisition.RequisitionNo),
+                                                                  delivered = GetDelivered(reliefRequisition.RequisitionNo),
                                                                   RequistionNo = reliefRequisition.RequisitionNo,
                                                                   Round = reliefRequisition.Round,
                                                                   Month = RequestHelper.MonthName(reliefRequisition.Month),
@@ -212,7 +220,22 @@ namespace Cats.Areas.Logistics.Controllers
             }
             return null;
         }
-       
+
+        private Decimal GetDispatchAllocation(string reqNo)
+        {
+            var dispatches = _dispatchService.Get(t => t.RequisitionNo == reqNo).ToList();
+            var totaldispatched = dispatches.Sum(dispatch => dispatch.DispatchDetails.Sum(m => m.DispatchedQuantityInMT));
+
+            return totaldispatched;
+        }
+
+        private decimal GetDelivered(string reqNo)
+        {
+            var dispatchIds = _dispatchService.Get(t => t.DispatchAllocation.RequisitionNo == reqNo).Select(t => t.DispatchID).ToList();
+            var deliveries = _deliveryService.Get(t => dispatchIds.Contains(t.DispatchID.Value), null, "DeliveryDetails");
+            return deliveries.Sum(delivery => delivery.DeliveryDetails.Sum(m => m.ReceivedQuantity));
+        }
+
         private WoredaStockDistribution GetWoredaDetailMOdel(WoredaStockDistributionWithDetailViewModel distributionViewModel)
         {
             if (distributionViewModel!=null)
