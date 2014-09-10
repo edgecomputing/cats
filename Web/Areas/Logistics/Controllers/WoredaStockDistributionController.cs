@@ -175,8 +175,8 @@ namespace Cats.Areas.Logistics.Controllers
                                                                   AllocatedAmount = GetRequisionInfo(reliefRequisition.RequisitionID, woredaDistributionDetail.FdpId).AllocatedAmount,
                                                                   NumberOfBeneficiaries = GetRequisionInfo(reliefRequisition.RequisitionID, woredaDistributionDetail.FdpId).BeneficaryNumber,
                                                                   //RequisitionDetailViewModel = GetRequisionInfo(reliefRequisition.RequisitionID, woredaDistributionDetail.FdpId),
-                                                                  dispatched = GetDispatchAllocation(reliefRequisition.RequisitionNo),
-                                                                  delivered = GetDelivered(reliefRequisition.RequisitionNo),
+                                                                  dispatched = GetDispatchAllocation(reliefRequisition.RequisitionNo, woredaDistributionDetail.FDP.FDPID),
+                                                                  delivered = GetDelivered(reliefRequisition.RequisitionNo, woredaDistributionDetail.FDP.FDPID),
                                                                   RequistionNo = reliefRequisition.RequisitionNo,
                                                                   Round = reliefRequisition.Round,
                                                                   Month = RequestHelper.MonthName(reliefRequisition.Month),
@@ -221,17 +221,17 @@ namespace Cats.Areas.Logistics.Controllers
             return null;
         }
 
-        private Decimal GetDispatchAllocation(string reqNo)
+        private Decimal GetDispatchAllocation(string reqNo,int fdpId)
         {
-            var dispatches = _dispatchService.Get(t => t.RequisitionNo == reqNo).ToList();
+            var dispatches = _dispatchService.Get(t => t.RequisitionNo == reqNo && t.FDPID == fdpId).ToList();
             var totaldispatched = dispatches.Sum(dispatch => dispatch.DispatchDetails.Sum(m => m.DispatchedQuantityInMT));
 
             return totaldispatched;
         }
 
-        private decimal GetDelivered(string reqNo)
+        private decimal GetDelivered(string reqNo,int fdpId)
         {
-            var dispatchIds = _dispatchService.Get(t => t.DispatchAllocation.RequisitionNo == reqNo).Select(t => t.DispatchID).ToList();
+            var dispatchIds = _dispatchService.Get(t => t.DispatchAllocation.RequisitionNo == reqNo && t.FDPID == fdpId).Select(t => t.DispatchID).ToList();
             var deliveries = _deliveryService.Get(t => dispatchIds.Contains(t.DispatchID.Value), null, "DeliveryDetails");
             return deliveries.Sum(delivery => delivery.DeliveryDetails.Sum(m => m.ReceivedQuantity));
         }
