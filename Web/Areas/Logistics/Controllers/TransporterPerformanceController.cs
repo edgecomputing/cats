@@ -185,7 +185,7 @@ namespace Cats.Areas.Logistics.Controllers
 
             var transportOrderDetail =
                 _transportOrderDetailService.FindBy(t => t.Hub.HubID == hubId && t.TransportOrderID == transportOrderId && t.FDP.AdminUnit.AdminUnit2.AdminUnit2.AdminUnitID == regionId
-                && (t.TransportOrder.StartDate <= startDate && t.TransportOrder.EndDate >= EndDate)).Select(r => new
+                && (t.TransportOrder.StartDate >= startDate && t.TransportOrder.EndDate <= EndDate)).Select(r => new
                 {
                     fdp = r.FDP.Name,
                     zone = r.FDP.AdminUnit.AdminUnit2.Name,

@@ -473,6 +473,7 @@ namespace Cats.Areas.Logistics.Controllers
             return Json(new WoredaDistributionDetailViewModel(), JsonRequestBehavior.AllowGet);
         }
 
+
         private List<WoredaDistributionDetailViewModel> GetWoredaStockDistributionDetail(IEnumerable<WoredaStockDistributionDetail> woredaStockDistributionDetails,ReliefRequisition requisition)
         {
            
@@ -563,7 +564,7 @@ namespace Cats.Areas.Logistics.Controllers
             }
             return Json(new[] { woredaDistributionDetail }.ToDataSourceResult(request, ModelState));
         }
-
+        
         public JsonResult GetPlans(string id,int zoneID)
         {
             var programId = int.Parse(id);
