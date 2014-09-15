@@ -72,7 +72,7 @@
                     @Html.LabelFor(model => model.ETA, @Html.Translate("ETA"))
                 </div>
                 <div class="controls" >
-                    @(Html.TextBoxFor(model => model.ETA,new {@readonly = "readonly" }))
+                    @(Html.TextBoxFor(model => model.ETA, new { @readonly = "readonly", @class = "cats-datepicker2" }))
                     @Html.ValidationMessageFor(model => model.ETA)
                 </div>
             
