@@ -145,8 +145,9 @@
                                     <th>@Html.Translate2(pageName,"Hub")</th>
                                     <th>@Html.Translate2(pageName,"Requisition No")</th>
                                     <th>@Html.Translate2(pageName,"Commodity")</th>
-                                    <th>@Html.Translate2(pageName,"Amount (Qtl)")</th>
-                                   
+                                    <th>@Html.Translate2(pageName,"Allocated  (Qtl)")</th>
+                                    <th>@Html.Translate2(pageName,"Dispatched (Qtl)")</th>
+                                     <th>@Html.Translate2(pageName,"Delivered (Qtl)")</th>
                                  </tr>
                             </thead>
                             <tbody>
@@ -159,8 +160,9 @@
                                     <th>{{req.hub}}</th>
                                     <td>{{req.requisitionNo}}</td>
                                     <td>{{req.commodity}}</td>
-                                    <th>{{req.amount | number}}</th>
-                                   
+                                    <td class="number">{{req.amount | number}}</td>
+                                    <td class="number">{{req.dispatchedAmount | number:2}}</td>
+                                     <td class="number">{{req.DeliveredAmount | number:2}}</td>
                                        
                                 </tr>
                                    

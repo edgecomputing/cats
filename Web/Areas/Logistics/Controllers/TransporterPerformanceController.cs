@@ -171,6 +171,8 @@ namespace Cats.Areas.Logistics.Controllers
                     requisitionNo = r.ReliefRequisition.RequisitionNo,
                     tariff = r.TariffPerQtl,
                     commodity = r.Commodity.Name,
+                    dispatchedAmount=_dispatchService.GetFDPDispatch(transportOrderId,r.FdpID),
+                    DeliveredAmount = _deliveryService.GetFDPDelivery(transportOrderId, r.FdpID)
                     //zone = r.AdminUnit.Name
                 });
             return Json(transportOrderDetail, JsonRequestBehavior.AllowGet);
@@ -194,7 +196,8 @@ namespace Cats.Areas.Logistics.Controllers
                     requisitionNo = r.ReliefRequisition.RequisitionNo,
                     tariff = r.TariffPerQtl,
                     commodity = r.Commodity.Name,
-                    //zone = r.AdminUnit.Name
+                    dispatchedAmount = _dispatchService.GetFDPDispatch(transportOrderId, r.FdpID),
+                    DeliveredAmount = _deliveryService.GetFDPDelivery(transportOrderId, r.FdpID)
                 });
             return Json(transportOrderDetail, JsonRequestBehavior.AllowGet);
         }

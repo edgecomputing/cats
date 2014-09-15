@@ -146,7 +146,8 @@ namespace Cats.Areas.Procurement.Controllers
                 {
                     new RequestStatus() {StatusID = 1, StatusName = "Draft"},
                     new RequestStatus() {StatusID = 2, StatusName = "Approved"},
-                    new RequestStatus() {StatusID = 3, StatusName = "Signed"}
+                    new RequestStatus() {StatusID = 3, StatusName = "Signed"},
+                     new RequestStatus() {StatusID = 4, StatusName = "Closed"}
                 };
             ViewBag.StatusID = new SelectList(transportOrderStatus, "StatusID", "StatusName");
             return View(viewModel);
