@@ -17,6 +17,7 @@ namespace Cats.Services.Common
         bool DeleteById(int id);
         int getPSNPWorkflow();
         int getPaymentRequestWorkflow();
+        int getTransporterChequeWorkflow();
         int getDefaultRation();
         int getBidWinnerWorkflow();
         ApplicationSetting FindById(int id);

@@ -5,6 +5,7 @@ using System.Linq;
 using Cats.Data.UnitWork;
 using Cats.Models;
 using Cats.Models.Constant;
+using Cats.Services.Administration;
 
 namespace Cats.Services.PSNP
 {
@@ -90,7 +91,7 @@ namespace Cats.Services.PSNP
             }
 
         }
-        public RegionalPSNPPlan CreatePsnpPlan(int year,int duration,int ration,int statusID ,int planID)
+        public RegionalPSNPPlan CreatePsnpPlan(int year,int duration,int ration,int statusID ,int planID, int userId)
         {
             var psnp = new RegionalPSNPPlan()
                 {
@@ -98,7 +99,8 @@ namespace Cats.Services.PSNP
                     Year = year,
                     Duration = duration,
                     RationID = ration,
-                    StatusID = statusID
+                    StatusID = statusID,
+                    User = userId
                 };
             _unitOfWork.RegionalPSNPPlanRepository.Add(psnp);
             _unitOfWork.Save();

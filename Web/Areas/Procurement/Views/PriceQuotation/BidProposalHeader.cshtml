@@ -171,7 +171,7 @@
         for (var i = 0; i < gridData.length; i++) {
             var currentUid = gridData[i].uid;
             //alert(gridData[i].Status);
-            if (gridData[i].Status == "Winner Generated") {
+            if (gridData[i].Status == "Winner Generated" || gridData[i].Status == "Approved") {
                 var currentRow = grid.table.find("tr[data-uid='" + currentUid + "']");
                 var approveButton = $(currentRow).find(".k-grid-Approve");
                 approveButton.hide();
@@ -179,11 +179,13 @@
                 editButton.hide();
             }
             
-            if (gridData[i].Status != "Approved") {
+
+            if (gridData[i].Status == "Approved") {
+
                 if (!gridData[i].CanApprove) {
                     var currentRo = grid.table.find("tr[data-uid='" + currentUid + "']");
                     var approveBtn = $(currentRo).find(".k-grid-Approve");
-                    //approveBtn.show();
+                    approveBtn.hide();
                 }
             }
         }

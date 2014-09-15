@@ -56,6 +56,8 @@ namespace Cats.Services.Hub
                                             Func<IQueryable<Dispatch>, IOrderedQueryable<Dispatch>>
                                                 orderBy = null, string includeProperties = "");
 
+        decimal GetFDPDispatch(int transportOrderId, int fdpId);
+
     }
 }
 

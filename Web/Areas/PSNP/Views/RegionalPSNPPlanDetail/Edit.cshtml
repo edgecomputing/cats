@@ -17,10 +17,13 @@
        
 }
  @section Toolbar
-{
-    <a class="btn toolbar-btn " data-buttontype="btn_save" href="javascript:saverecords()"></a>
-    <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="javascript:cancelChanges()"></a>
+ {
+     @if(ViewBag.plan_user == ViewBag.current_user )
+     {
+         <a class="btn toolbar-btn " data-buttontype="btn_save" href="javascript:saverecords()"></a>
+         <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="javascript:cancelChanges()"></a>
          <a class="btn toolbar-btn " data-buttontype="btn_reload" href="javascript:reloadrecords()"></a>
+     }
      <a class="btn toolbar-btn " data-buttontype="btn_back_to_list" href="@Url.Action("Index", "RegionalPSNPPlanDetail",new {id=ViewBag.PsnpPlan.RegionalPSNPPlanID})"></a>
     
 }
@@ -84,6 +87,12 @@
             model.Field(p => p.WoredaName).Editable(false);
             model.Field(p => p.CashRatio).Editable(false);
             //model.Field(p => p.FDPName).Editable(false);
+            if(ViewBag.plan_user != ViewBag.current_user )
+            {
+                model.Field(p => p.BeneficiaryCount).Editable(false);
+                model.Field(p => p.StartingMonthName).Editable(false);
+                model.Field(p => p.FoodRatio).Editable(false);
+            }
         })
          .Group(group =>
            {

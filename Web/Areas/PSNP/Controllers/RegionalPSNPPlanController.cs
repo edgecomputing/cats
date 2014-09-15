@@ -9,6 +9,7 @@ using Cats.Helpers;
 using Cats.Models;
 using Cats.Models.PSNP;
 using Cats.Data;
+using Cats.Services.Administration;
 using Cats.Services.PSNP;
 using Cats.Services.Security;
 using Cats.Services.Transaction;
@@ -18,6 +19,7 @@ using Cats.Services.EarlyWarning;
 using Cats.Services.Common;
 using Cats.Infrastructure;
 using log4net;
+using IAdminUnitService = Cats.Services.EarlyWarning.IAdminUnitService;
 
 
 namespace Cats.Areas.PSNP
@@ -34,6 +36,7 @@ namespace Cats.Areas.PSNP
         private readonly IPlanService _planService;
         private readonly IUserAccountService _userAccountService;
         private readonly Cats.Services.Transaction.ITransactionService _transactionService;
+        private readonly IUserProfileService _userProfileService;
 
         public RegionalPSNPPlanController(IRegionalPSNPPlanService regionalPSNPPlanServiceParam
                                           , IRationService rationServiceParam
@@ -43,7 +46,7 @@ namespace Cats.Areas.PSNP
                                           , IApplicationSettingService ApplicationSettingParam
                                           , ILog log
                                           , IPlanService planService
-                                          ,IUserAccountService userAccountService, ITransactionService transactionService)
+                                          ,IUserAccountService userAccountService, ITransactionService transactionService, IUserProfileService userProfileService)
         {
             this._regionalPSNPPlanService = regionalPSNPPlanServiceParam;
             this._rationService = rationServiceParam;
@@ -55,6 +58,7 @@ namespace Cats.Areas.PSNP
             this._planService = planService;
             this._userAccountService = userAccountService;
             _transactionService = transactionService;
+            this._userProfileService = userProfileService;
         }
 
         public IEnumerable<RegionalPSNPPlanViewModel> toViewModel(IEnumerable<Cats.Models.RegionalPSNPPlan> list)
@@ -73,8 +77,8 @@ namespace Cats.Areas.PSNP
                             RationName = plan.Ration.RefrenceNumber,
                             From = plan.Plan.StartDate.ToCTSPreferedDateFormat(datePref),
                             To = plan.Plan.EndDate.ToCTSPreferedDateFormat(datePref),
-                            StatusName = plan.AttachedBusinessProcess.CurrentState.BaseStateTemplate.Name
-
+                            StatusName = plan.AttachedBusinessProcess.CurrentState.BaseStateTemplate.Name,
+                            UserId = plan.User
 
                         });
             }
@@ -188,7 +192,7 @@ namespace Cats.Areas.PSNP
             var startDate = regionalpsnpplan.Plan.StartDate;
             var firstDayOfTheMonth = startDate.AddDays(1 - startDate.Day);
             var endDate = firstDayOfTheMonth.AddMonths(regionalpsnpplan.Duration).AddDays(-1);
-
+            UserProfile user = _userProfileService.GetUser(User.Identity.Name);
              if (ModelState.IsValid)
                 {
                     
@@ -214,7 +218,7 @@ namespace Cats.Areas.PSNP
 
                                  };
 
-                         var psnpPlan=  _regionalPSNPPlanService.CreatePsnpPlan(regionalpsnpplan.Year,regionalpsnpplan.Duration,regionalpsnpplan.RationID,regionalpsnpplan.StatusID,plan.PlanID);
+                         var psnpPlan=  _regionalPSNPPlanService.CreatePsnpPlan(regionalpsnpplan.Year,regionalpsnpplan.Duration,regionalpsnpplan.RationID,regionalpsnpplan.StatusID,plan.PlanID,user.UserProfileID);
                         //_planService.ChangePlanStatus(regionalpsnpplan.PlanId);
                         BusinessProcess bp = _BusinessProcessService.CreateBusinessProcess(BP_PSNP,
                                                                                            regionalpsnpplan.

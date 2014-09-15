@@ -35,6 +35,8 @@ namespace Cats.Areas.Logistics.Models
         public string DistributionEndDate { get; set; }
         public decimal LossAmount { get; set; }
         public string LossReason { get; set; }
+        public decimal dispatched { get; set; }
+        public decimal delivered { get; set; }
 
         public RequisitionDetailViewModel RequisitionDetailViewModel { get; set; }
         public int WoredaStockDistributionID { get; set; }

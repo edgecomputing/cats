@@ -29,38 +29,42 @@
 </script>
 @section Toolbar
 {
-
-    <div class="btn-group">
-        <button class="btn edit_button" id="action">Workflow</button>
-        <button class="btn  dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
-        <ul class="dropdown-menu">
-            @foreach (FlowTemplate actions in state.InitialStateFlowTemplates)
-            {
-                <li class="edit_button"><a href="javascript:promot_workflow(@plan.AttachedBusinessProcess.BusinessProcessID ,@actions.FinalStateID,'@actions.Name',@plan.RegionalPSNPPlanID)" title="@actions.Name">@actions.Name</a></li>            
+    @* If the user logged in the one that creates the plan, he/she can have access to the action buttons. *@
+    @if(ViewBag.plan_user == ViewBag.current_user )
+    {
+        <div class="btn-group">
+            <button class="btn edit_button" id="action">Workflow</button>
+            <button class="btn  dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
+            <ul class="dropdown-menu">
+                @foreach (FlowTemplate actions in state.InitialStateFlowTemplates)
+                {
+                    <li class="edit_button"><a href="javascript:promot_workflow(@plan.AttachedBusinessProcess.BusinessProcessID ,@actions.FinalStateID,'@actions.Name',@plan.RegionalPSNPPlanID)" title="@actions.Name">@actions.Name</a></li>            
             }
-            <li class="divider"></li>
-            <li class="edit_button"><a href="javascript:workflow_history(@plan.AttachedBusinessProcess.BusinessProcessID)">History</a></li>
-        </ul>
-    </div>
-    <div class="btn-group">
-        <button class="btn">Action</button>
+                <li class="divider"></li>
+                <li class="edit_button"><a href="javascript:workflow_history(@plan.AttachedBusinessProcess.BusinessProcessID)">History</a></li>
+            </ul>
+        </div>
+    
+        <div class="btn-group">
+            <button class="btn">Action</button>
 
 
-        <button class="btn dropdown-toggle " data-toggle="dropdown">
-            <span class="caret"></span>
-        </button>
+            <button class="btn dropdown-toggle " data-toggle="dropdown">
+                <span class="caret"></span>
+            </button>
 
-        <ul class="dropdown-menu">
-            @if (state.AllowedAccessLevel >= 2)
-            {
-                <li><a href="@Url.Action("Edit", "RegionalPSNPPlanDetail", new { Area = "PSNP", id = plan.RegionalPSNPPlanID })">@Html.Translate2(pageName, "Edit")</a></li>
-            }
-            @* @if (state.AllowedAccessLevel >= 3)
+            <ul class="dropdown-menu">
+                @if (state.AllowedAccessLevel >= 2)
+                {
+                    <li><a href="@Url.Action("Edit", "RegionalPSNPPlanDetail", new { Area = "PSNP", id = plan.RegionalPSNPPlanID })">@Html.Translate2(pageName, "Edit")</a></li>
+                }
+@* @if (state.AllowedAccessLevel >= 3)
             {
                 <li><a href="@Url.Action("Delete", "RegionalPSNPPlan", new { Area = "PSNP", id = plan.RegionalPSNPPlanID })">@Html.Translate2(pageName, "Delete")</a></li>
             }*@
-        </ul>
-    </div>
+            </ul>
+        </div>
+    }
      <a class="btn toolbar-btn" href="#" style="display:none1;" target="_blank" id="toolbar_button_print"  title="Print"><i class="icon-print"></i></a>
     <a class="btn toolbar-btn " data-buttontype="btn_back_to_list" href="@Url.Action("Index", "RegionalPSNPPlan")"></a>
 
