@@ -285,7 +285,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             if (contribution != null)
             {
                 var detailsToDisplay = GetInKindContributionDetail(contribution).ToList();
-                return Json(detailsToDisplay.ToDataSourceResult(request));
+                return Json(detailsToDisplay.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
             }
             return RedirectToAction("Index");
         }
