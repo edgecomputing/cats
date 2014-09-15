@@ -41,7 +41,6 @@ namespace Cats.Services.EarlyWarning
             StartingState.ParentBusinessProcessID = bp.BusinessProcessID;
             StartingState.StateID = startingTemplate.StateTemplateID;
             PromotWorkflow(StartingState);
-                            
             return bp;
         }
         public bool Add(BusinessProcess item)

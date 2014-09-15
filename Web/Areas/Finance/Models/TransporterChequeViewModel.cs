@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using Cats.Models;
 
 namespace Cats.Areas.Finance.Models
 {
     public class TransporterChequeViewModel
     {
-        public Guid TransporterChequeId { get; set; }
-        public int TransporterPaymentRequestID { get; set; }
-        public string PaymentRequestRefNo { get; set; }
+        public int TransporterChequeId { get; set; }
+        public string PaymentRequestsList { get; set; }
         public string CheckNo { get; set; }
         public string PaymentVoucherNo { get; set; }
         public string BankName { get; set; }
@@ -23,5 +23,6 @@ namespace Cats.Areas.Finance.Models
         public int Status { get; set; }
         public DateTime? AppovedDate { get; set; }
         public string AppovedDateString { get; set; }
+        public List<TransporterChequeDetail> TransporterChequeDetails { get; set; }
     }
 }
