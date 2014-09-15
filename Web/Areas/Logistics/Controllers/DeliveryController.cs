@@ -177,7 +177,7 @@ namespace Cats.Areas.Logistics.Controllers
                 {
                     var dispatchDetail = dispatchObj.DispatchDetails.FirstOrDefault();
                     if (dispatchDetail != null)
-                        deliveryViewModel.SentQuantity = dispatchDetail.RequestedQuantityInMT;
+                        deliveryViewModel.SentQuantity = dispatchDetail.RequestedQunatityInUnit;
                     deliveryViewModel.CommodityID = dispatchObj.DispatchAllocation.CommodityID;
                     deliveryViewModel.Commodity = dispatchObj.DispatchAllocation.Commodity.Name;
                     if (dispatchObj.DispatchAllocation.Unit != 0)
