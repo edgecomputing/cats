@@ -24,7 +24,7 @@ namespace Cats.Services.Logistics
             Func<IQueryable<Delivery>, IOrderedQueryable<Delivery>> orderBy = null,
             string includeProperties = "");
 
-   
+        decimal GetFDPDelivery(int transportOrderId, int fdpId);
 
     }
 }

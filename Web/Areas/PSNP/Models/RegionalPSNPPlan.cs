@@ -37,6 +37,10 @@ namespace Cats.Models.PSNP
         [Display(Name = "Status")]
         public string StatusName { get; set; }
 
+        //User ID
+        [Display(Name = "user")]
+        public int UserId { get; set; }
+
         public string From { get; set; }
         public string To { get; set; }
         public string PlanName { get; set; }

@@ -2,210 +2,214 @@
 @using Cats.Areas.EarlyWarning.Models
 @using Cats.Models
 @model Cats.Areas.EarlyWarning.Models.ReliefRequisitionViewModel
+@using Cats.Models.Constant
 @using Cats.Services.Security
 @using Cats.Helpers;
 @using Kendo.Mvc.UI
-@{
-    ViewBag.Title = "Edit";
-    Layout = "~/Views/Shared/_MainLayout.cshtml";    
-}
+
 @{
     
     var user = (UserIdentity)System.Web.HttpContext.Current.User.Identity;
     var unit = user.Profile.PreferedWeightMeasurment;
 }
-@section Toolbar
-{
-    <a class="btn toolbar-btn " data-buttontype="btn_back_to_list" href="@Url.Action("Index", "ReliefRequisition")"></a>
-    @if (Model.StatusID == (int)Cats.Models.Constant.ReliefRequisitionStatus.Draft || Model.StatusID == (int)Cats.Models.Constant.ReliefRequisitionStatus.Rejected)
-    {
-        <a class="btn toolbar-btn " data-buttontype="btn_edit" href="@Url.Action("Edit", "ReliefRequisition", new { id = Model.RequisitionID })"></a>
-
-        <a href="@Url.Action("SendToLogistics", "ReliefRequisition", new { id = Model.RequisitionID })" class="btn toolbar-btn btn-Approve-allocation"><i class=""></i>Approve</a>
-    }
-}
 
 @{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_CATSLayout.cshtml";
+}
+
+@section Title
+{
+Requistions
+}
+
+@section PageTitle
+{
+     
+    @{
     if (Model!=null)
     {
         if (Model.ProgramID == 3 ) //i.e. IDPS
         {
-            <h5 class="page-header">   @Html.DisplayFor(model => model.Program) Requisition Resource Allocation </h5>
+            <h1 class="hdr-blck big ">   @Html.DisplayFor(model => model.Program) Requisition Resource Allocation  </h1>
         }
         else
         {
-            <h5 class="page-header">Monthly   @Html.DisplayFor(model => model.Program) Requisition Resource Allocation </h5>
+             <h1 class="hdr-blck big ">Monthly   @Html.DisplayFor(model => model.Program) Requisition Resource Allocation  </h1>
         }
     }
+     
 }
 
-        
+  
+      
+  
+}
+<div class="row">
+    @Html.Partial("_RequistionsLeftBar")
+    <div class="col-md-10  col-sm-9">
+        <div class=" box box-primary ">
+            <div class="box-body row">
+                <div class="text-right mrgn5-v col-md-12">
+                    <a class="btn btn-primary btn-sm " data-buttontype="btn_back_to_list" href="@Url.Action("Index", "ReliefRequisition")"><span class="fa fa-arrow-left"></span> Back to List</a>
+                    @if (Model.StatusID == (int)Cats.Models.Constant.ReliefRequisitionStatus.Draft || Model.StatusID == (int)Cats.Models.Constant.ReliefRequisitionStatus.Rejected)
+                    {
+                        <a class="btn btn-warning btn-sm " data-buttontype="btn_edit" href="@Url.Action("Edit", "ReliefRequisition", new { id = Model.RequisitionID })"><span class="fa fa-pencil-square-o"></span> Edit</a>
 
-<div id='dialogDiv' class='modal hide fade in'>
-    <div id='dialogContent'></div>
-</div>
-<div class="row-fluid form-horizontal  ">
-    <div class="well  span12 ">
-        <div class="span5">
-            <div class="control-group">
-                <div class="control-label">@Html.DisplayNameFor(model => model.RequisitionNo)</div>
-                <div class="controls">
-                    @Html.TextBoxFor(model => model.RequisitionNo, new { disabled = "true" })
+                        <a href="@Url.Action("SendToLogistics", "ReliefRequisition", new { id = Model.RequisitionID })" class="btn btn-success btn-sm  btn-Approve-allocation"><i class="fa fa-check"></i> Approve</a>
+    }
                 </div>
-            </div>
-            <div class="control-group">
-                <div class="control-label">@Html.DisplayNameFor(model => model.Region)</div>
-                <div class="controls">@Html.TextBoxFor(model => model.Region, new { disabled = "true" })</div>
-            </div>
-            <div class="control-group">
-                <div class="control-label">@Html.DisplayNameFor(model => model.Zone)
-                </div>
-                <div class="controls">@Html.TextBoxFor(model => model.Zone, new { disabled = "true" })</div>
-            </div>
-            <div class="control-group">
-                <div class="control-label">@Html.DisplayNameFor(model => model.Commodity)
-                </div>
-                <div class="controls">@Html.TextBoxFor(model => model.Commodity, new { disabled = "true" })</div>
-            </div>
-            
-            <div class="control-group">
-                <div class="control-label">@Html.DisplayNameFor(model => model.Ration)</div>
-                <div class="controls">@Html.TextBoxFor(model => model.Ration, new { disabled = "true" })
+                <div class="col-md-12">
+
+                    <div class="row">
+                        <div class="col-md-6 col-sm-6 form-horizontal">
+                            <div class="form-group">
+                                <div class="col-sm-4 control-label">@Html.DisplayNameFor(model => model.RequisitionNo)</div>
+                                <div class="col-sm-8">
+                                    @Html.TextBoxFor(model => model.RequisitionNo, new { disabled = "true",@class = "form-control" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-4 control-label">@Html.DisplayNameFor(model => model.Region)</div>
+                                <div class="col-sm-8">@Html.TextBoxFor(model => model.Region, new { disabled = "true",@class = "form-control" })</div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-4 control-label">@Html.DisplayNameFor(model => model.Zone)
+                                </div>
+                                <div class="col-sm-8">@Html.TextBoxFor(model => model.Zone, new { disabled = "true",@class = "form-control" })</div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-4 control-label">@Html.DisplayNameFor(model => model.Commodity)
+                                </div>
+                                <div class="col-sm-8">@Html.TextBoxFor(model => model.Commodity, new { disabled = "true",@class = "form-control" })</div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-sm-4 control-label">@Html.DisplayNameFor(model => model.Ration)</div>
+                                <div class="col-sm-8">@Html.TextBoxFor(model => model.Ration, new { disabled = "true" })
+                                     <a id="pop"
+                                    class="btn btn-sm btn-default"
+                                    href="#"
+                                    data-original-title="Ration Detail">
+                                    <i class="fa  fa-question-circle"></i>
+                                </a>
+
+
+                                </div>
+
+                            </div>
+
+
+                        </div>
+                        <div class="col-md-6 col-sm-6 form-horizontal">
+                            @if (Model.ProgramID == 1)
+                            {
+                                <div class="form-group">
+                                    <div class="col-sm-4 control-label">@Html.DisplayNameFor(model => model.Round)
+                                    </div>
+                                    <div class="col-sm-8">@Html.TextBoxFor(model => model.Round, new { disabled = "true",@class = "form-control" })</div>
+                                </div>
+                            }
+                            else if (Model.ProgramID == 2)
+                            {
+                                <div class="form-group">
+                                    <div class="col-sm-4 control-label">@Html.DisplayNameFor(model => model.Month)
+                                    </div>
+                                    <div class="col-sm-8">@Html.TextBoxFor(model => model.Month, new { disabled = "true",@class = "form-control" })</div>
+                                </div>
+                            }
+                            <div class="form-group">
+                                <div class="col-sm-4 control-label">@Html.LabelFor(model => model.RequestedDateEt, new { @class = "cats-date-pref" })
+                                </div>
+                                <div class="col-sm-8">@Html.TextBoxFor(model => model.RequestedDateEt, new { disabled = "true",@class = "form-control" })</div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-4 control-label">@Html.DisplayNameFor(model => model.Program)
+                                </div>
+                                <div class="col-sm-8">@Html.TextBoxFor(model => model.Program, new { disabled = "true",@class = "form-control" })</div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-4 control-label">
+                                    Status
+                                </div>
+                                <div class="col-sm-8">@Html.TextBoxFor(model => model.Status, new { disabled = "true",@class = "form-control" })</div>
+                            </div>
+
+
+                        
+                        </div>
+
+                    </div>
                     
-                   
+
 
                 </div>
-                
+                <div class="col-md-12 table-responsive">
+                        @(Html.Kendo().Grid<ReliefRequisitionDetailViewModel>()
+                              .Name("grid")
+                              .Columns(columns =>
+                                           {
+                                               columns.Template(t => { }).Title("No").ClientTemplate("#= renderNumber(data) #").Width(50);
+                                               columns.Bound(p => p.Zone).Width(100).HtmlAttributes(new { style = "background-color:lightgray" });
+                                               columns.Bound(p => p.Woreda).Width(100).HtmlAttributes(new { style = "background-color:lightgray" });
+                                               columns.Bound(p => p.FDP).Width(100).HtmlAttributes(new { style = "background-color:lightgray" });
+                                              
+                                               if (Model.ProgramID == 2)
+                                               {
+                                                   columns.ForeignKey(p => p.DonorID, (IEnumerable)ViewData["donors"], "DonorID", "Name").Title("Donor").Width(100).ClientFooterTemplate("<div style='text-align: right;'><b>TOTAL: </b></div>"); ;
+                                               }
+                                               columns.Bound(p => p.BenficiaryNo).ClientFooterTemplate("<div style='text-align: right;'><b>#=kendo.format('{0:N0}', sum)#</b></div>").Format("{0:N0}").Width(100).HtmlAttributes(new { align = "right" }).Format("{0:n0}");
+                                               columns.Bound(p => p.Amount).ClientFooterTemplate("<div style='text-align: right;'><b>#=kendo.format('{0:0.00}', sum)#</b></div>").Format("{0:0.00}").Width(100).HtmlAttributes(new { style = "background-color:lightgray", align = "right" }).Format("{0:n2}").HeaderHtmlAttributes(new { @class = "cats-unit-pref-grid" });
+                                               if (Model.ProgramID == 2)
+                                               {
+                                                   columns.Bound(p => p.Contingency).ClientFooterTemplate("<div style='text-align: right;'><b>#=kendo.format('{0:0.00}', sum)#</b></div>").Format("{0:0.00}").Width(100).HtmlAttributes(new { style = "background-color:lightgray", align = "right" }).Format("{0:n2}").HeaderHtmlAttributes(new { @class = "cats-unit-pref-grid" });
+                                               }
+                                               columns.Bound(p => p.RationAmount).Hidden(true);
+                                           })
+                              .ToolBar(toolbar => toolbar.Save())
+                              .Editable(editable => editable.Mode(GridEditMode.InCell))
+                              .Selectable(t => t.Mode(GridSelectionMode.Single))
+                              .Navigatable()
+                              .Scrollable()
+                              .HtmlAttributes(new { style = "height:430px;" })
+                              .Events(ev => ev.DataBound("onDataBound"))
+                              .DataSource(dataSource => dataSource
+                                                            .Ajax()
+                                                            .Aggregates(aggregates => aggregates.Add(p => p.BenficiaryNo).Sum())
+                                                            .Aggregates(aggregates => aggregates.Add(p => p.Amount).Sum())
+                                                            .Aggregates(aggregates => aggregates.Add(p => p.Contingency).Sum())
+                                                            .Events(events => events.Change("onGridKeydown"))
+                                                            .Model(model =>
+                                                                       {
+                                                                           model.Id(p => p.RequisitionDetailID);
+                                                                           model.Field(detail => detail.FDP).Editable(false);
+                                                                           model.Field(detail => detail.Zone).Editable(false);
+                                                                           model.Field(detail => detail.Woreda).Editable(false);
+                                                                           model.Field(detail => detail.Commodity).Editable(false);
+                                                                           model.Field(detail => detail.Donor).Editable(false);
+                                                                           if (Model.Status == "HubAssigned")
+                                                                           {
+                                                                               model.Field(detail => detail.BenficiaryNo).Editable(false);
+                                                                           }
+                                                                         
+                                                                       })
+                                                            .Create(update => update.Action("Allocation_Create", "ReliefRequisition"))
+                                                            .Read(read => read.Action("Allocation_Read", "ReliefRequisition", new { id = Model.RequisitionID }))
+                                                            .Update(update => update.Action("Allocation_Update", "ReliefRequisition"))
+                                                            .Destroy(update => update.Action("Allocation_Destroy", "ReliefRequisition"))
+                              )
+                              )
+                    </div>
             </div>
-             
-           
         </div>
-        <div class="span5">
-            @if (Model.ProgramID == 1)
-            {
-                <div class="control-group">
-                    <div class="control-label">@Html.DisplayNameFor(model => model.Round)
-                    </div>
-                    <div class="controls">@Html.TextBoxFor(model => model.Round, new {disabled = "true"})</div>
-                </div>
-            }
-            else if (Model.ProgramID == 2)
-            {
-                <div class="control-group">
-                    <div class="control-label">@Html.DisplayNameFor(model => model.Month)
-                    </div>
-                    <div class="controls">@Html.TextBoxFor(model => model.Month, new { disabled = "true" })</div>
-                </div>
-            }
-            <div class="control-group">
-                <div class="control-label">@Html.LabelFor(model => model.RequestedDateEt, new { @class = "cats-date-pref" })
-                </div>
-                <div class="controls">@Html.TextBoxFor(model => model.RequestedDateEt, new { disabled = "true" })</div>
-            </div>
-            <div class="control-group">
-                <div class="control-label">@Html.DisplayNameFor(model => model.Program)
-                </div>
-                <div class="controls">@Html.TextBoxFor(model => model.Program, new { disabled = "true" })</div>
-            </div>
-            <div class="control-group">
-                <div class="control-label">
-                    Status
-                </div>
-                <div class="controls">@Html.TextBoxFor(model => model.Status, new { disabled = "true" })</div>
-            </div>
-            
-            @*@if (Model.StatusID == (int)Cats.Models.Constant.ReliefRequisitionStatus.Draft)
-        { 
-            @Html.ActionLink("Edit", "Edit", new { id = Model.RequisitionID })
-        
-        }
-        @if (Model.StatusID == (int)Cats.Models.Constant.ReliefRequisitionStatus.Draft)
-        {  @Html.ActionLink("Approve", "SendToLogistics", new { id = Model.RequisitionID }) 
-                                         @Html.ActionLink("Approve", "SendToLogistics", new { id = Model.RequisitionID }) 
-        
-        }*@
-            <div class="control-group"> <a id="pop"
-                          class="btn btn-sm"
-                          href="#"
-                          data-original-title="Ration Detail">
-                           <i class="icon-question-sign"></i>
-                       </a>
 
-                </div>
-        </div>
 
     </div>
-    
-
 </div>
 
+<div id="cats-modal"></div>
 
-@section LeftBar
-{
-    @Html.Partial("_RequistionsLeftBar")
 
-}
-<div style="color: lightgray"></div>
-
-@(Html.Kendo().Grid<ReliefRequisitionDetailViewModel>()
-    .Name("grid")
-    .Columns(columns =>
-    {
-        columns.Template(t => { }).Title("No").ClientTemplate("#= renderNumber(data) #").Width(50);
-        columns.Bound(p => p.Zone).Width(100).HtmlAttributes(new { style = "background-color:lightgray" });
-        columns.Bound(p => p.Woreda).Width(100).HtmlAttributes(new { style = "background-color:lightgray" });
-        columns.Bound(p => p.FDP).Width(100).HtmlAttributes(new { style = "background-color:lightgray" });
-        //columns.Bound(p => p.Donor).Width(100).HtmlAttributes(new { style = "background-color:lightgray" });
-        //columns.Bound(p => p.Commodity).Width(100).HtmlAttributes(new { style = "background-color:lightgray" });
-        //columns.ForeignKey(p => p.Donor, (IEnumerable<Cats.Models.Donor>)ViewData["donors"], "DonorID", "Name").Width(200);
-        if (Model.ProgramID == 2)
-        {
-            columns.ForeignKey(p => p.DonorID, (IEnumerable)ViewData["donors"], "DonorID", "Name").Title("Donor").Width(100).ClientFooterTemplate("<div style='text-align: right;'><b>TOTAL: </b></div>"); ;
-        }
-        columns.Bound(p => p.BenficiaryNo).ClientFooterTemplate("<div style='text-align: right;'><b>#=kendo.format('{0:N0}', sum)#</b></div>").Format("{0:N0}").Width(100).HtmlAttributes(new { align = "right" }).Format("{0:n0}");
-        columns.Bound(p => p.Amount).ClientFooterTemplate("<div style='text-align: right;'><b>#=kendo.format('{0:0.00}', sum)#</b></div>").Format("{0:0.00}").Width(100).HtmlAttributes(new { style = "background-color:lightgray", align = "right" }).Format("{0:n2}").HeaderHtmlAttributes(new { @class = "cats-unit-pref-grid" });
-        if (Model.ProgramID == 2)
-        {
-            columns.Bound(p => p.Contingency).ClientFooterTemplate("<div style='text-align: right;'><b>#=kendo.format('{0:0.00}', sum)#</b></div>").Format("{0:0.00}").Width(100).HtmlAttributes(new { style = "background-color:lightgray", align = "right" }).Format("{0:n2}").HeaderHtmlAttributes(new { @class = "cats-unit-pref-grid" });
-        }
-        columns.Bound(p => p.RationAmount).Hidden(true);
-    })
-    .ToolBar(toolbar => toolbar.Save())
-    .Editable(editable => editable.Mode(GridEditMode.InCell))
-        //.Pageable()
-    .Selectable(t => t.Mode(GridSelectionMode.Single))
-        // .Sortable()
-    .Navigatable()
-    .Scrollable()
-    .HtmlAttributes(new { style = "height:430px;" })
-        // .Events(ev => ev.DataBound("resetRowNumber"))
-      .Events(ev => ev.DataBound("onDataBound"))
-    .DataSource(dataSource => dataSource
-        .Ajax()
-            .Aggregates(aggregates => aggregates.Add(p => p.BenficiaryNo).Sum())
-            .Aggregates(aggregates => aggregates.Add(p => p.Amount).Sum())
-            .Aggregates(aggregates => aggregates.Add(p => p.Contingency).Sum())   
-        .Events(events => events.Change("onGridKeydown"))
-            .Model(model =>
-            {
-                model.Id(p => p.RequisitionDetailID);
-                model.Field(detail => detail.FDP).Editable(false);
-                model.Field(detail => detail.Zone).Editable(false);
-                model.Field(detail => detail.Woreda).Editable(false);
-                model.Field(detail => detail.Commodity).Editable(false);
-                model.Field(detail => detail.Donor).Editable(false);
-                if (Model.Status == "HubAssigned")
-                {
-                    model.Field(detail => detail.BenficiaryNo).Editable(false);
-                }
-                //model.Field(detail => detail.Contingency).Editable(false);
-            })
-        .Create(update => update.Action("Allocation_Create", "ReliefRequisition"))
-        .Read(read => read.Action("Allocation_Read", "ReliefRequisition", new { id = Model.RequisitionID }))
-        .Update(update => update.Action("Allocation_Update", "ReliefRequisition"))
-        .Destroy(update => update.Action("Allocation_Destroy", "ReliefRequisition"))
-    )
-)
 
 <script type="text/javascript">
 
@@ -290,18 +294,18 @@
 </script>
 <script type="text/javascript">
     $(function () {
-
-        //Optional: turn the chache off
-        $.ajaxSetup({ cache: false });
-
-        $('.btn-Approve-allocation').click(function () {
-            $('#dialogContent').load(this.href, function () {
-                $('#dialogDiv').modal({
-                    backdrop: 'static',
-                    keyboard: true
-                }, 'show');
-                //bindForm(this);
-            });
+        $('.btn-Approve-allocation').click(function (e) {
+            $('#cats-modal').remove();
+            e.preventDefault();
+            var $this = $(this)
+              , $remote = $this.data('remote') || $this.attr('href')
+              , $modal = $('<div class="modal" id="cats-modal"><div class="modal-body"></div></div>');
+            
+            $('body').append($modal);
+            $modal.modal({ backdrop: 'static', keyboard: false });
+            $modal.load($remote);
+            
+           
             return false;
         });
     });

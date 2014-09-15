@@ -32,5 +32,11 @@ namespace Cats.Services.EarlyWarning
        List<HRD> PlannedHRD(int planID);
        void ChangePlanStatus(int planID);
        void AssessmentPlanStatus(Plan plan);
+       HRD GetHrd(int id);
+       IEnumerable<HrdDonorCoverage> GetDonorCoverage(
+            Expression<Func<HrdDonorCoverage, bool>> filter = null,
+            Func<IQueryable<HrdDonorCoverage>, IOrderedQueryable<HrdDonorCoverage>> orderBy = null,
+            string includeProperties = "");
+       string FindHrdDonorCoverage(List<HrdDonorCoverage> hrdDonorCoverages,int fdpID);
     }
 }

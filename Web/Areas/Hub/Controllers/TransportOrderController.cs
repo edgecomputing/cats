@@ -157,5 +157,13 @@ namespace Cats.Areas.Hub.Controllers
 
         }
 
+        public ActionResult SendBackTransportOrder(int id)
+        {
+            var transportOrder = _transportOrderService.FindById(id);
+            transportOrder.StatusID = (int) Cats.Models.Constant.TransportOrderStatus.Draft;
+            _transportOrderService.EditTransportOrder(transportOrder);
+            return ReturnSignedTransportOrders();
+        }
+
     }
 }

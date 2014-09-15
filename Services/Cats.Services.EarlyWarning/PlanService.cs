@@ -189,6 +189,10 @@ namespace Cats.Services.EarlyWarning
                _unitOfWork.Save();
            }
        }
+     public  HRD GetHrd(int id)
+       {
+           return _unitOfWork.HRDRepository.FindBy(m => m.PlanID == id).FirstOrDefault();
+       }
        //public void HRDPlanStatus(Plan plan)
        //{
        //    if (plan != null)
@@ -198,5 +202,32 @@ namespace Cats.Services.EarlyWarning
        //        _unitOfWork.Save();
        //    }
        //}
+
+
+     public IEnumerable<HrdDonorCoverage> GetDonorCoverage(System.Linq.Expressions.Expression<Func<HrdDonorCoverage, bool>> filter = null,
+                        Func<IQueryable<HrdDonorCoverage>, IOrderedQueryable<HrdDonorCoverage>> orderBy = null, string includeProperties = "")
+     {
+         return _unitOfWork.HrdDonorCoverageRepository.Get(filter, orderBy, includeProperties);
+     }
+
+     public string FindHrdDonorCoverage(List<HrdDonorCoverage> hrdDonorCoverages, int fdpID)
+     {
+         var woredaID = _unitOfWork.FDPRepository.FindById(fdpID).AdminUnitID;
+         foreach (var hrdDonorCoverage in hrdDonorCoverages)
+         {
+             var donorCoverage =
+                 _unitOfWork.HrdDonorCoverageDetailRepository.FindBy(
+                     m => m.HRDDonorCoverageID == hrdDonorCoverage.HRDDOnorCoverageID && m.WoredaID == woredaID).FirstOrDefault();
+             if (donorCoverage != null)
+             {
+                 return donorCoverage.HrdDonorCoverage.Donor.Name;
+             }
+         }
+         //var donorCoverage=
+         //    _unitOfWork.HrdDonorCoverageDetailRepository.FindBy(
+         //        m => m.HRDDonorCoverageID == hrdCoverageID && m.WoredaID == woredaID).FirstOrDefault();
+         
+         return null;
+     }
    }
 }

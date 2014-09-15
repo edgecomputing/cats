@@ -132,7 +132,7 @@ namespace Cats.ViewModelBinder
             model.FundSource = giftCertificateDetail.Detail.Name;
             model.CommodityName = giftCertificateDetail.Commodity.Name;
             model.ExpiryDate = giftCertificateDetail.ExpiryDate;
-            model.YearPurchasedPrefered = giftCertificateDetail.YearPurchased.ToCTSPreferedDateFormat(pref);
+            model.YearPurchasedPrefered = giftCertificateDetail.YearPurchased;//.ToCTSPreferedDateFormat(pref);
 
             return model;
         }

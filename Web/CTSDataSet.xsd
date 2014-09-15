@@ -2,17 +2,19 @@
 <xs:schema id="CTSDataSet" targetNamespace="http://tempuri.org/CTSDataSet.xsd" xmlns:mstns="http://tempuri.org/CTSDataSet.xsd" xmlns="http://tempuri.org/CTSDataSet.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
   <xs:annotation>
     <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
-      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="1" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
         <Connections>
           <Connection AppSettingsObjectName="Web.config" AppSettingsPropertyName="CatsContext" ConnectionStringObject="" IsAppSettingsProperty="true" Modifier="Assembly" Name="CatsContext (Web.config)" ParameterPrefix="@" PropertyReference="AppConfig.System.Configuration.ConfigurationManager.0.ConnectionStrings.CatsContext.ConnectionString" Provider="System.Data.SqlClient" />
+          <Connection AppSettingsObjectName="Web.config" AppSettingsPropertyName="elmah-sql" ConnectionStringObject="" IsAppSettingsProperty="true" Modifier="Assembly" Name="elmah-sql (Web.config)" ParameterPrefix="@" PropertyReference="AppConfig.System.Configuration.ConfigurationManager.0.ConnectionStrings.elmah-sql.ConnectionString" Provider="System.Data.SqlClient" />
         </Connections>
         <Tables>
           <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="vwPSNPAnnualPlanTableAdapter" GeneratorDataComponentClassName="vwPSNPAnnualPlanTableAdapter" Name="vwPSNPAnnualPlan" UserDataComponentName="vwPSNPAnnualPlanTableAdapter">
             <MainSource>
-              <DbSource ConnectionRef="CatsContext (Web.config)" DbObjectName="CatsMaster.dbo.vwPSNPAnnualPlan" DbObjectType="View" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="false" UserGetMethodName="GetData" UserSourceName="Fill">
+              <DbSource ConnectionRef="elmah-sql (Web.config)" DbObjectName="CatsMaster.dbo.vwPSNPAnnualPlan" DbObjectType="View" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="false" UserGetMethodName="GetData" UserSourceName="Fill">
                 <SelectCommand>
-                  <DbCommand CommandType="Text" ModifiedByUser="false">
-                    <CommandText>SELECT FoodRatio, CashRatio, BeneficiaryCount, Duration, RegionID, Year, RegionalPSNPPlanID, RegionName, WoredaName, WoredaID, ZoneID, ZoneName FROM vwPSNPAnnualPlan</CommandText>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>SELECT        FoodRatio, CashRatio, BeneficiaryCount, Duration, Year, RegionalPSNPPlanID, WoredaName, ZoneID, ZoneName, Region, WoredaID, Status, StatusID
+FROM            vwPSNPAnnualPlan</CommandText>
                     <Parameters />
                   </DbCommand>
                 </SelectCommand>
@@ -23,14 +25,15 @@
               <Mapping SourceColumn="CashRatio" DataSetColumn="CashRatio" />
               <Mapping SourceColumn="BeneficiaryCount" DataSetColumn="BeneficiaryCount" />
               <Mapping SourceColumn="Duration" DataSetColumn="Duration" />
-              <Mapping SourceColumn="RegionID" DataSetColumn="RegionID" />
               <Mapping SourceColumn="Year" DataSetColumn="Year" />
               <Mapping SourceColumn="RegionalPSNPPlanID" DataSetColumn="RegionalPSNPPlanID" />
-              <Mapping SourceColumn="RegionName" DataSetColumn="RegionName" />
               <Mapping SourceColumn="WoredaName" DataSetColumn="WoredaName" />
               <Mapping SourceColumn="WoredaID" DataSetColumn="WoredaID" />
               <Mapping SourceColumn="ZoneID" DataSetColumn="ZoneID" />
               <Mapping SourceColumn="ZoneName" DataSetColumn="ZoneName" />
+              <Mapping SourceColumn="Region" DataSetColumn="RegionName" />
+              <Mapping SourceColumn="Status" DataSetColumn="Status" />
+              <Mapping SourceColumn="StatusID" DataSetColumn="StatusID" />
             </Mappings>
             <Sources />
           </TableAdapter>
@@ -98,16 +101,8 @@
               <xs:element name="CashRatio" msprop:Generator_ColumnVarNameInTable="columnCashRatio" msprop:Generator_ColumnPropNameInRow="CashRatio" msprop:Generator_ColumnPropNameInTable="CashRatioColumn" msprop:Generator_UserColumnName="CashRatio" type="xs:int" minOccurs="0" />
               <xs:element name="BeneficiaryCount" msprop:Generator_ColumnVarNameInTable="columnBeneficiaryCount" msprop:Generator_ColumnPropNameInRow="BeneficiaryCount" msprop:Generator_ColumnPropNameInTable="BeneficiaryCountColumn" msprop:Generator_UserColumnName="BeneficiaryCount" type="xs:int" minOccurs="0" />
               <xs:element name="Duration" msprop:Generator_ColumnVarNameInTable="columnDuration" msprop:Generator_ColumnPropNameInRow="Duration" msprop:Generator_ColumnPropNameInTable="DurationColumn" msprop:Generator_UserColumnName="Duration" type="xs:int" minOccurs="0" />
-              <xs:element name="RegionID" msprop:Generator_ColumnVarNameInTable="columnRegionID" msprop:Generator_ColumnPropNameInRow="RegionID" msprop:Generator_ColumnPropNameInTable="RegionIDColumn" msprop:Generator_UserColumnName="RegionID" type="xs:int" minOccurs="0" />
               <xs:element name="Year" msprop:Generator_ColumnVarNameInTable="columnYear" msprop:Generator_ColumnPropNameInRow="Year" msprop:Generator_ColumnPropNameInTable="YearColumn" msprop:Generator_UserColumnName="Year" type="xs:int" minOccurs="0" />
               <xs:element name="RegionalPSNPPlanID" msprop:Generator_ColumnVarNameInTable="columnRegionalPSNPPlanID" msprop:Generator_ColumnPropNameInRow="RegionalPSNPPlanID" msprop:Generator_ColumnPropNameInTable="RegionalPSNPPlanIDColumn" msprop:Generator_UserColumnName="RegionalPSNPPlanID" type="xs:int" />
-              <xs:element name="RegionName" msprop:Generator_ColumnVarNameInTable="columnRegionName" msprop:Generator_ColumnPropNameInRow="RegionName" msprop:Generator_ColumnPropNameInTable="RegionNameColumn" msprop:Generator_UserColumnName="RegionName" minOccurs="0">
-                <xs:simpleType>
-                  <xs:restriction base="xs:string">
-                    <xs:maxLength value="50" />
-                  </xs:restriction>
-                </xs:simpleType>
-              </xs:element>
               <xs:element name="WoredaName" msprop:Generator_ColumnVarNameInTable="columnWoredaName" msprop:Generator_ColumnPropNameInRow="WoredaName" msprop:Generator_ColumnPropNameInTable="WoredaNameColumn" msprop:Generator_UserColumnName="WoredaName" minOccurs="0">
                 <xs:simpleType>
                   <xs:restriction base="xs:string">
@@ -124,6 +119,21 @@
                   </xs:restriction>
                 </xs:simpleType>
               </xs:element>
+              <xs:element name="RegionName" msprop:Generator_ColumnVarNameInTable="columnRegionName" msprop:Generator_ColumnPropNameInRow="RegionName" msprop:Generator_ColumnPropNameInTable="RegionNameColumn" msprop:Generator_UserColumnName="RegionName" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Status" msprop:Generator_ColumnVarNameInTable="columnStatus" msprop:Generator_ColumnPropNameInRow="Status" msprop:Generator_ColumnPropNameInTable="StatusColumn" msprop:Generator_UserColumnName="Status" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="StatusID" msprop:Generator_ColumnVarNameInTable="columnStatusID" msprop:Generator_ColumnPropNameInRow="StatusID" msprop:Generator_ColumnPropNameInTable="StatusIDColumn" msprop:Generator_UserColumnName="StatusID" type="xs:int" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>

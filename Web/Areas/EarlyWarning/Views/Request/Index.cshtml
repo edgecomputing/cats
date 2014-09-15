@@ -6,21 +6,43 @@
 @model Cats.Areas.EarlyWarning.Models.SearchRequsetViewModel
 
 @{
-    ViewBag.Title = "Regional Relief Requests";
-    Layout = "~/Views/Shared/_MainLayout.cshtml";
+    ViewBag.Title = "Requistions";
+    Layout = "~/Views/Shared/_CATSLayout.cshtml";
+    var user = UserAccountHelper.GetUser(HttpContext.Current.User.Identity.Name);
+
 }
 
-
-@section Toolbar
+@section Title
 {
-    <a data-buttontype="btn_new_record" class="btn toolbar-btn" href="@Url.Action("New", "Request")"></a>
+Requistions
 }
-<h4 class="page-header">@Html.Translate("Regional Requests")</h4>
 
-<div id="div_filter">
-    @Html.Partial("_FilterRequestLeftBar")
-</div>
-<hr>
+@section PageTitle
+{
+    <h1 class="hdr-blck big col-md-6">
+
+      Regional Relief Requests
+    </h1>
+}
+
+
+<div class="box box-primary">
+
+    <div class="col-md-12 box-body" style="display: block;">
+        <div class="row">
+             <div class="text-right mrgn5-v col-md-12">
+                
+                 <a data-buttontype="btn_new_record" class="btn btn-sm btn-success" href="@Url.Action("New", "Request")"><span class="fa fa-plus"></span> New Request</a>
+            </div>
+            <div id="div_filter" class="col-md-12 form-inline mrgn5-v">
+                @Html.Partial("_FilterRequestLeftBar")
+                 
+            </div>
+           
+            
+        </div>
+        <div class="table-responsive">
+            
 
 @(Html.Kendo().Grid<RegionalRequestViewModel>()
     .Name("RequestListGrid")
@@ -91,6 +113,11 @@
 
                                       )
 )
+
+        </div>
+    </div>
+</div>
+
 
 <script>
     $(function () {

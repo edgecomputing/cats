@@ -131,3 +131,6 @@ td.number,th.number {
 }
 
 
+.k-grid .k-edit-cell {
+    color: #000!important;
+}

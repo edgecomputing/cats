@@ -183,8 +183,27 @@ namespace Cats.Areas.Logistics.Controllers
 
             try
             {
-                _hubAllocationService.AddHubAllocations(allocation, user.UserProfileID);
+                foreach (var all in allocation)
+                {
+                    var hubAllocated = _hubAllocationService.FindBy(h => h.RequisitionID == all.ReqId).FirstOrDefault();
+                    if(hubAllocated!=null)
+                    {
 
+                        hubAllocated.AllocatedBy = user.UserProfileID;
+                        hubAllocated.AllocationDate = DateTime.Now.Date;
+                        hubAllocated.HubID = all.HubId;
+
+
+                        _hubAllocationService.EditHubAllocation(hubAllocated);
+                    }
+                    else
+                    {
+                        _hubAllocationService.AddHubAllocations(allocation, user.UserProfileID);
+                    }
+               
+
+                }
+               
                 ModelState.AddModelError("Success", @"Allocation is Saved.");
                 return Json(new { success = true });
             }

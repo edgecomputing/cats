@@ -171,6 +171,8 @@ namespace Cats.Areas.Logistics.Controllers
                     requisitionNo = r.ReliefRequisition.RequisitionNo,
                     tariff = r.TariffPerQtl,
                     commodity = r.Commodity.Name,
+                    dispatchedAmount=_dispatchService.GetFDPDispatch(transportOrderId,r.FdpID),
+                    DeliveredAmount = _deliveryService.GetFDPDelivery(transportOrderId, r.FdpID)
                     //zone = r.AdminUnit.Name
                 });
             return Json(transportOrderDetail, JsonRequestBehavior.AllowGet);
@@ -183,7 +185,7 @@ namespace Cats.Areas.Logistics.Controllers
 
             var transportOrderDetail =
                 _transportOrderDetailService.FindBy(t => t.Hub.HubID == hubId && t.TransportOrderID == transportOrderId && t.FDP.AdminUnit.AdminUnit2.AdminUnit2.AdminUnitID == regionId
-                && (t.TransportOrder.StartDate <= startDate && t.TransportOrder.EndDate >= EndDate)).Select(r => new
+                && (t.TransportOrder.StartDate >= startDate && t.TransportOrder.EndDate <= EndDate)).Select(r => new
                 {
                     fdp = r.FDP.Name,
                     zone = r.FDP.AdminUnit.AdminUnit2.Name,
@@ -194,7 +196,8 @@ namespace Cats.Areas.Logistics.Controllers
                     requisitionNo = r.ReliefRequisition.RequisitionNo,
                     tariff = r.TariffPerQtl,
                     commodity = r.Commodity.Name,
-                    //zone = r.AdminUnit.Name
+                    dispatchedAmount = _dispatchService.GetFDPDispatch(transportOrderId, r.FdpID),
+                    DeliveredAmount = _deliveryService.GetFDPDelivery(transportOrderId, r.FdpID)
                 });
             return Json(transportOrderDetail, JsonRequestBehavior.AllowGet);
         }
