@@ -195,6 +195,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Areas\EarlyWarning\Controllers\ContributionController.cs" />
+    <Compile Include="Areas\Finance\Controllers\ChequeController.cs" />
     <Compile Include="Areas\Finance\Models\TransporterPaymentRequestViewModel.cs" />
     <Compile Include="Areas\Hub\Controllers\AdminUnitController.cs" />
     <Compile Include="Areas\Hub\Controllers\CommodityController.cs" />
@@ -690,6 +691,9 @@
     <!--<Content Include="ClientBin\EWdispatchAllocationList.xap" />-->
     <Content Include="Areas\EarlyWarning\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Shared\_Menu.cshtml" />
+    <Content Include="Areas\Finance\Views\ValidatedPaymentRequest\PaymentRequests.cshtml" />
+    <Content Include="Areas\Finance\Views\Cheque\Cheques.cshtml" />
+    <Content Include="Areas\Finance\Views\Cheque\Index.cshtml" />
     <None Include="Areas\Logistics\Views\DispatchAllocation\_AllocateProjectCode.cshtml" />
     <Content Include="Content\2013.1.219\Black\editor.png" />
     <Content Include="Content\2013.1.219\Black\imagebrowser.png" />

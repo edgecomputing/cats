@@ -23,5 +23,6 @@ namespace Cats.Models
         public virtual BusinessProcess BusinessProcess { get; set; }
         public virtual Delivery Delivery { get; set; }
         public virtual TransportOrder TransportOrder { get; set; }
+        public virtual ICollection<TransporterChequeDetail> TransporterChequeDetails { get; set; }
     }
 }

@@ -2,97 +2,79 @@
 @using Cats.Helpers
 @model Cats.Models.HRDPSNPPlan
 
-
 @{
-    ViewBag.Title = "Create";
-    Layout = "~/Views/Shared/_MainLayout.cshtml";
+    ViewBag.Title = "Creat";
+    Layout = "~/Views/Shared/_CATSLayout.cshtml";
 }
 
-<fieldset>
-    <legend>
-        New Fast on Set Request
-    </legend>
-</fieldset> 
-
-@section LeftBar
+@section Title
 {
+Requistions
+}
+@section PageTitle
+{
+     <h1 class="hdr-blck big ">  New Fast on Set Request</h1>
+   
+}
+
+<div class="row">
     @Html.Partial("_RegionalRequestLeftBar")
+    <div class="col-md-10  col-sm-9">
+        <div class=" box box-primary ">
+            @using (Html.BeginForm("NewIdps", "Request", FormMethod.Post, new { id = "frm_create_request" }))
+            {
 
-}
-@section Toolbar
-{
- 
-    <a class="btn toolbar-btn " data-buttontype="btn_save" data-buttontype="btn_forward" data-submittedform="frm_create_request"></a>
-    <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="@Url.Action("Index", "Request")" title="save"></a>
-}
-
-@using (Html.BeginForm("NewIdps", "Request", FormMethod.Post, new { id = "frm_create_request" }))
-{   
-    
-    <div class="form-horizontal well">
-
-        <table style="width: 100px;">
-            <tr>
-                <td style="width: 50%">
-                    <div class="control-label">
-                        @Html.LabelFor(model => model.ProgramID, "Program")
-                    </div>
-                    <div class="controls">
-                        @Html.TextBox("Program","IDPS",new {disabled = true})
-                        @Html.ValidationMessageFor(model => model.ProgramID)
-                    </div>
-                </td>
-
-
-                <td style="width: 50%">
-                    <div>
-                        <div class="control-label">
-                            @Html.Label("IDPS Reason")
+                <div class="box-body row">
+                    <div class="col-md-6 col-sm-6 form-horizontal">
+                        <div class="form-group">
+                            <div class="col-sm-4 control-label">
+                                @Html.LabelFor(model => model.ProgramID, "Program")
+                            </div>
+                            <div class="col-sm-8">
+                                @Html.TextBox("Program", "IDPS", new {disabled = true,@class = "form-control"})
+                                @Html.ValidationMessageFor(model => model.ProgramID)
+                            </div>
                         </div>
-                        <div class="controls">
-                            @Html.DropDownList("ReasonType", ViewBag.IDPSReasonType as SelectList)
-                             
+                        <div class="form-group">
+                            <div class="col-sm-4 control-label">
+                                @Html.LabelFor(model => model.RegionID, "Region")
+                            </div>
+                            <div class="col-sm-8">
+                                @Html.DropDownList("RegionID", null, String.Empty, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.RegionID)
+                            </div>
                         </div>
                     </div>
-             
-                </td>
-            </tr>
-            
-        
-            <tr id="IDPS_Ration">
-                
-                <td style="width: 50%">
-                    <div>
-                        <div class="control-label">
-                            @Html.LabelFor(model => model.RegionID, "Region")
-                        </div>
-                        <div class="controls">
-                            @Html.DropDownList("RegionID")
-                            @Html.ValidationMessageFor(model => model.RegionID)
-                        </div>
+                    <div class="col-md-6 col-sm-6 form-horizontal">
+                        <div class="form-group">
+                            <div class="col-sm-4 control-label">
+                                @Html.Label("IDPS Reason")
+                            </div>
+                            <div class="col-sm-8">
+                                @Html.DropDownList("ReasonType", ViewBag.IDPSReasonType as SelectList, new { @class = "form-control" })
 
-                    </div>
-                </td>
-
-                <td style="width: 50%">
-                    <div >
-                        <div class="control-label">
-                            @Html.LabelFor(model => model.RationID, Html.Translate("Ration"))
+                            </div>
                         </div>
-                        <div class="controls">
-                            @Html.DropDownList("RationID")
-                            @Html.ValidationMessageFor(model => model.RationID)
+                        <div class="form-group">
+                            <div class="col-sm-4 control-label">
+                                @Html.LabelFor(model => model.RationID, Html.Translate("Ration"))
+                            </div>
+                            <div class="col-sm-8">
+                                @Html.DropDownList("RationID", null, String.Empty, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.RationID)
+                            </div>
                         </div>
                     </div>
-                    
-                    
+                </div>
 
-                </td>
+                <div class="box-footer text-center">
+                    <button class="btn btn-primary " type="submit" data-buttontype="btn_forward" data-submittedform="frm_create_request"><span class="fa fa-save"></span> Save</button>
+                    <a class="btn  btn-default"  href="@Url.Action("Index", "Request")" ><span class="fa fa-lg fa-times-circle"></span> Cancel</a>
+                </div>
+            }
 
-            </tr>
-            
-        </table>
+        </div>
+
+
     </div>
-
-}
-
+</div>

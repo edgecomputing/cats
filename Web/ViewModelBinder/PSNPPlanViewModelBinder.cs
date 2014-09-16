@@ -65,11 +65,11 @@ namespace Cats.ViewModelBinder
 
                     //woredaContingency.ExtendedProperties.Add("WCID", ds.CommodityID);
                     woredaContingency.ExtendedProperties["ID"] = "WC"+ds.CommodityID;
-                    dt.Columns.Add(woredaContingency);
+                    //dt.Columns.Add(woredaContingency);
 
                     //regionContingency.ExtendedProperties.Add("RCID", ds.CommodityID);
                     regionContingency.ExtendedProperties["ID"] = "RC"+ds.CommodityID;
-                    dt.Columns.Add(regionContingency);
+                    //dt.Columns.Add(regionContingency);
                    
                 }
 
