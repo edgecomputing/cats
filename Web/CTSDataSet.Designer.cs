@@ -1655,6 +1655,10 @@ namespace Cats {
             
             private global::System.Data.DataColumn columnRegionalRequestDetailID;
             
+            private global::System.Data.DataColumn columnAllocatedAmount;
+            
+            private global::System.Data.DataColumn columnCommodityID;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public RegionalRequestAllocationDataTable() {
@@ -1834,6 +1838,22 @@ namespace Cats {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn AllocatedAmountColumn {
+                get {
+                    return this.columnAllocatedAmount;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn CommodityIDColumn {
+                get {
+                    return this.columnCommodityID;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -1887,7 +1907,9 @@ namespace Cats {
                         string ZoneName, 
                         string RationName, 
                         string Commodity, 
-                        int RegionalRequestDetailID) {
+                        int RegionalRequestDetailID, 
+                        decimal AllocatedAmount, 
+                        int CommodityID) {
                 RegionalRequestAllocationRow rowRegionalRequestAllocationRow = ((RegionalRequestAllocationRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         RegionalRequestID,
@@ -1907,7 +1929,9 @@ namespace Cats {
                         ZoneName,
                         RationName,
                         Commodity,
-                        RegionalRequestDetailID};
+                        RegionalRequestDetailID,
+                        AllocatedAmount,
+                        CommodityID};
                 rowRegionalRequestAllocationRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowRegionalRequestAllocationRow);
                 return rowRegionalRequestAllocationRow;
@@ -1948,6 +1972,8 @@ namespace Cats {
                 this.columnRationName = base.Columns["RationName"];
                 this.columnCommodity = base.Columns["Commodity"];
                 this.columnRegionalRequestDetailID = base.Columns["RegionalRequestDetailID"];
+                this.columnAllocatedAmount = base.Columns["AllocatedAmount"];
+                this.columnCommodityID = base.Columns["CommodityID"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1989,6 +2015,10 @@ namespace Cats {
                 base.Columns.Add(this.columnCommodity);
                 this.columnRegionalRequestDetailID = new global::System.Data.DataColumn("RegionalRequestDetailID", typeof(int), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnRegionalRequestDetailID);
+                this.columnAllocatedAmount = new global::System.Data.DataColumn("AllocatedAmount", typeof(decimal), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnAllocatedAmount);
+                this.columnCommodityID = new global::System.Data.DataColumn("CommodityID", typeof(int), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnCommodityID);
                 this.columnRegionalRequestID.AllowDBNull = false;
                 this.columnRequestDate.AllowDBNull = false;
                 this.columnProgramID.AllowDBNull = false;
@@ -4296,6 +4326,40 @@ namespace Cats {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public decimal AllocatedAmount {
+                get {
+                    try {
+                        return ((decimal)(this[this.tableRegionalRequestAllocation.AllocatedAmountColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'AllocatedAmount\' in table \'RegionalRequestAllocation\' is DB" +
+                                "Null.", e);
+                    }
+                }
+                set {
+                    this[this.tableRegionalRequestAllocation.AllocatedAmountColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public int CommodityID {
+                get {
+                    try {
+                        return ((int)(this[this.tableRegionalRequestAllocation.CommodityIDColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'CommodityID\' in table \'RegionalRequestAllocation\' is DBNull" +
+                                ".", e);
+                    }
+                }
+                set {
+                    this[this.tableRegionalRequestAllocation.CommodityIDColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public bool IsStatusNull() {
                 return this.IsNull(this.tableRegionalRequestAllocation.StatusColumn);
             }
@@ -4352,6 +4416,30 @@ namespace Cats {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public void SetCommodityNull() {
                 this[this.tableRegionalRequestAllocation.CommodityColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsAllocatedAmountNull() {
+                return this.IsNull(this.tableRegionalRequestAllocation.AllocatedAmountColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetAllocatedAmountNull() {
+                this[this.tableRegionalRequestAllocation.AllocatedAmountColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsCommodityIDNull() {
+                return this.IsNull(this.tableRegionalRequestAllocation.CommodityIDColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetCommodityIDNull() {
+                this[this.tableRegionalRequestAllocation.CommodityIDColumn] = global::System.Convert.DBNull;
             }
         }
         
@@ -5718,6 +5806,8 @@ namespace Cats.CTSDataSetTableAdapters {
             tableMapping.ColumnMappings.Add("RationName", "RationName");
             tableMapping.ColumnMappings.Add("Commodity", "Commodity");
             tableMapping.ColumnMappings.Add("RegionalRequestDetailID", "RegionalRequestDetailID");
+            tableMapping.ColumnMappings.Add("AllocatedAmount", "AllocatedAmount");
+            tableMapping.ColumnMappings.Add("CommodityID", "CommodityID");
             this._adapter.TableMappings.Add(tableMapping);
         }
         

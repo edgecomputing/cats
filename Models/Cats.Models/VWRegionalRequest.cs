@@ -28,6 +28,7 @@ namespace Cats.Models
        public int Beneficiaries { get; set; }
        public int Status { get; set; }
        public string Commodity { get; set; }
-
+       public int CommodityID { get; set; }
+       public decimal AllocatedAmount { get; set; }
     }
 }

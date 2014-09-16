@@ -117,6 +117,8 @@ FROM            RegionalRequestAllocation</CommandText>
               <Mapping SourceColumn="RationName" DataSetColumn="RationName" />
               <Mapping SourceColumn="Commodity" DataSetColumn="Commodity" />
               <Mapping SourceColumn="RegionalRequestDetailID" DataSetColumn="RegionalRequestDetailID" />
+              <Mapping SourceColumn="AllocatedAmount" DataSetColumn="AllocatedAmount" />
+              <Mapping SourceColumn="CommodityID" DataSetColumn="CommodityID" />
             </Mappings>
             <Sources />
           </TableAdapter>
@@ -493,6 +495,8 @@ FROM            RegionalRequestAllocation</CommandText>
                 </xs:simpleType>
               </xs:element>
               <xs:element name="RegionalRequestDetailID" msprop:Generator_ColumnVarNameInTable="columnRegionalRequestDetailID" msprop:Generator_ColumnPropNameInRow="RegionalRequestDetailID" msprop:Generator_ColumnPropNameInTable="RegionalRequestDetailIDColumn" msprop:Generator_UserColumnName="RegionalRequestDetailID" type="xs:int" />
+              <xs:element name="AllocatedAmount" msprop:Generator_ColumnVarNameInTable="columnAllocatedAmount" msprop:Generator_ColumnPropNameInRow="AllocatedAmount" msprop:Generator_ColumnPropNameInTable="AllocatedAmountColumn" msprop:Generator_UserColumnName="AllocatedAmount" type="xs:decimal" minOccurs="0" />
+              <xs:element name="CommodityID" msprop:Generator_ColumnVarNameInTable="columnCommodityID" msprop:Generator_ColumnPropNameInRow="CommodityID" msprop:Generator_ColumnPropNameInTable="CommodityIDColumn" msprop:Generator_UserColumnName="CommodityID" type="xs:int" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>

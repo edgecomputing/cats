@@ -10,7 +10,7 @@
     <Shape ID="DesignTable:vwTransportOrder" ZOrder="3" X="292" Y="423" Height="305" Width="251" AdapterExpanded="true" DataTableExpanded="true" OldAdapterHeight="0" OldDataTableHeight="0" SplitterPosition="254" />
     <Shape ID="DesignTable:TransportOrder" ZOrder="5" X="538" Y="82" Height="334" Width="196" AdapterExpanded="true" DataTableExpanded="true" OldAdapterHeight="0" OldDataTableHeight="0" SplitterPosition="330" />
     <Shape ID="DesignTable:TransportOrderDetail" ZOrder="4" X="771" Y="85" Height="315" Width="190" AdapterExpanded="true" DataTableExpanded="true" OldAdapterHeight="0" OldDataTableHeight="24" SplitterPosition="311" />
-    <Shape ID="DesignTable:RegionalRequestAllocation" ZOrder="1" X="654" Y="439" Height="305" Width="300" AdapterExpanded="true" DataTableExpanded="true" OldAdapterHeight="0" OldDataTableHeight="0" SplitterPosition="254" />
+    <Shape ID="DesignTable:RegionalRequestAllocation" ZOrder="1" X="655" Y="439" Height="305" Width="300" AdapterExpanded="true" DataTableExpanded="true" OldAdapterHeight="0" OldDataTableHeight="0" SplitterPosition="254" />
   </Shapes>
   <Connectors />
 </DiagramLayout>

@@ -11,7 +11,7 @@ namespace Cats.Models.Mapping
     {
         public VWRegionalRequestMap()
         {
-            this.HasKey(t => new {t.RegionalRequestDetailID, t.RegionalRequestID});
+            this.HasKey(t => new {t.RegionalRequestDetailID, t.RegionalRequestID,t.CommodityID});
 
             // Table & Column Mappings
             this.ToTable("RegionalRequestAllocation");
@@ -34,6 +34,8 @@ namespace Cats.Models.Mapping
             this.Property(t => t.Beneficiaries).HasColumnName("Beneficiaries");
             this.Property(t => t.Status).HasColumnName("Status");
             this.Property(t => t.Commodity).HasColumnName("Commodity");
+            this.Property(t => t.CommodityID).HasColumnName("CommodityID");
+            this.Property(t => t.AllocatedAmount).HasColumnName("AllocatedAmount");
            
         }
     }
