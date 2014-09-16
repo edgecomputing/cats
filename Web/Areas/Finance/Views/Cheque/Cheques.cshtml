@@ -1,0 +1,285 @@
+﻿@using Cats.Areas.Finance.Models
+@using Cats.Areas.Procurement.Models
+@using Cats.Helpers
+@using Cats.Models
+@using Cats.Services.Security
+@using Kendo.Mvc.UI
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+    int index = 0;
+}
+<html data-ng-app="PaymentRequestManagementModule">
+    <head>
+        <style>
+            .errorText
+            {
+                color: red;
+            }
+            #messageboxPayDeduct {
+                color: springgreen;
+                font-weight: bold;
+                font-size: 16px;
+            }
+            #messageboxPayDeductCheque {
+                color: springgreen;
+                font-weight: bold;
+                font-size: 16px;
+            }
+        </style>
+    </head>
+    <body data-ng-controller="PaymentRequestManagementController">
+<h3>Cheques</h3>
+
+ <div id="modalCollectiveChequeInfo" class="form-horizontal" style="margin-top:30px;width:580px;height:480px;">
+    @using (Html.BeginForm("EditChequeInfo", "ValidatedPaymentRequest", FormMethod.Post))
+    {
+        <input type="text" name="transporterID" id="transporterID" value="@ViewBag.TransporterID" style="display: none"/>
+        <input type="text" name="transporterChequeID" id="transporterChequeID" value="" style="display: none"/>
+        <div class="">
+            <div class="span5">
+                <div class="control-group">
+                    <div class="control-label">
+                        <label for="Transporter">Transporter</label>
+                    </div>
+                    <div class="controls">
+                        <input type="text" name="Transporter" id="Transporter" value="{{SelectedCheckInfo.Transporter}}" data-ng-model="SelectedCheckInfo.Transporter" 
+                            disabled="disabled"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="">
+            <div class="span5">
+                <div class="control-group">
+                    <div class="control-label">
+                        <label for="PaymentRequestsList">Approved Payment Request List</label>
+                    </div>
+                    <div class="controls">
+                        <textarea name="PaymentRequestsList" id="PaymentRequestsList" data-ng-model="SelectedCheckInfo.PaymentRequestsList" disabled="disabled">
+                            {{SelectedCheckInfo.PaymentRequestList}}
+                        </textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="">
+            <div class="span5">
+                <div class="control-group">
+                    <div class="control-label">
+                        <label for="CheckNo">Check No.</label>
+                    </div>
+                    <div class="controls">
+                        <input type="text" value="{{SelectedCheckInfo.CheckNo}}" name="CheckNo" id="CheckNo" 
+                                data-ng-model="SelectedCheckInfo.CheckNo"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="">
+            <div class="span5">
+                <div class="control-group">
+                    <div class="control-label">
+                        <label for="PaymentVoucherNo">Payment Voucher No.</label>
+                    </div>
+                    <div class="controls">
+                        <input type="text" value="{{SelectedCheckInfo.PaymentVoucherNo}}" name="PaymentVoucherNo" id="PaymentVoucherNo" 
+                                data-ng-model="SelectedCheckInfo.PaymentVoucherNo"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="">
+            <div class="span5">
+                <div class="control-group">
+                    <div class="control-label">
+                        <label for="BankName">Bank Name</label>
+                    </div>
+                    <div class="controls">
+                        <input type="text" value="{{SelectedCheckInfo.BankName}}" name="BankName" id="BankName" 
+                                data-ng-model="SelectedCheckInfo.BankName"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="">
+            <div class="span5">
+                <div class="control-group">
+                    <div class="control-label">
+                        <label for="Amount">Amount</label>
+                    </div>
+                    <div class="controls">
+                        @*<input type="text" value="{{SelectedCheckInfo.Amount}}" name="CheckInfo.Amount" id="CheckInfo_Amount" 
+                                data-ng-model="SelectedCheckInfo.Amount"/>*@
+                        <input type="text" name="Amount" id="Amount" value="{{SelectedCheckInfo.Amount}}" data-ng-model="SelectedCheckInfo.Amount" disabled="disabled"/>&nbsp;<span id="errmsgCollectiveCheckInfo_Amount" class="errorText"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="">
+            <div class="span5">
+                <div class="control-group">
+                    <div class="control-label">
+                        <label for="PreparedBy">Prepared By</label>
+                    </div>
+                    <div class="controls">
+                        <input type="text" value="{{SelectedCheckInfo.PreparedBy}}" name="PreparedBy" id="PreparedBy" 
+                                data-ng-model="SelectedCheckInfo.PreparedBy" disabled="disabled"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="">
+            <div class="span5" style="width: 400px;">
+                <div class="control-group message-box" style="float: left;" id="messageboxCollectiveCheque"></div>
+                <div class="control-group" style="float: right;">
+                    <button id="btnSaveCollectiveCheque" class="btn" type="submit">Save</button>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+<script>
+    var wndCollectiveChequeInfo;
+    $(document).ready(function () {
+        wndCollectiveChequeInfo = $("#modalCollectiveChequeInfo").kendoWindow({
+            title: "Generate Cheque",
+            modal: true,
+            visible: false,
+            resizable: false,
+            width: 600,
+            height: 520
+        }).data("kendoWindow");
+    });
+</script>
+<table class="table table-striped">
+    <tr>
+        <th>Cheque No.</th>
+        <th>Payment Voucher No.</th>
+        <th>Bank Name</th>
+        <th>Amount</th>
+        <th>Prepared By</th>
+        <th>Status</th>
+        <th>Actions</th>
+        <th></th>
+    </tr>
+
+    @foreach (TransporterCheque item in Model)
+    {
+        index++;
+        var state = item.BusinessProcess.CurrentState.BaseStateTemplate;
+        //if (state.Name == "Approved by finance" || state.Name == "Cheque Issued" || state.Name == "Cheque Cashed")
+        //{
+        <tr>
+            <td>
+                @item.CheckNo
+            </td>
+            <td>
+                @item.PaymentVoucherNo
+            </td>
+            <td>
+                @item.BankName
+            </td>
+            <td>
+                @item.Amount
+            </td>
+            <td>
+                @state.Name
+            </td>
+            <td>
+                <button class="btn" data-ng-click="loadChequeEditPage(@item.TransporterChequeId, @state.StateNo)">Edit</button>
+            </td>
+            <td>
+                <div class="btn-group">
+                    <button class="btn edit_button" id="action_@index">Workflow</button>
+                    <button class="btn  dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
+                    <ul class="dropdown-menu">
+                        @foreach (FlowTemplate actions in state.InitialStateFlowTemplates)
+                        {
+                            <li class="edit_button"><a href="javascript:promot_workflow(@item.BusinessProcessID ,@actions.FinalStateID,'@actions.Name',@item.TransporterChequeId)" title="@actions.Name">@actions.Name</a></li>            
+                        }
+                        <li class="divider"></li>
+                        <li class="edit_button"><a href="javascript:workflow_history(@item.BusinessProcessID)">History</a></li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        //}
+
+    }
+</table>
+
+<div id="modalHistory" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false" style="width:600px;" >
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h4 id="modalHistoryLabel">Activity History</h4>
+    </div>
+    <div class="modal-body" id="modalHistoryBody">History</div>
+
+</div>
+@Html.Partial("~/Views/Shared/_PromotWorkflow.cshtml")
+    <script>
+        var history_link = "@Url.Action("History", "BusinessProcess", new { Area = "WorkflowManager", id = "0" })";
+
+        function promot_workflow(BusinessProcessID, nextstate, actionname, TransporterChequeID) {
+            //alert(PaymentRequestID);
+            $('#ParentBusinessProcessID').val(BusinessProcessID);
+            $('#stateID').val(nextstate);
+            $('#modalPromotionLabel').html(actionname);
+            $('#TransporterChequeID').val(TransporterChequeID);
+            $('#modalPromotion').modal();
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("ApproveChequeInfo", "Cheque")",
+                data: "{id:1}",
+                dataType: json
+            });
+        }
+        function workflow_history(BusinessProcessID) {
+            $('#modalHistory').modal();
+            $('#modalHistoryBody').html("<div style='text-align:center;'> <img src='/content/images/loading.gif'/></div>");
+            $.post(history_link + BusinessProcessID, {},
+                function (data) {
+                    $("#modalHistoryBody").html(data);
+                }
+            );
+        }
+    
+        angular.module('PaymentRequestManagementModule', []).controller('PaymentRequestManagementController', function ($scope, $http) {
+            $scope.SelectedCheckInfo = [];
+
+            $scope.loadChequeEditPage = function (transporterChequeID, stateNo) {
+                //$("#" + dispatchId).addClass("selected");
+                //alert(paymentRequestId);
+                $http.post(rootDir + 'Cheque/LoadChequeOne/' + transporterChequeID).
+                    success(function (data, status, headers, config) {
+                        //alert(data["ReceivedBy"]);
+                        $("#transporterChequeID").val(transporterChequeID);
+                        $scope.SelectedCheckInfo = data;
+                        if (data.AppovedBy == null || data.AppovedBy == "")
+                            $scope.SelectedCheckInfo.AppovedDateString = "";
+                        wndCollectiveChequeInfo.center().open();
+                        //if ($scope.SelectedCheckInfo.Amount==null)
+                        //    $scope.SelectedCheckInfo.Amount = $scope.SelectedLabourInfo.Amount + $scope.SelectedLabourInfo.LabourCost - $scope.SelectedLabourInfo.RejectedAmount;
+                    }).
+                    error(function (data, status, headers, config) {
+                        alert("#ERROR - Can't load the GRN for the selected dispatch.");
+                    });
+                if (stateNo!=0) {
+                    $("#CheckNo").attr("disabled", "disabled");
+                    $("#PaymentVoucherNo").attr("disabled", "disabled");
+                    $("#BankName").attr("disabled", "disabled");
+                }
+                else {
+                    $("#CheckNo").removeAttr("disabled");
+                    $("#PaymentVoucherNo").removeAttr("disabled");
+                    $("#BankName").removeAttr("disabled");
+                }
+                
+            };
+
+        });
+    </script>
+        </body>
+</html>

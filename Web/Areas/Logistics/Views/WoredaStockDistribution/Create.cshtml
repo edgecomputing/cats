@@ -139,9 +139,21 @@
                           columns.Bound(p => p.Month).Width(80).HtmlAttributes(new { style = "background-color:lightgray" });
                           columns.Bound(p => p.CommodityID).Hidden().ClientTemplate("#= CommodityID #" +
                           "<input type='hidden' name='WoredaDistributionDetailViewModels[#= index(data)#].CommodityID' value='#= CommodityID #' />");
+
                           columns.Bound(p => p.AllocatedAmount).HtmlAttributes(new { align = "right" }).HtmlAttributes(new { style = "background-color:lightgray" })
                           .ClientTemplate("#= AllocatedAmount #" +
                           "<input type='hidden' name='WoredaDistributionDetailViewModels[#= index(data)#].AllocatedAmount' value='#= AllocatedAmount #' />");
+
+
+                          columns.Bound(p => p.dispatched).HtmlAttributes(new { align = "right" }).HtmlAttributes(new { style = "background-color:lightgray" })
+                          .ClientTemplate("#= dispatched #" +
+                          "<input type='hidden' name='WoredaDistributionDetailViewModels[#= index(data)#].dispatched' value='#= dispatched #' />");
+
+
+                          columns.Bound(p => p.delivered).HtmlAttributes(new { align = "right" }).HtmlAttributes(new { style = "background-color:lightgray" })
+                          .ClientTemplate("#= delivered #" +
+                          "<input type='hidden' name='WoredaDistributionDetailViewModels[#= index(data)#].delivered' value='#= delivered #' />");
+                          
                           columns.Bound(p => p.RequistionNo).Width(100).HtmlAttributes(new { align = "right" }).HtmlAttributes(new { style = "background-color:lightgray" });
                            columns.Bound(p => p.BeginingBalance)
                               .ClientTemplate("#= BeginingBalance #" +
@@ -196,6 +208,8 @@
                                                         model.Field(detail => detail.RequistionNo).Editable(false);
                                                         model.Field(detail => detail.CommodityName).Editable(false);
                                                         model.Field(detail => detail.AllocatedAmount).Editable(false);
+                                                        model.Field(detail => detail.dispatched).Editable(false);
+                                                        model.Field(detail => detail.delivered).Editable(false);
                                                         model.Field(detail => detail.TotalIn).Editable(true);
 
                                                     })

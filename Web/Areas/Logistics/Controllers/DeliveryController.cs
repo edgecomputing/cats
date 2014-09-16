@@ -175,12 +175,18 @@ namespace Cats.Areas.Logistics.Controllers
                 var dispatchObj = _dispatchService.FindBy(t => t.DispatchID == id).FirstOrDefault();
                 if (dispatchObj != null)
                 {
-                    deliveryViewModel.SentQuantity = dispatchObj.DispatchAllocation.Amount;
+                    var dispatchDetail = dispatchObj.DispatchDetails.FirstOrDefault();
+                    if (dispatchDetail != null)
+                        deliveryViewModel.SentQuantity = dispatchDetail.RequestedQunatityInUnit;
                     deliveryViewModel.CommodityID = dispatchObj.DispatchAllocation.CommodityID;
                     deliveryViewModel.Commodity = dispatchObj.DispatchAllocation.Commodity.Name;
-                    deliveryViewModel.UnitID = dispatchObj.DispatchAllocation.Unit;
+                    if (dispatchObj.DispatchAllocation.Unit != 0)
+                    {
+                        deliveryViewModel.UnitID = dispatchObj.DispatchAllocation.Unit;
+                        deliveryViewModel.Unit = _unitService.FindById(int.Parse(dispatchObj.DispatchAllocation.Unit.ToString())).Name;
+                    }
                     deliveryViewModel.DeliveryBy = dispatchObj.DriverName;
-                    deliveryViewModel.Unit = _unitService.FindById(int.Parse(dispatchObj.DispatchAllocation.Unit.ToString())).Name;
+                   
                 }
             }
             deliveryViewModel.DispatchID = id;
@@ -397,7 +403,7 @@ namespace Cats.Areas.Logistics.Controllers
                 _deliveryService.AddDelivery(newdelivery);
 
                 var transporterPaymentRequest = new TransporterPaymentRequest();
-                transporterPaymentRequest.ReferenceNo = dispatch != null ? dispatch.RequisitionNo : "";
+                transporterPaymentRequest.ReferenceNo = "PR-" + delivery.ReceivingNumber;
                 var firstOrDefault = _transportOrderService.Get(t => t.TransporterID == newdelivery.TransporterID && t.StatusID == 3).FirstOrDefault();
                 if (firstOrDefault != null)
                     transporterPaymentRequest.TransportOrderID = firstOrDefault.TransportOrderID;

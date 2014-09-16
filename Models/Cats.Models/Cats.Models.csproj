@@ -114,6 +114,7 @@
     <Compile Include="Mapping\LoanReciptPlanMap.cs" />
     <Compile Include="Mapping\TransferMap.cs" />
     <Compile Include="Mapping\TransporeterChequeMap.cs" />
+    <Compile Include="Mapping\TransporterChequeDetailMap.cs" />
     <Compile Include="Mapping\TransporterPaymentRequestMap.cs" />
     <Compile Include="Mapping\VWRegionalRequestMap.cs" />
     <Compile Include="ReceiptPlan.cs" />
@@ -125,6 +126,7 @@
     <Compile Include="SupportType.cs" />
     <Compile Include="Transfer.cs" />
     <Compile Include="TransporterCheque.cs" />
+    <Compile Include="TransporterChequeDetail.cs" />
     <Compile Include="TransporterPaymentRequest.cs" />
     <Compile Include="ViewModels\Dashboard\RecentRequests.cs" />
     <Compile Include="ViewModels\DistributionByAgeViewModel.cs" />

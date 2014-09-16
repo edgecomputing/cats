@@ -225,7 +225,7 @@
                             Transport Order No.
                         </div>
                         <div class="controls">  
-                            <a href="@Url.Action("TransportOrderDetail", "TransporterPaymentRequest", new {transportOrderID = transportOrderViewModel.TransportOrderID})">
+                            <a href="@Url.Action("TransportOrderDetail", "TransporterPaymentRequest", new { transportOrderID = transportOrderViewModel.TransportOrderID })">
                                 @transportOrderViewModel.TransportOrderNo
                             </a>
                         </div>
@@ -237,7 +237,7 @@
                             Transporter
                         </div>
                         <div class="controls">
-                            <a href="@Url.Action("TransporterDetail", "TransporterPaymentRequest", new {transporterID = transportOrderViewModel.TransporterID})">
+                            <a href="@Url.Action("TransporterDetail", "TransporterPaymentRequest", new { transporterID = transportOrderViewModel.TransporterID })">
                                 @transportOrderViewModel.Transporter
                             </a>
                         </div>
@@ -378,26 +378,29 @@
                     </td>
                     <td>
                         @*<a href="@Url.Action("ViewContractAgreement", "ValidatedPaymentRequest", new { transporterID = item.TransportOrder.Transporter.TransporterID })">Contract Agreement</a> &nbsp;&nbsp;*@
-                        <button class="btn" data-ng-click="loadCommodityTarrif(@item.TransporterPaymentRequestID, '@item.Commodity')">Commodity Tarrif</button>
+                        
                         @*<a href="@Url.Action("LabourCost", "ValidatedPaymentRequest")">Labour Cost</a>*@
-                        @*@if (@state.StateNo >= 4)
+                        @if (state.StateNo == 0)
                         {
-                            <button class="btn" data-ng-click="loadChequeInfo(@item.TransporterPaymentRequestID, @state.StateNo)">Cheque Info</button>
-                        }*@
+                            <button class="btn" data-ng-click="loadCommodityTarrif(@item.TransporterPaymentRequestID, '@item.Commodity')">Commodity Tarrif</button>
+                        }
                     </td>
                     <td>
-                        <div class="btn-group">
-                            <button class="btn edit_button" id="action_@index">Workflow</button>
-                            <button class="btn  dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
-                            <ul class="dropdown-menu">
-                                @foreach (FlowTemplate actions in state.InitialStateFlowTemplates)
-                                {
-                                    <li class="edit_button"><a href="javascript:promot_workflow(@item.BusinessProcessID ,@actions.FinalStateID,'@actions.Name',@item.TransporterPaymentRequestID)" title="@actions.Name">@actions.Name</a></li>            
-                                }
-                                <li class="divider"></li>
-                                <li class="edit_button"><a href="javascript:workflow_history(@item.BusinessProcessID)">History</a></li>
-                            </ul>
-                        </div>
+                        @if (item.ShortageBirr != (decimal)0.00 || item.ShortageQty == (decimal)0.00)
+                        {
+                            <div class="btn-group">
+                                <button class="btn edit_button" id="action_@index">Workflow</button>
+                                <button class="btn  dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
+                                <ul class="dropdown-menu">
+                                    @foreach (FlowTemplate actions in state.InitialStateFlowTemplates)
+                                    {
+                                        <li class="edit_button"><a href="javascript:promot_workflow(@item.BusinessProcessID ,@actions.FinalStateID,'@actions.Name',@item.TransporterPaymentRequestID)" title="@actions.Name">@actions.Name</a></li>            
+                                    }
+                                    <li class="divider"></li>
+                                    <li class="edit_button"><a href="javascript:workflow_history(@item.BusinessProcessID)">History</a></li>
+                                </ul>
+                            </div>
+                        }
                     </td>
                 </tr> 
                 //}

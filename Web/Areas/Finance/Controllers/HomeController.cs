@@ -44,8 +44,8 @@ namespace Cats.Areas.Finance.Controllers
                     RequestedAmount = firstOrDefault.SentQuantity,
                     AditionalLabourCost = p.LabourCost,
                     RejectedAmount = p.RejectedAmount,// Date  = _transporterChequeService.FindBy(t=>t.PaymentRequestID == p.PaymentRequestID).Select(d=>d.AppovedDate).FirstOrDefault().ToCTSPreferedDateFormat(UserAccountHelper.UserCalendarPreference()),
-                    ChequeNo = _transporterChequeService.FindBy(t => t.TransporterPaymentRequestID == p.TransporterPaymentRequestID).Select(d => d.CheckNo).FirstOrDefault(),
-                    PVNo = _transporterChequeService.FindBy(t => t.TransporterPaymentRequestID == p.TransporterPaymentRequestID).Select(d => d.PaymentVoucherNo).FirstOrDefault(),
+                    ChequeNo = _transporterChequeService.FindBy(t => t.TransporterChequeDetails.FirstOrDefault().TransporterPaymentRequestID == p.TransporterPaymentRequestID).Select(d => d.CheckNo).FirstOrDefault(),
+                    PVNo = _transporterChequeService.FindBy(t => t.TransporterChequeDetails.FirstOrDefault().TransporterPaymentRequestID == p.TransporterPaymentRequestID).Select(d => d.PaymentVoucherNo).FirstOrDefault(),
                     Status = p.BusinessProcess.CurrentState.BaseStateTemplate.Name,
                     Performer = p.BusinessProcess.CurrentState.PerformedBy
                 } : null) : null;
@@ -55,22 +55,26 @@ namespace Cats.Areas.Finance.Controllers
 
         public JsonResult ReadCheques()
         {
-            var cheques = _transporterChequeService.GetAllTransporterCheque().Where(t => t.Status < 4).Select(c => new
-            {
-                chequeNo = c.CheckNo,
-                Transporter = c.TransporterPaymentRequest.TransportOrder.Transporter.Name,
-                c.Amount,
-                PreparedBy = c.UserProfile.FirstName + " " + c.UserProfile.LastName,
+            var cheques = _transporterChequeService.GetAllTransporterCheque().Where(t => t.Status < 4).Select(c =>
+                                                                                                                  {
+                                                                                                                      var transporterChequeDetail = c.TransporterChequeDetails.FirstOrDefault();
+                                                                                                                      return transporterChequeDetail != null ? new
+                                                                                                                                                                    {
+                                                                                                                                                                        chequeNo = c.CheckNo,
+                                                                                                                                                                        Transporter = transporterChequeDetail.TransporterPaymentRequest.TransportOrder.Transporter.Name,
+                                                                                                                                                                        c.Amount,
+                                                                                                                                                                        PreparedBy = c.UserProfile.FirstName + " " + c.UserProfile.LastName,
 
-                ApprovedBy = c.AppovedBy != null ? _userProfileService.FindById((int)c.AppovedBy).FirstName + " " +
-                               _userProfileService.FindById((int)c.AppovedBy).LastName : "",
-                DateApproved = c.AppovedDate.Date.ToCTSPreferedDateFormat(UserAccountHelper.UserCalendarPreference()),
-                transporterChequeId = c.TransporterChequeId,
-                State = c.Status,
-                Status = status((int)c.Status),
-                ButtonStatus = _status((int)c.Status),
-                c.BankName
-            });
+                                                                                                                                                                        ApprovedBy = c.AppovedBy != null ? _userProfileService.FindById((int)c.AppovedBy).FirstName + " " +
+                                                                                                                                                                                                           _userProfileService.FindById((int)c.AppovedBy).LastName : "",
+                                                                                                                                                                        DateApproved = c.AppovedDate.Date.ToCTSPreferedDateFormat(UserAccountHelper.UserCalendarPreference()),
+                                                                                                                                                                        transporterChequeId = c.TransporterChequeId,
+                                                                                                                                                                        State = c.Status,
+                                                                                                                                                                        Status = c.BusinessProcess.CurrentState.BaseStateTemplate.Name,
+                                                                                                                                                                        ButtonStatus = c.BusinessProcess.CurrentState.BaseStateTemplate.Name,
+                                                                                                                                                                        c.BankName
+                                                                                                                                                                    } : null;
+                                                                                                                  });
             return Json(cheques, JsonRequestBehavior.AllowGet);
         }
 
