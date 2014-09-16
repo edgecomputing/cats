@@ -1076,5 +1076,11 @@ namespace Cats.Data.UnitWork
             get { return this._lossReasonRepository ?? (this._lossReasonRepository = new GenericRepository<LossReason>(_context)); }
         }
 
+
+        private IGenericRepository<VWRegionalRequest> _vwRegionalRequestRepository;
+        public IGenericRepository<VWRegionalRequest> VWRegionalRequestRepository
+        {
+            get { return this._vwRegionalRequestRepository ?? (this._vwRegionalRequestRepository = new GenericRepository<VWRegionalRequest>(_context)); }
+        }
     }
 }
