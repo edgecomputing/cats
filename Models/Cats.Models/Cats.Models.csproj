@@ -115,6 +115,7 @@
     <Compile Include="Mapping\TransferMap.cs" />
     <Compile Include="Mapping\TransporeterChequeMap.cs" />
     <Compile Include="Mapping\TransporterPaymentRequestMap.cs" />
+    <Compile Include="Mapping\VWRegionalRequestMap.cs" />
     <Compile Include="ReceiptPlan.cs" />
     <Compile Include="ReceiptPlanDetal.cs" />
     <Compile Include="Mapping\OtherDispatchAllocationMap.cs" />
@@ -127,6 +128,7 @@
     <Compile Include="TransporterPaymentRequest.cs" />
     <Compile Include="ViewModels\Dashboard\RecentRequests.cs" />
     <Compile Include="ViewModels\DistributionByAgeViewModel.cs" />
+    <Compile Include="VWRegionalRequest.cs" />
     <Compile Include="WoredaStockDistributionDetail.cs" />
     <Compile Include="Delivery.cs" />
     <Compile Include="DeliveryDetail.cs" />
