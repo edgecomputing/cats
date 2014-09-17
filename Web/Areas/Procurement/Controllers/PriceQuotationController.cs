@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using Cats.Helpers;
 using Cats.Models;
 using Cats.Data;
+using Cats.Models.Constant;
 using Cats.Services.Procurement;
 using Cats.Services.EarlyWarning;
 using Cats.Services.Common;
@@ -386,7 +387,7 @@ namespace Cats.Areas.Procurement.Controllers
 
         public ActionResult Create()
         {
-            ViewBag.BIDS = new SelectList(_bidService.GetAllBid(), "BidID", "BidNumber");
+            ViewBag.BIDS = new SelectList(_bidService.FindBy(m=>m.StatusID== (int)BidStatus.Approved || m.StatusID==(int)BidStatus.Active), "BidID", "BidNumber");//gets approved and active bids
             ViewBag.Regions = new SelectList(_adminUnitService.FindBy(t => t.AdminUnitTypeID == 2), "AdminUnitID", "Name");
             ViewBag.Transporters = new SelectList(_transporterService.GetAllTransporter(), "TransporterID", "Name");
             var header = new TransportBidQuotationHeader();
