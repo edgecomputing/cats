@@ -2,7 +2,7 @@
 <xs:schema id="CTSDataSet" targetNamespace="http://tempuri.org/CTSDataSet.xsd" xmlns:mstns="http://tempuri.org/CTSDataSet.xsd" xmlns="http://tempuri.org/CTSDataSet.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
   <xs:annotation>
     <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
-      <DataSource DefaultConnectionIndex="1" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="1" FunctionsComponentName="QueriesTableAdapter" GeneratorFunctionsComponentClassName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" UserFunctionsComponentName="QueriesTableAdapter" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
         <Connections>
           <Connection AppSettingsObjectName="Web.config" AppSettingsPropertyName="CatsContext" ConnectionStringObject="" IsAppSettingsProperty="true" Modifier="Assembly" Name="CatsContext (Web.config)" ParameterPrefix="@" PropertyReference="AppConfig.System.Configuration.ConfigurationManager.0.ConnectionStrings.CatsContext.ConnectionString" Provider="System.Data.SqlClient" />
           <Connection AppSettingsObjectName="Web.config" AppSettingsPropertyName="elmah-sql" ConnectionStringObject="" IsAppSettingsProperty="true" Modifier="Assembly" Name="elmah-sql (Web.config)" ParameterPrefix="@" PropertyReference="AppConfig.System.Configuration.ConfigurationManager.0.ConnectionStrings.elmah-sql.ConnectionString" Provider="System.Data.SqlClient" />
@@ -86,6 +86,28 @@ FROM            vwPSNPAnnualPlan</CommandText>
             </Mappings>
             <Sources />
           </TableAdapter>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="RationDetailViewTableAdapter" GeneratorDataComponentClassName="RationDetailViewTableAdapter" Name="RationDetailView" UserDataComponentName="RationDetailViewTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="elmah-sql (Web.config)" DbObjectType="Unknown" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="false" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>SELECT        Ration.RationID AS [RationID], Ration.RefrenceNumber AS [RationName],  Commodity.Name AS [Commodity], RationDetail.Amount
+FROM            Ration RIGHT OUTER JOIN
+                         RationDetail ON Ration.RationID = RationDetail.RationID LEFT OUTER JOIN
+                         Commodity ON RationDetail.CommodityID = Commodity.CommodityID</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="Amount" DataSetColumn="Amount" />
+              <Mapping SourceColumn="RationID" DataSetColumn="RationID" />
+              <Mapping SourceColumn="RationName" DataSetColumn="RationName" />
+              <Mapping SourceColumn="Commodity" DataSetColumn="Commodity" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
         </Tables>
         <Sources />
       </DataSource>
@@ -94,7 +116,7 @@ FROM            vwPSNPAnnualPlan</CommandText>
   <xs:element name="CTSDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="True" msprop:Generator_DataSetName="CTSDataSet" msprop:Generator_UserDSName="CTSDataSet">
     <xs:complexType>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
-        <xs:element name="vwPSNPAnnualPlan" msprop:Generator_TableClassName="vwPSNPAnnualPlanDataTable" msprop:Generator_TableVarName="tablevwPSNPAnnualPlan" msprop:Generator_RowChangedName="vwPSNPAnnualPlanRowChanged" msprop:Generator_TablePropName="vwPSNPAnnualPlan" msprop:Generator_RowDeletingName="vwPSNPAnnualPlanRowDeleting" msprop:Generator_RowChangingName="vwPSNPAnnualPlanRowChanging" msprop:Generator_RowEvHandlerName="vwPSNPAnnualPlanRowChangeEventHandler" msprop:Generator_RowDeletedName="vwPSNPAnnualPlanRowDeleted" msprop:Generator_RowClassName="vwPSNPAnnualPlanRow" msprop:Generator_UserTableName="vwPSNPAnnualPlan" msprop:Generator_RowEvArgName="vwPSNPAnnualPlanRowChangeEvent">
+        <xs:element name="vwPSNPAnnualPlan" msprop:Generator_TableClassName="vwPSNPAnnualPlanDataTable" msprop:Generator_TableVarName="tablevwPSNPAnnualPlan" msprop:Generator_TablePropName="vwPSNPAnnualPlan" msprop:Generator_RowDeletingName="vwPSNPAnnualPlanRowDeleting" msprop:Generator_RowChangingName="vwPSNPAnnualPlanRowChanging" msprop:Generator_RowEvHandlerName="vwPSNPAnnualPlanRowChangeEventHandler" msprop:Generator_RowDeletedName="vwPSNPAnnualPlanRowDeleted" msprop:Generator_UserTableName="vwPSNPAnnualPlan" msprop:Generator_RowChangedName="vwPSNPAnnualPlanRowChanged" msprop:Generator_RowEvArgName="vwPSNPAnnualPlanRowChangeEvent" msprop:Generator_RowClassName="vwPSNPAnnualPlanRow">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="FoodRatio" msprop:Generator_ColumnVarNameInTable="columnFoodRatio" msprop:Generator_ColumnPropNameInRow="FoodRatio" msprop:Generator_ColumnPropNameInTable="FoodRatioColumn" msprop:Generator_UserColumnName="FoodRatio" type="xs:int" minOccurs="0" />
@@ -137,7 +159,7 @@ FROM            vwPSNPAnnualPlan</CommandText>
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="TransportOrder" msprop:Generator_TableClassName="TransportOrderDataTable" msprop:Generator_TableVarName="tableTransportOrder" msprop:Generator_RowChangedName="TransportOrderRowChanged" msprop:Generator_TablePropName="TransportOrder" msprop:Generator_RowDeletingName="TransportOrderRowDeleting" msprop:Generator_RowChangingName="TransportOrderRowChanging" msprop:Generator_RowEvHandlerName="TransportOrderRowChangeEventHandler" msprop:Generator_RowDeletedName="TransportOrderRowDeleted" msprop:Generator_RowClassName="TransportOrderRow" msprop:Generator_UserTableName="TransportOrder" msprop:Generator_RowEvArgName="TransportOrderRowChangeEvent">
+        <xs:element name="TransportOrder" msprop:Generator_TableClassName="TransportOrderDataTable" msprop:Generator_TableVarName="tableTransportOrder" msprop:Generator_TablePropName="TransportOrder" msprop:Generator_RowDeletingName="TransportOrderRowDeleting" msprop:Generator_RowChangingName="TransportOrderRowChanging" msprop:Generator_RowEvHandlerName="TransportOrderRowChangeEventHandler" msprop:Generator_RowDeletedName="TransportOrderRowDeleted" msprop:Generator_UserTableName="TransportOrder" msprop:Generator_RowChangedName="TransportOrderRowChanged" msprop:Generator_RowEvArgName="TransportOrderRowChangeEvent" msprop:Generator_RowClassName="TransportOrderRow">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="TransportOrderID" msprop:Generator_ColumnVarNameInTable="columnTransportOrderID" msprop:Generator_ColumnPropNameInRow="TransportOrderID" msprop:Generator_ColumnPropNameInTable="TransportOrderIDColumn" msprop:Generator_UserColumnName="TransportOrderID" type="xs:string" minOccurs="0" />
@@ -217,7 +239,7 @@ FROM            vwPSNPAnnualPlan</CommandText>
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="TransportOrderDetail" msprop:Generator_TableClassName="TransportOrderDetailDataTable" msprop:Generator_TableVarName="tableTransportOrderDetail" msprop:Generator_RowChangedName="TransportOrderDetailRowChanged" msprop:Generator_TablePropName="TransportOrderDetail" msprop:Generator_RowDeletingName="TransportOrderDetailRowDeleting" msprop:Generator_RowChangingName="TransportOrderDetailRowChanging" msprop:Generator_RowEvHandlerName="TransportOrderDetailRowChangeEventHandler" msprop:Generator_RowDeletedName="TransportOrderDetailRowDeleted" msprop:Generator_RowClassName="TransportOrderDetailRow" msprop:Generator_UserTableName="TransportOrderDetail" msprop:Generator_RowEvArgName="TransportOrderDetailRowChangeEvent">
+        <xs:element name="TransportOrderDetail" msprop:Generator_TableClassName="TransportOrderDetailDataTable" msprop:Generator_TableVarName="tableTransportOrderDetail" msprop:Generator_TablePropName="TransportOrderDetail" msprop:Generator_RowDeletingName="TransportOrderDetailRowDeleting" msprop:Generator_RowChangingName="TransportOrderDetailRowChanging" msprop:Generator_RowEvHandlerName="TransportOrderDetailRowChangeEventHandler" msprop:Generator_RowDeletedName="TransportOrderDetailRowDeleted" msprop:Generator_UserTableName="TransportOrderDetail" msprop:Generator_RowChangedName="TransportOrderDetailRowChanged" msprop:Generator_RowEvArgName="TransportOrderDetailRowChangeEvent" msprop:Generator_RowClassName="TransportOrderDetailRow">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="TransportOrderDetailID" msprop:Generator_ColumnVarNameInTable="columnTransportOrderDetailID" msprop:Generator_ColumnPropNameInRow="TransportOrderDetailID" msprop:Generator_ColumnPropNameInTable="TransportOrderDetailIDColumn" msprop:Generator_UserColumnName="TransportOrderDetailID" type="xs:int" />
@@ -266,7 +288,7 @@ FROM            vwPSNPAnnualPlan</CommandText>
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="vwTransportOrder" msprop:Generator_TableClassName="vwTransportOrderDataTable" msprop:Generator_TableVarName="tablevwTransportOrder" msprop:Generator_TablePropName="vwTransportOrder" msprop:Generator_RowDeletingName="vwTransportOrderRowDeleting" msprop:Generator_RowChangingName="vwTransportOrderRowChanging" msprop:Generator_RowEvHandlerName="vwTransportOrderRowChangeEventHandler" msprop:Generator_RowDeletedName="vwTransportOrderRowDeleted" msprop:Generator_UserTableName="vwTransportOrder" msprop:Generator_RowChangedName="vwTransportOrderRowChanged" msprop:Generator_RowEvArgName="vwTransportOrderRowChangeEvent" msprop:Generator_RowClassName="vwTransportOrderRow">
+        <xs:element name="vwTransportOrder" msprop:Generator_TableClassName="vwTransportOrderDataTable" msprop:Generator_TableVarName="tablevwTransportOrder" msprop:Generator_RowChangedName="vwTransportOrderRowChanged" msprop:Generator_TablePropName="vwTransportOrder" msprop:Generator_RowDeletingName="vwTransportOrderRowDeleting" msprop:Generator_RowChangingName="vwTransportOrderRowChanging" msprop:Generator_RowEvHandlerName="vwTransportOrderRowChangeEventHandler" msprop:Generator_RowDeletedName="vwTransportOrderRowDeleted" msprop:Generator_RowClassName="vwTransportOrderRow" msprop:Generator_UserTableName="vwTransportOrder" msprop:Generator_RowEvArgName="vwTransportOrderRowChangeEvent">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="TransportOrderID" msprop:Generator_ColumnVarNameInTable="columnTransportOrderID" msprop:Generator_ColumnPropNameInRow="TransportOrderID" msprop:Generator_ColumnPropNameInTable="TransportOrderIDColumn" msprop:Generator_UserColumnName="TransportOrderID" type="xs:int" />
@@ -390,7 +412,33 @@ FROM            vwPSNPAnnualPlan</CommandText>
             </xs:sequence>
           </xs:complexType>
         </xs:element>
+        <xs:element name="RationDetailView" msprop:Generator_TableClassName="RationDetailViewDataTable" msprop:Generator_TableVarName="tableRationDetailView" msprop:Generator_TablePropName="RationDetailView" msprop:Generator_RowDeletingName="RationDetailViewRowDeleting" msprop:Generator_RowChangingName="RationDetailViewRowChanging" msprop:Generator_RowEvHandlerName="RationDetailViewRowChangeEventHandler" msprop:Generator_RowDeletedName="RationDetailViewRowDeleted" msprop:Generator_UserTableName="RationDetailView" msprop:Generator_RowChangedName="RationDetailViewRowChanged" msprop:Generator_RowEvArgName="RationDetailViewRowChangeEvent" msprop:Generator_RowClassName="RationDetailViewRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Amount" msprop:Generator_ColumnVarNameInTable="columnAmount" msprop:Generator_ColumnPropNameInRow="Amount" msprop:Generator_ColumnPropNameInTable="AmountColumn" msprop:Generator_UserColumnName="Amount" type="xs:decimal" />
+              <xs:element name="RationID" msdata:ReadOnly="true" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="-1" msdata:AutoIncrementStep="-1" msprop:Generator_ColumnVarNameInTable="columnRationID" msprop:Generator_ColumnPropNameInRow="RationID" msprop:Generator_ColumnPropNameInTable="RationIDColumn" msprop:Generator_UserColumnName="RationID" type="xs:int" minOccurs="0" />
+              <xs:element name="RationName" msprop:Generator_ColumnVarNameInTable="columnRationName" msprop:Generator_ColumnPropNameInRow="RationName" msprop:Generator_ColumnPropNameInTable="RationNameColumn" msprop:Generator_UserColumnName="RationName" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Commodity" msprop:Generator_ColumnVarNameInTable="columnCommodity" msprop:Generator_ColumnPropNameInRow="Commodity" msprop:Generator_ColumnPropNameInTable="CommodityColumn" msprop:Generator_UserColumnName="Commodity" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
       </xs:choice>
     </xs:complexType>
+    <xs:unique name="Constraint1">
+      <xs:selector xpath=".//mstns:RationDetailView" />
+      <xs:field xpath="mstns:RationID" />
+    </xs:unique>
   </xs:element>
 </xs:schema>

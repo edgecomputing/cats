@@ -12,6 +12,8 @@ using Kendo.Mvc.UI;
 using Cats.ViewModelBinder;
 using Cats.Services.Security;
 using log4net;
+using Cats.Infrastructure;
+
 
 namespace Cats.Areas.EarlyWarning.Controllers
 {
@@ -48,6 +50,28 @@ namespace Cats.Areas.EarlyWarning.Controllers
             return Json(_rationService.GetAllRation(), JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult Print(int id = 0)
+        {
+            if (id == 0)
+            {
+                RedirectToAction("Index");
+            }
+            var reportPath = Server.MapPath("~/Report/EarlyWarning/Ration.rdlc");
+            var rd = _rationService.FindById(id);
+            var reportData = (from rationdetail in rd.RationDetails
+                      select new RationDetailViewModel
+                                 {
+                                  Amount   = rationdetail.Amount,
+                                  RationName  = rd.RefrenceNumber,
+                                  Commodity = rationdetail.Commodity.Name,
+                                  RationID  = rationdetail.RationID
+                                 });
+            var dataSourceName = "RationDetailView";
+            var result = ReportHelper.PrintReport(reportPath, reportData, dataSourceName);
+
+            return File(result.RenderBytes, result.MimeType);
+        }
+        
        
         public ActionResult Details(int id)
         {
@@ -77,6 +101,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                 rationViewModel.RationDetailID = rationDetail.RationDetailID;
                 rationViewModel.UnitID = rationDetail.UnitID.HasValue?rationDetail.UnitID.Value:-1;
                 // rationViewModel.UnitID = rationDetail.UnitID;
+                rationViewModel.RationName = _rationService.FindById(rationDetail.RationID).RefrenceNumber;
             }
             return rationViewModel;
         }
