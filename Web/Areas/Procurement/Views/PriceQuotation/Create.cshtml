@@ -58,7 +58,7 @@
                 </div>
 
             </div>
-           @* <div class="control-group">
+            @* <div class="control-group">
                 <div class="control-label">
                     @Html.LabelFor(m => m.BidBondAmount, Html.Translate("Bid Bond"))
                 </div>
@@ -74,7 +74,7 @@
                 </div>
                 <div class="controls">
                     @* <input class="cats-datepicker" type="text" id="create" name="create" />*@
-                    @Html.TextBoxFor(m => m.EnteredBy)
+                    @Html.TextBoxFor(m => m.EnteredBy, new { @readonly = "readonly" })
                     @Html.ValidationMessageFor(m => m.EnteredBy)
                 </div>
             </div>
