@@ -179,7 +179,8 @@ namespace Cats.Data.UnitWork
         IGenericRepository<LoanReciptPlanDetail> LoanReciptPlanDetailRepository { get;}
         IGenericRepository<Transfer> TransferRepository { get; }
         IGenericRepository<TransporterCheque> TransporterChequeRepository { get; }
-        IGenericRepository<LossReason> LossReasonRepository { get; } 
+        IGenericRepository<LossReason> LossReasonRepository { get; }
+        IGenericRepository<VWRegionalRequest> VWRegionalRequestRepository { get; } 
         void Save();
 
     }

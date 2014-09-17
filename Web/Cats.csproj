@@ -2826,8 +2826,8 @@
     <Content Include="Areas\Logistics\Views\DispatchAllocation\main.cshtml" />
     <None Include="CTSDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>CTSDataSet.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>CTSDataSet.Designer.cs</LastGenOutput>
     </None>
     <Content Include="CTSDataSet.xss">
       <DependentUpon>CTSDataSet.xsd</DependentUpon>
@@ -3344,6 +3344,8 @@
       <LastGenOutput>EditorLocalization.designer.cs</LastGenOutput>
     </Content>
     <EmbeddedResource Include="Areas\EarlyWarning\Views\PrintableReports\HRD\AllHRD.rdlc" />
+    <EmbeddedResource Include="Report\EarlyWarning\Ration.rdlc" />
+    <EmbeddedResource Include="Report\EarlyWarning\RegionalRequest.rdlc" />
     <EmbeddedResource Include="Report\EarlyWarning\RRDDetail.rdlc" />
     <EmbeddedResource Include="Report\HRD\HRDSummaryByRegion.rdlc" />
     <EmbeddedResource Include="Report\Logisitcs\CarryOverStockStatus.rdlc" />

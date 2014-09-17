@@ -585,7 +585,7 @@ namespace Cats.Areas.Procurement.Controllers
             {
                 foreach (var transportOrderDetail in transportOrder.TransportOrderDetails)
                 {
-                    if (transportOrderDetail.TariffPerQtl<= 0)
+                    if (transportOrderDetail.TariffPerQtl <= 0 && transportOrderDetail.WinnerAssignedByLogistics != true)
                     {
                         orderDetailWithoutTarrif = 1;
                         break;
@@ -619,7 +619,7 @@ namespace Cats.Areas.Procurement.Controllers
             {
                 foreach (var transportOrderDetail in transportOrder.TransportOrderDetails)
                 {
-                    if (transportOrderDetail.TariffPerQtl <= 0)
+                    if (transportOrderDetail.TariffPerQtl <= 0 )
                     {
                         orderDetailWithoutTarrif = 1;
                         break;

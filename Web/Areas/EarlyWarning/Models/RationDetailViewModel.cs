@@ -18,6 +18,7 @@ namespace Cats.Areas.EarlyWarning.Models
         [Display(Name="Unit")]
         public int UnitID { get; set; }
         public string Unit { get; set; }
+        public string RationName { get; set; }
       
     }
 }

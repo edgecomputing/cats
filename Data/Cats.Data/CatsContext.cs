@@ -159,7 +159,7 @@ namespace Cats.Data
         public DbSet<LossReason> LossReasons { get; set; }
 
         public DbSet<TransporterPaymentRequest> TransporterPaymentRequests { get; set; }
-        public DbSet<TransporterChequeDetail> TransporterChequeDetails { get; set; } 
+        public DbSet<VWRegionalRequest> VwRegionalRequests { get; set; } 
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -304,7 +304,7 @@ namespace Cats.Data
             modelBuilder.Configurations.Add(new LossReasonMap());
 
             modelBuilder.Configurations.Add(new TransporterPaymentRequestMap());
-            modelBuilder.Configurations.Add(new TransporterChequeDetailMap());
+            modelBuilder.Configurations.Add(new VWRegionalRequestMap());
         }
 
     }
