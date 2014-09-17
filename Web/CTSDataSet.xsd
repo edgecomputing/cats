@@ -122,6 +122,28 @@ FROM            RegionalRequestAllocation</CommandText>
             </Mappings>
             <Sources />
           </TableAdapter>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="RationDetailViewTableAdapter" GeneratorDataComponentClassName="RationDetailViewTableAdapter" Name="RationDetailView" UserDataComponentName="RationDetailViewTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="elmah-sql (Web.config)" DbObjectType="Unknown" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="false" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>SELECT        Ration.RationID AS [RationID], Ration.RefrenceNumber AS [RationName], Commodity.Name AS [Commodity], RationDetail.Amount
+FROM            Ration RIGHT OUTER JOIN
+                         RationDetail ON Ration.RationID = RationDetail.RationID LEFT OUTER JOIN
+                         Commodity ON RationDetail.CommodityID = Commodity.CommodityID</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="RationID" DataSetColumn="RationID" />
+              <Mapping SourceColumn="RationName" DataSetColumn="RationName" />
+              <Mapping SourceColumn="Commodity" DataSetColumn="Commodity" />
+              <Mapping SourceColumn="Amount" DataSetColumn="Amount" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
         </Tables>
         <Sources />
       </DataSource>
@@ -130,7 +152,7 @@ FROM            RegionalRequestAllocation</CommandText>
   <xs:element name="CTSDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="True" msprop:Generator_DataSetName="CTSDataSet" msprop:Generator_UserDSName="CTSDataSet">
     <xs:complexType>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
-        <xs:element name="vwPSNPAnnualPlan" msprop:Generator_TableClassName="vwPSNPAnnualPlanDataTable" msprop:Generator_TableVarName="tablevwPSNPAnnualPlan" msprop:Generator_TablePropName="vwPSNPAnnualPlan" msprop:Generator_RowDeletingName="vwPSNPAnnualPlanRowDeleting" msprop:Generator_RowChangingName="vwPSNPAnnualPlanRowChanging" msprop:Generator_RowEvHandlerName="vwPSNPAnnualPlanRowChangeEventHandler" msprop:Generator_RowDeletedName="vwPSNPAnnualPlanRowDeleted" msprop:Generator_UserTableName="vwPSNPAnnualPlan" msprop:Generator_RowChangedName="vwPSNPAnnualPlanRowChanged" msprop:Generator_RowEvArgName="vwPSNPAnnualPlanRowChangeEvent" msprop:Generator_RowClassName="vwPSNPAnnualPlanRow">
+        <xs:element name="vwPSNPAnnualPlan" msprop:Generator_TableClassName="vwPSNPAnnualPlanDataTable" msprop:Generator_TableVarName="tablevwPSNPAnnualPlan" msprop:Generator_RowChangedName="vwPSNPAnnualPlanRowChanged" msprop:Generator_TablePropName="vwPSNPAnnualPlan" msprop:Generator_RowDeletingName="vwPSNPAnnualPlanRowDeleting" msprop:Generator_RowChangingName="vwPSNPAnnualPlanRowChanging" msprop:Generator_RowEvHandlerName="vwPSNPAnnualPlanRowChangeEventHandler" msprop:Generator_RowDeletedName="vwPSNPAnnualPlanRowDeleted" msprop:Generator_RowClassName="vwPSNPAnnualPlanRow" msprop:Generator_UserTableName="vwPSNPAnnualPlan" msprop:Generator_RowEvArgName="vwPSNPAnnualPlanRowChangeEvent">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="FoodRatio" msprop:Generator_ColumnVarNameInTable="columnFoodRatio" msprop:Generator_ColumnPropNameInRow="FoodRatio" msprop:Generator_ColumnPropNameInTable="FoodRatioColumn" msprop:Generator_UserColumnName="FoodRatio" type="xs:int" minOccurs="0" />
@@ -173,7 +195,7 @@ FROM            RegionalRequestAllocation</CommandText>
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="TransportOrder" msprop:Generator_TableClassName="TransportOrderDataTable" msprop:Generator_TableVarName="tableTransportOrder" msprop:Generator_TablePropName="TransportOrder" msprop:Generator_RowDeletingName="TransportOrderRowDeleting" msprop:Generator_RowChangingName="TransportOrderRowChanging" msprop:Generator_RowEvHandlerName="TransportOrderRowChangeEventHandler" msprop:Generator_RowDeletedName="TransportOrderRowDeleted" msprop:Generator_UserTableName="TransportOrder" msprop:Generator_RowChangedName="TransportOrderRowChanged" msprop:Generator_RowEvArgName="TransportOrderRowChangeEvent" msprop:Generator_RowClassName="TransportOrderRow">
+        <xs:element name="TransportOrder" msprop:Generator_TableClassName="TransportOrderDataTable" msprop:Generator_TableVarName="tableTransportOrder" msprop:Generator_RowChangedName="TransportOrderRowChanged" msprop:Generator_TablePropName="TransportOrder" msprop:Generator_RowDeletingName="TransportOrderRowDeleting" msprop:Generator_RowChangingName="TransportOrderRowChanging" msprop:Generator_RowEvHandlerName="TransportOrderRowChangeEventHandler" msprop:Generator_RowDeletedName="TransportOrderRowDeleted" msprop:Generator_RowClassName="TransportOrderRow" msprop:Generator_UserTableName="TransportOrder" msprop:Generator_RowEvArgName="TransportOrderRowChangeEvent">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="TransportOrderID" msprop:Generator_ColumnVarNameInTable="columnTransportOrderID" msprop:Generator_ColumnPropNameInRow="TransportOrderID" msprop:Generator_ColumnPropNameInTable="TransportOrderIDColumn" msprop:Generator_UserColumnName="TransportOrderID" type="xs:string" minOccurs="0" />
@@ -253,7 +275,7 @@ FROM            RegionalRequestAllocation</CommandText>
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="TransportOrderDetail" msprop:Generator_TableClassName="TransportOrderDetailDataTable" msprop:Generator_TableVarName="tableTransportOrderDetail" msprop:Generator_TablePropName="TransportOrderDetail" msprop:Generator_RowDeletingName="TransportOrderDetailRowDeleting" msprop:Generator_RowChangingName="TransportOrderDetailRowChanging" msprop:Generator_RowEvHandlerName="TransportOrderDetailRowChangeEventHandler" msprop:Generator_RowDeletedName="TransportOrderDetailRowDeleted" msprop:Generator_UserTableName="TransportOrderDetail" msprop:Generator_RowChangedName="TransportOrderDetailRowChanged" msprop:Generator_RowEvArgName="TransportOrderDetailRowChangeEvent" msprop:Generator_RowClassName="TransportOrderDetailRow">
+        <xs:element name="TransportOrderDetail" msprop:Generator_TableClassName="TransportOrderDetailDataTable" msprop:Generator_TableVarName="tableTransportOrderDetail" msprop:Generator_RowChangedName="TransportOrderDetailRowChanged" msprop:Generator_TablePropName="TransportOrderDetail" msprop:Generator_RowDeletingName="TransportOrderDetailRowDeleting" msprop:Generator_RowChangingName="TransportOrderDetailRowChanging" msprop:Generator_RowEvHandlerName="TransportOrderDetailRowChangeEventHandler" msprop:Generator_RowDeletedName="TransportOrderDetailRowDeleted" msprop:Generator_RowClassName="TransportOrderDetailRow" msprop:Generator_UserTableName="TransportOrderDetail" msprop:Generator_RowEvArgName="TransportOrderDetailRowChangeEvent">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="TransportOrderDetailID" msprop:Generator_ColumnVarNameInTable="columnTransportOrderDetailID" msprop:Generator_ColumnPropNameInRow="TransportOrderDetailID" msprop:Generator_ColumnPropNameInTable="TransportOrderDetailIDColumn" msprop:Generator_UserColumnName="TransportOrderDetailID" type="xs:int" />
@@ -302,7 +324,7 @@ FROM            RegionalRequestAllocation</CommandText>
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="vwTransportOrder" msprop:Generator_TableClassName="vwTransportOrderDataTable" msprop:Generator_TableVarName="tablevwTransportOrder" msprop:Generator_RowChangedName="vwTransportOrderRowChanged" msprop:Generator_TablePropName="vwTransportOrder" msprop:Generator_RowDeletingName="vwTransportOrderRowDeleting" msprop:Generator_RowChangingName="vwTransportOrderRowChanging" msprop:Generator_RowEvHandlerName="vwTransportOrderRowChangeEventHandler" msprop:Generator_RowDeletedName="vwTransportOrderRowDeleted" msprop:Generator_RowClassName="vwTransportOrderRow" msprop:Generator_UserTableName="vwTransportOrder" msprop:Generator_RowEvArgName="vwTransportOrderRowChangeEvent">
+        <xs:element name="vwTransportOrder" msprop:Generator_TableClassName="vwTransportOrderDataTable" msprop:Generator_TableVarName="tablevwTransportOrder" msprop:Generator_TablePropName="vwTransportOrder" msprop:Generator_RowDeletingName="vwTransportOrderRowDeleting" msprop:Generator_RowChangingName="vwTransportOrderRowChanging" msprop:Generator_RowEvHandlerName="vwTransportOrderRowChangeEventHandler" msprop:Generator_RowDeletedName="vwTransportOrderRowDeleted" msprop:Generator_UserTableName="vwTransportOrder" msprop:Generator_RowChangedName="vwTransportOrderRowChanged" msprop:Generator_RowEvArgName="vwTransportOrderRowChangeEvent" msprop:Generator_RowClassName="vwTransportOrderRow">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="TransportOrderID" msprop:Generator_ColumnVarNameInTable="columnTransportOrderID" msprop:Generator_ColumnPropNameInRow="TransportOrderID" msprop:Generator_ColumnPropNameInTable="TransportOrderIDColumn" msprop:Generator_UserColumnName="TransportOrderID" type="xs:int" />
@@ -426,7 +448,7 @@ FROM            RegionalRequestAllocation</CommandText>
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="RegionalRequestAllocation" msprop:Generator_TableClassName="RegionalRequestAllocationDataTable" msprop:Generator_TableVarName="tableRegionalRequestAllocation" msprop:Generator_TablePropName="RegionalRequestAllocation" msprop:Generator_RowDeletingName="RegionalRequestAllocationRowDeleting" msprop:Generator_RowChangingName="RegionalRequestAllocationRowChanging" msprop:Generator_RowEvHandlerName="RegionalRequestAllocationRowChangeEventHandler" msprop:Generator_RowDeletedName="RegionalRequestAllocationRowDeleted" msprop:Generator_UserTableName="RegionalRequestAllocation" msprop:Generator_RowChangedName="RegionalRequestAllocationRowChanged" msprop:Generator_RowEvArgName="RegionalRequestAllocationRowChangeEvent" msprop:Generator_RowClassName="RegionalRequestAllocationRow">
+        <xs:element name="RegionalRequestAllocation" msprop:Generator_TableClassName="RegionalRequestAllocationDataTable" msprop:Generator_TableVarName="tableRegionalRequestAllocation" msprop:Generator_RowChangedName="RegionalRequestAllocationRowChanged" msprop:Generator_TablePropName="RegionalRequestAllocation" msprop:Generator_RowDeletingName="RegionalRequestAllocationRowDeleting" msprop:Generator_RowChangingName="RegionalRequestAllocationRowChanging" msprop:Generator_RowEvHandlerName="RegionalRequestAllocationRowChangeEventHandler" msprop:Generator_RowDeletedName="RegionalRequestAllocationRowDeleted" msprop:Generator_RowClassName="RegionalRequestAllocationRow" msprop:Generator_UserTableName="RegionalRequestAllocation" msprop:Generator_RowEvArgName="RegionalRequestAllocationRowChangeEvent">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="RegionalRequestID" msprop:Generator_ColumnVarNameInTable="columnRegionalRequestID" msprop:Generator_ColumnPropNameInRow="RegionalRequestID" msprop:Generator_ColumnPropNameInTable="RegionalRequestIDColumn" msprop:Generator_UserColumnName="RegionalRequestID" type="xs:int" />
@@ -500,7 +522,33 @@ FROM            RegionalRequestAllocation</CommandText>
             </xs:sequence>
           </xs:complexType>
         </xs:element>
+        <xs:element name="RationDetailView" msprop:Generator_TableClassName="RationDetailViewDataTable" msprop:Generator_TableVarName="tableRationDetailView" msprop:Generator_TablePropName="RationDetailView" msprop:Generator_RowDeletingName="RationDetailViewRowDeleting" msprop:Generator_RowChangingName="RationDetailViewRowChanging" msprop:Generator_RowEvHandlerName="RationDetailViewRowChangeEventHandler" msprop:Generator_RowDeletedName="RationDetailViewRowDeleted" msprop:Generator_UserTableName="RationDetailView" msprop:Generator_RowChangedName="RationDetailViewRowChanged" msprop:Generator_RowEvArgName="RationDetailViewRowChangeEvent" msprop:Generator_RowClassName="RationDetailViewRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="RationID" msdata:ReadOnly="true" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="-1" msdata:AutoIncrementStep="-1" msprop:Generator_ColumnVarNameInTable="columnRationID" msprop:Generator_ColumnPropNameInRow="RationID" msprop:Generator_ColumnPropNameInTable="RationIDColumn" msprop:Generator_UserColumnName="RationID" type="xs:int" minOccurs="0" />
+              <xs:element name="RationName" msprop:Generator_ColumnVarNameInTable="columnRationName" msprop:Generator_ColumnPropNameInRow="RationName" msprop:Generator_ColumnPropNameInTable="RationNameColumn" msprop:Generator_UserColumnName="RationName" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Commodity" msprop:Generator_ColumnVarNameInTable="columnCommodity" msprop:Generator_ColumnPropNameInRow="Commodity" msprop:Generator_ColumnPropNameInTable="CommodityColumn" msprop:Generator_UserColumnName="Commodity" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Amount" msprop:Generator_ColumnVarNameInTable="columnAmount" msprop:Generator_ColumnPropNameInRow="Amount" msprop:Generator_ColumnPropNameInTable="AmountColumn" msprop:Generator_UserColumnName="Amount" type="xs:decimal" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
       </xs:choice>
     </xs:complexType>
+    <xs:unique name="Constraint1">
+      <xs:selector xpath=".//mstns:RationDetailView" />
+      <xs:field xpath="mstns:RationID" />
+    </xs:unique>
   </xs:element>
 </xs:schema>
