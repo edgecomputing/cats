@@ -36,6 +36,7 @@ namespace Cats.Models
         public virtual ICollection<PaymentRequest> PaymentRequests { get; set; }
 
         public virtual ICollection<BidWinner> BidWinners { get; set; }
+        public virtual ICollection<TransporterCheque> TransporterCheques { get; set; }
 
         public virtual ICollection<BusinessProcessState> BusinessProcessStates { get; set; }
         public virtual ICollection<TransporterPaymentRequest> TransporterPaymentRequests { get; set; }

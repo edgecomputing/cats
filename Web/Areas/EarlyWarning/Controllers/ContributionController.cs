@@ -224,7 +224,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
             var contributions = _contributionService.GetAllContribution().OrderByDescending(m => m.ContributionID);
             var hrdsToDisplay = GetContribution(contributions).ToList();
-            return Json(hrdsToDisplay.ToDataSourceResult(request));
+            return Json(hrdsToDisplay.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
 
         private IEnumerable<ContributionDetailViewModel> GetContributionDetail(Contribution contribution)
@@ -285,7 +285,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             if (contribution != null)
             {
                 var detailsToDisplay = GetInKindContributionDetail(contribution).ToList();
-                return Json(detailsToDisplay.ToDataSourceResult(request));
+                return Json(detailsToDisplay.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
             }
             return RedirectToAction("Index");
         }

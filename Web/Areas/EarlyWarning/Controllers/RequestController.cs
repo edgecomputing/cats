@@ -7,6 +7,7 @@ using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
 using Cats.Areas.EarlyWarning.Models;
+using Cats.Infrastructure;
 using Cats.Models;
 using Cats.Models.Constant;
 using Cats.Models.ViewModels;
@@ -1322,6 +1323,19 @@ namespace Cats.Areas.EarlyWarning.Controllers
             }
             TempData["CustomError"] = "Status Can not be Reverted !Requistions from this Request has been Created and Used in Logistics Caseteam!";
             return RedirectToAction("Details", new { id = id });
+        }
+        public ActionResult Print(int id)
+        {
+            if (id == 0)
+            {
+                RedirectToAction("Index");
+            }
+            var reportPath = Server.MapPath("~/Report/EarlyWarning/RegionalRequest.rdlc");
+            var reportData = _regionalRequestService.GetRegionalRequestRpt(id);
+            var dataSourceName = "RegionalRequest";
+            var result = ReportHelper.PrintReport(reportPath, reportData, dataSourceName);
+
+            return File(result.RenderBytes, result.MimeType);
         }
     }
 }

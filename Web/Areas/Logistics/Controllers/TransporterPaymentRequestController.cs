@@ -225,7 +225,7 @@ namespace Cats.Areas.Logistics.Controllers
                             ReferenceNo = request.ReferenceNo,
                             TransportOrderID = request.TransportOrderID,
                             TransporterPaymentRequestID = request.TransporterPaymentRequestID,
-                            FreightCharge = (decimal)(request.ShortageBirr != null ? (deliveryDetail.ReceivedQuantity * tarrif) - request.ShortageBirr - request.LabourCost - request.RejectedAmount : (deliveryDetail.ReceivedQuantity * tarrif) - request.LabourCost - request.RejectedAmount),
+                            FreightCharge = (decimal)(request.ShortageBirr != null ? (deliveryDetail.ReceivedQuantity * tarrif) - request.ShortageBirr + request.LabourCost - request.RejectedAmount : (deliveryDetail.ReceivedQuantity * tarrif) + request.LabourCost - request.RejectedAmount),
                             BusinessProcess = businessProcess,
                             LabourCost = request.LabourCost,
                             LabourCostRate = request.LabourCostRate,

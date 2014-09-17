@@ -5,34 +5,53 @@
 
 @{
     ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_MainLayout.cshtml";
+    Layout = "~/Views/Shared/_CATSLayout.cshtml";
 }
 
-@section Toolbar
+@section Title
 {
-    <a data-buttontype="btn_new_record"  class="btn toolbar-btn " href="@Url.Action("Create", "DonorCoverage")"></a>
+Donors
 }
-<h4>List Of Donors Coverage</h4>
-@(Html.Kendo().Grid<HRDDonorCoverageViewModel>()
-      .Name("grid")
-          .Columns(columns =>
-              {
-                  columns.Bound(m => m.DonorName).Title("Donor/Partner Name").ClientTemplate("<a href='" + Url.Action("Detail", "DonorCoverage", new { id = "#=HrdDonorCovarageID#" }) + " '>#=DonorName#</a>  ");
-                  columns.Bound(m => m.HRDName);
-                  columns.Bound(m => m.CreatedDate);
-                  columns.Bound(m => m.NoCoveredWoredas).Title(Html.Translate("Number of Woredas"));
+@section PageTitle
+{
+     <h1 class="hdr-blck big ">  List Of Donors Coverage</h1>
+   
+}
+<div class="box box-primary">
+    <div class="col-md-12 box-body" style="display: block;">
+        <div class="row">
+            <div class="mrgn5-v text-right col-md-12">
+                <a data-buttontype="btn_new_record"  class="btn btn-success btn-sm " href="@Url.Action("Create", "DonorCoverage")"><span class="fa fa-plus"></span>New Donor</a>
+            </div>
+        </div>
+        <div class="table-responsive">
 
-              }
+            @(Html.Kendo().Grid<HRDDonorCoverageViewModel>().Name("grid")
+                .Columns(columns =>
+                {
+                    columns.Bound(m => m.DonorName).Title("Donor/Partner Name").ClientTemplate("<a href='" + Url.Action("Detail", "DonorCoverage", new { id = "#=HrdDonorCovarageID#" }) + " '>#=DonorName#</a>  ");
+                    columns.Bound(m => m.HRDName);
+                    columns.Bound(m => m.CreatedDate);
+                    columns.Bound(m => m.NoCoveredWoredas).Title(Html.Translate("Number of Woredas"));
 
-      )
-           
+                }
+
+                 )
+
              .Scrollable()
              .HtmlAttributes(new { style = "height:430px;" })
-              .DataSource(dataSource => dataSource
-             .Ajax()
+             .DataSource(dataSource => dataSource
+            .Ajax()
             .Model(model => model.Id(p => p.HrdDonorCovarageID))
             .Read(read => read.Action("DonorCoverage_Read", "DonorCoverage"))
-           
+
             )
       )
+
+        </div>
+
+       
+    </div>
+
+</div>
 

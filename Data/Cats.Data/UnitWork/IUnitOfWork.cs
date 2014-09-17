@@ -41,7 +41,7 @@ namespace Cats.Data.UnitWork
         IGenericRepository<TransportRequisition> TransportRequisitionRepository { get; }
         IGenericRepository<HubAllocation> HubAllocationRepository { get;}
         IGenericRepository<ProjectCode> ProjectCodeRepository { get; }
-
+        IGenericRepository<TransporterChequeDetail> TransporterChequeDetailRepository { get; }
         IGenericRepository<UserDashboard> UserDashboardRepository { get; }
         IGenericRepository<BidWinner> BidWinnerRepository { get; } 
 
@@ -179,7 +179,8 @@ namespace Cats.Data.UnitWork
         IGenericRepository<LoanReciptPlanDetail> LoanReciptPlanDetailRepository { get;}
         IGenericRepository<Transfer> TransferRepository { get; }
         IGenericRepository<TransporterCheque> TransporterChequeRepository { get; }
-        IGenericRepository<LossReason> LossReasonRepository { get; } 
+        IGenericRepository<LossReason> LossReasonRepository { get; }
+        IGenericRepository<VWRegionalRequest> VWRegionalRequestRepository { get; } 
         void Save();
 
     }

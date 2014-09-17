@@ -39,8 +39,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ITransporterChequeDetailService.cs" />
     <Compile Include="ITransporterChequeService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TransporterChequeDetailService.cs" />
     <Compile Include="TransporterChequeService.cs" />
   </ItemGroup>
   <ItemGroup>

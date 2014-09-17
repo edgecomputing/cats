@@ -748,6 +748,10 @@
                                             @Html.FinanceOperationMenuItem(@Html.Translate("Payment Requests"),
                                                                            @Url.Action("Index", "ValidatedPaymentRequest", new { Area = "Finance" }),
                                                                            FinanceConstants.Operation.View_Payment_request_menu_items)
+
+                                            @Html.FinanceOperationMenuItem(@Html.Translate("Cheques"),
+                                                                           @Url.Action("Index", "Cheque", new { Area = "Finance" }),
+                                                                           FinanceConstants.Operation.View_Payment_request_menu_items)
                                         </li>
                                     </ul>
                                 </li>

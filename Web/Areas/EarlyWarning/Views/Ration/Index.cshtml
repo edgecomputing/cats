@@ -2,61 +2,77 @@
 @using Kendo.Mvc.UI
 @using Cats.Helpers
 @using LanguageHelpers.Localization
+
 @{
-    ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_MainLayout.cshtml";
+    Layout = "~/Views/Shared/_CATSLayout.cshtml";
+  
+
 }
 
-@section Toolbar
+@section Title
 {
-    <a data-buttontype="btn_new_record" id="btnCreate" class="btn toolbar-btn " href="@Url.Action("Create", "Ration")"></a>
+Ration
 }
 
-<div id='dialogDiv' class='modal hide fade in'>
-    <div id='dialogContent'></div>
-</div>
+@section PageTitle
+{
+    <h1 class="hdr-blck big col-md-6">List of Ration
+    </h1>
+}
+<div class="box box-primary">
 
-<h4 class="page-header">Rations</h4>
-@(Html.Kendo().Grid<RationViewModel>()
+    <div class="col-md-12 box-body" style="display: block;">
+        <div class="row">
+            <div class="mrgn5-v text-right col-md-12">
+                <a data-buttontype="btn_new_record" id="btnCreate" class="btn btn-sm btn-success" href="@Url.Action("Create", "Ration")"><span class="fa fa-plus"> </span> New Ration</a>
+
+            </div>
+
+        </div>
+
+
+        <div class="table-responsive">
+
+            @(Html.Kendo().Grid<RationViewModel>()
 .Name("grid")
 .Columns(columns =>
-             {
-                 columns.Template(t => { }).Title("No").ClientTemplate("#= renderNumber(data) #").Width(10);
-                 columns.Bound(p => p.ReferenceNumber).ClientTemplate("<a class='default_#=IsDefaultRation#' href='" + Url.Action("Details", "Ration", new { id = "#=RationID#" }) + " '>#=ReferenceNumber#</a>  ");
+{
+    //columns.Template(t => { }).Title("No").ClientTemplate("#= renderNumber(data) #").Width(10);
+    columns.Bound(p => p.ReferenceNumber).ClientTemplate("<a class='default_#=IsDefaultRation#' href='" + Url.Action("Details", "Ration", new { id = "#=RationID#" }) + " '>#=ReferenceNumber#</a>  ");
 
-                 columns.Bound(p => p.DateCreated).ClientTemplate("<span class='default_#=IsDefaultRation#'>#=DateCreated#</span>").HeaderHtmlAttributes(new { @class = "cats-date-pref-grid" }).Width(160);
+    columns.Bound(p => p.DateCreated).ClientTemplate("<span class='default_#=IsDefaultRation#'>#=DateCreated#</span>").HeaderHtmlAttributes(new { @class = "cats-date-pref-grid" }).Width(160);
 
-                 columns.Bound(p => p.RationID).ClientTemplate("<a class='set_default_#=IsDefaultRation#' href='javascript:SetDefault(#=RationID#)'>Set Default</a>  ");
+    columns.Bound(p => p.RationID).ClientTemplate("<a class='set_default_#=IsDefaultRation#' href='javascript:SetDefault(#=RationID#)'>Set Default</a>  ");
 
 
 
-             }).Events(ev => ev.DataBound("resetRowNumber"))
+}).Events(ev => ev.DataBound("resetRowNumber"))
              .DataSource(datasource => datasource.Ajax().Read("Ration_Read", "Ration"))
              .HtmlAttributes(new { style = "height:430px;" })
-             
-)
-@section Scripts
-{
 
-}
+)
+        </div>
+    </div>
+</div>
+
+
+<div id="cats-modal"></div>
+
 
 <script type="text/javascript">
-    $(function () {
+    $('#btnCreate').on('click',
+             function (e) {
+                 $('#cats-modal').remove();
+                 e.preventDefault();
+                 var $remote = $(this).attr('href');
+                  var $modal = $('<div class="modal" id="cats-modal"><div class="modal-body"></div></div>');
+                 $('body').append($modal);
+                 $modal.modal({ backdrop: 'static', keyboard: false });
+                 $modal.load($remote);
+                 return false;
+             }
+           );
 
-        //Optional: turn the chache off
-        $.ajaxSetup({ cache: false });
-
-        $('#btnCreate').click(function () {
-            $('#dialogContent').load(this.href, function () {
-                $('#dialogDiv').modal({
-                    backdrop: 'static',
-                    keyboard: true
-                }, 'show');
-                //bindForm(this);
-            });
-            return false;
-        });
-    });
 
     function SetDefault(rationId) {
 

@@ -195,6 +195,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Areas\EarlyWarning\Controllers\ContributionController.cs" />
+    <Compile Include="Areas\Finance\Controllers\ChequeController.cs" />
     <Compile Include="Areas\Finance\Models\TransporterPaymentRequestViewModel.cs" />
     <Compile Include="Areas\Hub\Controllers\AdminUnitController.cs" />
     <Compile Include="Areas\Hub\Controllers\CommodityController.cs" />
@@ -690,6 +691,9 @@
     <!--<Content Include="ClientBin\EWdispatchAllocationList.xap" />-->
     <Content Include="Areas\EarlyWarning\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Shared\_Menu.cshtml" />
+    <Content Include="Areas\Finance\Views\ValidatedPaymentRequest\PaymentRequests.cshtml" />
+    <Content Include="Areas\Finance\Views\Cheque\Cheques.cshtml" />
+    <Content Include="Areas\Finance\Views\Cheque\Index.cshtml" />
     <None Include="Areas\Logistics\Views\DispatchAllocation\_AllocateProjectCode.cshtml" />
     <Content Include="Content\2013.1.219\Black\editor.png" />
     <Content Include="Content\2013.1.219\Black\imagebrowser.png" />
@@ -2822,8 +2826,8 @@
     <Content Include="Areas\Logistics\Views\DispatchAllocation\main.cshtml" />
     <None Include="CTSDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>CTSDataSet.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>CTSDataSet.Designer.cs</LastGenOutput>
     </None>
     <Content Include="CTSDataSet.xss">
       <DependentUpon>CTSDataSet.xsd</DependentUpon>
@@ -3341,6 +3345,7 @@
     </Content>
     <EmbeddedResource Include="Areas\EarlyWarning\Views\PrintableReports\HRD\AllHRD.rdlc" />
     <EmbeddedResource Include="Report\EarlyWarning\Ration.rdlc" />
+    <EmbeddedResource Include="Report\EarlyWarning\RegionalRequest.rdlc" />
     <EmbeddedResource Include="Report\EarlyWarning\RRDDetail.rdlc" />
     <EmbeddedResource Include="Report\HRD\HRDSummaryByRegion.rdlc" />
     <EmbeddedResource Include="Report\Logisitcs\CarryOverStockStatus.rdlc" />
