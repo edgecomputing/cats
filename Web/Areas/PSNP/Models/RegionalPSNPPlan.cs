@@ -39,7 +39,7 @@ namespace Cats.Models.PSNP
 
         //User ID
         [Display(Name = "user")]
-        public int UserId { get; set; }
+        public int? UserId { get; set; }
 
         public string From { get; set; }
         public string To { get; set; }
