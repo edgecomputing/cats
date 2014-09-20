@@ -85,7 +85,8 @@
         <ol class="col-md-6 breadcrumb">
             <li><span class="fa fa-lg fa-home"></span><a href="#">Home</a></li>
             @RenderSection("Breadcrumb", required: false)
-            @Html.Partial("_BreadCrumbNew")
+              @(ViewBag.program != null ? Html.Partial("_BreadCrumbNew", (string) ViewBag.program) : Html.Partial("_BreadCrumbNew",""))
+           
         </ol>
     </div>
 
