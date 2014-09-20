@@ -9,6 +9,7 @@ namespace Cats
         {
             filters.Add(new HandleErrorAttribute());
             filters.Add(new LocalizationFilter());
+            filters.Add(new AuthorizeAttribute());
             
         }
     }

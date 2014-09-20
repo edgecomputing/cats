@@ -236,7 +236,7 @@ namespace Cats.Controllers
                             Cats.Helpers.SendMail mail = new Helpers.SendMail(from, to, subject, body, null, true, smtp, userName, password, port);
 
                             ModelState.AddModelError("Sucess", @"Email has Sent to your email Address.");
-                            //return RedirectToAction("ConfirmPasswordChange");
+                            return RedirectToAction("ConfirmPasswordChange");
                         }
                         catch (Exception e)
                         {
@@ -250,6 +250,12 @@ namespace Cats.Controllers
 
                 // ModelState.AddModelError("Errors", "Invalid User Name " + model.UserName);
             }
+            return View();
+        }
+
+         [AllowAnonymous]
+        public ActionResult ConfirmPasswordChange()
+        {
             return View();
         }
         public ActionResult ISValidUserName(string userName)
