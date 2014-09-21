@@ -248,7 +248,7 @@ namespace Cats.Controllers
                     ModelState.AddModelError("Sucess", @"Email has Sent to your email Address.");
                 }
 
-                // ModelState.AddModelError("Errors", "Invalid User Name " + model.UserName);
+                 ModelState.AddModelError("Errors", "Invalid User Name " + model.UserName);
             }
             return View();
         }
