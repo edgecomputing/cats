@@ -146,8 +146,7 @@ namespace Cats.Controllers
 
                 ModelState.AddModelError("", exception.Message);
             }
-            //ViewBag.HasError = false;
-            // If we got this far, something failed, redisplay form            
+                     
             return View();
         }
 
@@ -235,7 +234,8 @@ namespace Cats.Controllers
                             // send the email using the utilty method in the shared dll.
                             Cats.Helpers.SendMail mail = new Helpers.SendMail(from, to, subject, body, null, true, smtp, userName, password, port);
 
-                            ModelState.AddModelError("Sucess", @"Email has Sent to your email Address.");
+                            ViewBag.ErrorMessage = "Email has been sent to your email Address.";
+                            TempData["ModelState"] = ViewBag.ErrorMessage;
                             return RedirectToAction("ConfirmPasswordChange");
                         }
                         catch (Exception e)
@@ -245,10 +245,11 @@ namespace Cats.Controllers
 
                     }
 
-                    ModelState.AddModelError("Sucess", @"Email has Sent to your email Address.");
+                    ViewBag.ErrorMessage = "Internal Error....";
+                   
                 }
 
-                 ModelState.AddModelError("Errors", "Invalid User Name " + model.UserName);
+                ViewBag.ErrorMessage = "Invalid User Name " + model.UserName;
             }
             return View();
         }
@@ -256,6 +257,10 @@ namespace Cats.Controllers
          [AllowAnonymous]
         public ActionResult ConfirmPasswordChange()
         {
+             if( TempData["ModelState"] != null)
+             {
+                 ViewBag.ErrorMessage = TempData["ModelState"].ToString();
+             }
             return View();
         }
         public ActionResult ISValidUserName(string userName)
