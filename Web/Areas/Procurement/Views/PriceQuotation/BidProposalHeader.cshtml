@@ -184,8 +184,8 @@
 
                 if (!gridData[i].CanApprove) {
                     var currentRo = grid.table.find("tr[data-uid='" + currentUid + "']");
-                    var approveBtn = $(currentRo).find(".k-grid-Approve");
-                    approveBtn.hide();
+                    var editButton = $(currentRow).find(".k-grid-Edit");
+                    editButton.show();
                 }
             }
         }
