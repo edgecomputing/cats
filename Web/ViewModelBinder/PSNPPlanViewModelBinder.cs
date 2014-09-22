@@ -58,18 +58,18 @@ namespace Cats.ViewModelBinder
                     col.ExtendedProperties.Add("ID", ds.CommodityID);
                     dt.Columns.Add(col);
 
-                    woredaContingency = new DataColumn("WC(5%)" + ds.Commodity.Name.Trim(), typeof(decimal));
+                    woredaContingency = new DataColumn("WC(5%)" + ds.Commodity.Name.Trim(), typeof(string));
 
 
-                    regionContingency = new DataColumn("RC(15%)" + ds.Commodity.Name.Trim(), typeof(decimal));
+                    regionContingency = new DataColumn("RC(15%)" + ds.Commodity.Name.Trim(), typeof(string));
 
                     //woredaContingency.ExtendedProperties.Add("WCID", ds.CommodityID);
                     woredaContingency.ExtendedProperties["ID"] = "WC"+ds.CommodityID;
-                    //dt.Columns.Add(woredaContingency);
+                    dt.Columns.Add(woredaContingency);
 
                     //regionContingency.ExtendedProperties.Add("RCID", ds.CommodityID);
                     regionContingency.ExtendedProperties["ID"] = "RC"+ds.CommodityID;
-                    //dt.Columns.Add(regionContingency);
+                    dt.Columns.Add(regionContingency);
                    
                 }
 
@@ -124,6 +124,7 @@ namespace Cats.ViewModelBinder
                                     if ("WC"+rationDetail.CommodityID.ToString() ==
                                            contingencyColumn.ExtendedProperties["ID"].ToString())
                                     {
+                                       
                                         woredaContCol = contingencyColumn;
                                     }
                                     else if ("RC"+rationDetail.CommodityID.ToString() ==
@@ -144,11 +145,26 @@ namespace Cats.ViewModelBinder
                                 ration = rationDetail.Amount / 100;
 
                             var allocatedAmount = ration*psnpPlan.BeneficiaryCount*psnpPlan.FoodRatio;
-                            total += allocatedAmount + allocatedAmount * (decimal)0.05 + allocatedAmount * (decimal)0.15;
+                            if (psnpPlan.PlanedWoreda.AdminUnit2.AdminUnit2.AdminUnitID == 2)
+                                total = 0;
+                            else
+                                total += allocatedAmount + allocatedAmount * (decimal) 0.05 + allocatedAmount * (decimal) 0.15;
                             dr[col.ColumnName] = allocatedAmount;
-                            if (woredaContCol != null) dr[woredaContCol.ColumnName] = allocatedAmount * (decimal)0.05;
+
+                            if (woredaContCol != null)
+                            {
+                                if (psnpPlan.PlanedWoreda.AdminUnit2.AdminUnit2.AdminUnitID == 2)
+                                    dr[woredaContCol.ColumnName] = "--";
+                                else
+                                    dr[woredaContCol.ColumnName] = Convert.ToDecimal(allocatedAmount * (decimal)0.05).ToString("0.00");
+                            }
                             if (regionalContCol != null)
-                                dr[regionalContCol.ColumnName] = allocatedAmount * (decimal)0.15;
+                            {
+                                if (psnpPlan.PlanedWoreda.AdminUnit2.AdminUnit2.AdminUnitID == 2)
+                                    dr[regionalContCol.ColumnName] = "--";
+                                else
+                                    dr[regionalContCol.ColumnName] = Convert.ToDecimal(allocatedAmount * (decimal)0.15).ToString("0.00");
+                            }
                         }
                     }
                     dr[col1] = total;
