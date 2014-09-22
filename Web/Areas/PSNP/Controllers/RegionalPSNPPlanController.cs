@@ -78,7 +78,7 @@ namespace Cats.Areas.PSNP
                             From = plan.Plan.StartDate.ToCTSPreferedDateFormat(datePref),
                             To = plan.Plan.EndDate.ToCTSPreferedDateFormat(datePref),
                             StatusName = plan.AttachedBusinessProcess.CurrentState.BaseStateTemplate.Name,
-                            UserId = plan.User
+                            UserId =(int) plan.User
 
                         });
             }
