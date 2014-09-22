@@ -210,6 +210,8 @@ namespace Cats.Controllers
 
                         string to = user.Email;
                         string subject = "Password Change Request";
+                        var callbackUrl = Url.Action("ForgetPassword", "Account", new { key = forgetPasswordRequest.RequestKey },protocol: Request.Url.Scheme);
+
                         string link = "localhost:" + Request.Url.Port + "/Account/ForgetPassword/?key=" + forgetPasswordRequest.RequestKey;
                         string body = string.Format(@"Dear {1}
                                                             <br /><br />
@@ -221,7 +223,7 @@ namespace Cats.Controllers
                                                         <br /><br />
                                                         Thank you,<br />
                                                         Administrator.
-                                                        ", link, user.UserName);
+                                                        ", callbackUrl, user.UserName);
                         try
                         {
                             // Read the configuration table for smtp settings.
@@ -233,7 +235,7 @@ namespace Cats.Controllers
                             string password = _settingService.GetSettingValue("SMTP_PASSWORD");
                             // send the email using the utilty method in the shared dll.
                             Cats.Helpers.SendMail mail = new Helpers.SendMail(from, to, subject, body, null, true, smtp, userName, password, port);
-
+                            
                             ViewBag.ErrorMessage = "Email has been sent to your email Address.";
                             TempData["ModelState"] = ViewBag.ErrorMessage;
                             return RedirectToAction("ConfirmPasswordChange");
@@ -276,6 +278,7 @@ namespace Cats.Controllers
             return Json(string.Format("The User name or Email address you provided does not exist. please try again."),
                         JsonRequestBehavior.AllowGet);
         }
+        [AllowAnonymous]
         public ActionResult ForgetPassword(string key)
         {
             ForgetPasswordRequest req = _forgetPasswordRequestService.GetValidRequest(key);
@@ -288,6 +291,7 @@ namespace Cats.Controllers
             return new EmptyResult();
         }
         [HttpPost]
+        [AllowAnonymous]
         public ActionResult ForgetPassword(ForgotPasswordModel model)
         {
             if (ModelState.IsValid)
