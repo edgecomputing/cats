@@ -146,7 +146,7 @@ namespace Cats.ViewModelBinder
 
                             var allocatedAmount = ration*psnpPlan.BeneficiaryCount*psnpPlan.FoodRatio;
                             if (psnpPlan.PlanedWoreda.AdminUnit2.AdminUnit2.AdminUnitID == 2)
-                                total = 0;
+                                total += allocatedAmount;
                             else
                                 total += allocatedAmount + allocatedAmount * (decimal) 0.05 + allocatedAmount * (decimal) 0.15;
                             dr[col.ColumnName] = allocatedAmount;
