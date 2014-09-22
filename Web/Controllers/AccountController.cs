@@ -212,7 +212,7 @@ namespace Cats.Controllers
                         string subject = "Password Change Request";
                         var callbackUrl = Url.Action("ForgetPassword", "Account", new { key = forgetPasswordRequest.RequestKey },protocol: Request.Url.Scheme);
 
-                        string link = "localhost:" + Request.Url.Port + "/Account/ForgetPassword/?key=" + forgetPasswordRequest.RequestKey;
+                        //string link = "localhost:" + Request.Url.Port + "/Account/ForgetPassword/?key=" + forgetPasswordRequest.RequestKey;
                         string body = string.Format(@"Dear {1}
                                                             <br /><br />
                                                         A password reset request has been submitted for your Email account. If you submitted this password reset request, please follow the following link. 
