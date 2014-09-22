@@ -699,5 +699,31 @@ namespace Cats.Areas.Procurement.Controllers
             };
             return transportOrderReport;
         }
+        public ActionResult MultipleApproval()
+        {
+            var draftTransportOrders = _transportOrderService.FindBy(m => m.StatusID == (int) TransportOrderStatus.Draft);
+            if(draftTransportOrders==null)
+            {
+                TempData["CustomErrorMessage"] = "There are no draft Transport Orders to be Approved! ";
+                return RedirectToAction("Index");
+            }
+            var transportOrderModels = GetTransportOrderApprovalViewModel(draftTransportOrders);
+            return View(transportOrderModels);
+        }
+        [HttpPost]
+       
+        private IEnumerable<TransportOrderApprovalViewModel> GetTransportOrderApprovalViewModel(IEnumerable<TransportOrder> transportOrders)
+        {
+            return (from detail in transportOrders
+                    select new TransportOrderApprovalViewModel()
+                    {
+                        TransportOrderID = detail.TransportOrderID,
+                        TransportOrderNo = detail.TransportOrderNo,
+                        ContractNumber = detail.ContractNumber,
+                        Transporter = detail.Transporter.Name,
+                        Checked = false
+                        // Donor=detail.Donor.Name
+                    });
+        }
     }
 }
