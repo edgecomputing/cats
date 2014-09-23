@@ -28,6 +28,7 @@ using System.Collections.ObjectModel;
 
 namespace Cats.Areas.Logistics.Controllers
 {
+    [Authorize]
     public class TransportRequisitionController : Controller
     {
         private readonly ITransportRequisitionService _transportRequisitionService;

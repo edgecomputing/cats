@@ -15,6 +15,7 @@ using Kendo.Mvc.UI;
 
 namespace Cats.Areas.Logistics.Controllers
 {
+    [Authorize]
     public class PaymentRequestController:Controller
     {
         private readonly IBusinessProcessService _BusinessProcessService;

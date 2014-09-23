@@ -18,6 +18,7 @@ using ITransactionService = Cats.Services.Transaction.ITransactionService;
 
 namespace Cats.Areas.Logistics.Controllers
 {
+    [Authorize]
     public class WoredaStockDistributionController : Controller
     {
 

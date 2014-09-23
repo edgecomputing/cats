@@ -20,6 +20,7 @@ using Cats.ViewModelBinder;
 
 namespace Cats.Areas.Logistics.Controllers
 {
+    [Authorize]
     public class LogisticsStockStatusController : Controller
     {
         private readonly Cats.Services.Hub.ITransactionService _transcationService;

@@ -24,6 +24,7 @@ using ZonesViewModel = Cats.Areas.Logistics.Models.ZonesViewModel;
 
 namespace Cats.Areas.Logistics.Controllers
 {
+    [Authorize]
     public class DeliveryReconcileController : Controller
     {
         private readonly IDispatchAllocationService _dispatchAllocationService;
