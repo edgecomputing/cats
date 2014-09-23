@@ -5,7 +5,6 @@ using System.Linq;
 using Cats.Data.UnitWork;
 using Cats.Models;
 using Cats.Models.Constant;
-using Cats.Services.Administration;
 
 namespace Cats.Services.PSNP
 {

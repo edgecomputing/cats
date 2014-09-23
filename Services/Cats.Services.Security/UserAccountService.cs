@@ -28,8 +28,11 @@ namespace Cats.Services.Security
     /// and perform user account managment functions (change password, reset password and enable/disable)
     /// user accounts.
     /// </summary>
+    /// 
+    
     public class UserAccountService : IUserAccountService
     {
+        
         #region Private vars and Constructors
 
         private readonly IUnitOfWork _unitOfWork;

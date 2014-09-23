@@ -54,7 +54,7 @@ namespace Cats.Models
         public Nullable<System.Guid> TransactionGroupID { get; set; }
         public int? PartitionId { get; set; }
 
-        public int User { get; set; }
+        public int? User { get; set; }
 
         public virtual TransactionGroup TransactionGroup { get; set; }
        

@@ -28,7 +28,7 @@
     <div class="clear"></div>
 }<br />
 
-<script type="text/javascript">
+< type="text/javascript">
   
     $(function () {
 
@@ -40,13 +40,17 @@
         });
     });
 
+    
+      
+            
+    
     function OnCommodityChanged(e) {
         var commodity = ($('#Commodity').data('tDropDownList').value());
        
         var url = '@Url.Action("Commodity", "StockStatus", new { id = "__id__" })';
         window.location.href = url.replace('__id__', commodity);
     }
-</script>
+</>
 @*@(Html.Telerik().Grid(ViewBag.Stock as IEnumerable<Cats.Models.Hubs.StockStatusReport>)
 .Name("Stock")
 .Columns(col =>

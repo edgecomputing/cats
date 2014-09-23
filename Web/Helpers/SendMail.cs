@@ -65,8 +65,9 @@ namespace Cats.Helpers
 
                 message.Body = Body;
                 message.Subject = Subject;
-                message.IsBodyHtml = HTML;
-
+                message.IsBodyHtml  = true;
+                message.Body = Body;
+               
                 if (FileName != null)
                 {
                     Attachment attach = new Attachment(FileName, MediaTypeNames.Application.Octet);

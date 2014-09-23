@@ -476,15 +476,45 @@ namespace Cats.Services.Transaction
                 //TOFIX: 
                 // Hub is required for this transaction
                 // Try catch is danger!! Either throw the exception or use conditional statement. 
-                try
+                int hubID = 0;
+                if (allocationDetail.AllocationType == TransactionConstants.Constants.SHIPPNG_INSTRUCTION)
+                {
+                    var siCode = allocationDetail.Code.ToString();
+                    var shippingInstruction =
+                        _unitOfWork.ShippingInstructionRepository.Get(t => t.Value == siCode).
+                            FirstOrDefault();
+                    if (shippingInstruction != null) transaction.ShippingInstructionID = shippingInstruction.ShippingInstructionID;
+
+                    hubID = (int)_unitOfWork.TransactionRepository.FindBy(m => m.ShippingInstructionID == allocationDetail.Code &&
+                           m.LedgerID == Ledger.Constants.GOODS_ON_HAND).Select(m => m.HubID).FirstOrDefault();
+
+
+                }
+                else
+                {
+                    var detail = allocationDetail;
+                    var code = detail.Code.ToString();
+                    var projectCode =
+                        _unitOfWork.ProjectCodeRepository.Get(t => t.Value == code).
+                            FirstOrDefault();
+                    if (projectCode != null) transaction.ProjectCodeID = projectCode.ProjectCodeID;
+
+                    hubID = (int)_unitOfWork.TransactionRepository.FindBy(m => m.ProjectCodeID == allocationDetail.Code &&
+                               m.LedgerID == Ledger.Constants.GOODS_ON_HAND).Select(m => m.HubID).FirstOrDefault();
+
+                }
+
+
+                if (hubID != 0)
+                {
+                    transaction.HubID = hubID;
+                }
+
+                else
                 {
                     transaction.HubID =
-                                        _unitOfWork.HubAllocationRepository.FindBy(r => r.RequisitionID == allocation.ReliefRequisitionDetail.RequisitionID).Select(
-                                                h => h.HubID).FirstOrDefault();
-                }
-                catch (Exception)
-                {
-
+                                       _unitOfWork.HubAllocationRepository.FindBy(r => r.RequisitionID == allocation.ReliefRequisitionDetail.RequisitionID).Select(
+                                               h => h.HubID).FirstOrDefault();
 
                 }
 
@@ -521,19 +551,47 @@ namespace Cats.Services.Transaction
                 };
 
                 //TOFIX: do not use try catch
-                try
+                int hubID2 = 0;
+                if (allocationDetail.AllocationType == TransactionConstants.Constants.SHIPPNG_INSTRUCTION)
+                {
+                    var siCode = allocationDetail.Code.ToString();
+                    var shippingInstruction =
+                        _unitOfWork.ShippingInstructionRepository.Get(t => t.Value == siCode).
+                            FirstOrDefault();
+                    if (shippingInstruction != null) transaction.ShippingInstructionID = shippingInstruction.ShippingInstructionID;
+
+                    hubID2 = (int)_unitOfWork.TransactionRepository.FindBy(m => m.ShippingInstructionID == allocationDetail.Code &&
+                           m.LedgerID == Ledger.Constants.GOODS_ON_HAND).Select(m => m.HubID).FirstOrDefault();
+
+
+                }
+                else
+                {
+                    var detail = allocationDetail;
+                    var code = detail.Code.ToString();
+                    var projectCode =
+                        _unitOfWork.ProjectCodeRepository.Get(t => t.Value == code).
+                            FirstOrDefault();
+                    if (projectCode != null) transaction.ProjectCodeID = projectCode.ProjectCodeID;
+
+                    hubID2 = (int)_unitOfWork.TransactionRepository.FindBy(m => m.ProjectCodeID == allocationDetail.Code &&
+                               m.LedgerID == Ledger.Constants.GOODS_ON_HAND).Select(m => m.HubID).FirstOrDefault();
+
+                }
+
+
+                if (hubID2 != 0)
+                {
+                    transaction2.HubID = hubID2;
+                }
+
+                else
                 {
                     transaction2.HubID =
                                        _unitOfWork.HubAllocationRepository.FindBy(r => r.RequisitionID == allocation.ReliefRequisitionDetail.RequisitionID).Select(
                                                h => h.HubID).FirstOrDefault();
 
                 }
-                catch (Exception)
-                {
-
-
-                }
-
                 transaction2.QuantityInMT = -allocationDetail.AllocatedAmount;
                 transaction2.QuantityInUnit = -allocationDetail.AllocatedAmount;
                 transaction2.LedgerID = Ledger.Constants.PLEDGED_TO_FDP;

@@ -1,5 +1,5 @@
 ﻿@using Cats.Helpers
-
+ @model string
         <div class="span11" style="padding-left: 20px; padding-top:10px;">
             <ul class="breadcrumb" data-role="main">
                 <li><a href="~/">Home</a> </li>
@@ -7,6 +7,10 @@
                     string home = Url.Action("Index", "Home", new {Area = ""});
 
                     string[] page_url = PageContext.Page.Context.Request.Url.Segments;
+                    if (!string.IsNullOrEmpty(@Model))
+                    {
+                        page_url[1] = @Model;
+                    }
                     string item_url = home;
                     string vertual_dir = home.Replace("/", "");
                     int startindex = 1;

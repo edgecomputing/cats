@@ -89,14 +89,14 @@
         <ul>
             
             <li><a href="#tabs-1">General</a></li>
-            <li><a href="#tabs-2">Dashboard</a></li>
+            @*<li><a href="#tabs-2">Dashboard</a></li>*@
             <!--<li><a href="#tabs-3">Advanced</a></li>-->
         </ul>
         <div id="tabs-1">
 
                     @Html.Partial("Edit",Model)
         </div>
-        <div id="tabs-2">
+        @*<div id="tabs-2">
             <table>
                 <tr>
                     <td style="vertical-align: top">
@@ -126,7 +126,7 @@
                 <input type="button" class="btn btn-primary" value="Save Preference" onclick="saveChanges()"/>
                 <a href="@Url.Action("Index", "Home")" class="btn" id="cancel">Cancel</a>
             </div>
-        </div>
+        </div>*@
         
 
         <div id="tabs-3"></div>

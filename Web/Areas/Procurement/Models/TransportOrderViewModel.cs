@@ -40,4 +40,12 @@ namespace Cats.Areas.Procurement.Models
 
         public string Status { get; set; }
     }
+    public class TransportOrderApprovalViewModel
+    {
+        public int TransportOrderID { get; set; }
+        public string TransportOrderNo { get; set; }
+        public string ContractNumber { get; set; }
+        public string Transporter { get; set; }
+        public bool Checked { get; set; }
+    }
 }

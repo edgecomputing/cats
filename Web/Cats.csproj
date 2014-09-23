@@ -3212,6 +3212,7 @@
     <Content Include="Views\Shared\_shapefileDBMap.cshtml" />
     <Content Include="Views\Shared\_Menu.cshtml" />
     <Content Include="Views\Shared\_BreadCrumbNew.cshtml" />
+    <Content Include="Views\Account\ConfirmPasswordChange.cshtml" />
     <None Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
