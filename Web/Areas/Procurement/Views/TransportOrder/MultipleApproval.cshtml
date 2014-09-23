@@ -1,0 +1,81 @@
+﻿@using Cats.Helpers
+@model List<Cats.Areas.Procurement.Models.TransportOrderApprovalViewModel>
+@{
+    ViewBag.Title = "MultipleApproval";
+    const string pageName = "Procurement.TransportOrder.MultipleApproval";
+}
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="myModalLabel">@Html.Translate2(pageName,"Multiple Transport Order Approval")</h3>
+</div>
+
+@using (Html.BeginForm("MultipleApproval", "TransportOrder", FormMethod.Post))
+{    
+   <div style="height: 400px; overflow-y: scroll;">
+    <table  class="table table-striped table-bordered k-scrollable" >
+        
+        <thead>
+            <th> No.</th>
+           @* <th>TransporterID</th>*@
+            <th>ContractNumber</th>
+            <th>TransportOrderNo</th>
+            <th>Transporter</th>
+             <th>Action</th>
+        </thead>
+        <tbody>
+      @*  @{ int index = 0; }*@
+            @for (int i = 0; i < Model.Count;i++ )
+            {
+                
+                
+                
+                //var id = item.Checked;
+                 <tr>
+                     @{var sno = i + 1;}
+                     
+                     <td>@sno</td>
+                     @Html.Hidden("transportOrderApprovalViewModels[" + @i + "].TransportOrderID", 
+                                       Model[i].TransportOrderID, 
+                                       new { @readonly = "readonly" })
+                       <td>@Html.Label("transportOrderApprovalViewModels[" + @i + "].ContractNumber", 
+                                      Model[i].ContractNumber, 
+                                      new { @readonly = "readonly" })</td>
+                     <td>@Html.Label("transportOrderApprovalViewModels[" + @i + "].TransportOrderNo", 
+                                       Model[i].TransportOrderNo, 
+                                       new { @readonly = "readonly" })</td>
+                     
+                     <td>@Html.Label("transportOrderApprovalViewModels[" + @i + "].Transporter", 
+                                       Model[i].Transporter, 
+                                       new { @readonly = "readonly" })</td>
+                     
+                    <td>@Html.CheckBox("transportOrderApprovalViewModels[" + @i + "].Checked", 
+                                    Model[i].Checked)</td>
+                       </tr>
+
+                    @* @Html.HiddenFor(model=>item.TransportOrderID)
+                     <td>@item.TransportOrderID</td>
+                     @Html.HiddenFor(model=>item.ContractNumber)
+                     <td>@item.ContractNumber</td>
+                     @Html.HiddenFor(model=>item.TransportOrderNo)
+                     <td>@item.TransportOrderNo</td>
+                     @Html.HiddenFor(model=>item.Transporter)
+                     <td>@item.Transporter</td>
+                     @Html.HiddenFor(model=>item.Checked)*@
+                   
+               
+            }
+        </tbody>
+        
+    </table>
+      </div>@* 
+    <tr>*@
+           @* <td colspan="3">*@
+            <div>
+                <button class="btn btn-primary"  type="submit">Approve</button>
+                <a class="btn btn-primary"  data-dismiss="modal" aria-hidden="true" >Cancel</a>
+       
+            </div> 
+           @*     </td>
+        </tr>*@
+}
