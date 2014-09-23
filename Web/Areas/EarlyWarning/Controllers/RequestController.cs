@@ -198,6 +198,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                         break;
                     case 2: //PSNP
                         ViewBag.ProgramId = new SelectList(_commonService.GetPrograms().Where(p => p.ProgramID == (int)Programs.PSNP).Take(2), "ProgramID", "Name");
+                        ViewBag.program = "PSNP";
                         break;
                 }
             }
@@ -257,6 +258,10 @@ namespace Cats.Areas.EarlyWarning.Controllers
             if (regionalRequest == null)
             {
                 return HttpNotFound();
+            }
+            if (regionalRequest.Program.ProgramID == (int)Programs.PSNP)
+            {
+                ViewBag.program = "PSNP";
             }
             PopulateLookup(regionalRequest);
             return View(regionalRequest);
@@ -581,7 +586,10 @@ namespace Cats.Areas.EarlyWarning.Controllers
             var statuses = _commonService.GetStatus(WORKFLOW.REGIONAL_REQUEST);
             var requestModelView = RequestViewModelBinder.BindRegionalRequestViewModel(request, statuses, datePref);
             ViewBag.RegionCollection = _adminUnitService.FindBy(t => t.AdminUnitTypeID == 2 && t.AdminUnitID == request.RegionID);
-
+            if (request != null && request.Program.ProgramID == (int)Programs.PSNP)
+            {
+                ViewBag.program = "PSNP";
+            }
             /*
                          var requestDetails = _regionalRequestDetailService.Get(t => t.RegionalRequestID == id);
                         var requestDetailCommodities = (from item in requestDetails select item.RequestDetailCommodities).FirstOrDefault();
@@ -647,6 +655,10 @@ namespace Cats.Areas.EarlyWarning.Controllers
             if (request == null)
             {
                 return HttpNotFound();
+            }
+            if (request.Program.ProgramID == (int)Programs.PSNP)
+            {
+                ViewBag.program = "PSNP";
             }
             var statuses = _commonService.GetStatus(WORKFLOW.REGIONAL_REQUEST);
             var requestModelView = RequestViewModelBinder.BindRegionalRequestViewModel(request, statuses, datePref);
@@ -963,6 +975,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         [HttpGet]
         public ActionResult Index()
         {
+           
             var filter = new SearchRequsetViewModel();
             ViewBag.Filter = filter;
             PopulateLookup();
