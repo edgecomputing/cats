@@ -17,30 +17,35 @@
 @section Toolbar
 {
     <a data-buttontype="btn_new_record"  class="btn toolbar-btn "  href="@Url.Action("TransportRequisitions","TransportOrder",new {Area="Procurement"})"></a>
-   @* <div class="btn-group" style="margin-right:8px;">
-        <button class="btn">Action</button>
-        @{
-            
-            <button class="btn dropdown-toggle " data-toggle="dropdown">
-                <span class="caret"></span>
-            </button>
-           
-           
-        }
-        <ul class="dropdown-menu">
-            @if (@ViewBag.TransportOrderTitle != "Draft")
-            {
-                <li><a   href="@Url.Action("Index", "TransportOrder", new {area = "Procurement", id = (int) TransportOrderStatus.Draft})" > View Draft </a></li>
-            }
-            else
-            {
-                <li><a   href="@Url.Action("Index", "TransportOrder", new {area = "Procurement", id = (int) TransportOrderStatus.Approved})" >View Approved </a></li>
-            }
-        </ul>
-
-    </div>*@
-           
+     <a id="btnApproveMultipleTos" class="btn toolbar-btn "  href="@Url.Action("MultipleApproval","TransportOrder",new {Area="Procurement"})">Approve Multiple TOs</a>         
 }
+
+<script type="text/javascript">
+    $(function () {
+
+        //Optional: turn the chache off
+        $.ajaxSetup({ cache: false });
+
+        $('#btnApproveMultipleTos').click(function () {
+
+            // alert("");
+            $('#dialogContent').load(this.href, function () {
+                $('#dialogDiv').modal({
+                    backdrop: 'static',
+                    keyboard: true
+                }, 'show');
+                //bindForm(this);
+            });
+            return false;
+        });
+
+    });
+</script>
+
+<div id='dialogDiv' class='modal hide fade in' style="width: 820px;margin-right: 10px">
+    <div id='dialogContent'></div>
+</div>
+
 <div>
     <div class="input-prepend">
         <span class="add-on">Program</span>

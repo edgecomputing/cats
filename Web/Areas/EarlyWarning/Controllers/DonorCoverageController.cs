@@ -102,7 +102,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         {
             var donorCovarage = _hrdDonorCoverageService.GetAllHrdDonorCoverage().ToList();
             var donorCoverageToDisplay = GetDonorCoverage(donorCovarage);
-            return Json(donorCoverageToDisplay.ToDataSourceResult(request));
+            return Json(donorCoverageToDisplay.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
         public ActionResult HrdDonorCoverageDetail_Read([DataSourceRequest] DataSourceRequest request,int id=0)
         {

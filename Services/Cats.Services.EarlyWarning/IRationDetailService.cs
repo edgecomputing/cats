@@ -18,7 +18,7 @@ namespace Cats.Services.EarlyWarning
         RationDetail FindById(int id);
         List<RationDetail> GetAllRationDetail();
         List<RationDetail> FindBy(Expression<Func<RationDetail, bool>> predicate);
-
+        
         IEnumerable<RationDetail> Get(
                    Expression<Func<RationDetail, bool>> filter = null,
                    Func<IQueryable<RationDetail>, IOrderedQueryable<RationDetail>> orderBy = null,

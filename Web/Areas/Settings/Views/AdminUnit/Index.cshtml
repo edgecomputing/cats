@@ -104,23 +104,23 @@
         @(Html.Kendo().Grid<AdminUnitViewModel>()
               .Name("grid")
               .Columns(columns =>
-                  {
-                      columns.Bound(c => c.AdminUnitName);
-                      columns.Bound(c => c.AdminUnitID).Visible(false);
-                      columns.Command(command =>
+                    {
+                        columns.Bound(c => c.AdminUnitName);
+                        columns.Bound(c => c.AdminUnitID).Visible(false);
+                        columns.Command(command =>
 
-                          command.Custom("Delete").Click("OnDelete")
-                          //command.Custom("Add Contact").Click("AddContact");
-                          //command.Custom("Details").Click("Details");
-                          ).Width(300);
-                      //columns.Command(command => command.Custom("Add Contact").Click("Add contact")).Width(100);
+                                        command.Custom("Delete").Click("OnDelete")
+                            //command.Custom("Add Contact").Click("AddContact");
+                            //command.Custom("Details").Click("Details");
+                            ).Width(300);
+                        //columns.Command(command => command.Custom("Add Contact").Click("Add contact")).Width(100);
 
-                  }).ToolBar(toolbar =>
-                      {
-                          toolbar.Save();
-                          toolbar.Create();
-                          //toolbar.Custom().Text("Add FDP").HtmlAttributes(new { id = "addFDP" });
-                      })
+                    }).ToolBar(toolbar =>
+                                    {
+                                        toolbar.Save();
+                                        toolbar.Create();
+                                        //toolbar.Custom().Text("Add FDP").HtmlAttributes(new { id = "addFDP" });
+                                    })
                       
               .Editable(edit => edit.Mode(GridEditMode.InCell))
               .Pageable()
@@ -175,7 +175,7 @@
 
 <script>
     var selectedWoreda;
-
+    
     function error_handler(e) {
         if (e.errors) {
             var message = "Errors:\n";

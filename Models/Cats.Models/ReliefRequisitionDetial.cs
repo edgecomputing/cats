@@ -21,6 +21,7 @@ namespace Cats.Models
         public decimal Amount { get; set; }
         public int FDPID { get; set; }
         public Nullable<int> DonorID { get; set; }
+        public decimal? Contingency { get; set; }
         public virtual Commodity Commodity { get; set; }
         public virtual Donor Donor { get; set; }
         public virtual FDP FDP { get; set; }

@@ -658,7 +658,7 @@ namespace Cats.Services.Procurement
                         //since users don't specify tariff value
                         transportOrderDetail.TariffPerQtl = 0;
                         transportOrderDetail.SourceWarehouseID = detail.HubID;
-                        transportOrderDetail.WinnerAssignedByLogistics = false;
+                        transportOrderDetail.WinnerAssignedByLogistics = true;
                         transportOrder.TransportOrderDetails.Add(transportOrderDetail);
                     }
                     bool isSaved = _unitOfWork.TransportOrderRepository.Add(transportOrder);

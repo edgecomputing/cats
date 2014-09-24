@@ -500,6 +500,12 @@ namespace Cats.Services.EarlyWarning
                 }
             }
         }
+
+
+        public List<VWRegionalRequest> GetRegionalRequestRpt(int id)
+        {
+            return _unitOfWork.VWRegionalRequestRepository.FindBy(m=>m.RegionalRequestID==id);
+        }
     }
 }
 

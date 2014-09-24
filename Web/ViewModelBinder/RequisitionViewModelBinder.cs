@@ -72,13 +72,15 @@ namespace Cats.ViewModelBinder
                 CommodityID = reliefRequisitionDetailViewModel.CommodityID,
                 FDPID = reliefRequisitionDetailViewModel.FDPID,
                 DonorID = reliefRequisitionDetailViewModel.DonorID,
-
+                Contingency = reliefRequisitionDetailViewModel.Contingency
             };
         }
         public static ReliefRequisitionDetailViewModel BindReliefRequisitionDetailViewModel(ReliefRequisitionDetail reliefRequisitionDetail, decimal RationAmount)
         {
 
-
+            // Calculate contingency of the saved value is Null
+            decimal? contingencyValue = reliefRequisitionDetail.Contingency ??
+                                        (reliefRequisitionDetail.Amount * (decimal)0.05);
             return new ReliefRequisitionDetailViewModel()
             {
                 Zone = reliefRequisitionDetail.ReliefRequisition.AdminUnit1.Name,
@@ -94,7 +96,7 @@ namespace Cats.ViewModelBinder
                 FDPID = reliefRequisitionDetail.FDPID,
                 DonorID = reliefRequisitionDetail.DonorID,
                 RationAmount =RationAmount,
-                Contingency = (reliefRequisitionDetail.Amount * (decimal)0.05)
+                Contingency = contingencyValue
                 //_GetCommodityRation(reliefRequisitionDetail.RequisitionID,reliefRequisitionDetail.CommodityID);
                // GetCommodityRation(reliefRequisitionDetail.RequisitionID,reliefRequisitionDetail.CommodityID)
                

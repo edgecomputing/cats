@@ -38,6 +38,14 @@ namespace Cats
                 defaults: new { controller = "Account", action = "Login", area = "" },
                 namespaces: new[] { "Cats.Controllers" }
                 );
+
+            routes.MapRoute(
+               name: "ForgetPasswordRequest",
+               url: "ForgetPasswordRequest",
+               defaults: new { controller = "Account", action = "ForgetPasswordRequest", area = "" },
+               namespaces: new[] { "Cats.Controllers" }
+               );
+
             routes.MapRoute(
                 name: "Logout",
                 url: "logout",

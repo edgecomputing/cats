@@ -4,31 +4,40 @@
 
 @{
     ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_MainLayout.cshtml";  
+    Layout = "~/Views/Shared/_CATSLayout.cshtml";
 }
 
-@section LeftBar
+@section Title
 {
+Donors
+}
+@section PageTitle
+{
+    <h1 class="hdr-blck big ">List of Donor Contributions</h1>
+
+}
+<div class="row">
     @Html.Partial("_ContributionLeftBar");
-}
-@section Toolbar
-{
-    <a data-buttontype="btn_new_record" class="btn toolbar-btn " href="@Url.Action("Create", "Contribution")"></a>
-}
+    <div class="col-md-10  col-sm-9">
+        <div class=" box box-primary ">
+            <div class="col-md-12 box-body" style="display: block;">
+                <div class="row">
+                    <div class="mrgn5-v text-right col-md-12">
+                        <a data-buttontype="btn_new_record"  class="btn btn-success btn-sm " href="@Url.Action("Create", "Contribution")"><span class="fa fa-plus"></span> New Contribution</a>
+                    </div>
+                </div>
+                <div class="table-responsive">
 
-<div>
-    <h4>List of Donor Contributions</h4>
-</div>
-@(Html.Kendo().Grid<Cats.Areas.EarlyWarning.Models.ContributionViewModel>()
+                    @(Html.Kendo().Grid<Cats.Areas.EarlyWarning.Models.ContributionViewModel>()
     .Name("grid")
     .Columns(columns =>
         {
             columns.Bound(p => p.Donor).ClientTemplate("# if (ContributionType == 'In-Kind') { #" +
-            "<a href='" + Url.Action("InkindDetails", "Contribution", new { id = "#=ContributionID#" }) + " '>#=Donor#</a>  "+
+            "<a href='" + Url.Action("InkindDetails", "Contribution", new { id = "#=ContributionID#" }) + " '>#=Donor#</a>  " +
             "# } else { #" +
                    "<a href='" + Url.Action("Details", "Contribution", new { id = "#=ContributionID#" }) + " '>#=Donor#</a>  " +
                 "# } #");
-        columns.Bound(p => p.HRD);
+            columns.Bound(p => p.HRD);
             columns.Bound(p => p.ContributionType);
 
         })
@@ -40,7 +49,18 @@
           .PageSize(8)
             .Model(model => model.Id(p => p.ContributionID))
            .Read(read => read.Action("Contribution_Read", "Contribution"))
- 
+
      )
-   
+
       )
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+</div>
+
+
+

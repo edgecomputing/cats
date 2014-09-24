@@ -84,6 +84,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                     var @default = _commonService.GetPrograms().FirstOrDefault(p => p.ProgramID == (int) Programs.PSNP);
                     if (@default != null)
                         filter.ProgramID = @default.ProgramID;
+                    ViewBag.program = "PSNP";
                     break;
             }
             filter.StatusID = 1;
@@ -298,6 +299,10 @@ namespace Cats.Areas.EarlyWarning.Controllers
             {
                 HttpNotFound();
             }
+            if (requisition != null && requisition.ProgramID == (int)Programs.PSNP)
+            {
+                ViewBag.program = "PSNP";
+            }
             var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
             var requisitionViewModel = RequisitionViewModelBinder.BindReliefRequisitionViewModel(requisition, _workflowStatusService.GetStatus(WORKFLOW.RELIEF_REQUISITION),datePref);
             if (requisition != null && (requisition.RationID != null && requisition.RationID > 0))
@@ -376,7 +381,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             return Json(new[] { reliefRequisitionDetailViewModel }.ToDataSourceResult(request, ModelState));
         }
 
-        [AcceptVerbs(HttpVerbs.Post)]
+        //[AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Allocation_Update([DataSourceRequest] DataSourceRequest request, ReliefRequisitionDetailViewModel reliefRequisitionDetailViewModel)
         {
             if (reliefRequisitionDetailViewModel != null && ModelState.IsValid)
@@ -386,6 +391,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                 {
                     target.Amount = reliefRequisitionDetailViewModel.Amount.ToPreferedWeightUnitForInsert();
                     target.BenficiaryNo = reliefRequisitionDetailViewModel.BenficiaryNo;
+                    target.Contingency = reliefRequisitionDetailViewModel.Contingency;
                     if(reliefRequisitionDetailViewModel.DonorID.HasValue)
                     target.DonorID = reliefRequisitionDetailViewModel.DonorID.Value;
                     _reliefRequisitionDetailService.EditReliefRequisitionDetail(target);
@@ -435,6 +441,10 @@ namespace Cats.Areas.EarlyWarning.Controllers
             {
                 //ViewBag.RationSelected = relifRequisition.RationID;
                 //ViewBag.RationID = _rationService.GetAllRation();
+                if (relifRequisition.ProgramID == (int)Programs.PSNP)
+                {
+                    ViewBag.program = "PSNP";
+                }
                 ViewBag.RationID = new SelectList(_rationService.Get(t => t.RationDetails.Select(m => m.CommodityID).Contains((int)relifRequisition.CommodityID)), "RationID", "RefrenceNumber", relifRequisition.RationID);
                 return View(relifRequisition);
             }
@@ -467,7 +477,8 @@ namespace Cats.Areas.EarlyWarning.Controllers
                                                         BenficiaryNo = oldRequisitionDetail.BenficiaryNo,
                                                         Amount = oldRequisitionDetail.BenficiaryNo * commodityAmount,
                                                         FDPID = oldRequisitionDetail.FDPID,
-                                                        DonorID = oldRequisitionDetail.DonorID
+                                                        DonorID = oldRequisitionDetail.DonorID,
+                                                        Contingency = oldRequisitionDetail.Contingency
                                                     };
                         //oldRequisitionDetail.Amount = oldRequisitionDetail.BenficiaryNo*commodityAmount;
                         _reliefRequisitionDetailService.DeleteById(oldRequisitionDetail.RequisitionDetailID);
