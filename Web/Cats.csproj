@@ -2493,6 +2493,7 @@
     <Content Include="Areas\Logistics\Views\TransporterPaymentRequest\PaymentRequests.cshtml" />
     <Content Include="Areas\Logistics\Views\TransporterPaymentRequest\TransporterDetail.cshtml" />
     <Content Include="Areas\Logistics\Views\TransporterPaymentRequest\TransportOrderDetail.cshtml" />
+    <Content Include="Areas\Procurement\Views\TransportOrder\MultipleApproval.cshtml" />
     <None Include="dataset.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>dataset.Designer.cs</LastGenOutput>
