@@ -212,18 +212,26 @@ namespace Cats.Services.Procurement
             return _unitOfWork.TransportOrderDetailRepository.Get(t => t.TransportOrderID == transportId);
         }
         //TODO:Factor Out  to single responiblity Principle 
-        public bool CreateTransportOrder(int transportRequisitionId)
+        public bool OLDCreateTransportOrder(int transportRequisitionId)
         {
             //var requId=_unitOfWork.TransportRequisitionDetailRepository.FindBy(t=>t.TransportRequisitionID==)
             var transporterAssignedRequisionDetails = AssignTransporterForEachWoreda(transportRequisitionId);
 
-            var transporters = (from item in transporterAssignedRequisionDetails select item.TransporterID).Distinct().ToList();
-
+            var transporters = (from item in transporterAssignedRequisionDetails select item.TransporterIDs).ToList();
+            var distinctTransportIDs = new List<int>();
+            foreach (var transporter in transporters)
+            {
+                foreach (var i in transporter)
+                {
+                    if(!distinctTransportIDs.Contains(i))
+                        distinctTransportIDs.Add(i);
+                }
+            }
 
             //If we reached here all location got transporter 
             var transportOrders = new List<TransportOrder>();
 
-            foreach (var transporter in transporters)
+            foreach (var transporter in distinctTransportIDs)
             {
                 //TODO:Check what all number should come from and implement
                 var transportOrder = new TransportOrder();
@@ -244,20 +252,20 @@ namespace Cats.Services.Procurement
                 transportOrder.StartDate = DateTime.Today.AddDays(3);
                 transportOrder.EndDate = DateTime.Today.AddDays(13);
                 transportOrder.StatusID = (int)TransportOrderStatus.Draft;
-                var transportLocations = transporterAssignedRequisionDetails.FindAll(t => t.TransporterID == transporter).Distinct();
+                var transportLocations = transporterAssignedRequisionDetails.FindAll(t => t.TransporterIDs.Contains(transporter)).Distinct();
 
                 foreach (var transporterRequisition in transportLocations)
                 {
                     //var currentBid = _unitOfWork.BidRepository.FindBy(t => t.StatusID == int.Parse(BidStatus.Active.ToString())).FirstOrDefault();
                     var transReq = transporterRequisition;
                     //var activeBidStatusID = int.Parse(BidStatus.Active.ToString());
-                    var bidWinner =
+                    var bidWinners =
                     _unitOfWork.BidWinnerRepository.Get(
                         t => t.SourceID == transReq.HubID && t.DestinationID == transReq.WoredaID && t.Position == 1 &&
-                            t.Bid.StatusID == 5).FirstOrDefault();
-                    if (bidWinner != null)
+                            t.Bid.StatusID == 5).ToList();
+                    if (bidWinners.Any())
                     {
-                        transportOrder.BidDocumentNo = _unitOfWork.BidRepository.FindById(bidWinner.BidID).BidNumber;
+                        //transportOrder.BidDocumentNo = _unitOfWork.BidRepository.FindById(bidWinners..BidID).BidNumber;
                     }
                     else
                     {
@@ -331,6 +339,135 @@ namespace Cats.Services.Procurement
             return true;
         }
 
+        public bool CreateTransportOrder(int transportRequisitionId)
+        {
+            //var requId=_unitOfWork.TransportRequisitionDetailRepository.FindBy(t=>t.TransportRequisitionID==)
+            var transporterAssignedRequisionDetails = AssignTransporterForEachWoreda(transportRequisitionId);
+
+            
+            //If we reached here all location got transporter 
+            var transportOrders = new List<TransportOrder>();
+
+            foreach (var transporterAssignedRequisionDetail in transporterAssignedRequisionDetails)
+            {
+                foreach (var transporterID in transporterAssignedRequisionDetail.TransporterIDs)
+                {
+                    var alreadyExistingTO =
+                        _unitOfWork.TransportOrderRepository.Get(t => t.TransporterID == transporterID && t.StatusID == 1).FirstOrDefault();
+                    var detail = transporterAssignedRequisionDetail;
+                    var id = transporterID;
+                    var numberOfTransporters = transporterAssignedRequisionDetail.TransporterIDs.Count;
+                    if(alreadyExistingTO!=null)
+                    {
+                        var requisionsDetails = _unitOfWork.ReliefRequisitionDetailRepository.Get(
+                                                    t =>
+                                                    t.RequisitionID == detail.RequisitionID &&
+                                                    t.FDP.AdminUnitID == detail.WoredaID, null, "ReliefRequisition").ToList();
+                        foreach (var reliefRequisitionDetail in requisionsDetails)
+                        {
+                            var transportOrderDetail = new TransportOrderDetail();
+                            transportOrderDetail.CommodityID = reliefRequisitionDetail.CommodityID;
+                            transportOrderDetail.FdpID = reliefRequisitionDetail.FDPID;
+                            transportOrderDetail.RequisitionID = reliefRequisitionDetail.RequisitionID;
+                            transportOrderDetail.QuantityQtl = reliefRequisitionDetail.Amount / numberOfTransporters;
+                            transportOrderDetail.TariffPerQtl = detail.TariffPerQtl;
+                            transportOrderDetail.SourceWarehouseID = detail.HubID;
+                            transportOrderDetail.WinnerAssignedByLogistics = false;
+                            if (reliefRequisitionDetail.ReliefRequisition.ProgramID == (int)Programs.PSNP)
+                            {
+                                transportOrderDetail.DonorID = reliefRequisitionDetail.DonorID;
+                            }
+                            alreadyExistingTO.TransportOrderDetails.Add(transportOrderDetail);
+                        }
+                        _unitOfWork.TransportOrderRepository.Edit(alreadyExistingTO);
+                        transportOrders.Add(alreadyExistingTO);
+                    }
+                    else
+                    {
+                        var transportOrder = new TransportOrder();
+                        transportOrder.TransporterID = transporterID;
+                        transportOrder.OrderDate = DateTime.Today;
+                        transportOrder.StartDate = DateTime.Today;
+                        transportOrder.EndDate = DateTime.Today;
+                        transportOrder.TransportOrderNo = Guid.NewGuid().ToString();
+                        transportOrder.OrderExpiryDate = DateTime.Today.AddDays(10);
+                        transportOrder.PerformanceBondReceiptNo = "PERFORMANCE-BOND-NO";
+                        transportOrder.ContractNumber = Guid.NewGuid().ToString();
+                        //string.Format("{0}/{1}/{2}/{3}", "LTCD", DateTime.Today.day, DateTime.Today.Year, transporterName.Substring(0, 1));
+                        transportOrder.TransporterSignedDate = DateTime.Today;
+                        transportOrder.RequestedDispatchDate = DateTime.Today;
+                        transportOrder.ConsignerDate = DateTime.Today;
+                        transportOrder.StartDate = DateTime.Today.AddDays(3);
+                        transportOrder.EndDate = DateTime.Today.AddDays(13);
+                        transportOrder.StatusID = (int)TransportOrderStatus.Draft;
+                        
+                        var firstOrDefault = _unitOfWork.BidWinnerRepository.Get(t => t.TransporterID == id && t.SourceID == detail.HubID && t.DestinationID == detail.WoredaID).FirstOrDefault();
+                        if (firstOrDefault != null)
+                            transportOrder.BidDocumentNo = firstOrDefault.Bid.BidNumber;
+                        
+                        //var reliefRequisitionDetail = _unitOfWork.ReliefRequisitionDetailRepository.FindById(detail.);
+                        var requisionsDetails = _unitOfWork.ReliefRequisitionDetailRepository.Get(
+                                                    t =>
+                                                    t.RequisitionID == detail.RequisitionID &&
+                                                    t.FDP.AdminUnitID == detail.WoredaID, null, "ReliefRequisition").ToList();
+                        foreach (var reliefRequisitionDetail in requisionsDetails)
+                        {
+                            var transportOrderDetail = new TransportOrderDetail();
+                            transportOrderDetail.CommodityID = reliefRequisitionDetail.CommodityID;
+                            transportOrderDetail.FdpID = reliefRequisitionDetail.FDPID;
+                            transportOrderDetail.RequisitionID = reliefRequisitionDetail.RequisitionID;
+                            transportOrderDetail.QuantityQtl = reliefRequisitionDetail.Amount / numberOfTransporters;
+                            transportOrderDetail.TariffPerQtl = detail.TariffPerQtl;
+                            transportOrderDetail.SourceWarehouseID = detail.HubID;
+                            transportOrderDetail.WinnerAssignedByLogistics = false;
+                            if (reliefRequisitionDetail.ReliefRequisition.ProgramID == (int)Programs.PSNP)
+                            {
+                                transportOrderDetail.DonorID = reliefRequisitionDetail.DonorID;
+                            }
+                            transportOrder.TransportOrderDetails.Add(transportOrderDetail);
+                        }
+                        _unitOfWork.TransportOrderRepository.Add(transportOrder);
+                        transportOrders.Add(transportOrder);
+                    }
+
+                    
+                }
+            }
+
+
+            var requisition = _unitOfWork.TransportRequisitionRepository.Get(t => t.TransportRequisitionID == transportRequisitionId).FirstOrDefault();
+
+            requisition.Status = (int)TransportRequisitionStatus.Closed;
+
+            var transportRequisitionDetails =
+                _unitOfWork.TransportRequisitionDetailRepository.Get(t => t.TransportRequisitionID == transportRequisitionId).ToList();
+            foreach (var transportRequisitionDetail in transportRequisitionDetails)
+            {
+                var reliefRequisition =
+                    _unitOfWork.ReliefRequisitionRepository.Get(
+                        t => t.RequisitionID == transportRequisitionDetail.RequisitionID).FirstOrDefault();
+                reliefRequisition.Status = (int)ReliefRequisitionStatus.TransportOrderCreated;
+            }
+
+            _unitOfWork.Save();
+            //TODO:Identity if Transport order number to be auto generated , and where to get contract number.
+
+            foreach (var transportOrder in transportOrders)
+            {
+                var transporterName = _unitOfWork.TransporterRepository.FindById(transportOrder.TransporterID).Name;
+                transportOrder.TransportOrderNo = string.Format("TRN-ORD-{0}", transportOrder.TransportOrderID);
+                transportOrder.ContractNumber = string.Format("{0}/{1}/{2}/{3}/{4}", "LTCD", requisition.RegionID, DateTime.Today.Year, transporterName.Substring(0, 2),requisition.TransportRequisitionNo);
+            }
+
+            _unitOfWork.Save();
+
+
+
+
+
+            return true;
+        }
+
 
        
 
@@ -353,11 +490,11 @@ namespace Cats.Services.Procurement
                 transportRequisition.RequisitionID = reliefRequisitionDetail.RequisitionID;
                 transportRequisition.HubID = _unitOfWork.HubAllocationRepository.FindBy(t => t.RequisitionID == reliefRequisitionDetail.RequisitionID).FirstOrDefault().HubID;//requi.HubAllocations.FirstOrDefault().HubID;
                 transportRequisition.WoredaID = reliefRequisitionDetail.FDP.AdminUnitID;
-                var transportBidWinner = _transporterService.GetCurrentBidWinner(transportRequisition.HubID,
+                var transportBidWinners = _transporterService.GetBidWinner(transportRequisition.HubID,
                                                                           transportRequisition.WoredaID);
                 //_unitOfWork.BidWinnerRepository.Get(
                 //    t => t.SourceID == transportRequisition.HubID && t.DestinationID == transportRequisition.WoredaID).FirstOrDefault();
-                if (transportBidWinner == null)
+                if (transportBidWinners == null)
                 {
                     var transReqWithoutTransporter = new TransReqWithoutTransporter();
                     transReqWithoutTransporter.TransportRequisitionDetailID = transportRequisition.TransportRequisitionDetailID;
@@ -370,30 +507,32 @@ namespace Cats.Services.Procurement
                 else
                 {
                     //TODO: these commented lines should be figured out how they affect the rest of the code
-                    transportRequisition.TransporterID = transportBidWinner.TransporterID;
-                    transportRequisition.TariffPerQtl = transportBidWinner.Tariff!=null ? (decimal) transportBidWinner.Tariff : 0;
-
+                    foreach (var transportBidWinner in transportBidWinners)
+                    {
+                        transportRequisition.TransporterIDs.Add(transportBidWinner.TransporterID);
+                        transportRequisition.TariffPerQtl = transportBidWinner.Tariff != null ? (decimal)transportBidWinner.Tariff : 0;
+                    }
                     transportSourceDestination.Add(transportRequisition);
                 }
 
             }
-            var groupedTransportSourceDestination = transportSourceDestination.GroupBy(ac => new
-                {
-                    ac.HubID,
-                    ac.RequisitionID,
-                    ac.TransporterID,
-                    ac.TransportRequisitionDetailID,
-                    ac.WoredaID
-                }).Select(ac=>new TransporterRequisition
-                    {
-                        HubID = ac.Key.HubID,
-                        RequisitionID = ac.Key.RequisitionID,
-                        TariffPerQtl = ac.FirstOrDefault().TariffPerQtl,
-                        TransporterID = ac.Key.TransporterID,
-                        TransportRequisitionDetailID=ac.Key.TransportRequisitionDetailID,
-                        WoredaID = ac.Key.WoredaID
-                    }).ToList();
-            return groupedTransportSourceDestination;
+            //var groupedTransportSourceDestination = transportSourceDestination.GroupBy(ac => new
+            //    {
+            //        ac.HubID,
+            //        ac.RequisitionID,
+            //        ac.TransporterIDs,
+            //        ac.TransportRequisitionDetailID,
+            //        ac.WoredaID
+            //    }).Select(ac=>new TransporterRequisition
+            //        {
+            //            HubID = ac.Key.HubID,
+            //            RequisitionID = ac.Key.RequisitionID,
+            //            TariffPerQtl = ac.FirstOrDefault().TariffPerQtl,
+            //            TransporterIDs = ac.Key.TransporterIDs,
+            //            TransportRequisitionDetailID=ac.Key.TransportRequisitionDetailID,
+            //            WoredaID = ac.Key.WoredaID
+            //        }).ToList();
+            return transportSourceDestination;
         }
 
         public List<vwTransportOrder> GeTransportOrderRpt(int id)
@@ -552,7 +691,7 @@ namespace Cats.Services.Procurement
             public int HubID { get; set; }
             public int WoredaID { get; set; }
             public int RequisitionID { get; set; }
-            public int TransporterID { get; set; }
+            public List<int> TransporterIDs { get; set; }
             public decimal TariffPerQtl { get; set; }
             public int TransportRequisitionDetailID { get; set; }
         }
