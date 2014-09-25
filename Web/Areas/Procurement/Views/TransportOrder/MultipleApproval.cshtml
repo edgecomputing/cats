@@ -16,12 +16,13 @@
     <table  class="table table-striped table-bordered k-scrollable" >
         
         <thead>
+            <th>Action</th>
             <th> No.</th>
-           @* <th>TransporterID</th>*@
+            @* <th>TransporterID</th>*@
             <th>ContractNumber</th>
             <th>TransportOrderNo</th>
             <th>Transporter</th>
-             <th>Action</th>
+             
         </thead>
         <tbody>
       @*  @{ int index = 0; }*@
@@ -33,7 +34,8 @@
                 //var id = item.Checked;
                  <tr>
                      @{var sno = i + 1;}
-                     
+                     <td>@Html.CheckBox("transportOrderApprovalViewModels[" + @i + "].Checked", 
+                                    Model[i].Checked)</td>
                      <td>@sno</td>
                      @Html.Hidden("transportOrderApprovalViewModels[" + @i + "].TransportOrderID", 
                                        Model[i].TransportOrderID, 
@@ -49,8 +51,7 @@
                                        Model[i].Transporter, 
                                        new { @readonly = "readonly" })</td>
                      
-                    <td>@Html.CheckBox("transportOrderApprovalViewModels[" + @i + "].Checked", 
-                                    Model[i].Checked)</td>
+                    
                        </tr>
 
                     @* @Html.HiddenFor(model=>item.TransportOrderID)
