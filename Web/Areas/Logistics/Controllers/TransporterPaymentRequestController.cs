@@ -20,6 +20,7 @@ using Kendo.Mvc.UI;
 
 namespace Cats.Areas.Logistics.Controllers
 {
+    [Authorize]
     public class TransporterPaymentRequestController : Controller
     {
         private readonly IBusinessProcessService _BusinessProcessService;

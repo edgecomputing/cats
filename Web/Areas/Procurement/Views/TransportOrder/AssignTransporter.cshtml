@@ -116,7 +116,12 @@
         $("#SelectedTransporterID").val(selected);
     });
 
-   
+    $(document).ready(function () {
+        var selected = $("#TransporterID").val();
+        $("#SelectedTransporterID").val(selected);
+        
+    });
+            
    
         $(function () {
             $('#Zones').change(function () {

@@ -23,6 +23,7 @@ using TransporterViewModel = Cats.Models.ViewModels.TransporterViewModel;
 
 namespace Cats.Areas.Logistics.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         //
