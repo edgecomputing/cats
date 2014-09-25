@@ -129,7 +129,7 @@ namespace Cats.Areas.Procurement.Controllers
                                               : _workflowStatusService.GetStatusName(WORKFLOW.TRANSPORT_ORDER, id);
             var allTransporters = _transportOrderService.GetTransporter();
 
-            ViewBag.TransporterID = new SelectList(allTransporters, "TransporterID", "Name");
+            ViewBag.TransporterID = new SelectList(allTransporters, "TransporterID", "Name",0);
             ViewBag.Zones = new SelectList(_transportOrderService.GetZone(), "ZoneId", "ZoneName");
             ViewBag.RegionID = new SelectList(_adminUnitService.GetRegions(), "AdminUnitID", "Name");
             var viewModel = GetRequisitionsWithoutTransporter(woredaId);
