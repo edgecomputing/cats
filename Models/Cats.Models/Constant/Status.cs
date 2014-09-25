@@ -146,4 +146,10 @@ namespace Cats.Models.Constant
         Completed = 5
 
     }
+
+    public enum AgreementVersionStatus
+    {
+        Draft = 1,
+        Approved = 2
+    }
 }
