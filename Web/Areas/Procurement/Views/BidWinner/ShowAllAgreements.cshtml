@@ -51,10 +51,10 @@
         //alert(gridData.length);
         for (var i = 0; i < gridData.length; i++) {
             var currentUid = gridData[i].uid;
-            alert(gridData[i].StatusName);
+            //alert(gridData[i].StatusName);
             var currentRow = grid.table.find("tr[data-uid='" + currentUid + "']");
             if (gridData[i].StatusName == "Approved" || gridData[i].Current == "False") {
-                alert();
+                //alert();
                 var approveButton1 = $(currentRow).find(".k-grid-Approve");
                 approveButton1.hide();
             }
