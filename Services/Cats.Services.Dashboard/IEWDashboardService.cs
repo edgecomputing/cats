@@ -19,5 +19,7 @@ namespace Cats.Services.Dashboard
       List<ReliefRequisition> GetAllReliefRequisition();
       int GetRemainingRequest(int regionID, int planID);
       List<GiftCertificate> GetAllGiftCertificate();
+      List<Dispatch> GetDispatches(List<string> requisitionNos);
+      List<WoredaStockDistribution> GetDistributions(int planID);
     }
 }
