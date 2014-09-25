@@ -15,6 +15,7 @@ using Cats.Services.Common;
 
 namespace Cats.Areas.Logistics.Controllers
 {
+    [Authorize]
     public class ProjectAllocationController : Controller
     {
         //

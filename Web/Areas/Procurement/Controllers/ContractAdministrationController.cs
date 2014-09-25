@@ -76,7 +76,7 @@ namespace Cats.Areas.Procurement.Controllers
         public ActionResult ActiveTO_Read([DataSourceRequest] DataSourceRequest request, int transporterID)
         {
             var activeTOs =
-                _transportOrderService.Get(t => t.StatusID == 3 && t.TransporterID == transporterID).ToList();
+                _transportOrderService.Get(t => t.StatusID >= 3 && t.TransporterID == transporterID).ToList();
             var activeTOsViewModel = GetActiveTOsListViewModel(activeTOs);
             return Json(activeTOsViewModel.ToDataSourceResult(request));
         }

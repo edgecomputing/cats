@@ -22,6 +22,7 @@ using Kendo.Mvc.UI;
 using Cats.Helpers;
 namespace Cats.Areas.Logistics.Controllers
 {
+    [Authorize]
     public class DeliveryController : Controller
     {
         private readonly ITransportOrderService _transportOrderService;
