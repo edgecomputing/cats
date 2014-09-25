@@ -31,6 +31,10 @@ namespace Cats.Areas.Settings.Controllers
             ViewBag.RegionCollection = _adminUnitService.GetRegions();
             //ViewData["Zones"] = _adminUnitService.GetZones();
             //ViewData["Regions"] = _adminUnitService.GetAllRegions();
+            if(TempData["CustomError"] != null)
+            {
+                ModelState.AddModelError("Errors", TempData["CustomError"].ToString());
+            }
             return View();
         }
 
@@ -121,7 +125,7 @@ namespace Cats.Areas.Settings.Controllers
             }
             catch (Exception e)
             {
-                ModelState.AddModelError("Errors", @"Unable to delete Admin Unit");
+                TempData["CustomError"] = "Sorry, Unable to delete the Admin Unit(Woreda), It may be used by the system.";
             }
             return RedirectToAction("Index");
         }

@@ -13,6 +13,8 @@ using Cats.Services.Logistics;
 using Cats.Services.Procurement;
 using Cats.Services.Security;
 using Cats.ViewModelBinder;
+using Kendo.Mvc.Extensions;
+using Kendo.Mvc.UI;
 using hub = Cats.Services.Hub;
 using Cats.Models;
 using Cats.Helpers;
@@ -409,6 +411,43 @@ namespace Cats.Areas.Logistics.Controllers
                     mobileNo = p.Transporter.MobileNo
                 });
             return Json(transporters, JsonRequestBehavior.AllowGet);
+        }
+        #endregion
+
+        #region  Delayed  Transporters
+
+        public JsonResult GetDelayedTOs()
+        {
+             var delayedTOs =
+                _transportOrderService.Get(t => t.StatusID == (int)(Cats.Models.Constant.TransportOrderStatus.Signed) && System.Data.Objects.SqlClient.SqlFunctions.DateDiff("day", t.TransporterSignedDate, DateTime.Now) >= 3).ToList();
+             var requestes = GetDelayedTransportersListViewModel(delayedTOs)
+                .Select(r => new
+                {
+                    TransportOrderID = r.TransportOrderID,
+                    TransportOrderNo = r.TransportOrderNo,
+                    SignedDate = r.SignedDate,
+                    StartedOn = r.StartedOn,
+                    TransporterName  = r.TransporterName,
+                    OrderExpiryDate = r.OrderExpiryDate,
+                    DaysPassedAfterSigned = (int)r.DaysPassedAfterSigned
+                }).ToList();
+            return Json(requestes, JsonRequestBehavior.AllowGet);
+        }
+
+        private IEnumerable<DelayedTransportOrderViewModel> GetDelayedTransportersListViewModel(IEnumerable<TransportOrder> transportOrders)
+        {
+            var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
+            return (from transportOrder in transportOrders
+                    select new DelayedTransportOrderViewModel()
+                    {
+                        TransportOrderID = transportOrder.TransportOrderID,
+                        TransportOrderNo = transportOrder.TransportOrderNo,
+                        StartedOn = transportOrder.StartDate.ToCTSPreferedDateFormat(datePref),
+                        SignedDate = transportOrder.TransporterSignedDate.ToCTSPreferedDateFormat(datePref),
+                        TransporterName = transportOrder.Transporter.Name,
+                        OrderExpiryDate = transportOrder.OrderExpiryDate.ToCTSPreferedDateFormat(datePref),
+                        DaysPassedAfterSigned = (DateTime.Now - transportOrder.TransporterSignedDate).TotalDays
+                    });
         }
         #endregion
 

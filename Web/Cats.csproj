@@ -206,6 +206,7 @@
     <Compile Include="Areas\Hub\Models\TransporterViewModel.cs" />
     <Compile Include="Areas\Logistics\Controllers\TransporterPaymentRequestController.cs" />
     <Compile Include="Areas\Logistics\Models\TransporterPaymentRequestViewModel.cs" />
+    <Compile Include="Areas\Procurement\Models\DelayedTransportOrderViewModel.cs" />
     <Compile Include="Areas\Settings\Controllers\AccountController.cs" />
     <Compile Include="Areas\Settings\Controllers\CurrencyController.cs" />
     <Compile Include="Areas\EarlyWarning\Controllers\DonorCoverageController.cs" />
@@ -2493,6 +2494,7 @@
     <Content Include="Areas\Logistics\Views\TransporterPaymentRequest\PaymentRequests.cshtml" />
     <Content Include="Areas\Logistics\Views\TransporterPaymentRequest\TransporterDetail.cshtml" />
     <Content Include="Areas\Logistics\Views\TransporterPaymentRequest\TransportOrderDetail.cshtml" />
+    <Content Include="Areas\Procurement\Views\TransportOrder\MultipleApproval.cshtml" />
     <None Include="dataset.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>dataset.Designer.cs</LastGenOutput>

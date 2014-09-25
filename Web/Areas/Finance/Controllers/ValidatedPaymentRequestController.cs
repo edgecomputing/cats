@@ -73,10 +73,17 @@ namespace Cats.Areas.Finance.Controllers
             return View();
         }
 
-        public ActionResult BidWinningTransporters_read([DataSourceRequest] DataSourceRequest request)
+        public ActionResult OLDBidWinningTransporters_read([DataSourceRequest] DataSourceRequest request)
         {
             var winningTransprters = _bidWinnerService.Get(t => t.Position == 1 && t.Status == 1).Select(t => t.Transporter).Distinct();
             var winningTransprterViewModels = TransporterListViewModelBinder(winningTransprters.ToList());
+            return Json(winningTransprterViewModels.ToDataSourceResult(request));
+        }
+
+        public ActionResult BidWinningTransporters_read([DataSourceRequest] DataSourceRequest request)
+        {
+            var transprtersWithActiveTO = _transportOrderService.Get(t => t.StatusID == 3, null, "Transporter").Select(t => t.Transporter).Distinct();
+            var winningTransprterViewModels = TransporterListViewModelBinder(transprtersWithActiveTO.ToList());
             return Json(winningTransprterViewModels.ToDataSourceResult(request));
         }
 

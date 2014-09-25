@@ -381,7 +381,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             return Json(new[] { reliefRequisitionDetailViewModel }.ToDataSourceResult(request, ModelState));
         }
 
-        [AcceptVerbs(HttpVerbs.Post)]
+        //[AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Allocation_Update([DataSourceRequest] DataSourceRequest request, ReliefRequisitionDetailViewModel reliefRequisitionDetailViewModel)
         {
             if (reliefRequisitionDetailViewModel != null && ModelState.IsValid)
@@ -391,6 +391,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                 {
                     target.Amount = reliefRequisitionDetailViewModel.Amount.ToPreferedWeightUnitForInsert();
                     target.BenficiaryNo = reliefRequisitionDetailViewModel.BenficiaryNo;
+                    target.Contingency = reliefRequisitionDetailViewModel.Contingency;
                     if(reliefRequisitionDetailViewModel.DonorID.HasValue)
                     target.DonorID = reliefRequisitionDetailViewModel.DonorID.Value;
                     _reliefRequisitionDetailService.EditReliefRequisitionDetail(target);
@@ -476,7 +477,8 @@ namespace Cats.Areas.EarlyWarning.Controllers
                                                         BenficiaryNo = oldRequisitionDetail.BenficiaryNo,
                                                         Amount = oldRequisitionDetail.BenficiaryNo * commodityAmount,
                                                         FDPID = oldRequisitionDetail.FDPID,
-                                                        DonorID = oldRequisitionDetail.DonorID
+                                                        DonorID = oldRequisitionDetail.DonorID,
+                                                        Contingency = oldRequisitionDetail.Contingency
                                                     };
                         //oldRequisitionDetail.Amount = oldRequisitionDetail.BenficiaryNo*commodityAmount;
                         _reliefRequisitionDetailService.DeleteById(oldRequisitionDetail.RequisitionDetailID);

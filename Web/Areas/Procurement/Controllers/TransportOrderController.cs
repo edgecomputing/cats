@@ -141,6 +141,11 @@ namespace Cats.Areas.Procurement.Controllers
             {
                 ModelState.AddModelError("Errors", TempData["CustomError"].ToString());
             }
+           
+            else if (TempData["CustomError2"] != null)
+            {
+                ModelState.AddModelError("Success", TempData["CustomError2"].ToString());
+            }
             ViewBag.ProgramID = new SelectList(_transportOrderService.GetPrograms(), "ProgramID", "Name");
             var transportOrderStatus = new List<RequestStatus>
                 {
@@ -704,14 +709,55 @@ namespace Cats.Areas.Procurement.Controllers
             var draftTransportOrders = _transportOrderService.FindBy(m => m.StatusID == (int) TransportOrderStatus.Draft);
             if(draftTransportOrders==null)
             {
-                TempData["CustomErrorMessage"] = "There are no draft Transport Orders to be Approved! ";
+                TempData["CustomError"] = "There are no draft Transport Orders to be Approved! ";
                 return RedirectToAction("Index");
             }
             var transportOrderModels = GetTransportOrderApprovalViewModel(draftTransportOrders);
-            return View(transportOrderModels);
+            return View(transportOrderModels.ToList());
         }
         [HttpPost]
-       
+        public ActionResult MultipleApproval(List<TransportOrderApprovalViewModel> transportOrderApprovalViewModels)
+        {
+            var checkedTransportOrders = transportOrderApprovalViewModels.Where(m => m.Checked == true).ToList();
+            if (checkedTransportOrders.Count() != 0)
+            {
+                var noOfApproval = 0;
+                foreach (var chekedTransportOrder in checkedTransportOrders)
+                {
+                    var transportOrder = _transportOrderService.FindById(chekedTransportOrder.TransportOrderID);
+                    if (transportOrder != null)
+                    {
+                        var orderDetailWithoutTarrif = 0;
+                        
+                        foreach (var transportOrderDetail in transportOrder.TransportOrderDetails)
+                        {
+
+                            if (transportOrderDetail.TariffPerQtl <= 0 &&
+                                transportOrderDetail.WinnerAssignedByLogistics != true)
+                            {
+                                orderDetailWithoutTarrif = 1;
+                                break;
+                            }
+                        }
+                        if (orderDetailWithoutTarrif == 0)
+                        {
+                            _transportOrderService.ApproveTransportOrder(transportOrder);
+                            ++noOfApproval;
+                        }
+                    }
+                }
+                if (noOfApproval < 1)
+                {
+                    TempData["CustomError"] = "Transport Order Without Tariff can not be approved! Please Specify Tariff for each transport order detail! ";
+                    return RedirectToAction("Index");
+                }
+                TempData["CustomError2"] = noOfApproval + " Transport Order(s) has been successfully Approved! ";
+                return RedirectToAction("Index");
+            }
+             TempData["CustomError"] = "No Transport Order has been approved! ";
+            return RedirectToAction("Index");
+        }
+        
         private IEnumerable<TransportOrderApprovalViewModel> GetTransportOrderApprovalViewModel(IEnumerable<TransportOrder> transportOrders)
         {
             return (from detail in transportOrders

@@ -84,7 +84,9 @@ namespace Cats.Models.Constant
     public enum BIDWINNER
     {
         Awarded = 1,
-        Signed = 2
+        Signed = 2,
+        Left = 3,
+        Failed = 4
     }
     public enum BidWinnerStatus
     {
