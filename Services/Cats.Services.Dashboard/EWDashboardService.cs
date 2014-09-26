@@ -74,6 +74,10 @@ namespace Cats.Services.Dashboard
      {
          return _unitOfWork.WoredaStockDistributionRepository.Get(m => m.PlanID == planID).ToList();
      }
+     public List<Delivery> GetDeliveries(List<Guid> dispatchIds)
+     {
+         return _unitOfWork.DeliveryRepository.Get(m => dispatchIds.Contains(m.DispatchID.Value)).ToList();
+     }
        public void Dispose()
         {
             _unitOfWork.Dispose();

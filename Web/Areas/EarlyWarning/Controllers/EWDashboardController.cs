@@ -322,32 +322,42 @@ namespace Cats.Areas.EarlyWarning.Controllers
                                                 requisitionNo = requisition.RequisitionNo
                                             }).Select(m=>m.requisitionNo).ToList();
                     var dispatches = _eWDashboardService.GetDispatches(requisitions);
-                  
-                   
-                   
-
-                    var groupedDispaches = (from dispatch in dispatches
-                                            group dispatch by dispatch.FDP.AdminUnit.AdminUnit2.AdminUnit2
-                                            into regionalDispatches
-                                            select new
-                                                {
-                                                    Region = regionalDispatches.Key,
-                                                    dispatchAmount =
-                                                   regionalDispatches.FirstOrDefault().DispatchDetails.Sum(
-                                                    m => m.RequestedQuantityInMT)
-                                                });
 
 
-                    hrdTitllDistributionInfo = (from dispatch in groupedDispaches
-                                                select new HrdTillDistributionViewModel
+
+                    if (dispatches != null)
+                    {
+                        var groupedDispaches = (from dispatch in dispatches
+                                                group dispatch by dispatch.FDP.AdminUnit.AdminUnit2.AdminUnit2
+                                                into regionalDispatches
+                                                select new
                                                     {
-                                                        Region = dispatch.Region.Name,
-                                                        DispatchedAmount = dispatch.dispatchAmount,
-                                                        DistributedAmount = GetDistributionInfo(dispatch.Region.AdminUnitID)
-                                                    }).ToList();
+                                                        Region = regionalDispatches.Key,
+                                                        dispatchAmount =
+                                                    regionalDispatches.FirstOrDefault().DispatchDetails.Sum(
+                                                        m => m.RequestedQuantityInMT)
+                                                    });
+                        var dispatchID = dispatches.Select(m => m.DispatchID).Distinct().ToList();
+                        var deliveries = _eWDashboardService.GetDeliveries(dispatchID);
+
+                        hrdTitllDistributionInfo = (from dispatch in groupedDispaches
+                                                    select new HrdTillDistributionViewModel
+                                                        {
+                                                            Region = dispatch.Region.Name,
+                                                            DispatchedAmount = dispatch.dispatchAmount,
+                                                            DeliveredAmount = (from delivery in deliveries
+                                                                               where delivery.FDP.AdminUnit.AdminUnit2.AdminUnit2.AdminUnitID==dispatch.Region.AdminUnitID
+                                                                               group delivery by delivery.FDP.AdminUnit.AdminUnit2.AdminUnit2 into regionalDelievery
+                                                                               select new
+                                                                                    {
+                                                                                        deliveredqty=dispatches.FirstOrDefault().DispatchDetails.Sum(m=>m.RequestedQuantityInMT)
+                                                                                    }).Select(m=>m.deliveredqty).FirstOrDefault(),
+                                                            DistributedAmount =
+                                                                GetDistributionInfo(dispatch.Region.AdminUnitID)
+                                                        }).ToList();
 
 
-                   
+                    }
 
                 }
             }

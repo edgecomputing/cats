@@ -21,5 +21,6 @@ namespace Cats.Services.Dashboard
       List<GiftCertificate> GetAllGiftCertificate();
       List<Dispatch> GetDispatches(List<string> requisitionNos);
       List<WoredaStockDistribution> GetDistributions(int planID);
+      List<Delivery> GetDeliveries(List<Guid> dispatchIds);
     }
 }
