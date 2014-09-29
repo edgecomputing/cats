@@ -47,6 +47,7 @@
   <ItemGroup>
     <Reference Include="DocumentFormat.OpenXml, Version=2.0.5022.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
+      <HintPath>..\packages\DocumentFormat.OpenXml.dll</HintPath>
     </Reference>
     <Reference Include="Elmah">
       <HintPath>..\packages\elmah.corelibrary.1.2.2\lib\Elmah.dll</HintPath>
