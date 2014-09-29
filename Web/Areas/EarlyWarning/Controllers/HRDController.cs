@@ -183,7 +183,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
             if (hrd != null)
             {
-                var detailsToDisplay = GetSummary(hrd, "Zone").ToList();
+                var detailsToDisplay = GetSummary(hrd, "Woreda").ToList();
 
                 return Json(detailsToDisplay.ToDataSourceResult(request));
             }
