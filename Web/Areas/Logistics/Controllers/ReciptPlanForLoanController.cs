@@ -16,6 +16,7 @@ using Kendo.Mvc.UI;
 
 namespace Cats.Areas.Logistics.Controllers
 {
+    [Authorize]
     public class ReciptPlanForLoanController : Controller
     {
         //

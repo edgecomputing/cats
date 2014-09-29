@@ -16,6 +16,7 @@ using Cats.Services.Security;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
 using System;
+using log4net;
 
 namespace Cats.Areas.Procurement.Controllers
 {
@@ -31,10 +32,11 @@ namespace Cats.Areas.Procurement.Controllers
         private readonly ITransporterAgreementVersionService _transporterAgreementVersionService;
         private readonly IWorkflowStatusService _workflowStatusService;
         private readonly IUserAccountService _userAccountService;
+        private readonly ILog _log;
 
         public BidWinnerController(IBidService bidService, ITransporterService transporterService, IBidWinnerService bidWinnerService,
             IUnitOfWork unitofwork, ITransporterAgreementVersionService transporterAgreementVersionService, IWorkflowStatusService workflowStatusService, 
-            IUserAccountService userAccountService)
+            IUserAccountService userAccountService, ILog log)
         {
             _bidService = bidService;
             //_applicationSettingService = applicationSettingService;
@@ -45,6 +47,7 @@ namespace Cats.Areas.Procurement.Controllers
             _transporterService = transporterService;
             _workflowStatusService = workflowStatusService;
             _userAccountService = userAccountService;
+            _log = log;
         }
 
         public ActionResult Index()
@@ -251,17 +254,57 @@ namespace Cats.Areas.Procurement.Controllers
 
         public List<AgreementVersionViewModel> AgreementVersionListViewModelBinder(List<TransporterAgreementVersion> transporterAgreementVersions)
         {
-            
-            return transporterAgreementVersions.Select(transporterAgreementVersion => new AgreementVersionViewModel()
+            var agreementVersionViewModels = new List<AgreementVersionViewModel>();
+            foreach (var transporterAgreementVersion in transporterAgreementVersions)
             {
-                TransporterID = transporterAgreementVersion.TransporterID,
-                Transporter = _transporterService.FindById(transporterAgreementVersion.TransporterID).Name,
-                BidNo = _bidService.FindById(transporterAgreementVersion.BidID).BidNumber,
-                BidID = transporterAgreementVersion.BidID,
-                IssueDate = transporterAgreementVersion.IssueDate.ToString(),
-                Current = transporterAgreementVersion.Current.ToString(),
-                TransportAgreementVersionID = transporterAgreementVersion.TransporterAgreementVersionID
-            }).ToList();
+                var agreementVersionViewModel = new AgreementVersionViewModel();
+                agreementVersionViewModel.TransporterID = transporterAgreementVersion.TransporterID;
+                agreementVersionViewModel.Transporter = _transporterService.FindById(transporterAgreementVersion.TransporterID).Name;
+                agreementVersionViewModel.BidNo = _bidService.FindById(transporterAgreementVersion.BidID).BidNumber;
+                agreementVersionViewModel.BidID = transporterAgreementVersion.BidID;
+                agreementVersionViewModel.IssueDate = transporterAgreementVersion.IssueDate.ToString();
+                agreementVersionViewModel.Current = transporterAgreementVersion.Current.ToString();
+                agreementVersionViewModel.TransportAgreementVersionID = transporterAgreementVersion.TransporterAgreementVersionID;
+                switch (transporterAgreementVersion.Status)
+                {
+                    case 1:
+                        agreementVersionViewModel.StatusName = "Draft";
+                        break; 
+                    case 2:
+                        agreementVersionViewModel.StatusName = "Approved";
+                        break; 
+                    default:
+                        agreementVersionViewModel.StatusName = "Draft";
+                        break;
+                }
+                agreementVersionViewModels.Add(agreementVersionViewModel);
+            }
+            return agreementVersionViewModels;
+        }
+
+        public ActionResult ApproveAgreement(int id, int transporterID)
+        {
+            var transporterAgreementVersion = _transporterAgreementVersionService.FindById(id);
+            try
+            {
+                if (transporterAgreementVersion != null)
+                {
+                    transporterAgreementVersion.Status = (int)AgreementVersionStatus.Approved;
+                    _transporterAgreementVersionService.EditTransporterAgreementVersion(transporterAgreementVersion);
+                    return RedirectToAction("ShowAllAgreements", new { transporterID });
+                }
+                TempData["CustomError"] = "Transport Order Without Tariff can not be approved! Please Specify Tariff for each transport order detail! ";
+                return RedirectToAction("ShowAllAgreements", new { transporterID });
+                //ModelState.AddModelError("Errors", @"Transport Order Without Tariff can not be approved!");
+            }
+            catch (Exception ex)
+            {
+                var log = new Logger();
+                log.LogAllErrorsMesseges(ex, _log);
+                ModelState.AddModelError("Errors", @"Unable to approve");
+            }
+
+            return RedirectToAction("ShowAllAgreements", new { transporterID });
         }
 
 
@@ -300,7 +343,7 @@ namespace Cats.Areas.Procurement.Controllers
             }
 
             var transporterAgreementVersion = new TransporterAgreementVersion
-                {BidID = bidID, TransporterID = transporterID, AgreementDocxFile = data, IssueDate = DateTime.Now, Current = true};
+                {BidID = bidID, TransporterID = transporterID, AgreementDocxFile = data, IssueDate = DateTime.Now, Current = true, Status = (int)AgreementVersionStatus.Draft};
             _transporterAgreementVersionService.AddTransporterAgreementVersion(transporterAgreementVersion);
 
             Response.Clear();

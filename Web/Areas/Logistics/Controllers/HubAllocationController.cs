@@ -17,6 +17,7 @@ using Cats.ViewModelBinder;
 
 namespace Cats.Areas.Logistics.Controllers
 {
+    [Authorize]
     public class HubAllocationController : Controller
     {
         //

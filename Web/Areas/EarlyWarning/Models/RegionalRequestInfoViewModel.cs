@@ -73,5 +73,12 @@ namespace Cats.Areas.EarlyWarning.Models
         public int TotalRequisitionNumber    { get; set; }
         public decimal HrdTotalCommodity { get; set; }
     }
+    public class HrdTillDistributionViewModel
+    {
+        public string Region { get; set; }
+        public decimal DispatchedAmount { get; set; }
+        public decimal DeliveredAmount{ get; set; }
+        public decimal DistributedAmount { get; set; }
+    }
 
 }

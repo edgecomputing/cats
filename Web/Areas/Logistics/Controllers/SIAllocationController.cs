@@ -14,6 +14,7 @@ using Cats.Areas.Logistics.Models;
 
 namespace Cats.Areas.Logistics.Controllers
 {
+    [Authorize]
     public class SIAllocationController : Controller
     {
         private IReliefRequisitionService _requisitionService;

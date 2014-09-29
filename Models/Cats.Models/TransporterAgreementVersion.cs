@@ -14,6 +14,7 @@ namespace Cats.Models
         public byte[] AgreementDocxFile { get; set; }
         public System.DateTime IssueDate { get; set; }
         public bool Current { get; set; }
+        public int Status { get; set; }
         public virtual Bid Bid { get; set; }
         public virtual Transporter Transporter { get; set; }
     }

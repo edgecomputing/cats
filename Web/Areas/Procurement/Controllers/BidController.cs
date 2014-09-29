@@ -5,6 +5,7 @@ using System.Web.Routing;
 using Cats.Areas.Procurement.Models;
 using Cats.Helpers;
 using Cats.Models.Constant;
+using Cats.Models.Hubs;
 using Cats.Models.ViewModels.Bid;
 using Cats.Services.EarlyWarning;
 using Cats.Services.Procurement;
@@ -90,7 +91,106 @@ namespace Cats.Areas.Procurement.Controllers
             return View("WoredasWithOutBidOffer",filter);
         }
 
-       
+        public ActionResult MergeBidWinners(WoredaBidWinnerViewModel woredaBidWinnerViewModel)
+        {
+            var bidWinnerObj =_bidWinnerService.Get(t => t.SourceID == woredaBidWinnerViewModel.SourceId && t.DestinationID == woredaBidWinnerViewModel.DestinationId &&
+                                    t.BidID == woredaBidWinnerViewModel.BidID && t.TransporterID == woredaBidWinnerViewModel.LeavingTransporterID && 
+                                    t.Position == 1 && t.Status == 1).FirstOrDefault();
+            if (bidWinnerObj !=null)
+            {
+                bidWinnerObj.Status = (int)BIDWINNER.Left;
+                _bidWinnerService.EditBidWinner(bidWinnerObj);
+            }
+            var regionObj = _adminUnitService.FindById(woredaBidWinnerViewModel.DestinationId).AdminUnit2.AdminUnit2;
+            //var filter = new PriceQuotationFilterOfferlessViewModel()
+            //                {
+            //                    BidID = woredaBidWinnerViewModel.BidID,
+            //                    HubID = woredaBidWinnerViewModel.SourceId,
+            //                    RegionID = regionObj.AdminUnitID
+            //                };
+            return RedirectToAction("WoredasBidStatus");
+        }
+
+        public ActionResult LoadBidWinnerLeave(WoredaBidWinnerViewModel woredaBidWinnerViewModel)
+        {
+            if (woredaBidWinnerViewModel == null || woredaBidWinnerViewModel.SourceId <= 0 ||
+                woredaBidWinnerViewModel.DestinationId <= 0 || woredaBidWinnerViewModel.BidID <= 0)
+            {
+                return Json(new SelectList(Enumerable.Empty<SelectListItem>()), JsonRequestBehavior.AllowGet);
+            }
+            woredaBidWinnerViewModel.Woreda =
+                _adminUnitService.FindById(woredaBidWinnerViewModel.DestinationId).Name;
+            woredaBidWinnerViewModel.SourceWarehouse = _hubService.FindById(woredaBidWinnerViewModel.SourceId).Name;
+            woredaBidWinnerViewModel.BidNumber = _bidService.FindById(woredaBidWinnerViewModel.BidID).BidNumber;
+            var bidWinners =
+                _bidWinnerService.Get(
+                    t =>
+                    t.SourceID == woredaBidWinnerViewModel.SourceId &&
+                    t.DestinationID == woredaBidWinnerViewModel.DestinationId &&
+                    t.BidID == woredaBidWinnerViewModel.BidID && t.Position == 1 && t.Status == 1).Select(
+                        t => t.Transporter).ToList();
+            var transporters =
+                bidWinners.Select(i => new SelectListItemModel {Name = i.Name, Id = i.TransporterID.ToString()}).
+                    ToList();
+            //transporters.Add(new SelectListItemModel { Name = "N/A", Id = "0" }); //TODO just a hack for now for unknown stacks
+            woredaBidWinnerViewModel.Transporters = new SelectList(transporters, "Id", "Name");
+            return Json(woredaBidWinnerViewModel, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult CancelBidWinners(WoredaCancelBidWinnerViewModel woredaCancelBidWinnerViewModel)
+        {
+            var canceledBidWinnerObj = _bidWinnerService.Get(t => t.SourceID == woredaCancelBidWinnerViewModel.SourceId && t.DestinationID == woredaCancelBidWinnerViewModel.DestinationId &&
+                                    t.BidID == woredaCancelBidWinnerViewModel.BidID && t.Position == 1 && t.Status == 1);
+            if (canceledBidWinnerObj != null)
+            {
+                foreach (var bidWinner in canceledBidWinnerObj)
+                {
+                    bidWinner.Status = (int)BIDWINNER.Failed;
+                    _bidWinnerService.EditBidWinner(bidWinner);
+                }
+            }
+            var promotedBidWinnerObj = _bidWinnerService.Get(t => t.SourceID == woredaCancelBidWinnerViewModel.SourceId && t.DestinationID == woredaCancelBidWinnerViewModel.DestinationId &&
+                                    t.BidID == woredaCancelBidWinnerViewModel.BidID && t.Position == 2 && t.Status == 1);
+            if (promotedBidWinnerObj != null)
+            {
+                foreach (var bidWinner in promotedBidWinnerObj)
+                {
+                    bidWinner.Position = 1;
+                    bidWinner.Status = (int)BIDWINNER.Awarded;
+                    _bidWinnerService.EditBidWinner(bidWinner);
+                }
+            }
+            return RedirectToAction("WoredasBidStatus");
+        }
+
+        public ActionResult LoadBidWinnerCancel(WoredaCancelBidWinnerViewModel woredaCancelBidWinnerViewModel)
+        {
+            if (woredaCancelBidWinnerViewModel == null || woredaCancelBidWinnerViewModel.SourceId <= 0 ||
+                woredaCancelBidWinnerViewModel.DestinationId <= 0 || woredaCancelBidWinnerViewModel.BidID <= 0)
+            {
+                return Json(new EmptyResult(), JsonRequestBehavior.AllowGet);
+            }
+            woredaCancelBidWinnerViewModel.Woreda = _adminUnitService.FindById(woredaCancelBidWinnerViewModel.DestinationId).Name;
+            woredaCancelBidWinnerViewModel.SourceWarehouse = _hubService.FindById(woredaCancelBidWinnerViewModel.SourceId).Name;
+            woredaCancelBidWinnerViewModel.BidNumber = _bidService.FindById(woredaCancelBidWinnerViewModel.BidID).BidNumber;
+            var bidFirstWinners =
+                _bidWinnerService.Get(
+                    t =>
+                    t.SourceID == woredaCancelBidWinnerViewModel.SourceId &&
+                    t.DestinationID == woredaCancelBidWinnerViewModel.DestinationId &&
+                    t.BidID == woredaCancelBidWinnerViewModel.BidID && t.Position == 1 && t.Status == 1).Select(
+                        t => t.Transporter).ToList();
+            var bidSecondWinners =
+                _bidWinnerService.Get(
+                    t =>
+                    t.SourceID == woredaCancelBidWinnerViewModel.SourceId &&
+                    t.DestinationID == woredaCancelBidWinnerViewModel.DestinationId &&
+                    t.BidID == woredaCancelBidWinnerViewModel.BidID && t.Position == 2 && t.Status == 1).Select(
+                        t => t.Transporter).ToList();
+            woredaCancelBidWinnerViewModel.CanceledTransporters = bidFirstWinners.Select(t => t.Name).ToList();
+            woredaCancelBidWinnerViewModel.PromotedTransporters = bidSecondWinners.Select(t => t.Name).ToList();
+            return Json(woredaCancelBidWinnerViewModel, JsonRequestBehavior.AllowGet);
+        }
 
         public ActionResult ReadWoredasWithOutBidOffer([DataSourceRequest] DataSourceRequest request, int bidID, int regionID)
         {
