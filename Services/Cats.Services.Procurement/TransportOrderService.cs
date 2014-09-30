@@ -516,23 +516,23 @@ namespace Cats.Services.Procurement
                 }
 
             }
-            //var groupedTransportSourceDestination = transportSourceDestination.GroupBy(ac => new
-            //    {
-            //        ac.HubID,
-            //        ac.RequisitionID,
-            //        ac.TransporterIDs,
-            //        ac.TransportRequisitionDetailID,
-            //        ac.WoredaID
-            //    }).Select(ac=>new TransporterRequisition
-            //        {
-            //            HubID = ac.Key.HubID,
-            //            RequisitionID = ac.Key.RequisitionID,
-            //            TariffPerQtl = ac.FirstOrDefault().TariffPerQtl,
-            //            TransporterIDs = ac.Key.TransporterIDs,
-            //            TransportRequisitionDetailID=ac.Key.TransportRequisitionDetailID,
-            //            WoredaID = ac.Key.WoredaID
-            //        }).ToList();
-            return transportSourceDestination;
+            var groupedTransportSourceDestination = transportSourceDestination.GroupBy(ac => new
+                {
+                    ac.HubID,
+                    ac.RequisitionID,
+                    ac.TransporterIDs,
+                    ac.TransportRequisitionDetailID,
+                    ac.WoredaID
+                }).Select(ac => new TransporterRequisition
+                    {
+                        HubID = ac.Key.HubID,
+                        RequisitionID = ac.Key.RequisitionID,
+                        TariffPerQtl = ac.FirstOrDefault().TariffPerQtl,
+                        TransporterIDs = ac.Key.TransporterIDs,
+                        TransportRequisitionDetailID = ac.Key.TransportRequisitionDetailID,
+                        WoredaID = ac.Key.WoredaID
+                    }).ToList();
+            return groupedTransportSourceDestination;
         }
 
         public List<vwTransportOrder> GeTransportOrderRpt(int id)
@@ -694,6 +694,11 @@ namespace Cats.Services.Procurement
             public List<int> TransporterIDs { get; set; }
             public decimal TariffPerQtl { get; set; }
             public int TransportRequisitionDetailID { get; set; }
+
+            public TransporterRequisition()
+            {
+                TransporterIDs= new List<int>();
+            }
         }
 
         public List<Hub> GetHubs()
