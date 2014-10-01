@@ -124,11 +124,56 @@ namespace Cats.Documents
 
                     foreach (FieldCode field in docGenerated.MainDocumentPart.RootElement.Descendants<FieldCode>())
                     {
-                        var fieldNameStart = field.Text.LastIndexOf(FieldDelimeter, System.StringComparison.Ordinal);
-                        //var index = field.Text.LastIndexOf(" ", System.StringComparison.Ordinal) + 1;
-                        var fieldname = field.Text.Substring(fieldNameStart + FieldDelimeter.Length).Trim();
-                        fieldname = fieldname.Replace("\\* MERGEFORMAT", "").Trim();
-                        var fieldValue = _values[fieldname];
+                        string fieldname;
+                       
+                       
+                        try
+                            {
+                                var fieldNameStart = field.Text.LastIndexOf(FieldDelimeter, System.StringComparison.Ordinal);
+
+                                fieldname = field.Text.Substring(fieldNameStart + FieldDelimeter.Length).Trim();
+                                fieldname = fieldname.Replace("\\* MERGEFORMAT", "").Trim();
+                            }
+                            catch (Exception)
+                            {
+                                
+                                continue;
+                            }
+                            
+                        
+
+                        string fieldValue = "";
+                        try
+                        {
+
+
+                            fieldValue = _values[fieldname];
+                            if (fieldname == "FundSource" && fieldValue == "Donation")
+                            {
+                                fieldValue = "\u2713";
+                            }
+                            else if (fieldname == "BudgetType" && fieldValue == "Regular")
+                            {
+                                fieldValue = "\u2713";
+                            }
+                            else if (fieldname == "FundSource")
+                             {
+                                 fieldValue = "";   
+                             }
+                             else if (fieldname == "BudgetType")
+                             {
+                                 fieldValue = "";
+                             }
+
+                            
+                            
+                        }
+                        catch (Exception)
+                        {
+                            
+                            continue;
+                        }
+                        
 
                         // Go through all of the Run elements and replace the Text Elements Text Property
                         foreach (Run run in docGenerated.MainDocumentPart.Document.Descendants<Run>())

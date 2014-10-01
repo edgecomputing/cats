@@ -19,6 +19,7 @@ namespace Cats.Models.Mapping
             this.Property(t => t.Amount).HasColumnName("Amount").HasPrecision(18,4);
             this.Property(t => t.FDPID).HasColumnName("FDPID");
             this.Property(t => t.DonorID).HasColumnName("DonorID");
+            this.Property(t => t.Contingency).HasColumnName("Contingency").HasPrecision(18,4);
 
             // Relationships
             this.HasRequired(t => t.Commodity)
