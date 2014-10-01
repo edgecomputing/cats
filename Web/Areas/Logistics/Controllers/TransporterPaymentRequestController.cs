@@ -63,7 +63,8 @@ namespace Cats.Areas.Logistics.Controllers
 
         public ActionResult Index()
         {
-            var list = (IEnumerable<TransporterPaymentRequest>)_transporterPaymentRequestService.Get(t => t.BusinessProcess.CurrentState.BaseStateTemplate.StateNo <= 2).OrderByDescending(t => t.BusinessProcess.CurrentState.DatePerformed);
+            
+           var list = (IEnumerable<TransporterPaymentRequest>)_transporterPaymentRequestService.Get(t => t.BusinessProcess.CurrentState.BaseStateTemplate.StateNo <= 2).OrderByDescending(t => t.BusinessProcess.CurrentState.DatePerformed);
             return View(list);
         }
 
@@ -82,7 +83,7 @@ namespace Cats.Areas.Logistics.Controllers
 
         public ActionResult BidWinningTransporters_read([DataSourceRequest] DataSourceRequest request)
         {
-            var transprtersWithActiveTO = _transportOrderService.Get(t => t.StatusID == 3, null, "Transporter").Select(t=>t.Transporter).Distinct();
+            var transprtersWithActiveTO = _transportOrderService.Get(t => t.StatusID >= 3, null, "Transporter").Select(t=>t.Transporter).Distinct();
             var winningTransprterViewModels = TransporterListViewModelBinder(transprtersWithActiveTO.ToList());
             return Json(winningTransprterViewModels.ToDataSourceResult(request));
         }
@@ -112,7 +113,7 @@ namespace Cats.Areas.Logistics.Controllers
                 .Get(t => t.TransportOrder.TransporterID == transporterID 
                     && t.BusinessProcess.CurrentState.BaseStateTemplate.StateNo < 2, null, "Delivery,Delivery.DeliveryDetails,TransportOrder").ToList();
             var transporterPaymentRequests = TransporterPaymentRequestViewModelBinder(paymentRequests);
-            var transportOrder = _TransportOrderService.Get(t => t.TransporterID == transporterID && t.StatusID == 3, null, "Transporter").FirstOrDefault();
+            var transportOrder = _TransportOrderService.Get(t => t.TransporterID == transporterID && t.StatusID >= 3, null, "Transporter").FirstOrDefault();
             var transportOrderViewModel = TransportOrderViewModelBinder.BindTransportOrderViewModel(transportOrder, datePref, statuses);
             ViewBag.TransportOrderViewModel = transportOrderViewModel;
             ViewBag.TransporterID = transportOrderViewModel.TransporterID;
