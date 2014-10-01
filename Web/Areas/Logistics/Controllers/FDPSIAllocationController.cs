@@ -15,6 +15,7 @@ using Cats.Services.Logistics;
 using Cats.Helpers;
 namespace Cats.Areas.Logistics.Controllers
 {
+    [Authorize]
     public class FDPSIAllocationController : Controller
     {
         private readonly IReliefRequisitionService _requisitionService;

@@ -14,5 +14,7 @@ namespace Cats.Areas.Procurement.Models
         public string BidNo { get; set; }
         public string IssueDate { get; set; }
         public string Current { get; set; }
+        public int StatusID { get; set; }
+        public string StatusName { get; set; }
     }
 }

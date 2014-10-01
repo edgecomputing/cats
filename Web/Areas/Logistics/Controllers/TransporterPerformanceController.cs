@@ -19,6 +19,7 @@ using IHubService = Cats.Services.EarlyWarning.IHubService;
 
 namespace Cats.Areas.Logistics.Controllers
 {
+    [Authorize]
     public class TransporterPerformanceController : Controller
     {
         //

@@ -66,6 +66,18 @@ namespace Cats.Services.Dashboard
       {
           return _unitOfWork.GiftCertificateRepository.GetAll();
       }
+      public List<Dispatch> GetDispatches(List<string> requisitionNos)
+      {
+          return _unitOfWork.DispatchRepository.Get(m => requisitionNos.Contains(m.RequisitionNo)).ToList();
+      }
+     public List<WoredaStockDistribution> GetDistributions(int planID)
+     {
+         return _unitOfWork.WoredaStockDistributionRepository.Get(m => m.PlanID == planID).ToList();
+     }
+     public List<Delivery> GetDeliveries(List<Guid> dispatchIds)
+     {
+         return _unitOfWork.DeliveryRepository.Get(m => dispatchIds.Contains(m.DispatchID.Value)).ToList();
+     }
        public void Dispose()
         {
             _unitOfWork.Dispose();

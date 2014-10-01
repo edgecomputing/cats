@@ -20,6 +20,7 @@ using Cats.Infrastructure;
 
 namespace Cats.Areas.Logistics.Controllers
 {
+    [Authorize]
     public class PromisedContributionController : Controller
     {
         private readonly IPromisedContributionService promisedContributionService;

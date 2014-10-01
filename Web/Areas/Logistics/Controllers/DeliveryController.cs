@@ -22,6 +22,7 @@ using Kendo.Mvc.UI;
 using Cats.Helpers;
 namespace Cats.Areas.Logistics.Controllers
 {
+    [Authorize]
     public class DeliveryController : Controller
     {
         private readonly ITransportOrderService _transportOrderService;
@@ -404,7 +405,7 @@ namespace Cats.Areas.Logistics.Controllers
 
                 var transporterPaymentRequest = new TransporterPaymentRequest();
                 transporterPaymentRequest.ReferenceNo = "PR-" + delivery.ReceivingNumber;
-                var firstOrDefault = _transportOrderService.Get(t => t.TransporterID == newdelivery.TransporterID && t.StatusID == 3).FirstOrDefault();
+                var firstOrDefault = _transportOrderService.Get(t => t.TransporterID == newdelivery.TransporterID && t.StatusID >= 3).FirstOrDefault();
                 if (firstOrDefault != null)
                     transporterPaymentRequest.TransportOrderID = firstOrDefault.TransportOrderID;
                 transporterPaymentRequest.DeliveryID = newdelivery.DeliveryID;

@@ -20,6 +20,7 @@ using IHubService = Cats.Services.EarlyWarning.IHubService;
 
 namespace Cats.Areas.Logistics.Controllers
 {
+    [Authorize]
     public class DispatchAllocationController : Controller
     {
         //
@@ -128,11 +129,17 @@ namespace Cats.Areas.Logistics.Controllers
             ViewBag.requestStatus = status;
             List<ReliefRequisition> requisititions = null;
             if (regionId == -1 || status == -1) return Json((new List<RequisitionViewModel>()).ToDataSourceResult(request));
-            requisititions = _reliefRequisitionService.FindBy(
+            if (status==(int)ReliefRequisitionStatus.ProjectCodeAssigned)
+            {
+                requisititions = _reliefRequisitionService.FindBy(r => r.Status == status || r.Status == (int)ReliefRequisitionStatus.SiPcAllocationApproved && r.RegionID == regionId).OrderByDescending(t => t.RequisitionID).ToList();
+            }
+            else
+            {
+                requisititions = _reliefRequisitionService.FindBy(
                 r =>
                 r.Status == status && r.RegionID == regionId).OrderByDescending(t => t.RequisitionID).ToList();
-
-
+            }
+            
             var requisitionViewModel = HubAllocationViewModelBinder.ReturnRequisitionGroupByReuisitionNo(requisititions);
             return Json(requisitionViewModel.ToDataSourceResult(request));
         }
@@ -289,6 +296,16 @@ namespace Cats.Areas.Logistics.Controllers
                 return RedirectToAction("Index", new { regionId = requistion.RegionID });
             }
             return RedirectToAction("Index");
+        }
+        public ActionResult ApproveSiPcAllocation(int id)
+        {
+             var requistion = _reliefRequisitionService.FindById(id);
+             if (requistion != null)
+             {
+                 requistion.Status = (int)ReliefRequisitionStatus.SiPcAllocationApproved;
+                 _reliefRequisitionService.EditReliefRequisition(requistion);
+             }
+             return RedirectToAction("Index");
         }
 
     }

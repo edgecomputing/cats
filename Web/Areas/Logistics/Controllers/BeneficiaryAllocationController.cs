@@ -12,6 +12,7 @@ using Kendo.Mvc.UI;
 
 namespace Cats.Areas.Logistics.Controllers
 {
+    [Authorize]
     public class BeneficiaryAllocationController : Controller
     {
         private readonly IBeneficiaryAllocationService _beneficiaryAllocationService;
