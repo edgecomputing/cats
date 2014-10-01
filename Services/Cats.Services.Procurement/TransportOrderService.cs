@@ -363,6 +363,9 @@ namespace Cats.Services.Procurement
                                                     t =>
                                                     t.RequisitionID == detail.RequisitionID &&
                                                     t.FDP.AdminUnitID == detail.WoredaID, null, "ReliefRequisition").ToList();
+
+                        //alreadyExistingTO.BidID = transporterAssignedRequisionDetail.BidID;
+
                         foreach (var reliefRequisitionDetail in requisionsDetails)
                         {
                             var transportOrderDetail = new TransportOrderDetail();
@@ -400,7 +403,8 @@ namespace Cats.Services.Procurement
                         transportOrder.StartDate = DateTime.Today.AddDays(3);
                         transportOrder.EndDate = DateTime.Today.AddDays(13);
                         transportOrder.StatusID = (int)TransportOrderStatus.Draft;
-                        
+                        //transportOrder.BidID = transporterAssignedRequisionDetail.BidID;
+
                         var firstOrDefault = _unitOfWork.BidWinnerRepository.Get(t => t.TransporterID == id && t.SourceID == detail.HubID && t.DestinationID == detail.WoredaID).FirstOrDefault();
                         if (firstOrDefault != null)
                             transportOrder.BidDocumentNo = firstOrDefault.Bid.BidNumber;
@@ -490,8 +494,11 @@ namespace Cats.Services.Procurement
                 transportRequisition.RequisitionID = reliefRequisitionDetail.RequisitionID;
                 transportRequisition.HubID = _unitOfWork.HubAllocationRepository.FindBy(t => t.RequisitionID == reliefRequisitionDetail.RequisitionID).FirstOrDefault().HubID;//requi.HubAllocations.FirstOrDefault().HubID;
                 transportRequisition.WoredaID = reliefRequisitionDetail.FDP.AdminUnitID;
+               
                 var transportBidWinners = _transporterService.GetBidWinner(transportRequisition.HubID,
                                                                           transportRequisition.WoredaID);
+
+                 
                 //_unitOfWork.BidWinnerRepository.Get(
                 //    t => t.SourceID == transportRequisition.HubID && t.DestinationID == transportRequisition.WoredaID).FirstOrDefault();
                 if (transportBidWinners == null)
@@ -509,6 +516,7 @@ namespace Cats.Services.Procurement
                     //TODO: these commented lines should be figured out how they affect the rest of the code
                     foreach (var transportBidWinner in transportBidWinners)
                     {
+                        //transportRequisition.BidID = transportBidWinner.BidID;
                         transportRequisition.TransporterIDs.Add(transportBidWinner.TransporterID);
                         transportRequisition.TariffPerQtl = transportBidWinner.Tariff != null ? (decimal)transportBidWinner.Tariff : 0;
                     }
@@ -694,6 +702,13 @@ namespace Cats.Services.Procurement
             public List<int> TransporterIDs { get; set; }
             public decimal TariffPerQtl { get; set; }
             public int TransportRequisitionDetailID { get; set; }
+            //public int? BidID { get; set; }
+
+            public TransporterRequisition()
+            {
+                TransporterIDs = new List<int>();
+            }
+            
         }
 
         public List<Hub> GetHubs()
