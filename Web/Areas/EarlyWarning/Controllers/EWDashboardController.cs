@@ -303,5 +303,92 @@ namespace Cats.Areas.EarlyWarning.Controllers
                 };
             return Json(hrdAndRequestViewModel, JsonRequestBehavior.AllowGet);
         }
+
+        public JsonResult GetCurrentHrdStatistics()
+        {
+            var currentHrd = GetCurrentHrd();
+            List<HrdTillDistributionViewModel> hrdTitllDistributionInfo =new List<HrdTillDistributionViewModel>();
+            if (currentHrd!=null)
+            {
+                var requests = _eWDashboardService.FindByRequest(m => m.PlanID == currentHrd.PlanID);
+                if (requests!=null)
+                {
+                    var requisitions = (from requisition in _eWDashboardService.GetAllReliefRequisition()
+                                        from request in requests
+                                        where requisition.RegionalRequestID == request.RegionalRequestID
+                                        select new
+                                            {
+                                                requisitionID = requisition.RequisitionID,
+                                                requisitionNo = requisition.RequisitionNo
+                                            }).Select(m=>m.requisitionNo).ToList();
+                    var dispatches = _eWDashboardService.GetDispatches(requisitions);
+
+
+
+                    if (dispatches != null)
+                    {
+                        var groupedDispaches = (from dispatch in dispatches
+                                                group dispatch by dispatch.FDP.AdminUnit.AdminUnit2.AdminUnit2
+                                                into regionalDispatches
+                                                select new
+                                                    {
+                                                        Region = regionalDispatches.Key,
+                                                        dispatchAmount =
+                                                    regionalDispatches.FirstOrDefault().DispatchDetails.Sum(
+                                                        m => m.RequestedQuantityInMT)
+                                                    });
+                        var dispatchID = dispatches.Select(m => m.DispatchID).Distinct().ToList();
+                        var deliveries = _eWDashboardService.GetDeliveries(dispatchID);
+
+                        hrdTitllDistributionInfo = (from dispatch in groupedDispaches
+                                                    select new HrdTillDistributionViewModel
+                                                        {
+                                                            Region = dispatch.Region.Name,
+                                                            DispatchedAmount = dispatch.dispatchAmount,
+                                                            DeliveredAmount = (from delivery in deliveries
+                                                                               where delivery.FDP.AdminUnit.AdminUnit2.AdminUnit2.AdminUnitID==dispatch.Region.AdminUnitID
+                                                                               group delivery by delivery.FDP.AdminUnit.AdminUnit2.AdminUnit2 into regionalDelievery
+                                                                               select new
+                                                                                    {
+                                                                                        deliveredqty=dispatches.FirstOrDefault().DispatchDetails.Sum(m=>m.RequestedQuantityInMT)
+                                                                                    }).Select(m=>m.deliveredqty).FirstOrDefault(),
+                                                            DistributedAmount =
+                                                                GetDistributionInfo(dispatch.Region.AdminUnitID)
+                                                        }).ToList();
+
+
+                    }
+
+                }
+            }
+            return Json(hrdTitllDistributionInfo, JsonRequestBehavior.AllowGet);
+        }
+        private decimal GetDistributionInfo(int regionID)
+        {
+            var currentHrd = GetCurrentHrd();
+            if (currentHrd !=null)
+            {
+                var distributions = _eWDashboardService.GetDistributions(currentHrd.PlanID);
+                if (distributions!=null)
+                {
+                    var regionGrouped = (from distribution in distributions
+                                         where distribution.AdminUnit.AdminUnit2.AdminUnit2.AdminUnitID == regionID
+                                         group distribution by distribution.AdminUnit.AdminUnit2.AdminUnit2 into regionalDistribution
+                                         select new
+                                             {
+                                                 Region = regionalDistribution.Key,
+                                                 distributedAmount =
+                                             regionalDistribution.FirstOrDefault().WoredaStockDistributionDetails.Sum(
+                                                 m => m.DistributedAmount)
+                                             }).Select(m => m.distributedAmount).FirstOrDefault();
+
+
+                    return regionGrouped;
+
+                }
+                return 0;
+            }
+            return 0;
+        }
     }
 }
