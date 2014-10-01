@@ -444,7 +444,7 @@ namespace Cats.Services.EarlyWarning
 
                     foreach (var reliefRequisition in requisitions)
                     {
-                        if (reliefRequisition.Status > 2)
+                        if (reliefRequisition.Status > (int)ReliefRequisitionStatus.Approved && reliefRequisition.Status!=(int)ReliefRequisitionStatus.Rejected)
                         {
                             return false;
                         }
