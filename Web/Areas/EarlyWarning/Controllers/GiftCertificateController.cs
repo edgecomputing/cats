@@ -121,7 +121,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                 var shippingInstructionID = _shippingInstructionService.GetSiNumber(giftcertificateViewModel.SINumber).ShippingInstructionID;
                 giftCertificate.ShippingInstructionID = shippingInstructionID;
                 _giftCertificateService.AddGiftCertificate(giftCertificate);
-                return RedirectToAction("Edit", new { id=giftCertificate.GiftCertificateID});
+                return RedirectToAction("Index");
             }
 
             PopulateLookup();
@@ -138,8 +138,9 @@ namespace Cats.Areas.EarlyWarning.Controllers
                 giftCertificateDetailsViewModel.GiftCertificateID = id.Value;
                 var giftcertifiateDtail = GiftCertificateViewModelBinder.BindGiftCertificateDetail(giftCertificateDetailsViewModel);
                 _giftCertificateDetailService.AddGiftCertificateDetail(giftcertifiateDtail);
+                return RedirectToAction("Index");
             }
-
+            //return RedirectToAction("Index");
             return Json(new[] { giftCertificateDetailsViewModel }.ToDataSourceResult(request, ModelState));
         }
 
@@ -182,6 +183,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
                     _giftCertificateDetailService.EditGiftCertificateDetail(target);
                 }
+                return RedirectToAction("Index");
             }
 
             return Json(new[] { giftCertificateDetailsViewModel }.ToDataSourceResult(request, ModelState));

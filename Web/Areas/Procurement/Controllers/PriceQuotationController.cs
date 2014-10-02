@@ -720,7 +720,10 @@ namespace Cats.Areas.Procurement.Controllers
 
             foreach (var transportBidQuotationHeader in comparable)
             {
-                tr.AddRange(transportBidQuotationHeader.TransportBidQuotations);
+                   
+                        tr.AddRange(transportBidQuotationHeader.TransportBidQuotations);
+                   
+
                 //transportBidQuotationHeader.TransportBidQuotations
             }
 
@@ -732,6 +735,7 @@ namespace Cats.Areas.Procurement.Controllers
             {
                 var grouped = (
                                   from r in rawData
+                                  where r.Tariff>0
                                   group r by new
                                       {
                                           r.DestinationID,

@@ -707,7 +707,7 @@ namespace Cats.Areas.Procurement.Controllers
         public ActionResult MultipleApproval()
         {
             var draftTransportOrders = _transportOrderService.FindBy(m => m.StatusID == (int) TransportOrderStatus.Draft);
-            if(draftTransportOrders==null)
+            if(draftTransportOrders.Count==0)
             {
                 TempData["CustomError"] = "There are no draft Transport Orders to be Approved! ";
                 return RedirectToAction("Index");
