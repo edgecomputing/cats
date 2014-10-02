@@ -26,7 +26,9 @@ namespace Cats.Services.Hub
             this._unitOfWork = unitOfWork;
             this._shippingInstructionService = shippingInstructionService;
         }
+
         #region Default Service Implementation
+
         public bool AddDispatchAllocation(DispatchAllocation dispatchAllocation)
         {
             _unitOfWork.DispatchAllocationRepository.Add(dispatchAllocation);
@@ -34,6 +36,7 @@ namespace Cats.Services.Hub
             return true;
 
         }
+
         public bool EditDispatchAllocation(DispatchAllocation dispatchAllocation)
         {
             _unitOfWork.DispatchAllocationRepository.Edit(dispatchAllocation);
@@ -41,6 +44,7 @@ namespace Cats.Services.Hub
             return true;
 
         }
+
         public bool DeleteDispatchAllocation(DispatchAllocation dispatchAllocation)
         {
             if (dispatchAllocation == null) return false;
@@ -48,6 +52,7 @@ namespace Cats.Services.Hub
             _unitOfWork.Save();
             return true;
         }
+
         public bool DeleteById(int id)
         {
             var entity = _unitOfWork.DispatchAllocationRepository.FindById(id);
@@ -56,24 +61,30 @@ namespace Cats.Services.Hub
             _unitOfWork.Save();
             return true;
         }
+
         public List<DispatchAllocation> GetAllDispatchAllocation()
         {
             return _unitOfWork.DispatchAllocationRepository.GetAll();
         }
+
         public DispatchAllocation FindById(int id)
         {
             return _unitOfWork.DispatchAllocationRepository.FindById(id);
         }
+
         public DispatchAllocation FindById(System.Guid id)
         {
             return _unitOfWork.DispatchAllocationRepository.Get(t => t.DispatchAllocationID == id).FirstOrDefault();
 
         }
+
         public List<DispatchAllocation> FindBy(Expression<Func<DispatchAllocation, bool>> predicate)
         {
             return _unitOfWork.DispatchAllocationRepository.FindBy(predicate);
         }
+
         #endregion
+
         /// <summary>
         /// Gets the balance of an SI number commodity .
         /// </summary>
@@ -85,7 +96,9 @@ namespace Cats.Services.Hub
         {
             var total = (from tr in _unitOfWork.TransactionRepository.GetAll()
                          where tr.LedgerID == Cats.Models.Ledger.Constants.GOODS_ON_HAND_UNCOMMITED
-                     && tr.ShippingInstructionID == siNumber && (tr.CommodityID == commodityId || tr.ParentCommodityID == commodityId) && tr.HubID == hubId
+                               && tr.ShippingInstructionID == siNumber &&
+                               (tr.CommodityID == commodityId || tr.ParentCommodityID == commodityId) &&
+                               tr.HubID == hubId
                          select tr.QuantityInMT);
             if (total.Any())
             {
@@ -101,7 +114,10 @@ namespace Cats.Services.Hub
         /// <returns></returns>
         public List<DispatchAllocation> GetUncommitedAllocationsByHub(int hubId)
         {
-            return _unitOfWork.DispatchAllocationRepository.Get(p => p.HubID == hubId && !p.ShippingInstructionID.HasValue && !p.ProjectCodeID.HasValue, null, "FDP,FDP.AdminUnit,FDP.AdminUnit.AdminUnit2").ToList();
+            return
+                _unitOfWork.DispatchAllocationRepository.Get(
+                    p => p.HubID == hubId && !p.ShippingInstructionID.HasValue && !p.ProjectCodeID.HasValue, null,
+                    "FDP,FDP.AdminUnit,FDP.AdminUnit.AdminUnit2").ToList();
         }
 
         /// <summary>
@@ -122,10 +138,12 @@ namespace Cats.Services.Hub
         /// <param name="hubId">The hub id.</param>
         /// <param name="UnComitted">if set to <c>true</c> [un comitted].</param>
         /// <returns></returns>
-        public List<DispatchAllocation> GetAllocations(string RequisitionNo, int CommodityID, int hubId, bool UnComitted, string PreferedWeightMeasurment)
+        public List<DispatchAllocation> GetAllocations(string RequisitionNo, int CommodityID, int hubId, bool UnComitted,
+                                                       string PreferedWeightMeasurment)
         {
-            var list = _unitOfWork.DispatchAllocationRepository.Get(p => p.RequisitionNo == RequisitionNo && p.HubID == hubId
-                && p.CommodityID == CommodityID);
+            var list =
+                _unitOfWork.DispatchAllocationRepository.Get(p => p.RequisitionNo == RequisitionNo && p.HubID == hubId
+                                                                  && p.CommodityID == CommodityID);
             if (UnComitted)
             {
                 list = list.Where(p => !p.ShippingInstructionID.HasValue && !p.ProjectCodeID.HasValue);
@@ -133,7 +151,8 @@ namespace Cats.Services.Hub
             foreach (var dispatchAllocation in list)
             {
                 //dispatchAllocation.AmontInUnit = dispatchAllocation.Amount;TODO if we were 
-                if (PreferedWeightMeasurment.ToUpperInvariant() == "MT" && dispatchAllocation.Commodity.CommodityTypeID == 1)
+                if (PreferedWeightMeasurment.ToUpperInvariant() == "MT" &&
+                    dispatchAllocation.Commodity.CommodityTypeID == 1)
                 {
                     dispatchAllocation.Amount /= 10;
                 }
@@ -151,7 +170,8 @@ namespace Cats.Services.Hub
         /// <returns></returns>
         public List<DispatchAllocation> GetAllocations(string RequisitionNo, int hubId, bool UnComitted)
         {
-            var list = _unitOfWork.DispatchAllocationRepository.Get(p => p.RequisitionNo == RequisitionNo && p.HubID == hubId);
+            var list =
+                _unitOfWork.DispatchAllocationRepository.Get(p => p.RequisitionNo == RequisitionNo && p.HubID == hubId);
             if (UnComitted)
             {
                 list = list.Where(p => !p.ShippingInstructionID.HasValue && !p.ProjectCodeID.HasValue);
@@ -251,17 +271,18 @@ namespace Cats.Services.Hub
                 _unitOfWork.TransactionRepository.Get(
                     t => t.LedgerID == Cats.Models.Ledger.Constants.GOODS_ON_HAND_UNCOMMITED && t.HubID == hubID);
             var list = (from ls in tempTransactions
-                        group ls by new { ls.ShippingInstruction, ls.ProjectCode, ls.Commodity, ls.Program } into si
+                        group ls by new {ls.ShippingInstruction, ls.ProjectCode, ls.Commodity, ls.Program}
+                        into si
                         select new SIBalance()
-                        {
-                            SINumber = si.Key.ShippingInstruction.Value,
-                            AvailableBalance = si.Sum(p => p.QuantityInMT),
-                            Commodity = si.Key.Commodity.Name,
-                            Project = si.Key.ProjectCode.Value,
-                            Program = si.Key.Program.Name,
-                            SINumberID = si.Key.ShippingInstruction.ShippingInstructionID,
-                            ProjectCodeID = si.Key.ProjectCode.ProjectCodeID
-                        }).ToList();
+                                   {
+                                       SINumber = si.Key.ShippingInstruction.Value,
+                                       AvailableBalance = si.Sum(p => p.QuantityInMT),
+                                       Commodity = si.Key.Commodity.Name,
+                                       Project = si.Key.ProjectCode.Value,
+                                       Program = si.Key.Program.Name,
+                                       SINumberID = si.Key.ShippingInstruction.ShippingInstructionID,
+                                       ProjectCodeID = si.Key.ProjectCode.ProjectCodeID
+                                   }).ToList();
 
             return list;
         }
@@ -273,13 +294,14 @@ namespace Cats.Services.Hub
         public List<CommodityBalance> GetSIBalancesGroupedByCommodity(int hubID)
         {
             var list = (from ls in GetSIBalances(hubID)
-                        group ls by new { ls.Commodity } into si
+                        group ls by new {ls.Commodity}
+                        into si
                         select new CommodityBalance()
-                        {
-                            Commodity = si.Key.Commodity,
-                            Balances = si.ToList()
+                                   {
+                                       Commodity = si.Key.Commodity,
+                                       Balances = si.ToList()
 
-                        }).ToList();
+                                   }).ToList();
 
             return list;
         }
@@ -313,7 +335,11 @@ namespace Cats.Services.Hub
                     p => p.HubID == hubId && p.ShippingInstructionID.HasValue && p.ProjectCodeID.HasValue).ToList();
         }
 
-        public List<DispatchAllocationViewModelDto> GetCommitedAllocationsByHubDetached(int hubId, string PreferedWeightMeasurment, bool? closedToo, int? AdminUnitId, int? CommodityType)
+        public List<DispatchAllocationViewModelDto> GetCommitedAllocationsByHubDetached(int hubId,
+                                                                                        string PreferedWeightMeasurment,
+                                                                                        bool? closedToo,
+                                                                                        int? AdminUnitId,
+                                                                                        int? CommodityType)
         {
             List<DispatchAllocationViewModelDto> GetUncloDetacheced = new List<DispatchAllocationViewModelDto>();
             //TODO:Check whether both si and pc is required for checking
@@ -321,22 +347,22 @@ namespace Cats.Services.Hub
                 _unitOfWork.DispatchAllocationRepository.Get(
                     t => (t.ShippingInstructionID.HasValue || t.ProjectCodeID.HasValue)
                          && hubId == t.HubID
-                         );
+                    );
 
 
             if (AdminUnitId.HasValue)
             {
                 AdminUnit adminunit = _unitOfWork.AdminUnitRepository.FindById(AdminUnitId.Value);
 
-                if (adminunit.AdminUnitType.AdminUnitTypeID == 2)//by region
+                if (adminunit.AdminUnitType.AdminUnitTypeID == 2) //by region
                     unclosed =
                         unclosed.Where(p => p.FDP.AdminUnit.AdminUnit2.AdminUnit2.AdminUnitID == AdminUnitId.Value);
-                else if (adminunit.AdminUnitType.AdminUnitTypeID == 3)//by zone
+                else if (adminunit.AdminUnitType.AdminUnitTypeID == 3) //by zone
                     unclosed =
-                            unclosed.Where(p => p.FDP.AdminUnit.AdminUnit2.AdminUnitID == AdminUnitId.Value);
-                else if (adminunit.AdminUnitType.AdminUnitTypeID == 4)//by woreda
+                        unclosed.Where(p => p.FDP.AdminUnit.AdminUnit2.AdminUnitID == AdminUnitId.Value);
+                else if (adminunit.AdminUnitType.AdminUnitTypeID == 4) //by woreda
                     unclosed =
-                            unclosed.Where(p => p.FDP.AdminUnit.AdminUnitID == AdminUnitId.Value);
+                        unclosed.Where(p => p.FDP.AdminUnit.AdminUnitID == AdminUnitId.Value);
                 //DAVMD.Region = adminunit.FDP.AdminUnit.AdminUnit2.AdminUnit2.;
                 //DAVMD.Zone = adminunit.FDP.AdminUnit.AdminUnit2.Name;
                 //DAVMD.Woreda = adminunit.FDP.AdminUnit.Name;
@@ -358,13 +384,14 @@ namespace Cats.Services.Hub
             }
             else
             {
-                unclosed = unclosed.Where(p => p.Commodity.CommodityTypeID == 1);//by default
+                unclosed = unclosed.Where(p => p.Commodity.CommodityTypeID == 1); //by default
             }
 
             foreach (var dispatchAllocation in unclosed)
             {
                 var DAVMD = new DispatchAllocationViewModelDto();
-                if (PreferedWeightMeasurment.ToUpperInvariant() == "MT " && dispatchAllocation.Commodity.CommodityTypeID == 1) //only for food
+                if (PreferedWeightMeasurment.ToUpperInvariant() == "MT " &&
+                    dispatchAllocation.Commodity.CommodityTypeID == 1) //only for food
                 {
                     DAVMD.Amount = dispatchAllocation.Amount;
                     DAVMD.DispatchedAmount = dispatchAllocation.DispatchedAmount;
@@ -372,9 +399,9 @@ namespace Cats.Services.Hub
                 }
                 else
                 {
-                    DAVMD.Amount = dispatchAllocation.Amount * 10;
-                    DAVMD.DispatchedAmount = dispatchAllocation.DispatchedAmount * 10;
-                    DAVMD.RemainingQuantityInQuintals = dispatchAllocation.RemainingQuantityInQuintals * 10;
+                    DAVMD.Amount = dispatchAllocation.Amount*10;
+                    DAVMD.DispatchedAmount = dispatchAllocation.DispatchedAmount*10;
+                    DAVMD.RemainingQuantityInQuintals = dispatchAllocation.RemainingQuantityInQuintals*10;
                 }
                 DAVMD.DispatchAllocationID = dispatchAllocation.DispatchAllocationID;
                 DAVMD.CommodityName = dispatchAllocation.Commodity.Name;
@@ -399,7 +426,8 @@ namespace Cats.Services.Hub
 
         }
 
-        public List<DispatchAllocationViewModelDto> GetCommitedAllocationsByHubDetached(int hubId, string PreferedWeightMeasurment)
+        public List<DispatchAllocationViewModelDto> GetCommitedAllocationsByHubDetached(int hubId,
+                                                                                        string PreferedWeightMeasurment)
         {
             List<DispatchAllocationViewModelDto> GetUncloDetacheced = new List<DispatchAllocationViewModelDto>();
             var unclosed =
@@ -448,11 +476,12 @@ namespace Cats.Services.Hub
             foreach (var dispatchAllocation in unclosed)
             {
                 var DAVMD = new DispatchAllocationViewModelDto();
-                if (PreferedWeightMeasurment.ToUpperInvariant() == "MT" && dispatchAllocation.Commodity.CommodityTypeID == 1) //only for food
+                if (PreferedWeightMeasurment.ToUpperInvariant() == "MT" &&
+                    dispatchAllocation.Commodity.CommodityTypeID == 1) //only for food
                 {
-                    DAVMD.Amount = dispatchAllocation.Amount / 10;
-                    DAVMD.DispatchedAmount = dispatchAllocation.DispatchedAmount / 10;
-                    DAVMD.RemainingQuantityInQuintals = dispatchAllocation.RemainingQuantityInQuintals / 10;
+                    DAVMD.Amount = dispatchAllocation.Amount/10;
+                    DAVMD.DispatchedAmount = dispatchAllocation.DispatchedAmount/10;
+                    DAVMD.RemainingQuantityInQuintals = dispatchAllocation.RemainingQuantityInQuintals/10;
                 }
                 else
                 {
@@ -483,13 +512,13 @@ namespace Cats.Services.Hub
 
         }
 
-      
+
         public List<BidRefViewModel> GetAllBidRefsForReport()
         {
             var tempDispatchAllocations = _unitOfWork.DispatchAllocationRepository.Get(t => t.BidRefNo != string.Empty);
             var BidRefs = (from b in tempDispatchAllocations
                            select
-                               new BidRefViewModel() { BidRefId = b.BidRefNo, BidRefText = b.BidRefNo })
+                               new BidRefViewModel() {BidRefId = b.BidRefNo, BidRefText = b.BidRefNo})
                 .Distinct().ToList();
             return BidRefs;
         }
@@ -502,11 +531,12 @@ namespace Cats.Services.Hub
         /// <returns></returns>
         public List<string> GetAvailableRequisionNumbers(int HubId, bool UnCommited)
         {
-           var allocations = _unitOfWork.DispatchAllocationRepository.Get(t => t.HubID == HubId);
-            
+            var allocations = _unitOfWork.DispatchAllocationRepository.Get(t => t.HubID == HubId);
+
             if (UnCommited)
             {
-                allocations = allocations.Where(p => !(p.ShippingInstructionID.HasValue || p.ProjectCodeID.HasValue)).ToList();
+                allocations =
+                    allocations.Where(p => !(p.ShippingInstructionID.HasValue || p.ProjectCodeID.HasValue)).ToList();
             }
 
             return allocations.Select(p => p.RequisitionNo).Distinct().ToList();
@@ -566,8 +596,8 @@ namespace Cats.Services.Hub
         public List<RequisitionSummary> GetSummaryForCommitedAllocations(int hubId)
         {
             var tempDispatchAllocations =
-                  _unitOfWork.DispatchAllocationRepository.Get(
-                      t => t.IsClosed != false && t.ProgramID != null && t.Year != null);
+                _unitOfWork.DispatchAllocationRepository.Get(
+                    t => t.IsClosed != false && t.ProgramID != null && t.Year != null);
             var CommitedDispatches = (from v in tempDispatchAllocations
                                       select
                                           new RequisitionSummary
@@ -602,10 +632,10 @@ namespace Cats.Services.Hub
 
                 if (IsFood)
                     balance = _shippingInstructionService.GetBalance(hubID, commodityId,
-                                                                                 si.ShippingInstructionID);
+                                                                     si.ShippingInstructionID);
                 else
                     balance = _shippingInstructionService.GetBalanceInUnit(hubID, commodityId,
-                                                                               si.ShippingInstructionID);
+                                                                           si.ShippingInstructionID);
                 //if (balance.Dispatchable > 0)//buggy if the in store balance is less than 0 it will be replaced by the data by receipt allocation data
                 if (balance != null)
                     result.Add(balance);
@@ -683,7 +713,7 @@ namespace Cats.Services.Hub
                 delAllocation.IsClosed = true;
             _unitOfWork.Save();
         }
-       
+
         public void Dispose()
         {
             _unitOfWork.Dispose();
@@ -692,7 +722,11 @@ namespace Cats.Services.Hub
 
 
 
-        public IEnumerable<DispatchAllocation> Get(Expression<Func<DispatchAllocation, bool>> filter = null, Func<IQueryable<DispatchAllocation>, IOrderedQueryable<DispatchAllocation>> orderBy = null, string includeProperties = "")
+        public IEnumerable<DispatchAllocation> Get(Expression<Func<DispatchAllocation, bool>> filter = null,
+                                                   Func
+                                                       <IQueryable<DispatchAllocation>,
+                                                       IOrderedQueryable<DispatchAllocation>> orderBy = null,
+                                                   string includeProperties = "")
         {
             return _unitOfWork.DispatchAllocationRepository.Get(filter, null, includeProperties);
         }
@@ -700,34 +734,41 @@ namespace Cats.Services.Hub
 
         public List<DispatchViewModel> GetTransportOrderDispatches(int transportOrderId)
         {
-           //Get List of dispatch allocation with passed transporterId
+            //Get List of dispatch allocation with passed transporterId
             var dispatchAllocationIds =
-                _unitOfWork.DispatchAllocationRepository.Get(t => t.TransportOrderID == transportOrderId).Select(t=>t.DispatchAllocationID).ToList();
+                _unitOfWork.DispatchAllocationRepository.Get(t => t.TransportOrderID == transportOrderId).Select(
+                    t => t.DispatchAllocationID).ToList();
             var dispatches =
-                _unitOfWork.DispatchRepository.Get(t => dispatchAllocationIds.Contains(t.DispatchAllocationID.Value), null, "DispatchDetails,FDP,FDP.AdminUnit,FDP.AdminUnit.AdminUnit2.AdminUnit2,FDP.AdminUnit.AdminUnit2").ToList();
-        
+                _unitOfWork.DispatchRepository.Get(t => dispatchAllocationIds.Contains(t.DispatchAllocationID.Value),
+                                                   null,
+                                                   "DispatchDetails,FDP,FDP.AdminUnit,FDP.AdminUnit.AdminUnit2.AdminUnit2,FDP.AdminUnit.AdminUnit2")
+                    .ToList();
+
             var dispatchViewModels = MapDispatchToDispatchViewModel(dispatches);
             return dispatchViewModels;
         }
-        private List<DispatchViewModel> MapDispatchToDispatchViewModel(List<Dispatch> dispatches )
+
+        private List<DispatchViewModel> MapDispatchToDispatchViewModel(List<Dispatch> dispatches)
         {
-            List< DispatchViewModel> dispatchViewModels=new List<DispatchViewModel>();
+            List<DispatchViewModel> dispatchViewModels = new List<DispatchViewModel>();
             foreach (var dispatch in dispatches)
             {
                 var id1 = dispatch.DispatchAllocationID.Value;
-               var dispatchAllocation = _unitOfWork.DispatchAllocationRepository.Get(t=>t.DispatchAllocationID==id1,null,"Program").FirstOrDefault();
+                var dispatchAllocation =
+                    _unitOfWork.DispatchAllocationRepository.Get(t => t.DispatchAllocationID == id1, null, "Program").
+                        FirstOrDefault();
 
                 var dispatchViewModel = new DispatchViewModel();
                 dispatchViewModel.BidNumber = dispatch.BidNumber;
                 dispatchViewModel.CreatedDate = dispatch.CreatedDate;
-               
+
                 dispatchViewModel.DispatchAllocationID = dispatch.DispatchAllocationID.Value;
                 dispatchViewModel.DispatchDate = dispatch.DispatchDate;
                 dispatchViewModel.DispatchID = dispatch.DispatchID;
                 dispatchViewModel.DispatchedByStoreMan = dispatch.DispatchedByStoreMan;
                 dispatchViewModel.DriverName = dispatch.DriverName;
-                if(dispatch.FDPID.HasValue)
-                dispatchViewModel.FDPID = dispatch.FDPID.Value;
+                if (dispatch.FDPID.HasValue)
+                    dispatchViewModel.FDPID = dispatch.FDPID.Value;
                 dispatchViewModel.FDP = dispatch.FDP.Name;
                 dispatchViewModel.Region = dispatch.FDP.AdminUnit.AdminUnit2.AdminUnit2.Name;
                 dispatchViewModel.Zone = dispatch.FDP.AdminUnit.AdminUnit2.Name;
@@ -737,38 +778,63 @@ namespace Cats.Services.Hub
                 // dispatch.ProgramID = dispatchAllocation.ProgramID;
                 dispatchViewModel.Program = dispatchAllocation.Program.Name;
 
-                    dispatchViewModel.Month = dispatch.PeriodMonth;
-                
-                    dispatchViewModel.Year = dispatch.PeriodYear;
+                dispatchViewModel.Month = dispatch.PeriodMonth;
+
+                dispatchViewModel.Year = dispatch.PeriodYear;
                 dispatchViewModel.PlateNo_Prime = dispatch.PlateNo_Prime;
                 dispatchViewModel.PlateNo_Trailer = dispatch.PlateNo_Trailer;
                 dispatchViewModel.Remark = dispatch.Remark;
                 dispatchViewModel.RequisitionNo = dispatch.RequisitionNo;
-                dispatchViewModel.ProgramID = dispatchAllocation.ProgramID.HasValue ? dispatchAllocation.ProgramID.Value : 0;
-               
-                    dispatchViewModel.Round = dispatch.Round;
-              
-                    dispatchViewModel.TransporterID = dispatch.TransporterID;
+                dispatchViewModel.ProgramID = dispatchAllocation.ProgramID.HasValue
+                                                  ? dispatchAllocation.ProgramID.Value
+                                                  : 0;
+
+                dispatchViewModel.Round = dispatch.Round;
+
+                dispatchViewModel.TransporterID = dispatch.TransporterID;
 
                 dispatchViewModel.WeighBridgeTicketNumber = dispatch.WeighBridgeTicketNumber;
 
-                 var dispatchDetail = dispatch.DispatchDetails.FirstOrDefault();
-                 dispatchViewModel.CommodityID = dispatchDetail.CommodityID;
-                 dispatchViewModel.Commodity = dispatchDetail.Commodity.Name;
+                var dispatchDetail = dispatch.DispatchDetails.FirstOrDefault();
+                dispatchViewModel.CommodityID = dispatchDetail.CommodityID;
+                dispatchViewModel.Commodity = dispatchDetail.Commodity.Name;
                 //dispatch.DispatchDetailID = Guid.NewGuid();
-                 dispatchViewModel.DispatchID = dispatchDetail.DispatchID;
+                dispatchViewModel.DispatchID = dispatchDetail.DispatchID;
                 dispatchViewModel.Quantity = dispatchDetail.RequestedQuantityInMT;
                 dispatchViewModel.QuantityInUnit = dispatchDetail.RequestedQunatityInUnit;
                 dispatchViewModel.UnitID = dispatchDetail.UnitID;
                 dispatchViewModel.ShippingInstructionID = dispatchAllocation.ShippingInstructionID;
                 dispatchViewModel.ProjectCodeID = dispatchAllocation.ProjectCodeID;
-            
-                
+
+
                 dispatchViewModels.Add(dispatchViewModel);
-               
+
             }
             return dispatchViewModels;
-        } 
+        }
+
+        public List<DispatchViewModel> GetAllTransportersWithoutGrn()
+        {
+            var dispatchAllocationIds =
+                _unitOfWork.DispatchAllocationRepository.GetAll().Select(t => t.DispatchAllocationID).ToList();
+            var dispatches =
+                _unitOfWork.DispatchRepository.Get(t => dispatchAllocationIds.Contains(t.DispatchAllocationID.Value),
+                                                   null, "DispatchDetails")
+                    .ToList();
+
+            List<DispatchViewModel> dispatchViewModels = new List<DispatchViewModel>();
+            foreach (var dispatch in dispatches)
+            {
+                var dispatchViewModel = new DispatchViewModel();
+                dispatchViewModel.DispatchID = dispatch.DispatchID;
+                dispatchViewModel.DispatchDate = dispatch.DispatchDate;
+                dispatchViewModel.Transporter = dispatch.Transporter.Name;
+                dispatchViewModel.BidNumber = dispatch.BidNumber;
+                dispatchViewModel.FDP = dispatch.FDP.Name;
+                dispatchViewModels.Add(dispatchViewModel);
+            }
+            return dispatchViewModels;
+        }
     }
 }
 
