@@ -182,6 +182,7 @@ namespace Cats.Services.Hub
            string includeProperties = "");
 
         List<DispatchViewModel> GetTransportOrderDispatches(int transportOrderId);
+        List<DispatchViewModel> GetAllTransportersWithoutGrn();
     }
 }
 

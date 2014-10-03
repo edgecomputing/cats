@@ -82,7 +82,7 @@ namespace Cats.Areas.Finance.Controllers
 
         public ActionResult BidWinningTransporters_read([DataSourceRequest] DataSourceRequest request)
         {
-            var transprtersWithActiveTO = _transportOrderService.Get(t => t.StatusID == 3, null, "Transporter").Select(t => t.Transporter).Distinct();
+            var transprtersWithActiveTO = _transportOrderService.Get(t => t.StatusID > 3, null, "Transporter").Select(t => t.Transporter).Distinct();
             var winningTransprterViewModels = TransporterListViewModelBinder(transprtersWithActiveTO.ToList());
             return Json(winningTransprterViewModels.ToDataSourceResult(request));
         }
@@ -109,10 +109,10 @@ namespace Cats.Areas.Finance.Controllers
             var datePref = currentUser.DatePreference;
             ViewBag.TargetController = "ValidatedPaymentRequest";
             var list = (IEnumerable<Cats.Models.TransporterPaymentRequest>)_transporterPaymentRequestService
-                        .Get(t => t.BusinessProcess.CurrentState.BaseStateTemplate.StateNo >= 2, null, "BusinessProcess")
+                        .Get(t => t.BusinessProcess.CurrentState.BaseStateTemplate.StateNo >= 2 && t.TransportOrder.TransporterID == transporterID, null, "BusinessProcess")
                         .OrderByDescending(t => t.TransporterPaymentRequestID);
             var transporterPaymentRequests = TransporterPaymentRequestViewModelBinder(list.ToList());
-            var transportOrder = _transportOrderService.Get(t => t.TransporterID == transporterID && t.StatusID == 3, null, "Transporter").FirstOrDefault();
+            var transportOrder = _transportOrderService.Get(t => t.TransporterID == transporterID && t.StatusID >= 3, null, "Transporter").FirstOrDefault();
             var transportOrderViewModel = TransportOrderViewModelBinder.BindTransportOrderViewModel(transportOrder, datePref, statuses);
             ViewBag.TransportOrderViewModel = transportOrderViewModel;
             ViewBag.TransporterID = transportOrderViewModel.TransporterID;
@@ -448,6 +448,7 @@ namespace Cats.Areas.Finance.Controllers
                 {
                     var transporterChequeDetail = new TransporterChequeDetail
                                                       {
+                                                        
                                                           TransporterPaymentRequestID = paymentRequest.TransporterPaymentRequestID
                                                       };
                     transporterChequeDetails.Add(transporterChequeDetail);
@@ -477,8 +478,8 @@ namespace Cats.Areas.Finance.Controllers
                     //_PaymentRequestservice.Create(request);
 
                     BusinessProcess bp = _businessProcessService.CreateBusinessProcess(BP_PR, transporterChequeObj.TransporterChequeId,
-                                                                                        "ValidatedPaymentRequest", createdstate);
-                    transporterChequeObj.BusinessProcessID = bp.BusinessProcessID;
+                                                                                    "ValidatedPaymentRequest", createdstate);
+                    if (bp != null) transporterChequeObj.BusinessProcessID = bp.BusinessProcessID;
                     transporterChequeObj.IssueDate = DateTime.Now;
                     _transporterChequeService.AddTransporterCheque(transporterChequeObj);
                     foreach (var paymentRequest in paymentRequestList)
