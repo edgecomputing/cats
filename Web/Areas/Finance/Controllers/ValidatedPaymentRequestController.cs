@@ -40,6 +40,7 @@ namespace Cats.Areas.Finance.Controllers
         private readonly IUserAccountService _userAccountService;
         private readonly IDispatchService _dispatchService;
         private readonly ITransporterChequeDetailService _transporterChequeDetailService;
+        private readonly ITransportOrderDetailService _transportOrderDetailService;
 
         public ValidatedPaymentRequestController(IBusinessProcessService paramBusinessProcessService
                                         , IBusinessProcessStateService paramBusinessProcessStateService
@@ -47,7 +48,10 @@ namespace Cats.Areas.Finance.Controllers
                                         , ITransportOrderService paramTransportOrderService
                                         , ITransporterAgreementVersionService transporterAgreementVersionService
                                         , IWorkflowStatusService workflowStatusService, ITransporterService transporterService
-                                        , ITransporterChequeService transporterChequeService, IUserProfileService userProfileService, ITransporterPaymentRequestService transporterPaymentRequestService, IBidWinnerService bidWinnerService, IUserAccountService userAccountService, IDispatchService dispatchService, ITransporterChequeDetailService transporterChequeDetailService)
+                                        , ITransporterChequeService transporterChequeService, IUserProfileService userProfileService 
+                                        ,ITransporterPaymentRequestService transporterPaymentRequestService, IBidWinnerService bidWinnerService
+                                        , IUserAccountService userAccountService, IDispatchService dispatchService
+                                       , ITransporterChequeDetailService transporterChequeDetailService,ITransportOrderDetailService transportOrderDetailService)
             {
 
                 _businessProcessService = paramBusinessProcessService;
@@ -64,6 +68,7 @@ namespace Cats.Areas.Finance.Controllers
                 _userAccountService = userAccountService;
                 _dispatchService = dispatchService;
                 _transporterChequeDetailService = transporterChequeDetailService;
+               _transportOrderDetailService = transportOrderDetailService;
             }
         //
         // GET: /Procurement/ValidatedPaymentRequest/
@@ -128,12 +133,15 @@ namespace Cats.Areas.Finance.Controllers
             {
                 var request = transporterPaymentRequest;
                 var dispatch = _dispatchService.Get(t => t.DispatchID == request.Delivery.DispatchID, null, "Hub, FDP").FirstOrDefault();
-                var firstOrDefault = _bidWinnerService.Get(t => t.SourceID == dispatch.HubID && t.DestinationID == dispatch.FDPID
-                    && t.TransporterID == request.TransportOrder.TransporterID && t.Bid.BidNumber == dispatch.BidNumber).FirstOrDefault();
+                var transportOrderdetail =
+                   _transportOrderDetailService.FindBy(
+                       m => m.TransportOrderID == request.TransportOrderID && m.SourceWarehouseID == dispatch.HubID && m.FdpID == dispatch.FDPID).FirstOrDefault();
+                //var firstOrDefault = _bidWinnerService.Get(t => t.SourceID == dispatch.HubID && t.DestinationID == dispatch.FDPID
+                //    && t.TransporterID == request.TransportOrder.TransporterID && t.Bid.BidNumber == dispatch.BidNumber).FirstOrDefault();
                 var tarrif = (decimal)0.00;
-                if (firstOrDefault != null)
+                if (transportOrderdetail != null)
                 {
-                    tarrif = firstOrDefault.Tariff != null ? (decimal)firstOrDefault.Tariff : (decimal)0.00;
+                    tarrif = (decimal)transportOrderdetail.TariffPerQtl;
                 }
                 if (dispatch != null && request.Delivery.DeliveryDetails.FirstOrDefault() != null)
                 {
