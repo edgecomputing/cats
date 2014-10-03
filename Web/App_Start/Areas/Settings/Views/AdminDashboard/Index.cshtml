@@ -1,0 +1,18 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+
+
+@section Leftbar
+{
+    @Html.Partial("_AdminLeftBar")
+}
+
+
+
+<h4> Administration Dashboard </h4>
+    <ul>
+        @Html.Partial("_DynamicAdminDashboard")
+</ul>

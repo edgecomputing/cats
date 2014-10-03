@@ -1,0 +1,958 @@
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+    const string PAGE_NAME = "EarlyWarning.Index";
+}
+
+@section styles
+{
+    <link href="~/Content/Dashboard/dashboardcomponents.css" rel="stylesheet" />
+}
+
+
+
+<div ng-app="myApp">
+
+    <div ng-controller="ImportantNumbersController" class="container">
+        <div>
+            <div class="pull-left {{Flag}}"></div>
+            <div><h3>Regional Dashboard for @ViewBag.RegionName</h3></div>
+        </div>
+
+        <hr />
+        <div class="container row">
+            <div class="span6">
+                <a href="javascript:;" class="dashboard-stat">
+                    <div class="visual">
+                        @*<i class="icon-star"></i>*@
+                    </div>
+                    <!-- /.visual -->
+                    <div class="details column-divider-regional center">
+                        <span class="content number">Total Requests</span>
+                        <span class="value number">{{Numbers.TotalRequests|number}}</span>
+                    </div>
+
+                    <div class="details column-divider-regional center">
+                        <span class="content number">Total Requisitions</span>
+                        <span class="value number">{{Numbers.TotalRequistions|number}}</span>
+                    </div>
+
+                </a>
+                <!-- /.dashboard-stat -->
+            </div>
+            <!-- /.col-md-3 -->
+
+            <div class="span3">
+
+                <a href="javascript:;" class="dashboard-stat">
+                    <div class="visual">
+                        @*<i class="icon-shopping-cart"></i>*@
+                    </div>
+                    <!-- /.visual -->
+                    <div class="details">
+                        <span class="content number">Total Number of FDPS</span>
+                        <span class="value number">{{Numbers.TotalFDPS|number}}</span>
+                    </div>
+                    <!-- /.details -->
+                </a>
+                <!-- /.dashboard-stat -->
+
+            </div>
+            <!-- /.col-md-3 -->
+
+            <div class="span3">
+
+                <a href="javascript:;" class="dashboard-stat">
+                    <div class="visual">
+                        @*<i class="icon-money"></i>*@
+                    </div>
+                    <!-- /.visual -->
+
+                    <div class="details">
+                        <span class="content number">Beneficiaries in Current HRD</span>
+                        <span class="value number">{{Numbers.TotalPeople|number}}</span>
+
+                    </div>
+                    <!-- /.details -->
+
+
+
+                </a>
+                <!-- /.dashboard-stat -->
+
+            </div>
+            <!-- /.col-md-9 -->
+        </div>
+        <hr />
+    </div>
+
+    <div ng-controller="RegionalDashboardController" class="container">
+
+        <div>
+            <div class="row" style="border-bottom-width: thin; border-bottom-color: #666; border-bottom-style: inset; margin-top: 5px">
+                <div class="pull-left">
+                    <h4>Requests</h4>
+                </div>
+                <div class="pull-right">
+                    <div class="btn-group">
+                        <button id="RequestHeader" type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
+                            <i class="icon-arrow-up"></i>
+                            <i class="icon-arrow-down"></i>
+                        </button>
+
+                    </div>
+                </div>
+            </div>
+            <div id="RequestContent" class="row">
+                <div>&nbsp;</div>
+                <div class="span8">
+                    <div class="portlet">
+                        <div class="portlet-header">
+                            <h3>
+                                <i class=""></i>
+                                Recent Requests
+                            </h3>
+                            <ul class="portlet-tools pull-right">
+                                <li>
+                                    <button class="btn btn-sm btn-default">
+                                        Show more
+                                    </button>
+                                    <button class="btn btn-sm btn-default">
+                                        New Request
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- /.portlet-header -->
+
+                        <div class="portlet-content">
+                            <th class="table-responsive">
+                                <table id="" class="table table-striped table-checkable">
+                                    <thead>
+                                        <tr>
+                                            <th class="hidden-xs">Number</th>
+                                            <th class="number">FDPS</th>
+                                            <th class="number">Beneficiaries</th>
+                                            <th class="number">Amount(QT)</th>
+                                            <th>Status</th>
+                                            <th>Detail</th>
+                                            @*<th class="align-center">Action</th>*@
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        <tr class="" ng-repeat="request in Requests">
+                                            <td class="hidden-xs">{{request.RequestNumber}}</td>
+                                            <td class="number">{{request.Month}}</td>
+                                            <td class="number">{{request.Beneficiaries|number}}</td>
+                                            <th class="number">{{request.Amount|number}} QT</th>
+                                            <td>
+                                                <div>
+                                                    <span>
+                                                        {{request.Status}}
+                                                    </span>
+                                                </div>
+                                            </td>
+                                            <th>
+                                                <a ng-click="viewRequest(request)" class="btn btn-sm btn-default">
+                                                    View <i class="icon-chevron-right"></i>
+                                                </a>
+                                            </th>
+                                           
+                                        </tr>
+                                    </tbody>
+                                </table>
+                        </div>
+                        <!-- /.table-responsive -->
+                    </div>
+                    <!-- /.portlet-content -->
+
+                </div>
+                <div class="span3">
+
+                    <div class="portlet">
+                        <div class="portlet-header">
+                            <h3>
+                                <i class=""></i>
+                                Requests Percentage
+                            </h3>
+                        </div>
+
+                        <!-- /.portlet-header -->
+                        <div class="portlet-content" ng-controller="stageController">
+                            <div id="containerPIE" class="chartWrap" draw-pie-chart=""></div>
+                        </div>
+
+                    </div>
+                    <!-- /.portlet -->
+                </div>
+                <!-- /.portlet -->
+            </div>
+        </div>
+
+        <div>
+            <div class="row" style="border-bottom-width: thin; border-bottom-color: #666; border-bottom-style: inset; margin-top: 5px">
+
+                <div class="pull-left">
+                    <h4>Requisitions</h4>
+                </div>
+                <div class="pull-right">
+                    <div class="btn-group">
+                        <button id="RequisitionHeader" type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
+                            <i class="icon-arrow-up"></i>
+                            <i class="icon-arrow-down"></i>
+                        </button>
+
+                    </div>
+                </div>
+            </div>
+            <div id="RequisitionContent" class="row">
+                <div>&nbsp;</div>
+                <div class="span8">
+                    <div class="portlet">
+                        <div class="portlet-header">
+                            <h3>
+                                <i class=""></i>
+                                Recent Requisitions
+                            </h3>
+                            <ul class="portlet-tools pull-right">
+                                <li>
+                                    <button class="btn btn-sm btn-default">
+                                        Show more
+                                    </button>
+
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- /.portlet-header -->
+                        <div class="portlet-content">
+                            <th class="table-responsive">
+                                <table id="" class="table table-striped table-checkable">
+                                    <thead>
+                                        <tr>
+                                            <th class="hidden-xs">Number</th>
+                                            <th>Commodity</th>
+                                            <th class="number">Beneficiaries</th>
+                                            <th class="number">Amount(QT)</th>
+                                            <th>Status</th>
+                                            <th class="align-center">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="" ng-repeat="requisition in Requisitions">
+
+                                            <td>{{requisition.RequisitionNo}}</td>
+                                            <th>{{requisition.Name}}</th>
+                                            <td class="number">{{requisition.BenficiaryNo|number}}</td>
+                                            <th class="number">{{requisition.Amount|number}} QT</th>
+
+                                            <td><span class="label label-danger">{{requisition.Status}}</span></td>
+                                            <td>
+                                                @* <a ng-href="@Url.Action("Allocation", "ReliefRequisition", new { Area = "EarlyWarning", id = 2 })" class="btn btn-sm btn-default">
+                                                    View <i class="icon-chevron-right"></i>
+                                                </a>*@
+                                                <a ng-click="viewRequistion(requisition)" class="btn btn-sm btn-default"> View <i class="icon-chevron-right"></i></a>
+                                            </td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+
+                        </div>
+                        <!-- /.table-responsive -->
+                    </div>
+                    <!-- /.portlet-content -->
+                </div>
+                <div class="span3">
+
+                    <div class="portlet">
+                        <div class="portlet-header">
+                            <h3>
+                                <i class=""></i>
+                                Requisitions Percentage
+                            </h3>
+                        </div>
+
+                        <!-- /.portlet-header -->
+                        <div class="portlet-content" ng-controller="stageController">
+                            <div id="container" class="chartWrap" draw-requisitions-chart=""></div>
+                        </div>
+                       
+
+                    </div>
+                    <!-- /.portlet -->
+                </div>
+                <!-- /.portlet -->
+            </div>
+        </div>
+
+        <div>
+            <div class="row" style="border-bottom-width: thin; border-bottom-color: #666; border-bottom-style: inset; margin-top: 5px">
+                <div class="pull-left">
+                    <h4>Dispatches</h4>
+                </div>
+
+                <div class="pull-right">
+                    <div class="btn-group">
+                        <button id="DispatchHeader" type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
+                            <i class="icon-arrow-up"></i>
+                            <i class="icon-arrow-down"></i>
+                        </button>
+
+                    </div>
+                </div>
+            </div>
+
+            <div id="DispatchContent" class="row">
+                <div>&nbsp;</div>
+
+                <div class="span8">
+                    <div class="portlet">
+                        <div class="portlet-header">
+                            <h3>
+                                <i class=""></i>
+                                Incoming Dispatches
+                            </h3>
+                            <ul class="portlet-tools pull-right">
+                                <li>
+                                    <button class="btn btn-sm btn-default">
+                                        Show more
+                                    </button>
+                                    <a class="btn btn-sm btn-default" href="@Url.Action("Index", "DeliveryReconcile", new { Area = "Logistics", regionID = ViewBag.RegionID })">FDP Commodity Receipt</a>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- /.portlet-header -->
+
+                        <div class="portlet-content">
+                            <th class="table-responsive">
+                                <table id="" class="table table-striped table-checkable">
+                                    <thead>
+                                        <tr>
+                                            <th>FDP</th>
+                                            <th>Woreda</th>
+                                            <th>Commodity</th>
+                                            <th class="number">Quantity(QT)</th>
+                                            <th>Source Hub</th>
+                                            <th>Transporter</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+
+                                        <tr class="" ng-repeat="dispatch in Dispatches">
+                                            <td>{{dispatch[0].Value}}</td>
+                                            <th>{{dispatch[1].Value}}</th>
+                                            <td>{{dispatch[2].Value}}</td>
+                                            <th class="number">{{dispatch[5].Value|number:2}} QT</th>
+                                            <td>{{dispatch[3].Value}}</td>
+                                            <th>{{dispatch[4].Value}}</th>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                        </div>
+                        <!-- /.table-responsive -->
+                    </div>
+                    <!-- /.portlet-content -->
+                </div>
+                <div class="span3">
+
+                    <div class="portlet">
+                        <!-- /.portlet-header -->
+
+                        <div class="">
+                            <a href="javascript:;" class="dashboard-stat">
+                                <div class="details ">
+                                    <span class="content number">Number of Incoming Dispatches</span>
+                                    <span class="value number">{{Data.IncomingDispatches|number}} </span>
+                                </div>
+                            </a>
+                            <br>
+                        </div>
+
+                        <div class="">
+                            <a href="javascript:;" class="dashboard-stat">
+                                <div class="details ">
+                                    <span class="content number">Total Incoming Commodity</span>
+                                    <span class="value number">{{Data.IncomingCommodity|number}} QT </span>
+                                </div>
+                            </a>
+                            <br>
+                        </div>
+                        <!-- /.portlet-content -->
+
+                    </div>
+                    <!-- /.portlet -->
+                </div>
+                <!-- /.portlet -->
+            </div>
+        </div>
+
+        <div>
+            <div class="row" style="border-bottom-width: thin; border-bottom-color: #666; border-bottom-style: inset; margin-top: 5px">
+
+                <div class="pull-left">
+                    <h4>Distribution</h4>
+                </div>
+                <div class="pull-right">
+                    <div class="btn-group">
+                        <button id="DistributionHeader" type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
+                            <i class="icon-arrow-up"></i>
+                            <i class="icon-arrow-down"></i>
+                        </button>
+
+                    </div>
+                </div>
+            </div>
+            <div id="DistributionContent" class="row">
+                <div>&nbsp;</div>
+
+                <div class="span5">
+                    <div class="portlet">
+                        <div class="portlet-header">
+                            <h3>
+                                <i class=""></i>
+                                Current Distributions
+                            </h3>
+                            <ul class=" pull-right portlet-tools ">
+                                <li>
+                                    <button class="btn btn-sm btn-default">
+                                        Show more
+                                    </button>
+
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- /.portlet-header -->
+
+                        <div class="portlet-content">
+                            <th class="table-responsive">
+                                <table id="" class="table table-striped table-checkable">
+                                    <thead>
+                                        <tr>
+                                            <th class="hidden-xs">Plan</th>
+                                            <th>Woreda</th>
+                                            <th class="number">FDPs</th>
+                                            <th>Status</th>
+                                            <th class="align-center"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="">
+                                            <td class="hidden-xs">2055</td>
+                                            <td>Dawent</td>
+                                            <td class="number">{{80|number}}</td>
+                                            <td><span class="label label-default">On process</span></td>
+                                            <td>
+                                                <a href="javascript:;" class="btn btn-sm btn-default">
+                                                    View <i class="icon-chevron-right"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+
+                                        <tr class="">
+                                            <td class="hidden-xs">1206</td>
+                                            <td>Adhar</td>
+                                            <td>{{45|number}}</td>
+                                            <td><span class="label label-success">Completed</span></td>
+                                            <td>
+                                                <a href="javascript:;" class="btn btn-sm btn-default">
+                                                    View <i class="icon-chevron-right"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+
+                                        <tr class="">
+                                            <td class="hidden-xs">1207</td>
+                                            <td>Adhar</td>
+                                            <td>{{24|number}}</td>
+                                            <td><span class="label label-success">Completed</span></td>
+                                            <td>
+                                                <a href="javascript:;" class="btn btn-sm btn-default">
+                                                    View <i class="icon-chevron-right"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+
+                                        <tr class="">
+                                            <td class="hidden-xs">2206</td>
+                                            <td>Adhar</td>
+                                            <td>{{56|number}}</td>
+                                            <td><span class="label label-success">Completed</span></td>
+                                            <td>
+                                                <a href="javascript:;" class="btn btn-sm btn-default">
+                                                    View <i class="icon-chevron-right"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+
+
+                                    </tbody>
+                                </table>
+
+                        </div>
+                        <!-- /.table-responsive -->
+                    </div>
+                    <!-- /.portlet-content -->
+
+                </div>
+                <div class="span4">
+
+                    <div class="portlet">
+                        <div class="portlet-header">
+                            <h3>
+                                <i class=""></i>
+                                Age Percentage
+                            </h3>
+                        </div>
+
+                        <!-- /.portlet-header -->
+                        <div class="portlet-content" ng-controller="stageController">
+                            <div id="Age" class="chartWrap" draw-age-chart></div>
+                        </div>
+
+                      
+                        <!-- /.portlet-content -->
+
+                    </div>
+                    <!-- /.portlet -->
+                </div>
+                <div class="span2">
+
+                    <div class="portlet">
+                        <!-- /.portlet-header -->
+
+                        <div class="">
+                            <a href="javascript:;" class="dashboard-stat">
+                                <div class="visual">
+                                    <i class="icon-female"></i>
+                                </div>
+                                <div class="details ">
+                                    <span class="content number">Female</span>
+                                    <span class="value number">{{Data.Female|number}} </span>
+                                </div>
+                            </a>
+                            <br>
+                        </div>
+
+                        <div class="">
+                            <a href="javascript:;" class="dashboard-stat">
+                                <div class="visual">
+                                    <i class="icon-male"></i>
+                                </div>
+                                <div class="details ">
+                                    <span class="content number">Male</span>
+                                    <span class="value number">{{Data.Male|number}} </span>
+                                </div>
+                            </a>
+                            <br>
+                        </div>
+
+                        <div class="">
+                            <a href="javascript:;" class="dashboard-stat">
+                                <div class="details ">
+                                    <span class="content number">Total</span>
+                                    <span class="value number">{{(Data.Male+Data.Female)|number}} </span>
+                                </div>
+                            </a>
+                            <br>
+                        </div>
+                        <!-- /.portlet-content -->
+
+                    </div>
+                    <!-- /.portlet -->
+                </div>
+                <!-- /.portlet -->
+            </div>
+        </div>
+        
+        
+        <div>
+            <div class="row" style="border-bottom-width: thin; border-bottom-color: #666; border-bottom-style: inset; margin-top: 5px">
+                <div class="pull-left">
+                    <h4>Allocation Changes</h4>
+                </div>
+                <div class="pull-right">
+                    <div class="btn-group">
+                        <button id="AllocationChangeHeader" type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
+                            <i class="icon-arrow-up"></i>
+                            <i class="icon-arrow-down"></i>
+                        </button>
+
+                    </div>
+                </div>
+            </div>
+            <div id="AllocationChangeContent" class="row">
+                <div>&nbsp;</div>
+                <div class="span11">
+                    <div class="portlet">
+                        <div class="portlet-header">
+                            <h3>
+                                <i class=""></i>
+                                Recent Allocation Changes
+                            </h3>
+                        </div>
+
+                        <!-- /.portlet-header -->
+
+                        <div class="portlet-content">
+                            <th class="table-responsive">
+                                <table id="" class="table table-striped table-checkable">
+                                    <thead>
+                                        <tr>
+                                            <th class="hidden-xs">Number</th>
+                                            <th class="number">FDPS</th>
+                                            <th class="number">Beneficiaries</th>
+                                            <th class="number">Requested Amount(QT)</th>
+                                            <th class="number">Allocated Amount(QT)</th>
+                                            @*<th class="align-center">Action</th>*@
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        <tr class="" ng-repeat="allocationChange in AllocationChanges">
+                                            <td class="hidden-xs">{{allocationChange.RequestNumber}}</td>
+                                            <td class="number">{{allocationChange.Month}}</td>
+                                            <td class="number">{{allocationChange.Beneficiaries|number}}</td>
+                                            <th class="number">{{allocationChange.RequestedAmount|number}} QT</th>
+                                            <th class="number">{{allocationChange.AllocatedAmount|number}} QT</th>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                        </div>
+                        <!-- /.table-responsive -->
+                    </div>
+                    <!-- /.portlet-content -->
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    $("#RequestHeader").click(function () {
+        $("#RequestContent").slideToggle("slow", "linear");
+    });
+
+    $("#RequisitionHeader").click(function () {
+        $("#RequisitionContent").slideToggle("slow", "linear");
+    });
+    
+    $("#AllocationChangeHeader").click(function () {
+        $("#AllocationChangeContent").slideToggle("slow", "linear");
+    });
+
+    $("#DispatchHeader").click(function () {
+        $("#DispatchContent").slideToggle("slow", "linear");
+    });
+
+    $("#DistributionHeader").click(function () {
+        $("#DistributionContent").slideToggle("slow", "linear");
+    });
+</script>
+
+<script>
+    function RegionalDashboardController($scope, $http) {
+
+        $scope.reqParam = { regionID: '@ViewBag.RegionID' };
+        $scope.Requests = [];
+        $scope.Requisitions = [];
+        $scope.AllocationChanges = [];
+        $scope.Dispatches = [];
+        $scope.Data = [];
+
+
+        var onRequestsSuccess = function (data) {
+            $scope.Requests = data;
+        };
+
+        var onRequisitionsSuccess = function (data) {
+            $scope.Requisitions = data;
+        };
+        
+        var onAllocationChangesSuccess = function (data) {
+            $scope.AllocationChanges = data;
+        };
+
+        var onDispatchesSuccess = function (data) {
+            $scope.Dispatches = data;
+        };
+
+        var onDashboardDataSuccess = function (data) {
+            $scope.Data = data;
+        };
+
+
+
+        $scope.getRequests = function () {
+            $http.post("@Url.Action("Requests", "FetchData", new { Area = "Regional" })", $scope.reqParam).success(onRequestsSuccess);
+        };
+
+        $scope.getRequisitions = function () {
+            $http.post("@Url.Action("Requisitions", "FetchData", new { Area = "Regional" })", $scope.reqParam).success(onRequisitionsSuccess);
+        };
+        
+        $scope.getAllocationChanges = function () {
+            $http.post("@Url.Action("AllocationChanges", "FetchData", new { Area = "Regional" })", $scope.reqParam).success(onAllocationChangesSuccess);
+        };
+
+        $scope.getDispatches = function () {
+            $http.post("@Url.Action("Dispatches", "FetchData", new { Area = "Regional" })", $scope.reqParam).success(onDispatchesSuccess);
+        };
+
+        $scope.getDispatches = function () {
+            $http.post("@Url.Action("Dispatches", "FetchData", new { Area = "Regional" })", $scope.reqParam).success(onDispatchesSuccess);
+        };
+        
+        $scope.getRegionalData = function () {
+            $http.post("@Url.Action("RegionalData", "FetchData", new { Area = "Regional" })", $scope.reqParam).success(onDashboardDataSuccess);
+        };
+
+        $scope.viewRequistion = function (item) {
+            window.location = "@Url.Action("Allocation","ReliefRequisition",new {Area="EarlyWarning"})" + "?id=" + +item.RequisitionID;
+        };
+        
+        $scope.viewRequest = function (item) {
+            window.location = "@Url.Action("Details","Request",new {Area="EarlyWarning"})" + "?id=" + +item.RegionalRequestID;
+         };
+
+        $scope.getRequests();
+        $scope.getRequisitions();
+        $scope.getAllocationChanges();
+        $scope.getDispatches();
+        $scope.getRegionalData();
+    }
+
+
+    function ImportantNumbersController($scope, $http) {
+        $scope.reqParam = { regionID: "@ViewBag.RegionID" };
+        $scope.Numbers = [];
+        $scope.Flag;
+
+        var regionFlags = [
+                               "flag flag-federal",
+                               "flag flag-afar",
+                               "flag flag-amhara",
+                               "flag flag-benishangul",
+                               "flag flag-tigray",
+                               "flag flag-diredawa",
+                               "flag flag-gambella",
+                               "flag flag-harar",
+                               "flag flag-oromiya",
+                               "flag flag-debub",
+                               "flag flag-somali"
+        ];
+
+        var onNumbersSuccess = function (data) {
+            $scope.Numbers = data;
+            $scope.Flag = regionFlags['@ViewBag.RegionID' - 1];
+            //alert($scope.Flag)
+        };
+
+        $scope.getNumbers = function () {
+            $http.post("@Url.Action("ImportantNumbers", "FetchData", new { Area = "Regional" })", $scope.reqParam).success(onNumbersSuccess);
+        };
+
+        $scope.getNumbers();
+    }
+
+</script>
+
+<script>
+    'use strict';
+
+    // Declare app level module which depends on filters, and services
+    angular.module('myApp', ['myApp.directives']);
+
+    /* Controllers */
+    function stageController($scope, $http) {
+        $scope.type = 'Requests Percentage';
+        var onDashboardDataSuccess = function (d) {
+
+            $scope.data = [
+                ['Hub Assigned', d["HubAssignedRequests"]],
+                ['Pending', d["PendingRequests"]],
+                ['Approved', d["ApprovedRequests"]],
+                ['Federal Approved', d["FederalApproved"]]
+            ];
+
+            $scope.dataRequisition = [
+                ['Assigned', d["HubAssignedRequisitions"]],
+                ['Pending', d["PendingRequisitions"]],
+                ['Approved', d["ApprovedRequisitions"]]
+            ];
+
+            $scope.age = [
+                ['Older than 18', d["Above18"]],
+                ['Between 5 and 8', d["Bet5And8"]],
+                ['Younger than 5', d["Below5"]]
+            ];
+
+        };
+        $scope.initData = function () {
+            $http.post("@Url.Action("RegionalData", "FetchData", new { Area = "Regional" })", $scope.reqParam).success(onDashboardDataSuccess);
+        };
+        $scope.initData();
+    }
+
+    /* Directives */
+
+    angular.module('myApp.directives', []).
+    directive('drawRequisitionsChart', function () {
+        // return the directive link function. (compile function not needed)
+        return function (scope, element, attrs) {
+
+            var container = $(element).attr("id");
+            // watch the expression, and update the UI on change.
+            scope.$watch('dataRequisition', function () {
+                drawPlot();
+            }, true);
+
+            var drawPlot = function () {
+                var chart;
+                chart = new Highcharts.Chart({
+                    chart: {
+                        renderTo: container
+                    },
+                    credits: {
+                        enabled: false
+                    },
+                    title: {
+                        text: ''
+                    },
+                    exporting: {
+                        enabled: false
+                    },
+                    tooltip: {
+                        pointFormat: '{series.name}: <b>{point.percentage}</b>%<b> ({point.y})</b> requisitions ',
+                        percentageDecimals: 1
+                    },
+                    plotOptions: {
+                        pie: {
+                            allowPointSelect: true,
+                            cursor: 'pointer',
+                            dataLabels: {
+                                enabled: false
+                            },
+                            showInLegend: true
+                        }
+                    },
+                    series: [{
+                        type: 'pie',
+                        name: 'Percentage',
+                        data: scope.dataRequisition
+                    }]
+                });
+            }
+        }
+    });
+
+    angular.module('myApp.directives').
+    directive('drawPieChart', function () {
+        // return the directive link function. (compile function not needed)
+        return function (scope, element, attrs) {
+            var container = $(element).attr("id");
+            // watch the expression, and update the UI on change.
+            scope.$watch('data', function () {
+                drawPlot();
+            }, true);
+            var drawPlot = function () {
+                var chart;
+                chart = new Highcharts.Chart({
+                    chart: {
+                        renderTo: container
+                    },
+                    credits: {
+                        enabled: false
+                    },
+                    title: {
+                        text: ''
+                    },
+                    exporting: {
+                        enabled: false
+                    },
+                    tooltip: {
+                        pointFormat: '{series.name}: <b>{point.percentage}</b>% <b>({point.y})</b> Requests',
+                        percentageDecimals: 1
+                    },
+                    plotOptions: {
+                        pie: {
+                            allowPointSelect: true,
+                            cursor: 'pointer',
+                            dataLabels: {
+                                enabled: false
+                            },
+                            showInLegend: true
+                        }
+                    },
+                    series: [{
+                        type: 'pie',
+                        name: 'Percentage',
+                        data: [
+                    ['Afar', 25.0],
+                    ['Oromiya', 20.0],
+                    ['Amhara', 40.0],
+                    ['Somali', 5.0],
+                    ['Benishangul', 10.0]
+                        ]
+                    }]
+                });
+            }
+        }
+    });
+
+    angular.module('myApp.directives').
+    directive('drawAgeChart', function () {
+       // return the directive link function. (compile function not needed)
+       return function (scope, element, attrs) {
+           var container = $(element).attr("id");
+           // watch the expression, and update the UI on change.
+           scope.$watch('age', function () {
+               drawPlot();
+           }, true);
+           var drawPlot = function () {
+               var chart;
+               chart = new Highcharts.Chart({
+                   chart: {
+                       renderTo: container
+                   },
+                   credits: {
+                       enabled: false
+                   },
+                   title: {
+                       text: ''
+                   },
+                   exporting: {
+                       enabled: false
+                   },
+                   tooltip: {
+                       pointFormat: '{series.name}: <b>{point.percentage:.2f}%</b> ({point.y}) people',
+                   },
+                   plotOptions: {
+                       pie: {
+                           allowPointSelect: true,
+                           cursor: 'pointer',
+                           dataLabels: {
+                               enabled: false
+                           },
+                           showInLegend: true
+                       }
+                   },
+                   series: [{
+                       type: 'pie',
+                       name: 'Age Percentage',
+                       data: scope.age
+                   }]
+               });
+           }
+       }
+   });
+</script>

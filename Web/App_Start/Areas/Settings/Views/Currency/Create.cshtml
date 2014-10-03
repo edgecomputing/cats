@@ -1,0 +1,45 @@
+﻿@model Cats.Models.Currency
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";  
+}
+
+@section Toolbar
+{
+    <a class="btn toolbar-btn " data-buttontype="btn_save" data-submittedform="frm_create_currency"></a>
+    <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="@Url.Action("Index", "Currency")" title="save"></a>
+}
+@section LeftBar
+{
+    @Html.Partial("_CurrencyLeftBar");
+}
+
+<div>
+    <h4>Create Currency</h4>
+</div>
+@using (Html.BeginForm("Create", "Currency", FormMethod.Post, new { id = "frm_create_currency" }))
+{
+    @Html.ValidationSummary(true)
+    <div class="well form-horizontal">
+        <div class="control-group">
+            <div class="control-label">
+                @Html.LabelFor(m => m.Code,"Currency Code")
+            </div>
+            <div class="controls">
+                @Html.TextBoxFor(m=>m.Code)
+                @Html.ValidationMessageFor(m => m.Code)
+            </div>
+    </div>
+        <div class="control-group">
+            <div class="control-label">
+                @Html.LabelFor(m => m.Name,"Currency Name")
+            </div>
+            <div class="controls">
+                @Html.TextBoxFor(m=>m.Name)
+                @Html.ValidationMessageFor(m => m.Name)
+            </div>
+
+        </div>
+    </div>
+}
+

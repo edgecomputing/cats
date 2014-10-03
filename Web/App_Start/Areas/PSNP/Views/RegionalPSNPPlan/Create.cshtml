@@ -1,0 +1,146 @@
+﻿@using Cats.Helpers
+@using LanguageHelpers.Localization
+@model Cats.Models.RegionalPSNPPlan
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+    const string pageName = "PSNP.RegionalPSNPPlan.Create";
+}
+@section LeftBar
+{
+    @Html.Partial("_PSNPLeftBar")
+}
+@section Toolbar
+{
+    <a class="btn toolbar-btn " data-buttontype="btn_save" data-submittedform="frm_create_psnp"></a>
+    <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="@Url.Action("Index", "RegionalPSNPPlan")" title="save"></a>
+}
+<script type="text/javascript">
+    $(function () {
+
+        //Optional: turn the chache off
+        $.ajaxSetup({ cache: false });
+
+        $('#btnDateinterval').click(function () {
+          
+            var startDate = new Date($('#Plan_StartDate').val());
+            //var startDate = $('#Plan_StartDate').val();
+            var duration = $('#Duration').val();
+           
+            var fullDate = startDate.getMonth() + 1 + '/' + startDate.getDate() + '/' + startDate.getFullYear();
+            var url = '@Url.Action("DateInterval", "HRD",new {Area="EarlyWarning"})?duration=' + duration + '&startDate=' + fullDate;
+            $('#dialogContent').load(url, function () {
+               
+                $('#dialogDiv').modal({
+                    backdrop: 'static',
+                    keyboard: true
+                }, 'show');
+                //bindForm(this);
+            });
+            return false;
+        });
+
+    });
+</script>
+
+<div id='dialogDiv' class='modal hide fade in' style="width: 620px;margin-right: 10px">
+    <div id='dialogContent'></div>
+</div>
+
+<div class="form-horizontal">
+    @if (@ViewBag.ErrorMessage1 != null)
+    {
+        <div class="alert alert-error">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            @ViewBag.ErrorMessage1
+            <br />
+            @ViewBag.ErrorMessage2
+
+        </div>
+    }
+
+    @using (Html.BeginForm("Create", "RegionalPSNPPlan", FormMethod.Post, new { id = "frm_create_psnp" }))
+    {
+    
+        @Html.ValidationSummary(true)
+
+        <fieldset>
+            <legend>Create New Regional PSNP Plan</legend>
+
+
+            <div class="control-group">
+                 <div class="control-label">
+                @Html.Label(@Html.Translate2(pageName, "PSNP Plan Name"))
+                  </div>
+                <div class="controls">
+                    @Html.TextBoxFor(model => model.Plan.PlanName, new { @placeholder = "Plan Name" })
+                    @Html.ValidationMessageFor(model => model.Plan.PlanName)
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.Label(Translator.Translate("Plan From"), new { @class = "cats-date-pref" })
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(m => m.Plan.StartDate, new { @class = "cats-datepicker2" })
+                    @Html.ValidationMessageFor(m => m.Plan.StartDate)
+                </div>
+            </div>
+             <div class="control-group">
+                        <div class="control-label">
+                            @Html.LabelFor(m => m.Duration, @Html.Translate2(pageName, "Duration"))
+                        </div>
+                        <div class="controls">
+                           @Html.TextBoxFor(m => m.Duration)
+                              <a id="btnDateinterval"  @*href="@Url.Action("DateInterval", "HRD", new { area = "EarlyWarning", startDate = "4/15/2014", duration = 6 })"*@>View Date Interval</a>
+                       
+                            @Html.ValidationMessageFor(m => m.Plan.Duration)
+                        </div>
+
+                    </div>
+            <div class="control-group">
+                @Html.LabelFor(model => model.Year, new { @class = "control-label" })
+                <div class="controls">
+                    @Html.TextBoxFor(model => model.Year, new { @placeholder = "Year" })
+                    @Html.ValidationMessageFor(model => model.Year)
+                </div>
+            </div>
+           @* <div class="control-group">
+                @Html.LabelFor(model => model.Plan, new { @class = "control-label" })
+                <div class="controls">
+                    @Html.DropDownList("PlanId")
+                    @Html.ValidationMessageFor(model => model.Plan)
+                </div>
+            </div>*@
+           @* <div class="control-group">
+                @Html.LabelFor(model => model.Region, new { @class = "control-label" })
+                <div class="controls">
+                    @Html.DropDownList("RegionID")
+                    @Html.ValidationMessageFor(model => model.Region)
+                </div>
+            </div>*@
+
+            <div class="control-group">
+                @Html.LabelFor(model => model.Ration, new { @class = "control-label" })
+                <div class="controls">
+                    @Html.DropDownList("RationID")
+                    @Html.ValidationMessageFor(model => model.Ration)
+                </div>
+            </div>
+
+@*            <div class="control-group">
+                @Html.LabelFor(model => model.Duration, new { @class = "control-label" })
+                <div class="controls">
+                    @Html.TextBoxFor(model => model.Duration, new { @placeholder = "Duration" })
+                    @Html.ValidationMessageFor(model => model.Duration)
+                </div>
+            </div>*@
+            
+            
+            <!--
+       
+    -->
+        </fieldset>
+    }
+</div>

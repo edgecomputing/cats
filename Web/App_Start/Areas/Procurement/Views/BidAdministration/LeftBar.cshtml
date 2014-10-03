@@ -1,0 +1,8 @@
+﻿@using Cats.Models
+@using Cats.Models.Constant
+<ul class="nav nav-list">
+    <li class="nav-header">Bid Administration</li>
+    <li><a href="@Url.Action("Index", "BidAdministration",new {id=(int)BidWinnerStatus.Draft})"><i class="icon-inbox"></i> Draft </a></li>
+    <li><a href="@Url.Action("Index", "BidAdministration",new {id=(int)BidWinnerStatus.Draft})"><i class="icon-inbox"></i> Signed </a></li>
+    <li><a href="@Url.Action("Index", "BidAdministration",new {id=(int)BidWinnerStatus.Signed})"><i class="icon-inbox"></i> WithOut bid Offer </a></li>
+</ul>

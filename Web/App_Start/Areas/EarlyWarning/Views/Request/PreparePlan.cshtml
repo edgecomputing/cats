@@ -1,0 +1,83 @@
+﻿@using Cats.Models
+@model Cats.Models.HRDPSNPPlanInfo
+@using Kendo.Mvc.UI
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+<fieldset>
+    <legend>Request will be generated for the following FDPs</legend>
+</fieldset>
+
+@section Toolbar
+{
+    <a class="btn toolbar-btn " data-buttontype="btn_save" data-submittedform="frm_create_request"></a>
+    <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="@Url.Action("RequestFromPlan", "Request")" title="save"></a>
+}
+<div style="display: none;">
+    @using (Html.BeginForm("RequestFromPlan", "Request", FormMethod.Post, new { id = "frm_create_request" }))
+    {
+        @Html.HiddenFor(model => model.HRDPSNPPlan.ProgramID)
+        @Html.HiddenFor(model => model.HRDPSNPPlan.RegionID)
+        @Html.HiddenFor(model => model.HRDPSNPPlan.Month)
+        @Html.HiddenFor(model => model.HRDPSNPPlan.Year)
+        @Html.HiddenFor(model => model.HRDPSNPPlan.DonorID)
+        @Html.HiddenFor(model => model.HRDPSNPPlan.RationID)
+        @Html.HiddenFor(model => model.HRDPSNPPlan.Round)
+        @Html.HiddenFor(model => model.HRDPSNPPlan.PlanID)
+        @Html.HiddenFor(model => model.HRDPSNPPlan.PSNPPlanID)
+        for (int i = 0; i < Model.BeneficiaryInfos.Count; i++)
+        {
+           
+        @Html.TextBoxFor(model => model.BeneficiaryInfos[i].FDPID)
+        @Html.TextBoxFor(model => model.BeneficiaryInfos[i].Beneficiaries)
+        @Html.TextBoxFor(model => model.BeneficiaryInfos[i].Selected)
+        <br />
+        }
+    }
+</div>
+@(Html.Kendo().Grid(Model.BeneficiaryInfos).Name("grid")
+.Columns(col =>
+             {
+                 col.Bound(m => m.FDPName);
+                 col.Bound(m => m.Beneficiaries);
+                 // col.Bound(p => p.ProcessTemplateID).Title("").ClientTemplate("<a class='btn' href='" + Url.Action("Detail", "ProcessTemplate", new { id = "#=ProcessTemplateID#" }) + " '>Detail</a>  ");
+                
+
+             })
+             .Scrollable()
+             .DataSource(datasource => datasource.Server()
+           
+             .Model(model => model.Id(p => p.FDPID))
+             .Update(update => update.Action("RequestFromPlan_Update", "Request"))
+             .Destroy(destroy => destroy.Action("RequestFromPlan_Destroy", "Request"))))
+
+<script>
+    $(function() {
+        $("tbody tr").prepend("<td class='checker'><i class='icon-ok'></i></td>");
+        $("thead tr").prepend("<th class='k-header'></th>");
+        $("tfoot tr").prepend("<td class='k-header'></td>");
+        $("tbody .checker").click(
+            function (event) {
+                $(this).parent().toggleClass("k-state-selected");
+                update_selection_data();
+            });
+    }
+    );
+
+    function update_selection_data() {
+        var i = 0;
+        $("tbody tr").each(function () {
+            if ($(this).hasClass("k-state-selected")) {
+                $("#BeneficiaryInfos_" + i + "__Selected").val(true);
+            } else {
+                $("#BeneficiaryInfos_" + i + "__Selected").val(false);
+            }
+            i++;
+        });
+    }
+</script>
+<style>
+    .table-compact {
+    }
+</style>

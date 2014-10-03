@@ -1,0 +1,176 @@
+﻿@using System.Globalization
+@using Kendo.Mvc.UI
+@model IEnumerable<Cats.Models.Security.UserInfo>
+@using Cats.Helpers
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";  
+}
+
+@*@section MainMenu
+{
+    @Html.Partial("_AdminMenuBar")
+}*@
+
+@section Toolbar
+{
+    <a href="@Url.Action("New", "Users")" class="btn btn-default">Create new user</a>
+}
+@section Leftbar
+{
+    @Html.Partial("_AdminLeftBar")
+}
+
+@{
+    if (ViewData["error"] != null)
+    {
+    <div>
+
+        <br />
+        @ViewData["error"]
+    </div>
+    }
+}
+
+@*<div class="row">
+    
+    <div class="pull-left">
+    <h4 class="page-header">User Accounts</h4>
+    </div>
+    <div class="pull-right">
+      
+    </div>
+</div>
+<br />*@
+
+<div>
+    <h4>Manage Users</h4>
+</div>
+@*<div class="form-inline">
+    <input id="search" type="text" class="input-medium search-query" placeholder="Search ">
+    <button type="submit" class="btn btn-sm" value="Search"><i class="icon-search"></i></button>
+</div>*@
+<div class="input-prepend">
+    <span class="add-on">Search</span>
+   <input id="search" type="text" class="input-medium search-query" placeholder="Search ">
+</div>
+
+
+@(Html.Kendo().Grid(Model)
+    .Name("Users")
+    .Columns(columns =>
+    {
+        columns.Bound(u => u.UserName).Title("User Name").ClientTemplate(
+        "<a href='" + Url.Action("UserProfile", "Users", new { id = "#=UserProfileID#" }) + " '>#=UserName#</a> "
+        );
+        columns.Bound(u => u.FullName).Title("Full Name");
+        columns.Bound(u => u.Disabled).Title("Account").ClientTemplate("# if (Disabled == true) { #" + @Html.Label("Disabled") + "# }else {#" + @Html.Label("Enabled") + "#} #").HtmlAttributes(new { @style = "text-align:center" });
+        columns.Bound(u => u.LogginDate).Title("Last Logged In").Format("{0:MMM dd yyyy}");
+        columns.Bound(u => u.NumberOfLogins).Title("Total Logins").HtmlAttributes(new { align = "right" }).Format("{0:N0}");
+        columns.Bound(u => u.LanguageCode).Title("UI Language");
+        columns.Bound(u => u.Keyboard).Title("Keyboard Language");
+        columns.Bound(u => u.DatePreference).Title("Calendar Preference");
+        columns.Bound(u => u.Email).Title("Email").Width(170);
+        columns.Bound(u => u.UserName).Title("Edit Role").ClientTemplate(
+
+
+           "<a href='" + Url.Action("EditUserRoles", "Users", new { UserName = "#=UserName#" }) + " '>Edit Role</a> "
+           );
+        columns.Bound(u => u.UserName).Title("Edit User").ClientTemplate(
+
+
+           "<a href='" + Url.Action("EditUser", "Users", new { userId = "#=UserProfileID#" }) + " '>Edit User</a> "
+           );
+    })
+    .Sortable()
+    .Scrollable()
+    .HtmlAttributes(new { style = "width:100%; height:450px;" })
+    .DataSource(dataSource => dataSource
+        .Ajax()
+        .Read(read => read.Action("UsersList", "Users"))
+    )
+)
+
+
+@*<div class="btn-group">
+    <button class="btn"><i class="icon-cog"></i></button>
+    <button class="btn dropdown-toggle" data-toggle="dropdown">
+        <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu">
+        <li><a href="#">Profile</a></li>
+        <li><a href="#">Disable Account</a></li>
+        <li><a href="#">Reset</a></li>
+        <li class="divider"></li>
+        <li><a href="#">Delete</a></li>
+    </ul>
+
+</div>*@
+
+
+
+<script>
+   $("#search").keyup(function () {
+        $("#search").blur();
+        $("#search").focus();
+    });
+  
+    $("#search").change(function () {
+        applyFilter("Username", $(this).val());
+    });
+        
+    // attach click event for Clear Filters button 
+    // applyFilter function accepts the Field Name and the new value to use for filter.
+    function applyFilter(filterField, filterValue) {
+
+        // get the kendoGrid element.
+        var gridData = $("#Users").data("kendoGrid");
+
+        // get currently applied filters from the Grid.
+        var currFilterObj = gridData.dataSource.filter();
+
+        // get current set of filters, which is supposed to be array.
+        // if the oject we obtained above is null/undefined, set this to an empty array
+        var currentFilters = currFilterObj ? currFilterObj.filters : [];
+
+        // iterate over current filters array. if a filter for "filterField" is already
+        // defined, remove it from the array
+        // once an entry is removed, we stop looking at the rest of the array.
+        if (currentFilters && currentFilters.length > 0) {
+            for (var i = 0; i < currentFilters.length; i++) {
+                if (currentFilters[i].field == filterField) {
+                    currentFilters.splice(i, 1);
+                    break;
+                }
+            }
+        }
+
+        // if "filterValue" is "0", meaning "-- select --" option is selected, we don't 
+        // do any further processing. That will be equivalent of removing the filter.
+        // if a filterValue is selected, we add a new object to the currentFilters array.
+        if (filterValue != null) {
+            currentFilters.push({
+                field: filterField,
+                operator: "contains",
+                value: filterValue
+            });
+        }
+        
+        else {
+            clearFilters();
+        }
+
+        // finally, the currentFilters array is applied back to the Grid, using "and" logic.
+        gridData.dataSource.filter({
+            logic: "and",
+            filters: currentFilters
+        });
+
+    }
+
+    function clearFilters() {
+        var gridData = $("#RequestListGrid").data("kendoGrid");
+        gridData.dataSource.filter({});
+    }
+</script>
+

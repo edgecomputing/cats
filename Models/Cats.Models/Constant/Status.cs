@@ -42,7 +42,8 @@ namespace Cats.Models.Constant
         ProjectCodeAssigned = 4,
         TransportRequisitionCreated = 5,
         TransportOrderCreated = 6,
-        Rejected = 7
+        Rejected = 7,
+        SiPcAllocationApproved = 8
     }
     public enum TransportRequisitionStatus
     {

@@ -1,0 +1,324 @@
+﻿@using Cats.Models
+@using Cats.Helpers
+@using Cats.Areas.Settings.Models.ViewModels;
+@using Kendo.Mvc.UI
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+@section LeftBar
+{
+   @Html.Partial("_AdminLeftBar");
+}
+
+@section Toolbar
+{
+    <a class="btn toolbar-btn " href="@Url.Action("map", "FDP")">View on Map</a>
+}
+
+<div id='dialogDiv' class='modal hide fade in'>
+    <div id='dialogContent'></div>
+</div>
+
+<div id="modalWindow">
+    <h4>Are You Sure You Want to Delete this FDP?</h4>
+    <button id="yes" class="k-button">Yes</button>
+    <button id="no" class="k-button">No</button>
+</div>
+
+<script>
+    var wnd;
+    $(document).ready(function () {
+        wnd = $("#modalWindow").kendoWindow({
+            title: "Delete confirmation",
+            modal: true,
+            visible: false,
+            resizable: false,
+            width: 300
+        }).data("kendoWindow");
+    });
+</script>
+
+@{
+    ViewBag.Title = Html.Translate("Final Destination Points");
+}
+
+
+
+<div>
+    <h4>@Html.Translate("Manage Final Distribution Points")</h4>
+    Select a Woreda from the tree to manage FDPs registered under it.
+</div>
+
+
+<div class="container">
+    <div id="map_area"></div>
+    <div id="div_tree_view" class="span3 well">
+
+        @(Html.Kendo().TreeView()
+              .Name("AdminUnitTreeView")
+              .Animation(animation => animation.Expand(open => open.Fade(FadeDirection.In)))
+              .Events(events => events
+
+                                    .Select("onSelect")
+              )
+              .Items(treeview =>
+                  {
+
+                      treeview.Add().Text("Regions").Enabled(false)
+                          .SpriteCssClasses("folder")
+                          .Expanded(true)
+                          .Items(root =>
+                              {
+                                  foreach (var region in ViewBag.RegionCollection)
+                                  {
+                                      root.Add().Text((string)region.Name)
+                                          .SpriteCssClasses("glyphicon glyphicon-star")
+                                          //.Expanded(true)
+                                          .Items(zones =>
+                                              {
+                                                  foreach (var zone in region.AdminUnit1)
+                                                  {
+                                                      zones.Add().Text((string)zone.Name)
+                                                          .SpriteCssClasses("image")
+                                                          .Items(woredas =>
+                                                              {
+                                                                  foreach (var woreda in zone.AdminUnit1)
+                                                                  {
+                                                                      woredas.Add().Text((string)woreda.Name)
+                                                                          .Id(woreda.AdminUnitID + "")
+                                                                          .SpriteCssClasses("pdf");
+                                                                  }
+                                                              });
+                                                  }
+
+                                              });
+                                  }
+                              });
+                  })
+              )
+    </div>
+
+    <div class="span7">
+        @(Html.Kendo().Grid<Cats.Areas.Settings.Models.ViewModels.FDPViewModel>()
+              .Name("grid")
+              .Columns(columns =>
+                  {
+                      columns.Bound(c => c.Name);
+                      columns.Bound(c => c.FDPID).Visible(false);
+                      columns.Command(command =>
+                          {
+                              command.Custom("Delete").Click("OnDelete");
+                              command.Custom("Add Contact").Click("AddContact");
+                              command.Custom("Details").Click("Details");
+                          }).Width(300);
+                      //columns.Command(command => command.Custom("Add Contact").Click("Add contact")).Width(100);
+
+                  }).ToolBar(toolbar =>
+                      {
+                          toolbar.Save();
+                          toolbar.Create();
+                          //toolbar.Custom().Text("Add FDP").HtmlAttributes(new { id = "addFDP" });
+                      })
+              .Editable(edit => edit.Mode(GridEditMode.InCell))
+              .Pageable()
+              .Selectable(t => t.Mode(GridSelectionMode.Single))
+              .Navigatable()
+              .DataSource(datasource =>
+                          datasource
+                              .Ajax()
+                              .PageSize(10)
+                              //.ServerOperation(false)
+                              .Model(m => m.Id(t => t.FDPID))
+                              .Read(read => read.Action("FDP_Read", "FDP").Data("selectedWoredaId"))
+                              .Create(create => create.Action("FDP_Create", "FDP").Data("selectedWoredaId"))
+                              .Update("FDP_Update", "FDP")
+                              .Destroy(update => update.Action("FDP_Destroy", "FDP"))
+                //.Destroy("FDP_Destroy","FDP")
+              )
+              )
+
+    </div>
+</div>
+
+<style scoped>
+    .demo-section {
+        width: 200px;
+    }
+
+    #treeview .k-sprite {
+        background-image: url("@Url.Content("~/Content/web/treeview/coloricons-sprite.png")");
+    }
+
+    .rootfolder { background-position: 0 0; }
+    .folder { background-position: 0 -16px; }
+    .pdf { background-position: 0 -32px; }
+    .html { background-position: 0 -48px; }
+    .image { background-position: 0 -64px; }
+</style>
+
+<script>
+    $("#addFDP").click(function (e) {
+        e.preventDefault();
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var href = "@Url.Action("FDP_Update", "FDP")" + "?fdpId=" + dataItem.FDPID;
+
+        $('#dialogContent').load(href, function () {
+            $('#dialogDiv').modal({
+                backdrop: 'static',
+                keyboard: true
+            }, 'show');
+        });
+    })
+
+</script>
+
+<script>
+    var selectedWoreda;
+
+    function error_handler(e) {
+        if (e.errors) {
+            var message = "Errors:\n";
+            $.each(e.errors, function (key, value) {
+                if ('errors' in value) {
+                    $.each(value.errors, function () {
+                        message += this + "\n";
+                    });
+                }
+            });
+            alert(message);
+        }
+    }
+
+
+    function OnDelete(e) {
+        e.preventDefault();
+        var grid = this;
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var row = $(e.currentTarget).closest("tr");
+        wnd.center().open();
+
+        $("#yes").click(function () {
+
+            window.location = "@Url.Action("FDP_Destroy", "FDP")" + "/" + dataItem.FDPID;
+            wnd.close();
+        });
+
+        $("#no").click(function () {
+            wnd.close();
+        });
+    }
+
+    function Details(e) {
+        e.preventDefault();
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var href = "@Url.Action("FDP_Update", "FDP")" + "?fdpId=" + dataItem.FDPID;
+
+        $('#dialogContent').load(href, function () {
+            $('#dialogDiv').modal({
+                backdrop: 'static',
+                keyboard: true
+            }, 'show');
+        });
+    }
+
+    function AddContact(e) {
+
+        e.preventDefault();
+        //Optional: turn the chache off
+        $.ajaxSetup({ cache: false });
+        //alert("Here");
+        //$('#btnAddProposal').click(function () {
+
+        var grid = this;
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var row = $(e.currentTarget).closest("tr");
+
+        var href = "@Url.Action("Create_contact", "ContactPerson")" + "?fdpId=" + dataItem.FDPID;
+
+        $('#dialogContent').load(href, function () {
+            $('#dialogDiv').modal({
+                backdrop: 'static',
+                keyboard: true
+            }, 'show');
+        });
+
+                    @*e.preventDefault();
+        var grid = this;
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var row = $(e.currentTarget).closest("tr");
+        wnd.center().open();
+
+        $("#yes").click(function () {
+
+            window.location = "@Url.Action("Create_contact", "ContactPerson")" + "/" + dataItem.FDPID;
+            wnd.close();
+        });
+
+        $("#no").click(function () {
+            wnd.close();
+        });*@
+    }
+
+
+    $(function () {
+        //  $("a.k-grid-add").removeClass("k-grid-add");
+        //  var treeView = $("#AdminUnitTreeView").data("kendoTreeView");
+        //treeView.select(".k-item:first");
+        //$("#AdminUnitTreeView").data("kendoTreeView").trigger("select");
+        //$("#AdminUnitTreeView").data("kendoTreeView").expand(".k-item");
+        //var getitem = treeView.dataSource.get(55);
+        //treeView.findByUid(getitem.uid);
+        //var selectitem = treeView.findByUid(getitem.uid);
+        //treeView.select(selectitem);
+        //onSelect(selectitem);
+        //var grid = $("#FDPGrid").data("kendoGrid");
+        //grid.dataSource.read();
+    });
+
+    function selectedWoredaId() {
+        //alert($("#AdminUnitTreeView").data("kendoTreeView").dataSource.id);
+        var obj = { adminUnitID: selectedWoreda };
+        return obj;
+    }
+
+    function CurrentSelectedTreeNode() {
+        return {
+            intEmpky: $("#treeview").current()
+        };
+    }
+
+    function onSelect(e) {
+        var id = this.dataItem(e.node).id;
+        selectedWoreda = id;
+        if (id != null) {
+            var grid = $("#grid").data("kendoGrid");
+            grid.dataSource.read();
+        }
+    }
+    function show_obj(obj, name) {
+        var htm = "<ul>";
+        for (var i in obj) {
+            htm += "<li>" + i + ":" + typeof (obj[i]) + "</li>";
+        }
+        htm += "</ul>";
+        return htm;
+    }
+
+    var timer;
+    function FDPSaveSuccess(request, status, error) {
+        var msg = '<div class="cats_success">Success: FDP Saved.</div>';
+        $(".message-window").html(msg).delay(800).hide().fadeIn();
+        clearTimeout(timer);
+        timer = setTimeout(function () {
+            $(".message-window").fadeOut("normal", function () { $(this).html(''); });
+        }, 5000);
+    }
+
+    function dataBound() {
+        this.expandRow(this.tbody.find("tr.k-master-row").first());
+    }
+</script>
+
+

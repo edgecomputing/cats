@@ -1,0 +1,63 @@
+﻿@model Cats.Models.Contribution
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";  
+}
+
+@section LeftBar
+{
+    @Html.Partial("_ContributionLeftBar");
+}
+@section Toolbar
+{
+    <a class="btn toolbar-btn " data-buttontype="btn_save" data-submittedform="frm_create_contribution"></a>
+    <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="@Url.Action("Index", "Contribution")" title="save"></a>
+}
+
+
+<div>
+    <h4>Create Donor Contribution</h4>
+</div>
+@using (Html.BeginForm("Create", "Contribution", FormMethod.Post, new { id = "frm_create_contribution" }))
+{
+    @Html.ValidationSummary(true)
+    <div class="well form-horizontal">
+        <div class="control-group">
+            <div class="control-label">
+                @Html.LabelFor(m => m.HRDID,"HRD")
+            </div>
+            <div class="controls">
+                @Html.DropDownList("HRDID", String.Empty)
+                @Html.ValidationMessageFor(m => m.HRDID)
+            </div>
+    </div>
+        <div class="control-group">
+            <div class="control-label">
+                @Html.LabelFor(m => m.DonorID,"Donor")
+            </div>
+            <div class="controls">
+                @Html.DropDownList("DonorID", String.Empty)
+                @Html.ValidationMessageFor(m => m.DonorID)
+            </div>
+
+        </div>
+
+       <div class="control-group">
+            <div class="control-label">
+                @Html.LabelFor(m => m.ContributionType)
+            </div>
+            <div class="controls">
+                 @Html.DropDownList("ContributionType", new List<SelectListItem>
+
+                 {
+                    new SelectListItem{ Text="In-Cash", Value = "In-Cash" },
+                    new SelectListItem{ Text="In-Kind", Value = "In-Kind" }
+                 }) 
+                @Html.ValidationMessageFor(m => m.ContributionType)
+            </div>
+
+        </div>
+      
+    </div>
+}
+

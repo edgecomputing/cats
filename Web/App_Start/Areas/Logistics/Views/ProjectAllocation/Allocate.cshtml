@@ -1,0 +1,63 @@
+﻿@model IEnumerable<Cats.Models.ReliefRequisition>
+@using Cats.Helpers
+
+@{
+    ViewBag.Title = "Allocate";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<fieldset>
+    <legend>
+        Hub Allocation Information
+    </legend>
+</fieldset> 
+
+@section LeftBar
+{
+    <div class="control-group">
+               <label class="control-label">@Html.Translate("Hub Name") : </label>
+               <div class="controls">
+                   @Html.DropDownList("HubId", null, "Adama", new {id = "selectHub", type = "submit"})
+               </div>
+           </div>
+    
+    
+}
+    <div id="requisitionList"></div>
+    <div id="projectSIAllocation"> </div>
+    
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#selectHub').change(function (event) {
+                event.preventDefault();
+                var req = $('#HubId :selected');
+                //$('#requisitionList').load('/ProjectAllocation/HubAllocatedList?HubID=' + req.text());
+                var data = $(this).serialize();
+                var url = '@Url.Action("HubAllocatedList", "ProjectAllocation")';
+
+                $.post(url, data, function (response) {
+                    $('.title').remove();
+                    $('#TBLAllocations').remove();
+                    $('#requisitionList').append(response);
+                });
+            });
+           
+            $("table a#test").click(function (event) {
+                event.preventDefault();
+                alert('link was clicked!');
+                var url = $(this).attr('@Url.Action("ProjectCodeAllocation", "ProjectAllocation", new { Area = "Logistics", id = 0 })');
+
+                //window.location = href;
+                var data = $(this).serialize();
+                $.post(url, data, function (response) {
+                    $('#projectSIAllocation').apend(response);
+                });
+
+            });
+       
+
+        });
+        
+        
+    </Script>
+   

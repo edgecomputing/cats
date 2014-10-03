@@ -1,0 +1,64 @@
+﻿@{
+    ViewBag.Title = "FDPs Geography";
+    Layout = "~/Views/Shared/_MainLayoutMap.cshtml";
+}
+
+<script type="text/javascript">
+
+    function initialize() {
+
+        var canvas = $("#map_canvas");
+        //alert(canvas);
+
+        var latitude = 8.300000;
+        var longitude = 39.1167;
+
+        var latlng = new google.maps.LatLng(latitude, longitude);
+        var options = {
+            zoom: 7,
+            center: latlng,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+
+        var map = new google.maps.Map(canvas[0], options);
+        var iconBase = 'https://maps.google.com/mapfiles/kml/shapes/';
+        //https://developers.google.com/maps/tutorials/customizing/styling-the-base-map
+        
+        var fdps = [];
+        
+        $.getJSON("@Url.Action("GetGeography", "FDP")", function (data) {
+
+            $.each(data, function (key, val) {
+                var fdp = new google.maps.Marker({
+                    position: new google.maps.LatLng(val.Latitude, val.Longitude),
+                    title: val.Name,
+                    map: map,
+                    icon: iconBase + 'schools_maps.png'
+                });
+
+                fdps.push(fdp);
+                
+                //alert(fdp.title + fdp.position);
+            });
+        });
+        
+        //var markers = //some array;
+        var bounds = new google.maps.LatLngBounds();
+        
+        for(i=0;i<fdps.length;i++) {
+            bounds.extend(markers[i].getPosition());
+        }
+
+        //map.fitBounds(bounds);
+
+    }
+
+    $(function () { //Same as $(document).ready()
+        initialize();
+    });
+
+    
+
+</script>
+
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>

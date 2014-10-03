@@ -1,0 +1,100 @@
+﻿
+@using Cats.Helpers
+@using Cats.Services.Security
+@using Kendo.Mvc.UI
+@model Cats.Models.HRD
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_CATSLayout.cshtml";
+    const string pageName = "EarlyWarning.HRD.Create";
+}
+
+@section Title
+{
+Plans
+}
+
+@section PageTitle
+{
+    <h1 class="hdr-blck big ">
+        @Html.Translate("Edit HRD")
+    </h1>
+}
+<div class="row">
+    @Html.Partial("_HRDLeftBar")
+    <div class="col-md-10  col-sm-9">
+        <div class=" box box-primary ">
+             @using (Html.BeginForm("Edit", "HRD", FormMethod.Post, new { id = "frm_Edit_hrd" }))
+    {
+        @Html.ValidationSummary(true)
+        @Html.HiddenFor(m=>m.HRDID)
+        @Html.HiddenFor(m=>m.PlanID)
+        @Html.HiddenFor(m=>m.Status)
+            <div class="box-body row">
+               
+
+            <div class="col-md-6 col-sm-6 form-horizontal">
+               
+                
+                  
+
+            <div class="form-group">
+                
+                    @Html.LabelFor(m => m.Year,"Year (Specified in EC)", new { @class = "col-sm-4 control-label" })
+               
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(m => m.Year, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m=>m.Year)
+                </div>
+        
+            </div>
+            <div class="form-group">
+                
+                    @Html.LabelFor(m => m.SeasonID, new { @class = "col-sm-4 control-label" })
+                
+                <div class="col-sm-8">
+                    @Html.DropDownList("SeasonID", null, String.Empty, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m=>m.SeasonID)
+                </div>
+        
+            </div>
+            <div class="form-group">
+               
+                    @Html.LabelFor(m => m.RationID,"Ration", new { @class = "col-sm-4 control-label" })
+                
+                <div class="col-sm-8">
+                    @Html.DropDownList("RationID", null, String.Empty, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m=>m.RationID)
+                </div>
+        
+            </div>
+             <div class="form-group">
+               
+                    @Html.LabelFor(m => m.CreatedDate,"Created Date",new {@class="col-sm-4 control-label cats-date-pref"})
+               
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(m=>m.CreatedDate,new {@class="form-control cats-datepicker2"})
+                    @Html.ValidationMessageFor(m => m.CreatedDate)
+                </div>
+            </div>
+       
+
+              
+           
+                </div>
+               
+
+            </div>
+                    <div class="box-footer text-center">
+                        <button class="btn btn-primary " data-buttontype="btn_save" type="submit" data-submittedform="frm_Edit_hrd"><span class="fa fa-save"></span> Save</button>
+                        <a class="btn  btn-default"  href="@Url.Action("Index", "HRD")"><span class="fa fa-lg fa-times-circle"></span> Cancel</a>
+                    </div>
+             }
+        </div>
+    </div>
+</div>
+
+<div id="cats-modal"></div>
+
+

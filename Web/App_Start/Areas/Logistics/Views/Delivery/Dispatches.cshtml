@@ -1,0 +1,956 @@
+﻿@using Cats.Areas.Logistics.Models
+@using Kendo.Mvc.UI
+@using Cats.Helpers
+@model Cats.Areas.Procurement.Models.TransportOrderViewModel
+
+@{
+    ViewBag.Title = "Dispatches";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+    
+}
+<html ng-app="DispatchManagementModule">
+    <head>
+        <style>
+            .selected {
+                background-color: #006DCC;
+            }
+            .errorStyle {
+                font-size: 16px;
+                color: red;
+                font-weight: bold;
+            }
+            .successStyle {
+                font-size: 16px;
+                color: lime;
+                font-weight: bold;
+            }
+            thead *
+            {
+                font-weight:normal;
+            }
+        </style>
+    </head>
+    <body ng-controller="DispatchManagementController">
+        <h4 class="page-header">@Html.Translate("Transport Order Dispatches")</h4>
+        <div class="control-group form-horizontal well">
+            <div class="row">
+                <div class="span6">
+                    <div class="control-group">
+                        <div class="control-label">
+                            @Html.LabelFor(model => model.TransportOrderNo)
+                        </div>
+                        <div class="controls">
+                            @Html.TextBoxFor(model => model.TransportOrderNo, new { Disabled = true })
+                        </div>
+                    </div>
+                </div>
+                <div class="span6">
+                    <div class="control-group">
+                        <div class="control-label">
+                            @Html.LabelFor(model => model.Transporter)
+                        </div>
+                        <div class="controls">
+                            @Html.TextBoxFor(model => model.Transporter, new { Disabled = true })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="span6">
+                    <div class="control-group">
+                        <div class="control-label">
+                            @Html.LabelFor(model => model.ContractNumber)
+                        </div>
+                        <div class="controls">
+                            @Html.TextBoxFor(model => model.ContractNumber, new { Disabled = true })
+                        </div>
+                    </div>
+                </div>
+                <div class="span6">
+                    <div class="control-group">
+                        <div class="control-label">
+                            @Html.LabelFor(model => model.OrderDateET)
+                        </div>
+                        <div class="controls">
+                            @Html.TextBoxFor(model => model.OrderDateET, new { Disabled = true })
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="span6">
+                    <div class="control-group">
+                        <div class="control-label">
+                            @Html.LabelFor(model => model.RequestedDispatchDateET, new { @class = "cats-date-pref" })
+                        </div>
+                        <div class="controls">
+                            @Html.TextBoxFor(model => model.RequestedDispatchDateET, new { Disabled = true })
+                        </div>
+                    </div>
+                </div>
+                <div class="span6">
+                    <div class="control-group">
+                        <div class="control-label">
+                            @Html.LabelFor(model => model.OrderExpiryDateET, new { @class = "cats-date-pref" })
+                        </div>
+                        <div class="controls">
+                            @Html.TextBoxFor(model => model.OrderExpiryDateET, new { Disabled = true })
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="span6">
+                    <div class="control-group">
+                        <div class="control-label">
+                            @Html.LabelFor(model => model.StartDate, new { @class = "cats-date-pref" })
+                        </div>
+                        <div class="controls">
+                            @Html.TextBoxFor(model => model.StartDate, new { Disabled = true })
+                        </div>
+                    </div>
+                </div>
+                <div class="span6">
+                    <div class="control-group">
+                        <div class="control-label">
+                            @Html.LabelFor(model => model.EndDate, new { @class = "cats-date-pref" })
+                        </div>
+                        <div class="controls">
+                            @Html.TextBoxFor(model => model.EndDate, new { Disabled = true })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div >
+            <div class="row-fluid" style="width:800px;float: left;">
+                <ul class="nav nav-tabs ">
+                    <li class="active">
+                        <a href="#tab0" data-toggle="tab" @*class="enableGRNEdit"*@ data-ng-click="enableGRNEdit()"><b>@Html.Translate("Dispatch Waiting Receiving Note")</b></a>
+                    </li>
+                    <li>
+                        <a href="#tab1" data-toggle="tab" @*class="disableGRNEdit"*@ data-ng-click="disableGRNEdit()"><b>@Html.Translate("Dispatch With Receiving Note")</b></a>
+                    </li>
+                    <li>
+                        <a href="#tab2" data-toggle="tab" @*class="disableGRNEdit"*@ data-ng-click="disableGRNEdit()"><b>@Html.Translate("Receiving Discrepancies")</b></a>
+                    </li>
+
+                </ul>
+                <div class="tab-content ">
+                    <div id="tab0" class="tab-pane active">
+                        <div id="gridWithoutGRN" class="k-widget k-grid" data-role="grid" style="">
+                            <div class="k-grid-header" style="padding-right: 17px; display:none;">
+                                <div class="k-grid-header-wrap">
+                                    <table cellspacing="0" role="grid">
+                                       
+                                        <colgroup><col><col><col><col><col><col><col><col><col><col></colgroup>
+                                        <thead>
+                                            <tr>
+                                                <th style="overflow: visible; white-space: normal;" scope="col" data-title="GIN" data-field="GIN" class="k-header">
+                                                    <span class="k-link">GIN</span>
+                                                </th>
+                                                <th style="overflow: visible; white-space: normal;" scope="col" data-title="Requisition No" data-field="RequisitionNo" class="k-header">
+                                                    <span class="k-link">Requisition No</span>
+                                                </th>
+                                                <th scope="col" data-title="Program" data-field="Program" class="k-header">
+                                                    <span class="k-link">Program</span>
+                                                </th>
+                                                
+                                                <th scope="col" data-title="Zone" data-field="Zone" class="k-header">
+                                                    <span class="k-link">Zone</span>
+                                                </th>
+                                                <th scope="col" data-title="Woreda" data-field="Woreda" class="k-header">
+                                                    <span class="k-link">Woreda</span>
+                                                </th>
+
+                                                <th scope="col" data-title="FDP" data-field="FDP" class="k-header">
+                                                    <span class="k-link">FDP</span>
+                                                </th>
+                                                <th scope="col" data-title="Bid Number" data-field="BidNumber" class="k-header">
+                                                    <span class="k-link">Bid Number</span>
+                                                </th>
+                                                <th style="overflow: visible; white-space: normal;" scope="col" data-title="Plate No. Prime" data-field="PlateNo_Prime" class="k-header">
+                                                    <span class="k-link">Plate No. Prime</span>
+                                                </th>
+                                                <th style="overflow: visible; white-space: normal;" scope="col" data-title="Plate No. Trailer" data-field="PlateNo_Trailer" class="k-header">
+                                                    <span class="k-link">Plate No. Trailer</span>
+                                                </th>
+                                                <th style="overflow: visible; white-space: normal;" scope="col" data-title="Received By (Driver Name)" data-field="DriverName" class="k-header">
+                                                    <span class="k-link">Received By (Driver Name)</span>
+                                                </th>
+                                                <th style="overflow: visible; white-space: normal;" scope="col" data-title="Dispatched Date" data-field="DispatchDatePref" class="k-header cats-date-pref-grid">
+                                                    <span class="k-link">Dispatched Date</span>
+                                                </th>
+                                                <th style="overflow: visible; white-space: normal;" scope="col" data-title="Created Date" data-field="CreatedDatePref" class="k-header cats-date-pref-grid">
+                                                    <span class="k-link">Created Date</span>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+                            <div style="height:720px" class="k-grid-content">
+                                <table cellspacing="0" role="grid">
+                                    <colgroup><col><col><col><col><col><col><col><col><col><col></colgroup>
+                                        <thead>
+                                            <tr>
+                                                <td colspan="4">
+                                                 <div class="controls">     
+                                       Search    : <input type="search" data-ng-model="search"/>
+                                                     
+                                            </div>
+                                                    </td>
+                                            </tr>
+                                            <tr>
+                                                <th style="overflow: visible; white-space: normal;" scope="col" data-title="GIN" data-field="GIN" class="k-header">
+                                                    <span class="k-link">GIN</span>
+                                                </th>
+                                                <th style="overflow: visible; white-space: normal;" scope="col" data-title="Requisition No" data-field="RequisitionNo" class="k-header">
+                                                    <span class="k-link">Requisition No</span>
+                                                </th>
+                                                <th scope="col" data-title="Program" data-field="Program" class="k-header">
+                                                    <span class="k-link">Program</span>
+                                                </th>
+                                                <th scope="col" data-title="Zone" data-field="Zone" class="k-header">
+                                                    <span class="k-link">Zone</span>
+                                                </th>
+                                                <th scope="col" data-title="Woreda" data-field="Woreda" class="k-header">
+                                                    <span class="k-link">Woreda</span>
+                                                </th>
+                                                <th scope="col" data-title="FDP" data-field="FDP" class="k-header">
+                                                    <span class="k-link">FDP</span>
+                                                </th>
+                                                <th scope="col" data-title="Bid Number" data-field="BidNumber" class="k-header">
+                                                    <span class="k-link">Bid Number</span>
+                                                </th>
+                                                <th style="overflow: visible; white-space: normal;" scope="col" data-title="Plate No. Prime" data-field="PlateNo_Prime" class="k-header">
+                                                    <span class="k-link">Plate No. Prime</span>
+                                                </th>
+                                                <th style="overflow: visible; white-space: normal;" scope="col" data-title="Plate No. Trailer" data-field="PlateNo_Trailer" class="k-header">
+                                                    <span class="k-link">Plate No. Trailer</span>
+                                                </th>
+                                                <th style="overflow: visible; white-space: normal;" scope="col" data-title="Received By (Driver Name)" data-field="DriverName" class="k-header">
+                                                    <span class="k-link">Received By (Driver Name)</span>
+                                                </th>
+                                                <th style="overflow: visible; white-space: normal;" scope="col" data-title="Dispatched Date" data-field="DispatchDatePref" class="k-header cats-date-pref-grid">
+                                                    <span class="k-link">Dispatched Date</span>
+                                                </th>
+                                                <th style="overflow: visible; white-space: normal;" scope="col" data-title="Created Date" data-field="CreatedDatePref" class="k-header cats-date-pref-grid">
+                                                    <span class="k-link">Created Date</span>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td colspan="12" class="GetGINsWithoutGRNMessage" style="font-size: x-large;color: hotpink"></td>
+                                        </tr>
+                                        <tr ng-repeat="item in GetGINsWithoutGRN | filter:search">
+                                            <td><a data-dispatchID ="{{item.DispatchID}}" style="cursor:pointer;" data-ng-click="loadGRNPartial(item.DispatchID)">{{item.GIN}}</a></td>
+                                            <td>{{item.RequisitionNo}}</td>
+                                            <td>{{item.Program}}</td>
+                                            <td>{{item.Zone}}</td>
+                                            <td>{{item.Woreda}}</td>
+                                            <td>{{item.FDP}}</td>
+                                            <td>{{item.BidNumber}}</td>
+                                            <td>{{item.PlateNo_Prime}}</td>
+                                            <td>{{item.PlateNo_Trailer}}</td>
+                                            <td>{{item.DriverName}}</td>
+                                            <td>{{item.DispatchDatePref}}</td>
+                                            <td>{{item.CreatedDatePref}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="tab1" class="tab-pane">
+                        <div id="gridWithGRN" class="k-widget k-grid" data-role="grid" style="">
+                            <div class="k-grid-header" style="padding-right: 17px; display:none;">
+                                <div class="k-grid-header-wrap">
+                                    <table cellspacing="0" role="grid">
+                                        <colgroup><col><col><col><col><col><col><col><col><col><col></colgroup>
+                                        <thead>
+                                            <tr>
+                                                <th style="overflow: visible; white-space: normal;" scope="col" data-title="GIN" data-field="GIN" class="k-header">
+                                                    <span class="k-link">GIN</span>
+                                                </th>
+                                                <th style="overflow: visible; white-space: normal;" scope="col" data-title="Requisition No" data-field="RequisitionNo" class="k-header">
+                                                    <span class="k-link">Requisition No</span>
+                                                </th>
+                                                <th scope="col" data-title="Program" data-field="Program" class="k-header">
+                                                    <span class="k-link">Program</span>
+                                                </th>
+                                                <th scope="col" data-title="Zone" data-field="Zone" class="k-header">
+                                                    <span class="k-link">Zone</span>
+                                                </th>
+                                                <th scope="col" data-title="Woreda" data-field="Woreda" class="k-header">
+                                                    <span class="k-link">Woreda</span>
+                                                </th>
+                                                <th scope="col" data-title="FDP" data-field="FDP" class="k-header">
+                                                    <span class="k-link">FDP</span>
+                                                </th>
+                                                <th scope="col" data-title="Bid Number" data-field="BidNumber" class="k-header">
+                                                    <span class="k-link">Bid Number</span>
+                                                </th>
+                                                <th style="overflow: visible; white-space: normal;" scope="col" data-title="Plate No. Prime" data-field="PlateNo_Prime" class="k-header">
+                                                    <span class="k-link">Plate No. Prime</span>
+                                                </th>
+                                                <th style="overflow: visible; white-space: normal;" scope="col" data-title="Plate No. Trailer" data-field="PlateNo_Trailer" class="k-header">
+                                                    <span class="k-link">Plate No. Trailer</span>
+                                                </th>
+                                                <th style="overflow: visible; white-space: normal;" scope="col" data-title="Received By (Driver Name)" data-field="DriverName" class="k-header">
+                                                    <span class="k-link">Received By (Driver Name)</span>
+                                                </th>
+                                                <th style="overflow: visible; white-space: normal;" scope="col" data-title="Dispatched Date" data-field="DispatchDatePref" class="k-header cats-date-pref-grid">
+                                                    <span class="k-link">Dispatched Date</span>
+                                                </th>
+                                                <th style="overflow: visible; white-space: normal;" scope="col" data-title="Created Date" data-field="CreatedDatePref" class="k-header cats-date-pref-grid">
+                                                    <span class="k-link">Created Date</span>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+                            <div style="height:720px" class="k-grid-content">
+                                <table cellspacing="0" role="grid">
+                                    <colgroup><col><col><col><col><col><col><col><col><col><col></colgroup>
+
+                                        <thead>
+                                            <tr>
+                                                
+<td colspan="4">
+                                                 <div class="controls">     
+                                       Search    : <input type="search" data-ng-model="searchT2"/>
+                                                     
+                                            </div>
+                                                    </td>
+                                                 </tr>
+                                            <tr>
+                                                <th style="overflow: visible; white-space: normal;" scope="col" data-title="GIN" data-field="GIN" class="k-header">
+                                                    <span class="k-link">GIN</span>
+                                                </th>
+                                                <th style="overflow: visible; white-space: normal;" scope="col" data-title="Requisition No" data-field="RequisitionNo" class="k-header">
+                                                    <span class="k-link">Requisition No</span>
+                                                </th>
+                                                <th scope="col" data-title="Program" data-field="Program" class="k-header">
+                                                    <span class="k-link">Program</span>
+                                                </th>
+                                                <th scope="col" data-title="Zone" data-field="Zone" class="k-header">
+                                                    <span class="k-link">Zone</span>
+                                                </th>
+                                                <th scope="col" data-title="Woreda" data-field="Woreda" class="k-header">
+                                                    <span class="k-link">Woreda</span>
+                                                </th>
+                                                <th scope="col" data-title="FDP" data-field="FDP" class="k-header">
+                                                    <span class="k-link">FDP</span>
+                                                </th>
+                                                <th scope="col" data-title="Bid Number" data-field="BidNumber" class="k-header">
+                                                    <span class="k-link">Bid Number</span>
+                                                </th>
+                                                <th style="overflow: visible; white-space: normal;" scope="col" data-title="Plate No. Prime" data-field="PlateNo_Prime" class="k-header">
+                                                    <span class="k-link">Plate No. Prime</span>
+                                                </th>
+                                                <th style="overflow: visible; white-space: normal;" scope="col" data-title="Plate No. Trailer" data-field="PlateNo_Trailer" class="k-header">
+                                                    <span class="k-link">Plate No. Trailer</span>
+                                                </th>
+                                                <th style="overflow: visible; white-space: normal;" scope="col" data-title="Received By (Driver Name)" data-field="DriverName" class="k-header">
+                                                    <span class="k-link">Received By (Driver Name)</span>
+                                                </th>
+                                                <th style="overflow: visible; white-space: normal;" scope="col" data-title="Dispatched Date" data-field="DispatchDatePref" class="k-header cats-date-pref-grid">
+                                                    <span class="k-link">Dispatched Date</span>
+                                                </th>
+                                                <th style="overflow: visible; white-space: normal;" scope="col" data-title="Created Date" data-field="CreatedDatePref" class="k-header cats-date-pref-grid">
+                                                    <span class="k-link">Created Date</span>
+                                                </th>
+                                            </tr>
+                                        </thead>
+
+                                    <tbody>
+                                        <tr>
+                                            <td colspan="12" class="GetGINsWithGRNMessage" style="font-size: x-large;color: hotpink"></td>
+                                        </tr>
+                                        <tr ng-repeat="item in GetGINsWithGRN|filter:searchT2">
+                                            <td>
+                                                <a class="clickableLoader" style="cursor:pointer;" data-ng-click="loadGRNPartial(item.DispatchID)">{{item.GIN}}</a>
+                                            </td>
+                                            <td>{{item.RequisitionNo}}</td>
+                                            <td>{{item.Program}}</td>
+                                            <td>{{item.Zone}}</td>
+                                            <td>{{item.Woreda}}</td>
+                                            <td>{{item.FDP}}</td>
+                                            <td>{{item.BidNumber}}</td>
+                                            <td>{{item.PlateNo_Prime}}</td>
+                                            <td>{{item.PlateNo_Trailer}}</td>
+                                            <td>{{item.DriverName}}</td>
+                                            <td>{{item.DispatchDatePref}}</td>
+                                            <td>{{item.CreatedDatePref}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="tab2" class="tab-pane">
+                        <div id="grid" class="k-widget k-grid" data-role="grid" style="">
+                            <div class="k-grid-header" style="padding-right: 17px; display:none;">
+                                <div class="k-grid-header-wrap">
+                                    <table cellspacing="0" role="grid">
+                                        <colgroup><col><col><col><col><col><col><col><col><col><col></colgroup>
+                                        <thead>
+                                            <tr>
+                                                <th style="overflow: visible; white-space: normal;" scope="col" data-title="GIN" data-field="GIN" class="k-header">
+                                                    <span class="k-link">GIN</span>
+                                                </th>
+                                                <th style="overflow: visible; white-space: normal;" scope="col" data-title="Requisition No" data-field="RequisitionNo" class="k-header">
+                                                    <span class="k-link">Requisition No</span>
+                                                </th>
+                                                <th scope="col" data-title="Program" data-field="Program" class="k-header">
+                                                    <span class="k-link">Program</span>
+                                                </th>
+                                                <th scope="col" data-title="Zone" data-field="Zone" class="k-header">
+                                                    <span class="k-link">Zone</span>
+                                                </th>
+                                                <th scope="col" data-title="Woreda" data-field="Woreda" class="k-header">
+                                                    <span class="k-link">Woreda</span>
+                                                </th>
+
+                                                <th scope="col" data-title="FDP" data-field="FDP" class="k-header">
+                                                    <span class="k-link">FDP</span>
+                                                </th>
+                                                <th scope="col" data-title="Bid Number" data-field="BidNumber" class="k-header">
+                                                    <span class="k-link">Bid Number</span>
+                                                </th>
+                                                <th style="overflow: visible; white-space: normal;" scope="col" data-title="Plate No. Prime" data-field="PlateNo_Prime" class="k-header">
+                                                    <span class="k-link">Plate No. Prime</span>
+                                                </th>
+                                                <th style="overflow: visible; white-space: normal;" scope="col" data-title="Plate No. Trailer" data-field="PlateNo_Trailer" class="k-header">
+                                                    <span class="k-link">Plate No. Trailer</span>
+                                                </th>
+                                                <th style="overflow: visible; white-space: normal;" scope="col" data-title="Received By (Driver Name)" data-field="DriverName" class="k-header">
+                                                    <span class="k-link">Received By (Driver Name)</span>
+                                                </th>
+                                                <th style="overflow: visible; white-space: normal;" scope="col" data-title="Dispatched Date" data-field="DispatchDatePref" class="k-header cats-date-pref-grid">
+                                                    <span class="k-link">Dispatched Date</span>
+                                                </th>
+                                                <th style="overflow: visible; white-space: normal;" scope="col" data-title="Created Date" data-field="CreatedDatePref" class="k-header cats-date-pref-grid">
+                                                    <span class="k-link">Created Date</span>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+                            <div style="height:720px" class="k-grid-content">
+                                <table cellspacing="0" role="grid">
+                                    <colgroup><col><col><col><col><col><col><col><col><col><col></colgroup>
+                                        <thead>
+                                           <tr>
+                                                <td colspan="4">
+                                                 <div class="controls">     
+                                       Search    : <input type="search" data-ng-model="searchT3"/>
+                                                     
+                                            </div>
+                                                    </td>
+                                                    </tr> <tr>
+                                                    
+                                                
+                                                <th style="overflow: visible; white-space: normal;" scope="col" data-title="GIN" data-field="GIN" class="k-header">
+                                                    <span class="k-link">GIN</span>
+                                                </th>
+                                                <th style="overflow: visible; white-space: normal;" scope="col" data-title="Requisition No" data-field="RequisitionNo" class="k-header">
+                                                    <span class="k-link">Requisition No</span>
+                                                </th>
+                                                <th scope="col" data-title="Program" data-field="Program" class="k-header">
+                                                    <span class="k-link">Program</span>
+                                                </th>
+                                                <th scope="col" data-title="Zone" data-field="Zone" class="k-header">
+                                                    <span class="k-link">Zone</span>
+                                                </th>
+                                                <th scope="col" data-title="Woreda" data-field="Woreda" class="k-header">
+                                                    <span class="k-link">Woreda</span>
+                                                </th>
+
+                                                <th scope="col" data-title="FDP" data-field="FDP" class="k-header">
+                                                    <span class="k-link">FDP</span>
+                                                </th>
+                                                <th scope="col" data-title="Bid Number" data-field="BidNumber" class="k-header">
+                                                    <span class="k-link">Bid Number</span>
+                                                </th>
+                                                <th style="overflow: visible; white-space: normal;" scope="col" data-title="Plate No. Prime" data-field="PlateNo_Prime" class="k-header">
+                                                    <span class="k-link">Plate No. Prime</span>
+                                                </th>
+                                                <th style="overflow: visible; white-space: normal;" scope="col" data-title="Plate No. Trailer" data-field="PlateNo_Trailer" class="k-header">
+                                                    <span class="k-link">Plate No. Trailer</span>
+                                                </th>
+                                                <th style="overflow: visible; white-space: normal;" scope="col" data-title="Received By (Driver Name)" data-field="DriverName" class="k-header">
+                                                    <span class="k-link">Received By (Driver Name)</span>
+                                                </th>
+                                                <th style="overflow: visible; white-space: normal;" scope="col" data-title="Dispatched Date" data-field="DispatchDatePref" class="k-header cats-date-pref-grid">
+                                                    <span class="k-link">Dispatched Date</span>
+                                                </th>
+                                                <th style="overflow: visible; white-space: normal;" scope="col" data-title="Created Date" data-field="CreatedDatePref" class="k-header cats-date-pref-grid">
+                                                    <span class="k-link">Created Date</span>
+                                                </th>
+                                            </tr>
+                                        </thead>
+
+                                    <tbody>
+                                        @*<tr role="row" data-uid="fc1fa826-1d46-4983-80a4-b7dc0ec37c27" class="alert-danger">*@
+                                        <tr>
+                                            <td colspan="12" class="DeliveryNotesMessage" style="font-size: x-large;color: hotpink"></td>
+                                        </tr>
+                                        <tr role="row" data-ng-repeat="item in DeliveryNotes |filter:searchT3">
+                                            <td>
+                                                <a class="clickableLoader" style="cursor:pointer;" data-ng-click="loadGRNPartial(item.DispatchID)">{{item.InvoiceNo}}</a>
+                                            </td>
+                                            <td>{{item.RequisitionNo}}</td>
+                                            <td>{{item.Program}}</td>
+                                            <td>{{item.Zone}}</td>
+                                            <td>{{item.Woreda}}</td>
+                                            <td>{{item.FDP}}</td>
+                                            <td>{{item.BidNumber}}</td>
+                                            <td>{{item.PlateNoPrimary}}</td>
+                                            <td>{{item.PlateNoTrailler}}</td>
+                                            <td>{{item.DriverName}}</td>
+                                            <td>{{item.DispatchDatePref}}</td>
+                                            <td>{{item.CreatedDatePref}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+           
+                </div>
+            </div>
+    
+            <div class="form-horizontal well" style=" padding-left: 50px;margin-left:0px;width:420px;height:750px;float: right;margin-top:57px;">
+                <div class="row" style="padding-left:50px;">
+                    <h3>Edit Goods Receiving Note (GRN)</h3>
+                </div>
+                <div class="row">
+                    <div class="span6">
+                        <div class="control-group">
+                            <div class="control-label">
+                                <label for="DistributionViewModel_GIN">GIN</label>
+                            </div>
+                            <div class="controls">
+                                <input type="text" value="{{GRNDetail.InvoiceNo}}" name="DistributionViewModel.GIN" id="DistributionViewModel_GIN" data-ng-model="GRNDetail.InvoiceNo" disabled="disabled"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="span6">
+                        <div class="control-group">
+                            <div class="control-label">
+                                <label for="DistributionViewModel_ReceivingNumber">Receiving Number</label>
+
+                            </div>
+                            <div class="controls">
+                                <input type="text" value="{{GRNDetail.ReceivingNumber}}" name="DistributionViewModel.ReceivingNumber" id="DistributionViewModel_ReceivingNumber" data-ng-model="GRNDetail.ReceivingNumber">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="span6">
+                        <div class="control-group">
+                            <div class="control-label">
+                                <label for="DistributionViewModel_WaybillNo">Way Bill No.</label>
+                            </div>
+                            <div class="controls">
+                                <input type="text" value="{{GRNDetail.WayBillNo}}" name="DistributionViewModel.WaybillNo" id="DistributionViewModel_WaybillNo" data-ng-model="GRNDetail.WayBillNo">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="span6">
+                        <div class="control-group">
+                            <div class="control-label">
+                                <label for="DistributionViewModel_ReceivedBy">Received By</label>
+                            </div>
+                            <div class="controls">
+                                <input type="text" value="{{GRNDetail.ReceivedBy}}" name="DistributionViewModel.ReceivedBy" id="DistributionViewModel_ReceivedBy" data-ng-model="GRNDetail.ReceivedBy">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="span6">
+                        <div class="control-group">
+                            <div class="control-label">
+                                <label for="DistributionViewModel_ReceivedDate" class="cats-date-pref">Received Date</label>
+                            </div>
+                            <div class="controls">
+                                <input class="cats-datepicker2" type="text" value="{{GRNDetail.ReceivedDate}}" name="DistributionViewModel.ReceivedDate" id="DistributionViewModel_ReceivedDate" data-ng-model="GRNDetail.ReceivedDate" id="datepicker">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="span6">
+                        <div class="control-group">
+                            <div class="control-label">
+                                <label for="DistributionViewModel_DeliveryBy">Delivery By</label>
+                            </div>
+                            <div class="controls">
+                                <input type="text" value="{{GRNDetail.DeliveryBy}}" name="DistributionViewModel.DeliveryBy" id="DistributionViewModel_DeliveryBy" data-ng-model="GRNDetail.DeliveryBy" disabled="disabled">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="span6">
+                        <div class="control-group">
+                            <div class="control-label">
+                                <label for="DistributionViewModel_DeliveryDate"  class="cats-date-pref">Delivery Date</label>
+                            </div>
+                            <div class="controls">
+                                <input class="cats-datepicker2" type="text" value="{{GRNDetail.DeliveryDate}}" name="DistributionViewModel.DeliveryDate" id="DistributionViewModel_DeliveryDate" data-ng-model="GRNDetail.DeliveryDate" id="datepicker">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="span6">
+                        <div class="control-group">
+                            <div class="control-label">
+                                <label for="DistributionViewModel_Commodity">Commodity</label>
+                            </div>
+                            <div class="controls">
+                                <input type="text" value="{{GRNDetail.Commodity}}" name="DistributionViewModel.Commodity" id="DistributionViewModel_Commodity" data-ng-model="GRNDetail.Commodity" disabled="disabled">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="span6">
+                        <div class="control-group">
+                            <div class="control-label">
+                                <label for="DistributionViewModel_SentQuantity">Sent Qty.</label>
+                            </div>
+                            <div class="controls">
+                                <input type="text" value="{{GRNDetail.SentQuantity}}" name="DistributionViewModel.SentQuantity" id="DistributionViewModel_SentQuantity" data-ng-model="GRNDetail.SentQuantity" disabled="disabled">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="span6">
+                        <div class="control-group">
+                            <div class="control-label">
+                                <label for="DistributionViewModel_ReceivedQuantity">Received Qty.</label>
+                            </div>
+                            <div class="controls">
+                                <input type="text" value="{{GRNDetail.ReceivedQuantity}}" name="DistributionViewModel.ReceivedQuantity" id="DistributionViewModel_ReceivedQuantity" data-ng-model="GRNDetail.ReceivedQuantity">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="span7">
+                        <div class="control-group">
+                            <div class="control-label">
+                                <label for="DistributionViewModel_DiffrenceQuantity">Diffrence Qty.</label>
+                            </div>
+                            <div class="controls">
+                               <label for="DistributionViewModel_DiffrenceQuantity">{{GRNDetail.SentQuantity - GRNDetail.ReceivedQuantity}} </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="span6">
+                        <div class="control-group">
+                            <div class="control-label">
+                                <label for="DistributionViewModel_Unit">Unit</label>
+                            </div>
+                            <div class="controls">
+                                <input type="text" value="{{GRNDetail.Unit}}" name="DistributionViewModel.Unit" id="DistributionViewModel_Unit" data-ng-model="GRNDetail.Unit" disabled="disabled">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="span6">
+                        <div class="control-group">
+                            <div class="control-label">
+                                <label for="DistributionViewModel_DocumentReceivedDate"  class="cats-date-pref">Document Received Date</label>
+                            </div>
+                            <div class="controls">
+                                <input class="cats-datepicker2" type="text" value="{{GRNDetail.DocumentReceivedDate}}" name="DistributionViewModel.DocumentReceivedDate" id="DistributionViewModel_DocumentReceivedDate" data-ng-model="GRNDetail.DocumentReceivedDate" id="datepicker">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="span6" style="width:400px;">
+                        <div class="control-group message-box" style="float: left;"></div>
+                        <div class="control-group" style="float: right;">
+                            <button class="btn btn-large btn-primary btnEditGRN" ng-click="editGRN()">Save</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+        </div>
+    </body>
+</html>
+                                           
+<script>
+    angular.module('DispatchManagementModule', []).controller('DispatchManagementController', function ($scope, $http) {
+        //$scope.TransportOrderID = @*@ViewBag.TransportOrderId*@;
+        $scope.GetGINsWithGRN = [];
+        $scope.GetGINsWithoutGRN = [];
+        $scope.DeliveryNotes = [];
+        $scope.GRNDetail = [];
+        
+        $scope.disableGRNEdit = function(id) {
+            $scope.GRNDetail = [];
+            $(".btnEditGRN").hide();
+            $(".message-box").html("");
+        };
+        
+        $scope.enableGRNEdit = function(id) {
+            $scope.GRNDetail = [];
+            $(".btnEditGRN").show();
+            $(".message-box").html("");
+        };
+
+        $scope.loadGRNPartial = function(id) {
+            var dispatchId = { "id": id };
+            //$("#" + dispatchId).addClass("selected");
+            $http.post(rootDir + 'Delivery/LoadGRN/', dispatchId).
+                success(function(data, status, headers, config) {
+                    //alert(data["ReceivedBy"]);
+                    $scope.GRNDetail = data;
+                    //$scope.GRNDetail.DispatchID = id;
+                }).
+                error(function(data, status, headers, config) {
+                    alert("#ERROR - Can't load the GRN for the selected dispatch.");
+                });
+        };
+
+        $scope.editGRN = function(id) {
+            //alert("ReceivedBy: " + $scope.GRNDetail.ReceivedBy);
+            if ($scope.GRNDetail != []) {
+                $http.post(rootDir + 'Delivery/EditGRN/', $scope.GRNDetail).
+                    success(function(data, status, headers, config) {
+                        //alert(data["ReceivedBy"]);
+                        $scope.GRNDetail = [];
+                        $(".message-box").html("Successfully Received!");
+                        $(".message-box").removeClass("errorStyle");
+                        $(".message-box").addClass("successStyle");
+                        $http({
+                            method: 'GET',
+                            url: rootDir + 'Delivery/GetGINsWithGRN/' + @ViewBag.TransportOrderId
+                            //url: @*@Url.Action("GetGINsWithGRN", "Delivery", new { Area = "Logistics", id = @ViewBag.TransportOrderId }),*@
+                            
+                        }).success(function(result) {
+                            $scope.GetGINsWithGRN = result;
+                            if(result=="") {
+                                $(".GetGINsWithGRNMessage").html("No delivered Dispatch was found!");
+                            }
+                            else {
+                                $(".GetGINsWithGRNMessage").html("");
+                            }
+                        });
+                        $http({
+                            method: 'GET',
+                            url: rootDir + 'Delivery/GetGINsWithoutGRN/' + @ViewBag.TransportOrderId
+                        }).success(function(result) {
+                            $scope.GetGINsWithoutGRN = result;
+                            if(result=="") {
+                                $(".GetGINsWithoutGRNMessage").html("No undelivered Dispatch was found!");
+                            }
+                            else {
+                                $(".GetGINsWithoutGRNMessage").html("");
+                            }
+                        });
+                        $http({
+                            method: 'GET',
+                            url: rootDir + 'Delivery/ReadDeliveryNotesDiscripancy/' + @ViewBag.TransportOrderId
+                        }).success(function(result) {
+                            $scope.DeliveryNotes = result;
+                            if(result=="") {
+                                $(".DeliveryNotesMessage").html("No Received Dispatch with descripancy was found!");
+                            }
+                            else {
+                                $(".DeliveryNotesMessage").html("");
+                            }
+                        });
+                    }).
+                    error(function(data, status, headers, config) {
+                        //alert("#ERROR - Couldn't edit the selected dispatch.");
+                        $(".message-box").html("ERROR - Couldn't receive the selected dispatch.");
+                        $(".message-box").removeClass("successStyle");
+                        $(".message-box").addClass("errorStyle");
+                    });
+            } else {
+                //alert("#ERROR - Select a dispatch first.");
+                $(".message-box").html("ERROR - Select a dispatch first.");
+                $(".message-box").removeClass("successStyle");
+                $(".message-box").addClass("errorStyle");
+            }
+        };
+        //alert(rootDir);
+        $http({
+            method: 'GET',
+            url: rootDir + 'Delivery/GetGINsWithGRN/' + @ViewBag.TransportOrderId
+
+        }).success(function (result) {
+            $scope.GetGINsWithGRN = result;
+            if(result=="") {
+                $(".GetGINsWithGRNMessage").html("No delivered Dispatch was found!");
+            }
+        });
+
+
+        $http({
+            method: 'GET',
+            url: rootDir + 'Delivery/GetGINsWithoutGRN/' + @ViewBag.TransportOrderId
+
+        }).success(function (result) {
+            $scope.GetGINsWithoutGRN = result;
+            if(result=="") {
+                $(".GetGINsWithoutGRNMessage").html("No undelivered Dispatch was found!");
+            }
+        });
+
+        $http({
+            method: 'GET',
+            url: rootDir + 'Delivery/ReadDeliveryNotesDiscripancy/' + @ViewBag.TransportOrderId
+
+        }).success(function (result) {
+            $scope.DeliveryNotes = result;
+            if(result=="") {
+                $(".DeliveryNotesMessage").html("No Received Dispatch with descripancy was found!");
+            }
+        });
+        
+    });
+    
+    $(function () {
+        //$( "#datepicker" ).datepicker();
+        //$(".disableGRNEdit").on("click",function () {
+        //    //alert();
+        //    $(".btnEditGRN").hide();
+        //});
+        //$(".enableGRNEdit").on("click",function () {
+        //    //alert();
+        //    $(".btnEditGRN").show();
+        //});
+        //alert();
+        //$( ".GINHavingGRN").on( "click", function(e) {
+        //    alert();
+        //    //preventDefault();
+        //    var dispatchId = $(this).attr("data-dispatchID");
+        
+        //    loadGRNPartialView(dispatchId);
+        //});
+
+    });
+    
+    function loadGRNPartialView(id) {
+
+        var dispatchId = new Array();
+        dispatchId[0] = id;
+        $.ajax({
+            type: "POST",
+            url: rootDir + "Delivery/LoadGRN/",
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify(dispatchId),
+            dataType: "json",
+            beforeSend:BeforeGRNLoadActivity,
+            success: GRNLoadCompleted,
+            error: GRNLoadFailed
+        });
+    }   
+    
+    function BeforeGRNLoadActivity() {
+        
+    }
+    function GRNLoadCompleted(results) {
+        //alert(results[0]);
+    }
+    function GRNLoadFailed(request, status, error) {
+        
+    }
+    
+    function onDataBound(e) {
+        check_planned();
+        var grid = $("#grid").data("kendoGrid");
+        $(grid.tbody).on("change", "td", function (e) {
+
+            var row = $(this).closest("tr");
+            var rowIdx = $("tr", grid.tbody).index(row);
+            update_ui(rowIdx, row);
+        }
+        );
+    }
+
+    function update_ui(rowIdx, row) {
+        
+        var grid = $("#grid").data("kendoGrid");
+        var firstItem = $('#grid').data().kendoGrid.dataSource.data()[rowIdx];
+        var cd = firstItem.get('ContainsDiscripancy').toString();
+ 
+        if (cd==="true") {
+        
+            row.addClass("alert-danger");
+       
+        } else  {
+            row.removeClass("alert-danger");
+            //   row.addClass("alert-danger");
+        }
+       
+    }
+    
+   
+    function check_planned() {
+        var grid = $("#grid").data("kendoGrid");
+        var rowIdx = 0;
+        $(grid.tbody).find("tr").each(function () {
+            //$(this).addClass("surplus");
+            update_ui(rowIdx, $(this));
+            rowIdx++;
+        });
+    }
+    
+    init_datepicker();
+</script>
+
+<script type="text/javascript">
+    //$(function () {
+
+    //    //Optional: turn the chache off
+    //    $.ajaxSetup({ cache: false });
+
+    //    $('#btnAction').click(function () {
+
+    //        alert("yes");
+    //        $('#dialogContent').load(this.href, function () {
+    //            $('#dialogDiv').modal({
+    //                backdrop: 'static',
+    //                keyboard: true
+    //            }, 'show');
+    //            //bindForm(this);
+    //        });
+    //        return false;
+    //    });
+
+       
+    //});
+</script>
+
+<div id='dialogDiv' class='modal hide fade in'>
+    <div id='dialogContent'></div>
+</div>

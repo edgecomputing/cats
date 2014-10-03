@@ -1,0 +1,333 @@
+﻿@model Cats.Models.Hubs.ReceiptAllocationViewModel
+@using Cats.Web.Hub.Helpers
+@using Telerik.Web.Mvc.UI
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+<style>
+    .control-group
+    {
+        
+    }
+    form .input-validation-error
+    {
+        background:#FF8;
+        border:solid 1px #faa69e ;
+    }
+</style>
+@{
+    SelectList HubID = new SelectList(Model.AllHubs, "HubID", "HubNameWithOwner", Model.HubID);
+    ViewBag.CommoditySourceID = new SelectList(Model.CommoditySources, "CommoditySourceID", "Name", Model.CommoditySourceID);
+    ViewBag.DonorID = new SelectList(Model.Donors, "DonorID", "Name", Model.DonorID);
+    ViewBag.ProgramID = new SelectList(Model.Programs, "ProgramID", "Name", Model.ProgramID);
+    ViewBag.CommodityTypeID=new SelectList(Model.CommodityTypes, "CommodityTypeID", "Name", Model.CommodityTypeID);
+    ViewBag.CommodityID = new SelectList(Model.Commodities, "CommodityID", "Name", Model.CommodityID);
+    
+     
+
+    int allocationType = ViewBag.CommoditySourceType ?? 1;
+    bool allocationsUnder = ViewBag.receiveUnderAllocation != null;
+    var disableSetting = (allocationsUnder) ? new { @readonly = "readonly" } : null;
+}
+
+@using (Html.BeginForm("Create", "ReceiptAllocation", new { id = "receiveAlloc", type = allocationType }))
+{
+   
+    @Html.ValidationSummary(true)
+
+    @Html.HiddenFor(model => model.ReceiptAllocationID)
+    @Html.HiddenFor(model => model.GiftCertificateDetailID)
+    @Html.HiddenFor(model => model.PartitionId)
+    @Html.HiddenFor(model => model.IsCommited)
+      @Html.HiddenFor(model => model.HubID)
+    
+ <div class="form-horizontal two-col-form">   
+    <div class="control-group">
+        @Html.LabelFor(model => model.SINumber, Html.Translate("SI / Batch Number"), new { @class = "control-label" })
+            <div class="controls">
+               @Html.TextBoxFor(model => model.SINumber, disableSetting)
+              @Html.ValidationMessageFor(model => model.SINumber)
+            </div>
+    </div>
+    <div class="control-group">
+        @Html.LabelFor(model => model.ETA, Html.Translate("ETA"), new { @class = "control-label" })
+            <div class="controls">
+               @Html.TextBoxFor(model => model.ETA, new { @class = "cats-datepicker-pop" })
+                    @Html.ValidationMessageFor(model => model.ETA)
+            </div>
+    </div>
+    @if (allocationType == Cats.Models.Hubs.CommoditySource.Constants.LOCALPURCHASE)
+    {
+     <div class="control-group">
+       @Html.LabelFor(model => model.PurchaseOrder, Html.Translate("Purchase Order"), new { @class = "control-label" })
+            <div class="controls">
+                @Html.EditorFor(model => model.PurchaseOrder)
+                @Html.ValidationMessageFor(model => model.PurchaseOrder)
+            </div>
+    </div>
+    }  
+    
+    @if (allocationType != Cats.Models.Hubs.CommoditySource.Constants.DONATION)
+    {
+     <div class="control-group">
+       @Html.LabelFor(model => model.OtherDocumentationRef, Html.Translate("Memo Reference"), new { @class = "control-label" })
+            <div class="controls">
+                    @Html.EditorFor(model => model.OtherDocumentationRef)
+                    @Html.ValidationMessageFor(model => model.OtherDocumentationRef)
+            </div>
+    </div>
+    }  
+
+
+      @if (allocationType != Cats.Models.Hubs.CommoditySource.Constants.DONATION &&
+                    allocationType != Cats.Models.Hubs.CommoditySource.Constants.LOCALPURCHASE)
+      {
+     <div class="control-group">
+       @Html.LabelFor(model => model.SourceHubID, Html.Translate("Source Hub"), new { @class = "control-label" })
+            <div class="controls">
+                    @Html.EditorFor(model => model.SourceHubID)
+                   
+                    @Html.ValidationMessageFor(model => model.SourceHubID)
+            </div>
+    </div>
+      }    
+     
+     <div class="control-group">
+       @Html.LabelFor(model => model.CommoditySourceID, Html.Translate("Commodity Source"), new { @class = "control-label" })
+            <div class="controls">
+                    
+                 @Html.DropDownList("CommoditySourceID", null, new { @class = "inputs-large" })
+                    @Html.ValidationMessageFor(model => model.CommoditySourceID)
+            </div>
+    </div>
+  
+ @if (allocationType == Cats.Models.Hubs.CommoditySource.Constants.DONATION ||
+                    allocationType == Cats.Models.Hubs.CommoditySource.Constants.LOCALPURCHASE)
+{
+     <div class="control-group">
+       @Html.LabelFor(model => model.DonorID, Html.Translate("Donor"), new { @class = "control-label" })
+            <div class="controls">
+                    
+                 @Html.DropDownList("DonorID", null, new { @class = "inputs-large" })
+                    @Html.ValidationMessageFor(model => model.DonorID)
+            </div>
+    </div>
+}   
+     
+           
+ @if (!allocationsUnder)
+ {
+     <div class="control-group">
+       @Html.LabelFor(model => model.CommodityTypeID, Html.Translate("Commodity Type"), new { @class = "control-label" })
+            <div class="controls">
+                     @Html.DropDownList("CommodityTypeID", null, new { @class = "inputs-large" })
+                    @Html.ValidationMessageFor(model => model.CommodityTypeID)
+            </div>
+    </div>
+    <div class="control-group">
+       @Html.LabelFor(model => model.CommodityID, Html.Translate("Commodity"), new { @class = "control-label" })
+            <div class="controls">
+                    @Html.DropDownList("CommodityID", null, new { @class = "inputs-large" })
+                    @Html.ValidationMessageFor(model => model.CommodityID)
+            </div>
+    </div>     
+ }
+ else
+ {
+     <div class="control-group">
+       @Html.LabelFor(model => model.CommodityTypeID, Html.Translate("Commodity Type"), new { @class = "control-label" })
+            <div class="controls">
+                    @Html.TextBoxFor(model => model.CommodityTypeText, new { @readonly = "readonly" })
+                    @Html.HiddenFor(model=>model.CommodityTypeID)
+
+            </div>
+    </div>
+    <div class="control-group">
+       @Html.LabelFor(model => model.ProgramID, Html.Translate("Commodity"), new { @class = "control-label" })
+            <div class="controls">
+                 @Html.TextBoxFor(model => model.CommodityText, new { @readonly = "readonly" })
+                @Html.HiddenFor(model=>model.CommodityID)
+                  
+                   
+            </div>
+    </div> 
+ } 
+ <div class="control-group">
+       @Html.LabelFor(model => model.ProgramID, Html.Translate("Program"), new { @class = "control-label" })
+            <div class="controls">
+                   @Html.DropDownList("ProgramID", null, new { @class = "inputs-large" })
+                    @Html.ValidationMessageFor(model => model.ProgramID)
+                   
+            </div>
+</div>  
+ <div class="control-group">
+       @if (@Html.GetCurrentUser().PreferedWeightMeasurment == "qn")
+       {
+                    @Html.LabelFor(model => model.QuantityInMT, Html.Translate("Quantity In Quintals"), new { @class = "control-label" })
+       }
+       else
+       {
+                    @Html.LabelFor(model => model.QuantityInMT, Html.Translate("Quantity In MT"), new { @class = "control-label" })
+       }
+            <div class="controls">
+                   @Html.EditorFor(model => model.QuantityInMT)
+                    @Html.ValidationMessageFor(model => model.QuantityInMT)
+                   
+            </div>
+    </div>     
+  
+     @if (allocationType == Cats.Models.Hubs.CommoditySource.Constants.LOCALPURCHASE)
+{
+     <div class="control-group">
+       @Html.LabelFor(model => model.SupplierName, Html.Translate("Supplier Name"), new { @class = "control-label" })
+            <div class="controls">
+                    @Html.EditorFor(model => model.SupplierName)
+                    @Html.ValidationMessageFor(model => model.SupplierName)
+            </div>
+    </div>
+}  
+     <div class="control-group">
+       @Html.LabelFor(model => model.Remark, Html.Translate("Remark"), new { @class = "control-label" })
+            <div class="controls">
+                    @Html.EditorFor(model => model.Remark)
+                    @Html.ValidationMessageFor(model => model.Remark)
+            </div>
+    </div>  
+ <div class="control-group">
+       @Html.LabelFor(model => model.ProjectNumber, Html.Translate("Project Code"), new { @class = "control-label" })
+            <div class="controls">
+                    
+                <a href="javascript:GenerateCode()" class="btn" ><i class="icon-refresh"></i></a>
+                    @Html.EditorFor(model => model.ProjectNumber, disableSetting)
+                    @Html.ValidationMessageFor(model => model.ProjectNumber)
+            </div>
+    </div>            
+  </div>   
+      
+    
+    
+   
+}
+<script type="text/javascript">
+    $(function () { $(".cats-datepicker-pop").ethcal_datepicker(); });
+
+ 
+    </script>
+    <!---->
+<script type="text/javascript">
+
+    function GenerateCode() {
+        var params = {};
+        params['SINumber'] = $('#SINumber').val();;
+        params["DonorID"] = $('#DonorID').val();
+        params["CommodityID"] = $('#CommodityID').val();
+        params["QuantityInMT"] = $('#QuantityInMT').val();
+        var generate = true;
+        if (
+        params['SINumber'] == "" ||
+        params["DonorID"] == "" ||
+        params["CommodityID"] == "" ||
+        params["QuantityInMT"] == "") {
+            generate = false;
+        }
+        if (!generate) {
+            alert("please fill out the SI Number, Commodity, Quanity In MT and the Donor to Generate a Project Code");
+        } else {
+            var url = '@Url.Action("GenerateProjectCode", "ReceiptAllocation")';
+            $.getJSON(url, params, function (result) {
+                $('#ProjectNumber').val(result);
+            });
+        }
+    }
+
+    $.validator.unobtrusive.parse('#receiveAlloc');
+    $('#SINumber').blur(function () {
+        var value = $(this).val();
+        var params = {};
+        params['SInumber'] = value;
+        if ($(this).val() != ""
+            && ($('#ReceiptAllocationID').val() == "")
+                && $('#CommoditySourceID').val() == '@Cats.Models.Hubs.CommoditySource.Constants.DONATION'
+            ) {
+            var url = '@Url.Action("LoadBySIPartial", "ReceiptAllocation")';
+            $('#create-edit-form').load(url, { SInumber: value, type: '@allocationType' }, function () {
+                if ($('#SINumber').val() != "") {
+                    //DON"T REMOVE THeSe TWO LINES 
+                    $('#ETA').focus();
+                    $('#ETC').focus();
+                    //var comb = $('#CommoditySourceID').tdata('tComboBox');
+                    //comb.selectedIndex(0);
+                }
+            });
+        }
+        $.validator.unobtrusive.parse('#receiveAlloc');
+
+    });
+    function OnComChange(e) {
+
+
+        $('form').valid();
+    }
+
+    $("form input[data-val-remote-url]").on({
+        focus: function () {
+            $(this).closest('form').validate().settings.onkeyup = false;
+        },
+        blur: function () {
+            $(this).closest('form').validate().settings.onkeyup =
+                $.validator.defaults.onkeyup;
+        }
+    });
+
+    function submitReceiveAllocationForm(button) {
+        var form = $(button).closest("form");
+        // var theNewSi = null;//$('#SINumber').val();
+
+        if (form.valid()) {
+            $.ajax({
+                type: 'POST', url: form.attr('action'), data: $(form).serialize(), success: function (response) {
+                    //rebind the GRID 
+                    if (response != null) {
+                        //var id = parseInt(response);
+                        var Params = { CommodityType: response.CommodityTypeID, closedToo: false };
+                        //if (response.gridId != null) {
+                        if (response.gridId == 1
+                            || response.gridId == 2
+                                || response.gridId == 3) {
+                            var gr = $('#ReceiveAllocationGrid' + response.gridId).data('tGrid');
+                            if (gr != null) {
+                                $("#CommodityTypeSelector-" + response.gridId + '-input').val("");
+                                var typeCombo = $("#CommodityTypeSelector-" + response.gridId).data('tComboBox');
+                                if (typeCombo != null) {
+                                    typeCombo.value(response.CommodityTypeID);
+
+                                }
+                                gr.rebind(Params);
+                            }
+                            $('#ReceiptDialog').data('tWindow').close();
+                        }
+                        //}
+                    }
+                }
+            });
+        }
+        return false;
+    }
+
+    $(function () {
+        // alert("test");
+        var comType = $('#CommodityTypeID').val();
+        if ($('#CommodityTypeID').val() == undefined) {
+            comType = $('#CommodityTypeID').data('tComboBox').value();
+        }
+
+        if (comType == 1) {
+            $('.nonFood').hide();
+            $('.Food').show();
+        } else {
+            $('.nonFood').show();
+            $('.Food').hide();
+
+        }
+
+    });
+</script>

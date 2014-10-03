@@ -1,0 +1,55 @@
+﻿@using Cats.Helpers
+@model  Cats.Models.ViewModels.HRD.DurationViewModel
+@{
+    ViewBag.Title = "DateInterval";
+    const string PAGE_NAME = "EarlyWarning.HRD.DateInterval";
+}
+<div class="modal-dialog modal-sm">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+            <h4 id="myModalLabel" class="modal-title">@Html.Translate("Date Interval")</h4>
+        </div>
+        <div class="modal-body">
+            <table class="form-horizontal">
+                <tr>
+                    <td >
+
+                        @Html.Label(@Html.Translate2(PAGE_NAME, "From(EC)"))
+
+                        @Html.DisplayFor(m => m.StartDateEC)
+
+                    </td>
+                    <td class="pdng5">
+
+                        @Html.Label(@Html.Translate2(PAGE_NAME, "To(EC)"))
+
+                        @Html.DisplayFor(m => m.EndDateEC)
+
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+
+                        @Html.Label(@Html.Translate2(PAGE_NAME, "From(GC)"))
+
+                        @Html.DisplayFor(m => m.StartDateGC)
+
+                    </td>
+                    <td class="pdng5">
+
+                        @Html.Label(@Html.Translate2(PAGE_NAME, "To(GC)"))
+
+                        @Html.DisplayFor(m => m.EndDateGC)
+
+
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="modal-footer">
+            <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+
+        </div>
+    </div>
+</div>

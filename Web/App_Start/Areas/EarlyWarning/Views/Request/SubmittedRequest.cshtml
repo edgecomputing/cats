@@ -1,0 +1,114 @@
+﻿@using Cats.Models.Constant
+@model  IEnumerable<Cats.Areas.EarlyWarning.Models.RegionalRequestViewModel>
+@using Cats.Models.ViewModels
+@using Kendo.Mvc.UI
+
+@{
+    ViewBag.Title = "Regional Relief Requests";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+
+    <h4 >Regional Monthly Requests</h4>
+
+@section LeftBar
+{
+    @Html.Partial("_RequestLeftbarForFederal")
+
+}
+@(Html.Kendo().Grid(Model).Name("requestgrid")
+.Columns(columns =>
+             {
+                 columns.Bound(request => request.ReferenceNumber);
+                 columns.Bound(request => request.RequestDateEt);
+                 columns.Bound(request => request.Program);
+                 columns.Bound(request => request.Month);
+                 columns.Bound(request => request.Region);
+                 columns.Bound(reqquest => reqquest.Year);
+                 columns.Bound(request => request.Status) .Template(
+               
+                     
+                     @<text>
+@if(item.StatusID==(int)RegionalRequestStatus.Approved){
+@Html.ActionLink("Create Requisition", "CreateRequisiton", "ReliefRequisition", new { Area = "EarlyWarning", id = @item.RegionalRequestID })}else
+{
+    @item.Status 
+}
+</text>);
+
+
+
+             }).Pageable())
+
+
+@*<table class="table table-striped table-bordered">
+    <tr >
+        <th>
+            @Html.DisplayNameFor(model => model.ReferenceNumber)
+        </th>        
+        <th>
+           
+            Request Date
+         
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Program.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Round)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AdminUnit.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Year)
+        </th>
+        <th>Status</th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ReferenceNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RequistionDate,new {@class="cats-datepicker"})
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Program.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Round)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AdminUnit.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Year)
+            </td>
+            <td>
+                @{
+     
+        var showme = item.Status == (int)2? "" : "hidden";
+                }
+             
+                 @{
+                    var status = item.Status == (int) RegionalRequestStatus.Approved ? "Approved" : item.Status == (int) RegionalRequestStatus.Closed ? "Closed" : "Draft"; 
+                }
+                @status
+            </td>
+            <td>
+
+             
+               
+                        <a class="btn btn-success @showme" href="@Url.Action("CreateRequisiton", "ReliefRequisition", new { Area = "EarlyWarning", id = item.RegionalRequestID })">Create Requisition</a>
+                       
+               
+            </td>
+        </tr>
+    }
+
+</table>
+*@

@@ -1,0 +1,46 @@
+﻿@using Cats.Models.Hubs;
+@using System.Collections
+@using Cats.Areas.Settings.Models.ViewModels
+@using Kendo.Mvc.UI
+@{
+    Layout = "~/Views/Shared/_MainLayout.cshtml";  
+}
+@section Toolbar
+{
+    @Html.Partial("_AdminGridCommands");    
+}
+@section LeftBar
+{
+    @Html.Partial("_AdminLeftBar");
+}
+<script>
+    $(document).ready(function () {
+        setAsActive("#CommoditySource");
+    });
+</script>
+
+<h4 class="page-header">Commodity Source</h4>
+@(Html.Kendo().Grid<CommoditySourceViewModel>()
+    .Name("grid")
+    .Editable(editable => editable.Mode(GridEditMode.InCell))
+    .Sortable()
+    .Filterable()
+    .HtmlAttributes(new { style = "height:400px;" })
+    .Scrollable()
+    .Navigatable()
+    .Columns(columns =>
+    {
+        columns.Bound(t => t.CommoditySourceID).Visible(false);
+        columns.Bound(t => t.Name);
+        columns.Command(command => command.Destroy());
+        // columns.Command(command => command.Custom("Delete").Click("OnDelete"));
+
+    })
+    .DataSource(
+        datasource =>datasource.Ajax()
+            .Read("CommoditySource_Read","CommoditySource")
+    .Create("CommoditySource_Create","CommoditySource")
+    .Update("CommoditySource_Update","CommoditySource")
+    //.Destroy("CommoditySource_Destroy","CommoditySource")
+    .Model(m=>m.Id(t=>t.CommoditySourceID))
+      ))

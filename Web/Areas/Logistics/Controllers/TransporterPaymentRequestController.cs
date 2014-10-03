@@ -34,6 +34,7 @@ namespace Cats.Areas.Logistics.Controllers
         private readonly IUserAccountService _userAccountService;
         private readonly Services.Procurement.ITransporterService _transporterService;
         private readonly ITransportOrderService _transportOrderService;
+        private readonly ITransportOrderDetailService _transportOrderDetailService;
 
         public TransporterPaymentRequestController(IBusinessProcessService _paramBusinessProcessService
                                         , IBusinessProcessStateService _paramBusinessProcessStateService
@@ -44,7 +45,9 @@ namespace Cats.Areas.Logistics.Controllers
                                         , IDispatchService dispatchService
                                         , IWorkflowStatusService workflowStatusService
                                         , IUserAccountService userAccountService
-                                        , Services.Procurement.ITransporterService transporterService, ITransportOrderService transportOrderService)
+                                        , Services.Procurement.ITransporterService transporterService, 
+                                          ITransportOrderService transportOrderService,
+                                         ITransportOrderDetailService transportOrderDetailService)
             {
                 _BusinessProcessService=_paramBusinessProcessService;
                 _BusinessProcessStateService=_paramBusinessProcessStateService;
@@ -57,6 +60,7 @@ namespace Cats.Areas.Logistics.Controllers
                 _userAccountService = userAccountService;
                 _transporterService = transporterService;
             _transportOrderService = transportOrderService;
+            _transportOrderDetailService = transportOrderDetailService;
             }
         //
         // GET: /Logistics/TransporterPaymentRequest/
@@ -198,12 +202,15 @@ namespace Cats.Areas.Logistics.Controllers
             {
                 var request = transporterPaymentRequest;
                 var dispatch = _dispatchService.Get(t => t.DispatchID == request.Delivery.DispatchID, null, "Hub, FDP").FirstOrDefault();
-                var firstOrDefault = _bidWinnerService.Get(t => t.SourceID == dispatch.HubID && t.DestinationID == dispatch.FDPID
-                    && t.TransporterID == request.TransportOrder.TransporterID && t.Bid.BidNumber == dispatch.BidNumber).FirstOrDefault();
+                var transportOrderdetail =
+                    _transportOrderDetailService.FindBy(
+                        m => m.TransportOrderID == request.TransportOrderID && m.SourceWarehouseID==dispatch.HubID && m.FdpID==dispatch.FDPID).FirstOrDefault();
+                //var firstOrDefault = _bidWinnerService.Get(t => t.SourceID == dispatch.HubID && t.DestinationID == dispatch.FDPID
+                //    && t.TransporterID == request.TransportOrder.TransporterID && t.Bid.BidNumber == dispatch.BidNumber).FirstOrDefault();
                 var tarrif = (decimal)0.00;
-                if (firstOrDefault != null)
+                if (transportOrderdetail != null)
                 {
-                    tarrif = firstOrDefault.Tariff != null ? (decimal)firstOrDefault.Tariff : (decimal)0.00;
+                    tarrif = (decimal)transportOrderdetail.TariffPerQtl;
                 }
                 if (dispatch != null && request.Delivery.DeliveryDetails.FirstOrDefault() != null)
                 {

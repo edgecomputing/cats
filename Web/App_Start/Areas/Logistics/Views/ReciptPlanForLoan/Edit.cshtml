@@ -1,0 +1,157 @@
+﻿@using LanguageHelpers.Localization
+@using Cats.Helpers
+@model Cats.Models.LoanReciptPlan
+@{
+    ViewBag.Title = "Create";
+    const string PAGE_NAME = "Logistics.ReciptPlanForLoanAndOthers.Edit";
+}
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="myModalLabel">@Html.Translate2(PAGE_NAME,"Edit Receipt Plan from Loan")</h3>
+</div>
+@using (Html.BeginForm("Edit", "ReciptPlanForLoan", FormMethod.Post, new { @class = "modal-form", id="myForm"}))
+{
+    @Html.HiddenFor(m=>m.LoanReciptPlanID)
+    @Html.HiddenFor(m=>m.StatusID)
+    @Html.HiddenFor(m=>m.ShippingInstructionID)
+    @Html.HiddenFor(m=>m.CommoditySourceID)
+    <table border="0" class="form-horizontal">
+        <tr style="width: 300px">
+            <td style="width:50%">
+                <div class="control-label">
+                    @Html.LabelFor(m=>m.ShippingInstruction.Value,@Html.Translate2(PAGE_NAME,"SI Number"))
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(m=>m.ShippingInstruction.Value,new {disabled=true})
+                    @Html.ValidationMessageFor(m=>m.ShippingInstruction.Value)
+                </div>
+            </td>
+            @* <td style="width: 50%">
+                <div class="control-label">
+                    @Html.LabelFor(m=>m.HubID,@Html.Translate2(PAGE_NAME,"Hub"))
+                </div>
+                <div class="controls">
+                    @Html.DropDownList("HubID")
+                    @Html.ValidationMessageFor(m=>m.HubID)
+                </div>
+            </td>*@
+             <td style="width: 50%">
+                 <div class="control-label">
+                    @Html.LabelFor(m=>m.CommodityID,@Html.Translate2(PAGE_NAME,"Commodity Type"))
+                </div>
+                <div class="controls">
+                    @Html.DropDownList("CommodityTypeID")
+                    @Html.ValidationMessageFor(m=>m.CommodityID)
+                </div>
+                
+            </td>
+        </tr>
+        <tr style="width: 300px">
+            <td style="width: 50%">
+                <div class="control-label">
+                    @Html.LabelFor(m=>m.LoanSource,@Html.Translate2(PAGE_NAME,"Loan Source"))
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(m=>m.LoanSource)
+                    @Html.ValidationMessageFor(m=>m.LoanSource)
+                </div>
+            </td>
+             <td>
+               <div class="control-label">
+                    @Html.LabelFor(m=>m.CommodityID,@Html.Translate2(PAGE_NAME,"Commodity"))
+                </div>
+                <div class="controls">
+                    @Html.DropDownList("CommodityID")
+                    @Html.ValidationMessageFor(m=>m.CommodityID)
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="control-label">
+                    @Html.LabelFor(m=>m.ProgramID,@Html.Translate2(PAGE_NAME,"Program"))
+                </div>
+                <div class="controls">
+                    @Html.DropDownList("ProgramID")
+                    @Html.ValidationMessageFor(m=>m.ProgramID)
+                </div>
+            </td>
+             <td>
+                <div class="control-label">
+                    @Html.LabelFor(m=>m.ReferenceNumber,@Html.Translate2(PAGE_NAME,"Reference Number"))
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(m=>m.ReferenceNumber)
+                    @Html.ValidationMessageFor(m=>m.ReferenceNumber)
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                 <div class="control-label">
+                    @Html.LabelFor(m=>m.CommoditySourceID,@Html.Translate2(PAGE_NAME,"Commodity Source"))
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(m=>m.CommoditySource.Name,new {Disabled="Disabled"})
+                    @Html.ValidationMessageFor(m=>m.CommoditySourceID)
+
+                </div>
+            </td>
+             <td>
+                <div class="control-label">
+                    @Html.LabelFor(m=>m.Quantity,@Html.Translate2(PAGE_NAME,"Quantity in MT"))
+                </div> 
+                <div class="controls">
+                    @Html.TextBoxFor(m=>m.Quantity)
+                    @Html.ValidationMessageFor(m=>m.Quantity)
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="control-label">
+                    @Html.LabelFor(m=>m.ProjectCode,@Html.Translate2(PAGE_NAME,"Project Code"))
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(m=>m.ProjectCode)
+                    @Html.ValidationMessageFor(m=>m.ProjectCode)
+                </div>
+               
+            </td>
+           @* <td>
+                <div class="control-label">
+                    @Html.LabelFor(m=>m.Quantity,@Html.Translate2(PAGE_NAME,"Quantity in MT"))
+                </div> 
+                <div class="controls">
+                    @Html.TextBoxFor(m=>m.Quantity)
+                    @Html.ValidationMessageFor(m=>m.Quantity)
+                </div>
+            </td>*@
+        </tr>
+    </table>
+    
+    <div class="modal-footer"> <button class="btn btn-primary" type="submit">Save Changes</button>
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+       
+    </div>
+}
+<script>
+$(document).ready(function () {
+ 
+        var allValidationRules = {
+            ReferenceNumber: "required",
+            ProjectCode: "required",
+            Quantity: "required",
+            LoanSource:"required"
+        };
+        $("#myForm").validate({
+            rules: allValidationRules,
+            showErrors: function (element, errorClass, validClass) {
+                for (var i in errorClass) {
+                    $(errorClass[i].element).popover('show');
+                }
+            }
+        });
+});
+    </script>

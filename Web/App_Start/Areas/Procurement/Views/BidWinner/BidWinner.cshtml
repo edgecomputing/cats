@@ -1,0 +1,22 @@
+﻿@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+<table>
+    <tr>
+        <td>Rank</td>
+        <td>Transporter</td>
+        <td>Tariff</td>
+    </tr>
+
+@foreach (var i in ViewBag.Winners)
+{
+    <tr>
+        <td>@i.Position</td><td>@i.TransporterID</td><td>@i.Tariff</td>
+    </tr>
+}
+</table>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

@@ -1,0 +1,89 @@
+﻿@model Cats.Areas.Procurement.Models.WinnersGeneratorParameters
+
+
+@using (Html.BeginForm())
+{
+ 
+        <div class="span12" style="border: solid 1px #CCC; border-radius: 6px; padding: 6px; margin-bottom: 6px;">
+            <div class="span4">
+                <div class="control-group">
+                    <div class="controls">
+                        <label>BID Reference Number</label>
+                        <div>
+                            @Html.DropDownList("BidID")
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="span4">
+                <div class="control-group">
+                    <div class="controls">
+                        <label>Region</label>
+                        <div>
+                            @Html.DropDownList("RegionID")
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="span4">
+                <div class="controls">
+                    <label>&nbsp;</label>
+                    <div>
+                        <input type="submit" value="Show Proposals" class="btn btn-default" />
+                        
+                        
+                       
+
+                    </div>
+                </div>
+            </div>
+        </div>
+ 
+}
+<!-- Modal -->
+ <div class="modal hide fade" id="myModal">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">Are you sure you want to generate winners now?</h4>
+    </div>
+
+    <div id="modalContent" style="padding:10px;">
+        
+        <div class="alert alert-heading" >
+            Once you generate winners for the specific Bid and region,
+            you can't do it again. So Before proceeding make sure that
+            the bid proposals are complete and correct.
+        </div>
+    </div>
+
+    <div class="modal-footer">
+
+                                
+        <a id="btnAddProposal"  class="btn toolbar-btn " href="@Url.Action("IdentifyWinners", "PriceQuotation", new
+                    {
+                        bidNumber = @ViewBag.filter.BidID,
+                        regionID = @ViewBag.filter.RegionID
+                    })">Continue</a>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+    </div>
+
+</div>
+
+<!--<script>
+    var bidNumber = 15;
+    var regionID = 2;
+
+    var postUrl = "@Url.Action("IdentifyWinners", "PriceQuotation")";
+    var onSuccess = function (data) {
+        $('#myModal').modal('hide');
+    };
+    var onFail = function (data) {
+        $('#modalContent').html("Error");
+    };
+
+    function generate() {
+        var reqParam = { bidNumber: bidNumber, regionID: regionID };
+        $.post(postUrl, reqParam, onSuccess, onFail);
+    }
+
+</script>-->

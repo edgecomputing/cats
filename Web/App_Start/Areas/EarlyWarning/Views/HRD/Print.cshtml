@@ -1,0 +1,55 @@
+﻿@using Cats.Models.ViewModels.HRD
+@model IEnumerable<HRDViewModel>
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+    </head>
+    <body>
+       <table>
+            <tr style="color: cornflowerblue">
+                <td>
+                    Ration No.
+                </td>
+                <td>
+                    Season
+                </td>
+                <td>
+                    Year
+                </td>
+                <td>
+                    Created By
+                </td>
+                <td>
+                    Created Date
+                </td>
+                <td>
+                    Published Date
+                </td>
+                <td>
+                    Status
+                </td>
+            </tr>
+            @foreach (var hrd in Model)
+            {
+                <tr>
+                    <td>@hrd.Ration
+                    </td>
+                    <td>@hrd.Season
+                    </td>
+                    <td>@hrd.Year
+                    </td>
+                    <td>@hrd.CreatedBy
+                    </td>
+                    <td>@hrd.CreatedDate
+                    </td>
+                    <td>@hrd.PublishedDate
+                    </td>
+                    <td>@hrd.Status
+                    </td>
+                </tr>
+            }
+        </table>
+    </body>
+</html>

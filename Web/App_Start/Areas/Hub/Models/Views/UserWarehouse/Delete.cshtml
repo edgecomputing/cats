@@ -1,0 +1,34 @@
+﻿@model Cats.Models.Hubs.UserHub
+@using Cats.Web.Hub.Helpers
+@{
+    ViewBag.Title = Html.Translate("Delete");
+}
+
+<h2>@Html.Translate("Delete")</h2>
+
+<h3>@Html.Translate("Are you sure you want to delete this?")</h3>
+<fieldset>
+    <legend>@Html.Translate("UserWarehouse")</legend>
+
+    <div class="display-label">@Html.Translate("UserProfile")</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.UserProfile.UserName)
+    </div>
+
+    <div class="display-label">@Html.Translate("Warehouse")</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Hub.Name)
+    </div>
+
+    <div class="display-label">@Html.Translate("IsDefault")</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.IsDefault)
+    </div>
+</fieldset>
+@using (Html.BeginForm())
+    {
+    <p>
+        <input type="submit" value="@Html.Translate("Delete")" /> |
+        @Html.ActionLink(Html.Translate("Back to List"), "Index")
+    </p>
+}

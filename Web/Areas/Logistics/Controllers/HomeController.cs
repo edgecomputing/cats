@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using Cats.Areas.Procurement.Models;
 using Cats.Models.Constant;
 using Cats.Models.Hubs;
+using Cats.Models.Security;
 using Cats.Models.ViewModels.HRD;
 using Cats.Services.EarlyWarning;
 using Cats.Services.Hub.Interfaces;
@@ -89,7 +90,7 @@ namespace Cats.Areas.Logistics.Controllers
 
         public ActionResult Index()
         {
-            var currentUser = UserAccountHelper.GetUser(HttpContext.User.Identity.Name);
+            UserInfo currentUser = UserAccountHelper.GetUser(HttpContext.User.Identity.Name);
             ViewBag.RegionName = currentUser.RegionID != null ? _adminUnitService.FindById(currentUser.RegionID ?? 0).Name : "";
 
             var hrd = _hrdService.FindBy(m => m.Status == 3).FirstOrDefault();
@@ -320,7 +321,24 @@ namespace Cats.Areas.Logistics.Controllers
             }
             return Json(selectedBidWinners, JsonRequestBehavior.AllowGet);
         }
-       
+
+
+        public JsonResult GetListOfUnContractedBidWinners(string id)
+        {
+            IList<TransporterViewModel> selectedUnSignedBidWinners = new List<TransporterViewModel>();
+
+            Bid selectedBid = _bidService.FindBy(t => t.BidNumber == id).FirstOrDefault();
+
+            var unSignedbidWinner = _bidWinnerService.FindBy(m => m.BidID == selectedBid.BidID 
+                                                            && m.ExpiryDate > DateTime.Now 
+                                                            && m.Status != (int)BidWinnerStatus.Signed);
+
+            if (unSignedbidWinner != null  && unSignedbidWinner.Count > 0)
+                selectedUnSignedBidWinners = GetBidWinners(unSignedbidWinner).ToList();
+            
+
+            return Json(selectedUnSignedBidWinners, JsonRequestBehavior.AllowGet);
+        }
 
         #endregion
 

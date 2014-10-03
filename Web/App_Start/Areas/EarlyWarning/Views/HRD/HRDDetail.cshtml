@@ -1,0 +1,244 @@
+﻿@using System.Collections
+@using Cats.Helpers
+@using Cats.Models
+@using Cats.Security
+@using Cats.Services.Security
+@using Kendo.Mvc.UI
+@using LanguageHelpers.Localization
+@model  Cats.Models.HRD
+@{
+    ViewBag.Title = "HRDDetail";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";    
+}
+
+
+@{
+    
+    var user = (UserIdentity)System.Web.HttpContext.Current.User.Identity;
+    var unit = user.Profile.PreferedWeightMeasurment;
+}
+@section Toolbar
+{
+
+    @Html.EarlyWarningOperationButton(
+                        @Url.Action("Detail", "HRD", new {id = ViewBag.HRDID}),
+                        EarlyWarningConstants.Operation.View_HRD_Detail, "<i class=\"icon-list\"></i>", "btn", "btn_back_to_list")
+     <a class="btn toolbar-btn " data-buttontype="btn_save" href="javascript:saverecords()"></a>
+    <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="javascript:cancelChanges()"></a>
+    <a id="btnAddWoreda" class="btn toolbar-btn " href="@Url.Action("AddWoreda", "HRD", new { id = Model.HRDID })">@Html.Translate("Add Woreda")</a>
+}
+
+@section LeftBar
+{
+    @Html.Partial("_HRDLeftBar")
+}
+<script type="text/javascript">
+    $(function () {
+
+        //Optional: turn the chache off
+        $.ajaxSetup({ cache: false });
+
+        $('#btnAddWoreda').click(function () {
+
+            // alert("");
+            $('#dialogContent').load(this.href, function () {
+                $('#dialogDiv').modal({
+                    backdrop: 'static',
+                    keyboard: true
+                }, 'show');
+                //bindForm(this);
+            });
+            return false;
+        });
+    });
+</script>
+
+<div id='dialogDiv' class='modal hide fade in'>
+    <div id='dialogContent'></div>
+</div>
+<div>
+    <h4>HRD Detail for @ViewBag.SeasonID @ViewBag.Year</h4>
+   
+</div>
+ <div class="control-group form-horizontal well">
+     <div class="row">
+         <div class="span4">
+         <div class="control-group">
+             <div class="control-label">
+                 @Html.Label(Html.Translate("Ration"))
+             </div>
+             <div class="controls">
+                 @Html.TextBoxFor(m=>m.Ration.RefrenceNumber)
+             </div>
+
+         </div>
+     </div>
+         <div class="span6">
+             <div class="control-group">
+                 <div class="control-label">
+                     @Html.Label(Html.Translate("Year (Specified in EC)"))
+                 </div>
+                 <div class="controls">
+                     @Html.TextBoxFor(m=>m.Year)
+                 </div>
+
+             </div>
+         </div>
+     
+     </div>
+     </div>
+
+@(Html.Kendo().Grid<Cats.Models.ViewModels.HRD.HRDDetailViewModel>() 
+.Name("grid").Columns(columns =>
+         {
+             columns.Bound(p => p.Region).Width(15).HtmlAttributes(new { style = "background-color:lightgray" });
+             columns.Bound(p => p.Zone).Width(40).HtmlAttributes(new { style = "background-color:lightgray" });
+             columns.Bound(p => p.Woreda).Width(40).HtmlAttributes(new { style = "background-color:lightgray" });
+             columns.Bound(p => p.NumberOfBeneficiaries).Width(40).Title("Beneficiary").HtmlAttributes(new { align = "Right" });
+             columns.Bound(p => p.DurationOfAssistance).Width(40).Title(Html.Translate("Duration")).HtmlAttributes(new { align = "Right" });
+             columns.ForeignKey(p => p.StartingMonth, (IEnumerable) ViewData["Month"], "Id", "Name").Width(40);
+             //columns.Bound(p => p.Cereal).Title("Cereal " + @unit).Format("{0:N}").HtmlAttributes(new { align = "Right" });
+             //columns.Bound(p => p.BlendedFood).Title("BleendedFood " +@unit).Format("{0:N}").Title("B.Food").HtmlAttributes(new { align = "Right" });
+             //columns.Bound(p => p.Oil).Title("Oil " +@unit ).Format("{0:N}").HtmlAttributes(new { align = "Right" });
+             //columns.Bound(p => p.Pulse).Title("Pulse "+@unit).Format("{0:N}").HtmlAttributes(new {align = "Right"});
+             //columns.Bound(p => p.Total).Title("Total" +@unit).Format("{0:N}").HtmlAttributes(new { align = "Right" });
+             //columns.Bound(p => p.subTotalQuantity).ClientFooterTemplate("#= kendo.format('{0:c}', sum)#"); 
+             //ClientFooterTemplate("<div class=aright>#=sum#</div>").Format("{0:N}")
+         })
+         
+      //.ToolBar(toolBar => toolBar.Save())
+      .Editable(editable => editable.Mode(GridEditMode.InCell))
+      .Events(events => events.DataBound("onDataBound"))
+      //.Pageable()
+      .Scrollable()
+      .Groupable()
+      .Sortable()
+      .HtmlAttributes(new { style = "height: 450px" })
+      .Navigatable()
+      .DataSource(datasource=>datasource
+      .Ajax()
+      .Group(group =>
+           {
+               group.Add(m => m.Region);
+               group.Add(m => m.Zone);
+           })
+              //.PageSize(15)
+       .Events(events => events.Error("error_handler"))
+       .Events(events => events.Change("onGridKeydown"))
+       .Model(model =>
+                    {
+                        model.Id(p => p.HRDID);
+                        model.Field(p => p.HRDDetailID);
+                        model.Field(p => p.StartingMonth);
+                        //model.Field(p => p.Oil).Editable(false);
+                        //model.Field(p => p.Pulse).Editable(false);
+                        //model.Field(p => p.Cereal).Editable(false);
+                        //model.Field(p => p.BlendedFood).Editable(false);
+                        model.Field(p => p.Region).Editable(false);
+                        model.Field(p => p.Woreda).Editable(false);
+                        model.Field(p => p.Zone).Editable(false);
+                    }) 
+      
+          //.Model(model=>model.Id(p=>p.HRDID))
+          // .Read(read => read.Action("HRDDetail_Read", "HRD", new{ id = Model.HRDID }))
+          .Read(read => read.Action("HRDDetail_Read", "HRD",new{id=Model.HRDID}))
+          .Update(update => update.Action("HRDDetail_Update", "HRD"))
+      )
+      
+)
+
+<script type="text/javascript">
+    function error_handler(e) {
+        if (e.errors) {
+            var message = "Errors:\n";
+            $.each(e.errors, function (key, value) {
+                if ('errors' in value) {
+                    $.each(value.errors, function () {
+                        message += this + "\n";
+                    });
+                }
+            });
+            alert(message);
+        }
+    }
+    
+    function onGridKeydown(e) {
+        if (e.keyCode === kendo.keys.TAB) {
+            var grid = $(this).closest("[data-role=grid]").data("kendoGrid");
+            var current = grid.current();
+            if (!current.hasClass("editable-cell")) {
+                var nextCell = current.nextAll(".editable-cell");
+                if (!nextCell[0]) {
+                    //search the next row
+                    var nextRow = current.parent().next();
+                    var nextCell = current.parent().next().children(".editable-cell:first");
+                }
+                grid.current(nextCell);
+                grid.editCell(nextCell[0]);
+            }
+        }
+    };
+    
+    function onDataBound(e) {
+
+        var grid = $("#grid").data("kendoGrid");
+        $(grid.tbody).on("focus", "input", function (e) {
+            var input = $(this);
+            setTimeout(function () { input.select(); }, 100);
+
+        });
+    }
+    function saverecords() {
+        $("#grid").data("kendoGrid").saveChanges();
+    }
+    
+    function cancelChanges() {
+        $("#grid").data("kendoGrid").dataSource.cancelChanges();
+    }
+</script>
+
+
+@*<script type="text/javascript">
+
+    function onDataBound(e) {
+        rowNumber = 0;
+        var grid = $("#grid").data("kendoGrid");
+        $(grid.tbody).on("change", "td", function (e) {
+            var row = $(this).closest("tr");
+            var rowIdx = $("tr", grid.tbody).index(row);
+            var firstItem = $('#grid').data().kendoGrid.dataSource.data()[rowIdx];
+            var benficiery = firstItem.get('NumberOfBeneficiaries');
+            var duration = firstItem.get('DurationOfAssistance');
+
+
+
+            $.getJSON('/HRD/GetRation', function (data) {
+
+
+                $.each(data, function (key, val) {
+                    if (val.Name == "Cereal") {
+                        firstItem.set('Cereal', val.Value * benficiery * duration);
+                        
+                    }
+                    else if (val.Name == "Blended food") {
+                        firstItem.set('BlendedFood', val.Value * benficiery * duration);
+
+                    } else if (val.Name == "Oil") {
+                        firstItem.set('Oil', val.Value * benficiery * duration);
+
+                    } else if (val.Name == "Pulse") {
+                        firstItem.set('Pulse', val.Value * benficiery * duration);
+
+                    }
+
+
+                });
+
+
+            });
+
+
+        });
+    }
+
+</script> *@

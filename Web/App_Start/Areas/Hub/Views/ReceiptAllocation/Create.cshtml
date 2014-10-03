@@ -1,0 +1,54 @@
+﻿@model Cats.Models.Hubs.ReceiptAllocationViewModel
+@using Cats.Web.Hub.Helpers
+@using Telerik.Web.Mvc.UI
+
+@{
+    ViewBag.Title = Html.Translate("New / Edit Receipt Allocation");
+}
+@{
+    int allocationType = ViewBag.CommoditySourceType ?? 1 ;
+}
+
+    @using (Html.BeginForm("Create", "ReceiptAllocation"))
+    {
+        <div id="ReceiptAllocationForm">
+           @Html.Partial("EditPartial2")
+        </div>
+     }
+
+@*<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>*@
+<script type="text/javascript">
+//    $('#SINumber').blur(function () {
+
+//        //var value = $('#SINumbers').val();
+//        var req = $('#SINumbers :selected');
+//        var params = {};
+//        //params['SInumber'] = value;
+//        var url = '@Url.Action("LoadBySIPartial","ReceiptAllocation")';
+//        $('#create-edit-form').load(url, { SInumber: req.text() }); //value });
+
+////        var value = $(this).val();
+////        var params = {};
+////        params['SInumber'] = value;
+////        if ($(this).val() != "") {
+////            var url = 'LoadBySIPartial/';
+////            $('#ReceiptAllocationForm').load(url, { SInumber: value });
+////        }
+////        $.validator.unobtrusive.parse('#receiveAlloc');
+    //    });
+    $(function () {
+        $.validator.unobtrusive.parse('#receiveAlloc');
+        $.validator.unobtrusive.parse('form');
+    });
+    var theElement;
+    function OnComChange(e) {
+        //  console.warn("event fired on cha(nge  ");
+        theElement = e;
+        if (e.target != undefined) {
+            $(e.target).valid();
+        }
+        $(this).valid();
+    }
+</script> 

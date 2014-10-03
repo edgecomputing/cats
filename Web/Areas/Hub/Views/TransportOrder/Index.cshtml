@@ -28,6 +28,7 @@
     columns.Bound(to => to.RequestedDispatchDateET).Width(120).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid", style = "overflow: visible; white-space: normal;" });
     columns.Bound(to => to.TransportOrderNo).Width(150);
     columns.Bound(to => to.Status);
+         
     columns.Bound(to => to.TransportOrderID).ClientTemplate("<a href='" + Url.Action("GenerateDispatchAllocation", "TransportOrder", new { Area = "Procurement", id = "#=TransportOrderID#" }) + " '>Create Dispatch Plan</a>  ");
           columns.Command(to => to.Custom("Reject").Click("onReject"));
 

@@ -1,0 +1,30 @@
+﻿@using Cats.Models;
+@model Cats.Models.BusinessProcess
+@{
+    if(ViewBag.Partial == 0)
+    {
+        Layout = "~/Views/Shared/_MainLayout.cshtml";
+    }
+        
+}
+
+<table class="table table-striped table-bordered">
+    <tr>
+        <th>Date</th>
+        <th> State</th>
+        <th> User</th>
+        <th>Comment</th>
+    </tr>
+
+    @foreach (BusinessProcessState item in Model.BusinessProcessStates)
+    {
+        
+        <tr>
+            <td> @item.DatePerformed</td>
+            <td> @item.BaseStateTemplate.Name</td>
+            <td>@item.PerformedBy</td>
+            <td>@item.Comment</td>
+        </tr>
+    }
+
+</table>

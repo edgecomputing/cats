@@ -1,0 +1,76 @@
+﻿@using Kendo.Mvc.UI
+@using Cats.Areas.Procurement.Models
+
+@model List<Cats.Areas.Procurement.Models.WarehouseProgramViewModel>
+
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+@section LeftBar
+{
+   
+    <li class="nav-header">Bid Plan @ViewBag.bidPlan.ShortName</li>
+    <li>Year: @ViewBag.bidPlan.Year</li>
+    <li>Period: @ViewBag.bidPlan.YearHalf</li>
+    <li class="nav-header">Tasks</li>
+
+    <li> <a href="@Url.Action("Create/" + ViewBag.bidPlan.TransportBidPlanID, "bid", new { Area = "Procurement" })"><i class="icon-chevron-left"></i>Create Bid</a></li>
+    <li> <a href="@Url.Action("Index", "TransportBidPlan", new { Area = "Procurement" })"><i class="icon-chevron-left"></i>Back to List</a></li>
+
+}
+
+<div class="span4 well">
+     @Html.Partial("_AdminUnitTree")
+</div>
+<div id="div_warehouse_selection" style="display:none;" class="span8 ">
+    <h3></h3>
+   @(Html.Kendo().Grid<WarehouseProgramViewModel>()
+    .Name("grid")
+    
+    .Columns(columns =>
+    {
+        columns.Bound(p => p.BidPlanID);
+        columns.Bound(p => p.WarehouseName).Width(100);
+        columns.Bound(p => p.PSNP).Width(100);
+        columns.Bound(p => p.Relief).Width(100);
+       // columns.Command(command => { command.Edit(); command.Destroy(); }).Width(172);
+    })
+    .Editable(editable => editable.Mode(GridEditMode.InCell))
+    .Pageable()
+    .Sortable()
+    .Scrollable()
+    .HtmlAttributes(new { style = "height:430px;" })
+    .DataSource(dataSource => dataSource
+        .Ajax()
+        .PageSize(20)
+        .Events(events => events.Error("error_handler"))
+        .Model(model =>
+        {
+           model.Id(p => p.WarehouseID);
+           model.Field(p => p.WarehouseName).Editable(false);
+        })
+        .Create(update => update.Action("EditingInline_Create", "Grid"))
+        .Read(read => read.Action("ReadJson/" + ViewBag.bidPlan.TransportBidPlanID, "TransportBidPlan"))
+        .Update(update => update.Action("EditingInline_Update", "Grid"))
+        .Destroy(update => update.Action("EditingInline_Destroy", "Grid"))
+    ).Resizable(resize => resize.Columns(true))
+)
+
+</div>
+<script type="text/javascript">
+    function error_handler(e) {    
+        if (e.errors) {
+            var message = "Errors:\n";
+            $.each(e.errors, function (key, value) {
+                if ('errors' in value) {
+                    $.each(value.errors, function() {
+                        message += this + "\n";
+                    });
+                }
+            });        
+            alert(message);
+        }
+    }
+</script>

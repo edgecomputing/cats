@@ -1,0 +1,97 @@
+﻿@{
+ 
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+@section LeftBar
+{
+    @Html.Partial("_RFQFilterPartial")
+}
+
+@section Toolbar
+{
+    <a  class="btn toolbar-btn " href="@Url.Action("Print", "RFQ", new { Area = "Procurement", bidID =@ViewBag.bid,regionID=@ViewBag.reg })">Print RFQ</a>
+}
+<style>
+    th {
+        text-align: center;
+    }
+</style>
+<h2 style="text-align: center;">Disaster Risk Management and Food Security Sector
+    <br />
+    REQUEST FOR QUOTATION</h2>
+
+<p>Transport Quotation Delivery Datasheet for Region <b>@ViewBag.SelectedRegion</b></p>
+<p>Bid Reference Number <b>@ViewBag.BidReference</b></p>
+<p>Bid Opening Date <b>@ViewBag.OpeningDate Time: @ViewBag.bidOpeningTime</b></p>
+<p>Transporter Name:_________________________________</p>
+
+<div>
+    <div class="span4">City: ______________________</div>
+    <div class="span4">Woreda: ____________________</div>
+    <div class="span4">Kebele: ____________________</div>
+</div>
+<div>
+    <div class="span4">Tel No: ____________________</div>
+    <div class="span4">Mob No: ____________________</div>
+    <div class="span4">House No: __________________</div>
+</div>
+<div>
+    <div class="span4">Bid bond amount (in birr): ____________________</div>
+    <div class="span4">Bid submission date: ____________________</div>
+    <div class="span4">Total Quantity :<b>@string.Format("{0:N0}", @ViewBag.total)</b></div>
+</div>
+<div class="span12">&nbsp;</div>
+
+<table class="table table-bordered">
+    <tr>
+        <th rowspan="2" style='text-align:center;vertical-align:middle'>S.No</th>
+        <th rowspan="2" style='text-align:center;vertical-align:middle'>Source Warehouse</th>
+        <th colspan="2">Destination</th>
+        <th rowspan="2" style='text-align:center;vertical-align:middle'>Total Quintals</th>
+        <th colspan="2">Tariff/Quintal</th>
+        <th rowspan="2" style="min-width: 200px; text-align:center;vertical-align:middle">Remark</th>
+    </tr>
+    <tr>
+        <th>Zone</th>
+        <th>Woreda</th>
+         <th>Birr</th>
+        <th>Cent</th>
+    </tr>
+
+    @{
+        var count = 0;
+        
+        foreach (var item in ViewBag.regionPlanDistinct)
+        {
+            count++;
+        <tr>
+            <td>@count</td>
+            <td>@item.SourceWarehouse</td>
+            <td>@item.DestinationZone</td>
+            <td>@item.DestinationWoreda</td>
+            <td style='text-align:right'>@string.Format("{0:N0}", @item.Quantity) </td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        }
+        <tr>
+            <td colspan="4" style='text-align:center;vertical-align:middle'><b>Total</b> </td>
+            <td  style='text-align:right'><b>@string.Format("{0:N0}", @ViewBag.total)</b></td>
+             <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+    }
+</table>
+
+@*<script>
+    $(function () {
+        var b = @ViewBag.bid;
+        var r = @ViewBag.reg;
+
+        var printurl = "@Url.Action("Print", "RFQ")" + "?bidID="+ b + "&regionID="+r;
+        $("#toolbar_button_print").attr("href", printurl);
+    });
+</script>*@
