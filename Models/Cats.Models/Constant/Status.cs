@@ -44,6 +44,7 @@ namespace Cats.Models.Constant
         TransportOrderCreated = 6,
         Rejected = 7,
         SiPcAllocationApproved = 8
+
     }
     public enum TransportRequisitionStatus
     {
