@@ -45,6 +45,7 @@ namespace Cats.Areas.Logistics.Controllers
         private readonly IBidService _bidService;
         private readonly IStockStatusService _stockStatusService;
         private readonly IReceiptPlanDetailService _receiptPlanDetailService;
+        private readonly IDeliveryService _deliveryService;
 
         private readonly IGiftCertificateDetailService _giftCertificateDetailService;
         private readonly hub.IReceiptAllocationService _receiptAllocationService;
@@ -64,7 +65,7 @@ namespace Cats.Areas.Logistics.Controllers
             IHRDDetailService hrdDetailService,
             IRationDetailService rationDetailService,
             IProgramService programService,
-            IStockStatusService stockStatusService, IReceiptPlanDetailService receiptPlanDetailService, IGiftCertificateDetailService giftCertificateDetailService, hub.IReceiptAllocationService receiptAllocationService)
+            IStockStatusService stockStatusService, IReceiptPlanDetailService receiptPlanDetailService, IDeliveryService deliveryService, IGiftCertificateDetailService giftCertificateDetailService, hub.IReceiptAllocationService receiptAllocationService)
         {
             this._reliefRequisitionService = reliefRequisitionService;
             _dispatchAllocationService = dispatchAllocationService;
@@ -83,6 +84,7 @@ namespace Cats.Areas.Logistics.Controllers
             _programService = programService;
             _stockStatusService = stockStatusService;
             _receiptPlanDetailService = receiptPlanDetailService;
+            _deliveryService = deliveryService;
             _giftCertificateDetailService = giftCertificateDetailService;
             _receiptAllocationService = receiptAllocationService;
         }
@@ -449,6 +451,39 @@ namespace Cats.Areas.Logistics.Controllers
                         DaysPassedAfterSigned = (DateTime.Now - transportOrder.TransporterSignedDate).TotalDays
                     });
         }
+        #endregion
+
+        #region  None Reported  Transporters
+
+        public JsonResult GetNonReportedTransporters()
+        {
+            var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
+            
+            var transporters = _dispatchAllocationService.GetAllTransportersWithoutGrn();
+            foreach(var transporter in transporters)
+            {
+                var dispatchId = transporter.DispatchID;
+                var delivery = _deliveryService.FindBy(t => t.DispatchID == dispatchId).FirstOrDefault();
+                transporter.GRNReceived = delivery != null;
+                transporter.DispatchDatePref = transporter.DispatchDate.ToCTSPreferedDateFormat(datePref);
+                if (delivery != null)
+                    transporter.DeliveryID = delivery.DeliveryID;
+            }
+            // 10 in the next line of code indicates: The number of days given for the transporter to report back after the last dispatch date
+            var transportersView = transporters.ToList().Where(t => !t.GRNReceived).Where(t => DateTime.Now.Subtract(t.DispatchDate).Days >= 10).ToList();
+
+            var transView = from tv in transportersView
+                             select new
+                                        {
+                                            TransporterName = tv.Transporter,
+                                            BidNo = tv.BidNumber,
+                                            FDPName = tv.FDP,
+                                            DispatchedDate = tv.DispatchDatePref
+                                        };
+
+            return Json(transView.ToList(), JsonRequestBehavior.AllowGet);
+        }
+        
         #endregion
 
         #region Dispatch Allocations

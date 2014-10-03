@@ -742,6 +742,7 @@
         $scope.editGRN = function(id) {
             //alert("ReceivedBy: " + $scope.GRNDetail.ReceivedBy);
             if ($scope.GRNDetail != []) {
+                $scope.GRNDetail.TransportOrderID = @ViewBag.TransportOrderId;
                 $http.post(rootDir + 'Delivery/EditGRN/', $scope.GRNDetail).
                     success(function(data, status, headers, config) {
                         //alert(data["ReceivedBy"]);
