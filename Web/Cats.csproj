@@ -3224,6 +3224,7 @@
     <Content Include="Views\Shared\_BreadCrumbNew.cshtml" />
     <Content Include="Views\Account\ConfirmPasswordChange.cshtml" />
     <Content Include="Views\Shared\_dashboardmapleaf.cshtml" />
+    <Content Include="Views\Shared\_CATSLayout.cshtml" />
     <None Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

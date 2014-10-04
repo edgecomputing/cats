@@ -163,7 +163,7 @@ Gift Certificate
                 @(Html.Kendo().Grid<GiftCertificateDetailsViewModel>()
            .Name("Grid")
            .ToolBar(commands => commands.Create())
-           .Editable(editing => editing.Mode(GridEditMode.InCell))
+           .Editable(editing => editing.Mode(GridEditMode.InLine))
            .Columns(columns =>
                         {
                             columns.AutoGenerate(false);
@@ -186,7 +186,7 @@ Gift Certificate
                                 .Filterable(true);
                             columns.Bound(o => o.ExpiryDate).Title(Html.Translate("Expiry Date")).Format("{0:dd/MM/yyyy}");
                             columns.Command(commands => commands.Destroy().HtmlAttributes(new { align = "center" })).Title(Html.Translate("Action"));
-
+                            columns.Command(commands => commands.Edit());
                         })
 
            .DataSource(binding => binding.Ajax()
@@ -199,6 +199,7 @@ Gift Certificate
                                            m.Id(t => t.GiftCertificateDetailID);
                                            m.Field(t => t.CommodityID).DefaultValue(-1);
                                        })
+                                      
                         //                              .Batch(true)
                         //.ServerOperation(false)
         ).Events(e => e.DataBound("onDataBound"))
@@ -210,7 +211,7 @@ Gift Certificate
             <div class="box-footer text-center">
 
                 <a id="save_button" class="btn btn btn-primary " data-buttontype="btn_save" href="javascript:saverecords()"><span class="fa fa-save"></span> Save</a>
-                <a class="btn btn-default " data-buttontype="btn_cancel" href="@Url.Action("Index", "GiftCertificate")"><span class="fa fa-lg fa-times-circle"></span> Cancel</a>
+                <a class="btn btn-default "  itemtypedata-buttontype="btn_cancel" href="@Url.Action("Index", "GiftCertificate")"><span class="fa fa-lg fa-times-circle"></span> Cancel</a>
             </div>
         </div>
 
@@ -238,10 +239,9 @@ Gift Certificate
     }
     function saverecords() {
         var url = '@Url.Action("Index", "GiftCertificate")';
-        $("#save_button").attr('href', url);
+        //$("#save_button").attr('href', url);
         $("#Grid").data("kendoGrid").saveChanges();
-        //document.forms["frm_edit_gift"].submit();
-        location.href = url;
+        document.location.href = url;
     }
 
 </script>
