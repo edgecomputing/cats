@@ -662,7 +662,7 @@ namespace Cats.Areas.Procurement.Controllers
                 else
                 {
                     ModelState.AddModelError("Errors", @"Unable to generate dispatch allocation.");
-                    return RedirectToAction("Index", "TransportOrder", new { Area = "Hub" });
+                    return RedirectToAction("Index", "TransportOrder", new { id = (int)TransportOrderStatus.Signed, Area = "Hub" });
                 }
             }
             catch (Exception ex)
@@ -672,7 +672,7 @@ namespace Cats.Areas.Procurement.Controllers
                 ModelState.AddModelError("Errors", @"Unable to generate dispatch allocation.");
                
             }
-           return RedirectToAction("Index", "TransportOrder", new { Area = "Hub" });
+            return RedirectToAction("Index", "TransportOrder", new { id = (int)TransportOrderStatus.Signed, Area = "Hub" });
         }
         private TransportContractReportViewModel GetTransportOrderReport(TransportOrder transportOrder)
         {
@@ -707,7 +707,7 @@ namespace Cats.Areas.Procurement.Controllers
         public ActionResult MultipleApproval()
         {
             var draftTransportOrders = _transportOrderService.FindBy(m => m.StatusID == (int) TransportOrderStatus.Draft);
-            if(draftTransportOrders==null)
+            if(draftTransportOrders.Count==0)
             {
                 TempData["CustomError"] = "There are no draft Transport Orders to be Approved! ";
                 return RedirectToAction("Index");

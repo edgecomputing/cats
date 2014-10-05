@@ -56,7 +56,7 @@
                     <div class="span3">
                         <div class="control-group">
                             <div class="control-label">
-                                <label for="CommodityTarrif">Tarrif</label>
+                                <label for="CommodityTarrif">Current Price</label>
                             </div>
                             <div class="controls">
                                 <input type="text" id="CommodityTarrif" name="CommodityTarrif"/>&nbsp;<span id="errmsgCommodityTarrif_Amount" class="errorText"></span>
@@ -362,7 +362,7 @@
                         @item.ReceivedQty
                     </td>
                     <td>
-                        @item.Tarrif
+                        @item.Tarrif.ToString("0.00")
                     </td>
                     <td>
                         @item.ShortageQty
@@ -371,7 +371,7 @@
                         @item.ShortageBirr
                     </td>
                     <td>
-                        @item.FreightCharge
+                        @item.FreightCharge.ToString("0.00")
                     </td>
                     <td>
                         @state.Name
@@ -382,7 +382,7 @@
                         @*<a href="@Url.Action("LabourCost", "ValidatedPaymentRequest")">Labour Cost</a>*@
                         @if (state.StateNo == 0)
                         {
-                            <button class="btn" data-ng-click="loadCommodityTarrif(@item.TransporterPaymentRequestID, '@item.Commodity')">Commodity Tarrif</button>
+                            <button class="btn" data-ng-click="loadCommodityTarrif(@item.TransporterPaymentRequestID, '@item.Commodity')">Commodity Price</button>
                         }
                     </td>
                     <td>
