@@ -1,0 +1,408 @@
+﻿
+
+@using Cats.Services.Security
+@using LanguageHelpers.Localization
+@{
+    var user = (UserIdentity)HttpContext.Current.User.Identity;
+    
+}
+
+
+	<link rel="stylesheet" href="~/Content/MapResources/leaflet/leaflet.css" />
+
+	<style>
+		#mapleaf {
+			width: 100%;
+			height: 400px;
+		}
+
+		.info {
+			padding: 6px 8px;
+			font: 14px/16px Arial, Helvetica, sans-serif;
+			background: white;
+			background: rgba(255,255,255,0.8);
+			box-shadow: 0 0 15px rgba(0,0,0,0.2);
+			border-radius: 5px;
+		}
+		.info h4 {
+			margin: 0 0 5px;
+			color: #777;
+		}
+
+		.legend {
+			text-align: left;
+			line-height: 18px;
+			color: #555;
+		}
+		.legend i {
+			width: 18px;
+			height: 18px;
+			float: left;
+			margin-right: 8px;
+			opacity: 0.7;
+		}
+	</style>
+
+	<script src="~/Content/MapResources/leaflet/leaflet-0.7.3.js"></script>
+    <script src="~/Content/MapResources/leaflet/leaflet.label.js"></script>
+
+	<script type="text/javascript" src="~/Content/MapResources/MapData/leaflet/Eth_Zone_2013.js"></script>
+    <script type="text/javascript" src="~/Content/MapResources/MapData/leaflet/Eth_Region_2013.js"></script>
+    <script type="text/javascript" src="~/Content/MapResources/MapData/leaflet/Eth_Woreda_2013.js"></script>
+
+    <!--<script src="~/Scripts/jquery-1.7.1.js"></script>-->
+	<script type="text/javascript">
+
+	    
+	    var adminlevel = 1;
+		var map = L.map('mapleaf').setView([10, 40], 5);
+		map.options.doubleClickZoom = true;
+
+        admin1legend = [100000,200000,300000,400000,500000,600000,700000,800000,900000,1000000];
+		admin2legend = [10000, 20000, 30000, 40000, 50000, 60000, 70000, 80000, 90000, 100000];
+		admin3legend = [1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000];
+
+		// control that shows state info on hover
+		var info = L.control();
+
+		info.onAdd = function (map) {
+			this._div = L.DomUtil.create('div', 'info');
+			this.update();
+			return this._div;
+		};
+
+		info.update = function (props) {
+		    if(props==null) return;
+		    var loc = props.REGIONNAME;
+		    loc=loc + (props.ZONENAME!=null? ' \\ ' + props.ZONENAME:'');
+		    loc = loc + (props.WOREDANAME != null ? ' \\ ' + props.WOREDANAME : '');
+		    var rpt = "";
+		    rpt = '<b>' + loc + '</b><br>';
+		    if (props.NumberOfBeneficiaries != null) {
+		        rpt = rpt + '<h4>Total ' + props.NumberOfBeneficiaries + ' Beneficieries</h4><br/>';
+		        rpt = rpt + '<b>Cereal: </b>' + props.Cereal + '<br/>';
+		        //rpt = rpt + 'Code: ' + props.code + '<br/>';
+		        rpt = rpt + '<b>Bleded Food: </b>' + props.BlededFood + '<br/>';
+		        rpt = rpt + '<b>Oil: </b>' + props.Oil + '<br/>';
+		        rpt = rpt + '<b>Pulse: </b>' + props.Pulse + '<br/>';
+		    } else {
+		        rpt=rpt+"<b>No Data</b>"
+		    }
+
+		    this._div.innerHTML = props ? rpt : 'Hover over area for report';
+		};
+
+		info.addTo(map);
+
+		
+
+		// get color depending on population density value
+		function getColor(k,legendselected) {
+		    /*
+		    return k < legendselected[0] ? '#800026' :
+			       k < legendselected[1] ? '#BD0026' :
+			       k < legendselected[2] ? '#E31A1C' :
+			       k < legendselected[3]  ? '#FC4E2A' :
+			       k < legendselected[4]   ? '#FD8D3C' :
+			       k < legendselected[5]   ? '#FEB24C' :
+			       k < legendselected[7]   ? '#FED976' :
+			                  '#FFEDA0';
+*/
+
+		    return k==null? "rgb(0,0,0)": k < legendselected[0] ? "rgb(0, 114, 254)" :
+		        k < legendselected[1] ? "rgb(0,173,254)" :
+		            k < legendselected[2] ? "rgb(0,238,254)" :
+		                k < legendselected[3] ? "rgb(43,254,211)" :
+		                    k < legendselected[4] ? "rgb(103,254,151)" :
+		                        k < legendselected[5] ? "rgb(155,254,99)" :
+		                            k < legendselected[6] ? "rgb(211,254,99)" :
+		                                k < legendselected[7] ? "rgb(254,243,0)" :
+		                                    k < legendselected[8] ? "rgb(254,183,0)" :
+		                                        k < legendselected[9] ? "rgb(254,121,0)" :
+		                                            '#FFEDA0';
+
+		}
+
+
+		function style(feature) {
+		    return {
+		        weight: 2,
+		        opacity: 1,
+		        color: 'white',
+		        //dashArray: '3',
+		        fillOpacity: 0.7,
+		        fillColor: getColor(feature.properties.NumberOfBeneficiaries, feature.properties.WOR_P_CODE!=null ? admin3legend : feature.properties.ZON_P_CODE!=null ? admin2legend : admin1legend),
+		        //label: 'test this is for test'
+
+		    };
+		}
+
+		function highlightFeature(e) {
+			var layer = e.target;
+
+			layer.setStyle({
+				weight: 3,
+				color: '#666',
+				dashArray: '',
+				fillOpacity: 0.7
+			});
+
+			if (!L.Browser.ie && !L.Browser.opera) {
+				layer.bringToFront();
+			}
+
+			info.update(layer.feature.properties);
+		}
+
+		var geojson;
+
+		function resetHighlight(e) {
+			geojson.resetStyle(e.target);
+			info.update();
+		}
+
+		function zoomoutfromfeature(e)
+		{
+		    if (adminlevel == 1) return;
+		    map.removeLayer(geojsonzones);
+		    map.removeLayer(geojson);
+		    map.removeLayer(geojsonworeda);
+		    if (adminlevel == 3) {
+		        geojsonzones.addTo(map);
+		        adminlevel = 2;
+		        map.setZoom(7);
+		    }
+		    else if (adminlevel == 2) {
+		        geojson.addTo(map);
+		        adminlevel = 1;
+		        map.setView([10, 40], 5);
+		    }
+            
+		    map.removeControl(legend);
+		    legend.addTo(map);
+		}
+
+		function zoomToFeature(e) {
+		    
+		    if (e.originalEvent.ctrlKey) return zoomoutfromfeature(e);
+		    if (adminlevel == 3) return;
+            map.fitBounds(e.target.getBounds());
+		    map.removeLayer(geojsonzones);
+		    map.removeLayer(geojson);
+		    map.removeLayer(geojsonworeda);
+		    if(adminlevel==1)
+		    {   geojsonzones.addTo(map);    
+		        adminlevel=2;
+		    }
+		    else if(adminlevel==2)
+		    {  
+		        geojsonworeda.addTo(map);
+		        adminlevel=3;
+		    }
+		    map.removeControl(legend);
+		    legend.addTo(map);
+
+		}
+
+		function onEachFeatureregion(feature, layer) {
+			layer.on({
+				mouseover: highlightFeature,
+				mouseout: resetHighlight,
+				dblclick: zoomToFeature,
+			    //dblclick:zoomoutfromfeature
+			});
+			
+			//layer.bindPopup("<b> Region:" + feature.properties.REGIONNAME + "</b><br>Test data one<br>Test data two<br>Test data three");
+			//feature.properties.data = (Math.random() * 10000).toFixed(0);
+					    //layer.bindLabel(feature.properties.data, { noHide: true });
+			//L.marker(layer.getBounds().getCenter(), { draggable: true }).bindLabel("this is for test", { noHide: true, direction: 'left' }).addTo(map);
+		}
+
+		function onEachFeaturezone(feature, layer) {
+		    layer.on({
+		        mouseover: highlightFeature,
+		        mouseout: resetHighlight,
+		        dblclick: zoomToFeature,
+		        //dblclick: zoomoutfromfeature
+		    });
+
+		    //feature.properties.data = (Math.random() * 1000).toFixed(0);
+		    //layer.bindPopup("<b> Zone:" + feature.properties.ZONENAME + "</b><br>");
+		}
+
+		function onEachFeatureworeda(feature, layer) {
+		    layer.on({
+		        mouseover: highlightFeature,
+		        mouseout: resetHighlight,
+		        dblclick: zoomToFeature,
+		        //dblclick: zoomoutfromfeature
+		    });
+
+		    //feature.properties.data = (Math.random() * 100).toFixed(0);
+		    //layer.bindPopup("<b> Woreda: " + feature.properties.name + "</b><br>");
+            
+		}
+        
+	    //load from file to map
+
+		//Add labels layer
+		var labelStyle = {
+		    color: '#CCC',
+		    opacity: 1
+		};
+
+		var labelMarkerOptions = {
+		    opacity: 0,
+		    fillOpacity: 0
+		};
+		
+		
+		var geojson;
+		var geojsonworeda;
+		var geojsonzones;
+		
+		var RegionHRDUrl = "@Url.Action("BeneficiaryByRegion_Read", "HRD", new { Area = "EarlyWarning" })";
+		var ZoneHRDUrl = "@Url.Action("BeneficiaryByZone_Read", "HRD", new { Area = "EarlyWarning" })";
+	    var WoredaHRDUrl = "@Url.Action("BeneficiaryByWoreda_Read", "HRD", new { Area = "EarlyWarning" })";
+
+	    function createHash(data, key) {
+	        var hash = {};
+	        for (var i in data) {
+	            var v = data[i];
+	            var kv = v[key];
+	            hash["row" + kv] = v;
+
+	        }
+	        return hash;
+	    }
+        
+	    info._div.innerHTML = 'Loading Regions data ...';
+	    ($.post(RegionHRDUrl, function(data) {
+
+	        
+	        for (var i in data.Data) {
+	            //data.Data[i].RegionName;
+	            for(var j in regionsData.features) {
+	                if (parseInt(data.Data[i].code) == parseInt(regionsData.features[j].properties.REG_P_CODE)) {
+	                    regionsData.features[j].properties.NumberOfBeneficiaries = data.Data[i].NumberOfBeneficiaries;
+	                    regionsData.features[j].properties.Cereal = data.Data[i].Cereal;
+	                    regionsData.features[j].properties.code = data.Data[i].code;
+	                    regionsData.features[j].properties.BlededFood = data.Data[i].BlededFood;
+	                    regionsData.features[j].properties.Oil = data.Data[i].Oil;
+	                    regionsData.features[j].properties.Pulse = data.Data[i].Pulse;
+                        break;
+	                } 
+	            }
+	        }
+
+	        geojson = L.geoJson(regionsData, {
+	            style: style,
+	            onEachFeature: onEachFeatureregion,
+	        });
+            
+	        geojson.setStyle(style);
+	        geojson.addTo(map);
+	        geojson.bringToFront();
+	        
+	        
+	        //alert("region data loaded");
+	        //$("#maploading").text("Loading Zone data ...");
+	        info._div.innerHTML = 'Loading Zones data ...';
+	        $.post(ZoneHRDUrl, function (data) {
+	            for (var i in data.Data) {
+	                //data.Data[i].RegionName;
+	                for (var j in zonesdata.features) {
+	                    if (parseInt(data.Data[i].code) == parseInt(zonesdata.features[j].properties.ZON_P_CODE)) {
+	                        zonesdata.features[j].properties.NumberOfBeneficiaries = data.Data[i].NumberOfBeneficiaries;
+	                        zonesdata.features[j].properties.Cereal = data.Data[i].Cereal;
+	                        zonesdata.features[j].properties.code = data.Data[i].code;
+	                        zonesdata.features[j].properties.BlededFood = data.Data[i].BlededFood;
+	                        zonesdata.features[j].properties.Oil = data.Data[i].Oil;
+	                        zonesdata.features[j].properties.Pulse = data.Data[i].Pulse;
+	                        break;
+	                    }
+
+	                }
+	            }
+
+	            geojsonzones = L.geoJson(zonesdata, {
+	                style: style,
+	                onEachFeature: onEachFeaturezone,
+	            });
+	            geojsonzones.setStyle(style);
+	            //alert("zone data loaded");
+	            info._div.innerHTML = 'Loading Woreda data ...';
+	            
+ $.post(WoredaHRDUrl, function (data) {
+
+	            for (var i in data.Data) {
+	                //data.Data[i].RegionName;
+	                for (var j in woredadata.features) {
+	                    if (parseInt(data.Data[i].code) == parseInt(woredadata.features[j].properties.WOR_P_CODE)) {
+	                        woredadata.features[j].properties.NumberOfBeneficiaries = data.Data[i].NumberOfBeneficiaries;
+	                        woredadata.features[j].properties.Cereal = data.Data[i].Cereal;
+	                        woredadata.features[j].properties.code = data.Data[i].code;
+	                        woredadata.features[j].properties.BlededFood = data.Data[i].BlededFood;
+	                        woredadata.features[j].properties.Oil = data.Data[i].Oil;
+	                        woredadata.features[j].properties.Pulse = data.Data[i].Pulse;
+	                        break;
+	                    }
+
+	                }
+	            }
+
+	            geojsonworeda = L.geoJson(woredadata, {
+	                style: style,
+	                onEachFeature: onEachFeatureworeda,
+	            });
+	            geojsonworeda.setStyle(style);
+	            //alert("woreda data loaded");
+	            
+	            info._div.innerHTML = 'Ready';
+	        });
+
+	        });
+	        
+	        //$("#maploading").text("Loading Woreda data ...");
+
+	        
+	       
+	        //$("#maploading").text("");
+	        
+	    }));
+
+	    
+	    
+	    
+		var legend = L.control({position: 'bottomright'});
+
+		legend.onAdd = function (map) {
+
+		    var div = L.DomUtil.create('div', 'info legend'),
+		        grades = adminlevel == 1 ? admin1legend : adminlevel == 2 ? admin2legend : admin3legend,
+				labels = [],
+				from, to;
+
+		    labels.push(
+		        '<i style="background:' + "rgb(0,0,0)" + '"></i> ' + ' No Data') ;
+
+
+		    labels.push(
+		        '<i style="background:' + getColor(grades[0] - 1, grades) + '"></i> ' + 'Less Than ' + grades[0]);
+
+			for (var i = 0; i < grades.length; i++) {
+				from = grades[i];
+				to = grades[i + 1];
+
+				labels.push(
+					'<i style="background:' + getColor(to-1,grades) + '"></i> ' +
+					from + (to ? '&ndash;' + to : '+'));
+			}
+            
+			div.innerHTML = labels.join('<br>');
+			return div;
+		};
+
+		legend.addTo(map);
+
+	</script>

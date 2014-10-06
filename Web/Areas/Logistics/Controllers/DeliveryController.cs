@@ -178,13 +178,16 @@ namespace Cats.Areas.Logistics.Controllers
                 {
                     var dispatchDetail = dispatchObj.DispatchDetails.FirstOrDefault();
                     if (dispatchDetail != null)
+                    {
                         deliveryViewModel.SentQuantity = dispatchDetail.RequestedQunatityInUnit;
+                         deliveryViewModel.UnitID = dispatchDetail.UnitID;
+                        deliveryViewModel.Unit = _unitService.FindById(int.Parse(dispatchDetail.UnitID.ToString())).Name;
+                    }
                     deliveryViewModel.CommodityID = dispatchObj.DispatchAllocation.CommodityID;
                     deliveryViewModel.Commodity = dispatchObj.DispatchAllocation.Commodity.Name;
                     if (dispatchObj.DispatchAllocation.Unit != 0)
                     {
-                        deliveryViewModel.UnitID = dispatchObj.DispatchAllocation.Unit;
-                        deliveryViewModel.Unit = _unitService.FindById(int.Parse(dispatchObj.DispatchAllocation.Unit.ToString())).Name;
+                       
                     }
                     deliveryViewModel.DeliveryBy = dispatchObj.DriverName;
                    
