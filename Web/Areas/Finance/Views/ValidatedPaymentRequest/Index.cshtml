@@ -19,6 +19,9 @@
             .ClientTemplate("<a href='" + Url.Action("PaymentRequests", "ValidatedPaymentRequest",
                         new { transporterID = "#=TransporterID#" }) + " '>#=TransporterName#</a>  ");
         columns.Bound(p => p.BidContract).Title(Html.Translate("Bid Number"));
+        columns.Bound(p => p.TransporterID).Title(Html.Translate("Actions"))
+                       .ClientTemplate("<a href='" + Url.Action("GenerateAgreementTemplate", "BidWinner",
+                       new {Area="Procurement", transporterID = "#=TransporterID#" }) + " '>Generate Agreement</a>  ");
         //columns.Command(command => command.Custom("SignContract").Click("OnSignContract"));
     })
     //.Editable(editable => editable.Mode(GridEditMode.InCell))
