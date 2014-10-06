@@ -55,8 +55,9 @@
 
 	    
 	    var adminlevel = 1;
-		var map = L.map('mapleaf').setView([10, 40], 5);
-		map.options.doubleClickZoom = true;
+	    var map = L.map('mapleaf').setView([10, 40], 5);
+	    map.maxZoom = 6;
+		map.options.doubleClickZoom = false;
 
         admin1legend = [100000,200000,300000,400000,500000,600000,700000,800000,900000,1000000];
 		admin2legend = [10000, 20000, 30000, 40000, 50000, 60000, 70000, 80000, 90000, 100000];
@@ -71,6 +72,11 @@
 			return this._div;
 		};
 
+		function formatdecimal(n) {
+		    return n.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "1,");
+		}
+
+
 		info.update = function (props) {
 		    if(props==null) return;
 		    var loc = props.REGIONNAME;
@@ -79,14 +85,14 @@
 		    var rpt = "";
 		    rpt = '<b>' + loc + '</b><br>';
 		    if (props.NumberOfBeneficiaries != null) {
-		        rpt = rpt + '<h4>Total ' + props.NumberOfBeneficiaries + ' Beneficieries</h4><br/>';
-		        rpt = rpt + '<b>Cereal: </b>' + props.Cereal + '<br/>';
+		        rpt = rpt + '<h4>Total ' + formatdecimal(props.NumberOfBeneficiaries).slice(0,-3) + ' Beneficieries</h4><br/>';
+		        rpt = rpt + '<b>Cereal: </b>' + formatdecimal(props.Cereal) + '<br/>';
 		        //rpt = rpt + 'Code: ' + props.code + '<br/>';
-		        rpt = rpt + '<b>Bleded Food: </b>' + props.BlededFood + '<br/>';
-		        rpt = rpt + '<b>Oil: </b>' + props.Oil + '<br/>';
-		        rpt = rpt + '<b>Pulse: </b>' + props.Pulse + '<br/>';
+		        rpt = rpt + '<b>Bleded Food: </b>' + formatdecimal(props.BlededFood) + '<br/>';
+		        rpt = rpt + '<b>Oil: </b>' + formatdecimal(props.Oil) + '<br/>';
+		        rpt = rpt + '<b>Pulse: </b>' + formatdecimal(props.Pulse) + '<br/>';
 		    } else {
-		        rpt=rpt+"<b>No Data</b>"
+		        rpt = rpt + "<b>No Data</b>";
 		    }
 
 		    this._div.innerHTML = props ? rpt : 'Hover over area for report';
@@ -161,44 +167,85 @@
 			info.update();
 		}
 
-		function zoomoutfromfeature(e)
-		{
-		    if (adminlevel == 1) return;
-		    map.removeLayer(geojsonzones);
-		    map.removeLayer(geojson);
-		    map.removeLayer(geojsonworeda);
-		    if (adminlevel == 3) {
-		        geojsonzones.addTo(map);
-		        adminlevel = 2;
-		        map.setZoom(7);
-		    }
-		    else if (adminlevel == 2) {
-		        geojson.addTo(map);
-		        adminlevel = 1;
-		        map.setView([10, 40], 5);
-		    }
-            
-		    map.removeControl(legend);
-		    legend.addTo(map);
-		}
+		
 
 		function zoomToFeature(e) {
+
+		    //alert('zoomed');
+		    if (e.originalEvent.ctrlKey && adminlevel == 1) return;
+		    if (adminlevel == 3&&!e.originalEvent.ctrlKey) return;
+
 		    
-		    if (e.originalEvent.ctrlKey) return zoomoutfromfeature(e);
-		    if (adminlevel == 3) return;
-            map.fitBounds(e.target.getBounds());
-		    map.removeLayer(geojsonzones);
-		    map.removeLayer(geojson);
-		    map.removeLayer(geojsonworeda);
-		    if(adminlevel==1)
-		    {   geojsonzones.addTo(map);    
-		        adminlevel=2;
+		    //map.removeLayer(geojsonzones);
+		    //map.removeLayer(geojson);
+		    //map.removeLayer(geojsonworeda);
+		    //map.fitBounds(e.target.getBounds());
+		    if(adminlevel==1 || adminlevel==3) 
+		    {
+
+		        if (adminlevel == 1) {
+		            map.removeLayer(geojson);
+		            
+		        }
+		        else {
+		            map.removeLayer(geojsonworeda);
+		            		        }
+		        geojsonzones = L.geoJson(zonesdata, {
+		            style: style,
+		            onEachFeature: onEachFeaturezone,
+		            filter: function (feature, layer) {
+		                if (feature.properties) {
+		                    // If the property "underConstruction" exists and is true, return false (don't render features under construction)
+		                    return feature.properties.REG_P_CODE !== undefined ? feature.properties.REG_P_CODE==e.target.feature.properties.REG_P_CODE : false;
+		                }
+		                return false;
+		            }
+		        });
+		        geojsonzones.setStyle(style);
+
+		        geojsonzones.addTo(map);
+
+		        adminlevel = 2;
+		        map.fitBounds(geojsonzones.getBounds());
 		    }
-		    else if(adminlevel==2)
-		    {  
+		    else if (adminlevel == 2 && (!e.originalEvent.ctrlKey))
+		    {
+
+		        
+		        map.removeLayer(geojsonzones);
+		        geojsonworeda = L.geoJson(woredadata, {
+		            style: style,
+		            onEachFeature: onEachFeatureworeda,
+		            filter: function (feature, layer) {
+		                if (feature.properties) {
+		                    return feature.properties.ZON_P_CODE !== undefined ? feature.properties.ZON_P_CODE == e.target.feature.properties.ZON_P_CODE : false;
+		                }
+		                return false;
+		            }
+		        });
+		        
+		        geojsonworeda.setStyle(style);
 		        geojsonworeda.addTo(map);
-		        adminlevel=3;
+		        adminlevel = 3;
+		        map.fitBounds(geojsonworeda.getBounds());
+		        
 		    }
+		    
+
+		    else if (adminlevel == 2 && e.originalEvent.ctrlKey) {
+                map.removeLayer(geojsonzones);
+		        geojson.addTo(map);
+		        adminlevel = 1;
+		        map.fitBounds(geojson.getBounds());
+		        
+		    }
+		    else if (adminlevel == 3) {
+		        
+		    }
+		    
+		    //map.fitBounds(map.getBounds());//.getCenter(), 5);
+		    //map.setZoom(5);
+		    //map.fitBounds(e.target.feature.getBounds());
 		    map.removeControl(legend);
 		    legend.addTo(map);
 
@@ -276,6 +323,10 @@
 	        return hash;
 	    }
         
+	    function loadonlyselected() {
+            
+	    }
+
 	    info._div.innerHTML = 'Loading Regions data ...';
 	    ($.post(RegionHRDUrl, function(data) {
 
@@ -298,6 +349,7 @@
 	        geojson = L.geoJson(regionsData, {
 	            style: style,
 	            onEachFeature: onEachFeatureregion,
+	            //filter: loadonlyselected,
 	        });
             
 	        geojson.setStyle(style);
@@ -325,15 +377,11 @@
 	                }
 	            }
 
-	            geojsonzones = L.geoJson(zonesdata, {
-	                style: style,
-	                onEachFeature: onEachFeaturezone,
-	            });
-	            geojsonzones.setStyle(style);
+	           
 	            //alert("zone data loaded");
 	            info._div.innerHTML = 'Loading Woreda data ...';
 	            
- $.post(WoredaHRDUrl, function (data) {
+           $.post(WoredaHRDUrl, function (data) {
 
 	            for (var i in data.Data) {
 	                //data.Data[i].RegionName;
@@ -351,11 +399,7 @@
 	                }
 	            }
 
-	            geojsonworeda = L.geoJson(woredadata, {
-	                style: style,
-	                onEachFeature: onEachFeatureworeda,
-	            });
-	            geojsonworeda.setStyle(style);
+	            
 	            //alert("woreda data loaded");
 	            
 	            info._div.innerHTML = 'Ready';
@@ -388,15 +432,15 @@
 
 
 		    labels.push(
-		        '<i style="background:' + getColor(grades[0] - 1, grades) + '"></i> ' + 'Less Than ' + grades[0]);
+		        '<i style="background:' + getColor(grades[0] - 1, grades) + '"></i> ' + 'Less Than ' + formatdecimal(grades[0]));
 
 			for (var i = 0; i < grades.length; i++) {
-				from = grades[i];
-				to = grades[i + 1];
+			    from = grades[i];
+			    to = grades[i + 1];
 
 				labels.push(
 					'<i style="background:' + getColor(to-1,grades) + '"></i> ' +
-					from + (to ? '&ndash;' + to : '+'));
+					formatdecimal(from) + (to ? '&ndash;' + formatdecimal(to) : '+'));
 			}
             
 			div.innerHTML = labels.join('<br>');
