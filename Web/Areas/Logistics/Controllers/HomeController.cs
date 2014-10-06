@@ -321,7 +321,7 @@ namespace Cats.Areas.Logistics.Controllers
             {
                 selectedBidWinners = GetBidWinners(bidWinner).ToList();
             }
-            return Json(selectedBidWinners, JsonRequestBehavior.AllowGet);
+            return Json(selectedBidWinners.Take(10), JsonRequestBehavior.AllowGet);
         }
 
 
@@ -333,9 +333,9 @@ namespace Cats.Areas.Logistics.Controllers
 
             var unSignedbidWinner = _bidWinnerService.FindBy(m => m.BidID == selectedBid.BidID 
                                                             && m.ExpiryDate > DateTime.Now 
-                                                            && m.Status != (int)BidWinnerStatus.Signed);
+                                                            && m.Status != (int)BidWinnerStatus.Signed).Take(5);
 
-            if (unSignedbidWinner != null  && unSignedbidWinner.Count > 0)
+            if (unSignedbidWinner != null  && unSignedbidWinner.Count() > 0)
                 selectedUnSignedBidWinners = GetBidWinners(unSignedbidWinner).ToList();
             
 
