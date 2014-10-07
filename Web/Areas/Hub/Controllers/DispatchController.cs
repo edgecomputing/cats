@@ -366,7 +366,8 @@ namespace Cats.Areas.Hub.Controllers
                 dispatch.HubID = dispatchviewmodel.HubID;
                 dispatch.RequisitionId = dispatchviewmodel.RequisitionId;
 
-                dispatch.Quantity = UserProfile.PreferedWeightMeasurment.ToLower() == "mt" ? dispatchviewmodel.Quantity : dispatchviewmodel.Quantity / 10;
+                dispatch.Quantity = dispatchviewmodel.Quantity;
+                //dispatch.Quantity = UserProfile.PreferedWeightMeasurment.ToLower() == "mt" ? dispatchviewmodel.Quantity : dispatchviewmodel.Quantity / 10;
                 _transactionService.SaveDispatchTransaction(dispatch);
 
                 var contacts = _contactService.FindBy(c => c.FDPID == dispatch.FDPID);
@@ -720,16 +721,17 @@ namespace Cats.Areas.Hub.Controllers
                 //if (dispatch.DispatchID == null )
                 if (dispatchModel.DispatchID == null)
                 {
+                    //Lets enter the MT as it is
 
-                    dispatchModel.DispatchDetails = prevCommodities;
-                    foreach (var gridCommodities in prevCommodities)
-                    {
-                        if (user.PreferedWeightMeasurment.Equals("qn"))
-                        {
-                            gridCommodities.DispatchedQuantityMT /= 10;
-                            gridCommodities.RequestedQuantityMT /= 10;
-                        }
-                    }
+                    //dispatchModel.DispatchDetails = prevCommodities;
+                    //foreach (var gridCommodities in prevCommodities)
+                    //{
+                    //    if (user.PreferedWeightMeasurment.Equals("qn"))
+                    //    {
+                    //        //gridCommodities.DispatchedQuantityMT /= 10;
+                    //        //gridCommodities.RequestedQuantityMT /= 10;
+                    //    }
+                    //}
                     //InsertDispatch(dispatchModel, user);
                     _transactionService.SaveDispatchTransaction(dispatchModel, user);
                 }
