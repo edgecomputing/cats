@@ -1,0 +1,231 @@
+﻿@using Cats.Helpers
+@using Cats.Services.Security
+
+@model IList<Cats.Models.RequisitionViewModel>
+@{
+    
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+     
+}
+@section Toolbar
+{
+    
+    <a class="btn toolbar-btn " data-submittedform="frmHub" >Assign hub</a>
+}
+
+@{
+    
+    var user = (UserIdentity)System.Web.HttpContext.Current.User.Identity;
+    var unitPreference = user.Profile.PreferedWeightMeasurment;
+}
+  
+<script>
+    $(document).ready(function check(){
+ 
+        $('#frmHub').validate(
+            {
+                rules: {
+                    datepicker: {
+                        required: true
+                    },
+                    rNumber: {
+                        required: true,
+                       
+                    }  
+                },
+                highlight: function(element) {
+                    $(element).closest('.control-group').removeClass('success').addClass('error');
+                },
+                success: function(element) {
+                    element
+                         .addClass('valid')
+                        .closest('.control-group').removeClass('error').addClass('success');
+                }
+            });
+    }); // end document.ready
+      </script>
+
+
+
+
+
+<h5 align="right"> Metric: @unitPreference </h5>
+   @using (Html.BeginForm("InserRequisition", "HubAllocation", FormMethod.Post, new {name = "frmHub", id = "frmHub"}))
+   {
+       <div>
+           <fieldset>
+               <legend>@Html.Translate("Hub Allocation")</legend>
+           </fieldset>
+	    <div class="form-horizontal">
+           <div class="control-group">
+               <label class="control-label  cats-date-pref">@Html.Translate("Allocation Date")</label>
+               <div class="controls">
+                   <input type="text" class="cats-datepicker2" id="datepicker" name="datepicker" >
+               </div>
+           </div>
+           <div class="control-group ">
+               <label class="control-label"> @Html.Translate("Allocation Reference No")</label>
+               <div class="controls">
+                   <input type="text" class="input-xlarge" id="rNumber" name="rNumber" placeholder="Reference Number">
+               </div>
+           </div>
+           <div class="control-group">
+               <label class="control-label">@Html.Translate("Hubs")</label>
+               <div class="controls">
+	                
+                   @Html.Hidden("Selected")
+                   @Html.DropDownList("hub", ViewBag.Hubs as SelectList, "Select a hub", new {id = "HubId"})
+	              
+               
+               </div>
+           </div>
+    
+   
+       </div>
+
+           </div>
+       <fieldset>
+           <legend>
+               
+           </legend>
+       </fieldset>
+
+       <script>
+           $(document).ready(function() {
+               $("#kGrid").kendoGrid({
+                   groupable: true,
+                   scrollable: true,
+                   sortable: true,
+                   pageable: true,
+                   autoBind: true,
+                   dataSource: {
+                       pageSize: 10
+                   }
+               });
+           });
+       </script>
+
+       <div  class="k-content">  
+           <table id="kGrid">
+               <thead>
+                   <tr>
+                      <th class="cats-date-pref-grid">
+                           @Html.Translate("Requset Date")
+                       </th>
+                       <th>
+                           @Html.Translate("Commodity")
+                       </th>
+                       <th>
+                           @Html.Translate("Region")
+                       </th>
+                       <th>
+                           @Html.Translate("Zone")
+                       </th>
+        
+                       <th>
+                           @Html.Translate("Requsition No")
+                       </th>
+       
+
+                       <th>
+                           @Html.Translate("Amount")
+                       </th>
+                       <th>
+                           @Html.Translate("Beneficiaries")
+                       </th>
+                       <th>
+                           @Html.Translate("id")
+                       </th>
+        
+                   </tr>
+    
+               </thead>
+               <tbody>
+               @for (int i = 0; i < Model.Count; i++)
+            {
+                   
+                       <tr>
+                            <td>@Html.DisplayFor(m => m[i].StrRequisitionDate)</td>      
+                           <td>@Html.DisplayFor(m => m[i].Commodity)</td>
+        
+                           <td>@Html.DisplayFor(m => m[i].Region)</td>
+        
+                           <td>@Html.DisplayFor(m => m[i].Zone)</td>
+        
+                           <td>@Html.DisplayFor(m => m[i].RequisitionNo)</td>
+        
+        
+
+                           <td>
+                               <span  class="text-right">
+                                   @Html.DisplayFor(m => m[i].Amount)
+                               </span>
+                              
+            
+                           </td>
+                           <td>
+                               <span  class="text-right">
+                                   @Html.DisplayFor(m => m[i].BenficiaryNo)
+                               </span>
+
+                              
+            
+                           </td>
+                           <td>
+                               @Html.DisplayFor(m => m[i].RequisitionId)
+                               @Html.HiddenFor(m => m[i].RequisitionId)
+                               @Html.HiddenFor(m => m[i].Amount)  @Html.HiddenFor(m => m[i].BenficiaryNo)  @Html.HiddenFor(m => m[i].StrRequisitionDate) @Html.HiddenFor(m => m[i].Commodity) @Html.HiddenFor(m => m[i].Region)  @Html.HiddenFor(m => m[i].Zone)  @Html.HiddenFor(m => m[i].RequisitionNo)
+            
+                           </td>
+       
+                       </tr>
+                   
+               }
+                </tbody>
+           </table>
+    
+       </div>
+       <br/>
+       
+   }
+
+    
+    
+    
+
+<script  >
+    (document).ready(function () {
+        // storing selected value to hidden field
+        $("#Selected").val($("#HubId").val());
+
+        $("#HubId").change(function () {
+            $.ajax({
+                url: "~/HubAllocation/inserRequisition",
+                type: 'POST',
+                cache: false,
+                data: { Selected: $("# Selected").val() },
+                success: function (data) {
+                    //
+                }
+            });
+        });
+    })
+    
+   
+</script>
+
+    
+<script type="text/javascript">
+    function message() {
+        var theForm = document.forms['frmHub'];
+        if (!theForm) theForm = document.form1;
+        var objOne = document.getElementById("HubId");
+        if (objOne.selectedIndex == 0) {
+            alert("hhh");
+            return false;
+        }
+        else {
+            theForm.submit();
+        }
+    }
+    </script>

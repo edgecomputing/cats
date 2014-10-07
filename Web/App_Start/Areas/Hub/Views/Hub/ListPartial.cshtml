@@ -1,0 +1,40 @@
+﻿@using Cats.Web.Hub.Helpers
+@model System.Linq.IOrderedEnumerable<Cats.Models.Hubs.Hub>
+           
+<table width="100%">
+    <tr>
+        <th style="width: 20px"></th>
+        <th>
+            @Html.Translate("Name")
+        </th>
+        <th>
+            @Html.Translate("Hub Owner")
+        </th>
+        <th></th>
+    </tr>
+    @{
+        var i = 1;
+    }
+@foreach (var item in Model)
+{
+    
+    <tr>
+    <td>@i</td>
+        <td>           
+            
+            @Html.DialogFormLink(@Html.DisplayFor(modelItem => item.Name).ToString(), Url.Action("Edit/" + item.HubID), Html.Translate("Edit Hub"), "list", Url.Action("ListPartial"))
+
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.HubOwner.Name)
+        </td>
+         <td>
+           @*@Html.ActionLink("Edit", "Edit", new { id=item.WarehouseID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.WarehouseID }) |*@
+            @Html.ActionLink(Html.Translate("Delete"), "Delete", new { id = item.HubID })
+        </td>
+    </tr>
+    i = i + 1;
+}
+
+</table>

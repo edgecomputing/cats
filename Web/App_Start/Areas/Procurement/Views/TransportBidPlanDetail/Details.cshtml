@@ -1,0 +1,50 @@
+﻿@model Cats.Models.TransportBidPlanDetail
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>TransportBidPlanDetail</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.BidPlan.TransportBidPlanID)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.BidPlan.TransportBidPlanID)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Destination.Name)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Destination.Name)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Source.Name)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Source.Name)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Program.Name)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Program.Name)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Quantity)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Quantity)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.TransportBidPlanDetailID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

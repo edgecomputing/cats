@@ -1,0 +1,18 @@
+﻿@model Cats.Models.Hubs.GiftCertificateViewModel
+@using Cats.Web.Hub.Helpers
+@{
+    ViewBag.Title = Html.Translate("Gift Certificate");
+}
+
+<h2>@Html.Translate("New Gift Certificate")</h2>
+<p>
+    @Html.Translate("Use this form to create new or edit gift certificates.") <span class="required">*</span> @Html.Translate("marks required fields.")
+</p>
+@{ViewBag.IsInEditMode = false; }
+
+@Html.Partial("EditPartial")
+
+<div>
+    @Html.ActionLink(Html.Translate("Back to List"), "Index")
+</div>
+<div class="clear"></div>  

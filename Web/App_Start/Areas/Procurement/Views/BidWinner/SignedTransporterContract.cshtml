@@ -1,0 +1,37 @@
+﻿@using Cats.Areas.Procurement.Models
+@using Kendo.Mvc.UI
+@using Cats.Helpers
+
+@{
+    ViewBag.Title = "SignedTransporterContract";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<h4>Signed Transporter Agreements</h4>
+@(Html.Kendo().Grid<TransporterViewModel>()
+    .Name("grid")
+    .Columns(columns =>
+    {
+        columns.Bound(p => p.TransporterName).Title(Html.Translate("Transporter Name"));
+        columns.Bound(p => p.BidContract).Title(Html.Translate("Bid Number"));
+        columns.Bound(p => p.TransporterID).Title(Html.Translate("Actions"))
+                        .ClientTemplate("<a href='" + Url.Action("GenerateAgreementTemplate", "BidWinner", 
+                        new { transporterID = "#=TransporterID#" }) + " '>Generate Agreement</a>  ");
+        columns.Bound(p => p.TransporterID).Title(Html.Translate("History")) 
+                        .ClientTemplate("<a href='" + Url.Action("ShowAllAgreements", "BidWinner", 
+                        new { transporterID = "#=TransporterID#" }) + " '>History</a>  ");
+        //columns.Command(command => command.Custom("SignContract").Click("OnSignContract"));
+    })
+    //.Editable(editable => editable.Mode(GridEditMode.InCell))
+    .Scrollable()
+    .HtmlAttributes(new Dictionary<string, object>{})
+    .Sortable()
+    .Filterable()
+    .DataSource(dataSource => dataSource
+            .Ajax()
+            //.PageSize(8)
+            //.Model(model => model.Id(p => p.WoredaHubID))
+            .Read(read => read.Action("SignedContract_Read", "BidWinner"))
+     )
+)
+

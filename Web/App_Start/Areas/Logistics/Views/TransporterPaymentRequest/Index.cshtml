@@ -1,0 +1,34 @@
+﻿@using Cats.Areas.Procurement.Models
+@using Cats.Helpers
+@using Cats.Models
+@using Cats.Services.Security
+@using Kendo.Mvc.UI
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<h3>Transporters having active order</h3>
+
+@(Html.Kendo().Grid<TransporterViewModel>()
+    .Name("grid")
+    .Columns(columns =>
+    {
+        columns.Bound(p => p.TransporterName).Title(Html.Translate("Transporter Name"))
+            .ClientTemplate("<a href='" + Url.Action("PaymentRequests", "TransporterPaymentRequest",
+                        new { transporterID = "#=TransporterID#" }) + " '>#=TransporterName#</a>  ");
+        columns.Bound(p => p.BidContract).Title(Html.Translate("Bid Number"));
+        //columns.Command(command => command.Custom("SignContract").Click("OnSignContract"));
+    })
+    //.Editable(editable => editable.Mode(GridEditMode.InCell))
+    .Scrollable()
+    .Sortable()
+    .Filterable()
+    .DataSource(dataSource => dataSource
+            .Ajax()
+            //.PageSize(8)
+            //.Model(model => model.Id(p => p.WoredaHubID))
+            .Read(read => read.Action("BidWinningTransporters_read", "TransporterPaymentRequest"))
+    )
+)

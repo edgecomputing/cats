@@ -1,0 +1,7 @@
+﻿@using System.Collections
+@using Kendo.Mvc.UI
+@(Html.Kendo().DropDownList()
+        .Name("UnitViewModel")
+        .DataTextField("Name")
+        .DataValueField("UnitId")
+            .BindTo((IEnumerable)ViewData["units"]))

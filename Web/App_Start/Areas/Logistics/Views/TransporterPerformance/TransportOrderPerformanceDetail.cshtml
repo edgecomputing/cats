@@ -1,0 +1,258 @@
+@using Cats.Helpers
+@using LanguageHelpers.Localization
+
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+    const string pageName = "Logistics.TransportOrderPerformance.Detail";
+}
+
+@section Toolbar
+{
+     
+   
+    <a class="btn toolbar-btn " data-buttontype="btn_back_to_list" href="@Url.Action("Index","TransporterPerformance",new { Area = "Logistics"})"></a>
+    <link href="~/Content/Dashboard/dashboardcomponents.css" rel="stylesheet" />
+}
+
+<style>
+    .summaryview
+    {
+       
+        padding: 4px;
+    }
+
+    .summaryview .fldlabel
+    {
+        text-align: right;
+        font-weight: bold;
+    }
+
+    .summaryview .fldvalue
+    {
+    }
+</style>
+<div ng-app="myApp">
+    <div  ng-controller="TransporterPerformanceController" class="container">
+                <fieldset>
+                    <legend>
+                        Transporter Detail
+                    </legend>
+                </fieldset>
+                
+                
+           
+            
+        <div class="section-hilite summaryview" style="width:90%; background:#FFF">
+            
+            <table style="width:90%; background:#FFF">
+                <tr>
+                    <td class="fldlabel">@Html.Translate2(pageName,"Contrat No"): </td><td class="fldvalue">{{transporterInfo.ContratNo}}</td>
+                    <td class="fldlabel">@Html.Translate2(pageName,"Transporter"): </td><td class="fldvalue">{{transporterInfo.Name}}</td>
+                    <td class="fldlabel">@Html.Translate2(pageName,"Transport Order"): </td><td class="fldvalue">{{transporterInfo.TransportOrderNo}}</td>
+                </tr>
+                <tr>
+                    <td class="fldlabel">@Html.Translate2(pageName,"Bid No") : </td><td class="fldvalue">{{transporterInfo.bidNo}}</td>
+                    <td class="fldlabel">@Html.Translate2(pageName,"Mobile No") : </td><td class="fldvalue">{{transporterInfo.MobileNo}}</td>
+                    <td class="fldlabel">@Html.Translate2(pageName,"Telephone No") : </td><td class="fldvalue">{{transporterInfo.TelephoneNo}}</td>
+                     
+                </tr>
+            </table>
+        </div>
+            
+
+            
+       
+                      
+        
+       
+        
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <fieldset>
+                    <legend>
+                        @Html.Translate2(pageName,"Transport Order Detail")
+                    </legend>
+                </fieldset>
+               
+               
+            </div>
+            <div class="panel-body">
+                
+                <div class="row-fluid form-horizontal ">
+                    <div class="form-control span12">
+                        
+                        <div class="portlet span11">
+                            <div class="portlet-header">
+                               
+                                <div class="span3">
+                                    <label>@Html.Translate2(pageName,"Region")</label>
+                                    <select   ng-model="trans_param.regionId">
+                                        <option ng-repeat="r in regions" value="{{r.AdminUnitID}}"> {{r.Name}} </option>
+
+                                    </select> 
+                            
+                                </div>
+                        
+                                <div class="span3">
+                                    <label>@Html.Translate2(pageName,"Warehouse")</label>
+                                    <select    ng-model="trans_param.hubId">  
+                                
+                                        <option ng-repeat="hb in hubs" value="{{hb.HubID}}">{{hb.Name}}</option>
+                                    </select>
+                           
+                                </div>
+
+                                <div class="span2">
+                                    <label>@Html.Translate2(pageName,"Select start Date")</label>
+                                    <input type="text" id="StartDate" class="cats-datepicker2  input-medium"  placeholder="Start date"/>
+                                </div>
+
+                                <div class="span2">
+                            
+                                    <label>@Html.Translate2(pageName,"Select end Date")</label>
+                                    <input type="text" id="EndDate" class="cats-datepicker2  input-medium"  placeholder="End date"/>
+                                </div>
+
+                                <div class="span2">
+                                    <button type="button" class="btn btn-default btn-lg" style="margin-top: 23px;" ng-click="show()">@Html.Translate2(pageName,"show")</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="TransporterPerformanceContent" class="row">
+            <div>&nbsp;</div>
+            <div class="span11">
+                <div class="portlet">
+                    
+
+                    <!-- /.portlet-header -->
+
+                    <div class="portlet-content">
+                        <th class="table-responsive">
+                        <table id="" class="table table-striped table-checkable">
+                            <thead>
+                                <tr>
+                                    <th class="hidden-xs">@Html.Translate2(pageName,"Number")</th>
+                                    <th>@Html.Translate2(pageName,"Region")</th>
+                                    <th>@Html.Translate2(pageName,"Zone")</th>
+                                    <th>@Html.Translate2(pageName,"Woreda")</th>
+                                    <th>@Html.Translate2(pageName,"FDP")</th>
+                                    <th>@Html.Translate2(pageName,"Hub")</th>
+                                    <th>@Html.Translate2(pageName,"Requisition No")</th>
+                                    <th>@Html.Translate2(pageName,"Commodity")</th>
+                                    <th>@Html.Translate2(pageName,"Allocated  (Qtl)")</th>
+                                    <th>@Html.Translate2(pageName,"Dispatched (Qtl)")</th>
+                                     <th>@Html.Translate2(pageName,"Delivered (Qtl)")</th>
+                                 </tr>
+                            </thead>
+                            <tbody>
+                                <tr  ng-repeat ="req in transporterInfoDetail.detail ">
+                                    <td class="hidden-xs">{{$index + 1}}</td>
+                                    <td>{{req.region}}</td>
+                                    <td>{{req.zone}}</td>
+                                    <td>{{req.woreda}}</td>
+                                    <td>{{req.fdp}}</td>
+                                    <th>{{req.hub}}</th>
+                                    <td>{{req.requisitionNo}}</td>
+                                    <td>{{req.commodity}}</td>
+                                    <td class="number">{{req.amount | number}}</td>
+                                    <td class="number">{{req.dispatchedAmount | number:2}}</td>
+                                     <td class="number">{{req.DeliveredAmount | number:2}}</td>
+                                       
+                                </tr>
+                                   
+                            </tbody>
+                        </table>
+
+                    </div>
+                        
+                </div> 
+
+            </div>
+        </div>
+    </div>
+   
+</div>
+
+<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="width: 150px;  right: 50%; top: 50%; margin: auto;">
+    <div class="progress progress-success  progress-striped active" style="height: 20px;">
+        <div class="bar" style="width:100%"></div>
+    </div>
+    <div id="modalContent" style="text-align: center;">
+    </div>
+</div>
+
+<script>
+
+    var transportOrderId = '@ViewBag.TransportOrderId';
+
+    var app = angular.module('myApp', []);
+  
+    
+    
+
+
+    app.controller('TransporterPerformanceController', ['$scope', '$http', function ($scope, $http) {
+        
+
+        $scope.trans_param = { regionId: 0, hubId: 0, transportOrderId: transportOrderId, startDate: new Date(), EndDate: new Date() };
+        $scope.regions = [];
+        $http({ method: 'GET', url: '@Url.Action("GetRegions","TransporterPerformance")' }).success(function (data, status, headers, config) { $scope.regions = data; })
+         .error(function (data, status, headers, config) {
+
+         });
+
+        $scope.hubs = [];
+        $http({ method: 'GET', url: '@Url.Action("GetHubs","TransporterPerformance")' }).success(function (data, status, headers, config) { $scope.hubs = data; })
+     .error(function (data, status, headers, config) {
+
+     });
+
+
+         $scope.transporterInfo = {};
+        $http({ method: 'GET',params:{ transportOrderId: transportOrderId }, url: '@Url.Action("GetTransporter","TransporterPerformance")' }).success(function(data) {
+            $scope.transporterInfo = data;
+           
+        });
+
+
+         $scope.transporterInfoDetail = {};
+        $http({ method: 'GET', params: { transportOrderId: transportOrderId }, url: '@Url.Action("GetDispatches","TransporterPerformance")' }).success(function (data) {
+            $scope.transporterInfoDetail.detail = data;
+            
+        });
+        
+       
+        $scope.show = function () {
+            $scope.trans_param.startDate = $("#StartDate").val();
+            $scope.trans_param.EndDate = $("#EndDate").val();
+
+           
+            $http.post("@Url.Action("GetFilteredTransportOrderDetail", "TransporterPerformance", new { Area = "Logistics" })", $scope.trans_param).success(function (data) {
+            $scope.transporterInfoDetail.detail = data;
+        });
+        };
+        
+    }]);
+
+
+
+    var promotSuccess = function() {
+
+        $('#myModal').modal('hide');
+        $('#modalContent').html("loading...");
+        $('#myModal').modal('show');
+        setTimeout(function() { window.current(); }, 3000);
+
+
+    };
+    
+    
+    
+</script>
+

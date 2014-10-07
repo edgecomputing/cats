@@ -1,0 +1,74 @@
+﻿@model LanguageHelpers.Localization.Models.LocalizedText
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";  
+}
+@section LeftBar
+{
+   @Html.Partial("LanguageLeftBar");
+}
+@section Toolbar
+{
+    <a class="btn toolbar-btn " data-buttontype="btn_save" data-submittedform="frm_edit_translation"></a>
+     <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="@Url.Action("Index", "Translation")" title="save"></a>
+}
+<div>
+<div><h4>Edit</h4></div>
+     @using (Html.BeginForm("EditTranslation", "Translation", FormMethod.Post, new { id = "frm_edit_translation" }))
+    {
+        @Html.ValidationSummary(true)
+
+        <div class="well form-horizontal">
+            @Html.HiddenFor(m=>m.LocalizedTextId)
+             <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(m => m.LanguageCode)
+                </div>
+                <div class="controls">
+                    @Html.HiddenFor(m => m.LanguageCode)
+                    @Html.TextBoxFor(m=>m.LanguageCode,new {disabled="true"})
+                    @Html.ValidationMessageFor(m=>m.LanguageCode)
+                </div>
+        
+            </div>
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(m => m.TextKey)
+                </div>
+                <div class="controls">
+                    @Html.HiddenFor(m=>m.TextKey)
+                    @Html.TextBoxFor(m => m.TextKey,new { disabled="true"})
+                    @Html.ValidationMessageFor(m=>m.TextKey)
+                </div>
+        
+            </div>
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(m => m.TranslatedText)
+                </div>
+                <div class="controls">
+                    @* <input id="amharicText" name="amharicText" style="font-family: Visual Geez Unicode;" 
+                           onkeypress="return AmharicPhoneticKeyPress(event,this);" maxlength="100" type="text" value="@Model.Value">
+                   *@  
+                    @Html.EditorFor(m => m.TranslatedText)
+                    @Html.ValidationMessageFor(m=>m.TranslatedText)
+                </div>
+        
+            </div>
+           
+        </div>
+    }
+ 
+   <script src="@Url.Content("~/Scripts/jquery-migrate-1.2.1.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery.jgeez.min.js")" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(function () {
+            var name = $('#Value');
+            name.jGeez();
+        });
+
+    </script>
+ 
+</div>
+

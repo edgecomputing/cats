@@ -1,0 +1,79 @@
+﻿@using Cats.Helpers
+@using Cats.Models.ViewModels
+@using Cats.Security
+@using Cats.Services.Security
+@using Kendo.Mvc.UI
+@model  System.Data.DataTable
+
+
+@{
+    
+    var user = (UserIdentity)System.Web.HttpContext.Current.User.Identity;
+    var unit = user.Profile.PreferedWeightMeasurment;
+}
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_CATSLayout.cshtml";
+}
+
+@section Title
+{
+Plans
+}
+
+@section PageTitle
+{
+    <h1 class="hdr-blck big ">
+        @Html.Translate("Regional Summary")
+    </h1>
+}
+<div class="row">
+    @Html.Partial("_HRDLeftBar")
+    <div class="col-md-10  col-sm-9">
+        <div class=" box box-primary ">
+            <div class="box-body row">
+                <div class="col-md-12">
+                    <div class="table-responsive">
+                        @(Html.Kendo().Grid(Model)
+
+                          .Name("grid")
+                          .Columns(columns =>
+                                       {
+                                           foreach (System.Data.DataColumn column in Model.Columns)
+                                           {
+                                               if (column.DataType == typeof(decimal))
+                                               { columns.Bound(column.ColumnName).HtmlAttributes(new { align = "right" }).Format("{0:N2}"); }
+                                               else if (column.DataType == typeof(int))
+                                               {
+                                                   columns.Bound(column.ColumnName).HtmlAttributes(new { align = "right" }).Format("{0:N0}");
+                                               }
+                                               else
+                                               {
+                                                   columns.Bound(column.ColumnName);
+                                               }
+
+                                           }
+                                       })
+                          .Pageable(t => t.PageSizes(new[] { 10, 15, 20, 30, 50, 100 }))
+                          .Sortable()
+                          .Groupable()
+                          )
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="modal" id="cats-modal"></div>
+
+
+
+
+<script>
+    $(function () {
+        var printurl = "@Url.Action("PrintSummary", "HRD",new{id= ViewBag.HRDID })";
+        $("#toolbar_button_print").attr("href", printurl);
+    });
+</script>

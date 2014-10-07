@@ -1,0 +1,68 @@
+﻿@model Cats.Models.RegionalPSNPPlanDetail
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<fieldset>
+    <legend>RegionalPSNPPlanDetail</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.RegionalPSNPPlan.RegionalPSNPPlanID)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.RegionalPSNPPlan.RegionalPSNPPlanID)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.PlanedFDP.Name)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.PlanedFDP.Name)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.BeneficiaryCount)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.BeneficiaryCount)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.FoodRatio)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.FoodRatio)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.CashRatio)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.CashRatio)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Item3Ratio)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Item3Ratio)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Item4Ratio)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Item4Ratio)
+    </div>
+</fieldset>
+@using (Html.BeginForm()) {
+    <p>
+        <input type="submit" value="Delete" /> |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+}

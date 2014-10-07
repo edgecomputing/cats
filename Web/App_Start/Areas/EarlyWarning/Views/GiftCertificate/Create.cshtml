@@ -1,0 +1,259 @@
+﻿@model Cats.Areas.GiftCertificate.Models.GiftCertificateViewModel
+@using Cats.Helpers
+@using Kendo.Mvc.UI
+@using LanguageHelpers.Localization
+@{
+    ViewBag.Title = Html.Translate("Gift Certificate");
+    Layout = "~/Views/Shared/_CATSLayout.cshtml";
+}
+
+@section Title
+{
+Add Gift Certificate
+}
+
+@section PageTitle
+{
+    <h1 class="hdr-blck big col-md-6">Add Gift Certificate
+    </h1>
+}
+<div class="row">
+    @{ViewBag.IsInEditMode = false; }
+
+@using (Html.BeginForm("Create", "GiftCertificate", FormMethod.Post, new { id = "frm_create_gift"}))
+{
+    @Html.ValidationSummary(true)
+    @Html.HiddenFor(model => model.rowCount)
+    <div class="box box-primary">
+
+                <div class="col-md-12 box-body" style="display: block;">
+
+                    @Html.ValidationSummary(true)
+
+                   
+
+                    <div class="col-md-6 col-sm-6 form-horizontal">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.GiftDate, Html.Translate("Gift Date"), new { @class = "col-sm-4 control-label cats-date-pref" })
+                            <div class="col-sm-8">
+
+                                @Html.TextBoxFor(model => model.GiftDate, new { @class = " form-control cats-datepicker2" })
+                                @Html.ValidationMessageFor(model => model.GiftDate)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.DModeOfTransport, Html.Translate("Mode Of transport"), new { @class = "col-sm-4 control-label" })
+                            <div class="col-sm-8">
+                                @Html.DropDownList("DModeOfTransport", null, String.Empty, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.DModeOfTransport)
+                            </div>
+                        </div>
+                        <div class="form-group">
+
+                            @Html.LabelFor(model => model.ProgramID, Html.Translate("Program"), new { @class = "col-sm-4 control-label" })
+
+                            <div class="col-sm-8">
+
+                                @Html.DropDownList("ProgramID", null, String.Empty, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.ProgramID)
+                            </div>
+                        </div>
+                        <div class="form-group">
+
+                            @Html.LabelFor(model => model.DonorID, Html.Translate("Donor"), new { @class = "col-sm-4 control-label" })
+
+                            <div class="col-sm-8">
+
+                                @Html.DropDownList("DonorID", null, String.Empty, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.DonorID)
+                            </div>
+                        </div>
+                        <div class="form-group">
+
+                            @Html.LabelFor(model => model.DeclarationNumber, Html.Translate("Declaration Number"), new { @class = "col-sm-4 control-label" })
+
+                            <div class="col-sm-8">
+
+                                @Html.TextBoxFor(model => model.DeclarationNumber, new { @class = " form-control" })
+
+                                @Html.ValidationMessageFor(model => model.DeclarationNumber)
+
+                            </div>
+                        </div>
+                        <div class="form-group">
+
+                            @Html.LabelFor(model => model.CommodityTypeID, Html.Translate("Commodity Type"), new { @class = "col-sm-4 control-label" })
+
+                            <div class="col-sm-8">
+
+                                @Html.DropDownList("CommodityTypeID", null, String.Empty, new { @class = "form-control" })
+
+                                @Html.ValidationMessageFor(model => model.CommodityTypeID)
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-6 col-sm-6 form-horizontal">
+                        <div class="form-group">
+
+                            @Html.LabelFor(model => model.SINumber, Html.Translate("SI/Batch Number"), new { @class = "col-sm-4 control-label" })
+
+                            <div class="col-sm-8">
+                             
+                                @(Html.Kendo().AutoComplete()
+                                          .Name("SINumber")
+                                          .HtmlAttributes(new { @class = " form-control"  })
+                                          .Filter("startswith")
+                                          .Placeholder("Enter or Select SINumber...")
+                                          .DataSource(source => source.Read(read => read.Action("AutoCompleteSiNumber", "GiftCertificate").Data("onAdditionalData")).ServerFiltering(true))
+
+                                    )
+
+                                @Html.ValidationMessageFor(model => model.SINumber)
+                            </div>
+                        </div>
+                        <div class="form-group">
+
+                            @Html.LabelFor(model => model.PortName, Html.Translate("Port Name"), new { @class = "col-sm-4 control-label" })
+
+                            <div class="col-sm-8">
+                                @Html.TextBoxFor(model => model.PortName, new { @class = " form-control" })
+                                @Html.ValidationMessageFor(model => model.PortName)
+                            </div>
+                        </div>
+                        <div class="form-group">
+
+                            @Html.LabelFor(model => model.ReferenceNo, Html.Translate("Reference Number"), new { @class = "col-sm-4 control-label" })
+
+                            <div class="col-sm-8">
+                                @Html.TextBoxFor(model => model.ReferenceNo, new { @class = " form-control" })
+                                @Html.ValidationMessageFor(model => model.ReferenceNo)
+                            </div>
+                        </div>
+                        <div class="form-group">
+
+                            @Html.LabelFor(model => model.Vessel, Html.Translate("Vessel"), new { @class = "col-sm-4 control-label" })
+
+                            <div class="col-sm-8">
+                                @Html.TextBoxFor(model => model.Vessel, new { @class = " form-control" })
+                                @Html.ValidationMessageFor(model => model.Vessel)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="control-label">
+                                @Html.LabelFor(model => model.ETA, Html.Translate("ETA"), new { @class = "col-sm-4 control-label cats-date-pref" })
+                            </div>
+
+                            <div class="col-sm-8">
+                                @Html.TextBoxFor(model => model.ETA, new { @class = "form-control cats-datepicker2" })
+                                @Html.ValidationMessageFor(model => model.ETA)
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                </div>
+                <div class="box-footer text-center">
+                    <button class="btn btn-primary" data-buttontype="btn_save" type="submit" data-submittedform="frm_create_gift"><span class="fa fa-save"></span> Save</button>
+                     <a class="btn  btn-default"  data-buttontype="btn_cancel"  href="@Url.Action("Index", "GiftCertificate")"><span class="fa fa-lg fa-times-circle"></span> Cancel</a>
+                </div>
+            </div>
+    
+}
+</div>
+
+<script type="text/javascript">
+    function onAdditionalData(e) {
+        // var filterValue = e.filter.filters[0].value;
+        //alert($("#SINumber").val());
+        // alert(filterValue);
+        return {
+            term: $("#SINumber").val()
+            //term:filterValue
+        };
+    }
+</script>
+@*<script>
+            $(document).ready(function() {
+                $("#sites").kendoAutoComplete({
+                    placeholder: "Enter site ...",
+                    dataTextField: "SiteName",
+                    filter: "startswith",
+                    minLength: 3,
+                    dataSource: {
+                        type: "json",
+                        serverFiltering: true,
+                        serverPaging: true,
+                        pageSize: 20,
+                        transport: {
+                            read:
+                                {
+                                    url: '@Url.Action("AutoCompleteSiNumber", "GiftCertificate")'
+                                }, //read
+                            parameterMap: function() {// send value of autocomplete as the "startsWith" parameter
+                                        return { 
+                                            term: $("#sites").data("kendoAutoComplete").value()
+                                        };
+                            }
+                        } //transport
+                    } //datasource
+                }); //kendoAutoComplete
+            }); //DocumentReady
+        </script>*@
+@*<script type="text/javascript">
+    $(document).ready(function () {
+        $("#siNumber").autocomplete({
+            
+            source: function (request, response) {
+                $.ajax({
+                    url:'@Url.Action("AutoCompleteSiNumber", "GiftCertificate")',
+                    type: "GET",
+                    dataType: "json",
+                    data: { term: request.term },
+                    success: function (data) {
+                        alert("here");
+                        response($.map(data, function (item) {
+                            return { label: item.Value, value: item.Value };
+                        }))
+
+                    }
+                })
+            },
+            //messages: {
+            //    noResults: "", results: ""
+            //}
+        });
+    })
+</script>*@
+@*<script type="text/javascript">
+    $(function () {
+        $("input#siNumber").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("AutoCompleteSiNumber", "GiftCertificate")', type: "POST", dataType: "json",
+                    data: { searchTerm: request.term, maxResults: 10 },
+                    success: function (data) {
+                        response($.map(data, function (item) {
+                            return {
+                                label: item.Value,
+                                value: item.Value
+                            }
+                        }))
+                    }
+                })
+            },
+
+        });
+    });
+</script>*@
+@*<script>
+    function onAdditionalData() {
+        return {
+            text: $("#siAutoComplete").val()
+        };
+    }
+</script>*@
+
+

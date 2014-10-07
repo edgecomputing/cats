@@ -1,0 +1,13 @@
+﻿@*@model Cats.Models.Hubs.ViewModels.LossesAndAdjustmentsViewModel*@
+@using Cats.Web.Hub.Helpers
+
+@{
+    ViewBag.Title = Html.Translate("Record new Loss");
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@Html.Partial("DisplayHub")
+<p>
+    @Html.Translate("Please use this form to record losses")
+</p>
+@Html.Partial("LossEditPartial")

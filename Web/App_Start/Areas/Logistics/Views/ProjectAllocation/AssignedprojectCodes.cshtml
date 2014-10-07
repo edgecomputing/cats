@@ -1,0 +1,203 @@
+﻿@using Cats.Helpers
+@using Cats.Services.Security
+
+@model IEnumerable<Cats.Models.ProjectCodeAllocation>
+
+@{
+    ViewBag.Title = "AssignedprojectCodes";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+@{
+    
+    var user = (UserIdentity)System.Web.HttpContext.Current.User.Identity;
+    var unitPreference = user.Profile.PreferedWeightMeasurment;
+}
+@section Toolbar
+{
+    
+    <a class="btn toolbar-btn "   href="@Url.Action( "Assign" ,"ProjectAllocation",new { ReqId = ViewBag.ReqId, remaining=ViewBag.Remaining ,TotalAssigned = @ViewBag.Total}, null)" >Allocate</a>
+     <a class="btn toolbar-btn " data-buttontype="btn_back_to_list" href="@Url.Action("AllocateProjectCode","ProjectAllocation")"></a>
+    
+}
+    
+<fieldset>
+    <legend>
+        @Html.Translate("Assigned project Code / SI for Requisition No"): @ViewBag.ReqNo<br/>
+         @Html.Translate("Hub"): @ViewBag.Hub
+    </legend>
+    
+</fieldset>
+
+
+
+<script>
+  
+    
+
+    $(document).ready(function () {
+        var selectedIds = {};
+        $("#ProjectCode").kendoGrid({
+            
+            groupable: true,
+            scrollable: true,
+            sortable: true,
+            pageable: true,
+            autoBind: true,
+            dataSource: {
+                pageSize:10
+            }
+            
+          
+  
+        });
+       
+    });
+ 
+</script>
+<h5 align="right"> Metric: @unitPreference </h5>
+<div class="form-horizontal">
+<div class="row" >
+    <div class ="span6">
+        <div class="control-group">
+            <div class=control-label> @Html.Translate("Allocated Amount")</div>
+            <div class="controls">
+                <input type="text" id="allocated" name="allocated" value="@ViewBag.Allocated" readonly="readonly"/>
+               
+            </div>
+        
+        </div>
+    </div>
+    
+    <div class="span4">
+        <div class="control-group">
+            <div class="control-label">
+                @Html.Translate("SI amount Allocated"): </div>
+            <div class="controls">
+                <input type="text" id="si" name="si" value="@ViewBag.AmountSIAssined" readonly="readonly"/>
+               
+            </div>
+        
+        </div>
+    </div>
+</div>
+    
+<div class="row" >
+    <div class="span6">
+        <div class="control-group">
+            <div class="control-label">
+                @Html.Translate("PC amount Allocated"): </div>
+            <div class="controls">
+                <input type="text" id="pc" name="pc" value="@ViewBag.AmountPCAssigned" readonly="readonly"/>
+               
+            </div>
+        
+        </div>
+    </div>
+    
+    <div class="span4">
+        <div class="control-group">
+            <div class="control-label">
+                @Html.Translate("Total Amount Assigned")</div>
+            <div class="controls">
+                <input type="text" id="total" name="total" value="@ViewBag.Total" readonly="readonly" />
+               
+            </div>
+        
+        </div>
+    </div>
+</div>
+
+    <div class="row" >
+        <div class="span6">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.Translate("Requisition No") </div>
+                <div class="controls">
+                    <input type="text" id="ReqNo" name="ReqNo" value="@ViewBag.ReqNo" readonly="readonly"/>
+               
+                </div>
+        
+            </div>
+        </div>
+    
+        <div class="span4">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.Translate("Remaining") </div>
+                <div class="controls">
+                    <input type="text" id="Remaining" name="Remaining" value="@ViewBag.Remaining" readonly="readonly"/>
+               
+                </div>
+        
+            </div>
+        </div>
+    </div>
+
+</div>
+
+@*<p>
+    @Html.ActionLink("Back to List", "AllocateProjectCode" ,"ProjectAllocation", null, null) |  @Html.ActionLink("Allocate", "Assign" ,"ProjectAllocation",new { ReqId = ViewBag.ReqId, remaining=ViewBag.Remaining ,TotalAssigned = @ViewBag.Total}, null)
+</p>*@
+<table id="ProjectCode">
+    <thead>
+        <tr>
+            @*<th>
+                @Html.DisplayNameFor(model => model.HubAllocationID)
+            </th>*@
+            <th>
+                @Html.DisplayName("Project code")
+            </th>
+            <th>
+                    @Html.DisplayName("Project Code assigned Amount")
+            </th>
+            <th>
+                @Html.DisplayName("Shipping instruction")
+            </th>
+            <th>
+                @Html.DisplayName("Shipping instruction assigned Amount")
+                </th>
+           @* <th>
+                @Html.DisplayName("Allocation made by")
+            </th>*@
+            <th>
+                @Html.DisplayName("Alloccation Date")
+            </th>
+            
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+    
+    <tr>
+        @*<td>
+            @Html.DisplayFor(modelItem => item.HubAllocationID)
+        </td>*@
+        <td>
+            @Html.DisplayFor(modelItem => item.ProjectCode.Value)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Amount_FromProject)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ShippingInstruction.Value)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Amount_FromSI)
+        </td>
+        @*<td>
+            @Html.DisplayFor(modelItem => item.AllocatedBy)
+        </td>*@
+        <td>
+            @item.AlloccationDate.ToCTSPreferedDateFormat(Html.UserCalendarPreference())
+            @*@Html.DisplayFor(modelItem => item.AlloccationDate)*@
+        </td>
+       
+    </tr>
+}
+</tbody>
+</table>
+@*<br/>
+<div class="footer-links">@Html.ActionLink("Back to List", "AllocateProjectCode" ,"ProjectAllocation", null, null) | |  @Html.ActionLink("Allocate", "Assign" ,"ProjectAllocation", new {  ReqId = ViewBag.ReqId, remaining=ViewBag.Remaining ,TotalAssigned = @ViewBag.Total}, null)
+</div>*@
+
+

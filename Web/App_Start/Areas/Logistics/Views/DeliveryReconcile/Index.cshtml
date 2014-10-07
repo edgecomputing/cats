@@ -1,0 +1,190 @@
+﻿@using Cats.Areas.Logistics.Models
+@using Cats.Models.Hubs
+@using Kendo.Mvc.UI
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MainLayoutWide.cshtml";
+}
+<html @*data-ng-app="DeliveryReconcilationModule"*@>
+    <head>
+        <style scoped>
+            .demo-section {
+                width: 200px;
+            }
+
+            #treeview .k-sprite {
+                background-image: url("@Url.Content("~/Content/web/treeview/coloricons-sprite.png")");
+            }
+
+            .rootfolder { background-position: 0 0; }
+            .folder { background-position: 0 -16px; }
+            .pdf { background-position: 0 -32px; }
+            .html { background-position: 0 -48px; }
+            .image { background-position: 0 -64px; }
+        </style>
+        <script src="~/Scripts/angular/angular-kendo.js"></script>
+    </head>
+    <body @*data-ng-controller="DeliveryReconcilationController"*@>
+        <h3>FDP monthly Commodity Receipt Page</h3>
+        <div class="container" style="width: 1300px">
+            <div id="map_area"></div>
+            <div id="div_tree_view" class="span3 well" style="margin-left:0px;width:200px">
+                <div>Region: <strong>@ViewBag.Region</strong></div>
+                <div>Select an FDP from the tree.</div>
+                @(Html.Kendo().TreeView()
+                      .Name("AdminUnitTreeView")
+                      .Animation(animation => animation.Expand(open => open.Fade(FadeDirection.In)))
+                      .Events(events => events
+                                            .Select("onSelect")
+                      )
+                      .Items(treeview => treeview.Add().Text("Zones").Enabled(false)
+                                             .SpriteCssClasses("folder")
+                                             .Expanded(true)
+                                             .Items(root =>
+                                                        {
+                                                            foreach (var zone in ViewBag.ZoneCollection)
+                                                            {
+                                                                var zone1 = zone;
+                                                                root.Add().Text((string)zone.Zone)
+                                                                    .SpriteCssClasses("glyphicon glyphicon-star")
+                                                                    .Items(woredas =>
+                                                                               {
+                                                                                   foreach (var woreda in zone1.Woredas)
+                                                                                   {
+                                                                                       var woreda1 = woreda;
+                                                                                       woredas.Add().Text((string)woreda.Woreda)
+                                                                                           .SpriteCssClasses("image")
+                                                                                           .Items(fdps =>
+                                                                                                      {
+                                                                                                          foreach (var fdp in woreda1.FDPs)
+                                                                                                          {
+                                                                                                              fdps.Add().Text((string)fdp.Name)
+                                                                                                                  .Id(fdp.FDPID + "")
+                                                                                                                  .SpriteCssClasses("pdf");
+                                                                                                          }
+                                                                                                      });
+                                                                                   }
+
+                                                                               });
+                                                            }
+                                                        }))
+                      )
+            </div>
+
+            <div class="span10" style="width:1060px;float:right">
+                @(Html.Kendo().Grid<DispatchViewModelForReconcile>()
+                              .Name("grid")
+                              .Columns(columns =>
+                                           {
+                                               columns.Bound(c => c.DispatchID).Visible(false);
+                                               columns.Bound(c => c.RequisitionNo).Width(16);
+                                               columns.Bound(c => c.GIN).Width(8);
+                                               columns.Bound(c => c.DispatchDatePref).Width(17);
+                                               columns.Bound(c => c.Commodity).Width(13);
+                                               columns.Bound(c => c.Round).Width(10);
+                                               columns.Bound(c => c.MonthYear).Width(12);
+                                               columns.Bound(c => c.Quantity).Width(22).Title("Dispatched Qty. (Qtl)").HtmlAttributes(new { style = "text-align:right" });
+                                               columns.Bound(c => c.GRN).Width(8);
+                                               columns.Bound(c => c.ReceivedDate).Width(16).Format("{0:dd-MMM-yyyy}");
+                                               columns.Bound(c => c.ReceivedAmount).Width(20).Title("Received Qty. (Qtl)").HtmlAttributes(new { style = "text-align:right" });
+                                               columns.Bound(c => c.LossAmount).Width(16).Title("Loss Qty. (Qtl)").HtmlAttributes(new { style = "text-align:right" }); ;
+                                               columns.Bound(c => c.LossReason).Width(15);
+                                               //columns.Command(command => command.Custom("Add Contact").Click("Add contact")).Width(100);
+
+                                           })
+                              .ToolBar(toolbar => toolbar.Save())
+                              .Editable(edit => edit.Mode(GridEditMode.InCell))
+                              .Scrollable(t => t.Height(400))
+                              //.Selectable(t => t.Mode(GridSelectionMode.Single))
+                              .Navigatable()
+                              //.AutoBind(false)
+                              
+                              .DataSource(datasource =>
+                                          datasource
+                                              .Ajax()
+                                              .PageSize(10)
+                                              .Model(m =>
+                                                {
+                                                    m.Id(p => p.DeliveryReconcileID);
+                                                    m.Field(p => p.RequisitionNo).Editable(false);
+                                                    m.Field(p => p.GIN).Editable(false);
+                                                    m.Field(p => p.DispatchDatePref).Editable(false);
+                                                    m.Field(p => p.Commodity).Editable(false);
+                                                    m.Field(p => p.Round).Editable(false);
+                                                    m.Field(p => p.MonthYear).Editable(false);
+                                                    m.Field(p => p.Quantity).Editable(false);
+                                                    m.Field(p => p.Round).Editable(false);
+                                                    m.Field(p => p.MonthYear).Editable(false);
+                                                }) 
+                                              //.Model(m => m.Id(t => t.DeliveryReconcileID))
+                                              .Read(read => read.Action("ReadDispatchesNotReconciled", "DeliveryReconcile").Data("selectedFDPID"))
+                                              .Create(create => create.Action("DeliveryReconcileUpdate", "DeliveryReconcile"))
+                                              .Update(update => update.Action("ReconciledDeliveryUpdate", "DeliveryReconcile"))
+                                              //.Update("ReconciledDeliveryUpdate", "DeliveryReconcile")
+                              //.Destroy("FDP_Destroy","FDP")
+                              )
+                              )
+
+            </div>
+        </div>
+    </body>
+</html>
+
+
+
+<script>
+    var FDPID = 0;
+    function onSelect(e) {
+        var id = this.dataItem(e.node).id;
+        FDPID = id;
+        //alert("FDPID: " + FDPID);
+        if (id != null) {
+            
+            var grid = $("#grid").data("kendoGrid");
+            grid.dataSource.read();
+            $("#grid").css("display", "block");
+            //alert();
+        }
+    }
+    
+    function selectedFDPID() {
+        //alert($("#AdminUnitTreeView").data("kendoTreeView").dataSource.id);
+        var obj = { FDPID: FDPID };
+        return obj;
+    }
+    
+    @*var app = angular.module("MyApp", ["kendo.directives"]);
+
+    app.controller('TreeController', function ($scope, $http) {
+
+        $scope.Zones = [];
+        $scope.FDPs = [];
+        $http({
+            method: 'GET',
+            url: '/DeliveryReconcile/ReadFDPs?selectedWoreda=' + selectedWoreda
+        }).success(function (result) {
+            $scope.FDPs = result;
+        });
+        
+        $http({
+            method: 'GET',
+            url: '/DeliveryReconcile/ReadZones?regionID=' + @ViewBag.RegionID
+        }).success(function (result) {
+            $scope.Zones = result;
+        });
+        //for(var i=0; i<$scope.Zones.length;i++) {
+        //    var array = {};
+        //    array["text":]
+        //}
+        var things = {
+            data: $scope.Zones
+        };
+
+        $scope.thingsOptions = {
+            dataSource: things
+        };
+
+    });*@
+
+    
+</script>

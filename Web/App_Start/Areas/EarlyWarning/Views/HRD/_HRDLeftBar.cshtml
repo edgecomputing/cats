@@ -1,0 +1,40 @@
+﻿@using Cats.Helpers
+@using Cats.Security
+@using Cats.Services.Security
+
+<div class="col-md-2  col-sm-3 skin-blue ">
+    <div class="row sidebar left-side">
+        <div class="hdr-blck ">Sidebar Menu</div>
+        <ul class="sidebar-menu">
+           <li>
+        @Html.EarlyWarningOperationButton(
+                            @Url.Action("Index", "HRD"),
+                            EarlyWarningConstants.Operation.View_HRD_list, "<i class=\"fa fa-inbox\"></i> HRD Lists")
+    </li>
+    <li>
+        @Html.EarlyWarningOperationButton(
+                            @Url.Action("ApprovedHRDs", "HRD"),
+                            EarlyWarningConstants.Operation.View_Approved_HRD, "<i class=\"fa fa-inbox\"></i> Approved HRD")
+    </li>
+    <li>
+        @Html.EarlyWarningOperationButton(
+                            @Url.Action("CurrentHRDs", "HRD"),
+                            EarlyWarningConstants.Operation.View_Current_HRD, "<i class=\"fa fa-inbox\"></i> Current HRD")
+    </li>
+    <li>
+        @Html.EarlyWarningOperationButton(
+                            @Url.Action("Compare", "HRD"),
+                            EarlyWarningConstants.Operation.View_Current_HRD, "<i class=\"fa fa-inbox\"></i> Compare HRD ")
+    </li>
+   
+     
+    <li>
+        @Html.EarlyWarningOperationButton(
+                            @Url.Action("Index", "Contribution"),
+                            EarlyWarningConstants.Operation.View_Current_HRD, "<i class=\"fa fa-plus\"></i> Donors Contribution")
+    </li>  
+
+        </ul>
+    </div>
+
+</div>

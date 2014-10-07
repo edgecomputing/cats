@@ -1,0 +1,167 @@
+﻿@using Cats.Helpers
+@model Cats.Models.Transfer
+@{
+    ViewBag.Title = "Edit";
+    const string pageName = "Logistics.Transfer.Edit";
+}
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="myModalLabel">@Html.Translate2(pageName,"Edit Receipt Plan from Transfer")</h3>
+</div>
+@using (Html.BeginForm("Edit", "Transfer", FormMethod.Post, new { @class = "modal-form",id="myForm1" }))
+{ 
+    @Html.HiddenFor(m=>m.TransferID)
+    @Html.HiddenFor(m=>m.CommoditySourceID)
+    @Html.HiddenFor(m=>m.StatusID)
+    @Html.HiddenFor(m=>m.ShippingInstructionID)
+    <table border="0" class="form-horizontal">
+        <tr style="width: 300px">
+            <td style="width:50%">
+                <div class="control-label">
+                    @Html.Label(@Html.Translate2(pageName,"SI Number"))
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(m=>m.ShippingInstruction.Value,new {Disabled=true})
+                </div>
+            </td>
+             <td style="width: 50%">
+                 <div class="control-label">
+                    @Html.LabelFor(m=>m.CommodityID,@Html.Translate2(pageName,"Commodity Type"))
+                </div>
+                <div class="controls">
+                    @Html.DropDownList("CommodityTypeID")
+                    @*@Html.ValidationMessageFor(m=>m.CommodityID)*@
+                </div>
+                
+            </td>
+           
+        </tr>
+        <tr style="width: 300px">
+            <td style="width: 50%">
+                <div class="control-label">
+                    @Html.LabelFor(m=>m.SourceHubID,@Html.Translate2(pageName,"Source Hub"))
+                </div>
+                <div class="controls">
+                    @Html.DropDownList("SourceHubID")
+                </div>
+            </td>
+             <td>
+               <div class="control-label">
+                    @Html.LabelFor(m=>m.CommodityID,@Html.Translate2(pageName,"Commodity"))
+                </div>
+                <div class="controls">
+                    @Html.DropDownList("CommodityID")
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="control-label">
+                    @Html.LabelFor(m=>m.ProgramID,@Html.Translate2(pageName,"Program"))
+                </div>
+                <div class="controls">
+                    @Html.DropDownList("ProgramID")
+                </div>
+            </td>
+            <td>
+                <div class="control-label">
+                    @Html.LabelFor(m=>m.ReferenceNumber,@Html.Translate2(pageName,"Reference Number"))
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(m=>m.ReferenceNumber)
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                 <div class="control-label">
+                    @Html.LabelFor(m=>m.CommoditySourceID,@Html.Translate2(pageName,"Commodity Source"))
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(m=>m.CommoditySource.Name,new {Disabled=true})
+
+                </div>
+            </td>
+           <td>
+                <div class="control-label">
+                    @Html.LabelFor(m=>m.Quantity,@Html.Translate2(pageName,"Quantity in MT"))
+                </div> 
+                <div class="controls">
+                    @Html.TextBoxFor(m=>m.Quantity)
+                    @Html.ValidationMessageFor(m=>m.Quantity)
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="control-label">
+                    @Html.LabelFor(m=>m.ProjectCode,@Html.Translate2(pageName,"Project Code"))
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(m=>m.ProjectCode)
+                </div>
+               
+            </td>
+            <td>
+                <div class="control-label">
+                    @Html.LabelFor(m=>m.DestinationHubID,@Html.Translate2(pageName,"Destination Hub"))
+                </div> 
+                <div class="controls">
+                    @Html.DropDownList("DestinationHubID")
+                </div>
+            </td>
+        </tr>
+    </table>
+    
+    <div class="modal-footer"> <button class="btn btn-primary" type="submit">Save Changes</button>
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+       
+    </div>
+}
+<script>
+$(document).ready(function () {
+ 
+        var allValidationRules = {
+            ReferenceNumber: "required",
+            ProjectCode: "required",
+            Quantity: "required"
+          
+            
+        };
+        $("#myForm1").validate({
+            rules: allValidationRules,
+            showErrors: function (element, errorClass, validClass) {
+                for (var i in errorClass) {
+                    $(errorClass[i].element).popover('show');
+                }
+            }
+        });
+});
+
+var giftCertificates = "";
+var sourceArr = [];
+$(document).ready(function () {
+
+    $.ajax({
+        type: "POST",
+        url: "@Url.Action("GetGiftCertificates", "transfer",new {Area="Logistics"})",
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
+
+        success: function (result) {
+            for (var i = 0; i < result.length; i++) {
+                sourceArr.push(result[i]);
+
+            }
+        },
+        error: function (error) {
+            alert("There was an error posting the data to the server: " + error.responseText);
+        }
+    });
+});
+
+
+
+$('#SiNumber').typeahead({ source: sourceArr });
+    </script>

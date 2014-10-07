@@ -1,0 +1,280 @@
+﻿@using System.Collections
+@using Cats.Helpers
+@model Cats.Models.HRDPSNPPlan
+
+
+@{
+    ViewBag.Title = "New";
+    Layout = "~/Views/Shared/_CATSLayout.cshtml";
+}
+@section Title
+{
+Requistions
+}
+
+@section PageTitle
+{
+      <h1 class="hdr-blck big ">    New  Request  </h1>
+}
+
+
+<div class="row">
+     @Html.Partial("_RegionalRequestLeftBar")
+    <div class="col-md-10  col-sm-9">
+        <div class=" box box-primary ">
+            @using (Html.BeginForm("New", "Request", FormMethod.Post, new { id = "frm_create_request" }))
+{   
+    <div class="box-body row">
+        <div class="form-horizontal col-md-12 col-sm-12 ">
+
+            <table style="width:100%">
+                <tr>
+                    <td style="width: 50%">
+                        <div class="col-sm-4 control-label">
+                            @Html.LabelFor(model => model.ProgramID, "Program")
+                        </div>
+                        <div class="col-sm-8">
+                            @Html.DropDownList("ProgramID", null, new { @id = "cmb_programId" ,@class = "form-control"})
+                            @Html.ValidationMessageFor(model => model.ProgramID)
+                        </div>
+                    </td>
+
+                    <td style="width: 50%">
+                  
+                        <div>
+                            <div class="col-sm-4 control-label">
+                                @Html.LabelFor(model => model.Year, "Year (Specify it in EC)")
+                            </div>
+                            <div class="col-sm-8">
+                                @Html.TextBoxFor(model => model.Year, new { @class = " form-control" })
+                                @Html.ValidationMessageFor(model => model.Year)
+                                @* <p id="Year_description">As specified on the current HRD</p>*@
+                            </div>
+                        </div>
+                    </td>
+
+
+                </tr>
+                <tr id="psnp_relif_Plan">
+                    <td style="width: 50%">
+                        <div id="Relief_Plan">
+                            <div class="col-sm-4 control-label">
+                                @Html.LabelFor(model => model.PlanID, Html.Translate("Plan"))
+                            </div>
+                            <div class="col-sm-8">
+                                @Html.DropDownList("PlanID", null, new { @id = "cmb_planId"  ,@class = "form-control"})
+                                @Html.ValidationMessageFor(model => model.PlanID)
+                            </div>
+                        </div>
+                        <div id="PSNP_Plan">
+                            <div class="col-sm-4 control-label">
+                                @Html.LabelFor(model => model.PlanID, Html.Translate("Plan"))
+                            </div>
+                            <div class="col-sm-8">
+                                @Html.DropDownList("PSNPPlanID", null, new { @id = "cmb_psnpPlanId",@class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.PlanID)
+                            </div>
+                        </div>
+                    </td>
+                    <td style="width: 50%">
+                    
+                    
+                        <div id="div_round">
+                            <div class="col-sm-4 control-label">
+                                @Html.LabelFor(model => model.Round, "Round")
+                            </div>
+                            <div class="col-sm-8">
+                                @Html.DropDownList("Round",  null, new {@class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.Round)
+                            </div>
+                        </div>
+                        <div id="div_donor">
+                            <div class="col-sm-4 control-label">
+                                @Html.LabelFor(model => model.DonorID, "Donor")
+                            </div>
+                            <div class="col-sm-8">
+                                @Html.DropDownList("DonorID",  null, new {@class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.DonorID)
+                            </div>
+                        </div>
+                    
+
+                   
+
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 50%">
+                        <div>
+                            <div class="col-sm-4 control-label">
+                                @Html.LabelFor(model => model.RegionID, "Region")
+                            </div>
+                            <div class="col-sm-8">
+                                @Html.DropDownList("RegionID", null, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.RegionID)
+                            </div>
+
+                        </div>
+                    </td>
+                    <td style="width: 50%" id="div_season">
+                        <div >
+                            <div class="col-sm-4 control-label">
+                                @Html.LabelFor(model => model.SeasonID, "Season")
+                            </div>
+                            <div class="col-sm-8">
+                                @Html.DropDownList("SeasonID",  null, new {@class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.SeasonID)
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr id="div_month">
+                    <td style="width: 50%">
+                        <div >
+                            <div class="col-sm-4 control-label">
+                                @Html.LabelFor(model => model.Month, "Month")
+                            </div>
+                            <div class="col-sm-8">
+                                @Html.DropDownList("Month", null, new {@class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.Month)
+                            </div>
+                        </div>
+
+                    </td>
+
+                </tr>
+                <tr id="IDPS_Ration">
+                    <td style="width: 50%">
+                        <div >
+                            <div class="col-sm-4 control-label">
+                                @Html.LabelFor(model => model.RationID, Html.Translate("Ration"))
+                            </div>
+                            <div class="col-sm-8">
+                                @Html.DropDownList("RationID", null, new {@class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.RationID)
+                            </div>
+                        </div>
+                    
+
+                    </td>
+
+                </tr>
+                <tr id="Plan">
+                    <td style="width: 50%">
+                    
+                        <label class="col-sm-4 control-label"> @Html.Translate("Plan")</label>
+                        <div class="col-sm-8">
+                            <input type="text"  class="form-control" name="Plan" placeholder="Plan">
+                        </div>
+                    
+                    </td>
+
+                </tr>
+                <tr id="StartDate" >
+                    <td style="width: 50%">
+                    
+                        <label class="col-sm-4 control-label"> @Html.Translate("Start Date")</label>
+                        <div class="col-sm-8">
+                            <input type="text"  class="cats-datepicker2" name="StartDate">
+                        </div>
+                    
+                    </td>
+
+                </tr>
+            
+                <tr id="EndDate">
+                    <td style="width: 50%">
+                 
+                        <label class="col-sm-4 control-label"> @Html.Translate("End Date")</label>
+                        <div class="col-sm-8" >
+                            <input type="text"  class="cats-datepicker2" name="EndDate">
+                        </div>
+                   
+                    </td>
+
+                </tr>
+            </table>
+        </div>
+    </div>
+                <div class="box-footer text-center">
+                      <button class="btn btn-primary " type="submit" data-submittedform="frm_create_request"><span class="fa fa-save"></span> Save</button>
+                      <a class="btn  btn-default"  href="@Url.Action("Index", "Request")" ><span class="fa fa-lg fa-times-circle"></span> Cancel</a>
+                  </div>
+}
+        </div>
+            
+    </div>
+</div>
+
+
+<script>
+
+
+    $(function () {
+
+        $("#cmb_programId").change(function () {
+            //$this = $(this);
+            // $this.attr(label, "");
+            var div_season = $("#div_season");
+            var div_donor = $("#div_donor");
+            var div_month = $("#div_month");
+            var div_round = $("#div_round");
+            var Relief_Plan = $("#Relief_Plan");
+            var PSNP_Plan = $("#PSNP_Plan");
+            var IDPS_Ration = $("#IDPS_Ration");
+
+            var EndDate = $("#EndDate");
+            var StartDate = $("#StartDate");
+            var Plan = $("#Plan");
+
+            var psnp_relif_Plan = $("#psnp_relif_Plan");
+            var prog = this.options[this.selectedIndex].innerHTML;
+
+            if (prog == "Relief") {
+                div_season.show();
+                div_donor.hide();
+                div_month.show();
+                div_round.show();
+                psnp_relif_Plan.show();
+                Relief_Plan.show();
+                PSNP_Plan.hide();
+                IDPS_Ration.hide();
+                EndDate.hide();
+                StartDate.hide();
+                Plan.hide();
+                var htm = "<p id ='Year_description'>As specified on the current HRD</p>";
+                $("#Year_description").html(htm);
+            }
+            else if (prog == "PSNP") {
+                Relief_Plan.hide();
+                psnp_relif_Plan.show();
+                PSNP_Plan.show();
+                div_season.hide();
+                div_donor.show();
+                div_month.show();
+                div_round.hide();
+                IDPS_Ration.hide();
+                EndDate.hide();
+                StartDate.hide();
+                Plan.hide();
+                
+                var htm = "<p id ='Year_description'>As specified on the current PSNP</p>";
+                $("#Year_description").html(htm);
+            }
+            else if (prog=="IDPS") {
+                Relief_Plan.hide();
+                PSNP_Plan.hide();
+                div_season.show();
+                div_donor.show();
+                div_month.show();
+                div_round.show();
+                IDPS_Ration.show();
+                EndDate.show();
+                StartDate.show();
+                Plan.show();
+                psnp_relif_Plan.hide();
+            }
+        });
+        $("#cmb_programId").change();
+    });
+</script>

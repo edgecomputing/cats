@@ -1,0 +1,478 @@
+﻿@using Cats.Areas.Logistics.Models
+@using Cats.Helpers
+@using Cats.Models
+@using Cats.Services.Security
+@using Kendo.Mvc.UI
+@model IEnumerable<TransporterPaymentRequestViewModel>
+@{
+    ViewBag.Title = "PaymentRequests";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+@{
+    int index = 0;
+    var transportOrderViewModel = ViewBag.TransportOrderViewModel;
+}
+<html data-ng-app="PaymentRequestManagementModule">
+    <head>
+        <style>
+            .errorText
+            {
+                color: red;
+            }
+            #messageboxPayDeduct {
+                color: springgreen;
+                font-weight: bold;
+                font-size: 16px;
+            }
+            #messageboxPayDeductCheque {
+                color: springgreen;
+                font-weight: bold;
+                font-size: 16px;
+            }
+        </style>
+    </head>
+    <body data-ng-controller="PaymentRequestManagementController">
+        @*<div id='dialogDiv' class='modal hide fade in'>
+            
+        </div>*@
+        <div id="modalCommodityTarrif" class="form-horizontal" style="margin-top:30px;width:520px;height:380px;">
+            <div class="">
+                <div class="span5">
+                    <div class="control-group">
+                        <div class="control-label">
+                            <label for="CommodityName">Commodity</label>
+                        </div>
+                        <div class="controls">
+                            <input type="text" id="FORMTransporterPaymentRequestID" disabled="disabled" style="display: none"/>
+                            <input type="text" id="CommodityName" disabled="disabled"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="">
+                <div class="span5">
+                    <div class="control-group">
+                        <div class="control-label">
+                            <label for="CommodityTarrif">Tarrif</label>
+                        </div>
+                        <div class="controls">
+                            <input type="text" id="CommodityTarrif"/>&nbsp;<span id="errmsgCommodityTarrif_Amount" class="errorText"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="">
+                <div class="span5" style="width:400px;">
+                    <div class="control-group message-box" style="float: left;" id="messageboxCommodityTarrif"></div>
+                    <div class="control-group" style="float: right;">
+                        <button id="btnSaveCommodityTarrif" class="btn" data-ng-click="editCommodityTarrif()">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            var wndLabourCostInfo;
+            $(document).ready(function () {
+                wndLabourCostInfo = $("#modalCommodityTarrif").kendoWindow({
+                    title: "Edit Commodity Tarrif",
+                    modal: true,
+                    visible: false,
+                    resizable: false,
+                    width: 525,
+                    height: 420
+                }).data("kendoWindow");
+            });
+        </script>
+        <div id="modalChequeInfo" class="form-horizontal" style="margin-top:30px;width:530px;height:480px;">
+            <div class="">
+                <div class="span5">
+                    <div class="control-group">
+                        <div class="control-label">
+                            <label for="PaymentRequestRefNo">Referrence No.</label>
+                        </div>
+                        <div class="controls">
+                            <input type="text" value="{{SelectedCheckInfo.PaymentRequestRefNo}}" name="PaymentRequest.PaymentRequestRefNo" id="PaymentRequestRefNo" 
+                                   data-ng-model="SelectedCheckInfo.PaymentRequestRefNo" disabled="disabled"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="">
+                <div class="span5">
+                    <div class="control-group">
+                        <div class="control-label">
+                            <label for="CheckInfo_CheckNo">Check No.</label>
+                        </div>
+                        <div class="controls">
+                            <input type="text" value="{{SelectedCheckInfo.CheckNo}}" name="CheckInfo.CheckNo" id="CheckInfo_CheckNo" 
+                                   data-ng-model="SelectedCheckInfo.CheckNo"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="">
+                <div class="span5">
+                    <div class="control-group">
+                        <div class="control-label">
+                            <label for="CheckInfo_PaymentVoucherNo">Payment Voucher No.</label>
+                        </div>
+                        <div class="controls">
+                            <input type="text" value="{{SelectedCheckInfo.PaymentVoucherNo}}" name="CheckInfo.PaymentVoucherNo" id="CheckInfo_PaymentVoucherNo" 
+                                   data-ng-model="SelectedCheckInfo.PaymentVoucherNo"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="">
+                <div class="span5">
+                    <div class="control-group">
+                        <div class="control-label">
+                            <label for="CheckInfo_BankName">Bank Name</label>
+                        </div>
+                        <div class="controls">
+                            <input type="text" value="{{SelectedCheckInfo.BankName}}" name="CheckInfo.BankName" id="CheckInfo_BankName" 
+                                   data-ng-model="SelectedCheckInfo.BankName"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="">
+                <div class="span5">
+                    <div class="control-group">
+                        <div class="control-label">
+                            <label for="CheckInfo_Amount">Amount</label>
+                        </div>
+                        <div class="controls">
+                            @*<input type="text" value="{{SelectedCheckInfo.Amount}}" name="CheckInfo.Amount" id="CheckInfo_Amount" 
+                                   data-ng-model="SelectedCheckInfo.Amount"/>*@
+                            <input type="text" name="CheckInfo.Amount" id="CheckInfo_Amount" value="{{SelectedCheckInfo.Amount}}" data-ng-model="SelectedCheckInfo.Amount"/>&nbsp;<span id="errmsgCheckInfo_Amount" class="errorText"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="">
+                <div class="span5">
+                    <div class="control-group">
+                        <div class="control-label">
+                            <label for="CheckInfo_PreparedBy">Prepared By</label>
+                        </div>
+                        <div class="controls">
+                            <input type="text" value="{{SelectedCheckInfo.PreparedBy}}" name="CheckInfo.PreparedBy" id="CheckInfo_PreparedBy" 
+                                   data-ng-model="SelectedCheckInfo.PreparedBy" disabled="disabled"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="">
+                <div class="span5">
+                    <div class="control-group">
+                        <div class="control-label">
+                            <label for="CheckInfo_AppovedBy">Appoved By</label>
+                        </div>
+                        <div class="controls">
+                            <input type="text" value="{{SelectedCheckInfo.AppovedBy}}" name="CheckInfo.AppovedBy" id="CheckInfo_AppovedBy" 
+                                   data-ng-model="SelectedCheckInfo.AppovedBy" disabled="disabled"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="">
+                <div class="span5">
+                    <div class="control-group">
+                        <div class="control-label">
+                            <label for="datepicker">Appoved Date</label>
+                        </div>
+                        <div class="controls">
+                            <input type="text" value="{{SelectedCheckInfo.Transporter}}" name="CheckInfo.AppovedDate"
+                                   data-ng-model="SelectedCheckInfo.AppovedDate" disabled="disabled"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                
+            <div class="">
+                <div class="span5" style="width:400px;">
+                    <div class="control-group message-box" style="float: left;" id="messageboxPayDeductCheque"></div>
+                    <div class="control-group" style="float: right;">
+                        <button id="btnSaveChequeInfo" class="btn" data-ng-click="editChequeInfo()">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            var wndChequeInfo;
+            $(document).ready(function () {
+                wndChequeInfo = $("#modalChequeInfo").kendoWindow({
+                    title: "Edit Cheque Info.",
+                    modal: true,
+                    visible: false,
+                    resizable: false,
+                    width: 550,
+                    height: 520
+                }).data("kendoWindow");
+            });
+        </Script>
+        <h4 class="page-header">@Html.Translate("Transporter Info.")</h4>
+        <div class="control-group form-horizontal well">
+            <div class="row">
+                <div class="span6" style="width: 633px;display: inline">
+                    <div class="control-group">
+                        <div class="control-label" style="width: 315px;display: inline">
+                            Transport Order No.
+                        </div>
+                        <div class="controls" style="width: 315px;display: inline;left:10px">
+                            <input id="TransportOrderNo" name="TransportOrderNo" value="@transportOrderViewModel.TransportOrderNo" disabled="disabled" />
+                        </div>
+                    </div>
+                </div>
+                <div class="span6" style="width: 633px;display: inline">
+                    <div class="control-group">
+                        <div class="control-label" style="width: 315px;display: inline">
+                            Transporter
+                        </div>
+                        <div class="controls" style="width: 315px;display: inline;left:10px">
+                            <input id="Transporter" name="Transporter" value="@transportOrderViewModel.Transporter" disabled="disabled" />
+                            <a href="@Url.Action("TransporterDetail", "TransporterPaymentRequest", new {transporterID = transportOrderViewModel.TransporterID})">
+                                @transportOrderViewModel.Transporter
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="span6">
+                    <div class="control-group">
+                        <div class="control-label">
+                            Contract N0.
+                        </div>
+                        <div class="controls">
+                            <input id="ContractNumber" name="ContractNumber" value="@transportOrderViewModel.ContractNumber" disabled="disabled" />
+                        </div>
+                    </div>
+                </div>
+                <div class="span6">
+                    <div class="control-group">
+                        <div class="control-label">
+                            Order Date
+                        </div>
+                        <div class="controls">
+                            <input id="OrderDateET" name="OrderDateET" value="@transportOrderViewModel.OrderDateET" disabled="disabled" />
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="span6">
+                    <div class="control-group">
+                        <div class="control-label">
+                            Requested Dispatch Date
+                        </div>
+                        <div class="controls">
+                            <input id="RequestedDispatchDateET" name="RequestedDispatchDateET" value="@transportOrderViewModel.RequestedDispatchDateET" disabled="disabled" />
+                        </div>
+                    </div>
+                </div>
+                <div class="span6">
+                    <div class="control-group">
+                        <div class="control-label">
+                            Order Expiry Date
+                        </div>
+                        <div class="controls">
+                            <input id="OrderExpiryDateET" name="OrderExpiryDateET" value="@transportOrderViewModel.OrderExpiryDateET" disabled="disabled" />
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="span6">
+                    <div class="control-group">
+                        <div class="control-label">
+                            StartDate
+                        </div>
+                        <div class="controls">
+                            <input id="StartDate" name="StartDate" value="@transportOrderViewModel.StartDate" disabled="disabled" />
+                        </div>
+                    </div>
+                </div>
+                <div class="span6">
+                    <div class="control-group">
+                        <div class="control-label">
+                            End Date
+                        </div>
+                        <div class="controls">
+                            <input id="EndDate" name="EndDate" value="@transportOrderViewModel.EndDate" disabled="disabled" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <h3>Payment Requests</h3>
+
+        <table class="table table-striped">
+            <tr>
+                <th>Requisition</th>
+                <th>Issue No.</th>
+                <th>G.R.N.</th>
+                <th>Commodity</th>
+                <th>Source</th>
+                <th>Destination</th>
+                <th>Received Qty.</th>
+                <th>Tarrif</th>
+                <th>Shortage Qty.</th>
+                <th>Shortage Birr</th>
+                <th>Freight Charge</th>
+                <th>Status</th>
+                <th>Actions</th>
+                <th></th>
+            </tr>
+
+            @foreach (TransporterPaymentRequestViewModel item in Model)
+            {
+                index++;
+                var state = item.BusinessProcess.CurrentState.BaseStateTemplate;
+                if (state.Name == "Payment Requested" || state.Name == "Request Verified")
+                {
+                <tr>
+                    <td>
+                        @item.RequisitionNo
+                    </td>
+                    <td>
+                        @item.GIN
+                    </td>
+                    <td>
+                        @item.GRN
+                    </td>
+                    <td>
+                        @item.Commodity
+                    </td>
+                    <td>
+                        @item.Source
+                    </td>
+                    <td>
+                        @item.Destination
+                    </td>
+                    <td>
+                        @item.ReceivedQty
+                    </td>
+                    <td>
+                        @item.Tarrif
+                    </td>
+                    <td>
+                        @item.ShortageQty
+                    </td>
+                    <td>
+                        @item.ShortageBirr
+                    </td>
+                    <td>
+                        @item.FreightCharge
+                    </td>
+                    <td>
+                        @state.Name
+                    </td>
+                    <td>
+                        @*<a href="@Url.Action("ViewContractAgreement", "ValidatedPaymentRequest", new { transporterID = item.TransportOrder.Transporter.TransporterID })">Contract Agreement</a> &nbsp;&nbsp;*@
+                        <button class="btn" data-ng-click="loadCommodityTarrif(@item.TransporterPaymentRequestID, @item.Commodity)">Commodity Tarrif</button>
+                        @*<a href="@Url.Action("LabourCost", "ValidatedPaymentRequest")">Labour Cost</a>*@
+                        @*@if (@state.StateNo >= 4)
+                        {
+                            <button class="btn" data-ng-click="loadChequeInfo(@item.TransporterPaymentRequestID, @state.StateNo)">Cheque Info</button>
+                        }*@
+                    </td>
+                    <td>
+                        <div class="btn-group">
+                            <button class="btn edit_button" id="action_@index">Workflow</button>
+                            <button class="btn  dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
+                            <ul class="dropdown-menu">
+                                @foreach (FlowTemplate actions in state.InitialStateFlowTemplates)
+                                {
+                                    <li class="edit_button"><a href="javascript:promot_workflow(@item.BusinessProcessID ,@actions.FinalStateID,'@actions.Name',@item.TransporterPaymentRequestID)" title="@actions.Name">@actions.Name</a></li>            
+                                }
+                                <li class="divider"></li>
+                                <li class="edit_button"><a href="javascript:workflow_history(@item.BusinessProcessID)">History</a></li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr> 
+                }
+            }
+        </table>
+
+        <div id="modalHistory" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false" style="width:600px;" >
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 id="modalHistoryLabel">Activity History</h4>
+            </div>
+            <div class="modal-body" id="modalHistoryBody">History</div>
+        </div>
+        @Html.Partial("~/Views/Shared/_PromotWorkflow.cshtml")
+        <script>
+            var history_link = "@Url.Action("History", "BusinessProcess", new { Area = "WorkflowManager", id = "0" })";
+
+            function promot_workflow(BusinessProcessID, nextstate, actionname, PaymentRequestID) {
+                //alert(PaymentRequestID);
+                $('#ParentBusinessProcessID').val(BusinessProcessID);
+                $('#stateID').val(nextstate);
+                $('#modalPromotionLabel').html(actionname);
+                $('#PaymentRequestID').val(PaymentRequestID);
+                $('#modalPromotion').modal();
+            }
+            function workflow_history(BusinessProcessID) {
+                $('#modalHistory').modal();
+                $('#modalHistoryBody').html("<div style='text-align:center;'> <img src='/content/images/loading.gif'/></div>");
+                $.post(history_link + BusinessProcessID, {},
+                    function (data) {
+                        $("#modalHistoryBody").html(data);
+                    }
+                );
+            }
+        </script>
+
+        <script>
+            $(document).ready(function () {
+                //called when key is pressed in textbox
+                $("#CommodityTarrif").keypress(function (e) {
+                    //if the letter is not digit then display error and don't type anything
+                    if (e.which != 8 && e.which != 0 && (e.which < 46 || e.which > 57) && e.which != 190) {
+                        //display error message
+                        $("#errmsgCommodityTarrif_Amount").html("Digits Only").show().fadeOut("slow");
+                        return false;
+                    }
+                });
+            });
+            angular.module('PaymentRequestManagementModule', []).controller('PaymentRequestManagementController', function ($scope, $http) {
+                $scope.SelectedLabourInfo = [];
+                $scope.SelectedCheckInfo = [];
+
+                $scope.loadCommodityTarrif = function (id, commodity) {
+                    $("#FORMTransporterPaymentRequestID").val(id);
+                    $("#CommodityName").val(commodity);
+                    wndLabourCostInfo.center().open();
+                };
+
+                $scope.editCommodityTarrif = function () {
+                    var data = { "transporterPaymentRequestID": $("#FORMTransporterPaymentRequestID").val(), "commodityTarrif": $("#CommodityTarrif").val() };
+                    $http.post(rootDir + 'Logistics/TransporterPaymentRequest/EditCommodityTarrif/', data).
+                        success(function (data, status, headers, config) {
+                            $("#messageboxCommodityTarrif").html("Saved Successfully!");
+                            var timer = 3000;
+                            clearTimeout(timer);
+                            timer = setTimeout(function () {
+                                $("#messageboxCommodityTarrif").html('');
+                            }, 3000);
+                        }).
+                        error(function (data, status, headers, config) {
+                            $("#messageboxCommodityTarrif").html("Saving was Unsuccessful!");
+                            var timer = 3000;
+                            clearTimeout(timer);
+                            timer = setTimeout(function () {
+                                $("#messageboxPayDeduct").html('');
+                            }, 3000);
+                        });
+                };
+            });
+            init_datepicker();
+        </script>
+    </body>
+</html>

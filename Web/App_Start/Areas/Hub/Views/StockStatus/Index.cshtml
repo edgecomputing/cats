@@ -1,0 +1,100 @@
+﻿@model Cats.Models.Hubs.StockStatusReport
+@using System.Data
+@using Cats.Models.Hubs
+@using Cats.Web.Hub.Helpers
+@using Telerik.Web.Mvc.UI
+
+@{
+    ViewBag.Title = Html.Translate("Stock Status");
+}
+
+
+@Html.Partial("DisplayHub")
+<p>
+    @Html.Translate("This report shows the current stock status by SI number and in each of the respective stores. Please select the different commodities to continue.")
+</p>
+@using (Html.BeginForm())
+{
+
+    <div>
+        <div class="editor-label">
+            @Html.Translate("Commodity")
+        </div>
+        <div class="editor-field">
+            @Html.Telerik().DropDownList().Name("Commodity").ClientEvents(clientEventsAction => clientEventsAction.OnChange("OnCommodityChanged")).BindTo(new SelectList(((List<Commodity>)ViewData["Commodity"]), "CommodityID", "Name", ViewBag.CommodityID))
+        </div>
+
+    </div>
+    <div class="clear"></div>
+}<br />
+
+< type="text/javascript">
+  
+    $(function () {
+
+        $('#Commodity').change(function () {
+
+            var commodity = $(this).find('option:selected').val();
+
+
+        });
+    });
+
+    
+      
+            
+    
+    function OnCommodityChanged(e) {
+        var commodity = ($('#Commodity').data('tDropDownList').value());
+       
+        var url = '@Url.Action("Commodity", "StockStatus", new { id = "__id__" })';
+        window.location.href = url.replace('__id__', commodity);
+    }
+</>
+@*@(Html.Telerik().Grid(ViewBag.Stock as IEnumerable<Cats.Models.Hubs.StockStatusReport>)
+.Name("Stock")
+.Columns(col =>
+             {
+
+                 col.Bound(c => c.Project);
+                 col.Bound(c => c.SINumber);
+                 col.Bound(c => c.C1).Title("1").Format("{0:N3}").HtmlAttributes(new { align = "right" });
+                 col.Bound(c => c.C2).Title("2").Format("{0:N3}").HtmlAttributes(new { align = "right" });
+                 col.Bound(c => c.C3).Title("3").Format("{0:N3}").HtmlAttributes(new { align = "right" });
+                 col.Bound(c => c.C4).Title("4").Format("{0:N3}").HtmlAttributes(new { align = "right" });
+                 col.Bound(c => c.C5).Title("5").Format("{0:N3}").HtmlAttributes(new { align = "right" });
+                 col.Bound(c => c.C6).Title("6").Format("{0:N3}").HtmlAttributes(new { align = "right" });
+                 col.Bound(c => c.C7).Title("7").Format("{0:N3}").HtmlAttributes(new { align = "right" });
+                 col.Bound(c => c.C8).Title("8").Format("{0:N3}").HtmlAttributes(new { align = "right" });
+                 col.Bound(c => c.C9).Title("9").Format("{0:N3}").HtmlAttributes(new { align = "right" });
+
+             })
+        //.DataBinding(dataBinding => dataBinding.Ajax().Select("Index", "BinCard"))
+.Pageable()
+.Filterable()
+
+)*@
+@(Html.Telerik().Grid(ViewBag.Stock as DataTable)
+    .Name("Grid")
+    .Columns(columns =>
+    {
+        foreach (System.Data.DataColumn column in ((DataTable)ViewBag.Stock).Columns)
+        {
+            if (column.DataType == typeof(decimal))
+            {
+                columns.Bound(column.ColumnName).HtmlAttributes(new { align = "right" }).Format("{0:N0}");
+
+            }
+            else
+            {
+                columns.Bound(column.ColumnName);
+            }
+
+        }
+    })
+    .Pageable()
+    .Sortable()
+    .Scrollable()
+    .Groupable()
+
+)

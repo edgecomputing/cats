@@ -1,0 +1,90 @@
+﻿@using Cats.Areas.Procurement.Models
+@using Cats.Helpers
+@using Cats.Models
+@using Cats.Security
+@using Cats.Services.Security
+@using Kendo.Mvc.UI
+
+@model List<WoredaHub>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+@section Toolbar
+{
+    @Html.ProcurementOperationButton(
+                        @Url.Action("WoredaHub_Create", "WoredaHub", new { Area = "Procurement" }),
+                        ProcurementConstants.Operation.Create_new_bid_plan, "<i class=\"icon-plus\"></i>", "btn", "btn_new_record")
+}
+<div id="modalWindow">
+    <h4>Are You Sure You Want to Approve this "Woreda Hub Version"?</h4>
+    <button id="yes" class="k-button">Yes</button>
+    <button id="no" class="k-button">No</button>
+</div>
+<script>
+    var wnd;
+    $(document).ready(function () {
+        wnd = $("#modalWindow").kendoWindow({
+            title: "Delete confirmation",
+            modal: true,
+            visible: false,
+            resizable: false,
+            width: 300
+        }).data("kendoWindow");
+    });
+</script>
+
+<h3>Woreda and Hub Link Versions</h3>
+
+@(Html.Kendo().Grid<WoredaHubViewModel>()
+    .Name("grid")
+    .Columns(columns =>
+    {
+        columns.Bound(p => p.WoredaHubName).Title(Html.Translate("Name")).ClientTemplate(
+            @Html.ProcurementOperationButton(
+                @Url.Action("Details", "WoredaHub", new { id = "#=WoredaHubID#" }),
+                ProcurementConstants.Operation.View_History, "#=WoredaHubName#").ToString());
+        columns.Bound(p => p.HRD);
+        columns.Bound(p => p.Plan);
+        columns.Bound(p => p.Status);
+       columns.Command(command => command.Custom("Delete").Click("OnDelete"));
+    })
+    .ToolBar(toolbar =>
+        {
+            toolbar.Create();
+            toolbar.Save();
+        })
+    .Editable(editable => editable.Mode(GridEditMode.InCell))
+    .Pageable()
+    .Sortable()
+    .Filterable()
+    .DataSource(dataSource => dataSource
+          .Ajax()
+          .PageSize(8)
+            .Model(model => model.Id(p => p.WoredaHubID))
+           .Read(read => read.Action("WoredaHub_Read", "WoredaHub"))
+           .Update(update => update.Action("WoredaHub_Update", "WoredaHub"))
+           .Create(create => create.Action("WoredaHub_Create", "WoredaHub"))
+           .Destroy(destroy => destroy.Action("WoredaHub_Destroy", "WoredaHub"))
+ 
+     )
+      )
+<script>
+    function OnApprove(e) {
+        e.preventDefault();
+        var grid = this;
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var row = $(e.currentTarget).closest("tr");
+        wnd.center().open();
+
+        $("#yes").click(function () {
+
+            window.location = "@Url.Action("Approve", "WoredaHub")" + "/" + dataItem.WoredaHubID;
+            wnd.close();
+        });
+
+        $("#no").click(function () {
+            wnd.close();
+        });
+    }
+</script>

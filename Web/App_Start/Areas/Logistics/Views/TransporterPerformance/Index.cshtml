@@ -1,0 +1,86 @@
+﻿@using Cats.Areas.Logistics.Models
+@using Cats.Helpers
+@using Kendo.Mvc.UI
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+    const string PAGE_NAME = "Logistics.TransporterPerformance.Index";
+}
+
+<h4 class="page-header">Transporter Performance Summary</h4>
+Agreement Contract #:
+@* @Html.TextBox("searchIndex")*@
+<input id="searchIndex" style="width: 300px; height: 20px; border-radius: 3px; margin-top: 5px;" type="search" />
+ <a data-buttontype=""  class="btn icon-search" onclick="reloadTDRGrid()" ></a>
+
+
+@(Html.Kendo().Grid<TransporterPerformanceViewModel>()
+.Name("Grid")
+.Columns(columns =>
+  {
+
+    columns.Bound(m => m.TransportOrderNumber).ClientTemplate("<a href='" + Url.Action("TransportOrderPerformanceDetail", "TransporterPerformance", new { Area = "Logistics", id = "#=TransporterOrderID#" }) + " '>#=TransportOrderNumber#</a>  ");
+    columns.Bound(m => m.TransporterName);
+    columns.Bound(m => m.TotalQuantity).Title(@Html.Translate2(PAGE_NAME, "Total Quantity in QTL")).HtmlAttributes(new { align = "Right" });
+    columns.Bound(m => m.PickedUpSofar).Title(@Html.Translate2(PAGE_NAME, "Picked Up Sofar in QTL")).HtmlAttributes(new { align = "Right" });
+    columns.Bound(m => m.Delivered).Title(@Html.Translate2(PAGE_NAME, "Delivered in QTL")).HtmlAttributes(new { align = "Right" });
+    columns.Bound(m => m.StartDate).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid" });
+    columns.Bound(m => m.NoOfDaysToComplete).Title(@Html.Translate2(PAGE_NAME, "Agreed to complete (days)")).HtmlAttributes(new { align = "Right" });
+    columns.Bound(m => m.ElapsedDays).Title(@Html.Translate2(PAGE_NAME, "Elapsed Time(in Days)")).HtmlAttributes(new { align = "Right" });
+    columns.Bound(m => m.Percentage).Title(@Html.Translate2(PAGE_NAME, "Percentage Completed")).HtmlAttributes(new { align = "Center"}).Format("{0:N0}%"); 
+  })
+    .Sortable()
+    .Scrollable()
+    .HtmlAttributes(new { style = "height:430px;" })
+    .DataSource(dataSource => dataSource
+        .Ajax()
+        //.PageSize(20)
+        .Model(model =>model.Id(p => p.TransporterOrderID))
+        .Read(read => read.Action("TransporterPerformance_Read", "TransporterPerformance").Data("searchIndexObj"))
+    )
+      )
+<script>
+var contractNumbers = "";
+var sourceArr = [];
+$(document).ready(function () {
+ 
+    $('#searchIndex').typeahead({ source: sourceArr });
+
+    $.ajax({
+        
+        type: "POST",
+        
+        url: "@Url.Action("GetContractNumbers", "TransporterPerformance",new {Area="Logistics"})",
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
+
+        success: function (result) {
+            for (var i = 0; i < result.length; i++) {
+                sourceArr.push(result[i]);
+                
+            }
+        },
+        error: function (error) {
+            alert("There was an error on reading the data from the server: " + error.responseText);
+        }
+    });
+});
+
+ 
+    function searchIndexObj() {
+        var searchIndexValue = $("#searchIndex").val();
+        var obj = { searchIndex: searchIndexValue };
+        return obj;
+    }
+    
+    function reloadTDRGrid() {
+        //alert($("#searchIndex").val());
+        var grid = $("#Grid").data("kendoGrid");
+        grid.dataSource.read();
+    }
+
+    $("#searchIndex").on('change', function() {
+        var grid = $("#Grid").data("kendoGrid");
+        grid.dataSource.read();
+    });
+</script>

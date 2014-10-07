@@ -1,0 +1,365 @@
+﻿@model Cats.Models.Hubs.ViewModels.InternalMovementViewModel
+@using Cats.Web.Hub.Helpers
+
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+
+@using (Html.BeginForm("Create","InternalMovement",FormMethod.Post))
+    {
+        <table class="borderless fromTable" style="vertical-align:middle">
+        
+        <tr>
+            <td style="width:200px">@Html.LabelFor(model => model.Commodities)</td>
+            <td>
+                @(Html.Telerik().ComboBoxFor(model => model.Commodities)
+                            .Name("CommodityId")
+                            .BindTo(new SelectList(Model.Commodities, "CommodityId", "Name"))
+                            .Filterable(filtering => { filtering.FilterMode(AutoCompleteFilterMode.StartsWith); })
+                            .HighlightFirstMatch(true)
+                            .ClientEvents(ev => ev.OnChange("clearStore"))
+                            .CascadeTo("ProjectCodeId")
+                )
+
+                @Html.ValidationMessageFor(model => model.Commodities)
+            </td>
+            <td  style="width:200px;">@Html.LabelFor(model => model.SelectedDate)</td>
+            <td class="element">
+                @Html.EditorFor(model => model.SelectedDate)
+                @Html.ValidationMessageFor(model => model.SelectedDate)
+            </td>
+        </tr>
+        <tr>
+            <td style="width:200px">@Html.LabelFor(model=> model.ProjectCodes)</td>
+            <td>
+                @(Html.Telerik().ComboBoxFor(model => model.ProjectCodes)
+                            .Name("ProjectCodeId")
+                            .AutoFill(true)
+                            .BindTo(new SelectList (Model.ProjectCodes))
+                            .HighlightFirstMatch(true)
+                            .Filterable(filtering => { filtering.FilterMode(AutoCompleteFilterMode.StartsWith); })
+                            .DataBinding(binding => binding.Ajax().Select("GetProjecCodetForCommodity","InternalMovement"))
+                            .ClientEvents(ev => ev.OnChange("onProjectCodeChange"))
+                            //.CascadeTo("ShippingInstructionId")
+                )
+                @Html.ValidationMessageFor(model => model.ProjectCodes)
+            </td>
+            
+            <td style="width:200px">@Html.LabelFor(model=> model.ReferenceNumber)</td>
+            <td>
+                @Html.EditorFor(model => model.ReferenceNumber)
+                @Html.ValidationMessageFor(model => model.ReferenceNumber)
+            </td>
+
+            <td rowspan="5">
+                <div style="margin-left: 20px;" id="BalanceContent">
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td style="width:200px">@Html.LabelFor(model => model.ShippingInstructions)</td>
+            <td>
+                @(Html.Telerik().ComboBoxFor(model => model.ShippingInstructions)
+                            .Name("ShippingInstructionId")
+                            .BindTo(new SelectList(Model.ShippingInstructions))
+                            .AutoFill(true)
+                            .HighlightFirstMatch(true)
+                            .Filterable(filtering => { filtering.FilterMode(AutoCompleteFilterMode.StartsWith); })
+                            .DataBinding(binding => binding.Ajax().Select("GetSINumberForProjectCode","InternalMovement"))
+                            .ClientEvents(ev => ev.OnChange("onShippingInstructionChange"))
+                             .ClientEvents(ev => ev.OnDataBinding("onProjectCodeDatabinding"))
+                            
+                            //.CascadeTo("FromStoreId")
+                )
+                @Html.ValidationMessageFor(model => model.ShippingInstructions)
+            </td>       
+            <td style="width:200px">@Html.LabelFor(model=>model.Programs)</td>
+            <td>
+                @(Html.Telerik().ComboBoxFor(model => model.Programs)
+                            .Name("ProgramId")
+                            .BindTo(new SelectList(Model.Programs, "ProgramId", "ProgramName"))
+                            .Filterable(filtering => { filtering.FilterMode(AutoCompleteFilterMode.StartsWith); })
+                            .HighlightFirstMatch(true)
+                )
+                @Html.ValidationMessageFor(model => model.Programs)
+            </td>
+        </tr>
+        <tr>
+            <td style="width:200px;">@Html.LabelFor(model => model.FromStore)</td>
+            <td class="element">
+                @(Html.Telerik().ComboBoxFor(model => model.FromStore)
+                            .Name("FromStoreId")
+                            //.BindTo(new SelectList(Model.FromStore, "StoreId", "StoreName"))
+                            .SelectedIndex(0)
+                            .Placeholder(Html.Translate("Select Store"))
+                            .Filterable(filtering => { filtering.FilterMode(AutoCompleteFilterMode.StartsWith); })
+                            .HighlightFirstMatch(true)
+                            .ClientEvents(ev => ev.OnChange("onFromStoreChange") )
+                            .CascadeTo("FromStackId")
+                            .DataBinding(binding => binding.Ajax().Select("GetFromStoreForSINumber", "InternalMovement"))
+                            .ClientEvents(ev => ev.OnDataBinding("onStoreDataBinding"))
+                )
+                @Html.ValidationMessageFor(model => model.FromStore)
+            </td>
+        </tr>
+        <tr>
+            <td style="width:200px">@Html.LabelFor(model => model.FromStack)</td>
+            <td>
+                @(Html.Telerik().ComboBoxFor(model => model.FromStack)
+                            .Name("FromStackId")
+                            .BindTo(new SelectList(Model.FromStack))
+                            .Placeholder(Html.Translate("Select Stack"))
+                            .Filterable(filtering => { filtering.FilterMode(AutoCompleteFilterMode.StartsWith); })
+                            .HighlightFirstMatch(true)
+                            //.DataBinding(binding => binding.Ajax().Select("GetStacksForFromStore", "InternalMovement"))
+                            .ClientEvents(ev => ev.OnChange("onToStoreChange"))
+
+                )
+                @Html.ValidationMessageFor(model => model.FromStack)
+            </td>
+        </tr>
+        <tr>
+            <td style="width:200px">@Html.LabelFor(model => model.Units)</td>
+            <td>
+                @(Html.Telerik().ComboBoxFor(model => model.Units)
+                            .Name("UnitId")
+                            .BindTo(new SelectList(Model.Units, "UnitId", "Name"))
+                            .Filterable(filtering => { filtering.FilterMode(AutoCompleteFilterMode.StartsWith); })
+                            .HighlightFirstMatch(true)
+                )
+                @Html.ValidationMessageFor(model => model.Units)
+            </td>
+        </tr>
+        <tr>
+            <td style="width:200px">@Html.LabelFor(mode => mode.QuantityInUnit)</td>
+            <td>
+                @Html.EditorFor(model => model.QuantityInUnit)
+                @Html.ValidationMessageFor(model => model.QuantityInUnit)
+            </td>
+        </tr>
+        <tr>
+            <td style="width:200px">@Html.LabelFor(model => model.QuantityInMt)</td>
+            <td>
+                @Html.EditorFor(model => model.QuantityInMt)
+                @Html.ValidationMessageFor(model => model.QuantityInMt)
+            </td>
+        </tr>
+        <tr></tr>
+    </table>
+ 
+    
+    <hr />
+    
+        <table class="borderless">
+            <tbody>
+                <tr>
+                    <td style="width:200px">@Html.LabelFor(model => model.ToStore)</td>
+                    <td>
+                        @(Html.Telerik().ComboBoxFor(model => model.ToStore)
+                                    .Name("ToStoreId")
+                                    .BindTo(new SelectList(Model.ToStore, "StoreId", "StoreName"))
+                                    .Filterable(filtering => { filtering.FilterMode(AutoCompleteFilterMode.StartsWith); })
+                                    .HighlightFirstMatch(true)
+                                    .ClientEvents(ev => ev.OnChange("onToStoreChange"))
+                        )
+                        @Html.ValidationMessageFor(model => model.ToStore)
+                    </td>
+                    <td style="width:200px">@Html.LabelFor(model => model.ToStack)</td>
+                    <td>
+                        @(Html.Telerik().ComboBoxFor(model => model.ToStack)
+                                    .Name("ToStackId")
+                                    .BindTo(new SelectList(Model.ToStack))
+                                    .Filterable(filtering => { filtering.FilterMode(AutoCompleteFilterMode.StartsWith); })
+                                    .HighlightFirstMatch(true)
+                                    //.DataBinding(binding => binding.Ajax().Select("GetStacksForToStore", "InternalMovement"))
+                        )
+                        @Html.ValidationMessageFor(model => model.ToStack)
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <hr />
+        <table class="borderless">
+        <tbody>
+            <tr>
+                <td style="width:200px">@Html.LabelFor(model => model.Reason)</td>
+                <td>
+                    @(Html.Telerik().ComboBoxFor(model => model.Reason)
+                                .Name("ReasonId")
+                                .BindTo(new SelectList(Model.Reason, "ReasonId", "ReasonName"))
+                                .Filterable(filtering => { filtering.FilterMode(AutoCompleteFilterMode.StartsWith); })
+                                .HighlightFirstMatch(true)
+                    )
+                    @Html.ValidationMessageFor(model => model.Reason)
+                </td>
+            </tr>
+            <tr>
+                <td style="width:200px">@Html.LabelFor(model => model.Note)</td>
+                <td>
+                    @Html.EditorFor(model => model.Note)
+                    @Html.ValidationMessageFor(model => model.Note)
+                </td>
+            </tr>
+            <tr>
+                <td style="width:200px">@Html.LabelFor(model => model.ApprovedBy)</td>
+                <td>
+                    @Html.EditorFor(model => model.ApprovedBy)
+                    @Html.ValidationMessageFor(model => model.ApprovedBy)
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    
+        <div style="margin-left:100px; margin-top:50px;" >
+        <input type="submit" value="@Html.Translate("Save")"  />
+        @Html.ActionLink(Html.Translate("Cancel"), "Index")
+    </div>
+}
+
+
+
+
+<script type="text/javascript">
+
+    function onStoreDataBinding() {
+        var CommodityId = $("#CommodityId").data("tComboBox").value();
+        var StoreCombo = $("#FromStoreId").data("tComboBox");
+         
+
+    }
+    function onProjectCodeDatabinding() {
+        var CommodityId = $("#CommodityId").data("tComboBox").value();
+        var projectCodeId = $("#ProjectCodeId").data("tComboBox").value();
+        var SICombo = $("#ShippingInstructionId").data("tComboBox");
+
+
+    }
+
+    function onShippingInstructionChange() {
+        
+        var CommodityId = $("#CommodityId").data("tComboBox").value();
+        var siId = $("#ShippingInstructionId").data("tComboBox").value();
+        var StoreCombo = $("#FromStoreId").data("tComboBox");
+
+        $.ajax({
+            type: 'POST',
+            url: '/InternalMovement/GetFromStoreForParentCommodity',
+            data: { commodityParentId: CommodityId, SINumber: siId },
+            dataType: 'json',
+            success: function (data) {
+                StoreCombo.dataBind(data, true);
+                if (siId > 0) {
+                    $("#FromStoreId").data("tComboBox").enable();
+                }
+            }
+        });
+        LoadBalance();
+    }
+
+
+
+    function LoadBalance() {
+
+        var CommodityId = $("#CommodityId").data("tComboBox").value();
+        var projectId = $("#ProjectCodeId").data("tComboBox").value();
+        var siId = $("#ShippingInstructionId").data("tComboBox").value();
+        var FromStoreId = $("#FromStoreId").data("tComboBox").value(); 
+        var FromStackId = $("#FromStackId").data("tComboBox").value();
+        if (CommodityId != "" && projectId != "" && siId != "") {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Content("~/InternalMovement/SINumberBalance")',
+                data: { parentCommodityId: CommodityId, projectcode: projectId, SINumber: siId, StoreId: FromStoreId, StackId: FromStackId },
+                success: function (data) {
+                    $('#BalanceContent').empty();
+                    $('#BalanceContent').append(data);
+                }
+            });
+        }
+       
+    }
+
+    function clearBalance() {
+        $('#BalanceContent').empty();
+    }
+
+    function clearStore() {
+        $("#FromStoreId").data("tComboBox").select(0);
+        $("#FromStoreId").data("tComboBox").disable();
+        clearBalance();
+    }
+
+    function onProjectCodeChange() {
+        var CommodityId = $("#CommodityId").data("tComboBox").value();
+        var projectCodeId = $("#ProjectCodeId").data("tComboBox").value();
+        var SICombo = $("#ShippingInstructionId").data("tComboBox");
+
+        $.ajax({
+            type: 'POST',
+            url: '/InternalMovement/GetSINumberForProjectCode',
+            data: { ProjectCodeId: projectCodeId, parentCommodityId: CommodityId },
+            dataType: 'json',
+            success: function (data) {
+                SICombo.dataBind(data, true);
+                if (projectCodeId > 0) {
+                    $("#ShippingInstructionId").data("tComboBox").enable();
+                }
+            }
+        });
+    }
+
+    function onToStoreChange() {
+
+        var ToStoreId = $("#ToStoreId").data("tComboBox").value(); ;
+        var ToStackCombo = $("#ToStackId").data("tComboBox");
+        var FromStoreId = $("#FromStoreId").data("tComboBox").value(); 
+        var FromStackId = $("#FromStackId").data("tComboBox").value(); 
+        $("#ToStackId").data("tComboBox").value("");
+        $.ajax({
+            type: 'POST',
+            url: '/InternalMovement/GetStacksForToStore',
+            data: { ToStoreId: ToStoreId, FromStoreId: FromStoreId, FromStackId: FromStackId },
+            dataType: 'json',
+            success: function (data) {
+                ToStackCombo.dataBind(data, true);
+                if (FromStoreId > 0 && FromStackId > 0 && ToStoreId > 0 ) {
+                    $("#ToStackId").data("tComboBox").enable();
+                }
+            }
+        });
+        LoadBalance();
+    }
+
+    function onFromStackChange() {
+        
+    }
+
+    function onFromStoreChange() {
+        var SINumber = $("#ShippingInstructionId").data("tComboBox").value();
+        var FromStoreId = $("#FromStoreId").data("tComboBox").value();
+        var FromStackCombo = $("#FromStackId").data("tComboBox");
+        $("#FromStackId").data("tComboBox").value("");
+        $.ajax({
+            type: 'POST',
+            url: '/InternalMovement/GetStacksForFromStore',
+            data: { FromStoreId: FromStoreId, SINumber: SINumber },
+            dataType: 'json',
+            success: function (data) {
+                FromStackCombo.dataBind(data, true);
+                if (FromStoreId > 0 && SINumber > 0) {
+                    FromStackCombo.dataBind(data, true);
+                    $("#FromStackId").data("tComboBox").enable();
+                }
+            }
+        });
+        LoadBalance();
+    }
+</script>
+@*<script src="../../Scripts/jquery-1.7.1-vsdoc.js" type="text/javascript"></script>*@
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#FromStoreId").data("tComboBox").disable();
+        $("#ToStackId").data("tComboBox").disable();
+        $("#FromStackId").data("tComboBox").disable();
+        $("#ShippingInstructionId").data("tComboBox").disable();
+    });
+</script>

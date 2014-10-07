@@ -1,0 +1,85 @@
+﻿@model IEnumerable<Cats.Models.Hubs.SIBalance>
+@using Cats.Models.Hubs;
+@using Telerik.Web.Mvc.UI
+@using Cats.Web.Hub.Helpers
+@{
+    var mesure = @Html.GetCurrentUser().PreferedWeightMeasurment;
+
+    string quanityColumnHeader = "Unt";
+    int multipyBy = 10;
+    if (ViewBag.UnitType != 2)
+    {
+            if (mesure.ToUpperInvariant() == "MT")
+            {
+                quanityColumnHeader = "MT";
+                multipyBy = 1;
+            }
+            else
+            {
+                quanityColumnHeader = "Qtl";
+            }
+    }
+}
+
+<h3>@Html.Translate("Remaining Balance")</h3>
+<div style="min-height: 300px; max-height: 300px; overflow-y: scroll;">
+    <p>
+        @Html.Translate("this section shows the list of commodities that are not commited")
+    </p>
+  
+<ul id="projectList">
+    @foreach (var item in Model)
+    {
+
+        <li onclick="selectedChanged(this);" data-project-id='@item.ProjectCodeID'  data-sinumber-id='@item.SINumberID' data-sinumber='@item.SINumber' 
+            data-project-text="@item.Project" data-si-text="@item.SINumber">
+            @item.Program
+            - 
+            Project : @item.Project
+            <br />
+            SI: @item.SINumber
+            <div style="text-align: right;font-size:smaller">
+                In Store (@quanityColumnHeader): @item.AvailableBalance.ToString("#,##0.##0")
+                <br/>
+                Expected Receipts (@quanityColumnHeader) : @item.ReaminingExpectedReceipts.ToString("#,##0.##0")
+                <br/>
+                Uncommited (@quanityColumnHeader): @item.TotalDispatchable.ToString("#,##0.##0")
+                <br />
+                Total Available (@quanityColumnHeader) : @item.Dispatchable.ToString("#,##0.##0")
+            </div>
+        </li>  
+        <hr />
+    }
+
+</ul>
+</div>
+    <script type="text/javascript">
+        function selectedChanged(obj) {
+            $(obj).addClass("selected").siblings().removeClass("selected");
+            var commodity = $('#CommodityID-Selector').data('tComboBox');
+            var siValue = $(obj).attr('data-sinumber-id');
+            $('#SINumber').val(siValue);
+            var projectCode = $(obj).attr('data-project-id');
+            $('#ProjectCode').val(projectCode);
+
+            var siValueText = $(obj).attr('data-si-text');
+            $("#Sitext").val(siValueText);
+            var projectCodeText = $(obj).attr('data-project-text');
+            $("#ProjectCodeText").val(projectCodeText);
+
+            $.getJSON('/DispatchAllocation/GetBalance/', { siNumber: siValue, commodityId: commodity.value(), siNumberText: siValueText }, function (balance) {
+                $('#Total').val(balance);
+                if ($('.checkedRecords:checked').size() != 0) {
+                    var checked = $('.checkedRecords:checked');
+                    var sum = 0;
+                    $.each(checked, function (i) {
+                        sum += parseFloat($(checked[i]).attr('data-ammount'));
+                    });
+                    balance = (balance - sum);
+                }
+                $('#Balance').val(balance);
+                
+                updateBalance(balance);
+            });
+        }
+    </script>

@@ -315,7 +315,7 @@
                         <div class="portlet-header">
                             <h3>
                                 <i class=""></i>
-                                Bid Winners
+                                Bid Winners 
                             </h3>
 
                         </div>
@@ -382,6 +382,98 @@
                 <!-- /.portlet -->
             </div>
         </div>
+        
+        
+        <!--UI Region for bid winners with date expired without signing a contract-->
+         <div>
+       
+             <div id="UnContractedBidWinnersContent" 
+                
+                  class="row">
+                <div>&nbsp;</div>
+
+                <div ng-controller="UnContractedBidWinnersController" class="span11">
+                    <div class="portlet">
+                        <div class="portlet-header">
+                            <h3>
+                                <i class=""></i>
+                                Un Contracted Bid Winners 
+                            </h3>
+                            
+                              <ul class="portlet-tools pull-right">
+                                <li>
+                                    <button ng-click="Detail();" class="btn btn-sm btn-default">
+                                        Detail
+                                    </button>
+
+                                </li>
+                            </ul>
+
+                        </div>
+
+                        <!-- /.portlet-header -->
+
+                        <div class="portlet-content">
+                            <th class="table-responsive">
+                                <table id="" class="table table-striped table-checkable">
+                                    <thead>
+                                        <tr>
+
+                                            Bid:
+                                            <select ng-change="onChange(bid)" ng-model="bid" ng-options="bid.BidNo as bid.BidNo for bid in bids">
+                                                <option> Choose a Bid </option>
+                                            </select>
+                                            <pre>Bid: {{bid}}</pre>
+                                            
+
+                                        </tr>
+                                        <tr>
+                                            <th class="hidden-xs">Number</th>
+                                            <th>Transporter Name</th>
+                                            <th>Capital</th>
+                                            <th>Sub City</th>
+                                            <th>Mobile No</th>
+                                            <th>FDP</th>
+                                            <th>Zone</th>
+                                            <th>Region</th>
+
+
+
+
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="req in bidWinners.bid | filter:{RegioName:regionName}">
+                                            <td class="hidden-xs">{{$index + 1}}</td>
+                                            <td>{{req.Name}}</td>
+                                            <td>{{req.Capital}}</td>
+                                            <td>{{req.SubCity}}</td>
+                                            <th>{{req.MobileNo}}</th>
+                                            <th>{{req.Fdp}}</th>
+                                            <th>{{req.ZoneName}}</th>
+                                            <th>{{req.RegioName}}</th>
+
+
+
+                                        </tr>
+
+                                      
+                                    </tbody>
+                                    
+                                </table>
+
+                        </div>
+                        <!-- /.table-responsive -->
+                    </div>
+                    <!-- /.portlet-content -->
+
+                </div>
+
+                <!-- /.portlet -->
+            </div>
+        </div>
+        
 
         <div>
             <!--
@@ -881,9 +973,9 @@
         text-decoration: none;
     }
 
-        .collapser :hover {
-            /*background:#ffd800;*/
-        }
+    .collapser :hover {
+        /*background:#ffd800;*/
+    }
 
     .portlet-collapsed .portlet-content {
     }
@@ -891,45 +983,45 @@
     .hovered {
     }
 </style>
-<script>
-    $(".portlet").hover(function () { $(this).addClass("hovered"); });
-    $(".portlet").mouseleave(function () { $(this).removeClass("hovered"); });
-
-    $(".portlet-header h3").each(function (elem) {
-        $(this).html("<a class='collapser' href=''><i class='icon-chevron-down down'/><i class='icon-chevron-up up'/></a>" + $(this).html());
-
-    });
-    $(".portlet-header .collapser").click(function (elem) {
-        //alert();
-        $(".hovered").toggleClass("portlet-collapsed");
-        $(".hovered .portlet-content").slideToggle("slow", "linear");;
-
-    });
-
-    $("#ApprovedRequestHeader").click(function () {
-        $("#ApprovedRequestContent").slideToggle("slow", "linear");
-    });
-
-    $("#CurrentHRDHeader").click(function () {
-        $("#CurrentHRDContent").slideToggle("slow", "linear");
-    });
 
 
-    $("#BidWinnersHeader").click(function () {
-        $("#BidWinnerContent").slideToggle("slow", "linear");
-    });
+        <script>
+    
+  
 
-    $("#SIPCHeader").click(function () {
-        $("#SIPCContent").slideToggle("slow", "linear");
-    });
 
-    $("#TransportRequisitionHeader").click(function () {
-        $("#TransportRequisitionContent").slideToggle("slow", "linear");
-    });
 
-    $("#TransportOrderHeader").click(function () {
-        $("#TransportOrderContent").slideToggle("slow", "linear");
-    });
+            $(".portlet").hover(function () { $(this).addClass("hovered"); });
+            $(".portlet").mouseleave(function () { $(this).removeClass("hovered"); });
+
+            $(".portlet-header h3").each(function (elem) {
+                $(this).html("<a class='collapser' href=''><i class='icon-chevron-down down'/><i class='icon-chevron-up up'/></a>" + $(this).html());
+
+            });
+            $(".portlet-header .collapser").click(function (elem) {
+                //alert();
+                $(".hovered").toggleClass("portlet-collapsed");
+                $(".hovered .portlet-content").slideToggle("slow", "linear");;
+
+            });
+
+            $("#ApprovedRequestHeader").click(function () {
+                $("#ApprovedRequestContent").slideToggle("slow", "linear");
+            });
+
+            $("#CurrentHRDHeader").click(function () {
+                $("#CurrentHRDContent").slideToggle("slow", "linear");
+            });
+
+
+
+            $("#BidWinnersHeader").click(function () {
+                $("#BidWinnerContent").slideToggle("slow", "linear");
+            });
+    
+            $("#UnContractedBidWinnersHeader").click(function () {
+                $("#UnContractedBidWinnersContent").slideToggle("slow", "linear");
+            });
 
     $("#DelayedTransportHeader").click(function () {
         $("#DelayedTransportContent").slideToggle("slow", "linear");
@@ -939,7 +1031,24 @@
         $("#NonReportedTransportContent").slideToggle("slow", "linear");
     });
 
-</script>
+
+            $("#SIPCHeader").click(function () {
+                $("#SIPCContent").slideToggle("slow", "linear");
+            });
+
+            $("#TransportRequisitionHeader").click(function () {
+                $("#TransportRequisitionContent").slideToggle("slow", "linear");
+            });
+
+            $("#TransportOrderHeader").click(function () {
+                $("#TransportOrderContent").slideToggle("slow", "linear");
+            });
+
+            $("#DelayedTransportHeader").click(function () {
+                $("#TransportOrderContent").slideToggle("slow", "linear");
+            });
+
+        </script>
 
 <script>
 
@@ -991,6 +1100,56 @@
 
 
 
+    myApp.controller('UnContractedBidWinnersController', ['$scope', '$http', '$rootScope', function ($scope, $http, $rootScope) {
+
+
+        $scope.bidWinners = {};
+        $rootScope.regionName = "";
+        $rootScope.BidId = 0;
+        $rootScope.Bidz =[];
+        
+        $scope.bids = [];
+        $http({ method: 'GET', url: '@Url.Action("GetBids","Home")' }).success(function (data, status, headers, config)
+        {
+            $scope.bids = data;
+            $rootScope.Bidz = data;
+        });
+
+
+
+        $scope.onChange = function (bidId)
+        {
+          
+            var id = bidId;
+            for (var i = 0; i < $rootScope.Bidz.length; ++i) {
+                if ($rootScope.Bidz[i]["BidNo"] == id) {
+                    $rootScope.BidId = $rootScope.Bidz[i]["BidId"];
+                }
+                   
+            }
+        
+            $http({ method: 'GET', params: { id: bidId }, url: '@Url.Action("GetListOfUnContractedBidWinners","Home")' }).success(function (data, status, headers, config) { $scope.bidWinners.bid = data; });
+        };
+        
+
+        $scope.Detail = function (bid) {
+            
+           
+             
+            //alert($rootScope.BidNo);
+            
+            window.location = "@Url.Action("List", "UnContractedTransporters", new {Area = "Logistics" })" + "/" + $rootScope.BidId;//+ "/" + bidId ;
+            
+           
+        };
+
+    }]);
+
+
+
+
+
+
     myApp.controller('ApprovedRequestsController', ['$scope', '$http', '$rootScope', function ($scope, $http, $rootScope) {
 
         $scope.qty = 6;
@@ -1025,8 +1184,8 @@
             $scope.requestsSIPCAllocated.request = data;
             console.log(data);
         })
-        .error(function (data, status, headers, config) {
-        });
+            .error(function (data, status, headers, config) {
+            });
 
 
         $rootScope.regionName = "";
@@ -1054,9 +1213,9 @@
         $scope.qty = 6;
         $scope.DelayedTransportOrders = {};
         $http({ method: 'GET', url: '@Url.Action("GetDelayedTOs","Home")' }).success(function (data, status, headers, config) { $scope.DelayedTransportOrders.request = data; })
-        .error(function (data, status, headers, config) {
+            .error(function (data, status, headers, config) {
 
-        });
+            });
         
         $rootScope.regionName = "";
     }]);
@@ -1079,9 +1238,9 @@
         $scope.qty = 6;
         $scope.TransportRequestion = {};
         $http({ method: 'GET', url: '@Url.Action("GetRequisitions","Home", new {id = 5})' }).success(function (data, status, headers, config) { $scope.TransportRequestion.request = data; })
-        .error(function (data, status, headers, config) {
+            .error(function (data, status, headers, config) {
 
-        });
+            });
 
         $rootScope.regionName = "";
     }]);
@@ -1094,17 +1253,17 @@
         $rootScope.DonationAmount = [];
         $rootScope.DonationAmount = 0;
         $http({ method: 'GET', url: '@Url.Action("GetRegions","Home")' }).success(function (data, status, headers, config) { $scope.regions = data; })
-        .error(function (data, status, headers, config) {
+            .error(function (data, status, headers, config) {
 
-        });
+            });
         
         
 
         $http({ method: 'GET', url: '@Url.Action("GetDonation", "Home")' })
-           .success(function (data, status, headers, config) { $rootScope.DonationAmount = data; })
-           .error(function (data, status, headers, config) {
+            .success(function (data, status, headers, config) { $rootScope.DonationAmount = data; })
+            .error(function (data, status, headers, config) {
 
-           });
+            });
         
         $http({ method: 'GET', url: '@Url.Action("GetRequestType", "Home")' })
             .success(function (data, status, headers, config) { $scope.requestType = data; })
@@ -1126,24 +1285,24 @@
                 $.each(data, function (i, item) {
 
                     switch (item.Status) {
-                        case 1:
-                            $rootScope.totalRequisitions = item.Count;
-                            break;
-                        case 2:
-                            $rootScope.totalApproved = item.Count;
-                            break;
-                        case 3:
-                            $rootScope.pendingHubAloocation = item.Count;
-                            break;
-                        case 4:
-                            $rootScope.pendingSIPCAllocation = item.Count;
-                            break;
-                        case 5:
-                            $rootScope.pendingTransportOrder = item.Count;
-                            break;
-                        case 6:
-                            break;
-                        default:
+                    case 1:
+                        $rootScope.totalRequisitions = item.Count;
+                        break;
+                    case 2:
+                        $rootScope.totalApproved = item.Count;
+                        break;
+                    case 3:
+                        $rootScope.pendingHubAloocation = item.Count;
+                        break;
+                    case 4:
+                        $rootScope.pendingSIPCAllocation = item.Count;
+                        break;
+                    case 5:
+                        $rootScope.pendingTransportOrder = item.Count;
+                        break;
+                    case 6:
+                        break;
+                    default:
                     }
 
                 });
@@ -1151,9 +1310,9 @@
 
 
             })
-        .error(function (data, status, headers, config) {
+                .error(function (data, status, headers, config) {
 
-        });
+                });
         };
 
         $scope.onRequestTypeChange = function (name) {
@@ -1170,24 +1329,24 @@
                 $.each(data, function (i, item) {
 
                     switch (item.Status) {
-                        case 1:
-                            $rootScope.totalRequisitions = item.Count;
-                            break;
-                        case 2:
-                            $rootScope.totalApproved = item.Count;
-                            break;
-                        case 3:
-                            $rootScope.pendingHubAloocation = item.Count;
-                            break;
-                        case 4:
-                            $rootScope.pendingSIPCAllocation = item.Count;
-                            break;
-                        case 5:
-                            $rootScope.pendingTransportOrder = item.Count;
-                            break;
-                        case 6:
-                            break;
-                        default:
+                    case 1:
+                        $rootScope.totalRequisitions = item.Count;
+                        break;
+                    case 2:
+                        $rootScope.totalApproved = item.Count;
+                        break;
+                    case 3:
+                        $rootScope.pendingHubAloocation = item.Count;
+                        break;
+                    case 4:
+                        $rootScope.pendingSIPCAllocation = item.Count;
+                        break;
+                    case 5:
+                        $rootScope.pendingTransportOrder = item.Count;
+                        break;
+                    case 6:
+                        break;
+                    default:
                     }
 
                 });
@@ -1195,9 +1354,9 @@
 
 
             })
-        .error(function (data, status, headers, config) {
+                .error(function (data, status, headers, config) {
 
-        });
+                });
         };
 
     }]);

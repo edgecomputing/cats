@@ -1,0 +1,59 @@
+﻿@using LanguageHelpers.Localization
+@using Cats.Helpers
+
+@model Cats.Models.NeedAssessment
+
+<div class="modal-dialog modal-sm">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h4 id="myModalLabel">@Html.Translate("Add Need Assessment")</h4>
+        </div>
+
+        @using (Html.BeginForm("AddNeedAssessment", "NeedAssessment", FormMethod.Post, new { @class = "modal-form" }))
+        {
+
+            @Html.HiddenFor(m => m.PlanID)
+            <div class="modal-body">
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <div class="control-label">
+                            @Html.LabelFor(m => m.Season, new { @class = "col-sm-4 control-label"})
+                        </div>
+                        <div class="col-sm-8">
+                            @Html.DropDownList("SeasonID", ViewBag.Season as SelectList, new { id = "Season", @class = "form-control"  })
+                            @Html.ValidationMessageFor(model => model.Season)
+                        </div>
+
+                    </div>
+                    <div class="form-group">
+                        <div class="control-label">
+                            @Html.LabelFor(m => m.Region, new { @class = "col-sm-4 control-label"})
+                        </div>
+                        <div class="col-sm-8">
+                            @Html.DropDownList("RegionID", ViewBag.Regions as SelectList, new { id = "Region", @class = "form-control"  })
+                            @Html.ValidationMessageFor(model => model.Region)
+                        </div>
+
+                    </div>
+                    <div class="form-group">
+                        <div class="control-label">
+                            @Html.Label(Html.Translate("Assessment Type"), new { @class = "col-sm-4 control-label"})
+                        </div>
+                        <div class="col-sm-8">
+                            @Html.DropDownList("TypeOfNeedID", ViewBag.TypeOfNeed as SelectList, new { id = "TypeOfNeed", @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.TypeOfNeedAssessment1.TypeOfNeedAssessmentID)
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-primary" type="submit">Save</button>
+                <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+            </div>
+        }
+    </div>
+</div>

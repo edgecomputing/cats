@@ -1,0 +1,50 @@
+﻿@model Cats.Models.Security.UserProfile
+@using Cats.Helpers
+
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="myModalLabel">@Html.Translate("Deleting User")</h3>
+</div>
+
+<h5 class="offset1">@Html.Translate("Are you sure you want to Delete this user?")</h5>
+
+@using (Html.BeginForm("ConfirmDeleteAccount", "Users",new {id = Model.UserProfileID }, FormMethod.Post, new { @class = "modal-form" }))
+{@Html.HiddenFor(model => model.UserProfileID)
+    <div class="modal-body form-horizontal">
+        <div class="row">
+            <div class="span6">
+                <div class="control-group">
+                    <div class="control-label span6">
+                        @Html.DisplayNameFor(model => model.UserName)
+                    </div>
+                     <div class="controls">
+                    @Html.TextBoxFor(m => m.UserName,new{@disabled = "disabled"})
+                </div>
+                </div>
+                <div class="control-group">
+                    <div class="control-label span6">
+                        @Html.DisplayNameFor(model => model.FirstName)
+                    </div>
+                     <div class="controls">
+                    @Html.TextBoxFor(m => m.FirstName,new{@disabled = "disabled"})
+                </div>
+                </div>
+                <div class="control-group">
+                    <div class="control-label span6">
+                        @Html.DisplayNameFor(model => model.LastName)
+                    </div>
+                     <div class="controls">
+                    @Html.TextBoxFor(m => m.LastName,new{@disabled = "disabled"})
+                </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    <div class="modal-footer">
+       <button class="btn btn-primary" type="submit">Yes</button>
+       <button class="btn" data-dismiss="modal" aria-hidden="true">No</button>
+    </div>
+
+}

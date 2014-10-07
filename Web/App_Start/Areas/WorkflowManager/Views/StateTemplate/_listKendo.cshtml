@@ -1,0 +1,40 @@
+﻿@using Kendo.Mvc.UI
+@using Cats.Models
+
+@(Html.Kendo().Grid<StateTemplate>()
+    .Name("StateTemplateGrid")
+    .Columns(columns =>
+    {
+         
+        columns.ForeignKey(t => t.ParentProcessTemplateID, (IEnumerable<ProcessTemplate>)ViewData["ProcessTemplateList"], "ProcessTemplateID", "Name");
+        
+        
+        columns.Bound(p => p.Name).Width(100);
+        columns.ForeignKey(t => t.StateType, (IEnumerable<LookupData>)ViewData["StateTypeList"], "ID", "Name");
+        columns.ForeignKey(t => t.AllowedAccessLevel, (IEnumerable<LookupData>)ViewData["AccessLevelList"], "ID", "Name"); 
+        columns.Command(
+            command => { 
+            command.Edit().Text("Modify");
+            command.Destroy().Text("Destroy"); 
+             //   command.Custom("Edit").Click("editRecord");
+            }
+            ).Width(300);
+    })
+    .ToolBar(toolbar => toolbar.Create().Text("New"))
+    .Editable(editable => editable.Mode(GridEditMode.InLine))
+    .Pageable()
+    .Sortable()
+    .Scrollable()
+    .HtmlAttributes(new { style = "height:430px;" })
+    .DataSource(dataSource => dataSource
+        .Ajax()
+        .PageSize(20)
+        //.Batch(true)
+        .Model(model => model.Id(p => p.StateTemplateID))
+        .Create(update => update.Action("CreateKendo", "StateTemplate"))
+        .Read(read => read.Action("ReadKendo", "StateTemplate"))
+        .Update(update => update.Action("EditKendo", "StateTemplate"))
+        .Destroy(update => update.Action("DeleteKendo", "StateTemplate"))
+    )
+    
+)

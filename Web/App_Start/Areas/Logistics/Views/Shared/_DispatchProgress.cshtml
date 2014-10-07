@@ -1,0 +1,61 @@
+﻿@using Cats.Helpers
+@using Kendo.Mvc.UI
+@{
+    ViewBag.Title = "_DispatchProgress";
+}
+
+<div class="span8">
+@(Html.Kendo().Grid<Cats.Models.Hubs.ViewModels.DispatchAllocationViewModelDto>().Name("DispatchAllocationGrid1")
+      
+
+           .Events(ev => ev.DataBinding("dataBindingFDP"))
+
+           .Columns(
+
+
+               col =>
+                   {
+
+                       col.Bound(dis => dis.DispatchAllocationID).
+                           ClientTemplate("<div style='min-width:120px'><a href='"
+                                          + @Url.Action("Create", "Dispatch", new { @allocationId = "<#= DispatchAllocationID #>", @type = "<#= 1 #>" })
+                                          + "' >" + @Html.Translate("Dispatch") + "</a><span>   </span>  "
+
+                                          + "<a href='#' onclick='EditFDPAllocation(\"<#= DispatchAllocationID #>\")'"
+                                          + "' >" + @Html.Translate("Edit") + "</a>"
+                                          + "<span> </span>"
+                                          + "<# if (!IsClosed) {#>"
+                                          + "<a href='#' onclick='ClosePlanById(\"<#= DispatchAllocationID #>\")' >" + @Html.Translate("Close") + "</a>" +
+                                          " <#} else {#>"
+                                          + " <#}#>"
+                                          + "<span>  </span></div>"
+
+                           ).Title("Action");
+
+
+                       col.Bound(modelItem => modelItem.BidRefNo).HtmlAttributes(new { onclick = "return loadForm(this)" }).Title("BidRef #");
+                       col.Bound(modelitem => modelitem.RequisitionNo).Title(Html.Translate("Req #"));
+                       col.Bound(modelItem => modelItem.CommodityName).Title(Html.Translate("Commodity"));
+                       col.Bound(modelItem => modelItem.Amount).Format("{0:#,###.0}").Title(Html.Translate("Planned ")).Width(30).HtmlAttributes(new { align = "right" });
+                       col.Bound(modelItem => modelItem.AmountInUnit).Format("{0:#,###.0}").Title(Html.Translate("Planned Unt")).Width(30).HtmlAttributes(new { align = "right" });
+                       col.Bound(modelItem => modelItem.DispatchedAmount).Format("{0:#,##0.0}").Title(Html.Translate("Dispatched " )).Width(30).HtmlAttributes(new { align = "right" });
+                       col.Bound(modelItem => modelItem.DispatchedAmountInUnit).Format("{0:#,##0.0}").Title(Html.Translate("Dispatched Unt" )).Width(30).HtmlAttributes(new { align = "right" });
+                       col.Bound(modelitem => modelitem.RemainingQuantityInQuintals).Format("{0:#,##0.0}").Title(Html.Translate("Remaining " )).Width(30).HtmlAttributes(new { align = "right" });
+                       col.Bound(modelitem => modelitem.RemainingQuantityInUnit).Format("{0:#,##0.0}").Title(Html.Translate("Remaining Unt")).Width(30).HtmlAttributes(new { align = "right" });
+                       col.Bound(modelItem => modelItem.FDPName).Title(Html.Translate("FDP Name"));
+                               
+                      // col.Template(@<text></text>)
+                      //     .ClientTemplate("<input type='checkbox' disabled='disabled' name='excess' <#= ((RemainingQuantityInQuintals < 0) || (RemainingQuantityInUnit < 0))?\"checked='checked'\" : \"\" #> />").Title(Html.Translate("Excess"));
+
+                   })
+
+
+           
+
+
+           .DataSource(dataBinding => dataBinding.Ajax().Read("GetDispatchAllocationByHub", "Home",new {id=1}))
+
+          
+           .Filterable()
+      )
+    </div>

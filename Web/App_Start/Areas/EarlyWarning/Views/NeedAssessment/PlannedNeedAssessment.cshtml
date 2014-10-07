@@ -1,0 +1,154 @@
+﻿@using Cats.Helpers
+@using Kendo.Mvc.UI
+@using LanguageHelpers.Localization
+@model Cats.Models.NeedAssessment
+@{
+    ViewBag.Title = "PlannedNeedAssessement";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+    ViewBag.Title = Html.Translate(" Beneficiary numbers and duration of assisstance");
+    var user = UserAccountHelper.GetUser(HttpContext.Current.User.Identity.Name);
+}
+@{var record = 0;}
+
+@(Html.Kendo().Grid<Cats.Models.NeedAssessmentHeaderViewModel>()
+    .Name("grid")
+    .Columns(columns =>
+    {
+        columns.Bound(p => p.RegionName).Title("Region");
+        columns.Bound(p => p.SeasonName).Visible(true).Width(100).Title("Season");
+        columns.Bound(p => p.Date).Title(Html.Translate("Need Assessment Created Date")).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid", style = "overflow: visible; white-space: normal;", title = "Need Assessment Created Date" });
+        columns.Bound(p => p.NeedACreaterName).Width(100).Title("Created By").HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;", title = "Created By" });
+        columns.Command(p =>
+        {
+            p.Custom("Edit").Click("NeedAssessmentEdit");
+            p.Custom("Approve").Click("approveNeedAssessment");
+            p.Custom("Delete").Click("DeleteNeedAssessment");
+
+        });
+    })
+    .HtmlAttributes(new { style = "height: 430px" })
+    .Pageable()
+    .Sortable()
+    .Scrollable()
+    .DataSource(dataSource => dataSource
+        .Ajax()
+        .PageSize(30)
+        .ServerOperation(false)
+        .Model(model => model.Id(p => p.NeedAID))
+        .Read(read=>read.Action("PlannedNeedAssessmentInfo_Read", "NeedAssessment")))
+    )
+<script>
+    function regionsChange() {
+        var value = this.value(),
+		 	 grid = $("#grid").data("kendoGrid");
+
+        if (value) {
+
+            grid.dataSource.filter({ field: "Region", operator: "eq", value: parseInt(value) });
+        } else {
+            grid.dataSource.filter({});
+        }
+    }
+</script>
+<script type="text/javascript">
+
+    function filterData() {
+
+        return {
+            id: $("#Plan.PlanName").val()
+
+        };
+    }
+
+    $(document).ready(function () {
+        $("#Plan.PlanName").change(function () {
+            var grid = $("#grid").data("kendoGrid");
+            grid.dataSource.read();
+        });
+    });
+</script>
+
+<script>
+    function NeedAssessmentEdit(e) {
+        e.preventDefault();
+
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        window.location = null;
+        window.location = "@Url.Action("EditNeedAssessment", "NeedAssessment")" + "?id=" + dataItem.NeedAID;
+    }
+</script>
+<script>
+    function DeleteNeedAssessment(e) {
+        e.preventDefault();
+
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        wn.center().open();
+        $("#yesDelete").click(function () {
+            window.location = "@Url.Action("DeleteNeedAssessment", "NeedAssessment")" + "?id=" + dataItem.NeedAID;
+            wn.close();
+        });
+
+        $("#noDelete").click(function () {
+            wn.close();
+        });
+    }
+
+</script>
+<script>
+
+    function approveNeedAssessment(e) {
+        e.preventDefault();
+
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        wnd.center().open();
+        $("#yes").click(function () {
+            window.location = null;
+            window.location = "@Url.Action("ApproveNeedAssessment", "NeedAssessment")" + "?id=" + dataItem.NeedAID;
+            wnd.close();
+        });
+
+        $("#no").click(function () {
+            wnd.close();
+        });
+    }
+</script>
+<div id="modalWindow">
+    <h6>Approve Need Assessment?</h6>
+    <button id="yes" class="k-button">Yes</button>
+    <button id="no" class="k-button">No</button>
+</div>
+<script>
+    var wnd;
+    $(document).ready(function () {
+        wnd = $("#modalWindow").kendoWindow({
+            title: "Approve confirmation",
+            modal: true,
+            visible: false,
+            resizable: false,
+            width: 300
+        }).data("kendoWindow");
+    });
+
+
+</script>
+
+<div id="modalWindowDelete">
+    <h6>Delete Need Assessment?<br />
+        This will delete all the related records with this Region!</h6>
+    <button id="yesDelete" class="k-button">Yes</button>
+    <button id="noDelete" class="k-button">No</button>
+</div>
+<script>
+    var wn;
+    $(document).ready(function () {
+        wn = $("#modalWindowDelete").kendoWindow({
+            title: "Delete confirmation",
+            modal: true,
+            visible: false,
+            resizable: false,
+            width: 300
+        }).data("kendoWindow");
+    });
+
+
+</script>

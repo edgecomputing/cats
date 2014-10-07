@@ -1,0 +1,32 @@
+﻿@using Cats.Areas.Logistics.Models
+@using Kendo.Mvc.UI
+@using Cats.Helpers
+ 
+ @(Html.Kendo().Grid<DistributionViewModel>().Name("grid")
+.Columns(col =>
+             {
+                 col.Template(
+                     @<text>
+
+<a href="@Url.Action("ReceiveGRN", "Distribution", new { Area = "Logistics", dispatchId = item.DispatchID })">@Html.Translate("Receive")</a>
+
+</text>);
+                 col.Bound(t => t.ReceivingNumber);
+
+                 col.Bound(t => t.RequisitionNo).HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;" });
+                 col.Bound(t => t.Region);
+                 col.Bound(t => t.Zone);
+                 col.Bound(t => t.Woreda);
+                 col.Bound(t => t.FDP);
+                 col.Bound(t => t.PlateNoPrimary).HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;" });
+                 col.Bound(t => t.PlateNoTrailler).HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;" });
+                 col.Bound(t => t.DriverName).HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;" });
+                 col.Bound(t => t.DeliveryDate).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid", style = "overflow: visible; white-space: normal;" }); ;
+                 col.Bound(t => t.DocumentReceivedDate).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid", style = "overflow: visible; white-space: normal;" }); ;
+
+             })
+             .DataSource(datasource=>datasource
+                 .Ajax()
+                   .Model(model =>model.Id(p => p.DistributionID))
+                 .Read(read=>read.Action("ReadDeliveryNotes","Distribution",new{id=ViewBag.TransportOrderId})))
+             .Scrollable(t => t.Height(400)))
