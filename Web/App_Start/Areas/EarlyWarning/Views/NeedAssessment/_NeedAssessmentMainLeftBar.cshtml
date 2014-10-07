@@ -1,0 +1,25 @@
+﻿@using Cats.Models.Constant
+<div class="col-md-2  col-sm-3 skin-blue ">
+    <div class="row sidebar left-side">
+        <div class="hdr-blck ">Sidebar Menu</div>
+        <ul class="sidebar-menu">
+            <li>
+                <a href="@Url.Action("Index", "NeedAssessment")">
+                    <i class="fa fa-dashboard"></i><span>Draft Need Assessment</span>
+                </a>
+            </li>
+            <li>
+                <a href="@Url.Action("ApprovedNeedAssessment", "NeedAssessment", new { id = (int)PlanStatus.Approved })">
+                    <i class="fa fa-th"></i><span>Approved Need Assessment</span>
+                </a>
+            </li>
+            <li>
+                <a href="@Url.Action("HRDCreateAssessment", "NeedAssessment", new { id = (int)PlanStatus.HRDCreated })">
+                    <i class="fa fa-th"></i><span>HRD Created Assessments</span>
+                </a>
+            </li>
+
+        </ul>
+    </div>
+
+</div>

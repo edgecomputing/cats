@@ -1,0 +1,199 @@
+﻿@using Cats.Areas.EarlyWarning.Models
+@using Cats.Helpers
+@using Cats.Models.Constant
+@using Kendo.Mvc.UI
+
+@model Cats.Areas.EarlyWarning.Models.SearchRequsetViewModel
+
+@{
+    ViewBag.Title = "Requistions";
+    Layout = "~/Views/Shared/_CATSLayout.cshtml";
+    var user = UserAccountHelper.GetUser(HttpContext.Current.User.Identity.Name);
+
+}
+
+@section Title
+{
+Requistions
+}
+
+@section PageTitle
+{
+    <h1 class="hdr-blck big col-md-6">
+
+      Regional Relief Requests
+    </h1>
+}
+
+
+<div class="box box-primary">
+
+    <div class="col-md-12 box-body" style="display: block;">
+        <div class="row">
+             <div class="text-right mrgn5-v col-md-12">
+                
+                 <a data-buttontype="btn_new_record" class="btn btn-sm btn-success" href="@Url.Action("New", "Request")"><span class="fa fa-plus"></span> New Request</a>
+            </div>
+            <div id="div_filter" class="col-md-12 form-inline mrgn5-v">
+                @Html.Partial("_FilterRequestLeftBar")
+                 
+            </div>
+           
+            
+        </div>
+        <div class="table-responsive">
+            
+
+@(Html.Kendo().Grid<RegionalRequestViewModel>()
+    .Name("RequestListGrid")
+    .Columns(columns =>
+                 {
+                     columns.Template(t => { }).Title("No").ClientTemplate("#= renderNumber(data) #").Width(50);
+                     columns.Bound(request => request.ReferenceNumber).ClientTemplate
+                         ("<a href='" + Url.Action("Details", "Request", new { id = "#=RegionalRequestID#" }) + " '>#=ReferenceNumber#</a>").Width(160);
+                     columns.Bound(request => request.Region).Width(100);
+                     columns.Bound(request => request.Year).Width(70);
+                     columns.Bound(request => request.MonthName).Title(Html.Translate("Month")).Width(70);
+                     if (Model.ProgramID == 1)
+                     {
+                         columns.Bound(request => request.Round).Width(50).Title(Html.Translate("Round"));
+                     }
+                     columns.Bound(request => request.Program).Width(160);
+                     columns.Bound(request => request.RequestDate).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid" }).Width(160);
+                     columns.Bound(request => request.Status).Template(
+
+
+                        @<text>
+                            @if (item.StatusID == (int)RegionalRequestStatus.Draft)
+                            {
+                                @Html.ActionLink("Approve", "ApproveRequest", "Request", new { Area = "EarlyWarning", id = @item.RegionalRequestID })
+                            }
+                            else
+                            {
+                                @item.Status
+                                @Html.ActionLink("Approve", "ApproveRequest", "Request", new { Area = "EarlyWarning", id = @item.RegionalRequestID })
+                            }
+                        </text>);
+                     columns.Bound(request => request.PlanId).Title(
+                         Html.Translate("Action"))
+                         .ClientTemplate("# if (StatusID == 1 || StatusID==5) { #" +
+                             "<a href='" + Url.Action("Details", "Request", new { id = "#=RegionalRequestID#" }) + " '>Detail</a> &nbsp; " +
+                         "<a href='" + Url.Action("Allocation", "Request", new { id = "#=RegionalRequestID#" }) + " '>Allocate</a>  " +
+                          "# } else { #" +
+                           "<a href='" + Url.Action("Details", "Request", new { id = "#=RegionalRequestID#" }) + " '>Detail</a> &nbsp; "+
+                           "# } #"
+                         );
+
+
+
+                 })
+                                    .Sortable()
+                                    .Scrollable()
+                                    .HtmlAttributes(new { style = "height:430px;" })
+                                    .Events(ev => ev.DataBound("resetRowNumber"))
+                                    .DataSource(dataSource => dataSource
+                                        .Ajax()
+                                        //.PageSize(20)
+
+                                            .Model(model =>
+                                            {
+                                                model.Id(p => p.RegionalRequestID);
+                                            })
+                                       .Read(read => read.Action("Request_Search", "Request",
+                                                                new
+                                                                {
+                                                                    Area = "EarlyWarning",
+                                                                    DateFrom = @ViewBag.Filter.DateFrom,
+                                                                    DateTo = @ViewBag.Filter.DateTo,
+                                                                    RegionID = @ViewBag.Filter.RegionID,
+                                                                    ProgramID = @ViewBag.Filter.ProgramID,
+                                                                    StatusID = @ViewBag.Filter.StatusID
+                                                                }
+                                                                    ))
+
+                                      )
+)
+
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $(function () {
+        var filterRegionId = "@ViewBag.Filter.RegionID";
+        $("#div_filter").find("form").each(function (index, element) {
+            console.log(" form ", filterRegionId, element);
+            if (!filterRegionId) {
+                element.submit();
+            }
+            //return;
+        });
+    });
+</script>
+
+
+<script>
+    $("#search").keyup(function () {
+        $("#search").blur();
+        $("#search").focus();
+    });
+
+    $("#search").change(function () {
+        applyFilter("ReferenceNumber", $(this).val());
+    });
+
+    // attach click event for Clear Filters button
+    // applyFilter function accepts the Field Name and the new value to use for filter.
+    function applyFilter(filterField, filterValue) {
+
+        // get the kendoGrid element.
+        var gridData = $("#RequestListGrid").data("kendoGrid");
+
+        // get currently applied filters from the Grid.
+        var currFilterObj = gridData.dataSource.filter();
+
+        // get current set of filters, which is supposed to be array.
+        // if the oject we obtained above is null/undefined, set this to an empty array
+        var currentFilters = currFilterObj ? currFilterObj.filters : [];
+
+        // iterate over current filters array. if a filter for "filterField" is already
+        // defined, remove it from the array
+        // once an entry is removed, we stop looking at the rest of the array.
+        if (currentFilters && currentFilters.length > 0) {
+            for (var i = 0; i < currentFilters.length; i++) {
+                if (currentFilters[i].field == filterField) {
+                    currentFilters.splice(i, 1);
+                    break;
+                }
+            }
+        }
+
+        // if "filterValue" is "0", meaning "-- select --" option is selected, we don't
+        // do any further processing. That will be equivalent of removing the filter.
+        // if a filterValue is selected, we add a new object to the currentFilters array.
+        if (filterValue != null) {
+            currentFilters.push({
+                field: filterField,
+                operator: "contains",
+                value: filterValue
+            });
+        }
+
+        else {
+            clearFilters();
+        }
+
+        // finally, the currentFilters array is applied back to the Grid, using "and" logic.
+        gridData.dataSource.filter({
+            logic: "and",
+            filters: currentFilters
+        });
+
+    }
+
+    function clearFilters() {
+        var gridData = $("#RequestListGrid").data("kendoGrid");
+        gridData.dataSource.filter({});
+    }
+</script>

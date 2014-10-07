@@ -1,0 +1,91 @@
+﻿@using Cats.Services.Security
+@using Kendo.Mvc.UI
+@model Cats.Models.TransportOrder
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";    
+}
+<style>
+    .matrix input
+    {
+        width:100%;
+        margin:0;
+        font-size:15px;
+        padding:0px;
+        background:none;
+        border:none;
+        padding-left:4px;
+    }
+    .matrix td
+    {
+       
+        padding:4px;
+    }
+    .matrix th
+    {
+        color:#04b0bb;
+        padding:4px;
+    }
+</style>
+@{
+    
+    var user = (UserIdentity)System.Web.HttpContext.Current.User.Identity;
+    var unit = user.Profile.PreferedWeightMeasurment;
+}
+
+@section LeftBar
+{
+ 
+     @Html.Partial("_DispatchLocationsLeftBar");
+    @* <li class="nav-header">Bid Winners Informaation</li>
+    <li>Region: @ViewBag.Region</li>
+    <li>Transporter: @ViewBag.Transporter</li>
+    <li>Bid Number: @ViewBag.BidNumber</li>
+    <li class="nav-header">Tasks</li>
+    <li><a href="@Url.Action("Index", "DispatchLocations", new { Area = "Procurement" })"><i class="icon-chevron-left"></i>Back to Winners List</a></li>*@
+}
+<div>
+   @* <h2 class="page-header">Transport Requisitions Winner by Transporter</h2>*@
+    <h4>Transporter Name :<b class="k-info-colored">@ViewBag.Transporter</b></h4>
+</div>
+
+
+@(Html.Kendo().Grid<Cats.Areas.Procurement.Models.DispatchLocationViewModel>() 
+.Name("Bid").Columns(columns =>
+         {
+            columns.Bound(p => p.RequisitionNumber).Width(10).Title("Requisition Number");
+            columns.Bound(p => p.Warehouse).Title("Warehouse");
+            columns.Bound(p => p.Zone).Title("Zone");
+            columns.Bound(p => p.Woreda).Width(400).Title("Woreda").ClientFooterTemplate("Summary For:<b>" + @ViewBag.Transporter); 
+            columns.Bound(p => p.Destination).Title("Destinaiton");
+            columns.Bound(p => p.Item).Title("Item");
+            columns.Bound(p => p.Quantity).Title("Quantity in " + @unit);
+             columns.Bound(p => p.Tariff).Title("Tariff");
+             columns.Bound(p => p.Total).Width(200).ClientFooterTemplate("Total in Birr <b>:#=kendo.format('{0:N}', sum)#</b>").Format("{0:N}");
+             //columns.Bound(p => p.subTotalQuantity);
+             //columns.Bound(p => p.subTotalQuantity).ClientFooterTemplate("#= kendo.format('{0:c}', sum)#"); 
+             //ClientFooterTemplate("<div class=aright>#=sum#</div>").Format("{0:N}")
+
+
+         })
+      //.Editable(editable => editable.Mode(GridEditMode.InLine))
+      .Pageable()
+      .Sortable()
+      .Filterable()
+      .DataSource(datasource=>datasource
+      .Ajax()
+      .Aggregates(aggregates =>aggregates.Add(p => p.Total).Sum())
+       
+      .Model(model=>model.Id(p=>p.TransporterID))
+      .Read(read => read.Action("DispatchLocation_Read", "DispatchLocations",new{id=Model.TransportOrderID}))
+      )
+      
+)
+
+
+
+
+
+
+

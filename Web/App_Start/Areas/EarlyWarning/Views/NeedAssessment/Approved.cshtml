@@ -1,0 +1,88 @@
+﻿@using Cats.Models
+@using Kendo.Mvc.UI
+@using Cats.Helpers
+
+@using LanguageHelpers.Localization
+@{
+    ViewBag.Title = Html.Translate("Approved Need Requirments(s) List");
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+@section LeftBar{
+
+    @Html.Partial("_NeedAssessmentMainLeftBar")
+}
+
+<fieldset>
+    <legend>
+         @Html.Translate("Approved Need Requirment(s) List")
+    </legend>
+</fieldset>
+
+@(Html.Kendo().Grid<Cats.Models.NeedAssessmentHeaderViewModel>()
+    .Name("grid")
+    .Columns(columns =>
+
+    {
+        columns.Bound(p => p.RegionName);
+        columns.Bound(p => p.SeasonName).Visible(true).Width(100);
+        //columns.Bound(p => p.Date).Format("{0:dd/mm/yyyy}");
+        columns.Bound(p => p.Date);
+        columns.Bound(p => p.NeedACreaterName).Width(100);
+        columns.Bound(p => p.NeedAApproverName).Width(100);
+        columns.Command(p =>
+        {
+            p.Custom("Decline Approve").Click("DeclineApprove");
+        });
+    })
+    
+    
+    .HtmlAttributes(new { style = "height: 430px" })
+    .Pageable()
+    .Sortable()
+    .Scrollable()
+    .DataSource(dataSource => dataSource
+        .Ajax()
+        .PageSize(20)
+        .ServerOperation(false)
+        .Model(model => model.Id(p => p.NeedAID))
+        .Read("NeedAssessmentReadApproved", "NeedAssessment")
+    )
+)
+
+<script>
+
+    function DeclineApprove(e) {
+        e.preventDefault();
+       
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        wnd.center().open();
+        $("#yes").click(function () {
+            window.location = "@Url.Action("DisapproveNeedAssessment","NeedAssessment")" + "?id=" +  dataItem.NeedAID;
+            wnd.close();
+        });
+
+        $("#no").click(function () {
+            wnd.close();
+        });
+    }
+</script>
+
+<div id="modalWindow">
+    <h6>Disapprove Need Assessment?</h6>
+    <button id="yes" class="k-button">Yes</button>
+    <button id="no" class="k-button">No</button>
+</div>
+
+<script>
+    var wnd;
+    $(document).ready(function () {
+        wnd = $("#modalWindow").kendoWindow({
+            title: "Disapprove confirmation",
+            modal: true,
+            visible: false,
+            resizable: false,
+            width: 300
+        }).data("kendoWindow");
+    });
+    </Script>

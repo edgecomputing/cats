@@ -1,0 +1,65 @@
+﻿@using Kendo.Mvc.UI
+    @model  LanguageHelpers.Localization.Models.LocalizedText
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<div>
+    <h4 >Translation Terms</h4>
+</div>
+
+@section LeftBar{
+    
+    @Html.Partial("LanguageLeftBar");
+    
+}
+@(Html.Kendo().Grid<LanguageHelpers.Localization.Models.LocalizedText>()
+    .Name("grid")
+    .Columns(columns =>
+        {
+        //columns.Bound(p => p.LocalizedTextId);
+        columns.Bound(p => p.LanguageCode).Width(50);
+        columns.Bound(p => p.TextKey).Width(400);
+        columns.Bound(p => p.TranslatedText).Width(400);
+        columns.Command(p => p.Custom("Edit").Click("translationEdit"));
+        })
+        
+    .Pageable()
+    .Sortable()
+    .Filterable()
+    //.ToolBar(toolBar => toolBar.Save())
+    //.Editable(editable => editable.Mode(GridEditMode.InCell))
+    .DataSource(dataSource => dataSource
+          .Ajax()
+          .PageSize(12)
+            .Model(model =>
+                {
+                    model.Id(p => p.LocalizedTextId);
+                    model.Field(p => p.LanguageCode).Editable(false);
+                    model.Field(p => p.TextKey).Editable(false);
+                })
+                .Read(read => read.Action("Translation_Read", "Language"))
+                .Update(update => update.Action("Translation_Update", "Language"))
+ 
+     )
+   
+     )
+
+<script>
+    function translationEdit(e) {
+        e.preventDefault();
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        window.location = "EditTranslation/" + dataItem.LocalizedTextId;
+    }
+</script>
+
+<script type="text/javascript">
+    function OpenTranslateDialog(id) {
+        $('#TranslationDialog').data('tWindow').center().open();
+        var url = '@Url.Action("Edit", "Language")';
+        url = url + '?id=' + id;
+        $('#create-edit-form').load(url);
+        $('#create-edit-form').show();
+    }
+</script>

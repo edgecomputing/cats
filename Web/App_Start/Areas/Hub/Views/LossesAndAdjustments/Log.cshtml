@@ -1,0 +1,35 @@
+﻿@model IEnumerable<Cats.Models.Hubs.ViewModels.LossAndAdjustmentLogViewModel>
+@using Cats.Web.Hub.Helpers
+@{
+    ViewBag.Title = Html.Translate("Log");
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Log For Loss and Adjustment</h2>
+
+
+@(Html.Telerik().Grid(Model)
+            .Name("LossesAdjustmentsLogGrid")
+            .Columns(columns => 
+            {
+                columns.Bound(o => o.Date);
+                columns.Bound(o => o.Type);
+                columns.Bound(o => o.CommodityName);
+                //columns.Bound(o => o.ProjectCodeName);
+                //columns.Bound(o => o.MemoNumber);
+                columns.Bound(o => o.ShippingInstructionName);
+                columns.Bound(o => o.Store);
+                columns.Bound(o => o.StoreMan);
+                columns.Bound(o => o.Unit);
+                columns.Bound(o => o.QuantityInUnit);
+                columns.Bound(o => o.QuantityInMt);
+                columns.Bound(o => o.ApprovedBy);
+                columns.Bound(o => o.Reason);
+                columns.Bound(o => o.Description);
+            })
+            .Sortable(sorting => sorting.Enabled(true))
+            .Pageable(paging => paging.Enabled(true))
+            .Footer(true)
+                
+
+)

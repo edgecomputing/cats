@@ -1,0 +1,122 @@
+﻿@using Cats.Areas.Logistics.Models
+@using Cats.Areas.Procurement.Models
+@using Cats.Helpers
+@using Cats.Security
+@using Kendo.Mvc.UI
+@model TransportOrderViewModel
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+@section Toolbar
+{ 
+    <a href="@Url.Action("PaymentRequests", "ValidatedPaymentRequest", new { Area = "Finance", transporterID = Model.TransporterID })" class="btn" data-buttontype="btn_back_to_list" title="Back to List"><i class="icon-list"></i></a>
+}
+<div class="control-group form-horizontal well">
+    <div class="row">
+        <div class="span6">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.TransportOrderNo)
+
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(m => m.TransportOrderNo, new { Disabled = true })
+                </div>
+            </div>
+        </div>
+        <div class="span6">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(m => m.Transporter)
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(m => m.Transporter, new { Disabled = true })
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span6">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.ContractNumber)
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(m => m.ContractNumber, new { Disabled = true })
+                </div>
+            </div>
+        </div>
+        <div class="span6">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.OrderDateET)
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(m => m.OrderDateET, new { Disabled = true })
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span6">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.RequestedDispatchDateET, new { @class = "cats-date-pref" })
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(m => m.RequestedDispatchDateET, new { Disabled = true })
+                </div>
+            </div>
+        </div>
+        <div class="span6">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.OrderExpiryDateET, new { @class = "cats-date-pref" })
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(m => m.OrderExpiryDateET, new { Disabled = true })
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span6">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.StartDate, new { @class = "cats-date-pref" })
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(m => m.StartDate, new { Disabled = true })
+                </div>
+            </div>
+        </div>
+        <div class="span6">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.EndDate, new { @class = "cats-date-pref" })
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(m => m.EndDate, new { Disabled = true })
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@(Html.Kendo().Grid((IEnumerable<TransportOrderDetailViewModel>)ViewData["Transport.order.detail.ViewModel"])
+.Name("Grid").Columns(columns =>
+                          {
+                              columns.Bound(trd => trd.Woreda);
+                              columns.Bound(trd => trd.RequisitionNo);
+                              columns.Bound(trd => trd.FDP);
+                              columns.Bound(trd => trd.OriginWarehouse);
+                              columns.Bound(trd => trd.QuantityQtl);
+                              columns.Bound(trd => trd.TariffPerQtl);
+                              columns.Bound(trd => trd.TotalAmount);
+
+                          }).Pageable())

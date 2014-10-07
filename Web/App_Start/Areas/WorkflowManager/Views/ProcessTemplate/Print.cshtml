@@ -1,0 +1,27 @@
+﻿@model IEnumerable<Cats.Models.ProcessTemplate>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+@section LeftBar
+{
+    @Html.Partial("_workflowLeftBar")
+}
+<h2>HTML</h2>
+<textarea>
+@ViewBag.html
+
+</textarea>
+
+
+<style>
+    table td .gridcell
+    {
+        padding:0;
+    }
+    .gridcell
+    {
+        color:#F00;
+    }
+</style>

@@ -1,0 +1,221 @@
+﻿@using Cats.Helpers
+@using Cats.Security
+@using Cats.Services.Security
+@using Kendo.Mvc.UI
+@model IEnumerable<Cats.Areas.GiftCertificate.Models.GiftCertificateViewModel>
+
+
+@{
+    Layout = "~/Views/Shared/_CATSLayout.cshtml";
+    var user = UserAccountHelper.GetUser(HttpContext.Current.User.Identity.Name);
+
+}
+
+@section Title
+{
+Gift Certificate
+}
+
+@section PageTitle
+{
+    <h1 class="hdr-blck big col-md-6">
+
+        @ViewBag.Title
+    </h1>
+}
+
+
+<div class="box box-primary">
+
+    <div class="col-md-12 box-body" style="display: block;">
+        <div class="row">
+            <div class="mrgn5-v col-md-4">
+                <div class="input-group ">
+                    <div class="input-group-btn">
+                        <button class="btn btn-primary" type="button">Search</button>
+                    </div>
+
+                    <input type="text" id="search" class="form-control col-md-4"></input>
+                </div>
+
+            </div>
+            <div class="text-right col-md-8">
+
+                @Html.EarlyWarningOperationButton(
+                @Url.Action("Create", "GiftCertificate", new { Area = "EarlyWarning" }),
+                EarlyWarningConstants.Operation.New_Gift_Certificate, "<button type=\"button\" class=\"btn btn-success\"><span class=\"fa fa-plus\"></span> New Gift Certificate</button>", "btn btn-success", "btn_new_record")
+
+
+            </div>
+
+        </div>
+
+
+        <div class="table-responsive">
+            @(Html.Kendo().Grid(Model).Name("GiftCertificateGrid")
+                  .Columns(col =>
+                               {
+                                   col.Bound(gc => gc.ReferenceNo).Title(Html.Translate("Reference N<u>o</u>"));
+                                   col.Bound(gc => gc.Donor);
+                                   col.Bound(gc => gc.GiftDatePref).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid" });
+                                   col.Bound(gc => gc.SINumber).Title("SI N<u>o</u>");
+                                   col.Bound(gc => gc.DeclarationNumber).Title("Declaration N<u>o</u>");
+                                   col.Template(
+                                       @<text>
+
+            @if (item.StatusID == 1)
+            {
+                @Html.EarlyWarningOperationButton(
+                                                    @Url.Action("Edit", new { id = item.GiftCertificateID }),
+                                                    EarlyWarningConstants.Operation.Edit_Gift_Certificate, " <button type=\"button\" class=\"btn btn-xs btn-warning\"><span class=\"fa fa-pencil-square-o\"></span> Edit</button> ")
+                
+                @Html.EarlyWarningOperationButton(
+                                                    @Url.Action("Detail", new { id = item.GiftCertificateID }),
+                                                    EarlyWarningConstants.Operation.Edit_Gift_Certificate, " <button type=\"button\" class=\"btn btn-xs btn-primary\"><span class=\"fa fa-list\"></span> Detail</button> ")
+               
+                @Html.EarlyWarningOperationButton(
+                                                    @Url.Action("Approved", "GiftCertificate", new { id = item.GiftCertificateID }),
+                                                    EarlyWarningConstants.Operation.Approve_Gift_Certeficate, " <button type=\"button\" class=\"btn btn-xs btn-success\"><span class=\"fa fa-check\"></span> Approve</button> ", "btn-Approve-Gift", "", "btnApprove")
+            }
+            else
+            {
+               
+                @Html.EarlyWarningOperationButton(
+                        @Url.Action("GenerateTemplate", new { id = item.GiftCertificateID }),
+                        EarlyWarningConstants.Operation.Generate_Gift_Certificate_Template, "<button type=\"button\" class=\"btn btn-xs btn-primary\"><span class=\"fa fa-print\"></span> Print</button> ", "btn-Print-gift")
+            }
+            </text>
+
+                                       ).Title("Action").Width("200px");
+
+
+                               }
+                  ).DetailTemplate(detail =>
+                                   Html.Kendo().Grid(detail.GiftCertificateDetails).Name("GCDetails" + detail.GiftCertificateID)
+                                       .Columns(c =>
+                                                    {
+                                                        c.Bound(com => com.CommodityName);
+                                                        c.Bound(gc => gc.WeightInMT).Format("{0:N2}").HtmlAttributes(new { align = "right" }).Title(Html.Translate("Weight in MT"));
+                                                        c.Bound(gc => gc.EstimatedPrice).Format("{0:N2}").HtmlAttributes(new { align = "right" }).Title(Html.Translate("Est. Price"));
+                                                        c.Bound(gc => gc.EstimatedTax).Format("{0:N2}").HtmlAttributes(new { align = "right" }).Title(Html.Translate("Est. Tax"));
+                                                        c.Bound(gc => gc.FundSource).Title(Html.Translate("Fund Source"));
+                                                    })
+                  ).Sortable().Scrollable().HtmlAttributes(new { style = "width:100%; height:550px;" })
+                  )
+            
+        </div>
+    </div>
+</div>
+
+
+
+<div id="cats-modal"></div>
+<script type="text/javascript">
+    $('.btn-Approve-Gift').on('click',
+                 function (e) {
+                     $('#cats-modal').remove();
+                     e.preventDefault();
+                     var $this = $(this)
+                       , $remote = $this.data('remote') || $this.attr('href')
+                       , $modal = $('<div class="modal" id="cats-modal"><div class="modal-body"></div></div>');
+                     console.log($remote);
+                     $('body').append($modal);
+                     $modal.modal({ backdrop: 'static', keyboard: false });
+                     $modal.load($remote);
+                 }
+               );
+
+    $(function () {
+
+        //Optional: turn the chache off
+        $.ajaxSetup({ cache: false });
+
+
+        //$('.btn-Approve-Gift').click(function () {
+        //    $('#cats-modal').load(this.href, function () {
+        //        $('#cats-modal').modal({ show: true });
+        //    });
+        //    return false;
+        //});
+        $('.btn-Print-gift').on('click',
+                 function (e) {
+                     $('#cats-modal').remove();
+                     e.preventDefault();
+                     var $this = $(this)
+                       , $remote = $this.data('remote') || $this.attr('href')
+                       , $modal = $('<div class="modal" id="cats-modal"><div class="modal-body"></div></div>');
+                     console.log($remote);
+                     $('body').append($modal);
+                     console.log($remote);
+                     $modal.modal({ backdrop: 'static', keyboard: false });
+                     $modal.load($remote);
+                 }
+               );
+    });
+
+</script>
+
+<script>
+    $("#search").keyup(function () {
+        $("#search").blur();
+        $("#search").focus();
+    });
+
+    $("#search").change(function () {
+        applyFilter("ReferenceNo", $(this).val());
+    });
+
+    // attach click event for Clear Filters button 
+    // applyFilter function accepts the Field Name and the new value to use for filter.
+    function applyFilter(filterField, filterValue) {
+
+        // get the kendoGrid element.
+        var gridData = $("#GiftCertificateGrid").data("kendoGrid");
+
+        // get currently applied filters from the Grid.
+        var currFilterObj = gridData.dataSource.filter();
+
+        // get current set of filters, which is supposed to be array.
+        // if the oject we obtained above is null/undefined, set this to an empty array
+        var currentFilters = currFilterObj ? currFilterObj.filters : [];
+
+        // iterate over current filters array. if a filter for "filterField" is already
+        // defined, remove it from the array
+        // once an entry is removed, we stop looking at the rest of the array.
+        if (currentFilters && currentFilters.length > 0) {
+            for (var i = 0; i < currentFilters.length; i++) {
+                if (currentFilters[i].field == filterField) {
+                    currentFilters.splice(i, 1);
+                    break;
+                }
+            }
+        }
+
+        // if "filterValue" is "0", meaning "-- select --" option is selected, we don't 
+        // do any further processing. That will be equivalent of removing the filter.
+        // if a filterValue is selected, we add a new object to the currentFilters array.
+        if (filterValue != null) {
+            currentFilters.push({
+                field: filterField,
+                operator: "contains",
+                value: filterValue
+            });
+        }
+
+        else {
+            clearFilters();
+        }
+
+        // finally, the currentFilters array is applied back to the Grid, using "and" logic.
+        gridData.dataSource.filter({
+            logic: "and",
+            filters: currentFilters
+        });
+
+    }
+
+    function clearFilters() {
+        var gridData = $("#RequestListGrid").data("kendoGrid");
+        gridData.dataSource.filter({});
+    }
+</script>

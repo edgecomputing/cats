@@ -1,0 +1,58 @@
+﻿
+@using LanguageHelpers.Localization
+@*@model Cats.Areas.EarlyWarning.Models.PlanWithHRDViewModel*@
+@model Cats.Models.Plan
+@{
+    ViewBag.Title = "Detail";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";  
+}
+
+<h4>Detail</h4>
+<div class="well form-horizontal">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.Label(Translator.Translate("Plan Name"))
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(m=>m.PlanName,new {Disabled=true})
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.Label(Translator.Translate("Program"))
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(m=>m.Program.Name,new {Disabled=true})
+                </div>
+            </div>
+
+             <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(m => m.StartDate,Translator.Translate("From Date"))
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(m=>m.StartDate,new {Disabled=true})
+                </div>
+        
+            </div>
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(m => m.EndDate,Translator.Translate("TO Date"))
+                </div>
+                <div class="controls">
+                    @* <input class="cats-datepicker" type="text" id="create" name="create" />*@
+                    @Html.TextBoxFor(m=>m.EndDate,new {Disabled=true})
+                </div>
+        
+            </div>
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(m => m.Remark)
+                </div>
+                <div class="controls">
+                    @* <input class="cats-datepicker" type="text" id="create" name="create" />*@
+                    @Html.TextAreaFor(m=>m.Remark)
+                </div>
+        
+            </div>
+        </div>

@@ -297,7 +297,7 @@ namespace Cats.Areas.Finance.Controllers
                     paymentRequestViewModel.TransporterID = paymentRequest.TransportOrder.TransporterID;
                     paymentRequestViewModel.Transporter = paymentRequest.TransportOrder.Transporter.Name;
                     paymentRequestViewModel.RequestedAmount = firstOrDefault != null ? firstOrDefault.SentQuantity : (decimal)0.00;
-                    paymentRequestViewModel.TransportedQuantityInQtl = firstOrDefault != null ? firstOrDefault.ReceivedQuantity : (decimal)0.00;
+                    paymentRequestViewModel.TransportedQuantityInQtl = firstOrDefault != null ? firstOrDefault.ReceivedQuantity.ToQuintal() : (decimal)0.00;
                     paymentRequestViewModel.ReferenceNo = paymentRequest.ReferenceNo;
                     paymentRequestViewModel.BusinessProcessID = paymentRequest.BusinessProcessID;
                     paymentRequestViewModel.StateNo = paymentRequest.BusinessProcess.CurrentState.BaseStateTemplate.StateNo;

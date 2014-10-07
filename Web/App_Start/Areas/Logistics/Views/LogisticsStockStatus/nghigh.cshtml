@@ -1,0 +1,31 @@
+﻿@{
+    ViewBag.Title = "nghigh";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+<h2>High</h2>
+
+<div ng-app="chartsExample">
+    <div ng-controller="MainCtrl">
+        <chart value='basicAreaChart' type="area" height="400"></chart>
+    </div>
+</div>
+
+<script>
+    'use strict';
+    angular.module('chartsExample', []).controller('MainCtrl', ['$scope', '$http',
+            function ($scope, $http) {
+                $http.get("/basicAreaChart.json").success(function (data) {
+                    $scope.basicAreaChart = data;
+                });
+            }]);
+</script>
+
+<script>
+    'use strict';
+    angular.module('chartsExample.controllers', []).controller('MainCtrl', ['$scope', '$http',
+            function ($scope, $http) {
+                $http.get("charts/basicAreaChart.json").success(function (data) {
+                    $scope.basicAreaChart = data;
+                });
+            }]);
+</script>

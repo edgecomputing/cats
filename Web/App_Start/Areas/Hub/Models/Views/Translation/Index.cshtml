@@ -1,0 +1,53 @@
+﻿@using Cats.Web.Hub.Helpers
+@model IEnumerable<Cats.Models.Hubs.Translation>
+
+@{
+    ViewBag.Title = "Translation Booth";
+}
+<h2>
+    @Html.Translate("Translation Booth")
+</h2>
+@{
+            Html.Telerik().Window()
+                    .Name("TranslationDialog")
+                    .Title("Translation")
+                    .Content(@<text>
+                                  <div style="padding: 10px;" id="create-edit-form"></div>
+                                </text>)
+                    .Width(550)
+                    .Height(200)
+                    .Draggable(true)
+                    .Modal(true)
+                    .Visible(false)
+                    .Render();
+}
+<p>@Html.Translate("Please use this page to translate the application to other Languages")</p>
+<div>
+    <table class="borderless" width="100%">
+        <tr>
+            <td colspan="2">
+                @(Html.Telerik().Grid(Model).Name("TranslationGrid")
+                                                .DataKeys(keys => keys.Add(d => d.TranslationID))
+                                                .Columns(cols =>
+                                                                      {
+                                                                          
+                                                                          cols.Bound(c => c.LanguageCode);
+                                                                          cols.Bound(c => c.Phrase).Title(Html.Translate("Origional Text"));
+                                                                          cols.Bound(c => c.TranslatedText).Title(Html.Translate("Translated Text"));
+                                                                          cols.Bound(c => c.TranslationID).Template(@<text>
+                                                                                                                                 <a href='javascript:OpenTranslateDialog( @item.TranslationID )'>Translate</a>
+                                                                                                                             </text> ).Title(Html.Translate("Action"));
+                                                                      }))
+            </td>
+        </tr>
+    </table>
+</div>
+<script type="text/javascript">
+    function OpenTranslateDialog(id) {
+        $('#TranslationDialog').data('tWindow').center().open();
+        var url = '@Url.Action("Edit", "Translation")';
+        url = url + '?id=' + id;
+        $('#create-edit-form').load(url);
+        $('#create-edit-form').show();
+    }
+</script>

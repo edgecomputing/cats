@@ -1,0 +1,73 @@
+﻿@using Cats.Web.Hub.Helpers
+@model Decimal?
+
+
+@{
+    var id = ViewData.TemplateInfo.GetFullHtmlFieldName(string.Empty);
+    var qtId = id + "_qt";
+   // var jsValue = Model==null? Model : null; 
+}
+@if (@Html.GetCurrentUser().PreferedWeightMeasurment.ToUpperInvariant() == "MT")
+{
+    @(Html.Hidden("", null, new { @id = id, @name = "@id", @type = "hidden", @style = "visible:hidden;" }))
+   <input id="@qtId" class="t-input" type="text" />
+     @*@(Html.TextBox("", null, new { @id = qtId, @name = "quantity_qt" }))*@
+ //  @data_quantity_field="input[name="+@id+"]"                                            
+    <script type="text/javascript">
+
+        $('#CommodityTypeID').change(function () {
+            if ($('#CommodityTypeID').val() == 1) {
+                $('#@id').val(parseFloat($('#@qtId').val() * 10));
+            } else {
+                $('#@id').val(parseFloat($('#@qtId').val()));
+            }
+        });
+
+        $('#@qtId').change(function () {
+            if ($('#CommodityTypeID').val() == 1) {
+                $('#@id').val(parseFloat($(this).val() * 10));
+            } else {
+                $('#@id').val(parseFloat($(this).val()));
+            }
+        });
+
+        $('#@qtId').keyup(function () {
+            if ($('#CommodityTypeID').val() == 1) {
+                $('#@id').val(parseFloat($(this).val() * 10));
+            } else {
+                $('#@id').val(parseFloat($(this).val()));
+            }
+        });
+        $(function () {
+            var jsValue = '@Model';
+            $(function () {
+                if (jsValue == '') {
+                    $('#@id').val(null);
+                } else {
+                    $('#@id').val(parseFloat(jsValue));
+                    if ($('#CommodityTypeID').val() == 1) {
+                        $('#@qtId').val(parseFloat($('#@id').val() / 10));
+                    } else {
+                        $('#@qtId').val(parseFloat($('#@id').val()));
+                    }
+                }
+            });
+
+
+        });
+
+    </script>                                                                                                                                                                                        
+}
+else
+{
+    @(Html.TextBox("", null, new { @id = id, @name = @id })) 
+    <script type="text/javascript">
+        var jsValue = '@Model';
+        $(function() {
+            if (jsValue == '')
+                $('#@id').val(null);
+            else
+                $('#@id').val(parseFloat(jsValue));
+        });
+    </script>     
+}

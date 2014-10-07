@@ -1,0 +1,40 @@
+﻿@using Cats.Areas.Logistics.Models
+@using Cats.Helpers
+@using Cats.Models
+@using Cats.Services.Security
+@using Kendo.Mvc.UI
+
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<h3>Un Contracted Transporters</h3>
+
+@(Html.Kendo().Grid<UnContractedTransportersListViewModel>()
+    .Name("grid")
+    .Columns(columns =>
+        {
+            columns.Bound(p => p.Name).Title(Html.Translate("Transporter Name"));
+            columns.Bound(p => p.Capital).Title(Html.Translate("Capital"));
+            columns.Bound(p => p.SubCity).Title(Html.Translate("Sub City"));
+            columns.Bound(p => p.MobileNo).Title(Html.Translate("Mobile Number"));
+            columns.Bound(p => p.Fdp).Title(Html.Translate("FDP"));
+            columns.Bound(p => p.Zone).Title(Html.Translate("Zone"));
+            columns.Bound(p => p.RegionName).Title(Html.Translate("Region"));
+        
+        
+    })
+ 
+    .Scrollable()
+    .Sortable()
+    .Filterable()
+    .Pageable()
+    .DataSource(dataSource => dataSource
+            .Ajax()
+            .PageSize(10)
+            .Read(read => read.Action("GetList", "UnContractedTransporters",new{id=(int)ViewData["ID"]} ))
+        
+    )
+)

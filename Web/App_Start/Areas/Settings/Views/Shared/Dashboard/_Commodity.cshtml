@@ -1,0 +1,43 @@
+﻿<div class="widget stacked">
+    <div id="commodHeader" class="widget-header">
+        <i class=""></i>
+        <h3>Commodity</h3>
+    </div>
+    <div id="commoContent" class="widget-content">
+        <div class="">
+            <a href="@Url.Action("Index", "CommodityType", new { Area = "Settings" })" class="shortcut"><i class="shortcut-icon icon-list-alt"></i>
+                <span class="shortcut-label">Commodity Type</span>
+            </a>
+            <br/>
+            <a href="@Url.Action("Index", "Commodity", new { Area = "Settings" })" class="shortcut"><i class="shortcut-icon icon-signal"></i>
+                <span class="shortcut-label">Commodity</span>
+            </a>
+             <br/>
+            <a href="@Url.Action("Index", "CommodityGrade", new { Area = "Settings" })" class="shortcut"><i class="shortcut-icon icon-inbox"></i>
+                <span class="shortcut-label">Commodity Grade</span>
+            </a>
+             <br/>
+            <a href="@Url.Action("Index", "CommoditySource", new { Area = "Settings" })" class="shortcut"><i class="shortcut-icon icon-tasks"></i>
+                <span class="shortcut-label">Commodity Source</span>
+            </a>
+             <br/>
+            <a href="@Url.Action("Index", "Program", new { Area = "Settings" })" class="shortcut"><i class="shortcut-icon icon-bell"></i>
+                <span class="shortcut-label">Program</span>
+            </a>
+             <br/>
+            <a href="@Url.Action("Index", "Donor", new { Area = "Settings" })" class="shortcut"><i class="shortcut-icon icon-cog"></i>
+                <span class="shortcut-label">Donors</span>
+            </a>
+             <br/>
+            <a href="@Url.Action("Index", "Unit", new { Area = "Settings" })" class="shortcut"><i class="shortcut-icon icon-cog"></i>
+                <span class="shortcut-label">Units</span>
+            </a>
+        </div>
+    </div>
+</div>
+
+<script>
+    $("#commodHeader").click(function () {
+        $("#commoContent").slideToggle("slow", "linear");
+    });
+</script>

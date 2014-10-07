@@ -1,0 +1,26 @@
+﻿@model Cats.Models.Hubs.LetterTemplate
+@using Cats.Web.Hub.Helpers
+@{
+    ViewBag.Title = Html.Translate("Details");
+}
+
+<h2>@Html.Translate("Details")</h2>
+
+<fieldset>
+    <legend>@Html.Translate("LetterTemplate")</legend>
+
+    <div class="display-label">@Html.Translate("Name")</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Name)
+    </div>
+
+    <div class="display-label">@Html.Translate("Template")</div>
+    <div class="display-field">
+        @Html.Raw(Model.Template)
+        
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink(Html.Translate("Edit"), "Edit", new { id = Model.LetterTemplateID }) |
+    @Html.ActionLink(Html.Translate("Back to List"), "Index")
+</p>

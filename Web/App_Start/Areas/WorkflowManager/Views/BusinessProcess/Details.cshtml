@@ -1,0 +1,47 @@
+﻿@using Cats.Models;
+@model Cats.Models.BusinessProcess
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+@section Toolbar
+{
+
+    <a class="btn toolbar-btn " data-buttontype="btn_back_to_list" href="@Url.Action("Index", "BusinessProcess")"></a>
+ 
+       
+}
+
+@section LeftBar
+{
+   
+    @Html.Partial("_PSNPLeftBar");
+   
+}
+
+<div>Process @Model.ProcessType.Name</div>
+<div>Status  @Model.CurrentState.BaseStateTemplate.Name</div>
+    
+<br />
+
+<div><br />History</div>
+<table class="table table-striped table-bordered">
+    <tr>
+        <th>Date</th>
+        <th> State</th>
+        <th> User</th>
+        <th>Comment</th>
+    </tr>
+
+    @foreach (BusinessProcessState item in Model.BusinessProcessStates)
+    {
+        
+        <tr>
+            <td> @item.DatePerformed</td>
+            <td> @item.BaseStateTemplate.Name</td>
+            <td>@item.PerformedBy</td>
+            <td>@item.Comment</td>
+        </tr>
+    }
+
+</table>

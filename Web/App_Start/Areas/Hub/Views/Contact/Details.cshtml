@@ -1,0 +1,35 @@
+﻿@model Cats.Models.Hubs.Contact
+@using Cats.Web.Hub.Helpers
+@{
+    ViewBag.Title = Html.Translate("Details");
+}
+
+<h2>@Html.Translate("Contacts for ") @ViewBag.FDPName (FDP)</h2>
+
+<fieldset>
+    <legend>@Html.Translate("Contact")</legend>
+
+    <div class="display-label">@Html.Translate("First Name")</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.FirstName)
+    </div>
+
+    <div class="display-label">@Html.Translate("Last Name")</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.LastName)
+    </div>
+
+    <div class="display-label">@Html.Translate("Phone No")</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.PhoneNo)
+    </div>
+
+    <div class="display-label">@Html.Translate("FDP")</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.FDP.Name)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink(Html.Translate("Edit"), "Edit", new { id = Model.ContactID }) |
+    @Html.ActionLink(Html.Translate("Back to List"), "Index", new { fdpId = Convert.ToInt32(ViewBag.FDPID) })
+</p>

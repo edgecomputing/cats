@@ -1,0 +1,797 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+    const string PAGE_NAME = "PSNP.Index";
+}
+
+@section styles
+{
+    <link href="~/Content/Dashboard/dashboardcomponents.css" rel="stylesheet" />
+}
+<style>
+    .chartWrap {
+        margin: 0 auto;
+        width: 100%;
+        height: 290px;
+    }
+</style>
+
+<div ng-app="myApp">
+    
+    <div ng-controller="AnnualPlan" class="container row">
+        <div class="row" style="border-bottom-width: thin; border-bottom-color: #666; border-bottom-style: inset; margin-left: 60px">
+            <div class="span7" > <h4>Annual Plan:</h4> 
+                <select ng-change="onChange(PlanName.planId)"   ng-model="PlanName" ng-options="r as r.planName for r in plans" >
+                    <option > Choose a Plan </option>
+                </select>
+                
+             
+               
+            </div>
+            
+        </div>
+    </div>
+
+    <div ng-controller="PSNPDashboardController" class="container">
+        
+        <div>
+            <div class="row" style="border-bottom-width: thin; border-bottom-color: #666; border-bottom-style: inset; margin-top: 5px">
+                <div class="pull-left">
+                    <h4>Monthly Requests</h4>
+                </div>
+                <div class="pull-right">
+                    <div class="btn-group">
+                        <button id="RequestHeader" type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
+                            <i class="icon-arrow-up"></i>
+                            <i class="icon-arrow-down"></i>
+                        </button>
+
+                    </div>
+                </div>
+            </div>
+            <div id="RequestContent" class="row">
+                <div>&nbsp;</div>
+                <div class="span7">
+                    <div class="portlet">
+                        <div class="portlet-header">
+                            <h3>
+                                <i class=""></i>
+                                Recent Requests
+                            </h3>
+                            <ul class="portlet-tools pull-right">
+                                <li>
+                                    <a class="btn btn-sm btn-default " href="@Url.Action("Index", "Request", new { Area = "EarlyWarning" })">Show More</a>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- /.portlet-header -->
+
+                        <div class="portlet-content">
+                            <th class="table-responsive">
+                            <table id="" class="table table-striped table-checkable">
+                                <thead>
+                                    <tr>
+                                        <th class="hidden-xs">Number</th>
+                                        <th>FDPS</th>
+                                        <th>Beneficiaries</th>
+                                        <th>Status</th>
+                                        <th>Detail</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="request in Requests | filter:{PlanId:Id} | limitTo:5">
+                                        <td class="hidden-xs">{{request.Number}}</td>
+                                        <td style="text-align: right">{{request.fdps|number}}</td>
+                                        <td style="text-align: right">{{request.beneficiaries|number}}</td>
+                                        <td><span status-class="request.status">{{states[request.status-1]}}</span></td>
+                                        <th>
+                                            <a ng-click="viewRequest(request)" class="btn btn-sm btn-default">
+                                                View <i class="icon-chevron-right"></i>
+                                            </a>
+                                        </th>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- /.table-responsive -->
+                    </div>
+                    <!-- /.portlet-content -->
+
+                </div>
+                <div class="span4">
+
+                    <div class="portlet">
+                        <div class="portlet-header">
+                            <h3>
+                                <i class=""></i>
+                                Requests Per Region
+                            </h3>
+                        </div>
+
+                        <!-- /.portlet-header -->
+
+                        <div class="portlet-content">
+                            <div class="chartWrap" id="container" draw-request-pie=""></div>
+                        </div>
+                        <!-- /.portlet-content -->
+
+                    </div>
+                    <!-- /.portlet -->
+                </div>
+                <!-- /.portlet -->
+            </div>
+        </div>
+
+        <div>
+            <div class="row" style="border-bottom-width: thin; border-bottom-color: #666; border-bottom-style: inset; margin-top: 5px">
+
+                <div class="pull-left">
+                    <h4>Monthly Requisitions</h4>
+                </div>
+                <div class="pull-right">
+                    <div class="btn-group">
+                        <button id="RequisitionHeader" type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
+                            <i class="icon-arrow-up"></i>
+                            <i class="icon-arrow-down"></i>
+                        </button>
+
+                    </div>
+                </div>
+            </div>
+            <div id="RequisitionContent" class="row">
+                <div>&nbsp;</div>
+                <div class="span4">
+
+                    <div class="portlet">
+                        <div class="portlet-header">
+                            <h3>
+                                <i class=""></i>
+                                Requisitions Percentage by Status 
+                            </h3>
+                        </div>
+
+                        <!-- /.portlet-header -->
+
+                        <div class="portlet-content">
+                          
+                            <div id="containerRequisition" class="chartWrap" draw-request-pie-Status=""></div>
+                               
+                            <!-- /.portlet-content -->
+
+                        </div>
+                        <!-- /.portlet -->
+                    </div>
+
+                    <!-- /.portlet -->
+                </div>
+                <div class="span7">
+                    <div class="portlet">
+                        <div class="portlet-header">
+                            <h3>
+                                <i class=""></i>
+                                Recent Requisitions
+                            </h3>
+                            <ul class="portlet-tools pull-right">
+                                <li>
+                                    <button class="btn btn-sm btn-default">
+                                        Show more
+                                    </button>
+
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- /.portlet-header -->
+                        <div class="portlet-content">
+                            <th class="table-responsive">
+                            <table id="" class="table table-striped table-checkable">
+                                <thead style="text-align: right">
+                                    <tr >
+                                        <th class="hidden-xs">Number</th>
+                                        <th>Commodity</th>
+                                        <th style="text-align: center">Beneficiaries</th>
+                                        <th style="text-align: center">Amount(QT)</th>
+                                        <th>Status</th>
+                                        <th class="align-center">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="" ng-repeat="requisition in Requisitions | filter:{PlanId:Id} | limitTo:5 ">
+                                        
+                                        
+                                        <td>{{requisition.Number}}</td>
+                                        <th>{{requisition.Commodity}}</th>
+                                        <td style="text-align: right">{{requisition.Beneficicaries|number}}</td>
+                                        <th style="text-align: right">{{requisition.Amount|number}} QT</th>
+                                        <td><span status-class="requisition.Status">{{states[requisition.Status-1]}}</span></td>
+                                        @*<td><span class="label label-danger">{{requisition.Status}}</span></td>*@
+                                        <td>
+                                            <a ng-click="viewRequisition(requisition)" class="btn btn-sm btn-default">
+                                                View <i class="icon-chevron-right"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- /.table-responsive -->
+                    </div>
+                    <!-- /.portlet-content -->
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <div class="row" style="border-bottom-width: thin; border-bottom-color: #666; border-bottom-style: inset; margin-top: 5px">
+
+                <div class="pull-left">
+                    <h4>Utilization</h4>
+                </div>
+                <div class="pull-right">
+                    <div class="btn-group">
+                        <button id="RequisitionHeader" type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
+                            <i class="icon-arrow-up"></i>
+                            <i class="icon-arrow-down"></i>
+                        </button>
+
+                    </div>
+                </div>
+            </div>
+            <div id="RequisitionContent" class="row">
+                <div>&nbsp;</div>
+                <div class="span4">
+
+                    <div class="portlet">
+                        <div class="portlet-header">
+                            <h3>
+                                <i class=""></i>
+                                Utilization by Age 
+                            </h3>
+                        </div>
+
+                        <!-- /.portlet-header -->
+
+                        <div class="portlet-content">
+                            <div class="progress-stat">
+
+                                <div class="stat-header">
+
+                                    <div class="pull-left">
+                                        Older than 18 years
+                                    </div>
+                                    <!-- /.stat-label -->
+
+                                    <div class="pull-right">
+                                        {{Data.Above18}}%
+                                    </div>
+                                    <!-- /.stat-value -->
+
+                                </div>
+                                <!-- /stat-header -->
+
+                                <div class="progress progress-info">
+                                    <div class="bar" style="width: {{Data.Above18}}%"></div>
+                                </div>
+                                <!-- /.progress -->
+
+                            </div>
+                            <!-- /.progress-stat -->
+
+                            <div class="progress-stat">
+
+                                <div class="stat-header">
+
+                                    <div class="pull-left">
+                                        Between 5 and 18 years
+                                    </div>
+                                    <!-- /.stat-label -->
+
+                                    <div class="pull-right">
+                                        {{Data.Bet5And8}}%
+                                    </div>
+                                    <!-- /.stat-value -->
+
+                                </div>
+                                <!-- /stat-header -->
+
+                                <div class="progress progress-info">
+                                    <div class="bar" style="width: {{Data.Bet5And8}}%"></div>
+                                </div>
+                                <!-- /.progress -->
+
+                            </div>
+                            <!-- /.progress-stat -->
+
+                            <div class="progress-stat">
+
+                                <div class="stat-header">
+
+                                    <div class="pull-left">
+                                        Younger than 5 years
+                                    </div>
+                                    <!-- /.stat-label -->
+
+                                    <div class="pull-right">
+                                        {{Data.Below5}}%
+                                    </div>
+                                    <!-- /.stat-value -->
+
+                                </div>
+                                <!-- /stat-header -->
+
+                                <div class="progress progress-info">
+                                    <div class="bar" style="width: {{Data.Below5}}%"></div>
+                                </div>
+                                <!-- /.progress -->
+
+                            </div>
+                            <!-- /.progress-stat -->
+
+                            <br>
+                        </div>
+                        <!-- /.portlet-content -->
+
+                    </div>
+                    <!-- /.portlet -->
+                </div>
+                <div class="span7">
+                    <div class="portlet">
+                        <div class="portlet-header">
+                            <h3>
+                                <i class=""></i>
+                                Utilization by Region
+                            </h3>
+                            <ul class="portlet-tools pull-right">
+                                <li>
+                                    <button class="btn btn-sm btn-default">
+                                        Show more
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- /.portlet-header -->
+                        <div class="portlet-content">
+                           
+                            <!-- directive -->
+                            <div id="containerPIE"></div>
+                            <th class="table-responsive">
+                            <table id="" class="table table-striped table-checkable">
+                                @* <thead>
+                                        <tr>
+                                            <th class="hidden-xs">Number</th>
+                                            <th>Commodity</th>
+                                            <th>Beneficiaries</th>
+                                            <th>Amount(QT)</th>
+                                            <th>Status</th>
+                                            <th class="align-center">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="" ng-repeat="requisition in Requisitions">
+
+                                            <td>{{requisition[1].Value}}</td>
+                                            <th>{{requisition[7].Value}}</th>
+                                            <td>{{requisition[2].Value|number}}</td>
+                                            <th>{{requisition[3].Value|number}} QT</th>
+
+                                            <td><span class="label label-danger">{{requisition[4].Value}}</span></td>
+                                            <td>
+                                                <a ng-href="@Url.Action("Allocation", "ReliefRequisition", new { Area = "EarlyWarning", id = 2 })" class="btn btn-sm btn-default">View <i class="icon-chevron-right"></i>
+                                                </a>
+
+                                                <a class="btn btn-sm btn-default" data-original-title="Approve">
+                                                    <i class="icon-upload"></i>Approve
+                                                </a>
+                                            </td>
+                                        </tr>
+
+                                    </tbody>*@
+                            </table>
+
+                        </div>
+                        <!-- /.table-responsive -->
+                    </div>
+                    <!-- /.portlet-content -->
+                </div>
+                <!-- /.portlet -->
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+    $("#RequestHeader").click(function () {
+        $("#RequestContent").slideToggle("slow", "linear");
+    });
+    $("#RequisitionHeader").click(function () {
+        $("#RequisitionContent").slideToggle("slow", "linear");
+    });
+</script>
+
+@*<script>
+    function PSNPDashboardController($scope, $http) {
+        
+        $scope.Requests = [];
+        $scope.Requisitions = [];
+        $scope.Data = [];
+
+        var onRequestsSuccess = function (data) {
+            $scope.Requests = data;
+        };
+
+        var onRequisitionsSuccess = function (data) {
+            $scope.Requisitions = data;
+        };
+
+        var onDashboardDataSuccess = function (data) {
+            $scope.Data = data;
+        };
+
+        $scope.getRequests = function () {
+            $http.post("@Url.Action("GetPsnpRequests", "Dashboard", new { Area = "PSNP" })", null).success(onRequestsSuccess);
+        };
+
+        $scope.getRequisitions = function () {
+            $http.post("@Url.Action("GetPsnpRequisitions", "Dashboard", new { Area = "PSNP" })", null).success(onRequisitionsSuccess);
+        };
+
+        $scope.getUtilization = function () {
+            $http.post("@Url.Action("GetUtilizationReport", "Dashboard", new { Area = "PSNP" })", null).success(onDispatchesSuccess);
+        };
+
+        $scope.viewRequest = function () {
+            window.location = "@Url.Action("Details","Request",new {Area="EarlyWarning"})" + "?id=" + item.RequestId;
+        };
+        
+        $scope.getRequests();
+        $scope.getRequisitions();
+    }
+</script>*@
+
+@*<script>
+    $(function () {
+        $('#container').highcharts({
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false
+            },
+
+            //tooltip: {
+            //    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            //},
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: false
+                    },
+                    showInLegend: true
+                }
+            },
+            credits: {
+                enabled: false
+            },
+            title: {
+                text: ''
+            },
+            exporting: {
+                enabled: false
+            },
+            series: [{
+                type: 'pie',
+                name: 'Requests Percentage',
+                data: [
+                    ['Afar', 25.0],
+                    ['Oromiya', 20.0],
+                    ['Amhara', 40.0],
+                    ['Somali', 5.0],
+                    ['Benishangul',10.0 ]
+                ]
+            }]
+        });
+    });
+</script>*@
+
+<script>
+    //$(function () {
+    //    $('#containerRequisition').highcharts({
+    //        chart: {
+    //            plotBackgroundColor: null,
+    //            plotBorderWidth: null,
+    //            plotShadow: false
+    //        },
+
+    //        //tooltip: {
+    //        //    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+    //        //},
+    //        plotOptions: {
+    //            pie: {
+    //                allowPointSelect: true,
+    //                cursor: 'pointer',
+    //                dataLabels: {
+    //                    enabled: false
+    //                },
+    //                showInLegend: true
+    //            }
+    //        },
+    //        credits: {
+    //            enabled: false
+    //        },
+    //        title: {
+    //            text: ''
+    //        },
+    //        exporting: {
+    //            enabled: false
+    //        },
+    //        series: [{
+    //            type: 'pie',
+    //            name: 'Requests Percentage',
+    //            data: [
+    //                ['Afar', 45.0],
+    //                ['Oromiya', 26.8],
+    //                ['Amhara', 8.5],
+    //                ['Somali', 6.2],
+    //                ['Benihsangul', 0.7]
+    //            ]
+    //        }]
+    //    });
+    //});
+</script>
+
+<style>
+    #containerPIE {
+        margin: 0 auto;
+        width: 150px;
+        height: 150px;
+    }
+</style>
+
+<script>
+    var app = angular.module('myApp', []);
+    
+    app.controller('PSNPDashboardController',  ['$scope', '$http', '$rootScope', function ($scope, $http, $rootScope) {
+        
+        $scope.Requests = [];
+        $scope.Requisitions = [];
+       
+        $scope.Data = [];
+        $scope.states = ["Draft", "Approved", "Closed"];
+
+        var id = $rootScope.Id;
+        var onRequestsSuccess = function (data) {
+            $scope.Requests = data;
+        };
+        $scope.Data = [];
+        $scope.states = ["Draft", "Approved", "Closed"];
+
+        var onRequisitionsSuccess = function (data) {
+            $scope.Requisitions = data;
+        };
+
+       
+        var onDashboardDataSuccess = function (data) {
+            $scope.Data = data;
+        };
+
+        $scope.getRequests = function () {
+            $http.post("@Url.Action("GetPsnpRequests", "Dashboard", new { Area = "PSNP" })", null).success(onRequestsSuccess);
+        };
+
+       
+        $scope.getRequisitions = function () {
+            $http.post("@Url.Action("GetPsnpRequisitions", "Dashboard", new { Area = "PSNP" })", null).success(onRequisitionsSuccess);
+        };
+
+        $scope.getUtilization = function () {
+            $http.post("@Url.Action("GetUtilizationReport", "Dashboard", new { Area = "PSNP" })", null).success(onDispatchesSuccess);
+        };
+
+        $scope.viewRequest = function (item) {
+            window.location = "@Url.Action("Details","Request",new {Area="EarlyWarning"})" + "?id=" + item.RequestId;
+        };
+        
+        $scope.viewRequisition = function (item) {
+            window.location = "@Url.Action("Allocation","ReliefRequisition",new {Area="EarlyWarning"})" + "?id=" + item.RequisitionId;
+        };
+        
+        $scope.getRequests();
+        $scope.getRequisitions();
+       
+        
+    }]);
+    
+
+
+    app.controller('AnnualPlan', ['$scope', '$http', '$rootScope', function ($scope, $http, $rootScope) {
+
+        $scope.plans = [];
+       
+        $http({ method: 'GET', url: '@Url.Action("GetPlans", "Dashboard", new { Area = "PSNP" })' }).success(function (data, status, headers, config) { $scope.plans = data; })
+        .error(function (data, status, headers, config) {
+
+        });
+
+        var planId;
+
+        $scope.onChange = function (id) {
+            $rootScope.RequestPie = [];
+            $rootScope.RequestByStatus = [];
+            $rootScope.Id = id;
+            planId = id;
+          
+            $scope.getRequestPie();
+            $scope.getRequestPieByStatus();
+            };
+
+        $scope.getRequestPie = function () {
+            $http.post("@Url.Action("RequestPie", "Dashboard", new { Area = "PSNP"})" + "?planId=" + planId, null).success(onRequestPieSuccess);
+         };
+
+        $scope.getRequestPieByStatus = function() {
+            $http.post("@Url.Action("RequestPieByStatus", "Dashboard", new { Area = "PSNP" })" + "?planId=" + planId, null).success(onRequestPieByStatusSuccess);
+        };
+        
+       
+        
+
+
+
+        var onRequestPieSuccess = function (data) {
+            for (var i in data) {
+                $scope.RequestPie.push([data[i].Region, data[i].Count]);
+                console.log([data[i].Region, data[i].Count]);
+            }
+        };
+
+        var onRequestPieByStatusSuccess = function(data) {
+
+            for (var key in data) {
+                $scope.RequestByStatus.push([key, data[key]]);
+                console.log([key, data[key]]);
+            }
+        };
+        
+
+       }]);
+
+
+
+    app.directive('statusClass', function () {
+        return function (scope, elem, attrs) {
+            scope.$watch(attrs.statusClass, function (value) {
+                elem.addClass("label");
+                if (value == '1') {
+                    elem.removeClass('label-success');
+                    elem.removeClass('label-important');
+                    elem.addClass('label-warning');
+                } else if (value == '2') {
+                    elem.removeClass('label-warning');
+                    elem.removeClass('label-important');
+                    elem.addClass('label-success');
+                } else if (value == '3') {
+                    elem.removeClass('label-success');
+                    elem.removeClass('label-important');
+                    elem.addClass('label-danger');
+                } else {
+                    elem.removeClass('label-success');
+                    elem.removeClass('label-warning');
+                    elem.removeClass('label-important');
+                }
+            });
+        };
+    });
+
+    /* Directives */
+    app.directive('drawRequestPie', function () {
+           // return the directive link function. (compile function not needed)
+           return function (scope, element, attrs) {
+               var container = $(element).attr("id");
+               // watch the expression, and update the UI on change.
+               scope.$watch('RequestPie', function () {
+                   drawPlot();
+               }, true);
+               var drawPlot = function () {
+                   var chart;
+                   chart = new Highcharts.Chart({
+                       chart: {
+                           renderTo: container
+                       },
+                       credits: {
+                           enabled: false
+                       },
+                       title: {
+                           text: ''
+                       },
+                       exporting: {
+                           enabled: false
+                       },
+                       //tooltip: {
+                       //    pointFormat: '{series.name}: <b>{point.percentage}</b>% <b>({point.y})</b> Requests',
+                       //    percentageDecimals: 1
+                       //},
+                       
+                       tooltip: {
+                           pointFormat: '{series.name}: <b>{point.percentage:.2f}%</b> ({point.y}) Requests',
+                       },
+                       plotOptions: {
+                           pie: {
+                               allowPointSelect: true,
+                               cursor: 'pointer',
+                               dataLabels: {
+                                   enabled: false
+                               },
+                               showInLegend: true
+                           }
+                       },
+                       series: [{
+                           type: 'pie',
+                           name: 'Percentage',
+                           data: scope.RequestPie
+                       }]
+                   });
+               }
+           }
+       });
+
+    /* Directives */
+    app.directive('drawRequestPieStatus', function () {
+        // return the directive link function. (compile function not needed)
+        return function(scope, element, attrs) {
+            var container = $(element).attr("id");
+            // watch the expression, and update the UI on change.
+            scope.$watch('RequestByStatus', function () {
+                drawPlot();
+            }, true);
+            var drawPlot = function() {
+                var chart;
+                chart = new Highcharts.Chart({
+                    chart: {
+                        renderTo: container
+                    },
+                    credits: {
+                        enabled: false
+                    },
+                    title: {
+                        text: ''
+                    },
+                    exporting: {
+                        enabled: false
+                    },
+                    //tooltip: {
+                    //    pointFormat: '{series.name}: <b>{point.percentage}</b>% <b>({point.y})</b> Requests',
+                    //    percentageDecimals: 1
+                    //},
+
+                    tooltip: {
+                        pointFormat: '{series.name}: <b>{point.percentage:.2f}%</b> ({point.y}) Requests',
+                    },
+                    plotOptions: {
+                        pie: {
+                            allowPointSelect: true,
+                            cursor: 'pointer',
+                            dataLabels: {
+                                enabled: false
+                            },
+                            showInLegend: true
+                        }
+                    },
+                    series: [{
+                        type: 'pie',
+                        name: 'Percentage',
+                        data: scope.RequestByStatus
+                    }]
+                });
+            };
+        };
+    });
+
+</script>
+
+

@@ -1,0 +1,135 @@
+﻿@using Cats.Helpers
+@using Cats.Areas.EarlyWarning.Models
+@using Cats.Models.ViewModels
+@using Kendo.Mvc.UI
+@using LanguageHelpers.Localization
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_CATSLayout.cshtml";
+}
+
+@section Title
+{
+Plans
+}
+
+@section PageTitle
+{
+    <h1 class="hdr-blck big ">
+        @Html.Translate("Compare HRD")
+    </h1>
+}
+
+<div class="row">
+    @Html.Partial("_HRDLeftBar")
+    <div class="col-md-10  col-sm-9">
+        <div class=" box box-primary ">
+            <div class="box-body row">
+                <div class="row">
+                    <div class="col-md-6">
+
+                        <div class="box box-solid">
+                            <div class="box-header">
+                                <div class="bold col-md-4">HRD:</div>
+                               <div class="col-md-6"> @Html.DropDownList("firstHrd", null, String.Empty, new { @class = "form-control" })</div>
+                            </div>
+                            <div class="box-body">
+                              
+                                    @(Html.Kendo().Grid<CompareHrdViewModel>()
+                                       .Name("grid1")
+                                       .Columns(columns =>
+                                                    {
+
+                                                        columns.Bound(t => t.Region);
+                                                        columns.Bound(t => t.BeneficiaryNumber).HtmlAttributes(new { align = "Right" });
+                                                        columns.Bound(t => t.Percentage).HtmlAttributes(new { align = "Center" }).Format("{0:0.00}%");
+                                                    })
+                                       .Scrollable()
+                                       .Sortable()
+                                       .HtmlAttributes(new { style = "height:340px;" })
+                                       .DataSource(datasource =>
+                                                   datasource
+                                                       .Ajax()
+                                                       .Model(model => model.Id(p => p.HrdID))
+                                                       .Read(read => read.Action("HRDComaparison_Read", "HRD").Data("filterData"))))
+
+
+
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+
+                        <div class="box box-solid">
+                            <div class="box-header">
+                                <div class="bold col-md-4">HRD To Compare:</div>
+                                <div class="col-md-6"> @Html.DropDownList("secondHrd", null, String.Empty, new { @class = "form-control" })</div>
+                            </div>
+                            <div class="box-body">
+                               
+
+                                    @(Html.Kendo().Grid<CompareHrdViewModel>()
+                              .Name("Grid2")
+                              .Columns(columns =>
+                                           {
+
+                                               columns.Bound(t => t.Region);
+                                               columns.Bound(t => t.BeneficiaryNumber).HtmlAttributes(new { align = "Right" });
+                                               columns.Bound(t => t.Percentage).HtmlAttributes(new { align = "Center" }).Format("{0:0.00}%");
+                                           })
+                              .Scrollable()
+                              .Sortable()
+                              .HtmlAttributes(new { style = "height:340px;" })
+                              .DataSource(datasource =>
+                                          datasource
+                                              .Ajax()
+                                              .Model(model => model.Id(p => p.HrdID))
+                                              .Read(read => read.Action("HRDComaparisonTo_Read", "HRD").Data("filterSecondData"))))
+
+
+                               
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<script type="text/javascript">
+
+    function filterData() {
+
+        return {
+            firstHrd: $("#firstHrd").val()
+
+
+        };
+    }
+    function filterSecondData() {
+
+        return {
+
+            secondHrd: $("#secondHrd").val()
+
+        };
+    }
+
+    $(document).ready(function () {
+        $("#firstHrd").change(function () {
+            $("#div_firstHrd").show();
+            $("#grid1").data("kendoGrid").dataSource.read();
+
+        });
+        $("#secondHrd").change(function () {
+            $("#div_SecondHrd").show();
+            $("#Grid2").data("kendoGrid").dataSource.read();
+        });
+    });
+</script>

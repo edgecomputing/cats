@@ -1,0 +1,37 @@
+﻿@using Kendo.Mvc.UI
+@using Cats.Models
+@(Html.Kendo().Grid<FlowTemplate>()
+    .Name("FlowTemplateGrid")
+    .Columns(columns =>
+    {
+
+        columns.ForeignKey(t => t.InitialStateID, (IEnumerable<StateTemplate>)ViewData["StateTemplateList"], "StateTemplateID", "Name").Width(150);
+        columns.ForeignKey(t => t.FinalStateID, (IEnumerable<StateTemplate>)ViewData["StateTemplateList"], "StateTemplateID", "Name").Width(150); 
+        
+        columns.Bound(p => p.Name).Width(150); 
+        columns.Command(
+            command => { 
+                command.Edit().Text("Modify");
+                command.Destroy().Text("Destroy"); 
+             //   command.Custom("Edit").Click("editRecord");
+            }
+            ).Width(300);
+    })
+    .ToolBar(toolbar => toolbar.Create().Text("New"))
+    .Editable(editable => editable.Mode(GridEditMode.InLine))
+    .Pageable()
+    .Sortable()
+    .Scrollable()
+    .HtmlAttributes(new { style = "height:430px;" })
+    .DataSource(dataSource => dataSource
+        .Ajax()
+        .PageSize(20)
+        //.Batch(true)
+        .Model(model => model.Id(p => p.FlowTemplateID))
+        .Create(update => update.Action("CreateKendo", "FlowTemplate"))
+        .Read(read => read.Action("ReadKendo", "FlowTemplate"))
+        .Update(update => update.Action("EditKendo", "FlowTemplate"))
+        .Destroy(update => update.Action("DeleteKendo", "FlowTemplate"))
+    )
+    
+)

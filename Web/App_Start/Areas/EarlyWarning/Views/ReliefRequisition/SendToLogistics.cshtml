@@ -1,0 +1,90 @@
+﻿@model Cats.Areas.EarlyWarning.Models.ReliefRequisitionViewModel
+@using Cats.Helpers
+
+
+
+<div class="modal-dialog">
+    <div class="modal-content">
+      
+        <div class="modal-header">
+          <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+          <h4 id="myModalLabel" class="modal-title">@Html.Translate("Send Requisition To Logistics")</h4>
+        </div>
+        
+@using (Html.BeginForm("ConfirmSendToLogistics", "ReliefRequisition", FormMethod.Post, new { @class = "modal-form" }))
+{@Html.HiddenFor(model => model.RequisitionID)
+    <div class="modal-body form-horizontal">
+        <h4 class="text-center col-md-12">@Html.Translate("Are you sure you want to send this Requisition to logistics?")</h4>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <div class="col-sm-4 control-label">
+                        @Html.DisplayNameFor(model => model.RequisitionNo)
+                    </div>
+                    <div class="col-sm-8">
+                        @Html.TextBoxFor(model => model.RequisitionNo, null, new { disabled = "true",@class="form-control"})
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-4 control-label">
+                        @Html.DisplayNameFor(model => model.Region)
+                    </div>
+                    <div class="col-sm-8">
+                        @Html.TextBoxFor(model => model.Region, null, new { disabled = "true",@class="form-control" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-4 control-label">
+                        @Html.DisplayNameFor(model => model.Program)
+                    </div>
+                    <div class="col-sm-8">
+                        @Html.TextBoxFor(model => model.Program, null, new { disabled = "true" ,@class="form-control"})
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                @if (Model.ProgramID==1)
+                {
+                   <div class="form-group">
+                    <div class="control-label col-sm-4">
+                        @Html.DisplayNameFor(model => model.Round)
+                    </div>
+                    <div class="col-sm-8">
+                        @Html.TextBoxFor(model => model.Round, null, new { disabled = "true" ,@class="form-control"})
+                    </div>
+                </div>
+                }
+                else
+                {
+                  <div class="form-group">
+                    <div class="control-label col-sm-4">
+                        @Html.DisplayNameFor(model => model.Month)
+                    </div>
+                    <div class="col-sm-8">
+                        @Html.TextBoxFor(model => model.Month, null, new { disabled = "true" ,@class="form-control"})
+                    </div>
+                </div>
+                } 
+                <div class="form-group">
+                    <div class="control-label col-sm-4">
+                        @Html.LabelFor(model => model.RequestedDateEt,new {@class="cats-date-pref"})
+                    </div>
+                    <div class="col-sm-8">
+                        @Html.TextBoxFor(model => model.RequestedDateEt, null, new { disabled = "true",@class="form-control" })
+                    </div>
+                </div>
+            </div>
+       </div>
+    </div>
+    <div class="modal-footer">
+        @if (Model.StatusID == (int)Cats.Models.Constant.ReliefRequisitionStatus.Draft || Model.StatusID==(int)Cats.Models.Constant.ReliefRequisitionStatus.Rejected )
+        {
+            <button class="btn btn-primary" type="submit">Yes</button>
+        }
+        <button class="btn" data-dismiss="modal" aria-hidden="true">No</button>
+
+    </div>
+
+}
+    </div>
+</div>

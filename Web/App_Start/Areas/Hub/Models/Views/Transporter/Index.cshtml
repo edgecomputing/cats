@@ -1,0 +1,17 @@
+﻿@using Cats.Web.Hub.Helpers
+@model IEnumerable<Cats.Models.Hubs.Transporter>
+
+@{
+    ViewBag.Title = Html.Translate("Manage Transporters");
+}
+
+<h2>@Html.Translate("List of Transporters")</h2>
+<p>
+    Please use this form to manage list of transporters.
+</p>
+<p>
+    @Html.DialogFormLink(Html.Translate("Create New"), Url.Action("Create"), Html.Translate("Create New Transporters"), "list", Url.Action("Update"))
+</p>
+<div id="list">
+    @Html.Partial("Update")
+</div>

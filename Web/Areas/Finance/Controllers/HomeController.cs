@@ -41,6 +41,7 @@ namespace Cats.Areas.Finance.Controllers
                 return firstOrDefault != null ? (_transporterChequeService != null ? new
                 {
                     Transporter = p.TransportOrder.Transporter.Name,
+                    TransporterId=p.TransportOrder.TransporterID,
                     RequestedAmount = firstOrDefault.SentQuantity,
                     AditionalLabourCost = p.LabourCost,
                     RejectedAmount = p.RejectedAmount,// Date  = _transporterChequeService.FindBy(t=>t.PaymentRequestID == p.PaymentRequestID).Select(d=>d.AppovedDate).FirstOrDefault().ToCTSPreferedDateFormat(UserAccountHelper.UserCalendarPreference()),
@@ -90,6 +91,28 @@ namespace Cats.Areas.Finance.Controllers
 
 
 
+        }
+
+        public JsonResult PaymentRequestBeingProcessed()
+        {
+
+            var requests = _transporterPaymentRequestService.Get(t => t.BusinessProcess.CurrentState.BaseStateTemplate.StateNo ==1, null, "BusinessProcess").Select(p =>
+            {
+                var firstOrDefault = p.Delivery.DeliveryDetails.FirstOrDefault();
+                return firstOrDefault != null ? (_transporterChequeService != null ? new
+                {
+                    Transporter = p.TransportOrder.Transporter.Name,
+                    TransporterId = p.TransportOrder.TransporterID,
+                    RequestedAmount = firstOrDefault.SentQuantity,
+                    AditionalLabourCost = p.LabourCost,
+                    RejectedAmount = p.RejectedAmount,// Date  = _transporterChequeService.FindBy(t=>t.PaymentRequestID == p.PaymentRequestID).Select(d=>d.AppovedDate).FirstOrDefault().ToCTSPreferedDateFormat(UserAccountHelper.UserCalendarPreference()),
+                    ChequeNo = _transporterChequeService.FindBy(t => t.TransporterChequeDetails.FirstOrDefault().TransporterPaymentRequestID == p.TransporterPaymentRequestID).Select(d => d.CheckNo).FirstOrDefault(),
+                    PVNo = _transporterChequeService.FindBy(t => t.TransporterChequeDetails.FirstOrDefault().TransporterPaymentRequestID == p.TransporterPaymentRequestID).Select(d => d.PaymentVoucherNo).FirstOrDefault(),
+                    Status = p.BusinessProcess.CurrentState.BaseStateTemplate.Name,
+                    Performer = p.BusinessProcess.CurrentState.PerformedBy
+                } : null) : null;
+            });
+            return Json(requests.Take(10), JsonRequestBehavior.AllowGet);
         }
 
         private string status(int status)

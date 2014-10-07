@@ -1,0 +1,166 @@
+﻿@using Cats.Models
+@using Cats.Models.ViewModels
+@using Kendo.Mvc.UI
+@using Cats.Helpers
+
+@model Cats.Models.ViewModels.TransportRequisitionWithTransporter
+@{
+    ViewBag.Title = "AssignTransporter";
+}
+<div style="display: none;">
+ @using (Html.BeginForm("AssignTransporter", "TransportOrder", FormMethod.Post, new { id = "frm_assign_transporter" }))
+ {    
+     
+     @Html.HiddenFor(model => model.SelectedTransporterID)
+     if (Model.TransReqwithOutTransporters != null)
+     {
+         for (int i = 0; i < Model.TransReqwithOutTransporters.Count; i++)
+         {
+
+             @Html.TextBoxFor(model => model.TransReqwithOutTransporters[i].TransReqWithoutTransporterID)
+             @Html.TextBoxFor(model => model.TransReqwithOutTransporters[i].Selected)
+             @Html.HiddenFor(model => model.TransReqwithOutTransporters[i].Woreda)
+             @Html.HiddenFor(model => model.TransReqwithOutTransporters[i].CommodityID)
+             @Html.HiddenFor(model => model.TransReqwithOutTransporters[i].FdpID)
+             @Html.HiddenFor(model => model.TransReqwithOutTransporters[i].QuantityQtl)
+             @Html.HiddenFor(model => model.TransReqwithOutTransporters[i].RequisitionID)
+             @Html.HiddenFor(model => model.TransReqwithOutTransporters[i].HubID)
+             @Html.HiddenFor(model => model.TransReqwithOutTransporters[i].TransportRequisitionID)
+             <br />
+
+
+         }
+     }
+
+ }  
+</div>  
+
+<h5> Transport Requisitions Without Winner Transporter</h5> 
+<div class="input-prepend">
+    <span class="add-on">Transporter</span>
+     @Html.DropDownList("TransporterID", null, new { @class = "input-small" })
+   
+</div>
+<div class="input-prepend">
+    <span class="add-on">Zone</span>
+    @Html.DropDownList("Zones",null, new { @class = "input-small" })
+    
+</div>
+<div class="input-prepend">
+    <span class="add-on">Woreda</span>
+
+    <select id="Woredas" name="Woredas" onchange="onWoredaChange(this.value);"></select>
+</div>
+
+
+  
+<div id="div_select" >
+    
+  
+  
+          
+    <a class="btn toolbar-btn" data-buttontype=" " id="btnAssign"  data-submittedform="frm_assign_transporter">Assign Transporter</a>
+    
+    
+    @(Html.Kendo().Grid(Model.TransReqwithOutTransporters)
+          .Name("grid")
+          .Columns(columns =>
+                       {
+                  
+                           columns.Bound(p => p.Woreda);
+                           columns.Bound(p => p.RequisitionNo);
+                           columns.Bound(p => p.Commodity);
+                           columns.Bound(p => p.FDP);
+                           columns.Bound(P => P.OriginWarehouse);
+                           columns.Bound(p => p.QuantityQtl).Title(Html.Translate("Quantity")).HtmlAttributes(new { align = "right" }).Format("{0:n2}").HeaderHtmlAttributes(new { @class = "cats-unit-pref-grid" });
+                 
+                       })
+          .Scrollable()
+          .DataSource(datasource => datasource.Server()
+           
+                                        .Model(model => model.Id(p => p.TransReqWithoutTransporterID))
+
+          ))
+</div>
+     
+     <script>
+    $(function() {
+        $("#div_select tbody tr").prepend("<td class='checker'><i class='icon-ok'></i></td>");
+        $("#div_select thead tr").prepend("<th class='k-header'></th>");
+        $("#div_select tfoot tr").prepend("<td class='k-header'></td>");
+        $("#div_select tbody .checker").click(
+            function (event) {
+                $(this).parent().toggleClass("k-state-selected");
+                update_selection_data();
+              
+            });
+    }
+    );
+
+    function update_selection_data() {
+        var i = 0;
+        $("#div_select tbody tr").each(function () {
+            var inp = $("#TransReqwithOutTransporters_" + i + "__Selected");
+            if ($(this).hasClass("k-state-selected")) {
+                inp.val(true);
+                
+            } else {
+                inp.val(false);
+            }
+            i++;
+        });
+    }
+
+    $("#TransporterID").change(function () {
+        var selected = $("#TransporterID").val();
+        $("#SelectedTransporterID").val(selected);
+    });
+
+    $(document).ready(function () {
+        var selected = $("#TransporterID").val();
+        $("#SelectedTransporterID").val(selected);
+        
+    });
+            
+   
+        $(function () {
+            $('#Zones').change(function () {
+                $.getJSON('@Url.Action("GetWoredas", "TransportOrder")' + "?ZoneId=" + $('#Zones').val(), function (data) {
+                    var items = '<option>Select a Woreda</option>';
+                    $.each(data, function (i, woreda) {
+                        items += "<option value='" + woreda.Value + "'>" + woreda.Text + "</option>";
+                    });
+                    $('#Woredas').html(items);
+                });
+            });
+        });
+
+  
+         function onWoredaChange(e) {
+      
+
+
+        var value = e;
+
+            
+        if (value == "") {
+
+            window.location = null;
+            window.location = "@Url.Action("LoadUnAssinedByReqNo", "TransportOrder")" + "?id=" + 0 + "&woredaId=" + value;
+
+        }
+        else {
+           
+            window.location = null;
+            window.location = "@Url.Action("LoadUnAssinedByReqNo", "TransportOrder")" + "?id=" + 0 + "&woredaId=" + value;
+        }
+
+    }
+
+    
+</script>
+<style>
+    .table-compact {
+    }
+</style>
+

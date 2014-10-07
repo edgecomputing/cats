@@ -1,0 +1,191 @@
+﻿@using Cats.Models.ViewModels
+@using Cats.Models.Constant
+@model IEnumerable<Cats.Models.ViewModels.ReliefRequisitionNew>
+
+@{
+    ViewBag.Title = "NewRequisiton";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<fieldset>
+    <legend>
+        New  Requisiton For Distribution
+    </legend>
+</fieldset>
+@section Toolbar
+{
+    <a class="btn toolbar-btn " data-buttontype="btn_save" data-submittedform="frm_create_Requistions"></a>
+    <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="@Url.Action("CancelChanges", "ReliefRequisition", new { id = Model.First().RegionalRequestId})" title="Cancel"></a>
+}
+
+@section LeftBar
+{
+    @Html.Partial("_RequistionsLeftBar")
+
+}
+
+@using (Html.BeginForm("NewRequisiton", "ReliefRequisition", FormMethod.Post, new { id = "frm_create_Requistions" }))
+{
+    <table  id="kGrid">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.RequisitionNo)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Region)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Zone)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Program)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Commodity)
+                </th>
+                @if(Model.FirstOrDefault().Program=="PSNP")
+                {
+                    <th>
+                    @Html.DisplayNameFor(model => model.Month)
+                </th> 
+                }
+               else
+                {
+                    <th>
+                        @Html.DisplayNameFor(model => model.Round)
+                    </th>
+                }
+               
+                <th>
+                    @Html.DisplayNameFor(model => model.RequestedDate)
+                </th>
+                @* <th>
+                @Html.DisplayNameFor(model => model.RequestedBy)
+                </th>
+           
+                <th>
+                    @Html.DisplayNameFor(model => model.ApprovedBy)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ApprovedDate)
+                </th>*@
+                <th>
+                    @Html.DisplayNameFor(model => model.Status)
+                </th>
+
+              
+            </tr>
+        </thead>
+        <tbody>
+            @{ int index = 0; }
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+@*                        @Html.TextBox("input[" + index + "].RequisitionNo", item.Input.RequisitionNo, new { @style = "width:80%; border:none; !important;" })*@
+                          <input type='text'  name="input[@index].RequisitionNo" id="txtRequisitionID" value="@item.Input.RequisitionNo" style = "width:80%; border:none; !important;"/>
+                        @Html.ValidationMessageFor(modelItem => item.RequisitionNo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Region)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Zone)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Program)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Commodity)
+                    </td>
+                    @if(item.Program=="PSNP")
+                    {
+                        <td>
+                            @Html.DisplayFor(modelItem => item.MonthName)
+                        </td>
+                    }
+                    else
+                    {
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Round)
+                        </td>
+                    }
+                    <td class="cats-date-pref-grid">
+                        @Html.DisplayFor(modelItem => item.RequestDatePref)
+                    </td>
+                    @*<td>
+                    @Html.DisplayFor(modelItem => item.RequestedBy)
+                </td>
+                
+                <td>
+                    @Html.DisplayFor(modelItem => item.ApprovedBy)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ApprovedDate)
+                </td>*@
+                    <td>
+                        @{
+                            var statusName = item.Status.ToString();
+                            var showme = item.Status == 2 ? "" : "hidden";
+                        }
+                        @{
+                            string status=string.Empty;
+
+                            switch (item.Status)
+                            {
+                                case (int)ReliefRequisitionStatus.Draft:
+                                    status = "Draft";
+                                    break;
+                                case (int)ReliefRequisitionStatus.Approved:
+                                    status = "Approved";
+                                    break;
+                                case (int)ReliefRequisitionStatus.HubAssigned:
+                                    status = "HubAssigned";
+                                    break;
+                                case (int)ReliefRequisitionStatus.ProjectCodeAssigned:
+                                    status = "ProjectCodeAssigned";
+                                    break;
+                                case (int)ReliefRequisitionStatus.TransportOrderCreated:
+                                    status = "TransportOrderCreated";
+                                    break;
+                                case (int)ReliefRequisitionStatus.TransportRequisitionCreated:
+                                    status = "TransportRequisitionCreated";
+                                    break;
+                            }
+                
+                        }
+                        @status
+                    <input type='hidden'  name="input[@index].Number" id="txtReqID" value="@item.Input.Number"/>
+                    <input type='hidden'  name="input[@index].RegionalRequestId" id="txtRegionalRequestId" value="@item.RegionalRequestId"/>
+                   @* </td>
+
+                    <td>*@
+                      @*  <input type="hidden" value="@item.Input.Number" name="@("input[" + index + "].Number")" value="@item.Input.Number" />*@
+                    @*</td>
+                    <td>*@
+                        @*@Html.ActionLink("Edit", "Edit", new {id = item.RequisitionID}) |*@
+
+                   @* </td>*@
+                </tr>
+            
+                index++;
+            }
+        </tbody>
+    </table>
+    <p>
+        @*<input class="btn btn-success" type="submit" value="Save Change" />*@
+       @* <input class="btn btn-success" type="submit" value="Save Change" />*@
+    </p>
+}
+<script>
+
+    $(document).ready(function() {
+        $("#kGrid").kendoGrid({
+            pageable: false,
+            scrollable: true,
+            sortable: true
+        });
+        
+    });
+</script>

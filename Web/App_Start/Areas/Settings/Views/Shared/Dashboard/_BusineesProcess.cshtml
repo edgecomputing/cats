@@ -1,0 +1,23 @@
+﻿<div class="widget stacked">
+    <div id="busiHeader" class="widget-header">
+        <i class=""></i>
+        <h3>Business Process</h3>
+    </div>
+    <div id="busiContent" class="widget-content">
+        <div class="">
+            <a href="@Url.Action("ProcessTemplate", "WorkflowManager", new { Area = "" })" class="shortcut"><i class="shortcut-icon icon-list-alt"></i>
+                <span class="shortcut-label">Workflow Definition</span>
+            </a>
+            <br/>
+            @*<a href="@Url.Action("Index", "Ledger", new { Area = "EarlyWarning" })" class="shortcut"><i class="shortcut-icon icon-signal"></i>
+                <span class="shortcut-label">Ledger</span>
+            </a>*@
+            <br/>
+        </div>
+    </div>
+</div>
+<script>
+    $("#busiHeader").click(function () {
+        $("#busiContent").slideToggle("slow", "linear");
+    });
+</script>

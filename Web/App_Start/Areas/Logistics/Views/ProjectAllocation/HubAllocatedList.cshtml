@@ -1,0 +1,49 @@
+﻿@model IEnumerable<Cats.Models.HubAllocation>
+<div class="title">Requisitions List</div>
+<table class="table table-bordered table-condensed table-striped" id="TBLAllocations">
+        
+    <tr>
+        <th>
+            Requisition Number
+        </th>
+        <th>
+            Commodity
+        </th>
+        <th>
+            Requested Quantity
+        </th>
+        <th>
+            Allocate
+        </th>
+    </tr>
+    @{ int index = 0; }
+        
+    @foreach (var item in Model)
+    {
+        <tr > 
+            <td >
+                @*@Html.ActionLink(item.ReliefRequisition.RequisitionNo,"RequisitionDetailEdit","Requisition",new{AreaRegistration=})DisplayFor(modelItem => item.ReliefRequisition.RequisitionNo)*@
+                <a href="@Url.Action("RequistionDetailEdit", "ReliefRequisition", new { Area = "EarlyWarning", id = item.ReliefRequisition.RequisitionID })">@Html.DisplayFor(modelItem => item.ReliefRequisition.RequisitionNo)</a>
+  
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ReliefRequisition.ReliefRequisitionDetails.FirstOrDefault().Commodity.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ReliefRequisition.ReliefRequisitionDetails.FirstOrDefault().Amount)
+            </td>
+            <td>
+                @Ajax.ActionLink("Project/SI","ProjectCodeAllocation",  new { Area = "Logistics", id = item.HubAllocationID, requisitionId=item.ReliefRequisition.RequisitionID }, new AjaxOptions {
+                                                                                                                                                                                                       InsertionMode = InsertionMode.InsertAfter,
+                                                                                                                                                                                                       UpdateTargetId = "#projectSIAllocation"},new {id="test"})
+            </td>
+            <td>
+                <input type="hidden" value="@item.HubAllocationID" name="@("input[" + index + "].Number")" />
+            </td>
+            
+        </tr>
+        index++;
+    }
+</table>
+
+

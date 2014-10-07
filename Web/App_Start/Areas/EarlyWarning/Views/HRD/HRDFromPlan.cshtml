@@ -1,0 +1,154 @@
+﻿@using Cats.Security
+@using Cats.Services.Security
+@using Kendo.Mvc.UI
+@using Cats.Helpers
+
+@{
+    ViewBag.Title = "Create";
+}
+
+
+@section Toolbar
+{
+    @Html.EarlyWarningOperationButton(
+        @Url.Action("Create", "HRD", new {Area = "EarlyWarning"}),
+        EarlyWarningConstants.Operation.New_HRD, "<i class=\"icon-plus\"></i>", "btn", "btn_new_record")
+}
+<div>
+    <h4>List of HRD</h4>
+</div>
+
+<div id="modalWindow">
+    <h4>Approve HRD?</h4>
+    <button id="yes" class="k-button">Yes</button>
+    <button id="no" class="k-button">No</button>
+</div>
+<script>
+    var wnd;
+    $(document).ready(function () {
+        wnd = $("#modalWindow").kendoWindow({
+            title: "Approve confirmation",
+            modal: true,
+            visible: false,
+            resizable: false,
+            width: 300
+        }).data("kendoWindow");
+    });
+</script>
+
+@section LeftBar{
+
+    @Html.Partial("_HRDLeftBar")
+
+}
+
+@(Html.Kendo().Grid<Cats.Models.ViewModels.HRD.HRDViewModel>()
+    .Name("grid")
+    .Columns(columns =>
+        {
+            columns.Bound(p => p.Ration).Title("Ration No").ClientTemplate(
+                @Html.EarlyWarningOperationButton(
+                    @Url.Action("Detail", "HRD", new { id = "#=HRDID#" }),
+                    EarlyWarningConstants.Operation.View_HRD_Detail, "#=Ration#").ToString());
+            columns.Bound(p => p.Season);
+            columns.Bound(p => p.Year);
+            columns.Bound(p => p.CreatedBy);
+            columns.Bound(p => p.CreatedDatePref).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid" }).Width(160);
+            // columns.Bound(p => p.PublishedDate).Format("{0:MM/dd/yyyy}");
+            columns.Bound(p => p.Status);
+
+            columns.Command(p =>
+            {
+                p.Custom("Edit").Click("hrdEdit");
+                p.Custom("Approve").Click("approveHRD");
+                p.Custom("Summary").Click("showSummary");
+
+            });
+            //{
+            //   // p.Custom("ViewDetails").Click("showDetails");
+            //    p.Custom("Edit").Click("hrdEdit");
+            //});
+            //columns.Command(p =>
+            //{
+            //    p.Custom("Edit").Click("hrdEdit");
+            //    p.Custom("ViewDetails").Click("showDetails");
+            //});
+
+        })
+            .Pageable()
+            .Sortable()
+            .Filterable()
+            .DataSource(dataSource => dataSource
+                  .Ajax()
+                  .PageSize(8)
+                    .Model(model => model.Id(p => p.HRDID))
+                    .Read(read => read.Action("HRD_Read", "HRD"))
+
+             )
+
+      )
+
+<script>
+    function showSummary(e) {
+        e.preventDefault();
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        window.location = "@Url.Action("RegionalSummary", "HRD")" + "/" + dataItem.HRDID;
+    }
+
+</script>
+
+<script>
+    function hrdEdit(e) {
+        e.preventDefault();
+
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        window.location = "@Url.Action("Edit", "HRD")" + "/" + dataItem.HRDID;
+
+    }
+</script>
+
+<script>
+
+    function approveHRD(e) {
+        e.preventDefault();
+        var grid = this;
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var row = $(e.currentTarget).closest("tr");
+        wnd.center().open();
+
+        $("#yes").click(function () {
+
+            window.location = "@Url.Action("ApproveHRD", "HRD")" + "/" + dataItem.HRDID;
+            wnd.close();
+        });
+
+        $("#no").click(function () {
+            wnd.close();
+        });
+    }
+</script>
+
+@*<script>
+    function approveHRD(e) {
+        e.preventDefault();
+
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        window.location = "HRD/ApproveHRD/" + dataItem.HRDID;
+    }
+</script>*@
+
+<script type="text/javascript">
+    function error_handler(e) {
+        if (e.errors) {
+            var message = "Errors:\n";
+            $.each(e.errors, function (key, value) {
+                if ('errors' in value) {
+                    $.each(value.errors, function () {
+                        message += this + "\n";
+                    });
+                }
+            });
+            alert(message);
+        }
+    }
+</script>

@@ -47,7 +47,7 @@
   <ItemGroup>
     <Reference Include="DocumentFormat.OpenXml, Version=2.0.5022.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
-      <HintPath>..\..\Users\USERR\Downloads\DocumentFormat.OpenXml.dll</HintPath>
+      <HintPath>..\packages\DocumentFormat.OpenXml.dll</HintPath>
     </Reference>
     <Reference Include="Elmah">
       <HintPath>..\packages\elmah.corelibrary.1.2.2\lib\Elmah.dll</HintPath>
@@ -206,7 +206,9 @@
     <Compile Include="Areas\Hub\Models\StoreViewModel.cs" />
     <Compile Include="Areas\Hub\Models\TransporterViewModel.cs" />
     <Compile Include="Areas\Logistics\Controllers\TransporterPaymentRequestController.cs" />
+    <Compile Include="Areas\Logistics\Controllers\UnContractedTransportersController.cs" />
     <Compile Include="Areas\Logistics\Models\TransporterPaymentRequestViewModel.cs" />
+    <Compile Include="Areas\Logistics\Models\UnContractedTransportersListViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\DelayedTransportOrderViewModel.cs" />
     <Compile Include="Areas\Settings\Controllers\AccountController.cs" />
     <Compile Include="Areas\Settings\Controllers\CurrencyController.cs" />
@@ -1183,10 +1185,6 @@
     <Content Include="Content\kendo\2013.1.319\Uniform\sprite%402x.png" />
     <Content Include="Content\kendo\2013.1.319\Uniform\sprite.png" />
     <Content Include="Content\Login\App.js" />
-    <Content Include="Content\MapResources\leaflet\leaflet-0.7.3.js" />
-    <Content Include="Content\MapResources\leaflet\leaflet-0.7.3.min.js" />
-    <Content Include="Content\MapResources\leaflet\leaflet.css" />
-    <Content Include="Content\MapResources\leaflet\leaflet.label.js" />
     <Content Include="Content\MapResources\MapData\Addis Ababa.txt" />
     <Content Include="Content\MapResources\MapData\Afar.txt" />
     <Content Include="Content\MapResources\MapData\Afar_Zones.txt" />
@@ -1196,9 +1194,6 @@
     <Content Include="Content\MapResources\MapData\Dire Dawa.txt" />
     <Content Include="Content\MapResources\MapData\Gambela.txt" />
     <Content Include="Content\MapResources\MapData\Harari.txt" />
-    <Content Include="Content\MapResources\MapData\leaflet\Eth_Region_2013.js" />
-    <Content Include="Content\MapResources\MapData\leaflet\Eth_Woreda_2013.js" />
-    <Content Include="Content\MapResources\MapData\leaflet\Eth_Zone_2013.js" />
     <Content Include="Content\MapResources\MapData\Oromiya.txt" />
     <Content Include="Content\MapResources\MapData\SNNP.txt" />
     <Content Include="Content\MapResources\MapData\Somali.txt" />
@@ -2503,6 +2498,7 @@
     <Content Include="Areas\Logistics\Views\TransporterPaymentRequest\TransporterDetail.cshtml" />
     <Content Include="Areas\Logistics\Views\TransporterPaymentRequest\TransportOrderDetail.cshtml" />
     <Content Include="Areas\Procurement\Views\TransportOrder\MultipleApproval.cshtml" />
+    <Content Include="Areas\Logistics\Views\UnContractedTransporters\List.cshtml" />
     <None Include="dataset.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>dataset.Designer.cs</LastGenOutput>
@@ -3223,8 +3219,10 @@
     <Content Include="Views\Shared\_Menu.cshtml" />
     <Content Include="Views\Shared\_BreadCrumbNew.cshtml" />
     <Content Include="Views\Account\ConfirmPasswordChange.cshtml" />
+
     <Content Include="Views\Shared\_dashboardmapleaf.cshtml" />
     <Content Include="Views\Shared\_CATSLayout.cshtml" />
+
     <None Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
