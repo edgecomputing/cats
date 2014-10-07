@@ -164,8 +164,8 @@ namespace Cats.Areas.Logistics.Controllers
                     deliveryViewModel.DeliveryID = deliveryDetail.DeliveryID;
                     deliveryViewModel.CommodityID = deliveryDetail.CommodityID;
                     deliveryViewModel.UnitID = deliveryDetail.UnitID;
-                    deliveryViewModel.SentQuantity = deliveryDetail.SentQuantity;
-                    deliveryViewModel.ReceivedQuantity = deliveryDetail.ReceivedQuantity;
+                    deliveryViewModel.SentQuantity = deliveryDetail.SentQuantity.ToQuintal();
+                    deliveryViewModel.ReceivedQuantity = deliveryDetail.ReceivedQuantity.ToQuintal();
                     deliveryViewModel.Commodity = deliveryDetail.Commodity.Name;
                     deliveryViewModel.Unit = deliveryDetail.Unit.Name;
                     deliveryViewModel.DeliveryBy = deliveryDetail.Delivery.DriverName;
@@ -179,9 +179,10 @@ namespace Cats.Areas.Logistics.Controllers
                     var dispatchDetail = dispatchObj.DispatchDetails.FirstOrDefault();
                     if (dispatchDetail != null)
                     {
-                        deliveryViewModel.SentQuantity = dispatchDetail.RequestedQunatityInUnit;
+                        //deliveryViewModel.SentQuantity = dispatchDetail.RequestedQunatityInUnit;
+                        deliveryViewModel.SentQuantity = dispatchDetail.RequestedQuantityInMT.ToQuintal(); //chahge to quintal. they receive using only quintal
                          deliveryViewModel.UnitID = dispatchDetail.UnitID;
-                        deliveryViewModel.Unit = _unitService.FindById(int.Parse(dispatchDetail.UnitID.ToString())).Name;
+                        deliveryViewModel.Unit = "Quintal";//They always want to receive using quintal// _unitService.FindById(int.Parse(dispatchDetail.UnitID.ToString())).Name;
                     }
                     deliveryViewModel.CommodityID = dispatchObj.DispatchAllocation.CommodityID;
                     deliveryViewModel.Commodity = dispatchObj.DispatchAllocation.Commodity.Name;
@@ -358,7 +359,7 @@ namespace Cats.Areas.Logistics.Controllers
                                                        "Commodity,Unit").FirstOrDefault();
                     if (deliveryDetail != null)
                     {
-                        deliveryDetail.ReceivedQuantity = delivery.ReceivedQuantity;
+                        deliveryDetail.ReceivedQuantity = delivery.ReceivedQuantity/10; //save it using MT
                         _deliveryDetailService.EditDeliveryDetail(deliveryDetail);
 
                     }
@@ -399,8 +400,8 @@ namespace Cats.Areas.Logistics.Controllers
                 deliveryDetail.DeliveryDetailID = Guid.NewGuid();
                 deliveryDetail.CommodityID = delivery.CommodityID;
                 deliveryDetail.UnitID = delivery.UnitID;
-                deliveryDetail.SentQuantity = delivery.SentQuantity;
-                deliveryDetail.ReceivedQuantity = delivery.ReceivedQuantity;
+                deliveryDetail.SentQuantity = delivery.SentQuantity.ToMetricTone();//save it using MT
+                deliveryDetail.ReceivedQuantity = delivery.ReceivedQuantity.ToMetricTone();//save it using MT
                 //deliveryDetail.Delivery.DeliveryBy = _commodityService.FindById(delivery.CommodityID);
                 //deliveryDetail.Unit = _unitService.FindById(delivery.UnitID);
                 newdelivery.DeliveryDetails = new List<DeliveryDetail> { deliveryDetail };

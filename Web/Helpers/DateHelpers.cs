@@ -166,5 +166,14 @@ namespace Cats.Helpers
             return (float) (amount / 100);
         }
 
+        public static decimal ToMetricTone(this decimal amountInQuintal)
+        {
+            return amountInQuintal / 10;
+        }
+        public static decimal ToQuintal( this decimal amountInMT)
+        {
+            return amountInMT * 10;
+        }
+
     }
 }

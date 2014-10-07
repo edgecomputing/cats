@@ -161,9 +161,9 @@ namespace Cats.Areas.Finance.Controllers
                             Commodity = deliveryDetail.Commodity.Name,
                             Source = dispatch.Hub.Name,
                             Destination = dispatch.FDP.Name,
-                            ReceivedQty = deliveryDetail.ReceivedQuantity,
+                            ReceivedQty = deliveryDetail.ReceivedQuantity.ToQuintal(),
                             Tarrif = tarrif,
-                            ShortageQty = deliveryDetail.SentQuantity - deliveryDetail.ReceivedQuantity,
+                            ShortageQty = deliveryDetail.SentQuantity.ToQuintal() - deliveryDetail.ReceivedQuantity.ToQuintal(),
                             ShortageBirr = request.ShortageBirr,
                             SentQty = deliveryDetail.SentQuantity,
                             BusinessProcessID = request.BusinessProcessID,
@@ -171,7 +171,7 @@ namespace Cats.Areas.Finance.Controllers
                             ReferenceNo = request.ReferenceNo,
                             TransportOrderID = request.TransportOrderID,
                             TransporterPaymentRequestID = request.TransporterPaymentRequestID,
-                            FreightCharge = (decimal)(request.ShortageBirr != null ? (deliveryDetail.ReceivedQuantity * tarrif) - request.ShortageBirr + request.LabourCost - request.RejectedAmount : (deliveryDetail.ReceivedQuantity * tarrif) + request.LabourCost - request.RejectedAmount),
+                            FreightCharge = (decimal)(request.ShortageBirr != null ? (deliveryDetail.ReceivedQuantity.ToQuintal() * tarrif) - request.ShortageBirr + request.LabourCost - request.RejectedAmount : (deliveryDetail.ReceivedQuantity.ToQuintal() * tarrif) + request.LabourCost - request.RejectedAmount),
                             BusinessProcess = businessProcess,
                             LabourCost = request.LabourCost,
                             LabourCostRate = request.LabourCostRate,
@@ -269,7 +269,7 @@ namespace Cats.Areas.Finance.Controllers
                 paymentRequestViewModel.TransporterID = paymentRequestObj.TransportOrder.TransporterID;
                 paymentRequestViewModel.Transporter = paymentRequestObj.TransportOrder.Transporter.Name;
                 paymentRequestViewModel.RequestedAmount = firstOrDefault != null? firstOrDefault.SentQuantity: (decimal) 0.00;
-                paymentRequestViewModel.TransportedQuantityInQtl = firstOrDefault != null ? firstOrDefault.ReceivedQuantity : (decimal)0.00;
+                paymentRequestViewModel.TransportedQuantityInQtl = firstOrDefault != null ? firstOrDefault.ReceivedQuantity.ToQuintal() : (decimal)0.00;
                 paymentRequestViewModel.ReferenceNo = paymentRequestObj.ReferenceNo;
                 paymentRequestViewModel.BusinessProcessID = paymentRequestObj.BusinessProcessID;
                 paymentRequestViewModel.LabourCostRate = paymentRequestObj.LabourCostRate;
