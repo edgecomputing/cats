@@ -215,8 +215,10 @@ namespace Cats.Areas.EarlyWarning.Controllers
                             Donor = contributions.Donor.Name,
                             DonorID = contributions.DonorID,
                             Year = contributions.Year,
-                            ContributionType = contributions.ContributionType
-
+                            ContributionType = contributions.ContributionType,
+                            AmountInQuintal = contributions.ContributionType == "In-Kind" ?Convert.ToString(GetInKindContributionDetail(contributions).Sum(t => t.Amount) * 10) : "-",
+                            AmountInMt = contributions.ContributionType == "In-Kind" ? Convert.ToString(GetInKindContributionDetail(contributions).Sum(t => t.Amount)) : "-",
+                            AmountInKg = contributions.ContributionType == "In-Kind" ? Convert.ToString(GetInKindContributionDetail(contributions).Sum(t => t.Amount) * 1000) : "-"
                         });
         }
         public ActionResult Contribution_Read([DataSourceRequest] DataSourceRequest request)
