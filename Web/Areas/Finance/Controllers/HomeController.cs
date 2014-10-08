@@ -35,22 +35,36 @@ namespace Cats.Areas.Finance.Controllers
         public JsonResult ReadPaymentRequest()
         {
 
+            var paymentRequests= _transporterPaymentRequestService.Get(t => t.BusinessProcess.CurrentState.BaseStateTemplate.StateNo == 2, null, "BusinessProcess");
+           
             var requests = _transporterPaymentRequestService.Get(t => t.BusinessProcess.CurrentState.BaseStateTemplate.StateNo >= 2, null, "BusinessProcess").Select(p =>
             {
                 var firstOrDefault = p.Delivery.DeliveryDetails.FirstOrDefault();
                 return firstOrDefault != null ? (_transporterChequeService != null ? new
                 {
                     Transporter = p.TransportOrder.Transporter.Name,
-                    TransporterId=p.TransportOrder.TransporterID,
+                    TransporterId = p.TransportOrder.TransporterID,
                     RequestedAmount = firstOrDefault.SentQuantity,
                     AditionalLabourCost = p.LabourCost,
-                    RejectedAmount = p.RejectedAmount,// Date  = _transporterChequeService.FindBy(t=>t.PaymentRequestID == p.PaymentRequestID).Select(d=>d.AppovedDate).FirstOrDefault().ToCTSPreferedDateFormat(UserAccountHelper.UserCalendarPreference()),
-                    ChequeNo = _transporterChequeService.FindBy(t => t.TransporterChequeDetails.FirstOrDefault().TransporterPaymentRequestID == p.TransporterPaymentRequestID).Select(d => d.CheckNo).FirstOrDefault(),
-                    PVNo = _transporterChequeService.FindBy(t => t.TransporterChequeDetails.FirstOrDefault().TransporterPaymentRequestID == p.TransporterPaymentRequestID).Select(d => d.PaymentVoucherNo).FirstOrDefault(),
-                    Status = p.BusinessProcess.CurrentState.BaseStateTemplate.Name,
-                    Performer = p.BusinessProcess.CurrentState.PerformedBy
+                    RejectedAmount = p.RejectedAmount,
+                    // Date  = _transporterChequeService.FindBy(t=>t.PaymentRequestID == p.PaymentRequestID).Select(d=>d.AppovedDate).FirstOrDefault().ToCTSPreferedDateFormat(UserAccountHelper.UserCalendarPreference()),
+                    //        ChequeNo = _transporterChequeService.FindBy(t => t.TransporterChequeDetails.FirstOrDefault().TransporterPaymentRequestID == p.TransporterPaymentRequestID).Select(d => d.CheckNo).FirstOrDefault(),
+                    //        PVNo = _transporterChequeService.FindBy(t => t.TransporterChequeDetails.FirstOrDefault().TransporterPaymentRequestID == p.TransporterPaymentRequestID).Select(d => d.PaymentVoucherNo).FirstOrDefault(),
+                    //        Status = p.BusinessProcess.CurrentState.BaseStateTemplate.Name,
+                    //        Performer = p.BusinessProcess.CurrentState.PerformedBy
                 } : null) : null;
-            });
+            }).GroupBy(ac => new
+                   {
+                       ac.Transporter,
+                   }).Select(ac=> new
+                       {
+                           Transporter = ac.Key.Transporter,
+                           TransporterId = ac.FirstOrDefault().TransporterId,
+                            RequestedAmount = ac.Sum(m=>m.RequestedAmount),
+                            AditionalLabourCost =ac.Sum(m=>m.AditionalLabourCost),
+                            RejectedAmount = ac.Sum(m=>m.RejectedAmount),
+                       });
+
             return Json(requests.Take(10), JsonRequestBehavior.AllowGet);
         }
 
@@ -106,12 +120,19 @@ namespace Cats.Areas.Finance.Controllers
                     RequestedAmount = firstOrDefault.SentQuantity,
                     AditionalLabourCost = p.LabourCost,
                     RejectedAmount = p.RejectedAmount,// Date  = _transporterChequeService.FindBy(t=>t.PaymentRequestID == p.PaymentRequestID).Select(d=>d.AppovedDate).FirstOrDefault().ToCTSPreferedDateFormat(UserAccountHelper.UserCalendarPreference()),
-                    ChequeNo = _transporterChequeService.FindBy(t => t.TransporterChequeDetails.FirstOrDefault().TransporterPaymentRequestID == p.TransporterPaymentRequestID).Select(d => d.CheckNo).FirstOrDefault(),
-                    PVNo = _transporterChequeService.FindBy(t => t.TransporterChequeDetails.FirstOrDefault().TransporterPaymentRequestID == p.TransporterPaymentRequestID).Select(d => d.PaymentVoucherNo).FirstOrDefault(),
-                    Status = p.BusinessProcess.CurrentState.BaseStateTemplate.Name,
-                    Performer = p.BusinessProcess.CurrentState.PerformedBy
+                    
                 } : null) : null;
-            });
+            }).GroupBy(ac => new
+            {
+                ac.Transporter,
+            }).Select(ac => new
+            {
+                Transporter = ac.Key.Transporter,
+                TransporterId = ac.FirstOrDefault().TransporterId,
+                RequestedAmount = ac.Sum(m => m.RequestedAmount),
+                AditionalLabourCost = ac.Sum(m => m.AditionalLabourCost),
+                RejectedAmount = ac.Sum(m => m.RejectedAmount),
+            }); 
             return Json(requests.Take(10), JsonRequestBehavior.AllowGet);
         }
 

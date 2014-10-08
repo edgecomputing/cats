@@ -41,7 +41,8 @@ namespace Cats.Areas.Regional.Controllers
 
         public ActionResult Requisition_Read([DataSourceRequest] DataSourceRequest request)
         {
-            var requests = _reliefRequisitionService.Get(t => t.Status == (int)Cats.Models.Constant.ReliefRequisitionStatus.Approved);
+            var userRegionID= _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).RegionID;
+            var requests = _reliefRequisitionService.Get(t => t.Status == (int)Cats.Models.Constant.ReliefRequisitionStatus.Approved && t.RegionID==userRegionID);
             var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
             var requestViewModels = RequisitionViewModelBinder.BindReliefRequisitionListViewModel(requests,
                                                                                                   _workflowStatusService
