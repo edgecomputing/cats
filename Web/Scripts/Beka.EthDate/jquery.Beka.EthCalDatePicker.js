@@ -189,7 +189,11 @@
             var selected_month = new EthDate(yr, m, 1);
             date_picker.selected_month = selected_month;
          
+         
             _ethdatepicker_show_month(date_picker, selected_month);
+            
+            _attach_eth_cal_event(date_picker);
+            date_picker.input.focus();
         };
 
         $month.change(function () { 
@@ -423,6 +427,7 @@
 															    $("#ui-ethdatepicker-debug").html(selected_date.toString());
 															    var target = _this.data("target");
 															    target.val(selected_date);
+															    date_picker.input.val(selected_date);
 															    //  new Date().toLocaleString
 															    var greg_date = selected_date.toGreg();
 															    $(target.data("greg_input")).val(greg_date.toLocaleDateString());

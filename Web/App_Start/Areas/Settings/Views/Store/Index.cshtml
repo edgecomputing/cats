@@ -1,0 +1,56 @@
+﻿@using System.Collections
+@using Cats.Areas.Settings.Models.ViewModels
+@using Kendo.Mvc.UI
+@{
+    Layout = "~/Views/Shared/_MainLayout.cshtml";  
+}
+@section Toolbar
+{
+  @Html.Partial("_AdminGridCommands");    
+}
+@section LeftBar
+{
+   @Html.Partial("_AdminLeftBar");
+}
+<script>
+      $(document).ready(function () {
+          setAsActive("#Store");
+      });
+</script>
+
+<div>
+    <h4>List of Stores</h4>
+</div>
+@(Html.Kendo().Grid<StoreViewModel>()
+    .Name("grid")
+    .Editable(editable => editable.Mode(GridEditMode.InCell))
+    .Sortable()
+    .Filterable()
+    .HtmlAttributes(new { style = "height:400px;" })
+    .Scrollable()
+    .Navigatable()
+    .Columns(columns =>
+        {
+            columns.ForeignKey(m => m.HubID, (IEnumerable)ViewBag.HubID, "HubID", "Name").Title("Hub Name");
+            columns.Bound(p => p.Name);
+            columns.Bound(p => p.Number);
+            
+
+            
+            columns.Bound(p => p.IsActive);
+            columns.Bound(p => p.IsTemporary);
+            columns.Bound(p => p.StackCount);
+            columns.Bound(p => p.StoreManName);
+            columns.Command(command => command.Destroy()).Width(110);
+        }).Groupable()
+
+    .DataSource(dataSource => dataSource
+          .Ajax()
+         // .PageSize(8)
+            .Model(model => model.Id(p => p.StoreID))
+           .Read(read => read.Action("Store_Read", "Store"))
+           .Update(update => update.Action("Store_Update", "Store"))
+           .Create(create => create.Action("Store_Create", "Store"))
+           .Destroy(destroy => destroy.Action("Destroy_Store", "Store"))
+ 
+     ))

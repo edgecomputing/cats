@@ -1,0 +1,49 @@
+﻿@model Cats.Models.Ration
+<div class="modal-dialog ">
+    <div class="modal-content">
+      
+        <div class="modal-header">
+          <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+          <h4 id="myModalLabel" class="modal-title">Create Ration</h4>
+        </div>
+
+
+@using (Html.BeginForm("Create", "Ration", FormMethod.Post, new { @class = "modal-form" }))
+{
+    @Html.ValidationSummary()
+
+    <div class="modal-body">
+
+
+        <div class="form-horizontal">
+             <div class="form-group">
+                <div class="col-sm-4 control-label">
+                    @Html.LabelFor(model => model.RefrenceNumber)
+                </div>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(model => model.RefrenceNumber, new { @class = " form-control" })
+                    @Html.ValidationMessageFor(model => model.RefrenceNumber)
+                </div>
+             </div>  
+            <div class="form-group" style="display: none">
+                <div class="col-sm-4 control-label">
+                    @Html.LabelFor(model => model.IsDefaultRation)
+                </div>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(model => model.IsDefaultRation, new { @class = " form-control" })
+                    @Html.ValidationMessageFor(model => model.IsDefaultRation)
+                </div>
+            </div>
+           
+        </div>
+    </div>
+
+    <div class="modal-footer"> <button class="btn btn-primary" type="submit">Save</button>
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+       
+    </div>
+
+}
+    </div>
+</div>
+

@@ -1,0 +1,73 @@
+﻿@model Cats.Models.Hubs.BinCardReport
+@using Cats.Web.Hub.Helpers
+@using Telerik.Web.Mvc.UI
+
+@{
+    ViewBag.Title = @Html.Translate("Bin Card");
+}
+
+@Html.Partial("DisplayHub") 
+
+@*@using (Html.Configurator("Show Bin Card ")
+              .PostTo("Index", "BinCard")
+              .Begin())
+{*@ 
+    
+@using (Html.BeginForm()) {
+    
+    
+    <div class="editor-label">
+        @Html.Translate("Store")
+    </div>    
+    <div class="editor-field">
+        @Html.DropDownList("StoreID", string.Empty)
+    </div>
+    
+    <div class="editor-label">
+        @Html.Translate("Commodity")
+    </div>  
+    <div class="editor-field">
+            @Html.DropDownList("CommodityID", string.Empty)
+     </div>   
+      
+    <div class="editor-label">
+        @Html.Translate("Project")
+    </div>  
+    <div class="editor-field">
+            @Html.DropDownList("ProjectID", string.Empty)
+     </div> 
+    <div class="editor-label">
+            
+    </div>
+    <div class="editor-field">
+         <button class="t-button" type="submit" >@Html.Translate("Show Bin Card")</button>
+    </div>
+    
+    <br style="clear: both"/>    
+    <p>
+          
+     </p>       
+}
+@*} *@
+
+@(Html.Telerik().Grid(ViewBag.BinCards as IEnumerable<Cats.Models.Hubs.ViewModels.Report.Data.BinCardViewModel>)
+.Name("BinCards")
+.Columns(col => {
+
+    col.Bound(c => c.Identification).Title(Html.Translate("GRN/GIN")).Width(140);
+    //col.Bound(c => c.Date).Format("{0:dd-MMM-yyyy}").Width(140);
+    col.Template(@<text>
+            @item.Date.ToCTSPreferedDateFormat(Html.GetCurrentUser().DatePreference)
+            </text>).Title(Html.Translate("Transaction Date")).Width(140);
+    col.Bound(c => c.SINumber).Width(140);
+    col.Bound(c=>c.Received).Width(140);
+    col.Bound(c => c.Dispatched).Width(140);
+    col.Bound(c => c.Balance).Width(140);
+    col.Bound(c => c.ToFrom).Width(190);
+    col.Bound(c => c.Transporter).Width(190);
+    col.Bound(c => c.DriverName).Width(190);
+
+})
+//.DataBinding(dataBinding => dataBinding.Ajax().Select("Index", "BinCard"))
+.Filterable()
+)

@@ -1,0 +1,307 @@
+﻿@using Cats.Areas.Logistics.Models
+@using Cats.Areas.Procurement.Models
+@using Kendo.Mvc.UI
+@model TransportOrderViewModel
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+@section LeftBar
+{
+    @Html.Partial("_TransportOrderLeftBar")
+    @*<a class="btn toolbar-btn " data-buttontype="btn_save" data-submittedform="frm_edit_Order"></a>
+    <a class="btn toolbar-btn " data-buttontype="btn_save" data-submittedform="frm_edit_Order"></a>
+    <a class="btn toolbar-btn " data-buttontype="btn_save" data-submittedform="frm_edit_Order"></a>*@
+}
+
+<div class="control-group form-horizontal well">
+    <div class="row">
+        <div class="span6">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.TransportOrderNo)
+
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(m => m.TransportOrderNo, new { Disabled = true })
+                </div>
+            </div>
+        </div>
+        <div class="span6">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(m => m.Transporter)
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(m => m.Transporter, new { Disabled = true })
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span6">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.ContractNumber)
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(m => m.ContractNumber, new { Disabled = true })
+                </div>
+            </div>
+        </div>
+        <div class="span6">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.OrderDateET)
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(m => m.OrderDateET, new { Disabled = true })
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span6">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.RequestedDispatchDateET, new { @class = "cats-date-pref" })
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(m => m.RequestedDispatchDateET, new { Disabled = true })
+                </div>
+            </div>
+        </div>
+        <div class="span6">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.OrderExpiryDateET, new { @class = "cats-date-pref" })
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(m => m.OrderExpiryDateET, new { Disabled = true })
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span6">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.StartDate, new { @class = "cats-date-pref" })
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(m => m.StartDate, new { Disabled = true })
+                </div>
+            </div>
+        </div>
+        <div class="span6">
+            <div class="control-group">
+                <div class="control-label">
+                    @Html.LabelFor(model => model.EndDate, new { @class = "cats-date-pref" })
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(m => m.EndDate, new { Disabled = true })
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div>
+    <table>
+        <tr>
+            <td>
+                <a href="@Url.Action("Index", "TransportOrder", new { Area = "Procurement" })"><i class="icon-chevron-left"></i>Back</a>
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { Controller = "TransportOrder", Area = "Procurement", id = Model.TransportOrderID })
+            </td>
+            <td>
+                @*  @Html.ActionLink("Print", "Print", new {Controller="TransportOrder" ,id = Model.TransportOrderID })*@
+                <a target="_blank" href="@Url.Action("Print", "TransportOrder", new { Area = "Procurement", id = Model.TransportOrderID })"><i class="icon-print"></i>Print</a>
+            </td>
+            
+            @* <td>
+                @Html.ActionLink("Approve", "Approve", new {Controller="TransportOrder" ,id = Model.TransporterID })
+            </td>*@
+
+        </tr>
+    </table>
+</div>
+
+@(Html.Kendo().Grid((IEnumerable<TransportOrderDetailViewModel>)ViewData["Transport.order.detail.ViewModel"])
+.Name("Grid").Columns(columns =>
+                          {
+                              columns.Bound(trd => trd.Woreda);
+                              columns.Bound(trd => trd.RequisitionNo);
+                              columns.Bound(trd => trd.FDP);
+                              columns.Bound(trd => trd.OriginWarehouse);
+                              columns.Bound(trd => trd.QuantityQtl);
+                              columns.Bound(trd => trd.TariffPerQtl);
+                              columns.Bound(trd => trd.TotalAmount);
+
+                          }).Pageable())
+
+
+
+
+@*@model Cats.Models.TransportOrder
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+@section LeftBar{
+    @Html.Partial("_TransportOrderLeftBar");
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>Transport Order</legend>
+
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.TransportOrderNo)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.TransportOrderNo)
+    </div>
+
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.ContractNumber)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.ContractNumber)
+    </div>
+
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.OrderDate)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.OrderDate,new {@class="cats-datepicker"})
+    </div>
+
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.RequestedDispatchDate)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.RequestedDispatchDate,new {@class="cats-datepicker"})
+    </div>
+
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.OrderExpiryDate)
+    </div>
+    <div class="display-field">
+    </div>
+
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.OrderExpiryDate)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.OrderExpiryDate,new {@class="cats-datepicker"})
+    </div>
+
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.BidDocumentNo)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.BidDocumentNo)
+    </div>
+
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.PerformanceBondReceiptNo)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.PerformanceBondReceiptNo)
+    </div>
+
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.TransporterID)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.TransporterID)
+    </div>
+
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.ConsignerName)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.ConsignerName)
+    </div>
+
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.TransporterSignedName)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.TransporterSignedName)
+    </div>
+
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.ConsignerDate)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.ConsignerDate,new {@class="cats-datepicker"})
+    </div>
+
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.TransporterSignedDate)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.TransporterSignedDate,new {@class="cats-datepicker"})
+    </div>
+</fieldset>
+<p>
+   
+    @Html.ActionLink("Back to List", "Index")
+     <a href="@Url.Action("Print", "TransportOrder", new { Area = "Procurement", id = Model.TransportOrderID })">Print (PDF)</a>
+</p>*@
+@*@{
+    var detailModel = Model.TransportOrderDetails;
+}
+<table>
+    <tr>
+        <th>Woreda
+        </th>
+        <th>Destination
+        </th>
+        <th>Origin Warhouse
+        </th>
+        <th>Quantity in Qtl
+        </th>
+        <th>Distance From Origin
+        </th>
+        <th>Tariff/Qtl
+        </th>
+        <th>Total Amount in Birr
+        </th>
+    </tr>
+    @foreach (var item in detailModel)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FDP.AdminUnit.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FDP.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Hub.Name)
+
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.QuantityQtl)
+            </td>
+            <td></td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TariffPerQtl)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TariffPerQtl * item.QuantityQtl)
+            </td>
+        </tr>
+    }
+</table>
+@Html.ActionLink("Back To List","Index","TransportOrder")*@

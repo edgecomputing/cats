@@ -1,0 +1,64 @@
+﻿@using Cats.Areas.Settings.Models.ViewModels
+@using Kendo.Mvc.UI
+@using LanguageHelpers.Localization
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";  
+}
+@section Toolbar
+{
+    @Html.Partial("_AdminGridCommands");    
+}
+@section LeftBar
+{
+    @Html.Partial("_AdminLeftBar");
+}
+<h4 class="page-header">Loss Reasons</h4>
+@(Html.Kendo().Grid<LossReasonModel>()
+    .Name("grid")
+    .Editable(editable => editable.Mode(GridEditMode.InCell))
+    .Sortable()
+    .Filterable()
+    .HtmlAttributes(new { style = "height:450px;" })
+    .Scrollable()
+   .Columns(columns =>
+    {
+        columns.Bound(t => t.LossReasonId).Visible(false);
+        columns.Bound(t => t.LossReasonEg).Title(Translator.Translate("Loss Reason EN"));
+        columns.Bound(t => t.LossReasonCodeEg).Title(Translator.Translate("Code EN"));
+        columns.Bound(t => t.LossReasonAm).Title(Translator.Translate("Loss Reason AM"));
+        columns.Bound(t => t.LossReasonCodeAm).Title(Translator.Translate("Code AM"));
+        columns.Bound(t => t.Description);
+
+        //columns.Command(command => command.Destroy());
+        //columns.Command(command => command.Custom("Delete").Click("onDelete"));
+
+    })
+    .DataSource(
+        datasource =>datasource.Ajax()
+            .Model(model => model.Id(p => p.LossReasonId))
+            .Read("LossReason_Read", "LossReason")
+            .Create("LossReason_Create", "LossReason")
+            .Update("LossReason_Update", "LossReason")
+            
+      ))
+
+
+<div id="modalWindow" style="display: none">
+    <h4>Are You Sure You Want to Delete this Loss Reason?</h4>
+    <button id="yes" class="k-button">Yes</button>
+    <button id="no" class="k-button">No</button>
+</div>
+<script>
+    var wnd;
+    $(document).ready(function () {
+        wnd = $("#modalWindow").kendoWindow({
+            title: "Delete confirmation",
+            modal: true,
+            visible: false,
+            resizable: false,
+            width: 300
+        }).data("kendoWindow");
+    });
+</script>
+

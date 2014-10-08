@@ -131,3 +131,12 @@ Web/Templates/aed96418-e3f8-4548-a5df-c51cb3e2a6b3.docx
 Web/Templates/e366506e-26a9-4672-9011-7e59a34a7cff.docx
 Models/Cats.Models/MailingList.cs
 Web/Web.config
+Web/Cats.csproj
+Web/Content/MapResources/MapData/leaflet/Eth_Region_2013.js
+Web/Content/MapResources/MapData/leaflet/Eth_Woreda_2013.js
+Web/Content/MapResources/MapData/leaflet/Eth_Zone_2013.js
+Web/Content/MapResources/leaflet/leaflet-0.7.3.js
+Web/Content/MapResources/leaflet/leaflet-0.7.3.min.js
+Web/Content/MapResources/leaflet/leaflet.css
+Web/Content/MapResources/leaflet/leaflet.label.js
+Web/Views/Shared/_dashboardmapleaf.cshtml

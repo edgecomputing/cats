@@ -1,0 +1,51 @@
+﻿@using Cats.Models;
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+@section LeftBar
+{
+    @{
+        foreach (MailingList ml in ViewBag.MailingLists)
+    {
+        <div>@ml.MessageName</div>
+    }
+    }
+}
+<h2>Send Memo</h2>
+<div>Status @ViewBag.status</div>
+@using (Html.BeginForm())
+{
+<div>Memo</div>
+<select name="memoId" value="@ViewBag.memoId" >
+    @foreach (MailingList ml in ViewBag.MailingLists)
+    {
+        <option value="@ml.MailingListID">@ml.MessageName</option>
+    }
+</select>
+    <input type="submit" value="Send" />
+}
+
+@if(ViewBag.status>1)
+{
+    var msg="Send Suceeded";
+    if (ViewBag.status != 3)
+    {
+        msg = "Send Failed";
+    }
+<h4>@msg</h4>
+    
+    <div>Message</div>
+    <div>@ViewBag.SentMailingList.MessageBody</div>
+    <div>__________</div>
+    <div>Recipeints</div>
+    <ul>
+            @foreach (Contact c in ViewBag.SentMailingList.Reciepients)
+    {
+        <li>@c.MobileNumber | @c.FirstName</li>
+    }
+        </ul>    
+
+
+}

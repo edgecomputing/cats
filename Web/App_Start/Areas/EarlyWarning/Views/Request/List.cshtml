@@ -1,0 +1,83 @@
+﻿@using Cats.Areas.EarlyWarning.Models
+@using Cats.Helpers
+@using Cats.Models.Constant
+@using Kendo.Mvc.UI
+
+@model Cats.Areas.EarlyWarning.Models.SearchRequsetViewModel
+
+@{
+    ViewBag.Title = "Regional Relief Requests";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+
+
+ 
+@section LeftBar
+{
+    @Html.Partial("_RegionalRequestLeftBar")
+   
+}
+@section Toolbar
+{
+    <a data-buttontype="btn_new_record"  class="btn toolbar-btn " href="@Url.Action("New", "Request")"></a>
+}
+<h4 class="page-header">@Html.Translate("Regional Requests")</h4>
+          @Html.Partial("_FilterRequestLeftBar")
+
+
+
+@(Html.Kendo().Grid<RegionalRequestViewModel>()
+    .Name("RequestListGrid")
+    .Columns(columns =>
+                 {
+                    
+                     columns.Template(t => { }).Title("No").ClientTemplate("#= renderNumber(data) #").Width(50);
+                     columns.Bound(request => request.ReferenceNumber).ClientTemplate("<a href='" + Url.Action("Details", "Request", new {id = "#=RegionalRequestID#"}) + " '>#=ReferenceNumber#</a>  ");
+                     columns.Bound(request => request.Region);
+                     columns.Bound(request => request.Year);
+                     columns.Bound(request => request.MonthName).Title(Html.Translate("Month"));
+                     columns.Bound(request => request.Program);
+                     columns.Bound(request => request.RequestDate).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid" }).Width(160);
+                    
+    columns.Bound(request => request.Status).Template(
+
+
+                         @<text>
+@if (item.StatusID == (int)RegionalRequestStatus.Draft)
+{
+    @Html.ActionLink("Approve", "ApproveRequest", "Request", new { Area = "EarlyWarning", id = @item.RegionalRequestID })
+}
+else
+{
+    @item.Status
+    @Html.ActionLink("Approve", "ApproveRequest", "Request", new { Area = "EarlyWarning", id = @item.RegionalRequestID })
+}
+</text>);
+               
+                })
+    .Sortable()
+    .Scrollable()
+    .HtmlAttributes(new { style = "height:430px;" })
+    .Events(ev => ev.DataBound("resetRowNumber"))
+    .DataSource(dataSource => dataSource
+        .Ajax()
+        .PageSize(20)
+
+            .Model(model =>
+            {
+                model.Id(p => p.RegionalRequestID);
+            })
+       .Read(read => read.Action("Request_Search", "Request",
+                                new {
+                                    DateFrom=@ViewBag.Filter.DateFrom,
+                                    DateTo=@ViewBag.Filter.DateTo,
+                                    RegionID=@ViewBag.Filter.RegionID,
+                                    ProgramID=@ViewBag.Filter.ProgramID,
+                                    StatusID=@ViewBag.Filter.StatusID
+                                    }
+                                    ))
+
+      )
+      )
+

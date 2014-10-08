@@ -1,0 +1,67 @@
+﻿@model Cats.Models.TransportBidPlanDetail
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>TransportBidPlanDetail</legend>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.BidPlanID, "BidPlan")
+        </div>
+        <div class="editor-field">
+            @Html.DropDownList("BidPlanID", String.Empty)
+            @Html.ValidationMessageFor(model => model.BidPlanID)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.DestinationID, "Destination")
+        </div>
+        <div class="editor-field">
+            @Html.DropDownList("DestinationID", String.Empty)
+            @Html.ValidationMessageFor(model => model.DestinationID)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.SourceID, "Source")
+        </div>
+        <div class="editor-field">
+            @Html.DropDownList("SourceID", String.Empty)
+            @Html.ValidationMessageFor(model => model.SourceID)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ProgramID, "Program")
+        </div>
+        <div class="editor-field">
+            @Html.DropDownList("ProgramID", String.Empty)
+            @Html.ValidationMessageFor(model => model.ProgramID)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Quantity)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Quantity)
+            @Html.ValidationMessageFor(model => model.Quantity)
+        </div>
+
+        <p>
+            <input type="submit" value="Create" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

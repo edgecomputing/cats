@@ -1,0 +1,51 @@
+﻿@model Cats.Areas.EarlyWarning.Models.SearchRequsetViewModel
+@using Cats.Helpers;
+
+@{
+    const string PAGE_NAME = "Requisitions.Index.RequestFilter";
+}
+
+@using (Html.BeginForm())
+{
+  
+        <div class="form-group col-md-2">
+            <div class="form-inline">
+                <input id="search" type="text" class="input-large search-query" placeholder="Search by Reference Number ">
+            </div>
+        </div>
+
+        <div class="text-right col-md-10">
+
+            <div class="form-group">
+                <span class="add-on">Start</span>
+                @Html.TextBoxFor(m => m.DateFrom, new { @class = "form-control input-sm cats-datepicker2  ", @type = "text" ,@style="width: 100px;"})
+            </div>
+            
+            <div class="form-group">
+                <span class="add-on">End</span>
+                @Html.TextBoxFor(m => m.DateTo, new { @class = "form-control input-sm cats-datepicker2  ", @type = "text",@style="width: 100px;" })
+                
+            </div>
+            
+            <div class="form-group ">
+                <span class="add-on">Region</span>
+                @Html.DropDownList("RegionID", null, new { @class = "form-control input-sm " })
+            </div>
+            <div class="form-group">
+                <span class="add-on">Program</span>
+                @Html.DropDownList("ProgramID", null, new { @class = "form-control input-sm" })
+            </div>
+            <div class="form-group">
+                <span class="add-on">Status</span>
+                @Html.DropDownList("StatusID", null, new { @class = "form-control input-small" })
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-sm btn-primary" value="Search"><i class="fa fa-search"></i> Search</button>
+            </div>
+            
+            
+        </div>
+
+
+}
+

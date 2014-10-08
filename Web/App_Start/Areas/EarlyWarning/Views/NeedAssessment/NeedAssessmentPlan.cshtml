@@ -1,0 +1,43 @@
+﻿@using Kendo.Mvc.UI
+@using LanguageHelpers.Localization
+@using Cats.Helpers
+
+@{
+    ViewBag.Title = "NeedAssessmentPlan";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+@section LeftBar{
+
+    @Html.Partial("_NeedAssessmentMainLeftBar")
+
+}
+@section Toolbar
+{
+
+    <a data-buttontype="btn_new_record"  class="btn toolbar-btn " href="@Url.Action("AddRegion", "NeedAssessment")"></a>
+
+}
+
+<h4>List of Planned Need Assessmen</h4>
+@(Html.Kendo().Grid<Cats.Areas.EarlyWarning.Models.NeedAssessmentPlanViewModel>()
+    .Name("grid")
+    .Columns(columns =>
+        {
+            columns.Bound(p => p.AssessmentName).Title(Html.Translate("Assessment Name")).ClientTemplate("<a href='" + Url.Action("Detail", "NeedAssessment", new { id = "#=PlanID#" }) + " '>#=AssessmentName#</a>  ");
+            columns.Bound(p => p.StartDate);
+            columns.Bound(p => p.EndDate);
+            columns.Bound(p => p.Year);
+        })
+    .HtmlAttributes(new { style = "height: 430px" })
+    .Pageable()
+    .Sortable()
+    .Scrollable()
+    .DataSource(dataSource => dataSource
+        .Ajax()
+        .PageSize(30)
+        .ServerOperation(false)
+        .Model(model => model.Id(p => p.PlanID))
+        .Read(read=>read.Action("NeedAssessment_Plan", "NeedAssessment"))
+    )
+    )

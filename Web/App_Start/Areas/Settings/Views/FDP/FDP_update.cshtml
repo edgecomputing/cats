@@ -1,0 +1,101 @@
+﻿@using LanguageHelpers.Localization
+@model Cats.Areas.Settings.Models.ViewModels.FDPViewModel
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&otimes;</button>
+    <h3 id="myModalLabel">FDP Details</h3>
+</div>
+
+@using (Html.BeginForm("FDP_Update", "FDP", FormMethod.Post, new { @class = "modal-form" }))
+{
+    <div class="modal-body">
+        <div class="span5">
+            <div class="form-horizontal">
+
+                @Html.HiddenFor(m => m.FDPID)
+                @Html.HiddenFor(m => m.AdminUnitID)
+                @Html.HiddenFor(m => m.NameAM)
+                @Html.HiddenFor(m => m.AdminUnit)
+                <div class="control-group">
+                    @*<span class="control-label">Geography</span>*@
+                    <div class="controls form-inline"></div>
+                    <label>FDP Name</label>
+                    @Html.TextBoxFor(m => m.Name)
+                    @Html.ValidationMessageFor(m => m.Name)
+
+                    <label>Latitiude</label>
+                    @Html.TextBoxFor(m => m.latitude)
+                    @Html.ValidationMessageFor(m => m.latitude)
+
+                    <label>Longitude</label>
+                    @Html.TextBoxFor(m => m.longitude)
+                    @Html.ValidationMessageFor(m => m.longitude)
+                </div>
+            </div>
+        </div>
+
+        <div class="span5">
+            <div class="well" id="map_canvas" style="height: 130px; width: 100%"></div>
+        </div>
+    </div>
+
+
+
+    <div class="modal-footer">
+        <button class="primary btn" type="submit">Update</button>
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+    </div>
+}
+
+<script type="text/javascript">
+
+    function initialize() {
+
+        var canvas = $("#map_canvas");
+
+        var latitude = 8.300000;
+        var longitude = 30.1167;
+
+        var latlng = new google.maps.LatLng(latitude, longitude);
+
+        var options = {
+            zoom: 6,
+            center: latlng,
+            //disableDefaultUI: true,
+            panControl: false,
+            zoomControl: true,
+            scaleControl: false,
+            mapTypeControl: false,
+            streetViewControl: false,
+            overviewMapControl: false,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+
+        var map = new google.maps.Map(canvas[0], options);
+
+        var url = "@Url.Action("GetFdpGeolocation", "FDP")"+"?fdpId="+"@Model.FDPID";
+        //alert(url);
+        
+        $.getJSON(url, function (data) {
+
+            $.each(data, function (key, val) {
+                var fdp = new google.maps.Marker({
+                    position: new google.maps.LatLng(val.Latitude, val.Longitude),
+                    title: val.Name,
+                    map: map
+                });
+                //alert(fdp.position);
+                //map.setCenter(fdp.position);
+            });
+        });
+
+
+    }
+
+    $(function () { //Same as $(document).ready()
+        initialize();
+    });
+
+</script>
+
+

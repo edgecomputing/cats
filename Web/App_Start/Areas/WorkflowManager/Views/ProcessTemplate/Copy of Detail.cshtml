@@ -1,0 +1,299 @@
+﻿@using Cats.Models
+@model ProcessTemplate
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+@section LeftBar
+{
+    @Html.Partial("_workflowLeftBar")
+}
+@section Toolbar
+{
+    <button data-buttontype="btn_save" id="btn-save"  class="btn toolbar-btn "></button>
+
+}
+
+
+
+<div style="height:500px;"></div>
+<div class="left_bar" id="right_bar">
+        
+        <div id="debug" style="display:none;"></div>
+    </div>
+<h4>&nbsp; &nbsp; Workflow Designer : @Model.Name</h4>
+<div class="designer_window" >
+    
+    <canvas id="drawingCanvas"  width="1080" height="450" ></canvas>
+     @{
+         if(Model.GraphicsData==null ||Model.GraphicsData=="")
+         {
+             Model.GraphicsData = "null";
+         }
+        int pos = 20;
+        foreach (StateTemplate st in Model.ParentProcessTemplateStateTemplates)
+        {
+            string pospx = pos + "px";
+            
+        <div id="state_@st.StateTemplateID" data-top="@pos" data-left="250" class="state statetype-@st.StateType" style=" top:@pospx ;">
+
+            <div class="content">@st.Name</div>
+            <div class="connector left-connector"></div>
+            <div class="connector right-connector"></div>
+            <div class="connector top-connector"></div>
+            <div class="connector bottom-connector"></div>
+        </div>
+            pos += 80;
+        }
+
+        pos = 60;
+            foreach (StateTemplate st in Model.ParentProcessTemplateStateTemplates)
+            {
+                foreach (FlowTemplate fw in st.InitialStateFlowTemplates)
+                {
+                    string pospx = pos + "px";
+                    
+            <div id="flow_@fw.FlowTemplateID" class="flow_data flow" data-left="450" style="left:600px; top:@pospx ;" data-name="@fw.Name" data-flowid="@fw.FlowTemplateID" data-initial="@fw.InitialStateID" data-final="@fw.FinalStateID">
+               <div class="content">@fw.Name</div> 
+
+            </div>
+                    pos += 80;   
+                }
+            }
+
+    }
+<div id="frm_state_template" style="display:none;">
+       <table>
+           <tr>
+               <td>Name</td>
+               <td><input /></td>
+           </tr>
+           <tr>
+               <td>Access</td>
+               <td>
+                   <select class="field" data-type="select" id="inputsize">
+                        <option value="0">None</option>
+                        <option value="1">View</option>
+                        <option value="2">Edit</option>
+                        <option value="3">Full</option>
+                    </select>
+               </td>
+           </tr>
+           <tr>
+               <td>Type</td>
+               <td>
+                   <select class="field" data-type="select" id="inputsize">
+                        <option value="0">Start</option>
+                        <option value="1">Intermediate</option>
+                        <option value="2">Finish</option>
+                    </select>
+               </td>
+           </tr>
+       </table>
+
+            <hr>
+            <button class="btn btn_popup_save btn-primary ">Save</button>
+            <button class="btn btn_popup_cancel">Cancel</button>
+            
+  </div>
+
+</div>
+<div>
+    <link href="@Url.Content("~/Content/workflow/workflowDesigner.css")" rel="stylesheet" type="text/css" />
+    <script src="@Url.Content("~/Content/workflow/workflow.js")"></script>
+    <script src="@Url.Content("~/Content/workflow/jquery-1.8.0.js")"></script>
+    <script src="@Url.Content("~/Content/workflow/jquery-ui-1.8.23.custom.js")"></script>
+</div>
+<script>
+    var processId=@Model.ProcessTemplateID;
+    var SaveServerURL="@Url.Action("saveGraphics", "ProcessTemplate", new { Area = "WorkflowManager" })";
+    var diagramData=@Model.GraphicsData;
+    var state_positions_str;
+    var flow_positions_str; 
+    var state_positions = {};
+    var flow_positions = {};
+    if(!diagramData)
+    {
+
+        state_positions_str = localStorage["workflow_diagram" + processId] ;
+        flow_positions_str = localStorage["workflow_flow" + processId];
+        if(state_positions_str){
+       
+            eval("try {state_positions=" + state_positions_str + ";}\n catch(e){}");
+        
+
+        }
+        if(flow_positions_str){
+       
+            eval("try {flow_positions=" + flow_positions_str + ";}\n catch(e){}");
+
+        }
+    }
+    else
+    {
+        state_positions = diagramData.states;
+        flow_positions = diagramData.flows;
+    }
+
+    var flow_data={};
+    $(function () {
+        init_flow_data();
+        $("#btn-save").click(function () { save(); });
+        $(".state").draggable({stop: function() {show_flow();}}).dblclick(function() {show_state_editor(this)});
+        $(".state").each(
+            function () {
+                $this = $(this);
+                
+                if (!state_positions[$this.attr("id")]) {
+                    state_positions[$this.attr("id")] = { top: $this.data("top"), left: $this.data("left") };
+                }
+                var sp=state_positions[$this.attr("id")];
+               // sp.left=Math.floor(sp.left/150)*150;
+               // sp.top=Math.floor(sp.top/50)*50;
+            }
+            );
+        $(".flow").draggable({stop: function() {show_flow();}}).dblclick(function() {show_state_editor(this)});;
+        $(".flow").each(
+            function () {
+                $this = $(this);
+                if (!flow_positions[$this.attr("id")]) {
+                    flow_positions[$this.attr("id")] = { top: $this.data("top"), left: $this.data("left") };
+                }
+                var sp=flow_positions[$this.attr("id")];
+                // sp.left=Math.floor(sp.left/150)*150;
+                // sp.top=Math.floor(sp.top/50)*50;
+            }
+            );
+        $(".flow").each(
+            function () {
+                $this = $(this);
+                this.style.left = flow_positions[this.id].left + "px";
+                this.style.top = flow_positions[this.id].top + "px";
+                //  $this.html($this.html() + state_positions[this.id].top);
+
+            });
+        $(".state").each(
+            function () {
+                $this = $(this);
+                this.style.left = state_positions[this.id].left + "px";
+                this.style.top = state_positions[this.id].top + "px";
+                //  $this.html($this.html() + state_positions[this.id].top);
+
+            });
+        
+        show_flow();
+    });
+
+    function init_flow_data()
+    {
+        $(".flow_data").each(
+            function () {
+                $this = $(this);
+                var fid=$this.data("flowid");
+                var ins=$this.data("initial");
+                var fs=$this.data("final");
+                var nm=$this.data("name");
+                flow_data["flow_" + fid]={initial:ins,final:fs,name:nm,id:fid};
+            });
+                
+           
+            
+    }
+    function get_state_pos()
+    {
+        $(".state").each(
+            function () {
+                $this = $(this);
+               
+                state_positions[this.id].top=this.offsetTop;
+                state_positions[this.id].left = this.offsetLeft;
+                state_positions[this.id].width = this.offsetWidth;
+                state_positions[this.id].height = this.offsetHeight;
+
+
+            });
+        $(".flow").each(
+            function () {
+                $this = $(this);
+               
+                flow_positions[this.id].top=this.offsetTop;
+                flow_positions[this.id].left = this.offsetLeft;
+                flow_positions[this.id].width = this.offsetWidth;
+                flow_positions[this.id].height = this.offsetHeight;
+            });
+    }
+    function show_flow()
+    {
+        get_state_pos();
+        var htm="<br/>";
+        var canvas = document.querySelector("#drawingCanvas");
+        var ctx = canvas.getContext("2d");
+        ctx.strokeStyle = "rgb(0,120,255)";
+        ctx.lineWidth=0.5;
+        ctx.clearRect(0,0,1000,1000);
+        /*
+        
+        ctx.beginPath();
+       
+        ctx.moveTo(10,10);
+        ctx.lineTo(100,10);
+        ctx.lineTo(100,100);
+      
+        ctx.stroke();
+        */
+        for(var i in flow_data)
+        {
+            var is=flow_data[i].initial;
+            var fs=flow_data[i].final;
+            var id=flow_data[i].id;
+            var ispos=state_positions["state_" + is];
+            var flpos=flow_positions["flow_" + id];
+            var fspos=state_positions["state_" + fs];
+
+           // var dx=state_positions["state_" + fs].left-state_positions["state_" + is].left;
+           // var dy=state_positions["state_" + fs].top-state_positions["state_" + is].top;
+            ctx.beginPath();
+            //ctx.moveTo(0 ,0);
+            ctx.moveTo(ispos.left + ispos.width/2,ispos.top + ispos.height/2);
+
+            ctx.lineTo(flpos.left + flpos.width/2,ispos.top + ispos.height/2);
+
+            ctx.lineTo(flpos.left + flpos.width/2,flpos.top  + flpos.height/2);
+
+            ctx.lineTo(fspos.left + fspos.width/2,flpos.top + flpos.height/2);
+
+            ctx.lineTo(fspos.left + fspos.width/2,fspos.top + fspos.height/2);
+
+            //ctx.closePath();
+            ctx.stroke();
+            htm+=fspos.left + "," + fspos.top + "<br/>";
+        }
+        $("#debug").html(htm);
+    }
+  
+    function save() {
+        get_state_pos();
+        var comma = "";
+        var states = "{";
+        for (var i in state_positions) {
+            states += comma + i + ":{left:" + state_positions[i].left + " , top:" + state_positions[i].top + "}\n";
+            comma=" ,"
+        }
+        states += "}";
+        localStorage["workflow_diagram" + processId]=states;
+        var flows = "{";
+        comma = "";
+        for (var i in flow_positions) {
+            flows += comma + i + ":{left:" + flow_positions[i].left + " , top:" + flow_positions[i].top + "}\n";
+            comma=" ,"
+        }
+        flows += "}";
+        localStorage["workflow_flow" + processId]=flows;
+        var graphicsData="{states:" + states + ",flows:" +flows + "}"; 
+        $.post(SaveServerURL,{processId:processId,graphicsData:graphicsData});    
+        
+        $("#debug").html(htm);
+        show_flow();
+    }
+</script>

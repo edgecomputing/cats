@@ -1,0 +1,26 @@
+﻿@model Cats.Models.Transporter
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+@section Toolbar
+{
+    <a class="btn toolbar-btn " data-buttontype="btn_save" data-submittedform="frm_create_transporter"></a>
+}
+
+<div class="form-horizontal">
+    @using (Html.BeginForm("Create", "Transporter", FormMethod.Post, new { id = "frm_create_transporter" }))
+    {
+        @Html.ValidationSummary(true)
+
+        @Html.Partial("EditPartial")
+    }
+
+    <div>
+        @Html.ActionLink("Back to List", "Index")
+    </div>
+</div>
+
+

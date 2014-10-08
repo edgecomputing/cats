@@ -1,0 +1,265 @@
+﻿@model Cats.Areas.Logistics.Models.DeliveryViewModel
+@using Cats.Areas.Logistics.Models
+@using Cats.Models
+@using Kendo.Mvc.UI
+@using Cats.Helpers
+
+@{
+    ViewBag.Title = "ReceiveGRN";
+    Layout = "~/Views/Shared/_MainLayoutWide.cshtml";
+}
+
+@section Toolbar
+{
+    <a class="btn toolbar-btn " data-buttontype="btn_save" data-submittedform="frmCreate"></a>
+
+}
+
+<div class="page-header">@Html.Translate("Register Transport Goods Receiving Note")</div>
+@using (Html.BeginForm("EditGRN", "Delivery", new { Area = "Logistics" }, FormMethod.Post, new { id = "frmCreate" }))
+{
+
+    @Html.HiddenFor(model => model.DeliveryID)
+    @Html.HiddenFor(model => model.DispatchID)
+    @Html.HiddenFor(model => model.HubID)
+    @Html.HiddenFor(model => model.FDPID)
+    @Html.HiddenFor(model => model.TransporterID)
+    @Html.HiddenFor(model => model.DonorID)
+    @Html.HiddenFor(model => model.DocumentReceivedBy)
+    @Html.HiddenFor(model => model.InvoiceNo)
+    @Html.HiddenFor(model => model.RequisitionNo)
+    <div class="control-group form-horizontal well">
+        <div class="row">
+            <div class="span4">
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.LabelFor(model => model.ReceivingNumber)
+
+                    </div>
+                    <div class="controls">
+                        @Html.TextBoxFor(model => model.ReceivingNumber)
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.LabelFor(model => model.InvoiceNo)
+                    </div>
+                    <div class="controls">
+                        @Html.TextBoxFor(model => model.InvoiceNo, new { Disabled = true })
+                    </div>
+                </div>
+
+
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.LabelFor(model => model.WayBillNo)
+                    </div>
+                    <div class="controls">
+                        @Html.TextBoxFor(model => model.WayBillNo)
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.LabelFor(model => model.RequisitionNo)
+                    </div>
+                    <div class="controls">
+                        @Html.TextBoxFor(model => model.RequisitionNo, new { Disabled = true })
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.LabelFor(model => model.ReceivedBy)
+                    </div>
+                    <div class="controls">
+                        @Html.TextBoxFor(model => model.ReceivedBy)
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.LabelFor(model => model.ReceivedDate, new { @class = "cats-date-pref" })
+                    </div>
+                    <div class="controls">
+                        @Html.TextBoxFor(model => model.ReceivedDate, new { @class = "cats-datepicker2" })
+                    </div>
+                </div>
+
+            </div>
+            <div class="span4">
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.LabelFor(model => model.Transporter)
+                    </div>
+                    <div class="controls">
+                        @Html.TextBoxFor(model => model.Transporter, new { Disabled = true })
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.LabelFor(model => model.DriverName)
+                    </div>
+                    <div class="controls">
+                        @Html.TextBoxFor(model => model.DriverName)
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.LabelFor(model => model.PlateNoPrimary)
+                    </div>
+                    <div class="controls">
+                        @Html.TextBoxFor(model => model.PlateNoPrimary)
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.LabelFor(model => model.PlateNoTrailler)
+                    </div>
+                    <div class="controls">
+                        @Html.TextBoxFor(model => model.PlateNoTrailler)
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.LabelFor(model => model.DeliveryBy)
+                    </div>
+                    <div class="controls">
+                        @Html.TextBoxFor(model => model.DeliveryBy)
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.LabelFor(model => model.DeliveryDate, new { @class = "cats-date-pref" })
+                    </div>
+                    <div class="controls">
+                        @Html.TextBoxFor(model => model.DeliveryDate, new { @class = "cats-datepicker2" })
+                    </div>
+                </div>
+
+            </div>
+            <div class="span4">
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.LabelFor(model => model.Region)
+                    </div>
+                    <div class="controls">
+                        @Html.TextBoxFor(model => model.Region, new { Disabled = true })
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.LabelFor(model => model.Zone)
+                    </div>
+                    <div class="controls">
+                        @Html.TextBoxFor(model => model.Zone, new { Disabled = true })
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.LabelFor(model => model.Woreda)
+                    </div>
+                    <div class="controls">
+                        @Html.TextBoxFor(model => model.Woreda, new { Disabled = true })
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.LabelFor(model => model.FDP)
+                    </div>
+                    <div class="controls">
+                        @Html.TextBoxFor(model => model.FDP, new { Disabled = true })
+                    </div>
+                </div>
+                <div class="control-group ">
+                    <div class="control-label">
+                        @Html.LabelFor(model => model.DocumentReceivedDate, new { @class = "cats-date-pref" })
+                    </div>
+                    <div class="controls">
+                        @Html.TextBoxFor(model => model.DocumentReceivedDate, new { @class = "cats-datepicker2" })
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+
+    </div>
+
+}
+@(Html.Kendo().Grid<DeliveryDetailViewModel>()
+           .Name("grid")
+           .ToolBar(commands => commands.Save())
+           .Editable(editing => editing.Mode(GridEditMode.InCell))
+          .Columns(col =>
+                   {
+                       col.Bound(t => t.Commodity).HtmlAttributes(new { style = "background-color:lightgray" }); ;
+                       col.Bound(t => t.CommodityID).Hidden(true);
+                       //  col.Bound(t => t.DistributionDetailID).Hidden(true);
+                       //  col.Bound(t => t.DistributionID).Hidden(true);
+                       col.Bound(t => t.SentQuantity).HtmlAttributes(new { align = "right", style = "background-color:lightgray" }).Format("{0:N2}").HeaderHtmlAttributes(new { @class = "cats-unit-pref-grid" });
+                       col.Bound(t => t.ReceivedQuantity).Format("{0:N2}").HtmlAttributes(new { align = "right", }).HeaderHtmlAttributes(new { @class = "cats-unit-pref-grid" });
+                       col.Bound(t => t.UnitID).Hidden(true);
+                       col.Bound(t => t.Unit).HtmlAttributes(new { style = "background-color:lightgray" });
+
+                   }).Events(es=>es.DataBound("onDataBound"))
+           .DataSource(binding => binding.Ajax()
+              
+                                       .Read(read => read.Action("ReadDeliveryDetail", "Delivery", new { distribtionId = Model.DeliveryID }))
+                                       .Update(update => update.Action("UpdateDeliveryDetail", "Delivery"))
+                                       .Model(m =>
+                                       {
+                                           m.Id(t => t.DeliveryDetailID);
+                                           m.Field(t => t.SentQuantity).Editable(false);
+                                           m.Field(t => t.Unit).Editable(false);
+                                           m.Field(t => t.Commodity).Editable(false);
+
+                                       })
+
+           )
+
+
+           .Navigatable()
+
+
+                                            )
+<script>
+    function onDataBound(e) {
+        check_planned();
+        var grid = $("#grid").data("kendoGrid");
+        $(grid.tbody).on("change", "td", function (e) {
+
+            var row = $(this).closest("tr");
+            var rowIdx = $("tr", grid.tbody).index(row);
+            update_ui(rowIdx, row);
+        }
+        );
+    }
+
+    function update_ui(rowIdx, row) {
+        
+        var grid = $("#grid").data("kendoGrid");
+        var firstItem = $('#grid').data().kendoGrid.dataSource.data()[rowIdx];
+        var receivedQuantity = firstItem.get('SentQuantity');
+        var dispatchedQuantity = firstItem.get('ReceivedQuantity');
+
+        if (receivedQuantity == dispatchedQuantity) {
+            row.addClass("alert-success");
+        } else if (receivedQuantity > dispatchedQuantity) {
+            row.addClass("alert-error");
+        } else if (receivedQuantity < dispatchedQuantity) {
+            row.addClass("alert-danger");
+        }
+       
+    }
+    
+   
+    function check_planned() {
+        var grid = $("#grid").data("kendoGrid");
+        var rowIdx = 0;
+        $(grid.tbody).find("tr").each(function () {
+            //$(this).addClass("surplus");
+            update_ui(rowIdx, $(this));
+            rowIdx++;
+        });
+    }
+</script>

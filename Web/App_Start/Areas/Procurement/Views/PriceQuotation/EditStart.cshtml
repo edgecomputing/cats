@@ -1,0 +1,100 @@
+﻿    @using Kendo.Mvc.UI
+    @using Cats.Areas.Procurement.Models
+    @model IEnumerable<PriceQuotationDetailViewModel>
+
+    @{
+        Layout = "~/Views/Shared/_MainLayout.cshtml";
+    }
+    @section LeftBar
+    {
+        @*@Html.Partial("_BidSelectionPartial")*@
+
+    }
+@Html.Partial("_BidSelectionPartial")
+<div >
+    <p>Price Quotation for Region <b>@ViewBag.SelectedRegion.Name</b></p> 
+    <p>Transporter : <b>@ViewBag.SelectedTransporter.Name <!--@ViewBag.SelectedTransporter.TransporterID--></b> </p>
+    <p>Bid : <b>@ViewBag.SelectedBid.BidNumber <!-- @ViewBag.SelectedBid.BidID--></b> </p>
+</div>
+
+@(Html.Kendo().Grid<PriceQuotationDetailViewModel>()
+    .Name("grid")
+    .Columns(columns =>
+    {
+       // columns.Bound(p => p.TransportBidQuotationID).Width(100).Title("ID");
+        columns.Bound(p => p.SourceName).Width(100).Title("Source");
+        columns.Bound(p => p.DestinationZone).Width(130);
+        columns.Bound(p => p.DestinationName).Width(130).Title("Destination Woreda");
+        columns.Bound(p => p.Tariff).Width(130).Title("Tariff [Birr/Quintal]");
+        columns.Bound(p => p.Remark).Width(100);
+        //columns.Bound(p => p.IsWinner).Width(70).Title("Winner?");
+        //columns.Bound(p => p.Rank).Width(50);
+
+        columns.Command(command => { command.Edit(); command.Custom("Delete").Click("deleteRecord"); }).Width(200);
+    })
+
+    .HtmlAttributes(new { style = "height:430px;" })    
+    .Editable(editable => editable.Mode(GridEditMode.InLine))
+    .Pageable()
+    .Sortable()
+    .Scrollable()
+    .DataSource(dataSource => dataSource     
+        .Ajax()
+         .PageSize(20)
+        .Events(events => events.Error("error_handler"))
+        .Model(model =>
+        {
+            //model.Id(p => p.TransportBidQuotationID);
+            model.Id(p => p.QuotationID);
+            model.Field(p => p.TransportBidQuotationID).Editable(false);
+            model.Field(p => p.SourceName).Editable(false);
+            model.Field(p => p.DestinationZone).Editable(false);
+            model.Field(p => p.DestinationName).Editable(false);
+        })
+        .Create(update => update.Action("EditAjax", "PriceQuotation")) 
+        .Read(read => read.Action("ReadAjax", "PriceQuotation"))
+        .Update(update => update.Action("EditAjax", "PriceQuotation"))
+        .Destroy(update => update.Action("DeleteAjax", "PriceQuotation"))
+     )
+)
+
+<script>
+    var deleteURL = "@Url.Action("DeleteAjax", "PriceQuotation", new { Area = "Procurement" })";
+
+    function error_handler(e) {
+        if (e.errors) {
+            var message = "Errors:\n";
+            $.each(e.errors, function (key, value) {
+                if ('errors' in value) {
+                    $.each(value.errors, function () {
+                        message += this + "\n";
+                    });
+                }
+            });
+            alert(message);
+        }
+    }
+
+    function deleteRecord(e) {
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        if (!dataItem.TransportBidQuotationID) {
+            return;
+        }
+        e.preventDefault();
+
+       
+        if (confirm("Are you sure you want to delete this record?") == true) {
+            var post_values = { TransportBidQuotationID: dataItem.TransportBidQuotationID};
+
+            $.post(
+                    deleteURL
+                    , post_values
+                    , function (data) {
+                       // alert($("#grid").data("kendoGrid"));
+                        $("#grid").data("kendoGrid").dataSource.read();
+                    }
+                 );
+
+        }
+    }
+</script>

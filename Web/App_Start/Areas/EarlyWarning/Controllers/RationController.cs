@@ -1,0 +1,293 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using Cats.Areas.EarlyWarning.Models;
+using Cats.Helpers;
+using Cats.Models;
+using Cats.Services.EarlyWarning;
+using Kendo.Mvc.Extensions;
+using Kendo.Mvc.UI;
+using Cats.ViewModelBinder;
+using Cats.Services.Security;
+using log4net;
+using Cats.Infrastructure;
+
+
+namespace Cats.Areas.EarlyWarning.Controllers
+{
+    public class RationController : Controller
+    {
+        private readonly IRationService _rationService;
+        private readonly IRationDetailService _rationDetailService;
+        private  readonly ICommodityService _commodityService;
+        private readonly IUserAccountService _userAccountService;
+        private readonly ILog _log;
+        
+
+        public RationController(IRationService rationService, ICommodityService commodityService, 
+                    IRationDetailService rationDetailService, IUserAccountService userAccountService,ILog log)
+        {
+            this._rationService = rationService;
+            this._rationDetailService = rationDetailService;
+            this._commodityService = commodityService;
+            _userAccountService = userAccountService;
+            _log = log;
+        }
+        //
+        // GET: /EarlyWarning/Ration/
+
+        public ActionResult Index()
+        {
+            var rations = _rationService.GetAllRation();
+            var rationViewModels = (from item in rations select BindRationViewModel(item)).OrderBy(o=>o.ReferenceNumber);
+            return View(rationViewModels);
+        }
+
+        public JsonResult Rations()
+        {
+            return Json(_rationService.GetAllRation(), JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult Print(int id = 0)
+        {
+            if (id == 0)
+            {
+                RedirectToAction("Index");
+            }
+            var reportPath = Server.MapPath("~/Report/EarlyWarning/Ration.rdlc");
+            var rd = _rationService.FindById(id);
+            var reportData = (from rationdetail in rd.RationDetails
+                      select new RationDetailViewModel
+                                 {
+                                  Amount   = rationdetail.Amount,
+                                  RationName  = rd.RefrenceNumber,
+                                  Commodity = rationdetail.Commodity.Name,
+                                  RationID  = rationdetail.RationID
+                                 });
+            var dataSourceName = "RationDetailView";
+            var result = ReportHelper.PrintReport(reportPath, reportData, dataSourceName);
+
+            return File(result.RenderBytes, result.MimeType);
+        }
+        
+       
+        public ActionResult Details(int id)
+        {
+            ViewBag.RationID = id;
+            var ration = _rationService.FindById(id);
+            var rationViewModel = BindRationViewModel(ration);
+            var commdities = (from item in _commodityService.GetAllCommodity()
+                              select new
+                                         {
+                                             item.CommodityID,
+                                             item.Name
+                                         });
+            ViewData["commodities"] = commdities;
+            ViewData["UnitMeasures"] = _commodityService.GetAllUnit();
+            return View(rationViewModel);
+        }
+        private RationDetailViewModel BindRationDetailViewModel(RationDetail rationDetail)
+        {
+            RationDetailViewModel rationViewModel = null;
+            if (rationDetail != null)
+            {
+                rationViewModel = new RationDetailViewModel();
+                rationViewModel.Amount = rationDetail.Amount;
+                rationViewModel.Commodity = _commodityService.FindById(rationDetail.CommodityID).Name;
+                rationViewModel.CommodityID = rationDetail.CommodityID;
+                rationViewModel.RationID = rationDetail.RationID;
+                rationViewModel.RationDetailID = rationDetail.RationDetailID;
+                rationViewModel.UnitID = rationDetail.UnitID.HasValue?rationDetail.UnitID.Value:-1;
+                // rationViewModel.UnitID = rationDetail.UnitID;
+                rationViewModel.RationName = _rationService.FindById(rationDetail.RationID).RefrenceNumber;
+            }
+            return rationViewModel;
+        }
+        public ActionResult Edit(int id)
+        {
+            var obj = _rationService.FindById(id);
+            var rationViewModel = BindRationViewModel(obj);
+            return PartialView("_Edit", rationViewModel);
+        }
+        private RationViewModel BindRationViewModel(Ration ration)
+        {
+            var userPref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
+            if (ration == null) return null;
+            var rationViewModel = new RationViewModel();
+            rationViewModel.RationID = ration.RationID;
+            rationViewModel.IsDefaultRation = ration.IsDefaultRation;
+            rationViewModel.CreatedBy = ration.CreatedBy;
+            
+
+            rationViewModel.CreatedDate = ration.CreatedDate;
+            rationViewModel.UpdatedBy = ration.UpdatedBy;
+            rationViewModel.UpdatedDate = ration.UpdatedDate;
+            rationViewModel.ReferenceNumber = ration.RefrenceNumber;
+            //rationViewModel.CreatedDateEC = ration.CreatedDate.HasValue
+            //                                    ? EthiopianDate.GregorianToEthiopian(ration.CreatedDate.Value)
+            //                                    : "";
+            rationViewModel.UpdatedDateEC = ration.UpdatedDate.HasValue
+                                     ? EthiopianDate.GregorianToEthiopian(ration.UpdatedDate.Value)
+                                     : "";
+            rationViewModel.DateCreated = ration.CreatedDate.ToCTSPreferedDateFormat(userPref);// RequistionDate.ToCTSPreferedDateFormat(UserAccountHelper.UserCalendarPreference());
+            return rationViewModel;
+        }
+        [HttpPost]
+        public ActionResult Edit(RationViewModel rationViewModel)
+        {
+            if (rationViewModel != null && ModelState.IsValid)
+            {
+                try
+                {
+                   
+                    var orign = _rationService.FindById(rationViewModel.RationID);
+                    orign.IsDefaultRation = rationViewModel.IsDefaultRation;
+
+                    orign.UpdatedBy = UserAccountHelper.GetUser(HttpContext.User.Identity.Name).UserProfileID;
+                    orign.UpdatedDate = DateTime.Today;
+                    _rationService.EditRation(orign);
+                    return Json(new { success = true });
+                }
+                catch (Exception ex)
+                {
+                    var log = new Logger();
+                    log.LogAllErrorsMesseges(ex,_log);
+                    ModelState.AddModelError("Errors", ex.Message);
+                }
+            }
+            return PartialView("_Edit", rationViewModel);
+        }
+
+        [HttpGet]
+        public ActionResult Create()
+        {
+            return PartialView("_Create");
+        }
+
+        [HttpPost]
+        public ActionResult Create(Ration ration)
+        {
+            if (ration != null && ModelState.IsValid)
+            {
+                try
+                {
+                    ration.CreatedBy = UserAccountHelper.GetUser(HttpContext.User.Identity.Name).UserProfileID;
+                    ration.CreatedDate = DateTime.Today;
+                    _rationService.AddRation(ration);
+                    return RedirectToAction("Index");
+                }
+                catch (Exception ex)
+                {
+                    var log = new Logger();
+                    log.LogAllErrorsMesseges(ex,_log);
+                    ModelState.AddModelError("Errors", ex.Message);
+                }
+            }
+            return PartialView("_Create", ration);
+        }
+        public ActionResult Ration_Read([DataSourceRequest] DataSourceRequest request)
+        {
+         
+            var rations = _rationService.GetAllRation();
+            var rationViewModels = (from item in rations select BindRationViewModel(item)).OrderBy(o=>o.ReferenceNumber);
+            return Json(rationViewModels.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult RationDetail_Read([DataSourceRequest] DataSourceRequest request, int id)
+        {
+            var rationDetails = _rationDetailService.Get(t => t.RationID == id);
+            var rationViewModels = (from item in rationDetails select BindRationDetailViewModel(item));
+            return Json(rationViewModels.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult RationDetail(int id)
+        {
+            var rationDetails = _rationDetailService.Get(t => t.RationID == id);
+            var ration = (from item in rationDetails select new {item.Commodity.Name, item.Amount});
+            return Json(ration, JsonRequestBehavior.AllowGet);
+        }
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult RationDetail_Create([DataSourceRequest] DataSourceRequest request, RationDetailViewModel rationDetailViewModel,int id)
+        {
+            if (rationDetailViewModel != null && ModelState.IsValid)
+            {
+                rationDetailViewModel.RationID = id;
+                var rationCommodity =_rationDetailService.FindBy(
+                                m => m.RationID == id && m.CommodityID == rationDetailViewModel.CommodityID).
+                                FirstOrDefault();
+                if (rationCommodity==null)
+                {
+                    _rationDetailService.AddRationDetail(BindRationDetail(rationDetailViewModel));
+                }
+               
+               
+            }
+
+            return Json(new[] { rationDetailViewModel }.ToDataSourceResult(request, ModelState));
+        }
+
+        private RationDetail BindRationDetail(RationDetailViewModel rationDetailViewModel)
+        {
+            if (rationDetailViewModel == null) return null;
+            var ration = new RationDetail()
+                             {
+                                 RationDetailID = rationDetailViewModel.RationDetailID,
+                                 RationID = rationDetailViewModel.RationID,
+                                 CommodityID = rationDetailViewModel.CommodityID,
+                                 Amount = rationDetailViewModel.Amount,
+                                 UnitID=rationDetailViewModel.UnitID
+                                 
+                             };
+            return ration;
+        }
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult RationDetail_Update([DataSourceRequest] DataSourceRequest request, RationDetailViewModel rationDetailViewModel)
+        {
+            if (rationDetailViewModel != null && ModelState.IsValid)
+            {
+                var origin = _rationDetailService.FindById(rationDetailViewModel.RationDetailID);
+                origin.Amount = rationDetailViewModel.Amount;
+                _rationDetailService.EditRationDetail(origin);
+            }
+            return Json(new[] { rationDetailViewModel }.ToDataSourceResult(request, ModelState));
+        }
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult RationDetail_Destroy([DataSourceRequest] DataSourceRequest request, RationDetailViewModel rationDetailViewModel)
+        {
+            if (rationDetailViewModel != null && ModelState.IsValid)
+            {
+                _rationDetailService.DeleteById(rationDetailViewModel.RationDetailID);
+            }
+            return Json(ModelState.ToDataSourceResult());
+        }
+        private bool _disposed = false;
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!this._disposed)
+            {
+                if (disposing)
+                {
+                    _commodityService.Dispose();
+                    _rationService.Dispose();
+                }
+            }
+            this._disposed = true;
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        public ActionResult SetDefault(int id)
+        {
+            _rationService.SetDefault(id);
+            return RedirectToAction("Index");
+        }
+    }
+}

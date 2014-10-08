@@ -438,7 +438,7 @@
                         @item.ReceivedQty
                     </td>
                     <td>
-                        @item.Tarrif
+                        @item.Tarrif.ToString("0.00")
                     </td>
                     <td>
                         @item.ShortageQty
@@ -447,7 +447,7 @@
                         @item.ShortageBirr
                     </td>
                     <td>
-                        @item.FreightCharge
+                        @item.FreightCharge.ToString("0.00")
                     </td>
                     <td>
                         @state.Name

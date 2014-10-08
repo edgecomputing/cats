@@ -1,0 +1,31 @@
+﻿<div class="widget stacked">
+    <div id="syslogHeader" class="widget-header">
+        <i class=""></i>
+        <h3>System Log</h3>
+    </div>
+
+    <div id="syslogContent" class="widget-content">
+<div class="">
+                    <a href="@Url.Action("Index", "Log", new { Area = "Settings" })" class="shortcut"><i class="shortcut-icon icon-list-alt"></i>
+                        <span class="shortcut-label">Error Log</span>
+                    </a>
+    <br/>
+                    <a href="@Url.Action("", "", new { Area = "EarlyWarning" })" class="shortcut"><i class="shortcut-icon icon-signal"></i>
+                        <span class="shortcut-label">Audit Log</span>
+                    </a>
+    <br/>
+                    <a href="@Url.Action("", "", new { Area = "EarlyWarning" })" class="shortcut"><i class="shortcut-icon icon-inbox"></i>
+                        <span class="shortcut-label">Help</span>
+                    </a>
+    <br/>
+                </div>
+            </div>
+
+</div>
+
+
+<script>
+    $("#syslogHeader").click(function () {
+        $("#syslogContent").slideToggle("slow", "linear");
+    });
+</script>

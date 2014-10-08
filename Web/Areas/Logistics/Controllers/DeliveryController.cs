@@ -178,13 +178,16 @@ namespace Cats.Areas.Logistics.Controllers
                 {
                     var dispatchDetail = dispatchObj.DispatchDetails.FirstOrDefault();
                     if (dispatchDetail != null)
+                    {
                         deliveryViewModel.SentQuantity = dispatchDetail.RequestedQunatityInUnit;
+                         deliveryViewModel.UnitID = dispatchDetail.UnitID;
+                        deliveryViewModel.Unit = _unitService.FindById(int.Parse(dispatchDetail.UnitID.ToString())).Name;
+                    }
                     deliveryViewModel.CommodityID = dispatchObj.DispatchAllocation.CommodityID;
                     deliveryViewModel.Commodity = dispatchObj.DispatchAllocation.Commodity.Name;
                     if (dispatchObj.DispatchAllocation.Unit != 0)
                     {
-                        deliveryViewModel.UnitID = dispatchObj.DispatchAllocation.Unit;
-                        deliveryViewModel.Unit = _unitService.FindById(int.Parse(dispatchObj.DispatchAllocation.Unit.ToString())).Name;
+                       
                     }
                     deliveryViewModel.DeliveryBy = dispatchObj.DriverName;
                    
@@ -405,9 +408,12 @@ namespace Cats.Areas.Logistics.Controllers
 
                 var transporterPaymentRequest = new TransporterPaymentRequest();
                 transporterPaymentRequest.ReferenceNo = "PR-" + delivery.ReceivingNumber;
-                var firstOrDefault = _transportOrderService.Get(t => t.TransporterID == newdelivery.TransporterID && t.StatusID >= 3).FirstOrDefault();
-                if (firstOrDefault != null)
-                    transporterPaymentRequest.TransportOrderID = firstOrDefault.TransportOrderID;
+
+                //var firstOrDefault = _transportOrderService.Get(t => t.TransporterID == newdelivery.TransporterID && t.StatusID >= 3).FirstOrDefault();
+                var transportOrderId = delivery.TransportOrderID;
+                if (transportOrderId != null)
+                    transporterPaymentRequest.TransportOrderID = transportOrderId;
+
                 transporterPaymentRequest.DeliveryID = newdelivery.DeliveryID;
                 transporterPaymentRequest.ShortageBirr = (decimal)0.00;
                 int BP_PR = _applicationSettingService.getPaymentRequestWorkflow();

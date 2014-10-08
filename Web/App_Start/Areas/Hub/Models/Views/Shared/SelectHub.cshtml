@@ -1,0 +1,14 @@
+﻿@model Cats.Models.Hubs.CurrentUserModel
+@using Cats.Web.Hub.Helpers
+@using (Html.BeginForm("ChangeHub", "CurrentHub"))
+    {
+    <br />
+    <table>
+        <tr>
+            <td style="width: 200px;">@Html.Translate("Name of Hub")</td>
+            <td>@Html.DropDownList("DefaultHubId", new SelectList(Model.PossibleHubs, "HubID", "HubNameWithOwner"))</td>
+        </tr>
+    </table>
+}
+
+

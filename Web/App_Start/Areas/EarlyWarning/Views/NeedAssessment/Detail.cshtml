@@ -1,0 +1,195 @@
+﻿@using Kendo.Mvc.UI
+@using LanguageHelpers.Localization
+@using Cats.Helpers
+@model Cats.Models.Plan
+
+@{
+    ViewBag.Title = "NeedAssessmentPlan";
+    Layout = "~/Views/Shared/_CATSLayout.cshtml";
+}
+
+@section Title
+{
+Plans
+}
+
+@section PageTitle
+{
+    <h1 class="hdr-blck big ">
+        @Html.Translate("Detail Need Assessments")
+    </h1>
+}
+
+<div class="row">
+    @Html.Partial("_NeedAssessmentMainLeftBar")
+
+    <div class="col-md-10  col-sm-9">
+        <div class=" box box-primary ">
+            <div class="box-body row">
+                <div class="text-right col-md-12">
+                    <a id="btnAddAssessment" href="@Url.Action("AddNeedAssessment", "NeedAssessment", new { id = Model.PlanID })">
+                        <button type="button" class="btn btn-success"><span class="fa fa-plus"></span> New Assessment</button></a>
+                    <a id="btnCreateHrd" href="@Url.Action("CreateHRD", "HRD", new { id = Model.PlanID })">
+                        <button type="button" class="btn btn-success"><span class="fa fa-plus"></span> New HRD</button></a>
+                </div>
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-6 col-xs-12 form-horizontal">
+                                <div class="form-group">
+                                   
+                                        @Html.Label(Html.Translate("Assessment Name"), new { @class = "col-sm-4 control-label" })
+                                    
+                                    <div class="col-sm-8">
+                                        @Html.TextBoxFor(m => m.PlanName, new { @class = "form-control",Disabled = true })
+                                        @Html.ValidationMessageFor(m => m.PlanName)
+                                    </div>
+                                </div>
+                         
+                                <div class="form-group">
+                                    
+                                        @Html.Label(Html.Translate("Assessment From"), new { @class = "col-sm-4 control-label cats-date-pref" })
+                                    
+                                    <div class="col-sm-8">
+                                        @Html.TextBoxFor(m => m.StartDate, new { @class = "form-control cats-datepicker2" })
+                                        @Html.ValidationMessageFor(m => m.StartDate)
+                                    </div>
+                                </div>
+                           
+                                <div class="form-group">
+                                    
+                                        @Html.Label(Html.Translate("To"), new { @class = "col-sm-4 control-label cats-date-pref" })
+                                   
+                                    <div class="col-sm-8">
+                                        @Html.TextBoxFor(m => m.EndDate, new { @class = "form-control cats-datepicker2" })
+                                        @Html.ValidationMessageFor(m => m.EndDate)
+                                    </div>
+
+                                </div>
+                            </div>
+                    </div>
+                            
+                      
+
+                    <div class="table-responsive">
+
+                        @(Html.Kendo().Grid<Cats.Models.NeedAssessmentHeaderViewModel>()
+    .Name("grid")
+    .Columns(columns =>
+    {
+        columns.Bound(p => p.RegionName).Title("Region");
+        columns.Bound(p => p.SeasonName).Visible(true).Width(100).Title("Season");
+        columns.Bound(p => p.Date).Title(Html.Translate("Need Assessment Created Date")).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid", style = "overflow: visible; white-space: normal;", title = "Need Assessment Created Date" });
+        columns.Bound(p => p.NeedACreaterName).Title("Created By").HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;", title = "Created By" });
+        columns.Bound(p => p.IsApproved).Visible(false);
+        columns.Command(p =>
+        {
+            p.Custom("Edit").Click("NeedAssessmentEdit").Text("<span class=\"fa fa-pencil-square-o\"></span> Edit ");
+            p.Custom("Delete").Click("DeleteNeedAssessment").Text("<span class=\"fa fa-times\"></span> Delete ");
+
+        });
+    })
+    .HtmlAttributes(new { style = "height: 300px" })
+    .Sortable()
+    .Scrollable()
+     .Events(e => e.DataBound("onDataBound"))
+    .DataSource(dataSource => dataSource
+        .Ajax()
+        .PageSize(10)
+        .Model(model => model.Id(p => p.NeedAID))
+        .Read(read => read.Action("PlannedNeedAssessmentInfo_Read", "NeedAssessment", new { id = Model.PlanID }))
+    )
+      )
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="cats-modal"></div>
+<script type="text/javascript">
+    $(function () {
+
+        //Optional: turn the chache off
+        $.ajaxSetup({ cache: false });
+        $('#btnAddAssessment').on('click',
+                function (e) {
+                    $('#cats-modal').remove();
+                    e.preventDefault();
+                    var $this = $(this)
+                      , $remote = $this.data('remote') || $this.attr('href')
+                      , $modal = $('<div class="modal" id="cats-modal"><div class="modal-body"></div></div>');
+                    console.log($remote);
+                    $('body').append($modal);
+                    $modal.modal({ backdrop: 'static', keyboard: false });
+                    $modal.load($remote);
+                }
+              );
+        //$('#btnAddAssessment').click(function () {
+
+        //    // alert("");
+        //    $('#dialogContent').load(this.href, function () {
+        //        $('#dialogDiv').modal({
+        //            backdrop: 'static',
+        //            keyboard: true
+        //        }, 'show');
+        //        //bindForm(this);
+        //    });
+        //    return false;
+        //});
+
+    });
+</script>
+
+
+<script>
+    function onDataBound(e) {
+
+        $(".table-responsive .k-button").removeClass("k-button").addClass("btn btn-xs mrgn3 ");
+        $(".k-grid-Edit").addClass("btn-warning");
+        $(".k-grid-Delete").addClass("btn-danger");
+        $(".k-grid-Summary").addClass("btn-primary");
+    }
+    function NeedAssessmentEdit(e) {
+        e.preventDefault();
+
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        window.location = null;
+        window.location = "@Url.Action("EditNeedAssessment", "NeedAssessment")" + "?id=" + dataItem.NeedAID;
+    }
+
+    function DeleteNeedAssessment(e) {
+        e.preventDefault();
+
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        wn.center().open();
+        $("#yesDelete").click(function () {
+            window.location = "@Url.Action("DeleteNeedAssessment", "NeedAssessment",new {Area="EarlyWarning"})" + "?id=" + dataItem.NeedAID;
+            wn.close();
+        });
+
+        $("#noDelete").click(function () {
+            wn.close();
+        });
+    }
+
+</script>
+<div id="modalWindowDelete">
+    <h6>Delete Need Assessment?<br />
+        This will delete all the related records with this Region!</h6>
+    <button id="yesDelete" class="k-button">Yes</button>
+    <button id="noDelete" class="k-button">No</button>
+</div>
+<script>
+    var wn;
+    $(document).ready(function () {
+        wn = $("#modalWindowDelete").kendoWindow({
+            title: "Delete confirmation",
+            modal: true,
+            visible: false,
+            resizable: false,
+            width: 300
+        }).data("kendoWindow");
+    });
+
+
+</script>

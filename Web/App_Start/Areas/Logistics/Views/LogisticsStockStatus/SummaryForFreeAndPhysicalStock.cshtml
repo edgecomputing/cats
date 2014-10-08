@@ -1,0 +1,32 @@
+﻿@using Cats.Models.Hubs
+@using Kendo.Mvc.UI
+@using Cats.Helpers
+@{
+    ViewBag.Title = "SummaryForFreeAndPhysicalStock";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+
+@(Html.Kendo().Grid<VWCommodityReceived>().Name("grid").Columns(col =>
+{
+    col.Bound(t => t.ShippingInstruction);
+    col.Bound(t => t.Commodity);
+    col.Bound(t => t.ProjectCode);
+    col.Bound(t => t.Donor);
+    col.Bound(t => t.Program);
+    col.Template(c => { }).ClientTemplate("#=toCatsPreferedUnit(data.DonorAll)#").HeaderHtmlAttributes(new { @class = "cats-unit-pref" }).HtmlAttributes(new { align = "right" }).Title(Html.Translate("Donor All"));
+    col.Template(c => { }).ClientTemplate("#=toCatsPreferedUnit(data.Received)#").HeaderHtmlAttributes(new { @class = "cats-unit-pref" }).HtmlAttributes(new { align = "right" }).Title(Html.Translate("Received"));
+    col.Template(c => c.Expected).ClientTemplate("#=toCatsPreferedUnit(data.Expected)#").HeaderHtmlAttributes(new { @class = "cats-unit-pref" }).HtmlAttributes(new { align = "right" }).Title(Html.Translate("Expected"));
+    col.Template(c => c.Commited).ClientTemplate("#=toCatsPreferedUnit(data.Commited)#").HeaderHtmlAttributes(new { @class = "cats-unit-pref" }).HtmlAttributes(new { align = "right" }).Title(Html.Translate("Commited"));
+
+    col.Template(c => { }).ClientTemplate("#=calculateUnCommitedStock(data)#").Title(Html.Translate("Un Commited")).HeaderHtmlAttributes(new { @class = "cats-unit-pref" }).HtmlAttributes(new { align = "right" });
+    col.Template(c => c.Dispatched).ClientTemplate("#=toCatsPreferedUnit(data.Dispatched)#").HeaderHtmlAttributes(new { @class = "cats-unit-pref" }).HtmlAttributes(new { align = "right" }).Title(Html.Translate("Dispatched"));
+
+    col.Template(c => { }).ClientTemplate("#=calculatePhysicalStock(data)#").Title(Html.Translate("Physical Stock")).HeaderHtmlAttributes(new { @class = "cats-unit-pref" }).HtmlAttributes(new { align = "right" });
+
+    }).DataSource(datasource =>
+                        datasource.Ajax().Read(read => read.Action("CommodityReceived_read", "LogisticsStockStatus").Data("filterData"))
+                            .Group(t => t.Add(m => m.Commodity))
+
+                    ).Sortable().Filterable()
+)

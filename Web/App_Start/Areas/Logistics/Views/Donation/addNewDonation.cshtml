@@ -1,0 +1,220 @@
+﻿@model Cats.Areas.Logistics.Models.DonationViewModel
+@using Cats.Helpers
+
+
+
+@{
+    ViewBag.Title = "Create";
+    const string pageName = "Logistics.Donation.Create";
+}
+
+
+
+    
+
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="myModalLabel">@Html.Translate2(pageName, "Add New Receive Plan")</h3>
+    </div>
+    @{
+        var siNo = "0";
+        if (Model != null)
+        {
+            siNo = Model.SINumber;
+        }
+    }
+
+    @using (Html.BeginForm("Save", "Donation", new { siNumber = siNo }, FormMethod.Post, new { @class = "modal-form", id = "myModal" }))
+    {
+    
+
+        
+        <table border="0" class="form-horizontal">
+            <tr style="width: 300px">
+            <td style="width:50%">
+                <div class="control-label">
+                    @Html.Label(@Html.Translate2(pageName, "SI Number"))
+                </div>
+                <div class="controls">
+                    @Html.TextBoxFor(model => model.SINumber, new { @class = "addresspicker", required = "required", autocomplete = "off" })<span class="hide help-inline">Required!</span>
+                    @Html.ValidationMessageFor(m => m.SINumber)
+               
+                </div>
+
+            </td>
+            
+                
+           <td style="width: 50%">
+                 <div class="control-label">
+                     @Html.Label(@Html.Translate2(pageName, "Quantity"))
+                 </div>
+                 <div class="controls" >
+                     @Html.TextBoxFor(model => model.WieghtInMT, new { @readonly = "readonly", Value = "" })<span class="hide help-inline">Required!</span>
+                     @Html.ValidationMessageFor(m => m.WieghtInMT)
+               
+                 </div>
+
+             </td>
+             <tr style="width: 300px">   
+                <td style="width: 50%">
+                    <div class="control-label">
+                        @Html.LabelFor(model => model.ETA, @Html.Translate2(pageName, "ETA"))
+                    </div>
+                    <div class="controls" >
+                        @(Html.TextBoxFor(model => model.ETA, new { @readonly = "readonly", Value = "" }))
+                        @Html.ValidationMessageFor(model => model.ETA)
+                    </div>
+                </td>
+
+                   
+                <td>
+                    <div class="control-label">
+                        @Html.Label(@Html.Translate2(pageName, "Donor")) 
+                    </div>
+                    <div class="controls">
+                        @(Html.TextBoxFor(model => model.DonorName, new { @readonly = "readonly" })) @*new SelectList(Model.Donors, "DonorID", "Name")*@
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                
+                    <div class="control-label">
+                        @Html.Label(@Html.Translate2(pageName, "Commodity Type")) 
+                    </div>
+                    <div class="controls" >
+                        @(Html.TextBoxFor(model => model.CommomdityTypeName, new { @readonly = "readonly" })) @*, new SelectList(Model.CommodityTypes, "CommodityTypeID", "Name")*@
+                    </div>
+               
+                </td>
+                <td>
+                
+                    <div class="control-label">
+                        @Html.Label(@Html.Translate2(pageName, "Commodity")) 
+                    </div>
+                    <div class="controls" >
+                        @(Html.TextBoxFor(model => model.CommodityName, new { @readonly = "readonly" })) @*, new SelectList(Model.Commodities, "CommodityID", "Name")*@
+                    </div>
+                
+            
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="control-label">
+                        @Html.Label(@Html.Translate2(pageName, "Program")) 
+                    </div>
+                    <div class="controls">
+                        @(Html.TextBoxFor(model => model.ProgramName, new { @readonly = "readonly" })) @*, new SelectList(Model.Programs, "ProgramID", "Name")*@
+                    </div>
+                </td>
+            </tr>
+                
+
+           
+            <tr>
+                <td colspan="2">
+                    <div class="modal-footer"> <button class="btn btn-primary" type="button" onclick="onSave(this)">Save</button>
+                        <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+       
+                    </div>
+                </td>
+            </tr>  
+        </table>
+       
+
+    }
+
+<script>
+    var giftCertificates = "";
+    var sourceArr = [];
+    $(document).ready(function() {
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("GetGiftCertificates", "Donation",new {Area="Logistics"})",
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+
+            success: function (result) {
+                for (var i = 0; i < result.length; i++) {
+                    sourceArr.push(result[i]);
+               
+                }
+            },
+            error: function (error) {
+                alert("There was an error posting the data to the server: " + error.responseText);
+            }
+        });
+    });
+
+    
+
+    $('#SINumber').typeahead({ source: sourceArr });
+    
+    
+
+    
+    function onSave(e) {
+        
+        if ($('#SINumber').val() === "") {
+            // invalid
+            $('#SINumber').next('.help-inline').show();
+            return false;
+        } if ($('#WieghtInMT').val() === "") {
+            $('#WieghtInMT').next('.help-inline').show();
+            return false;
+        }
+        
+        else {
+            window.location = null;
+            window.location = "@Url.Action("SaveHeader", "Donation")" + "?id=" + $("#SINumber").val();
+         
+        }
+        
+      
+       
+       
+    };
+
+    $("#SINumber").on('change', function () {
+        
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("Load", "Donation",new {Area="Logistics"})" + "?id=" + $("#SINumber").val(),
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+
+            success: function (result) {
+
+                var date = new Date(parseInt(result.eta.substr(6)));
+                var dtString = (date.getMonth() + 2) + "/" + ((date.getDate()) + 8) + "/" + date.getFullYear();
+                
+                $("#WieghtInMT").val(result.quantity);
+                $("#ETA").val(dtString);
+                $("#DonorName").val(result.donorId);
+                $("#ProgramName").val(result.programId);
+                $("#CommodityName").val(result.comodity);
+                $("#CommomdityTypeName").val(result.commodityType);
+               
+               
+            },
+            error: function (error) {
+                
+                //alert("Duplicate gift certificate has been found: " + error.responseText);
+                $("#WieghtInMT").val("");
+                $("#ETA").val("");
+                $("#DonorName").val("");
+                $("#ProgramName").val("");
+                $("#CommodityName").val("");
+                $("#CommomdityTypeName").val("");
+            }
+        });
+    });
+    
+
+    
+</script>
+
+
+

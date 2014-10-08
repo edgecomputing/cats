@@ -1,0 +1,41 @@
+﻿@using Kendo.Mvc.UI
+@model  IEnumerable<Cats.Models.TransportOrder>
+
+@{
+    ViewBag.Title = "Create Bid";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+<div>
+    <h4> Bid Winner Transporters</h4>
+    
+</div>
+
+@section LeftBar
+{
+    
+    @Html.Partial("_DispatchLocationsLeftBar");
+}
+
+@(Html.Kendo().Grid((IEnumerable<Cats.Models.TransportOrder>)ViewData["Transporters"])
+    .Name("BidWinners")
+    .Columns(columns =>
+        {
+            columns.Bound(p => p.BidDocumentNo).Title("Bid Number");
+            columns.Bound(p => p.Transporter.Name).Title("Transporter").Template(
+                @<text>
+                     <a href="@Url.Action("Details", "DispatchLocations", new { Area = "Procurement", id = item.TransporterID })">@Html.DisplayFor(modelItem => item.Transporter.Name)</a>                                       
+                 </text> );   
+
+        })
+    .Pageable()
+    .Sortable()
+    .Filterable()
+    .Editable(editable => editable.Mode(GridEditMode.InLine))
+    .DataSource(dataSource => dataSource
+          .Server()
+             .Model(model => model.Id(p => p.TransporterID))
+            .Read(read => read.Action("Index", "DispatchLocations"))
+     )
+   )
+
+

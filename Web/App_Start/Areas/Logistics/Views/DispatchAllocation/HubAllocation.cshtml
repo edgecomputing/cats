@@ -1,0 +1,30 @@
+﻿@model int?
+
+@using Kendo.Mvc.UI
+@using Cats.Helpers
+
+@(Html.Kendo().Grid<Cats.Models.HubAllocationByRegionViewModel>()
+    .Name("grid_hub")
+
+    .Columns(columns =>
+
+
+            columns.Bound(e => e.Hub).ClientTemplate("#=Hub#(#=kendo.toString(AllocatedAmount,'N')#)").HeaderHtmlAttributes(new { @class = "cats-unit-pref" }).Title(Html.Translate("Hub Allocated Amount"))
+
+
+    )
+    .DataSource(dataSource => dataSource
+        .Ajax()
+        .Read(read => read.Action("HubAllocation", "DispatchAllocation", new { regionId = @Model }))
+
+        .PageSize(10)
+     )
+
+     .Scrollable(scroll => scroll.Height(400))
+        //.Selectable(select => select.Mode(GridSelectionMode.Multiple))
+        //.Navigatable()
+        //.Filterable()
+        //.Sortable()
+        //.Pageable()
+)
+

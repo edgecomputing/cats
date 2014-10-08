@@ -1,0 +1,31 @@
+﻿@using Cats.Models.Hubs
+@using Cats.Web.Hub.Helpers
+@using Telerik.Web.Mvc.UI
+@{
+    var usr = @Html.GetCurrentUser();
+    var mdl = new CurrentUserModel(usr);
+}
+<div align="right">
+    @{
+       string title = ""; 
+   
+        if(ViewBag.Title != null)
+        {
+            title = ViewBag.Title;
+        }
+    }
+</div>
+<div class="row-fluid form-inline">
+    <h4 class="page-header">@Html.Translate(title) 
+    @Html.Label("Owner", mdl.Owner) - @Html.Label("WH", mdl.Name) @Html.Translate(" Hub ")
+    
+    @{
+        if(usr.UserAllowedHubs.Count > 1)
+        {
+            @Html.HubSelectionLink(Html.Translate("Change Warehouse"), Url.Action("HubList", "CurrentHub"), Html.Translate("Change Hub"))
+        }
+        
+   } </h4>
+</div>
+
+

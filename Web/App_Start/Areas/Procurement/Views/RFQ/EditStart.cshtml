@@ -1,0 +1,40 @@
+﻿
+@{
+    ViewBag.Title = "rfq";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+
+}
+@section LeftBar
+{
+    <form action="Edit" method="post">
+  
+        <div class="control-group">
+            <label class="control-label">Bid</label>
+            <div class="controls">
+               @Html.DropDownList("BidID");
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">Region</label>
+            <div class="controls">
+             
+                @Html.DropDownList("RegionID");
+                
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">Transporter</label>
+            <div class="controls">
+             
+                @Html.DropDownList("TransporterID");
+                
+            </div>
+        </div>
+        
+        <input type="submit" value="Select" class="btn btn-primary"/>
+        <input type="button" value="Edit" class="btn btn-primary" onclick="{this.form.action='edit'; this.form.submit();}"/>
+        </form>
+}
+
+<h2>RFQ</h2>
+

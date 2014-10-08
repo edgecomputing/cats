@@ -1,0 +1,9 @@
+﻿@model Cats.Models.Hubs.NotFoundModel
+           @using Cats.Web.Hub.Helpers
+@{
+    ViewBag.Title = Html.Translate("Page could not be found");
+}
+<h2>@ViewBag.Title</h2>
+<div>
+@Html.Translate("You tried to visit ") '@Model.RequestedUrl' @Html.Translate("which cannot be found.")
+</div>

@@ -1,0 +1,14 @@
+﻿@using Cats.Models.Constant
+<ul class="nav nav-list">
+    <li class="nav-header">Transport Request</li>
+    <li><a href="@Url.Action("Index", "TransportRequisition", new { Area = "Logistics" , id=(int)TransportRequisitionStatus.Draft})">
+            <i class="icon-inbox"></i> Draft Requsition</a>
+    </li>
+    <li><a href="@Url.Action("Index", "TransportRequisition", new { Area = "Logistics" , id=(int)TransportRequisitionStatus.Approved})">
+            <i class="icon-inbox"></i> Approved Requsition</a>
+    </li>
+    <li><a href="@Url.Action("Index", "TransportRequisition", new { Area = "Logistics" , id=(int)TransportRequisitionStatus.Closed})">
+            <i class="icon-inbox"></i> Closed Requsition</a>
+    </li>
+    <li><a href="@Url.Action("Index", "TransportRequisition", new { Area = "Logistics" , id=-1})"><i class="icon-check"></i> All Request</a></li>
+</ul>

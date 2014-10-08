@@ -1,0 +1,189 @@
+﻿@using Cats.Web.Hub.Helpers
+@model Cats.Models.Hubs.ViewModels.StartingBalanceViewModel
+
+@{
+    ViewBag.Title = "StartingBalance";
+}
+
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.CommodityID, Html.Translate("Commodity")) <span class="required">*</span>
+        </div>
+        <div class="editor-field">
+                @(Html.Telerik().ComboBox()
+               .Name("CommodityID")
+               .AutoFill(true)
+               .BindTo(new SelectList(Model.Commodities, "CommodityID", "Name", Model.CommodityID))
+               //.DataBinding(bind => bind.Ajax().Select("CommodityListByType", "Commodity", new { CommodityTypeID =  Model.CommodityTypeID ,editModeVal = Model.CommodityID, SInumber = Model.SINumber, CommoditySourceID = Model.CommodityID }).Enabled(true))
+               .HtmlAttributes(new { style = string.Format("width:{0}px", 200) })
+               //.ClientEvents(ev => ev.OnChange("OnComChange").OnDataBinding("OnBinding"))
+               .Filterable(filtering =>
+               {
+
+                   filtering.FilterMode(AutoCompleteFilterMode.Contains);
+
+               })
+               .HighlightFirstMatch(true)
+               .AutoFill(true)
+               .OpenOnFocus(true)
+                )
+                @Html.ValidationMessageFor(model => model.CommodityID)
+         
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.DonorID, Html.Translate("Donor")) <span class="required">*</span>
+        </div>
+    
+        <div class="editor-field">
+              @(Html.Telerik().ComboBox()
+                                      .Name("DonorID")
+                                      .AutoFill(true)
+                                      .BindTo(new SelectList(Model.Donors, "DonorID", "Name", Model.DonorID))
+                                      .HtmlAttributes(new { style = string.Format("width:{0}px", 200) })
+                                      
+                                    //   .ClientEvents(ev => ev.OnChange("OnComTypeChange").OnDataBound("OnComTypeChange"))
+                                      .Filterable(filtering =>
+                                      {
+
+                                          filtering.FilterMode(AutoCompleteFilterMode.Contains);
+
+                                      })
+                                      .HighlightFirstMatch(true)
+                                      .AutoFill(true)
+                                      .OpenOnFocus(true)
+                                         )
+                                   @Html.ValidationMessageFor(model => model.DonorID)
+        </div>
+    
+    
+        <div class="editor-label">
+           @Html.LabelFor(model => model.ProgramID, Html.Translate("Program")) <span class="required">*</span>
+        </div>
+        <div class="editor-field">
+            @(Html.Telerik().ComboBox()
+                           .Name("ProgramID")
+                           .AutoFill(true)
+                           .BindTo(new SelectList(Model.Programs, "ProgramID", "Name", Model.ProgramID))
+                            .HtmlAttributes(new { style = string.Format("width:{0}px", 200) })
+        //.ClientEvents(ev => ev.OnChange("OnComChange"))
+                           .Filterable(filtering =>
+                           {
+                               filtering.FilterMode(AutoCompleteFilterMode.Contains);
+                           })
+                           .HighlightFirstMatch(true)
+                           .AutoFill(true)
+                           .OpenOnFocus(true)
+                          )
+            @Html.ValidationMessageFor(model => model.ProgramID)
+        </div>
+
+        <div class="editor-label">
+              @Html.LabelFor(model => model.StoreID, Html.Translate("Store")) <span class="required">*</span>
+        </div>
+        <div class="editor-field">
+             @(Html.Telerik().ComboBox()
+           .Name("StoreID")
+           .AutoFill(true)
+           .BindTo(new SelectList(Model.Stores, "StoreID", "Name", Model.StoreID))
+           .HtmlAttributes(new { style = string.Format("width:{0}px", 200) })
+        //.ClientEvents(ev => ev.OnChange("OnComChange"))
+           .Filterable(filtering =>
+           {
+
+               filtering.FilterMode(AutoCompleteFilterMode.Contains);
+
+           })
+           .HighlightFirstMatch(true).CascadeTo("StackNumber")
+           .AutoFill(true)
+           .OpenOnFocus(true)
+                      )
+            @Html.ValidationMessageFor(model => model.StoreID)
+        </div>
+
+        <div class="editor-label">
+           @Html.LabelFor(model => model.StackNumber, Html.Translate("Stack Number")) <span class="required">*</span>
+        </div>
+        <div class="editor-field">
+            @(Html.Telerik().ComboBox()
+           .Name("StackNumber")
+        //.BindTo(new SelectList(Model.Stacks, "Id", "Name", Model.StackNumber))
+           .DataBinding(bind => bind.Ajax().Select("StackNumbers", "Store", new { editModval = Model.StackNumber }).Enabled(true))
+           .HtmlAttributes(new { style = string.Format("width:{0}px", 200) })
+        // .ClientEvents(ev => ev.OnChange("OnComChange"))
+           .Filterable(filtering =>
+           {
+               filtering.FilterMode(AutoCompleteFilterMode.Contains);
+           })
+           .HighlightFirstMatch(true)
+           .OpenOnFocus(true)
+           .AutoFill(true)
+                      )
+            @Html.ValidationMessageFor(model => model.StackNumber)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ProjectNumber, Html.Translate("Project Code")) <span class="required">*
+            </span>
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.ProjectNumber)
+            @Html.ValidationMessageFor(model => model.ProjectNumber)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.SINumber, Html.Translate("SI / Batch Number")) <span class="required">*
+            </span>
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.SINumber)
+            @Html.ValidationMessageFor(model => model.SINumber)
+        </div>
+       <div class="editor-label">
+            @Html.LabelFor(model => model.UnitID, Html.Translate("Unit")) <span class="required">*</span>
+        </div>
+        <div class="editor-field">
+            @(Html.Telerik().ComboBox()
+            .Name("UnitID")
+            .BindTo(new SelectList(Model.Units, "UnitID", "Name", Model.UnitID))
+            .HtmlAttributes(new { style = string.Format("width:{0}px", 200) })
+            )
+            @Html.ValidationMessageFor(model => model.UnitID)
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.QuantityInUnit, Html.Translate("Quantity In Unit"))
+                    <span class="required">
+                        *</span>
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.QuantityInUnit)
+            @Html.ValidationMessageFor(model => model.QuantityInUnit)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.QuantityInMT, Html.Translate("Quantity In MT"))
+                    <span class="required">
+                        *</span>
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.QuantityInMT)
+            @Html.ValidationMessageFor(model => model.QuantityInMT)
+        </div>
+
+        
+
+    <br />
+    <p style="clear: both">
+        <input style="width: 80px; height: 20px; horiz-align: center" class="t-button" value="@Html.Translate("Save")"
+               onclick="return submitStartingBalanceForm(this)" />
+        <input style="width: 80px; height: 20px; horiz-align: center" class="t-button t-close" value="@Html.Translate("Cancel")"
+               onclick="return cancelStartingBalanceForm()" />
+    </p>
+
+}
+

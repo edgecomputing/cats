@@ -1,0 +1,235 @@
+﻿@model Cats.Areas.Settings.Models.UserViewModel
+@{
+    ViewBag.Title = "New";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";  
+}
+
+@*@section MainMenu
+{
+    @Html.Partial("_AdminMenuBar")
+}*@
+
+@section Leftbar
+{
+    @Html.Partial("_AdminLeftBar")
+}
+
+
+
+<h4 class="page-header">New User</h4>
+
+@using (Html.BeginForm("New", "Users", FormMethod.Post, new { @class = "form-horizontal" }))
+{
+    <!-- Text input-->
+    @Html.HiddenFor(m=>m.IsAdmin)
+  
+    if (ViewBag.passworDoNotMatch!=null)
+     {
+          <div class="span12" style="color: red" id="msgerror">
+             <label class="control-label">@ViewBag.passworDoNotMatch</label>
+         </div>
+     }
+    <div class="control-group">
+        <label class="control-label">User name:</label>
+        <div class="controls">
+            @Html.TextBoxFor(m => m.UserName, new { @class = "input-xlarge", @required = "required", @id = "UserName" })<div>@ViewBag.Error</div>
+            @Html.ValidationMessageFor(m=>m.UserName)
+        </div>
+    </div>
+
+    <!-- Text input-->
+    <div class="control-group">
+        <label class="control-label">First Name name:</label>
+        <div class="controls">
+            @Html.TextBoxFor(m => m.FirstName, new { @class = "input-xlarge", @required = "required" })
+             @Html.ValidationMessageFor(m=>m.FirstName)
+        </div>
+    </div>
+
+    <!-- Text input-->
+    <div class="control-group">
+        <label class="control-label">Last Name name:</label>
+        <div class="controls">
+            @Html.TextBoxFor(m => m.LastName, new { @class = "input-xlarge", @required = "required" })
+             @Html.ValidationMessageFor(m=>m.LastName)
+        </div>
+    </div>
+
+    <!-- Password input-->
+    <div class="control-group">
+        <label class="control-label">Password:</label>
+        <div class="controls">
+            @Html.PasswordFor(m => m.Password, new { @class = "input-xlarge", @required = "required", id="pwd" })
+             @Html.ValidationMessageFor(m=>m.Password)
+        </div>
+    </div>
+
+    <!-- Password input-->
+    <div class="control-group">
+        <label class="control-label">Retype Password:</label>
+        <div class="controls">
+            @Html.PasswordFor(m => m.PasswordConfirm, new { @class = "input-xlarge", @required = "required", id="confpwd" })
+             @Html.ValidationMessageFor(m=>m.PasswordConfirm)
+        </div>
+    </div>
+
+
+    <div class="control-group">
+        <label class="control-label">Email:</label>
+        <div class="controls">
+            @Html.TextBoxFor(m => m.Email, new { @class = "input-xlarge", @required = "required" , @type="email"})
+            @Html.ValidationMessageFor(m => m.Email)
+        </div>
+    </div>
+
+    @*<div class="control-group" style="visibility: hidden">
+        <label class="control-label">Program:</label>
+        <div class="controls">
+            @(Html.DropDownListFor(model => model.ProgramId, new SelectList(ViewBag.Programs, "ProgramID", "Name"),"No Program", new { @id = "Program" }))
+            
+        </div>
+    </div>*@
+    
+    <div class="control-group">
+        @Html.Label("User Type", new { @class = "control-label" })
+        <div class="controls">
+            @(Html.DropDownList("UserType", new SelectList(ViewBag.userTypes, "Text", "Value","User Type"),"--Select Type---", new { @id = "UserType" }))
+             @Html.ValidationMessageFor(m=>m.UserType)
+        </div>
+    </div>
+
+    <div id="div_hubs" class="control-group">
+        @Html.Label("Hub", new { @class = "control-label" })
+        <div class="controls">
+            @Html.DropDownListFor(model => model.DefaultHub, new SelectList(ViewBag.hubs, "HubID", "Name"), "--Select Hub---")
+        </div>
+    </div>
+
+    <div id="div_regions" class="control-group">
+        @Html.Label("Region", new { @class = "control-label" })
+        <div class="controls">
+            @Html.DropDownListFor(model => model.RegionID, new SelectList(ViewBag.regions, "AdminUnitID", "Name"),"--Select Region---")
+            @Html.HiddenFor(m => m.RegionalUser)
+        </div>
+    </div>
+
+    <div id="div_caseTeam" class="control-group">
+        <label class="control-label">Case Team</label>
+        <div class="controls">
+            @Html.DropDownListFor(m => m.CaseTeam, new SelectList(ViewBag.CaseTeams, "ID", "CaseTeamName"), "--Select Case Team")
+        </div>
+    </div>
+
+
+    <!-- Button (Double) -->
+    <div class="control-group">
+        <label class="control-label"></label>
+        <div class="controls">
+            <input type="submit" name="createUser" class="btn btn-primary" value="Create User" />
+            <a href="@Url.Action("Index", "Users")" class="btn">Cancel</a>
+        </div>
+    </div>
+}
+
+<script type="text/javascript">
+    jQuery(document).ready(function ($) {
+        $('#tabs').tab();
+    });
+</script>
+
+
+<script>
+
+    $(document).ready(function () {
+
+        if (document.getElementById("UserType").value == "1") {
+            $("#div_regions").show();
+            $("#div_hubs").hide();
+            $("#div_caseTeam").hide();
+            document.getElementById("RegionalUser").value = true;
+            document.getElementById("DefaultHub").value = '';
+            document.getElementById("CaseTeam").value = '';
+        }
+        else if (document.getElementById("UserType").value == "2") {
+
+            $("#div_regions").hide();
+            $("#div_hubs").show();
+            $("#div_caseTeam").hide();
+            document.getElementById("RegionalUser").value = false;
+            document.getElementById("RegionID").value = '';
+            document.getElementById("CaseTeam").value = '';
+
+        } else if (document.getElementById("UserType").value == "3") {
+
+            $("#div_regions").hide();
+            $("#div_hubs").hide();
+            $("#div_caseTeam").show();
+
+            document.getElementById("RegionalUser").value = false;
+            document.getElementById("DefaultHub").value = '';
+            document.getElementById("RegionID").value = '';
+        }
+        else {
+            $("#div_regions").hide();
+            $("#div_hubs").hide();
+            $("#div_caseTeam").hide();
+        }
+    });
+
+    $('#UserType').change(function () {
+        if (this.value == "1") {
+
+            $("#div_regions").show();
+            $("#div_hubs").hide();
+            $("#div_caseTeam").hide();
+
+            document.getElementById("RegionalUser").value = true;
+            document.getElementById("DefaultHub").value = '';
+            document.getElementById("CaseTeam").value = '';
+            document.getElementById("IsAdmin").value = false;
+           
+
+        } else if (this.value == "2") {
+
+            $("#div_regions").hide();
+            $("#div_hubs").show();
+            $("#div_caseTeam").hide();
+
+            document.getElementById("RegionalUser").value = false;
+            document.getElementById("RegionID").value = '';
+            document.getElementById("CaseTeam").value = '';
+            document.getElementById("IsAdmin").value = false;
+           
+        } else if (this.value == "3") {
+
+            $("#div_regions").hide();
+            $("#div_hubs").hide();
+            $("#div_caseTeam").show();
+
+            document.getElementById("RegionalUser").value = false;
+            document.getElementById("DefaultHub").value = '';
+            document.getElementById("RegionID").value = '';
+            document.getElementById("IsAdmin").value = false;
+            
+        }
+
+        else if (this.value == "4") {
+            $("#div_regions").hide();
+            $("#div_hubs").hide();
+            $("#div_caseTeam").hide();
+            
+         document.getElementById("IsAdmin").value=true;
+         document.getElementById("RegionalUser").value = false;
+         document.getElementById("DefaultHub").value = '';
+         document.getElementById("RegionID").value = '';
+        
+           
+        }
+        else {
+                $("#div_regions").hide();
+                 $("#div_hubs").hide();
+               $("#div_caseTeam").hide();
+        }
+    });
+</script>
+<script src="~/Content/assets/js/bootstrap.js"></script>

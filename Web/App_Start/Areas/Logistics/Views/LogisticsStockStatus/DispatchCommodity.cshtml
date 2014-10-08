@@ -1,0 +1,185 @@
+﻿@using Cats.Models.Hubs
+@using Kendo.Mvc.UI
+@using Cats.Helpers
+
+@{
+    ViewBag.Title = "DispatchedCommodity";
+    Layout = "~/Views/Shared/_MainLayoutWide.cshtml";
+}
+
+<h4 class="page-header">@Html.Translate("Dispatch Commodity")</h4>
+<div class="row-fluid form-inline">
+    <div class="control-group span2">
+        <div class="control-label">
+            @Html.Translate("Hub")
+        </div>
+        <div class="">
+            @Html.DropDownList("SelectHubID", (IEnumerable<SelectListItem>)ViewBag.SelectHubID, "Select Hub",new {@class="controls span11"})
+        </div>
+    </div>
+    <div class="control-group span2">
+        <div class="control-label">
+            @Html.Translate("Program")
+        </div>
+        <div class="">
+            @Html.DropDownList("SelectProgramID", (IEnumerable<SelectListItem>)ViewBag.SelectProgramID, "Select Program",new {@class="controls span11"})
+        </div>
+    </div>
+    
+    
+    <div class="control-group span2">
+        <div class="control-label">
+            @Html.Translate("Region")
+        </div>
+        <div class="">
+            @Html.DropDownList("SelectRegionID", (IEnumerable<SelectListItem>)ViewBag.SelectRegionID, "Select Region",new {@class="controls span11"})
+        </div>
+    </div>
+    <div class="control-group span2">
+        <div class="control-label">
+            @Html.Translate("Zone")
+        </div>
+        <div class="">
+            <select id="zone" name="Zone"></select>
+            
+        </div>
+    </div>
+    
+   @* <div class="control-group span2">
+        <div class="control-label">
+            @Html.Translate("Woreda")
+        </div>
+        <div class="">
+            <select id="woreda" name="Woreda"></select>
+        </div>
+    </div>
+    <div class="control-group span2">
+        <div class="control-label">
+            @Html.Translate("FDP")
+        </div>
+        <div class="">
+           <select id="fdp" name="Fdp"></select>
+        </div>
+    </div>*@
+</div>
+@(Html.Kendo().Grid<VWDispatchCommodity>().Name("grid").Columns(col =>
+                                                       {
+
+                                                          
+                                                           col.Bound(t => t.Commodity).Width(60);
+                                                           col.Bound(t => t.Beneficiery).HtmlAttributes(new { align = "right" }).Title(Html.Translate("Benefiaciaries")).Width(50);
+                                                          
+                                                           col.Bound(t => t.ShippingInstruction).Width(50);
+                                                           col.Bound(t => t.ProjectCode).Width(50);
+                                                           col.Bound(t => t.Donor).Width(200);
+                                                           col.Bound(t => t.Region).Width(50);
+                                                           col.Bound(t => t.Zone).Width(50);
+
+                                                           col.Template(c => { }).ClientTemplate("#=toCatsPreferedUnit(data.Amount)#").HeaderHtmlAttributes(new { @class = "cats-unit-pref" }).HtmlAttributes(new { align = "right" }).Title(Html.Translate("Donor Allocated")).Width(50);
+                                                           col.Template(c => { }).ClientTemplate("#=toCatsPreferedUnit(data.DispatchedAmountInMT)#").HeaderHtmlAttributes(new { @class = "cats-unit-pref" }).HtmlAttributes(new { align = "right" }).Title(Html.Translate("Dispatched")).Width(50);
+                                                           col.Template(c => { }).ClientTemplate("#=toCatsPreferedUnit(data.RemainingInMT)#").HeaderHtmlAttributes(new { @class = "cats-unit-pref" }).HtmlAttributes(new { align = "right" }).Title(Html.Translate("Remaining")).Width(50);
+                                                           
+
+                                                       }).DataSource(datasource =>
+                                                                             datasource.Ajax().Read(read => read.Action("DispatchedReceived_read", "LogisticsStockStatus").Data("filterData"))
+                                                                                 .Group(t => t.Add(m => m.FDPName))
+                                                                                 
+
+                                                                         ).Sortable().Filterable()
+      )
+<script type="text/javascript">
+  
+   
+    function filterData() {
+
+        return {
+            hubId: $("#SelectHubID").val(),
+            programId: $("#SelectProgramID").val(),
+            regionId: $("#SelectRegionID").val(),
+            zoneId: $("#zone").val(),
+            woredaId: $("#woreda").val(),
+            fdpId:  $("#fdp").val()
+        };
+    }
+
+    $(document).ready(function () {
+        $("#SelectHubID").change(function () {
+            var grid = $("#grid").data("kendoGrid");
+            grid.dataSource.read();
+        });
+        $("#SelectProgramID").change(function () {
+            var grid = $("#grid").data("kendoGrid");
+            grid.dataSource.read();
+        });
+        
+        $("#SelectRegionID").change(function () {
+            var grid = $("#grid").data("kendoGrid");
+            grid.dataSource.read();
+        });
+        $("#zone").change(function () {
+            var grid = $("#grid").data("kendoGrid");
+            grid.dataSource.read();
+        });
+        //$("#woreda").change(function () {
+        //    var grid = $("#grid").data("kendoGrid");
+        //    grid.dataSource.read();
+        //});
+        //$("#fdp").change(function () {
+        //    var grid = $("#grid").data("kendoGrid");
+        //    grid.dataSource.read();
+        //});
+
+
+       
+    });
+    
+</script>
+
+
+<script type="text/jscript">
+    $(function () {
+        
+        //region
+        $('#SelectRegionID').change(function () {
+
+            $('#woreda').html('<option>Select  Woreda</option>');
+            $('#fdp').html('<option>Select  FDP</option>');
+
+            var regionId = $('#SelectRegionID').val();
+            $.getJSON('/LogisticsStockStatus/GetZonesByRegion?regionId=' + regionId, function (data) {
+                var items = '<option>Select  Zone</option>';
+                $.each(data, function (i, zone) {
+                    items += "<option value='" + zone.Value + "'>" + zone.Text + "</option>";
+                });
+                $('#zone').html(items);
+            });
+        });
+        
+        
+        //zone
+        $('#zone').change(function () {
+            var zoneId = $('#zone').val();
+          
+            $.getJSON('/LogisticsStockStatus/GetWoredsByZone?zoneId=' + zoneId, function (data) {
+                var items = '<option>Select  Woreda</option>';
+                $.each(data, function (i, woreda) {
+                    items += "<option value='" + woreda.Value + "'>" + woreda.Text + "</option>";
+                });
+                $('#woreda').html(items);
+            });
+        });
+        
+        
+        //woreda
+        //$('#woreda').change(function () {
+        //    var zoneId = $('#woreda').val();
+        //    $.getJSON('/LogisticsStockStatus/GetFDPsByWoreda?woredaId=' + zoneId, function (data) {
+        //        var items = '<option>Select  FDP</option>';
+        //        $.each(data, function (i, fdp) {
+        //            items += "<option value='" + fdp.Value + "'>" + fdp.Text + "</option>";
+        //        });
+        //        $('#fdp').html(items);
+        //    });
+        //});
+    });
+</script>

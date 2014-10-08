@@ -1,0 +1,23 @@
+﻿@using Cats.Models
+@model ProcessTemplate
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+@section LeftBar
+{
+    @Html.Partial("_workflowLeftBar")
+}
+@section Toolbar
+{
+    <a data-buttontype="btn_save" id="btn-save"  class="btn toolbar-btn " href="@Url.Action("Create", "RegionalPSNPPlan")"></a>
+
+}
+
+
+<div>
+     @Model.Name</div>
+<div style="display:block; position:absolute;top:100px;width:500px; border:solid 1px #ccc;">
+
+    </div>

@@ -1,0 +1,72 @@
+﻿@using Cats.Helpers
+@using Cats.Security
+@using Cats.Services.Security
+@using Kendo.Mvc.UI
+@model System.Data.DataTable
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_CATSLayout.cshtml";
+}
+
+@section Title
+{
+Plans
+}
+
+@section PageTitle
+{
+    <h1 class="hdr-blck big ">
+        @Html.Translate("HRD Detail")
+    </h1>
+}
+<div class="row">
+    @Html.Partial("_HRDLeftBar")
+    <div class="col-md-10  col-sm-9">
+        <div class=" box box-primary ">
+            <div class="box-body row">
+                <div class="text-right col-md-12">
+
+                    @Html.EarlyWarningOperationButton(
+                        @Url.Action("HRDDetail", "HRD", new { id = ViewBag.HRDID }),
+                        EarlyWarningConstants.Operation.Modify_HRD, "<button type=\"button\" class=\"btn btn-primary\"><span class=\"fa fa-list\"></span> HRD Detail</button>", "btn", "btn_edit")
+                </div>
+
+                <div class="col-md-12">
+                    <div class="table-responsive">
+                        @(Html.Kendo().Grid(Model)
+    .Name("Grid")
+    .Columns(columns =>
+    {
+        foreach (System.Data.DataColumn column in Model.Columns)
+        {
+            if (column.DataType == typeof(decimal))
+            { columns.Bound(column.ColumnName).HtmlAttributes(new { align = "right" }).Format("{0:N2}"); }
+            else if (column.DataType == typeof(int))
+            {
+                columns.Bound(column.ColumnName).HtmlAttributes(new { align = "right" }).Format("{0:N0}");
+            }
+            else
+            {
+                columns.Bound(column.ColumnName);
+            }
+
+        }
+    })
+                                //.Pageable(t=>t.PageSizes(new []{10,15,20,30,50,100}))
+
+    .HtmlAttributes(new { style = "height: 430px" })
+    .Sortable()
+   .Scrollable()
+   .Groupable()
+   
+   
+    )
+
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

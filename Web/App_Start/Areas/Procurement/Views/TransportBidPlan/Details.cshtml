@@ -1,0 +1,37 @@
+﻿@model Cats.Models.TransportBidPlan
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>TransportBidPlan</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Year)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Year)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.YearHalf)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.YearHalf)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Program.Name)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Program.Name)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.TransportBidPlanID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

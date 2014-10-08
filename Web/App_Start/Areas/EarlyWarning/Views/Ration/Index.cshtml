@@ -1,0 +1,93 @@
+﻿@using Cats.Areas.EarlyWarning.Models
+@using Kendo.Mvc.UI
+@using Cats.Helpers
+@using LanguageHelpers.Localization
+
+@{
+    Layout = "~/Views/Shared/_CATSLayout.cshtml";
+  
+
+}
+
+@section Title
+{
+Ration
+}
+
+@section PageTitle
+{
+    <h1 class="hdr-blck big col-md-6">List of Ration
+    </h1>
+}
+<div class="box box-primary">
+
+    <div class="col-md-12 box-body" style="display: block;">
+        <div class="row">
+            <div class="mrgn5-v text-right col-md-12">
+                <a data-buttontype="btn_new_record" id="btnCreate" class="btn btn-sm btn-success" href="@Url.Action("Create", "Ration")"><span class="fa fa-plus"> </span> New Ration</a>
+
+            </div>
+
+        </div>
+
+
+        <div class="table-responsive">
+
+            @(Html.Kendo().Grid<RationViewModel>()
+.Name("grid")
+.Columns(columns =>
+{
+    //columns.Template(t => { }).Title("No").ClientTemplate("#= renderNumber(data) #").Width(10);
+    columns.Bound(p => p.ReferenceNumber).ClientTemplate("<a class='default_#=IsDefaultRation#' href='" + Url.Action("Details", "Ration", new { id = "#=RationID#" }) + " '>#=ReferenceNumber#</a>  ");
+
+    columns.Bound(p => p.DateCreated).ClientTemplate("<span class='default_#=IsDefaultRation#'>#=DateCreated#</span>").HeaderHtmlAttributes(new { @class = "cats-date-pref-grid" }).Width(160);
+
+    columns.Bound(p => p.RationID).ClientTemplate("<a class='set_default_#=IsDefaultRation#' href='javascript:SetDefault(#=RationID#)'>Set Default</a>  ");
+
+
+
+}).Events(ev => ev.DataBound("resetRowNumber"))
+             .DataSource(datasource => datasource.Ajax().Read("Ration_Read", "Ration"))
+             .HtmlAttributes(new { style = "height:430px;" })
+
+)
+        </div>
+    </div>
+</div>
+
+
+<div id="cats-modal"></div>
+
+
+<script type="text/javascript">
+    $('#btnCreate').on('click',
+             function (e) {
+                 $('#cats-modal').remove();
+                 e.preventDefault();
+                 var $remote = $(this).attr('href');
+                  var $modal = $('<div class="modal" id="cats-modal"><div class="modal-body"></div></div>');
+                 $('body').append($modal);
+                 $modal.modal({ backdrop: 'static', keyboard: false });
+                 $modal.load($remote);
+                 return false;
+             }
+           );
+
+
+    function SetDefault(rationId) {
+
+
+        window.location = "@Url.Action("SetDefault", "Ration")" + "/" + rationId;
+
+    }
+</script>
+
+<style>
+    .default_true {
+        font-weight: bold;
+    }
+
+    .set_default_true {
+        display: none;
+    }
+</style>

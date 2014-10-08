@@ -1,0 +1,74 @@
+﻿@model LanguageHelpers.Localization.Models.LocalizedText
+
+<script src="~/Scripts/jquery-1.7.1.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";  
+}
+@section LeftBar
+{
+
+    @Html.Partial("LanguageLeftBar");
+     
+}
+<fieldset>
+    <legend>
+        Create new Translation
+    </legend>
+</fieldset> 
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+
+    <div class="well form-horizontal">
+
+        <div class="control-group">
+            <div class="control-label">
+                @Html.LabelFor(model => model.LanguageCode)
+            </div>
+            <div class="controls">
+                @Html.EditorFor(model => model.LanguageCode)
+                <span class="field-validation-error">
+                    @ViewBag.Error
+                </span>
+                @Html.ValidationMessageFor(model => model.LanguageCode)
+            </div>
+        </div>
+
+        <div class="control-group">
+            <div class="control-label">
+                @Html.LabelFor(model => model.TextKey)
+            </div>
+            <div class="controls">
+                @Html.EditorFor(model => model.TextKey)
+                <span class="field-validation-error">
+                    @ViewBag.Error
+                </span>
+                @Html.ValidationMessageFor(model => model.TextKey)
+            </div>
+        </div>
+
+        <div class="control-group">
+            <div class="control-label">
+                @Html.LabelFor(model => model.TranslatedText)
+            </div>
+            <div class="controls">
+                @Html.EditorFor(model => model.TranslatedText)
+                <span class="field-validation-error">
+                    @ViewBag.Error
+                </span>
+                @Html.ValidationMessageFor(model => model.TranslatedText)
+            </div>
+        
+        </div>
+
+        <div class="control-group">
+            <div class="controls">
+                <input type="submit" value="Create" class="btn btn-success" />
+            </div>
+        </div>
+    </div>
+}

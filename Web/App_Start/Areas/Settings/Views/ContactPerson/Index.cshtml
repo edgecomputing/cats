@@ -1,0 +1,122 @@
+﻿@using Kendo.Mvc.UI
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";  
+}
+
+<div id="modalWindow">
+    <h6>Are You Sure You Want to Delete this contact?</h6>
+    <button id="yes" class="k-button">Yes</button>
+    <button id="no" class="k-button">No</button>
+</div>
+
+<script>
+    var wnd;
+    $(document).ready(function () {
+        wnd = $("#modalWindow").kendoWindow({
+            title: "Delete confirmation",
+            modal: true,
+            visible: false,
+            resizable: false,
+            width: 300
+        }).data("kendoWindow");
+    });
+</script>
+
+<div>
+    <h4>FDPs Address Book</h4>
+</div>
+
+@(Html.Kendo().Grid<Cats.Areas.Settings.Models.ViewModels.ContactViewModel>()
+      .Name("grid")
+      .Columns(columns =>
+          {
+              columns.Bound(p => p.FDPName);
+              columns.Bound(p => p.FirstName);
+              columns.Bound(p => p.LastName);
+              columns.Bound(p => p.PhoneNo);
+             
+             columns.Command(command =>
+                  {
+                      command.Edit();
+                      command.Custom("Delete").Click("OnDelete");
+                  });
+          })
+        .ToolBar(toolbar => toolbar.Create())
+        .Editable(editable => editable.Mode(GridEditMode.PopUp))
+        .Sortable()
+        .Filterable()
+        .Groupable()
+        .DataSource(dataSource => dataSource
+               .Ajax()
+               //.PageSize(8)
+               .Events(events => events.Error("error_handler"))
+               .Model(model => model.Id(p => p.ContactID))
+               .Read(read => read.Action("Contact_Read", "ContactPerson"))
+               .Update(update => update.Action("Contact_Update", "ContactPerson"))
+               .Create(create => create.Action("Contact_Create", "ContactPerson"))
+         )
+     )
+
+<script>
+
+    function OnDelete(e) {
+        e.preventDefault();
+        var grid = this;
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var row = $(e.currentTarget).closest("tr");
+        wnd.center().open();
+
+        $("#yes").click(function () {
+
+            window.location = "@Url.Action("Contact_Delete", "ContactPerson")" + "/" + dataItem.ContactID;
+            wnd.close();
+        });
+
+        $("#no").click(function () {
+            wnd.close();
+        });
+    }
+    
+</script>
+
+<script type="text/javascript">
+
+    //register custom validation rules
+    (function ($, kendo) {
+        $.extend(true, kendo.ui.validator, {
+            rules: { // custom rules
+                productnamevalidation: function (input, params) {
+                    //check for the rule attribute 
+                    if (input.filter("[data-val-productnamevalidation]").length && input.val()) {
+                        return /^[A-Z]/.test(input.val());
+                    }
+                    return true;
+                }
+            },
+            messages: { //custom rules messages
+                productnamevalidation: function (input) {
+                    // return the message text
+                    return input.attr("data-val-productnamevalidation");
+                }
+            }
+        });
+    })(jQuery, kendo);
+    </script>
+
+<script type="text/javascript">
+    function error_handler(e) {
+        if (e.errors) {
+            var message = "Errors:\n";
+            $.each(e.errors, function (key, value) {
+                if ('errors' in value) {
+                    $.each(value.errors, function () {
+                        message += this + "\n";
+                    });
+                }
+            });
+            alert(message);
+        }
+    }
+</script>
