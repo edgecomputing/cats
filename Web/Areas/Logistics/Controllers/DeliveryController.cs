@@ -359,7 +359,7 @@ namespace Cats.Areas.Logistics.Controllers
                                                        "Commodity,Unit").FirstOrDefault();
                     if (deliveryDetail != null)
                     {
-                        deliveryDetail.ReceivedQuantity = delivery.ReceivedQuantity/10; //save it using MT
+                        deliveryDetail.ReceivedQuantity = delivery.ReceivedQuantity.ToMetricTone(); //save it using MT
                         _deliveryDetailService.EditDeliveryDetail(deliveryDetail);
 
                     }
