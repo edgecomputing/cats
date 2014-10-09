@@ -87,6 +87,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
         public virtual ActionResult NotUnique(string siNumber, int giftCertificateId = -1 )
         {
+
             if (_giftCertificateService.IsSINumberNewOrEdit(siNumber, giftCertificateId))
             {
                 return Json(true, JsonRequestBehavior.AllowGet);
