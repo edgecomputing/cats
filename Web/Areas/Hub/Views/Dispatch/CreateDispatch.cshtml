@@ -292,11 +292,18 @@
   
     jQuery('#txtQtl').on('input', function () {
         if ($('#txtQtl').val() > 410) {
-            $('#txtQtl').val(0);
-            alert("Quintal value can not be greater than 410!");
+            var response = window.confirm('Quintal value can not be greater than 410! : Continue?');
 
+            if (response) {
+                $('#Quantity').val($('#txtQtl').val() / 10);
+            }
+            else {
+                $('#txtQtl').val(0);
+                $('#Quantity').val(0);
+            }
+          
         } 
-            $('#Quantity').val($('#txtQtl').val() / 10);
+        $('#Quantity').val($('#txtQtl').val() / 10);
         
     });
     
