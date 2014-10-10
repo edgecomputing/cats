@@ -239,62 +239,64 @@ namespace Cats.Data.Hub
         {
             //TODO:Refactor Required when doing service layer
             int UserId = 0;
+
             UserProfile cuUser = this.UserProfiles.FirstOrDefault(t => t.UserName == CurrentUserName);
+
             if (cuUser != null)
             {
                 UserId = cuUser.UserProfileID;
             }
 
-            return SaveChanges(cuUser);
+            return SaveChanges(UserId);
             //throw new InvalidOperationException("User ID must be provided");
         }
 
-        public int SaveChanges(UserProfile userId)
+        public int SaveChanges(int userId)
         {
 
             // Get all Added/Deleted/Modified entities (not Unmodified or Detached)
             //TODO:Commented 12.23.2013 by banty
-            //foreach (
-            //    var ent in
-            //        this.ChangeTracker.Entries().Where(
-            //            p =>
-            //            p.State == System.Data.EntityState.Added || p.State == System.Data.EntityState.Deleted ||
-            //            p.State == System.Data.EntityState.Modified))
-            //{
-            //    // For each changed record, get the audit record entries and add them
-            //    foreach (Audit x in GetAuditRecordsForChange(ent, userId))
-            //    {
-            //        this.Audits.Add(x);
-            //    }
-            //}
+            foreach (
+                var ent in
+                    this.ChangeTracker.Entries().Where(
+                        p =>
+                        p.State == System.Data.EntityState.Added || p.State == System.Data.EntityState.Deleted ||
+                        p.State == System.Data.EntityState.Modified))
+            {
+                // For each changed record, get the audit record entries and add them
+                foreach (Audit x in GetAuditRecordsForChange(ent, userId))
+                {
+                    this.Audits.Add(x);
+                }
+            }
 
-            // Call the original SaveChanges(), which will save both the changes made and the audit records
-            //try
-            //{
+             //Call the original SaveChanges(), which will save both the changes made and the audit records
+            try
+            {
                 return base.SaveChanges();
-            //}
-            //catch (System.Data.Entity.Validation.DbEntityValidationException e)
-            //{
-            //    var outputLines = new List<string>();
-            //    foreach (var eve in e.EntityValidationErrors)
-            //    {
-            //        outputLines.Add(string.Format(
-            //            "{0}: Entity of type \"{1}\" in state \"{2}\" has the following validation errors:",
-            //            DateTime.Now, eve.Entry.Entity.GetType().Name, eve.Entry.State));
-            //        outputLines.AddRange(
-            //            eve.ValidationErrors.Select(
-            //                ve => string.Format("- Property: \"{0}\", Error: \"{1}\"", ve.PropertyName, ve.ErrorMessage)));
-            //    }
-            //}
-            //return 0;
+            }
+            catch (System.Data.Entity.Validation.DbEntityValidationException e)
+            {
+                var outputLines = new List<string>();
+                foreach (var eve in e.EntityValidationErrors)
+                {
+                    outputLines.Add(string.Format(
+                        "{0}: Entity of type \"{1}\" in state \"{2}\" has the following validation errors:",
+                        DateTime.Now, eve.Entry.Entity.GetType().Name, eve.Entry.State));
+                    outputLines.AddRange(
+                        eve.ValidationErrors.Select(
+                            ve => string.Format("- Property: \"{0}\", Error: \"{1}\"", ve.PropertyName, ve.ErrorMessage)));
+                }
+            }
+            return 0;
         }
         /// <summary>
         /// GetAuditRecordsForChange
         /// </summary>
         /// <param name="dbEntry"></param>
-        /// <param name="userId"></param>
+        /// <param name="user"></param>
         /// <returns></returns>
-        private List<Audit> GetAuditRecordsForChange(DbEntityEntry dbEntry, UserProfile userId)
+        private List<Audit> GetAuditRecordsForChange(DbEntityEntry dbEntry, int userId)
         {
             List<Audit> result = new List<Audit>();
 
@@ -311,44 +313,61 @@ namespace Cats.Data.Hub
 
             string keyName =
             dbEntry.Entity.GetType().GetProperties().Single(p => p.GetCustomAttributes(typeof(KeyAttribute), true).Any()).Name;
+
             if (dbEntry.State == System.Data.EntityState.Added)
             {
                 // For Inserts, just add the whole record
                 // If the entity implements IDescribableEntity, use the description from Describe(), otherwise use ToString()
-                result.Add(new Audit()
+                foreach (string propertyName in dbEntry.CurrentValues.PropertyNames)
                 {
-                    AuditID = Guid.NewGuid(),
-                    LoginID = userId.UserProfileID,
-                    DateTime = DateTime.Now,
-                    Action = "A", // Added
-                    TableName = tableName,
-                    PrimaryKey = dbEntry.CurrentValues.GetValue<object>(keyName).ToString(),  // Again, adjust this if you have a multi-column key
-                    ColumnName = "*ALL",    // Or make it nullable, whatever you want
-                    NewValue = dbEntry.CurrentValues.ToObject().ToString(),
-                    HubID = 1,
-                    //TODO: fix this partion id
-                    PartitionId = 0
+                    result.Add(new Audit()
+                    {
+                        AuditID = Guid.NewGuid(),
+                        LoginID = userId,
+                        DateTime = DateTime.Now,
+                        Action = "A", // Added
+                        TableName = tableName,
+                        PrimaryKey = dbEntry.CurrentValues.GetValue<object>(keyName).ToString(),  // Again, adjust this if you have a multi-column key
+                        ColumnName = "*ALL",    // Or make it nullable, whatever you want
+                        NewValue = dbEntry.CurrentValues.GetValue<object>(propertyName) == null ? null : dbEntry.CurrentValues.GetValue<object>(propertyName).ToString(),
+                       // NewValue = dbEntry.CurrentValues.ToObject().ToString(),
+                        HubID = 1,
+                        //TODO: fix this partion id
+                        PartitionId = 0
+                    }
+                   );
+
+
                 }
-                    );
+               
             }
             else if (dbEntry.State == System.Data.EntityState.Deleted)
             {
-                // Same with deletes, do the whole record, and use either the description from Describe() or ToString()
-                result.Add(new Audit()
+                foreach (string propertyName in dbEntry.OriginalValues.PropertyNames)
                 {
-                    AuditID = Guid.NewGuid(),
-                    LoginID = userId.UserProfileID,
-                     DateTime = DateTime.Now,
-                    Action = "D", // Deleted
-                    TableName = tableName,
-                    PrimaryKey = dbEntry.OriginalValues.GetValue<object>(keyName).ToString(),
-                    ColumnName = "*ALL",
-                    NewValue = dbEntry.OriginalValues.ToObject().ToString(),
-                    HubID = 1,
-                    //TODO: fix this partion id
-                    PartitionId = 0
+                    result.Add(new Audit()
+                    {
+                        AuditID = Guid.NewGuid(),
+                        LoginID = userId,
+                        DateTime = DateTime.Now,
+                        Action = "D", // Deleted
+                        TableName = tableName,
+                        PrimaryKey = dbEntry.OriginalValues.GetValue<object>(keyName).ToString(),
+                        ColumnName = "*ALL",
+                        OldValue = dbEntry.OriginalValues.GetValue<object>(propertyName) == null ? null : dbEntry.OriginalValues.GetValue<object>(propertyName).ToString(),
+                        NewValue = DBNull.Value.ToString(),
+                        
+                        HubID = 1,
+                        //TODO: fix this partion id
+                        PartitionId = 0
+                    }
+                );
+                  
+
                 }
-                    );
+
+                // Same with deletes, do the whole record, and use either the description from Describe() or ToString()
+            
             }
             else if (dbEntry.State == System.Data.EntityState.Modified)
             {
@@ -360,8 +379,8 @@ namespace Cats.Data.Hub
                         result.Add(new Audit()
                         {
                             AuditID = Guid.NewGuid(),
-                            LoginID = userId.UserProfileID,
-                       DateTime = DateTime.Now,
+                            LoginID = userId,
+                            DateTime = DateTime.Now,
                             Action = "M",    // Modified
                             TableName = tableName,
                             PrimaryKey = dbEntry.OriginalValues.GetValue<object>(keyName).ToString(),

@@ -1,0 +1,38 @@
+﻿@using Cats.Areas.Settings.Models
+@using Cats.Models
+@using Kendo.Mvc.UI
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<h4>User Activity</h4>
+@(Html.Kendo().Grid<UserActivityViewModel>().Name("grid").Columns(columns=>
+    
+                                                     {
+                                                        columns.Bound(t => t.UserName);
+                                                        columns.Bound(t => t.ColumnName);
+                                                        columns.Bound(t => t.TableName);
+                                                        columns.Bound(t => t.Action);
+                                                        columns.Bound(t => t.LogDate);
+                                                        columns.Bound(t => t.NewValue);
+                                                        columns.Bound(t => t.OldValue);
+                                                        
+                                                         //columns.Command(t => t.Destroy());
+                                                         
+                                                     })
+                        
+             //.Editable(edit => edit.Mode(GridEditMode.InLine))
+             .Pageable()
+             //.Selectable(t => t.Mode(GridSelectionMode.Single))
+             .Navigatable()
+             .Filterable()
+             .DataSource(datasource=>
+                 datasource
+                    .Ajax()
+            .PageSize(10)
+            .Model(m=>m.Id(t=>t.AuditID))
+    .Read("UserActivity_Read","UserActivity")
+   
+    ))
+    

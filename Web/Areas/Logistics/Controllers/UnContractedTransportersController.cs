@@ -19,6 +19,7 @@ namespace Cats.Areas.Logistics.Controllers
      [Authorize]
     public class UnContractedTransportersController : Controller
     {
+
         #region Fields
 
             private readonly IBidWinnerService _bidWinnerService;
@@ -27,8 +28,6 @@ namespace Cats.Areas.Logistics.Controllers
             private readonly IAdminUnitService _adminUnitService;
 
         #endregion
-
-
 
         #region Ctor
 
@@ -46,7 +45,6 @@ namespace Cats.Areas.Logistics.Controllers
         }
 
         #endregion
-
 
         #region ActionMethods
 
@@ -78,7 +76,6 @@ namespace Cats.Areas.Logistics.Controllers
         }
 
         #endregion
-
 
         #region Methods
          
