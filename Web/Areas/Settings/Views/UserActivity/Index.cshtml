@@ -18,13 +18,10 @@
                                                         columns.Bound(t => t.NewValue);
                                                         columns.Bound(t => t.OldValue);
                                                         
-                                                         //columns.Command(t => t.Destroy());
-                                                         
                                                      })
-                        
-             //.Editable(edit => edit.Mode(GridEditMode.InLine))
+           
              .Pageable()
-             //.Selectable(t => t.Mode(GridSelectionMode.Single))
+             .Groupable()
              .Navigatable()
              .Filterable()
              .DataSource(datasource=>

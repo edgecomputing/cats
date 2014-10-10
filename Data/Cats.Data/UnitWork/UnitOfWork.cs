@@ -510,19 +510,12 @@ namespace Cats.Data.UnitWork
         {
             List<Audit> result = new List<Audit>();
 
-            DateTime changeTime = DateTime.UtcNow;
+            string keyName=string.Empty, tableName = string.Empty;
 
-            // Get the Table() attribute, if one exists
-            TableAttribute tableAttr = dbEntry.Entity.GetType().GetCustomAttributes(typeof(TableAttribute), false).SingleOrDefault() as TableAttribute;
+            var os=   dbEntry.Entity.GetType().BaseType.FullName.Split('.');
 
-            // Get table name (if it has a Table attribute, use that, otherwise get the pluralized name)
-            string tableName = dbEntry.Entity.GetType().Name.Split('_')[0];//tableAttr != null ? tableAttr.Name : dbEntry.Entity.GetType().Name;
-
-            // Get primary key value (If you have more than one key column, this will need to be adjusted)
-            //string keyName = dbEntry.Entity.GetType().GetProperties().Single(p => p.GetCustomAttributes(typeof(KeyAttribute), false).Any()).Name;
-
-            string keyName = string.Empty;
-
+            tableName = os.Last();
+            
             if (dbEntry.Entity.GetType().GetProperties().SingleOrDefault(p => p.GetCustomAttributes(typeof(KeyAttribute), true).Any())!= null)
                 keyName = dbEntry.Entity.GetType().GetProperties().SingleOrDefault(p => p.GetCustomAttributes(typeof(KeyAttribute), true).Any()).Name;
 

@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Web.Mvc;
 using Cats.Areas.Settings.Models;
-using Cats.Models;
 using Cats.Services.Administration;
 
 using Kendo.Mvc.Extensions;
@@ -10,6 +9,7 @@ using Kendo.Mvc.UI;
 
 namespace Cats.Areas.Settings.Controllers
 {
+    [Authorize]
     public class UserActivityController : Controller
     {
 
@@ -53,7 +53,7 @@ namespace Cats.Areas.Settings.Controllers
                                                     AuditID = userActivity.AuditID.ToString(),
                                                     ColumnName = userActivity.ColumnName,
                                                     HubID = userActivity.HubID,
-                                                    LogDate = userActivity.DateTime.ToLongDateString(),
+                                                    LogDate = userActivity.DateTime.ToString(),
                                                     UserName = _userProfileService.FindBy(o => o.UserProfileID == userActivity.LoginID).Any() ?  _userProfileService.FindBy(o => o.UserProfileID == userActivity.LoginID).FirstOrDefault().UserName:string.Empty,
                                                     NewValue = userActivity.NewValue,
                                                     OldValue = userActivity.OldValue,
