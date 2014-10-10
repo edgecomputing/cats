@@ -168,7 +168,7 @@
                     @Html.LabelFor(model => model.Quantity,"Quantity in MT")
                 </div>
                 <div class="controls">
-                    @Html.TextBoxFor(model => model.Quantity,new { Disabled = true })
+                    @Html.TextBoxFor(model => model.Quantity,new { @readonly = "readonly" })
                 </div>
             </div>
         </div>
@@ -292,17 +292,20 @@
   
     jQuery('#txtQtl').on('input', function () {
         if ($('#txtQtl').val() > 410) {
+           
+           
             var response = window.confirm('Quintal value can not be greater than 410! : Continue?');
 
             if (response) {
                 $('#Quantity').val($('#txtQtl').val() / 10);
             }
             else {
+                
                 $('#txtQtl').val(0);
                 $('#Quantity').val(0);
             }
           
-        } 
+        }
         $('#Quantity').val($('#txtQtl').val() / 10);
         
     });

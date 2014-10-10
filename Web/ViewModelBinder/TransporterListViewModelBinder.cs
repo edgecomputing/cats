@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using Cats.Models;
 using Cats.Models.ViewModels;
-using DocumentFormat.OpenXml.Wordprocessing;
+//using DocumentFormat.OpenXml.Wordprocessing;
 
 namespace Cats.ViewModelBinder
 {
