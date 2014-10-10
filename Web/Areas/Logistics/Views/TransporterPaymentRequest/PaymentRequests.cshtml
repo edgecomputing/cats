@@ -380,9 +380,12 @@
                         @*<a href="@Url.Action("ViewContractAgreement", "ValidatedPaymentRequest", new { transporterID = item.TransportOrder.Transporter.TransporterID })">Contract Agreement</a> &nbsp;&nbsp;*@
                         
                         @*<a href="@Url.Action("LabourCost", "ValidatedPaymentRequest")">Labour Cost</a>*@
-                        @if (state.StateNo == 0)
+                        @if (item.ShortageQty>0)
                         {
-                            <button class="btn" data-ng-click="loadCommodityTarrif(@item.TransporterPaymentRequestID, '@item.Commodity')">Commodity Price</button>
+                            if (state.StateNo == 0)
+                            {
+                                <button class="btn" data-ng-click="loadCommodityTarrif(@item.TransporterPaymentRequestID, '@item.Commodity')">Commodity Price</button>
+                            }
                         }
                     </td>
                     <td>
