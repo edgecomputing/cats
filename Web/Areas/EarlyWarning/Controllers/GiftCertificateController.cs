@@ -234,6 +234,11 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
                 giftcert = GiftCertificateViewModelBinder.BindGiftCertificate(giftcert, giftcertificate);
 
+                // add the si number 
+                var shippingInstructionID = _shippingInstructionService.GetSiNumber(giftcertificate.SINumber).ShippingInstructionID;
+                giftcert.ShippingInstructionID = shippingInstructionID;
+
+
                 _giftCertificateService.EditGiftCertificate(giftcert);
 
                 return RedirectToAction("Index");
