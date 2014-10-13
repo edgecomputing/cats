@@ -490,7 +490,7 @@ namespace Cats.Services.Procurement
                  
                 //_unitOfWork.BidWinnerRepository.Get(
                 //    t => t.SourceID == transportRequisition.HubID && t.DestinationID == transportRequisition.WoredaID).FirstOrDefault();
-                if (transportBidWinners == null)
+                if (transportBidWinners.Count == 0)
                 {
                     var transReqWithoutTransporter = new TransReqWithoutTransporter();
                     transReqWithoutTransporter.TransportRequisitionDetailID = transRequisDetailId;
