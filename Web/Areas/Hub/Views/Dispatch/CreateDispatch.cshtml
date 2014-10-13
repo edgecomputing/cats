@@ -157,18 +157,18 @@
             </div>
             <div class="control-group ">
                 <div class="control-label">
-                    @Html.LabelFor(model => model.QuantityPerUnit)
+                    @Html.LabelFor(model => model.QuantityPerUnit,"Quantity in Qtl")
                 </div>
                 <div class="controls">
-                    @Html.TextBoxFor(model => model.QuantityPerUnit)
+                    @Html.TextBoxFor(model => model.QuantityPerUnit,new { @id="txtQtl",@onchange = "onchangeevent();" })
                 </div>
             </div>
               <div class="control-group ">
                 <div class="control-label">
-                    @Html.LabelFor(model => model.Quantity,new {@class="cats-unit-pref"})
+                    @Html.LabelFor(model => model.Quantity,"Quantity in MT")
                 </div>
                 <div class="controls">
-                    @Html.TextBoxFor(model => model.Quantity)
+                    @Html.TextBoxFor(model => model.Quantity,new { Disabled = true })
                 </div>
             </div>
         </div>
@@ -288,7 +288,26 @@
 
 
 }
+<script>
+  
+    jQuery('#txtQtl').on('input', function () {
+        if ($('#txtQtl').val() > 410) {
+            var response = window.confirm('Quintal value can not be greater than 410! : Continue?');
 
+            if (response) {
+                $('#Quantity').val($('#txtQtl').val() / 10);
+            }
+            else {
+                $('#txtQtl').val(0);
+                $('#Quantity').val(0);
+            }
+          
+        } 
+        $('#Quantity').val($('#txtQtl').val() / 10);
+        
+    });
+    
+</script>
 @*<script type="text/javascript">
    
     function CalculateQuantityMT() {

@@ -85,7 +85,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         }
      
 
-        public virtual ActionResult NotUnique(string siNumber, int giftCertificateId)
+        public virtual ActionResult NotUnique(string siNumber, int giftCertificateId = -1 )
         {
             if (_giftCertificateService.IsSINumberNewOrEdit(siNumber, giftCertificateId))
             {
@@ -233,6 +233,11 @@ namespace Cats.Areas.EarlyWarning.Controllers
             {
 
                 giftcert = GiftCertificateViewModelBinder.BindGiftCertificate(giftcert, giftcertificate);
+
+                // add the si number 
+                var shippingInstructionID = _shippingInstructionService.GetSiNumber(giftcertificate.SINumber).ShippingInstructionID;
+                giftcert.ShippingInstructionID = shippingInstructionID;
+
 
                 _giftCertificateService.EditGiftCertificate(giftcert);
 

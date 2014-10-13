@@ -25,9 +25,16 @@ Gift Certificate
         @{ViewBag.IsInEditMode = true; }
         @using (Html.BeginForm("Edit", "GiftCertificate", FormMethod.Post, new { id = "frm_edit_gift" }))
         {
-            <fieldset disabled="">
+            
+            
+            <fieldset >
                 <div class="box box-primary">
-                    <div class="col-md-12 box-body" style="display: block;">
+            
+                    <div class="text-right mrgn5-v col-md-12">
+                       <a class="btn btn-primary btn-sm " data-buttontype="btn_back_to_list" href="@Url.Action("Index", "GiftCertificate")"><span class="fa fa-arrow-left"></span> Back to List</a>
+                    </div>
+                    
+                    <div class="col-md-12 box-body" style="display: block;" id="giftheader">
 
                         @Html.ValidationSummary(true)
 
@@ -185,8 +192,8 @@ Gift Certificate
                             columns.ForeignKey(o => o.DBudgetTypeID, (System.Collections.IEnumerable)ViewData["DBudgetTypes"], "DetailID", "Name").Title(Html.Translate("Fund Type"))
                                 .Filterable(true);
                             columns.Bound(o => o.ExpiryDate).Title(Html.Translate("Expiry Date")).Format("{0:dd/MM/yyyy}");
-                            columns.Command(commands => commands.Destroy().HtmlAttributes(new { align = "center" })).Title(Html.Translate("Action"));
-                            columns.Command(commands => commands.Edit());
+                            columns.Command(commands => commands.Destroy().HtmlAttributes(new { align = "center" })).Title(Html.Translate("Action")).Width((80));
+                            columns.Command(commands => commands.Edit()).Width((170));
                         })
 
            .DataSource(binding => binding.Ajax()
@@ -224,7 +231,9 @@ Gift Certificate
 
 
 <script type="text/javascript">
-    
+
+    $('#giftheader').find('input, textarea, button, select').attr('disabled', 'disabled');
+
     function onDataBound(e) {
         console.log('on data baound');
         $(".table-responsive .k-button").removeClass("k-button").addClass("btn btn-xs mrgn3-b col-md-12");
