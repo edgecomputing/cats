@@ -72,8 +72,13 @@
 			return this._div;
 		};
 
-		function formatdecimal(n) {
-		    return n.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "1,");
+		function formatdecimal(x) {
+
+		    
+		        var parts = x.toFixed(2).toString().split(".");
+		        parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+		        return parts.join(".");
+		   
 		}
 
 
