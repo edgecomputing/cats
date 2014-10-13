@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Data.Entity.Validation;
+using System.Data.Objects;
 using System.Linq;
 using System.Web;
 using Cats.Models;
@@ -512,10 +513,8 @@ namespace Cats.Data.UnitWork
 
             string keyName=string.Empty, tableName = string.Empty;
 
-            var os=   dbEntry.Entity.GetType().BaseType.FullName.Split('.');
-
-            tableName = os.Last();
-            
+            tableName = ObjectContext.GetObjectType(dbEntry.Entity.GetType()).Name;
+               
             if (dbEntry.Entity.GetType().GetProperties().SingleOrDefault(p => p.GetCustomAttributes(typeof(KeyAttribute), true).Any())!= null)
                 keyName = dbEntry.Entity.GetType().GetProperties().SingleOrDefault(p => p.GetCustomAttributes(typeof(KeyAttribute), true).Any()).Name;
 

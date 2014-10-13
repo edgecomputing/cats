@@ -300,19 +300,12 @@ namespace Cats.Data.Hub
         {
             List<Audit> result = new List<Audit>();
 
-            DateTime changeTime = DateTime.UtcNow;
-
-            // Get the Table() attribute, if one exists
-            TableAttribute tableAttr = dbEntry.Entity.GetType().GetCustomAttributes(typeof(TableAttribute), false).SingleOrDefault() as TableAttribute;
-
-            // Get table name (if it has a Table attribute, use that, otherwise get the pluralized name)
-            string tableName = dbEntry.Entity.GetType().Name.Split('_')[0];//tableAttr != null ? tableAttr.Name : dbEntry.Entity.GetType().Name;
-
-            // Get primary key value (If you have more than one key column, this will need to be adjusted)
-            //string keyName = dbEntry.Entity.GetType().GetProperties().Single(p => p.GetCustomAttributes(typeof(KeyAttribute), false).Any()).Name;
-
-            string keyName =
-            dbEntry.Entity.GetType().GetProperties().Single(p => p.GetCustomAttributes(typeof(KeyAttribute), true).Any()).Name;
+            string keyName = string.Empty, tableName = string.Empty;
+            
+            tableName = ObjectContext.GetObjectType(dbEntry.Entity.GetType()).Name;
+              
+            if (dbEntry.Entity.GetType().GetProperties().SingleOrDefault(p => p.GetCustomAttributes(typeof(KeyAttribute), true).Any()) != null)
+                keyName = dbEntry.Entity.GetType().GetProperties().SingleOrDefault(p => p.GetCustomAttributes(typeof(KeyAttribute), true).Any()).Name;
 
             if (dbEntry.State == System.Data.EntityState.Added)
             {
@@ -327,10 +320,10 @@ namespace Cats.Data.Hub
                         DateTime = DateTime.Now,
                         Action = "A", // Added
                         TableName = tableName,
-                        PrimaryKey = dbEntry.CurrentValues.GetValue<object>(keyName).ToString(),  // Again, adjust this if you have a multi-column key
-                        ColumnName = "*ALL",    // Or make it nullable, whatever you want
+                        PrimaryKey = string.IsNullOrEmpty(keyName) ? keyName : dbEntry.CurrentValues.GetValue<object>(keyName).ToString(),  // Again, adjust this if you have a multi-column key
+                        ColumnName = propertyName,    // Or make it nullable, whatever you want
                         NewValue = dbEntry.CurrentValues.GetValue<object>(propertyName) == null ? null : dbEntry.CurrentValues.GetValue<object>(propertyName).ToString(),
-                       // NewValue = dbEntry.CurrentValues.ToObject().ToString(),
+                        // NewValue = dbEntry.CurrentValues.ToObject().ToString(),
                         HubID = 1,
                         //TODO: fix this partion id
                         PartitionId = 0
@@ -339,7 +332,7 @@ namespace Cats.Data.Hub
 
 
                 }
-               
+
             }
             else if (dbEntry.State == System.Data.EntityState.Deleted)
             {
@@ -352,22 +345,22 @@ namespace Cats.Data.Hub
                         DateTime = DateTime.Now,
                         Action = "D", // Deleted
                         TableName = tableName,
-                        PrimaryKey = dbEntry.OriginalValues.GetValue<object>(keyName).ToString(),
-                        ColumnName = "*ALL",
+                        PrimaryKey = string.IsNullOrEmpty(keyName) ? keyName : dbEntry.OriginalValues.GetValue<object>(keyName).ToString(),
+                        ColumnName = propertyName,
                         OldValue = dbEntry.OriginalValues.GetValue<object>(propertyName) == null ? null : dbEntry.OriginalValues.GetValue<object>(propertyName).ToString(),
                         NewValue = DBNull.Value.ToString(),
-                        
+
                         HubID = 1,
                         //TODO: fix this partion id
                         PartitionId = 0
                     }
                 );
-                  
+
 
                 }
 
                 // Same with deletes, do the whole record, and use either the description from Describe() or ToString()
-            
+
             }
             else if (dbEntry.State == System.Data.EntityState.Modified)
             {
@@ -383,7 +376,7 @@ namespace Cats.Data.Hub
                             DateTime = DateTime.Now,
                             Action = "M",    // Modified
                             TableName = tableName,
-                            PrimaryKey = dbEntry.OriginalValues.GetValue<object>(keyName).ToString(),
+                            PrimaryKey = string.IsNullOrEmpty(keyName) ? keyName : dbEntry.OriginalValues.GetValue<object>(keyName).ToString(),
                             ColumnName = propertyName,
                             OldValue = dbEntry.OriginalValues.GetValue<object>(propertyName) == null ? null : dbEntry.OriginalValues.GetValue<object>(propertyName).ToString(),
                             NewValue = dbEntry.CurrentValues.GetValue<object>(propertyName) == null ? null : dbEntry.CurrentValues.GetValue<object>(propertyName).ToString(),
