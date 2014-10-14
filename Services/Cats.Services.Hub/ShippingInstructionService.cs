@@ -156,7 +156,7 @@ namespace Cats.Services.Hub
             var tempShippingInstructions =
                 _unitOfWork.TransactionRepository.FindBy(t => t.HubID == hubId && t.ProjectCodeID == projectCodeId );
             var shippingInstructions = (from v in tempShippingInstructions
-                                        where v.LedgerID==Cats.Models.Ledger.Constants.GOODS_ON_HAND_UNCOMMITED 
+                                        //where v.LedgerID==Cats.Models.Ledger.Constants.GOODS_ON_HAND_UNCOMMITED 
                                         select
                                             new ShippingInstructionViewModel
                                             {
