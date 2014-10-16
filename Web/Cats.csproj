@@ -446,6 +446,7 @@
     <Compile Include="Areas\Settings\Controllers\ProgramController.cs" />
     <Compile Include="Areas\Settings\Controllers\StoreController.cs" />
     <Compile Include="Areas\Settings\Controllers\UnitController.cs" />
+    <Compile Include="Areas\Settings\Controllers\UserActivityController.cs" />
     <Compile Include="Areas\Settings\Controllers\UserPreferenceController.cs" />
     <Compile Include="Areas\Settings\Controllers\UsersController.cs" />
     <Compile Include="Areas\Settings\Controllers\UserWarehouse.cs" />
@@ -454,6 +455,7 @@
     <Compile Include="Areas\Settings\Models\ForgetPasswordRequestModel.cs" />
     <Compile Include="Areas\Settings\Models\ForgotPasswordModel.cs" />
     <Compile Include="Areas\Settings\Models\HubOwneViewModel.cs" />
+    <Compile Include="Areas\Settings\Models\UserActivityViewModel.cs" />
     <Compile Include="Areas\Settings\Models\UserPreferenceViewModel.cs" />
     <Compile Include="Areas\Settings\Models\UserViewModel.cs" />
     <Compile Include="Areas\Settings\Models\ViewModels\AdminUnitViewModel.cs" />
@@ -2506,6 +2508,7 @@
     <Content Include="Areas\Logistics\Views\TransporterPaymentRequest\TransportOrderDetail.cshtml" />
     <Content Include="Areas\Procurement\Views\TransportOrder\MultipleApproval.cshtml" />
     <Content Include="Areas\Logistics\Views\UnContractedTransporters\List.cshtml" />
+    <Content Include="Areas\Settings\Views\UserActivity\Index.cshtml" />
     <None Include="dataset.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>dataset.Designer.cs</LastGenOutput>
