@@ -367,17 +367,23 @@ namespace Cats.Services.Procurement
                 transportOrder.StartDate = DateTime.Today.AddDays(3);
                 transportOrder.EndDate = DateTime.Today.AddDays(13);
                 transportOrder.StatusID = (int)TransportOrderStatus.Draft;
+               
                 var transportLocations = transporterAssignedRequisionDetails.FindAll(t => t.TransporterID == transporter).Distinct();
+               
+                
 
                 foreach (var transporterRequisition in transportLocations)
                 {
-                    //var currentBid = _unitOfWork.BidRepository.FindBy(t => t.StatusID == int.Parse(BidStatus.Active.ToString())).FirstOrDefault();
+                    
                     var transReq = transporterRequisition;
+                   
                     //var activeBidStatusID = int.Parse(BidStatus.Active.ToString());
                     var bidWinner =
                     _unitOfWork.BidWinnerRepository.Get(
                         t => t.SourceID == transReq.HubID && t.DestinationID == transReq.WoredaID && t.Position == 1 &&
                             t.Bid.StatusID == 5).FirstOrDefault();
+
+                   
                     if (bidWinner != null)
                     {
                         transportOrder.BidDocumentNo = _unitOfWork.BidRepository.FindById(bidWinner.BidID).BidNumber;
@@ -401,6 +407,7 @@ namespace Cats.Services.Procurement
                         transportOrderDetail.CommodityID = reliefRequisitionDetail.CommodityID;
                         transportOrderDetail.FdpID = reliefRequisitionDetail.FDPID;
                         transportOrderDetail.RequisitionID = reliefRequisitionDetail.RequisitionID;
+                        if (bidWinner != null) transportOrderDetail.BidID = bidWinner.BidID;
                         // divide Commodity amount equaly if there is more than one winner for the same woreda
                         if (transReq.noOfWinners>1) 
                       
@@ -479,6 +486,7 @@ namespace Cats.Services.Procurement
                 var reqId = reliefRequisitionDetail.RequisitionID;
                 var hubId = _unitOfWork.HubAllocationRepository.FindBy(t => t.RequisitionID == reliefRequisitionDetail.RequisitionID).FirstOrDefault().HubID;//requi.HubAllocations.FirstOrDefault().HubID;
                 var woredaId = reliefRequisitionDetail.FDP.AdminUnitID;
+                var regionId = reliefRequisitionDetail.ReliefRequisition.RegionID;
                 //transportRequisition.TransportRequisitionDetailID = reliefRequisitionDetail.ReliefRequisition.TransportRequisitionDetails.First().TransportRequisitionDetailID;
                 //transportRequisition.RequisitionID = reliefRequisitionDetail.RequisitionID;
                 //transportRequisition.HubID = _unitOfWork.HubAllocationRepository.FindBy(t => t.RequisitionID == reliefRequisitionDetail.RequisitionID).FirstOrDefault().HubID;//requi.HubAllocations.FirstOrDefault().HubID;
@@ -490,7 +498,7 @@ namespace Cats.Services.Procurement
                  
                 //_unitOfWork.BidWinnerRepository.Get(
                 //    t => t.SourceID == transportRequisition.HubID && t.DestinationID == transportRequisition.WoredaID).FirstOrDefault();
-                if (transportBidWinners == null)
+                if (transportBidWinners.Count == 0)
                 {
                     var transReqWithoutTransporter = new TransReqWithoutTransporter();
                     transReqWithoutTransporter.TransportRequisitionDetailID = transRequisDetailId;
@@ -514,6 +522,8 @@ namespace Cats.Services.Procurement
                         transportRequisition.TransporterID = transportBidWinner.TransporterID;
                         transportRequisition.TariffPerQtl = transportBidWinner.Tariff != null ? (decimal)transportBidWinner.Tariff : 0;
                         transportRequisition.noOfWinners = transportBidWinners.Count;
+                        transportRequisition.RegionID = (int) regionId;
+
                         transportSourceDestination.Add(transportRequisition);
                     }
                     
@@ -700,7 +710,7 @@ namespace Cats.Services.Procurement
             public decimal TariffPerQtl { get; set; }
             public int TransportRequisitionDetailID { get; set; }
             public int noOfWinners { get; set; }
-
+            public int? RegionID { get; set; }
             //public int? BidID { get; set; }
 
             //public TransporterRequisition()

@@ -14,5 +14,8 @@ namespace Cats.Areas.EarlyWarning.Models
         public string Donor { get; set; }
         public int DonorID { get; set; }
         public string ContributionType { get; set; }
+        public string AmountInKg { get; set; }
+        public string AmountInQuintal { get; set; }
+        public string AmountInMt { get; set; }
     }
 }

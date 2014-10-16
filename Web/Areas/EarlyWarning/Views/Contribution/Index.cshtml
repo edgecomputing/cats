@@ -39,7 +39,9 @@ Donors
                 "# } #");
             columns.Bound(p => p.HRD);
             columns.Bound(p => p.ContributionType);
-
+            columns.Bound(p => p.AmountInMt).HtmlAttributes(new { align = "right" });
+            columns.Bound(p => p.AmountInQuintal).HtmlAttributes(new { align = "right" });
+            columns.Bound(p => p.AmountInKg).HtmlAttributes(new { align = "right" });
         })
     .Pageable()
     .Sortable()

@@ -36,6 +36,14 @@ namespace Cats.Helpers
              return amount*1000;
         }
 
-    
+        
+        public static double ToMetricTone(this HtmlHelper html,double amountInQuintal)
+        {
+            return amountInQuintal/10;
+        }
+        public static double ToQuintal(this HtmlHelper html, double amountInMT)
+        {
+            return amountInMT*10;
+        }
     }
 }

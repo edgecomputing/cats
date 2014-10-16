@@ -25,9 +25,16 @@ Gift Certificate
         @{ViewBag.IsInEditMode = true; }
         @using (Html.BeginForm("Edit", "GiftCertificate", FormMethod.Post, new { id = "frm_edit_gift" }))
         {
-            <fieldset disabled="">
+            
+            
+            <fieldset >
                 <div class="box box-primary">
-                    <div class="col-md-12 box-body" style="display: block;">
+            
+                    <div class="text-right mrgn5-v col-md-12">
+                       <a class="btn btn-primary btn-sm " data-buttontype="btn_back_to_list" href="@Url.Action("Index", "GiftCertificate")"><span class="fa fa-arrow-left"></span> Back to List</a>
+                    </div>
+                    
+                    <div class="col-md-12 box-body" style="display: block;" id="giftheader">
 
                         @Html.ValidationSummary(true)
 
@@ -163,7 +170,7 @@ Gift Certificate
                 @(Html.Kendo().Grid<GiftCertificateDetailsViewModel>()
            .Name("Grid")
            .ToolBar(commands => commands.Create())
-           .Editable(editing => editing.Mode(GridEditMode.InCell))
+           .Editable(editing => editing.Mode(GridEditMode.InLine))
            .Columns(columns =>
                         {
                             columns.AutoGenerate(false);
@@ -185,8 +192,8 @@ Gift Certificate
                             columns.ForeignKey(o => o.DBudgetTypeID, (System.Collections.IEnumerable)ViewData["DBudgetTypes"], "DetailID", "Name").Title(Html.Translate("Fund Type"))
                                 .Filterable(true);
                             columns.Bound(o => o.ExpiryDate).Title(Html.Translate("Expiry Date")).Format("{0:dd/MM/yyyy}");
-                            columns.Command(commands => commands.Destroy().HtmlAttributes(new { align = "center" })).Title(Html.Translate("Action"));
-
+                            columns.Command(commands => commands.Destroy().HtmlAttributes(new { align = "center" })).Title(Html.Translate("Action")).Width((80));
+                            columns.Command(commands => commands.Edit()).Width((170));
                         })
 
            .DataSource(binding => binding.Ajax()
@@ -199,6 +206,7 @@ Gift Certificate
                                            m.Id(t => t.GiftCertificateDetailID);
                                            m.Field(t => t.CommodityID).DefaultValue(-1);
                                        })
+                                      
                         //                              .Batch(true)
                         //.ServerOperation(false)
         ).Events(e => e.DataBound("onDataBound"))
@@ -210,7 +218,7 @@ Gift Certificate
             <div class="box-footer text-center">
 
                 <a id="save_button" class="btn btn btn-primary " data-buttontype="btn_save" href="javascript:saverecords()"><span class="fa fa-save"></span> Save</a>
-                <a class="btn btn-default " data-buttontype="btn_cancel" href="@Url.Action("Index", "GiftCertificate")"><span class="fa fa-lg fa-times-circle"></span> Cancel</a>
+                <a class="btn btn-default "  itemtypedata-buttontype="btn_cancel" href="@Url.Action("Index", "GiftCertificate")"><span class="fa fa-lg fa-times-circle"></span> Cancel</a>
             </div>
         </div>
 
@@ -223,7 +231,9 @@ Gift Certificate
 
 
 <script type="text/javascript">
-    
+
+    $('#giftheader').find('input, textarea, button, select').attr('disabled', 'disabled');
+
     function onDataBound(e) {
         console.log('on data baound');
         $(".table-responsive .k-button").removeClass("k-button").addClass("btn btn-xs mrgn3-b col-md-12");
@@ -238,10 +248,9 @@ Gift Certificate
     }
     function saverecords() {
         var url = '@Url.Action("Index", "GiftCertificate")';
-        $("#save_button").attr('href', url);
+        //$("#save_button").attr('href', url);
         $("#Grid").data("kendoGrid").saveChanges();
-        //document.forms["frm_edit_gift"].submit();
-        location.href = url;
+        document.location.href = url;
     }
 
 </script>

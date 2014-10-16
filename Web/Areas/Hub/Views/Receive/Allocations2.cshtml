@@ -8,10 +8,13 @@
 @{
     int allocationType = ViewBag.CommoditySourceType;
     string quanityColumnHeader = "MT";
+    decimal toqt = 1;
 
-    if (@Html.GetCurrentUser().PreferedWeightMeasurment == "qn")
+
+    if (@Html.GetCurrentUser().PreferedWeightMeasurment == "QTL")
     {
-        quanityColumnHeader = "Quintals";
+        quanityColumnHeader = "QTL";
+        toqt = 10;
     }
     
 
@@ -27,15 +30,16 @@
         .Model(model => model.Id(p => p.ReceiptAllocationID))
         .Read(read => read.Action("AllocationListAjax", "Receive", new { type = allocationType }))
         .Destroy(update => update.Action("DeleteAjax", "Receive"))
+        
     )
     .Columns(columns =>
     {
         columns.Bound(dis => dis.CommodityName).Title(Html.Translate("Commodity")).Filterable(true);
         columns.Bound(dis => dis.SINumber).Title(Html.Translate("SINumber")).Filterable(true);
         columns.Bound(dis => dis.ProjectNumber).Title(Html.Translate("Project Code")).Filterable(true);
-        columns.Bound(dis => dis.QuantityInMT).Title(Html.Translate("Allocated In " + quanityColumnHeader)).Format("{0:N3}").HtmlAttributes(new { align = "right" });
-        columns.Bound(dis => dis.ReceivedQuantityInMT).Title(Html.Translate("Received in " + quanityColumnHeader)).Format("{0:N3}").HtmlAttributes(new { align = "right" });
-        columns.Bound(dis => dis.RemainingBalanceInMT).Title(Html.Translate("Remaining in " + quanityColumnHeader)).Format("{0:N3}").HtmlAttributes(new { align = "right" });
+        columns.Bound(dis => dis.QuantityInMT).Title(Html.Translate("Allocated In " + quanityColumnHeader)).Format("{0:N3}").HtmlAttributes(new { align = "right" }).Encoded(false).ClientTemplate("#=adjustuom(ReceivedQuantityInMT)#");
+        columns.Bound(dis => dis.ReceivedQuantityInMT).Title(Html.Translate("Received in " + quanityColumnHeader)).Format("{0:N3}").HtmlAttributes(new { align = "right" }).Encoded(false).ClientTemplate("#=adjustuom(RemainingBalanceInMT)#");
+        columns.Bound(dis => dis.RemainingBalanceInMT).Title(Html.Translate("Remaining in " + quanityColumnHeader)).Format("{0:N3}").HtmlAttributes(new { align = "right" }).Encoded(false).ClientTemplate("#=adjustuom(RemainingBalanceInMT)#");
         columns.Bound(dis => dis.ReceiptAllocationID).Title("").ClientTemplate("<a href='" +
             @Url.Action("Create", "ReceiveNew", new { @ReceiptAllocationID = "#=ReceiptAllocationID#", @type = allocationType }) +
             "'>Recieve  </a> &nbsp; " +
@@ -43,7 +47,7 @@
             "<a  class='close_#=IsClosed#' href='javascript:ClosePlanByID(\"#=ReceiptAllocationID#\"," + allocationType + ")'>Close</a>"
             );
     })
-)
+                        )
 <script id="template_receive" type="text/kendo-tmpl">
     
     @(Html.Kendo().Grid<ReceiveViewModelDto>()
@@ -77,9 +81,9 @@
                             columns.Bound(com => com.CommodityName).Title(Html.Translate("Commodity"));
                             columns.Bound(com => com.UnitName).Title(Html.Translate("Unit"));
                             columns.Bound(com => com.SentQuantityInUnit).Title(Html.Translate("Sent Qty (Unit)")).HtmlAttributes(new { align = "right" }); ;
-                            columns.Bound(com => com.ReceivedQuantityInUnit).Title("Received Qty (Unit)").HtmlAttributes(new { align = "right" }); ;
-                            columns.Bound(com => com.SentQuantityInMT).Title(Html.Translate("Sent Qty " + quanityColumnHeader)).HtmlAttributes(new { align = "right" }); ;
-                            columns.Bound(com => com.ReceivedQuantityInMT).Title(Html.Translate("Received Qty " + quanityColumnHeader)).HtmlAttributes(new { align = "right" }); ;
+                            columns.Bound(com => com.ReceivedQuantityInUnit).Title("Received Qty (Unit)").HtmlAttributes(new { align = "right"}); ;
+                            columns.Bound(com => com.SentQuantityInMT).Title(Html.Translate("Sent Qty " + quanityColumnHeader)).HtmlAttributes(new { align = "right", @class = "cats_amt_in_uom" }).Encoded(false).ClientTemplate("#=adjustuom(SentQuantityInMT)#");
+                            columns.Bound(com => com.ReceivedQuantityInMT).Title(Html.Translate("Received Qty " + quanityColumnHeader)).HtmlAttributes(new { align = "right", @class = "cats_amt_in_uom" }).Encoded(false).ClientTemplate("#=adjustuom(ReceivedQuantityInMT)#");
 
                         })
                         .DataSource(dataSource => dataSource
@@ -93,4 +97,31 @@
                         .Sortable()
                         .ToClientTemplate())
                 
+</script>
+<script>
+    
+    function numberWithCommas(x) {
+        var parts = x.toFixed(3).toString().split(".");
+        parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        return parts.join(".");
+    }
+   
+    // end of function CurrencyFormatted()
+
+
+
+    function adjustuom(amt) {
+
+        
+        if ('@quanityColumnHeader' == "QTL")
+
+
+            return numberWithCommas(amt*10);
+        else {
+            return numberWithCommas(amt);
+
+        }
+    }
+    
+
 </script>
