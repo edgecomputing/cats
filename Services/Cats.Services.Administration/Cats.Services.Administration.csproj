@@ -91,6 +91,7 @@
     <Compile Include="IProgramService.cs" />
     <Compile Include="IStoreService.cs" />
     <Compile Include="IUnitService.cs" />
+    <Compile Include="IUserActivityService.cs" />
     <Compile Include="IUserHubService.cs" />
     <Compile Include="IUserProfileService.cs" />
     <Compile Include="LossReasonService.cs" />
@@ -98,6 +99,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StoreService.cs" />
     <Compile Include="UnitService.cs" />
+    <Compile Include="UserActivityService.cs" />
     <Compile Include="UserHubService.cs" />
     <Compile Include="UserProfileService.cs" />
   </ItemGroup>

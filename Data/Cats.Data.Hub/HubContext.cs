@@ -1,25 +1,32 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Data.Entity.ModelConfiguration.Conventions;
 using Cats.Models.Hubs;
 using Cats.Models.Hubs.Mapping;
-
+using System.Linq;
 
 namespace Cats.Data.Hub
 {
     public partial class HubContext : DbContext
     {
-        static HubContext()
+        #region Ctor
+    static HubContext()
         {
             Database.SetInitializer<HubContext>(null);
         }
-
-        public HubContext()
+ public HubContext()
             : base("Name=CatsContext")
         {
         }
 
-        public DbSet<Account> Accounts { get; set; }
+        #endregion
+
+ #region Property
+ public DbSet<Account> Accounts { get; set; }
         public DbSet<Adjustment> Adjustments { get; set; }
         public DbSet<AdjustmentReason> AdjustmentReasons { get; set; }
         public DbSet<AdminUnit> AdminUnits { get; set; }
@@ -86,8 +93,10 @@ namespace Cats.Data.Hub
         public DbSet<VWTransferredStock> VWTransferredStocks { get; set; }
 
         public DbSet<FreeStockStatus> FreeStockStatus { get; set; }
+ #endregion
 
 
+        #region OverridenMethods
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
@@ -166,5 +175,9 @@ namespace Cats.Data.Hub
                 // because nc.News is in the base class
            .Map(a => a.MapKey("UserProfileID"));*/
         }
+        #endregion
+
+
+      
     }
 }

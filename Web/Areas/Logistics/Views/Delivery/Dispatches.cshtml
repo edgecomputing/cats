@@ -715,13 +715,14 @@
         
         $scope.disableGRNEdit = function(id) {
             $scope.GRNDetail = [];
-            $(".btnEditGRN").hide();
+            $(".btnEditGRN").show();
+            $(".btnEditGRN").text("Update");
             $(".message-box").html("");
+            $(".message-box").hide();
         };
         
         $scope.enableGRNEdit = function(id) {
             $scope.GRNDetail = [];
-            $(".btnEditGRN").show();
             $(".message-box").html("");
         };
 

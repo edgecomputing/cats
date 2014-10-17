@@ -79,7 +79,7 @@ namespace Cats.Services.Procurement
            //    bid.StatusID = (int)BidStatus.Active;
            //    _unitOfWork.Save();
            //}
-           var oldBid = _unitOfWork.BidRepository.FindBy(m => m.StatusID == (int)BidStatus.Active).FirstOrDefault();
+           var oldBid = _unitOfWork.BidRepository.FindBy(m => m.StatusID == (int)BidStatus.Active && m.RegionID==bid.RegionID).FirstOrDefault();
            try
            {
                bid.StatusID = (int)BidStatus.Active;

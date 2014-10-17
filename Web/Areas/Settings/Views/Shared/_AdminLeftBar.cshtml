@@ -1,4 +1,5 @@
-﻿    <style>
+﻿@using Cats.Helpers
+    <style>
         .active
         {
             font-weight:bold;
@@ -170,7 +171,8 @@
             <a href="#"><i class="icon-picture"></i>Error Log</a>
         </li>
         <li>
-            <a href="#"><i class="icon-camera-retro"></i>Audit Log</a>
+           <a href="@Url.Action("Index","UserActivity")"> <i class="icon-camera-retro"></i>User Activity</a>
+            @* <a href="#"><i class="icon-camera-retro"></i>Audit Log</a>*@
         </li>
         <li>
             <a href="#"><i class="icon-info-sign"></i>Help </a>

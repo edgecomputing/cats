@@ -1,8 +1,13 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using Cats.Models;
 using Cats.Models.Mapping;
 using System.Data.Entity.ModelConfiguration.Conventions;
-
+using System.Linq;
 
 namespace Cats.Data
 {
@@ -308,4 +313,7 @@ namespace Cats.Data
         }
 
     }
+
+
+
 }

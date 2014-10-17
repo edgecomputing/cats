@@ -17,10 +17,10 @@ namespace Cats.Models.Mapping
 
             this.Property(t => t.TableName)
                 .IsRequired()
-                .HasMaxLength(30);
+                .HasMaxLength(100);
 
             this.Property(t => t.PrimaryKey)
-                .HasMaxLength(50);
+                .HasMaxLength(100);
 
             this.Property(t => t.ColumnName)
                 .HasMaxLength(3000);

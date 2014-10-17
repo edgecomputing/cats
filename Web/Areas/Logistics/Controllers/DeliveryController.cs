@@ -223,6 +223,8 @@ namespace Cats.Areas.Logistics.Controllers
                     DeliveryDate = delivery.DeliveryDate != null ? delivery.DeliveryDate.Value.ToShortDateString() : "",
                     DocumentReceivedDate = delivery.DocumentReceivedDate != null ? delivery.DocumentReceivedDate.Value.ToShortDateString() : "",
                     RequisitionNo = delivery.RequisitionNo,
+                    Zone=delivery.FDP.AdminUnit.AdminUnit2.Name,
+                    Woreda = delivery.FDP.AdminUnit.Name,
                     FDP = delivery.FDP.Name,
                     PlateNoPrimary = delivery.PlateNoPrimary,
                     PlateNoTrailler = delivery.PlateNoTrailler,
