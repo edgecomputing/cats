@@ -116,6 +116,7 @@ namespace Cats.Services.Transaction
                                                         {
                                                             RegionID = RegionID,
                                                             CommodityID = rd.CommodityID,
+                                                            ParentCommodityID = rd.Commodity.ParentID,
                                                             Round = r + 1,
                                                             ProgramID = TransactionConstants.Constants.HRD_PROGRAM_ID,
                                                             QuantityInUnit = amount,
@@ -133,6 +134,7 @@ namespace Cats.Services.Transaction
                                                         {
                                                             RegionID = RegionID,
                                                             CommodityID = rd.CommodityID,
+                                                            ParentCommodityID = rd.Commodity.ParentID,
                                                             Round = r + 1,
                                                             ProgramID = TransactionConstants.Constants.HRD_PROGRAM_ID,
                                                             QuantityInUnit = -amount,
@@ -260,6 +262,8 @@ namespace Cats.Services.Transaction
                         transaction.QuantityInUnit = - detail.Amount;
                     transaction.LedgerID = Models.Ledger.Constants.PLEDGED_TO_FDP;
                     transaction.CommodityID = detail.CommodityID;
+                    if (detail.Commodity.ParentID!=null)
+                        transaction.ParentCommodityID = detail.Commodity.ParentID;
                     transaction.FDPID = detail.FDPID;
                     transaction.ProgramID = detail.ReliefRequisition.ProgramID;
                     transaction.RegionID = detail.ReliefRequisition.RegionID;
@@ -281,6 +285,8 @@ namespace Cats.Services.Transaction
                     transaction.QuantityInUnit = detail.Amount;
                     transaction.LedgerID = Models.Ledger.Constants.REQUIRMENT_DOCUMENT;
                     transaction.CommodityID = detail.CommodityID;
+                    if (detail.Commodity.ParentID != null)
+                        transaction.ParentCommodityID = detail.Commodity.ParentID;
                     transaction.FDPID = detail.FDPID;
                     transaction.ProgramID = detail.ReliefRequisition.ProgramID;
                     transaction.RegionID = detail.ReliefRequisition.RegionID;
@@ -330,6 +336,7 @@ namespace Cats.Services.Transaction
                 transaction.QuantityInUnit = -allocationDetail.AllocatedAmount;
                 transaction.LedgerID = Ledger.Constants.COMMITED_TO_FDP;
                 transaction.CommodityID = allocationDetail.ReliefRequisitionDetail.CommodityID;
+                transaction.ParentCommodityID = allocationDetail.ReliefRequisitionDetail.Commodity.ParentID;
                 transaction.FDPID = allocationDetail.ReliefRequisitionDetail.FDPID;
                 transaction.ProgramID = (int)allocationDetail.ReliefRequisitionDetail.ReliefRequisition.ProgramID;
                 transaction.RegionID = allocationDetail.ReliefRequisitionDetail.ReliefRequisition.RegionID;
@@ -387,6 +394,7 @@ namespace Cats.Services.Transaction
                 transaction2.QuantityInUnit = allocationDetail.AllocatedAmount;
                 transaction2.LedgerID = Ledger.Constants.PLEDGED_TO_FDP;
                 transaction2.CommodityID = allocationDetail.ReliefRequisitionDetail.CommodityID;
+                transaction2.ParentCommodityID = allocationDetail.ReliefRequisitionDetail.Commodity.ParentID;
                 transaction2.FDPID = allocationDetail.ReliefRequisitionDetail.FDPID;
                 transaction2.ProgramID = (int)allocationDetail.ReliefRequisitionDetail.ReliefRequisition.ProgramID;
                 transaction2.RegionID = allocationDetail.ReliefRequisitionDetail.ReliefRequisition.RegionID;
@@ -661,6 +669,7 @@ namespace Cats.Services.Transaction
                                           TransactionGroupID = transactionGroup,
                                           TransactionDate = transactionDate,
                                           CommodityID = donationPlanHeader.CommodityID,
+                                          ParentCommodityID = donationPlanHeader.Commodity.ParentID,
                                           ShippingInstructionID = donationPlanHeader.ShippingInstructionId,
                                           HubID = donationPlanDetail.HubID,
                                           LedgerID = Ledger.Constants.GOODS_RECIEVABLE
@@ -679,6 +688,7 @@ namespace Cats.Services.Transaction
                                      TransactionGroupID = transactionGroup,
                                      TransactionDate = transactionDate,
                                      CommodityID = donationPlanHeader.CommodityID,
+                                     ParentCommodityID = donationPlanHeader.Commodity.ParentID,
                                      ShippingInstructionID = donationPlanHeader.ShippingInstructionId,
                                      HubID = donationPlanDetail.HubID,
                                      LedgerID = Ledger.Constants.GIFT_CERTIFICATE //good promissed - pledged is not in ledger list // Former LedgerID = 4
@@ -720,6 +730,7 @@ namespace Cats.Services.Transaction
                                               CommoditySourceID =
                                                   Models.Constant.CommoditySourceConst.Constants.LOCALPURCHASE,
                                               CommodityID = detail.LocalPurchase.CommodityID,
+                                              ParentCommodityID = detail.LocalPurchase.Commodity.ParentID,
                                               DonorID = detail.LocalPurchase.DonorID,
                                               HubID = detail.HubID,
                                               ProgramID = detail.LocalPurchase.ProgramID,
@@ -743,6 +754,7 @@ namespace Cats.Services.Transaction
                         CommoditySourceID =
                             Models.Constant.CommoditySourceConst.Constants.LOCALPURCHASE,
                         CommodityID = detail.LocalPurchase.CommodityID,
+                        ParentCommodityID = detail.LocalPurchase.Commodity.ParentID,
                         DonorID = detail.LocalPurchase.DonorID,
                         HubID = detail.HubID,
                         ProgramID = detail.LocalPurchase.ProgramID,
@@ -794,6 +806,7 @@ namespace Cats.Services.Transaction
                                                 TransactionID = Guid.NewGuid(),
                                                 CommoditySourceID =Models.Constant.CommoditySourceConst.Constants.LOAN,
                                                 CommodityID = loan.LoanReciptPlan.CommodityID,
+                                                ParentCommodityID = loan.LoanReciptPlan.Commodity.ParentID,
                                                 ShippingInstructionID = loanReciptPlan.ShippingInstruction.ShippingInstructionID,
                                                 QuantityInMT = loan.RecievedQuantity,
                                                 HubID = loan.HubID,
@@ -810,6 +823,7 @@ namespace Cats.Services.Transaction
                     TransactionID = Guid.NewGuid(),
                     CommoditySourceID = Models.Constant.CommoditySourceConst.Constants.LOAN,
                     CommodityID = loan.LoanReciptPlan.CommodityID,
+                    ParentCommodityID = loan.LoanReciptPlan.Commodity.ParentID,
                     ShippingInstructionID = loanReciptPlan.ShippingInstruction.ShippingInstructionID,
                     QuantityInMT = loan.RecievedQuantity,
                     HubID = loan.HubID,
@@ -836,7 +850,7 @@ namespace Cats.Services.Transaction
             return true;
         }
         #endregion
-
+        //commodityParentId not found
 #region Post Distribution
         public bool PostDistribution(int distributionId)
         {
@@ -866,6 +880,7 @@ namespace Cats.Services.Transaction
                         Month = woredaStcokDistribution.Month,
                         PlanId = woredaStcokDistribution.PlanID,
                         CommodityID = woredaStockDistributionDetail.CommodityID,
+                        
                         //add commodity
                        LedgerID = Ledger.Constants.GOODS_UNDER_CARE
                     };
@@ -929,6 +944,7 @@ namespace Cats.Services.Transaction
                 transaction.UnitID = 1;
                 transaction.LedgerID = Ledger.Constants.GIFT_CERTIFICATE;//Goods Promised - Gift Certificate - Commited not found in ledger list
                 transaction.CommodityID = giftCertificateDetail.CommodityID;
+                transaction.ParentCommodityID = giftCertificateDetail.Commodity.ParentID;
                // transaction.ShippingInstructionID = giftCertificate.SINumber;
                 _unitOfWork.TransactionRepository.Add(transaction);
 
@@ -941,6 +957,7 @@ namespace Cats.Services.Transaction
                 transaction.TransactionDate = transactionDate;
                 transaction.QuantityInUnit = giftCertificateDetail.WeightInMT;
                 transaction.UnitID = 1;
+                transaction.ParentCommodityID = giftCertificateDetail.Commodity.ParentID;
                 transaction.LedgerID = Ledger.Constants.PLEDGE;//Goods Promised - Pledge	 not found in ledger list
 
                 _unitOfWork.TransactionRepository.Add(transaction);
@@ -955,6 +972,7 @@ namespace Cats.Services.Transaction
         }
 #endregion
 
+        // commodityId and commodityParentId not found
 #region Post Delivery Reconcile
 
         public bool PostDeliveryReconcileReceipt(int deliveryReconcileID)
@@ -1023,7 +1041,7 @@ namespace Cats.Services.Transaction
             transaction.LedgerID = Models.Ledger.Constants.GOODS_IN_TRANSIT;
             transaction.HubID = deliveryReconcile.HubID;
             transaction.FDPID = deliveryReconcile.FDPID;
-
+            
             
             if (firstOrDefault != null)
             {
