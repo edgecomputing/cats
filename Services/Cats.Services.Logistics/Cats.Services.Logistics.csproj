@@ -133,6 +133,10 @@
       <Project>{a08cf415-6299-41ab-9d69-c3ce9b49ccd6}</Project>
       <Name>Cats.Services.EarlyWarning</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Cats.Services.Transaction\Cats.Services.Transaction.csproj">
+      <Project>{9B741D92-4B67-4863-BF38-A1ADCAE40870}</Project>
+      <Name>Cats.Services.Transaction</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
