@@ -37,8 +37,10 @@ namespace Cats.Models
             public const int GOODS_ON_HAND_UNCOMMITED = 20;
             public const int LIABILITIES = 4;
 
-            public const int DELIVERY_IN_TRANSIT = 9;
-        }
+            
+            
+
+             }
     }
 
     public class TransactionConstants
@@ -49,6 +51,19 @@ namespace Cats.Models
             public const string PROJECT_CODE = "PC";
             public const int HRD_PROGRAM_ID = 1;
             public const int PSNP_PROGRAM_ID = 2;
+        }
+    }
+
+    public class Adjustment
+    {
+        public class Constants
+        {
+            public const int DATA_ENTRY_ERROR_PLUS = 1;
+            public const int LOSS_THEFT = 2;
+            public const int LOSS_NATURAL_CAUSE = 3;
+            public const int DAMAGE = 4;
+            public const int DATA_ENTRY_ERROR_MINUS = 5;
+            public const int LOST_AND_FOUND = 6;
         }
     }
 }
