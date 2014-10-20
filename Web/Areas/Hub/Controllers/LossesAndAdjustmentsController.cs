@@ -172,12 +172,12 @@ namespace Cats.Areas.Hub.Controllers
             return Json(new SelectList(projectCodes, "ProjectCodeId", "ProjectName"), JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult GetSINumberForProjectCode(int? ProjectCodeId, int? parentCommodityId)
+        public ActionResult GetSINumberForProjectCode(int? ProjectCodeId, int? CommodityId)
         {
             if (ProjectCodeId.HasValue)
             {
                 UserProfile user = _userProfileService.GetUser(User.Identity.Name);
-               return Json(new SelectList(_shippingInstructionService.GetShippingInstructionsForProjectCode(user.DefaultHub.Value, ProjectCodeId.Value, parentCommodityId.Value), "ShippingInstructionId", "ShippingInstructionName"), JsonRequestBehavior.AllowGet);
+               return Json(new SelectList(_shippingInstructionService.GetShippingInstructionsForProjectCode(user.DefaultHub.Value, ProjectCodeId.Value, CommodityId.Value), "ShippingInstructionId", "ShippingInstructionName"), JsonRequestBehavior.AllowGet);
             }
             else
             {
