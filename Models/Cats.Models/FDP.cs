@@ -26,6 +26,7 @@ namespace Cats.Models
         //public DbGeography FDPLocation { get; set; }
         public string Latitude { get; set; }
         public string Longitude { get; set; }
+        public Nullable<int> HubID { get; set; }
 
         public virtual AdminUnit AdminUnit { get; set; }
         public virtual ICollection<Dispatch> Dispatches { get; set; }

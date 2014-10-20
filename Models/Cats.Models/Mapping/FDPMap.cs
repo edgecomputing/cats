@@ -26,6 +26,7 @@ namespace Cats.Models.Mapping
             this.Property(t => t.AdminUnitID).HasColumnName("AdminUnitID");
             this.Property(t => t.Latitude).HasColumnName("Latitude");
             this.Property(t => t.Longitude).HasColumnName("Longitude");
+            this.Property(t => t.HubID).HasColumnName("HubID");
 
             // Relationships
             this.HasRequired(t => t.AdminUnit)
