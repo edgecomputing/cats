@@ -125,6 +125,10 @@ namespace Cats.Areas.Logistics.Controllers
             {
                 return HttpNotFound();
             }
+            if (TempData["CustomError"] != null)
+            {
+                ModelState.AddModelError("Errors", TempData["CustomError"].ToString());
+            }
             return View(transfer);
         }
         public ActionResult Transfer_Read([DataSourceRequest] DataSourceRequest request)
@@ -176,8 +180,13 @@ namespace Cats.Areas.Logistics.Controllers
                
                 try
                 {
-                    _transferService.Approve(transfer);
-                    _transferService.CreateRequisitonForTransfer(transfer);
+                 
+                    if ( _transferService.CreateRequisitonForTransfer(transfer))
+                    {
+                        _transferService.Approve(transfer);
+                        return RedirectToAction("Detail", new { id = transfer.TransferID });
+                    }
+                    TempData["CustomError"] = @"Unable to Approve the given Transfer";
                     return RedirectToAction("Detail", new { id = transfer.TransferID });
                 }
                 catch (Exception exception)

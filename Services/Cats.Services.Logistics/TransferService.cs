@@ -188,10 +188,6 @@ namespace Cats.Services.Logistics
                };
 
                var allocation = allocationDetail;
-
-
-
-
                transaction.QuantityInMT = -allocationDetail.AllocatedAmount;
                transaction.QuantityInUnit = -allocationDetail.AllocatedAmount;
                transaction.LedgerID = Ledger.Constants.COMMITED_TO_FDP;
@@ -214,12 +210,6 @@ namespace Cats.Services.Logistics
                    hubID1 = (int)_unitOfWork.TransactionRepository.FindBy(m => m.ProjectCodeID == allocationDetail.Code && m.LedgerID == Ledger.Constants.GOODS_ON_HAND).Select(m => m.HubID).FirstOrDefault();
 
                }
-
-               // I see some logical error here
-               // what happens when hub x was selected and the allocation was made from hub y? 
-               //TOFIX: 
-               // Hub is required for this transaction
-               // Try catch is danger!! Either throw the exception or use conditional statement. 
 
                if (hubID1 != 0)
                {
