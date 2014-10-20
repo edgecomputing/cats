@@ -13,6 +13,7 @@ using Cats.Services.Logistics;
 using Cats.Services.Security;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
+using log4net;
 
 namespace Cats.Areas.Logistics.Controllers
 {
@@ -25,13 +26,16 @@ namespace Cats.Areas.Logistics.Controllers
         private readonly ICommonService _commonService;
         private readonly IUserAccountService _userAccountService;
         private readonly ICommodityService _commodityService;
+        private ILog _log;
         
-        public TransferController(ITransferService transferService,ICommonService commonService,IUserAccountService userAccountService, ICommodityService commodityService)
+        public TransferController(ITransferService transferService,ICommonService commonService,IUserAccountService userAccountService,
+                                  ICommodityService commodityService,ILog log)
         {
             _transferService = transferService;
             _commonService = commonService;
             _userAccountService = userAccountService;
             _commodityService = commodityService;
+            _log = log;
         }
 
         public ActionResult Index()
@@ -169,9 +173,21 @@ namespace Cats.Areas.Logistics.Controllers
             var transfer = _transferService.FindById(id);
             if (transfer!=null)
             {
-                _transferService.Approve(transfer);
-                return RedirectToAction("Detail", new { id = transfer.TransferID });
-                
+               
+                try
+                {
+                    _transferService.Approve(transfer);
+                    _transferService.CreateRequisitonForTransfer(transfer);
+                    return RedirectToAction("Detail", new { id = transfer.TransferID });
+                }
+                catch (Exception exception)
+                {
+                    var log = new Logger();
+                    log.LogAllErrorsMesseges(exception, _log);
+                    ModelState.AddModelError("Errors", @"Unable to Approve the given Transfer");
+                   
+                }
+               
             }
             ModelState.AddModelError("Errors",@"Unable to Approve the given Transfer");
             return RedirectToAction("Index");

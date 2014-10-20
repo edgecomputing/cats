@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using Cats.Data.UnitWork;
 using Cats.Models;
@@ -88,12 +89,76 @@ namespace Cats.Services.Logistics
                }
            return false;
        }
+       public bool CreateRequisitonForTransfer(Transfer transfer)
+       {
+           if (transfer!=null)
+           {
+               var relifRequisition = new ReliefRequisition()
+            {
+                
+                //RegionalRequestID = regionalRequest.RegionalRequestID,
+                //Round = regionalRequest.Round,
+                Month = transfer.CreatedDate.Month,
+                ProgramID = transfer.ProgramID,
+                CommodityID = transfer.CommodityID,
+                RequestedDate = transfer.CreatedDate,
+                //RationID = regionalRequest.RationID
+                
+                //TODO:Please find another way how to specify Requistion No
+                RequisitionNo = Guid.NewGuid().ToString(),
+                //RegionID = regionalRequest.RegionID,
+                //ZoneID = zoneId,
+                Status = (int) ReliefRequisitionStatus.Draft,
+                //RequestedBy =itm.RequestedBy,
+                //ApprovedBy=itm.ApprovedBy,
+                //ApprovedDate=itm.ApprovedDate,
+
+            };
+               _unitOfWork.ReliefRequisitionRepository.Add(relifRequisition);
+               var fdp=_unitOfWork.FDPRepository.FindBy(m=>m.HubID==transfer.DestinationHubID).FirstOrDefault();
+                var relifRequistionDetail = new ReliefRequisitionDetail();
+               
+                relifRequistionDetail.DonorID = 1;
+               if (fdp!=null)
+               {
+                    relifRequistionDetail.FDPID =fdp.FDPID ;
+               }
+                relifRequistionDetail.BenficiaryNo = 0;//since there is no need of benficiaryNo on transfer
+                relifRequistionDetail.CommodityID = transfer.CommodityID;
+                relifRequistionDetail.Amount = transfer.Quantity ;
+                relifRequisition.ReliefRequisitionDetails.Add(relifRequistionDetail);
+
+                // save hub allocation
+                var hubAllocation = new HubAllocation
+                {
+                    AllocatedBy = 1,
+                    RequisitionID = relifRequisition.RequisitionID,
+                    AllocationDate = transfer.CreatedDate,
+                    ReferenceNo = "001",
+                    HubID = transfer.SourceHubID
+                };
+               _unitOfWork.HubAllocationRepository.Add(hubAllocation);
+               _unitOfWork.Save();
+
+
+               relifRequisition.RequisitionNo = String.Format("REQ-{0}", relifRequisition.RequisitionID);
+               relifRequisition.Status = (int) ReliefRequisitionStatus.HubAssigned;
+               _unitOfWork.Save();
+
+               return true;
+
+           }
+           return false;
+       }
        public void Dispose()
        {
            _unitOfWork.Dispose();
            
        }
-       
+
+
+
+      
    }
    }
    

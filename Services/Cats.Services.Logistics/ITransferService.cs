@@ -19,6 +19,7 @@ namespace Cats.Services.Logistics
        List<Transfer> GetAllTransfer();
        List<Transfer> FindBy(Expression<Func<Transfer, bool>> predicate);
        bool Approve(Transfer transfer);
+       bool CreateRequisitonForTransfer(Transfer transfer);
 
 
    }
