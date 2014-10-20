@@ -339,19 +339,20 @@ namespace Cats.Areas.EarlyWarning.Controllers
                                };
 
             }
-            return (from total in groupedTotal
-                    select new RegionalSummaryViewModel
-                        {
-                            RegionName = total.Region.Name,
-                            AdminUnitID = total.Region.AdminUnitID,
-                            AdminUnitName=total.Region.Name,
-                            NumberOfBeneficiaries = total.NumberOfBeneficiaries,
-                            Cereal = cerealCoefficient * total.Duration,
-                            code=total.Region.code,
-                            BlededFood = blendFoodCoefficient * total.Duration,
-                            Oil = oilCoefficient * total.Duration,
-                            Pulse = pulseCoefficient * total.Duration
-                        });
+            var cv = (from total in groupedTotal
+                      select new RegionalSummaryViewModel
+                                 {
+                                     RegionName = total.Region.Name,
+                                     AdminUnitID = total.Region.AdminUnitID,
+                                     AdminUnitName = total.Region.Name,
+                                     NumberOfBeneficiaries = total.NumberOfBeneficiaries,
+                                     Cereal = cerealCoefficient*total.Duration/1000,
+                                     code = total.Region.code,
+                                     BlededFood = blendFoodCoefficient*total.Duration/1000,
+                                     Oil = oilCoefficient*total.Duration/1000,
+                                     Pulse = pulseCoefficient*total.Duration/1000
+                                 });
+            return cv;
         }
         [EarlyWarningAuthorize(operation = EarlyWarningConstants.Operation.View_HRD_Detail)]
         public ActionResult Detail(int id)
