@@ -91,62 +91,73 @@ namespace Cats.Services.Logistics
        }
        public bool CreateRequisitonForTransfer(Transfer transfer)
        {
-           if (transfer!=null)
+           if (transfer != null)
            {
-               var relifRequisition = new ReliefRequisition()
-            {
-                
-                //RegionalRequestID = regionalRequest.RegionalRequestID,
-                //Round = regionalRequest.Round,
-                Month = transfer.CreatedDate.Month,
-                ProgramID = transfer.ProgramID,
-                CommodityID = transfer.CommodityID,
-                RequestedDate = transfer.CreatedDate,
-                //RationID = regionalRequest.RationID
-                
-                //TODO:Please find another way how to specify Requistion No
-                RequisitionNo = Guid.NewGuid().ToString(),
-                //RegionID = regionalRequest.RegionID,
-                //ZoneID = zoneId,
-                Status = (int) ReliefRequisitionStatus.Draft,
-                //RequestedBy =itm.RequestedBy,
-                //ApprovedBy=itm.ApprovedBy,
-                //ApprovedDate=itm.ApprovedDate,
-
-            };
-               _unitOfWork.ReliefRequisitionRepository.Add(relifRequisition);
-               var fdp=_unitOfWork.FDPRepository.FindBy(m=>m.HubID==transfer.DestinationHubID).FirstOrDefault();
-                var relifRequistionDetail = new ReliefRequisitionDetail();
-               
-                relifRequistionDetail.DonorID = 1;
-               if (fdp!=null)
+               var fdp = _unitOfWork.FDPRepository.FindBy(m => m.HubID == transfer.DestinationHubID).FirstOrDefault();
+               if (fdp != null)
                {
-                    relifRequistionDetail.FDPID =fdp.FDPID ;
+
+                   var relifRequisition = new ReliefRequisition()
+                       {
+
+                           //RegionalRequestID = regionalRequest.RegionalRequestID,
+                           //Round = regionalRequest.Round,
+                           Month = transfer.CreatedDate.Month,
+                           ProgramID = transfer.ProgramID,
+                           CommodityID = transfer.CommodityID,
+                           RequestedDate = transfer.CreatedDate,
+                           //RationID = regionalRequest.RationID
+
+                          
+                           RequisitionNo = Guid.NewGuid().ToString(),
+                           RegionID = fdp.AdminUnit.AdminUnit2.AdminUnit2.AdminUnitID,
+                           ZoneID = fdp.AdminUnit.AdminUnit2.AdminUnitID,
+                           Status = (int) ReliefRequisitionStatus.Draft,
+                          
+
+                       };
+                   _unitOfWork.ReliefRequisitionRepository.Add(relifRequisition);
+
+                   var relifRequistionDetail = new ReliefRequisitionDetail();
+
+                   relifRequistionDetail.DonorID = 1;
+                  
+                   relifRequistionDetail.FDPID = fdp.FDPID;
+                   
+                   relifRequistionDetail.BenficiaryNo = 0; //since there is no need of benficiaryNo on transfer
+                   relifRequistionDetail.CommodityID = transfer.CommodityID;
+                   relifRequistionDetail.Amount = transfer.Quantity;
+                   relifRequisition.ReliefRequisitionDetails.Add(relifRequistionDetail);
+
+                   // save hub allocation
+                   var hubAllocation = new HubAllocation
+                       {
+                           AllocatedBy = 1,
+                           RequisitionID = relifRequisition.RequisitionID,
+                           AllocationDate = transfer.CreatedDate,
+                           ReferenceNo = "001",
+                           HubID = transfer.SourceHubID
+                       };
+                   _unitOfWork.HubAllocationRepository.Add(hubAllocation);
+                   relifRequisition.Status = (int)ReliefRequisitionStatus.HubAssigned;
+                   _unitOfWork.Save();
+
+
+                   SIPCAllocation allocation = new SIPCAllocation
+                   {
+                       Code = transfer.ShippingInstructionID,
+                       AllocatedAmount = transfer.Quantity,
+                       AllocationType = "SI",
+                       RequisitionDetailID = relifRequistionDetail.RequisitionDetailID
+                   };
+                   _unitOfWork.SIPCAllocationRepository.Add(allocation);
+                   relifRequisition.RequisitionNo = String.Format("REQ-{0}", relifRequisition.RequisitionID);
+                   relifRequisition.Status = (int) ReliefRequisitionStatus.SiPcAllocationApproved;
+                   _unitOfWork.Save();
+
+                   return true;
+
                }
-                relifRequistionDetail.BenficiaryNo = 0;//since there is no need of benficiaryNo on transfer
-                relifRequistionDetail.CommodityID = transfer.CommodityID;
-                relifRequistionDetail.Amount = transfer.Quantity ;
-                relifRequisition.ReliefRequisitionDetails.Add(relifRequistionDetail);
-
-                // save hub allocation
-                var hubAllocation = new HubAllocation
-                {
-                    AllocatedBy = 1,
-                    RequisitionID = relifRequisition.RequisitionID,
-                    AllocationDate = transfer.CreatedDate,
-                    ReferenceNo = "001",
-                    HubID = transfer.SourceHubID
-                };
-               _unitOfWork.HubAllocationRepository.Add(hubAllocation);
-               _unitOfWork.Save();
-
-
-               relifRequisition.RequisitionNo = String.Format("REQ-{0}", relifRequisition.RequisitionID);
-               relifRequisition.Status = (int) ReliefRequisitionStatus.HubAssigned;
-               _unitOfWork.Save();
-
-               return true;
-
            }
            return false;
        }
