@@ -1,12 +1,13 @@
 ﻿@model Cats.Models.Hubs.ViewModels.DispatchAllocationViewModel
 
+@using Cats.Helpers
 @using Cats.Web.Hub.Helpers
 @using Kendo.Mvc.UI
 @{
     ViewBag.Title = Html.Translate("Edit dispatch allocation");
  }
 <p>
-    @Html.Translate("Please use this form to edit dispatch allocation for your hub.")
+    <h3>@Html.Translate("Please use this form to edit dispatch allocation for your hub.")</h3>
 </p>
 
 <style>
@@ -15,6 +16,7 @@
         border:solid 1px #888;
         padding:2px;
         border-radius:4px;
+        color: black;
     }
     /*
     .control-group
@@ -26,6 +28,9 @@
         background:#0EE;
     }
         */
+    .control-label {
+        color: black;
+    }
 </style>
 
 
@@ -40,41 +45,43 @@
         <div class="form-horizontal two-col-form">
                   <div class="control-group required">
                         @Html.LabelFor(model => model.RequisitionNo, Html.Translate("Requisition No"),new { @class="control-label" })
-                    <div class="controls">
-                        @Html.EditorFor(model => model.RequisitionNo)
-                        @Html.ValidationMessageFor(model => model.RequisitionNo)
-                    </div>
+                      <div class="controls">
+                          @Html.Kendo().AutoCompleteFor(model => model.RequisitionNo).Enable(false)
+                          @*@Html.EditorFor(model => model.RequisitionNo, new {@class = "control-label"})*@
+                          @Html.ValidationMessageFor(model => model.RequisitionNo)
+                      </div>
                   </div>
                   <div class="control-group required">
                      @Html.LabelFor(model => model.BidRefNo, Html.Translate(" Bid Ref Number"),new { @class="control-label" })
-                    <div class="controls">
-                        @Html.EditorFor(model => model.BidRefNo)
-                        @Html.ValidationMessageFor(model => model.BidRefNo)
-                    </div>
+                      <div class="controls">
+                          @Html.Kendo().AutoCompleteFor(model => model.BidRefNo).Enable(false)
+                          @*@Html.EditorFor(model => model.BidRefNo)*@
+                          @Html.ValidationMessageFor(model => model.BidRefNo)
+                      </div>
                   </div>
                    <div class="control-group required">
                     @Html.LabelFor(model => model.FDPID, "FDP",new { @class="control-label" })
                     <div class="controls">
-                        @Html.HiddenFor(model => model.FDPID)
-                        
+                        @*@Html.HiddenFor(model => model.FDPID)*@
+                        @Html.Kendo().AutoCompleteFor(model => model.FDPName).Enable(false)
                         @Html.ValidationMessageFor(model => model.FDPID)
-                        <div class="input" id="FDPName">@Model.FDPName</div>
+                        @*<div class="input" id="FDPName">@Model.FDPName</div>*@
                     </div>
                   </div>
             <div class="control-group required">
                     @Html.LabelFor(model => model.ProgramID, Html.Translate("Program"),new { @class="control-label" })
                     <div class="controls">
-                        @(Html.Kendo().ComboBox().Name("ProgramID").Filter("contains").BindTo((SelectList)ViewBag.Programs).Suggest(true).AutoBind(true))
-                        
+                        @*@(Html.Kendo().ComboBox().Name("ProgramID").Filter("contains").BindTo((SelectList)ViewBag.Programs).Suggest(true).AutoBind(true))*@
+                        @Html.Kendo().AutoCompleteFor(model => model.ProgramName).Enable(false)
                          @Html.ValidationMessageFor(model => model.ProgramID)
                     </div>
                   </div>
                   <div class="control-group required">
                     @Html.LabelFor(model => model.CommodityTypeID, Html.Translate("Commodity Type"),new { @class="control-label" })
                    <div class="controls">
-                                           
-                        @(Html.Kendo().ComboBox().Name("CommodityTypeID").Filter("contains").BindTo((SelectList)ViewBag.CommodityTypes).Suggest(true).AutoBind(true))
-                        @Html.AuditTrial("DispatchAllocationID", "CommodityTypeID", Model.DispatchAllocationID)
+                        @Html.Kendo().AutoCompleteFor(model => model.CommodityTypeName).Enable(false)                   
+                        @*@(Html.Kendo().ComboBox().Name("CommodityTypeID").Filter("contains").BindTo((SelectList)ViewBag.CommodityTypes).Suggest(true).AutoBind(true))*@
+                        @*@Html.AuditTrial("DispatchAllocationID", "CommodityTypeID", Model.DispatchAllocationID)*@
                         @Html.ValidationMessageFor(model => model.CommodityTypeID)                   
                     </div>
                   </div>
@@ -83,9 +90,9 @@
                      @Html.LabelFor(model => model.CommodityID, Html.Translate("Commodity"),new { @class="control-label" })
                     <div class="controls">
                         
-                        @(Html.Kendo().ComboBox().Name("CommodityID").Filter("contains").BindTo((SelectList)ViewBag.Commodities).Suggest(true).AutoBind(true))
+                        @*@(Html.Kendo().ComboBox().Name("CommodityID").Filter("contains").BindTo((SelectList)ViewBag.Commodities).Suggest(true).AutoBind(true))*@
                         
-                        
+                        @Html.Kendo().AutoCompleteFor(model => model.CommodityName).Enable(false)
                         @Html.ValidationMessageFor(model => model.CommodityID)
                     </div>
                   </div>
@@ -95,7 +102,7 @@
                   <div class="control-group required">
                     @Html.LabelFor(model => model.DonorID, Html.Translate("Donor"),new { @class="control-label" })
                     <div class="controls">
-                     @(Html.Kendo().ComboBox()
+                        @*@(Html.Kendo().ComboBox()
                       .Name("DonorID")
                       .Filter("contains")
                       .Placeholder("Select Donor...")
@@ -104,7 +111,8 @@
                       .AutoBind(true)
           
                       .HtmlAttributes(new { style = string.Format("width:{0}px", 200) })
-                    )
+                    )*@
+                        @Html.Kendo().AutoCompleteFor(model => model.DonorName).Enable(false)
                         @Html.ValidationMessageFor(model => model.DonorID)
                     </div>
                   </div>
@@ -112,7 +120,8 @@
                   <div class="control-group required">
                     @Html.LabelFor(model => model.Beneficiery,new { @class="control-label" })
                     <div class="controls">
-                        @Html.EditorFor( model => model.Beneficiery,new { @class="input-small" })
+                        @*@Html.EditorFor( model => model.Beneficiery,new { @class="input-small" })*@
+                        @Html.Kendo().AutoCompleteFor(model => model.Beneficiery).Enable(false)
                         @Html.ValidationMessageFor(model => model.Beneficiery)
                     </div>
                   </div>
@@ -122,7 +131,7 @@
                   <div class="control-group required">
                     @Html.LabelFor(model => model.Amount, Html.Translate("Amount"),new { @class="control-label" })
                     <div class="controls">
-                        @Html.EditorFor(model => model.Amount)
+                        @Html.Kendo().AutoCompleteFor(model => model.Amount)
                         @Html.ValidationMessageFor(model => model.Amount)
                     </div>
                   </div>
@@ -130,8 +139,8 @@
                   <div class="control-group required">
                     @Html.LabelFor(model => model.Unit,new { @class="control-label" })
                     <div class="controls">
-                        @(Html.Kendo().ComboBox().Name("Unit").Filter("contains").BindTo((SelectList)ViewBag.Units).Suggest(true).AutoBind(true))
-                        
+                        @*@(Html.Kendo().ComboBox().Name("Unit").Filter("contains").BindTo((SelectList)ViewBag.Units).Suggest(true).AutoBind(true))*@
+                        @Html.Kendo().AutoCompleteFor(model => model.UnitName).Enable(false)
                         @Html.ValidationMessageFor(model => model.Unit)
                     </div>
                   </div>
@@ -139,7 +148,8 @@
                   <div class="control-group required">
                     @Html.LabelFor(model => model.Year,new { @class="control-label" })
                     <div class="controls">
-                        @(Html.Kendo().ComboBox().Name("Year").Filter("contains").BindTo((SelectList)ViewBag.Years).Suggest(true).AutoBind(true))
+                        @*@(Html.Kendo().ComboBox().Name("Year").Filter("contains").BindTo((SelectList)ViewBag.Years).Suggest(true).AutoBind(true))*@
+                        @Html.Kendo().AutoCompleteFor(model => model.Year).Enable(false)
                         @Html.ValidationMessageFor(model => model.Year)
                     </div>
                   </div>
@@ -147,8 +157,8 @@
                   <div class="control-group required">
                     @Html.LabelFor(model => model.Month,new { @class="control-label" })
                     <div class="controls">
-                       
-                        @(Html.Kendo().ComboBox().Name("Month").Filter("contains").BindTo((SelectList)ViewBag.Months).Suggest(true).AutoBind(true))
+                       @Html.Kendo().AutoCompleteFor(model => model.MonthName).Enable(false)
+                        @*@(Html.Kendo().ComboBox().Name("Month").Filter("contains").BindTo((SelectList)ViewBag.Months).Suggest(true).AutoBind(true))*@
                         @Html.ValidationMessageFor(model => model.Month)
                     </div>
                   </div>
@@ -156,16 +166,18 @@
                   <div class="control-group required">
                     @Html.LabelFor(model => model.Round,new { @class="control-label" })
                     <div class="controls">
-                        @Html.EditorFor(model => model.Round)
-                        @Html.ValidationMessageFor(model => model.Round)
+                        @*@Html.EditorFor(model => model.Round)*@
+                        @Html.Kendo().AutoCompleteFor(model => model.Round).Enable(false)
+                        @*@Html.ValidationMessageFor(model => model.Round)*@
                     </div>
                   </div>
 
                   <div class="control-group required">
                     @Html.LabelFor(model => model.TransporterID, Html.Translate("Transporter"),new { @class="control-label" })
                     <div class="controls">
-                         @(Html.Kendo().ComboBox().Name("TransporterID").Filter("contains").BindTo((SelectList)ViewBag.Transporters).Suggest(true).AutoBind(true))
-                         @Html.ValidationMessageFor(model => model.TransporterID)
+                         @*@(Html.Kendo().ComboBox().Name("TransporterID").Filter("contains").BindTo((SelectList)ViewBag.Transporters).Suggest(true).AutoBind(true))*@
+                        @Html.Kendo().AutoCompleteFor(model => model.TransporterName).Enable(false)
+                        @Html.ValidationMessageFor(model => model.TransporterID)
                     </div>
                   </div>
 
