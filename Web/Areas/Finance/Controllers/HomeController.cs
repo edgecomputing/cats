@@ -45,6 +45,8 @@ namespace Cats.Areas.Finance.Controllers
                     Transporter = p.TransportOrder.Transporter.Name,
                     TransporterId = p.TransportOrder.TransporterID,
                     RequestedAmount = firstOrDefault.SentQuantity,
+                   
+                           
                     AditionalLabourCost = p.LabourCost,
                     RejectedAmount = p.RejectedAmount,
                     // Date  = _transporterChequeService.FindBy(t=>t.PaymentRequestID == p.PaymentRequestID).Select(d=>d.AppovedDate).FirstOrDefault().ToCTSPreferedDateFormat(UserAccountHelper.UserCalendarPreference()),
