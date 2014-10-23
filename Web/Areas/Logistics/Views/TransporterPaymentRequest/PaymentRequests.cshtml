@@ -408,6 +408,19 @@
                 </tr> 
                 //}
             }
+            <tr style="background-color: gainsboro">
+                 <td colspan="5"></td>
+                 <td  style="text-align: center"><b>Total:</b></td>
+                    
+                 <td><b>@Model.Sum(a => a.ReceivedQty)</b></td>
+                  <td><b>@Model.Sum(a => a.Tarrif).ToString("0.00")</b> </td>
+                 <td><b> @Model.Sum(a => a.ShortageQty)</b></td>
+                 <td><b>@Model.Sum(a => a.ShortageBirr)</b> </td>
+                 <td><b>@Model.Sum(a => a.FreightCharge).ToString("0.00") </b> </td>
+                <td></td>
+                    <td></td>
+                
+                </tr>
         </table>
 
         <div id="modalHistory" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false" style="width:600px;" >
