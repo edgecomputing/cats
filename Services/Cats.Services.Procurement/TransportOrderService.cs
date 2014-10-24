@@ -955,12 +955,13 @@ namespace Cats.Services.Procurement
                     }
 
                     DeleteTransportOrderDetails(transportOrderDetailToDelete);
+                    _unitOfWork.TransportOrderRepository.Delete(transportOrder);
+                    _unitOfWork.Save();
+                    UpdateRequsitionStatus(requisitions);
+                    return true;
                 }
 
-                _unitOfWork.TransportOrderRepository.Delete(transportOrder);
-                _unitOfWork.Save();
-                UpdateRequsitionStatus(requisitions);
-                return true;
+                return false;
             }
             return false;
         }

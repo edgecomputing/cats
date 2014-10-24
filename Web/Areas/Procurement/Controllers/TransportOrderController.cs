@@ -771,5 +771,16 @@ namespace Cats.Areas.Procurement.Controllers
                         // Donor=detail.Donor.Name
                     });
         }
+        public ActionResult Revert(int id)
+        {
+            if (_transportOrderService.ReverseTransportOrder(id))
+            {
+               
+                TempData["CustomError2"] = "Transport Order Successfully Reverted back to Approved Requsitions!  ";
+                return RedirectToAction("Index");
+            }
+            TempData["CustomError"] = "This Transport Order Can not be Reverted!  ";
+            return RedirectToAction("Index");
+        }
     }
 }
