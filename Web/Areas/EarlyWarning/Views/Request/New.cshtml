@@ -16,7 +16,38 @@ Requistions
 {
       <h1 class="hdr-blck big ">    New  Request  </h1>
 }
+<style type="text/css">
+        
 
+    .cats_info, .cats_success, .cats_warning, .cats_error {
+        margin: 10px 0px;
+        padding: 8px 10px 8px 50px;
+        background-repeat: no-repeat;
+        background-position: 10px center;
+        -moz-border-radius: .5em;
+        -webkit-border-radius: .5em;
+        border-radius: .5em;
+    }
+    
+    .cats_error {
+        color: #D8000C;
+        background-color: #FFBABA;
+        background-image: url('../../Content/images/error.png');
+    }
+</style>
+<script>
+
+    $(function () {
+
+        var timer = 7000; // the message last for 7 seconds
+        clearTimeout(timer);
+        timer = setTimeout(function () {
+            $(".message-window").fadeOut("slow");
+        }, 10000);
+        //alert(timer);
+
+    });
+    </script>
 
 <div class="row">
      @Html.Partial("_RegionalRequestLeftBar")
@@ -25,8 +56,15 @@ Requistions
             @using (Html.BeginForm("New", "Request", FormMethod.Post, new { id = "frm_create_request" }))
 {   
     <div class="box-body row">
+        
+        
         <div class="form-horizontal col-md-12 col-sm-12 ">
-
+            @if (@ViewData.ModelState.IsValid == false)
+            {
+                <div style="clear: both;" class="message-window">
+                    <div class="cats_error">@ViewData.ModelState["Errors"].Errors[0].ErrorMessage</div>
+                </div>
+            }
             <table style="width:100%">
                 <tr>
                     <td style="width: 50%">
