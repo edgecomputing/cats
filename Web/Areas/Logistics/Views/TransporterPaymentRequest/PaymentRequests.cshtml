@@ -216,7 +216,10 @@
                 }).data("kendoWindow");
             });
         </Script>
+        <div class="message-success" style="float: left;" id="messageboxCommodityTarrif"></div>
+        <br/>
         <h4 class="page-header">@Html.Translate("Transporter Info.")</h4>
+         
         <div class="control-group form-horizontal well">
             <div class="row">
                 <div class="span6">
@@ -405,6 +408,9 @@
                             </div>
                         }
                     </td>
+                    <td>
+                        <button class="btn" data-ng-click="Reject(@item.TransporterPaymentRequestID)">Reject</button>
+                    </td>
                 </tr> 
                 //}
             }
@@ -485,7 +491,7 @@
                             clearTimeout(timer);
                             timer = setTimeout(function () {
                                 $("#messageboxCommodityTarrif").html('');
-                            }, 3000);
+                            }, 30000);
                         }).
                         error(function (data, status, headers, config) {
                             $("#messageboxCommodityTarrif").html("Saving was Unsuccessful!");
@@ -495,6 +501,25 @@
                                 $("#messageboxPayDeduct").html('');
                             }, 3000);
                         });
+                };
+
+
+                $scope.Reject = function(id) {
+
+                    var result = confirm("Are you sure you want to send this request back to GRN Entry?");
+                    if (result) {
+                        var data = { "transporterPaymentRequestID": id };
+                        $http.post(rootDir + 'Logistics/TransporterPaymentRequest/RejectPaymentRequest/', data).
+                            success(function(data, status, headers, config) {
+
+                                location.reload(true);
+
+                            }).
+                            error(function(data, status, headers, config) {
+                                $("#messageboxCommodityTarrif").html("Rejecting was Unsuccessful!");
+
+                            });
+                    }
                 };
             });
             //init_datepicker();

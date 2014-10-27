@@ -196,6 +196,21 @@ namespace Cats.Areas.Logistics.Controllers
             //return Json(new[] { true }.ToDataSourceResult(request, ModelState));
         }
 
+        public ActionResult RejectPaymentRequest([DataSourceRequest] DataSourceRequest request, int transporterPaymentRequestID)
+        {
+            var transporterPaymentRequest = _transporterPaymentRequestService.Get(t => t.TransporterPaymentRequestID == transporterPaymentRequestID, null, "Delivery").FirstOrDefault();
+            if (transporterPaymentRequest != null)
+            {
+                _transporterPaymentRequestService.Reject(transporterPaymentRequest);
+                return Json(new[] { true }.ToDataSourceResult(request, ModelState));
+            }
+            else
+            {
+                return Json(new[] { false }.ToDataSourceResult(request, ModelState));
+            }
+            //return Json(new[] { true }.ToDataSourceResult(request, ModelState));
+        }
+
         public List<TransporterPaymentRequestViewModel> TransporterPaymentRequestViewModelBinder(List<TransporterPaymentRequest> transporterPaymentRequests)
         {
             var transporterPaymentRequestViewModels = new List<TransporterPaymentRequestViewModel>();
