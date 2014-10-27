@@ -186,7 +186,7 @@ namespace Cats.Areas.Logistics.Controllers
                         _transferService.Approve(transfer);
                         return RedirectToAction("Detail", new { id = transfer.TransferID });
                     }
-                    TempData["CustomError"] = @"Unable to Approve the given Transfer";
+                    TempData["CustomError"] = @"Unable to Approve the given Transfer(Free Stock may not be available with this SI number)";
                     return RedirectToAction("Detail", new { id = transfer.TransferID });
                 }
                 catch (Exception exception)

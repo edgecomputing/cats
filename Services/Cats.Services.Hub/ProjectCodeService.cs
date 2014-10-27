@@ -150,7 +150,11 @@ namespace Cats.Services.Hub
             return projectCodes;
         }
 
-
+        public string GetProjectCodeValueByProjectCodeId(int ProjectCodeID)
+        {
+            return _unitOfWork.ProjectCodeRepository.FindById(ProjectCodeID).Value;
+        }
+        
     }
 }
 

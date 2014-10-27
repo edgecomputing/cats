@@ -39,7 +39,7 @@
                         @(Html.Telerik().ComboBoxFor(model => model.ProjectCodes)
                                 .Name("ProjectCodeId")
                                 .AutoFill(true)
-                                .BindTo(new SelectList(Model.ProjectCodes))
+                                .BindTo(new SelectList(Model.ProjectCodes, "ProjectCodeId", "ProjectName"))
                                 .HighlightFirstMatch(true)
                                 .Filterable(filtering => { filtering.FilterMode(AutoCompleteFilterMode.StartsWith); })
                                 .DataBinding(binding => binding.Ajax().Select("GetProjecCodetForCommodity", "LossesAndAdjustments"))
@@ -66,13 +66,13 @@
                     <td>
                         @(Html.Telerik().ComboBoxFor(model => model.ShippingInstructions)
                                 .Name("ShippingInstructionId")
-                                .BindTo(new SelectList(Model.ShippingInstructions))
+                                .BindTo(new SelectList(Model.ShippingInstructions, "ShippingInstructionId", "ShippingInstructionName"))
                                 .AutoFill(true)
                                 .HighlightFirstMatch(true)
                                 .Filterable(filtering => { filtering.FilterMode(AutoCompleteFilterMode.StartsWith); })
                                 .DataBinding(binding => binding.Ajax().Select("GetSINumberForProjectCode", "LossesAndAdjustments"))
                                 .ClientEvents(ev => ev.OnChange("onShippingInstructionChange"))
-                                .ClientEvents(ev => ev.OnDataBinding("onProjectCodeDatabinding"))
+                                .ClientEvents(ev => ev.OnDataBinding("onProjectCodeChange"))
                     )
                         @Html.ValidationMessageFor(model => model.ShippingInstructions)
                         <span class="required" style="width: 10px;">*</span>
@@ -225,15 +225,16 @@
 
     }
 
-    function onProjectCodeChange() {
+    function onProjectCodeChange(e) {
+        e.preventDefault();
         var commodityId = $("#CommodityId").data("tComboBox").value();
         var projectCodeId = $("#ProjectCodeId").data("tComboBox").value();
         var SICombo = $("#ShippingInstructionId").data("tComboBox");
-
+        alert("commodity: " + commodityId + " projectCode: " + projectCodeId);
         $.ajax({
             type: 'POST',
             url: '/LossesAndAdjustments/GetSINumberForProjectCode',
-            data: { ProjectCodeId: projectCodeId, parentCommodityId: commodityId },
+            data: { ProjectCodeId: projectCodeId, CommodityId: commodityId },
             dataType: 'json',
             success: function (data) {
                 SICombo.dataBind(data, true);

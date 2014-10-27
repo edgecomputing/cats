@@ -317,5 +317,17 @@ namespace Cats.Models.Hubs.ViewModels
 
         [Required]
         public int CommodityTypeID { get; set; }
+
+        public string ProgramName { get; set; }
+        public string CommodityTypeName { get; set; }
+        public string CommodityName { get; set; }
+        public string DonorName { get; set; }
+        public string UnitName { get; set; }
+        public string MonthName { get; set; }
+        public string TransporterName { get; set; }
+        public virtual ShippingInstruction ShippingInstruction { get; set; }
+        public string ProjectCodeValue { get; set; }
+
+        public decimal RemainingQuantityInQuintals { get; set; }
     }
 }

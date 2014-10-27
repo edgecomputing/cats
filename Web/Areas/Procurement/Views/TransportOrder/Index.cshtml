@@ -83,7 +83,8 @@
                   //}
                       p.Custom("Signed").Click("onSigned");
                   p.Custom("Edit").Click("onEdit");
-                 
+
+                  p.Custom("RevertTO").Click("onRevert");
 
               }).Width(200);
 
@@ -127,7 +128,12 @@
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
         window.location = "@Url.Action("Signed","TransportOrder")" + "/" + dataItem.TransportOrderID;
     }
+    function onRevert(e) {
+        e.preventDefault();
 
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        window.location = "@Url.Action("Revert","TransportOrder")" + "/" + dataItem.TransportOrderID;
+    }
 
     function filterData() {
 
@@ -190,6 +196,10 @@
             else if (gridData[i].Status == "Draft") {
                 var signedButton1 = $(currentRow).find(".k-grid-Signed");
                 signedButton1.hide();
+            }
+            else if (gridData[i].Status == "Draft" || gridData[i].Status == "Closed") {
+                var revertButton = $(currentRow).find(".k-grid-RevertTO");
+                revertButton.hide();
             }
         }
     }

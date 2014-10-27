@@ -5,6 +5,7 @@ using System.Linq.Expressions;
 using Cats.Data.UnitWork;
 using Cats.Models;
 using Cats.Models.Constant;
+using Cats.Services.Common;
 using Cats.Services.Transaction;
 
 
@@ -141,7 +142,15 @@ namespace Cats.Services.Logistics
                            HubID = transfer.SourceHubID
                        };
                    _unitOfWork.HubAllocationRepository.Add(hubAllocation);
+                   relifRequisition.RequisitionNo = String.Format("REQ-{0}", relifRequisition.RequisitionID);
                    relifRequisition.Status = (int)ReliefRequisitionStatus.HubAssigned;
+                   List<LedgerService.AvailableShippingCodes> availableSINumbers = GetFreeSICodesByCommodity(transfer.SourceHubID, transfer.CommodityID);
+                   var siNumberExist = availableSINumbers.Any(availableShippingCode => availableShippingCode.siCodeId == transfer.ShippingInstructionID);
+
+                   if (!siNumberExist)
+                   {
+                       return false;
+                   }
                    _unitOfWork.Save();
 
                    
@@ -153,7 +162,7 @@ namespace Cats.Services.Logistics
                        RequisitionDetailID = relifRequistionDetail.RequisitionDetailID
                    };
                    _unitOfWork.SIPCAllocationRepository.Add(allocation);
-                   relifRequisition.RequisitionNo = String.Format("REQ-{0}", relifRequisition.RequisitionID);
+                 
                    relifRequisition.Status = (int) ReliefRequisitionStatus.ProjectCodeAssigned;
                    _unitOfWork.Save();
                    if (!PostSIAllocation(relifRequisition.RequisitionID))
@@ -195,8 +204,9 @@ namespace Cats.Services.Logistics
                transaction.FDPID = allocationDetail.ReliefRequisitionDetail.FDPID;
                transaction.ProgramID = (int)allocationDetail.ReliefRequisitionDetail.ReliefRequisition.ProgramID;
                transaction.RegionID = allocationDetail.ReliefRequisitionDetail.ReliefRequisition.RegionID;
-               transaction.PlanId = allocationDetail.ReliefRequisitionDetail.ReliefRequisition.RegionalRequest.PlanID;
-               transaction.Round = allocationDetail.ReliefRequisitionDetail.ReliefRequisition.Round;
+               transaction.CommoditySourceID = 5;// commodity source transfer
+               //transaction.PlanId = allocationDetail.ReliefRequisitionDetail.ReliefRequisition.RegionalRequest.PlanID;
+               //transaction.Round = allocationDetail.ReliefRequisitionDetail.ReliefRequisition.Round;
 
                int hubID1 = 0;
                if (allocationDetail.AllocationType == TransactionConstants.Constants.SHIPPNG_INSTRUCTION)
@@ -246,8 +256,9 @@ namespace Cats.Services.Logistics
                transaction2.FDPID = allocationDetail.ReliefRequisitionDetail.FDPID;
                transaction2.ProgramID = (int)allocationDetail.ReliefRequisitionDetail.ReliefRequisition.ProgramID;
                transaction2.RegionID = allocationDetail.ReliefRequisitionDetail.ReliefRequisition.RegionID;
-               transaction2.PlanId = allocationDetail.ReliefRequisitionDetail.ReliefRequisition.RegionalRequest.PlanID;
-               transaction2.Round = allocationDetail.ReliefRequisitionDetail.ReliefRequisition.Round;
+               transaction.CommoditySourceID = 5;
+               //transaction2.PlanId = allocationDetail.ReliefRequisitionDetail.ReliefRequisition.RegionalRequest.PlanID;
+               //transaction2.Round = allocationDetail.ReliefRequisitionDetail.ReliefRequisition.Round;
 
                int hubID2 = 0;
                if (allocationDetail.AllocationType == TransactionConstants.Constants.SHIPPNG_INSTRUCTION)
@@ -303,6 +314,33 @@ namespace Cats.Services.Logistics
            //return result;
            return true;
        }
+       private List<LedgerService.AvailableShippingCodes> GetFreeSICodesByCommodity(int hubId, int commodityId)
+       {
+           var hubs = _unitOfWork.HubAllocationRepository.GetAll().Select(m => m.HubID).Distinct();
+           var listHubs = string.Join(", ", from item in hubs select item);
+           String HubFilter = (hubId > 0) ? string.Format(" And HubID IN ({0},{1},{2})", 1, 2, 3) : "";
+
+           String query = String.Format(@"SELECT SOH.QuantityInMT - ABS(ISNULL(Commited.QuantityInMT, 0)) as amount, SOH.ShippingInstructionID siCodeId, ShippingInstruction.Value SIcode, SOH.HubID as HubId, Hub.Name HubName 
+                                                        from (SELECT SUM(QuantityInMT) QuantityInMT , ShippingInstructionID, HubID from [Transaction] 
+					                                        WHERE LedgerID = {0} and CommodityID = {2} and HubID IN({3})
+					                                        GROUP BY HubID, ShippingInstructionID) AS SOH
+	                                            LEFT JOIN (SELECT SUM(QuantityInMT) QuantityInMT, ShippingInstructionID, HubID from [Transaction]
+					                                        WHERE LedgerID = {1} and CommodityID = {2} and HubID IN ({3})
+					                                        GROUP By HubID, ShippingInstructionID) AS Commited	
+		                                            ON SOH.ShippingInstructionID = Commited.ShippingInstructionID and SOH.HubId = Commited.HubId
+	                                            JOIN ShippingInstruction 
+		                                            ON SOH.ShippingInstructionID = ShippingInstruction.ShippingInstructionID 
+                                                JOIN Hub
+                                                    ON Hub.HubID = SOH.HubID
+                                                WHERE 
+                                                 SOH.QuantityInMT - ISNULL(Commited.QuantityInMT, 0) > 0    
+                                                ", Ledger.Constants.GOODS_ON_HAND, Ledger.Constants.COMMITED_TO_FDP, commodityId, hubId);
+
+           var availableShippingCodes = _unitOfWork.Database.SqlQuery<LedgerService.AvailableShippingCodes>(query);
+
+           return availableShippingCodes.ToList();
+       }
+      
        public void Dispose()
        {
            _unitOfWork.Dispose();

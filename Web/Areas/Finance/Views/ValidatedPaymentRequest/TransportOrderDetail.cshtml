@@ -114,9 +114,24 @@
                               columns.Bound(trd => trd.Woreda);
                               columns.Bound(trd => trd.RequisitionNo);
                               columns.Bound(trd => trd.FDP);
-                              columns.Bound(trd => trd.OriginWarehouse);
-                              columns.Bound(trd => trd.QuantityQtl);
-                              columns.Bound(trd => trd.TariffPerQtl);
-                              columns.Bound(trd => trd.TotalAmount);
+                              columns.Bound(trd => trd.OriginWarehouse).FooterTemplate(@<text><div align="right"><strong>Total</strong></div></text>);
+                              columns.Bound(trd => trd.QuantityQtl).FooterTemplate(@<text><div align="right"><strong>@item.Sum.Format("{0:N2}")</strong></div></text>).HtmlAttributes(new { align = "Right" });
+                              columns.Bound(trd => trd.TariffPerQtl).FooterTemplate(@<text><div align="right"><strong>@item.Sum.Format("{0:N2}")</strong></div></text>).HtmlAttributes(new { align = "Right" });
+                              columns.Bound(trd => trd.TotalAmount).FooterTemplate(@<text><div align="right"><strong>@item.Sum.Format("{0:N2}")</strong></div></text>).HtmlAttributes(new { align = "Right" });
 
-                          }).Pageable())
+                          })
+                          //.Pageable()
+                          .DataSource(
+                          model => model.Ajax()
+                              .Aggregates(aggregates =>aggregates.Add(p => p.QuantityQtl).Sum())
+                              .Aggregates(aggregates =>aggregates.Add(p => p.TariffPerQtl).Sum())
+                              .Aggregates(aggregates =>aggregates.Add(p => p.TotalAmount).Sum())
+                                       )
+                          )
+)
+<style type="text/css">
+    .k-footer-template td {
+        background: #DDD;
+        border-width: 0;
+    }
+</style>

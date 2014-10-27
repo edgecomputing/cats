@@ -228,7 +228,6 @@
 
                            ).Title("Action");
 
-
                        col.Bound(modelItem => modelItem.BidRefNo).HtmlAttributes(new { onclick = "return loadForm(this)" }).Title("BidRef #");
                        col.Bound(modelitem => modelitem.RequisitionNo).Title(Html.Translate("Req #"));
                        col.Bound(modelItem => modelItem.CommodityName).Title(Html.Translate("Commodity"));
@@ -429,7 +428,7 @@
                                                + "<span> </span></div>"
 
                                 ).Title("Action");
-
+                            
                             col.Bound(gc => gc.ReferenceNumber);
                             col.Bound(gc => gc.AgreementDate).Title(Html.Translate("Agreement Date")).Format("{0:d-MMM-yyyy}"); ;
                             col.Bound(gc => gc.QuantityInMT).Title(Html.Translate("Quantity In " + quanityColumnHeader)).HtmlAttributes(new { align = "right" });
@@ -619,7 +618,7 @@
                        + "<span> </span></div>"
 
             ).Title("Action");
-
+               
                col.Bound(gc => gc.ReferenceNumber);
                col.Bound(gc => gc.AgreementDate).Title(Html.Translate("Agreement Date")).Format("{0:d-MMM-yyyy}"); ;
                col.Bound(gc => gc.QuantityInMT).Title(Html.Translate("Quantity In " + quanityColumnHeader)).HtmlAttributes(new { align = "right" });
