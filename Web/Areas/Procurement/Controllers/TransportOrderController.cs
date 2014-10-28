@@ -811,7 +811,7 @@ namespace Cats.Areas.Procurement.Controllers
                 if (noRevertedRequisitios!=0)
                 {
                     TempData["CustomError2"] =noRevertedRequisitios + "Requisition (s) Successfully Reverted back to Approved Requsitions!  ";
-                    return RedirectToAction("Index", new { Area = "Logistics" });
+                    return RedirectToAction("Index");
                
                 }
                 

@@ -1072,10 +1072,18 @@ namespace Cats.Services.Procurement
         }
         public List<ReliefRequisition> GetRequsitionsToBeReverted()
         {
-           
-            
-                var dispatchAllocations = _unitOfWork.DispatchAllocationRepository.GetAll().Select(m=>m.RequisitionId).ToList();
-                    var requsitions = _unitOfWork.ReliefRequisitionRepository.FindBy( m =>!dispatchAllocations.Contains(m.RequisitionID) && m.Status > (int) ReliefRequisitionStatus.Draft).ToList();
+
+            var requsitions = new List<ReliefRequisition>();
+                var dispatchAllocations = _unitOfWork.DispatchAllocationRepository.GetAll().Select(m=>m.RequisitionId).Distinct().ToList();
+                    var allRequsitions = _unitOfWork.ReliefRequisitionRepository.FindBy( m=> m.Status == (int) ReliefRequisitionStatus.TransportOrderCreated).ToList();
+                    if (allRequsitions.Count!=0)
+                    {
+                        //var disReq =
+                        //    _unitOfWork.ReliefRequisitionRepository.FindBy(
+                        //        m => dispatchAllocations.Contains(m.RequisitionID)).ToList();
+                        requsitions = allRequsitions.Where(x => !dispatchAllocations.Contains(x.RequisitionID)).ToList();
+
+                    }
 
             return requsitions;
         }
