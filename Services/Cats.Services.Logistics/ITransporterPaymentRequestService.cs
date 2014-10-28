@@ -21,5 +21,7 @@ namespace Cats.Services.Logistics
                    Expression<Func<TransporterPaymentRequest, bool>> filter = null,
                    Func<IQueryable<TransporterPaymentRequest>, IOrderedQueryable<TransporterPaymentRequest>> orderBy = null,
                    string includeProperties = "");
+
+        bool Reject(TransporterPaymentRequest transporterPaymentRequest);
     }
 }

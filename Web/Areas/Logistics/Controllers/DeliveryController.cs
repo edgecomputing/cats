@@ -729,6 +729,15 @@ namespace Cats.Areas.Logistics.Controllers
             return RedirectToAction("Dispatches", new { id = TO });
         }
 
-
+       public ActionResult RejectToHubs(string id)
+       {
+           var dispach = _dispatchService.FindBy(g => g.GIN == id).FirstOrDefault();
+           if(dispach!=null)
+           {
+               _dispatchService.RejectToHubs(dispach);
+               return Json(true, JsonRequestBehavior.AllowGet);
+           }
+           return Json(false, JsonRequestBehavior.AllowGet);
+       }
     }
 }
