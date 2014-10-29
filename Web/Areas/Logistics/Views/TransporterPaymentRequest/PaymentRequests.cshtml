@@ -44,11 +44,11 @@
                     <div class="span3">
                         <div class="control-group">
                             <div class="control-label">
-                                <label for="CommodityName">Loss Amount</label>
+                                <label for="CommodityName">Shortage Qty</label>
                             </div>
                             <div class="controls">
                                 <input type="text" id="FORMTransporterPaymentRequestForLossID" name="transporterPaymentRequestForLossID" style="display: none"/>
-                                <input type="text" id="LossAmount" name="LossAmount"/>
+                                <input type="text" id="lossQty" name="lossQty"/><span id="errmsgLossQty_Amount" class="errorText"></span>
                             </div>
                         </div>
                     </div>
@@ -57,7 +57,7 @@
                     <div class="span3">
                         <div class="control-group">
                             <div class="control-label">
-                                <label for="CommodityTarrif">Loss Reason</label>
+                                <label for="CommodityTarrif">Shortage Reason</label>
                             </div>
                             <div class="controls">
                                 <input type="text" id="LossReason" name="LossReason"/>&nbsp;<span id="errmsgLossReason" class="errorText"></span>
@@ -451,7 +451,7 @@
                         }
                     </td>
                     <td>
-                        <button class="btn" data-ng-click="loadCommodityTarrif(@item.TransporterPaymentRequestID, '@item.Commodity')">Loss</button>
+                        <button class="btn" data-ng-click="loadLossAmount(@item.TransporterPaymentRequestID, '@item.Commodity')">Loss</button>
                     </td>
                     <td>
                         @if (item.ShortageBirr != (decimal)0.00 || item.ShortageQty == (decimal)0.00)
@@ -533,6 +533,20 @@
                     }
                 });
             });
+            
+            $(document).ready(function () {
+                //called when key is pressed in textbox
+                $("#lossQty").keypress(function (e) {
+                    //if the letter is not digit then display error and don't type anything
+                    if (e.which != 8 && e.which != 0 && (e.which < 46 || e.which > 57) && e.which != 190) {
+                        //display error message
+                        $("#errmsgLossQty_Amount").html("Digits Only").show().fadeOut("slow");
+                        return false;
+                    }
+                });
+            });
+            
+
             angular.module('PaymentRequestManagementModule', []).controller('PaymentRequestManagementController', function ($scope, $http) {
                 $scope.SelectedLabourInfo = [];
                 $scope.SelectedCheckInfo = [];
@@ -548,7 +562,7 @@
 
                 $scope.loadLossAmount = function (id, commodity) {
                     //alert('Commodity: ' + commodity);
-                    $("#FORMTransporterPaymentRequestIDForLoss").val(id);
+                    $("#FORMTransporterPaymentRequestForLossID").val(id);
                    
                     wndModalLoss.center().open();
                 };

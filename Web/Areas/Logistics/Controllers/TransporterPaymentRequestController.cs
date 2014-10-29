@@ -214,8 +214,17 @@ namespace Cats.Areas.Logistics.Controllers
             {
                 var deliveryDetail = transporterPaymentRequest.Delivery.DeliveryDetails.FirstOrDefault();
                 if (deliveryDetail != null)
-                    transporterPaymentRequest.ShortageBirr = (deliveryDetail.SentQuantity -
-                                                              deliveryDetail.ReceivedQuantity)*CommodityTarrif;
+                {
+                    if (transporterPaymentRequest.ShortageQty <= 0)
+                    {
+                        transporterPaymentRequest.ShortageBirr = (deliveryDetail.SentQuantity -
+                                                                  deliveryDetail.ReceivedQuantity)*CommodityTarrif;
+                    }
+                    else
+                    {
+                        transporterPaymentRequest.ShortageBirr = (transporterPaymentRequest.ShortageQty) * CommodityTarrif;
+                    }
+                }
                 _transporterPaymentRequestService.EditTransporterPaymentRequest(transporterPaymentRequest);
                 return RedirectToAction("PaymentRequests", "TransporterPaymentRequest",
                                         new
@@ -296,8 +305,7 @@ namespace Cats.Areas.Logistics.Controllers
                                                                                  deliveryDetail.ReceivedQuantity.
                                                                                  ToQuintal(),
                                                                              Tarrif = tarrif,
-                                                                             ShortageQty =
-                                                                                 (deliveryDetail.SentQuantity.ToQuintal()) -
+                                                                             ShortageQty = request.ShortageQty != null ?  (decimal) (request.ShortageQty):(deliveryDetail.SentQuantity.ToQuintal()) -
                                                                                  (deliveryDetail.ReceivedQuantity.
                                                                                      ToQuintal()),
                                                                              ShortageBirr = request.ShortageBirr,
@@ -336,18 +344,18 @@ namespace Cats.Areas.Logistics.Controllers
             return transporterPaymentRequestViewModels;
         }
 
-        public ActionResult LossAmount([DataSourceRequest] DataSourceRequest request, int transporterPaymentRequestID,
-                                       float lossAmount = 0, string lossReason = "")
+        public ActionResult LossAmount([DataSourceRequest] DataSourceRequest request, int transporterPaymentRequestForLossID,
+                                       float lossQty = 0, string lossReason = "")
         {
             var transporterPaymentRequest =
                 _transporterPaymentRequestService.Get(
-                    t => t.TransporterPaymentRequestID == transporterPaymentRequestID, null).FirstOrDefault();
+                    t => t.TransporterPaymentRequestID == transporterPaymentRequestForLossID, null).FirstOrDefault();
             if (transporterPaymentRequest != null)
             {
                 var deliveryDetail = transporterPaymentRequest.Delivery.DeliveryDetails.FirstOrDefault();
                 if (deliveryDetail != null)
                 {
-                    transporterPaymentRequest.LossAmount = lossAmount;
+                    transporterPaymentRequest.ShortageQty = (int?) lossQty;
                     transporterPaymentRequest.LossReason = lossReason;
                     _transporterPaymentRequestService.EditTransporterPaymentRequest(transporterPaymentRequest);
                     return RedirectToAction("PaymentRequests", "TransporterPaymentRequest",
