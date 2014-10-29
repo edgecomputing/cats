@@ -217,8 +217,7 @@ namespace Cats.Areas.Logistics.Controllers
                 {
                     if (transporterPaymentRequest.ShortageQty <= 0)
                     {
-                        transporterPaymentRequest.ShortageBirr = (deliveryDetail.SentQuantity -
-                                                                  deliveryDetail.ReceivedQuantity)*CommodityTarrif;
+                        transporterPaymentRequest.ShortageBirr = (0*CommodityTarrif);
                     }
                     else
                     {
@@ -357,6 +356,12 @@ namespace Cats.Areas.Logistics.Controllers
                 {
                     transporterPaymentRequest.ShortageQty = (int?) lossQty;
                     transporterPaymentRequest.LossReason = lossReason;
+
+                    if (transporterPaymentRequest.ShortageQty <= 0)
+                    {
+                        transporterPaymentRequest.ShortageBirr = 0;
+                    }
+
                     _transporterPaymentRequestService.EditTransporterPaymentRequest(transporterPaymentRequest);
                     return RedirectToAction("PaymentRequests", "TransporterPaymentRequest",
                                             new
