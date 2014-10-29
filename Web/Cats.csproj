@@ -2505,6 +2505,7 @@
     <Content Include="Areas\Procurement\Views\TransportOrder\MultipleApproval.cshtml" />
     <Content Include="Areas\Logistics\Views\UnContractedTransporters\List.cshtml" />
     <Content Include="Areas\Settings\Views\UserActivity\Index.cshtml" />
+    <Content Include="Areas\Procurement\Views\TransportOrder\RevertRequsitions.cshtml" />
     <None Include="dataset.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>dataset.Designer.cs</LastGenOutput>

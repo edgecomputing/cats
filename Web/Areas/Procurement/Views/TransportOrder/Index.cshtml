@@ -17,7 +17,27 @@
 @section Toolbar
 {
     <a data-buttontype="btn_new_record"  class="btn toolbar-btn "  href="@Url.Action("TransportRequisitions","TransportOrder",new {Area="Procurement"})"></a>
-     <a id="btnApproveMultipleTos" class="btn toolbar-btn "  href="@Url.Action("MultipleApproval","TransportOrder",new {Area="Procurement"})">Approve Multiple TOs</a>         
+    
+    
+     <div class="btn-group">
+        <button class="btn">Action</button>
+     
+            
+            <button class="btn dropdown-toggle " data-toggle="dropdown">
+                <span class="caret"></span>
+            </button>
+          
+        
+
+
+        <ul class="dropdown-menu">
+            <li><a id="btnApproveMultipleTos" href="@Url.Action("MultipleApproval", "TransportOrder",new {Area="Procurement"})">Approve Multiple TOs</a></li>
+            <li><a id="btnReverseRequsition" href="@Url.Action("RevertRequsitions","TransportOrder",new {Area="Procurement"})">Revert Requsitions</a></li>  
+
+            <li><a href="#"></a></li>
+        </ul>
+
+    </div>      
 }
 
 <script type="text/javascript">
@@ -27,6 +47,18 @@
         $.ajaxSetup({ cache: false });
 
         $('#btnApproveMultipleTos').click(function () {
+
+            // alert("");
+            $('#dialogContent').load(this.href, function () {
+                $('#dialogDiv').modal({
+                    backdrop: 'static',
+                    keyboard: true
+                }, 'show');
+                //bindForm(this);
+            });
+            return false;
+        });
+        $('#btnReverseRequsition').click(function () {
 
             // alert("");
             $('#dialogContent').load(this.href, function () {
@@ -84,7 +116,7 @@
                       p.Custom("Signed").Click("onSigned");
                   p.Custom("Edit").Click("onEdit");
 
-                  p.Custom("RevertTO").Click("onRevert");
+                  //p.Custom("RevertTO").Click("onRevert");
 
               }).Width(200);
 
@@ -197,10 +229,10 @@
                 var signedButton1 = $(currentRow).find(".k-grid-Signed");
                 signedButton1.hide();
             }
-            else if (gridData[i].Status == "Draft" || gridData[i].Status == "Closed") {
-                var revertButton = $(currentRow).find(".k-grid-RevertTO");
-                revertButton.hide();
-            }
+            //else if (gridData[i].Status == "Draft" || gridData[i].Status == "Closed") {
+            //    var revertButton = $(currentRow).find(".k-grid-RevertTO");
+            //    revertButton.hide();
+            //}
         }
     }
 </script>
