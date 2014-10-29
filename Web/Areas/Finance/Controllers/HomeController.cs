@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Cats.Areas.Finance.Models;
+using Cats.Infrastructure;
 using Cats.Models;
 using Cats.Services.EarlyWarning;
 using Cats.Services.Finance;
@@ -264,6 +265,34 @@ namespace Cats.Areas.Finance.Controllers
             return transporterPaymentRequestViewModels;
         }
 
+        public System.Collections.IEnumerable PaymentRequestForPrint(int transporterId)
+        {
+            var list = (IEnumerable<Cats.Models.TransporterPaymentRequest>)_transporterPaymentRequestService
+                        .Get(t => t.BusinessProcess.CurrentState.BaseStateTemplate.StateNo >= 2, null, "BusinessProcess")
+                        .OrderByDescending(t => t.TransporterPaymentRequestID);
+            var transporterPaymentRequests = TransporterPaymentRequestViewModelBinder(list.ToList());
 
+            var requests = transporterPaymentRequests.GroupBy(ac => new { ac.Transporter.Name, ac.Commodity, ac.Source }).Select(ac => new
+            {
+                TransporterName = ac.Key.Name,
+                TransporterId = ac.FirstOrDefault().Transporter.TransporterID,
+                CommodityName = ac.Key.Commodity,
+                SourceName = ac.Key.Source,
+                ReceivedQuantity = ac.Sum(s => s.ReceivedQty),
+                ShortageQuantity = ac.Sum(s => s.ShortageQty),
+                ShortageBirr = ac.Sum(s => s.ShortageBirr),
+                FreightCharge = ac.Sum(s => s.FreightCharge),
+            });
+            return requests.Where(m => m.TransporterId == transporterId).ToArray();
+        }
+
+        public ActionResult Print(int id = 0)
+        {
+            var reportPath = Server.MapPath("~/Report/Finance/TransportPaymentRequestLetter.rdlc");
+            var reportData = PaymentRequestForPrint(id);
+            var dataSourceName = "TPRL";
+            var result = ReportHelper.PrintReport(reportPath, reportData, dataSourceName);
+            return File(result.RenderBytes, result.MimeType);
+        }
     }
 }
