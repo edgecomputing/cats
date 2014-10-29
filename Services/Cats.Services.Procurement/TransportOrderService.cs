@@ -876,6 +876,7 @@ namespace Cats.Services.Procurement
                     var transportRequsitionDetails = _unitOfWork.TransportRequisitionDetailRepository.FindBy(m =>m.RequisitionID==requisitionID);
                     if (transportRequsitionDetails.Count != 0)
                     {
+                        var transportRequsitionIDs = transportRequsitionDetails.Select(m => m.TransportRequisitionID).Distinct();
                         var transportRequisitionToDelete = new List<TransportRequisitionDetail>();
                         foreach (var transportRequisitionDetail in transportRequsitionDetails)
                         {
@@ -943,6 +944,14 @@ namespace Cats.Services.Procurement
                         }
 
                         DeleteTransporRequsitionDetails(transportRequisitionToDelete);
+                        foreach (var transportRequsition in _unitOfWork.TransportRequisitionRepository.FindBy(m => transportRequsitionIDs.Contains(m.TransportRequisitionID)))
+                        {
+                            if (transportRequsition.TransportRequisitionDetails.Count == 0)
+                            {
+                                _unitOfWork.TransportRequisitionRepository.Delete(transportRequsition);
+                            }
+
+                        }
                     }
 
                     DeleteTransportOrderDetails(transportOrderDetailToDelete);
@@ -954,6 +963,7 @@ namespace Cats.Services.Procurement
                         }
                         
                     }
+                   
                     _unitOfWork.Save();
                     UpdateRequsitionStatus(requisitionID);
                     return true;
