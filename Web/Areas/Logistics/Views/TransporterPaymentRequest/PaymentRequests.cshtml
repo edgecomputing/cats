@@ -35,6 +35,61 @@
         @*<div id='dialogDiv' class='modal hide fade in'>
             
         </div>*@
+        
+        <div id="modalLoss" class="form-horizontal" style="margin-top:30px;width:460px;height:180px;">
+            @using (Html.BeginForm("LossAmount", "TransporterPaymentRequest", FormMethod.Post))
+            {
+                @Html.ValidationSummary(true)
+                <div class="">
+                    <div class="span3">
+                        <div class="control-group">
+                            <div class="control-label">
+                                <label for="CommodityName">Loss Amount</label>
+                            </div>
+                            <div class="controls">
+                                <input type="text" id="FORMTransporterPaymentRequestForLossID" name="transporterPaymentRequestForLossID" style="display: none"/>
+                                <input type="text" id="LossAmount" name="LossAmount"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="">
+                    <div class="span3">
+                        <div class="control-group">
+                            <div class="control-label">
+                                <label for="CommodityTarrif">Loss Reason</label>
+                            </div>
+                            <div class="controls">
+                                <input type="text" id="LossReason" name="LossReason"/>&nbsp;<span id="errmsgLossReason" class="errorText"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="">
+                    <div class="span3" style="width: 400px;">
+                        <div class="control-group message-box" style="float: left;" id="messageboxLossReason"></div>
+                        <div class="control-group" style="float: right;">
+                            <button id="btnSaveLoss" class="btn" type="submit">Save</button>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        
+        <script>
+            var wndModalLoss;
+            $(document).ready(function () {
+                wndModalLoss = $("#modalLoss").kendoWindow({
+                    title: "Loss Entry.",
+                    modal: true,
+                    visible: false,
+                    resizable: false,
+                    width: 550,
+                    height: 520
+                }).data("kendoWindow");
+            });
+        </Script>
+
         <div id="modalCommodityTarrif" class="form-horizontal" style="margin-top:30px;width:460px;height:180px;">
             @using (Html.BeginForm("EditCommodityTarrif", "TransporterPaymentRequest", FormMethod.Post))
             {
@@ -74,6 +129,7 @@
                 </div>
             }
         </div>
+
         <script>
             var wndLabourCostInfo;
             $(document).ready(function () {
@@ -87,6 +143,7 @@
                 }).data("kendoWindow");
             });
         </script>
+
         <div id="modalChequeInfo" class="form-horizontal" style="margin-top:30px;width:530px;height:480px;">
             <div class="">
                 <div class="span5">
@@ -203,6 +260,7 @@
                 </div>
             </div>
         </div>
+
         <script>
             var wndChequeInfo;
             $(document).ready(function () {
@@ -216,6 +274,7 @@
                 }).data("kendoWindow");
             });
         </Script>
+
         <div class="message-success" style="float: left;" id="messageboxCommodityTarrif"></div>
         <br/>
         <h4 class="page-header">@Html.Translate("Transporter Info.")</h4>
@@ -392,6 +451,9 @@
                         }
                     </td>
                     <td>
+                        <button class="btn" data-ng-click="loadCommodityTarrif(@item.TransporterPaymentRequestID, '@item.Commodity')">Loss</button>
+                    </td>
+                    <td>
                         @if (item.ShortageBirr != (decimal)0.00 || item.ShortageQty == (decimal)0.00)
                         {
                             <div class="btn-group">
@@ -481,6 +543,17 @@
                     $("#CommodityName").val(commodity);
                     wndLabourCostInfo.center().open();
                 };
+
+
+
+                $scope.loadLossAmount = function (id, commodity) {
+                    //alert('Commodity: ' + commodity);
+                    $("#FORMTransporterPaymentRequestIDForLoss").val(id);
+                   
+                    wndModalLoss.center().open();
+                };
+                
+
 
                 $scope.editCommodityTarrif = function () {
                     var data = { "transporterPaymentRequestID": $("#FORMTransporterPaymentRequestID").val(), "commodityTarrif": $("#CommodityTarrif").val() };

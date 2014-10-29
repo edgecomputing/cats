@@ -335,8 +335,8 @@ namespace Cats.Services.Hub
 
                             if (items.LedgerID == Models.Ledger.Constants.GOODS_ON_HAND)
                             {
-                                newTransactionItem.QuantityInMT = newTransactionItem.QuantityInMT;
-                                newTransactionItem.QuantityInUnit = newTransactionItem.QuantityInUnit;
+                                newTransactionItem.QuantityInMT = -newTransactionItem.QuantityInMT;
+                                newTransactionItem.QuantityInUnit = -newTransactionItem.QuantityInUnit;
                             }
 
                             if (items.LedgerID == Models.Ledger.Constants.COMMITED_TO_FDP)
@@ -346,8 +346,8 @@ namespace Cats.Services.Hub
                             }
                             if (items.LedgerID == Models.Ledger.Constants.STATISTICS_FREE_STOCK)
                             {
-                                newTransactionItem.QuantityInMT = newTransactionItem.QuantityInMT;
-                                newTransactionItem.QuantityInUnit = newTransactionItem.QuantityInUnit;
+                                newTransactionItem.QuantityInMT = -newTransactionItem.QuantityInMT;
+                                newTransactionItem.QuantityInUnit = -newTransactionItem.QuantityInUnit;
                             }
 
                             _unitOfWork.TransactionRepository.Add(newTransactionItem);
@@ -387,7 +387,7 @@ namespace Cats.Services.Hub
                                          FDPID = transaction.FDPID,
                                          HubID = transaction.HubID,
                                          HubOwnerID = transaction.HubOwnerID,
-                                         LedgerID = Models.Ledger.Constants.GOODS_ON_HAND,
+                                         LedgerID = transaction.LedgerID,
                                          QuantityInMT = transaction.QuantityInMT,
                                          QuantityInUnit = transaction.QuantityInUnit,
                                          ShippingInstructionID = transaction.ShippingInstructionID,

@@ -19,6 +19,8 @@ namespace Cats.Models
         public string RejectionReason { get; set; }
         public DateTime RequestedDate { get; set; }
         public int BusinessProcessID { get; set; }
+        public float? LossAmount { get; set; }
+        public string LossReason { get; set; }
         public Nullable<int> PartitionId { get; set; }
         public virtual BusinessProcess BusinessProcess { get; set; }
         public virtual Delivery Delivery { get; set; }
