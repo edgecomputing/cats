@@ -76,5 +76,29 @@ namespace Cats.Services.Logistics
         {
             return _unitOfWork.TransporterPaymentRequestRepository.Get(filter, orderBy, includeProperties);
         }
+
+        public bool Reject(TransporterPaymentRequest transporterPaymentRequest)
+        {
+            try
+            {
+                var details = transporterPaymentRequest.Delivery.DeliveryDetails.ToList();
+                foreach (var deliveryDetail in details)
+                {
+                    _unitOfWork.DeliveryDetailRepository.Delete(deliveryDetail);
+                }
+
+                _unitOfWork.DeliveryRepository.Delete(transporterPaymentRequest.Delivery);
+                _unitOfWork.TransporterPaymentRequestRepository.Delete(transporterPaymentRequest);
+                _unitOfWork.Save();
+                return true;
+            }
+            catch (Exception)
+            {
+
+                return false;
+            }
+           
+        }
+
     }
 }

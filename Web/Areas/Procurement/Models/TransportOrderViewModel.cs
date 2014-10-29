@@ -48,4 +48,11 @@ namespace Cats.Areas.Procurement.Models
         public string Transporter { get; set; }
         public bool Checked { get; set; }
     }
+    public class RevertRequsitionsViewModel
+    {
+        public int RequsitionID { get; set; }
+        public string RequsitionNumber { get; set; }
+        public string Zone { get; set; }
+        public bool Checked { get; set; }
+    }
 }

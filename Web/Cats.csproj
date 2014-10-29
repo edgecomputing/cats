@@ -45,10 +45,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DocumentFormat.OpenXml, Version=2.0.5022.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <Private>True</Private>
-      <HintPath>..\packages\DocumentFormat.OpenXml.dll</HintPath>
-    </Reference>
     <Reference Include="Elmah">
       <HintPath>..\packages\elmah.corelibrary.1.2.2\lib\Elmah.dll</HintPath>
     </Reference>
@@ -2509,6 +2505,7 @@
     <Content Include="Areas\Procurement\Views\TransportOrder\MultipleApproval.cshtml" />
     <Content Include="Areas\Logistics\Views\UnContractedTransporters\List.cshtml" />
     <Content Include="Areas\Settings\Views\UserActivity\Index.cshtml" />
+    <Content Include="Areas\Procurement\Views\TransportOrder\RevertRequsitions.cshtml" />
     <None Include="dataset.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>dataset.Designer.cs</LastGenOutput>

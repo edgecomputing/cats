@@ -50,6 +50,8 @@ namespace Cats.Services.Procurement
                                                               int statusId);
         List<Program> GetPrograms();
         bool ReverseTransportOrder(int transportOrderID);
+        bool RevertRequsition(int requisitionID);
+        List<ReliefRequisition> GetRequsitionsToBeReverted();
     }
 }
 

@@ -142,7 +142,7 @@
                 </ul>
                 <div class="tab-content ">
                     <div id="tab0" class="tab-pane active">
-                        <div id="gridWithoutGRN" class="k-widget k-grid" data-role="grid" style="">
+                        <div id="gridWithoutGRN" class="k-widget k-grid" data-role="grid">
                             <div class="k-grid-header" style="padding-right: 17px; display:none;">
                                 <div class="k-grid-header-wrap">
                                     <table cellspacing="0" role="grid">
@@ -188,22 +188,22 @@
                                                 <th style="overflow: visible; white-space: normal;" scope="col" data-title="Created Date" data-field="CreatedDatePref" class="k-header cats-date-pref-grid">
                                                     <span class="k-link">Created Date</span>
                                                 </th>
+                                                
                                             </tr>
                                         </thead>
                                     </table>
                                 </div>
                             </div>
                             <div style="height:720px" class="k-grid-content">
-                                <table cellspacing="0" role="grid">
+                                <table cellspacing="0" role="grid" style="width:100%; overflow-y: hidden; max-width: 1500px; border:#09F solid 1px;">>
                                     <colgroup><col><col><col><col><col><col><col><col><col><col></colgroup>
                                         <thead>
                                             <tr>
                                                 <td colspan="4">
-                                                 <div class="controls">     
-                                       Search    : <input type="search" data-ng-model="search"/>
-                                                     
-                                            </div>
-                                                    </td>
+                                                    <div class="controls">     
+                                                        Search    : <input type="search" data-ng-model="search"/>
+                                                     </div>
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <th style="overflow: visible; white-space: normal;" scope="col" data-title="GIN" data-field="GIN" class="k-header">
@@ -242,6 +242,9 @@
                                                 <th style="overflow: visible; white-space: normal;" scope="col" data-title="Created Date" data-field="CreatedDatePref" class="k-header cats-date-pref-grid">
                                                     <span class="k-link">Created Date</span>
                                                 </th>
+                                                <th>
+                                                    
+                                                </th>
                                             </tr>
                                         </thead>
                                     <tbody>
@@ -261,6 +264,10 @@
                                             <td>{{item.DriverName}}</td>
                                             <td>{{item.DispatchDatePref}}</td>
                                             <td>{{item.CreatedDatePref}}</td>
+                                            
+                                                <td><a data-dispatchID ="{{item.DispatchID}}" style="cursor:pointer;" data-ng-click="Reject(item.GIN)">Reject</a></td>
+                                               
+                                            
                                         </tr>
                                     </tbody>
                                 </table>
@@ -309,7 +316,7 @@
                                                     <span class="k-link">Dispatched Date</span>
                                                 </th>
                                                 <th style="overflow: visible; white-space: normal;" scope="col" data-title="Created Date" data-field="CreatedDatePref" class="k-header cats-date-pref-grid">
-                                                    <span class="k-link">Created Date</span>
+                                                    <span class="k-link">Created </span>
                                                 </th>
                                             </tr>
                                         </thead>
@@ -323,7 +330,7 @@
                                         <thead>
                                             <tr>
                                                 
-<td colspan="4">
+                                                <td colspan="4">
                                                  <div class="controls">     
                                        Search    : <input type="search" data-ng-model="searchT2"/>
                                                      
@@ -838,8 +845,31 @@
             }
         });
         
+        $scope.Reject = function(id) {
+        
+            alert(id);
+            var result = confirm("Are you sure you want to send this request back to the hubs?");
+            if (result) {
+                var data = { "id": id };
+                $http.post(rootDir + 'Logistics/Delivery/RejectToHubs/', data).
+                    success(function(data, status, headers, config) {
+
+                        location.reload(true);
+
+                    }).
+                    error(function(data, status, headers, config) {
+                        $("#messageboxCommodityTarrif").html("Rejecting was Unsuccessful!");
+
+                    });
+            }
+        };
+        
     });
     
+
+   
+    
+
     $(function () {
         //$( "#datepicker" ).datepicker();
         //$(".disableGRNEdit").on("click",function () {

@@ -48,7 +48,7 @@ namespace Cats.Models.Hubs
 
         public decimal GetRelatedDispatchsAmountInQuintals()
         {
-            return this.Dispatches.SelectMany(dispatch => dispatch.DispatchDetails).Sum(detail => (detail.DispatchedQuantityInMT*10));
+            return this.Dispatches.SelectMany(dispatch => dispatch.DispatchDetails).Sum(detail => (detail.DispatchedQuantityInMT));
         }
 
         public decimal GetRelatedDispatchsAmountInUnit()
