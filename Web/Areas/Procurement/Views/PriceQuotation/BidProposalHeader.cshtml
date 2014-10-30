@@ -182,10 +182,12 @@
 
             if (gridData[i].Status == "Approved") {
 
+                var currentRow = grid.table.find("tr[data-uid='" + currentUid + "']");
+                var editButton = $(currentRow).find(".k-grid-Edit");
+                editButton.show();
+
                 if (!gridData[i].CanApprove) {
-                    var currentRo = grid.table.find("tr[data-uid='" + currentUid + "']");
-                    var editButton = $(currentRow).find(".k-grid-Edit");
-                    editButton.show();
+                   
                 }
             }
         }

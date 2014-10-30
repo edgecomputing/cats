@@ -35,6 +35,61 @@
         @*<div id='dialogDiv' class='modal hide fade in'>
             
         </div>*@
+        
+        <div id="modalLoss" class="form-horizontal" style="margin-top:30px;width:460px;height:180px;">
+            @using (Html.BeginForm("LossAmount", "TransporterPaymentRequest", FormMethod.Post))
+            {
+                @Html.ValidationSummary(true)
+                <div class="">
+                    <div class="span3">
+                        <div class="control-group">
+                            <div class="control-label">
+                                <label for="CommodityName">Shortage Qty</label>
+                            </div>
+                            <div class="controls">
+                                <input type="text" id="FORMTransporterPaymentRequestForLossID" name="transporterPaymentRequestForLossID" style="display: none"/>
+                                <input type="text" id="lossQty" name="lossQty"/><span id="errmsgLossQty_Amount" class="errorText"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="">
+                    <div class="span3">
+                        <div class="control-group">
+                            <div class="control-label">
+                                <label for="CommodityTarrif">Shortage Reason</label>
+                            </div>
+                            <div class="controls">
+                                <input type="text" id="LossReason" name="LossReason"/>&nbsp;<span id="errmsgLossReason" class="errorText"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="">
+                    <div class="span3" style="width: 400px;">
+                        <div class="control-group message-box" style="float: left;" id="messageboxLossReason"></div>
+                        <div class="control-group" style="float: right;">
+                            <button id="btnSaveLoss" class="btn" type="submit">Save</button>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        
+        <script>
+            var wndModalLoss;
+            $(document).ready(function () {
+                wndModalLoss = $("#modalLoss").kendoWindow({
+                    title: "Loss Entry.",
+                    modal: true,
+                    visible: false,
+                    resizable: false,
+                    width: 520,
+                    height: 220
+                }).data("kendoWindow");
+            });
+        </Script>
+
         <div id="modalCommodityTarrif" class="form-horizontal" style="margin-top:30px;width:460px;height:180px;">
             @using (Html.BeginForm("EditCommodityTarrif", "TransporterPaymentRequest", FormMethod.Post))
             {
@@ -74,6 +129,7 @@
                 </div>
             }
         </div>
+
         <script>
             var wndLabourCostInfo;
             $(document).ready(function () {
@@ -87,6 +143,7 @@
                 }).data("kendoWindow");
             });
         </script>
+
         <div id="modalChequeInfo" class="form-horizontal" style="margin-top:30px;width:530px;height:480px;">
             <div class="">
                 <div class="span5">
@@ -203,6 +260,7 @@
                 </div>
             </div>
         </div>
+
         <script>
             var wndChequeInfo;
             $(document).ready(function () {
@@ -216,7 +274,11 @@
                 }).data("kendoWindow");
             });
         </Script>
+
+        <div class="message-success" style="float: left;" id="messageboxCommodityTarrif"></div>
+        <br/>
         <h4 class="page-header">@Html.Translate("Transporter Info.")</h4>
+         
         <div class="control-group form-horizontal well">
             <div class="row">
                 <div class="span6">
@@ -389,6 +451,9 @@
                         }
                     </td>
                     <td>
+                        <button class="btn" data-ng-click="loadLossAmount(@item.TransporterPaymentRequestID, '@item.Commodity')">Loss</button>
+                    </td>
+                    <td>
                         @if (item.ShortageBirr != (decimal)0.00 || item.ShortageQty == (decimal)0.00)
                         {
                             <div class="btn-group">
@@ -405,9 +470,25 @@
                             </div>
                         }
                     </td>
+                    <td>
+                        <button class="btn" data-ng-click="Reject(@item.TransporterPaymentRequestID)">Reject</button>
+                    </td>
                 </tr> 
                 //}
             }
+            <tr style="background-color: gainsboro">
+                 <td colspan="5"></td>
+                 <td  style="text-align: center"><b>Total:</b></td>
+                    
+                 <td><b>@Model.Sum(a => a.ReceivedQty)</b></td>
+                  <td><b>@Model.Sum(a => a.Tarrif).ToString("0.00")</b> </td>
+                 <td><b> @Model.Sum(a => a.ShortageQty)</b></td>
+                 <td><b>@Model.Sum(a => a.ShortageBirr)</b> </td>
+                 <td><b>@Model.Sum(a => a.FreightCharge).ToString("0.00") </b> </td>
+                <td></td>
+                    <td></td>
+                
+                </tr>
         </table>
 
         <div id="modalHistory" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false" style="width:600px;" >
@@ -452,6 +533,20 @@
                     }
                 });
             });
+            
+            $(document).ready(function () {
+                //called when key is pressed in textbox
+                $("#lossQty").keypress(function (e) {
+                    //if the letter is not digit then display error and don't type anything
+                    if (e.which != 8 && e.which != 0 && (e.which < 46 || e.which > 57) && e.which != 190) {
+                        //display error message
+                        $("#errmsgLossQty_Amount").html("Digits Only").show().fadeOut("slow");
+                        return false;
+                    }
+                });
+            });
+            
+
             angular.module('PaymentRequestManagementModule', []).controller('PaymentRequestManagementController', function ($scope, $http) {
                 $scope.SelectedLabourInfo = [];
                 $scope.SelectedCheckInfo = [];
@@ -463,6 +558,17 @@
                     wndLabourCostInfo.center().open();
                 };
 
+
+
+                $scope.loadLossAmount = function (id, commodity) {
+                    //alert('Commodity: ' + commodity);
+                    $("#FORMTransporterPaymentRequestForLossID").val(id);
+                   
+                    wndModalLoss.center().open();
+                };
+                
+
+
                 $scope.editCommodityTarrif = function () {
                     var data = { "transporterPaymentRequestID": $("#FORMTransporterPaymentRequestID").val(), "commodityTarrif": $("#CommodityTarrif").val() };
                     $http.post(rootDir + 'Logistics/TransporterPaymentRequest/EditCommodityTarrif/', data).
@@ -472,7 +578,7 @@
                             clearTimeout(timer);
                             timer = setTimeout(function () {
                                 $("#messageboxCommodityTarrif").html('');
-                            }, 3000);
+                            }, 30000);
                         }).
                         error(function (data, status, headers, config) {
                             $("#messageboxCommodityTarrif").html("Saving was Unsuccessful!");
@@ -482,6 +588,25 @@
                                 $("#messageboxPayDeduct").html('');
                             }, 3000);
                         });
+                };
+
+
+                $scope.Reject = function(id) {
+
+                    var result = confirm("Are you sure you want to send this request back to GRN Entry?");
+                    if (result) {
+                        var data = { "transporterPaymentRequestID": id };
+                        $http.post(rootDir + 'Logistics/TransporterPaymentRequest/RejectPaymentRequest/', data).
+                            success(function(data, status, headers, config) {
+
+                                location.reload(true);
+
+                            }).
+                            error(function(data, status, headers, config) {
+                                $("#messageboxCommodityTarrif").html("Rejecting was Unsuccessful!");
+
+                            });
+                    }
                 };
             });
             //init_datepicker();

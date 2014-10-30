@@ -40,6 +40,8 @@ namespace Cats.Services.Hub
         List<ProjectCodeViewModel> GetAllProjectCodeForReport();
 
         List<ProjectCodeViewModel> GetProjectCodesForCommodity(int hubID, int parentCommodityId);
+
+        string GetProjectCodeValueByProjectCodeId(int ProjectCodeID);
     }
 }
 

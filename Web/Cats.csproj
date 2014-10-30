@@ -45,10 +45,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DocumentFormat.OpenXml, Version=2.0.5022.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <Private>True</Private>
-      <HintPath>..\packages\DocumentFormat.OpenXml.dll</HintPath>
-    </Reference>
     <Reference Include="Elmah">
       <HintPath>..\packages\elmah.corelibrary.1.2.2\lib\Elmah.dll</HintPath>
     </Reference>
@@ -700,6 +696,7 @@
     <Content Include="Areas\Finance\Views\ValidatedPaymentRequest\PaymentRequests.cshtml" />
     <Content Include="Areas\Finance\Views\Cheque\Cheques.cshtml" />
     <Content Include="Areas\Finance\Views\Cheque\Index.cshtml" />
+    <Content Include="Areas\Procurement\Views\TransportOrder\reverseTOFromClosedtoDraft.cshtml" />
     <None Include="Areas\Logistics\Views\DispatchAllocation\_AllocateProjectCode.cshtml" />
     <Content Include="Content\2013.1.219\Black\editor.png" />
     <Content Include="Content\2013.1.219\Black\imagebrowser.png" />
@@ -2509,6 +2506,7 @@
     <Content Include="Areas\Procurement\Views\TransportOrder\MultipleApproval.cshtml" />
     <Content Include="Areas\Logistics\Views\UnContractedTransporters\List.cshtml" />
     <Content Include="Areas\Settings\Views\UserActivity\Index.cshtml" />
+    <Content Include="Areas\Procurement\Views\TransportOrder\RevertRequsitions.cshtml" />
     <None Include="dataset.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>dataset.Designer.cs</LastGenOutput>
@@ -3366,6 +3364,7 @@
     <EmbeddedResource Include="Report\EarlyWarning\Ration.rdlc" />
     <EmbeddedResource Include="Report\EarlyWarning\RegionalRequest.rdlc" />
     <EmbeddedResource Include="Report\EarlyWarning\RRDDetail.rdlc" />
+    <EmbeddedResource Include="Report\Finance\TransportPaymentRequestLetter.rdlc" />
     <EmbeddedResource Include="Report\HRD\HRDSummaryByRegion.rdlc" />
     <EmbeddedResource Include="Report\Logisitcs\CarryOverStockStatus.rdlc" />
     <EmbeddedResource Include="Report\Logisitcs\TransferredStockStatus.rdlc" />

@@ -20,7 +20,7 @@ namespace Cats.Services.Hub
         Dispatch FindByAllocationId(System.Guid id);
         List<Dispatch> GetAllDispatch();
         List<Dispatch> FindBy(Expression<Func<Dispatch, bool>> predicate);
-
+        bool RejectToHubs(Dispatch dispatch);
         /// <summary>
         /// Gets the dispatch by GIN.
         /// </summary>

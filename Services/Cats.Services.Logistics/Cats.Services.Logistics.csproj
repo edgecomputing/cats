@@ -53,6 +53,10 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Models\Cats.Models\bin\Debug\EntityFramework.dll</HintPath>
+    </Reference>
     <Reference Include="log4net">
       <HintPath>..\..\packages\log4net.2.0.0\lib\net40-full\log4net.dll</HintPath>
     </Reference>
@@ -132,6 +136,10 @@
     <ProjectReference Include="..\Cats.Services.EarlyWarning\Cats.Services.EarlyWarning.csproj">
       <Project>{a08cf415-6299-41ab-9d69-c3ce9b49ccd6}</Project>
       <Name>Cats.Services.EarlyWarning</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Cats.Services.Transaction\Cats.Services.Transaction.csproj">
+      <Project>{9B741D92-4B67-4863-BF38-A1ADCAE40870}</Project>
+      <Name>Cats.Services.Transaction</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

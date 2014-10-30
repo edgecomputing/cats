@@ -831,6 +831,41 @@ namespace Cats.Services.Procurement
             return true;
         }
 
+        public List<Dispatch> ReverseDispatchAllocation(int transportOrderId)
+        {
+            try
+            {
+                var dispatchAllocation =
+                    _unitOfWork.DispatchAllocationRepository.FindBy(d => d.TransportOrderID == transportOrderId).
+                        FirstOrDefault();
+                if (dispatchAllocation!=null)
+                {
+                    var dispatch =
+                        _unitOfWork.DispatchRepository.FindBy(
+                            t => t.DispatchAllocationID == dispatchAllocation.DispatchAllocationID);
+                    if (dispatch != null)
+                    {
+                        return dispatch;
+                    }
+
+                    _unitOfWork.DispatchAllocationRepository.Delete(dispatchAllocation);
+                    var transportOrder = _unitOfWork.TransportOrderRepository.FindById(transportOrderId);
+                    if (transportOrder!=null)
+                    {
+                        transportOrder.StatusID = (int) TransportOrderStatus.Draft;
+                    }
+
+                    _unitOfWork.Save();
+                    return null;
+                }
+                return new List<Dispatch>();
+            }
+            catch (Exception)
+            {
+
+                return new List<Dispatch>();
+            }
+        }
 
         private void AddToNotification(int transportOrderId, string transportOrderNo,List<int> hubId )
         {
@@ -854,6 +889,321 @@ namespace Cats.Services.Procurement
             {
 
                 ;
+            }
+
+        }
+        public bool RevertRequsition(int requisitionID)
+        {
+           
+                var transportOrderDetails = _unitOfWork.TransportOrderDetailRepository.FindBy(m => m.RequisitionID == requisitionID).ToList();
+                if (transportOrderDetails.Count!=0)
+                {
+                    var transportOrderIDs = transportOrderDetails.Select(m => m.TransportOrderID).Distinct();
+
+                    var transportOrderDetailToDelete = new List<TransportOrderDetail>();
+                    foreach (var transportOrderDetail in transportOrderDetails)
+                    {
+                        if (transportOrderDetail != null)
+                        {
+                            transportOrderDetailToDelete.Add(transportOrderDetail);
+                        }
+                    }
+                    var transportRequsitionDetails = _unitOfWork.TransportRequisitionDetailRepository.FindBy(m =>m.RequisitionID==requisitionID);
+                    if (transportRequsitionDetails.Count != 0)
+                    {
+                        var transportRequsitionIDs = transportRequsitionDetails.Select(m => m.TransportRequisitionID).Distinct();
+                        var transportRequisitionToDelete = new List<TransportRequisitionDetail>();
+                        foreach (var transportRequisitionDetail in transportRequsitionDetails)
+                        {
+                            if (transportRequisitionDetail != null)
+                            {
+                                transportRequisitionToDelete.Add(transportRequisitionDetail);
+                            }
+                        }
+                        var hubAllocations = _unitOfWork.HubAllocationRepository.FindBy(m =>m.RequisitionID==requisitionID);
+                        if (hubAllocations.Count != 0)
+                        {
+                            var hubAllocationtoDelete = new List<HubAllocation>();
+                            foreach (var hubAllocation in hubAllocations)
+                            {
+                                if (hubAllocation != null)
+                                {
+                                    hubAllocationtoDelete.Add(hubAllocation);
+                                }
+
+                            }
+                            // delete SIPC Allocation table
+                            var requisitionDetails =
+                                _unitOfWork.ReliefRequisitionDetailRepository.FindBy(
+                                    m => m.RequisitionID==requisitionID).Select(
+                                        m => m.RequisitionDetailID);
+                            var sIPcAllocations =
+                                _unitOfWork.SIPCAllocationRepository.FindBy(
+                                    m => requisitionDetails.Contains(m.RequisitionDetailID));
+                            if (sIPcAllocations.Count != 0)
+                            {
+                               
+                                foreach (var sipcAllocation in sIPcAllocations)
+                                {
+                                    if (sipcAllocation != null)
+                                    {
+                                        var transactionGroup = _unitOfWork.TransactionGroupRepository.FindBy(m => m.TransactionGroupID == sipcAllocation.TransactionGroupID).FirstOrDefault();
+                                        if (transactionGroup != null)
+                                        {
+                                            var transactions = _unitOfWork.TransactionRepository.FindBy(m => m.TransactionGroupID == transactionGroup.TransactionGroupID);
+                                            if (transactions.Count != 0)
+                                            {
+                                                foreach (var transaction in transactions)
+                                                {
+                                                    if (transaction != null)
+                                                    {
+                                                        _unitOfWork.TransactionRepository.Delete(transaction);
+                                                        _unitOfWork.Save();
+
+                                                    }
+
+                                                }
+                                            }
+
+                                            _unitOfWork.TransactionGroupRepository.Delete(transactionGroup);
+                                            _unitOfWork.Save();
+
+                                        }
+                                      
+                                    }
+
+                                }
+                              
+                            }
+                            DeleteHubAllocations(hubAllocationtoDelete);
+                        }
+
+                        DeleteTransporRequsitionDetails(transportRequisitionToDelete);
+                        foreach (var transportRequsition in _unitOfWork.TransportRequisitionRepository.FindBy(m => transportRequsitionIDs.Contains(m.TransportRequisitionID)))
+                        {
+                            if (transportRequsition.TransportRequisitionDetails.Count == 0)
+                            {
+                                _unitOfWork.TransportRequisitionRepository.Delete(transportRequsition);
+                            }
+
+                        }
+                    }
+
+                    DeleteTransportOrderDetails(transportOrderDetailToDelete);
+                    foreach (var transportOrder in _unitOfWork.TransportOrderRepository.FindBy(m=> transportOrderIDs.Contains(m.TransportOrderID)))
+                    {
+                        if (transportOrder.TransportOrderDetails.Count==0)
+                        {
+                            _unitOfWork.TransportOrderRepository.Delete(transportOrder);
+                        }
+                        
+                    }
+                   
+                    _unitOfWork.Save();
+                    UpdateRequsitionStatus(requisitionID);
+                    return true;
+                }
+                
+
+            return false;
+        }
+        public bool ReverseTransportOrder(int transportOrderID)
+        {
+            var transportOrder = _unitOfWork.TransportOrderRepository.FindById(transportOrderID);
+            if (transportOrder!=null)
+            {
+                var requisitions = (from detail in transportOrder.TransportOrderDetails
+                                    select detail.RequisitionID).Distinct();
+
+                //check if other Transport Orders are created from this requisition
+                var transportOrderDetails =
+                    _unitOfWork.TransportOrderDetailRepository.FindBy(m => requisitions.Contains(m.RequisitionID) && m.TransportOrderID!=transportOrderID );
+                if (transportOrderDetails.Count==0)
+                {
+                    //Delete TransportOrder and its Detail
+                    
+                    var transportOrderDetailToDelete = new List<TransportOrderDetail>();
+                    foreach (var transportOrderDetail in transportOrder.TransportOrderDetails)
+                    {
+                        if (transportOrderDetail!=null)
+                        {
+                            transportOrderDetailToDelete.Add(transportOrderDetail);
+                        }
+                    }
+                    var transportRequsitionDetails = _unitOfWork.TransportRequisitionDetailRepository.FindBy(m => requisitions.Contains(m.RequisitionID));
+                    if (transportRequsitionDetails.Count!=0)
+                    {
+                        var transportRequisitionToDelete = new List<TransportRequisitionDetail>();
+                        foreach (var transportRequisitionDetail in transportRequsitionDetails)
+                        {
+                            if (transportRequisitionDetail!=null)
+                            {
+                                transportRequisitionToDelete.Add(transportRequisitionDetail);
+                            }
+                        }
+                        var hubAllocations =_unitOfWork.HubAllocationRepository.FindBy(m => requisitions.Contains(m.RequisitionID));
+                        if (hubAllocations.Count!=0)
+                        {
+                            var hubAllocationtoDelete = new List<HubAllocation>();
+                            foreach (var hubAllocation in hubAllocations)
+                            {
+                                if (hubAllocation!=null)
+                                {
+                                    hubAllocationtoDelete.Add(hubAllocation);
+                                }
+                                
+                            }
+                            // delete SIPC Allocation table
+                            var requisitionDetails =
+                                _unitOfWork.ReliefRequisitionDetailRepository.FindBy(
+                                    m => requisitions.Contains(m.RequisitionID)).Select(
+                                        m => m.RequisitionDetailID);
+                            var sIPcAllocations =
+                                _unitOfWork.SIPCAllocationRepository.FindBy(
+                                    m => requisitionDetails.Contains(m.RequisitionDetailID));
+                            if (sIPcAllocations.Count!=0)
+                            {
+                                var sIPcAllocationToDelete = new List<SIPCAllocation>();
+                                foreach (var sipcAllocation in sIPcAllocations)
+                                {
+                                    if (sipcAllocation!=null)
+                                    {
+                                        var transactionGroup = _unitOfWork.TransactionGroupRepository.FindBy(m => m.TransactionGroupID == sipcAllocation.TransactionGroupID).FirstOrDefault();
+                                        if (transactionGroup!=null)
+                                        {
+                                            var transactions =_unitOfWork.TransactionRepository.FindBy(m => m.TransactionGroupID == transactionGroup.TransactionGroupID);
+                                            if (transactions.Count !=0)
+                                            {
+                                                foreach (var transaction in transactions)
+                                                {
+                                                    if (transaction != null)
+                                                    {
+                                                        _unitOfWork.TransactionRepository.Delete(transaction);
+                                                        _unitOfWork.Save();
+
+                                                    }
+
+                                                }
+                                            }
+                                            
+                                            _unitOfWork.TransactionGroupRepository.Delete(transactionGroup);
+                                            _unitOfWork.Save();
+
+                                        }
+                                        sIPcAllocationToDelete.Add(sipcAllocation);
+                                       
+                                    }
+                                   
+                                }
+                                DeleteSiPcAllocations(sIPcAllocationToDelete);
+                                
+                            }
+                            DeleteHubAllocations(hubAllocationtoDelete);
+                        }
+
+                        DeleteTransporRequsitionDetails(transportRequisitionToDelete);
+                    }
+
+                    DeleteTransportOrderDetails(transportOrderDetailToDelete);
+                    _unitOfWork.TransportOrderRepository.Delete(transportOrder);
+                    _unitOfWork.Save();
+                    UpdateRequsitionStatus(requisitions);
+                    return true;
+                }
+
+                return false;
+            }
+            return false;
+        }
+        public List<ReliefRequisition> GetRequsitionsToBeReverted()
+        {
+
+            var requsitions = new List<ReliefRequisition>();
+                var dispatchAllocations = _unitOfWork.DispatchAllocationRepository.GetAll().Select(m=>m.RequisitionId).Distinct().ToList();
+                    var allRequsitions = _unitOfWork.ReliefRequisitionRepository.FindBy( m=> m.Status == (int) ReliefRequisitionStatus.TransportOrderCreated).ToList();
+                    if (allRequsitions.Count!=0)
+                    {
+                        //var disReq =
+                        //    _unitOfWork.ReliefRequisitionRepository.FindBy(
+                        //        m => dispatchAllocations.Contains(m.RequisitionID)).ToList();
+                        requsitions = allRequsitions.Where(x => !dispatchAllocations.Contains(x.RequisitionID)).ToList();
+
+                    }
+
+            return requsitions;
+        }
+        public void DeleteSiPcAllocations(List<SIPCAllocation> sIPcAllocations)
+        {
+            foreach (var sIPcAllocation in sIPcAllocations)
+            {
+                if (sIPcAllocation != null)
+                {
+                    _unitOfWork.SIPCAllocationRepository.Delete(sIPcAllocation);
+                    _unitOfWork.Save();
+                }
+            }
+        }
+
+        public void DeleteHubAllocations(List<HubAllocation> hubAllocations)
+        {
+            foreach (var hubAllocation in hubAllocations)
+            {
+                if (hubAllocation != null)
+                {
+                    _unitOfWork.HubAllocationRepository.Delete(hubAllocation);
+                    _unitOfWork.Save();
+                }
+            }
+        }
+        public void DeleteTransporRequsitionDetails(List<TransportRequisitionDetail> transportRequisitionDetails)
+        {
+            foreach (var transportRequisitionDetail in transportRequisitionDetails)
+            {
+                if (transportRequisitionDetail != null)
+                {
+                    _unitOfWork.TransportRequisitionDetailRepository.Delete(transportRequisitionDetail);
+                    _unitOfWork.Save();
+                }
+            }
+        }
+        public void DeleteTransportOrderDetails(List<TransportOrderDetail> transportOrderDetails)
+        {
+            foreach (var transportOrdrDetail in transportOrderDetails)
+            {
+                if (transportOrdrDetail != null)
+                {
+                    _unitOfWork.TransportOrderDetailRepository.Delete(transportOrdrDetail);
+                    _unitOfWork.Save();
+                }
+            }
+        }
+        public void UpdateRequsitionStatus(IEnumerable<int> requisitionIDs)
+        {
+            var requsitions = _unitOfWork.ReliefRequisitionRepository.FindBy(m => requisitionIDs.Contains(m.RequisitionID));
+            if (requsitions.Count!=0)
+            {
+                foreach (var requsition in requsitions)
+                {
+                    if (requsition != null)
+                    {
+                        requsition.Status = (int) ReliefRequisitionStatus.Approved;
+                        _unitOfWork.ReliefRequisitionRepository.Edit(requsition);
+                        _unitOfWork.Save();
+                    }
+                }
+            }
+            
+        }
+        public void UpdateRequsitionStatus(int requisitionID)
+        {
+            var requsition = _unitOfWork.ReliefRequisitionRepository.FindById(requisitionID);
+            if (requsition!= null)
+            {
+               
+                requsition.Status = (int)ReliefRequisitionStatus.Approved;
+               _unitOfWork.ReliefRequisitionRepository.Edit(requsition);
+              _unitOfWork.Save();
+                    
             }
 
         }

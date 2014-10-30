@@ -31,5 +31,6 @@ namespace Cats.Areas.Finance.Models
         public decimal Tarrif { get; set; }
         public decimal FreightCharge { get; set; }
         public BusinessProcess BusinessProcess { get; set; }
+        public Cats.Models.Hubs.Transporter Transporter { get; set; }
     }
 }

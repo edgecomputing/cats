@@ -49,6 +49,10 @@ namespace Cats.Services.Procurement
         IEnumerable<TransportOrder> GetFilteredTransportOrder(IEnumerable<TransportOrderDetail> transportOrderDetails,
                                                               int statusId);
         List<Program> GetPrograms();
+        bool ReverseTransportOrder(int transportOrderID);
+        bool RevertRequsition(int requisitionID);
+        List<ReliefRequisition> GetRequsitionsToBeReverted();
+        List<Dispatch> ReverseDispatchAllocation(int transportOrderId);
     }
 }
 

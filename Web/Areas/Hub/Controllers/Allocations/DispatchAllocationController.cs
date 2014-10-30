@@ -29,8 +29,8 @@ namespace Cats.Areas.Hub.Controllers.Allocations
         private readonly IFDPService _fdpService;
         private readonly IHubService _hubService;
         private readonly ICommodityTypeService _commodityTypeService;
-        
-
+        private readonly IDonorService _donorService;
+        private readonly IUnitService _unitService;
         public DispatchAllocationController(IDispatchAllocationService dispatchAllocationService,
                                             IUserProfileService userProfileService,
                                             IOtherDispatchAllocationService otherDispatchAllocationService,
@@ -41,7 +41,7 @@ namespace Cats.Areas.Hub.Controllers.Allocations
                                             IAdminUnitService adminUnitService,
                                             IFDPService fdpService,
                                             IHubService hubService,
-                                             ICommodityTypeService commodityTypeService)
+                                             ICommodityTypeService commodityTypeService, IDonorService donorService, IUnitService unitService)
             : base(userProfileService)
         {
             this._dispatchAllocationService = dispatchAllocationService;
@@ -55,6 +55,8 @@ namespace Cats.Areas.Hub.Controllers.Allocations
             this._commonService = commonService;
             this._hubService = hubService;
             this._commodityTypeService = commodityTypeService;
+            this._donorService = donorService;
+            this._unitService = unitService;
         }
         public ActionResult Index()
         {
@@ -479,6 +481,10 @@ namespace Cats.Areas.Hub.Controllers.Allocations
         {
             //TODO:Make sure if includeproperties are loaded correctly
             var fdp = _fdpService.FindById(dispatch.FDPID);
+            var donorid = (dispatch.DonorID) ?? -1;
+            var donor = (donorid != -1) ? _donorService.FindById(donorid).Name : "-";
+            var monthid = (dispatch.Month) ?? -1;
+            var month = (monthid != -1) ? Cats.Helpers.RequestHelper.MonthName(monthid) : "-";
            DispatchAllocationViewModel model = new DispatchAllocationViewModel(fdp);
             model.Amount = dispatch.Amount;
             model.Beneficiery = dispatch.Beneficiery;
@@ -499,6 +505,13 @@ namespace Cats.Areas.Hub.Controllers.Allocations
             model.Unit = dispatch.Unit;
             model.Year = dispatch.Year;
             model.CommodityTypeID = dispatch.Commodity.CommodityTypeID;
+            model.ProgramName = dispatch.Program.Name;
+            model.CommodityTypeName = dispatch.Commodity.CommodityType.Name;
+            model.CommodityName = dispatch.Commodity.Name;
+            model.DonorName = donor;
+            model.UnitName = _unitService.FindById(dispatch.Unit) == null ? "-" : _unitService.FindById(dispatch.Unit).Name;
+            model.MonthName = month;
+            model.TransporterName = dispatch.Transporter.Name;
             return model;
         }
 
@@ -713,10 +726,39 @@ namespace Cats.Areas.Hub.Controllers.Allocations
             return (Json(result, JsonRequestBehavior.AllowGet));
         }
 
+        private DispatchAllocationViewModel GetAllocationModelForClose(DispatchAllocation dispatch)
+        {
+            //TODO:Make sure if includeproperties are loaded correctly
+            var fdp = _fdpService.FindById(dispatch.FDPID);
+            var donorid = (dispatch.DonorID) ?? -1;
+            var donor = (donorid != -1) ? _donorService.FindById(donorid).Name : "-";
+            var monthid = (dispatch.Month) ?? -1;
+            var month = (monthid != -1) ? Cats.Helpers.RequestHelper.MonthName(monthid) : "-";
+            var projectcodeId = (dispatch.ProjectCodeID) ?? -1;
+            var projectcodevalue = (projectcodeId != -1) ? _projectCodeService.GetProjectCodeValueByProjectCodeId(projectcodeId) : "-";
+            DispatchAllocationViewModel model = new DispatchAllocationViewModel(fdp);
+           model.Amount = dispatch.Amount;
+           model.BidRefNo = dispatch.BidRefNo;
+           model.FDPName = dispatch.FDP.Name;
+           model.RequisitionNo = dispatch.RequisitionNo;
+           model.Round = dispatch.Round;
+           model.Year = dispatch.Year;
+           model.ProgramName = dispatch.Program.Name;
+           model.CommodityName = dispatch.Commodity.Name;
+           model.MonthName = month;
+           model.ShippingInstruction = dispatch.ShippingInstruction;
+           model.ProjectCodeValue = projectcodevalue;
+            model.RemainingQuantityInQuintals = dispatch.RemainingQuantityInQuintals;
+            return model;
+        }
+
         public ActionResult Close(string id)
         {
-            var closeAllocation = _dispatchAllocationService.FindById(Guid.Parse(id));
-            return PartialView("Close", closeAllocation);
+            //var closeAllocation = _dispatchAllocationService.FindById(Guid.Parse(id));
+            //return PartialView("Close", closeAllocation);
+            DispatchAllocation allocation = _dispatchAllocationService.FindById(Guid.Parse(id));
+            DispatchAllocationViewModel alloc = GetAllocationModelForClose(allocation);
+            return PartialView("Close", alloc);
         }
 
         [HttpPost, ActionName("Close")]

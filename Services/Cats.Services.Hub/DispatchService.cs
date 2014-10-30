@@ -313,7 +313,99 @@ namespace Cats.Services.Hub
             return 0;
         }
 
+        public bool RejectToHubs(Dispatch dispatch)
+        {
+            try
+            {
+                var despatchDetail = dispatch.DispatchDetails;
+                if (despatchDetail!=null)
+                {
+                    var dispatchIds = new List<DispatchDetail>();
+                    foreach (var dispatchD in despatchDetail)
+                    {
+                        var transactionGroupId = dispatchD.TransactionGroupID;
+                        var transaction =
+                            _unitOfWork.TransactionRepository.FindBy(t => t.TransactionGroupID == transactionGroupId).
+                                ToList();
+                        foreach (var items in transaction)
+                        {
+                            var newTransactionItem = GetNewTranaction(items);
+                            
 
+                            if (items.LedgerID == Models.Ledger.Constants.GOODS_IN_TRANSIT)
+                            {
+                                newTransactionItem.QuantityInMT = -newTransactionItem.QuantityInMT;
+                                newTransactionItem.QuantityInUnit = -newTransactionItem.QuantityInUnit;
+                            }
+
+                            if (items.LedgerID == Models.Ledger.Constants.GOODS_ON_HAND)
+                            {
+                                newTransactionItem.QuantityInMT = -newTransactionItem.QuantityInMT;
+                                newTransactionItem.QuantityInUnit = -newTransactionItem.QuantityInUnit;
+                            }
+
+                            if (items.LedgerID == Models.Ledger.Constants.COMMITED_TO_FDP)
+                            {
+                                newTransactionItem.QuantityInMT = -newTransactionItem.QuantityInMT;
+                                newTransactionItem.QuantityInUnit = -newTransactionItem.QuantityInUnit;
+                            }
+                            if (items.LedgerID == Models.Ledger.Constants.STATISTICS_FREE_STOCK)
+                            {
+                                newTransactionItem.QuantityInMT = -newTransactionItem.QuantityInMT;
+                                newTransactionItem.QuantityInUnit = -newTransactionItem.QuantityInUnit;
+                            }
+
+                            _unitOfWork.TransactionRepository.Add(newTransactionItem);
+                        } //tranaction
+
+                        dispatchIds.Add(dispatchD);
+                       
+                    }
+
+                    foreach (var dispatchDetail in dispatchIds)
+                    {
+                        _unitOfWork.DispatchDetailRepository.Delete(dispatchDetail);
+                    }
+                    _unitOfWork.DispatchRepository.Delete(dispatch);
+                }
+                
+                _unitOfWork.Save();
+                return true;
+            }
+            catch (Exception)
+            {
+
+                return false;
+            }
+        }
+
+        public Transaction GetNewTranaction(Transaction transaction)
+        {
+            var newTransaction = new Transaction
+                                     {
+                                         TransactionID = Guid.NewGuid(),
+
+                                         AccountID = transaction.AccountID,
+                                         ProgramID = transaction.ProgramID,
+                                         ParentCommodityID = transaction.CommodityID,
+                                         CommodityID = transaction.CommodityID,
+                                         FDPID = transaction.FDPID,
+                                         HubID = transaction.HubID,
+                                         HubOwnerID = transaction.HubOwnerID,
+                                         LedgerID = transaction.LedgerID,
+                                         QuantityInMT = transaction.QuantityInMT,
+                                         QuantityInUnit = transaction.QuantityInUnit,
+                                         ShippingInstructionID = transaction.ShippingInstructionID,
+                                         ProjectCodeID = transaction.ProjectCodeID,
+                                         Round = transaction.Round,
+                                         PlanId = transaction.PlanId,
+                                         TransactionDate = DateTime.Now,
+                                         UnitID = transaction.UnitID,
+                                         TransactionGroupID = transaction.TransactionGroupID
+                                     };
+            return newTransaction;
+
+        }
         #endregion
         public void Dispose()
         {

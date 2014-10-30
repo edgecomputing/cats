@@ -771,5 +771,76 @@ namespace Cats.Areas.Procurement.Controllers
                         // Donor=detail.Donor.Name
                     });
         }
+        public ActionResult Revert(int id)
+        {
+            if (_transportOrderService.RevertRequsition(id))
+            {
+               
+                TempData["CustomError2"] = "Transport Order Successfully Reverted back to Approved Requsitions!  ";
+                return RedirectToAction("Index");
+            }
+            TempData["CustomError"] = "This Transport Order Can not be Reverted!  ";
+            return RedirectToAction("Index");
+        }
+        public ActionResult RevertRequsitions()
+        {
+            var requisitions = _transportOrderService.GetRequsitionsToBeReverted().ToList();
+            if (requisitions.Count!=0)
+            {
+                var nonDispatchedRequsitions = GetRequsitionsViewModel(requisitions).ToList();
+                return View(nonDispatchedRequsitions);
+            }
+            TempData["CustomError"] = "This Transport Order Can not be Reverted!  ";
+            return RedirectToAction("Index",new {Area="Logistics"});
+        }
+         [HttpPost]
+         public ActionResult RevertRequsitions(List<RevertRequsitionsViewModel> revertRequsitionsViewModels)
+         {
+            var checkedRequsitions = revertRequsitionsViewModels.Where(m => m.Checked).ToList();
+            if (checkedRequsitions.Count() != 0)
+            {
+                var noRevertedRequisitios = 0;
+                foreach (var revertRequsitionsViewModel in checkedRequsitions)
+                {
+                    if (_transportOrderService.RevertRequsition(revertRequsitionsViewModel.RequsitionID))
+                    {
+                        ++noRevertedRequisitios;
+                       
+                    }
+                }
+                if (noRevertedRequisitios!=0)
+                {
+                    TempData["CustomError2"] =noRevertedRequisitios + "Requisition (s) Successfully Reverted back to Approved Requsitions!  ";
+                    return RedirectToAction("Index");
+               
+                }
+                
+            }
+            TempData["CustomError"] = "Requsition (s) Can not be Reverted!  ";
+            return RedirectToAction("Index");
+         }
+        private IEnumerable<RevertRequsitionsViewModel> GetRequsitionsViewModel(IEnumerable<ReliefRequisition> reliefRequisitions)
+        {
+            return (from requsition in reliefRequisitions
+                    select new RevertRequsitionsViewModel()
+                    {
+                        RequsitionID = requsition.RequisitionID,
+                        RequsitionNumber = requsition.RequisitionNo,
+                        Zone = requsition.AdminUnit1.Name,
+                        Checked = false
+                       
+                    });
+        }
+
+        public ActionResult reverseTOFromClosedtoDraft(int id)
+        {
+            var dispatch = _transportOrderService.ReverseDispatchAllocation(id);
+            if (dispatch!=null)
+               return PartialView(dispatch);
+            return RedirectToAction("Index");
+
+
+
+        }
     }
 }
