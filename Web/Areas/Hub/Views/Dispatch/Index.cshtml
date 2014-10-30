@@ -258,7 +258,7 @@
                                 {
                                     dispCols.Bound(d => d.DispatchDate).Format("{0:d-MMM-yyyy}");
                                     dispCols.Bound(d => d.GIN).ClientTemplate("<a href='" +
-                                                                              @Url.Action("Create", "Dispatch", new { @ginNo = "<#= GIN #>", @type = "<#= 1 #>" })
+                                                                              @Url.Action("CreateDispatch", "Dispatch", new { @AllocationId = "<#= DispatchID #>", @type = "<#= 1 #>", @ginNo = "<#= GIN #>" })
                                                                               + "' >" + "<#= GIN #></a>");
                                     dispCols.Bound(d => d.DispatchedByStoreMan);
 

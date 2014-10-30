@@ -663,7 +663,7 @@ namespace Cats.Models.Hubs
                 if (transaction.Stack != null) model.StackNumber = transaction.Stack.Value;
                 if (transaction.StoreID.HasValue) model.StoreID = transaction.StoreID.Value;
                 model.ProgramID = transaction.ProgramID;
-                model.ProjectNumber = transaction.ProjectCode.Value;
+                //model.ProjectNumber = transaction.ProjectCode.Value;
                 model.SINumber = transaction.ShippingInstruction.Value;
                 model.CommodityTypeID = transaction.Commodity.CommodityTypeID;
             }

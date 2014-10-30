@@ -944,32 +944,42 @@ namespace Cats.Services.Hub
             return false;
         }
 
-        public void SaveDispatchTransaction(DispatchViewModel dispatchViewModel)
+        public void SaveDispatchTransaction(DispatchViewModel dispatchViewModel, Boolean reverse=false)
         {
-
-            var dispatch = new Dispatch
+            int transactionsign = reverse ? -1 : 1;
+            Dispatch dispatch;
+            if (dispatchViewModel.DispatchID != null)
+                dispatch = _unitOfWork.DispatchRepository.FindById(dispatchViewModel.DispatchID.GetValueOrDefault());
+            else
             {
-                BidNumber = dispatchViewModel.BidNumber,
-                CreatedDate = dispatchViewModel.CreatedDate,
-                DispatchAllocationID = dispatchViewModel.DispatchAllocationID,
-                DispatchDate = dispatchViewModel.DispatchDate,
-                DispatchID = Guid.NewGuid(),
-                DispatchedByStoreMan = dispatchViewModel.DispatchedByStoreMan,
-                DriverName = dispatchViewModel.DriverName,
-                FDPID = dispatchViewModel.FDPID,
-                GIN = dispatchViewModel.GIN,
-                HubID = dispatchViewModel.HubID,
-                PeriodMonth = dispatchViewModel.Month,
-                PeriodYear = dispatchViewModel.Year,
-                PlateNo_Prime = dispatchViewModel.PlateNo_Prime,
-                PlateNo_Trailer = dispatchViewModel.PlateNo_Trailer,
-                Remark = dispatchViewModel.Remark,
-                RequisitionNo = dispatchViewModel.RequisitionNo,
-                Round = dispatchViewModel.Round,
-                TransporterID = dispatchViewModel.TransporterID,
-                UserProfileID = dispatchViewModel.UserProfileID,
-                WeighBridgeTicketNumber = dispatchViewModel.WeighBridgeTicketNumber
-            };
+                dispatch = new Dispatch();
+                dispatch.DispatchID = Guid.NewGuid();
+            }
+
+
+
+
+            dispatch.BidNumber = dispatchViewModel.BidNumber;
+                dispatch.CreatedDate = dispatchViewModel.CreatedDate;
+                dispatch.DispatchAllocationID = dispatchViewModel.DispatchAllocationID;
+                dispatch.DispatchDate = dispatchViewModel.DispatchDate;
+                
+                dispatch.DispatchedByStoreMan = dispatchViewModel.DispatchedByStoreMan;
+                dispatch.DriverName = dispatchViewModel.DriverName;
+                dispatch.FDPID = dispatchViewModel.FDPID;
+                dispatch.GIN = dispatchViewModel.GIN;
+                dispatch.HubID = dispatchViewModel.HubID;
+                dispatch.PeriodMonth = dispatchViewModel.Month;
+                dispatch.PeriodYear = dispatchViewModel.Year;
+                dispatch.PlateNo_Prime = dispatchViewModel.PlateNo_Prime;
+                dispatch.PlateNo_Trailer = dispatchViewModel.PlateNo_Trailer;
+                dispatch.Remark = dispatchViewModel.Remark;
+                dispatch.RequisitionNo = dispatchViewModel.RequisitionNo;
+                dispatch.Round = dispatchViewModel.Round;
+                dispatch.TransporterID = dispatchViewModel.TransporterID;
+                dispatch.UserProfileID = dispatchViewModel.UserProfileID;
+            dispatch.WeighBridgeTicketNumber = dispatchViewModel.WeighBridgeTicketNumber;
+            
 
             //dispatch.Type = dispatchViewModel.Type;
 
@@ -985,11 +995,12 @@ namespace Cats.Services.Hub
                 RequestedQuantityInMT = dispatchViewModel.Quantity,
                 RequestedQunatityInUnit = dispatchViewModel.QuantityInUnit,
                 QuantityPerUnit = dispatchViewModel.QuantityPerUnit,
+                
                 UnitID = dispatchViewModel.UnitID,
                 TransactionGroupID = @group.TransactionGroupID
             };
-
-
+           
+            
             // Physical movement of stock
             var transactionInTransit = new Transaction
             {
@@ -1002,8 +1013,8 @@ namespace Cats.Services.Hub
                 HubID = dispatchViewModel.HubID,
                 HubOwnerID = _unitOfWork.HubRepository.FindById(dispatchViewModel.HubID).HubOwnerID,
                 LedgerID = Models.Ledger.Constants.GOODS_IN_TRANSIT,
-                QuantityInMT = +dispatchViewModel.Quantity,
-                QuantityInUnit = +dispatchViewModel.QuantityInUnit,
+                QuantityInMT = transactionsign * (+ dispatchViewModel.Quantity),
+                QuantityInUnit = transactionsign * (+dispatchViewModel.QuantityInUnit),
                 ShippingInstructionID = dispatchViewModel.ShippingInstructionID,
                 ProjectCodeID = dispatchViewModel.ProjectCodeID,
                 Round = dispatchViewModel.Round,
@@ -1029,8 +1040,8 @@ namespace Cats.Services.Hub
                 HubID = dispatchViewModel.HubID,
                 HubOwnerID = _unitOfWork.HubRepository.FindById(dispatchViewModel.HubID).HubOwnerID,
                 LedgerID = Models.Ledger.Constants.GOODS_ON_HAND,
-                QuantityInMT = -dispatchViewModel.Quantity,
-                QuantityInUnit = -dispatchViewModel.QuantityInUnit,
+                QuantityInMT = transactionsign * (-dispatchViewModel.Quantity),
+                QuantityInUnit = transactionsign * (-dispatchViewModel.QuantityInUnit),
                 ShippingInstructionID = dispatchViewModel.ShippingInstructionID,
                 ProjectCodeID = dispatchViewModel.ProjectCodeID,
                 Round = dispatchViewModel.Round,
@@ -1056,8 +1067,8 @@ namespace Cats.Services.Hub
                 HubID = dispatchViewModel.HubID,
                 HubOwnerID = _unitOfWork.HubRepository.FindById(dispatchViewModel.HubID).HubOwnerID,
                 LedgerID = Models.Ledger.Constants.COMMITED_TO_FDP,
-                QuantityInMT = +dispatchViewModel.Quantity,
-                QuantityInUnit = +dispatchViewModel.QuantityInUnit,
+                QuantityInMT = transactionsign * (+dispatchViewModel.Quantity),
+                QuantityInUnit = transactionsign * (+dispatchViewModel.QuantityInUnit),
                 ShippingInstructionID = dispatchViewModel.ShippingInstructionID,
                 ProjectCodeID = dispatchViewModel.ProjectCodeID,
                 Round = dispatchViewModel.Round,
@@ -1085,8 +1096,8 @@ namespace Cats.Services.Hub
                 HubID = dispatchViewModel.HubID,
                 HubOwnerID = _unitOfWork.HubRepository.FindById(dispatchViewModel.HubID).HubOwnerID,
                 LedgerID = Cats.Models.Ledger.Constants.STATISTICS_FREE_STOCK,
-                QuantityInMT = -dispatchViewModel.Quantity,
-                QuantityInUnit = -dispatchViewModel.QuantityInUnit,
+                QuantityInMT = transactionsign * (-dispatchViewModel.Quantity),
+                QuantityInUnit = transactionsign * (-dispatchViewModel.QuantityInUnit),
                 ShippingInstructionID = dispatchViewModel.ShippingInstructionID,
                 ProjectCodeID = dispatchViewModel.ProjectCodeID,
                 Round = dispatchViewModel.Round,
@@ -1097,7 +1108,9 @@ namespace Cats.Services.Hub
             };
             //transaction.Stack = dispatch.StackNumber;
             //transaction.StoreID = dispatch.StoreID;
+            dispatch.DispatchDetails.Clear();
             dispatch.DispatchDetails.Add(dispatchDetail);
+            
 
             try
             {
@@ -1106,8 +1119,21 @@ namespace Cats.Services.Hub
                 _unitOfWork.TransactionRepository.Add(transactionGoh);
                 _unitOfWork.TransactionRepository.Add(transactionInTansitFreeStock);
                 _unitOfWork.TransactionRepository.Add(transactionComitedToFdp);
-                _unitOfWork.DispatchRepository.Add(dispatch);
-                _unitOfWork.Save();
+                if (!reverse)
+                {
+                    if (dispatchViewModel.DispatchID == null)
+                    {
+                        _unitOfWork.DispatchRepository.Add(dispatch);
+                    }
+                
+                    else
+                    {
+                        _unitOfWork.DispatchRepository.Edit(dispatch);
+                    }
+                }
+                
+            
+            _unitOfWork.Save();
 
             }
 
