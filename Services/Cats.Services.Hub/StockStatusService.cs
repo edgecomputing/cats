@@ -194,7 +194,7 @@ namespace Cats.Services.Hub
      public List<HubDispatchAllocationViewModel> GetHubDispatchAllocation(int program, DateTime date)
 
     {
-        string query = string.Format(@" SELECT  GOH.HubID, GOH.QuantityInMT TotalPhysicalStock, (GOH.QuantityInMT - ISNULL(Commited.QuantityInMT,0) ) TotalFreestock, (ISNULL(DispatchedQuantity.QuantityInMT,0)) Dispatched,
+        string query = string.Format(@" SELECT  GOH.HubID, GOH.QuantityInMT TotalPhysicalStock, (GOH.QuantityInMT - ISNULL(Commited.QuantityInMT,0) ) TotalFreestock, (ISNULL(DispatchedQuantity.QuantityInMT,0)) DispatchedAmount,
                                                 Hub.Name HubName ,(GOH.QuantityInMT -ISNULL(DispatchedQuantity.QuantityInMT,0)) Remaining
 												FROM 
 
