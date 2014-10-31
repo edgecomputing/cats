@@ -177,7 +177,8 @@ namespace Cats.Areas.Finance.Controllers
                             LabourCostRate = request.LabourCostRate,
                             RejectedAmount = request.RejectedAmount,
                             RejectionReason = request.RejectionReason,
-                            RequestedDate = request.RequestedDate
+                            RequestedDate = request.RequestedDate,
+                            Program = dispatch.DispatchAllocation.Program
                         };
                         transporterPaymentRequestViewModels.Add(transporterPaymentRequestViewModel);
                     }

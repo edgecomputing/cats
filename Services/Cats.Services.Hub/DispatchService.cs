@@ -65,6 +65,11 @@ namespace Cats.Services.Hub
             return _unitOfWork.DispatchRepository.GetAll().FirstOrDefault(t => t.DispatchID == id);
 
         }
+        public Dispatch FindByAllocationId(System.Guid id)
+        {
+            return _unitOfWork.DispatchRepository.GetAll().FirstOrDefault(t => t.DispatchAllocationID == id);
+        }
+
         public List<Dispatch> FindBy(Expression<Func<Dispatch, bool>> predicate)
         {
             return _unitOfWork.DispatchRepository.FindBy(predicate);
@@ -244,7 +249,7 @@ namespace Cats.Services.Hub
             dispatch.FDPID = dispatchAllocation.FDPID;
             dispatch.GIN = string.Empty;
             dispatch.HubID = dispatchAllocation.HubID;
-           // dispatch.ProgramID = dispatchAllocation.ProgramID;
+            if(dispatchAllocation.ProgramID.HasValue) dispatch.ProgramID = dispatchAllocation.ProgramID.Value;
             if (dispatchAllocation.Month.HasValue)
                 dispatch.Month = dispatchAllocation.Month.Value;
             if (dispatchAllocation.Year.HasValue)

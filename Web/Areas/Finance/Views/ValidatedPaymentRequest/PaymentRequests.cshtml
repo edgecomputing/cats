@@ -395,13 +395,22 @@
         </div>
         <h3>Payment Request</h3>
         
-        <label for="filter"><strong>Reference No.</strong></label>
+        <label for="filter" class="filter_label"><strong>Reference No.</strong></label>
         <input type="text" name="filter" value="" id="filter" />
         
+        <label for="program_filter" class="filter_label"><strong>Program</strong></label>
+        <select id="program_filter" name="program_filter">
+            <option value="0" selected >All</option>
+            <option value="Relief">Relief</option>
+            <option value="PSNP">PSNP</option>
+            <option value="IDPs">IDPs</option>
+        </select>
+
         <table class="table table-striped">
             <thead>
                 <tr>
                     <th>Reference No.</th>
+                    <th>Program</th>
                     <th>Requisition</th>
                     <th>Issue No.</th>
                     <th>G.R.N.</th>
@@ -428,6 +437,9 @@
                     <tr>
                         <td>
                             @item.ReferenceNo
+                        </td>
+                        <td>
+                            @item.Program.Name
                         </td>
                         <td>
                             @item.RequisitionNo
@@ -719,32 +731,58 @@
                 function filter(selector, query) {
                     query = $.trim(query); //trim white space
                     query = query.replace(/ /gi, '|'); //add OR for regex query
-
+                    var program = $('#program_filter').val();
+                    
                     $(selector).each(function () {
-                        ($(this).find("td:first-child").text().search(new RegExp(query, "i")) < 0) ? $(this).hide().removeClass('visible') : $(this).show().addClass('visible');
+                        if (program == "0") {
+                            ($(this).find("td:first-child").text().search(new RegExp(query, "i")) < 0) ? $(this).hide().removeClass('visible') : $(this).show().addClass('visible');
+                        }
+                        else {
+                            (($(this).find("td:first-child").text().search(new RegExp(query, "i")) < 0) || ($(this).find("td:nth-child(2)").text().search(new RegExp(program, "i")) < 0)) ? $(this).hide().removeClass('visible') : $(this).show().addClass('visible');
+                        }
                     });
                 }
                 // visible at first
                 $('table tbody tr').addClass('visible');
                 $('#filter').keyup(function (event) {
                     //if esc is pressed or nothing is entered
-                    if (event.keyCode == 27 || $(this).val() == '') {
-                        //if esc is pressed we want to clear the value of search box
-                        $(this).val('');
+                    //if (event.keyCode == 27 || $(this).val() == '') {
+                    //    //if esc is pressed we want to clear the value of search box
+                    //    $(this).val('');
 
-                        //we want each row to be visible because if nothing
-                        //is entered then all rows are matched.
-                        $('tbody tr').removeClass('visible').show().addClass('visible');
-                    }
+                    //    //we want each row to be visible because if nothing
+                    //    //is entered then all rows are matched.
+                    //    $('tbody tr').removeClass('visible').show().addClass('visible');
+                    //}
 
-                        //if there is text, lets filter
-                    else {
+                    ////if there is text, lets filter
+                    //else {
                         filter('table>tbody>tr', $(this).val());
-                    }
+                    //}
+                });
+                $('#program_filter').change(function (e) {
+                    filter('table>tbody>tr', $('#filter').val());
                 });
             });
 
 
         </script>
+        
+        <style>
+            .table thead tr {
+                background: #DDD;
+            }
+            .table>thead>tr>th {
+                padding: 7px;
+            }
+            .filter_label {
+                display: initial;
+                padding-left: 10px;
+            }
+            #program_filter {
+                width: 100px;
+            }
+        </style>
+        
     </body>
 </html>

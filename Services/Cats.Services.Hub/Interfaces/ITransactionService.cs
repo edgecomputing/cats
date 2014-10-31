@@ -63,7 +63,7 @@ namespace Cats.Services.Hub
         /// <param name="dispatchModel">The dispatch model.</param>
         /// <param name="user">The user.</param>
         bool SaveDispatchTransaction(DispatchModel dispatchModel, UserProfile user);
-        void SaveDispatchTransaction(DispatchViewModel dispatchModel);
+        void SaveDispatchTransaction(DispatchViewModel dispatchModel, Boolean reverse=false);
 
         /// <summary>
         /// Gets the grouped transportation reports.
