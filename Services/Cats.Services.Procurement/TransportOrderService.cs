@@ -856,7 +856,7 @@ namespace Cats.Services.Procurement
                     }
 
                     _unitOfWork.Save();
-                    return null;
+                    return new List<Dispatch>();
                 }
                 return new List<Dispatch>();
             }
