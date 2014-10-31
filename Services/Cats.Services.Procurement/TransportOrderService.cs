@@ -831,6 +831,41 @@ namespace Cats.Services.Procurement
             return true;
         }
 
+        public List<Dispatch> ReverseDispatchAllocation(int transportOrderId)
+        {
+            try
+            {
+                var dispatchAllocation =
+                    _unitOfWork.DispatchAllocationRepository.FindBy(d => d.TransportOrderID == transportOrderId).
+                        FirstOrDefault();
+                if (dispatchAllocation!=null)
+                {
+                    var dispatch =
+                        _unitOfWork.DispatchRepository.FindBy(
+                            t => t.DispatchAllocationID == dispatchAllocation.DispatchAllocationID);
+                    if (dispatch != null)
+                    {
+                        return dispatch;
+                    }
+
+                    _unitOfWork.DispatchAllocationRepository.Delete(dispatchAllocation);
+                    var transportOrder = _unitOfWork.TransportOrderRepository.FindById(transportOrderId);
+                    if (transportOrder!=null)
+                    {
+                        transportOrder.StatusID = (int) TransportOrderStatus.Draft;
+                    }
+
+                    _unitOfWork.Save();
+                    return null;
+                }
+                return new List<Dispatch>();
+            }
+            catch (Exception)
+            {
+
+                return new List<Dispatch>();
+            }
+        }
 
         private void AddToNotification(int transportOrderId, string transportOrderNo,List<int> hubId )
         {

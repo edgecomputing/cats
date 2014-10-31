@@ -831,5 +831,16 @@ namespace Cats.Areas.Procurement.Controllers
                        
                     });
         }
+
+        public ActionResult reverseTOFromClosedtoDraft(int id)
+        {
+            var dispatch = _transportOrderService.ReverseDispatchAllocation(id);
+            if (dispatch!=null)
+               return PartialView(dispatch);
+            return RedirectToAction("Index");
+
+
+
+        }
     }
 }
