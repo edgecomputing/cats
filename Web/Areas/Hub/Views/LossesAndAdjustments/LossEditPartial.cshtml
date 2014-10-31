@@ -230,7 +230,7 @@
         var commodityId = $("#CommodityId").data("tComboBox").value();
         var projectCodeId = $("#ProjectCodeId").data("tComboBox").value();
         var SICombo = $("#ShippingInstructionId").data("tComboBox");
-        alert("commodity: " + commodityId + " projectCode: " + projectCodeId);
+
         $.ajax({
             type: 'POST',
             url: '/LossesAndAdjustments/GetSINumberForProjectCode',

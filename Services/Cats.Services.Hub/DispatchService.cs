@@ -65,6 +65,11 @@ namespace Cats.Services.Hub
             return _unitOfWork.DispatchRepository.GetAll().FirstOrDefault(t => t.DispatchID == id);
 
         }
+        public Dispatch FindByAllocationId(System.Guid id)
+        {
+            return _unitOfWork.DispatchRepository.GetAll().FirstOrDefault(t => t.DispatchAllocationID == id);
+        }
+
         public List<Dispatch> FindBy(Expression<Func<Dispatch, bool>> predicate)
         {
             return _unitOfWork.DispatchRepository.FindBy(predicate);
@@ -244,7 +249,7 @@ namespace Cats.Services.Hub
             dispatch.FDPID = dispatchAllocation.FDPID;
             dispatch.GIN = string.Empty;
             dispatch.HubID = dispatchAllocation.HubID;
-           // dispatch.ProgramID = dispatchAllocation.ProgramID;
+            if(dispatchAllocation.ProgramID.HasValue) dispatch.ProgramID = dispatchAllocation.ProgramID.Value;
             if (dispatchAllocation.Month.HasValue)
                 dispatch.Month = dispatchAllocation.Month.Value;
             if (dispatchAllocation.Year.HasValue)
@@ -335,8 +340,8 @@ namespace Cats.Services.Hub
 
                             if (items.LedgerID == Models.Ledger.Constants.GOODS_ON_HAND)
                             {
-                                newTransactionItem.QuantityInMT = newTransactionItem.QuantityInMT;
-                                newTransactionItem.QuantityInUnit = newTransactionItem.QuantityInUnit;
+                                newTransactionItem.QuantityInMT = -newTransactionItem.QuantityInMT;
+                                newTransactionItem.QuantityInUnit = -newTransactionItem.QuantityInUnit;
                             }
 
                             if (items.LedgerID == Models.Ledger.Constants.COMMITED_TO_FDP)
@@ -346,8 +351,8 @@ namespace Cats.Services.Hub
                             }
                             if (items.LedgerID == Models.Ledger.Constants.STATISTICS_FREE_STOCK)
                             {
-                                newTransactionItem.QuantityInMT = newTransactionItem.QuantityInMT;
-                                newTransactionItem.QuantityInUnit = newTransactionItem.QuantityInUnit;
+                                newTransactionItem.QuantityInMT = -newTransactionItem.QuantityInMT;
+                                newTransactionItem.QuantityInUnit = -newTransactionItem.QuantityInUnit;
                             }
 
                             _unitOfWork.TransactionRepository.Add(newTransactionItem);
@@ -387,7 +392,7 @@ namespace Cats.Services.Hub
                                          FDPID = transaction.FDPID,
                                          HubID = transaction.HubID,
                                          HubOwnerID = transaction.HubOwnerID,
-                                         LedgerID = Models.Ledger.Constants.GOODS_ON_HAND,
+                                         LedgerID = transaction.LedgerID,
                                          QuantityInMT = transaction.QuantityInMT,
                                          QuantityInUnit = transaction.QuantityInUnit,
                                          ShippingInstructionID = transaction.ShippingInstructionID,

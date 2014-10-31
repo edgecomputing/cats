@@ -1,0 +1,76 @@
+﻿@using Cats.Helpers
+@model List<Cats.Models.Dispatch>
+
+@{
+    ViewBag.Title = "Revert Transport Order";
+    const string pageName = "Revert Transport Order";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+    
+}
+
+
+
+
+@{
+    if (Model!=null)
+    {
+        <div style="font-size: small;font-weight:bold" >
+            There are current dispaches under this Transport order. Please Revert the dispathes first. <br />
+            <div style="font-size: x-small;font-style: italic">
+                Go to GRN entry and click on Reject</div>
+        </div>
+        <table class="table table-striped table-bordered k-scrollable">
+            <thead>
+                <th>
+                    GIN
+                </th>
+                <th>
+                    Requisition No
+                </th>
+                <th>
+                    Trasnporter
+                </th>
+                <th>
+                    Hub
+                </th>
+                <th>
+                    FDP
+                </th>
+                <th>
+                    Bid No
+                </th>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @item.GIN
+                        </td>
+                        <td>
+                            @item.RequisitionNo
+                        </td>
+                        <td>
+                            @item.Transporter.Name
+                        </td>
+                        <td>
+                            @item.Hub.Name
+                        </td>
+                        <td>
+                            @item.FDP.Name
+                        </td>
+                        <td>
+                            @item.BidNumber
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <div class="label-info label-success">
+            Transport order has been Reverted to Draft status!!
+        </div>
+    }
+}

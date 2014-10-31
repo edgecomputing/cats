@@ -116,7 +116,7 @@
                       p.Custom("Signed").Click("onSigned");
                   p.Custom("Edit").Click("onEdit");
 
-                  //p.Custom("RevertTO").Click("onRevert");
+                  p.Custom("Revert TO").Click("onRevert");
 
               }).Width(200);
 
@@ -160,12 +160,23 @@
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
         window.location = "@Url.Action("Signed","TransportOrder")" + "/" + dataItem.TransportOrderID;
     }
+    
     function onRevert(e) {
+
+        var result = confirm("Revert Transport Order to Draft?");
+        if (result) {
+            e.preventDefault();
+
+            var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+            window.location = "@Url.Action("reverseTOFromClosedtoDraft","TransportOrder")" + "/" + dataItem.TransportOrderID;
+        }
+    }
+ @*   function onRevert(e) {
         e.preventDefault();
 
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
         window.location = "@Url.Action("Revert","TransportOrder")" + "/" + dataItem.TransportOrderID;
-    }
+    }*@
 
     function filterData() {
 
@@ -213,7 +224,31 @@
             var currentUid = gridData[i].uid;
             //alert(gridData[i].Status);
             var currentRow = grid.table.find("tr[data-uid='" + currentUid + "']");
-            if (gridData[i].Status == "Signed" || gridData[i].Status == "Closed") {
+            if (gridData[i].Status == "Signed") {
+                var approveButton4 = $(currentRow).find(".k-grid-Approve");
+                approveButton4.hide();
+                var signedButton2 = $(currentRow).find(".k-grid-Signed");
+                signedButton2.hide();
+                var editButton3 = $(currentRow).find(".k-grid-Edit");
+                editButton3.hide();
+                var revertButton3 = $(currentRow).find(".k-grid-RevertTO");
+                revertButton3.hide();
+            }
+            else if (gridData[i].Status == "Approved") {
+                var approveButton1 = $(currentRow).find(".k-grid-Approve");
+                approveButton1.hide();
+                var revertButton1 = $(currentRow).find(".k-grid-RevertTO");
+                revertButton1.hide();
+            }
+            else if (gridData[i].Status == "Draft") {
+                var signedButton1 = $(currentRow).find(".k-grid-Signed");
+                signedButton1.hide();
+                var revertButton2 = $(currentRow).find(".k-grid-RevertTO");
+                revertButton2.hide();
+            }
+            else if (gridData[i].Status == "Closed") {
+                var revertButton = $(currentRow).find(".k-grid-RevertTO");
+                revertButton.show();
                 var approveButton = $(currentRow).find(".k-grid-Approve");
                 approveButton.hide();
                 var signedButton = $(currentRow).find(".k-grid-Signed");
@@ -221,18 +256,6 @@
                 var editButton = $(currentRow).find(".k-grid-Edit");
                 editButton.hide();
             }
-            else if (gridData[i].Status == "Approved") {
-                var approveButton1 = $(currentRow).find(".k-grid-Approve");
-                approveButton1.hide();
-            }
-            else if (gridData[i].Status == "Draft") {
-                var signedButton1 = $(currentRow).find(".k-grid-Signed");
-                signedButton1.hide();
-            }
-            //else if (gridData[i].Status == "Draft" || gridData[i].Status == "Closed") {
-            //    var revertButton = $(currentRow).find(".k-grid-RevertTO");
-            //    revertButton.hide();
-            //}
         }
     }
 </script>

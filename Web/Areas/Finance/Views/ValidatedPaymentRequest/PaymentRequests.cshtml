@@ -23,13 +23,17 @@
                 </button>
                 <ul class="dropdown-menu">
                     <li><a href="#" data-ng-click="loadCollectiveChequeInfo()">Generate Cheque</a></li>
+                    <li><a href="@Url.Action("Print", "Home", new { Area = "Finance", id = ViewBag.TransportOrderViewModel.TransporterID })" >Print</a></li>
                 </ul>
             }
             else
             {
-                <button class="btn dropdown-toggle disabled" data-toggle="dropdown">
+                <button class="btn dropdown-toggle" data-toggle="dropdown">
                     <span class="caret"></span>
                 </button>
+                <ul class="dropdown-menu">
+                    <li><a href="@Url.Action("Print", "Home", new { Area = "Finance", id = ViewBag.TransportOrderViewModel.TransporterID })" >Print</a></li>
+                </ul>
             }
         }
     </div>
@@ -390,106 +394,116 @@
             </div>
         </div>
         <h3>Payment Request</h3>
-
+        
+        <label for="filter"><strong>Reference No.</strong></label>
+        <input type="text" name="filter" value="" id="filter" />
+        
         <table class="table table-striped">
-            <tr>
-                <th>Requisition</th>
-                <th>Issue No.</th>
-                <th>G.R.N.</th>
-                <th>Commodity</th>
-                <th>Source</th>
-                <th>Destination</th>
-                <th>Received Qty.</th>
-                <th>Tarrif</th>
-                <th>Shortage Qty.</th>
-                <th>Shortage Birr</th>
-                <th>Freight Charge</th>
-                <th>Status</th>
-                <th>Actions</th>
-                <th></th>
-            </tr>
-
-            @foreach (TransporterPaymentRequestViewModel item in Model)
-            {
-                index++;
-                var state = item.BusinessProcess.CurrentState.BaseStateTemplate;
-                //if (state.Name == "Approved by finance" || state.Name == "Cheque Issued" || state.Name == "Cheque Cashed")
-                //{
+            <thead>
                 <tr>
-                    <td>
-                        @item.RequisitionNo
-                    </td>
-                    <td>
-                        @item.GIN
-                    </td>
-                    <td>
-                        @item.GRN
-                    </td>
-                    <td>
-                        @item.Commodity
-                    </td>
-                    <td>
-                        @item.Source
-                    </td>
-                    <td>
-                        @item.Destination
-                    </td>
-                    <td>
-                        @item.ReceivedQty
-                    </td>
-                    <td>
-                        @item.Tarrif.ToString("0.00")
-                    </td>
-                    <td>
-                        @item.ShortageQty
-                    </td>
-                    <td>
-                        @item.ShortageBirr
-                    </td>
-                    <td>
-                        @item.FreightCharge.ToString("0.00")
-                    </td>
-                    <td>
-                        @state.Name
-                    </td>
-                    <td>
-                        <button class="btn" data-ng-click="loadLabourCost(@item.TransporterPaymentRequestID,@state.StateNo)">Payment Deductions</button>
-                        @*<a href="@Url.Action("LabourCost", "ValidatedPaymentRequest")">Labour Cost</a>*@
-                    </td>
-                    <td>
-                        @if (item.LabourCostRate != null && state.StateNo < 3)
-                        {
-                            <div class="btn-group">
-                                <button class="btn edit_button" id="action_@index">Workflow</button>
-                                <button class="btn  dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
-                                <ul class="dropdown-menu">
-                                    @foreach (FlowTemplate actions in state.InitialStateFlowTemplates)
-                                    {
-                                        <li class="edit_button"><a href="javascript:promot_workflow(@item.BusinessProcessID ,@actions.FinalStateID,'@actions.Name',@item.TransporterPaymentRequestID)" title="@actions.Name">@actions.Name</a></li>
-                                    }
-                                    <li class="divider"></li>
-                                    <li class="edit_button"><a href="javascript:workflow_history(@item.BusinessProcessID)">History</a></li>
-                                </ul>
-                            </div>
-                        }
-                    </td>
-                </tr> 
-                //}
-               
-            }
-             <tr style="background-color: gainsboro">
-                 <td colspan="5"></td>
-                 <td  style="text-align: center"><b>Total:</b></td>
-                    
-                 <td><b>@Model.Sum(a => a.ReceivedQty)</b></td>
-                  <td><b>@Model.Sum(a => a.Tarrif).ToString("0.00")</b> </td>
-                 <td><b> @Model.Sum(a => a.ShortageQty)</b></td>
-                 <td><b>@Model.Sum(a => a.ShortageBirr)</b> </td>
-                 <td><b>@Model.Sum(a => a.FreightCharge).ToString("0.00") </b> </td>
-                <td></td>
-                    <td></td>
-                
+                    <th>Reference No.</th>
+                    <th>Requisition</th>
+                    <th>Issue No.</th>
+                    <th>G.R.N.</th>
+                    <th>Commodity</th>
+                    <th>Source</th>
+                    <th>Destination</th>
+                    <th>Received Qty.</th>
+                    <th>Tarrif</th>
+                    <th>Shortage Qty.</th>
+                    <th>Shortage Birr</th>
+                    <th>Freight Charge</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                    <th></th>
                 </tr>
+            </thead>
+            <tbody>
+                @foreach (TransporterPaymentRequestViewModel item in Model)
+                {
+                    index++;
+                    var state = item.BusinessProcess.CurrentState.BaseStateTemplate;
+                    //if (state.Name == "Approved by finance" || state.Name == "Cheque Issued" || state.Name == "Cheque Cashed")
+                    //{
+                    <tr>
+                        <td>
+                            @item.ReferenceNo
+                        </td>
+                        <td>
+                            @item.RequisitionNo
+                        </td>
+                        <td>
+                            @item.GIN
+                        </td>
+                        <td>
+                            @item.GRN
+                        </td>
+                        <td>
+                            @item.Commodity
+                        </td>
+                        <td>
+                            @item.Source
+                        </td>
+                        <td>
+                            @item.Destination
+                        </td>
+                        <td>
+                            @item.ReceivedQty
+                        </td>
+                        <td>
+                            @item.Tarrif.ToString("0.00")
+                        </td>
+                        <td>
+                            @item.ShortageQty
+                        </td>
+                        <td>
+                            @item.ShortageBirr
+                        </td>
+                        <td>
+                            @item.FreightCharge.ToString("0.00")
+                        </td>
+                        <td>
+                            @state.Name
+                        </td>
+                        <td>
+                            <button class="btn" data-ng-click="loadLabourCost(@item.TransporterPaymentRequestID,@state.StateNo)">Payment Deductions</button>
+                            @*<a href="@Url.Action("LabourCost", "ValidatedPaymentRequest")">Labour Cost</a>*@
+                        </td>
+                        <td>
+                            @if (item.LabourCostRate != null && state.StateNo < 3)
+                            {
+                                <div class="btn-group">
+                                    <button class="btn edit_button" id="action_@index">Workflow</button>
+                                    <button class="btn  dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
+                                    <ul class="dropdown-menu">
+                                        @foreach (FlowTemplate actions in state.InitialStateFlowTemplates)
+                                        {
+                                            <li class="edit_button"><a href="javascript:promot_workflow(@item.BusinessProcessID ,@actions.FinalStateID,'@actions.Name',@item.TransporterPaymentRequestID)" title="@actions.Name">@actions.Name</a></li>
+                                        }
+                                        <li class="divider"></li>
+                                        <li class="edit_button"><a href="javascript:workflow_history(@item.BusinessProcessID)">History</a></li>
+                                    </ul>
+                                </div>
+                            }
+                        </td>
+                    </tr> 
+                    //}
+
+                }
+                <tr style="background-color: gainsboro">
+                        <td colspan="5"></td>
+                        <td style="text-align: center"><b>Total:</b></td>
+
+                        <td><b>@Model.Sum(a => a.ReceivedQty)</b></td>
+                        <td><b>@Model.Sum(a => a.Tarrif).ToString("0.00")</b> </td>
+                        <td><b>@Model.Sum(a => a.ShortageQty)</b></td>
+                        <td><b>@Model.Sum(a => a.ShortageBirr)</b> </td>
+                        <td><b>@Model.Sum(a => a.FreightCharge).ToString("0.00") </b></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            
         </table>
 
         <div id="modalHistory" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false" style="width:600px;" >
@@ -512,15 +526,15 @@
                 $('#PaymentRequestID').val(PaymentRequestID);
                 $('#modalPromotion').modal();
                 $.ajax({
-                        type: "POST",
-                        url: "@Url.Action("ApproveChequeInfo", "ValidatedPaymentRequest")",
-                        data: "{id:1}",
-                        dataType: json
-                    });
+                    type: "POST",
+                    url: "@Url.Action("ApproveChequeInfo", "ValidatedPaymentRequest")",
+                    data: "{id:1}",
+                    dataType: json
+                });
                 //alert("nextstate: " + nextstate);
                 if (nextstate == "2021") {
                     //alert("nextstate: " + nextstate);
-                    @*var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+                                                            @*var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
                     window.location = "@Url.Action("ApproveChequeInfo", "ValidatedPaymentRequest")" + "/" + dataItem.TransportBidQuotationHeaderID;*@
                     
                 }
@@ -697,6 +711,40 @@
                 };
             });
             init_datepicker();
+        </script>
+        
+        <script type="text/javascript">
+            $(document).ready(function () {
+                //filter results based on query
+                function filter(selector, query) {
+                    query = $.trim(query); //trim white space
+                    query = query.replace(/ /gi, '|'); //add OR for regex query
+
+                    $(selector).each(function () {
+                        ($(this).find("td:first-child").text().search(new RegExp(query, "i")) < 0) ? $(this).hide().removeClass('visible') : $(this).show().addClass('visible');
+                    });
+                }
+                // visible at first
+                $('table tbody tr').addClass('visible');
+                $('#filter').keyup(function (event) {
+                    //if esc is pressed or nothing is entered
+                    if (event.keyCode == 27 || $(this).val() == '') {
+                        //if esc is pressed we want to clear the value of search box
+                        $(this).val('');
+
+                        //we want each row to be visible because if nothing
+                        //is entered then all rows are matched.
+                        $('tbody tr').removeClass('visible').show().addClass('visible');
+                    }
+
+                        //if there is text, lets filter
+                    else {
+                        filter('table>tbody>tr', $(this).val());
+                    }
+                });
+            });
+
+
         </script>
     </body>
 </html>

@@ -696,6 +696,7 @@
     <Content Include="Areas\Finance\Views\ValidatedPaymentRequest\PaymentRequests.cshtml" />
     <Content Include="Areas\Finance\Views\Cheque\Cheques.cshtml" />
     <Content Include="Areas\Finance\Views\Cheque\Index.cshtml" />
+    <Content Include="Areas\Procurement\Views\TransportOrder\reverseTOFromClosedtoDraft.cshtml" />
     <None Include="Areas\Logistics\Views\DispatchAllocation\_AllocateProjectCode.cshtml" />
     <Content Include="Content\2013.1.219\Black\editor.png" />
     <Content Include="Content\2013.1.219\Black\imagebrowser.png" />
@@ -3363,6 +3364,7 @@
     <EmbeddedResource Include="Report\EarlyWarning\Ration.rdlc" />
     <EmbeddedResource Include="Report\EarlyWarning\RegionalRequest.rdlc" />
     <EmbeddedResource Include="Report\EarlyWarning\RRDDetail.rdlc" />
+    <EmbeddedResource Include="Report\Finance\TransportPaymentRequestLetter.rdlc" />
     <EmbeddedResource Include="Report\HRD\HRDSummaryByRegion.rdlc" />
     <EmbeddedResource Include="Report\Logisitcs\CarryOverStockStatus.rdlc" />
     <EmbeddedResource Include="Report\Logisitcs\TransferredStockStatus.rdlc" />
