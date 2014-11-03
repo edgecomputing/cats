@@ -843,7 +843,7 @@ namespace Cats.Services.Procurement
                     var dispatch =
                         _unitOfWork.DispatchRepository.FindBy(
                             t => t.DispatchAllocationID == dispatchAllocation.DispatchAllocationID);
-                    if (dispatch != null)
+                    if (dispatch.Count > 0 )
                     {
                         return dispatch;
                     }
@@ -856,7 +856,7 @@ namespace Cats.Services.Procurement
                     }
 
                     _unitOfWork.Save();
-                    return null;
+                    return new List<Dispatch>();
                 }
                 return new List<Dispatch>();
             }

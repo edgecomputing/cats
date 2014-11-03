@@ -20,6 +20,7 @@ namespace Cats.Areas.Finance.Models
         public string RejectionReason { get; set; }
         public DateTime RequestedDate { get; set; }
         public int BusinessProcessID { get; set; }
+        public Cats.Models.Hubs.Program Program { get; set; }
         public string RequisitionNo { get; set; }
         public string GIN { get; set; }
         public string GRN { get; set; }
