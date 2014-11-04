@@ -221,16 +221,27 @@ namespace Cats.Services.Hub
         /// </summary>
         /// <param name="receiveModels">The receive models.</param>
         /// <param name="user">The user.</param>
-        public Boolean SaveReceiptTransaction(ReceiveViewModel receiveModels, UserProfile user)
+        public Boolean SaveReceiptTransaction(ReceiveViewModel receiveModels, UserProfile user, Boolean reverse=false)
         {
             // Populate more details of the reciept object 
             // Save it when you are done.
-
-            var receive = receiveModels.GenerateReceive();
+            int transactionsign = reverse ? -1 : 1;
+            Receive receive; 
+            
+            if(receiveModels.ReceiveID!=null)
+            {
+                receive = _unitOfWork.ReceiveRepository.FindById(receiveModels.ReceiveID.GetValueOrDefault());
+            }
+            else
+            {
+                receive=new Receive();
+                receive = receiveModels.GenerateReceive();
+            }
+            
             receive.CreatedDate = DateTime.Now;
             receive.HubID = user.DefaultHubObj.HubID;
             receive.UserProfileID = user.UserProfileID;
-
+            
             int? donorId = receive.SourceDonorID;
             var commType = _unitOfWork.CommodityTypeRepository.FindById(receiveModels.CommodityTypeID);
 
@@ -238,7 +249,9 @@ namespace Cats.Services.Hub
 
 
             var transactionGroupId = Guid.NewGuid();
-
+            
+            receive.ReceiveDetails.Clear();
+            
             foreach (ReceiveDetailViewModel c in receiveModels.ReceiveDetails)
             {
                 if (commType.CommodityTypeID == 2)//if it's a non food
@@ -246,6 +259,7 @@ namespace Cats.Services.Hub
                     c.ReceivedQuantityInMT = 0;
                     c.SentQuantityInMT = 0;
                 }
+
                 TransactionGroup tgroup = new TransactionGroup();
                 tgroup.TransactionGroupID = transactionGroupId;
                 var receiveDetail = new ReceiveDetail()
@@ -258,15 +272,15 @@ namespace Cats.Services.Hub
                     ReceiveID = receive.ReceiveID,
                     ReceiveDetailID = Guid.NewGuid()
                 };
-                if (c.ReceiveDetailID.HasValue)
-                {
-                    receiveDetail.ReceiveDetailID = c.ReceiveDetailID.Value;
-                }
+                //if (c.ReceiveDetailID.HasValue&&!reverse)
+                //{
+                //    receiveDetail.ReceiveDetailID = c.ReceiveDetailID.Value;
+                //}
 
                 receiveDetail.TransactionGroupID = tgroup.TransactionGroupID;
                 receiveDetail.TransactionGroup = tgroup;
                 receive.ReceiveDetails.Add(receiveDetail);
-
+                
 
                 #region physical stock movement
                 //transaction for goods on hand // previously it was GOODS_ON_HAND_UNCOMMITED
@@ -287,8 +301,8 @@ namespace Cats.Services.Hub
                 transaction.ProjectCodeID = _projectCodeService.GetProjectCodeIdWIthCreate(receiveModels.ProjectNumber).ProjectCodeID;
                 transaction.HubID = user.DefaultHubObj.HubID;
                 transaction.UnitID = c.UnitID;
-                if (c.ReceivedQuantityInMT != null) transaction.QuantityInMT = c.ReceivedQuantityInMT.Value;
-                if (c.ReceivedQuantityInUnit != null) transaction.QuantityInUnit = c.ReceivedQuantityInUnit.Value;
+                if (c.ReceivedQuantityInMT != null) transaction.QuantityInMT = transactionsign * c.ReceivedQuantityInMT.Value;
+                if (c.ReceivedQuantityInUnit != null) transaction.QuantityInUnit = transactionsign * c.ReceivedQuantityInUnit.Value;
                 if (c.CommodityGradeID != null) transaction.CommodityGradeID = c.CommodityGradeID.Value;
 
                 transaction.ProgramID = receiveModels.ProgramID;
@@ -341,8 +355,8 @@ namespace Cats.Services.Hub
                 transaction2.HubID = user.DefaultHubObj.HubID;
                 transaction2.UnitID = c.UnitID;
                 // this is the credit part, so make it Negative
-                if (c.ReceivedQuantityInMT != null) transaction2.QuantityInMT = -c.ReceivedQuantityInMT.Value;
-                if (c.ReceivedQuantityInUnit != null) transaction2.QuantityInUnit = -c.ReceivedQuantityInUnit.Value;
+                if (c.ReceivedQuantityInMT != null) transaction2.QuantityInMT = transactionsign*(-c.ReceivedQuantityInMT.Value);
+                if (c.ReceivedQuantityInUnit != null) transaction2.QuantityInUnit = transactionsign*(-c.ReceivedQuantityInUnit.Value);
                 if (c.CommodityGradeID != null) transaction2.CommodityGradeID = c.CommodityGradeID.Value;
 
                 transaction2.ProgramID = receiveModels.ProgramID;
@@ -370,8 +384,8 @@ namespace Cats.Services.Hub
                 transaction.ProjectCodeID = _projectCodeService.GetProjectCodeIdWIthCreate(receiveModels.ProjectNumber).ProjectCodeID;
                 transaction.HubID = user.DefaultHubObj.HubID;
                 transaction.UnitID = c.UnitID;
-                if (c.ReceivedQuantityInMT != null) transaction.QuantityInMT = c.ReceivedQuantityInMT.Value;
-                if (c.ReceivedQuantityInUnit != null) transaction.QuantityInUnit = c.ReceivedQuantityInUnit.Value;
+                if (c.ReceivedQuantityInMT != null) transaction.QuantityInMT = transactionsign*  c.ReceivedQuantityInMT.Value;
+                if (c.ReceivedQuantityInUnit != null) transaction.QuantityInUnit = transactionsign * c.ReceivedQuantityInUnit.Value;
                 if (c.CommodityGradeID != null) transaction.CommodityGradeID = c.CommodityGradeID.Value;
 
                 transaction.ProgramID = receiveModels.ProgramID;
@@ -427,8 +441,8 @@ namespace Cats.Services.Hub
                 transaction2.HubID = user.DefaultHubObj.HubID;
                 transaction2.UnitID = c.UnitID;
                 // this is the credit part, so make it Negative
-                if (c.ReceivedQuantityInMT != null) transaction2.QuantityInMT = -c.ReceivedQuantityInMT.Value;
-                if (c.ReceivedQuantityInUnit != null) transaction2.QuantityInUnit = -c.ReceivedQuantityInUnit.Value;
+                if (c.ReceivedQuantityInMT != null) transaction2.QuantityInMT = transactionsign * (- c.ReceivedQuantityInMT.Value);
+                if (c.ReceivedQuantityInUnit != null) transaction2.QuantityInUnit = transactionsign * (-c.ReceivedQuantityInUnit.Value);
                 if (c.CommodityGradeID != null) transaction2.CommodityGradeID = c.CommodityGradeID.Value;
 
                 transaction2.ProgramID = receiveModels.ProgramID;
@@ -445,7 +459,20 @@ namespace Cats.Services.Hub
 
             try
             {
-                _unitOfWork.ReceiveRepository.Add(receive);
+                if(!reverse)
+                {
+                    if(receiveModels.ReceiveID==null)
+                    {
+                        _unitOfWork.ReceiveRepository.Add(receive);
+                    }
+                    else
+                    {
+                        _unitOfWork.ReceiveRepository.Edit(receive);
+                    }
+                
+                }
+                
+
                 _unitOfWork.Save();
                 return true;
             }
