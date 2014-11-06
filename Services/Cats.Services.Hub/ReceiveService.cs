@@ -163,6 +163,8 @@ namespace Cats.Services.Hub
 
         }
 
+        
+
         public ReceiveNewViewModel ReceiptAllocationToReceive(ReceiptAllocation receiptAllocation)
         {
             var viewModel = new ReceiveNewViewModel
@@ -216,6 +218,17 @@ namespace Cats.Services.Hub
 
             if (allocation == null) return false;
             var remaining = allocation.QuantityInMT - received;
+
+            //if its being edited
+            if(receiveDetailNewViewModel.ReceiveId!=Guid.Empty)
+            {
+                var prevrecieve =
+                    _unitOfWork.ReceiveRepository.FindById(receiveDetailNewViewModel.ReceiveId.GetValueOrDefault());
+                remaining+= prevrecieve.ReceiveDetails.FirstOrDefault().QuantityInMT;
+
+            }
+
+
             return receiveDetailNewViewModel.ReceivedQuantityInMt > remaining;
         }
 

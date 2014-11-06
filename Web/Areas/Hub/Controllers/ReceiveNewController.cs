@@ -50,17 +50,15 @@ namespace Cats.Areas.Hub.Controllers
 
         #region Action
 
-        public ActionResult Create(string receiptAllocationId)
+        public ReceiveNewViewModel ModeltoNewView(Receive receive) //string receiveId, string grn)
         {
-            if (String.IsNullOrEmpty(receiptAllocationId)) return View();
-            _receiptAllocationId = Guid.Parse(receiptAllocationId);
 
-            var receiptAllocation = _receiptAllocationService.FindById(_receiptAllocationId);
+
+            
+            
+            var receiptAllocation = _receiptAllocationService.FindById(receive.ReceiptAllocationID.GetValueOrDefault());
 
             var user = _userProfileService.GetUser(User.Identity.Name);
-
-            if (receiptAllocation == null ||
-                (user.DefaultHub == null || receiptAllocation.HubID != user.DefaultHub.Value)) return View();
 
             var viewModel = _receiveService.ReceiptAllocationToReceive(receiptAllocation);
             viewModel.CurrentHub = user.DefaultHub.Value;
@@ -71,6 +69,113 @@ namespace Cats.Areas.Hub.Controllers
             //var commodities = _commodityService.GetAllCommodityViewModelsByParent(receiptAllocation.CommodityID);
             //ViewData["commodities"] = commodities;
             //ViewData["units"] = _unitService.GetAllUnitViewModels();
+
+
+            viewModel.Grn = receive.GRN;
+            viewModel.ReceiptDate = receive.ReceiptDate;
+                                                      viewModel.SiNumber=receiptAllocation.SINumber;
+                                                           viewModel.ReceiptDate = viewModel.ReceiptDate;
+            viewModel.ReceiptAllocationId = receive.ReceiptAllocationID.GetValueOrDefault();
+            viewModel.ReceiveId = receive.ReceiveID;
+
+            //viewModel.StoreId=receive.
+                //viewModel.StackNumber
+            viewModel.WayBillNo = receive.WayBillNo;
+            viewModel.SiNumber = receiptAllocation.SINumber;
+            viewModel.ProjectCode = receiptAllocation.ProjectNumber;
+            //viewModel.Program = .FindById(receiptAllocation.ProgramID).Name;
+            viewModel.ProgramId = receiptAllocation.ProgramID;
+                //viewModel.CommodityType = _CommodityTypeRepository.FindById(receiptAllocation.Commodity.CommodityTypeID).Name,
+            viewModel.CommodityTypeId = receiptAllocation.Commodity.CommodityTypeID;
+            viewModel.CommoditySourceTypeId = receiptAllocation.CommoditySourceID;
+
+           
+            if (CommoditySource.Constants.LOAN == receiptAllocation.CommoditySourceID
+                || CommoditySource.Constants.SWAP == receiptAllocation.CommoditySourceID
+                || CommoditySource.Constants.TRANSFER == receiptAllocation.CommoditySourceID
+                || CommoditySource.Constants.REPAYMENT == receiptAllocation.CommoditySourceID)
+            {
+                if (receiptAllocation.SourceHubID.HasValue)
+                {
+                    
+                    viewModel.SourceHub = _hub.FindById(receiptAllocation.SourceHubID.GetValueOrDefault(0)).Name; 
+                }
+            }
+
+            if (CommoditySource.Constants.LOCALPURCHASE == receiptAllocation.CommoditySourceID)
+            {
+                viewModel.SupplierName = receiptAllocation.SupplierName;
+                viewModel.PurchaseOrder = receiptAllocation.PurchaseOrder;
+            }
+
+            viewModel.CommoditySource = receiptAllocation.CommoditySource.Name;
+            viewModel.CommoditySourceTypeId = receiptAllocation.CommoditySourceID;
+            viewModel.ReceivedByStoreMan = receive.ReceivedByStoreMan;
+            ReceiveDetail receivedetail = receive.ReceiveDetails.FirstOrDefault();
+            viewModel.ReceiveDetailNewViewModel = new ReceiveDetailNewViewModel
+                                                      {
+                                                          CommodityId = receivedetail.CommodityID,
+                                                          ReceivedQuantityInMt = 
+                                                              receivedetail.QuantityInMT,
+                                                          ReceivedQuantityInUnit =
+                                                              receivedetail.QuantityInUnit,
+                                                              SentQuantityInMt=receivedetail.SentQuantityInMT,
+                                                              SentQuantityInUnit=receivedetail.SentQuantityInUnit,
+                                                              UnitId=receivedetail.UnitID,
+                                                              Description=receivedetail.Description,
+                                                              ReceiveId=receivedetail.ReceiveID,
+            ReceiveDetailId=receivedetail.ReceiveDetailID,
+
+                                                      };
+            
+            viewModel.WeightBridgeTicketNumber = receive.WeightBridgeTicketNumber;
+            viewModel.WeightBeforeUnloading = receive.WeightBeforeUnloading;
+            viewModel.WeightAfterUnloading = receive.WeightAfterUnloading;
+            viewModel.TransporterId = receive.TransporterID;
+            viewModel.DriverName = receive.DriverName;
+            viewModel.PlateNoPrime = receive.PlateNo_Prime;
+            viewModel.PlateNoTrailer = receive.PlateNo_Trailer;
+            viewModel.PortName = receive.PortName;
+            viewModel.Remark = receive.Remark;
+                
+            return viewModel;
+        
+        }
+
+
+        public ActionResult Create(string receiptAllocationId,string grn)
+        {
+            if (grn != null)
+            {
+
+                
+                return View(ModeltoNewView(_receiveService.FindById(Guid.Parse(receiptAllocationId))));
+            }
+            
+            if (String.IsNullOrEmpty(receiptAllocationId)) return View();
+            _receiptAllocationId = Guid.Parse(receiptAllocationId);
+
+            var receiptAllocation = _receiptAllocationService.FindById(_receiptAllocationId);
+
+            var user = _userProfileService.GetUser(User.Identity.Name);
+
+            if (receiptAllocation == null ||
+                (user.DefaultHub == null || receiptAllocation.HubID != user.DefaultHub.Value)) return View();
+
+            
+
+            var viewModel = _receiveService.ReceiptAllocationToReceive(receiptAllocation);
+            viewModel.CurrentHub = user.DefaultHub.Value;
+            viewModel.UserProfileId = user.UserProfileID;
+            var hubOwner = _hub.FindById(user.DefaultHub.Value);
+            viewModel.IsTransporterDetailVisible = !hubOwner.HubOwner.Name.Contains("WFP");
+            viewModel.AllocationStatusViewModel = _receiveService.GetAllocationStatus(_receiptAllocationId);
+            //var commodities = _commodityService.GetAllCommodityViewModelsByParent(receiptAllocation.CommodityID);
+            //ViewData["commodities"] = commodities;
+            //ViewData["units"] = _unitService.GetAllUnitViewModels();
+            
+            
+            
             return View(viewModel);
         }
 
@@ -83,7 +188,19 @@ namespace Cats.Areas.Hub.Controllers
             var user = _userProfileService.GetUser(User.Identity.Name);
             var hubOwner = _hub.FindById(user.DefaultHub.Value);
             //var receiptAllocation = _receiptAllocationService.FindById(viewModel.ReceiptAllocationId);
-            _receiptAllocationId = viewModel.ReceiptAllocationId;
+
+            if (viewModel.ReceiveId != Guid.Empty)
+            {
+                _receiptAllocationId =
+                    _receiveService.FindById(viewModel.ReceiveId).ReceiptAllocationID.GetValueOrDefault();
+                viewModel.ReceiptAllocationId = _receiptAllocationId;
+            }
+            else
+            {
+
+                _receiptAllocationId = viewModel.ReceiptAllocationId;
+            }
+
             #region Fix to ModelState
 
             switch (viewModel.CommoditySourceTypeId)
@@ -121,10 +238,15 @@ namespace Cats.Areas.Hub.Controllers
 
                 if (!_receiveService.IsGrnUnique(viewModel.Grn))
                 {
-                    ModelState.AddModelError("GRN", @"GRN already existed");
-                    viewModel.AllocationStatusViewModel = _receiveService.GetAllocationStatus(_receiptAllocationId);
-                    viewModel.IsTransporterDetailVisible = !hubOwner.HubOwner.Name.Contains("WFP");
-                    return View(viewModel);
+
+                    if (viewModel.ReceiveId == Guid.Empty || _receiveService.FindById(viewModel.ReceiveId).GRN!=viewModel.Grn)
+                 
+                    {
+                        ModelState.AddModelError("GRN", @"GRN already existed");
+                        viewModel.AllocationStatusViewModel = _receiveService.GetAllocationStatus(_receiptAllocationId);
+                        viewModel.IsTransporterDetailVisible = !hubOwner.HubOwner.Name.Contains("WFP");
+                        return View(viewModel);
+                    }
                 }
 
                 #endregion
@@ -155,8 +277,16 @@ namespace Cats.Areas.Hub.Controllers
                 #endregion
 
                 //Save transaction 
-                _transactionService.ReceiptTransaction(viewModel);
+                if (viewModel.ReceiveId != Guid.Empty)
+                {
+                    //reverse the transaction
+                    Receive prevmodel = _receiveService.FindById((viewModel.ReceiveId));
+                    
+                    _transactionService.ReceiptTransaction(ModeltoNewView(prevmodel), true);
 
+                }
+                _transactionService.ReceiptTransaction(viewModel);
+                
                 return RedirectToAction("Index", "Receive");
             }
             else

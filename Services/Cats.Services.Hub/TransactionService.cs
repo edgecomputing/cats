@@ -485,50 +485,62 @@ namespace Cats.Services.Hub
 
         }
 
-        public bool ReceiptTransaction(ReceiveNewViewModel viewModel)
+        public bool ReceiptTransaction(ReceiveNewViewModel viewModel, Boolean reverse=false)
         {
             //Todo: Construct Receive from the viewModel .... refactor 
+            int transactionsign = reverse ? -1 : 1;
 
             #region BindReceiveFromViewModel
 
-            var receive = new Receive
+            Receive receive;
+
+            if (viewModel.ReceiveId == Guid.Empty)
             {
-                
-                ReceiveID = Guid.NewGuid(),
+                receive = new Receive();
+                receive.ReceiveID = Guid.NewGuid();
 
-                GRN = viewModel.Grn,
-                CommodityTypeID = viewModel.CommodityTypeId,
+            }
+            else
+            {
+                receive = _unitOfWork.ReceiveRepository.FindById(viewModel.ReceiveId);
+            }
 
-                SourceDonorID = viewModel.SourceDonorId,
-                ResponsibleDonorID = viewModel.ResponsibleDonorId,
 
-                TransporterID = viewModel.TransporterId > 0 ? viewModel.TransporterId : 1,
-                PlateNo_Prime = viewModel.PlateNoPrime,
-                PlateNo_Trailer = viewModel.PlateNoTrailer,
-                DriverName = viewModel.DriverName,
-                WeightBridgeTicketNumber = viewModel.WeightBridgeTicketNumber,
-                WeightBeforeUnloading = viewModel.WeightBeforeUnloading,
-                WeightAfterUnloading = viewModel.WeightAfterUnloading,
 
-                VesselName = viewModel.VesselName,
-                PortName = viewModel.PortName,
+            receive.GRN = viewModel.Grn;
+            receive.CommodityTypeID = viewModel.CommodityTypeId;
 
-                ReceiptDate = viewModel.ReceiptDate,
-                CreatedDate = DateTime.Now,
-                WayBillNo = viewModel.WayBillNo,
-                CommoditySourceID = viewModel.CommoditySourceTypeId,
-                ReceivedByStoreMan = viewModel.ReceivedByStoreMan,
+                                  receive.SourceDonorID = viewModel.SourceDonorId;
+                                  receive.ResponsibleDonorID = viewModel.ResponsibleDonorId;
 
-                PurchaseOrder = viewModel.PurchaseOrder,
-                SupplierName = viewModel.SupplierName,
+                                  receive.TransporterID = viewModel.TransporterId > 0 ? viewModel.TransporterId : 1;
+                                  receive.PlateNo_Prime = viewModel.PlateNoPrime;
+                                  receive.PlateNo_Trailer = viewModel.PlateNoTrailer;
+                                  receive.DriverName = viewModel.DriverName;
+                                  receive.WeightBridgeTicketNumber = viewModel.WeightBridgeTicketNumber;
+                                  receive.WeightBeforeUnloading = viewModel.WeightBeforeUnloading;
+                                  receive.WeightAfterUnloading = viewModel.WeightAfterUnloading;
 
-                Remark = viewModel.Remark,
+                                  receive.VesselName = viewModel.VesselName;
+                                  receive.PortName = viewModel.PortName;
 
-                ReceiptAllocationID = viewModel.ReceiptAllocationId,
-                HubID = viewModel.CurrentHub,
-                UserProfileID =  viewModel.UserProfileId
+                                  receive.ReceiptDate = viewModel.ReceiptDate;
+                                  receive.CreatedDate = DateTime.Now;
+                                  receive.WayBillNo = viewModel.WayBillNo;
+                                  receive.CommoditySourceID = viewModel.CommoditySourceTypeId;
+                                  receive.ReceivedByStoreMan = viewModel.ReceivedByStoreMan;
 
-            };
+                                  receive.PurchaseOrder = viewModel.PurchaseOrder;
+                                  receive.SupplierName = viewModel.SupplierName;
+
+                                  receive.Remark = viewModel.Remark;
+
+                                  receive.ReceiptAllocationID = viewModel.ReceiptAllocationId;
+                                  receive.HubID = viewModel.CurrentHub;
+            receive.UserProfileID = viewModel.UserProfileId;
+
+                              
+            
 
             #endregion
 
@@ -579,7 +591,7 @@ namespace Cats.Services.Hub
             #endregion
 
             //add to receive 
-
+            receive.ReceiveDetails.Clear();
             receive.ReceiveDetails.Add(receiveDetail);
 
             var parentCommodityId =
@@ -612,8 +624,8 @@ namespace Cats.Services.Hub
                 ProjectCodeID = _projectCodeService.GetProjectCodeIdWIthCreate(viewModel.ProjectCode).ProjectCodeID,
                 HubID = viewModel.CurrentHub,
                 UnitID = viewModel.ReceiveDetailNewViewModel.UnitId,
-                QuantityInMT = viewModel.ReceiveDetailNewViewModel.ReceivedQuantityInMt,
-                QuantityInUnit = viewModel.ReceiveDetailNewViewModel.ReceivedQuantityInUnit,
+                QuantityInMT = transactionsign * viewModel.ReceiveDetailNewViewModel.ReceivedQuantityInMt,
+                QuantityInUnit = transactionsign * viewModel.ReceiveDetailNewViewModel.ReceivedQuantityInUnit,
 
                 //CommodityGradeID = 
                 ProgramID = viewModel.ProgramId,
@@ -647,8 +659,8 @@ namespace Cats.Services.Hub
                 ProjectCodeID = _projectCodeService.GetProjectCodeIdWIthCreate(viewModel.ProjectCode).ProjectCodeID,
                 HubID = viewModel.CurrentHub,
                 UnitID = viewModel.ReceiveDetailNewViewModel.UnitId,
-                QuantityInMT = -viewModel.ReceiveDetailNewViewModel.ReceivedQuantityInMt,
-                QuantityInUnit = -viewModel.ReceiveDetailNewViewModel.ReceivedQuantityInUnit,
+                QuantityInMT = transactionsign *  (- viewModel.ReceiveDetailNewViewModel.ReceivedQuantityInMt),
+                QuantityInUnit = transactionsign * (-viewModel.ReceiveDetailNewViewModel.ReceivedQuantityInUnit),
 
                 //CommodityGradeID = 
                 ProgramID = viewModel.ProgramId,
@@ -708,8 +720,8 @@ namespace Cats.Services.Hub
                 ProjectCodeID = _projectCodeService.GetProjectCodeIdWIthCreate(viewModel.ProjectCode).ProjectCodeID,
                 HubID = viewModel.CurrentHub,
                 UnitID = viewModel.ReceiveDetailNewViewModel.UnitId,
-                QuantityInMT = viewModel.ReceiveDetailNewViewModel.ReceivedQuantityInMt,
-                QuantityInUnit = viewModel.ReceiveDetailNewViewModel.ReceivedQuantityInUnit,
+                QuantityInMT = transactionsign * viewModel.ReceiveDetailNewViewModel.ReceivedQuantityInMt,
+                QuantityInUnit = transactionsign * viewModel.ReceiveDetailNewViewModel.ReceivedQuantityInUnit,
 
                 //CommodityGradeID = 
                 ProgramID = viewModel.ProgramId,
@@ -739,8 +751,8 @@ namespace Cats.Services.Hub
                 ProjectCodeID = _projectCodeService.GetProjectCodeIdWIthCreate(viewModel.ProjectCode).ProjectCodeID,
                 HubID = viewModel.CurrentHub,
                 UnitID = viewModel.ReceiveDetailNewViewModel.UnitId,
-                QuantityInMT = -viewModel.ReceiveDetailNewViewModel.ReceivedQuantityInMt,
-                QuantityInUnit = -viewModel.ReceiveDetailNewViewModel.ReceivedQuantityInUnit,
+                QuantityInMT = transactionsign * (- viewModel.ReceiveDetailNewViewModel.ReceivedQuantityInMt),
+                QuantityInUnit = transactionsign * (-viewModel.ReceiveDetailNewViewModel.ReceivedQuantityInUnit),
 
                 //CommodityGradeID = 
                 ProgramID = viewModel.ProgramId,
@@ -780,7 +792,20 @@ namespace Cats.Services.Hub
 
             try
             {
-                _unitOfWork.ReceiveRepository.Add(receive);
+                if (!reverse)
+                {
+                    if (viewModel.ReceiveId == null)
+                    {
+                        _unitOfWork.ReceiveRepository.Add(receive);
+                    }
+                    else
+                    {
+                        _unitOfWork.ReceiveRepository.Edit(receive);
+                    }
+
+                }
+
+
                 _unitOfWork.Save();
                 return true;
             }

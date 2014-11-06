@@ -53,7 +53,7 @@ namespace Cats.Services.Hub
         /// <param name="user">The user.</param>
         Boolean SaveReceiptTransaction(ReceiveViewModel receiveModels, UserProfile user, Boolean reverse=false);
 
-       bool ReceiptTransaction(ReceiveNewViewModel viewModel);
+       bool ReceiptTransaction(ReceiveNewViewModel viewModel,Boolean reverse=false);
 
 
 

@@ -55,7 +55,7 @@
         .Columns(columns =>
         {
             columns.Bound(d => d.ReceiptDate).Format("{0:d-MMM-yyyy}");
-            columns.Bound(d => d.GRN).ClientTemplate("<a href='" + @Url.Action("Create", "Receive", new { @ReceiveID = "\\#=ReceiveID\\#" }) + "'>\\#:GRN\\#</a> &nbsp; ");
+            columns.Bound(d => d.GRN).ClientTemplate("<a href='" + @Url.Action("Create", "ReceiveNew", new { @receiptAllocationId = "\\#=ReceiveID\\#", @GRN = "\\#=GRN\\#" }) + "'>\\#:GRN\\#</a> &nbsp; ");
             columns.Bound(b => b.ReceivedByStoreMan);
         })
         .DataSource(dataSource => dataSource
