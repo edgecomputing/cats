@@ -72,58 +72,65 @@
             </div>
 
             <div class="span10" style="width:1060px;float:right">
+                @*  @if (@ViewData.ModelState.IsValid == false)
+                {
+                    *@
+                <div style="clear: both;" class="message-window">
+                        <div class="cats_error">@Html.ValidationSummary(true)</div>
+                    </div>
+                @*}*@
                 @(Html.Kendo().Grid<DispatchViewModelForReconcile>()
-                              .Name("grid")
-                              .Columns(columns =>
-                                           {
-                                               columns.Bound(c => c.DispatchID).Visible(false);
-                                               columns.Bound(c => c.RequisitionNo).Width(16);
-                                               columns.Bound(c => c.GIN).Width(8);
-                                               columns.Bound(c => c.DispatchDatePref).Width(17);
-                                               columns.Bound(c => c.Commodity).Width(13);
-                                               columns.Bound(c => c.Round).Width(10);
-                                               columns.Bound(c => c.MonthYear).Width(12);
-                                               columns.Bound(c => c.Quantity).Width(22).Title("Dispatched Qty. (Qtl)").HtmlAttributes(new { style = "text-align:right" });
-                                               columns.Bound(c => c.GRN).Width(8);
-                                               columns.Bound(c => c.ReceivedDate).Width(16).Format("{0:dd-MMM-yyyy}");
-                                               columns.Bound(c => c.ReceivedAmount).Width(20).Title("Received Qty. (Qtl)").HtmlAttributes(new { style = "text-align:right" });
-                                               columns.Bound(c => c.LossAmount).Width(16).Title("Loss Qty. (Qtl)").HtmlAttributes(new { style = "text-align:right" }); ;
-                                               columns.Bound(c => c.LossReason).Width(15);
-                                               //columns.Command(command => command.Custom("Add Contact").Click("Add contact")).Width(100);
+                      .Name("grid")
+                      .Columns(columns =>
+                                   {
+                                       columns.Bound(c => c.DispatchID).Visible(false);
+                                       columns.Bound(c => c.RequisitionNo).Width(16);
+                                       columns.Bound(c => c.GIN).Width(8);
+                                       columns.Bound(c => c.DispatchDatePref).Width(17);
+                                       columns.Bound(c => c.Commodity).Width(13);
+                                       columns.Bound(c => c.Round).Width(10);
+                                       columns.Bound(c => c.MonthYear).Width(12);
+                                       columns.Bound(c => c.Quantity).Width(22).Title("Dispatched Qty. (Qtl)").HtmlAttributes(new { style = "text-align:right" });
+                                       columns.Bound(c => c.GRN).Width(8);
+                                       columns.Bound(c => c.ReceivedDate).Width(16).Format("{0:dd-MMM-yyyy}");
+                                       columns.Bound(c => c.ReceivedAmount).Width(20).Title("Received Qty. (Qtl)").HtmlAttributes(new { style = "text-align:right" });
+                                       columns.Bound(c => c.LossAmount).Width(16).Title("Loss Qty. (Qtl)").HtmlAttributes(new { style = "text-align:right" }); ;
+                                       columns.Bound(c => c.LossReason).Width(15);
+                                       //columns.Command(command => command.Custom("Add Contact").Click("Add contact")).Width(100);
 
-                                           })
-                              .ToolBar(toolbar => toolbar.Save())
-                              .Editable(edit => edit.Mode(GridEditMode.InCell))
-                              .Scrollable(t => t.Height(400))
-                              //.Selectable(t => t.Mode(GridSelectionMode.Single))
-                              .Navigatable()
-                              //.AutoBind(false)
+                                   })
+                      .ToolBar(toolbar => toolbar.Save())
+                      .Editable(edit => edit.Mode(GridEditMode.InCell))
+                      .Scrollable(t => t.Height(400))
+                      //.Selectable(t => t.Mode(GridSelectionMode.Single))
+                      .Navigatable()
+                      //.AutoBind(false)
                               
-                              .DataSource(datasource =>
-                                          datasource
-                                              .Ajax()
-                                              .PageSize(10)
-                                              .Model(m =>
-                                                {
-                                                    m.Id(p => p.DeliveryReconcileID);
-                                                    m.Field(p => p.RequisitionNo).Editable(false);
-                                                    m.Field(p => p.GIN).Editable(false);
-                                                    m.Field(p => p.DispatchDatePref).Editable(false);
-                                                    m.Field(p => p.Commodity).Editable(false);
-                                                    m.Field(p => p.Round).Editable(false);
-                                                    m.Field(p => p.MonthYear).Editable(false);
-                                                    m.Field(p => p.Quantity).Editable(false);
-                                                    m.Field(p => p.Round).Editable(false);
-                                                    m.Field(p => p.MonthYear).Editable(false);
-                                                }) 
-                                              //.Model(m => m.Id(t => t.DeliveryReconcileID))
-                                              .Read(read => read.Action("ReadDispatchesNotReconciled", "DeliveryReconcile").Data("selectedFDPID"))
-                                              .Create(create => create.Action("DeliveryReconcileUpdate", "DeliveryReconcile"))
-                                              .Update(update => update.Action("ReconciledDeliveryUpdate", "DeliveryReconcile"))
-                                              //.Update("ReconciledDeliveryUpdate", "DeliveryReconcile")
-                              //.Destroy("FDP_Destroy","FDP")
-                              )
-                              )
+                      .DataSource(datasource =>
+                                  datasource
+                                      .Ajax()
+                                      .PageSize(10)
+                                      .Model(m =>
+                                                 {
+                                                     m.Id(p => p.DeliveryReconcileID);
+                                                     m.Field(p => p.RequisitionNo).Editable(false);
+                                                     m.Field(p => p.GIN).Editable(false);
+                                                     m.Field(p => p.DispatchDatePref).Editable(false);
+                                                     m.Field(p => p.Commodity).Editable(false);
+                                                     m.Field(p => p.Round).Editable(false);
+                                                     m.Field(p => p.MonthYear).Editable(false);
+                                                     m.Field(p => p.Quantity).Editable(false);
+                                                     m.Field(p => p.Round).Editable(false);
+                                                     m.Field(p => p.MonthYear).Editable(false);
+                                                 }) 
+                                      //.Model(m => m.Id(t => t.DeliveryReconcileID))
+                                      .Read(read => read.Action("ReadDispatchesNotReconciled", "DeliveryReconcile").Data("selectedFDPID"))
+                                      .Create(create => create.Action("DeliveryReconcileUpdate", "DeliveryReconcile"))
+                                      .Update(update => update.Action("DeliveryReconcileUpdate", "DeliveryReconcile"))
+                      //.Update("ReconciledDeliveryUpdate", "DeliveryReconcile")
+                      //.Destroy("FDP_Destroy","FDP")
+                      )
+                      )
 
             </div>
         </div>
