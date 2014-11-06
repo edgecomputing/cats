@@ -578,15 +578,20 @@ namespace Cats.Areas.Hub.Controllers
 
                 if (grnExists != null)
                 {
+                    
                     receiveModels.ReceiveDetails = prevCommodities;
                     receiveModels.InitializeEditLists(commodities, commodityGrades, transporters, commodityTypes,
                         commoditySources, programs, donors, hubs, user, units);
-                    if (receiveModels.ReceiveID != null)
+                    if (receiveModels.ReceiveID == null)
                     {
                         receiveModels.IsEditMode = true;
+                        //TODO: check if grn being edited is trying to use already existing another grn number
+                        ModelState.AddModelError("GRN", @"GRN Already Existed");
+                        return View(receiveModels);
                     }
-                    ModelState.AddModelError("GRN", @"GRN Already Existed");
-                    return View(receiveModels);
+                    
+                    
+                    
                 }
 
                 #endregion
@@ -701,6 +706,56 @@ namespace Cats.Areas.Hub.Controllers
                 {
                     //List<ReceiveDetailViewModel>
                     //insertCommodities = GetSelectedCommodities(receiveModels.JSONInsertedCommodities);
+
+                    Receive preRecieve = _receiveService.FindById(receiveModels.ReceiveID.GetValueOrDefault());
+                    var rViewModel = ReceiveViewModel.GenerateReceiveModel(preRecieve, commodities, commodityGrades, transporters,
+                                                            commodityTypes, commoditySources, programs, donors, hubs, user, units);
+                    //rViewModel.ProgramID = receiveModels.ProgramID;
+                    
+
+
+                    if(rViewModel!=null)
+                    {
+                        
+                        
+                        
+                        
+                        /*
+                        ReceiveViewModel recModelTransaction = new ReceiveViewModel();
+                        
+                         recModelTransaction.CommodityTypeID = preRecieve.CommodityTypeID;
+                        
+                        //recModelTransaction.SINumber = preRecieve.VesselName;
+                        
+                        foreach(ReceiveDetail c in preRecieve.ReceiveDetails)
+                        {
+                            ReceiveDetailViewModel recdet = new ReceiveDetailViewModel
+                                                             {
+                                                                 CommodityGradeID=c.CommodityGradeID,
+                            
+                                                                 CommodityID = c.CommodityID,
+                                                                 Description = c.Description,
+                                                                 SentQuantityInMT = c.SentQuantityInMT,
+                                                                 SentQuantityInUnit = c.SentQuantityInUnit,
+                                                                 re
+                                                                 UnitID = c.UnitID,
+                                                                 ReceiveID = receive.ReceiveID,
+                                                                 ReceiveDetailID = c.ReceiveDetailID
+
+                                                             };
+
+                            recModelTransaction.ReceiveDetails.Add(recdet);
+                        
+                        }
+                        */
+                        _transactionService.SaveReceiptTransaction(rViewModel
+                            , user,true);
+                        receiveModels.ProgramID = rViewModel.ProgramID;
+                        _transactionService.SaveReceiptTransaction(receiveModels
+                            , user);
+
+                    }
+                    /*
                     List<ReceiveDetailViewModel> deletedCommodities =
                         GetSelectedCommodities(receiveModels.JSONDeletedCommodities);
                     // List<ReceiveDetailViewModel> updateCommodities = GetSelectedCommodities(receiveModels.JSONUpdatedCommodities);
@@ -709,7 +764,7 @@ namespace Cats.Areas.Hub.Controllers
                     receive.Update(GenerateReceiveDetail(insertCommodities),
                                    GenerateReceiveDetail(updateCommodities),
                                    GenerateReceiveDetail(deletedCommodities));
-
+                    */
                 }
                 return RedirectToAction(receiveModels.ContinueAdding ? "Create" : "Index");
             }

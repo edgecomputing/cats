@@ -835,7 +835,7 @@ namespace Cats.Areas.Procurement.Controllers
         public ActionResult reverseTOFromClosedtoDraft(int id)
         {
             var dispatch = _transportOrderService.ReverseDispatchAllocation(id);
-            if (dispatch!=null)
+            if (dispatch.Count > 0)
                return PartialView(dispatch);
             return RedirectToAction("Index");
 
