@@ -23,7 +23,6 @@
    // @Html.HiddenFor(model=>model.UnitID)
    @Html.HiddenFor(model=>model.DispatchID) 
    @Html.HiddenFor(model=>model.UserProfileID)
-    @Html.HiddenFor(model=>model.CommodityID)
     @Html.HiddenFor(model => model.SINumber)
      @Html.HiddenFor(model => model.Region)
     @Html.HiddenFor(model => model.Woreda)
@@ -137,15 +136,50 @@
                     @Html.LabelFor(model => model.Commodity)
                 </div>
                 <div class="controls">
+                    
+                    
                     @Html.TextBoxFor(model => model.Commodity, new { Disabled = true })
                 </div>
             </div>
+        
+
+        <div class="control-group ">
+            <div class="control-label">
+                @Html.LabelFor(model => model.CommodityID)
+            </div>
+            <div class="controls">
+                         @(Html.Kendo().ComboBoxFor(m => m.CommodityID)
+                              .Placeholder("Select Commodity")
+                              .DataTextField("CommodityName")
+                              .DataValueField("CommodityId")
+                              .Filter(FilterType.Contains)
+                              .DataSource(source => source.Read(read => read.Action("GetCommodities", "Dispatch", new { @dispatchAllocationId = Model.DispatchAllocationID }))))
+                
+                
+                @Html.ValidationMessageFor(model => model.CommodityID)
+                    
+            </div>
+        </div>       
+            
+
             <div class="control-group ">
                 <div class="control-label">
                     @Html.LabelFor(model => model.UnitID)
                 </div>
                 <div class="controls">
-                    @Html.DropDownList("UnitID", String.Empty)
+                    
+                    @(Html.Kendo().ComboBoxFor(m => m.UnitID)
+                              .Placeholder("Select Unit")
+                              .DataTextField("Name")
+                              .DataValueField("UnitId")
+                              .Filter(FilterType.Contains)
+                              .DataSource(source => source.Read(read => read.Action("GetUnities", "Dispatch")))
+                        )
+                        @Html.ValidationMessageFor(model => model.UnitID)
+                    
+                    
+
+                    
                 </div>
             </div>
             <div class="control-group ">
@@ -311,6 +345,25 @@
         
     });
     
+    function OnComOpen(e) {
+        var combo = $('#CommodityID').data('tComboBox');
+        var comboType = $('#CommodityTypeID').data('tComboBox').value();
+        if (combo) {
+            var siText = $('#SINumber');
+            if (siText) { // && $(siText).val() != '') {
+
+                var params = {};
+                params["SINumber"] = $(siText).val();
+                params["commodityTypeId"] = comboType;
+                params["dispatchAllocationID"] = $('#dispatchAllocationID').val();
+                params["CommoditySourceID"] = $('#CommoditySourceID').val();
+                $.getJSON('@Url.Action("AvailbaleCommodities", "Dispatch")', params, function (comodities) {
+                    combo.dataBind(comodities);
+                });
+            }
+        }
+    }
+
 </script>
 @*<script type="text/javascript">
    

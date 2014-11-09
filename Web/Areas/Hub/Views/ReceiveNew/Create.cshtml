@@ -28,7 +28,8 @@
     @Html.HiddenFor(model => model.ProgramId)
     @Html.HiddenFor(model => model.CommodityTypeId)
     @Html.HiddenFor(model => model.UserProfileId)
-
+    @Html.HiddenFor(model => model.ReceiveDetailNewViewModel.ReceiveId)
+    
     <div class="form-horizontal row-fluid">
         <div class="row">
             <div class="span4" style="vertical-align: top">
@@ -264,12 +265,16 @@
                         @Html.LabelFor(model => model.ReceiveDetailNewViewModel.CommodityId)
                     </div>
                     <div class="controls">
+                        
                         @(Html.Kendo().ComboBoxFor(m => m.ReceiveDetailNewViewModel.CommodityId)
                               .Placeholder("Select Commodity")
                               .DataTextField("CommodityName")
                               .DataValueField("CommodityId")
                               .Filter(FilterType.Contains)
+                              
                               .DataSource(source => source.Read(read => read.Action("GetCommodities", "ReceiveNew", new { @receiptAllocationId = Model.ReceiptAllocationId }))))
+                        
+                        
                         @Html.ValidationMessageFor(model => model.ReceiveDetailNewViewModel.CommodityId)
                     </div>
                 </div>
@@ -278,13 +283,16 @@
                         @Html.LabelFor(model => model.ReceiveDetailNewViewModel.UnitId)
                     </div>
                     <div class="controls">
-                        @(Html.Kendo().ComboBoxFor(m => m.ReceiveDetailNewViewModel.UnitId)
-                              .Placeholder("Select Unit")
+                        
+
+                        @(Html.Kendo().DropDownListFor(m => m.ReceiveDetailNewViewModel.UnitId)
+                              
                               .DataTextField("Name")
                               .DataValueField("UnitId")
-                              .Filter(FilterType.Contains)
+                              
+                              
                               .DataSource(source => source.Read(read => read.Action("GetUnities", "ReceiveNew")))
-                        )
+                              )
                         @Html.ValidationMessageFor(model => model.ReceiveDetailNewViewModel.UnitId)
                     </div>
                 </div>
