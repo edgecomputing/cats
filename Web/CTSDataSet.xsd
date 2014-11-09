@@ -198,6 +198,101 @@ GROUP BY TransporterName, CommodityName, Source</CommandText>
             </Mappings>
             <Sources />
           </TableAdapter>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="TransporterPayReqTableAdapter" GeneratorDataComponentClassName="TransporterPayReqTableAdapter" Name="TransporterPayReq" UserDataComponentName="TransporterPayReqTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="elmah-sql (Web.config)" DbObjectType="Unknown" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="false" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>SELECT         Request.TransporterID, Request.StateNo, Request.RequisitionNo, Request.GIN, Request.GRN, Request.CommodityName, Hub.Name AS Source, Request.FDPID AS Destination, Request.ReceivedQuantity * 10 AS ReceivedQuantity, 
+                         (Request.SentQty - Request.ReceivedQuantity) * 10 AS ShortageQty, Request.ShortageBirr, Request.SentQty, Request.BusinessProcessID, Request.DeliveryID, Request.ReferenceNo, Request.TransporterName, 
+                         Request.TransportOrderID, Request.TransporterPaymentRequestID, Request.ReceivedQuantity * 10 * ISNULL(MAX(Procurement.TransportOrderDetail.TariffPerQtl), 0.0) - ISNULL(Request.ShortageBirr, 0.0) 
+                         - ISNULL(Request.RejectedAmount, 0.0) + ISNULL(Request.LabourCost, 0.0) AS FreightCharge, ISNULL(MAX(Procurement.TransportOrderDetail.TariffPerQtl), 0.0) AS Tariff
+FROM            (SELECT        Procurement.Transporter.TransporterID, StateTemplate.StateNo, Delivery.InvoiceNo AS GIN, Delivery.ReceivingNumber AS GRN, Commodity.Name AS CommodityName, DeliveryDetail.ReceivedQuantity, 
+                                                    DeliveryDetail.SentQuantity - DeliveryDetail.ReceivedQuantity AS ShortageQty, TransporterPaymentRequest.ShortageBirr, DeliveryDetail.SentQuantity AS SentQty, 
+                                                    TransporterPaymentRequest.BusinessProcessID, TransporterPaymentRequest.DeliveryID, TransporterPaymentRequest.ReferenceNo, TransporterPaymentRequest.TransportOrderID, 
+                                                    TransporterPaymentRequest.TransporterPaymentRequestID, TransporterPaymentRequest.LabourCost, TransporterPaymentRequest.LabourCostRate, TransporterPaymentRequest.RejectedAmount, 
+                                                    TransporterPaymentRequest.RejectionReason, TransporterPaymentRequest.RequestedDate, Dispatch.HubID, Dispatch.DispatchID, Dispatch.FDPID, Dispatch.RequisitionNo, 
+                                                    Procurement.Transporter.Name AS TransporterName
+                          FROM            Procurement.Transporter RIGHT OUTER JOIN
+                                                    Dispatch ON Procurement.Transporter.TransporterID = Dispatch.TransporterID RIGHT OUTER JOIN
+                                                    Delivery ON Dispatch.DispatchID = Delivery.DispatchID LEFT OUTER JOIN
+                                                    Commodity RIGHT OUTER JOIN
+                                                    DeliveryDetail ON Commodity.CommodityID = DeliveryDetail.CommodityID ON Delivery.DeliveryID = DeliveryDetail.DeliveryID RIGHT OUTER JOIN
+                                                    StateTemplate RIGHT OUTER JOIN
+                                                    BusinessProcessState RIGHT OUTER JOIN
+                                                    BusinessProcess ON BusinessProcessState.BusinessProcessStateID = BusinessProcess.CurrentStateID ON StateTemplate.StateTemplateID = BusinessProcessState.StateID RIGHT OUTER JOIN
+                                                    TransporterPaymentRequest ON BusinessProcess.BusinessProcessID = TransporterPaymentRequest.BusinessProcessID ON Delivery.DeliveryID = TransporterPaymentRequest.DeliveryID
+                          WHERE        (StateTemplate.StateNo &gt;= 2)) AS Request LEFT OUTER JOIN
+                         Hub ON Request.HubID = Hub.HubID LEFT OUTER JOIN
+                         Procurement.TransportOrderDetail ON Request.TransportOrderID = Procurement.TransportOrderDetail.TransportOrderID AND Request.HubID = Procurement.TransportOrderDetail.SourceWarehouseID AND 
+                         Request.FDPID = Procurement.TransportOrderDetail.FdpID
+GROUP BY Request.StateNo, Request.RequisitionNo, Request.GIN, Request.GRN, Request.CommodityName, Request.ReceivedQuantity, Request.ShortageQty, Request.ShortageBirr, Request.SentQty, 
+                         Request.BusinessProcessID, Request.DeliveryID, Request.ReferenceNo, Request.TransportOrderID, Request.TransporterPaymentRequestID, Request.LabourCost, Request.LabourCostRate, 
+                         Request.RejectedAmount, Request.RequestedDate, Request.HubID, Request.DispatchID, Request.FDPID, Request.TransporterName, Hub.Name, Request.TransporterID
+ Having TransporterID = @tn</CommandText>
+                    <Parameters>
+                      <Parameter AllowDbNull="false" AutogeneratedName="tn" ColumnName="TransporterID" DataSourceName="SELECT Procurement.Transporter.TransporterID, StateTemplate.StateNo, Delivery.InvoiceNo AS GIN, Delivery.ReceivingNumber AS GRN, Commodity.Name AS CommodityName, DeliveryDetail.ReceivedQuantity, DeliveryDetail.SentQuantity - DeliveryDetail.ReceivedQuantity AS ShortageQty, TransporterPaymentRequest.ShortageBirr, DeliveryDetail.SentQuantity AS SentQty, TransporterPaymentRequest.BusinessProcessID, TransporterPaymentRequest.DeliveryID, TransporterPaymentRequest.ReferenceNo, TransporterPaymentRequest.TransportOrderID, TransporterPaymentRequest.TransporterPaymentRequestID, TransporterPaymentRequest.LabourCost, TransporterPaymentRequest.LabourCostRate, TransporterPaymentRequest.RejectedAmount, TransporterPaymentRequest.RejectionReason, TransporterPaymentRequest.RequestedDate, Dispatch.HubID, Dispatch.DispatchID, Dispatch.FDPID, Dispatch.RequisitionNo, Procurement.Transporter.Name AS TransporterName FROM Procurement.Transporter RIGHT OUTER JOIN Dispatch ON Procurement.Transporter.TransporterID = Dispatch.TransporterID RIGHT OUTER JOIN Delivery ON Dispatch.DispatchID = Delivery.DispatchID LEFT OUTER JOIN Commodity RIGHT OUTER JOIN DeliveryDetail ON Commodity.CommodityID = DeliveryDetail.CommodityID ON Delivery.DeliveryID = DeliveryDetail.DeliveryID RIGHT OUTER JOIN StateTemplate RIGHT OUTER JOIN BusinessProcessState RIGHT OUTER JOIN BusinessProcess ON BusinessProcessState.BusinessProcessStateID = BusinessProcess.CurrentStateID ON StateTemplate.StateTemplateID = BusinessProcessState.StateID RIGHT OUTER JOIN TransporterPaymentRequest ON BusinessProcess.BusinessProcessID = TransporterPaymentRequest.BusinessProcessID ON Delivery.DeliveryID = TransporterPaymentRequest.DeliveryID WHERE (StateTemplate.StateNo &gt;= 2)" DataTypeServer="int" DbType="Int32" Direction="Input" ParameterName="@tn" Precision="0" Scale="0" Size="4" SourceColumn="TransporterID" SourceColumnNullMapping="false" SourceVersion="Current" />
+                    </Parameters>
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="TransporterID" DataSetColumn="TransporterID" />
+              <Mapping SourceColumn="StateNo" DataSetColumn="StateNo" />
+              <Mapping SourceColumn="RequisitionNo" DataSetColumn="RequisitionNo" />
+              <Mapping SourceColumn="GIN" DataSetColumn="GIN" />
+              <Mapping SourceColumn="GRN" DataSetColumn="GRN" />
+              <Mapping SourceColumn="CommodityName" DataSetColumn="CommodityName" />
+              <Mapping SourceColumn="Source" DataSetColumn="Source" />
+              <Mapping SourceColumn="Destination" DataSetColumn="Destination" />
+              <Mapping SourceColumn="ReceivedQuantity" DataSetColumn="ReceivedQuantity" />
+              <Mapping SourceColumn="ShortageQty" DataSetColumn="ShortageQty" />
+              <Mapping SourceColumn="ShortageBirr" DataSetColumn="ShortageBirr" />
+              <Mapping SourceColumn="SentQty" DataSetColumn="SentQty" />
+              <Mapping SourceColumn="BusinessProcessID" DataSetColumn="BusinessProcessID" />
+              <Mapping SourceColumn="DeliveryID" DataSetColumn="DeliveryID" />
+              <Mapping SourceColumn="ReferenceNo" DataSetColumn="ReferenceNo" />
+              <Mapping SourceColumn="TransporterName" DataSetColumn="TransporterName" />
+              <Mapping SourceColumn="TransportOrderID" DataSetColumn="TransportOrderID" />
+              <Mapping SourceColumn="TransporterPaymentRequestID" DataSetColumn="TransporterPaymentRequestID" />
+              <Mapping SourceColumn="FreightCharge" DataSetColumn="FreightCharge" />
+              <Mapping SourceColumn="Tariff" DataSetColumn="Tariff" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="TOVMTableAdapter" GeneratorDataComponentClassName="TOVMTableAdapter" Name="TOVM" UserDataComponentName="TOVMTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="elmah-sql (Web.config)" DbObjectType="Unknown" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="false" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>SELECT DISTINCT 
+                         Procurement.TransportOrder.TransportOrderID, Procurement.TransportOrder.TransportOrderNo, Procurement.Transporter.Name AS Transporter, Procurement.TransportOrder.ContractNumber, 
+                         Procurement.TransportOrder.OrderDate, Procurement.TransportOrder.RequestedDispatchDate, Procurement.TransportOrder.OrderExpiryDate, Procurement.TransportOrder.StartDate, 
+                         Procurement.TransportOrder.EndDate
+FROM            Procurement.TransportOrder LEFT OUTER JOIN
+                         Procurement.Transporter ON Procurement.TransportOrder.TransporterID = Procurement.Transporter.TransporterID
+WHERE        (Procurement.TransportOrder.StatusID &gt;= 3) AND (Procurement.TransportOrder.TransporterID = @tn)</CommandText>
+                    <Parameters>
+                      <Parameter AllowDbNull="false" AutogeneratedName="tn" ColumnName="TransporterID" DataSourceName="CatsMaster.Procurement.TransportOrder" DataTypeServer="int" DbType="Int32" Direction="Input" ParameterName="@tn" Precision="0" ProviderType="Int" Scale="0" Size="4" SourceColumn="TransporterID" SourceColumnNullMapping="false" SourceVersion="Current" />
+                    </Parameters>
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="TransportOrderID" DataSetColumn="TransportOrderID" />
+              <Mapping SourceColumn="TransportOrderNo" DataSetColumn="TransportOrderNo" />
+              <Mapping SourceColumn="ContractNumber" DataSetColumn="ContractNumber" />
+              <Mapping SourceColumn="OrderDate" DataSetColumn="OrderDate" />
+              <Mapping SourceColumn="RequestedDispatchDate" DataSetColumn="RequestedDispatchDate" />
+              <Mapping SourceColumn="OrderExpiryDate" DataSetColumn="OrderExpiryDate" />
+              <Mapping SourceColumn="StartDate" DataSetColumn="StartDate" />
+              <Mapping SourceColumn="EndDate" DataSetColumn="EndDate" />
+              <Mapping SourceColumn="Transporter" DataSetColumn="Transporter" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
         </Tables>
         <Sources />
       </DataSource>
@@ -206,7 +301,7 @@ GROUP BY TransporterName, CommodityName, Source</CommandText>
   <xs:element name="CTSDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="True" msprop:Generator_DataSetName="CTSDataSet" msprop:Generator_UserDSName="CTSDataSet">
     <xs:complexType>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
-        <xs:element name="vwPSNPAnnualPlan" msprop:Generator_TableClassName="vwPSNPAnnualPlanDataTable" msprop:Generator_TableVarName="tablevwPSNPAnnualPlan" msprop:Generator_TablePropName="vwPSNPAnnualPlan" msprop:Generator_RowDeletingName="vwPSNPAnnualPlanRowDeleting" msprop:Generator_RowChangingName="vwPSNPAnnualPlanRowChanging" msprop:Generator_RowEvHandlerName="vwPSNPAnnualPlanRowChangeEventHandler" msprop:Generator_RowDeletedName="vwPSNPAnnualPlanRowDeleted" msprop:Generator_UserTableName="vwPSNPAnnualPlan" msprop:Generator_RowChangedName="vwPSNPAnnualPlanRowChanged" msprop:Generator_RowEvArgName="vwPSNPAnnualPlanRowChangeEvent" msprop:Generator_RowClassName="vwPSNPAnnualPlanRow">
+        <xs:element name="vwPSNPAnnualPlan" msprop:Generator_TableClassName="vwPSNPAnnualPlanDataTable" msprop:Generator_TableVarName="tablevwPSNPAnnualPlan" msprop:Generator_RowChangedName="vwPSNPAnnualPlanRowChanged" msprop:Generator_TablePropName="vwPSNPAnnualPlan" msprop:Generator_RowDeletingName="vwPSNPAnnualPlanRowDeleting" msprop:Generator_RowChangingName="vwPSNPAnnualPlanRowChanging" msprop:Generator_RowEvHandlerName="vwPSNPAnnualPlanRowChangeEventHandler" msprop:Generator_RowDeletedName="vwPSNPAnnualPlanRowDeleted" msprop:Generator_RowClassName="vwPSNPAnnualPlanRow" msprop:Generator_UserTableName="vwPSNPAnnualPlan" msprop:Generator_RowEvArgName="vwPSNPAnnualPlanRowChangeEvent">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="FoodRatio" msprop:Generator_ColumnVarNameInTable="columnFoodRatio" msprop:Generator_ColumnPropNameInRow="FoodRatio" msprop:Generator_ColumnPropNameInTable="FoodRatioColumn" msprop:Generator_UserColumnName="FoodRatio" type="xs:int" minOccurs="0" />
@@ -249,7 +344,7 @@ GROUP BY TransporterName, CommodityName, Source</CommandText>
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="TransportOrder" msprop:Generator_TableClassName="TransportOrderDataTable" msprop:Generator_TableVarName="tableTransportOrder" msprop:Generator_TablePropName="TransportOrder" msprop:Generator_RowDeletingName="TransportOrderRowDeleting" msprop:Generator_RowChangingName="TransportOrderRowChanging" msprop:Generator_RowEvHandlerName="TransportOrderRowChangeEventHandler" msprop:Generator_RowDeletedName="TransportOrderRowDeleted" msprop:Generator_UserTableName="TransportOrder" msprop:Generator_RowChangedName="TransportOrderRowChanged" msprop:Generator_RowEvArgName="TransportOrderRowChangeEvent" msprop:Generator_RowClassName="TransportOrderRow">
+        <xs:element name="TransportOrder" msprop:Generator_TableClassName="TransportOrderDataTable" msprop:Generator_TableVarName="tableTransportOrder" msprop:Generator_RowChangedName="TransportOrderRowChanged" msprop:Generator_TablePropName="TransportOrder" msprop:Generator_RowDeletingName="TransportOrderRowDeleting" msprop:Generator_RowChangingName="TransportOrderRowChanging" msprop:Generator_RowEvHandlerName="TransportOrderRowChangeEventHandler" msprop:Generator_RowDeletedName="TransportOrderRowDeleted" msprop:Generator_RowClassName="TransportOrderRow" msprop:Generator_UserTableName="TransportOrder" msprop:Generator_RowEvArgName="TransportOrderRowChangeEvent">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="TransportOrderID" msprop:Generator_ColumnVarNameInTable="columnTransportOrderID" msprop:Generator_ColumnPropNameInRow="TransportOrderID" msprop:Generator_ColumnPropNameInTable="TransportOrderIDColumn" msprop:Generator_UserColumnName="TransportOrderID" type="xs:string" minOccurs="0" />
@@ -329,7 +424,7 @@ GROUP BY TransporterName, CommodityName, Source</CommandText>
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="TransportOrderDetail" msprop:Generator_TableClassName="TransportOrderDetailDataTable" msprop:Generator_TableVarName="tableTransportOrderDetail" msprop:Generator_TablePropName="TransportOrderDetail" msprop:Generator_RowDeletingName="TransportOrderDetailRowDeleting" msprop:Generator_RowChangingName="TransportOrderDetailRowChanging" msprop:Generator_RowEvHandlerName="TransportOrderDetailRowChangeEventHandler" msprop:Generator_RowDeletedName="TransportOrderDetailRowDeleted" msprop:Generator_UserTableName="TransportOrderDetail" msprop:Generator_RowChangedName="TransportOrderDetailRowChanged" msprop:Generator_RowEvArgName="TransportOrderDetailRowChangeEvent" msprop:Generator_RowClassName="TransportOrderDetailRow">
+        <xs:element name="TransportOrderDetail" msprop:Generator_TableClassName="TransportOrderDetailDataTable" msprop:Generator_TableVarName="tableTransportOrderDetail" msprop:Generator_RowChangedName="TransportOrderDetailRowChanged" msprop:Generator_TablePropName="TransportOrderDetail" msprop:Generator_RowDeletingName="TransportOrderDetailRowDeleting" msprop:Generator_RowChangingName="TransportOrderDetailRowChanging" msprop:Generator_RowEvHandlerName="TransportOrderDetailRowChangeEventHandler" msprop:Generator_RowDeletedName="TransportOrderDetailRowDeleted" msprop:Generator_RowClassName="TransportOrderDetailRow" msprop:Generator_UserTableName="TransportOrderDetail" msprop:Generator_RowEvArgName="TransportOrderDetailRowChangeEvent">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="TransportOrderDetailID" msprop:Generator_ColumnVarNameInTable="columnTransportOrderDetailID" msprop:Generator_ColumnPropNameInRow="TransportOrderDetailID" msprop:Generator_ColumnPropNameInTable="TransportOrderDetailIDColumn" msprop:Generator_UserColumnName="TransportOrderDetailID" type="xs:int" />
@@ -378,7 +473,7 @@ GROUP BY TransporterName, CommodityName, Source</CommandText>
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="vwTransportOrder" msprop:Generator_TableClassName="vwTransportOrderDataTable" msprop:Generator_TableVarName="tablevwTransportOrder" msprop:Generator_RowChangedName="vwTransportOrderRowChanged" msprop:Generator_TablePropName="vwTransportOrder" msprop:Generator_RowDeletingName="vwTransportOrderRowDeleting" msprop:Generator_RowChangingName="vwTransportOrderRowChanging" msprop:Generator_RowEvHandlerName="vwTransportOrderRowChangeEventHandler" msprop:Generator_RowDeletedName="vwTransportOrderRowDeleted" msprop:Generator_RowClassName="vwTransportOrderRow" msprop:Generator_UserTableName="vwTransportOrder" msprop:Generator_RowEvArgName="vwTransportOrderRowChangeEvent">
+        <xs:element name="vwTransportOrder" msprop:Generator_TableClassName="vwTransportOrderDataTable" msprop:Generator_TableVarName="tablevwTransportOrder" msprop:Generator_TablePropName="vwTransportOrder" msprop:Generator_RowDeletingName="vwTransportOrderRowDeleting" msprop:Generator_RowChangingName="vwTransportOrderRowChanging" msprop:Generator_RowEvHandlerName="vwTransportOrderRowChangeEventHandler" msprop:Generator_RowDeletedName="vwTransportOrderRowDeleted" msprop:Generator_UserTableName="vwTransportOrder" msprop:Generator_RowChangedName="vwTransportOrderRowChanged" msprop:Generator_RowEvArgName="vwTransportOrderRowChangeEvent" msprop:Generator_RowClassName="vwTransportOrderRow">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="TransportOrderID" msprop:Generator_ColumnVarNameInTable="columnTransportOrderID" msprop:Generator_ColumnPropNameInRow="TransportOrderID" msprop:Generator_ColumnPropNameInTable="TransportOrderIDColumn" msprop:Generator_UserColumnName="TransportOrderID" type="xs:int" />
@@ -502,7 +597,7 @@ GROUP BY TransporterName, CommodityName, Source</CommandText>
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="RegionalRequestAllocation" msprop:Generator_TableClassName="RegionalRequestAllocationDataTable" msprop:Generator_TableVarName="tableRegionalRequestAllocation" msprop:Generator_TablePropName="RegionalRequestAllocation" msprop:Generator_RowDeletingName="RegionalRequestAllocationRowDeleting" msprop:Generator_RowChangingName="RegionalRequestAllocationRowChanging" msprop:Generator_RowEvHandlerName="RegionalRequestAllocationRowChangeEventHandler" msprop:Generator_RowDeletedName="RegionalRequestAllocationRowDeleted" msprop:Generator_UserTableName="RegionalRequestAllocation" msprop:Generator_RowChangedName="RegionalRequestAllocationRowChanged" msprop:Generator_RowEvArgName="RegionalRequestAllocationRowChangeEvent" msprop:Generator_RowClassName="RegionalRequestAllocationRow">
+        <xs:element name="RegionalRequestAllocation" msprop:Generator_TableClassName="RegionalRequestAllocationDataTable" msprop:Generator_TableVarName="tableRegionalRequestAllocation" msprop:Generator_RowChangedName="RegionalRequestAllocationRowChanged" msprop:Generator_TablePropName="RegionalRequestAllocation" msprop:Generator_RowDeletingName="RegionalRequestAllocationRowDeleting" msprop:Generator_RowChangingName="RegionalRequestAllocationRowChanging" msprop:Generator_RowEvHandlerName="RegionalRequestAllocationRowChangeEventHandler" msprop:Generator_RowDeletedName="RegionalRequestAllocationRowDeleted" msprop:Generator_RowClassName="RegionalRequestAllocationRow" msprop:Generator_UserTableName="RegionalRequestAllocation" msprop:Generator_RowEvArgName="RegionalRequestAllocationRowChangeEvent">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="RegionalRequestID" msprop:Generator_ColumnVarNameInTable="columnRegionalRequestID" msprop:Generator_ColumnPropNameInRow="RegionalRequestID" msprop:Generator_ColumnPropNameInTable="RegionalRequestIDColumn" msprop:Generator_UserColumnName="RegionalRequestID" type="xs:int" />
@@ -576,7 +671,7 @@ GROUP BY TransporterName, CommodityName, Source</CommandText>
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="RationDetailView" msprop:Generator_TableClassName="RationDetailViewDataTable" msprop:Generator_TableVarName="tableRationDetailView" msprop:Generator_RowChangedName="RationDetailViewRowChanged" msprop:Generator_TablePropName="RationDetailView" msprop:Generator_RowDeletingName="RationDetailViewRowDeleting" msprop:Generator_RowChangingName="RationDetailViewRowChanging" msprop:Generator_RowEvHandlerName="RationDetailViewRowChangeEventHandler" msprop:Generator_RowDeletedName="RationDetailViewRowDeleted" msprop:Generator_RowClassName="RationDetailViewRow" msprop:Generator_UserTableName="RationDetailView" msprop:Generator_RowEvArgName="RationDetailViewRowChangeEvent">
+        <xs:element name="RationDetailView" msprop:Generator_TableClassName="RationDetailViewDataTable" msprop:Generator_TableVarName="tableRationDetailView" msprop:Generator_TablePropName="RationDetailView" msprop:Generator_RowDeletingName="RationDetailViewRowDeleting" msprop:Generator_RowChangingName="RationDetailViewRowChanging" msprop:Generator_RowEvHandlerName="RationDetailViewRowChangeEventHandler" msprop:Generator_RowDeletedName="RationDetailViewRowDeleted" msprop:Generator_UserTableName="RationDetailView" msprop:Generator_RowChangedName="RationDetailViewRowChanged" msprop:Generator_RowEvArgName="RationDetailViewRowChangeEvent" msprop:Generator_RowClassName="RationDetailViewRow">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="RationID" msdata:ReadOnly="true" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="-1" msdata:AutoIncrementStep="-1" msprop:Generator_ColumnVarNameInTable="columnRationID" msprop:Generator_ColumnPropNameInRow="RationID" msprop:Generator_ColumnPropNameInTable="RationIDColumn" msprop:Generator_UserColumnName="RationID" type="xs:int" minOccurs="0" />
@@ -598,7 +693,7 @@ GROUP BY TransporterName, CommodityName, Source</CommandText>
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="TPRL" msprop:Generator_TableClassName="TPRLDataTable" msprop:Generator_TableVarName="tableTPRL" msprop:Generator_TablePropName="TPRL" msprop:Generator_RowDeletingName="TPRLRowDeleting" msprop:Generator_RowChangingName="TPRLRowChanging" msprop:Generator_RowEvHandlerName="TPRLRowChangeEventHandler" msprop:Generator_RowDeletedName="TPRLRowDeleted" msprop:Generator_UserTableName="TPRL" msprop:Generator_RowChangedName="TPRLRowChanged" msprop:Generator_RowEvArgName="TPRLRowChangeEvent" msprop:Generator_RowClassName="TPRLRow">
+        <xs:element name="TPRL" msprop:Generator_TableClassName="TPRLDataTable" msprop:Generator_TableVarName="tableTPRL" msprop:Generator_RowChangedName="TPRLRowChanged" msprop:Generator_TablePropName="TPRL" msprop:Generator_RowDeletingName="TPRLRowDeleting" msprop:Generator_RowChangingName="TPRLRowChanging" msprop:Generator_RowEvHandlerName="TPRLRowChangeEventHandler" msprop:Generator_RowDeletedName="TPRLRowDeleted" msprop:Generator_RowClassName="TPRLRow" msprop:Generator_UserTableName="TPRL" msprop:Generator_RowEvArgName="TPRLRowChangeEvent">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="TransporterName" msprop:Generator_ColumnVarNameInTable="columnTransporterName" msprop:Generator_ColumnPropNameInRow="TransporterName" msprop:Generator_ColumnPropNameInTable="TransporterNameColumn" msprop:Generator_UserColumnName="TransporterName" minOccurs="0">
@@ -623,11 +718,116 @@ GROUP BY TransporterName, CommodityName, Source</CommandText>
             </xs:sequence>
           </xs:complexType>
         </xs:element>
+        <xs:element name="TransporterPayReq" msprop:Generator_TableClassName="TransporterPayReqDataTable" msprop:Generator_TableVarName="tableTransporterPayReq" msprop:Generator_TablePropName="TransporterPayReq" msprop:Generator_RowDeletingName="TransporterPayReqRowDeleting" msprop:Generator_RowChangingName="TransporterPayReqRowChanging" msprop:Generator_RowEvHandlerName="TransporterPayReqRowChangeEventHandler" msprop:Generator_RowDeletedName="TransporterPayReqRowDeleted" msprop:Generator_UserTableName="TransporterPayReq" msprop:Generator_RowChangedName="TransporterPayReqRowChanged" msprop:Generator_RowEvArgName="TransporterPayReqRowChangeEvent" msprop:Generator_RowClassName="TransporterPayReqRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="TransporterID" msdata:ReadOnly="true" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="-1" msdata:AutoIncrementStep="-1" msprop:Generator_ColumnVarNameInTable="columnTransporterID" msprop:Generator_ColumnPropNameInRow="TransporterID" msprop:Generator_ColumnPropNameInTable="TransporterIDColumn" msprop:Generator_UserColumnName="TransporterID" type="xs:int" minOccurs="0" />
+              <xs:element name="StateNo" msprop:Generator_ColumnVarNameInTable="columnStateNo" msprop:Generator_ColumnPropNameInRow="StateNo" msprop:Generator_ColumnPropNameInTable="StateNoColumn" msprop:Generator_UserColumnName="StateNo" type="xs:int" minOccurs="0" />
+              <xs:element name="RequisitionNo" msprop:Generator_ColumnVarNameInTable="columnRequisitionNo" msprop:Generator_ColumnPropNameInRow="RequisitionNo" msprop:Generator_ColumnPropNameInTable="RequisitionNoColumn" msprop:Generator_UserColumnName="RequisitionNo" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="GIN" msprop:Generator_ColumnVarNameInTable="columnGIN" msprop:Generator_ColumnPropNameInRow="GIN" msprop:Generator_ColumnPropNameInTable="GINColumn" msprop:Generator_UserColumnName="GIN" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="GRN" msprop:Generator_ColumnVarNameInTable="columnGRN" msprop:Generator_ColumnPropNameInRow="GRN" msprop:Generator_ColumnPropNameInTable="GRNColumn" msprop:Generator_UserColumnName="GRN" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="CommodityName" msprop:Generator_ColumnVarNameInTable="columnCommodityName" msprop:Generator_ColumnPropNameInRow="CommodityName" msprop:Generator_ColumnPropNameInTable="CommodityNameColumn" msprop:Generator_UserColumnName="CommodityName" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Source" msprop:Generator_ColumnVarNameInTable="columnSource" msprop:Generator_ColumnPropNameInRow="Source" msprop:Generator_ColumnPropNameInTable="SourceColumn" msprop:Generator_UserColumnName="Source" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Destination" msprop:Generator_ColumnVarNameInTable="columnDestination" msprop:Generator_ColumnPropNameInRow="Destination" msprop:Generator_ColumnPropNameInTable="DestinationColumn" msprop:Generator_UserColumnName="Destination" type="xs:int" minOccurs="0" />
+              <xs:element name="ReceivedQuantity" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnReceivedQuantity" msprop:Generator_ColumnPropNameInRow="ReceivedQuantity" msprop:Generator_ColumnPropNameInTable="ReceivedQuantityColumn" msprop:Generator_UserColumnName="ReceivedQuantity" type="xs:decimal" minOccurs="0" />
+              <xs:element name="ShortageQty" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnShortageQty" msprop:Generator_ColumnPropNameInRow="ShortageQty" msprop:Generator_ColumnPropNameInTable="ShortageQtyColumn" msprop:Generator_UserColumnName="ShortageQty" type="xs:decimal" minOccurs="0" />
+              <xs:element name="ShortageBirr" msprop:Generator_ColumnVarNameInTable="columnShortageBirr" msprop:Generator_ColumnPropNameInRow="ShortageBirr" msprop:Generator_ColumnPropNameInTable="ShortageBirrColumn" msprop:Generator_UserColumnName="ShortageBirr" type="xs:decimal" minOccurs="0" />
+              <xs:element name="SentQty" msprop:Generator_ColumnVarNameInTable="columnSentQty" msprop:Generator_ColumnPropNameInRow="SentQty" msprop:Generator_ColumnPropNameInTable="SentQtyColumn" msprop:Generator_UserColumnName="SentQty" type="xs:decimal" minOccurs="0" />
+              <xs:element name="BusinessProcessID" msprop:Generator_ColumnVarNameInTable="columnBusinessProcessID" msprop:Generator_ColumnPropNameInRow="BusinessProcessID" msprop:Generator_ColumnPropNameInTable="BusinessProcessIDColumn" msprop:Generator_UserColumnName="BusinessProcessID" type="xs:int" />
+              <xs:element name="DeliveryID" msdata:DataType="System.Guid, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" msprop:Generator_ColumnVarNameInTable="columnDeliveryID" msprop:Generator_ColumnPropNameInRow="DeliveryID" msprop:Generator_ColumnPropNameInTable="DeliveryIDColumn" msprop:Generator_UserColumnName="DeliveryID" type="xs:string" />
+              <xs:element name="ReferenceNo" msprop:Generator_ColumnVarNameInTable="columnReferenceNo" msprop:Generator_ColumnPropNameInRow="ReferenceNo" msprop:Generator_ColumnPropNameInTable="ReferenceNoColumn" msprop:Generator_UserColumnName="ReferenceNo">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="TransporterName" msprop:Generator_ColumnVarNameInTable="columnTransporterName" msprop:Generator_ColumnPropNameInRow="TransporterName" msprop:Generator_ColumnPropNameInTable="TransporterNameColumn" msprop:Generator_UserColumnName="TransporterName" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="255" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="TransportOrderID" msprop:Generator_ColumnVarNameInTable="columnTransportOrderID" msprop:Generator_ColumnPropNameInRow="TransportOrderID" msprop:Generator_ColumnPropNameInTable="TransportOrderIDColumn" msprop:Generator_UserColumnName="TransportOrderID" type="xs:int" />
+              <xs:element name="TransporterPaymentRequestID" msdata:ReadOnly="true" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="-1" msdata:AutoIncrementStep="-1" msprop:Generator_ColumnVarNameInTable="columnTransporterPaymentRequestID" msprop:Generator_ColumnPropNameInRow="TransporterPaymentRequestID" msprop:Generator_ColumnPropNameInTable="TransporterPaymentRequestIDColumn" msprop:Generator_UserColumnName="TransporterPaymentRequestID" type="xs:int" />
+              <xs:element name="FreightCharge" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnFreightCharge" msprop:Generator_ColumnPropNameInRow="FreightCharge" msprop:Generator_ColumnPropNameInTable="FreightChargeColumn" msprop:Generator_UserColumnName="FreightCharge" type="xs:decimal" minOccurs="0" />
+              <xs:element name="Tariff" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnTariff" msprop:Generator_ColumnPropNameInRow="Tariff" msprop:Generator_ColumnPropNameInTable="TariffColumn" msprop:Generator_UserColumnName="Tariff" type="xs:decimal" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="TOVM" msprop:Generator_TableClassName="TOVMDataTable" msprop:Generator_TableVarName="tableTOVM" msprop:Generator_TablePropName="TOVM" msprop:Generator_RowDeletingName="TOVMRowDeleting" msprop:Generator_RowChangingName="TOVMRowChanging" msprop:Generator_RowEvHandlerName="TOVMRowChangeEventHandler" msprop:Generator_RowDeletedName="TOVMRowDeleted" msprop:Generator_UserTableName="TOVM" msprop:Generator_RowChangedName="TOVMRowChanged" msprop:Generator_RowEvArgName="TOVMRowChangeEvent" msprop:Generator_RowClassName="TOVMRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="TransportOrderID" msdata:ReadOnly="true" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="-1" msdata:AutoIncrementStep="-1" msprop:Generator_ColumnVarNameInTable="columnTransportOrderID" msprop:Generator_ColumnPropNameInRow="TransportOrderID" msprop:Generator_ColumnPropNameInTable="TransportOrderIDColumn" msprop:Generator_UserColumnName="TransportOrderID" type="xs:int" />
+              <xs:element name="TransportOrderNo" msprop:Generator_ColumnVarNameInTable="columnTransportOrderNo" msprop:Generator_ColumnPropNameInRow="TransportOrderNo" msprop:Generator_ColumnPropNameInTable="TransportOrderNoColumn" msprop:Generator_UserColumnName="TransportOrderNo">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="ContractNumber" msprop:Generator_ColumnVarNameInTable="columnContractNumber" msprop:Generator_ColumnPropNameInRow="ContractNumber" msprop:Generator_ColumnPropNameInTable="ContractNumberColumn" msprop:Generator_UserColumnName="ContractNumber" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="OrderDate" msprop:Generator_ColumnVarNameInTable="columnOrderDate" msprop:Generator_ColumnPropNameInRow="OrderDate" msprop:Generator_ColumnPropNameInTable="OrderDateColumn" msprop:Generator_UserColumnName="OrderDate" type="xs:dateTime" />
+              <xs:element name="RequestedDispatchDate" msprop:Generator_ColumnVarNameInTable="columnRequestedDispatchDate" msprop:Generator_ColumnPropNameInRow="RequestedDispatchDate" msprop:Generator_ColumnPropNameInTable="RequestedDispatchDateColumn" msprop:Generator_UserColumnName="RequestedDispatchDate" type="xs:dateTime" />
+              <xs:element name="OrderExpiryDate" msprop:Generator_ColumnVarNameInTable="columnOrderExpiryDate" msprop:Generator_ColumnPropNameInRow="OrderExpiryDate" msprop:Generator_ColumnPropNameInTable="OrderExpiryDateColumn" msprop:Generator_UserColumnName="OrderExpiryDate" type="xs:dateTime" />
+              <xs:element name="StartDate" msprop:Generator_ColumnVarNameInTable="columnStartDate" msprop:Generator_ColumnPropNameInRow="StartDate" msprop:Generator_ColumnPropNameInTable="StartDateColumn" msprop:Generator_UserColumnName="StartDate" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="EndDate" msprop:Generator_ColumnVarNameInTable="columnEndDate" msprop:Generator_ColumnPropNameInRow="EndDate" msprop:Generator_ColumnPropNameInTable="EndDateColumn" msprop:Generator_UserColumnName="EndDate" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="Transporter" msprop:Generator_ColumnVarNameInTable="columnTransporter" msprop:Generator_ColumnPropNameInRow="Transporter" msprop:Generator_ColumnPropNameInTable="TransporterColumn" msprop:Generator_UserColumnName="Transporter" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="255" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
       </xs:choice>
     </xs:complexType>
     <xs:unique name="Constraint1">
       <xs:selector xpath=".//mstns:RationDetailView" />
       <xs:field xpath="mstns:RationID" />
+    </xs:unique>
+    <xs:unique name="TOVM_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:TOVM" />
+      <xs:field xpath="mstns:TransportOrderID" />
     </xs:unique>
   </xs:element>
 </xs:schema>

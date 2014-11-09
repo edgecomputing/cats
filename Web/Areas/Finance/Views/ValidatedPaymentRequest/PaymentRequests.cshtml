@@ -14,6 +14,7 @@
 @section Toolbar
 {
     <div class="btn-group" style="right: 100px">
+        
         <button class="btn">Action</button>
         @{
             if (ViewBag.ApprovedPRCount > 0)
@@ -23,7 +24,7 @@
                 </button>
                 <ul class="dropdown-menu">
                     <li><a href="#" data-ng-click="loadCollectiveChequeInfo()">Generate Cheque</a></li>
-                    <li><a href="@Url.Action("Print", "Home", new { Area = "Finance", id = ViewBag.TransportOrderViewModel.TransporterID })" >Print</a></li>
+                    <li><a href="@Url.Action("Print", "Home", new { Area = "Finance", id = ViewBag.TransportOrderViewModel.TransporterID })" >Print Transporter Payment Request Letter</a></li>
                 </ul>
             }
             else
@@ -32,11 +33,21 @@
                     <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu">
-                    <li><a href="@Url.Action("Print", "Home", new { Area = "Finance", id = ViewBag.TransportOrderViewModel.TransporterID })" >Print</a></li>
+                    <li><a href="@Url.Action("Print", "Home", new { Area = "Finance", id = ViewBag.TransportOrderViewModel.TransporterID })" >Print Transporter Payment Request Letter</a></li>
                 </ul>
             }
         }
+        <button style="margin-left: 4px;" class="btn" onclick="print_payment_request()">Print</button>
     </div>
+    <script type="text/javascript">
+        function print_payment_request() {
+            var refNo = $("#filter").val();
+            var programName = $("#program_filter").val();
+            var urlName = "@Url.Action("PrintPaymentRequest", "ValidatedPaymentRequest", new { transporterId = ViewBag.TransportOrderViewModel.TransporterID })";
+            var finalurl = urlName + "&refno=" + refNo + "&programname=" + programName;
+            window.location.href = finalurl;
+        }
+    </script>
 }
 @{
     int index = 0;
@@ -400,13 +411,13 @@
         
         <label for="program_filter" class="filter_label"><strong>Program</strong></label>
         <select id="program_filter" name="program_filter">
-            <option value="0" selected >All</option>
+            <option value="All" selected >All</option>
             <option value="Relief">Relief</option>
             <option value="PSNP">PSNP</option>
             <option value="IDPs">IDPs</option>
         </select>
 
-        <table class="table table-striped">
+        <table class="table table-striped" id="paymentrequesttable">
             <thead>
                 <tr>
                     <th>Reference No.</th>
@@ -459,19 +470,19 @@
                         <td>
                             @item.Destination
                         </td>
-                        <td>
+                        <td class="item_receivedqty num">
                             @item.ReceivedQty
                         </td>
-                        <td>
+                        <td class="num">
                             @item.Tarrif.ToString("0.00")
                         </td>
-                        <td>
+                        <td class="item_shortageqty num">
                             @item.ShortageQty
                         </td>
-                        <td>
+                        <td class="item_shortagebirr num">
                             @item.ShortageBirr
                         </td>
-                        <td>
+                        <td class="item_freightcharge num">
                             @item.FreightCharge.ToString("0.00")
                         </td>
                         <td>
@@ -502,22 +513,24 @@
                     //}
 
                 }
-                <tr style="background-color: gainsboro">
-                        <td colspan="5"></td>
+            </tbody>
+            <tfoot>
+                <tr style="background-color: rgba(220, 220, 220, 0.47);">
+                        <td colspan="7"></td>
                         <td style="text-align: center"><b>Total:</b></td>
 
-                        <td><b>@Model.Sum(a => a.ReceivedQty)</b></td>
-                        <td><b>@Model.Sum(a => a.Tarrif).ToString("0.00")</b> </td>
-                        <td><b>@Model.Sum(a => a.ShortageQty)</b></td>
-                        <td><b>@Model.Sum(a => a.ShortageBirr)</b> </td>
-                        <td><b>@Model.Sum(a => a.FreightCharge).ToString("0.00") </b></td>
+                        <td><b><span id="view_receivedqty">0.0</span>@*@Model.Sum(a => a.ReceivedQty)*@</b></td>
+                        <td><b>@*@Model.Sum(a => a.Tarrif).ToString("0.00")*@</b> </td>
+                        <td><b><span id="view_shortageqty">0.0</span>@*@Model.Sum(a => a.ShortageQty)*@</b></td>
+                        <td><b><span id="view_shortagebirr">0.0</span>@*@Model.Sum(a => a.ShortageBirr)*@</b> </td>
+                        <td><b><span id="view_freightcharge">0.0</span>@*@Model.Sum(a => a.FreightCharge).ToString("0.00")*@ </b></td>
                         <td></td>
                         <td></td>
                     </tr>
-                </tbody>
+             </tfoot>
             
         </table>
-
+        
         <div id="modalHistory" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false" style="width:600px;" >
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -546,7 +559,7 @@
                 //alert("nextstate: " + nextstate);
                 if (nextstate == "2021") {
                     //alert("nextstate: " + nextstate);
-                                                            @*var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+                                                                                                                        @*var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
                     window.location = "@Url.Action("ApproveChequeInfo", "ValidatedPaymentRequest")" + "/" + dataItem.TransportBidQuotationHeaderID;*@
                     
                 }
@@ -734,35 +747,40 @@
                     var program = $('#program_filter').val();
                     
                     $(selector).each(function () {
-                        if (program == "0") {
+                        if (program == "All") {
                             ($(this).find("td:first-child").text().search(new RegExp(query, "i")) < 0) ? $(this).hide().removeClass('visible') : $(this).show().addClass('visible');
                         }
                         else {
                             (($(this).find("td:first-child").text().search(new RegExp(query, "i")) < 0) || ($(this).find("td:nth-child(2)").text().search(new RegExp(program, "i")) < 0)) ? $(this).hide().removeClass('visible') : $(this).show().addClass('visible');
                         }
                     });
+                    view_total();
                 }
                 // visible at first
                 $('table tbody tr').addClass('visible');
+                // visible total at first
+                view_total();
                 $('#filter').keyup(function (event) {
-                    //if esc is pressed or nothing is entered
-                    //if (event.keyCode == 27 || $(this).val() == '') {
-                    //    //if esc is pressed we want to clear the value of search box
-                    //    $(this).val('');
-
-                    //    //we want each row to be visible because if nothing
-                    //    //is entered then all rows are matched.
-                    //    $('tbody tr').removeClass('visible').show().addClass('visible');
-                    //}
-
-                    ////if there is text, lets filter
-                    //else {
-                        filter('table>tbody>tr', $(this).val());
-                    //}
+                    filter('table>tbody>tr', $(this).val());
                 });
                 $('#program_filter').change(function (e) {
                     filter('table>tbody>tr', $('#filter').val());
                 });
+                function view_total() {
+                    var receivedqty = 0.00, shortageqty = 0.00, shortagebirr = 0.00, freightcharge = 0.00;
+                    // select all visible rows
+                    $("#paymentrequesttable tbody>tr.visible").each(function () {
+                        receivedqty += parseFloat($(this).children("td.item_receivedqty").text());
+                        shortageqty += parseFloat($(this).children("td.item_shortageqty").text());
+                        shortagebirr += parseFloat($(this).children("td.item_shortagebirr").text());
+                        freightcharge += parseFloat($(this).children("td.item_freightcharge").text());
+                    });
+                    // update the total values
+                    $("#view_receivedqty").text(receivedqty);
+                    $("#view_shortageqty").text(shortageqty);
+                    $("#view_shortagebirr").text(shortagebirr);
+                    $("#view_freightcharge").text(freightcharge);
+                }
             });
 
 
@@ -781,6 +799,9 @@
             }
             #program_filter {
                 width: 100px;
+            }
+            #paymentrequesttable tfoot>tr>td, #paymentrequesttable tbody>tr>td.num {
+                text-align: right;
             }
         </style>
         
