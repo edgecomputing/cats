@@ -220,7 +220,7 @@ namespace Cats.Services.Hub
             var remaining = allocation.QuantityInMT - received;
 
             //if its being edited
-            if(receiveDetailNewViewModel.ReceiveId!=Guid.Empty)
+            if(receiveDetailNewViewModel.ReceiveId!=null)
             {
                 var prevrecieve =
                     _unitOfWork.ReceiveRepository.FindById(receiveDetailNewViewModel.ReceiveId.GetValueOrDefault());

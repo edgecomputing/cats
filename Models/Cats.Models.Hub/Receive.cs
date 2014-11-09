@@ -46,5 +46,7 @@ namespace Cats.Models.Hubs
         public virtual Transporter Transporter { get; set; }
         public virtual UserProfile UserProfile { get; set; }
         public virtual ICollection<ReceiveDetail> ReceiveDetails { get; set; }
+        public int? StoreId { get; set; }
+        public int? StackNumber { get; set; }
     }
 }

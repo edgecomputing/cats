@@ -538,7 +538,8 @@ namespace Cats.Services.Hub
                                   receive.ReceiptAllocationID = viewModel.ReceiptAllocationId;
                                   receive.HubID = viewModel.CurrentHub;
             receive.UserProfileID = viewModel.UserProfileId;
-
+            receive.StoreId = viewModel.StoreId;
+            receive.StackNumber = viewModel.StackNumber;
                               
             
 
@@ -584,7 +585,8 @@ namespace Cats.Services.Hub
                 UnitID = viewModel.ReceiveDetailNewViewModel.UnitId,
                 ReceiveID = receive.ReceiveID,
                 TransactionGroupID = transactionGroup.TransactionGroupID,
-                TransactionGroup = transactionGroup
+                TransactionGroup = transactionGroup,
+            
             };
 
 
@@ -611,10 +613,9 @@ namespace Cats.Services.Hub
                 TransactionID = Guid.NewGuid(),
                 TransactionGroupID = transactionGroup.TransactionGroupID,
                 TransactionDate = DateTime.Now,
-                ParentCommodityID =
-                    _unitOfWork.CommodityRepository.FindById(viewModel.ReceiveDetailNewViewModel.CommodityId).ParentID ??
-                    viewModel.ReceiveDetailNewViewModel.CommodityId,
+                ParentCommodityID = null,
                 CommodityID = parentCommodityId,
+                CommodityChildID = receiveDetail.CommodityID,
                 LedgerID = Ledger.Constants.GOODS_ON_HAND,
                 //HubOwnerID = 
                 DonorID = receive.SourceDonorID,
@@ -645,10 +646,9 @@ namespace Cats.Services.Hub
                 TransactionID = Guid.NewGuid(),
                 TransactionGroupID = transactionGroup.TransactionGroupID,
                 TransactionDate = DateTime.Now,
-                ParentCommodityID =
-                    _unitOfWork.CommodityRepository.FindById(viewModel.ReceiveDetailNewViewModel.CommodityId).ParentID ??
-                    viewModel.ReceiveDetailNewViewModel.CommodityId,
+                ParentCommodityID = null,
                 CommodityID = parentCommodityId,
+                CommodityChildID = receiveDetail.CommodityID,
                 LedgerID = Ledger.Constants.GOODS_UNDER_CARE,
 
                 //HubOwnerID = 
@@ -707,10 +707,9 @@ namespace Cats.Services.Hub
                 TransactionID = Guid.NewGuid(),
                 TransactionGroupID = transactionGroup.TransactionGroupID,
                 TransactionDate = DateTime.Now,
-                ParentCommodityID =
-                    _unitOfWork.CommodityRepository.FindById(viewModel.ReceiveDetailNewViewModel.CommodityId).ParentID ??
-                    viewModel.ReceiveDetailNewViewModel.CommodityId,
+                ParentCommodityID = null,
                 CommodityID = parentCommodityId,
+                CommodityChildID = receiveDetail.CommodityID,
                 LedgerID = Ledger.Constants.STATISTICS_FREE_STOCK,
                 //HubOwnerID = 
                 DonorID = receive.SourceDonorID,
@@ -740,10 +739,9 @@ namespace Cats.Services.Hub
                 TransactionID = Guid.NewGuid(),
                 TransactionGroupID = transactionGroup.TransactionGroupID,
                 TransactionDate = DateTime.Now,
-                ParentCommodityID =
-                    _unitOfWork.CommodityRepository.FindById(viewModel.ReceiveDetailNewViewModel.CommodityId).ParentID ??
-                    viewModel.ReceiveDetailNewViewModel.CommodityId,
+                ParentCommodityID = null,
                 CommodityID = parentCommodityId,
+                CommodityChildID = receiveDetail.CommodityID,
                 //HubOwnerID = 
                 DonorID = receive.SourceDonorID,
                 ShippingInstructionID =
@@ -794,7 +792,7 @@ namespace Cats.Services.Hub
             {
                 if (!reverse)
                 {
-                    if (viewModel.ReceiveId == null)
+                    if (viewModel.ReceiveId == Guid.Empty)
                     {
                         _unitOfWork.ReceiveRepository.Add(receive);
                     }
@@ -1031,7 +1029,7 @@ namespace Cats.Services.Hub
                 dispatch.TransporterID = dispatchViewModel.TransporterID;
                 dispatch.UserProfileID = dispatchViewModel.UserProfileID;
             dispatch.WeighBridgeTicketNumber = dispatchViewModel.WeighBridgeTicketNumber;
-            
+           
 
             //dispatch.Type = dispatchViewModel.Type;
 
@@ -1052,15 +1050,18 @@ namespace Cats.Services.Hub
                 TransactionGroupID = @group.TransactionGroupID
             };
            
-            
+            var parentCommodityId =
+                _unitOfWork.CommodityRepository.FindById(dispatchViewModel.CommodityID).ParentID ??
+                dispatchViewModel.CommodityID;
             // Physical movement of stock
             var transactionInTransit = new Transaction
             {
                 TransactionID = Guid.NewGuid(),
                 AccountID = _accountService.GetAccountIdWithCreate(Account.Constants.FDP, dispatchViewModel.FDPID),
                 ProgramID = dispatchViewModel.ProgramID,
-                ParentCommodityID = dispatchViewModel.CommodityID,
-                CommodityID = dispatchViewModel.CommodityID,
+                ParentCommodityID = null,
+                CommodityID = parentCommodityId,
+                CommodityChildID = dispatchViewModel.CommodityID,
                 FDPID = dispatchViewModel.FDPID,
                 HubID = dispatchViewModel.HubID,
                 HubOwnerID = _unitOfWork.HubRepository.FindById(dispatchViewModel.HubID).HubOwnerID,
@@ -1086,8 +1087,9 @@ namespace Cats.Services.Hub
                 TransactionID = Guid.NewGuid(),
                 AccountID = _accountService.GetAccountIdWithCreate(Account.Constants.FDP, dispatchViewModel.FDPID),
                 ProgramID = dispatchViewModel.ProgramID,
-                ParentCommodityID = dispatchViewModel.CommodityID,
-                CommodityID = dispatchViewModel.CommodityID,
+                ParentCommodityID = null,
+                CommodityID = parentCommodityId,
+                CommodityChildID = dispatchViewModel.CommodityID,
                 FDPID = dispatchViewModel.FDPID,
                 HubID = dispatchViewModel.HubID,
                 HubOwnerID = _unitOfWork.HubRepository.FindById(dispatchViewModel.HubID).HubOwnerID,
@@ -1113,8 +1115,9 @@ namespace Cats.Services.Hub
                 TransactionID = Guid.NewGuid(),
                 AccountID = _accountService.GetAccountIdWithCreate(Account.Constants.FDP, dispatchViewModel.FDPID),
                 ProgramID = dispatchViewModel.ProgramID,
-                ParentCommodityID = dispatchViewModel.CommodityID,
-                CommodityID = dispatchViewModel.CommodityID,
+                ParentCommodityID = null,
+                CommodityID = parentCommodityId,
+                CommodityChildID = dispatchViewModel.CommodityID,
                 FDPID = dispatchViewModel.FDPID,
                 HubID = dispatchViewModel.HubID,
                 HubOwnerID = _unitOfWork.HubRepository.FindById(dispatchViewModel.HubID).HubOwnerID,
@@ -1142,8 +1145,9 @@ namespace Cats.Services.Hub
                 TransactionID = Guid.NewGuid(),
                 AccountID = _accountService.GetAccountIdWithCreate(Account.Constants.FDP, dispatchViewModel.FDPID),
                 ProgramID = dispatchViewModel.ProgramID,
-                ParentCommodityID = dispatchViewModel.CommodityID,
-                CommodityID = dispatchViewModel.CommodityID,
+                ParentCommodityID = null,
+                CommodityID = parentCommodityId,
+                CommodityChildID = dispatchViewModel.CommodityID,
                 FDPID = dispatchViewModel.FDPID,
                 HubID = dispatchViewModel.HubID,
                 HubOwnerID = _unitOfWork.HubRepository.FindById(dispatchViewModel.HubID).HubOwnerID,

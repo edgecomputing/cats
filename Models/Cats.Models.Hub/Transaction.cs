@@ -22,6 +22,7 @@ namespace Cats.Models.Hubs
         public Nullable<int> FDPID { get; set; }
         public Nullable<int> ParentCommodityID { get; set; }
         public Nullable<int> CommodityID { get; set; }
+        public Nullable<int> CommodityChildID { get; set; }
         public Nullable<int> CommodityGradeID { get; set; }
         public decimal QuantityInMT { get; set; }
         public decimal QuantityInUnit { get; set; }

@@ -243,7 +243,7 @@ namespace Cats.Services.Hub
             dispatch.CreatedDate = DateTime.Today;
             dispatch.DispatchAllocationID = dispatchAllocation.DispatchAllocationID;
             dispatch.DispatchDate = DateTime.Today;
-            dispatch.DispatchID = Guid.NewGuid();
+            //dispatch.DispatchID = Guid.NewGuid();
             dispatch.DispatchedByStoreMan = string.Empty;
             dispatch.DriverName = string.Empty;
             dispatch.FDPID = dispatchAllocation.FDPID;
@@ -269,6 +269,7 @@ namespace Cats.Services.Hub
 
           //  Dispatch dispatchDetail = new DispatchDetail();
             dispatch.CommodityID = dispatchAllocation.CommodityID;
+            
             dispatch.Commodity = dispatchAllocation.Commodity.Name;
             //dispatch.DispatchDetailID = Guid.NewGuid();
             dispatch.DispatchID = dispatch.DispatchID;

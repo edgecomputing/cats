@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.Linq;
@@ -296,6 +297,8 @@ namespace Cats.Areas.Hub.Controllers
         {
             ViewBag.UnitID = new SelectList(_unitService.GetAllUnit(), "UnitID", "Name");
             ViewBag.UnitPreference = _userProfileService.GetUser(this.UserProfile.UserName).PreferedWeightMeasurment;
+            //var commodities = _commodityService.GetAllCommodity();
+            //ViewBag.CommodityID = new SelectList(commodities, "CommodityID", "Name");
             var id = Guid.Parse(allocationId); 
             DispatchViewModel dispatch; 
             if(ginNo!= null)
@@ -316,7 +319,7 @@ namespace Cats.Areas.Hub.Controllers
                 dispatch.DriverName = editdispatch.DriverName;
                 dispatch.Remark = editdispatch.Remark;
                 dispatch.DispatchedByStoreMan = editdispatch.DispatchedByStoreMan;
-                
+                dispatch.CommodityID = detail.CommodityID;
                 //dispatch.Year = editdispatch.PeriodYear;
                 //dispatch.Month = editdispatch.PeriodMonth;
                 //dispatch.Round = editdispatch.Round;
@@ -360,7 +363,7 @@ namespace Cats.Areas.Hub.Controllers
             {
                 dispatch.Commodity = commodity.Name;
             }
-
+            
             return View(dispatch);
 
 
@@ -398,14 +401,16 @@ namespace Cats.Areas.Hub.Controllers
                 dispatch.HubID = dispatchviewmodel.HubID;
                 dispatch.RequisitionId = dispatchviewmodel.RequisitionId;
                 dispatch.DispatchID = dispatchviewmodel.DispatchID;
+                dispatch.CommodityID = dispatchviewmodel.CommodityID;
                 //dispatch.Quantity = UserProfile.PreferedWeightMeasurment.ToLower() == "mt" ? dispatchviewmodel.Quantity : dispatchviewmodel.Quantity / 10;
                 
                 //if its being edited reverse previous transaction before saving the new one;
                 
                 var prevdispatch = _dispatchService.FindById(dispatchviewmodel.DispatchID.GetValueOrDefault());
-                var prevdispatchdetail = prevdispatch.DispatchDetails.FirstOrDefault();
                 if (prevdispatch != null)
                 {
+                    var prevdispatchdetail = prevdispatch.DispatchDetails.FirstOrDefault();
+                
                     _transactionService.SaveDispatchTransaction(
                         new DispatchViewModel
                             {
@@ -451,7 +456,7 @@ namespace Cats.Areas.Hub.Controllers
                 {
 
                     DispatchAllocation totalAllocated = _dispatchAllocationService.FindById(dispatchviewmodel.DispatchAllocationID);
-
+                    
                     foreach (var contact in contacts)
                     {
                         var hub = _hubService.FindById(dispatch.HubID).Name;
@@ -525,7 +530,7 @@ namespace Cats.Areas.Hub.Controllers
             var stores = _storeService.GetAllStore();
 
             ViewBag.Units = _unitService.GetAllUnit();
-
+            
             var dispatch = _dispatchService.GetDispatchByGIN(ginNo);
             var user = _userProfileService.GetUser(User.Identity.Name);
             if (dispatch != null)
@@ -1122,6 +1127,83 @@ namespace Cats.Areas.Hub.Controllers
                 , JsonRequestBehavior.AllowGet);
         }
 
+        public JsonResult GetUnities()
+        {
+            return Json(_unitService.GetAllUnitViewModels(), JsonRequestBehavior.AllowGet);
+        }
+
+        /// <summary>
+        /// Availbales the commodities.
+        /// </summary>
+        /// <param name="SINumber">The SI number.</param>
+        /// <returns></returns>
+        public ActionResult AvailbaleCommodities(string SINumber, int? commodityTypeId, string dispatchAllocationID)
+        {
+
+            ArrayList optGroupedList = new ArrayList();
+            List<Commodity> comms = new List<Commodity>();
+            if (dispatchAllocationID != null && dispatchAllocationID != "")
+            {
+                var theComm = _dispatchAllocationService.FindById(Guid.Parse(dispatchAllocationID)).Commodity;
+                comms.Add(theComm);
+                if (theComm.ParentID == null)
+                    foreach (var childcom in theComm.Commodity1)
+                    {
+                        comms.Add(childcom);
+                    }
+            }
+            if (comms.Any())
+            {
+                foreach (var availableCommodity in comms)
+                {
+                    if (availableCommodity.ParentID == null)
+                    {
+                        optGroupedList.Add(new { Value = availableCommodity.CommodityID, Text = availableCommodity.Name, unselectable = false, id = availableCommodity.ParentID });
+                    }
+                    else
+                    {
+                        optGroupedList.Add(new { Value = availableCommodity.CommodityID, Text = availableCommodity.Name, unselectable = true, id = availableCommodity.ParentID });
+                    }
+                }
+            }
+            else
+            {
+
+                List<Commodity> Parents = new List<Commodity>();
+                if (commodityTypeId.HasValue)
+                {
+                    Parents = _commodityService.GetAllParents().Where(p => p.CommodityTypeID == commodityTypeId).ToList();
+                }
+                else
+                {
+                    Parents = _commodityService.GetAllParents();
+                }
+
+                foreach (Commodity Parent in Parents)
+                {
+                    var subCommodities = Parent.Commodity1;
+                    if (subCommodities != null) //only if it has a subCommodity
+                    {
+                        optGroupedList.Add(
+                            new { Value = Parent.CommodityID, Text = Parent.Name, unselectable = false, id = Parent.ParentID });
+
+                        foreach (Commodity subCommodity in subCommodities)
+                        {
+                            optGroupedList.Add(
+                                new
+                                {
+                                    Value = subCommodity.CommodityID,
+                                    Text = subCommodity.Name,
+                                    unselectable = true,
+                                    id = subCommodity.ParentID
+                                });
+                        }
+                    }
+                }
+            }
+            return Json(optGroupedList, JsonRequestBehavior.AllowGet);
+        }
+
         public ActionResult JsonRegionZones(string requisitionNumber)
         {
             List<DispatchAllocation> allocations = _dispatchAllocationService.GetAllocations(requisitionNumber);
@@ -1178,5 +1260,17 @@ namespace Cats.Areas.Hub.Controllers
             }
             return Json(null, JsonRequestBehavior.AllowGet);
         }
+
+        public JsonResult GetCommodities(string dispatchAllocationId)
+        {
+            var _dispatchAllocationId = Guid.Parse(dispatchAllocationId);
+
+            var dispatchAllocation = _dispatchAllocationService.FindById(_dispatchAllocationId);
+
+            return Json(_commodityService.GetAllCommodityViewModelsByParent(dispatchAllocation.CommodityID),
+                JsonRequestBehavior.AllowGet);
+        }
+
     }
+
 }
