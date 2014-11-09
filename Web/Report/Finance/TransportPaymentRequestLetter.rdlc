@@ -377,7 +377,7 @@
         <Top>1.07158in</Top>
         <Left>0.06572in</Left>
         <Height>0.23611in</Height>
-        <Width>7.25015in</Width>
+        <Width>7.25016in</Width>
         <ZIndex>1</ZIndex>
         <Style>
           <Border>
@@ -550,6 +550,7 @@
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>12pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
+                                <Format>#,0.00</Format>
                                 <TextDecoration>Underline</TextDecoration>
                               </Style>
                             </TextRun>
@@ -593,7 +594,7 @@
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>12pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
-                                <Format>0.00;(0.00)</Format>
+                                <Format>#,0.00</Format>
                                 <TextDecoration>Underline</TextDecoration>
                               </Style>
                             </TextRun>
