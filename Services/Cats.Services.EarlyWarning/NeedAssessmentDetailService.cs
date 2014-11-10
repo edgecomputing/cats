@@ -109,7 +109,8 @@ namespace Cats.Services.EarlyWarning
            var beneficiaryNo = _unitOfWork.NeedAssessmentDetailRepository.FindBy(m => m.NeedAssessmentHeader.NeedAssessment.PlanID == planID && m.Woreda == woredaID).FirstOrDefault();
            if (beneficiaryNo != null)
            {
-               var totalBeneficiaties = (int)(beneficiaryNo.PSNPFromWoredasMale + beneficiaryNo.PSNPFromWoredasFemale + beneficiaryNo.NonPSNPFromWoredasMale + beneficiaryNo.NonPSNPFromWoredasFemale);
+               //var totalBeneficiaties = (int)(beneficiaryNo.PSNPFromWoredasMale + beneficiaryNo.PSNPFromWoredasFemale + beneficiaryNo.NonPSNPFromWoredasMale + beneficiaryNo.NonPSNPFromWoredasFemale);
+               var totalBeneficiaties = (int)(beneficiaryNo.ProjectedMale + beneficiaryNo.ProjectedFemale + beneficiaryNo.NonPSNP);
                return totalBeneficiaties;
            }
            return 0;
