@@ -761,6 +761,8 @@ namespace Cats.Models.Hubs
         public string SINumber { get; set; }
 
         public int CommodityID { get; set; }
+        [Display(Name = "Sub Commodity")]
+        public int? CommodityChildID { get; set; }
         public string Commodity { get; set; }
         [Display(Name = "Remark")]
         [UIHint("AmharicTextArea")]

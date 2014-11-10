@@ -268,8 +268,14 @@ namespace Cats.Services.Hub
             dispatch.WeighBridgeTicketNumber = string.Empty;
 
           //  Dispatch dispatchDetail = new DispatchDetail();
-            dispatch.CommodityID = dispatchAllocation.CommodityID;
-            
+
+            var parentCommodityId =
+                _unitOfWork.CommodityRepository.FindById(dispatchAllocation.CommodityID).ParentID ??
+                dispatchAllocation.CommodityID;
+
+
+            dispatch.CommodityID = parentCommodityId;
+            dispatch.CommodityChildID = dispatchAllocation.CommodityID;
             dispatch.Commodity = dispatchAllocation.Commodity.Name;
             //dispatch.DispatchDetailID = Guid.NewGuid();
             dispatch.DispatchID = dispatch.DispatchID;

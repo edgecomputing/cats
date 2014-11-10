@@ -116,6 +116,7 @@ namespace Cats.Areas.Hub.Controllers
             viewModel.ReceiveDetailNewViewModel = new ReceiveDetailNewViewModel
                                                       {
                                                           CommodityId = receivedetail.CommodityID,
+                                                          CommodityChildID=receivedetail.CommodityChildID,
                                                           ReceivedQuantityInMt = 
                                                               receivedetail.QuantityInMT,
                                                           ReceivedQuantityInUnit =
@@ -175,10 +176,16 @@ namespace Cats.Areas.Hub.Controllers
             //ViewData["commodities"] = commodities;
             //ViewData["units"] = _unitService.GetAllUnitViewModels();
             //viewModel.ReceiveDetailNewViewModel.CommodityId = receiptAllocation.CommodityID;
+            
+            //since the commodity that comes from allocation is the child look for the parent for saving later.
+            var parentCommodityId =
+                _commodityService.FindById(receiptAllocation.CommodityID).ParentID ??
+                receiptAllocation.CommodityID;
 
             viewModel.ReceiveDetailNewViewModel = new ReceiveDetailNewViewModel
                                                       {
-                                                          CommodityId=receiptAllocation.CommodityID,
+                                                          CommodityId=parentCommodityId,
+                                                          CommodityChildID=receiptAllocation.CommodityID,
                                                           //UnitId=receiptAllocation.UnitID.GetValueOrDefault(),
                                                       };
             return View(viewModel);
