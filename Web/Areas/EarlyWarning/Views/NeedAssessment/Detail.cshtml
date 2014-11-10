@@ -1,4 +1,5 @@
-﻿@using Kendo.Mvc.UI
+﻿@using Cats.Models.Constant
+@using Kendo.Mvc.UI
 @using LanguageHelpers.Localization
 @using Cats.Helpers
 @model Cats.Models.Plan
@@ -26,46 +27,49 @@ Plans
     <div class="col-md-10  col-sm-9">
         <div class=" box box-primary ">
             <div class="box-body row">
-                <div class="text-right col-md-12">
-                    <a id="btnAddAssessment" href="@Url.Action("AddNeedAssessment", "NeedAssessment", new { id = Model.PlanID })">
-                        <button type="button" class="btn btn-success"><span class="fa fa-plus"></span> New Assessment</button></a>
-                    <a id="btnCreateHrd" href="@Url.Action("CreateHRD", "HRD", new { id = Model.PlanID })">
-                        <button type="button" class="btn btn-success"><span class="fa fa-plus"></span> New HRD</button></a>
-                </div>
+                @if (ViewBag.Status !=(int)PlanStatus.HRDCreated)
+                {
+                    <div class="text-right col-md-12">
+                        <a id="btnAddAssessment" href="@Url.Action("AddNeedAssessment", "NeedAssessment", new {id = Model.PlanID})">
+                            <button type="button" class="btn btn-success"><span class="fa fa-plus"></span> New Assessment</button></a>
+                        <a id="btnCreateHrd" href="@Url.Action("CreateHRD", "HRD", new {id = Model.PlanID})">
+                            <button type="button" class="btn btn-success"><span class="fa fa-plus"></span> New HRD</button></a>
+                    </div>
+                }
                 <div class="col-md-12">
                     <div class="row">
                         <div class="col-md-6 col-xs-12 form-horizontal">
-                                <div class="form-group">
+                            <div class="form-group">
                                    
-                                        @Html.Label(Html.Translate("Assessment Name"), new { @class = "col-sm-4 control-label" })
+                                @Html.Label(Html.Translate("Assessment Name"), new { @class = "col-sm-4 control-label" })
                                     
-                                    <div class="col-sm-8">
-                                        @Html.TextBoxFor(m => m.PlanName, new { @class = "form-control",Disabled = true })
-                                        @Html.ValidationMessageFor(m => m.PlanName)
-                                    </div>
-                                </div>
-                         
-                                <div class="form-group">
-                                    
-                                        @Html.Label(Html.Translate("Assessment From"), new { @class = "col-sm-4 control-label cats-date-pref" })
-                                    
-                                    <div class="col-sm-8">
-                                        @Html.TextBoxFor(m => m.StartDate, new { @class = "form-control cats-datepicker2" })
-                                        @Html.ValidationMessageFor(m => m.StartDate)
-                                    </div>
-                                </div>
-                           
-                                <div class="form-group">
-                                    
-                                        @Html.Label(Html.Translate("To"), new { @class = "col-sm-4 control-label cats-date-pref" })
-                                   
-                                    <div class="col-sm-8">
-                                        @Html.TextBoxFor(m => m.EndDate, new { @class = "form-control cats-datepicker2" })
-                                        @Html.ValidationMessageFor(m => m.EndDate)
-                                    </div>
-
+                                <div class="col-sm-8">
+                                    @Html.TextBoxFor(m => m.PlanName, new { @class = "form-control",Disabled = true })
+                                    @Html.ValidationMessageFor(m => m.PlanName)
                                 </div>
                             </div>
+                         
+                            <div class="form-group">
+                                    
+                                @Html.Label(Html.Translate("Assessment From"), new { @class = "col-sm-4 control-label cats-date-pref" })
+                                    
+                                <div class="col-sm-8">
+                                    @Html.TextBoxFor(m => m.StartDate, new { @class = "form-control cats-datepicker2" })
+                                    @Html.ValidationMessageFor(m => m.StartDate)
+                                </div>
+                            </div>
+                           
+                            <div class="form-group">
+                                    
+                                @Html.Label(Html.Translate("To"), new { @class = "col-sm-4 control-label cats-date-pref" })
+                                   
+                                <div class="col-sm-8">
+                                    @Html.TextBoxFor(m => m.EndDate, new { @class = "form-control cats-datepicker2" })
+                                    @Html.ValidationMessageFor(m => m.EndDate)
+                                </div>
+
+                            </div>
+                        </div>
                     </div>
                             
                       
@@ -73,32 +77,32 @@ Plans
                     <div class="table-responsive">
 
                         @(Html.Kendo().Grid<Cats.Models.NeedAssessmentHeaderViewModel>()
-    .Name("grid")
-    .Columns(columns =>
-    {
-        columns.Bound(p => p.RegionName).Title("Region");
-        columns.Bound(p => p.SeasonName).Visible(true).Width(100).Title("Season");
-        columns.Bound(p => p.Date).Title(Html.Translate("Need Assessment Created Date")).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid", style = "overflow: visible; white-space: normal;", title = "Need Assessment Created Date" });
-        columns.Bound(p => p.NeedACreaterName).Title("Created By").HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;", title = "Created By" });
-        columns.Bound(p => p.IsApproved).Visible(false);
-        columns.Command(p =>
-        {
-            p.Custom("Edit").Click("NeedAssessmentEdit").Text("<span class=\"fa fa-pencil-square-o\"></span> Edit ");
-            p.Custom("Delete").Click("DeleteNeedAssessment").Text("<span class=\"fa fa-times\"></span> Delete ");
+                              .Name("grid")
+                              .Columns(columns =>
+                                  {
+                                      columns.Bound(p => p.RegionName).Title("Region");
+                                      columns.Bound(p => p.SeasonName).Visible(true).Width(100).Title("Season");
+                                      columns.Bound(p => p.Date).Title(Html.Translate("Need Assessment Created Date")).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid", style = "overflow: visible; white-space: normal;", title = "Need Assessment Created Date" });
+                                      columns.Bound(p => p.NeedACreaterName).Title("Created By").HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;", title = "Created By" });
+                                      columns.Bound(p => p.IsApproved).Visible(false);
+                                      columns.Command(p =>
+                                          {
+                                              p.Custom("Edit").Click("NeedAssessmentEdit").Text("<span class=\"fa fa-pencil-square-o\"></span> Edit ");
+                                              p.Custom("Delete").Click("DeleteNeedAssessment").Text("<span class=\"fa fa-times\"></span> Delete ");
 
-        });
-    })
-    .HtmlAttributes(new { style = "height: 300px" })
-    .Sortable()
-    .Scrollable()
-     .Events(e => e.DataBound("onDataBound"))
-    .DataSource(dataSource => dataSource
-        .Ajax()
-        .PageSize(10)
-        .Model(model => model.Id(p => p.NeedAID))
-        .Read(read => read.Action("PlannedNeedAssessmentInfo_Read", "NeedAssessment", new { id = Model.PlanID }))
-    )
-      )
+                                          });
+                                  })
+                              .HtmlAttributes(new { style = "height: 300px" })
+                              .Sortable()
+                              .Scrollable()
+                              .Events(e => e.DataBound("onDataBound"))
+                              .DataSource(dataSource => dataSource
+                                                            .Ajax()
+                                                            .PageSize(10)
+                                                            .Model(model => model.Id(p => p.NeedAID))
+                                                            .Read(read => read.Action("PlannedNeedAssessmentInfo_Read", "NeedAssessment", new { id = Model.PlanID }))
+                              )
+                              )
                     </div>
                 </div>
             </div>
