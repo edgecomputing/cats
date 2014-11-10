@@ -20,7 +20,7 @@ namespace Cats.Infrastructure
             return PrintReport(reportPath, data, dataSourceName, "PDF");
         }
 
-        public static ReportDTO PrintReport(string reportPath, object[] data, string[] dataSourceName, string reportType)
+        public static ReportDTO PrintReport(string reportPath, object[] data, string[] dataSourceName, string reportType, bool isPortriat = true)
         {
             var localReport = new LocalReport();
             localReport.ReportPath = reportPath;
@@ -42,17 +42,19 @@ namespace Cats.Infrastructure
             string mimeType;
             string encoding;
             string fileNameExtension;
-            
+
+            string pageLayout = isPortriat
+                                    ? "  <PageWidth>8.5in</PageWidth> <PageHeight>11in</PageHeight> "
+                                    : "  <PageWidth>11in</PageWidth> <PageHeight>8.5in</PageHeight> ";
             //The DeviceInfo settings should be changed based on the reportType
             //http://msdn2.microsoft.com/en-us/library/ms155397.aspx
             string deviceInfo =
             "<DeviceInfo>" +
             "  <OutputFormat>" + reportType + "</OutputFormat>" +
-            "  <PageWidth>8.5in</PageWidth>" +
-            "  <PageHeight>11in</PageHeight>" +
-            "  <MarginTop>1in</MarginTop>" +
-            "  <MarginLeft>1in</MarginLeft>" +
-            "  <MarginRight>0.5in</MarginRight>" +
+           pageLayout +
+            "  <MarginTop>0.5in</MarginTop>" +
+            "  <MarginLeft>0.25in</MarginLeft>" +
+            "  <MarginRight>0.25in</MarginRight>" +
             "  <MarginBottom>0.5in</MarginBottom>" +
             "</DeviceInfo>";
 

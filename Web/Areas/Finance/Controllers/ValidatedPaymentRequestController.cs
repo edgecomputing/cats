@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using Cats.Areas.Finance.Models;
 using Cats.Areas.Procurement.Models;
 using Cats.Helpers;
+using Cats.Infrastructure;
 using Cats.Models;
 using Cats.Models.Constant;
 using Cats.Services.Common;
@@ -105,7 +106,7 @@ namespace Cats.Areas.Finance.Controllers
                 } : null;
             }).ToList();
         }
-
+        
         public ActionResult PaymentRequests(int transporterID)
         {
             var statuses = _workflowStatusService.GetStatus(WORKFLOW.TRANSPORT_ORDER);
@@ -125,7 +126,7 @@ namespace Cats.Areas.Finance.Controllers
                 _transporterPaymentRequestService.Get(t =>t.BusinessProcess.CurrentState.BaseStateTemplate.StateNo == 3, null,"BusinessProcess").Count();
             return View(transporterPaymentRequests);
         }
-
+        
         public List<TransporterPaymentRequestViewModel> TransporterPaymentRequestViewModelBinder(List<TransporterPaymentRequest> transporterPaymentRequests)
         {
             var transporterPaymentRequestViewModels = new List<TransporterPaymentRequestViewModel>();
@@ -585,6 +586,61 @@ namespace Cats.Areas.Finance.Controllers
                 Response.TransmitFile(documentPath);
             }
             Response.End();
+        }
+
+        public ActionResult PrintPaymentRequest([DataSourceRequest] DataSourceRequest request, int transporterId, string refno = "", string programname = "All")
+        {
+
+            var statuses = _workflowStatusService.GetStatus(WORKFLOW.TRANSPORT_ORDER);
+            var currentUser = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name);
+
+            var datePref = currentUser.DatePreference;
+            var list = (IEnumerable<Cats.Models.TransporterPaymentRequest>)_transporterPaymentRequestService
+                        .Get(t => t.BusinessProcess.CurrentState.BaseStateTemplate.StateNo >= 2 && t.TransportOrder.TransporterID == transporterId, null, "BusinessProcess")
+                        .OrderByDescending(t => t.TransporterPaymentRequestID);
+            List<TransporterPaymentRequestViewModel> transporterPaymentRequests;
+            if (refno == "" && programname == "All")
+            {
+                transporterPaymentRequests = TransporterPaymentRequestViewModelBinder(list.ToList());
+            }
+            else
+            {
+                transporterPaymentRequests = (programname == "All") ? TransporterPaymentRequestViewModelBinder(list.ToList()).Where(t => t.ReferenceNo.Contains(refno)).ToList() : TransporterPaymentRequestViewModelBinder(list.ToList()).Where(t => t.ReferenceNo.Contains(refno) && t.Program.Name == programname).ToList();
+
+            }
+            var transportOrder = _transportOrderService.Get(t => t.TransporterID == transporterId && t.StatusID >= 3, null, "Transporter").FirstOrDefault();
+            var transportOrderViewModel = TransportOrderViewModelBinder.BindTransportOrderViewModel(transportOrder, datePref, statuses);
+            var TransportOrderViewModel = transportOrderViewModel;
+            
+
+            var reportPath = Server.MapPath("~/Report/Finance/TransporterPaymentRequest.rdlc");
+            var reportDataArray= new object[2];
+            var dsNameArray = new string[2];
+            var tprvm = (from data in transporterPaymentRequests where (data.BusinessProcess.CurrentState.BaseStateTemplate.Name == "Closed")
+                            select new 
+                              {
+                                  RequisitionNo = data.RequisitionNo,
+                                  GIN =  data.GIN,
+                                  GRN =  data.GRN,
+                                  CommodityName =  data.Commodity,
+                                  Source =  data.Source,
+                                  Destination =  data.Destination,
+                                  ReceivedQuantity =  data.ReceivedQty,
+                                  Tariff =  data.Tarrif,
+                                  ShortageQty =  data.ShortageQty,
+                                  ShortageBirr =  data.ShortageBirr,
+                                  FreightCharge =  data.FreightCharge
+                              });
+
+            
+            var tovm = new List<TransportOrderViewModel> {TransportOrderViewModel};
+            reportDataArray[0] = tprvm;
+            reportDataArray[1] = tovm;
+            
+            dsNameArray[0] = "TransporterPayReq";
+            dsNameArray[1] = "TOVM";
+            var result = ReportHelper.PrintReport(reportPath, reportDataArray, dsNameArray, "PDF", false);
+            return File(result.RenderBytes, result.MimeType);
         }
 
     }

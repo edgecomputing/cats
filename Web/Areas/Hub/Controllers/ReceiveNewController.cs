@@ -65,7 +65,7 @@ namespace Cats.Areas.Hub.Controllers
             viewModel.UserProfileId = user.UserProfileID;
             var hubOwner = _hub.FindById(user.DefaultHub.Value);
             viewModel.IsTransporterDetailVisible = !hubOwner.HubOwner.Name.Contains("WFP");
-            viewModel.AllocationStatusViewModel = _receiveService.GetAllocationStatus(_receiptAllocationId);
+            viewModel.AllocationStatusViewModel = _receiveService.GetAllocationStatus(receive.ReceiptAllocationID.GetValueOrDefault());
             //var commodities = _commodityService.GetAllCommodityViewModelsByParent(receiptAllocation.CommodityID);
             //ViewData["commodities"] = commodities;
             //ViewData["units"] = _unitService.GetAllUnitViewModels();
@@ -78,7 +78,6 @@ namespace Cats.Areas.Hub.Controllers
             viewModel.ReceiptAllocationId = receive.ReceiptAllocationID.GetValueOrDefault();
             viewModel.ReceiveId = receive.ReceiveID;
 
-            //viewModel.StoreId=receive.
                 //viewModel.StackNumber
             viewModel.WayBillNo = receive.WayBillNo;
             viewModel.SiNumber = receiptAllocation.SINumber;
@@ -112,6 +111,8 @@ namespace Cats.Areas.Hub.Controllers
             viewModel.CommoditySourceTypeId = receiptAllocation.CommoditySourceID;
             viewModel.ReceivedByStoreMan = receive.ReceivedByStoreMan;
             ReceiveDetail receivedetail = receive.ReceiveDetails.FirstOrDefault();
+            viewModel.StoreId = receive.StoreId.GetValueOrDefault();
+            viewModel.StackNumber = receive.StackNumber.GetValueOrDefault();
             viewModel.ReceiveDetailNewViewModel = new ReceiveDetailNewViewModel
                                                       {
                                                           CommodityId = receivedetail.CommodityID,
@@ -125,7 +126,7 @@ namespace Cats.Areas.Hub.Controllers
                                                               Description=receivedetail.Description,
                                                               ReceiveId=receivedetail.ReceiveID,
             ReceiveDetailId=receivedetail.ReceiveDetailID,
-
+            
                                                       };
             
             viewModel.WeightBridgeTicketNumber = receive.WeightBridgeTicketNumber;
@@ -173,9 +174,13 @@ namespace Cats.Areas.Hub.Controllers
             //var commodities = _commodityService.GetAllCommodityViewModelsByParent(receiptAllocation.CommodityID);
             //ViewData["commodities"] = commodities;
             //ViewData["units"] = _unitService.GetAllUnitViewModels();
-            
-            
-            
+            //viewModel.ReceiveDetailNewViewModel.CommodityId = receiptAllocation.CommodityID;
+
+            viewModel.ReceiveDetailNewViewModel = new ReceiveDetailNewViewModel
+                                                      {
+                                                          CommodityId=receiptAllocation.CommodityID,
+                                                          //UnitId=receiptAllocation.UnitID.GetValueOrDefault(),
+                                                      };
             return View(viewModel);
         }
 
@@ -187,8 +192,12 @@ namespace Cats.Areas.Hub.Controllers
 
             var user = _userProfileService.GetUser(User.Identity.Name);
             var hubOwner = _hub.FindById(user.DefaultHub.Value);
+            
+            //when the combobox is disabled the commodity id is not submitted
             //var receiptAllocation = _receiptAllocationService.FindById(viewModel.ReceiptAllocationId);
-
+            //viewModel.ReceiveDetailNewViewModel.CommodityId = receiptAllocation.CommodityID;
+            
+            
             if (viewModel.ReceiveId != Guid.Empty)
             {
                 _receiptAllocationId =
@@ -320,7 +329,7 @@ namespace Cats.Areas.Hub.Controllers
             _receiptAllocationId = Guid.Parse(receiptAllocationId);
 
             var receiptAllocation = _receiptAllocationService.FindById(_receiptAllocationId);
-
+            
             return Json(_commodityService.GetAllCommodityViewModelsByParent(receiptAllocation.CommodityID),
                 JsonRequestBehavior.AllowGet);
         }

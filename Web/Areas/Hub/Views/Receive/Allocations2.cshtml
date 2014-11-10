@@ -43,8 +43,7 @@
         columns.Bound(dis => dis.ReceiptAllocationID).Title("").ClientTemplate("<a href='" +
             @Url.Action("Create", "ReceiveNew", new { @ReceiptAllocationID = "#=ReceiptAllocationID#", @type = allocationType }) +
             "'>Recieve  </a> &nbsp; " +
-            "<a href='javascript:EditPlan(\"#=ReceiptAllocationID#\"," + allocationType + ")'>Edit</a> &nbsp; " +
-            "<a  class='close_#=IsClosed#' href='javascript:ClosePlanByID(\"#=ReceiptAllocationID#\"," + allocationType + ")'>Close</a>"
+             "<a  class='close_#=IsClosed#' href='javascript:ClosePlanByID(\"#=ReceiptAllocationID#\"," + allocationType + ")'>Close</a>"
             );
     })
                         )

@@ -299,7 +299,33 @@
                 @Html.ValidationMessageFor(model => model.CommodityTypeID)
             </td>
             </tr>
-            
+            <tr>
+            <td>
+                @Html.LabelFor(model => model.DispatchDetails[0].CommodityID, Html.Translate("Commodity Type")) <span class="required">
+                    *</span>
+            </td>
+            <td>
+                @(Html.Telerik().ComboBox()
+
+                   .Name("CommodityID")
+                   .AutoFill(true)
+                   .BindTo((SelectList)ViewBag.CommodityID)
+                   .HtmlAttributes(new { style = string.Format("width:{0}px", 200) })
+                           .ClientEvents(ev => ev.OnChange("OnCommodityIDChange").OnDataBinding("OnCommodityIDChange"))
+                           .Filterable(filtering =>
+                           {
+
+                               filtering.FilterMode(AutoCompleteFilterMode.Contains);
+
+                           })
+                           .HighlightFirstMatch(true)
+                    .OpenOnFocus(true)
+                  )
+
+                @Html.AuditTrial("Dispatch", "CommodityID", Model.DispatchID)
+                
+            </td>
+            </tr>
             <tr>
             
                 <td>
@@ -764,5 +790,24 @@
             }
         }
     
+    }
+    
+    function OnComOpen(e) {
+        var combo = $('#CommodityID').data('tComboBox');
+        var comboType = $('#CommodityTypeID').data('tComboBox').value();
+        if (combo) {
+            var siText = $('#SINumber');
+            if (siText) { // && $(siText).val() != '') {
+
+                var params = {};
+                params["SINumber"] = $(siText).val();
+                params["commodityTypeId"] = comboType;
+                params["dispatchAllocationID"] = $('#dispatchAllocationID').val();
+                params["CommoditySourceID"] = $('#CommoditySourceID').val();
+                $.getJSON('@Url.Action("AvailbaleCommodities", "Dispatch")', params, function (comodities) {
+                    combo.dataBind(comodities);
+                });
+            }
+        }
     }
 </script>

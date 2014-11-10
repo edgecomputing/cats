@@ -52,6 +52,13 @@ namespace Cats.Models.Hubs.ViewModels
         [Display(Name = "Sent Quantity (MT)")]
         public decimal SentQuantityInMt { get; set; }
 
+        public int Storeid { get; set; }
+        
+        public int StackNumber { get; set; }
+    
+           
+
+
         #endregion
 
         //public string CommodityName { get; set; }
