@@ -37,6 +37,7 @@
     @Html.HiddenFor(model => model.Round)
      @Html.HiddenFor(model => model.Transporter)
       @Html.HiddenFor(model => model.BidNumber)
+    @Html.HiddenFor(model=>model.CommodityID)
     <h6 class="page-header">Dispatch Header</h6>
     <div class="row-fluid panel-body form-horizontal">
 
@@ -145,10 +146,10 @@
 
         <div class="control-group ">
             <div class="control-label">
-                @Html.LabelFor(model => model.CommodityID)
+                @Html.LabelFor(model => model.CommodityChildID)
             </div>
             <div class="controls">
-                         @(Html.Kendo().ComboBoxFor(m => m.CommodityID)
+                         @(Html.Kendo().ComboBoxFor(m => m.CommodityChildID)
                               .Placeholder("Select Commodity")
                               .DataTextField("CommodityName")
                               .DataValueField("CommodityId")
@@ -156,7 +157,7 @@
                               .DataSource(source => source.Read(read => read.Action("GetCommodities", "Dispatch", new { @dispatchAllocationId = Model.DispatchAllocationID }))))
                 
                 
-                @Html.ValidationMessageFor(model => model.CommodityID)
+                @Html.ValidationMessageFor(model => model.CommodityChildID)
                     
             </div>
         </div>       

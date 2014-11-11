@@ -12,6 +12,7 @@ namespace Cats.Models.Hubs
         public Nullable<System.Guid> TransactionGroupID { get; set; }
         public Nullable<System.Guid> DispatchID { get; set; }
         public int CommodityID { get; set; }
+        public int? CommodityChildID { get; set; }
         public decimal RequestedQunatityInUnit { get; set; }
         public int UnitID { get; set; }
         public decimal RequestedQuantityInMT { get; set; }

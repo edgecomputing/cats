@@ -320,6 +320,7 @@ namespace Cats.Areas.Hub.Controllers
                 dispatch.Remark = editdispatch.Remark;
                 dispatch.DispatchedByStoreMan = editdispatch.DispatchedByStoreMan;
                 dispatch.CommodityID = detail.CommodityID;
+                dispatch.CommodityChildID = detail.CommodityChildID;
                 //dispatch.Year = editdispatch.PeriodYear;
                 //dispatch.Month = editdispatch.PeriodMonth;
                 //dispatch.Round = editdispatch.Round;
@@ -402,6 +403,7 @@ namespace Cats.Areas.Hub.Controllers
                 dispatch.RequisitionId = dispatchviewmodel.RequisitionId;
                 dispatch.DispatchID = dispatchviewmodel.DispatchID;
                 dispatch.CommodityID = dispatchviewmodel.CommodityID;
+                dispatch.CommodityChildID = dispatchviewmodel.CommodityChildID;
                 //dispatch.Quantity = UserProfile.PreferedWeightMeasurment.ToLower() == "mt" ? dispatchviewmodel.Quantity : dispatchviewmodel.Quantity / 10;
                 
                 //if its being edited reverse previous transaction before saving the new one;

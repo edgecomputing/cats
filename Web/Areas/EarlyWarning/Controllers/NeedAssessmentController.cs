@@ -354,6 +354,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         public ActionResult Detail(int id=0)
         {
             var plan = _planService.FindBy(m => m.PlanID == id).OrderByDescending(m=>m.PlanID).FirstOrDefault();
+            ViewBag.Status = plan.Status;
             if (plan == null)
             {
                 return null;
