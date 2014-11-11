@@ -17,6 +17,8 @@ namespace Cats.Areas.Logistics.Models
         public int CommodityID { get; set; }
         public string LoanSource { get; set; }
         public string SourceHubName { get; set; }
+        public int ParentCommodityID { get; set; }
+        public string ParentCommodity { get; set; }
         public string CommodityName { get; set; }
         public string CommoditySourceName { get; set; }
         public string RefeenceNumber { get; set; }
