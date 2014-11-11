@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using Cats.Areas.Logistics.Models;
 using Cats.Areas.Procurement.Models;
 using Cats.Helpers;
+using Cats.Infrastructure;
 using Cats.Models;
 using Cats.Models.Constant;
 using Cats.Services.Common;
@@ -333,7 +334,9 @@ namespace Cats.Areas.Logistics.Controllers
                                                                              LabourCostRate = request.LabourCostRate,
                                                                              RejectedAmount = request.RejectedAmount,
                                                                              RejectionReason = request.RejectionReason,
-                                                                             RequestedDate = request.RequestedDate
+                                                                             RequestedDate = request.RequestedDate,
+                                                                             Program = dispatch.DispatchAllocation.Program,
+                                                                             Transporter = dispatch.Transporter
                                                                          };
                             transporterPaymentRequestViewModels.Add(transporterPaymentRequestViewModel);
                         }
@@ -384,5 +387,93 @@ namespace Cats.Areas.Logistics.Controllers
                                             transporterID = transporterPaymentRequest.TransportOrder.TransporterID
                                         });
         }
+
+        public ActionResult PrintPaymentRequest([DataSourceRequest] DataSourceRequest request, int transporterId, string refno = "", string programname = "All")
+        {
+
+            var statuses = _workflowStatusService.GetStatus(WORKFLOW.TRANSPORT_ORDER);
+            var currentUser = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name);
+
+            var datePref = currentUser.DatePreference;
+            var paymentRequests = _transporterPaymentRequestService
+                .Get(t => t.TransportOrder.TransporterID == transporterId
+                          && t.BusinessProcess.CurrentState.BaseStateTemplate.StateNo < 2, null,
+                     "Delivery,Delivery.DeliveryDetails,TransportOrder").ToList();
+            List<TransporterPaymentRequestViewModel> transporterPaymentRequests;
+            if (refno == "" && programname == "All")
+            {
+                transporterPaymentRequests = TransporterPaymentRequestViewModelBinder(paymentRequests);
+            }
+            else
+            {
+                transporterPaymentRequests = (programname == "All") ? TransporterPaymentRequestViewModelBinder(paymentRequests).Where(t => t.ReferenceNo.Contains(refno)).ToList() : TransporterPaymentRequestViewModelBinder(paymentRequests).Where(t => t.ReferenceNo.Contains(refno) && t.Program.Name == programname).ToList();
+
+            }
+            var transportOrder = _transportOrderService.Get(t => t.TransporterID == transporterId && t.StatusID >= 3, null, "Transporter").FirstOrDefault();
+            var transportOrderViewModel = TransportOrderViewModelBinder.BindTransportOrderViewModel(transportOrder, datePref, statuses);
+            var TransportOrderViewModel = transportOrderViewModel;
+
+
+            var reportPath = Server.MapPath("~/Report/Finance/TransporterPaymentRequest.rdlc");
+            var reportDataArray = new object[2];
+            var dsNameArray = new string[2];
+            var tprvm = (from data in transporterPaymentRequests
+                         where (data.BusinessProcess.CurrentState.BaseStateTemplate.Name == "Request Verified")
+                         select new
+                         {
+                             RequisitionNo = data.RequisitionNo,
+                             GIN = data.GIN,
+                             GRN = data.GRN,
+                             CommodityName = data.Commodity,
+                             Source = data.Source,
+                             Destination = data.Destination,
+                             ReceivedQuantity = data.ReceivedQty,
+                             Tariff = data.Tarrif,
+                             ShortageQty = data.ShortageQty,
+                             ShortageBirr = data.ShortageBirr,
+                             FreightCharge = data.FreightCharge
+                         });
+
+
+            var tovm = new List<TransportOrderViewModel> { TransportOrderViewModel };
+            reportDataArray[0] = tprvm;
+            reportDataArray[1] = tovm;
+
+            dsNameArray[0] = "TransporterPayReq";
+            dsNameArray[1] = "TOVM";
+            var result = ReportHelper.PrintReport(reportPath, reportDataArray, dsNameArray, "PDF", false);
+            return File(result.RenderBytes, result.MimeType);
+        }
+
+        public ActionResult PrintLetter(int id = 0)
+        {
+            var reportPath = Server.MapPath("~/Report/Finance/TransportPaymentRequestLetter.rdlc");
+            var reportData = PaymentRequestForPrint(id);
+            var dataSourceName = "TPRL";
+            var result = ReportHelper.PrintReport(reportPath, reportData, dataSourceName);
+            return File(result.RenderBytes, result.MimeType);
+        }
+
+        public System.Collections.IEnumerable PaymentRequestForPrint(int transporterId)
+        {
+            var list = (IEnumerable<Cats.Models.TransporterPaymentRequest>)_transporterPaymentRequestService
+                        .Get(t => t.BusinessProcess.CurrentState.BaseStateTemplate.StateNo >= 2, null, "BusinessProcess")
+                        .OrderByDescending(t => t.TransporterPaymentRequestID);
+            var transporterPaymentRequests = TransporterPaymentRequestViewModelBinder(list.ToList());
+
+            var requests = transporterPaymentRequests.GroupBy(ac => new { ac.Transporter.Name, ac.Commodity, ac.Source }).Select(ac => new
+            {
+                TransporterName = ac.Key.Name,
+                TransporterId = ac.FirstOrDefault().Transporter.TransporterID,
+                CommodityName = ac.Key.Commodity,
+                SourceName = ac.Key.Source,
+                ReceivedQuantity = ac.Sum(s => s.ReceivedQty),
+                ShortageQuantity = ac.Sum(s => s.ShortageQty),
+                ShortageBirr = ac.Sum(s => s.ShortageBirr),
+                FreightCharge = ac.Sum(s => s.FreightCharge),
+            });
+            return requests.Where(m => m.TransporterId == transporterId).ToArray();
+        }
+
     }
 }

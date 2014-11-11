@@ -29,6 +29,7 @@
     @Html.HiddenFor(model => model.CommodityTypeId)
     @Html.HiddenFor(model => model.UserProfileId)
     @Html.HiddenFor(model => model.ReceiveDetailNewViewModel.ReceiveId)
+    @Html.HiddenFor(model=>model.ReceiveDetailNewViewModel.CommodityId)
     
     <div class="form-horizontal row-fluid">
         <div class="row">
@@ -262,11 +263,11 @@
             <div class="span4" style="vertical-align: top">
                 <div class="control-group">
                     <div class="control-label">
-                        @Html.LabelFor(model => model.ReceiveDetailNewViewModel.CommodityId)
+                        @Html.LabelFor(model => model.ReceiveDetailNewViewModel.CommodityChildID)
                     </div>
                     <div class="controls">
                         
-                        @(Html.Kendo().ComboBoxFor(m => m.ReceiveDetailNewViewModel.CommodityId)
+                        @(Html.Kendo().ComboBoxFor(m => m.ReceiveDetailNewViewModel.CommodityChildID)
                               .Placeholder("Select Commodity")
                               .DataTextField("CommodityName")
                               .DataValueField("CommodityId")
@@ -275,7 +276,7 @@
                               .DataSource(source => source.Read(read => read.Action("GetCommodities", "ReceiveNew", new { @receiptAllocationId = Model.ReceiptAllocationId }))))
                         
                         
-                        @Html.ValidationMessageFor(model => model.ReceiveDetailNewViewModel.CommodityId)
+                        @Html.ValidationMessageFor(model => model.ReceiveDetailNewViewModel.CommodityChildID)
                     </div>
                 </div>
                 <div class="control-group">

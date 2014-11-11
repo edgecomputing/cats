@@ -42,6 +42,7 @@
               <TextRun>
                 <Value>=First(Fields!TransportOrderNo.Value, "TOVM")</Value>
                 <Style>
+                  <FontFamily>Nyala</FontFamily>
                   <FontWeight>Bold</FontWeight>
                 </Style>
               </TextRun>
@@ -106,6 +107,7 @@
               <TextRun>
                 <Value>=First(Fields!ContractNumber.Value, "TOVM")</Value>
                 <Style>
+                  <FontFamily>Nyala</FontFamily>
                   <FontWeight>Bold</FontWeight>
                 </Style>
               </TextRun>
@@ -170,6 +172,7 @@
               <TextRun>
                 <Value>=First(Fields!RequestedDispatchDate.Value, "TOVM")</Value>
                 <Style>
+                  <FontFamily>Nyala</FontFamily>
                   <FontWeight>Bold</FontWeight>
                   <Format>MMM d, yyyy</Format>
                 </Style>
@@ -237,8 +240,9 @@
               <TextRun>
                 <Value>=First(Fields!StartDate.Value, "TOVM")</Value>
                 <Style>
+                  <FontFamily>Nyala</FontFamily>
                   <FontWeight>Bold</FontWeight>
-                  <Format>d MMM yyyy</Format>
+                  <Format>MMM d, yyyy</Format>
                 </Style>
               </TextRun>
             </TextRuns>
@@ -304,6 +308,7 @@
               <TextRun>
                 <Value>=First(Fields!Transporter.Value, "TOVM")</Value>
                 <Style>
+                  <FontFamily>Nyala</FontFamily>
                   <FontWeight>Bold</FontWeight>
                 </Style>
               </TextRun>
@@ -368,8 +373,9 @@
               <TextRun>
                 <Value>=First(Fields!OrderDate.Value, "TOVM")</Value>
                 <Style>
+                  <FontFamily>Nyala</FontFamily>
                   <FontWeight>Bold</FontWeight>
-                  <Format>d MMM yyyy</Format>
+                  <Format>MMM d, yyyy</Format>
                 </Style>
               </TextRun>
             </TextRuns>
@@ -435,6 +441,7 @@
               <TextRun>
                 <Value>=First(Fields!OrderExpiryDate.Value, "TOVM")</Value>
                 <Style>
+                  <FontFamily>Nyala</FontFamily>
                   <FontWeight>Bold</FontWeight>
                   <Format>MMM d, yyyy</Format>
                 </Style>
@@ -502,8 +509,9 @@
               <TextRun>
                 <Value>=First(Fields!EndDate.Value, "TOVM")</Value>
                 <Style>
+                  <FontFamily>Nyala</FontFamily>
                   <FontWeight>Bold</FontWeight>
-                  <Format>d MMM yyyy</Format>
+                  <Format>MMM d, yyyy</Format>
                 </Style>
               </TextRun>
             </TextRuns>
@@ -1599,7 +1607,7 @@
         <Top>1.54757in</Top>
         <Left>0.11787in</Left>
         <Height>0.68in</Height>
-        <Width>9.83412in</Width>
+        <Width>9.83411in</Width>
         <ZIndex>16</ZIndex>
         <Style />
       </Tablix>

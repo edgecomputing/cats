@@ -24,7 +24,7 @@
                 </button>
                 <ul class="dropdown-menu">
                     <li><a href="#" data-ng-click="loadCollectiveChequeInfo()">Generate Cheque</a></li>
-                    <li><a href="@Url.Action("Print", "Home", new { Area = "Finance", id = ViewBag.TransportOrderViewModel.TransporterID })" >Print Transporter Payment Request Letter</a></li>
+                    <li>@*<a href="@Url.Action("Print", "Home", new { Area = "Finance", id = ViewBag.TransportOrderViewModel.TransporterID })" >Print Transporter Payment Request Letter</a>*@</li>
                 </ul>
             }
             else
@@ -33,11 +33,11 @@
                     <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu">
-                    <li><a href="@Url.Action("Print", "Home", new { Area = "Finance", id = ViewBag.TransportOrderViewModel.TransporterID })" >Print Transporter Payment Request Letter</a></li>
+                    <li>@*<a href="@Url.Action("Print", "Home", new { Area = "Finance", id = ViewBag.TransportOrderViewModel.TransporterID })" >Print Transporter Payment Request Letter</a>*@</li>
                 </ul>
             }
         }
-        <button style="margin-left: 4px;" class="btn" onclick="print_payment_request()">Print</button>
+        @*<button style="margin-left: 4px;" class="btn" onclick="print_payment_request()">Print</button>*@
     </div>
     <script type="text/javascript">
         function print_payment_request() {
@@ -409,13 +409,13 @@
         <label for="filter" class="filter_label"><strong>Reference No.</strong></label>
         <input type="text" name="filter" value="" id="filter" />
         
-        <label for="program_filter" class="filter_label"><strong>Program</strong></label>
+@*        <label for="program_filter" class="filter_label"><strong>Program</strong></label>
         <select id="program_filter" name="program_filter">
             <option value="All" selected >All</option>
             <option value="Relief">Relief</option>
             <option value="PSNP">PSNP</option>
             <option value="IDPs">IDPs</option>
-        </select>
+        </select>*@
 
         <table class="table table-striped" id="paymentrequesttable">
             <thead>
@@ -525,7 +525,7 @@
                         <td><b><span id="view_shortagebirr">0.0</span>@*@Model.Sum(a => a.ShortageBirr)*@</b> </td>
                         <td><b><span id="view_freightcharge">0.0</span>@*@Model.Sum(a => a.FreightCharge).ToString("0.00")*@ </b></td>
                         <td></td>
-                        <td></td>
+                        <td></td><td></td>
                     </tr>
              </tfoot>
             

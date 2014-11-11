@@ -20,6 +20,7 @@ namespace Cats.Areas.Logistics.Models
         public string RejectionReason { get; set; }
         public DateTime RequestedDate { get; set; }
         public int BusinessProcessID { get; set; }
+        public Cats.Models.Hubs.Program Program { get; set; }
         public string RequisitionNo { get; set; }
         public string GIN { get; set; }
         public string GRN { get; set; }
@@ -31,5 +32,6 @@ namespace Cats.Areas.Logistics.Models
         public decimal Tarrif { get; set; }
         public decimal FreightCharge { get; set; }
         public BusinessProcess BusinessProcess { get; set; }
+        public Cats.Models.Hubs.Transporter Transporter { get; set; }
     }
 }
