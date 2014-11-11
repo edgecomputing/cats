@@ -8,11 +8,12 @@ using Cats.Areas.Logistics.Models;
 using Cats.Helpers;
 using Cats.Models;
 using Cats.Models.Constant;
-using Cats.Services.Common;
+using Cats.Services.Hub;
 using Cats.Services.Logistics;
 using Cats.Services.Security;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
+using ICommonService = Cats.Services.Common.ICommonService;
 
 namespace Cats.Areas.Logistics.Controllers
 {
@@ -25,13 +26,16 @@ namespace Cats.Areas.Logistics.Controllers
         private readonly ICommonService _commonService;
         private readonly ILoanReciptPlanDetailService _loanReciptPlanDetailService;
         private readonly IUserAccountService _userAccountService;
+        private readonly ICommodityService _commodityService;
         public ReciptPlanForLoanController(ILoanReciptPlanService loanReciptPlanService,ICommonService commonService,
-                                                    ILoanReciptPlanDetailService loanReciptPlanDetailService,IUserAccountService userAccountService)
+                                           ILoanReciptPlanDetailService loanReciptPlanDetailService,IUserAccountService userAccountService,
+                                           ICommodityService commodityService)
         {
             _loanReciptPlanService = loanReciptPlanService;
             _commonService = commonService;
             _loanReciptPlanDetailService = loanReciptPlanDetailService;
             _userAccountService = userAccountService;
+            _commodityService = commodityService;
 
         }
 
@@ -71,8 +75,9 @@ namespace Cats.Areas.Logistics.Controllers
             {
                 return HttpNotFound();
             }
+           
             ViewBag.ProgramID = new SelectList(_commonService.GetPrograms(), "ProgramID", "Name",loanReciptPlan.ProgramID);
-            ViewBag.CommodityID = new SelectList(_commonService.GetCommodities(), "CommodityID", "Name",loanReciptPlan.CommodityID);
+            ViewBag.CommodityID = new SelectList(_commodityService.FindBy(m=>m.ParentID==loanReciptPlan.Commodity.ParentID), "CommodityID", "Name",loanReciptPlan.CommodityID);
             //ViewBag.SourceHubID = new SelectList(_commonService.GetAllHubs(), "HubID", "Name",loanReciptPlan.SourceHubID);
             ViewBag.CommodityTypeID = new SelectList(_commonService.GetCommodityTypes(), "CommodityTypeID", "Name");
             ViewBag.CommoditySourceID = new SelectList(_commonService.GetCommoditySource(), "CommoditySourceID", "Name",loanReciptPlan.CommoditySourceID);
