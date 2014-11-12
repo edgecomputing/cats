@@ -24,14 +24,16 @@ namespace Cats.Areas.Logistics.Controllers
         private readonly ILocalPurchaseDetailService _localPurchaseDetailService;
         private readonly IGiftCertificateService _giftCertificateService;
         private readonly IShippingInstructionService _shippingInstructionService;
+        private readonly ICommodityService _commodityService;
         public LocalPurchaseController( ILocalPurchaseService localPurchaseService,ICommonService commonService,ILocalPurchaseDetailService localPurchaseDetailService,
-                                        IGiftCertificateService giftCertificateService,IShippingInstructionService shippingInstructionService)
+                                        IGiftCertificateService giftCertificateService,IShippingInstructionService shippingInstructionService,ICommodityService commodityService)
         {
             _localPurchaseService = localPurchaseService;
             _commonService = commonService;
             _localPurchaseDetailService = localPurchaseDetailService;
             _giftCertificateService = giftCertificateService;
             _shippingInstructionService = shippingInstructionService;
+            _commodityService = commodityService;
         }
 
         public ActionResult Index()
@@ -54,8 +56,9 @@ namespace Cats.Areas.Logistics.Controllers
         public ActionResult Details(int id)
         {
             var localPurchase = _localPurchaseService.FindById(id);
+            var parentCommodityID = _commodityService.Get(m => m.CommodityID ==localPurchase.CommodityID).FirstOrDefault().ParentID;
             ViewBag.ProgramID = new SelectList(_commonService.GetPrograms(), "ProgramID", "Name",localPurchase.ProgramID);
-            ViewBag.CommodityID = new SelectList(_commonService.GetCommodities(), "CommodityID", "Name",localPurchase.CommodityID);
+            ViewBag.CommodityID = new SelectList(_commodityService.FindBy(m => m.ParentID == parentCommodityID), "CommodityID", "Name", localPurchase.CommodityID);
             ViewBag.CommodityTypeID = new SelectList(_commonService.GetCommodityTypes(), "CommodityTypeID", "Name");
             ViewBag.DonorID = new SelectList(_commonService.GetDonors(), "DonorID", "Name",localPurchase.DonorID);
             if (localPurchase!=null)
