@@ -54,6 +54,8 @@ namespace Cats.Areas.Logistics.Models
         public int LocalPurchaseID { get; set; }
         public int GiftCertificateID { get; set; }
         public string SINumber { get; set; }
+        public int ParentCommodityID { get; set; }
+        public string PatentCommodity { get; set; }
         public int CommodityID { get; set; }
         public int DonorID { get; set; }
         public string ProjectCode { get; set; }
