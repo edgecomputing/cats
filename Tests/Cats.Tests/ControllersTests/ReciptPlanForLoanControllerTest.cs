@@ -12,13 +12,14 @@ using Cats.Areas.Logistics.Models;
 using Cats.Models;
 using Cats.Models.Constant;
 using Cats.Models.Security;
-using Cats.Services.Common;
+using Cats.Services.Hub;
 using Cats.Services.Logistics;
 using Cats.Services.Security;
 using Kendo.Mvc.UI;
 using Moq;
 using NUnit.Framework;
 using Hub = Cats.Models.Hub;
+using ICommonService = Cats.Services.Common.ICommonService;
 
 namespace Cats.Tests.ControllersTests
 {   
@@ -79,6 +80,13 @@ namespace Cats.Tests.ControllersTests
                     new Hub { HubID = 1,Name = "Adama"},
                     new Hub { HubID = 2,Name = "Deradawa"}
                 };
+            var commodity = new List<Cats.Models.Hubs.Commodity>
+                {
+                    new Cats.Models.Hubs.Commodity() {CommodityID = 1, Name = "CSB"},
+                    new Cats.Models.Hubs.Commodity() {CommodityID = 2, Name = "Oil"}
+                };
+            var commodityService = new Mock<ICommodityService>();
+            commodityService.Setup(m => m.GetAllCommodity()).Returns(commodity);
 
             var commonService = new Mock<ICommonService>();
             commonService.Setup(m => m.GetAllHubs()).Returns(hub);
@@ -118,7 +126,7 @@ namespace Cats.Tests.ControllersTests
             t =>
             t.GetCommoditySource()).Returns(new List<CommoditySource>() { new CommoditySource() { CommoditySourceID = 1, Name = "Loan" } });
 
-            _reciptPlanForLoanController = new ReciptPlanForLoanController(loanService.Object, commonService.Object, loanDetailService.Object, userAccountService.Object);
+            _reciptPlanForLoanController = new ReciptPlanForLoanController(loanService.Object, commonService.Object, loanDetailService.Object, userAccountService.Object,commodityService.Object);
             _reciptPlanForLoanController.ControllerContext = controllerContext.Object;
         }
         [TearDown]

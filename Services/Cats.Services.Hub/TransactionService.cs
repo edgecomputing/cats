@@ -1569,8 +1569,6 @@ namespace Cats.Services.Hub
         {
             Commodity commodity = _unitOfWork.CommodityRepository.FindById(viewModel.CommodityId);
 
-            int transactionsign = 1;
-            if (viewModel.ReasonId == Cats.Models.Adjustment.Constants.LOST_AND_FOUND) transactionsign = -1;
 
 
             Adjustment lossAndAdjustment = new Adjustment();
@@ -1581,7 +1579,7 @@ namespace Cats.Services.Hub
 
             transactionOne.TransactionID = Guid.NewGuid();
             transactionOne.TransactionGroupID = transactionGroupId;
-            transactionOne.LedgerID = Cats.Models.Ledger.Constants.GOODS_ON_HAND;
+            transactionOne.LedgerID = 2;
             transactionOne.HubOwnerID = user.DefaultHubObj.HubOwner.HubOwnerID;
             transactionOne.AccountID = _accountService.GetAccountIdWithCreate(Account.Constants.HUB, user.DefaultHub.Value); // 
             transactionOne.HubID = user.DefaultHub.Value;
@@ -1595,8 +1593,8 @@ namespace Cats.Services.Hub
             transactionOne.CommodityID = viewModel.CommodityId;
             transactionOne.ProgramID = viewModel.ProgramId;
             transactionOne.CommodityGradeID = null; // How did I get this value ? 
-            transactionOne.QuantityInMT = -1*transactionsign*viewModel.QuantityInMt;
-            transactionOne.QuantityInUnit = -1*transactionsign*viewModel.QuantityInUint;
+            transactionOne.QuantityInMT = 0 - viewModel.QuantityInMt;
+            transactionOne.QuantityInUnit = 0 - viewModel.QuantityInUint;
             transactionOne.UnitID = viewModel.UnitId;
             transactionOne.TransactionDate = DateTime.Now;
 
@@ -1606,7 +1604,7 @@ namespace Cats.Services.Hub
 
             transactionTwo.TransactionID = Guid.NewGuid();
             transactionTwo.TransactionGroupID = transactionGroupId;
-            transactionTwo.LedgerID = Cats.Models.Ledger.Constants.LOSS_IN_TRANSIT;
+            transactionTwo.LedgerID = 14;
             transactionTwo.HubOwnerID = user.DefaultHubObj.HubOwnerID;
             transactionTwo.AccountID = _accountService.GetAccountIdWithCreate(Account.Constants.HUB, user.DefaultHub.Value); // 
             transactionTwo.HubID = user.DefaultHub.Value;
@@ -1619,8 +1617,8 @@ namespace Cats.Services.Hub
             transactionTwo.CommodityID = viewModel.CommodityId;
             transactionTwo.ProgramID = viewModel.ProgramId;
             transactionTwo.CommodityGradeID = null; // How did I get this value ? 
-            transactionTwo.QuantityInMT = transactionsign*viewModel.QuantityInMt;
-            transactionTwo.QuantityInUnit = transactionsign*viewModel.QuantityInUint;
+            transactionTwo.QuantityInMT = viewModel.QuantityInMt;
+            transactionTwo.QuantityInUnit = viewModel.QuantityInUint;
             transactionTwo.UnitID = viewModel.UnitId;
             transactionTwo.TransactionDate = DateTime.Now;
 
@@ -1659,97 +1657,71 @@ namespace Cats.Services.Hub
             }
         }
 
-        private Transaction createLossAdjustmentTransaction(LossesAndAdjustmentsViewModel viewModel, UserProfile user)
-        {
-            Transaction lossAdjtransaction=new Transaction();
-            Commodity commodity = _unitOfWork.CommodityRepository.FindById(viewModel.CommodityId);
-            lossAdjtransaction.TransactionID = Guid.NewGuid();
-            lossAdjtransaction.HubOwnerID = user.DefaultHubObj.HubOwner.HubOwnerID;
-            lossAdjtransaction.AccountID = _accountService.GetAccountIdWithCreate(Account.Constants.HUB, user.DefaultHub.Value); // 
-            lossAdjtransaction.HubID = user.DefaultHub.Value;
-            lossAdjtransaction.StoreID = viewModel.StoreId;  //
-            lossAdjtransaction.ProjectCodeID = viewModel.ProjectCodeId;
-            lossAdjtransaction.ShippingInstructionID = viewModel.ShippingInstructionId;
-            lossAdjtransaction.ParentCommodityID = (commodity.ParentID == null)
-                                                       ? commodity.CommodityID
-                                                       : commodity.ParentID.Value;
-            lossAdjtransaction.CommodityID = viewModel.CommodityId;
-            lossAdjtransaction.ProgramID = viewModel.ProgramId;
-            lossAdjtransaction.CommodityGradeID = null; // How did I get this value ? 
-            lossAdjtransaction.UnitID = viewModel.UnitId;
-            lossAdjtransaction.TransactionDate = DateTime.Now;
-            return lossAdjtransaction;
-        }
-
+        
         /// <summary>
         /// </summary>
         /// <param name="viewModel"></param>
         /// <param name="user"></param>
-        
+
         public void SaveAdjustmentTrasnsaction(LossesAndAdjustmentsViewModel viewModel, UserProfile user)
         {
 
-            
+
             Adjustment lossAndAdjustment = new Adjustment();
             TransactionGroup transactionGroup = new TransactionGroup();
-            /*
-            1	Data Entry Error
-            2	Loss (Theft)
-            3	Loss (Natural Cause)
-            4	Damage
-            5  	Data Entry Error
-            6	Lost and Found
-            
-            */
-            int transactionSign = -1;
-            
-            
-            if(viewModel.ReasonId==Cats.Models.Adjustment.Constants.DATA_ENTRY_ERROR_MINUS) transactionSign = 1;
-               
+            Transaction transactionOne = new Transaction();
             var transactionGroupId = Guid.NewGuid();
 
-            //goods in transit
-            Transaction transactionOne = createLossAdjustmentTransaction(viewModel, user);
 
+            Commodity commodity = _unitOfWork.CommodityRepository.FindById(viewModel.CommodityId);
+            transactionOne.TransactionID = Guid.NewGuid();
             transactionOne.TransactionGroupID = transactionGroupId;
-            transactionOne.LedgerID = Cats.Models.Ledger.Constants.GOODS_IN_TRANSIT;
-            transactionOne.QuantityInMT = transactionSign * viewModel.QuantityInMt;
-            transactionOne.QuantityInUnit = transactionSign * viewModel.QuantityInUint;
-            
-            Transaction transactionTwo = createLossAdjustmentTransaction(viewModel, user);
+            transactionOne.LedgerID = 14;
+            transactionOne.HubOwnerID = user.DefaultHubObj.HubOwner.HubOwnerID;
+            transactionOne.AccountID = _accountService.GetAccountIdWithCreate(Account.Constants.HUB, user.DefaultHub.Value); // 
+            transactionOne.HubID = user.DefaultHub.Value;
+            transactionOne.StoreID = viewModel.StoreId;  //
+            transactionOne.ProjectCodeID = viewModel.ProjectCodeId;
+            transactionOne.ShippingInstructionID = viewModel.ShippingInstructionId;
+            transactionOne.ParentCommodityID = (commodity.ParentID == null)
+                                                       ? commodity.CommodityID
+                                                       : commodity.ParentID.Value;
+            transactionOne.CommodityID = viewModel.CommodityId;
+            transactionOne.ProgramID = viewModel.ProgramId;
+            transactionOne.CommodityGradeID = null; // How did I get this value ? 
+            transactionOne.QuantityInMT = 0 - viewModel.QuantityInMt;
+            transactionOne.QuantityInUnit = 0 - viewModel.QuantityInUint;
+            transactionOne.UnitID = viewModel.UnitId;
+            transactionOne.TransactionDate = DateTime.Now;
 
-            //goods on hand
+
+
+            Transaction transactionTwo = new Transaction();
+
+            transactionTwo.TransactionID = Guid.NewGuid();
             transactionTwo.TransactionGroupID = transactionGroupId;
-            transactionTwo.LedgerID = Cats.Models.Ledger.Constants.GOODS_ON_HAND;
-            transactionTwo.QuantityInMT = -1 * transactionSign * viewModel.QuantityInMt;
-            transactionTwo.QuantityInUnit = -1 * transactionSign * viewModel.QuantityInUint;
+            transactionTwo.LedgerID = 2;
+            transactionTwo.HubOwnerID = user.DefaultHubObj.HubOwnerID;
+            transactionTwo.AccountID = _accountService.GetAccountIdWithCreate(Account.Constants.HUB, user.DefaultHub.Value); // 
+            transactionTwo.HubID = user.DefaultHub;
+            transactionTwo.StoreID = viewModel.StoreId;  //
+            transactionTwo.ProjectCodeID = viewModel.ProjectCodeId;
+            transactionTwo.ShippingInstructionID = viewModel.ShippingInstructionId;
+            transactionTwo.ParentCommodityID = (commodity.ParentID == null)
+                                                       ? commodity.CommodityID
+                                                       : commodity.ParentID.Value;
+            transactionTwo.CommodityID = viewModel.CommodityId;
+            transactionTwo.ProgramID = viewModel.ProgramId;
+            transactionTwo.CommodityGradeID = null; // How did I get this value ? 
+            transactionTwo.QuantityInMT = viewModel.QuantityInMt;
+            transactionTwo.QuantityInUnit = viewModel.QuantityInUint;
+            transactionTwo.UnitID = viewModel.UnitId;
+            transactionTwo.TransactionDate = DateTime.Now;
 
+            transactionGroup.TransactionGroupID = transactionGroupId;
             transactionGroup.Transactions.Add(transactionOne);
             transactionGroup.Transactions.Add(transactionTwo);
 
-            
-                
-                //commited to fdp
-                Transaction transactionThree = createLossAdjustmentTransaction(viewModel, user);
-                transactionThree.TransactionGroupID = transactionGroupId;
-                transactionThree.LedgerID = Cats.Models.Ledger.Constants.COMMITED_TO_FDP;
-                transactionThree.QuantityInMT = transactionSign*viewModel.QuantityInMt;
-                transactionThree.QuantityInUnit = transactionSign*viewModel.QuantityInUint;
-
-                //statistic free stock
-                Transaction transactionFour = createLossAdjustmentTransaction(viewModel, user);
-                transactionFour.TransactionGroupID = transactionGroupId;
-                transactionFour.LedgerID = Cats.Models.Ledger.Constants.STATISTICS_FREE_STOCK;
-                transactionFour.QuantityInMT = -1*transactionSign*viewModel.QuantityInMt;
-                transactionFour.QuantityInUnit = -1*transactionSign*viewModel.QuantityInUint;
-
-                transactionGroup.Transactions.Add(transactionThree);
-                transactionGroup.Transactions.Add(transactionFour);
-
-            
-            
-            transactionGroup.TransactionGroupID = transactionGroupId;
-                
             lossAndAdjustment.TransactionGroupID = transactionGroupId;
             lossAndAdjustment.AdjustmentID = Guid.NewGuid();
             lossAndAdjustment.PartitionId = 0;
@@ -1785,14 +1757,13 @@ namespace Cats.Services.Hub
         /// <param name="user">The user.</param>
         public void SaveLossAdjustmentTransaction(LossesAndAdjustmentsViewModel viewModel, UserProfile user)
         {
-            if (viewModel.ReasonId==Cats.Models.Adjustment.Constants.DATA_ENTRY_ERROR_MINUS||viewModel.ReasonId==Cats.Models.Adjustment.Constants.DATA_ENTRY_ERROR_PLUS)
+            if (viewModel.IsLoss == true)
             {
-                SaveAdjustmentTrasnsaction(viewModel, user);
+                SaveLossTrasnsaction(viewModel, user);
             }
             else
             {
-                SaveLossTrasnsaction(viewModel, user);
-
+                SaveAdjustmentTrasnsaction(viewModel, user);
             }
         }
 
