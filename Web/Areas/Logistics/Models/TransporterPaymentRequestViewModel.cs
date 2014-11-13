@@ -12,6 +12,10 @@ namespace Cats.Areas.Logistics.Models
         public string ReferenceNo { get; set; }
         public int TransportOrderID { get; set; }
         public System.Guid DeliveryID { get; set; }
+        public decimal? DispatchedAmount { get; set; }
+        public string DispatchDate { get; set; }
+        public string ChildCommodity { get; set; }
+        public int? ChildCommodityId { get; set; }
         public decimal ShortageQty { get; set; }
         public Nullable<decimal> ShortageBirr { get; set; }
         public Nullable<decimal> LabourCostRate { get; set; }

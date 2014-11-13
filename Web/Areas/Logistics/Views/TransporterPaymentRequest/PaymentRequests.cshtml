@@ -118,6 +118,7 @@
                             </div>
                             <div class="controls">
                                 <input type="text" id="FORMTransporterPaymentRequestID" name="transporterPaymentRequestID" style="display: none"/>
+                                <input type="text" id="tariff" name="tariff" style="display: none" />
                                 <input type="text" id="CommodityName" name="CommodityName" disabled="disabled"/>
                             </div>
                         </div>
@@ -414,8 +415,11 @@
                     <th>Issue No.</th>
                     <th>G.R.N.</th>
                     <th>Commodity</th>
+                    <th>Child Commodity</th>
                     <th>Source</th>
                     <th>Destination</th>
+                    <th>Dispatched Date</th>
+                    <th>Dispatched Amount</th>
                     <th>Received Qty.</th>
                     <th>Tarrif</th>
                     <th>Shortage Qty.</th>
@@ -454,11 +458,20 @@
                     <td>
                         @item.Commodity
                     </td>
+                     <td>
+                        @item.ChildCommodity
+                    </td>
                     <td>
                         @item.Source
                     </td>
                     <td>
                         @item.Destination
+                    </td>
+                     <td >
+                        @item.DispatchDate
+                    </td>
+                     <td class="item_dispatchedQty num">
+                        @item.DispatchedAmount
                     </td>
                     <td class="item_receivedqty num">
                         @item.ReceivedQty
@@ -486,7 +499,7 @@
                         {
                             if (state.StateNo == 0)
                             {
-                                <button class="btn" data-ng-click="loadCommodityTarrif(@item.TransporterPaymentRequestID, '@item.Commodity')">Commodity Price</button>
+                                <button class="btn" data-ng-click="loadCommodityTarrif(@item.TransporterPaymentRequestID, '@item.Commodity',@item.Tarrif)">Commodity Price</button>
                             }
                         }
                     </td>
@@ -519,9 +532,9 @@
         </tbody>
             <tfoot>
                 <tr style="background-color: rgba(220, 220, 220, 0.47);">
-                        <td colspan="7"></td>
+                        <td colspan="9"></td>
                         <td style="text-align: center"><b>Total:</b></td>
-
+                        <td><b><span id="view_dispatchedQty">0.0</span></b></td>
                         <td><b><span id="view_receivedqty">0.0</span>@*@Model.Sum(a => a.ReceivedQty)*@</b></td>
                         <td><b>@*@Model.Sum(a => a.Tarrif).ToString("0.00")*@</b> </td>
                         <td><b><span id="view_shortageqty">0.0</span>@*@Model.Sum(a => a.ShortageQty)*@</b></td>
@@ -595,8 +608,9 @@
                 $scope.SelectedLabourInfo = [];
                 $scope.SelectedCheckInfo = [];
 
-                $scope.loadCommodityTarrif = function (id, commodity) {
+                $scope.loadCommodityTarrif = function (id, commodity,tariff) {
                     //alert('Commodity: ' + commodity);
+                    $("#tariff").val(tariff);
                     $("#FORMTransporterPaymentRequestID").val(id);
                     $("#CommodityName").val(commodity);
                     wndLabourCostInfo.center().open();
@@ -685,9 +699,10 @@
                     filter('table>tbody>tr', $('#filter').val());
                 });
                 function view_total() {
-                    var receivedqty = 0.00, shortageqty = 0.00, shortagebirr = 0.00, freightcharge = 0.00;
+                    var receivedqty = 0.00, shortageqty = 0.00, shortagebirr = 0.00, freightcharge = 0.00, dispachedQty=0.00;
                     // select all visible rows
                     $("#paymentrequesttable tbody>tr.visible").each(function () {
+                        dispachedQty += parseFloat($(this).children("td.item_dispatchedQty").text());
                         receivedqty += parseFloat($(this).children("td.item_receivedqty").text());
                         shortageqty += parseFloat($(this).children("td.item_shortageqty").text());
                         shortagebirr += parseFloat($(this).children("td.item_shortagebirr").text());
@@ -698,6 +713,7 @@
                     $("#view_shortageqty").text(shortageqty);
                     $("#view_shortagebirr").text(shortagebirr);
                     $("#view_freightcharge").text(freightcharge);
+                    $("#view_dispatchedQty").text(dispachedQty);
                 }
             });
 

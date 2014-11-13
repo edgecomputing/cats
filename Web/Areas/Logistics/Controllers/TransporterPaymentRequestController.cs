@@ -18,6 +18,7 @@ using Cats.Services.Security;
 using Cats.ViewModelBinder;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
+using ICommonService = Cats.Services.Common.ICommonService;
 
 namespace Cats.Areas.Logistics.Controllers
 {
@@ -36,6 +37,7 @@ namespace Cats.Areas.Logistics.Controllers
         private readonly Services.Procurement.ITransporterService _transporterService;
         private readonly ITransportOrderService _transportOrderService;
         private readonly ITransportOrderDetailService _transportOrderDetailService;
+        private readonly ICommonService _commodityService;
 
         public TransporterPaymentRequestController(IBusinessProcessService _paramBusinessProcessService
                                                    , IBusinessProcessStateService _paramBusinessProcessStateService
@@ -48,7 +50,7 @@ namespace Cats.Areas.Logistics.Controllers
                                                    , IUserAccountService userAccountService
                                                    , Services.Procurement.ITransporterService transporterService,
                                                    ITransportOrderService transportOrderService,
-                                                   ITransportOrderDetailService transportOrderDetailService)
+                                                   ITransportOrderDetailService transportOrderDetailService, ICommonService commodityService)
         {
             _BusinessProcessService = _paramBusinessProcessService;
             _BusinessProcessStateService = _paramBusinessProcessStateService;
@@ -62,6 +64,7 @@ namespace Cats.Areas.Logistics.Controllers
             _transporterService = transporterService;
             _transportOrderService = transportOrderService;
             _transportOrderDetailService = transportOrderDetailService;
+            _commodityService = commodityService;
         }
 
         //
@@ -205,7 +208,7 @@ namespace Cats.Areas.Logistics.Controllers
 
         public ActionResult EditCommodityTarrif([DataSourceRequest] DataSourceRequest request,
                                                 int transporterPaymentRequestID,
-                                                decimal CommodityTarrif = (decimal) 0.00)
+                                                decimal CommodityTarrif = (decimal) 0.00,decimal tariff =  (decimal)0.00)
         {
             var transporterPaymentRequest =
                 _transporterPaymentRequestService.Get(
@@ -222,7 +225,7 @@ namespace Cats.Areas.Logistics.Controllers
                     }
                     else
                     {
-                        transporterPaymentRequest.ShortageBirr = (transporterPaymentRequest.ShortageQty) * CommodityTarrif;
+                        transporterPaymentRequest.ShortageBirr = (transporterPaymentRequest.ShortageQty) * CommodityTarrif * tariff;
                     }
                 }
                 _transporterPaymentRequestService.EditTransporterPaymentRequest(transporterPaymentRequest);
@@ -261,6 +264,12 @@ namespace Cats.Areas.Logistics.Controllers
         public List<TransporterPaymentRequestViewModel> TransporterPaymentRequestViewModelBinder(
             List<TransporterPaymentRequest> transporterPaymentRequests)
         {
+            var currentUser = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name);
+
+            
+
+            var datePref = currentUser.DatePreference; 
+
             var transporterPaymentRequestViewModels = new List<TransporterPaymentRequestViewModel>();
             foreach (var transporterPaymentRequest in transporterPaymentRequests)
             {
@@ -285,61 +294,86 @@ namespace Cats.Areas.Logistics.Controllers
                 {
 
                     {
-                        var deliveryDetail = request.Delivery.DeliveryDetails.FirstOrDefault();
-                        var businessProcess = _BusinessProcessService.FindById(request.BusinessProcessID);
-                        if (request.LabourCost == null)
-                            request.LabourCost = (decimal) 0.00;
-                        if (request.RejectedAmount == null)
-                            request.RejectedAmount = (decimal) 0.00;
-                        if (deliveryDetail != null)
+                        var dispathedAmount =(decimal) 0.0;
+                        var childCommodity = string.Empty;
+                        var firstOrDefault = dispatch.DispatchDetails.FirstOrDefault();
+                        if (firstOrDefault != null)
                         {
-                            var transporterPaymentRequestViewModel = new TransporterPaymentRequestViewModel()
-                                                                         {
-                                                                             RequisitionNo = dispatch.RequisitionNo,
-                                                                             GIN = request.Delivery.InvoiceNo,
-                                                                             GRN = request.Delivery.ReceivingNumber,
-                                                                             Commodity = deliveryDetail.Commodity.Name,
-                                                                             Source = dispatch.Hub.Name,
-                                                                             Destination = dispatch.FDP.Name,
-                                                                             ReceivedQty =
-                                                                                 deliveryDetail.ReceivedQuantity.
-                                                                                 ToQuintal(),
-                                                                             Tarrif = tarrif,
-                                                                             ShortageQty = request.ShortageQty != null ?  (decimal) (request.ShortageQty):(deliveryDetail.SentQuantity.ToQuintal()) -
-                                                                                 (deliveryDetail.ReceivedQuantity.
-                                                                                     ToQuintal()),
-                                                                             ShortageBirr = request.ShortageBirr,
-                                                                             SentQty = deliveryDetail.SentQuantity,
-                                                                             BusinessProcessID =
-                                                                                 request.BusinessProcessID,
-                                                                             DeliveryID = request.DeliveryID,
-                                                                             ReferenceNo = request.ReferenceNo,
-                                                                             TransportOrderID = request.TransportOrderID,
-                                                                             TransporterPaymentRequestID =
-                                                                                 request.TransporterPaymentRequestID,
-                                                                             FreightCharge =
-                                                                                 (decimal)
-                                                                                 (request.ShortageBirr != null
-                                                                                      ? (deliveryDetail.ReceivedQuantity
-                                                                                             .ToQuintal()*tarrif) -
-                                                                                        request.ShortageBirr +
-                                                                                        request.LabourCost -
-                                                                                        request.RejectedAmount
-                                                                                      : (deliveryDetail.ReceivedQuantity
-                                                                                             .ToQuintal()*tarrif) +
-                                                                                        request.LabourCost -
-                                                                                        request.RejectedAmount),
-                                                                             BusinessProcess = businessProcess,
-                                                                             LabourCost = request.LabourCost,
-                                                                             LabourCostRate = request.LabourCostRate,
-                                                                             RejectedAmount = request.RejectedAmount,
-                                                                             RejectionReason = request.RejectionReason,
-                                                                             RequestedDate = request.RequestedDate,
-                                                                             Program = dispatch.DispatchAllocation.Program,
-                                                                             Transporter = dispatch.Transporter
-                                                                         };
-                            transporterPaymentRequestViewModels.Add(transporterPaymentRequestViewModel);
+                            dispathedAmount = firstOrDefault.DispatchedQuantityInMT.ToQuintal();
                         }
+
+                        var dispatchedDate = dispatch.DispatchDate.Date;
+                        var dispatchDetail = dispatch.DispatchDetails.FirstOrDefault();
+                        if (dispatchDetail != null)
+                        {
+                            var childCommodityId = dispatchDetail.CommodityChildID;
+
+
+                            var orDefault = _commodityService.GetCommodities(c => c.CommodityID == childCommodityId).FirstOrDefault();
+                            if (orDefault != null)
+                            {
+                               childCommodity =orDefault.Name;
+                            }
+                        }
+                        var deliveryDetail = request.Delivery.DeliveryDetails.FirstOrDefault();
+                            var businessProcess = _BusinessProcessService.FindById(request.BusinessProcessID);
+                            if (request.LabourCost == null)
+                                request.LabourCost = (decimal) 0.00;
+                            if (request.RejectedAmount == null)
+                                request.RejectedAmount = (decimal) 0.00;
+                            if (deliveryDetail != null)
+                            {
+                                var transporterPaymentRequestViewModel = new TransporterPaymentRequestViewModel()
+                                                                             {
+                                                                                 RequisitionNo = dispatch.RequisitionNo,
+                                                                                 GIN = request.Delivery.InvoiceNo,
+                                                                                 GRN = request.Delivery.ReceivingNumber,
+                                                                                 Commodity = deliveryDetail.Commodity.Name,
+                                                                                 Source = dispatch.Hub.Name,
+                                                                                 Destination = dispatch.FDP.Name,
+                                                                                 ReceivedQty =
+                                                                                     deliveryDetail.ReceivedQuantity.
+                                                                                     ToQuintal(),
+                                                                                 Tarrif = tarrif,
+                                                                                 ShortageQty = request.ShortageQty != null ?  (decimal) (request.ShortageQty):(deliveryDetail.SentQuantity.ToQuintal()) -
+                                                                                                                                                              (deliveryDetail.ReceivedQuantity.
+                                                                                                                                                                  ToQuintal()),
+                                                                                 ShortageBirr = request.ShortageBirr,
+                                                                                 SentQty = deliveryDetail.SentQuantity,
+                                                                                 BusinessProcessID =
+                                                                                     request.BusinessProcessID,
+                                                                                 DeliveryID = request.DeliveryID,
+                                                                                 ReferenceNo = request.ReferenceNo,
+                                                                                 TransportOrderID = request.TransportOrderID,
+                                                                                 TransporterPaymentRequestID =
+                                                                                     request.TransporterPaymentRequestID,
+                                                                                 FreightCharge =
+                                                                                     (decimal)
+                                                                                     (request.ShortageBirr != null
+                                                                                          ? (deliveryDetail.ReceivedQuantity
+                                                                                                 .ToQuintal()*tarrif) -(
+                                                                                            request.ShortageBirr +
+                                                                                            request.LabourCost -
+                                                                                            request.RejectedAmount)
+                                                                                          : (deliveryDetail.ReceivedQuantity
+                                                                                                 .ToQuintal()*tarrif) +
+                                                                                            request.LabourCost -
+                                                                                            request.RejectedAmount),
+                                                                                 BusinessProcess = businessProcess,
+                                                                                 LabourCost = request.LabourCost,
+                                                                                 LabourCostRate = request.LabourCostRate,
+                                                                                 RejectedAmount = request.RejectedAmount,
+                                                                                 RejectionReason = request.RejectionReason,
+                                                                                 RequestedDate = request.RequestedDate,
+                                                                                 Program = dispatch.DispatchAllocation.Program,
+                                                                                 Transporter = dispatch.Transporter,
+                                                                                 ChildCommodity = childCommodity,
+                                                                                 DispatchDate = dispatchedDate.ToCTSPreferedDateFormat(datePref),
+                                                                                 DispatchedAmount = dispathedAmount
+                                                                             };
+                                transporterPaymentRequestViewModels.Add(transporterPaymentRequestViewModel);
+                            }
+                        
                     }
                 }
             }

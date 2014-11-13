@@ -12,6 +12,7 @@ using Cats.Areas.Logistics.Models;
 using Cats.Models;
 using Cats.Models.Constant;
 using Cats.Models.Security;
+using Cats.Services.Administration;
 using Cats.Services.Common;
 using Cats.Services.Logistics;
 using Cats.Services.Security;
@@ -80,6 +81,28 @@ namespace Cats.Tests.ControllersTests
                     new Hub { HubID = 2,Name = "Deradawa"}
                 };
 
+           
+            var commodity = new List<Cats.Models.Hubs.Commodity>
+                               {
+                                   new Models.Hubs.Commodity()
+                                       {
+                                           CommodityID =  1,
+                                           ParentID = 1,
+                                           Name = "Wheat",
+                                           
+                                       },
+                                       new Models.Hubs.Commodity()
+                                           {
+                                               CommodityID = 2,
+                                               ParentID = 1,
+                                               Name = "Grain"
+                                           }
+                               };
+
+            var commodityService = new Mock<Cats.Services.Hub.ICommodityService>();
+            commodityService.Setup(m => m.FindBy(c => c.ParentID == 1)).Returns(commodity);
+               
+
             var commonService = new Mock<ICommonService>();
             commonService.Setup(m => m.GetAllHubs()).Returns(hub);
 
@@ -118,7 +141,7 @@ namespace Cats.Tests.ControllersTests
             t =>
             t.GetCommoditySource()).Returns(new List<CommoditySource>() { new CommoditySource() { CommoditySourceID = 1, Name = "Loan" } });
 
-            _reciptPlanForLoanController = new ReciptPlanForLoanController(loanService.Object, commonService.Object, loanDetailService.Object, userAccountService.Object);
+            _reciptPlanForLoanController = new ReciptPlanForLoanController(loanService.Object, commonService.Object, loanDetailService.Object, userAccountService.Object,commodityService.Object);
             _reciptPlanForLoanController.ControllerContext = controllerContext.Object;
         }
         [TearDown]
