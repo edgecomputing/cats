@@ -5,7 +5,8 @@
 @model Cats.Areas.Logistics.Models.LocalPurchaseWithDetailViewModel
 @{
     ViewBag.Title = "Create";
-    Layout = "~/Views/Shared/_MainLayout.cshtml";  
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+    const string PAGE_NAME = "Logistics.LocalPurchase.Create";
 }
 @section Toolbar
 {
@@ -58,15 +59,16 @@
                     </div>
                 
                 </td>
-                <td>
+                 <td>
+               <div class="control-label">
+                    @Html.LabelFor(m=>m.ParentCommodityID,@Html.Translate2(PAGE_NAME,"Parent Commodity"))
+                </div>
+                 <div class="controls">
+                     <select id="ParentCommodityID" name="ParentCommodityID"></select>
+                    
+                 </div>
+            </td>
                
-                    <div class="control-label">
-                        @Html.Label(Html.Translate("Commodity"))
-                    </div>
-                    <div class="controls">
-                        @Html.DropDownList("CommodityID")
-                    </div>
-                </td>
 
             </tr>
             <tr>
@@ -80,16 +82,16 @@
                     </div>
                 
                 </td>
-                <td>
-                
-                    <div class="control-label">
-                        @Html.Label(Html.Translate("Program"))
-                    </div>
-                    <div class="controls">
-                        @Html.DropDownList("ProgramID")
-                    </div>
-                
-                </td>
+                 <td>
+               <div class="control-label">
+                    @Html.LabelFor(m=>m.CommodityID,@Html.Translate2(PAGE_NAME,"Commodity"))
+                </div>
+                <div class="controls">
+                    <select id="CommodityID" name="CommodityID"></select>
+                    
+                </div>
+            </td>
+               
             </tr>
             <tr>
                 <td>
@@ -102,16 +104,17 @@
                     </div>
                
                 </td>
-                <td>
-              
+                 <td>
+                
                     <div class="control-label">
-                        @Html.Label(Html.Translate("Donor"))
+                        @Html.Label(Html.Translate("Program"))
                     </div>
                     <div class="controls">
-                        @Html.DropDownList("DonorID")
+                        @Html.DropDownList("ProgramID")
                     </div>
-               
+                
                 </td>
+               
             </tr>
             <tr>
                 <td>
@@ -124,6 +127,29 @@
                     </div>
                 
                 </td>
+                 <td>
+              
+                    <div class="control-label">
+                        @Html.Label(Html.Translate("Donor"))
+                    </div>
+                    <div class="controls">
+                        @Html.DropDownList("DonorID")
+                    </div>
+               
+                </td>
+                
+            </tr>
+            <tr>
+                <td >
+               
+                    <div class="control-label">
+                        @Html.Label(Html.Translate("Reference Number"))
+                    </div>
+                    <div class="controls" style="height: 10px">
+                        @Html.TextBoxFor(m => m.ReferenceNumber)
+                    </div>
+                
+                </td>
                 <td>
                 
                     <div class="control-label">
@@ -133,18 +159,6 @@
                         @Html.TextBoxFor(m => m.Quantity)
                     </div>
                
-                </td>
-            </tr>
-            <tr>
-                <td colspan="2">
-               
-                    <div class="control-label">
-                        @Html.Label(Html.Translate("Reference Number"))
-                    </div>
-                    <div class="controls" style="height: 10px">
-                        @Html.TextBoxFor(m => m.ReferenceNumber)
-                    </div>
-                
                 </td>
             </tr>
         </table>
@@ -201,4 +215,55 @@
 
         return data.indexOf(dataItem);
     }
+   
+$(document).ready(function () {
+ 
+    $.getJSON('@Url.Action("JsonParentCommodities","Transfer")', { commodityTypeID: 1, editModval: '@Model.CommodityID' }, function (result) {
+            //for (var i = 0; i < 2; i++)
+            //    alert(result[i].Text);
+            if (result != "" && result != null) {
+                //$('#StoreID').data('tComboBox').value(result[0]);
+                var options = '<option value="">-- Select a Parent Commodity</option>';
+                for (var i = 0; i < result.length; i++) {
+                    options += '<option value="' + result[i].Value + '">' + result[i].Text + '</option>';
+                }
+                $("#ParentCommodityID").html(options);
+
+            }
+        });
+        $('#CommodityTypeID').change(function () {
+            var url = '@Url.Action("JsonParentCommodities","Transfer")';
+        $.getJSON(url, { commodityTypeID: $('#CommodityTypeID').val(), editModval: '@Model.CommodityID' }, function (result) {
+            //for (var i = 0; i < 2; i++)
+            //    alert(result[i].Text);
+            if (result != "" && result != null) {
+                //$('#StoreID').data('tComboBox').value(result[0]);
+                var options = '<option value="">-- Select a Parent Commodity</option>';
+                for (var i = 0; i < result.length; i++) {
+                    options += '<option value="' + result[i].Value + '">' + result[i].Text + '</option>';
+                }
+                $("#ParentCommodityID").html(options);
+
+            }
+        });
+        $("#CommodityID").html('');
+    });
+    $('#ParentCommodityID').change(function () {
+        var url = '@Url.Action("JsonCommodities","Transfer")';
+        $.getJSON(url, { parentCommodityID: $('#ParentCommodityID').val(), editModval: '@Model.ParentCommodityID' }, function (result) {
+            //for (var i = 0; i < 2; i++)
+            //    alert(result[i].Text);
+            if (result != "" && result != null) {
+                //$('#StoreID').data('tComboBox').value(result[0]);
+                var options = '<option value="">-- Select a Commodity</option>';
+                for (var i = 0; i < result.length; i++) {
+                    options += '<option value="' + result[i].Value + '">' + result[i].Text + '</option>';
+                }
+                $("#CommodityID").html(options);
+
+            }
+        });
+    });
+
+});
     </script>

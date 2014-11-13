@@ -491,7 +491,7 @@ namespace Cats.Areas.Logistics.Controllers
         public System.Collections.IEnumerable PaymentRequestForPrint(int transporterId)
         {
             var list = (IEnumerable<Cats.Models.TransporterPaymentRequest>)_transporterPaymentRequestService
-                        .Get(t => t.BusinessProcess.CurrentState.BaseStateTemplate.StateNo >= 2, null, "BusinessProcess")
+                        .Get(t => t.BusinessProcess.CurrentState.BaseStateTemplate.StateNo < 2, null, "BusinessProcess")
                         .OrderByDescending(t => t.TransporterPaymentRequestID);
             var transporterPaymentRequests = TransporterPaymentRequestViewModelBinder(list.ToList());
 
