@@ -12,6 +12,7 @@ using Cats.Areas.Logistics.Models;
 using Cats.Models;
 using Cats.Models.Constant;
 using Cats.Models.Security;
+using Cats.Services.Administration;
 using Cats.Services.Hub;
 using Cats.Services.Logistics;
 using Cats.Services.Security;
@@ -80,13 +81,29 @@ namespace Cats.Tests.ControllersTests
                     new Hub { HubID = 1,Name = "Adama"},
                     new Hub { HubID = 2,Name = "Deradawa"}
                 };
+          
+
+           
             var commodity = new List<Cats.Models.Hubs.Commodity>
-                {
-                    new Cats.Models.Hubs.Commodity() {CommodityID = 1, Name = "CSB"},
-                    new Cats.Models.Hubs.Commodity() {CommodityID = 2, Name = "Oil"}
-                };
-            var commodityService = new Mock<ICommodityService>();
-            commodityService.Setup(m => m.GetAllCommodity()).Returns(commodity);
+                               {
+                                   new Models.Hubs.Commodity()
+                                       {
+                                           CommodityID =  1,
+                                           ParentID = 1,
+                                           Name = "Wheat",
+                                           
+                                       },
+                                       new Models.Hubs.Commodity()
+                                           {
+                                               CommodityID = 2,
+                                               ParentID = 1,
+                                               Name = "Grain"
+                                           }
+                               };
+
+            var commodityService = new Mock<Cats.Services.Hub.ICommodityService>();
+            commodityService.Setup(m => m.FindBy(c => c.ParentID == 1)).Returns(commodity);
+               
 
             var commonService = new Mock<ICommonService>();
             commonService.Setup(m => m.GetAllHubs()).Returns(hub);
