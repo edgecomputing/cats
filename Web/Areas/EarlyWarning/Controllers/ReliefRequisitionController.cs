@@ -159,9 +159,10 @@ namespace Cats.Areas.EarlyWarning.Controllers
         {
             try
             {
+                var planID = _regionalRequestService.FindById(id).PlanID;
                 if (programId == (int)Programs.IDPS)
                 {
-                    var planToBeEdited = _planService.FindBy(p => p.PlanID == programId).Single();
+                    var planToBeEdited = _planService.FindBy(p => p.PlanID == planID).Single();
                     if (planToBeEdited != null)
                     {
                         //var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
