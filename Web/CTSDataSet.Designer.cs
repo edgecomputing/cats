@@ -2989,6 +2989,8 @@ namespace Cats {
             
             private global::System.Data.DataColumn columnTariff;
             
+            private global::System.Data.DataColumn columnChildCommodity;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public TransporterPayReqDataTable() {
@@ -3184,6 +3186,14 @@ namespace Cats {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn ChildCommodityColumn {
+                get {
+                    return this.columnChildCommodity;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -3237,7 +3247,8 @@ namespace Cats {
                         string TransporterName, 
                         int TransportOrderID, 
                         decimal FreightCharge, 
-                        decimal Tariff) {
+                        decimal Tariff, 
+                        string ChildCommodity) {
                 TransporterPayReqRow rowTransporterPayReqRow = ((TransporterPayReqRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         null,
@@ -3259,7 +3270,8 @@ namespace Cats {
                         TransportOrderID,
                         null,
                         FreightCharge,
-                        Tariff};
+                        Tariff,
+                        ChildCommodity};
                 rowTransporterPayReqRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowTransporterPayReqRow);
                 return rowTransporterPayReqRow;
@@ -3302,6 +3314,7 @@ namespace Cats {
                 this.columnTransporterPaymentRequestID = base.Columns["TransporterPaymentRequestID"];
                 this.columnFreightCharge = base.Columns["FreightCharge"];
                 this.columnTariff = base.Columns["Tariff"];
+                this.columnChildCommodity = base.Columns["ChildCommodity"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -3347,6 +3360,8 @@ namespace Cats {
                 base.Columns.Add(this.columnFreightCharge);
                 this.columnTariff = new global::System.Data.DataColumn("Tariff", typeof(decimal), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnTariff);
+                this.columnChildCommodity = new global::System.Data.DataColumn("ChildCommodity", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnChildCommodity);
                 this.columnTransporterID.AutoIncrement = true;
                 this.columnTransporterID.AutoIncrementSeed = -1;
                 this.columnTransporterID.AutoIncrementStep = -1;
@@ -3371,6 +3386,8 @@ namespace Cats {
                 this.columnTransporterPaymentRequestID.ReadOnly = true;
                 this.columnFreightCharge.ReadOnly = true;
                 this.columnTariff.ReadOnly = true;
+                this.columnChildCommodity.ReadOnly = true;
+                this.columnChildCommodity.MaxLength = 14;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -6787,6 +6804,22 @@ namespace Cats {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string ChildCommodity {
+                get {
+                    try {
+                        return ((string)(this[this.tableTransporterPayReq.ChildCommodityColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'ChildCommodity\' in table \'TransporterPayReq\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableTransporterPayReq.ChildCommodityColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public bool IsTransporterIDNull() {
                 return this.IsNull(this.tableTransporterPayReq.TransporterIDColumn);
             }
@@ -6963,6 +6996,18 @@ namespace Cats {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public void SetTariffNull() {
                 this[this.tableTransporterPayReq.TariffColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsChildCommodityNull() {
+                return this.IsNull(this.tableTransporterPayReq.ChildCommodityColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetChildCommodityNull() {
+                this[this.tableTransporterPayReq.ChildCommodityColumn] = global::System.Convert.DBNull;
             }
         }
         
@@ -9261,6 +9306,7 @@ FROM            Ration RIGHT OUTER JOIN
             tableMapping.ColumnMappings.Add("TransporterPaymentRequestID", "TransporterPaymentRequestID");
             tableMapping.ColumnMappings.Add("FreightCharge", "FreightCharge");
             tableMapping.ColumnMappings.Add("Tariff", "Tariff");
+            tableMapping.ColumnMappings.Add("ChildCommodity", "ChildCommodity");
             this._adapter.TableMappings.Add(tableMapping);
         }
         
@@ -9277,61 +9323,62 @@ FROM            Ration RIGHT OUTER JOIN
             this._commandCollection = new global::System.Data.SqlClient.SqlCommand[1];
             this._commandCollection[0] = new global::System.Data.SqlClient.SqlCommand();
             this._commandCollection[0].Connection = this.Connection;
-            this._commandCollection[0].CommandText = "SELECT         Request.TransporterID, Request.StateNo, Request.RequisitionNo, Req" +
-                "uest.GIN, Request.GRN, Request.CommodityName, Hub.Name AS Source, Request.FDPID " +
-                "AS Destination, Request.ReceivedQuantity * 10 AS ReceivedQuantity, \r\n           " +
-                "              (Request.SentQty - Request.ReceivedQuantity) * 10 AS ShortageQty, " +
-                "Request.ShortageBirr, Request.SentQty, Request.BusinessProcessID, Request.Delive" +
-                "ryID, Request.ReferenceNo, Request.TransporterName, \r\n                         R" +
-                "equest.TransportOrderID, Request.TransporterPaymentRequestID, Request.ReceivedQu" +
-                "antity * 10 * ISNULL(MAX(Procurement.TransportOrderDetail.TariffPerQtl), 0.0) - " +
-                "ISNULL(Request.ShortageBirr, 0.0) \r\n                         - ISNULL(Request.Re" +
-                "jectedAmount, 0.0) + ISNULL(Request.LabourCost, 0.0) AS FreightCharge, ISNULL(MA" +
-                "X(Procurement.TransportOrderDetail.TariffPerQtl), 0.0) AS Tariff\r\nFROM          " +
-                "  (SELECT        Procurement.Transporter.TransporterID, StateTemplate.StateNo, D" +
-                "elivery.InvoiceNo AS GIN, Delivery.ReceivingNumber AS GRN, Commodity.Name AS Com" +
-                "modityName, DeliveryDetail.ReceivedQuantity, \r\n                                 " +
-                "                   DeliveryDetail.SentQuantity - DeliveryDetail.ReceivedQuantity" +
-                " AS ShortageQty, TransporterPaymentRequest.ShortageBirr, DeliveryDetail.SentQuan" +
-                "tity AS SentQty, \r\n                                                    Transport" +
-                "erPaymentRequest.BusinessProcessID, TransporterPaymentRequest.DeliveryID, Transp" +
-                "orterPaymentRequest.ReferenceNo, TransporterPaymentRequest.TransportOrderID, \r\n " +
-                "                                                   TransporterPaymentRequest.Tra" +
-                "nsporterPaymentRequestID, TransporterPaymentRequest.LabourCost, TransporterPayme" +
-                "ntRequest.LabourCostRate, TransporterPaymentRequest.RejectedAmount, \r\n          " +
-                "                                          TransporterPaymentRequest.RejectionRea" +
-                "son, TransporterPaymentRequest.RequestedDate, Dispatch.HubID, Dispatch.DispatchI" +
-                "D, Dispatch.FDPID, Dispatch.RequisitionNo, \r\n                                   " +
-                "                 Procurement.Transporter.Name AS TransporterName\r\n              " +
-                "            FROM            Procurement.Transporter RIGHT OUTER JOIN\r\n          " +
-                "                                          Dispatch ON Procurement.Transporter.Tr" +
-                "ansporterID = Dispatch.TransporterID RIGHT OUTER JOIN\r\n                         " +
-                "                           Delivery ON Dispatch.DispatchID = Delivery.DispatchID" +
-                " LEFT OUTER JOIN\r\n                                                    Commodity " +
-                "RIGHT OUTER JOIN\r\n                                                    DeliveryDe" +
-                "tail ON Commodity.CommodityID = DeliveryDetail.CommodityID ON Delivery.DeliveryI" +
-                "D = DeliveryDetail.DeliveryID RIGHT OUTER JOIN\r\n                                " +
-                "                    StateTemplate RIGHT OUTER JOIN\r\n                            " +
-                "                        BusinessProcessState RIGHT OUTER JOIN\r\n                 " +
-                "                                   BusinessProcess ON BusinessProcessState.Busin" +
-                "essProcessStateID = BusinessProcess.CurrentStateID ON StateTemplate.StateTemplat" +
-                "eID = BusinessProcessState.StateID RIGHT OUTER JOIN\r\n                           " +
-                "                         TransporterPaymentRequest ON BusinessProcess.BusinessPr" +
-                "ocessID = TransporterPaymentRequest.BusinessProcessID ON Delivery.DeliveryID = T" +
-                "ransporterPaymentRequest.DeliveryID\r\n                          WHERE        (Sta" +
-                "teTemplate.StateNo >= 2)) AS Request LEFT OUTER JOIN\r\n                         H" +
-                "ub ON Request.HubID = Hub.HubID LEFT OUTER JOIN\r\n                         Procur" +
-                "ement.TransportOrderDetail ON Request.TransportOrderID = Procurement.TransportOr" +
-                "derDetail.TransportOrderID AND Request.HubID = Procurement.TransportOrderDetail." +
-                "SourceWarehouseID AND \r\n                         Request.FDPID = Procurement.Tra" +
-                "nsportOrderDetail.FdpID\r\nGROUP BY Request.StateNo, Request.RequisitionNo, Reques" +
-                "t.GIN, Request.GRN, Request.CommodityName, Request.ReceivedQuantity, Request.Sho" +
-                "rtageQty, Request.ShortageBirr, Request.SentQty, \r\n                         Requ" +
-                "est.BusinessProcessID, Request.DeliveryID, Request.ReferenceNo, Request.Transpor" +
-                "tOrderID, Request.TransporterPaymentRequestID, Request.LabourCost, Request.Labou" +
-                "rCostRate, \r\n                         Request.RejectedAmount, Request.RequestedD" +
-                "ate, Request.HubID, Request.DispatchID, Request.FDPID, Request.TransporterName, " +
-                "Hub.Name, Request.TransporterID\r\n Having TransporterID = @tn";
+            this._commandCollection[0].CommandText = "SELECT        \'ChildCommodity\' AS ChildCommodity, Request.TransporterID, Request." +
+                "StateNo, Request.RequisitionNo, Request.GIN, Request.GRN, Request.CommodityName," +
+                " Hub.Name AS Source, Request.FDPID AS Destination, Request.ReceivedQuantity * 10" +
+                " AS ReceivedQuantity, \r\n                         (Request.SentQty - Request.Rece" +
+                "ivedQuantity) * 10 AS ShortageQty, Request.ShortageBirr, Request.SentQty, Reques" +
+                "t.BusinessProcessID, Request.DeliveryID, Request.ReferenceNo, Request.Transporte" +
+                "rName, \r\n                         Request.TransportOrderID, Request.TransporterP" +
+                "aymentRequestID, Request.ReceivedQuantity * 10 * ISNULL(MAX(Procurement.Transpor" +
+                "tOrderDetail.TariffPerQtl), 0.0) - ISNULL(Request.ShortageBirr, 0.0) \r\n         " +
+                "                - ISNULL(Request.RejectedAmount, 0.0) + ISNULL(Request.LabourCos" +
+                "t, 0.0) AS FreightCharge, ISNULL(MAX(Procurement.TransportOrderDetail.TariffPerQ" +
+                "tl), 0.0) AS Tariff\r\nFROM            (SELECT        Procurement.Transporter.Tran" +
+                "sporterID, StateTemplate.StateNo, Delivery.InvoiceNo AS GIN, Delivery.ReceivingN" +
+                "umber AS GRN, Commodity.Name AS CommodityName, DeliveryDetail.ReceivedQuantity, " +
+                "\r\n                                                    DeliveryDetail.SentQuantit" +
+                "y - DeliveryDetail.ReceivedQuantity AS ShortageQty, TransporterPaymentRequest.Sh" +
+                "ortageBirr, DeliveryDetail.SentQuantity AS SentQty, \r\n                          " +
+                "                          TransporterPaymentRequest.BusinessProcessID, Transport" +
+                "erPaymentRequest.DeliveryID, TransporterPaymentRequest.ReferenceNo, TransporterP" +
+                "aymentRequest.TransportOrderID, \r\n                                              " +
+                "      TransporterPaymentRequest.TransporterPaymentRequestID, TransporterPaymentR" +
+                "equest.LabourCost, TransporterPaymentRequest.LabourCostRate, TransporterPaymentR" +
+                "equest.RejectedAmount, \r\n                                                    Tra" +
+                "nsporterPaymentRequest.RejectionReason, TransporterPaymentRequest.RequestedDate," +
+                " Dispatch.HubID, Dispatch.DispatchID, Dispatch.FDPID, Dispatch.RequisitionNo, \r\n" +
+                "                                                    Procurement.Transporter.Name" +
+                " AS TransporterName\r\n                          FROM            Procurement.Trans" +
+                "porter RIGHT OUTER JOIN\r\n                                                    Dis" +
+                "patch ON Procurement.Transporter.TransporterID = Dispatch.TransporterID RIGHT OU" +
+                "TER JOIN\r\n                                                    Delivery ON Dispat" +
+                "ch.DispatchID = Delivery.DispatchID LEFT OUTER JOIN\r\n                           " +
+                "                         Commodity RIGHT OUTER JOIN\r\n                           " +
+                "                         DeliveryDetail ON Commodity.CommodityID = DeliveryDetai" +
+                "l.CommodityID ON Delivery.DeliveryID = DeliveryDetail.DeliveryID RIGHT OUTER JOI" +
+                "N\r\n                                                    StateTemplate RIGHT OUTER" +
+                " JOIN\r\n                                                    BusinessProcessState " +
+                "RIGHT OUTER JOIN\r\n                                                    BusinessPr" +
+                "ocess ON BusinessProcessState.BusinessProcessStateID = BusinessProcess.CurrentSt" +
+                "ateID ON StateTemplate.StateTemplateID = BusinessProcessState.StateID RIGHT OUTE" +
+                "R JOIN\r\n                                                    TransporterPaymentRe" +
+                "quest ON BusinessProcess.BusinessProcessID = TransporterPaymentRequest.BusinessP" +
+                "rocessID ON Delivery.DeliveryID = TransporterPaymentRequest.DeliveryID\r\n        " +
+                "                  WHERE        (StateTemplate.StateNo >= 2)) AS Request LEFT OUT" +
+                "ER JOIN\r\n                         Hub ON Request.HubID = Hub.HubID LEFT OUTER JO" +
+                "IN\r\n                         Procurement.TransportOrderDetail ON Request.Transpo" +
+                "rtOrderID = Procurement.TransportOrderDetail.TransportOrderID AND Request.HubID " +
+                "= Procurement.TransportOrderDetail.SourceWarehouseID AND \r\n                     " +
+                "    Request.FDPID = Procurement.TransportOrderDetail.FdpID\r\nGROUP BY Request.Sta" +
+                "teNo, Request.RequisitionNo, Request.GIN, Request.GRN, Request.CommodityName, Re" +
+                "quest.ReceivedQuantity, Request.ShortageQty, Request.ShortageBirr, Request.SentQ" +
+                "ty, \r\n                         Request.BusinessProcessID, Request.DeliveryID, Re" +
+                "quest.ReferenceNo, Request.TransportOrderID, Request.TransporterPaymentRequestID" +
+                ", Request.LabourCost, Request.LabourCostRate, \r\n                         Request" +
+                ".RejectedAmount, Request.RequestedDate, Request.HubID, Request.DispatchID, Reque" +
+                "st.FDPID, Request.TransporterName, Hub.Name, Request.TransporterID\r\n Having Tran" +
+                "sporterID = @tn";
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[0].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@tn", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 0, 0, "TransporterID", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
         }

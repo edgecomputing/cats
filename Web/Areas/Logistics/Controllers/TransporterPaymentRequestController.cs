@@ -459,6 +459,7 @@ namespace Cats.Areas.Logistics.Controllers
                              GIN = data.GIN,
                              GRN = data.GRN,
                              CommodityName = data.Commodity,
+                             childCommodity = data.ChildCommodity,
                              Source = data.Source,
                              Destination = data.Destination,
                              ReceivedQuantity = data.ReceivedQty,
@@ -493,7 +494,7 @@ namespace Cats.Areas.Logistics.Controllers
             var list = (IEnumerable<Cats.Models.TransporterPaymentRequest>)_transporterPaymentRequestService
                         .Get(t => t.BusinessProcess.CurrentState.BaseStateTemplate.StateNo < 2, null, "BusinessProcess")
                         .OrderByDescending(t => t.TransporterPaymentRequestID);
-            var transporterPaymentRequests = TransporterPaymentRequestViewModelBinder(list.ToList());
+            var transporterPaymentRequests = TransporterPaymentRequestViewModelBinder(list.ToList()).Where(t => t.BusinessProcess.CurrentState.BaseStateTemplate.Name == "Request Verified");
 
             var requests = transporterPaymentRequests.GroupBy(ac => new { ac.Transporter.Name, ac.Commodity, ac.Source }).Select(ac => new
             {

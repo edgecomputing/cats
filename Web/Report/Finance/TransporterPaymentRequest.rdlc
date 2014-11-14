@@ -577,37 +577,40 @@
               <Width>0.42851in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>0.99464in</Width>
+              <Width>0.75645in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>0.72112in</Width>
+              <Width>0.65559in</Width>
             </TablixColumn>
             <TablixColumn>
               <Width>0.60719in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>0.88354in</Width>
+              <Width>0.9442in</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>0.86546in</Width>
             </TablixColumn>
             <TablixColumn>
               <Width>0.74808in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1.06441in</Width>
+              <Width>0.9504in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>0.9217in</Width>
+              <Width>0.70704in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>0.61663in</Width>
+              <Width>0.74023in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>0.83668in</Width>
+              <Width>0.65697in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>0.8786in</Width>
+              <Width>0.76459in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1.13649in</Width>
+              <Width>0.95941in</Width>
             </TablixColumn>
           </TablixColumns>
           <TablixRows>
@@ -654,6 +657,41 @@
                 <TablixCell />
                 <TablixCell />
                 <TablixCell />
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox1">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style>
+                                <FontFamily>Tahoma</FontFamily>
+                                <FontWeight>Bold</FontWeight>
+                                <Color>White</Color>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox1</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>None</Style>
+                        </Border>
+                        <BackgroundColor>SteelBlue</BackgroundColor>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
                 <TablixCell>
                   <CellContents>
                     <Textbox Name="Textbox53">
@@ -857,7 +895,20 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Oper/RerNo.</Value>
+                              <Value>Oper/</Value>
+                              <Style>
+                                <FontFamily>Tahoma</FontFamily>
+                                <FontWeight>Bold</FontWeight>
+                                <Color>White</Color>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>RerNo.</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontWeight>Bold</FontWeight>
@@ -979,6 +1030,58 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
+                              <Value>Parent </Value>
+                              <Style>
+                                <FontFamily>Tahoma</FontFamily>
+                                <FontWeight>Bold</FontWeight>
+                                <Color>White</Color>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
+                        </Paragraph>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>Commodity</Value>
+                              <Style>
+                                <FontFamily>Tahoma</FontFamily>
+                                <FontWeight>Bold</FontWeight>
+                                <Color>White</Color>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>textbox5</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <BackgroundColor>SteelBlue</BackgroundColor>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox40">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
                               <Value>Commodity</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
@@ -990,7 +1093,7 @@
                           <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>textbox5</rd:DefaultName>
+                      <rd:DefaultName>Textbox40</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -1431,6 +1534,38 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
+                    <Textbox Name="ChildCommodity">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!ChildCommodity.Value</Value>
+                              <Style>
+                                <FontFamily>Tahoma</FontFamily>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>ChildCommodity</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
                     <Textbox Name="Source2">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
@@ -1733,9 +1868,10 @@
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
                     </Textbox>
-                    <ColSpan>6</ColSpan>
+                    <ColSpan>7</ColSpan>
                   </CellContents>
                 </TablixCell>
+                <TablixCell />
                 <TablixCell />
                 <TablixCell />
                 <TablixCell />
@@ -1936,6 +2072,7 @@
             <TablixMember />
             <TablixMember />
             <TablixMember />
+            <TablixMember />
           </TablixMembers>
         </TablixColumnHierarchy>
         <TablixRowHierarchy>
@@ -1969,7 +2106,7 @@
         <Top>1.94847in</Top>
         <Left>0.11787in</Left>
         <Height>0.90917in</Height>
-        <Width>9.83759in</Width>
+        <Width>9.78411in</Width>
         <ZIndex>17</ZIndex>
         <Style />
       </Tablix>
@@ -2260,7 +2397,7 @@
           </Paragraphs>
           <rd:DefaultName>PageNumber</rd:DefaultName>
           <Top>1.37369in</Top>
-          <Left>8.19023in</Left>
+          <Left>8.32012in</Left>
           <Height>0.25in</Height>
           <Width>1.04995in</Width>
           <ZIndex>2</ZIndex>
@@ -2665,6 +2802,10 @@
         <Field Name="Tariff">
           <DataField>Tariff</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="ChildCommodity">
+          <DataField>ChildCommodity</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
       </Fields>
       <rd:DataSetInfo>
