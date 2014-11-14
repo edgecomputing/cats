@@ -507,9 +507,9 @@
                         <button class="btn" data-ng-click="loadLossAmount(@item.TransporterPaymentRequestID, '@item.Commodity')">Loss</button>
                     </td>
                     <td>
-                        @if (item.ShortageBirr != (decimal)0.00 || item.ShortageQty == (decimal)0.00)
+                       @* @if (item.ShortageBirr != (decimal)0.00 || item.ShortageQty == (decimal)0.00)
                         {
-                            <div class="btn-group">
+                            *@<div class="btn-group">
                                 <button class="btn edit_button" id="action_@index">Workflow</button>
                                 <button class="btn  dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
                                 <ul class="dropdown-menu">
@@ -521,7 +521,7 @@
                                     <li class="edit_button"><a href="javascript:workflow_history(@item.BusinessProcessID)">History</a></li>
                                 </ul>
                             </div>
-                        }
+                        @*}*@
                     </td>
                     <td>
                         <button class="btn" data-ng-click="Reject(@item.TransporterPaymentRequestID)">Reject</button>
