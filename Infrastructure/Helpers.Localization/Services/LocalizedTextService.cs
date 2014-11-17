@@ -76,7 +76,7 @@ namespace LanguageHelpers.Localization.Services
             
             // The requested key do not exist for the language 'languageCode' so add it to translated text tables
             var newtxt = new LocalizedText { LanguageCode = languageCode, TextKey = key, TranslatedText = key };
-           // AddLocalizedText(newtxt);
+            AddLocalizedText(newtxt);
             return key;
         }
 
