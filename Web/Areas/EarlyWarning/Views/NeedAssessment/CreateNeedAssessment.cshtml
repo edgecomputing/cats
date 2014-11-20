@@ -12,12 +12,12 @@
 
 @section Title
 {
-Add Need Assessment
+@Html.Translate("Add Need Assessment") 
 }
 
 @section PageTitle
 {
-    <h1 class="hdr-blck big col-md-6">Add Need Assessment</h1>
+    <h1 class="hdr-blck big col-md-6">@Html.Translate("Add Need Assessment") </h1>
 }
 
 <div class="row">
@@ -44,7 +44,7 @@ Add Need Assessment
 
                         <div class="form-group">
                             <div class="col-sm-4 control-label">
-                                @Html.LabelFor(m => m.Season)
+                                @Html.LabelFor(m => m.Season, Html.Translate("Season"))
                             </div>
                             <div class="col-sm-8">
                                 @Html.DropDownList("SeasonID", ViewBag.Season as SelectList, new { id = "Season", @class = "form-control" })
@@ -71,7 +71,7 @@ Add Need Assessment
 
                         <div class="form-group">
                             <div class="col-sm-4 control-label">
-                                @Html.LabelFor(m => m.Region)
+                                @Html.LabelFor(m => m.Region,@Html.Translate("Region"))
                             </div>
                             <div class="col-sm-8">
                                 @Html.DropDownList("RegionID", ViewBag.Regions as SelectList, new { id = "Region", @class = "form-control" })
@@ -108,8 +108,8 @@ Add Need Assessment
 
                 </div>
                 <div class="box-footer text-center">
-                    <button class="btn btn-primary" data-buttontype="btn_save" type="submit" data-submittedform="frm_add_region"><span class="fa fa-save"></span> Save</button>
-                    <a class="btn  btn-default"  data-buttontype="btn_cancel"  href="@Url.Action("Index", "NeedAssessment")"><span class="fa fa-lg fa-times-circle"></span> Cancel</a>
+                    <button class="btn btn-primary" data-buttontype="btn_save" type="submit" data-submittedform="frm_add_region"><span class="fa fa-save"></span>@Html.Translate("Save") </button>
+                    <a class="btn  btn-default"  data-buttontype="btn_cancel"  href="@Url.Action("Index", "NeedAssessment")"><span class="fa fa-lg fa-times-circle"></span> @Html.Translate("Cancel"))</a>
                 </div>
             </div>
    

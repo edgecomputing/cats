@@ -24,12 +24,12 @@
     .Columns(columns =>
 
     {
-        columns.Bound(p => p.RegionName);
-        columns.Bound(p => p.SeasonName).Visible(true).Width(100);
+        columns.Bound(p => p.RegionName).Title(Html.Translate("Region"));
+        columns.Bound(p => p.SeasonName).Title(Html.Translate("Season")).Visible(true).Width(100);
         //columns.Bound(p => p.Date).Format("{0:dd/mm/yyyy}");
-        columns.Bound(p => p.Date);
-        columns.Bound(p => p.NeedACreaterName).Width(100);
-        columns.Bound(p => p.NeedAApproverName).Width(100);
+        columns.Bound(p => p.Date).Title(Html.Translate("Date"));
+        columns.Bound(p => p.NeedACreaterName).Title(Html.Translate("Created By")).Width(100);
+        columns.Bound(p => p.NeedAApproverName).Title(Html.Translate("Approved By")).Width(100);
         columns.Command(p =>
         {
             p.Custom("Decline Approve").Click("DeclineApprove");
@@ -69,9 +69,9 @@
 </script>
 
 <div id="modalWindow">
-    <h6>Disapprove Need Assessment?</h6>
-    <button id="yes" class="k-button">Yes</button>
-    <button id="no" class="k-button">No</button>
+    <h6>@Html.Translate("Disapprove Need Assessment?") </h6>
+    <button id="yes" class="k-button">@Html.Translate("Yes")</button>
+    <button id="no" class="k-button">@Html.Translate("No") </button>
 </div>
 
 <script>

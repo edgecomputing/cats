@@ -19,15 +19,15 @@
 
 }
 
-<h4>List of Planned Need Assessmen</h4>
+<h4>@Html.Translate("List of Planned Need Assessmen") </h4>
 @(Html.Kendo().Grid<Cats.Areas.EarlyWarning.Models.NeedAssessmentPlanViewModel>()
     .Name("grid")
     .Columns(columns =>
         {
             columns.Bound(p => p.AssessmentName).Title(Html.Translate("Assessment Name")).ClientTemplate("<a href='" + Url.Action("Detail", "NeedAssessment", new { id = "#=PlanID#" }) + " '>#=AssessmentName#</a>  ");
-            columns.Bound(p => p.StartDate);
-            columns.Bound(p => p.EndDate);
-            columns.Bound(p => p.Year);
+            columns.Bound(p => p.StartDate).Title(Html.Translate("Start Date"));
+            columns.Bound(p => p.EndDate).Title(Html.Translate("End Date"));
+            columns.Bound(p => p.Year).Title(Html.Translate("Year"));
         })
     .HtmlAttributes(new { style = "height: 430px" })
     .Pageable()
