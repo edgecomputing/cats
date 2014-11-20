@@ -205,6 +205,12 @@
                         <li class="divider"></li>
                         <li class="edit_button"><a href="javascript:workflow_history(@item.BusinessProcessID)">History</a></li>
                     </ul>
+                    @{
+                        if (state.StateNo >= 1)
+                        {
+                            <a class="btn btn-default" style="margin-left: 5px;" href="@Url.Action("PrintCheckPayment", "Cheque" , new {transporterID = ViewBag.TransporterID, checkno = item.CheckNo , pvn = item.PaymentVoucherNo})">Print</a>
+                        }
+                    }
                 </div>
             </td>
         </tr>

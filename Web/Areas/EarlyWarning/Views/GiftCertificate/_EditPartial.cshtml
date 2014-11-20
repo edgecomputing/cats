@@ -30,7 +30,7 @@
                         </div>
                         <div class="controls">
                             @Html.EditorFor(model => model.GiftDate)
-                            @Html.ValidationMessageFor(model => model.GiftDate)
+                            @Html.ValidationMessageFor(model => model.GiftDate,@Html.Translate("Gift Date is required"))
                         </div>
                     </div>
                     <div class="control-group">
@@ -41,7 +41,7 @@
 
                             @Html.DropDownList("DModeOfTransport", string.Empty)
 
-                            @Html.ValidationMessageFor(model => model.DModeOfTransport)
+                            @Html.ValidationMessageFor(model => model.DModeOfTransport,@Html.Translate("Mode Of Transport is required"))
                         </div>
                     </div>
                     <div class="control-group">
@@ -51,7 +51,7 @@
                         <div class="controls">
 
                             @Html.DropDownList("ProgramID", string.Empty)
-                            @Html.ValidationMessageFor(model => model.ProgramID)
+                            @Html.ValidationMessageFor(model => model.ProgramID,@Html.Translate("Program is required"))
                         </div>
                     </div>
                     <div class="control-group">
@@ -61,7 +61,7 @@
                         <div class="controls">
 
                             @Html.DropDownList("DonorID", string.Empty)
-                            @Html.ValidationMessageFor(model => model.DonorID)
+                            @Html.ValidationMessageFor(model => model.DonorID,Html.Translate("Donor is required"))
                         </div>
                     </div>
                     <div class="control-group">
@@ -72,7 +72,7 @@
 
                             @Html.DropDownList("CommodityTypeID", string.Empty)
 
-                            @Html.ValidationMessageFor(model => model.CommodityTypeID)
+                            @Html.ValidationMessageFor(model => model.CommodityTypeID,Html.Translate("Commodity Type Id is required"))
 
                         </div>
                     </div>
@@ -84,7 +84,7 @@
                         </div>
                         <div class="controls">
                             @Html.EditorFor(model => model.SINumber)
-                            @Html.ValidationMessageFor(model => model.SINumber)
+                            @Html.ValidationMessageFor(model => model.SINumber,Html.Translate("SI Number is required"))
                         </div>
                     </div>
                     <div class="control-group">
@@ -93,7 +93,7 @@
                         </div>
                         <div class="controls">
                             @Html.EditorFor(model => model.PortName)
-                            @Html.ValidationMessageFor(model => model.PortName)
+                            @Html.ValidationMessageFor(model => model.PortName,Html.Translate("Port Name is required"))
                         </div>
                     </div>
                     <div class="control-group">
@@ -102,7 +102,7 @@
                         </div>
                         <div class="controls">
                             @Html.EditorFor(model => model.ReferenceNo)
-                            @Html.ValidationMessageFor(model => model.ReferenceNo)
+                            @Html.ValidationMessageFor(model => model.ReferenceNo,Html.Translate("Reference No is required"))
                         </div>
                     </div>
                     <div class="control-group">
@@ -111,7 +111,7 @@
                         </div>
                         <div class="controls">
                             @Html.EditorFor(model => model.Vessel)
-                            @Html.ValidationMessageFor(model => model.Vessel)
+                            @Html.ValidationMessageFor(model => model.Vessel,Html.Translate("Vessel is required"))
                         </div>
                     </div>
                     <div class="control-group">
@@ -121,7 +121,7 @@
 
                         <div class="controls">
                             @Html.EditorFor(model => model.ETA)
-                            @Html.ValidationMessageFor(model => model.ETA)
+                            @Html.ValidationMessageFor(model => model.ETA,Html.Translate("ETA is required"))
                         </div>
                     </div>
                 </td>
@@ -131,9 +131,9 @@
      <div class="clear"></div>
     <div class="control-label"></div>
     <div class="controls">
-        <input class="t-button" type="submit" style="width: 80px; height: 25px;" class="t-button" value="Save"
+        <input class="t-button" type="submit" style="width: 80px; height: 25px;" class="t-button" value="@Html.Translate("Save")"
             onclick="submitGiftCertificateData()" />
-        <input class="t-button" type="reset" style="width: 80px; height: 25px;" class="t-button" value="Cancel"
+        <input class="t-button" type="reset" style="width: 80px; height: 25px;" class="t-button" value="@Html.Translate("Cancel")"
             onclick="cancel()" />
     </div>
     <div class="clear"></div>  
@@ -191,7 +191,7 @@
 
 
                     )
-                    @Html.ValidationMessageFor(model => model.rowCount)
+                    @Html.ValidationMessageFor(model => model.rowCount,Html.Translate("Please insert at least one commodity"))
                 </td>
             </tr>
         </table>
