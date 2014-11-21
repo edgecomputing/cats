@@ -1,4 +1,5 @@
-﻿@using Kendo.Mvc.UI
+﻿@using Cats.Helpers
+@using Kendo.Mvc.UI
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
@@ -12,7 +13,7 @@
 <fieldset>
     
         <legend>
-            Receive Plan for Donation
+            @Html.Translate("Receive Plan for Donation")
         </legend>
     
 </fieldset>
@@ -21,12 +22,12 @@
     .Name("grid")
     .Columns(columns =>
     {
-        columns.Bound(p => p.SINumber).Title("SI Number").Width(200);
-        columns.Bound(p => p.DateOfAllocation).Title("Allocation Date").Width(200);
-        columns.Bound(p => p.ProgramName).Title("Program").Width(100);
-        columns.Bound(p => p.DonorName).Title("Donor").Width(200);
-        columns.Bound(p => p.CommodityName).Title("Commodity").Width(150);
-        columns.Bound(p => p.StrETA).Title("ETA").Width(100);
+        columns.Bound(p => p.SINumber).Title(Html.Translate("SI Number")).Width(200);
+        columns.Bound(p => p.DateOfAllocation).Title(Html.Translate("Allocation Date")).Width(200);
+        columns.Bound(p => p.ProgramName).Title(Html.Translate("Program")).Width(100);
+        columns.Bound(p => p.DonorName).Title(Html.Translate("Donor")).Width(200);
+        columns.Bound(p => p.CommodityName).Title(Html.Translate("Commodity")).Width(150);
+        columns.Bound(p => p.StrETA).Title(Html.Translate("ETA")).Width(100);
        
         columns.Command(p =>
         {

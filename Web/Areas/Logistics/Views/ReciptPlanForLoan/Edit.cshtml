@@ -8,7 +8,7 @@
 
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h3 id="myModalLabel">@Html.Translate2(PAGE_NAME,"Edit Receipt Plan from Loan")</h3>
+    <h3 id="myModalLabel">@Html.Translate("Edit Receipt Plan from Loan")</h3>
 </div>
 @using (Html.BeginForm("Edit", "ReciptPlanForLoan", FormMethod.Post, new { @class = "modal-form", id="myForm"}))
 {
@@ -21,7 +21,7 @@
         <tr style="width: 300px">
             <td style="width:50%">
                 <div class="control-label">
-                    @Html.LabelFor(m=>m.ShippingInstruction.Value,@Html.Translate2(PAGE_NAME,"SI Number"))
+                    @Html.LabelFor(m=>m.ShippingInstruction.Value,@Html.Translate("SI Number"))
                 </div>
                 <div class="controls">
                     @Html.TextBoxFor(m=>m.ShippingInstruction.Value,new {disabled=true})
@@ -30,7 +30,7 @@
             </td>
             @* <td style="width: 50%">
                 <div class="control-label">
-                    @Html.LabelFor(m=>m.HubID,@Html.Translate2(PAGE_NAME,"Hub"))
+                    @Html.LabelFor(m=>m.HubID,@Html.Translate("Hub"))
                 </div>
                 <div class="controls">
                     @Html.DropDownList("HubID")
@@ -39,7 +39,7 @@
             </td>*@
              <td style="width: 50%">
                  <div class="control-label">
-                    @Html.LabelFor(m=>m.CommodityID,@Html.Translate2(PAGE_NAME,"Commodity Type"))
+                    @Html.LabelFor(m=>m.CommodityID,@Html.Translate("Commodity Type"))
                 </div>
                 <div class="controls">
                     @Html.DropDownList("CommodityTypeID")
@@ -51,7 +51,7 @@
         <tr style="width: 300px">
             <td style="width: 50%">
                 <div class="control-label">
-                    @Html.LabelFor(m=>m.LoanSource,@Html.Translate2(PAGE_NAME,"Loan Source"))
+                    @Html.LabelFor(m=>m.LoanSource,@Html.Translate("Loan Source"))
                 </div>
                 <div class="controls">
                     @Html.TextBoxFor(m=>m.LoanSource)
@@ -60,7 +60,7 @@
             </td>
              <td>
                <div class="control-label">
-                    @Html.LabelFor(m=>m.Commodity.ParentID,@Html.Translate2(PAGE_NAME,"Parent Commodity"))
+                    @Html.LabelFor(m=>m.Commodity.ParentID,@Html.Translate("Parent Commodity"))
                 </div>
                  <div class="controls">
                      <select id="ParentCommodityID" name="ParentCommodityID"></select>
@@ -72,7 +72,7 @@
         <tr>
             <td>
                 <div class="control-label">
-                    @Html.LabelFor(m=>m.ProgramID,@Html.Translate2(PAGE_NAME,"Program"))
+                    @Html.LabelFor(m=>m.ProgramID,@Html.Translate("Program"))
                 </div>
                 <div class="controls">
                     @Html.DropDownList("ProgramID")
@@ -81,7 +81,7 @@
             </td>
              <td>
                <div class="control-label">
-                    @Html.LabelFor(m=>m.CommodityID,@Html.Translate2(PAGE_NAME,"Commodity"))
+                    @Html.LabelFor(m=>m.CommodityID,@Html.Translate("Commodity"))
                 </div>
                 <div class="controls">
                     <select id="CommodityID" name="CommodityID"></select>
@@ -93,7 +93,7 @@
         <tr>
             <td>
                 <div class="control-label">
-                    @Html.LabelFor(m=>m.CommoditySourceID,@Html.Translate2(PAGE_NAME,"Commodity Source"))
+                    @Html.LabelFor(m=>m.CommoditySourceID,@Html.Translate("Commodity Source"))
                 </div>
                 <div class="controls">
                     @Html.TextBoxFor(m=>m.CommoditySource.Name,new {Disabled="Disabled"})
@@ -103,7 +103,7 @@
             </td>
               <td>
                 <div class="control-label">
-                    @Html.LabelFor(m=>m.ReferenceNumber,@Html.Translate2(PAGE_NAME,"Reference Number"))
+                    @Html.LabelFor(m=>m.ReferenceNumber,@Html.Translate("Reference Number"))
                 </div>
                 <div class="controls">
                     @Html.TextBoxFor(m=>m.ReferenceNumber)
@@ -115,7 +115,7 @@
         <tr>
             <td>
                 <div class="control-label">
-                    @Html.LabelFor(m=>m.ProjectCode,@Html.Translate2(PAGE_NAME,"Project Code"))
+                    @Html.LabelFor(m=>m.ProjectCode,@Html.Translate("Project Code"))
                 </div>
                 <div class="controls">
                     @Html.TextBoxFor(m=>m.ProjectCode)
@@ -125,7 +125,7 @@
             </td>
           <td>
                 <div class="control-label">
-                    @Html.LabelFor(m=>m.Quantity,@Html.Translate2(PAGE_NAME,"Quantity in MT"))
+                    @Html.LabelFor(m=>m.Quantity,@Html.Translate("Quantity in MT"))
                 </div> 
                 <div class="controls">
                     @Html.TextBoxFor(m=>m.Quantity)
@@ -135,8 +135,8 @@
         </tr>
     </table>
     
-    <div class="modal-footer"> <button class="btn btn-primary" type="submit">Save Changes</button>
-        <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+    <div class="modal-footer"> <button class="btn btn-primary" type="submit">@Html.Translate("Save Changes")</button>
+        <button class="btn" data-dismiss="modal" aria-hidden="true">@Html.Translate("Cancel")</button>
        
     </div>
 }
@@ -162,7 +162,7 @@ $(document).ready(function () {
             //    alert(result[i].Text);
             if (result != "" && result != null) {
                 //$('#StoreID').data('tComboBox').value(result[0]);
-                var options = '<option value="">-- Select a Parent Commodity</option>';
+                var options = '<option value="">-- @Html.Translate("Select a Parent Commodity")</option>';
                 for (var i = 0; i < result.length; i++) {
                     options += '<option value="' + result[i].Value + '">' + result[i].Text + '</option>';
                 }
@@ -177,7 +177,7 @@ $(document).ready(function () {
             //    alert(result[i].Text);
             if (result != "" && result != null) {
                 //$('#StoreID').data('tComboBox').value(result[0]);
-                var options = '<option value="">-- Select a Parent Commodity</option>';
+                var options = '<option value="">-- @Html.Translate("Select a Parent Commodity")</option>';
                 for (var i = 0; i < result.length; i++) {
                     options += '<option value="' + result[i].Value + '">' + result[i].Text + '</option>';
                 }
@@ -194,7 +194,7 @@ $(document).ready(function () {
             //    alert(result[i].Text);
             if (result != "" && result != null) {
                 //$('#StoreID').data('tComboBox').value(result[0]);
-                var options = '<option value="">-- Select a Commodity</option>';
+                var options = '<option value="">-- @Html.Translate("Select a Commodity")</option>';
                 for (var i = 0; i < result.length; i++) {
                     options += '<option value="' + result[i].Value + '">' + result[i].Text + '</option>';
                 }

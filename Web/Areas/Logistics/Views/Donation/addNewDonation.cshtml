@@ -14,7 +14,7 @@
 
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-        <h3 id="myModalLabel">@Html.Translate2(pageName, "Add New Receive Plan")</h3>
+        <h3 id="myModalLabel">@Html.Translate("Add New Receive Plan")</h3>
     </div>
     @{
         var siNo = "0";
@@ -33,7 +33,7 @@
             <tr style="width: 300px">
             <td style="width:50%">
                 <div class="control-label">
-                    @Html.Label(@Html.Translate2(pageName, "SI Number"))
+                    @Html.Label(@Html.Translate("SI Number"))
                 </div>
                 <div class="controls">
                     @Html.TextBoxFor(model => model.SINumber, new { @class = "addresspicker", required = "required", autocomplete = "off" })<span class="hide help-inline">Required!</span>
@@ -46,7 +46,7 @@
                 
            <td style="width: 50%">
                  <div class="control-label">
-                     @Html.Label(@Html.Translate2(pageName, "Quantity"))
+                     @Html.Label(@Html.Translate("Quantity"))
                  </div>
                  <div class="controls" >
                      @Html.TextBoxFor(model => model.WieghtInMT, new { @readonly = "readonly", Value = "" })<span class="hide help-inline">Required!</span>
@@ -58,7 +58,7 @@
              <tr style="width: 300px">   
                 <td style="width: 50%">
                     <div class="control-label">
-                        @Html.LabelFor(model => model.ETA, @Html.Translate2(pageName, "ETA"))
+                        @Html.LabelFor(model => model.ETA, @Html.Translate("ETA"))
                     </div>
                     <div class="controls" >
                         @(Html.TextBoxFor(model => model.ETA, new { @readonly = "readonly", Value = "" }))
@@ -69,7 +69,7 @@
                    
                 <td>
                     <div class="control-label">
-                        @Html.Label(@Html.Translate2(pageName, "Donor")) 
+                        @Html.Label(@Html.Translate("Donor")) 
                     </div>
                     <div class="controls">
                         @(Html.TextBoxFor(model => model.DonorName, new { @readonly = "readonly" })) @*new SelectList(Model.Donors, "DonorID", "Name")*@
@@ -80,7 +80,7 @@
                 <td>
                 
                     <div class="control-label">
-                        @Html.Label(@Html.Translate2(pageName, "Commodity Type")) 
+                        @Html.Label(@Html.Translate("Commodity Type")) 
                     </div>
                     <div class="controls" >
                         @(Html.TextBoxFor(model => model.CommomdityTypeName, new { @readonly = "readonly" })) @*, new SelectList(Model.CommodityTypes, "CommodityTypeID", "Name")*@
@@ -90,7 +90,7 @@
                 <td>
                 
                     <div class="control-label">
-                        @Html.Label(@Html.Translate2(pageName, "Commodity")) 
+                        @Html.Label(@Html.Translate("Commodity")) 
                     </div>
                     <div class="controls" >
                         @(Html.TextBoxFor(model => model.CommodityName, new { @readonly = "readonly" })) @*, new SelectList(Model.Commodities, "CommodityID", "Name")*@
@@ -102,7 +102,7 @@
             <tr>
                 <td>
                     <div class="control-label">
-                        @Html.Label(@Html.Translate2(pageName, "Program")) 
+                        @Html.Label(@Html.Translate("Program")) 
                     </div>
                     <div class="controls">
                         @(Html.TextBoxFor(model => model.ProgramName, new { @readonly = "readonly" })) @*, new SelectList(Model.Programs, "ProgramID", "Name")*@
@@ -114,9 +114,8 @@
            
             <tr>
                 <td colspan="2">
-                    <div class="modal-footer"> <button class="btn btn-primary" type="button" onclick="onSave(this)">Save</button>
-                        <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
-       
+                    <div class="modal-footer"> <button class="btn btn-primary" type="button" onclick="onSave(this)">@Html.Translate("Save")</button>
+                        <button class="btn" data-dismiss="modal" aria-hidden="true">@Html.Translate("Cancel")</button>
                     </div>
                 </td>
             </tr>  
@@ -143,7 +142,7 @@
                 }
             },
             error: function (error) {
-                alert("There was an error posting the data to the server: " + error.responseText);
+                alert("@Html.Translate("There was an error posting the data to the server"): " + error.responseText);
             }
         });
     });

@@ -25,12 +25,12 @@
             <div class="tab-contents">
                 <div class="tab-pane active" id="tab1">
                     <fieldset>
-                        <legend>Address</legend>
+                        <legend>@Html.Translate("Address")</legend>
                         @Html.HiddenFor(model => model.TransporterID)
                         <!-- Input Name-->
           
                         <div class="control-group">
-                            <label class="control-label" for="Name">Name</label>
+                            <label class="control-label" for="Name">@Html.Translate("Name")</label>
                             <div class="controls">
                                 @Html.TextBoxFor(model => model.Name, new { @class = "input-xlarge", @placeholder = "Name" })    
                                 @Html.ValidationMessageFor(model => model.Name)
@@ -38,7 +38,7 @@
                         </div>
                         <!-- Input Region-->
                         <div class="control-group">
-                            <label class="control-label" for="Region">Region</label>
+                            <label class="control-label" for="Region">@Html.Translate("Region")</label>
                             <div class="controls" id="div_region">
                                 @Html.TextBoxFor(model => model.Region, new { @class = "input-xlarge", @placeholder = "Region" })
                                 @Html.ValidationMessageFor(model => model.Region)
@@ -48,7 +48,7 @@
         
                         <!-- Input Zone-->
                         <div class="control-group">
-                            <label class="control-label" for="Zone">Zone</label>
+                            <label class="control-label" for="Zone">@Html.Translate("Zone")</label>
                             <div class="controls" id="div_zone">
                                 @Html.TextBoxFor(model => model.Zone, new { @class = "input-xlarge", @placeholder = "Zone" })
                                 @Html.ValidationMessageFor(model => model.Zone)
@@ -57,7 +57,7 @@
        
                         <!-- Input Woreda-->
                         <div class="control-group">
-                            <label class="control-label" for="Woreda">Woreda</label>
+                            <label class="control-label" for="Woreda">@Html.Translate("Woreda")</label>
                             <div class="controls" id="div_woreda">
                                 @Html.TextBoxFor(model => model.Woreda, new { @class = "input-xlarge", @placeholder = "Woreda" })    
                                 @Html.ValidationMessageFor(model => model.Woreda)
@@ -67,7 +67,7 @@
           
                         <!-- Input SubCity-->
                         <div class="control-group">
-                            <label class="control-label" for="SubCity">Sub City</label>
+                            <label class="control-label" for="SubCity">@Html.Translate("Sub City")</label>
                             <div class="controls">
                                 @Html.TextBoxFor(model => model.SubCity, new { @class = "input-xlarge", @placeholder = "Sub City" })    
                                 @Html.ValidationMessageFor(model => model.SubCity)
@@ -76,7 +76,7 @@
 
                         <!-- Input Kebele-->
                         <div class="control-group">
-                            <label class="control-label" for="Kebele">Kebele</label>
+                            <label class="control-label" for="Kebele">@Html.Translate("Kebele")</label>
                             <div class="controls">
                                 @Html.TextBoxFor(model => model.Kebele, new { @class = "input-xlarge", @placeholder = "Kebele" })    
                                 @Html.ValidationMessageFor(model => model.Kebele)
@@ -85,7 +85,7 @@
 
                         <!-- Input HouseNo-->
                         <div class="control-group">
-                            <label class="control-label" for="HouseNo">House No</label>
+                            <label class="control-label" for="HouseNo">@Html.Translate("House No")</label>
                             <div class="controls">
                                 @Html.TextBoxFor(model => model.HouseNo, new { @class = "input-xlarge", @placeholder = "-" })    
                                 @Html.ValidationMessageFor(model => model.HouseNo)
@@ -94,7 +94,7 @@
 
                         <!-- Input TelephoneNo-->
                         <div class="control-group">
-                            <label class="control-label" for="TelephoneNo">Telephone No</label>
+                            <label class="control-label" for="TelephoneNo">@Html.Translate("Telephone No")</label>
                             <div class="controls">
                                 @Html.TextBoxFor(model => model.TelephoneNo, new { @class = "input-xlarge", @placeholder = "-" })    
                                 @Html.ValidationMessageFor(model => model.TelephoneNo)
@@ -103,7 +103,7 @@
 
                         <!-- Input MobileNo-->
                         <div class="control-group">
-                            <label class="control-label" for="MobileNo">Mobile No</label>
+                            <label class="control-label" for="MobileNo">@Html.Translate("Mobile No")</label>
                             <div class="controls">
                                 @Html.TextBoxFor(model => model.MobileNo, new { @class = "input-xlarge", @placeholder = "-" })    
                                 @Html.ValidationMessageFor(model => model.MobileNo)
@@ -119,7 +119,7 @@
                
                         <!-- Input Ownership-->
                         <div class="control-group">
-                            <label class="control-label" for="Ownership">Ownership</label>
+                            <label class="control-label" for="Ownership">@Html.Translate("Ownership")</label>
                             <div class="controls">
                                 @Html.TextBoxFor(model => model.Ownership, new { @class = "input-xlarge", @placeholder = "-" })    
                                 @Html.ValidationMessageFor(model => model.Ownership)
@@ -128,7 +128,7 @@
         
                         <!-- Input VehicleCount-->
                         <div class="control-group">
-                            <label class="control-label" for="VehicleCount">Vehicle Count</label>
+                            <label class="control-label" for="VehicleCount">@Html.Translate("Vehicle Count")</label>
                             <div class="controls">
                                 @Html.TextBoxFor(model => model.VehicleCount, new { @class = "input-xlarge", @placeholder = "0" })    
                                 @Html.ValidationMessageFor(model => model.VehicleCount)
@@ -138,7 +138,7 @@
         
                         <!-- Input LiftCapacityFrom-->
                         <div class="control-group">
-                            <label class="control-label" for="LiftCapacityFrom">Lift Capacity</label>
+                            <label class="control-label" for="LiftCapacityFrom">@Html.Translate("Lift Capacity")</label>
                             <div class="controls">
                                 @Html.TextBoxFor(model => model.LiftCapacityFrom, new { @class = "input-xlarge", @placeholder = "0" })    
                                 @Html.ValidationMessageFor(model => model.LiftCapacityFrom)
@@ -147,7 +147,7 @@
                         <!-- Input LiftCapacityTo-->
 
                         <div class="control-group">
-                            <label class="control-label" for="LiftCapacityTo">To</label>
+                            <label class="control-label" for="LiftCapacityTo">@Html.Translate("To")</label>
                             <div class="controls">
                                 @Html.TextBoxFor(model => model.LiftCapacityTo, new { @class = "input-xlarge", @placeholder = "0" })    
                                 @Html.ValidationMessageFor(model => model.LiftCapacityTo)
@@ -157,7 +157,7 @@
 
                         <!-- Input LiftCapacityTotal-->
                         <div class="control-group">
-                            <label class="control-label" for="LiftCapacityTotal">Total Lift Capacity</label>
+                            <label class="control-label" for="LiftCapacityTotal">@Html.Translate("Total Lift Capacity")</label>
                             <div class="controls">
                                 @Html.TextBoxFor(model => model.LiftCapacityTotal, new { @class = "input-xlarge", @placeholder = "0" })    
                                 @Html.ValidationMessageFor(model => model.LiftCapacityTotal)
@@ -166,7 +166,7 @@
 
                         <!-- Input Capital-->
                         <div class="control-group">
-                            <label class="control-label" for="Capital">Capital</label>
+                            <label class="control-label" for="Capital">@Html.Translate("Capital")</label>
                             <div class="controls">
                                 @Html.TextBoxFor(model => model.Capital, new { @class = "input-xlarge", @placeholder = "0" })    
                                 @Html.ValidationMessageFor(model => model.Capital)
@@ -175,7 +175,7 @@
 
                         <!-- Input EmployeeCountMale-->
                         <div class="control-group">
-                            <label class="control-label" for="EmployeeCountMale">Employee Count Male</label>
+                            <label class="control-label" for="EmployeeCountMale">@Html.Translate("Employee Count Male")</label>
                             <div class="controls">
                                 @Html.TextBoxFor(model => model.EmployeeCountMale, new { @class = "input-xlarge", @placeholder = "0" })    
                                 @Html.ValidationMessageFor(model => model.EmployeeCountMale)
@@ -184,7 +184,7 @@
 
                         <!-- Input EmployeeCountFemale-->
                         <div class="control-group">
-                            <label class="control-label" for="EmployeeCountFemale">Employee Count Female</label>
+                            <label class="control-label" for="EmployeeCountFemale">@Html.Translate("Employee Count Female")</label>
                             <div class="controls">
                                 @Html.TextBoxFor(model => model.EmployeeCountFemale, new { @class = "input-xlarge", @placeholder = "0" })    
                                 @Html.ValidationMessageFor(model => model.EmployeeCountFemale)
@@ -195,10 +195,10 @@
                 </div>
                 <div class="tab-pane" id="tab3">
                     <fieldset>
-                        <legend>Management</legend> 
+                        <legend>@Html.Translate("Management")</legend> 
                         <!-- Input OwnerName-->
                         <div class="control-group">
-                            <label class="control-label" for="OwnerName">Owner Name</label>
+                            <label class="control-label" for="OwnerName">@Html.Translate("Owner Name")</label>
                             <div class="controls">
                                 @Html.TextBoxFor(model => model.OwnerName, new { @class = "input-xlarge", @placeholder = "0" })    
                                 @Html.ValidationMessageFor(model => model.OwnerName)
@@ -207,7 +207,7 @@
         
                         <!-- Input OwnerMobile-->
                         <div class="control-group">
-                            <label class="control-label" for="OwnerMobile">Owner Mobile</label>
+                            <label class="control-label" for="OwnerMobile">@Html.Translate("Owner Mobile")</label>
                             <div class="controls">
                                 @Html.TextBoxFor(model => model.OwnerMobile, new { @class = "input-xlarge", @placeholder = "0" })    
                                 @Html.ValidationMessageFor(model => model.OwnerMobile)
@@ -216,7 +216,7 @@
 
                         <!-- Input ManagerName-->
                         <div class="control-group">
-                            <label class="control-label" for="OwnerMobile">Manager Name</label>
+                            <label class="control-label" for="OwnerMobile">@Html.Translate("Manager Name")</label>
                             <div class="controls">
                                 @Html.TextBoxFor(model => model.ManagerName, new { @class = "input-xlarge", @placeholder = "0" })    
                                 @Html.ValidationMessageFor(model => model.ManagerName)
@@ -225,7 +225,7 @@
         
                         <!-- Input ManagerMobile-->
                         <div class="control-group">
-                            <label class="control-label" for="ManagerMobile">Manager Mobile</label>
+                            <label class="control-label" for="ManagerMobile">@Html.Translate("Manager Mobile")</label>
                             <div class="controls">
                                 @Html.TextBoxFor(model => model.ManagerMobile, new { @class = "input-xlarge", @placeholder = "0" })    
                                 @Html.ValidationMessageFor(model => model.ManagerMobile)
@@ -234,7 +234,7 @@
         
                         <!-- Input ExperienceFrom-->
                         <div class="control-group">
-                            <label class="control-label" for="ExperienceFrom">Experience From</label>
+                            <label class="control-label" for="ExperienceFrom">@Html.Translate("Experience From")</label>
                             <div class="controls">
 
                                 @Html.TextBoxFor(model => model.ExperienceFrom, new { @class = "input-xlarge cats-datepicker2", @placeholder = "0" })    
@@ -244,7 +244,7 @@
 
                         <!-- Input ExperienceTo-->
                         <div class="control-group">
-                            <label class="control-label" for="ExperienceTo">Experience To</label>
+                            <label class="control-label" for="ExperienceTo">@Html.Translate("Experience To")</label>
                             <div class="controls">
                                 <!--<input class="cats-datepicker" type="text" id="strExperienceTo" name="strExperienceTo" value="@Model.ExperienceTo"/>   -->     
                                 @Html.TextBoxFor(model => model.ExperienceTo, new { @class = "input-xlarge cats-datepicker2", @placeholder = "0" })    

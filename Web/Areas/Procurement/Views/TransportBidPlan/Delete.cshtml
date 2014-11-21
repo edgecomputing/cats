@@ -1,4 +1,5 @@
-﻿@model Cats.Models.TransportBidPlan
+﻿@using Cats.Helpers
+@model Cats.Models.TransportBidPlan
 
 @{
     ViewBag.Title = "Delete";
@@ -7,19 +8,19 @@
 
 <h2>Delete</h2>
 
-<h3>Are you sure you want to delete this?</h3>
+<h3>, Html.Translate("Are you sure you want to delete this?")</h3>
 <fieldset>
-    <legend>TransportBidPlan</legend>
+    <legend>@Html.Translate("Transport Bid Plan")</legend>
 
     <div class="display-label">
-         @Html.DisplayNameFor(model => model.Year)
+         @Html.LabelFor(model => model.Year, Html.Translate("Year"))
     </div>
     <div class="display-field">
         @Html.DisplayFor(model => model.Year)
     </div>
 
     <div class="display-label">
-         @Html.DisplayNameFor(model => model.YearHalf)
+         @Html.LabelFor(model => model.YearHalf, Html.Translate("Year Half"))
     </div>
     <div class="display-field">
         @Html.DisplayFor(model => model.YearHalf)
@@ -28,7 +29,7 @@
    
 
     <div class="display-label">
-         @Html.DisplayNameFor(model => model.Program.Name)
+         @Html.LabelFor(model => model.Program.Name, Html.Translate("Program"))
     </div>
     <div class="display-field">
         @Html.DisplayFor(model => model.Program.Name)
