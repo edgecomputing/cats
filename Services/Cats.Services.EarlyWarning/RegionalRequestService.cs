@@ -237,24 +237,24 @@ namespace Cats.Services.EarlyWarning
                     {
                         //TODO:Uncomment this (if PSNP case team Users change their mind and want to get previous request information instead of planned information)
 
-                        //var lastPsnpRequest = _unitOfWork.RegionalRequestRepository.FindBy(r => r.RegionID == plan.RegionID && r.ProgramId == (int)Programs.PSNP && r.PlanID == plan.PSNPPlanID).LastOrDefault();
-                        //if (lastPsnpRequest != null)
-                        //{
-                        //    result.HRDPSNPPlan.RationID = psnpplan.RationID;
-                        //    var noOfPsnprequests = _unitOfWork.RegionalRequestRepository.FindBy(r => r.RegionID == plan.RegionID && r.ProgramId == (int)Programs.PSNP && r.PlanID == plan.PSNPPlanID).Count;
-                        //    var psnpApplicationWoredas = (from psnpDetail in psnpplan.RegionalPSNPPlanDetails
-                        //                                  where
-                        //                                      psnpDetail.PlanedWoreda.AdminUnit2.AdminUnit2.AdminUnitID ==
-                        //                                      plan.RegionID
-                        //                                      && psnpDetail.FoodRatio > noOfPsnprequests
-                        //                                  select psnpDetail.PlanedWoredaID).ToList();
-                        //    beneficiaryInfos = LastReliefRequest(lastPsnpRequest, psnpApplicationWoredas);
-                        //}
-                        //else
-                        //{
+                        var lastPsnpRequest = _unitOfWork.RegionalRequestRepository.FindBy(r => r.RegionID == plan.RegionID && r.ProgramId == (int)Programs.PSNP && r.PlanID == plan.PSNPPlanID).LastOrDefault();
+                        if (lastPsnpRequest != null)
+                        {
                             result.HRDPSNPPlan.RationID = psnpplan.RationID;
-                            beneficiaryInfos = PSNPToRequest(psnpplan, plan.RegionID,plan.Month);
-                        //}
+                            var noOfPsnprequests = _unitOfWork.RegionalRequestRepository.FindBy(r => r.RegionID == plan.RegionID && r.ProgramId == (int)Programs.PSNP && r.PlanID == plan.PSNPPlanID).Count;
+                            var psnpApplicationWoredas = (from psnpDetail in psnpplan.RegionalPSNPPlanDetails
+                                                          where
+                                                              psnpDetail.PlanedWoreda.AdminUnit2.AdminUnit2.AdminUnitID ==
+                                                              plan.RegionID
+                                                              && psnpDetail.FoodRatio > noOfPsnprequests
+                                                          select psnpDetail.PlanedWoredaID).ToList();
+                            beneficiaryInfos = LastReliefRequest(lastPsnpRequest, psnpApplicationWoredas);
+                        }
+                        else
+                        {
+                            result.HRDPSNPPlan.RationID = psnpplan.RationID;
+                            beneficiaryInfos = PSNPToRequest(psnpplan, plan.RegionID);
+                        }
 
                     }
                 }
@@ -349,10 +349,10 @@ namespace Cats.Services.EarlyWarning
             return benficiaries;
         }
 
-        private List<BeneficiaryInfo> PSNPToRequest(RegionalPSNPPlan plan, int regionID,int month)
+        private List<BeneficiaryInfo> PSNPToRequest(RegionalPSNPPlan plan, int regionID)
         {
             List<BeneficiaryInfo> benficiaries = new List<BeneficiaryInfo>();
-            foreach (var psnpPlan in plan.RegionalPSNPPlanDetails.Where(m=>m.StartingMonth<=month))
+            foreach (var psnpPlan in plan.RegionalPSNPPlanDetails)
             {
                 List<FDP> WoredaFDPs = _unitOfWork.FDPRepository.FindBy(w => w.AdminUnitID == psnpPlan.PlanedWoredaID
                     && w.AdminUnit.AdminUnit2.AdminUnit2.AdminUnitID == regionID);

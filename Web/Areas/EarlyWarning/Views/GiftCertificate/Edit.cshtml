@@ -11,12 +11,12 @@
 
 @section Title
 {
-Gift Certificate
+  @Html.Translate("Gift Certificate")
 }
 
 @section PageTitle
 {
-    <h1 class="hdr-blck big col-md-6">Edit Gift Certificate
+    <h1 class="hdr-blck big col-md-6">@Html.Translate("Edit Gift Certificate") 
     </h1>
 }
 
@@ -150,8 +150,8 @@ Gift Certificate
 
                 </div>
                 <div class="box-footer text-center">
-                    <button class="btn btn-primary " type="submit" data-submittedform="frm_edit_gift"><span class="fa fa-save"></span> Save</button>
-                    <a class="btn  btn-default"  href="@Url.Action("Index", "GiftCertificate")"><span class="fa fa-lg fa-times-circle"></span> Cancel</a>
+                    <button class="btn btn-primary " type="submit" data-submittedform="frm_edit_gift"><span class="fa fa-save"></span> @Html.Translate("Save")</button>
+                    <a class="btn  btn-default"  href="@Url.Action("Index", "GiftCertificate")"><span class="fa fa-lg fa-times-circle"></span> @Html.Translate("Cancel")</a>
                 </div>
             </div>
            
