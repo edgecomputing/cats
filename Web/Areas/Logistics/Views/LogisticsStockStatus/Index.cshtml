@@ -14,7 +14,7 @@
     <div ng-controller="SummaryController">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h3 class="panel-title" style="font: normal">Free Stock Status of all hubs</h3>
+                <h3 class="panel-title" style="font: normal">@Html.Translate("Stock Status of all hubs")</h3>
             </div>
             <div class="panel-body">
 
@@ -22,14 +22,14 @@
                     <div class="form-control span12">
                         <div class="span3">
 
-                            <label>Select As of Date</label>
+                            <label>@Html.Translate("Select As of Date")</label>
                             <input id="txtDate1" class="cats-datepicker2  input-medium" type="text" placeholder="As of date">
                         </div>
 
                         <div class="span3">
                             <div class="control-group">
                                 <div class="toolbar">
-                                    <label class="category-label" for="category">Select a Program</label>
+                                    <label class="category-label" for="category">@Html.Translate("Select a Program")</label>
                                     <select ng-model="reqParam.program">
                                         <option ng-repeat="pr in ProgramsCollection" value="{{pr.ProgramId}}">{{pr.Name}}</option>
                                     </select>
@@ -41,7 +41,7 @@
                         </div>
 
                         <div class="span3">
-                            <button type="button" class="btn btn-default btn-lg" style="margin-top: 23px;" ng-click="getSummary()">Get</button>
+                            <button type="button" class="btn btn-default btn-lg" style="margin-top: 23px;" ng-click="getSummary()">@Html.Translate("Get")</button>
                         </div>
                     </div>
                 </div>
@@ -49,9 +49,9 @@
                 <div style="float: left; width: 100%">
                     <table class="table table-bordered table-striped">
                         <tr>
-                            <th style="text-align: center; font-size: 16px">Hub</th>
-                            <th style="text-align: center" class="cats-unit-pref">Free Stock </th>
-                            <th style="text-align: center" class="cats-unit-pref">Physical Stock</th>
+                            <th style="text-align: center; font-size: 16px">@Html.Translate("Hub")</th>
+                            <th style="text-align: center" class="cats-unit-pref">@Html.Translate("Free Stock") </th>
+                            <th style="text-align: center" class="cats-unit-pref">@Html.Translate("Physical Stock")</th>
                         </tr>
                         <tr ng-repeat="sd in summaryData">
                             <td>{{sd.HubName}}</td>
@@ -81,14 +81,14 @@
     <div ng-controller="StockController">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h3 class="panel-title" style="font: normal">Free Stock Status</h3>
+                <h3 class="panel-title" style="font: normal">@Html.Translate("Free Stock Status")</h3>
             </div>
             <div class="panel-body">
 
                 <div class="row-fluid form-horizontal ">
                     <div class="form-control span12">
                         <div class="span3">
-                            <label>Select As of Date</label>
+                            <label>@Html.Translate("Select As of Date")</label>
                             <input id="txtDate2" class="cats-datepicker2  input-medium" type="text" placeholder="As of date">
                             @*<input id="txtDate1" class="cats-datepicker2  input-medium" type="text"  placeholder="As of date">*@
                             @*<input ng-model="reqParam.date" class="cats-datepicker2  input-medium" type="text">*@
@@ -97,7 +97,7 @@
                         <div class="span3">
                             <div class="control-group">
                                 <div class="toolbar">
-                                    <label class="category-label" for="category">Select a hub</label>
+                                    <label class="category-label" for="category">@Html.Translate("Select a hub")</label>
                                     <select ng-model="requestParam.hub">
                                         <option ng-repeat="hb in HubsCollection" value="{{hb.HubId}}">{{hb.Name}}</option>
                                     </select>
@@ -108,7 +108,7 @@
                         <div class="span3">
                             <div class="control-group">
                                 <div class="toolbar">
-                                    <label class="category-label" for="category">Select a Program</label>
+                                    <label class="category-label" for="category">@Html.Translate("Select a Program")</label>
 
                                     <select ng-model="requestParam.program">
                                         <option ng-repeat="pr in ProgramsCollection" value="{{pr.ProgramId}}">{{pr.Name}}</option>
@@ -122,7 +122,7 @@
 
                         <div class="span3">
                             <p></p>
-                            <button type="button" class="btn btn-default btn-lg" ng-click="getStockStatus()">Get</button>
+                            <button type="button" class="btn btn-default btn-lg" ng-click="getStockStatus()">@Html.Translate("Get")</button>
                         </div>
 
                         @*<div class="span3" style="vertical-align: middle">
@@ -137,9 +137,9 @@
                 <div style="float: left; width: 100%">
                     <table class="table table-bordered table-striped">
                         <tr>
-                            <th style="text-align: center; font-size: 16px">Commodity</th>
-                            <th style="text-align: center" class="cats-unit-pref">Free Stock </th>
-                            <th style="text-align: center" class="cats-unit-pref">Physical Stock</th>
+                            <th style="text-align: center; font-size: 16px">@Html.Translate("Commodity")</th>
+                            <th style="text-align: center" class="cats-unit-pref">@Html.Translate("Free Stock") </th>
+                            <th style="text-align: center" class="cats-unit-pref">@Html.Translate("Physical Stock")</th>
                         </tr>
                         <tr ng-repeat="sd in stockData">
                             <td>{{sd.CommodityName}}</td>
@@ -147,7 +147,7 @@
                             <td style="text-align: right">{{sd.PhysicalStock | number:2}}</td>
                         </tr>
                         <tr style="font-weight: bold">
-                            <td style="text-align: right">Total</td>
+                            <td style="text-align: right">@Html.Translate("Total")</td>
                             <td style="text-align: right">{{freeStockSum | number:2}}</td>
                             <td style="text-align: right">{{physicalSum | number:2}}</td>
                         </tr>

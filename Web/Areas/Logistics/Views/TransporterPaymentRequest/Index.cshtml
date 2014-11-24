@@ -9,7 +9,7 @@
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
 
-<h3>Transporters having active order</h3>
+<h3>@Html.Translate("Having Active Order")</h3>
 
 @(Html.Kendo().Grid<TransporterViewModel>()
     .Name("grid")

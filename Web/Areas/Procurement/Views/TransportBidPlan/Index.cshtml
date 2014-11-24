@@ -1,4 +1,5 @@
-﻿@using Kendo.Mvc.UI
+﻿@using Cats.Helpers
+@using Kendo.Mvc.UI
 @model List<Cats.Areas.Procurement.Models.TransportBidPlanViewModel>
 
 
@@ -16,16 +17,16 @@
 {
     <a data-buttontype="btn_new_record"  class="btn toolbar-btn " href="@Url.Action("Create", "TransportBidPlan")"></a>
 }
-    <h3>List of Bid Plans</h3>
+    <h3>@Html.Translate("List of Bid Plans")</h3>
 
 
 @(Html.Kendo().Grid<Cats.Models.TransportBidPlan>()
     .Name("grid")
     .Columns(columns =>
     {
-        columns.Bound(p => p.ShortName);
-        columns.Bound(p => p.Year).Width(100);
-        columns.Bound(p => p.YearHalf).Width(100);
+        columns.Bound(p => p.ShortName).Title(Html.Translate("Short Name"));
+        columns.Bound(p => p.Year).Width(100).Title(Html.Translate("Year"));
+        columns.Bound(p => p.YearHalf).Width(100).Title(Html.Translate("Year Half"));
 
         columns.Command(command => { 
            command.Custom("Edit").Click("editRecord");

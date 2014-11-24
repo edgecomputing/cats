@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using Cats.Areas.Finance.Models;
 using Cats.Areas.Procurement.Models;
+using Cats.Infrastructure;
 using Cats.Models;
 using Cats.Services.Common;
 using Cats.Services.EarlyWarning;
@@ -139,8 +140,10 @@ namespace Cats.Areas.Finance.Controllers
                                                          CheckNo = transporterCheque.CheckNo,
                                                          PaymentVoucherNo = transporterCheque.PaymentVoucherNo,
                                                          BankName = transporterCheque.BankName,
+                                                         PaymentDate = transporterCheque.PaymentDate,
                                                          Amount = transporterCheque.Amount,
                                                          TransporterId = transporterObj.TransporterID,
+                                                         Transporter = _transporterService.FindById(transporterObj.TransporterID).Name,
                                                          PreparedBy =
                                                              _userProfileService.FindById(
                                                                  (int) transporterCheque.PreparedBy).FirstName + " " +
@@ -162,5 +165,14 @@ namespace Cats.Areas.Finance.Controllers
             return transporterChequeViewModel;
         }
 
+        public ActionResult PrintCheckPayment(int transporterID, string checkno, string pvn)
+        {
+            var transporterCheques = _transporterChequeService.Get(t => t.TransporterChequeDetails.FirstOrDefault().TransporterPaymentRequest.TransportOrder.TransporterID == transporterID).Where(t => t.CheckNo == checkno && t.PaymentVoucherNo == pvn).OrderByDescending(t => t.IssueDate);
+            var tc = new List<TransporterChequeViewModel>{};
+            tc.AddRange(transporterCheques.Select(BindTransporterChequeViewModel));
+            var reportPath = Server.MapPath("~/Report/Finance/CheckPayment.rdlc");
+            var result = ReportHelper.PrintReport(reportPath, tc, "CheckPayment", true, false);
+            return File(result.RenderBytes, result.MimeType);
+        }
     }
 }

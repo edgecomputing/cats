@@ -29,11 +29,11 @@
 @(Html.Kendo().Grid<VWCarryOver>().Name("grid").Columns(col =>
                                                        {
 
-                                                           col.Bound(t => t.ShippingInstruction);
-                                                           col.Bound(t => t.Commodity);
-                                                           col.Bound(t => t.ProjectCode);
-                                                           col.Bound(t => t.Donor);
-                                                           col.Bound(t => t.Program);
+                                                           col.Bound(t => t.ShippingInstruction).Title(Html.Translate("Shipping Instructions"));
+                                                           col.Bound(t => t.Commodity).Title(Html.Translate("Commodity"));
+                                                           col.Bound(t => t.ProjectCode).Title(Html.Translate("Project Code"));
+                                                           col.Bound(t => t.Donor).Title(Html.Translate("Donor"));
+                                                           col.Bound(t => t.Program).Title(Html.Translate("Program"));
                                                            col.Template(c => { }).ClientTemplate("#=toCatsPreferedUnit(data.CarryOver)#").HeaderHtmlAttributes(new { @class = "cats-unit-pref" }).HtmlAttributes(new { align = "right" }).Title(Html.Translate("Carry Over"));
                                                            col.Template(c => { }).ClientTemplate("#=toCatsPreferedUnit(data.Received)#").HeaderHtmlAttributes(new { @class = "cats-unit-pref" }).HtmlAttributes(new { align = "right" }).Title(Html.Translate("Received"));
                                                            col.Template(c => c.Expected).ClientTemplate("#=toCatsPreferedUnit(data.Expected)#").HeaderHtmlAttributes(new { @class = "cats-unit-pref" }).HtmlAttributes(new { align = "right" }).Title(Html.Translate("Expected"));

@@ -14,9 +14,10 @@
           .Name("gridselect")
           .Columns(columns =>
                        {
-                           columns.Bound(p => p.LetterTemplateID).Title("Select a template").ClientTemplate("<a href='" + Url.Action("ShowTemplate", "GiftCertificate", new { fileName = "#=FileName#", giftCertificateId = int.Parse(ViewData["giftcertficateId"].ToString()) }) + " '>Select</a>  ");
-                           columns.Bound(p => p.Name);
-                           columns.Bound(p => p.FileName);
+                           columns.Bound(p => p.LetterTemplateID).Title(Html.Translate("Select a template"))
+                               .ClientTemplate("<a href='" + Url.Action("ShowTemplate", "GiftCertificate", new { fileName = "#=FileName#", giftCertificateId = int.Parse(ViewData["giftcertficateId"].ToString()) }) + " '>"+@Html.Translate("Select")+"=</a>  ");
+                           columns.Bound(p => p.Name).Title(@Html.Translate("Name"));
+                           columns.Bound(p => p.FileName).Title(@Html.Translate("File Name")); 
 
 
                        })
@@ -32,7 +33,7 @@
             </div>
 
         <div class="modal-footer">
-            <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+            <button class="btn" data-dismiss="modal" aria-hidden="true">(@Html.Translate("Cancel"))</button>
             @*<button  id="btnprintgift" class="btn btn-primary " type="submit">Print</button>*@
         </div>
 

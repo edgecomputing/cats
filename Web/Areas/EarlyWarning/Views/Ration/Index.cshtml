@@ -16,15 +16,14 @@ Ration
 
 @section PageTitle
 {
-    <h1 class="hdr-blck big col-md-6">List of Ration
-    </h1>
+    <h1 class="hdr-blck big col-md-6">@Html.Translate("List of Ration")</h1>
 }
 <div class="box box-primary">
 
     <div class="col-md-12 box-body" style="display: block;">
         <div class="row">
             <div class="mrgn5-v text-right col-md-12">
-                <a data-buttontype="btn_new_record" id="btnCreate" class="btn btn-sm btn-success" href="@Url.Action("Create", "Ration")"><span class="fa fa-plus"> </span> New Ration</a>
+                <a data-buttontype="btn_new_record" id="btnCreate" class="btn btn-sm btn-success" href="@Url.Action("Create", "Ration")"><span class="fa fa-plus"> </span>@Html.Translate("New Ration")</a>
 
             </div>
 
@@ -38,11 +37,11 @@ Ration
 .Columns(columns =>
 {
     //columns.Template(t => { }).Title("No").ClientTemplate("#= renderNumber(data) #").Width(10);
-    columns.Bound(p => p.ReferenceNumber).ClientTemplate("<a class='default_#=IsDefaultRation#' href='" + Url.Action("Details", "Ration", new { id = "#=RationID#" }) + " '>#=ReferenceNumber#</a>  ");
+    columns.Bound(p => p.ReferenceNumber).Title(Html.Translate("Reference No.")).ClientTemplate("<a class='default_#=IsDefaultRation#' href='" + Url.Action("Details", "Ration", new { id = "#=RationID#" }) + " '>#=ReferenceNumber#</a>  ");
 
-    columns.Bound(p => p.DateCreated).ClientTemplate("<span class='default_#=IsDefaultRation#'>#=DateCreated#</span>").HeaderHtmlAttributes(new { @class = "cats-date-pref-grid" }).Width(160);
+    columns.Bound(p => p.DateCreated).Title(Html.Translate("Created Date")).ClientTemplate("<span class='default_#=IsDefaultRation#'>#=DateCreated#</span>").HeaderHtmlAttributes(new { @class = "cats-date-pref-grid" }).Width(160);
 
-    columns.Bound(p => p.RationID).ClientTemplate("<a class='set_default_#=IsDefaultRation#' href='javascript:SetDefault(#=RationID#)'>Set Default</a>  ");
+    columns.Bound(p => p.RationID).Title(Html.Translate("Ration Id")).ClientTemplate("<a class='set_default_#=IsDefaultRation#' href='javascript:SetDefault(#=RationID#)'>Set Default</a>  ");
 
 
 

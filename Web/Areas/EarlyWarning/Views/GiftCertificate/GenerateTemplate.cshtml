@@ -1,4 +1,5 @@
 ﻿@using LanguageHelpers.Localization
+@using Cats.Helpers
 
 
 <div class="modal-dialog modal-lg">
@@ -26,13 +27,13 @@
         </div>
         <div class="control-group">      
             <div class="controls">
-                <input type="submit" value="Create Template" class="btn btn-success" />
+                <input type="submit" value=@Html.Translate("Create Template") class="btn btn-success" />
             </div>
         </div>
     </div>
       <div class="modal-footer">
-                <button class="btn btn-primary" type="submit">Yes</button>
-                <button class="btn" data-dismiss="modal" aria-hidden="true">No</button>
+                <button class="btn btn-primary" type="submit">@Html.Translate("Yes")</button>
+                <button class="btn" data-dismiss="modal" aria-hidden="true">@Html.Translate("No")</button>
             </div>
     }
 }

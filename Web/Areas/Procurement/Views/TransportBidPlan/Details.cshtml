@@ -1,4 +1,5 @@
-﻿@model Cats.Models.TransportBidPlan
+﻿@using Cats.Helpers
+@model Cats.Models.TransportBidPlan
 
 @{
     ViewBag.Title = "Details";
@@ -11,21 +12,21 @@
     <legend>TransportBidPlan</legend>
 
     <div class="display-label">
-         @Html.DisplayNameFor(model => model.Year)
+         @Html.LabelFor(model => model.Year, Html.Translate("Year"))
     </div>
     <div class="display-field">
         @Html.DisplayFor(model => model.Year)
     </div>
 
     <div class="display-label">
-         @Html.DisplayNameFor(model => model.YearHalf)
+         @Html.LabelFor(model => model.YearHalf, Html.Translate("Year Half"))
     </div>
     <div class="display-field">
         @Html.DisplayFor(model => model.YearHalf)
     </div>
 
     <div class="display-label">
-         @Html.DisplayNameFor(model => model.Program.Name)
+         @Html.LabelFor(model => model.Program.Name, Html.Translate("Program"))
     </div>
     <div class="display-field">
         @Html.DisplayFor(model => model.Program.Name)
