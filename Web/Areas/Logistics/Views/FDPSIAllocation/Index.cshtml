@@ -2,7 +2,7 @@
 @using Cats.Helpers;
 
 @{
-    ViewBag.Title = "Hub Allocated Requesitions";
+    ViewBag.Title = Html.Translate("Hub Allocated Requesitions");
     Layout = "~/Views/Shared/_MainLayoutWide.cshtml";
 
    
@@ -100,7 +100,7 @@
 
         <div class="span3">
             <div style="height: 30px;" data-drop="true" ng-model='list1' data-jqyoui-options="optionsList2" jqyoui-droppable="{multiple:true}">
-                <b>Requisition</b>
+                <b>@Html.Translate("Requisition")</b>
             </div>
             <br />
 
@@ -115,7 +115,7 @@
                             <i class="icon-move icon-align-right"></i><span> {{zone.name}} [{{zone.allocatedAmount | number:2}} of {{zone.requestedAmount | number:2}}]</span>
                         </a>
                         <div style="margin:auto; text-align:center;">
-                         <button ng-show="zone.allocatedAmount==zone.requestedAmount && saved==1" ng-click="on_Allocation_Done(zone.id)" class="btn btn-mini btn-primary"><i class="icon-ok"></i> Commit</button>
+                         <button ng-show="zone.allocatedAmount==zone.requestedAmount && saved==1" ng-click="on_Allocation_Done(zone.id)" class="btn btn-mini btn-primary"><i class="icon-ok"></i>@Html.Translate("Commit")</button>
 
                         </div>   
                      </div>
@@ -132,7 +132,7 @@
                             </div>
                         <br />
                         <div class="accordion-inner">
-                            <div>Woredas</div>
+                            <div>@Html.Translate("Woredas")</div>
                             <div class="accordion" id="woredas_inzone{{zone.zoneId}}">
                                 <div class="accordion-group" data-index="{{woreda.id}}" ng-repeat="woreda in zone.woredas" class="list-woreda btn-draggable" ng-model="unallocated" data-drag="woreda.allocatedAmount<woreda.requestedAmount"
                                     data-jqyoui-options="{revert: 'invalid'}" jqyoui-draggable="{index: {{woreda.index}},placeholder:'keep',animate:true, onStart:'startCallback(woreda, $index)', onStop: 'stopCallback', onDrag: 'dragCallback'}">
@@ -168,7 +168,7 @@
             </div>
         </div>
         <div class="span9">
-            <div>Hub 
+            <div>@Html.Translate("Hub") 
                 <select ng-model="selectedHub">
                     @foreach (var hub in ViewBag.Hubs)
                     {
@@ -195,11 +195,11 @@
     <div class="span12" style="display:none;">
         <table class="table table-stripped">
             <tr>
-                <td>SIPCAllocationID</td>
-                <td>RequisitionDetailID</td>
-                <td>Code</td>
-                <td>AllocatedAmount</td>
-                <td>AllocationType</td>
+                <td>@Html.Translate("SIPCAllocationID")</td>
+                <td>@Html.Translate("RequisitionDetailID")</td>
+                <td>@Html.Translate("Code")</td>
+                <td>@Html.Translate("AllocatedAmount")</td>
+                <td>@Html.Translate("AllocationType")</td>
             </tr>
             <tbody ng-repeat="item in requisitionDetail">
                 <tr ng-repeat="alloc in item.Allocations">
@@ -233,7 +233,7 @@
     {
         if( $$scope.saved)
         {
-            alert("Already Uptodate");
+            alert(@Html.Translate("Already Uptodate"));
             return;
         }
         $$scope.Save(1);

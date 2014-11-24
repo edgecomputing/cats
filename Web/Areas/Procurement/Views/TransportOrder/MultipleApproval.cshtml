@@ -1,13 +1,13 @@
 ﻿@using Cats.Helpers
 @model List<Cats.Areas.Procurement.Models.TransportOrderApprovalViewModel>
 @{
-    ViewBag.Title = "MultipleApproval";
-    const string pageName = "Procurement.TransportOrder.MultipleApproval";
+    ViewBag.Title = Html.Translate("MultipleApproval");
+    
 }
 
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h3 id="myModalLabel">@Html.Translate2(pageName,"Multiple Transport Order Approval")</h3>
+    <h3 id="myModalLabel">@Html.Translate2("Multiple Transport Order Approval")</h3>
 </div>
 
 @using (Html.BeginForm("MultipleApproval", "TransportOrder", FormMethod.Post))
@@ -40,14 +40,14 @@
                      @Html.Hidden("transportOrderApprovalViewModels[" + @i + "].TransportOrderID", 
                                        Model[i].TransportOrderID, 
                                        new { @readonly = "readonly" })
-                       <td>@Html.Label("transportOrderApprovalViewModels[" + @i + "].ContractNumber", 
+                       <td>@Html.Label(@Html.Translate("transportOrderApprovalViewModels[" + @i + "].ContractNumber"), 
                                       Model[i].ContractNumber, 
                                       new { @readonly = "readonly" })</td>
-                     <td>@Html.Label("transportOrderApprovalViewModels[" + @i + "].TransportOrderNo", 
+                     <td>@Html.Label(@Html.Translate("transportOrderApprovalViewModels[" + @i + "].TransportOrderNo"), 
                                        Model[i].TransportOrderNo, 
                                        new { @readonly = "readonly" })</td>
                      
-                     <td>@Html.Label("transportOrderApprovalViewModels[" + @i + "].Transporter", 
+                     <td>@Html.Label(@Html.Translate("transportOrderApprovalViewModels[" + @i + "].Transporter"), 
                                        Model[i].Transporter, 
                                        new { @readonly = "readonly" })</td>
                      
@@ -73,8 +73,8 @@
     <tr>*@
            @* <td colspan="3">*@
             <div>
-                <button class="btn btn-primary"  type="submit">Approve</button>
-                <a class="btn btn-primary"  data-dismiss="modal" aria-hidden="true" >Cancel</a>
+                <button class="btn btn-primary"  type="submit">@Html.Translate("Approve")</button>
+                <a class="btn btn-primary"  data-dismiss="modal" aria-hidden="true" >@Html.Translate("Cancel")</a>
        
             </div> 
            @*     </td>

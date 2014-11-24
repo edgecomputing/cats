@@ -6,19 +6,19 @@
 @model Cats.Areas.Logistics.Models.TransportRequisitionViewModel
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = Html.Translate("Details");
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
 
 <h4 class="page-header">@Html.Translate("Transport Requisition Detail") </h4>
 @section Toolbar
 {
-    <a class="btn toolbar-btn" href="#" style="display:none1;" target="_blank" id="toolbar_button_print"  title="Print"><i class="icon-print"></i></a>
+    <a class="btn toolbar-btn" href="#" style="display:none;" target="_blank" id="toolbar_button_print"  title="Print"><i class="icon-print"></i></a>
     <a class="btn toolbar-btn " href="@Url.Action("Index", "TransportRequisition", new { Area = "Logistics" })" data-buttontype="btn_back_to_list"></a>
     @if (Model.StatusID == (int)Cats.Models.Constant.TransportRequisitionStatus.Draft)
     {
         <a class="btn toolbar-btn " href="@Url.Action("Edit", "TransportRequisition", new { Area = "Logistics", id = Model.TransportRequisitionID })" data-buttontype="btn_edit"></a>
-        <a class="btn toolbar-btn btn-approve-transportrequisition" href="@Url.Action("Approve", "TransportRequisition", new { id = Model.TransportRequisitionID })" data-buttontype="">Approve</a>
+        <a class="btn toolbar-btn btn-approve-transportrequisition" href="@Url.Action("Approve", "TransportRequisition", new { id = Model.TransportRequisitionID })" data-buttontype="">@Html.Translate("Approve")</a>
     }
 
 }
@@ -30,7 +30,7 @@
         <div class="span5 ">
             <div class="control-group">
                 <div class="control-label">
-                    @Html.DisplayNameFor(model => model.TransportRequisitionNo)
+                    @Html.DisplayName(@Html.Translate("No."))
                 </div>
                 <div class="controls">
                     @Html.TextBoxFor(model => model.TransportRequisitionNo, new { disabled = "true" })
@@ -38,7 +38,7 @@
             </div>
             <div class="control-group">
                 <div class="control-label">
-                    @Html.DisplayNameFor(model => model.RequestedBy)
+                    @Html.DisplayName(@Html.Translate("Requested By"))
                 </div>
                 <div class="controls">
                     @Html.TextBoxFor(model => model.RequestedBy, new { disabled = "true" })
@@ -46,7 +46,7 @@
             </div>
             <div class="control-group">
                 <div class="control-label ">
-                    @Html.LabelFor(model => model.DateRequested, new { @class = "cats-date-pref" })
+                    @Html.Label(@Html.Translate("Request Date"), new { @class = "cats-date-pref" })
                 </div>
                 <div class="controls">
                     @Html.TextBoxFor(model => model.DateRequested, new { disabled = "true" })
@@ -57,7 +57,7 @@
         <div class="span5">
             <div class="control-group">
                 <div class="control-label">
-                    @Html.DisplayNameFor(model => model.CertifiedBy)
+                    @Html.DisplayName(@Html.Translate("Certified By"))
                 </div>
                 <div class="controls">
                     @Html.TextBoxFor(model => model.CertifiedBy, new { disabled = "true" })
@@ -65,7 +65,7 @@
             </div>
             <div class="control-group">
                 <div class="control-label">
-                    @Html.LabelFor(model => model.DateCertified, new { @class = "cats-date-pref" })
+                    @Html.Label(@Html.Translate("Certified Date"), new { @class = "cats-date-pref" })
                 </div>
                 <div class="controls">
                     @Html.TextBoxFor(model => model.DateCertified, new { disabled = "true" })
@@ -73,7 +73,7 @@
             </div>
             <div class="control-group">
                 <div class="control-label">
-                    @Html.LabelFor(model => model.Status)
+                    @Html.Label(@Html.Translate("Status"))
                 </div>
                 <div class="controls">
                     @Html.TextBoxFor(model => model.Status, new { disabled = "true", @class = "disabled" })
@@ -94,12 +94,12 @@
 .Name("Grid").Columns(columns =>
                           {
 
-                              columns.Bound(trd => trd.CommodityName);
-                              columns.Bound(trd => trd.RequisitionNo);
-                              columns.Bound(trd => trd.QuanityInQtl).HtmlAttributes(new { align = "right" }).HeaderHtmlAttributes(new { @class = "cats-unit-pref-grid" });
-                              columns.Bound(trd => trd.OrignWarehouse);
-                              columns.Bound(trd => trd.Region);
-                              columns.Bound(trd => trd.Zone);
+                              columns.Bound(trd => trd.CommodityName).Title(@Html.Translate("Commodity"));
+                              columns.Bound(trd => trd.RequisitionNo).Title(@Html.Translate("Requisition No"));
+                              columns.Bound(trd => trd.QuanityInQtl).Title(@Html.Translate("Quanity In Qtl")).HtmlAttributes(new { align = "right" }).HeaderHtmlAttributes(new { @class = "cats-unit-pref-grid" });
+                              columns.Bound(trd => trd.OrignWarehouse).Title(@Html.Translate("Warehouse Orign"));
+                              columns.Bound(trd => trd.Region).Title(@Html.Translate("Region"));
+                              columns.Bound(trd => trd.Zone).Title(@Html.Translate("Zone"));
 
                               columns.Template(@<text>
 <a href="@Url.Action("Destinations", "TransportRequisition", new { id = item.RequisitionID, transportRequistionId = Model.TransportRequisitionID })">@Html.Translate("Destinations") (@item.DestinationsCount) </a>

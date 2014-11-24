@@ -5,12 +5,12 @@
 @using Kendo.Mvc.UI
 
 @{
-    ViewBag.Title = "OrderDetail";
+    ViewBag.Title = @Html.Translate("OrderDetail");
     Layout = "~/Views/Shared/_MainLayout.cshtml";    
 }
 
 <html data-ng-app="">
-    <h4>Transport Order Detail</h4>
+    <h4>@Html.Translate("Transport Order Detail")</h4>
     <div id="modalWindow"></div>
 
     <script>
@@ -46,11 +46,11 @@
             <div class="span6">
                 <div class="control-group">
                     <div class="control-label">
-                        @Html.LabelFor(m => m.Transporter)
+                        @Html.LabelFor(m => m.Transporter, Html.Translate("Transporter"))
                     </div>
                     <div class="controls">
                         @Html.TextBoxFor(m => m.Transporter, new { Disabled = true })
-                        <a href="#" class="transChange">Change</a>
+                        <a href="#" class="transChange">@Html.Translate("Change")</a>
                     </div>
                 </div>
             </div>
@@ -175,15 +175,15 @@
     .Columns(columns =>
         {
 
-            columns.Bound(p => p.Woreda);
-            columns.Bound(p => p.RequisitionNo);
-            columns.Bound(p => p.Commodity);
-            columns.Bound(p => p.FDP);
+            columns.Bound(p => p.Woreda).Title(@Html.Translate("Woreda"));
+            columns.Bound(p => p.RequisitionNo).Title(@Html.Translate("Requisition No"));
+            columns.Bound(p => p.Commodity).Title(@Html.Translate("Commodity"));
+            columns.Bound(p => p.FDP).Title(@Html.Translate("Destination"));
             columns.ForeignKey(p => p.HubID, (IEnumerable)ViewBag.HubID, "hubID", "Name").Width(100).Title(Html.Translate("Origin Warehouse")).ClientFooterTemplate(Html.Translate("Total")); 
            // columns.Bound(p => p.DistanceFromOrigin);
-            columns.Bound(p => p.QuantityQtl).Title("Qantity").ClientFooterTemplate("<b>#=kendo.format('{0:N0}', sum)#</b>").HtmlAttributes(new { align = "right" }).Format("{0:n2}").HeaderHtmlAttributes(new { @class = "cats-unit-pref-grid" });
-            columns.Bound(p => p.TariffPerQtl).Title("Tariff / Qtl").HtmlAttributes(new { style = "background-color:lightgray" }).Format("{0:n2}").Width(100).HtmlAttributes(new { align = "Right" });
-            columns.Bound(p => p.TotalAmount).ClientFooterTemplate("<b>#=kendo.format('{0:N0}', sum)#</b>").Format("{0:N0}").HtmlAttributes(new {align="Right"});
+            columns.Bound(p => p.QuantityQtl).Title(@Html.Translate("Qantity")).ClientFooterTemplate("<b>#=kendo.format('{0:N0}', sum)#</b>").HtmlAttributes(new { align = "right" }).Format("{0:n2}").HeaderHtmlAttributes(new { @class = "cats-unit-pref-grid" });
+            columns.Bound(p => p.TariffPerQtl).Title(@Html.Translate("Tariff / Qtl")).HtmlAttributes(new { style = "background-color:lightgray" }).Format("{0:n2}").Width(100).HtmlAttributes(new { align = "Right" });
+            columns.Bound(p => p.TotalAmount).Title(@Html.Translate("Total Amount")).ClientFooterTemplate("<b>#=kendo.format('{0:N0}', sum)#</b>").Format("{0:N0}").HtmlAttributes(new { align = "Right" });
             columns.Bound(p => p.WinnerAssignedByLogistics).Hidden(true);
         })   
              .ToolBar(toolBar => toolBar.Save())
@@ -244,7 +244,7 @@
         }
         
         $(function () {
-            var printurl = "@Url.Action("Print", "TransportOrder", new{id= ViewBag.TransportOrderID })";
+            var printurl = "@Url.Action("Print", "TransportOrder", new { id = ViewBag.TransportOrderID })";
             $("#toolbar_button_print").attr("href", printurl);
         
             $(".transChange").click(function (e) {
@@ -314,17 +314,17 @@
             var entries = '<table style="margin:20px;border:1px solid #ececec;width:550px;">';
             entries += '<tr>';
             entries += '<td style="padding:0px;text-align:center;" colspan="2">';
-            entries += 'This action might generate more than one transport order as a substitute to the changed one.';
-            entries += '<h5>Are you really sure you want to continue?</h5>';
+            entries += '"+@Html.Translate("This action might generate more than one transport order as a substitute to the changed one.")+"';
+            entries += '<h5>"+@Html.Translate("Are you really sure you want to continue?")+"</h5>';
             entries += '</td>';
             entries += '</tr>';
             entries += '<tr>';
             entries += '<td style="padding:0px;text-align:center;">';
             //entries += '<a type="button" class="confirmGenerateTO" style="margin:20px;height:30px;width:200px;cursor:pointer;">I\'m sure!</a>';
-            entries += '<button id="yes" class="k-button confirmGenerateTO">I\'m sure!</button>';
+            entries += '<button id="yes" class="k-button confirmGenerateTO">"+@Html.Translate("I\'m sure!")+"</button>';
             entries += '</td>';
             entries += '<td style="padding:0px;text-align:center;">';
-            entries += '<button id="yes" class="k-button cancelAction">Cancel</button>';
+            entries += '<button id="yes" class="k-button cancelAction">"+@Html.Translate("Cancel")+"</button>';
             //entries += '<a type="button" class="cancelAction" style="margin:20px;height:30px;width:200px;cursor:pointer;">Cancel</a>';
             entries += '</td>';
             entries += '</tr>';
@@ -383,7 +383,7 @@
             $("#modalWindow").html("");
             $(".transChange").hide();
             $('#ContractHeader').addClass('cats_error');
-            $("#statusWindow").html('FAILED CONTRACT: <a href="/Procurement/TransportOrder" >Click Here</a> to navigate to the new substitute contracts.');
+            $("#statusWindow").html(+@Html.Translate('FAILED CONTRACT: <a href="/Procurement/TransportOrder" >Click Here</a> to navigate to the new substitute contracts.'));
             wnd.center().close();
             //window.location.replace("/Procurement/TransportOrder/Index");
         }
@@ -423,13 +423,13 @@
             var entries='<table style="margin:20px;border:1px solid #ececec;width:550px;">';
             entries+='<tr>';
             entries+='<td style="padding:0px;text-align:center;">';
-            entries+='<h5>Woreda</h5>';
+            entries+='<h5> @Html.Translate("Woreda")</h5>';
             entries+='</td>';
             entries+='<td style="padding:0px;text-align:center;">';
-            entries+='<h5>Position</h5>';
+            entries+='<h5>@Html.Translate("Position</h5>")';
             entries+='</td>';
             entries+='<td style="padding:0px;text-align:center;">';
-            entries+='<h5>Transporters</h5>';
+            entries+='<h5>@Html.Translate("Transporters</h5>")';
             entries+='</td>';
             entries+='</tr>';
             entries+='<tr>';
@@ -447,7 +447,7 @@
                 entries+='</td>';
                 entries+='<td style="text-align:center;">';
                 entries+='<select class="anotherTransporter" id="'+substituteTransport.WoredaID+'">';
-                entries+='<option value=""> Select a Position </option>';
+                entries+='<option value="">@Html.Translate("Select a Position") </option>';
                 for (var j in substituteTransport.TransportersStandingList) {
                     var transportersStandingPosition = results.Data[i].TransportersStandingList[j];
                     //if(!availablePositions.contains(results.Data[i].TransportersStandingList[j].Position)) {
@@ -473,7 +473,7 @@
                 entries+='</tr>';
             }
             entries+='</table>';
-            entries+='<a type="button" class="generateTO" style="margin:20px;height:30px;width:200px;cursor:pointer;">Generate Transport Order(s)</a>';
+            entries+='<a type="button" class="generateTO" style="margin:20px;height:30px;width:200px;cursor:pointer;">@Html.Translate("Generate Transport Order(s)")</a>';
             //alert(entries);
             //var msg = '<div class="cats_success">Success: Dashboard preference updated.</div>';
             $("#modalWindow").html(entries);
@@ -497,7 +497,7 @@
 
         function ChangeTransporterSendFailed(request, status, error) {
             //var msg = '<div class="cats_error">Error: ' + error + '. Status: ' + status + '</div>';
-            var msg = '<div class="cats_error">Error: Dashboard preference not updated.';
+            var msg = '<div class="cats_error">"+@Html.Translate("Error: Dashboard preference not updated.")+';
             $(".modalWindow").html(msg);
         }
         

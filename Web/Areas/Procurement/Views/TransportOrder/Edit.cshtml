@@ -1,7 +1,8 @@
-﻿@model Cats.Models.TransportOrder
+﻿@using Cats.Helpers
+@model Cats.Models.TransportOrder
 
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = Html.Translate("Edit");
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
 
@@ -13,7 +14,7 @@
 {
     <a class="btn toolbar-btn " data-buttontype="btn_save" data-submittedform="frm_edit_Order"></a>
 }
-    <h4 >Edit Transport Order</h4>
+    <h4 >@Html.Translate("Edit Transport Order")</h4>
     @using (Html.BeginForm("Edit", "TransportOrder", FormMethod.Post, new {id = "frm_edit_Order"}))
     {
 
@@ -24,7 +25,7 @@
                
             <div class="control-group">
                 <div class="control-label">
-                    @Html.LabelFor(model => model.TransportOrderNo)
+                    @Html.Label(Html.Translate("Transport Order No"))
                 </div>
                 <div class="controls">
                     @Html.TextBoxFor(model => model.TransportOrderNo)
@@ -34,7 +35,7 @@
 
             <div class="control-group">
                 <div class="control-label">
-                    @Html.LabelFor(model => model.ContractNumber)
+                    @Html.Label(Html.Translate("Contract Number"))
                 </div>
                 <div class="controls">
                     @Html.TextBoxFor(model => model.ContractNumber)
@@ -43,7 +44,7 @@
             </div>
             <div class="control-group">
                 <div class="control-label">
-                    @Html.LabelFor(model => model.OrderDate)
+                    @Html.Label(Html.Translate("OrderDate"))
                 </div>
                 <div class="controls">
                     @Html.TextBoxFor(model => model.OrderDate, new {@class = "cats-datepicker2"})
@@ -52,7 +53,7 @@
             </div>
             <div class="control-group">
                 <div class="control-label">
-                    @Html.LabelFor(model => model.RequestedDispatchDate)
+                    @Html.Label(Html.Translate("Requested Dispatch Date"))
                 </div>
                 <div class="controls">
                     @Html.TextBoxFor(model => model.RequestedDispatchDate, new {@class = "cats-datepicker2"})
@@ -61,7 +62,7 @@
             </div>
               <div class="control-group">
                   <div class="control-label">
-                      @Html.LabelFor(model => model.OrderExpiryDate)
+                      @Html.Label(Html.Translate("Order Expiry Date"))
                   </div>
                   <div class="controls">
                       @Html.TextBoxFor(model => model.OrderExpiryDate, new {@class = "cats-datepicker2"})
@@ -70,7 +71,7 @@
               </div>
                <div class="control-group">
                 <div class="control-label">
-                    @Html.LabelFor(model => model.TransporterSignedName)
+                    @Html.Label(Html.Translate("Transporter Signed Name"))
                 </div>
                 <div class="controls">
                     @Html.TextBoxFor(model => model.TransporterSignedName)
@@ -100,7 +101,7 @@
           
             <div class="control-group">
                 <div class="control-label">
-                    @Html.LabelFor(model => model.BidDocumentNo)
+                    @Html.Label(Html.Translate("Bid Document No"))
                 </div>
                 <div class="controls">
                     @Html.TextBoxFor(model => model.BidDocumentNo)
@@ -109,7 +110,7 @@
             </div>
             <div class="control-group">
                 <div class="control-label">
-                    @Html.LabelFor(model => model.PerformanceBondReceiptNo)
+                    @Html.Label(Html.Translate("Performance Bond Receipt No"))
                 </div>
                 <div class="controls">
                     @Html.TextBoxFor(model => model.PerformanceBondReceiptNo)
@@ -118,7 +119,7 @@
             </div>
             <div class="control-group">
                 <div class="control-label">
-                    @Html.LabelFor(model => model.PerformanceBondAmount)
+                    @Html.Label(Html.Translate("Performance Bond Amount"))
                 </div>
                 <div class="controls">
                     @Html.TextBoxFor(model => model.PerformanceBondAmount)
@@ -127,7 +128,7 @@
             </div>
             <div class="control-group">
                 <div class="control-label">
-                    @Html.LabelFor(model => model.ConsignerName)
+                    @Html.Label(Html.Translate("Consigner Name"))
                 </div>
                 <div class="controls">
                     @Html.TextBoxFor(model => model.ConsignerName)
@@ -145,7 +146,7 @@
             </div>*@
             <div class="control-group">
                 <div class="control-label">
-                    @Html.LabelFor(model => model.ConsignerDate)
+                    @Html.Label(Html.Translate("Consigner Date"))
                 </div>
                 <div class="controls">
                     @Html.TextBoxFor(model => model.ConsignerDate, new {@class = "cats-datepicker2"})
@@ -154,7 +155,7 @@
             </div>
             <div class="control-group">
                 <div class="control-label">
-                    @Html.LabelFor(model => model.TransporterSignedDate)
+                    @Html.Label(Html.Translate("Transporter Signed Date"))
                 </div>
                 <div class="controls">
                     @Html.TextBoxFor(model => model.TransporterSignedDate, new {@class = "cats-datepicker2"})

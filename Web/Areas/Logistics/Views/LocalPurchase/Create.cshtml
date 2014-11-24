@@ -4,16 +4,16 @@
 
 @model Cats.Areas.Logistics.Models.LocalPurchaseWithDetailViewModel
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = @Html.Translate("Create");
     Layout = "~/Views/Shared/_MainLayout.cshtml";
-    const string PAGE_NAME = "Logistics.LocalPurchase.Create";
+    
 }
 @section Toolbar
 {
     <a class="btn toolbar-btn " data-buttontype="btn_save" data-submittedform="frm_create_localPurchase" title="Save"></a>
     <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="@Url.Action("Index", "LocalPurchase")" title="Cancel"></a>
 }
-<h4>Receipt Plan From Local Purchase </h4>
+<h4>@Html.Translate("Receipt Plan From Local Purchase") </h4>
 
 @using (Html.BeginForm("Create", "LocalPurchase", FormMethod.Post, new { id = "frm_create_localPurchase" }))
 {
@@ -30,7 +30,7 @@
                               .Name("SINumber")
                               .HtmlAttributes(new {style = "width:215px;"})
                               .Filter("startswith")
-                              .Placeholder("Enter or Select SINumber...")
+                              .Placeholder(@Html.Translate("Enter or Select SINumber..."))
                               .DataSource(source => source.Read(read => read.Action("AutoCompleteSiNumber", "LocalPurchase").Data("onAdditionalData")).ServerFiltering(true))
          
                               )
@@ -61,7 +61,7 @@
                 </td>
                  <td>
                <div class="control-label">
-                    @Html.LabelFor(m=>m.ParentCommodityID,@Html.Translate2(PAGE_NAME,"Parent Commodity"))
+                    @Html.LabelFor(m=>m.ParentCommodityID,@Html.Translate("Parent Commodity"))
                 </div>
                  <div class="controls">
                      <select id="ParentCommodityID" name="ParentCommodityID"></select>
@@ -84,7 +84,7 @@
                 </td>
                  <td>
                <div class="control-label">
-                    @Html.LabelFor(m=>m.CommodityID,@Html.Translate2(PAGE_NAME,"Commodity"))
+                    @Html.LabelFor(m=>m.CommodityID,@Html.Translate("Commodity"))
                 </div>
                 <div class="controls">
                     <select id="CommodityID" name="CommodityID"></select>
@@ -223,7 +223,7 @@ $(document).ready(function () {
             //    alert(result[i].Text);
             if (result != "" && result != null) {
                 //$('#StoreID').data('tComboBox').value(result[0]);
-                var options = '<option value="">-- Select a Parent Commodity</option>';
+                var options = '<option value="">@Html.Translate("-- Select a Parent Commodity")</option>';
                 for (var i = 0; i < result.length; i++) {
                     options += '<option value="' + result[i].Value + '">' + result[i].Text + '</option>';
                 }
@@ -238,7 +238,7 @@ $(document).ready(function () {
             //    alert(result[i].Text);
             if (result != "" && result != null) {
                 //$('#StoreID').data('tComboBox').value(result[0]);
-                var options = '<option value="">-- Select a Parent Commodity</option>';
+                var options = '<option value="">@Html.Translate("-- Select a Parent Commodity")</option>';
                 for (var i = 0; i < result.length; i++) {
                     options += '<option value="' + result[i].Value + '">' + result[i].Text + '</option>';
                 }
@@ -255,7 +255,7 @@ $(document).ready(function () {
             //    alert(result[i].Text);
             if (result != "" && result != null) {
                 //$('#StoreID').data('tComboBox').value(result[0]);
-                var options = '<option value="">-- Select a Commodity</option>';
+                var options = '<option value="">@Html.Translate("-- Select a Commodity")</option>';
                 for (var i = 0; i < result.length; i++) {
                     options += '<option value="' + result[i].Value + '">' + result[i].Text + '</option>';
                 }

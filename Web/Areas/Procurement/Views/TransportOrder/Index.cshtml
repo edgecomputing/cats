@@ -8,19 +8,19 @@
 
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = Html.Translate("Index");
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
 
 
-<h4 class="page-header">List Of Transport Orders</h4>
+<h4 class="page-header">@Html.Translate("List Of Transport Orders")</h4>
 @section Toolbar
 {
     <a data-buttontype="btn_new_record"  class="btn toolbar-btn "  href="@Url.Action("TransportRequisitions","TransportOrder",new {Area="Procurement"})"></a>
     
     
      <div class="btn-group">
-        <button class="btn">Action</button>
+        <button class="btn">@Html.Translate("Action")</button>
      
             
             <button class="btn dropdown-toggle " data-toggle="dropdown">
@@ -31,8 +31,8 @@
 
 
         <ul class="dropdown-menu">
-            <li><a id="btnApproveMultipleTos" href="@Url.Action("MultipleApproval", "TransportOrder",new {Area="Procurement"})">Approve Multiple TOs</a></li>
-            <li><a id="btnReverseRequsition" href="@Url.Action("RevertRequsitions","TransportOrder",new {Area="Procurement"})">Revert Requsitions</a></li>  
+            <li><a id="btnApproveMultipleTos" href="@Url.Action("MultipleApproval", "TransportOrder",new {Area="Procurement"})">@Html.Translate("Approve Multiple TOs")</a></li>
+            <li><a id="btnReverseRequsition" href="@Url.Action("RevertRequsitions","TransportOrder",new {Area="Procurement"})">@Html.Translate("Revert Requsitions")</a></li>  
 
             <li><a href="#"></a></li>
         </ul>
@@ -80,43 +80,43 @@
 
 <div>
     <div class="input-prepend">
-        <span class="add-on">Program</span>
+        <span class="add-on">@Html.Translate("Program")</span>
         @Html.DropDownList("ProgramID", null, new { @class = "input-small" })
     </div>
     <div class="input-prepend">
-        <span class="add-on">Status</span>
+        <span class="add-on">@Html.Translate("Status")</span>
         @Html.DropDownList("StatusID", null, new { @class = "input-small" })
     </div>
     <div class="input-prepend">
-        <span class="add-on">Region</span>
+        <span class="add-on">@Html.Translate("Region")</span>
         @Html.DropDownList("RegionID", null, new { @class = "input-small" })
     </div>
 </div>
 <div>
 @(Html.Kendo().Grid<TransportOrderViewModel>().Name("Grid").Columns(columns =>
       {
-          columns.Bound(to => to.ContractNumber).Width(130).ClientTemplate("<a href='" + Url.Action("OrderDetail", "TransportOrder", new { Area = "Procurement", id = "#=TransportOrderID#" }) + " '>#=ContractNumber#</a>  ").HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;" });
+          columns.Bound(to => to.ContractNumber).Title(@Html.Translate("Contract Number")).Width(130).ClientTemplate("<a href='" + Url.Action("OrderDetail", "TransportOrder", new { Area = "Procurement", id = "#=TransportOrderID#" }) + " '>#=ContractNumber#</a>  ").HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;" });
     //columns.Bound(to => to.TransportOrderNo).ClientTemplate("<a href='" + Url.Action("Details", "TransportOrder", new { Area = "Procurement", id = "#=TransportOrderID#" }) + " '>#=TransportOrderNo#</a>  ").HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;" });
-    columns.Bound(to => to.Transporter).Width(150);
+          columns.Bound(to => to.Transporter).Title(@Html.Translate("Transporter")).Width(150);
     columns.Bound(to => to.BidDocumentNo).Width(100).Title(Html.Translate("Bid Document #"));
     //columns.Bound(to => to.OrderDateET).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid" });
-    columns.Bound(to => to.OrderExpiryDateET).Width(120).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid", style = "overflow: visible; white-space: normal;" });
-    columns.Bound(to => to.StartDate).Width(120).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid", style = "overflow: visible; white-space: normal;" });
-    columns.Bound(to => to.EndDate).Width(120).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid", style = "overflow: visible; white-space: normal;" });
-    columns.Bound(to => to.RequestedDispatchDateET).Width(120).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid", style = "overflow: visible; white-space: normal;" });
-    columns.Bound(to => to.TransportOrderNo).Width(150);
-    columns.Bound(to => to.Status).Width(90);
+    columns.Bound(to => to.OrderExpiryDateET).Title(Html.Translate("Order Expiry Date")).Width(120).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid", style = "overflow: visible; white-space: normal;" });
+    columns.Bound(to => to.StartDate).Width(120).Title(Html.Translate("Start Date")).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid", style = "overflow: visible; white-space: normal;" });
+    columns.Bound(to => to.EndDate).Width(120).Title(Html.Translate("End Date")).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid", style = "overflow: visible; white-space: normal;" });
+    columns.Bound(to => to.RequestedDispatchDateET).Title(Html.Translate("Requested Dispatch Date")).Width(120).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid", style = "overflow: visible; white-space: normal;" });
+    columns.Bound(to => to.TransportOrderNo).Title(Html.Translate("Transport Order No")).Width(150);
+    columns.Bound(to => to.Status).Title(Html.Translate("Status")).Width(90);
           columns.Command(p =>
               {
                  
                   //if (@ViewBag.TransportOrderTitle == "Draft") //TransportRequisitionStatus.Draft
                   //{
-                      p.Custom("Approve").Click("onApprove");
+                      p.Custom(@Html.Translate("Approve")).Click("onApprove");
                   //}
-                      p.Custom("Signed").Click("onSigned");
-                  p.Custom("Edit").Click("onEdit");
+                      p.Custom(@Html.Translate("Signed")).Click("onSigned");
+                  p.Custom(@Html.Translate("Edit")).Click("onEdit");
 
-                  p.Custom("Revert TO").Click("onRevert");
+                  p.Custom(@Html.Translate("Revert TO")).Click("onRevert");
 
               }).Width(200);
 

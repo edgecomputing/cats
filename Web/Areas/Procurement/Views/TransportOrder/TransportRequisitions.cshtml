@@ -1,11 +1,12 @@
 ﻿@using Cats.Areas.Logistics.Models
 @using Cats.Models.Constant
 @using Cats.Models.ViewModels
+@using Cats.Helpers
 @using Kendo.Mvc.UI
 
 
 @{
-    ViewBag.Title = "TransportRequisitions";
+    ViewBag.Title = @Html.Translate("TransportRequisitions");
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
 @section LeftBar{
@@ -14,20 +15,20 @@
 @*<div id='dialogDiv' class='modal hide fade in'>
     <div id='dialogContent'></div>
 </div>*@
-<h4 class="page-header">Approved Transport Requisition</h4>
-Transport Requisition Code: <input id="searchIndex" style="width: 300px; height: 20px; border-radius: 3px; margin-top: 5px;" type="search" /> <a data-buttontype=""  class="btn icon-search" onclick="reloadTDRGrid()"></a>
+<h4 class="page-header">@Html.Translate("Approved Transport Requisition")</h4>
+@Html.Translate("Transport Requisition Code"): <input id="searchIndex" style="width: 300px; height: 20px; border-radius: 3px; margin-top: 5px;" type="search" /> <a data-buttontype=""  class="btn icon-search" onclick="reloadTDRGrid()"></a>
 @*<a class="btn toolbar-btn" href="@Url.Action("GenerateTransportRequisitionForRegion", "TransportRequisition", new { Area = "Logistics", regionID = 2 })"><i class="ui-icon-cancel"></i></a>*@
 @(Html.Kendo().Grid<TransportRequisitionViewModel>().Name("Grid").Columns(columns =>
 {
 
     columns.Bound(requisition => requisition.TransportRequisitionNo).ClientTemplate("<a href='" + Url.Action("Details", "TransportRequisition", new { Area = "Logistics", id = "#=TransportRequisitionID#" }) + " '>#=TransportRequisitionNo#</a>  ");
-    columns.Bound(requisition => requisition.Region);
-    columns.Bound(requisition => requisition.Program);
-    columns.Bound(requisition => requisition.RequestedBy);
+    columns.Bound(requisition => requisition.Region).Title(@Html.Translate("Region"));
+    columns.Bound(requisition => requisition.Program).Title(@Html.Translate("Program"));
+    columns.Bound(requisition => requisition.RequestedBy).Title(@Html.Translate("Requested By"));
     columns.Bound(requisition => requisition.DateRequested).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid" });
-    columns.Bound(requisition => requisition.CertifiedBy);
+    columns.Bound(requisition => requisition.CertifiedBy).Title(@Html.Translate(" Certified By"));
     //columns.Bound(requisition => requisition.DateCertified).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid" });
-    columns.Bound(requisiton => requisiton.Status);
+    columns.Bound(requisiton => requisiton.Status).Title(@Html.Translate(" Status"));
     columns.Bound(requisition => requisition.TransportRequisitionNo).ClientTemplate("<a class='btn-generate-transportorder' href='" + Url.Action("ConfirmGenerateTransportOrder", "TransportRequisition", new { Area = "Logistics", id = "#=TransportRequisitionID#" }) + " '>Generate Transport Order</a>  ").Title(" ");
 
 })
