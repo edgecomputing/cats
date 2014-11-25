@@ -9,7 +9,7 @@
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
 
-<h3>Bid Winning Transporters</h3>
+<h3>@Html.Translate("Bid Winning Transporters")</h3>
 
 @(Html.Kendo().Grid<TransporterViewModel>()
     .Name("grid")

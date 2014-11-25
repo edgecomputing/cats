@@ -31,9 +31,9 @@ Plans
                 {
                     <div class="text-right col-md-12">
                         <a id="btnAddAssessment" href="@Url.Action("AddNeedAssessment", "NeedAssessment", new {id = Model.PlanID})">
-                            <button type="button" class="btn btn-success"><span class="fa fa-plus"></span> New Assessment</button></a>
+                            <button type="button" class="btn btn-success"><span class="fa fa-plus"></span>@Html.Translate(" New Assessment")</button></a>
                         <a id="btnCreateHrd" href="@Url.Action("CreateHRD", "HRD", new {id = Model.PlanID})">
-                            <button type="button" class="btn btn-success"><span class="fa fa-plus"></span> Create HRD</button></a>
+                            <button type="button" class="btn btn-success"><span class="fa fa-plus"></span>@Html.Translate("Create HRD") </button></a>
                     </div>
                 }
                 <div class="col-md-12">
@@ -80,10 +80,10 @@ Plans
                               .Name("grid")
                               .Columns(columns =>
                                   {
-                                      columns.Bound(p => p.RegionName).Title("Region");
-                                      columns.Bound(p => p.SeasonName).Visible(true).Width(100).Title("Season");
+                                      columns.Bound(p => p.RegionName).Title(Html.Translate("Region"));
+                                      columns.Bound(p => p.SeasonName).Visible(true).Width(100).Title(Html.Translate("Season"));
                                       columns.Bound(p => p.Date).Title(Html.Translate("Need Assessment Created Date")).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid", style = "overflow: visible; white-space: normal;", title = "Need Assessment Created Date" });
-                                      columns.Bound(p => p.NeedACreaterName).Title("Created By").HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;", title = "Created By" });
+                                      columns.Bound(p => p.NeedACreaterName).Title(Html.Translate("Created By")).HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;", title = "Created By" });
                                       columns.Bound(p => p.IsApproved).Visible(false);
                                       columns.Command(p =>
                                           {
@@ -178,10 +178,10 @@ Plans
 
 </script>
 <div id="modalWindowDelete">
-    <h6>Delete Need Assessment?<br />
-        This will delete all the related records with this Region!</h6>
-    <button id="yesDelete" class="k-button">Yes</button>
-    <button id="noDelete" class="k-button">No</button>
+    <h6>@Html.Translate("Delete Need Assessment?") <br />
+        @Html.Translate("This will delete all the related records with this Region!")  </h6>
+    <button id="yesDelete" class="k-button">@Html.Translate("Yes") </button>
+    <button id="noDelete" class="k-button">@Html.Translate("No") </button>
 </div>
 <script>
     var wn;
