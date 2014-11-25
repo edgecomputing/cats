@@ -50,8 +50,8 @@
                                             
                                         <th class="hidden-xs">Number</th>
                                         <th>Transporter Name</th>
-                                        <th style="text-align: center">Commodity</th>
-                                        <th style="text-align: center">Source</th>
+                                       @* <th style="text-align: center">Commodity</th>
+                                        <th style="text-align: center">Source</th>*@
                                         @*<th style="text-align: center">Destination</th>*@
                                         <th style="text-align: right">Received Quantity</th>
                                         <th style="text-align: right">Shortage Quantity</th>
@@ -67,8 +67,8 @@
                                     <tr ng-repeat="req in paymentRequestForDashboard">
                                         <td class="hidden-xs" style="text-align: center; ">{{$index + 1}}</td>
                                         <td>@* <a ng-href="@Url.Content("~/Finance/ValidatedPaymentRequest/PaymentRequests/{{req.TransporterId}}")">*@ {{req.TransporterName}}</td>
-                                        <td style="text-align: center; margin-right: 20px">{{req.CommodityName}}</td>
-                                        <td style="text-align: center; margin-right: 20px">{{req.SourceName}}</td>
+                                       @*@* <td style="text-align: center; margin-right: 20px">{{req.CommodityName}}</td>
+                                        <td style="text-align: center; margin-right: 20px">{{req.SourceName}}</td>*@
                                         @*<td style="text-align: right; margin-right: 20px">{{req.DestinationName}}</td>*@
                                         <td style="text-align: right; margin-right: 0px">{{req.ReceivedQuantity | number:2}} </td>
                                         <td style="text-align: right; margin-right: 0px">{{req.ShortageQuantity | number:2}}</td>

@@ -190,12 +190,10 @@ namespace Cats.Areas.Finance.Controllers
                         .OrderByDescending(t => t.TransporterPaymentRequestID);
             var transporterPaymentRequests =  TransporterPaymentRequestViewModelBinder(list.ToList());
 
-            var requests = transporterPaymentRequests.GroupBy(ac => new {ac.Transporter.Name, ac.Commodity, ac.Source}).Select(ac => new
+            var requests = transporterPaymentRequests.GroupBy(ac => new {ac.Transporter.Name}).Select(ac => new
                                                                                                                                                   {
                                                                                                                                                       TransporterName = ac.Key.Name,
                                                                                                                                                       TransporterId = ac.FirstOrDefault().Transporter.TransporterID,
-                                                                                                                                                      CommodityName = ac.Key.Commodity,
-                                                                                                                                                      SourceName = ac.Key.Source,
                                                                                                                                                       ReceivedQuantity = ac.Sum(s => s.ReceivedQty),
                                                                                                                                                       ShortageQuantity = ac.Sum(s => s.ShortageQty),
                                                                                                                                                       ShortageBirr = ac.Sum(s => s.ShortageBirr),
