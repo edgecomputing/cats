@@ -33,9 +33,9 @@ Plans
                                        @Html.EarlyWarningOperationButton(
                                            @Url.Action("Detail", "NeedAssessment", new { id = "#=PlanID#" }),
                                            EarlyWarningConstants.Operation.View_Need_Assessment_Detail, "#=AssessmentName#").ToString());
-                                   columns.Bound(p => p.StartDate);
-                                   columns.Bound(p => p.EndDate);
-                                   columns.Bound(p => p.Status).Title("Status"); ;
+                                   columns.Bound(p => p.StartDate).Title(Html.Translate("Start Date"));
+                                   columns.Bound(p => p.EndDate).Title(Html.Translate("End Date"));
+                                   columns.Bound(p => p.Status).Title(Html.Translate("Status")); 
                                })
                   .HtmlAttributes(new { style = "height: 430px" })
                   .Pageable()

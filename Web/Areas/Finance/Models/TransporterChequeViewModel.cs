@@ -13,6 +13,7 @@ namespace Cats.Areas.Finance.Models
         public string CheckNo { get; set; }
         public string PaymentVoucherNo { get; set; }
         public string BankName { get; set; }
+        public DateTime? PaymentDate { get; set; }
         public decimal Amount { get; set; }
         public int TransporterId { get; set; }
         public string Transporter { get; set; }

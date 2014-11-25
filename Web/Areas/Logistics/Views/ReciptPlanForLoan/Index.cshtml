@@ -37,19 +37,19 @@
 <div id='dialogDiv' class='modal hide fade in' style="width: 820px;margin-right: 10px">
     <div id='dialogContent'></div>
 </div>
-<h4>List of Receipt Plan From Loan</h4>
+<h4>@Html.Translate("List of Receipt Plan From Loan")</h4>
  @(Html.Kendo().Grid<LoanReciptPlanViewModel>()
               .Name("grid")
               .Columns(columns =>
                   {
-                      columns.Bound(m => m.SiNumber).Title(@Html.Translate2(pageName, "SI Number")).ClientTemplate("<a href='" + Url.Action("Detail", "ReciptPlanForLoan", new { id = "#=LoanReciptPlanID#" }) + " '>#=SiNumber#</a>  ");
-                      columns.Bound(m => m.LoanSource).Width(200).Title(@Html.Translate2(pageName, "Loan Source"));
-                      columns.Bound(m => m.ProgramName).Title(@Html.Translate2(pageName,"Program"));
-                      columns.Bound(m => m.CommodityName).Width(200).Title(@Html.Translate2(pageName,"Commodity"));
-                      columns.Bound(m => m.CommoditySourceName).Width(200).Title(@Html.Translate2(pageName,"Commodity Source"));
-                      columns.Bound(m => m.Quantity).HtmlAttributes(new {align = "right"}).Title(@Html.Translate2(pageName,"Quantity in MT"));
-                      columns.Bound(m => m.CreatedDate).Title("Created Date");
-                      columns.Bound(m => m.Status);
+                      columns.Bound(m => m.SiNumber).Title(@Html.Translate("SI Number")).ClientTemplate("<a href='" + Url.Action("Detail", "ReciptPlanForLoan", new { id = "#=LoanReciptPlanID#" }) + " '>#=SiNumber#</a>  ");
+                      columns.Bound(m => m.LoanSource).Width(200).Title(@Html.Translate("Loan Source"));
+                      columns.Bound(m => m.ProgramName).Title(@Html.Translate("Program"));
+                      columns.Bound(m => m.CommodityName).Width(200).Title(@Html.Translate("Commodity"));
+                      columns.Bound(m => m.CommoditySourceName).Width(200).Title(@Html.Translate("Commodity Source"));
+                      columns.Bound(m => m.Quantity).HtmlAttributes(new {align = "right"}).Title(@Html.Translate("Quantity in MT"));
+                      columns.Bound(m => m.CreatedDate).Title(Html.Translate("Created Date"));
+                      columns.Bound(m => m.Status).Title(Html.Translate("Status"));
                       //columns.Command(p =>
                       //{
                       //    p.Custom("Edit").Click("Edit");

@@ -32,7 +32,7 @@ namespace Cats.Helpers
             }
 
             // If the current language is 'English' then return the default value (the passed value)            
-            if (currentLanguage == "EN")
+            if (System.String.Compare(currentLanguage, "EN", System.StringComparison.OrdinalIgnoreCase)==0)
                 return phrase;
 
             // Check if we already have a session variable to hold list of translations terms

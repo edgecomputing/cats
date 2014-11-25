@@ -13,18 +13,18 @@
 @section LeftBar
 {
    
-    <li class="nav-header">Bid Plan @ViewBag.bidPlan.ShortName</li>
-    <li>Year: @ViewBag.bidPlan.Year</li>
-    <li>Period: @ViewBag.bidPlan.YearHalf</li>
-    <li class="nav-header">Tasks</li>
+    <li class="nav-header">@Html.Translate("Bid Plan") @ViewBag.bidPlan.ShortName</li>
+    <li>@Html.Translate("Year"): @ViewBag.bidPlan.Year</li>
+    <li>@Html.Translate("Period"): @ViewBag.bidPlan.YearHalf</li>
+    <li class="nav-header">@Html.Translate("Tasks")</li>
 
-    <li> <a href="@Url.Action("Create/" + ViewBag.bidPlan.TransportBidPlanID, "bid", new { Area = "Procurement" })"><i class="icon-chevron-left"></i>Create Bid</a></li>
-    <li> <a href="@Url.Action("Index", "TransportBidPlan", new { Area = "Procurement" })"><i class="icon-chevron-left"></i>Back to List</a></li>
+    <li> <a href="@Url.Action("Create/" + ViewBag.bidPlan.TransportBidPlanID, "bid", new { Area = "Procurement" })"><i class="icon-chevron-left"></i>@Html.Translate("Create Bid")</a></li>
+    <li> <a href="@Url.Action("Index", "TransportBidPlan", new { Area = "Procurement" })"><i class="icon-chevron-left"></i>@Html.Translate("Back to List")</a></li>
 
 }
 <div class="row">
-    <h3>Warehouse Assignment</h3>
-    Select A woreda from the tree to specify quantity of goods to be transported from each warehouse.
+    <h3>@Html.Translate("Warehouse Assignment")</h3>
+    @Html.Translate("Select A woreda from the tree to specify quantity of goods to be transported from each warehouse")
 </div>
 <div class="row">
 <div class="span4 ">
@@ -43,9 +43,9 @@
        // columns.Bound(p => p.WoredaID).Width(100); 
         columns.ForeignKey(p => p.WarehouseID, (IEnumerable)ViewBag.WarehouseID, "HubID", "Name").Title(Html.Translate("Warehouse")).Width(100);
         //columns.Bound(p => p.WarehouseName).Width(100);
-        columns.Bound(p => p.PSNP).Width(100);
-        columns.Bound(p => p.Relief).Width(100);
-        columns.Bound(p => p.Total).Width(100);
+        columns.Bound(p => p.PSNP).Width(100).Title(Html.Translate("PSNP"));
+        columns.Bound(p => p.Relief).Title(Html.Translate("Relief")).Width(100);
+        columns.Bound(p => p.Total).Title(Html.Translate("Total")).Width(100);
         columns.Command(command => { 
             command.Edit(); 
             command.Custom("Delete").Click("deleteRecord");            
@@ -120,7 +120,7 @@
         e.preventDefault();
 
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
-        if(confirm("Are you sure you want to delete this record?")==true)
+        if(confirm("@Html.Translate("Are you sure you want to delete this record?")")==true)
         {
             var post_values={TransportBidPlanID:dataItem.BidPlanID,selectedWoreda:dataItem.WoredaID,sourceWarehouse:dataItem.WarehouseID};
             

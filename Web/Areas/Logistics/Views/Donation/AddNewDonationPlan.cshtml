@@ -41,7 +41,7 @@
   
 <fieldset>
     <legend>
-        Receive Plan for Donation
+        @Html.Translate("Receive Plan for Donation")
     </legend>
 </fieldset>  
 
@@ -134,18 +134,18 @@
 
     </table>
    
-    <h4> Hubs </h4>
+    <h4> @Html.Translate("Hubs") </h4>
     
     @(Html.Kendo().Grid(Model.DonationPlanDetails)
           .Name("grid")
           .Columns(columns =>
                        {
-                           columns.Bound(p => p.HubID).Title("Hub").Width(100).Hidden(true).ClientTemplate("#= HubID #" +
+                           columns.Bound(p => p.HubID).Title(Html.Translate("Hub Id")).Width(100).Hidden(true).ClientTemplate("#= HubID #" +
                     "<input type='hidden' name='DonationPlanDetails[#= index(data)#].HubID' value='#= HubID #' />");
-                           columns.Bound(p => p.Hub).Title("Hub").Width(100).ClientTemplate("#= Hub #" +
+                           columns.Bound(p => p.Hub).Title(Html.Translate("Hub")).Width(100).ClientTemplate("#= Hub #" +
                    "<input type='hidden' name='DonationPlanDetails[#= index(data)#].Hub' value='#= Hub #' />");
 
-                           columns.Bound(p => p.AllocatedAmount).Title("Allocated").Width(30).Format("{0:n2}").ClientFooterTemplate("<div style='text-align: right'> Sum: #=sum#</div>").HtmlAttributes(new { align = "Right" }).HtmlAttributes(new { style = "text-align: right; font-size: 12px; " }).ClientTemplate("#= AllocatedAmount #" +
+                           columns.Bound(p => p.AllocatedAmount).Title(Html.Translate("Allocated Amount")).Width(30).Format("{0:n2}").ClientFooterTemplate("<div style='text-align: right'> Sum: #=sum#</div>").HtmlAttributes(new { align = "Right" }).HtmlAttributes(new { style = "text-align: right; font-size: 12px; " }).ClientTemplate("#= AllocatedAmount #" +
                     "<input type='hidden' name='DonationPlanDetails[#= index(data)#].AllocatedAmount' value='#= AllocatedAmount #' />"); 
 
                    //        columns.Bound(p => p.ReceivedAmount).Title("Received").Width(30).Format("{0:n2}").HtmlAttributes(new { align = "Right" }).HtmlAttributes(new { style = "text-align: right; font-size: 12px; " }).ClientTemplate("#= ReceivedAmount #" +
