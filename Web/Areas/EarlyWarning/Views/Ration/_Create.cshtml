@@ -1,10 +1,11 @@
-﻿@model Cats.Models.Ration
+﻿@using Cats.Helpers
+@model Cats.Models.Ration
 <div class="modal-dialog ">
     <div class="modal-content">
       
         <div class="modal-header">
           <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
-          <h4 id="myModalLabel" class="modal-title">Create Ration</h4>
+          <h4 id="myModalLabel" class="modal-title">@Html.Translate("Create Ration")</h4>
         </div>
 
 
@@ -18,7 +19,7 @@
         <div class="form-horizontal">
              <div class="form-group">
                 <div class="col-sm-4 control-label">
-                    @Html.LabelFor(model => model.RefrenceNumber)
+                    @Html.LabelFor(model => model.RefrenceNumber, Html.Translate("Reference No."))
                 </div>
                 <div class="col-sm-8">
                     @Html.TextBoxFor(model => model.RefrenceNumber, new { @class = " form-control" })
@@ -27,7 +28,7 @@
              </div>  
             <div class="form-group" style="display: none">
                 <div class="col-sm-4 control-label">
-                    @Html.LabelFor(model => model.IsDefaultRation)
+                    @Html.LabelFor(model => model.IsDefaultRation, Html.Translate("Is Default Ration"))
                 </div>
                 <div class="col-sm-8">
                     @Html.TextBoxFor(model => model.IsDefaultRation, new { @class = " form-control" })

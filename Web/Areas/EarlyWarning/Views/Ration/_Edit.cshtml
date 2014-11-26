@@ -21,7 +21,7 @@
         <div class="form-horizontal">
             <div class="control-group">
                 <div class="control-label">
-                    @Html.LabelFor(model => model.ReferenceNumber)
+                    @Html.LabelFor(model => model.ReferenceNumber, Html.Translate("Reference No."))
                 </div>
                 <div class="controls">
                     @Html.EditorFor(model => model.ReferenceNumber)
@@ -30,7 +30,7 @@
             </div>
             <div class="control-group">
                 <div class="control-label">
-                    @Html.LabelFor(model => model.IsDefaultRation)
+                    @Html.LabelFor(model => model.IsDefaultRation, Html.Translate("Is Default Ration"))
                 </div>
                 <div class="controls">
                     @Html.EditorFor(model => model.IsDefaultRation)
@@ -53,7 +53,7 @@
             {
                 <div class="control-group">
                     <div class="control-label">
-                        @Html.LabelFor(model => model.CreatedDate,new {@class="cats-date-pref"})
+                        @Html.LabelFor(model => model.CreatedDate, Html.Translate("Date Created"),new {@class="cats-date-pref"})
                     </div>
                     <div class="controls">
                         @Html.DisplayFor(model => model.CreatedDate)
@@ -63,7 +63,7 @@
             }
             <div class="control-group">
                 <div class="control-label">
-                    @Html.LabelFor(model => model.CreatedBy)
+                    @Html.LabelFor(model => model.CreatedBy, Html.Translate("Created By"))
                 </div>
                 <div class="controls">
                     @Html.DisplayFor(model => model.CreatedBy)
@@ -74,7 +74,7 @@
             {
                 <div class="control-group">
                     <div class="control-label">
-                        @Html.LabelFor(model => model.UpdatedDateEC,new {@class="cats-date-pref"})
+                        @Html.LabelFor(model => model.UpdatedDateEC, Html.Translate("Updated Date EC"),new {@class="cats-date-pref"})
                     </div>
                     <div class="controls">
                         @Html.DisplayFor(model => model.UpdatedDateEC)
@@ -86,7 +86,7 @@
             {
                 <div class="control-group">
                     <div class="control-label">
-                        @Html.LabelFor(model => model.UpdatedDate,new {@class="cats-date-pref"})
+                        @Html.LabelFor(model => model.UpdatedDate, Html.Translate("Updated Date"),new {@class="cats-date-pref"})
                     </div>
                     <div class="controls">
                         @Html.DisplayFor(model => model.UpdatedDate)
@@ -97,7 +97,7 @@
             }
             <div class="control-group">
                 <div class="control-label">
-                    @Html.LabelFor(model => model.UpdatedBy)
+                    @Html.LabelFor(model => model.UpdatedBy, Html.Translate("Updated By"))
                 </div>
                 <div class="controls">
                  
