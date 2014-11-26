@@ -142,7 +142,8 @@ namespace Cats.Services.Logistics
                            HubID = transfer.SourceHubID
                        };
                    _unitOfWork.HubAllocationRepository.Add(hubAllocation);
-                   relifRequisition.RequisitionNo = String.Format("REQ-{0}", relifRequisition.RequisitionID);
+                   //relifRequisition.RequisitionNo = String.Format("REQ-{0}", relifRequisition.RequisitionID);
+                   relifRequisition.RequisitionNo = transfer.ReferenceNumber;
                    relifRequisition.Status = (int)ReliefRequisitionStatus.HubAssigned;
                    List<LedgerService.AvailableShippingCodes> availableSINumbers = GetFreeSICodesByCommodity(transfer.SourceHubID, transfer.CommodityID);
                    var siNumberExist = availableSINumbers.Any(availableShippingCode => availableShippingCode.siCodeId == transfer.ShippingInstructionID);
