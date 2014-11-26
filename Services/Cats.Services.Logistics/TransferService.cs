@@ -164,6 +164,7 @@ namespace Cats.Services.Logistics
                    _unitOfWork.SIPCAllocationRepository.Add(allocation);
                  
                    relifRequisition.Status = (int) ReliefRequisitionStatus.ProjectCodeAssigned;
+                   relifRequisition.RequisitionNo = String.Format("REQ-{0}", relifRequisition.RequisitionID);
                    _unitOfWork.Save();
                    if (!PostSIAllocation(relifRequisition.RequisitionID))
                    {

@@ -781,7 +781,7 @@
                               </Style>
                             </TextRun>
                             <TextRun>
-                              <Value>ከሰላምታ ጋር         </Value>
+                              <Value>ከሰላምታ ጋር    </Value>
                               <Style>
                                 <FontStyle>Normal</FontStyle>
                                 <FontFamily>Nyala</FontFamily>
@@ -803,8 +803,44 @@
                               <Style>
                                 <FontStyle>Normal</FontStyle>
                                 <FontFamily>Nyala</FontFamily>
-                                <FontSize>11pt</FontSize>
-                                <FontWeight>Normal</FontWeight>
+                                <FontSize>12pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                                <TextDecoration>None</TextDecoration>
+                                <Color>#000000</Color>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value xml:space="preserve">    </Value>
+                              <Style>
+                                <FontStyle>Normal</FontStyle>
+                                <FontFamily>Nyala</FontFamily>
+                                <FontSize>12pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                                <TextDecoration>None</TextDecoration>
+                                <Color>#000000</Color>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value> ማሰሰቢያ፡- ማራገፊያ ሂሳብ መክፈያ ቅጽ ________ገፅ ተያይዞአል፡፡</Value>
+                              <Style>
+                                <FontStyle>Normal</FontStyle>
+                                <FontFamily>Nyala</FontFamily>
+                                <FontSize>12pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
                                 <TextDecoration>None</TextDecoration>
                                 <Color>#000000</Color>
                               </Style>
@@ -831,7 +867,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value />
+                              <Value xml:space="preserve">  </Value>
                               <Style>
                                 <FontStyle>Normal</FontStyle>
                                 <FontFamily>Nyala</FontFamily>
