@@ -6,7 +6,7 @@
 @model IEnumerable<RegionalPSNPPlan>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = Html.Translate("Index");
     Layout = "~/Views/Shared/_MainLayout.cshtml";
     //var index = 0;
     //var user = (UserIdentity)HttpContext.Current.User.Identity;
@@ -31,10 +31,10 @@
     .Name("grid")
     .Columns(columns =>
         {
-            columns.Bound(p => p.PlanName).ClientTemplate("<a href='" + Url.Action("Index", "RegionalPSNPPlanDetail", new { id = "#=RegionalPSNPPlanID#" }) + " '>#=PlanName#</a>  "); 
-        columns.Bound(p => p.From);
-        columns.Bound(p => p.To);
-        columns.Bound(p => p.StatusName);
+            columns.Bound(p => p.PlanName).Title(Html.Translate("Plan Name")).ClientTemplate("<a href='" + Url.Action("Index", "RegionalPSNPPlanDetail", new { id = "#=RegionalPSNPPlanID#" }) + " '>#=PlanName#</a>  ");
+            columns.Bound(p => p.From).Title(Html.Translate("From"));
+            columns.Bound(p => p.To).Title(Html.Translate("Title"));
+            columns.Bound(p => p.StatusName).Title(Html.Translate("Status"));
        
     })
     .DataSource(
@@ -148,7 +148,7 @@
 <div id="modalHistory" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false" style="width: 600px;">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-        <h4 id="modalHistoryLabel">Activity History</h4>
+        <h4 id="modalHistoryLabel">@Html.Translate("Activity History")</h4>
     </div>
     <div class="modal-body" id="modalHistoryBody">History</div>
     @*    <div class="modal-footer">

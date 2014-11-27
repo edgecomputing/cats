@@ -6,7 +6,7 @@
 @model TransportOrderViewModel
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = Html.Translate("Details");
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
 @section Toolbar
@@ -18,7 +18,7 @@
         <div class="span6">
             <div class="control-group">
                 <div class="control-label">
-                    @Html.LabelFor(model => model.TransportOrderNo)
+                    @Html.Label(Html.Translate("Transport Order No"))
 
                 </div>
                 <div class="controls">
@@ -29,7 +29,7 @@
         <div class="span6">
             <div class="control-group">
                 <div class="control-label">
-                    @Html.LabelFor(m => m.Transporter)
+                    @Html.Label(Html.Translate("Transporter"))
                 </div>
                 <div class="controls">
                     @Html.TextBoxFor(m => m.Transporter, new { Disabled = true })
@@ -41,7 +41,7 @@
         <div class="span6">
             <div class="control-group">
                 <div class="control-label">
-                    @Html.LabelFor(model => model.ContractNumber)
+                    @Html.Label(Html.Translate("Contract Number"))
                 </div>
                 <div class="controls">
                     @Html.TextBoxFor(m => m.ContractNumber, new { Disabled = true })
@@ -51,7 +51,7 @@
         <div class="span6">
             <div class="control-group">
                 <div class="control-label">
-                    @Html.LabelFor(model => model.OrderDateET)
+                    @Html.Label(Html.Translate("Order Date ET"))
                 </div>
                 <div class="controls">
                     @Html.TextBoxFor(m => m.OrderDateET, new { Disabled = true })
@@ -64,7 +64,7 @@
         <div class="span6">
             <div class="control-group">
                 <div class="control-label">
-                    @Html.LabelFor(model => model.RequestedDispatchDateET, new { @class = "cats-date-pref" })
+                    @Html.Label(Html.Translate("Requested Dispatch Date ET"), new { @class = "cats-date-pref" })
                 </div>
                 <div class="controls">
                     @Html.TextBoxFor(m => m.RequestedDispatchDateET, new { Disabled = true })
@@ -74,7 +74,7 @@
         <div class="span6">
             <div class="control-group">
                 <div class="control-label">
-                    @Html.LabelFor(model => model.OrderExpiryDateET, new { @class = "cats-date-pref" })
+                    @Html.Label(Html.Translate("Order ExpiryDate ET"), new { @class = "cats-date-pref" })
                 </div>
                 <div class="controls">
                     @Html.TextBoxFor(m => m.OrderExpiryDateET, new { Disabled = true })
@@ -87,7 +87,7 @@
         <div class="span6">
             <div class="control-group">
                 <div class="control-label">
-                    @Html.LabelFor(model => model.StartDate, new { @class = "cats-date-pref" })
+                    @Html.Label(Html.Translate("Start Date"), new { @class = "cats-date-pref" })
                 </div>
                 <div class="controls">
                     @Html.TextBoxFor(m => m.StartDate, new { Disabled = true })
@@ -97,7 +97,7 @@
         <div class="span6">
             <div class="control-group">
                 <div class="control-label">
-                    @Html.LabelFor(model => model.EndDate, new { @class = "cats-date-pref" })
+                    @Html.LabelFor(@Html.Translate("End Date"), new { @class = "cats-date-pref" })
                 </div>
                 <div class="controls">
                     @Html.TextBoxFor(m => m.EndDate, new { Disabled = true })
@@ -111,10 +111,10 @@
 @(Html.Kendo().Grid((IEnumerable<TransportOrderDetailViewModel>)ViewData["Transport.order.detail.ViewModel"])
 .Name("Grid").Columns(columns =>
                           {
-                              columns.Bound(trd => trd.Woreda);
-                              columns.Bound(trd => trd.RequisitionNo);
-                              columns.Bound(trd => trd.FDP);
-                              columns.Bound(trd => trd.OriginWarehouse).FooterTemplate(@<text><div align="right"><strong>Total</strong></div></text>);
+                              columns.Bound(trd => trd.Woreda).Title(@Html.Translate("Woreda"));
+                              columns.Bound(trd => trd.RequisitionNo).Title(@Html.Translate("Woreda"));
+                              columns.Bound(trd => trd.FDP).Title(@Html.Translate("Woreda"));
+                              columns.Bound(trd => trd.OriginWarehouse).FooterTemplate(@<text><div align="right"><strong>@Html.Translate("Total")</strong></div></text>);
                               columns.Bound(trd => trd.QuantityQtl).FooterTemplate(@<text><div align="right"><strong>@item.Sum.Format("{0:N2}")</strong></div></text>).HtmlAttributes(new { align = "Right" });
                               columns.Bound(trd => trd.TariffPerQtl).FooterTemplate(@<text><div align="right"><strong>@item.Sum.Format("{0:N2}")</strong></div></text>).HtmlAttributes(new { align = "Right" });
                               columns.Bound(trd => trd.TotalAmount).FooterTemplate(@<text><div align="right"><strong>@item.Sum.Format("{0:N2}")</strong></div></text>).HtmlAttributes(new { align = "Right" });
