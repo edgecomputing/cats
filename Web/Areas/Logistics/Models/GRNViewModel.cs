@@ -20,6 +20,8 @@ namespace Cats.Areas.Logistics.Models
         public string BidNumber { get; set; }
         public int TransporterID { get; set; }
         public string Transporter { get; set; }
+        [Display(Name = "Reference No")]
+        public string RefNo { get; set; }
         [Display(Name = "Plate No Primary")]
         public string PlateNoPrimary { get; set; }
         [Display(Name = "Plate No Trailler")]
