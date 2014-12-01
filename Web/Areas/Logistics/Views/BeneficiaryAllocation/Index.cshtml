@@ -1,13 +1,13 @@
 ﻿@using Cats.Models.ViewModels
 @using Kendo.Mvc.UI
-
+@using Cats.Helpers
 
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
 
-<h4>Beneficiary Allocation</h4>
+<h4>@Html.Translate("Beneficiary Allocation")</h4>
 
 
 @section LeftBar

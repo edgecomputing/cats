@@ -2,7 +2,7 @@
 @using Cats.Helpers
 @{
     ViewBag.ViewWidth = "Wide";
-    ViewBag.Title = "Index";
+    ViewBag.Title = @Html.Translate("Index");
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
 
@@ -39,7 +39,7 @@
         </select>
     </div>-->
     <div class="btn-group">
-        <button class="btn">Action</button>
+        <button class="btn">@Html.Translate("Action")</button>
         @{
             if (ViewBag.regionId != -1)
             {
@@ -57,9 +57,9 @@
 
 
         <ul class="dropdown-menu">
-            <li><a href="@Url.Action("Hub", "DispatchAllocation", new { regionid = ViewBag.regionId })">Hub allocation</a></li>
+            <li><a href="@Url.Action("Hub", "DispatchAllocation", new { regionid = ViewBag.regionId })">@Html.Translate("Hub allocation")</a></li>
             <!--<li><a href="@Url.Action("Index", "SIAllocation", new { Area = "Logistics", regionid = ViewBag.regionId })">PC/SI code allocation</a></li>-->
-            <li><a href="@Url.Action("CreateTransportRequisition", "TransportRequisition", new { regionId = ViewBag.regionId })">Generate Transport Requisition</a></li>
+            <li><a href="@Url.Action("CreateTransportRequisition", "TransportRequisition", new { regionId = ViewBag.regionId })">@Html.Translate("Generate Transport Requisition")</a></li>
 
             <li><a href="#"></a></li>
         </ul>
@@ -75,7 +75,7 @@
 
     var ddl = Html.Kendo().DropDownList()
         .Name("Region")
-        .OptionLabel("Select a Region...")
+        .OptionLabel( @Html.Translate("Select a Region..."))
         .DataTextField("Name")
         .DataValueField("AdminUnitID")
         .HtmlAttributes(new { style = "width:200px" })

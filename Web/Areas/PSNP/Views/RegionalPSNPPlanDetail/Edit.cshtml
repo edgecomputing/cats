@@ -2,11 +2,12 @@
 @using Kendo.Mvc.UI;
 @using Cats.Models;
 @using Cats.Models.PSNP;
+@using Cats.Helpers
 @using LanguageHelpers.Localization
 @model IEnumerable<Cats.Models.PSNP.PSNPPlanDetailView>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = Html.Translate("Index");
     Layout = "~/Views/Shared/_MainLayout.cshtml";
     var duration = 0;
     var RegionalPSNPPlanID = 0;
@@ -35,7 +36,7 @@
     RegionalPSNPPlanID = ViewBag.PsnpPlan.RegionalPSNPPlanID;
     <div>
     <h4>
-        <b>Edit PSNP Plan</b>:   
+        <b>@Html.Translate("Edit PSNP Plan")</b>:   
         <span>@ViewBag.PsnpPlan.Year</span> 
         <span style="font-size:0.7em"> : Duration of Assistance [@ViewBag.PsnpPlan.Duration month]</span>
 
@@ -58,14 +59,14 @@
     .Name("grid")
     .Columns(columns =>
     {
-        
-        columns.Bound(p => p.RegionName);
-        columns.Bound(p => p.ZoneName);
-        columns.Bound(p => p.WoredaName);
+
+        columns.Bound(p => p.RegionName).Title(Html.Translate("Region"));
+        columns.Bound(p => p.ZoneName).Title(Html.Translate("Zone"));
+        columns.Bound(p => p.WoredaName).Title(Html.Translate("Woreda"));
         //columns.Bound(p => p.FDPName);
-        columns.Bound(p => p.BeneficiaryCount).HtmlAttributes(new { align = "Right" });
-        columns.ForeignKey(p => p.SartingMonth, (IEnumerable)ViewData["Month"], "Id", "Name");
-        columns.Bound(p => p.FoodRatio).HtmlAttributes(new { align = "Right",@class="FoodRatio" });
+        columns.Bound(p => p.BeneficiaryCount).HtmlAttributes(new { align = "Right" }).Title(Html.Translate("No of Beneficiary"));
+        columns.ForeignKey(p => p.SartingMonth, (IEnumerable)ViewData["Month"], "Id", "Name").Title(Html.Translate("Starting Month"));
+        columns.Bound(p => p.FoodRatio).HtmlAttributes(new { align = "Right", @class = "FoodRatio" }).Title(Html.Translate("Food Ratio"));
         columns.Template(c => { }).Title("Cash Ratio").ClientTemplate("<span class='rowCount' rowCount='#=rowCount#' nextRow='#=getRowNo(data)#'>#=calculateCashRatio(data)# </span>").HtmlAttributes(new { align = "Right", @class = "CashRatio #=getRowStyle(data)#" });     
       //  columns.Bound(p => p.CashRatio).HtmlAttributes(new { align = "Right", @class = "CashRatio #=getRowStyle(data)#" });
        // columns.Template(c => { }).Title("").ClientTemplate("<span class='rowCount' rowCount='#=rowCount#'>#=getRowNo(data)#");
@@ -228,7 +229,7 @@
 
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
         var id=dataItem.RegionalPSNPPlanDetailID;
-        if(confirm("Are you sure you want to delete this record? " + id)==true)
+        if(confirm(@Html.Translate("Are you sure you want to delete this record? ") + id)==true)
         {
             var post_values={id:id};
             
@@ -250,7 +251,7 @@
     {
         var timer;
         $("#grid").data("kendoGrid").saveChanges();
-        var msg = '<div class="cats_success">Success: PSNP Plan was updated successfully.</div>';
+        var msg = '<div class="cats_success">"+@Html.Translate("Success: PSNP Plan was updated successfully.")+"</div>';
         $(".message-window").html(msg).delay(800).hide().fadeIn();
         clearTimeout(timer);
         timer = setTimeout(function () {

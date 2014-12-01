@@ -1,4 +1,5 @@
 ﻿@using Cats.Services.Security
+@using Cats.Helpers
 @using LanguageHelpers.Localization
 @{
     var user = (UserIdentity)HttpContext.Current.User.Identity;
@@ -13,7 +14,7 @@
         
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-            <h3 id="modalPromotionLabel">Modal header</h3>
+            <h3 id="modalPromotionLabel">@Html.Translate("Modal header")</h3>
         </div>
         <div class="modal-body">
 
@@ -24,20 +25,20 @@
                 <input type="hidden" id="TransporterChequeID" name="TransporterChequeID" class="input-xlarge " />
 
                 <div class="control-group" style="display: none;">
-                    <div class="control-label">Date</div>
+                    <div class="control-label">@Html.Translate("Date")</div>
                     <div class="controls">
                         <input  name="DatePerformed" class="input-xlarge cats-datepicker2" value="" />
                     </div>
                 </div>
                 
                 <div class="control-group">
-                    <div class="control-label">PerformedBy</div>
+                    <div class="control-label">@Html.Translate("PerformedBy")</div>
                     <div class="controls">
                         <input readonly="readonly" name="PerformedBy" class = "input-xlarge" value="@user.Profile.UserName"/>
                     </div>
                 </div>
                 <div class="control-group">
-                    <div class="control-label">Comment</div>
+                    <div class="control-label">@Html.Translate("Comment")</div>
                     <div class="controls">
                         <textarea rows="10" name="Comment" class="input-xlarge"></textarea>
                     </div>
@@ -46,8 +47,8 @@
 
         </div>
         <div id="promotionFooter" class="modal-footer">
-            <button class="btn btn-primary" type="submit">Submit</button>
-            <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+            <button class="btn btn-primary" type="submit">@Html.Translate("Submit")</button>
+            <button class="btn" data-dismiss="modal" aria-hidden="true">@Html.Translate("Cancel")</button>
         </div>
     </form>
 </div>

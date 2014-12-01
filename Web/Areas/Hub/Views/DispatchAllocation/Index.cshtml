@@ -225,10 +225,10 @@
 
             var si = $('.selected');
             if (si) {
-                var text = "<div style='text-align:right'>Selected SI : <b>" + $(si).attr('data-sinumber') + "</b><br />Available on SI : <b>" + formatNumber(total.toFixed(3)) + "</b><br />Balance : <b>" + formatNumber(balance.toFixed(3)) + "</b></div>"
+                var text = "<div style='text-align:right'>Selected SI : <b>" + $(si).attr('data-sinumber') + "</b><br /> "+ @Html.Translate("Available on SI :")+" <b>" + formatNumber(total.toFixed(3)) + "</b><br />"+ @Html.Translate("Balance") +": <b>" + formatNumber(balance.toFixed(3)) + "</b></div>"
                 $('#balance-view').html(text);
             } else {
-                var text = "<div style='text-align:right'>Selected SI : <b>" + "N/A" + "</b><br />Available on SI : <b>" + formatNumber(total.toFixed(3)) + "</b><br />Balance : <b>" + formatNumber(balance.toFixed(3)) + "</b></div>"
+                var text = "<div style='text-align:right'>Selected SI : <b>" + "N/A" + "</b><br />" + @Html.Translate("Available on SI :") +" <b>" + formatNumber(total.toFixed(3)) + "</b><br />" + @Html.Translate("Balance") +" : <b>" + formatNumber(balance.toFixed(3)) + "</b></div>"
                 $('#balance-view').html(text);
             }
             var btn = $('#commit-btn');
