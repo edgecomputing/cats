@@ -148,8 +148,7 @@ namespace Cats.Services.EarlyWarning
             
             foreach (var item in reliefRequistions)
             {
-                item.RequisitionNo = Convert.ToString(item.RequisitionID);
-                    //String.Format("REQ-{0}", item.RequisitionID);
+                item.RequisitionNo = String.Format("REQ-{0}", item.RequisitionID);
             }
             _unitOfWork.Save();
             return  GetRequisitionByRequestId(requestId);
