@@ -709,11 +709,11 @@
                         freightcharge += parseFloat($(this).children("td.item_freightcharge").text());
                     });
                     // update the total values
-                    $("#view_receivedqty").text(receivedqty);
-                    $("#view_shortageqty").text(shortageqty);
-                    $("#view_shortagebirr").text(shortagebirr);
-                    $("#view_freightcharge").text(freightcharge);
-                    $("#view_dispatchedQty").text(dispachedQty);
+                    $("#view_receivedqty").text(receivedqty.toFixed(2));
+                    $("#view_shortageqty").text(shortageqty.toFixed(2));
+                    $("#view_shortagebirr").text(shortagebirr.toFixed(2));
+                    $("#view_freightcharge").text(freightcharge.toFixed(2));
+                    $("#view_dispatchedQty").text(dispachedQty.toFixed(2));
                 }
             });
 
