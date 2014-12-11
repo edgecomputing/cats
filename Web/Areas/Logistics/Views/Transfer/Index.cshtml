@@ -2,7 +2,7 @@
 @using Cats.Helpers
 @using Kendo.Mvc.UI
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = Html.Translate("Index");
     Layout = "~/Views/Shared/_MainLayout.cshtml";
     const string pageName = "Logistics.Transfer.Index";
 }
@@ -42,15 +42,15 @@
               .Name("grid")
               .Columns(columns =>
                   {
-                      columns.Bound(m => m.SiNumber).Title(@Html.Translate2(pageName, "SI Number")).ClientTemplate("<a href='" + Url.Action("Detail", "Transfer", new { id = "#=TransferID#" }) + " '>#=SiNumber#</a>  ");
-                      columns.Bound(m => m.SourceHubName).Width(200).Title(@Html.Translate2(pageName, "Source Hub"));
-                      columns.Bound(m => m.Program).Title(@Html.Translate2(pageName,"Program"));
-                      columns.Bound(m => m.Commodity).Width(200).Title(@Html.Translate2(pageName,"Commodity"));
-                      columns.Bound(m => m.CommoditySource).Width(100).Title(@Html.Translate2(pageName,"Commodity Source"));
-                      columns.Bound(m => m.Quantity).HtmlAttributes(new {align = "right"}).Title(@Html.Translate2(pageName,"Quantity in MT"));
-                      columns.Bound(m => m.CreatedDate).Title("Created Date");
-                      columns.Bound(m => m.DestinationHubName).Title(@Html.Translate2(pageName, "Destination hub"));
-                      columns.Bound(m => m.StatusName);
+                      columns.Bound(m => m.SiNumber).Title(@Html.Translate("SI Number")).ClientTemplate("<a href='" + Url.Action("Detail", "Transfer", new { id = "#=TransferID#" }) + " '>#=SiNumber#</a>  ");
+                      columns.Bound(m => m.SourceHubName).Width(200).Title(@Html.Translate("Source Hub"));
+                      columns.Bound(m => m.Program).Title(@Html.Translate("Program"));
+                      columns.Bound(m => m.Commodity).Width(200).Title(@Html.Translate("Commodity"));
+                      columns.Bound(m => m.CommoditySource).Width(100).Title(@Html.Translate("Commodity Source"));
+                      columns.Bound(m => m.Quantity).HtmlAttributes(new {align = "right"}).Title(@Html.Translate("Quantity in MT"));
+                      columns.Bound(m => m.CreatedDate).Title(@Html.Translate("Created Date"));
+                      columns.Bound(m => m.DestinationHubName).Title(@Html.Translate("Destination hub"));
+                      columns.Bound(m => m.StatusName).Title(@Html.Translate("Status Name"));
                       //columns.Command(p =>
                       //{
                       //    p.Custom("Edit").Click("Edit");

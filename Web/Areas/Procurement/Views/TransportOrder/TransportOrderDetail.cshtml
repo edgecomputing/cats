@@ -1,13 +1,15 @@
-﻿@model IEnumerable<Cats.Models.TransportOrderDetail>
+﻿
+@using Cats.Helpers
+@model IEnumerable<Cats.Models.TransportOrderDetail>
 
 @{
-    ViewBag.Title = "TransportOrderDetail";
+    ViewBag.Title =@Html.Translate("TransportOrderDetail");
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
 
 <fieldset>
     <legend>
-        Transport Order Detail view
+       @Html.Translate("Transport Order Detail view")
     </legend>
 </fieldset>
 
@@ -15,26 +17,26 @@
 <table class="table table-striped table-bordered">
     <tr>
         <th>
-            @Html.DisplayName("Transport Order Id")
+            @Html.DisplayName(@Html.Translate("Transport Order Id"))
         </th>
         <th>
-            @Html.DisplayName("From Warehouse")
+            @Html.DisplayName(@Html.Translate("From Warehouse"))
         </th>
         <th>
-            @Html.DisplayName("Qty Qtl")
+            @Html.DisplayName(@Html.Translate("Qty Qtl"))
         </th>
         <th>
-            @Html.DisplayName("Distance")
+            @Html.DisplayName(@Html.Translate("Distance"))
         </th>
         
         <th>
-            @Html.DisplayName("RequisitionID")
+            @Html.DisplayName(@Html.Translate("RequisitionID"))
         </th>
         <th>
-            @Html.DisplayName("Commodity")
+            @Html.DisplayName(@Html.Translate("Commodity"))
         </th>
         <th>
-            @Html.DisplayName("Zone")
+            @Html.DisplayName(@Html.Translate("Zone"))
         </th>
         
         

@@ -3,14 +3,14 @@
 @using Cats.Helpers
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = @Html.Translate("Index");
     Layout = "~/Views/Shared/_MainLayout.cshtml";  
 }
 @section Toolbar
 {
     <a data-buttontype="btn_new_record" class="btn toolbar-btn " href="@Url.Action("Create", "LocalPurchase")"></a>
 }
-<h4>List of Receipt Plan From Local Purchase</h4>
+<h4>@Html.Translate("List of Receipt Plan From Local Purchase")</h4>
  @(Html.Kendo().Grid<LocalPurchaseViewModel>()
               .Name("grid")
               .Columns(columns =>
@@ -21,9 +21,9 @@
                       columns.Bound(m => m.DonorName).Width(200).Title(Html.Translate("Donor"));
                       columns.Bound(m => m.SupplierName).Width(200).Title(Html.Translate("Supplier Name"));
                       columns.Bound(m => m.Commodity).Width(200).Title(Html.Translate("Commodity"));
-                      columns.Bound(m => m.ReferenceNumber).Title("Reference Number");
-                      columns.Bound(m => m.Quantity).HtmlAttributes(new {align = "right"});
-                      columns.Bound(m => m.Status).Title("Status");
+                      columns.Bound(m => m.ReferenceNumber).Title(Html.Translate("Reference Number"));
+                      columns.Bound(m => m.Quantity).HtmlAttributes(new { align = "right" }).Title(Html.Translate("Quantity"));
+                      columns.Bound(m => m.Status).Title(Html.Translate("Status"));
 
                   }
 

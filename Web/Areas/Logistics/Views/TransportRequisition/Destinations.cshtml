@@ -4,7 +4,7 @@
 @using Cats.Services.Security
 @using Kendo.Mvc.UI
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = Html.Translate("Details");
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
 
@@ -13,7 +13,7 @@
     @Html.Partial("_AllocationLeftBar")
 }
 @{
-    ViewBag.Title = "Destinations";
+    ViewBag.Title = Html.Translate("Destinations");
 }
 @section Toolbar
 {
@@ -28,18 +28,18 @@
     var unit = user.Profile.PreferedWeightMeasurment;
 }
 
-<h4 class="page-header">Transport Requisiton Destinations</h4>
+<h4 class="page-header">@Html.Translate("Transport Requisiton Destinations")</h4>
 @(Html.Kendo().Grid<ReliefRequisitionDetailViewModel>()
     .Name("grid")
     .Columns(columns =>
     {
         columns.Template(t => { }).Title("No").ClientTemplate("#= renderNumber(data) #").Width(50);
-        columns.Bound(p => p.Zone).Width(100);
-        columns.Bound(p => p.Woreda).Width(100);
-        columns.Bound(p => p.FDP).Width(100);
-        columns.Bound(p => p.Donor).Width(100);
-        columns.Bound(p => p.Commodity).Width(100);
-        columns.Bound(p => p.Amount).Width(100).HtmlAttributes(new { align = "right" }).Format("{0:n2}").HeaderHtmlAttributes(new { @class = "cats-unit-pref-grid" });
+        columns.Bound(p => p.Zone).Title("Zone").Width(100);
+        columns.Bound(p => p.Woreda).Title("Woreda").Width(100);
+        columns.Bound(p => p.FDP).Title("FDP").Width(100);
+        columns.Bound(p => p.Donor).Title("Donor").Width(100);
+        columns.Bound(p => p.Commodity).Title("Commodity").Width(100);
+        columns.Bound(p => p.Amount).Title("Amount").Width(100).HtmlAttributes(new { align = "right" }).Format("{0:n2}").HeaderHtmlAttributes(new { @class = "cats-unit-pref-grid" });
         columns.Bound(p => p.RationAmount).Hidden(true);
        
         

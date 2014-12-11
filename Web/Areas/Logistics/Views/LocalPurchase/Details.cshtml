@@ -4,7 +4,7 @@
 
 @model Cats.Areas.Logistics.Models.LocalPurchaseWithDetailViewModel
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = Html.Translate("Details");
     Layout = "~/Views/Shared/_MainLayout.cshtml";  
 }
 
@@ -28,7 +28,7 @@
         
     </div>
 }
-<h4>Receipt Plan From Local Purchase Detail </h4>
+<h4>@Html.Translate("Receipt Plan From Local Purchase Detail") </h4>
 
 @using (Html.BeginForm("UpdateLocalPurchase", "LocalPurchase", FormMethod.Post, new { id = "frm_create_localPurchase" }))
 {
@@ -46,7 +46,7 @@
                               .Name("SINumber")
                               .HtmlAttributes(new { style = "width:215px;" })
                               .Filter("startswith")
-                              .Placeholder("Enter or Select SINumber...")
+                              .Placeholder(@Html.Translate("Enter or Select SINumber..."))
                               .DataSource(source => source.Read(read => read.Action("AutoCompleteSiNumber", "LocalPurchase").Data("onAdditionalData")).ServerFiltering(true))
 
                               )

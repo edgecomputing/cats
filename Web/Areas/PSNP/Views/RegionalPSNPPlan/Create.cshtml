@@ -5,7 +5,7 @@
 @{
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
-    const string pageName = "PSNP.RegionalPSNPPlan.Create";
+    //const string pageName = "PSNP.RegionalPSNPPlan.Create";
 }
 @section LeftBar
 {
@@ -53,9 +53,9 @@
     {
         <div class="alert alert-error">
             <button type="button" class="close" data-dismiss="alert">&times;</button>
-            @ViewBag.ErrorMessage1
+          @Html.Translate((string)@ViewBag.ErrorMessage1)
             <br />
-            @ViewBag.ErrorMessage2
+            @Html.Translate((string)@ViewBag.ErrorMessage2)
 
         </div>
     }
@@ -66,12 +66,12 @@
         @Html.ValidationSummary(true)
 
         <fieldset>
-            <legend>Create New Regional PSNP Plan</legend>
+            <legend>@Html.Translate("Create New Regional PSNP Plan")</legend>
 
 
             <div class="control-group">
                  <div class="control-label">
-                @Html.Label(@Html.Translate2(pageName, "PSNP Plan Name"))
+                @Html.Label(@Html.Translate("PSNP Plan Name"))
                   </div>
                 <div class="controls">
                     @Html.TextBoxFor(model => model.Plan.PlanName, new { @placeholder = "Plan Name" })
@@ -80,7 +80,7 @@
             </div>
             <div class="control-group">
                 <div class="control-label">
-                    @Html.Label(Translator.Translate("Plan From"), new { @class = "cats-date-pref" })
+                    @Html.Label(Html.Translate("Plan From"), new { @class = "cats-date-pref" })
                 </div>
                 <div class="controls">
                     @Html.TextBoxFor(m => m.Plan.StartDate, new { @class = "cats-datepicker2" })
@@ -89,7 +89,7 @@
             </div>
              <div class="control-group">
                         <div class="control-label">
-                            @Html.LabelFor(m => m.Duration, @Html.Translate2(pageName, "Duration"))
+                            @Html.Label(Html.Translate("Duration"), @Html.Translate("Duration"))
                         </div>
                         <div class="controls">
                            @Html.TextBoxFor(m => m.Duration)
@@ -100,7 +100,7 @@
 
                     </div>
             <div class="control-group">
-                @Html.LabelFor(model => model.Year, new { @class = "control-label" })
+                @Html.Label(Html.Translate("Year"), new { @class = "control-label" })
                 <div class="controls">
                     @Html.TextBoxFor(model => model.Year, new { @placeholder = "Year" })
                     @Html.ValidationMessageFor(model => model.Year)
@@ -122,7 +122,7 @@
             </div>*@
 
             <div class="control-group">
-                @Html.LabelFor(model => model.Ration, new { @class = "control-label" })
+                @Html.Label(Html.Translate("Ration"), new { @class = "control-label" })
                 <div class="controls">
                     @Html.DropDownList("RationID")
                     @Html.ValidationMessageFor(model => model.Ration)

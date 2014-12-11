@@ -2,7 +2,7 @@
 @using Cats.Helpers;
 
 @{
-    ViewBag.Title = "Hub Allocated Requesitions";
+    ViewBag.Title =@Html.Translate("Hub Allocated Requesitions");
     Layout = "~/Views/Shared/_MainLayout.cshtml";
     // Cats.Models.ShippingInstruction si=new Cats.Models.ShippingInstruction();
     // si.Value
@@ -192,7 +192,7 @@
 
 <!-- Modal -->
 <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="width: 100px; height: 50px; right: 50%; top: 50%; margin: auto;">
-    <div id="modalContent" style="line-height: 40px; text-align: center;">Saving</div>
+    <div id="modalContent" style="line-height: 40px; text-align: center;">@Html.Translate("Saving")</div>
 </div>
 
 <div ng-app>
@@ -248,14 +248,14 @@
                                 <div class="label2">@Html.Translate("Remaining Qty"): </div>
                                 <div class="value2">{{request.RemainingAmount}}<i> @UserUnit</i></div>
                                 <div class="debug">
-                                    <div class="label2">RequisitionId</div>
+                                    <div class="label2">@Html.Translate("RequisitionId")</div>
                                     <div class="value2">{{request.RequisitionId}}</div>
-                                    <div class="label2">HubAllocationID</div>
+                                    <div class="label2">@Html.Translate("HubAllocationID")</div>
                                     <div class="value2">{{request.HubAllocationID}}</div>
                                 </div>
                             </div>
                         </div>
-                        <button ng-click="on_Allocation_Done(request.RequisitionId)" class="btn btn-mini btn-primary {{request.DoneStatus}}">Promote</button>
+                        <button ng-click="on_Allocation_Done(request.RequisitionId)" class="btn btn-mini btn-primary {{request.DoneStatus}}">@Html.Translate("Promote")</button>
                     </div>
                 </td>
                 <td>
@@ -267,17 +267,17 @@
                                     <div class="btn-group">
                                         <button class="btn dropdown-toggle" data-toggle="dropdown">{{request.AllocationType}} <span class="caret"></span></button>
                                         <ul class="dropdown-menu">
-                                            <li><a href="javascript:voide()" ng-click="on_Allocation_TypeSI()">SI</a></li>
-                                            <li><a href="javascript:voide()" ng-click="on_Allocation_TypePC()">PC</a></li>
+                                            <li><a href="javascript:voide()" ng-click="on_Allocation_TypeSI()">@Html.Translate("SI")</a></li>
+                                            <li><a href="javascript:voide()" ng-click="on_Allocation_TypePC()">@Html.Translate("PC")</a></li>
                                         </ul>
                                     </div>
                                     <select class="cmb_si" id="cmb_si_{{request.RequisitionId}}" ng-model="request.edit_variable.ShippingInstructionId">
-                                        <option>--SI Code--</option>
+                                        <option>@Html.Translate("--SI Code--")</option>
                                         <option value="{{sicode.siCodeId}}" ng-repeat="sicode in request.FreeSIPCCodes.FreeSICodes">{{sicode.SIcode}} [{{sicode.amount}}]</option>
                                     </select>
 
                                     <select class="cmb_pc" id="cmb_pc_{{request.RequisitionId}}" ng-model="request.edit_variable.ProjectCodeId">
-                                        <option>--Project Code--</option>
+                                        <option>@Html.Translate("--Project Code-")-</option>
                                         <option value="{{pccode.pcCodeId}}" ng-repeat="pccode in request.FreeSIPCCodes.FreePCCodes">{{pccode.PCcode}} [{{pccode.amount}}]</option>
                                     </select>
 
@@ -286,7 +286,7 @@
                             </div>
                             <div class="label1">
                                 <div class="input-prepend input-append">
-                                    <span class="add-on">Qty.</span>
+                                    <span class="add-on">@Html.Translate("Qty.")</span>
                                     <input ng-model="request.edit_variable.AllocatedAmount" type="text">
                                     <span class="add-on">@UserUnit</span>
                                 </div>
@@ -320,7 +320,7 @@
                         <li class="list-item1 new_allocation allocation_saved" id="div_allocation_{{request.RequisitionId}}_new" data-requisitionid="{{request.RequisitionId}}">
                             <div class="frm_view" style="width: 200px;">
                                 <button class="SI_Removes btn" ng-click="on_edit(request.RequisitionId,'new')"><i class=" icon-plus-sign"></i></button>
-                                <span style="color: #808080;">New Allocation</span>
+                                <span style="color: #808080;">@Html.Translate("New Allocation")</span>
                             </div>
                         </li>
                         <li class="list-item2" ng-repeat="item in request.Message">
@@ -371,7 +371,7 @@
                 $$scope.loadPage(1);
             }
             function show_form(postdata) {
-                var htm = "<table class='table table-striped table-bordered'><tr><td>Action</td><td>AllocationId</td><td>ReqId</td><td>si</td><td>Amount</td></tr>";
+                var htm = "<table class='table table-striped table-bordered'><tr><td>"+@Html.Translate("Action")+"</td><td>"+@Html.Translate("AllocationId")+"</td><td>"+@Html.Translate("ReqId")+"</td><td>"+@Html.Translate("si")+"</td><td>"+@Html.Translate("Amount")+"</td></tr>";
                 var flds = { Action: "", AllocationId: "", RequisitionId: "", ShippingInstructionId: "", AllocatedAmount: "" };
                 for (var i in postdata) {
                     var fldval = "";

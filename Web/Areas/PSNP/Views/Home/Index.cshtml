@@ -1,7 +1,9 @@
-﻿@{
-    ViewBag.Title = "Index";
+﻿@using Cats.Helpers
+
+@{
+    ViewBag.Title = Html.Translate("Index");
     Layout = "~/Views/Shared/_MainLayout.cshtml";
-    const string PAGE_NAME = "PSNP.Index";
+    //const string PAGE_NAME = "PSNP.Index";
 }
 
 @section styles
@@ -20,9 +22,9 @@
     
     <div ng-controller="AnnualPlan" class="container row">
         <div class="row" style="border-bottom-width: thin; border-bottom-color: #666; border-bottom-style: inset; margin-left: 60px">
-            <div class="span7" > <h4>Annual Plan:</h4> 
+            <div class="span7" > <h4>@Html.Translate("Annual Plan"):</h4> 
                 <select ng-change="onChange(PlanName.planId)"   ng-model="PlanName" ng-options="r as r.planName for r in plans" >
-                    <option > Choose a Plan </option>
+                    <option >  @Html.Translate("Choose a Plan") </option>
                 </select>
                 
              
@@ -37,7 +39,7 @@
         <div>
             <div class="row" style="border-bottom-width: thin; border-bottom-color: #666; border-bottom-style: inset; margin-top: 5px">
                 <div class="pull-left">
-                    <h4>Monthly Requests</h4>
+                    <h4>@Html.Translate("Monthly Requests")</h4>
                 </div>
                 <div class="pull-right">
                     <div class="btn-group">
@@ -56,11 +58,11 @@
                         <div class="portlet-header">
                             <h3>
                                 <i class=""></i>
-                                Recent Requests
+                                @Html.Translate("Recent Requests")
                             </h3>
                             <ul class="portlet-tools pull-right">
                                 <li>
-                                    <a class="btn btn-sm btn-default " href="@Url.Action("Index", "Request", new { Area = "EarlyWarning" })">Show More</a>
+                                    <a class="btn btn-sm btn-default " href="@Url.Action("Index", "Request", new { Area = "EarlyWarning" })">@Html.Translate("Show More")</a>
                                 </li>
                             </ul>
                         </div>
@@ -73,10 +75,10 @@
                                 <thead>
                                     <tr>
                                         <th class="hidden-xs">Number</th>
-                                        <th>FDPS</th>
-                                        <th>Beneficiaries</th>
-                                        <th>Status</th>
-                                        <th>Detail</th>
+                                        <th>@Html.Translate("FDPS")</th>
+                                        <th>@Html.Translate("Beneficiaries")</th>
+                                        <th>@Html.Translate("Status")</th>
+                                        <th>@Html.Translate("Detail")</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -105,7 +107,7 @@
                         <div class="portlet-header">
                             <h3>
                                 <i class=""></i>
-                                Requests Per Region
+                               @Html.Translate("Requests Per Region")
                             </h3>
                         </div>
 
@@ -127,7 +129,7 @@
             <div class="row" style="border-bottom-width: thin; border-bottom-color: #666; border-bottom-style: inset; margin-top: 5px">
 
                 <div class="pull-left">
-                    <h4>Monthly Requisitions</h4>
+                    <h4>@Html.Translate("Monthly Requisitions")</h4>
                 </div>
                 <div class="pull-right">
                     <div class="btn-group">
@@ -147,7 +149,7 @@
                         <div class="portlet-header">
                             <h3>
                                 <i class=""></i>
-                                Requisitions Percentage by Status 
+                                @Html.Translate("Requisitions Percentage by Status") 
                             </h3>
                         </div>
 
@@ -170,12 +172,12 @@
                         <div class="portlet-header">
                             <h3>
                                 <i class=""></i>
-                                Recent Requisitions
+                                @Html.Translate("Recent Requisitions")
                             </h3>
                             <ul class="portlet-tools pull-right">
                                 <li>
                                     <button class="btn btn-sm btn-default">
-                                        Show more
+                                        @Html.Translate("Show more")
                                     </button>
 
                                 </li>
@@ -189,11 +191,11 @@
                                 <thead style="text-align: right">
                                     <tr >
                                         <th class="hidden-xs">Number</th>
-                                        <th>Commodity</th>
-                                        <th style="text-align: center">Beneficiaries</th>
-                                        <th style="text-align: center">Amount(QT)</th>
-                                        <th>Status</th>
-                                        <th class="align-center">Action</th>
+                                        <th>@Html.Translate("Commodity")</th>
+                                        <th style="text-align: center">@Html.Translate("Beneficiaries")</th>
+                                        <th style="text-align: center">@Html.Translate("Amount(QT)")</th>
+                                        <th>@Html.Translate("Status")</th>
+                                        <th class="align-center">@Html.Translate("Action")</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -226,7 +228,7 @@
             <div class="row" style="border-bottom-width: thin; border-bottom-color: #666; border-bottom-style: inset; margin-top: 5px">
 
                 <div class="pull-left">
-                    <h4>Utilization</h4>
+                    <h4>@Html.Translate("Utilization")</h4>
                 </div>
                 <div class="pull-right">
                     <div class="btn-group">
@@ -246,7 +248,7 @@
                         <div class="portlet-header">
                             <h3>
                                 <i class=""></i>
-                                Utilization by Age 
+                               @Html.Translate("Utilization by Age") 
                             </h3>
                         </div>
 
@@ -258,7 +260,7 @@
                                 <div class="stat-header">
 
                                     <div class="pull-left">
-                                        Older than 18 years
+                                        @Html.Translate("Older than 18 years")
                                     </div>
                                     <!-- /.stat-label -->
 
@@ -283,7 +285,7 @@
                                 <div class="stat-header">
 
                                     <div class="pull-left">
-                                        Between 5 and 18 years
+                                        @Html.Translate("Between 5 and 18 years")
                                     </div>
                                     <!-- /.stat-label -->
 
@@ -308,7 +310,7 @@
                                 <div class="stat-header">
 
                                     <div class="pull-left">
-                                        Younger than 5 years
+                                        @Html.Translate("Younger than 5 years")
                                     </div>
                                     <!-- /.stat-label -->
 
@@ -340,12 +342,12 @@
                         <div class="portlet-header">
                             <h3>
                                 <i class=""></i>
-                                Utilization by Region
+                                @Html.Translate("Utilization by Region")
                             </h3>
                             <ul class="portlet-tools pull-right">
                                 <li>
                                     <button class="btn btn-sm btn-default">
-                                        Show more
+                                        @Html.Translate("Show more")
                                     </button>
                                 </li>
                             </ul>

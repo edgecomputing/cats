@@ -229,7 +229,8 @@ namespace Cats.Areas.Logistics.Controllers
                     PlateNoPrimary = delivery.PlateNoPrimary,
                     PlateNoTrailler = delivery.PlateNoTrailler,
                     DriverName = delivery.DriverName,
-                    DispatchID = delivery.DispatchID
+                    DispatchID = delivery.DispatchID,
+                    RefNo = _transporterPaymentRequestService.FindBy(r=>r.GIN==delivery.InvoiceNo).Select(t=>t.ReferenceNo).FirstOrDefault()
                 };
             }
             return deliveryViewModel;
@@ -344,6 +345,9 @@ namespace Cats.Areas.Logistics.Controllers
             if (originaldelivery != null)
             {
                 newdelivery = _deliveryService.FindBy(t => t.DeliveryID == originaldelivery.DeliveryID).FirstOrDefault();
+                TransporterPaymentRequest newTransportPaymentRequest = _transporterPaymentRequestService.FindBy(t => t.GIN == delivery.InvoiceNo).FirstOrDefault();
+               
+
                 if (newdelivery != null)
                 {
                     newdelivery.DispatchID = delivery.DispatchID;
@@ -354,6 +358,7 @@ namespace Cats.Areas.Logistics.Controllers
                     newdelivery.DeliveryBy = delivery.DeliveryBy;
                     newdelivery.DeliveryDate = delivery.DeliveryDate != null ? DateTime.Parse(delivery.DeliveryDate) : DateTime.Now;
                     newdelivery.DocumentReceivedDate = delivery.DocumentReceivedDate != null ? DateTime.Parse(delivery.DocumentReceivedDate) : DateTime.Now;
+                    
                     _deliveryService.EditDelivery(newdelivery);
 
                     deliveryDetail =
@@ -364,6 +369,11 @@ namespace Cats.Areas.Logistics.Controllers
                         deliveryDetail.ReceivedQuantity = delivery.ReceivedQuantity.ToMetricTone(); //save it using MT
                         _deliveryDetailService.EditDeliveryDetail(deliveryDetail);
 
+                    }
+                    if(newTransportPaymentRequest!=null)
+                    {
+                        newTransportPaymentRequest.ReferenceNo = delivery.RefNo;
+                        _transporterPaymentRequestService.EditTransporterPaymentRequest(newTransportPaymentRequest);
                     }
 
                 }
@@ -410,7 +420,8 @@ namespace Cats.Areas.Logistics.Controllers
                 _deliveryService.AddDelivery(newdelivery);
 
                 var transporterPaymentRequest = new TransporterPaymentRequest();
-                transporterPaymentRequest.ReferenceNo = "PR-" + delivery.ReceivingNumber;
+                transporterPaymentRequest.ReferenceNo =  delivery.RefNo;
+                transporterPaymentRequest.GIN = delivery.InvoiceNo;
 
                 //var firstOrDefault = _transportOrderService.Get(t => t.TransporterID == newdelivery.TransporterID && t.StatusID >= 3).FirstOrDefault();
                 var transportOrderId = delivery.TransportOrderID;

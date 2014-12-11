@@ -21,6 +21,7 @@ namespace Cats.Models
         public int BusinessProcessID { get; set; }
         public int? ShortageQty { get; set; }
         public string LossReason { get; set; }
+        public string GIN { get; set; }
         public Nullable<int> PartitionId { get; set; }
         public virtual BusinessProcess BusinessProcess { get; set; }
         public virtual Delivery Delivery { get; set; }

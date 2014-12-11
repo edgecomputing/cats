@@ -5,7 +5,7 @@
 
 @model Cats.Models.ViewModels.TransportRequisitionWithTransporter
 @{
-    ViewBag.Title = "AssignTransporter";
+    ViewBag.Title = @Html.Translate("AssignTransporter");
 }
 <div style="display: none;">
  @using (Html.BeginForm("AssignTransporter", "TransportOrder", FormMethod.Post, new { id = "frm_assign_transporter" }))
@@ -35,19 +35,19 @@
  }  
 </div>  
 
-<h5> Transport Requisitions Without Winner Transporter</h5> 
+<h5> @Html.Translate("Transport Requisitions Without Winner Transporter")</h5> 
 <div class="input-prepend">
-    <span class="add-on">Transporter</span>
+    <span class="add-on">@Html.Translate("Transporter")</span>
      @Html.DropDownList("TransporterID", null, new { @class = "input-small" })
    
 </div>
 <div class="input-prepend">
-    <span class="add-on">Zone</span>
+    <span class="add-on">@Html.Translate("Zone")</span>
     @Html.DropDownList("Zones",null, new { @class = "input-small" })
     
 </div>
 <div class="input-prepend">
-    <span class="add-on">Woreda</span>
+    <span class="add-on">@Html.Translate("Woreda")</span>
 
     <select id="Woredas" name="Woredas" onchange="onWoredaChange(this.value);"></select>
 </div>
@@ -59,19 +59,19 @@
   
   
           
-    <a class="btn toolbar-btn" data-buttontype=" " id="btnAssign"  data-submittedform="frm_assign_transporter">Assign Transporter</a>
+    <a class="btn toolbar-btn" data-buttontype=" " id="btnAssign"  data-submittedform="frm_assign_transporter">@Html.Translate("Assign Transporter")</a>
     
     
     @(Html.Kendo().Grid(Model.TransReqwithOutTransporters)
           .Name("grid")
           .Columns(columns =>
                        {
-                  
-                           columns.Bound(p => p.Woreda);
-                           columns.Bound(p => p.RequisitionNo);
-                           columns.Bound(p => p.Commodity);
-                           columns.Bound(p => p.FDP);
-                           columns.Bound(P => P.OriginWarehouse);
+
+                           columns.Bound(p => p.Woreda).Title(@Html.Translate("Woreda"));
+                           columns.Bound(p => p.RequisitionNo).Title(@Html.Translate("Requisition No"));
+                           columns.Bound(p => p.Commodity).Title(@Html.Translate("Commodity"));
+                           columns.Bound(p => p.FDP).Title(@Html.Translate("Destination"));
+                           columns.Bound(P => P.OriginWarehouse).Title(@Html.Translate("Warehouse Origin"));
                            columns.Bound(p => p.QuantityQtl).Title(Html.Translate("Quantity")).HtmlAttributes(new { align = "right" }).Format("{0:n2}").HeaderHtmlAttributes(new { @class = "cats-unit-pref-grid" });
                  
                        })
@@ -126,7 +126,7 @@
         $(function () {
             $('#Zones').change(function () {
                 $.getJSON('@Url.Action("GetWoredas", "TransportOrder")' + "?ZoneId=" + $('#Zones').val(), function (data) {
-                    var items = '<option>Select a Woreda</option>';
+                    var items = '<option>@Html.Translate("Select a Woreda")</option>';
                     $.each(data, function (i, woreda) {
                         items += "<option value='" + woreda.Value + "'>" + woreda.Text + "</option>";
                     });

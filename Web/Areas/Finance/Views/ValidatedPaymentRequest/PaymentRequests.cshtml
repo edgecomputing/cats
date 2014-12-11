@@ -7,7 +7,7 @@
 @using Cats.Helpers
 @model IEnumerable<Cats.Areas.Finance.Models.TransporterPaymentRequestViewModel>
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = Html.Translate("Index");
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
 
@@ -15,7 +15,7 @@
 {
     <div class="btn-group" style="right: 100px">
         
-        <button class="btn">Action</button>
+        <button class="btn"> @Html.Translate("Action")</button>
         @{
             if (ViewBag.ApprovedPRCount > 0)
             {
@@ -23,7 +23,7 @@
                     <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu">
-                    <li><a href="#" data-ng-click="loadCollectiveChequeInfo()">Generate Cheque</a></li>
+                    <li><a href="#" data-ng-click="loadCollectiveChequeInfo()"> @Html.Translate("Generate Cheque")</a></li>
                     <li>@*<a href="@Url.Action("Print", "Home", new { Area = "Finance", id = ViewBag.TransportOrderViewModel.TransporterID })" >Print Transporter Payment Request Letter</a>*@</li>
                 </ul>
             }
@@ -84,7 +84,7 @@
                     <div class="span6">
                         <div class="control-group">
                             <div class="control-label">
-                                <label for="Transporter">Transporter</label>
+                                <label for="Transporter"> @Html.Translate("Transporter")</label>
                             </div>
                             <div class="controls">
                                 <input type="text" name="Transporter" id="Transporter" value="{{SelectedCheckInfo.Transporter}}" data-ng-model="SelectedCheckInfo.Transporter" 
@@ -97,7 +97,7 @@
                     <div class="span6">
                         <div class="control-group">
                             <div class="control-label">
-                                <label for="PaymentRequestsList">Approved Payment Request List</label>
+                                <label for="PaymentRequestsList"> @Html.Translate("Approved Payment Request List")</label>
                             </div>
                             <div class="controls">
                                 <textarea name="PaymentRequestsList" id="PaymentRequestsList" data-ng-model="SelectedCheckInfo.PaymentRequestsList" disabled="disabled">
@@ -111,7 +111,7 @@
                     <div class="span6">
                         <div class="control-group">
                             <div class="control-label">
-                                <label for="CheckNo">Check No.</label>
+                                <label for="CheckNo"> @Html.Translate("Check No.")</label>
                             </div>
                             <div class="controls">
                                 <input type="text" value="{{SelectedCheckInfo.CheckNo}}" name="CheckNo" id="CheckNo" 
@@ -124,7 +124,7 @@
                     <div class="span6">
                         <div class="control-group">
                             <div class="control-label">
-                                <label for="PaymentVoucherNo">Payment Voucher No.</label>
+                                <label for="PaymentVoucherNo"> @Html.Translate("Payment Voucher No.")</label>
                             </div>
                             <div class="controls">
                                 <input type="text" value="{{SelectedCheckInfo.PaymentVoucherNo}}" name="PaymentVoucherNo" id="PaymentVoucherNo" 
@@ -137,7 +137,7 @@
                     <div class="span6">
                         <div class="control-group">
                             <div class="control-label">
-                                <label for="BankName">Bank Name</label>
+                                <label for="BankName"> @Html.Translate("Bank Name")</label>
                             </div>
                             <div class="controls">
                                 <input type="text" value="{{SelectedCheckInfo.BankName}}" name="BankName" id="BankName" 
@@ -150,7 +150,7 @@
                     <div class="span6">
                         <div class="control-group">
                             <div class="control-label">
-                                <label for="Amount">Amount</label>
+                                <label for="Amount"> @Html.Translate("Amount")</label>
                             </div>
                             <div class="controls">
                                 @*<input type="text" value="{{SelectedCheckInfo.Amount}}" name="CheckInfo.Amount" id="CheckInfo_Amount" 
@@ -165,7 +165,7 @@
                     <div class="span6">
                         <div class="control-group">
                             <div class="control-label">
-                                <label for="PreparedBy">Prepared By</label>
+                                <label for="PreparedBy"> @Html.Translate("Prepared By")</label>
                             </div>
                             <div class="controls">
                                 <input type="text" value="{{SelectedCheckInfo.PreparedBy}}" name="PreparedBy" id="PreparedBy" 
@@ -178,7 +178,7 @@
                     <div class="span6   " style="width: 400px;">
                         <div class="control-group message-box" style="float: left;" id="messageboxCollectiveCheque"></div>
                         <div class="control-group" style="float: right;">
-                            <button id="btnSaveCollectiveCheque" class="btn" type="submit">Save</button>
+                            <button id="btnSaveCollectiveCheque" class="btn" type="submit"> @Html.Translate("Save")</button>
                         </div>
                     </div>
                 </div>
@@ -206,7 +206,7 @@
                     <div class="span5">
                         <div class="control-group">
                             <div class="control-label">
-                                <label for="PaymentRequest_ReferenceNo">Referrence No.</label>
+                                <label for="PaymentRequest_ReferenceNo"> @Html.Translate("Referrence No.")</label>
                             </div>
                             <div class="controls">
                                 <input type="text" value="{{SelectedLabourInfo.ReferenceNo}}" name="ReferenceNo" id="PaymentRequest_ReferenceNo" 
@@ -219,7 +219,7 @@
                     <div class="span5">
                         <div class="control-group">
                             <div class="control-label">
-                                <label for="PaymentRequest_TransportedQuantityInQtl">Transported Quanitity in QTL</label>
+                                <label for="PaymentRequest_TransportedQuantityInQtl"> @Html.Translate("Transported Quanitity in QTL")</label>
                             </div>
                             <div class="controls">
                                 <input type="text" value="{{SelectedLabourInfo.TransportedQuantityInQtl}}" name="TransportedQuantityInQtl" id="PaymentRequest_TransportedQuantityInQtl" 
@@ -232,7 +232,7 @@
                     <div class="span5">
                         <div class="control-group">
                             <div class="control-label">
-                                <label for="PaymentRequest_LabourCostRate">Labour Cost Rate (per QTL)</label>
+                                <label for="PaymentRequest_LabourCostRate"> @Html.Translate("Labour Cost Rate (per QTL)")</label>
                             </div>
                             <div class="controls">
                                 <input type="text" name="LabourCostRate" id="PaymentRequest_LabourCostRate" value="{{SelectedLabourInfo.LabourCostRate}}"  data-ng-change="labourCostRateKeyPressed()" data-ng-model="SelectedLabourInfo.LabourCostRate"/>&nbsp;<span id="errmsgPaymentRequest_LabourCostRate" class="errorText"></span>
@@ -246,7 +246,7 @@
                     <div class="span5">
                         <div class="control-group">
                             <div class="control-label">
-                                <label for="PaymentRequest_LabourCost">Labour Cost</label>
+                                <label for="PaymentRequest_LabourCost"> @Html.Translate("Labour Cost")</label>
                             </div>
                             <div class="controls">
                                 <input type="text" value="{{SelectedLabourInfo.LabourCost}}" name="LabourCost" id="PaymentRequest_LabourCost1" 
@@ -261,7 +261,7 @@
                     <div class="span5">
                         <div class="control-group">
                             <div class="control-label">
-                                <label for="PaymentRequest_RejectedAmount">Rejected Amount</label>
+                                <label for="PaymentRequest_RejectedAmount"> @Html.Translate("Rejected Amount")</label>
                             </div>
                             <div class="controls">
                                 <input type="text" name="RejectedAmount" id="PaymentRequest_RejectedAmount" value="{{SelectedLabourInfo.RejectedAmount}}" data-ng-model="SelectedLabourInfo.RejectedAmount"/>&nbsp;<span id="errmsgPaymentRequest_RejectedAmount" class="errorText"></span>
@@ -275,7 +275,7 @@
                     <div class="span5">
                         <div class="control-group">
                             <div class="control-label">
-                                <label for="PaymentRequest_RejectionReason">Rejection Reason</label>
+                                <label for="PaymentRequest_RejectionReason"> @Html.Translate("Rejection Reason")</label>
                             </div>
                             <div class="controls">
                                 <input type="text" value="{{SelectedLabourInfo.RejectionReason}}" name="RejectionReason" id="PaymentRequest_RejectionReason" 
@@ -288,7 +288,7 @@
                     <div class="span5" style="width: 400px;">
                         <div class="control-group message-box" style="float: left;" id="messageboxPayDeduct"></div>
                         <div class="control-group" style="float: right;">
-                            <button id="btnSavePaymentDeductions" class="btn" type="submit">Save</button>
+                            <button id="btnSavePaymentDeductions" class="btn" type="submit"> @Html.Translate("Save")</button>
                         </div>
                     </div>
                 </div>
@@ -313,7 +313,7 @@
                 <div class="span6">
                     <div class="control-group">
                         <div class="control-label">
-                            Transport Order No.
+                             @Html.Translate("Transport Order No.")
                         </div>
                         <div class="controls">
                             <a href="@Url.Action("TransportOrderDetail", "ValidatedPaymentRequest", new { transportOrderID = transportOrderViewModel.TransportOrderID })">
@@ -325,7 +325,7 @@
                 <div class="span6">
                     <div class="control-group">
                         <div class="control-label">
-                            Transporter
+                             @Html.Translate("Transporter")
                         </div>
                         <div class="controls">
                             <a href="@Url.Action("TransporterDetail", "ValidatedPaymentRequest", new { transporterID = transportOrderViewModel.TransporterID })">
@@ -339,7 +339,7 @@
                 <div class="span6">
                     <div class="control-group">
                         <div class="control-label">
-                            Contract N0.
+                            @Html.Translate("Contract N0.")
                         </div>
                         <div class="controls">
                             <input id="ContractNumber" name="ContractNumber" value="@transportOrderViewModel.ContractNumber" disabled="disabled" />
@@ -349,7 +349,7 @@
                 <div class="span6">
                     <div class="control-group">
                         <div class="control-label">
-                            Order Date
+                             @Html.Translate("Order Date")
                         </div>
                         <div class="controls">
                             <input id="OrderDateET" name="OrderDateET" value="@transportOrderViewModel.OrderDateET" disabled="disabled" />
@@ -362,7 +362,7 @@
                 <div class="span6">
                     <div class="control-group">
                         <div class="control-label">
-                            Requested Dispatch Date
+                             @Html.Translate("Requested Dispatch Date")
                         </div>
                         <div class="controls">
                             <input id="RequestedDispatchDateET" name="RequestedDispatchDateET" value="@transportOrderViewModel.RequestedDispatchDateET" disabled="disabled" />
@@ -372,7 +372,7 @@
                 <div class="span6">
                     <div class="control-group">
                         <div class="control-label">
-                            Order Expiry Date
+                             @Html.Translate("Order Expiry Date")
                         </div>
                         <div class="controls">
                             <input id="OrderExpiryDateET" name="OrderExpiryDateET" value="@transportOrderViewModel.OrderExpiryDateET" disabled="disabled" />
@@ -385,7 +385,7 @@
                 <div class="span6">
                     <div class="control-group">
                         <div class="control-label">
-                            StartDate
+                             @Html.Translate("Start Date")
                         </div>
                         <div class="controls">
                             <input id="StartDate" name="StartDate" value="@transportOrderViewModel.StartDate" disabled="disabled" />
@@ -395,7 +395,7 @@
                 <div class="span6">
                     <div class="control-group">
                         <div class="control-label">
-                            End Date
+                             @Html.Translate("End Date")
                         </div>
                         <div class="controls">
                             <input id="EndDate" name="EndDate" value="@transportOrderViewModel.EndDate" disabled="disabled" />
@@ -404,9 +404,9 @@
                 </div>
             </div>
         </div>
-        <h3>Payment Request</h3>
+        <h3> @Html.Translate("Payment Request")</h3>
         
-        <label for="filter" class="filter_label"><strong>Reference No.</strong></label>
+        <label for="filter" class="filter_label"><strong> @Html.Translate("Reference No.")</strong></label>
         <input type="text" name="filter" value="" id="filter" />
         
 @*        <label for="program_filter" class="filter_label"><strong>Program</strong></label>
@@ -420,21 +420,21 @@
         <table class="table table-striped" id="paymentrequesttable">
             <thead>
                 <tr>
-                    <th>Reference No.</th>
-                    <th>Program</th>
-                    <th>Requisition</th>
-                    <th>Issue No.</th>
-                    <th>G.R.N.</th>
-                    <th>Commodity</th>
-                    <th>Source</th>
-                    <th>Destination</th>
-                    <th>Received Qty.</th>
-                    <th>Tarrif</th>
-                    <th>Shortage Qty.</th>
-                    <th>Shortage Birr</th>
-                    <th>Freight Charge</th>
-                    <th>Status</th>
-                    <th>Actions</th>
+                    <th> @Html.Translate("Reference No.")</th>
+                    <th> @Html.Translate("Program")</th>
+                    <th> @Html.Translate("Requisition")</th>
+                    <th> @Html.Translate("Issue No.")</th>
+                    <th> @Html.Translate("G.R.N.")</th>
+                    <th> @Html.Translate("Commodity")</th>
+                    <th> @Html.Translate("Source")</th>
+                    <th> @Html.Translate("Destination")</th>
+                    <th> @Html.Translate("Received Qty.")</th>
+                    <th> @Html.Translate("Tarrif")</th>
+                    <th> @Html.Translate("Shortage Qty.")</th>
+                    <th> @Html.Translate("Shortage Birr")</th>
+                    <th> @Html.Translate("Freight Charge")</th>
+                    <th> @Html.Translate("Status")</th>
+                    <th> @Html.Translate("Actions")</th>
                     <th></th>
                 </tr>
             </thead>
@@ -489,22 +489,22 @@
                             @state.Name
                         </td>
                         <td>
-                            <button class="btn" data-ng-click="loadLabourCost(@item.TransporterPaymentRequestID,@state.StateNo)">Payment Deductions</button>
+                            <button class="btn" data-ng-click="loadLabourCost(@item.TransporterPaymentRequestID,@state.StateNo)">@Html.Translate("Payment Deductions")</button>
                             @*<a href="@Url.Action("LabourCost", "ValidatedPaymentRequest")">Labour Cost</a>*@
                         </td>
                         <td>
                             @if (item.LabourCostRate != null && state.StateNo < 3)
                             {
                                 <div class="btn-group">
-                                    <button class="btn edit_button" id="action_@index">Workflow</button>
+                                    <button class="btn edit_button" id="action_@index">@Html.Translate("Workflow")</button>
                                     <button class="btn  dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
                                     <ul class="dropdown-menu">
                                         @foreach (FlowTemplate actions in state.InitialStateFlowTemplates)
                                         {
-                                            <li class="edit_button"><a href="javascript:promot_workflow(@item.BusinessProcessID ,@actions.FinalStateID,'@actions.Name',@item.TransporterPaymentRequestID)" title="@actions.Name">@actions.Name</a></li>
+                                            <li class="edit_button"><a href="javascript:promot_workflow(@item.BusinessProcessID ,@actions.FinalStateID,'@actions.Name',@item.TransporterPaymentRequestID)" title="@actions.Name">@Html.Translate("@actions.Name")</a></li>
                                         }
                                         <li class="divider"></li>
-                                        <li class="edit_button"><a href="javascript:workflow_history(@item.BusinessProcessID)">History</a></li>
+                                        <li class="edit_button"><a href="javascript:workflow_history(@item.BusinessProcessID)">@Html.Translate("History")</a></li>
                                     </ul>
                                 </div>
                             }
@@ -517,7 +517,7 @@
             <tfoot>
                 <tr style="background-color: rgba(220, 220, 220, 0.47);">
                         <td colspan="7"></td>
-                        <td style="text-align: center"><b>Total:</b></td>
+                        <td style="text-align: center"><b>@Html.Translate("Total:")</b></td>
 
                         <td><b><span id="view_receivedqty">0.0</span>@*@Model.Sum(a => a.ReceivedQty)*@</b></td>
                         <td><b>@*@Model.Sum(a => a.Tarrif).ToString("0.00")*@</b> </td>
@@ -534,9 +534,9 @@
         <div id="modalHistory" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false" style="width:600px;" >
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h4 id="modalHistoryLabel">Activity History</h4>
+                <h4 id="modalHistoryLabel">@Html.Translate("Activity History")</h4>
             </div>
-            <div class="modal-body" id="modalHistoryBody">History</div>
+            <div class="modal-body" id="modalHistoryBody">@Html.Translate("History")</div>
 
         </div>
         @Html.Partial("~/Views/Shared/_PromotWorkflow.cshtml")
@@ -776,10 +776,10 @@
                         freightcharge += parseFloat($(this).children("td.item_freightcharge").text());
                     });
                     // update the total values
-                    $("#view_receivedqty").text(receivedqty);
-                    $("#view_shortageqty").text(shortageqty);
-                    $("#view_shortagebirr").text(shortagebirr);
-                    $("#view_freightcharge").text(freightcharge);
+                    $("#view_receivedqty").text(receivedqty.toFixed(2));
+                    $("#view_shortageqty").text(shortageqty.toFixed(2));
+                    $("#view_shortagebirr").text(shortagebirr.toFixed(2));
+                    $("#view_freightcharge").text(freightcharge.toFixed(2));
                 }
             });
 

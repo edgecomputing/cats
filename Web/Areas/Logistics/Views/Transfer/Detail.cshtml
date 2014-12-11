@@ -2,16 +2,16 @@
 @using Cats.Models.Constant
 @model Cats.Models.Transfer
 @{
-    ViewBag.Title = "Detail";
+    ViewBag.Title = @Html.Translate("Detail");
     Layout = "~/Views/Shared/_MainLayout.cshtml";
-    const string pageName = "Logistics.Transfer.Detail";
+    
 }
 
 @section Toolbar
 {
   
     <div class="btn-group">
-        <button class="btn">Action</button>
+        <button class="btn">@Html.Translate("Action")</button>
         
            
             <button class="btn dropdown-toggle " data-toggle="dropdown">
@@ -23,8 +23,8 @@
             <li><a href="@Url.Action("", "Transfer", new { id = Model.TransferID})">@Html.Translate2(pageName,"Dispatch")</a></li>*@
              @if(Model.StatusID==(int)LocalPurchaseStatus.Draft)
        {
-        <li><a id="btnEdit" href="@Url.Action("Edit", "Transfer", new {id = Model.TransferID})">@Html.Translate2(pageName, "Edit")</a></li>
-        <li><a id="btnApprove" href="@Url.Action("Approve", "Transfer", new {id = Model.TransferID})">@Html.Translate2(pageName, "Approve(Send to Hub)")</a></li>
+        <li><a id="btnEdit" href="@Url.Action("Edit", "Transfer", new {id = Model.TransferID})">@Html.Translate( "Edit")</a></li>
+        <li><a id="btnApprove" href="@Url.Action("Approve", "Transfer", new {id = Model.TransferID})">@Html.Translate("Approve(Send to Hub)")</a></li>
       }
     </ul>
     <a class="btn toolbar-btn " href="@Url.Action("Index", "Transfer")" data-buttontype="btn_back_to_list"></a>
@@ -64,7 +64,7 @@
 <div class="row-fluid form-horizontal">
     <div class="control-group">
         <div class="control-label">
-            @Html.LabelFor(m=>m.ShippingInstruction.Value,@Html.Translate2(pageName,"SI Number"))
+            @Html.LabelFor(m=>m.ShippingInstruction.Value,@Html.Translate("SI Number"))
         </div>
         <div class="controls">
             @Html.TextBoxFor(m=>m.ShippingInstruction.Value,new {Disabled=true})
@@ -72,7 +72,7 @@
     </div>
     <div class="control-group">
         <div class="control-label">
-            @Html.LabelFor(m=>m.SourceHubID,@Html.Translate2(pageName,"SourceHub"))
+            @Html.LabelFor(m=>m.SourceHubID,@Html.Translate("Source Hub"))
         </div>
         <div class="controls">
             @Html.TextBoxFor(m=>m.Hub.Name,new {Disabled=true})
@@ -80,7 +80,7 @@
     </div>
     <div class="control-group">
         <div class="control-label">
-            @Html.LabelFor(m=>m.ProgramID,@Html.Translate2(pageName,"Program"))
+            @Html.LabelFor(m=>m.ProgramID,@Html.Translate("Program"))
         </div>
         <div class="controls">
             @Html.TextBoxFor(m=>m.Program.Name,new {Disabled=true})
@@ -88,7 +88,7 @@
     </div>
     <div class="control-group">
         <div class="control-label">
-            @Html.LabelFor(m=>m.CommodityID,@Html.Translate2(pageName,"Commodity"))
+            @Html.LabelFor(m=>m.CommodityID,@Html.Translate("Commodity"))
         </div>
         <div class="controls">
             @Html.TextBoxFor(m=>m.Commodity.Name,new {Disabled=true})
@@ -96,7 +96,7 @@
     </div>
     <div class="control-group">
         <div class="control-label">
-            @Html.LabelFor(m=>m.CommoditySourceID,@Html.Translate2(pageName,"Commodity Source"))
+            @Html.LabelFor(m=>m.CommoditySourceID,@Html.Translate("Commodity Source"))
         </div>
         <div class="controls">
             @Html.TextBoxFor(m=>m.CommoditySource.Name,new {Disabled=true})
@@ -104,7 +104,7 @@
     </div>
     <div class="control-group">
         <div class="control-label">
-            @Html.LabelFor(m=>m.ProjectCode,@Html.Translate2(pageName,"Project Code"))
+            @Html.LabelFor(m=>m.ProjectCode,@Html.Translate("Project Code"))
         </div>
         <div class="controls">
             @Html.TextBoxFor(m=>m.ProjectCode,new {Disabled=true})
@@ -112,7 +112,7 @@
     </div>
     <div class="control-group">
         <div class="control-label">
-            @Html.LabelFor(m=>m.DestinationHubID,@Html.Translate2(pageName,"Destination Hub"))
+            @Html.LabelFor(m=>m.DestinationHubID,@Html.Translate("Destination Hub"))
         </div>
         <div class="controls">
             @Html.TextBoxFor(m=>m.Hub1.Name,new {Disabled=true})
@@ -120,7 +120,7 @@
     </div>
     <div class="control-group">
         <div class="control-label">
-            @Html.LabelFor(m=>m.Quantity,@Html.Translate2(pageName,"Quantity in MT"))
+            @Html.LabelFor(m=>m.Quantity,@Html.Translate("Quantity in MT"))
         </div>
         <div class="controls">
             @Html.TextBoxFor(m=>m.Quantity,new {Disabled=true})

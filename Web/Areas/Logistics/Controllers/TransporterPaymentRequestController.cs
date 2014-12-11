@@ -506,6 +506,8 @@ namespace Cats.Areas.Logistics.Controllers
                 ShortageQuantity = ac.Sum(s => s.ShortageQty),
                 ShortageBirr = ac.Sum(s => s.ShortageBirr),
                 FreightCharge = ac.Sum(s => s.FreightCharge),
+                ShortageBirrInWords = ac.Sum(s => s.ShortageBirr).ToNumWordsWrapper(),
+                FreightChargeInWords = ac.Sum(s => s.FreightCharge).ToNumWordsWrapper()
             });
             return requests.Where(m => m.TransporterId == transporterId).ToArray();
         }
