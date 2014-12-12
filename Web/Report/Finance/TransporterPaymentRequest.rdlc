@@ -1921,7 +1921,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Sum(Fields!Tariff.Value)</Value>
+                              <Value />
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontWeight>Bold</FontWeight>
@@ -2106,7 +2106,7 @@
         <Top>1.94847in</Top>
         <Left>0.11787in</Left>
         <Height>0.90917in</Height>
-        <Width>9.78411in</Width>
+        <Width>9.78412in</Width>
         <ZIndex>17</ZIndex>
         <Style />
       </Tablix>

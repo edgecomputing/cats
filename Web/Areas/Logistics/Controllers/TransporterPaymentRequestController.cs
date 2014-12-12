@@ -350,8 +350,8 @@ namespace Cats.Areas.Logistics.Controllers
                                                                                  FreightCharge =
                                                                                      (decimal)
                                                                                      (request.ShortageBirr != null
-                                                                                          ? (deliveryDetail.ReceivedQuantity
-                                                                                                 .ToQuintal()*tarrif) -(
+                                                                                          ? (Math.Min(deliveryDetail.ReceivedQuantity
+                                                                                                 .ToQuintal(), dispathedAmount) * tarrif) - (
                                                                                             request.ShortageBirr +
                                                                                             request.LabourCost -
                                                                                             request.RejectedAmount)
