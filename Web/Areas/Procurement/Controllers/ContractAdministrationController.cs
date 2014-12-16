@@ -32,6 +32,7 @@ namespace Cats.Areas.Procurement.Controllers
         private readonly IDeliveryService _distributionService;
         private readonly IBidWinnerService _bidWinnerService;
         private readonly Cats.Services.EarlyWarning.IAdminUnitService _adminUnitService;
+        private readonly IReliefRequisitionService _reliefRequisition;
 
         public ContractAdministrationController(IPaymentRequestService paymentRequestService, ITransporterService transporterService,
             ITransportOrderService transportOrderService, IUserAccountService userAccountService, IDispatchAllocationService dispatchAllocationService, 
@@ -61,8 +62,9 @@ namespace Cats.Areas.Procurement.Controllers
             ViewBag.TransporterAddress = "Region: " + transporterObj.Region
                                             + "  |  Sub-City: " + transporterObj.SubCity
                                             + "  |  Telephone: " + transporterObj.TelephoneNo;
-            
-                        
+            ViewBag.RegionID = new SelectList(_adminUnitService.GetRegions(), "AdminUnitID", "Name");
+            //ViewBag.TransporterOrderID = new SelectList(_transportOrderService.GetTransporter(), "TransporterID", "Name", 0);
+            //ViewBag.Round = new SelectList(new int[] {1,2,3,4,5,6,7,8,9,10,11,12}, 0);
             //var target = new TransportOrderDispatchViewModel { DispatchViewModels = dispatchView.Where(t => !t.GRNReceived).ToList(), DispatchViewModelsWithGRN = dispatchView.Where(t => t.GRNReceived).ToList(), TransportOrderViewModel = transportOrderViewModel };
             return View();
         }
@@ -73,11 +75,31 @@ namespace Cats.Areas.Procurement.Controllers
             return View();
         }
 
-        public ActionResult ActiveTO_Read([DataSourceRequest] DataSourceRequest request, int transporterID)
+        public ActionResult ActiveTO_Read([DataSourceRequest] DataSourceRequest request, int transporterID, int regionId = -1, string transporterOrderNo = null)//, int round = -1, int transporterOrderId = -1)
         {
-            var activeTOs =
-                _transportOrderService.Get(t => t.StatusID >= 3 && t.TransporterID == transporterID).ToList();
-            var activeTOsViewModel = GetActiveTOsListViewModel(activeTOs);
+            List<TransportOrder> activeTOs;
+            if (transporterOrderNo == null)
+            {
+
+                activeTOs =
+                    _transportOrderService.Get(
+                        t =>
+                        t.StatusID >= 3 && t.TransporterID == transporterID &&
+                        t.TransportOrderDetails.FirstOrDefault().FDP.AdminUnit.AdminUnit2.AdminUnit2.AdminUnitID ==
+                        regionId ).
+                        ToList();
+            }
+            else
+            {
+                activeTOs =
+                    _transportOrderService.Get(
+                        t =>
+                        t.StatusID >= 3 && t.TransporterID == transporterID &&
+                        t.TransportOrderDetails.FirstOrDefault().FDP.AdminUnit.AdminUnit2.AdminUnit2.AdminUnitID ==
+                        regionId).Where(t => t.TransportOrderNo.ToUpperInvariant().Contains(transporterOrderNo.ToUpperInvariant())).
+                        ToList();
+            }
+             var activeTOsViewModel = GetActiveTOsListViewModel(activeTOs);
             return Json(activeTOsViewModel.ToDataSourceResult(request));
         }
 

@@ -6,6 +6,13 @@ using System.Threading.Tasks;
 
 namespace Cats.Models.Constant
 {
+
+    public enum ActionType
+    {
+        Finance=1,
+        Approve=2
+    }
+
     public enum WORKFLOW
     {
         REGIONAL_REQUEST = 1,

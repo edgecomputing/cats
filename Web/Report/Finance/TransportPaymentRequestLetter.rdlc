@@ -555,7 +555,24 @@
                               </Style>
                             </TextRun>
                             <TextRun>
-                              <Value> (________________________________________________________)/ ተቀንሶ</Value>
+                              <Value> ( </Value>
+                              <Style>
+                                <FontFamily>Nyala</FontFamily>
+                                <FontSize>12pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                            <TextRun>
+                              <Value>=Fields!ShorageBirrInWords.Value</Value>
+                              <Style>
+                                <FontFamily>Tahoma</FontFamily>
+                                <FontSize>12pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                                <TextDecoration>Underline</TextDecoration>
+                              </Style>
+                            </TextRun>
+                            <TextRun>
+                              <Value> )/ ተቀንሶ</Value>
                               <Style>
                                 <FontFamily>Nyala</FontFamily>
                                 <FontSize>12pt</FontSize>
@@ -599,7 +616,24 @@
                               </Style>
                             </TextRun>
                             <TextRun>
-                              <Value> (___________________________________________________________________________) እንዲከፈለው እያሳሰብን የበኩላችሁን </Value>
+                              <Value> ( </Value>
+                              <Style>
+                                <FontFamily>Nyala</FontFamily>
+                                <FontSize>12pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                            <TextRun>
+                              <Value>=Fields!FreightChargeInWords.Value</Value>
+                              <Style>
+                                <FontFamily>Tahoma</FontFamily>
+                                <FontSize>12pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                                <TextDecoration>Underline</TextDecoration>
+                              </Style>
+                            </TextRun>
+                            <TextRun>
+                              <Value> ) እንዲከፈለው እያሳሰብን የበኩላችሁን </Value>
                               <Style>
                                 <FontFamily>Nyala</FontFamily>
                                 <FontSize>12pt</FontSize>
@@ -1298,6 +1332,14 @@
         <Field Name="ShortageQuantity">
           <DataField>ShortageQuantity</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="ShorageBirrInWords">
+          <DataField>ShorageBirrInWords</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="FreightChargeInWords">
+          <DataField>FreightChargeInWords</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
       </Fields>
       <rd:DataSetInfo>
