@@ -203,6 +203,7 @@
     <Compile Include="Areas\Hub\Models\TransporterViewModel.cs" />
     <Compile Include="Areas\Logistics\Controllers\TransporterPaymentRequestController.cs" />
     <Compile Include="Areas\Logistics\Controllers\UnContractedTransportersController.cs" />
+    <Compile Include="Areas\Logistics\Models\ProcessTemplateViewModel.cs" />
     <Compile Include="Areas\Logistics\Models\TransporterPaymentRequestViewModel.cs" />
     <Compile Include="Areas\Logistics\Models\UnContractedTransportersListViewModel.cs" />
     <Compile Include="Areas\Procurement\Models\DelayedTransportOrderViewModel.cs" />
@@ -663,6 +664,7 @@
     <Compile Include="ViewModelBinder\HubAllocationViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\NeedAssessmentViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\NotificationViewModelBinder.cs" />
+    <Compile Include="ViewModelBinder\ProcessTemplateViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\PSNPPlanViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\ReceiptAllocationViewModelBinder.cs" />
     <Compile Include="ViewModelBinder\RequestViewModelBinder.cs" />
