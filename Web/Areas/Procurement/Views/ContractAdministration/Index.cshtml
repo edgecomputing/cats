@@ -123,6 +123,45 @@
 <div>
     <div style="float: left; width:600px; height:250px; border:1px solid #ececec; margin-top:20px;margin-right:20px;margin-bottom:20px;">
         <div style="font-weight: bold;margin:10px;">Active Transport Orders</div>
+        <div>
+            <div class="input-prepend">
+                <span class="add-on">@Html.Translate("TransporterOrder No")</span>
+                @Html.TextBox("TransporterOrderNo", null, new { @class = "input-small" })
+            </div>
+            @*<div class="input-prepend">
+                <span class="add-on">@Html.Translate("Round")</span>
+                @Html.DropDownList("Round", null, new { @class = "input-small" })
+            </div>*@
+            @*<input type="text" class="text-md" id="transporteOrder" name="transporteOrder" />*@
+            <div class="input-prepend">
+                <span class="add-on">@Html.Translate("Region")</span>
+                @Html.DropDownList("RegionID", null, new { @class = "input-small" })
+            </div>
+        </div>
+        <script type="text/javascript">
+            function filterData() {
+                return {
+                    regionId: $("#RegionID").val(),
+                    transporterOrderNo: $("#TransporterOrderNo").val()
+                    //round: $("#Round").val()
+                };
+            }
+            $(document).ready(function () {
+                //$('#Round').change(function () {
+                //    $("#ActiveTransportOrders").data("kendoGrid").dataSource.read();
+                //});
+                $('#RegionID').change(function () {
+                    $("#ActiveTransportOrders").data("kendoGrid").dataSource.read();
+                });
+                $("#TransporterOrderNo").bind("keyup", function(e) {
+                    var code = e.which; 
+                    if (code == 13) {
+                        $("#ActiveTransportOrders").data("kendoGrid").dataSource.read();
+                    }
+                });
+            });
+
+        </script>
         @(Html.Kendo().Grid<ActiveTransportOrderViewModel>()
               .Name("ActiveTransportOrders")
               .Columns(columns =>
@@ -137,7 +176,7 @@
                            })
               .DataSource(dataSource => dataSource
                                             .Ajax()
-                                            .Read(read => read.Action("ActiveTO_Read", "ContractAdministration",new {TransporterID = @ViewBag.TransporterID}))
+                                            .Read(read => read.Action("ActiveTO_Read", "ContractAdministration",new {TransporterID = @ViewBag.TransporterID}).Data("filterData"))
               )
               .Scrollable(scroll => scroll.Height(350))
               //.Selectable(select => select.Mode(GridSelectionMode.Single))
