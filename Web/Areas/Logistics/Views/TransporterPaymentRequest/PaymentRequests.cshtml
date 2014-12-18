@@ -449,10 +449,10 @@
                         <td>
                          <input type="checkbox" ng-model="selection[@index]"  ng-change="addSelection(@index,@item.BusinessProcessID ,@item.TransporterPaymentRequestID, @item.Transporter.TransporterID)"/> 
                         </td>
-                        <td>
+                        <td class="refno">
                             @item.ReferenceNo
                         </td>
-                        <td>
+                        <td class="progname">
                             @item.Program.Name
                         </td>
                         <td>
@@ -542,7 +542,7 @@
             </tbody>
             <tfoot>
                 <tr style="background-color: rgba(220, 220, 220, 0.47);">
-                        <td colspan="9"></td>
+                        <td colspan="10"></td>
                         <td style="text-align: center"><b>@Html.Translate("Total"):</b></td>
                         <td><b><span id="view_dispatchedQty">0.0</span></b></td>
                         <td><b><span id="view_receivedqty">0.0</span>@*@Model.Sum(a => a.ReceivedQty)*@</b></td>
@@ -552,7 +552,7 @@
                         <td><b><span id="view_freightcharge">0.0</span>@*@Model.Sum(a => a.FreightCharge).ToString("0.00")*@ </b></td>
                     <td></td>
                     <td></td>
-                    <td></td>
+                    <td></td><td></td>
                     <td></td><td></td>
                     </tr>
              </tfoot>
@@ -726,10 +726,10 @@
 
                     $(selector).each(function () {
                         if (program == "All") {
-                            ($(this).find("td:first-child").text().search(new RegExp(query, "i")) < 0) ? $(this).hide().removeClass('visible') : $(this).show().addClass('visible');
+                            ($(this).find("td.refno").text().search(new RegExp(query, "i")) < 0) ? $(this).hide().removeClass('visible') : $(this).show().addClass('visible');
                         }
                         else {
-                            (($(this).find("td:first-child").text().search(new RegExp(query, "i")) < 0) || ($(this).find("td:nth-child(2)").text().search(new RegExp(program, "i")) < 0)) ? $(this).hide().removeClass('visible') : $(this).show().addClass('visible');
+                            (($(this).find("td.refno").text().search(new RegExp(query, "i")) < 0) || ($(this).find("td.progname").text().search(new RegExp(program, "i")) < 0)) ? $(this).hide().removeClass('visible') : $(this).show().addClass('visible');
                         }
                     });
                     view_total();
