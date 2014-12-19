@@ -15,7 +15,9 @@ using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
 using ICommonService = Cats.Services.Common.ICommonService;
@@ -38,6 +40,7 @@ namespace Cats.Areas.Logistics.Controllers
         private readonly ITransportOrderService _transportOrderService;
         private readonly ITransportOrderDetailService _transportOrderDetailService;
         private readonly ICommonService _commodityService;
+        private readonly IFlowTemplateService _flowTemplateService;
 
         public TransporterPaymentRequestController(IBusinessProcessService _paramBusinessProcessService
                                                    , IBusinessProcessStateService _paramBusinessProcessStateService
@@ -50,7 +53,8 @@ namespace Cats.Areas.Logistics.Controllers
                                                    , IUserAccountService userAccountService
                                                    , Services.Procurement.ITransporterService transporterService,
                                                    ITransportOrderService transportOrderService,
-                                                   ITransportOrderDetailService transportOrderDetailService, ICommonService commodityService)
+                                                   ITransportOrderDetailService transportOrderDetailService, ICommonService commodityService
+                                                   , IFlowTemplateService flowTemplateService)
         {
             _BusinessProcessService = _paramBusinessProcessService;
             _BusinessProcessStateService = _paramBusinessProcessStateService;
@@ -65,6 +69,7 @@ namespace Cats.Areas.Logistics.Controllers
             _transportOrderService = transportOrderService;
             _transportOrderDetailService = transportOrderDetailService;
             _commodityService = commodityService;
+            _flowTemplateService = flowTemplateService;
         }
 
         //
@@ -83,11 +88,21 @@ namespace Cats.Areas.Logistics.Controllers
         {
             if (requests != null)
             {
+                var type = typeof(ActionType);
+                MemberInfo[] memInfo = null;
+
                 if (String.Compare(actionType, Enum.GetName(typeof(ActionType), ActionType.Finance), true) == 0)
-                    requests.ForEach(o => o.StateID = 2015);
+                    memInfo = type.GetMember(ActionType.Finance.ToString());
 
                 if (String.Compare(actionType, Enum.GetName(typeof(ActionType), ActionType.Approve), true) == 0)
-                    requests.ForEach(o => o.StateID = 2016);
+                    memInfo = type.GetMember(ActionType.Approve.ToString());
+
+                var attributes = memInfo[0].GetCustomAttributes(typeof(DescriptionAttribute), false);
+                var description = ((DescriptionAttribute)attributes[0]).Description;
+                var templateModel = _flowTemplateService.FindBy(o => o.Name == description).First();
+
+                if (templateModel != null)
+                    requests.ForEach(o => o.StateID = templateModel.FinalStateID);
 
                 var processTemplates = ProcessTemplateViewModelBinder.BindProcessTemplateViewModel(requests);
 
