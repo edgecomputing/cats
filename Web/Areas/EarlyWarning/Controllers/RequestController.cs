@@ -365,8 +365,8 @@ namespace Cats.Areas.EarlyWarning.Controllers
                                                   .Count;
                     }
 
-                    if (exisiting == 0)
-                    {
+                    //if (exisiting == 0)
+                    //{
                         RegionalRequest req = CretaeRegionalRequest(psnphrdPlanInfo);
                         var model = getRequestDetai(req.RegionalRequestID);
                         ViewBag.message = "Request Created";
@@ -381,11 +381,11 @@ namespace Cats.Areas.EarlyWarning.Controllers
 
                         }
                         return RedirectToAction("Details" + "/" + req.RegionalRequestID);
-                    }
-                    else
-                    {
-                        ModelState.AddModelError("Errors", @"A request with the same parameters has already been made");
-                    }
+                    //}
+                    //else
+                    //{
+                    //    ModelState.AddModelError("Errors", @"A request with the same parameters has already been made");
+                    //}
 
                 }
                 else

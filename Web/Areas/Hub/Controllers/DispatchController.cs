@@ -531,6 +531,9 @@ namespace Cats.Areas.Hub.Controllers
             var zones = _adminUnitService.GetAllAdminUnit().Where(t => t.AdminUnitTypeID == 2).ToList();
             var stores = _storeService.GetAllStore();
 
+           
+            ViewBag.CommodityID = new SelectList(commodities, "CommodityID", "Name");
+
             ViewBag.Units = _unitService.GetAllUnit();
             
             var dispatch = _dispatchService.GetDispatchByGIN(ginNo);
