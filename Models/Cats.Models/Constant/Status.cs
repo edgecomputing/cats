@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,7 +10,10 @@ namespace Cats.Models.Constant
 
     public enum ActionType
     {
+        [Description("Submit to Finance")]
         Finance=1,
+
+       [Description("Approve Payment")]
         Approve=2
     }
 

@@ -63,7 +63,7 @@ namespace Cats.Areas.Settings.Controllers
                     }
                     if (paramAdminUnitTypeID.HasValue)
                     {
-                        adminUnitViewModel.AdminUnitTypeID = (int)paramAdminUnitTypeID;
+                        adminUnitViewModel.AdminUnitTypeID = (int)paramAdminUnitTypeID + 1;
                     }
                     var adminUnit = AdminUnitViewModelBinder.BindAdminUnit(adminUnitViewModel);
                     _adminUnitService.AddAdminUnit(adminUnit);
