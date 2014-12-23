@@ -563,7 +563,7 @@
                               </Style>
                             </TextRun>
                             <TextRun>
-                              <Value>=Fields!ShorageBirrInWords.Value</Value>
+                              <Value>=Fields!ShortageBirrInWords.Value</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>12pt</FontSize>
@@ -1333,8 +1333,8 @@
           <DataField>ShortageQuantity</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
-        <Field Name="ShorageBirrInWords">
-          <DataField>ShorageBirrInWords</DataField>
+        <Field Name="ShortageBirrInWords">
+          <DataField>ShortageBirrInWords</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="FreightChargeInWords">

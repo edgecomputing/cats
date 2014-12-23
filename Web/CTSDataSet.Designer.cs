@@ -2661,7 +2661,7 @@ namespace Cats {
             
             private global::System.Data.DataColumn columnShortageQuantity;
             
-            private global::System.Data.DataColumn columnShorageBirrInWords;
+            private global::System.Data.DataColumn columnShortageBirrInWords;
             
             private global::System.Data.DataColumn columnFreightChargeInWords;
             
@@ -2756,9 +2756,9 @@ namespace Cats {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn ShorageBirrInWordsColumn {
+            public global::System.Data.DataColumn ShortageBirrInWordsColumn {
                 get {
-                    return this.columnShorageBirrInWords;
+                    return this.columnShortageBirrInWords;
                 }
             }
             
@@ -2807,7 +2807,7 @@ namespace Cats {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public TPRLRow AddTPRLRow(string TransporterName, string CommodityName, int Source, decimal ShortageBirr, decimal FreightCharge, decimal ReceivedQuantity, decimal ShortageQuantity, string ShorageBirrInWords, string FreightChargeInWords) {
+            public TPRLRow AddTPRLRow(string TransporterName, string CommodityName, int Source, decimal ShortageBirr, decimal FreightCharge, decimal ReceivedQuantity, decimal ShortageQuantity, string ShortageBirrInWords, string FreightChargeInWords) {
                 TPRLRow rowTPRLRow = ((TPRLRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         TransporterName,
@@ -2817,7 +2817,7 @@ namespace Cats {
                         FreightCharge,
                         ReceivedQuantity,
                         ShortageQuantity,
-                        ShorageBirrInWords,
+                        ShortageBirrInWords,
                         FreightChargeInWords};
                 rowTPRLRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowTPRLRow);
@@ -2848,7 +2848,7 @@ namespace Cats {
                 this.columnFreightCharge = base.Columns["FreightCharge"];
                 this.columnReceivedQuantity = base.Columns["ReceivedQuantity"];
                 this.columnShortageQuantity = base.Columns["ShortageQuantity"];
-                this.columnShorageBirrInWords = base.Columns["ShorageBirrInWords"];
+                this.columnShortageBirrInWords = base.Columns["ShortageBirrInWords"];
                 this.columnFreightChargeInWords = base.Columns["FreightChargeInWords"];
             }
             
@@ -2869,8 +2869,8 @@ namespace Cats {
                 base.Columns.Add(this.columnReceivedQuantity);
                 this.columnShortageQuantity = new global::System.Data.DataColumn("ShortageQuantity", typeof(decimal), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnShortageQuantity);
-                this.columnShorageBirrInWords = new global::System.Data.DataColumn("ShorageBirrInWords", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnShorageBirrInWords);
+                this.columnShortageBirrInWords = new global::System.Data.DataColumn("ShortageBirrInWords", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnShortageBirrInWords);
                 this.columnFreightChargeInWords = new global::System.Data.DataColumn("FreightChargeInWords", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnFreightChargeInWords);
                 this.columnTransporterName.MaxLength = 255;
@@ -6776,17 +6776,17 @@ namespace Cats {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string ShorageBirrInWords {
+            public string ShortageBirrInWords {
                 get {
                     try {
-                        return ((string)(this[this.tableTPRL.ShorageBirrInWordsColumn]));
+                        return ((string)(this[this.tableTPRL.ShortageBirrInWordsColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'ShorageBirrInWords\' in table \'TPRL\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'ShortageBirrInWords\' in table \'TPRL\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableTPRL.ShorageBirrInWordsColumn] = value;
+                    this[this.tableTPRL.ShortageBirrInWordsColumn] = value;
                 }
             }
             
@@ -6892,14 +6892,14 @@ namespace Cats {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsShorageBirrInWordsNull() {
-                return this.IsNull(this.tableTPRL.ShorageBirrInWordsColumn);
+            public bool IsShortageBirrInWordsNull() {
+                return this.IsNull(this.tableTPRL.ShortageBirrInWordsColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetShorageBirrInWordsNull() {
-                this[this.tableTPRL.ShorageBirrInWordsColumn] = global::System.Convert.DBNull;
+            public void SetShortageBirrInWordsNull() {
+                this[this.tableTPRL.ShortageBirrInWordsColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]

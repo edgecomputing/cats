@@ -533,7 +533,7 @@ namespace Cats.Areas.Logistics.Controllers
                 ShortageBirr = ac.Sum(s => s.ShortageBirr),
                 FreightCharge = ac.Sum(s => s.FreightCharge),
                 ShortageBirrInWords = ac.Sum(s => s.ShortageBirr).ToNumWordsWrapper(),
-                FreightChargeInWords = ac.Sum(s => s.FreightCharge).ToNumWordsWrapper()
+                FreightChargeInWords = Math.Round(ac.Sum(s => s.FreightCharge),2).ToNumWordsWrapper()
             });
             return requests.Where(m => m.TransporterId == transporterId).ToArray();
         }
