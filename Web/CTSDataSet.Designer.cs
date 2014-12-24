@@ -2665,6 +2665,8 @@ namespace Cats {
             
             private global::System.Data.DataColumn columnFreightChargeInWords;
             
+            private global::System.Data.DataColumn columnNoRecords;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public TPRLDataTable() {
@@ -2772,6 +2774,14 @@ namespace Cats {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn NoRecordsColumn {
+                get {
+                    return this.columnNoRecords;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -2807,7 +2817,7 @@ namespace Cats {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public TPRLRow AddTPRLRow(string TransporterName, string CommodityName, int Source, decimal ShortageBirr, decimal FreightCharge, decimal ReceivedQuantity, decimal ShortageQuantity, string ShortageBirrInWords, string FreightChargeInWords) {
+            public TPRLRow AddTPRLRow(string TransporterName, string CommodityName, int Source, decimal ShortageBirr, decimal FreightCharge, decimal ReceivedQuantity, decimal ShortageQuantity, string ShortageBirrInWords, string FreightChargeInWords, string NoRecords) {
                 TPRLRow rowTPRLRow = ((TPRLRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         TransporterName,
@@ -2818,7 +2828,8 @@ namespace Cats {
                         ReceivedQuantity,
                         ShortageQuantity,
                         ShortageBirrInWords,
-                        FreightChargeInWords};
+                        FreightChargeInWords,
+                        NoRecords};
                 rowTPRLRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowTPRLRow);
                 return rowTPRLRow;
@@ -2850,6 +2861,7 @@ namespace Cats {
                 this.columnShortageQuantity = base.Columns["ShortageQuantity"];
                 this.columnShortageBirrInWords = base.Columns["ShortageBirrInWords"];
                 this.columnFreightChargeInWords = base.Columns["FreightChargeInWords"];
+                this.columnNoRecords = base.Columns["NoRecords"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -2873,6 +2885,8 @@ namespace Cats {
                 base.Columns.Add(this.columnShortageBirrInWords);
                 this.columnFreightChargeInWords = new global::System.Data.DataColumn("FreightChargeInWords", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnFreightChargeInWords);
+                this.columnNoRecords = new global::System.Data.DataColumn("NoRecords", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnNoRecords);
                 this.columnTransporterName.MaxLength = 255;
                 this.columnCommodityName.MaxLength = 50;
                 this.columnShortageBirr.ReadOnly = true;
@@ -6808,6 +6822,22 @@ namespace Cats {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string NoRecords {
+                get {
+                    try {
+                        return ((string)(this[this.tableTPRL.NoRecordsColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'NoRecords\' in table \'TPRL\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableTPRL.NoRecordsColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public bool IsTransporterNameNull() {
                 return this.IsNull(this.tableTPRL.TransporterNameColumn);
             }
@@ -6912,6 +6942,18 @@ namespace Cats {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public void SetFreightChargeInWordsNull() {
                 this[this.tableTPRL.FreightChargeInWordsColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsNoRecordsNull() {
+                return this.IsNull(this.tableTPRL.NoRecordsColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetNoRecordsNull() {
+                this[this.tableTPRL.NoRecordsColumn] = global::System.Convert.DBNull;
             }
         }
         

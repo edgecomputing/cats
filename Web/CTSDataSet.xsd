@@ -718,6 +718,7 @@ WHERE        (Procurement.TransportOrder.StatusID &gt;= 3) AND (Procurement.Tran
               <xs:element name="ShortageQuantity" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnShortageQuantity" msprop:Generator_ColumnPropNameInRow="ShortageQuantity" msprop:Generator_ColumnPropNameInTable="ShortageQuantityColumn" msprop:Generator_UserColumnName="ShortageQuantity" type="xs:decimal" minOccurs="0" />
               <xs:element name="ShortageBirrInWords" msprop:Generator_ColumnVarNameInTable="columnShortageBirrInWords" msprop:Generator_ColumnPropNameInRow="ShortageBirrInWords" msprop:Generator_ColumnPropNameInTable="ShortageBirrInWordsColumn" msprop:Generator_UserColumnName="ShortageBirrInWords" type="xs:string" minOccurs="0" />
               <xs:element name="FreightChargeInWords" msprop:Generator_ColumnVarNameInTable="columnFreightChargeInWords" msprop:Generator_ColumnPropNameInRow="FreightChargeInWords" msprop:Generator_ColumnPropNameInTable="FreightChargeInWordsColumn" msprop:Generator_UserColumnName="FreightChargeInWords" type="xs:string" minOccurs="0" />
+              <xs:element name="NoRecords" msprop:Generator_ColumnVarNameInTable="columnNoRecords" msprop:Generator_ColumnPropNameInRow="NoRecords" msprop:Generator_ColumnPropNameInTable="NoRecordsColumn" msprop:Generator_UserColumnName="NoRecords" type="xs:string" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>
