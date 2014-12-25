@@ -15,7 +15,7 @@
           .Columns(columns =>
                        {
                            columns.Bound(p => p.LetterTemplateID).Title(Html.Translate("Select a template"))
-                               .ClientTemplate("<a href='" + Url.Action("ShowTemplate", "GiftCertificate", new { fileName = "#=FileName#", giftCertificateId = int.Parse(ViewData["giftcertficateId"].ToString()) }) + " '>"+@Html.Translate("Select")+"=</a>  ");
+                               .ClientTemplate("<a href='" + Url.Action("ShowTemplate", "GiftCertificate", new { fileName = "#=FileName#", giftCertificateId = int.Parse(ViewData["giftcertficateId"].ToString()) }) + " '>"+@Html.Translate("Select")+"</a>  ");
                            columns.Bound(p => p.Name).Title(@Html.Translate("Name"));
                            columns.Bound(p => p.FileName).Title(@Html.Translate("File Name")); 
 

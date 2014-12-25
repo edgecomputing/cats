@@ -8,6 +8,7 @@ using Cats.Areas.Procurement.Models;
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
+using log4net;
 
 namespace Cats.Documents
 {
@@ -20,6 +21,9 @@ namespace Cats.Documents
             public string Exception;
             public string ResultPath;
         }
+
+
+        private ILog _log;
 
         private string templateFolder = ConfigurationManager.AppSettings["templateFolder"];
         private string destinationFolder = ConfigurationManager.AppSettings["destinationFolder"];
@@ -39,12 +43,13 @@ namespace Cats.Documents
         /// <param name="values">Key value pair containing items to be replaced in the document</param>
         /// <param name="transactionDetailsList"> </param>
       
-        public DocumentGenerator(string templateFileName, string targetPath, Dictionary<string, string> values, List<TransactionDetail> transactionDetailsList)
+        public DocumentGenerator(string templateFileName, string targetPath, Dictionary<string, string> values, List<TransactionDetail> transactionDetailsList, ILog log)
         {
             _templateFileName = templateFileName;
             _targetFileName = targetPath;
             _values = values;
             _transactionDetailsList = transactionDetailsList;
+            _log = log;
         }
 
         /// <summary>
@@ -81,7 +86,8 @@ namespace Cats.Documents
             }
             catch (Exception ex)
             {
-                System.IO.File.AppendAllText(@"c:\temp\errors.txt", "In DocumentGeneration::convertTemplate():   " + ex.Message.ToString(CultureInfo.InvariantCulture));
+                _log.Error(ex.Message.ToString(CultureInfo.InvariantCulture),ex.GetBaseException());
+                //System.IO.File.AppendAllText(@"c:\temp\errors.txt", "In DocumentGeneration::convertTemplate():   " + ex.Message.ToString(CultureInfo.InvariantCulture));
                 return new TemplateGenerationResult { Value = false, Exception = "DocumentGeneration::convertTemplate() - " + ex.ToString() };
             }
         }
@@ -97,7 +103,8 @@ namespace Cats.Documents
                 // Don't continue if the template file name is not found
                 if (!File.Exists(_templateFileName))
                 {
-                   // System.IO.File.AppendAllText(@"c:\temp\errors.txt","In GenerateDocument:   " +  _templateFileName);
+                    _log.Error("TemplateFileName (" + _templateFileName + ") does not exist");
+                    //System.IO.File.AppendAllText(@"c:\temp\errors.txt","In GenerateDocument:   " +  _templateFileName);
                     throw new Exception(message: "TemplateFileName (" + _templateFileName + ") does not exist");
                   
                 }
@@ -365,7 +372,8 @@ namespace Cats.Documents
             }
             catch (Exception ex)
             {
-               // System.IO.File.AppendAllText(@"c:\temp\errors.txt", "In DocumentGeneration::generateDocument():   " + ex.Message.ToString(CultureInfo.InvariantCulture));
+                _log.Error(ex.Message.ToString(CultureInfo.InvariantCulture), ex.GetBaseException());
+                //System.IO.File.AppendAllText(@"c:\temp\errors.txt", "In DocumentGeneration::generateDocument():   " + ex.Message.ToString(CultureInfo.InvariantCulture));
                 return new TemplateGenerationResult { Value = false, Exception = "DocumentGeneration::generateDocument() - " + ex.ToString() };
             }
         }

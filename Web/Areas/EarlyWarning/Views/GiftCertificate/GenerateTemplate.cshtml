@@ -6,37 +6,37 @@
     <div class="modal-content">
       
         <div class="modal-header">
-          <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
-          <h4 id="myModalLabel" class="modal-title">@Html.Translate("Generate Template")</h4>
+            <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+            <h4 id="myModalLabel" class="modal-title">@Html.Translate("Generate Template")</h4>
         </div>
 
 
-@using (Html.BeginForm("GenerateTemplate", "GiftCertificate", FormMethod.Post, new { name = "frmHub", id = "frmHub" }))
-{
-    
-    <div class="well form-horizontal">
-        <div class="control-group">
-            <div class="control-label">
-                @Html.Translate("Reference No:")
-            </div>
-            <div class="controls">
-                @Html.TextBox("RefNo")
+        @using (Html.BeginForm("GenerateTemplate", "GiftCertificate", FormMethod.Post, new { name = "frmHub", id = "frmHub" }))
+        {
+
+            <div class="well form-horizontal">
+                <div class="control-group">
+                    <div class="control-label">
+                        @Html.Translate("Reference No:")
+                    </div>
+                    <div class="controls">
+                        @Html.TextBox("RefNo")
             
-            </div>
+                    </div>
         
-        </div>
-        <div class="control-group">      
-            <div class="controls">
-                <input type="submit" value=@Html.Translate("Create Template") class="btn btn-success" />
+                </div>
+                <div class="control-group">      
+                    <div class="controls">
+                        <input type="submit" value=@Html.Translate("Create Template") class="btn btn-success" />
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
-      <div class="modal-footer">
+            <div class="modal-footer">
                 <button class="btn btn-primary" type="submit">@Html.Translate("Yes")</button>
                 <button class="btn" data-dismiss="modal" aria-hidden="true">@Html.Translate("No")</button>
             </div>
-    }
-}
-
-            </div>
+        }
+        
+        
+    </div>
 </div>

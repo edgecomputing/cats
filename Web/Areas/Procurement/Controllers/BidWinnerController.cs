@@ -318,7 +318,7 @@ namespace Cats.Areas.Procurement.Controllers
         {
             // TODO: Make sure to use DI to get the template generator instance
 
-            var template = new TemplateHelper(_unitofwork);
+            var template = new TemplateHelper(_unitofwork,_log);
             var filePath = template.GenerateTemplate(transporterID, 7, "FrameworkPurchaseContract"); //here you have to send the name of the tempalte and the id of the TransporterID
 
             var bidID = new int();

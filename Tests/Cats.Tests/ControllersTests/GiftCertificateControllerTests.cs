@@ -17,6 +17,8 @@ using Cats.Services.Transaction;
 using Moq;
 using NUnit.Framework;
 using Cats.Data.UnitWork;
+using log4net;
+
 namespace Cats.Tests.ControllersTests
 {
     [TestFixture]
@@ -106,6 +108,8 @@ namespace Cats.Tests.ControllersTests
             controllerContext.Setup(t => t.HttpContext).Returns(fakeContext.Object);
 
             UnitOfWork _unitOfWork = new UnitOfWork();
+            var log = new Mock<ILog>();
+
             var shippingInstruction = new List<ShippingInstruction> 
                 {
                     new ShippingInstruction { ShippingInstructionID = 1, Value = "40401/32664.23"},
@@ -115,7 +119,7 @@ namespace Cats.Tests.ControllersTests
             shippingInstructionService.Setup(m => m.GetAllShippingInstruction()).Returns(shippingInstruction);
 
             _giftCertificateController = new GiftCertificateController(giftCertificateService.Object, giftCertificateDetailService.Object, commonService.Object,
-                                         transactionService.Object, letterTemplateService.Object, _unitOfWork, userAccountService.Object,shippingInstructionService.Object);
+                                         transactionService.Object, letterTemplateService.Object, _unitOfWork, userAccountService.Object,shippingInstructionService.Object,log.Object);
             _giftCertificateController.ControllerContext = controllerContext.Object; 
         }
 

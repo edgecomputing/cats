@@ -18,6 +18,7 @@ using Cats.Helpers;
 using Cats.Data.UnitWork;
 using System.Reflection;
 using Cats.Security;
+using log4net;
 using GiftCertificateViewModel = Cats.Areas.GiftCertificate.Models.GiftCertificateViewModel;
 
 namespace Cats.Areas.EarlyWarning.Controllers
@@ -32,9 +33,10 @@ namespace Cats.Areas.EarlyWarning.Controllers
         private readonly IUnitOfWork _unitofwork;
         private readonly IUserAccountService _userAccountService;
         private readonly IShippingInstructionService _shippingInstructionService;
+        private readonly ILog _log;
         public GiftCertificateController(IGiftCertificateService giftCertificateService, IGiftCertificateDetailService giftCertificateDetailService,
                                          ICommonService commonService, ITransactionService transactionService, ILetterTemplateService letterTemplateService,
-                                         IUnitOfWork unitofwork,IUserAccountService userAccountService,IShippingInstructionService shippingInstructionService)
+                                         IUnitOfWork unitofwork,IUserAccountService userAccountService,IShippingInstructionService shippingInstructionService, ILog log)
         {
             _giftCertificateService = giftCertificateService;
             _giftCertificateDetailService = giftCertificateDetailService;
@@ -44,6 +46,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             _unitofwork = unitofwork;
             _userAccountService = userAccountService;
             _shippingInstructionService = shippingInstructionService;
+            _log = log;
         }
 
         [EarlyWarningAuthorize(operation = EarlyWarningConstants.Operation.View_Gift_Certificate_list)]
@@ -342,7 +345,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             // TODO: Make sure to use DI to get the template generator instance
            try
            {
-                var template = new TemplateHelper(_unitofwork);
+                var template = new TemplateHelper(_unitofwork,_log);
                 string filePath = template.GenerateTemplate(giftCertificateId, 1, fileName); //here you have to send the name of the tempalte and the id of the giftcertificate
                
                
@@ -351,11 +354,11 @@ namespace Cats.Areas.EarlyWarning.Controllers
                 Response.AddHeader("Content-Disposition", @"filename= " + fileName + ".docx");
                 Response.TransmitFile(filePath);
                 Response.End();
-           }catch(Exception e)
+           }catch(Exception ex)
            {
 
-
-              // System.IO.File.AppendAllText(@"c:\temp\errors.txt", " ShowTemplate : " + e.Message.ToString(CultureInfo.InvariantCulture));
+               _log.Error(ex.Message.ToString(CultureInfo.InvariantCulture), ex.GetBaseException());
+               //System.IO.File.AppendAllText(@"c:\temp\errors.txt", " ShowTemplate : " + ex.Message.ToString(CultureInfo.InvariantCulture));
            }
 
                

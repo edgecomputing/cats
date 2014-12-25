@@ -8,21 +8,26 @@ using Cats.Areas.Procurement.Models;
 using Cats.Models;
 using Cats.Data.UnitWork;
 using Cats.Documents;
+using log4net;
 
 namespace Cats.Helpers
 {
     public class TemplateHelper
     {
         private readonly IUnitOfWork _unitofwork;
-
-        public TemplateHelper(IUnitOfWork unitOfWork)
+        private readonly ILog _log;
+        public TemplateHelper(IUnitOfWork unitOfWork, ILog log)
         {
             _unitofwork = unitOfWork;
+            _log = log;
         }
-        public TemplateHelper()
+
+        public TemplateHelper(ILog log)
         {
+            _log = log;
             _unitofwork = new UnitOfWork();
         }
+
         public string GenerateTemplate(int id, int templateType, string templateName)
         {
             //string templateName = string.Empty;
@@ -32,7 +37,7 @@ namespace Cats.Helpers
             string documentPath =
                 HttpContext.Current.Server.MapPath(string.Format("~/Templates/{0}.docx", Guid.NewGuid().ToString()));
 
-            var generator = new DocumentGenerator(templatePath, documentPath, GetTemplateData(templateType, id), GetTransactionDetails(id));
+            var generator = new DocumentGenerator(templatePath, documentPath, GetTemplateData(templateType, id), GetTransactionDetails(id), _log);
 
             var result = generator.GenerateDocument();
 
@@ -48,7 +53,7 @@ namespace Cats.Helpers
             
            
 
-            var generator = new DocumentGenerator(templatePath, documentPath, GetTemplateData(templateType, id), GetTransactionDetails(id));
+            var generator = new DocumentGenerator(templatePath, documentPath, GetTemplateData(templateType, id), GetTransactionDetails(id),_log);
 
             var result = generator.GenerateDocument();
 
