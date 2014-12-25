@@ -11,7 +11,7 @@
 @section Toolbar
 {
     <div class="btn-group" style="right: 100px">
-        <a class="btn btn-default" href="@Url.Action("PrintLetter", "TransporterPaymentRequest", new { Area = "Logistics", id = ViewBag.TransportOrderViewModel.TransporterID })" >@Html.Translate("Print Letter")</a>
+        <button class="btn btn-default" onclick="print_payment_request_letter()">@Html.Translate("Print Letter")</button>
         <button class="btn btn-default" onclick="print_payment_request()">@Html.Translate("Print")</button>
         <button class="btn btn-default" ng-click="AddRequests('Finance')">@Html.Translate("Submit to Finance")</button>
         <button class="btn btn-default" ng-click="AddRequests('Approve')">@Html.Translate("Approve")</button>
@@ -22,6 +22,13 @@
             var refNo = $("#filter").val();
             var programName = $("#program_filter").val();
             var urlName = "@Url.Action("PrintPaymentRequest", "TransporterPaymentRequest", new { transporterId = ViewBag.TransportOrderViewModel.TransporterID })";
+            var finalurl = urlName + "&refno=" + refNo + "&programname=" + programName;
+            window.location.href = finalurl;
+        }
+        function print_payment_request_letter() {
+            var refNo = $("#filter").val();
+            var programName = $("#program_filter").val();
+            var urlName = "@Url.Action("PrintLetter", "TransporterPaymentRequest", new { transporterId = ViewBag.TransportOrderViewModel.TransporterID })";
             var finalurl = urlName + "&refno=" + refNo + "&programname=" + programName;
             window.location.href = finalurl;
         }

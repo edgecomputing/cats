@@ -506,36 +506,55 @@ namespace Cats.Areas.Logistics.Controllers
             return File(result.RenderBytes, result.MimeType);
         }
 
-        public ActionResult PrintLetter(int id = 0)
+        public ActionResult PrintLetter(int transporterId, string refno = "", string programname = "All")
         {
             var reportPath = Server.MapPath("~/Report/Finance/TransportPaymentRequestLetter.rdlc");
-            var reportData = PaymentRequestForPrint(id);
+            var reportData = PaymentRequestForPrint(transporterId, refno, programname);
             var dataSourceName = "TPRL";
             var result = ReportHelper.PrintReport(reportPath, reportData, dataSourceName);
             return File(result.RenderBytes, result.MimeType);
         }
 
-        public System.Collections.IEnumerable PaymentRequestForPrint(int transporterId)
+        public System.Collections.IEnumerable PaymentRequestForPrint(int transporterId, string refno = "", string programname = "All")
         {
-            var list = (IEnumerable<Cats.Models.TransporterPaymentRequest>)_transporterPaymentRequestService
-                        .Get(t => t.BusinessProcess.CurrentState.BaseStateTemplate.StateNo < 2, null, "BusinessProcess")
-                        .OrderByDescending(t => t.TransporterPaymentRequestID);
-            var transporterPaymentRequests = TransporterPaymentRequestViewModelBinder(list.ToList()).Where(t => t.BusinessProcess.CurrentState.BaseStateTemplate.Name == "Request Verified");
+            //var list = (IEnumerable<Cats.Models.TransporterPaymentRequest>)_transporterPaymentRequestService
+            //            .Get(t => t.BusinessProcess.CurrentState.BaseStateTemplate.StateNo < 2, null, "BusinessProcess")
+            //            .OrderByDescending(t => t.TransporterPaymentRequestID);
+            //var transporterPaymentRequests = TransporterPaymentRequestViewModelBinder(list.ToList()).Where(t => t.BusinessProcess.CurrentState.BaseStateTemplate.Name == "Request Verified");
 
-            var requests = transporterPaymentRequests.GroupBy(ac => new { ac.Transporter.Name, ac.Commodity, ac.Source }).Select(ac => new
+            var paymentRequests = _transporterPaymentRequestService
+                .Get(t => t.TransportOrder.TransporterID == transporterId
+                          && t.BusinessProcess.CurrentState.BaseStateTemplate.StateNo < 2, null,
+                     "Delivery,Delivery.DeliveryDetails,TransportOrder").ToList();
+            List<TransporterPaymentRequestViewModel> tpr;
+            if (refno == "" && programname == "All")
+            {
+                tpr = TransporterPaymentRequestViewModelBinder(paymentRequests);
+            }
+            else
+            {
+                tpr = (programname == "All") ? TransporterPaymentRequestViewModelBinder(paymentRequests).Where(t => t.ReferenceNo.Contains(refno)).ToList() : TransporterPaymentRequestViewModelBinder(paymentRequests).Where(t => t.ReferenceNo.Contains(refno) && t.Program.Name == programname).ToList();
+            }
+            var noRecords = tpr.Count(t => t.BusinessProcess.CurrentState.BaseStateTemplate.Name == "Request Verified");
+
+            var transporterPaymentRequests = tpr.Where(t => t.BusinessProcess.CurrentState.BaseStateTemplate.Name == "Request Verified");
+
+            var requests = transporterPaymentRequests.GroupBy(ac => new { ac.Transporter.Name,  ac.Source }).Select(ac => new
             {
                 TransporterName = ac.Key.Name,
                 TransporterId = ac.FirstOrDefault().Transporter.TransporterID,
-                CommodityName = ac.Key.Commodity,
+                //CommodityName = ac.Key.Commodity,
                 SourceName = ac.Key.Source,
                 ReceivedQuantity = ac.Sum(s => s.ReceivedQty),
                 ShortageQuantity = ac.Sum(s => s.ShortageQty),
                 ShortageBirr = ac.Sum(s => s.ShortageBirr),
                 FreightCharge = ac.Sum(s => s.FreightCharge),
                 ShortageBirrInWords = ac.Sum(s => s.ShortageBirr).ToNumWordsWrapper(),
-                FreightChargeInWords = ac.Sum(s => s.FreightCharge).ToNumWordsWrapper()
+                FreightChargeInWords = Math.Round(ac.Sum(s => s.FreightCharge),2).ToNumWordsWrapper(),
+                NoRecords = noRecords
             });
-            return requests.Where(m => m.TransporterId == transporterId).ToArray();
+            var req = requests.Where(m => m.TransporterId == transporterId).ToArray();
+            return req;
         }
     }
 }

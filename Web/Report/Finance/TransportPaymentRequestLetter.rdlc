@@ -302,7 +302,7 @@
           </TablixColumns>
           <TablixRows>
             <TablixRow>
-              <Height>0.23611in</Height>
+              <Height>0.40278in</Height>
               <TablixCells>
                 <TablixCell>
                   <CellContents>
@@ -374,9 +374,9 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>TPRL</DataSetName>
-        <Top>1.07158in</Top>
+        <Top>1.32158in</Top>
         <Left>0.06572in</Left>
-        <Height>0.23611in</Height>
+        <Height>0.40278in</Height>
         <Width>7.25016in</Width>
         <ZIndex>1</ZIndex>
         <Style>
@@ -563,7 +563,7 @@
                               </Style>
                             </TextRun>
                             <TextRun>
-                              <Value>=Fields!ShorageBirrInWords.Value</Value>
+                              <Value>=Fields!ShortageBirrInWords.Value</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>12pt</FontSize>
@@ -572,33 +572,7 @@
                               </Style>
                             </TextRun>
                             <TextRun>
-                              <Value> )/ ተቀንሶ</Value>
-                              <Style>
-                                <FontFamily>Nyala</FontFamily>
-                                <FontSize>12pt</FontSize>
-                                <FontWeight>Bold</FontWeight>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style />
-                        </Paragraph>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value />
-                              <Style>
-                                <FontFamily>Nyala</FontFamily>
-                                <FontSize>12pt</FontSize>
-                                <FontWeight>Bold</FontWeight>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style />
-                        </Paragraph>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>የተጣራ ብር  </Value>
+                              <Value> )/ ተቀንሶ የተጣራ ብር  </Value>
                               <Style>
                                 <FontFamily>Nyala</FontFamily>
                                 <FontSize>12pt</FontSize>
@@ -633,33 +607,7 @@
                               </Style>
                             </TextRun>
                             <TextRun>
-                              <Value> ) እንዲከፈለው እያሳሰብን የበኩላችሁን </Value>
-                              <Style>
-                                <FontFamily>Nyala</FontFamily>
-                                <FontSize>12pt</FontSize>
-                                <FontWeight>Bold</FontWeight>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style />
-                        </Paragraph>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value />
-                              <Style>
-                                <FontFamily>Nyala</FontFamily>
-                                <FontSize>12pt</FontSize>
-                                <FontWeight>Bold</FontWeight>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style />
-                        </Paragraph>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>አጣርታችሁ  ክፍያውን እንድትፈ</Value>
+                              <Value> ) እንዲከፈለው እያሳሰብን የበኩላችሁን አጣርታችሁ  ክፍያውን እንድትፈ</Value>
                               <Style>
                                 <FontFamily>Nyala</FontFamily>
                                 <FontSize>12pt</FontSize>
@@ -678,7 +626,27 @@
                               </Style>
                             </TextRun>
                             <TextRun>
-                              <Value> ________ </Value>
+                              <Value xml:space="preserve"> </Value>
+                              <Style>
+                                <FontStyle>Normal</FontStyle>
+                                <FontFamily>Nyala</FontFamily>
+                                <FontSize>12pt</FontSize>
+                                <FontWeight>Normal</FontWeight>
+                                <TextDecoration>None</TextDecoration>
+                                <Color>#000000</Color>
+                              </Style>
+                            </TextRun>
+                            <TextRun>
+                              <Value>=Fields!NoRecords.Value</Value>
+                              <Style>
+                                <FontFamily>Tahoma</FontFamily>
+                                <FontSize>12pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                                <TextDecoration>None</TextDecoration>
+                              </Style>
+                            </TextRun>
+                            <TextRun>
+                              <Value xml:space="preserve"> </Value>
                               <Style>
                                 <FontStyle>Normal</FontStyle>
                                 <FontFamily>Nyala</FontFamily>
@@ -727,7 +695,9 @@
                               </Style>
                             </TextRun>
                           </TextRuns>
-                          <Style />
+                          <Style>
+                            <TextAlign>Left</TextAlign>
+                          </Style>
                         </Paragraph>
                         <Paragraph>
                           <TextRuns>
@@ -971,7 +941,7 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>TPRL</DataSetName>
-        <Top>1.57372in</Top>
+        <Top>1.94872in</Top>
         <Left>0.06572in</Left>
         <Height>2.36805in</Height>
         <Width>7.48625in</Width>
@@ -983,7 +953,7 @@
         </Style>
       </Tablix>
     </ReportItems>
-    <Height>3.99386in</Height>
+    <Height>4.78553in</Height>
     <Style />
   </Body>
   <Width>7.55197in</Width>
@@ -1131,7 +1101,7 @@
             <Paragraph>
               <TextRuns>
                 <TextRun>
-                  <Value>=Globals!ReportName</Value>
+                  <Value>Transporter Payment Request Report</Value>
                   <Style>
                     <FontFamily>Verdana</FontFamily>
                     <FontSize>8pt</FontSize>
@@ -1285,7 +1255,6 @@
     </PageFooter>
     <PageHeight>11.69in</PageHeight>
     <PageWidth>8.27in</PageWidth>
-    <BottomMargin>1in</BottomMargin>
     <Style />
   </Page>
   <AutoRefresh>0</AutoRefresh>
@@ -1333,12 +1302,16 @@
           <DataField>ShortageQuantity</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
-        <Field Name="ShorageBirrInWords">
-          <DataField>ShorageBirrInWords</DataField>
+        <Field Name="ShortageBirrInWords">
+          <DataField>ShortageBirrInWords</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="FreightChargeInWords">
           <DataField>FreightChargeInWords</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="NoRecords">
+          <DataField>NoRecords</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
       </Fields>

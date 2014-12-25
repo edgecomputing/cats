@@ -357,8 +357,10 @@ namespace Cats.Areas.EarlyWarning.Controllers
            }catch(Exception ex)
            {
 
+
                _log.Error(ex.Message.ToString(CultureInfo.InvariantCulture), ex.GetBaseException());
                //System.IO.File.AppendAllText(@"c:\temp\errors.txt", " ShowTemplate : " + ex.Message.ToString(CultureInfo.InvariantCulture));
+
            }
 
                

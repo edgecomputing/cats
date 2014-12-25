@@ -103,8 +103,10 @@ namespace Cats.Documents
                 // Don't continue if the template file name is not found
                 if (!File.Exists(_templateFileName))
                 {
+
                     _log.Error("TemplateFileName (" + _templateFileName + ") does not exist");
                     //System.IO.File.AppendAllText(@"c:\temp\errors.txt","In GenerateDocument:   " +  _templateFileName);
+
                     throw new Exception(message: "TemplateFileName (" + _templateFileName + ") does not exist");
                   
                 }
@@ -372,8 +374,10 @@ namespace Cats.Documents
             }
             catch (Exception ex)
             {
+
                 _log.Error(ex.Message.ToString(CultureInfo.InvariantCulture), ex.GetBaseException());
                 //System.IO.File.AppendAllText(@"c:\temp\errors.txt", "In DocumentGeneration::generateDocument():   " + ex.Message.ToString(CultureInfo.InvariantCulture));
+
                 return new TemplateGenerationResult { Value = false, Exception = "DocumentGeneration::generateDocument() - " + ex.ToString() };
             }
         }
