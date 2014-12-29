@@ -183,6 +183,7 @@ namespace Cats.Services.Hub
 
         List<DispatchViewModel> GetTransportOrderDispatches(int transportOrderId);
         List<DispatchViewModel> GetAllTransportersWithoutGrn();
+        List<int?> GetDispatchedTransportOrders();
     }
 }
 
