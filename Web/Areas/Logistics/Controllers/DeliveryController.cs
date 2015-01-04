@@ -173,6 +173,7 @@ namespace Cats.Areas.Logistics.Controllers
             }
             else
             {
+                deliveryViewModel.RefNo = _transporterPaymentRequestService.Get().OrderByDescending(d => d.TransporterPaymentRequestID).Select(s => s.ReferenceNo).FirstOrDefault();
                 var dispatchObj = _dispatchService.FindBy(t => t.DispatchID == id).FirstOrDefault();
                 if (dispatchObj != null)
                 {
@@ -198,6 +199,7 @@ namespace Cats.Areas.Logistics.Controllers
             var firstOrDefault = _dispatchService.FindBy(t => t.DispatchID == id).FirstOrDefault();
             if (firstOrDefault != null)
                 deliveryViewModel.InvoiceNo = firstOrDefault.GIN;
+            
             return Json(deliveryViewModel, JsonRequestBehavior.AllowGet);
         }
         private GRNViewModel BindDeliveryViewModel(Delivery delivery)
@@ -345,7 +347,8 @@ namespace Cats.Areas.Logistics.Controllers
             if (originaldelivery != null)
             {
                 newdelivery = _deliveryService.FindBy(t => t.DeliveryID == originaldelivery.DeliveryID).FirstOrDefault();
-                TransporterPaymentRequest newTransportPaymentRequest = _transporterPaymentRequestService.FindBy(t => t.GIN == delivery.InvoiceNo).FirstOrDefault();
+                TransporterPaymentRequest newTransportPaymentRequest = null;
+                newTransportPaymentRequest = _transporterPaymentRequestService.FindBy(t => t.GIN == delivery.InvoiceNo).FirstOrDefault();
                
 
                 if (newdelivery != null)
