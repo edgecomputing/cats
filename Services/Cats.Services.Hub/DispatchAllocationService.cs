@@ -835,6 +835,16 @@ namespace Cats.Services.Hub
             }
             return dispatchViewModels;
         }
+      public  List<int?> GetDispatchedTransportOrders()
+        {
+
+            var dispatchAllocationIDs = _unitOfWork.DispatchRepository.GetAll().Select(m => m.DispatchAllocationID).ToList();
+           
+            var transportOrderID =
+                _unitOfWork.DispatchAllocationRepository.FindBy(
+                    m => dispatchAllocationIDs.Contains(m.DispatchAllocationID)).Select(m => m.TransportOrderID);
+          return transportOrderID.ToList();
+        }
     }
 }
 

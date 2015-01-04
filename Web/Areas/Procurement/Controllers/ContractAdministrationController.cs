@@ -91,9 +91,12 @@ namespace Cats.Areas.Procurement.Controllers
             }
             else
             {
+
+                var dispatchedTransportOrders = _dispatchAllocationService.GetDispatchedTransportOrders();
+
                 activeTOs =
                     _transportOrderService.Get(
-                        t =>
+                        t =>dispatchedTransportOrders.Contains(t.TransportOrderID) &&
                         t.StatusID >= 3 && t.TransporterID == transporterID &&
                         t.TransportOrderDetails.FirstOrDefault().FDP.AdminUnit.AdminUnit2.AdminUnit2.AdminUnitID ==
                         regionId).Where(t => t.TransportOrderNo.ToUpperInvariant().Contains(transporterOrderNo.ToUpperInvariant())).
