@@ -29,6 +29,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         private readonly ILog _log;
         private readonly IPlanService _planService;
         private readonly ICommonService _commonService;
+        private IUserAccountService _userAccountService;
        
 
 
@@ -39,7 +40,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                                         ISeasonService seasonService, ITypeOfNeedAssessmentService typeOfNeedAssessmentService,
                                         ILog log, 
                                         IPlanService planService,
-                                        ICommonService commonService)
+                                        ICommonService commonService,IUserAccountService userAccountService)
         {
             _needAssessmentService = needAssessmentService;
             _adminUnitService = adminUnitService;
@@ -50,6 +51,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             _log = log;
             _planService = planService;
             _commonService = commonService;
+            _userAccountService = userAccountService;
         }
 
         //
@@ -100,7 +102,15 @@ namespace Cats.Areas.EarlyWarning.Controllers
        
         public ActionResult CreateNeedAssessment()
         {
-            ViewBag.Regions = new SelectList(_adminUnitService.FindBy(t => t.AdminUnitTypeID == 2), "AdminUnitID", "Name");
+            var userRegionID = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).RegionID;
+            if (userRegionID != null)
+            {
+                ViewBag.Regions = new SelectList(_adminUnitService.FindBy(t => t.AdminUnitID == userRegionID), "AdminUnitID", "Name");
+            }
+            else
+            {
+                ViewBag.Regions = new SelectList(_adminUnitService.FindBy(t => t.AdminUnitTypeID == 2), "AdminUnitID", "Name");
+            }
             ViewBag.Season = new SelectList(_seasonService.GetAllSeason(), "SeasonID", "Name");
             ViewBag.TypeOfNeed = new SelectList(_typeOfNeedAssessmentService.GetAllTypeOfNeedAssessment(), "TypeOfNeedAssessmentID", "TypeOfNeedAssessment1");
             ViewBag.PlanID = new SelectList(_planService.GetAllPlan(), "PlanID", "PlanName");
