@@ -23,7 +23,7 @@
                     <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu">
-                    <li><a href="#" data-ng-click="loadCollectiveChequeInfo()"> @Html.Translate("Generate Cheque")</a></li>
+                    <li><a href="#" data-ng-click="loadCollectiveChequeInfo(@ViewBag.TransportOrderViewModel.TransporterID)"> @Html.Translate("Generate Cheque")</a></li>
                     <li>@*<a href="@Url.Action("Print", "Home", new { Area = "Finance", id = ViewBag.TransportOrderViewModel.TransporterID })" >Print Transporter Payment Request Letter</a>*@</li>
                 </ul>
             }
@@ -678,10 +678,11 @@
                     //alert("LabourCost: " + $scope.SelectedLabourInfo.LabourCost);
                 };
                 
-                $scope.loadCollectiveChequeInfo = function () {
+                $scope.loadCollectiveChequeInfo = function (id) {
                     //$("#" + dispatchId).addClass("selected");
                     //alert(paymentRequestId);
-                    $http.post(rootDir + 'ValidatedPaymentRequest/LoadCheque/').
+                    var transporterId = { "transporterId": id };
+                    $http.post(rootDir + 'ValidatedPaymentRequest/LoadCheque/', transporterId).
                         success(function (data, status, headers, config) {
                             //alert(data["ReceivedBy"]);
                             $scope.SelectedCheckInfo = data;
