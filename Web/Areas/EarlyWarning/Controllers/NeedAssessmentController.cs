@@ -339,7 +339,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                 }
             }
             var needAssesmentsViewModel = NeedAssessmentViewModelBinder.ReturnNeedAssessmentDetailViewModel(result);
-            return Json(needAssesmentsViewModel.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+            return Json(new[] { needAssessmentlDetails }.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
             //return Json(needAssessmentlDetails.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
            // return Json(ModelState.ToDataSourceResult());
         }
