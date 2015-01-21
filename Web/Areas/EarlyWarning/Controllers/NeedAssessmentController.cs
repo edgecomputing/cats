@@ -29,7 +29,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         private readonly ILog _log;
         private readonly IPlanService _planService;
         private readonly ICommonService _commonService;
-        private IUserAccountService _userAccountService;
+        private readonly IUserAccountService _userAccountService;
        
 
 

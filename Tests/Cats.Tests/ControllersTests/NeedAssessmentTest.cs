@@ -5,8 +5,10 @@ using System.Linq.Expressions;
 using Cats.Areas.EarlyWarning.Controllers;
 using Cats.Models;
 using Cats.Models.Constant;
+using Cats.Models.Security;
 using Cats.Services.Common;
 using Cats.Services.EarlyWarning;
+using Cats.Services.Security;
 using Kendo.Mvc.UI;
 using NUnit.Framework;
 using Moq;
@@ -260,6 +262,12 @@ NeedAssessmentHeader=new NeedAssessmentHeader(){AdminUnit=new AdminUnit(){Name="
                       It.IsAny<string>())).Returns(adminUnit);
             commonService.Setup(t => t.GetStatus(It.IsAny<WORKFLOW>())).Returns(_status);
 
+            var userAccountService = new Mock<IUserAccountService>();
+            userAccountService.Setup(t => t.GetUserInfo(It.IsAny<string>())).Returns(new UserInfo
+            {
+                UserName = "user",
+                DatePreference = "en"
+            });
 
             _needAssessmentController=new NeedAssessmentController(needAssessmentService.Object,
                                                                     adminUnitService.Object,

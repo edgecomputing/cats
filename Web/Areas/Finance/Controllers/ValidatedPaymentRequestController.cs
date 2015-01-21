@@ -325,18 +325,23 @@ namespace Cats.Areas.Finance.Controllers
             return RedirectToAction("PaymentRequests", "ValidatedPaymentRequest", new { Area = "Finance", transporterID = paymentRequestObj.TransportOrder.TransporterID });
         }
 
-        public ActionResult LoadCheque()
+        public ActionResult LoadCheque(int transporterId)
         {
             var user = UserAccountHelper.GetUser(User.Identity.Name);
-            var approvedPaymentRequests = _transporterPaymentRequestService.Get(t => t.BusinessProcess.CurrentState.BaseStateTemplate.StateNo == 3);
+            var approvedPaymentRequests = _transporterPaymentRequestService.Get(t => t.BusinessProcess.CurrentState.BaseStateTemplate.StateNo == 3 && t.TransportOrder.TransporterID == transporterId);
+            
             //var transporterChequeObj = _transporterChequeService.Get(t => t.TransporterPaymentRequestID == paymentRequestID, null, "UserProfile").FirstOrDefault();
             var transporterChequeViewModel = new Models.TransporterChequeViewModel();
             foreach (var approvedPaymentRequest in approvedPaymentRequests)
             {
                 var request = approvedPaymentRequest;
                 var dispatch = _dispatchService.Get(t => t.DispatchID == request.Delivery.DispatchID, null, "Hub, FDP").FirstOrDefault();
-                var firstOrDefault = _bidWinnerService.Get(t => t.SourceID == dispatch.HubID && t.DestinationID == dispatch.FDPID
-                    && t.TransporterID == request.TransportOrder.TransporterID && t.Bid.BidNumber == dispatch.BidNumber).FirstOrDefault();
+                var bidId = _bidWinnerService.FindBy(b => b.Bid.BidNumber == dispatch.BidNumber).Select(d=>d.BidID).FirstOrDefault();
+
+                var firstOrDefault = _transportOrderDetailService.Get(t => t.SourceWarehouseID == dispatch.HubID && t.FdpID == dispatch.FDPID
+                   && t.TransportOrder.TransporterID == request.TransportOrder.TransporterID && t.BidID == bidId).FirstOrDefault();
+                //var firstOrDefault = _bidWinnerService.Get(t => t.SourceID == dispatch.HubID && t.DestinationID == dispatch.FDPID
+                //    && t.TransporterID == request.TransportOrder.TransporterID && t.Bid.BidNumber == dispatch.BidNumber).FirstOrDefault();
                 var tarrif = (decimal)0.00;
                 var deliveryDetail = request.Delivery.DeliveryDetails.FirstOrDefault() ?? new DeliveryDetail();
                 if (request.LabourCost == null)
@@ -345,17 +350,17 @@ namespace Cats.Areas.Finance.Controllers
                     request.RejectedAmount = (decimal)0.00;
                 if (firstOrDefault != null)
                 {
-                    tarrif = firstOrDefault.Tariff != null ? (decimal)firstOrDefault.Tariff : (decimal)0.00;
+                    tarrif = (decimal)firstOrDefault.TariffPerQtl;
                 }
                 transporterChequeViewModel.Transporter = request.TransportOrder.Transporter.Name;
                 transporterChequeViewModel.PaymentRequestsList = transporterChequeViewModel.PaymentRequestsList + " [" + approvedPaymentRequest.ReferenceNo + "] ";
                 transporterChequeViewModel.Amount = transporterChequeViewModel.Amount +
                                                     (decimal)
                                                     (approvedPaymentRequest.ShortageBirr != null
-                                                         ? (deliveryDetail.ReceivedQuantity*tarrif)
+                                                         ? (deliveryDetail.ReceivedQuantity.ToQuintal()*tarrif)
                                                            - approvedPaymentRequest.ShortageBirr + approvedPaymentRequest.LabourCost -
                                                            approvedPaymentRequest.RejectedAmount
-                                                         : (deliveryDetail.ReceivedQuantity*tarrif) +
+                                                         : (deliveryDetail.ReceivedQuantity.ToQuintal()*tarrif) +
                                                            approvedPaymentRequest.LabourCost - approvedPaymentRequest.RejectedAmount);
             }
             transporterChequeViewModel.PreparedByID = user.UserProfileID;
