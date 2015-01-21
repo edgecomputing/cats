@@ -501,7 +501,7 @@
                                     <ul class="dropdown-menu">
                                         @foreach (FlowTemplate actions in state.InitialStateFlowTemplates)
                                         {
-                                            <li class="edit_button"><a href="javascript:promot_workflow(@item.BusinessProcessID ,@actions.FinalStateID,'@actions.Name',@item.TransporterPaymentRequestID)" title="@actions.Name">@Html.Translate("@actions.Name")</a></li>
+                                            <li class="edit_button"><a href="javascript:promot_workflow(@item.BusinessProcessID ,@actions.FinalStateID,'@actions.Name',@item.TransporterPaymentRequestID)" title="@actions.Name">@Html.Translate(@actions.Name)</a></li>
                                         }
                                         <li class="divider"></li>
                                         <li class="edit_button"><a href="javascript:workflow_history(@item.BusinessProcessID)">@Html.Translate("History")</a></li>
