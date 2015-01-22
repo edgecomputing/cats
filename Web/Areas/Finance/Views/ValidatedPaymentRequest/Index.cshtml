@@ -29,7 +29,7 @@
     .Sortable()
     .Filterable()
     .DataSource(dataSource => dataSource
-            .Ajax()
+            .Ajax().Sort(sort => sort.Add("TransporterName").Ascending())
             //.PageSize(8)
             //.Model(model => model.Id(p => p.WoredaHubID))
             .Read(read => read.Action("BidWinningTransporters_read", "ValidatedPaymentRequest"))
