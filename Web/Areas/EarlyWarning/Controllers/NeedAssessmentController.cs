@@ -29,7 +29,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         private readonly ILog _log;
         private readonly IPlanService _planService;
         private readonly ICommonService _commonService;
-        private IUserAccountService _userAccountService;
+        private readonly IUserAccountService _userAccountService;
        
 
 
@@ -52,9 +52,10 @@ namespace Cats.Areas.EarlyWarning.Controllers
             _planService = planService;
             _commonService = commonService;
             _userAccountService = userAccountService;
+            
         }
 
-        //
+      
         // GET: /EarlyWarning/NeedAssessment/
         [EarlyWarningAuthorize(operation = EarlyWarningConstants.Operation.View_Draft_Needs_Assessment)]
         public ActionResult Index(int id=0)
@@ -63,6 +64,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             ViewBag.AssessmentStatus = id;
             ViewData["zones"] = _adminUnitService.FindBy(t => t.AdminUnitTypeID == 3);
             ViewData["woredas"] = _adminUnitService.FindBy(t => t.AdminUnitTypeID == 4);
+            ViewBag.userRegionID = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).RegionID;
             //ModelState.AddModelError("Success", "Sample Error Message. Use in Your Controller: ModelState.AddModelError('Errors', 'Your Error Message.')");
             return View();
         }
@@ -124,8 +126,8 @@ namespace Cats.Areas.EarlyWarning.Controllers
            
            
              ViewBag.Error = "";
-             var region = collection["RegionID"].ToString(CultureInfo.InvariantCulture);
-             var regionID = int.Parse(region);
+             //var region = collection["RegionID"].ToString(CultureInfo.InvariantCulture);
+             //var regionID = int.Parse(region);
              int season = int.Parse(collection["SeasonID"].ToString(CultureInfo.InvariantCulture));
              int typeOfNeedID = int.Parse(collection["TypeOfNeedID"].ToString(CultureInfo.InvariantCulture));
              string planName = collection["Plan.PlanName"].ToString(CultureInfo.InvariantCulture);
@@ -147,9 +149,9 @@ namespace Cats.Areas.EarlyWarning.Controllers
                      try
                      {
                          _planService.AddPlan(planName, firstDayOfTheMonth, endDate);
-                         var plan = _planService.Get(p => p.PlanName == planName).Single();
-                         var userID = _needAssessmentHeaderService.GetUserProfileId(HttpContext.User.Identity.Name);
-                         _needAssessmentService.AddNeedAssessment(plan.PlanID, regionID, season, userID, typeOfNeedID);
+                         //var plan = _planService.Get(p => p.PlanName == planName).Single();
+                         //var userID = _needAssessmentHeaderService.GetUserProfileId(HttpContext.User.Identity.Name);
+                         //_needAssessmentService.AddNeedAssessment(plan.PlanID, regionID, season, userID, typeOfNeedID);
                          return RedirectToAction("Index");
                      }
 
@@ -337,7 +339,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
                 }
             }
             var needAssesmentsViewModel = NeedAssessmentViewModelBinder.ReturnNeedAssessmentDetailViewModel(result);
-            return Json(needAssesmentsViewModel.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+            return Json(new[] { needAssessmentlDetails }.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
             //return Json(needAssessmentlDetails.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
            // return Json(ModelState.ToDataSourceResult());
         }
@@ -364,6 +366,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         public ActionResult Detail(int id=0)
         {
             var plan = _planService.FindBy(m => m.PlanID == id).OrderByDescending(m=>m.PlanID).FirstOrDefault();
+            ViewBag.userRegionID = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).RegionID;
             ViewBag.Status = plan.Status;
             if (plan == null)
             {
@@ -373,7 +376,9 @@ namespace Cats.Areas.EarlyWarning.Controllers
         }
       public ActionResult PlannedNeedAssessmentInfo_Read([DataSourceRequest] DataSourceRequest request,int id=0)
       {
-          var needAssessment = _needAssessmentService.FindBy(m=>m.PlanID==id).OrderByDescending(m => m.NeedAID).ToList(); 
+          var regionID = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).RegionID; 
+          var needAssessment =regionID==null? _needAssessmentService.FindBy(m=>m.PlanID==id).OrderByDescending(m => m.NeedAID).ToList():
+                                              _needAssessmentService.FindBy(m => m.PlanID == id && m.Region==regionID).OrderByDescending(m => m.NeedAID).ToList(); 
           var needAssesmentsViewModel = NeedAssessmentViewModelBinder.ReturnViewModel(needAssessment);
           return Json(needAssesmentsViewModel.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
       }
@@ -381,7 +386,16 @@ namespace Cats.Areas.EarlyWarning.Controllers
      {
          var needAssessment = _needAssessmentService.FindBy(m => m.PlanID == id).FirstOrDefault();
          ViewBag.TypeOfNeed = new SelectList(_typeOfNeedAssessmentService.GetAllTypeOfNeedAssessment(), "TypeOfNeedAssessmentID", "TypeOfNeedAssessment1");
-         ViewBag.Regions = new SelectList(_adminUnitService.FindBy(t => t.AdminUnitTypeID == 2), "AdminUnitID", "Name");
+         var userRegionID = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).RegionID;
+         if (userRegionID != null)
+         {
+             ViewBag.Regions = new SelectList(_adminUnitService.FindBy(t => t.AdminUnitID == userRegionID), "AdminUnitID", "Name");
+         }
+         else
+         {
+             ViewBag.Regions = new SelectList(_adminUnitService.FindBy(t => t.AdminUnitTypeID == 2), "AdminUnitID", "Name");
+         }
+         
          ViewBag.Season = new SelectList(_seasonService.GetAllSeason(), "SeasonID", "Name");
          if (needAssessment!=null)
          {
