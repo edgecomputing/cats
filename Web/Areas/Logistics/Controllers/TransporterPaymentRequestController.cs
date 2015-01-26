@@ -400,7 +400,9 @@ namespace Cats.Areas.Logistics.Controllers
                                                                              Transporter = dispatch.Transporter,
                                                                              ChildCommodity = childCommodity,
                                                                              DispatchDate = dispatchedDate.ToCTSPreferedDateFormat(datePref),
-                                                                             DispatchedAmount = dispathedAmount
+                                                                             DispatchedAmount = dispathedAmount,
+                                                                             Checked = false
+
                                                                          };
                             transporterPaymentRequestViewModels.Add(transporterPaymentRequestViewModel);
                         }
@@ -555,6 +557,33 @@ namespace Cats.Areas.Logistics.Controllers
             });
             var req = requests.Where(m => m.TransporterId == transporterId).ToArray();
             return req;
+        }
+        public ActionResult Multiplesubmission(int actionType, int transporterID)
+        {
+            var paymentRequests=new List<TransporterPaymentRequest>();
+            var transporterPaymentRequestViewModel = new List<TransporterPaymentRequestViewModel>();
+           var status = "";
+            if (actionType ==(int)ActionType.Approve)
+            {
+                paymentRequests = _transporterPaymentRequestService.Get(t => t.TransportOrder.TransporterID == transporterID
+                                                && t.BusinessProcess.CurrentState.BaseStateTemplate.StateNo < 2, null,
+                   "Delivery,Delivery.DeliveryDetails,TransportOrder").ToList();
+                transporterPaymentRequestViewModel = TransporterPaymentRequestViewModelBinder(paymentRequests);
+                status = "Approve";
+
+            }
+            else if (actionType==(int)ActionType.Finance)
+            {
+                 paymentRequests = _transporterPaymentRequestService.Get(t => t.TransportOrder.TransporterID == transporterID
+                                                && t.BusinessProcess.CurrentState.BaseStateTemplate.StateNo < 2, null,
+                   "Delivery,Delivery.DeliveryDetails,TransportOrder").ToList();
+                  transporterPaymentRequestViewModel = TransporterPaymentRequestViewModelBinder(paymentRequests);
+                  status = "Submit to Finance";
+            }
+            ViewBag.Status = status;
+            return View(transporterPaymentRequestViewModel.ToList());
+            
+
         }
     }
 }

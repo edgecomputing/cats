@@ -1,6 +1,7 @@
 ﻿@using Cats.Areas.Logistics.Models
 @using Cats.Helpers
 @using Cats.Models
+@using Cats.Models.Constant
 @using Cats.Services.Security
 @using Kendo.Mvc.UI
 @model IEnumerable<TransporterPaymentRequestViewModel>
@@ -25,8 +26,8 @@
                 <span class="caret"></span>
             </button>
         <ul class="dropdown-menu">
-            <li><a id="btnApprove" href="@Url.Action("#", "#",new {Area="Logistics"})">@Html.Translate("Approve")</a></li>
-            <li><a id="btnSubmitToFinance" href="@Url.Action("#","#",new {Area="Logistics"})">@Html.Translate("Submit to Finance")</a></li>  
+            <li><a id="btnApprove" href="@Url.Action("Multiplesubmission", "TransporterPaymentRequest",new {actionType=(int)ActionType.Approve,transporterID=ViewBag.TransportOrderViewModel.TransporterID})">@Html.Translate("Approve")</a></li>
+            <li><a id="btnSubmitToFinance" href="@Url.Action("Multiplesubmission","TransporterPaymentRequest",new {actionType=(int)ActionType.Finance,transporterID=ViewBag.TransportOrderViewModel.TransporterID})">@Html.Translate("Submit to Finance")</a></li>  
             <li><a  onclick="print_payment_request_letter()">@Html.Translate("Print Letter")</a></li>
             <li><a  onclick="print_payment_request()">@Html.Translate("Print")</a></li> 
         </ul>
@@ -55,6 +56,45 @@
    
     var transportOrderViewModel = ViewBag.TransportOrderViewModel;
 }
+
+<script type="text/javascript">
+    $(function () {
+
+        //Optional: turn the chache off
+        $.ajaxSetup({ cache: false });
+
+        $('#btnApprove').click(function () {
+
+            // alert("");
+            $('#dialogContent').load(this.href, function () {
+                $('#dialogDiv').modal({
+                    backdrop: 'static',
+                    keyboard: true
+                }, 'show');
+                //bindForm(this);
+            });
+            return false;
+        });
+        $('#btnSubmitToFinance').click(function () {
+
+            // alert("");
+            $('#dialogContent').load(this.href, function () {
+                $('#dialogDiv').modal({
+                    backdrop: 'static',
+                    keyboard: true
+                }, 'show');
+                //bindForm(this);
+            });
+            return false;
+        });
+
+    });
+</script>
+
+<div id='dialogDiv' class='modal hide fade in' style="width: 900px;margin-right: 10px">
+    <div id='dialogContent'></div>
+</div>
+
 <html data-ng-app="PaymentRequestManagementModule">
     <head>
         <style>

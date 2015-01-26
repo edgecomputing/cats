@@ -1,0 +1,78 @@
+﻿@using Cats.Helpers
+@model List<Cats.Areas.Logistics.Models.TransporterPaymentRequestViewModel>
+@{
+    ViewBag.Title = Html.Translate("MultipleApproval");
+    
+}
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="myModalLabel">@Html.Translate("Multiple Payment Request")</h3>
+</div>
+
+@using (Html.BeginForm("Multiplesubmission", "TransporterPaymentRequest", FormMethod.Post))
+{    
+   <div style="height: 400px; overflow-y: scroll;">
+    <table  class="table table-striped table-bordered k-scrollable" >
+        
+        <thead>
+            <th>Action</th>
+            <th> No.</th>
+            <th>Ref No</th>
+            <th>Program</th>
+            <th>Requisition</th>
+            <th>Issue No</th>
+            <th>G.R.N.</th>
+            @*<th>Commodity</th>
+            <th>Source</th>
+            <th>Destination</th>
+            <th>Dispatched Amount</th>*@
+             
+        </thead>
+        <tbody>
+      @*  @{ int index = 0; }*@
+            @for (int i = 0; i < Model.Count;i++ )
+            {
+                
+                
+                
+                //var id = item.Checked;
+                 <tr>
+                     @{var sno = i + 1;}
+                     <td>@Html.CheckBox("transporterPaymentRequestViewModels[" + @i + "].Checked", 
+                                    Model[i].Checked)</td>
+                     <td>@sno</td>
+                     @Html.Hidden("transporterPaymentRequestViewModels[" + @i + "].ReferenceNo", 
+                                       Model[i].ReferenceNo, 
+                                       new { @readonly = "readonly" })
+                 @*      <td>@Html.Label(@Html.Translate("transporterPaymentRequestViewModels[" + @i + "].Program"), 
+                                      Model[i].BusinessProcessID, 
+                                      new { @readonly = "readonly" })</td>*@
+                     <td>@Html.Label(@Html.Translate("transporterPaymentRequestViewModels[" + @i + "].RequisitionNo"), 
+                                       Model[i].RequisitionNo, 
+                                       new { @readonly = "readonly" })</td>
+                     
+                     <td>@Html.Label(@Html.Translate("transporterPaymentRequestViewModels[" + @i + "].GRN"), 
+                                       Model[i].GRN, 
+                                       new { @readonly = "readonly" })</td>
+                     
+                     <td>@Html.Hidden("transporterPaymentRequestViewModels[" + @i + "].BusinessProcessID", 
+                                       Model[i].BusinessProcessID, 
+                                       new { @readonly = "readonly" })</td>
+                       </tr>
+
+            }
+        </tbody>
+        
+    </table>
+      </div>@* 
+    <tr>*@
+           @* <td colspan="3">*@
+            <div>
+                <button class="btn btn-primary"  type="submit">@ViewBag.Status</button>
+                <a class="btn btn-primary"  data-dismiss="modal" aria-hidden="true" >@Html.Translate("Cancel")</a>
+       
+            </div> 
+           @*     </td>
+        </tr>*@
+}
