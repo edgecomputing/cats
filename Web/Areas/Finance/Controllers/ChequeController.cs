@@ -93,8 +93,12 @@ namespace Cats.Areas.Finance.Controllers
         {
             ViewBag.TargetController = "Cheque";
             ViewBag.TransporterID = transporterID;
-            var transporterCheques = _transporterChequeService.Get(t=>t.TransporterChequeDetails.FirstOrDefault().TransporterPaymentRequest.TransportOrder.TransporterID == transporterID).OrderByDescending(t => t.IssueDate);
-            //var transporterChequeViewModels = BindTransporterChequeViewModel(transporterCheques);
+            //var transporterCheques = _transporterChequeService.Get(t=>t.TransporterChequeDetails.FirstOrDefault().TransporterPaymentRequest.TransportOrder.TransporterID == transporterID).OrderByDescending(t => t.IssueDate);
+            var transporterCheques =
+                _transporterChequeDetailService.Get(
+                    t => t.TransporterPaymentRequest.TransportOrder.TransporterID == transporterID).Select(
+                        c => c.TransporterCheque).Distinct();
+        
             return View(transporterCheques);
         }
 
@@ -110,7 +114,7 @@ namespace Cats.Areas.Finance.Controllers
         //    var transporterChequeViewModels = BindTransporterChequeViewModel(transporterCheques);
         //    return Json(transporterChequeViewModels.ToDataSourceResult(request));
         //}
-
+        
         public ActionResult LoadChequeOne(int id)
         {
             var transporterChequeObj = _transporterChequeService.FindById(id);

@@ -120,17 +120,18 @@ namespace Cats.Areas.Procurement.Controllers
             return RedirectToAction("TransportRequisitions");//get newly created transport requisitions
 
         }
-        public ViewResult Index(int id = 0, int woredaId = 0)
+        public ViewResult Index(int id = 0, int woredaId = 0,int transporterId=0, int zoneId=0)
         {
             ViewBag.Month = new SelectList(RequestHelper.GetMonthList(), "Id", "Name");
             ViewBag.TransportOrdrStatus = id;
             ViewBag.TransportOrderTitle = id == 0
                                               ? "Draft"
                                               : _workflowStatusService.GetStatusName(WORKFLOW.TRANSPORT_ORDER, id);
-            var allTransporters = _transportOrderService.GetTransporter();
+           var allTransporters = _transportOrderService.GetTransporter();
 
-            ViewBag.TransporterID = new SelectList(allTransporters, "TransporterID", "Name",0);
-            ViewBag.Zones = new SelectList(_transportOrderService.GetZone(), "ZoneId", "ZoneName");
+           ViewBag.TransporterID = transporterId == 0 ? new SelectList(allTransporters, "TransporterID", "Name", 0) : new SelectList(allTransporters, "TransporterID", "Name", transporterId);
+           ViewBag.Zones = zoneId == 0 ? new SelectList(_transportOrderService.GetZone(), "ZoneId", "ZoneName") : new SelectList(_transportOrderService.GetZone(), "ZoneId", "ZoneName",zoneId);
+           
             ViewBag.RegionID = new SelectList(_adminUnitService.GetRegions(), "AdminUnitID", "Name");
             var viewModel = GetRequisitionsWithoutTransporter(woredaId);
 
@@ -166,9 +167,9 @@ namespace Cats.Areas.Procurement.Controllers
             return Json(new SelectList(result.ToArray(), "AdminUnitID", "Name"), JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult LoadUnAssinedByReqNo(int id, int woredaId)
+        public ActionResult LoadUnAssinedByReqNo(int id, int woredaId,int zone,int transporter)
         {
-            return RedirectToAction("Index", new { id = id, woredaId = woredaId });
+            return RedirectToAction("Index", new { id = id, woredaId = woredaId, transporterId = transporter, zoneId = zone });
         }
         public ActionResult TransportOrder_Read([DataSourceRequest] DataSourceRequest request, int id = 0,int programId=0,int regionId = 0)
         {

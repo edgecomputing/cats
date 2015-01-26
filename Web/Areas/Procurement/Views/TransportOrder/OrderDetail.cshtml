@@ -314,17 +314,17 @@
             var entries = '<table style="margin:20px;border:1px solid #ececec;width:550px;">';
             entries += '<tr>';
             entries += '<td style="padding:0px;text-align:center;" colspan="2">';
-            entries += '"+@Html.Translate("This action might generate more than one transport order as a substitute to the changed one.")+"';
-            entries += '<h5>"+@Html.Translate("Are you really sure you want to continue?")+"</h5>';
+            entries += 'This action might generate more than one transport order as a substitute to the changed one.';
+            entries += '<h5>Are you really sure you want to continue?</h5>';
             entries += '</td>';
             entries += '</tr>';
             entries += '<tr>';
             entries += '<td style="padding:0px;text-align:center;">';
             //entries += '<a type="button" class="confirmGenerateTO" style="margin:20px;height:30px;width:200px;cursor:pointer;">I\'m sure!</a>';
-            entries += '<button id="yes" class="k-button confirmGenerateTO">"+@Html.Translate("I\'m sure!")+"</button>';
+            entries += '<button id="yes" class="k-button confirmGenerateTO">@Html.Translate("I\'m sure!")</button>';
             entries += '</td>';
             entries += '<td style="padding:0px;text-align:center;">';
-            entries += '<button id="yes" class="k-button cancelAction">"+@Html.Translate("Cancel")+"</button>';
+            entries += '<button id="yes" class="k-button cancelAction">@Html.Translate("Cancel")</button>';
             //entries += '<a type="button" class="cancelAction" style="margin:20px;height:30px;width:200px;cursor:pointer;">Cancel</a>';
             entries += '</td>';
             entries += '</tr>';
@@ -383,7 +383,7 @@
             $("#modalWindow").html("");
             $(".transChange").hide();
             $('#ContractHeader').addClass('cats_error');
-            $("#statusWindow").html(+@Html.Translate('FAILED CONTRACT: <a href="/Procurement/TransportOrder" >Click Here</a> to navigate to the new substitute contracts.'));
+            $("#statusWindow").html('FAILED CONTRACT: <a href="/Procurement/TransportOrder" >Click Here</a> to navigate to the new substitute contracts.');
             wnd.center().close();
             //window.location.replace("/Procurement/TransportOrder/Index");
         }
@@ -426,10 +426,10 @@
             entries+='<h5> @Html.Translate("Woreda")</h5>';
             entries+='</td>';
             entries+='<td style="padding:0px;text-align:center;">';
-            entries+='<h5>@Html.Translate("Position</h5>")';
+            entries+='<h5>@Html.Translate("Position")</h5>';
             entries+='</td>';
             entries+='<td style="padding:0px;text-align:center;">';
-            entries+='<h5>@Html.Translate("Transporters</h5>")';
+            entries+='<h5>@Html.Translate("Transporters")</h5>';
             entries+='</td>';
             entries+='</tr>';
             entries+='<tr>';
