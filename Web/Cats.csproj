@@ -700,6 +700,7 @@
     <Content Include="Areas\Finance\Views\Cheque\Index.cshtml" />
     <Content Include="Areas\Procurement\Views\TransportOrder\reverseTOFromClosedtoDraft.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\NeedAssessment\AddRegion.cshtml" />
+    <Content Include="Areas\Finance\Views\Home\Index.cshtml" />
     <None Include="Areas\Logistics\Views\DispatchAllocation\_AllocateProjectCode.cshtml" />
     <Content Include="Content\2013.1.219\Black\editor.png" />
     <Content Include="Content\2013.1.219\Black\imagebrowser.png" />
@@ -2434,7 +2435,6 @@
     <Content Include="Areas\Logistics\Views\Donation\View1.cshtml" />
     <Content Include="Areas\PSNP\Views\Home\Copy of Index.cshtml" />
     <Content Include="Areas\Finance\Views\Web.config" />
-    <Content Include="Areas\Finance\Views\Home\Index.cshtml" />
     <Content Include="Areas\Logistics\Views\TransporterPerformance\Index.cshtml" />
     <Content Include="Areas\Logistics\Views\PaymentRequest\Index.cshtml" />
     <Content Include="Areas\Finance\Views\ValidatedPaymentRequest\Index.cshtml" />

@@ -112,6 +112,7 @@
     }
 
     $("#TransporterID").change(function () {
+        
         var selected = $("#TransporterID").val();
         $("#SelectedTransporterID").val(selected);
     });
@@ -141,18 +142,19 @@
 
 
         var value = e;
-
+        var zone = $('#Zones').val();
+        var transporter = $("#TransporterID").val();
             
         if (value == "") {
 
             window.location = null;
-            window.location = "@Url.Action("LoadUnAssinedByReqNo", "TransportOrder")" + "?id=" + 0 + "&woredaId=" + value;
+            window.location = "@Url.Action("LoadUnAssinedByReqNo", "TransportOrder")" + "?id=" + 0 + "&woredaId=" + value + "&zone=" + zone + "&transporter=" + transporter;
 
         }
         else {
            
             window.location = null;
-            window.location = "@Url.Action("LoadUnAssinedByReqNo", "TransportOrder")" + "?id=" + 0 + "&woredaId=" + value;
+            window.location = "@Url.Action("LoadUnAssinedByReqNo", "TransportOrder")" + "?id=" + 0 + "&woredaId=" + value + "&zone=" + zone + "&transporter=" + transporter;
         }
 
     }
