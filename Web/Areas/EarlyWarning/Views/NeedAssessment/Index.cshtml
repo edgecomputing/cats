@@ -28,11 +28,11 @@ Plans
         <div class=" box box-primary ">
             <div class="box-body row">
                 <div class="text-right col-md-12">
-
+                    @if( ViewBag.userRegionID==null){
                     @Html.EarlyWarningOperationButton(
                         @Url.Action("CreateNeedAssessment", "NeedAssessment", new { Area = "EarlyWarning" }),
                         EarlyWarningConstants.Operation.Create_new_needs_assessment, "<button type=\"button\" class=\"btn btn-success\"><span class=\"fa fa-plus\"></span> New Need Assessment</button>", "btn btn-success", "btn_new_record")
-
+                    }
 
                 </div>
                 <div class="col-md-12">

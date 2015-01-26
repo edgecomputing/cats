@@ -41,9 +41,9 @@ namespace Cats.Models
         public Nullable<int> Contingencybudget { get; set; }
 
 
-        
+
          [Range(0, Int32.MaxValue)]
-        public Nullable<int> TotalBeneficiaries { get; set; }
+         public Nullable<int> TotalBeneficiaries { get; set; }
 
        
         [Range(0, Int32.MaxValue)]
@@ -69,7 +69,7 @@ namespace Cats.Models
         [Range(0, Int32.MaxValue)]
         public Nullable<int> NonPSNPFromWoredasDOA { get; set; }
 
-         public Nullable<double> Total { get; set; }                           
+        public Nullable<double> Total { get; set; }                           
                                                              
     }
 }

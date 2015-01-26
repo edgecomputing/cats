@@ -32,8 +32,10 @@ Plans
                     <div class="text-right col-md-12">
                         <a id="btnAddAssessment" href="@Url.Action("AddNeedAssessment", "NeedAssessment", new {id = Model.PlanID})">
                             <button type="button" class="btn btn-success"><span class="fa fa-plus"></span>@Html.Translate(" New Assessment")</button></a>
+                        @if(ViewBag.userRegionID==null && ViewBag.Status==(int)PlanStatus.Approved){
                         <a id="btnCreateHrd" href="@Url.Action("CreateHRD", "HRD", new {id = Model.PlanID})">
                             <button type="button" class="btn btn-success"><span class="fa fa-plus"></span>@Html.Translate("Create HRD") </button></a>
+                        }
                     </div>
                 }
                 <div class="col-md-12">

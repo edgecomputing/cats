@@ -13,6 +13,11 @@ using Kendo.Mvc.UI;
 using NUnit.Framework;
 using Moq;
 using log4net;
+using Cats.Services.Security;
+using Cats.Models.Security;
+using System.Web;
+using System.Security.Principal;
+using System.Web.Mvc;
 namespace Cats.Tests.ControllersTests
 {   [TestFixture]
     public class NeedAssessmentTest
@@ -239,6 +244,18 @@ NeedAssessmentHeader=new NeedAssessmentHeader(){AdminUnit=new AdminUnit(){Name="
                                           WorkflowID = 1
                                       }
                               };
+            var userAccountService = new Mock<IUserAccountService>();
+            userAccountService.Setup(t => t.GetUserInfo(It.IsAny<string>())).Returns(new UserInfo()
+            {
+                UserName = "x",
+                DatePreference = "en"
+            });
+            var fakeContext = new Mock<HttpContextBase>();
+            var identity = new GenericIdentity("User");
+            var principal = new GenericPrincipal(identity, null);
+            fakeContext.Setup(t => t.User).Returns(principal);
+            var controllerContext = new Mock<ControllerContext>();
+            controllerContext.Setup(t => t.HttpContext).Returns(fakeContext.Object);
             var commonService = new Mock<ICommonService>();
             commonService.Setup(t => t.GetAminUnits(It.IsAny<Expression<Func<AdminUnit, bool>>>(),
                       It.IsAny<Func<IQueryable<AdminUnit>, IOrderedQueryable<AdminUnit>>>(),

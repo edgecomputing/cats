@@ -468,7 +468,24 @@
                               </Style>
                             </TextRun>
                             <TextRun>
-                              <Value>እንዲከፈለው ___  ሠነዶችን አቅር</Value>
+                              <Value>እንዲከፈለው </Value>
+                              <Style>
+                                <FontFamily>Nyala</FontFamily>
+                                <FontSize>12pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                            <TextRun>
+                              <Value>=Fields!NoRecords.Value</Value>
+                              <Style>
+                                <FontFamily>Tahoma</FontFamily>
+                                <FontSize>12pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                                <TextDecoration>None</TextDecoration>
+                              </Style>
+                            </TextRun>
+                            <TextRun>
+                              <Value> ሠነዶችን አቅር</Value>
                               <Style>
                                 <FontFamily>Nyala</FontFamily>
                                 <FontSize>12pt</FontSize>
