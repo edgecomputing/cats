@@ -566,7 +566,7 @@ namespace Cats.Areas.Logistics.Controllers
             if (actionType ==(int)ActionType.Approve)
             {
                 paymentRequests = _transporterPaymentRequestService.Get(t => t.TransportOrder.TransporterID == transporterID
-                                                && t.BusinessProcess.CurrentState.BaseStateTemplate.StateNo < 2, null,
+                                                && t.BusinessProcess.CurrentState.BaseStateTemplate.StateNo < 1, null,
                    "Delivery,Delivery.DeliveryDetails,TransportOrder").ToList();
                 transporterPaymentRequestViewModel = TransporterPaymentRequestViewModelBinder(paymentRequests);
                 status = "Approve";
@@ -575,15 +575,46 @@ namespace Cats.Areas.Logistics.Controllers
             else if (actionType==(int)ActionType.Finance)
             {
                  paymentRequests = _transporterPaymentRequestService.Get(t => t.TransportOrder.TransporterID == transporterID
-                                                && t.BusinessProcess.CurrentState.BaseStateTemplate.StateNo < 2, null,
+                                                && t.BusinessProcess.CurrentState.BaseStateTemplate.StateNo == 1, null,
                    "Delivery,Delivery.DeliveryDetails,TransportOrder").ToList();
                   transporterPaymentRequestViewModel = TransporterPaymentRequestViewModelBinder(paymentRequests);
                   status = "Submit to Finance";
             }
             ViewBag.Status = status;
+            ViewBag.TransporterID = transporterID;
             return View(transporterPaymentRequestViewModel.ToList());
             
 
+        }
+        [HttpPost]
+        public ActionResult Multiplesubmission(List<TransporterPaymentRequestViewModel> transporterPaymentRequestViewModels,int transporterID)
+        {
+            var checkedPaymentRequests = transporterPaymentRequestViewModels.Where(m => m.Checked == true).ToList();
+            BusinessProcessState processState;
+            if (checkedPaymentRequests.Count>0)
+            {
+                foreach (var transporterPaymentRequestViewModel in checkedPaymentRequests)
+                {
+                    var parentBussinessProcessID = transporterPaymentRequestViewModel.BusinessProcess.CurrentState.
+                        ParentBusinessProcessID;
+                    processState = new BusinessProcessState()
+                                       {
+                                           DatePerformed = DateTime.Now,
+                                           ParentBusinessProcessID =parentBussinessProcessID,
+                                           PerformedBy =
+                                               _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).FirstName,
+                                            StateID =_transporterPaymentRequestService.GetFinalState(parentBussinessProcessID)
+                                               //transporterPaymentRequestViewModel.BusinessProcess.CurrentState.BaseStateTemplate.InitialStateFlowTemplates.FirstOrDefault().FinalStateID
+
+                                       };
+                    
+                    _BusinessProcessService.PromotWorkflow(processState);
+                }
+                return RedirectToAction("PaymentRequests", "TransporterPaymentRequest",
+                                            new { Area = "Logistics", transporterID });
+            }
+            return RedirectToAction("PaymentRequests", "TransporterPaymentRequest",
+                                            new { Area = "Logistics", transporterID });
         }
     }
 }
