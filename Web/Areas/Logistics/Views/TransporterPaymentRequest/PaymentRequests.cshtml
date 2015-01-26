@@ -10,12 +10,28 @@
 }
 @section Toolbar
 {
-    <div class="btn-group" style="right: 100px">
+    @*<div class="btn-group" style="right: 100px">
         <button class="btn btn-default" onclick="print_payment_request_letter()">@Html.Translate("Print Letter")</button>
         <button class="btn btn-default" onclick="print_payment_request()">@Html.Translate("Print")</button>
         <button class="btn btn-default" ng-click="AddRequests('Finance')">@Html.Translate("Submit to Finance")</button>
         <button class="btn btn-default" ng-click="AddRequests('Approve')">@Html.Translate("Approve")</button>
-    </div>
+    </div>*@
+    
+    <div class="btn-group">
+        <button class="btn">@Html.Translate("Action   ")</button>
+     
+            
+            <button class="btn dropdown-toggle " data-toggle="dropdown">
+                <span class="caret"></span>
+            </button>
+        <ul class="dropdown-menu">
+            <li><a id="btnApprove" href="@Url.Action("#", "#",new {Area="Logistics"})">@Html.Translate("Approve")</a></li>
+            <li><a id="btnSubmitToFinance" href="@Url.Action("#","#",new {Area="Logistics"})">@Html.Translate("Submit to Finance")</a></li>  
+            <li><a  onclick="print_payment_request_letter()">@Html.Translate("Print Letter")</a></li>
+            <li><a  onclick="print_payment_request()">@Html.Translate("Print")</a></li> 
+        </ul>
+
+    </div> 
 
     <script type="text/javascript">
         function print_payment_request() {
