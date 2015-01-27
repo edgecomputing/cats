@@ -122,13 +122,14 @@
                           //toolbar.Custom().Text("Add FDP").HtmlAttributes(new { id = "addFDP" });
                       })
               .Editable(edit => edit.Mode(GridEditMode.InCell))
-              .Pageable()
+              //.Pageable()
               .Selectable(t => t.Mode(GridSelectionMode.Single))
               .Navigatable()
+              .HtmlAttributes(new {style = "height: 300px"})
+              .Scrollable()
               .DataSource(datasource =>
                           datasource
                               .Ajax()
-                              .PageSize(10)
                               //.ServerOperation(false)
                               .Model(m => m.Id(t => t.FDPID))
                               .Read(read => read.Action("FDP_Read", "FDP").Data("selectedWoredaId"))

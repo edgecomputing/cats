@@ -35,7 +35,9 @@ namespace Cats.Areas.Logistics.Models
         public decimal SentQty { get; set; }
         public decimal Tarrif { get; set; }
         public decimal FreightCharge { get; set; }
+        public bool Checked { get; set; }
         public BusinessProcess BusinessProcess { get; set; }
         public Cats.Models.Hubs.Transporter Transporter { get; set; }
+
     }
 }

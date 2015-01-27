@@ -99,6 +99,17 @@ namespace Cats.Services.Logistics
             }
            
         }
+        public int GetFinalState(int parentBusinessProcessID)
+        {
+            var initialState =
+                _unitOfWork.BusinessProcessStateRepository.FindBy(
+                    m => m.ParentBusinessProcessID == parentBusinessProcessID).LastOrDefault();
+            var finalState =
+                _unitOfWork.FlowTemplateRepository.FindBy(
+                    m => m.ParentProcessTemplateID == 1003 && m.InitialStateID == initialState.StateID).FirstOrDefault();
+            if (finalState != null) return finalState.FinalStateID;
+            return 0;
+        }
 
     }
 }

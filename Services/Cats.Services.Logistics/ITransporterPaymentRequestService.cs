@@ -23,5 +23,6 @@ namespace Cats.Services.Logistics
                    string includeProperties = "");
 
         bool Reject(TransporterPaymentRequest transporterPaymentRequest);
+        int GetFinalState(int parentBusinessProcessID);
     }
 }
