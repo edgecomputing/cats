@@ -173,6 +173,9 @@
                                columns.Bound(e => e.StartedOn).Title("Started On").Width(120);
                                columns.Bound(e => e.RemainingDays).Title("Remaining Dates").Width(120);
                                columns.Bound(e => e.Progress).Title("Progress").Width(120);
+                               columns.Bound(e => e.Region).Title("Region").Width(120);
+                               columns.Bound(e => e.RequsitionNo).Title("Requsition No").Width(120);
+                               columns.Bound(e => e.Round).Title("Round/Month").Width(120);
                            })
               .DataSource(dataSource => dataSource
                                             .Ajax()

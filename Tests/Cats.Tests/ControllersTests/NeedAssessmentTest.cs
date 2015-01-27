@@ -262,12 +262,7 @@ NeedAssessmentHeader=new NeedAssessmentHeader(){AdminUnit=new AdminUnit(){Name="
                       It.IsAny<string>())).Returns(adminUnit);
             commonService.Setup(t => t.GetStatus(It.IsAny<WORKFLOW>())).Returns(_status);
 
-            var userAccountService = new Mock<IUserAccountService>();
-            userAccountService.Setup(t => t.GetUserInfo(It.IsAny<string>())).Returns(new UserInfo
-            {
-                UserName = "user",
-                DatePreference = "en"
-            });
+            
 
             _needAssessmentController=new NeedAssessmentController(needAssessmentService.Object,
                                                                     adminUnitService.Object,

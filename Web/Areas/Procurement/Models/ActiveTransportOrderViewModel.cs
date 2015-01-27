@@ -13,5 +13,8 @@ namespace Cats.Areas.Procurement.Models
         public string StartedOn { get; set; }
         public string RemainingDays { get; set; }
         public string Progress { get; set; }
+        public string RequsitionNo { get; set; }
+        public string Region { get; set; }
+        public string Round { get; set; }
     }
 }
