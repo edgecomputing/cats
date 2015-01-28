@@ -117,7 +117,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             if (ration == null) return null;
             var rationViewModel = new RationViewModel();
             rationViewModel.RationID = ration.RationID;
-            rationViewModel.IsDefaultRation = ration.IsDefaultRation;
+            rationViewModel.IsDefaultRation = (bool) ration.IsDefaultRation;
             rationViewModel.CreatedBy = ration.CreatedBy;
             
 
@@ -169,6 +169,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         [HttpPost]
         public ActionResult Create(Ration ration)
         {
+            ration.IsDefaultRation = false;          
             if (ration != null && ModelState.IsValid)
             {
                 try

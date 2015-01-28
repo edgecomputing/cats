@@ -11,32 +11,41 @@
 }
 @*@section LeftBar{
     @Html.Partial("_TransportOrderLeftBar");
+
 }*@
 
+@{
+    var counter = 1;
+}
 <h4 class="page-header">@ViewBag.TransportOrderTitle Transport Orders</h4>
 
 <div>
 @(Html.Kendo().Grid<TransportOrderViewModel>().Name("Grid").Columns(columns =>
       {
-          columns.Bound(to => to.ContractNumber).Width(150).ClientTemplate("<a href='" + Url.Action("TransportContract", "TransportOrder", new { Area = "Hub", id = "#=TransportOrderID#" }) + " '>#=ContractNumber#</a>  ").HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;" });
+          columns.Template(t => { }).Title("No").ClientTemplate(
+             "#= renderNumber(data) #").Width(30);
+          columns.Bound(to => to.ContractNumber).Width(200).ClientTemplate("<a href='" + Url.Action("TransportContract", "TransportOrder", new { Area = "Hub", id = "#=TransportOrderID#" }) + " '>#=ContractNumber#</a>  ").HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;" });
    
-    columns.Bound(to => to.Transporter);
-    columns.Bound(to => to.BidDocumentNo).Width(100).Title(Html.Translate("Bid Document #"));
-    columns.Bound(to => to.OrderExpiryDateET).Width(120).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid", style = "overflow: visible; white-space: normal;" });
-    columns.Bound(to => to.StartDate).Width(120).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid", style = "overflow: visible; white-space: normal;" });
-    columns.Bound(to => to.EndDate).Width(120).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid", style = "overflow: visible; white-space: normal;" });
-    columns.Bound(to => to.RequestedDispatchDateET).Width(120).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid", style = "overflow: visible; white-space: normal;" });
-    columns.Bound(to => to.TransportOrderNo).Width(150);
-    columns.Bound(to => to.Status);
-         
-    columns.Bound(to => to.TransportOrderID).ClientTemplate("<a href='" + Url.Action("GenerateDispatchAllocation", "TransportOrder", new { Area = "Procurement", id = "#=TransportOrderID#" }) + " '>Create Dispatch Plan</a>  ");
-          columns.Command(to => to.Custom("Reject").Click("onReject"));
+    columns.Bound(to => to.Transporter).Width(100);
+    columns.Bound(to => to.BidDocumentNo).Width(70).Title(Html.Translate("Bid Document #")).HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal" });;
+    columns.Bound(to => to.OrderExpiryDateET).Width(80).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid", style = "overflow: visible; white-space: normal;" });
+    columns.Bound(to => to.StartDate).Width(80).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid", style = "overflow: visible; white-space: normal;" });
+    columns.Bound(to => to.EndDate).Width(80).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid", style = "overflow: visible; white-space: normal;" });
+    columns.Bound(to => to.RequestedDispatchDateET).Width(80).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid", style = "overflow: visible; white-space: normal;" });
+    columns.Bound(to => to.TransportOrderNo).Width(100).HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal" }); ;
+    columns.Bound(to => to.Status).Width(60);
+
+    columns.Bound(to => to.TransportOrderID).Width(120).ClientTemplate("<a href='" + Url.Action("GenerateDispatchAllocation", "TransportOrder", new { Area = "Procurement", id = "#=TransportOrderID#" }) + " '>Create Dispatch Plan</a>  ").HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal" });
+    columns.Command(to => to.Custom("Reject").Click("onReject")).Width(70).HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal" }); ; 
 
 
 
 
       })
      .Scrollable()
+     .Filterable()
+     .Sortable()
+     
     .DataSource(dataSource => dataSource
         .Ajax()
         .Model(model =>model.Id(p => p.TransportOrderID))
@@ -56,3 +65,22 @@
 
     
 </script>
+
+<script type="text/javascript">
+    var rowNumber = 0;
+
+    function resetRowNumber(e) {
+        rowNumber = 0;
+    }
+
+    function renderNumber(data) {
+        return ++rowNumber;
+    }
+
+    function renderRecordNumber(data) {
+        var page = parseInt($("#Grid").data("kendoGrid").dataSource.page()) - 1;
+        var pagesize = $("#Grid").data("kendoGrid").dataSource.pageSize();
+        return parseInt(rowNumber + (parseInt(page) * parseInt(pagesize)));
+    }
+
+</script>  

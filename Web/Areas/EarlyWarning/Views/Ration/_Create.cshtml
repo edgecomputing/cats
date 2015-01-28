@@ -12,6 +12,7 @@
 @using (Html.BeginForm("Create", "Ration", FormMethod.Post, new { @class = "modal-form" }))
 {
     @Html.ValidationSummary()
+    
 
     <div class="modal-body">
 
@@ -26,15 +27,15 @@
                     @Html.ValidationMessageFor(model => model.RefrenceNumber)
                 </div>
              </div>  
-            <div class="form-group" style="display: none">
+            @*<div class="form-group" style="display: none">
                 <div class="col-sm-4 control-label">
                     @Html.LabelFor(model => model.IsDefaultRation, Html.Translate("Is Default Ration"))
                 </div>
                 <div class="col-sm-8">
-                    @Html.TextBoxFor(model => model.IsDefaultRation, new { @class = " form-control" })
+                    @Html.CheckBoxFor(model => model.IsDefaultRation, new { @class = " form-control" })
                     @Html.ValidationMessageFor(model => model.IsDefaultRation)
                 </div>
-            </div>
+            </div>*@
            
         </div>
     </div>
