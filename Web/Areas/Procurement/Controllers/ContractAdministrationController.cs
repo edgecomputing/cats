@@ -37,7 +37,7 @@ namespace Cats.Areas.Procurement.Controllers
         public ContractAdministrationController(IPaymentRequestService paymentRequestService, ITransporterService transporterService,
             ITransportOrderService transportOrderService, IUserAccountService userAccountService, IDispatchAllocationService dispatchAllocationService, 
             IWorkflowStatusService workflowStatusService, IDeliveryService distributionService, IBidWinnerService bidWinnerService,
-            Cats.Services.EarlyWarning.IAdminUnitService adminUnitService)
+            Cats.Services.EarlyWarning.IAdminUnitService adminUnitService, IReliefRequisitionService reliefRequisition)
         {
             _adminUnitService = adminUnitService;
             _paymentRequestService = paymentRequestService;
@@ -48,6 +48,7 @@ namespace Cats.Areas.Procurement.Controllers
             _workflowStatusService = workflowStatusService;
             _distributionService = distributionService;
             _bidWinnerService = bidWinnerService;
+            _reliefRequisition = reliefRequisition;
         }
         //
         // GET: /Procurement/ContractAdministration/
@@ -110,10 +111,16 @@ namespace Cats.Areas.Procurement.Controllers
         {
             var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
             return (from transportOrder in transportOrders
+                    let transportOrderDetail = transportOrder.TransportOrderDetails.FirstOrDefault()
+                    //where transportOrderDetail != null
+                    let requisition = _reliefRequisition.FindById(transportOrderDetail.RequisitionID)
                     select new ActiveTransportOrderViewModel()
                     {
                         TransportOrderID = transportOrder.TransportOrderID,
                         TransportOderNo = transportOrder.TransportOrderNo,
+                        Region = (transportOrderDetail == null)?"-" : transportOrderDetail.FDP.AdminUnit.AdminUnit2.AdminUnit2.Name,
+                        RequsitionNo = (requisition == null) ? "-" : requisition.RequisitionNo,
+                        Round = (requisition == null )? "-" : requisition.Round.ToString(),
                         StartedOn = transportOrder.StartDate.ToCTSPreferedDateFormat(datePref),
                         SignedDate = transportOrder.TransporterSignedDate.ToCTSPreferedDateFormat(datePref),
                         RemainingDays = (transportOrder.EndDate - transportOrder.StartDate).TotalDays.ToString(),
