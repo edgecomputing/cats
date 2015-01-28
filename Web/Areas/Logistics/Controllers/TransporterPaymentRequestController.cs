@@ -178,6 +178,10 @@ namespace Cats.Areas.Logistics.Controllers
                                                                                                     datePref, statuses);
             ViewBag.TransportOrderViewModel = transportOrderViewModel;
             ViewBag.TransporterID = transportOrderViewModel.TransporterID;
+            if (TempData["CustomError"] != null)
+            {
+                ModelState.AddModelError("Errors", TempData["CustomError"].ToString());
+            }
             return View(transporterPaymentRequests);
         }
 
@@ -568,6 +572,7 @@ namespace Cats.Areas.Logistics.Controllers
                 paymentRequests = _transporterPaymentRequestService.Get(t => t.TransportOrder.TransporterID == transporterID
                                                 && t.BusinessProcess.CurrentState.BaseStateTemplate.StateNo < 1, null,
                    "Delivery,Delivery.DeliveryDetails,TransportOrder").ToList();
+               
                 transporterPaymentRequestViewModel = TransporterPaymentRequestViewModelBinder(paymentRequests);
                 status = "Approve";
 
@@ -579,6 +584,13 @@ namespace Cats.Areas.Logistics.Controllers
                    "Delivery,Delivery.DeliveryDetails,TransportOrder").ToList();
                   transporterPaymentRequestViewModel = TransporterPaymentRequestViewModelBinder(paymentRequests);
                   status = "Submit to Finance";
+            }
+            
+            if (transporterPaymentRequestViewModel.Count==0)
+            {
+                TempData["CustomError"] = String.Format("There is no Payment Request to {0}",status);
+                return RedirectToAction("PaymentRequests", "TransporterPaymentRequest",
+                                            new { Area = "Logistics", transporterID });
             }
             ViewBag.Status = status;
             ViewBag.TransporterID = transporterID;
