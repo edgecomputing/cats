@@ -23,7 +23,7 @@ namespace Cats.Models
             public Nullable<int> CreatedBy { get; set; }
             public Nullable<DateTime> UpdatedDate { get; set; }
             public Nullable<int> UpdatedBy { get; set; }
-            public bool IsDefaultRation { get; set; }
+            public bool ? IsDefaultRation { get; set; }
             public string RefrenceNumber { get; set; }
             public virtual ICollection<RegionalRequest> RegionalRequests { get; set; }
             public virtual  ICollection<RationDetail> RationDetails { get; set; }

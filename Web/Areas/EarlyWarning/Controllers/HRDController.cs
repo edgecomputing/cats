@@ -424,7 +424,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
         {
 
 
-            var ration = _rationService.Get(t => t.IsDefaultRation, null, "RationDetails").FirstOrDefault();
+            var ration = _rationService.Get(t => (bool) t.IsDefaultRation, null, "RationDetails").FirstOrDefault();
             var rationViewModel = (from item in ration.RationDetails
                                    select new
                                               {
