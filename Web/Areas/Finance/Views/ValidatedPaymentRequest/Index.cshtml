@@ -15,9 +15,10 @@
     .Name("grid")
     .Columns(columns =>
     {
-        columns.Bound(p => p.TransporterName).Title(Html.Translate("Transporter Name"))
-            .ClientTemplate("<a href='" + Url.Action("PaymentRequests", "ValidatedPaymentRequest",
-                        new { transporterID = "#=TransporterID#" }) + " '>#=TransporterName#</a>  ");
+        //columns.Bound(p => p.TransporterName).Title(Html.Translate("Transporter Name"))
+        //    .ClientTemplate("<a href='" + Url.Action("PaymentRequests", "ValidatedPaymentRequest",
+        //                new { transporterID = "#=TransporterID#" }) + " '>#=TransporterName#</a>  ");
+        columns.Bound(p => p.TransporterName).Title(Html.Translate("Transporter Name")).ClientTemplate("<a style='cursor: pointer;' onclick=\"ListActiveTosFor(#=TransporterID#, \'#=TransporterName#\');\" >#=TransporterName#</a>");
         columns.Bound(p => p.BidContract).Title(Html.Translate("Bid Number"));
         columns.Bound(p => p.TransporterID).Title(Html.Translate("Actions"))
                        .ClientTemplate("<a href='" + Url.Action("GenerateAgreementTemplate", "BidWinner",
@@ -34,4 +35,51 @@
             //.Model(model => model.Id(p => p.WoredaHubID))
             .Read(read => read.Action("BidWinningTransporters_read", "ValidatedPaymentRequest"))
     )
-)
+      )
+<script type="text/javascript">
+    $(document).ready(function() {
+        
+    });
+    function ListActiveTosFor(transId, transName) {
+        $.getJSON('@Url.Action("GetActiveTosForTransporter", "ValidatedPaymentRequest")' + "/?transporterId=" + transId, function(data) {
+
+            var items = '<div class="table-responsive"><table class="table table-striped"><thead><tr><th>Transport Order No.</th><th>Contract No.</th><th>Bid Document No.</th><th>Payment Requests</th></tr></thead><tbody>';
+            $.each(data, function(i, TO) {
+                items += "<tr><td>" + TO.ToNo + "</td><td>" + TO.ToContractNo + "</td><td>" + TO.ToBidDocNo + "</td><td>" + "<a href='@Url.Action("ToPaymentRequests", "ValidatedPaymentRequest")" + "?transporterID=" + transId +"&toId=" + TO.ToId + "' class='btn btn-sm'>View Payment Requests</a> " + "</td></tr>";
+            });
+            items += "</tbody></table></div>";
+
+            var allItems = "<a href='@Url.Action("PaymentRequests", "ValidatedPaymentRequest")" + "?transporterID=" + transId + "' class='btn btn-sm'>View All Payment Requests</a>";
+
+            $('#ActiveTOsForOneTransporter .modal-title').html('');
+            $('#ActiveTOsForOneTransporter .modal-title').html(transName + " - Active Transport Orders");
+
+            $('#ActiveTOsForOneTransporter .modal-body').html('');
+            $('#ActiveTOsForOneTransporter .modal-body').html(items);
+
+            $('#ActiveTOsForOneTransporter .modal-footer').html('');
+            $('#ActiveTOsForOneTransporter .modal-footer').html(allItems);
+
+            $("#ActiveTOsForOneTransporter").modal('show');
+        });
+
+    }
+</script>
+
+<div class="modal fade" id="ActiveTOsForOneTransporter" style="width: 700px;">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title"></h4>
+      </div>
+        <div class="modal-body">
+            <p>&hellip;</p>
+        </div>
+
+      <div class="modal-footer">
+        <a class="btn btn-sm" href="">View All Payment Requests</a>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

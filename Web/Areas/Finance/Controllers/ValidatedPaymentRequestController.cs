@@ -126,6 +126,26 @@ namespace Cats.Areas.Finance.Controllers
                 _transporterPaymentRequestService.Get(t =>t.BusinessProcess.CurrentState.BaseStateTemplate.StateNo == 3, null,"BusinessProcess").Count();
             return View(transporterPaymentRequests);
         }
+
+        public ActionResult ToPaymentRequests(int transporterID, int toId)
+        {
+            var statuses = _workflowStatusService.GetStatus(WORKFLOW.TRANSPORT_ORDER);
+            var currentUser = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name);
+
+            var datePref = currentUser.DatePreference;
+            ViewBag.TargetController = "ValidatedPaymentRequest";
+            var list = (IEnumerable<Cats.Models.TransporterPaymentRequest>)_transporterPaymentRequestService
+                        .Get(t => t.BusinessProcess.CurrentState.BaseStateTemplate.StateNo >= 2 && t.TransportOrder.TransporterID == transporterID && t.TransportOrderID == toId, null, "BusinessProcess")
+                        .OrderByDescending(t => t.TransporterPaymentRequestID);
+            var transporterPaymentRequests = TransporterPaymentRequestViewModelBinder(list.ToList());
+            var transportOrder = _transportOrderService.FindById(toId);
+            var transportOrderViewModel = TransportOrderViewModelBinder.BindTransportOrderViewModel(transportOrder, datePref, statuses);
+            ViewBag.TransportOrderViewModel = transportOrderViewModel;
+            ViewBag.TransporterID = transportOrderViewModel.TransporterID;
+            ViewBag.ApprovedPRCount =
+                _transporterPaymentRequestService.Get(t => t.BusinessProcess.CurrentState.BaseStateTemplate.StateNo == 3, null, "BusinessProcess").Count();
+            return View("PaymentRequests", transporterPaymentRequests);
+        }
         
         public List<TransporterPaymentRequestViewModel> TransporterPaymentRequestViewModelBinder(List<TransporterPaymentRequest> transporterPaymentRequests)
         {
@@ -648,5 +668,19 @@ namespace Cats.Areas.Finance.Controllers
             return File(result.RenderBytes, result.MimeType);
         }
 
+        public JsonResult GetActiveTosForTransporter(int transporterId)
+        {
+            var activeTos = _transportOrderService.Get(t => t.TransporterID == transporterId && t.StatusID >= 3, null, "Transporter");
+            var lists = (from to in activeTos
+                select new
+                       {
+                           ToId = to.TransportOrderID,
+                           ToNo = to.TransportOrderNo,
+                           ToContractNo = to.ContractNumber,
+                           ToBidDocNo = to.BidDocumentNo
+                       }).ToList();
+            var activeToList = Json(lists, JsonRequestBehavior.AllowGet);
+            return activeToList;
+        }
     }
 }
