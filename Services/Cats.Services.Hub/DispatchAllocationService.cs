@@ -413,6 +413,11 @@ namespace Cats.Services.Hub
                 DAVMD.Woreda = dispatchAllocation.FDP.AdminUnit.Name;
                 DAVMD.FDPName = dispatchAllocation.FDP.Name;
                 DAVMD.IsClosed = dispatchAllocation.IsClosed;
+               
+                DAVMD.Round = (dispatchAllocation.Round==null)?"-":dispatchAllocation.Round.ToString();
+              
+               
+               
 
 
                 DAVMD.AmountInUnit = DAVMD.Amount;
