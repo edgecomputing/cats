@@ -14,6 +14,7 @@ using Cats.ViewModelBinder;
 using Kendo.Mvc.UI;
 using Kendo.Mvc.Extensions;
 using ICommonService = Cats.Services.Common.ICommonService;
+using IProgramService = Cats.Services.EarlyWarning.IProgramService;
 using ITransactionService = Cats.Services.Transaction.ITransactionService;
 
 namespace Cats.Areas.Logistics.Controllers
@@ -32,8 +33,10 @@ namespace Cats.Areas.Logistics.Controllers
         private readonly ITransactionService _transactionService;
         private readonly IDispatchService _dispatchService;
         private readonly IDeliveryService _deliveryService;
+        private readonly IProgramService _programService;
         public WoredaStockDistributionController(
             IUtilizationHeaderSerivce utilizationService,
+            IProgramService programService,
             IUtilizationDetailSerivce utilizationDetailSerivce, 
             UserAccountService userAccountService,
             ICommonService commonService, 
@@ -43,6 +46,7 @@ namespace Cats.Areas.Logistics.Controllers
             ITransactionService transactionService, IDispatchService dispatchService, IDeliveryService deliveryService)
         {
             _utilizationService = utilizationService;
+            _programService = programService;
             _utilizationDetailSerivce = utilizationDetailSerivce;
             _userAccountService = userAccountService;
             _commonService = commonService;
@@ -635,6 +639,25 @@ namespace Cats.Areas.Logistics.Controllers
                      }
                     );
             return Json(r, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetPrograms()
+        {
+            try
+            {
+                var programs = _programService.GetAllProgram();
+                var prog = (from program in programs
+                    select new
+                           {
+                               ProgramID = program.ProgramID,
+                               ProgramName = program.Name
+                           }).ToList();
+                return Json(prog, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         private WoredaStockDistributionWithDetailViewModel GetWoredaStockDistributionFormDB(WoredaStockDistribution woredaStockDistribution)

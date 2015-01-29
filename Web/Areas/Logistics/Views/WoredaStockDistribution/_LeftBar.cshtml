@@ -49,7 +49,8 @@
                 @Html.Label(Html.Translate("Program"))
             </div>
             <div class="controls">
-                @Html.DropDownList("ProgramID",String.Empty)
+                @*@Html.DropDownList("ProgramID",String.Empty)*@
+                <select id="ProgramID" name="ProgramID"></select>
             </div>
 
         </div>
@@ -79,7 +80,7 @@
     
     var admin_region_hash = {};
     var admin_zone_hash = {};
-    
+
     $(function() {
         $.getJSON("@Url.Action("GetAdminUnits", "WoredaStockDistribution", new { Area = "Logistics" })", {}, function(data) {
             
@@ -101,6 +102,14 @@
             }
         });
 
+        $.getJSON("@Url.Action("GetPrograms", "WoredaStockDistribution")", function (data) {
+            var programs = "<option value=''>-- Select Programs --</option>";
+            $.each(data, function (i, program) {
+                programs += "<option value='" + program.ProgramID + "'>" + program.ProgramName + "</option>";
+            });
+            $("#ProgramID").html(programs);
+        });
+
         $("#RegionID").change(function () {
             var regionId = $("#RegionID").val();
             var region = admin_region_hash[regionId];
@@ -109,7 +118,7 @@
 
             //var msg = "";
             
-            var htm = "<select name='Zone' id ='ZoneID' > ";
+            var htm = "<select name='Zone' id ='ZoneID' ><option value=''>-- Select Zone --</option> ";
             for (var z in zones) {
                 //htm += "<option value='" + zones[z].AdminUnitID + "'>" + zones[z].Name + "</option>";
                 htm += "<option value='" + zones[z].ZoneID + "'>" + zones[z].ZoneName + "</option>";
@@ -125,11 +134,12 @@
         });
 
         function popoulateWoredas() {
+            document.getElementById("ProgramID").disabled = false;
             document.getElementById("WoredaID").disabled = false;
             var zoneId = $("#ZoneID").val();
             //alert(zoneId);
             var woredas = admin_zone_hash[zoneId];
-            var s = "<select id ='WoredaID' name='Woreda' >";
+            var s = "<select id ='WoredaID' name='Woreda' ><option value=''>-- Select Woreda --</option> ";
             for (w in woredas) {
                 s += "<option value='" + woredas[w].WoredaID + "'>" + woredas[w].WoredaName + "</option>";
             }
@@ -139,31 +149,34 @@
 
         $("#ZoneID").change(function () {
             popoulateWoredas();
+            
         });
     });
     $(function () {
-
-
+        document.getElementById("ProgramID").disabled = true;
+        document.getElementById("PlanID").disabled = true;
+        document.getElementById("month").disabled = true;
 
         $("#ProgramID").change(function () {
-
-            $("#div_round").hide();
-            $("#div_month").hide();
-            $.getJSON("@Url.Action("GetPlans", "WoredaStockDistribution")" + "?id=" + $("#ProgramID").val() + "&zoneID=" + $("#ZoneID").val(), function (data) {
-                var plans = '<option> Select a Plan </option>';
+            //if (($("#ZoneID").val() == null) || ($("#ZoneID").val() == "")) {}else{
+                document.getElementById("PlanID").disabled = false;
+                $("#div_round").hide();
+                $("#div_month").hide();
+                $.getJSON("@Url.Action("GetPlans", "WoredaStockDistribution")" + "?id=" + $("#ProgramID").val() + "&zoneID=" + $("#ZoneID").val(), function (data) {
+                var plans = "<option value=''>-- Select Plan --</option>";
                 $.each(data, function (i, plan) {
                     plans += "<option value='" + plan.Value + "'>" + plan.Text + "</option>";
                 });
                 $("#PlanID").html(plans);
             });
-
+            //}
 
 
         });
         $("#PlanID").change(function() {
-
+            document.getElementById("month").disabled = false;
             $.getJSON("@Url.Action("GetMonth", "WoredaStockDistribution")" + "?id=" + $("#PlanID").val() + "&zoneID=" + $("#ZoneID").val(), function (data) {
-                var months = '<option> Select Month </option>';
+                var months = "<option value=''>-- Select Month/Round --</option>";
                 $.each(data, function(i, m) {
                     months += "<option value='" + m.Value + "'>" + m.Text + "</option>";
                 });
