@@ -15,8 +15,12 @@
 }
 @section Toolbar
 {
-    <a class="btn toolbar-btn " data-buttontype="btn_save" data-submittedform="frm_create_utilization" title="Save"></a>
-    <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="@Url.Action("Index", "WoredaStockDistribution")" title="Cancel"></a>
+    <button id="SubmitButton" data-buttontype="btn_save" class="btn btn-default" data-loading-text="Saving...">Save</button>
+    @*<a id="SaveButton" class="btn toolbar-btn " data-buttontype="btn_save" data-submittedform="frm_create_utilization" title="Save"></a>
+    *@<a class="btn toolbar-btn "  data-buttontype="btn_cancel" href="@Url.Action("Index", "WoredaStockDistribution")" title="Cancel"></a>
+
+    
+    
 }
 
  @using (Html.BeginForm("Create", "WoredaStockDistribution", FormMethod.Post, FormMethod.Post, new { id = "frm_create_utilization" }))
@@ -229,7 +233,13 @@
 
         return data.indexOf(dataItem);
     }
-    
+
+    $(function() {
+        $("#SubmitButton").click(function () {
+            $(this).button('loading');
+            $("#frm_create_utilization").submit();
+        });
+    });
 </script>
 
 

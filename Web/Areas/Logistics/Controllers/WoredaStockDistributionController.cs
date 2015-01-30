@@ -75,7 +75,17 @@ namespace Cats.Areas.Logistics.Controllers
 
         public ActionResult Create(int Woreda = -1, int planID = -1,int programID=-1, int month = -1)
         {
-           if(Woreda==-1||planID==-1 || programID==-1 || month==-1)
+            if (TempData["CustomError"] != null)
+            {
+                ModelState.AddModelError("Success", TempData["CustomError"].ToString());
+            }
+
+            else if (TempData["CustomError2"] != null)
+            {
+                ModelState.AddModelError("Errors", TempData["CustomError2"].ToString());
+            }
+           
+            if(Woreda==-1||planID==-1 || programID==-1 || month==-1)
            {
               
                LookUps();
@@ -314,7 +324,7 @@ namespace Cats.Areas.Logistics.Controllers
                             _utilizationDetailSerivce.AddDetailDistribution(distributionDetailModel);
                         }
 
-                        ModelState.AddModelError("Success", @"Distribution Information Successfully Saved");
+                       // ModelState.AddModelError("Success", @"Distribution Information Successfully Saved");
                         LookUps(woredaStockDistribution);
 
 
@@ -324,6 +334,8 @@ namespace Cats.Areas.Logistics.Controllers
                         }
                         WoredaStockDistributionWithDetailViewModel woredaStockDistributionViewModel = GetWoredaStockDistributionFormDB(distributionHeader);
 
+                        //ModelState.AddModelError("Success", @"Distribution Information Successfully Saved!");
+                        TempData["CustomError"] = "Distribution Information Successfully Saved!";
                         return RedirectToAction("Create",
                                                 new { Woreda = woredaStockDistributionViewModel.WoredaID,
                                                       planID = woredaStockDistributionViewModel.PlanID,
@@ -369,6 +381,8 @@ namespace Cats.Areas.Logistics.Controllers
             
                     }
                     LookUps();
+                    //ModelState.AddModelError("Success", @"Distribution Information Successfully Saved!");
+                    TempData["CustomError"] = "Distribution Information Successfully Saved!";
                     return RedirectToAction("Create",
                                                     new
                                                     {
@@ -382,7 +396,8 @@ namespace Cats.Areas.Logistics.Controllers
                 //WoredaStockDistributionWithDetailViewModel woredaStockDistributionViewModel2 = GetWoredaStockDistributionFormDB(woredaDistributionHeader);
               
             }
-            ModelState.AddModelError("Errors",@"Unable to Save Distribution Information");
+            //ModelState.AddModelError("Errors",@"Unable to Save Distribution Information");
+            TempData["CustomError2"] = "Unable to Save Distribution Information";
             return View();
         }
         public void LookUps()
