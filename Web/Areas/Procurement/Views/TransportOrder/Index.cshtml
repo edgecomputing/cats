@@ -95,17 +95,19 @@
 <div>
 @(Html.Kendo().Grid<TransportOrderViewModel>().Name("Grid").Columns(columns =>
       {
-          columns.Bound(to => to.ContractNumber).Title(@Html.Translate("Contract Number")).Width(130).ClientTemplate("<a href='" + Url.Action("OrderDetail", "TransportOrder", new { Area = "Procurement", id = "#=TransportOrderID#" }) + " '>#=ContractNumber#</a>  ").HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;" });
+          columns.Template(t => { }).Title("No").ClientTemplate(
+             "#= renderNumber(data) #").Width(50);
+          columns.Bound(to => to.ContractNumber).Title(@Html.Translate("Contract Number")).Width(250).ClientTemplate("<a href='" + Url.Action("OrderDetail", "TransportOrder", new { Area = "Procurement", id = "#=TransportOrderID#" }) + " '>#=ContractNumber#</a>  ").HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;" });
     //columns.Bound(to => to.TransportOrderNo).ClientTemplate("<a href='" + Url.Action("Details", "TransportOrder", new { Area = "Procurement", id = "#=TransportOrderID#" }) + " '>#=TransportOrderNo#</a>  ").HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;" });
           columns.Bound(to => to.Transporter).Title(@Html.Translate("Transporter")).Width(150);
-    columns.Bound(to => to.BidDocumentNo).Width(100).Title(Html.Translate("Bid Document #"));
+          columns.Bound(to => to.BidDocumentNo).Width(100).Title(Html.Translate("Bid Document #")).HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;" });
     //columns.Bound(to => to.OrderDateET).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid" });
-    columns.Bound(to => to.OrderExpiryDateET).Title(Html.Translate("Order Expiry Date")).Width(120).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid", style = "overflow: visible; white-space: normal;" });
-    columns.Bound(to => to.StartDate).Width(120).Title(Html.Translate("Start Date")).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid", style = "overflow: visible; white-space: normal;" });
-    columns.Bound(to => to.EndDate).Width(120).Title(Html.Translate("End Date")).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid", style = "overflow: visible; white-space: normal;" });
-    columns.Bound(to => to.RequestedDispatchDateET).Title(Html.Translate("Requested Dispatch Date")).Width(120).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid", style = "overflow: visible; white-space: normal;" });
-    columns.Bound(to => to.TransportOrderNo).Title(Html.Translate("Transport Order No")).Width(150);
-    columns.Bound(to => to.Status).Title(Html.Translate("Status")).Width(90);
+    columns.Bound(to => to.OrderExpiryDateET).Title(Html.Translate("Order Expiry Date")).Width(100).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid", style = "overflow: visible; white-space: normal;" });
+    columns.Bound(to => to.StartDate).Width(100).Title(Html.Translate("Start Date")).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid", style = "overflow: visible; white-space: normal;" });
+    columns.Bound(to => to.EndDate).Width(100).Title(Html.Translate("End Date")).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid", style = "overflow: visible; white-space: normal;" });
+    columns.Bound(to => to.RequestedDispatchDateET).Title(Html.Translate("Requested Dispatch Date")).Width(100).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid", style = "overflow: visible; white-space: normal;" });
+    columns.Bound(to => to.TransportOrderNo).Title(Html.Translate("Transport Order No")).Width(100).HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;" }); ;
+    columns.Bound(to => to.Status).Title(Html.Translate("Status")).Width(80).HeaderHtmlAttributes(new { style = "overflow: visible; white-space: normal;" }); ;
           columns.Command(p =>
               {
                  
@@ -114,16 +116,18 @@
                       p.Custom(@Html.Translate("Approve")).Click("onApprove");
                   //}
                       p.Custom(@Html.Translate("Signed")).Click("onSigned");
-                  p.Custom(@Html.Translate("Edit")).Click("onEdit");
+                  p.Custom("Edit").Click("onEdit");
 
                   p.Custom(@Html.Translate("Revert TO")).Click("onRevert");
 
-              }).Width(200);
+              }).Width(100);
 
 
 
       })
      .Scrollable()
+     .Filterable()
+     .Sortable()
      .Events(e => e.DataBound("onDataBound"))
     .DataSource(dataSource => dataSource
         .Ajax()
@@ -260,3 +264,21 @@
         }
     }
 </script>
+<script type="text/javascript">
+    var rowNumber = 0;
+
+    function resetRowNumber(e) {
+        rowNumber = 0;
+    }
+
+    function renderNumber(data) {
+        return ++rowNumber;
+    }
+
+    function renderRecordNumber(data) {
+        var page = parseInt($("#Grid").data("kendoGrid").dataSource.page()) - 1;
+        var pagesize = $("#Grid").data("kendoGrid").dataSource.pageSize();
+        return parseInt(rowNumber + (parseInt(page) * parseInt(pagesize)));
+    }
+
+</script>  
