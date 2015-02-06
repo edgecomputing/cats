@@ -538,6 +538,10 @@ namespace Cats.Areas.Logistics.Controllers
                             CommodityName = detail.Commodity.Name,
                             AllocatedAmount = detail.Amount,
                             NumberOfBeneficiaries = detail.BenficiaryNo,
+                            dispatched = GetDispatchAllocation(reliefRequisition.RequisitionNo, fdp.FDPID),
+                            delivered = GetDelivered(reliefRequisition.RequisitionNo, fdp.FDPID),
+                                                                  
+
                             //RequisitionDetailViewModel = new RequisitionDetailViewModel()
                             //    {
                             //        CommodityID = detail.CommodityID,
