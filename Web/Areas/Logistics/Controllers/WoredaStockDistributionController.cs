@@ -402,7 +402,14 @@ namespace Cats.Areas.Logistics.Controllers
         }
         public void LookUps()
         {
-            ViewBag.Region = new SelectList(_commonService.GetAminUnits(m => m.AdminUnitTypeID == 2), "AdminUnitID", "Name","--Select Region--");
+            var userRegionID = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).RegionID;
+            var regions = _commonService.GetRegions();
+            if (userRegionID != null)
+            {
+                regions = _commonService.FindBy(m => m.AdminUnitID == userRegionID);
+
+            }
+            ViewBag.Region = new SelectList(regions, "AdminUnitID", "Name","--Select Region--");
             ViewBag.Zone = new SelectList(_commonService.FindBy(m => m.AdminUnitTypeID == 3 && m.ParentID == 3), "AdminUnitID", "Name");
             ViewBag.Woreda = new SelectList(_commonService.FindBy(m => m.AdminUnitTypeID == 4 && m.ParentID == 19), "AdminUnitID", "Name");
             ViewBag.ProgramID = new SelectList(_commonService.GetPrograms(), "ProgramID", "Name");
@@ -538,6 +545,10 @@ namespace Cats.Areas.Logistics.Controllers
                             CommodityName = detail.Commodity.Name,
                             AllocatedAmount = detail.Amount,
                             NumberOfBeneficiaries = detail.BenficiaryNo,
+                            dispatched = GetDispatchAllocation(reliefRequisition.RequisitionNo, fdp.FDPID),
+                            delivered = GetDelivered(reliefRequisition.RequisitionNo, fdp.FDPID),
+                                                                  
+
                             //RequisitionDetailViewModel = new RequisitionDetailViewModel()
                             //    {
                             //        CommodityID = detail.CommodityID,
@@ -633,7 +644,14 @@ namespace Cats.Areas.Logistics.Controllers
         }
         public JsonResult GetAdminUnits()
         {
-            var r = (from region in _commonService.GetRegions()
+            var userRegionID = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).RegionID;
+            var regions = _commonService.GetRegions();
+            if (userRegionID!=null)
+            {
+                regions = _commonService.FindBy(m => m.AdminUnitID == userRegionID);
+
+            }
+            var r = (from region in regions
                      select new
                      {
 
