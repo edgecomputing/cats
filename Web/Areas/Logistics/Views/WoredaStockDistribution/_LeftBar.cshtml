@@ -86,7 +86,7 @@
             
             document.getElementById("ZoneID").disabled = true;
             document.getElementById("WoredaID").disabled = true;
-
+            
             var msg = "";
             for (var i in data) {
                 msg += "\n" + data[i].RegionName;
@@ -94,6 +94,7 @@
                 admin_region_hash[key] = data[i];
 
                 var count = data[i].Zones.length;
+      
 
                 for (var j = 0; j < count; j++) {
                     var keyz = data[i].Zones[j].ZoneID;
