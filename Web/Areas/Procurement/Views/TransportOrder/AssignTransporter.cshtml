@@ -42,15 +42,21 @@
    
 </div>
 <div class="input-prepend">
+    <span class="add-on">@Html.Translate("Transport Requisition")</span>
+
+    @Html.DropDownList("TransReq", null, new { @class = "input-large" })
+</div>
+<div class="input-prepend">
     <span class="add-on">@Html.Translate("Zone")</span>
-    @Html.DropDownList("Zones",null, new { @class = "input-small" })
+    <select id="Zones" name="Zones" ></select>
+    @*@Html.DropDownList("Zones",null, new { @class = "input-small" })*@
     
 </div>
 <div class="input-prepend">
     <span class="add-on">@Html.Translate("Woreda")</span>
-
     <select id="Woredas" name="Woredas" onchange="onWoredaChange(this.value);"></select>
 </div>
+
 
 
   
@@ -82,8 +88,23 @@
 
           ))
 </div>
-     
-     <script>
+    
+<script type="text/javascript">
+
+    
+    $('#TransReq').change(function () {
+        var selectedValue = $(this).val();
+        $.getJSON('@Url.Action("GetZonesByTransReqNo", "TransportOrder")' + "?selectedValue=" + selectedValue, function (data) {
+              var items = '<option>@Html.Translate("Select Zone")</option>';
+                    $.each(data, function (i, zone) {
+                        items += "<option value='" + zone.Value + "'>" + zone.Text + "</option>";
+                    });
+                    $('#Zones').html(items);
+                });
+      });
+</script>
+ 
+<script>
     $(function() {
         $("#div_select tbody tr").prepend("<td class='checker'><i class='icon-ok'></i></td>");
         $("#div_select thead tr").prepend("<th class='k-header'></th>");
@@ -126,7 +147,8 @@
    
         $(function () {
             $('#Zones').change(function () {
-                $.getJSON('@Url.Action("GetWoredas", "TransportOrder")' + "?ZoneId=" + $('#Zones').val(), function (data) {
+                var TransReqId = $("#TransReq").val();
+                $.getJSON('@Url.Action("GetWoredas", "TransportOrder")' + "?ZoneId=" + $('#Zones').val() + "&transReqId=" + TransReqId, function (data) {
                     var items = '<option>@Html.Translate("Select a Woreda")</option>';
                     $.each(data, function (i, woreda) {
                         items += "<option value='" + woreda.Value + "'>" + woreda.Text + "</option>";
@@ -144,17 +166,18 @@
         var value = e;
         var zone = $('#Zones').val();
         var transporter = $("#TransporterID").val();
+        var TransReqId = $("#TransReq").val();
             
         if (value == "") {
 
             window.location = null;
-            window.location = "@Url.Action("LoadUnAssinedByReqNo", "TransportOrder")" + "?id=" + 0 + "&woredaId=" + value + "&zone=" + zone + "&transporter=" + transporter;
+            window.location = "@Url.Action("LoadUnAssinedByReqNo", "TransportOrder")" + "?id=" + 0 + "&woredaId=" + value + "&zone=" + zone + "&transporter=" + transporter + "&TransReqID=" + TransReqId ;
 
         }
         else {
            
             window.location = null;
-            window.location = "@Url.Action("LoadUnAssinedByReqNo", "TransportOrder")" + "?id=" + 0 + "&woredaId=" + value + "&zone=" + zone + "&transporter=" + transporter;
+            window.location = "@Url.Action("LoadUnAssinedByReqNo", "TransportOrder")" + "?id=" + 0 + "&woredaId=" + value + "&zone=" + zone + "&transporter=" + transporter + "&TransReqID=" + TransReqId;
         }
 
     }

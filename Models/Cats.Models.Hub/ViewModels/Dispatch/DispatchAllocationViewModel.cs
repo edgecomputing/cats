@@ -26,6 +26,8 @@ namespace Cats.Models.Hubs.ViewModels
         public string ProjectCode { get; set; }
         public bool IsClosed { get; set; }
 
+        public string TransportOrderNo { get; set; }
+
     }
 
     public class DispatchAllocationViewModelDto

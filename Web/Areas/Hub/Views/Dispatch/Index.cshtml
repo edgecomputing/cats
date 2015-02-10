@@ -229,6 +229,7 @@
                            ).Title("Action");
 
                        col.Bound(modelItem => modelItem.BidRefNo).HtmlAttributes(new { onclick = "return loadForm(this)" }).Title("BidRef #");
+                       col.Bound(modelitem => modelitem.TransporterName).Title(Html.Translate("Trans. Name"));
                        col.Bound(modelitem => modelitem.RequisitionNo).Title(Html.Translate("Req #"));
                        col.Bound(modelItem => modelItem.CommodityName).Title(Html.Translate("Commodity"));
                        col.Bound(modelItem => modelItem.Amount).Format("{0:#,##0.00}").Title(Html.Translate("Planned " + quanityColumnHeader)).Width(30).HtmlAttributes(new { align = "right" });
