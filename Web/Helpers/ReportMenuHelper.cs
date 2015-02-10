@@ -76,20 +76,20 @@ namespace Cats.Helpers
                         //html += "<li class='dropdown-submenu'>";
                         //html += "<a href='#' data-toggle='dropdown'>" + folder.Name + "</a>";
                         //html += "<ul class='dropdown-menu'>";
-                        html += "<div> <table class='table table-bordered'>  <thead>  <tr>  <th>Report</th>  <th>Description</th>  </tr>  </thead>  <tbody>";       
+                        //html += "<div> <table class='table table-bordered'>  <thead>  <tr>  <th>Report</th>  <th>Description</th>  </tr>  </thead>  <tbody>";       
                         //html += "<div id='list8'><ul>";
-              
+                            html += "<div> <ul>";
                         foreach (var report in reports)
                         {
                             
-                            html += "<tr> <td>";
+                            html += "<li>";
                             var baseUrl = HttpContext.Current.Request.Url.Scheme + "://" + HttpContext.Current.Request.Url.Authority + HttpContext.Current.Request.ApplicationPath.TrimEnd('/') + "/";
-                            html += "<a href=' " + baseUrl + "ReportViewer.aspx?path=" + report.Path + "' target='_blank'>" + report.Name + "</a>";
-                            var desc = report.Description;
-                            html += "</td>  <td>" + desc+ "</td>  </tr>";
+                            html += "<a class='reportLink'  data-toggle='tooltip' data-placement='bottom' rel='tooltip'  title='" + report.Description + "' data-reportpath='" + report.Path + "' href=' " + baseUrl + "ReportViewer.aspx?path=" + report.Path + "'>" + report.Name + "</a>";
+                            //var desc = report.Description;
+                            html += "</li>";
                         }
-                        //html += "</ul>";
-                        html += "</tbody> </table> </div>";
+                        html += "</ul></div>";
+                        //html += "</tbody> </table> </div>";
                     //}
                 //}
                 //html += "</ul>";
@@ -101,5 +101,6 @@ namespace Cats.Helpers
             
             return html;
         }
+        
     }
 }

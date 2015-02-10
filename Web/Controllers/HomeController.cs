@@ -219,5 +219,24 @@ namespace Cats.Controllers
         {
             return View();
         }
+
+        [HttpGet]
+        public string  GetReport(string caseTeam="", string report="")
+        {
+            try
+            {
+                var html = string.Empty;
+
+                var baseUrl = System.Web.HttpContext.Current.Request.Url.Scheme + "://" + System.Web.HttpContext.Current.Request.Url.Authority + System.Web.HttpContext.Current.Request.ApplicationPath.TrimEnd('/') + "/";
+
+                html += "" + baseUrl + "ReportViewer.aspx?path=/" + caseTeam + "/" + report;
+
+                return html;
+            }
+            catch (Exception)
+            {
+                return "<h3>Error in showing the report!</h3>";
+            }
+        }
     }
 }
