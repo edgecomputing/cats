@@ -68,6 +68,7 @@ namespace Cats.Models.Hubs.ViewModels
         public Int32? ProjectCodeID {get;set;}
         public Int32? ShippingInstructionID{ get; set; }
         public Int32 CommodityID { get; set; }
+        public string  Round { get; set; }
     }
 
     public class DispatchAllocationViewModel

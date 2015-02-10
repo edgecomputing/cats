@@ -14,6 +14,7 @@ using Cats.ViewModelBinder;
 using Kendo.Mvc.UI;
 using Kendo.Mvc.Extensions;
 using ICommonService = Cats.Services.Common.ICommonService;
+using IProgramService = Cats.Services.EarlyWarning.IProgramService;
 using ITransactionService = Cats.Services.Transaction.ITransactionService;
 
 namespace Cats.Areas.Logistics.Controllers
@@ -32,8 +33,10 @@ namespace Cats.Areas.Logistics.Controllers
         private readonly ITransactionService _transactionService;
         private readonly IDispatchService _dispatchService;
         private readonly IDeliveryService _deliveryService;
+        private readonly IProgramService _programService;
         public WoredaStockDistributionController(
             IUtilizationHeaderSerivce utilizationService,
+            IProgramService programService,
             IUtilizationDetailSerivce utilizationDetailSerivce, 
             UserAccountService userAccountService,
             ICommonService commonService, 
@@ -43,6 +46,7 @@ namespace Cats.Areas.Logistics.Controllers
             ITransactionService transactionService, IDispatchService dispatchService, IDeliveryService deliveryService)
         {
             _utilizationService = utilizationService;
+            _programService = programService;
             _utilizationDetailSerivce = utilizationDetailSerivce;
             _userAccountService = userAccountService;
             _commonService = commonService;
@@ -71,7 +75,17 @@ namespace Cats.Areas.Logistics.Controllers
 
         public ActionResult Create(int Woreda = -1, int planID = -1,int programID=-1, int month = -1)
         {
-           if(Woreda==-1||planID==-1 || programID==-1 || month==-1)
+            if (TempData["CustomError"] != null)
+            {
+                ModelState.AddModelError("Success", TempData["CustomError"].ToString());
+            }
+
+            else if (TempData["CustomError2"] != null)
+            {
+                ModelState.AddModelError("Errors", TempData["CustomError2"].ToString());
+            }
+           
+            if(Woreda==-1||planID==-1 || programID==-1 || month==-1)
            {
               
                LookUps();
@@ -310,7 +324,7 @@ namespace Cats.Areas.Logistics.Controllers
                             _utilizationDetailSerivce.AddDetailDistribution(distributionDetailModel);
                         }
 
-                        ModelState.AddModelError("Success", @"Distribution Information Successfully Saved");
+                       // ModelState.AddModelError("Success", @"Distribution Information Successfully Saved");
                         LookUps(woredaStockDistribution);
 
 
@@ -320,6 +334,8 @@ namespace Cats.Areas.Logistics.Controllers
                         }
                         WoredaStockDistributionWithDetailViewModel woredaStockDistributionViewModel = GetWoredaStockDistributionFormDB(distributionHeader);
 
+                        //ModelState.AddModelError("Success", @"Distribution Information Successfully Saved!");
+                        TempData["CustomError"] = "Distribution Information Successfully Saved!";
                         return RedirectToAction("Create",
                                                 new { Woreda = woredaStockDistributionViewModel.WoredaID,
                                                       planID = woredaStockDistributionViewModel.PlanID,
@@ -365,6 +381,8 @@ namespace Cats.Areas.Logistics.Controllers
             
                     }
                     LookUps();
+                    //ModelState.AddModelError("Success", @"Distribution Information Successfully Saved!");
+                    TempData["CustomError"] = "Distribution Information Successfully Saved!";
                     return RedirectToAction("Create",
                                                     new
                                                     {
@@ -378,12 +396,20 @@ namespace Cats.Areas.Logistics.Controllers
                 //WoredaStockDistributionWithDetailViewModel woredaStockDistributionViewModel2 = GetWoredaStockDistributionFormDB(woredaDistributionHeader);
               
             }
-            ModelState.AddModelError("Errors",@"Unable to Save Distribution Information");
+            //ModelState.AddModelError("Errors",@"Unable to Save Distribution Information");
+            TempData["CustomError2"] = "Unable to Save Distribution Information";
             return View();
         }
         public void LookUps()
         {
-            ViewBag.Region = new SelectList(_commonService.GetAminUnits(m => m.AdminUnitTypeID == 2), "AdminUnitID", "Name","--Select Region--");
+            var userRegionID = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).RegionID;
+            var regions = _commonService.GetRegions();
+            if (userRegionID != null)
+            {
+                regions = _commonService.FindBy(m => m.AdminUnitID == userRegionID);
+
+            }
+            ViewBag.Region = new SelectList(regions, "AdminUnitID", "Name","--Select Region--");
             ViewBag.Zone = new SelectList(_commonService.FindBy(m => m.AdminUnitTypeID == 3 && m.ParentID == 3), "AdminUnitID", "Name");
             ViewBag.Woreda = new SelectList(_commonService.FindBy(m => m.AdminUnitTypeID == 4 && m.ParentID == 19), "AdminUnitID", "Name");
             ViewBag.ProgramID = new SelectList(_commonService.GetPrograms(), "ProgramID", "Name");
@@ -519,6 +545,10 @@ namespace Cats.Areas.Logistics.Controllers
                             CommodityName = detail.Commodity.Name,
                             AllocatedAmount = detail.Amount,
                             NumberOfBeneficiaries = detail.BenficiaryNo,
+                            dispatched = GetDispatchAllocation(reliefRequisition.RequisitionNo, fdp.FDPID),
+                            delivered = GetDelivered(reliefRequisition.RequisitionNo, fdp.FDPID),
+                                                                  
+
                             //RequisitionDetailViewModel = new RequisitionDetailViewModel()
                             //    {
                             //        CommodityID = detail.CommodityID,
@@ -614,7 +644,14 @@ namespace Cats.Areas.Logistics.Controllers
         }
         public JsonResult GetAdminUnits()
         {
-            var r = (from region in _commonService.GetRegions()
+            var userRegionID = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).RegionID;
+            var regions = _commonService.GetRegions();
+            if (userRegionID!=null)
+            {
+                regions = _commonService.FindBy(m => m.AdminUnitID == userRegionID);
+
+            }
+            var r = (from region in regions
                      select new
                      {
 
@@ -635,6 +672,25 @@ namespace Cats.Areas.Logistics.Controllers
                      }
                     );
             return Json(r, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetPrograms()
+        {
+            try
+            {
+                var programs = _programService.GetAllProgram();
+                var prog = (from program in programs
+                    select new
+                           {
+                               ProgramID = program.ProgramID,
+                               ProgramName = program.Name
+                           }).ToList();
+                return Json(prog, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         private WoredaStockDistributionWithDetailViewModel GetWoredaStockDistributionFormDB(WoredaStockDistribution woredaStockDistribution)

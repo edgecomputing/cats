@@ -113,12 +113,14 @@
                  
                   //if (@ViewBag.TransportOrderTitle == "Draft") //TransportRequisitionStatus.Draft
                   //{
-                      p.Custom(@Html.Translate("Approve")).Click("onApprove");
+                      p.Custom("Approve").Click("onApprove");
                   //}
-                      p.Custom(@Html.Translate("Signed")).Click("onSigned");
+
+                      p.Custom("Signed").Click("onSigned");
+
                   p.Custom("Edit").Click("onEdit");
 
-                  p.Custom(@Html.Translate("Revert TO")).Click("onRevert");
+                  p.Custom("Revert TO").Click("onRevert");
 
               }).Width(100);
 
