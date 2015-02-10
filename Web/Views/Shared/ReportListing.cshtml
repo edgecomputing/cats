@@ -1,34 +1,114 @@
-﻿@using Cats.Helpers
+﻿
+
+@using Cats.Helpers
 @using Cats.Security
 @{
     ViewBag.Title = "ReportListing";
-    Layout = "~/Views/Shared/_MainLayout.cshtml";
+    //Layout = "~/Views/Shared/_CATSLayout.cshtml";
+    Layout = "~/Views/Shared/_MainLayoutWide.cshtml";
 }
-@*<style>
-    /* LIST #8 */
-    #list8 {  }
-    #list8 ul { list-style:none; }
-    #list8 ul li { font-family:Georgia,serif,Times; font-size:18px; padding: 10px }
-    #list8 ul li a { display:block; width:300px; height:28px; background-color:#fff; border-left:5px solid #acacac; border-right:5px solid #acacac; padding-left:10px;
-      text-decoration:none; color:dodgerblue; }
-    #list8 ul li a:hover {  -moz-transform:rotate(-5deg); -moz-box-shadow:10px 10px 20px #fff;
-      -webkit-transform:rotate(-5deg); -webkit-box-shadow:10px 10px 20px #fff;
-      transform:rotate(-5deg); box-shadow:10px 10px 20px #fff; }
-</style>*@
-
-<h3>Reports List</h3>
-
-  
-    @Html.ReportList()
+<script type="text/javascript">
+    
+    $(document).ready(function () {
+        // Hide the breadcrumb
+        $(".span5").hide();
+        $("#ReportViewer1_fixedTable").css("width", "100%");
+    });
+</script>
 
 
-<script>
-    //function pageLoad() {
-    //    alert("Page Loaded");
-    //    var element = document.getElementById("ReportViewer1_ctl09");
-    //    if (element) {
-    //        alert("Found");
-    //        element.style.overflow = "visible";
-    //    }
-    //}
+@*<script src="~/Scripts/js/bootstrap.min.js"></script>
+<link href="~/Scripts/css/bootstrap.min.css" rel="stylesheet" />*@
+<style>
+    .panel {
+        padding: 15px;
+        margin-bottom: 20px;
+        background-color: #ffffff;
+        border: 1px solid #dddddd;
+        border-radius: 4px;
+        -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+    }
+
+    .panel-heading {
+        padding: 1px 15px;
+        margin: -15px -15px 15px;
+        background-color: #f5f5f5;
+        border-bottom: 1px solid #dddddd;
+        border-top-right-radius: 3px;
+        border-top-left-radius: 3px;
+    }
+
+    
+
+</style>
+<div class="container-fluid">
+    <div class="row-fluid">
+    <div id="Report_List" class="span3">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">Reports List</h4>
+            </div>
+            <div class="panel-body">
+                @Html.ReportList()
+            </div>
+        </div>
+    </div>
+    <div id="Report_Detail" class="span9">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <a id="maximize_report" class="btn" href="#" style="float: right; margin-top: 4px;"><i class="icon-fullscreen"></i></a>
+                <a id="minimize_report" class="btn" href="#" style="float: right; margin-top: 4px; display: none;"><i class="icon-resize-small"></i> Show Report List</a>
+                <h4 id="report_title" class="panel-title">Report</h4>
+
+            </div>
+            <div class="panel-body">
+                <iframe id="reportsPanel" style="width: 100%; min-height: 1000px; border: 0;" src="" ></iframe>
+                @*<iframe style="width: 100%; min-height: 500px; border: 0;" src="http://localhost:1786/ReportViewer.aspx?path=/Logistics/ITSH"></iframe>*@
+            </div>
+        </div>
+
+    </div>
+
+</div>
+</div>
+<script type="text/javascript">
+    $(function() {
+        $("[rel='tooltip']").tooltip();
+    });
+    $(".reportLink").click(function (event) {
+        event.preventDefault();
+        var path = $(this).data("reportpath").split("/");
+        $.ajax({
+            url: '@Url.Action("GetReport","Home")',// + '?caseTeam=' + path[1] + '&report=' + path[2],
+            type: 'GET',
+            data: {'caseTeam' : path[1] , 'report': path[2] },
+            success: function (data) {
+                //alert(data);
+                $("#report_title").html(path[1] + " - " + path[2]);
+                $("#reportsPanel").attr("src", data);
+                $("#reportsPanel").load();
+            }
+        });
+        
+        @*$("#reportsPanel").attr("src", "@Html.GetReport(" + path[1] + "," + path[2] +")");*@
+        //$("#reportsPanel").load();
+    });
+    $("#maximize_report").click(function() {
+        $("#maximize_report").hide();
+        $("#Report_List").hide();
+        $("#Report_Detail").attr('class', 'span12');
+        $("#minimize_report").show();
+    });
+    $("#minimize_report").click(function () {
+        $("#minimize_report").hide();
+        $("#Report_List").show();
+        $("#Report_Detail").attr('class', 'span9');
+        $("#maximize_report").show();
+    });
+    $('#reportsPanel').load(function () {
+        //$("#reportsPanel").contents().find("#ParameterTable_ReportViewer1_ctl04").css("background", "none");
+        //alert($("#reportsPanel").contents().find("body").outerHeight());
+    });
+
 </script>
