@@ -362,7 +362,7 @@ namespace Cats.Services.Hub
                         unclosed.Where(p => p.FDP.AdminUnit.AdminUnit2.AdminUnitID == AdminUnitId.Value);
                 else if (adminunit.AdminUnitType.AdminUnitTypeID == 4) //by woreda
                     unclosed =
-                        unclosed.Where(p => p.FDP.AdminUnit.AdminUnitID == AdminUnitId.Value);
+                        unclosed.Where(p => p.FDP.AdminUnitID == AdminUnitId.Value);
                 //DAVMD.Region = adminunit.FDP.AdminUnit.AdminUnit2.AdminUnit2.;
                 //DAVMD.Zone = adminunit.FDP.AdminUnit.AdminUnit2.Name;
                 //DAVMD.Woreda = adminunit.FDP.AdminUnit.Name;
