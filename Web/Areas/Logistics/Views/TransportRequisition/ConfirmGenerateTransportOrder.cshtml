@@ -90,10 +90,15 @@
     @Html.HiddenFor(model => model.TransportRequisitionID)
     <div class="modal-footer">
      
-        <button class="btn btn-primary" name="saveButton" type="submit">Yes</button>
+        <button class="btn btn-primary" id="btnSave" name="saveButton" onclick="setTimeout(disableFunction, 1);" type="submit">Yes</button>
         <button class="btn" data-dismiss="modal" name="cancelButton" aria-hidden="true">No</button>
 
     </div>
 
 }
-
+<script>
+    function disableFunction() {
+        document.getElementById("btnSave").disabled = 'true';
+    }
+   
+</Script>
