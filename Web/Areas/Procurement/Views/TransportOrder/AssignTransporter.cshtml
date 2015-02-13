@@ -94,6 +94,7 @@
     
     $('#TransReq').change(function () {
         var selectedValue = $(this).val();
+        $('#Zones').html('Loading ....');
         $.getJSON('@Url.Action("GetZonesByTransReqNo", "TransportOrder")' + "?selectedValue=" + selectedValue, function (data) {
               var items = '<option>@Html.Translate("Select Zone")</option>';
                     $.each(data, function (i, zone) {
@@ -147,9 +148,10 @@
    
         $(function () {
             $('#Zones').change(function () {
+                $('#Woredas').html('');
                 var TransReqId = $("#TransReq").val();
                 $.getJSON('@Url.Action("GetWoredas", "TransportOrder")' + "?ZoneId=" + $('#Zones').val() + "&transReqId=" + TransReqId, function (data) {
-                    var items = '<option>@Html.Translate("Select a Woreda")</option>';
+                    var items = '<option>@Html.Translate("Select Woreda")</option>';
                     $.each(data, function (i, woreda) {
                         items += "<option value='" + woreda.Value + "'>" + woreda.Text + "</option>";
                     });

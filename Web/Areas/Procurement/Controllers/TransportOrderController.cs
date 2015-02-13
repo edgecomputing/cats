@@ -135,16 +135,16 @@ namespace Cats.Areas.Procurement.Controllers
             ViewBag.RegionID = new SelectList(_adminUnitService.GetRegions(), "AdminUnitID", "Name");
             var viewModel = GetRequisitionsWithoutTransporter(woredaId, transReqId);
 
-            ViewBag.TransReq = transReqId == 0 ? new SelectList(_transReqWithoutTransporterService.Get(t => t.IsAssigned == false).Select(u => new
-                                                                                                              {
-                                                                                                                  TransReqID = u.TransportRequisitionDetail.TransportRequisition.TransportRequisitionID,
-                                                                                                                  TransReqNo=u.TransportRequisitionDetail.TransportRequisition.TransportRequisitionNo
-                                                                                                              }).Distinct(), "TransReqID", "TransReqNo")
-                               : new SelectList(_transReqWithoutTransporterService.Get(t => t.IsAssigned == false).Select(u => new
-                                                                                                                    {
-                                                                                                                        TransReqID=u.TransportRequisitionDetail.TransportRequisition.TransportRequisitionID,
-                                                                                                                        TransReqNo=u.TransportRequisitionDetail.TransportRequisition.TransportRequisitionNo
-                                                                                                                    }).Distinct(), "TransReqID", "TransReqNo", transReqId);
+            ViewBag.TransReq = transReqId == 0 ? new SelectList(_transReqWithoutTransporterService.Get(t => t.IsAssigned == false).Select(u => u.TransportRequisitionDetail != null ? new
+                                                                                                                                                                                          {
+                                                                                                                                                                                              TransReqID = u.TransportRequisitionDetail.TransportRequisition.TransportRequisitionID,
+                                                                                                                                                                                              TransReqNo=u.TransportRequisitionDetail.TransportRequisition.TransportRequisitionNo
+                                                                                                                                                                                          } : null).Distinct(), "TransReqID", "TransReqNo")
+                               : new SelectList(_transReqWithoutTransporterService.Get(t => t.IsAssigned == false).Select(u => u.TransportRequisitionDetail != null ? new
+                                                                                                                                                                          {
+                                                                                                                                                                              TransReqID=u.TransportRequisitionDetail.TransportRequisition.TransportRequisitionID,
+                                                                                                                                                                              TransReqNo=u.TransportRequisitionDetail.TransportRequisition.TransportRequisitionNo
+                                                                                                                                                                          } : null).Distinct(), "TransReqID", "TransReqNo", transReqId);
 
            
             //viewModel.Transporters = allTransporters;

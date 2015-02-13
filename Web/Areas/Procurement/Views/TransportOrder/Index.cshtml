@@ -224,6 +224,7 @@
 
 
     function onDataBound(e) {
+        resetRowNumber(e);
         var grid = $("#Grid").data("kendoGrid");
         var gridData = grid.dataSource.view();
         //alert(gridData.length);
