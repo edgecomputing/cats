@@ -1,5 +1,4 @@
 ﻿
-
 @using Cats.Helpers
 @using Cats.Security
 @{
@@ -57,10 +56,13 @@
     <div id="Report_Detail" class="span9">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <a id="maximize_report" class="btn" href="#" style="float: right; margin-top: 4px;"><i class="icon-fullscreen"></i></a>
-                <a id="minimize_report" class="btn" href="#" style="float: right; margin-top: 4px; display: none;"><i class="icon-resize-small"></i> Show Report List</a>
-                <h4 id="report_title" class="panel-title">Report</h4>
+                <div class="btn-group pull-right" role="toolbar">
+                    <a id="newtab_report" role="group" target="_blank" class="btn" href="#" style="margin-top: 4px;"><i class="icon-file"></i> View on new tab</a>
+                    <a id="maximize_report" role="group" class="btn btn-info" href="#" style="margin-top: 4px;"><i class="icon-fullscreen"></i> Maximize</a>
+                    <a id="minimize_report" role="group" class="btn btn-info" href="#" style="margin-top: 4px; display: none;"><i class="icon-resize-small"></i> Show Report List</a>
 
+                </div>
+                <h4 id="report_title" class="panel-title">Report</h4>
             </div>
             <div class="panel-body">
                 <iframe id="reportsPanel" style="width: 100%; min-height: 1000px; border: 0;" src="" ></iframe>
@@ -75,20 +77,35 @@
 <script type="text/javascript">
     $(function() {
         $("[rel='tooltip']").tooltip();
+        $(".reportLink").each(function (i) {
+            $(this).css("font-weight", "normal");
+            $(this).css("font-size", "12px");
+        });
     });
     $(".reportLink").click(function (event) {
         event.preventDefault();
+        $(".reportLink").each(function (i) {
+            $(this).css("font-weight", "normal");
+            $(this).css("font-size", "12px");
+        });
+        $(this).css("font-weight", "bold");
+        $(this).css("font-size", "14px");
         var path = $(this).data("reportpath").split("/");
         $.ajax({
             url: '@Url.Action("GetReport","Home")',// + '?caseTeam=' + path[1] + '&report=' + path[2],
             type: 'GET',
             data: {'caseTeam' : path[1] , 'report': path[2] },
-            success: function (data) {
-                //alert(data);
-                $("#report_title").html(path[1] + " - " + path[2]);
+            beforeSend: function () {
+                $("#report_title").html("Loading...");
+            }, success: function (data) {
                 $("#reportsPanel").attr("src", data);
-                $("#reportsPanel").load();
+                $("#newtab_report").attr("href", data);
+                //$("#reportsPanel2").load(data);
             }
+        }).done(function() {
+            $("#report_title").html(path[1] + " - " + path[2]);
+        }).fail(function () {
+            alert("error");
         });
         
         @*$("#reportsPanel").attr("src", "@Html.GetReport(" + path[1] + "," + path[2] +")");*@
@@ -107,8 +124,19 @@
         $("#maximize_report").show();
     });
     $('#reportsPanel').load(function () {
-        //$("#reportsPanel").contents().find("#ParameterTable_ReportViewer1_ctl04").css("background", "none");
+        //alert("Loading...");
+        $("#reportsPanel").contents().find("#ParameterTable_ReportViewer1_ctl04").css("background", "none");
         //alert($("#reportsPanel").contents().find("body").outerHeight());
     });
-
+    $("#print_report").click(function () {
+        printReport();
+    });
+    function printReport() {
+        var frm1 = $("#reportsPanel").contents().find("#ReportViewer1");
+        var frm = frm1.find("table");
+        frm.focus();// focus on contentWindow is needed on some ie versions
+        //alert(frm.tos);
+        frm.print();
+        return false;
+    }
 </script>
