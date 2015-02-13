@@ -9,6 +9,7 @@ namespace Cats.Areas.EarlyWarning.Models
     public class ReliefRequisitionViewModel
     {
         public int RequisitionID { get; set; }
+        public string RequestRefNo { get; set; }
         public Nullable<int> CommodityID { get; set; }
         public string Commodity { get; set; }
         public Nullable<int> RegionID { get; set; }

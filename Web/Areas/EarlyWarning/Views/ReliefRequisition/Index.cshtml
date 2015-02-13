@@ -45,6 +45,7 @@ Requistions
     columns.Bound(requisition => requisition.MonthRound).Title("Round/Month").HeaderHtmlAttributes(new { @class = "number" });
     columns.Bound(requisiton => requisiton.Program);
     columns.Bound(t => t.RequestedDateEt).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid" }).Width(160);
+    columns.Bound((t => t.RequestRefNo)).Title("Request No");
     columns.Bound(requisition => requisition.Status).Template(
 
 @<text>
