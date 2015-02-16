@@ -1,0 +1,147 @@
+﻿@using Cats.Helpers
+@using Cats.Models.Constant
+@model Cats.Models.Transfer
+@{
+    ViewBag.Title = @Html.Translate("Detail");
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+    
+}
+
+@section Toolbar
+{
+  
+    <div class="btn-group">
+        <button class="btn">@Html.Translate("Action")</button>
+        
+           
+            <button class="btn dropdown-toggle " data-toggle="dropdown">
+                <span class="caret"></span>
+            </button>
+           
+        <ul class="dropdown-menu">
+            @*<li><a href="@Url.Action("", "Transfer", new { id = Model.TransferID})">@Html.Translate2(pageName,"Issue")</a></li>
+            <li><a href="@Url.Action("", "Transfer", new { id = Model.TransferID})">@Html.Translate2(pageName,"Dispatch")</a></li>*@
+             @if(Model.StatusID==(int)LocalPurchaseStatus.Draft)
+       {
+        <li><a id="btnEdit" href="@Url.Action("Edit", "Swap", new {id = Model.TransferID})">@Html.Translate(" Edit")</a></li>
+        <li><a id="btnApprove" href="@Url.Action("Approve", "Swap", new {id = Model.TransferID})">@Html.Translate("Approve(Send to Hub)")</a></li>
+      }
+    </ul>
+    <a class="btn toolbar-btn " href="@Url.Action("Index", "Swap")" data-buttontype="btn_back_to_list"></a>
+    </div>
+
+}
+
+@section LeftBar {
+    
+
+}
+<script type="text/javascript">
+    $(function () {
+
+        //Optional: turn the chache off
+        $.ajaxSetup({ cache: false });
+
+        $('#btnEdit').click(function () {
+
+            //alert(this.href);
+            $('#dialogContent').load(this.href, function () {
+                $('#dialogDiv').modal({
+                    backdrop: 'static',
+                    keyboard: true
+                }, 'show');
+                //bindForm(this);
+            });
+            return false;
+        });
+
+    });
+</script>
+
+<div id='dialogDiv' class='modal hide fade in' style="width: 820px;margin-right: 10px">
+    <div id='dialogContent'></div>
+</div>
+<div class="row-fluid form-horizontal">
+    <div class="control-group">
+        <div class="control-label">
+            @Html.LabelFor(m=>m.ShippingInstruction.Value,@Html.Translate("SI Number"))
+        </div>
+        <div class="controls">
+            @Html.TextBoxFor(m=>m.ShippingInstruction.Value,new {Disabled=true})
+        </div>
+    </div>
+    <div class="control-group">
+        <div class="control-label">
+            @Html.LabelFor(m=>m.SourceHubID,@Html.Translate("Source Hub"))
+        </div>
+        <div class="controls">
+            @Html.TextBoxFor(m=>m.Hub.Name,new {Disabled=true})
+        </div>
+    </div>
+    <div>
+        <div class="control-label">
+            @Html.LabelFor(m=>m.DestinationSwap,@Html.Translate("Destination to Swap"))
+        </div>
+        <div class="controls">
+            @Html.TextBoxFor(m=>m.DestinationSwap,new {Disabled=true})
+            
+        </div>
+    </div>
+    <div class="control-group">
+        <div class="control-label">
+            @Html.LabelFor(m=>m.ProgramID,@Html.Translate("Program"))
+        </div>
+        <div class="controls">
+            @Html.TextBoxFor(m=>m.Program.Name,new {Disabled=true})
+        </div>
+    </div>
+    <div class="control-group">
+        <div class="control-label">
+            @Html.LabelFor(m=>m.CommodityID,@Html.Translate("Commodity"))
+        </div>
+        <div class="controls">
+            @Html.TextBoxFor(m=>m.Commodity.Name,new {Disabled=true})
+        </div>
+    </div>
+    <div class="control-group">
+        <div class="control-label">
+            @Html.LabelFor(m=>m.CommoditySourceID,@Html.Translate("Commodity Source"))
+        </div>
+        <div class="controls">
+            @Html.TextBoxFor(m=>m.CommoditySource.Name,new {Disabled=true})
+        </div>
+    </div>
+    <div class="control-group">
+        <div class="control-label">
+            @Html.LabelFor(m=>m.ProjectCode,@Html.Translate("Project Code"))
+        </div>
+        <div class="controls">
+            @Html.TextBoxFor(m=>m.ProjectCode,new {Disabled=true})
+        </div>
+    </div>
+    <div>
+        <div class="control-label">
+            @Html.LabelFor(m=>m.SourceSwap,@Html.Translate("Source from Swap"))
+        </div>
+        <div class="controls">
+            @Html.TextBoxFor(m=>m.SourceSwap,new {Disabled=true})
+            
+        </div>
+    </div>
+    <div class="control-group">
+        <div class="control-label">
+            @Html.LabelFor(m=>m.DestinationHubID,@Html.Translate("Destination Hub"))
+        </div>
+        <div class="controls">
+            @Html.TextBoxFor(m=>m.Hub1.Name,new {Disabled=true})
+        </div>
+    </div>
+    <div class="control-group">
+        <div class="control-label">
+            @Html.LabelFor(m=>m.Quantity,@Html.Translate("Quantity in MT"))
+        </div>
+        <div class="controls">
+            @Html.TextBoxFor(m=>m.Quantity,new {Disabled=true})
+        </div>
+    </div>
+</div>
