@@ -87,6 +87,7 @@ namespace Cats.Services.Logistics
                    };
                    _unitOfWork.ReceiptAllocationReository.Add(reciptAllocaltion);
                    _unitOfWork.Save();
+
                    return true;
 
                }
@@ -167,7 +168,7 @@ namespace Cats.Services.Logistics
                    relifRequisition.Status = (int) ReliefRequisitionStatus.ProjectCodeAssigned;
                    relifRequisition.RequisitionNo = String.Format("REQ-{0}", relifRequisition.RequisitionID);
                    _unitOfWork.Save();
-                   if (!PostSIAllocation(relifRequisition.RequisitionID))
+                   if (!PostSIAllocation(relifRequisition.RequisitionID,transfer.CommoditySourceID))
                    {
                        return false;
                    }
@@ -177,7 +178,7 @@ namespace Cats.Services.Logistics
            }
            return false;
        }
-       private bool PostSIAllocation(int requisitionID)
+       private bool PostSIAllocation(int requisitionID, int commoditySource=5)
        {
            var allocationDetails = _unitOfWork.SIPCAllocationRepository.Get(t => t.ReliefRequisitionDetail.RequisitionID == requisitionID);
            if (allocationDetails == null) return false;
@@ -206,7 +207,7 @@ namespace Cats.Services.Logistics
                transaction.FDPID = allocationDetail.ReliefRequisitionDetail.FDPID;
                transaction.ProgramID = (int)allocationDetail.ReliefRequisitionDetail.ReliefRequisition.ProgramID;
                transaction.RegionID = allocationDetail.ReliefRequisitionDetail.ReliefRequisition.RegionID;
-               transaction.CommoditySourceID = 5;// commodity source transfer
+               transaction.CommoditySourceID = commoditySource;// commodity source transfer and swap
                //transaction.PlanId = allocationDetail.ReliefRequisitionDetail.ReliefRequisition.RegionalRequest.PlanID;
                //transaction.Round = allocationDetail.ReliefRequisitionDetail.ReliefRequisition.Round;
 
@@ -258,11 +259,11 @@ namespace Cats.Services.Logistics
                transaction2.FDPID = allocationDetail.ReliefRequisitionDetail.FDPID;
                transaction2.ProgramID = (int)allocationDetail.ReliefRequisitionDetail.ReliefRequisition.ProgramID;
                transaction2.RegionID = allocationDetail.ReliefRequisitionDetail.ReliefRequisition.RegionID;
-               transaction.CommoditySourceID = 5;
+               transaction2.CommoditySourceID = commoditySource;
                //transaction2.PlanId = allocationDetail.ReliefRequisitionDetail.ReliefRequisition.RegionalRequest.PlanID;
                //transaction2.Round = allocationDetail.ReliefRequisitionDetail.ReliefRequisition.Round;
 
-               int hubID2 = 0;
+               int hubID2 = 0; 
                if (allocationDetail.AllocationType == TransactionConstants.Constants.SHIPPNG_INSTRUCTION)
                {
                    var siCode = allocationDetail.Code.ToString();
