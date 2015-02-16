@@ -30,5 +30,9 @@ namespace Cats.Areas.Logistics.Models
         public int StatusID { get; set; }
         public string StatusName { get; set; }
         public string Remark { get; set; }
+
+        public string SourceSwap { get; set; }
+        public string DestinationSwap { get; set; }
+
     }
 }

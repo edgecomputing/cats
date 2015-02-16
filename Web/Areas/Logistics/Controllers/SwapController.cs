@@ -18,7 +18,7 @@ using log4net;
 namespace Cats.Areas.Logistics.Controllers
 {
     [Authorize]
-    public class TransferController : Controller
+    public class SwapController : Controller
     {
         //
         // GET: /Logistics/Transfer/
@@ -28,7 +28,7 @@ namespace Cats.Areas.Logistics.Controllers
         private readonly ICommodityService _commodityService;
         private ILog _log;
         
-        public TransferController(ITransferService transferService,ICommonService commonService,IUserAccountService userAccountService,
+        public SwapController(ITransferService transferService,ICommonService commonService,IUserAccountService userAccountService,
                                   ICommodityService commodityService,ILog log)
         {
             _transferService = transferService;
@@ -46,7 +46,7 @@ namespace Cats.Areas.Logistics.Controllers
         public ActionResult Create()
         {
             var transfer = new TransferViewModel();
-            transfer.CommoditySource = _commonService.GetCommditySourceName(5);//commodity source for transfer
+            transfer.CommoditySource = _commonService.GetCommditySourceName(9);//commodity source for Swap
             ViewBag.ProgramID = new SelectList(_commonService.GetPrograms(), "ProgramID", "Name");
             ViewBag.SourceHubID = new SelectList(_commonService.GetAllHubs(), "HubID", "Name");
             ViewBag.CommodityID = new SelectList(_commonService.GetCommodities(t=>t.ParentID!=null), "CommodityID", "Name");
@@ -88,7 +88,7 @@ namespace Cats.Areas.Logistics.Controllers
           
            if(ModelState.IsValid && transfer!=null)
            {
-               transfer.CommoditySourceID = 5;//Commodity Source for transfer
+               transfer.CommoditySourceID = 9;//Commodity Source for Swao
                _transferService.EditTransfer(transfer);
                return RedirectToAction("detail", new {id = transfer.TransferID});
            }
@@ -107,15 +107,16 @@ namespace Cats.Areas.Logistics.Controllers
                   ShippingInstructionID=_commonService.GetShippingInstruction(transferViewModel.SiNumber),
                   SourceHubID=transferViewModel.SourceHubID,
                   ProgramID=transferViewModel.ProgramID,
-                  CommoditySourceID=5,
+                  CommoditySourceID=9,
                   CommodityID =transferViewModel.CommodityID,
                   DestinationHubID =transferViewModel.DestinationHubID,
                   ProjectCode=transferViewModel.ProjectCode,
                   Quantity=transferViewModel.Quantity,
                   CreatedDate=DateTime.Today,
                   ReferenceNumber=transferViewModel.ReferenceNumber,
-                  StatusID=(int)LocalPurchaseStatus.Draft
-
+                  StatusID=(int)LocalPurchaseStatus.Draft,
+                  SourceSwap=transferViewModel.SourceSwap,
+                  DestinationSwap=transferViewModel.DestinationSwap
                 };
             return transfer;
         }
@@ -141,7 +142,7 @@ namespace Cats.Areas.Logistics.Controllers
         public IEnumerable<TransferViewModel>  GetAllTransfers (IEnumerable<Transfer> transfers)
         {
             var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
-            return (from transfer in transfers where transfer.CommoditySourceID==5 
+            return (from transfer in transfers where transfer.CommoditySourceID==9
                     select new TransferViewModel
                         {
                             TransferID = transfer.TransferID,

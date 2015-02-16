@@ -201,8 +201,10 @@
     <Compile Include="Areas\Hub\Models\StackViewModel.cs" />
     <Compile Include="Areas\Hub\Models\StoreViewModel.cs" />
     <Compile Include="Areas\Hub\Models\TransporterViewModel.cs" />
+    <Compile Include="Areas\Logistics\Controllers\SwapController.cs" />
     <Compile Include="Areas\Logistics\Controllers\TransporterPaymentRequestController.cs" />
     <Compile Include="Areas\Logistics\Controllers\UnContractedTransportersController.cs" />
+    <Compile Include="Areas\Logistics\Models\SwapReciptPlanViewModel.cs" />
     <Compile Include="Areas\Logistics\Models\ProcessTemplateViewModel.cs" />
     <Compile Include="Areas\Logistics\Models\TransporterPaymentRequestViewModel.cs" />
     <Compile Include="Areas\Logistics\Models\UnContractedTransportersListViewModel.cs" />
@@ -701,6 +703,10 @@
     <Content Include="Areas\Procurement\Views\TransportOrder\reverseTOFromClosedtoDraft.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\NeedAssessment\AddRegion.cshtml" />
     <Content Include="Areas\Finance\Views\Home\Index.cshtml" />
+    <Content Include="Areas\Logistics\Views\Swap\Create.cshtml" />
+    <Content Include="Areas\Logistics\Views\Swap\Detail.cshtml" />
+    <Content Include="Areas\Logistics\Views\Swap\Edit.cshtml" />
+    <Content Include="Areas\Logistics\Views\Swap\Index.cshtml" />
     <None Include="Areas\Logistics\Views\DispatchAllocation\_AllocateProjectCode.cshtml" />
     <Content Include="Content\2013.1.219\Black\editor.png" />
     <Content Include="Content\2013.1.219\Black\imagebrowser.png" />

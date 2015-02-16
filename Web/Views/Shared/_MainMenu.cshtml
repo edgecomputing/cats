@@ -596,8 +596,13 @@
                                                                    @Url.Action("Index", "ReciptPlanForLoan", new { Area = "Logistics" }),
                                                                    LogisticsConstants.Operation.View_Loan_Menu_Item)
                                         </li>
-                                        
-                                       @* <li><a href="@Url.Action("Index", "LocalPurchase", new { Area = "Logistics" })">Local Purchase</a></li>
+                                         <li>
+                                            @Html.LogisticOperationMenuItem(@Html.Translate("Swap"),
+                                                                   @Url.Action("Index", "Swap", new { Area = "Logistics"}),
+                                                                   LogisticsConstants.Operation.View_Loan_Menu_Item) 
+                                        </li>
+
+                                        @* <li><a href="@Url.Action("Index", "LocalPurchase", new { Area = "Logistics" })">Local Purchase</a></li>
                                         <li><a href="@Url.Action("Index", "Transfer", new { Area = "Logistics" })">Transfer</a></li>
 
                                         <li><a href="@Url.Action("Index", "Donation", new { Area = "Logistics" })">Donation</a></li>
