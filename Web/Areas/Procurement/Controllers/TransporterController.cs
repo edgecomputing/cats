@@ -12,6 +12,7 @@ using Cats.Helpers;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
 using Cats.Procurement.Models;
+using Microsoft.Ajax.Utilities;
 
 namespace Cats.Areas.Procurement.Controllers
 {
@@ -157,12 +158,26 @@ namespace Cats.Areas.Procurement.Controllers
         public ActionResult Create()
         {
             //return RedirectToAction("Edit");
-            ViewBag.Regions = new SelectList(_adminUnitService.FindBy(t => t.AdminUnitTypeID == 2), "AdminUnitID", "Name");
-            ViewBag.zones = new SelectList(_adminUnitService.FindBy(z => z.AdminUnitTypeID == 3 && z.ParentID == 3), "AdminUnitID", "Name");
-            ViewBag.woredas = new SelectList(_adminUnitService.FindBy(w => w.AdminUnitTypeID == 4 && w.ParentID == 19), "AdminUnitID", "Name");
+            ViewBag.Regions = _adminUnitService.FindBy(t => t.AdminUnitTypeID == 2); //new SelectList(_adminUnitService.FindBy(t => t.AdminUnitTypeID == 2), "AdminUnitID", "Name");
+            //ViewBag.zones = new SelectList(_adminUnitService.FindBy(z => z.AdminUnitTypeID == 3 && z.ParentID == 3), "AdminUnitID", "Name");
+            //ViewBag.woredas = new SelectList(_adminUnitService.FindBy(w => w.AdminUnitTypeID == 4 && w.ParentID == 19), "AdminUnitID", "Name");
             return View();
         }
 
+        public JsonResult GetAdminUnitsList(string type, int parentId)
+        {
+            switch (type)
+            {
+                case "Region":
+                    return Json(new SelectList(_adminUnitService.FindBy(w => w.AdminUnitTypeID == 2), "AdminUnitID", "Name"), JsonRequestBehavior.AllowGet);
+                case "Zone":
+                    return Json(new SelectList(_adminUnitService.FindBy(w => w.AdminUnitTypeID == 3 && w.ParentID == parentId), "AdminUnitID", "Name"), JsonRequestBehavior.AllowGet);
+                case "Woreda":
+                    return Json(new SelectList(_adminUnitService.FindBy(w => w.AdminUnitTypeID == 4 && w.ParentID == parentId), "AdminUnitID", "Name"), JsonRequestBehavior.AllowGet);
+                default:
+                    return null;
+            }
+        }
         //
         // POST: /Procurement/Default1/Create
 
