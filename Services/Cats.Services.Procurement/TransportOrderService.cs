@@ -564,14 +564,19 @@ namespace Cats.Services.Procurement
        {
            try
            {
-               var transportOrder =
-                   _unitOfWork.TransportOrderRepository.FindBy(
-                       t =>
-                       t.TransporterID == transporterId &&
-                       t.StatusID == (int) Cats.Models.Constant.TransportOrderStatus.Draft).OrderByDescending(o=>o.TransportOrderID).FirstOrDefault();
+              
+              
+               var transportRequisitionWithoutWinnerModels = transReqWithTransporter as List<TransportRequisitionWithoutWinnerModel> ?? transReqWithTransporter.ToList();
+               var requisitionID = transportRequisitionWithoutWinnerModels.Select(m => m.RequisitionID);
+
+               var orderDetail =_unitOfWork.TransportOrderDetailRepository.FindBy(m=>m.TransportOrder.TransportOrderID==transporterId
+                                                                           && m.TransportOrder.StatusID==(int) Cats.Models.Constant.TransportOrderStatus.Draft
+                                                                           && requisitionID.Contains(m.RequisitionID)).FirstOrDefault();
+
+               var transportOrder = _unitOfWork.TransportOrderRepository.FindBy(m => m.TransportOrderID == orderDetail.TransportOrderID).FirstOrDefault();
                if (transportOrder!=null)
                {
-                   foreach (var detail in transReqWithTransporter)
+                   foreach (var detail in transportRequisitionWithoutWinnerModels)
                    {
                        var transportOrderDetail = new TransportOrderDetail();
                        transportOrderDetail.CommodityID = detail.CommodityID;
@@ -589,7 +594,7 @@ namespace Cats.Services.Procurement
                _unitOfWork.Save();
                if (isSaved)
                {
-                   foreach (var item in transReqWithTransporter)
+                   foreach (var item in transportRequisitionWithoutWinnerModels)
                    {
                        var withoutTransporter =
                            _unitOfWork.TransReqWithoutTransporterRepository.FindById(item.TransReqWithoutTransporterID);
