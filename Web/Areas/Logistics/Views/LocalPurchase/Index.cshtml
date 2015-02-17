@@ -24,7 +24,8 @@
                       columns.Bound(m => m.ReferenceNumber).Title(Html.Translate("Reference Number"));
                       columns.Bound(m => m.Quantity).HtmlAttributes(new { align = "right" }).Title(Html.Translate("Quantity"));
                       columns.Bound(m => m.Status).Title(Html.Translate("Status"));
-
+                      columns.Command(m => m.Custom("OnRevert").Click("Revert"));
+                      columns.Command(m => m.Custom("OnDelete").Click("Delete"));
                   }
 
               )
@@ -39,3 +40,59 @@
               //.Update(update => update.Action("Commodity_Update", "Request"))
               )
               )
+<script>
+    
+    function onDataBound(e) {
+        var grid = $("#grid").data("kendoGrid");
+        var gridData = grid.dataSource.view();
+        //alert(gridData.length);
+        for (var i = 0; i < gridData.length; i++) {
+            var currentUid = gridData[i].uid;
+            //alert(gridData[i].Status);
+            if (gridData[i].Status == "Draft") {
+                var currentRow = grid.table.find("tr[data-uid='" + currentUid + "']");
+                var approveButton = $(currentRow).find(".k-grid-Revert");
+                approveButton.hide();
+                
+            }
+
+
+        
+        }
+    }
+    
+
+    function OnDelete(e) {
+        e.preventDefault();
+        
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        window.wnd.center().open();
+
+        $("#yes").click(function () {
+
+            window.location = "@Url.Action("Delete", "LocalPurchase")" + "/" + dataItem.LocalPurchaseID;
+            window.wnd.close();
+        });
+
+        $("#no").click(function () {
+            window.wnd.close();
+        });
+    }
+    
+    function OnRevert(e) {
+        e.preventDefault();
+
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        window.wnd.center().open();
+
+        $("#yes").click(function () {
+
+            window.location = "@Url.Action("RevertToDraft", "LocalPurchase")" + "/" + dataItem.LocalPurchaseID;
+            window.wnd.close();
+        });
+
+        $("#no").click(function () {
+            window.wnd.close();
+        });
+    }
+</script>

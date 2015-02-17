@@ -208,6 +208,7 @@
     <Compile Include="Areas\Logistics\Models\ProcessTemplateViewModel.cs" />
     <Compile Include="Areas\Logistics\Models\TransporterPaymentRequestViewModel.cs" />
     <Compile Include="Areas\Logistics\Models\UnContractedTransportersListViewModel.cs" />
+    <Compile Include="Areas\Procurement\Controllers\DuplicatedController.cs" />
     <Compile Include="Areas\Procurement\Models\DelayedTransportOrderViewModel.cs" />
     <Compile Include="Areas\Settings\Controllers\AccountController.cs" />
     <Compile Include="Areas\Settings\Controllers\CurrencyController.cs" />
@@ -2517,6 +2518,7 @@
     <Content Include="Areas\Settings\Views\UserActivity\Index.cshtml" />
     <Content Include="Areas\Procurement\Views\TransportOrder\RevertRequsitions.cshtml" />
     <Content Include="Areas\Logistics\Views\TransporterPaymentRequest\Multiplesubmission.cshtml" />
+    <Content Include="Areas\Procurement\Views\Duplicated\Index.cshtml" />
     <None Include="dataset.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>dataset.Designer.cs</LastGenOutput>
