@@ -19,13 +19,13 @@
     <h4 class="page-header">@Html.Translate(title) 
     @Html.Label("Owner", mdl.Owner) - @Html.Label("WH", mdl.Name) @Html.Translate(" Hub ")
     
-    @{
+    @*@{
         if(usr.UserAllowedHubs.Count > 1)
         {
             @Html.HubSelectionLink(Html.Translate("Change Warehouse"), Url.Action("HubList", "CurrentHub"), Html.Translate("Change Hub"))
         }
         
-   } </h4>
+   }*@ </h4>
 </div>
 
 
