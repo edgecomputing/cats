@@ -24,8 +24,8 @@
                       columns.Bound(m => m.ReferenceNumber).Title(Html.Translate("Reference Number"));
                       columns.Bound(m => m.Quantity).HtmlAttributes(new { align = "right" }).Title(Html.Translate("Quantity"));
                       columns.Bound(m => m.Status).Title(Html.Translate("Status"));
-                      columns.Command(m => m.Custom("OnRevert").Click("Revert"));
-                      columns.Command(m => m.Custom("OnDelete").Click("Delete"));
+                      columns.Command(m => m.Custom("Revert").Click("OnRevert"));
+                      columns.Command(m => m.Custom("Delete").Click("OnDelete"));
                   }
 
               )
@@ -83,16 +83,52 @@
         e.preventDefault();
 
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
-        window.wnd.center().open();
+        wndRevert.wnd.center().open();
 
         $("#yes").click(function () {
 
-            window.location = "@Url.Action("RevertToDraft", "LocalPurchase")" + "/" + dataItem.LocalPurchaseID;
-            window.wnd.close();
+            wndRevert.location = "@Url.Action("RevertToDraft", "LocalPurchase")" + "/" + dataItem.LocalPurchaseID;
+            wndRevert.wnd.close();
         });
 
         $("#no").click(function () {
-            window.wnd.close();
+            wndRevert.wnd.close();
         });
     }
+</script>
+
+<div id="modalWindow">
+    <h4>Are You Sure You Want to Delete this Local Purchase?</h4>
+    <button id="yes" class="k-button">Yes</button>
+    <button id="no" class="k-button">No</button>
+</div>
+<script>
+    var wnd;
+    $(document).ready(function () {
+        wnd = $("#modalWindow").kendoWindow({
+            title: "Delete confirmation",
+            modal: true,
+            visible: false,
+            resizable: false,
+            width: 300
+        }).data("kendoWindow");
+    });
+</script>
+
+<div id="modalWindowRevert">
+    <h4>Are You Sure You Want to Revert this Contribution?</h4>
+    <button id="yesRevert" class="k-button">Yes</button>
+    <button id="noRevert" class="k-button">No</button>
+</div>
+<script>
+    var wndRevert;
+    $(document).ready(function () {
+        wnd = $("#modalWindowRevert").kendoWindow({
+            title: "Revert confirmation",
+            modal: true,
+            visible: false,
+            resizable: false,
+            width: 300
+        }).data("kendoWindow");
+    });
 </script>

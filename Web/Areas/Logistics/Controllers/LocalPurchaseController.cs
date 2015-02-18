@@ -357,5 +357,43 @@ namespace Cats.Areas.Logistics.Controllers
             ViewBag.CommodityTypeID = new SelectList(_commonService.GetCommodityTypes(), "CommodityTypeID", "Name");
             ViewBag.DonorID = new SelectList(_commonService.GetDonors(), "DonorID", "Name");
         }
+
+        public ActionResult Delete(int localPurchaseId)
+        {
+            var localPurchase = _localPurchaseService.FindById(localPurchaseId);
+
+                if (localPurchase != null)
+                {
+                    switch (localPurchase.StatusID)
+                    {
+                        case (int)LocalPurchaseStatus.Approved:
+
+                            break;
+                        case (int)LocalPurchaseStatus.Draft:
+                            {
+                                var localPurchaesDetail =_localPurchaseDetailService.FindBy(l => l.LocalPurchaseID == localPurchaseId);
+
+                                if (localPurchaesDetail != null)
+                                {
+                                    foreach (var localPurchaseDetail in localPurchaesDetail)
+                                    {
+                                        _localPurchaseDetailService.DeleteLocalPurchaseDetail(localPurchaseDetail);
+                                    }
+
+
+                                    _localPurchaseService.DeleteById(localPurchaseId);//delete the header
+                                }
+                                else
+                                {
+                                    _localPurchaseService.DeleteById(localPurchaseId);
+                                }
+                                return RedirectToAction("Index");
+                            }
+
+                    }
+                }
+                return RedirectToAction("Index");
+        }
+
     }
 }
