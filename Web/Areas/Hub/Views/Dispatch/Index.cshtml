@@ -4,13 +4,12 @@
 @model Cats.Models.Hubs.ViewModels.Dispatch.DispatchHomeViewModel
 @{
     ViewBag.Title = Html.Translate("Expected Dispatch");
-    var mesure = Html.GetCurrentUser().PreferedWeightMeasurment;
+    string mesure = Html.GetCurrentUser().PreferedWeightMeasurment;
     ViewBag.Title = Html.Translate("Expected dispatches");
 
     string quanityColumnHeader = "MT ";
 
-    if (mesure.ToUpperInvariant() == "MT " )
-
+    if (mesure.ToUpperInvariant() == "MT ")
     {
         quanityColumnHeader = "MT";
     }
@@ -44,48 +43,48 @@
 
 
 
-    @Html.Hidden("AdminUnitIDSelector")
+@Html.Hidden("AdminUnitIDSelector")
 
 
-    <script type="text/javascript">
-        $(function () {
-            //load the regions tree
-            $('.t-in').siblings('span').click();
+<script type="text/javascript">
+    $(function () {
+        //load the regions tree
+        $('.t-in').siblings('span').click();
 
-            $("#showAllAdminUnits").change(function () {
-                if ($(this).attr('checked') == 'checked') {
-                    //remove the value from the hidden field
-                    $('#AdminUnitIDSelector').val(null);
+        $("#showAllAdminUnits").change(function () {
+            if ($(this).attr('checked') == 'checked') {
+                //remove the value from the hidden field
+                $('#AdminUnitIDSelector').val(null);
 
-                    //remove the selected item from the tree
-                    //TODO fix this to specifically select  the tree elt
-                    $('.t-state-selected').removeClass('t-state-selected');
+                //remove the selected item from the tree
+                //TODO fix this to specifically select  the tree elt
+                $('.t-state-selected').removeClass('t-state-selected');
 
-                    //rebind the grid
-                    var gr = $('#DispatchAllocationGrid1').data('tGrid');
-                    gr.rebind();
+                //rebind the grid
+                var gr = $('#DispatchAllocationGrid1').data('tGrid');
+                gr.rebind();
 
 
-                }
-            });
-        });
-
-        function TreeView_onSelect(e) {
-            // `this` is the DOM element of the treeview
-            var treeview = $(this).data('AdminUnitTree');
-            $("#showAllAdminUnits").removeAttr('checked');
-            var nodeElement = e.item;
-            //var firstNodeElement = $("li:first", nodeElement)[0];
-            var gr = $('#DispatchAllocationGrid1').data('tGrid');
-            var cal = $($($(nodeElement).children().children())[1]).val();
-            if (gr != null) {
-                var AdminUnitID = { AdminUnitID: $(nodeElement.getElementsByTagName('input')).val() };
-                $('#AdminUnitIDSelector').val($(nodeElement.getElementsByTagName('input')).val());
-                gr.rebind(AdminUnitID);
             }
+        });
+    });
 
+    function TreeView_onSelect(e) {
+        // `this` is the DOM element of the treeview
+        var treeview = $(this).data('AdminUnitTree');
+        $("#showAllAdminUnits").removeAttr('checked');
+        var nodeElement = e.item;
+        //var firstNodeElement = $("li:first", nodeElement)[0];
+        var gr = $('#DispatchAllocationGrid1').data('tGrid');
+        var cal = $($($(nodeElement).children().children())[1]).val();
+        if (gr != null) {
+            var AdminUnitID = { AdminUnitID: $(nodeElement.getElementsByTagName('input')).val() };
+            $('#AdminUnitIDSelector').val($(nodeElement.getElementsByTagName('input')).val());
+            gr.rebind(AdminUnitID);
         }
-    </script>
+
+    }
+</script>
 <div class="field-set-title">
     <h2>@Html.Translate("Dispatch To FDPs")</h2>
     @*@Html.ActionLink(Html.Translate("Dispatch Planning"), "Index", "DispatchAllocation")
@@ -94,12 +93,12 @@
     </span>*@
 </div>
 <div class="field-set">
-<table width="100%" class="borderless">
-   
-    <tr>    
-        <td style="vertical-align: top">
-            <div style="max-height: 350px; overflow-y: auto;width: 215px">
-                @(Html.Telerik().TreeView().ClientEvents(events => events.OnSelect("TreeView_onSelect"))
+    <table width="100%" class="borderless">
+
+        <tr>
+            <td style="vertical-align: top">
+                <div style="max-height: 350px; overflow-y: auto; width: 215px">
+                    @(Html.Telerik().TreeView().ClientEvents(events => events.OnSelect("TreeView_onSelect"))
            .Name("AdminUnitTree")
            .BindTo(Model.AdminUnits, (item, AdminUnits) =>
                                          {
@@ -109,89 +108,90 @@
                                              item.LoadOnDemand = AdminUnits.AdminUnit1.Count > 0;
                                          }).ShowLines(true)
            .DataBinding(dataBinding => dataBinding.Ajax().Select("GetTreeElts", "AdminUnit")))
-            </div>
-        </td>
-        <td style="vertical-align: top">
+                </div>
+            </td>
+            <td style="vertical-align: top">
 
-            @(Html.Telerik().Grid<Cats.Models.Hubs.ViewModels.DispatchAllocationViewModelDto>().Name("DispatchAllocationGrid1")
+                @(Html.Telerik().Grid<Cats.Models.Hubs.ViewModels.DispatchAllocationViewModelDto>().Name("DispatchAllocationGrid1")
            .ToolBar(toolBar => toolBar.Template(
                @<text>
-                    <label class="closed-label" for="Closed-input">
-                        @Html.Translate("Show closed Plans")  : <input type="checkbox" class="chkBoxUnclosed" id="chk-closedtoo-FDP" data-val="FDP" />
-                    </label>
-                    <script type="text/javascript">
-                        $(function () {
-                            $("#chk-closedtoo-FDP").change(function () {
-//                         var gridNum = $(this).attr('data-val');
-                                var gr = $('#DispatchAllocationGrid1').data('tGrid');
-                                if (gr != null) {
-                                    gr.rebind();
-                                }
-                            });
-                        });
-
-                        function dataBindingFDP(args) {
-                            var commType = $("#CommodityTypeSelector-1").val();
-                            if ($("#chk-closedtoo-FDP").attr('checked') == 'checked') {
-                                args.data = $.extend(args.data, { closed: true, AdminUnitID: $('#AdminUnitIDSelector').val(), CommodityType: commType });
-                            }else {
-                                args.data = $.extend(args.data, { closed: false, AdminUnitID: $('#AdminUnitIDSelector').val(), CommodityType: commType });
-                            }
+                <label class="closed-label" for="Closed-input">
+                    @Html.Translate("Show closed Plans")  :
+                    <input type="checkbox" class="chkBoxUnclosed" id="chk-closedtoo-FDP" data-val="FDP" />
+                </label>
+                <script type="text/javascript">
+                    $(function () {
+                        $("#chk-closedtoo-FDP").change(function () {
+                            //                         var gridNum = $(this).attr('data-val');
                             var gr = $('#DispatchAllocationGrid1').data('tGrid');
-                            if (commType == 1 || commType == null) {
-                                gr.hideColumn(5);
-                                gr.hideColumn(7);
-                                gr.hideColumn(9);
-                                gr.showColumn(4);
-                                gr.showColumn(6);
-                                gr.showColumn(8);
-                            }
-                            else {
-                                gr.hideColumn(4);
-                                gr.hideColumn(6);
-                                gr.hideColumn(8);
-                                gr.showColumn(5);
-                                gr.showColumn(7);
-                                gr.showColumn(9);
-
-                            }
-                        
-                        }
-
-                        function comTypeChange1(e) {
-                            var Params = { CommodityType: e.value, closedToo: $("#chk-closedtoo-FDP").attr('checked') == 'checked', AdminUnitID: $('#AdminUnitIDSelector').val() };
-                            var gr = $('#DispatchAllocationGrid1').data('tGrid');
-
-                            if (e.value == 1 || e.value == null) {
-                                gr.hideColumn(5);
-                                gr.hideColumn(7);
-                                gr.hideColumn(9);
-                                gr.showColumn(4);
-                                gr.showColumn(6);
-                                gr.showColumn(8);
-                            }
-                            else {
-                                gr.hideColumn(4);
-                                gr.hideColumn(6);
-                                gr.hideColumn(8);
-                                gr.showColumn(5);
-                                gr.showColumn(7);
-                                gr.showColumn(9);
-
-                            }
-
-                            
                             if (gr != null) {
-                                gr.rebind(Params);
+                                gr.rebind();
                             }
+                        });
+                    });
+
+                    function dataBindingFDP(args) {
+                        var commType = $("#CommodityTypeSelector-1").val();
+                        if ($("#chk-closedtoo-FDP").attr('checked') == 'checked') {
+                            args.data = $.extend(args.data, { closed: true, AdminUnitID: $('#AdminUnitIDSelector').val(), CommodityType: commType });
+                        } else {
+                            args.data = $.extend(args.data, { closed: false, AdminUnitID: $('#AdminUnitIDSelector').val(), CommodityType: commType });
                         }
-                    </script>
-                    
-              
+                        var gr = $('#DispatchAllocationGrid1').data('tGrid');
+                        if (commType == 1 || commType == null) {
+                            gr.hideColumn(5);
+                            gr.hideColumn(7);
+                            gr.hideColumn(9);
+                            gr.showColumn(4);
+                            gr.showColumn(6);
+                            gr.showColumn(8);
+                        }
+                        else {
+                            gr.hideColumn(4);
+                            gr.hideColumn(6);
+                            gr.hideColumn(8);
+                            gr.showColumn(5);
+                            gr.showColumn(7);
+                            gr.showColumn(9);
+
+                        }
+
+                    }
+
+                    function comTypeChange1(e) {
+                        var Params = { CommodityType: e.value, closedToo: $("#chk-closedtoo-FDP").attr('checked') == 'checked', AdminUnitID: $('#AdminUnitIDSelector').val() };
+                        var gr = $('#DispatchAllocationGrid1').data('tGrid');
+
+                        if (e.value == 1 || e.value == null) {
+                            gr.hideColumn(5);
+                            gr.hideColumn(7);
+                            gr.hideColumn(9);
+                            gr.showColumn(4);
+                            gr.showColumn(6);
+                            gr.showColumn(8);
+                        }
+                        else {
+                            gr.hideColumn(4);
+                            gr.hideColumn(6);
+                            gr.hideColumn(8);
+                            gr.showColumn(5);
+                            gr.showColumn(7);
+                            gr.showColumn(9);
+
+                        }
+
+
+                        if (gr != null) {
+                            gr.rebind(Params);
+                        }
+                    }
+                </script>
+
+
                 @(Html.Telerik().ComboBox()
                                 .Name("CommodityTypeSelector-" + 1)
-                                .BindTo(new SelectList(Model.CommodityTypes, "CommodityTypeID","Name",Model.CommodityTypeID))
-                               // .DataBinding(binding => binding.Ajax().Select("_GetCommodityTypes", "CommodityType"))
+                                .BindTo(new SelectList(Model.CommodityTypes, "CommodityTypeID", "Name", Model.CommodityTypeID))
+                        // .DataBinding(binding => binding.Ajax().Select("_GetCommodityTypes", "CommodityType"))
                                 .AutoFill(true)
                                 .Filterable(filtering =>
                                 {
@@ -210,6 +210,7 @@
 
 
                col =>
+
                    {
 
                        col.Bound(dis => dis.DispatchAllocationID).
@@ -250,10 +251,11 @@
                    })
 
 
+
            .DetailView(details => details.ClientTemplate(
                Html.Telerik().Grid<DispatchModelModelDto>()
                    .Name("Dispatchs_<#= DispatchAllocationID #>")
-                   //    .ClientEvents(events => events.OnRowDataBound("Receives_onRowDataBound"))
+               //    .ClientEvents(events => events.OnRowDataBound("Receives_onRowDataBound"))
                    .Columns(dispCols =>
                                 {
                                     dispCols.Bound(d => d.DispatchDate).Format("{0:d-MMM-yyyy}");
@@ -272,7 +274,7 @@
                                         {
                                             c.Bound(com => com.CommodityName).Title(Html.Translate("Commodity"));
                                             c.Bound(com => com.UnitName).Title(Html.Translate("Unit"));
-                                            c.Bound(com => com.RequestedQuantityInUnit).Title(Html.Translate("Requested Qty (Unit)")).HtmlAttributes(new { align = "right" }); 
+                                            c.Bound(com => com.RequestedQuantityInUnit).Title(Html.Translate("Requested Qty (Unit)")).HtmlAttributes(new { align = "right" });
                                             c.Bound(com => com.DispatchedQuantityInUnit).Title("Dispatched Qty (Unit)").HtmlAttributes(new { align = "right" }); ;
                                             c.Bound(com => com.RequestedQuantityMT).Title(Html.Translate("Requested Qty " + quanityColumnHeader)).HtmlAttributes(new { align = "right" }); ;
                                             c.Bound(com => com.DispatchedQuantityMT).Title(Html.Translate("Dispatched Qty " + quanityColumnHeader)).HtmlAttributes(new { align = "right" }); ;
@@ -304,9 +306,9 @@
                                       .Position(GridPagerPosition.Bottom)
            ).Filterable()
                   )
-        </td>
-    </tr>
-</table>
+            </td>
+        </tr>
+    </table>
 </div>
 <br />
 
@@ -317,7 +319,7 @@
             <h2>
                 @Html.Translate("Dispatch to Loans")</h2>
 
-        
+
             @* @Html.ActionLink(Html.Translate("Add new dispatch plan"), "ToOtherOwners", "DispatchAllocation")*@
             <a href="javascript:createNewLoan();">@Html.Translate("Add new dispatch plan")</a>
             <span style="float: right">
@@ -325,76 +327,77 @@
             </span>
         </td>
     </tr>
-    <tr >
+    <tr>
         <td class="field-set">
             @(Html.Telerik().Grid<OtherDispatchAllocationDto>().Name("DispatchAllocationGrid2")
            .DataKeys(keys => keys.Add(co => co.OtherDispatchAllocationID)).
            ToolBar(toolBar => toolBar.Template(
                @<text>
-                    <label class="closed-label" for="Closed-input">
-                        @Html.Translate("Show closed Plans")  : <input type="checkbox" class="chkBoxUnclosed" id="chk-closedtoo-Loan" data-val="Loan" />
-                    </label>
-                    
-                    <script type="text/javascript">
-                        $(function () {
-                            $("#chk-closedtoo-Loan").change(function () {
-                                //var gridNum = $(this).attr('data-val');
-                                var gr = $('#DispatchAllocationGrid2').data('tGrid');
-                                if (gr != null) {
-                                    gr.rebind();
-                                }
-                            });
-                        });
+            <label class="closed-label" for="Closed-input">
+                @Html.Translate("Show closed Plans")  :
+                <input type="checkbox" class="chkBoxUnclosed" id="chk-closedtoo-Loan" data-val="Loan" />
+            </label>
 
-                        function dataBindingLoan(args) {
-                            var commType = $("#CommodityTypeSelector-2").val();
-                            if ($("#chk-closedtoo-Loan").attr('checked') == 'checked') {
-                                args.data = $.extend(args.data, { closed: true, CommodityType: commType }); 
-                            }else {
-                                args.data = $.extend(args.data, { closed: false, CommodityType: commType });
-                            }
-
-                            var gr = $('#DispatchAllocationGrid2').data('tGrid');
-                            if (commType == 1 || commType == null) {
-                                gr.hideColumn(4);
-                                gr.hideColumn(6);
-                                gr.showColumn(3);
-                                gr.showColumn(5);
-                            }
-                            else { 
-                                gr.hideColumn(3);
-                                gr.hideColumn(5);
-                                gr.showColumn(4);
-                                gr.showColumn(6);
-
-                            }
+            <script type="text/javascript">
+                $(function () {
+                    $("#chk-closedtoo-Loan").change(function () {
+                        //var gridNum = $(this).attr('data-val');
+                        var gr = $('#DispatchAllocationGrid2').data('tGrid');
+                        if (gr != null) {
+                            gr.rebind();
                         }
-                        function comTypeChange2(e) {
-                            var Params = { CommodityType: e.value, closedToo: $("#chk-closedtoo-Loan").attr('checked') == 'checked' };
-                            var gr = $('#DispatchAllocationGrid2').data('tGrid');
+                    });
+                });
 
-                            if (e.value == 1 || e.value == null) {
-                                gr.hideColumn(4);
-                                gr.hideColumn(6);
-                                gr.showColumn(3);
-                                gr.showColumn(5);
-                            }
-                            else {
-                                gr.showColumn(4);
-                                gr.showColumn(6);
-                                gr.hideColumn(3);
-                                gr.hideColumn(5);
-                            } 
-                            if (gr != null) {
-                                gr.rebind(Params);
-                            }
-                        }
-                    </script>
-           
-                @(Html.Telerik().ComboBox()
+                function dataBindingLoan(args) {
+                    var commType = $("#CommodityTypeSelector-2").val();
+                    if ($("#chk-closedtoo-Loan").attr('checked') == 'checked') {
+                        args.data = $.extend(args.data, { closed: true, CommodityType: commType });
+                    } else {
+                        args.data = $.extend(args.data, { closed: false, CommodityType: commType });
+                    }
+
+                    var gr = $('#DispatchAllocationGrid2').data('tGrid');
+                    if (commType == 1 || commType == null) {
+                        gr.hideColumn(4);
+                        gr.hideColumn(6);
+                        gr.showColumn(3);
+                        gr.showColumn(5);
+                    }
+                    else {
+                        gr.hideColumn(3);
+                        gr.hideColumn(5);
+                        gr.showColumn(4);
+                        gr.showColumn(6);
+
+                    }
+                }
+                function comTypeChange2(e) {
+                    var Params = { CommodityType: e.value, closedToo: $("#chk-closedtoo-Loan").attr('checked') == 'checked' };
+                    var gr = $('#DispatchAllocationGrid2').data('tGrid');
+
+                    if (e.value == 1 || e.value == null) {
+                        gr.hideColumn(4);
+                        gr.hideColumn(6);
+                        gr.showColumn(3);
+                        gr.showColumn(5);
+                    }
+                    else {
+                        gr.showColumn(4);
+                        gr.showColumn(6);
+                        gr.hideColumn(3);
+                        gr.hideColumn(5);
+                    }
+                    if (gr != null) {
+                        gr.rebind(Params);
+                    }
+                }
+            </script>
+
+            @(Html.Telerik().ComboBox()
                                 .Name("CommodityTypeSelector-" + 2)
                                 .BindTo(new SelectList(Model.CommodityTypes, "CommodityTypeID", "Name", Model.CommodityTypeID))
-                               // .DataBinding(binding => binding.Ajax().Select("_GetCommodityTypes", "CommodityType"))
+                    // .DataBinding(binding => binding.Ajax().Select("_GetCommodityTypes", "CommodityType"))
                                 .AutoFill(true)
                                 .Filterable(filtering =>
                                 {
@@ -406,7 +409,7 @@
                                 .ClientEvents(events => events.OnChange("comTypeChange" + 2)) //.OnLoad("onComboBoxLoad"))
                 )
 
-                </text>))
+            </text>))
 
            .ClientEvents(ev => ev.OnDataBinding("dataBindingLoan"))
            .Columns(col =>
@@ -418,7 +421,7 @@
                                 ClientTemplate("<div style='min-width:120px'><a href='"
                                                + @Url.Action("Create", "Dispatch", new { @allocationId = "<#= OtherDispatchAllocationID #>", @type = "<#= 2 #>" })
                                                + "' >" + @Html.Translate("Dispatch") + "</a><span>   </span>  "
-                                               //editLoan
+                                //editLoan
                                                + "<a href='#' onclick='javascript:editLoan(\"<#= OtherDispatchAllocationID #>\")'"
                                                + "' >" + @Html.Translate("Edit") + "</a>"
                                                + "<span> </span>"
@@ -429,27 +432,27 @@
                                                + "<span> </span></div>"
 
                                 ).Title("Action");
-                            
+
                             col.Bound(gc => gc.ReferenceNumber);
                             col.Bound(gc => gc.AgreementDate).Title(Html.Translate("Agreement Date")).Format("{0:d-MMM-yyyy}"); ;
                             col.Bound(gc => gc.QuantityInMT).Title(Html.Translate("Quantity In " + quanityColumnHeader)).HtmlAttributes(new { align = "right" });
                             col.Bound(gc => gc.QuantityInUnit).Title(Html.Translate("Quantity In Unit")).HtmlAttributes(new { align = "right" });
-                            col.Bound(gc => gc.RemainingQuantityInMt).Title(Html.Translate("Reamining In " + quanityColumnHeader)).HtmlAttributes(new { align = "right" });
-                            col.Bound(gc => gc.RemainingQuantityInUnit).Title(Html.Translate("Reamining In Unit")).HtmlAttributes(new { align = "right" });
+                            col.Bound(gc => gc.RemainingQuantityInMt).Title(Html.Translate("Remaining In " + quanityColumnHeader)).HtmlAttributes(new { align = "right" });
+                            col.Bound(gc => gc.RemainingQuantityInUnit).Title(Html.Translate("Remaining In Unit")).HtmlAttributes(new { align = "right" });
                             col.Bound(gc => gc.CommodityName).Title(Html.Translate("Commodity"));
                             col.Bound(gc => gc.EstimatedDispatchDate).Title(Html.Translate("Arival Date")).Format("{0:d-MMM-yyyy}"); ;
                             col.Bound(gc => gc.SINumber).Title(Html.Translate("SI Number"));
                             col.Bound(gc => gc.ProjectCode).Title(Html.Translate("Project Code"));
 
-                   //         col.Template(@<text></text>)
-                   //             .ClientTemplate("<input type='checkbox' disabled='disabled' name='excess' <#= ((RemainingQuantityInMt < 0) ||(RemainingQuantityInUnit < 0)) ?\"checked='checked'\" : \"\" #> />").Title(Html.Translate("Excess"));
+                            //         col.Template(@<text></text>)
+                            //             .ClientTemplate("<input type='checkbox' disabled='disabled' name='excess' <#= ((RemainingQuantityInMt < 0) ||(RemainingQuantityInUnit < 0)) ?\"checked='checked'\" : \"\" #> />").Title(Html.Translate("Excess"));
 
                         })
 
            .DetailView(details => details.ClientTemplate(
                Html.Telerik().Grid<DispatchModelModelDto>()
                    .Name("Loan_Dispatchs_<#= OtherDispatchAllocationID #>")
-                   //    .ClientEvents(events => events.OnRowDataBound("Receives_onRowDataBound"))
+               //    .ClientEvents(events => events.OnRowDataBound("Receives_onRowDataBound"))
                    .Columns(dispCols =>
                                 {
                                     dispCols.Bound(d => d.DispatchDate).Format("{0:d-MMM-yyyy}");
@@ -506,17 +509,17 @@
 
 
 <table width="100%" class="borderless">
-    <tr >
+    <tr>
         <td class="field-set-title">
             <h2>@Html.Translate("Dispatch to Transfers/Swap")</h2>
-       
+
             <!--<a href="javascript:createNewTransfer();">Html.Translate("Add new dispatch plan")</a>-->
             <span style="float: right">
                 @Html.ActionLink(Html.Translate("New Dispatch"), "Create", "Dispatch", new { type = 3 }, null)
             </span>
         </td>
     </tr>
-    <tr >
+    <tr>
         <td class="field-set">
             @(Html.Telerik().Grid<OtherDispatchAllocationDto>().Name("DispatchAllocationGrid3")
            .DataKeys(keys => keys.Add(co => co.OtherDispatchAllocationID)).
@@ -527,68 +530,68 @@
 
                 <input type="checkbox" class="chkBoxUnclosed" id="chk-closedtoo-Transfer" data-val="Transfer" />
             </label>
-             <script type="text/javascript">
-                 $(function () {
-                     $("#chk-closedtoo-Transfer").change(function () {
-                         //                         var gridNum = $(this).attr('data-val');
-                         var gr = $('#DispatchAllocationGrid3').data('tGrid');
-                         if (gr != null) {
-                             gr.rebind();
-                         }
-                     });
-                 });
+            <script type="text/javascript">
+                $(function () {
+                    $("#chk-closedtoo-Transfer").change(function () {
+                        //                         var gridNum = $(this).attr('data-val');
+                        var gr = $('#DispatchAllocationGrid3').data('tGrid');
+                        if (gr != null) {
+                            gr.rebind();
+                        }
+                    });
+                });
 
-                 function dataBindingTransfer(args) {
-                     var commType = $("#CommodityTypeSelector-3").val();
-                     if ($("#chk-closedtoo-Transfer").attr('checked') == 'checked') {
-                         args.data = $.extend(args.data, { closed: true, CommodityType: commType });
-                     }else {
-                         args.data = $.extend(args.data, { closed: false, CommodityType: commType });
-                     }
-                     var gr = $('#DispatchAllocationGrid3').data('tGrid');
-                     if (commType == 1 || commType == null) {
-                         gr.hideColumn(4);
-                         gr.hideColumn(6);
-                         gr.showColumn(3);
-                         gr.showColumn(5);
-                     }
-                     else {
-                         gr.hideColumn(3);
-                         gr.hideColumn(5);
-                         gr.showColumn(4);
-                         gr.showColumn(6);
+                function dataBindingTransfer(args) {
+                    var commType = $("#CommodityTypeSelector-3").val();
+                    if ($("#chk-closedtoo-Transfer").attr('checked') == 'checked') {
+                        args.data = $.extend(args.data, { closed: true, CommodityType: commType });
+                    } else {
+                        args.data = $.extend(args.data, { closed: false, CommodityType: commType });
+                    }
+                    var gr = $('#DispatchAllocationGrid3').data('tGrid');
+                    if (commType == 1 || commType == null) {
+                        gr.hideColumn(4);
+                        gr.hideColumn(6);
+                        gr.showColumn(3);
+                        gr.showColumn(5);
+                    }
+                    else {
+                        gr.hideColumn(3);
+                        gr.hideColumn(5);
+                        gr.showColumn(4);
+                        gr.showColumn(6);
 
-                     }
-                 }
+                    }
+                }
 
-                 function comTypeChange3(e) {
-                     var Params = { CommodityType: e.value, closedToo: $("#chk-closedtoo-Transfer").attr('checked') == 'checked' };
-                     var gr = $('#DispatchAllocationGrid3').data('tGrid');
-                     
-                     if (e.value == 1 || e.value == null) {
-                         gr.hideColumn(4);
-                         gr.hideColumn(6);
-                         gr.showColumn(3);
-                         gr.showColumn(5);
-                     }
-                     else {
-                         gr.hideColumn(3);
-                         gr.hideColumn(5);
-                         gr.showColumn(4);
-                         gr.showColumn(6);
+                function comTypeChange3(e) {
+                    var Params = { CommodityType: e.value, closedToo: $("#chk-closedtoo-Transfer").attr('checked') == 'checked' };
+                    var gr = $('#DispatchAllocationGrid3').data('tGrid');
 
-                     }
-                     
-                     if (gr != null) {
-                         gr.rebind(Params);
-                     }
-                     
-                 }
-             </script>
-                @(Html.Telerik().ComboBox()
+                    if (e.value == 1 || e.value == null) {
+                        gr.hideColumn(4);
+                        gr.hideColumn(6);
+                        gr.showColumn(3);
+                        gr.showColumn(5);
+                    }
+                    else {
+                        gr.hideColumn(3);
+                        gr.hideColumn(5);
+                        gr.showColumn(4);
+                        gr.showColumn(6);
+
+                    }
+
+                    if (gr != null) {
+                        gr.rebind(Params);
+                    }
+
+                }
+            </script>
+            @(Html.Telerik().ComboBox()
                                 .Name("CommodityTypeSelector-" + 3)
                                 .BindTo(new SelectList(Model.CommodityTypes, "CommodityTypeID", "Name", Model.CommodityTypeID))
-                               // .DataBinding(binding => binding.Ajax().Select("_GetCommodityTypes", "CommodityType"))
+                    // .DataBinding(binding => binding.Ajax().Select("_GetCommodityTypes", "CommodityType"))
                                 .AutoFill(true)
                                 .Filterable(filtering =>
                                 {
@@ -599,7 +602,7 @@
                                 .SelectedIndex(0)
                                 .ClientEvents(events => events.OnChange("comTypeChange" + 3)) //.OnLoad("onComboBoxLoad"))
                 )
-                 </text>))
+            </text>))
            .ClientEvents(ev => ev.OnDataBinding("dataBindingTransfer"))
            .Columns(col =>
            {
@@ -619,20 +622,20 @@
                        + "<span> </span></div>"
 
             ).Title("Action");
-               
+
                col.Bound(gc => gc.ReferenceNumber);
                col.Bound(gc => gc.AgreementDate).Title(Html.Translate("Agreement Date")).Format("{0:d-MMM-yyyy}"); ;
                col.Bound(gc => gc.QuantityInMT).Title(Html.Translate("Quantity In " + quanityColumnHeader)).HtmlAttributes(new { align = "right" });
                col.Bound(gc => gc.QuantityInUnit).Title(Html.Translate("Quantity In Unit")).HtmlAttributes(new { align = "right" });
-               col.Bound(gc => gc.RemainingQuantityInMt).Title(Html.Translate("Reamining In " + quanityColumnHeader)).HtmlAttributes(new { align = "right" });
-               col.Bound(gc => gc.RemainingQuantityInUnit).Title(Html.Translate("Reamining In Unit")).HtmlAttributes(new { align = "right" });
+               col.Bound(gc => gc.RemainingQuantityInMt).Title(Html.Translate("Remaining In " + quanityColumnHeader)).HtmlAttributes(new { align = "right" });
+               col.Bound(gc => gc.RemainingQuantityInUnit).Title(Html.Translate("Remaining In Unit")).HtmlAttributes(new { align = "right" });
                col.Bound(gc => gc.CommodityName).Title(Html.Translate("Commodity"));
                col.Bound(gc => gc.EstimatedDispatchDate).Title(Html.Translate("Arival Date")).Format("{0:d-MMM-yyyy}"); ;
                col.Bound(gc => gc.SINumber).Title(Html.Translate("SI Number"));
                col.Bound(gc => gc.ProjectCode).Title(Html.Translate("Project Code"));
 
-              // col.Template(@<text></text>)
-              // .ClientTemplate("<input type='checkbox' disabled='disabled' name='excess' <#= ((RemainingQuantityInMt < 0) ||(RemainingQuantityInUnit < 0))?\"checked='checked'\" : \"\" #> />").Title(Html.Translate("Excess"));
+               // col.Template(@<text></text>)
+               // .ClientTemplate("<input type='checkbox' disabled='disabled' name='excess' <#= ((RemainingQuantityInMt < 0) ||(RemainingQuantityInUnit < 0))?\"checked='checked'\" : \"\" #> />").Title(Html.Translate("Excess"));
 
 
            })
@@ -693,7 +696,7 @@
     </tr>
 </table>
 <div>
-  Click here to see @Html.ActionLink("Recorded Dispatchs.", "Log")
+    Click here to see @Html.ActionLink("Recorded Dispatchs.", "Log")
 </div>
 <script type="text/javascript">
 
@@ -732,15 +735,16 @@
 
         var form = $(button).closest("form");
         if (form.valid()) {
-            $.ajax({ type: 'POST', url: form.attr('action'), data: $(form).serialize(), success: function (response) {
-                //rebind the GRID
-                //                    var gr = $('#ReceiveAllocationGrid' + response).data('tGrid');
-                //                    gr.rebind();
-                //$.getJSON(updateUrl);
-                var gr = $('#DispatchAllocationGrid' + response.gridNum).data('tGrid');
-                gr.rebind();
-                $('#DispatchAllocationDialog').data('tWindow').close();
-            }
+            $.ajax({
+                type: 'POST', url: form.attr('action'), data: $(form).serialize(), success: function (response) {
+                    //rebind the GRID
+                    //                    var gr = $('#ReceiveAllocationGrid' + response).data('tGrid');
+                    //                    gr.rebind();
+                    //$.getJSON(updateUrl);
+                    var gr = $('#DispatchAllocationGrid' + response.gridNum).data('tGrid');
+                    gr.rebind();
+                    $('#DispatchAllocationDialog').data('tWindow').close();
+                }
             });
         }
         return false;
@@ -753,10 +757,11 @@
     function submitForm(button) {
         var form = $(button).closest("form");
         if (form.valid()) {
-            $.ajax({ type: 'POST', url: form.attr('action'), data: $(form).serialize(), success: function (response) {
-                $('#DispatchAllocationDialog').data('tWindow').close();
-                // reloadGrid();
-            }
+            $.ajax({
+                type: 'POST', url: form.attr('action'), data: $(form).serialize(), success: function (response) {
+                    $('#DispatchAllocationDialog').data('tWindow').close();
+                    // reloadGrid();
+                }
             });
         }
         return false;
@@ -773,7 +778,7 @@
     function createNewLoan() {
 
         $('#DispatchAllocationDialog').data('tWindow').center().open().title("Edit/New Loan Outs");
-        $('#create-edit-form').load('@Url.Action("CreateLoan", "DispatchAllocation")', onDialogLoaded); 
+        $('#create-edit-form').load('@Url.Action("CreateLoan", "DispatchAllocation")', onDialogLoaded);
     }
 
     function onDialogLoaded() {
@@ -802,7 +807,7 @@
 
     function editTransfer(id) {
         $('#DispatchAllocationDialog').data('tWindow').center().open().title("Edit/New (Transfer / Swap)");
-        $('#create-edit-form').load('@Url.Action("EditTransfer","DispatchAllocation")'+"?id="+ id, onDialogLoaded);
+        $('#create-edit-form').load('@Url.Action("EditTransfer", "DispatchAllocation")' + "?id=" + id, onDialogLoaded);
     }
 
 </script>

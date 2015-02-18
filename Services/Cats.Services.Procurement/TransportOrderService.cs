@@ -616,6 +616,7 @@ namespace Cats.Services.Procurement
        {
            try
            {
+
                var transportOrder =new TransportOrder();
 
 
@@ -642,13 +643,16 @@ namespace Cats.Services.Procurement
                                                       WinnerAssignedByLogistics = true
                                                   };
                    transportOrder.TransportOrderDetails.Add(transportOrderDetail);
+
                }
 
                bool isSaved = _unitOfWork.TransportOrderRepository.Edit(transportOrder);
                _unitOfWork.Save();
                if (isSaved)
                {
+
                    foreach (var item in transReq)
+
                    {
                        var withoutTransporter =
                            _unitOfWork.TransReqWithoutTransporterRepository.FindById(item.TransReqWithoutTransporterID);

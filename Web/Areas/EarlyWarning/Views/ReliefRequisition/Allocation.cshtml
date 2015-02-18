@@ -25,25 +25,25 @@ Requistions
 
 @section PageTitle
 {
-     
-    @{
-    if (Model!=null)
-    {
-        if (Model.ProgramID == 3 ) //i.e. IDPS
-        {
-            <h1 class="hdr-blck big ">   @Html.DisplayFor(model => model.Program) Requisition Resource Allocation  </h1>
-        }
-        else
-        {
-             <h1 class="hdr-blck big ">Monthly   @Html.DisplayFor(model => model.Program) Requisition Resource Allocation  </h1>
-        }
-    }
-     
-}
 
-  
-      
-  
+    @{
+        if (Model != null)
+        {
+            if (Model.ProgramID == 3) //i.e. IDPS
+            {
+        <h1 class="hdr-blck big ">@Html.DisplayFor(model => model.Program) Requisition Resource Allocation  </h1>
+            }
+            else
+            {
+        <h1 class="hdr-blck big ">Monthly   @Html.DisplayFor(model => model.Program) Requisition Resource Allocation  </h1>
+            }
+        }
+     
+    }
+
+
+
+
 }
 <div class="row">
     @Html.Partial("_RequistionsLeftBar")
@@ -51,13 +51,13 @@ Requistions
         <div class=" box box-primary ">
             <div class="box-body row">
                 <div class="text-right mrgn5-v col-md-12">
-                    <a class="btn btn-primary btn-sm " data-buttontype="btn_back_to_list" href="@Url.Action("Index", "ReliefRequisition")"><span class="fa fa-arrow-left"></span> Back to List</a>
+                    <a class="btn btn-primary btn-sm " data-buttontype="btn_back_to_list" href="@Url.Action("Index", "ReliefRequisition")"><span class="fa fa-arrow-left"></span>Back to List</a>
                     @if (Model.StatusID == (int)Cats.Models.Constant.ReliefRequisitionStatus.Draft || Model.StatusID == (int)Cats.Models.Constant.ReliefRequisitionStatus.Rejected)
                     {
-                        <a class="btn btn-warning btn-sm " data-buttontype="btn_edit" href="@Url.Action("Edit", "ReliefRequisition", new { id = Model.RequisitionID })"><span class="fa fa-pencil-square-o"></span> Edit</a>
+                        <a class="btn btn-warning btn-sm " data-buttontype="btn_edit" href="@Url.Action("Edit", "ReliefRequisition", new { id = Model.RequisitionID })"><span class="fa fa-pencil-square-o"></span>Edit</a>
 
-                        <a href="@Url.Action("SendToLogistics", "ReliefRequisition", new { id = Model.RequisitionID })" class="btn btn-success btn-sm  btn-Approve-allocation"><i class="fa fa-check"></i> Approve</a>
-    }
+                        <a href="@Url.Action("SendToLogistics", "ReliefRequisition", new { id = Model.RequisitionID })" class="btn btn-success btn-sm  btn-Approve-allocation"><i class="fa fa-check"></i>Approve</a>
+                    }
                 </div>
                 <div class="col-md-12">
 
@@ -66,33 +66,33 @@ Requistions
                             <div class="form-group">
                                 <div class="col-sm-4 control-label">@Html.DisplayNameFor(model => model.RequisitionNo)</div>
                                 <div class="col-sm-8">
-                                    @Html.TextBoxFor(model => model.RequisitionNo, new { disabled = "true",@class = "form-control" })
+                                    @Html.TextBoxFor(model => model.RequisitionNo, new { disabled = "true", @class = "form-control" })
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="col-sm-4 control-label">@Html.DisplayNameFor(model => model.Region)</div>
-                                <div class="col-sm-8">@Html.TextBoxFor(model => model.Region, new { disabled = "true",@class = "form-control" })</div>
+                                <div class="col-sm-8">@Html.TextBoxFor(model => model.Region, new { disabled = "true", @class = "form-control" })</div>
                             </div>
                             <div class="form-group">
                                 <div class="col-sm-4 control-label">@Html.DisplayNameFor(model => model.Zone)
                                 </div>
-                                <div class="col-sm-8">@Html.TextBoxFor(model => model.Zone, new { disabled = "true",@class = "form-control" })</div>
+                                <div class="col-sm-8">@Html.TextBoxFor(model => model.Zone, new { disabled = "true", @class = "form-control" })</div>
                             </div>
                             <div class="form-group">
                                 <div class="col-sm-4 control-label">@Html.DisplayNameFor(model => model.Commodity)
                                 </div>
-                                <div class="col-sm-8">@Html.TextBoxFor(model => model.Commodity, new { disabled = "true",@class = "form-control" })</div>
+                                <div class="col-sm-8">@Html.TextBoxFor(model => model.Commodity, new { disabled = "true", @class = "form-control" })</div>
                             </div>
 
                             <div class="form-group">
                                 <div class="col-sm-4 control-label">@Html.DisplayNameFor(model => model.Ration)</div>
                                 <div class="col-sm-8">@Html.TextBoxFor(model => model.Ration, new { disabled = "true" })
-                                     <a id="pop"
-                                    class="btn btn-sm btn-default"
-                                    href="#"
-                                    data-original-title="Ration Detail">
-                                    <i class="fa  fa-question-circle"></i>
-                                </a>
+                                    <a id="pop"
+                                        class="btn btn-sm btn-default"
+                                        href="#"
+                                        data-original-title="Ration Detail">
+                                        <i class="fa  fa-question-circle"></i>
+                                    </a>
 
 
                                 </div>
@@ -107,7 +107,7 @@ Requistions
                                 <div class="form-group">
                                     <div class="col-sm-4 control-label">@Html.DisplayNameFor(model => model.Round)
                                     </div>
-                                    <div class="col-sm-8">@Html.TextBoxFor(model => model.Round, new { disabled = "true",@class = "form-control" })</div>
+                                    <div class="col-sm-8">@Html.TextBoxFor(model => model.Round, new { disabled = "true", @class = "form-control" })</div>
                                 </div>
                             }
                             else if (Model.ProgramID == 2)
@@ -115,37 +115,37 @@ Requistions
                                 <div class="form-group">
                                     <div class="col-sm-4 control-label">@Html.DisplayNameFor(model => model.Month)
                                     </div>
-                                    <div class="col-sm-8">@Html.TextBoxFor(model => model.Month, new { disabled = "true",@class = "form-control" })</div>
+                                    <div class="col-sm-8">@Html.TextBoxFor(model => model.Month, new { disabled = "true", @class = "form-control" })</div>
                                 </div>
                             }
                             <div class="form-group">
                                 <div class="col-sm-4 control-label">@Html.LabelFor(model => model.RequestedDateEt, new { @class = "cats-date-pref" })
                                 </div>
-                                <div class="col-sm-8">@Html.TextBoxFor(model => model.RequestedDateEt, new { disabled = "true",@class = "form-control" })</div>
+                                <div class="col-sm-8">@Html.TextBoxFor(model => model.RequestedDateEt, new { disabled = "true", @class = "form-control" })</div>
                             </div>
                             <div class="form-group">
                                 <div class="col-sm-4 control-label">@Html.DisplayNameFor(model => model.Program)
                                 </div>
-                                <div class="col-sm-8">@Html.TextBoxFor(model => model.Program, new { disabled = "true",@class = "form-control" })</div>
+                                <div class="col-sm-8">@Html.TextBoxFor(model => model.Program, new { disabled = "true", @class = "form-control" })</div>
                             </div>
                             <div class="form-group">
                                 <div class="col-sm-4 control-label">
                                     Status
                                 </div>
-                                <div class="col-sm-8">@Html.TextBoxFor(model => model.Status, new { disabled = "true",@class = "form-control" })</div>
+                                <div class="col-sm-8">@Html.TextBoxFor(model => model.Status, new { disabled = "true", @class = "form-control" })</div>
                             </div>
 
 
-                        
+
                         </div>
 
                     </div>
-                    
+
 
 
                 </div>
                 <div class="col-md-12 table-responsive">
-                        @(Html.Kendo().Grid<ReliefRequisitionDetailViewModel>()
+                    @(Html.Kendo().Grid<ReliefRequisitionDetailViewModel>()
                               .Name("grid")
                               .Columns(columns =>
                                            {
@@ -153,12 +153,14 @@ Requistions
                                                columns.Bound(p => p.Zone).Width(100).HtmlAttributes(new { style = "background-color:lightgray" });
                                                columns.Bound(p => p.Woreda).Width(100).HtmlAttributes(new { style = "background-color:lightgray" });
                                                columns.Bound(p => p.FDP).Width(100).HtmlAttributes(new { style = "background-color:lightgray" });
-                                              
+
                                                if (Model.ProgramID == 2)
                                                {
                                                    columns.ForeignKey(p => p.DonorID, (IEnumerable)ViewData["donors"], "DonorID", "Name").Title("Donor").Width(100).ClientFooterTemplate("<div style='text-align: right;'><b>TOTAL: </b></div>"); ;
                                                }
+
                                                columns.Bound(p => p.BenficiaryNo).ClientFooterTemplate("<div style='text-align: right;'><b>#=kendo.format('{0:N0}', sum)#</b></div>").Format("{0:N0}").Width(100).HtmlAttributes(new { align = "right" }).Format("{0:n0}");
+
                                                columns.Bound(p => p.Amount).ClientFooterTemplate("<div style='text-align: right;'><b>#=kendo.format('{0:0.00}', sum)#</b></div>").Format("{0:0.00}").Width(100).HtmlAttributes(new { style = "background-color:lightgray", align = "right" }).Format("{0:n2}").HeaderHtmlAttributes(new { @class = "cats-unit-pref-grid" });
                                                if (Model.ProgramID == 2 && Model.RegionID == 2) // Contengency is ONLY for Afar
                                                {
@@ -187,11 +189,15 @@ Requistions
                                                                            model.Field(detail => detail.Woreda).Editable(false);
                                                                            model.Field(detail => detail.Commodity).Editable(false);
                                                                            model.Field(detail => detail.Donor).Editable(false);
-                                                                           if (Model.Status == "HubAssigned")
+                                                                           if (Model.Status == "Draft") // || Model.Status == "Approved")
+                                                                           {
+                                                                               model.Field(detail => detail.BenficiaryNo).Editable(true);
+                                                                           }
+                                                                           else
                                                                            {
                                                                                model.Field(detail => detail.BenficiaryNo).Editable(false);
                                                                            }
-                                                                         
+
                                                                        })
                                                             .Create(update => update.Action("Allocation_Create", "ReliefRequisition"))
                                                             .Read(read => read.Action("Allocation_Read", "ReliefRequisition", new { id = Model.RequisitionID }))
@@ -199,7 +205,7 @@ Requistions
                                                             .Destroy(update => update.Action("Allocation_Destroy", "ReliefRequisition"))
                               )
                               )
-                    </div>
+                </div>
             </div>
         </div>
 
@@ -230,25 +236,25 @@ Requistions
             type: "POST",
             url: "@Url.Action("RationDetail", "Ration")",
             data: "{id:'@Model.RationID'}",
-           dataType: "json",
-           contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
 
-           success: function (data) {
-               tblbody = "<table>";
-               for (var i = 0; i < data.length; i++) {
-                   //tblbody += "<table>";
-                   tblbody += "<tr>";
-                   tblbody += "<td>" + data[i].Name + "</td>";
-                   tblbody += "<td>" + data[i].Amount + "</td>";
-                   tblbody += "</tr>";
-               }
-               tblbody += "</table>";
+            success: function (data) {
+                tblbody = "<table>";
+                for (var i = 0; i < data.length; i++) {
+                    //tblbody += "<table>";
+                    tblbody += "<tr>";
+                    tblbody += "<td>" + data[i].Name + "</td>";
+                    tblbody += "<td>" + data[i].Amount + "</td>";
+                    tblbody += "</tr>";
+                }
+                tblbody += "</table>";
              
-           },
+            },
            
-       });
-       return tblbody;
-   };
+        });
+        return tblbody;
+    };
 
     function onDataBound(e) {
 
@@ -316,7 +322,7 @@ Requistions
         var requistionId = @Model.RequisitionID;
         
 
-        var printurl = "@Url.Action("Print", "BeneficiaryAllocation",new {area="Logistics"})" +"/"+requistionId;
+        var printurl = "@Url.Action("Print", "BeneficiaryAllocation", new { area = "Logistics" })" +"/"+requistionId;
         $("#toolbar_button_print").attr("href", printurl);
     });
 </script>
