@@ -367,26 +367,12 @@ namespace Cats.Areas.Logistics.Controllers
                     switch (localPurchase.StatusID)
                     {
                         case (int)LocalPurchaseStatus.Approved:
-
+                            _localPurchaseService.DelteLocalPurchaseAllocation(localPurchase);
+                            _localPurchaseService.DeleteLocalPurchae(localPurchase);
                             break;
                         case (int)LocalPurchaseStatus.Draft:
                             {
-                                var localPurchaesDetail =_localPurchaseDetailService.FindBy(l => l.LocalPurchaseID == localPurchaseId);
-
-                                if (localPurchaesDetail != null)
-                                {
-                                    foreach (var localPurchaseDetail in localPurchaesDetail)
-                                    {
-                                        _localPurchaseDetailService.DeleteLocalPurchaseDetail(localPurchaseDetail);
-                                    }
-
-
-                                    _localPurchaseService.DeleteById(localPurchaseId);//delete the header
-                                }
-                                else
-                                {
-                                    _localPurchaseService.DeleteById(localPurchaseId);
-                                }
+                               _localPurchaseService.DeleteLocalPurchae(localPurchase);
                                 return RedirectToAction("Index");
                             }
 
@@ -395,5 +381,18 @@ namespace Cats.Areas.Logistics.Controllers
                 return RedirectToAction("Index");
         }
 
+        public ActionResult Revert(int localPurchaseId)
+        {
+            var localPurchase = _localPurchaseService.FindById(localPurchaseId);
+
+            if (localPurchase != null)
+            {
+                _localPurchaseService.DelteLocalPurchaseAllocation(localPurchase);
+                localPurchase.StatusID = (int) LocalPurchaseStatus.Draft;
+                _localPurchaseService.EditLocalPurchase(localPurchase);
+                return RedirectToAction("Index");
+            }
+            return RedirectToAction("Index");
+        }
     }
 }

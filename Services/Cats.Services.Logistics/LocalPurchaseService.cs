@@ -82,12 +82,13 @@ namespace Cats.Services.Logistics
             {
                 var receiptAllocation =
                     _unitOfWork.ReceiptAllocationReository.FindBy(
-                        c => c.CommoditySourceID == 3 && c.SINumber == localPurchase.ShippingInstruction.Value && c.ProjectNumber == localPurchase.ProjectCode);
+                        c => c.CommoditySourceID == CommoditySourceConst.Constants.LOCALPURCHASE && c.SINumber == localPurchase.ShippingInstruction.Value && c.ProjectNumber == localPurchase.ProjectCode);
 
                 foreach (var allocation in receiptAllocation)
                 {
                     _unitOfWork.ReceiptAllocationReository.Delete(allocation);
                 }
+
                 return true;
             }
             catch (Exception)
@@ -97,7 +98,7 @@ namespace Cats.Services.Logistics
             }
         }
 
-        private bool DeleteLocalPurchae(LocalPurchase localPurchase)
+        public bool DeleteLocalPurchae(LocalPurchase localPurchase)
         {
             try
             {
