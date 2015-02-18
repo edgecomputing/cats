@@ -47,14 +47,17 @@ namespace Cats.Models
         public int StatusID { get; set; }
         public string Remark { get; set; }
 
-        public string SourceSwap { get; set; }
-        public string DestinationSwap { get; set; }
+        public int SourceSwap { get; set; }
+        public int DestinationSwap { get; set; }
 
        public virtual Commodity Commodity { get; set; }
         public virtual CommoditySource CommoditySource { get; set; }
         public virtual Hub Hub { get; set; }
         public virtual Hub Hub1 { get; set; }
-        public virtual Program Program { get; set; }
+
+        public virtual Hub Hub2 { get; set; }
+        public virtual Hub Hub3 { get; set; }
+       public virtual Program Program { get; set; }
         public virtual ShippingInstruction ShippingInstruction { get; set; }
       
         //public virtual Transfer Transfer1 { get; set; }

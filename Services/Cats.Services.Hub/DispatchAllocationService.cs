@@ -413,7 +413,7 @@ namespace Cats.Services.Hub
                 DAVMD.Woreda = dispatchAllocation.FDP.AdminUnit.Name;
                 DAVMD.FDPName = dispatchAllocation.FDP.Name;
                 DAVMD.IsClosed = dispatchAllocation.IsClosed;
-               
+                if (dispatchAllocation.Transporter != null) DAVMD.TransporterName = dispatchAllocation.Transporter.Name;
                 DAVMD.Round = (dispatchAllocation.Round==null)?"-":dispatchAllocation.Round.ToString();
               
                

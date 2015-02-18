@@ -386,6 +386,7 @@
     <Compile Include="NeedAssessmentSummary.cs" />
     <Compile Include="WoredaHub.cs" />
     <Compile Include="WoredaHubLink.cs" />
+    <Compile Include="WoredaViewModelInTransReqWithoutWinner.cs" />
     <Compile Include="Workflow.cs" />
     <Compile Include="WorkflowStatus.cs" />
     <Compile Include="ZonesViewModel.cs" />

@@ -59,6 +59,9 @@ namespace Cats.Models
         public virtual ICollection<LoanReciptPlanDetail> LoanReciptPlanDetails { get; set; }
         public virtual ICollection<Transfer> Transfers { get; set; }
         public virtual ICollection<Transfer> Transfers1 { get; set; }
+        public virtual ICollection<Transfer> Transfers2 { get; set; }
+        public virtual ICollection<Transfer> Transfers3 { get; set; }
+
        
     }
 }

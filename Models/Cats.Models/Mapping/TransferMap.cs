@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace Cats.Models.Mapping
 {
-   public class TransferMap:EntityTypeConfiguration<Transfer>
-   {
-       public TransferMap()
-       {
+    public class TransferMap : EntityTypeConfiguration<Transfer>
+    {
+        public TransferMap()
+        {
             // Primary Key
             this.HasKey(t => t.TransferID);
 
@@ -41,6 +41,9 @@ namespace Cats.Models.Mapping
             this.Property(t => t.ReferenceNumber).HasColumnName("ReferenceNumber");
             this.Property(t => t.StatusID).HasColumnName("StatusID");
             this.Property(t => t.Remark).HasColumnName("Remark");
+            //this.Property(t => t.PartitionId).HasColumnName("PartitionId");
+            this.Property(t => t.SourceSwap).HasColumnName("SourceSwap");
+            this.Property(t => t.DestinationSwap).HasColumnName("DestinationSwap");
 
             // Relationships
             this.HasRequired(t => t.Commodity)
@@ -55,15 +58,19 @@ namespace Cats.Models.Mapping
             this.HasRequired(t => t.Hub1)
                 .WithMany(t => t.Transfers1)
                 .HasForeignKey(d => d.DestinationHubID);
+            this.HasRequired(t => t.Hub2)
+                .WithMany(t => t.Transfers2)
+                .HasForeignKey(d => d.SourceSwap);
+            this.HasRequired(t => t.Hub3)
+                .WithMany(t => t.Transfers3)
+                .HasForeignKey(d => d.DestinationSwap);
             this.HasRequired(t => t.Program)
                 .WithMany(t => t.Transfers)
                 .HasForeignKey(d => d.ProgramID);
             this.HasRequired(t => t.ShippingInstruction)
                 .WithMany(t => t.Transfers)
                 .HasForeignKey(d => d.ShippingInstructionID);
-            //this.HasRequired(t => t.Transfer2)
-            //    .WithOptional(t => t.Transfer1);
 
-       }
+        }
     }
 }

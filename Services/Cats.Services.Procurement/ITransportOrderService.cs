@@ -34,14 +34,15 @@ namespace Cats.Services.Procurement
         //IEnumerable<RequisitionToDispatch> GetRequisitionToDispatch();
         //IEnumerable<ReliefRequisition> GetProjectCodeAssignedRequisitions();
        bool CreateTransportOrder(int requisitionId);
-       bool ReAssignTransporter(IEnumerable<TransportRequisitionWithoutWinnerModel> transReqWithTransporter,int transporterID);
+       int ReAssignTransporter(IEnumerable<TransportRequisitionWithoutWinnerModel> transReqWithTransporter,int transporterID);
        bool ApproveTransportOrder(TransportOrder transportOrder);
        bool SignTransportOrder(TransportOrder transportOrder);
        List<vwTransportOrder> GeTransportOrderRpt(int id);
        List<Transporter> GetTransporter();
        List<Hub> GetHubs();
         bool GeneratDispatchPlan(int transportOrderId);
-        IOrderedEnumerable<RequisiionNoViewModel> GetZone();
+        IOrderedEnumerable<RequisiionNoViewModel> GetZone(int transReqNo);
+        IOrderedEnumerable<WoredaViewModelInTransReqWithoutWinner> GetWoredas(int zoneId, int transReqNo);
         IOrderedEnumerable<RegionsViewModel> GetRegions();
         IEnumerable<TransportOrder> GetFilteredTransportOrder(
             IEnumerable<TransportRequisitionDetail> transportRequsitionDetails, int statusId);

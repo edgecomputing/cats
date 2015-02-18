@@ -44,14 +44,22 @@
               .Name("grid")
               .Columns(columns =>
                   {
+                      columns.Bound(m => m.ReferenceNumber).Title(@Html.Translate("Reference"));
+                      
                       columns.Bound(m => m.SiNumber).Title(@Html.Translate("SI Number")).ClientTemplate("<a href='" + Url.Action("Detail", "Swap", new { id = "#=TransferID#" }) + " '>#=SiNumber#</a>  ");
-                      columns.Bound(m => m.SourceHubName).Width(200).Title(@Html.Translate("Source Hub"));
+                      
+                      columns.Bound(m => m.SourceSwapName).Title(@Html.Translate("Swap Issuer"));
+                      columns.Bound(m => m.DestinationHubName).Title(@Html.Translate("Swap Receiver"));
+                      
+
+                      columns.Bound(m => m.SourceHubName).Width(200).Title(@Html.Translate("Swap Repayment Settler"));
+                      columns.Bound(m => m.DestinationSwapName).Title(@Html.Translate("Swap Repayment Receiver"));
+                      
                       columns.Bound(m => m.Program).Title(@Html.Translate("Program"));
                       columns.Bound(m => m.Commodity).Width(200).Title(@Html.Translate("Commodity"));
-                      columns.Bound(m => m.CommoditySource).Width(100).Title(@Html.Translate("Commodity Source"));
+                      //columns.Bound(m => m.CommoditySource).Width(100).Title(@Html.Translate("Commodity Source"));
                       columns.Bound(m => m.Quantity).HtmlAttributes(new {align = "right"}).Title(@Html.Translate("Quantity in MT"));
                       columns.Bound(m => m.CreatedDate).Title(@Html.Translate("Created Date"));
-                      columns.Bound(m => m.DestinationHubName).Title(@Html.Translate("Destination hub"));
                       columns.Bound(m => m.StatusName).Title(@Html.Translate("Status"));
                       //columns.Command(p =>
                       //{

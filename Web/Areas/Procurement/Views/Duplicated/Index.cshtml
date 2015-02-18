@@ -7,8 +7,13 @@
 @{
     ViewBag.Title = @Html.Translate("AssignTransporter");
 }
+
+@{
+    ViewBag.Title = Html.Translate("Index");
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
 <div style="display: none;">
- @using (Html.BeginForm("AssignTransporter", "TransportOrder", FormMethod.Post, new { id = "frm_assign_transporter" }))
+ @using (Html.BeginForm("Delete", "Duplicated", FormMethod.Post, new { id = "frm_assign_transporter" }))
  {    
      
      @Html.HiddenFor(model => model.SelectedTransporterID)
@@ -65,7 +70,7 @@
   
   
           
-    <a class="btn toolbar-btn" data-buttontype=" " id="btnAssign"  data-submittedform="frm_assign_transporter">@Html.Translate("Assign Transporter")</a>
+    <a class="btn toolbar-btn" data-buttontype=" " id="btnAssign"  data-submittedform="frm_assign_transporter">@Html.Translate("Delete selected")</a>
     
     
     @(Html.Kendo().Grid(Model.TransReqwithOutTransporters)
@@ -173,13 +178,13 @@
         if (value == "") {
 
             window.location = null;
-            window.location = "@Url.Action("LoadUnAssinedByReqNo", "TransportOrder")" + "?id=" + 0 + "&woredaId=" + value + "&zone=" + zone + "&transporter=" + transporter + "&TransReqID=" + TransReqId ;
+            window.location = "@Url.Action("LoadUnAssinedByReqNo", "Duplicated")" + "?id=" + 0 + "&woredaId=" + value + "&zone=" + zone + "&transporter=" + transporter + "&TransReqID=" + TransReqId ;
 
         }
         else {
            
             window.location = null;
-            window.location = "@Url.Action("LoadUnAssinedByReqNo", "TransportOrder")" + "?id=" + 0 + "&woredaId=" + value + "&zone=" + zone + "&transporter=" + transporter + "&TransReqID=" + TransReqId;
+            window.location = "@Url.Action("LoadUnAssinedByReqNo", "Duplicated")" + "?id=" + 0 + "&woredaId=" + value + "&zone=" + zone + "&transporter=" + transporter + "&TransReqID=" + TransReqId;
         }
 
     }
@@ -190,4 +195,5 @@
     .table-compact {
     }
 </style>
+
 

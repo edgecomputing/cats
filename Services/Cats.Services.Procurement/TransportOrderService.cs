@@ -115,25 +115,77 @@ namespace Cats.Services.Procurement
 
         #endregion
 
-        public  IOrderedEnumerable<RequisiionNoViewModel> GetZone()
+        public  IOrderedEnumerable<RequisiionNoViewModel> GetZone(int transReqNo)
         {
-            var requisition =
-               _unitOfWork.TransReqWithoutTransporterRepository.FindBy(m => m.IsAssigned == false).OrderByDescending(
-                   t => t.TransportRequisitionDetailID).Select(s => new
-                   {
-                       ZoneId =
-                   s.ReliefRequisitionDetail.ReliefRequisition.ZoneID,
-                       ZoneName =
-                   s.ReliefRequisitionDetail.ReliefRequisition.AdminUnit1.Name
-                   }).Distinct().ToList();
-           return requisition.Select(req=>new RequisiionNoViewModel
-                                         {
-                                             ZoneId = (int) req.ZoneId,
-                                             ZoneName = req.ZoneName
-                                         }).OrderBy(r=>r.ZoneId);
+            switch (transReqNo)
+            {
+                case 0:
+                    {
+                        var requisition =
+                            _unitOfWork.TransReqWithoutTransporterRepository.FindBy(m => m.IsAssigned == false).
+                                OrderByDescending(
+                                    t => t.TransportRequisitionDetailID).Select(s => new
+                                                                                         {
+                                                                                             ZoneId =
+                                                                                         s.ReliefRequisitionDetail.
+                                                                                         ReliefRequisition.ZoneID,
+                                                                                             ZoneName =
+                                                                                         s.ReliefRequisitionDetail.
+                                                                                         ReliefRequisition.AdminUnit1.Name
+                                                                                         }).Distinct().ToList();
+                        return requisition.Select(req => new RequisiionNoViewModel
+                                                             {
+                                                                 ZoneId = (int)req.ZoneId,
+                                                                 ZoneName = req.ZoneName
+                                                             }).OrderBy(r => r.ZoneId);
+                    }
+                default:
+                    {
+                        var requisition =
+                            _unitOfWork.TransReqWithoutTransporterRepository.FindBy(
+                                m =>
+                                m.IsAssigned == false &&
+                                m.TransportRequisitionDetail.TransportRequisition.TransportRequisitionID == transReqNo).
+                                OrderByDescending(
+                                    t => t.TransportRequisitionDetailID).Select(s => new
+                                                                                         {
+                                                                                             ZoneId =
+                                                                                         s.ReliefRequisitionDetail.
+                                                                                         ReliefRequisition.ZoneID,
+                                                                                             ZoneName =
+                                                                                         s.ReliefRequisitionDetail.
+                                                                                         ReliefRequisition.AdminUnit1.Name
+                                                                                         }).Distinct().ToList();
+                        return requisition.Select(req => new RequisiionNoViewModel
+                                                             {
+                                                                 ZoneId = (int) req.ZoneId,
+                                                                 ZoneName = req.ZoneName
+                                                             }).OrderBy(r => r.ZoneId);
+                    }
+            }
         }
 
-       
+        public IOrderedEnumerable<WoredaViewModelInTransReqWithoutWinner> GetWoredas(int zoneId, int transReqNo)
+        {
+           
+                        var requisition =
+                            _unitOfWork.TransReqWithoutTransporterRepository.FindBy(m => m.IsAssigned == false && 
+                                m.ReliefRequisitionDetail.ReliefRequisition.ZoneID == zoneId &&
+                                m.TransportRequisitionDetail.TransportRequisition.TransportRequisitionID == transReqNo).
+                                OrderByDescending(
+                                    t => t.TransportRequisitionDetailID).Select(s => new
+                                    {
+                                        woredaId =s.ReliefRequisitionDetail.FDP.AdminUnitID,
+                                        woredaName =s.ReliefRequisitionDetail.FDP.AdminUnit.Name
+                                    }).Distinct().ToList();
+                        return requisition.Select(req => new WoredaViewModelInTransReqWithoutWinner()
+                        {
+                            WoredaId = (int)req.woredaId,
+                            WoredaName = req.woredaName
+                        }).OrderBy(r => r.WoredaId);
+                    
+            
+        }
         public IOrderedEnumerable<RegionsViewModel> GetRegions()
         {
             var regions = _unitOfWork.AdminUnitRepository.FindBy(t => t.AdminUnitTypeID == 2).ToList();
@@ -560,41 +612,47 @@ namespace Cats.Services.Procurement
         }
 
 
-        private bool AddToCurrentTransport(IEnumerable<TransportRequisitionWithoutWinnerModel> transReqWithTransporter, int transporterId)
+        private int AddToCurrentTransport(IEnumerable<TransportRequisitionWithoutWinnerModel> transReqWithTransporter, int transporterId)
        {
            try
            {
-              
-              
-               var transportRequisitionWithoutWinnerModels = transReqWithTransporter as List<TransportRequisitionWithoutWinnerModel> ?? transReqWithTransporter.ToList();
-               var requisitionID = transportRequisitionWithoutWinnerModels.Select(m => m.RequisitionID);
 
-               var orderDetail =_unitOfWork.TransportOrderDetailRepository.FindBy(m=>m.TransportOrder.TransportOrderID==transporterId
-                                                                           && m.TransportOrder.StatusID==(int) Cats.Models.Constant.TransportOrderStatus.Draft
-                                                                           && requisitionID.Contains(m.RequisitionID)).FirstOrDefault();
+               var transportOrder =new TransportOrder();
 
-               var transportOrder = _unitOfWork.TransportOrderRepository.FindBy(m => m.TransportOrderID == orderDetail.TransportOrderID).FirstOrDefault();
-               if (transportOrder!=null)
+
+               var transReq = transReqWithTransporter as List<TransportRequisitionWithoutWinnerModel> ?? transReqWithTransporter.ToList();
+               foreach (var detail in transReq)
                {
-                   foreach (var detail in transportRequisitionWithoutWinnerModels)
-                   {
-                       var transportOrderDetail = new TransportOrderDetail();
-                       transportOrderDetail.CommodityID = detail.CommodityID;
-                       transportOrderDetail.FdpID = detail.FdpID;
-                       transportOrderDetail.RequisitionID = detail.RequisitionID;
-                       transportOrderDetail.QuantityQtl = detail.QuantityQtl;
-                       transportOrderDetail.TariffPerQtl = 0;
-                       transportOrderDetail.SourceWarehouseID = detail.HubID;
-                       transportOrderDetail.WinnerAssignedByLogistics = true;
-                       transportOrder.TransportOrderDetails.Add(transportOrderDetail);
-                   }
+                   var transportReq = _unitOfWork.TransReqWithoutTransporterRepository.FindById(detail.TransReqWithoutTransporterID);
+                   transportOrder =
+                       _unitOfWork.TransportOrderDetailRepository.FindBy(
+                           t => t.RequisitionID == transportReq.ReliefRequisitionDetail.RequisitionID && t.TransportOrder.TransporterID == transporterId &&
+                       t.TransportOrder.StatusID == (int)TransportOrderStatus.Draft).Select(
+                               t => t.TransportOrder).FirstOrDefault();
+
+
+                   if (transportOrder == null) continue;
+                   var transportOrderDetail = new TransportOrderDetail
+                                                  {
+                                                      CommodityID = detail.CommodityID,
+                                                      FdpID = detail.FdpID,
+                                                      RequisitionID = detail.RequisitionID,
+                                                      QuantityQtl = detail.QuantityQtl,
+                                                      TariffPerQtl = 0,
+                                                      SourceWarehouseID = detail.HubID,
+                                                      WinnerAssignedByLogistics = true
+                                                  };
+                   transportOrder.TransportOrderDetails.Add(transportOrderDetail);
+
                }
 
                bool isSaved = _unitOfWork.TransportOrderRepository.Edit(transportOrder);
                _unitOfWork.Save();
                if (isSaved)
                {
-                   foreach (var item in transportRequisitionWithoutWinnerModels)
+
+                   foreach (var item in transReq)
+
                    {
                        var withoutTransporter =
                            _unitOfWork.TransReqWithoutTransporterRepository.FindById(item.TransReqWithoutTransporterID);
@@ -604,25 +662,26 @@ namespace Cats.Services.Procurement
                    }
 
                }
-               return true;
-
+               if (transportOrder != null) return transportOrder.TransportOrderID;
+               return -1;
            }
            catch (Exception)
            {
 
-               return false;
+               return -1;
            }
        }
-        public bool ReAssignTransporter(IEnumerable<TransportRequisitionWithoutWinnerModel> transReqWithTransporter, int transporterID)
+        public int ReAssignTransporter(IEnumerable<TransportRequisitionWithoutWinnerModel> transReqWithTransporter, int transporterID)
         {
             if (transReqWithTransporter != null && transporterID != 0)
             {
 
-                if (!AddToCurrentTransport(transReqWithTransporter, transporterID))
+                var result = AddToCurrentTransport(transReqWithTransporter, transporterID);
+                if (result==-1)
 
                 {
 
-                    var transportOrder = new TransportOrder();
+                   var transportOrder = new TransportOrder();
                     transportOrder.TransporterID = transporterID;
                     transportOrder.OrderDate = DateTime.Today;
                     transportOrder.StartDate = DateTime.Today;
@@ -697,12 +756,12 @@ namespace Cats.Services.Procurement
 
                     }
 
-
-                    return true;
+                    return transportOrder.TransportOrderID;
+                    
                 }
-                return true;
+                return result;
             }
-            return false;
+            return 0;
 
         }
         

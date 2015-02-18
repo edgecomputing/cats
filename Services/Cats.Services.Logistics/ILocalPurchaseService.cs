@@ -20,6 +20,9 @@ namespace Cats.Services.Logistics
        bool Approve(LocalPurchase  localPurchase);
        decimal GetRemainingAmount(int id);
 
+       bool DeleteLocalPurchae(LocalPurchase localPurchase);
+       bool DelteLocalPurchaseAllocation(LocalPurchase localPurchase);
+
 
    }
 }
