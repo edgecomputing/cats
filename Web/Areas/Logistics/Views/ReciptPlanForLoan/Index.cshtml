@@ -50,11 +50,11 @@
                       columns.Bound(m => m.Quantity).HtmlAttributes(new {align = "right"}).Title(@Html.Translate("Quantity in MT"));
                       columns.Bound(m => m.CreatedDate).Title(Html.Translate("Created Date"));
                       columns.Bound(m => m.Status).Title(Html.Translate("Status"));
-                      //columns.Command(p =>
-                      //{
-                      //    p.Custom("Edit").Click("Edit");
-                      //    p.Custom("Recieve").Click("Recieve");
-                      //}).Width(250);
+                      columns.Command(p =>
+                      {
+                          p.Custom("Revert").Click("Revert");
+                          p.Custom("Delete").Click("Delete");
+                      }).Width(250);
 
 
                   }
@@ -63,6 +63,7 @@
 
               .Navigatable()
               .Scrollable()
+              .Events(e=>e.DataBound("onDataBound"))
               .HtmlAttributes(new { style = "height:430px;" })
               .DataSource(dataSource => dataSource
                                             .Ajax()
@@ -107,3 +108,95 @@
         return false;
     }
 </script>*@
+
+
+<script>
+
+    function onDataBound(e) {
+        //alert("show");
+        var grid = $("#grid").data("kendoGrid");
+        var gridData = grid.dataSource.view();
+        //alert(gridData.length);
+        for (var i = 0; i < gridData.length; i++) {
+            var currentUid = gridData[i].uid;
+            //alert(gridData[i].Status);
+            if (gridData[i].Status == "Draft") {
+                var currentRow = grid.table.find("tr[data-uid='" + currentUid + "']");
+                var revertButton = $(currentRow).find(".k-grid-Revert");
+                revertButton.hide();
+
+            }
+        }
+    }
+
+
+    function OnDelete(e) {
+        e.preventDefault();
+
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        wnd.center().open();
+
+        $("#yes").click(function () {
+
+            window.location = "@Url.Action("Delete", "ReciptPlanForLoan")" + "/" + dataItem.LoanReciptPlanID;
+            wnd.close();
+        });
+
+        $("#no").click(function () {
+            window.wnd.close();
+        });
+    }
+
+    function OnRevert(e) {
+        e.preventDefault();
+
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        wndRevert.center().open();
+
+        $("#yesRevert").click(function () {
+
+            window.location = "@Url.Action("Revert", "ReciptPlanForLoan")" + "/" + dataItem.LoanReciptPlanID;
+            wndRevert.close();
+        });
+
+        $("#noRevert").click(function () {
+            wndRevert.close();
+        });
+    }
+</script>
+
+<div id="modalWindow">
+    <h4>Are You Sure You Want to Delete this Loan?</h4>
+    <button id="yes" class="k-button">Yes</button>
+    <button id="no" class="k-button">No</button>
+</div>
+<script>
+    var wnd;
+    $(document).ready(function () {
+        wnd = $("#modalWindow").kendoWindow({
+            title: "Delete confirmation",
+            modal: true,
+            visible: false,
+            resizable: false,
+            width: 300
+        }).data("kendoWindow");
+    });
+</script>
+
+<div id="modalWindowRevert">
+    <h4>Are You Sure You Want to Revert this Loan ?</h4>
+    <button id="yesRevert" class="k-button">Yes</button>
+    <button id="noRevert" class="k-button">No</button>
+</div>
+<script>
+    var wndRevert;
+    $(document).ready(function () {
+        wndRevert = $("#modalWindowRevert").kendoWindow({
+            title: "Revert confirmation",
+            modal: true,
+            visible: false,
+            resizable: false,
+            width: 300
+        }).data("kendoWindow");
+    });
+</script>

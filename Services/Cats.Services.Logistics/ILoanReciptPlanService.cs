@@ -15,6 +15,7 @@ namespace Cats.Services.Logistics
        List<LoanReciptPlan> GetAllLoanReciptPlan();
        List<LoanReciptPlan> FindBy(Expression<Func<LoanReciptPlan, bool>> predicate);
        bool ApproveRecieptPlan(LoanReciptPlan loanReciptPlan);
+       bool DeleteLoanReciptAllocation(LoanReciptPlan loanReciptPlan);
 
 
 

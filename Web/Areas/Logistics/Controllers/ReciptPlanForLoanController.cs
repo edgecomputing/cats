@@ -228,6 +228,52 @@ namespace Cats.Areas.Logistics.Controllers
             ViewBag.HubID = new SelectList(_commonService.GetAllHubs(), "HubID", "Name");
             return View(loanReciptPlanDetail);
         }
+        public ActionResult Delete(int id)
+        {
+            var loanReciptPlan = _loanReciptPlanService.FindById(id);
+            if (loanReciptPlan!=null)
+            {
+                if (loanReciptPlan.StatusID==(int)LocalPurchaseStatus.Approved)
+                {
+                    _loanReciptPlanService.DeleteLoanReciptPlan(loanReciptPlan);
+                    return RedirectToAction("Index","ReciptPlanForLoan");
+                }
+                else
+                {
+                    if (_loanReciptPlanService.DeleteLoanReciptAllocation(loanReciptPlan))
+                    {
+                        _loanReciptPlanService.DeleteLoanReciptPlan(loanReciptPlan);
+                        return RedirectToAction("Index", "ReciptPlanForLoan");
+                    }
+                    else
+                    {
+                        TempData["Received"] = "Loan Recipt Plan can not be Deleted. It has already been Received!";
+                        return RedirectToAction("Index");
+                    }
+                }
+                
+            }
+            return RedirectToAction("Index", "ReciptPlanForLoan");
+        }
+        public ActionResult Revert(int id)
+        {
+            var loanReciptPlan = _loanReciptPlanService.FindById(id);
+
+            if (loanReciptPlan != null)
+            {
+                if (!_loanReciptPlanService.DeleteLoanReciptAllocation(loanReciptPlan))
+                {
+                    TempData["Received"] = "Loan Recipt Plan can not be Reverted. It has already been Received!";
+                    return RedirectToAction("Index");
+                }
+                loanReciptPlan.StatusID = (int)LocalPurchaseStatus.Draft;
+                _loanReciptPlanService.EditLoanReciptPlan(loanReciptPlan);
+                TempData["Reverted"] = "Loan Recipt Plan is Reverted to Draft";
+                return RedirectToAction("Index");
+            }
+            TempData["Error"] = "Unable to revert Loan Recipt Plan!";
+            return RedirectToAction("Index","ReciptPlanForLoan");
+        }
        
     }
 }
