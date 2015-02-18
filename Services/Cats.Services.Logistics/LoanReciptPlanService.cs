@@ -120,6 +120,27 @@ namespace Cats.Services.Logistics
        }
 
 
+       public bool DeleteLoanWithDetail(LoanReciptPlan loanReciptPlan)
+       {
+           try
+           {
+               var loanReciptPlanDetails =
+                   _unitOfWork.LoanReciptPlanDetailRepository.FindBy(
+                       d => d.LoanReciptPlanID == loanReciptPlan.LoanReciptPlanID);
+               foreach (var loanReciptPlanDetail in loanReciptPlanDetails)
+               {
+                   _unitOfWork.LoanReciptPlanDetailRepository.Delete(loanReciptPlanDetail);
+               }
+               _unitOfWork.LoanReciptPlanRepository.Delete(loanReciptPlan);
+               _unitOfWork.Save();
+               return true;
+           }
+           catch (Exception)
+           {
+
+               return false;
+           }
+       }
        #endregion
 
        public void Dispose()
@@ -127,7 +148,10 @@ namespace Cats.Services.Logistics
            _unitOfWork.Dispose();
            
        }
-       
+
+
+
+     
    }
    }
    

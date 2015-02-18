@@ -233,16 +233,16 @@ namespace Cats.Areas.Logistics.Controllers
             var loanReciptPlan = _loanReciptPlanService.FindById(id);
             if (loanReciptPlan!=null)
             {
-                if (loanReciptPlan.StatusID==(int)LocalPurchaseStatus.Approved)
+                if (loanReciptPlan.StatusID==(int)LocalPurchaseStatus.Draft)
                 {
-                    _loanReciptPlanService.DeleteLoanReciptPlan(loanReciptPlan);
+                    _loanReciptPlanService.DeleteLoanWithDetail(loanReciptPlan);
                     return RedirectToAction("Index","ReciptPlanForLoan");
                 }
                 else
                 {
                     if (_loanReciptPlanService.DeleteLoanReciptAllocation(loanReciptPlan))
                     {
-                        _loanReciptPlanService.DeleteLoanReciptPlan(loanReciptPlan);
+                        _loanReciptPlanService.DeleteLoanWithDetail(loanReciptPlan);
                         return RedirectToAction("Index", "ReciptPlanForLoan");
                     }
                     else
