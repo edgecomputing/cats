@@ -44,16 +44,7 @@
         </tr>
         
         <tr style="width: 300px">
-            <td style="width: 50%">
-                <div class="control-label">
-                    @Html.LabelFor(m=>m.SourceHubID,@Html.Translate("Source Hub"))
-                </div>
-                <div class="controls">
-                    @Html.DropDownList("SourceHubID")
-                    @Html.ValidationMessageFor(m=>m.SourceHubID)
-                </div>
             
-            </td>
             
             
 
@@ -67,18 +58,6 @@
                     @Html.ValidationMessageFor(m=>m.ParentCommodityID)*@
                 </div>
             </td>
-        </tr>
-        <tr>
-           <td>
-                <div class="control-label">
-                    @Html.LabelFor(m=>m.DestinationSwap,@Html.Translate("Destination to Swap"))
-                </div>
-                <div class="controls">
-                    @Html.TextBoxFor(m=>m.DestinationSwap)
-                    @Html.ValidationMessageFor(m=>m.DestinationSwap)
-                </div>
-           </td> 
-            
             <td>
                <div class="control-label">
                     @Html.LabelFor(m=>m.CommodityID,@Html.Translate("Commodity"))
@@ -90,6 +69,8 @@
                 </div>
             </td>
         </tr>
+
+        
         <tr>
             <td>
                 <div class="control-label">
@@ -120,18 +101,8 @@
 
                 </div>
             </td>
-            <td>
-                <div class="control-label">
-                    @Html.LabelFor(m=>m.SourceSwap,@Html.Translate("Source from Swap"))
-                </div>
-                <div class="controls">
-                    @Html.TextBoxFor(m=>m.SourceSwap)
-                    @Html.ValidationMessageFor(m=>m.SourceSwap)
-                </div>
-            </td>
-        </tr>
-        
-        <tr>
+            
+            
             <td>
                 <div class="control-label">
                     @Html.LabelFor(m=>m.ProjectCode,@Html.Translate("Project Code"))
@@ -143,19 +114,9 @@
                
             </td>
             
-            
-            
-
-            <td>
-                <div class="control-label">
-                    @Html.LabelFor(m=>m.DestinationHubID,@Html.Translate("Destination Hub"))
-                </div> 
-                <div class="controls">
-                    @Html.DropDownList("DestinationHubID")
-                    @Html.ValidationMessageFor(m=>m.DestinationHubID)
-                </div>
-            </td>
         </tr>
+        
+        
         <tr>
             <td>
                 <div class="control-label">
@@ -167,6 +128,58 @@
                 </div>
             </td>
         </tr>
+        <tr><td></td></tr>
+        <tr>
+            <td>
+            
+                <div class="control-label">
+                    @Html.LabelFor(m=>m.SourceSwap,@Html.Translate("Swap issuer"))
+                </div>
+                <div class="controls">
+                    @Html.DropDownList("SourceSwap")
+                    
+                    @Html.ValidationMessageFor(m=>m.SourceSwap)
+                </div>
+                
+            </td>
+            
+            <td>
+                <div class="control-label">
+                    @Html.LabelFor(m=>m.DestinationSwap,@Html.Translate("swap repayment reciever"))
+                </div>
+                <div class="controls">
+                    @Html.DropDownList("DestinationSwap")
+                    @Html.ValidationMessageFor(m=>m.DestinationSwap)
+                </div>
+           </td>
+
+        </tr>
+        <tr>
+            
+            <td style="width: 50%">
+                <div class="control-label">
+                    @Html.LabelFor(m=>m.SourceHubID,@Html.Translate("swap repayment settler"))
+                </div>
+                <div class="controls">
+                    @Html.DropDownList("SourceHubID")
+                    @Html.ValidationMessageFor(m=>m.SourceHubID)
+                </div>
+            
+            </td>
+            <td>
+                <div class="control-label">
+                    @Html.LabelFor(m=>m.DestinationHubID,@Html.Translate("Swap receiver"))
+                </div> 
+                <div class="controls">
+                    @Html.DropDownList("DestinationHubID")
+                    @Html.ValidationMessageFor(m=>m.DestinationHubID)
+                </div>
+            </td>
+            
+            
+
+        </tr>
+
     </table>
     
     <div class="modal-footer"> <button class="btn btn-primary" type="submit">@Html.Translate("Save")</button>

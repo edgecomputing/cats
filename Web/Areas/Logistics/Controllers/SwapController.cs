@@ -52,7 +52,13 @@ namespace Cats.Areas.Logistics.Controllers
             ViewBag.CommodityID = new SelectList(_commonService.GetCommodities(t=>t.ParentID!=null), "CommodityID", "Name");
             ViewBag.ParentCommodityID = new SelectList(_commonService.GetCommodities(t => t.ParentID == null), "CommodityID", "Name");
             ViewBag.CommodityTypeID = new SelectList(_commonService.GetCommodityTypes(), "CommodityTypeID", "Name");
+            
             ViewBag.DestinationHubID = new SelectList(_commonService.GetAllHubs(), "HubID", "Name");
+
+            ViewBag.SourceSwap = new SelectList(_commonService.GetAllHubs(), "HubID", "Name");
+            ViewBag.DestinationSwap = new SelectList(_commonService.GetAllHubs(), "HubID", "Name");
+
+
             return View(transfer);
         }
         [HttpPost]
@@ -157,7 +163,13 @@ namespace Cats.Areas.Logistics.Controllers
                             DestinationHubID = transfer.DestinationHubID,
                             DestinationHubName = transfer.Hub1.Name,
                             CreatedDate = transfer.CreatedDate.ToCTSPreferedDateFormat(datePref),
-                            StatusName = _commonService.GetStatusName(WORKFLOW.LocalPUrchase, transfer.StatusID)
+                            StatusName = _commonService.GetStatusName(WORKFLOW.LocalPUrchase, transfer.StatusID),
+                            
+                            DestinationSwap= transfer.DestinationSwap,
+                            DestinationSwapName= transfer.Hub3.Name,
+                            
+                            SourceSwap=transfer.SourceSwap,
+                            SourceSwapName=transfer.Hub2.Name,
 
                         }
                    );
