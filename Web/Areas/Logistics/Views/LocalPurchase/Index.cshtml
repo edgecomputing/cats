@@ -32,7 +32,9 @@
 
               .Navigatable()
               .Scrollable()
+              
               .HtmlAttributes(new { style = "height:430px;" })
+              .Events(e=>e.DataBound("onDataBound"))
               .DataSource(dataSource => dataSource
                                             .Ajax()
                                             .Model(model =>model.Id(m=>m.LocalPurchaseID))
@@ -43,6 +45,7 @@
 <script>
     
     function onDataBound(e) {
+        //alert("show");
         var grid = $("#grid").data("kendoGrid");
         var gridData = grid.dataSource.view();
         //alert(gridData.length);
@@ -51,8 +54,8 @@
             //alert(gridData[i].Status);
             if (gridData[i].Status == "Draft") {
                 var currentRow = grid.table.find("tr[data-uid='" + currentUid + "']");
-                var approveButton = $(currentRow).find(".k-grid-Revert");
-                approveButton.hide();
+                var revertButton = $(currentRow).find(".k-grid-Revert");
+                revertButton.hide();
                 
             }
 
@@ -66,12 +69,12 @@
         e.preventDefault();
         
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
-        window.wnd.center().open();
+        wnd.center().open();
 
         $("#yes").click(function () {
 
             window.location = "@Url.Action("Delete", "LocalPurchase")" + "/" + dataItem.LocalPurchaseID;
-            window.wnd.close();
+            wnd.close();
         });
 
         $("#no").click(function () {
@@ -83,16 +86,16 @@
         e.preventDefault();
 
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
-        wndRevert.wnd.center().open();
+        wndRevert.center().open();
 
-        $("#yes").click(function () {
+        $("#yesRevert").click(function () {
 
-            wndRevert.location = "@Url.Action("RevertToDraft", "LocalPurchase")" + "/" + dataItem.LocalPurchaseID;
-            wndRevert.wnd.close();
+            window.location = "@Url.Action("Revert", "LocalPurchase")" + "/" + dataItem.LocalPurchaseID;
+            wndRevert.close();
         });
 
-        $("#no").click(function () {
-            wndRevert.wnd.close();
+        $("#noRevert").click(function () {
+            wndRevert.close();
         });
     }
 </script>
@@ -116,14 +119,14 @@
 </script>
 
 <div id="modalWindowRevert">
-    <h4>Are You Sure You Want to Revert this Contribution?</h4>
+    <h4>Are You Sure You Want to Revert this local Purchase?</h4>
     <button id="yesRevert" class="k-button">Yes</button>
     <button id="noRevert" class="k-button">No</button>
 </div>
 <script>
     var wndRevert;
     $(document).ready(function () {
-        wnd = $("#modalWindowRevert").kendoWindow({
+        wndRevert = $("#modalWindowRevert").kendoWindow({
             title: "Revert confirmation",
             modal: true,
             visible: false,

@@ -40,6 +40,12 @@ namespace Cats.Areas.Logistics.Controllers
         {
             if (TempData["success"] != null)
                 ModelState.AddModelError("Success", TempData["success"].ToString());
+            if (TempData["Reverted"]!=null)
+                ModelState.AddModelError("Success", TempData["Reverted"].ToString());
+            else if (TempData["Received"]!=null)
+                ModelState.AddModelError("Errors",TempData["Received"].ToString());
+            else if (TempData["Error"]!=null)
+                ModelState.AddModelError("Errors",TempData["Error"].ToString());
             return View();
         }
         public ActionResult Create()
@@ -358,16 +364,21 @@ namespace Cats.Areas.Logistics.Controllers
             ViewBag.DonorID = new SelectList(_commonService.GetDonors(), "DonorID", "Name");
         }
 
-        public ActionResult Delete(int localPurchaseId)
+        public ActionResult Delete(int id)
         {
-            var localPurchase = _localPurchaseService.FindById(localPurchaseId);
+            var localPurchase = _localPurchaseService.FindById(id);
 
                 if (localPurchase != null)
                 {
                     switch (localPurchase.StatusID)
                     {
                         case (int)LocalPurchaseStatus.Approved:
-                            _localPurchaseService.DelteLocalPurchaseAllocation(localPurchase);
+                            if (!_localPurchaseService.DelteLocalPurchaseAllocation(localPurchase))
+                            {
+                                TempData["Received"] = "local Purchase can not be Deleted. It has already been Received!";
+                                return RedirectToAction("Index");
+                            }
+                            
                             _localPurchaseService.DeleteLocalPurchae(localPurchase);
                             break;
                         case (int)LocalPurchaseStatus.Draft:
@@ -381,17 +392,23 @@ namespace Cats.Areas.Logistics.Controllers
                 return RedirectToAction("Index");
         }
 
-        public ActionResult Revert(int localPurchaseId)
+        public ActionResult Revert(int id)
         {
-            var localPurchase = _localPurchaseService.FindById(localPurchaseId);
+            var localPurchase = _localPurchaseService.FindById(id);
 
             if (localPurchase != null)
             {
-                _localPurchaseService.DelteLocalPurchaseAllocation(localPurchase);
+               if( !_localPurchaseService.DelteLocalPurchaseAllocation(localPurchase))
+               {
+                   TempData["Received"] = "local Purchase can not be Reverted. It has already been Received!";
+                   return RedirectToAction("Index");
+               }
                 localPurchase.StatusID = (int) LocalPurchaseStatus.Draft;
                 _localPurchaseService.EditLocalPurchase(localPurchase);
+                TempData["Reverted"] = "Local purchase is Reverted to Draft";
                 return RedirectToAction("Index");
             }
+            TempData["Error"] = "Unable to revert local purchase.";
             return RedirectToAction("Index");
         }
     }

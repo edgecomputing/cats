@@ -88,7 +88,7 @@ namespace Cats.Services.Logistics
                 {
                     _unitOfWork.ReceiptAllocationReository.Delete(allocation);
                 }
-
+                _unitOfWork.Save();
                 return true;
             }
             catch (Exception)
