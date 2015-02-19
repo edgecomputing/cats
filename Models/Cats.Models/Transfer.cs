@@ -47,8 +47,8 @@ namespace Cats.Models
         public int StatusID { get; set; }
         public string Remark { get; set; }
 
-        public int SourceSwap { get; set; }
-        public int DestinationSwap { get; set; }
+        public int? SourceSwap { get; set; }
+        public int? DestinationSwap { get; set; }
 
        public virtual Commodity Commodity { get; set; }
         public virtual CommoditySource CommoditySource { get; set; }
