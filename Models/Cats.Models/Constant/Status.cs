@@ -131,6 +131,12 @@ namespace Cats.Models.Constant
         Recived = 3,
         Closed = 4
     }
+    public enum TransferStatus
+    {
+        Draft=1,
+        Approved=2
+
+    }
 
     public enum ChequeStatus
     {
