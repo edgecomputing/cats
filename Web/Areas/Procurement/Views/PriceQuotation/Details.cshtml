@@ -1,4 +1,6 @@
 ﻿@using Cats.Areas.Procurement.Models
+@using Cats.Helpers
+@using Cats.Services.Security
 @using Kendo.Mvc.UI
 @using LanguageHelpers.Localization
 @model TransportBidQuotationHeaderViewModel
@@ -7,6 +9,13 @@
     ViewBag.Title = "OrderDetail";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
     var headerID = Model.TransportBidQuotationHeaderID;   
+    
+    
+}
+
+@{
+    var user = (UserIdentity)System.Web.HttpContext.Current.User.Identity;
+    var IsTariffEntry = user.Profile.TariffEntry;
 }
 
 @section Toolbar{
@@ -128,6 +137,7 @@
                 .Filterable()
                 .Navigatable()
                 .Events(events => events.Change("onDataBound"))
+                .Events(events=>events.Edit("onEdit"))
                 //.ToolBar(toolBar => toolBar.Save())
                 .Groupable()
                 .Editable(editable => editable.Mode(GridEditMode.InCell))
@@ -157,6 +167,24 @@
                                               .Update(update => update.Action("SaveBidProposals", "PriceQuotation"))
           ))
 
+
+<div id="myModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Confirmation</h4>
+            </div>
+            <div class="modal-body">
+                <p style="font-weight: bold">@Html.Translate("You don't have a previlage to edit Price Quotation")</p>
+                <p style="font-weight: bold" class="text-warning"><small>@Html.Translate("Please contact the system administrator.")</small></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">@Html.Translate("Close")</button>
+            </div>
+        </div>
+    </div>
+</div>
 <script>
     function onDataBound(e) {
         var grid = $("#grid").data("kendoGrid");
@@ -169,7 +197,30 @@
         $("#grid").data("kendoGrid").saveChanges();
     }
 
-    //function onGridKeydown(e) {
+
+    function onEdit(e) {
+        var fieldName = e.container.find("input").attr("name");
+        if (CheckFeildName(fieldName)) {
+            
+            if ('@IsTariffEntry'==='False') {
+                $("#myModal").modal('show');
+                this.closeCell();//Prevent editing
+            }
+            
+        }
+    }
+
+    function CheckFeildName(fieldName) {
+        if (fieldName === "Tariff") {
+            return true;
+        }
+        return false; // default to not editable
+    }
+    
+
+    
+    
+//function onGridKeydown(e) {
     //    if (e.keyCode === kendo.keys.TAB) {
     //        var grid = $(this).closest("[data-role=grid]").data("kendoGrid");
     //        var current = grid.current();
@@ -185,4 +236,5 @@
     //        }
     //    }
     //};
+    
 </script>
