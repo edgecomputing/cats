@@ -1,4 +1,4 @@
-/************************
+﻿/************************
 jquery-timepicker v1.3.9
 http://jonthornton.github.com/jquery-timepicker/
 
@@ -38,10 +38,10 @@ requires jQuery 1.7+
 		noneOption: false
 	};
 	var _lang = {
-		am: 'am',
-		pm: 'pm',
-		AM: 'AM',
-		PM: 'PM',
+	    am: 'ጠዋት',
+	    pm: 'ከሰኣት',
+		AM: '',
+		PM: '',
 		decimal: '.',
 		mins: 'mins',
 		hr: 'hr',

@@ -214,6 +214,13 @@
             $("#div_caseTeam").show();
             $("#div_caseTeam_Procurement").hide();
             
+           
+            if ($("option:selected", "#CaseTeam").text() == "Procurement") {
+                $("#div_caseTeam_Procurement").show();
+            } else {
+
+                $("#div_caseTeam_Procurement").hide();
+            }
             document.getElementById("RegionalUser").value = false;
             document.getElementById("DefaultHub").value = '';
             document.getElementById("RegionID").value = '';
@@ -254,6 +261,8 @@
             $("#div_regions").hide();
             $("#div_hubs").hide();
             $("#div_caseTeam").show();
+
+        
             
             document.getElementById("RegionalUser").value = false;
             document.getElementById("DefaultHub").value = '';
