@@ -138,7 +138,7 @@ namespace Cats.Areas.Settings.Controllers
             user.RegionID = userInfo.RegionID;
             user.CaseTeam = userInfo.CaseTeam;
             user.IsAdmin = userInfo.IsAdmin;
-
+            user.TariffEntry = userInfo.TariffEntry;
             user.LanguageCode = "EN";
             user.Keyboard = "AM";
             user.PreferedWeightMeasurment = "MT";
@@ -216,6 +216,7 @@ namespace Cats.Areas.Settings.Controllers
                 user.Email = userInfo.Email;
                 user.ProgramId= userInfo.ProgramId;
                 user.IsAdmin = userInfo.IsAdmin;
+                user.TariffEntry = userInfo.TariffEntry;
 
                 if (_userService.UpdateUser(user))
                 {
