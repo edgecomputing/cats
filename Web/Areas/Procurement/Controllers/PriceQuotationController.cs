@@ -396,6 +396,11 @@ namespace Cats.Areas.Procurement.Controllers
             return View(header);
         }
 
+        public JsonResult ReturnRegionId(int id)
+        {
+            var bid = _bidService.FindById(id);
+            return Json(bid.RegionID,JsonRequestBehavior.AllowGet);
+        }
         public ActionResult ApproveProposal(int id)
         {
             var proposal = _transportBidQuotationHeaderService.FindById(id);
