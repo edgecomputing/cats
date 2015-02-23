@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using Cats.Models;
 using Cats.Data.UnitWork;
+using System.Linq;
 
 namespace Cats.Services.Logistics
 {
@@ -68,6 +69,54 @@ namespace Cats.Services.Logistics
         }
 
         #endregion
+
+         public bool DeleteDonation(DonationPlanHeader donationPlanHeader)
+         {
+             try
+             {
+                 var donationPlanDetails =
+                 _unitOfWork.DonationPlanDetailRepository.FindBy(
+                     m => m.DonationHeaderPlanID == donationPlanHeader.DonationHeaderPlanID);
+                 foreach (var planDetail in donationPlanDetails)
+                 {
+
+                     _unitOfWork.DonationPlanDetailRepository.Delete(planDetail);
+                     _unitOfWork.Save();
+                 }
+                 _unitOfWork.DonationPlanHeaderRepository.Delete(donationPlanHeader);
+                 _unitOfWork.Save();
+                 return true;
+             }
+             catch (Exception)
+             {
+
+                 return false;
+             }
+             
+
+         }
+       public bool DeleteReceiptAllocation(DonationPlanHeader donationPlanHeader)
+         {
+
+           try
+           {  
+              
+               var receiptPlans =_unitOfWork.ReceiptAllocationReository.FindBy(m => m.SINumber == donationPlanHeader.ShippingInstruction.Value && m.GiftCertificateDetailID ==donationPlanHeader.GiftCertificateID);
+               foreach (var receiptAllocation in receiptPlans)
+               {
+                   _unitOfWork.ReceiptAllocationReository.Delete(receiptAllocation);
+               }
+               _unitOfWork.Save();
+               return true;
+
+           }
+           catch (Exception)
+           {
+
+               return false;
+           }
+             
+         }
 
         public void Dispose()
         {

@@ -5,6 +5,7 @@ using System.Web.Mvc;
 using Cats.Areas.Logistics.Models;
 using Cats.Helpers;
 using Cats.Models;
+using Cats.Models.Constant;
 using Cats.Services.Hub;
 using Cats.Services.Logistics;
 using Cats.ViewModelBinder;
@@ -628,6 +629,33 @@ namespace Cats.Areas.Logistics.Controllers
                 }
             }
             return null;
+        }
+        public  ActionResult Remove(int id)
+        {
+            var donation = _donationPlanHeaderService.FindById(id);
+            if(donation!=null)
+            {
+                if (donation.Status==(int)LocalPurchaseStatus.Draft)
+                {
+                    _donationPlanHeaderService.DeleteDonationPlanHeader(donation);
+                    return RedirectToAction("Index", "Donation");
+                }
+               
+            }
+            return RedirectToAction("Index", "Donation");
+        }
+        public ActionResult Revert(int id)
+        {
+            var donation = _donationPlanHeaderService.FindById(id);
+            if (donation!=null)
+            {
+                if (donation.IsCommited==true)
+                {
+                    _donationPlanHeaderService.DeleteReciptAllocation(donation);
+                    RedirectToAction("Index", "Donation");
+                }
+            }
+            return RedirectToAction("Index", "Donation");
         }
 
     }
