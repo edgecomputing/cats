@@ -23,6 +23,7 @@ namespace Cats.ViewModelBinder
                                                               DateOfAllocation = plan.AllocationDate.Value.ToCTSPreferedDateFormat(UserAccountHelper.UserCalendarPreference()),
                                                               CommodityName = plan.Commodity.Name,
                                                               CommodityID = plan.CommodityID,
+                                                              IsCommited = plan.IsCommited,
                                                              // Vessel = plan.Vessel,
                                                               StrETA = plan.ETA.ToCTSPreferedDateFormat(UserAccountHelper.UserCalendarPreference()),
                                                              // ReferenceNo = plan.ReferenceNo,

@@ -75,7 +75,7 @@ namespace Cats.Areas.Logistics.Controllers
             try
             {
                 List<DonationPlanHeader> donationHeader = null;
-                donationHeader = _donationPlanHeaderService.GetAllDonationPlanHeader().Where(r => r.IsCommited == false).ToList();
+                donationHeader = _donationPlanHeaderService.GetAllDonationPlanHeader().ToList();
                 var receiptViewModel = ReceiptPlanViewModelBinder.GetReceiptHeaderPlanViewModel(donationHeader);
                 return Json(receiptViewModel.ToList().ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
 
@@ -566,7 +566,7 @@ namespace Cats.Areas.Logistics.Controllers
             try
             {
                 var donationDetail =
-                    _donationPlanDetailService.FindBy(r => r.DonationHeaderPlanID == donationPlanId).ToList();
+                    _donationPlanDetailService.FindBy(r => r.DonationHeaderPlanID == donationPlanId).Where(m=>m.AllocatedAmount>0).ToList();
                     
                 foreach (var detail in donationDetail)
                 {
@@ -635,7 +635,7 @@ namespace Cats.Areas.Logistics.Controllers
             var donation = _donationPlanHeaderService.FindById(id);
             if(donation!=null)
             {
-                if (donation.Status==(int)LocalPurchaseStatus.Draft)
+                if (donation.IsCommited==false)
                 {
                     _donationPlanHeaderService.DeleteDonationPlanHeader(donation);
                     return RedirectToAction("Index", "Donation");
@@ -651,8 +651,13 @@ namespace Cats.Areas.Logistics.Controllers
             {
                 if (donation.IsCommited==true)
                 {
-                    _donationPlanHeaderService.DeleteReciptAllocation(donation);
-                    RedirectToAction("Index", "Donation");
+                    if (_donationPlanHeaderService.DeleteReceiptAllocation(donation))
+                    {
+                        donation.IsCommited = false;
+                        _donationPlanHeaderService.EditDonationPlanHeader(donation);
+                        RedirectToAction("Index", "Donation");
+                    }
+                    return RedirectToAction("Index", "Donation");
                 }
             }
             return RedirectToAction("Index", "Donation");

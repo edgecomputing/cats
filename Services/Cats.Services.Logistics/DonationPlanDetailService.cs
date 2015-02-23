@@ -99,9 +99,12 @@ namespace Cats.Services.Logistics
          {
 
            try
-           {  
-              
-               var receiptPlans =_unitOfWork.ReceiptAllocationReository.FindBy(m => m.SINumber == donationPlanHeader.ShippingInstruction.Value && m.GiftCertificateDetailID ==donationPlanHeader.GiftCertificateID);
+           {
+               var donationDetailHubIDs =
+                   _unitOfWork.DonationPlanDetailRepository.FindBy(
+                       m => m.DonationHeaderPlanID == donationPlanHeader.DonationHeaderPlanID).Select(m => m.HubID);
+               var receiptPlans = _unitOfWork.ReceiptAllocationReository.FindBy(m => donationDetailHubIDs.Contains(m.HubID) && m.SINumber == donationPlanHeader.ShippingInstruction.Value 
+                                                                               && m.ETA ==donationPlanHeader.ETA );
                foreach (var receiptAllocation in receiptPlans)
                {
                    _unitOfWork.ReceiptAllocationReository.Delete(receiptAllocation);
