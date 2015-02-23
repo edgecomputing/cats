@@ -249,9 +249,31 @@ namespace Cats.Areas.EarlyWarning.Controllers
         }
 
         [HttpPost]
-        public ActionResult NewRequisiton(List<DataFromGrid> input)
+        public ActionResult NewRequisiton(List<DataFromGrid> input, int id = 0)
         {
             var requId = 0;
+            var requisistionNos = input.Select(m => m.RequisitionNo);
+            var requsitionNo = _reliefRequisitionService.FindBy(m => requisistionNos.Contains(m.RequisitionNo) && m.RegionalRequestID != id);
+            if (requsitionNo.Count>0)
+            {
+                var requsisions = _reliefRequisitionService.GetRequisitionByRequestId(id).ToList();
+                var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
+                var existingRequisitionNo = requsitionNo.FirstOrDefault();
+                foreach (var reliefRequisitionNew in requsisions)
+                {
+                    if (reliefRequisitionNew.RequestedDate.HasValue)
+                    {
+                        reliefRequisitionNew.RequestDatePref = reliefRequisitionNew.RequestedDate.Value.ToCTSPreferedDateFormat(datePref);
+                        reliefRequisitionNew.RegionalRequestId = id;
+                    }
+                    reliefRequisitionNew.MonthName = RequestHelper.MonthName(reliefRequisitionNew.Month);
+                }
+                if (existingRequisitionNo != null)
+                    ModelState.AddModelError("Errors",String.Format("{0} Requisition No already existed please Change Requisition No", existingRequisitionNo.RequisitionNo));
+                return View(requsisions);
+            }
+                
+           
             if (ModelState.IsValid)
             {
                 var requisitionNumbers = input.ToDictionary(t => t.Number, t => t.RequisitionNo);

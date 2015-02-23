@@ -38,5 +38,6 @@ namespace Cats.Areas.Settings.Models
         public int? ProgramId { get; set; }
 
          public bool IsAdmin { get; set; }
+        public bool TariffEntry { get; set; }
     }    
 }

@@ -76,7 +76,49 @@ namespace Cats.Services.Logistics
 
        }
 
+        public bool DelteLocalPurchaseAllocation(LocalPurchase localPurchase)
+        {
+            try
+            {
+                var receiptAllocation =
+                    _unitOfWork.ReceiptAllocationReository.FindBy(
+                        c => c.CommoditySourceID == CommoditySourceConst.Constants.LOCALPURCHASE && c.SINumber == localPurchase.ShippingInstruction.Value && c.ProjectNumber == localPurchase.ProjectCode);
 
+                foreach (var allocation in receiptAllocation)
+                {
+                    _unitOfWork.ReceiptAllocationReository.Delete(allocation);
+                }
+                _unitOfWork.Save();
+                return true;
+            }
+            catch (Exception)
+            {
+
+                return false;
+            }
+        }
+
+        public bool DeleteLocalPurchae(LocalPurchase localPurchase)
+        {
+            try
+            {
+                var localPurchaseDetail =
+                    _unitOfWork.LocalPurchaseDetailRepository.FindBy(
+                        d => d.LocalPurchaseID == localPurchase.LocalPurchaseID);
+                foreach (var purchaseDetail in localPurchaseDetail)
+                {
+                    _unitOfWork.LocalPurchaseDetailRepository.Delete(purchaseDetail);
+                }
+                _unitOfWork.LocalPurchaseRepository.Delete(localPurchase);
+                _unitOfWork.Save();
+                return true;
+            }
+            catch (Exception)
+            {
+
+                return false;
+            }
+        }
        public bool Approve(LocalPurchase localPurchase)
        {
            try

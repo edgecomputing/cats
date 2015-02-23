@@ -159,7 +159,13 @@
                 </div>
             </div>
         </div>
-
+        
+        <div id="div_caseTeam_Procurement" class="control-group">
+            <label class="control-label">Tariff Entry</label>
+            <div class="controls">
+                @Html.CheckBoxFor(m => m.TariffEntry)
+            </div>
+        </div>
 
         <div class="row">
             <div class="span6">
@@ -184,6 +190,8 @@
             $("#div_regions").show();
             $("#div_hubs").hide();
             $("#div_caseTeam").hide();
+            
+            $("#div_caseTeam_Procurement").hide();
             document.getElementById("RegionalUser").value = true;
             document.getElementById("DefaultHub").value = '';
             document.getElementById("CaseTeam").value = '';
@@ -194,6 +202,7 @@
             $("#div_regions").hide();
             $("#div_hubs").show();
             $("#div_caseTeam").hide();
+            $("#div_caseTeam_Procurement").hide();
             document.getElementById("RegionalUser").value = false;
             document.getElementById("RegionID").value = '';
             document.getElementById("CaseTeam").value = '';
@@ -203,7 +212,15 @@
             $("#div_regions").hide();
             $("#div_hubs").hide();
             $("#div_caseTeam").show();
+            $("#div_caseTeam_Procurement").hide();
             
+           
+            if ($("option:selected", "#CaseTeam").text() == "Procurement") {
+                $("#div_caseTeam_Procurement").show();
+            } else {
+
+                $("#div_caseTeam_Procurement").hide();
+            }
             document.getElementById("RegionalUser").value = false;
             document.getElementById("DefaultHub").value = '';
             document.getElementById("RegionID").value = '';
@@ -220,7 +237,7 @@
             $("#div_regions").show();
             $("#div_hubs").hide();
             $("#div_caseTeam").hide();
-
+            $("#div_caseTeam_Procurement").hide();
             
             document.getElementById("RegionalUser").value = true;
             document.getElementById("DefaultHub").value = '';
@@ -232,6 +249,7 @@
             $("#div_regions").hide();
             $("#div_hubs").show();
             $("#div_caseTeam").hide();
+            $("#div_caseTeam_Procurement").hide();
             
             document.getElementById("RegionalUser").value = false;
             document.getElementById("RegionID").value = '';
@@ -243,6 +261,8 @@
             $("#div_regions").hide();
             $("#div_hubs").hide();
             $("#div_caseTeam").show();
+
+        
             
             document.getElementById("RegionalUser").value = false;
             document.getElementById("DefaultHub").value = '';
@@ -254,6 +274,7 @@
             $("#div_regions").hide();
             $("#div_hubs").hide();
             $("#div_caseTeam").hide();
+            $("#div_caseTeam_Procurement").hide();
 
             document.getElementById("IsAdmin").value = true;
             document.getElementById("RegionalUser").value = false;
@@ -268,5 +289,16 @@
             $("#div_caseTeam").hide();
         }
        
+    });
+    
+    $("#CaseTeam").change(function () {
+
+       
+        if ($("option:selected", "#CaseTeam").text() == "Procurement") {
+            $("#div_caseTeam_Procurement").show();
+        } else {
+
+            $("#div_caseTeam_Procurement").hide();
+        }
     });
 </script>

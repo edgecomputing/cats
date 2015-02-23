@@ -23,7 +23,7 @@
 </div>
 
 
-@using (Html.BeginForm("Create", "PriceQuotation", FormMethod.Post, new { @class = "modal-form" }))
+@using (Html.BeginForm("Create", "PriceQuotation", FormMethod.Post, new { id = "frmPriceQuotation", @class = "modal-form" }))
 {
     <div class="modal-body">
         <div class="well form-horizontal">
@@ -43,8 +43,9 @@
                     @Html.LabelFor(m => m.RegionID, "Region")
                 </div>
                 <div class="controls">
-                    @Html.DropDownListFor(m => m.RegionID, ViewBag.Regions as SelectList)
-                    @Html.ValidationMessageFor(m => m.AdminUnit)
+                    @Html.DropDownListFor(m => m.RegionID, ViewBag.Regions as SelectList, new { disabled = "true" })
+                    @Html.HiddenFor(m => m.RegionID);
+                    @Html.ValidationMessageFor(m => m.RegionID)
                 </div>
             </div>
             <div class="control-group">
@@ -86,3 +87,23 @@
         <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
     </div>
 }
+<script>
+    
+    $("#frmPriceQuotation").submit(function () {
+        $('#RegionID').removeAttr('disabled');
+    });
+    
+    $("#BidId").change(function() {
+
+        var value = $("#BidId").val();
+        
+        
+        $.getJSON('@Url.Action("ReturnRegionId", "PriceQuotation")' + "?id=" + value, function (data) {
+
+            $("#RegionID").val(data);
+            
+        });
+
+       
+    });
+</script>

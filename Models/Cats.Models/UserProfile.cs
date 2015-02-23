@@ -50,6 +50,7 @@ namespace Cats.Models
         public int? RegionID { get; set; }
         public bool RegionalUser { get; set; }
         public bool IsAdmin { get; set; }
+        public bool? TariffEntry { get; set; }
         public virtual ICollection<TransporterCheque> TransporterCheques { get; set; }
         public virtual ICollection<TransporterCheque> TransporterCheques1 { get; set; }
         public virtual ICollection<WoredaStockDistribution> UtilizationHeaders { get; set; }

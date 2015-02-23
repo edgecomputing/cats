@@ -33,16 +33,21 @@ namespace Cats.ViewModelBinder
             requisition.Zone = reliefRequisition.AdminUnit1.Name;
             requisition.Commodity = reliefRequisition.Commodity.Name;
             requisition.Month = RequestHelper.MonthName(reliefRequisition.Month);
-            if (reliefRequisition.RationID != null && reliefRequisition.RationID > 0)
-            {
-                requisition.RationID = (int) reliefRequisition.RationID;
-            }
-            else if (reliefRequisition.RegionalRequest != null && reliefRequisition.RegionalRequest.Ration != null)
-            {
-                requisition.Ration = reliefRequisition.RegionalRequest.Ration.RefrenceNumber;
-                requisition.RationID = reliefRequisition.RegionalRequest.RationID;
-            }
-              
+            if (reliefRequisition.RegionalRequest != null) 
+                requisition.RequestRefNo = reliefRequisition.RegionalRequest.ReferenceNumber;
+
+
+
+                if (reliefRequisition.RationID != null && reliefRequisition.RationID > 0)
+                {
+                    requisition.RationID = (int) reliefRequisition.RationID;
+                }
+                else if (reliefRequisition.RegionalRequest != null && reliefRequisition.RegionalRequest.Ration != null)
+                {
+                    requisition.Ration = reliefRequisition.RegionalRequest.Ration.RefrenceNumber;
+                    requisition.RationID = reliefRequisition.RegionalRequest.RationID;
+                }
+            
             return requisition;
         }
 

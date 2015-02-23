@@ -51,11 +51,8 @@
                       columns.Bound(m => m.CreatedDate).Title(@Html.Translate("Created Date"));
                       columns.Bound(m => m.DestinationHubName).Title(@Html.Translate("Destination hub"));
                       columns.Bound(m => m.StatusName).Title(@Html.Translate("Status Name"));
-                      //columns.Command(p =>
-                      //{
-                      //    p.Custom("Edit").Click("Edit");
-                      //    p.Custom("Recieve").Click("Recieve");
-                      //}).Width(250);
+                     
+                      columns.Command(p => p.Custom("Delete").Click("OnDelete")).Width(250);
 
 
                   }
@@ -63,6 +60,7 @@
               )
 
               .Navigatable()
+              .Events(e=>e.DataBound("onDataBound"))
               .HtmlAttributes(new { style = "height:430px;" })
               .DataSource(dataSource => dataSource
                                             .Ajax()
@@ -75,3 +73,55 @@
 <div id='dialogDivSmall' class='modal hide fade in'>
     <div id='dialogContentSmall'></div>
 </div>
+<div id="modalWindow">
+    <h4>Are You Sure You Want to Delete this Transfer?</h4>
+    <button id="yes" class="k-button">Yes</button>
+    <button id="no" class="k-button">No</button>
+</div>
+<script>
+    function onDataBound(e) {
+        //alert("show");
+        var grid = $("#grid").data("kendoGrid");
+        var gridData = grid.dataSource.view();
+        //alert(gridData.length);
+        for (var i = 0; i < gridData.length; i++) {
+            var currentUid = gridData[i].uid;
+            //alert(gridData[i].Status);
+            if (gridData[i].StatusName == "Approved") {
+                var currentRow = grid.table.find("tr[data-uid='" + currentUid + "']");
+                var deleteButton = $(currentRow).find(".k-grid-Delete");
+                deleteButton.hide();
+
+            }
+        }
+    }
+
+
+    function OnDelete(e) {
+        e.preventDefault();
+
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        wnd.center().open();
+
+        $("#yes").click(function () {
+
+            window.location = "@Url.Action("Delete", "Transfer")" + "/" + dataItem.TransferID;
+            wnd.close();
+        });
+
+        $("#no").click(function () {
+            window.wnd.close();
+        });
+    }
+
+    var wnd;
+    $(document).ready(function () {
+        wnd = $("#modalWindow").kendoWindow({
+            title: "Delete confirmation",
+            modal: true,
+            visible: false,
+            resizable: false,
+            width: 300
+        }).data("kendoWindow");
+    });
+</script>
