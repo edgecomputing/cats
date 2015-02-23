@@ -24,7 +24,7 @@
 
 }
 
-@using (Html.BeginForm("NewRequisiton", "ReliefRequisition", FormMethod.Post, new { id = "frm_create_Requistions" }))
+@using (Html.BeginForm("NewRequisiton", "ReliefRequisition", new { id = Model.FirstOrDefault().RegionalRequestId }, FormMethod.Post, new { id = "frm_create_Requistions" }))
 {
     <table  id="kGrid">
         <thead>
@@ -179,7 +179,6 @@
     </p>
 }
 <script>
-
     $(document).ready(function() {
         $("#kGrid").kendoGrid({
             pageable: false,

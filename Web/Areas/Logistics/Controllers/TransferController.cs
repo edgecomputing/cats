@@ -226,5 +226,21 @@ namespace Cats.Areas.Logistics.Controllers
             }
             return Json(null, JsonRequestBehavior.AllowGet);
         }
+        public ActionResult Delete(int id)
+        {
+            var transfer = _transferService.FindById(id);
+            if (transfer!=null)
+            {
+                if (transfer.StatusID==(int)TransferStatus.Draft)
+                {
+                    _transferService.DeleteTransfer(transfer);
+                    return RedirectToAction("Index", "Transfer");
+
+                }
+               
+            }
+            return RedirectToAction("Index", "Transfer");
+        }
+       
     }
 }

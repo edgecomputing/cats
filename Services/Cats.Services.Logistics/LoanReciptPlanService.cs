@@ -94,6 +94,53 @@ namespace Cats.Services.Logistics
            }
            return false;
        }
+
+       public bool DeleteLoanReciptAllocation(LoanReciptPlan loanReciptPlan)
+       {
+           try
+           {
+               var receiptAllocation =
+                   _unitOfWork.ReceiptAllocationReository.FindBy(
+                       c => c.CommoditySourceID == CommoditySourceConst.Constants.LOAN && c.SINumber == loanReciptPlan.ShippingInstruction.Value
+                               && c.ProjectNumber == loanReciptPlan.ProjectCode && c.QuantityInMT==loanReciptPlan.Quantity);
+
+               foreach (var allocation in receiptAllocation)
+               {
+                   _unitOfWork.ReceiptAllocationReository.Delete(allocation);
+               }
+               
+               _unitOfWork.Save();
+               return true;
+           }
+           catch (Exception)
+           {
+
+               return false;
+           }
+       }
+
+
+       public bool DeleteLoanWithDetail(LoanReciptPlan loanReciptPlan)
+       {
+           try
+           {
+               var loanReciptPlanDetails =
+                   _unitOfWork.LoanReciptPlanDetailRepository.FindBy(
+                       d => d.LoanReciptPlanID == loanReciptPlan.LoanReciptPlanID);
+               foreach (var loanReciptPlanDetail in loanReciptPlanDetails)
+               {
+                   _unitOfWork.LoanReciptPlanDetailRepository.Delete(loanReciptPlanDetail);
+               }
+               _unitOfWork.LoanReciptPlanRepository.Delete(loanReciptPlan);
+               _unitOfWork.Save();
+               return true;
+           }
+           catch (Exception)
+           {
+
+               return false;
+           }
+       }
        #endregion
 
        public void Dispose()
@@ -101,7 +148,10 @@ namespace Cats.Services.Logistics
            _unitOfWork.Dispose();
            
        }
-       
+
+
+
+     
    }
    }
    

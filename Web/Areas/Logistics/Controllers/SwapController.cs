@@ -165,10 +165,10 @@ namespace Cats.Areas.Logistics.Controllers
                             CreatedDate = transfer.CreatedDate.ToCTSPreferedDateFormat(datePref),
                             StatusName = _commonService.GetStatusName(WORKFLOW.LocalPUrchase, transfer.StatusID),
                             
-                            DestinationSwap= transfer.DestinationSwap,
+                            DestinationSwap= (int)transfer.DestinationSwap,
                             DestinationSwapName= transfer.Hub3.Name,
                             
-                            SourceSwap=transfer.SourceSwap,
+                            SourceSwap=(int)transfer.SourceSwap,
                             SourceSwapName=transfer.Hub2.Name,
 
                         }
