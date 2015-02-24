@@ -20,13 +20,13 @@
             </rsweb:ReportViewer>
         </div>
     </form>
-    <script >
+    <%--<script >
         $(document).ready(function() {
             //alert("hello report");
         });
         $("#ReportViewer1_ctl04").css("background", "none");
         $("#ParameterTable_ReportViewer1_ctl04").css("background", "none");
-    </script>
+    </script>--%>
     
 
 </body>
