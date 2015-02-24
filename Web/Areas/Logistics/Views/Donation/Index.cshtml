@@ -22,26 +22,29 @@
     .Name("grid")
     .Columns(columns =>
     {
-        columns.Bound(p => p.SINumber).Title(Html.Translate("SI Number")).Width(200);
-        columns.Bound(p => p.DateOfAllocation).Title(Html.Translate("Allocation Date")).Width(200);
+        columns.Bound(p => p.SINumber).Title(Html.Translate("SI Number")).Width(150);
+        columns.Bound(p => p.DateOfAllocation).Title(Html.Translate("Allocation Date")).Width(100);
         columns.Bound(p => p.ProgramName).Title(Html.Translate("Program")).Width(100);
-        columns.Bound(p => p.DonorName).Title(Html.Translate("Donor")).Width(200);
+        columns.Bound(p => p.DonorName).Title(Html.Translate("Donor")).Width(250);
         columns.Bound(p => p.CommodityName).Title(Html.Translate("Commodity")).Width(150);
         columns.Bound(p => p.StrETA).Title(Html.Translate("ETA")).Width(100);
-       
+        columns.Bound(p => p.DonationHeaderPlanID).Visible(false);
+        
         columns.Command(p =>
         {
             p.Custom("Edit").Click("Edit");
-            //p.Custom("Delete").Click("Delete");
+            p.Custom("Revert").Click("OnRevert");
+            p.Custom("Delete").Click("OnDelete");
 
         });
     })
     
-    .Editable(editable => editable.Mode(GridEditMode.InCell))
+    //.Editable(editable => editable.Mode(GridEditMode.InCell))
    
     .Sortable()
     .Scrollable()
     .HtmlAttributes(new { style = "height:430px;" })
+    .Events(e=>e.DataBound("onDataBound"))
     .DataSource(dataSource => dataSource
         .Ajax()
         .PageSize(20)
@@ -71,6 +74,31 @@
 
 <script type="text/javascript">
     
+    function onDataBound(e) {
+        //alert("show");
+        var grid = $("#grid").data("kendoGrid");
+        var gridData = grid.dataSource.view();
+        //alert(gridData.length);
+        for (var i = 0; i < gridData.length; i++) {
+            var currentUid = gridData[i].uid;
+            //alert(gridData[i].Status);
+            if (gridData[i].IsCommited == false) {
+                var currentRow = grid.table.find("tr[data-uid='" + currentUid + "']");
+                var revertButton = $(currentRow).find(".k-grid-Revert");
+                revertButton.hide();
+
+            } else {
+                var currentRow2 = grid.table.find("tr[data-uid='" + currentUid + "']");
+                var deleteButton = $(currentRow2).find(".k-grid-Delete");
+                var editButton = $(currentRow2).find(".k-grid-Edit");
+                deleteButton.hide();
+                editButton.hide();
+            }
+
+
+
+        }
+    }
 
     function Edit(e) {
         e.preventDefault();
@@ -81,8 +109,78 @@
         window.location = "@Url.Action("AddNewDonationPlan", "Donation")" + "?siNumber=" + siNumber + "&typeOfLoad=0";
     }
     
+    function OnDelete(e) {
+        e.preventDefault();
+
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        wnd.center().open();
+
+        $("#yes").click(function () {
+
+            window.location = "@Url.Action("Remove", "Donation")" + "/" + dataItem.DonationHeaderPlanID;
+            wnd.close();
+        });
+
+        $("#no").click(function () {
+            window.wnd.close();
+        });
+    }
+
+    function OnRevert(e) {
+        e.preventDefault();
+
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        wndRevert.center().open();
+
+        $("#yesRevert").click(function () {
+
+            window.location = "@Url.Action("Revert", "Donation")" + "/" + dataItem.DonationHeaderPlanID;
+            wndRevert.close();
+        });
+
+        $("#noRevert").click(function () {
+            wndRevert.close();
+        });
+    }
    
 </script>
+
+<div id="modalWindow">
+    <h4>Are You Sure You Want to Delete this Donation Plan?</h4>
+    <button id="yes" class="k-button">Yes</button>
+    <button id="no" class="k-button">No</button>
+</div>
+<script>
+    var wnd;
+    $(document).ready(function () {
+        wnd = $("#modalWindow").kendoWindow({
+            title: "Delete confirmation",
+            modal: true,
+            visible: false,
+            resizable: false,
+            width: 300
+        }).data("kendoWindow");
+    });
+</script>
+
+<div id="modalWindowRevert">
+    <h4>Are You Sure You Want to Revert this Donation Plan?</h4>
+    <button id="yesRevert" class="k-button">Yes</button>
+    <button id="noRevert" class="k-button">No</button>
+</div>
+<script>
+    var wndRevert;
+    $(document).ready(function () {
+        wndRevert = $("#modalWindowRevert").kendoWindow({
+            title: "Revert confirmation",
+            modal: true,
+            visible: false,
+            resizable: false,
+            width: 300
+        }).data("kendoWindow");
+    });
+</script>
+
 
 <script type="text/javascript">
     $(function () {

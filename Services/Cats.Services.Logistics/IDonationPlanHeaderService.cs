@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using Cats.Models;
 
+
 namespace Cats.Services.Logistics
 {
     public interface IDonationPlanHeaderService
@@ -15,6 +16,8 @@ namespace Cats.Services.Logistics
         DonationPlanHeader FindById(int id);
         List<DonationPlanHeader> GetAllDonationPlanHeader();
         List<DonationPlanHeader> FindBy(Expression<Func<DonationPlanHeader, bool>> predicate);
+        bool DeleteDonation(DonationPlanHeader donationPlanHeader);
+        bool DeleteReceiptAllocation(DonationPlanHeader donationPlanHeader);
         void Dispose();
 
     }
