@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Cats.Areas.Logistics.Models;
 using Cats.Services.EarlyWarning;
 using Cats.Areas.PSNP.Models;
 using Cats.Services.Logistics;
@@ -179,9 +180,9 @@ namespace Cats.Areas.PSNP.Controllers
                     var regionalutilization  = new UtilizationViewModel()
                                              {
                                                  Region = utilization.WoredaID.ToString(),
-                                                 Commodity = utilizationdetail.CommodityID.ToString(),
-                                                 ActualBeneficicaries = utilization.ActualBeneficairies,
-                                                 Amount = utilizationdetail.DistributedAmount,
+                                                 //Commodity = utilizationdetail.CommodityID.ToString(),
+                                                 //ActualBeneficicaries = utilization.ActualBeneficairies,
+                                                 //Amount = utilizationdetail.DistributedAmount,
                                                  
                                              };
                     r.Add(regionalutilization);
