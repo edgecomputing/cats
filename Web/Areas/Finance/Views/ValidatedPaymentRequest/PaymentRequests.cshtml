@@ -5,6 +5,7 @@
 @using Cats.Models
 @using Cats.Services.Security;
 @using Cats.Helpers
+@using FluentAssertions
 @model IEnumerable<Cats.Areas.Finance.Models.TransporterPaymentRequestViewModel>
 @{
     ViewBag.Title = Html.Translate("Index");
@@ -486,10 +487,17 @@
                             @item.FreightCharge.ToString("0.00")
                         </td>
                         <td>
-                            @state.Name
+                            @if (state.Name == "Submitted to Finance")
+                            {
+                                <text>Submitted from Logistics</text>
+                            }
+                            else
+                            {
+                                @state.Name
+                            }
                         </td>
                         <td>
-                            <button class="btn" data-ng-click="loadLabourCost(@item.TransporterPaymentRequestID,@state.StateNo)">@Html.Translate("Payment Deductions")</button>
+                            <button class="btn" style="padding: 0px;" data-ng-click="loadLabourCost(@item.TransporterPaymentRequestID,@state.StateNo)">@Html.Translate("Payment Deductions")</button>
                             @*<a href="@Url.Action("LabourCost", "ValidatedPaymentRequest")">Labour Cost</a>*@
                         </td>
                         <td>
@@ -508,6 +516,19 @@
                                     </ul>
                                 </div>
                             }
+                            @if (item.LabourCostRate == null && state.StateNo < 3)
+                            {
+                                foreach (FlowTemplate actions in state.InitialStateFlowTemplates)
+                                {
+                                    if (actions.Name == "Rejected by Finance")
+                                    {
+                                        <text><a class="btn" href="javascript:promot_workflow(@item.BusinessProcessID ,@actions.FinalStateID,'@actions.Name',@item.TransporterPaymentRequestID)" title="@actions.Name">@Html.Translate("Reject")</a></text>
+                                    }
+                                    
+                                }
+                            }
+                                
+
                         </td>
                     </tr> 
                     //}
