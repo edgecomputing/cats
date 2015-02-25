@@ -240,104 +240,35 @@
                     </div>
                 </div>
             </div>
-            <div id="RequisitionContent" class="row">
-                <div>&nbsp;</div>
-                <div class="span4">
+            
+            
+
+              <div class="span4">
 
                     <div class="portlet">
                         <div class="portlet-header">
                             <h3>
                                 <i class=""></i>
-                               @Html.Translate("Utilization by Age") 
+                               @Html.Translate("Utilization by Age")
                             </h3>
                         </div>
 
                         <!-- /.portlet-header -->
 
                         <div class="portlet-content">
-                            <div class="progress-stat">
-
-                                <div class="stat-header">
-
-                                    <div class="pull-left">
-                                        @Html.Translate("Older than 18 years")
-                                    </div>
-                                    <!-- /.stat-label -->
-
-                                    <div class="pull-right">
-                                        {{Data.Above18}}%
-                                    </div>
-                                    <!-- /.stat-value -->
-
-                                </div>
-                                <!-- /stat-header -->
-
-                                <div class="progress progress-info">
-                                    <div class="bar" style="width: {{Data.Above18}}%"></div>
-                                </div>
-                                <!-- /.progress -->
-
-                            </div>
-                            <!-- /.progress-stat -->
-
-                            <div class="progress-stat">
-
-                                <div class="stat-header">
-
-                                    <div class="pull-left">
-                                        @Html.Translate("Between 5 and 18 years")
-                                    </div>
-                                    <!-- /.stat-label -->
-
-                                    <div class="pull-right">
-                                        {{Data.Bet5And8}}%
-                                    </div>
-                                    <!-- /.stat-value -->
-
-                                </div>
-                                <!-- /stat-header -->
-
-                                <div class="progress progress-info">
-                                    <div class="bar" style="width: {{Data.Bet5And8}}%"></div>
-                                </div>
-                                <!-- /.progress -->
-
-                            </div>
-                            <!-- /.progress-stat -->
-
-                            <div class="progress-stat">
-
-                                <div class="stat-header">
-
-                                    <div class="pull-left">
-                                        @Html.Translate("Younger than 5 years")
-                                    </div>
-                                    <!-- /.stat-label -->
-
-                                    <div class="pull-right">
-                                        {{Data.Below5}}%
-                                    </div>
-                                    <!-- /.stat-value -->
-
-                                </div>
-                                <!-- /stat-header -->
-
-                                <div class="progress progress-info">
-                                    <div class="bar" style="width: {{Data.Below5}}%"></div>
-                                </div>
-                                <!-- /.progress -->
-
-                            </div>
-                            <!-- /.progress-stat -->
-
-                            <br>
+                            <div class="chartWrap" id="containerutil" draw-utilization-pie=""></div>
                         </div>
                         <!-- /.portlet-content -->
 
                     </div>
                     <!-- /.portlet -->
                 </div>
-                <div class="span7">
+              
+            
+            
+            
+            
+            <div class="span7">
                     <div class="portlet">
                         <div class="portlet-header">
                             <h3>
@@ -563,14 +494,14 @@
         $scope.Requests = [];
         $scope.Requisitions = [];
        
-        $scope.Data = [];
+        $scope.Data2 = [];
         $scope.states = ["Draft", "Approved", "Closed"];
 
         var id = $rootScope.Id;
         var onRequestsSuccess = function (data) {
             $scope.Requests = data;
         };
-        $scope.Data = [];
+        $scope.Data2 = [];
         $scope.states = ["Draft", "Approved", "Closed"];
 
         var onRequisitionsSuccess = function (data) {
@@ -578,8 +509,8 @@
         };
 
        
-        var onDashboardDataSuccess = function (data) {
-            $scope.Data = data;
+        var onDispatchesSuccess = function (data) {
+            $scope.Data2 = data;
         };
 
         $scope.getRequests = function () {
@@ -592,7 +523,8 @@
         };
 
         $scope.getUtilization = function () {
-            $http.post("@Url.Action("GetUtilizationReport", "Dashboard", new { Area = "PSNP" })", null).success(onDispatchesSuccess);
+            alert('jas');
+            $http.post("@Url.Action("GetUtilizationReport", "Dashboard", new { Area = "PSNP" })" + "?planId=" + planId, null).success(onDispatchesSuccess);
         };
 
         $scope.viewRequest = function (item) {
@@ -614,7 +546,6 @@
     app.controller('AnnualPlan', ['$scope', '$http', '$rootScope', function ($scope, $http, $rootScope) {
 
         $scope.plans = [];
-       
         $http({ method: 'GET', url: '@Url.Action("GetPlans", "Dashboard", new { Area = "PSNP" })' }).success(function (data, status, headers, config) { $scope.plans = data; })
         .error(function (data, status, headers, config) {
 
@@ -623,13 +554,16 @@
         var planId;
 
         $scope.onChange = function (id) {
+            
             $rootScope.RequestPie = [];
             $rootScope.RequestByStatus = [];
+            $rootScope.utilpie = [];
             $rootScope.Id = id;
             planId = id;
           
             $scope.getRequestPie();
             $scope.getRequestPieByStatus();
+            $scope.getUtilization();
             };
 
         $scope.getRequestPie = function () {
@@ -640,8 +574,18 @@
             $http.post("@Url.Action("RequestPieByStatus", "Dashboard", new { Area = "PSNP" })" + "?planId=" + planId, null).success(onRequestPieByStatusSuccess);
         };
         
-       
-        
+        $scope.getUtilization = function () {
+            //alert('jas');
+            $http.post("@Url.Action("GetUtilizationReport", "Dashboard", new { Area = "PSNP" })" + "?planId=" + planId, null).success(onDispatchesSuccess);
+        };
+
+        var onDispatchesSuccess = function (data) {
+            $scope.utilpie.push(["Above 18", data[0].Above18]);
+            $scope.utilpie.push(["Between 5 and 18", data[0].Bet5and18]);
+            $scope.utilpie.push(["Below 5", data[0].Below5]);
+
+        };
+
 
 
 
@@ -690,10 +634,68 @@
         };
     });
 
+
+    /* Directives */
+    app.directive('drawUtilizationPie', function () {
+        // return the directive link function. (compile function not needed)
+        return function (scope, element, attrs) {
+            var container = $(element).attr("id");
+            // watch the expression, and update the UI on change.
+            scope.$watch('utilpie', function () {
+                drawPlot();
+            }, true);
+            var drawPlot = function () {
+                var chart;
+                chart = new Highcharts.Chart({
+                    chart: {
+                        renderTo: container
+                    },
+                    credits: {
+                        enabled: false
+                    },
+                    title: {
+                        text: ''
+                    },
+                    exporting: {
+                        enabled: false
+                    },
+                    //tooltip: {
+                    //    pointFormat: '{series.name}: <b>{point.percentage}</b>% <b>({point.y})</b> Requests',
+                    //    percentageDecimals: 1
+                    //},
+
+                    tooltip: {
+                        pointFormat: '{series.name}: <b>{point.percentage:.2f}%</b> ({point.y}) Utilizations',
+                    },
+                    plotOptions: {
+                        pie: {
+                            allowPointSelect: true,
+                            cursor: 'pointer',
+                            dataLabels: {
+                                enabled: false
+                            },
+                            showInLegend: true
+                        }
+                    },
+                    series: [{
+                        type: 'pie',
+                        name: 'Percentage',
+                        data: scope.utilpie,
+                    }]
+                });
+            }
+        }
+    });
+
+
+
+
     /* Directives */
     app.directive('drawRequestPie', function () {
-           // return the directive link function. (compile function not needed)
-           return function (scope, element, attrs) {
+        // return the directive link function. (compile function not needed)
+        
+        return function (scope, element, attrs) {
+            
                var container = $(element).attr("id");
                // watch the expression, and update the UI on change.
                scope.$watch('RequestPie', function () {

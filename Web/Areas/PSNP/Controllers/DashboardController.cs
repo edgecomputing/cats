@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using Cats.Services.EarlyWarning;
 using Cats.Areas.PSNP.Models;
+using Cats.Services.Logistics;
 using Cats.Services.PSNP;
 
 namespace Cats.Areas.PSNP.Controllers
@@ -18,17 +19,24 @@ namespace Cats.Areas.PSNP.Controllers
         private readonly IReliefRequisitionService _reliefRequisitionService;
         private readonly IHRDService _hrdService;
         private readonly IRegionalPSNPPlanService _regionalPsnpPlanService;
+        private readonly IUtilizationHeaderSerivce _utilizationService;
+        private readonly IUtilizationDetailSerivce _utilizationDetailSerivce;
+        
 
         public DashboardController(IRegionalRequestService regionalRequestService,
             IRegionalRequestDetailService reliefRequisitionDetailService,
             IReliefRequisitionService reliefRequisitionService,
-            IHRDService hrdService, IRegionalPSNPPlanService regionalPsnpPlanService)
+            IHRDService hrdService, IRegionalPSNPPlanService regionalPsnpPlanService,
+            IUtilizationHeaderSerivce utilization, IUtilizationDetailSerivce utilizationDetail
+            )
         {
             _regionalRequestService = regionalRequestService;
             _regionalRequestDetailService = reliefRequisitionDetailService;
             _reliefRequisitionService = reliefRequisitionService;
             _hrdService = hrdService;
             _regionalPsnpPlanService = regionalPsnpPlanService;
+            _utilizationService = utilization;
+            _utilizationDetailSerivce = utilizationDetail;
         }
         public JsonResult GetPsnpRequests()
         {
@@ -140,10 +148,51 @@ namespace Cats.Areas.PSNP.Controllers
             return Json(r, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult GetUtilizationReport()
+        public ActionResult GetUtilizationReport(int planId = -1)
         {
-            var requisitions = _regionalRequestService.FindBy(t => t.Status == 2 && t.ProgramId == 2);
-            return Json(requisitions, JsonRequestBehavior.AllowGet);
+
+            var utilizations = _utilizationService.FindBy(t => t.PlanID == planId);
+            var r = (from util in utilizations
+                     group util by util.PlanID into g
+                     let firstOrDefault = g.FirstOrDefault()
+                     where firstOrDefault != null
+                     select new
+                     {
+                         
+                         Above18 = g.Sum(t=>t.MaleAbove18Years) + g.Sum(t=>t.FemaleAbove18Years),
+                         Bet5and18 = g.Sum(t=>t.MaleBetween5And18Years) + g.Sum(t=>t.FemaleBetween5And18Years),
+                         Below5 = g.Sum(t => t.FemaleLessThan5Years) + g.Sum(t => t.MaleLessThan5Years)
+                         
+                     });
+                return Json(r, JsonRequestBehavior.AllowGet);
         }
+
+        public ActionResult GetUtilizationByRegion(int planId = -1)
+        {
+
+            var utilizations = _utilizationService.FindBy(t => t.PlanID == planId);
+            var r = new List<UtilizationViewModel>();
+            foreach (var utilization in utilizations)
+            {
+                foreach (var utilizationdetail in utilization.WoredaStockDistributionDetails)
+                {
+                    var regionalutilization  = new UtilizationViewModel()
+                                             {
+                                                 Region = utilization.WoredaID.ToString(),
+                                                 Commodity = utilizationdetail.CommodityID.ToString(),
+                                                 ActualBeneficicaries = utilization.ActualBeneficairies,
+                                                 Amount = utilizationdetail.DistributedAmount,
+                                                 
+                                             };
+                    r.Add(regionalutilization);
+                }
+               
+                
+            }
+        
+            return Json(r, JsonRequestBehavior.AllowGet);
+        
+            }
+
     }
 }
