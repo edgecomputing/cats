@@ -98,6 +98,11 @@ namespace Cats.Services.Logistics
             return 0;
         }
 
+        public int? GetDonorID(int id)
+        {
+            var gift = _unitOfWork.GiftCertificateRepository.FindBy(m => m.ShippingInstructionID == id).FirstOrDefault();
+            return gift.DonorID;
+        }
         #endregion
 
         public void Dispose()
