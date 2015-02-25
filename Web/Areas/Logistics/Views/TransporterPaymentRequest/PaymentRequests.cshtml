@@ -39,6 +39,7 @@
 @{
     int index = 0;
    
+   
     var transportOrderViewModel = ViewBag.TransportOrderViewModel;
 }
 <script type="text/javascript">
@@ -476,7 +477,7 @@
         <table class="table table-striped table-responsive" id="paymentrequesttable">
             <thead>
                 <tr>
-                    @*<th>@Html.Translate("Select")</th>*@
+                    <th>@Html.Translate("SNo ")</th>
                     <th>@Html.Translate("Reference No")</th>
                     <th>@Html.Translate("Program")</th>
                     <th>@Html.Translate("Requisition")</th>
@@ -501,17 +502,20 @@
                 </tr>
             </thead>
             <tbody>
-              
+               @{ int sno = 0; }
                 @foreach (TransporterPaymentRequestViewModel item in Model)
                 {
                     index++;
+                    sno++;
                     var state = item.BusinessProcess.CurrentState.BaseStateTemplate;
                     //if (state.Name == "Payment Requested" || state.Name == "Request Verified")
-                  
+                    
                     <tr>
-                       @* <td>
+                        
+                        @* <td>
                          <input type="checkbox" ng-model="selection[@index]"  ng-change="addSelection(@index,@item.BusinessProcessID ,@item.TransporterPaymentRequestID, @item.Transporter.TransporterID)"/> 
                         </td>*@
+                        <td>@sno</td>
                         <td class="refno">
                             @item.ReferenceNo
                         </td>
@@ -588,7 +592,7 @@
                                   <ul class="dropdown-menu">
                                       @foreach (FlowTemplate actions in state.InitialStateFlowTemplates)
                                       {
-                                       <li class="edit_button"><a href="javascript:promot_workflow(@item.BusinessProcessID ,@actions.FinalStateID,'@actions.Name',@item.TransporterPaymentRequestID)" title="@actions.Name">@actions.Name</a></li>            
+                                          <li class="edit_button"><a href="javascript:promot_workflow(@item.BusinessProcessID ,@actions.FinalStateID,'@actions.Name',@item.TransporterPaymentRequestID)" title="@actions.Name">@actions.Name</a></li>            
                                       }
                                       <li class="divider"></li>
                                       <li class="edit_button"><a href="javascript:workflow_history(@item.BusinessProcessID)">History</a></li>

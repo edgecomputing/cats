@@ -25,6 +25,7 @@ namespace Cats.Services.Logistics
             string includeProperties = "");
 
         decimal GetFDPDelivery(int transportOrderId, int fdpId);
+        int? GetDonorID(int id);
 
     }
 }

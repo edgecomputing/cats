@@ -540,6 +540,8 @@ namespace Cats.Services.Hub
             receive.UserProfileID = viewModel.UserProfileId;
             receive.StoreId = viewModel.StoreId;
             receive.StackNumber = viewModel.StackNumber;
+            receive.SourceDonorID = viewModel.SourceDonorId;
+            receive.ResponsibleDonorID = viewModel.ResponsibleDonorId;
                               
             
 
