@@ -170,7 +170,7 @@ namespace Cats.Areas.PSNP.Controllers
         public ActionResult GetUtilizationByRegion(int planId = -1)
         {
 
-            var utilizations = _utilizationService.FindBy(t => t.PlanID == planId);
+            var utilizations = _utilizationService.GetAllHeaderDistribution();
             var r = new List<UtilizationViewModel>();
             foreach (var utilization in utilizations)
             {
@@ -178,9 +178,9 @@ namespace Cats.Areas.PSNP.Controllers
                 {
                     var regionalutilization  = new UtilizationViewModel()
                                              {
-                                                 Region = utilization.WoredaID.ToString(),
-                                                 Commodity = utilizationdetail.CommodityID.ToString(),
-                                                 ActualBeneficicaries = utilization.ActualBeneficairies,
+                                                 Region =  utilization.AdminUnit.AdminUnit2.AdminUnit2.Name,
+                                                 //Commodity = utilizationdetail.CommodityID.ToString(),
+                                                 //ActualBeneficicaries = utilization.ActualBeneficairies,
                                                  Amount = utilizationdetail.DistributedAmount,
                                                  
                                              };
@@ -189,8 +189,19 @@ namespace Cats.Areas.PSNP.Controllers
                
                 
             }
-        
-            return Json(r, JsonRequestBehavior.AllowGet);
+            
+            var grouped = (from total in r
+                           group total by total.Region
+                           into g
+                           select new
+                                      {
+
+                                          Region = g.First().Region,
+                                          total = g.Sum(t => t.Amount)
+                                      });
+            return Json(grouped, JsonRequestBehavior.AllowGet );
+
+            
         
             }
 

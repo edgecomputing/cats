@@ -16,4 +16,15 @@ namespace Cats.Areas.PSNP.Models
         public int PlanId { get; set; }
         public string PlanName { get; set; }
     }
+
+    public class UtilizationViewModel
+    {
+        public string Region { get; set; }
+        public string Commodity { get; set; }
+        public int ActualBeneficicaries { get; set; }
+        public decimal Amount { get; set; }
+        public int PlanId { get; set; }
+        public string PlanName { get; set; }
+    
+    }
 }
