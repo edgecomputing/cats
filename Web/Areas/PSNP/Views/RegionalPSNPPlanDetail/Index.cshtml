@@ -30,9 +30,9 @@
 @section Toolbar
 {
     @* If the user logged in the one that creates the plan, he/she can have access to the action buttons. *@
-    @if(ViewBag.plan_user == ViewBag.current_user )
+  @*  @if(ViewBag.plan_user == ViewBag.current_user )
     {
-        <div class="btn-group">
+        *@<div class="btn-group">
             <button class="btn edit_button" id="action">@Html.Translate("Workflow")</button>
             <button class="btn  dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
             <ul class="dropdown-menu">
@@ -64,7 +64,7 @@
             }*@
             </ul>
         </div>
-    }
+    @*}*@
      <a class="btn toolbar-btn" href="#" style="display:none1;" target="_blank" id="toolbar_button_print"  title="Print"><i class="icon-print"></i></a>
     <a class="btn toolbar-btn " data-buttontype="btn_back_to_list" href="@Url.Action("Index", "RegionalPSNPPlan")"></a>
 
