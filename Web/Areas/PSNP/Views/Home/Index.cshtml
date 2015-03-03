@@ -277,9 +277,7 @@
                             </h3>
                             <ul class="portlet-tools pull-right">
                                 <li>
-                                    <button class="btn btn-sm btn-default">
-                                        @Html.Translate("Show more")
-                                    </button>
+                                    
                                 </li>
                             </ul>
                         </div>
@@ -288,39 +286,26 @@
                         <div class="portlet-content">
                            
                             <!-- directive -->
-                            <div id="containerPIE"></div>
+                            
                             <th class="table-responsive">
                             <table id="" class="table table-striped table-checkable">
-                                @* <thead>
+                                 <thead>
                                         <tr>
-                                            <th class="hidden-xs">Number</th>
-                                            <th>Commodity</th>
-                                            <th>Beneficiaries</th>
-                                            <th>Amount(QT)</th>
-                                            <th>Status</th>
-                                            <th class="align-center">Action</th>
+                                            <th>Region</th>
+                                            <th>Amount</th>
+                                            
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr class="" ng-repeat="requisition in Requisitions">
+                                        <tr class="" ng-repeat="util in utilizations">
 
-                                            <td>{{requisition[1].Value}}</td>
-                                            <th>{{requisition[7].Value}}</th>
-                                            <td>{{requisition[2].Value|number}}</td>
-                                            <th>{{requisition[3].Value|number}} QT</th>
+                                            <td>{{util.Region}}</td>
+                                            <th>{{util.total|number}} QT</th>
 
-                                            <td><span class="label label-danger">{{requisition[4].Value}}</span></td>
-                                            <td>
-                                                <a ng-href="@Url.Action("Allocation", "ReliefRequisition", new { Area = "EarlyWarning", id = 2 })" class="btn btn-sm btn-default">View <i class="icon-chevron-right"></i>
-                                                </a>
-
-                                                <a class="btn btn-sm btn-default" data-original-title="Approve">
-                                                    <i class="icon-upload"></i>Approve
-                                                </a>
-                                            </td>
+                                            
                                         </tr>
 
-                                    </tbody>*@
+                                    </tbody>
                             </table>
 
                         </div>
@@ -493,7 +478,7 @@
         
         $scope.Requests = [];
         $scope.Requisitions = [];
-       
+        $scope.utilizations = [];
         $scope.Data2 = [];
         $scope.states = ["Draft", "Approved", "Closed"];
 
@@ -509,8 +494,9 @@
         };
 
        
-        var onDispatchesSuccess = function (data) {
-            $scope.Data2 = data;
+        var onregionutilizationSuccess = function (data) {
+            $scope.utilizations = data;
+            
         };
 
         $scope.getRequests = function () {
@@ -522,9 +508,10 @@
             $http.post("@Url.Action("GetPsnpRequisitions", "Dashboard", new { Area = "PSNP" })", null).success(onRequisitionsSuccess);
         };
 
-        $scope.getUtilization = function () {
-            alert('jas');
-            $http.post("@Url.Action("GetUtilizationReport", "Dashboard", new { Area = "PSNP" })" + "?planId=" + planId, null).success(onDispatchesSuccess);
+        $scope.getRegionUtilization = function () {
+            
+            
+            $http.post("@Url.Action("GetUtilizationByRegion", "Dashboard", new { Area = "PSNP" })" + "?planId=0", null).success(onregionutilizationSuccess);
         };
 
         $scope.viewRequest = function (item) {
@@ -537,7 +524,7 @@
         
         $scope.getRequests();
         $scope.getRequisitions();
-       
+        $scope.getRegionUtilization();
         
     }]);
     
