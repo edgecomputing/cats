@@ -401,7 +401,7 @@ namespace Cats.Areas.Logistics.Controllers
                             FirstOrDefault();
                     if (dispatchAllocation != null && dispatchAllocation.ShippingInstructionID!=null)
                     {
-                        newdelivery.DonorID = _deliveryService.GetDonorID((int)dispatchAllocation.ShippingInstructionID);
+                        newdelivery.DonorID = _deliveryService.GetDonorID(dispatchAllocation.ShippingInstruction.Value);
                     }
                     if (dispatch.DriverName != null)
                         newdelivery.DriverName = dispatch.DriverName;

@@ -15,11 +15,13 @@ namespace Cats.Services.Logistics
     public class DeliveryService : IDeliveryService
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly Cats.Data.Hub.UnitWork.IUnitOfWork _hubUnitOfWork;
 
 
         public DeliveryService()
         {
             this._unitOfWork = new UnitOfWork();
+            this._hubUnitOfWork = new Data.Hub.UnitOfWork();
         }
         #region Default Service Implementation
         public bool AddDelivery(Delivery delivery)
@@ -98,11 +100,21 @@ namespace Cats.Services.Logistics
             return 0;
         }
 
-        public int? GetDonorID(int id)
+        public int? GetDonorID(string shippingInstruction)
         {
-            var gift = _unitOfWork.GiftCertificateRepository.FindBy(m => m.ShippingInstructionID == id).FirstOrDefault();
-            if (gift == null) return null;
-            return gift.DonorID;
+
+            var receiptAllocation = _unitOfWork.ReceiptAllocationReository.FindBy(m => m.SINumber == shippingInstruction).FirstOrDefault();
+         
+           if (receiptAllocation!=null)
+            {
+                var receive =_hubUnitOfWork.ReceiveRepository.FindBy(m =>m.ReceiptAllocationID == receiptAllocation.ReceiptAllocationID).FirstOrDefault();
+                if (receive != null && receive.SourceDonorID!=null)
+                {
+                    return receive.SourceDonorID;
+                }
+            }
+            return 0;
+
         }
         #endregion
 
