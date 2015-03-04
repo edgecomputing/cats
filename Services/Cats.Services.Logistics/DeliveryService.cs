@@ -101,6 +101,7 @@ namespace Cats.Services.Logistics
         public int? GetDonorID(int id)
         {
             var gift = _unitOfWork.GiftCertificateRepository.FindBy(m => m.ShippingInstructionID == id).FirstOrDefault();
+            if (gift == null) return null;
             return gift.DonorID;
         }
         #endregion
