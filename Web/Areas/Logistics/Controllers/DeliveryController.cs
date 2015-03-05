@@ -284,8 +284,7 @@ namespace Cats.Areas.Logistics.Controllers
 
                 var dispatch = _dispatchService.Get(t => t.DispatchID == deliveryViewModel.DispatchID, null,
                     "DispatchDetails,DispatchAllocation").FirstOrDefault();
-
-
+                
                 var delivery = new Delivery();
                 delivery.DeliveryBy = deliveryViewModel.DeliveryBy;
                 delivery.DeliveryDate = deliveryViewModel.DeliveryDate;
@@ -397,6 +396,13 @@ namespace Cats.Areas.Logistics.Controllers
                 newdelivery.DocumentReceivedDate = delivery.DocumentReceivedDate != null ? DateTime.Parse(delivery.DocumentReceivedDate) : DateTime.Now;
                 if (dispatch != null)
                 {
+                    var dispatchAllocation =
+                        _dispatchAllocationService.FindBy(m => m.DispatchAllocationID == dispatch.DispatchAllocationID).
+                            FirstOrDefault();
+                    if (dispatchAllocation != null && dispatchAllocation.ShippingInstructionID!=null)
+                    {
+                        newdelivery.DonorID = _deliveryService.GetDonorID(dispatchAllocation.ShippingInstruction.Value);
+                    }
                     if (dispatch.DriverName != null)
                         newdelivery.DriverName = dispatch.DriverName;
                     //newDistribution.FDP = dispatch.FDP;

@@ -421,6 +421,7 @@
         <table class="table table-striped" id="paymentrequesttable">
             <thead>
                 <tr>
+                    <th> @Html.Translate("SNo.")</th>
                     <th> @Html.Translate("Reference No.")</th>
                     <th> @Html.Translate("Program")</th>
                     <th> @Html.Translate("Requisition")</th>
@@ -440,13 +441,19 @@
                 </tr>
             </thead>
             <tbody>
+                @{int sno = 0;}
                 @foreach (TransporterPaymentRequestViewModel item in Model)
                 {
                     index++;
+                    sno++;
                     var state = item.BusinessProcess.CurrentState.BaseStateTemplate;
                     //if (state.Name == "Approved by finance" || state.Name == "Cheque Issued" || state.Name == "Cheque Cashed")
                     //{
+                    
                     <tr>
+                         <td>
+                            @sno
+                        </td>
                         <td>
                             @item.ReferenceNo
                         </td>
