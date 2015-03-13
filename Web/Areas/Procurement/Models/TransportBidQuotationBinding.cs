@@ -22,9 +22,10 @@ namespace Cats.Areas.Procurement.Models
                     //Source = transportBidQuotation.Source.Name, 
                     SourceID = transportBidQuotation.SourceID, 
                     Tariff = transportBidQuotation.Tariff, 
-                    TransportBidQuotationID = transportBidQuotation.TransportBidQuotationID, 
-                    //Transporter = transportBidQuotation.Transporter.Name, 
-                    TransporterID = transportBidQuotation.TransporterID
+                    TransportBidQuotationID = transportBidQuotation.TransportBidQuotationID,
+                    Transporter = transportBidQuotation.TransportBidQuotationHeader.Transporter.Name, 
+                    TransporterID = transportBidQuotation.TransporterID,
+                    IsChecked = false
                 }).ToList();
         }
     }

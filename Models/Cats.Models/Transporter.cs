@@ -54,7 +54,7 @@ namespace Cats.Models
         public string ManagerName { get; set; }
         public string ManagerMobile { get; set; }
         public int? PartitionId { get; set; }
-
+        public bool OwnedByDRMFSS { get; set; }
         public DateTime ExperienceFrom { get; set; }
         public DateTime ExperienceTo { get; set; }
         public virtual ICollection<TransportOrder> TransportOrders { get; set; }

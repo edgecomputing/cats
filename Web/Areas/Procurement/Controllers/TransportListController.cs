@@ -50,6 +50,7 @@ namespace Cats.Areas.Procurement.Controllers
             var quotationResutlt =
                 _bidQuotationService.GetAllTransportBidQuotation().Where(
                     t => t.TransporterID == transporterId && t.IsWinner == true).ToList();
+           
             var qoutationViewModel =
                 TransportBidQuotationBinding.TransportBidQuotationListViewModelBinder(quotationResutlt);
             return Json(qoutationViewModel.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);

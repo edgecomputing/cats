@@ -56,7 +56,7 @@ namespace Cats.Areas.Procurement.Controllers
             transporterPoco.OwnerMobile = tm.OwnerMobile;
             transporterPoco.ManagerName = tm.ManagerName;
             transporterPoco.ManagerMobile = tm.ManagerMobile;
-
+            transporterPoco.OwnedByDRMFSS = tm.OwnedByDRMFSS;
             //TransporterPOCO tp= new TransporterPOCO{
             //                                        TransporterID=tm.TransporterID,
             //                                        Name=tm.Name,

@@ -12,6 +12,9 @@ namespace Cats.Areas.Procurement.Models
         public string Woreda { get; set; }
         public List<TransportOrderDetail> TransportOrderDetails { get; set; }
         public List<TransportBidQuotationViewModel> TransportersStandingList { get; set; }
+        
+
     }
 
+  
 }

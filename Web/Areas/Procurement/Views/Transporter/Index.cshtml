@@ -26,7 +26,7 @@
         columns.Bound(p => p.Region).Width(100);
         columns.Bound(p => p.SubCity).Width(100);
         columns.Bound(p => p.TelephoneNo).Width(100);
-  
+        columns.Bound(p => p.OwnedByDRMFSS).Title("Owned By").Width(100).Hidden(true);
         
         columns.Command(command => { 
             //command.Edit(); 
@@ -114,6 +114,31 @@
             //"/Procurement/Transporter/Edit/" + dataItem.TransporterID;
         window.location = url;
     }
+    
+
+    function onDataBound(e) {
+        
+        var grid = $("#grid").data("kendoGrid");
+        var gridData = grid.dataSource.view();
+        //alert(gridData.length);
+        for (var i = 0; i < gridData.length; i++) {
+            var currentUid = gridData[i].uid;
+            //alert(gridData[i].Status);
+            var currentRow = grid.table.find("tr[data-uid='" + currentUid + "']");
+            if (gridData[i].OwnedByDRMFSS == "false") {
+                alert(gridData[i].OwnedByDRMFSS);
+                var owner = $(currentRow).find(".k-grid-OwnedByDRMFSS");
+                owner.text = "DRMFSS";
+               
+            }
+            else {
+                alert("yes");
+                var transporter = $(currentRow).find(".k-grid-OwnedByDRMFSS");
+                transporter.text = "-";
+            }
+        }
+    }
+    
 </script>
 <!--
 <p>

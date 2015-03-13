@@ -250,6 +250,10 @@
             var printurl = "@Url.Action("Print", "TransportOrder", new { id = ViewBag.TransportOrderID })";
             $("#toolbar_button_print").attr("href", printurl);
         
+           
+            
+         
+            
             $(".transChange").click(function (e) {
                 changeTransporter();
             });
@@ -423,23 +427,18 @@
         function ChangeTransporterSendCompleted(results) {
             woredaWithTransportersStanding = results;
             //var entries='<h4>Change Transporter for each Woreda</h4>';
-            var entries='<table style="margin:20px;border:1px solid #ececec;width:550px;">';
+            var transporters = ''
+            var entries='<table class="table table-striped">';
             entries+='<tr>';
             entries+='<td style="padding:0px;text-align:center;">';
             entries+='<h5> @Html.Translate("Woreda")</h5>';
             entries+='</td>';
-            entries+='<td style="padding:0px;text-align:center;">';
-            entries+='<h5>@Html.Translate("Position")</h5>';
-            entries+='</td>';
+           
             entries+='<td style="padding:0px;text-align:center;">';
             entries+='<h5>@Html.Translate("Transporters")</h5>';
             entries+='</td>';
             entries+='</tr>';
-            entries+='<tr>';
-            entries+='<td colspan="3" style="text-align:center;color:#ececec;">';
-            entries+='<hr>';
-            entries+='</td>';
-            entries+='</tr>';
+         
             for (var i in results.Data){
                 var availablePositions=new Array();
                 //var count = 0;
@@ -448,32 +447,56 @@
                 entries+='<td style="text-align:center;">';
                 entries+=substituteTransport.Woreda;
                 entries+='</td>';
-                entries+='<td style="text-align:center;">';
-                entries+='<select class="anotherTransporter" id="'+substituteTransport.WoredaID+'">';
-                entries+='<option value="">@Html.Translate("Select a Position") </option>';
+                entries+='<td style="text-align:Left;">';
+                //entries+='<select class="anotherTransporter" id="'+substituteTransport.WoredaID+'">';
+                //entries+='<option value="">@Html.Translate("Select a Position") </option>';
                 for (var j in substituteTransport.TransportersStandingList) {
                     var transportersStandingPosition = results.Data[i].TransportersStandingList[j];
                     //if(!availablePositions.contains(results.Data[i].TransportersStandingList[j].Position)) {
-                    if(($.inArray(results.Data[i].TransportersStandingList[j].Position, availablePositions))==-1) {
-                        //alert(printR(availablePositions));
-                        availablePositions.push(results.Data[i].TransportersStandingList[j].Position);
-                        entries+='<option value="'+transportersStandingPosition.Position+'" transportBidQuotationID="'+transportersStandingPosition.TransportBidQuotationID+'"' +
-                    ' woredaID="'+substituteTransport.WoredaID+'"> [ #'+ transportersStandingPosition.Position+ ' ]' +' </option>';
-                        //count++;
-                    }
+                    //if(($.inArray(results.Data[i].TransportersStandingList[j].Position, availablePositions))==-1) {
+                    //    //alert(printR(availablePositions));
+                    //    availablePositions.push(results.Data[i].TransportersStandingList[j].Position);
+                    //    entries+='<option value="'+transportersStandingPosition.Position+'" transportBidQuotationID="'+transportersStandingPosition.TransportBidQuotationID+'"' +
+                    //' woredaID="'+substituteTransport.WoredaID+'"> [ #'+ transportersStandingPosition.Position+ ' ]' +' </option>';
+                        
+
+                        var index = getIndexOfValue(woredaWithTransportersStanding.Data, substituteTransport.WoredaID);
+                        //alert(position);
+                        //var entries = '';
+                        //for(var z in woredaWithTransportersStanding.Data[index.i].TransportersStandingList) {
+                            //if(woredaWithTransportersStanding.Data[index.i].TransportersStandingList[z].Position == position) {
+                            var transportersStanding = woredaWithTransportersStanding.Data[index.i].TransportersStandingList[j];
+
+                           
+                           
+                            entries+='<input type="checkbox" onclick="return OptionsSelected(this)" value ="'+ transportersStanding.IsChecked +'" Id="'+ transportersStanding.TransporterID +'" name="' + substituteTransport.WoredaID +'" class="checkbox">'+transportersStanding.Transporter + '</input><br/>';
+                          
+                           
+                            //}
+                        //}
+                    
+                        //for(var x in woredaWithTransportersStanding.Data[index.i].Transporters) {
+                        //    //if(woredaWithTransportersStanding.Data[index.i].TransportersStandingList[z].Position == position) {
+                        //    var trans = woredaWithTransportersStanding.Data[index.i].Transporters[x];
+                                
+                               
+                        //    entries+='<input type="checkbox" value="'+trans.TransporterID+'" ' +
+                        //    ' woredaID="'+substituteTransport.WoredaID+'">'+ trans.TransporterName + '</input>';
+                        //    //}
+                        //}
+                    
+                        $('#TransportersList4-' + substituteTransport.WoredaID).html(entries);
+                       
+                    //}
                         
                 }
-                entries+='</select>';
+                //entries+='</select>';
                 entries+='</td>';
                 entries+='<td style="text-align:center;">';
                 entries+='<div id="TransportersList4-'+substituteTransport.WoredaID+'"></div>';
                 entries+='</td>';
                 entries+='</tr>';
-                entries+='<tr>';
-                entries+='<td colspan="3" style="text-align:center;color:#ececec;">';
-                entries+='<hr>';
-                entries+='</td>';
-                entries+='</tr>';
+               
             }
             entries+='</table>';
             entries+='<a type="button" class="generateTO" style="margin:20px;height:30px;width:200px;cursor:pointer;">@Html.Translate("Generate Transport Order(s)")</a>';
@@ -481,7 +504,28 @@
             //var msg = '<div class="cats_success">Success: Dashboard preference updated.</div>';
             $("#modalWindow").html(entries);
         }
-        
+        function OptionsSelected(param) {
+
+            var index = getIndexOfValue(woredaWithTransportersStanding.Data, param.name);
+            var transportersStanding = woredaWithTransportersStanding.Data[index.i].TransportersStandingList;
+            for(var c=0;c<transportersStanding.length;c++){
+          
+                if (woredaWithTransportersStanding.Data[index.i].TransportersStandingList[c].TransporterID == param.id ) {
+                    var checked = woredaWithTransportersStanding.Data[index.i].TransportersStandingList[c];
+                    if (document.getElementById(param.id).checked) {
+                        checked.IsChecked = true;
+
+                    } else {
+                        checked.IsChecked = false;
+                    }
+                    
+                   
+                }
+            }
+           
+           
+        }
+
         function PositionChanged4Woreda(woredaId, position) {
             //alert(printR(woredaWithTransportersStanding));
             

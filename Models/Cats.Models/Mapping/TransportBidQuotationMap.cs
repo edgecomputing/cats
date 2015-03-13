@@ -40,8 +40,9 @@ namespace Cats.Models.Mapping
             this.HasRequired(t => t.Hub)
                 .WithMany(t => t.TransportBidQuotations)
                 .HasForeignKey(d => d.SourceID);
-           
 
+            
+          
 
            
         }

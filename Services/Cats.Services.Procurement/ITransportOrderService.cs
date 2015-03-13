@@ -54,6 +54,8 @@ namespace Cats.Services.Procurement
         bool RevertRequsition(int requisitionID);
         List<ReliefRequisition> GetRequsitionsToBeReverted();
         List<Dispatch> ReverseDispatchAllocation(int transportOrderId);
+        void DeleteTransportOrderDetails(List<TransportOrderDetail> transportOrderDetails);
+        string GetTransportRequisitionNo(string transportOrderNo);
     }
 }
 

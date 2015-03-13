@@ -26,5 +26,7 @@ namespace Cats.Services.Procurement
             System.Linq.Expressions.Expression<Func<TransportBidQuotation, bool>> filter = null,
             Func<IQueryable<TransportBidQuotation>, IOrderedQueryable<TransportBidQuotation>> orderBy = null,
             string includeProperties = "");
+
+        List<TransportBidQuotation> GetSecondWinner(int transporterId, int woredaId);
     }
 }

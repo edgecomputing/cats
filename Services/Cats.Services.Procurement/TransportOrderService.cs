@@ -1272,6 +1272,24 @@ namespace Cats.Services.Procurement
 
         }
 
+        public string GetTransportRequisitionNo(string transportRequisitionNo)
+        {
+            string input = transportRequisitionNo;
+            const char searchChar = '/';
+            const int occurrencePosition = 3; // third occurrence of the char
+            var result = input.Select((c, i) => new { Char = c, Index = i })
+                              .Where(item => item.Char == searchChar)
+                              .Skip(occurrencePosition - 1)
+                              .FirstOrDefault();
+
+            if (result == null)
+            {
+                return string.Empty;
+            }
+            var str = input.Substring(result.Index + 1);
+            return str;
+        }
+
     }
 }
 

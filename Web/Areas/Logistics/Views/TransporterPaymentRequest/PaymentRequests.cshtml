@@ -62,7 +62,7 @@
     $(function () {
 
         //Optional: turn the chache off
-        $.ajaxSetup({ cache: false });
+       // $.ajaxSetup({ cache: false });
 
         $('#btnApprove').click(function () {
 
@@ -78,7 +78,7 @@
         });
         $('#btnSubmitToFinance').click(function () {
 
-            // alert("");
+             
             $('#dialogContent').load(this.href, function () {
                 $('#dialogDiv').modal({
                     backdrop: 'static',
@@ -92,7 +92,7 @@
     });
 </script>
 
-<div id='dialogDiv' class='modal hide fade in' style="width: 900px;margin-right: 10px">
+<div id='dialogDiv' class='modal hide fade in' style="width: auto;height: auto; margin-right: 50px">
     <div id='dialogContent'></div>
 </div>
 

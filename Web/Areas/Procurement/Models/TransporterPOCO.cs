@@ -45,5 +45,7 @@ namespace Cats.Procurement.Models
 
         public DateTime ExperienceFrom { get; set; }
         public DateTime ExperienceTo { get; set; }
+
+        public bool OwnedByDRMFSS { get; set; }
     }
 }

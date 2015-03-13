@@ -399,10 +399,10 @@ namespace Cats.Areas.Logistics.Controllers
                     var dispatchAllocation =
                         _dispatchAllocationService.FindBy(m => m.DispatchAllocationID == dispatch.DispatchAllocationID).
                             FirstOrDefault();
-                    if (dispatchAllocation != null && dispatchAllocation.ShippingInstructionID!=null)
-                    {
-                        newdelivery.DonorID = _deliveryService.GetDonorID(dispatchAllocation.ShippingInstruction.Value);
-                    }
+                    //if (dispatchAllocation != null && dispatchAllocation.ShippingInstructionID!=null)
+                    //{
+                    //    newdelivery.DonorID = _deliveryService.GetDonorID(dispatchAllocation.ShippingInstruction.Value);
+                    //}
                     if (dispatch.DriverName != null)
                         newdelivery.DriverName = dispatch.DriverName;
                     //newDistribution.FDP = dispatch.FDP;

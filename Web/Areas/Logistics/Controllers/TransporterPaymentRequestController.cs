@@ -588,9 +588,9 @@ namespace Cats.Areas.Logistics.Controllers
             
             if (transporterPaymentRequestViewModel.Count==0)
             {
-                TempData["CustomError"] = String.Format("There is no Payment Request to {0}",status);
-                return RedirectToAction("PaymentRequests", "TransporterPaymentRequest",
-                                            new { Area = "Logistics", transporterID });
+               ViewBag.Error =  String.Format("There is no Payment Request to {0}",status);
+                //return RedirectToAction("PaymentRequests", "TransporterPaymentRequest",
+                //                            new { Area = "Logistics", transporterID });
             }
             ViewBag.Status = status;
             ViewBag.TransporterID = transporterID;

@@ -71,5 +71,10 @@ namespace Cats.Areas.Procurement.Models
         //Remark
         [Display(Name = "Remark")]
         public string Remark { get; set; }
+
+
+        //Is Checked
+        
+        public bool IsChecked { get; set; }
     }
 }
