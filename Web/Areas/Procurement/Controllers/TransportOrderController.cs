@@ -365,7 +365,8 @@ namespace Cats.Areas.Procurement.Controllers
         public ActionResult ChangeTransporters([DataSourceRequest] DataSourceRequest request, List<SubstituteTransporterOrder> listOfSubTransporterOrders, int changedTransportOrderID)
         {
 
-           var orderDetails = new List<TransportOrderDetail>();
+            var orderDetails = new List<TransportOrderDetail>();
+            var weightPref = UserAccountHelper.GetUser(User.Identity.Name).PreferedWeightMeasurment;
             var changedTransportOrderObj = _transportOrderService.FindById(changedTransportOrderID);
             var returnedObj = new List<TransportOrder>();
             foreach (var subTransporterOrders in listOfSubTransporterOrders)
@@ -391,7 +392,7 @@ namespace Cats.Areas.Procurement.Controllers
                     SubstituteTransporterOrder orders = subTransporterOrders;
                     TransportOrder transportOrderOld = null;
 
-                    var transportOrder = _transportOrderDetailService.FindBy(t=>t.TransportOrder.TransporterID == transporterObj.TransporterID && t.TransportOrder.StatusID == (int) TransportOrderStatus.Draft).Select(o => o.TransportOrder).Distinct();
+                    var transportOrder = _transportOrderService.FindBy(t=>t.TransporterID == transporterObj.TransporterID && t.StatusID == (int) TransportOrderStatus.Draft).Distinct();
                     var transportOrders = transportOrder as List<TransportOrder> ?? transportOrder.ToList();
                     foreach (var order in transportOrders)
                     {
@@ -406,12 +407,16 @@ namespace Cats.Areas.Procurement.Controllers
                         {
                             if (transportOrderDetail.FDP.AdminUnitID == subTransporterOrders.WoredaID)
                             {
+                                var qty = weightPref == "QTL"
+                                                  ? transportOrderDetail.QuantityQtl.ToMetricTone()/transporterCount
+                                                  : transportOrderDetail.QuantityQtl/transporterCount;
+
                                 var transportOrderDetailObj = new TransportOrderDetail
                                 {
                                     CommodityID = transportOrderDetail.CommodityID,
                                     FdpID = transportOrderDetail.FdpID,
                                     RequisitionID = transportOrderDetail.RequisitionID,
-                                    QuantityQtl = transportOrderDetail.QuantityQtl.ToMetricTone() / transporterCount,
+                                    QuantityQtl = qty,
                                     TariffPerQtl = transportOrderDetail.TariffPerQtl,
                                     SourceWarehouseID = transportOrderDetail.Hub.HubID,
                                     BidID = transportOrderDetail.BidID
@@ -453,14 +458,17 @@ namespace Cats.Areas.Procurement.Controllers
                         {
                             if (transportOrderDetail.FDP.AdminUnitID == subTransporterOrders.WoredaID)
                             {
+                                var qty = weightPref == "QTL"
+                                                 ? transportOrderDetail.QuantityQtl.ToMetricTone() / transporterCount
+                                                 : transportOrderDetail.QuantityQtl / transporterCount;
+
                                 var transportOrderDetailObj = new TransportOrderDetail
                                     {
                                         TransportOrderID = transportOrderObj.TransportOrderID,
                                         CommodityID = transportOrderDetail.CommodityID,
                                         FdpID = transportOrderDetail.FdpID,
                                         RequisitionID = transportOrderDetail.RequisitionID,
-                                        QuantityQtl =
-                                            transportOrderDetail.QuantityQtl.ToPreferedWeightUnit() / transporterCount,
+                                        QuantityQtl =qty,
                                         TariffPerQtl = transportOrderDetail.TariffPerQtl,
                                         SourceWarehouseID = transportOrderDetail.Hub.HubID,
                                         BidID = transportOrderDetail.BidID
