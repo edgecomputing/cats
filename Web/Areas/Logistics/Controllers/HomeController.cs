@@ -209,7 +209,10 @@ namespace Cats.Areas.Logistics.Controllers
             return days;
         }
 
-
+        public ActionResult NoneReportedTransporters()
+        {
+            return View();
+        }
 
         #region "Dashboard"
 

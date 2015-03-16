@@ -1,0 +1,76 @@
+﻿@{
+    ViewBag.Title = "None Reported Transporters";
+    Layout = "~/Views/Shared/_MainLayoutWide.cshtml";
+}
+
+<h2>None Reported Transporters</h2>
+<div ng-app="myApp">
+    <div id="NonReportedTransportContent" class="row">
+                <div>&nbsp;</div>
+
+                <div ng-controller="NonReportedTransportController" class="span11">
+                    <div class="portlet">
+                        <div class="portlet-header">
+                            <h3>
+                                <i class=""></i>
+                                Transporters which did not report back completely to DRMFSS
+                            </h3>
+                            
+                        </div>
+
+                        <!-- /.portlet-header -->
+
+                        <div class="portlet-content">
+                            <table id="" class="table table-striped table-checkable">
+                                <thead>
+                                    <tr>
+                                        <th class="hidden-xs">Number</th>
+
+                                        <th>Transporter</th>
+                                        <th>Bid Number</th>
+                                        <th>FDP</th>
+                                        <th>Dispatched Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="req in NonReportedTransporters.request | orderBy:'-DaysPassedAfterSigned'">
+                                        <td class="hidden-xs">{{$index + 1}}</td>
+
+                                        <td>{{req.TransporterName}}</td>
+                                        <td>{{req.BidNo}}</td>
+                                        <td>{{req.FDPName}}</td>
+                                        <td>{{req.DispatchedDate}}</td>
+
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+
+
+            </div>
+</div>
+
+<script type="text/javascript">
+    
+    var myApp = angular.module('myApp', []);
+
+    myApp.controller('NonReportedTransportController', ['$scope', '$http', '$rootScope', function ($scope, $http, $rootScope) {
+
+
+        $scope.qty = 6;
+        $scope.NonReportedTransporters = {};
+        $http({ method: 'GET', url: '@Url.Action("GetNonReportedTransporters","Home")' }).success(function (data, status, headers, config) { $scope.NonReportedTransporters.request = data; })
+            .error(function (data, status, headers, config) {
+
+            });
+
+        $rootScope.regionName = "";
+    }]);
+</script>

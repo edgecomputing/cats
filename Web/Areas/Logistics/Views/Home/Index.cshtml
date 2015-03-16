@@ -741,7 +741,14 @@
                                 <i class=""></i>
                                 Transporters which did not report back completely to DRMFSS
                             </h3>
-                            
+                            <ul class="portlet-tools pull-right">
+                                <li>
+                                    <a href="@Url.Action("NoneReportedTransporters","Home")"  class="btn btn-sm btn-default">
+                                        Show Details
+                                    </a>
+
+                                </li>
+                            </ul>
                         </div>
 
                         <!-- /.portlet-header -->
@@ -759,7 +766,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr ng-repeat="req in NonReportedTransporters.request | orderBy:'-DaysPassedAfterSigned'">
+                                    <tr ng-repeat="req in NonReportedTransporters.request | orderBy:'-DaysPassedAfterSigned' | limitTo:10">
                                         <td class="hidden-xs">{{$index + 1}}</td>
 
                                         <td>{{req.TransporterName}}</td>
