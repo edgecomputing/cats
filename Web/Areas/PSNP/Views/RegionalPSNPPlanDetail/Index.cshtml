@@ -56,11 +56,13 @@
             <ul class="dropdown-menu">
                 @if (state.AllowedAccessLevel >= 2)
                 {
+                  
+                    
                     <li><a href="@Url.Action("Edit", "RegionalPSNPPlanDetail", new { Area = "PSNP", id = plan.RegionalPSNPPlanID })">@Html.Translate("Edit")</a></li>
                 }
-@* @if (state.AllowedAccessLevel >= 3)
+@*@if (state.AllowedAccessLevel <= 1)
             {
-                <li><a href="@Url.Action("Delete", "RegionalPSNPPlan", new { Area = "PSNP", id = plan.RegionalPSNPPlanID })">@Html.Translate2(pageName, "Delete")</a></li>
+                <li><a href="@Url.Action("Delete", "RegionalPSNPPlan", new { Area = "PSNP", id = plan.RegionalPSNPPlanID })">@Html.Translate("Delete")</a></li>
             }*@
             </ul>
         </div>

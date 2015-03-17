@@ -85,7 +85,7 @@ namespace Cats.ViewModelBinder
 
             // Calculate contingency of the saved value is Null
             decimal? contingencyValue = reliefRequisitionDetail.Contingency ??
-                                        (reliefRequisitionDetail.Amount * (decimal)0.05);
+                                        (reliefRequisitionDetail.Amount.ToPreferedWeightUnit() * (decimal)0.05);
             return new ReliefRequisitionDetailViewModel()
             {
                 Zone = reliefRequisitionDetail.ReliefRequisition.AdminUnit1.Name,

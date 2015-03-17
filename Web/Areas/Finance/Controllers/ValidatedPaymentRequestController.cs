@@ -95,16 +95,24 @@ namespace Cats.Areas.Finance.Controllers
 
         public List<TransporterViewModel> TransporterListViewModelBinder(List<Transporter> transporters)
         {
-            return transporters.Select(transporter =>
-            {
-                var firstOrDefault = _bidWinnerService.Get(t => t.TransporterID == transporter.TransporterID, null, "Bid").FirstOrDefault();
-                return firstOrDefault != null ? new TransporterViewModel
-                {
-                    TransporterID = transporter.TransporterID,
-                    TransporterName = transporter.Name,
-                    BidContract = firstOrDefault.Bid.BidNumber
-                } : null;
-            }).ToList();
+            return (from transporter in transporters
+                    let firstOrDefault = _bidWinnerService.Get(t => t.TransporterID == transporter.TransporterID, null, "Bid").FirstOrDefault()
+                    where firstOrDefault != null
+                    select new TransporterViewModel()
+                               {
+                                   TransporterID = transporter.TransporterID, TransporterName = transporter.Name, BidContract = firstOrDefault.Bid.BidNumber
+                               }).ToList();
+
+
+            //return transporters.Select(transporter =>
+            //{
+            //    return firstOrDefault != null ? new TransporterViewModel
+            //    {
+            //        TransporterID = transporter.TransporterID,
+            //        TransporterName = transporter.Name,
+            //        BidContract = firstOrDefault.Bid.BidNumber
+            //    } : null;
+            //}).ToList();
         }
         
         public ActionResult PaymentRequests(int transporterID)
