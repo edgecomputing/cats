@@ -1,4 +1,5 @@
 ﻿@model Cats.Models.Transporter
+@using System.Security.Policy
 @using Cats.Helpers
 @{
     ViewBag.Title = "Edit";
@@ -28,9 +29,9 @@
 
     var admin_region_hash = {};
     var admin_zone_hash = {};
-    
-    $(function() {
-        $.getJSON("/Procurement/Transporter/GetAdminUnits", {}, function(data) {
+
+    $(function () {
+        $.getJSON("/Procurement/Transporter/GetAdminUnits", {}, function (data) {
             //nData = data;
             document.getElementById("ZoneID").disabled = true;
             document.getElementById("WoredaID").disabled = true;
@@ -47,15 +48,15 @@
             //}
             //alert(s);
             //var ia=0, ja=0;
-            
+
             for (var i in data) {
                 msg += "\n" + data[i].RegionName;
                 var key = data[i].RegionID;
                 admin_region_hash[key] = data[i];
 
                 var count = data[i].Zones.length;
-                
-                for (var j=0; j<count;j++){
+
+                for (var j = 0; j < count; j++) {
                     var keyz = data[i].Zones[j].ZoneID;
                     admin_zone_hash[keyz] = data[i].Zones[j].Woredas;
                 }
@@ -65,10 +66,10 @@
             //$("#ZoneID").combobox('disable');
             //$("#ZoneID").data("Combobox").disable();
             //$("#ZoneID").combobox("option", "disabled", true);
-            
+
         });
 
-        $("#RegionID").change(function() {
+        $("#RegionID").change(function () {
             var regionId = $("#RegionID").val();
             var region = admin_region_hash[regionId];
             var zones = region.Zones;
@@ -83,7 +84,7 @@
 
             htm += "</select>";
             $("#div_zone").html(htm);
-            
+
             $("#ZoneID").change(function () {
                 popoulateWoredas();
             });
@@ -100,7 +101,7 @@
             s += "</select>";
             $("#div_woreda").html(s);
         }
-        
+
         $("#ZoneID").change(function () {
             popoulateWoredas();
         });
@@ -161,8 +162,57 @@
         //    htm += "</select>";
         //    $("#div_woreda").html(htm);
         //}
-        
-       
-        
+
+
+    });
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#Zone").prop("disabled", true);
+        $("#Woreda").prop("disabled", true);
+
+
+        $("#Zone").empty(); $("#Woreda").empty(); $("#Woreda").prop('disabled', true);
+        $.ajax({
+            type: 'GET',
+            url: '@Url.Action("GetAdminUnitsList", "Transporter")',
+                dataType: 'json',
+                data: { parentId: SelectedRegion, type: "Zone" },
+                success: function (zones) {
+                    //$("#Zone").append('<option value="">-- Please Select Zone --</option>');
+                    $.each(zones, function (i, zone) {
+                        $("#Zone").append('<option value="' + zone.Value + '">' + zone.Text + '</option>');
+                    });
+                    $("#Zone").val(SelectedZone);
+                    $("#Zone").prop('disabled', false);
+                },
+                error: function (ex) {
+                    alert('Failed to retrieve Zones for the selected Region.' + ex);
+                    $("#Zone").prop('disabled', true);
+                    $("#Woreda").prop('disabled', true);
+                }
+            });
+
+        $("#Woreda").empty();
+        $.ajax({
+
+            type: 'GET',
+            url: '@Url.Action("GetAdminUnitsList", "Transporter")',
+                dataType: 'json',
+                data: { parentId: SelectedZone, type: "Woreda" },
+                success: function (woredas) {
+                    //$("#Zone").append('<option value="">-- Please Select Woreda --</option>');
+                    $.each(woredas, function (i, woreda) {
+                        $("#Woreda").append('<option value="' + woreda.Value + '">' + woreda.Text + '</option>');
+                    });
+                    $("#Woreda").val(SelectedWoreda);
+                    $("#Woreda").prop('disabled', false);
+                },
+                error: function (ex) {
+                    alert('Failed to retrieve Woredas for the selected Zone.' + ex);
+                    $("#Woreda").prop('disabled', true);
+                }
+            });
     });
 </script>
