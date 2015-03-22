@@ -56,6 +56,7 @@ namespace Cats.Services.Procurement
         List<Dispatch> ReverseDispatchAllocation(int transportOrderId);
         void DeleteTransportOrderDetails(List<TransportOrderDetail> transportOrderDetails);
         string GetTransportRequisitionNo(string transportOrderNo);
+        void UpdateTransporterOrder(int transportorderId, int woredaId);
     }
 }
 

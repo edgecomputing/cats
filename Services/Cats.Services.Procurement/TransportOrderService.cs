@@ -1179,6 +1179,18 @@ namespace Cats.Services.Procurement
             }
             return false;
         }
+
+        public void UpdateTransporterOrder(int transportorderId, int woredaId)
+        {
+            var transportOrder = _unitOfWork.TransportOrderRepository.FindById(transportorderId);
+            foreach (var transportOrderDetail in transportOrder.TransportOrderDetails.Where(transportOrderDetail => transportOrderDetail.FDP.AdminUnitID == woredaId))
+            {
+                transportOrderDetail.IsChanged = true;
+                _unitOfWork.TransportOrderDetailRepository.Edit(transportOrderDetail);
+                
+            }
+            _unitOfWork.Save();
+        }
         public List<ReliefRequisition> GetRequsitionsToBeReverted()
         {
 

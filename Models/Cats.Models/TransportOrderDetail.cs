@@ -22,6 +22,7 @@ namespace Cats.Models
         public Nullable<int> ZoneID { get; set; }
         public Nullable<int> DonorID { get; set; }
         public int? BidID { get; set; }
+        public bool IsChanged { get; set; }
         public bool? WinnerAssignedByLogistics { get; set; }
         public int? PartitionId { get; set; }
 

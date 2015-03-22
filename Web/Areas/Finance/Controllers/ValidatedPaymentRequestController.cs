@@ -135,7 +135,7 @@ namespace Cats.Areas.Finance.Controllers
             return View(transporterPaymentRequests);
         }
 
-        public ActionResult ToPaymentRequests(int transporterID, int toId)
+        public ActionResult ToPaymentRequests(int transporterID, string refNo)
         {
             var statuses = _workflowStatusService.GetStatus(WORKFLOW.TRANSPORT_ORDER);
             var currentUser = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name);
@@ -143,15 +143,19 @@ namespace Cats.Areas.Finance.Controllers
             var datePref = currentUser.DatePreference;
             ViewBag.TargetController = "ValidatedPaymentRequest";
             var list = (IEnumerable<Cats.Models.TransporterPaymentRequest>)_transporterPaymentRequestService
-                        .Get(t => t.BusinessProcess.CurrentState.BaseStateTemplate.StateNo >= 2 && t.TransportOrder.TransporterID == transporterID && t.TransportOrderID == toId, null, "BusinessProcess")
+                        .Get(t => t.BusinessProcess.CurrentState.BaseStateTemplate.StateNo >= 2 && t.TransportOrder.TransporterID == transporterID && t.ReferenceNo == refNo, null, "BusinessProcess")
                         .OrderByDescending(t => t.TransporterPaymentRequestID);
             var transporterPaymentRequests = TransporterPaymentRequestViewModelBinder(list.ToList());
-            var transportOrder = _transportOrderService.FindById(toId);
+            var transportOrder = _transportOrderService.Get(t => t.TransporterID == transporterID && t.StatusID >= 3, null, "Transporter").FirstOrDefault();
+            
             var transportOrderViewModel = TransportOrderViewModelBinder.BindTransportOrderViewModel(transportOrder, datePref, statuses);
+            var transporterPaymentRequestViewModel = transporterPaymentRequests.FirstOrDefault();
+            if (transporterPaymentRequestViewModel != null)
+                ViewBag.ReferenceNo = transporterPaymentRequestViewModel.ReferenceNo;
             ViewBag.TransportOrderViewModel = transportOrderViewModel;
             ViewBag.TransporterID = transportOrderViewModel.TransporterID;
             ViewBag.ApprovedPRCount =
-                _transporterPaymentRequestService.Get(t => t.BusinessProcess.CurrentState.BaseStateTemplate.StateNo == 3, null, "BusinessProcess").Count();
+                _transporterPaymentRequestService.Get(t => t.BusinessProcess.CurrentState.BaseStateTemplate.StateNo == 3 && t.TransportOrder.TransporterID == transporterID && t.ReferenceNo == refNo, null, "BusinessProcess").Count();
             return View("PaymentRequests", transporterPaymentRequests);
         }
         
@@ -353,10 +357,10 @@ namespace Cats.Areas.Finance.Controllers
             return RedirectToAction("PaymentRequests", "ValidatedPaymentRequest", new { Area = "Finance", transporterID = paymentRequestObj.TransportOrder.TransporterID });
         }
 
-        public ActionResult LoadCheque(int transporterId)
+        public ActionResult LoadCheque(int transporterId, string refNo)
         {
             var user = UserAccountHelper.GetUser(User.Identity.Name);
-            var approvedPaymentRequests = _transporterPaymentRequestService.Get(t => t.BusinessProcess.CurrentState.BaseStateTemplate.StateNo == 3 && t.TransportOrder.TransporterID == transporterId);
+            var approvedPaymentRequests = _transporterPaymentRequestService.Get(t => t.BusinessProcess.CurrentState.BaseStateTemplate.StateNo == 3 && t.TransportOrder.TransporterID == transporterId &&  t.ReferenceNo == refNo);
             
             //var transporterChequeObj = _transporterChequeService.Get(t => t.TransporterPaymentRequestID == paymentRequestID, null, "UserProfile").FirstOrDefault();
             var transporterChequeViewModel = new Models.TransporterChequeViewModel();
@@ -481,7 +485,7 @@ namespace Cats.Areas.Finance.Controllers
         public ActionResult EditCollectiveChequeInfo(Models.TransporterChequeViewModel transporterChequeViewModel, int transporterID)
         {
             var paymentRequestList = (IEnumerable<Cats.Models.TransporterPaymentRequest>)_transporterPaymentRequestService
-                        .Get(t => t.BusinessProcess.CurrentState.BaseStateTemplate.StateNo == 3, null, "BusinessProcess")
+                        .Get(t => t.BusinessProcess.CurrentState.BaseStateTemplate.StateNo == 3 && t.TransportOrder.TransporterID == transporterID, null, "BusinessProcess")
                         .OrderByDescending(t => t.TransporterPaymentRequestID);
             //var transporterChequeObj = _transporterChequeService.Get(t => t.TransporterChequeId == transporterChequeViewModel.TransporterChequeId).FirstOrDefault();
             if (paymentRequestList.Any())
@@ -678,15 +682,17 @@ namespace Cats.Areas.Finance.Controllers
 
         public JsonResult GetActiveTosForTransporter(int transporterId)
         {
-            var activeTos = _transportOrderService.Get(t => t.TransporterID == transporterId && t.StatusID >= 3, null, "Transporter");
-            var lists = (from to in activeTos
-                select new
-                       {
-                           ToId = to.TransportOrderID,
-                           ToNo = to.TransportOrderNo,
-                           ToContractNo = to.ContractNumber,
-                           ToBidDocNo = to.BidDocumentNo
-                       }).ToList();
+            var activeTos = _transporterPaymentRequestService.Get(t => t.TransportOrder.TransporterID == transporterId && t.TransportOrder.StatusID >= 3);
+            var lists = from to in activeTos
+                        group to by to.ReferenceNo
+                        into g
+                        select new
+                                   {
+                                       ToRefNo = g.Key,
+                                       ToId = g.Select(t=>t.TransportOrderID),
+                                       ToBidDocNo = g.Select(t=>t.TransportOrder.BidDocumentNo)
+                                   };
+            
             var activeToList = Json(lists, JsonRequestBehavior.AllowGet);
             return activeToList;
         }

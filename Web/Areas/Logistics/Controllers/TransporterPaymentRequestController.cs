@@ -253,18 +253,22 @@ namespace Cats.Areas.Logistics.Controllers
                 _transporterPaymentRequestService.Get(
                     t => t.TransporterPaymentRequestID == transporterPaymentRequestID, null, "TransportOrder").
                     FirstOrDefault();
+            
             if (transporterPaymentRequest != null)
             {
                 var deliveryDetail = transporterPaymentRequest.Delivery.DeliveryDetails.FirstOrDefault();
                 if (deliveryDetail != null)
                 {
-                    if (transporterPaymentRequest.ShortageQty <= 0)
+                    var shortageQt = (deliveryDetail.SentQuantity.ToQuintal()) -
+                                     deliveryDetail.ReceivedQuantity.ToQuintal();
+
+                    if (shortageQt <= 0)
                     {
                         transporterPaymentRequest.ShortageBirr = (0 * CommodityTarrif);
                     }
                     else
                     {
-                        transporterPaymentRequest.ShortageBirr = (transporterPaymentRequest.ShortageQty) * CommodityTarrif * tariff;
+                        transporterPaymentRequest.ShortageBirr = (shortageQt) * CommodityTarrif;
                     }
                 }
                 _transporterPaymentRequestService.EditTransporterPaymentRequest(transporterPaymentRequest);
@@ -323,9 +327,11 @@ namespace Cats.Areas.Logistics.Controllers
                 //var firstOrDefault = _bidWinnerService.Get(t => t.SourceID == dispatch.HubID && t.DestinationID == dispatch.FDPID
                 //    && t.TransporterID == request.TransportOrder.TransporterID && t.Bid.BidNumber == dispatch.BidNumber).FirstOrDefault();
                 var tarrif = (decimal)0.00;
+                var bidDocNo = string.Empty;
                 if (transportOrderdetail != null)
                 {
                     tarrif = (decimal)transportOrderdetail.TariffPerQtl;
+                    bidDocNo = transportOrderdetail.TransportOrder.BidDocumentNo;
                 }
                 if (dispatch != null && request.Delivery.DeliveryDetails.FirstOrDefault() != null)
                 {
@@ -366,6 +372,7 @@ namespace Cats.Areas.Logistics.Controllers
                                                                              Commodity = deliveryDetail.Commodity.Name,
                                                                              Source = dispatch.Hub.Name,
                                                                              Destination = dispatch.FDP.Name,
+                                                                             Region = dispatch.FDP.AdminUnit.AdminUnit2.AdminUnit2.Name,
                                                                              ReceivedQty =
                                                                                  deliveryDetail.ReceivedQuantity.
                                                                                  ToQuintal(),
@@ -405,6 +412,7 @@ namespace Cats.Areas.Logistics.Controllers
                                                                              ChildCommodity = childCommodity,
                                                                              DispatchDate = dispatchedDate.ToCTSPreferedDateFormat(datePref),
                                                                              DispatchedAmount = dispathedAmount,
+                                                                             BidDocumentNo = bidDocNo,
                                                                              Checked = false
 
                                                                          };
@@ -427,7 +435,11 @@ namespace Cats.Areas.Logistics.Controllers
                 var deliveryDetail = transporterPaymentRequest.Delivery.DeliveryDetails.FirstOrDefault();
                 if (deliveryDetail != null)
                 {
-                    transporterPaymentRequest.ShortageQty = (int?)lossQty;
+                    var shortageQt = (deliveryDetail.SentQuantity.ToQuintal()) -
+                                    deliveryDetail.ReceivedQuantity.ToQuintal();
+
+                    transporterPaymentRequest.ShortageQty = (int?) shortageQt;
+                    transporterPaymentRequest.ShortageQty = transporterPaymentRequest.ShortageQty +  (int?)lossQty;
                     transporterPaymentRequest.LossReason = lossReason;
 
                     if (transporterPaymentRequest.ShortageQty <= 0)

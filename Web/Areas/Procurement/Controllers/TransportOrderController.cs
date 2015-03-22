@@ -369,7 +369,8 @@ namespace Cats.Areas.Procurement.Controllers
             var weightPref = UserAccountHelper.GetUser(User.Identity.Name).PreferedWeightMeasurment;
             var changedTransportOrderObj = _transportOrderService.FindById(changedTransportOrderID);
             var returnedObj = new List<TransportOrder>();
-            foreach (var subTransporterOrders in listOfSubTransporterOrders)
+            var tempContratNo = string.Empty;
+               foreach (var subTransporterOrders in listOfSubTransporterOrders)
             {
                 if (subTransporterOrders.TransportersStandingList.All(t => t.IsChecked == false))
                     break; // No transporter is checked
@@ -396,10 +397,17 @@ namespace Cats.Areas.Procurement.Controllers
                     var transportOrders = transportOrder as List<TransportOrder> ?? transportOrder.ToList();
                     foreach (var order in transportOrders)
                     {
-                        if (_transportOrderService.GetTransportRequisitionNo(order.ContractNumber) == _transportOrderService.GetTransportRequisitionNo(changedTransportOrderObj.ContractNumber))
+                        if (tempContratNo!=string.Empty)
                         {
-                            transportOrderOld = order;
+                            if (_transportOrderService.GetTransportRequisitionNo(order.ContractNumber) == _transportOrderService.GetTransportRequisitionNo(tempContratNo))
+                          {
+                              transportOrderOld = order;
+                          }
                         }
+                        //else if (_transportOrderService.GetTransportRequisitionNo(order.ContractNumber) == _transportOrderService.GetTransportRequisitionNo(changedTransportOrderObj.ContractNumber))
+                        //{
+                        //    transportOrderOld = order;
+                        //}
                     }
                     if (transportOrderOld != null)
                     {
@@ -407,21 +415,22 @@ namespace Cats.Areas.Procurement.Controllers
                         {
                             if (transportOrderDetail.FDP.AdminUnitID == subTransporterOrders.WoredaID)
                             {
-                                var qty = weightPref == "QTL"
-                                                  ? transportOrderDetail.QuantityQtl.ToMetricTone()/transporterCount
-                                                  : transportOrderDetail.QuantityQtl/transporterCount;
+                                //var qty = weightPref == "QTL"
+                                //                  ? transportOrderDetail.QuantityQtl.ToMetricTone()/transporterCount
+                                //                  : transportOrderDetail.QuantityQtl/transporterCount;
 
                                 var transportOrderDetailObj = new TransportOrderDetail
                                 {
                                     CommodityID = transportOrderDetail.CommodityID,
                                     FdpID = transportOrderDetail.FdpID,
                                     RequisitionID = transportOrderDetail.RequisitionID,
-                                    QuantityQtl = qty,
+                                    QuantityQtl = transportOrderDetail.QuantityQtl / transporterCount,
                                     TariffPerQtl = transportOrderDetail.TariffPerQtl,
                                     SourceWarehouseID = transportOrderDetail.Hub.HubID,
                                     BidID = transportOrderDetail.BidID
                                     //transportOrderDetailObj.ZoneID = transportOrderDetail.ReliefRequisition.ZoneID;
                                 };
+                                _transportOrderService.UpdateTransporterOrder(transportOrderDetail.TransportOrderID,subTransporterOrders.WoredaID);
                                 transportOrderOld.TransportOrderDetails.Add(transportOrderDetailObj);
                                 _transportOrderService.EditTransportOrder(transportOrderOld);
                                 orderDetails.Add(transportOrderDetailObj);
@@ -432,6 +441,8 @@ namespace Cats.Areas.Procurement.Controllers
                     }
                     else
                     {
+
+
                         var transportOrderObj = new TransportOrder
                         {
                             TransporterID = transporter.TransporterID,
@@ -449,18 +460,19 @@ namespace Cats.Areas.Procurement.Controllers
                             EndDate = DateTime.Today.AddDays(10),
                         };
                         _transportOrderService.AddTransportOrder(transportOrderObj);
-                        var transporterName = _transporterService.FindById(transportOrderObj.TransporterID).Name;
+                        //var transporterName = _transporterService.FindById(transportOrderObj.TransporterID).Name;
                         transportOrderObj.TransportOrderNo = string.Format("TRN-ORD-{0}", transportOrderObj.TransportOrderID);
-                        transportOrderObj.ContractNumber = string.Format("{0}/{1}/{2}/{3}", "LTCD", DateTime.Today.Day, DateTime.Today.Year, transporterName.Substring(0, 2));
+                        transportOrderObj.ContractNumber = string.Format("{0}/{1}",changedTransportOrderObj.ContractNumber,"N");
+                        tempContratNo = transportOrderObj.ContractNumber;
                         _transportOrderService.EditTransportOrder(transportOrderObj);
                         //var transportOrderDetailList = subTransporterOrders.TransportOrderDetails;
                         foreach (var transportOrderDetail in changedTransportOrderObj.TransportOrderDetails.ToList())
                         {
                             if (transportOrderDetail.FDP.AdminUnitID == subTransporterOrders.WoredaID)
                             {
-                                var qty = weightPref == "QTL"
-                                                 ? transportOrderDetail.QuantityQtl.ToMetricTone() / transporterCount
-                                                 : transportOrderDetail.QuantityQtl / transporterCount;
+                                //var qty = weightPref == "QTL"
+                                //                 ? transportOrderDetail.QuantityQtl.ToMetricTone() / transporterCount
+                                //                 : transportOrderDetail.QuantityQtl / transporterCount;
 
                                 var transportOrderDetailObj = new TransportOrderDetail
                                     {
@@ -468,16 +480,17 @@ namespace Cats.Areas.Procurement.Controllers
                                         CommodityID = transportOrderDetail.CommodityID,
                                         FdpID = transportOrderDetail.FdpID,
                                         RequisitionID = transportOrderDetail.RequisitionID,
-                                        QuantityQtl =qty,
+                                        QuantityQtl = transportOrderDetail.QuantityQtl / transporterCount,
                                         TariffPerQtl = transportOrderDetail.TariffPerQtl,
                                         SourceWarehouseID = transportOrderDetail.Hub.HubID,
                                         BidID = transportOrderDetail.BidID
                                     };
+                                _transportOrderService.UpdateTransporterOrder(transportOrderDetail.TransportOrderID, subTransporterOrders.WoredaID);
                                 //transportOrderDetail.ZoneID = reliefRequisitionDetail.ReliefRequisition.ZoneID;
                                 _transportOrderDetailService.AddTransportOrderDetail(transportOrderDetailObj);
                             }
                         }
-
+                        
                         returnedObj.Add(transportOrderObj);
 
                     }

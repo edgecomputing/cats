@@ -43,9 +43,9 @@
     function ListActiveTosFor(transId, transName) {
         $.getJSON('@Url.Action("GetActiveTosForTransporter", "ValidatedPaymentRequest")' + "/?transporterId=" + transId, function(data) {
 
-            var items = '<div class="table-responsive"><table class="table table-striped"><thead><tr><th>Transport Order No.</th><th>Contract No.</th><th>Bid Document No.</th><th>Payment Requests</th></tr></thead><tbody>';
+            var items = '<div class="table-responsive"><table class="table table-striped"><thead><tr><th>Ref. No.</th><th>Payment Requests</th></tr></thead><tbody>';
             $.each(data, function(i, TO) {
-                items += "<tr><td>" + TO.ToNo + "</td><td>" + TO.ToContractNo + "</td><td>" + TO.ToBidDocNo + "</td><td>" + "<a href='@Url.Action("ToPaymentRequests", "ValidatedPaymentRequest")" + "?transporterID=" + transId +"&toId=" + TO.ToId + "' class='btn btn-sm'>View Payment Requests</a> " + "</td></tr>";
+                items += "<tr><td>" + TO.ToRefNo + "</td><td>" + "<a href='@Url.Action("ToPaymentRequests", "ValidatedPaymentRequest")" + "?transporterID=" + transId + "&refNo=" + TO.ToRefNo + "' class='btn btn-sm'>View Payment Requests</a> " + "</td></tr>";
             });
             items += "</tbody></table></div>";
 
