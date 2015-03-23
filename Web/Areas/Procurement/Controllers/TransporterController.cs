@@ -205,10 +205,11 @@ namespace Cats.Areas.Procurement.Controllers
             }
             else
             {
+                ViewBag.Regions = _adminUnitService.FindBy(t => t.AdminUnitTypeID == 2);
                 transporter = transportService.FindById(id);
-                ViewBag.Regions = new SelectList(_adminUnitService.FindBy(t => t.AdminUnitTypeID == 2), "AdminUnitID", "Name");
-                ViewBag.zones = new SelectList(_adminUnitService.FindBy(z => z.AdminUnitTypeID == 3 && z.ParentID == transporter.Region), "AdminUnitID", "Name");
-                ViewBag.woredas = new SelectList(_adminUnitService.FindBy(w => w.AdminUnitTypeID == 4 && w.ParentID == transporter.Zone), "AdminUnitID", "Name");
+                //ViewBag.Regions = new SelectList(_adminUnitService.FindBy(t => t.AdminUnitTypeID == 2), "AdminUnitID", "Name");
+                //ViewBag.zones = new SelectList(_adminUnitService.FindBy(z => z.AdminUnitTypeID == 3 && z.ParentID == transporter.Region), "AdminUnitID", "Name");
+                //ViewBag.woredas = new SelectList(_adminUnitService.FindBy(w => w.AdminUnitTypeID == 4 && w.ParentID == transporter.Zone), "AdminUnitID", "Name");
             }
             if (transporter == null)
             {
@@ -223,7 +224,7 @@ namespace Cats.Areas.Procurement.Controllers
 
         public ActionResult EditPartial(int id = 0)
         {
-
+            ViewBag.Regions = _adminUnitService.FindBy(t => t.AdminUnitTypeID == 2);
             //ViewBag.Regions = new SelectList(_adminUnitService.FindBy(t => t.AdminUnitTypeID == 2), "AdminUnitID", "Name");
             Transporter transporter;
             if (id == 0)

@@ -262,6 +262,21 @@
 
         </div>
     <script>
+        var SelectedRegion = "";
+        var SelectedZone = "";
+        var SelectedWoreda = "";
+        @{
+            if (@Model != null)
+            {
+                <text>
+                    SelectedRegion = "@Model.Region";
+                    SelectedZone = "@Model.Zone";
+                    SelectedWoreda = "@Model.Woreda";
+                </text>
+                
+            }
+        }
+        
         function AjaxSubmit(frm) {
             var container = $(frm).parent();
             var attrib = {};
@@ -287,47 +302,47 @@
             $("#Zone").prop('disabled', true);
             $("#Woreda").prop('disabled', true);
         });
-            $("#Region").change(function() {
-                $("#Zone").empty(); $("#Woreda").empty(); $("#Woreda").prop('disabled', true);
-                $.ajax({
-                    type: 'GET',
-                    url: '@Url.Action("GetAdminUnitsList", "Transporter")',
-                    dataType: 'json',
-                    data: { parentId: $("#Region").val(), type: "Zone" },
-                    success: function(zones) {
-                        $("#Zone").append('<option value="">-- Please Select Zone --</option>');
-                        $.each(zones, function(i, zone) {
-                            $("#Zone").append('<option value="' + zone.Value + '">' + zone.Text + '</option>');
-                        });
-                        $("#Zone").prop('disabled', false);
-                    },
-                    error: function(ex) {
-                        alert('Failed to retrieve Zones for the selected Region.' + ex);
-                        $("#Zone").prop('disabled', true);
-                        $("#Woreda").prop('disabled', true);
-                    }
-                });
+        $("#Region").change(function() {
+            $("#Zone").empty(); $("#Woreda").empty(); $("#Woreda").prop('disabled', true);
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("GetAdminUnitsList", "Transporter")',
+                dataType: 'json',
+                data: { parentId: $("#Region").val(), type: "Zone" },
+                success: function(zones) {
+                    $("#Zone").append('<option value="">-- Please Select Zone --</option>');
+                    $.each(zones, function(i, zone) {
+                        $("#Zone").append('<option value="' + zone.Value + '">' + zone.Text + '</option>');
+                    });
+                    $("#Zone").prop('disabled', false);
+                },
+                error: function(ex) {
+                    alert('Failed to retrieve Zones for the selected Region.' + ex);
+                    $("#Zone").prop('disabled', true);
+                    $("#Woreda").prop('disabled', true);
+                }
             });
-            $("#Zone").change(function () {
-                $("#Woreda").empty();
-                $.ajax({
-                    type: 'GET',
-                    url: '@Url.Action("GetAdminUnitsList", "Transporter")',
-                    dataType: 'json',
-                    data: { parentId: $("#Zone").val(), type: "Woreda" },
-                    success: function (woredas) {
-                        $("#Zone").append('<option value="">-- Please Select Woreda --</option>');
-                        $.each(woredas, function (i, woreda) {
-                            $("#Woreda").append('<option value="' + woreda.Value + '">' + woreda.Text + '</option>');
-                        });
-                        $("#Woreda").prop('disabled', false);
-                    },
-                    error: function (ex) {
-                        alert('Failed to retrieve Woredas for the selected Zone.' + ex);
-                        $("#Woreda").prop('disabled', true);
-                    }
-                });
+        });
+        $("#Zone").change(function () {
+            $("#Woreda").empty();
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("GetAdminUnitsList", "Transporter")',
+                dataType: 'json',
+                data: { parentId: $("#Zone").val(), type: "Woreda" },
+                success: function (woredas) {
+                    $("#Zone").append('<option value="">-- Please Select Woreda --</option>');
+                    $.each(woredas, function (i, woreda) {
+                        $("#Woreda").append('<option value="' + woreda.Value + '">' + woreda.Text + '</option>');
+                    });
+                    $("#Woreda").prop('disabled', false);
+                },
+                error: function (ex) {
+                    alert('Failed to retrieve Woredas for the selected Zone.' + ex);
+                    $("#Woreda").prop('disabled', true);
+                }
             });
+        });
         
     </script>
     </div>
