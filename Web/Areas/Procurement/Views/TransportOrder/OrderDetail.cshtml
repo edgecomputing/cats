@@ -390,7 +390,7 @@
             $("#modalWindow").html("");
             $(".transChange").hide();
             $('#ContractHeader').addClass('cats_error');
-            $("#statusWindow").html('FAILED CONTRACT: <a href="/Procurement/TransportOrder" >Click Here</a> to navigate to the new substitute contracts.');
+            $("#statusWindow").html('FAILED CONTRACT: <a href="@Url.Action("Index", "TransportOrder",new {Area="Procurement"})">Click Here </a> to navigate to the new substitute contracts.');
             wnd.center().close();
             //window.location.replace("/Procurement/TransportOrder/Index");
         }
