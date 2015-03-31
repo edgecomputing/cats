@@ -16,6 +16,13 @@ namespace Cats.Services.EarlyWarning
         {
             this._unitOfWork = unitOfWork;
         }
+         public bool CheckPlanBeforeReject(BusinessProcessState st)
+         {
+             var state =
+                 _unitOfWork.StateTemplateRepository.FindBy(s => s.StateTemplateID == st.StateID).FirstOrDefault();
+             return state != null && state.Name == "Rejected";
+         }
+
         public bool PromotWorkflow(BusinessProcessState state)
         {
             BusinessProcess item = this.FindById(state.ParentBusinessProcessID);

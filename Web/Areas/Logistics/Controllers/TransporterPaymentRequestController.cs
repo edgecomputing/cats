@@ -557,20 +557,24 @@ namespace Cats.Areas.Logistics.Controllers
 
             var transporterPaymentRequests = tpr.Where(t => t.BusinessProcess.CurrentState.BaseStateTemplate.Name == "Request Verified");
 
-            var requests = transporterPaymentRequests.GroupBy(ac => new { ac.Transporter.Name,  ac.Source }).Select(ac => new
-            {
-                TransporterName = ac.Key.Name,
-                TransporterId = ac.FirstOrDefault().Transporter.TransporterID,
-                //CommodityName = ac.Key.Commodity,
-                SourceName = ac.Key.Source,
-                ReceivedQuantity = ac.Sum(s => s.ReceivedQty),
-                ShortageQuantity = ac.Sum(s => s.ShortageQty),
-                ShortageBirr = ac.Sum(s => s.ShortageBirr),
-                FreightCharge = ac.Sum(s => s.FreightCharge),
-                ShortageBirrInWords = ac.Sum(s => s.ShortageBirr).ToNumWordsWrapper(),
-                FreightChargeInWords = Math.Round(ac.Sum(s => s.FreightCharge),2).ToNumWordsWrapper(),
-                NoRecords = noRecords
-            });
+            var requests = transporterPaymentRequests.GroupBy(ac => new { ac.Transporter.TransporterID }).Select(ac =>
+                                                                                                                     {
+                                                                                                                         var transporterPaymentRequestViewModel = ac.FirstOrDefault();
+                                                                                                                         return transporterPaymentRequestViewModel != null ? new
+                                                                                                                                                                                   {
+                                                                                                                                                                                       TransporterName = transporterPaymentRequestViewModel.Transporter.Name,
+                                                                                                                                                                                       TransporterId = transporterPaymentRequestViewModel.Transporter.TransporterID,
+                                                                                                                                                                                       //CommodityName = ac.Key.Commodity,
+                                                                                                                                                                                       SourceName = transporterPaymentRequestViewModel.Source,
+                                                                                                                                                                                       ReceivedQuantity = ac.Sum(s => s.ReceivedQty),
+                                                                                                                                                                                       ShortageQuantity = ac.Sum(s => s.ShortageQty),
+                                                                                                                                                                                       ShortageBirr = ac.Sum(s => s.ShortageBirr),
+                                                                                                                                                                                       FreightCharge = ac.Sum(s => s.FreightCharge),
+                                                                                                                                                                                       ShortageBirrInWords = ac.Sum(s => s.ShortageBirr).ToNumWordsWrapper(),
+                                                                                                                                                                                       FreightChargeInWords = Math.Round(ac.Sum(s => s.FreightCharge),2).ToNumWordsWrapper(),
+                                                                                                                                                                                       NoRecords = noRecords
+                                                                                                                                                                                   } : null;
+                                                                                                                     });
             var req = requests.Where(m => m.TransporterId == transporterId).ToArray();
             return req;
         }

@@ -19,5 +19,6 @@ namespace Cats.Services.EarlyWarning
          BusinessProcess CreateBusinessProcess(int templateID, int documentID, string documentType, BusinessProcessState startingState);
          BusinessProcess CreateBusinessProcessForObject(int templateID, int DocumentID, string DocumentType, bool save = false);
          bool Save();
+        bool CheckPlanBeforeReject(BusinessProcessState st);
     }
 }

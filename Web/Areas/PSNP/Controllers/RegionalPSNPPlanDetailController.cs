@@ -128,6 +128,7 @@ namespace Cats.Areas.PSNP.Controllers
             UserProfile user = _userProfileService.GetUser(User.Identity.Name);
             ViewBag.plan_user = plan.User;
             ViewBag.current_user = user.UserProfileID;
+            ViewBag.IsRequestCreated = IsRequestCreatedFromThisPlan(plan.PlanId);
             return View(dt);
         }
         public ActionResult Edit(int id = 0)
@@ -345,6 +346,12 @@ namespace Cats.Areas.PSNP.Controllers
             var rationDetails = _rationDetailService.Get(t => t.RationID == psnpPlan.RationID, null, "Commodity");
             var dt = PSNPPlanViewModelBinder.TransposeData(psnpPlanDetails, rationDetails, preferedweight);
             return dt;
+        }
+
+        private bool IsRequestCreatedFromThisPlan(int id)
+        {
+            var regionalRequest = _reqService.FindBy(p => p.PlanID == id).FirstOrDefault();
+            return regionalRequest != null;
         }
     }
 }

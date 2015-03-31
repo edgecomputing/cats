@@ -26,6 +26,7 @@ namespace Cats.Areas.PSNP
 {
     public class RegionalPSNPPlanController : Controller
     {
+        private int _regionalPsnpId = 0;
         private readonly IRegionalPSNPPlanService _regionalPSNPPlanService;
         private readonly IAdminUnitService _adminUnitService;
         private readonly IRationService _rationService;
@@ -60,6 +61,7 @@ namespace Cats.Areas.PSNP
             _transactionService = transactionService;
             this._userProfileService = userProfileService;
         }
+        
 
         public IEnumerable<RegionalPSNPPlanViewModel> toViewModel(IEnumerable<Cats.Models.RegionalPSNPPlan> list)
         {
@@ -139,10 +141,17 @@ namespace Cats.Areas.PSNP
         }
         public ActionResult Promote(BusinessProcessState st)
         {
+            var isReject = _BusinessProcessService.CheckPlanBeforeReject(st);
+            if (isReject)
+            {
+               
+            }
             _BusinessProcessService.PromotWorkflow(st);
             return RedirectToAction("Index");
 
         }
+
+       
 
         public ActionResult promotWorkflow(int id, int nextState)
         {
