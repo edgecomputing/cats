@@ -379,7 +379,7 @@
             var transportingArray = {listOfSubTransporterOrders:woredaWithTransportersStanding.Data, changedTransportOrderID : TOID};
             $.ajax({
                 type: "POST",
-                url: "/Procurement/TransportOrder/ChangeTransporters/",
+                url:"@Url.Action("ChangeTransporters", "TransportOrder",new {Area="Procurement"})",
                 contentType: "application/json; charset=utf-8",
                 data: JSON.stringify(transportingArray),
                 dataType: "json",
@@ -409,7 +409,7 @@
             
             $.ajax({
                 type: "POST",
-                url: "/Procurement/TransportOrder/SuggestedSubstituteTransporters/",
+                url: "@Url.Action("SuggestedSubstituteTransporters", "TransportOrder",new {Area="Procurement"})",
                 contentType: "application/json; charset=utf-8",
                 data: JSON.stringify(selectedTransportOrderId),
                 dataType: "json",
