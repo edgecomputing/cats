@@ -379,7 +379,7 @@
             var transportingArray = {listOfSubTransporterOrders:woredaWithTransportersStanding.Data, changedTransportOrderID : TOID};
             $.ajax({
                 type: "POST",
-                url: "/Procurement/TransportOrder/ChangeTransporters/",
+                url:"@Url.Action("ChangeTransporters", "TransportOrder",new {Area="Procurement"})",
                 contentType: "application/json; charset=utf-8",
                 data: JSON.stringify(transportingArray),
                 dataType: "json",
@@ -390,7 +390,7 @@
             $("#modalWindow").html("");
             $(".transChange").hide();
             $('#ContractHeader').addClass('cats_error');
-            $("#statusWindow").html('FAILED CONTRACT: <a href="/Procurement/TransportOrder" >Click Here</a> to navigate to the new substitute contracts.');
+            $("#statusWindow").html('FAILED CONTRACT: <a href="@Url.Action("Index", "TransportOrder",new {Area="Procurement"})">Click Here </a> to navigate to the new substitute contracts.');
             wnd.center().close();
             //window.location.replace("/Procurement/TransportOrder/Index");
         }
@@ -409,7 +409,7 @@
             
             $.ajax({
                 type: "POST",
-                url: "/Procurement/TransportOrder/SuggestedSubstituteTransporters/",
+                url: "@Url.Action("SuggestedSubstituteTransporters", "TransportOrder",new {Area="Procurement"})",
                 contentType: "application/json; charset=utf-8",
                 data: JSON.stringify(selectedTransportOrderId),
                 dataType: "json",
