@@ -234,7 +234,7 @@
     function promot_workflow(BusinessProcessID, nextstate, actionname) {
        
         if (actionname == "Reverse" && '@ViewBag.IsRequestCreated' == 'True') {
-            alert('@ViewBag.IsRequestCreated');
+           
             alert("Plan can not be rejected! Requests have already been requested.\nPlease revert the requests under this plan first.");
         } else {
             $('#ParentBusinessProcessID').val(BusinessProcessID);

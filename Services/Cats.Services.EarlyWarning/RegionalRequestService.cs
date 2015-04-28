@@ -241,6 +241,7 @@ namespace Cats.Services.EarlyWarning
                         if (lastPsnpRequest != null)
                         {
                             result.HRDPSNPPlan.RationID = psnpplan.RationID;
+                            result.HRDPSNPPlan.Contingency = lastPsnpRequest.Contingency;
                             var noOfPsnprequests = _unitOfWork.RegionalRequestRepository.FindBy(r => r.RegionID == plan.RegionID && r.ProgramId == (int)Programs.PSNP && r.PlanID == plan.PSNPPlanID).Count;
                             var psnpApplicationWoredas = (from psnpDetail in psnpplan.RegionalPSNPPlanDetails
                                                           where
@@ -253,6 +254,9 @@ namespace Cats.Services.EarlyWarning
                         else
                         {
                             result.HRDPSNPPlan.RationID = psnpplan.RationID;
+                            result.HRDPSNPPlan.Contingency =
+                                psnpplan.RegionalPSNPPlanDetails.Any(
+                                    t => t.StartingMonth == result.HRDPSNPPlan.Month && t.Contingency);
                             beneficiaryInfos = PSNPToRequest(psnpplan, plan.RegionID, plan.Month);
                         }
 

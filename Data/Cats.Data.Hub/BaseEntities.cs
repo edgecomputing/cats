@@ -4,9 +4,11 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Common;
 using System.Data.Entity.Infrastructure;
+using System.Data.Metadata.Edm;
 using System.Linq;
 using System.Data;
 using System.Data.Objects;
+using System.Transactions;
 using System.Web;
 using System.Reflection;
 using System.Data.Objects.DataClasses;
@@ -15,6 +17,7 @@ using System.IO;
 using System.Data.Entity;
 using System.Data.SqlClient;
 using Cats.Models.Hubs;
+using IsolationLevel = System.Transactions.IsolationLevel;
 
 
 namespace Cats.Data.Hub
@@ -253,27 +256,62 @@ namespace Cats.Data.Hub
 
         public int SaveChanges(int userId)
         {
-
-            // Get all Added/Deleted/Modified entities (not Unmodified or Detached)
-            //TODO:Commented 12.23.2013 by banty
-            foreach (
-                var ent in
-                    this.ChangeTracker.Entries().Where(
-                        p =>
-                        p.State == System.Data.EntityState.Added || p.State == System.Data.EntityState.Deleted ||
-                        p.State == System.Data.EntityState.Modified))
-            {
-                // For each changed record, get the audit record entries and add them
-                foreach (Audit x in GetAuditRecordsForChange(ent, userId))
-                {
-                    this.Audits.Add(x);
-                }
-            }
-
-             //Call the original SaveChanges(), which will save both the changes made and the audit records
             try
             {
-                return base.SaveChanges();
+                var newEntities = new List<DbEntityEntry>();
+                // Get all Added/Deleted/Modified entities (not Unmodified or Detached)
+                //TODO:Commented 12.23.2013 by banty
+
+                using (
+                    var scope = new TransactionScope(TransactionScopeOption.Required,
+                                                     new TransactionOptions { IsolationLevel = IsolationLevel.ReadCommitted }))
+                {
+                    foreach (
+                        var ent in
+                            this.ChangeTracker.Entries().Where(
+                                p =>
+                                p.State == System.Data.EntityState.Added || p.State == System.Data.EntityState.Deleted ||
+                                p.State == System.Data.EntityState.Modified))
+                    {
+
+                        if (ent.State == System.Data.EntityState.Added)
+                        {
+                            newEntities.Add(ent);
+                        }
+                        else
+                        {
+                            // For each changed record, get the audit record entries and add them
+                            foreach (Audit x in GetAuditRecordsForChange(ent, userId))
+                            {
+                                this.Audits.Add(x);
+                            }
+                        }
+                    }
+
+                    // Save First
+                    base.SaveChanges();
+
+
+
+
+                    // Do something else
+                    foreach (var ent in newEntities)
+                    {
+                        // For each changed record, get the audit record entries and add them
+                        foreach (Audit changeDescription in GetAuditRecordsForChange(ent, userId, true))
+                        {
+                            this.Audits.Add(changeDescription);
+                        }
+
+                        //save second
+                        base.SaveChanges();
+                    }
+
+                    scope.Complete();
+                }
+
+                //Call the original SaveChanges(), which will save both the changes made and the audit records
+
             }
             catch (System.Data.Entity.Validation.DbEntityValidationException e)
             {
@@ -296,18 +334,25 @@ namespace Cats.Data.Hub
         /// <param name="dbEntry"></param>
         /// <param name="user"></param>
         /// <returns></returns>
-        private List<Audit> GetAuditRecordsForChange(DbEntityEntry dbEntry, int userId)
+        private List<Audit> GetAuditRecordsForChange(DbEntityEntry dbEntry, int userId, bool insertSpecial = false)
         {
+
+            var manager = ((IObjectContextAdapter)this).ObjectContext.ObjectStateManager;
+            EntitySetBase setBase = manager.GetObjectStateEntry(dbEntry.Entity).EntitySet;
+
+            string[] keyNames = setBase.ElementType.KeyMembers.Select(k => k.Name).ToArray();
+            string keyName = keyNames.FirstOrDefault();
+
             List<Audit> result = new List<Audit>();
 
-            string keyName = string.Empty, tableName = string.Empty;
+            string tableName = string.Empty;
             
             tableName = ObjectContext.GetObjectType(dbEntry.Entity.GetType()).Name;
               
             if (dbEntry.Entity.GetType().GetProperties().SingleOrDefault(p => p.GetCustomAttributes(typeof(KeyAttribute), true).Any()) != null)
                 keyName = dbEntry.Entity.GetType().GetProperties().SingleOrDefault(p => p.GetCustomAttributes(typeof(KeyAttribute), true).Any()).Name;
 
-            if (dbEntry.State == System.Data.EntityState.Added)
+            if (dbEntry.State == System.Data.EntityState.Added || insertSpecial)
             {
                 // For Inserts, just add the whole record
                 // If the entity implements IDescribableEntity, use the description from Describe(), otherwise use ToString()

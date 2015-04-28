@@ -182,13 +182,18 @@ namespace Cats.Services.EarlyWarning
 
             foreach (var regionalRequestDetail in regionalRequestDetails)
             {
+                decimal contengency = 0;
+                if (regionalRequestDetail.RegionalRequest.Contingency)
+                    contengency = (regionalRequestDetail.RequestDetailCommodities.Sum(a => a.Amount) * (decimal).05);
+
                 var relifRequistionDetail = new ReliefRequisitionDetail();
                 var commodity = regionalRequestDetail.RequestDetailCommodities.First(t => t.CommodityID == commodityId);
                 relifRequistionDetail.DonorID = regionalRequest.DonorID;
                 relifRequistionDetail.FDPID = regionalRequestDetail.Fdpid;
                 relifRequistionDetail.BenficiaryNo = regionalRequestDetail.Beneficiaries;
                 relifRequistionDetail.CommodityID = commodity.CommodityID;
-                relifRequistionDetail.Amount = commodity.Amount;
+                relifRequistionDetail.Amount = commodity.Amount + contengency;
+                
                 relifRequisition.ReliefRequisitionDetails.Add(relifRequistionDetail);
             }
             return relifRequisition;

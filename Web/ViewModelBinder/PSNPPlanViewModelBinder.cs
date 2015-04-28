@@ -44,7 +44,9 @@ namespace Cats.ViewModelBinder
             colStartingMonth.ExtendedProperties["ID"] = -1;
             dt.Columns.Add(colStartingMonth);
 
-            
+            //var colContingency = new DataColumn("Contingency", typeof(bool));
+            //colContingency.ExtendedProperties["ID"] = -1;
+            //dt.Columns.Add(colContingency);
 
             if (rationDetails != null)
             {
@@ -91,6 +93,7 @@ namespace Cats.ViewModelBinder
                     dr[colFoodRation] = psnpPlan.FoodRatio;
                     dr[colCashRation] = psnpPlan.CashRatio;
                     dr[colStartingMonth] = RequestHelper.MonthName(psnpPlan.StartingMonth);
+                    //dr[colContingency] = psnpPlan.Contingency;
                     decimal total = 0;
                     decimal ration = 0;
                     
@@ -151,19 +154,28 @@ namespace Cats.ViewModelBinder
                                 total += allocatedAmount + allocatedAmount * (decimal) 0.05 + allocatedAmount * (decimal) 0.15;
                             dr[col.ColumnName] = allocatedAmount;
 
+                            
                             if (woredaContCol != null)
                             {
-                                if (psnpPlan.PlanedWoreda.AdminUnit2.AdminUnit2.AdminUnitID == 2)
-                                    dr[woredaContCol.ColumnName] = "--";
-                                else
-                                    dr[woredaContCol.ColumnName] = Convert.ToDecimal(allocatedAmount * (decimal)0.05).ToString("0.00");
+                                dr[woredaContCol.ColumnName] = !psnpPlan.Contingency
+                                                                   ? "--"
+                                                                   : Convert.ToDecimal(allocatedAmount*(decimal) 0.05).
+                                                                         ToString("0.00");
+                                //if (psnpPlan.PlanedWoreda.AdminUnit2.AdminUnit2.AdminUnitID == 2)
+                                //    dr[woredaContCol.ColumnName] = "--";
+                                //else
+                                //    dr[woredaContCol.ColumnName] = Convert.ToDecimal(allocatedAmount * (decimal)0.05).ToString("0.00");
                             }
                             if (regionalContCol != null)
                             {
-                                if (psnpPlan.PlanedWoreda.AdminUnit2.AdminUnit2.AdminUnitID == 2)
-                                    dr[regionalContCol.ColumnName] = "--";
-                                else
-                                    dr[regionalContCol.ColumnName] = Convert.ToDecimal(allocatedAmount * (decimal)0.15).ToString("0.00");
+                                dr[regionalContCol.ColumnName] = !psnpPlan.Contingency
+                                                                     ? "--"
+                                                                     : Convert.ToDecimal(allocatedAmount*(decimal) 0.15)
+                                                                           .ToString("0.00");
+                                //if (psnpPlan.PlanedWoreda.AdminUnit2.AdminUnit2.AdminUnitID == 2)
+                                //    dr[regionalContCol.ColumnName] = "--";
+                                //else
+                                //    dr[regionalContCol.ColumnName] = Convert.ToDecimal(allocatedAmount * (decimal)0.15).ToString("0.00");
                             }
                         }
                     }

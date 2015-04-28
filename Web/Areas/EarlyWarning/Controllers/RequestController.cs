@@ -131,6 +131,7 @@ namespace Cats.Areas.EarlyWarning.Controllers
             if (hrdpsnpPlanInfo.HRDPSNPPlan.SeasonID.HasValue)
                 regionalRequest.Season = hrdpsnpPlanInfo.HRDPSNPPlan.SeasonID.Value;
             regionalRequest.Month = hrdpsnpPlanInfo.HRDPSNPPlan.Month;
+            regionalRequest.Contingency = hrdpsnpPlanInfo.HRDPSNPPlan.Contingency;
             regionalRequest.RegionID = hrdpsnpPlanInfo.HRDPSNPPlan.RegionID;
             regionalRequest.ProgramId = hrdpsnpPlanInfo.HRDPSNPPlan.ProgramID;
             regionalRequest.DonorID = hrdpsnpPlanInfo.HRDPSNPPlan.DonorID;

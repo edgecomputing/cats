@@ -23,6 +23,8 @@ namespace Cats.Areas.EarlyWarning.Models
         public decimal RationAmount { get; set; }
         public List<Donor> Donors { get; set; }
         public decimal? Contingency { get; set; }
+        public bool IsContengency { get; set; }
+        public decimal Total { get; set; }
 
     }
 }
