@@ -512,6 +512,23 @@ namespace Cats.Services.EarlyWarning
         {
             return _unitOfWork.VWRegionalRequestRepository.FindBy(m=>m.RegionalRequestID==id);
         }
+
+        public bool DeleteRegionalRequest(int id)
+        {
+            var regionalRequest = _unitOfWork.RegionalRequestRepository.FindById(id);
+            var regionalRequestDetails = _unitOfWork.RegionalRequestDetailRepository.FindBy(r=>r.RegionalRequestID ==id);
+            if (regionalRequestDetails != null)
+            {
+                foreach (var regionalRequestDetail in regionalRequestDetails)
+                {
+                    _unitOfWork.RegionalRequestDetailRepository.Delete(regionalRequestDetail);
+                }
+                _unitOfWork.RegionalRequestRepository.Delete(regionalRequest);
+                _unitOfWork.Save();
+                return true;
+            }
+            return false;
+        }
     }
 }
 

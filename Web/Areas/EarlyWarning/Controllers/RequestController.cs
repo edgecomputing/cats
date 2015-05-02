@@ -600,6 +600,16 @@ namespace Cats.Areas.EarlyWarning.Controllers
             */
             return View(requestModelView);
         }
+        public ActionResult Delete(int id)
+        {
+            var regionalRequest = _regionalRequestService.FindById(id);
+            if (_regionalRequestService.DeleteRegionalRequest(id)){
+                TempData["Deleted"] = "Regional Request has been deleted!";
+                return RedirectToAction("Index");
+            }
+            TempData["UnableToDeleted"] = "Regional Request can not be deleted!";
+            return RedirectToAction("Index");
+        }
         public ActionResult Allocation2(int id, int programId = -1)
         {
             var datePref = _userAccountService.GetUserInfo(HttpContext.User.Identity.Name).DatePreference;
@@ -977,9 +987,16 @@ namespace Cats.Areas.EarlyWarning.Controllers
         public ActionResult Index()
         {
            
+            
+
             var filter = new SearchRequsetViewModel();
             ViewBag.Filter = filter;
             PopulateLookup();
+
+            if (TempData["Deleted"] != null)
+                if (ModelState != null) ModelState.AddModelError("Success", TempData["Deleted"].ToString());
+            if (TempData["UnableToDeleted"] != null)
+                if (ModelState != null) ModelState.AddModelError("Error", TempData["UnableToDeleted"].ToString());
             // ViewBag.ProgramId = new SelectList(_commonService.GetPrograms(), "ProgramID", "Name");
             return View(filter);
         }

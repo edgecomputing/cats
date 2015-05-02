@@ -35,6 +35,7 @@ namespace Cats.Services.EarlyWarning
         bool DraftRequest(int id, Models.Security.UserInfo userInfo);
         bool RevertRequestStatus(int id);
         List<VWRegionalRequest> GetRegionalRequestRpt(int id);
+        bool DeleteRegionalRequest(int id);
    }
 }
 
