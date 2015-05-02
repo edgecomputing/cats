@@ -281,9 +281,7 @@ namespace Cats.Services.EarlyWarning
                                     r => r.RegionID == plan.RegionID && r.ProgramId == 1 && r.PlanID == plan.PlanID);
                             var numberOfRequestsPerRegion = requests.Count;
                             var applicableWoredas = (from detail in hrd.HRDDetails
-                                                     where
-                                                         detail.AdminUnit.AdminUnit2.AdminUnit2.AdminUnitID == plan.RegionID &&
-                                                         detail.DurationOfAssistance > numberOfRequestsPerRegion
+                                                     where detail.AdminUnit.AdminUnit2.AdminUnit2.AdminUnitID == plan.RegionID //&& detail.DurationOfAssistance > numberOfRequestsPerRegion
                                                      select detail.WoredaID).ToList();
                             beneficiaryInfos = LastReliefRequest(lastRequest, applicableWoredas);
                             // var lastRequestDetail = LastReliefRequest(lastRequest);
