@@ -413,7 +413,8 @@ namespace Cats.Areas.Logistics.Controllers
                                                                              DispatchDate = dispatchedDate.ToCTSPreferedDateFormat(datePref),
                                                                              DispatchedAmount = dispathedAmount,
                                                                              BidDocumentNo = bidDocNo,
-                                                                             Checked = false
+                                                                             Checked = false,
+                                                                             ContractNumber = _TransportOrderService.FindBy(t => t.TransportOrderID == dispatch.DispatchAllocation.TransportOrderID).FirstOrDefault().ContractNumber
 
                                                                          };
                             transporterPaymentRequestViewModels.Add(transporterPaymentRequestViewModel);
@@ -511,7 +512,8 @@ namespace Cats.Areas.Logistics.Controllers
                              Tariff = data.Tarrif,
                              ShortageQty = data.ShortageQty,
                              ShortageBirr = data.ShortageBirr,
-                             FreightCharge = data.FreightCharge
+                             FreightCharge = data.FreightCharge,
+                             ContractNumber = data.ContractNumber
                          });
 
             var tovm = new List<TransportOrderViewModel> { TransportOrderViewModel };

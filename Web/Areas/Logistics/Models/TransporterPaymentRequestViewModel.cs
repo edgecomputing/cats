@@ -40,6 +40,7 @@ namespace Cats.Areas.Logistics.Models
         public string BidDocumentNo { get; set; }
         public BusinessProcess BusinessProcess { get; set; }
         public Cats.Models.Hubs.Transporter Transporter { get; set; }
+        public string ContractNumber { get; set; }
 
     }
 }
