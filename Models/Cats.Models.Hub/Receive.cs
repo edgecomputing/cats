@@ -48,5 +48,6 @@ namespace Cats.Models.Hubs
         public virtual ICollection<ReceiveDetail> ReceiveDetails { get; set; }
         public int? StoreId { get; set; }
         public int? StackNumber { get; set; }
+        public Guid? FromReceiptAllocationID { get; set; }
     }
 }
