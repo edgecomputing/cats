@@ -44,7 +44,7 @@
                     @Html.LabelFor(m=>m.DestinationSwap,@Html.Translate("Destination to Swap"))
                 </div>
                 <div class="controls">
-                    @Html.TextBoxFor(m=>m.DestinationSwap)
+                    @Html.DropDownList("DestinationSwap")
                     @Html.ValidationMessageFor(m=>m.DestinationSwap)
                 </div>
            </td> 
@@ -91,7 +91,7 @@
                     @Html.LabelFor(m=>m.SourceSwap,@Html.Translate("Source from Swap"))
                 </div>
                 <div class="controls">
-                    @Html.TextBoxFor(m=>m.SourceSwap)
+                      @Html.DropDownList("SourceSwap")
                     @Html.ValidationMessageFor(m=>m.SourceSwap)
                 </div>
             </td>

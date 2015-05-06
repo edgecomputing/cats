@@ -83,7 +83,7 @@
             @Html.LabelFor(m=>m.DestinationSwap,@Html.Translate("Destination to Swap"))
         </div>
         <div class="controls">
-            @Html.TextBoxFor(m=>m.DestinationSwap,new {Disabled=true})
+            @Html.TextBoxFor(m=>m.Hub3.Name,new {Disabled=true})
             
         </div>
     </div>
@@ -124,7 +124,7 @@
             @Html.LabelFor(m=>m.SourceSwap,@Html.Translate("Source from Swap"))
         </div>
         <div class="controls">
-            @Html.TextBoxFor(m=>m.SourceSwap,new {Disabled=true})
+            @Html.TextBoxFor(m=>m.Hub2.Name,new {Disabled=true})
             
         </div>
     </div>
