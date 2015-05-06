@@ -82,10 +82,12 @@ namespace Cats.ViewModelBinder
         }
         public static ReliefRequisitionDetailViewModel BindReliefRequisitionDetailViewModel(ReliefRequisitionDetail reliefRequisitionDetail, decimal RationAmount)
         {
-
+            decimal? contingencyValue = 0;
             // Calculate contingency of the saved value is Null
-            decimal? contingencyValue = reliefRequisitionDetail.Contingency ??
-                                        (reliefRequisitionDetail.Amount.ToPreferedWeightUnit() * (decimal)0.05);
+            if (reliefRequisitionDetail != null && reliefRequisitionDetail.ReliefRequisition.RegionalRequest.Contingency)
+                contingencyValue = (reliefRequisitionDetail.Amount.ToPreferedWeightUnit()*(decimal) 0.05);
+
+
             return new ReliefRequisitionDetailViewModel()
             {
                 Zone = reliefRequisitionDetail.ReliefRequisition.AdminUnit1.Name,
@@ -101,7 +103,9 @@ namespace Cats.ViewModelBinder
                 FDPID = reliefRequisitionDetail.FDPID,
                 DonorID = reliefRequisitionDetail.DonorID,
                 RationAmount =RationAmount,
-                Contingency = contingencyValue
+                Contingency = contingencyValue,
+                IsContengency = reliefRequisitionDetail.ReliefRequisition.RegionalRequest.Contingency,
+                Total = (decimal) (reliefRequisitionDetail.Amount.ToPreferedWeightUnit() - contingencyValue)
                 //_GetCommodityRation(reliefRequisitionDetail.RequisitionID,reliefRequisitionDetail.CommodityID);
                // GetCommodityRation(reliefRequisitionDetail.RequisitionID,reliefRequisitionDetail.CommodityID)
                

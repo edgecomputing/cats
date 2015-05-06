@@ -41,6 +41,7 @@ namespace Cats.ViewModelBinder
              
              foreach (var req in requisition)
              {
+                 
                  var n = new RequisitionViewModel();
                  n.RequisitionNo = req.RequisitionNo;
                  n.RequisitionId = req.RequisitionID;
@@ -48,7 +49,7 @@ namespace Cats.ViewModelBinder
                  n.Commodity = req.Commodity.Name;
                  n.BenficiaryNo = req.ReliefRequisitionDetails.Sum(a => a.BenficiaryNo);
                  var m = req.ReliefRequisitionDetails.Sum(a => a.Amount);
-                 n.Amount = m.ToPreferedWeightUnit();
+                 n.Amount = m.ToPreferedWeightUnit(); 
                  n.Status = int.Parse(req.Status.ToString());
                  n.Region = req.AdminUnit.Name;
                  n.RegionId = (int)req.RegionID;

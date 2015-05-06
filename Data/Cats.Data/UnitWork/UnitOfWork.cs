@@ -5,15 +5,16 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Data.Entity.Validation;
+using System.Data.Metadata.Edm;
 using System.Data.Objects;
 using System.Linq;
+using System.Transactions;
 using System.Web;
 using Cats.Models;
 using Cats.Data.Repository;
 using System.Text;
 using log4net;
-
-
+using Transaction = Cats.Models.Transaction;
 
 
 namespace Cats.Data.UnitWork
@@ -507,19 +508,28 @@ namespace Cats.Data.UnitWork
         /// <param name="dbEntry">Currently modified entity.</param>
         /// <param name="userId">Currently logged in user's id.</param>
         /// <returns>Returns instance of Audit domain model.</returns>
-        private List<Audit> GetAuditRecordsForChange(DbEntityEntry dbEntry, int userId)
+        private List<Audit> GetAuditRecordsForChange(DbEntityEntry dbEntry, int userId,bool insertSpecial = false)
         {
+            var manager = ((IObjectContextAdapter)_context).ObjectContext.ObjectStateManager;
+            EntitySetBase setBase = manager.GetObjectStateEntry(dbEntry.Entity).EntitySet;
+
+            string[] keyNames = setBase.ElementType.KeyMembers.Select(k => k.Name).ToArray();
+            string keyName = keyNames.FirstOrDefault();
+
+
             List<Audit> result = new List<Audit>();
 
-            string keyName=string.Empty, tableName = string.Empty;
+            string tableName = string.Empty;
 
             tableName = ObjectContext.GetObjectType(dbEntry.Entity.GetType()).Name;
                
             if (dbEntry.Entity.GetType().GetProperties().SingleOrDefault(p => p.GetCustomAttributes(typeof(KeyAttribute), true).Any())!= null)
                 keyName = dbEntry.Entity.GetType().GetProperties().SingleOrDefault(p => p.GetCustomAttributes(typeof(KeyAttribute), true).Any()).Name;
 
-            if (dbEntry.State == System.Data.EntityState.Added)
+            if (dbEntry.State == System.Data.EntityState.Added || insertSpecial)
             {
+
+
                 // For Inserts, just add the whole record
                 // If the entity implements IDescribableEntity, use the description from Describe(), otherwise use ToString()
                 foreach (string propertyName in dbEntry.CurrentValues.PropertyNames)
@@ -608,25 +618,66 @@ namespace Cats.Data.UnitWork
         {
             try
             {
+                var newEntities = new List<DbEntityEntry>();
                 UserProfile cuUser = UserProfileRepository.FindBy(t => t.UserName == CurrentUserName).FirstOrDefault();
 
-                foreach (
-                          var ent in
-                                   _context.ChangeTracker.Entries().Where(
-                           p =>
-                           p.State == System.Data.EntityState.Added || p.State == System.Data.EntityState.Deleted ||
-                           p.State == System.Data.EntityState.Modified)
-                       )
+                using (var scope = new TransactionScope(TransactionScopeOption.Required,new TransactionOptions { IsolationLevel = IsolationLevel.ReadCommitted }))
                 {
-                    // For each changed record, get the audit record entries and add them
-                    foreach (Audit x in  GetAuditRecordsForChange(ent, cuUser.UserProfileID))
+                    foreach (
+                              var ent in
+                                       _context.ChangeTracker.Entries().Where(
+                               p =>
+                               p.State == System.Data.EntityState.Added || p.State == System.Data.EntityState.Deleted ||
+                               p.State == System.Data.EntityState.Modified)
+                           )
                     {
-                        _context.Audits.Add(x);
+
+                        if (ent.State == System.Data.EntityState.Added)
+                        {
+                            newEntities.Add(ent);
+                        }
+                        else
+                        {
+                            // For each changed record, get the audit record entries and add them
+                            foreach (Audit x in GetAuditRecordsForChange(ent, cuUser.UserProfileID))
+                            {
+                                _context.Audits.Add(x);
+                            }
+                        }
+
+                      
                     }
+
+                    // Save First
+                    _context.SaveChanges();
+
+
+
+
+                    // Do something else
+                    foreach (var ent in newEntities)
+                    {
+                        // For each changed record, get the audit record entries and add them
+                        foreach (Audit changeDescription in GetAuditRecordsForChange(ent, cuUser.UserProfileID,true))
+                        {
+                            _context.Audits.Add(changeDescription);
+                        }
+
+                        //save second
+                        _context.SaveChanges();
+                    }
+
+                    
+
+                    
+
+                    scope.Complete();
                 }
 
+               
 
-                _context.SaveChanges();
+
+                //_context.SaveChanges();
             }
             catch (System.Data.Entity.Validation.DbEntityValidationException e)
             {

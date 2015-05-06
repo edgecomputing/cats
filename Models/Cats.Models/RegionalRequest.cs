@@ -34,6 +34,7 @@ namespace Cats.Models
         public int? PartitionId { get; set; }
         public int? RequestedBy { get; set; }
         public int? ApprovedBy { get; set; }
+        public bool Contingency { get; set; }
 
         public virtual ICollection<RegionalRequestDetail> RegionalRequestDetails { get; set; }
         public virtual ICollection<ReliefRequisition> ReliefRequisitions { get; set; }
