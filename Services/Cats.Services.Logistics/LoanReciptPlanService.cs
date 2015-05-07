@@ -69,24 +69,28 @@ namespace Cats.Services.Logistics
                _unitOfWork.Save();
                foreach (var loan in loanReciptPlan.LoanReciptPlanDetails)
                {
+                   var parentID = _unitOfWork.CommodityRepository.FindById(loanReciptPlan.CommodityID).ParentID ??
+                                  loanReciptPlan.CommodityID;
 
                    var reciptAllocaltion = new ReceiptAllocation()
-                   {
-                       ReceiptAllocationID = Guid.NewGuid(),
-                       ProgramID = loanReciptPlan.ProgramID,
-                       CommodityID = loanReciptPlan.CommodityID,
-                       ETA = loanReciptPlan.CreatedDate,
-                       SINumber = loanReciptPlan.ShippingInstruction.Value,
-                       QuantityInMT = loan.RecievedQuantity,
-                       HubID = loan.HubID,
-                       CommoditySourceID = loanReciptPlan.CommoditySourceID,
-                       ProjectNumber = loanReciptPlan.ProjectCode,
-                       //SourceHubID = loanReciptPlan.SourceHubID,
-                       PartitionId = 0,
-                       IsCommited = false
-                   };
+                                                   {
+                                                       ReceiptAllocationID = Guid.NewGuid(),
+                                                       ProgramID = loanReciptPlan.ProgramID,
+                                                       CommodityID = (int) parentID,
+                                                       ETA = loanReciptPlan.CreatedDate,
+                                                       SINumber = loanReciptPlan.ShippingInstruction.Value,
+                                                       QuantityInMT = loan.RecievedQuantity,
+                                                       HubID = loan.HubID,
+                                                       CommoditySourceID = loanReciptPlan.CommoditySourceID,
+                                                       ProjectNumber = loanReciptPlan.ProjectCode,
+                                                       //SourceHubID = loanReciptPlan.SourceHubID,
+                                                       PartitionId = 0,
+                                                       IsCommited = false,
+                                                       IsFalseGRN = loanReciptPlan.IsFalseGRN
+                                                   };
 
-                   _unitOfWork.ReceiptAllocationReository.Add(reciptAllocaltion);
+                       _unitOfWork.ReceiptAllocationReository.Add(reciptAllocaltion);
+                   
                    _unitOfWork.Save();
                }
                return true;

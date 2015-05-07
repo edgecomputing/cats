@@ -198,6 +198,7 @@
     <Compile Include="Areas\Hub\Controllers\CommodityController.cs" />
     <Compile Include="Areas\Hub\Controllers\ReceiveNewController.cs" />
     <Compile Include="Areas\Hub\Models\DonorViewModel.cs" />
+    <Compile Include="Areas\Hub\Models\GRNViewModel.cs" />
     <Compile Include="Areas\Hub\Models\StackViewModel.cs" />
     <Compile Include="Areas\Hub\Models\StoreViewModel.cs" />
     <Compile Include="Areas\Hub\Models\TransporterViewModel.cs" />

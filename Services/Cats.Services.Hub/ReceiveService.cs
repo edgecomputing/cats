@@ -188,6 +188,7 @@ namespace Cats.Services.Hub
                 {
                     viewModel.SourceHub = _unitOfWork.HubRepository.FindById(receiptAllocation.SourceHubID.GetValueOrDefault(0)).Name; 
                 }
+                viewModel.IsFalseGRN = receiptAllocation.IsFalseGRN;
             }
 
             if (CommoditySource.Constants.LOCALPURCHASE == receiptAllocation.CommoditySourceID)

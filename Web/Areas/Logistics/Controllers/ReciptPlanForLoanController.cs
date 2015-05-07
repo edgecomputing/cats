@@ -114,7 +114,8 @@ namespace Cats.Areas.Logistics.Controllers
                         ReferenceNumber = loanReciptPlanViewModel.RefeenceNumber,
                         Quantity = loanReciptPlanViewModel.Quantity,
                         CreatedDate = DateTime.Today,
-                        StatusID = (int)LocalPurchaseStatus.Draft
+                        StatusID = (int)LocalPurchaseStatus.Draft,
+                        IsFalseGRN = loanReciptPlanViewModel.IsFalseGRN
                     };
                 return loanReciptPlan;
         }
@@ -142,7 +143,8 @@ namespace Cats.Areas.Logistics.Controllers
                             Quantity = loanReciptPlan.Quantity,
                             StatusID = loanReciptPlan.StatusID,
                             CreatedDate = loanReciptPlan.CreatedDate.ToCTSPreferedDateFormat(datePref),
-                            Status = _commonService.GetStatusName(WORKFLOW.LocalPUrchase, loanReciptPlan.StatusID)
+                            Status = _commonService.GetStatusName(WORKFLOW.LocalPUrchase, loanReciptPlan.StatusID),
+                            IsFalseGRN = loanReciptPlan.IsFalseGRN
                         });
 
         }

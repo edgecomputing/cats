@@ -28,6 +28,7 @@ namespace Cats.Areas.Logistics.Models
         public string CreatedDate { get; set; }
         public int StatusID { get; set; }
         public string Status { get; set; }
+        public bool IsFalseGRN { get; set; }
 
 
     }

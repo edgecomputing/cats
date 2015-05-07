@@ -30,7 +30,7 @@
     @Html.HiddenFor(model => model.UserProfileId)
     @Html.HiddenFor(model => model.ReceiveDetailNewViewModel.ReceiveId)
     @Html.HiddenFor(model=>model.ReceiveDetailNewViewModel.CommodityId)
-    
+     @Html.HiddenFor(m => m.IsFalseGRN)
     <div class="form-horizontal row-fluid">
         <div class="row">
             <div class="span4" style="vertical-align: top">
@@ -179,7 +179,32 @@
                     </div>
                 </div>
                 }
-
+                
+                @if(!Model.IsFalseGRN)
+                {
+                    <div class="control-group">
+                        <div class="control-label">
+                            @Html.LabelFor(model => model.SelectedGRN,"GRN")
+                        </div>
+                     
+                    
+                        <div class="controls">
+                            @(Html.Kendo().ComboBox()
+                                  .Name("SelectedGRN")
+                                  .Placeholder("Select GRN")
+                                  .DataTextField("Name")
+                                  .DataValueField("Id")
+                                  .Filter(FilterType.Contains)
+                                  .DataSource(source => source.Read(read => read.Action("GetGRNList", "ReceiveNew").Data("filterStacks"))
+                                                            .ServerFiltering(true))
+                                  .Enable(true)
+                                  .AutoBind(false)
+                                  
+                                  )
+                            @Html.ValidationMessageFor(model => model.SelectedGRN)
+                        </div>
+                    </div>
+                }
                 <div class="control-group">
                     <div class="control-label">
                         @Html.LabelFor(model => model.StackNumber)

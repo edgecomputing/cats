@@ -68,7 +68,8 @@ namespace Cats.Models.Hubs.ViewModels
 
         public Guid ReceiptAllocationId { get; set; }
 
-
+        public bool IsFalseGRN { get; set; }
+        public Guid? SelectedGRN { get; set; }
         public int CommoditySourceTypeId { get; set; }
         
 

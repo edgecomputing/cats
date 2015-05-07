@@ -80,6 +80,9 @@ namespace Cats.Services.Logistics
             var loanReciptPlan = _unitOfWork.LoanReciptPlanRepository.FindById(loanReciptPlanDetail.LoanReciptPlanID);
             if (loanReciptPlan!=null)
             {
+                var parentID = _unitOfWork.CommodityRepository.FindById(loanReciptPlan.CommodityID).ParentID ??
+                                 loanReciptPlan.CommodityID;
+
                 _unitOfWork.LoanReciptPlanDetailRepository.Add(loanReciptPlanDetail);
                 var reciptAllocaltion = new ReceiptAllocation()
                     {
@@ -88,14 +91,15 @@ namespace Cats.Services.Logistics
                         IsCommited = false,
                         ETA = loanReciptPlan.CreatedDate,
                         ProjectNumber = loanReciptPlan.ProjectCode,
-                        CommodityID = loanReciptPlan.CommodityID,
+                        CommodityID = parentID,//loanReciptPlan.CommodityID,
                         CommoditySourceID = loanReciptPlan.CommoditySourceID,
                         SINumber = loanReciptPlan.ShippingInstruction.Value,
                         QuantityInMT = loanReciptPlanDetail.RecievedQuantity,
                         HubID = loanReciptPlanDetail.HubID,
                         //SourceHubID = loanReciptPlan.SourceHubID,
                         ProgramID = loanReciptPlan.ProgramID,
-                        IsClosed = false
+                        IsClosed = false,
+                        IsFalseGRN = loanReciptPlan.IsFalseGRN
                     };
                 _unitOfWork.ReceiptAllocationReository.Add(reciptAllocaltion);
                 _unitOfWork.Save();
