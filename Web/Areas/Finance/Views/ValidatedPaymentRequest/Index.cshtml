@@ -6,36 +6,62 @@
 
 @{
     ViewBag.Title = Html.Translate("Index");
-    Layout = "~/Views/Shared/_MainLayout.cshtml";
+    Layout = "~/Views/Shared/NewTheme _MainLayout.cshtml";
+    ViewBag.PageTitle = "Validated Payment Request";
+    ViewBag.PageTitleDescription = "";
 }
 
-<h3>Transporters having active order</h3>
+<div class="col-md-12 column sortable">
+    <div class="portlet light bordered " style="display: block;">
+        <div class="portlet-title">
+            <div class="caption font-green-sharp">
+                <i class="fa fa-credit-card font-green-sharp"></i>
+                <span class="caption-subject bold uppercase"> Transporters having active order</span>
+                <span class="caption-helper">  </span>
+            </div>
+            @*<div class="tools">
+                <a href="#" class="collapse" data-original-title="" title=""></a>
+                <a href="javascript:;" class="remove" data-original-title="" title=""></a>
+            </div>*@
+            <div class="actions">
+                @*<a href="/Finance/Cheque" class="btn btn-circle btn-default btn-sm"><i class="icon-layers"></i> Detail</a>*@
+                <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title=""></a>
+            </div>
+        </div>
+        <div class="portlet-body" style="height: auto;">
+            <div @*class="table-responsive ng-scope"*@ ng-controller="ChequeController">
+                @(Html.Kendo().Grid<TransporterViewModel>()
+                    .Name("grid")
+                    .Columns(columns =>
+                    {
+                        //columns.Bound(p => p.TransporterName).Title(Html.Translate("Transporter Name"))
+                        //    .ClientTemplate("<a href='" + Url.Action("PaymentRequests", "ValidatedPaymentRequest",
+                        //                new { transporterID = "#=TransporterID#" }) + " '>#=TransporterName#</a>  ");
+                        columns.Bound(p => p.TransporterName).Title(Html.Translate("Transporter Name")).ClientTemplate("<a style='cursor: pointer;' onclick=\"ListActiveTosFor(#=TransporterID#, \'#=TransporterName#\');\" >#=TransporterName#</a>");
+                        columns.Bound(p => p.BidContract).Title(Html.Translate("Bid Number"));
+                        columns.Bound(p => p.TransporterID).Title(Html.Translate("Actions"))
+                                       .ClientTemplate("<a href='" + Url.Action("GenerateAgreementTemplate", "BidWinner",
+                                       new { Area = "Procurement", transporterID = "#=TransporterID#" }) + " '>Generate Agreement</a>  ");
+                        //columns.Command(command => command.Custom("SignContract").Click("OnSignContract"));
+                    })
+                                        //.Editable(editable => editable.Mode(GridEditMode.InCell))
+                    .Scrollable()
+                    .Sortable()
+                    .Filterable()
+                    .DataSource(dataSource => dataSource
+                            .Ajax().Sort(sort => sort.Add("TransporterName").Ascending())
+                        //.PageSize(8)
+                        //.Model(model => model.Id(p => p.WoredaHubID))
+                            .Read(read => read.Action("BidWinningTransporters_read", "ValidatedPaymentRequest"))
+                            ).TableHtmlAttributes(new { @class = "table table-striped table-condensed noborder" })
+                )
+            </div>                
+        </div>
+    </div>
+</div>
 
-@(Html.Kendo().Grid<TransporterViewModel>()
-    .Name("grid")
-    .Columns(columns =>
-    {
-        //columns.Bound(p => p.TransporterName).Title(Html.Translate("Transporter Name"))
-        //    .ClientTemplate("<a href='" + Url.Action("PaymentRequests", "ValidatedPaymentRequest",
-        //                new { transporterID = "#=TransporterID#" }) + " '>#=TransporterName#</a>  ");
-        columns.Bound(p => p.TransporterName).Title(Html.Translate("Transporter Name")).ClientTemplate("<a style='cursor: pointer;' onclick=\"ListActiveTosFor(#=TransporterID#, \'#=TransporterName#\');\" >#=TransporterName#</a>");
-        columns.Bound(p => p.BidContract).Title(Html.Translate("Bid Number"));
-        columns.Bound(p => p.TransporterID).Title(Html.Translate("Actions"))
-                       .ClientTemplate("<a href='" + Url.Action("GenerateAgreementTemplate", "BidWinner",
-                       new {Area="Procurement", transporterID = "#=TransporterID#" }) + " '>Generate Agreement</a>  ");
-        //columns.Command(command => command.Custom("SignContract").Click("OnSignContract"));
-    })
-    //.Editable(editable => editable.Mode(GridEditMode.InCell))
-    .Scrollable()
-    .Sortable()
-    .Filterable()
-    .DataSource(dataSource => dataSource
-            .Ajax().Sort(sort => sort.Add("TransporterName").Ascending())
-            //.PageSize(8)
-            //.Model(model => model.Id(p => p.WoredaHubID))
-            .Read(read => read.Action("BidWinningTransporters_read", "ValidatedPaymentRequest"))
-    )
-      )
+
+
 <script type="text/javascript">
     $(document).ready(function() {
         
@@ -43,13 +69,13 @@
     function ListActiveTosFor(transId, transName) {
         $.getJSON('@Url.Action("GetActiveTosForTransporter", "ValidatedPaymentRequest")' + "/?transporterId=" + transId, function(data) {
 
-            var items = '<div class="table-responsive"><table class="table table-striped"><thead><tr><th>Ref. No.</th><th>Payment Requests</th></tr></thead><tbody>';
+            var items = '<div class="table-responsive"><table class="table table-striped table-condensed"><thead><tr><th>Ref. No.</th><th>Payment Requests</th></tr></thead><tbody>';
             $.each(data, function(i, TO) {
-                items += "<tr><td>" + TO.ToRefNo + "</td><td>" + "<a href='@Url.Action("ToPaymentRequests", "ValidatedPaymentRequest")" + "?transporterID=" + transId + "&refNo=" + TO.ToRefNo + "' class='btn btn-sm'>View Payment Requests</a> " + "</td></tr>";
+                items += "<tr><td>" + TO.ToRefNo + "</td><td>" + "<a href='@Url.Action("ToPaymentRequests", "ValidatedPaymentRequest")" + "?transporterID=" + transId + "&refNo=" + TO.ToRefNo + "' class='btn btn-sm green-stripe btn-default'>View Payment Requests</a> " + "</td></tr>";
             });
             items += "</tbody></table></div>";
 
-            var allItems = "<a href='@Url.Action("PaymentRequests", "ValidatedPaymentRequest")" + "?transporterID=" + transId + "' class='btn btn-sm'>View All Payment Requests</a>";
+            var allItems = "<a href='@Url.Action("PaymentRequests", "ValidatedPaymentRequest")" + "?transporterID=" + transId + "' class='btn green-stripe btn-default'>View All Payment Requests</a>";
 
             $('#ActiveTOsForOneTransporter .modal-title').html('');
             $('#ActiveTOsForOneTransporter .modal-title').html(transName + " - Active Transport Orders");
@@ -66,7 +92,7 @@
     }
 </script>
 
-<div class="modal fade" id="ActiveTOsForOneTransporter" style="width: 700px;">
+<div class="modal fade" id="ActiveTOsForOneTransporter2" style="width: 700px;">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
@@ -83,3 +109,33 @@
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+
+
+
+<div id="ActiveTOsForOneTransporter" class="modal fade" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Responsive & Scrollable</h4>
+            </div>
+            <div class="modal-body" style="overflow-y: auto; max-height: 400px;">
+                <p>&hellip;</p>
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-default" href="">View All Payment Requests</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@* BirukT: The code bellow is added to make the kendo grid responsive  *@
+<script type="text/javascript">
+    $(function() {
+        //var tableData = $('.k-grid-header-wrap').html();
+        //$('table').html("<div class='table-responsive'>" + tableData + "</div>");
+        //$('table').addClass("table table-striped table-condensed noborder");
+    });
+    $(".k-grid-content").css("height", "auto");
+</script>

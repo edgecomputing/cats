@@ -2,260 +2,288 @@
 @using Cats.Helpers
 @{
     ViewBag.Title = Html.Translate("Edit");
-    Layout = "~/Views/Shared/_MainLayout.cshtml";
+    Layout = "~/Views/Shared/NewTheme _MainLayout.cshtml";
+    //Layout = "~/Views/Shared/_MainLayout.cshtml";
+    ViewBag.PageTitle = "Transporter Details";
+    ViewBag.PageTitleDescription = "";
 }
 @section Toolbar
-{ 
-    <a href="@Url.Action("PaymentRequests", "ValidatedPaymentRequest", new { Area = "Finance", transporterID = Model.TransporterID })" class="btn" data-buttontype="btn_back_to_list" title="Back to List"><i class="icon-list"></i></a>
+{
+    @*<div id="dashboard-report-range" class="pull-right tooltips" data-placement="top" data-original-title="Actions Toolbar">
+        <div class="btn-group">
+            <button type="button" class="btn btn-fit-height grey-salt dropdown-toggle" data-toggle="dropdown">
+                <i class="fa fa-ellipsis-horizontal"></i> @Html.Translate("Action") <i class="fa fa-angle-down"></i>
+            </button>
+            <ul class="dropdown-menu pull-right">
+                <li><a href="@Url.Action("PaymentRequests", "ValidatedPaymentRequest", new { Area = "Finance", transporterID = Model.TransporterID })" class="btn btn-fit-height grey-salt" data-buttontype="btn_back_to_list" title="Back to List"><i class="icon-list"></i>&nbsp;&nbsp; Back to List</a></li>
+                <li><!--<a href="@Url.Action("Print", "Home", new { Area = "Finance", id = ViewBag.TransportOrderViewModel.TransporterID })" >Print Transporter Payment Request Letter</a>--></li>
+            </ul>
+        </div>
+    </div>*@
+            <div id="dashboard-report-range" class="pull-right tooltips" data-placement="top" data-original-title="Back to List">
+                <a href="@Url.Action("PaymentRequests", "ValidatedPaymentRequest", new { Area = "Finance", transporterID = Model.TransporterID })" class="btn btn-fit-height grey-salt" data-buttontype="btn_back_to_list" title="Back to List"><i class="icon-list"></i>&nbsp;&nbsp; Back to List</a>
+            </div>
+
 }
+<style>
+    .form-control {
+        font-weight: bold;
+    }
+</style>
 
-<div class="form-horizontal">
+<div class="portlet light bordered" style="display: block;">
+    <div class="portlet-title">
+        <div class="caption font-green-sharp">
+            <i class="fa fa-truck font-green-sharp"></i>
+            <span class="caption-subject bold uppercase"> @Model.Name Detail</span>
+            <span class="caption-helper">  </span>
+        </div>
 
-    
-    <div style="border:solid 1px #CCC; padding:4px;">
-        
-     <div id="navbar" class="tabbable tabs-left">
+        <div class="actions">
+            <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title=""></a>
+        </div>
+    </div>
+    <div class="portlet-body" style="height: auto;">
+        @*<h3>@Model.Name</h3>*@
+        <div class="tabbable-line form-horizontal">
+            <ul class="nav nav-tabs ">
+                <li class="active">
+                    <a href="#tab_1" data-toggle="tab" aria-expanded="true">
+                        @Html.Translate("Address")
+                    </a>
+                </li>
+                <li class="">
+                    <a href="#tab_2" data-toggle="tab" aria-expanded="false">
+                        @Html.Translate("Capacity")
+                    </a>
+                </li>
+                <li>
+                    <a href="#tab_3" data-toggle="tab">
+                        @Html.Translate("Management")
+                    </a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active" id="tab_1">
 
-            <!--
-                <ul class="nav nav-tabs">
-                    <li class="active"><a href="#tab1" data-toggle="tab">Address</a></li>
-                    <li><a href="#tab2" data-toggle="tab">Capacity</a></li>
-                    <li><a href="#tab3" data-toggle="tab">Management</a></li>
-                </ul>-->
-            <div class="tab-contents">
-                <div class="tab-pane active" id="tab1">
-                    <fieldset>
-                        <legend>@Html.Translate("Address")</legend>
-                        @Html.HiddenFor(model => model.TransporterID)
-                        <!-- Input Name-->
-          
-                        <div class="control-group">
-                            <label class="control-label" for="Name">Name</label>
-                            <div class="controls">
-                                @Html.TextBoxFor(model => model.Name, new { @class = "input-xlarge", @placeholder = "Name" })    
-                                @Html.ValidationMessageFor(model => model.Name)
-                            </div>
+                    @Html.HiddenFor(model => model.TransporterID)
+                    <!-- Input Name-->
+
+                    <div class="form-group">
+                        <label class="col-md-3 control-label" for="Name">Name</label>
+                        <div class="col-md-5">
+                            @Html.TextBoxFor(model => model.Name, new { @class = "form-control", @placeholder = "Name" })
+                            @Html.ValidationMessageFor(model => model.Name)
                         </div>
-                        <!-- Input Region-->
-                        <div class="control-group">
-                            <label class="control-label" for="Region">@Html.Translate("Region")</label>
-                            <div class="controls" id="div_region">
-                                @Html.TextBoxFor(model => model.Region, new { @class = "input-xlarge", @placeholder = "Region" })
-                                @Html.ValidationMessageFor(model => model.Region)
-                            </div>
-
-                        </div>
-        
-                        <!-- Input Zone-->
-                        <div class="control-group">
-                            <label class="control-label" for="Zone">@Html.Translate("Zone")</label>
-                            <div class="controls" id="div_zone">
-                                @Html.TextBoxFor(model => model.Zone, new { @class = "input-xlarge", @placeholder = "Zone" })
-                                @Html.ValidationMessageFor(model => model.Zone)
-                            </div>
-                        </div>        
-       
-                        <!-- Input Woreda-->
-                        <div class="control-group">
-                            <label class="control-label" for="Woreda">@Html.Translate("Woreda")</label>
-                            <div class="controls" id="div_woreda">
-                                @Html.TextBoxFor(model => model.Woreda, new { @class = "input-xlarge", @placeholder = "Woreda" })    
-                                @Html.ValidationMessageFor(model => model.Woreda)
-                            </div>
-                        </div> 
-        
-          
-                        <!-- Input SubCity-->
-                        <div class="control-group">
-                            <label class="control-label" for="SubCity">@Html.Translate("Sub City")</label>
-                            <div class="controls">
-                                @Html.TextBoxFor(model => model.SubCity, new { @class = "input-xlarge", @placeholder = "Sub City" })    
-                                @Html.ValidationMessageFor(model => model.SubCity)
-                            </div>
+                    </div>
+                    <!-- Input Region-->
+                    <div class="form-group">
+                        <label class="col-md-3 control-label" for="Region">@Html.Translate("Region")</label>
+                        <div class="col-md-2" id="div_region">
+                            @Html.TextBoxFor(model => model.Region, new { @class = "form-control", @placeholder = "Region" })
+                            @Html.ValidationMessageFor(model => model.Region)
                         </div>
 
-                        <!-- Input Kebele-->
-                        <div class="control-group">
-                            <label class="control-label" for="Kebele">@Html.Translate("Kebele")</label>
-                            <div class="controls">
-                                @Html.TextBoxFor(model => model.Kebele, new { @class = "input-xlarge", @placeholder = "Kebele" })    
-                                @Html.ValidationMessageFor(model => model.Kebele)
-                            </div>
-                        </div> 
+                    </div>
 
-                        <!-- Input HouseNo-->
-                        <div class="control-group">
-                            <label class="control-label" for="HouseNo">@Html.Translate("House No")</label>
-                            <div class="controls">
-                                @Html.TextBoxFor(model => model.HouseNo, new { @class = "input-xlarge", @placeholder = "-" })    
-                                @Html.ValidationMessageFor(model => model.HouseNo)
-                            </div>
-                        </div>        
-
-                        <!-- Input TelephoneNo-->
-                        <div class="control-group">
-                            <label class="control-label" for="TelephoneNo">@Html.Translate("Telephone No")</label>
-                            <div class="controls">
-                                @Html.TextBoxFor(model => model.TelephoneNo, new { @class = "input-xlarge", @placeholder = "-" })    
-                                @Html.ValidationMessageFor(model => model.TelephoneNo)
-                            </div>
-                        </div> 
-
-                        <!-- Input MobileNo-->
-                        <div class="control-group">
-                            <label class="control-label" for="MobileNo">@Html.Translate("Mobile No")</label>
-                            <div class="controls">
-                                @Html.TextBoxFor(model => model.MobileNo, new { @class = "input-xlarge", @placeholder = "-" })    
-                                @Html.ValidationMessageFor(model => model.MobileNo)
-                            </div>
+                    <!-- Input Zone-->
+                    <div class="form-group">
+                        <label class="col-md-3 control-label" for="Zone">@Html.Translate("Zone")</label>
+                        <div class="col-md-2" id="div_zone">
+                            @Html.TextBoxFor(model => model.Zone, new { @class = "form-control", @placeholder = "Zone" })
+                            @Html.ValidationMessageFor(model => model.Zone)
                         </div>
-        
-                    </fieldset>  
+                    </div>
+
+                    <!-- Input Woreda-->
+                    <div class="form-group">
+                        <label class="col-md-3 control-label" for="Woreda">@Html.Translate("Woreda")</label>
+                        <div class="col-md-2" id="div_woreda">
+                            @Html.TextBoxFor(model => model.Woreda, new { @class = "form-control", @placeholder = "Woreda" })
+                            @Html.ValidationMessageFor(model => model.Woreda)
+                        </div>
+                    </div>
+
+
+                    <!-- Input SubCity-->
+                    <div class="form-group">
+                        <label class="col-md-3 control-label" for="SubCity">@Html.Translate("Sub City")</label>
+                        <div class="col-md-2">
+                            @Html.TextBoxFor(model => model.SubCity, new { @class = "form-control", @placeholder = "Sub City" })
+                            @Html.ValidationMessageFor(model => model.SubCity)
+                        </div>
+                    </div>
+
+                    <!-- Input Kebele-->
+                    <div class="form-group">
+                        <label class="col-md-3 control-label" for="Kebele">@Html.Translate("Kebele")</label>
+                        <div class="col-md-2">
+                            @Html.TextBoxFor(model => model.Kebele, new { @class = "form-control", @placeholder = "Kebele" })
+                            @Html.ValidationMessageFor(model => model.Kebele)
+                        </div>
+                    </div>
+
+                    <!-- Input HouseNo-->
+                    <div class="form-group">
+                        <label class="col-md-3 control-label" for="HouseNo">@Html.Translate("House No")</label>
+                        <div class="col-md-2">
+                            @Html.TextBoxFor(model => model.HouseNo, new { @class = "form-control", @placeholder = "-" })
+                            @Html.ValidationMessageFor(model => model.HouseNo)
+                        </div>
+                    </div>
+
+                    <!-- Input TelephoneNo-->
+                    <div class="form-group">
+                        <label class="col-md-3 control-label" for="TelephoneNo">@Html.Translate("Telephone No")</label>
+                        <div class="col-md-2">
+                            @Html.TextBoxFor(model => model.TelephoneNo, new { @class = "form-control", @placeholder = "-" })
+                            @Html.ValidationMessageFor(model => model.TelephoneNo)
+                        </div>
+                    </div>
+
+                    <!-- Input MobileNo-->
+                    <div class="form-group">
+                        <label class="col-md-3 control-label" for="MobileNo">@Html.Translate("Mobile No")</label>
+                        <div class="col-md-2">
+                            @Html.TextBoxFor(model => model.MobileNo, new { @class = "form-control", @placeholder = "-" })
+                            @Html.ValidationMessageFor(model => model.MobileNo)
+                        </div>
+                    </div>
                 </div>
-
-                <div class="tab-pane" id="tab2">
-                    <fieldset>
-                        <legend>@Html.Translate("Capacity")</legend>   
-               
-                        <!-- Input Ownership-->
-                        <div class="control-group">
-                            <label class="control-label" for="Ownership">@Html.Translate("Ownership")</label>
-                            <div class="controls">
-                                @Html.TextBoxFor(model => model.Ownership, new { @class = "input-xlarge", @placeholder = "-" })    
-                                @Html.ValidationMessageFor(model => model.Ownership)
-                            </div>
-                        </div>       
-        
-                        <!-- Input VehicleCount-->
-                        <div class="control-group">
-                            <label class="control-label" for="VehicleCount">@Html.Translate("Vehicle Count")</label>
-                            <div class="controls">
-                                @Html.TextBoxFor(model => model.VehicleCount, new { @class = "input-xlarge", @placeholder = "0" })    
-                                @Html.ValidationMessageFor(model => model.VehicleCount)
-                            </div>
+                <div class="tab-pane" id="tab_2">
+                    <!-- Input Ownership-->
+                    <div class="form-group">
+                        <label class="col-md-3 control-label" for="Ownership">@Html.Translate("Ownership")</label>
+                        <div class="col-md-2">
+                            @Html.TextBoxFor(model => model.Ownership, new { @class = "form-control", @placeholder = "-" })
+                            @Html.ValidationMessageFor(model => model.Ownership)
                         </div>
+                    </div>
 
-        
-                        <!-- Input LiftCapacityFrom-->
-                        <div class="control-group">
-                            <label class="control-label" for="LiftCapacityFrom">@Html.Translate("Lift Capacity")</label>
-                            <div class="controls">
-                                @Html.TextBoxFor(model => model.LiftCapacityFrom, new { @class = "input-xlarge", @placeholder = "0" })    
-                                @Html.ValidationMessageFor(model => model.LiftCapacityFrom)
-                            </div>
+                    <!-- Input VehicleCount-->
+                    <div class="form-group">
+                        <label class="col-md-3 control-label" for="VehicleCount">@Html.Translate("Vehicle Count")</label>
+                        <div class="col-md-2">
+                            @Html.TextBoxFor(model => model.VehicleCount, new { @class = "form-control", @placeholder = "0" })
+                            @Html.ValidationMessageFor(model => model.VehicleCount)
                         </div>
-                        <!-- Input LiftCapacityTo-->
+                    </div>
 
-                        <div class="control-group">
-                            <label class="control-label" for="LiftCapacityTo">@Html.Translate("To")</label>
-                            <div class="controls">
-                                @Html.TextBoxFor(model => model.LiftCapacityTo, new { @class = "input-xlarge", @placeholder = "0" })    
-                                @Html.ValidationMessageFor(model => model.LiftCapacityTo)
-                            </div>
-                        </div>
-        
 
-                        <!-- Input LiftCapacityTotal-->
-                        <div class="control-group">
-                            <label class="control-label" for="LiftCapacityTotal">@Html.Translate("Total Lift Capacity")</label>
-                            <div class="controls">
-                                @Html.TextBoxFor(model => model.LiftCapacityTotal, new { @class = "input-xlarge", @placeholder = "0" })    
-                                @Html.ValidationMessageFor(model => model.LiftCapacityTotal)
-                            </div>
+                    <!-- Input LiftCapacityFrom-->
+                    <div class="form-group">
+                        <label class="col-md-3 control-label" for="LiftCapacityFrom">@Html.Translate("Lift Capacity")</label>
+                        <div class="col-md-2">
+                            @Html.TextBoxFor(model => model.LiftCapacityFrom, new { @class = "form-control", @placeholder = "0" })
+                            @Html.ValidationMessageFor(model => model.LiftCapacityFrom)
                         </div>
+                    </div>
+                    <!-- Input LiftCapacityTo-->
 
-                        <!-- Input Capital-->
-                        <div class="control-group">
-                            <label class="control-label" for="Capital">@Html.Translate("Capital")</label>
-                            <div class="controls">
-                                @Html.TextBoxFor(model => model.Capital, new { @class = "input-xlarge", @placeholder = "0" })    
-                                @Html.ValidationMessageFor(model => model.Capital)
-                            </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label" for="LiftCapacityTo">@Html.Translate("To")</label>
+                        <div class="col-md-2">
+                            @Html.TextBoxFor(model => model.LiftCapacityTo, new { @class = "form-control", @placeholder = "0" })
+                            @Html.ValidationMessageFor(model => model.LiftCapacityTo)
                         </div>
+                    </div>
 
-                        <!-- Input EmployeeCountMale-->
-                        <div class="control-group">
-                            <label class="control-label" for="EmployeeCountMale">@Html.Translate("Employee Count Male")</label>
-                            <div class="controls">
-                                @Html.TextBoxFor(model => model.EmployeeCountMale, new { @class = "input-xlarge", @placeholder = "0" })    
-                                @Html.ValidationMessageFor(model => model.EmployeeCountMale)
-                            </div>
-                        </div>
 
-                        <!-- Input EmployeeCountFemale-->
-                        <div class="control-group">
-                            <label class="control-label" for="EmployeeCountFemale">@Html.Translate("Employee Count Female")</label>
-                            <div class="controls">
-                                @Html.TextBoxFor(model => model.EmployeeCountFemale, new { @class = "input-xlarge", @placeholder = "0" })    
-                                @Html.ValidationMessageFor(model => model.EmployeeCountFemale)
-                            </div>
+                    <!-- Input LiftCapacityTotal-->
+                    <div class="form-group">
+                        <label class="col-md-3 control-label" for="LiftCapacityTotal">@Html.Translate("Total Lift Capacity")</label>
+                        <div class="col-md-2">
+                            @Html.TextBoxFor(model => model.LiftCapacityTotal, new { @class = "form-control", @placeholder = "0" })
+                            @Html.ValidationMessageFor(model => model.LiftCapacityTotal)
                         </div>
-  
-                    </fieldset>
+                    </div>
+
+                    <!-- Input Capital-->
+                    <div class="form-group">
+                        <label class="col-md-3 control-label" for="Capital">@Html.Translate("Capital")</label>
+                        <div class="col-md-2">
+                            @Html.TextBoxFor(model => model.Capital, new { @class = "form-control", @placeholder = "0" })
+                            @Html.ValidationMessageFor(model => model.Capital)
+                        </div>
+                    </div>
+
+                    <!-- Input EmployeeCountMale-->
+                    <div class="form-group">
+                        <label class="col-md-3 control-label" for="EmployeeCountMale">@Html.Translate("Employee Count Male")</label>
+                        <div class="col-md-2">
+                            @Html.TextBoxFor(model => model.EmployeeCountMale, new { @class = "form-control", @placeholder = "0" })
+                            @Html.ValidationMessageFor(model => model.EmployeeCountMale)
+                        </div>
+                    </div>
+
+                    <!-- Input EmployeeCountFemale-->
+                    <div class="form-group">
+                        <label class="col-md-3 control-label" for="EmployeeCountFemale">@Html.Translate("Employee Count Female")</label>
+                        <div class="col-md-2">
+                            @Html.TextBoxFor(model => model.EmployeeCountFemale, new { @class = "form-control", @placeholder = "0" })
+                            @Html.ValidationMessageFor(model => model.EmployeeCountFemale)
+                        </div>
+                    </div>
                 </div>
-                <div class="tab-pane" id="tab3">
-                    <fieldset>
-                        <legend>@Html.Translate("Management")</legend> 
-                        <!-- Input OwnerName-->
-                        <div class="control-group">
-                            <label class="control-label" for="OwnerName">@Html.Translate("Owner Name")</label>
-                            <div class="controls">
-                                @Html.TextBoxFor(model => model.OwnerName, new { @class = "input-xlarge", @placeholder = "0" })    
-                                @Html.ValidationMessageFor(model => model.OwnerName)
-                            </div>
+                <div class="tab-pane" id="tab_3">
+                    <!-- Input OwnerName-->
+                    <div class="form-group">
+                        <label class="col-md-3 control-label" for="OwnerName">@Html.Translate("Owner Name")</label>
+                        <div class="col-md-2">
+                            @Html.TextBoxFor(model => model.OwnerName, new { @class = "form-control", @placeholder = "0" })
+                            @Html.ValidationMessageFor(model => model.OwnerName)
                         </div>
-        
-                        <!-- Input OwnerMobile-->
-                        <div class="control-group">
-                            <label class="control-label" for="OwnerMobile">@Html.Translate("Owner Mobile")</label>
-                            <div class="controls">
-                                @Html.TextBoxFor(model => model.OwnerMobile, new { @class = "input-xlarge", @placeholder = "0" })    
-                                @Html.ValidationMessageFor(model => model.OwnerMobile)
-                            </div>
-                        </div>
+                    </div>
 
-                        <!-- Input ManagerName-->
-                        <div class="control-group">
-                            <label class="control-label" for="OwnerMobile">@Html.Translate("Manager Name")</label>
-                            <div class="controls">
-                                @Html.TextBoxFor(model => model.ManagerName, new { @class = "input-xlarge", @placeholder = "0" })    
-                                @Html.ValidationMessageFor(model => model.ManagerName)
-                            </div>
+                    <!-- Input OwnerMobile-->
+                    <div class="form-group">
+                        <label class="col-md-3 control-label" for="OwnerMobile">@Html.Translate("Owner Mobile")</label>
+                        <div class="col-md-2">
+                            @Html.TextBoxFor(model => model.OwnerMobile, new { @class = "form-control", @placeholder = "0" })
+                            @Html.ValidationMessageFor(model => model.OwnerMobile)
                         </div>
-        
-                        <!-- Input ManagerMobile-->
-                        <div class="control-group">
-                            <label class="control-label" for="ManagerMobile">@Html.Translate("Manager Mobile")</label>
-                            <div class="controls">
-                                @Html.TextBoxFor(model => model.ManagerMobile, new { @class = "input-xlarge", @placeholder = "0" })    
-                                @Html.ValidationMessageFor(model => model.ManagerMobile)
-                            </div>
+                    </div>
+
+                    <!-- Input ManagerName-->
+                    <div class="form-group">
+                        <label class="col-md-3 control-label" for="OwnerMobile">@Html.Translate("Manager Name")</label>
+                        <div class="col-md-2">
+                            @Html.TextBoxFor(model => model.ManagerName, new { @class = "form-control", @placeholder = "0" })
+                            @Html.ValidationMessageFor(model => model.ManagerName)
                         </div>
-        
-                        <!-- Input ExperienceFrom-->
-                        <div class="control-group">
-                            <label class="control-label" for="ExperienceFrom">@Html.Translate("Experience From")</label>
-                            <div class="controls">
+                    </div>
 
-                                @Html.TextBoxFor(model => model.ExperienceFrom, new { @class = "input-xlarge cats-datepicker2", @placeholder = "0" })    
-                                @Html.ValidationMessageFor(model => model.ExperienceFrom)
-                            </div>
+                    <!-- Input ManagerMobile-->
+                    <div class="form-group">
+                        <label class="col-md-3 control-label" for="ManagerMobile">@Html.Translate("Manager Mobile")</label>
+                        <div class="col-md-2">
+                            @Html.TextBoxFor(model => model.ManagerMobile, new { @class = "form-control", @placeholder = "0" })
+                            @Html.ValidationMessageFor(model => model.ManagerMobile)
                         </div>
+                    </div>
 
-                        <!-- Input ExperienceTo-->
-                        <div class="control-group">
-                            <label class="control-label" for="ExperienceTo">@Html.Translate("Experience To")</label>
-                            <div class="controls">
-                                <!--<input class="cats-datepicker" type="text" id="strExperienceTo" name="strExperienceTo" value="@Model.ExperienceTo"/>   -->     
-                                @Html.TextBoxFor(model => model.ExperienceTo, new { @class = "input-xlarge cats-datepicker2", @placeholder = "0" })    
-                                @Html.ValidationMessageFor(model => model.ExperienceTo)
+                    <!-- Input ExperienceFrom-->
+                    <div class="form-group">
+                        <label class="col-md-3 control-label" for="ExperienceFrom">@Html.Translate("Experience From")</label>
+                        <div class="col-md-2">
+
+                            @Html.TextBoxFor(model => model.ExperienceFrom, new { @class = "form-control cats-datepicker2", @placeholder = "0" })
+                            @Html.ValidationMessageFor(model => model.ExperienceFrom)
+                        </div>
+                    </div>
+
+                    <!-- Input ExperienceTo-->
+                    <div class="form-group">
+                        <label class="col-md-3 control-label" for="ExperienceTo">@Html.Translate("Experience To")</label>
+                        <div class="col-md-2">
+                            <!--<input class="cats-datepicker" type="text" id="strExperienceTo" name="strExperienceTo" value="@Model.ExperienceTo"/> -->
+                            @Html.TextBoxFor(model => model.ExperienceTo, new { @class = "form-control cats-datepicker2", @placeholder = "0" })                @Html.ValidationMessageFor(model => model.ExperienceTo)
                             </div>
-                        </div>        
 
-                    </fieldset>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-
     </div>
 </div>

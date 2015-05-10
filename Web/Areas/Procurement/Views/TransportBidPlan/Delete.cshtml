@@ -3,41 +3,57 @@
 
 @{
     ViewBag.Title = "Delete";
-    Layout = "~/Views/Shared/_MainLayout.cshtml";
+    Layout = "~/Views/Shared/NewTheme _MainLayout.cshtml";
+    //Layout = "~/Views/Shared/_MainLayout.cshtml";
+    ViewBag.PageTitle = Html.Translate("Delete");
+    ViewBag.PageTitleDescription = "";
 }
 
-<h2>Delete</h2>
 
-<h3>, Html.Translate("Are you sure you want to delete this?")</h3>
-<fieldset>
-    <legend>@Html.Translate("Transport Bid Plan")</legend>
+<div class="portlet bordered light">
+    <div class="portlet-title">
+        <div class="caption font-red-soft">
+            <i class="fa fa-times-circle font-red-soft"></i>
+            <span class="caption-subject bold uppercase"> @Html.Translate("Are you sure you want to delete this?")</span>
+            <span class="caption-helper">  </span>
+        </div>
+        <div class="actions">
+            @using (Html.BeginForm())
+            {
+                <input type="submit" value="Delete" class="btn btn-circle btn-default red-stripe"/> 
+                @Html.ActionLink("Cancel", "Index",null, new { @class = "btn btn-circle btn-default blue-stripe"})
+            }
+        </div>
+        </div>
+    <div class="portlet-body">
+        <div class="form-horizontal">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Year, Html.Translate("Year"), new { @class = "col-md-3 control-label" })
+                <div class="col-md-4">
+                    <label class="form-control">@Html.DisplayFor(model => model.Year)</label> 
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.YearHalf, Html.Translate("Year Half"), new { @class = "col-md-3 control-label" })
+                <div class="col-md-4">
+                    <label class="form-control">@Html.DisplayFor(model => model.YearHalf)</label>
+                </div>
+            </div>
 
-    <div class="display-label">
-         @Html.LabelFor(model => model.Year, Html.Translate("Year"))
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.Year)
-    </div>
-
-    <div class="display-label">
-         @Html.LabelFor(model => model.YearHalf, Html.Translate("Year Half"))
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.YearHalf)
+            <div class="form-group">
+                @Html.LabelFor(model => model.Program.Name, Html.Translate("Program"), new { @class = "col-md-3 control-label" })
+                <div class="col-md-4">
+                    <label class="form-control">@Html.DisplayFor(model => model.Program.Name)</label>
+                </div>
+            </div>
+        </div>
     </div>
 
-   
+</div>
 
-    <div class="display-label">
-         @Html.LabelFor(model => model.Program.Name, Html.Translate("Program"))
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.Program.Name)
-    </div>
-</fieldset>
-@using (Html.BeginForm()) {
+@*@using (Html.BeginForm()) {
     <p>
         <input type="submit" value="Delete" /> |
         @Html.ActionLink("Back to List", "Index")
     </p>
-}
+}*@

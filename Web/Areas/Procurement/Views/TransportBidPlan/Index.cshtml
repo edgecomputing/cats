@@ -6,54 +6,79 @@
 
 @{
     ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_MainLayout.cshtml";
+    Layout = "~/Views/Shared/NewTheme _MainLayout.cshtml";
+    //Layout = "~/Views/Shared/_MainLayout.cshtml";
+    ViewBag.PageTitle = "Procurement";
+    ViewBag.PageTitleDescription = "";
 
 }
-@section LeftBar
+@*@section LeftBar
 {
     @Html.Partial("_BidPlanLeftBar")
-}
+}*@
 @section Toolbar
 {
-    <a data-buttontype="btn_new_record"  class="btn toolbar-btn " href="@Url.Action("Create", "TransportBidPlan")"></a>
+@*<div id="dashboard-report-range" class="pull-right tooltips" data-placement="top" data-original-title="Back to List">
+    <a href="@Url.Action("Create", "TransportBidPlan")" class="btn btn-fit-height grey-salt" title="Create New Bid Plan"><i class="icon-plus"></i>&nbsp;&nbsp; Create</a>
+</div>*@
+    @*<a data-buttontype="btn_new_record" class="btn toolbar-btn " href="@Url.Action("Create", "TransportBidPlan")"></a>*@
 }
-    <h3>@Html.Translate("List of Bid Plans")</h3>
 
+<div class="portlet light bordered" style="display: block;">
+    <div class="portlet-title">
+        <div class="caption font-green-sharp">
+            <i class="fa fa-truck font-green-sharp"></i>
+            <span class="caption-subject bold uppercase"> @Html.Translate("List of Bid Plans")</span>
+            <span class="caption-helper">  </span>
+        </div>
 
-@(Html.Kendo().Grid<Cats.Models.TransportBidPlan>()
-    .Name("grid")
-    .Columns(columns =>
-    {
-        columns.Bound(p => p.ShortName).Title(Html.Translate("Short Name"));
-        columns.Bound(p => p.Year).Width(100).Title(Html.Translate("Year"));
-        columns.Bound(p => p.YearHalf).Width(100).Title(Html.Translate("Year Half"));
+        <div class="actions">
+            <a class="btn btn-circle btn-default green-stripe toolbar-btn" href="@Url.Action("Create", "TransportBidPlan")">
+                <i class="fa fa-plus-circle "></i> @Html.Translate("New Bid Plan")
+            </a>
+            <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title=""></a>
+        </div>
+    </div>
+    <div class="portlet-body" style="height: auto;">
 
-        columns.Command(command => { 
-           command.Custom("Edit").Click("editRecord");
-           command.Custom("Warehouse Selection").Click("selectWarehouse");
-           command.Custom("Delete").Click("deleteRecord");
-        });
-    })
-    
-    .Editable(editable => editable.Mode(GridEditMode.PopUp))
-    .Pageable()
-    .Sortable()
-    .Scrollable()
-    .HtmlAttributes(new { style = "height:430px;" })
-    .DataSource(dataSource => dataSource
-        .Ajax()
-        .PageSize(20)
-        .Events(events => events.Error("error_handler"))
-        .Model(model => model.Id(p => p.TransportBidPlanID))
-        .Read(read => read.Action("GetListJson", "TransportBidPlan"))
-        .Destroy(update => update.Action("DeleteAjax", "TransportBidPlan"))
-        //.Update(update => update.Action("EditingInline_Update", "Transporter"))
-        //.Create(update => update.Action("EditingInline_Create", "Transporter"))
-        
-        .Update(update => update.Action("UpdateAjax", "TransportBidPlan"))
-        .Create(update => update.Action("CreateAjax", "TransportBidPlan"))
-    )
-)
+        @(Html.Kendo().Grid<Cats.Models.TransportBidPlan>()
+              .Name("grid")
+              .Columns(columns =>
+              {
+                  columns.Bound(p => p.ShortName).Title(Html.Translate("Short Name"));
+                  columns.Bound(p => p.Year).Width(100).Title(Html.Translate("Year"));
+                  columns.Bound(p => p.YearHalf).Width(100).Title(Html.Translate("Year Half"));
+
+                  columns.Command(command =>
+                  {
+                      command.Custom("Edit").Click("editRecord");
+                      command.Custom("Warehouse Selection").Click("selectWarehouse");
+                      command.Custom("Delete").Click("deleteRecord");
+                  });
+              })
+
+              .Editable(editable => editable.Mode(GridEditMode.PopUp))
+              .Pageable()
+              .Sortable()
+              .Scrollable()
+              //.HtmlAttributes(new {style = "height:430px;"})
+              .DataSource(dataSource => dataSource
+                  .Ajax()
+                  .PageSize(20)
+                  .Events(events => events.Error("error_handler"))
+                  .Model(model => model.Id(p => p.TransportBidPlanID))
+                  .Read(read => read.Action("GetListJson", "TransportBidPlan"))
+                  .Destroy(update => update.Action("DeleteAjax", "TransportBidPlan"))
+                  //.Update(update => update.Action("EditingInline_Update", "Transporter"))
+                  //.Create(update => update.Action("EditingInline_Create", "Transporter"))
+
+                  .Update(update => update.Action("UpdateAjax", "TransportBidPlan"))
+                  .Create(update => update.Action("CreateAjax", "TransportBidPlan"))
+              )
+              )
+    </div>
+</div>
+
 <script type="text/javascript">
     function error_handler(e) {
         if (e.errors) {
@@ -72,7 +97,7 @@
         e.preventDefault();
 
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
-        
+
         window.location = "@Url.Action("Edit", "TransportBidPlan")" + "/" + dataItem.TransportBidPlanID;
         //window.location = "/Procurement/TransportBidPlan/Edit/" + dataItem.TransportBidPlanID
     }
@@ -90,6 +115,13 @@
         window.location = "@Url.Action("WarehouseSelection", "TransportBidPlan")" + "/" + dataItem.TransportBidPlanID;
         //window.location = "/Procurement/TransportBidPlan/WarehouseSelection/" + dataItem.TransportBidPlanID
 
-       
+
     }
+</script>
+
+<script type="text/javascript">
+    $(function() {
+        $(".k-button").attr("class" ,"btn btn-xs btn-default green-stripe");
+    });
+    
 </script>

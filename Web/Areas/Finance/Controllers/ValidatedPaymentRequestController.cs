@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -360,10 +361,16 @@ namespace Cats.Areas.Finance.Controllers
         public ActionResult LoadCheque(int transporterId, string refNo)
         {
             var user = UserAccountHelper.GetUser(User.Identity.Name);
-            var approvedPaymentRequests = _transporterPaymentRequestService.Get(t => t.BusinessProcess.CurrentState.BaseStateTemplate.StateNo == 3 && t.TransportOrder.TransporterID == transporterId &&  t.ReferenceNo == refNo);
+            var approvedPaymentRequests = _transporterPaymentRequestService.Get(t => t.BusinessProcess.CurrentState.BaseStateTemplate.StateNo == 3 && t.TransportOrder.TransporterID == transporterId);
+            if (refNo != "")
+            {
+                approvedPaymentRequests = _transporterPaymentRequestService.Get(t => t.BusinessProcess.CurrentState.BaseStateTemplate.StateNo == 3 && t.TransportOrder.TransporterID == transporterId &&  t.ReferenceNo == refNo);
+            }
+            
             
             //var transporterChequeObj = _transporterChequeService.Get(t => t.TransporterPaymentRequestID == paymentRequestID, null, "UserProfile").FirstOrDefault();
             var transporterChequeViewModel = new Models.TransporterChequeViewModel();
+            
             foreach (var approvedPaymentRequest in approvedPaymentRequests)
             {
                 var request = approvedPaymentRequest;

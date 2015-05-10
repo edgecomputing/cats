@@ -1,13 +1,23 @@
-﻿@using Cats.Models.Constant
-<ul class="nav nav-list">
-    <li class="nav-header">Bid Management</li>
-    <li><a href="@Url.Action("index", "Bid",new {id=(int)BidStatus.Open})"><i class="icon-envelope"></i> Draft</a></li>
-    <li><a href="@Url.Action("Index","Bid",new {id=(int)BidStatus.Approved})"><i class="icon-check"></i>Approved Bids</a></li>
-    <li><a href="@Url.Action("Index", "Bid",new {id=(int)BidStatus.Active})"><i class="icon-inbox"></i> Active Bids </a></li>
-     <li><a href="@Url.Action("Index", "Bid",new {id=(int)BidStatus.Closed})"><i class="icon-inbox"></i> Closed Bids </a></li>
-    <li class="divider"></li>
-    <li><a href="@Url.Action("Create","Bid")"><i class="icon-plus"></i> New Bid</a></li>
-    
-    
+﻿@using Cats.Helpers
+@using Cats.Models.Constant
 
-</ul>
+<div class="portlet box" style="background-color: #2b3643;">
+    <div class="portlet-title line">
+        <div class="caption">
+            <i class="fa fa-list-alt"></i> @Html.Translate("Bid Management")
+        </div>
+    </div>
+
+    <div class="portlet-body" style="padding: 0px;">
+
+        <ul class="ver-inline-menu tabbable">
+            <li><a href="@Url.Action("index", "Bid", new {id = (int) BidStatus.Open})"><i class="icon-envelope"></i> @Html.Translate("Draft")</a></li>
+            <li><a href="@Url.Action("Index", "Bid", new {id = (int) BidStatus.Approved})"><i class="icon-check"></i> @Html.Translate("Approved Bids")</a></li>
+            <li><a href="@Url.Action("Index", "Bid", new {id = (int) BidStatus.Active})"><i class="icon-envelope-open"></i> @Html.Translate("Active Bids") </a></li>
+            <li><a href="@Url.Action("Index", "Bid", new {id = (int) BidStatus.Closed})"><i class="icon-close"></i> @Html.Translate("Closed Bids") </a></li>
+            <li class="divider"></li>
+            @*<li><a href="@Url.Action("Create", "Bid")"><i class="icon-plus"></i> @Html.Translate("New Bid")</a></li>*@
+
+        </ul>
+    </div>
+</div>

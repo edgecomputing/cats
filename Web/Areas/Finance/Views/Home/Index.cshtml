@@ -1,266 +1,216 @@
 ﻿@{
     ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_MainLayout.cshtml";
+    Layout = "~/Views/Shared/NewTheme _MainLayout.cshtml";
     const string PAGE_NAME = "Logistics.Index";
+    ViewBag.PageTitle = "Finance Dashboard";
+    ViewBag.PageTitleDescription = "FINANCE";
 }
 
 @section styles
 {
-    <link href="~/Content/Dashboard/dashboardcomponents.css" rel="stylesheet" />
+    @*<link href="~/Content/Dashboard/dashboardcomponents.css" rel="stylesheet" />*@
 }
-<div ng-app="myApp">
-
-    <div class="container">
-
-        <div>
-            <div class="row" style="border-bottom-width: thin; border-bottom-color: #666; border-bottom-style: inset; margin-top: 5px">
-
-                <div class="pull-left">
-                    <h4>Finance Dashboard</h4>
-                </div>
-                <div class="pull-right">
-                    <div class="btn-group">
-                        <button id="paymentRequestHeader" type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
-                            <i class="icon-arrow-up"></i>
-                            <i class="icon-arrow-down"></i>
-                        </button>
-
+<!-- BEGIN COMPONENTS INDENTATION-->
+<div class="container">
+    <div class="row ui-sortable" id="sortable_portlets" ng-app="myApp">
+        <!-- BEGIN 1ST PORTLET-->
+        <div class="col-md-12 column sortable">
+            <div class="portlet portlet-sortable light bordered ui-sortable-handle" style="display: block;">
+                <div class="portlet-title">
+                    <div class="caption font-green-sharp">
+                        <i class="fa fa-credit-card font-green-sharp"></i>
+                        <span class="caption-subject bold uppercase"> Payment Status</span>
+                        <span class="caption-helper">  </span>
+                    </div>
+                    <div class="tools">
+                        <a href="#" class="collapse" data-original-title="" title=""></a>
+                        <a href="javascript:;" class="remove" data-original-title="" title=""></a>
+                    </div>
+                    <div class="actions">
+                        @*<a href="javascript:;" class="btn btn-circle btn-default btn-sm"><i class="icon-layers"></i> Detail</a>*@
+                        <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title=""></a>
                     </div>
                 </div>
-            </div>
-            <div id="paymentRequestContent" class="row">
-                <div>&nbsp;</div>
-                <div ng-controller="paymentRequestController" class="span11">
-                    <div class="portlet">
-                        <div class="portlet-header">
-                            <h3>
-                                <i class=""></i>Payment Status
-                            </h3>
-                        </div>
-
-                        <!-- /.portlet-header -->
-
-                        <div class="portlet-content">
-                            <th class="table-responsive">
-                            <table id="" class="table table-striped table-checkable">
-                                <thead>
-                                    @*<th class="portlet-header" colspan="7">Payment Request</th>*@
-                                    @*<th class="portlet-header" colspan="3">Reference</th>*@
-                                    <tr>
-                                            
-                                        <th class="hidden-xs">Number</th>
-                                        <th>Transporter Name</th>
-                                       @* <th style="text-align: center">Commodity</th>
-                                        <th style="text-align: center">Source</th>*@
-                                        @*<th style="text-align: center">Destination</th>*@
-                                        <th style="text-align: right">Received Quantity</th>
-                                        <th style="text-align: right">Shortage Quantity</th>
-                                        <th style="text-align: right">Shortage Birr</th>
-                                        <th style="text-align: right">Freight Charge</th>
-                                        <th></th>
-                                        @*<th>Date</th>
-                                        <th>Check No</th>
-                                        <th>PV No</th>*@
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr ng-repeat="req in paymentRequestForDashboard">
-                                        <td class="hidden-xs" style="text-align: center; ">{{$index + 1}}</td>
-                                        <td>@* <a ng-href="@Url.Content("~/Finance/ValidatedPaymentRequest/PaymentRequests/{{req.TransporterId}}")">*@ {{req.TransporterName}}</td>
-                                       @*@* <td style="text-align: center; margin-right: 20px">{{req.CommodityName}}</td>
-                                        <td style="text-align: center; margin-right: 20px">{{req.SourceName}}</td>*@
-                                        @*<td style="text-align: right; margin-right: 20px">{{req.DestinationName}}</td>*@
-                                        <td style="text-align: right; margin-right: 0px">{{req.ReceivedQuantity | number:2}} </td>
-                                        <td style="text-align: right; margin-right: 0px">{{req.ShortageQuantity | number:2}}</td>
-                                        <td style="text-align: right; margin-right: 0px">{{req.ShortageBirr | number:2}} </td>
-                                        <td style="text-align: right; margin-right: 0px">{{req.FreightCharge}}</td>
-                                        @*<th>{{req.ChequeNo}}</th>
-                                        <th>{{req.PVNo}}</th>*@
-                                         <td>
-                                                    <a ng-click="viewPaymentDetail(req)" class="btn btn-sm btn-default">View <i class="icon-chevron-right"></i></a>
-                                           </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-    <div class="container">
-
-        <div>
-            <div class="row" style="border-bottom-width: thin; border-bottom-color: #666; border-bottom-style: inset; margin-top: 5px">
-
-                <div class="pull-left">
-                    <h4>Cheque</h4>
-                </div>
-                <div class="pull-right">
-                    <div class="btn-group">
-                        <button id="ChequeHeader" type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
-                            <i class="icon-arrow-up"></i>
-                            <i class="icon-arrow-down"></i>
-                        </button>
-
-                    </div>
-                </div>
-            </div>
-            <div id="ChequeContent" class="row">
-                <div>&nbsp;</div>
-                <div ng-controller="ChequeController" class="span11">
-                    <div class="portlet">
-                        <div class="portlet-header">
-                            <h3>
-
-                                <i class=""></i>
-                                Cheque Status
-                            </h3>
-                            <ul class="portlet-tools pull-right">
-                                <li>
-                                    <a href="@Url.Action("Index","Cheque",new {Area ="Finance"})">Detail</a>   
-
-                                </li>
-                            </ul>
-                        </div>
-
-                        <!-- /.portlet-header -->
-
-                        <div class="portlet-content">
-                            <th class="table-responsive">
-                            <table id="" class="table table-striped table-checkable">
-                                <thead>
-                                    <tr>
-                                        <th class="hidden-xs">Number</th>
-                                        <th>Cheque No</th>
-                                        <th>Transporter</th>
-                                        <th>Amount</th>
-                                        <th>Bank</th>
-                                        <th>Prepared By</th>
-                                        <th>Status</th>
-                                       
-                                        <th></th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr ng-repeat="req in cheques">
-                                        <td class="hidden-xs">{{$index + 1}}</td>
-                                        <td>{{req.chequeNo}}</td>
-                                        <td>{{req.Transporter}}</td>
-                                        <td>{{req.Amount | number:2}}</td>
-                                        <td >{{req.BankName}}</td>
-                                        <td>{{req.PreparedBy}}</td>
-                                        <td>{{req.Status}}</td>
-                                        @*<td ng-switch on="req.State">
-                                        <div ng-switch-when=1>Draft</div>  
-                                        <div ng-switch-when=2>Approved</div>
-                                        <div ng-switch-when=3>Cashed</div>*@
-                                        
-                                      @*  </td>*@
-                                         
-                                        @* <th> <a style="display: block;" ng-click="ShowURl(req)" > <button class="btn btn-sm btn-default">{{req.ButtonStatus}} </button></a></></th>*@
-                                        @*<th> <a style="display: block;" ng-click="ShowURl(req)" ><button class="btn btn-sm btn-default"> {{req.Status}} </button> </a></th>*@
-                                            
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
+                <div class="portlet-body" style="height: auto;">
+                    <div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto; ">
+                        <div class="scroller" style=" overflow: hidden; width: auto;" data-rail-visible="1" data-rail-color="yellow" data-handle-color="#a1b2bd" data-initialized="1">
+                            @*<h4>Heading Text</h4>*@
+                            <div class="table-responsive" ng-controller="paymentRequestController">
+                                <table class="table table-striped ">
+                                    <thead>
+                                        @*<th class="portlet-header" colspan="7">Payment Request</th>*@
+                                        @*<th class="portlet-header" colspan="3">Reference</th>*@
+                                        <tr>
+                                            <th class="hidden-xs">Number</th>
+                                            <th>Transporter Name</th>
+                                            @* <th style="text-align: center">Commodity</th>
+                                                <th style="text-align: center">Source</th>*@
+                                            @*<th style="text-align: center">Destination</th>*@
+                                            <th style="text-align: right">Received Quantity</th>
+                                            <th style="text-align: right">Shortage Quantity</th>
+                                            <th style="text-align: right">Shortage Birr</th>
+                                            <th style="text-align: right">Freight Charge</th>
+                                            <th></th>
+                                            @*<th>Date</th>
+                                                <th>Check No</th>
+                                                <th>PV No</th>*@
+                                        </tr>
+                                    </thead>
+                                    <tbody ng-cloak>
+                                        <tr ng-repeat="req in paymentRequestForDashboard">
+                                            <td class="hidden-xs" style="text-align: center; ">{{$index + 1}}</td>
+                                            <td>@* <a ng-href="@Url.Content("~/Finance/ValidatedPaymentRequest/PaymentRequests/{{req.TransporterId}}")">*@ {{req.TransporterName}}</td>
+                                            @*@* <td style="text-align: center; margin-right: 20px">{{req.CommodityName}}</td>
+                                                <td style="text-align: center; margin-right: 20px">{{req.SourceName}}</td>*@
+                                            @*<td style="text-align: right; margin-right: 20px">{{req.DestinationName}}</td>*@
+                                            <td style="text-align: right; margin-right: 0px">{{req.ReceivedQuantity | number:2}} </td>
+                                            <td style="text-align: right; margin-right: 0px">{{req.ShortageQuantity | number:2}}</td>
+                                            <td style="text-align: right; margin-right: 0px">{{req.ShortageBirr | number:2}} </td>
+                                            <td style="text-align: right; margin-right: 0px">{{req.FreightCharge}}</td>
+                                            @*<th>{{req.ChequeNo}}</th>
+                                                <th>{{req.PVNo}}</th>*@
+                                            <td>
+                                                <a ng-click="viewPaymentDetail(req)" class="btn btn-xs green-stripe btn-default">View <i class="icon-chevron-right"></i></a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div><div class="slimScrollBar" style="width: 7px; position: absolute; top: 111px; opacity: 0.4; display: none; border-top-left-radius: 7px; border-top-right-radius: 7px; border-bottom-right-radius: 7px; border-bottom-left-radius: 7px; z-index: 99; right: 1px; height: 73.52941176470588px; background: rgb(161, 178, 189);"></div><div class="slimScrollRail" style="width: 7px; height: 100%; position: absolute; top: 0px; border-top-left-radius: 7px; border-top-right-radius: 7px; border-bottom-right-radius: 7px; border-bottom-left-radius: 7px; opacity: 0.2; z-index: 90; right: 1px; display: none; background: yellow;"></div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-
-      <div class="container">
-
-        <div>
-            <div class="row" style="border-bottom-width: thin; border-bottom-color: #666; border-bottom-style: inset; margin-top: 5px">
-
-                <div class="pull-left">
-                    <h4>Payment Requests being Processed at Logistics Case Team </h4>
-                </div>
-                <div class="pull-right">
-                    <div class="btn-group">
-                        <button id="paymentRequestBeingProcessedHeader" type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
-                            <i class="icon-arrow-up"></i>
-                            <i class="icon-arrow-down"></i>
-                        </button>
-
+        <!-- END 1ST PORTLET-->
+        <!-- BEGIN 2ND PORTLET-->
+        <div class="col-md-12 column sortable">
+            <div class="portlet portlet-sortable light bordered ui-sortable-handle" style="display: block;">
+                <div class="portlet-title">
+                    <div class="caption font-green-sharp">
+                        <i class="fa fa-credit-card font-green-sharp"></i>
+                        <span class="caption-subject bold uppercase"> Cheque Status</span>
+                        <span class="caption-helper">  </span>
+                    </div>
+                    <div class="tools">
+                        <a href="#" class="collapse" data-original-title="" title=""></a>
+                        <a href="javascript:;" class="remove" data-original-title="" title=""></a>
+                    </div>
+                    <div class="actions">
+                        <a href="@Url.Action("Index","Cheque",new {Area ="Finance"})" class="btn btn-circle btn-default btn-sm"><i class="icon-layers"></i> Detail</a>
+                        <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title=""></a>
                     </div>
                 </div>
-            </div>
-            <div id="paymentRequestContent" class="row">
-                <div>&nbsp;</div>
-                <div ng-controller="paymentRequestController" class="span11">
-                    <div class="portlet">
-                        <div class="portlet-header">
-                            <h3>
+                <div class="portlet-body" style="height: auto;">
+                    <div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto; ">
+                        <div class="scroller" style=" overflow: hidden; width: auto;" data-rail-visible="1" data-rail-color="yellow" data-handle-color="#a1b2bd" data-initialized="1">
+                            @*<h4>Heading Text</h4>*@
+                            <div class="table-responsive" ng-controller="ChequeController">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th class="hidden-xs">Number</th>
+                                            <th>Cheque No</th>
+                                            <th>Transporter</th>
+                                            <th>Amount</th>
+                                            <th>Bank</th>
+                                            <th>Prepared By</th>
+                                            <th>Status</th>
 
-                                <i class=""></i>
-                                Payment Status
-                            </h3>
-                            @*<ul class="portlet-tools pull-right">
-                                <li>
-                                    
-                                        <a href="@Url.Action("Index","ValidatedPaymentRequest",new {Area ="Finance"})">Detail</a>   
-                                   
+                                        </tr>
+                                    </thead>
+                                    <tbody ng-cloak>
+                                        <tr ng-repeat="req in cheques">
+                                            <td class="hidden-xs">{{$index + 1}}</td>
+                                            <td>{{req.chequeNo}}</td>
+                                            <td>{{req.Transporter}}</td>
+                                            <td>{{req.Amount | number:2}}</td>
+                                            <td>{{req.BankName}}</td>
+                                            <td>{{req.PreparedBy}}</td>
+                                            <td>{{req.Status}}</td>
+                                            @*<td ng-switch on="req.State">
+                                                <div ng-switch-when=1>Draft</div>
+                                                <div ng-switch-when=2>Approved</div>
+                                                <div ng-switch-when=3>Cashed</div>*@
 
-                                </li>
-                            </ul>*@
-                        </div>
+                                            @*  </td>*@
 
-                        <!-- /.portlet-header -->
+                                            @* <th> <a style="display: block;" ng-click="ShowURl(req)" > <button class="btn btn-sm btn-default">{{req.ButtonStatus}} </button></a></></th>*@
+                                            @*<th> <a style="display: block;" ng-click="ShowURl(req)" ><button class="btn btn-sm btn-default"> {{req.Status}} </button> </a></th>*@
 
-                        <div class="portlet-content">
-                            <th class="table-responsive">
-                            <table id="" class="table table-striped table-checkable">
-                                <thead>
-                                    <th class="portlet-header" colspan="7">Payment Request</th>
-                                    @*<th class="portlet-header" colspan="3">Reference</th>*@
-                                    <tr>
-                                            
-                                        <th class="hidden-xs">Number</th>
-                                        <th>Transporter Name</th>
-                                        <th style="text-align: center">Requested Amount</th>
-                                        <th style="text-align: center">Aditional Labour Cost</th>
-                                        <th style="text-align: center">Total Amount</th>
-                                        <th style="text-align: center">Rejected Amount</th>
-                                        <th style="text-align: center">Net Pay</th>
-                                        
-                                        @*<th>Date</th>
-                                        <th>Check No</th>
-                                        <th>PV No</th>*@
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr ng-repeat="req in paymentRequestBeingProcessed">
-                                        <td class="hidden-xs">{{$index + 1}}</td>
-                                        <td>@* <a ng-href="@Url.Content("~/Finance/ValidatedPaymentRequest/PaymentRequests/{{req.TransporterId}}")">*@ {{req.Transporter}}</td>
-                                        <td style="text-align: center; margin-right: 20px">{{req.RequestedAmount}}</td>
-                                        <td style="text-align: center; margin-right: 20px">{{req.AditionalLabourCost | number:2}}</td>
-                                        <td style="text-align: center; margin-right: 20px">{{req.RequestedAmount + req.AditionalLabourCost | number:2}} </td>
-                                        <td style="text-align: center; margin-right: 20px">{{req.RejectedAmount | number:2}}</td>
-                                        <td style="text-align: center; margin-right: 20px">{{(req.RequestedAmount + req.AditionalLabourCost) - req.RejectedAmount | number:2}} </td>
-                                        @*<td style="text-align: right; margin-right: 20px">{{req.Date}}</td>
-                                        <th>{{req.ChequeNo}}</th>
-                                        <th>{{req.PVNo}}</th>*@
-                                        
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div><div class="slimScrollBar" style="width: 7px; position: absolute; top: 111px; opacity: 0.4; display: none; border-top-left-radius: 7px; border-top-right-radius: 7px; border-bottom-right-radius: 7px; border-bottom-left-radius: 7px; z-index: 99; right: 1px; height: 73.52941176470588px; background: rgb(161, 178, 189);"></div><div class="slimScrollRail" style="width: 7px; height: 100%; position: absolute; top: 0px; border-top-left-radius: 7px; border-top-right-radius: 7px; border-bottom-right-radius: 7px; border-bottom-left-radius: 7px; opacity: 0.2; z-index: 90; right: 1px; display: none; background: yellow;"></div>
                     </div>
-
                 </div>
             </div>
         </div>
+        <!-- END 2ND PORTLET-->
+        <!-- BEGIN 3RD PORTLET-->
+        <div class="col-md-12 column sortable">
+            <div class="portlet portlet-sortable light bordered ui-sortable-handle" style="display: block;">
+                <div class="portlet-title">
+                    <div class="caption font-green-sharp">
+                        <i class="fa fa-credit-card font-green-sharp"></i>
+                        <span class="caption-subject bold uppercase"> Payment Request</span>
+                        <span class="caption-helper">  payment Requests being Processed at Logistics Case Team</span>
+                    </div>
+                    <div class="tools">
+                        <a href="#" class="collapse" data-original-title="" title=""></a>
+                        <a href="javascript:;" class="remove" data-original-title="" title=""></a>
+                    </div>
+                    <div class="actions">
+                        @*<a href="@Url.Action("Index","Cheque",new {Area ="Finance"})" class="btn btn-circle btn-default btn-sm"><i class="icon-layers"></i> Detail</a>*@
+                        <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title=""></a>
+                    </div>
+                </div>
+                <div class="portlet-body" style="height: auto;">
+                    <div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto; ">
+                        <div class="scroller" style=" overflow: hidden; width: auto;" data-rail-visible="1" data-rail-color="yellow" data-handle-color="#a1b2bd" data-initialized="1">
+                            @*<h4>Heading Text</h4>*@
+                            <div class="table-responsive" ng-controller="paymentRequestController">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th class="hidden-xs">Number</th>
+                                            <th>Transporter Name</th>
+                                            <th style="text-align: center">Requested Amount</th>
+                                            <th style="text-align: center">Aditional Labour Cost</th>
+                                            <th style="text-align: center">Total Amount</th>
+                                            <th style="text-align: center">Rejected Amount</th>
+                                            <th style="text-align: center">Net Pay</th>
+                                            @*<th>Date</th>
+                                                <th>Check No</th>
+                                                <th>PV No</th>*@
+                                        </tr>
+                                    </thead>
+                                    <tbody ng-cloak>
+                                        <tr ng-repeat="req in paymentRequestBeingProcessed">
+                                            <td class="hidden-xs">{{$index + 1}}</td>
+                                            <td>@* <a ng-href="@Url.Content("~/Finance/ValidatedPaymentRequest/PaymentRequests/{{req.TransporterId}}")">*@ {{req.Transporter}}</td>
+                                            <td style="text-align: center; margin-right: 20px">{{req.RequestedAmount}}</td>
+                                            <td style="text-align: center; margin-right: 20px">{{req.AditionalLabourCost | number:2}}</td>
+                                            <td style="text-align: center; margin-right: 20px">{{req.RequestedAmount + req.AditionalLabourCost | number:2}} </td>
+                                            <td style="text-align: center; margin-right: 20px">{{req.RejectedAmount | number:2}}</td>
+                                            <td style="text-align: center; margin-right: 20px">{{(req.RequestedAmount + req.AditionalLabourCost) - req.RejectedAmount | number:2}} </td>
+                                            @*<td style="text-align: right; margin-right: 20px">{{req.Date}}</td>
+                                                <th>{{req.ChequeNo}}</th>
+                                                <th>{{req.PVNo}}</th>*@
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div><div class="slimScrollBar" style="width: 7px; position: absolute; top: 111px; opacity: 0.4; display: none; border-top-left-radius: 7px; border-top-right-radius: 7px; border-bottom-right-radius: 7px; border-bottom-left-radius: 7px; z-index: 99; right: 1px; height: 73.52941176470588px; background: rgb(161, 178, 189);"></div><div class="slimScrollRail" style="width: 7px; height: 100%; position: absolute; top: 0px; border-top-left-radius: 7px; border-top-right-radius: 7px; border-bottom-right-radius: 7px; border-bottom-left-radius: 7px; opacity: 0.2; z-index: 90; right: 1px; display: none; background: yellow;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END 3RD PORTLET-->
     </div>
 </div>
-
+<!-- END COMPONENTS INDENTATION-->
 
 <script>
 
@@ -278,13 +228,13 @@
                 // alert("Show Detail");
                 var id = item.TransporterId;
                 window.open("@Url.Action("PaymentRequests","ValidatedPaymentRequest")" + "?transporterID=" + id, "_blank");
-              };
+            };
         });
         $http({ method: 'GET', url: '@Url.Action("PaymentRequestBeingProcessed", "Home")' }).success(function (data, status, headers, config) {
             console.log(data);
             $scope.paymentRequestBeingProcessed = data;
-           
-         });
+
+        });
     }]);
 
     myApp.controller('ChequeController', ['$scope', '$http', '$rootScope', function ($scope, $http) {
@@ -295,12 +245,12 @@
             $scope.cheques = data;
             console.log(data);
         });
-        
+
         $scope.ShowURl = function (url) {
             var state = url.State;
             window.location = "@Url.Action("UpdateChequeStatus", "Home")" + "?transporterChequeId=" + url.transporterChequeId + "&status=" + (state + 1);
         };
 
     }]);
-    
+
 </script>
