@@ -25,7 +25,7 @@
             @Html.DropDownList("SelectProgramID", (IEnumerable<SelectListItem>)ViewBag.SelectProgramID, "Select Program",new {@class="controls span11"})
         </div>
     </div>
-    
+    @*
     <div class="control-group span2">
         <div class="control-label">
             @Html.Translate("False GRN")
@@ -33,7 +33,7 @@
         <div class="">
             @Html.CheckBox("IsFalseGRN",false,new {@class="controls span11"})
         </div>
-    </div>
+    </div>*@
 </div>
 @(Html.Kendo().Grid<VWCommodityReceived>().Name("grid").Columns(col =>
                                                        {
