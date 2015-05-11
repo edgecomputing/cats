@@ -1,97 +1,159 @@
-﻿@{
- 
+﻿@using Cats.Helpers
+@{
+
     ViewBag.Title = "Details";
-    Layout = "~/Views/Shared/_MainLayout.cshtml";
+    Layout = "~/Views/Shared/NewTheme _MainLayout.cshtml";
+    //Layout = "~/Views/Shared/_MainLayout.cshtml";
+    ViewBag.PageTitle = "REQUEST FOR QUOTATION";
+    ViewBag.PageTitleDescription = "";
 }
-@section LeftBar
-{
-    @Html.Partial("_RFQFilterPartial")
-}
+@*@section LeftBar
+    {
+        @Html.Partial("_RFQFilterPartial")
+    }*@
 
 @section Toolbar
 {
-    <a  class="btn toolbar-btn " href="@Url.Action("Print", "RFQ", new { Area = "Procurement", bidID =@ViewBag.bid,regionID=@ViewBag.reg })">Print RFQ</a>
+    <a class="btn default  grey-salt toolbar-btn" href="@Url.Action("Print", "RFQ", new {Area = "Procurement", bidID = @ViewBag.bid, regionID = @ViewBag.reg})"><i class="fa fa-print"></i> @Html.Translate("Print RFQ")</a>
 }
-<style>
+
+@section Scripts{
+    <script type="text/javascript">
+        $(function() {
+            $('html,body').animate({
+                scrollTop: $("#RFQ_Format").offset().top
+            },
+        'slow');
+        });
+    </script>
+}
+
+<div id="RFQ_Format" class="well">
+
+
+    @using (Html.BeginForm("details", "RFQ", FormMethod.Post, new { @class = "form-horizontal" }))
+    {
+
+        <div class="form-group">
+            <label class="col-md-4 control-label">Bid</label>
+            <div class="col-md-4">
+                @Html.DropDownList("BidID", null, "--- Select Bid ---", new { @class = "form-control" })
+            </div>
+            <div class="col-md-4">
+                <input type="submit" value="Select" class="btn btn-default" />
+            </div>
+        </div>@*
+            <div class="control-group">
+                <label class="control-label">Region</label>
+                <div class="controls">
+                    @Html.DropDownList("RegionID")
+                </div>
+            </div>*@
+
+    }
+</div>
+@*<style>
     th {
         text-align: center;
     }
-</style>
-<h2 style="text-align: center;">Disaster Risk Management and Food Security Sector
-    <br />
-    REQUEST FOR QUOTATION</h2>
+</style>*@
+<div class="portlet light bordered" @*style=" margin-top: 70px;"*@>
+    <div class="portlet-title">
+        <div class="caption font-green-sharp">
+            <i class="fa fa-envelope font-green-sharp"></i>
+            <span class="caption-subject bold uppercase"> @Html.Translate("REQUEST FOR QUOTATION")</span>
+            <span class="caption-helper"> @Html.Translate("Disaster Risk Management and Food Security Sector")</span>
+        </div>
 
-<p>Transport Quotation Delivery Datasheet for Region <b>@ViewBag.SelectedRegion</b></p>
-<p>Bid Reference Number <b>@ViewBag.BidReference</b></p>
-<p>Bid Opening Date <b>@ViewBag.OpeningDate Time: @ViewBag.bidOpeningTime</b></p>
-<p>Transporter Name:_________________________________</p>
+        <div class="actions">
+            <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title=""></a>
+        </div>
+    </div>
+    <div class="portlet-body">
 
-<div>
-    <div class="span4">City: ______________________</div>
-    <div class="span4">Woreda: ____________________</div>
-    <div class="span4">Kebele: ____________________</div>
+        @*<h2 style="text-align: center;">
+            Disaster Risk Management and Food Security Sector
+            <br />
+            REQUEST FOR QUOTATION
+        </h2>*@
+
+        <p>Transport Quotation Delivery Datasheet for Region: <span class="label label-default"><b>@ViewBag.SelectedRegion</b></span></p>
+        <p>Bid Reference Number: <span class="label label-default"><b>@ViewBag.BidReference</b></span></p>
+        <p>Bid Opening Date: <span class="label label-default"><b>@ViewBag.OpeningDate Time: @ViewBag.bidOpeningTime</b></span></p>
+        <p>Transporter Name:_________________________________</p>
+
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="">City: ______________________</div>
+                <div class="">Woreda: ____________________</div>
+                <div class="">Kebele: ____________________</div>
+            </div>
+            <div class="col-sm-4">
+                <div class="">Tel No: ____________________</div>
+                <div class="">Mob No: ____________________</div>
+                <div class="">House No: __________________</div>
+            </div>
+            <div class="col-sm-4">
+                <div class="">Bid bond amount (in birr): ____________________</div>
+                <div class="">Bid submission date: ____________________</div>
+                <div class="">Total Quantity : <b>@string.Format("{0:N0}", @ViewBag.total)</b>
+                </div>
+            </div>
+            <div class="col-xs-12">&nbsp;</div>
+        </div>
+
+        <div class="table-responsive">
+        <table class="table table-bordered">
+            <tr>
+                <th rowspan="2" style='text-align: center; vertical-align: middle'>S.No</th>
+                <th rowspan="2" style='text-align: center; vertical-align: middle'>Source Warehouse</th>
+                <th colspan="2">Destination</th>
+                <th rowspan="2" style='text-align: center; vertical-align: middle'>Total Quintals</th>
+                <th colspan="2">Tariff/Quintal</th>
+                <th rowspan="2" style="min-width: 200px; text-align: center; vertical-align: middle">Remark</th>
+            </tr>
+            <tr>
+                <th>Zone</th>
+                <th>Woreda</th>
+                <th>Birr</th>
+                <th>Cent</th>
+            </tr>
+
+            @{
+                var count = 0;
+
+                foreach (var item in ViewBag.regionPlanDistinct)
+                {
+                    count++;
+                    <tr>
+                        <td>@count</td>
+                        <td>@item.SourceWarehouse</td>
+                        <td>@item.DestinationZone</td>
+                        <td>@item.DestinationWoreda</td>
+                        <td style='text-align: right'>@string.Format("{0:N0}", @item.Quantity) </td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                }
+                <tr>
+                    <td colspan="4" style='text-align: center; vertical-align: middle'><b>Total</b> </td>
+                    <td style='text-align: right'><b>@string.Format("{0:N0}", @ViewBag.total)</b></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            }
+        </table>
+    </div>
+    </div>
 </div>
-<div>
-    <div class="span4">Tel No: ____________________</div>
-    <div class="span4">Mob No: ____________________</div>
-    <div class="span4">House No: __________________</div>
-</div>
-<div>
-    <div class="span4">Bid bond amount (in birr): ____________________</div>
-    <div class="span4">Bid submission date: ____________________</div>
-    <div class="span4">Total Quantity :<b>@string.Format("{0:N0}", @ViewBag.total)</b></div>
-</div>
-<div class="span12">&nbsp;</div>
-
-<table class="table table-bordered">
-    <tr>
-        <th rowspan="2" style='text-align:center;vertical-align:middle'>S.No</th>
-        <th rowspan="2" style='text-align:center;vertical-align:middle'>Source Warehouse</th>
-        <th colspan="2">Destination</th>
-        <th rowspan="2" style='text-align:center;vertical-align:middle'>Total Quintals</th>
-        <th colspan="2">Tariff/Quintal</th>
-        <th rowspan="2" style="min-width: 200px; text-align:center;vertical-align:middle">Remark</th>
-    </tr>
-    <tr>
-        <th>Zone</th>
-        <th>Woreda</th>
-         <th>Birr</th>
-        <th>Cent</th>
-    </tr>
-
-    @{
-        var count = 0;
-        
-        foreach (var item in ViewBag.regionPlanDistinct)
-        {
-            count++;
-        <tr>
-            <td>@count</td>
-            <td>@item.SourceWarehouse</td>
-            <td>@item.DestinationZone</td>
-            <td>@item.DestinationWoreda</td>
-            <td style='text-align:right'>@string.Format("{0:N0}", @item.Quantity) </td>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
-        }
-        <tr>
-            <td colspan="4" style='text-align:center;vertical-align:middle'><b>Total</b> </td>
-            <td  style='text-align:right'><b>@string.Format("{0:N0}", @ViewBag.total)</b></td>
-             <td></td>
-            <td></td>
-            <td></td>
-        </tr>
-    }
-</table>
-
 @*<script>
-    $(function () {
-        var b = @ViewBag.bid;
-        var r = @ViewBag.reg;
+        $(function () {
+            var b = @ViewBag.bid;
+            var r = @ViewBag.reg;
 
-        var printurl = "@Url.Action("Print", "RFQ")" + "?bidID="+ b + "&regionID="+r;
-        $("#toolbar_button_print").attr("href", printurl);
-    });
-</script>*@
+            var printurl = "@Url.Action("Print", "RFQ")" + "?bidID="+ b + "&regionID="+r;
+            $("#toolbar_button_print").attr("href", printurl);
+        });
+    </script>*@

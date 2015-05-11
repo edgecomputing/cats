@@ -1,51 +1,59 @@
-﻿   @model  IEnumerable<Cats.Models.TransportBidQuotation>
+﻿@using Cats.Helpers
+@model  IEnumerable<Cats.Models.TransportBidQuotation>
 
 @{
     ViewBag.Title = "rfq";
-    Layout = "~/Views/Shared/_MainLayout.cshtml";
+    Layout = "~/Views/Shared/NewTheme _MainLayout.cshtml";
+    //Layout = "~/Views/Shared/_MainLayout.cshtml";
+    ViewBag.PageTitle = "Request for Quotations";
+    ViewBag.PageTitleDescription = "";
 
 }
 
-@section LeftBar
-{
-    
-  
-    <style>
-    .sidebarForm, .sidebarForm form
-    {
-        margin:0;
-        padding:0;
-    }
-    .sidebarForm select
-    {
-        width:150px;
-    }
-</style> 
-    <div class="sidebarForm">
-
- 
-    @using (Html.BeginForm("details", "RFQ", FormMethod.Post))
+@*@section LeftBar
     {
 
-        <div class="control-group">
-            <label class="control-label">Bid</label>
-            <div class="controls">
-               @Html.DropDownList("BidID")
+    }*@
+
+<div class="well">
+
+
+    @using (Html.BeginForm("details", "RFQ", FormMethod.Post, new { @class = "form-horizontal" }))
+    {
+
+        <div class="form-group">
+            <label class="col-md-4 control-label">Bid</label>
+            <div class="col-md-4">
+                @Html.DropDownList("BidID", null, "--- Select Bid ---", new {@class = "form-control"})
+            </div>
+            <div class="col-md-4">
+                <input type="submit" value="Select" class="btn btn-default" />
             </div>
         </div>@*
-        <div class="control-group">
-            <label class="control-label">Region</label>
-            <div class="controls">
-                @Html.DropDownList("RegionID")
-            </div>
-        </div>*@
+            <div class="control-group">
+                <label class="control-label">Region</label>
+                <div class="controls">
+                    @Html.DropDownList("RegionID")
+                </div>
+            </div>*@
         
-        
-        <input type="submit" value="Select" class="btn btn-primary"/>
     }
-           </div>
-      <!-- -->
-}
+</div>
+<div class="portlet light bordered">
+    <div class="portlet-title">
+        <div class="caption font-green-sharp">
+            <i class="fa fa-envelope font-green-sharp"></i>
+            <span class="caption-subject bold uppercase"> @Html.Translate("Request for Quote")</span>
+            <span class="caption-helper">  </span>
+        </div>
 
-<h3>Request for Quote</h3>
-<h4>Please specify the bid no and Region to continue</h4>
+        <div class="actions">
+            @*<a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title=""></a>*@
+        </div>
+    </div>
+    <div class="portlet-body">
+        @*<h3>Request for Quote</h3>*@
+        <h4>Please specify the Bid number to continue</h4>
+    </div>
+</div>
+
