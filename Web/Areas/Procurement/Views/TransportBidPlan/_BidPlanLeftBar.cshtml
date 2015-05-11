@@ -1,15 +1,26 @@
 ﻿@using Cats.Helpers
-<ul class="nav nav-list">
-    <li class="nav-header">Bid Planing</li>
-    <li><a href="@Url.Action("Index", "TransportBidPlan")"><i class="icon-envelope"></i> @Html.Translate("Bid Plans")</a></li>
-   <!-- 
-    <li>@Html.ActionLink("New Plan", "Create")<i class="icon-check"></i>New Bid Plan</a></li>
-    <li><a href="@Url.Action("CurrentBids", "Bid")"><i class="icon-inbox"></i> Current Bids </a></li>
-       -->
-    <li class="divider"></li>
-    <li><a href="@Url.Action("Create","TransportBidPlan")"><i class="icon-plus"></i> @Html.Translate("New Bid Plan")</a></li>
-    
-    <li class="divider"></li>
-    <li><a href="#"><i class="icon-print"></i> @Html.Translate("Print")</a></li>
-    <li><a href="#"><i class="icon-share"></i> @Html.Translate("Export")</a></li>
-</ul>
+
+<div class="portlet box" style="background-color: #2b3643;">
+    <div class="portlet-title line">
+        <div class="caption">
+            <i class="fa fa-envelope"></i>@Html.Translate("Bid Planing")
+        </div>
+    </div>
+
+    <div class="portlet-body" style="padding: 0px;">
+        <ul class="ver-inline-menu tabbable">
+            <li>
+                <a data-toggle="" href="@Url.Action("Index", "TransportBidPlan")"><i class="fa fa-envelope"></i> @Html.Translate("Bid Plans")</a>
+            </li>
+            @*<li>@Html.ActionLink("New Plan", "Create", new{@class="",  data_toggle="tab"})<i class="icon-check"></i>New Bid Plan</li>
+             <li><a href="@Url.Action("CurrentBids", "Bid")"><i class="icon-inbox"></i> Current Bids </a></li>*@
+                
+            <li class="divider"></li>
+            <li><a data-toggle="" href="@Url.Action("Create","TransportBidPlan")"><i class="fa fa-plus-circle"></i> @Html.Translate("New Bid Plan")</a></li>
+
+            <li class="divider"></li>
+            <li><a href="#" data-toggle=""><i class="fa fa-print"></i> @Html.Translate("Print")</a></li>
+            <li><a href="#" data-toggle=""><i class="fa fa-share"></i> @Html.Translate("Export")</a></li>
+        </ul>
+    </div>
+</div>
