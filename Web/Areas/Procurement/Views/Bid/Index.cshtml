@@ -5,96 +5,103 @@
 
 @{
     ViewBag.Title = "Create Bid";
-    Layout = "~/Views/Shared/_MainLayout.cshtml";
+    Layout = "~/Views/Shared/NewTheme _MainLayout.cshtml";
+    //Layout = "~/Views/Shared/_MainLayout.cshtml";
+    ViewBag.PageTitle = Html.Translate("List of ") + ViewBag.BidTitle + Html.Translate(" Bids");
+    ViewBag.PageTitleDescription = "";
 }
-<div>
-    <h4>List of @ViewBag.BidTitle Bids</h4>
-</div>
-<div id="modalWindow">
-    <h4>Approve Bid?</h4>
-    <button id="yes" class="k-button">Yes</button>
-    <button id="no" class="k-button">No</button>
-</div>
-<script>
-    var wnd;
-    $(document).ready(function () {
-        wnd = $("#modalWindow").kendoWindow({
-            title: "Approve confirmation",
-            modal: true,
-            visible: false,
-            resizable: false,
-            width: 300
-        }).data("kendoWindow");
-    });
-</script>
 
-@section Toolbar
+
+
+@*@section Toolbar
 {
-    <a data-buttontype="btn_new_record"  class="btn toolbar-btn " href="@Url.Action("Create", "Bid")"></a>
-}
+<div class="pull-right tooltips" data-placement="bottom" data-original-title="Create New Bid">
+    <a data-buttontype="btn_new_record" class="btn btn-fit-height grey-salt toolbar-btn" href="@Url.Action("Create", "Bid")"><i class="fa fa-plus-circle"></i> @Html.Translate("Create New Bid")</a>
+</div>
+}*@
 @section LeftBar
 {
     @Html.Partial("_BidLeftBar")
 }
+<div class="portlet light bordered" style="display: block;">
+    <div class="portlet-title">
+        <div class="caption font-green-sharp">
+            <i class="fa fa-list font-green-sharp"></i>
+            <span class="caption-subject bold uppercase"> @Html.Translate("List of Bids")</span>
+            <span class="caption-helper">  </span>
+        </div>
+        <div class="tools">
+            <a href="#" class="collapse" data-original-title="" title=""></a>
+            <a href="javascript:;" class="remove" data-original-title="" title=""></a>
+        </div>
+        <div class="actions">
+            <a class="btn btn-circle btn-default btn-sm green-stripe" data-buttontype="btn_new_record" href="@Url.Action("Create", "Bid")"><i class="fa fa-plus-circle"></i> @Html.Translate("Create New Bid")</a>
+            <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title="" ></a>
+        </div>
+    </div>
+    <div class="portlet-body">
 
-@(Html.Kendo().Grid<Cats.Models.ViewModels.Bid.BidViewModel>()
-    .Name("Bid")
-    .Columns(columns =>
-        {
-            columns.Bound(p => p.BidNumber).Template(
-                
-                @<text>
-<a href="@Url.Action("Edit", "Bid", new { Area = "Procurement", id = item.BidID })">@Html.DisplayFor(modelItem => item.BidNumber)</a>
-</text>);
-            columns.Bound(p => p.StartDatePref).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid" });
-            columns.Bound(p => p.EndDatePref).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid" });
-            columns.Bound(p => p.OpeningDatePref).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid" });
-            columns.Bound(p => p.BidBondAmount).Title("Bid Bond Amount").Format("{0:N2}").HtmlAttributes(new {align="Right"}); 
-            columns.Bound(p => p.Status).Title("Status");
-            columns.Command(p =>
-                {
-                    
-                    if (ViewBag.BidStatus == (int)BidStatus.Open || ViewBag.BidStatus==0)
-                    {
-                        p.Custom("Edit").Click("bidEdit");
-                        p.Custom("Approve").Click("onApprove");
-                    }
-                    if(ViewBag.BidStatus==(int)BidStatus.Approved)
-                    {
-                        p.Custom("Active").Click("onActive");
-                    }
-                    if (ViewBag.BidStatus == (int)BidStatus.Active)
-                    {
-                        p.Custom("Close Bid").Click("onClose");
-                    }
-                    
-                });
+        @(Html.Kendo().Grid<Cats.Models.ViewModels.Bid.BidViewModel>()
+              .Name("Bid")
+              .Columns(columns =>
+              {
+                  columns.Bound(p => p.BidNumber).Template(
 
-        })
-   .HtmlAttributes(new { style = "height:430px;" })
-    .Scrollable()
-    .Filterable()
-    .ClientDetailTemplateId("template")
+                    @<text>
+                        <a href="@Url.Action("Edit", "Bid", new {Area = "Procurement", id = item.BidID})">@Html.DisplayFor(modelItem => item.BidNumber)</a>
+                    </text>);
+                  columns.Bound(p => p.StartDatePref).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid" });
+                  columns.Bound(p => p.EndDatePref).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid" });
+                  columns.Bound(p => p.OpeningDatePref).HeaderHtmlAttributes(new { @class = "cats-date-pref-grid" });
+                  columns.Bound(p => p.BidBondAmount).Title("Bid Bond Amount").Format("{0:N2}").HtmlAttributes(new { align = "Right" });
+                  columns.Bound(p => p.Status).Title("Status");
+                  columns.Command(p =>
+                  {
+
+                      if (ViewBag.BidStatus == (int)BidStatus.Open || ViewBag.BidStatus == 0)
+                      {
+                          p.Custom("Edit").Click("bidEdit");
+                          p.Custom("Approve").Click("onApprove");
+                      }
+                      if (ViewBag.BidStatus == (int)BidStatus.Approved)
+                      {
+                          p.Custom("Active").Click("onActive");
+                      }
+                      if (ViewBag.BidStatus == (int)BidStatus.Active)
+                      {
+                          p.Custom("Close Bid").Click("onClose");
+                      }
+
+                  });
+
+              })
+                                      .HtmlAttributes(new { style = "height:430px;" })
+                                      .Scrollable()
+                                      .Filterable()
+                                      .ClientDetailTemplateId("template")
         //.HtmlAttributes(new { style = "height:430px;" })
-    .Editable(editable => editable.Mode(GridEditMode.PopUp))
-    .Navigatable()
-    .DataSource(dataSource => dataSource
-          .Ajax()
-            .Model(model => model.Id(p => p.BidID))
-            .Read(read => read.Action("Bid_Read", "Bid",new{id=ViewBag.BidStatus}))
- 
-     )
-     .Events(events => events.DataBound("dataBound"))
-      )
+                                      .Editable(editable => editable.Mode(GridEditMode.PopUp))
+                                      .Navigatable()
+                                      .DataSource(dataSource => dataSource
+                                          .Ajax()
+                                          .Model(model => model.Id(p => p.BidID))
+                                          .Read(read => read.Action("Bid_Read", "Bid", new { id = ViewBag.BidStatus }))
+
+                                      )
+                                      .Events(events => events.DataBound("dataBound"))
+        )
+
+    </div>
+</div>
 
 <script id="template" type="text/kendo-tmpl">
-    
-                    @(Html.Kendo().Grid<Cats.Models.ViewModels.Bid.BidDetailViewModel>()
+
+    @(Html.Kendo().Grid<Cats.Models.ViewModels.Bid.BidDetailViewModel>()
                         .Name("bid_#=BidID#")
                         .Columns(columns =>
                         {
                             //columns.Bound(b => b.BidDetailID).Title("ID").Width(56);
-                            columns.Bound(b => b.Region).Width(120).HtmlAttributes(new { style = "background-color:lightgray" }); 
+                            columns.Bound(b => b.Region).Width(120).HtmlAttributes(new { style = "background-color:lightgray" });
                             columns.Bound(b => b.AmountForReliefProgram).Width(50).Title("Relief");
                             columns.Bound(b => b.AmountForPSNPProgram).Width(50).Title("PSNP");
                             columns.Bound(b => b.Total).Width(50);
@@ -133,20 +140,20 @@
                         .Scrollable()
                         .Sortable()
                         .ToClientTemplate())
-                
+
 </script>
 
 <script>
     function dataBound() {
         this.expandRow(this.tbody.find("tr.k-master-row").first());
     }
-    
+
     function bidEdit(e) {
         e.preventDefault();
 
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
         window.location = "@Url.Action("EditBidStatus", "Bid")" + "/" + dataItem.BidID;
-        
+
     }
     function onActive(e) {
         e.preventDefault();
@@ -184,9 +191,9 @@
     function error_handler(e) {
         if (e.errors) {
             var message = "Errors:\n";
-            $.each(e.errors, function (key, value) {
+            $.each(e.errors, function(key, value) {
                 if ('errors' in value) {
-                    $.each(value.errors, function () {
+                    $.each(value.errors, function() {
                         message += this + "\n";
                     });
                 }
@@ -194,7 +201,7 @@
             alert(message);
         }
     }
-    
+
     function onGridKeydown(e) {
         if (e.keyCode === kendo.keys.TAB) {
             var grid = $(this).closest("[data-role=grid]").data("kendoGrid");
@@ -215,10 +222,28 @@
     function onDataBound(e) {
 
         var grid = $("#grid").data("kendoGrid");
-        $(grid.tbody).on("focus", "input", function (e) {
+        $(grid.tbody).on("focus", "input", function(e) {
             var input = $(this);
-            setTimeout(function () { input.select(); }, 100);
+            setTimeout(function() { input.select(); }, 100);
 
         });
     }
+</script>
+
+<div id="modalWindow">
+    <h4>Approve Bid?</h4>
+    <button id="yes" class="k-button">Yes</button>
+    <button id="no" class="k-button">No</button>
+</div>
+<script>
+    var wnd;
+    $(document).ready(function () {
+        wnd = $("#modalWindow").kendoWindow({
+            title: "Approve confirmation",
+            modal: true,
+            visible: false,
+            resizable: false,
+            width: 300
+        }).data("kendoWindow");
+    });
 </script>

@@ -1,8 +1,12 @@
-﻿@model Cats.Models.ViewModels.Bid.CreateBidViewModel
+﻿@using Cats.Helpers
+@model Cats.Models.ViewModels.Bid.CreateBidViewModel
 
 @{
     ViewBag.Title = "Create Bid Document";
-    Layout = "~/Views/Shared/_MainLayout.cshtml";
+    Layout = "~/Views/Shared/NewTheme _MainLayout.cshtml";
+    //Layout = "~/Views/Shared/_MainLayout.cshtml";
+    ViewBag.PageTitle = "Create";
+    ViewBag.PageTitleDescription = "Bid Document";
 }
 @section LeftBar
 {
@@ -10,121 +14,146 @@
 }
 @section Toolbar
 {
-    <a class="btn toolbar-btn " data-buttontype="btn_save" data-submittedform="frm_create_bid"></a>
+    @*<a class="btn toolbar-btn " data-buttontype="btn_save" data-submittedform="frm_create_bid"></a>*@
     <a class="btn toolbar-btn " data-buttontype="btn_cancel" href="@Url.Action("Index", "Bid")"></a>
 }
-<div>
-    <h4>Bid Document</h4>
-</div>
+<div class="portlet light bordered" style="display: block;">
+    <div class="portlet-title">
+        <div class="caption font-green-sharp">
+            <i class="fa fa-envelope font-green-sharp"></i>
+            <span class="caption-subject bold uppercase"> @Html.Translate("Bid Document")</span>
+            <span class="caption-helper">  </span>
+        </div>
+        <div class="tools">
+            <a href="#" class="collapse" data-original-title="" title=""></a>
+            <a href="javascript:;" class="remove" data-original-title="" title=""></a>
+        </div>
+        <div class="actions">
+            <a class="btn btn-circle btn-default btn-sm blue-stripe toolbar-btn loading-btn" data-loading-text="Saving..." data-buttontype="btn_save" data-submittedform="frm_create_bid"><i class="fa fa-save"></i> @Html.Translate("Save")</a>
+            <a class="btn btn-circle btn-default btn-sm red-stripe toolbar-btn" data-buttontype="btn_cancel" href="@Url.Action("Index", "Bid")"><i class="fa fa-times"></i> @Html.Translate("Cancel")</a>
+            <a class="btn btn-circle btn-default btn-sm green-stripe" data-buttontype="btn_new_record" href="@Url.Action("Create", "Bid")"><i class="fa fa-plus-circle"></i> @Html.Translate("Create New Bid")</a>
+            <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title=""></a>
+        </div>
+    </div>
+    <div class="portlet-body">
 
-@using (Html.BeginForm("Create", "Bid", FormMethod.Post, new { id = "frm_create_bid" }))
-{
-    @Html.ValidationSummary(true)
 
-    <div class="form-horizontal ">
-        <fieldset>
-            <div class="control-group ">
-                <div class="control-label">
-                    @Html.LabelFor(model => model.TransportBidPlanID, "Bid Plan")
-                </div>
+        @using (Html.BeginForm("Create", "Bid", FormMethod.Post, new {id = "frm_create_bid"}))
+        {
+            @Html.ValidationSummary(true)
 
-                <div class="controls">
-                    @Html.DropDownList("TransportBidPlanID", String.Empty)
-                    @Html.ValidationMessageFor(model => model.TransportBidPlanID)
-                </div>
+            <div class="form-horizontal ">
+                <div class="form-group">
+                        <div class="col-md-3 control-label">
+                            @Html.LabelFor(model => model.TransportBidPlanID, "Bid Plan")
+                        </div>
 
-            </div>
-            <div class="control-group">
-                <div class="control-label">
-                    @Html.LabelFor(model => model.RegionID, "Region")
-                </div>
-                <div class="controls">
-                    @Html.DropDownList("RegionID", String.Empty)
-                    @Html.ValidationMessageFor(model => model.RegionID)
-                </div>
-            </div>
-            <div class="control-group">
-                <div class="control-label">
-                    @Html.LabelFor(model => model.BidNumber, "Bid Number")
-                </div>
-                <div class="controls">
-                    @*@Html.TextBoxFor(model=>model.BidNumber,new { @placeholder = "Enter Bid Number",@readonly="readonly" })*@
-                    @Html.TextBoxFor(model => model.BidNumber, new {@placeholder = "Enter Bid Number"})
-                    @Html.ValidationMessageFor(model => model.BidNumber)
-                </div>
-            </div>
-            <div class="control-group">
-                <div class="control-label">
-                    @Html.LabelFor(model => model.BidBondAmount, "Bid Bond Amount")
-                </div>
-                <div class="controls">
-                    @*@Html.TextBoxFor(model=>model.BidNumber,new { @placeholder = "Enter Bid Number",@readonly="readonly" })*@
-                    @Html.TextBoxFor(model => model.BidBondAmount, new {@placeholder = "Enter Bid bond Amount"})
-                    @Html.ValidationMessageFor(model => model.BidBondAmount)
-                </div>
-            </div>
-            <div class="control-group">
-                <div class="control-label">
-                    @Html.LabelFor(model => model.StartDate, "Start Date", new {@class = "cats-date-pref"})
+                        <div class="col-md-4">
+                            @Html.DropDownList("TransportBidPlanID", null, new {@class = "form-control"})
+                            @Html.ValidationMessageFor(model => model.TransportBidPlanID)
+                        </div>
 
-                </div>
-                <div class="controls">
-                    @* <input class="cats-datepicker" type="text" id="start" name="start" />*@
-                    @Html.TextBoxFor(model => model.StartDate, new {@class = "cats-datepicker2"})
-                    @Html.ValidationMessageFor(model => model.StartDate)
-                    <div class="input-append bootstrap-timepicker">
-
-                        <span class="add-on">Time</span>
-                        @Html.TextBoxFor(model => model.StartTime, new {@class = "input-small", id = "startTime"})
-                        @*<input id="startTime" type="text"   class="input-small">*@
-                        @*<span class="add-on"><i class="icon-time"></i></span>*@
                     </div>
- 
-
-
-                </div>
-            </div>
-            <div class="control-group">
-                <div class="control-label">
-
-                    @Html.LabelFor(model => model.EndDate, "End Date", new {@class = "cats-date-pref"})
-                </div>
-                <div class="controls">
-                    @* <input class="cats-datepicker" type="text" id="end" name="end"/>*@
-                    @Html.TextBoxFor(model => model.EndDate, new {@class = "cats-datepicker2"})
-                    @Html.ValidationMessageFor(model => model.EndDate)
-                    <div class="input-prepend " style="margin-right: 2px">
-
-                        <span class="add-on">Time</span>
-                        @Html.TextBoxFor(m => m.EndTime, new {@class = "input-small", id = "endTime"})
-               
+                    <div class="form-group">
+                        <div class="col-md-3 control-label">
+                            @Html.LabelFor(model => model.RegionID, "Region")
+                        </div>
+                        <div class="col-md-4">
+                            @Html.DropDownList("RegionID", null, new {@class = "form-control"})
+                            @Html.ValidationMessageFor(model => model.RegionID)
+                        </div>
                     </div>
-
-                </div>
-            </div>
-            <div class="control-group">
-                <div class="control-label">
-
-                    @Html.LabelFor(model => model.EndDate, "Opening Date", new {@class = "cats-date-pref"})
-                </div>
-                <div class="controls">
-                    @*<input class="cats-datepicker" type="text" id="Open" name="Open" />*@
-                    @Html.TextBoxFor(model => model.OpeningDate, new {@class = "cats-datepicker2"})
-                    @Html.ValidationMessageFor(model => model.OpeningDate)
-
-                    <div class="input-prepend " style="margin-right: 2px">
-                        <span class="add-on">Time</span>
-                        @Html.TextBoxFor(m => m.BidOpningTime, new {@class = "input-small"})
-             
+                    <div class="form-group">
+                        <div class="col-md-3 control-label">
+                            @Html.LabelFor(model => model.BidNumber, "Bid Number")
+                        </div>
+                        <div class="col-md-4">
+                            @*@Html.TextBoxFor(model=>model.BidNumber,new { @placeholder = "Enter Bid Number",@readonly="readonly" })*@
+                            @Html.TextBoxFor(model => model.BidNumber, new {@placeholder = "Enter Bid Number", @class = "form-control"})
+                            @Html.ValidationMessageFor(model => model.BidNumber)
+                        </div>
                     </div>
+                    <div class="form-group">
+                        <div class="col-md-3 control-label">
+                            @Html.LabelFor(model => model.BidBondAmount, "Bid Bond Amount")
+                        </div>
+                        <div class="col-md-4">
+                            @*@Html.TextBoxFor(model=>model.BidNumber,new { @placeholder = "Enter Bid Number",@readonly="readonly" })*@
+                            @Html.TextBoxFor(model => model.BidBondAmount, new {@placeholder = "Enter Bid bond Amount", @class = "form-control"})
+                            @Html.ValidationMessageFor(model => model.BidBondAmount)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-3 control-label">
+                            @Html.LabelFor(model => model.StartDate, "Start Date", new {@class = "cats-date-pref"})
 
+                        </div>
+                        <div class="col-md-4">
+                            @* <input class="cats-datepicker" type="text" id="start" name="start" />*@
+                            <div class="row">
+                                <div class="col-md-6">
+                                    @Html.TextBoxFor(model => model.StartDate, new { @class = "form-control cats-datepicker2" })
+                                </div>
+                                @Html.ValidationMessageFor(model => model.StartDate)
+                                <div class="col-md-5 input-append bootstrap-timepicker">
+
+                                    @*<span class="add-on">Time</span>*@
+                                    @Html.TextBoxFor(model => model.StartTime, new { @class = "form-control input-small", id = "startTime" })
+                                    @*<input id="startTime" type="text"   class="input-small">*@
+                                    @*<span class="add-on"><i class="icon-time"></i></span>*@
+                                </div>
+                            </div>
+
+
+                            </div>
+                    </div>
+                <div class="form-group">
+                    <div class="col-md-3 control-label">
+
+                        @Html.LabelFor(model => model.EndDate, "End Date", new {@class = "cats-date-pref"})
+                    </div>
+                    <div class="col-md-4">
+                        <div class="row">
+                            <div class="col-md-6">
+                                @* <input class="cats-datepicker" type="text" id="end" name="end"/>*@
+                                @Html.TextBoxFor(model => model.EndDate, new { @class = "form-control cats-datepicker2" })
+                            </div>
+                            @Html.ValidationMessageFor(model => model.EndDate)
+                            <div class="col-md-5 input-prepend " >
+
+                                @*<span class="add-on">Time</span>*@
+                                @Html.TextBoxFor(m => m.EndTime, new { @class = "form-control input-small", id = "endTime" })
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3 control-label">
+
+                        @Html.LabelFor(model => model.EndDate, "Opening Date", new { @class = "cats-date-pref" })
+                    </div>
+                    <div class="col-md-4">
+                        <div class="row">
+                            <div class="col-md-6">
+                                @*<input class="cats-datepicker" type="text" id="Open" name="Open" />*@
+                                @Html.TextBoxFor(model => model.OpeningDate, new { @class = "form-control cats-datepicker2" })
+                            </div>
+                            @Html.ValidationMessageFor(model => model.OpeningDate)
+
+                            <div class="col-md-5 input-prepend " >
+                                @*<span class="add-on">Time</span>*@
+                                @Html.TextBoxFor(m => m.BidOpningTime, new { @class = "form-control input-small" })
+
+                            </div>
+
+                        </div>
+                    </div>
                 </div>
 
-            </div>
-
-            @*  <div class="control-group">
+                        @*  <div class="control-group">
                 <div class="control-label">
-                     
+
                     @Html.LabelFor(model => model.BidBond, "Bid Bond")
                 </div>
                 <div class="controls">
@@ -133,36 +162,38 @@
             </div>
 
             </div>     *@
-        </fieldset>
 
+                    </div>
+
+        }
     </div>
+</div>
 
-}
-<link href="~/Scripts/timepicker/jquery.timepicker.css" rel="stylesheet"/>
-@*<script src="~/Scripts/timepicker/jquery.timepicker.js"></script>*@
-<script src="~/Scripts/timepicker/jquery.timepicker.min.js"></script>     
+        <link href="~/Scripts/timepicker/jquery.timepicker.css" rel="stylesheet" />
+        @*<script src="~/Scripts/timepicker/jquery.timepicker.js"></script>*@
+        <script src="~/Scripts/timepicker/jquery.timepicker.min.js"></script>
 
 
 
-<script>
-   
-    
-    $('#startTime').timepicker({
-        'minTime': '2:00',
-        'maxTime': '10:30'
-    });
-    
-    $('#endTime').timepicker({
-        'minTime': '2:00',
-        'maxTime': '10:30'
-    });
-    
-    $('#BidOpningTime').timepicker({
-        'minTime': '2:00',
-        'maxTime': '10:30'
-    });
-    
-   
-</script>
+        <script>
+
+
+            $('#startTime').timepicker({
+                'minTime': '2:00',
+                'maxTime': '10:30'
+            });
+
+            $('#endTime').timepicker({
+                'minTime': '2:00',
+                'maxTime': '10:30'
+            });
+
+            $('#BidOpningTime').timepicker({
+                'minTime': '2:00',
+                'maxTime': '10:30'
+            });
+
+
+        </script>
 
 
